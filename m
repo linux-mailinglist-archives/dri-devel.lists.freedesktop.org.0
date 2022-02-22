@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA1A4BF62F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:39:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4204BF632
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:39:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6489710E368;
-	Tue, 22 Feb 2022 10:39:15 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6D610E368
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 10:39:14 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id m14so23862350lfu.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 02:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=bA82aRvveeHb4EfwxS91IfJ8rNVGJgeKZIsr7UMLI1g=;
- b=Gb358b/tkcnDwPm0miT5c8AUxhKk3NMVBDVKVh76hn1QnBgsP7txJa3g7CqqXWqaeK
- eKIWfL4V9xFON8mVeLC1KXgOXR0M3AF/fuAt2TftjIokBgV7+erBBUUdivtH0mTMPVOv
- uaiT1is+XAZalMf1P33AdTHRb04PVUPuU8HWhcdjkrNbjsdw3RGdbG/UKmVv74qXsvOO
- W/FJW8rjXnALvs619uQX55IWOEmfJvgJMQC4BDlOAHdXtJerKGVbaGawcmGJbT/eVqpS
- +SzWSLbtcpOro58I4EHOmoZ9CQlvGQ5UyU7UR/LJsrIVtBvWqgNv5JakxdW0Pb+B+BJC
- gNLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bA82aRvveeHb4EfwxS91IfJ8rNVGJgeKZIsr7UMLI1g=;
- b=2YFGXxgkVuTdHMVoFL+9JI+usIp2SEF5OGZhCjsIChxQr3BNoUby5O6u+04bj3yn54
- kCBy/J91oZCOemZdoFX892gjRUahWKW+z1IDYhhkkSNtAXRw9nW58F/nQo1zM/bbGnqT
- Zc/GnCa4+4NoNA9Z0+jYbMfb/LUQV8mfLmNGAcGzsJpaZgGW3kCeqM+cLhdpfeEOlj2L
- NJW7A0jQPvPS1qHsO1L1yXTf/UoDc6TSRjeQpfsgcYwGHmIhYYQMkk1SDRVImQ0lOdet
- n8SqrqEmlEBBdUK0JeDkRkRKPfiyqkUd2WuB2nsSEXXD6RYDbEedVoUT1Fo5rhkjJ8Mk
- s8Pw==
-X-Gm-Message-State: AOAM532EY9FMFLyfsIazUePRgnV2CFtTzmRIGKa6XXdkx8iO7c2u0y66
- HR0Qu6Oxv7eITPccaU5bulY=
-X-Google-Smtp-Source: ABdhPJwRW2DfFi7vaENUA23Jq3YSQCwkSFxTvN+A+UDSLBW3imjJteLUnHwhO8atUISlgmzgaNxWbQ==
-X-Received: by 2002:ac2:4194:0:b0:442:ed9e:4a25 with SMTP id
- z20-20020ac24194000000b00442ed9e4a25mr16609681lfh.629.1645526352564; 
- Tue, 22 Feb 2022 02:39:12 -0800 (PST)
-Received: from [192.168.2.145] (109-252-138-165.dynamic.spd-mgts.ru.
- [109.252.138.165])
- by smtp.googlemail.com with ESMTPSA id 26sm1674219ljt.99.2022.02.22.02.39.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 02:39:11 -0800 (PST)
-Message-ID: <de5a48a4-4aca-5ac6-e4f2-e90244c9936d@gmail.com>
-Date: Tue, 22 Feb 2022 13:39:10 +0300
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2FD10E514;
+	Tue, 22 Feb 2022 10:39:48 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7DB10E512;
+ Tue, 22 Feb 2022 10:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645526387; x=1677062387;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=+8h1kIQ8eFLWpGQd3uA5+/jcafx2EM5kXpWlzhW6bK4=;
+ b=h96bFO5oUryrdMIz/RcDXDwSsyX8+pGmWWVSImWlsExmk8ZsshHVfCd+
+ F5+q5u9uum6Ib9fcDYLR0mdNX19MNsxmWF5NjqgME01DMbrBAgQ0F9PPd
+ QNraScq0csDCNbvcPlZfWn8KXBmhTfWZO+sURRmMyG2ThePwjELEubHR8
+ yyh/494syNPxAFh41M+jJCAlvm0FF7DLFd2veFNjmuOPVrSpV9vAkgvsC
+ C3bjVy1HSSXn4DVJ+JE00/wUohOvg++PHuzJO/uh8HQTE8FVbJUw4qiuw
+ yE/V6w2Vs3G1cFMrAExGSeEUINZWs4if3RBSZQHIYTtHI6pN+L2tn1vOZ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="250487701"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="250487701"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 02:39:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="507937472"
+Received: from sjgillin-mobl.ger.corp.intel.com (HELO [10.213.218.63])
+ ([10.213.218.63])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 02:39:45 -0800
+Message-ID: <1bc7257b-ddb6-1a5b-119f-3ef89cd5e634@linux.intel.com>
+Date: Tue, 22 Feb 2022 10:39:43 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
+ to avoid overflow
 Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20211220104855.428290-1-thierry.reding@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20211220104855.428290-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-2-John.C.Harrison@Intel.com>
+ <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,60 +63,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Graichen <thomas.graichen@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-20.12.2021 13:48, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Hi,
-> 
-> this is an alternative proposal to fix panel support on Venice 2 and
-> Nyan. Dmitry had proposed a different solution that involved reverting
-> the I2C/DDC registration order and would complicate things by breaking
-> the encapsulation of the driver by introducing a global (though locally
-> scoped) variable[0].
-> 
-> This set of patches avoids that by using the recently introduced DP AUX
-> bus infrastructure. The result is that the changes are actually less
-> intrusive and not a step back. Instead they nicely remove the circular
-> dependency that previously existed and caused these issues in the first
-> place.
-> 
-> To be fair, this is not perfect either because it requires a device tree
-> change and hence isn't technically backwards-compatible. However, given
-> that the original device tree was badly broken in the first place, I
-> think we can make an exception, especially since it is not generally a
-> problem to update device trees on the affected devices.
-> 
-> Secondly, this relies on infrastructure that was introduced in v5.15 and
-> therefore will be difficult to backport beyond that. However, since this
-> functionality has been broken since v5.13 and all of the kernel versions
-> between that and v5.15 are EOL anyway, there isn't much that we can do
-> to fix the interim versions anyway.
-> 
-> Adding Doug and Laurent since they originally designed the AUX bus
-> patches in case they see anything in here that would be objectionable.
-> 
-> Thierry
-> 
-> [0]: https://lore.kernel.org/dri-devel/20211130230957.30213-1-digetx@gmail.com/
-> 
-> Thierry Reding (2):
->   drm/tegra: dpaux: Populate AUX bus
->   ARM: tegra: Move panels to AUX bus
-> 
->  arch/arm/boot/dts/tegra124-nyan-big.dts   | 15 +++++++++------
->  arch/arm/boot/dts/tegra124-nyan-blaze.dts | 15 +++++++++------
->  arch/arm/boot/dts/tegra124-venice2.dts    | 14 +++++++-------
->  drivers/gpu/drm/tegra/Kconfig             |  1 +
->  drivers/gpu/drm/tegra/dpaux.c             |  7 +++++++
->  5 files changed, 33 insertions(+), 19 deletions(-)
-> 
 
-Will we see the v2 anytime soon?
+On 22/02/2022 09:52, Tvrtko Ursulin wrote:
+> 
+> On 18/02/2022 21:33, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> GuC converts the pre-emption timeout and timeslice quantum values into
+>> clock ticks internally. That significantly reduces the point of 32bit
+>> overflow. On current platforms, worst case scenario is approximately
+> 
+> Where does 32-bit come from, the GuC side? We already use 64-bits so 
+> that something to fix to start with. Yep...
+> 
+> ./gt/uc/intel_guc_fwif.h:       u32 execution_quantum;
+> 
+> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
+> engine->props.timeslice_duration_ms * 1000;
+> 
+> ./gt/intel_engine_types.h:              unsigned long 
+> timeslice_duration_ms;
+> 
+> timeslice_store/preempt_timeout_store:
+> err = kstrtoull(buf, 0, &duration);
+> 
+> So both kconfig and sysfs can already overflow GuC, not only because of 
+> tick conversion internally but because at backend level nothing was done 
+> for assigning 64-bit into 32-bit. Or I failed to find where it is handled.
+> 
+>> 110 seconds. Rather than allowing the user to set higher values and
+>> then get confused by early timeouts, add limits when setting these
+>> values.
+> 
+> Btw who is reviewing GuC patches these days - things have somehow gotten 
+> pretty quiet in activity and I don't think that's due absence of stuff 
+> to improve or fix? Asking since I think I noticed a few already which 
+> you posted and then crickets on the mailing list.
+> 
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 +++++++++++++++
+>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 ++++++++++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++++++++
+>>   3 files changed, 38 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> index e53008b4dd05..2a1e9f36e6f5 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct intel_gt 
+>> *gt, enum intel_engine_id id,
+>>       if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+>>           engine->props.preempt_timeout_ms = 0;
+>> +    /* Cap timeouts to prevent overflow inside GuC */
+>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
+>> +        if (engine->props.timeslice_duration_ms > 
+>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
+> 
+> Hm "wanted".. There's been too much back and forth on the GuC load 
+> options over the years to keep track.. intel_engine_uses_guc work sounds 
+> like would work and read nicer.
+> 
+> And limit to class instead of applying to all engines looks like a miss.
+
+Sorry limit to class does not apply here, I confused this with the last 
+patch.
+
+Regards,
+
+Tvrtko
+
+> 
+>> +            drm_info(&engine->i915->drm, "Warning, clamping timeslice 
+>> duration to %d to prevent possibly overflow\n",
+>> +                 GUC_POLICY_MAX_EXEC_QUANTUM_MS);
+>> +            engine->props.timeslice_duration_ms = 
+>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+> 
+> I am not sure logging such message during driver load is useful. Sounds 
+> more like a confused driver which starts with one value and then 
+> overrides itself. I'd just silently set the value appropriate for the 
+> active backend. Preemption timeout kconfig text already documents the 
+> fact timeouts can get overriden at runtime depending on platform+engine. 
+> So maybe just add same text to timeslice kconfig.
+> 
+>> +        }
+>> +
+>> +        if (engine->props.preempt_timeout_ms > 
+>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
+>> +            drm_info(&engine->i915->drm, "Warning, clamping 
+>> pre-emption timeout to %d to prevent possibly overflow\n",
+>> +                 GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS);
+>> +            engine->props.preempt_timeout_ms = 
+>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
+>> +        }
+>> +    }
+>> +
+>>       engine->defaults = engine->props; /* never to change again */
+>>       engine->context_size = intel_engine_context_size(gt, 
+>> engine->class);
+>> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c 
+>> b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> index 967031056202..f57efe026474 100644
+>> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> @@ -221,6 +221,13 @@ timeslice_store(struct kobject *kobj, struct 
+>> kobj_attribute *attr,
+>>       if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>>           return -EINVAL;
+>> +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
+>> +        duration > GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
+>> +        duration = GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+>> +        drm_info(&engine->i915->drm, "Warning, clamping timeslice 
+>> duration to %lld to prevent possibly overflow\n",
+>> +             duration);
+>> +    }
+> 
+> I would suggest to avoid duplicated clamping logic. Maybe hide the all 
+> backend logic into the helpers then, like maybe:
+> 
+>    d = intel_engine_validate_timeslice/preempt_timeout(engine, duration);
+>    if (d != duration)
+>      return -EINVAL:
+> 
+> Returning -EINVAL would be equivalent to existing behaviour:
+> 
+>      if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>          return -EINVAL;
+> 
+> That way userspace has explicit notification and read-back is identical 
+> to written in value. From engine setup you can just call the helper 
+> silently.
+> 
+>> +
+>>       WRITE_ONCE(engine->props.timeslice_duration_ms, duration);
+>>       if (execlists_active(&engine->execlists))
+>> @@ -325,6 +332,13 @@ preempt_timeout_store(struct kobject *kobj, 
+>> struct kobj_attribute *attr,
+>>       if (timeout > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>>           return -EINVAL;
+>> +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
+>> +        timeout > GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
+>> +        timeout = GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
+>> +        drm_info(&engine->i915->drm, "Warning, clamping pre-emption 
+>> timeout to %lld to prevent possibly overflow\n",
+>> +             timeout);
+>> +    }
+>> +
+>>       WRITE_ONCE(engine->props.preempt_timeout_ms, timeout);
+>>       if (READ_ONCE(engine->execlists.pending[0]))
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> index 6a4612a852e2..ad131092f8df 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> @@ -248,6 +248,15 @@ struct guc_lrc_desc {
+>>   #define GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US 500000
+>> +/*
+>> + * GuC converts the timeout to clock ticks internally. Different 
+>> platforms have
+>> + * different GuC clocks. Thus, the maximum value before overflow is 
+>> platform
+>> + * dependent. Current worst case scenario is about 110s. So, limit to 
+>> 100s to be
+>> + * safe.
+>> + */
+>> +#define GUC_POLICY_MAX_EXEC_QUANTUM_MS        (100 * 1000)
+>> +#define GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS    (100 * 1000)
+> 
+> Most important question -
+> how will we know/notice if/when new GuC arrives where these timeouts 
+> would still overflow? Can this be queried somehow at runtime or where 
+> does the limit comes from? How is GuC told about it? Set in some field 
+> and it just allows too large values silently break things?
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> +
+>>   struct guc_policies {
+>>       u32 submission_queue_depth[GUC_MAX_ENGINE_CLASSES];
+>>       /* In micro seconds. How much time to allow before DPC 
+>> processing is
