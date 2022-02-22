@@ -1,53 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B784C0560
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:32:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385074C0583
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:47:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB79410E24F;
-	Tue, 22 Feb 2022 23:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB6610E158;
+	Tue, 22 Feb 2022 23:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBA310E24F;
- Tue, 22 Feb 2022 23:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645572730; x=1677108730;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pnHkLzQtPiiFEa4hGqqSmZ+Uh+AOGtvt5T/1sNx+pQY=;
- b=GLLJ6LLea/wnfl2RyIo+xvZbk7p8wDMawqwmQlLoDpraNBiym61w89so
- GyaWZgIjKCacLeRreWRkP7L68nVK1g4p4F/KbubuCTXqRJvsWSaxBWqR+
- dYNffFZMZ2YBj1DMI6mLhgkmu3JQJ1/UCe/UX78GRVZOmQy5OKSNTOOkF
- su5vlRIjbld0iTCNP9q2i6DQTxjLxPs2VVwufci4uDFbwn/k25eqRvgVj
- EjRTA56Df2ZGw0k0B11fmtdGMltUPiBBmh3JaybMEqBN2yHXFkcMmNV8s
- 1sP063ix3G9n6NapFErX5y/n6hh7yZGZIbL01J3zVKSdl+chm6qw8+SZi g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="250663018"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="250663018"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 15:32:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="532438636"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 22 Feb 2022 15:32:07 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nMeda-0000jt-SH; Tue, 22 Feb 2022 23:32:06 +0000
-Date: Wed, 23 Feb 2022 07:31:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Cheng <michael.cheng@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/3] drm_cache: Add logic for wbvind_on_all_cpus
-Message-ID: <202202230701.l0i1vncs-lkp@intel.com>
-References: <20220222172649.331661-2-michael.cheng@intel.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8FC510E158
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 23:47:42 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id p14so47616146ejf.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X0F77fbIU1LkyDEiRwNiDPK4+9RtifiKKhYt8ZyZykg=;
+ b=OtP7IFPifLHaL18s430w4QMwCl8fqgUQZF6vITBFV0Y2ISfFMWayXI1UbC79Swbr2q
+ Y9zB2Loo9QWTHv3XZEzrZbb6fTeRpW+NDy5LYOzubMU09FjBJzlWv470tLJLosmvvlH8
+ oaWdtvbT3xjZun9F1YAretW7g5VOMCyfIEbF8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X0F77fbIU1LkyDEiRwNiDPK4+9RtifiKKhYt8ZyZykg=;
+ b=RIzHVp1aVkh67O1XY46MyQSeIRPco6aT0Rvu8Xk2seJqLa4Z4yaDPgVJIPVlm95fru
+ 41SBfT/fRYa4Ie9vFW5NkZtxUCKy+ATkQY/0IFoXEK3SfYxTVFxa7+Fc2fTXO/LdIliR
+ l8s4zVbeL3S0kBCwbj54i0t1xQ+QEcP+R3eVfv5R/jz9VBanKzSdO+gF4lNveG/D/yg/
+ 5UFAy8LV/LZuQIbyDOfMCAGurMrIOx6SOvTs5A+E+VSqhiXPZI3t5WTl4yO0ExM0vU4v
+ VhELmU5VuunigzsX5JgtpKKRDjNLQ+KgtuYN39Q5nqe0r8Tsner0Ts+mwczKo0iuT831
+ WJCg==
+X-Gm-Message-State: AOAM532dDks8RTkfye43CVStOVR/aoPOUULDsYR0tzV7odejYFRzybcu
+ u+RdvY2FyJpDvPbZBXl7kD0SPcx6YcawWObALNY=
+X-Google-Smtp-Source: ABdhPJyhA9E+ms79XoENx5uvuR98h5C1jUoOO+bVdNNwc8XvwJVmcVF/B+KF7nc5aKcNvocPRh1tgg==
+X-Received: by 2002:a17:906:2ed1:b0:6b6:bb09:178c with SMTP id
+ s17-20020a1709062ed100b006b6bb09178cmr21209609eji.382.1645573661043; 
+ Tue, 22 Feb 2022 15:47:41 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44])
+ by smtp.gmail.com with ESMTPSA id b19sm7320705edd.91.2022.02.22.15.47.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 15:47:40 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id d28so8682018wra.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:47:39 -0800 (PST)
+X-Received: by 2002:a5d:64ea:0:b0:1ea:8148:6b97 with SMTP id
+ g10-20020a5d64ea000000b001ea81486b97mr4917201wri.679.1645573659282; Tue, 22
+ Feb 2022 15:47:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220222172649.331661-2-michael.cheng@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220205001342.3155839-1-dianders@chromium.org>
+ <20220204161245.v2.2.Ib0bd5346135cbb0b63006b69b61d4c8af6484740@changeid>
+ <5d60473d-be8f-e2dc-2ce9-bc0b9056e4b4@redhat.com>
+ <e6670fd7-1f75-56f7-b668-20db9902cac6@intel.com>
+ <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
+ <87ee435fjs.fsf@intel.com> <ce339fc7-b6bf-b19a-be10-54ee86487b96@redhat.com>
+In-Reply-To: <ce339fc7-b6bf-b19a-be10-54ee86487b96@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 22 Feb 2022 15:47:26 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VRa5DKUpGru9_0sOUXB1y_BZ2rd6uwToRYnx6a_TNRcw@mail.gmail.com>
+Message-ID: <CAD=FV=VRa5DKUpGru9_0sOUXB1y_BZ2rd6uwToRYnx6a_TNRcw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm: Plumb debugfs_init through to panels
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +76,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, kbuild-all@lists.01.org,
- balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, michael.cheng@intel.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, jjsu@chromium.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, LKML <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, lschyi@chromium.org,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+Hi,
 
-Thank you for the patch! Perhaps something to improve:
+On Wed, Feb 16, 2022 at 1:36 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> On 2/16/22 10:25, Jani Nikula wrote:
+>
+> [snip]
+>
+> >>
+> >> I actually wrote said follow-up patches and they were ready to go, but
+> >> when I was trying to come up with the right "Fixes" tag I found commit
+> >> b792e64021ec ("drm: no need to check return value of debugfs_create
+> >> functions"). So what's being requested is nearly the opposite of what
+> >> Greg did there.
+> >>
+> >> I thought about perhaps only checking for directories but even that
+> >> type of check was removed by Greg's patch. Further checking shows that
+> >> start_creating() actually has:
+> >>
+> >> if (IS_ERR(parent))
+> >>   return parent;
+> >>
+> >> ...so I guess that explains why it's fine to skip the check even for parents?
+> >>
+> >> Sure enough I confirmed that if I pass `ERR_PTR(-EINVAL)` as the root
+> >> for `panel->funcs->debugfs_init()` that nothing bad seems to happen...
+> >
+> > Yeah, the idea is that you don't need to check for debugfs function
+> > return values and you can safely pass error pointers to debugfs
+> > functions. The worst that can happen is you don't get the debugfs, but
+> > hey, it's debugfs so you shouldn't fail anything else because of that
+> > anyway.
+> >
+>
+> Thanks a lot Doug and Jani for the explanations. That makes sense and it
+> explains why most code I looked was not checking for the return value.
+>
+> I guess we should write something about this in the debugfs functions
+> kernel doc so it's mentioned explicitly and people don't have to guess.
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm/drm-next drm-tip/drm-tip v5.17-rc5 next-20220217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+For anyone interested, I've taken Javier's suggestion and tried to
+update the docs:
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Move-define-wbvind_on_all_cpus/20220223-012853
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: openrisc-randconfig-r025-20220221 (https://download.01.org/0day-ci/archive/20220223/202202230701.l0i1vncs-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/3aaa40c95b16a78c9059a77536de70bb08ce05e9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Cheng/Move-define-wbvind_on_all_cpus/20220223-012853
-        git checkout 3aaa40c95b16a78c9059a77536de70bb08ce05e9
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/gpu/drm/vgem/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/drm/drm_cache.h:37,
-                    from drivers/gpu/drm/vgem/vgem_drv.h:33,
-                    from drivers/gpu/drm/vgem/vgem_fence.c:28:
->> arch/openrisc/include/asm/smp.h:15: warning: "raw_smp_processor_id" redefined
-      15 | #define raw_smp_processor_id()  (current_thread_info()->cpu)
-         | 
-   In file included from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:62,
-                    from include/linux/vmalloc.h:5,
-                    from include/asm-generic/io.h:911,
-                    from arch/openrisc/include/asm/io.h:36,
-                    from include/linux/io.h:13,
-                    from include/linux/iosys-map.h:9,
-                    from include/linux/dma-buf.h:16,
-                    from drivers/gpu/drm/vgem/vgem_fence.c:23:
-   include/linux/smp.h:191: note: this is the location of the previous definition
-     191 | #define raw_smp_processor_id()                  0
-         | 
-
-
-vim +/raw_smp_processor_id +15 arch/openrisc/include/asm/smp.h
-
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  14  
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11 @15  #define raw_smp_processor_id()	(current_thread_info()->cpu)
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  16  #define hard_smp_processor_id()	mfspr(SPR_COREID)
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  17  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+https://lore.kernel.org/r/20220222154555.1.I26d364db7a007f8995e8f0dac978673bc8e9f5e2@changeid
