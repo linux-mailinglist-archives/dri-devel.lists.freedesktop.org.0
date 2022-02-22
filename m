@@ -1,67 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E4E4BF495
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:21:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 291E44BF4A3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:26:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2DF10E525;
-	Tue, 22 Feb 2022 09:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDE510E785;
+	Tue, 22 Feb 2022 09:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C400B10E64F
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:21:52 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21M7FV2l030870;
- Tue, 22 Feb 2022 10:21:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=kEFhzcWqIoIRBPhQy2qkdqT6c0JMDhAmAB+2aO+k88w=;
- b=nzMGm8qIDTZhm8pgNU+SOPimOyVCMjfXixF6gNtqtzasObJOYIrIP4slOKw/xxIkC9lk
- coYdVuLNOFLg5sR59cRryErhTaf8UqFd76crCA7ILJsgMlapu1YAtCouBLDPu9PHjnGf
- mEBOFb53sI4dA4nYEbarAEDvRISCSitnBtgkk373xdfDfpeAnbBcwsvD1kWbGMMCdxFG
- kZ0OLWLLYPPwaTZ2gVvp93BXD4W5CDHr5lCwZbNaLBD8YXkBLFQiLTL7xeMaCB/KkEHD
- E7hh2efZCZVzSibubbbJ+2X22qShQKzLwMI2rwNtR1WHOUvYRXokgnpLfX89s9Ufw0pR TA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ecu9g8tyj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Feb 2022 10:21:49 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5FFE9100034;
- Tue, 22 Feb 2022 10:21:48 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node1.st.com [10.75.127.4])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4E521215136;
- Tue, 22 Feb 2022 10:21:48 +0100 (CET)
-Received: from [10.211.4.126] (10.75.127.48) by SFHDAG2NODE1.st.com
- (10.75.127.4) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 22 Feb
- 2022 10:21:47 +0100
-Message-ID: <857b5ec9-4cfc-c700-a528-feae83dee890@foss.st.com>
-Date: Tue, 22 Feb 2022 10:21:30 +0100
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4855610E785
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:26:37 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id f11so10729440ljq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 01:26:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=JBF4fIcAnvRusm6p5BMoqr6RpxbvHrmHP+8AW6BUl1o=;
+ b=m6q1oTR/aDdP/XLmbe0J0C7PXAxE7dGQgAebYmvzEUFsGJ1nsr2Hmt51/lzKNtoJuj
+ OgHwILfA6mEEMX3ynuy77M+/dpZ2RA4Ntwth0mwqfjUz8bOrhOfT6PC+25pDtk8fpkJM
+ RI0F8HYb9UcHpFfeyi8YOYlv9zgDIB9QZowF0fUq2vxP8t4/rV+InkAXoCy7qr9v0Y4k
+ s7tAtJWoQDhV2ZumvRAuzh3otxSHbBqK20YLtTQ76BgsC2YlO7unxx8GYIK2lWfJ2ioO
+ wOKeZw9/0Yp2gRUXLzCRHkr/T2WPYgP2UJMUGPRabiNbW7rXc1H/gWyR1y2MvFIF6SzM
+ 8y9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=JBF4fIcAnvRusm6p5BMoqr6RpxbvHrmHP+8AW6BUl1o=;
+ b=NrmhZTG0v6mPKIcNKQd7g/TrKRszTJurEdsEq43Sk/LSDXaQEReqvq2AYbwjP+Nmqm
+ DXInR14XZ3NxQsk2zmOdJXRzUejChDaBIsmr6NJnKQjd8/r19GqBIjL/qLkFIB6bwa3v
+ 2AdZBbur2bYVfXdfwJgGESLpIbszk+hkD3U/aRUowttEWORdkE+MdZ5Sp/XLY0kbYj8k
+ UrO0N1mMWh4/LLjXTcDc9LDELiS4lnAHDy3+t8QOQ6hX1WcYguZE+E95ZzmDqhYHjpAU
+ NeUKVztIUOv8lSyeeEzvvW84oseKn7T9OzK2SXvfX3skT7lB7UPn3z7Pp490EJvJA6bO
+ tk8w==
+X-Gm-Message-State: AOAM530qC015E6eP6TCXYcTHj6zK7TN9zGkd+0Ark488X2IoiDoadBzt
+ es/mMvRzb//SJl2q7nW25Aw=
+X-Google-Smtp-Source: ABdhPJwCgtHArkTV5ek0qzsh40gxrD+8OAEMiIbH23vPLWLGCUFV7kLWp2MZa5tFLQT2ZYNxUPq4gQ==
+X-Received: by 2002:a2e:b0fa:0:b0:246:291a:5232 with SMTP id
+ h26-20020a2eb0fa000000b00246291a5232mr13070525ljl.317.1645521995380; 
+ Tue, 22 Feb 2022 01:26:35 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id k14sm1641594ljh.82.2022.02.22.01.26.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 01:26:35 -0800 (PST)
+Date: Tue, 22 Feb 2022 11:26:24 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Igor Torrente <igormtorrente@gmail.com>
+Subject: Re: [PATCH v4 7/9] drm: vkms: Refactor the plane composer to accept
+ new formats
+Message-ID: <20220222112624.3068cf9a@eldfell>
+In-Reply-To: <f622224f-767e-c85a-3129-8c3b1e4313bc@gmail.com>
+References: <20220121213831.47229-1-igormtorrente@gmail.com>
+ <20220121213831.47229-8-igormtorrente@gmail.com>
+ <20220208104018.cxnxgzgjn3ecf53l@mail.igalia.com>
+ <b40b3f1b-1b0d-0b81-a5cf-1496fb479920@gmail.com>
+ <20220209214535.wqoe3otgelry2kef@mail.igalia.com>
+ <1b26f760-2213-b711-53fb-847560daf963@gmail.com>
+ <20220221111823.044ca6ca@eldfell>
+ <f622224f-767e-c85a-3129-8c3b1e4313bc@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/stm: ltdc: add support for CRC hashing feature
-Content-Language: en-US
-To: =?UTF-8?Q?Rapha=c3=abl_Gallais-Pou?= <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Benjamin Gaignard
- <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-References: <20220211104620.421177-1-raphael.gallais-pou@foss.st.com>
-From: yannick Fertre <yannick.fertre@foss.st.com>
-In-Reply-To: <20220211104620.421177-1-raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE1.st.com
- (10.75.127.4)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-22_02,2022-02-21_02,2021-12-02_01
+Content-Type: multipart/signed; boundary="Sig_/6bSEMdTNr=7Tv.sG6RXcazC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,242 +76,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Raphael Gallais-Pou <raphael.gallais-pou@st.com>,
- linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ tzimmermann@suse.de, ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphael,
-thanks for the patch.
+--Sig_/6bSEMdTNr=7Tv.sG6RXcazC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
+On Mon, 21 Feb 2022 22:13:21 -0300
+Igor Torrente <igormtorrente@gmail.com> wrote:
 
-Best regards
+> Hi Pekka,
+>=20
+> On 2/21/22 06:18, Pekka Paalanen wrote:
+> > On Sun, 20 Feb 2022 22:02:12 -0300
+> > Igor Torrente <igormtorrente@gmail.com> wrote:
+> >  =20
+> >> Hi Melissa,
+> >>
+> >> On 2/9/22 18:45, Melissa Wen wrote: =20
+> >>> On 02/08, Igor Torrente wrote: =20
+> >>>> Hi Melissa,
+> >>>>
+> >>>> On 2/8/22 07:40, Melissa Wen wrote: =20
+> >>>>> On 01/21, Igor Torrente wrote: =20
+> >>>>>> Currently the blend function only accepts XRGB_8888 and ARGB_8888
+> >>>>>> as a color input.
+> >>>>>>
+> >>>>>> This patch refactors all the functions related to the plane compos=
+ition
+> >>>>>> to overcome this limitation.
+> >>>>>>
+> >>>>>> A new internal format(`struct pixel`) is introduced to deal with a=
+ll
+> >>>>>> possible inputs. It consists of 16 bits fields that represent each=
+ of
+> >>>>>> the channels.
+> >>>>>>
+> >>>>>> The pixels blend is done using this internal format. And new handl=
+ers
+> >>>>>> are being added to convert a specific format to/from this internal=
+ format.
+> >>>>>>
+> >>>>>> So the blend operation depends on these handlers to convert to thi=
+s common
+> >>>>>> format. The blended result, if necessary, is converted to the writ=
+eback
+> >>>>>> buffer format.
+> >>>>>>
+> >>>>>> This patch introduces three major differences to the blend functio=
+n.
+> >>>>>> 1 - All the planes are blended at once.
+> >>>>>> 2 - The blend calculus is done as per line instead of per pixel.
+> >>>>>> 3 - It is responsible to calculates the CRC and writing the writeb=
+ack
+> >>>>>>        buffer(if necessary).
+> >>>>>>
+> >>>>>> These changes allow us to allocate way less memory in the intermed=
+iate
+> >>>>>> buffer to compute these operations. Because now we don't need to
+> >>>>>> have the entire intermediate image lines at once, just one line is
+> >>>>>> enough.
+> >>>>>>
+> >>>>>> | Memory consumption (output dimensions) |
+> >>>>>> |:--------------------------------------:|
+> >>>>>> |       Current      |     This patch    |
+> >>>>>> |:------------------:|:-----------------:|
+> >>>>>> |   Width * Heigth   |     2 * Width     |
+> >>>>>>
+> >>>>>> Beyond memory, we also have a minor performance benefit from all
+> >>>>>> these changes. Results running the IGT tests `*kms_cursor_crc*`:
+> >>>>>>    =20
+> >>>>> First, thanks for this improvement.
+> >>>>>
+> >>>>> Some recent changes in kms_cursor_crc caused VKMS to fail in most t=
+est
+> >>>>> cases (iirc, only size-change and alpha-opaque are passing currentl=
+y). =20
+> >>>>
+> >>>> I updated my igt and kernel(from drm_misc/drm-misc-next) to the late=
+st
+> >>>> commit[1][2] and I'm getting mixed results. Sometimes most of the te=
+st
+> >>>> passes, sometimes almost nothing passes. =20
+> >>> hmm.. is it happening when running kms_cursor_crc? Is the results
+> >>> variation random or is it possible to follow a set of steps to reprod=
+uce
+> >>> it? When failing, what is the reason displayed by the log? =20
+> >>
+> >> I investigated it a little bit and discovered that the KMS
+> >> cursor(".*kms_cursor_crc*" ) are failing after the execution of
+> >> writeback tests(".*kms_writeback.*").
+> >>
+> >> I don't know what is causing it, but they are failing while trying to
+> >> commit the KMS changes.
+> >>
+> >> out.txt:
+> >> IGT-Version: 1.26-NO-GIT (x86_64) (Linux: 5.17.0-rc2 x86_64)
+> >> Stack trace:
+> >>     #0 ../lib/igt_core.c:1754 __igt_fail_assert()
+> >>     #1 ../lib/igt_kms.c:3795 do_display_commit()
+> >>     #2 ../lib/igt_kms.c:3901 igt_display_commit2()
+> >>     #3 ../tests/kms_cursor_crc.c:820 __igt_unique____real_main814()
+> >>     #4 ../tests/kms_cursor_crc.c:814 main()
+> >>     #5 ../csu/libc-start.c:308 __libc_start_main()
+> >>     #6 [_start+0x2a]
+> >> Subtest pipe-A-cursor-size-change: FAIL
+> >>
+> >> err.txt:
+> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Test assertion failure function
+> >> do_display_commit, file ../lib/igt_kms.c:3795:
+> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Failed assertion: ret =3D=3D 0
+> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Last errno: 22, Invalid argume=
+nt
+> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: error: -22 !=3D 0
+> >> =20
+> >>>
+> >>>   From my side, only the first two subtest of kms_cursor_crc is passi=
+ng
+> >>> before this patch. And after your changes here, all subtests are
+> >>> successful again, except those related to 32x10 cursor size (that nee=
+ds
+> >>> futher investigation). I didn't check how the recent changes in
+> >>> kms_cursor_crc affect VKMS performance on it, but I bet that clearing
+> >>> the alpha channel is the reason to have the performance back. =20
+> >>
+> >> Yeah, I also don't understand why the 32x10 cursor tests are failing.
+> >> =20
+> >=20
+> > Hi,
+> >=20
+> > are the tests putting the cursor partially outside of the CRTC area?
+> > Or partially outside of primary plane area (which IIRC you used when you
+> > should have used the CRTC area?)?
+> >=20
+> > Does the writeback test forget to unlink the writeback connector? Or
+> > does VKMS not handle unlinking the writeback connector? =20
+>=20
+> I don't know the answer to all these questions.
+
+These are just suggestions in the direction of research, just in case
+you had no idea. ;-)
+
+After all, the UAPI error code is EINVAL, so something in VKMS rejects
+the IGT-produced configuration. Figuring out what that configuration is
+and why it gets rejected might be useful to find out.
+
+Maybe the original writeback code did not expect planes to be partially
+off-screen? Guarding against that would produce EINVAL. This is just a
+wild guess, I've never read that code, but it also seems like the
+simplest possible mistake to make in good faith - not a bug in code,
+just a wrong initial assumption of use cases.
+
+If you found in your testing that the IGT cursor-size-change test
+succeeds if ran before writeback test, but fails if ran after the
+writeback test, then obviously something in the writeback test is
+leaving stray state behind. It could be the test itself, or it could be
+a VKMS bug.
 
 
-On 2/11/22 11:46, Raphaël Gallais-Pou wrote:
-> From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> 
-> This patch adds the CRC hashing feature supported by some recent hardware
-> versions of the LTDC. This is useful for test suite such as IGT-GPU-tools
-> [1] where a CRTC output frame can be compared to a test reference frame
-> thanks to their respective CRC hash.
-> 
-> [1] https://cgit.freedesktop.org/drm/igt-gpu-tools
-> 
-> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> ---
->   drivers/gpu/drm/stm/ltdc.c | 104 +++++++++++++++++++++++++++++++++++--
->   drivers/gpu/drm/stm/ltdc.h |   3 ++
->   2 files changed, 104 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 5eeb32c9c9ce..b29476aec3a1 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -77,6 +77,7 @@
->   #define LTDC_CPSR	0x0044		/* Current Position Status */
->   #define LTDC_CDSR	0x0048		/* Current Display Status */
->   #define LTDC_EDCR	0x0060		/* External Display Control */
-> +#define LTDC_CCRCR	0x007C		/* Computed CRC value */
->   #define LTDC_FUT	0x0090		/* Fifo underrun Threshold */
->   
->   /* Layer register offsets */
-> @@ -121,6 +122,7 @@
->   
->   #define GCR_LTDCEN	BIT(0)		/* LTDC ENable */
->   #define GCR_DEN		BIT(16)		/* Dither ENable */
-> +#define GCR_CRCEN	BIT(19)		/* CRC ENable */
->   #define GCR_PCPOL	BIT(28)		/* Pixel Clock POLarity-Inverted */
->   #define GCR_DEPOL	BIT(29)		/* Data Enable POLarity-High */
->   #define GCR_VSPOL	BIT(30)		/* Vertical Synchro POLarity-High */
-> @@ -227,6 +229,13 @@
->   
->   #define NB_PF		8		/* Max nb of HW pixel format */
->   
-> +/*
-> + * Skip the first value and the second in case CRC was enabled during
-> + * the thread irq. This is to be sure CRC value is relevant for the
-> + * frame.
-> + */
-> +#define CRC_SKIP_FRAMES 2
-> +
->   enum ltdc_pix_fmt {
->   	PF_NONE,
->   	/* RGB formats */
-> @@ -664,6 +673,26 @@ static inline void ltdc_set_ycbcr_coeffs(struct drm_plane *plane)
->   		     ltdc_ycbcr2rgb_coeffs[enc][ran][1]);
->   }
->   
-> +static inline void ltdc_irq_crc_handle(struct ltdc_device *ldev,
-> +				       struct drm_crtc *crtc)
-> +{
-> +	u32 crc;
-> +	int ret;
-> +
-> +	if (ldev->crc_skip_count < CRC_SKIP_FRAMES) {
-> +		ldev->crc_skip_count++;
-> +		return;
-> +	}
-> +
-> +	/* Get the CRC of the frame */
-> +	ret = regmap_read(ldev->regmap, LTDC_CCRCR, &crc);
-> +	if (ret)
-> +		return;
-> +
-> +	/* Report to DRM the CRC (hw dependent feature) */
-> +	drm_crtc_add_crc_entry(crtc, true, drm_crtc_accurate_vblank_count(crtc), &crc);
-> +}
-> +
->   static irqreturn_t ltdc_irq_thread(int irq, void *arg)
->   {
->   	struct drm_device *ddev = arg;
-> @@ -671,9 +700,14 @@ static irqreturn_t ltdc_irq_thread(int irq, void *arg)
->   	struct drm_crtc *crtc = drm_crtc_from_index(ddev, 0);
->   
->   	/* Line IRQ : trigger the vblank event */
-> -	if (ldev->irq_status & ISR_LIF)
-> +	if (ldev->irq_status & ISR_LIF) {
->   		drm_crtc_handle_vblank(crtc);
->   
-> +		/* Early return if CRC is not active */
-> +		if (ldev->crc_active)
-> +			ltdc_irq_crc_handle(ldev, crtc);
-> +	}
-> +
->   	/* Save FIFO Underrun & Transfer Error status */
->   	mutex_lock(&ldev->err_lock);
->   	if (ldev->irq_status & ISR_FUIF)
-> @@ -1079,6 +1113,48 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
->   	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE);
->   }
->   
-> +static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
-> +{
-> +	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-> +	int ret;
-> +
-> +	DRM_DEBUG_DRIVER("\n");
-> +
-> +	if (!crtc)
-> +		return -ENODEV;
-> +
-> +	if (source && strcmp(source, "auto") == 0) {
-> +		ldev->crc_active = true;
-> +		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
-> +	} else if (!source) {
-> +		ldev->crc_active = false;
-> +		ret = regmap_clear_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
-> +	} else {
-> +		ret = -EINVAL;
-> +	}
-> +
-> +	ldev->crc_skip_count = 0;
-> +	return ret;
-> +}
-> +
-> +static int ltdc_crtc_verify_crc_source(struct drm_crtc *crtc,
-> +				       const char *source, size_t *values_cnt)
-> +{
-> +	DRM_DEBUG_DRIVER("\n");
-> +
-> +	if (!crtc)
-> +		return -ENODEV;
-> +
-> +	if (source && strcmp(source, "auto") != 0) {
-> +		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
-> +				 source, crtc->name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*values_cnt = 1;
-> +	return 0;
-> +}
-> +
->   static const struct drm_crtc_funcs ltdc_crtc_funcs = {
->   	.destroy = drm_crtc_cleanup,
->   	.set_config = drm_atomic_helper_set_config,
-> @@ -1091,6 +1167,20 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
->   	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
->   };
->   
-> +static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
-> +	.destroy = drm_crtc_cleanup,
-> +	.set_config = drm_atomic_helper_set_config,
-> +	.page_flip = drm_atomic_helper_page_flip,
-> +	.reset = drm_atomic_helper_crtc_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-> +	.enable_vblank = ltdc_crtc_enable_vblank,
-> +	.disable_vblank = ltdc_crtc_disable_vblank,
-> +	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-> +	.set_crc_source = ltdc_crtc_set_crc_source,
-> +	.verify_crc_source = ltdc_crtc_verify_crc_source,
-> +};
-> +
->   /*
->    * DRM_PLANE
->    */
-> @@ -1478,8 +1568,13 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
->   
->   	drm_plane_create_zpos_immutable_property(primary, 0);
->   
-> -	ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
-> -					&ltdc_crtc_funcs, NULL);
-> +	/* Init CRTC according to its hardware features */
-> +	if (ldev->caps.crc)
-> +		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
-> +						&ltdc_crtc_with_crc_support_funcs, NULL);
-> +	else
-> +		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
-> +						&ltdc_crtc_funcs, NULL);
->   	if (ret) {
->   		DRM_ERROR("Can not initialize CRTC\n");
->   		goto cleanup;
-> @@ -1629,6 +1724,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
->   		ldev->caps.ycbcr_input = false;
->   		ldev->caps.ycbcr_output = false;
->   		ldev->caps.plane_reg_shadow = false;
-> +		ldev->caps.crc = false;
->   		break;
->   	case HWVER_20101:
->   		ldev->caps.layer_ofs = LAY_OFS_0;
-> @@ -1643,6 +1739,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
->   		ldev->caps.ycbcr_input = false;
->   		ldev->caps.ycbcr_output = false;
->   		ldev->caps.plane_reg_shadow = false;
-> +		ldev->caps.crc = false;
->   		break;
->   	case HWVER_40100:
->   		ldev->caps.layer_ofs = LAY_OFS_1;
-> @@ -1657,6 +1754,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
->   		ldev->caps.ycbcr_input = true;
->   		ldev->caps.ycbcr_output = true;
->   		ldev->caps.plane_reg_shadow = true;
-> +		ldev->caps.crc = true;
->   		break;
->   	default:
->   		return -ENODEV;
-> diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-> index 6968d1ca5149..59fc5d1bbbab 100644
-> --- a/drivers/gpu/drm/stm/ltdc.h
-> +++ b/drivers/gpu/drm/stm/ltdc.h
-> @@ -27,6 +27,7 @@ struct ltdc_caps {
->   	bool ycbcr_input;	/* ycbcr input converter supported */
->   	bool ycbcr_output;	/* ycbcr output converter supported */
->   	bool plane_reg_shadow;	/* plane shadow registers ability */
-> +	bool crc;		/* cyclic redundancy check supported */
->   };
->   
->   #define LTDC_MAX_LAYER	4
-> @@ -46,6 +47,8 @@ struct ltdc_device {
->   	u32 irq_status;
->   	struct fps_info plane_fpsi[LTDC_MAX_LAYER];
->   	struct drm_atomic_state *suspend_state;
-> +	int crc_skip_count;
-> +	bool crc_active;
->   };
->   
->   int ltdc_load(struct drm_device *ddev);
+Thanks,
+pq
+
+--Sig_/6bSEMdTNr=7Tv.sG6RXcazC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIUrEAACgkQI1/ltBGq
+qqcmnQ/+O+dGo3v/iuGXznEX1swst/nWhwOJ6W6lPHGISvlI0MwaUmIIN6X4//cI
+AeVDzvNo74E+U6XN3mnMtF+lwZxui55foDZfdwAFsEpm67UOksjUPGFs7yQw93+c
+PRp3410fh8742XccFhVlZkqz8U5DDELn/koM5Zi5R+3h/CkcLhvkqJMs5fkKpWXP
+N2abTyECFPLQYtLpItCHtTUZyTRdmkjUCeqiHQEDUgz9MA1cmQltR7eUxe+SkM/G
+/aI9rjK5I0iy+p3vC/BDIU9fghtD6jkA6DHIK1Rpunul3wcWHD8tWClgwvIDlnu8
+Jy80KPAf+nhqB6ACfmNPtS0QnHBadcDnx3Oth99Olp7H8vOHzkFd8nDuxlf9RG3C
+ASIS/KCmsMriaIlSPQ/g9NEKTHBTD7kXNhpCffqNedwTczuK5iIgHU76UaLNMjJ1
+biuPkncGqz8iN8XtqQyFnbNQFeWOaK7QApftxGoJ64TlnR0zuY8abxgVvksAel0d
+KL6FYPWA5pS5whJp4/I1mYK5KQTSu3YgyOPvvvXGumQja9vyEkqDLp7CHj4xeWI5
+CDJn5FvhqqAN6AvewxdL6NlbcYrsx4jg74+fec9B55q+5s9VqfRyhCArZ3MRV/hH
+QMo+77Czpe+fnTxzsagECaHgQredl4zHLETHVWznpu2iI3F/Zb0=
+=yvDA
+-----END PGP SIGNATURE-----
+
+--Sig_/6bSEMdTNr=7Tv.sG6RXcazC--
