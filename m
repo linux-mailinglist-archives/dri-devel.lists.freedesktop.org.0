@@ -2,65 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2624C03D9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FBE4C03DD
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:30:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84FB210E310;
-	Tue, 22 Feb 2022 21:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE1CA10E74F;
+	Tue, 22 Feb 2022 21:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D73F10E74B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:29:17 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- i6-20020a4ac506000000b0031c5ac6c078so11738386ooq.6
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:29:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=+DdLQYhSVowvrvUvwIQHQ/jS7fQBlZEdC1qdY+ozB14=;
- b=Rsk1TlpY40oUYm8qLz6rSs4XgoVG1cDlLPSjZeqiErRUwqIsKAEgvWhgJYlUmS8r4j
- DjiVcbfh+svMwjhb3wL0JouOTW6bqgZa/kAhgPYAn6Dh9SYQGBWMXuycEGaHAY6+3gA8
- FOW3og2f8W0/duBSTidtHZlk49iwwwQQn5u2s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=+DdLQYhSVowvrvUvwIQHQ/jS7fQBlZEdC1qdY+ozB14=;
- b=D0XIxlD9EqEVbXvFpRy6Lo7785ujyDqh+lsCg75MvcMlpC0Va9rIbrBR4z1us1m64M
- FGGlYuD1zZ9CpHH1QGQfTO3R9sLsXTuS1+q5oA45LezqzGylVMqdH7in1V0e9ZEv/6sJ
- OylSQ3dlBI3mXxOMu0Be5AK5cTn9YVUTot2uR/uv80Ojiqqkl0jTttkCCMELhAwrgDxJ
- NjdroSwt9VAcu8S1iZc4Jyb2wk6io/bskgjLLEat/HrM4z4dtse4C9s3rhlqQcU5EdKF
- b0Gn4bb2n0hArATQOu0iuosPozgkhOOxBPkwDQJxBBRO1QmmVtNCCOurn9cnHAGkELpc
- HUGQ==
-X-Gm-Message-State: AOAM533unf8r8iyAB3tawSPox8b1+eKPEMNMlwR1dHoSNoNXGZJFGrKc
- 2mNO3I6hZUok6Nm8ENbYsPZlOC6tVl6HG5IpMFDEig==
-X-Google-Smtp-Source: ABdhPJwO0OjVyqoI0wHs16t1k/y/Gcj/QLmaofaVi0N6xYQGEKIvtIgjAOzkMZeCBU2B35BgAheofP2PYe1GQzcZFU0=
-X-Received: by 2002:a05:6870:5829:b0:c8:9f42:f919 with SMTP id
- r41-20020a056870582900b000c89f42f919mr2755947oap.54.1645565356781; Tue, 22
- Feb 2022 13:29:16 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 22 Feb 2022 21:29:16 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B543810E74F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:30:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27135139F;
+ Tue, 22 Feb 2022 13:30:36 -0800 (PST)
+Received: from [10.57.40.147] (unknown [10.57.40.147])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37F8E3F70D;
+ Tue, 22 Feb 2022 13:30:34 -0800 (PST)
+Message-ID: <c0dee650-df1c-4fad-aa97-fb9eab03f3a2@arm.com>
+Date: Tue, 22 Feb 2022 21:30:30 +0000
 MIME-Version: 1.0
-In-Reply-To: <1645455086-9359-5-git-send-email-quic_vpolimer@quicinc.com>
-References: <1645455086-9359-1-git-send-email-quic_vpolimer@quicinc.com>
- <1645455086-9359-5-git-send-email-quic_vpolimer@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 22 Feb 2022 21:29:16 +0000
-Message-ID: <CAE-0n523rt_ThJSr=NTrjb2ASpb_4nnwNo9bTw8fZcz-yH9opQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/msm/disp/dpu1: add PSR support for eDP
- interface in dpu driver
-To: Vinod Polimera <quic_vpolimer@quicinc.com>, agross@kernel.org,
- airlied@linux.ie, 
- bjorn.andersson@linaro.org, daniel@ffwll.ch, devicetree@vger.kernel.org, 
- dianders@chromium.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, krzysztof.kozlowski@canonical.com, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- robdclark@gmail.com, robh+dt@kernel.org, sam@ravnborg.org, 
- seanpaul@chromium.org, thierry.reding@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v3 2/9] gpu: host1x: Add context bus
+Content-Language: en-GB
+To: Christoph Hellwig <hch@infradead.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>
+References: <20220218113952.3077606-1-mperttunen@nvidia.com>
+ <20220218113952.3077606-3-mperttunen@nvidia.com>
+ <YhUNiHiYdQfxJybk@infradead.org>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <YhUNiHiYdQfxJybk@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,203 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_vproddut@quicinc.com
+Cc: devicetree@vger.kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, jonathanh@nvidia.com, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Vinod Polimera (2022-02-21 06:51:26)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index e7c9fe1..ba3240c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -951,6 +952,14 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->
->         DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
->
-> +       if (old_crtc_state->self_refresh_active) {
-> +               drm_for_each_encoder_mask(encoder, crtc->dev,
-> +                                old_crtc_state->encoder_mask) {
-> +                       dpu_encoder_assign_crtc(encoder, NULL);
-> +               }
-> +               return;
-> +       }
-> +
->         /* Disable/save vblank irq handling */
->         drm_crtc_vblank_off(crtc);
->
-> @@ -962,7 +971,12 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->                  */
->                 if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
->                         release_bandwidth = true;
-> -               dpu_encoder_assign_crtc(encoder, NULL);
-> +               /* If disable is triggered during psr active(e.g: screen dim in PSR),
+On 2022-02-22 16:21, Christoph Hellwig wrote:
+> On Fri, Feb 18, 2022 at 01:39:45PM +0200, Mikko Perttunen wrote:
+>> The context bus is a "dummy" bus that contains struct devices that
+>> correspond to IOMMU contexts assigned through Host1x to processes.
+>>
+>> Even when host1x itself is built as a module, the bus is registered
+>> in built-in code so that the built-in ARM SMMU driver is able to
+>> reference it.
+>>
+>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> ---
+>>   drivers/gpu/Makefile               |  3 +--
+>>   drivers/gpu/host1x/Kconfig         |  5 +++++
+>>   drivers/gpu/host1x/Makefile        |  1 +
+>>   drivers/gpu/host1x/context_bus.c   | 31 ++++++++++++++++++++++++++++++
+>>   include/linux/host1x_context_bus.h | 15 +++++++++++++++
+>>   5 files changed, 53 insertions(+), 2 deletions(-)
+>>   create mode 100644 drivers/gpu/host1x/context_bus.c
+>>   create mode 100644 include/linux/host1x_context_bus.h
+>>
+>> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+>> index 835c88318cec..8997f0096545 100644
+>> --- a/drivers/gpu/Makefile
+>> +++ b/drivers/gpu/Makefile
+>> @@ -2,7 +2,6 @@
+>>   # drm/tegra depends on host1x, so if both drivers are built-in care must be
+>>   # taken to initialize them in the correct order. Link order is the only way
+>>   # to ensure this currently.
+>> -obj-$(CONFIG_TEGRA_HOST1X)	+= host1x/
+>> -obj-y			+= drm/ vga/
+>> +obj-y			+= host1x/ drm/ vga/
+>>   obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
+>>   obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
+>> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
+>> index 6815b4db17c1..1861a8180d3f 100644
+>> --- a/drivers/gpu/host1x/Kconfig
+>> +++ b/drivers/gpu/host1x/Kconfig
+>> @@ -1,8 +1,13 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +config TEGRA_HOST1X_CONTEXT_BUS
+>> +	bool
+>> +
+>>   config TEGRA_HOST1X
+>>   	tristate "NVIDIA Tegra host1x driver"
+>>   	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
+>>   	select DMA_SHARED_BUFFER
+>> +	select TEGRA_HOST1X_CONTEXT_BUS
+>>   	select IOMMU_IOVA
+>>   	help
+>>   	  Driver for the NVIDIA Tegra host1x hardware.
+>> diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
+>> index d2b6f7de0498..c891a3e33844 100644
+>> --- a/drivers/gpu/host1x/Makefile
+>> +++ b/drivers/gpu/host1x/Makefile
+>> @@ -18,3 +18,4 @@ host1x-y = \
+>>   	hw/host1x07.o
+>>   
+>>   obj-$(CONFIG_TEGRA_HOST1X) += host1x.o
+>> +obj-$(CONFIG_TEGRA_HOST1X_CONTEXT_BUS) += context_bus.o
+>> diff --git a/drivers/gpu/host1x/context_bus.c b/drivers/gpu/host1x/context_bus.c
+>> new file mode 100644
+>> index 000000000000..2625914f3c7d
+>> --- /dev/null
+>> +++ b/drivers/gpu/host1x/context_bus.c
+>> @@ -0,0 +1,31 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2021, NVIDIA Corporation.
+>> + */
+>> +
+>> +#include <linux/device.h>
+>> +#include <linux/of.h>
+>> +
+>> +struct bus_type host1x_context_device_bus_type = {
+>> +	.name = "host1x-context",
+>> +};
+>> +EXPORT_SYMBOL(host1x_context_device_bus_type);
+> 
+> EXPORT_SYMBOL_GPL, please.
+> 
+> But the pattern that this copies in arm_smmu_bus_init is really
+> ugly.  I think we need to figure out a way todo that without having
+> to export all the low-level bus types.
 
-Multiline comments start with /* on a line by itself
+Yup, as it happens that was the first step on my mission :)
 
-		/*
-		 * If disable is triggered ...
+https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/bus
 
-> +                * we will need encoder->crtc connection to process the device sleep &
-> +                * preserve it during psr sequence.
-> +                */
-> +               if (!crtc->state->self_refresh_active)
-> +                       dpu_encoder_assign_crtc(encoder, NULL);
->         }
->
->         /* wait for frame_event_done completion */
-> @@ -1010,6 +1024,8 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
->         struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
->         struct drm_encoder *encoder;
->         bool request_bandwidth = false;
-> +       struct drm_crtc_state *old_crtc_state =
-> +               drm_atomic_get_old_crtc_state(state, crtc);
+Still a way to go with the main meat of that work, though, so I was 
+figuring this could probably land as-is and I'll sweep it up in due course.
 
-Use two lines
-
-	struct drm_crtc_state *old_crtc_state;
-
-	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
-
->
->         pm_runtime_get_sync(crtc->dev->dev);
->
-> @@ -1032,8 +1048,10 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
->         trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
->         dpu_crtc->enabled = true;
->
-> -       drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-> -               dpu_encoder_assign_crtc(encoder, crtc);
-> +       if (!old_crtc_state->self_refresh_active) {
-> +               drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-> +                       dpu_encoder_assign_crtc(encoder, crtc);
-
-Make these two lines above into a function with a meaningful name?
-dpu_encoder_assign_crtcs()? And then push the encoder mask iteration
-into the loop by passing the mask as a function argument. I see
-dpu_encoder_assign_crtc() takes a spinlock, so we could probably take
-that lock out too and push it into this new function to avoid grabbing
-and dropping the spinlock multiple times.
-
-> +       }
->
->         /* Enable/restore vblank irq handling */
->         drm_crtc_vblank_on(crtc);
-> @@ -1497,7 +1515,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->  {
->         struct drm_crtc *crtc = NULL;
->         struct dpu_crtc *dpu_crtc = NULL;
-> -       int i;
-> +       int i, ret;
->
->         dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
->         if (!dpu_crtc)
-> @@ -1534,6 +1552,11 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->         /* initialize event handling */
->         spin_lock_init(&dpu_crtc->event_lock);
->
-> +       ret = drm_self_refresh_helper_init(crtc);
-> +       if (ret)
-> +               DPU_ERROR("Failed to initialize %s with SR helpers %d\n",
-
-What is SR? Write self-refresh?
-
-> +                       crtc->name, ret);
-> +
->         DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
->         return crtc;
->  }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 6eac417..ba9d8ea 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -217,6 +217,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->         15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->  };
->
-> +static inline bool is_self_refresh_active(struct drm_crtc_state *state)
-
-const drm_crtc_state?
-
-> +{
-> +       if (state && state->self_refresh_active)
-> +               return true;
-> +
-> +       return false;
-
-	return state && state->self_refresh_active;
-
-> +}
-> +
->  static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
->  {
->         struct dpu_hw_dither_cfg dither_cfg = { 0 };
-> @@ -629,7 +637,8 @@ static int dpu_encoder_virt_atomic_check(
->                 if (drm_atomic_crtc_needs_modeset(crtc_state)) {
->                         dpu_rm_release(global_state, drm_enc);
->
-> -                       if (!crtc_state->active_changed || crtc_state->active)
-> +                       if (!crtc_state->active_changed || crtc_state->active ||
-> +                                       crtc_state->self_refresh_active)
->                                 ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
->                                                 drm_enc, crtc_state, topology);
->                 }
-> @@ -1182,11 +1191,30 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc,
->  {
->         struct dpu_encoder_virt *dpu_enc = NULL;
->         struct msm_drm_private *priv;
-> +       struct drm_crtc *crtc;
-> +       struct drm_crtc_state *old_state;
->         int i = 0;
->
->         dpu_enc = to_dpu_encoder_virt(drm_enc);
->         DPU_DEBUG_ENC(dpu_enc, "\n");
-
-Presumably this print wants a valid 'dpu_enc' pointer.
-
->
-> +       if (!drm_enc) {
-
-So this check for !drm_enc is impossible? Please remove it.
-
-> +               DPU_ERROR("invalid encoder\n");
-> +               return;
-> +       }
-> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-
-We got it again?
-
-> +
-> +       crtc = dpu_enc->crtc;
-> +
-> +       old_state = drm_atomic_get_old_crtc_state(state, crtc);
-> +
-> +       /*
-> +        * The encoder turn off already occurred when self refresh mode
-
-s/turn off/disable/
-
-> +        * was set earlier, in the old_state for the corresponding crtc.
-> +        */
-> +       if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && is_self_refresh_active(old_state))
-> +               return;
-> +
->         mutex_lock(&dpu_enc->enc_lock);
->         dpu_enc->enabled = false;
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 47fe11a..d550f90 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -495,7 +495,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
->                 return;
->         }
->
-> -       if (!crtc->state->active) {
-> +       if (!drm_atomic_crtc_effectively_active(crtc->state)) {
->                 DPU_DEBUG("[crtc:%d] not active\n", crtc->base.id);
->                 return;
->         }
-> --
-> 2.7.4
->
+Robin.
