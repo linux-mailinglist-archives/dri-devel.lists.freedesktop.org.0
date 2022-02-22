@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B904BFC2F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 16:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5D94BFC5F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 16:22:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5001210E9EC;
-	Tue, 22 Feb 2022 15:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8382410EA3A;
+	Tue, 22 Feb 2022 15:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB8A10E9E3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:16:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 1402E1F42D79
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645543012;
- bh=m6iks4nKShpjnvSQCg9oNY965h9zeoboZznnHfhpxKI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hWvPkhkzNvqzNuA/40T3XKUxHYa8HSRU4pVMNzoIFWC7rXAT0apDYLnpkMJhnqbJM
- arssexAyQVcSVzvw5Amf+UBgH8G+8JAoeSIFcUxhxPNyzQMNZV+16CstcTP/iDH5Hg
- 8XKAw2ROpBcy+hVlpJZNGroDpoRV/m8w9fVh/Yl0wVhuV6RPtUoYvkLuG/iZUukwGC
- bAX9ZZ15SJkfiUYauqLfQv5HFCFnR47Rx3FLe1eOLehFQPIJKIeNvBPRO6NReiqME2
- u+ne7v0rhJH3lU010TKtdqa7o08BP9WgUrRIeePPFQWufHuOtvUjuDVVM8Ex9z5m24
- I22HEnZSbhtaw==
-Message-ID: <1c791b60-935c-1e8e-dd1b-4b18fc273c1b@collabora.com>
-Date: Tue, 22 Feb 2022 16:16:48 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B13410EA37
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:22:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5A46BB819B5;
+ Tue, 22 Feb 2022 15:22:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FE0C340E8;
+ Tue, 22 Feb 2022 15:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645543335;
+ bh=dJFaztZbOTKlwjszD+cQgkDqaaoQUaeR4abG0LlrMB4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DXHzm1Ojr/JdzsxpKmL+iNBWnbLZMRdxOs3Z6Lw0U0yZwOti1yflN+C6vng2Eba++
+ i+vpqCBIIMuKux+/wtJht32wzJ7HVm3kE5VkuRBFdiSbB8S4Hlk7Lcgz5uZsekJXE1
+ qV1Ljp+h6xRJF7YXQN/+qDTtQRuPAyRvTXZSJwAOnOfKMwOBcEePpACcjr6Vrb7HwY
+ 0UIwnMCgtZ54v+f+KYU6kpPC1h4J1ojPkGhkjPPWAPwBuastYyBzoktQThSsGVt4Z6
+ 73dHlUoFqFrUoSU0oK12YMxzPSHt9lFm48gh1/2cesQFXcKyu40FPSTA0i57xvcuN4
+ Mf9izYSZYCRLg==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>
+Subject: [PATCH v2] drm/stm: Avoid using val uninitialized in
+ ltdc_set_ycbcr_config()
+Date: Tue, 22 Feb 2022 08:20:46 -0700
+Message-Id: <20220222152045.484610-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v8 04/19] video/hdmi: Add audio_infoframe packing for DP
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com,
- kishon@ti.com, vkoul@kernel.org, deller@gmx.de, ck.hu@mediatek.com,
- jitao.shi@mediatek.com
-References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-5-granquet@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220218145437.18563-5-granquet@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,42 +51,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/02/22 15:54, Guillaume Ranquet ha scritto:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> Similar to HDMI, DP uses audio infoframes as well which are structured
-> very similar to the HDMI ones.
-> 
-> This patch adds a helper function to pack the HDMI audio infoframe for
-> DP, called hdmi_audio_infoframe_pack_for_dp().
-> hdmi_audio_infoframe_pack_only() is split into two parts. One of them
-> packs the payload only and can be used for HDMI and DP.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+Clang warns:
 
-Hello Guillaume,
+  drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+          default:
+          ^~~~~~~
+  drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
+          val |= LxPCR_YCEN;
+          ^~~
+  drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
+          u32 val;
+                 ^
+                  = 0
+  1 warning generated.
 
-I've just noticed that this patch will not apply against the latest linux-next,
-as the include/drm/drm_dp_helper.h header was moved to
-include/drm/dp/drm_dp_helper.h
+Use a return instead of break in the default case to fix the warning.
+Add an error message so that this return is not silent, which could hide
+issues in the future.
 
-Can you please rebase for v9?
+Fixes: 484e72d3146b ("drm/stm: ltdc: add support of ycbcr pixel formats")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1575
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
 
-Thanks,
-Angelo
+v1 -> v2: https://lore.kernel.org/r/20220207165304.1046867-1-nathan@kernel.org/
 
-> ---
->   drivers/video/hdmi.c        | 83 ++++++++++++++++++++++++++++---------
->   include/drm/drm_dp_helper.h |  2 +
->   include/linux/hdmi.h        |  7 +++-
->   3 files changed, 72 insertions(+), 20 deletions(-)
-> 
+* Use DRM_ERROR() instead of drm_err() (Philippe).
+
+* Collect tags from v1, as nothing substantial has changed.
+
+ drivers/gpu/drm/stm/ltdc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 5eeb32c9c9ce..c9bc4ccb6d43 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -624,7 +624,8 @@ static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fm
+ 		break;
+ 	default:
+ 		/* RGB or not a YCbCr supported format */
+-		break;
++		DRM_ERROR("Unsupported pixel format: %u\n", drm_pix_fmt);
++		return;
+ 	}
+ 
+ 	/* Enable limited range */
+
+base-commit: 542898c5aa5c6a3179dffb1d1606884a63f75fed
+-- 
+2.35.1
+
