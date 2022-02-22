@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756704C0475
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:19:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9692D4C04A3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9682910E2ED;
-	Tue, 22 Feb 2022 22:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1705E89C59;
+	Tue, 22 Feb 2022 22:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8112110E2ED
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 22:19:08 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- h17-20020a17090acf1100b001bc68ecce4aso332003pju.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:19:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NvDRTgPxChmGOwbBu1IEeDWngy/wxmiyuXIu4qG8GgY=;
- b=M8EcTdQKHhkZyHx6loaC8hCQMviRsxMW7ziLP6j7P+589ry2FmHHmOkSjfvTR5X/FP
- 4etnTp1OyTf5rf9gVFoADJ80z3VoOe1uV/Hn3rU4LMHFtm3ymH8VRjfv0sTBBc0QfUf8
- hPPfaIccp74UaAN/hkXda/dcjm9W5aBRryT+w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NvDRTgPxChmGOwbBu1IEeDWngy/wxmiyuXIu4qG8GgY=;
- b=yAZKyPTW0hDtszrMPm6ioOJPlrXmbDNLvMLHawwAaFJO+51fxkyuDE3xwv1njCb23W
- rTAoWTcfzhrEqW3luHUSLCIXxB++BcB9bmXhYGlI9OJsanEhdp3eAqJErEkwW9dZNQp1
- B2yeOxTOwdw/DqOonYF0wXaLZI62UouxqU2vMfV2sbpkYasaUVafs+zBNU4y8Lnhwm9h
- ga6tEdok6cjxpkPqC1fFwYoVccIJKsfy8uas3mXG+1OOyoUIuAULDBPczAjzCm/tWEwQ
- pJqQHczSe6g4E3LSJ50ngEEFHCHp+I7xtPNrGcuHsm0YCeEPusNlIbTRf3v4kgpzPfe1
- 2bpw==
-X-Gm-Message-State: AOAM5330y3952U5mqClyndBsBCZjfnYP3aoQb2YzktzDIir9mHBQmhWs
- mmATinuujZFRKcMAOf8beCiwltOHtZco7EFBuC4=
-X-Google-Smtp-Source: ABdhPJz6kzGJn4fxm6ra8m4EVhyRNC2Fji6XMAc/wBelVEhtvnboO+xynWuFmQZA/IDpglCz2/axmw==
-X-Received: by 2002:a17:90a:fe87:b0:1bc:6928:86c7 with SMTP id
- co7-20020a17090afe8700b001bc692886c7mr6199022pjb.129.1645568347984; 
- Tue, 22 Feb 2022 14:19:07 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:ab7d:6b2a:b01e:d6ae])
- by smtp.gmail.com with ESMTPSA id g63sm17345756pfb.65.2022.02.22.14.19.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 14:19:07 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: Properly undo autosuspend
-Date: Tue, 22 Feb 2022 14:18:43 -0800
-Message-Id: <20220222141838.1.If784ba19e875e8ded4ec4931601ce6d255845245@changeid>
-X-Mailer: git-send-email 2.35.1.473.g83b2b277ed-goog
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BA189C59;
+ Tue, 22 Feb 2022 22:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645569120; x=1677105120;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MewtKr7ftfS16HioQBVfoeiIGS2K8zmHkkZcx4l4mh8=;
+ b=F+Gj0qJ5jwE+edz1ZEAOAitsNTFBtpU57dSgRJfIBN0Zk/guOob79SLw
+ 9GPrFkpdoJFatqpa5lry18cdqODu+byNkcM8EplKXW0p8xSBLfzikXnCn
+ LGqCszzUN8ah5Y5WdeC+ZnwqLLQqS9LIV+zd3RgDgXJM0hMHVJuTnEM4c
+ P71Cdhs9K3RQF88cgQnQYvl/cQuNHmvcPlYSWiIMtdYutVgJvloEwd4Wj
+ qKtE43b3F8fHlj5hUYUdMC6Bh1nP2pc4A1hC3szK1pavA882RRGoN4Ve1
+ 0LjVHFf+AV9LagmKL/27ZicC7l7u5vG8ZWRp46IZvZwKu5F/HPKOP+3yF g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="338265632"
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="338265632"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 14:32:00 -0800
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="776466929"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 14:32:00 -0800
+Date: Tue, 22 Feb 2022 14:31:58 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>
+Subject: Re: [PATCH v10 3/6] drm/i915/gt: Drop invalidate_csb_entries
+Message-ID: <YhVkXoWfPPr0+5sf@mdroper-desk1.amr.corp.intel.com>
+References: <20220210183636.1187973-1-michael.cheng@intel.com>
+ <20220210183636.1187973-4-michael.cheng@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220210183636.1187973-4-michael.cheng@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +57,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Brian Norris <briannorris@chromium.org>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org
+Cc: tvrtko.ursulin@linux.intel.com, balasubramani.vivekanandan@intel.com,
+ wayne.boyer@intel.com, intel-gfx@lists.freedesktop.org,
+ casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PM Runtime docs say:
-  Drivers in ->remove() callback should undo the runtime PM changes done
-  in ->probe(). Usually this means calling pm_runtime_disable(),
-  pm_runtime_dont_use_autosuspend() etc.
+On Thu, Feb 10, 2022 at 10:36:33AM -0800, Michael Cheng wrote:
+> Drop invalidate_csb_entries and directly call drm_clflush_virt_range.
+> This allows for one less function call, and prevent complier errors when
+> building for non-x86 architectures.
+> 
+> v2(Michael Cheng): Drop invalidate_csb_entries function and directly
+> 		   invoke drm_clflush_virt_range. Thanks to Tvrtko for the
+> 		   sugguestion.
+> 
+> v3(Michael Cheng): Use correct parameters for drm_clflush_virt_range.
+> 		   Thanks to Tvrtko for pointing this out.
+> 
+> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+> ---
+>  .../gpu/drm/i915/gt/intel_execlists_submission.c    | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 9bb7c863172f..6186a5e4b191 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -1646,12 +1646,6 @@ cancel_port_requests(struct intel_engine_execlists * const execlists,
+>  	return inactive;
+>  }
+>  
+> -static void invalidate_csb_entries(const u64 *first, const u64 *last)
+> -{
+> -	clflush((void *)first);
+> -	clflush((void *)last);
+> -}
+> -
+>  /*
+>   * Starting with Gen12, the status has a new format:
+>   *
+> @@ -1999,7 +1993,7 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+>  	 * the wash as hardware, working or not, will need to do the
+>  	 * invalidation before.
+>  	 */
+> -	invalidate_csb_entries(&buf[0], &buf[num_entries - 1]);
+> +	drm_clflush_virt_range(&buf[0], num_entries * sizeof(buf[0]));
+>  
+>  	/*
+>  	 * We assume that any event reflects a change in context flow
+> @@ -2783,8 +2777,9 @@ static void reset_csb_pointers(struct intel_engine_cs *engine)
+>  
+>  	/* Check that the GPU does indeed update the CSB entries! */
+>  	memset(execlists->csb_status, -1, (reset_value + 1) * sizeof(u64));
+> -	invalidate_csb_entries(&execlists->csb_status[0],
+> -			       &execlists->csb_status[reset_value]);
+> +	drm_clflush_virt_range(&execlists->csb_status[0],
 
-We weren't doing that for autosuspend. Let's do it.
+I think you could simplify the parameter slightly by just writing it as
+'execlists->csb_status'
 
-Fixes: 9bede63127c6 ("drm/bridge: ti-sn65dsi86: Use pm_runtime autosuspend")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+> +			       execlists->csb_size *
+> +			       sizeof(execlists->csb_status[0]));
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The existing code only issues a clflush for the first and last entries
+rather than the range from 0..reset_value, but since there are only a
+maximum of 12 u64 entries, which fits into two cachelines, the end
+result should be the same either way.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 38616aab12ac..fb6c588b0f71 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1758,6 +1758,7 @@ static inline void ti_sn_gpio_unregister(void) {}
- 
- static void ti_sn65dsi86_runtime_disable(void *data)
- {
-+	pm_runtime_dont_use_autosuspend(data);
- 	pm_runtime_disable(data);
- }
- 
-@@ -1817,11 +1818,11 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 				     "failed to get reference clock\n");
- 
- 	pm_runtime_enable(dev);
-+	pm_runtime_set_autosuspend_delay(pdata->dev, 500);
-+	pm_runtime_use_autosuspend(pdata->dev);
- 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_runtime_disable, dev);
- 	if (ret)
- 		return ret;
--	pm_runtime_set_autosuspend_delay(pdata->dev, 500);
--	pm_runtime_use_autosuspend(pdata->dev);
- 
- 	ti_sn65dsi86_debugfs_init(pdata);
- 
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+
+>  
+>  	/* Once more for luck and our trusty paranoia */
+>  	ENGINE_WRITE(engine, RING_CONTEXT_STATUS_PTR,
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.35.1.473.g83b2b277ed-goog
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
