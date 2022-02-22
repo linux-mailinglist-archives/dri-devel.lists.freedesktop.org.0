@@ -1,50 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D624C0450
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:04:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B32A4C045C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:10:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6AF10E4C9;
-	Tue, 22 Feb 2022 22:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 566E010E32C;
+	Tue, 22 Feb 2022 22:10:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0637D10E4C9;
- Tue, 22 Feb 2022 22:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645567464; x=1677103464;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gU3YZfHYAMVwMOaaRC1XQxMPzGH70cQ3svHCBaOXC+Y=;
- b=K1E4c5OJZvP4/pKUao/egCd6Rwit7oE7TrWD0yjR+YAsnj5SyfcLX9T7
- 8Ax+fSKJBj7XsC/4/aIDrp43hTKDskX2ph1rFtabqtpTPBo9u8Qtqlof5
- tCr0phjsa4bTA+h57LVcuawbwcXjhFOj9pGbDOrgxUvm1hmSEnwrWgDA3
- 3bTDbDmp7ROp4tJ3huTbJcAC4+4NhyrYkpU8LXAdmDQE1rOww06s2fmog
- bIoinN2K5RARaoVLWqORAmzDFlVdPwqHJqUU8DfkdzkTQrEilNSWQqM6C
- KqO5PUo+WZKCyAH9T1k7MuCGcAWynrRitPpqKFyCzOi896hDMq8BUPSZd w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="315054339"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="315054339"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 14:04:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="547949317"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 14:04:23 -0800
-Date: Tue, 22 Feb 2022 14:04:21 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Michael Cheng <michael.cheng@intel.com>
-Subject: Re: [PATCH v10 2/6] drm/i915/gt: Re-work intel_write_status_page
-Message-ID: <YhVd5bAYTLc9VbDu@mdroper-desk1.amr.corp.intel.com>
-References: <20220210183636.1187973-1-michael.cheng@intel.com>
- <20220210183636.1187973-3-michael.cheng@intel.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4800810E32C
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 22:10:07 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id i11so38628805eda.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ncJM2T87X2o8pTyVRveZGSOn+a2+yRMOSUhJC3B/Gq4=;
+ b=Ivl+fOAzjwZVikAE//GhKXqrg3FgwasunygzL6X3K7tmMukt25sYmGH/BgwYn33eey
+ 2oGVVJytRTJ3g4D06lpohmTyGRsIdaXZQWvxUoiiNWjYdiWXL/9J4CrtB84gRRQ47W25
+ ecpmNDu6kl1oulpWSeokNUQNW6BZAhhT25Rls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ncJM2T87X2o8pTyVRveZGSOn+a2+yRMOSUhJC3B/Gq4=;
+ b=bspAN1P8vBElC+bjwRsRTPLTNxT8+jMRT3tYiWBtmdwGkHF88K/93h32+ew06enyMg
+ yNs5TYQFJPZoqDsJqlI4c7VewPssWB5GeFL5oej8thUPs/cUZ9ruq8XheZw9FCFkDXcq
+ JB9E6eBnRzWLT3hwc6T9bhcyltBTOeIuP4FInQgByhgfM8qtQFb0Uzw6sANRu//vKOrM
+ E+XZPo2QM8uvR9ocB+SwWJ82JV28EteL5/Av6Pa5OSR9CYWMvwNbDK2gQ67ej9xQgDG+
+ nnUPs9aKPFYQxel+rj9CuTyi8TRt8FnAywiviGsM23lU1iS5eD9tarsnFSdQ7CLWmGj4
+ 9zSQ==
+X-Gm-Message-State: AOAM531KLm8IhA1zMiuAhbTcpdjxz1uSa2DtOfsM60V4E0HPVd6NTe/C
+ iV8gKWJWfBAE3UhlntKONssXCWVGAeZopkZP01I=
+X-Google-Smtp-Source: ABdhPJxVyNA8CuTfmYY1go5oUblsXi3OKvRgh9JTJ0y0KenPNaTe+3yDRmKm1TL9jkqvWVY0WK1eVA==
+X-Received: by 2002:a50:e1c6:0:b0:410:e2e8:9d3 with SMTP id
+ m6-20020a50e1c6000000b00410e2e809d3mr28555385edl.180.1645567805467; 
+ Tue, 22 Feb 2022 14:10:05 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44])
+ by smtp.gmail.com with ESMTPSA id pg26sm4748031ejb.194.2022.02.22.14.10.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 14:10:04 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id q23so1361612wra.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:04 -0800 (PST)
+X-Received: by 2002:adf:ef07:0:b0:1e3:333f:a101 with SMTP id
+ e7-20020adfef07000000b001e3333fa101mr21559376wro.301.1645567804216; Tue, 22
+ Feb 2022 14:10:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220210183636.1187973-3-michael.cheng@intel.com>
+References: <20220217144136.v3.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
+ <20220217144136.v3.2.I48b18ab197c9b649d376cf8cfd934e59d338f86d@changeid>
+In-Reply-To: <20220217144136.v3.2.I48b18ab197c9b649d376cf8cfd934e59d338f86d@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 22 Feb 2022 14:09:51 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UudBo7aZqD8oGHAu94LEYovMtFq7hjwOG2_8yxUeNi_w@mail.gmail.com>
+Message-ID: <CAD=FV=UudBo7aZqD8oGHAu94LEYovMtFq7hjwOG2_8yxUeNi_w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: analogix_dp: Enable autosuspend
+To: Brian Norris <briannorris@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,73 +72,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, balasubramani.vivekanandan@intel.com,
- wayne.boyer@intel.com, intel-gfx@lists.freedesktop.org,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 10, 2022 at 10:36:32AM -0800, Michael Cheng wrote:
-> Re-work intel_write_status_page to use drm_clflush_virt_range. This
-> will prevent compiler errors when building for non-x86 architectures.
-> 
+Hi,
 
-It looks like this will also cause old x86 cpu's that don't have clflush
-to do an extra wbinvd that they didn't do before; based on commit
-9a29dd85a09d ("drm/i915: Fixup intel_write_status_page() for old CPUs
-without clflush") we were just hoping that they were sufficiently
-coherent that we can get away without extra flushing.
-
-As far as I can see, this function is only used from a selftest, not
-from real driver codepaths, so the extra flushing shouldn't have any
-negative impact on end users.
-
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-
-> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+On Thu, Feb 17, 2022 at 2:42 PM Brian Norris <briannorris@chromium.org> wrote:
+>
+> DP AUX transactions can consist of many short operations. There's no
+> need to power things up/down in short intervals.
+>
+> I pick an arbitrary 100ms; for the systems I'm testing (Rockchip
+> RK3399), runtime-PM transitions only take a few microseconds.
+>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 > ---
->  drivers/gpu/drm/i915/gt/intel_engine.h | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index 0e353d8c2bc8..986777c2430d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -4,6 +4,7 @@
->  
->  #include <asm/cacheflush.h>
->  #include <drm/drm_util.h>
-> +#include <drm/drm_cache.h>
->  
->  #include <linux/hashtable.h>
->  #include <linux/irq_work.h>
-> @@ -143,15 +144,9 @@ intel_write_status_page(struct intel_engine_cs *engine, int reg, u32 value)
->  	 * of extra paranoia to try and ensure that the HWS takes the value
->  	 * we give and that it doesn't end up trapped inside the CPU!
->  	 */
-> -	if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
-> -		mb();
-> -		clflush(&engine->status_page.addr[reg]);
-> -		engine->status_page.addr[reg] = value;
-> -		clflush(&engine->status_page.addr[reg]);
-> -		mb();
-> -	} else {
-> -		WRITE_ONCE(engine->status_page.addr[reg], value);
-> -	}
-> +	drm_clflush_virt_range(&engine->status_page.addr[reg], sizeof(value));
-> +	WRITE_ONCE(engine->status_page.addr[reg], value);
-> +	drm_clflush_virt_range(&engine->status_page.addr[reg], sizeof(value));
->  }
->  
->  /*
-> -- 
-> 2.25.1
-> 
+>
+> Changes in v3:
+>  - New in v3
+>
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index 16be279aed2c..d82a4ddf44e7 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1121,7 +1121,7 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
+>
+>                 pm_runtime_get_sync(dp->dev);
+>                 edid = drm_get_edid(connector, &dp->aux.ddc);
+> -               pm_runtime_put(dp->dev);
+> +               pm_runtime_put_autosuspend(dp->dev);
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+So I think you can fully get rid of these ones now and rely on the
+ones in the aux transfer, right?
+
+
+>                 if (edid) {
+>                         drm_connector_update_edid_property(&dp->connector,
+>                                                            edid);
+> @@ -1642,7 +1642,7 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
+>
+>         ret = analogix_dp_transfer(dp, msg);
+>  out:
+> -       pm_runtime_put(dp->dev);
+> +       pm_runtime_put_autosuspend(dp->dev);
+>
+>         return ret;
+>  }
+> @@ -1775,6 +1775,8 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+>         if (ret)
+>                 return ret;
+>
+> +       pm_runtime_use_autosuspend(dp->dev);
+> +       pm_runtime_set_autosuspend_delay(dp->dev, 100);
+
+It's explicitly listed in the Documentation that you need the
+corresponding pm_runtime_dont_use_autosuspend(). Specifically, it
+says:
+
+> Drivers in ->remove() callback should undo the runtime PM changes done
+> in ->probe(). Usually this means calling pm_runtime_disable(),
+> pm_runtime_dont_use_autosuspend() etc.
+
+Not that it's very common to see anyone actually get it right, but I
+seem to remember running into an issue when I didn't do it. I think
+ti-sn65dsi86 still has it wrong since I found out about this later.
+Need to write a patch up for that... Basically you want to put it
+right before the two calls in your driver to pm_runtime_disable().
+
+-Doug
