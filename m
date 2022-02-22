@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEF14BFE85
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A63E4BFE8B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2262810E731;
-	Tue, 22 Feb 2022 16:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439BE10E709;
+	Tue, 22 Feb 2022 16:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0CB10E70A;
- Tue, 22 Feb 2022 16:27:45 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id z7so12085571oid.4;
- Tue, 22 Feb 2022 08:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Wc0yqHfoagRsyXzdU2Y5/dAqtfWLM+jPqSQjyf20DAQ=;
- b=OHvXsiq6g3Rnm/ksDpKM0+8vS0aMDT5I0AZgHcAPddmSWj23yidnTLsiT5ki1k+pXC
- 1p9cfzcgh6jCI28Jxy5mljhTRq8Z2cxKb4SM+a+RJa3Tmz+BA4IEosYgK1omDVW96b6w
- De7m1v1lUngpKTVZdoXCcVvmPiZ55am3YZIE5Gu09L7Hh/sVJ2f8JMI2cW5sni7V3eVs
- PLDdZlHkN2Tz/vPzC1rhAXKbr+uJD6LrNvLVoASYseP+j2wUmW1ADbLBvLoytPM+XP9q
- l7zb1W7wU69C+O3FHe3by/W1BzYzFpHV3NH0xOygMopJWD78LuX2GkmdNhGz4wUtX/hF
- /a9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Wc0yqHfoagRsyXzdU2Y5/dAqtfWLM+jPqSQjyf20DAQ=;
- b=nQi/0ACYbZFOoonMv2tbCLDGiWjI+5eu0Ntdv5d0hI4m/NG9xSBkLUp2ORXwpHWuSP
- 0S07V1a5Xll1w2q2pssUuKLmYfT6O+hNA9w2r1m8yxkH1HPvKraix3YiZU/fOcoi7EmI
- LUE0wDBfwspwqJ51JDVmkK7dvsvdw7CCymBIhChL14oN7jQVMohdGth80bntXc61sV1T
- ceNhyp8ryljjwAF0tiNyYPb1n8+Cxg1oxySfqcetyUWTo8/+gpQbaNO9II7T+Q7rUaAr
- YPONZmW3PnQWsnw4JPOzpvT00AQr/HJXcv1mCnP8cv9yHIsCy10p4OfFXkENQWNsD1Qc
- 7nUA==
-X-Gm-Message-State: AOAM531kzTZ0fjTgVrJTK0WzQ1j3qdCO3Obpm3CEo3wa9f5fiAJuKIRt
- Cgmq3mK4b+33sUUQo1o2X+xXbnnCyB4YX7qV0cE=
-X-Google-Smtp-Source: ABdhPJzMY92Uod9CyBXvXvpyKVk0Yx2FnD1eNM4cD0ag4qAyG9Rjjzu0pW/fwzoshhVCCjQURT/oah1xCbxHxh0TvcA=
-X-Received: by 2002:aca:ab4c:0:b0:2d4:7c7d:606e with SMTP id
- u73-20020acaab4c000000b002d47c7d606emr2360947oie.132.1645547265176; Tue, 22
- Feb 2022 08:27:45 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D43110E672;
+ Tue, 22 Feb 2022 16:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645547310; x=1677083310;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yOy9wKhpTzMIgiJVor0t6E5cNveJwZO+KgH0Mq7wBMU=;
+ b=ErB07F7rpP/oM1zC9ds8aqTz3LJLJ/Qb5xm6KH/qTF3WGOAiNEm+BMXq
+ hThkMP3mECTq9Aez/uX1K4RsihKRcPTO3ao+4SjpsqksYEK4WoLyGi0FY
+ zCRMwG5IIoHWoUbG/HB1DFZDqna4VuhueyUh7GvvGsyof5c4CgD72R2AT
+ wrfz6l3WN/f8lC0S/Jz2lpt/OpoioXOWvWr9tu2DwGkxTK9cMV3gOJClE
+ 4MAfed1qaToaLT9mlfcqg3/2xTnbavbsevcTyzHY1SEcszVLAOmpY9N7n
+ iyK2MXqgwlcnKRfpi8bgUyVS4VACCcZ+V0SXUNTnTRKoTCpNwnpOQVkK0 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="231718450"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="231718450"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 08:28:29 -0800
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="508050505"
+Received: from sjgillin-mobl.ger.corp.intel.com (HELO [10.213.218.63])
+ ([10.213.218.63])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 08:28:26 -0800
+Message-ID: <2b3dd219-7540-6982-15d2-375255921de6@linux.intel.com>
+Date: Tue, 22 Feb 2022 16:28:24 +0000
 MIME-Version: 1.0
-References: <20220222131701.356117-1-maira.canal@usp.br>
- <20220222131701.356117-2-maira.canal@usp.br>
-In-Reply-To: <20220222131701.356117-2-maira.canal@usp.br>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Feb 2022 11:27:34 -0500
-Message-ID: <CADnq5_M0yBD7oE+y-gcsKkSxP+CmYxx-pdzytG-Wpqv=hw=r-g@mail.gmail.com>
-Subject: Re: [PATCH 01/10] drm/amdgpu: Change
- amdgpu_ras_block_late_init_default function scope
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/i915: Check input parameter for NULL
+Content-Language: en-US
+To: Yongzhi Liu <lyz_cs@pku.edu.cn>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, thomas.hellstrom@linux.intel.com,
+ maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ matthew.d.roper@intel.com, tzimmermann@suse.de, michal.winiarski@intel.com
+References: <1645541161-46607-1-git-send-email-lyz_cs@pku.edu.cn>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <1645541161-46607-1-git-send-email-lyz_cs@pku.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +64,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Tuikov, Luben" <luben.tuikov@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>, "Joshi, Mukul" <mukul.joshi@amd.com>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mwen@igalia.com, "Chai, Thomas" <YiPeng.Chai@amd.com>,
- "Stanley.Yang" <Stanley.Yang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Magali Lemes <magalilemes00@gmail.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Isabella Basso <isabbasso@riseup.net>,
- John Clements <john.clements@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Dennis Li <Dennis.Li@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-On Tue, Feb 22, 2022 at 8:17 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
-:
->
-> Turn previously global function into a static function to avoid the
-> following Clang warning:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2459:5: warning: no previous prot=
-otype
-> for function 'amdgpu_ras_block_late_init_default' [-Wmissing-prototypes]
-> int amdgpu_ras_block_late_init_default(struct amdgpu_device *adev,
->     ^
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2459:1: note: declare 'static' if=
- the
-> function is not intended to be used outside of this translation unit
-> int amdgpu_ras_block_late_init_default(struct amdgpu_device *adev,
-> ^
-> static
->
-> Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
+Hi,
+
+On 22/02/2022 14:46, Yongzhi Liu wrote:
+> [why]
+> i915_gem_object_put_pages_phys() frees pages and standard
+> pattern is to allow caller to not care if it's
+> NULL or not. This will reduce burden on
+> the callers to perform this check.
+
+I don't think we want this in general, and definitely not just for phys 
+objects and leaving others not handle NULL.
+
+See comment at the call site for these vfuncs:
+
+	/*
+	 * XXX Temporary hijinx to avoid updating all backends to handle
+	 * NULL pages. In the future, when we have more asynchronous
+	 * get_pages backends we should be better able to handle the
+	 * cancellation of the async task in a more uniform manner.
+	 */
+	if (!IS_ERR_OR_NULL(pages))
+		obj->ops->put_pages(obj, pages);
+
+Maarten owns this area these days so he can comment as well.
+
+Regards,
+
+Tvrtko
+
+> [how]
+> Fix it by adding Null check.
+> 
+> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ras.c
-> index e5874df3c9ca..dff5240efcc7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> @@ -2456,7 +2456,7 @@ int amdgpu_ras_block_late_init(struct amdgpu_device=
- *adev,
->         return r;
->  }
->
-> -int amdgpu_ras_block_late_init_default(struct amdgpu_device *adev,
-> +static int amdgpu_ras_block_late_init_default(struct amdgpu_device *adev=
-,
->                          struct ras_common_if *ras_block)
->  {
->         return amdgpu_ras_block_late_init(adev, ras_block);
-> --
-> 2.35.1
->
+>   drivers/gpu/drm/i915/gem/i915_gem_phys.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> index ca6faff..09c3dcb 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> @@ -95,8 +95,13 @@ void
+>   i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
+>   			       struct sg_table *pages)
+>   {
+> -	dma_addr_t dma = sg_dma_address(pages->sgl);
+> -	void *vaddr = sg_page(pages->sgl);
+> +	dma_addr_t dma;
+> +	void *vaddr;
+> +
+> +	if (!pages)
+> +		return;
+> +	dma = sg_dma_address(pages->sgl);
+> +	vaddr = sg_page(pages->sgl);
+>   
+>   	__i915_gem_object_release_shmem(obj, pages, false);
+>   
