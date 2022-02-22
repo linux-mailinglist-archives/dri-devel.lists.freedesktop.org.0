@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6341A4C0510
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:02:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2F04C055D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:31:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6848910E81D;
-	Tue, 22 Feb 2022 23:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A1A10E1EA;
+	Tue, 22 Feb 2022 23:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D45910E81D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 23:02:37 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id j24so14123288oii.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:02:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=d6NMNgjpMH0rJqe9W2px91jdR184ky7Ff9IefMqODMA=;
- b=m8pNn8/ptWfp4PzH5zYcdcBN1GXSF5U18VkxgNgM2PyAL8Fkscc0RdDE/mMn4KiXvn
- +SawJ0ia8I33PDk0jrYtJq5LgiXHntaroyW97AtZ96UXLvf7GwATbJv8s0UpsHIiR4ab
- bu3oS7UnDzKFCRz9nQTJ2nh8yd+r5146zjt6mpJX1lNE27W3kfNreKEzZtDMrDmAyEOv
- WBXwTyDhMHU6ZRxmvf4VyL0GM7j2jgIJtLPhqWZstusyqijJFMcpmftKea/zMHbCM67/
- 84lKdrODBePfpUbi5nkb6kEEk//D8sDQiEm3ojacac/ZKVx6uULcJEHmcfMFvgpDdEu6
- W0UQ==
-X-Gm-Message-State: AOAM530yMmP+GeuLiL3s6XkDsFQVEnZqXFoWUREndWRtHLbWzCtWWNeW
- xzbVqdVxoVVdXiwT0FY7QA==
-X-Google-Smtp-Source: ABdhPJyJ30kZqNC1ZDZBZMmAjEJgXkLFmJ3LtezCgaHxYtAREtjokF4HlGFTwewJeEPi/yZQK0XFEQ==
-X-Received: by 2002:aca:502:0:b0:2cd:c24:278f with SMTP id
- 2-20020aca0502000000b002cd0c24278fmr3103957oif.150.1645570956534; 
- Tue, 22 Feb 2022 15:02:36 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id s27sm2738598oiw.38.2022.02.22.15.02.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 15:02:35 -0800 (PST)
-Received: (nullmailer pid 3759205 invoked by uid 1000);
- Tue, 22 Feb 2022 23:02:34 -0000
-Date: Tue, 22 Feb 2022 17:02:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [PATCH v10 2/4] Documentation/dt: Add descriptions for loongson
- display controller
-Message-ID: <YhVrigEnXTiNgk67@robh.at.kernel.org>
-References: <20220220145554.117854-1-15330273260@189.cn>
- <20220220145554.117854-3-15330273260@189.cn>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C725010E158;
+ Tue, 22 Feb 2022 23:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645572675; x=1677108675;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QIgfrZlOCONxvByS59oh2FTC9H9a2J1Z4J1fWPdqKZY=;
+ b=QgTmdcPCoY5cXAIwA1JqdtpAVo7xpFCdgWpyUrFp/c4cdsPZ9V2KxxT5
+ hM2wMTVL+4xC8rFsAMjMCYfmYnORq205CcXue4S+0bN/KwwycMhFUf1Ej
+ 5eB7Z8wCxhte2WIPNRgmpaninUY2ArhVfEqPKhS5i1cI+b68lfpWB7boX
+ ICcRx+75RFAJ1HSPV+WISWJZJV5Orl0sXmYHM1/wKI9/G3YRdFJbAcP3k
+ yuHWqqiApPj47i1M1Dbo/w5cYA3Hc44sg8+wHhwQZMa5Z6zc1aLs0xQY4
+ e3Z3eUS05hxVJpwIcp5U8MJAd8SFDNV3WgcrViFKnX9wH8dT1OreY0z0z Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="231811653"
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="231811653"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 15:31:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="591494403"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2022 15:31:07 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nMecc-0000je-Rc; Tue, 22 Feb 2022 23:31:06 +0000
+Date: Wed, 23 Feb 2022 07:31:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/3] drm_cache: Add logic for wbvind_on_all_cpus
+Message-ID: <202202230702.Ya7PkY7G-lkp@intel.com>
+References: <20220222172649.331661-2-michael.cheng@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220220145554.117854-3-15330273260@189.cn>
+In-Reply-To: <20220222172649.331661-2-michael.cheng@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,198 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>
+Cc: tvrtko.ursulin@linux.intel.com, casey.g.bowman@intel.com,
+ kbuild-all@lists.01.org, balasubramani.vivekanandan@intel.com,
+ wayne.boyer@intel.com, llvm@lists.linux.dev, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, michael.cheng@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 20, 2022 at 10:55:52PM +0800, Sui Jingfeng wrote:
-> From: suijingfeng <suijingfeng@loongson.cn>
+Hi Michael,
 
-Follow the conventions of the subsystem for patch subjects. It should be 
-evident with 'git log --oneline Documentation/devicetree/bindings/display'.
+Thank you for the patch! Perhaps something to improve:
 
-Something like this:
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm/drm-next drm-tip/drm-tip v5.17-rc5 next-20220217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-dt-bindings: display: Add Loongson display controller
+url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Move-define-wbvind_on_all_cpus/20220223-012853
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: hexagon-randconfig-r041-20220221 (https://download.01.org/0day-ci/archive/20220223/202202230702.Ya7PkY7G-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/3aaa40c95b16a78c9059a77536de70bb08ce05e9
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Michael-Cheng/Move-define-wbvind_on_all_cpus/20220223-012853
+        git checkout 3aaa40c95b16a78c9059a77536de70bb08ce05e9
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/
 
-> 
-> Add DT documentation for loongson display controller found in LS2K1000,
-> LS2K0500 and LS7A1000.
-> 
-> v2: DT binding docs and includes should be a separate patch,
->     fix a warnning because of that.
-> 
-> v3: split dt-bindings from other changes into a separate patch.
-> 
-> v4: fix warnings and errors when running make dt_binding_check
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-What happened in versions 5-10? You've sent 10 versions in 3 weeks. 
-That's not a rate that gives people time to review. Also, it looks like 
-all the changes you've made are either documented things to do or not do 
-or are errors the tools (checkpatch.pl, 'make dt_binding_check') will 
-tell you to fix. 
+All warnings (new ones prefixed by >>):
 
->
-> Reported-by: Rob Herring <robh@kernel.org>
-> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
+   In file included from drivers/gpu/drm/drm_cache.c:37:
+   In file included from include/drm/drm_cache.h:37:
+>> arch/hexagon/include/asm/smp.h:13:9: warning: 'raw_smp_processor_id' macro redefined [-Wmacro-redefined]
+   #define raw_smp_processor_id() (current_thread_info()->cpu)
+           ^
+   include/linux/smp.h:191:9: note: previous definition is here
+   #define raw_smp_processor_id()                  0
+           ^
+   1 warning generated.
 
-What did we report? That's generally for fixes.
 
-> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
-> ---
->  .../loongson/loongson,display-controller.yaml | 122 ++++++++++++++++++
->  1 file changed, 122 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> new file mode 100644
-> index 000000000000..ee1a59b91943
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> @@ -0,0 +1,122 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Sui Jingfeng <suijingfeng@loongson.cn>
-> +
-> +description: |+
-> +
-> +  Loongson display controllers are simple which require scanout buffers
-> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
-> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
-> +  with a dedicated video ram which is 64MB or more.
-> +
-> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
-> +  located at the DC register space. They are used to emulate two way i2c,
-> +  One for DVO0, another for DVO1.
-> +
-> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
-> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
-> +
-> +  LSDC has two display pipes, each way has a DVO interface which provide
-> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
-> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
-> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
-> +
-> +  LSDC's display pipeline have several components as below description,
-> +
-> +  The display controller in LS7A1000:
-> +    ___________________                                     _________
-> +    |            -------|                                   |         |
-> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
-> +    |  _   _     -------|        ^             ^            |_________|
-> +    | | | | |    -------|        |             |
-> +    | |_| |_|    | i2c0 <--------+-------------+
-> +    |            -------|
-> +    |   DC IN LS7A1000  |
-> +    |  _   _     -------|
-> +    | | | | |    | i2c1 <--------+-------------+
-> +    | |_| |_|    -------|        |             |             _________
-> +    |            -------|        |             |            |         |
-> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
-> +    |            -------|                                   |_________|
-> +    |___________________|
-> +
-> +  Simple usage of LS7A1000 with LS3A4000 CPU:
-> +
-> +    +------+            +-----------------------------------+
-> +    | DDR4 |            |  +-------------------+            |
-> +    +------+            |  | PCIe Root complex |   LS7A1000 |
-> +       || MC0           |  +--++---------++----+            |
-> +  +----------+  HT 3.0  |     ||         ||                 |
-> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
-> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
-> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+vim +/raw_smp_processor_id +13 arch/hexagon/include/asm/smp.h
 
-How do you know how much VRAM you have? That's going to need a binding 
-for the VRAM.
+43afdf50838634 Richard Kuo 2011-10-31  12  
+43afdf50838634 Richard Kuo 2011-10-31 @13  #define raw_smp_processor_id() (current_thread_info()->cpu)
+43afdf50838634 Richard Kuo 2011-10-31  14  
 
-> +       || MC1           +---------------|--|----------------+
-> +    +------+                            |  |
-> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
-> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
-> +                      +-------+                      +------+
-> +
-> +  The display controller in LS2K1000/LS2K0500:
-> +     ___________________                                     _________
-> +    |            -------|                                   |         |
-> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
-> +    |  _   _     -------|        ^              ^           |_________|
-> +    | | | | |           |        |              |
-> +    | |_| |_|           |     +------+          |
-> +    |                   <---->| i2c0 |<---------+
-> +    |   DC IN LS2K1000  |     +------+
-> +    |  _   _            |     +------+
-> +    | | | | |           <---->| i2c1 |----------+
-> +    | |_| |_|           |     +------+          |            _________
-> +    |            -------|        |              |           |         |
-> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
-> +    |            -------|                                   |_________|
-> +    |___________________|
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
-> +
-> +  compatible:
-> +    enum:
-> +      - loongson,ls7a1000-dc
-> +      - loongson,ls2k1000-dc
-> +      - loongson,ls2k0500-dc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    bus {
-> +
-> +        #address-cells = <3>;
-> +        #size-cells = <2>;
-> +        #interrupt-cells = <2>;
-> +
-> +        lsdc: display-controller@6,1 {
-> +            compatible = "loongson,ls7a1000-dc";
-> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
-> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-parent = <&pic>;
-
-Don't need 'interrupt-parent' in examples.
-
-This certainly looks incomplete given you have 2 outputs you are going 
-to need to describe what's connected to them.
-
-> +        };
-> +    };
-> +...
-> -- 
-> 2.25.1
-> 
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
