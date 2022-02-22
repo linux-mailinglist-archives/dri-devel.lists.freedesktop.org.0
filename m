@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E072A4C0015
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 18:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96944C001C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 18:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7833910EB40;
-	Tue, 22 Feb 2022 17:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2E810EB7A;
+	Tue, 22 Feb 2022 17:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
- [209.85.167.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CC410EB40
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 17:26:25 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id j2so15294541oie.7
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:26:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=WgiR2YpZmAw/hGpP8OM/4uHNuAr+9BK7vpKRyeZvptc=;
- b=mfXu87+wgCor10qMw4u6kQ6RlIJKINQc7/TkDIvLr6r8EpfEQio0aHPzgdwvKtuGCB
- Qxn9fIZc6yOk55wzpvTZHWE78ubal8hQzXF961rLe0rfsXCrqOmev713eZ4wJo0lny9O
- 4cmOaFVZoSVQavb/VdK9xtszIuYhW6qmtb89hovlvfNfLxz7ZpBNxHAh6cfTStd3HizO
- xD6oBRhoh7KR4ZgAEKKRYe66W20HVPrPbHzh/9pXTfZbw7uW0z2W6dUk4GC4rUCDOeWC
- ZgQw41aXHM/QXuFoDJBrQVcQdI8UbbX2ixFdoUYNKXGi8/YdLf/D9hS01DCKIgr7MzC8
- tFTw==
-X-Gm-Message-State: AOAM531de+II8CmIFi/bYBWccIwpUxbDXnAV7g3jmHpR4j/ifNMqlXO4
- BJCBYwx9ftx4Eodf89xdsZ5y6xk8Mw==
-X-Google-Smtp-Source: ABdhPJzNdA7WFfoLObV6kc4dOY5eAP+fmcgHshKuVrH/45LJLJErYvDHO2c906gBVR6KUKEHsmopwg==
-X-Received: by 2002:aca:f203:0:b0:2d0:706c:8d69 with SMTP id
- q3-20020acaf203000000b002d0706c8d69mr2515752oih.125.1645550784113; 
- Tue, 22 Feb 2022 09:26:24 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id s14sm14221734oae.21.2022.02.22.09.26.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 09:26:23 -0800 (PST)
-Received: (nullmailer pid 3264192 invoked by uid 1000);
- Tue, 22 Feb 2022 17:26:22 -0000
-Date: Tue, 22 Feb 2022 11:26:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v4 1/3] dt-bindings: display: add bindings for MIPI DBI
- compatible SPI panels
-Message-ID: <YhUcvtbkz8tykLe7@robh.at.kernel.org>
-References: <20220218151110.11316-1-noralf@tronnes.org>
- <20220218151110.11316-2-noralf@tronnes.org>
- <d9ccc11c-0af6-717e-cb3f-514934894180@tronnes.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D03E10EB7A;
+ Tue, 22 Feb 2022 17:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645550814; x=1677086814;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EJ5+nS7EI7LPUzEtZGqTKGsQwtmxQSSrvzbu8G+yjZM=;
+ b=Pkn32c8Iy9a5QGGJAlzN8qOMRzs478j/HfF+AH+Ncs10GtesKVQieA05
+ Qpfd5HNApJqEtKVkd322H9KlNpFVALzSwWtUKcNnZTB9/bZT2B0Xg49+c
+ zUh090AUH1qQRYBxBSGN5npZVosBcKSdt8+AfeNZMZgZBNBBLuRc9xGo9
+ R1qOVwWKFI/G1k8CPhFto1MDwro+Hu1DW8My7RtcH/fyLZhnpa72BzKzx
+ YqBCo2GeN0MtlJFsy2xFlAMygnzYNLqZA2qTwQR1nLPe+VZSjaI6lmzEC
+ n0SnknvlmamlvJ6CkyyStWp3+NmDJVn+qQxUM1Va/whUd6DkUmazIF7YT A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="231736910"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="231736910"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 09:26:53 -0800
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="683594302"
+Received: from shreyasj-mobl1.amr.corp.intel.com (HELO
+ mvcheng-desk2.intel.com) ([10.209.93.217])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 09:26:53 -0800
+From: Michael Cheng <michael.cheng@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/3] Move #define wbvind_on_all_cpus
+Date: Tue, 22 Feb 2022 09:26:46 -0800
+Message-Id: <20220222172649.331661-1-michael.cheng@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d9ccc11c-0af6-717e-cb3f-514934894180@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,80 +54,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, maxime@cerno.tech, sam@ravnborg.org
+Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
+ balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
+ casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 21, 2022 at 12:31:08PM +0100, Noralf Trønnes wrote:
-> 
-> 
-> Den 18.02.2022 16.11, skrev Noralf Trønnes:
-> > Add binding for MIPI DBI compatible SPI panels.
-> > 
-> > v4:
-> > - There should only be two compatible (Maxime)
-> > - s/panel-dbi-spi/panel-mipi-dbi-spi/in compatible
-> > 
-> > v3:
-> > - Move properties to Device Tree (Maxime)
-> > - Use contains for compatible (Maxime)
-> > - Add backlight property to example
-> > - Flesh out description
-> > 
-> > v2:
-> > - Fix path for panel-common.yaml
-> > - Use unevaluatedProperties
-> > - Drop properties which are in the allOf section
-> > - Drop model property (Rob)
-> > 
-> > Acked-by: Maxime Ripard <maxime@cerno.tech>
-> > Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> > ---
-> >  .../display/panel/panel-mipi-dbi-spi.yaml     | 125 ++++++++++++++++++
-> >  1 file changed, 125 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> > new file mode 100644
-> > index 000000000000..748c09113168
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> 
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - {} # Panel Specific Compatible
-> > +      - const: panel-mipi-dbi-spi
-> > +
-> 
-> Rob's bot uses a -m flag I didn't use, and with that the compatible fails:
-> 
-> $ make DT_CHECKER_FLAGS=-m dt_binding_check
-> DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->   CHKDT   Documentation/devicetree/bindings/processed-schema-examples.json
->   SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
->   DTEX
-> Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.example.dts
->   DTC
-> Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.example.dt.yaml
->   CHECK
-> Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.example.dt.yaml
-> Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.example.dt.yaml:0:0:
-> /example-0/spi/display@0: failed to match any schema with compatible:
-> ['sainsmart18', 'panel-mipi-dbi-spi']
-> 
-> How can I write the compatible property to make the checker happy?
+This series moves the logic for wbvind_on_all_cpus to drm_cache. The logic
+changes a little here, if platform is not x86 then we throw out a warning
+for when wbvind_on_all_cpus is being called.
 
-You need to partition the schemas as I outlined before. Given the DBI 
-spec does define power and reset, maybe you can get away with 1 schema 
-just by changing the '- {}' entry above to an enum with a list of 
-compatibles. But as soon as there is a panel with extra or different 
-properties, this schema will have to be split. 
+v2(Michael Cheng): Move and redo logic for wbvind_on_all_cpus. Also
+		   add drm_cache.h where the function is being called and
+		   remove uneeded header files.
 
-Rob
+v3(Michael Cheng): Updated commit messages.
+
+Michael Cheng (3):
+  drm_cache: Add logic for wbvind_on_all_cpus
+  drm/i915/gem: Remove logic for wbinvd_on_all_cpus
+  drm/i915/: Add drm_cache.h
+
+ drivers/gpu/drm/drm_cache.c                | 2 --
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c     | 7 +------
+ drivers/gpu/drm/i915/gt/intel_ggtt.c       | 2 +-
+ include/drm/drm_cache.h                    | 6 ++++++
+ 5 files changed, 9 insertions(+), 10 deletions(-)
+
+-- 
+2.25.1
+
