@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82F94BFE99
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:31:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C344BFEA2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:32:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 547C210E614;
-	Tue, 22 Feb 2022 16:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8710E74D;
+	Tue, 22 Feb 2022 16:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4DBC10E614;
- Tue, 22 Feb 2022 16:31:32 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- u47-20020a4a9732000000b00316d0257de0so18305839ooi.7; 
- Tue, 22 Feb 2022 08:31:32 -0800 (PST)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D7C10E6E4;
+ Tue, 22 Feb 2022 16:32:24 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id x193so15159009oix.0;
+ Tue, 22 Feb 2022 08:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=dtYXm2hT3lcm5wvRcUbNMDyXlIE45DADQhitf3Rlc88=;
- b=LLMAhUgwrk/DYdWw6wgJuwrPS/o2NfgI10xeypJfrum8mmbBBX7d3r55885xcA0GSs
- N/0qnhPz6EDwjfCDK9EZLNApIQzBOjUAMTbhqcUrBws8r9XcYI+ZsjrQ1ackTdFYnXca
- KSe0mNO3CmeSvS7ItohT2P9sU7Dj+jbiFaynHZLO0MRk1EWBfi4n3U+MDt0xN/KgkRbR
- PUNRwRCH7/I5NqRt3zdTxI5yt4hkikKqm97sSwd5jrXi84dTOOy6v7mgYho9MtQZxmcW
- QzXsp71CoMubPYHdfyu53sEstrFfcN6QNLP2z/JN+YpWcau4FD4aw1cQMev20HollGSz
- gEvQ==
+ bh=aSdxbzUUBFyhsvNwdRhnX3Mec7pbpC71E8zAtuMoNSw=;
+ b=FX0sGlOaHKUnWtxEV6HYKy2nafu8fuljFBoACNBVftni/Q58eaCkncHFWGp2OrD2C7
+ SDoNGW9popiT9/vht4gT9Bxb0ur4WAPXseAppf5T46OFdmKkpfESNAT2bFZ+FzWYushi
+ Cup7BrHE+eOWFUq/y8CwoD8aORSMiasZHczGydJhs4/qlq28l/+PL4RDeNpi5SdA1B1a
+ miu/LbAaMWwhsdqEjVqbhMwrBCOrNaekbAFCk4vLbL4s+ZJPCOzs7oJY3kFtjqdxJcZW
+ nLEUXyj5/0RGoBn154D9dFV2Q6lYXTDe1FTVOHRUAFFHjJGRrUVuMGLmBPzIPz3aTUlZ
+ d34A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dtYXm2hT3lcm5wvRcUbNMDyXlIE45DADQhitf3Rlc88=;
- b=niF73mo5rapulo52mzAtxVQDNOz02Kr6DMNsY7QHkBdHplAhAAmnSFy60P8G/CSmq2
- BQKclTXDKkIe0LCsuzF7/6FfV0Ym4eqcmMZes8xsqFB1OKgctTIVALLiQqmysdVZ1tie
- 4N9WTpg1Mx8YOdA78x6cJHBDRyzYyKB+bkNUWb1Drpk5cj7kGkQxdsKdGl2LUfxNFSPB
- PNAHJY1pA7qFl1M8k+ChdWcI38ClWcqBXnxVoHKJ+7Ru7bFnhXKJzs+wH2tYfadGwQH0
- JDx7tjslPsHPa+M6sBV2wkh5eg0letLyMuMxDs3lCoiGk1WcPWNukmScFo//0vIaij8F
- UoSg==
-X-Gm-Message-State: AOAM532rVYzpu10rebf6JSmqdHACCZAdq6WpiuUQoCkPTaE0bQyrr17H
- cLUIGXytYF1+Kvpq8PiZAUPgtm9EP/6bqGOxCEuCIA1L
-X-Google-Smtp-Source: ABdhPJwfj6FZ41K/ClOtZcMS0gc0gQWKuRYKXqqfYle6jHWNbXIrWRxGaQ1cQvTxxQ6ZhiRII8f7GBeUIdvBRT/zdf8=
-X-Received: by 2002:a05:6870:3e0d:b0:d3:fe6d:57c3 with SMTP id
- lk13-20020a0568703e0d00b000d3fe6d57c3mr2020968oab.225.1645547491928; Tue, 22
- Feb 2022 08:31:31 -0800 (PST)
+ bh=aSdxbzUUBFyhsvNwdRhnX3Mec7pbpC71E8zAtuMoNSw=;
+ b=Wsuec3y/W+xM7ntpRRiPEqlVsdAYeNi+T8KEHEge/DjNyDoqWeXN5sk3crQc3X5lq6
+ 7SdwI2NDYhu7GtOyxHOcl4qyOv+cjjghaQW5Gp753FNAqBSQi9gPVYl5KEGQVki36VIl
+ LvXka2s18hEnSXhNYFcJT4ngOouIcuDn3jrbRP0avIkJRP9fWb9bF9FsJ6SiBzNNob1r
+ cCnAUdWrbKkx8S04E2cxT5ZZ0J5F5Uzejbx6KhWOVkxM1MPf1kWeA0uaBLR/uA1oDqIK
+ aCrNR6+nHtBjig2lf5qtbPODdDpAojfHGTL3fjIbSNKSO1Mvv+CyAIoijtm/1MLRhBz4
+ /yTw==
+X-Gm-Message-State: AOAM532RG4qSgW7pvs9UdrCm2OJ7LqZWTdZbMwPGvgGntJYSf/xWScMR
+ i6m2IxaGlZkEW8mgIod9aYiPlvACS5dcFGTrUsM=
+X-Google-Smtp-Source: ABdhPJy6A7uqVEJVD4y7y1YfQGjjopexCYY0c40a6Xh4XUKujc3FuLvcm8mgvXFwCBo2/1BU/wrLj1y1uaQOcVZOi00=
+X-Received: by 2002:aca:ab4c:0:b0:2d4:7c7d:606e with SMTP id
+ u73-20020acaab4c000000b002d47c7d606emr2374308oie.132.1645547544141; Tue, 22
+ Feb 2022 08:32:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20220222131701.356117-1-maira.canal@usp.br>
- <20220222131701.356117-5-maira.canal@usp.br>
-In-Reply-To: <20220222131701.356117-5-maira.canal@usp.br>
+ <20220222131701.356117-6-maira.canal@usp.br>
+In-Reply-To: <20220222131701.356117-6-maira.canal@usp.br>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Feb 2022 11:31:20 -0500
-Message-ID: <CADnq5_NSMvOUuLo936pbs+J7ajMCn3zDV5knYQo5t1f94KYW-w@mail.gmail.com>
-Subject: Re: [PATCH 04/10] drm/amd/display: Remove unused temp variable
+Date: Tue, 22 Feb 2022 11:32:13 -0500
+Message-ID: <CADnq5_MaeAaKemJyNyAkzsVrnUv9G4zqQrd4PbCj3vJaTpxVoA@mail.gmail.com>
+Subject: Re: [PATCH 05/10] drm/amd/display: Remove unused
+ dcn316_smu_set_voltage_via_phyclk function
 To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,44 +90,57 @@ Alex
 On Tue, Feb 22, 2022 at 8:18 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
 :
 >
-> Remove unused temp variable from the dmub_rb_flush_pending function by
-> using arithmetic to remove the loop.
+> Remove dcn316_smu_set_voltage_via_phyclk function, which is not used in t=
+he
+> codebase.
 >
-> The -Wunused-but-set-variable warning was pointed out by Clang with the
-> following warning:
+> This was pointed by clang with the following warning:
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h:2921:12: warnin=
-g:
-> variable 'temp' set but not used [-Wunused-but-set-variable]
->     uint64_t temp;
->              ^
+> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn316/dcn316_smu.c:171:=
+5:
+> warning: no previous prototype for function
+> 'dcn316_smu_set_voltage_via_phyclk' [-Wmissing-prototypes]
+> int dcn316_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, i=
+nt
+> requested_phyclk_khz)
+>     ^
 >
 > Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
 > ---
->  drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  .../amd/display/dc/clk_mgr/dcn316/dcn316_smu.c   | 16 ----------------
+>  1 file changed, 16 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gp=
-u/drm/amd/display/dmub/inc/dmub_cmd.h
-> index fb01ff49e655..d3088836d4e4 100644
-> --- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-> +++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-> @@ -2918,11 +2918,8 @@ static inline void dmub_rb_flush_pending(const str=
-uct dmub_rb *rb)
->         while (rptr !=3D wptr) {
->                 uint64_t volatile *data =3D (uint64_t volatile *)((uint8_=
-t *)(rb->base_address) + rptr);
->                 //uint64_t volatile *p =3D (uint64_t volatile *)data;
-> -               uint64_t temp;
-> -               uint8_t i;
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c b=
+/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
+> index b7f9e1b34c11..fd6497fd2dc5 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
+> @@ -168,22 +168,6 @@ int dcn316_smu_set_dispclk(struct clk_mgr_internal *=
+clk_mgr, int requested_dispc
+>         return actual_dispclk_set_mhz * 1000;
+>  }
 >
-> -               for (i =3D 0; i < DMUB_RB_CMD_SIZE / sizeof(uint64_t); i+=
-+)
-> -                       temp =3D *data++;
-> +               *data +=3D DMUB_RB_CMD_SIZE / sizeof(uint64_t);
->
->                 rptr +=3D DMUB_RB_CMD_SIZE;
->                 if (rptr >=3D rb->capacity)
+> -int dcn316_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, =
+int requested_phyclk_khz)
+> -{
+> -       int actual_phypclk_set_mhz =3D -1;
+> -
+> -       if (!clk_mgr->smu_present && requested_phyclk_khz)
+> -               return requested_phyclk_khz;
+> -
+> -       /*  Unit of SMU msg parameter is Mhz */
+> -       actual_phypclk_set_mhz =3D dcn316_smu_send_msg_with_param(
+> -                       clk_mgr,
+> -                       VBIOSSMC_MSG_SetPhyclkVoltageByFreq,
+> -                       khz_to_mhz_ceil(requested_phyclk_khz));
+> -
+> -       return actual_phypclk_set_mhz * 1000;
+> -}
+> -
+>  int dcn316_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, int=
+ requested_dcfclk_khz)
+>  {
+>         int actual_dcfclk_set_mhz =3D -1;
 > --
 > 2.35.1
 >
