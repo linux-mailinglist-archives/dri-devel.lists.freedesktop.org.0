@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C724BF283
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 08:19:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 477534BF2A3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 08:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6145F10E92C;
-	Tue, 22 Feb 2022 07:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC6210ED78;
+	Tue, 22 Feb 2022 07:28:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B7710E73D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 07:19:25 +0000 (UTC)
-X-UUID: 25c5c33f46ba4262971b23952e612c35-20220222
-X-UUID: 25c5c33f46ba4262971b23952e612c35-20220222
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 133174218; Tue, 22 Feb 2022 15:19:21 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 22 Feb 2022 15:19:20 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Feb 2022 15:19:20 +0800
-Message-ID: <3eed2464d42ed62d43bd4597252e2e88350e9c67.camel@mediatek.com>
-Subject: Re: [PATCH v11 20/22] drm/mediatek: add drm ovl_adaptor sub driver
- for MT8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Date: Tue, 22 Feb 2022 15:19:20 +0800
-In-Reply-To: <fd111ceb9cb5afa1a5d2c0b4b978bcea46cd109f.camel@mediatek.com>
-References: <20220110084645.31191-1-nancy.lin@mediatek.com>
- <20220110084645.31191-21-nancy.lin@mediatek.com>
- <fd111ceb9cb5afa1a5d2c0b4b978bcea46cd109f.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E251E10ED78
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 07:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645514886; x=1677050886;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=phJ3jMYpvlQOG5tISAV+f5vqDTYJ082I3mYy5egoioE=;
+ b=LT/wFGkQZh0iivaziZc26ZCk/lrGE20HgP3r0+hI7Er7TJl9iiJM03lz
+ 4TuW/zq1q8I0nbCqo8JQ6BPB4QDE5vsROw8y9b7jcYg9FTpz1p26UPNuO
+ qQcw4PgWdpvRQnskq/1V3aa+9Ecz3rTzAUxDxYqjiKQi0zk9yJzBZg25b
+ sCAb1vOpY9/E7aaY5Rpty0m85EP2uY6mzQrTWQlVdrCouHXLH8/BFD6N8
+ PRtCJLop15RfZEdsw+IeoGyhQKtxELKaLWr66z1DsWC8mzf3mGGGyBalX
+ guNLRO6CnSGF8MM5juzdDw9FmfiC/IrTkwp4+BL7181CmPif8yujbUcLx w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="251582764"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="251582764"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 23:28:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="532119667"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga007.jf.intel.com with SMTP; 21 Feb 2022 23:28:03 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 22 Feb 2022 09:28:02 +0200
+Date: Tue, 22 Feb 2022 09:28:02 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lee Shawn C <shawn.c.lee@intel.com>
+Subject: Re: [PATCH 1/3] drm/edid: parse multiple CEA extension block
+Message-ID: <YhSQgtQp7Ou2WqNB@intel.com>
+References: <20220222063819.5279-1-shawn.c.lee@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220222063819.5279-1-shawn.c.lee@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,346 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Chun-Kuang,
+On Tue, Feb 22, 2022 at 02:38:17PM +0800, Lee Shawn C wrote:
+> Try to find and parse more CEA ext blocks if edid->extensions
+> is greater than one.
+> 
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 75 +++++++++++++++++++++++---------------
+>  1 file changed, 45 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 12893e7be89b..3d5dbbeca7f9 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -4313,43 +4313,58 @@ add_cea_modes(struct drm_connector *connector, struct edid *edid)
+>  	const u8 *cea = drm_find_cea_extension(edid);
+>  	const u8 *db, *hdmi = NULL, *video = NULL;
+>  	u8 dbl, hdmi_len, video_len = 0;
+> -	int modes = 0;
+> +	int modes = 0, j;
+>  
+> -	if (cea && cea_revision(cea) >= 3) {
+> -		int i, start, end;
+> +	if (!cea)
+> +		return 0;
+>  
+> -		if (cea_db_offsets(cea, &start, &end))
+> -			return 0;
+> +	for (j = (cea - (u8 *)edid) / EDID_LENGTH; j <= edid->extensions;) {
 
-Thanks for the review.
+That looks rather illegible. I think we want a
+drm_find_cea_extension(const struct edid *edid, int *ext_index)
+and then just loop until it stops giving us stuff.
 
-On Fri, 2022-01-14 at 13:47 +0800, CK Hu wrote:
-> Hi, Nancy:
-> 
-> On Mon, 2022-01-10 at 16:46 +0800, Nancy.Lin wrote:
-> > Add drm ovl_adaptor sub driver. Bring up ovl_adaptor sub driver if
-> > the component exists in the path.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 16 ++++----
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 30 ++++++++++++---
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 41 +++++++++++++++--
-> > ----
-> >  4 files changed, 62 insertions(+), 26 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > index fe2871aca859..62529a954b62 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > @@ -877,15 +877,13 @@ int mtk_drm_crtc_create(struct drm_device
-> > *drm_dev,
-> >  		node = priv->comp_node[comp_id];
-> >  		comp = &priv->ddp_comp[comp_id];
-> >  
-> > -		if (!node) {
-> 
-> if (!node && comp_id != MTK_DISP_OVL_ADAPTOR)
-> 
-OK
-> > -			dev_info(dev,
-> > -				 "Not creating crtc %d because
-> > component %d is disabled or missing\n",
-> > -				 crtc_i, comp_id);
-> > -			return 0;
-> > -		}
-> > -
-> > -		if (!comp->dev) {
-> > -			dev_err(dev, "Component %pOF not
-> > initialized\n", node);
-> > +		/* Not all drm components have a DTS device node, such
-> > as ovl_adaptor,
-> > +		 * which is the drm bring up sub driver
-> > +		 */
-> > +		if (!node && !comp->dev) {
-> > +			dev_err(dev,
-> > +				"Not creating crtc %d because component
-> > %d is disabled, missing or not initialized\n",
-> > +				crtc_i, comp_id);
-> >  			return -ENODEV;
-> >  		}
-> >  	}
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > index 26d197da41c0..ce40bab9c56b 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > @@ -385,6 +385,18 @@ static const struct mtk_ddp_comp_funcs
-> > ddp_ufoe
-> > = {
-> >  	.start = mtk_ufoe_start,
-> >  };
-> >  
-> > +static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
-> > +	.clk_enable = mtk_ovl_adaptor_clk_enable,
-> > +	.clk_disable = mtk_ovl_adaptor_clk_disable,
-> > +	.config = mtk_ovl_adaptor_config,
-> > +	.start = mtk_ovl_adaptor_start,
-> > +	.stop = mtk_ovl_adaptor_stop,
-> > +	.layer_nr = mtk_ovl_adaptor_layer_nr,
-> > +	.layer_config = mtk_ovl_adaptor_layer_config,
-> > +	.enable_vblank = mtk_ovl_adaptor_enable_vblank,
-> > +	.disable_vblank = mtk_ovl_adaptor_disable_vblank,
-> > +};
-> > +
-> >  static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX]
-> > =
-> > {
-> >  	[MTK_DISP_AAL] = "aal",
-> >  	[MTK_DISP_BLS] = "bls",
-> > @@ -398,6 +410,7 @@ static const char * const
-> > mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
-> >  	[MTK_DISP_OD] = "od",
-> >  	[MTK_DISP_OVL] = "ovl",
-> >  	[MTK_DISP_OVL_2L] = "ovl-2l",
-> > +	[MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
-> >  	[MTK_DISP_POSTMASK] = "postmask",
-> >  	[MTK_DISP_PWM] = "pwm",
-> >  	[MTK_DISP_RDMA] = "rdma",
-> > @@ -443,6 +456,7 @@ static const struct mtk_ddp_comp_match
-> > mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
-> >  	[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,	0,
-> > &ddp_ovl },
-> >  	[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,	1,
-> > &ddp_ovl },
-> >  	[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,    2,
-> > &ddp_ovl },
-> > +	[DDP_COMPONENT_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	
-> > 0, &ddp_ovl_adaptor },
-> >  	[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,	0,
-> > &ddp_postmask },
-> >  	[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,	0,
-> > NULL },
-> >  	[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,	1,
-> > NULL },
-> > @@ -548,12 +562,17 @@ int mtk_ddp_comp_init(struct device_node
-> > *node,
-> > struct mtk_ddp_comp *comp,
-> >  
-> >  	comp->id = comp_id;
-> >  	comp->funcs = mtk_ddp_matches[comp_id].funcs;
-> > -	comp_pdev = of_find_device_by_node(node);
-> > -	if (!comp_pdev) {
-> > -		DRM_INFO("Waiting for device %s\n", node->full_name);
-> > -		return -EPROBE_DEFER;
-> > +	/* Not all drm components have a DTS device node, such as
-> > ovl_adaptor,
-> > +	 * which is the drm bring up sub driver
-> > +	 */
-> > +	if (node) {
-> > +		comp_pdev = of_find_device_by_node(node);
-> > +		if (!comp_pdev) {
-> > +			DRM_INFO("Waiting for device %s\n", node-
-> > > full_name);
-> > 
-> > +			return -EPROBE_DEFER;
-> > +		}
-> > +		comp->dev = &comp_pdev->dev;
-> >  	}
-> > -	comp->dev = &comp_pdev->dev;
-> >  
-> >  	/* Only DMA capable components need the LARB property */
-> >  	if (type == MTK_DISP_OVL ||
-> > @@ -573,6 +592,7 @@ int mtk_ddp_comp_init(struct device_node *node,
-> > struct mtk_ddp_comp *comp,
-> >  	    type == MTK_DISP_MERGE ||
-> >  	    type == MTK_DISP_OVL ||
-> >  	    type == MTK_DISP_OVL_2L ||
-> > +	    type == MTK_DISP_OVL_ADAPTOR ||
-> >  	    type == MTK_DISP_PWM ||
-> >  	    type == MTK_DISP_RDMA ||
-> >  	    type == MTK_DPI ||
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > index 221e2e3a3c8d..5e1404dc20c4 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > @@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
-> >  	MTK_DISP_OD,
-> >  	MTK_DISP_OVL,
-> >  	MTK_DISP_OVL_2L,
-> > +	MTK_DISP_OVL_ADAPTOR,
-> >  	MTK_DISP_POSTMASK,
-> >  	MTK_DISP_PWM,
-> >  	MTK_DISP_RDMA,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > index a05703843af2..36430f956b4f 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > @@ -351,9 +351,7 @@ static int mtk_drm_kms_init(struct drm_device
-> > *drm)
-> >  {
-> >  	struct mtk_drm_private *private = drm->dev_private;
-> >  	struct mtk_drm_private *priv_n;
-> > -	struct platform_device *pdev;
-> > -	struct device_node *np = NULL;
-> > -	struct device *dma_dev;
-> > +	struct device *dma_dev = NULL;
-> >  	int ret, i, j;
-> >  
-> >  	ret = drmm_mode_config_init(drm);
-> > @@ -400,8 +398,8 @@ static int mtk_drm_kms_init(struct drm_device
-> > *drm)
-> >  				if (ret)
-> >  					goto err_component_unbind;
-> >  
-> > -				if (!np)
-> > -					np = priv_n->comp_node[priv_n-
-> > > data->main_path[0]];
-> > 
-> > +				if (!dma_dev)
-> > +					dma_dev = priv_n-
-> > > ddp_comp[priv_n->data->main_path[0]].dev;
-> > 
-> >  
-> >  				continue;
-> >  			} else if (i == 1 && priv_n->data->ext_len) {
-> > @@ -410,8 +408,8 @@ static int mtk_drm_kms_init(struct drm_device
-> > *drm)
-> >  				if (ret)
-> >  					goto err_component_unbind;
-> >  
-> > -				if (!np)
-> > -					np = priv_n->comp_node[priv_n-
-> > > data->ext_path[0]];
-> > 
-> > +				if (!dma_dev)
-> > +					dma_dev = priv_n-
-> > > ddp_comp[priv_n->data->ext_path[0]].dev;
-> > 
-> >  
-> >  				continue;
-> >  			} else if (i == 2 && priv_n->data->third_len) {
-> > @@ -420,22 +418,20 @@ static int mtk_drm_kms_init(struct drm_device
-> > *drm)
-> >  				if (ret)
-> >  					goto err_component_unbind;
-> >  
-> > -				if (!np)
-> > -					np = priv_n->comp_node[priv_n-
-> > > data->third_path[0]];
-> > 
-> > +				if (!dma_dev)
-> > +					dma_dev = priv_n-
-> > > ddp_comp[priv_n->data->third_path[0]].dev;
-> > 
-> >  
-> >  				continue;
-> >  			}
-> >  		}
-> >  	}
-> >  
-> > -	pdev = of_find_device_by_node(np);
-> > -	if (!pdev) {
-> > +	if (!dma_dev) {
-> 
-> I don't know how ovl_adaptor could provide the dma function. As I
-> know,
-> dma device has a device node, and there is iommu property in that
-> node.
+There are also several other callers of drm_find_cea_extension().
+Why don't they require the same treatment?
 
-I will add new function for getting ovl_adaptor sub driver's dma dev.
-> 
-> >  		ret = -ENODEV;
-> >  		dev_err(drm->dev, "Need at least one OVL device\n");
-> >  		goto err_component_unbind;
-> >  	}
-> >  
-> > -	dma_dev = &pdev->dev;
-> >  	for (i = 0; i < private->data->mmsys_dev_num; i++)
-> >  		private->all_drm_private[i]->dma_dev = dma_dev;
-> >  
-> > @@ -514,6 +510,11 @@ static int compare_of(struct device *dev, void
-> > *data)
-> >  	return dev->of_node == data;
-> >  }
-> >  
-> > +static int compare_dev(struct device *dev, void *data)
-> > +{
-> > +	return dev == (struct device *)data;
-> > +}
-> > +
-> >  static int mtk_drm_bind(struct device *dev)
-> >  {
-> >  	struct mtk_drm_private *private = dev_get_drvdata(dev);
-> > @@ -702,6 +703,7 @@ static int mtk_drm_probe(struct platform_device
-> > *pdev)
-> >  	struct mtk_drm_private *private;
-> >  	struct device_node *node;
-> >  	struct component_match *match = NULL;
-> > +	struct platform_device *ovl_adaptor;
-> >  	int ret;
-> >  	int i;
-> >  
-> > @@ -727,6 +729,19 @@ static int mtk_drm_probe(struct
-> > platform_device
-> > *pdev)
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > +	/* Bringup ovl_adaptor */
-> > +	if (mtk_drm_find_mmsys_comp(private,
-> > DDP_COMPONENT_OVL_ADAPTOR)) {
-> > +		ovl_adaptor = platform_device_register_data(dev,
-> > "mediatek-disp-ovl-adaptor",
-> > +							    PLATFORM_DE
-> > VID_AUTO,
-> > +							    (void
-> > *)private->mmsys_dev,
-> > +							    sizeof(*pri
-> > vate->mmsys_dev));
-> > +		private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR].dev =
-> > &ovl_adaptor->dev;
-> > +		private->comp_node[DDP_COMPONENT_OVL_ADAPTOR] =
-> > ovl_adaptor->dev.of_node;
-> 
-> private->comp_node[DDP_COMPONENT_OVL_ADAPTOR] = NULL;
-> 
-> Regards,
-> CK
-> 
-OK
-Regards,
-Nancy
+> +		if (cea && cea_revision(cea) >= 3) {
+> +			int i, start, end;
+>  
+> -		for_each_cea_db(cea, i, start, end) {
+> -			db = &cea[i];
+> -			dbl = cea_db_payload_len(db);
+> +			if (cea_db_offsets(cea, &start, &end))
+> +				continue;
+>  
+> -			if (cea_db_tag(db) == VIDEO_BLOCK) {
+> -				video = db + 1;
+> -				video_len = dbl;
+> -				modes += do_cea_modes(connector, video, dbl);
+> -			} else if (cea_db_is_hdmi_vsdb(db)) {
+> -				hdmi = db;
+> -				hdmi_len = dbl;
+> -			} else if (cea_db_is_y420vdb(db)) {
+> -				const u8 *vdb420 = &db[2];
+> -
+> -				/* Add 4:2:0(only) modes present in EDID */
+> -				modes += do_y420vdb_modes(connector,
+> -							  vdb420,
+> -							  dbl - 1);
+> +			for_each_cea_db(cea, i, start, end) {
+> +				db = &cea[i];
+> +				dbl = cea_db_payload_len(db);
+> +
+> +				if (cea_db_tag(db) == VIDEO_BLOCK) {
+> +					video = db + 1;
+> +					video_len = dbl;
+> +					modes += do_cea_modes(connector, video, dbl);
+> +				} else if (cea_db_is_hdmi_vsdb(db)) {
+> +					hdmi = db;
+> +					hdmi_len = dbl;
+> +				} else if (cea_db_is_y420vdb(db)) {
+> +					const u8 *vdb420 = &db[2];
+> +
+> +					/* Add 4:2:0(only) modes present in EDID */
+> +					modes += do_y420vdb_modes(connector,
+> +								  vdb420,
+> +								  dbl - 1);
+> +				}
+>  			}
+>  		}
+> -	}
+>  
+> -	/*
+> -	 * We parse the HDMI VSDB after having added the cea modes as we will
+> -	 * be patching their flags when the sink supports stereo 3D.
+> -	 */
+> -	if (hdmi)
+> -		modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len, video,
+> -					    video_len);
+> +		/*
+> +		 * We parse the HDMI VSDB after having added the cea modes as we will
+> +		 * be patching their flags when the sink supports stereo 3D.
+> +		 */
+> +		if (hdmi) {
+> +			modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len, video,
+> +						    video_len);
+> +			hdmi  = NULL;
+> +			video = NULL;
+> +			hdmi_len = 0;
+> +			video_len = 0;
+> +		}
+> +
+> +		/* move to next CEA extension block */
+> +		cea = drm_find_edid_extension(edid, CEA_EXT, &j);
+> +		if (!cea)
+> +			break;
+> +	}
+>  
+>  	return modes;
+>  }
+> -- 
+> 2.17.1
 
-> > +		mtk_ddp_comp_init(NULL, &private-
-> > > ddp_comp[DDP_COMPONENT_OVL_ADAPTOR],
-> > 
-> > +				  DDP_COMPONENT_OVL_ADAPTOR);
-> > +		component_match_add(dev, &match, compare_dev,
-> > &ovl_adaptor->dev);
-> > +	}
-> > +
-> >  	/* Iterate over sibling DISP function blocks */
-> >  	for_each_child_of_node(phandle->parent, node) {
-> >  		const struct of_device_id *of_id;
-> > @@ -780,6 +795,7 @@ static int mtk_drm_probe(struct platform_device
-> > *pdev)
-> >  		    comp_type == MTK_DISP_MERGE ||
-> >  		    comp_type == MTK_DISP_OVL ||
-> >  		    comp_type == MTK_DISP_OVL_2L ||
-> > +		    comp_type == MTK_DISP_OVL_ADAPTOR ||
-> >  		    comp_type == MTK_DISP_RDMA ||
-> >  		    comp_type == MTK_DPI ||
-> >  		    comp_type == MTK_DSI) {
-> > @@ -882,6 +898,7 @@ static struct platform_driver * const
-> > mtk_drm_drivers[] = {
-> >  	&mtk_disp_color_driver,
-> >  	&mtk_disp_gamma_driver,
-> >  	&mtk_disp_merge_driver,
-> > +	&mtk_disp_ovl_adaptor_driver,
-> >  	&mtk_disp_ovl_driver,
-> >  	&mtk_disp_rdma_driver,
-> >  	&mtk_dpi_driver,
-> 
-> 
-
+-- 
+Ville Syrjälä
+Intel
