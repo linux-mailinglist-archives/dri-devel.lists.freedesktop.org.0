@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B383D4BFB10
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 15:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F384BFB11
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 15:46:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8C310E619;
-	Tue, 22 Feb 2022 14:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B096610E62F;
+	Tue, 22 Feb 2022 14:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 85926 seconds by postgrey-1.36 at gabe;
- Tue, 22 Feb 2022 14:46:26 UTC
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
- (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
- by gabe.freedesktop.org (Postfix) with SMTP id F278B10E61A;
- Tue, 22 Feb 2022 14:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=/N7f5ydQqsIl84ZhQi0C4HKqO/xehbQ85yFBefZFYwk=; b=X
- UeNkJ9QAmEf/PymO4YyvkY/VCWtYG0jdJ5o54ElhmJQpY0U/D64umY6rXX1f9vV5
- InUUDK4xv8o6zA84TeLIl5qiAm2jTQ467gHirl6qOFBeoBwRmJ9I8TuoMNH+zjob
- b8kCEL01GyFja+suykJjqK8x/ftQlh1N5LiXaF24Cw=
-Received: from localhost (unknown [10.129.21.144])
- by front01 (Coremail) with SMTP id 5oFpogBnbjot9xRiEyD3AQ--.4786S2;
- Tue, 22 Feb 2022 22:46:05 +0800 (CST)
-From: Yongzhi Liu <lyz_cs@pku.edu.cn>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch, thomas.hellstrom@linux.intel.com,
- maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- matthew.d.roper@intel.com, lyz_cs@pku.edu.cn, tzimmermann@suse.de,
- michal.winiarski@intel.com
-Subject: [PATCH] drm/i915: Check input parameter for NULL
-Date: Tue, 22 Feb 2022 06:46:01 -0800
-Message-Id: <1645541161-46607-1-git-send-email-lyz_cs@pku.edu.cn>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: 5oFpogBnbjot9xRiEyD3AQ--.4786S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JF1DGr45Gr1kXw4xCw4xCrg_yoWDZwc_CF
- Wakr1fGwnrWrs0kF17Cws3AFy0yFyjgr4kuw10yrZ3Jry2yr4DX3s2yr1UAF18GFWUuF9x
- Gw4Du3Z8Ars0kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb3AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
- 6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Kr1UJr1l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEIBlPy7uKuvgAXsm
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DDEDE10E62F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:46:39 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:53590.1226820573
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 2669A100282;
+ Tue, 22 Feb 2022 22:46:36 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 608c66110ce94bae849ff8b258bd58fa for maxime@cerno.tech; 
+ Tue, 22 Feb 2022 22:46:38 CST
+X-Transaction-ID: 608c66110ce94bae849ff8b258bd58fa
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <54ea69d7-2fac-74dc-2ef6-843a666cff85@189.cn>
+Date: Tue, 22 Feb 2022 22:46:35 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 3/4] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220220145554.117854-1-15330273260@189.cn>
+ <20220220145554.117854-4-15330273260@189.cn>
+ <20220222082747.66otrkc4zwvhem7w@houat>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20220222082747.66otrkc4zwvhem7w@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[why]
-i915_gem_object_put_pages_phys() frees pages and standard
-pattern is to allow caller to not care if it's
-NULL or not. This will reduce burden on
-the callers to perform this check.
 
-[how]
-Fix it by adding Null check.
-
-Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
----
- drivers/gpu/drm/i915/gem/i915_gem_phys.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-index ca6faff..09c3dcb 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-@@ -95,8 +95,13 @@ void
- i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
- 			       struct sg_table *pages)
- {
--	dma_addr_t dma = sg_dma_address(pages->sgl);
--	void *vaddr = sg_page(pages->sgl);
-+	dma_addr_t dma;
-+	void *vaddr;
-+
-+	if (!pages)
-+		return;
-+	dma = sg_dma_address(pages->sgl);
-+	vaddr = sg_page(pages->sgl);
- 
- 	__i915_gem_object_release_shmem(obj, pages, false);
- 
--- 
-2.7.4
-
+On 2022/2/22 16:27, Maxime Ripard wrote:
+>> +	if (!of_device_is_available(output)) {
+>> +		of_node_put(output);
+>> +		drm_info(ddev, "connector%d is not available\n", index);
+>> +		return NULL;
+>> +	}
+>> +
+>> +	disp_tims_np = of_get_child_by_name(output, "display-timings");
+>> +	if (disp_tims_np) {
+>> +		lsdc_get_display_timings_from_dtb(output, &lconn->disp_tim);
+>> +		lconn->has_disp_tim = true;
+>> +		of_node_put(disp_tims_np);
+>> +		drm_info(ddev, "Found display timings provided by connector%d\n", index);
+>> +	}
+>> +
+>> +	connector_type = lsdc_get_connector_type(ddev, output, index);
+>> +
+>> +	if (output) {
+>> +		of_node_put(output);
+>> +		output = NULL;
+>> +	}
+>> +
+>> +DT_SKIPED:
+>> +
+>> +	/* Only create the i2c channel if display timing is not provided */
+>> +	if (!lconn->has_disp_tim) {
+>> +		const struct lsdc_chip_desc * const desc = ldev->desc;
+>> +
+>> +		if (desc->have_builtin_i2c)
+>> +			lconn->ddc = lsdc_create_i2c_chan(ddev, index);
+>> +		else
+>> +			lconn->ddc = lsdc_get_i2c_adapter(ddev, index);
+> This looks weird: the connector bindings have a property to store the
+> i2c controller connected to the DDC lines, so you should use that
+> instead.
+>
+This is not  weird,  ast, mgag200, hibmc do the same thing.
