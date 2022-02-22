@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CA4C03AE
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:19:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 799BB4C03B3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:23:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE1A10E73B;
-	Tue, 22 Feb 2022 21:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B95310E7AB;
+	Tue, 22 Feb 2022 21:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA0B210E737
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:19:51 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- i10-20020a4aab0a000000b002fccf890d5fso19498500oon.5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:19:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=PZXGdH7QOkFGdyZL9vslSSuJH2T6cBvsFBVFd42Xdko=;
- b=RwQ1qfHBX5YIxEy+KPyWxkJlAkJ/VTS081sLpYhZ0tAeKOngBOgBWhMOaTMHHoekQ5
- seKF/z0Zlz2Lmun8lOKI8aBPHiQZHtZ9LDVAQTPhoRLdCa/L+35K1WP4BjQa1fRMMs0l
- CQ8EwktT9W/rqR0ixUMXRnp8SEpUEob+vtQLY=
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E27110E7AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:23:06 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id y24so15015348lfg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:23:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jtBVx2Q/oC2O51WQvIZoigpKLKNp7EeBw9E1UoJ7r14=;
+ b=mAa8bFMjWfWT9TC79LezRPpW/O5teRZRBGOhGeyZlyPSn1RHq2IC87Lql6EkKB7Q9m
+ mWTGKLknMy42DlWk53dfq8vebjptcTZh6UxaO0cddBDBmquX3n9al0Dqy9jX0rj7IZ02
+ 1VZKBc9lz4Sk37aQVP8iDCiQOm/V2CeoounJUpha1YMvihrLHinMviFRB7MLSZyWzBoj
+ VIpbYCKPeZGB9rygAk59ibEocVP51rrPpEeTfuMsqlHME1qioGGOfoITrhi9YsPi/Ylt
+ KFL/EJ8TWFhqkvM2YB8Qszca7EvBlru9P36GBNQ3E39PGwe9YvcU2QIurKKcVl1MHHNW
+ l4pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=PZXGdH7QOkFGdyZL9vslSSuJH2T6cBvsFBVFd42Xdko=;
- b=Lo2PgJP6NjsRN9r4+3b9c5dFk+D2KjCzQ2Hld9hi3Mfy4LKROLm/agubxlHMfS2W8N
- lTRAy4MC2viq2jVoq/Jh6PrHBff+rqdRoaCo2NPke7PaOzl0hcxsCSiNDizsoCePz49r
- SEw+My5mmXzR5V3SXtEgxriXyUgsm03wlMOhdyWYVxgUdoJXC+SxOnO9+F66dx9hXQDA
- 5aIQn4uYyEhOd0ewWfeA3KlYZ2Bp7VIJuh33HyuhQGjDHJEGYL5zGAAZ5Wq2yc5epEUZ
- Di6rvNoob9NQJvXh7Qnh207WWkFTvvrQkJTv5MouJVsQuU1b4rQMcohMpAMcRpGVvfTx
- up3A==
-X-Gm-Message-State: AOAM532jTpH0b6LxPEYlAN7hwG9Kjl7iaFAPzyYxwR5nsDMBwM/HWkIz
- WA52poTIBsLN0M+oQ9C14a0WKWzEdAHnOtiWLMggmQ==
-X-Google-Smtp-Source: ABdhPJy7r6Dp6z5t3lrBYpzhD+7i1xvLB2uoHm7Qkx145lEhXBxvO1W68wKoliw01/Yq59Ok3PUuUtXn3CmG57UGp7U=
-X-Received: by 2002:a05:6870:5829:b0:c8:9f42:f919 with SMTP id
- r41-20020a056870582900b000c89f42f919mr2737701oap.54.1645564791160; Tue, 22
- Feb 2022 13:19:51 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 22 Feb 2022 21:19:50 +0000
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jtBVx2Q/oC2O51WQvIZoigpKLKNp7EeBw9E1UoJ7r14=;
+ b=XtIkSqEy+unvyM5RgPjcEcplMC2n1ebj2UaaNdLes+rONjGbuL01KIsoFMjv/hqDsk
+ YY880sLoqxxbYy0AIgVa8jNqgkgCl6lAKmsCEaKRM0mW4qW/jhTWvXiMUeAxxY80IZzO
+ 00IqwNAwdnRs/EaFRc+fKWNuK3Ke4XlzOhQ0fW/k6DI3X4PsfzZciA1EpDenTnaf1ynn
+ mBgIqHegvFhR2QZKbpDKUkYV2Cwa5VZ/0F/NhpdDvVe3rQD+dtvqylh7uGKOODPbM0tG
+ qVRwPEeskLsP80EYXSPOL3VzOCMVVxvXB6nt4JfN4DswtjxOXffCf+7zrTcK3aKrQHud
+ gBWg==
+X-Gm-Message-State: AOAM531kUsZTQFDYK7Rk/ZowdUCF4I3jBU6d3PlGDpDmyDDO0b6ulqHl
+ UxWMNRA3Ij/2ul5NBlBBO6olIQ==
+X-Google-Smtp-Source: ABdhPJzpuqxZyPb0Aal7oIwfG1XVN3zZsfnOTv+F0lFTZPwG9KQdFdeL5m54z3cXCPgTPAfvJx5dzw==
+X-Received: by 2002:ac2:51d0:0:b0:43a:df78:18c with SMTP id
+ u16-20020ac251d0000000b0043adf78018cmr18410052lfm.168.1645564984361; 
+ Tue, 22 Feb 2022 13:23:04 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id k14sm1847626ljh.82.2022.02.22.13.23.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 13:23:03 -0800 (PST)
+Message-ID: <c388d91c-ea00-8fa8-3fcf-4ce754edb1b4@linaro.org>
+Date: Wed, 23 Feb 2022 00:23:03 +0300
 MIME-Version: 1.0
-In-Reply-To: <1645455086-9359-3-git-send-email-quic_vpolimer@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 1/4] drm/msm/dp: Add basic PSR support for eDP
+Content-Language: en-GB
+To: Doug Anderson <dianders@chromium.org>
 References: <1645455086-9359-1-git-send-email-quic_vpolimer@quicinc.com>
- <1645455086-9359-3-git-send-email-quic_vpolimer@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 22 Feb 2022 21:19:50 +0000
-Message-ID: <CAE-0n53a5akPXSJjkD4SvnparcxBpN2LaGt_7J=6petTPukHeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/bridge: use atomic enable/disable for bridge
- callbacks
-To: Vinod Polimera <quic_vpolimer@quicinc.com>, agross@kernel.org,
- airlied@linux.ie, 
- bjorn.andersson@linaro.org, daniel@ffwll.ch, devicetree@vger.kernel.org, 
- dianders@chromium.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, krzysztof.kozlowski@canonical.com, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- robdclark@gmail.com, robh+dt@kernel.org, sam@ravnborg.org, 
- seanpaul@chromium.org, thierry.reding@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+ <1645455086-9359-2-git-send-email-quic_vpolimer@quicinc.com>
+ <CAA8EJppRUZ5OHSMS1NdFXDDvRXJFNsdoJDWgU7ZPUoAW9OD+eQ@mail.gmail.com>
+ <CAD=FV=W2wi47egKmWDS+BZGSy85K+A8jX0gvi6CYhmFgoBBRmw@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAD=FV=W2wi47egKmWDS+BZGSy85K+A8jX0gvi6CYhmFgoBBRmw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +75,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_vproddut@quicinc.com
+Cc: quic_kalyant@quicinc.com,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, quic_vproddut@quicinc.com,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Vinod Polimera (2022-02-21 06:51:24)
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index b32295a..5c7dc82 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -102,30 +136,82 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
->                 drm_connector_cleanup(connector);
->  }
->
-> -static void panel_bridge_pre_enable(struct drm_bridge *bridge)
-> +static void panel_bridge_pre_enable(struct drm_bridge *bridge,
-> +               struct drm_bridge_state *old_bridge_state)
->  {
->         struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
-> +       struct drm_atomic_state *old_state = old_bridge_state->base.state;
-> +       struct drm_encoder *encoder = bridge->encoder;
-> +       struct drm_crtc *crtc;
-> +       struct drm_crtc_state *old_crtc_state;
-> +
-> +       crtc = bridge_drm_get_new_connector_crtc(encoder, old_state);
-> +       if (!crtc)
-> +               return;
-> +
-> +       old_crtc_state = drm_atomic_get_old_crtc_state(old_state, crtc);
-> +       if (old_crtc_state && old_crtc_state->self_refresh_active)
+On 22/02/2022 22:25, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Feb 21, 2022 at 7:12 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>>> +static int dp_link_psr_status(struct dp_link_private *link)
+>>> +{
+>>> +       u8 status[2];
+>>> +
+>>> +       drm_dp_dpcd_read(link->aux, DP_PSR_ERROR_STATUS, status, 2);
+>>> +
+>>> +       if (status[0] & DP_PSR_LINK_CRC_ERROR)
+>>> +               DRM_ERROR("PSR LINK CRC ERROR\n");
+>>> +       else if (status[0] & DP_PSR_RFB_STORAGE_ERROR)
+>>> +               DRM_ERROR("PSR RFB STORAGE ERROR\n");
+>>> +       else if (status[0] & DP_PSR_VSC_SDP_UNCORRECTABLE_ERROR)
+>>> +               DRM_ERROR("PSR VSC SDP UNCORRECTABLE ERROR\n");
+>>> +       else if (status[1] & DP_PSR_CAPS_CHANGE)
+>>> +               DRM_INFO("PSR Capability Change\n");
+>>
+>> DRM_DEBUG_DP
+> 
+> Not sure I'll have time to go back and review the series, but one
+> thing that caught my eye as this flashed through my inbox is that I
+> think all of these "shouting" are deprecated. It's even officially
+> documented now as of commit d2f0a8afc1be ("UPSTREAM: drm/print: Add
+> deprecation notes to DRM_...() functions").
 
-Can you please add some comment about why self_refresh_active means we
-should bail out from this function? Such a comment would be helpful to
-understand the code quickly vs. having to figure out what the intention
-of the logic is. The analogix driver has
+Agreed. But not the DRM_INFO too.
 
-/* Don't touch the panel if we're coming back from PSR */
 
-so even mentioning PSR here would be helpful.
+-- 
+With best wishes
+Dmitry
