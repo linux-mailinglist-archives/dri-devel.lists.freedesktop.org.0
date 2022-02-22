@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BC74BF412
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CA24BF414
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:52:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC3310EAA6;
-	Tue, 22 Feb 2022 08:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9239110EAFA;
+	Tue, 22 Feb 2022 08:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F95E10EAA6
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:51:48 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id i11so33467108eda.9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:51:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NSd6kzZlDG4BxsQ6z28t583bHcYr6jM/sa6f4R478vc=;
- b=UJQInGkBXB/yJNkgVzQwllJjpqmd87myB59YfOc4qxChC081V2pRTuIyVhXJOmW6nX
- l6Qnc2iZf+IFpFwuAGe0bi5SKl4AvE67+HB0sxs7l+AelPnHWvaxtwXrxLlYLSCyERk4
- tzaysle84bR1iYyfXEFPQg+Ff+1mj4Y8Qfw30uYnELXCGokDi6mesqmLOKWqoiS4Qq0F
- rmcNAgMwWaDHmeEt9AMUXmx7jF8gbdWMgHq48X8V9Q/suRgg0elS1M8sqvjMQCBMYaAy
- i3TgI8tjOsqxMw6NlFpb0R0Wr8mUzM1jlHgmLS7iFrMaUDJ4fNbGJBOQd9shL0AMV1ob
- uphA==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7421010EAFA
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:52:02 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id p14so40561191ejf.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=dmXlZZ8v6mHmnza4ol0Pe1QBT+YSdSv70k2gEytW1AA=;
+ b=SQ0NEcl/lKLUbRKlDsxPqnqJachcxqX3XtJo5QiLSiJ3KpDuvykG2RsrzSnCoVj/qp
+ sgMtC+q/XLoyGmG+8jqyGo07sN/IQ/cB9eIHjXPIVABwj9xXXYIl1OMvjPi/1Z7IZz5D
+ oF4GZef1U4ehSEELuitHXP4zCGXpwkR1hzAVSE6MTdjg6ik5pqUjTTURIOGd+v45jVPH
+ uGs/ePkiR9yfpZddQ0eBve9IiUNuV4qhrf6HxxyfJf9p9y9hTkMzDIy3Npd8Lmy/su1c
+ ArgBE+Hw3llCb+7wMchkNnMpuvmIZsRVzAY6QR9OGgN3jVTTBD+4EOT17wIEknS1D+re
+ GnzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NSd6kzZlDG4BxsQ6z28t583bHcYr6jM/sa6f4R478vc=;
- b=496GX8s9gQepV7gwHhTDV6nciki3NzVBB9yGVtwLGdX2I+j6+MahWyAw++8YBcGNJQ
- wjyLd9VIUc+qht114eq+buD6uz968fC7dm6jv94fVXVtWejvnvPjl9DPOMLTnl7Cg7Xt
- wt0pSGmPNV+zz4QRTus8inCLuUv91nldM3MyfQz4KBgmjzI521zWl8bYvORHQJuYXhbX
- RV1GyqhQTaDErffMO7eynuWmZYeExptH2rDA4v3RtjBXssn/ckn0OLESG81cyl7W8tzh
- Ao6/lNK0Lo2/+rFLFTNQQq2Z+4otVH0G4CXQlat3fopepoQh5wSZIPsOZmHcZdtALw01
- ur6Q==
-X-Gm-Message-State: AOAM530UG5c8QCUD6OoEKk/Qsg3lZlvV3lAX42t/2qH1uWQktwqpAHUq
- Bhu1KaYrRqYrcxqz9tIe2WLp//c6d9MHSZMUc6rIFA==
-X-Google-Smtp-Source: ABdhPJwmt6/I5M2wqWoIhXsUbWzSoxmwx9nH7Q9+1btrl0izCtpoQ7aiqKHw1n9NtO5a9hjVpmu3BKJhD6xYio9U32E=
-X-Received: by 2002:aa7:de84:0:b0:40f:db98:d0f9 with SMTP id
- j4-20020aa7de84000000b0040fdb98d0f9mr24831985edv.366.1645519907039; Tue, 22
- Feb 2022 00:51:47 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
- <31201578-6427-d580-4655-24d40dc22494@intel.com>
- <YhSGGAvRKwiabDsp@pendragon.ideasonboard.com>
-In-Reply-To: <YhSGGAvRKwiabDsp@pendragon.ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 22 Feb 2022 08:51:31 +0000
-Message-ID: <CAPY8ntAQJHyNXgbV8o8KZDBxw_aavQQOA6vR12FeHcBBLr+kmQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] DSI host and peripheral initialisation ordering
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=dmXlZZ8v6mHmnza4ol0Pe1QBT+YSdSv70k2gEytW1AA=;
+ b=2j+PdbnGO/WA8HJFvGOLv43WjP2720nrfqNSU9MfaRrKE4RCkDDM+trvbTg189+It3
+ BaY9j5wFvxLlLk3fxaxGRKud5vZnBbC6W4lQ/azM+X4HZ7hqWh9fq8veX3Y3zzwUvmNG
+ vD68oXRadvu5J+rm65X/tS913F23yIQfkGOs80eFwC6YGHSSVZpdjyz5o+bHD6dEezqu
+ 5NP86/0b7dP7i4A/pm4zeTHIIVAGn4oLoZCP2B4HwiUUUNpfkKVmqIBiG/5wGv7R4AiC
+ qWWuiKTLPvfCt7Je5JMpEmDagKvODwI2GbBMNBI+k8wVEzNLhxcWaBchq9leYz77J2vn
+ 2FLQ==
+X-Gm-Message-State: AOAM531Mmb6wt2jFgZcMmezt/fDvpqIP3acHWCVjrbhg2Stowm8J1rUW
+ DMqzMwl6okP0pJGh252vYuw=
+X-Google-Smtp-Source: ABdhPJzvI+wai9zfXW6iPref0yOnIQ7ELskzV5WeZkkJKBRg9vMNubD1hsEjVpogWxAm4vMjlrzU2g==
+X-Received: by 2002:a17:907:216f:b0:6ce:d85f:35cf with SMTP id
+ rl15-20020a170907216f00b006ced85f35cfmr18478318ejb.517.1645519920908; 
+ Tue, 22 Feb 2022 00:52:00 -0800 (PST)
+Received: from Saturn.fritz.box ([194.191.225.82])
+ by smtp.googlemail.com with ESMTPSA id g3sm6022818ejz.180.2022.02.22.00.51.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 00:52:00 -0800 (PST)
+Message-ID: <afc776eb49db815d108598ce985b0aa5c4a732f8.camel@gmail.com>
+Subject: Re: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
+ property"
+From: Max <max.oss.09@gmail.com>
+To: Christoph Niedermaier <cniedermaier@dh-electronics.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Tue, 22 Feb 2022 09:51:59 +0100
+In-Reply-To: <b0f07052a12844b5a18da76cf591eadd@dh-electronics.com>
+References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
+ <YfsXt1lU6l9cSctX@pendragon.ideasonboard.com>
+ <4a2f4707c03d4509aa5f3a388cbfbe04@dh-electronics.com>
+ <bef41ee6-d070-109f-33c2-95103e7ef6a3@denx.de>
+ <78357e75dede2a7bff95126ff35784929335e918.camel@gmail.com>
+ <b0f07052a12844b5a18da76cf591eadd@dh-electronics.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,190 +76,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: "Marek MV. Vasut" <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ DenysDrozdov <denys.drozdov@toradex.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent.
+Am Samstag, den 19.02.2022, 09:37 +0000 schrieb Christoph Niedermaier:
+> From: Max Krummenacher [mailto:max.oss.09@gmail.com]
+> Sent: Wednesday, February 9, 2022 2:14 PM
+> > Hi
+> > 
+> > Am Mittwoch, den 09.02.2022, 00:52 +0100 schrieb Marek Vasut:
+> > > On 2/8/22 22:27, Christoph Niedermaier wrote:
+> > > > From: Laurent Pinchart [mailto:laurent.pinchart@ideasonboard.com]
+> > > > Sent: Thursday, February 3, 2022 12:46 AM
+> > > > > Hi Christoph,
+> > > > > 
+> > > > 
+> > > > Hi Laurent,
+> > > > 
+> > > > > On Tue, Feb 01, 2022 at 12:07:17PM +0100, Christoph Niedermaier wrote:
+> > > > > > Without the data-mapping devicetree property my display won't
+> > > > > > work properly. It is flickering, because the bus flags won't
+> > > > > > be assigned without a defined bus format by the imx parallel
+> > > > > > display driver. There was a discussion about the removal [1]
+> > > > > > and an agreement that a better solution is needed, but it is
+> > > > > > missing so far. So what would be the better approach?
+> > > > > > 
+> > > > > > [1] https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
+> > > > > > 
+> > > > > > This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
+> > > > > > 
+> > > > > > Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> > > > > > Cc: Marek Vasut <marex@denx.de>
+> > > > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > > > Cc: David Airlie <airlied@linux.ie>
+> > > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > > > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > > > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > > > To: dri-devel@lists.freedesktop.org
+> > > > > > ---
+> > > > > >   drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
+> > > > > >   1 file changed, 11 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > index 3c08f9827acf..2c683d94a3f3 100644
+> > > > > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > > @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
+> > > > > >        struct panel_desc *desc;
+> > > > > >        unsigned int bus_flags;
+> > > > > >        struct videomode vm;
+> > > > > > +     const char *mapping;
+> > > > > >        int ret;
+> > > > > > 
+> > > > > >        np = dev->of_node;
+> > > > > > @@ -477,6 +478,16 @@ static int panel_dpi_probe(struct device *dev,
+> > > > > >        of_property_read_u32(np, "width-mm", &desc->size.width);
+> > > > > >        of_property_read_u32(np, "height-mm", &desc->size.height);
+> > > > > > 
+> > > > > > +     of_property_read_string(np, "data-mapping", &mapping);
+> > > > > > +     if (!strcmp(mapping, "rgb24"))
+> > > > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> > > > > > +     else if (!strcmp(mapping, "rgb565"))
+> > > > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+> > > > > > +     else if (!strcmp(mapping, "bgr666"))
+> > > > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+> > > > > > +     else if (!strcmp(mapping, "lvds666"))
+> > > > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> > > > > 
+> > > > > You're right that there's an issue, but a revert isn't the right option.
+> > > > > The commit you're reverting never made it in a stable release, because
+> > > > > it was deemed to not be a good enough option.
+> > > > > 
+> > > > > First of all, any attempt to fix this should include an update to the DT
+> > > > > binding. Second, as this is about DPI panels, the LVDS option should be
+> > > > > dropped. Finally, I've shared some initial thoughts in [1], maybe you
+> > > > > can reply to that e-mail to continue the discussion there ?
+> > > > 
+> > > > According to your thoughts in [1] you mean that the bus format should be
+> > > > build out of the devicetree properties bus-width and data-shift. It would
+> > > > be possible for evenly structured busses like RGB888_1X24 and RGB666_1X18,
+> > > > but what about a bus like RGB565_1X16, where each color has different
+> > > > bus width. Also the order of the colors should be defined to differ
+> > > > between busses like RGB888_1X24 and GBR888_1X24.
+> > > > Are there any ideas how can this be covered?
+> > > 
+> > > Maybe with props like these ?
+> > > 
+> > > channel-width -- width of each color channel
+> > > channel-shift -- shift of each color channel
+> > > channel-map -- mapping of each color channel
+> > > 
+> > > So for RGB888
+> > > channel-width = <8 8 8>;
+> > > channel-shift = <0 0 0>;
+> > > channel-map = "RGB"; // or something ?
+> > > 
+> > > For BGR565 panel connected to RGB24 scanout
+> > > channel-width = <5 6 5>;
+> > > channel-shift = <3 2 3>;
+> > > channel-map = "BGR"; // or something ?
+> > > 
+> > > For BGR565 panel connected to RGB565 scanout
+> > > channel-width = <5 6 5>;
+> > > channel-shift = <0 0 0>;
+> > > channel-map = "BGR"; // or something ?
+> > > 
+> > 
+> > To me this looks like it goes into the wrong direction.
+> > The goal is to set bus_format to one of the
+> > possible enum values.
+> > Using such a generic approach it would be possible to request bus
+> > formats for which no enum value is currently defined, i.e. the
+> > BGR565 example does not have a matching bus_format in
+> > media-bus-format.h.
+> > 
+> > What about keeping the solution which the revert would give.
+> > Optionally with a changed property name s/data-mapping/bus-format/
+> > and a changed list of allowed strings to better match between the
+> > dt string and the enum name, i.e. s/"rgb24"/"RGB888_1X24"/.
+> > This would allow to extend DT binding and
+> > code to possible newly
+> > required values like e.g. MEDIA_BUS_FMT_BGR888_1X24.
+> > 
+> > Alternatively one could use the bus-width and data-shift
+> > properties and allow for (bus-width + data-shift) to be one
+> > of 16, 18, 24 and assume RGB. I.e. one could only specify
+> > MEDIA_BUS_FMT_RGB565_1X16, MEDIA_BUS_FMT_RGB666_1X18,
+> > MEDIA_BUS_FMT_RGB888_1X24 respectively.
+> > 
+> > Max
+> > 
+> 
+> Hi Laurent,
+> 
+> In which direction should it go to find an acceptable solution?
 
-On Tue, 22 Feb 2022 at 06:43, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello,
->
-> On Fri, Feb 18, 2022 at 02:20:19PM +0100, Andrzej Hajda wrote:
-> > On 16.02.2022 17:59, Dave Stevenson wrote:
-> > > Hi All
-> > >
-> > > Hopefully I've cc'ed all those that have bashed this problem around previously,
-> > > or are otherwise linked to DRM bridges.
-> > >
-> > > There have been numerous discussions around how DSI support is currently broken
-> > > as it doesn't support initialising the PHY to LP-11 and potentially the clock
-> > > lane to HS prior to configuring the DSI peripheral. There is no op where the
-> > > interface is initialised but HS video isn't also being sent.
-> > > Currently you have:
-> > > - peripheral pre_enable (host not initialised yet)
-> > > - host pre_enable
-> > > - encoder enable
-> > > - host enable
-> > > - peripheral enable (video already running)
-> > >
-> > > vc4 and exynos currently implement the DSI host as an encoder, and split the
-> > > bridge_chain. This fails if you want to switch to being a bridge and/or use
-> > > atomic calls as the state of all the elements split off are not added by
-> > > drm_atomic_add_encoder_bridges.
-> > >
-> > > dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
-> > > the bridge/panel pre_enable can send commands. In their post_disable they then
-> > > call the downstream bridge/panel post_disable op manually so that shutdown
-> > > commands can be sent before shutting down the PHY. Nothing handles that fact,
-> > > so the framework then continues down the bridge chain and calls the post_disable
-> > > again, so we get unbalanced panel prepare/unprepare calls being reported [3].
-> > >
-> > > There have been patches[4] proposing reversing the entire direction of
-> > > pre_enable and post_disable, but that risks driving voltage into devices that
-> > > have yet to be powered up.
-> > > There have been discussions about adding either a pre_pre_enable, or adding a
-> > > DSI host_op to initialise the host[5]. Both require significant reworking to all
-> > > existing drivers in moving initialisation phases.
-> > > We have patches that look like they may well be addressing race conditions in
-> > > starting up a DSI peripheral[6].
-> > >
-> > > This patch takes a hybrid of the two: an optional reversing of the order for
-> > > specific links within the bridge chain within pre_enable and post_disable done
-> > > within the drm_bridge framework.
-> > > I'm more than happy to move where the flag exists in structures (currently as
-> > > DRM_BRIDGE_OP_UPSTREAM_FIRST in drm_bridge_ops, but it isn't an op),
->
-> API-wise that's my only concern, the flag should go somewhere else.
+Hi
 
-Ah, the million dollar question then - where does it go? It is only
-true or false, so a bool in struct drm_bridge, same as
-interlace_allowed?
+I sent a proposal as RFC to show how this could look in the implementation.
+https://lore.kernel.org/all/20220222084723.14310-1-max.krummenacher@toradex.com/
 
-I've had the realisation that this needs to be accessible from the
-panel drivers so DSI panel drivers such as panel-ilitek-ili9881 can
-set it too. I'll have a slight rethink over that one, but it is
-probably a similar extra flag in struct drm_panel.
+Max
+> 
+> Regards
+> Christoph
 
-  Dave
-
-> > > but does
-> > > this solve the problem posed? If not, then can you describe the actual scenario
-> > > it doesn't cover?
-> > > A DSI peripheral can set the flag to get the DSI host initialised first, and
-> > > therefore it has a stable LP-11 state before pre_enable. Likewise the peripheral
-> > > can still send shutdown commands prior to the DSI host being shut down in
-> > > post_disable. It also handles the case where there are multiple devices in the
-> > > chain that all want their upstream bridge enabled first, so should there be a
-> > > DSI mux between host and peripheral, then it can still get the host to the
-> > > correct state.
-> > >
-> > > An example tree is at [7] which is drm-misc-next with these patches and then a
-> > > conversion of vc4_dsi to use the atomic bridge functions (will be upstreamed
-> > > once we're over this hurdle). It is working happily with the Toshiba TC358762 on
-> > > a Raspberry Pi 7" panel.
-> > > The same approach but on our vendor 5.15 tree[8] has also been tested
-> > > successfully on a TI SN65DSI83 and LVDS panel.
-> > >
-> > > Whilst here, I've also documented the expected behaviour of DSI hosts and
-> > > peripherals to aid those who come along after.
-> >
-> > Good summary, of multiple attempts of solving the issue (however I still
-> > could add some more :) ).
->
-> Definitely good, thank you very much Dave for tackling this issue.
->
-> > I think the main issue is that we try to squeeze different hardware
-> > protocol requirements into one quite restrictive framework - whole
-> > crtc->encoder->bridges->(panel ||connector) is managed directly by drm core.
-> > No place to negotiate configuration directly between players
-> > (bridges/panels).
-> > This patchset slightly looses the restrictions, so hopefully will help
-> > for some time, but still every developer needs to solve riddles what to
-> > put into callbacks, to allow driver working in different pipelines.
->
-> That's true, but documentation can help a lot there. Patch 2/2 turns the
-> riddle-solving task into documentation reading. Granted, not everybody
-> will read the documentation (and we should probably link to it from the
-> documentation of the pre_enable and post_disable operations), but the
-> behaviour is now defined, which is a major step forward.
->
-> > <DREAM MODE ON>
-> > Ideally I would like to drop idea of the bridge/panel and build
-> > abstraction on data links.
-> > So for example DSI/EDP bridge during probe would register DSI sink with
-> > their ops, and EDP source with their ops or just look for EDP sink (what
-> > will suit better).
-> > To establish data link they could use their ops and helpers to provide
-> > two-way conversation.
-> > This way if we need add support for new data link type or extend
-> > existing one we do not need to touch whole framework and pray to not
-> > break some strange bridge, or to add ops which will not be used by most
-> > of users.
-> > <DREAM MODE OFF>
->
-> Protocol-specific operations can help, but I don't think they will
-> fundamentally change the problem. Yes, in some case, we can have
-> hardware requirements that are hard to express through generic
-> operations, but in most case the issue is more about defining the
-> semantic of the generic operations for a particular protocol than about
-> a need for a specific operation.
->
-> The core issue, in my opinion, is that we have a mechanism that
-> essentially works from source to sink, with the source controlling the
-> sink. With some protocols (DSI in particular), the start sequence
-> requires more fine-grained control of the operations, and the sink
-> should be in control. We should ideally start a pipeline by calling the
-> enable operation on the last element (connector or panel), whose driver
-> will then call operations on its source, and interleave those calls with
-> control of the local device, in the exact sequence required by the
-> device. That's how the omapdrm driver operated before I ported it to
-> drm_bridge. Reversing the order of the pipeline enable was a huge piece
-> of work for a single driver. Doing it again in the other direction for
-> *all* drivers seems like an even bigger dream (or nightmare) than yours
-> Andrzej :-)
->
-> > Putting dreams off, I think this patchset can add some value, at the
-> > price of call chain complication. Lets see opinion of others.
->
-> I agree, I think it's a reasonable middleground. It improves the
-> situation, adds very little complexity in the API, has documentation to
-> specifies how the operations are meant to be implemented, and has a
-> reasonable increase of complexity for the pre_enable and post_disable
-> helpers (and the implementation could probably be simplified by moving
-> to recursive calls). I like this.
->
-> > > [1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L940
-> > > [2] https://lists.freedesktop.org/archives/dri-devel/2022-January/337769.html
-> > > [3] https://lists.freedesktop.org/archives/dri-devel/2021-December/333908.html
-> > > [4] https://lists.freedesktop.org/archives/dri-devel/2021-October/328476.html
-> > > [5] https://lists.freedesktop.org/archives/dri-devel/2021-October/325853.html
-> > > [6] https://lists.freedesktop.org/archives/dri-devel/2022-February/341852.html
-> > > [7] https://github.com/6by9/linux/tree/drm-misc-next-vc4_dsi
-> > > [8] https://github.com/6by9/linux/tree/rpi-5.15.y-sn65dsi83
-> > >
-> > >
-> > > Dave Stevenson (2):
-> > >    drm: Introduce DRM_BRIDGE_OP_UPSTREAM_FIRST to alter bridge init order
-> > >    drm/bridge: Document the expected behaviour of DSI host controllers
-> > >
-> > >   Documentation/gpu/drm-kms-helpers.rst |   7 +
-> > >   drivers/gpu/drm/drm_bridge.c          | 235 ++++++++++++++++++++++++++++++----
-> > >   include/drm/drm_bridge.h              |   8 ++
-> > >   3 files changed, 225 insertions(+), 25 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
