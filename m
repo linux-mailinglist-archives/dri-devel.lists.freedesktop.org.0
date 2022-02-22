@@ -1,81 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5571C4BF3D0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:39:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B014BF3D2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:41:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4183810E3E3;
-	Tue, 22 Feb 2022 08:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DEE10F52F;
+	Tue, 22 Feb 2022 08:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73F10E3E3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:39:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645519145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d3693kv1/ZZxaK75gn4lQUgIDTiNlthARJ48UTFbBgs=;
- b=eeSPToTvU//7Km8MLlkg3/WcOMF8ML8VR/QBMR/Pho4HiNniS7tU8ZDf0hSjwHFIQCeg2Y
- FjKkMH7qiDoSMlbpwSqLpfo3uUrn9jyIh4QITBnxYao3rpkabft2EtgZ1XUpI+IBehLOYC
- u8RNIK4icY183RIoAxDcR4yRJDKdkOA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-XB5YlLRBPK2qdysdab076g-1; Tue, 22 Feb 2022 03:39:04 -0500
-X-MC-Unique: XB5YlLRBPK2qdysdab076g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i20-20020a05600c051400b00380d5eb51a7so239440wmc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:39:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d3693kv1/ZZxaK75gn4lQUgIDTiNlthARJ48UTFbBgs=;
- b=aDcutgwIPUUUjalJetu3CJfiPl0otA5i8wlkIN5llHROM2YEbEB/xWlPR4Y1SOsLod
- zGay/MDU120F+M07lqDFVOd2JykVOLPsffhCUPJlWxZJRox2bH93GBVNkS/WmRwOp7iE
- +QGgsnb7NhCzjvFeQ7Dpe17IsB+cuiQEGIU7KBJrnLKG7OBINLDPwTEmQZTGEfXJ48GU
- yBFR1QUt+MqwnakpbkDvPUVOcUF26yyvBxybQR4ZPhXe0fN/3R+JnIhlUe1Y4rYtwSAK
- m8xgAKqoyoux6uEp+rCO9XKF16fsmEUShkMsRC38WCKrq2pUh1u6vOHFQXOUs5aip8L+
- Hk+A==
-X-Gm-Message-State: AOAM5317m2ssdiZZnbCK0vNZIECVef/K3+WiNNQ17VU8SLU4INNKniIa
- +jHHhvN4f1+nX/DoVVsEsh1+Q0bUtWoAOyeriFfytTq4cHU/qz+MLYueAcmx1AhDoG/Rl2Bt1bi
- rg1nKEmnjz9ZFBiLlidw0VR6BOlEM
-X-Received: by 2002:a1c:c910:0:b0:353:2ceb:7a6f with SMTP id
- f16-20020a1cc910000000b003532ceb7a6fmr2339624wmb.7.1645519143229; 
- Tue, 22 Feb 2022 00:39:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw81XT2E0ncIyZxWQaEX+lXFOPYmh7fhE8hKxqpMYUa4jL31tkjOUrUuqQC2s+Hh7rBRx5okQ==
-X-Received: by 2002:a1c:c910:0:b0:353:2ceb:7a6f with SMTP id
- f16-20020a1cc910000000b003532ceb7a6fmr2339607wmb.7.1645519143021; 
- Tue, 22 Feb 2022 00:39:03 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id t16sm2548139wrg.99.2022.02.22.00.39.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 00:39:02 -0800 (PST)
-Message-ID: <dc8e4634-20be-409e-27a6-6497c9076605@redhat.com>
-Date: Tue, 22 Feb 2022 09:39:01 +0100
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F82E10F52D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fY8k2STnR5+RK9IDQgN/eppZnxcQVA2GD760hanPcdw=; b=S5ppBVU5yncGjqFGtu0TAPQySd
+ mY3u031G6mQWQB5B6yoUbSAQJMx6FQ4R2zXTqIK8hAzrZG5Cmwh6QLateUWu4qh5XJelU/nDHCDox
+ kxQ+ifpeo7oY8ZZE4nmsfWuG9ni7zyFl4//LbYTYclX0N5LnGhPgTBOTVuFJ3rMGCL0q5wJBsniXW
+ 3QBIVUN3iJg3M4FpIuy2IocCMD5f3fMaAWcNc0qE/mo17u4JWS61Qpx7LEH+Zw6e91QnRWDoBvnai
+ VUbe60H4l1l9XzuKH2xSBajQ4Db9Mipy1VvGaZEg7MtgC3OPbONr790tAoZPSkHdidzp93AoPAp6i
+ sb4hFA1A==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1nMQjJ-00079k-Vu; Tue, 22 Feb 2022 10:41:06 +0200
+Message-ID: <79444c32-64a7-ff54-95b5-b743cbc0a97d@kapsi.fi>
+Date: Tue, 22 Feb 2022 10:41:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
- non-upright mounted LCD panels
-To: Hans de Goede <hdegoede@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220221220045.11958-1-hdegoede@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220221220045.11958-1-hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.4.1
+Subject: Re: [PATCH libdrm v2 00/25] Update Tegra support
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20220217191625.2534521-1-thierry.reding@gmail.com>
+ <ed92bf43-1df2-8059-5228-83b98d6bbfae@kapsi.fi>
+ <c207663d-7d7e-6c10-6ee4-3dd0378181f9@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <c207663d-7d7e-6c10-6ee4-3dd0378181f9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,46 +60,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hans,
-
-On 2/21/22 23:00, Hans de Goede wrote:
-> Some devices use e.g. a portrait panel in a standard laptop casing made
-> for landscape panels. efifb calls drm_get_panel_orientation_quirk() and
-> sets fb_info.fbcon_rotate_hint to make fbcon rotate the console so that
-> it shows up-right instead of on its side.
+On 2/21/22 22:29, Dmitry Osipenko wrote:
+> 18.02.2022 12:31, Mikko Perttunen пишет:
+>> On 2/17/22 21:16, Thierry Reding wrote:
+>>> ...
+>>
+>> Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+>>
+>> Left one cosmetic comment in the VIC4.0 patch, but overall looks OK. I
+>> think it would be fine to have some basic tests in libdrm as well.
 > 
-> When switching to simpledrm to fbcon renders on its side. Call the
-
-This sentence sounds a little off to me. Did you mean:
-
-"the fbcon renders on its side." ?
-
-Maybe you can say something like the following:
-
- When switching to simpledrm, fbcon attachs to the fbdev emulated by
- the DRM core instead. And the fb_info.fbcon_rotate_hint field is set
- by the emulation layer, if panel orientation was set for a connector.
-
-> drm_connector_set_panel_orientation_with_quirk() helper to add
-> a "panel orientation" property on devices listed in the quirk table,
-> to make the fbcon (and aware userspace apps) rotate the image to
-> display properly.
+> There is a question about who is going to use this libdrm API. Are you
+> going to use it in the VAAPI driver?
 > 
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+> Grate drivers can't use this API because:
+> 
+> 1. More features are needed
+> 2. There is no stable API
+> 3. It's super painful to keep all drivers and libdrm in sync from a
+> packaging perspective.
+> 
+> It's much more practical nowadays to use DRM directly, without
+> SoC-specific libdrm API, i.e. to bundle that SoC-specific API within the
+> drivers.
 
-The patch looks good to me. Thanks a lot for fixing this
+I'm not planning to use this in the VAAPI driver -- I don't personally 
+have any use case for the libdrm API.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Mikko
