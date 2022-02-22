@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D954BF20B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 07:23:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156084BF20C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 07:23:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEC8E10EF4F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E9010EF4E;
 	Tue, 22 Feb 2022 06:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC3C10EF3D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 06:22:53 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id t14so17852234ljh.8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 22:22:53 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7993A10EF41
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 06:22:54 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id j15so22711811lfe.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 22:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I+FUp1ylyZlTVPkOMx/YuQtPRcxSfUwrG3pZ+XT0maY=;
- b=zQeIan6symQMv3r+UD42j3SgZ2JFsvBjw1DG0LvEciJ5Z1K+pGe3OqhD0A/kM8RYVr
- EdVQTW2GwHmSOVRFhctzRn4/akdowswU0dGitnRCv2+KjJ/Kbo1EbDsgdGcaTidcMrPK
- NMQd5N0H6iljAsJLwnPD1Hnx+MqL0smsxuXS1/0K8yO54U7dGJbs4IM/QR8rNW+a949P
- 5juysvL4ZCh4uz9KCF8ViLBZp5tw2H3RCTmX7AxkuW0Hlab464jwlsIMW1P9a2SCwwX2
- 7hfnwVCk3EsxjszAnWrSC2kvfIEBkS5AzWgPN04wP99IW3uRKYRzcqeb2KsIQLZS4ZL4
- 72Gg==
+ bh=iM+9d1vlrH8gvtpIKyDvBZU+m+WcrI9EbVXkjqnwrgU=;
+ b=jpGdL2UWzg/HKSOtVLZnndwPDPtVWzbb/QNHcN8zho5Y4LDCr6KGRRmZM1LjG6NEDY
+ JqmJeTejQukUyQGDA/TWOzev/9JOJU5/DGz2EpyXttNZDomlw9luYuOahhTVUDvPBTYL
+ MaZb+lHFrE7aj9PKwD5qN3a8tgkzWQa9MHgCVQyi3fUxfiY1ScQBxWTbK7R8iv0ALLHD
+ 8jrPCcI9OzfYNrYyr/PyC0P1xA2vEbufk887wsdKkDQA6oHSCj3ZJu2CHd9eydQAnmiW
+ cmxImIEI6Y0qWMdGJAOw9fBHJkagYwdTyhVhRfp8rXrTKnpnk74wCD/YWowxVPCcl+ls
+ V0KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I+FUp1ylyZlTVPkOMx/YuQtPRcxSfUwrG3pZ+XT0maY=;
- b=kzleF1E9jnT6R19VtOMNQwbiw8Q6MrrH02hkRM+5nisoak+eQa8njLwDozR2ogOlLM
- P4C7j0aqjJgEKTB1SzHjSO0Io9cSNDR0GU3rAdPYjDXxfkTulJMOdGlmMpowubCpazbJ
- 7TrkMUL0AK3bg0mh85fi0TA4J2BJH0RJ859zYsHRSlsCl9UGxZ77C1d8RdlKQRcQqmMa
- wDrd9cQzUZmHyVxamUnt5pzdX8cCi4A8oNqS9UG1Z4PMuWRh6kr1gIlqVpQMGtx3gfux
- Od+Z1IXPhCEFkOuD+yCmSDal6A1ssyX+A+LRuKux7yTguGhhIBd/nwq/dAk3gEr4o2gs
- I0Fg==
-X-Gm-Message-State: AOAM532XHaLn3Ked23QmGFCzNPDs9+5s+kqRgLJDQSvzB5UbrXTv0wQe
- ctxEypb9BaXmDY65WxRPExp/DA==
-X-Google-Smtp-Source: ABdhPJzJoRJqP/Yv4E6j+hUnelgIm577kvPPgf8vanDn4VQyGhibwSQ0Ee1CugqNUKC1i8A1ZDN56g==
-X-Received: by 2002:a2e:9cd5:0:b0:246:3ec0:7505 with SMTP id
- g21-20020a2e9cd5000000b002463ec07505mr6092017ljj.434.1645510971535; 
- Mon, 21 Feb 2022 22:22:51 -0800 (PST)
+ bh=iM+9d1vlrH8gvtpIKyDvBZU+m+WcrI9EbVXkjqnwrgU=;
+ b=oRPXA+idQI3fnv2Q48JUKWOXe+TFq/Tr6kYMA9qNwLkWuPondAfVAEE08xogERgntp
+ 04+x9K2RTjLKUV5y3HXCDICVhahH4C7nej6tv7U2o1NRo4A5X2sWbaPhKu19rSbqwNCS
+ ohjokV+Y3VKDXtG6ywMxOn+Zx39vlOdMp/iNk9VEl1x6dmfHEpqPO2WE/vhIMfvm5gbu
+ eaQsk8UY4+WOrs2VmfPUncZC49nvMM4DLdUVL+U5/RsQw9RHCxWvNfQWmBzxxubD93Dz
+ OgAChvFXlcd+2wW5qT4XxiIVGlAtvZbyXXSihIbg7pqOK3r4kOzjNSWh5fvu8GcRkEZv
+ BOCw==
+X-Gm-Message-State: AOAM530bYjNjpkDBMHmHX0cCwosa0m3I/n5N0qygAdhXXC0OsDwal01m
+ MUb3O/2YbMOP6L2RIlIUr8AivQ==
+X-Google-Smtp-Source: ABdhPJzGc5/AYdPbOPH3yazzGj2gw4n70PKZg3iu2vcQFrpdXtOfIZtRtK2lwEwAqOAfSpt9NBsT+Q==
+X-Received: by 2002:a05:6512:3e0e:b0:443:3cba:9e26 with SMTP id
+ i14-20020a0565123e0e00b004433cba9e26mr16341176lfv.590.1645510972828; 
+ Mon, 21 Feb 2022 22:22:52 -0800 (PST)
 Received: from eriador.lumag.spb.ru ([188.162.65.160])
- by smtp.gmail.com with ESMTPSA id j24sm1216245lfb.59.2022.02.21.22.22.50
+ by smtp.gmail.com with ESMTPSA id j24sm1216245lfb.59.2022.02.21.22.22.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 22:22:51 -0800 (PST)
+ Mon, 21 Feb 2022 22:22:52 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 3/4] drm/msm/dpu: drop obsolete INTF_EDP comment
-Date: Tue, 22 Feb 2022 09:22:45 +0300
-Message-Id: <20220222062246.242577-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 4/4] drm/msm/dpu: drop INTF_EDP from interface type conditions
+Date: Tue, 22 Feb 2022 09:22:46 +0300
+Message-Id: <20220222062246.242577-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220222062246.242577-1-dmitry.baryshkov@linaro.org>
 References: <20220222062246.242577-1-dmitry.baryshkov@linaro.org>
@@ -76,38 +76,43 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DPU driver never supported INTF_EDP, so let's drop the obsolete comment.
-If at some point 8x74/8x84's INTF_EDP is ported to DPU driver,
-corresponding handling will have to be ported too. Until that time, the
-comment serves no purpose.
+To remove possible confusion between (old) INTF_EDP and newer INTF_DP,
+stop using INTF_EDP in DPU's code. Until the 8x74/8x84 SoCs are
+supported by DPU driver, there is no point in using INTF_EDP.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index f49f42e70b29..478a608ba7f2 100644
+index 478a608ba7f2..e76d240f554d 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -91,17 +91,6 @@ static void drm_mode_to_intf_timing_params(
- 		timing->vsync_polarity = 0;
+@@ -92,8 +92,7 @@ static void drm_mode_to_intf_timing_params(
  	}
  
--	/*
--	 * For edp only:
--	 * DISPLAY_V_START = (VBP * HCYCLE) + HBP
--	 * DISPLAY_V_END = (VBP + VACTIVE) * HCYCLE - 1 - HFP
--	 */
--	/*
--	 * if (vid_enc->hw->cap->type == INTF_EDP) {
--	 * display_v_start += mode->htotal - mode->hsync_start;
--	 * display_v_end -= mode->hsync_start - mode->hdisplay;
--	 * }
--	 */
  	/* for DP/EDP, Shift timings to align it to bottom right */
- 	if ((phys_enc->hw_intf->cap->type == INTF_DP) ||
- 		(phys_enc->hw_intf->cap->type == INTF_EDP)) {
+-	if ((phys_enc->hw_intf->cap->type == INTF_DP) ||
+-		(phys_enc->hw_intf->cap->type == INTF_EDP)) {
++	if (phys_enc->hw_intf->cap->type == INTF_DP) {
+ 		timing->h_back_porch += timing->h_front_porch;
+ 		timing->h_front_porch = 0;
+ 		timing->v_back_porch += timing->v_front_porch;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 116e2b5b1a90..1548614c508b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -141,7 +141,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
+ 	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+ 
+-	if (ctx->cap->type == INTF_EDP || ctx->cap->type == INTF_DP) {
++	if (ctx->cap->type == INTF_DP) {
+ 		active_h_start = hsync_start_x;
+ 		active_h_end = active_h_start + p->xres - 1;
+ 		active_v_start = display_v_start;
 -- 
 2.34.1
 
