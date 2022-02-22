@@ -1,147 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1A14BFB37
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 15:52:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAB94BFB3A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 15:52:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C0210E883;
-	Tue, 22 Feb 2022 14:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A96010E8DD;
+	Tue, 22 Feb 2022 14:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE4B10E8DA;
- Tue, 22 Feb 2022 14:51:57 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3E410E8DC;
+ Tue, 22 Feb 2022 14:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645541517; x=1677077517;
+ t=1645541541; x=1677077541;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=XuACy3dh4LXalFHQsmoyfA/3HxkUIuEncSlter9HMdg=;
- b=egrrLgGhy9Uyj17bJ7v9Lkjs04zFACaDrgkAMDL5k+0jUs96o/6gvliI
- gdwmzJvfWQD0Hgwg1arVi7xFyYl5ZYDcApu6ooYUzEfYrwtSY7w0+ojPu
- 6fkusxmoI7bOxw81rEsY9gsL7zf9/mVG+EE/kdf0IV9PDdD9FziCFbN7q
- olHHdYc7M4939xwAHHue5iGsAtuKArtItu5s7uw48TRYxwGpuSLyLuHNC
- fXqNwkJvnwZ9q0NEB758Umvnvw0U7idnrWJx5LvgLgkT4xLwoBIEzAp+7
- D/qVty0DjpVT7GRZFVMc/hF/J1AbAqWLZ4PDzWvLjmcsYlXT5suI+U4TZ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="338153205"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="338153205"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 06:51:57 -0800
+ bh=irVaX36N/M8s11QUohRAudxJ45Jgx3HeWjOyH32BPIY=;
+ b=H2FqZZxaWtBD6a/umZOweH+YD7Z9cHgS0G1VUT2cYT8NkVHQah//dVrE
+ KkMGl2KtEE1K146U+7O76ome3mU8/ydtQv0Mas/oMUsELqH8VAdSlSHYa
+ yRLB5UTnV3PRey9fqnINYjgcL3gwUITRXXWwpjJUo4SKYC8JcDjir8Me5
+ bm5DJ3xTW04O5F2TI+1r6vdL4N2U7uIQ+GMOUjeVXA1ntceHrKJQXkkoR
+ Y+DsINKTxa0yV4mYacxm+doRjj6qPtf+s8VRWlaJjThOmYQv/7im6vAni
+ 5Hcv7VK0ItFDLFe84rE5Mpd56bENa+v086K7TGGIc2XJvk2B16bEWc2v+ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="231688374"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="231688374"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 06:52:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="683541140"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2022 06:51:57 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="573454006"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga001.jf.intel.com with ESMTP; 22 Feb 2022 06:52:06 -0800
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 22 Feb 2022 06:51:57 -0800
+ 15.1.2308.21; Tue, 22 Feb 2022 06:52:06 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 22 Feb 2022 06:52:05 -0800
 Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 22 Feb 2022 06:51:57 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ 15.1.2308.21 via Frontend Transport; Tue, 22 Feb 2022 06:52:05 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
  by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 22 Feb 2022 06:51:56 -0800
+ 15.1.2308.20; Tue, 22 Feb 2022 06:52:05 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jz3V7K03eyDjL/V1MinSaVoeQQDnMN4lW+wRZF+5GMnWhRH3ZaGaB6EunS5a0Bh5riVmqUzjvQGMBKy5ljHs/Dk7Hlx7/8zRH5/4I2MLqIgFWJH+HMZng6NxetwreP8uoAq4QKADVhbDtKAJ08dT7WJRgQ7J2QfdrDKY/24DHKdlAlibTQdoptvQAvSQiYcQVQtZbZUx7zu104SSzQyh7+ebb18p4Q6/kaQOLbkUd3tGv3P8nF3UkAe6bQ5ALINU7kP0tD575JVDSK4NOXb4KvPixXGw/wGkb//zEGkt5FP6AZ+4dS0g+npigImR5Y2wivTBNM3b9MS2bdGsYn4VMA==
+ b=Qo6IgLHLaoGPwi2Vhu8fLGmwanWpAX+Py7ChQ2DtwpagkgPSp4VZdXTcjkqDuNLwytbehE9MsqpArK3tmNeJGOT50mfZeafNuJtAMBF7YoJHWiPOEPecB84yg43Iex24Hf0T6nQhyhPIvXnK0BYmHohO9O3eVa009/bgOH2K35j8/x6bf7azF0oeac5yTCfYE8+FI7WhEoOAfq7b9l7+PE4yzIBcNQw3TG6rnPzspVebRS0eEsBlMcOZlKxgJkMYj9qsaqPRj2Jr/9NoRA54GJlKjoJTi3NfLkojTHz58PTjbUD2z5dMoaksPnuG4fYId0+rTeypAqK3VRGpRDPyXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yi4z+uAe9t/1S1OUBMjXcaY8sZ5dKyGDNhqsy+3v7m4=;
- b=Hodb4VpBc7J+NN2a6yR9GwmJ2tgcHSu038slMI5HuMrL1IcJ/GGsPLO9V5CaO10xUJI40HqC2lWwdInrjc29qKfzdCo41pXrOddtlmOCNW722uiaJIzXgCh2hoE7z22cKc1hYOPVSD4t6phQ7LGCbLxr+9TXvzWMhmF5LR/KD1lYuGRnlZPyN0ukovV8niFg3SOEJqrF3iGwxtjFAmc47mYu5iL2RJoqHeWpKqiMAbFoqPZPSSirGpPFzc6Ki+kg4gU1a8Xb4ORYaGgZx1Iv0ovdwCiG7Qm61gZ829osdqOyTrtDSLGZk6sUmXBmd+DxvK6nl9BEfu7qrhjAH3q10g==
+ bh=aCAHtC0lLFe8vADp9D+F90EUfwkaaw5i/LgsZKbdWAI=;
+ b=jvWGsuRmAEpgr5dXSSO53lsuWd8HbHWoTJlpRQTXhOn/rq4w8K75tsTqSSda3a5QAPS5axytVE4pHAqzUjshJLVDv/O4VTcpUyB0NqV2K0vF8Mqq4I+nw5AhKO0hmEYKjZRRxgDe6CA1ROQ97qcElc7vD7jNM50Gdgec0x6swZCRnffaPl37vDlkaaliZosOpjJ+bV9SFMop0E9nDofvuoqa4/8cpzTd5PngnRz4INdtbwCoCWiGphHT0A+aAlbIYp5ujOzuNEvEGbk7HofF0N7j+v3mPqXFcQDdx8cpn9PXapUfaUWnLFdv8QfHIWMaPaONffibsbV7COeQWrIUaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5)
- by BYAPR11MB3221.namprd11.prod.outlook.com (2603:10b6:a03:1c::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Tue, 22 Feb
- 2022 14:51:55 +0000
+ by PH0PR11MB5627.namprd11.prod.outlook.com (2603:10b6:510:e4::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Tue, 22 Feb
+ 2022 14:52:03 +0000
 Received: from SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::d67:8a16:f4cd:b475]) by SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::d67:8a16:f4cd:b475%9]) with mapi id 15.20.4995.027; Tue, 22 Feb 2022
- 14:51:55 +0000
+ 14:52:03 +0000
 From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 6/7] drm/i915/gt: Avoid direct dereferencing of io memory
-Date: Tue, 22 Feb 2022 20:22:05 +0530
-Message-ID: <20220222145206.76118-7-balasubramani.vivekanandan@intel.com>
+Subject: [PATCH 7/7] drm/i915: Avoid dereferencing io mapped memory
+Date: Tue, 22 Feb 2022 20:22:06 +0530
+Message-ID: <20220222145206.76118-8-balasubramani.vivekanandan@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220222145206.76118-1-balasubramani.vivekanandan@intel.com>
 References: <20220222145206.76118-1-balasubramani.vivekanandan@intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BM1PR01CA0080.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:1::20) To SJ0PR11MB4894.namprd11.prod.outlook.com
+Content-Type: text/plain
+X-ClientProxiedBy: BM1PR01CA0112.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00::28)
+ To SJ0PR11MB4894.namprd11.prod.outlook.com
  (2603:10b6:a03:2d4::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 385c5e73-0916-4e1a-4706-08d9f612de62
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3221:EE_
+X-MS-Office365-Filtering-Correlation-Id: bde1d2c7-52b9-4a62-5f79-08d9f612e37f
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5627:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BYAPR11MB322102F68129F32CA8891C7B9F3B9@BYAPR11MB3221.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <PH0PR11MB56277989BF6FDBE77F50E48E9F3B9@PH0PR11MB5627.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AKwTa0wQT5gw5pBhvxskPt1JdPuw73ET7Z2dujUT5kEodZvrmC6cQ3Tk2fcHKkmLBcxPgzJGSIV1l1c694ZvOi91bmRPvxbGvih3tgpaoNeQXHot+Da62FGUWjbVfvBbK4tMoVRwMOCEo4pNVlcsDRDYeATGQbDeWyPog7Pv99bhdN96mHWpMjo41DL2d98IrJf3JqfIQv7IBRfjMufMw16mg3IVhTi/v7JHe0w0e0/OgsCBaQvviHt7MH/kLQWlf2E++lTeua4tcsfVNK6Z/nY97wVi4r+N7WZzqoBlNzVf7fp9q6yiV76Oslb7BfLB8Hqvq9o0JQuLf77t6a7ZdlKGabLBPHloa1THPjmQh0qrUeJCkedNP6HSbWHlLUGbv4xOmxjV7dDtS7Vd2xZo5/v45/siVaWv+9bZHx2QAfuZg7WqaTgTVhVp/uDS8jsaoxnR/55e7eEQadaeLvWY+IcYnceea+CShmiyFVNMAuxJtqj8Mk/NrxzF9Mktve4Fex9PImawNaaz/q0Xb731wtcyw5Ajjpc88F35CwRFjcPfxiGbpAC+ZCbISwj1TQ6zsRDsqkK/e9/q+f7CKb0Fs2/23wnrZcte4BbA1BhbDLln+L2TTKnxf3vt8FpbrBb1putT350Hf5Hns+Y4nr0A4Q==
+X-Microsoft-Antispam-Message-Info: goVmsD+40HP9fmEVyDGCrR5PHvCvZHu/ze+KHyMtxyQINYK8RjfiK5rtB1JearxTD6nVerUXsV35G8ti4FTRSbrukeqzuDf+G0CglaP3t+zPA+NrdpcHR6wlarCH8m0aHcd38SfRRyzLAZwYdKoelcxUG3wqfpuuadyU8KDjsdp1Pbwd7jDgpClYy7WVACCwZp65ESuzZF5QbIgzc8rO5Ng4KC16bzmILkiCJNybabSLnvKMti1QXHmP1TyoMYeRAoig/8m6tzB7hJWR4GdHQDR9DJuE99NlwkmORbT3NhhH7tJ9d09W0hYcRUkiNNKHtZYhuGQLexrlf3GSGIvXQMwo9ejRtBhHu8zyIoo5/3pD7MQ2CptKXmWnhHo50JOLK4wD5cvMBtQVfcDMiDdxIxcNsxZc33M2X5ocJ6l9Nh4gBA4px/bFLa1IY5gb+nCm78L6il6kBW3ZdNUBxdJNI0yh5fIPc09HR25SjZVpcSrtY6QTPiuBAbxZgwdNwda/OpO5e8iYZTVx6E9nVDfa6KszCbRfcVEJ1ZUZyU4u9dxCQE7TaGa2Dolwun7zHxT4NX4Wb0TVJUseYUJQp1/VR9Xw1OTWtVGPLCxdgf49GAbH5rG09Itw12bZP9C+qznY8UUIMuHT2vb3SgVNe7K5EQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6486002)(2616005)(316002)(66946007)(54906003)(83380400001)(4326008)(450100002)(8676002)(186003)(1076003)(66476007)(38100700002)(66556008)(26005)(6666004)(6512007)(6506007)(82960400001)(5660300002)(44832011)(8936002)(36756003)(2906002)(508600001)(86362001)(107886003);
+ SFS:(13230001)(366004)(86362001)(82960400001)(38100700002)(316002)(66946007)(66556008)(66476007)(4326008)(8676002)(450100002)(8936002)(44832011)(5660300002)(2906002)(107886003)(2616005)(36756003)(186003)(26005)(1076003)(83380400001)(6486002)(508600001)(6512007)(6506007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHBIdHkyVTN6VThURStqR1lBdmhtZkZhWEJ0b21jZkM2ZFpBd1huL3gwSUg5?=
- =?utf-8?B?c0hGUkVBMXljYXFONlp6ZEczUnZXR3YvazhOaDFjQ0RoNkxEOHZpWEVTTWFJ?=
- =?utf-8?B?RjdkVjdteUZiSkRuUEVBR2tWM3EyR0pDeHRhcUwvVEpLeFpvUjQzUFVJQlFw?=
- =?utf-8?B?TDNLOEMyWXpBbTBPZHh0TG9wR2VlUmFoaG5PSlp0Ym5KVUkzWjlpY1ZOeGRQ?=
- =?utf-8?B?QlZtMDUycWhwM3NxMjlDWVE3RkFzZTlvWmVXS2JhZ1NxcHlUeDFtakhRYm52?=
- =?utf-8?B?ZC9PbEtuWUdtRjNkYWtia3VEcnNBVGlNYlpOMk1RNTlOVVN2cDFJVlp3NFNQ?=
- =?utf-8?B?YkVJaUExV2swZC9ybC80akh0SUM2QmllVWw5QUNtUDF4b2Z0N1MzREJZd2lT?=
- =?utf-8?B?RlJUTUp5cXRDNy9JUnh0VDN5VXVmcWZva2VjclBrdkN3SVAvemxCVFRBMHJj?=
- =?utf-8?B?YkhLS3BGbmpZbmtTU1U4U3k0bXhwNis1dlNpaUVRai9zd3NKeFh3RnNJS2ds?=
- =?utf-8?B?TjZ0VVVkcW1VT3JhNTZkelM5L1NnNUNtejBkVnY5T0M2aFlYa0JPQXI2NTZx?=
- =?utf-8?B?eTZaM2t0TWV3c2lsbFl4UHdjMVh1dlpzeEtRZU13K0crL2tFZmQ3MWtBNU5F?=
- =?utf-8?B?OVJmMEx2MFc1RGdIUXA2MldYNlhDcVJxVjlrTnhIY3B6cVNOSFE5d2d4c3FL?=
- =?utf-8?B?NnpMSytiSHBiVHphdVlVc3Z2ZmJBT3REVVZJK0U1dVBETVVyU2h1U3ZjaFln?=
- =?utf-8?B?WVdZTlBFb0ZQM3Vtb1J3Zkh1MTZBeFljTHVPMHcwbmViUTFnQUd5dkFrRTJH?=
- =?utf-8?B?N0tVZWFHSUphWjR6VllGRFNDQlE5dWlXbGtMM2tZaWV3Qy8wY0k5ayt6aC80?=
- =?utf-8?B?a3RZUzNMVXNHeTB5aEJ1dlZ2MXdRNVNRTU5xV0ZvcjhlS0hPVWU0bDNHL0Rq?=
- =?utf-8?B?eGNnRXhFYW1aMzNZSnVtbU5XMCt4WUVLM2FnazBPWDYrcUVqNWVlMUhOUmhE?=
- =?utf-8?B?R1kyODJkYjZmUnJNcDZlaU1CMjZJa1ZQNUlMMlNLYUJXdnF3cFk0UE5rTC9l?=
- =?utf-8?B?dUZ3WVBHbGordWpXY3lZbEpuSHRTNUJZMDFqcXRZZjRNS1pJcjV5ZVVSdkFD?=
- =?utf-8?B?ellEK0p5VGFEcHFBNEc3VTNGQ0k0dmoyUmdnUitrME9DNEdwb0docEFiMUNM?=
- =?utf-8?B?RStqbFhQc2F0NkMvNmd5N2pmUWxNc2FidlBjZDFLQlVUVGNzcVVqTUJsWldj?=
- =?utf-8?B?ckZEMjVQOWZ0THhLclRMZkhDZWtxRC9WQW1XVGVKS1V1emNJQ1NTdlZway8y?=
- =?utf-8?B?dGdNN25iL2U2ZXZOTURUcEFjaXVUQWN6RWpqRDhyaTZKUDBoNklqbzNYZmtJ?=
- =?utf-8?B?TUttQzZqQ283R3l3U01MRGMwOHFvYnpaSjJ2cEdPT29aQVN1VFFMTTBsNk4z?=
- =?utf-8?B?MS9FQ0xaL0lMQXNpcmd3NmFzaGR2cHc3SG43QVVCZzN4UDdmUnR4RWptbG5Y?=
- =?utf-8?B?a0VQNDJxSCtFU1lENHA1MnRZWllWVmZPS2dGeW1zSEZDVjBHeTM4cEorK1ho?=
- =?utf-8?B?QXljWEpXOWo2MHhUTGk1dlNOMmF5L2xjMkc2dFFaMkRTTjc4YkZpdndRbk5Y?=
- =?utf-8?B?MERvUmNDQlkvTW5tbG1PUlprVEtoU1FENHlSU0ZlMzFOTm83ekdqS3VYZjRk?=
- =?utf-8?B?a2MzbnpoeGdXY2l4T096Q0hmYzZIS0hFQjA0VWlyNlFwUHVnb1JJQVBYdExC?=
- =?utf-8?B?RktMY0V1Vks2VlNpVkpJKzR1Q2pCWTVld1dybkNCSzgxU3RSazdsc1JLTFgw?=
- =?utf-8?B?QlJDcFBKVCt5RXQ2RDF5ajRJV3NjSDk0WllWem0xV2VMSW13WFpPZlRnSEhR?=
- =?utf-8?B?OGphcGh5MDZMakZWa3RVZHNDdWp3OGhkdHBRSXNJVTJCK3VkRTlUbm0zajVO?=
- =?utf-8?B?NEV4UXRaZFhwSXRPRHJBUnBOY0p4akJsUnRaaXgrU2x1dW4vMUxXMllqdVo0?=
- =?utf-8?B?bGVoTEQrOXFjL20zLzBDNXV4TTNsaU5XakF5b3NkTVBHTi9zTk1jUzd1V0Vx?=
- =?utf-8?B?Z0hxUlZFeElDaXM4b2VSM2hoaWwrVElZc3dweWI3YmZ3V3VyWXBJcTY5c2xB?=
- =?utf-8?B?R1hLRTJncVh2aktzbERrdWdVUEFtZURYNXNXeVo0K0ZURGlBeEptYVM3d3VK?=
- =?utf-8?B?Z08yaXZiR1JxSHhsNy9aR0NRRGRMaDhLMFhMTWpIOENmM2lXQmZNU0dxcVRz?=
- =?utf-8?B?YWNUZllxa25NdWtnejRGaEJLUFVHT25TUngwQkVwOUV6emJTS3I4TlBSdmlD?=
- =?utf-8?B?eHpIYkhheGdQRUd4ZFZrNFVVMk13TkQ3VXN5Wm0rTzlFRFMzUXNJUT09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 385c5e73-0916-4e1a-4706-08d9f612de62
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HiSSE3ErvX0EdoBdhij69HPW/qb/EKqjRYqpJlAIW4hJk6jPQiWGsfhFxnAP?=
+ =?us-ascii?Q?v21iuPUORUFMqlGEeLes6VMcqsjuu+NUeCu2nALG1Un+9qGMgc2294e6mw4L?=
+ =?us-ascii?Q?q9Vb5FABeQmblr7DYJYWQ2cZwJJ5IYEASNVjmB59Lh+CPdKm8Rn2KDPQ6xRj?=
+ =?us-ascii?Q?mL5OqWSO2OkoqlGaszJaxabbyjpTM1BImq1MRs3BJ/QRJns+jVo+bJTFPye1?=
+ =?us-ascii?Q?89GNvapo3rG7p/RxRahcUAswwMBgbxEzrf/vN9Qtj2RsFZ+T3uA+gAydtWCQ?=
+ =?us-ascii?Q?Qk3wlcJ9Igmn5A8AWuF3EQ2scNXGqNtbk1M5U2h1ebXrjZDY1RkFANkx4y1a?=
+ =?us-ascii?Q?roYehMHZ0U26qU4vcXwzQP68rWN6FCQsCgD3+XyG/U/uaANmdRnaYeQzAHk7?=
+ =?us-ascii?Q?1h6Ao6ccExJkjy4YkzvlOrC+V/8FSIiLN6P9ql08EFLFXjwArhG9Rbo4EOAs?=
+ =?us-ascii?Q?b3zvE/qhp93lm0OYm/zM2TAqLDdaNXqPn5uHOoFolKM/2kDI0JooL2VlbtRJ?=
+ =?us-ascii?Q?pP9aV/cGuJ9hiroLD67GFOo4WVZvtvwi6yigf13iQgUpO2pjzVp2f2HBEOTe?=
+ =?us-ascii?Q?okLkwokHWdwjsYJuSk3BGMg8kJ7eg4zzXtiI7BCBRu+SIdHDNE/mlXQ3zlhl?=
+ =?us-ascii?Q?oJDsW71pgrE5xbvTHCqW86/ddxHpZIXmmo3bfFaNM/x1bkVPAlyQRDf0+jei?=
+ =?us-ascii?Q?02W/qBcWRSTVcp0EaNKvnlYS6mraROKazEGXe2JRY1VjnA0sUVpikQeZqEBz?=
+ =?us-ascii?Q?TkO2szgRSoyKqIp7lB3mWmzTPBS54w7QP7ZD7V6x7d8WAsvTB+TQDfvPwg9J?=
+ =?us-ascii?Q?lnRuAaUKCEJWjzCy0dHt+l9PrQ1RFB3i3AYDcNLbJaJyj3SEh9Rb51GjoTcT?=
+ =?us-ascii?Q?4M31qxGInvOCJSW5ZrUp0qdfiJExjNhzL72wRGvSTY5eomXskuENM7mNTKAc?=
+ =?us-ascii?Q?iUL87tmjGvACWnJvj3ZcvjPMJBAxK9vIqmVBU/+7liZtiM2ywodu0MJxJhNA?=
+ =?us-ascii?Q?p0O4CqswgRR2PH96naCDvSbSx5moiftFAiA7DzoPp2EKn/nx4UijMupVJs7H?=
+ =?us-ascii?Q?QR3vftkNZDD1E151BTIG+lwYHVukhzRMHzjK0Mniz9KPvSylZjg6ijYTznsk?=
+ =?us-ascii?Q?P+Mzl5ua+DbwuYMvRtcnzEC4Q5Lgwc6E7DzpX4Cs8HUtaMdcCjuZ88yRniGX?=
+ =?us-ascii?Q?nkhfrKexaaSNKjUV+iTScB75tF44MoG0xayL8OAfMCT/w2zFre+sI3vgXJnt?=
+ =?us-ascii?Q?toHt+10HmjIinAiT1gCwJpaqbbqJAjn0gqkTCTc/AchdcO1tDpeTowbAU9/X?=
+ =?us-ascii?Q?URVBy2JZIszLGQASIztPHuF4gYuEnp1Y2/wTdFzesxFpE6edMOTxltPuwrna?=
+ =?us-ascii?Q?aWFcY6LmZsB/N0lzKavPr07tgJiC7Pa88XC1tKolLmRjTFtxxcM2WnMSkF4I?=
+ =?us-ascii?Q?omGfxTESijfEB8lrBwRmYIcvmWLWQaOiEgoO72HQ3yw+0Fm7Ie81Ran/EMwH?=
+ =?us-ascii?Q?W/MY5GEj7o5n/Eg7+BN0FZw+nPpmf874aeSH97m4E2rNNs1LyXBp00sAgunh?=
+ =?us-ascii?Q?akT/k8h3rzZL+QCAKLYBKE7LG3O1PxVCXylILcscpWuxEEk0Ho/ygoy3nr+R?=
+ =?us-ascii?Q?NQaWClbzTABmU5qM9vHPaLiAYDPaEfiyUdyX1p61kq+fEb/c2hqtvWIWOX/z?=
+ =?us-ascii?Q?eKcpDXDLuCp0iRc2sUWaGdDk8KK/ID4sanp+SeZtyp2qhjbhRVDKtT6eTMHs?=
+ =?us-ascii?Q?iQmlh/Ryzw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bde1d2c7-52b9-4a62-5f79-08d9f612e37f
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4894.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 14:51:55.1400 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 14:52:03.7974 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ikRinPxjPGlrmIKc0uz6LUa4L45bPJKFkRVL8rCw0Dv9zghMh/TgSnoAQTo3oUNoRbrGaALoQgZmEYNtcQ5xYUAW/EHToyucizanNrGDWBS6jmmCB6Xc38Gn5uhPngFW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3221
+X-MS-Exchange-CrossTenant-UserPrincipalName: UtcDYv2sUqi1q4GbXJbIuxJu/fQP9TK6seBMDWvEuEzBom371o3kWLS2Y4wcsV0O2gRAqaXP2Lt6050KmclwAlSsWM7dTpuxA/EybripowublmuD7cWmmqoXmyNg9FXV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5627
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,104 +153,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: michael.cheng@intel.com,
  Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
  wayne.boyer@intel.com, casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- siva.mullati@intel.com,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+ siva.mullati@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-io mapped memory should not be directly dereferenced to ensure
-portability. io memory should be read/written/copied using helper
-functions.
-i915_memcpy_from_wc() function was used to copy the data from io memory to
-a temporary buffer and pointer to the temporary buffer was passed to CRC
-calculation function.
-But i915_memcpy_from_wc() only does a copy if the platform supports fast
-copy using non-temporal instructions. Otherwise the pointer to io memory
-was passed for CRC calculation. CRC function will directly dereference
-io memory and would not work properly on non-x86 platforms.
-To make it portable, it should be ensured always temporary buffer is
-used for CRC and not io memory.
+Pointer passed to zlib_deflate() for compression could point to io
+mapped memory and might end up in direct derefencing.
+io mapped memory is copied to a temporary buffer, which is then shared
+to zlib_deflate(), only for the case where platform supports fast copy
+using non-temporal instructions. If the platform lacks support,
+then io mapped memory is directly used.
+
+Direct dereferencing of io memory makes driver not portable outside
+x86 and should be avoided.
+
+With this patch, io memory is always copied to a temporary buffer
+irrespective of platform support for fast copy. The
+i915_has_memcpy_from_wc() check is removed. And
 drm_memcpy_from_wc_vaddr() is now used for copying instead of
 i915_memcpy_from_wc() for 2 reasons.
 - i915_memcpy_from_wc() will be deprecated.
 - drm_memcpy_from_wc_vaddr() will not fail if the fast copy is not
-supported but uses memcpy_fromio as fallback for copying.
-
-Cc: Matthew Brost <matthew.brost@intel.com
-Cc: Michał Winiarski <michal.winiarski@intel.com>
+supported instead continues copying using memcpy_fromio as fallback.
 
 Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 ---
- drivers/gpu/drm/i915/gt/selftest_reset.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/i915_gpu_error.c | 45 +++++++++++++++------------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-index 37c38bdd5f47..79d2bd7ef3b9 100644
---- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2018 Intel Corporation
-  */
- 
-+#include <drm/drm_cache.h>
- #include <linux/crc32.h>
- 
- #include "gem/i915_gem_stolen.h"
-@@ -82,7 +83,7 @@ __igt_reset_stolen(struct intel_gt *gt,
- 	for (page = 0; page < num_pages; page++) {
- 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
- 		void __iomem *s;
--		void *in;
-+		struct iosys_map src_map;
- 
- 		ggtt->vm.insert_page(&ggtt->vm, dma,
- 				     ggtt->error_capture.start,
-@@ -98,10 +99,9 @@ __igt_reset_stolen(struct intel_gt *gt,
- 					     ((page + 1) << PAGE_SHIFT) - 1))
- 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
- 
--		in = (void __force *)s;
--		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
--			in = tmp;
--		crc[page] = crc32_le(0, in, PAGE_SIZE);
-+		iosys_map_set_vaddr_iomem(&src_map, s);
-+		drm_memcpy_from_wc_vaddr(tmp, &src_map, PAGE_SIZE);
-+		crc[page] = crc32_le(0, tmp, PAGE_SIZE);
- 
- 		io_mapping_unmap(s);
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 1d042551619e..0c5917a7a545 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -258,9 +258,12 @@ static bool compress_init(struct i915_vma_compress *c)
+ 		return false;
  	}
-@@ -122,7 +122,7 @@ __igt_reset_stolen(struct intel_gt *gt,
- 	for (page = 0; page < num_pages; page++) {
- 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
+ 
+-	c->tmp = NULL;
+-	if (i915_has_memcpy_from_wc())
+-		c->tmp = pool_alloc(&c->pool, ALLOW_FAIL);
++	c->tmp = pool_alloc(&c->pool, ALLOW_FAIL);
++	if (!c->tmp) {
++		kfree(zstream->workspace);
++		pool_fini(&c->pool);
++		return false;
++	}
+ 
+ 	return true;
+ }
+@@ -292,15 +295,17 @@ static void *compress_next_page(struct i915_vma_compress *c,
+ }
+ 
+ static int compress_page(struct i915_vma_compress *c,
+-			 void *src,
+-			 struct i915_vma_coredump *dst,
+-			 bool wc)
++			 struct iosys_map *src,
++			 struct i915_vma_coredump *dst)
+ {
+ 	struct z_stream_s *zstream = &c->zstream;
+ 
+-	zstream->next_in = src;
+-	if (wc && c->tmp && i915_memcpy_from_wc(c->tmp, src, PAGE_SIZE))
++	if (src->is_iomem) {
++		drm_memcpy_from_wc_vaddr(c->tmp, src, PAGE_SIZE);
+ 		zstream->next_in = c->tmp;
++	} else {
++		zstream->next_in = src->vaddr;
++	}
+ 	zstream->avail_in = PAGE_SIZE;
+ 
+ 	do {
+@@ -389,9 +394,8 @@ static bool compress_start(struct i915_vma_compress *c)
+ }
+ 
+ static int compress_page(struct i915_vma_compress *c,
+-			 void *src,
+-			 struct i915_vma_coredump *dst,
+-			 bool wc)
++			 struct iosys_map *src,
++			 struct i915_vma_coredump *dst)
+ {
+ 	void *ptr;
+ 
+@@ -399,8 +403,7 @@ static int compress_page(struct i915_vma_compress *c,
+ 	if (!ptr)
+ 		return -ENOMEM;
+ 
+-	if (!(wc && i915_memcpy_from_wc(ptr, src, PAGE_SIZE)))
+-		memcpy(ptr, src, PAGE_SIZE);
++	drm_memcpy_from_wc_vaddr(ptr, src, PAGE_SIZE);
+ 	list_add_tail(&virt_to_page(ptr)->lru, &dst->page_list);
+ 	cond_resched();
+ 
+@@ -1054,6 +1057,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 	if (drm_mm_node_allocated(&ggtt->error_capture)) {
  		void __iomem *s;
--		void *in;
-+		struct iosys_map src_map;
- 		u32 x;
+ 		dma_addr_t dma;
++		struct iosys_map src;
  
- 		ggtt->vm.insert_page(&ggtt->vm, dma,
-@@ -134,10 +134,9 @@ __igt_reset_stolen(struct intel_gt *gt,
- 				      ggtt->error_capture.start,
- 				      PAGE_SIZE);
+ 		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
+ 			mutex_lock(&ggtt->error_mutex);
+@@ -1062,9 +1066,8 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 			mb();
  
--		in = (void __force *)s;
--		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
--			in = tmp;
--		x = crc32_le(0, in, PAGE_SIZE);
-+		iosys_map_set_vaddr_iomem(&src_map, s);
-+		drm_memcpy_from_wc_vaddr(tmp, &src_map, PAGE_SIZE);
-+		x = crc32_le(0, tmp, PAGE_SIZE);
+ 			s = io_mapping_map_wc(&ggtt->iomap, slot, PAGE_SIZE);
+-			ret = compress_page(compress,
+-					    (void  __force *)s, dst,
+-					    true);
++			iosys_map_set_vaddr_iomem(&src, s);
++			ret = compress_page(compress, &src, dst);
+ 			io_mapping_unmap(s);
  
- 		if (x != crc[page] &&
- 		    !__drm_mm_interval_first(&gt->i915->mm.stolen,
-@@ -146,7 +145,7 @@ __igt_reset_stolen(struct intel_gt *gt,
- 			pr_debug("unused stolen page %pa modified by GPU reset\n",
- 				 &page);
- 			if (count++ == 0)
--				igt_hexdump(in, PAGE_SIZE);
-+				igt_hexdump(tmp, PAGE_SIZE);
- 			max = page;
+ 			mb();
+@@ -1076,6 +1079,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 	} else if (vma_res->bi.lmem) {
+ 		struct intel_memory_region *mem = vma_res->mr;
+ 		dma_addr_t dma;
++		struct iosys_map src;
+ 
+ 		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
+ 			void __iomem *s;
+@@ -1083,15 +1087,15 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 			s = io_mapping_map_wc(&mem->iomap,
+ 					      dma - mem->region.start,
+ 					      PAGE_SIZE);
+-			ret = compress_page(compress,
+-					    (void __force *)s, dst,
+-					    true);
++			iosys_map_set_vaddr_iomem(&src, s);
++			ret = compress_page(compress, &src, dst);
+ 			io_mapping_unmap(s);
+ 			if (ret)
+ 				break;
  		}
+ 	} else {
+ 		struct page *page;
++		struct iosys_map src;
  
+ 		for_each_sgt_page(page, iter, vma_res->bi.pages) {
+ 			void *s;
+@@ -1099,7 +1103,8 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 			drm_clflush_pages(&page, 1);
+ 
+ 			s = kmap(page);
+-			ret = compress_page(compress, s, dst, false);
++			iosys_map_set_vaddr(&src, s);
++			ret = compress_page(compress, &src, dst);
+ 			kunmap(page);
+ 
+ 			drm_clflush_pages(&page, 1);
 -- 
 2.25.1
 
