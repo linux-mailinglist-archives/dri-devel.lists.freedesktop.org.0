@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385074C0583
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:47:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3B54C05A0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 00:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB6610E158;
-	Tue, 22 Feb 2022 23:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9493B10E206;
+	Tue, 22 Feb 2022 23:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8FC510E158
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 23:47:42 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id p14so47616146ejf.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X0F77fbIU1LkyDEiRwNiDPK4+9RtifiKKhYt8ZyZykg=;
- b=OtP7IFPifLHaL18s430w4QMwCl8fqgUQZF6vITBFV0Y2ISfFMWayXI1UbC79Swbr2q
- Y9zB2Loo9QWTHv3XZEzrZbb6fTeRpW+NDy5LYOzubMU09FjBJzlWv470tLJLosmvvlH8
- oaWdtvbT3xjZun9F1YAretW7g5VOMCyfIEbF8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X0F77fbIU1LkyDEiRwNiDPK4+9RtifiKKhYt8ZyZykg=;
- b=RIzHVp1aVkh67O1XY46MyQSeIRPco6aT0Rvu8Xk2seJqLa4Z4yaDPgVJIPVlm95fru
- 41SBfT/fRYa4Ie9vFW5NkZtxUCKy+ATkQY/0IFoXEK3SfYxTVFxa7+Fc2fTXO/LdIliR
- l8s4zVbeL3S0kBCwbj54i0t1xQ+QEcP+R3eVfv5R/jz9VBanKzSdO+gF4lNveG/D/yg/
- 5UFAy8LV/LZuQIbyDOfMCAGurMrIOx6SOvTs5A+E+VSqhiXPZI3t5WTl4yO0ExM0vU4v
- VhELmU5VuunigzsX5JgtpKKRDjNLQ+KgtuYN39Q5nqe0r8Tsner0Ts+mwczKo0iuT831
- WJCg==
-X-Gm-Message-State: AOAM532dDks8RTkfye43CVStOVR/aoPOUULDsYR0tzV7odejYFRzybcu
- u+RdvY2FyJpDvPbZBXl7kD0SPcx6YcawWObALNY=
-X-Google-Smtp-Source: ABdhPJyhA9E+ms79XoENx5uvuR98h5C1jUoOO+bVdNNwc8XvwJVmcVF/B+KF7nc5aKcNvocPRh1tgg==
-X-Received: by 2002:a17:906:2ed1:b0:6b6:bb09:178c with SMTP id
- s17-20020a1709062ed100b006b6bb09178cmr21209609eji.382.1645573661043; 
- Tue, 22 Feb 2022 15:47:41 -0800 (PST)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
- [209.85.221.44])
- by smtp.gmail.com with ESMTPSA id b19sm7320705edd.91.2022.02.22.15.47.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 15:47:40 -0800 (PST)
-Received: by mail-wr1-f44.google.com with SMTP id d28so8682018wra.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 15:47:39 -0800 (PST)
-X-Received: by 2002:a5d:64ea:0:b0:1ea:8148:6b97 with SMTP id
- g10-20020a5d64ea000000b001ea81486b97mr4917201wri.679.1645573659282; Tue, 22
- Feb 2022 15:47:39 -0800 (PST)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30DD410E206;
+ Tue, 22 Feb 2022 23:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645574136; x=1677110136;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=tYgaWv6WfZ0FOsgSVokq4FS/wwrsSmaAJ13BslMvT2A=;
+ b=a6qy41XoBaBL3uc0lhPUBEdUhhptQrLgBKFupam6fXewuXWVAFwQdEjk
+ EN1go7jvDnY/NiiwlgH9BAg+Bt5A3X5uW4qxdMBFRNgatIDlfHT6+RnLb
+ Q8fpDXctRhMBUWgvHqW+6lTIdCQEGJZUH1NzcE0bZ1wRElrsp7aOVsNvc 4=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 22 Feb 2022 15:55:36 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 15:55:35 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Tue, 22 Feb 2022 15:55:34 -0800
+Received: from [10.110.64.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Tue, 22 Feb
+ 2022 15:55:33 -0800
+Message-ID: <a5410cc6-54da-5f7f-325a-850a1aa2a83c@quicinc.com>
+Date: Tue, 22 Feb 2022 15:55:32 -0800
 MIME-Version: 1.0
-References: <20220205001342.3155839-1-dianders@chromium.org>
- <20220204161245.v2.2.Ib0bd5346135cbb0b63006b69b61d4c8af6484740@changeid>
- <5d60473d-be8f-e2dc-2ce9-bc0b9056e4b4@redhat.com>
- <e6670fd7-1f75-56f7-b668-20db9902cac6@intel.com>
- <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
- <87ee435fjs.fsf@intel.com> <ce339fc7-b6bf-b19a-be10-54ee86487b96@redhat.com>
-In-Reply-To: <ce339fc7-b6bf-b19a-be10-54ee86487b96@redhat.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Feb 2022 15:47:26 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VRa5DKUpGru9_0sOUXB1y_BZ2rd6uwToRYnx6a_TNRcw@mail.gmail.com>
-Message-ID: <CAD=FV=VRa5DKUpGru9_0sOUXB1y_BZ2rd6uwToRYnx6a_TNRcw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] drm: Plumb debugfs_init through to panels
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v8 3/4] drm/msm/dpu: revise timing engine programming to
+ support widebus feature
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+ <1645133788-5057-4-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n51Rewcp7uefTBJ2HwJN7gp-aTxrWe71XQ-RKosqw8uq8Q@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n51Rewcp7uefTBJ2HwJN7gp-aTxrWe71XQ-RKosqw8uq8Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +69,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, jjsu@chromium.org,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, LKML <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, lschyi@chromium.org,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Feb 16, 2022 at 1:36 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
+On 2/18/2022 6:53 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-02-17 13:36:27)
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 0d315b4..0c22839 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -217,6 +219,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
+>>          15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
+>>   };
+>>
+>> +
+>> +bool dpu_encoder_is_widebus_enabled(struct drm_encoder *drm_enc)
+> const?
 >
-> On 2/16/22 10:25, Jani Nikula wrote:
+>> +{
+>> +       struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> const?
 >
-> [snip]
+>> +
+>> +       return dpu_enc->wide_bus_en;
+>> +}
+>> +
+>>   static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
+>>   {
+>>          struct dpu_hw_dither_cfg dither_cfg = { 0 };
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index 99a5d73..893d74d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -168,4 +168,6 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+>>    */
+>>   int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
+>>
+>> +bool dpu_encoder_is_widebus_enabled(struct drm_encoder *drm_enc);
+> const drm_enc?
 >
-> >>
-> >> I actually wrote said follow-up patches and they were ready to go, but
-> >> when I was trying to come up with the right "Fixes" tag I found commit
-> >> b792e64021ec ("drm: no need to check return value of debugfs_create
-> >> functions"). So what's being requested is nearly the opposite of what
-> >> Greg did there.
-> >>
-> >> I thought about perhaps only checking for directories but even that
-> >> type of check was removed by Greg's patch. Further checking shows that
-> >> start_creating() actually has:
-> >>
-> >> if (IS_ERR(parent))
-> >>   return parent;
-> >>
-> >> ...so I guess that explains why it's fine to skip the check even for parents?
-> >>
-> >> Sure enough I confirmed that if I pass `ERR_PTR(-EINVAL)` as the root
-> >> for `panel->funcs->debugfs_init()` that nothing bad seems to happen...
-> >
-> > Yeah, the idea is that you don't need to check for debugfs function
-> > return values and you can safely pass error pointers to debugfs
-> > functions. The worst that can happen is you don't get the debugfs, but
-> > hey, it's debugfs so you shouldn't fail anything else because of that
-> > anyway.
-> >
+>> +
+>>   #endif /* __DPU_ENCODER_H__ */
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> index c2cd185..4e4fa56 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> @@ -147,17 +156,36 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+>>          hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
+>>          display_hctl = (hsync_end_x << 16) | hsync_start_x;
+>>
+>> -       if (ctx->cap->type == INTF_EDP || ctx->cap->type == INTF_DP) {
+>> +       /*
+>> +        * DATA_HCTL_EN controls data timing which can be different from
+>> +        * video timing. It is recommended to enable it for all cases, except
+>> +        * if compression is enabled in 1 pixel per clock mode
+>> +        */
+>> +       if (p->wide_bus_en)
+>> +               intf_cfg2 |= (INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN);
+> Drop useless parenthesis please.
 >
-> Thanks a lot Doug and Jani for the explanations. That makes sense and it
-> explains why most code I looked was not checking for the return value.
+>> +
+>> +       data_width = p->width;
+>> +
+>> +       hsync_data_start_x = hsync_start_x;
+>> +       hsync_data_end_x =  hsync_start_x + data_width - 1;
+>> +
+>> +       display_data_hctl = (hsync_data_end_x << 16) | hsync_data_start_x;
+>> +
+>> +       if (dp_intf) {
+>> +               /* DP timing adjustment */
+>> +               display_v_start += p->hsync_pulse_width + p->h_back_porch;
+>> +               display_v_end   -= p->h_front_porch;
+> Is this code movement intentional?
+yes, this timing adjustment is required for DP/eDP
 >
-> I guess we should write something about this in the debugfs functions
-> kernel doc so it's mentioned explicitly and people don't have to guess.
-
-For anyone interested, I've taken Javier's suggestion and tried to
-update the docs:
-
-https://lore.kernel.org/r/20220222154555.1.I26d364db7a007f8995e8f0dac978673bc8e9f5e2@changeid
+>> +
+>>                  active_h_start = hsync_start_x;
+>>                  active_h_end = active_h_start + p->xres - 1;
+>>                  active_v_start = display_v_start;
+> display_v_start is different now.
+>
+>>                  active_v_end = active_v_start + (p->yres * hsync_period) - 1;
+>>
+>> -               display_v_start += p->hsync_pulse_width + p->h_back_porch;
+>> -               display_v_end   -= p->h_front_porch;
+>> -
+>>                  active_hctl = (active_h_end << 16) | active_h_start;
+>>                  display_hctl = active_hctl;
+>> +
+>> +               intf_cfg |= INTF_CFG_ACTIVE_H_EN;
+>> +               intf_cfg |= INTF_CFG_ACTIVE_V_EN;
+> 		  intf_cfg |= INTF_CFG_ACTIVE_H_EN | INTF_CFG_ACTIVE_V_EN;
+>
+> would be one less line.
