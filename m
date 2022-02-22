@@ -1,57 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1BB4BF3C6
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:37:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5571C4BF3D0
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:39:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F6D10F5EB;
-	Tue, 22 Feb 2022 08:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4183810E3E3;
+	Tue, 22 Feb 2022 08:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1EE10F5E6
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:37:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7Y5Q0bIv6KCJJMw/T06DdwsQiFx+TO703WYBc0RO2zg=; b=1BASgC2ZmAp7Yuf1iRh/CZrpM+
- fUes0bn2kS7zkMDCz1SLhO7N2+FCpEpAiKn1Y3+EZMMlwpwQ7R7NKXAtcCaom+H6pkDtZWlW+wIx/
- 8hnwMmQ+V4dv//mER9Yle4tcbymSC3T5g6HMT7YDP0pzHTb1rEQsuTX0nosAUfeIn5lJe9hHKKvwP
- gbcThs7e1pUbiiiK+Ye8R9KPzRr9nggO5p5zj1XuaZIiSuXK3c662c0q+M02SlRwvTranKvMD6sQg
- 4LKm0IlHl2rJElKURPmgu6a80acIsyj3EnNIVWxgkO1mETmOJBImYmwsQDTT6qReeeXHHXyYZegpV
- 81lXv4Pg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nMQfS-00063Y-Iy; Tue, 22 Feb 2022 10:37:06 +0200
-Message-ID: <134c4a28-4331-deed-a374-75c9711168f0@kapsi.fi>
-Date: Tue, 22 Feb 2022 10:37:05 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73F10E3E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645519145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d3693kv1/ZZxaK75gn4lQUgIDTiNlthARJ48UTFbBgs=;
+ b=eeSPToTvU//7Km8MLlkg3/WcOMF8ML8VR/QBMR/Pho4HiNniS7tU8ZDf0hSjwHFIQCeg2Y
+ FjKkMH7qiDoSMlbpwSqLpfo3uUrn9jyIh4QITBnxYao3rpkabft2EtgZ1XUpI+IBehLOYC
+ u8RNIK4icY183RIoAxDcR4yRJDKdkOA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-477-XB5YlLRBPK2qdysdab076g-1; Tue, 22 Feb 2022 03:39:04 -0500
+X-MC-Unique: XB5YlLRBPK2qdysdab076g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i20-20020a05600c051400b00380d5eb51a7so239440wmc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:39:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d3693kv1/ZZxaK75gn4lQUgIDTiNlthARJ48UTFbBgs=;
+ b=aDcutgwIPUUUjalJetu3CJfiPl0otA5i8wlkIN5llHROM2YEbEB/xWlPR4Y1SOsLod
+ zGay/MDU120F+M07lqDFVOd2JykVOLPsffhCUPJlWxZJRox2bH93GBVNkS/WmRwOp7iE
+ +QGgsnb7NhCzjvFeQ7Dpe17IsB+cuiQEGIU7KBJrnLKG7OBINLDPwTEmQZTGEfXJ48GU
+ yBFR1QUt+MqwnakpbkDvPUVOcUF26yyvBxybQR4ZPhXe0fN/3R+JnIhlUe1Y4rYtwSAK
+ m8xgAKqoyoux6uEp+rCO9XKF16fsmEUShkMsRC38WCKrq2pUh1u6vOHFQXOUs5aip8L+
+ Hk+A==
+X-Gm-Message-State: AOAM5317m2ssdiZZnbCK0vNZIECVef/K3+WiNNQ17VU8SLU4INNKniIa
+ +jHHhvN4f1+nX/DoVVsEsh1+Q0bUtWoAOyeriFfytTq4cHU/qz+MLYueAcmx1AhDoG/Rl2Bt1bi
+ rg1nKEmnjz9ZFBiLlidw0VR6BOlEM
+X-Received: by 2002:a1c:c910:0:b0:353:2ceb:7a6f with SMTP id
+ f16-20020a1cc910000000b003532ceb7a6fmr2339624wmb.7.1645519143229; 
+ Tue, 22 Feb 2022 00:39:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw81XT2E0ncIyZxWQaEX+lXFOPYmh7fhE8hKxqpMYUa4jL31tkjOUrUuqQC2s+Hh7rBRx5okQ==
+X-Received: by 2002:a1c:c910:0:b0:353:2ceb:7a6f with SMTP id
+ f16-20020a1cc910000000b003532ceb7a6fmr2339607wmb.7.1645519143021; 
+ Tue, 22 Feb 2022 00:39:03 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id t16sm2548139wrg.99.2022.02.22.00.39.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 00:39:02 -0800 (PST)
+Message-ID: <dc8e4634-20be-409e-27a6-6497c9076605@redhat.com>
+Date: Tue, 22 Feb 2022 09:39:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 9/9] drm/tegra: Support context isolation
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
+ non-upright mounted LCD panels
+To: Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220221220045.11958-1-hdegoede@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220221220045.11958-1-hdegoede@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Osipenko <digetx@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org, robh+dt@kernel.org,
- robin.murphy@arm.com
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
- <20220218113952.3077606-10-mperttunen@nvidia.com>
- <2b4dd244-f918-4d26-2322-00a0bb226ccf@gmail.com>
- <ea65fcd6-9451-7f5b-f4a9-57b8575f09ff@kapsi.fi>
- <bb533634-6cde-3835-db11-7b6191385294@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <bb533634-6cde-3835-db11-7b6191385294@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,77 +88,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/22 22:02, Dmitry Osipenko wrote:
-> 21.02.2022 15:06, Mikko Perttunen пишет:
->> On 2/19/22 20:35, Dmitry Osipenko wrote:
->>> 18.02.2022 14:39, Mikko Perttunen пишет:
->>>> +    if (context->memory_context &&
->>>> context->client->ops->get_streamid_offset) {
->>>               ^^^
->>>> +        int offset =
->>>> context->client->ops->get_streamid_offset(context->client);
->>>> +
->>>> +        if (offset >= 0) {
->>>> +            job->context = context->memory_context;
->>>> +            job->engine_streamid_offset = offset;
->>>> +            host1x_context_get(job->context);
->>>> +        }
->>>
->>> You should bump refcount unconditionally or you'll get refcnt underflow
->>> on put, when offset < 0.
->>
->> This refcount is intended to be dropped from 'release_job', where it's
->> dropped if job->context is set, which it is from this path.
->>
->>>
->>>> +    }
->>>> +
->>>>        /*
->>>>         * job_data is now part of job reference counting, so don't
->>>> release
->>>>         * it from here.
->>>> diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
->>>> index 9ab9179d2026..be33da54d12c 100644
->>>> --- a/drivers/gpu/drm/tegra/uapi.c
->>>> +++ b/drivers/gpu/drm/tegra/uapi.c
->>>> @@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct
->>>> tegra_drm_context *context)
->>>>        struct tegra_drm_mapping *mapping;
->>>>        unsigned long id;
->>>>    +    if (context->memory_context)
->>>> +        host1x_context_put(context->memory_context);
->>>
->>> The "if (context->memory_context &&
->>> context->client->ops->get_streamid_offset)" above doesn't match the "if
->>> (context->memory_context)". You'll get refcount underflow.
->>
->> And this drop is for the refcount implicitly added when allocating the
->> memory context through host1x_context_alloc; so these two places should
->> be independent.
->>
->> Please elaborate if I missed something.
+Hello Hans,
+
+On 2/21/22 23:00, Hans de Goede wrote:
+> Some devices use e.g. a portrait panel in a standard laptop casing made
+> for landscape panels. efifb calls drm_get_panel_orientation_quirk() and
+> sets fb_info.fbcon_rotate_hint to make fbcon rotate the console so that
+> it shows up-right instead of on its side.
 > 
-> You named context as memory_context and then have
-> context=context->memory_context. Please try to improve the variable
-> names, like drm_ctx->host1x_ctx for example.
+> When switching to simpledrm to fbcon renders on its side. Call the
+
+This sentence sounds a little off to me. Did you mean:
+
+"the fbcon renders on its side." ?
+
+Maybe you can say something like the following:
+
+ When switching to simpledrm, fbcon attachs to the fbdev emulated by
+ the DRM core instead. And the fb_info.fbcon_rotate_hint field is set
+ by the emulation layer, if panel orientation was set for a connector.
+
+> drm_connector_set_panel_orientation_with_quirk() helper to add
+> a "panel orientation" property on devices listed in the quirk table,
+> to make the fbcon (and aware userspace apps) rotate the image to
+> display properly.
 > 
-> I'm also not a big fan of the "if (ref) put(ref)" pattern. Won't be
-> better to move all the "if (!NULL)" checks inside of get()/put() and
-> make the invocations unconditional?
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
 
-I agree that the naming here is confusing with different kinds of 
-contexts flying around, though I would prefer not to change the original 
-'struct tegra_drm_context *context' since it's used all around the code. 
-But I'll try to make it clearer.
+The patch looks good to me. Thanks a lot for fixing this
 
-Regarding moving NULL checks inside get/put, I personally dislike that 
-pattern (also with e.g. kfree) since when reading the code, it makes it 
-more difficult to see that the pointer can be NULL.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Mikko
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
