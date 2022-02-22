@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91F84BF814
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 13:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A014BF842
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 13:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE29D10E366;
-	Tue, 22 Feb 2022 12:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D79F10E47D;
+	Tue, 22 Feb 2022 12:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26E4F10E366;
- Tue, 22 Feb 2022 12:31:55 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 144A110E47D;
+ Tue, 22 Feb 2022 12:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645533115; x=1677069115;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=TUdJrw/iiseU5DkzTcdJTi52Csi3QSN8Erc7cYrMztQ=;
- b=MyeXPWnPT66k1ZzH1mxwHyDU5oQxHsqDClEdkit7Nuconz7Yz/jJ45hk
- m4lePl+zq+NuYBCXrb4VbaaIvUo/y1mXY4PIeveBIwekzriHe5uSMmz9w
- xd0ZDzBb4sXzZHeSB0JJ6e1almUwagfrEkmiyNuJdTXntlv5C2j1r8BcF
- RgXRcGXNfw3NGMUw54/q7h04xYHDnjF0zGsnAsMw9Cem+NuQQ+tjYNS8+
- bWQOh29fEGTsJ2dV+WoFPHziw8k8hpw4V14YFN7MNF9kLMzBi3wh+q1ds
- Y/mtiqcyuKSS/uBcSVgBS/zK0qWVyxhE9vcizs3/rSKfih5hYvHkn2rPU g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="232310842"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="232310842"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 04:31:54 -0800
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="507967965"
-Received: from sjgillin-mobl.ger.corp.intel.com (HELO [10.213.218.63])
- ([10.213.218.63])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 04:31:52 -0800
-Message-ID: <b9ae4943-2bb2-c1e1-a9f7-24db071ae1f5@linux.intel.com>
-Date: Tue, 22 Feb 2022 12:31:50 +0000
+ t=1645533809; x=1677069809;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=V3OvJzcIYv9Xc/I5EnGnnaoV/n9suE3zy47qd9uxvdY=;
+ b=gK4Oz1K++Q+l4mWdegjTrTbXOPmPvBnW28s+gM2NR1nAqvV/JB5iqtkw
+ xQf8RUfETBUDk9GyqHsDDec1twG9VshsXxEfh+H9mpxkCwt9T/bYzXYeU
+ zCWHWSNwwSYvL8GWJNdKqpkGuw5jBTC4ITyX0oRABkYw8P1YGTZqyQYZ4
+ a5E+v0bTtTdVaZe7EkCOrURxaXSYD3bOfeeESbLD15Rki/e6PDGlK86kO
+ zFJvPHj8LwZzq4ImoqmjWBTen82PKEnNQkX4vYn//HJr9Fnq1eBekrV8o
+ rvcIw0NP8+B1FxTmdY4qR45qLNjoq3EFT47IWwtcuNulBpCJU47SaOsbF w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="276292984"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="276292984"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 04:43:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="547725699"
+Received: from torta-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.49.14])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 04:43:24 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Colin Ian King <colin.i.king@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915: make a handful of read-only arrays static const
+In-Reply-To: <20220222120323.86480-1-colin.i.king@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220222120323.86480-1-colin.i.king@gmail.com>
+Date: Tue, 22 Feb 2022 14:43:22 +0200
+Message-ID: <87tucr6phx.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 7/7] drm/i915: Expose client engine utilisation via fdinfo
-Content-Language: en-US
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-References: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
- <20220106165536.57208-8-tvrtko.ursulin@linux.intel.com>
- <20220219005127.GI34157@unerlige-ril-10.165.21.154>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220219005127.GI34157@unerlige-ril-10.165.21.154>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,106 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Chris Healy <cphealy@gmail.com>, David M Nieto <David.Nieto@amd.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Vandita Kulkarni <vandita.kulkarni@intel.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 22 Feb 2022, Colin Ian King <colin.i.king@gmail.com> wrote:
+> Don't populate the read-only arrays on the stack but instead make
+> them static const. Also makes the object code a little smaller.
+> Reformat the statements to clear up checkpatch warning.
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_vdsc.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> index 3faea903b9ae..d49f66237ec3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> @@ -378,10 +378,18 @@ calculate_rc_params(struct rc_parameters *rc,
+>  {
+>  	int bpc = vdsc_cfg->bits_per_component;
+>  	int bpp = vdsc_cfg->bits_per_pixel >> 4;
+> -	int ofs_und6[] = { 0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12 };
+> -	int ofs_und8[] = { 2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12 };
+> -	int ofs_und12[] = { 2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12 };
+> -	int ofs_und15[] = { 10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12 };
+> +	static const int ofs_und6[] = {
+> +		0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+> +	};
+> +	static const int ofs_und8[] = {
+> +		2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+> +	};
+> +	static const int ofs_und12[] = {
+> +		2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+> +	};
 
-On 19/02/2022 00:51, Umesh Nerlige Ramappa wrote:
-> On Thu, Jan 06, 2022 at 04:55:36PM +0000, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Similar to AMD commit
->> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
->> infrastructure added in previous patches, we add basic client info
->> and GPU engine utilisation for i915.
->>
->> Example of the output:
->>
->>  pos:    0
->>  flags:  0100002
->>  mnt_id: 21
->>  drm-driver: i915
->>  drm-pdev:   0000:00:02.0
->>  drm-client-id:      7
->>  drm-engine-render:  9288864723 ns
->>  drm-engine-copy:    2035071108 ns
->>  drm-engine-video:   0 ns
->>  drm-engine-video-enhance:   0 ns
->>
->> v2:
->> * Update for removal of name and pid.
->>
->> v3:
->> * Use drm_driver.name.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: David M Nieto <David.Nieto@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Chris Healy <cphealy@gmail.com>
->> Acked-by: Christian König <christian.koenig@amd.com>
->> ---
->> Documentation/gpu/drm-usage-stats.rst  |  6 +++
->> Documentation/gpu/i915.rst             | 27 ++++++++++
->> drivers/gpu/drm/i915/i915_driver.c     |  3 ++
->> drivers/gpu/drm/i915/i915_drm_client.c | 73 ++++++++++++++++++++++++++
->> drivers/gpu/drm/i915/i915_drm_client.h |  4 ++
->> 5 files changed, 113 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-usage-stats.rst 
->> b/Documentation/gpu/drm-usage-stats.rst
->> index c669026be244..6952f8389d07 100644
->> --- a/Documentation/gpu/drm-usage-stats.rst
->> +++ b/Documentation/gpu/drm-usage-stats.rst
->> @@ -95,3 +95,9 @@ object belong to this client, in the respective 
->> memory region.
->>
->> Default unit shall be bytes with optional unit specifiers of 'KiB' or 
->> 'MiB'
->> indicating kibi- or mebi-bytes.
->> +
->> +===============================
->> +Driver specific implementations
->> +===============================
->> +
->> +:ref:`i915-usage-stats`
->> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
->> index b7d801993bfa..29f412a0c3dc 100644
->> --- a/Documentation/gpu/i915.rst
->> +++ b/Documentation/gpu/i915.rst
->> @@ -708,3 +708,30 @@ The style guide for ``i915_reg.h``.
->>
->> .. kernel-doc:: drivers/gpu/drm/i915/i915_reg.h
->>    :doc: The i915 register macro definition style guide
->> +
->> +.. _i915-usage-stats:
->> +
->> +i915 DRM client usage stats implementation
->> +==========================================
->> +
->> +The drm/i915 driver implements the DRM client usage stats 
->> specification as
->> +documented in :ref:`drm-client-usage-stats`.
->> +
->> +Example of the output showing the implemented key value pairs and 
->> entirety of
->> +the currenly possible format options:
-> 
-> s/currenly/currently/
-> 
-> lgtm, for the series
-> Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Hmm, I wonder why the same values are duplicated in ofs_und8 and
+ofs_und12. Cc: Vandita, Manasi.
 
-Thanks Umesh!
+Regardless, the patch is sane.
 
-There will be a small re-spin, mostly about adding drm-engine-capacity- 
-tag which I needed for vendor agnostic gputop, and couple fixups. Some 
-r-b's will need updating. I will copy you when sending it out.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Regards,
+> +	static const int ofs_und15[] = {
+> +		10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
+> +	};
+>  	int qp_bpc_modifier = (bpc - 8) * 2;
+>  	u32 res, buf_i, bpp_i;
 
-Tvrtko
+-- 
+Jani Nikula, Intel Open Source Graphics Center
