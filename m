@@ -1,50 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E62D4BFA06
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 14:57:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1682B4BF9CB
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 14:50:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFC2610E63C;
-	Tue, 22 Feb 2022 13:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC4D10E765;
+	Tue, 22 Feb 2022 13:50:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339DF10E79A;
- Tue, 22 Feb 2022 13:56:32 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD45D10E73C
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645538192; x=1677074192;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ixWZZQ5njZ74NrR3qdG0Upt0/Bz4mDYUkMmagx+066Y=;
- b=FwUta3mHWm1/5/LH47OTZpOxUDpcVbkoFvrA7TDp0DMY1XcJsr6gkeBW
- MHo7BRmkbcnhhb0kP8N1C0r4CBT9n4s6CfcSEcGDBlDd3ayruySmdAeBG
- rLic5PV+6qcvugOeNxLBLaE2qTLVRGknNuHqpKmTBzzwp0yVaFwr7QO7G
- ubKh6oVhGx++/jEfLM6P0cZuzH4Iaj+moY6yfgyk9OFpLIh0XID896GJj
- IIefXiAbEvJbyHFfqfY0YW/qJuWVq2ttdPc3sc9QsbdnZ5G2BZQvgIzmU
- tVLDFuD1npxKcgGUQopoCmXULVbn6+AhxyICseGXxv17gfTm5iVgrH1hr w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="232326525"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="232326525"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 05:56:31 -0800
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="505534128"
-Received: from sjgillin-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.218.63])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 05:56:30 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: igt-dev@lists.freedesktop.org
-Subject: [PATCH i-g-t 11/11] gputop: Basic vendor agnostic GPU top tool
-Date: Tue, 22 Feb 2022 13:56:05 +0000
-Message-Id: <20220222135605.1120767-12-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220222135605.1120767-1-tvrtko.ursulin@linux.intel.com>
-References: <20220222135605.1120767-1-tvrtko.ursulin@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ t=1645537828; x=1677073828;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=BU60NPUuZiKpLW5U7IFwfgS4NrXz5xDQi7nQuqV0MV8=;
+ b=YCzEnUPtiyxGm+4FO2Xe99BFu39n7TDCgsXBA33cIOH7BtIp8CiXONpU
+ grCP08jU0qfYKpH+rWDeZqF941Rl17vObf02W/aPqmKiCboOLWuTZrZwA
+ ag1RS/qUtlhsaiKfhTqb/X3hHoydrMSXkiAONbtsCKO7zaHdi0UncI9tt
+ /QkMOx3j964L0K42+UaIRD2xh0f2FNOqpaUeBRTiuzzfn3Y+5iyq2mcy1
+ qoJZKzymU53Xt4jxGbdIcbeT1hHMrpoG/trVYKAi8BGaTD/PVSiq5TZEq
+ AJqVMCNbOJ7aWJdG5ufZzXa1wXOsyn4Wd+tmgB1DWKSmDZ8PhSzL20XJF A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="338138768"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="338138768"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 05:50:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="638907917"
+Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.78])
+ by orsmga004.jf.intel.com with ESMTP; 22 Feb 2022 05:50:27 -0800
+From: Lee Shawn C <shawn.c.lee@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [v2 1/3] drm/edid: parse multiple CEA extension block
+Date: Tue, 22 Feb 2022 22:02:34 +0800
+Message-Id: <20220222140236.6751-1-shawn.c.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220222063819.5279-1-shawn.c.lee@intel.com>
+References: <20220222063819.5279-1-shawn.c.lee@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,322 +52,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Try to find and parse more CEA ext blocks if edid->extensions
+is greater than one.
 
-Rudimentary vendor agnostic example of how lib_igt_drm_clients can be used
-to display a sorted by card and usage list of processes using GPUs.
+v2: add ext_index and look for available CEA block from
+    ext_index in drm_find_cea_extension().
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Rob Clark <robdclark@chromium.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
 ---
- tools/gputop.c    | 276 ++++++++++++++++++++++++++++++++++++++++++++++
- tools/meson.build |   5 +
- 2 files changed, 281 insertions(+)
- create mode 100644 tools/gputop.c
+ drivers/gpu/drm/drm_edid.c | 110 ++++++++++++++++++++-----------------
+ 1 file changed, 60 insertions(+), 50 deletions(-)
 
-diff --git a/tools/gputop.c b/tools/gputop.c
-new file mode 100644
-index 000000000000..dbc5b7b4ce42
---- /dev/null
-+++ b/tools/gputop.c
-@@ -0,0 +1,276 @@
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the next
-+ * paragraph) shall be included in all copies or substantial portions of the
-+ * Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-+ * DEALINGS IN THE SOFTWARE.
-+ */
-+
-+#include <assert.h>
-+#include <ctype.h>
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <inttypes.h>
-+#include <limits.h>
-+#include <locale.h>
-+#include <math.h>
-+#include <poll.h>
-+#include <signal.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <unistd.h>
-+#include <termios.h>
-+#include <sys/sysmacros.h>
-+#include <stdbool.h>
-+
-+#include "igt_drm_clients.h"
-+#include "igt_drm_fdinfo.h"
-+
-+#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
-+
-+static const char *bars[] = { " ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█" };
-+
-+static void n_spaces(const unsigned int n)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < n; i++)
-+		putchar(' ');
-+}
-+
-+static void print_percentage_bar(double percent, int max_len)
-+{
-+	int bar_len, i, len = max_len - 2;
-+	const int w = 8;
-+
-+	assert(max_len > 0);
-+
-+	bar_len = ceil(w * percent * len / 100.0);
-+	if (bar_len > w * len)
-+		bar_len = w * len;
-+
-+	putchar('|');
-+
-+	for (i = bar_len; i >= w; i -= w)
-+		printf("%s", bars[w]);
-+	if (i)
-+		printf("%s", bars[i]);
-+
-+	len -= (bar_len + (w - 1)) / w;
-+	n_spaces(len);
-+
-+	putchar('|');
-+}
-+
-+static int
-+print_client_header(struct igt_drm_client *c, int lines, int con_w, int con_h,
-+		    int *engine_w)
-+{
-+	const char *pidname = "   PID              NAME ";
-+	int ret, len = strlen(pidname);
-+
-+	if (lines++ >= con_h || len >= con_w)
-+		return lines;
-+	printf("\033[7m");
-+	ret = printf("DRM minor %u", c->drm_minor);
-+	n_spaces(con_w - ret);
-+
-+	if (lines++ >= con_h)
-+		return lines;
-+	printf("\n%s", pidname);
-+
-+	if (c->engines->num_engines) {
-+		unsigned int i;
-+		int width;
-+
-+		*engine_w = width = (con_w - len) / c->engines->num_engines;
-+
-+		for (i = 0; i <= c->engines->max_engine_id; i++) {
-+			const char *name = c->engines->names[i];
-+			int name_len = strlen(name);
-+			int pad = (width - name_len) / 2;
-+			int spaces = width - pad - name_len;
-+
-+			if (!name)
-+				continue;
-+
-+			if (pad < 0 || spaces < 0)
-+				continue;
-+
-+			n_spaces(pad);
-+			printf("%s", name);
-+			n_spaces(spaces);
-+			len += pad + name_len + spaces;
-+		}
-+	}
-+
-+	n_spaces(con_w - len);
-+	printf("\033[0m\n");
-+
-+	return lines;
-+}
-+
-+
-+static bool
-+newheader(const struct igt_drm_client *c, const struct igt_drm_client *pc)
-+{
-+	return !pc || c->drm_minor != pc->drm_minor;
-+}
-+
-+static bool filter_idle = true;
-+
-+static int
-+print_client(struct igt_drm_client *c, struct igt_drm_client **prevc,
-+	     double t, int lines, int con_w, int con_h,
-+	     unsigned int period_us, int *engine_w)
-+{
-+	unsigned int i;
-+
-+	if (filter_idle && (!c->total_runtime || c->samples < 2))
-+		return lines;
-+
-+	if (newheader(c, *prevc)) {
-+		lines = print_client_header(c, lines, con_w, con_h, engine_w);
-+		if (lines >= con_h)
-+			return lines;
-+	}
-+
-+	*prevc = c;
-+
-+	printf("%6u %17s ", c->pid, c->print_name);
-+	lines++;
-+
-+	for (i = 0; c->samples > 1 && i <= c->engines->max_engine_id; i++) {
-+		double pct;
-+
-+		if (!c->engines->capacity[i])
-+			continue;
-+
-+		pct = (double)c->val[i] / period_us / 1e3 * 100 /
-+		      c->engines->capacity[i];
-+
-+		/*
-+		 * Guard against possible time-drift between sampling
-+		 * client data and time we obtained our time-delta from
-+		 * PMU.
-+		 */
-+		if (pct > 100.0)
-+			pct = 100.0;
-+
-+		print_percentage_bar(pct, *engine_w);
-+	}
-+
-+	putchar('\n');
-+
-+	return lines;
-+}
-+
-+static int
-+__client_id_cmp(const struct igt_drm_client *a,
-+		const struct igt_drm_client *b)
-+{
-+	if (a->id > b->id)
-+		return 1;
-+	else if (a->id < b->id)
-+		return -1;
-+	else
-+		return 0;
-+}
-+
-+static int client_cmp(const void *_a, const void *_b, void *unused)
-+{
-+	const struct igt_drm_client *a = _a;
-+	const struct igt_drm_client *b = _b;
-+	long val_a, val_b;
-+
-+	val_a = a->drm_minor;
-+	val_b = b->drm_minor;
-+	if (val_a > val_b)
-+		return 1;
-+	else if (val_b > val_a)
-+		return -1;
-+
-+	val_a = a->last_runtime;
-+	val_b = b->last_runtime;
-+	if (val_a == val_b)
-+		return __client_id_cmp(a, b);
-+	else if (val_b > val_a)
-+		return 1;
-+	else
-+		return -1;
-+
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	unsigned int period_us = 2e6;
-+	struct igt_drm_clients *clients = NULL;
-+	int con_w = -1, con_h = -1;
-+
-+	clients = igt_drm_clients_init(NULL);
-+	if (!clients)
-+		exit(1);
-+
-+	igt_drm_clients_scan(clients, NULL, NULL, 0);
-+
-+	for (;;) {
-+		struct igt_drm_client *c, *prevc = NULL;
-+		int i, engine_w = 0, lines = 0;
-+		struct winsize ws;
-+
-+		if (ioctl(0, TIOCGWINSZ, &ws) != -1) {
-+			con_w = ws.ws_col;
-+			con_h = ws.ws_row;
-+			if (con_w == 0 && con_h == 0) {
-+				/* Serial console. */
-+				con_w = 80;
-+				con_h = 24;
-+			}
-+		}
-+
-+		igt_drm_clients_scan(clients, NULL, NULL, 0);
-+		igt_drm_clients_sort(clients, client_cmp);
-+
-+		printf("\033[H\033[J");
-+
-+		igt_for_each_drm_client(clients, c, i) {
-+			assert(c->status != IGT_DRM_CLIENT_PROBE);
-+			if (c->status != IGT_DRM_CLIENT_ALIVE)
-+				break; /* Active clients are first in the array. */
-+
-+			lines = print_client(c, &prevc, (double)period_us / 1e6,
-+					     lines, con_w, con_h, period_us,
-+					     &engine_w);
-+			if (lines >= con_h)
-+				break;
-+		}
-+
-+		if (lines++ < con_h)
-+			printf("\n");
-+
-+		usleep(period_us);
-+	}
-+
-+	return 0;
-+}
-diff --git a/tools/meson.build b/tools/meson.build
-index e65aceeef9fa..508964004bb0 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -69,6 +69,11 @@ if libudev.found()
- 		   install : true)
- endif
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 12893e7be89b..c83ef23757bd 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3353,16 +3353,14 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 	return edid_ext;
+ }
  
-+executable('gputop', 'gputop.c',
-+           install : true,
-+           install_rpath : bindir_rpathdir,
-+           dependencies : [lib_igt_drm_clients,lib_igt_drm_fdinfo,math])
+-static const u8 *drm_find_cea_extension(const struct edid *edid)
++static const u8 *drm_find_cea_extension(const struct edid *edid, int *ext_index)
+ {
+ 	const struct displayid_block *block;
+ 	struct displayid_iter iter;
+ 	const u8 *cea;
+-	int ext_index = 0;
+ 
+-	/* Look for a top level CEA extension block */
+-	/* FIXME: make callers iterate through multiple CEA ext blocks? */
+-	cea = drm_find_edid_extension(edid, CEA_EXT, &ext_index);
++	/* Look for a CEA extension block from ext_index */
++	cea = drm_find_edid_extension(edid, CEA_EXT, ext_index);
+ 	if (cea)
+ 		return cea;
+ 
+@@ -3643,10 +3641,10 @@ add_alternate_cea_modes(struct drm_connector *connector, struct edid *edid)
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_display_mode *mode, *tmp;
+ 	LIST_HEAD(list);
+-	int modes = 0;
++	int modes = 0, ext_index = 0;
+ 
+ 	/* Don't add CEA modes if the CEA extension block is missing */
+-	if (!drm_find_cea_extension(edid))
++	if (!drm_find_cea_extension(edid, &ext_index))
+ 		return 0;
+ 
+ 	/*
+@@ -4310,46 +4308,58 @@ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
+ static int
+ add_cea_modes(struct drm_connector *connector, struct edid *edid)
+ {
+-	const u8 *cea = drm_find_cea_extension(edid);
++	const u8 *cea = NULL;
+ 	const u8 *db, *hdmi = NULL, *video = NULL;
+ 	u8 dbl, hdmi_len, video_len = 0;
+-	int modes = 0;
++	int modes = 0, j = 0;
+ 
+-	if (cea && cea_revision(cea) >= 3) {
+-		int i, start, end;
++	for (;;) {
++		cea = drm_find_cea_extension(edid, &j);
+ 
+-		if (cea_db_offsets(cea, &start, &end))
+-			return 0;
++		if (!cea)
++			break;
+ 
+-		for_each_cea_db(cea, i, start, end) {
+-			db = &cea[i];
+-			dbl = cea_db_payload_len(db);
++		if (cea && cea_revision(cea) >= 3) {
++			int i, start, end;
 +
- intel_l3_parity_src = [ 'intel_l3_parity.c', 'intel_l3_udev_listener.c' ]
- executable('intel_l3_parity', sources : intel_l3_parity_src,
- 	   dependencies : tool_deps,
++			if (cea_db_offsets(cea, &start, &end))
++				continue;
+ 
+-			if (cea_db_tag(db) == VIDEO_BLOCK) {
+-				video = db + 1;
+-				video_len = dbl;
+-				modes += do_cea_modes(connector, video, dbl);
+-			} else if (cea_db_is_hdmi_vsdb(db)) {
+-				hdmi = db;
+-				hdmi_len = dbl;
+-			} else if (cea_db_is_y420vdb(db)) {
+-				const u8 *vdb420 = &db[2];
+-
+-				/* Add 4:2:0(only) modes present in EDID */
+-				modes += do_y420vdb_modes(connector,
+-							  vdb420,
+-							  dbl - 1);
++			for_each_cea_db(cea, i, start, end) {
++				db = &cea[i];
++				dbl = cea_db_payload_len(db);
++
++				if (cea_db_tag(db) == VIDEO_BLOCK) {
++					video = db + 1;
++					video_len = dbl;
++					modes += do_cea_modes(connector, video, dbl);
++				} else if (cea_db_is_hdmi_vsdb(db)) {
++					hdmi = db;
++					hdmi_len = dbl;
++				} else if (cea_db_is_y420vdb(db)) {
++					const u8 *vdb420 = &db[2];
++
++					/* Add 4:2:0(only) modes present in EDID */
++					modes += do_y420vdb_modes(connector,
++								  vdb420,
++								  dbl - 1);
++				}
+ 			}
+ 		}
+-	}
+ 
+-	/*
+-	 * We parse the HDMI VSDB after having added the cea modes as we will
+-	 * be patching their flags when the sink supports stereo 3D.
+-	 */
+-	if (hdmi)
+-		modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len, video,
+-					    video_len);
++		/*
++		 * We parse the HDMI VSDB after having added the cea modes as we will
++		 * be patching their flags when the sink supports stereo 3D.
++		 */
++		if (hdmi) {
++			modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len, video,
++						    video_len);
++			hdmi  = NULL;
++			video = NULL;
++			hdmi_len = 0;
++			video_len = 0;
++		}
++	}
+ 
+ 	return modes;
+ }
+@@ -4551,7 +4561,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
+ 	uint8_t *eld = connector->eld;
+ 	const u8 *cea;
+ 	const u8 *db;
+-	int total_sad_count = 0;
++	int total_sad_count = 0, ext_index = 0;
+ 	int mnl;
+ 	int dbl;
+ 
+@@ -4560,7 +4570,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
+ 	if (!edid)
+ 		return;
+ 
+-	cea = drm_find_cea_extension(edid);
++	cea = drm_find_cea_extension(edid, &ext_index);
+ 	if (!cea) {
+ 		DRM_DEBUG_KMS("ELD: no CEA Extension found\n");
+ 		return;
+@@ -4644,11 +4654,11 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
+  */
+ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
+ {
+-	int count = 0;
++	int count = 0, ext_index = 0;
+ 	int i, start, end, dbl;
+ 	const u8 *cea;
+ 
+-	cea = drm_find_cea_extension(edid);
++	cea = drm_find_cea_extension(edid, &ext_index);
+ 	if (!cea) {
+ 		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
+ 		return 0;
+@@ -4706,11 +4716,11 @@ EXPORT_SYMBOL(drm_edid_to_sad);
+  */
+ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
+ {
+-	int count = 0;
++	int count = 0, ext_index = 0;
+ 	int i, start, end, dbl;
+ 	const u8 *cea;
+ 
+-	cea = drm_find_cea_extension(edid);
++	cea = drm_find_cea_extension(edid, &ext_index);
+ 	if (!cea) {
+ 		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
+ 		return 0;
+@@ -4802,10 +4812,10 @@ EXPORT_SYMBOL(drm_av_sync_delay);
+ bool drm_detect_hdmi_monitor(struct edid *edid)
+ {
+ 	const u8 *edid_ext;
+-	int i;
++	int i, ext_index = 0;
+ 	int start_offset, end_offset;
+ 
+-	edid_ext = drm_find_cea_extension(edid);
++	edid_ext = drm_find_cea_extension(edid, &ext_index);
+ 	if (!edid_ext)
+ 		return false;
+ 
+@@ -4840,11 +4850,11 @@ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
+ bool drm_detect_monitor_audio(struct edid *edid)
+ {
+ 	const u8 *edid_ext;
+-	int i, j;
++	int i, j, ext_index = 0;
+ 	bool has_audio = false;
+ 	int start_offset, end_offset;
+ 
+-	edid_ext = drm_find_cea_extension(edid);
++	edid_ext = drm_find_cea_extension(edid, &ext_index);
+ 	if (!edid_ext)
+ 		goto end;
+ 
+@@ -5154,9 +5164,9 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+ {
+ 	struct drm_display_info *info = &connector->display_info;
+ 	const u8 *edid_ext;
+-	int i, start, end;
++	int i, start, end, ext_index = 0;
+ 
+-	edid_ext = drm_find_cea_extension(edid);
++	edid_ext = drm_find_cea_extension(edid, &ext_index);
+ 	if (!edid_ext)
+ 		return;
+ 
 -- 
-2.32.0
+2.31.1
 
