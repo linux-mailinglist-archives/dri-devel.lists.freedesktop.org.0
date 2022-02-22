@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4184BF432
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37EC4BF478
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:16:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C6210F396;
-	Tue, 22 Feb 2022 08:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3AD810E637;
+	Tue, 22 Feb 2022 09:16:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954CF10F396
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645520288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fFThAOB0om1Crz0H/byAkta7CqdXGPtkBZospf9MuZM=;
- b=XbrkMs9kSjqK+9fcUTxgZ4ZwKh6q+kMDbWo6En83TNfcQftbwzIPKLDHNOX4I7aMds7mCy
- Ep0JsX/4EtOppjJZd049LjGua80EzHsrVd61rs2A4h1mJFqrmlU7ZK1uElzm+nwd4Y5uvq
- fDkHfm+NefFd+pSlfbdZCeswihHqP7k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-CghCtOYXPxaba7oNQOsLkg-1; Tue, 22 Feb 2022 03:58:05 -0500
-X-MC-Unique: CghCtOYXPxaba7oNQOsLkg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m21-20020a7bcf35000000b00380e364b5d2so3482wmg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:58:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fFThAOB0om1Crz0H/byAkta7CqdXGPtkBZospf9MuZM=;
- b=YChGVOTWy20+1em8CpA5AZdwiFyeufinrhgH16kroJl3XYsSH7vvBV1HNDw06E4dD5
- /PPKUSUVF44Xlmy+vAQJPlw1LQXZVVNnOYDofBg74NNo7c8/ZO+ULz3IfNTW3RJjKq//
- RwvCX2+1ofiLHnEt39g1aeBFFLDSi3kumUivetZfHFbk+JprAhdeChz8SeLOsLMuqpZY
- DmtkSLRN87fufWIcLGncZxnwtanYhyl0gs23CIAckLERZ3+zeHM4qJGBf/kF4WAihVvQ
- ed0qc+7omiNkSFuMJGw9qfWbU52krxW3XJWkwHrpm/tdA5dAAiHBxmiHzPQheMKYs6KW
- zgrQ==
-X-Gm-Message-State: AOAM530C5iL38/Hj7zHuG9s7+acnt/g+kOvTKw6d3q+e8zDpZ4Fxcx7b
- H5ER7JeDCFTlXCUG/21Am9EMH7UjMgsK1yWwbmkuH2MVbf0dfewRo3eQAtVa28/Th7pxOHjddf6
- oNTPDFwU5JXLwV0B4swOvDUFyK580
-X-Received: by 2002:a5d:4c50:0:b0:1e4:9e4d:84ad with SMTP id
- n16-20020a5d4c50000000b001e49e4d84admr18660207wrt.305.1645520284209; 
- Tue, 22 Feb 2022 00:58:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOrayZMMZzVoCgCUcLvrKJ7/bZnENYpdZki01c3TcUqtpNh3OSFqxe9MtBhl3gMjO7z3VgFw==
-X-Received: by 2002:a5d:4c50:0:b0:1e4:9e4d:84ad with SMTP id
- n16-20020a5d4c50000000b001e49e4d84admr18660188wrt.305.1645520284020; 
- Tue, 22 Feb 2022 00:58:04 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id s7sm23154676wro.104.2022.02.22.00.58.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 00:58:03 -0800 (PST)
-Message-ID: <2e31c34a-ceaa-d18d-b6c9-c07e5c600a8b@redhat.com>
-Date: Tue, 22 Feb 2022 09:58:03 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] drm/i915/vlv_dsi: Add DMI quirk for wrong panel size
- on Lenovo Yoga Tablet 2 series
-To: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A511310E61E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645521362; x=1677057362;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=p920sdBU2squE3AHhXo/X1QGF7/Rg6Wq6yMDYe0h5mo=;
+ b=gfC78HP/bjD1TUWHnxEE2RCqEPF4ooDR+c3fV/6dZ6dhFsi6TXJoxpo3
+ FJCZwTBjb/68WO7Wqzqh9q5Sre/AcmjTt2Uu0jroHAtjnnxWB+ZavGkGE
+ jTGBglhtrJL92uLDo0lLJoXg18G+iz3gc3eMfKbqeDfV1WUrhhZF7+LHV
+ xrxh5Nau3UHPVDuvyP7JNb3A7uotzB3mWvY/nblwdV+ulUpV8Kr2SpPUi
+ oNTNUr2T09j7eFtIWDULlufqqEcWtRY/0qyqaCBQu2cN/6cg44wl/TioY
+ IQXo1PW5SsyMBa55DG58c207+C86wJ/C4mEbPGE9frCJFcuxe5YUmuMIp A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="250468102"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="250468102"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 01:16:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="532151115"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga007.jf.intel.com with SMTP; 22 Feb 2022 01:15:59 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 22 Feb 2022 11:15:58 +0200
+Date: Tue, 22 Feb 2022 11:15:58 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 1/2] drm/i915/vlv_dsi: Add DMI quirk for wrong panel
+ modeline in BIOS on Asus TF103C
+Message-ID: <YhSpzvT+DVq02fBX@intel.com>
 References: <20220221220608.12131-1-hdegoede@redhat.com>
- <20220221220608.12131-2-hdegoede@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220221220608.12131-2-hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220221220608.12131-1-hdegoede@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,29 +60,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/22 23:06, Hans de Goede wrote:
-> On the Lenovo Yoga Tablet 2 830 / 1050 the VBT contains a bogus
-> 192mm x 120mm size. This is especially a problem on the 8" 830 version
-> which uses a 10:16 portrait screen where as the bogus size is 16:10.
+On Mon, Feb 21, 2022 at 11:06:07PM +0100, Hans de Goede wrote:
+> Vtotal is wrong in the BIOS supplied modeline for the DSI panel on
+
+Please include both the correct and bad modelines in the commit
+msg.
+
+> the Asus TF103C leading to the last line of the display being shown
+> as the first line.
 > 
-> Add a DMI quirk to override the wrong panel size with the correct one.
-> Note both the 10" 1050 models as well as the 8" 830 models use the same
-> mainboard and thus the same DMI strings. The 10" 1050 uses a 1920x1200
-> landscape screen, where as the 8" 830 uses a 1200x1920 portrait screen,
-> so the quirk handling uses the display resolution to detect the model.
+> The factory installed Android has a hardcoded modeline in its kernel,
+> causing it to not suffer from this BIOS bug;
+> 
+> and the Android boot-splash which uses the EFI FB which does have this bug
+> has the last line all black causing the bug to not be visible.
+> 
+> This commit introduces a generic DMI based mechanism for doing modeline
+> fixups, in case we need similar fixups on other models in the future.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
+>  drivers/gpu/drm/i915/display/vlv_dsi.c | 36 ++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> index 06ef822c27bd..66f5cf32bb66 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> @@ -23,6 +23,7 @@
+>   * Author: Jani Nikula <jani.nikula@intel.com>
+>   */
+>  
+> +#include <linux/dmi.h>
+>  #include <linux/slab.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+> @@ -1831,6 +1832,33 @@ static void vlv_dphy_param_init(struct intel_dsi *intel_dsi)
+>  	intel_dsi_log_params(intel_dsi);
+>  }
+>  
+> +typedef void (*vlv_dsi_mode_fixup_func)(struct drm_connector *connector,
+> +					struct drm_display_mode *fixed_mode);
+> +
+> +/*
+> + * Vtotal is wrong on the Asus TF103C leading to the last line of the display
+> + * being shown as the first line. The factory installed Android has a hardcoded
+> + * modeline, causing it to not suffer from this BIOS bug.
+> + */
+> +static void vlv_dsi_asus_tf103c_mode_fixup(struct drm_connector *connector,
+> +					   struct drm_display_mode *fixed_mode)
+> +{
+> +	fixed_mode->vtotal = 816;
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I might prefer a full modeline here. Or maybe just vtotal-- or
+something, if it's just an off by one.
 
-Best regards,
+> +	fixed_mode->crtc_vtotal = 816;
+
+The crtc timings should all be 0 at this point. So this looks redundant.
+
+> +}
+> +
+> +static const struct dmi_system_id dmi_mode_fixup_table[] = {
+> +	{
+> +		/* Asus Transformer Pad TF103C */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "TF103C"),
+> +		},
+> +		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
+> +	},
+> +	{ }
+> +};
+> +
+>  void vlv_dsi_init(struct drm_i915_private *dev_priv)
+>  {
+>  	struct drm_device *dev = &dev_priv->drm;
+> @@ -1840,6 +1868,8 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
+>  	struct intel_connector *intel_connector;
+>  	struct drm_connector *connector;
+>  	struct drm_display_mode *current_mode, *fixed_mode;
+> +	const struct dmi_system_id *dmi_id;
+> +	vlv_dsi_mode_fixup_func mode_fixup;
+
+The function pointer can go into the if block.
+
+>  	enum port port;
+>  	enum pipe pipe;
+>  
+> @@ -1968,6 +1998,12 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
+>  		goto err_cleanup_connector;
+>  	}
+>  
+> +	dmi_id = dmi_first_match(dmi_mode_fixup_table);
+> +	if (dmi_id) {
+> +		mode_fixup = (vlv_dsi_mode_fixup_func)dmi_id->driver_data;
+> +		mode_fixup(connector, fixed_mode);
+> +	}
+> +
+>  	intel_panel_init(&intel_connector->panel, fixed_mode, NULL);
+>  	intel_backlight_setup(intel_connector, INVALID_PIPE);
+>  
+> -- 
+> 2.35.1
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Ville Syrjälä
+Intel
