@@ -1,109 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CB4BF479
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:16:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE244BF4B8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:29:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FFE10E61E;
-	Tue, 22 Feb 2022 09:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F3210E7E0;
+	Tue, 22 Feb 2022 09:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95DD110E61E
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:16:07 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220222091605epoutp02f76f8764ae1ac4d41380487b06a643f4~WEPajfCAd2378423784epoutp02Q
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:16:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220222091605epoutp02f76f8764ae1ac4d41380487b06a643f4~WEPajfCAd2378423784epoutp02Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1645521365;
- bh=gCmLWa0b42xIbgG0H/u//pj4j9A++d5AwUSicUPhxGE=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=axm0NZuDwjJZl9PDFifcFmi4xUaxWh5z/xMDKoNpxvYtyd1qdMtrmzg114Cif8Yd9
- JqTa+nVz7DVCi1EXrK9c3OVA5MmOEMv22wbd4l+3L1lhwZ1LD5v+PCIbRLijTbZpGg
- Amh3tWtqxygZiMODgyAYEgErn6vvsT5tuqmyGcJA=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220222091604epcas1p1343d5f95fe16ce2c61d7de2ff2646315~WEPZ8BTmR1094010940epcas1p1D;
- Tue, 22 Feb 2022 09:16:04 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.36.133]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4K2tnW6YPDz4x9Q7; Tue, 22 Feb
- 2022 09:15:59 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 29.6A.09592.5C9A4126; Tue, 22 Feb 2022 18:15:50 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20220222091549epcas1p41021c7acc126124c38e19be233013e57~WEPMDkgoa1784417844epcas1p4F;
- Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220222091549epsmtrp1ae305e8d43556e9772645e7329b9e8b8~WEPMC5zbM0176001760epsmtrp1W;
- Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
-X-AuditID: b6c32a37-28fff70000002578-d2-6214a9c5cbc8
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- AA.B3.29871.5C9A4126; Tue, 22 Feb 2022 18:15:49 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220222091549epsmtip18a69b97825814e4357c3eabde6fcc485~WEPLtrTfz1017710177epsmtip1X;
- Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
-Message-ID: <64038de4-c7a4-cc4d-fe92-75f6ecf9202e@samsung.com>
-Date: Tue, 22 Feb 2022 18:27:42 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [GIT PULL] exynos-drm-fixes
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B83D710E7DD;
+ Tue, 22 Feb 2022 09:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645522137; x=1677058137;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=PWyQu00fp/wF1s5qisBCTiTvYghd2A2DHPwfQyjVpww=;
+ b=CJusLLp6XA5ggCZtLxQc1am44tA5wagFeY4BkxB2nOh47RYOczAwsv+n
+ 26wjAAUnw00GHfHhA+fguMWrwKrIkxf2UV61GwPDakVguBmaX9Xvd5BFH
+ QbAHKkSNjMmVX49yIwsDdEBNha8o3Xtn3Mx07H7hiZzJ0r7RYLgzag8Rn
+ RAiFLQq5rK6RAzqYSjupXjsX5PdXW/pT8P4W8q2eUQTk5zU62Yc/9OdFf
+ /0bahlTQB1m6fAeqwuJDmUzcDxS0TzNCcrcpNPjfs9rXqIcQj+23Ezh9h
+ 7ZnI1AU4sqr11RYb2r/NLNPkgqkG4FcZbIs8xP0rPZNiwSJzs7xF7Czx0 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="314913918"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="314913918"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 01:28:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="507916565"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga006.jf.intel.com with ESMTP; 22 Feb 2022 01:28:47 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Feb 2022 01:28:47 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 22 Feb 2022 01:28:47 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Tue, 22 Feb 2022 01:28:47 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 22 Feb 2022 01:28:46 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FlMqUcgK2f+q2ym0Bho+AR2Fc6RKddIn6xAec4g3iCAd8NHNsBh3LPc+jQEo4fRsm9EuqPJiUCyC290rtJ1iuf9mfUhSdsEaFfL7Ik5cBgVEU/rvFOOy8cvdKkTUzLG32OIcEeaN781wwdZ1YVAEwwJGRHkjqihMBoKcsRaUpVKgK9BRxQ/rN6s/mxiNv+9aXEX2MQC47czdZV3SXZ5iiwMSjvq2md1xUs+ZOLHgEvHqGWR4/W8AE6hcwzB4yF3CIe45CTnY7WOUr6b2oZUjODUS9xYVR795+k3KP/A0MBzCT1Z20++VsrXjtXsMqkPW+seFN0/ydXKZlzvQMyyuiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZcKfHFS8vEA8woM/6fDYP4563iXKj27a2p4wpjLbQgo=;
+ b=A3LNeezBEKVG50GXvBY1hc0TyqDOkILRmiw0GAfiuRa0AtnZKhGDMUecXV/Ta6jfupGgOyLcixm7Mt5zod5xI4ly4shNAogfDoVYsf1M9VsZvVH060HRTa4dXaGhBkTJy01xmNAoanDitpgqn5AG+R9ytvJ6vak20epybxQP4TiVF3YSJLzGDE2U9hp4mjUlEwUuO4dlgNpdmsqYzueux5BF+Vyz7z2MhYprwozrQXD8DzmxrdIa1bSerx3wXOhSmDqTrDcJ/X1VOxtgVtgqIHFCMTnP+Msv7PSYWQYzxwtSzw4aONDYDT7Cly2PmUBEv0EpOvTDNSiwshEowYM5dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (20.176.122.77) by
+ BN6PR1101MB2113.namprd11.prod.outlook.com (10.174.112.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.24; Tue, 22 Feb 2022 09:28:39 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::11f6:76fa:fc62:6511]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::11f6:76fa:fc62:6511%6]) with mapi id 15.20.5017.022; Tue, 22 Feb 2022
+ 09:28:39 +0000
+Message-ID: <acc45712-b6c7-5cc8-920f-93f3db45413f@intel.com>
+Date: Tue, 22 Feb 2022 10:28:33 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [Intel-gfx] [PATCH v3 08/11] drm/i915: Separate wakeref tracking
 Content-Language: en-US
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie, daniel.vetter@ffwll.ch
-In-Reply-To: <20220210110722.63523-1-inki.dae@samsung.com>
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20220221232542.1481315-1-andrzej.hajda@intel.com>
+ <20220221232542.1481315-9-andrzej.hajda@intel.com>
+ <YhSM4HFT7UpRYEIg@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <YhSM4HFT7UpRYEIg@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpik+LIzCtJLcpLzFFi42LZdlhTT/fYSpEkg20NjBa9504yWSx8eJfZ
- 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj+Ya5jAWtQhWL9r5kb2A8xdfF
- yMkhIWAicXfGbRYQW0hgB6PEyhZ3CPsTo8SkqcZdjFxA9jdGiU13u1hgGhZenscEUbSXUeLM
- /2KIoveMEm/2TAAr4hWwk/i/ajobiM0ioCpxf1YjI0RcUOLkzCdgNaICERIvj/wFGyQsoCEx
- 88k1VhCbWUBc4taT+WBxNqDeiSvuA83h4BAR0JF4caYAosRN4s/Ss2BjOAWsJP6ebmGEiMtL
- NG+dzQxyj4TAR3aJU1Ma2SGOdpE4dOoWE4QtLPHq+BaouJTEy/42doiGyYwSd66vYIFwZjBK
- HP55nRGiylhi/9LJTCBXMAtoSqzfpQ8RVpTY+Xsu1GY+iXdfe1hBSiQEeCU62oQgSpQkjl28
- ATVFQuLCkolsELaHxLU9bUwTGBVnIQXLLCTvz0LyzyyExQsYWVYxiqUWFOempxYbFhjD4zo5
- P3cTIzgxapnvYJz29oPeIUYmDsZDjBIczEoivHfYhZOEeFMSK6tSi/Lji0pzUosPMZoCI2ci
- s5Rocj4wNeeVxBuaWBqYmBkZm1gYmhkqifOumnY6UUggPbEkNTs1tSC1CKaPiYNTqoFJe5sr
- S+/RNbbSXv+S5r46knvtW/ZM95Wn1HdsP17gZm/HMnX5orjeA4uSvp2/srh7diTLV/bMiY5X
- Du5abfYhPHquxwxd44fCs5yfz25cafn04b3Zzy4veNd88+HEjb0M3K4S/NMNsvgfi8bddnmS
- +vzZkm0HxHskPybtV5i/8MzGnG054jru5eq8LqXlIWLnY+snVi+3vN9QcSZes7yLU6vzSpWs
- nGr2fw4PXrU4ySvJGlaK9zi1FrHrZp57/LlqzcxAeQ1/ra/bFLmelsT+m/s/d8v+/d5ZcxkO
- eHflXTtz10iioKUrKUXhrsJxu21daY8UkiRPXtgj4urmbv9L6Msj95nWVeVKZ3P7WmyUWIoz
- Eg21mIuKEwG3vCgbFQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHLMWRmVeSWpSXmKPExsWy7bCSnO7RlSJJBhd/q1v0njvJZLHw4V1m
- iytf37NZzDi/j8mBxWPvtwUsHtu/PWD1uN99nMnj8ya5AJYoLpuU1JzMstQifbsErozlG+Yy
- FrQKVSza+5K9gfEUXxcjJ4eEgInEwsvzmLoYuTiEBHYzSrS9mcTaxcgBlJCQ2LKVA8IUljh8
- uBii5C2jxO2Zj5lBenkF7CT+r5rOBmKzCKhK3J/VyAgRF5Q4OfMJC4gtKhAh0bZsCli9sICG
- xMwn11hBbGYBcYlbT+YzgdhsQL0TV9xnA9klIqAj8eJMAUSJm8SfpWfBxggJ9DJKzP5bCWJz
- ClhJ/D3dwghSziygLrF+nhBEubxE89bZzBMYhWYhOWIWkmWzEDpmIelYwMiyilEytaA4Nz23
- 2LDAMC+1XK84Mbe4NC9dLzk/dxMjOAq0NHcwbl/1Qe8QIxMH4yFGCQ5mJRHeO+zCSUK8KYmV
- ValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUwde0+Nzkz/y7jRYlH
- b2NFw4J8+xSUGOf5i1/6xi6ztPifqvfzuNl/Nx6pXNk4Y53c8q+vlh3c3+HeLrnlQY3ioWun
- pHYkd9vOXcatub8/MW2/96P7HRrxBxu6ffwF7M6s0maybFy3kDliSpXsv6fPGpLtvjhtqn2f
- NVkqalmxUdQGT4HZy1e6mCyb+tqL4fVa/7vRB3b6XGeXvxlyr2ibsden21vkdmkzTz1+1Pz4
- zyQ5daHiHac466XidM+u/mlx18Dv4wquE4IvP/4+HXfD9smstG+dH1VVt088fSfNQ9qeS0/j
- ku+8BdfjZ4mqLP8ZY83opsjBaf6Db44Qg8fM8Gi7pmJzS/Xu/b5eWUs1lFiKMxINtZiLihMB
- 4qAK4vECAAA=
-X-CMS-MailID: 20220222091549epcas1p41021c7acc126124c38e19be233013e57
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
-References: <CGME20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5@epcas1p2.samsung.com>
- <20220210110722.63523-1-inki.dae@samsung.com>
+X-ClientProxiedBy: AM6PR02CA0002.eurprd02.prod.outlook.com
+ (2603:10a6:20b:6e::15) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6d73332a-8308-4ce0-d2fe-08d9f5e5b56b
+X-MS-TrafficTypeDiagnostic: BN6PR1101MB2113:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <BN6PR1101MB21132395AA0B7206B18FF56DEB3B9@BN6PR1101MB2113.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oS6ZxiQgoPlgIIjg0qPqVLzbMa8qBv8rDunPiAUd8TwLWdZFFGVnbImo2eEd20gTOo932H2uGCbHB4EL9prfjnJSlHwwQVJbqiEyJMBCIrdpPktccufEebUQ1P5SUQd4nGSIk7xYOc0NQrsps4qavp6JFxLD/pvd7ONRZTQ53EPvw6xjgle1znPbSxt0EgtscrM+ZscQRSBzDfwZurHNKblQ5a57Mf/G00qjRPVKlCPXfD7ZLme9XCjwrRjwSRE84ja+ucx+t9L0dFF8dfXwS9vc8pli4K3//cTF78spNgibSYkMkdCVcffcxXc1F17TeH+wn6x3sWzQVw8d16sluAPJlDuOrcnpJPaeUdhmwiGt0oXNNRfm/uRqnWEvTk59frsNwYl3oHElHKSaKXZSR0QiL8vNGdoJoRM7ZFYJbkp4d1esPFN5E29/cF4pah1Hx50QkmHQiS6butfH6s3QinaYzbjlbJAzbzkuUFCkD3nJ11aLZPVjYuDvcFyIPaz9PhisKYTXylZT5HGNkd7ZVZdXvwRmUXPbVV09rJnkhA5lqyWmGa1VKoXjLG0RmWynNbiORs82H6gysYlejl2oQ/y6qVBHbsFVRjTbraaHWg+7jBJnJimdj+uk3/ckP+/3UlrIIFAEqltoMRx2Ww+ljpcnWGhmMVlBtTL7KDgr9uP6PMXqIrH9tsQWTrn365+Y7KoVD+Y5ZUc9JJvH8T3iPA9F/QtTS4/0NSd0CavGFHo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(2906002)(82960400001)(38100700002)(31696002)(86362001)(54906003)(53546011)(6512007)(6506007)(6666004)(186003)(66476007)(508600001)(2616005)(36916002)(6486002)(36756003)(66556008)(5660300002)(4326008)(6916009)(8676002)(4744005)(44832011)(8936002)(26005)(316002)(66946007)(66574015)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFlqaW5ZRElVaXY0MGdOejNqY1ppaWwrS2xZd3ljdWlBTHpnQTl1U3NFTnFi?=
+ =?utf-8?B?ckh4K3dXZzE3dkxxeGZNYjUrQ2hTcThsd2U5L1lNZVE4S0ZJNElnNzJOU1FP?=
+ =?utf-8?B?b3MrSVhrelg4RS9sVTdqOGJsTk83QWxsQWJiZUVmSVRHWER0T2lsT29PY1dt?=
+ =?utf-8?B?M0RUYXZjSHVRLzRPRm5CNWpreW5EK3FMMGd3d1VFbmlnWEdqRUhjTlpmTmJX?=
+ =?utf-8?B?elkxakNVM2hFakRQNDB6b1N3blIwbkxEU0dFVnkzM25KdWdsaUJFWTNhcHd0?=
+ =?utf-8?B?V2V1Mk1uSlRGWTFGNHd2SjMwckVIakJoRFk5NmlEcEw1eW9uZ29CSTYyMngy?=
+ =?utf-8?B?Q1lrN2U5dVZCSnlLZ2dmOFRPUlpnYUtyVmJMcUdBN3JBL3JZOUVab0VlWUF4?=
+ =?utf-8?B?a0NhV2pyWlo5Z0ZHbkxXU3NmQVZPenVlWTR4dC9SUlpiNzRSWjQraGU0aGtD?=
+ =?utf-8?B?d2l6UStGZkIxZHNDNXFMYWRYeVU3TEREYllHcWFBcHpzZ2ZqaTd2dGhKRzl4?=
+ =?utf-8?B?QXZCeHdCTWRnTDEzc1p6ZVNxNUdzeGx4NVhEZTlsT0tSMjVJV01vT2VhS3pG?=
+ =?utf-8?B?L3ppRWhML0wxdWFBeXNpOXpPVnNnRnluU2hwVlBENE5vSWl5RGsrcEJUYkF5?=
+ =?utf-8?B?cUpLZGxwdmI0OG1zbmgyamhhV3RNTkUxN0dNM3c5RE5RVmVjZFBnYk5aWkJR?=
+ =?utf-8?B?YzluWEVLdXQ2K09mbzQ1U3RicGJSSk8zSzdVVmZOY3J3dEQ4eE82ZU9lK3VT?=
+ =?utf-8?B?aUlpeW51YlpXL3Q5S2JRYkI4dnhQZVpRcUdVaWRiK0l6RlVpaDQybXU2SGhL?=
+ =?utf-8?B?eDVCeHo4dldZUnlkYm9MVXRrcWJRWkpGdVFjSFV4cEJiMmlkZUg5aHBFY2tR?=
+ =?utf-8?B?aFVSeFVNYnczMDZRL3hFZDlWQStMendoWDZwVnhsNlNSZmo0K2haZDFtSUNF?=
+ =?utf-8?B?Z3ZlaDkvNFhLMXc2QTRlcVpJWWNNNmoySUFQdDQxKytGSVBsSjZZSG9Fc2xF?=
+ =?utf-8?B?RVJ5MUM3bGRMUWx2S21HWmVEYVNVS0ExVXBETXNHVW91R0lFd2lYUGZyQ0V4?=
+ =?utf-8?B?TndCRmNVWnFWNTFoa3Z5SmYzRFhKL1lIZVZmMEh5RTBhSTZ3NElucjRaL1lT?=
+ =?utf-8?B?S3VSbE1hUkR3ZHlvWGNiUFBEWE1kaXNvc2w5T3JYeHJDcTRYVDZkKytuanpH?=
+ =?utf-8?B?Sk9ORkIvbTdZWjR5Q0I0d0tmakJMSjlEc21sMWtQTnd6bDhweFZZNGNzdnBO?=
+ =?utf-8?B?Y1pNNmFmQmpwd3NCcE1OL0RxMFg1dTJoK3I0VjYzNzNtMW9nZE0waEJrRzZL?=
+ =?utf-8?B?MHdiRmpMTkpIRmJ1VzJ1RThaSVM1RzgwcS9WTU1QQ0tkTzltT3VvS2kwMzM3?=
+ =?utf-8?B?YXdUalkzME1qbFB5M3FWeGpuSEpnTFgyQlE4RnJpL0xzUEFNUGZHaWtaSzlW?=
+ =?utf-8?B?RmlEbVBKWWpxZHBlWENqNmVyQjROaFhBalF0b3JKL3NBK3ZWV2FZbHZ0Z1ZL?=
+ =?utf-8?B?L3JGT0ZUSHNta1dRMHhOY0JtSGE1ZG5RMmcrYTdXOFllc1JIN2xXR1hCcGtD?=
+ =?utf-8?B?NWwxTm92cVRoVDNWQjhoN2pSNDdDdjdmWURSK2VIS1g4U2llTjlKdFYvQmxh?=
+ =?utf-8?B?YUtiUitaZ0k3d1c5dnlpcWh0M1owVzlEbXFzTGJxeldaRlRmbXRuVlBXWEU2?=
+ =?utf-8?B?R1pUaldQSDB4SVVLOEVWUVpUdXdYcGVteUZFZXo4cWFxT09yQXFvQmwrZDhH?=
+ =?utf-8?B?dU5pejdZTmlpejVTWFRuUEU5NUpNNjBiT2lYc29ITlNBaWdnalc0RTY0S0tL?=
+ =?utf-8?B?dW1pSW4xT0RwTjV0cUxEUXYyOWxTTkRtK3p6bW5ZMkovdWxYaG9zWGZQNkta?=
+ =?utf-8?B?TUVXU29jSmMybG1LK28yd3d2Mk1TZjI4ZnhqSkpCRVI3VkNMYlprQkd0ZHAx?=
+ =?utf-8?B?Sk1WbjNLWDBTL3lPdWhJOFFlOXdtdkV2aTllZkRScFJ2S1dybnVYRE5uUWps?=
+ =?utf-8?B?ajh6VE1OL1VaLzJ6NE1TSlNGZVh5MkRDVzdVdTdkWnBnVG81TldNMFIyWE81?=
+ =?utf-8?B?ZDJVUEQ2NjRPNVI0UlpNRWwzY2VQVHRNMzB0UE5saS8yYjcyMlFuN3RmVDNT?=
+ =?utf-8?B?eGFXYlQ5L1FYL25leEcyUkh2QUhDWnZVUFdWdElqYlk3SGpXc3JmNEJUY0Jj?=
+ =?utf-8?Q?eGbKogWzmkYOt0yZqiVM9II=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d73332a-8308-4ce0-d2fe-08d9f5e5b56b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 09:28:39.1725 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L+AZnYDxwfBuQK6ecAPsotvCp7iJDqg70eAekAPGY3YGYXHzTxrmO3LyORKkdcEQbqw+uDms2YhDAG/q98Z2qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1101MB2113
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,65 +162,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: netdev <netdev@vger.kernel.org>, intel-gfx@lists.freedesktop.org, Lucas De
+ Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Eric Dumazet <edumazet@google.com>, Chris Wilson <chris.p.wilson@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
 
-Seems you missed. Is there any issue?
 
-Thanks,
-Inki Dae
+On 22.02.2022 08:12, Ville Syrjälä wrote:
+> On Tue, Feb 22, 2022 at 12:25:39AM +0100, Andrzej Hajda wrote:
+>> -static noinline depot_stack_handle_t
+>> +static intel_wakeref_t
+>>   track_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+>>   {
+>> -	depot_stack_handle_t stack, *stacks;
+>> -	unsigned long flags;
+>> -
+>> -	if (rpm->no_wakeref_tracking)
+>> -		return -1;
+>> -
+>> -	stack = __save_depot_stack();
+>> -	if (!stack)
+>> +	if (!rpm->available)
+>>   		return -1;
+> Still not the same.
+>
 
-22. 2. 10. 20:07에 Inki Dae 이(가) 쓴 글:
-> Hi Dave and Daniel,
-> 
->    Just two fixup series - one is to fix irq chaining issue and other is
->    regressions to TE-gpio handling.
-> 
-> Please let me know if there is any problem.
-> 
-> Thanks,
-> Inki Dae
-> 
-> The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
-> 
->   Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
-> 
-> are available in the Git repository at:
-> 
->   gitolite.kernel.org:/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.17-rc4
-> 
-> for you to fetch changes up to 38103fa72e0b70e3067fed489f8316dc5998f26c:
-> 
->   drm/exynos: Search for TE-gpio in DSI panel's node (2022-02-10 19:17:22 +0900)
-> 
-> ----------------------------------------------------------------
-> Fixups
-> - Make display controller drivers for Exynos series to use platform_get_irq
->   and platform_get_irq_byname functions to get the interrupt, which prevents
->   irq chaining from messed up when using hierarchical interrupt domains
->   which use "interrupts" property in the node.
-> - Fix two regressions to TE-gpio handling.
-> 
-> ----------------------------------------------------------------
-> Lad Prabhakar (5):
->       drm/exynos/exynos7_drm_decon: Use platform_get_irq_byname() to get the interrupt
->       drm/exynos: mixer: Use platform_get_irq() to get the interrupt
->       drm/exynos/exynos_drm_fimd: Use platform_get_irq_byname() to get the interrupt
->       drm/exynos/fimc: Use platform_get_irq() to get the interrupt
->       drm/exynos: gsc: Use platform_get_irq() to get the interrupt
-> 
-> Marek Szyprowski (2):
->       drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
->       drm/exynos: Search for TE-gpio in DSI panel's node
-> 
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c | 12 +++---------
->  drivers/gpu/drm/exynos/exynos_drm_dsi.c    |  6 ++++--
->  drivers/gpu/drm/exynos/exynos_drm_fimc.c   | 13 +++++--------
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c   | 13 ++++---------
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c    | 10 +++-------
->  drivers/gpu/drm/exynos/exynos_mixer.c      | 14 ++++++--------
->  6 files changed, 25 insertions(+), 43 deletions(-)
-> 
+It was fixed but in wrong place - patch 11. I will move the change here.
+
+Regards
+Andrzej
