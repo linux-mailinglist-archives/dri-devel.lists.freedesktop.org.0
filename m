@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9E74BFE92
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82F94BFE99
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C6010E470;
-	Tue, 22 Feb 2022 16:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 547C210E614;
+	Tue, 22 Feb 2022 16:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4CD10E354;
- Tue, 22 Feb 2022 16:30:10 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- r15-20020a4ae5cf000000b002edba1d3349so18310244oov.3; 
- Tue, 22 Feb 2022 08:30:10 -0800 (PST)
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DBC10E614;
+ Tue, 22 Feb 2022 16:31:32 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ u47-20020a4a9732000000b00316d0257de0so18305839ooi.7; 
+ Tue, 22 Feb 2022 08:31:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=eSk/B5akCpkVV7QxSZtURlOxcgNjBBC3d9BzaaHV+Yo=;
- b=aXvHXnmshI/v4gnEa7KQ/u5AnLl0KUHmoodSrXYzKv/VI6xttGqGaV+7DgkVsF2+xN
- PD31tb6JFeswkMQwQg4OszytvuKhiSW5fnV3GdpOZtF6nqzB4SYhG9I358zOJyNFHV6V
- ihh/83PRWA2jMmGD2X9nszbPjUvEECJwmm0yKcuggNBXEqq57KJAiAoV6WNFMAM2Na7w
- 2RPVyoNH4HBwdafAMqVmW2OAIXOUuEKjHMXvmqYUVyH56ClWtBHRx1xAFH6vCaReNfCh
- 4SRf4gsX+BlxDotxPR7AHmhOmVN77mIU3kg2fUewutUQn8U4Xjkqsx0MzgyLqXaGseNU
- P3Ag==
+ bh=dtYXm2hT3lcm5wvRcUbNMDyXlIE45DADQhitf3Rlc88=;
+ b=LLMAhUgwrk/DYdWw6wgJuwrPS/o2NfgI10xeypJfrum8mmbBBX7d3r55885xcA0GSs
+ N/0qnhPz6EDwjfCDK9EZLNApIQzBOjUAMTbhqcUrBws8r9XcYI+ZsjrQ1ackTdFYnXca
+ KSe0mNO3CmeSvS7ItohT2P9sU7Dj+jbiFaynHZLO0MRk1EWBfi4n3U+MDt0xN/KgkRbR
+ PUNRwRCH7/I5NqRt3zdTxI5yt4hkikKqm97sSwd5jrXi84dTOOy6v7mgYho9MtQZxmcW
+ QzXsp71CoMubPYHdfyu53sEstrFfcN6QNLP2z/JN+YpWcau4FD4aw1cQMev20HollGSz
+ gEvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=eSk/B5akCpkVV7QxSZtURlOxcgNjBBC3d9BzaaHV+Yo=;
- b=GHDO53GmMhMhsybQI4duBoWfeRXUhNmIHrsiNwW0Poqa/Bl5WGg1Qh7D8C/hrNokwj
- wu0EtgSwB7CeuIy5TNiC9yeR4qEvvYWzWcbiwUtAoDfc7PMqMZdMR8vHZRZElhf9qqPT
- 4Hd/D7m5vqLXphWcq7zTCF5IhH02/JjN1quI7cI+a11eHR8QivNiL6uVDOu9PpqOsbkW
- f3fAYtZVz1BRd0U4YlHugSjr/L0VjwShkyBAVp9J0qcZ0yvRBGHPt5i60l7aYWBzHnkc
- gB+A0tKKQMh3LersdWY2v3CMZ1G2BpDpB3V0xC8aN5Ioh034WYmfdA8Kh3DtfMrQ8wlk
- 9ddA==
-X-Gm-Message-State: AOAM5330L/qqnRrdfLWcWNkoyHiINKMzoLxN2SG7rzxOOvR99xVZdbzy
- A49KNIcfUwhnN3TkPmZLf+/ngzE/7DZtK+LalnY=
-X-Google-Smtp-Source: ABdhPJyLdPbLN0J/R5Xdqs7KCIPSpW/mVSbPiQRj47dCrvZ67kzJey1F9VFOY8uP9l94Cb8W+OSClk6J6BJU0CtnUWk=
+ bh=dtYXm2hT3lcm5wvRcUbNMDyXlIE45DADQhitf3Rlc88=;
+ b=niF73mo5rapulo52mzAtxVQDNOz02Kr6DMNsY7QHkBdHplAhAAmnSFy60P8G/CSmq2
+ BQKclTXDKkIe0LCsuzF7/6FfV0Ym4eqcmMZes8xsqFB1OKgctTIVALLiQqmysdVZ1tie
+ 4N9WTpg1Mx8YOdA78x6cJHBDRyzYyKB+bkNUWb1Drpk5cj7kGkQxdsKdGl2LUfxNFSPB
+ PNAHJY1pA7qFl1M8k+ChdWcI38ClWcqBXnxVoHKJ+7Ru7bFnhXKJzs+wH2tYfadGwQH0
+ JDx7tjslPsHPa+M6sBV2wkh5eg0letLyMuMxDs3lCoiGk1WcPWNukmScFo//0vIaij8F
+ UoSg==
+X-Gm-Message-State: AOAM532rVYzpu10rebf6JSmqdHACCZAdq6WpiuUQoCkPTaE0bQyrr17H
+ cLUIGXytYF1+Kvpq8PiZAUPgtm9EP/6bqGOxCEuCIA1L
+X-Google-Smtp-Source: ABdhPJwfj6FZ41K/ClOtZcMS0gc0gQWKuRYKXqqfYle6jHWNbXIrWRxGaQ1cQvTxxQ6ZhiRII8f7GBeUIdvBRT/zdf8=
 X-Received: by 2002:a05:6870:3e0d:b0:d3:fe6d:57c3 with SMTP id
- lk13-20020a0568703e0d00b000d3fe6d57c3mr2017599oab.225.1645547409808; Tue, 22
- Feb 2022 08:30:09 -0800 (PST)
+ lk13-20020a0568703e0d00b000d3fe6d57c3mr2020968oab.225.1645547491928; Tue, 22
+ Feb 2022 08:31:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20220222131701.356117-1-maira.canal@usp.br>
- <20220222131701.356117-4-maira.canal@usp.br>
-In-Reply-To: <20220222131701.356117-4-maira.canal@usp.br>
+ <20220222131701.356117-5-maira.canal@usp.br>
+In-Reply-To: <20220222131701.356117-5-maira.canal@usp.br>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Feb 2022 11:29:58 -0500
-Message-ID: <CADnq5_OQ5s4tSHduzdVFWbGKwmH57dkxXqs6ykbTxh+BzwihPQ@mail.gmail.com>
-Subject: Re: [PATCH 03/10] drm/amdgpu: Remove unused get_umc_v8_7_channel_index
- function
+Date: Tue, 22 Feb 2022 11:31:20 -0500
+Message-ID: <CADnq5_NSMvOUuLo936pbs+J7ajMCn3zDV5knYQo5t1f94KYW-w@mail.gmail.com>
+Subject: Re: [PATCH 04/10] drm/amd/display: Remove unused temp variable
 To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -88,50 +87,47 @@ Applied.  Thanks!
 
 Alex
 
-On Tue, Feb 22, 2022 at 8:17 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
+On Tue, Feb 22, 2022 at 8:18 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
 :
 >
-> Remove get_umc_v8_7_channel_index function, which is not used
-> in the codebase.
+> Remove unused temp variable from the dmub_rb_flush_pending function by
+> using arithmetic to remove the loop.
 >
-> This was pointed by clang with the following warning:
+> The -Wunused-but-set-variable warning was pointed out by Clang with the
+> following warning:
 >
-> drivers/gpu/drm/amd/amdgpu/umc_v8_7.c:50:24: warning: unused function
-> 'get_umc_v8_7_channel_index' [-Wunused-function]
-> static inline uint32_t get_umc_v8_7_channel_index(struct amdgpu_device *a=
-dev,
->                        ^
+> drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h:2921:12: warnin=
+g:
+> variable 'temp' set but not used [-Wunused-but-set-variable]
+>     uint64_t temp;
+>              ^
 >
 > Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
 > ---
->  drivers/gpu/drm/amd/amdgpu/umc_v8_7.c | 7 -------
->  1 file changed, 7 deletions(-)
+>  drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c b/drivers/gpu/drm/amd/=
-amdgpu/umc_v8_7.c
-> index de85a998ef99..f35253e0eaa6 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-> @@ -47,13 +47,6 @@ static inline uint32_t get_umc_v8_7_reg_offset(struct =
-amdgpu_device *adev,
->         return adev->umc.channel_offs*ch_inst + UMC_8_INST_DIST*umc_inst;
->  }
+> diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gp=
+u/drm/amd/display/dmub/inc/dmub_cmd.h
+> index fb01ff49e655..d3088836d4e4 100644
+> --- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+> +++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+> @@ -2918,11 +2918,8 @@ static inline void dmub_rb_flush_pending(const str=
+uct dmub_rb *rb)
+>         while (rptr !=3D wptr) {
+>                 uint64_t volatile *data =3D (uint64_t volatile *)((uint8_=
+t *)(rb->base_address) + rptr);
+>                 //uint64_t volatile *p =3D (uint64_t volatile *)data;
+> -               uint64_t temp;
+> -               uint8_t i;
 >
-> -static inline uint32_t get_umc_v8_7_channel_index(struct amdgpu_device *=
-adev,
-> -                                               uint32_t umc_inst,
-> -                                               uint32_t ch_inst)
-> -{
-> -       return adev->umc.channel_idx_tbl[umc_inst * adev->umc.channel_ins=
-t_num + ch_inst];
-> -}
-> -
->  static void umc_v8_7_ecc_info_query_correctable_error_count(struct amdgp=
-u_device *adev,
->                                                 uint32_t umc_inst, uint32=
-_t ch_inst,
->                                                 unsigned long *error_coun=
-t)
+> -               for (i =3D 0; i < DMUB_RB_CMD_SIZE / sizeof(uint64_t); i+=
++)
+> -                       temp =3D *data++;
+> +               *data +=3D DMUB_RB_CMD_SIZE / sizeof(uint64_t);
+>
+>                 rptr +=3D DMUB_RB_CMD_SIZE;
+>                 if (rptr >=3D rb->capacity)
 > --
 > 2.35.1
 >
