@@ -2,66 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F2C4C03E9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3F64C03EE
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 22:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A7210E784;
-	Tue, 22 Feb 2022 21:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113C510E787;
+	Tue, 22 Feb 2022 21:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CEB10E758
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:33:16 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id r13so23837681ejd.5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:33:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A2mHyuXRZ8I3kYyoLE5Iu8QS0sxIBaqpluj4s82tM14=;
- b=XU8m9oP18Bpix//+UfSCTLIeU0VonowaQlKnTBNjXvrf7Sh63zBVsvoj6iNCdjssqx
- sOLjMKD1S+Q9lPtN1ITHaXj2KgS6DfyohVrHjXxgbWst8I1vZfKJZ+uE6Zffys1MgxIg
- gsMi91m2uVrFrWU/GnUevsMXhSnRsE9nBQ254=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C6E10E787
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 21:36:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645565767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GHlvL+qa3AWJMC3bfUfdMF0t/irgJlBJMoEQilLmh9s=;
+ b=ZctQLvWyQjk/c42zA9nlUQ1if8pzPQ/GTt8Q6pCJaP30auN4l5QlDqmXusPkFTPY+eW/VS
+ vGVGbopFdbaKPSckZjBRgq49b42s0p1aFtxzfRQcaQvfLxMy9JVAQ8mMn18JZccpoRbY3D
+ 6aO10q7Fw/m8BJvOf7BQnlzcp9j79Cw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-27-nfLNgj4EOW-DmvryB2ptzw-1; Tue, 22 Feb 2022 16:36:06 -0500
+X-MC-Unique: nfLNgj4EOW-DmvryB2ptzw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ g15-20020adfbc8f000000b001e9506e27ddso6438476wrh.22
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:36:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=A2mHyuXRZ8I3kYyoLE5Iu8QS0sxIBaqpluj4s82tM14=;
- b=xjTw+6YFvcsL0l71HLxtjpeZ1TESwem813cT2YzqTYzSgM5/BnRabwV7L1pwBpfvMM
- XlvraBq6OaZdG/QZebxuBhxT0XpLB5+Yy5V5BRRylEhA7sYGzv1Pl0ZamWZbO6/zOG41
- zwduzn9O5ifjCFStg6ozt7PEomzBSHrMmQr5MsT5A8oygv0M0ivEmcQVuf1R6ZbQ9QDP
- 6fOVI4EOuUbA24QWDceJlXBTiqBeHRMzKwVkAPiJZ4wfOK9PbdD3v7sWhVaUFFPAPS1j
- S/DXE36S6BeOqSy5x9smBUis9zGue4AOKZckds0ddRCDVyMyi4SPia2KHrh0BeOpSNYn
- qfgA==
-X-Gm-Message-State: AOAM530aB1OJfU4wtVT5WA0bc6hfyXX1pK2gRie7v4wi+crfc95OycHw
- Uwq2RVQHU7MgLhkN/xVLfiJ3RqE6AExLowVdrLY=
-X-Google-Smtp-Source: ABdhPJxEFFGDDFTdTbpZKsBnJQylKJwm+pFZSJ/0xyhcHTuatiYz6vHoJ+gqtkzwvylIPQWqGTTR+A==
-X-Received: by 2002:a17:906:1e0c:b0:6cf:d014:e454 with SMTP id
- g12-20020a1709061e0c00b006cfd014e454mr20989506ejj.583.1645565594820; 
- Tue, 22 Feb 2022 13:33:14 -0800 (PST)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
- [209.85.128.49])
- by smtp.gmail.com with ESMTPSA id eg42sm8775862edb.79.2022.02.22.13.33.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 13:33:13 -0800 (PST)
-Received: by mail-wm1-f49.google.com with SMTP id c192so12459769wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:33:13 -0800 (PST)
-X-Received: by 2002:a7b:c381:0:b0:37b:e01f:c1c0 with SMTP id
- s1-20020a7bc381000000b0037be01fc1c0mr4877434wmj.98.1645565592614; Tue, 22 Feb
- 2022 13:33:12 -0800 (PST)
+ bh=GHlvL+qa3AWJMC3bfUfdMF0t/irgJlBJMoEQilLmh9s=;
+ b=cENScThcdnVpeIs/+o3wXtH8KGyRFvI55Wco+hF1gPSbzeS0sfDKFWpxIykmmbD+cu
+ x2HggQhYbOuDGuTqOhuk6edCXUDWl6csVTltKEDM9s1pmhdDjWD2rND2EIWKWaTfJEdz
+ MAEL8i5CnuyMz565AP4fjHDEf9zLc82MD0GocExFNe8UYjJsdKt3sD+R9PJjRSVUsmyP
+ A0K6spokexwkjozrcvB46t2YkDKBMBM8up+/E+0EJ44JkqEwq55LNjLZOe6oLBQnOJEW
+ txF4N7YolzlMbx4d2hHI3fUUJ/YJlWnrlABxlSPLz9E3CUoluaKg0COJ/TuErFBIVgj2
+ scOw==
+X-Gm-Message-State: AOAM532TIQSCVq33GNWro3rvJcrOB152uxAjNidBt9dxkmQ0xKjQP2vd
+ 8xt4Dv9c0Co7hrhReFPNLN8NTJq5GpuGoleW6yn9vWxBESqjxRulyXhwAF9Ky2jwjMReLoddZKz
+ LRTGzDVwDvlBE5GOfA6abHgLMjMvJzkh2C1bskN9jWlDL
+X-Received: by 2002:a05:6000:1888:b0:1e7:cd21:c24f with SMTP id
+ a8-20020a056000188800b001e7cd21c24fmr21273866wri.308.1645565764921; 
+ Tue, 22 Feb 2022 13:36:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxKZwco+lhuaJW5BywbUxVn+xeac+1syv9SkgSbImzQ0M3bxnzm2aY0asfxEm3N6JXLroTqCYY88lEXCZWmouM=
+X-Received: by 2002:a05:6000:1888:b0:1e7:cd21:c24f with SMTP id
+ a8-20020a056000188800b001e7cd21c24fmr21273857wri.308.1645565764737; Tue, 22
+ Feb 2022 13:36:04 -0800 (PST)
 MIME-Version: 1.0
-References: <1645455086-9359-1-git-send-email-quic_vpolimer@quicinc.com>
- <1645455086-9359-2-git-send-email-quic_vpolimer@quicinc.com>
- <CAA8EJppRUZ5OHSMS1NdFXDDvRXJFNsdoJDWgU7ZPUoAW9OD+eQ@mail.gmail.com>
- <CAD=FV=W2wi47egKmWDS+BZGSy85K+A8jX0gvi6CYhmFgoBBRmw@mail.gmail.com>
- <c388d91c-ea00-8fa8-3fcf-4ce754edb1b4@linaro.org>
-In-Reply-To: <c388d91c-ea00-8fa8-3fcf-4ce754edb1b4@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Feb 2022 13:32:59 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WJdcVEmnUvFfkJY3V2eWF2t4xkfCKNwaFHY+FwORg4VA@mail.gmail.com>
-Message-ID: <CAD=FV=WJdcVEmnUvFfkJY3V2eWF2t4xkfCKNwaFHY+FwORg4VA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/msm/dp: Add basic PSR support for eDP
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220221095918.18763-1-maxime@cerno.tech>
+ <20220221095918.18763-14-maxime@cerno.tech>
+ <CACO55tt8eTkEZp_DSFQ3Lt3+WBX1g3iwrB6-eTT=91bAk1NPEw@mail.gmail.com>
+ <20220222140237.jeae5o27z6oy5imp@houat>
+In-Reply-To: <20220222140237.jeae5o27z6oy5imp@houat>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Tue, 22 Feb 2022 22:35:53 +0100
+Message-ID: <CACO55tvTF33YPZbCgPZ0LmbQdcNabszbx9M+YZUe0ORtRWZF9A@mail.gmail.com>
+Subject: Re: [PATCH v2 13/22] drm/nouveau/kms: Remove redundant zpos
+ initialisation
+To: Maxime Ripard <maxime@cerno.tech>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,70 +80,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, quic_vproddut@quicinc.com,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Feb 22, 2022 at 1:23 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Tue, Feb 22, 2022 at 3:02 PM Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> On 22/02/2022 22:25, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Mon, Feb 21, 2022 at 7:12 PM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> >>
-> >>> +static int dp_link_psr_status(struct dp_link_private *link)
-> >>> +{
-> >>> +       u8 status[2];
-> >>> +
-> >>> +       drm_dp_dpcd_read(link->aux, DP_PSR_ERROR_STATUS, status, 2);
-> >>> +
-> >>> +       if (status[0] & DP_PSR_LINK_CRC_ERROR)
-> >>> +               DRM_ERROR("PSR LINK CRC ERROR\n");
-> >>> +       else if (status[0] & DP_PSR_RFB_STORAGE_ERROR)
-> >>> +               DRM_ERROR("PSR RFB STORAGE ERROR\n");
-> >>> +       else if (status[0] & DP_PSR_VSC_SDP_UNCORRECTABLE_ERROR)
-> >>> +               DRM_ERROR("PSR VSC SDP UNCORRECTABLE ERROR\n");
-> >>> +       else if (status[1] & DP_PSR_CAPS_CHANGE)
-> >>> +               DRM_INFO("PSR Capability Change\n");
-> >>
-> >> DRM_DEBUG_DP
-> >
-> > Not sure I'll have time to go back and review the series, but one
-> > thing that caught my eye as this flashed through my inbox is that I
-> > think all of these "shouting" are deprecated. It's even officially
-> > documented now as of commit d2f0a8afc1be ("UPSTREAM: drm/print: Add
-> > deprecation notes to DRM_...() functions").
+> Hi,
 >
-> Agreed. But not the DRM_INFO too.
+> On Mon, Feb 21, 2022 at 05:42:36PM +0100, Karol Herbst wrote:
+> > On Mon, Feb 21, 2022 at 11:00 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > The nouveau KMS driver will call drm_plane_create_zpos_property() with
+> > > an init value depending on the plane purpose.
+> > >
+> > > Since the initial value wasn't carried over in the state, the driver had
+> > > to set it again in nv50_wndw_reset(). However, the helpers have been
+> > > adjusted to set it properly at reset, so this is not needed anymore.
+> > >
+> > > Cc: nouveau@lists.freedesktop.org
+> > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > Cc: Karol Herbst <kherbst@redhat.com>
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > ---
+> > >  drivers/gpu/drm/nouveau/dispnv50/wndw.c | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > index 133c8736426a..0c1a2ea0ed04 100644
+> > > --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > @@ -635,8 +635,6 @@ nv50_wndw_reset(struct drm_plane *plane)
+> > >                 plane->funcs->atomic_destroy_state(plane, plane->state);
+> > >
+> > >         __drm_atomic_helper_plane_reset(plane, &asyw->state);
+> > > -       plane->state->zpos = nv50_wndw_zpos_default(plane);
+> > > -       plane->state->normalized_zpos = nv50_wndw_zpos_default(plane);
+> >
+> > so reading the surrounding code a little it feels like those
+> > assignments actually do something. If my understanding is correct
+> > plane->state points to &asyw->state, but asyw was just kzalloced in
+> > this function. __drm_atomic_helper_plane_reset doesn't set the zpos or
+> > normalized_zpos fields as long as zpos_property is 0, so those fields
+> > won't be set with that change anymore.
+> >
+> > I just don't know if it's fine like that or if this function should
+> > set zpos_property instead or something. Anyway, the commit description
+> > makes it sound like that an unneeded assignment would be removed here,
+> > which doesn't seem to be the case. But I don't really know much about
+> > all the drm API interactions, so it might just be fine, mostly asking
+> > to get a better idea on how all those pieces fit together.
+>
+> If you're looking at the code without that patch series, you're right.
+>
+> These patches change that however:
+> https://lore.kernel.org/dri-devel/20220221095918.18763-7-maxime@cerno.tech/
+> https://lore.kernel.org/dri-devel/20220221095918.18763-8-maxime@cerno.tech/
+>
+> So, once they have been applied those assignments are made in
+> __drm_atomic_helper_plane_reset and are no longer relevant here.
+>
 
-You're saying that DRM_INFO _isn't_ deprecated? I was pretty sure that
-it was, too. If not, can you please submit a patch to `drm_print.h`
-clarifying since my patch (which folks Acked) marked it as deprecated:
+yeah, I saw those, but I see now where I got confused: the arguments
+of __drm_atomic_helper_plane_reset and
+__drm_atomic_helper_plane_state_reset are swapped, so I thought
+&asyw->state being all 0 was the second arg to
+__drm_atomic_helper_plane_state_reset. Yeah the code is alright then.
 
-+/* NOTE: this is deprecated in favor of pr_info(). */
- #define DRM_INFO(fmt, ...)                                             \
-        _DRM_PRINTK(, INFO, fmt, ##__VA_ARGS__)
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-My understanding (also in the description of my patch) was that
-DRM_INFO() by itself didn't add much so we should just use the
-standard pr_info(). If pr_info() wasn't to your liking then it was
-better to do drm_info(drmdev, ...) or drm_info(NULL, ...);
+> Maxime
 
--Doug
