@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B484BF901
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 14:18:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF4D4BF904
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 14:18:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6288910E633;
-	Tue, 22 Feb 2022 13:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069C710E63F;
+	Tue, 22 Feb 2022 13:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C333010E633
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:18:30 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id j24so12211919oii.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 05:18:30 -0800 (PST)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8B110E63F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 13:18:38 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id j2so14402120oie.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 05:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mAHBtmtMrIy2W3kHZTCvcn0QTbxMEFt0geIwL6YcBKU=;
- b=nwAqmSQ2vzkc3R4j/kHBj0KGZ82kOVGgV5IRWLnHakRqcnRlMTi9QWOODmUlZsR7Rn
- o5IZ/CoGQE9VyVOfT0qR0kyflmOFoLDdau0bR8Qx7YSRA9/5elfqnOn/Db86bYKBkTeG
- 0FuUP7l9/VpIBYdcnESdf/CvwXHQQLYEOB0EVwZ28H8YarTK9fUla0EAV4crC8sBDwSK
- vK5gyqkTUzozj5/qxd5GkZ5NhYLamohIpzpxY8vU8KW8athgQctX6BWp5EFF6/l+oZxt
- TJKlTbCIQ94AB6watlHLY3iubMMGfwBc7yDlOMTMT2vEHeGzMGLD1S5iJBJVQ0MbIGtX
- 2MiA==
+ bh=5Qcw9bKKE/I3YtOTGrr/IloXYnLQKsqmcABj+F9w5gU=;
+ b=c8BAJ4m67w3KkA6R8MfDkVVbI33E3DVexeALTYofb5l6z5ouhhOz4fZsya2JyYKPgi
+ sat/gkEnc4YCyfXFmsZ6JizPCfEvFBKy3sUlF5kqA1LOCaburVgG3znbklkOywSEkBWA
+ G4dNPu+gyva002SGyTd8sipk9LyYX5MNusk7OkITM29UMV63h0QVBRWT6pIy3yDo9idu
+ jgK7nVvQLQAScQ/Glv4ROveNyabb2dodxJT5dc5JgNJIC0pXpAIFcfOgR8kMlIPvhSdn
+ hLddDjV84SiN5tH1H6kiw2/03Ghq9xeP9fyF2dPGNWNLtG9Zvhe8yLlqRFgwIim9Y3FD
+ ZvFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mAHBtmtMrIy2W3kHZTCvcn0QTbxMEFt0geIwL6YcBKU=;
- b=he8QWbyhObKwYGIXRVXPFpVkunVQdLiZxLYuaw7hdZ61/dcmwX9NK5t6wMhNFfL/DC
- R3Iejep7O0UHtsL080AW4wPhQyornryyl75lMLIrCJ6WuCFMXWLL1iUqaQlHWVaGaOOk
- +oT6PNjNyhUaJggHu/lfY4+Zri93R3FsNg4Fh1EiCchaWucTTuBv3rZDvP2laiuS8Stl
- whYt1uSP8t7KUDRD0KyTMc5a6EmkpOGuMgkhkTS4BGJ9c6FHzqwJ8/thldIabijYpOxW
- 338BE1CrA/XcgDDYdA6pzOynoUS9FSgxKi1P2iy3o5cJzmpuQHVnqzvjk1bRm6RKafAT
- JGYQ==
-X-Gm-Message-State: AOAM530DArSXO2UEh2fIp2gH72hWWLd29EonT9KrrR/T1z8J1TCSBEz/
- amkDUh9/Z8lmt2cMLjQLrtjyaw==
-X-Google-Smtp-Source: ABdhPJx8Rjrh7CF6sfeCwjuZInz6fzuEKQI/zgh6IVqdopcXaKbEaCWXyeks31/XR48U1/2OPddz9g==
-X-Received: by 2002:a05:6808:1646:b0:2d4:428c:659e with SMTP id
- az6-20020a056808164600b002d4428c659emr1885513oib.20.1645535910109; 
- Tue, 22 Feb 2022 05:18:30 -0800 (PST)
+ bh=5Qcw9bKKE/I3YtOTGrr/IloXYnLQKsqmcABj+F9w5gU=;
+ b=yLIoOJ3kYqy73tIzB3IhLCkxgYFkPGlmow1BQFeaNVeQsnswXQCQ3Rn9s9zDqeW2VW
+ TwOZi3MfS1LG60Uxg5yuMKWRhVLKUdeTRnHx71ywckaGMaboOw2t2MC8v3w5J6ibiW9Z
+ u6eolZnhkmKzU4jmC/cb9Y1lPujDmMMfl9s0iAusBaa6oL724qRLmW252O9yOXnmNyvh
+ Lph0c4sQUoRzbToeUughdCS/95VzPWThtRS73Lamj4F+z+hOZ1kIENFjxMy9+qt+wtTc
+ 5oTrQ0bioZEba8830x1BOhsgPKw8U2KB3bYM9jvq+HBKRFzwFGDR/JQrsLkMgVT3MW41
+ e0SA==
+X-Gm-Message-State: AOAM533fPmAt+EVVzz3wtoB9DYRg6GV8KoVM0gD52dU0xfFLqFfOLQfq
+ d3EjP4AFaX8Ki9RAo8NNrWRfxQ==
+X-Google-Smtp-Source: ABdhPJxEgvmm3gdK2nB9u+S/MLEXPpJvc+viMUQ4NlZZF4yuwT7VswodNQo1pHuKz6DJMA/hokhwcg==
+X-Received: by 2002:a05:6808:11cc:b0:2d4:9b7c:6d76 with SMTP id
+ p12-20020a05680811cc00b002d49b7c6d76mr1803271oiv.193.1645535917778; 
+ Tue, 22 Feb 2022 05:18:37 -0800 (PST)
 Received: from fedora.. ([187.36.236.204])
- by smtp.gmail.com with ESMTPSA id c9sm6325050otd.26.2022.02.22.05.18.22
+ by smtp.gmail.com with ESMTPSA id c9sm6325050otd.26.2022.02.22.05.18.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 05:18:29 -0800 (PST)
+ Tue, 22 Feb 2022 05:18:37 -0800 (PST)
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  Hawking.Zhang@amd.com, john.clements@amd.com, tao.zhou1@amd.com,
  YiPeng.Chai@amd.com, luben.tuikov@amd.com, Stanley.Yang@amd.com,
  Dennis.Li@amd.com, mukul.joshi@amd.com, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, Anthony.Koo@amd.com
-Subject: [PATCH 08/10] drm/amd/display: Remove unused variable
-Date: Tue, 22 Feb 2022 10:16:59 -0300
-Message-Id: <20220222131701.356117-9-maira.canal@usp.br>
+Subject: [PATCH 09/10] drm/amd/display: Add missing prototypes to dcn201_init
+Date: Tue, 22 Feb 2022 10:17:00 -0300
+Message-Id: <20220222131701.356117-10-maira.canal@usp.br>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222131701.356117-1-maira.canal@usp.br>
 References: <20220222131701.356117-1-maira.canal@usp.br>
@@ -80,41 +80,32 @@ Cc: magalilemes00@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the variable clamshell_closed from the function
-dcn10_align_pixel_clocks.
+Include the header with the prototype to silence the following clang
+warning:
 
-This was pointed by clang with the following warning:
-
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:2063:7:
-warning: variable 'clamshell_closed' set but not used
-[-Wunused-but-set-variable]
-    bool clamshell_closed = false;
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn201/dcn201_init.c:127:6:
+warning: no previous prototype for function 'dcn201_hw_sequencer_construct'
+[-Wmissing-prototypes]
+    void dcn201_hw_sequencer_construct(struct dc *dc)
          ^
 
 Signed-off-by: Maíra Canal <maira.canal@usp.br>
 ---
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_init.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index 8dc1afc03961..559aa45f27e7 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -2060,14 +2060,11 @@ static int dcn10_align_pixel_clocks(struct dc *dc, int group_size,
- 	uint32_t embedded_pix_clk_100hz;
- 	uint16_t embedded_h_total;
- 	uint16_t embedded_v_total;
--	bool clamshell_closed = false;
- 	uint32_t dp_ref_clk_100hz =
- 		dc->res_pool->dp_clock_source->ctx->dc->clk_mgr->dprefclk_khz*10;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_init.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_init.c
+index f1f89f93603f..1826dd7f3da1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_init.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_init.c
+@@ -27,6 +27,7 @@
+ #include "dcn10/dcn10_hw_sequencer.h"
+ #include "dcn20/dcn20_hwseq.h"
+ #include "dcn201_hwseq.h"
++#include "dcn201_init.h"
  
- 	if (dc->config.vblank_alignment_dto_params &&
- 		dc->res_pool->dp_clock_source->funcs->override_dp_pix_clk) {
--		clamshell_closed =
--			(dc->config.vblank_alignment_dto_params >> 63);
- 		embedded_h_total =
- 			(dc->config.vblank_alignment_dto_params >> 32) & 0x7FFF;
- 		embedded_v_total =
+ static const struct hw_sequencer_funcs dcn201_funcs = {
+ 	.program_gamut_remap = dcn10_program_gamut_remap,
 -- 
 2.35.1
 
