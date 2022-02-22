@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7071C4BF306
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:01:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E94BF34D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 09:15:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78CA210E7C3;
-	Tue, 22 Feb 2022 08:01:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A7610F31E;
+	Tue, 22 Feb 2022 08:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE3310E7C3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1645516865;
- bh=Wbkwg6IDeSigfLVXP44w+U6JsS8t374MsL2Uv1lERNM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=jJ8agmZRWaSWMbzTiNL8UEB9YSkBvS0meQFiTDtdClaMh1jRW7CSQxXwv5IanTDOT
- FRpKcavULXTiThiqxwIwyCfB7RRDiIgKUol7byb71+tJat6s8xwCRDKrKoXouXovdP
- Eh8KLVN1f32FsjtzpXedVLeTuN4Q+FfHHGSFsyZ8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.171.113]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M8QWG-1nI0GG3dtw-004Qsi; Tue, 22
- Feb 2022 09:01:04 +0100
-Message-ID: <ed931578-c79e-0161-24d5-ab9c302350e6@gmx.de>
-Date: Tue, 22 Feb 2022 09:01:02 +0100
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97CE510F31E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 08:15:22 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id s1so1815936edd.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 00:15:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bf6c0GrdK5cIPGS+LxnxvSbfeSFCIcjmEMMSuVayD7Y=;
+ b=DL/nKWrH8pDwxPVjOI9kQIrzGprE7VsqJwF3O4ds23wtL9cqCVQs8dvK97jr5N1/au
+ yaRL7/LEbpazxPcFpGa9Qc03EvephU547DKfPpMFewozRTaQ+85m7+XrDaOq+GJ9WKvd
+ ahEJ1Tr35gQ4KJYoYY7yhzVJSG3tmdoeOfo1P/s9MRqtvgmm5GEm2a8IlDV4x8EOrz1x
+ 1JEv5KmfDi3W8pg1NMCzqe5qEWt7vj6kPATa1cdgG9JAh7g8Jm860u3cuzaCdkWLJ42e
+ REPzhzhcxkV8xjKI/dIWmZLnjMXrH7qZP9yW7gj+qSVXK6Koq7YQbSL/OaOPbUukudN9
+ yF1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bf6c0GrdK5cIPGS+LxnxvSbfeSFCIcjmEMMSuVayD7Y=;
+ b=AfNJyM+m/+/NHJ6iVeRVaUx1S3RUBxInc8u0pLPrCi3P0TTOuygnVsRDZRAaAwWd7X
+ Ft6gMCeJ6UMwF8mgDDMlChF/13fkVqpuRVYaVAkauRhuBJ7ruHIZNt+37EVMWJjiYi23
+ ZU/h7CTvkkW3J7aTla4PluZcxAjalcgH3UM3AaQgzDFAYmwQTACQ0rG4nI1KLT7pqc2G
+ 6i1if5in9lTqynKd4RUQfDyd0vggsIujyeAc2ftQnlAxjlQ5bZu0GzeqCExBV4/yz+Pf
+ +nHOId4KJQz+KFqQ6SgrV4xU1ztlr7lWXtnNOSXQDUvX2F0DIqAs81xhy5bNy4Guw1oa
+ 3HSA==
+X-Gm-Message-State: AOAM5312x1YgmeyGQx14Nb1UowiUYqsHPLfxjpKzg9tKGwgTy2IIFxdG
+ c9mbCq1XwgPlHfy6CGofAOJ1uqsEfkircBGFjXcC1Q==
+X-Google-Smtp-Source: ABdhPJxLQnZoqBnmnc+lLRPc4HAzYt80c12W8LCnxd3kP8j0PTG0D7VeymHSydwiLD9D+z3qPvGpMqPhGiB2I3ju0wc=
+X-Received: by 2002:aa7:c3d5:0:b0:40f:b885:8051 with SMTP id
+ l21-20020aa7c3d5000000b0040fb8858051mr25295788edr.395.1645517721067; Tue, 22
+ Feb 2022 00:15:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] video: fbdev: via: check the return value of kstrdup()
-Content-Language: en-US
-To: xkernel.wang@foxmail.com, FlorianSchandinat@gmx.de
-References: <tencent_AD2E09472E455F78B792E6BF114813B35206@qq.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <tencent_AD2E09472E455F78B792E6BF114813B35206@qq.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wJCFas3iTYDKRy/G4Q+YVsZlHbHu1InHntEr+HGd7csopCqt0gk
- Het9BIY3anRiLBr624c2IjMYYMJUZjywh4jthMas2Q5s9EzZrm0uPIK2/Sp4E726khTTnCa
- eFCCrIIx+PBTlYHRg7ZQHQL9MMDXukUq6XPQkTyiP1xIYMfIkSZIyKsrzM+wGS0GIurVap1
- S3Pxl3XB6t4hE8/KJLZog==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZEU8riefV3U=:fv8lZBcdcNQE++XqHrpoeK
- asv+D/k7hSJ6Yxz9If35D9hoWXtsF5LOd+Lap02rV+c4i9owlERKYMdR1dAU+uqyIg1Lf+R15
- QMhdk3wm9Xwcvznm7LaJAyNq02RFRw1qtBXhhzMKrDnlxQhNlBliexXYRCVGp7VlH2pkf6dB5
- A+G56SCsqfccbO5RHGCljqnJ76hsZoUjwCDBJtiLL3fG/olJzyoRCnfdcYJQ4ys5Ovdmc99J4
- hZjx5XyLp6liVSKXw1mUpgQ3GntX2/3F0FTgzH7wDO1OmtYZT1EI2CN2O25vWtv18oGKZg65z
- u9tz/Vz8um/SjqhUkERjsP3fcx3Pxga36b6xn794KyPjUSYPfJA1ZcSwkktgjZe/22EpUxfgP
- toHXdmqnxIjLzP7v4KtLtf/mjEumec+YWoEgCS3Xexrfx9LoX3xUUvEr58Au5sV6SgSlMScWr
- 047rEP6QElE9gGSHO7BX1Yc3tel8dv/zaEjn6BtYuskL4bTBoOAGeoNIUhyv2GXpiIHFk3Wi4
- Hbb3ra2hZfYoYLmGfY1uwX2nRsClBkgPtV6wlDY1kRPDKsUHGjWyfSp0yBj+WMOEvBre6i3zM
- tXUaNNnxP0YP86BVW5sOLcc2xuUBcyTdJHZeQv7Cuztp6Rp94zzngS5Ami9xCWjJcZosRyFfz
- teODOvf8Ml68vt2SpnpxnPXo520Qw+ZvKOWXsmv+ykWpyW+IzWatrY4Ld92zi2ObT93gxKOL0
- tEeZw/ceJ7YHj0Xzu9XtGO46NoljWyupSZsu9LEPAQ1AwQUPeq2+jckSIWanRrcCKjdeHDWHm
- plY4gLH+KnJlioYXiUIZsVz1QkWfhRagmtvXEnjGJkIDgOFKN6vIrfv0KiJTpusogKgPU+Mxt
- O+LmZwBs3RMx63lxoOWv8eRovtr3S0YDY//QYVKuXhfvLr9PiYNHemE6ZZYK8ecNGyHvJx7yD
- psSu+OE3d6wsAna8JHSD6JMx5tUdtE1aK2FqMCTqflaq+A47H24I95zDrGgFae1JNm4zxawZL
- S5IcalwVIRU6A9ojq6aIHjBWRIslshfdnawHPtKX7CMDjSNpeDPYOMzhfFgcP7Fp3kHw5OIud
- f8TUg6ngHvCz6g=
+References: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
+ <85d0a4dbbe6c8ad7bc3fdd8ce719f6d418ce095e.1645029005.git.dave.stevenson@raspberrypi.com>
+ <YhSBC13+3DM3FyQ+@pendragon.ideasonboard.com>
+In-Reply-To: <YhSBC13+3DM3FyQ+@pendragon.ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 22 Feb 2022 08:15:05 +0000
+Message-ID: <CAPY8ntAE8k8nbLpsr1Sd7QAgXPzrCP83CcFzYopVbbOCzzkTtw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/bridge: Document the expected behaviour of DSI
+ host controllers
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +66,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Douglas Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/22 11:37, xkernel.wang@foxmail.com wrote:
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
->
-> kstrdup() is a memory allocation function which can return NULL when
-> some internal memory errors happen. It is better to check the return
-> value of it to catch the error in time during the setup of viafb.
->
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Hi Laurent
 
-applied to fbdev for-next tree.
-Thanks!
-Helge
-
-> ---
->  drivers/video/fbdev/via/viafbdev.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+On Tue, 22 Feb 2022 at 06:22, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/vi=
-a/viafbdev.c
-> index 22deb34..2d67c92 100644
-> --- a/drivers/video/fbdev/via/viafbdev.c
-> +++ b/drivers/video/fbdev/via/viafbdev.c
-> @@ -1939,8 +1939,12 @@ static int __init viafb_setup(void)
+> Hi Dave,
 >
->  		if (!strncmp(this_opt, "viafb_mode1=3D", 12)) {
->  			viafb_mode1 =3D kstrdup(this_opt + 12, GFP_KERNEL);
-> +			if (!viafb_mode1)
-> +				return -ENOMEM;
->  		} else if (!strncmp(this_opt, "viafb_mode=3D", 11)) {
->  			viafb_mode =3D kstrdup(this_opt + 11, GFP_KERNEL);
-> +			if (!viafb_mode)
-> +				return -ENOMEM;
->  		} else if (!strncmp(this_opt, "viafb_bpp1=3D", 11)) {
->  			if (kstrtouint(this_opt + 11, 0, &viafb_bpp1) < 0)
->  				return -EINVAL;
-> @@ -1969,6 +1973,8 @@ static int __init viafb_setup(void)
->  				return -EINVAL;
->  		} else if (!strncmp(this_opt, "viafb_active_dev=3D", 17)) {
->  			viafb_active_dev =3D kstrdup(this_opt + 17, GFP_KERNEL);
-> +			if (!viafb_active_dev)
-> +				return -ENOMEM;
->  		} else if (!strncmp(this_opt,
->  			"viafb_display_hardware_layout=3D", 30)) {
->  			if (kstrtoint(this_opt + 30, 0,
-> @@ -1995,8 +2001,12 @@ static int __init viafb_setup(void)
->  				return -EINVAL;
->  		} else if (!strncmp(this_opt, "viafb_lcd_port=3D", 15)) {
->  			viafb_lcd_port =3D kstrdup(this_opt + 15, GFP_KERNEL);
-> +			if (!viafb_lcd_port)
-> +				return -ENOMEM;
->  		} else if (!strncmp(this_opt, "viafb_dvi_port=3D", 15)) {
->  			viafb_dvi_port =3D kstrdup(this_opt + 15, GFP_KERNEL);
-> +			if (!viafb_dvi_port)
-> +				return -ENOMEM;
->  		}
->  	}
->  	return 0;
+> Thank you for the patch.
+>
+>
+> On Wed, Feb 16, 2022 at 04:59:44PM +0000, Dave Stevenson wrote:
+> > The exact behaviour of DSI host controllers is not specified,
+> > therefore define it.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  Documentation/gpu/drm-kms-helpers.rst |  7 +++++++
+> >  drivers/gpu/drm/drm_bridge.c          | 38 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 45 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> > index c3ce91eecbc1..362afdb867c6 100644
+> > --- a/Documentation/gpu/drm-kms-helpers.rst
+> > +++ b/Documentation/gpu/drm-kms-helpers.rst
+> > @@ -185,6 +185,13 @@ Bridge Helper Reference
+> >  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> >     :export:
+> >
+> > +MIPI-DSI bridge operation
+> > +-------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> > +   :doc: dsi bridge operations
+> > +
+> > +
+> >  Bridge Connector Helper Reference
+> >  ---------------------------------
+> >
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index 7c24e8340efa..14c2ee9e0328 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -152,6 +152,44 @@
+> >   * situation when probing.
+> >   */
+> >
+> > +/**
+> > + * DOC: dsi bridge operations
+> > + *
+> > + * DSI host interfaces are expected to be implemented as bridges rather than
+> > + * encoders, however there are a few aspects of their operation that need to
+> > + * be defined in order to provide a consistent interface.
+> > + *
+> > + * A DSI host should keep the PHY powered down until the pre_enable op is
+>
+> I'd write "operation" in full everywhere to avoid mixing the two.
 
+Ack on this and the other minor changes.
+
+> > + * called. All lanes should be in an idle state (not LP-11) up to this point.
+>
+> Is the idle state LP-00 ? If so I'd state that explicitly.
+
+I'd avoided specifying LP-00 as that is a specific state in the
+transition from LP to HS (LP-11 -> LP-01 -> LP-00 -> HS).
+LP-00 also implies that the line is being actively driven, whereas
+this is "powered down" so potentially just has passive pull resistors
+on the line.
+Looking at the D-PHY spec (I happen to have 1.1 to hand), "Figure 25
+Clock Lane Module State Diagram" and we're looking at the "Init
+Master" state.
+
+This would also be a point where ULPS might be implemented.
+
+Perhaps replace with "All lanes are in an undefined idle state up to
+this point" to allow for differences in hardware implementation?
+
+  Dave
+
+> "[...] in an idle state (LP-00, not LP-11) [...]"
+>
+> > + * pre_enable should initialise the PHY, set the data lanes to LP-11, and the
+> > + * clock lane to either LP-11 or HS dependent on the mode_flag
+>
+> s/dependent/depending/ ?
+>
+> > + * MIPI_DSI_CLOCK_NON_CONTINUOUS.
+> > + *
+> > + * Ordinarily the downstream bridge DSI peripheral pre_enable will have been
+> > + * called before the DSI host. If the DSI peripheral requires LP-11 and/or
+> > + * the clock lane to be in HS mode prior to pre_enable, then it can set the
+> > + * DRM_BRIDGE_OP_UPSTREAM_FIRST flag to request the pre_enable (and
+> > + * post_disable) order to be altered to enable the DSI host first.
+> > + *
+> > + * Either the CRTC being enabled, or the DSI host enable op should switch the
+> > + * host to actively transmitting video on the data lanes.
+> > + *
+> > + * The reverse also applies. The DSI host disable op or stopping the CRTC should
+> > + * stop transmitting video, and the data lanes should return to the LP-11 state.
+> > + * The DSI host post_disable op should disable the PHY.
+> > + * If the DRM_BRIDGE_OP_UPSTREAM_FIRST flag is set, then the DSI peripheral's
+> > + * bridge post_disable will be called before the DSI host's post_disable.
+> > + *
+> > + * Whilst it is valid to call host_transfer prior to pre_enable or after
+> > + * post_disable, the exact state of the lanes is undefined at this point. The
+> > + * DSI host should initialise the interface, transmit the data, and then disable
+> > + * the interface again.
+> > + *
+> > + * Ultra Low Power State (ULPS) is not explicitly supported by DRM. If
+> > + * implemented, it therefore needs to be either handled entirely within the DSI
+>
+> s/either // (or you need an "or ..." :-))
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > + * Host driver.
+> > + */
+> > +
+> >  static DEFINE_MUTEX(bridge_lock);
+> >  static LIST_HEAD(bridge_list);
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
