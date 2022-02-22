@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD634C04AD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E571F4C04B9
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8588010E3B3;
-	Tue, 22 Feb 2022 22:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75EB510E701;
+	Tue, 22 Feb 2022 22:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCBF10E3B3;
- Tue, 22 Feb 2022 22:35:38 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD5710E701;
+ Tue, 22 Feb 2022 22:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645569338; x=1677105338;
+ t=1645569461; x=1677105461;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=UgejPx51ToloZZZLUuw++UN2w5kytsuGlJTnOx1RrFc=;
- b=EzWPqg//Q0b1y2Ei7mRWgmu30le47OsyhwMs8A7aTa398F0sZxmspJN+
- NJSXlc2EZXiiTibqbwgXn0v10AUkAqjWqPX+bxoI61oqkXgUA2GXTcDk4
- LklTFfVRV1H2syArY84meNlm2EP5Y4T/H813EKiQ2QR4AIF6FdkgNAJ9H
- eF5UnZBuVeAs7J5ZK1Ji68bpwXQELloj4do2wNBCE/iCR/M1YiyqlsyTd
- vZhk4oGoNs2t60D4Wc7vIbz1ofGIJhE/H5S23+AGtn5WbiwiehJE3Ehtk
- A5RAF7RlA8SXNrB+ZYFW/HvZX2YTjuIfrhV0kxi60iDir2RDGhVY7Lhcw w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="232452172"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="232452172"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 14:35:37 -0800
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="637187120"
+ bh=ZkrZuNS+FMWqwStTuA03SedJDNaL5aEDD5LXFNdMfRI=;
+ b=X3Rpae6vlW4g235JRj/P6rHH6A4UkKLRW2ZYK6gfD2OphVnPKAsfaCdI
+ SPCdksz+x8NDtJBJwhqlQQEwN8XnTxBbxD5ejJif5Jjhrys8nyhfK5rIS
+ CdDZF1DO+s+vin2Qj5EQuAVKq9vf/p0dUjouN4NMAshrSeJe5rcYvIveB
+ Br5EYWg/tA8E2gQlmaZoMbNlXOnV6cFBpgbDrYuJO2qt98Abk1vxVWocY
+ xpCFX/DvTU7GJxoSKp+4kqU7NDOkF8un/gT+C5PtBgCZUnekQ/uA86FWP
+ ZKwnelTu4VfdHMv1Tx618lhBpYg1gLZ/ngxplXe0Jj+48oJNAuGGEH2Lp w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="231803905"
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="231803905"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 14:37:40 -0800
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="683685523"
 Received: from mdroper-desk1.fm.intel.com (HELO
  mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 14:35:37 -0800
-Date: Tue, 22 Feb 2022 14:35:36 -0800
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 14:37:40 -0800
+Date: Tue, 22 Feb 2022 14:37:39 -0800
 From: Matt Roper <matthew.d.roper@intel.com>
 To: Michael Cheng <michael.cheng@intel.com>
-Subject: Re: [PATCH v10 4/6] drm/i915/gt: Re-work reset_csb
-Message-ID: <YhVlOIHOS9wInh8e@mdroper-desk1.amr.corp.intel.com>
+Subject: Re: [PATCH v10 5/6] drm/i915/: Re-work clflush_write32
+Message-ID: <YhVlsxcrPpo10SyC@mdroper-desk1.amr.corp.intel.com>
 References: <20220210183636.1187973-1-michael.cheng@intel.com>
- <20220210183636.1187973-5-michael.cheng@intel.com>
+ <20220210183636.1187973-6-michael.cheng@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220210183636.1187973-5-michael.cheng@intel.com>
+In-Reply-To: <20220210183636.1187973-6-michael.cheng@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +64,54 @@ Cc: tvrtko.ursulin@linux.intel.com, balasubramani.vivekanandan@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 10, 2022 at 10:36:34AM -0800, Michael Cheng wrote:
-> Use drm_clflush_virt_range instead of directly invoking clflush. This
-> will prevent compiler errors when building for non-x86 architectures.
-> 
-> v2(Michael Cheng): Remove extra clflush
-> 
-> v3(Michael Cheng): Remove memory barrier since drm_clflush_virt_range
-> 		   takes care of it.
+On Thu, Feb 10, 2022 at 10:36:35AM -0800, Michael Cheng wrote:
+> Use drm_clflush_virt_range instead of clflushopt and remove the memory
+> barrier, since drm_clflush_virt_range takes care of that.
 > 
 > Signed-off-by: Michael Cheng <michael.cheng@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 6186a5e4b191..11b864fd68a5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -2945,9 +2945,8 @@ reset_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 498b458fd784..0854276ff7ba 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -1332,10 +1332,8 @@ static void *reloc_vaddr(struct i915_vma *vma,
+>  static void clflush_write32(u32 *addr, u32 value, unsigned int flushes)
 >  {
->  	struct intel_engine_execlists * const execlists = &engine->execlists;
+>  	if (unlikely(flushes & (CLFLUSH_BEFORE | CLFLUSH_AFTER))) {
+> -		if (flushes & CLFLUSH_BEFORE) {
+> -			clflushopt(addr);
+> -			mb();
+> -		}
+> +		if (flushes & CLFLUSH_BEFORE)
+> +			drm_clflush_virt_range(addr, sizeof(addr));
+
+This is another case where it should technically be sizeof(*addr),
+although in practice it won't change the behavior.
+
 >  
-> -	mb(); /* paranoia: read the CSB pointers from after the reset */
-> -	clflush(execlists->csb_write);
-> -	mb();
-> +	drm_clflush_virt_range(execlists->csb_write,
-> +			       sizeof(execlists->csb_write));
+>  		*addr = value;
+>  
+> @@ -1347,7 +1345,7 @@ static void clflush_write32(u32 *addr, u32 value, unsigned int flushes)
+>  		 * to ensure ordering of clflush wrt to the system.
+>  		 */
+>  		if (flushes & CLFLUSH_AFTER)
+> -			clflushopt(addr);
+> +			drm_clflush_virt_range(addr, sizeof(addr));
 
-I think you technically want sizeof(execlists->csb_write[0]) here,
-right?  I.e., the size of the value (32-bits), not the size of the
-pointer (32 or 64 depending on architecture).  Not that it will really
-change the behavior since it all works out to a single cacheline in the
-end.
+Ditto.
 
-Aside from that,
+
+Aside from those,
 
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
->  
->  	inactive = process_csb(engine, inactive); /* drain preemption events */
->  
+
+>  	} else
+>  		*addr = value;
+>  }
 > -- 
 > 2.25.1
 > 
