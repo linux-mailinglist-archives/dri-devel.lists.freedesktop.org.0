@@ -2,40 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB6F4BF572
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:08:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D04BF5C2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C1610E910;
-	Tue, 22 Feb 2022 10:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9340B10E5F6;
+	Tue, 22 Feb 2022 10:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8991510E7E5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 10:07:50 +0000 (UTC)
-X-UUID: 9e0c341e4ecf4daaae8548472dfafae2-20220222
-X-UUID: 9e0c341e4ecf4daaae8548472dfafae2-20220222
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 349702751; Tue, 22 Feb 2022 18:07:47 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 22 Feb 2022 18:07:45 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 22 Feb 2022 18:07:45 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Subject: [PATCH v12 23/23] arm64: dts: mt8195: add display node for vdosys1
-Date: Tue, 22 Feb 2022 18:07:41 +0800
-Message-ID: <20220222100741.30138-24-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220222100741.30138-1-nancy.lin@mediatek.com>
-References: <20220222100741.30138-1-nancy.lin@mediatek.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8D6E10E5F6;
+ Tue, 22 Feb 2022 10:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645525658; x=1677061658;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=I9p+/v3WhXxrF5YP8mLFfvSGwBohxFx8U9vpQ0P4KE4=;
+ b=PqCCgDTsX/66RTux39cX2lWOsllZbh7YGxlmNbzRsQIwpujMMCioeR95
+ Umc/yzaQzaWZmlkPJPrSusivMeE5Mtl24QSIfEVuCa0ITsv4bpVb9qkue
+ 2F56pP9vgsqspC8KZR0s63cpd7ifnuTQS0JYrhOQ10aBzjR7/mnAltbWZ
+ tyyRuJBlwDbQs3nii+9Mjc0PjU66+9U3PET5C/ip2/ZRJ6Df9hlBKA9+g
+ VMCI6pOujP6hib7oMo4Lh7vclNt6oU8h2nCncyv1EjQKXBvarOkB7rXfD
+ 8Dnrn6fqmi8sCb76oBLKJQ1Yx6cQGrux7EES2TNsRHvc83cl7TDrCBAKQ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="251424386"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="251424386"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 02:27:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="638859599"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by orsmga004.jf.intel.com with ESMTP; 22 Feb 2022 02:27:38 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 22 Feb 2022 02:27:37 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 22 Feb 2022 02:27:37 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Tue, 22 Feb 2022 02:27:37 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 22 Feb 2022 02:27:36 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gz6zTtvgmjXT73kqrgVwGDiNgQsq+0/gzqyrBOHfw+6/zzHhlcDAXKGLnzU685qZERg96jXCn7q/WCfbbfaBrTOFF/IcTF2IcOcQWBvbVg8bTIZ+P9fWeiNAvkz0ZqRTaYYJDFyaiahiQxRYe+c45S38HII4pbzvjosB+twLldo9HQa/+8v8Gxon0GkPrvtBTxq8AklgsQmwOkhhqVrCUuAc5GhZbxlTrRKfBRCGpArej7UXCg8b+iO2yvO+2YIPCIICJcTTQzEfGePm16tVqE2DoAj/yHwm9YnrNZ7YBNKrDgKmmpDYBD046jukwFt4WOwdtthFRoSUgZH83u9VNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0WqFltJt+dIaZIcauPjD8lwHBntGYPumDPIxSfLqBto=;
+ b=nAWz/a4/PdpTVomVhLURspSHuQJ1Ym6w8Lkf6udNbQxBdT+VE5LAU13kW7wO+uHMXfbj1t1mmU7aZHaVhxk6LVYyt2PKr23tkRFbFqmMty45GI0yxZYpAZqTN7b8KgIV8bJLzGeXg7VasrXVWhs7AFTWuPOGqfFpxJ9uDkNI4G2vhDwTKVWBzSViJdsaZm1YPdHJkSe5Dx6n+GncPfQd4wr5bS1G1xCHbGSfT27liutjYEwoghJ4WtJy6PhnueAphKN9v8XimhI8Wapdj2ZBXQhZP3tyHD9NNdaAGRTZjfxlTIG2TdgOxoWCd+eV/ZfmVhKMugBrn2DuKo+kkRa3hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
+ DM5PR11MB1737.namprd11.prod.outlook.com (2603:10b6:3:10b::21) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.24; Tue, 22 Feb 2022 10:27:35 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::11f6:76fa:fc62:6511]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::11f6:76fa:fc62:6511%6]) with mapi id 15.20.5017.022; Tue, 22 Feb 2022
+ 10:27:35 +0000
+Message-ID: <2a31d520-454c-c837-ec17-12dbf879e6d3@intel.com>
+Date: Tue, 22 Feb 2022 11:27:28 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [PATCH v3 05/11] lib/ref_tracker: __ref_tracker_dir_print improve
+ printing
+Content-Language: en-US
+To: Eric Dumazet <edumazet@google.com>
+References: <20220221232542.1481315-1-andrzej.hajda@intel.com>
+ <20220221232542.1481315-6-andrzej.hajda@intel.com>
+ <CANn89iJxaPqTLY0BaD79Ubxx55RMtWzZk_jkpuF1cp3Wsy2RzA@mail.gmail.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <CANn89iJxaPqTLY0BaD79Ubxx55RMtWzZk_jkpuF1cp3Wsy2RzA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0378.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::23) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dd0db905-a387-42a8-98f3-08d9f5edf101
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1737:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM5PR11MB1737F093B0E6E9CC87916094EB3B9@DM5PR11MB1737.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QX/8NPm0K4EySjsT2tEVmdiDn0Ld+m8ESIS5Jx4HwgiuZtt3hote2m44fiinGjeWw1Kv6oGZEWACHx3UahWX4cjLVLEFj5sq137H/UF6B9/O14QpUt27QWj+dkDeHAvYZ6gt7rhD3kpY5jDBDOIOi9AuGyo+KP9l0zCcLB5dq+zUepAYrEbv3cfUN3uRmQAwDRDfV/wKpVRjvJ1dhttr7gO8jr6ysLJSKH9/BdmI9uYJBfMpakxPxrhhgLSzLQh6KbE4hGDZNK8N6LDsDvF81DeSNZHwjPOqJdhNIJJJI90xEI6kmDsNhLQilztHpbNRaBdBxLE4Eqm7qXrkNdGEvlhA+hWCN4LDs5o1CzevcVwyKEryyz/6s0fg3bbo4WvqNpAQhBju1scr8aDmaKZGPfSejKnQRbflUoAqTP2tXJC0Apgb38/anAed2xLoxlTIjWceCd8OmX0fzRG+06/Q8Y6k/gmTntr1HSGp4JwX4ipa9IJygqtN7QtyXKOmBkOvDLIVpM5dNQFTqYyuyEA9j/k7cwQ8turDxftBSGgNtBpHSbdEINDh1oXAECqRlDARDrrtctddPOs/2CWfJaMk6fdeIZaq48GKzUBJulCVuonuMW5ZHd0Zet8WElka44VXZ/SwU3w3Je0fz8vMZ/EwBU+k0wolvhnsJEBCn4GXRcELziiySu9T2JCgivjJNPeqEV1OvlOHGreUGpymjzfPYcTACsLyf90/0YHL0gyH5hQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(4326008)(83380400001)(6486002)(54906003)(8676002)(66946007)(66556008)(6916009)(316002)(66476007)(31696002)(6512007)(8936002)(5660300002)(2616005)(508600001)(44832011)(36916002)(82960400001)(6666004)(36756003)(186003)(6506007)(26005)(53546011)(86362001)(38100700002)(31686004)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmtDamY0b0lHaU5uM3g0YjVSU3VxWjFnMkp3NHNTa0xyNG9kKy9salppTTRR?=
+ =?utf-8?B?WHRMVm1WMG1YQ1cxWFUreEhCZHRWamV0Qk05RzVPYndndzVLY0pJTDJaZU9I?=
+ =?utf-8?B?U1ViYjVKTUZtdXBPeGVCdnBQeWtVU1V1TFgyam9tY2kxL0tCL2pJaHA1Q1Zn?=
+ =?utf-8?B?aFBONFhCVW5MNWNqejJjL3l0ZW9mWjV2ZjhGcVJoZG1WQ2g5aStxV2tXc1dw?=
+ =?utf-8?B?Wi9OL3ZqcldxSElSQnpnMVVNeGUvcGQxMkRqOVdIU2xrMUg0RHdqTVNnN1lQ?=
+ =?utf-8?B?Q2NrZHFsWU9Deld4d1kzN3IyZmxiZTAzUFM1dy9NbmJSckRKOHFyWU9RUlcw?=
+ =?utf-8?B?ZEJFK1VtSndQVHFPZkx5dWZRdkpMRUkxN0R2Y1BsVVRkbk1IZzJQazB1djBl?=
+ =?utf-8?B?UUNqSVRLUnlhQ09FZHdiVUZIT0ZTK0RaU1RGSi9ld1M1ekRZTlRoeXR1Z09o?=
+ =?utf-8?B?ajBzTEc4V0RoR1ArUGZ0YWJVbW9EWmxmMkQrdnMvN1d5TTlDSCtNT01ycE9s?=
+ =?utf-8?B?UzZNNGplUzRMUnR6Z2Y1cStRU09WZS9yMk0xc0pqUVBqQzdrNWF4R3MzblV6?=
+ =?utf-8?B?cnZkcmhidGdPcTBxWHFmRFd3ZktiWEJWMHdEUGI4em1XaG5xcGxBM2FpdWNN?=
+ =?utf-8?B?RFkyaThBTzNXR0dMM1E4VFpNbWFDWWV1VS9EVmd2VXc1NFk2Ym5MR3g2cjJ5?=
+ =?utf-8?B?Z01OSTN3dFhBbVFOVElUcFhnK1k5NC8raGdEQjJxdUc3ZVBkWi84VGpnZHVp?=
+ =?utf-8?B?ZmJvM1ZBY2JsaHhsZzVSSlFQMlBrYTN1NzRGMTAzMUNlRm1Ma0Voa2hnSWJo?=
+ =?utf-8?B?d2EwODBBUHZCd0JQUUwzY3lJK0huVjVabHQxVXgzS01hMjVNMmJVVk1EY0Qr?=
+ =?utf-8?B?LzVXbzQ3Tk5QNTVaYk1JQjlXZTAxbWIrS1Q0clZoUVpMYnlwR00xMUtKR1Jm?=
+ =?utf-8?B?RER4UFZnWFlNZ0l0c2hQT2NYUlZFZkVWckdIRmx4OUFyeklUMHV3RXVZRmc1?=
+ =?utf-8?B?Ym1IN21oek9CV2paUU1NUEVWV1FIc2VtYzJEQWJERldFT09Db2xPTWxFWEpi?=
+ =?utf-8?B?YXNUYkt6SE9wT2xGY1JNVi95UHlyRGxIR056bmpxRjVGQllrYXRvc1F5b2Jm?=
+ =?utf-8?B?SXh2R3BvYTRXUVh0Vy9SVTBJYSs1a1F6dG8vUHJVM3JxRysyam02ZlRVWXlm?=
+ =?utf-8?B?WUhxOUV5YVpzNlZZYzV0VTdFbzVOYlNoS2N6c3pWWHNVbWtGSUpYNXZ3K2I1?=
+ =?utf-8?B?RENVaDY2K2xLbFc3UW1nOWZvTlRnWkVTVkhKYjlBdHQzOXdMUUlsVTAwMU9t?=
+ =?utf-8?B?cFFVSkpxeDdVL1phb3ZidnNKM25GandNcGl2Tlp0aCtCSlV0MEFXcDNsb0ZK?=
+ =?utf-8?B?VEhUSzhiaklRTkRieEQvbVczeUN4aEFScnVTMUZpS0JPYVJvcFJmUE1aQm13?=
+ =?utf-8?B?RWgxUXlJOGdvcnc2YXJNc3BZbzV3M3NoM2RlN1VpSGZoY1pZaHBrZS9XSFdX?=
+ =?utf-8?B?aVRGalZPMzlLSlNEUEljcmlLQzhKaVhXTTRITHhHYWRNdXRCelcxWlBRU3k2?=
+ =?utf-8?B?eU5xbHRtU1pTdzBRR01IQmVCT1JRWXlDUlhMMlNScGpkcEZUZW52V0lVb2w0?=
+ =?utf-8?B?RnQxTkFGRlExclRBcjVmcHpYQ25xTmFlaEphMkwvYks4RzdhK3pjdldDWXYr?=
+ =?utf-8?B?dnVKNUlrT1ZKT1F6YXVqcEFDbVVkei9PU2JrejM2ZDBTcXZMeEdrMVZPNFhm?=
+ =?utf-8?B?UUhwcUdYbmtRSG4rWVJOQTdwRGFmLzRhYmNhN2xHb0MwMWpkemkvVzIzL0RY?=
+ =?utf-8?B?ZFNwd3pPdlB3WTFlNHlSb1ltQnZVdVFtSXBVYVFlQUovSUJDVSszcWpVTzQx?=
+ =?utf-8?B?anJNK1FQeTc1b3grTnd1eXZITkxVVTRSRkNmd1lWS3pINHZqWHhNR0tRekRH?=
+ =?utf-8?B?UDNqckd0VVA0dTU0NFp1TlYyZDJwY1pKc0xBVjQwSHg3ZlFBMFhFRmpId2FM?=
+ =?utf-8?B?ZkNRQ1dSWXFKTmZBRE9jOE9UdmhMWkp2R05neldqeWNmVlRDSDV5SFpBSVhE?=
+ =?utf-8?B?L0VWaDBEUkNNRm1NS0xtaEZEczU5L09IbDhFMm1OYzZoc2llRTM2SDloN21O?=
+ =?utf-8?B?Q1FUT0V2SW1VaDVYQkRaL01aaDJPb29WK1p1MzZ2L1hQM1B4RGg5WTdNV042?=
+ =?utf-8?Q?J4Ey5DV/pSUlhjleB8D/auA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd0db905-a387-42a8-98f3-08d9f5edf101
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 10:27:35.1134 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wCUgkCD42r65ZJtxfTO7bAa5ajMPsbEuo0B8RSgq92SkE2N9snBTtfEIVYHaH41Jn1pzqq+mfKFBYcZYqnnvoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1737
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,271 +164,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Cc: Chris Wilson <chris.p.wilson@intel.com>, netdev <netdev@vger.kernel.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org, Jakub
+ Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add display node for vdosys1.
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 222 +++++++++++++++++++++++
- 1 file changed, 222 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index e136761345db..a69a7b57e070 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -10,6 +10,7 @@
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/power/mt8195-power.h>
-+#include <dt-bindings/reset/mt8195-resets.h>
- 
- / {
- 	compatible = "mediatek,mt8195";
-@@ -20,6 +21,22 @@
- 	aliases {
- 		gce0 = &gce0;
- 		gce1 = &gce1;
-+		ethdr0 = &ethdr0;
-+		mutex0 = &mutex;
-+		mutex1 = &mutex1;
-+		merge1 = &merge1;
-+		merge2 = &merge2;
-+		merge3 = &merge3;
-+		merge4 = &merge4;
-+		merge5 = &merge5;
-+		vdo1_rdma0 = &vdo1_rdma0;
-+		vdo1_rdma1 = &vdo1_rdma1;
-+		vdo1_rdma2 = &vdo1_rdma2;
-+		vdo1_rdma3 = &vdo1_rdma3;
-+		vdo1_rdma4 = &vdo1_rdma4;
-+		vdo1_rdma5 = &vdo1_rdma5;
-+		vdo1_rdma6 = &vdo1_rdma6;
-+		vdo1_rdma7 = &vdo1_rdma7;
- 	};
- 
- 	clocks {
-@@ -1235,7 +1252,212 @@
- 		vdosys1: syscon@1c100000 {
- 			compatible = "mediatek,mt8195-vdosys1", "syscon";
- 			reg = <0 0x1c100000 0 0x1000>;
-+			mboxes = <&gce0 1 CMDQ_THR_PRIO_4>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x0000 0x1000>;
- 			#clock-cells = <1>;
-+			#reset-cells = <1>;
-+		};
-+
-+		mutex1: disp_mutex0@1c101000 {
-+			compatible = "mediatek,mt8195-disp-mutex";
-+			reg = <0 0x1c101000 0 0x1000>;
-+			reg-names = "vdo1_mutex";
-+			interrupts = <GIC_SPI 494 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			clocks = <&vdosys1 CLK_VDO1_DISP_MUTEX>;
-+			clock-names = "vdo1_mutex";
-+			mediatek,gce-events = <CMDQ_EVENT_VDO1_STREAM_DONE_ENG_0>;
-+		};
-+
-+		vdo1_rdma0: vdo1_rdma@1c104000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c104000 0 0x1000>;
-+			interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000 0x1000>;
-+		};
-+
-+		vdo1_rdma1: vdo1_rdma@1c105000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c105000 0 0x1000>;
-+			interrupts = <GIC_SPI 496 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA1>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x5000 0x1000>;
-+		};
-+
-+		vdo1_rdma2: vdo1_rdma@1c106000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c106000 0 0x1000>;
-+			interrupts = <GIC_SPI 497 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA2>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA2>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x6000 0x1000>;
-+		};
-+
-+		vdo1_rdma3: vdo1_rdma@1c107000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c107000 0 0x1000>;
-+			interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA3>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA3>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x7000 0x1000>;
-+		};
-+
-+		vdo1_rdma4: vdo1_rdma@1c108000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c108000 0 0x1000>;
-+			interrupts = <GIC_SPI 499 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA4>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA4>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x8000 0x1000>;
-+		};
-+
-+		vdo1_rdma5: vdo1_rdma@1c109000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c109000 0 0x1000>;
-+			interrupts = <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA5>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA5>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x9000 0x1000>;
-+		};
-+
-+		vdo1_rdma6: vdo1_rdma@1c10a000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c10a000 0 0x1000>;
-+			interrupts = <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA6>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA6>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xa000 0x1000>;
-+		};
-+
-+		vdo1_rdma7: vdo1_rdma@1c10b000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c10b000 0 0x1000>;
-+			interrupts = <GIC_SPI 502 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA7>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA7>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xb000 0x1000>;
-+		};
-+
-+		merge1: disp_vpp_merge@1c10c000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10c000 0 0x1000>;
-+			interrupts = <GIC_SPI 503 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE0>,
-+				 <&vdosys1 CLK_VDO1_MERGE0_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xc000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC>;
-+		};
-+
-+		merge2: disp_vpp_merge@1c10d000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10d000 0 0x1000>;
-+			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE1>,
-+				 <&vdosys1 CLK_VDO1_MERGE1_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xd000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC>;
-+		};
-+
-+		merge3: disp_vpp_merge@1c10e000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10e000 0 0x1000>;
-+			interrupts = <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE2>,
-+				 <&vdosys1 CLK_VDO1_MERGE2_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xe000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC>;
-+		};
-+
-+		merge4: disp_vpp_merge@1c10f000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10f000 0 0x1000>;
-+			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE3>,
-+				 <&vdosys1 CLK_VDO1_MERGE3_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xf000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC>;
-+		};
-+
-+		merge5: disp_vpp_merge@1c110000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c110000 0 0x1000>;
-+			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE4>,
-+				 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x0000 0x1000>;
-+			mediatek,merge-fifo-en = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
-+		};
-+
-+		ethdr0: disp_ethdr@1c114000 {
-+			compatible = "mediatek,mt8195-disp-ethdr";
-+			reg = <0 0x1c114000 0 0x1000>,
-+			      <0 0x1c115000 0 0x1000>,
-+			      <0 0x1c117000 0 0x1000>,
-+			      <0 0x1c119000 0 0x1000>,
-+			      <0 0x1c11A000 0 0x1000>,
-+			      <0 0x1c11B000 0 0x1000>,
-+			      <0 0x1c11C000 0 0x1000>;
-+			reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+				    "vdo_be", "adl_ds";
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xA000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xB000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xC000 0x1000>;
-+			clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-+				 <&vdosys1 CLK_VDO1_26M_SLOW>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-+				 <&topckgen CLK_TOP_ETHDR>;
-+			clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+				      "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
-+				      "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
-+				      "ethdr_top";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-+				 <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-+			interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
- 		};
- 	};
- 
--- 
-2.18.0
+On 22.02.2022 01:08, Eric Dumazet wrote:
+> On Mon, Feb 21, 2022 at 3:26 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+>> To improve readibility of ref_tracker printing following changes
+>     readability
+>
+>> have been performed:
+>> - reports are printed per stack_handle - log is more compact,
+>> - added display name for ref_tracker_dir,
+>> - stack trace is printed indented, in the same printk call,
+>> - total number of references is printed every time,
+>> - print info about dropped references.
+>>
+>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>> ---
+>>   include/linux/ref_tracker.h | 15 +++++--
+>>   lib/ref_tracker.c           | 90 ++++++++++++++++++++++++++++++++-----
+>>   2 files changed, 91 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+>> index 3e9e9df2a41f5..a2cf1f6309adb 100644
+>> --- a/include/linux/ref_tracker.h
+>> +++ b/include/linux/ref_tracker.h
+>> @@ -17,12 +17,19 @@ struct ref_tracker_dir {
+>>          bool                    dead;
+>>          struct list_head        list; /* List of active trackers */
+>>          struct list_head        quarantine; /* List of dead trackers */
+>> +       char                    name[32];
+>>   #endif
+>>   };
+>>
+>>   #ifdef CONFIG_REF_TRACKER
+>> -static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+>> -                                       unsigned int quarantine_count)
+>> +
+>> +// Temporary allow two and three arguments, until consumers are converted
+>> +#define ref_tracker_dir_init(_d, _q, args...) _ref_tracker_dir_init(_d, _q, ##args, #_d)
+>> +#define _ref_tracker_dir_init(_d, _q, _n, ...) __ref_tracker_dir_init(_d, _q, _n)
+>> +
+>> +static inline void __ref_tracker_dir_init(struct ref_tracker_dir *dir,
+>> +                                       unsigned int quarantine_count,
+>> +                                       const char *name)
+>>   {
+>>          INIT_LIST_HEAD(&dir->list);
+>>          INIT_LIST_HEAD(&dir->quarantine);
+>> @@ -31,6 +38,7 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+>>          dir->dead = false;
+>>          refcount_set(&dir->untracked, 1);
+>>          refcount_set(&dir->no_tracker, 1);
+>> +       strlcpy(dir->name, name, sizeof(dir->name));
+>>          stack_depot_init();
+>>   }
+>>
+>> @@ -51,7 +59,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
+>>   #else /* CONFIG_REF_TRACKER */
+>>
+>>   static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+>> -                                       unsigned int quarantine_count)
+>> +                                       unsigned int quarantine_count,
+>> +                                       ...)
+>>   {
+>>   }
+>>
+>> diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+>> index 5e9f90bbf771b..ab1253fde244e 100644
+>> --- a/lib/ref_tracker.c
+>> +++ b/lib/ref_tracker.c
+>> @@ -1,11 +1,16 @@
+>>   // SPDX-License-Identifier: GPL-2.0-or-later
+>> +
+>> +#define pr_fmt(fmt) "ref_tracker: " fmt
+>> +
+>>   #include <linux/export.h>
+>> +#include <linux/list_sort.h>
+>>   #include <linux/ref_tracker.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/stacktrace.h>
+>>   #include <linux/stackdepot.h>
+>>
+>>   #define REF_TRACKER_STACK_ENTRIES 16
+>> +#define STACK_BUF_SIZE 1024
+>>
+>>   struct ref_tracker {
+>>          struct list_head        head;   /* anchor into dir->list or dir->quarantine */
+>> @@ -14,24 +19,87 @@ struct ref_tracker {
+>>          depot_stack_handle_t    free_stack_handle;
+>>   };
+>>
+>> -void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>> -                          unsigned int display_limit)
+>> +struct ref_tracker_dir_stats {
+>> +       int total;
+>> +       int count;
+>> +       struct {
+>> +               depot_stack_handle_t stack_handle;
+>> +               unsigned int count;
+>> +       } stacks[];
+>> +};
+>> +
+>> +static struct ref_tracker_dir_stats *
+>> +ref_tracker_get_stats(struct ref_tracker_dir *dir, unsigned int limit)
+>>   {
+>> +       struct ref_tracker_dir_stats *stats;
+>>          struct ref_tracker *tracker;
+>> -       unsigned int i = 0;
+>>
+>> -       lockdep_assert_held(&dir->lock);
+>> +       stats = kmalloc(struct_size(stats, stacks, limit),
+>> +                       GFP_NOWAIT | __GFP_NOWARN);
+> I would be more comfortable if the allocation was done by the caller,
+> possibly using GFP_KERNEL and evenutally kvmalloc(),
+> instead of under dir->lock ?
+
+I though also about it, but decided to left this change to another patch 
+as the change can be substantial and could open another discussion.
+
+I am not sure what you mean by 'caller' but it could be even external 
+user of the API:
+1. alloc data for ref_tracker_dir_stats.
+2. take locks, if necessary.
+3. gather stats (ref_tracker_get_stats) atomically.
+4. release taken locks.
+5. print stats.
+
+This way, allocation and printing would happen outside locks.
+
+>
+>
+>> +       if (!stats)
+>> +               return ERR_PTR(-ENOMEM);
+>> +       stats->total = 0;
+>> +       stats->count = 0;
+>>
+>>          list_for_each_entry(tracker, &dir->list, head) {
+>> -               if (i < display_limit) {
+>> -                       pr_err("leaked reference.\n");
+>> -                       if (tracker->alloc_stack_handle)
+>> -                               stack_depot_print(tracker->alloc_stack_handle);
+>> -                       i++;
+>> -               } else {
+>> -                       break;
+>> +               depot_stack_handle_t stack = tracker->alloc_stack_handle;
+>> +               int i;
+>> +
+>> +               ++stats->total;
+>> +               for (i = 0; i < stats->count; ++i)
+>> +                       if (stats->stacks[i].stack_handle == stack)
+>> +                               break;
+>> +               if (i >= limit)
+>> +                       continue;
+>> +               if (i >= stats->count) {
+>> +                       stats->stacks[i].stack_handle = stack;
+>> +                       stats->stacks[i].count = 0;
+>> +                       ++stats->count;
+>>                  }
+>> +               ++stats->stacks[i].count;
+>> +       }
+>> +
+>> +       return stats;
+>> +}
+>> +
+>> +void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>> +                          unsigned int display_limit)
+>> +{
+>> +       struct ref_tracker_dir_stats *stats;
+>> +       unsigned int i = 0, skipped;
+>> +       depot_stack_handle_t stack;
+>> +       char *sbuf;
+>> +
+>> +       lockdep_assert_held(&dir->lock);
+>> +
+>> +       if (list_empty(&dir->list))
+>> +               return;
+>> +
+>> +       stats = ref_tracker_get_stats(dir, display_limit);
+>> +       if (IS_ERR(stats)) {
+>> +               pr_err("%s@%pK: couldn't get stats, error %pe\n",
+>> +                      dir->name, dir, stats);
+>> +               return;
+>>          }
+>> +
+>> +       sbuf = kmalloc(STACK_BUF_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+> Same remark. These allocations are most probably going to happen from process
+> context, I think GFP_KERNEL is more robust.
+
+The problem is that in my scenario it can be called under spinlock, this 
+is why I want almost everywhere non-sleeping allocations.
+
+>
+> This is debugging infra, it would be sad if we give up at this point,
+> after storing MB of traces :)
+
+My approach was to avoid allocations if the system is short on memory - 
+better to keep it alive, and we still get the report, just without 
+stacktraces, one can print full stats later (for example via sysfs, or 
+trigger to dmesg) - big chances that the bug will be still there.
+If you think that is no-go, alternatives I see:
+- go back to GFP_ATOMIC,
+- print stack directly, without using stack_depot_snprint,
+- pre-allocate buffer.
+
+Regards
+Andrzej
+
+>
+>> +
+>> +       for (i = 0, skipped = stats->total; i < stats->count; ++i) {
+>> +               stack = stats->stacks[i].stack_handle;
+>> +               if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
+>> +                       sbuf[0] = 0;
+>> +               pr_err("%s@%pK has %d/%d users at\n%s\n", dir->name, dir,
+>> +                      stats->stacks[i].count, stats->total, sbuf);
+>> +               skipped -= stats->stacks[i].count;
+>> +       }
+>> +
+>> +       if (skipped)
+>> +               pr_err("%s@%pK skipped reports about %d/%d users.\n",
+>> +                      dir->name, dir, skipped, stats->total);
+>> +
+>> +       kfree(sbuf);
+>> +
+>> +       kfree(stats);
+>>   }
+>>   EXPORT_SYMBOL(__ref_tracker_dir_print);
+>>
+>> --
+>> 2.25.1
+>>
 
