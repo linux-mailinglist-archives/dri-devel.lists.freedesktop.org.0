@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B32A4C045C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:10:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E484C045E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 23:10:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566E010E32C;
-	Tue, 22 Feb 2022 22:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD48D10E3D6;
+	Tue, 22 Feb 2022 22:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4800810E32C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 22:10:07 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id i11so38628805eda.9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:07 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED8BD10E3D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 22:10:20 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id p9so47147286ejd.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ncJM2T87X2o8pTyVRveZGSOn+a2+yRMOSUhJC3B/Gq4=;
- b=Ivl+fOAzjwZVikAE//GhKXqrg3FgwasunygzL6X3K7tmMukt25sYmGH/BgwYn33eey
- 2oGVVJytRTJ3g4D06lpohmTyGRsIdaXZQWvxUoiiNWjYdiWXL/9J4CrtB84gRRQ47W25
- ecpmNDu6kl1oulpWSeokNUQNW6BZAhhT25Rls=
+ :cc; bh=MwFKzwhh8vOvVeS07pTWz4ZTdQ5Z+NLOUhpyVBv4D9Q=;
+ b=O/jITcbrb5aoH7sPwYaBWxEd+YJ1x5KXbkQkrtCB64fkBBeXrwXPwYjpNDLLVqLhLE
+ 6P0xsF4mDd7F1fKigupRlFmDpfR0WeyGmbS0FOt+X0dNG1Hek8yTglcMvfFxiWjE0hib
+ JI1CvKC/XX+jb6fFHdB6lGrJYWiPMqlROrssQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ncJM2T87X2o8pTyVRveZGSOn+a2+yRMOSUhJC3B/Gq4=;
- b=bspAN1P8vBElC+bjwRsRTPLTNxT8+jMRT3tYiWBtmdwGkHF88K/93h32+ew06enyMg
- yNs5TYQFJPZoqDsJqlI4c7VewPssWB5GeFL5oej8thUPs/cUZ9ruq8XheZw9FCFkDXcq
- JB9E6eBnRzWLT3hwc6T9bhcyltBTOeIuP4FInQgByhgfM8qtQFb0Uzw6sANRu//vKOrM
- E+XZPo2QM8uvR9ocB+SwWJ82JV28EteL5/Av6Pa5OSR9CYWMvwNbDK2gQ67ej9xQgDG+
- nnUPs9aKPFYQxel+rj9CuTyi8TRt8FnAywiviGsM23lU1iS5eD9tarsnFSdQ7CLWmGj4
- 9zSQ==
-X-Gm-Message-State: AOAM531KLm8IhA1zMiuAhbTcpdjxz1uSa2DtOfsM60V4E0HPVd6NTe/C
- iV8gKWJWfBAE3UhlntKONssXCWVGAeZopkZP01I=
-X-Google-Smtp-Source: ABdhPJxVyNA8CuTfmYY1go5oUblsXi3OKvRgh9JTJ0y0KenPNaTe+3yDRmKm1TL9jkqvWVY0WK1eVA==
-X-Received: by 2002:a50:e1c6:0:b0:410:e2e8:9d3 with SMTP id
- m6-20020a50e1c6000000b00410e2e809d3mr28555385edl.180.1645567805467; 
- Tue, 22 Feb 2022 14:10:05 -0800 (PST)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
- [209.85.221.44])
- by smtp.gmail.com with ESMTPSA id pg26sm4748031ejb.194.2022.02.22.14.10.04
+ bh=MwFKzwhh8vOvVeS07pTWz4ZTdQ5Z+NLOUhpyVBv4D9Q=;
+ b=zruzE8e2eqyKcU1GDl7LAO10kY4Nts99KCrQjEAnX0hIbfwGNIsueiExIXIi+VAscM
+ d89OKebVE9qPJqp6PAuOhLQMLxEWSW04jmzB3I5nHPMyfCEiMANYsJ/o9D2vX6MEPhE4
+ Q3xQ9onOJnIBHGSqGvJvS2w/FKOv6OqNPx0Z1bYolDy+XxMqdRgXDe2Pf4f0thTG1Dvr
+ tenqYda2+190Y295t1zIS6sfrEquEn35OTwxnGCFtvM0fvq7kbsw0meDyQKpGOIApwj5
+ fRCxTNTMeJ4KQDmddFfchntuW2idLubZzENe9NlVGVddrqyoRuuIXVW7BZJ5iY7myYTT
+ GJcQ==
+X-Gm-Message-State: AOAM532Il4sZT0shiDrwmOZoJt/0ILjvgB2D+Q7A8C3gAjoMyGJ5uDkV
+ By3L6SmdRLz+Fo4PBkS9fAZVueIWrQsuJqAelwg=
+X-Google-Smtp-Source: ABdhPJwOOvEtutQwxhJyiPsqRfko1fFGInPSbmd00iKYxHrCebrCKvlAXUx/FUzqSvkUny3TELIvgg==
+X-Received: by 2002:a17:906:a4b:b0:6d0:fbdd:7cb5 with SMTP id
+ x11-20020a1709060a4b00b006d0fbdd7cb5mr13500654ejf.152.1645567819191; 
+ Tue, 22 Feb 2022 14:10:19 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46])
+ by smtp.gmail.com with ESMTPSA id dz8sm10720353edb.96.2022.02.22.14.10.18
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 14:10:04 -0800 (PST)
-Received: by mail-wr1-f44.google.com with SMTP id q23so1361612wra.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:04 -0800 (PST)
-X-Received: by 2002:adf:ef07:0:b0:1e3:333f:a101 with SMTP id
- e7-20020adfef07000000b001e3333fa101mr21559376wro.301.1645567804216; Tue, 22
- Feb 2022 14:10:04 -0800 (PST)
+ Tue, 22 Feb 2022 14:10:18 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id p4so2297913wmg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 14:10:18 -0800 (PST)
+X-Received: by 2002:a05:600c:228e:b0:37c:2eef:7bf with SMTP id
+ 14-20020a05600c228e00b0037c2eef07bfmr4903688wmf.73.1645567818110; Tue, 22 Feb
+ 2022 14:10:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20220217144136.v3.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
- <20220217144136.v3.2.I48b18ab197c9b649d376cf8cfd934e59d338f86d@changeid>
-In-Reply-To: <20220217144136.v3.2.I48b18ab197c9b649d376cf8cfd934e59d338f86d@changeid>
+In-Reply-To: <20220217144136.v3.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Feb 2022 14:09:51 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UudBo7aZqD8oGHAu94LEYovMtFq7hjwOG2_8yxUeNi_w@mail.gmail.com>
-Message-ID: <CAD=FV=UudBo7aZqD8oGHAu94LEYovMtFq7hjwOG2_8yxUeNi_w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: analogix_dp: Enable autosuspend
+Date: Tue, 22 Feb 2022 14:10:04 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XmqG13QuyxpcS9sN2UCtPWDyhD_T1xjkDf8tp-_bSOWw@mail.gmail.com>
+Message-ID: <CAD=FV=XmqG13QuyxpcS9sN2UCtPWDyhD_T1xjkDf8tp-_bSOWw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drm/bridge: analogix_dp: Grab runtime PM reference
+ for DP-AUX
 To: Brian Norris <briannorris@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,11 +72,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
  LKML <linux-kernel@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sean Paul <sean@poorly.run>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, "# 4.0+" <stable@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -85,67 +87,36 @@ Hi,
 
 On Thu, Feb 17, 2022 at 2:42 PM Brian Norris <briannorris@chromium.org> wrote:
 >
-> DP AUX transactions can consist of many short operations. There's no
-> need to power things up/down in short intervals.
+> If the display is not enable()d, then we aren't holding a runtime PM
+> reference here. Thus, it's easy to accidentally cause a hang, if user
+> space is poking around at /dev/drm_dp_aux0 at the "wrong" time.
 >
-> I pick an arbitrary 100ms; for the systems I'm testing (Rockchip
-> RK3399), runtime-PM transitions only take a few microseconds.
+> Let's get a runtime PM reference, and check that we "see" the panel.
+> Don't force any panel power-up, etc., because that can be intrusive, and
+> that's not what other drivers do (see
+> drivers/gpu/drm/bridge/ti-sn65dsi86.c and
+> drivers/gpu/drm/bridge/parade-ps8640.c.)
 >
+> Fixes: 0d97ad03f422 ("drm/bridge: analogix_dp: Remove duplicated code")
+> Cc: <stable@vger.kernel.org>
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 > Signed-off-by: Brian Norris <briannorris@chromium.org>
 > ---
 >
 > Changes in v3:
->  - New in v3
+> - Avoid panel power-up; just check for HPD state, and let the rest
+>   happen "as-is" (e.g., time out, if the caller hasn't prepared things
+>   properly)
 >
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> Changes in v2:
+> - Fix spelling in Subject
+> - DRM_DEV_ERROR() -> drm_err()
+> - Propagate errors from un-analogix_dp_prepare_panel()
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index 16be279aed2c..d82a4ddf44e7 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1121,7 +1121,7 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
->
->                 pm_runtime_get_sync(dp->dev);
->                 edid = drm_get_edid(connector, &dp->aux.ddc);
-> -               pm_runtime_put(dp->dev);
-> +               pm_runtime_put_autosuspend(dp->dev);
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 
-So I think you can fully get rid of these ones now and rely on the
-ones in the aux transfer, right?
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-
->                 if (edid) {
->                         drm_connector_update_edid_property(&dp->connector,
->                                                            edid);
-> @@ -1642,7 +1642,7 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
->
->         ret = analogix_dp_transfer(dp, msg);
->  out:
-> -       pm_runtime_put(dp->dev);
-> +       pm_runtime_put_autosuspend(dp->dev);
->
->         return ret;
->  }
-> @@ -1775,6 +1775,8 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
->         if (ret)
->                 return ret;
->
-> +       pm_runtime_use_autosuspend(dp->dev);
-> +       pm_runtime_set_autosuspend_delay(dp->dev, 100);
-
-It's explicitly listed in the Documentation that you need the
-corresponding pm_runtime_dont_use_autosuspend(). Specifically, it
-says:
-
-> Drivers in ->remove() callback should undo the runtime PM changes done
-> in ->probe(). Usually this means calling pm_runtime_disable(),
-> pm_runtime_dont_use_autosuspend() etc.
-
-Not that it's very common to see anyone actually get it right, but I
-seem to remember running into an issue when I didn't do it. I think
-ti-sn65dsi86 still has it wrong since I found out about this later.
-Need to write a patch up for that... Basically you want to put it
-right before the two calls in your driver to pm_runtime_disable().
 
 -Doug
