@@ -2,156 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D04BF5C2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2ED4BF5D2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9340B10E5F6;
-	Tue, 22 Feb 2022 10:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C3710E5E1;
+	Tue, 22 Feb 2022 10:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D6E10E5F6;
- Tue, 22 Feb 2022 10:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645525658; x=1677061658;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=I9p+/v3WhXxrF5YP8mLFfvSGwBohxFx8U9vpQ0P4KE4=;
- b=PqCCgDTsX/66RTux39cX2lWOsllZbh7YGxlmNbzRsQIwpujMMCioeR95
- Umc/yzaQzaWZmlkPJPrSusivMeE5Mtl24QSIfEVuCa0ITsv4bpVb9qkue
- 2F56pP9vgsqspC8KZR0s63cpd7ifnuTQS0JYrhOQ10aBzjR7/mnAltbWZ
- tyyRuJBlwDbQs3nii+9Mjc0PjU66+9U3PET5C/ip2/ZRJ6Df9hlBKA9+g
- VMCI6pOujP6hib7oMo4Lh7vclNt6oU8h2nCncyv1EjQKXBvarOkB7rXfD
- 8Dnrn6fqmi8sCb76oBLKJQ1Yx6cQGrux7EES2TNsRHvc83cl7TDrCBAKQ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="251424386"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="251424386"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 02:27:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="638859599"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga004.jf.intel.com with ESMTP; 22 Feb 2022 02:27:38 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 22 Feb 2022 02:27:37 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 22 Feb 2022 02:27:37 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 22 Feb 2022 02:27:37 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 22 Feb 2022 02:27:36 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC5A10E5E1;
+ Tue, 22 Feb 2022 10:29:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gz6zTtvgmjXT73kqrgVwGDiNgQsq+0/gzqyrBOHfw+6/zzHhlcDAXKGLnzU685qZERg96jXCn7q/WCfbbfaBrTOFF/IcTF2IcOcQWBvbVg8bTIZ+P9fWeiNAvkz0ZqRTaYYJDFyaiahiQxRYe+c45S38HII4pbzvjosB+twLldo9HQa/+8v8Gxon0GkPrvtBTxq8AklgsQmwOkhhqVrCUuAc5GhZbxlTrRKfBRCGpArej7UXCg8b+iO2yvO+2YIPCIICJcTTQzEfGePm16tVqE2DoAj/yHwm9YnrNZ7YBNKrDgKmmpDYBD046jukwFt4WOwdtthFRoSUgZH83u9VNA==
+ b=TTyN36214qKTtHPGOlXn3NX6geNk8bUIzIW/nhu9rZOcv6+UlFWwT11/mc5oZpPww9YPV3UWx/DP6ZHwt+Y+LFjXe/0hFDHPXLXs9EOV0WsReDYeWGbFEJC9D+G5S6uBpbqCqNogCb7byK0QydhnZ0H2M4+019EDWQ4QB23WEG4CFjbJyZeuNbsmjUTtsInLtmUCWExAGlZuCncSbWc0gDChL9vdu1tHGMnqz/Io1cjqqTp9iAbsVy879NNemhVuucVpji2TWXHLMIYHHIE+K2zcLXHG5yw4TjLaGj7t/lQJUE2KkUpvFpF21+OEOylSlIpLUmuxrAW1eXHAmkqV8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0WqFltJt+dIaZIcauPjD8lwHBntGYPumDPIxSfLqBto=;
- b=nAWz/a4/PdpTVomVhLURspSHuQJ1Ym6w8Lkf6udNbQxBdT+VE5LAU13kW7wO+uHMXfbj1t1mmU7aZHaVhxk6LVYyt2PKr23tkRFbFqmMty45GI0yxZYpAZqTN7b8KgIV8bJLzGeXg7VasrXVWhs7AFTWuPOGqfFpxJ9uDkNI4G2vhDwTKVWBzSViJdsaZm1YPdHJkSe5Dx6n+GncPfQd4wr5bS1G1xCHbGSfT27liutjYEwoghJ4WtJy6PhnueAphKN9v8XimhI8Wapdj2ZBXQhZP3tyHD9NNdaAGRTZjfxlTIG2TdgOxoWCd+eV/ZfmVhKMugBrn2DuKo+kkRa3hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- DM5PR11MB1737.namprd11.prod.outlook.com (2603:10b6:3:10b::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4995.24; Tue, 22 Feb 2022 10:27:35 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::11f6:76fa:fc62:6511]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::11f6:76fa:fc62:6511%6]) with mapi id 15.20.5017.022; Tue, 22 Feb 2022
- 10:27:35 +0000
-Message-ID: <2a31d520-454c-c837-ec17-12dbf879e6d3@intel.com>
-Date: Tue, 22 Feb 2022 11:27:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [PATCH v3 05/11] lib/ref_tracker: __ref_tracker_dir_print improve
- printing
-Content-Language: en-US
-To: Eric Dumazet <edumazet@google.com>
-References: <20220221232542.1481315-1-andrzej.hajda@intel.com>
- <20220221232542.1481315-6-andrzej.hajda@intel.com>
- <CANn89iJxaPqTLY0BaD79Ubxx55RMtWzZk_jkpuF1cp3Wsy2RzA@mail.gmail.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <CANn89iJxaPqTLY0BaD79Ubxx55RMtWzZk_jkpuF1cp3Wsy2RzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0378.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18e::23) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+ bh=089rgDUCTiovU58VcoAxKw+5HSfXVY7rBo0RQmXAVEg=;
+ b=ddA88hGnA8UP3c6jXRWfswKITnhmLOtwcHEaPsou8DuS5toPrIe2CbquSn6WgrdzPnAZ+9KX92RxGQRs5eK9M97MS5raWES0XPjHd63s7V1iH2k5GMTG0aE+drRkcoZwqiz6JPTcD7pVTa2i/TNBjeNN9ePJvoW3NrFNFTdFXMo7pvBKsEg+Dc6MVAeWM9LO3H77RZ6s0b876zgDKbT2lNUVkRuR99lJ+kpVKi5PuylB4AwVvy0N5vou9Huu4JG5wO1e4CUPr8N32lV++XMABXuvEbd9nNOQUe7o4Bg0F6PgRMClIfXfuutCItg7D3kBE9+RrhZQtHw+XhMdWUwdkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=089rgDUCTiovU58VcoAxKw+5HSfXVY7rBo0RQmXAVEg=;
+ b=tuY8Pn//aucBe1bpeQzOxTBMsq9JyL01Y80i4atauYlxOHGJNG8tey1xnG++MNMuU2hPe2BKjgInU/Rzjy+I9QNEqi9lwM9COcS/pt6+4ZnOLTzeFEuTnsu8SL2wQNrcCya79YuiFOhR+BASbHt5UMDD/Zyme0sOKDmjMpeGPg8=
+Received: from BN8PR07CA0013.namprd07.prod.outlook.com (2603:10b6:408:ac::26)
+ by DM4PR12MB5722.namprd12.prod.outlook.com (2603:10b6:8:5d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Tue, 22 Feb
+ 2022 10:29:53 +0000
+Received: from BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ac:cafe::9c) by BN8PR07CA0013.outlook.office365.com
+ (2603:10b6:408:ac::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21 via Frontend
+ Transport; Tue, 22 Feb 2022 10:29:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT004.mail.protection.outlook.com (10.13.176.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4995.15 via Frontend Transport; Tue, 22 Feb 2022 10:29:53 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 22 Feb
+ 2022 04:29:52 -0600
+Received: from willgu.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
+ Transport; Tue, 22 Feb 2022 04:29:50 -0600
+From: Jiawei Gu <Jiawei.Gu@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <Christian.Koenig@amd.com>, <Andrey.Grodzovsky@amd.com>, <Monk.Liu@amd.com>,
+ <Emily.Deng@amd.com>, <Horace.Chen@amd.com>
+Subject: [PATCH] drm/sched: Add device pointer to drm_gpu_scheduler
+Date: Tue, 22 Feb 2022 18:29:34 +0800
+Message-ID: <20220222102934.24086-1-Jiawei.Gu@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd0db905-a387-42a8-98f3-08d9f5edf101
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1737:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR11MB1737F093B0E6E9CC87916094EB3B9@DM5PR11MB1737.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 953f6147-d515-47f0-2e35-08d9f5ee435c
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5722:EE_
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5722DEE238BB5FAFAB0F157AF83B9@DM4PR12MB5722.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QX/8NPm0K4EySjsT2tEVmdiDn0Ld+m8ESIS5Jx4HwgiuZtt3hote2m44fiinGjeWw1Kv6oGZEWACHx3UahWX4cjLVLEFj5sq137H/UF6B9/O14QpUt27QWj+dkDeHAvYZ6gt7rhD3kpY5jDBDOIOi9AuGyo+KP9l0zCcLB5dq+zUepAYrEbv3cfUN3uRmQAwDRDfV/wKpVRjvJ1dhttr7gO8jr6ysLJSKH9/BdmI9uYJBfMpakxPxrhhgLSzLQh6KbE4hGDZNK8N6LDsDvF81DeSNZHwjPOqJdhNIJJJI90xEI6kmDsNhLQilztHpbNRaBdBxLE4Eqm7qXrkNdGEvlhA+hWCN4LDs5o1CzevcVwyKEryyz/6s0fg3bbo4WvqNpAQhBju1scr8aDmaKZGPfSejKnQRbflUoAqTP2tXJC0Apgb38/anAed2xLoxlTIjWceCd8OmX0fzRG+06/Q8Y6k/gmTntr1HSGp4JwX4ipa9IJygqtN7QtyXKOmBkOvDLIVpM5dNQFTqYyuyEA9j/k7cwQ8turDxftBSGgNtBpHSbdEINDh1oXAECqRlDARDrrtctddPOs/2CWfJaMk6fdeIZaq48GKzUBJulCVuonuMW5ZHd0Zet8WElka44VXZ/SwU3w3Je0fz8vMZ/EwBU+k0wolvhnsJEBCn4GXRcELziiySu9T2JCgivjJNPeqEV1OvlOHGreUGpymjzfPYcTACsLyf90/0YHL0gyH5hQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(83380400001)(6486002)(54906003)(8676002)(66946007)(66556008)(6916009)(316002)(66476007)(31696002)(6512007)(8936002)(5660300002)(2616005)(508600001)(44832011)(36916002)(82960400001)(6666004)(36756003)(186003)(6506007)(26005)(53546011)(86362001)(38100700002)(31686004)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmtDamY0b0lHaU5uM3g0YjVSU3VxWjFnMkp3NHNTa0xyNG9kKy9salppTTRR?=
- =?utf-8?B?WHRMVm1WMG1YQ1cxWFUreEhCZHRWamV0Qk05RzVPYndndzVLY0pJTDJaZU9I?=
- =?utf-8?B?U1ViYjVKTUZtdXBPeGVCdnBQeWtVU1V1TFgyam9tY2kxL0tCL2pJaHA1Q1Zn?=
- =?utf-8?B?aFBONFhCVW5MNWNqejJjL3l0ZW9mWjV2ZjhGcVJoZG1WQ2g5aStxV2tXc1dw?=
- =?utf-8?B?Wi9OL3ZqcldxSElSQnpnMVVNeGUvcGQxMkRqOVdIU2xrMUg0RHdqTVNnN1lQ?=
- =?utf-8?B?Q2NrZHFsWU9Deld4d1kzN3IyZmxiZTAzUFM1dy9NbmJSckRKOHFyWU9RUlcw?=
- =?utf-8?B?ZEJFK1VtSndQVHFPZkx5dWZRdkpMRUkxN0R2Y1BsVVRkbk1IZzJQazB1djBl?=
- =?utf-8?B?UUNqSVRLUnlhQ09FZHdiVUZIT0ZTK0RaU1RGSi9ld1M1ekRZTlRoeXR1Z09o?=
- =?utf-8?B?ajBzTEc4V0RoR1ArUGZ0YWJVbW9EWmxmMkQrdnMvN1d5TTlDSCtNT01ycE9s?=
- =?utf-8?B?UzZNNGplUzRMUnR6Z2Y1cStRU09WZS9yMk0xc0pqUVBqQzdrNWF4R3MzblV6?=
- =?utf-8?B?cnZkcmhidGdPcTBxWHFmRFd3ZktiWEJWMHdEUGI4em1XaG5xcGxBM2FpdWNN?=
- =?utf-8?B?RFkyaThBTzNXR0dMM1E4VFpNbWFDWWV1VS9EVmd2VXc1NFk2Ym5MR3g2cjJ5?=
- =?utf-8?B?Z01OSTN3dFhBbVFOVElUcFhnK1k5NC8raGdEQjJxdUc3ZVBkWi84VGpnZHVp?=
- =?utf-8?B?ZmJvM1ZBY2JsaHhsZzVSSlFQMlBrYTN1NzRGMTAzMUNlRm1Ma0Voa2hnSWJo?=
- =?utf-8?B?d2EwODBBUHZCd0JQUUwzY3lJK0huVjVabHQxVXgzS01hMjVNMmJVVk1EY0Qr?=
- =?utf-8?B?LzVXbzQ3Tk5QNTVaYk1JQjlXZTAxbWIrS1Q0clZoUVpMYnlwR00xMUtKR1Jm?=
- =?utf-8?B?RER4UFZnWFlNZ0l0c2hQT2NYUlZFZkVWckdIRmx4OUFyeklUMHV3RXVZRmc1?=
- =?utf-8?B?Ym1IN21oek9CV2paUU1NUEVWV1FIc2VtYzJEQWJERldFT09Db2xPTWxFWEpi?=
- =?utf-8?B?YXNUYkt6SE9wT2xGY1JNVi95UHlyRGxIR056bmpxRjVGQllrYXRvc1F5b2Jm?=
- =?utf-8?B?SXh2R3BvYTRXUVh0Vy9SVTBJYSs1a1F6dG8vUHJVM3JxRysyam02ZlRVWXlm?=
- =?utf-8?B?WUhxOUV5YVpzNlZZYzV0VTdFbzVOYlNoS2N6c3pWWHNVbWtGSUpYNXZ3K2I1?=
- =?utf-8?B?RENVaDY2K2xLbFc3UW1nOWZvTlRnWkVTVkhKYjlBdHQzOXdMUUlsVTAwMU9t?=
- =?utf-8?B?cFFVSkpxeDdVL1phb3ZidnNKM25GandNcGl2Tlp0aCtCSlV0MEFXcDNsb0ZK?=
- =?utf-8?B?VEhUSzhiaklRTkRieEQvbVczeUN4aEFScnVTMUZpS0JPYVJvcFJmUE1aQm13?=
- =?utf-8?B?RWgxUXlJOGdvcnc2YXJNc3BZbzV3M3NoM2RlN1VpSGZoY1pZaHBrZS9XSFdX?=
- =?utf-8?B?aVRGalZPMzlLSlNEUEljcmlLQzhKaVhXTTRITHhHYWRNdXRCelcxWlBRU3k2?=
- =?utf-8?B?eU5xbHRtU1pTdzBRR01IQmVCT1JRWXlDUlhMMlNScGpkcEZUZW52V0lVb2w0?=
- =?utf-8?B?RnQxTkFGRlExclRBcjVmcHpYQ25xTmFlaEphMkwvYks4RzdhK3pjdldDWXYr?=
- =?utf-8?B?dnVKNUlrT1ZKT1F6YXVqcEFDbVVkei9PU2JrejM2ZDBTcXZMeEdrMVZPNFhm?=
- =?utf-8?B?UUhwcUdYbmtRSG4rWVJOQTdwRGFmLzRhYmNhN2xHb0MwMWpkemkvVzIzL0RY?=
- =?utf-8?B?ZFNwd3pPdlB3WTFlNHlSb1ltQnZVdVFtSXBVYVFlQUovSUJDVSszcWpVTzQx?=
- =?utf-8?B?anJNK1FQeTc1b3grTnd1eXZITkxVVTRSRkNmd1lWS3pINHZqWHhNR0tRekRH?=
- =?utf-8?B?UDNqckd0VVA0dTU0NFp1TlYyZDJwY1pKc0xBVjQwSHg3ZlFBMFhFRmpId2FM?=
- =?utf-8?B?ZkNRQ1dSWXFKTmZBRE9jOE9UdmhMWkp2R05neldqeWNmVlRDSDV5SFpBSVhE?=
- =?utf-8?B?L0VWaDBEUkNNRm1NS0xtaEZEczU5L09IbDhFMm1OYzZoc2llRTM2SDloN21O?=
- =?utf-8?B?Q1FUT0V2SW1VaDVYQkRaL01aaDJPb29WK1p1MzZ2L1hQM1B4RGg5WTdNV042?=
- =?utf-8?Q?J4Ey5DV/pSUlhjleB8D/auA=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd0db905-a387-42a8-98f3-08d9f5edf101
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 10:27:35.1134 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wCUgkCD42r65ZJtxfTO7bAa5ajMPsbEuo0B8RSgq92SkE2N9snBTtfEIVYHaH41Jn1pzqq+mfKFBYcZYqnnvoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1737
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: SdakhEgOoE1alie1400V73dODuW/dEF2DCnU6wqoH6ZPg8rDpd7Bs2MDq4ZCsFrICq5/RbbLwN1cyD1jxMBYj50PsFsMqtef+mshGQlz7kbDGhZsYo4i03j5h09pLbnFtE75n2PxXIgwaDCOSV0ptlDGP4AwCH9Al+i0YptsEDYPEDGetnumNNzbrU4LWXjjIqKGVW9sO6p6L325VxEZeR/KWchCOw9SDbTZTvzGGun0WgGZS3TumQRMjOa05bwBmKBmD06WlLUtENNAw1P6LQbUosgheq1Eb3/j3TqhH0npKnW49CTca0t1pRB+Y953ONfjXas9eME8jd6qpLDeRXjW8zLlaWPqZOzdJT8Ky1rMoY64ls1DUeEF3/SNr3ticjc7+BbvX5tXMLnLh/RQ3913F7xBHNEbC5+4Ac6l6mj6D3Q9FIhq194o8usnvCj/1H2U9yVRq10vygE/PwpmQXieDMwN1aPrIDXBjORPAXCN8S364CWLtiYznSN0o/gSRe7NV6EnDBtcJsIp2zw36C3rYOW43DsE8suL+5JGx8uuG8aeNkcsQZUgjhRCXif3fNfOSBANjEfeJoco5v1hGm51V28y3MM27IBJVja9t+Gz3cFcYLZkIvHxfDOgQ7hlySfMY+uLls5HF8oYbKMMQ4TJfIQVHHymuzREdVWZ0h+7OYgQNO/DyFY2agbOWuUqf89XOgpIw38B33z78bWcGA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(36860700001)(7696005)(47076005)(1076003)(426003)(186003)(2616005)(336012)(26005)(83380400001)(2906002)(5660300002)(8936002)(82310400004)(6666004)(8676002)(508600001)(70206006)(70586007)(450100002)(6636002)(110136005)(4326008)(316002)(86362001)(81166007)(356005)(40460700003)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 10:29:53.0147 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 953f6147-d515-47f0-2e35-08d9f5ee435c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,240 +100,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@intel.com>, netdev <netdev@vger.kernel.org>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org, Jakub
- Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
+Cc: Jiawei Gu <Jiawei.Gu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add device pointer so scheduler's printing can use
+DRM_DEV_ERROR() instead, which makes life easier under multiple GPU
+scenario.
 
+v2: amend all calls of drm_sched_init()
+v3: fill dev pointer for all drm_sched_init() calls
 
-On 22.02.2022 01:08, Eric Dumazet wrote:
-> On Mon, Feb 21, 2022 at 3:26 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
->> To improve readibility of ref_tracker printing following changes
->     readability
->
->> have been performed:
->> - reports are printed per stack_handle - log is more compact,
->> - added display name for ref_tracker_dir,
->> - stack trace is printed indented, in the same printk call,
->> - total number of references is printed every time,
->> - print info about dropped references.
->>
->> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
->> ---
->>   include/linux/ref_tracker.h | 15 +++++--
->>   lib/ref_tracker.c           | 90 ++++++++++++++++++++++++++++++++-----
->>   2 files changed, 91 insertions(+), 14 deletions(-)
->>
->> diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
->> index 3e9e9df2a41f5..a2cf1f6309adb 100644
->> --- a/include/linux/ref_tracker.h
->> +++ b/include/linux/ref_tracker.h
->> @@ -17,12 +17,19 @@ struct ref_tracker_dir {
->>          bool                    dead;
->>          struct list_head        list; /* List of active trackers */
->>          struct list_head        quarantine; /* List of dead trackers */
->> +       char                    name[32];
->>   #endif
->>   };
->>
->>   #ifdef CONFIG_REF_TRACKER
->> -static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
->> -                                       unsigned int quarantine_count)
->> +
->> +// Temporary allow two and three arguments, until consumers are converted
->> +#define ref_tracker_dir_init(_d, _q, args...) _ref_tracker_dir_init(_d, _q, ##args, #_d)
->> +#define _ref_tracker_dir_init(_d, _q, _n, ...) __ref_tracker_dir_init(_d, _q, _n)
->> +
->> +static inline void __ref_tracker_dir_init(struct ref_tracker_dir *dir,
->> +                                       unsigned int quarantine_count,
->> +                                       const char *name)
->>   {
->>          INIT_LIST_HEAD(&dir->list);
->>          INIT_LIST_HEAD(&dir->quarantine);
->> @@ -31,6 +38,7 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
->>          dir->dead = false;
->>          refcount_set(&dir->untracked, 1);
->>          refcount_set(&dir->no_tracker, 1);
->> +       strlcpy(dir->name, name, sizeof(dir->name));
->>          stack_depot_init();
->>   }
->>
->> @@ -51,7 +59,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
->>   #else /* CONFIG_REF_TRACKER */
->>
->>   static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
->> -                                       unsigned int quarantine_count)
->> +                                       unsigned int quarantine_count,
->> +                                       ...)
->>   {
->>   }
->>
->> diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
->> index 5e9f90bbf771b..ab1253fde244e 100644
->> --- a/lib/ref_tracker.c
->> +++ b/lib/ref_tracker.c
->> @@ -1,11 +1,16 @@
->>   // SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +#define pr_fmt(fmt) "ref_tracker: " fmt
->> +
->>   #include <linux/export.h>
->> +#include <linux/list_sort.h>
->>   #include <linux/ref_tracker.h>
->>   #include <linux/slab.h>
->>   #include <linux/stacktrace.h>
->>   #include <linux/stackdepot.h>
->>
->>   #define REF_TRACKER_STACK_ENTRIES 16
->> +#define STACK_BUF_SIZE 1024
->>
->>   struct ref_tracker {
->>          struct list_head        head;   /* anchor into dir->list or dir->quarantine */
->> @@ -14,24 +19,87 @@ struct ref_tracker {
->>          depot_stack_handle_t    free_stack_handle;
->>   };
->>
->> -void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
->> -                          unsigned int display_limit)
->> +struct ref_tracker_dir_stats {
->> +       int total;
->> +       int count;
->> +       struct {
->> +               depot_stack_handle_t stack_handle;
->> +               unsigned int count;
->> +       } stacks[];
->> +};
->> +
->> +static struct ref_tracker_dir_stats *
->> +ref_tracker_get_stats(struct ref_tracker_dir *dir, unsigned int limit)
->>   {
->> +       struct ref_tracker_dir_stats *stats;
->>          struct ref_tracker *tracker;
->> -       unsigned int i = 0;
->>
->> -       lockdep_assert_held(&dir->lock);
->> +       stats = kmalloc(struct_size(stats, stacks, limit),
->> +                       GFP_NOWAIT | __GFP_NOWARN);
-> I would be more comfortable if the allocation was done by the caller,
-> possibly using GFP_KERNEL and evenutally kvmalloc(),
-> instead of under dir->lock ?
+Signed-off-by: Jiawei Gu <Jiawei.Gu@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c   |  2 +-
+ drivers/gpu/drm/lima/lima_sched.c         |  2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c      |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c   |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c    |  9 +++++----
+ drivers/gpu/drm/v3d/v3d_sched.c           | 10 +++++-----
+ include/drm/gpu_scheduler.h               |  3 ++-
+ 8 files changed, 17 insertions(+), 15 deletions(-)
 
-I though also about it, but decided to left this change to another patch 
-as the change can be substantial and could open another discussion.
-
-I am not sure what you mean by 'caller' but it could be even external 
-user of the API:
-1. alloc data for ref_tracker_dir_stats.
-2. take locks, if necessary.
-3. gather stats (ref_tracker_get_stats) atomically.
-4. release taken locks.
-5. print stats.
-
-This way, allocation and printing would happen outside locks.
-
->
->
->> +       if (!stats)
->> +               return ERR_PTR(-ENOMEM);
->> +       stats->total = 0;
->> +       stats->count = 0;
->>
->>          list_for_each_entry(tracker, &dir->list, head) {
->> -               if (i < display_limit) {
->> -                       pr_err("leaked reference.\n");
->> -                       if (tracker->alloc_stack_handle)
->> -                               stack_depot_print(tracker->alloc_stack_handle);
->> -                       i++;
->> -               } else {
->> -                       break;
->> +               depot_stack_handle_t stack = tracker->alloc_stack_handle;
->> +               int i;
->> +
->> +               ++stats->total;
->> +               for (i = 0; i < stats->count; ++i)
->> +                       if (stats->stacks[i].stack_handle == stack)
->> +                               break;
->> +               if (i >= limit)
->> +                       continue;
->> +               if (i >= stats->count) {
->> +                       stats->stacks[i].stack_handle = stack;
->> +                       stats->stacks[i].count = 0;
->> +                       ++stats->count;
->>                  }
->> +               ++stats->stacks[i].count;
->> +       }
->> +
->> +       return stats;
->> +}
->> +
->> +void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
->> +                          unsigned int display_limit)
->> +{
->> +       struct ref_tracker_dir_stats *stats;
->> +       unsigned int i = 0, skipped;
->> +       depot_stack_handle_t stack;
->> +       char *sbuf;
->> +
->> +       lockdep_assert_held(&dir->lock);
->> +
->> +       if (list_empty(&dir->list))
->> +               return;
->> +
->> +       stats = ref_tracker_get_stats(dir, display_limit);
->> +       if (IS_ERR(stats)) {
->> +               pr_err("%s@%pK: couldn't get stats, error %pe\n",
->> +                      dir->name, dir, stats);
->> +               return;
->>          }
->> +
->> +       sbuf = kmalloc(STACK_BUF_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-> Same remark. These allocations are most probably going to happen from process
-> context, I think GFP_KERNEL is more robust.
-
-The problem is that in my scenario it can be called under spinlock, this 
-is why I want almost everywhere non-sleeping allocations.
-
->
-> This is debugging infra, it would be sad if we give up at this point,
-> after storing MB of traces :)
-
-My approach was to avoid allocations if the system is short on memory - 
-better to keep it alive, and we still get the report, just without 
-stacktraces, one can print full stats later (for example via sysfs, or 
-trigger to dmesg) - big chances that the bug will be still there.
-If you think that is no-go, alternatives I see:
-- go back to GFP_ATOMIC,
-- print stack directly, without using stack_depot_snprint,
-- pre-allocate buffer.
-
-Regards
-Andrzej
-
->
->> +
->> +       for (i = 0, skipped = stats->total; i < stats->count; ++i) {
->> +               stack = stats->stacks[i].stack_handle;
->> +               if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
->> +                       sbuf[0] = 0;
->> +               pr_err("%s@%pK has %d/%d users at\n%s\n", dir->name, dir,
->> +                      stats->stacks[i].count, stats->total, sbuf);
->> +               skipped -= stats->stacks[i].count;
->> +       }
->> +
->> +       if (skipped)
->> +               pr_err("%s@%pK skipped reports about %d/%d users.\n",
->> +                      dir->name, dir, skipped, stats->total);
->> +
->> +       kfree(sbuf);
->> +
->> +       kfree(stats);
->>   }
->>   EXPORT_SYMBOL(__ref_tracker_dir_print);
->>
->> --
->> 2.25.1
->>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 45977a72b5dd..cd2d594d4ffc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -502,7 +502,7 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
+ 
+ 	r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
+ 			   num_hw_submission, amdgpu_job_hang_limit,
+-			   timeout, NULL, sched_score, ring->name);
++			   timeout, NULL, sched_score, ring->name, adev->dev);
+ 	if (r) {
+ 		DRM_ERROR("Failed to create scheduler on ring %s.\n",
+ 			  ring->name);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 58f593b278c1..35e5ef7dbdcc 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -195,7 +195,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+ 	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
+ 			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+ 			     msecs_to_jiffies(500), NULL, NULL,
+-			     dev_name(gpu->dev));
++			     dev_name(gpu->dev), gpu->dev);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index 5612d73f238f..8d517c8880e3 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -490,7 +490,7 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+ 	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
+ 			      lima_job_hang_limit,
+ 			      msecs_to_jiffies(timeout), NULL,
+-			      NULL, name);
++			      NULL, name, pipe->ldev->dev);
+ }
+ 
+ void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index 3bbf574c3bdc..367a6aaa3a20 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -89,7 +89,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+ 
+ 	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
+ 			num_hw_submissions, 0, sched_timeout,
+-			NULL, NULL, to_msm_bo(ring->bo)->name);
++			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
+ 	if (ret) {
+ 		goto fail;
+ 	}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 908d79520853..a6925dbb6224 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -812,7 +812,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 				     nentries, 0,
+ 				     msecs_to_jiffies(JOB_TIMEOUT_MS),
+ 				     pfdev->reset.wq,
+-				     NULL, "pan_js");
++				     NULL, "pan_js", pfdev->dev);
+ 		if (ret) {
+ 			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+ 			goto err_sched;
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index f91fb31ab7a7..b81fceb0b8a2 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -491,7 +491,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ 			if (r == -ENOENT)
+ 				drm_sched_job_done(s_job);
+ 			else if (r)
+-				DRM_ERROR("fence add callback failed (%d)\n",
++				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+ 					  r);
+ 		} else
+ 			drm_sched_job_done(s_job);
+@@ -957,7 +957,7 @@ static int drm_sched_main(void *param)
+ 			if (r == -ENOENT)
+ 				drm_sched_job_done(sched_job);
+ 			else if (r)
+-				DRM_ERROR("fence add callback failed (%d)\n",
++				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+ 					  r);
+ 			dma_fence_put(fence);
+ 		} else {
+@@ -991,7 +991,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 		   const struct drm_sched_backend_ops *ops,
+ 		   unsigned hw_submission, unsigned hang_limit,
+ 		   long timeout, struct workqueue_struct *timeout_wq,
+-		   atomic_t *score, const char *name)
++		   atomic_t *score, const char *name, struct device *dev)
+ {
+ 	int i, ret;
+ 	sched->ops = ops;
+@@ -1001,6 +1001,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 	sched->timeout_wq = timeout_wq ? : system_wq;
+ 	sched->hang_limit = hang_limit;
+ 	sched->score = score ? score : &sched->_score;
++	sched->dev = dev;
+ 	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
+ 		drm_sched_rq_init(sched, &sched->sched_rq[i]);
+ 
+@@ -1018,7 +1019,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 	if (IS_ERR(sched->thread)) {
+ 		ret = PTR_ERR(sched->thread);
+ 		sched->thread = NULL;
+-		DRM_ERROR("Failed to create scheduler for %s.\n", name);
++		DRM_DEV_ERROR(sched->dev, "Failed to create scheduler for %s.\n", name);
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index e0cb7d0697a7..39459ae96f30 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -391,7 +391,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 			     &v3d_bin_sched_ops,
+ 			     hw_jobs_limit, job_hang_limit,
+ 			     msecs_to_jiffies(hang_limit_ms), NULL,
+-			     NULL, "v3d_bin");
++			     NULL, "v3d_bin", v3d->drm.dev);
+ 	if (ret) {
+ 		dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
+ 		return ret;
+@@ -401,7 +401,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 			     &v3d_render_sched_ops,
+ 			     hw_jobs_limit, job_hang_limit,
+ 			     msecs_to_jiffies(hang_limit_ms), NULL,
+-			     NULL, "v3d_render");
++			     NULL, "v3d_render", v3d->drm.dev);
+ 	if (ret) {
+ 		dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
+ 			ret);
+@@ -413,7 +413,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 			     &v3d_tfu_sched_ops,
+ 			     hw_jobs_limit, job_hang_limit,
+ 			     msecs_to_jiffies(hang_limit_ms), NULL,
+-			     NULL, "v3d_tfu");
++			     NULL, "v3d_tfu", v3d->drm.dev);
+ 	if (ret) {
+ 		dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
+ 			ret);
+@@ -426,7 +426,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 				     &v3d_csd_sched_ops,
+ 				     hw_jobs_limit, job_hang_limit,
+ 				     msecs_to_jiffies(hang_limit_ms), NULL,
+-				     NULL, "v3d_csd");
++				     NULL, "v3d_csd", v3d->drm.dev);
+ 		if (ret) {
+ 			dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
+ 				ret);
+@@ -438,7 +438,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+ 				     &v3d_cache_clean_sched_ops,
+ 				     hw_jobs_limit, job_hang_limit,
+ 				     msecs_to_jiffies(hang_limit_ms), NULL,
+-				     NULL, "v3d_cache_clean");
++				     NULL, "v3d_cache_clean", v3d->drm.dev);
+ 		if (ret) {
+ 			dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
+ 				ret);
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index bbc22fad8d80..944f83ef9f2e 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -457,13 +457,14 @@ struct drm_gpu_scheduler {
+ 	atomic_t                        _score;
+ 	bool				ready;
+ 	bool				free_guilty;
++	struct device			*dev;
+ };
+ 
+ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 		   const struct drm_sched_backend_ops *ops,
+ 		   uint32_t hw_submission, unsigned hang_limit,
+ 		   long timeout, struct workqueue_struct *timeout_wq,
+-		   atomic_t *score, const char *name);
++		   atomic_t *score, const char *name, struct device *dev);
+ 
+ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+ int drm_sched_job_init(struct drm_sched_job *job,
+-- 
+2.17.1
 
