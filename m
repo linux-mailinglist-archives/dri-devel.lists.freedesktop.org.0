@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD9F4BF52B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92924BF563
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 11:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4887410E79B;
-	Tue, 22 Feb 2022 09:53:50 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E25610E765;
- Tue, 22 Feb 2022 09:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645523628; x=1677059628;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/0gc7MYOrMtVM1VaCVl3VgLuKMkXDTdGeiY1W+xGG1g=;
- b=S76V1B2IaG9/7I34u+HGCnwg/ymXFhXqoYfly6kKDW6g8iqZri6Tb3CH
- SWABlbviLxeKf4xCTNYnkGvq3JYGF0HenIflDHcQACubHe9UTPghoPsUd
- AwvC/8FFGSobwLHxkK0JljxiFArGqXqrjv8Qjfv61ErOXwjsw94AQnhA4
- rEh+F6DLU3Fqt69s0JT4Lkj2gq59etBaoIovP8+rvdN8yzAP5GOQIW5j4
- a2nZlbJfVPadf7JHusmjAuAtKJfMm+ds5vtO9zhjPqNKNjWmctRMkQZ4Y
- zlidSKIILGQn45YUP5+mhg7slK1exotCzP9OB5LMxn/QDhw8idkFIuYDS w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="231625544"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="231625544"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 01:53:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="507924100"
-Received: from sjgillin-mobl.ger.corp.intel.com (HELO [10.213.218.63])
- ([10.213.218.63])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 01:53:46 -0800
-Message-ID: <647b611a-d159-3a6f-2e3a-c8039a9503ec@linux.intel.com>
-Date: Tue, 22 Feb 2022 09:53:45 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB6C10E83C;
+	Tue, 22 Feb 2022 10:07:56 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8203810E87D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 10:07:49 +0000 (UTC)
+X-UUID: eee09e41db7142cd95c54162954f81b4-20220222
+X-UUID: eee09e41db7142cd95c54162954f81b4-20220222
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1970527111; Tue, 22 Feb 2022 18:07:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 22 Feb 2022 18:07:42 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 22 Feb 2022 18:07:42 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v12 00/23] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Tue, 22 Feb 2022 18:07:18 +0800
+Message-ID: <20220222100741.30138-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 0/3] Improve anti-pre-emption w/a for compute
- workloads
-Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,42 +46,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-On 18/02/2022 21:33, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> Compute workloads are inherently not pre-emptible on current hardware.
-> Thus the pre-emption timeout was disabled as a workaround to prevent
-> unwanted resets. Instead, the hang detection was left to the heartbeat
-> and its (longer) timeout. This is undesirable with GuC submission as
-> the heartbeat is a full GT reset rather than a per engine reset and so
-> is much more destructive. Instead, just bump the pre-emption timeout
+Add DRM and these modules support by the patches below:
 
-Can we have a feature request to allow asking GuC for an engine reset?
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
 
-Regards,
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
 
-Tvrtko
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
 
-> to a big value. Also, update the heartbeat to allow such a long
-> pre-emption delay in the final heartbeat period.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> 
-> 
-> John Harrison (3):
->    drm/i915/guc: Limit scheduling properties to avoid overflow
->    drm/i915/gt: Make the heartbeat play nice with long pre-emption
->      timeouts
->    drm/i915: Improve long running OCL w/a for GuC submission
-> 
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 37 +++++++++++++++++--
->   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 16 ++++++++
->   drivers/gpu/drm/i915/gt/sysfs_engines.c       | 14 +++++++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  9 +++++
->   4 files changed, 73 insertions(+), 3 deletions(-)
-> 
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] [01/24] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210630023504.18177-2-yong.wu@mediatek.com/
+[4] Add gce support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=537069
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=587313
+[6] [v8,1/2] dt-bindings: reset: mt8195: add toprgu reset-controller header file
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210806023606.16867-2-Christine.Zhu@mediatek.com/
+
+Nancy.Lin (23):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: mediatek: add vdosys1 MERGE property for mt8195
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: change the mutex defines and the mutex_mod type
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../arm/mediatek/mediatek,mdp-rdma.yaml       |  77 +++
+ .../display/mediatek/mediatek,ethdr.yaml      | 147 ++++++
+ .../display/mediatek/mediatek,merge.yaml      |   4 +
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 222 +++++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  29 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  89 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 443 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  55 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  31 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   9 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 329 +++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 376 +++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  25 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  80 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |  12 +
+ drivers/soc/mediatek/mtk-mutex.c              | 296 +++++++-----
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+ 26 files changed, 2572 insertions(+), 244 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
