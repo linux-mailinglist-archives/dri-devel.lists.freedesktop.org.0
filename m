@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C344BFEA2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948B14BFEF6
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 17:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8710E74D;
-	Tue, 22 Feb 2022 16:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D88910E750;
+	Tue, 22 Feb 2022 16:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D7C10E6E4;
- Tue, 22 Feb 2022 16:32:24 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id x193so15159009oix.0;
- Tue, 22 Feb 2022 08:32:24 -0800 (PST)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D329A10E750;
+ Tue, 22 Feb 2022 16:38:13 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id j2so15127639oie.7;
+ Tue, 22 Feb 2022 08:38:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=aSdxbzUUBFyhsvNwdRhnX3Mec7pbpC71E8zAtuMoNSw=;
- b=FX0sGlOaHKUnWtxEV6HYKy2nafu8fuljFBoACNBVftni/Q58eaCkncHFWGp2OrD2C7
- SDoNGW9popiT9/vht4gT9Bxb0ur4WAPXseAppf5T46OFdmKkpfESNAT2bFZ+FzWYushi
- Cup7BrHE+eOWFUq/y8CwoD8aORSMiasZHczGydJhs4/qlq28l/+PL4RDeNpi5SdA1B1a
- miu/LbAaMWwhsdqEjVqbhMwrBCOrNaekbAFCk4vLbL4s+ZJPCOzs7oJY3kFtjqdxJcZW
- nLEUXyj5/0RGoBn154D9dFV2Q6lYXTDe1FTVOHRUAFFHjJGRrUVuMGLmBPzIPz3aTUlZ
- d34A==
+ bh=gGjkIZdn8iDygTC74bA8nSai9fnVzHtbdRMYVYGrfT4=;
+ b=pMIIbsd55BhAHXzDncwJDFaoOpcF1JY1qxQPilcyT26Qxu/McqAW3L2Oc4KYVG3IE3
+ 0fawyyZe7TzzanS8DKSyt/POvD+2k06/UEHiMLmuEiKYnYRKmKtdkfuWEM776cY1yZl3
+ +TuLtOD1Mie67XV1QiKXv0iuCeCfewE6DJSh65Sg+gR9bH7hFtT4FAHaWsViIGCSobT3
+ 4P1Os4tfO+IQ3sjbD9iv0zCMnnqyDr3xCsIPzGy3aOwIwmbejNBxAT58re5XcOe2VFIl
+ ZRx0ps3lJe+LD5EyVwxlQ7B7MQj59n+nHbuUa81q21Z4o3secnKC031WczgJ1bx2QlmF
+ SPWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=aSdxbzUUBFyhsvNwdRhnX3Mec7pbpC71E8zAtuMoNSw=;
- b=Wsuec3y/W+xM7ntpRRiPEqlVsdAYeNi+T8KEHEge/DjNyDoqWeXN5sk3crQc3X5lq6
- 7SdwI2NDYhu7GtOyxHOcl4qyOv+cjjghaQW5Gp753FNAqBSQi9gPVYl5KEGQVki36VIl
- LvXka2s18hEnSXhNYFcJT4ngOouIcuDn3jrbRP0avIkJRP9fWb9bF9FsJ6SiBzNNob1r
- cCnAUdWrbKkx8S04E2cxT5ZZ0J5F5Uzejbx6KhWOVkxM1MPf1kWeA0uaBLR/uA1oDqIK
- aCrNR6+nHtBjig2lf5qtbPODdDpAojfHGTL3fjIbSNKSO1Mvv+CyAIoijtm/1MLRhBz4
- /yTw==
-X-Gm-Message-State: AOAM532RG4qSgW7pvs9UdrCm2OJ7LqZWTdZbMwPGvgGntJYSf/xWScMR
- i6m2IxaGlZkEW8mgIod9aYiPlvACS5dcFGTrUsM=
-X-Google-Smtp-Source: ABdhPJy6A7uqVEJVD4y7y1YfQGjjopexCYY0c40a6Xh4XUKujc3FuLvcm8mgvXFwCBo2/1BU/wrLj1y1uaQOcVZOi00=
+ bh=gGjkIZdn8iDygTC74bA8nSai9fnVzHtbdRMYVYGrfT4=;
+ b=AGhaj2sxJWbyJkj1hexSUT+GuPG61IPRwPbdWF9r1po7OgsV1IrxYY2k8Ay8+HPCcr
+ uWfjXvVM4xneFNsdUgfJYqbEH5lTbzfh07SO1qPlnu95HRwlSQgZfjoNzgYAKcK30nZQ
+ FoievOn92ui/V91zDQR6zZ27fdYJHktUJISk57CVAOpim+Om3MUwU66haNEKExp8oHdm
+ 27k1+O2ehW6DEFSX/YojhUaBdG7pvtONBWMcV/eO6gGpNDEXzr+KjuPNIbb9ZsXgArUo
+ qhV3tC2AX9fwR2ehZNIV1vm6EZ9ElDDlgt70SsKrzjt98oseNVMb9CDBQt0r3V7caLh5
+ vLDg==
+X-Gm-Message-State: AOAM531Ucomic1TUjwKz9ZN3ZdSnf4N1Npz1G19It2Z+x8lImZyZQNEM
+ qZjJaMZBlockctZGs1PtOgJ55hoIHVPjsd2Z9pk=
+X-Google-Smtp-Source: ABdhPJzmfTAp4Sj4WVRbXm3Si8HXcxr7ff9pQ3CcSdD+6jcXlEyVCZXJw1HrD4rfTNApYpY6u/vtBTcW+BrNV5f0OxQ=
 X-Received: by 2002:aca:ab4c:0:b0:2d4:7c7d:606e with SMTP id
- u73-20020acaab4c000000b002d47c7d606emr2374308oie.132.1645547544141; Tue, 22
- Feb 2022 08:32:24 -0800 (PST)
+ u73-20020acaab4c000000b002d47c7d606emr2389607oie.132.1645547893097; Tue, 22
+ Feb 2022 08:38:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20220222131701.356117-1-maira.canal@usp.br>
- <20220222131701.356117-6-maira.canal@usp.br>
-In-Reply-To: <20220222131701.356117-6-maira.canal@usp.br>
+ <20220222131701.356117-7-maira.canal@usp.br>
+In-Reply-To: <20220222131701.356117-7-maira.canal@usp.br>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Feb 2022 11:32:13 -0500
-Message-ID: <CADnq5_MaeAaKemJyNyAkzsVrnUv9G4zqQrd4PbCj3vJaTpxVoA@mail.gmail.com>
-Subject: Re: [PATCH 05/10] drm/amd/display: Remove unused
- dcn316_smu_set_voltage_via_phyclk function
+Date: Tue, 22 Feb 2022 11:38:02 -0500
+Message-ID: <CADnq5_O_YzwjBOBv8_ifZHZQy2rmOyC5d4n1bEeL3Xw0w6JEkg@mail.gmail.com>
+Subject: Re: [PATCH 06/10] drm/amd/display: Remove vupdate_int_entry definition
 To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,57 +89,180 @@ Alex
 On Tue, Feb 22, 2022 at 8:18 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
 :
 >
-> Remove dcn316_smu_set_voltage_via_phyclk function, which is not used in t=
-he
-> codebase.
+> Remove the vupdate_int_entry definition and utilization to avoid the
+> following warning by Clang:
 >
-> This was pointed by clang with the following warning:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+0:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(0),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+4:2:
+> note: previous initialization is here
+>     vupdate_int_entry(0),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+1:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(1),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+5:2:
+> note: previous initialization is here
+>     vupdate_int_entry(1),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+2:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(2),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+6:2:
+> note: previous initialization is here
+>     vupdate_int_entry(2),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+3:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(3),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+7:2:
+> note: previous initialization is here
+>     vupdate_int_entry(3),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+4:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(4),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+8:2:
+> note: previous initialization is here
+>     vupdate_int_entry(4),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:41=
+5:2:
+> warning: initializer overrides prior initialization of this subobject
+> [-Winitializer-overrides]
+>     vupdate_no_lock_int_entry(5),
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:28=
+0:39:
+> note: expanded from macro 'vupdate_no_lock_int_entry'
+>     [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>     ^~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:40=
+9:2:
+> note: previous initialization is here
+>     vupdate_int_entry(5),
+>     ^~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn21/irq_service_dcn21.c:26=
+9:39:
+> note: expanded from macro 'vupdate_int_entry'
+>         [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+>         ^~
+> 6 warnings generated.
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn316/dcn316_smu.c:171:=
-5:
-> warning: no previous prototype for function
-> 'dcn316_smu_set_voltage_via_phyclk' [-Wmissing-prototypes]
-> int dcn316_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, i=
-nt
-> requested_phyclk_khz)
->     ^
+> fixes: 688f97ed ("drm/amd/display: Add vupdate_no_lock interrupts for
+> DCN2.1")
 >
 > Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
 > ---
->  .../amd/display/dc/clk_mgr/dcn316/dcn316_smu.c   | 16 ----------------
->  1 file changed, 16 deletions(-)
+>  .../amd/display/dc/irq/dcn21/irq_service_dcn21.c   | 14 --------------
+>  1 file changed, 14 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c b=
-/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
-> index b7f9e1b34c11..fd6497fd2dc5 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c
-> @@ -168,22 +168,6 @@ int dcn316_smu_set_dispclk(struct clk_mgr_internal *=
-clk_mgr, int requested_dispc
->         return actual_dispclk_set_mhz * 1000;
->  }
+> diff --git a/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c=
+ b/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
+> index 0f15bcada4e9..717977aec6d0 100644
+> --- a/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
+> +++ b/drivers/gpu/drm/amd/display/dc/irq/dcn21/irq_service_dcn21.c
+> @@ -265,14 +265,6 @@ static const struct irq_source_info_funcs vline0_irq=
+_info_funcs =3D {
+>                 .funcs =3D &pflip_irq_info_funcs\
+>         }
 >
-> -int dcn316_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, =
-int requested_phyclk_khz)
-> -{
-> -       int actual_phypclk_set_mhz =3D -1;
+> -#define vupdate_int_entry(reg_num)\
+> -       [DC_IRQ_SOURCE_VUPDATE1 + reg_num] =3D {\
+> -               IRQ_REG_ENTRY(OTG, reg_num,\
+> -                       OTG_GLOBAL_SYNC_STATUS, VUPDATE_INT_EN,\
+> -                       OTG_GLOBAL_SYNC_STATUS, VUPDATE_EVENT_CLEAR),\
+> -               .funcs =3D &vblank_irq_info_funcs\
+> -       }
 > -
-> -       if (!clk_mgr->smu_present && requested_phyclk_khz)
-> -               return requested_phyclk_khz;
-> -
-> -       /*  Unit of SMU msg parameter is Mhz */
-> -       actual_phypclk_set_mhz =3D dcn316_smu_send_msg_with_param(
-> -                       clk_mgr,
-> -                       VBIOSSMC_MSG_SetPhyclkVoltageByFreq,
-> -                       khz_to_mhz_ceil(requested_phyclk_khz));
-> -
-> -       return actual_phypclk_set_mhz * 1000;
-> -}
-> -
->  int dcn316_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, int=
- requested_dcfclk_khz)
->  {
->         int actual_dcfclk_set_mhz =3D -1;
+>  /* vupdate_no_lock_int_entry maps to DC_IRQ_SOURCE_VUPDATEx, to match se=
+mantic
+>   * of DCE's DC_IRQ_SOURCE_VUPDATEx.
+>   */
+> @@ -401,12 +393,6 @@ irq_source_info_dcn21[DAL_IRQ_SOURCES_NUMBER] =3D {
+>         dc_underflow_int_entry(6),
+>         [DC_IRQ_SOURCE_DMCU_SCP] =3D dummy_irq_entry(),
+>         [DC_IRQ_SOURCE_VBIOS_SW] =3D dummy_irq_entry(),
+> -       vupdate_int_entry(0),
+> -       vupdate_int_entry(1),
+> -       vupdate_int_entry(2),
+> -       vupdate_int_entry(3),
+> -       vupdate_int_entry(4),
+> -       vupdate_int_entry(5),
+>         vupdate_no_lock_int_entry(0),
+>         vupdate_no_lock_int_entry(1),
+>         vupdate_no_lock_int_entry(2),
 > --
 > 2.35.1
 >
