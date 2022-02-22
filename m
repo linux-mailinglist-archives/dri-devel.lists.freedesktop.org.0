@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5033E4C02ED
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 21:17:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4664C0326
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 21:35:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F54010E415;
-	Tue, 22 Feb 2022 20:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10E810E473;
+	Tue, 22 Feb 2022 20:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB06E10E415;
- Tue, 22 Feb 2022 20:17:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 63475212BD;
- Tue, 22 Feb 2022 20:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645561034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ko8a0kgKzb1ejVoVYy/oirEXyPWddkA145wKlShMsBI=;
- b=uiDVM7yWKeNH5rtLXV2dWLMJhHrkitP4nAN9Ei+JF/eYSYQirc0yJPbmIwa6OneDWUyeSH
- 1j3l2T53pz7Y5HRsd9wvHHYF5Oub8DBNOKsAAbtQbrSJwnYykXicpBF7TIZNzsgNBMzJWO
- bVgzLPxjJB1WvFI/6GSxtslB2Gtaz5I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645561034;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ko8a0kgKzb1ejVoVYy/oirEXyPWddkA145wKlShMsBI=;
- b=NY4s1c9DSSm7RsdVI/CGbiupoAvU9Ottlp8q7Hj4kNXEtWnpbOpL1mhCz/N1rc8Bwu6yNH
- R8qhleAVYlPrSiCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 24C0A13C2F;
- Tue, 22 Feb 2022 20:17:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sFXKB8pEFWLNIAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 22 Feb 2022 20:17:14 +0000
-Message-ID: <66c26d95-cca6-63ca-2bdd-d90dd0a5228e@suse.de>
-Date: Tue, 22 Feb 2022 21:17:13 +0100
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538AA10E466
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 20:35:54 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id s24so33354285edr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 12:35:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w7z+2gBVssBTwkTFXRrU+BRzNhXOykt+QfnboI/H0jI=;
+ b=Nx4Ebu1Qa73CdYd5vi87qARsrD0v/VpwZMXfHgesrmKuCWb9W3U4528JazIOYaiVyn
+ 2VEovr0WBDKVp51vKrn7Ug0ljNa2PdcWMBEjHzr0Bgteigjs0cPTG+1hkwiEs62z4bhT
+ WT3SopWeJZIBLHGxHSdnc7r+h9BKJQXkQGi7UDb8yL8iXx5FHgeu/4iZvrEHEeLS748B
+ f60tjNlc9XgrCs5J6wQPEGZJJcqNXWledRb22U7avPjyWU/VVq/haVwxY81sNfYRcNPD
+ x4aBo04jpJ0PINIfmFeRgGXlJ7pfe1f+T7WYiYAAlOqwBskKIJX/mMQV5VvQUPuqoAkE
+ Lc/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w7z+2gBVssBTwkTFXRrU+BRzNhXOykt+QfnboI/H0jI=;
+ b=02WSCdSalmJvaXUdGrVtiyg3EUxADnErlvJO8k/zkiQKfdkKLnkUPeQZAh61lMEsnG
+ mbRFIo5Dxocwqmhe4cg6nVBDypC6GUuMI18oGeo14Cs/iX7akY0ztjS1/zMdE968EeoR
+ UIuxL5HrMUDKYFs2ayvud3Vv1aj/qxu+L9GqaJH1O0lUih4Rod5syIXOT1AW4h/FZQ7D
+ bfCR/Tyro2fAd3js1gk364gfAkIPzozsZpY4mfiVXygL6dnjC8EWQJ1HLmW4MXGAfOwV
+ UPUrckl3N3ouZYcVFLRdd0TNZYnxxKzvuIkehYtrStB/aqkNiesCq3vsJ9PLRO0NQg+h
+ tHYg==
+X-Gm-Message-State: AOAM532GEbu8eYnesM/QDM/pyRxZ/57SerXWDaLL0RtiqPDJ3v0kP1Qc
+ 0ziIpaCzP9x/X4Nk+vfABttfZoDMjv+aZH3WOcc=
+X-Google-Smtp-Source: ABdhPJxlv7Aw10zN8xQzuLGYlYSw80uywRepza8MNhd5IsDpmmj58AVIlRbtUyHYQmY8fGDgmgQIrA0TXC+15SlWS5g=
+X-Received: by 2002:a05:6402:5113:b0:413:963:4eae with SMTP id
+ m19-20020a056402511300b0041309634eaemr10761037edd.197.1645562152589; Tue, 22
+ Feb 2022 12:35:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PULL] drm-misc-next
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Dave Airlie <airlied@gmail.com>
-References: <456a23c6-7324-7543-0c45-751f30ef83f7@linux.intel.com>
- <CAPM=9twqNAQ0+O40SPJOZk=RHkBo5sdHUSWdbaga25Xh8gLs3A@mail.gmail.com>
- <5f628861-1969-f313-f931-cf8608ef6acf@linux.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <5f628861-1969-f313-f931-cf8608ef6acf@linux.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------KV0stUvUOS8h0RBuImHA6OFE"
+References: <20220219170301.545432-1-robdclark@gmail.com>
+In-Reply-To: <20220219170301.545432-1-robdclark@gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Tue, 22 Feb 2022 12:35:41 -0800
+Message-ID: <CAPaKu7Q3CAcoyEgvo1KZnJCx6-EO+CPcARCtzwE9Ddbb_OZA_Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Remove restriction of non-zero blob_flags
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,105 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------KV0stUvUOS8h0RBuImHA6OFE
-Content-Type: multipart/mixed; boundary="------------lcYD2pDaCDpYrghOjqcuLr3Y";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Maxime Ripard <mripard@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "DRM maintainer tools announcements, discussion, and development"
- <dim-tools@lists.freedesktop.org>
-Message-ID: <66c26d95-cca6-63ca-2bdd-d90dd0a5228e@suse.de>
-Subject: Re: [PULL] drm-misc-next
-References: <456a23c6-7324-7543-0c45-751f30ef83f7@linux.intel.com>
- <CAPM=9twqNAQ0+O40SPJOZk=RHkBo5sdHUSWdbaga25Xh8gLs3A@mail.gmail.com>
- <5f628861-1969-f313-f931-cf8608ef6acf@linux.intel.com>
-In-Reply-To: <5f628861-1969-f313-f931-cf8608ef6acf@linux.intel.com>
-
---------------lcYD2pDaCDpYrghOjqcuLr3Y
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMDEuMDIuMjIgdW0gMDk6MTcgc2NocmllYiBNYWFydGVuIExhbmtob3JzdDoN
-Cj4gT3AgMDEtMDItMjAyMiBvbSAwNzozOCBzY2hyZWVmIERhdmUgQWlybGllOg0KPj4gT24g
-VGh1LCAyNyBKYW4gMjAyMiBhdCAyMTo1NywgTWFhcnRlbiBMYW5raG9yc3QNCj4+IDxtYWFy
-dGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPj4+IEhpIERhdmUgJiBE
-YW5pZWwsDQo+Pj4NCj4+PiBGaXJzdCBwdWxsIGZvciB2NS4xOA0KPj4gSSB3YXMgdHJ5aW5n
-IHRvIGJlIGFsbCBlZmZpY2llbnQgYW5kIGdldCB0aGlzIHB1bGxlZCBpbiB0aW1lIGZvciBv
-bmNlLg0KPj4NCj4+DQo+PiBIb3dldmVyIGl0IGJyb2tlIGJ1aWxkaW5nIG9uIG15IGFybSB0
-ZXN0IGJ1aWxkLg0KPj4NCj4+IFRoZSBuZXcgRFAgaGVscGVyIEtjb25maWcgaXMgd3Jvbmcg
-c29tZXdoZXJlLg0KPj4NCj4+IEkndmUgYXR0YWNoZWQgdGhlIC5jb25maWcsIGJ1dCBpdCBh
-cHBlYXJzIEkgZ2V0IERSTV9EUF9IRUxQRVIgc2V0IHRvIE0NCj4+IGJ1dCBBTkFMT0dJWF9E
-UCBzZXQgdG8gWSBhbmQgaXQgZmFpbHMgdG8gbGluayBiZWNhdXNlIHRoZSBkcCBoZWxwZXIN
-Cj4+IHNob3VsZCBiZSBZLg0KPj4NCj4+IFJlZ2FyZHMsDQo+PiBEYXZlLg0KPiBCZWxvdyBz
-aG91bGQgbGlrZWx5IGZpeCBpdD8NCg0KSSBoYXZlIGJlZW4gdHJ5aW5nIGFnYWluIGp1c3Qg
-bm93IHdpdGggdGhlIGxhdGVzdCBkcm0tdGlwIGFuZCBjYW5ub3QgDQpyZXByb2R1Y2UgdGhl
-IGlzc3VlIHdpdGggdGhlIGF0dGFjaGVkIGNvbmZpZy4NCg0KVGhpcyBQUiBoYXMgYmVlbiBs
-b25nIG92ZXJkdWUuIE1hYXJ0ZW4sIGNhbiB5b3UgcGxlYXNlIHNlbmQgb3V0IGFuIA0KdXBk
-YXRlIEFTQVA/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL0tjb25maWcNCj4gaW5kZXggNmEyNTFlM2FhNzc5Li5mMjdjZmQyYTk3MjYgMTAwNjQ0
-DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvS2NvbmZpZw0KPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWcNCj4gQEAgLTY2LDYgKzY2LDcgQEAgY29uZmln
-IERSTV9FWFlOT1NfRFANCj4gICAJYm9vbCAiRXh5bm9zIHNwZWNpZmljIGV4dGVuc2lvbnMg
-Zm9yIEFuYWxvZ2l4IERQIGRyaXZlciINCj4gICAJZGVwZW5kcyBvbiBEUk1fRVhZTk9TX0ZJ
-TUQgfHwgRFJNX0VYWU5PUzdfREVDT04NCj4gICAJc2VsZWN0IERSTV9BTkFMT0dJWF9EUA0K
-PiArCXNlbGVjdCBEUk1fRFBfSEVMUEVSDQo+ICAgCWRlZmF1bHQgRFJNX0VYWU5PUw0KPiAg
-IAlzZWxlY3QgRFJNX1BBTkVMDQo+ICAgCWhlbHANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9yb2NrY2hpcC9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tj
-b25maWcNCj4gaW5kZXggZDU5ZGNhNWVmYjUyLi5mYTVjZmRhNGU5MGUgMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9yb2NrY2hpcC9LY29uZmlnDQo+IEBAIC04LDYgKzgsNyBAQCBjb25maWcgRFJN
-X1JPQ0tDSElQDQo+ICAgCXNlbGVjdCBEUk1fUEFORUwNCj4gICAJc2VsZWN0IFZJREVPTU9E
-RV9IRUxQRVJTDQo+ICAgCXNlbGVjdCBEUk1fQU5BTE9HSVhfRFAgaWYgUk9DS0NISVBfQU5B
-TE9HSVhfRFANCj4gKwlzZWxlY3QgRFJNX0RQX0hFTFBFUiBpZiBST0NLQ0hJUF9BTkFMT0dJ
-WF9EUA0KPiAgIAlzZWxlY3QgRFJNX0RXX0hETUkgaWYgUk9DS0NISVBfRFdfSERNSQ0KPiAg
-IAlzZWxlY3QgRFJNX0RXX01JUElfRFNJIGlmIFJPQ0tDSElQX0RXX01JUElfRFNJDQo+ICAg
-CXNlbGVjdCBHRU5FUklDX1BIWSBpZiBST0NLQ0hJUF9EV19NSVBJX0RTSQ0KPiANCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
---------------lcYD2pDaCDpYrghOjqcuLr3Y--
-
---------------KV0stUvUOS8h0RBuImHA6OFE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIVRMkFAwAAAAAACgkQlh/E3EQov+Aj
-ExAAzRuMjvU2Um+WHROx4zssk9eNhNFzgpoWSeEgF+c0ERduWmHyBGvITUNZYpc61eeW8+KbYJnl
-ZC5tF0feS5mTTiU0+Ll18arLu2l+2RYu2OB035nMDo6NwLOQIAjqjdnyLMpPjpxWU6hyx9MbjhEk
-dVM+qMY1TY8zVhXSiHLQGycCtE0/cf21CQms21LIVw6DUt9y2g0QSOKhJE2NO2JsOHGpmBdbHDzo
-xYw4VQ5PVXXHNmZ2wb9EOBZh0AscdSVv1IVdFDMH2dFc0mKTfuwVJ2DpO8eElW/k4Al5YdsjIc7j
-APIswcubEk/2ZUUeQOvYEI3VU+va14hAq4SuIurI9jMXM8F2KK+v6hUsw2awUGC3jDYGo6KnO9XL
-7WkJJYiicH9Ew7jDOnbcZSz2lppY4nUL7MNLYfL5H8pS5GEbcqDcVGIVGyIbyjk1IlazE/HqgYEk
-cE2ayrAqej/Vr56tXoTs8D7ToeTNmZ8H/4x4TOaAcZrFnPUdWtX/qhmDQ9An/+NSHLoEvpj1QlL8
-N1IrXGCkjfgsN6ZGKXo0bMH/DGzxui5u4Hb5xlD4VREktzF0BaneOcfM3rTospMfDEg65j6A4uHe
-1/BUBitBL8pRckKuSAiuSFcPHOijlpOO1Yon/gx2zErkDgkv791YdChmEdc+oc4mzNYg6hDI+uew
-6E8=
-=Xm+L
------END PGP SIGNATURE-----
-
---------------KV0stUvUOS8h0RBuImHA6OFE--
+On Sat, Feb 19, 2022 at 9:02 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> With native userspace drivers in guest, a lot of GEM objects need to be
+> neither shared nor mappable.  And in fact making everything mappable
+> and/or sharable results in unreasonably high fd usage in host VMM.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
