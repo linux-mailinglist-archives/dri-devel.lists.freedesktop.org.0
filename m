@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE7F4C1ADF
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 19:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC2B4C1AE2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 19:23:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84ED110E1E9;
-	Wed, 23 Feb 2022 18:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CA410E2C5;
+	Wed, 23 Feb 2022 18:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7441D10E1E9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 18:23:02 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id w27so14930505lfa.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:23:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UcfKUY8k6DfusGlB9NHQqjnpCyDgS+dIotRNb+VfCyc=;
- b=IObjJMN9fHOnyEyJ0aJDey85yPPsoViPxmgGKaVMA3hEjIE2nvqI+cofTHI4qasIae
- weoRPaJYonOyL3PSsWk7e+miHckCLOgtaYM7UGfznm/fLKckN/O5FDhHtW4BrfNi5V7T
- Aw0jhRDgyuUCCXlqhgpSp83kQryactg9p4HVTNh9GnNq14N6NADt4wz58PJ+oVuMd4ZK
- aFxBzFjv1xNebc664fpkf0LmSmR+G/q5YYI/QvuH4Xl2z8MF07H4yyoAs3HBB7/bs7D9
- 3pY4fsAUjisqrEofV8486ghmXDO4wMb5PbY+/MD9zeB9ulVtfJvCuZDZ/qIlt86le346
- dT6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UcfKUY8k6DfusGlB9NHQqjnpCyDgS+dIotRNb+VfCyc=;
- b=FGUJxak2orwwKDneU0sxM1IyYgM54+rsf2OrofOLFzyMqv3MB1D39bVTcJQi/UAqoo
- fbXMf6RcC+WPo7Z3xHvoVHorYWw8SgFngufZwOPEebHla9wzun2cKBAP49Wb/ild1h9T
- wmyXEWtpamDwNSdPhz987QLRuXX4hGAOdRknme9C3nDyq9yNVGwYM3NL/Ms5evLEVQ2c
- bbI51aUL7SWLHEyZGELEq2DeWkOCHUtpArzdJjQq9FULcWo6EZ2gVYFL3eQeOovt8MPE
- BnTKNeCHMRQrdkVqhoHqXdTpupPCGZlaUvvRdllpEteb+M6Phj0gos7B8GgPA/uJwXL1
- SndQ==
-X-Gm-Message-State: AOAM532Vt/johqQvmZ3zTpan1+612V9hzYrJF2r0hMOI2U6I+FJrE9B4
- ToZQGkKv8QXeIB1oLlvbYKYNXA==
-X-Google-Smtp-Source: ABdhPJy91F+Mbo8jJlYlZJcsqZe4RbeEeGZOT+ZTbsyaJhmTFsGkGPpbyJrY2zH3Nq7tqGZz9KI8bQ==
-X-Received: by 2002:a05:6512:3f1d:b0:443:3c8b:58f5 with SMTP id
- y29-20020a0565123f1d00b004433c8b58f5mr569305lfa.669.1645640579350; 
- Wed, 23 Feb 2022 10:22:59 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a28sm20252lfm.251.2022.02.23.10.22.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 10:22:58 -0800 (PST)
-Message-ID: <493749c1-6305-1a94-4e05-519c825e9d4d@linaro.org>
-Date: Wed, 23 Feb 2022 21:22:57 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE3910E21E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 18:23:44 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 04B96210E8;
+ Wed, 23 Feb 2022 18:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645640623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zmlkY1kbQBsVLQ5pzhianT7TxQAbIfNHni1vWGh3+gY=;
+ b=VVE8gYSE5/Ck83Y3lTFe/dA93oYo0UMb/ioj0RNe4jLzkY/KOtGASIdez99JVpVBINYujY
+ RFgAhQ1l3lj2WjAgaG95Ztz9WeBXmrWG4pU8/GA3kKXwHQBJxCaMeIcPJYPz2j0kA+Qe0B
+ L4OYJv0udIo7Ay8F+HD9+YD9LL9s+x0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645640623;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zmlkY1kbQBsVLQ5pzhianT7TxQAbIfNHni1vWGh3+gY=;
+ b=BCY/dF2RqwnUb3uAmNBW8HCt/Xr7osfuXnlFCon4nsKbfpVrvMJTJNYbiGrrgyeuHGNSrZ
+ Hr35WiMILBCljgDw==
+Received: from kunlun.suse.cz (unknown [10.100.128.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id A3E5CA3B83;
+ Wed, 23 Feb 2022 18:23:42 +0000 (UTC)
+Date: Wed, 23 Feb 2022 19:23:41 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3] simplefb: Enable boot time VESA graphic mode selection.
+Message-ID: <20220223182341.GG3113@kunlun.suse.cz>
+References: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+ <20220218160436.23211-1-msuchanek@suse.de>
+ <33b80f9c-d54a-5471-a58b-7a783a7a9e5b@redhat.com>
+ <20220223164528.GE3113@kunlun.suse.cz>
+ <f832a836-b6ee-ffc5-6f83-86c9ba475400@redhat.com>
+ <20220223171235.GF3113@kunlun.suse.cz>
+ <a9df1753-8e3b-55bb-2dab-9e7aeaa52a8d@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 4/5] drm/msm/dp: replace dp_connector with
- drm_bridge_connector
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
- <572c0402-55da-077b-1809-3d1caf7ce743@quicinc.com>
- <b25d422e-cdd8-bcb9-1815-1d89f170d421@linaro.org>
- <CAE-0n51afuHURLHaZBa77H_n+cm4Tj1Du-rpLH-HsrkY5xQVJA@mail.gmail.com>
- <CAA8EJpobtpc5mB48g6K=+KaZQ-o8m_QTZr-dQvwz-9cEwiJ_Kg@mail.gmail.com>
- <7f9e2181-bb1a-c734-2e90-c5922952acb4@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <7f9e2181-bb1a-c734-2e90-c5922952acb4@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9df1753-8e3b-55bb-2dab-9e7aeaa52a8d@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,165 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudeep Holla <sudeep.holla@arm.com>, linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2022 20:21, Kuogee Hsieh wrote:
+On Wed, Feb 23, 2022 at 07:13:07PM +0100, Javier Martinez Canillas wrote:
+> On 2/23/22 18:12, Michal Such�nek wrote:
+> > On Wed, Feb 23, 2022 at 05:54:54PM +0100, Javier Martinez Canillas wrote:
 > 
-> On 2/18/2022 6:22 PM, Dmitry Baryshkov wrote:
->> On Sat, 19 Feb 2022 at 03:55, Stephen Boyd <swboyd@chromium.org> wrote:
->>> Quoting Dmitry Baryshkov (2022-02-18 14:32:53)
->>>> On 19/02/2022 00:31, Kuogee Hsieh wrote:
->>>>> On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
->>>>>> There is little point in having both connector and root bridge
->>>>>> implementation in the same driver. Move connector's functionality 
->>>>>> to the
->>>>>> bridge to let next bridge in chain to override it.
->>>>>>
->>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> This patch break primary (edp) display
->>>>>
->>>>> -- right half of screen garbled
->>>>>
->>>>> -- screen shift vertically
->>>>>
->>>>> below are error messages seen --
->>>>>
->>>>> [   36.679216] panel-edp soc@0:edp_panel: No display modes
->>>>> [   36.687272] panel-edp soc@0:edp_panel: No display modes
->>>>> [   40.593709] panel-edp soc@0:edp_panel: No display modes
->>>>> [   40.600285] panel-edp soc@0:edp_panel: No display modes
->>>> So, before the patch the drm core was getting modes from the
->>>> drm_connector (which means, modes from drm driver itself). With this
->>>> patch the panel-edp tries to get modes.
->>>>
->>>> Could you please check, why panel_edp_get_modes() fails? Assuming that
->>>> you use platform panel-edp binding (rather than 'edp-panel') could you
->>>> please check you have either of the following:
->>>> - ddc bus for EDID?
->>> I don't see anywhere where the ddc pointer is set for the dp bridge in
->>> msm_dp_bridge_init(). Is that required though? I'd think simple panel is
->>> still being used here so reading EDID isn't required.
->> I meant the 'ddc-i2c-bus' property for the corresponding eDP panel.
->>
->>>> - either num_timing or num_modes in your panel desc.
->> After reading the panel-edp's code I don't have another cause for
->> panel_edp_get_modes(). It should either have a DDC bus specified using
->> the mentioned device tree property, or it should have specified the
->> timings.
->>
->> Kuogee, which platform were you using when testing this patch? Could
->> you please share the dts fragment?
+> [snip]
 > 
-> I cherry-picked your patches on top of our internal release which is 
-> usually have some (or many) patches behind msm-next.
+> >>
+> >> Yes, that's what I tried to say. But your commit message says "To enable
+> >> use of VESA modes with simplefb in legacy BIOS boot mode" and that isn't
+> >> accurate AFAIU (unless you meant sysfb instead).
+> > 
+> >  config SYSFB_SIMPLEFB
+> >         bool "Mark VGA/VBE/EFI FB as generic system framebuffer"
+> >         depends on SYSFB
+> > +       select BOOT_VESA_SUPPORT if X86
+> > 
+> > This to me means that it's simplefb specifically that requires it, not sysfb.
+> > More precisely SYSFB_SIMPLEFB which is the simplefb implementation on top of
+> > legacy BIOS.
+> > 
 > 
-> where is "ddc-i2c-bus" located?
+> Ok, I see what you meant. The fact that simplefb is what's named to the part
+> of the sysfb driver that register the "simple-framebuffer" platform device
+> and also the name of the fbdev driver that matches the "simple-framebuffer"
+> is too confusing.
+> 
+> My point about the subject line remains thought, I would use something like:
+> 
+> firmware: sysfb: Enable boot time VESA graphic mode selection for simplefb
 
-In the panel device node.
+I see where the confusion comes from.
 
-Can you please share it too?
+The efifb (and probably vesafb) has implicit unstated dependency on
+sysfb. So the drivers that select BOOT_VESA_SUPPORT should instead
+depend on SYSFB, and then SYSFB can select BOOT_VESA_SUPPORT, and it
+will look much saner.
 
-> 
->                          msm_edp: edp@aea0000 {
->                                  compatible = "qcom,sc7280-edp";
-> 
->                                  reg = <0 0xaea0000 0 0x200>,
->                                        <0 0xaea0200 0 0x200>,
->                                        <0 0xaea0400 0 0xc00>,
->                                        <0 0xaea1000 0 0x400>;
-> 
->                                  interrupt-parent = <&mdss>;
->                                  interrupts = <14>;
-> 
->                                  clocks = <&rpmhcc RPMH_CXO_CLK>,
->                                           <&gcc GCC_EDP_CLKREF_EN>,
->                                           <&dispcc DISP_CC_MDSS_AHB_CLK>,
->                                           <&dispcc 
-> DISP_CC_MDSS_EDP_AUX_CLK>,
->                                           <&dispcc 
-> DISP_CC_MDSS_EDP_LINK_CLK>,
->                                           <&dispcc 
-> DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
->                                           <&dispcc 
-> DISP_CC_MDSS_EDP_PIXEL_CLK>;
->                                  clock-names = "core_xo",
->                                                "core_ref",
->                                                "core_iface",
->                                                "core_aux",
->                                                "ctrl_link",
->                                                "ctrl_link_iface",
->                                                "stream_pixel";
->                                  #clock-cells = <1>;
->                                  assigned-clocks = <&dispcc 
-> DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
->                                                    <&dispcc 
-> DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
->                                  assigned-clock-parents = <&edp_phy 0>, 
-> <&edp_phy 1>;
-> 
->                                  phys = <&edp_phy>;
->                                  phy-names = "dp";
-> 
->                                  operating-points-v2 = <&edp_opp_table>;
->                                  power-domains = <&rpmhpd SC7280_CX>;
-> 
->                                  #address-cells = <1>;
->                                  #size-cells = <0>;
-> 
->                                  status = "disabled";
-> 
->                                  ports {
->                                          #address-cells = <1>;
->                                          #size-cells = <0>;
->                                          port@0 {
->                                                  reg = <0>;
->                                                  edp_in: endpoint {
-> remote-endpoint = <&dpu_intf5_out>;
->                                                  };
->                                          };
->                                  };
-> 
->                              edp_opp_table: opp-table {
->                                          compatible = 
-> "operating-points-v2";
-> 
->                                          opp-160000000 {
->                                                  opp-hz = /bits/ 64 
-> <160000000>;
->                                                  required-opps = 
-> <&rpmhpd_opp_low_svs>;
->                                          };
-> 
->                                          opp-270000000 {
->                                                  opp-hz = /bits/ 64 
-> <270000000>;
->                                                  required-opps = 
-> <&rpmhpd_opp_svs>;
->                                          };
-> 
->                                          opp-540000000 {
->                                                  opp-hz = /bits/ 64 
-> <540000000>;
->                                                  required-opps = 
-> <&rpmhpd_opp_nom>;
->                                          };
-> 
->                                          opp-810000000 {
->                                                  opp-hz = /bits/ 64 
-> <810000000>;
->                                                  required-opps = 
-> <&rpmhpd_opp_nom>;
->                                          };
->                                  };
->                          };
-> 
+Thanks
 
-
--- 
-With best wishes
-Dmitry
+Michal
