@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050D54C0604
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 01:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2342C4C063E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 01:35:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B595110E2B9;
-	Wed, 23 Feb 2022 00:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A8D10E17D;
+	Wed, 23 Feb 2022 00:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3218610E29C;
- Wed, 23 Feb 2022 00:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645576077; x=1677112077;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=lQNhUNRJ6jhE4wofcy3rrI3mYvQRhxudjndjPhWyZSk=;
- b=MFUXMvmZEaykaO3ieJAhPincNIQmlNtfynPeU0x3OYXoljLJ+LrQaMil
- MpZy9YEUdtmcjeNSU8b0fCCADNv3LrSN8nEA72mhMsWQ0pRd6bMNt/n0m
- 0dySyySncDAKEBiowipzZl7DpE6y3YctrMeivf30PjbwTmvZv7fLwhEHn Q=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 22 Feb 2022 16:27:57 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 16:27:56 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 22 Feb 2022 16:27:56 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 22 Feb 2022 16:27:55 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
- <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v10 4/4] drm/msm/dp: enable widebus feature for display port
-Date: Tue, 22 Feb 2022 16:27:40 -0800
-Message-ID: <1645576060-3046-5-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1645576060-3046-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1645576060-3046-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2C70410E291
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 00:35:48 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
+ by 156.147.23.53 with ESMTP; 23 Feb 2022 09:35:46 +0900
+X-Original-SENDERIP: 156.147.1.127
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.127 with ESMTP; 23 Feb 2022 09:35:46 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Wed, 23 Feb 2022 09:35:34 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Jan Kara <jack@suse.cz>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <20220223003534.GA26277@X58A-UD3R>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-2-git-send-email-byungchul.park@lge.com>
+ <20220221190204.q675gtsb6qhylywa@quack3.lan>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220221190204.q675gtsb6qhylywa@quack3.lan>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,306 +46,280 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: hamohammed.sa@gmail.com, peterz@infradead.org, daniel.vetter@ffwll.ch,
+ amir73il@gmail.com, david@fromorbit.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, bfields@fieldses.org, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, joel@joelfernandes.org, cl@linux.com,
+ will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Widebus feature will transmit two pixel data per pixel clock to interface.
-This feature now is required to be enabled to easy migrant to higher
-resolution applications in future. However since some legacy chipsets
-does not support this feature, this feature is enabled base on chip's
-hardware revision.
+On Mon, Feb 21, 2022 at 08:02:04PM +0100, Jan Kara wrote:
+> On Thu 17-02-22 20:10:04, Byungchul Park wrote:
+> > [    9.008161] ===================================================
+> > [    9.008163] DEPT: Circular dependency has been detected.
+> > [    9.008164] 5.17.0-rc1-00015-gb94f67143867-dirty #2 Tainted: G        W
+> > [    9.008166] ---------------------------------------------------
+> > [    9.008167] summary
+> > [    9.008167] ---------------------------------------------------
+> > [    9.008168] *** DEADLOCK ***
+> > [    9.008168]
+> > [    9.008168] context A
+> > [    9.008169]     [S] (unknown)(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008171]     [W] wait(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008172]     [E] event(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008173]
+> > [    9.008173] context B
+> > [    9.008174]     [S] down_write(mapping.invalidate_lock:0)
+> > [    9.008175]     [W] wait(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008176]     [E] up_write(mapping.invalidate_lock:0)
+> > [    9.008177]
+> > [    9.008178] context C
+> > [    9.008179]     [S] (unknown)(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008180]     [W] down_write(mapping.invalidate_lock:0)
+> > [    9.008181]     [E] event(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008181]
+> > [    9.008182] [S]: start of the event context
+> > [    9.008183] [W]: the wait blocked
+> > [    9.008183] [E]: the event not reachable
+> 
+> So what situation is your tool complaining about here? Can you perhaps show
+> it here in more common visualization like:
 
-changes in v2:
--- remove compression related code from timing
--- remove op_info from  struct msm_drm_private
--- remove unnecessary wide_bus_en variables
--- pass wide_bus_en into timing configuration by struct msm_dp
+Sure.
 
-Changes in v3:
--- split patch into 3 patches
--- enable widebus feature base on chip hardware revision
+> TASK1				TASK2
+> 				does foo, grabs Z
+> does X, grabs lock Y
+> blocks on Z
+> 				blocks on Y
+> 
+> or something like that? Because I was not able to decipher this from the
+> report even after trying for some time...
 
-Changes in v5:
--- DP_INTF_CONFIG_DATABUS_WIDEN
+KJOURNALD2(kthread)	TASK1(ksys_write)	TASK2(ksys_write)
 
-Changes in v6:
--- static inline bool msm_dp_wide_bus_enable() in msm_drv.h
+wait A
+--- stuck
+			wait B
+			--- stuck
+						wait C
+						--- stuck
 
-Changes in v7:
--- add Tested-by
+wake up B		wake up C		wake up A
 
-Changes in v9:
--- add wide_bus_en to msm_dp_desc
+where:
+A is a wait_queue, j_wait_commit
+B is a wait_queue, j_wait_transaction_locked
+C is a rwsem, mapping.invalidate_lock
 
-Changes in v10:
--- add wide_bus_en boolean to dp_catalog struc to avoid passing it as parameter
+The above is the simplest form. And it's worth noting that Dept focuses
+on wait and event itself rather than grabing and releasing things like
+lock. The following is the more descriptive form of it.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 +++-
- drivers/gpu/drm/msm/dp/dp_catalog.c         | 32 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/msm/dp/dp_catalog.h         |  2 ++
- drivers/gpu/drm/msm/dp/dp_ctrl.c            |  7 ++++++-
- drivers/gpu/drm/msm/dp/dp_ctrl.h            |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c         | 21 +++++++++++++++++--
- drivers/gpu/drm/msm/dp/dp_display.h         |  2 ++
- drivers/gpu/drm/msm/msm_drv.h               |  6 ++++++
- 8 files changed, 70 insertions(+), 5 deletions(-)
+KJOURNALD2(kthread)	TASK1(ksys_write)	TASK2(ksys_write)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 9a8d992..5356d50 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2138,8 +2138,10 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 		timer_setup(&dpu_enc->vsync_event_timer,
- 				dpu_encoder_vsync_event_handler,
- 				0);
--	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
-+	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
- 		dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
-+		dpu_enc->wide_bus_en = msm_dp_wide_bus_available(dpu_enc->dp);
-+	}
- 
- 	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
- 			dpu_encoder_off_work);
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 6ae9b29..c789f4e 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -24,6 +24,8 @@
- #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
- #define DP_INTERRUPT_STATUS_MASK_SHIFT	2
- 
-+#define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
-+
- #define DP_INTERRUPT_STATUS1 \
- 	(DP_INTR_AUX_I2C_DONE| \
- 	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
-@@ -483,6 +485,22 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
- }
- 
- /**
-+ * dp_catalog_hw_revision() - retrieve DP hw revision
-+ *
-+ * @dp_catalog: DP catalog structure
-+ *
-+ * Return: DP controller hw revision
-+ *
-+ */
-+u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	return dp_read_ahb(catalog, REG_DP_HW_VERSION);
-+}
-+
-+/**
-  * dp_catalog_ctrl_reset() - reset DP controller
-  *
-  * @dp_catalog: DP catalog structure
-@@ -743,6 +761,7 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
-+	u32 reg;
- 
- 	dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
- 				dp_catalog->total);
-@@ -751,7 +770,18 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
- 	dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
- 				dp_catalog->width_blanking);
- 	dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_catalog->dp_active);
--	dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
-+
-+	reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
-+
-+	if (dp_catalog->wide_bus_en)
-+		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
-+	else
-+		reg &= ~DP_INTF_CONFIG_DATABUS_WIDEN;
-+
-+
-+	DRM_DEBUG_DP("wide_bus_en=%d reg=%x\n", dp_catalog->wide_bus_en, reg);
-+
-+	dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 6965afa..02a3e8a 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -70,6 +70,7 @@ struct dp_catalog {
- 	enum dp_catalog_audio_sdp_type sdp_type;
- 	enum dp_catalog_audio_header_type sdp_header;
- 	u32 audio_data;
-+	bool wide_bus_en;
- };
- 
- /* Debug module */
-@@ -95,6 +96,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
- 				u32 stream_rate_khz, bool fixed_nvid);
- int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog, u32 pattern);
-+u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
- bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index c724cb0..b714c5c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1799,6 +1799,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 	int ret = 0;
- 	bool mainlink_ready = false;
- 	struct dp_ctrl_private *ctrl;
-+	unsigned long pixel_rate_orig;
- 
- 	if (!dp_ctrl)
- 		return -EINVAL;
-@@ -1807,6 +1808,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 
- 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
-+	pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
-+	if (dp_ctrl->wide_bus_en)
-+		ctrl->dp_ctrl.pixel_rate >>= 1;
-+
- 	DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
- 		ctrl->link->link_params.rate,
- 		ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
-@@ -1846,7 +1851,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 
- 	dp_catalog_ctrl_config_msa(ctrl->catalog,
- 		ctrl->link->link_params.rate,
--		ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
-+		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
- 
- 	dp_ctrl_setup_tr_unit(ctrl);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 2363a2d..a0a5fbb 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -17,6 +17,7 @@ struct dp_ctrl {
- 	bool orientation;
- 	atomic_t aborted;
- 	u32 pixel_rate;
-+	bool wide_bus_en;
- };
- 
- int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7cc4d21..ba76358 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -115,12 +115,15 @@ struct dp_display_private {
- 	struct dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-+	bool wide_bus_en;
-+
- 	struct dp_audio *audio;
- };
- 
- struct msm_dp_desc {
- 	phys_addr_t io_start;
- 	unsigned int connector_type;
-+	bool wide_bus_en;
- };
- 
- struct msm_dp_config {
-@@ -137,8 +140,8 @@ static const struct msm_dp_config sc7180_dp_cfg = {
- 
- static const struct msm_dp_config sc7280_dp_cfg = {
- 	.descs = (const struct msm_dp_desc[]) {
--		[MSM_DP_CONTROLLER_0] =	{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
--		[MSM_DP_CONTROLLER_1] =	{ .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP },
-+		[MSM_DP_CONTROLLER_0] =	{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
-+		[MSM_DP_CONTROLLER_1] =	{ .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
- 	},
- 	.num_descs = 2,
- };
-@@ -808,6 +811,10 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 		goto error_ctrl;
- 	}
- 
-+	/* populate wide_bus_en to differernt layers */
-+	dp->ctrl->wide_bus_en = dp->wide_bus_en;
-+	dp->catalog->wide_bus_en = dp->wide_bus_en;
-+
- 	return rc;
- 
- error_ctrl:
-@@ -1251,6 +1258,7 @@ static int dp_display_probe(struct platform_device *pdev)
- 	dp->pdev = pdev;
- 	dp->name = "drm_dp";
- 	dp->dp_display.connector_type = desc->connector_type;
-+	dp->wide_bus_en = desc->wide_bus_en;
- 
- 	rc = dp_init_sub_modules(dp);
- 	if (rc) {
-@@ -1437,6 +1445,15 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
- }
- 
-+bool msm_dp_wide_bus_available(struct msm_dp *dp_display)
-+{
-+	struct dp_display_private *dp;
-+
-+	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	return dp->wide_bus_en;
-+}
-+
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
- {
- 	struct dp_display_private *dp;
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index e3adcd5..b718cc9 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -24,6 +24,8 @@ struct msm_dp {
- 
- 	hdmi_codec_plugged_cb plugged_cb;
- 
-+	bool wide_bus_en;
-+
- 	u32 max_pclk_khz;
- 
- 	u32 max_dp_lanes;
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index d7574e6..d413deb 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -399,6 +399,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
- 
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor);
-+bool msm_dp_wide_bus_available(struct msm_dp *dp_display);
- 
- #else
- static inline int __init msm_dp_register(void)
-@@ -449,6 +450,11 @@ static inline void msm_dp_debugfs_init(struct msm_dp *dp_display,
- {
- }
- 
-+static inline bool msm_dp_wide_bus_available(struct msm_dp *dp_display)
-+{
-+	return false;
-+}
-+
- #endif
- 
- void __init msm_mdp_register(void);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+wait @j_wait_commit
+			ext4_truncate_failed_write()
+			   down_write(mapping.invalidate_lock)
 
+			   ext4_truncate()
+			      ...
+			      wait @j_wait_transaction_locked
+
+						ext_truncate_failed_write()
+						   down_write(mapping.invalidate_lock)
+
+						ext4_should_retry_alloc()
+						   ...
+						   __jbd2_log_start_commit()
+						      wake_up(j_wait_commit)
+jbd2_journal_commit_transaction()
+   wake_up(j_wait_transaction_locked)
+			   up_write(mapping.invalidate_lock)
+
+I hope this would help you understand the report.
+
+Yeah... This is what Dept complained. And as Ted said, the kthread would
+be woken up by another wakeup. So it's not deadlock deadlock. However,
+these three threads and any other tasks waiting for any of the events A,
+B, C would be struck for a while until the wakeup eventually wakes up
+the kthread, kjournald2.
+
+I guess it's not what ext4 is meant to do. Honestly, ext4 and journal
+system look so complicated that I'm not convinced tho...
+
+Thanks,
+Byungchul
+
+> 
+> 								Honza
+> 
+> 				
+> 
+> > [    9.008184] ---------------------------------------------------
+> > [    9.008184] context A's detail
+> > [    9.008185] ---------------------------------------------------
+> > [    9.008186] context A
+> > [    9.008186]     [S] (unknown)(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008187]     [W] wait(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008188]     [E] event(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008189]
+> > [    9.008190] [S] (unknown)(&(&journal->j_wait_transaction_locked)->dmap:0):
+> > [    9.008191] (N/A)
+> > [    9.008191]
+> > [    9.008192] [W] wait(&(&journal->j_wait_commit)->dmap:0):
+> > [    9.008193] prepare_to_wait (kernel/sched/wait.c:275) 
+> > [    9.008197] stacktrace:
+> > [    9.008198] __schedule (kernel/sched/sched.h:1318 kernel/sched/sched.h:1616 kernel/sched/core.c:6213) 
+> > [    9.008200] schedule (kernel/sched/core.c:6373 (discriminator 1)) 
+> > [    9.008201] kjournald2 (fs/jbd2/journal.c:250) 
+> > [    9.008203] kthread (kernel/kthread.c:377) 
+> > [    9.008206] ret_from_fork (arch/x86/entry/entry_64.S:301) 
+> > [    9.008209]
+> > [    9.008209] [E] event(&(&journal->j_wait_transaction_locked)->dmap:0):
+> > [    9.008210] __wake_up_common (kernel/sched/wait.c:108) 
+> > [    9.008212] stacktrace:
+> > [    9.008213] dept_event (kernel/dependency/dept.c:2337) 
+> > [    9.008215] __wake_up_common (kernel/sched/wait.c:109) 
+> > [    9.008217] __wake_up_common_lock (./include/linux/spinlock.h:428 (discriminator 1) kernel/sched/wait.c:141 (discriminator 1)) 
+> > [    9.008218] jbd2_journal_commit_transaction (fs/jbd2/commit.c:583) 
+> > [    9.008221] kjournald2 (fs/jbd2/journal.c:214 (discriminator 3)) 
+> > [    9.008223] kthread (kernel/kthread.c:377) 
+> > [    9.008224] ret_from_fork (arch/x86/entry/entry_64.S:301) 
+> > [    9.008226] ---------------------------------------------------
+> > [    9.008226] context B's detail
+> > [    9.008227] ---------------------------------------------------
+> > [    9.008228] context B
+> > [    9.008228]     [S] down_write(mapping.invalidate_lock:0)
+> > [    9.008229]     [W] wait(&(&journal->j_wait_transaction_locked)->dmap:0)
+> > [    9.008230]     [E] up_write(mapping.invalidate_lock:0)
+> > [    9.008231]
+> > [    9.008232] [S] down_write(mapping.invalidate_lock:0):
+> > [    9.008233] ext4_da_write_begin (fs/ext4/truncate.h:21 fs/ext4/inode.c:2963) 
+> > [    9.008237] stacktrace:
+> > [    9.008237] down_write (kernel/locking/rwsem.c:1514) 
+> > [    9.008239] ext4_da_write_begin (fs/ext4/truncate.h:21 fs/ext4/inode.c:2963) 
+> > [    9.008241] generic_perform_write (mm/filemap.c:3784) 
+> > [    9.008243] ext4_buffered_write_iter (fs/ext4/file.c:269) 
+> > [    9.008245] ext4_file_write_iter (fs/ext4/file.c:677) 
+> > [    9.008247] new_sync_write (fs/read_write.c:504 (discriminator 1)) 
+> > [    9.008250] vfs_write (fs/read_write.c:590) 
+> > [    9.008251] ksys_write (fs/read_write.c:644) 
+> > [    9.008253] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80) 
+> > [    9.008255] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:113) 
+> > [    9.008258]
+> > [    9.008258] [W] wait(&(&journal->j_wait_transaction_locked)->dmap:0):
+> > [    9.008259] prepare_to_wait (kernel/sched/wait.c:275) 
+> > [    9.008261] stacktrace:
+> > [    9.008261] __schedule (kernel/sched/sched.h:1318 kernel/sched/sched.h:1616 kernel/sched/core.c:6213) 
+> > [    9.008263] schedule (kernel/sched/core.c:6373 (discriminator 1)) 
+> > [    9.008264] wait_transaction_locked (fs/jbd2/transaction.c:184) 
+> > [    9.008266] add_transaction_credits (fs/jbd2/transaction.c:248 (discriminator 3)) 
+> > [    9.008267] start_this_handle (fs/jbd2/transaction.c:427) 
+> > [    9.008269] jbd2__journal_start (fs/jbd2/transaction.c:526) 
+> > [    9.008271] __ext4_journal_start_sb (fs/ext4/ext4_jbd2.c:105) 
+> > [    9.008273] ext4_truncate (fs/ext4/inode.c:4164) 
+> > [    9.008274] ext4_da_write_begin (./include/linux/fs.h:827 fs/ext4/truncate.h:23 fs/ext4/inode.c:2963) 
+> > [    9.008276] generic_perform_write (mm/filemap.c:3784) 
+> > [    9.008277] ext4_buffered_write_iter (fs/ext4/file.c:269) 
+> > [    9.008279] ext4_file_write_iter (fs/ext4/file.c:677) 
+> > [    9.008281] new_sync_write (fs/read_write.c:504 (discriminator 1)) 
+> > [    9.008283] vfs_write (fs/read_write.c:590) 
+> > [    9.008284] ksys_write (fs/read_write.c:644) 
+> > [    9.008285] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80) 
+> > [    9.008287]
+> > [    9.008288] [E] up_write(mapping.invalidate_lock:0):
+> > [    9.008288] ext4_da_get_block_prep (fs/ext4/inode.c:1795 fs/ext4/inode.c:1829) 
+> > [    9.008291] ---------------------------------------------------
+> > [    9.008291] context C's detail
+> > [    9.008292] ---------------------------------------------------
+> > [    9.008292] context C
+> > [    9.008293]     [S] (unknown)(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008294]     [W] down_write(mapping.invalidate_lock:0)
+> > [    9.008295]     [E] event(&(&journal->j_wait_commit)->dmap:0)
+> > [    9.008296]
+> > [    9.008297] [S] (unknown)(&(&journal->j_wait_commit)->dmap:0):
+> > [    9.008298] (N/A)
+> > [    9.008298]
+> > [    9.008299] [W] down_write(mapping.invalidate_lock:0):
+> > [    9.008299] ext4_da_write_begin (fs/ext4/truncate.h:21 fs/ext4/inode.c:2963) 
+> > [    9.008302] stacktrace:
+> > [    9.008302] down_write (kernel/locking/rwsem.c:1514) 
+> > [    9.008304] ext4_da_write_begin (fs/ext4/truncate.h:21 fs/ext4/inode.c:2963) 
+> > [    9.008305] generic_perform_write (mm/filemap.c:3784) 
+> > [    9.008307] ext4_buffered_write_iter (fs/ext4/file.c:269) 
+> > [    9.008309] ext4_file_write_iter (fs/ext4/file.c:677) 
+> > [    9.008311] new_sync_write (fs/read_write.c:504 (discriminator 1)) 
+> > [    9.008312] vfs_write (fs/read_write.c:590) 
+> > [    9.008314] ksys_write (fs/read_write.c:644) 
+> > [    9.008315] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80) 
+> > [    9.008316] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:113) 
+> > [    9.008318]
+> > [    9.008319] [E] event(&(&journal->j_wait_commit)->dmap:0):
+> > [    9.008320] __wake_up_common (kernel/sched/wait.c:108) 
+> > [    9.008321] stacktrace:
+> > [    9.008322] __wake_up_common (kernel/sched/wait.c:109) 
+> > [    9.008323] __wake_up_common_lock (./include/linux/spinlock.h:428 (discriminator 1) kernel/sched/wait.c:141 (discriminator 1)) 
+> > [    9.008324] __jbd2_log_start_commit (fs/jbd2/journal.c:508) 
+> > [    9.008326] jbd2_log_start_commit (fs/jbd2/journal.c:527) 
+> > [    9.008327] __jbd2_journal_force_commit (fs/jbd2/journal.c:560) 
+> > [    9.008329] jbd2_journal_force_commit_nested (fs/jbd2/journal.c:583) 
+> > [    9.008331] ext4_should_retry_alloc (fs/ext4/balloc.c:670 (discriminator 3)) 
+> > [    9.008332] ext4_da_write_begin (fs/ext4/inode.c:2965 (discriminator 1)) 
+> > [    9.008334] generic_perform_write (mm/filemap.c:3784) 
+> > [    9.008335] ext4_buffered_write_iter (fs/ext4/file.c:269) 
+> > [    9.008337] ext4_file_write_iter (fs/ext4/file.c:677) 
+> > [    9.008339] new_sync_write (fs/read_write.c:504 (discriminator 1)) 
+> > [    9.008341] vfs_write (fs/read_write.c:590) 
+> > [    9.008342] ksys_write (fs/read_write.c:644) 
+> > [    9.008343] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80) 
+> > [    9.008345] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:113) 
+> > [    9.008347] ---------------------------------------------------
+> > [    9.008348] information that might be helpful
+> > [    9.008348] ---------------------------------------------------
+> > [    9.008349] CPU: 0 PID: 89 Comm: jbd2/sda1-8 Tainted: G        W         5.17.0-rc1-00015-gb94f67143867-dirty #2
+> > [    9.008352] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
+> > [    9.008353] Call Trace:
+> > [    9.008354]  <TASK>
+> > [    9.008355] dump_stack_lvl (lib/dump_stack.c:107) 
+> > [    9.008358] print_circle (./arch/x86/include/asm/atomic.h:108 ./include/linux/atomic/atomic-instrumented.h:258 kernel/dependency/dept.c:157 kernel/dependency/dept.c:762) 
+> > [    9.008360] ? print_circle (kernel/dependency/dept.c:1086) 
+> > [    9.008362] cb_check_dl (kernel/dependency/dept.c:1104) 
+> > [    9.008364] bfs (kernel/dependency/dept.c:860) 
+> > [    9.008366] add_dep (kernel/dependency/dept.c:1423) 
+> > [    9.008368] do_event.isra.25 (kernel/dependency/dept.c:1651) 
+> > [    9.008370] ? __wake_up_common (kernel/sched/wait.c:108) 
+> > [    9.008372] dept_event (kernel/dependency/dept.c:2337) 
+> > [    9.008374] __wake_up_common (kernel/sched/wait.c:109) 
+> > [    9.008376] __wake_up_common_lock (./include/linux/spinlock.h:428 (discriminator 1) kernel/sched/wait.c:141 (discriminator 1)) 
+> > [    9.008379] jbd2_journal_commit_transaction (fs/jbd2/commit.c:583) 
+> > [    9.008381] ? arch_stack_walk (arch/x86/kernel/stacktrace.c:24) 
+> > [    9.008385] ? ret_from_fork (arch/x86/entry/entry_64.S:301) 
+> > [    9.008387] ? dept_enable_hardirq (./arch/x86/include/asm/current.h:15 kernel/dependency/dept.c:241 kernel/dependency/dept.c:999 kernel/dependency/dept.c:1043 kernel/dependency/dept.c:1843) 
+> > [    9.008389] ? _raw_spin_unlock_irqrestore (./arch/x86/include/asm/irqflags.h:45 ./arch/x86/include/asm/irqflags.h:80 ./arch/x86/include/asm/irqflags.h:138 ./include/linux/spinlock_api_smp.h:151 kernel/locking/spinlock.c:194) 
+> > [    9.008392] ? _raw_spin_unlock_irqrestore (./arch/x86/include/asm/preempt.h:103 ./include/linux/spinlock_api_smp.h:152 kernel/locking/spinlock.c:194) 
+> > [    9.008394] ? try_to_del_timer_sync (kernel/time/timer.c:1239) 
+> > [    9.008396] kjournald2 (fs/jbd2/journal.c:214 (discriminator 3)) 
+> > [    9.008398] ? prepare_to_wait_exclusive (kernel/sched/wait.c:431) 
+> > [    9.008400] ? commit_timeout (fs/jbd2/journal.c:173) 
+> > [    9.008402] kthread (kernel/kthread.c:377) 
+> > [    9.008404] ? kthread_complete_and_exit (kernel/kthread.c:332) 
+> > [    9.008407] ret_from_fork (arch/x86/entry/entry_64.S:301) 
+> > [    9.008410]  </TASK>
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
