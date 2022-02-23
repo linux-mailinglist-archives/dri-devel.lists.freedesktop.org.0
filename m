@@ -1,52 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1314C131A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 13:47:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0524C1320
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 13:48:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC7710F1C2;
-	Wed, 23 Feb 2022 12:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC96010F1F0;
+	Wed, 23 Feb 2022 12:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0143D10F1CA;
- Wed, 23 Feb 2022 12:47:33 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C3510F1F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 12:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645620454; x=1677156454;
+ t=1645620517; x=1677156517;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=QQxeX/jbVCxYVyClBrFI4ueqwrzdBsTi7qkw3tVNQtM=;
- b=bE6Gsj1sskD+iGIiLTNrpRRF3M/reSWMhXpmXo1rH1yXsV3xHUyoB7EG
- Jkhny+Sbt5H96JzCbHzeu6q/MXWzdh6dvamvZtF3JQwhkNzbOqtGG1dPm
- c3T2AeHYWk+IFPrbTFBD8tAJEqD4zt5n+RXUml6R11mC7I7AQks+m+l1F
- HofB1sET5tiZb9eIkb9sAP/8/LVNnVS9/dSLhB/NxhZfkwkKf1QAIx/bK
- ekofWIorDha8ZHYDd2MfDJyj4X+YAO4CNhiFK3B5D3Fa7fhWYi5SCz7IW
- kv6zGlDWD3UENs8cB1AV09z06y14znGuSAYjav5h0Q4cSleACYyrF2lQX g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="232574667"
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="232574667"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 04:47:33 -0800
+ bh=SeCtxrXr47ee1ECiebJOHKwJcw5JwFiRtxOV0liAsAM=;
+ b=bCZmVIckcTvorv5HlejCowrneY4kG6IossE8NkrXzu1UfiNhi1cA4a+Q
+ xPHYYCEbKURyOrZaMo3zeQIwMFRKNfKoMwxJSx8BoKShuYC9DC4Jecz/e
+ Jso9hce7via17zitv2xXH9QYsZrW1xuEkvHe+CoirgmfNQZhw7nZ17JIM
+ d3Gm0iIc3FzEKwqdA5ni+euCQKDtXxIx/j8h9UmKYywfTihHlmVGWpLzr
+ f6FNNeftd0lBN8bo/fVglligjUFAll5+5OHzKUk711INN3ILKRUXvkBis
+ ZRbwAD3CXx2uqZDEG7W4PII8PtR2bOSSPrIsusa7210EAVN0eexwyzLjW g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="252146585"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="252146585"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 04:48:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="491183315"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="683884207"
 Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 23 Feb 2022 04:47:30 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2022 04:48:30 -0800
 Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nMr3K-0001Ou-1I; Wed, 23 Feb 2022 12:47:30 +0000
-Date: Wed, 23 Feb 2022 20:46:59 +0800
+ id 1nMr4I-0001Q5-6I; Wed, 23 Feb 2022 12:48:30 +0000
+Date: Wed, 23 Feb 2022 20:47:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Cheng <michael.cheng@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v11 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Message-ID: <202202231817.dkY1qGrU-lkp@intel.com>
-References: <20220223055900.415627-2-michael.cheng@intel.com>
+To: Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <error27@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ suijingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v10 3/4] drm/lsdc: add drm driver for loongson display
+ controller
+Message-ID: <202202231909.8x2nM3si-lkp@intel.com>
+References: <20220220145554.117854-4-15330273260@189.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220223055900.415627-2-michael.cheng@intel.com>
+In-Reply-To: <20220220145554.117854-4-15330273260@189.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,127 +74,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, casey.g.bowman@intel.com,
- kbuild-all@lists.01.org, balasubramani.vivekanandan@intel.com,
- wayne.boyer@intel.com, llvm@lists.linux.dev, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, michael.cheng@intel.com
+Cc: devicetree@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ llvm@lists.linux.dev, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+Hi Sui,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on drm/drm-next]
-[cannot apply to drm-intel/for-linux-next v5.17-rc5 next-20220222]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on robh/for-next v5.17-rc5 next-20220222]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: s390-randconfig-r013-20220221 (https://download.01.org/0day-ci/archive/20220223/202202231817.dkY1qGrU-lkp@intel.com/config)
+url:    https://github.com/0day-ci/linux/commits/Sui-Jingfeng/drm-lsdc-add-drm-driver-for-loongson-display-controller/20220220-225801
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: riscv-randconfig-r012-20220221 (https://download.01.org/0day-ci/archive/20220223/202202231909.8x2nM3si-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/0day-ci/linux/commit/f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/3891cda03ed77e66fafaf7cfe075042e13f20173
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
-        git checkout f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-lsdc-add-drm-driver-for-loongson-display-controller/20220220-225801
+        git checkout 3891cda03ed77e66fafaf7cfe075042e13f20173
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/drm_cache.c:31:
->> include/linux/cacheflush.h:12:46: warning: declaration of 'struct folio' will not be visible outside of this function [-Wvisibility]
-   static inline void flush_dcache_folio(struct folio *folio)
-                                                ^
-   In file included from drivers/gpu/drm/drm_cache.c:35:
-   In file included from include/linux/iosys-map.h:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/drm_cache.c:35:
-   In file included from include/linux/iosys-map.h:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/drm_cache.c:35:
-   In file included from include/linux/iosys-map.h:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   13 warnings generated.
-
-
-vim +12 include/linux/cacheflush.h
-
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   6) 
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   7) #if ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   8) #ifndef ARCH_IMPLEMENTS_FLUSH_DCACHE_FOLIO
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   9) void flush_dcache_folio(struct folio *folio);
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  10) #endif
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  11) #else
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06 @12) static inline void flush_dcache_folio(struct folio *folio)
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  13) {
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  14) }
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  15) #define ARCH_IMPLEMENTS_FLUSH_DCACHE_FOLIO 0
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  16) #endif /* ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE */
-522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  17) 
+>> ld.lld: error: undefined symbol: ttm_bo_init
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_create) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_bo_put
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_put) in archive drivers/built-in.a
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_object_free) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_tt_init
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(bo_driver_ttm_tt_create) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_tt_fini
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(bo_driver_ttm_tt_destroy) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_bo_move_memcpy
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(bo_driver_move) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_bo_vunmap
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_bo_driver_move_notify) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: drm_gem_ttm_print_info
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_object_funcs) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: drm_gem_ttm_mmap
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_object_funcs) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_bo_eviction_valuable
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(bo_driver) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: drm_gem_ttm_dumb_map_offset
+   >>> referenced by lsdc_drv.c
+   >>> gpu/drm/lsdc/lsdc_drv.o:(lsdc_vram_driver_stub) in archive drivers/built-in.a
+--
+>> ld.lld: error: undefined symbol: ttm_bo_move_to_lru_tail
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_pin) in archive drivers/built-in.a
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_unpin) in archive drivers/built-in.a
+   >>> referenced by drm_gem_vram_helper.c
+   >>> gpu/drm/drm_gem_vram_helper.o:(drm_gem_vram_vmap) in archive drivers/built-in.a
+   >>> referenced 1 more times
+..
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
