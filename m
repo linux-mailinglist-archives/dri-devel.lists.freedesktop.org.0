@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D054C1A09
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 18:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E344C1A29
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 18:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BE310E27B;
-	Wed, 23 Feb 2022 17:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1CA10E1D7;
+	Wed, 23 Feb 2022 17:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA1F10E1A4;
- Wed, 23 Feb 2022 17:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645638225; x=1677174225;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uIha5lnBQ66T+YaH0cbufqYHRGsTz5rnB/uxz/JJ4NA=;
- b=JFm+wu2oDZB1WEAHRZ+eLtRFpZMBHsIry78Zwmvth9dLvt3CyqLAJt1+
- rwjxrP84eLIuI5EEq8QnMlaOM8Rm7t1vMjtX/YHtPr/b2TZOJPyfTqgBU
- sXtSYEFYgRX3HaW63UMcc5kzDrrwbaU/OAQ28FGtKw6Sq+a/sTdBvTtFc
- 88fLOFjziz3eES6GRpEKkudEhksSjWXSiW7RcqafVyIOVuipI53vEPaQ7
- BLajsJ5chtlSfjyy+1VpGbDRyRYMB8Up7dSh4BQ7nBoYhgRne0tzL1Kkb
- Nvc4ZZeisCQ+MqytkS50atJNmu4OWRAff/nJrH4pfXqGkiNMeXiBw5Mrb Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="250864740"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="250864740"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 09:43:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="707129173"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 23 Feb 2022 09:43:40 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nMvfw-0001ey-8r; Wed, 23 Feb 2022 17:43:40 +0000
-Date: Thu, 24 Feb 2022 01:43:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Cheng <michael.cheng@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v11 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Message-ID: <202202240139.LQIfrVfS-lkp@intel.com>
-References: <20220223055900.415627-2-michael.cheng@intel.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FF610E1B6;
+ Wed, 23 Feb 2022 17:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645638477; x=1677174477;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XUgO4nVQJ6a1L5q3OrfsToVOG7On6/Pom1eXaMVtDHs=;
+ b=r9+xzwccGkKJvsgoBebW0R0+EqY2N2O5GUD9CdaMi4krmaIXt4s7SmRh
+ GUNm0Km9rXm4xUIDkeOPq3Tp61TTZEdghCmsMgfO//NQFLyHTj4vTfTE9
+ An76vPrWzX6jPHTHLBCNc4KqH+FM60H5iI3H/FzL/rfWFhDe3BeltcsDr E=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 23 Feb 2022 09:47:56 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 09:47:55 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Wed, 23 Feb 2022 09:47:55 -0800
+Received: from [10.110.64.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Wed, 23 Feb
+ 2022 09:47:54 -0800
+Message-ID: <2e253aa8-d405-c4b9-fd11-6797503c9d44@quicinc.com>
+Date: Wed, 23 Feb 2022 09:47:54 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220223055900.415627-2-michael.cheng@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH v2 2/5] drm/msm/dp: support attaching bridges to the
+ DP encoder
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
+ <20220211224006.1797846-3-dmitry.baryshkov@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20220211224006.1797846-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +67,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, kbuild-all@lists.01.org,
- balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, michael.cheng@intel.com
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
 
-Thank you for the patch! Yet something to improve:
+On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
+> Currently DP driver will allocate panel bridge for eDP panels. This
+> supports only the following topology:
+>
+> - eDP encoder ⇒ eDP panel (wrapped using panel-bridge)
+>
+> Simplify this code to just check if there is any next bridge in the
+> chain (be it a panel bridge or regular bridge). Rename panel_bridge
+> field to next_bridge accordingly.
+>
+> This allows one to use e.g. one of the following display topologies:
+>
+> - eDP encoder ⇒ ptn3460 ⇒ fixed LVDS panel
+> - eDP encoder ⇒ ptn3460 ⇒ LVDS connector with EDID lines for panel autodetect
+> - eDP encoder ⇒ ptn3460 ⇒ THC63LVD1024 ⇒ DPI panel.
+> - eDP encoder ⇒ LT8912 ⇒ DSI panel
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-[auto build test ERROR on drm-tip/drm-tip]
-[also build test ERROR on drm/drm-next]
-[cannot apply to drm-intel/for-linux-next v5.17-rc5 next-20220222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20220224/202202240139.LQIfrVfS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
-        git checkout f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "dcache_clean_inval_poc" [drivers/gpu/drm/drm.ko] undefined!
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_display.h |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_drm.c     |  4 ++--
+>   drivers/gpu/drm/msm/dp/dp_parser.c  | 31 +++++++++++++++--------------
+>   drivers/gpu/drm/msm/dp/dp_parser.h  |  2 +-
+>   5 files changed, 21 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 44d42c76c2a3..45f9a912ecc5 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -266,7 +266,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>   		goto end;
+>   	}
+>   
+> -	dp->dp_display.panel_bridge = dp->parser->panel_bridge;
+> +	dp->dp_display.next_bridge = dp->parser->next_bridge;
+>   
+>   	dp->aux->drm_dev = drm;
+>   	rc = dp_aux_register(dp->aux);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index e3adcd578a90..7af2b186d2d9 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -16,7 +16,7 @@ struct msm_dp {
+>   	struct drm_bridge *bridge;
+>   	struct drm_connector *connector;
+>   	struct drm_encoder *encoder;
+> -	struct drm_bridge *panel_bridge;
+> +	struct drm_bridge *next_bridge;
+>   	bool is_connected;
+>   	bool audio_enabled;
+>   	bool power_on;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index 26ef41a4c1b6..80f59cf99089 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -236,9 +236,9 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
+>   		return ERR_PTR(rc);
+>   	}
+>   
+> -	if (dp_display->panel_bridge) {
+> +	if (dp_display->next_bridge) {
+>   		rc = drm_bridge_attach(dp_display->encoder,
+> -					dp_display->panel_bridge, bridge,
+> +					dp_display->next_bridge, bridge,
+>   					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>   		if (rc < 0) {
+>   			DRM_ERROR("failed to attach panel bridge: %d\n", rc);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index a7acc23f742b..901d7967370f 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -265,23 +265,16 @@ static int dp_parser_clock(struct dp_parser *parser)
+>   	return 0;
+>   }
+>   
+> -static int dp_parser_find_panel(struct dp_parser *parser)
+> +static int dp_parser_find_next_bridge(struct dp_parser *parser)
+>   {
+>   	struct device *dev = &parser->pdev->dev;
+> -	struct drm_panel *panel;
+> -	int rc;
+> +	struct drm_bridge *bridge;
+>   
+> -	rc = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
+> -	if (rc) {
+> -		DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
+> -		return rc;
+> -	}
+> +	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> +	if (IS_ERR(bridge))
+> +		return PTR_ERR(bridge);
+>   
+> -	parser->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> -	if (IS_ERR(parser->panel_bridge)) {
+> -		DRM_ERROR("failed to create panel bridge\n");
+> -		return PTR_ERR(parser->panel_bridge);
+> -	}
+> +	parser->next_bridge = bridge;
+>   
+>   	return 0;
+>   }
+> @@ -307,10 +300,18 @@ static int dp_parser_parse(struct dp_parser *parser, int connector_type)
+>   	if (rc)
+>   		return rc;
+>   
+> +	/*
+> +	 * Currently we support external bridges only for eDP connectors.
+> +	 *
+> +	 * No external bridges are expected for the DisplayPort connector,
+> +	 * it is physically present in a form of a DP or USB-C connector.
+> +	 */
+>   	if (connector_type == DRM_MODE_CONNECTOR_eDP) {
+> -		rc = dp_parser_find_panel(parser);
+> -		if (rc)
+> +		rc = dp_parser_find_next_bridge(parser);
+> +		if (rc) {
+> +			DRM_ERROR("DP: failed to find next bridge\n");
+>   			return rc;
+> +		}
+>   	}
+>   
+>   	/* Map the corresponding regulator information according to
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index 3172da089421..4cec851e38d9 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -123,7 +123,7 @@ struct dp_parser {
+>   	struct dp_display_data disp_data;
+>   	const struct dp_regulator_cfg *regulator_cfg;
+>   	u32 max_dp_lanes;
+> -	struct drm_bridge *panel_bridge;
+> +	struct drm_bridge *next_bridge;
+>   
+>   	int (*parse)(struct dp_parser *parser, int connector_type);
+>   };
