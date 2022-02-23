@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8497B4C1287
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 13:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1314C131A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 13:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A8A10EC5E;
-	Wed, 23 Feb 2022 12:13:49 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC3210EC37;
- Wed, 23 Feb 2022 12:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC7710F1C2;
+	Wed, 23 Feb 2022 12:47:35 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0143D10F1CA;
+ Wed, 23 Feb 2022 12:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645618428; x=1677154428;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=fxlOa2pO6dl2ezOK3f4DYMmMqWT/rfUT4TzUF6lxrRs=;
- b=g/3uJyllfQgLA0I1jyGme90wImHFLM21u/0I9Vh2m99cTthpbcah4QUr
- HyLC0b+nIvCrrk8u7gPW0+C1RnlFJb19ytwzsWpxWsKoxMJ9c1gQA9qoJ
- UkrcCW+x+ElEXl8ALnJamfyGkaP/J6wEk7ovD99dd7QTJmHgSe3qbRLUu
- nULXYsuFtNAOxt4esAYnYIcVhiDdeKG6B7IX2s9x6M5l9WTXKTisRBIr0
- ZlTW0ouNh8gFz01tJEz3mCMVdwVhPqMumxGnheso14WkklJBIwhu9qf8d
- 25K/PW3m2v6l/Qqt0hDvJhN8bjlO5CBacA1dLjY3U1omeT1tlSry5M2X2 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="276568032"
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="276568032"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 04:13:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="707009862"
-Received: from lportx-mobl3.ger.corp.intel.com (HELO [10.213.242.198])
- ([10.213.242.198])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 04:13:47 -0800
-Message-ID: <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
-Date: Wed, 23 Feb 2022 12:13:45 +0000
+ t=1645620454; x=1677156454;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QQxeX/jbVCxYVyClBrFI4ueqwrzdBsTi7qkw3tVNQtM=;
+ b=bE6Gsj1sskD+iGIiLTNrpRRF3M/reSWMhXpmXo1rH1yXsV3xHUyoB7EG
+ Jkhny+Sbt5H96JzCbHzeu6q/MXWzdh6dvamvZtF3JQwhkNzbOqtGG1dPm
+ c3T2AeHYWk+IFPrbTFBD8tAJEqD4zt5n+RXUml6R11mC7I7AQks+m+l1F
+ HofB1sET5tiZb9eIkb9sAP/8/LVNnVS9/dSLhB/NxhZfkwkKf1QAIx/bK
+ ekofWIorDha8ZHYDd2MfDJyj4X+YAO4CNhiFK3B5D3Fa7fhWYi5SCz7IW
+ kv6zGlDWD3UENs8cB1AV09z06y14znGuSAYjav5h0Q4cSleACYyrF2lQX g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="232574667"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="232574667"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 04:47:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="491183315"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 23 Feb 2022 04:47:30 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nMr3K-0001Ou-1I; Wed, 23 Feb 2022 12:47:30 +0000
+Date: Wed, 23 Feb 2022 20:46:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v11 1/6] drm: Add arch arm64 for drm_clflush_virt_range
+Message-ID: <202202231817.dkY1qGrU-lkp@intel.com>
+References: <20220223055900.415627-2-michael.cheng@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
- to avoid overflow
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
- <20220218213307.1338478-2-John.C.Harrison@Intel.com>
- <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
- <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220223055900.415627-2-michael.cheng@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,259 +60,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: tvrtko.ursulin@linux.intel.com, casey.g.bowman@intel.com,
+ kbuild-all@lists.01.org, balasubramani.vivekanandan@intel.com,
+ wayne.boyer@intel.com, llvm@lists.linux.dev, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, michael.cheng@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Michael,
 
-On 23/02/2022 02:11, John Harrison wrote:
-> On 2/22/2022 01:52, Tvrtko Ursulin wrote:
->> On 18/02/2022 21:33, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> GuC converts the pre-emption timeout and timeslice quantum values into
->>> clock ticks internally. That significantly reduces the point of 32bit
->>> overflow. On current platforms, worst case scenario is approximately
->>
->> Where does 32-bit come from, the GuC side? We already use 64-bits so 
->> that something to fix to start with. Yep...
-> Yes, the GuC API is defined as 32bits only and then does a straight 
-> multiply by the clock speed with no range checking. We have requested 
-> 64bit support but there was push back on the grounds that it is not 
-> something the GuC timer hardware supports and such long timeouts are not 
-> real world usable anyway.
+Thank you for the patch! Perhaps something to improve:
 
-As long as compute are happy with 100 seconds, then it "should be enough 
-for everbody". :D
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on drm/drm-next]
+[cannot apply to drm-intel/for-linux-next v5.17-rc5 next-20220222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
->>
->> ./gt/uc/intel_guc_fwif.h:       u32 execution_quantum;
->>
->> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
->> engine->props.timeslice_duration_ms * 1000;
->>
->> ./gt/intel_engine_types.h:              unsigned long 
->> timeslice_duration_ms;
->>
->> timeslice_store/preempt_timeout_store:
->> err = kstrtoull(buf, 0, &duration);
->>
->> So both kconfig and sysfs can already overflow GuC, not only because 
->> of tick conversion internally but because at backend level nothing was 
->> done for assigning 64-bit into 32-bit. Or I failed to find where it is 
->> handled.
-> That's why I'm adding this range check to make sure we don't allow 
-> overflows.
+url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: s390-randconfig-r013-20220221 (https://download.01.org/0day-ci/archive/20220223/202202231817.dkY1qGrU-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/0day-ci/linux/commit/f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220223-140110
+        git checkout f4c92ba1f52db578a26ac9944e2cbe52c548e8e9
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/
 
-Yes and no, this fixes it, but the first bug was not only due GuC 
-internal tick conversion. It was present ever since the u64 from i915 
-was shoved into u32 sent to GuC. So even if GuC used the value without 
-additional multiplication, bug was be there. My point being when GuC 
-backend was added timeout_ms values should have been limited/clamped to 
-U32_MAX. The tick discovery is additional limit on top.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->>> 110 seconds. Rather than allowing the user to set higher values and
->>> then get confused by early timeouts, add limits when setting these
->>> values.
->>
->> Btw who is reviewing GuC patches these days - things have somehow 
->> gotten pretty quiet in activity and I don't think that's due absence 
->> of stuff to improve or fix? Asking since I think I noticed a few 
->> already which you posted and then crickets on the mailing list.
-> Too much work to do and not enough engineers to do it all :(.
-> 
-> 
->>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 +++++++++++++++
->>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 ++++++++++++++
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++++++++
->>>   3 files changed, 38 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
->>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>> index e53008b4dd05..2a1e9f36e6f5 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct intel_gt 
->>> *gt, enum intel_engine_id id,
->>>       if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
->>>           engine->props.preempt_timeout_ms = 0;
->>>   +    /* Cap timeouts to prevent overflow inside GuC */
->>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
->>> +        if (engine->props.timeslice_duration_ms > 
->>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
->>
->> Hm "wanted".. There's been too much back and forth on the GuC load 
->> options over the years to keep track.. intel_engine_uses_guc work 
->> sounds like would work and read nicer.
-> I'm not adding a new feature check here. I'm just using the existing 
-> one. If we want to rename it yet again then that would be a different 
-> patch set.
+All warnings (new ones prefixed by >>):
 
-$ grep intel_engine_uses_guc . -rl
-./i915_perf.c
-./i915_request.c
-./selftests/intel_scheduler_helpers.c
-./gem/i915_gem_context.c
-./gt/intel_context.c
-./gt/intel_engine.h
-./gt/intel_engine_cs.c
-./gt/intel_engine_heartbeat.c
-./gt/intel_engine_pm.c
-./gt/intel_reset.c
-./gt/intel_lrc.c
-./gt/selftest_context.c
-./gt/selftest_engine_pm.c
-./gt/selftest_hangcheck.c
-./gt/selftest_mocs.c
-./gt/selftest_workarounds.c
+   In file included from drivers/gpu/drm/drm_cache.c:31:
+>> include/linux/cacheflush.h:12:46: warning: declaration of 'struct folio' will not be visible outside of this function [-Wvisibility]
+   static inline void flush_dcache_folio(struct folio *folio)
+                                                ^
+   In file included from drivers/gpu/drm/drm_cache.c:35:
+   In file included from include/linux/iosys-map.h:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/drm_cache.c:35:
+   In file included from include/linux/iosys-map.h:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/drm_cache.c:35:
+   In file included from include/linux/iosys-map.h:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   13 warnings generated.
 
-Sounds better to me than intel_guc_submission_is_wanted. What does the 
-reader know whether "is wanted" translates to "is actually used". Shrug 
-on "is wanted".
 
->> And limit to class instead of applying to all engines looks like a miss.
-> As per follow up email, the class limit is not applied here.
-> 
->>
->>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice duration 
->>> to %d to prevent possibly overflow\n",
->>> +                 GUC_POLICY_MAX_EXEC_QUANTUM_MS);
->>> +            engine->props.timeslice_duration_ms = 
->>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
->>
->> I am not sure logging such message during driver load is useful. 
->> Sounds more like a confused driver which starts with one value and 
->> then overrides itself. I'd just silently set the value appropriate for 
->> the active backend. Preemption timeout kconfig text already documents 
->> the fact timeouts can get overriden at runtime depending on 
->> platform+engine. So maybe just add same text to timeslice kconfig.
-> The point is to make people aware if they compile with unsupported 
-> config options. As far as I know, there is no way to apply range 
-> checking or other limits to config defines. Which means that a user 
-> would silently get unwanted behaviour. That seems like a bad thing to 
-> me. If the driver is confused because the user built it in a confused 
-> manner then we should let them know.
+vim +12 include/linux/cacheflush.h
 
-Okay, but I think make it notice low level.
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   6) 
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   7) #if ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   8) #ifndef ARCH_IMPLEMENTS_FLUSH_DCACHE_FOLIO
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06   9) void flush_dcache_folio(struct folio *folio);
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  10) #endif
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  11) #else
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06 @12) static inline void flush_dcache_folio(struct folio *folio)
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  13) {
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  14) }
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  15) #define ARCH_IMPLEMENTS_FLUSH_DCACHE_FOLIO 0
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  16) #endif /* ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE */
+522a0032af0055 Matthew Wilcox (Oracle  2021-11-06  17) 
 
-Also consider in patch 3/3 when you triple it, and then clamp back down 
-here. That's even more confused state since tripling gets nerfed. I 
-think that's also an argument to always account preempt timeout in 
-heartbeat interval calculation. Haven't got to your reply on 2/3 yet 
-though..
-
->>
->>> +        }
->>> +
->>> +        if (engine->props.preempt_timeout_ms > 
->>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
->>> +            drm_info(&engine->i915->drm, "Warning, clamping 
->>> pre-emption timeout to %d to prevent possibly overflow\n",
->>> +                 GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS);
->>> +            engine->props.preempt_timeout_ms = 
->>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
->>> +        }
->>> +    }
->>> +
->>>       engine->defaults = engine->props; /* never to change again */
->>>         engine->context_size = intel_engine_context_size(gt, 
->>> engine->class);
->>> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c 
->>> b/drivers/gpu/drm/i915/gt/sysfs_engines.c
->>> index 967031056202..f57efe026474 100644
->>> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
->>> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
->>> @@ -221,6 +221,13 @@ timeslice_store(struct kobject *kobj, struct 
->>> kobj_attribute *attr,
->>>       if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
->>>           return -EINVAL;
->>>   +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
->>> +        duration > GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
->>> +        duration = GUC_POLICY_MAX_EXEC_QUANTUM_MS;
->>> +        drm_info(&engine->i915->drm, "Warning, clamping timeslice 
->>> duration to %lld to prevent possibly overflow\n",
->>> +             duration);
->>> +    }
->>
->> I would suggest to avoid duplicated clamping logic. Maybe hide the all 
->> backend logic into the helpers then, like maybe:
->>
->>   d = intel_engine_validate_timeslice/preempt_timeout(engine, duration);
->>   if (d != duration)
->>     return -EINVAL:
->>
->> Returning -EINVAL would be equivalent to existing behaviour:
->>
->>     if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
->>         return -EINVAL;
->>
->> That way userspace has explicit notification and read-back is 
->> identical to written in value. From engine setup you can just call the 
->> helper silently.
-> Sure, EINVAL rather than clamping works as well. And can certainly add 
-> helper wrappers. But as above, I don't like the idea of silently 
-> disregarding a user specified config option.
-
-Deal - with the open of heartbeat interval TBD.
-
-> 
->>
->>> +
->>>       WRITE_ONCE(engine->props.timeslice_duration_ms, duration);
->>>         if (execlists_active(&engine->execlists))
->>> @@ -325,6 +332,13 @@ preempt_timeout_store(struct kobject *kobj, 
->>> struct kobj_attribute *attr,
->>>       if (timeout > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
->>>           return -EINVAL;
->>>   +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
->>> +        timeout > GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
->>> +        timeout = GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
->>> +        drm_info(&engine->i915->drm, "Warning, clamping pre-emption 
->>> timeout to %lld to prevent possibly overflow\n",
->>> +             timeout);
->>> +    }
->>> +
->>>       WRITE_ONCE(engine->props.preempt_timeout_ms, timeout);
->>>         if (READ_ONCE(engine->execlists.pending[0]))
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> index 6a4612a852e2..ad131092f8df 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> @@ -248,6 +248,15 @@ struct guc_lrc_desc {
->>>     #define GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US 500000
->>>   +/*
->>> + * GuC converts the timeout to clock ticks internally. Different 
->>> platforms have
->>> + * different GuC clocks. Thus, the maximum value before overflow is 
->>> platform
->>> + * dependent. Current worst case scenario is about 110s. So, limit 
->>> to 100s to be
->>> + * safe.
->>> + */
->>> +#define GUC_POLICY_MAX_EXEC_QUANTUM_MS        (100 * 1000)
->>> +#define GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS    (100 * 1000)
->>
->> Most important question -
->> how will we know/notice if/when new GuC arrives where these timeouts 
->> would still overflow? Can this be queried somehow at runtime or where 
->> does the limit comes from? How is GuC told about it? Set in some field 
->> and it just allows too large values silently break things?
-> Currently, we don't notice except by debugging peculiar test failures :(.
-> 
-> These limits are not in any GuC spec. Indeed, it took a while to 
-> actually work out why increasing the value actually caused shorter 
-> timeouts to occur! As above, there is no range checking inside GuC 
-> itself. It does a truncated multiply which results in an effectively 
-> random number and just happily uses it.
-
-I will agree with what Daniele said - push on GuC fw folks to document 
-the max values they guarantee to support in the interface spec. 
-Otherwise it is too fragile.
-
-Regards,
-
-Tvrtko
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
