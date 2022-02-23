@@ -1,150 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FF94C0768
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 02:51:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7904C07A6
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 03:11:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB95110E385;
-	Wed, 23 Feb 2022 01:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FA910E58C;
+	Wed, 23 Feb 2022 02:11:33 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDB510E385;
- Wed, 23 Feb 2022 01:51:24 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D172410E56F;
+ Wed, 23 Feb 2022 02:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645581085; x=1677117085;
+ t=1645582291; x=1677118291;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=CUELoDb/4qgZq3Z2LpI1+gpgV2XMQiV853nlxH23rqY=;
- b=Bvaddf+NCPFIFqsXahDMopz2+8rjkJupjvcsTEmg+wrwGXU9xkcqV/Nd
- Ws0zLK6A2idfpDavvyyJJ7q1Aokj11GXDyedGgkIGzmexqHJb8FLGN2b4
- lRQd/V4O6Q+g7NEp8XncwFBJGHpH8Dw+dudfnU/8fbd5wTyaSweWDktLx
- S4/SWzkQb49+NORXzdNa5GmoXdWl2Dyn1G5z9kgr7j/93+b9nHGLnTUCc
- zwlhCmVBCuPKzp56EPoFOWDrzxnZDRMhF/duhL/TAwhi+LZuWfp09trCL
- RWuFp36WLvGVQoSGNwTnCJTuXlz9OW+aAdluSA6+l/QwNSGjKf9RtSkY2 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="338296766"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="338296766"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 17:51:23 -0800
+ bh=Zqr8n0xLQ9tjB/OR4r2UFr3dSnTNlVO4lfYAD1unwnk=;
+ b=Yf9riJkc1dMe0GVjyaaAzr/D2HzJwqtVGoGeVHfcVYO6OwWtejbxeUKm
+ WMOB1LDXZZgsXlLYfjsISseZUEZo4RbXatavD1MJH0F4Djk0oAbtchLBQ
+ irhqH8FAQyeBwAanRz00NL1LqFObx+THu4HHdzv17tOv97NCl0676Pm2Q
+ n9ydEADxqsrAXnKiRkOaaPkKn/pFz5+bQ6e1mjXXgb2s++SxawSnYihRI
+ ZTjlC1tq05Zy3TVY9DmxBoYmYcClQT9OxdFL2+F75XjapSDCMJrKlsR9d
+ JgZGPbCQB56RhY/6weCMEuLywgmRYRmO87ZKE2qlHZh5eJ6x95IEJrs4g Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="239252751"
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="239252751"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 18:11:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="532482043"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga007.jf.intel.com with ESMTP; 22 Feb 2022 17:51:23 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="491021386"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga003.jf.intel.com with ESMTP; 22 Feb 2022 18:11:29 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 22 Feb 2022 17:51:22 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ 15.1.2308.21; Tue, 22 Feb 2022 18:11:28 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 22 Feb 2022 17:51:22 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2308.21 via Frontend Transport; Tue, 22 Feb 2022 18:11:28 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 22 Feb 2022 17:51:22 -0800
+ 15.1.2308.20; Tue, 22 Feb 2022 18:11:28 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F/lOQb0hPXcMDHUJydta+OYEc2FbBl42NBC+uXkXQiu+gh7pVa4K9lCF3Ek1odlo8VwzMmfoKHkthyeS0bx6pbLwSu+JBZAhhwA4rEIvo+zpqC4SahNvEZNvagJP3NsQ4xS23PSimFQXAMeqQfT+x3s04ZqSkgZM8ncTk5XXLZbFNgIxXyFcs6XT/WWH+fx8ju2xW0b3co7BED1MWVYqiq/NpYqHXEydEsGqb0TOVn1fJUZhqR2x8Ih4HgUS3mcreqevH4rSRLdnHYbMX8SR6lk0LqhNMC1TJCgaAoXoxkMkaW1ZXGDY8IbqfjFkuR7j649TL2wBQ+zpcFU07r0sFQ==
+ b=RV1tC1HrllL0dJ+mpCQP4WO405EOSunroD7eYHTOx8E80wDNxZErOjbRSJpJJegopFeWVM4ys2IdWTitIR05iQbITMjxFA6RmvzeKoBxHll7JGNWbGzSkxmzWr6t9NHt7jrxkuHg9HA8sAXEgre53+pfgRVo7FMt03fIn05Mp5jWN4ZqczxIWn+rexMW/uLd90PRNrPEI15PzvLa3R+MK7dHOqyHiFOOFQiE4aPJD/yApCXHp8xENrGIS3mfOb296cUd4Cv/Zlo8mbEmphopNv1Xg2fbfTbYVJKjl1ECsL5t8HjVoQ1NVXEUJiN8B55Hy5ZLqrKfUVndQpSaQJEb9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kAgS20PRd5IXbj661wbjZKjHDH7GXEfUdgTDFom5vhU=;
- b=DgDkCzCajuwLskSQZIOXU1G1TphIzfMjlcVzyv3AMlgUDVxiJunnwbRysAgS8HGZtyhdM76jUmBbCjZ6C4ZNA3zP82aNrd1GkcJrQUcNu+CgECDwDbpU7uyo/V8r2NV8GeFoK2fwt6mo6qowLC3809lI655fsEaOYN41VFL8pDhkFgz/DJhhN1bK++JsHCgTXHRBTHPkE8Kl8nFUS4/F7h2RIZGb7u9vct+w184hTwxMSEeQS7ZIUu0hpP3KtKRrpjhDtf70E7PYGdp5jQODT9NM6Hmd2Jt0s4ziyT9aOlKTuntS7iD/1XGPHK2XmYwAfC/Cq7qXWvXBljX7H7kqBA==
+ bh=XMBoWfQC7RNKufv7P0gF3CvlRcPEnz3IUKHjOcV6lSk=;
+ b=naIFligeh4KVskIHzg+DnEidcyH/f2UkZNArQcEA1iKNAlGoieoLcAg5w3919E3O2cWTO2S9aDbJ1XnUiSwvGhYOPs5Z2/I7LDD0ndiktn5ukfUuLgf7Y0mn9A1Tr1oFMp5chawyimGA/mm6aErQbcVIaGxebA+yG64oIFNOLzkCoT5H2ZHkYJ6gcM698j16BPiHDnk39/Ayza5CxzVKet4HxOXzepF/bsxoVkJ9m8Q8/muR160sxEsAKZ8soGNa80M6cKS/dq9+J6FxGtrDftnBUCaSEIyKUy91qeAU3qOXeQlBXEZrMReNLhXa7Kw/0kpdBXiGW8pXEZ1nA+guDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by BN6PR11MB1954.namprd11.prod.outlook.com (2603:10b6:404:106::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Wed, 23 Feb
- 2022 01:51:21 +0000
+ by DM5PR11MB2043.namprd11.prod.outlook.com (2603:10b6:3:e::21) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.17; Wed, 23 Feb 2022 02:11:26 +0000
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::dd36:1843:a629:4ad7]) by BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::dd36:1843:a629:4ad7%4]) with mapi id 15.20.5017.022; Wed, 23 Feb 2022
- 01:51:20 +0000
-Message-ID: <c96c52d1-28ec-8a85-0ea0-209601b0b2a7@intel.com>
-Date: Tue, 22 Feb 2022 17:51:18 -0800
+ 02:11:26 +0000
+Message-ID: <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
+Date: Tue, 22 Feb 2022 18:11:23 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/guc: Do not complain about stale
- reset notifications
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
+ to avoid overflow
 Content-Language: en-GB
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20220212010425.3643192-1-John.C.Harrison@Intel.com>
- <f99a6caf-7aeb-9ff4-4872-cc986e11cf66@intel.com>
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-2-John.C.Harrison@Intel.com>
+ <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <f99a6caf-7aeb-9ff4-4872-cc986e11cf66@intel.com>
+In-Reply-To: <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MWHPR20CA0030.namprd20.prod.outlook.com
- (2603:10b6:300:ed::16) To BY5PR11MB3911.namprd11.prod.outlook.com
+X-ClientProxiedBy: MWHPR20CA0027.namprd20.prod.outlook.com
+ (2603:10b6:300:ed::13) To BY5PR11MB3911.namprd11.prod.outlook.com
  (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 41d8a9e1-da79-4caa-333c-08d9f66efd57
-X-MS-TrafficTypeDiagnostic: BN6PR11MB1954:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR11MB1954EC27EBF1FFC03C9164C3BD3C9@BN6PR11MB1954.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 80e57b9f-a3fa-4e4f-8066-08d9f671cba8
+X-MS-TrafficTypeDiagnostic: DM5PR11MB2043:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR11MB2043D22756262B00BD492D77BD3C9@DM5PR11MB2043.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AaYtOI3k121M31v9+vrrJuQSxxyEbLlu/Xoz1GESCahqJKQ1obwfr9ZPTWZzlwVNEwy995Q9T3m46N7as2hqn0/JUyABg1hlh/Hu/WSpFt7PJfMDnlkJKR2uCYmy/3SVvAl6UgduyMVmqvGGHgShwRMrRqb5215xwM9FB+IQZmjWxoiQEBibDZfjlNgUGs70UWDtHeqYkiqDH1E7SFGv58aEI9us4B86KesazFcYvMzftUZXOZb2Pky5h7v45mf8GeBP2WZwz8NhY+usOVv2Y+dwRR30ZehCf7FcdV/OYq9VSes+JXAYKhujCbH586OOJsehyCU9llyOazJaG0G266984XR/AfTfqdH4NPgtKOIkJor/hie8orTlY0Nu+/DEWRfoDedYvn2uxtXVfEP0xUiYxuAtphxT/FAkxE1dsQNSTBe3tgsJ2gVIRraZuBSoLQr3HvtoWkNacqO7ZOUa+FJG1MXZI2AcGhx+4qYreSvlqBBkl3TVGeJDHSPNu9MBd+s99V5cLB+jJExTeRExFJTBoMJrnEGB5AjbZ51wtAOixLKiT6kzSH61N3sQxIJH0pPMtjJagT6I3sFskK9nUUR4SAQTcRhCGEN4gt1Jy8lEcdxB+BvKEZeg73y1Em75VFMtOXfDfZvlvcdGwB33Sfp0VyixCrNfddz7HUZGqg37xYJeV1nJ+b8uklTw+J7fUah/UnKAIE4qM06M8obZ61194QMBODHcn1fbSCkpnZVRC3qEFVGcJuwodm9sUHf1
+X-Microsoft-Antispam-Message-Info: Xgb2zT8+6cWBRLd9Hdbeebn+U90QH++gfc+jD772AEHDnovTrNxQJg0CLIlbv/CFxziQ6M+g6sCzetXMeQR9JKowE3bJtzZy5U2Nn3k4QAhPqqPWb7PLyb19WhopiekzeTMUkrrUqvV5Q2/boWiym1opREwulTw54U3DC+qL/mkjU4XzEmRiZnLmr7vSISGw1j1+Zh2W2Khb+bQkG4UqpEZ1pz4mFoGySZz3N051B+amo1Vc2p/Apv47ZcmbHRGMIP1vgS4rdTH9pn6vsNoQnTQw5QMyIVccy0Sqj6j+0x6Hwr1Y2DM3H0W5nGch5FvDt9klk1b2MiGR8hignAY+2n9XgPE+afIEWpfaKenAcdKJP8CyPvQm1thUnYTuE3LOI60Exqck1ESr7rvGx0ZlF+u66kQgs3FoaIK6UsqlSass4PfrgUjS9+7bkb1XVtjo7WiiQ4kAYFu1d3NPSpIIpw1gIEBOyeu0VDZilnpECKvxkIY4fKqNPrlZCj9uzpSjljuOY3n6h+rGW29nrrGAHLRJV2HID1xMfMJnTNMsye92fXx/DOg5fwrLG9x2xvZ7k3yakVn/xkYXEsqQQFIaZp5n/s+f9F+3/8Zwv/7WDix8cL1zjFWahvnpN/vMKhvRC1eCXg5To2BFs7oUczNLq7trf8ZIgYh3bDruo2N/YrsqZooE/kHwZLAo3libQ0aA1LovrYSxjm0KDnfYQREbHlcC9hdHYzNyNOG7qyWXN+Q=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(316002)(508600001)(86362001)(8676002)(6506007)(4326008)(53546011)(38100700002)(6486002)(450100002)(66946007)(66556008)(66476007)(36756003)(26005)(186003)(2616005)(31686004)(83380400001)(2906002)(15650500001)(82960400001)(31696002)(8936002)(5660300002)(6512007)(43740500002)(45980500001);
+ SFS:(13230001)(366004)(4326008)(38100700002)(83380400001)(36756003)(5660300002)(2906002)(8936002)(31686004)(6506007)(2616005)(53546011)(6486002)(186003)(26005)(6512007)(66946007)(66556008)(82960400001)(66476007)(31696002)(6666004)(86362001)(8676002)(508600001)(316002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajhPaHBmaWJQbTM2WUVNd1VZbEQ2MUk5R0FOVGNmUngzWTFvaDRIY1BKZllz?=
- =?utf-8?B?RStzQjZhbDQxQjdUWlBkZTFlK2w2bzZXc09JWWVnM3FXVXBPa2pCb3I0MWFL?=
- =?utf-8?B?Y0hhYjM2YWdLRVRob21jWjU2NjZhVzd5WWd0b1J2a0xBZDNSd2pJUEhORWkw?=
- =?utf-8?B?RElxYi85SXBYTWc5TWJBV2V5YXJiSXh3TkY2QjVoZkNpL3RoTGw5endWOS8v?=
- =?utf-8?B?cm9JUGNZUHJuaW52UGJ0SVJHMTVRYll6bkNXWVdhdXVFUzNaaERnUTVBb2pE?=
- =?utf-8?B?YnVaUDNhbWVyTVdXTVo0eWRHbm52Qmc3MFkyNlZIU29QM1l3U21tNC80TUEr?=
- =?utf-8?B?dkcrSUhWS2d6bFhvSTFUNVpqRVRNUEUzQnB3NjhseTFrWjMxbUtIVGhzVWE3?=
- =?utf-8?B?ZUROWkFPY2xJTUhRWU5mbFM5NHVQbWl0YWhwdEFhb1l4T0xyVElNU0trV0FW?=
- =?utf-8?B?K0ljY20wK1Z3SjhiWEY0YTRkZ09ldCt3RDhPVXhoT2tvMzBPVWc2MDM4TXh2?=
- =?utf-8?B?VUs0Wnc0OUd1UWphYVRDTnlaRElEeVJ0UGVOa1JDbTBjK0xhaTNONjlpV1JG?=
- =?utf-8?B?S0s2MFcxcWlWUFlJNFBIcjZ0RzdIK3NaaGc4K2R0OGU1SUpVdGxtcU9hTkJ4?=
- =?utf-8?B?TXMzbmRxaTQxNFJDSWU2TVhWTVVhTnUvMVJubVNpYitOUWhGRm9DK1c0Mkxl?=
- =?utf-8?B?a1VKL1NpRHVvT08rUGEraUxBRitLbUdKSHduNmdSOEtqOVNQVUhWZGFoQjds?=
- =?utf-8?B?NE42cGhHdzg1SGp1cTdlazBNK1R6M01YT3FKa2VQRnlUVG9ISUh3R2RjeWNk?=
- =?utf-8?B?OUlxK01WaTV0SHdjbytQZUNxRmVvU1djYWc4QURScmtZdElTUXRoUkt0MDM3?=
- =?utf-8?B?aHY3SldkZENBbzIwTjd2N0RDZjM4bEd6VXFCdDRjSVdpbHdJMnpmY2dJZUNs?=
- =?utf-8?B?TnByRk0rSlVwR2ZYMUdqOWc1S05jR2pSVXFZYTAxWHUydEhsQitZWEtZUzFi?=
- =?utf-8?B?R3VScFQ3UVpSYzdsZEhUdmRCaUs4ZENjeTRkN09ieE1FdklRY1p1ekJtYjZC?=
- =?utf-8?B?dWFYZ2tMdHQ5TVVXNnhXQ2ZzUGJoOFE0ZlBuWUZPM1Iwdzc1dGN3NnJWb1N2?=
- =?utf-8?B?NzhHYzhhYzF2bnFlOFZtSjF1TEdiK2NmSk15YVFoMEsyTDJhNjRjWTdndEVZ?=
- =?utf-8?B?VFdhWTFtOEJ0VnBzQ3RPNHozWk9XaDhXWGxtTzQzUmdXSjIvTElaQVA5MWVB?=
- =?utf-8?B?bVJ5eTRDUXdzMnNvbkYyemRxUEJnTnlmZWFHbWpROUZoQjd1UGQ0TERZdkdh?=
- =?utf-8?B?b2YrUFZEeTloMXhpZk81cDNlZjk3YktxVHBPeG04cjRhR0V6KzNtaVhydnRV?=
- =?utf-8?B?enZSb3pheTdNZWt0L1BSRittWEpJc3BrVmNmWTQrYkFRekZ0Sm90c1BIR056?=
- =?utf-8?B?bGtaVkJob0hBZGloT2ZiNmE1WXNCNGoxOHMwTHJaOEh6V2UyN1A2WkpEQzkz?=
- =?utf-8?B?U0NkeTRmdTgrUEJSZWdTKzZ4dWM5UklCQTM5OWlOUVo1dDkzbzhwa1h1WmZ0?=
- =?utf-8?B?RUg3Wk51VWlzNDRSeWNvcXlBK0hNQ3Z0ZVl2YnlXZ01EYjJqaXBNK3BQQlVC?=
- =?utf-8?B?MEZJbFdOQXdSMm5hdUI2bytDNUlGRHA2WDZ2eXFlaU9tWkRtN3MzVGdKeUYz?=
- =?utf-8?B?cTBtb3F2MHZzckZxK1ZrOGJ2dVNEZERkaU9LM05pK2IxdDNraFhRZTh6OElO?=
- =?utf-8?B?L1E2eCtiK2VIZ0F5SmNhM3diVnc2VElIaUtESWtIbVBNNGMrR3N1N2hnc29j?=
- =?utf-8?B?U2RkSnM5WDl3cHM5Tzh5SzlsRXc0SkgyR2RHT2srSUY2ZUxSQnk1bVNzbWZz?=
- =?utf-8?B?VmxqQXFPM0JqaHVyeGNTS3ZWSWZRMDhDL3gvVzMyM2JkbHZhc1oraTRmRHBN?=
- =?utf-8?B?aE5OdnUyd0JrNXJoU0w3aUxQSWs1dUF0bkMyTEN3K2JBemNjWkIwd3N1dndZ?=
- =?utf-8?B?ZjZ5V1JqbnBwVjRjTmNLdVJUeSs3cGhZNWUzRTNVSWRHaTZSemNuTXljeHoz?=
- =?utf-8?B?TjVTUzNNaDlueVN6ZzNPcEFTRmtveG5BSitkMEVmbVVsTzdaa2lUZVpOS0VR?=
- =?utf-8?B?a2RnN2hrMjRhK1ZRUlpOZFpvQW0wbndXV0tXTml6R1h2U09WOFJWeXNNTWpj?=
- =?utf-8?B?UWlIeGROdDYxcmJIS2ZVYnRlTlN1a0NuUEhwV2g3bzZXdEIwaE1sb2ZWWCtN?=
- =?utf-8?Q?crjthBTpPdE33LQ84H4PybqwgJJZBCjZSNWimDbZ/I=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41d8a9e1-da79-4caa-333c-08d9f66efd57
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjZGNitYSFU1UDVTOXJROEtRejhCUThyZUZEQVlxb3JQM2NqcDJjcE80YzNw?=
+ =?utf-8?B?OStTUEI3ZUplUDZScHVJMlRNYVNqWjBxNCszbGQwc1hhcGRVTFFMYkRNZWUx?=
+ =?utf-8?B?R1E3OFNjYy9PRllkSjVpZHExM3ZwbVkxTzdRVStpeDdRVWNJNGJ3L3hwT3Jz?=
+ =?utf-8?B?KzkxQjFaZEVkelpvamk5U0VOTkJOY3owaUs5OStXN1E1VXdiZ3R0OE5mTTRw?=
+ =?utf-8?B?S0FjMkpHVGtuc0pqWXJwRG5wYkZQczF5Q2dwNVlha2Z3MEZMQmFXdENmdHhn?=
+ =?utf-8?B?eERoalNyK2d2OEt2QXVTMmxpZ3Rhd3dFT25aMWpHNmVoV1RlRW5ieDE3RHpn?=
+ =?utf-8?B?SCtjZWszVmozS1NDVVp0S1MwTHYrTVh5ZGs5YUQ2SlN0MFdxYldMYWxObzFR?=
+ =?utf-8?B?NTlZRnZHL3BiclFLSUpyRS8xeGdFWUh1WHllQVBTSXJvOHZoYlZCdGV5Z2sv?=
+ =?utf-8?B?WjBkVDZmcHVmRFlQRW5YNEZSQSs4NE5tNHpxT2JUa3B2dmV2RldjY3phcDIr?=
+ =?utf-8?B?TEFOTER1TG96azAySkF5dTd4S3F5eUZVWG9xZ3JuZWFUaThvTVIwTXFaSzg0?=
+ =?utf-8?B?NWpkWFUxQmM5ZGlqdmhxOXd5d1NlZ2o0SmtUeGhybmllV0NLK3dIMnorYlFK?=
+ =?utf-8?B?QmFrb2cvb09aVXk3WUpyNjBta2F3OG5xUVpzeWlZeEhyakNNUXpmQ0hCVVU4?=
+ =?utf-8?B?ZU5tcVAybUlOODNqdWFxUXpVN05MaVhzbm1tUC9GZHp6a2xnSVFrV25vcUMr?=
+ =?utf-8?B?WGROb2Mxdi90UFBHaFgxdlZGY09tUVRSV0VFT21jSjVSTFBnaEJBUm03Tldi?=
+ =?utf-8?B?ME1RdTFKY1JjTE9VVWovN1F5K3hiRk9pN3FsYVdHaWlrbXh1bllPRUhVdzlh?=
+ =?utf-8?B?VkNWa3BxcXJOTU13VlBwblF3TmVBcksvc2N6V0lCdnRqN09KbExiTFVWQnlO?=
+ =?utf-8?B?c2JFRm9wK3RRR2dXcUp6TXJydlNHazBHUW1lMFRDYnQ4Yk1mRjc0NlQ3SjNV?=
+ =?utf-8?B?MHIxM0d2ejdmR1A1dWpnbW5UeFY0UDNtdHZJRE1YbnUrT0Q5TTBxS0JMY29u?=
+ =?utf-8?B?WWV6NUNxd1ZhUVB5dko0aTNoM3UvWmNYRW5uMHZxYlFVdG1mTUZPT1lDVjZU?=
+ =?utf-8?B?UGRwZ0NUbnBhb3M3RFd5NTVRYmpWMUN4VGVoczBERVNIMEpjTG4zNitFVjdX?=
+ =?utf-8?B?SU8vQjR4OFJqMU41blZKTHNGcVlWRGMvOVU2allpQUV5NDhTL2NDS1pteFpJ?=
+ =?utf-8?B?ZVlUT0lRSWdPcFJpRlFmNjM5emdCZlhaVzdtbHVGbm1sYWZoaU9jMHhDenhw?=
+ =?utf-8?B?N2N5dDVHalBmMElSSlVocklQc3NFUExWbHFNNmRhdnRMenFpbVNPZG9zR2FD?=
+ =?utf-8?B?M0srS2Z2dUNmdHhycTNJeWdHNGNDbGdOYXJuRk9nQ3Q2a2I4cENYMzF4YVE3?=
+ =?utf-8?B?RzF4ZVZ3bUUvVjFLaW90SEVISVNnMVVLKzdibmkxSVM3eGlIZVJZU25ZbDRq?=
+ =?utf-8?B?a0VrRi9jVjFZWWpFSmJpajErMWVqY3loTkxsS2phTEVsS3JtMXhHWmcvU1hx?=
+ =?utf-8?B?a0NjNkNhaU44bkZDcWFOMXo2WWtFRjZ2dzFTTVVsUjM4RHZqK0V1L0hJYTFq?=
+ =?utf-8?B?M1VmbTNpQ3RYc1duM3JTL0RRL0pITk91RlhjRVFQbkkzUXRYVi91MFFkVHlS?=
+ =?utf-8?B?dW1FVmFIbE9FdUV4TzZUVGgyaE0yUFRJNTB3dW42MG5CZmNkbU9oM3VmeGFN?=
+ =?utf-8?B?NGJtTXFnc2lpUmNPbUQ2Q2k0N1NTZStic1hZdi9qNUU4NnpNNnZoNDFveHEy?=
+ =?utf-8?B?WlJlMTk3SFEyM2hWb1ZBV3V5NlNicGJldDFpdmZXOUpHTlhPR242dkowY2lt?=
+ =?utf-8?B?c2x4Y2k4aFAzQlFnclpRRUF1ODdxTXV3emxid2szQmc4U3NCRWprUXV3N2w3?=
+ =?utf-8?B?RnZpSVFlWHUwVVAxdGFWKzJzTDcrUll4aWRic3c3MWlySzBPcFJuclVLVDZw?=
+ =?utf-8?B?c2MycEhRVkdVV2p3Zjc3elFOODdka1BIbTFpaXhDd0NwVy9YcWlRYUUyR1FM?=
+ =?utf-8?B?NDdacHBhdnczeWo4aHBQaFNScER3RWNZaGt3SG9CUHJDRE1TMkN6RHZZT0hn?=
+ =?utf-8?B?a3FXQVZQRjNWUWs4Mk96U3JoMVJmU1VqR0syUWNNVDJiN2lpM1ZJbVprR1VL?=
+ =?utf-8?B?dnBpcWxidDRsK09Wc3EzWWxxMy9zZUUwejVjSDUxMXNxdGYrYlR0Y2NaSngy?=
+ =?utf-8?Q?l1eppr8guao7wPRDek6NQraGzRJ9NG5TVy9w0grHO4=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80e57b9f-a3fa-4e4f-8066-08d9f671cba8
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 01:51:20.8852 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 02:11:25.9440 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cvTZxj2JVb/RS8E6zy2pavUBLCc7ot/RnbqMdAQrZL7nLjBZJZyLgGSGJX+RApiW8i+ACSpuSgWBin7BE+rniqFNTsW7Dq2BrDpHjNQi9pU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1954
+X-MS-Exchange-CrossTenant-UserPrincipalName: cGygH3rMK6gCpXtqbz4psujIZ2tTz4gJPyshf/Cx5tiXFCccC/zfCzVFHUF61SeybcjRnVlYTC91V4FipgZxH76txTT4NCWLlnbeQmauTj8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB2043
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,62 +163,222 @@ Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/22/2022 17:39, Ceraolo Spurio, Daniele wrote:
-> On 2/11/2022 5:04 PM, John.C.Harrison@Intel.com wrote:
+On 2/22/2022 01:52, Tvrtko Ursulin wrote:
+> On 18/02/2022 21:33, John.C.Harrison@Intel.com wrote:
 >> From: John Harrison <John.C.Harrison@Intel.com>
 >>
->> It is possible for reset notifications to arrive for a context that is
->> in the process of being banned. So don't flag these as an error, just
->> report it as informational (because it is still useful to know that
->> resets are happening even if they are being ignored).
->>
->> v2: Better wording for the message (review feedback from Tvrtko).
->>
+>> GuC converts the pre-emption timeout and timeslice quantum values into
+>> clock ticks internally. That significantly reduces the point of 32bit
+>> overflow. On current platforms, worst case scenario is approximately
+>
+> Where does 32-bit come from, the GuC side? We already use 64-bits so 
+> that something to fix to start with. Yep...
+Yes, the GuC API is defined as 32bits only and then does a straight 
+multiply by the clock speed with no range checking. We have requested 
+64bit support but there was push back on the grounds that it is not 
+something the GuC timer hardware supports and such long timeouts are not 
+real world usable anyway.
+
+
+>
+> ./gt/uc/intel_guc_fwif.h:       u32 execution_quantum;
+>
+> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
+> engine->props.timeslice_duration_ms * 1000;
+>
+> ./gt/intel_engine_types.h:              unsigned long 
+> timeslice_duration_ms;
+>
+> timeslice_store/preempt_timeout_store:
+> err = kstrtoull(buf, 0, &duration);
+>
+> So both kconfig and sysfs can already overflow GuC, not only because 
+> of tick conversion internally but because at backend level nothing was 
+> done for assigning 64-bit into 32-bit. Or I failed to find where it is 
+> handled.
+That's why I'm adding this range check to make sure we don't allow 
+overflows.
+
+>
+>> 110 seconds. Rather than allowing the user to set higher values and
+>> then get confused by early timeouts, add limits when setting these
+>> values.
+>
+> Btw who is reviewing GuC patches these days - things have somehow 
+> gotten pretty quiet in activity and I don't think that's due absence 
+> of stuff to improve or fix? Asking since I think I noticed a few 
+> already which you posted and then crickets on the mailing list.
+Too much work to do and not enough engineers to do it all :(.
+
+
+>
 >> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 >> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 +++++++++++++++
+>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 ++++++++++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++++++++
+>>   3 files changed, 38 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index b3a429a92c0d..3afff24b8f24 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -4022,10 +4022,10 @@ static void guc_handle_context_reset(struct 
->> intel_guc *guc,
->>           capture_error_state(guc, ce);
->>           guc_context_replay(ce);
->>       } else {
->> -        drm_err(&guc_to_gt(guc)->i915->drm,
->> -            "Invalid GuC engine reset notificaion for 0x%04X on %s: 
->> banned = %d, blocked = %d",
->> -            ce->guc_id.id, ce->engine->name, 
->> intel_context_is_banned(ce),
->> -            context_blocked(ce));
->> +        drm_info(&guc_to_gt(guc)->i915->drm,
->> +             "Ignoring context reset notification for 0x%04X on %s: 
->> banned = %d, blocked = %d",
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> index e53008b4dd05..2a1e9f36e6f5 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct intel_gt 
+>> *gt, enum intel_engine_id id,
+>>       if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+>>           engine->props.preempt_timeout_ms = 0;
+>>   +    /* Cap timeouts to prevent overflow inside GuC */
+>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
+>> +        if (engine->props.timeslice_duration_ms > 
+>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
 >
-> The if statement above checks for !banned, so if we're here we're 
-> banned for sure, no need to print it as if it was conditional. I'd 
-> reword it as something like: "Ignoring reset notification for banned 
-> context 0x%04X ...". With that:
-Hmm. The patch was based on an older tree that had an extra term in the 
-if. Seems like the patch applied cleanly and I didn't check the 
-surrounding code! Will update it to drop the banned and blocked values.
+> Hm "wanted".. There's been too much back and forth on the GuC load 
+> options over the years to keep track.. intel_engine_uses_guc work 
+> sounds like would work and read nicer.
+I'm not adding a new feature check here. I'm just using the existing 
+one. If we want to rename it yet again then that would be a different 
+patch set.
+
+>
+> And limit to class instead of applying to all engines looks like a miss.
+As per follow up email, the class limit is not applied here.
+
+>
+>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice duration 
+>> to %d to prevent possibly overflow\n",
+>> +                 GUC_POLICY_MAX_EXEC_QUANTUM_MS);
+>> +            engine->props.timeslice_duration_ms = 
+>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+>
+> I am not sure logging such message during driver load is useful. 
+> Sounds more like a confused driver which starts with one value and 
+> then overrides itself. I'd just silently set the value appropriate for 
+> the active backend. Preemption timeout kconfig text already documents 
+> the fact timeouts can get overriden at runtime depending on 
+> platform+engine. So maybe just add same text to timeslice kconfig.
+The point is to make people aware if they compile with unsupported 
+config options. As far as I know, there is no way to apply range 
+checking or other limits to config defines. Which means that a user 
+would silently get unwanted behaviour. That seems like a bad thing to 
+me. If the driver is confused because the user built it in a confused 
+manner then we should let them know.
+
+
+>
+>> +        }
+>> +
+>> +        if (engine->props.preempt_timeout_ms > 
+>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
+>> +            drm_info(&engine->i915->drm, "Warning, clamping 
+>> pre-emption timeout to %d to prevent possibly overflow\n",
+>> +                 GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS);
+>> +            engine->props.preempt_timeout_ms = 
+>> GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
+>> +        }
+>> +    }
+>> +
+>>       engine->defaults = engine->props; /* never to change again */
+>>         engine->context_size = intel_engine_context_size(gt, 
+>> engine->class);
+>> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c 
+>> b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> index 967031056202..f57efe026474 100644
+>> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> @@ -221,6 +221,13 @@ timeslice_store(struct kobject *kobj, struct 
+>> kobj_attribute *attr,
+>>       if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>>           return -EINVAL;
+>>   +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
+>> +        duration > GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
+>> +        duration = GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+>> +        drm_info(&engine->i915->drm, "Warning, clamping timeslice 
+>> duration to %lld to prevent possibly overflow\n",
+>> +             duration);
+>> +    }
+>
+> I would suggest to avoid duplicated clamping logic. Maybe hide the all 
+> backend logic into the helpers then, like maybe:
+>
+>   d = intel_engine_validate_timeslice/preempt_timeout(engine, duration);
+>   if (d != duration)
+>     return -EINVAL:
+>
+> Returning -EINVAL would be equivalent to existing behaviour:
+>
+>     if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>         return -EINVAL;
+>
+> That way userspace has explicit notification and read-back is 
+> identical to written in value. From engine setup you can just call the 
+> helper silently.
+Sure, EINVAL rather than clamping works as well. And can certainly add 
+helper wrappers. But as above, I don't like the idea of silently 
+disregarding a user specified config option.
+
+>
+>> +
+>>       WRITE_ONCE(engine->props.timeslice_duration_ms, duration);
+>>         if (execlists_active(&engine->execlists))
+>> @@ -325,6 +332,13 @@ preempt_timeout_store(struct kobject *kobj, 
+>> struct kobj_attribute *attr,
+>>       if (timeout > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
+>>           return -EINVAL;
+>>   +    if (intel_uc_uses_guc_submission(&engine->gt->uc) &&
+>> +        timeout > GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS) {
+>> +        timeout = GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS;
+>> +        drm_info(&engine->i915->drm, "Warning, clamping pre-emption 
+>> timeout to %lld to prevent possibly overflow\n",
+>> +             timeout);
+>> +    }
+>> +
+>>       WRITE_ONCE(engine->props.preempt_timeout_ms, timeout);
+>>         if (READ_ONCE(engine->execlists.pending[0]))
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> index 6a4612a852e2..ad131092f8df 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> @@ -248,6 +248,15 @@ struct guc_lrc_desc {
+>>     #define GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US 500000
+>>   +/*
+>> + * GuC converts the timeout to clock ticks internally. Different 
+>> platforms have
+>> + * different GuC clocks. Thus, the maximum value before overflow is 
+>> platform
+>> + * dependent. Current worst case scenario is about 110s. So, limit 
+>> to 100s to be
+>> + * safe.
+>> + */
+>> +#define GUC_POLICY_MAX_EXEC_QUANTUM_MS        (100 * 1000)
+>> +#define GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS    (100 * 1000)
+>
+> Most important question -
+> how will we know/notice if/when new GuC arrives where these timeouts 
+> would still overflow? Can this be queried somehow at runtime or where 
+> does the limit comes from? How is GuC told about it? Set in some field 
+> and it just allows too large values silently break things?
+Currently, we don't notice except by debugging peculiar test failures :(.
+
+These limits are not in any GuC spec. Indeed, it took a while to 
+actually work out why increasing the value actually caused shorter 
+timeouts to occur! As above, there is no range checking inside GuC 
+itself. It does a truncated multiply which results in an effectively 
+random number and just happily uses it.
 
 John.
 
 
+
 >
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Regards,
 >
-> Daniele
+> Tvrtko
 >
->> +             ce->guc_id.id, ce->engine->name, 
->> intel_context_is_banned(ce),
->> +             context_blocked(ce));
->>       }
->>   }
->
+>> +
+>>   struct guc_policies {
+>>       u32 submission_queue_depth[GUC_MAX_ENGINE_CLASSES];
+>>       /* In micro seconds. How much time to allow before DPC 
+>> processing is
 
