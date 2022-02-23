@@ -2,66 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504E54C1DD0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 22:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB434C1DD2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 22:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD52310F094;
-	Wed, 23 Feb 2022 21:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD3510EF46;
+	Wed, 23 Feb 2022 21:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3F810F094
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 21:33:34 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id z7so437182oid.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 13:33:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc:content-transfer-encoding;
- bh=QeXjVrsBd2xyaX1fRJaTjrZFWoYw6M95k9VES1X7evg=;
- b=F8GR4eOAQdUqj8xaPWZ5qOSFdkWgvYEYKqpoEZk+xnLsYM5YSI168fW9lNpJQ3I6eg
- xGQbFIIR0qKbCZCZ7r5ZTROq59hxodBtBtt/NZyGXrBB10nuHyNFaS1Y8KkKuC5A88L/
- LeK2D+4fvQtxKD3HWSnwj13iqsyZj8cd6rKf0=
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CCB10EF46
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 21:35:37 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id c1so6596226pgk.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 13:35:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Ac/BcOmu5MdCFvS6JemgJvEoEjf0jHjFl+jOA9n59Gc=;
+ b=N/wTJKNAsZAb2+DXd9uj0Oou2P7XETVHuE1paOj0Y2ML35z//aC0r2GJr2MClR45rT
+ psUelX9t/gf+vG1bABjgortKasTe6wAnmupXsSu/4KcTbxxVICoUAubvvdtii7xUimVc
+ 8C4S8d4njpOej0HVoqsGPUQfZE8YrknKb7f1sAz4nm/Ktor/SJqUj0vEc/FU6E5Zvu0O
+ 4Kem6g2f7Et8fjdHNgEQZFvJg3YG/xxhXy6rZJjFlWPucfwsvmYFkHIhomLnV7grI4ZH
+ LxAr7q5qUVwdPN8kuX5Vp4AiLcjrqqz5yogchFGVxCk2ht/xGRHMhvwX/lAU+L5K2YPn
+ gYvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc:content-transfer-encoding;
- bh=QeXjVrsBd2xyaX1fRJaTjrZFWoYw6M95k9VES1X7evg=;
- b=bF8m6Omh6LI3gbaCSbChyMhzyqli1K23pQHUVGToS+JCc5SL42MdpnLdKzzuzjoCYH
- I5EohwGkrIBNrR1VlI/XhLv0pXIm+e3ALMzEIFCCtzJB0bILQ0f+3DnKX4npyH88ZMNK
- yixTD2Yv1UYqG304tbYOW4s0YgsVuV735bB24o+olaPLw/NhhK3AbM89jpF6ThkJ5RET
- 4mCoVjaVbo0c/SYTBnwnkujrPrmbl0W2+DTX08jthXvMKc61tOSm7aueoiSmgJ16mJ3j
- yJbHOPBhxjL10M3Mj9D6JwD42BQ7AQd39Yeq6Nux3XDAksYmxJlh2NvFn3XPnF8duowc
- 4GRQ==
-X-Gm-Message-State: AOAM5316ADO/SV2/RWnAFmaHMldTBU28EGCx3Hlx4liWhezNE74/BKAr
- cAPHCv8me9yoYwcMGAeg1chPvMZRLt8jcZZ6TICfzg==
-X-Google-Smtp-Source: ABdhPJwMsBuwNLFN0DBErvCeoCglDEp1SX7tXlUppHD/4h1YVd2LnidJwPJVI5P14E867PxLF7abnNOt8Xa11rmPXQ4=
-X-Received: by 2002:a05:6808:f88:b0:2d4:c8c2:b898 with SMTP id
- o8-20020a0568080f8800b002d4c8c2b898mr946625oiw.112.1645652013614; Wed, 23 Feb
- 2022 13:33:33 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 23 Feb 2022 21:33:33 +0000
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=Ac/BcOmu5MdCFvS6JemgJvEoEjf0jHjFl+jOA9n59Gc=;
+ b=rVZidK+bdiUeVtbMfcuBkE+RPQZBtLC38oLarIgxeDn4gBIYyeBOLJcNhgU8TYwSH2
+ YHFjicgkrkmtKOnSLxRBJZ8P5f0z67FB5MEtrvJKdMSUAzQbIc3Tp8veDJTXuW3QjHlL
+ 9G8XVvS6yQPsh5X5H9s+0y0d2A14/tX63m47ETyHRoN5+MRL7GaEFRy2NeYnkYa/brcp
+ OEJOQzUAH9W3SJ/6oGQ7GtwJvmpKoZlsSA9osVTBdC9ouq4p51kWD9CsxGQZTTQhWaM0
+ darkShlnby5d/S99WvBA2PFaI521CeHEqAnRQxJayDzA/SnlZKl1foucZx4esoB2CDAr
+ pZ5g==
+X-Gm-Message-State: AOAM533uc+qUr6RyesMr/VpfnCT7BYXywNE2VXR7H3yw7OfWLBRfzsXZ
+ AqRTj37/3Czk28pOUWrR15o=
+X-Google-Smtp-Source: ABdhPJymrFlposXdBgHft7TUiaq7uyEHdUjCbKVRK+0wR1l8SoJwKXsQ28HBNk21IZoHVJX0D6QP+g==
+X-Received: by 2002:a63:af02:0:b0:375:57f0:8af1 with SMTP id
+ w2-20020a63af02000000b0037557f08af1mr1247422pge.188.1645652137012; 
+ Wed, 23 Feb 2022 13:35:37 -0800 (PST)
+Received: from localhost
+ (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com.
+ [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+ by smtp.gmail.com with ESMTPSA id m13sm518443pfk.202.2022.02.23.13.35.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 13:35:36 -0800 (PST)
+Date: Wed, 23 Feb 2022 11:35:35 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v2] workqueue: Warn flush attempt using system-wide
+ workqueues
+Message-ID: <Yhaop3T53bHo7v2I@slm.duckdns.org>
+References: <71d6f14e-46af-cc5a-bc70-af1cdc6de8d5@acm.org>
+ <309c86b7-2a4c-1332-585f-7bcd59cfd762@I-love.SAKURA.ne.jp>
+ <aa2bf24e-981a-a811-c5d8-a75f0b8f693a@acm.org>
+ <2959649d-cfbc-bdf2-02ac-053b8e7af030@I-love.SAKURA.ne.jp>
+ <YgnQGZWT/n3VAITX@slm.duckdns.org>
+ <8ebd003c-f748-69b4-3a4f-fb80a3f39d36@I-love.SAKURA.ne.jp>
+ <YgqSsuSN5C7StvKx@slm.duckdns.org>
+ <2f887679-c783-bf18-a2aa-aa9a709bfb38@I-love.SAKURA.ne.jp>
+ <CGME20220223212048eucas1p1fab5e35ff398eff57808a8f1125dd15f@eucas1p1.samsung.com>
+ <4e5fe60d-abbb-6e73-b8cc-c3e1a314fbce@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <a803c7a9-de4c-8fe5-d80d-56366df78611@quicinc.com>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
- <572c0402-55da-077b-1809-3d1caf7ce743@quicinc.com>
- <b25d422e-cdd8-bcb9-1815-1d89f170d421@linaro.org>
- <CAE-0n51afuHURLHaZBa77H_n+cm4Tj1Du-rpLH-HsrkY5xQVJA@mail.gmail.com>
- <CAA8EJpobtpc5mB48g6K=+KaZQ-o8m_QTZr-dQvwz-9cEwiJ_Kg@mail.gmail.com>
- <7f9e2181-bb1a-c734-2e90-c5922952acb4@quicinc.com>
- <493749c1-6305-1a94-4e05-519c825e9d4d@linaro.org>
- <a803c7a9-de4c-8fe5-d80d-56366df78611@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 23 Feb 2022 21:33:33 +0000
-Message-ID: <CAE-0n50VWH9Mum_W9e+6X1vjxvS3KWDqBtPfKHL-weA7S+_3Hg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/5] drm/msm/dp: replace dp_connector with
- drm_bridge_connector
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4e5fe60d-abbb-6e73-b8cc-c3e1a314fbce@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,33 +80,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Bart Van Assche <bvanassche@acm.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, linux-kernel@vger.kernel.org,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, jgg@ziepe.ca,
+ Haakon Bugge <haakon.bugge@oracle.com>,
+ linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLdW9nZWUgSHNpZWggKDIwMjItMDItMjMgMTA6Mjc6MjYpDQo+DQo+IE9uIDIvMjMv
-MjAyMiAxMDoyMiBBTSwgRG1pdHJ5IEJhcnlzaGtvdiB3cm90ZToNCj4gPiBPbiAyMy8wMi8yMDIy
-IDIwOjIxLCBLdW9nZWUgSHNpZWggd3JvdGU6DQo+ID4NCj4gPiBJbiB0aGUgcGFuZWwgZGV2aWNl
-IG5vZGUuDQo+ID4NCj4gPiBDYW4geW91IHBsZWFzZSBzaGFyZSBpdCB0b28/DQo+DQo+DQo+ICZz
-b2Mgew0KPiAgwqDCoMKgwqDCoMKgwqAgZWRwX3Bvd2VyX3N1cHBseTogZWRwX3Bvd2VyIHsNCj4g
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb21wYXRpYmxlID0gInJlZ3VsYXRvci1m
-aXhlZCI7DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVndWxhdG9yLW5hbWUg
-PSAiZWRwX2JhY2tsaWdodF9wb3dlciI7DQo+DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgcmVndWxhdG9yLWFsd2F5cy1vbjsNCj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZWd1bGF0b3ItYm9vdC1vbjsNCj4gIMKgwqDCoMKgwqDCoMKgIH07DQo+DQo+ICDCoMKg
-wqDCoMKgwqDCoCBlZHBfYmFja2xpZ2h0OiBlZHBfYmFja2xpZ2h0IHsNCj4gIMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBjb21wYXRpYmxlID0gInB3bS1iYWNrbGlnaHQiOw0KPg0KPiAg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHB3bXMgPSA8JnBtODM1MGNfcHdtIDMgNjU1
-MzU+Ow0KPiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBvd2VyLXN1cHBseSA9IDwm
-ZWRwX3Bvd2VyX3N1cHBseT47DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW5h
-YmxlLWdwaW8gPSA8JnBtODM1MGNfZ3Bpb3MgNyBHUElPX0FDVElWRV9ISUdIPjsNCj4NCj4gIMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0K
-PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBpbmN0cmwtMCA9IDwmYmFja2xpZ2h0
-X3B3bV9kZWZhdWx0PjsNCj4gIMKgwqDCoMKgwqDCoMKgIH07DQo+DQo+ICDCoMKgwqDCoMKgwqDC
-oCBlZHBfcGFuZWw6IGVkcF9wYW5lbCB7DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgY29tcGF0aWJsZSA9ICJzaGFycF9scTE0MG0xanc0NiI7DQoNCklzIHRoYXQgc3VwcG9zZWQg
-dG8gYmUgc2hhcnAsbHExNDBtMWp3NDYgd2l0aCBhIGNvbW1hIGluc3RlYWQgb2YgYW4NCnVuZGVy
-c2NvcmU/DQo=
+On Wed, Feb 23, 2022 at 10:20:47PM +0100, Marek Szyprowski wrote:
+> Hi All,
+> 
+> On 17.02.2022 12:22, Tetsuo Handa wrote:
+> > syzbot found a circular locking dependency which is caused by flushing
+> > system_long_wq WQ [1]. Tejun Heo commented that it makes no sense at all
+> > to call flush_workqueue() on the shared workqueues as the caller has no
+> > idea what it's gonna end up waiting for.
+> >
+> > Although there is flush_scheduled_work() which flushes system_wq WQ with
+> > "Think twice before calling this function! It's very easy to get into
+> > trouble if you don't take great care." warning message, it will be too
+> > difficult to guarantee that all users safely flush system-wide WQs.
+> >
+> > Therefore, let's change the direction to that developers had better use
+> > their own WQs if flushing is inevitable. To give developers time to update
+> > their modules, for now just emit a warning message when flush_workqueue()
+> > or flush_work() is called on system-wide WQs. We will eventually convert
+> > this warning message into WARN_ON() and kill flush_scheduled_work().
+> >
+> > Link: https://syzkaller.appspot.com/bug?extid=831661966588c802aae9 [1]
+> > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> 
+> This patch landed in linux next-20220222 as commit 4a6a0ce060e4 
+> ("workqueue: Warn flush attempt using system-wide workqueues"). As it 
+> might be expected it exposed some calls to flush work. However it also 
+> causes boot failure of the Raspberry Pi 3 and 4 boards (kernel compiled 
+> from arm64/defconfig). In the log I see one call from the 
+> deferred_probe_initcall(), but it isn't critical for the boot process. 
+> The deadlock occurs when DRM registers emulated framebuffer on RPi4. 
+> RPi3 boots a bit further, to the shell prompt, but then the console is 
+> freezed. Reverting this patch on top of linux-next 'fixes' the boot.
+
+Tetsuo, can you please revert the patch? The patch is incorrect in that it's
+triggering also on work item flushes, not just workqueue flushes.
+
+Thanks.
+
+-- 
+tejun
