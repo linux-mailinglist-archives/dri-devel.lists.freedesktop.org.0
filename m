@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BA74C10CC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 11:56:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D3F4C10CA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 11:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65FE910E665;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21ABE10E653;
 	Wed, 23 Feb 2022 10:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC1E10E653
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:56:14 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id D72245C0214;
- Wed, 23 Feb 2022 05:56:13 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B97810E658
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:56:16 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id DA3FF5C017C;
+ Wed, 23 Feb 2022 05:56:15 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 23 Feb 2022 05:56:13 -0500
+ by compute1.internal (MEProxy); Wed, 23 Feb 2022 05:56:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=R6vhlpcotbP/tqG2pKpe3tU0V86Zos
- gs/5+/CGHIE9Y=; b=BH6WV7IrabAZV3el1fTVy2Q0Rva8l21pI7m1gEHLuhqH7K
- /bOTqeN/5h3yo1keaAusJ2KDRoYDuMyqTvzugdL7GqKhWMQ8fPLU5ODe4hT2B0pZ
- Qvluhh07fk3upWJx/DoUNGQruZIXdI/uPsRMlO8aoqVN839GJCG3r4ukAwI3mIrJ
- 2XLom7uAHs4OFezvOdG8cxHtxfu7yUNRNmpEKj0Qt41NDn5gyIc8FptHsMWYfPyE
- RWSXCdvT0puxp/taa/u+vGEIGFlm/XPWKVMlAWgJnByHVLyO2MOlYnqATgPWkH5l
- 1YBdYhX1h8y6dmcTljiD2Em666tekLq5UrJfLCwA==
+ :subject:subject:to:to; s=fm2; bh=lFooUZ9eGKltFwdjrTN/E42veSyTtX
+ LHbcvwgcQio9A=; b=FZSpXUS76KHsuJMWKMJIU1nuF2yM8inYYgnWUfhP9yX+GX
+ BBDiq41tYxB+U/ZrA27Ocoy+Jju04HKHk70dHL66fJXP2+NmnTIXxnNPxnUpS+qG
+ Z2n2kCqob7yHT0qUu9Ev0HwknxotP7FB923EcwvfnKRhqHqij26ANKoOJHAYHZoP
+ eOKnQcqrDXeUChtLvsUjk32KdPceSDHBC5MgGawQh/5k7CAwVfkbQRhgOG5mbUk7
+ Mei+sd+0MZ6wwAcF3nsst7aKsPyPo/U3RjGHgOab69RVJtlvk0+6tucQo2YdEg7q
+ Q3rFcqaTZq2/EKrck0xBfQRqG5hbR5uOlA5YPs/Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=R6vhlp
- cotbP/tqG2pKpe3tU0V86Zosgs/5+/CGHIE9Y=; b=Y7fTTGa1vdPOPLzj30LGCI
- DSshjGjaY1oMkZy7cvI7fsyOeOy+Zir8xovfB20RoGbsWlebJ3a/jAQV0lNIQ0FG
- pLrvCPl6j74jBTCG8kv3p3qT1EWP1Szmrtsj3udFGeYSl6vZdAeyoZkaaS+Gq4YZ
- Olg6aRqKFWWVxHt7DgV1IsVVO8u6SnlRaITuX45yOiqGCmQDq3xMRErU927FQyOW
- vCaRab7gaVPfrm4ZtTN/W/nX3xKhPGGG35Mf8l0ZDRa9kySt+fS5ryrppjWoohCb
- gMllyLk6B0mHta1stCPV1yA4dkiTYD+Ef74H4UKGOG3K9rc8KEyousvvA47CUFqQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lFooUZ
+ 9eGKltFwdjrTN/E42veSyTtXLHbcvwgcQio9A=; b=DiDHhdLjA2+XDDKPIMlPGz
+ Gk6ZwAmKrPOqzNpQ9358j5UTAcKtCzLTUVUs5p88+aifzS9JBXkBFF7pqE7ijyQP
+ GX1w598Oy3BlTlSDzb9DwH/hOLl3UkS++Smc1lRz10KlUswUTG8Yb9U2Eu/sJMNA
+ xoLWCXx8uGJHuY1bH8Ps5mk1nV8G1vtyMGLAJbl0+iCSopNnoL8evyp0YkARPEsy
+ Est96O9gjyiq1cfdFGwd9AQmaX4O8H2c91OmS/WECEz2FqWhileV1eOT7ELVwf0d
+ rzkStHlUVisyd/3LGc+N6Z9/cRE2K4K6bwfM8wBmW8vx5X4nSw+y4oJ2ksCFrNjQ
  ==
-X-ME-Sender: <xms:zRIWYqBU9ZgYykurqPbJfpmaMXsuoQKYq5lR8lZ7uXInKu5n0JsyRw>
- <xme:zRIWYkjk8pVA-2BzxHv6-yNDYtsN0QaPUN-oESUjhu0ikFZG-kwHnGWArqWLraKEX
- H7b4Mm7XCyANKO-m28>
-X-ME-Received: <xmr:zRIWYtk6ROtoFShgx50WFhwnhA2PyI1E7FOOKgRHP5mvXQ3n0z-ZHYSwjvMaOe45Sg2LFkO6bcFBoYi_TzYd1qk8vCyL6iSQjD1dQNY>
+X-ME-Sender: <xms:zxIWYknvmsgwM8zIbmyw9v9-O8TqaXMUNvlosJuaWpEdqYK1B3jnPA>
+ <xme:zxIWYj2UNcpuCkWal6bq0gIShpk_8pxEt0iOTsgWz2JGWYacPHmXhCKozTccMFgST
+ G8Z2Cl3XKZuWygisQI>
+X-ME-Received: <xmr:zxIWYipEm8H2_lZzW5Uwfagg_DRHQfhu7zVnGGlVs0AYPgvE_5qsTJWYIvpYHhIvsKOfNTeM8KHS7Gr97xIjpu8qEz2qZi0otZlbWyI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgddvudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,17 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgddvudcutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zRIWYoxw2yuMzUWpvlVG2qCFY8RGUWHGmQXBghVurifIbrK88vbUzA>
- <xmx:zRIWYvR34Dh_BKrxSMLIqBydn6hMAfaNXwpwh4JSnm2f1l7-ZKbSmA>
- <xmx:zRIWYjbnLpHmhq7UXPyGKIEzsaG443v5xMx-DBA_FE5iL6VNsQuJJA>
- <xmx:zRIWYoQQflvmoTVOzRht6SqTnhlTFJDoYkkrAJ1eaGkxlNoxi9rb4Q>
+X-ME-Proxy: <xmx:zxIWYgku9XUAp7WbSWdWmY1Ov8N-3NOF1TWNl3fz_Dsos5_kEpU1ZQ>
+ <xmx:zxIWYi10UPsxoTh2CqtWAMiWxdWLyGHbvZn4FzaI0iURTYj5XDzgrw>
+ <xmx:zxIWYnuBBOoFiXkgmqdWaBIAxcSlqAsUqDm2U_3kGZofUMYyum0EaA>
+ <xmx:zxIWYrmn0MAna9YQ74URpmdmbaz3AOnsEL_7JK_XptPmYe_OX_1Hlg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Feb 2022 05:56:13 -0500 (EST)
+ 23 Feb 2022 05:56:15 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v6 04/12] clk: Always clamp the rounded rate
-Date: Wed, 23 Feb 2022 11:55:52 +0100
-Message-Id: <20220223105600.1132593-5-maxime@cerno.tech>
+Subject: [PATCH v6 05/12] clk: Use clamp instead of open-coding our own
+Date: Wed, 23 Feb 2022 11:55:53 +0100
+Message-Id: <20220223105600.1132593-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223105600.1132593-1-maxime@cerno.tech>
 References: <20220223105600.1132593-1-maxime@cerno.tech>
@@ -87,188 +87,36 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current core while setting the min and max rate properly in the
-clk_request structure will not make sure that the requested rate is
-within these boundaries, leaving it to each and every driver to make
-sure it is.
+The code in clk_set_rate_range() will, if the current rate is outside of
+the new range, will force it to the minimum or maximum.
 
-It's not clear if this was on purpose or not, but this introduces some
-inconsistencies within the API.
-
-For example, a user setting a range and then calling clk_round_rate()
-with a value outside of that range will get the same value back
-(ignoring any driver adjustements), effectively ignoring the range that
-was just set.
-
-Another one, arguably worse, is that it also makes clk_round_rate() and
-clk_set_rate() behave differently if there's a range and the rate being
-used for both is outside that range. As we have seen, the rate will be
-returned unchanged by clk_round_rate(), but clk_set_rate() will error
-out returning -EINVAL.
-
-Let's make sure the framework will always clamp the rate to the current
-range found on the clock, which will fix both these inconsistencies.
+Since it's running under the condition that the rate is either lower
+than the minimum, or higher than the maximum, this is equivalent to
+using clamp, while being less readable. Let's switch to using clamp
+instead.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk.c      |  2 ++
- drivers/clk/clk_test.c | 46 +++++++++++++++++++++++++-----------------
- 2 files changed, 30 insertions(+), 18 deletions(-)
+ drivers/clk/clk.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 112911138a7b..6c4e10209568 100644
+index 6c4e10209568..c15ee5070f52 100644
 --- a/drivers/clk/clk.c
 +++ b/drivers/clk/clk.c
-@@ -1348,6 +1348,8 @@ static int clk_core_determine_round_nolock(struct clk_core *core,
- 	if (!core)
- 		return 0;
+@@ -2388,11 +2388,7 @@ int clk_set_rate_range(struct clk *clk, unsigned long min, unsigned long max)
+ 		 *   this corner case when determining the rate
+ 		 */
  
-+	req->rate = clamp(req->rate, req->min_rate, req->max_rate);
-+
- 	/*
- 	 * At this point, core protection will be disabled
- 	 * - if the provider is not protected at all
-diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
-index 0ca6cd391c8e..5a740f301f67 100644
---- a/drivers/clk/clk_test.c
-+++ b/drivers/clk/clk_test.c
-@@ -309,8 +309,7 @@ static void clk_range_test_multiple_disjoints_range(struct kunit *test)
- 
- /*
-  * Test that if our clock has some boundaries and we try to round a rate
-- * lower than the minimum, the returned rate won't be affected by the
-- * boundaries.
-+ * lower than the minimum, the returned rate will be within range.
-  */
- static void clk_range_test_set_range_round_rate_lower(struct kunit *test)
- {
-@@ -327,18 +326,19 @@ static void clk_range_test_set_range_round_rate_lower(struct kunit *test)
- 
- 	rate = clk_round_rate(clk, DUMMY_CLOCK_RATE_1 - 1000);
- 	KUNIT_ASSERT_GT(test, rate, 0);
--	KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_1 - 1000);
-+	KUNIT_EXPECT_TRUE(test, rate >= DUMMY_CLOCK_RATE_1 && rate <= DUMMY_CLOCK_RATE_2);
- }
- 
- /*
-  * Test that if our clock has some boundaries and we try to set a rate
-- * lower than the minimum, we'll get an error.
-+ * higher than the maximum, the new rate will be within range.
-  */
- static void clk_range_test_set_range_set_rate_lower(struct kunit *test)
- {
- 	struct clk_dummy_context *ctx = test->priv;
- 	struct clk_hw *hw = &ctx->hw;
- 	struct clk *clk = hw->clk;
-+	unsigned long rate;
- 
- 	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate_range(clk,
-@@ -346,15 +346,20 @@ static void clk_range_test_set_range_set_rate_lower(struct kunit *test)
- 					   DUMMY_CLOCK_RATE_2),
- 			0);
- 
--	KUNIT_ASSERT_LT(test,
-+	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate(clk, DUMMY_CLOCK_RATE_1 - 1000),
- 			0);
-+
-+	rate = clk_get_rate(clk);
-+	KUNIT_ASSERT_GT(test, rate, 0);
-+	KUNIT_EXPECT_TRUE(test, rate >= DUMMY_CLOCK_RATE_1 && rate <= DUMMY_CLOCK_RATE_2);
- }
- 
- /*
-  * Test that if our clock has some boundaries and we try to round and
-- * set a rate lower than the minimum, the values won't be consistent
-- * between clk_round_rate() and clk_set_rate().
-+ * set a rate lower than the minimum, the rate returned by
-+ * clk_round_rate() will be consistent with the new rate set by
-+ * clk_set_rate().
-  */
- static void clk_range_test_set_range_set_round_rate_consistent_lower(struct kunit *test)
- {
-@@ -372,17 +377,16 @@ static void clk_range_test_set_range_set_round_rate_consistent_lower(struct kuni
- 	rounded = clk_round_rate(clk, DUMMY_CLOCK_RATE_1 - 1000);
- 	KUNIT_ASSERT_GT(test, rounded, 0);
- 
--	KUNIT_EXPECT_LT(test,
-+	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate(clk, DUMMY_CLOCK_RATE_1 - 1000),
- 			0);
- 
--	KUNIT_EXPECT_NE(test, rounded, clk_get_rate(clk));
-+	KUNIT_EXPECT_EQ(test, rounded, clk_get_rate(clk));
- }
- 
- /*
-  * Test that if our clock has some boundaries and we try to round a rate
-- * higher than the maximum, the returned rate won't be affected by the
-- * boundaries.
-+ * higher than the maximum, the returned rate will be within range.
-  */
- static void clk_range_test_set_range_round_rate_higher(struct kunit *test)
- {
-@@ -399,18 +403,19 @@ static void clk_range_test_set_range_round_rate_higher(struct kunit *test)
- 
- 	rate = clk_round_rate(clk, DUMMY_CLOCK_RATE_2 + 1000);
- 	KUNIT_ASSERT_GT(test, rate, 0);
--	KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_2 + 1000);
-+	KUNIT_EXPECT_TRUE(test, rate >= DUMMY_CLOCK_RATE_1 && rate <= DUMMY_CLOCK_RATE_2);
- }
- 
- /*
-  * Test that if our clock has some boundaries and we try to set a rate
-- * lower than the maximum, we'll get an error.
-+ * higher than the maximum, the new rate will be within range.
-  */
- static void clk_range_test_set_range_set_rate_higher(struct kunit *test)
- {
- 	struct clk_dummy_context *ctx = test->priv;
- 	struct clk_hw *hw = &ctx->hw;
- 	struct clk *clk = hw->clk;
-+	unsigned long rate;
- 
- 	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate_range(clk,
-@@ -418,15 +423,20 @@ static void clk_range_test_set_range_set_rate_higher(struct kunit *test)
- 					   DUMMY_CLOCK_RATE_2),
- 			0);
- 
--	KUNIT_ASSERT_LT(test,
-+	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate(clk, DUMMY_CLOCK_RATE_2 + 1000),
- 			0);
-+
-+	rate = clk_get_rate(clk);
-+	KUNIT_ASSERT_GT(test, rate, 0);
-+	KUNIT_EXPECT_TRUE(test, rate >= DUMMY_CLOCK_RATE_1 && rate <= DUMMY_CLOCK_RATE_2);
- }
- 
- /*
-  * Test that if our clock has some boundaries and we try to round and
-- * set a rate higher than the maximum, the values won't be consistent
-- * between clk_round_rate() and clk_set_rate().
-+ * set a rate higher than the maximum, the rate returned by
-+ * clk_round_rate() will be consistent with the new rate set by
-+ * clk_set_rate().
-  */
- static void clk_range_test_set_range_set_round_rate_consistent_higher(struct kunit *test)
- {
-@@ -444,11 +454,11 @@ static void clk_range_test_set_range_set_round_rate_consistent_higher(struct kun
- 	rounded = clk_round_rate(clk, DUMMY_CLOCK_RATE_2 + 1000);
- 	KUNIT_ASSERT_GT(test, rounded, 0);
- 
--	KUNIT_EXPECT_LT(test,
-+	KUNIT_ASSERT_EQ(test,
- 			clk_set_rate(clk, DUMMY_CLOCK_RATE_2 + 1000),
- 			0);
- 
--	KUNIT_EXPECT_NE(test, rounded, clk_get_rate(clk));
-+	KUNIT_EXPECT_EQ(test, rounded, clk_get_rate(clk));
- }
- 
- /*
+-		if (rate < min)
+-			rate = min;
+-		else
+-			rate = max;
+-
++		rate = clamp(clk->core->req_rate, min, max);
+ 		ret = clk_core_set_rate_nolock(clk->core, rate);
+ 		if (ret) {
+ 			/* rollback the changes */
 -- 
 2.35.1
 
