@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C084C1758
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7234C175C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:44:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75F310E6E9;
-	Wed, 23 Feb 2022 15:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A15710E1B9;
+	Wed, 23 Feb 2022 15:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95D1110E5BC
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 15:43:43 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id qk11so53408282ejb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 07:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XNj6ryohEmGxkSudgErczfib5Ibt/V3cLh7GtBRzD10=;
- b=gJaQwx4eevOVwsKrwWXNsstVK35l21ZhxUXcexV97F4OMPT7FBMwqOtg9P1x6V85jW
- CMgV2yl9NHMLDrVtF6f9wSMvDmSt1iGQqEQ4L2z/CeKBU4GbzbO0aPHxLD4VDoKRCVtX
- i/dgoOQ//jF55Uh3YPeiI2eds1LYYSJE3ZtmE=
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4185910E324
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 15:44:06 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id d10so53313699eje.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 07:44:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XNj6ryohEmGxkSudgErczfib5Ibt/V3cLh7GtBRzD10=;
- b=px7Ou9R8YDDfvhrUSQ/sr0dBlRgAydb6NqT5yKu9XbTmnBquWiXMndu2AI3JpA5tmd
- b6846N3hEZFCsh4x7Mp16Dc/tVC9RL78zP/eKBOAwvPh+in8AkQgwKOoEYW98lT5V2CG
- LP1YQ4oMHv9+3ytx+3Pq50RwDRGKRPcmUt3l6vsWnd2WlWMlpgnZgdJ1XlOmXym+bAjR
- vuidwjyiFA71zb3T+bv31GKeZ7E+v2ApUT7ljp4s/+KvxGfzFrEP+HKUO40/3gasejNS
- Bz/sBdYemZ6HeWT6C6orSCSkoxsZrEISmPyQ3ClbZQQv3A49vdrd9vI1nU2QzXbcLI8E
- fEtA==
-X-Gm-Message-State: AOAM532w5oZJgFbc+WlYt9mv2Mthp/uJOGiBg2ZqEs54pUTeK+tGIKzq
- nSNbmxSQQ3R+JKlrsnPWHajy76vpn2wwnv54Uek=
-X-Google-Smtp-Source: ABdhPJzzMHrNWUfnHZeTTBV/dJifblm7Jirvr5LVYxXTSVzscJV+iVkfruBzu/bK02p4gptEBkxQnA==
-X-Received: by 2002:a17:907:2087:b0:6cf:e170:171 with SMTP id
- pv7-20020a170907208700b006cfe1700171mr257847ejb.163.1645631021728; 
- Wed, 23 Feb 2022 07:43:41 -0800 (PST)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com.
- [209.85.221.50])
- by smtp.gmail.com with ESMTPSA id v23sm4177ejy.178.2022.02.23.07.43.40
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=D9YoXmL0fH0aKcdRK7BK9p6bYV4a8ZT32GFRySXCBdU=;
+ b=vn4t58kdnli0qX9Bs2IQvnvxovkWaamGkXdHna4+obWh8usHSIzENna1UpAUbUwVPn
+ QUaH3iRwuC3eU7Xe5sid6/KrVCNeow5a2ttkQY/qPyCPa4EFA161JiTygvqIKfatDT80
+ tNb6H2LmJEKPb+zgJM6vPAduEVkxU+WyfjWHsFsQKbtqGLuh+8+WyvzCiK41Zf1IBS6f
+ lMcO+raZjy3OJyknLI7Xf2G0jFwyCixh+3SkD3qdkSzdnN8wyM7m7bJT9O2AyBq/qu5k
+ hKFFtmkBs06n9dfbxmERNqZINqgjpJruMRnaaT7i7TGe485hnq6cMlSQz6cxtOfSWclt
+ vSUQ==
+X-Gm-Message-State: AOAM533rzZlHC2J6gRU0jVCCjQd16L5GzkyIWaJEQT8G/iSYp796Wu5T
+ vYb6ki7Ypv2cVqzjTTYWyK8=
+X-Google-Smtp-Source: ABdhPJxXI094jfo93LhxnFNB5bGS9gHU1H1rFlcOLOWlSh9AKcr6Cm2g1nUnSRsQyalvpUvbbLbSDA==
+X-Received: by 2002:a17:906:35d5:b0:6b7:faf7:9611 with SMTP id
+ p21-20020a17090635d500b006b7faf79611mr238158ejb.537.1645631044590; 
+ Wed, 23 Feb 2022 07:44:04 -0800 (PST)
+Received: from [192.168.0.125] (xdsl-188-155-181-108.adslplus.ch.
+ [188.155.181.108])
+ by smtp.googlemail.com with ESMTPSA id f3sm8446edy.72.2022.02.23.07.44.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 07:43:40 -0800 (PST)
-Received: by mail-wr1-f50.google.com with SMTP id p9so40291926wra.12
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 07:43:40 -0800 (PST)
-X-Received: by 2002:adf:e4c2:0:b0:1e3:3e5d:bd65 with SMTP id
- v2-20020adfe4c2000000b001e33e5dbd65mr183769wrm.422.1645631020228; Wed, 23 Feb
- 2022 07:43:40 -0800 (PST)
+ Wed, 23 Feb 2022 07:44:03 -0800 (PST)
+Message-ID: <2929cc96-b272-7144-f4a4-71d60852c5cd@kernel.org>
+Date: Wed, 23 Feb 2022 16:44:02 +0100
 MIME-Version: 1.0
-References: <20220222141838.1.If784ba19e875e8ded4ec4931601ce6d255845245@changeid>
- <CACRpkdbQ9U22afR74YiZs95qCm7dnLb2k4_nT3Le__hJPpDGUw@mail.gmail.com>
- <YhXBIxbx63IXBU7L@pendragon.ideasonboard.com>
-In-Reply-To: <YhXBIxbx63IXBU7L@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 23 Feb 2022 07:43:27 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UV+3PNF=O8Zv4UJK50gvDx=WHbamLLhH5ANZUBeCxjdQ@mail.gmail.com>
-Message-ID: <CAD=FV=UV+3PNF=O8Zv4UJK50gvDx=WHbamLLhH5ANZUBeCxjdQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Properly undo autosuspend
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 2/4] Documentation/dt: Add descriptions for loongson
+ display controller
+Content-Language: en-US
+To: Sui Jingfeng <15330273260@189.cn>, Rob Herring <robh@kernel.org>
+References: <20220220145554.117854-1-15330273260@189.cn>
+ <20220220145554.117854-3-15330273260@189.cn>
+ <YhVrigEnXTiNgk67@robh.at.kernel.org>
+ <720f940e.5ac.17f26de3a5b.Coremail.suijingfeng@loongson.cn>
+ <72e3790f-088d-1a70-a5f7-3a18c14a6eae@189.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <72e3790f-088d-1a70-a5f7-3a18c14a6eae@189.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,78 +68,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Brian Norris <briannorris@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Qing Zhang <zhangqing@loongson.cn>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Roland Scheidegger <sroland@vmware.com>, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 23/02/2022 16:35, Sui Jingfeng wrote:
+> 
+> On 2022/2/23 21:56, 隋景峰 wrote:
+>> Something like this:
+>>   
+>> dt-bindings: display: Add Loongson display controller
+> 
+> Hi,
 
-On Tue, Feb 22, 2022 at 9:08 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Feb 22, 2022 at 11:44:54PM +0100, Linus Walleij wrote:
-> > On Tue, Feb 22, 2022 at 11:19 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > >
-> > > The PM Runtime docs say:
-> > >   Drivers in ->remove() callback should undo the runtime PM changes done
-> > >   in ->probe(). Usually this means calling pm_runtime_disable(),
-> > >   pm_runtime_dont_use_autosuspend() etc.
-> > >
-> > > We weren't doing that for autosuspend. Let's do it.
-> > >
-> > > Fixes: 9bede63127c6 ("drm/bridge: ti-sn65dsi86: Use pm_runtime autosuspend")
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Hm. I know a few places in drivers where I don't do this :/
->
-> It seems to be a very common problem indeed, I haven't seen any driver
-> yet that uses pm_runtime_dont_use_autosuspend(). We could play a game of
-> whack-a-mole, but we'll never win. Could this be solved in the runtime
-> PM framework instead ? pm_runtime_disable() could disable auto-suspend.
-> If there are legitimate use cases for disabling runtime PM temporarily
-> without disabling auto-suspend, then a new function designed
-> specifically for remove() that would take care of cleaning everything up
-> could be another option.
+Thanks for resending in a proper format. I already replied to your
+original post, so let me paste it here as well.
 
-Yeah, it would be good. It's probably not a yak I have time to shave
-right now, though. :(
+> 
+> We are not a platform device driver, there is no
+> of_device_id defined in my driver. In other word,
+> my driver will not bind against devices whose compatible
+> is "loongson,ls7a1000-dc". We just parse the device tree
+> actively, find necessary information of interest.
+> 
+> What's the meaning of dt-bindings by definition ?
+> In this case, can I use the word "dt-bindings" in the commit title?
 
-I _suspect_ that there are legitimate reasons we can't just magically
-do it in pm_runtime_disable(). If nothing else I believe there are
-legitimate code paths during normal operation that look like this:
+This is a patch for specific subsystem, so as Rob said, it should follow
+subsystem conventions.
 
-  pm_runtime_disable();
-  do_something_that_needs_pm_runtime_disabled();
-  pm_runtime_enable();
+The patch itself is a dt-bindings patch, so there is nothing here
+special which would encourage for any exception.
 
-Also: if it were really a simple problem to solve one would have
-thought that it would have been solved initially instead of adding
-documentation particularly mentioning
-pm_runtime_dont_use_autosuspend()
+> 
+> I want to follow the conventions, but get some push back,
+> Krzysztof say that he can not see any bindings, these are not bindings.
 
-How about a middle ground, though: we could add a devm function that
-does all the magic. Somewhat recently devm_pm_runtime_enable() was
-added. What if we add a variant for those that use autosuspend, like:
+I said in comment to your patch with DTS, which you called bindings,
+that there are no bindings at all in it. Because in your patch with DTS
+you did not include bindings, but you called it bindings.
 
-devm_pm_runtime_enable_with_autosuspend(dev, initial_delay)
+Here, this is a patch with bindings, so your comment "these are not
+bindings" is not true.
 
-That would:
-* pm_runtime_enable()
-* pm_runtime_set_autosuspend_delay()
-* pm_runtime_use_autosuspend()
-* Use devm_add_action_or_reset() to undo everything.
-
-Assuming that the pm_runtime folks are OK with that, we could
-transition things over to the new function once it rolls into
-mainline.
-
-So this doesn't magically fix all existing code but provides a path to
-make this more discoverable.
-
--Doug
+Best regards,
+Krzysztof
