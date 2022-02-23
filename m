@@ -1,38 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685264C0A3F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 04:30:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE694C0A62
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 04:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1652110E657;
-	Wed, 23 Feb 2022 03:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B86410E43D;
+	Wed, 23 Feb 2022 03:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id 26D6610E657
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 03:30:25 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.51 with ESMTP; 23 Feb 2022 12:30:24 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.125 with ESMTP; 23 Feb 2022 12:30:24 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Wed, 23 Feb 2022 12:30:12 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Jan Kara <jack@suse.cz>
-Subject: Re: Report 1 in ext4 and journal based on v5.17-rc1
-Message-ID: <20220223033012.GC26277@X58A-UD3R>
-References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
- <1645096204-31670-1-git-send-email-byungchul.park@lge.com>
- <20220222082723.rddf4typah3wegrc@quack3.lan>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52D3910E432
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 03:40:20 +0000 (UTC)
+X-UUID: 21571d5b32cd459881c019c719ec535f-20220223
+X-UUID: 21571d5b32cd459881c019c719ec535f-20220223
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1248210650; Wed, 23 Feb 2022 11:40:12 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 23 Feb 2022 11:40:11 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 23 Feb 2022 11:40:10 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 23 Feb 2022 11:40:09 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v7, 00/15] media: mtk-vcodec: support for M8192 decoder
+Date: Wed, 23 Feb 2022 11:39:53 +0800
+Message-ID: <20220223034008.15781-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220222082723.rddf4typah3wegrc@quack3.lan>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,73 +57,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, peterz@infradead.org, daniel.vetter@ffwll.ch,
- amir73il@gmail.com, david@fromorbit.com, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, bfields@fieldses.org, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, joel@joelfernandes.org, cl@linux.com,
- will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 22, 2022 at 09:27:23AM +0100, Jan Kara wrote:
-> On Thu 17-02-22 20:10:03, Byungchul Park wrote:
-> > [    7.009608] ===================================================
-> > [    7.009613] DEPT: Circular dependency has been detected.
-> > [    7.009614] 5.17.0-rc1-00014-g8a599299c0cb-dirty #30 Tainted: G        W
-> > [    7.009616] ---------------------------------------------------
-> > [    7.009617] summary
-> > [    7.009618] ---------------------------------------------------
-> > [    7.009618] *** DEADLOCK ***
-> > [    7.009618]
-> > [    7.009619] context A
-> > [    7.009619]     [S] (unknown)(&(bit_wait_table + i)->dmap:0)
-> > [    7.009621]     [W] down_write(&ei->i_data_sem:0)
-> > [    7.009623]     [E] event(&(bit_wait_table + i)->dmap:0)
-> > [    7.009624]
-> > [    7.009625] context B
-> > [    7.009625]     [S] down_read(&ei->i_data_sem:0)
-> > [    7.009626]     [W] wait(&(bit_wait_table + i)->dmap:0)
-> > [    7.009627]     [E] up_read(&ei->i_data_sem:0)
-> > [    7.009628]
-> 
-> Looking into this I have noticed that Dept here tracks bitlocks (buffer
-> locks in particular) but it apparently treats locks on all buffers as one
-> locking class so it conflates lock on superblock buffer with a lock on
-> extent tree block buffer. These are wastly different locks with different
-> locking constraints. So to avoid false positives in filesystems we will
-> need to add annotations to differentiate locks on different buffers (based
-> on what the block is used for). Similarly how we e.g. annotate i_rwsem for
-> different inodes.
+This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
+power/clock/interrupt interfaces for mt8192 is lat and core architecture.
 
-Hi Jan Kara,
+Secondly, add new functions to get frame buffer size and resolution according
+to decoder capability from scp side. Then add callback function to get/put
+capture buffer in order to enable lat and core decoder in parallel. 
 
-I just understood why some guys in this space got mad at Dept reports.
-I barely got reports from the lock you mentioned with my system -
-precisely speaking only one, even though I've been rebooting my system
-many times. But another report that someone gave for me showed there
-were a lot of reports from the lock.
+Then add to support MT21C compressed mode and fix v4l2-compliance fail.
 
-Your comment and the report are so much helpful. I need to assign
-each's own class first for the buffer locks. Thank you very much.
+Next, extract H264 request api driver to let mt8183 and mt8192 use the same
+code, and adds mt8192 frame based h264 driver for stateless decoder.
 
-Thanks,
-Byungchul
+Lastly, add vp8 and vp9 stateless decoder drivers.
 
-> 
-> 								Honza
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+Patches 1 refactor power/clock/interrupt interface.
+Patches 2~4 get frame buffer size and resolution according to decoder capability.
+Patches 5~6 enable lat and core decode in parallel.
+Patch 7~10 add to support MT21C compressed mode and fix v4l2-compliance fail.
+patch 11 record capture queue format type.
+Patch 12~13 extract h264 driver and add mt8192 frame based driver for h264 decoder.
+Patch 14~15 add vp8 and vp9 stateless decoder drivers.
+---
+changes compared with v6:
+- rebase to the latest media stage and fix conficts
+- fix memcpy to memcpy_fromio or memcpy_toio
+- fix h264 crash when test field bitstream
+changes compared with v5:
+- fix vp9 comments for patch 15
+- fix vp8 comments for patch 14.
+- fix comments for patch 12.
+- fix build errors.
+changes compared with v4:
+- fix checkpatch.pl fail.
+- fix kernel-doc fail.
+- rebase to the latest media codec driver.
+changes compared with v3:
+- remove enum mtk_chip for patch 2.
+- add vp8 stateless decoder drivers for patch 14.
+- add vp9 stateless decoder drivers for patch 15.
+changes compared with v2:
+- add new patch 11 to record capture queue format type.
+- separate patch 4 according to tzung-bi's suggestion.
+- re-write commit message for patch 5 according to tzung-bi's suggestion.
+changes compared with v1:
+- rewrite commit message for patch 12.
+- rewrite cover-letter message.
+---
+Yunfei Dong (15):
+  media: mtk-vcodec: Add vdec enable/disable hardware helpers
+  media: mtk-vcodec: Using firmware type to separate different firmware
+    architecture
+  media: mtk-vcodec: get capture queue buffer size from scp
+  media: mtk-vcodec: Read max resolution from dec_capability
+  media: mtk-vcodec: Call v4l2_m2m_set_dst_buffered() set capture buffer
+    buffered
+  media: mtk-vcodec: Refactor get and put capture buffer flow
+  media: mtk-vcodec: Refactor supported vdec formats and framesizes
+  media: mtk-vcodec: Add format to support MT21C
+  media: mtk-vcodec: disable vp8 4K capability
+  media: mtk-vcodec: Fix v4l2-compliance fail
+  media: mtk-vcodec: record capture queue format type
+  media: mtk-vcodec: Extract H264 common code
+  media: mtk-vcodec: support stateless H.264 decoding for mt8192
+  media: mtk-vcodec: support stateless VP8 decoding
+  media: mtk-vcodec: support stateless VP9 decoding
+
+ drivers/media/platform/mtk-vcodec/Makefile    |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   47 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |    5 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  166 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |    6 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   14 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  282 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   40 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |    5 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.c |    6 +
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |    1 +
+ .../mtk-vcodec/vdec/vdec_h264_req_common.c    |  310 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_common.h    |  253 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  440 +---
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  |  621 ++++++
+ .../mtk-vcodec/vdec/vdec_vp8_req_if.c         |  445 ++++
+ .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 1971 +++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   36 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |    3 +
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |   36 +
+ .../platform/mtk-vcodec/vdec_msg_queue.c      |    2 +
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |   53 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   15 +
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   |    2 +-
+ include/linux/remoteproc/mtk_scp.h            |    2 +
+ 25 files changed, 4180 insertions(+), 585 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
+-- 
+2.25.1
+
