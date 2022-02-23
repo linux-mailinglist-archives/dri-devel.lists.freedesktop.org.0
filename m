@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193444C1718
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239004C173C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:41:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B5010E464;
-	Wed, 23 Feb 2022 15:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B61A410E17F;
+	Wed, 23 Feb 2022 15:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84CF610E464
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 15:40:50 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id hw13so52997879ejc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 07:40:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WFKWHYEVTYdSkLxtSrxqY8mhLgNlskLotNcdJEfeS30=;
- b=BP+e7Hj+fIGrqQgvKxLgqJqGW+XjvC4W2WeMvrdSqNdlahm2nKkkb8pJURAf3TIG4l
- nDZx+yavvODjPUeqEteCxxHmPOleXTxNw1Dqft+zippmkFc2ClBIfOTzSknGrNYt/byt
- vN65phgYWoMfWWMHzyNmpBu7+mhCmqsXqsvaQTUdMfLA4wSRKF+vAvorAJUmL1lbYgbm
- bQEvuF4P0kIVxHGH3F41lYuBKNCB1QvW//E11i1rad/zwVkh0HPQPgUcSASXOU21HAwB
- 2j23SQPdXY+fSSD2mPsPVv3EgeYLHn09I9QRpUnuINWtIYlyMeP2/z/vueyYYJwVKfzm
- ytfg==
-X-Gm-Message-State: AOAM530iRNG6BzdrAyoLwauMPVW3vGEY8jqcPrHBXQ9NwlxOXjRRlcrZ
- tPJIfmtTXkw/3rc7i4LSnGQ=
-X-Google-Smtp-Source: ABdhPJwCjKeESc3L8IbeV5j21bvDk0eitpRamZsq6g9YoXBYxtk65XHiLToC3J+qPucyR9UNzMvs2A==
-X-Received: by 2002:a17:906:31c1:b0:6c9:cfb3:4dd3 with SMTP id
- f1-20020a17090631c100b006c9cfb34dd3mr257861ejf.392.1645630848908; 
- Wed, 23 Feb 2022 07:40:48 -0800 (PST)
-Received: from [192.168.0.125] (xdsl-188-155-181-108.adslplus.ch.
- [188.155.181.108])
- by smtp.googlemail.com with ESMTPSA id l6sm233ejz.189.2022.02.23.07.40.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 07:40:47 -0800 (PST)
-Message-ID: <ac2c2075-3d5c-3f7e-d4e2-a8c80ec61883@kernel.org>
-Date: Wed, 23 Feb 2022 16:40:45 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 2/4] Documentation/dt: Add descriptions for loongson
- display controller
-Content-Language: en-US
-To: =?UTF-8?B?6ZqL5pmv5bOw?= <suijingfeng@loongson.cn>,
- Rob Herring <robh@kernel.org>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50F0610E56F
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 15:41:42 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 34AD75802FD;
+ Wed, 23 Feb 2022 10:41:38 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 23 Feb 2022 10:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=M2/b5MIE6bQJByA3Vh9tC6cYzTZFNeBiNnMth2
+ KLMVo=; b=Bnv7woDYcd7mmSSfipVO5la+dn+WX97gG+qYFku5RwmJ0b+uz29gKk
+ W/2lgSs3Ox46zW5BJNzdu9QnQWAlaLv9ZEUY0uScxAuhSrTdfl0gsZRpbn1AcuYR
+ rp4ogfiwhwIy7fX4XzhoNXVUe1eeXWt2U9LEcNfLrDCarGqOdsOMaBwLKq6lc07C
+ TkJ7jeBpIQyorDeqGZ0InOnN44owKvZhafYZamH9gD/VG9LHBpIY8KrmyNlKXmeU
+ eCiGVRY7pmgpwMCiDx8x4QwOzvl7/1CU5o57TZXUXTmaZH8/duxrLhtRBf3tyn49
+ j2w6NdoCyh5lxb0a9vrXxRjbWQl/WwkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=M2/b5MIE6bQJByA3V
+ h9tC6cYzTZFNeBiNnMth2KLMVo=; b=QV9Juy7QQSjZuVHHhURF+1JcKbpnwuM2L
+ VBX0qBqM9COq6G8JtlBAGoYKPbuEo+hs+LLmqfg83f1gF0NFFEBeGu+vJf1DmY8O
+ RkOddVQ2IlNLls2Oj3ZkY6djaPU4zSBcDqnY6Z/0iUIHZy49MsCds/ZL33u9ch/v
+ XetHOyJnIKeMMcKumKLPnQssQ+uO+DjUdMMOt4QblQzlekvmXrX7Cdw2zhJBzdDN
+ jc0jXWr9dqAXKhvw3sk/mR4XmLh8trrHmi9ogmq8oIbzZSMIhdSgCAyKh2oBolEm
+ 4kYXV2zaSg26RpZYRA1icgL6iyLDAVcbbQrBkYREWdhapRc3V6SVw==
+X-ME-Sender: <xms:sFUWYm-GEEjdbSALW-ne4zr0sLOEzsXQtkNn_Zyd5wc69QchaF-seA>
+ <xme:sFUWYmsTGwCa4aj1bgfQeK6Cx2WlsgGywYi7Yg_ErHCOtJxzNXhtdN_z_Nh5HhqYF
+ OHdd9nQg-pDWF5Imfw>
+X-ME-Received: <xmr:sFUWYsC-_QYnAVMxuCBJ1m-eY9bXN7V78hbuLSoOd0TrLUfjscuc6K4DsF-X7mzly28hBjWUH6uJLxKEMMSh9bEaiPH4okiUoU0G8Q0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgdejkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:sFUWYucjTpHs6Qn-MDTcCWWmXKBaJcOi8k7atOJd8k3NlTCjoAZtcQ>
+ <xmx:sFUWYrOXvrls4gJweUQTNaIcB_4eu8l17ekbpWVprS4CJ_ltn8bFIg>
+ <xmx:sFUWYokFXOZhIiRJnnF2QEvDa3gLV_16w0kxGw56zZN4sFSw0cYyug>
+ <xmx:slUWYucAa7gT1-vE7e0qdSDMi9pH5PrgDoV3u88A1vtFcOMsjvpvWg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Feb 2022 10:41:36 -0500 (EST)
+Date: Wed, 23 Feb 2022 16:41:34 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v10 3/4] drm/lsdc: add drm driver for loongson display
+ controller
+Message-ID: <20220223154134.y7slxu3jaje2jtwr@houat>
 References: <20220220145554.117854-1-15330273260@189.cn>
- <20220220145554.117854-3-15330273260@189.cn>
- <YhVrigEnXTiNgk67@robh.at.kernel.org>
- <720f940e.5ac.17f26de3a5b.Coremail.suijingfeng@loongson.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <720f940e.5ac.17f26de3a5b.Coremail.suijingfeng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <20220220145554.117854-4-15330273260@189.cn>
+ <20220222082747.66otrkc4zwvhem7w@houat>
+ <54ea69d7-2fac-74dc-2ef6-843a666cff85@189.cn>
+ <20220223143912.m727fie3vtdkvklo@houat>
+ <0d4a75c4-78bb-4aed-0fa8-88e9cc165896@189.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uwizgizeraqcnone"
+Content-Disposition: inline
+In-Reply-To: <0d4a75c4-78bb-4aed-0fa8-88e9cc165896@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +87,119 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Sui Jingfeng <15330273260@189.cn>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
  Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
  Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2022 14:56, 隋景峰 wrote:
-> 
-> 
-> 
-> &gt; -----Original Messages-----
-> &gt; From: "Rob Herring" <robh@kernel.org>
-> &gt; Sent Time: 2022-02-23 07:02:34 (Wednesday)
-> &gt; To: "Sui Jingfeng" &lt;15330273260@189.cn&gt;
-> &gt; Cc: "Maxime Ripard" <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Roland Scheidegger" <sroland@vmware.com>, "Zack Rusin" <zackr@vmware.com>, "Christian Gmeiner" <christian.gmeiner@gmail.com>, "David Airlie" <airlied@linux.ie>, "Daniel Vetter" <daniel@ffwll.ch>, "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Dan Carpenter" <dan.carpenter@oracle.com>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Andrey Zhizhikin" <andrey.zhizhikin@leica-geosystems.com>, "Sam Ravnborg" <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>, "Jiaxun Yang" <jiaxun.yang@flygoat.com>, "Lucas Stach" <l.stach@pengutronix.de>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Ilia Mirkin" <imirkin@alum.mit.edu>, "Qing Zhang" <zhangqing@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-> &gt; Subject: Re: [PATCH v10 2/4] Documentation/dt: Add descriptions for loongson display controller
-> &gt; 
-> &gt; On Sun, Feb 20, 2022 at 10:55:52PM +0800, Sui Jingfeng wrote:
-> &gt; &gt; From: suijingfeng <suijingfeng@loongson.cn>
-> &gt; 
-> &gt; Follow the conventions of the subsystem for patch subjects. It should be 
-> &gt; evident with 'git log --oneline Documentation/devicetree/bindings/display'.
-> &gt; 
-> &gt; Something like this:
-> &gt; 
-> &gt; dt-bindings: display: Add Loongson display controller
-> &gt; 
-> 
-> Hi, 
-> 
-> We are not a platform device driver, there is no
-> of_device_id defined in my driver. In other word, 
-> my driver will not bind against devices whose compatible
-> is "loongson,ls7a1000-dc". We just parse the device tree
-> actively, find necessary information of interest. 
-> In this case, can I use the word "dt-bindings" in the commit title?
 
-This is a patch for specific subsystem, so as Rob said, it should follow
-subsystem conventions.
+--uwizgizeraqcnone
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The patch itself is a dt-bindings patch, so there is nothing here
-special which would encourage for any exception.
+On Wed, Feb 23, 2022 at 11:14:12PM +0800, Sui Jingfeng wrote:
+>=20
+> On 2022/2/23 22:39, Maxime Ripard wrote:
+> > On Tue, Feb 22, 2022 at 10:46:35PM +0800, Sui Jingfeng wrote:
+> > > On 2022/2/22 16:27, Maxime Ripard wrote:
+> > > > > +	if (!of_device_is_available(output)) {
+> > > > > +		of_node_put(output);
+> > > > > +		drm_info(ddev, "connector%d is not available\n", index);
+> > > > > +		return NULL;
+> > > > > +	}
+> > > > > +
+> > > > > +	disp_tims_np =3D of_get_child_by_name(output, "display-timings"=
+);
+> > > > > +	if (disp_tims_np) {
+> > > > > +		lsdc_get_display_timings_from_dtb(output, &lconn->disp_tim);
+> > > > > +		lconn->has_disp_tim =3D true;
+> > > > > +		of_node_put(disp_tims_np);
+> > > > > +		drm_info(ddev, "Found display timings provided by connector%d\=
+n", index);
+> > > > > +	}
+> > > > > +
+> > > > > +	connector_type =3D lsdc_get_connector_type(ddev, output, index);
+> > > > > +
+> > > > > +	if (output) {
+> > > > > +		of_node_put(output);
+> > > > > +		output =3D NULL;
+> > > > > +	}
+> > > > > +
+> > > > > +DT_SKIPED:
+> > > > > +
+> > > > > +	/* Only create the i2c channel if display timing is not provide=
+d */
+> > > > > +	if (!lconn->has_disp_tim) {
+> > > > > +		const struct lsdc_chip_desc * const desc =3D ldev->desc;
+> > > > > +
+> > > > > +		if (desc->have_builtin_i2c)
+> > > > > +			lconn->ddc =3D lsdc_create_i2c_chan(ddev, index);
+> > > > > +		else
+> > > > > +			lconn->ddc =3D lsdc_get_i2c_adapter(ddev, index);
+> > > > This looks weird: the connector bindings have a property to store t=
+he
+> > > > i2c controller connected to the DDC lines, so you should use that
+> > > > instead.
+> > > >=20
+> > > This is not=A0 weird,=A0 ast, mgag200, hibmc do the same thing.
+> > And none of them have DT support.
+> >=20
+> > Maxime
+>=20
+> You are wrong, ast driver have dt support. See ast_detect_config_mode() in
+> drm/ast/ast_main.c
+>=20
+> static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+> {
+> =A0=A0 =A0struct device_node *np =3D dev->dev->of_node;
+> =A0=A0 =A0struct ast_private *ast =3D to_ast_private(dev);
+> =A0=A0 =A0struct pci_dev *pdev =3D to_pci_dev(dev->dev);
+> =A0=A0 =A0uint32_t data, jregd0, jregd1;
+>=20
+> =A0=A0 =A0/* Defaults */
+> =A0=A0 =A0ast->config_mode =3D ast_use_defaults;
+> =A0=A0 =A0*scu_rev =3D 0xffffffff;
+>=20
+> =A0=A0 =A0/* Check if we have device-tree properties */
+> =A0=A0 =A0if (np && !of_property_read_u32(np, "aspeed,scu-revision-id",
+> =A0=A0 =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 scu_rev)) {
+> =A0=A0 =A0=A0=A0=A0 /* We do, disable P2A access */
+> =A0=A0 =A0=A0=A0=A0 ast->config_mode =3D ast_use_dt;
+> =A0=A0 =A0=A0=A0=A0 drm_info(dev, "Using device-tree for configuration\n"=
+);
+> =A0=A0 =A0=A0=A0=A0 return;
+> =A0=A0 =A0}
+>=20
+> =A0....
+>=20
+> }
 
+It doesn't seem to probe from the DT though. It uses 4 properties, and
+none of them are documented. It's still a widely different case than
+your driver that uses the connector binding, and therefore has access to
+the ddc bus there.
 
-> 
-> I want to follow the conventions, but get some push back,
-> Krzysztof say that he can not see any bindings, these are not bindings.
+Maxime
 
-I said in comment to your patch with DTS, which you called bindings,
-that there are no bindings at all in it. Because in your patch with DTS
-you did not include bindings, but you called it bindings.
+--uwizgizeraqcnone
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Here, this is a patch with bindings, so your comment "these are not
-bindings" is not true.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhZVrQAKCRDj7w1vZxhR
+xS48AQCiz86aru05sqZwXNd++y8Km72yvxlQbVk5ANA9UCjlYAD+KYiiiZuOLSqM
+9g3/jplVDK9jJSxClRqmlsO5loCq/QI=
+=H2N/
+-----END PGP SIGNATURE-----
 
-</suijingfeng@loongson.cn></suijingfeng@loongson.cn></zhangqing@loongson.cn></imirkin@alum.mit.edu></maarten.lankhorst@linux.intel.com></l.stach@pengutronix.de></jiaxun.yang@flygoat.com></davem@davemloft.net></sam@ravnborg.org></andrey.zhizhikin@leica-geosystems.com></krzk@kernel.org></dan.carpenter@oracle.com></tsbogend@alpha.franken.de></daniel@ffwll.ch></airlied@linux.ie></christian.gmeiner@gmail.com></zackr@vmware.com></sroland@vmware.com></tzimmermann@suse.de></mripard@kernel.org></robh@kernel.org>
-
-This link does not work...
-
-> This email and its attachments contain confidential information from Loongson Technology , which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this email in error, please notify the sender by phone or email immediately and delete it. 
-
-Such automatic footers do not help. Could you work on a way to avoid them?
-
-
-
-Best regards,
-Krzysztof
+--uwizgizeraqcnone--
