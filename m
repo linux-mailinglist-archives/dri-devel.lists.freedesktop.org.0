@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E344C1A29
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 18:48:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5144C1A99
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 19:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1CA10E1D7;
-	Wed, 23 Feb 2022 17:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5FF10E19B;
+	Wed, 23 Feb 2022 18:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FF610E1B6;
- Wed, 23 Feb 2022 17:47:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645638477; x=1677174477;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XUgO4nVQJ6a1L5q3OrfsToVOG7On6/Pom1eXaMVtDHs=;
- b=r9+xzwccGkKJvsgoBebW0R0+EqY2N2O5GUD9CdaMi4krmaIXt4s7SmRh
- GUNm0Km9rXm4xUIDkeOPq3Tp61TTZEdghCmsMgfO//NQFLyHTj4vTfTE9
- An76vPrWzX6jPHTHLBCNc4KqH+FM60H5iI3H/FzL/rfWFhDe3BeltcsDr E=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 23 Feb 2022 09:47:56 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 09:47:55 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 23 Feb 2022 09:47:55 -0800
-Received: from [10.110.64.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Wed, 23 Feb
- 2022 09:47:54 -0800
-Message-ID: <2e253aa8-d405-c4b9-fd11-6797503c9d44@quicinc.com>
-Date: Wed, 23 Feb 2022 09:47:54 -0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D86210E19B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 18:05:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6DD5DD;
+ Wed, 23 Feb 2022 19:05:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1645639502;
+ bh=0KfdNa+vM70EeqFP9yOVby84KYIZfhnNgJkRhONmCio=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=iCQxj9jDdRGe9tablR6QqoOeMuW3kk+aYgNetlvh+Es7hP7bBDt1G0G6w4M7OFUdO
+ hdbw5EBq5/nwYes8sK3BmY+ThQQiv8sHtMgUgbNUAyrr9lUlsjqs+PhtbS4ig2UcXB
+ b0MpRCbvJOSCuG9LJ3QkdUxSKoS4s4W2X4bmENbk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 2/5] drm/msm/dp: support attaching bridges to the
- DP encoder
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-3-dmitry.baryshkov@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20220211224006.1797846-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
+ <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Doug Anderson <dianders@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Wed, 23 Feb 2022 18:04:59 +0000
+Message-ID: <164563949999.4066078.2399611738908533224@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,150 +52,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Doug, Laurent,
 
-On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
-> Currently DP driver will allocate panel bridge for eDP panels. This
-> supports only the following topology:
->
-> - eDP encoder ⇒ eDP panel (wrapped using panel-bridge)
->
-> Simplify this code to just check if there is any next bridge in the
-> chain (be it a panel bridge or regular bridge). Rename panel_bridge
-> field to next_bridge accordingly.
->
-> This allows one to use e.g. one of the following display topologies:
->
-> - eDP encoder ⇒ ptn3460 ⇒ fixed LVDS panel
-> - eDP encoder ⇒ ptn3460 ⇒ LVDS connector with EDID lines for panel autodetect
-> - eDP encoder ⇒ ptn3460 ⇒ THC63LVD1024 ⇒ DPI panel.
-> - eDP encoder ⇒ LT8912 ⇒ DSI panel
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+Quoting Laurent Pinchart (2021-06-23 14:59:00)
+> Hi Doug,
+>=20
+> On Wed, Mar 24, 2021 at 03:47:07PM -0700, Doug Anderson wrote:
+> > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+> > >
+> > > Despite the SN65DSI86 being an eDP bridge, on some systems its output=
+ is
+> > > routed to a DisplayPort connector. Enable DisplayPort mode when the n=
+ext
+> > > component in the display pipeline is not a panel, and disable eDP
+> > > features in that case.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboar=
+d.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 ++++++++++++++++++++-----=
+--
+> > >  1 file changed, 24 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/=
+bridge/ti-sn65dsi86.c
+> > > index e2527d597ccb..f792227142a7 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > @@ -55,6 +55,7 @@
+> > >  #define SN_LN_ASSIGN_REG                       0x59
+> > >  #define  LN_ASSIGN_WIDTH                       2
+> > >  #define SN_ENH_FRAME_REG                       0x5A
+> > > +#define  ASSR_CONTROL                          BIT(0)
+> > >  #define  VSTREAM_ENABLE                                BIT(3)
+> > >  #define  LN_POLRS_OFFSET                       4
+> > >  #define  LN_POLRS_MASK                         0xf0
+> > > @@ -86,6 +87,8 @@
+> > >  #define SN_DATARATE_CONFIG_REG                 0x94
+> > >  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
+> > >  #define  DP_DATARATE(x)                                ((x) << 5)
+> > > +#define SN_TRAINING_SETTING_REG                        0x95
+> > > +#define  SCRAMBLE_DISABLE                      BIT(4)
+> > >  #define SN_ML_TX_MODE_REG                      0x96
+> > >  #define  ML_TX_MAIN_LINK_OFF                   0
+> > >  #define  ML_TX_NORMAL_MODE                     BIT(0)
+> > > @@ -723,6 +726,11 @@ static int ti_sn_link_training(struct ti_sn_brid=
+ge *pdata, int dp_rate_idx,
+> > >         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
+> > >                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx)=
+);
+> > >
+> > > +       /* For DisplayPort, use the standard DP scrambler seed. */
+> > > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > > +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
+> > > +                                  ASSR_CONTROL, 0);
+> >=20
+> > I don't actually know anything about DP scrambler seeds. However:
+> >=20
+> > 1. From reading the docs, this field seems to be documented to be
+> > "read only" unless:
+> >=20
+> > 1a) The "TEST2" pin is pulled high when you power on the bridge.
+> > 1b) You set "ASSR_OVERRIDE" (page select to page 7, write to register
+> > 0x16, page select back to page 0).
+> >=20
+> > I don't know if TEST2 is being pulled high in your hardware, but at
+> > least I can see that 1b) isn't done. So I'm guessing that this line is
+> > a no-op? If I had to guess from all the hoops they're making you jump
+> > through there's some sort of errata around standard scrambling on this
+> > bridge chip. Are you sure it works OK?
+>=20
+> Good question :-) We managed to get the SN65DSI86 to work with an
+> external DP monitor yesterday, so it's possible (some modes don't
+> operate correctly yet, but I assume that to be an issue with the DSI
+> encoder).
+>=20
+> The TEST2 pin is strapped to ground on the board.
+>=20
+> According to the DisplayPort specification, eDP and DP use different
+> scrambler seeds to prevent interoperability between an eDP source and a
+> DP sink. I'll check what happens without this change.
 
-Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Without this change, the display still works...
+
+>=20
+> > 2. The docs I see claim that this field is 2 bits big. It seems like
+> > it would be nice to honor. Yeah, it's silly because 0x11 and 0x10 are
+> > "reserved" so it's really more like a 1-bit field, but still seems
+> > like it would be better to set both bits, or at least add a comment
+> > explaining why you're not matching the datasheet.
+>=20
+> Sure.
+>=20
+> > 3. Your patch doesn't seem to touch the bit of code in
+> > ti_sn_bridge_enable() that says this:
+> >=20
+> > /**
+> >  * The SN65DSI86 only supports ASSR Display Authentication method and
+> >  * this method is enabled by default. An eDP panel must support this
+> >  * authentication method. We need to enable this method in the eDP panel
+> >  * at DisplayPort address 0x0010A prior to link training.
+> >  */
+> > drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+> >    DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+> >=20
+> > Won't that be a problem?
+>=20
+> I'll have a look.
+
+I'm not sure I yet fully understand the requirements here, but could it
+be that only supporting ASSR is why the scrambling is disabled below?
+
+Commenting out that write does not affect the bring up of my DP monitor.
+
+>=20
+> > > +
+> > >         /* enable DP PLL */
+> > >         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
+> > >
+> > > @@ -734,6 +742,11 @@ static int ti_sn_link_training(struct ti_sn_brid=
+ge *pdata, int dp_rate_idx,
+> > >                 goto exit;
+> > >         }
+> > >
+> > > +       /* For DisplayPort, disable scrambling mode. */
+> > > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING=
+_REG,
+> > > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE=
+);
+> >=20
+> > I'm assuming that this is the important part of your patch? Would be
+> > sorta nice to include the "why" in your comment. Why do you want to
+> > disable scrambling mode for DP but not for eDP? Maybe you care about
+> > compatibility but not EMI if you're hooking up to random DP things?
+>=20
+> I'll investigate and include proper documentation in v2 (or drop the
+> change altogether if it's not required).
+
+And indeed, this part is important. If I drop this hunk - then I get no
+display output.
+
+I'm afraid I don't (yet) know the reasons 'why' to extend the comment,
+beyond "Scrambling is not supported for DP".
+
+If anyone already does, please feel free to provide the text, and I'll
+include it in the next revision, or I'll try to do some more digging
+into this part.
+
+--
+Kieran
 
 
->   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->   drivers/gpu/drm/msm/dp/dp_display.h |  2 +-
->   drivers/gpu/drm/msm/dp/dp_drm.c     |  4 ++--
->   drivers/gpu/drm/msm/dp/dp_parser.c  | 31 +++++++++++++++--------------
->   drivers/gpu/drm/msm/dp/dp_parser.h  |  2 +-
->   5 files changed, 21 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 44d42c76c2a3..45f9a912ecc5 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -266,7 +266,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
->   		goto end;
->   	}
->   
-> -	dp->dp_display.panel_bridge = dp->parser->panel_bridge;
-> +	dp->dp_display.next_bridge = dp->parser->next_bridge;
->   
->   	dp->aux->drm_dev = drm;
->   	rc = dp_aux_register(dp->aux);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index e3adcd578a90..7af2b186d2d9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -16,7 +16,7 @@ struct msm_dp {
->   	struct drm_bridge *bridge;
->   	struct drm_connector *connector;
->   	struct drm_encoder *encoder;
-> -	struct drm_bridge *panel_bridge;
-> +	struct drm_bridge *next_bridge;
->   	bool is_connected;
->   	bool audio_enabled;
->   	bool power_on;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 26ef41a4c1b6..80f59cf99089 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -236,9 +236,9 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
->   		return ERR_PTR(rc);
->   	}
->   
-> -	if (dp_display->panel_bridge) {
-> +	if (dp_display->next_bridge) {
->   		rc = drm_bridge_attach(dp_display->encoder,
-> -					dp_display->panel_bridge, bridge,
-> +					dp_display->next_bridge, bridge,
->   					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->   		if (rc < 0) {
->   			DRM_ERROR("failed to attach panel bridge: %d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index a7acc23f742b..901d7967370f 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -265,23 +265,16 @@ static int dp_parser_clock(struct dp_parser *parser)
->   	return 0;
->   }
->   
-> -static int dp_parser_find_panel(struct dp_parser *parser)
-> +static int dp_parser_find_next_bridge(struct dp_parser *parser)
->   {
->   	struct device *dev = &parser->pdev->dev;
-> -	struct drm_panel *panel;
-> -	int rc;
-> +	struct drm_bridge *bridge;
->   
-> -	rc = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-> -	if (rc) {
-> -		DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
-> -		return rc;
-> -	}
-> +	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	if (IS_ERR(bridge))
-> +		return PTR_ERR(bridge);
->   
-> -	parser->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> -	if (IS_ERR(parser->panel_bridge)) {
-> -		DRM_ERROR("failed to create panel bridge\n");
-> -		return PTR_ERR(parser->panel_bridge);
-> -	}
-> +	parser->next_bridge = bridge;
->   
->   	return 0;
->   }
-> @@ -307,10 +300,18 @@ static int dp_parser_parse(struct dp_parser *parser, int connector_type)
->   	if (rc)
->   		return rc;
->   
-> +	/*
-> +	 * Currently we support external bridges only for eDP connectors.
-> +	 *
-> +	 * No external bridges are expected for the DisplayPort connector,
-> +	 * it is physically present in a form of a DP or USB-C connector.
-> +	 */
->   	if (connector_type == DRM_MODE_CONNECTOR_eDP) {
-> -		rc = dp_parser_find_panel(parser);
-> -		if (rc)
-> +		rc = dp_parser_find_next_bridge(parser);
-> +		if (rc) {
-> +			DRM_ERROR("DP: failed to find next bridge\n");
->   			return rc;
-> +		}
->   	}
->   
->   	/* Map the corresponding regulator information according to
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 3172da089421..4cec851e38d9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -123,7 +123,7 @@ struct dp_parser {
->   	struct dp_display_data disp_data;
->   	const struct dp_regulator_cfg *regulator_cfg;
->   	u32 max_dp_lanes;
-> -	struct drm_bridge *panel_bridge;
-> +	struct drm_bridge *next_bridge;
->   
->   	int (*parse)(struct dp_parser *parser, int connector_type);
->   };
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
