@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C804C07D9
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 03:29:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ED94C07FD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 03:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66AB10E21D;
-	Wed, 23 Feb 2022 02:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D4810E3E9;
+	Wed, 23 Feb 2022 02:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C13310E21D;
- Wed, 23 Feb 2022 02:29:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B23910E3A9;
+ Wed, 23 Feb 2022 02:30:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8DAB2B81E0F;
- Wed, 23 Feb 2022 02:29:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902A8C340E8;
- Wed, 23 Feb 2022 02:29:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 68C7FB81DD2;
+ Wed, 23 Feb 2022 02:30:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80311C340F0;
+ Wed, 23 Feb 2022 02:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645583347;
- bh=SY22ClUZLoWf0GwF+Z7U7j93X1mpL7+EqeXRk9EJzlQ=;
+ s=k20201202; t=1645583412;
+ bh=SUYm3KrWmrbIaiLj6N2qj9bIbQJ53sf2Jm7PIRoNyM8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hq1igHlVC2oufeKXLK0UV+DCucWIh8BXxtYVUQbKJ4o4sLsJoq3DDqgetpCzHLC7/
- VzMAvkhIkvVTwoZ4vrU/q16P+7yKnIyzXZcdR/hUdj5LREPUizpOLxALWteY/lMqIo
- /MSXdyzDxc8kbwLLaJlc2Oj2DR3LlxLMVU9jPTIQbtLFtUW8Cv8gtR9po15zp3pOeq
- Rx25asHRxPNK0t4MO6N6eDrNXBubrQSZ+dmbBL3EJkBApg9T5gZyVsUpNLufcQhLtW
- qPGLxAf5qH4Z8qJjWgq4pt7NPMU6x/yPQmnJrdioS+0gAOGpJUIi0yUYwgZWswev+o
- TW/l1qTUnMLNg==
+ b=MR65jpYXxy29mSOY4e+qE+zxGzawKEDN9Rv2lvhLGczmwq67Xi3tWXvUuQKKelVz5
+ /buGm8bwh2MG5drwykenZMVuSNNo9L5y81BLXaekXm9/COJyMyhDZvn7dTj4SOLY2E
+ eHS2+aVefPWXHUhEOyO2U2HxgRfJFtTQXniF33uT4kH0xESRWIdWikR0VNoD/kpY+e
+ ivpIzD+nmKbQus9LvqPfpB0KpZ509r0Beo8gFK1iFLn5zgjmJLnZonJV1b9VyB5iW1
+ bVSETRsLwdzTISycXtSZWX7QJqVP4oSGZTXhjCtasdSTnD5mbiWU1m+A4/eSWWAcTw
+ DCt7tNQAvRcXA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 22/30] drm/amd/pm: correct UMD pstate clocks for
+Subject: [PATCH AUTOSEL 5.15 20/28] drm/amd/pm: correct UMD pstate clocks for
  Dimgrey Cavefish and Beige Goby
-Date: Tue, 22 Feb 2022 21:28:11 -0500
-Message-Id: <20220223022820.240649-22-sashal@kernel.org>
+Date: Tue, 22 Feb 2022 21:29:21 -0500
+Message-Id: <20220223022929.241127-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220223022820.240649-1-sashal@kernel.org>
-References: <20220223022820.240649-1-sashal@kernel.org>
+In-Reply-To: <20220223022929.241127-1-sashal@kernel.org>
+References: <20220223022929.241127-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 29 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-index 446d37320b948..cd75a65982cf7 100644
+index f89bf49965fcd..20ab937c6450a 100644
 --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
 +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-@@ -1231,21 +1231,37 @@ static int sienna_cichlid_populate_umd_state_clk(struct smu_context *smu)
+@@ -1278,21 +1278,37 @@ static int sienna_cichlid_populate_umd_state_clk(struct smu_context *smu)
  				&dpm_context->dpm_tables.soc_table;
  	struct smu_umd_pstate_table *pstate_table =
  				&smu->pstate_table;
