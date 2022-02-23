@@ -1,82 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0AF4C191B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 17:55:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C27E64C192B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 17:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF0F10F00C;
-	Wed, 23 Feb 2022 16:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD6710F1BF;
+	Wed, 23 Feb 2022 16:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E0E10F00C
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 16:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645635299;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VGsFxlL4JeFa1QdhcUJScvi/ilLeoFbRM78k1G2b9hU=;
- b=Tl1J67Jeoh2rJl6U0NNdA9vnV/A4XRdzrKJNx9hLLlIAz6ri0ZsyDGfzBbgwuuaWYNaRso
- B4x9wgRfbJpfKf45gIMZ72wSExzLJcJEe45iJdloLsKezWYDu7PHVgjUFSYmuChyogVGRr
- biImOL2eyRnNSj3ZXm2UYusa1brmJWU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-UIikDLTGN5WwYTs6A_8wWQ-1; Wed, 23 Feb 2022 11:54:57 -0500
-X-MC-Unique: UIikDLTGN5WwYTs6A_8wWQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v24-20020adf8b58000000b001eda5c5cf95so1129498wra.18
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 08:54:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VGsFxlL4JeFa1QdhcUJScvi/ilLeoFbRM78k1G2b9hU=;
- b=TL3adkSlDOxiExqrFc7R2y+kX8q9AE4MddF0sHrUbGNb6GwjgCFN+SJRDiTxRZ+ow8
- PgZEWi8xUvugcMxRNym65+FAnDyMIxBMCPmaF60PfLqHe/u4WW+dNZzj51tnWZuvsYz8
- sPlBdTUdyLlxhPZcSjLFDZpKVisZiSLyVHRFDll4j8tk87JI1auYKjongOenrAIUBhH0
- cZRo9d+JOuCL/vcHPjS3SZKCKWKjjZ+GdaDVn2qc1/B3hDDtpmJkECZGu8nup43EUeO3
- uizsXuRUsgQLwUWodWfeMzFHCZL6rjj2W5TzzqlushkYqM+/KNRR6hPqLGCw2bNrZvs+
- v1Ag==
-X-Gm-Message-State: AOAM5300ONYO/dLuyPFXSPylOsEjxXu16CPefvGXRKRWPRaFnyrufHk6
- Im00NFZSDs8xjx4B/gHfMyK7LYEbZ02HG6+DbFEfPzfZKgyWOWd4ox/7JM2VCG7YxnL+HinYOYU
- NnNx7caKqx/+Z0ZuxscQgWKYk+//w
-X-Received: by 2002:a05:6000:11c9:b0:1ed:b92d:8c68 with SMTP id
- i9-20020a05600011c900b001edb92d8c68mr387249wrx.692.1645635296722; 
- Wed, 23 Feb 2022 08:54:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwh2m/1l5+uIPpemZfPkQyC83sbpmuOCBmgtWvmNNgg8mQBYxAIW77Ao8GytoqMFEHFUp6k6Q==
-X-Received: by 2002:a05:6000:11c9:b0:1ed:b92d:8c68 with SMTP id
- i9-20020a05600011c900b001edb92d8c68mr387231wrx.692.1645635296423; 
- Wed, 23 Feb 2022 08:54:56 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id n2sm79430wmq.6.2022.02.23.08.54.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 08:54:56 -0800 (PST)
-Message-ID: <f832a836-b6ee-ffc5-6f83-86c9ba475400@redhat.com>
-Date: Wed, 23 Feb 2022 17:54:54 +0100
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFEA010F1BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 16:57:39 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3EDFA83CA0;
+ Wed, 23 Feb 2022 17:57:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1645635457;
+ bh=6RNnxFry+EgzWhSv2OUCDvWAJ7ot/hbdOI28iSxKcJU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=g5QTKwgLA6VEINSzj3IjkjmC/0f158foiTe59tKknQKbbLE0nPbKSM+/nvRri7fkL
+ WrHWYj6ArDm8lw/DhCdM4zJMZVFO08bKvTqBd7bJoZFpxDTex6mxCEXNykTMgDf0iy
+ eJ90IF5FWQbDxvgd2/rIU7djiB+tK7RthWG/s35kBqT+DLyZw3QQ222jmullQOBo89
+ UnnNVWdEksRSD2T9PhsWRyNOuIMemVR6LmrTKPdCNdouI4VIcaJwULVeApKdn1uIJE
+ iu8mEYb62NcJzDcnC7dnjT3wuVAGckueTPExnISxH0sBNDbx6WzntkWuVcYWqvHw5w
+ KDHW6fw2kM1AA==
+Message-ID: <b603555c-874c-c216-06ec-a57736735565@denx.de>
+Date: Wed, 23 Feb 2022 17:57:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3] simplefb: Enable boot time VESA graphic mode selection.
-To: =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-References: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
- <20220218160436.23211-1-msuchanek@suse.de>
- <33b80f9c-d54a-5471-a58b-7a783a7a9e5b@redhat.com>
- <20220223164528.GE3113@kunlun.suse.cz>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220223164528.GE3113@kunlun.suse.cz>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
+ bpc and bus_format
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220222084723.14310-1-max.krummenacher@toradex.com>
+ <20220223134154.oo7xhf37bgtvm3ai@houat>
+ <b5f471f4-0712-b798-efb8-b5b481cdb898@denx.de>
+ <20220223134757.f5upi2iun27op5w5@houat>
+ <d9ac0b96-3327-d250-dcdd-f49fc56b922c@denx.de>
+ <20220223143703.xi7vpamjg4ytmvqs@houat>
+ <bdb7884f-4c66-44ab-72e3-003b50364457@denx.de>
+ <20220223163930.wk3twgz6hranicv6@houat>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220223163930.wk3twgz6hranicv6@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,47 +63,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Martin Mares <mj@ucw.cz>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sudeep Holla <sudeep.holla@arm.com>, linux-video@atrey.karlin.mff.cuni.cz
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Max Krummenacher <max.krummenacher@toradex.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Max Krummenacher <max.oss.09@gmail.com>, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, DenysDrozdov <denys.drozdov@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/23/22 17:45, Michal Suchánek wrote:
-
-[snip]
-
+On 2/23/22 17:39, Maxime Ripard wrote:
+> On Wed, Feb 23, 2022 at 03:38:20PM +0100, Marek Vasut wrote:
+>> On 2/23/22 15:37, Maxime Ripard wrote:
+>>> On Wed, Feb 23, 2022 at 03:09:08PM +0100, Marek Vasut wrote:
+>>>> On 2/23/22 14:47, Maxime Ripard wrote:
+>>>>> On Wed, Feb 23, 2022 at 02:45:30PM +0100, Marek Vasut wrote:
+>>>>>> On 2/23/22 14:41, Maxime Ripard wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On Tue, Feb 22, 2022 at 09:47:23AM +0100, Max Krummenacher wrote:
+>>>>>>>> Use the new property bus-format to set the enum bus_format and bpc.
+>>>>>>>> Completes: commit 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
+>>>>>>>>
+>>>>>>>> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+>>>>>>>>
+>>>>>>>> ---
+>>>>>>>>
+>>>>>>>>      drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
+>>>>>>>>      1 file changed, 32 insertions(+)
+>>>>>>>>
+>>>>>>>> Relates to the discussion: https://lore.kernel.org/all/20220201110717.3585-1-cniedermaier@dh-electronics.com/
+>>>>>>>>
+>>>>>>>> Max
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+>>>>>>>> index c5f133667a2d..5c07260de71c 100644
+>>>>>>>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>>>>>>>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>>>>>>>> @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
+>>>>>>>>      	struct panel_desc *desc;
+>>>>>>>>      	unsigned int bus_flags;
+>>>>>>>>      	struct videomode vm;
+>>>>>>>> +	const char *format = "";
+>>>>>>>>      	int ret;
+>>>>>>>>      	np = dev->of_node;
+>>>>>>>> @@ -477,6 +478,37 @@ static int panel_dpi_probe(struct device *dev,
+>>>>>>>>      	of_property_read_u32(np, "width-mm", &desc->size.width);
+>>>>>>>>      	of_property_read_u32(np, "height-mm", &desc->size.height);
+>>>>>>>> +	of_property_read_string(np, "bus-format", &format);
+>>>>>>>> +	if (!strcmp(format, "BGR888_1X24")) {
+>>>>>>>> +		desc->bpc = 8;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_BGR888_1X24;
+>>>>>>>> +	} else if (!strcmp(format, "GBR888_1X24")) {
+>>>>>>>> +		desc->bpc = 8;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_GBR888_1X24;
+>>>>>>>> +	} else if (!strcmp(format, "RBG888_1X24")) {
+>>>>>>>> +		desc->bpc = 8;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RBG888_1X24;
+>>>>>>>> +	} else if (!strcmp(format, "RGB444_1X12")) {
+>>>>>>>> +		desc->bpc = 6;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB444_1X12;
+>>>>>>>> +	} else if (!strcmp(format, "RGB565_1X16")) {
+>>>>>>>> +		desc->bpc = 6;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+>>>>>>>> +	} else if (!strcmp(format, "RGB666_1X18")) {
+>>>>>>>> +		desc->bpc = 6;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+>>>>>>>> +	} else if (!strcmp(format, "RGB666_1X24_CPADHI")) {
+>>>>>>>> +		desc->bpc = 6;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+>>>>>>>> +	} else if (!strcmp(format, "RGB888_1X24")) {
+>>>>>>>> +		desc->bpc = 8;
+>>>>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>>>>>>>> +	} else {
+>>>>>>>> +		dev_err(dev, "%pOF: missing or unknown bus-format property\n",
+>>>>>>>> +			np);
+>>>>>>>> +		return -EINVAL;
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>
+>>>>>>> It doesn't seem right, really. We can't the bus format / bpc be inferred
+>>>>>>> from the compatible? I'd expect two panels that don't have the same bus
+>>>>>>> format to not be claimed as compatible.
+>>>>>>
+>>>>>> Which compatible ?
+>>>>>>
+>>>>>> Note that this is for panel-dpi compatible, i.e. the panel which has timings
+>>>>>> specified in DT (and needs bus format specified there too).
+>>>>>
+>>>>> panel-dpi is supposed to have two compatibles, the panel-specific one
+>>>>> and panel-dpi. This would obviously be tied to the panel-specific one.
+>>>>
+>>>> This whole discussion is about the one which only has 'panel-dpi' compatible
+>>>> and describes the panel in DT completely. The specific compatible is not
+>>>> present in DT when this patch is needed.
 >>>
->>> To enable use of VESA modes with simplefb in legacy BIOS boot mode drop
+>>>   From the panel-dpi DT binding:
+>>>
+>>> properties:
+>>>     compatible:
+>>>       description:
+>>>         Shall contain a panel specific compatible and "panel-dpi"
+>>>         in that order.
+>>>       items:
+>>>         - {}
+>>>         - const: panel-dpi
+>>>
+>>> The panel-specific compatible is mandatory, whether you like it or not.
 >>
->> I think you meant "VESA modes with the sysfb driver" ? or something like
->> that since otherwise it seems that you meant to use it with the simplefb
->> (drivers/video/fbdev/simplefb.c) fbdev driver, which doesn't support the
->> "vga=" param as far as I understand (it just uses whatever was setup).
+>> It doesn't seem to me that's the intended use per panel-simple.c , so maybe
+>> the bindings need to be fixed too ?
 > 
-> And the vga= is whatever was set up by the realmode code. And the config
-> option for realmode code to do that is selected by vesafb and not
-> simplefb so it does not wotk for simplefb/simpledrm/whatewer when efifib
-> is not built into the kernel.
->
+> It's not clear to me why this has anything to do with panel-simple, but
+> the binding is correct, and that requirement is fairly standard. We have
+> the same thing with panel-lvds for example.
 
-Yes, that's what I tried to say. But your commit message says "To enable
-use of VESA modes with simplefb in legacy BIOS boot mode" and that isn't
-accurate AFAIU (unless you meant sysfb instead).
- Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+I think this patch is related to this patch, which was not mentioned in 
+the commit message:
 
+[RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping property"
+
+(unless I am confused)
+
+With LVDS the situation is simpler, you have three formats and that's it 
+(18bpp and 2 24bpp), with DPI it is more complex, since you need to deal 
+with color channel width (888, 666 and even 565 and other oddities), 
+then with mapping (RGB, BGR, etc), and then you can have panels with 
+only 18bpp inputs wired to 24bpp DPI bus and vice versa which you also 
+have to somehow describe.
