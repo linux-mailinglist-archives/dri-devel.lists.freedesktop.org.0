@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43EC4C07C7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 03:26:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C804C07D9
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 03:29:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031B310E128;
-	Wed, 23 Feb 2022 02:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66AB10E21D;
+	Wed, 23 Feb 2022 02:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0A0810E128
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 02:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645583175; x=1677119175;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XtsmtrOEbepjpS0GbYNND8f9DW2Nk3u3mcQH0hclwms=;
- b=NSmRvsbjDImuhQ0g52ba2jO6i5hSaf3T36UG8OE9XyVmDhBBuGTkT67V
- Aw3Cug0AcpFMrXir2qSLHpROLWKuBO/nxRLkqGeIAqBhbZKJ/8ruxu+mf
- jYqe0ZJkGp1ZXw7ONGc060PFQphh5pZntx11mCkUHg/jmPhyFMe+MpQRm
- /+naO8kZjNUzBHkz30nVQl038IKcwfdFllC5zL3r1wTLTE0RzoZxuO5TR
- AxNYQi/rDNLqFjDAKDW0xktFvhUPUSunr/u34lFiUXDW+9I48Ty4AcFCN
- GOT+E/skmbUEKpVWxvi/J5nYNt6qDhX3hADYokmN53kYEWQYftYOjUh6U g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="249448647"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="249448647"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 18:26:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; d="scan'208";a="573661617"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 22 Feb 2022 18:26:12 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nMhM3-0000sI-RU; Wed, 23 Feb 2022 02:26:11 +0000
-Date: Wed, 23 Feb 2022 10:25:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
- Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v5 01/11] clk: Introduce Kunit Tests for the framework
-Message-ID: <202202231024.8SBLRlyr-lkp@intel.com>
-References: <20220222131853.198625-2-maxime@cerno.tech>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C13310E21D;
+ Wed, 23 Feb 2022 02:29:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8DAB2B81E0F;
+ Wed, 23 Feb 2022 02:29:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902A8C340E8;
+ Wed, 23 Feb 2022 02:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645583347;
+ bh=SY22ClUZLoWf0GwF+Z7U7j93X1mpL7+EqeXRk9EJzlQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Hq1igHlVC2oufeKXLK0UV+DCucWIh8BXxtYVUQbKJ4o4sLsJoq3DDqgetpCzHLC7/
+ VzMAvkhIkvVTwoZ4vrU/q16P+7yKnIyzXZcdR/hUdj5LREPUizpOLxALWteY/lMqIo
+ /MSXdyzDxc8kbwLLaJlc2Oj2DR3LlxLMVU9jPTIQbtLFtUW8Cv8gtR9po15zp3pOeq
+ Rx25asHRxPNK0t4MO6N6eDrNXBubrQSZ+dmbBL3EJkBApg9T5gZyVsUpNLufcQhLtW
+ qPGLxAf5qH4Z8qJjWgq4pt7NPMU6x/yPQmnJrdioS+0gAOGpJUIi0yUYwgZWswev+o
+ TW/l1qTUnMLNg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 22/30] drm/amd/pm: correct UMD pstate clocks for
+ Dimgrey Cavefish and Beige Goby
+Date: Tue, 22 Feb 2022 21:28:11 -0500
+Message-Id: <20220223022820.240649-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220223022820.240649-1-sashal@kernel.org>
+References: <20220223022820.240649-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220222131853.198625-2-maxime@cerno.tech>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,48 +55,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
- kunit-dev@googlegroups.com
+Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, Jack.Gui@amd.com,
+ airlied@linux.ie, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ luben.tuikov@amd.com, dri-devel@lists.freedesktop.org, darren.powell@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ kenneth.feng@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+From: Evan Quan <evan.quan@amd.com>
 
-I love your patch! Yet something to improve:
+[ Upstream commit 0136f5844b006e2286f873457c3fcba8c45a3735 ]
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on next-20220217]
-[cannot apply to drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next linus/master airlied/drm-next v5.17-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Correct the UMD pstate profiling clocks for Dimgrey Cavefish and Beige
+Goby.
 
-url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/clk-Improve-clock-range-handling/20220222-212043
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20220223/202202231024.8SBLRlyr-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/377d67441dca4a3d5df1d3b5a5b63c9a29f9b8b0
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Maxime-Ripard/clk-Improve-clock-range-handling/20220222-212043
-        git checkout 377d67441dca4a3d5df1d3b5a5b63c9a29f9b8b0
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=mips SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "clk_hw_create_clk" [drivers/clk/clk_test.ko] undefined!
-
+Signed-off-by: Evan Quan <evan.quan@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   | 26 +++++++++++++++----
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.h   |  8 ++++++
+ 2 files changed, 29 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+index 446d37320b948..cd75a65982cf7 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+@@ -1231,21 +1231,37 @@ static int sienna_cichlid_populate_umd_state_clk(struct smu_context *smu)
+ 				&dpm_context->dpm_tables.soc_table;
+ 	struct smu_umd_pstate_table *pstate_table =
+ 				&smu->pstate_table;
++	struct amdgpu_device *adev = smu->adev;
+ 
+ 	pstate_table->gfxclk_pstate.min = gfx_table->min;
+ 	pstate_table->gfxclk_pstate.peak = gfx_table->max;
+-	if (gfx_table->max >= SIENNA_CICHLID_UMD_PSTATE_PROFILING_GFXCLK)
+-		pstate_table->gfxclk_pstate.standard = SIENNA_CICHLID_UMD_PSTATE_PROFILING_GFXCLK;
+ 
+ 	pstate_table->uclk_pstate.min = mem_table->min;
+ 	pstate_table->uclk_pstate.peak = mem_table->max;
+-	if (mem_table->max >= SIENNA_CICHLID_UMD_PSTATE_PROFILING_MEMCLK)
+-		pstate_table->uclk_pstate.standard = SIENNA_CICHLID_UMD_PSTATE_PROFILING_MEMCLK;
+ 
+ 	pstate_table->socclk_pstate.min = soc_table->min;
+ 	pstate_table->socclk_pstate.peak = soc_table->max;
+-	if (soc_table->max >= SIENNA_CICHLID_UMD_PSTATE_PROFILING_SOCCLK)
++
++	switch (adev->asic_type) {
++	case CHIP_SIENNA_CICHLID:
++	case CHIP_NAVY_FLOUNDER:
++		pstate_table->gfxclk_pstate.standard = SIENNA_CICHLID_UMD_PSTATE_PROFILING_GFXCLK;
++		pstate_table->uclk_pstate.standard = SIENNA_CICHLID_UMD_PSTATE_PROFILING_MEMCLK;
+ 		pstate_table->socclk_pstate.standard = SIENNA_CICHLID_UMD_PSTATE_PROFILING_SOCCLK;
++		break;
++	case CHIP_DIMGREY_CAVEFISH:
++		pstate_table->gfxclk_pstate.standard = DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_GFXCLK;
++		pstate_table->uclk_pstate.standard = DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_MEMCLK;
++		pstate_table->socclk_pstate.standard = DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_SOCCLK;
++		break;
++	case CHIP_BEIGE_GOBY:
++		pstate_table->gfxclk_pstate.standard = BEIGE_GOBY_UMD_PSTATE_PROFILING_GFXCLK;
++		pstate_table->uclk_pstate.standard = BEIGE_GOBY_UMD_PSTATE_PROFILING_MEMCLK;
++		pstate_table->socclk_pstate.standard = BEIGE_GOBY_UMD_PSTATE_PROFILING_SOCCLK;
++		break;
++	default:
++		break;
++	}
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.h b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.h
+index 38cd0ece24f6b..42f705c7a36f8 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.h
+@@ -33,6 +33,14 @@ typedef enum {
+ #define SIENNA_CICHLID_UMD_PSTATE_PROFILING_SOCCLK    960
+ #define SIENNA_CICHLID_UMD_PSTATE_PROFILING_MEMCLK    1000
+ 
++#define DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_GFXCLK 1950
++#define DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_SOCCLK 960
++#define DIMGREY_CAVEFISH_UMD_PSTATE_PROFILING_MEMCLK 676
++
++#define BEIGE_GOBY_UMD_PSTATE_PROFILING_GFXCLK 2200
++#define BEIGE_GOBY_UMD_PSTATE_PROFILING_SOCCLK 960
++#define BEIGE_GOBY_UMD_PSTATE_PROFILING_MEMCLK 1000
++
+ extern void sienna_cichlid_set_ppt_funcs(struct smu_context *smu);
+ 
+ #endif
+-- 
+2.34.1
+
