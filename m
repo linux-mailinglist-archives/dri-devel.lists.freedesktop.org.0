@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C994C19D3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 18:21:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA444C1A07
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 18:43:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8048D10F35C;
-	Wed, 23 Feb 2022 17:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AA010E120;
+	Wed, 23 Feb 2022 17:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63DE310F35B;
- Wed, 23 Feb 2022 17:21:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645636895; x=1677172895;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5EKhfuk/coV4wXHsSnx1QP6vOM5XWSxtlOIzzZeCWkA=;
- b=pbI0u3edXPCHwb7h12YxV9xy0JpkcDuTFZmAMu1Tsk+yd8TMv+3xvfC5
- 4EX8TxDV3LI2cQZRB1UiFoLs41VozAZyK5ZEwOkhT3Nw08vLviSZKqMDV
- /n+XbUoviGbCtUvQ5P1bSrtN/4w/ALXd022bkOPvU69ZWhmR9qwGgP5+s w=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Feb 2022 09:21:34 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 09:21:34 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 23 Feb 2022 09:21:33 -0800
-Received: from [10.110.64.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Wed, 23 Feb
- 2022 09:21:32 -0800
-Message-ID: <7f9e2181-bb1a-c734-2e90-c5922952acb4@quicinc.com>
-Date: Wed, 23 Feb 2022 09:21:32 -0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D5F10E120
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 17:43:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33DE3DD;
+ Wed, 23 Feb 2022 18:43:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1645638191;
+ bh=47L9rxSyL6sMeP7/r/hGoVdtSeR0EhBL3DwP31dkkNs=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=rTD0kQx7mIS3LBAJI51MgGMtGT9wVD5oCCxX5aQhrzIjhxsce6J5eSqzgVBa73eJl
+ GxC3swsShYwedjDYQD/YYoKBKJI771U4hHrqLfo2SbMkdDFZ7/sZf4YAww9rog0lUr
+ l3TjNqfqMlTRhJliCanz3q0DPAipeXZJqqav97Y4=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 4/5] drm/msm/dp: replace dp_connector with
- drm_bridge_connector
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Stephen Boyd
- <swboyd@chromium.org>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
- <572c0402-55da-077b-1809-3d1caf7ce743@quicinc.com>
- <b25d422e-cdd8-bcb9-1815-1d89f170d421@linaro.org>
- <CAE-0n51afuHURLHaZBa77H_n+cm4Tj1Du-rpLH-HsrkY5xQVJA@mail.gmail.com>
- <CAA8EJpobtpc5mB48g6K=+KaZQ-o8m_QTZr-dQvwz-9cEwiJ_Kg@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJpobtpc5mB48g6K=+KaZQ-o8m_QTZr-dQvwz-9cEwiJ_Kg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=W6npK+NhethhY8ghtt7gwDHYfpX00w07nHE82anqx5aA@mail.gmail.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
+ <YNPDAyODcvlWtxpj@pendragon.ideasonboard.com>
+ <CAD=FV=W6npK+NhethhY8ghtt7gwDHYfpX00w07nHE82anqx5aA@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug
+ detection
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Doug Anderson <dianders@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Wed, 23 Feb 2022 17:43:09 +0000
+Message-ID: <164563818901.4066078.3221991328451321918@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,152 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi All,
 
-On 2/18/2022 6:22 PM, Dmitry Baryshkov wrote:
-> On Sat, 19 Feb 2022 at 03:55, Stephen Boyd <swboyd@chromium.org> wrote:
->> Quoting Dmitry Baryshkov (2022-02-18 14:32:53)
->>> On 19/02/2022 00:31, Kuogee Hsieh wrote:
->>>> On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
->>>>> There is little point in having both connector and root bridge
->>>>> implementation in the same driver. Move connector's functionality to the
->>>>> bridge to let next bridge in chain to override it.
->>>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>> This patch break primary (edp) display
->>>>
->>>> -- right half of screen garbled
->>>>
->>>> -- screen shift vertically
->>>>
->>>> below are error messages seen --
->>>>
->>>> [   36.679216] panel-edp soc@0:edp_panel: No display modes
->>>> [   36.687272] panel-edp soc@0:edp_panel: No display modes
->>>> [   40.593709] panel-edp soc@0:edp_panel: No display modes
->>>> [   40.600285] panel-edp soc@0:edp_panel: No display modes
->>> So, before the patch the drm core was getting modes from the
->>> drm_connector (which means, modes from drm driver itself). With this
->>> patch the panel-edp tries to get modes.
->>>
->>> Could you please check, why panel_edp_get_modes() fails? Assuming that
->>> you use platform panel-edp binding (rather than 'edp-panel') could you
->>> please check you have either of the following:
->>> - ddc bus for EDID?
->> I don't see anywhere where the ddc pointer is set for the dp bridge in
->> msm_dp_bridge_init(). Is that required though? I'd think simple panel is
->> still being used here so reading EDID isn't required.
-> I meant the 'ddc-i2c-bus' property for the corresponding eDP panel.
->
->>> - either num_timing or num_modes in your panel desc.
-> After reading the panel-edp's code I don't have another cause for
-> panel_edp_get_modes(). It should either have a DDC bus specified using
-> the mentioned device tree property, or it should have specified the
-> timings.
->
-> Kuogee, which platform were you using when testing this patch? Could
-> you please share the dts fragment?
+I'm working to respin the remainder of these patches, now that I have
+IRQ based HPD working on the SN65DSI86, and the (non-eDP) mode is used
+for Renesas R-Car boards.
 
-I cherry-picked your patches on top of our internal release which is 
-usually have some (or many) patches behind msm-next.
+Quoting Doug Anderson (2021-06-24 00:51:12)
+> Hi,
+>=20
+> On Wed, Jun 23, 2021 at 4:26 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > > > @@ -1365,7 +1384,8 @@ static int ti_sn_bridge_probe(struct i2c_clie=
+nt *client,
+> > > >
+> > > >         pdata->bridge.funcs =3D &ti_sn_bridge_funcs;
+> > > >         pdata->bridge.of_node =3D client->dev.of_node;
+> > > > -       pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> > > > +       pdata->bridge.ops =3D (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DE=
+TECT)
+> > >
+> > > Checking for "no_hpd" here is not the right test IIUC. You want to
+> > > check for eDP vs. DP (AKA whether a panel is downstream of you or a
+> > > connector). Specifically if downstream of you is a panel then (I
+> > > believe) HPD won't assert until you turn on the panel and you won't
+> > > turn on the panel (which happens in pre_enable, right?) until HPD
+> > > fires, so you've got a chicken-and-egg problem. If downstream of you
+> > > is a connector, though, then by definition HPD has to just work
+> > > without pre_enable running so then you're OK.
+> >
+> > Agreed. It's even more true now that your rework has landed, as in the
+> > eDP case EDID is handled by the panel driver. I'll rework this.
+> >
+> > Should I also condition setting HPD_DISABLE to the presence of a panel
+> > then ? I could drop of_property_read_bool() and set
+> >
+> >         pdata->no_hpd =3D !!panel;
+> >
+> > > I guess then you'd need to figure out what to do if someone wants to
+> > > use "HPD" on eDP. Do you need to put a polling loop in pre_enable
+> > > then? Or you could just punt not support this case until someone needs
+> > > it.
+> >
+> > I think I'll stop short of saving the world this time, yes :-) We'll see
+> > what to do when this case arises.
+>=20
+> How about as a compromise you still call of_property_read_bool() but
+> add some type of warning in the logs if someone didn't set "no-hpd"
+> but they have a panel?
 
-where is "ddc-i2c-bus" located?
 
-                         msm_edp: edp@aea0000 {
-                                 compatible = "qcom,sc7280-edp";
+Would a mix of the two work well?
 
-                                 reg = <0 0xaea0000 0 0x200>,
-                                       <0 0xaea0200 0 0x200>,
-                                       <0 0xaea0400 0 0xc00>,
-                                       <0 0xaea1000 0 0x400>;
+What about:
 
-                                 interrupt-parent = <&mdss>;
-                                 interrupts = <14>;
+	pdata->no_hpd =3D of_property_read_bool(np, "no-hpd");
+	if (panel && !pdata->no_hpd) {
+		DRM_ERROR("Panels will not function with HPD. Enforcing no-hpd\n");
+		pdata->no_hpd =3D true;
+	}
 
-                                 clocks = <&rpmhcc RPMH_CXO_CLK>,
-                                          <&gcc GCC_EDP_CLKREF_EN>,
-                                          <&dispcc DISP_CC_MDSS_AHB_CLK>,
-                                          <&dispcc 
-DISP_CC_MDSS_EDP_AUX_CLK>,
-                                          <&dispcc 
-DISP_CC_MDSS_EDP_LINK_CLK>,
-                                          <&dispcc 
-DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
-                                          <&dispcc 
-DISP_CC_MDSS_EDP_PIXEL_CLK>;
-                                 clock-names = "core_xo",
-                                               "core_ref",
-                                               "core_iface",
-                                               "core_aux",
-                                               "ctrl_link",
-                                               "ctrl_link_iface",
-                                               "stream_pixel";
-                                 #clock-cells = <1>;
-                                 assigned-clocks = <&dispcc 
-DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
-                                                   <&dispcc 
-DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
-                                 assigned-clock-parents = <&edp_phy 0>, 
-<&edp_phy 1>;
+That leaves it still optional to DP connectors, but enforced on eDP?
 
-                                 phys = <&edp_phy>;
-                                 phy-names = "dp";
 
-                                 operating-points-v2 = <&edp_opp_table>;
-                                 power-domains = <&rpmhpd SC7280_CX>;
+> > > > +                         | DRM_BRIDGE_OP_EDID;
+> > >
+> > > IMO somewhere in here if HPD is being used like this you should throw
+> > > in a call to pm_runtime_get_sync(). I guess in your solution the
+> > > regulators (for the bridge, not the panel) and enable pin are just
+> > > left on all the time,
+> >
+> > Correct, on my development board the SN65DSI86 is on all the time, I
+> > can't control that.
+> >
+> > > but plausibly someone might want to build a
+> > > system to use HPD and also have the enable pin and/or regulators
+> > > controlled by this driver, right?
+> >
+> > True. DRM doesn't make this very easy, as, as far as I can tell, there's
+> > no standard infrastructure for userspace to register an interest in HPD
+> > that could be notified to bridges. I think it should be fixable, but
+> > it's out of scope for this series :-) Should I still add a
+> > pm_runtime_get_sync() at probe time, or leave this to be addressed by
+> > someone who will need to implement power control ?
+>=20
+> IMO if you've detected you're running in DP mode you should add the
+> pm_runtime_get_sync() in probe to keep it powered all the time and
+> that seems the simplest. Technically I guess that's not really
+> required since you're polling and you could power off between polls,
+> but then you'd have to re-init a bunch of your state each time you
+> polled too. If you ever transitioned to using an IRQ for HPD then
+> you'd have to keep it always powered anyway.
 
-                                 #address-cells = <1>;
-                                 #size-cells = <0>;
 
-                                 status = "disabled";
+Hrm ... that's precisely what I've done. It's not IRQ based HPD...
 
-                                 ports {
-                                         #address-cells = <1>;
-                                         #size-cells = <0>;
-                                         port@0 {
-                                                 reg = <0>;
-                                                 edp_in: endpoint {
-remote-endpoint = <&dpu_intf5_out>;
-                                                 };
-                                         };
-                                 };
+So would you like to see something like this during
+ti_sn_bridge_probe()?
 
-                             edp_opp_table: opp-table {
-                                         compatible = "operating-points-v2";
+	/* The device must remain powered up for HPD to be supported. */
+	if (!pdata->no_hpd)
+		pm_runtime_get_sync(pdata->dev);
 
-                                         opp-160000000 {
-                                                 opp-hz = /bits/ 64 
-<160000000>;
-                                                 required-opps = 
-<&rpmhpd_opp_low_svs>;
-                                         };
 
-                                         opp-270000000 {
-                                                 opp-hz = /bits/ 64 
-<270000000>;
-                                                 required-opps = 
-<&rpmhpd_opp_svs>;
-                                         };
+--
+Regards
 
-                                         opp-540000000 {
-                                                 opp-hz = /bits/ 64 
-<540000000>;
-                                                 required-opps = 
-<&rpmhpd_opp_nom>;
-                                         };
+Kieran
 
-                                         opp-810000000 {
-                                                 opp-hz = /bits/ 64 
-<810000000>;
-                                                 required-opps = 
-<&rpmhpd_opp_nom>;
-                                         };
-                                 };
-                         };
-
+>=20
+> -Doug
