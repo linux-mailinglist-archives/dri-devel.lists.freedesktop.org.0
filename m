@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447494C14C3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 14:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CE14C146D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 14:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19CCB10F1AF;
-	Wed, 23 Feb 2022 13:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4C410F614;
+	Wed, 23 Feb 2022 13:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0865110F4AE;
- Wed, 23 Feb 2022 13:21:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645622496; x=1677158496;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=emMjXN/y5MukTqZE/gPCnQAiCoJ5pERvBHX+dRTKZLQ=;
- b=AQLFZnU/mAV368fkcQcWT4CVvFmULc3VfUPMiwrRNqAzGJC5a4IWUhRU
- uOXOyFk9nlV5GWTWlhXypZJO6OD8rRiOW/HZWouRwSWhete1IZDmvj2QF
- hJAX0dez93y/aI5mR0L+vG3F7io6aqQVWMkkwTQ4lYVwDvJRLfIuIdwtm
- IbapXkI0VTIt6vHv0wPi1lyh2LAQhsLrqpsHABe3oMqPj4LEfi+iisQLD
- xdNbf3yMEU5RzY1Z3z62KfhIbK8UVmyc2nIAErDodfFzUIe93f1GVhjqi
- H0okYYQ5mxgJjmyangFNUgfKuDXHKzVw9O01Ce0WmBdX1i3PSBaTsj9PJ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="235467590"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="235467590"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 05:21:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="532679042"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.63.194])
- ([10.252.63.194])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 05:21:33 -0800
-Message-ID: <bff82174-db91-f021-83e2-c607b55e26e1@linux.intel.com>
-Date: Wed, 23 Feb 2022 14:21:30 +0100
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391EF10F612
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 13:41:59 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 73B8858044C;
+ Wed, 23 Feb 2022 08:41:58 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 23 Feb 2022 08:41:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=e8NmwAG6UivGYRFtg0hHFrdMBYky5dWC8kuRA0
+ WJsso=; b=YD5dlt/SFvey4BAp1hBhNpY3fvtEX3m0grKMgKW/RhaFQnJMh44bwP
+ t2xGuZCv5i14Ky1KI42iQZWgi+UszmcpVEc5Wlq2xoK5ILLQvlTVVvBb6BU+pMqA
+ zJonCMXkdoO+mUithp8hB3rNA0/z9qnfGyYA2tznUI4RxFJrdf/FFsrGJXgTa7Wm
+ si3o+UfNDS/HLrwy6jyyrXC3Rjj/vTUb8BxdVq8RpY//25wsAlDaxXtK1R+LHHia
+ eny4vs12GFziZhIHrDheuMif6VelPvG168OxUdu6rCwZoMKCUErA75zpnVptC1bc
+ q6BfvV3OTl/x9mLrPpAUibNX7KE8Md2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=e8NmwAG6UivGYRFtg
+ 0hHFrdMBYky5dWC8kuRA0WJsso=; b=mP6DEOcf4VeV4R1583lgOIcoH0juQyiAg
+ rGnrgzQCAVIPCqSnyc6Q6OfRgSNqffzr9+42SY4F+C1VgvKxUkam+E/cF77OMvO6
+ +Y6reTrQts2mL2PBS11SwlRv5MXmMMAZYZaaNtCR3ydIGUrACV07QEt86c3P+6xy
+ +tCxYr9I3mfCDmpXjGuq+R8lD9QSNFhLfUMBMHuXOI0Po3kl2rGlzuJ/dckPZHfR
+ 7+AWAjDWghDL9oi3OOee6xn0ve4wC4whHX05CTOiCrkoAagSazCgkqryDUtPv4CQ
+ wirQkfXsD6M7glylx4T2XVHkBKaHF8vjNNP0las4H5tgK0naxqTbg==
+X-ME-Sender: <xms:pDkWYrbymSK-6Uy9OODefSwGrz9uwGy32wqnCcVnLnHkAE50_2pttA>
+ <xme:pDkWYqb3WeeNMo4PVHwEBE_BzBZlZNGilT_UyvyCclDctd5UHfJGiXrxDRJRBijW9
+ Whpcr8qezoOmNhpPfQ>
+X-ME-Received: <xmr:pDkWYt_tNY5XgKLBv5XhwskJ88UgqDUa2rlZx8I-f93gHZ9x1NV8ZcD73HOmXq-4kIORTrnZmyduvOoiWqxyEUxubHPrUdHZMebaNBY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgdehgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:pDkWYhoOJPE0iD0JfyHtkxMgmmeisXdVWi6BS5SWRHX6SpyStHOe7w>
+ <xmx:pDkWYmohQdk9Oe4Jwf93B_6kJxwDeDFuc3Ib080cO856TQCgoWLf9A>
+ <xmx:pDkWYnQSXz-NDUNf37iLKZrt2Frh2poKuCGUdsqFn5MhwYqeS7wONQ>
+ <xmx:pjkWYqaNbblP8cmNN_Km6wN2QssgmX_yUSchzsv_3eDEY9--uc8q_g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Feb 2022 08:41:56 -0500 (EST)
+Date: Wed, 23 Feb 2022 14:41:54 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
+ bpc and bus_format
+Message-ID: <20220223134154.oo7xhf37bgtvm3ai@houat>
+References: <20220222084723.14310-1-max.krummenacher@toradex.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [Intel-gfx] [PATCH 0/7] drm/i915: Use the memcpy_from_wc function
- from drm
-Content-Language: en-US
-To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220222145206.76118-1-balasubramani.vivekanandan@intel.com>
- <02d3850b-5481-d142-f1d4-b408ea2b2431@linux.intel.com>
- <YhYVyZM3TsC5wtL5@bvivekan-mobl.gar.corp.intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <YhYVyZM3TsC5wtL5@bvivekan-mobl.gar.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 23 Feb 2022 13:51:45 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="p5r42g3rwoleu74b"
+Content-Disposition: inline
+In-Reply-To: <20220222084723.14310-1-max.krummenacher@toradex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,122 +81,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
- michael.cheng@intel.com, Jani Nikula <jani.nikula@intel.com>,
- lucas.demarchi@intel.com, Chris Wilson <chris.p.wilson@intel.com>,
- siva.mullati@intel.com, David Airlie <airlied@linux.ie>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Max Krummenacher <max.krummenacher@toradex.com>, Marek Vasut <marex@denx.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ DenysDrozdov <denys.drozdov@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 23/02/2022 12:08, Balasubramani Vivekanandan wrote:
-> On 23.02.2022 10:02, Das, Nirmoy wrote:
->> On 22/02/2022 15:51, Balasubramani Vivekanandan wrote:
->>> drm_memcpy_from_wc() performs fast copy from WC memory type using
->>> non-temporal instructions. Now there are two similar implementations of
->>> this function. One exists in drm_cache.c as drm_memcpy_from_wc() and
->>> another implementation in i915/i915_memcpy.c as i915_memcpy_from_wc().
->>> drm_memcpy_from_wc() was the recent addition through the series
->>> https://patchwork.freedesktop.org/patch/436276/?series=90681&rev=6
->>>
->>> The goal of this patch series is to change all users of
->>> i915_memcpy_from_wc() to drm_memcpy_from_wc() and a have common
->>> implementation in drm and eventually remove the copy from i915.
->>>
->>> Another benefit of using memcpy functions from drm is that
->>> drm_memcpy_from_wc() is available for non-x86 architectures.
->>> i915_memcpy_from_wc() is implemented only for x86 and prevents building
->>> i915 for ARM64.
->>> drm_memcpy_from_wc() does fast copy using non-temporal instructions for
->>> x86 and for other architectures makes use of memcpy() family of
->>> functions as fallback.
->>>
->>> Another major difference is unlike i915_memcpy_from_wc(),
->>> drm_memcpy_from_wc() will not fail if the passed address argument is not
->>> alignment to be used with non-temporal load instructions or if the
->>> platform lacks support for those instructions (non-temporal load
->>> instructions are provided through SSE4.1 instruction set extension).
->>> Instead drm_memcpy_from_wc() continues with fallback functions to
->>> complete the copy.
->>> This relieves the caller from checking the return value of
->>> i915_memcpy_from_wc() and explicitly using a fallback.
->>>
->>> Follow up series will be created to remove the memcpy_from_wc functions
->>> from i915 once the dependency is completely removed.
->> Overall the series looks good to me but I think you can add another patch to
->> remove
->>
->> i915_memcpy_from_wc() as I don't see any other usages left after this series, may be I
->> am missing something?
-> I have changed all users of i915_memcpy_from_wc() to drm function. But
-> this is another function i915_unaligned_memcpy_from_wc() in
-> i915_memcpy.c which is blocking completely eliminating the i915_memcpy.c
-> file from i915.
-> This function accepts unaligned source address and does fast copy only
-> for the aligned region of memory and remaining part is copied using
-> memcpy function.
-> Either I can move i915_unaligned_memcpy_from_wc() also to drm but I am
-> concerned since it is more a platform specific handling, does it make
-> sense to keep it in drm.
-> Else I have retain to i915_unaligned_memcpy_from_wc() inside i915 and
-> refactor the function to use drm_memcpy_from_wc() instead of the
-> __memcpy_ntdqu().
+--p5r42g3rwoleu74b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-I think for completeness it makes sense to remove i915_memcpy_from_wc() 
-and its helper functions
+On Tue, Feb 22, 2022 at 09:47:23AM +0100, Max Krummenacher wrote:
+> Use the new property bus-format to set the enum bus_format and bpc.
+> Completes: commit 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support=
+")
+>=20
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+>=20
+> ---
+>=20
+>  drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>=20
+> Relates to the discussion: https://lore.kernel.org/all/20220201110717.358=
+5-1-cniedermaier@dh-electronics.com/
+>=20
+> Max
+>=20
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
+/panel-simple.c
+> index c5f133667a2d..5c07260de71c 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
+>  	struct panel_desc *desc;
+>  	unsigned int bus_flags;
+>  	struct videomode vm;
+> +	const char *format =3D "";
+>  	int ret;
+> =20
+>  	np =3D dev->of_node;
+> @@ -477,6 +478,37 @@ static int panel_dpi_probe(struct device *dev,
+>  	of_property_read_u32(np, "width-mm", &desc->size.width);
+>  	of_property_read_u32(np, "height-mm", &desc->size.height);
+> =20
+> +	of_property_read_string(np, "bus-format", &format);
+> +	if (!strcmp(format, "BGR888_1X24")) {
+> +		desc->bpc =3D 8;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_BGR888_1X24;
+> +	} else if (!strcmp(format, "GBR888_1X24")) {
+> +		desc->bpc =3D 8;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_GBR888_1X24;
+> +	} else if (!strcmp(format, "RBG888_1X24")) {
+> +		desc->bpc =3D 8;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RBG888_1X24;
+> +	} else if (!strcmp(format, "RGB444_1X12")) {
+> +		desc->bpc =3D 6;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RGB444_1X12;
+> +	} else if (!strcmp(format, "RGB565_1X16")) {
+> +		desc->bpc =3D 6;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RGB565_1X16;
+> +	} else if (!strcmp(format, "RGB666_1X18")) {
+> +		desc->bpc =3D 6;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RGB666_1X18;
+> +	} else if (!strcmp(format, "RGB666_1X24_CPADHI")) {
+> +		desc->bpc =3D 6;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> +	} else if (!strcmp(format, "RGB888_1X24")) {
+> +		desc->bpc =3D 8;
+> +		desc->bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
+> +	} else {
+> +		dev_err(dev, "%pOF: missing or unknown bus-format property\n",
+> +			np);
+> +		return -EINVAL;
+> +	}
+> +
 
-in this series.  I don't think we can have 
-i915_unaligned_memcpy_from_wc() if want i915 on ARM[0] so I think
+It doesn't seem right, really. We can't the bus format / bpc be inferred
+=66rom the compatible? I'd expect two panels that don't have the same bus
+format to not be claimed as compatible.
 
-you can remove usages of i915_unaligned_memcpy_from_wc() as well.
+Maxime
 
+--p5r42g3rwoleu74b
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[0]IIUC  CI_BUG_ON() check in i915_unaligned_memcpy_from_wc() will 
-raise  a build error on ARM
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhY5ogAKCRDj7w1vZxhR
+xaKjAP9r35RESlRiF7rfKqiTJVl3wTvAIk9qVnbgg8tFEdcmBwD/ek7HxWjxgyUq
+ZOCPlrE47eND/Q51wIiHmf6Ce07QlQM=
+=wsWm
+-----END PGP SIGNATURE-----
 
-Regards,
-
-Nirmoy
-
-
-> But before I could do more changes, I wanted feedback on the current
-> change. So I decided to go ahead with creating series for review.
->
-> Regards,
-> Bala
->
->> Regards,
->> Nirmoy
->>
->>> Cc: Jani Nikula <jani.nikula@intel.com>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: Chris Wilson <chris.p.wilson@intel.com>
->>> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
->>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>
->>> Balasubramani Vivekanandan (7):
->>>     drm: Relax alignment constraint for destination address
->>>     drm: Add drm_memcpy_from_wc() variant which accepts destination
->>>       address
->>>     drm/i915: use the memcpy_from_wc call from the drm
->>>     drm/i915/guc: use the memcpy_from_wc call from the drm
->>>     drm/i915/selftests: use the memcpy_from_wc call from the drm
->>>     drm/i915/gt: Avoid direct dereferencing of io memory
->>>     drm/i915: Avoid dereferencing io mapped memory
->>>
->>>    drivers/gpu/drm/drm_cache.c                   | 98 +++++++++++++++++--
->>>    drivers/gpu/drm/i915/gem/i915_gem_object.c    |  8 +-
->>>    drivers/gpu/drm/i915/gt/selftest_reset.c      | 21 ++--
->>>    drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 11 ++-
->>>    drivers/gpu/drm/i915/i915_gpu_error.c         | 45 +++++----
->>>    .../drm/i915/selftests/intel_memory_region.c  |  8 +-
->>>    include/drm/drm_cache.h                       |  3 +
->>>    7 files changed, 148 insertions(+), 46 deletions(-)
->>>
+--p5r42g3rwoleu74b--
