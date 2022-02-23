@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C805F4C1594
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 15:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6E04C15A2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 15:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B3D10E47F;
-	Wed, 23 Feb 2022 14:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC8E10EB67;
+	Wed, 23 Feb 2022 14:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
- [IPv6:2607:f8b0:4864:20::e29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBEF10E464
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 14:39:39 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id d11so3392968vsm.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 06:39:39 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2741810EB56
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 14:46:06 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id bq11so23267176edb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 06:46:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YmmQlNyVcUCdviTAxSsLNE1aECg5vn2qlb2k3lj39A0=;
- b=Vz5Pn2R+nXVq+TvMJIahZH7oKagsmqhn8ya3RIlrgDCh/cbZ1oJzMTnzfafQxqRjJA
- /DqufiGgXg+cXruCS6o3Mw2pQ4rpePdFzog7595tl4nZPKz024zsjqYGpdA5zmmCtKTp
- oVeY3T11Gqr22Y+EWBtx/B10KpR+epPUmbzbx2HD7/G0I1UE4dpZEV5RN85OdB3YMJlo
- yYHA6xjiYIL4e5AaOpgcx/O1CsoOZckQZT0mH89TN6hixX/6w036FXwa7bEGs2TbolFA
- /tZw4caloH99xPUAXpD5M43R9x+1rp08dMzGgjE+1jhmN/mPIuxYnnkxdPUyqz9BI6As
- gHDw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ofG14EmgPlrKEqqyIh5UqepsSkm3T8XbQq0Ltdyzk0E=;
+ b=ifWeOf5a1xNMgmToLHGdVkFvc+RCDmqOZKibOs0aIiHeGj+umbKg3Rj9e5GN7lrsDI
+ BevCF5jQVWQRVfQPmubagewcMlOzq0Aza2uvjC+3jjOgm+iZBQu+zMZtZUxbnXgTohgU
+ VElZMlKq3BeFYc3Zrd5riuUHtMCq/BHTTYyS7KrpC8rVDYcKHhaXa8xGY7SjN5iV1Ztl
+ X+TsN/TY9ws6UO4TgFq3uucHEoOEVSra/C7jQbVnALyd0INb9tLeM8RUKgyF4m4HtMBn
+ 6EIlLn6njr6ttD/Ut8136Ebg1IOqeKn0ekehjOtmDNH/bBwmRDZXfXquIhJgXIFa7b8L
+ Xovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YmmQlNyVcUCdviTAxSsLNE1aECg5vn2qlb2k3lj39A0=;
- b=WtXR5bXFuUkbNJSFtnVqZXZEleaRnEGpHHHErGt4cJanM4NBdnI+BuneMMdzW3puGu
- tU0YJ9Nu2rBxAgcwLovpzHuaODWStIpS46nplXlRRRUcBokxp9Vb8z9pRNtYs/tTJZ9o
- 0SQ025fUvFUmhPx/6fftfdfdKkY6bhE3Fv+53UxKuLW3LlWPXoopOqpkzjmqXF9bzDtT
- nEPzfQZt8WVuz/efXi0cpTtotS6tRad6QRYd0aqyTR8K2GcUed3V+S7OnthV3zKl9S3/
- rldNGbA0xe+HBJGPBijWQ0iuJNkp+Vhwa78q9dysUN2X/yBTdihTTLEt6siSmwqppXHZ
- vJ4g==
-X-Gm-Message-State: AOAM53254FbiMXAaygJnhdzK80gY2dVTHcshdYMJTmYRg6Vp+0wDUE5S
- tLFKSrlrCpzphMAnBr3ePGPT00NJEsf90wPF3z8=
-X-Google-Smtp-Source: ABdhPJyshi+8CDq60UDU3QRjjbvt8yMiPSFfv8v2eMlIWpoeiU8s/6mGPOYceMerw5Hx7jpV6kpqeBBW+CP5lQyhsO8=
-X-Received: by 2002:a67:e046:0:b0:30d:c59c:7f06 with SMTP id
- n6-20020a67e046000000b0030dc59c7f06mr12490670vsl.86.1645627178162; Wed, 23
- Feb 2022 06:39:38 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ofG14EmgPlrKEqqyIh5UqepsSkm3T8XbQq0Ltdyzk0E=;
+ b=NF76Nia6eh9jgrc3bjZvYneRslpQn2eC+AgCuITGDVJPeHNWyhTWFU2JVydC8Rbn+V
+ w+b/NwccAgjiyzptDtKcQuQCx3rHqfflCl278RwosGflzVMLtvDha48HD7rosmbS6mmo
+ QA6u03UVw4XLi/BuKs/q+DMC8hWyCvXtbJI+65OcJv1m5pSKwJ8H+gk35jCHUs5KXgIy
+ BRFmCaNYospNtqyYS90FDsLGrSImV9nXkjwypEcVLyuuT63vjsf4H4T9cTtAIS6a6gga
+ Ase5Tep8wyyTU52lYP5vBMlfKEIzRalvIngE6U4VGc/mkafDLpmSlI0CLTl9WbMaXA3E
+ xhJw==
+X-Gm-Message-State: AOAM532++aiPdsFvvNewO0i3h8uob7YJxBXbZ0Ai3h7bVVY9kf/D4iPn
+ 9j81czj7+aOkuC714bUdgsjkYyr6Dxw=
+X-Google-Smtp-Source: ABdhPJzyUx0boPqjkUGK0Sr7qYA0st6Rtg9C5mSt7Pi2yY3IuFfjRyC8pjRv7uUvDx2Fwn3rM4hBiA==
+X-Received: by 2002:aa7:d415:0:b0:410:a0fa:dc40 with SMTP id
+ z21-20020aa7d415000000b00410a0fadc40mr31519185edq.46.1645627564437; 
+ Wed, 23 Feb 2022 06:46:04 -0800 (PST)
+Received: from orome (p200300e41f0a6900000000000000043a.dip0.t-ipconnect.de.
+ [2003:e4:1f0a:6900::43a])
+ by smtp.gmail.com with ESMTPSA id ka26sm3070400ejc.170.2022.02.23.06.46.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 06:46:03 -0800 (PST)
+Date: Wed, 23 Feb 2022 15:46:01 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH libdrm v2 20/25] tests: tegra: Add VIC 4.0 support
+Message-ID: <YhZIqTCn/NmR7KAF@orome>
+References: <20220217191931.2534836-1-thierry.reding@gmail.com>
+ <20220217191931.2534836-15-thierry.reding@gmail.com>
+ <aecb46db-20c6-61d4-ffde-798b42842a7d@kapsi.fi>
 MIME-Version: 1.0
-References: <20220221220045.11958-1-hdegoede@redhat.com>
- <99294308-3d33-f24c-1292-20a88980e973@suse.de>
- <e84ea711-69ce-62ac-cb2e-2d87d75355fa@redhat.com>
-In-Reply-To: <e84ea711-69ce-62ac-cb2e-2d87d75355fa@redhat.com>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Wed, 23 Feb 2022 14:39:26 +0000
-Message-ID: <CALeDE9MpzLhq2mU_k_hBsf=4vb3RL1Fi6UzJW+1PT23ksVLnEQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
- non-upright mounted LCD panels
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MtWCWDlAi0rB5gZO"
+Content-Disposition: inline
+In-Reply-To: <aecb46db-20c6-61d4-ffde-798b42842a7d@kapsi.fi>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,76 +73,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 23, 2022 at 11:25 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 2/22/22 20:14, Thomas Zimmermann wrote:
-> > Hi
-> >
-> > Am 21.02.22 um 23:00 schrieb Hans de Goede:
-> >> Some devices use e.g. a portrait panel in a standard laptop casing made
-> >> for landscape panels. efifb calls drm_get_panel_orientation_quirk() and
-> >> sets fb_info.fbcon_rotate_hint to make fbcon rotate the console so that
-> >> it shows up-right instead of on its side.
-> >>
-> >> When switching to simpledrm to fbcon renders on its side. Call the
-> >
-> > Maybe '... fbcon renders sidewards.'
->
-> that does not sound entirely right to me, so I've gone with:
->
-> "When switching to simpledrm the fbcon renders on its side."
 
-Not to completely bike shed but you could say "... the fbcon renders
-with the incorrect orientation"
+--MtWCWDlAi0rB5gZO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> as suggested by Javier (so s/to/the/ ).
->
-> >
-> >> drm_connector_set_panel_orientation_with_quirk() helper to add
-> >> a "panel orientation" property on devices listed in the quirk table,
-> >> to make the fbcon (and aware userspace apps) rotate the image to
-> >> display properly.
-> >>
-> >> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> Thank you both for the review/ack. I'm currently doing a
-> test-build of drm-misc-next with the patch with amended
-> commit msg applied. Once that is done I'll push this out
-> to drm-misc-next.
->
-> Regards,
->
-> Hans
->
->
->
-> >> ---
-> >>   drivers/gpu/drm/tiny/simpledrm.c | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> >> index 04146da2d1d8..11576e0297e4 100644
-> >> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> >> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> >> @@ -798,6 +798,9 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
-> >>       if (ret)
-> >>           return ret;
-> >>       drm_connector_helper_add(connector, &simpledrm_connector_helper_funcs);
-> >> +    drm_connector_set_panel_orientation_with_quirk(connector,
-> >> +                               DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-> >> +                               mode->hdisplay, mode->vdisplay);
-> >>         formats = simpledrm_device_formats(sdev, &nformats);
-> >>
-> >
->
+On Fri, Feb 18, 2022 at 11:29:34AM +0200, Mikko Perttunen wrote:
+> On 2/17/22 21:19, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > The Video Image Composer (VIC) 4.0 can be found on NVIDIA Tegra210 SoCs.
+> > It uses a different class (B0B6) that is slightly incompatible with the
+> > class found on earlier generations.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >   tests/tegra/meson.build |   2 +
+> >   tests/tegra/vic.c       |   7 +
+> >   tests/tegra/vic40.c     | 370 ++++++++++++++++++++++++++++++++++++++++
+> >   tests/tegra/vic40.h     | 285 +++++++++++++++++++++++++++++++
+> >   4 files changed, 664 insertions(+)
+> >   create mode 100644 tests/tegra/vic40.c
+> >   create mode 100644 tests/tegra/vic40.h
+> >=20
+> > diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
+> > index 1ee29d0afe1b..e9c2bc875a01 100644
+> > --- a/tests/tegra/meson.build
+> > +++ b/tests/tegra/meson.build
+> > @@ -36,6 +36,8 @@ libdrm_test_tegra =3D static_library(
+> >       'vic.h',
+> >       'vic30.c',
+> >       'vic30.h',
+> > +    'vic40.c',
+> > +    'vic40.h',
+> >     ), config_file ],
+> >     include_directories : [inc_root, inc_drm, inc_tegra],
+> >     link_with : libdrm,
+> > diff --git a/tests/tegra/vic.c b/tests/tegra/vic.c
+> > index f24961ac5c6d..e0a97c059eca 100644
+> > --- a/tests/tegra/vic.c
+> > +++ b/tests/tegra/vic.c
+> > @@ -134,6 +134,10 @@ void vic_image_dump(struct vic_image *image, FILE =
+*fp)
+> >   int vic30_new(struct drm_tegra *drm, struct drm_tegra_channel *channe=
+l,
+> >                 struct vic **vicp);
+> > +/* from vic40.c */
+> > +int vic40_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
+> > +              struct vic **vicp);
+> > +
+> >   int vic_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
+> >               struct vic **vicp)
+> >   {
+> > @@ -144,6 +148,9 @@ int vic_new(struct drm_tegra *drm, struct drm_tegra=
+_channel *channel,
+> >       switch (version) {
+> >       case 0x40:
+> >           return vic30_new(drm, channel, vicp);
+> > +
+> > +    case 0x21:
+> > +        return vic40_new(drm, channel, vicp);
+> >       }
+> >       return -ENOTSUP;
+> > diff --git a/tests/tegra/vic40.c b/tests/tegra/vic40.c
+> > new file mode 100644
+> > index 000000000000..1a5d2af6b0b6
+> > --- /dev/null
+> > +++ b/tests/tegra/vic40.c
+> > @@ -0,0 +1,370 @@
+> > +/*
+> > + * Copyright =C2=A9 2018 NVIDIA Corporation
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaini=
+ng a
+> > + * copy of this software and associated documentation files (the "Soft=
+ware"),
+> > + * to deal in the Software without restriction, including without limi=
+tation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublic=
+ense,
+> > + * and/or sell copies of the Software, and to permit persons to whom t=
+he
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be incl=
+uded in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
+RESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
+LITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
+SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
+E,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
+OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + */
+> > +
+> > +#include <errno.h>
+> > +#include <string.h>
+> > +
+> > +#include "private.h"
+> > +#include "tegra.h"
+> > +#include "vic.h"
+> > +#include "vic40.h"
+> > +
+> > +struct vic40 {
+> > +    struct vic base;
+> > +
+> > +    struct {
+> > +        struct drm_tegra_mapping *map;
+> > +        struct drm_tegra_bo *bo;
+> > +    } config;
+> > +
+> > +    struct {
+> > +        struct drm_tegra_mapping *map;
+> > +        struct drm_tegra_bo *bo;
+> > +    } filter;
+> > +
+> > +    struct {
+> > +        struct drm_tegra_mapping *map;
+> > +        struct drm_tegra_bo *bo;
+> > +    } hist;
+> > +};
+>=20
+> Histogram buffer not necessary at least on VIC4.0 and later. (Same applies
+> to VIC4.1 and VIC4.2 patches).
+
+I'm pretty sure that I saw SMMU faults without this on all of Tegra210,
+Tegra186 and Tegra194. I'll go and test this once more.
+
+> Also not sure if it's worth duplicating all this for the very minor
+> differences between VIC4.0/4.1/4.2?
+
+In practice you would likely want to compress this a bit. However, as I
+mentioned before this is meant to serve as a reference implementation
+and therefore it's a bit more verbose than it would be in a more
+practical use-case.
+
+Thierry
+
+--MtWCWDlAi0rB5gZO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIWSKcACgkQ3SOs138+
+s6G2rQ//apIHDUwK0UN5DJgdGuHkywdrwXQqBnMAmLhbqAB0KlHjOSyQs8TwPmQK
+izsazXyj7qYBlDdVK9vrCLfIuQUdQvlTBr9htNGsdma7IvNX068mX+X6ohBx2fiC
+J8wVFe1Eo68R7puqp5lR3HQoePhTxM0aZEKiOJ0O92j7C1uFSsnrvZ2G/xMSQ+S/
+B4tp22jbYVU+tkOLpObsiUTihHcvaxB/TY6laFrasZtTlpC6NU3Sj2zhNp7UWevx
+aKz9BjPWPK9s+MAMzF9+nbZloJtFijMOARn+PT3A30dN/kuhFEYvWGmtMmrRoHnX
+qy4jAUHODZIWPDuWjXdnCImbuNfRP9VbC8YoJ9ZTEGqPU14WGwFWmDpGGMAXJiy/
+t2WDEMqscn5cO34RnFZx7DeY/ib3XxUeePF9tqGdRKryUndkYrsVCPEuVyufxtPH
+hlgJskcxAG9A58NU9p23FvG2saZxvd1WK7fkUvWsDIPzOSe3Ry+SDTzDpRjg9493
+LA75eMf7gxHUvE/ZEUj256DkhxICM3tHjWBEo9IDb5/+Z3xe4+BhnEb1bdfEn79V
+UvcsMGuXsx/63GpfhmEo2oq7Gv8R2ih+RmXt9RcsTrVLtf7mIYa9el/0Rl2iwUnn
+O7Q8by7FHPkTmyECNhom5k9dQby+wK626XtbqAgO9PP/i2BlRVY=
+=er/x
+-----END PGP SIGNATURE-----
+
+--MtWCWDlAi0rB5gZO--
