@@ -2,48 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8D04C1CA2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB154C1CAE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A680510E5A5;
-	Wed, 23 Feb 2022 19:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49BD010E65E;
+	Wed, 23 Feb 2022 19:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B61510E433;
- Wed, 23 Feb 2022 19:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645645918; x=1677181918;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=NpD0lCeER2ZF++l7t05bIZFosJNn5RXlL2L0xj9m/i8=;
- b=b43gxQ0+kKjIkbCQiKDoMAUEbHxY276tPSF592UgmdujyK05dNN0C5zj
- qFhE32CkP42ihCa06O5lzUwKBNLcB2VZSxYMQ1mkVHm7UYlH5zqwFQpSB
- wiP41RhGSoBTOCwBTOoKX2SwJW8j3DpN2olow2qUIoTuxAeu8UGS4Ps7L
- NV+eyv39esBkmI605h3aFP5wIxpa7tYlXn4DuF0WXfQH4M6AASWkdNrg+
- TSncDeySbVY+rKkfJjJHeoyNn/ssLfjFWfh8gZR9476c4YQH67g6ZY/TO
- m5lN/YMgsriNh0mRxB5EEcZADSc92y/78eM1MuZbXcd9F9ZBQR5zf6enK A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="232688804"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="232688804"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 11:51:49 -0800
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; d="scan'208";a="508576550"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 11:51:47 -0800
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] hda/i915: split the wait for the component binding
-Date: Thu, 24 Feb 2022 01:22:03 +0530
-Message-Id: <20220223195203.13708-3-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220223195203.13708-1-ramalingam.c@intel.com>
-References: <20220223195203.13708-1-ramalingam.c@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAEC10E65E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 19:56:01 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 6AF651F37E;
+ Wed, 23 Feb 2022 19:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645646159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yTfxWTYZmFg/73zI1DT9D/miIhBxVeQM+x5zfDENgA0=;
+ b=ycEZJ7JVzVFBA8/FJfvcykUtodmQ29ZiMibU79bVNW0nl9wlbSOdl0ayDuBPr3X3TOc9kv
+ aWVfvIs4e8xD/EG77HSMsS3qt+SC97BFa7hMkZq9Rbh8U0mJE18Z8Xfjmp7jYrsba76Hce
+ h8RCR+35NEJQ+WtcAppB7GEo/SSO+bw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645646159;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yTfxWTYZmFg/73zI1DT9D/miIhBxVeQM+x5zfDENgA0=;
+ b=uWI8GXldhBNAtfbpzIJX1lnfWzg3k+LcmfGGdcdglWNmYLTf6sbDzVlVRPVLgIyspAsoWT
+ jToO008fxzrT/SAw==
+Received: from kunlun.suse.cz (unknown [10.100.128.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id D3AF4A3B81;
+ Wed, 23 Feb 2022 19:55:58 +0000 (UTC)
+Date: Wed, 23 Feb 2022 20:55:57 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3] simplefb: Enable boot time VESA graphic mode selection.
+Message-ID: <20220223195557.GH3113@kunlun.suse.cz>
+References: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+ <20220218160436.23211-1-msuchanek@suse.de>
+ <33b80f9c-d54a-5471-a58b-7a783a7a9e5b@redhat.com>
+ <20220223164528.GE3113@kunlun.suse.cz>
+ <f832a836-b6ee-ffc5-6f83-86c9ba475400@redhat.com>
+ <20220223171235.GF3113@kunlun.suse.cz>
+ <a9df1753-8e3b-55bb-2dab-9e7aeaa52a8d@redhat.com>
+ <20220223182341.GG3113@kunlun.suse.cz>
+ <1f13e6f2-a87c-83ac-7119-8632c8c8ac8e@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1f13e6f2-a87c-83ac-7119-8632c8c8ac8e@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,92 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai Vehmanen <kai.vehmanen@intel.com>, lucas.demarchi@intel.com
+Cc: linux-fbdev@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudeep Holla <sudeep.holla@arm.com>, linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the wait for component binding from i915 in multiples of
-sysctl_hung_task_timeout_secs. This helps to avoid the possible kworker
-thread hung detection given below.
+On Wed, Feb 23, 2022 at 07:34:54PM +0100, Javier Martinez Canillas wrote:
+> On 2/23/22 19:23, Michal Suchánek wrote:
+> 
+> [snip]
+> 
+> >> My point about the subject line remains thought, I would use something like:
+> >>
+> >> firmware: sysfb: Enable boot time VESA graphic mode selection for simplefb
+> > 
+> > I see where the confusion comes from.
+> >
+> 
+> Yeah. And just to clarify, the "simplefb" in the subject line I proposed
+> was about the sysfb simplefb and not the fbdev simplefb :)
+>  
+> > The efifb (and probably vesafb) has implicit unstated dependency on
+> > sysfb. So the drivers that select BOOT_VESA_SUPPORT should instead
+> > depend on SYSFB, and then SYSFB can select BOOT_VESA_SUPPORT, and it
+> > will look much saner.
+> >
+> 
+> That indeed would be much nicer. And I agree with you that there's an
+> implicit dependency that should be made explicit since SYSFB is what
+> registers the "efi-framebuffer" or "vesa-framebuffer" if SYSFB_SIMPLEFB
+> is not enabled.
+> 
+> Should SYSFB should only select BOOT_VESA_SUPPORT if x86 ? I know that
+> in practice shouldn't matter because BOOT_VESA_SUPPORT is under x86 but
+> I guess is more correct if that's the case.
 
-<3>[   60.946316] INFO: task kworker/11:1:104 blocked for more than 30
-seconds.
-<3>[   60.946479]       Tainted: G        W
-5.17.0-rc5-CI-CI_DRM_11265+ #1
-<3>[   60.946580] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-<6>[   60.946688] task:kworker/11:1    state:D stack:14192 pid:  104
-ppid:     2 flags:0x00004000
-<6>[   60.946713] Workqueue: events azx_probe_work [snd_hda_intel]
-<6>[   60.946740] Call Trace:
-<6>[   60.946745]  <TASK>
-<6>[   60.946763]  __schedule+0x42c/0xa80
-<6>[   60.946797]  schedule+0x3f/0xc0
-<6>[   60.946811]  schedule_timeout+0x1be/0x2e0
-<6>[   60.946829]  ? del_timer_sync+0xb0/0xb0
-<6>[   60.946849]  ? 0xffffffff81000000
-<6>[   60.946864]  ? wait_for_completion_timeout+0x79/0x120
-<6>[   60.946879]  wait_for_completion_timeout+0xab/0x120
-<6>[   60.946906]  snd_hdac_i915_init+0xa5/0xb0 [snd_hda_core]
-<6>[   60.946943]  azx_probe_work+0x71/0x84c [snd_hda_intel]
-<6>[   60.946974]  process_one_work+0x275/0x5c0
-<6>[   60.947010]  worker_thread+0x37/0x370
-<6>[   60.947028]  ? process_one_work+0x5c0/0x5c0
-<6>[   60.947038]  kthread+0xef/0x120
-<6>[   60.947047]  ? kthread_complete_and_exit+0x20/0x20
-<6>[   60.947065]  ret_from_fork+0x22/0x30
-<6>[   60.947110]  </TASK>
+Part of the reason to move it to x86 is to avoid the conditional.
+Technically there is nothing stopping other platforms from running the
+VESA BIOS, it's just not very practical.
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Kai Vehmanen <kai.vehmanen@intel.com>
-cc: Lucas De Marchi <lucas.demarchi@intel.com>
----
- sound/hda/hdac_i915.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+> And I think that FB_SIMPLE should depend on SYSFB_SIMPLEFB if !OF (since
+> a "simple-framebuffer" platform device could be registered by OF if a
+> Device Tree node with compatible "simple-framebuffer" exists).
 
-diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
-index d20a450a9a15..daaeebc5099e 100644
---- a/sound/hda/hdac_i915.c
-+++ b/sound/hda/hdac_i915.c
-@@ -6,6 +6,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/sched/sysctl.h>
- #include <sound/core.h>
- #include <sound/hdaudio.h>
- #include <sound/hda_i915.h>
-@@ -163,7 +164,8 @@ static bool dg1_gfx_present(void)
- int snd_hdac_i915_init(struct hdac_bus *bus)
- {
- 	struct drm_audio_component *acomp;
--	int err;
-+	unsigned long timeout, ret = 0;
-+	int err, i, itr_cnt;
- 
- 	if (!i915_gfx_present())
- 		return -ENODEV;
-@@ -182,9 +184,18 @@ int snd_hdac_i915_init(struct hdac_bus *bus)
- 	if (!acomp->ops) {
- 		if (!IS_ENABLED(CONFIG_MODULES) ||
- 		    !request_module("i915")) {
-+			if (!sysctl_hung_task_timeout_secs) {
-+				itr_cnt = 1;
-+				timeout = msecs_to_jiffies(60 * 1000);
-+			} else {
-+				itr_cnt = DIV_ROUND_UP(60, sysctl_hung_task_timeout_secs);
-+				timeout = msecs_to_jiffies(sysctl_hung_task_timeout_secs * 1000);
-+			}
-+
- 			/* 60s timeout */
--			wait_for_completion_timeout(&acomp->master_bind_complete,
--						    msecs_to_jiffies(30 * 1000));
-+			for (i = 0; i < itr_cnt || !ret; i++)
-+				ret = wait_for_completion_timeout(&acomp->master_bind_complete,
-+								  timeout);
- 		}
- 	}
- 	if (!acomp->ops) {
--- 
-2.20.1
+So generally SYSFB_SIMPLEFB || OF. The part that you can enable the
+driver and it does not do anything because you are missing
+SYSFB_SIMPLEFB is indeed confusing. There is a comment in SIMLEDRM
+description but not FB_SIMPLE.
 
+Then there is the part that if neither simplefb nor vesafb nor efifb nor
+offb is built then the sysfb code is unused.
+
+Thanks
+
+Michal
