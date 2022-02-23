@@ -2,54 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174E24C1589
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 15:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDA94C158F
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 15:39:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD6610EA22;
-	Wed, 23 Feb 2022 14:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B2710E1C2;
+	Wed, 23 Feb 2022 14:39:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2284310EA22
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 14:38:24 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 58B2781109;
- Wed, 23 Feb 2022 15:38:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645627102;
- bh=hIFXz5v2y46Ri1OO3QKmfqtZSuVyllWu5uYkTc/fKB0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OsnxWgAXWOxc4vaYA0N5CwYNxJWHXG+iRJ4F81rLpuQ99GNfsszc2VL65/ne1Ojvy
- yDgjedmjGgmZO+RpC8FAybnE519Fz6Sfo0VS2HsW9l8GSOf54lbN716wqIyzn86455
- b1cx5briJ1fYFuVuHVpuwcaj8g5BQigcfKAniPyczfPEBLg1eTIUbe5oWR5MXWqpLF
- VlCftfkHHKYimHKtweNGods6Q+cOsg2Lii384STv7CNRvCViRIj4/np/t1w4UTX6IG
- JxelFkYM+PBM51ciav3GMhhwgrri/lff+dCzpI3QMEA+vm5czE+tMIgKzNf3UONEYh
- kT+cdAmdNhrvg==
-Message-ID: <bdb7884f-4c66-44ab-72e3-003b50364457@denx.de>
-Date: Wed, 23 Feb 2022 15:38:20 +0100
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B216C10E38B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 14:39:15 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0E9AC58048A;
+ Wed, 23 Feb 2022 09:39:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 23 Feb 2022 09:39:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=FgQTgqziNKWKER2EIGatrqwMgScYbE1jaY41Ku
+ Ra9OM=; b=Yli2PPJDon/Sd3hWdozX4L17oVl7xLrv21xPwvKecUIpyd8aPy1+eQ
+ PN29mJy2I0NrgpCdcxuxsni2F/BGR7WOXN4tTRXOGeJuamGKEymBaHfDqsyIyNcD
+ xahS06C6zwAStN1A1Mk3pcsGwl2akNdlXJzlcSc5O/xr8+TLvdSsv6T6m3DNzLQ1
+ MKSDLi+nKhqoxXUKqgiLBBqk6yRi+kqHZL5mgm9ePBJsQ5zZwJaBD8vImC2vzLvi
+ 4g8YL8kts6FypEX0dFFRj9xTE1XAOu3pVu7TQJbhgOSQvcUqB6S+3ifg6xd074Qk
+ VeemYsCbaTufoebFyK4dUPM1BCrfHc2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=FgQTgqziNKWKER2EI
+ GatrqwMgScYbE1jaY41KuRa9OM=; b=fJcIHRF17UWKd0l8UNOFyNrRjbu8kDSvB
+ j9nKZS5xD6s5+mep1mSmlY4AT3MPwU3ZkQ3EfiB0hM4iZGkuU1FQlGyNmLtm5tDe
+ 7jHteapsg/MRIyxLXkG1U4cBvHoAKog7OdOJYs5tgxB6IwoYfURQcoZjy5HiYzyL
+ rQL0b2cN5R7Mo/QtQZ+LUOAQT0RvJJX+czf6rheaXsjAYhCmt1idGp0yEwKBmsGJ
+ AXsycRUS0N+ttmx+PHDahoITWdsPjNgi3ieoKCSt4KHSSWykydxBnMXVhYCKhan4
+ eldILqu8Ye/Mqa7HGDT5qe45rO4TSTUtbUmSQ/spOWDmILLaVYs+w==
+X-ME-Sender: <xms:EkcWYuYja8czwuHjew1dyGXmSuW1IKamNvDwikHODq06sRG2mjSCTQ>
+ <xme:EkcWYhYJ3f73iiAKCifKa2kr9MB21Hc3xt8JBOuYfNf0VFS7WYZqI-tIJv1yPD1Fb
+ A9gVvgioma9HhTCcz4>
+X-ME-Received: <xmr:EkcWYo_67oWoiTUGgonTnQtUWz7tZt1Ddxj9aFt-pxhubGm7botnBe6T68pxVybDmQNNR2FSluRZBn4QRMYcM7YhPCqrWsMBUOrTrn4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:EkcWYgqVlP6Ct4NexodwRqXpnhoYgMrH9eEnml_fgpbDTez2YDNf9Q>
+ <xmx:EkcWYpo1pjBxKyzP3kkl2grSbOaeCDSqqu2ZSVrVymR29meM7o5DeA>
+ <xmx:EkcWYuTKy4G5BQHnSLw7ioA2cgW6wHA4QmmGS1yUOlB_Vk34BCFu4w>
+ <xmx:E0cWYjZQST1x64XLUkl8j2Ez7BYtR7WdgwqkR66KWHn4p-JgHD4IYA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Feb 2022 09:39:13 -0500 (EST)
+Date: Wed, 23 Feb 2022 15:39:12 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v10 3/4] drm/lsdc: add drm driver for loongson display
+ controller
+Message-ID: <20220223143912.m727fie3vtdkvklo@houat>
+References: <20220220145554.117854-1-15330273260@189.cn>
+ <20220220145554.117854-4-15330273260@189.cn>
+ <20220222082747.66otrkc4zwvhem7w@houat>
+ <54ea69d7-2fac-74dc-2ef6-843a666cff85@189.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
- bpc and bus_format
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220222084723.14310-1-max.krummenacher@toradex.com>
- <20220223134154.oo7xhf37bgtvm3ai@houat>
- <b5f471f4-0712-b798-efb8-b5b481cdb898@denx.de>
- <20220223134757.f5upi2iun27op5w5@houat>
- <d9ac0b96-3327-d250-dcdd-f49fc56b922c@denx.de>
- <20220223143703.xi7vpamjg4ytmvqs@houat>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220223143703.xi7vpamjg4ytmvqs@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wam4wqm3zed2h2ms"
+Content-Disposition: inline
+In-Reply-To: <54ea69d7-2fac-74dc-2ef6-843a666cff85@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,114 +84,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Max Krummenacher <max.krummenacher@toradex.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Max Krummenacher <max.oss.09@gmail.com>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, DenysDrozdov <denys.drozdov@toradex.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/23/22 15:37, Maxime Ripard wrote:
-> On Wed, Feb 23, 2022 at 03:09:08PM +0100, Marek Vasut wrote:
->> On 2/23/22 14:47, Maxime Ripard wrote:
->>> On Wed, Feb 23, 2022 at 02:45:30PM +0100, Marek Vasut wrote:
->>>> On 2/23/22 14:41, Maxime Ripard wrote:
->>>>> Hi,
->>>>>
->>>>> On Tue, Feb 22, 2022 at 09:47:23AM +0100, Max Krummenacher wrote:
->>>>>> Use the new property bus-format to set the enum bus_format and bpc.
->>>>>> Completes: commit 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
->>>>>>
->>>>>> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
->>>>>>
->>>>>> ---
->>>>>>
->>>>>>     drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
->>>>>>     1 file changed, 32 insertions(+)
->>>>>>
->>>>>> Relates to the discussion: https://lore.kernel.org/all/20220201110717.3585-1-cniedermaier@dh-electronics.com/
->>>>>>
->>>>>> Max
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
->>>>>> index c5f133667a2d..5c07260de71c 100644
->>>>>> --- a/drivers/gpu/drm/panel/panel-simple.c
->>>>>> +++ b/drivers/gpu/drm/panel/panel-simple.c
->>>>>> @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
->>>>>>     	struct panel_desc *desc;
->>>>>>     	unsigned int bus_flags;
->>>>>>     	struct videomode vm;
->>>>>> +	const char *format = "";
->>>>>>     	int ret;
->>>>>>     	np = dev->of_node;
->>>>>> @@ -477,6 +478,37 @@ static int panel_dpi_probe(struct device *dev,
->>>>>>     	of_property_read_u32(np, "width-mm", &desc->size.width);
->>>>>>     	of_property_read_u32(np, "height-mm", &desc->size.height);
->>>>>> +	of_property_read_string(np, "bus-format", &format);
->>>>>> +	if (!strcmp(format, "BGR888_1X24")) {
->>>>>> +		desc->bpc = 8;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_BGR888_1X24;
->>>>>> +	} else if (!strcmp(format, "GBR888_1X24")) {
->>>>>> +		desc->bpc = 8;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_GBR888_1X24;
->>>>>> +	} else if (!strcmp(format, "RBG888_1X24")) {
->>>>>> +		desc->bpc = 8;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RBG888_1X24;
->>>>>> +	} else if (!strcmp(format, "RGB444_1X12")) {
->>>>>> +		desc->bpc = 6;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB444_1X12;
->>>>>> +	} else if (!strcmp(format, "RGB565_1X16")) {
->>>>>> +		desc->bpc = 6;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
->>>>>> +	} else if (!strcmp(format, "RGB666_1X18")) {
->>>>>> +		desc->bpc = 6;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
->>>>>> +	} else if (!strcmp(format, "RGB666_1X24_CPADHI")) {
->>>>>> +		desc->bpc = 6;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
->>>>>> +	} else if (!strcmp(format, "RGB888_1X24")) {
->>>>>> +		desc->bpc = 8;
->>>>>> +		desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->>>>>> +	} else {
->>>>>> +		dev_err(dev, "%pOF: missing or unknown bus-format property\n",
->>>>>> +			np);
->>>>>> +		return -EINVAL;
->>>>>> +	}
->>>>>> +
->>>>>
->>>>> It doesn't seem right, really. We can't the bus format / bpc be inferred
->>>>> from the compatible? I'd expect two panels that don't have the same bus
->>>>> format to not be claimed as compatible.
->>>>
->>>> Which compatible ?
->>>>
->>>> Note that this is for panel-dpi compatible, i.e. the panel which has timings
->>>> specified in DT (and needs bus format specified there too).
->>>
->>> panel-dpi is supposed to have two compatibles, the panel-specific one
->>> and panel-dpi. This would obviously be tied to the panel-specific one.
->>
->> This whole discussion is about the one which only has 'panel-dpi' compatible
->> and describes the panel in DT completely. The specific compatible is not
->> present in DT when this patch is needed.
-> 
->  From the panel-dpi DT binding:
-> 
-> properties:
->    compatible:
->      description:
->        Shall contain a panel specific compatible and "panel-dpi"
->        in that order.
->      items:
->        - {}
->        - const: panel-dpi
-> 
-> The panel-specific compatible is mandatory, whether you like it or not.
 
-It doesn't seem to me that's the intended use per panel-simple.c , so 
-maybe the bindings need to be fixed too ?
+--wam4wqm3zed2h2ms
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Feb 22, 2022 at 10:46:35PM +0800, Sui Jingfeng wrote:
+>=20
+> On 2022/2/22 16:27, Maxime Ripard wrote:
+> > > +	if (!of_device_is_available(output)) {
+> > > +		of_node_put(output);
+> > > +		drm_info(ddev, "connector%d is not available\n", index);
+> > > +		return NULL;
+> > > +	}
+> > > +
+> > > +	disp_tims_np =3D of_get_child_by_name(output, "display-timings");
+> > > +	if (disp_tims_np) {
+> > > +		lsdc_get_display_timings_from_dtb(output, &lconn->disp_tim);
+> > > +		lconn->has_disp_tim =3D true;
+> > > +		of_node_put(disp_tims_np);
+> > > +		drm_info(ddev, "Found display timings provided by connector%d\n", =
+index);
+> > > +	}
+> > > +
+> > > +	connector_type =3D lsdc_get_connector_type(ddev, output, index);
+> > > +
+> > > +	if (output) {
+> > > +		of_node_put(output);
+> > > +		output =3D NULL;
+> > > +	}
+> > > +
+> > > +DT_SKIPED:
+> > > +
+> > > +	/* Only create the i2c channel if display timing is not provided */
+> > > +	if (!lconn->has_disp_tim) {
+> > > +		const struct lsdc_chip_desc * const desc =3D ldev->desc;
+> > > +
+> > > +		if (desc->have_builtin_i2c)
+> > > +			lconn->ddc =3D lsdc_create_i2c_chan(ddev, index);
+> > > +		else
+> > > +			lconn->ddc =3D lsdc_get_i2c_adapter(ddev, index);
+> > This looks weird: the connector bindings have a property to store the
+> > i2c controller connected to the DDC lines, so you should use that
+> > instead.
+> >=20
+> This is not=A0 weird,=A0 ast, mgag200, hibmc do the same thing.
+
+And none of them have DT support.
+
+Maxime
+
+--wam4wqm3zed2h2ms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhZHEAAKCRDj7w1vZxhR
+xXitAP9v7HOYqHz8i7UAxoCMoqbrhwBW9XOoHnf/jK5QqIkJuwEAuPDXzMoMz/sH
+GrxQHl28jgBtPlbX7QJnoi4BgNwVNQA=
+=4ezX
+-----END PGP SIGNATURE-----
+
+--wam4wqm3zed2h2ms--
