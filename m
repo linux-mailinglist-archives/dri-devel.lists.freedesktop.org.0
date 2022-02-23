@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDB24C1C62
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09334C1C58
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:38:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F2310EA48;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7798810EA38;
 	Wed, 23 Feb 2022 19:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5C910EA44
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 19:38:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E2610EA38
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 19:38:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 803371F37E;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BD17B1F44C;
  Wed, 23 Feb 2022 19:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1645645087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s5ZN7uI6UG6Di2iSINpGQFR90gjSNoFjkDK2XKHJmb8=;
- b=PCa6oGDrQ1n2qcRHF5a73W6x6YgnrbQsuD32eUczTD2snckw0qWUf22KsXT0Pv7dQ+Jhaa
- CE7FslEwt4wDJywN4UCFyNds61jSLj7sjcsSrnCX+ECjRe0izJewbRoHLsrspAW1pupja9
- 5XnM9sJTjDmPeWP8YwYmK2Tl6/D5oKo=
+ bh=N+GbnOGSeR3X9TVxFGABxV5nEPCZ3RUvOlA//TY0ScI=;
+ b=nYz7FNsAjd1IIOARUyXyPa+7heUpaOGS7DQ1SFaIasN1VX3DQ6ROtnFIZpLgqzqSGvzags
+ TRPaT8RN7BzyJzxvRVlTp+/+e/msZPGWd9eu8gbCnmv+AuYigrdJuZPzn3zKTC4vdalN9Q
+ j1/rHR99mURusjp2N95xv6UH3GbIrFI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1645645087;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s5ZN7uI6UG6Di2iSINpGQFR90gjSNoFjkDK2XKHJmb8=;
- b=Jx64EzN+aniD/z/Ga2FsNuAbxSPpCLCdhHw+MhW2Vu5gLLuGu9Va55v559ikUYFAK9dQ/t
- hSlW0/dUP53WjDCw==
+ bh=N+GbnOGSeR3X9TVxFGABxV5nEPCZ3RUvOlA//TY0ScI=;
+ b=cpJfvzZ3AXcc30GzjxW9hlXVk6MDPiAK8GhocIRZuGfWMMdauSjPcTYW/J22NbOIxIkF5b
+ YAZy/a0eI1UNSbBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 47FD513DAC;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 856FF13C7B;
  Wed, 23 Feb 2022 19:38:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WOaNEB+NFmKfUgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id IDODHx+NFmKfUgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 23 Feb 2022 19:38:07 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
  sam@ravnborg.org, kraxel@redhat.com, ppaalanen@gmail.com
-Subject: [PATCH v3 1/5] fbdev: Improve performance of sys_fillrect()
-Date: Wed, 23 Feb 2022 20:38:00 +0100
-Message-Id: <20220223193804.18636-2-tzimmermann@suse.de>
+Subject: [PATCH v3 2/5] fbdev: Improve performance of sys_imageblit()
+Date: Wed, 23 Feb 2022 20:38:01 +0100
+Message-Id: <20220223193804.18636-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223193804.18636-1-tzimmermann@suse.de>
 References: <20220223193804.18636-1-tzimmermann@suse.de>
@@ -73,58 +73,121 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve the performance of sys_fillrect() by using word-aligned
-32/64-bit mov instructions. While the code tried to implement this,
-the compiler failed to create fast instructions. The resulting
-binary instructions were even slower than cfb_fillrect(), which
-uses the same algorithm, but operates on I/O memory.
+Improve the performance of sys_imageblit() by manually unrolling
+the inner blitting loop and moving some invariants out. The compiler
+failed to do this automatically. The resulting binary code was even
+slower than the cfb_imageblit() helper, which uses the same algorithm,
+but operates on I/O memory.
 
 A microbenchmark measures the average number of CPU cycles
-for sys_fillrect() after a stabilizing period of a few minutes
+for sys_imageblit() after a stabilizing period of a few minutes
 (i7-4790, FullHD, simpledrm, kernel with debugging). The value
 for CFB is given as a reference.
 
-  sys_fillrect(), new:  26586 cycles
-  sys_fillrect(), old: 166603 cycles
-  cfb_fillrect():       41012 cycles
+  sys_imageblit(), new: 25934 cycles
+  sys_imageblit(), old: 35944 cycles
+  cfb_imageblit():      30566 cycles
 
-In the optimized case, sys_fillrect() is now ~6x faster than before
-and ~1.5x faster than the CFB implementation.
+In the optimized case, sys_imageblit() is now ~30% faster than before
+and ~20% faster than cfb_imageblit().
+
+v2:
+	* move switch out of inner loop (Gerd)
+	* remove test for alignment of dst1 (Sam)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/core/sysfillrect.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ drivers/video/fbdev/core/sysimgblt.c | 49 +++++++++++++++++++++-------
+ 1 file changed, 38 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
-index 33ee3d34f9d2..bcdcaeae6538 100644
---- a/drivers/video/fbdev/core/sysfillrect.c
-+++ b/drivers/video/fbdev/core/sysfillrect.c
-@@ -50,19 +50,9 @@ bitfill_aligned(struct fb_info *p, unsigned long *dst, int dst_idx,
+diff --git a/drivers/video/fbdev/core/sysimgblt.c b/drivers/video/fbdev/core/sysimgblt.c
+index a4d05b1b17d7..722c327a381b 100644
+--- a/drivers/video/fbdev/core/sysimgblt.c
++++ b/drivers/video/fbdev/core/sysimgblt.c
+@@ -188,23 +188,29 @@ static void fast_imageblit(const struct fb_image *image, struct fb_info *p,
+ {
+ 	u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
+ 	u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
+-	u32 bit_mask, end_mask, eorx, shift;
++	u32 bit_mask, eorx;
+ 	const char *s = image->data, *src;
+ 	u32 *dst;
+-	const u32 *tab = NULL;
++	const u32 *tab;
++	size_t tablen;
++	u32 colortab[16];
+ 	int i, j, k;
  
- 		/* Main chunk */
- 		n /= bits;
--		while (n >= 8) {
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			*dst++ = pat;
--			n -= 8;
--		}
--		while (n--)
--			*dst++ = pat;
-+		memset_l(dst, pat, n);
-+		dst += n;
+ 	switch (bpp) {
+ 	case 8:
+ 		tab = fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
++		tablen = 16;
+ 		break;
+ 	case 16:
+ 		tab = fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
++		tablen = 4;
+ 		break;
+ 	case 32:
+-	default:
+ 		tab = cfb_tab32;
++		tablen = 2;
+ 		break;
++	default:
++		return;
+ 	}
+ 
+ 	for (i = ppw-1; i--; ) {
+@@ -218,19 +224,40 @@ static void fast_imageblit(const struct fb_image *image, struct fb_info *p,
+ 	eorx = fgx ^ bgx;
+ 	k = image->width/ppw;
+ 
++	for (i = 0; i < tablen; ++i)
++		colortab[i] = (tab[i] & eorx) ^ bgx;
 +
- 		/* Trailing bits */
- 		if (last)
- 			*dst = comp(pat, *dst, last);
+ 	for (i = image->height; i--; ) {
+ 		dst = dst1;
+-		shift = 8;
+ 		src = s;
+ 
+-		for (j = k; j--; ) {
+-			shift -= ppw;
+-			end_mask = tab[(*src >> shift) & bit_mask];
+-			*dst++ = (end_mask & eorx) ^ bgx;
+-			if (!shift) {
+-				shift = 8;
+-				src++;
++		switch (ppw) {
++		case 4: /* 8 bpp */
++			for (j = k; j; j -= 2, ++src) {
++				*dst++ = colortab[(*src >> 4) & bit_mask];
++				*dst++ = colortab[(*src >> 0) & bit_mask];
++			}
++			break;
++		case 2: /* 16 bpp */
++			for (j = k; j; j -= 4, ++src) {
++				*dst++ = colortab[(*src >> 6) & bit_mask];
++				*dst++ = colortab[(*src >> 4) & bit_mask];
++				*dst++ = colortab[(*src >> 2) & bit_mask];
++				*dst++ = colortab[(*src >> 0) & bit_mask];
++			}
++			break;
++		case 1: /* 32 bpp */
++			for (j = k; j; j -= 8, ++src) {
++				*dst++ = colortab[(*src >> 7) & bit_mask];
++				*dst++ = colortab[(*src >> 6) & bit_mask];
++				*dst++ = colortab[(*src >> 5) & bit_mask];
++				*dst++ = colortab[(*src >> 4) & bit_mask];
++				*dst++ = colortab[(*src >> 3) & bit_mask];
++				*dst++ = colortab[(*src >> 2) & bit_mask];
++				*dst++ = colortab[(*src >> 1) & bit_mask];
++				*dst++ = colortab[(*src >> 0) & bit_mask];
+ 			}
++			break;
+ 		}
+ 		dst1 += p->fix.line_length;
+ 		s += spitch;
 -- 
 2.35.1
 
