@@ -1,57 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC074C1C23
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:27:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 747A74C1C57
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 20:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56E1610E3C7;
-	Wed, 23 Feb 2022 19:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B803410E9F5;
+	Wed, 23 Feb 2022 19:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36AEF10E3C7;
- Wed, 23 Feb 2022 19:27:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D1D4221121;
- Wed, 23 Feb 2022 19:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645644432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A121F10E9EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 19:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645645069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=upGwuoRgPZVhsPSHYfEeecC8R9ZhI7AKOyFPDap02vc=;
- b=mtwf7FUXip5sY/h4n1luTIUiUaiLqOsZk1RiUd8dOMu9hKja0jj9sxxCLpG2GsL1Ln0g9o
- C3Plob5RpGSQtbn9Z+xa5bcLSi9MKv5/ZJEsEYqxbXb3rwhlTrlW7Cwuu6Bv0Rinwff9/t
- DL/TKh5OWuejMc/jhvpeLAaSu6iI3A0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645644432;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=upGwuoRgPZVhsPSHYfEeecC8R9ZhI7AKOyFPDap02vc=;
- b=oW6Yf3jK9drkTf1/S1ekRgEACQw2Y1kVO+GtmzZZ13sacEJfP+iPGNzz9ine055eh0+jK6
- GwThfkkZzL61cjDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8AA1B13DA3;
- Wed, 23 Feb 2022 19:27:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id V5YTIJCKFmLVTgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 23 Feb 2022 19:27:12 +0000
-Date: Wed, 23 Feb 2022 20:27:11 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <YhaKj4zWJ42YWRts@linux-uq9g.fritz.box>
+ bh=N/l3oCj67GUwlDfyFRu9RXhbDrMuZBvOYEDah0hu0xk=;
+ b=U+m1SAQxRn8JfJrOepr+EQ3iul74SyT9ils6Rc9DVWrQSu6Qp38DuVwlQ/hyKJDlxSBeyA
+ mNV37J3Sivx6YvFtk0RjFB3VsGYIz0k4UCoKBMlIfG5tpaR7q7ft10tJ0g88sKijKUNca1
+ ZQe4uNqiWhrHXAVjyzrQokM5Giz9Ibo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489--NSvcKo1Ngqyc--PTmlLWw-1; Wed, 23 Feb 2022 14:37:47 -0500
+X-MC-Unique: -NSvcKo1Ngqyc--PTmlLWw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ c5-20020adffb05000000b001edbbefe96dso852633wrr.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 11:37:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N/l3oCj67GUwlDfyFRu9RXhbDrMuZBvOYEDah0hu0xk=;
+ b=wEDTGGWNcvBiVJgbr/DTQWz6tmS7YTSrF7LmF2sItX+sCSIHDsyz79e6x9BB4xHkaq
+ 9Zul8jD7r++XWqnlmycVIsqK+kA3KgxB7sI4HcVHsJLcBCASJqXGAtdvyBkYBfG9278z
+ 18AoOP9f/L5symRHn6hovrhXDET1c9aWRLCnmve2PqISMYcAz0+ULBNMplliVZOmX2zn
+ 9iSVDlMuLe8+4CZp4fKVcfOELWNyILcZrQR4di/5nnbXXP1YwmbkjhOmm9mLgHsxuKuf
+ lShbTzBeFvjJ2u/28NimUUkL1t5537XWaDWJg7LL8j2dyk8c1RZTPoOBP1vCe55BazGY
+ b5/g==
+X-Gm-Message-State: AOAM531Q///xbZC5dd8OaEI8GbfZrERuGAm0fCxUcV1a4n+PS/b0Tvz9
+ no5eLTWU+UaSt9VZB/L8ozlFRmsKsoQ/RR+J3FomIb/YZOOh6EMOyAMXMaMdPnvzaTikyKaCV6l
+ JSTOcQQTbop2XNJ+cB+ICqp/yaYgF
+X-Received: by 2002:a5d:4450:0:b0:1e6:8d72:b88e with SMTP id
+ x16-20020a5d4450000000b001e68d72b88emr865450wrr.632.1645645066609; 
+ Wed, 23 Feb 2022 11:37:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy3dlcQ4rDmWCLTRjmi51tojX5NlBHrp66hbYXNYrBhpSKQ+FebzA6eKdmARYqeDYgmhj79ow==
+X-Received: by 2002:a5d:4450:0:b0:1e6:8d72:b88e with SMTP id
+ x16-20020a5d4450000000b001e68d72b88emr865433wrr.632.1645645066320; 
+ Wed, 23 Feb 2022 11:37:46 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id v9sm511346wrx.27.2022.02.23.11.37.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 11:37:45 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/repaper: Use format helper for xrgb8888 to monochrome
+ conversion
+Date: Wed, 23 Feb 2022 20:37:35 +0100
+Message-Id: <20220223193735.213185-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +81,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+There is now a drm_fb_xrgb8888_to_mono_reversed() helper function to do
+format conversion from XRGB8888 to reversed monochrome.
 
-here's drm-misc-fixes for this week.
+Use that helper and remove the open coded version in the repaper driver.
 
-Best regards
-Thomas
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-drm-misc-fixes-2022-02-23:
- * edid: Always set RGB444
- * imx/dcss: Select GEM CMA helpers
- * radeon: Fix some variables's type
- * vc4: Fix codec cleanup; Fix PM reference counting
-The following changes since commit 439cf34c8e0a8a33d8c15a31be1b7423426bc765:
+This was only built tested because I don't have access to the hardware.
 
-  drm/atomic: Don't pollute crtc_state->mode_blob with error pointers (2022-02-16 12:32:07 +0200)
+ drivers/gpu/drm/tiny/repaper.c | 24 +-----------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-02-23
-
-for you to fetch changes up to ecbd4912a693b862e25cba0a6990a8c95b00721e:
-
-  drm/edid: Always set RGB444 (2022-02-23 14:12:01 +0100)
-
-----------------------------------------------------------------
- * edid: Always set RGB444
- * imx/dcss: Select GEM CMA helpers
- * radeon: Fix some variables's type
- * vc4: Fix codec cleanup; Fix PM reference counting
-
-----------------------------------------------------------------
-Christian König (1):
-      drm/radeon: fix variable type
-
-Maxime Ripard (3):
-      drm/vc4: hdmi: Unregister codec device on unbind
-      drm/vc4: crtc: Fix runtime_pm reference counting
-      drm/edid: Always set RGB444
-
-Rudi Heitbaum (1):
-      drm/imx/dcss: i.MX8MQ DCSS select DRM_GEM_CMA_HELPER
-
- drivers/gpu/drm/drm_edid.c          | 2 +-
- drivers/gpu/drm/imx/dcss/Kconfig    | 1 +
- drivers/gpu/drm/radeon/radeon_uvd.c | 8 ++++----
- drivers/gpu/drm/vc4/vc4_crtc.c      | 8 +++++---
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 8 ++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.h      | 1 +
- 6 files changed, 20 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+index 97a775c48cea..5c74e236b16d 100644
+--- a/drivers/gpu/drm/tiny/repaper.c
++++ b/drivers/gpu/drm/tiny/repaper.c
+@@ -508,26 +508,6 @@ static void repaper_get_temperature(struct repaper_epd *epd)
+ 	epd->factored_stage_time = epd->stage_time * factor10x / 10;
+ }
+ 
+-static void repaper_gray8_to_mono_reversed(u8 *buf, u32 width, u32 height)
+-{
+-	u8 *gray8 = buf, *mono = buf;
+-	int y, xb, i;
+-
+-	for (y = 0; y < height; y++)
+-		for (xb = 0; xb < width / 8; xb++) {
+-			u8 byte = 0x00;
+-
+-			for (i = 0; i < 8; i++) {
+-				int x = xb * 8 + i;
+-
+-				byte >>= 1;
+-				if (gray8[y * width + x] >> 7)
+-					byte |= BIT(7);
+-			}
+-			*mono++ = byte;
+-		}
+-}
+-
+ static int repaper_fb_dirty(struct drm_framebuffer *fb)
+ {
+ 	struct drm_gem_cma_object *cma_obj = drm_fb_cma_get_gem_obj(fb, 0);
+@@ -560,12 +540,10 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb)
+ 	if (ret)
+ 		goto out_free;
+ 
+-	drm_fb_xrgb8888_to_gray8(buf, 0, cma_obj->vaddr, fb, &clip);
++	drm_fb_xrgb8888_to_mono_reversed(buf, 0, cma_obj->vaddr, fb, &clip);
+ 
+ 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+ 
+-	repaper_gray8_to_mono_reversed(buf, fb->width, fb->height);
+-
+ 	if (epd->partial) {
+ 		repaper_frame_data_repeat(epd, buf, epd->current_frame,
+ 					  REPAPER_NORMAL);
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+2.34.1
+
