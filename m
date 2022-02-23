@@ -2,81 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810244C1138
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 12:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F4C4C117E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 12:40:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063F110E882;
-	Wed, 23 Feb 2022 11:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407D710E8F1;
+	Wed, 23 Feb 2022 11:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812CA10E880
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 11:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645615521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+QcuT0UppOn6GKRBWknD8eYzy3WTZ7uGZvfSR5huaVc=;
- b=Rde0X2PWMFsF0TnBCTgJwW+EvgCIwWMnYHVtX3VEwWd6bcW6ZtFZo+u3sf9nGEj9X2jb0b
- l6ZgmkL19O29UhhYSTlT9A163N1Nl/jUtxJOA52s3n68MDCXZ9gUvgA+SngNzRk58rPQnN
- TMC2llouP4R0UMnUPCmgDRzjSiyqycg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-IFWzkMPcPRSr5mcWpeLdPA-1; Wed, 23 Feb 2022 06:25:20 -0500
-X-MC-Unique: IFWzkMPcPRSr5mcWpeLdPA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- 13-20020a170906328d00b006982d0888a4so6921867ejw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 03:25:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+QcuT0UppOn6GKRBWknD8eYzy3WTZ7uGZvfSR5huaVc=;
- b=Bsx9ZhL/lQZ61fsIDgfUy1Y2M2rBZ82oTJb5otFB3cQdM/ATwKK44e807res1VX6TS
- HviJKpTH+mayh+oZGDxFrM0ngGNgTgOOw/Ej0gb9hN7XDhx2G+QGlg8WOP6AoUv7XY+Z
- GKmzTo+R5/iW6FoFRbTHXY9rEWQft3Ys3B+qww0xxv8jiAaRBYKpYOsjY0TByKl5gFq0
- EPyAIj3vJ599LoOUvzPMRtUjzNIhnDMvjGZn/NdDJDcSvRiZ43qngql8009RKTNulwez
- anhgcp32qTtwabNEGHQ/JkVBMP1vGygZJVrbg2S8obkRoqnGoTM/29MxeY6vLs15Y1B3
- wzJw==
-X-Gm-Message-State: AOAM531SgvRcef0YjdjCXEAOFoI8i9m//TjbzunYmFmG52FvIxXea8sy
- DUA6pF86xTli5mDAKp2lFHyaoBEQWGOeT35Lg9gQK430DNetncZbTjfYlonZG3TDW7NR/JVlWsr
- mwPE86xTGbpZZ4PqxNUr8p4YrlQZ9
-X-Received: by 2002:a17:907:7711:b0:6ce:e03c:e1e2 with SMTP id
- kw17-20020a170907771100b006cee03ce1e2mr22853556ejc.769.1645615519026; 
- Wed, 23 Feb 2022 03:25:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxp3AkWRB7G2tT29HIAo1E8ok6y0HpponoCO053pSavzIaq8781LJXiiepaH4MC4iy59YJElg==
-X-Received: by 2002:a17:907:7711:b0:6ce:e03c:e1e2 with SMTP id
- kw17-20020a170907771100b006cee03ce1e2mr22853545ejc.769.1645615518783; 
- Wed, 23 Feb 2022 03:25:18 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id k9sm287562eje.202.2022.02.23.03.25.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 03:25:18 -0800 (PST)
-Message-ID: <e84ea711-69ce-62ac-cb2e-2d87d75355fa@redhat.com>
-Date: Wed, 23 Feb 2022 12:25:17 +0100
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E501610E8F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 11:40:15 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8C2B33F78B;
+ Wed, 23 Feb 2022 12:40:12 +0100 (CET)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org
+Subject: [PATCH v2] drm/msm/dpu: Bind pingpong block to intf on active ctls in
+ cmd encoder
+Date: Wed, 23 Feb 2022 12:40:10 +0100
+Message-Id: <20220223114011.219044-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
- non-upright mounted LCD panels
-To: Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220221220045.11958-1-hdegoede@redhat.com>
- <99294308-3d33-f24c-1292-20a88980e973@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <99294308-3d33-f24c-1292-20a88980e973@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,70 +40,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Pavel Dubrova <pashadubrova@gmail.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>, Bernard <bernard@vivo.com>,
+ linux-arm-msm@vger.kernel.org, Zhen Lei <thunder.leizhen@huawei.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+As per the specification of DPU_CTL_ACTIVE_CFG the configuration of
+active blocks should be proactively specified, and the pingpong block is
+no different.
 
-On 2/22/22 20:14, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 21.02.22 um 23:00 schrieb Hans de Goede:
->> Some devices use e.g. a portrait panel in a standard laptop casing made
->> for landscape panels. efifb calls drm_get_panel_orientation_quirk() and
->> sets fb_info.fbcon_rotate_hint to make fbcon rotate the console so that
->> it shows up-right instead of on its side.
->>
->> When switching to simpledrm to fbcon renders on its side. Call the
-> 
-> Maybe '... fbcon renders sidewards.'
+The downstream display driver [1] confirms this by also calling
+bind_pingpong_blk on CTL_ACTIVE_CFG.  Note that this else-if is always
+entered, as setup_intf_cfg - unlike this mainline dpu driver that
+combines both behind the same function pointer - is left NULL in favour
+of using setup_intf_cfg_v1 when CTL_ACTIVE_CFG is set.
 
-that does not sound entirely right to me, so I've gone with:
+This solves continuous timeouts on at least the Qualcomm sm6125 SoC:
 
-"When switching to simpledrm the fbcon renders on its side."
+    [drm:dpu_encoder_frame_done_timeout:2091] [dpu error]enc31 frame done timeout
+    [drm:_dpu_encoder_phys_cmd_handle_ppdone_timeout.isra.0] *ERROR* id:31 pp:0 kickoff timeout 0 cnt 1 koff_cnt 1
+    [drm:dpu_encoder_phys_cmd_prepare_for_kickoff] *ERROR* failed wait_for_idle: id:31 ret:-110 pp:0
 
-as suggested by Javier (so s/to/the/ ).
+In the same way this pingpong block should also be unbound followed by
+an interface flush when the encoder is disabled, according to the
+downstream display driver [2].
 
-> 
->> drm_connector_set_panel_orientation_with_quirk() helper to add
->> a "panel orientation" property on devices listed in the quirk table,
->> to make the fbcon (and aware userspace apps) rotate the image to
->> display properly.
->>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+[1]: https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/tree/msm/sde/sde_encoder_phys_cmd.c?h=LA.UM.9.16.r1-08500-MANNAR.0#n167
+[2]: https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/tree/msm/sde/sde_encoder.c?h=LA.UM.9.16.r1-08500-MANNAR.0#n2986
 
-Thank you both for the review/ack. I'm currently doing a
-test-build of drm-misc-next with the patch with amended
-commit msg applied. Once that is done I'll push this out
-to drm-misc-next.
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
 
-Regards,
+Changes since v1:
+- Always unbind the pingpong block in dpu_encoder_phys_cmd_disable,
+  instead of only if this encoder is the master.
 
-Hans
+v1: https://lore.kernel.org/lkml/20211222105513.44860-1-marijn.suijten@somainline.org/
 
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index 8e433af7aea4..1be01cbd960e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -71,6 +71,13 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+ 	intf_cfg.stream_sel = cmd_enc->stream_sel;
+ 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+ 	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
++
++	/* setup which pp blk will connect to this intf */
++	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
++		phys_enc->hw_intf->ops.bind_pingpong_blk(
++				phys_enc->hw_intf,
++				true,
++				phys_enc->hw_pp->idx);
+ }
+ 
+ static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
+@@ -507,6 +514,7 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
+ {
+ 	struct dpu_encoder_phys_cmd *cmd_enc =
+ 		to_dpu_encoder_phys_cmd(phys_enc);
++	struct dpu_hw_ctl *ctl;
+ 
+ 	if (!phys_enc->hw_pp) {
+ 		DPU_ERROR("invalid encoder\n");
+@@ -523,6 +531,17 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
+ 
+ 	if (phys_enc->hw_pp->ops.enable_tearcheck)
+ 		phys_enc->hw_pp->ops.enable_tearcheck(phys_enc->hw_pp, false);
++
++	if (phys_enc->hw_intf->ops.bind_pingpong_blk) {
++		phys_enc->hw_intf->ops.bind_pingpong_blk(
++				phys_enc->hw_intf,
++				false,
++				phys_enc->hw_pp->idx);
++
++		ctl = phys_enc->hw_ctl;
++		ctl->ops.update_pending_flush_intf(ctl, phys_enc->intf_idx);
++	}
++
+ 	phys_enc->enable_state = DPU_ENC_DISABLED;
+ }
+ 
 
->> ---
->>   drivers/gpu/drm/tiny/simpledrm.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
->> index 04146da2d1d8..11576e0297e4 100644
->> --- a/drivers/gpu/drm/tiny/simpledrm.c
->> +++ b/drivers/gpu/drm/tiny/simpledrm.c
->> @@ -798,6 +798,9 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
->>       if (ret)
->>           return ret;
->>       drm_connector_helper_add(connector, &simpledrm_connector_helper_funcs);
->> +    drm_connector_set_panel_orientation_with_quirk(connector,
->> +                               DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
->> +                               mode->hdisplay, mode->vdisplay);
->>         formats = simpledrm_device_formats(sdev, &nformats);
->>   
-> 
+base-commit: 3c30cf91b5ecc7272b3d2942ae0505dd8320b81c
+-- 
+2.35.1
 
