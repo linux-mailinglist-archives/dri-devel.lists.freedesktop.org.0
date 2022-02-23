@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABADA4C10D4
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 11:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A5A4C10D3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 11:57:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7709C10E68D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8522410E6A9;
 	Wed, 23 Feb 2022 10:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30EA10E658
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:56:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CACC110E653
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:56:24 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 2A07E5C0135;
- Wed, 23 Feb 2022 05:56:22 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 23 Feb 2022 05:56:22 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 36BFF5C0227;
+ Wed, 23 Feb 2022 05:56:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 23 Feb 2022 05:56:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=YG/YzRDoyDY+dcvSDvbUWJ+GXvArvM
- MYZLUzmKGB4FQ=; b=HckGQJWJAoCfn3rwPI/vKY68bVcq9cLAJgz2JDgKDOkSiv
- /14dTcDZu+BM6OA5ZrjXEQJXVQBxIKt2lnjJltRy2PSPzozEVzmRt5ZCBRZJkmfa
- DbjHF6fhM7KCLS3qpb7VaCZGeYvhHQgfo28gadzzB9dt3EU39SjZ2NlQBdtHl6Kb
- pekpJ3DnQmg3c8jGSo5DitJtC71lWGcdbTm5/pkKUAZnW5/bTS5/idFBXmxDCBJ0
- PGbg6OUGuorMyQGzGrh2XPI5r1RNIhDwpVi16OwwOeNRPGxvyhtHlYRtaD4upkCp
- z+Aro/rJ5TcnHn8TVJ1n/djmowJpxNDxF2yrui8Q==
+ :subject:subject:to:to; s=fm2; bh=QlOq15mubNZxvpuMRZ3gIcykADRMVQ
+ WEqEwOiGentj0=; b=p+/+ZM93M0bFIBNU8uZZRvk3YTHe+ulDlA+N8wucBrpaDX
+ P83MsTu3YQSAbpJcZXagaGnzk1XxJF12/mOxTQCCT4tLOd4WTvuevcU6mMSnA8uE
+ lti0Mx8HoHmUEy9DuCVVDMNgnBhx5tfmiqYkeWjlk6j17lybPBvieZv8sgIoSu3F
+ +TfuDs7/ejf4IM+FjyLDfHGG5bELB3+mSqWbYDrTCoHMfY9r2AssB7CPEBWpNn/j
+ if7XU7hrAYL9KOrGh1qvR9qgJd5bTzsF7CSAoQgnc85YLJ2cTvGJRb2RqzuGoH8K
+ mbMz9lRr+//EZ67wxCmZr23Ca2Rfncv8W1/+K+Xg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=YG/YzR
- DoyDY+dcvSDvbUWJ+GXvArvMMYZLUzmKGB4FQ=; b=kmJPl3oGB9lt6S57ICxYwo
- oq1ePr/V8+nGE8n3A93pBE1ytDBAel4OsrWU2cyPGrN6xKAJigCgjhmKicHSpZWt
- sn8/31lumBKW5jXWnwjTuH+Bhdw9l1IMRcQSiNEK9dB2+Pu+0p1s6rpTE064iEq1
- ElsB3oNFuqFv8Cp6NR1Za/t8uQ0bfEkLU9/6zu9mXqLjceYDy5QcuamCP94PXtKK
- 5Q5iAlwtmkU76xVcgtMjrImt9YEHYYfKnvKNU6NTvkFjBsQa/bnu0Cq7WA5N7tR6
- PR+IzZckTcMXv/f+AAaVVcmN3+kV1cjJXfO2k+1YiNlatp1Y8hB3h+5rLL/XtWpQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QlOq15
+ mubNZxvpuMRZ3gIcykADRMVQWEqEwOiGentj0=; b=BUNHjwlVNEPTmq10mEdTAe
+ tf/YNrgJok9/YH7nbJ6hO5P2WkYZz0gmOT6B99PDxhyfALzwhE3AyXGYaxrspFm+
+ rk/rikoCRG0qBmE3zzx93ylzXOJkWEjnX7qEsNeEHYx+6Fj+AnIZYpzWssnSxi8c
+ 11YmFk7dEuVsx2qAj8dkxoLGw9bNMyQpX2WrqylafrcbPoyGSxeDtk+N1tirtvkX
+ eptS6IMj70D/87gCDAiefgxbwUpAo++m2Ebtf5SUUMfMhwh85n57991Uj7wIEi4k
+ mqYJv7sWaRINwOsl72UQF4zqgw7ztD9znusVSlp2cnWQNDfzvCckPiImyFLyYZRg
  ==
-X-ME-Sender: <xms:1RIWYskZqXyTQfZPn8Zsj_Sai_3MgHiL-GhibbWrRQXn5Du0WT0cZw>
- <xme:1RIWYr2sbFwR_zLuaBCwyCD3ATJD1v5b5i2lHBfzhuzmcpM3PnLzTjBxn4JTgLXQl
- igK0lS3HZaJNGHfeWg>
-X-ME-Received: <xmr:1RIWYqqyExlLf6k_l1CkbHsIgvYyzXjxjB42SWUXTIfScqHivYGH866KLExSbOJLU2mv7Sv0ML7VjDlHk5hh6K0zDrGjOk2N4ZPDxFQ>
+X-ME-Sender: <xms:2BIWYqs8ok_8ZtVASx-Jfq-vG6pzTvAjZWo70UzMsffbmwCotuuqsw>
+ <xme:2BIWYveSLyqTf9g8PdchYvec-B7ktj1W4VdbRaS_4czLESr7rHUP-ymQn4lfa4IxI
+ CpFRZh2VFsv6KfCmLg>
+X-ME-Received: <xmr:2BIWYlzVX1mH5LVqVLB3yIJqFiykThLRzezCmbgGBIoehFv89oZH47l4u2zsJE_Z2esdZp_ySGBWM-Dc0EhJAnJYvlULvFRH_bKZhsE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgddvudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,17 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgddvudcutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1hIWYok6g8VJDrDO_QMl_FkpZ2gpnkLkK_O3ULORDo9Vzj35cv7vhA>
- <xmx:1hIWYq3GBgBvtH3-gKQCY1Xt_7Ejc4XjaHJG8ngs3UWN7O1CdZNyLA>
- <xmx:1hIWYvuhxMcrdp-1pCfX0apNs5bLqdfI8sszQdCJy0zYRz7fklxjRw>
- <xmx:1hIWYjng_miJhJViXTCA7LduABYzlTvoU7ZhHkk9NDowzqxEmH_Cbw>
+X-ME-Proxy: <xmx:2BIWYlPsMeVFVO4DepBXAwJokMALt0D77wNfoPlZI5G_1dW10fCqig>
+ <xmx:2BIWYq_1W4NcIy0CfKXC8G5hL1WTsx9c-Wkbn7cUp7wHJdqIWij37g>
+ <xmx:2BIWYtVxHU0wObZc27nJmXyM-ef-nviUwgpKyY1mtbNEVHsOsu1jig>
+ <xmx:2BIWYvPIjz95ubYGM8yeBW-AQMREmXSL2l1SNbNvdgI6JhVqoDWFtg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Feb 2022 05:56:21 -0500 (EST)
+ 23 Feb 2022 05:56:23 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v6 08/12] clk: bcm: rpi: Add variant structure
-Date: Wed, 23 Feb 2022 11:55:56 +0100
-Message-Id: <20220223105600.1132593-9-maxime@cerno.tech>
+Subject: [PATCH v6 09/12] clk: bcm: rpi: Set a default minimum rate
+Date: Wed, 23 Feb 2022 11:55:57 +0100
+Message-Id: <20220223105600.1132593-10-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223105600.1132593-1-maxime@cerno.tech>
 References: <20220223105600.1132593-1-maxime@cerno.tech>
@@ -87,142 +87,72 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We only export a bunch of firmware clocks, and some of them require
-special treatment.
+The M2MC clock provides the state machine clock for both HDMI
+controllers.
 
-This has been do so far using some tests on the clock id in various
-places, but this is fairly hard to extend and doesn't scale very well.
+However, if no HDMI monitor is plugged in at boot, its clock rate will
+be left at 0 by the firmware and will make any register access end up in
+a CPU stall, even though the clock was enabled.
 
-Since we'll need some more cases in the next patches, let's switch to a
-variant structure that defines the behaviour we need to have for a given
-clock.
+We had some code in the HDMI controller to deal with this before, but it
+makes more sense to have it in the clock driver. Move it there.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 62 +++++++++++++++++++++++--------
- 1 file changed, 46 insertions(+), 16 deletions(-)
+ drivers/clk/bcm/clk-raspberrypi.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index dd3b71eafabf..f7185d421085 100644
+index f7185d421085..c879f2e9a4a7 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -56,6 +56,8 @@ static char *rpi_firmware_clk_names[] = {
- #define RPI_FIRMWARE_STATE_ENABLE_BIT	BIT(0)
- #define RPI_FIRMWARE_STATE_WAIT_BIT	BIT(1)
- 
-+struct raspberrypi_clk_variant;
-+
- struct raspberrypi_clk {
- 	struct device *dev;
- 	struct rpi_firmware *firmware;
-@@ -66,10 +68,36 @@ struct raspberrypi_clk_data {
- 	struct clk_hw hw;
- 
- 	unsigned int id;
-+	struct raspberrypi_clk_variant *variant;
- 
- 	struct raspberrypi_clk *rpi;
+@@ -76,6 +76,7 @@ struct raspberrypi_clk_data {
+ struct raspberrypi_clk_variant {
+ 	bool		export;
+ 	char		*clkdev;
++	unsigned long	min_rate;
  };
  
-+struct raspberrypi_clk_variant {
-+	bool		export;
-+	char		*clkdev;
-+};
+ static struct raspberrypi_clk_variant
+@@ -89,6 +90,18 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
+ 	},
+ 	[RPI_FIRMWARE_M2MC_CLK_ID] = {
+ 		.export = true,
 +
-+static struct raspberrypi_clk_variant
-+raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
-+	[RPI_FIRMWARE_ARM_CLK_ID] = {
-+		.export = true,
-+		.clkdev = "cpu0",
-+	},
-+	[RPI_FIRMWARE_CORE_CLK_ID] = {
-+		.export = true,
-+	},
-+	[RPI_FIRMWARE_M2MC_CLK_ID] = {
-+		.export = true,
-+	},
-+	[RPI_FIRMWARE_V3D_CLK_ID] = {
-+		.export = true,
-+	},
-+	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID] = {
-+		.export = true,
-+	},
-+};
-+
- /*
-  * Structure of the message passed to Raspberry Pi's firmware in order to
-  * change clock rates. The 'disable_turbo' option is only available to the ARM
-@@ -183,7 +211,8 @@ static const struct clk_ops raspberrypi_firmware_clk_ops = {
- 
- static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
- 					       unsigned int parent,
--					       unsigned int id)
-+					       unsigned int id,
-+					       struct raspberrypi_clk_variant *variant)
- {
- 	struct raspberrypi_clk_data *data;
- 	struct clk_init_data init = {};
-@@ -195,6 +224,7 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
- 		return ERR_PTR(-ENOMEM);
- 	data->rpi = rpi;
- 	data->id = id;
-+	data->variant = variant;
- 
- 	init.name = devm_kasprintf(rpi->dev, GFP_KERNEL,
- 				   "fw-clk-%s",
-@@ -228,9 +258,9 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
- 
- 	clk_hw_set_rate_range(&data->hw, min_rate, max_rate);
- 
--	if (id == RPI_FIRMWARE_ARM_CLK_ID) {
-+	if (variant->clkdev) {
- 		ret = devm_clk_hw_register_clkdev(rpi->dev, &data->hw,
--						  NULL, "cpu0");
-+						  NULL, variant->clkdev);
- 		if (ret) {
- 			dev_err(rpi->dev, "Failed to initialize clkdev\n");
- 			return ERR_PTR(ret);
-@@ -264,27 +294,27 @@ static int raspberrypi_discover_clocks(struct raspberrypi_clk *rpi,
- 		return ret;
- 
- 	while (clks->id) {
--		struct clk_hw *hw;
-+		struct raspberrypi_clk_variant *variant;
-+
-+		if (clks->id > RPI_FIRMWARE_NUM_CLK_ID) {
-+			dev_err(rpi->dev, "Unknown clock id: %u", clks->id);
-+			return -EINVAL;
-+		}
-+
-+		variant = &raspberrypi_clk_variants[clks->id];
-+		if (variant->export) {
-+			struct clk_hw *hw;
- 
--		switch (clks->id) {
--		case RPI_FIRMWARE_ARM_CLK_ID:
--		case RPI_FIRMWARE_CORE_CLK_ID:
--		case RPI_FIRMWARE_M2MC_CLK_ID:
--		case RPI_FIRMWARE_V3D_CLK_ID:
--		case RPI_FIRMWARE_PIXEL_BVB_CLK_ID:
- 			hw = raspberrypi_clk_register(rpi, clks->parent,
--						      clks->id);
-+						      clks->id, variant);
- 			if (IS_ERR(hw))
- 				return PTR_ERR(hw);
- 
- 			data->hws[clks->id] = hw;
- 			data->num = clks->id + 1;
--			fallthrough;
--
--		default:
--			clks++;
--			break;
++		/*
++		 * If we boot without any cable connected to any of the
++		 * HDMI connector, the firmware will skip the HSM
++		 * initialization and leave it with a rate of 0,
++		 * resulting in a bus lockup when we're accessing the
++		 * registers even if it's enabled.
++		 *
++		 * Let's put a sensible default so that we don't end up
++		 * in this situation.
++		 */
++		.min_rate = 120000000,
+ 	},
+ 	[RPI_FIRMWARE_V3D_CLK_ID] = {
+ 		.export = true,
+@@ -267,6 +280,19 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
  		}
-+
-+		clks++;
  	}
  
- 	return 0;
++	if (variant->min_rate) {
++		unsigned long rate;
++
++		clk_hw_set_rate_range(&data->hw, variant->min_rate, max_rate);
++
++		rate = raspberrypi_fw_get_rate(&data->hw, 0);
++		if (rate < variant->min_rate) {
++			ret = raspberrypi_fw_set_rate(&data->hw, variant->min_rate, 0);
++			if (ret)
++				return ERR_PTR(ret);
++		}
++	}
++
+ 	return &data->hw;
+ }
+ 
 -- 
 2.35.1
 
