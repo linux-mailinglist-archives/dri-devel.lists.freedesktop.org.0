@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6754C178D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEA24C17D2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 16:55:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D4110E6C9;
-	Wed, 23 Feb 2022 15:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37F5C10E5BC;
+	Wed, 23 Feb 2022 15:55:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C450710E6B1;
- Wed, 23 Feb 2022 15:46:03 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id x15so5927142wrg.8;
- Wed, 23 Feb 2022 07:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iSfHBOu4v5+uNUdMQr8U/N7yggvNFIAnsnuq86CDDN8=;
- b=fbSjZORrBhhHrOCnk7S6YM3Zgzp9jGKaOTrH8ZsFi5jfiwjUcFu0MuHrtjOPxu+gs7
- Y+mCisYdpElaLEUtLaAjsRd7peyj017FJk05vLUo8er05hHuNjVK1YKynFp4YRqwEUuR
- 1fmvddyZjGTXvLzE0MGil9SQG/CYtr6b34brfpE+xAS5Vwuu17htp9yTLmD/crR2nLSM
- IiB8DsDCctlx0FzteoDu8FzHbhR7cAmK0HOEG11kRS10z8F/wzxEqlWWhHxFZeUQnvn1
- gDqTQ5DoJrtjLe94YeNpNhK+uTWC+VEdRrgNYVMGcP7vWXQz1SOtOZjVtGDTKJXn/C7Y
- O3tw==
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
+ [209.85.161.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B669810E2DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 15:55:11 +0000 (UTC)
+Received: by mail-oo1-f48.google.com with SMTP id
+ i10-20020a4aab0a000000b002fccf890d5fso22861750oon.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 07:55:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iSfHBOu4v5+uNUdMQr8U/N7yggvNFIAnsnuq86CDDN8=;
- b=N2VW0Jginpy9FXi6P9PZX1ptZ0tVrYX3hkMoJm0uTknC+WfKuYItCkU0Hrb6qXx1Xa
- 6HnalQsGRCykICi+7YbRWtgZ+V+Dd0El6E0UoCfkQ3I1A+/jGhIJsDiaNwWSnQstH1eQ
- mZtTZqg5k4xPF+KiEmRa6OsWhg9cA+QbTLs+P8EpMnhtM0XLqcFWaK/Sfqhm6X1I6nNp
- LZ1rqPtOcjdicaUhwtWVPa0vATqMvJbCpgp3kGTBgo11LugHuDUMpSssw152YPKxCITr
- 5Bg1b2TDm6RRqsjcp+ZpYvBMaO8E5cSMyolzcdzo+oVUhiuZhI/BltMj+MUM5yNUVAO3
- MP5A==
-X-Gm-Message-State: AOAM5335BQLvaLdfTGKshhlSvzMZTutw0z5UxrF9ufRTAjXScVDlw5rt
- pWSGTGuzQTd+4Pn9Lbb2SYHbDoNHaymZEHo8B98=
-X-Google-Smtp-Source: ABdhPJyosEjfWY4mjWeCmJhqIR2Tgf0/QybyKJGd2Qa9zYQaZY/M3wuO912/5weuamaNpFuLr3U9YbFz3d8lNVyzudc=
-X-Received: by 2002:a05:6000:1a8b:b0:1ea:bc4:e52e with SMTP id
- f11-20020a0560001a8b00b001ea0bc4e52emr176951wry.574.1645631162104; Wed, 23
- Feb 2022 07:46:02 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AY9Rst+R0XJdUuRWhEYpgduaPwSTvm033nlzuhQ6N64=;
+ b=v6q2hWHAIGE2/typi7OzNDoZowA/J/qab7cxVAevLwYDDV5oo9dw+PCwhlrXP63gSQ
+ 2sQwe+BcGWq1to6sfnX1xkPBdE4dndpNjIElN0blyr4/XNsVK5BvPGnM95RHAYwfQw6E
+ Z3v3cDzG01ZIRyQ12P9HmqyzZFGRg2jlQIi3XCifzdUzwA7Ua2BwQ98boActWc/DzzvU
+ 40+b8fHymIUcD2pLBDT1LD1vE29WarfyP5zeauIIXUKjFKe22tZgKZm5JbkpFcOsvdfn
+ i3sGIrSch0wFuPi8kSPlUTUoN4lendyL2ucoIvKz/jxWcZmZjtCvqKGpri1J2dL9qExy
+ r7pA==
+X-Gm-Message-State: AOAM531vUu0ML1nZCwu+Mu8mEh1hzMxvSfVFFO+zhsAYpclCUFt/T50S
+ PChFdL8pdgQu50TxTbt35A==
+X-Google-Smtp-Source: ABdhPJx3cqGQBNB+wBd73wt4IykRtWY7bNDjTg6vOPJPvXlyPhl5eAy07J3mvRkLnak1pIURW1OOWQ==
+X-Received: by 2002:a05:6870:2b16:b0:c2:8be1:8b0f with SMTP id
+ ld22-20020a0568702b1600b000c28be18b0fmr129502oab.2.1645631710861; 
+ Wed, 23 Feb 2022 07:55:10 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id f40sm37321oaq.34.2022.02.23.07.55.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 07:55:09 -0800 (PST)
+Received: (nullmailer pid 1001324 invoked by uid 1000);
+ Wed, 23 Feb 2022 15:55:08 -0000
+Date: Wed, 23 Feb 2022 09:55:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v6 23/23] dt-bindings: display: rockchip: dw-hdmi: fix
+ ports description
+Message-ID: <YhZY3BV6WE2+XgnT@robh.at.kernel.org>
+References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
+ <20220217082954.2967889-24-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-References: <20220219183310.557435-1-robdclark@gmail.com>
- <6f1225ea-d889-9cf8-3a3d-181e319bd453@linaro.org>
-In-Reply-To: <6f1225ea-d889-9cf8-3a3d-181e319bd453@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 23 Feb 2022 07:46:21 -0800
-Message-ID: <CAF6AEGut-75ri+U=B2eBtNeYQu5ECKPmk51b2_pCgu91uKy1ow@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/gpu: Fix crash on devices without devfreq support
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220217082954.2967889-24-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,142 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Anders Roxell <anders.roxell@linaro.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 22, 2022 at 7:11 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 19/02/2022 21:33, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Avoid going down devfreq paths on devices where devfreq is not
-> > initialized.
-> >
-> > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> > Reported-by: Anders Roxell <anders.roxell@linaro.org>
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_gpu_devfreq.c | 31 +++++++++++++++++++++------
-> >   1 file changed, 25 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> > index 9bf319be11f6..26a3669a97b3 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> > @@ -83,12 +83,17 @@ static struct devfreq_dev_profile msm_devfreq_profile = {
-> >   static void msm_devfreq_boost_work(struct kthread_work *work);
-> >   static void msm_devfreq_idle_work(struct kthread_work *work);
-> >
-> > +static bool has_devfreq(struct msm_gpu *gpu)
-> > +{
-> > +     return !!gpu->funcs->gpu_busy;
->
-> I see that devfreq init will be skipped if gpu_busy is NULL.
-> Can we use gpu->devfreq instead of this condition?
+On Thu, 17 Feb 2022 09:29:54 +0100, Sascha Hauer wrote:
+> Current port description doesn't cover all possible cases. It currently
+> expects one single port with two endpoints.
+> 
+> When the HDMI connector is described in the device tree there can be two
+> ports, first one going to the VOP and the second one going to the connector.
+> 
+> Also on SoCs which only have a single VOP there will be only one
+> endpoint instead of two.
+> 
+> This patch addresses both issues. With this there can either be a single
+> port ("port") , or two of them ("port@0", "port@1") when the connector
+> is also in the device tree. Also the first or only port can either have
+> one endpoint ("endpoint") for single VOP SoCs or two ("endpoint@0",
+> "endpoint@1") for dual VOP SoCs.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+> 
+> Notes:
+>     Changes since v5:
+>     - new patch
+> 
+>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 24 +++++++------------
+>  1 file changed, 9 insertions(+), 15 deletions(-)
+> 
 
-We could, but then we couldn't also use the same has_devfreq() helper
-in msm_devfreq_init().  I thought it was clearer to use the same
-helper everywhere.
-
-> I noticed that you have replaced some of gpu->devfreq checks with
-> has_devreq() calls. Is there any difference?
-
-It amounts to the same thing because if you don't have gpu_busy, then
-devfreq is never initialized.  I just thought it clearer to use the
-same check in all places.
-
-BR,
--R
-
-> > +}
-> > +
-> >   void msm_devfreq_init(struct msm_gpu *gpu)
-> >   {
-> >       struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >
-> >       /* We need target support to do devfreq */
-> > -     if (!gpu->funcs->gpu_busy)
-> > +     if (!has_devfreq(gpu))
-> >               return;
-> >
-> >       dev_pm_qos_add_request(&gpu->pdev->dev, &df->idle_freq,
-> > @@ -149,6 +154,9 @@ void msm_devfreq_cleanup(struct msm_gpu *gpu)
-> >   {
-> >       struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >
-> > +     if (!has_devfreq(gpu))
-> > +             return;
-> > +
-> >       devfreq_cooling_unregister(gpu->cooling);
-> >       dev_pm_qos_remove_request(&df->boost_freq);
-> >       dev_pm_qos_remove_request(&df->idle_freq);
-> > @@ -156,16 +164,24 @@ void msm_devfreq_cleanup(struct msm_gpu *gpu)
-> >
-> >   void msm_devfreq_resume(struct msm_gpu *gpu)
-> >   {
-> > -     gpu->devfreq.busy_cycles = 0;
-> > -     gpu->devfreq.time = ktime_get();
-> > +     struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >
-> > -     devfreq_resume_device(gpu->devfreq.devfreq);
-> > +     if (!has_devfreq(gpu))
-> > +             return;
-> > +
-> > +     df->busy_cycles = 0;
-> > +     df->time = ktime_get();
-> > +
-> > +     devfreq_resume_device(df->devfreq);
-> >   }
-> >
-> >   void msm_devfreq_suspend(struct msm_gpu *gpu)
-> >   {
-> >       struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >
-> > +     if (!has_devfreq(gpu))
-> > +             return;
-> > +
-> >       devfreq_suspend_device(df->devfreq);
-> >
-> >       cancel_idle_work(df);
-> > @@ -185,6 +201,9 @@ void msm_devfreq_boost(struct msm_gpu *gpu, unsigned factor)
-> >       struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >       uint64_t freq;
-> >
-> > +     if (!has_devfreq(gpu))
-> > +             return;
-> > +
-> >       freq = get_freq(gpu);
-> >       freq *= factor;
-> >
-> > @@ -207,7 +226,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
-> >       struct devfreq_dev_status status;
-> >       unsigned int idle_time;
-> >
-> > -     if (!df->devfreq)
-> > +     if (!has_devfreq(gpu))
-> >               return;
-> >
-> >       /*
-> > @@ -253,7 +272,7 @@ void msm_devfreq_idle(struct msm_gpu *gpu)
-> >   {
-> >       struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >
-> > -     if (!df->devfreq)
-> > +     if (!has_devfreq(gpu))
-> >               return;
-> >
-> >       msm_hrtimer_queue_work(&df->idle_work, ms_to_ktime(1),
->
->
-> --
-> With best wishes
-> Dmitry
+Reviewed-by: Rob Herring <robh@kernel.org>
