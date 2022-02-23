@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266734C14C4
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 14:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B827E4C14C5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 14:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E38B610F1C7;
-	Wed, 23 Feb 2022 13:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6051E10F1C1;
+	Wed, 23 Feb 2022 13:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86F910F1BF
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 09:02:50 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id j7so29827270lfu.6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 01:02:50 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D5A10E240
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:50:48 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id cm8so33887346edb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 02:50:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=karuga-org.20210112.gappssmtp.com; s=20210112;
+ d=timesys-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=UYUz8Ivg2sbFi9UjIBOKZiugtmcYnDRDXJxBmoWlVVg=;
- b=sHXbPaiDyQ3l/e6qLDfuZeJXm2/PKiAgNVSSJYjNmC5GMFt8QDF4Y8dTpVE8OIcpTo
- loJTHj58geHyrTR/YmU5b4+wn/ojLgliBle3iateISLnKnfELvKp808M3oo7z7mNapA7
- bpYaSzBZee14Kw/BceIV2sB74QYFDmFggaoaqazsHY8i+Rr4JvzyZro1qpa1iWa426pL
- NfqEeNFd9cn02kYPz+QMj8GE/Hexn27XZV/QhvZMdMQ6NBwNFQrc4tWNAw4uemQfUAbq
- Qad0ca+nDUEu/hAUwrkkXSGPzVCYtc9uWxjil+F25yGhXuyyKkXJHkIahlw7hAh5YJwp
- fdTQ==
+ bh=GQkcv0FBlLZrWZbu8HeqgB4QGKFRh7/F9RKe9Z+VHUA=;
+ b=yiaVLcLQPPIlbQYkFLlDXK3uaQ5BuJ+lGwEJn1Du5UIebYOxrflRpvfM2Za1hrJVgy
+ zWKNjG7Zeog0I6vCrnb2BML7B/w4DArfN0xN3uNHeREZyk+6G6wcv/Lye1pHfAYi75H6
+ 0RtRF41AwjxECPUEyLs5DfZm/We6GeXLcgzEcuE9qy0hvX8L94bjHiTDQlOV+pEOiK92
+ kNG7MEITfOJCXASsRsrnPdXqNco+1OSkvqmJ6qwXTsaCJy2e5SZr46pcpgVf9Rgr0V/h
+ h0xmdxSXjMs+o9Js4V/+8aGU78/6hJ3Lf6P+DrMBBv2b7VumgMIEEo6TKBjnmuDFM/MS
+ GIvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=UYUz8Ivg2sbFi9UjIBOKZiugtmcYnDRDXJxBmoWlVVg=;
- b=050VP6gDWPAs5E4cNM4ZVkSoyTGjtBncVPVHjvAlTbdWhHE0vprRMGV/gU+Dv4HckM
- ReN2kUOHtw58PXPCuqB7hyfH2LsnDYA2IUO7AMYPo/DsyYapL9NyInEanzirHj0UfnGK
- lzCNhsLyqO7kGzkZiJ2kDuSxh5fM8ukobrHF0IJvLn/+QEpnSzBLxRUGgMR1fUCwGmdn
- RnWAAgv+Gj3dLr9YsZbEL1mzjeXDvChMGdqCtTxpN9wuOoUHHKWwoJB4CJL5aO7ehEfJ
- 1dSDBxlLSpRU8OJf0dmg6t0UHknjb8K9rAjsuaMdKvWqxgXvcXK3+a7cazFri9Oyyksp
- gJ3Q==
-X-Gm-Message-State: AOAM531ZaTcWJchVlrcMTPoTSID+XhyX4FChwRY3bf0XQCPwpUMpS9KO
- X9Z448qzUP90QKfxXOhrRX5h/Q==
-X-Google-Smtp-Source: ABdhPJzRxqYdGtINoTjRLuYEfhz/riWHFWKne4XGoI6AKqqyyI0KzUhiRfsSiUXDz3QTbCSq5IdOYQ==
-X-Received: by 2002:a19:a404:0:b0:443:2ef6:1ae7 with SMTP id
- q4-20020a19a404000000b004432ef61ae7mr20699528lfc.554.1645606968882; 
- Wed, 23 Feb 2022 01:02:48 -0800 (PST)
-Received: from virtualbox.. ([197.211.27.230])
- by smtp.gmail.com with ESMTPSA id k12sm642562lfg.108.2022.02.23.01.02.46
+ bh=GQkcv0FBlLZrWZbu8HeqgB4QGKFRh7/F9RKe9Z+VHUA=;
+ b=kTVMdMdf9tp9xa7PI2Fb2azSo+kDU6WwvOgn7Ne6Sf2SAKlcD1fUVyKWIY17pX0N2a
+ g548sU+sPtWVPznvj1xmvd8uXg3feqrb7yIuhKWsMVNAM10J613NFSm+i8bTd0lK5fBF
+ toKGhqktxYwKPg/wC1HU7/c4zA6vnrXVWLdGvu9GMltODoF397lKGE8PsZ+qPQjpb8/a
+ u0XBKMq1NnaWVHVwEXPkczB9NIKX5kGeLw7u1TQSq2BqTPPR2FWOq+5Xf3rCabQdywrq
+ KkpW7USjj2z3SGbd49JEyfFVB1GDSd14G7vCBu/8sWZtrATaZnGq8BRj4qzBVlXBNKN3
+ yUhg==
+X-Gm-Message-State: AOAM5317OkpQgtDy7ScZWFJMZFKEBuZuGl3Zvv4ThyVQzKMMg8PRsYk4
+ r2+aQ+I/LEzC5nRgoMfqev5D6g==
+X-Google-Smtp-Source: ABdhPJzIwW7AbJXAgO5SuO32Yeqxi2KLict1hvsSBtNuzv9uWi1+Vak2I65R6qFGKv81Wy2sSf9U+A==
+X-Received: by 2002:a05:6402:42d4:b0:412:c26b:789 with SMTP id
+ i20-20020a05640242d400b00412c26b0789mr25444497edc.232.1645613447392; 
+ Wed, 23 Feb 2022 02:50:47 -0800 (PST)
+Received: from localhost.localdomain
+ (host-79-40-238-223.business.telecomitalia.it. [79.40.238.223])
+ by smtp.gmail.com with ESMTPSA id m7sm6353079eds.104.2022.02.23.02.50.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 01:02:48 -0800 (PST)
-From: Wambui Karuga <wambui@karuga.org>
-To: zackr@vmware.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/vmwgfx: make vmw_pt_sys_placement static
-Date: Wed, 23 Feb 2022 12:02:44 +0300
-Message-Id: <20220223090244.576093-1-wambui@karuga.org>
-X-Mailer: git-send-email 2.32.0
+ Wed, 23 Feb 2022 02:50:46 -0800 (PST)
+From: Angelo Dureghello <angelo.dureghello@timesys.com>
+To: tomba@kernel.org
+Subject: [PATCH] dt-bindings: display/ti: remove ti,hwmods property
+Date: Wed, 23 Feb 2022 11:50:28 +0100
+Message-Id: <20220223105028.3340037-1-angelo.dureghello@timesys.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 23 Feb 2022 13:51:45 +0000
@@ -70,33 +69,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com, linux-kernel@vger.kernel.org,
+Cc: Angelo Dureghello <angelo.dureghello@timesys.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Converts the variable vmw_pt_sys_placement to static to
-fix the following Sparse warning:
-warning: symbol 'vmw_pt_sys_placement' was not declared. Should it be static?
+Remove ti,hwmods from required properties, since the
+target-module approach is actually used.
 
-Signed-off-by: Wambui Karuga <wambui@karuga.org>
+Signed-off-by: Angelo Dureghello <angelo.dureghello@timesys.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/display/ti/ti,dra7-dss.txt | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index b84ecc6d6611..21057ff0d340 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -120,7 +120,7 @@ struct ttm_placement vmw_sys_placement = {
- 	.busy_placement = &sys_placement_flags
- };
- 
--struct ttm_placement vmw_pt_sys_placement = {
-+static struct ttm_placement vmw_pt_sys_placement = {
- 	.num_placement = 1,
- 	.placement = &vmw_sys_placement_flags,
- 	.num_busy_placement = 1,
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,dra7-dss.txt b/Documentation/devicetree/bindings/display/ti/ti,dra7-dss.txt
+index 91279f1060fe..948cb0f9f0e3 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,dra7-dss.txt
++++ b/Documentation/devicetree/bindings/display/ti/ti,dra7-dss.txt
+@@ -10,7 +10,6 @@ DSS Core
+ Required properties:
+ - compatible: "ti,dra7-dss"
+ - reg: address and length of the register spaces for 'dss'
+-- ti,hwmods: "dss_core"
+ - clocks: handle to fclk
+ - clock-names: "fck"
+ - syscon: phandle to control module core syscon node
+@@ -42,7 +41,6 @@ DISPC
+ Required properties:
+ - compatible: "ti,dra7-dispc"
+ - reg: address and length of the register space
+-- ti,hwmods: "dss_dispc"
+ - interrupts: the DISPC interrupt
+ - clocks: handle to fclk
+ - clock-names: "fck"
 -- 
-2.32.0
+2.34.1
 
