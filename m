@@ -2,40 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E64C1892
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 17:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CD74C18A7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 17:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 399AE10EF19;
-	Wed, 23 Feb 2022 16:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BE110EAD5;
+	Wed, 23 Feb 2022 16:34:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A449B10EF0F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 16:25:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10E72DD;
- Wed, 23 Feb 2022 17:25:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1645633539;
- bh=jrmCHWFRGOLJqkMq11kwRKSZJYAjy2AX+di5X8gmw4U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WOlx9DB0zVMVtsuVjN83dGX3leXY0eHBBf5QaPSm9p+gxvgJwbZZwjgdCmkiv/f+e
- JB2K2fdAa/8MzTgpaRmx6JbsBmi5KoeBKNr5+aG7h1JDXJRr/3h1ob6vJTN1SqVaFT
- O1MTsLSHrfqNqYjrZ3HnYVtRjS1YNeDWlTQbkGi8=
-Date: Wed, 23 Feb 2022 18:25:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm/bridge_connector: enable HPD by default if supported
-Message-ID: <YhZf+Fs2AP+btuJj@pendragon.ideasonboard.com>
-References: <20211225063151.2110878-1-nikita.yoush@cogentembedded.com>
- <Yczy3UYpU2UMFQ6N@pendragon.ideasonboard.com>
- <164563304251.4066078.10022034509552549983@Monstersaurus>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DDE10EAD5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 16:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645634095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=clONYmZ5X2qlfrfzJXRhqvS1L3/caQ4kzeJBK6mGohk=;
+ b=ercBwKn+MFV+8vGY1W14XWigiUxu3lmI55faiI5FSDPo/OBqeFHtVzp+AEl2MfahEbsauw
+ yqThiG67o+oR5AfU+Y7Vyl9DZrmbYRoBTQAmhkZwK7W+bGgG7KE0BU45RGL/B6y8eJw/v4
+ bcGWHzuUuHKkZdy1FQZJpinOs/Ci5Rg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-9igd3oTlNeqnmfDdsysWVA-1; Wed, 23 Feb 2022 11:34:54 -0500
+X-MC-Unique: 9igd3oTlNeqnmfDdsysWVA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v17-20020adfa1d1000000b001ed9d151569so1662047wrv.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 08:34:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=clONYmZ5X2qlfrfzJXRhqvS1L3/caQ4kzeJBK6mGohk=;
+ b=BKBu5vMmYLTDz0qW0nyTaXkq+5wLgP1/IZ64HmZZb/bDINhUaelxH3vYpXVQ6wb1Uc
+ LKHMuHF38IswyXmlE9BTmCqovCkDWSDBaKlGnMkochCJpdslmftXah2jEnKHYaK+om/T
+ 12UamZ0w32eY1QHx28H4rziiBV1OZD4molYhTTQ3ACCw08UNZZcOtgYDMpZZal8I7sQK
+ KGkHbxlGl2c9C8ipzKYJW1r5s30q/TEBe7oBsWpEo3talwvCTdif7mapCW14Sb80CCLj
+ zK4x6WrAYHKZL+s9FnS0q7JiHErWx3fVWVSq2i58K4XPXFolZblloZXG0uTVHO9b8VnO
+ 4J2Q==
+X-Gm-Message-State: AOAM533JsHcIdq1boMMKoVszucn00Znm1DQZIOv87K7YcXnDGct82Hgr
+ 0KoGqqyjty3FlLzFiGMR+PCi7JEraPxoeOV625UTbTDwms7tYzTV6Mj+84ZinvgnEv/P2nxAlQq
+ hpdwI9ZD1Nbjl3F9Ux5IrQFK5sX+u
+X-Received: by 2002:adf:e544:0:b0:1ed:b6d5:d26b with SMTP id
+ z4-20020adfe544000000b001edb6d5d26bmr327982wrm.634.1645634093140; 
+ Wed, 23 Feb 2022 08:34:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBzj3eVsLKn39DYPTvyzPcJE9MCfAnVshf1YYTW2KZMiRN8LC5w3bIaIsgJsQ3ygOVbXPktQ==
+X-Received: by 2002:adf:e544:0:b0:1ed:b6d5:d26b with SMTP id
+ z4-20020adfe544000000b001edb6d5d26bmr327942wrm.634.1645634092830; 
+ Wed, 23 Feb 2022 08:34:52 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id a1sm40095wrf.42.2022.02.23.08.34.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 08:34:52 -0800 (PST)
+Message-ID: <33b80f9c-d54a-5471-a58b-7a783a7a9e5b@redhat.com>
+Date: Wed, 23 Feb 2022 17:34:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <164563304251.4066078.10022034509552549983@Monstersaurus>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3] simplefb: Enable boot time VESA graphic mode selection.
+To: Michal Suchanek <msuchanek@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+References: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+ <20220218160436.23211-1-msuchanek@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220218160436.23211-1-msuchanek@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,83 +88,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
- dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Herrmann <dh.herrmann@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hello Michal,
 
-On Wed, Feb 23, 2022 at 04:17:22PM +0000, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2021-12-29 23:44:29)
-> > On Sat, Dec 25, 2021 at 09:31:51AM +0300, Nikita Yushchenko wrote:
-> > > Hotplug events reported by bridge drivers over drm_bridge_hpd_notify()
-> > > get ignored unless somebody calls drm_bridge_hpd_enable(). When the
-> > > connector for the bridge is bridge_connector, such a call is done from
-> > > drm_bridge_connector_enable_hpd().
-> > > 
-> > > However drm_bridge_connector_enable_hpd() is never called on init paths,
-> > > documentation suggests that it is intended for suspend/resume paths.
-> > 
-> > Hmmmm... I'm in two minds about this. The problem description is
-> > correct, but I wonder if HPD should be enabled unconditionally here, or
-> > if this should be left to display drivers to control.
-> > drivers/gpu/drm/imx/dcss/dcss-kms.c enables HPD manually at init time,
-> > other drivers don't.
-> > 
-> > It feels like this should be under control of the display controller
-> > driver, but I can't think of a use case for not enabling HPD at init
-> > time. Any second opinion from anyone ?
+On 2/18/22 17:04, Michal Suchanek wrote:
+> Since switch to simplefb/simpledrm VESA graphic modes are no longer
+> available with legacy BIOS.
+>
+
+Maybe you can mention that is the "vga=" kernel command line parameter
+since that may be more evident to people reading the commit message ?
+ 
+> The x86 realmode boot code enables the VESA graphic modes when option
+> FB_BOOT_VESA_SUPPORT is enabled.
 > 
-> This patch solves an issue I have where I have recently enabled HPD on
-> the SN65DSI86, but without this, I do not get calls to my .hpd_enable or
-> .hpd_disable hooks that I have added to the ti_sn_bridge_funcs.
-> 
-> So it needs to be enabled somewhere, and this seems reasonable to me?
-> It's not directly related to the display controller - as it's a factor
-> of the bridge?
-> 
-> On Falcon-V3U with HPD additions to SN65DSI86:
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> To enable use of VESA modes with simplefb in legacy BIOS boot mode drop
 
-If you think this is right, then
+I think you meant "VESA modes with the sysfb driver" ? or something like
+that since otherwise it seems that you meant to use it with the simplefb
+(drivers/video/fbdev/simplefb.c) fbdev driver, which doesn't support the
+"vga=" param as far as I understand (it just uses whatever was setup).
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The name sysfb_simplefb is really horrible, because it is too confusing
+and probably we should change it at some point...
 
-> > > In result, once encoders are switched to bridge_connector,
-> > > bridge-detected HPD stops working.
-> > > 
-> > > This patch adds a call to that API on init path.
-> > > 
-> > > This fixes HDMI HPD with rcar-du + adv7513 case when adv7513 reports HPD
-> > > events via interrupts.
-> > > 
-> > > Fixes: c24110a8fd09 ("drm: rcar-du: Use drm_bridge_connector_init() helper")
-> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge_connector.c | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> > > index 791379816837..4f20137ef21d 100644
-> > > --- a/drivers/gpu/drm/drm_bridge_connector.c
-> > > +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> > > @@ -369,8 +369,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> > >                                   connector_type, ddc);
-> > >       drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
-> > >  
-> > > -     if (bridge_connector->bridge_hpd)
-> > > +     if (bridge_connector->bridge_hpd) {
-> > >               connector->polled = DRM_CONNECTOR_POLL_HPD;
-> > > +             drm_bridge_connector_enable_hpd(connector);
-> > > +     }
-> > >       else if (bridge_connector->bridge_detect)
-> > >               connector->polled = DRM_CONNECTOR_POLL_CONNECT
-> > >                                 | DRM_CONNECTOR_POLL_DISCONNECT;
+Patch itself looks good to me though.
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Best regards,
 -- 
-Regards,
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Laurent Pinchart
