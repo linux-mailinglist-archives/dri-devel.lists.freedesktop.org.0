@@ -1,66 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFAE4C1AEC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 19:27:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A764C1B01
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Feb 2022 19:35:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8B0C10E34F;
-	Wed, 23 Feb 2022 18:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD5110E3AF;
+	Wed, 23 Feb 2022 18:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E206710E305;
- Wed, 23 Feb 2022 18:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645640848; x=1677176848;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=avl+CHgjSFGTWqJUOE6OES0ypfHvotzjrZ41VSjlU60=;
- b=PPSUpudomi3aJd9SsjPJBf6Kw1LL9Fq+6DAJ/FC/NL9fgVh+toC11wrr
- xRB7QpqNEadAuqE4cMv/0ShzHWmVPscTHPo4S/Eah5TFsZ6g7XT7sbXui
- w21tzOsE2TXLoNpRQLZtrjbXwnbgWMmGGJ0jNPGcRWv5fQWoEMv3F3GI4 w=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Feb 2022 10:27:28 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 10:27:28 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 23 Feb 2022 10:27:27 -0800
-Received: from [10.110.64.217] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Wed, 23 Feb
- 2022 10:27:26 -0800
-Message-ID: <a803c7a9-de4c-8fe5-d80d-56366df78611@quicinc.com>
-Date: Wed, 23 Feb 2022 10:27:26 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D92E10E3AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 18:35:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645641300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ypIs7bkNYvlEnOXn/O+REGsfb4DaXi/zE6H2OQf1oCs=;
+ b=cy4JSxBDdDfPM7KwtHSJ5r4b02KLDG3otxXobM8IFST83UqM+5TKhT5R0xuu7751Ve10yN
+ OpaK4UBbTjL7Ni5x6P0rN/0HqGouNzWv/xJlUSwxrlyb75L8UkE9coBjVDC1aMG5gtaJWq
+ ttnywj4/vsmojHHtXWA4ZVKMiIsUXkQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-nt9QXij_PS-Dj-Q1HaA5tg-1; Wed, 23 Feb 2022 13:34:59 -0500
+X-MC-Unique: nt9QXij_PS-Dj-Q1HaA5tg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e1-20020adfa741000000b001e2e74c3d4eso10519623wrd.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Feb 2022 10:34:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ypIs7bkNYvlEnOXn/O+REGsfb4DaXi/zE6H2OQf1oCs=;
+ b=jX7Gvn5E/N4eKSbcHibkhRoueHetBk+j1HEQypgI/9xW+IP6LGZNdkgYvU86VK+hcY
+ rQhD4elhyEalIHj1uEHES5nDa+/D4xqKkXpnrCMxhw9jk6aaqpeI5LSXmdkCa19L9Pu4
+ MrSOK3GIDGy/Ncsq8kyz+uv/pxU9UEtbCNPIw225///V5MPCghSr3SD+HlaIG39XxVQz
+ X8OecWbxI1smbp8eVQtUPnu/0etuHoHldAbWK83KbObR2a/R/CnFldkZXQHXn0AkRfm+
+ HUEemoiCzJDsqKEA5Vz2hFQQCjsGpsWKHz/9LAh581FIqrU53JcVIapkX2VihI6tebGi
+ hm5A==
+X-Gm-Message-State: AOAM533ydn9jz03d/Tv6cRKPGCMrwkob2lynmKV3lt7B1f0s9rsNZAb/
+ 0LreGhTo4AHWkVNpz0bPkHAZ6YPeginrjBmDvcirTT6Ik7DBT9HckDSqqj5FU+8fwjtkZsQJluS
+ 49+14Rzw8aocqMB+yZeXtrt6zDcPa
+X-Received: by 2002:a05:600c:1e84:b0:380:d32d:6add with SMTP id
+ be4-20020a05600c1e8400b00380d32d6addmr779449wmb.21.1645641297939; 
+ Wed, 23 Feb 2022 10:34:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTHgN+Rdge2lsZegxKPa8wLCjjbMqeVpYlQilsAJnylW5S2vTRVysSyPJI9A+AOG/fZzzhQg==
+X-Received: by 2002:a05:600c:1e84:b0:380:d32d:6add with SMTP id
+ be4-20020a05600c1e8400b00380d32d6addmr779436wmb.21.1645641297738; 
+ Wed, 23 Feb 2022 10:34:57 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id e7sm294678wrg.44.2022.02.23.10.34.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 10:34:57 -0800 (PST)
+Message-ID: <1f13e6f2-a87c-83ac-7119-8632c8c8ac8e@redhat.com>
+Date: Wed, 23 Feb 2022 19:34:54 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 4/5] drm/msm/dp: replace dp_connector with
- drm_bridge_connector
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3] simplefb: Enable boot time VESA graphic mode selection.
+To: =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+References: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+ <20220218160436.23211-1-msuchanek@suse.de>
+ <33b80f9c-d54a-5471-a58b-7a783a7a9e5b@redhat.com>
+ <20220223164528.GE3113@kunlun.suse.cz>
+ <f832a836-b6ee-ffc5-6f83-86c9ba475400@redhat.com>
+ <20220223171235.GF3113@kunlun.suse.cz>
+ <a9df1753-8e3b-55bb-2dab-9e7aeaa52a8d@redhat.com>
+ <20220223182341.GG3113@kunlun.suse.cz>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220223182341.GG3113@kunlun.suse.cz>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Stephen Boyd
- <swboyd@chromium.org>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
- <572c0402-55da-077b-1809-3d1caf7ce743@quicinc.com>
- <b25d422e-cdd8-bcb9-1815-1d89f170d421@linaro.org>
- <CAE-0n51afuHURLHaZBa77H_n+cm4Tj1Du-rpLH-HsrkY5xQVJA@mail.gmail.com>
- <CAA8EJpobtpc5mB48g6K=+KaZQ-o8m_QTZr-dQvwz-9cEwiJ_Kg@mail.gmail.com>
- <7f9e2181-bb1a-c734-2e90-c5922952acb4@quicinc.com>
- <493749c1-6305-1a94-4e05-519c825e9d4d@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <493749c1-6305-1a94-4e05-519c825e9d4d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,213 +93,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudeep Holla <sudeep.holla@arm.com>, linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2/23/22 19:23, Michal Suchánek wrote:
 
-On 2/23/2022 10:22 AM, Dmitry Baryshkov wrote:
-> On 23/02/2022 20:21, Kuogee Hsieh wrote:
+[snip]
+
+>> My point about the subject line remains thought, I would use something like:
 >>
->> On 2/18/2022 6:22 PM, Dmitry Baryshkov wrote:
->>> On Sat, 19 Feb 2022 at 03:55, Stephen Boyd <swboyd@chromium.org> wrote:
->>>> Quoting Dmitry Baryshkov (2022-02-18 14:32:53)
->>>>> On 19/02/2022 00:31, Kuogee Hsieh wrote:
->>>>>> On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
->>>>>>> There is little point in having both connector and root bridge
->>>>>>> implementation in the same driver. Move connector's 
->>>>>>> functionality to the
->>>>>>> bridge to let next bridge in chain to override it.
->>>>>>>
->>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>> This patch break primary (edp) display
->>>>>>
->>>>>> -- right half of screen garbled
->>>>>>
->>>>>> -- screen shift vertically
->>>>>>
->>>>>> below are error messages seen --
->>>>>>
->>>>>> [   36.679216] panel-edp soc@0:edp_panel: No display modes
->>>>>> [   36.687272] panel-edp soc@0:edp_panel: No display modes
->>>>>> [   40.593709] panel-edp soc@0:edp_panel: No display modes
->>>>>> [   40.600285] panel-edp soc@0:edp_panel: No display modes
->>>>> So, before the patch the drm core was getting modes from the
->>>>> drm_connector (which means, modes from drm driver itself). With this
->>>>> patch the panel-edp tries to get modes.
->>>>>
->>>>> Could you please check, why panel_edp_get_modes() fails? Assuming 
->>>>> that
->>>>> you use platform panel-edp binding (rather than 'edp-panel') could 
->>>>> you
->>>>> please check you have either of the following:
->>>>> - ddc bus for EDID?
->>>> I don't see anywhere where the ddc pointer is set for the dp bridge in
->>>> msm_dp_bridge_init(). Is that required though? I'd think simple 
->>>> panel is
->>>> still being used here so reading EDID isn't required.
->>> I meant the 'ddc-i2c-bus' property for the corresponding eDP panel.
->>>
->>>>> - either num_timing or num_modes in your panel desc.
->>> After reading the panel-edp's code I don't have another cause for
->>> panel_edp_get_modes(). It should either have a DDC bus specified using
->>> the mentioned device tree property, or it should have specified the
->>> timings.
->>>
->>> Kuogee, which platform were you using when testing this patch? Could
->>> you please share the dts fragment?
->>
->> I cherry-picked your patches on top of our internal release which is 
->> usually have some (or many) patches behind msm-next.
->>
->> where is "ddc-i2c-bus" located?
+>> firmware: sysfb: Enable boot time VESA graphic mode selection for simplefb
+> 
+> I see where the confusion comes from.
 >
-> In the panel device node.
+
+Yeah. And just to clarify, the "simplefb" in the subject line I proposed
+was about the sysfb simplefb and not the fbdev simplefb :)
+ 
+> The efifb (and probably vesafb) has implicit unstated dependency on
+> sysfb. So the drivers that select BOOT_VESA_SUPPORT should instead
+> depend on SYSFB, and then SYSFB can select BOOT_VESA_SUPPORT, and it
+> will look much saner.
 >
-> Can you please share it too?
 
+That indeed would be much nicer. And I agree with you that there's an
+implicit dependency that should be made explicit since SYSFB is what
+registers the "efi-framebuffer" or "vesa-framebuffer" if SYSFB_SIMPLEFB
+is not enabled.
 
-&soc {
-         edp_power_supply: edp_power {
-                 compatible = "regulator-fixed";
-                 regulator-name = "edp_backlight_power";
+Should SYSFB should only select BOOT_VESA_SUPPORT if x86 ? I know that
+in practice shouldn't matter because BOOT_VESA_SUPPORT is under x86 but
+I guess is more correct if that's the case.
 
-                 regulator-always-on;
-                 regulator-boot-on;
-         };
+And I think that FB_SIMPLE should depend on SYSFB_SIMPLEFB if !OF (since
+a "simple-framebuffer" platform device could be registered by OF if a
+Device Tree node with compatible "simple-framebuffer" exists).
 
-         edp_backlight: edp_backlight {
-                 compatible = "pwm-backlight";
+Best regards, -- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-                 pwms = <&pm8350c_pwm 3 65535>;
-                 power-supply = <&edp_power_supply>;
-                 enable-gpio = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
-
-                 pinctrl-names = "default";
-                 pinctrl-0 = <&backlight_pwm_default>;
-         };
-
-         edp_panel: edp_panel {
-                 compatible = "sharp_lq140m1jw46";
-
-                 pinctrl-names = "default";
-                 pinctrl-0 = <&edp_hot_plug_det>, 
-<&edp_panel_power_default>;
-
-                 power-supply = <&edp_power_supply>;
-                 backlight = <&edp_backlight>;
-
-                 ports {
-                         #address-cells = <1>;
-                         #size-cells = <0>;
-                         port@0 {
-                                 reg = <0>;
-                                 edp_panel_in: endpoint {
-                                         remote-endpoint = <&edp_out>;
-                                 };
-                         };
-                 };
-         };
-};
-
-
->
->>
->>                          msm_edp: edp@aea0000 {
->>                                  compatible = "qcom,sc7280-edp";
->>
->>                                  reg = <0 0xaea0000 0 0x200>,
->>                                        <0 0xaea0200 0 0x200>,
->>                                        <0 0xaea0400 0 0xc00>,
->>                                        <0 0xaea1000 0 0x400>;
->>
->>                                  interrupt-parent = <&mdss>;
->>                                  interrupts = <14>;
->>
->>                                  clocks = <&rpmhcc RPMH_CXO_CLK>,
->>                                           <&gcc GCC_EDP_CLKREF_EN>,
->>                                           <&dispcc 
->> DISP_CC_MDSS_AHB_CLK>,
->>                                           <&dispcc 
->> DISP_CC_MDSS_EDP_AUX_CLK>,
->>                                           <&dispcc 
->> DISP_CC_MDSS_EDP_LINK_CLK>,
->>                                           <&dispcc 
->> DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
->>                                           <&dispcc 
->> DISP_CC_MDSS_EDP_PIXEL_CLK>;
->>                                  clock-names = "core_xo",
->>                                                "core_ref",
->>                                                "core_iface",
->>                                                "core_aux",
->>                                                "ctrl_link",
->> "ctrl_link_iface",
->>                                                "stream_pixel";
->>                                  #clock-cells = <1>;
->>                                  assigned-clocks = <&dispcc 
->> DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
->> <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
->>                                  assigned-clock-parents = <&edp_phy 
->> 0>, <&edp_phy 1>;
->>
->>                                  phys = <&edp_phy>;
->>                                  phy-names = "dp";
->>
->>                                  operating-points-v2 = <&edp_opp_table>;
->>                                  power-domains = <&rpmhpd SC7280_CX>;
->>
->>                                  #address-cells = <1>;
->>                                  #size-cells = <0>;
->>
->>                                  status = "disabled";
->>
->>                                  ports {
->>                                          #address-cells = <1>;
->>                                          #size-cells = <0>;
->>                                          port@0 {
->>                                                  reg = <0>;
->>                                                  edp_in: endpoint {
->> remote-endpoint = <&dpu_intf5_out>;
->>                                                  };
->>                                          };
->>                                  };
->>
->>                              edp_opp_table: opp-table {
->>                                          compatible = 
->> "operating-points-v2";
->>
->>                                          opp-160000000 {
->>                                                  opp-hz = /bits/ 64 
->> <160000000>;
->>                                                  required-opps = 
->> <&rpmhpd_opp_low_svs>;
->>                                          };
->>
->>                                          opp-270000000 {
->>                                                  opp-hz = /bits/ 64 
->> <270000000>;
->>                                                  required-opps = 
->> <&rpmhpd_opp_svs>;
->>                                          };
->>
->>                                          opp-540000000 {
->>                                                  opp-hz = /bits/ 64 
->> <540000000>;
->>                                                  required-opps = 
->> <&rpmhpd_opp_nom>;
->>                                          };
->>
->>                                          opp-810000000 {
->>                                                  opp-hz = /bits/ 64 
->> <810000000>;
->>                                                  required-opps = 
->> <&rpmhpd_opp_nom>;
->>                                          };
->>                                  };
->>                          };
->>
->
->
