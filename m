@@ -1,53 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74714C2EA4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 15:47:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9070C4C2F41
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 16:19:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4794E10EA23;
-	Thu, 24 Feb 2022 14:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33CDD10E9AD;
+	Thu, 24 Feb 2022 15:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671A910EA23
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 14:47:19 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nNFOn-0002CG-Kv; Thu, 24 Feb 2022 15:47:17 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nNFOk-0001ct-HF; Thu, 24 Feb 2022 15:47:14 +0100
-Date: Thu, 24 Feb 2022 15:47:14 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v6 21/23] drm: rockchip: Add VOP2 driver
-Message-ID: <20220224144714.GV9136@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-22-s.hauer@pengutronix.de>
- <b9b59c1d-5808-f348-62fb-257746df134d@collabora.com>
- <20220224074750.GR9136@pengutronix.de>
- <a6f2b4a8-b9f0-dd2b-2361-8ede766b8394@collabora.com>
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91B910E9AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 15:19:08 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 06C6B32009F8;
+ Thu, 24 Feb 2022 10:19:05 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 24 Feb 2022 10:19:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=Z5qZ1CnaOPJuRO4buv744YaM6Y4hvgZ5goSCIs
+ l012c=; b=ZeghmTbGUncTUenwIZNrw8trrOuhZGzM1sW6mCKsrgaKY4WhzD6QM6
+ 89lb+jl7CYGszGL9Y+9H2toD6zwxy9sIEtQd1kKFyApkvru0wjmi0so7FTmn0CuI
+ FQEj6Xpn4Zn/T3RfuxTUBQNYYa5LkQVacAgjV6ssfNyDl4EF4tYHZW8WZ8ZIOyr9
+ 3OxmhT8dOkm1rAvSQwE6b8tj7KrKZlm/Oay3Z6jnWsS7oB1z78nGDIDo6xpEut3K
+ CnRzI/AYZX6G9RKALz3xSwFw3ohEajN2bOhuYXNEjPtfdvzrejBYYe13Lp6o6At+
+ Z9MJ/PEaOJbPzZ+vHphU7fKPc0ckEHew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Z5qZ1CnaOPJuRO4bu
+ v744YaM6Y4hvgZ5goSCIsl012c=; b=K+cNLPEmM6tipWbin/9r2ykEyu1pw99nU
+ RiUNaQQjTFCaiEvXN9BqhBMSisj41RT0ekFBz06AGgjwAMe7k2ZTALEniHsjml88
+ JeSzDUD0ADO4a9F7kFijcnDuG9Ij14bd/qWOxeL3lgdY1/yynQj/Lez06fRZ+ZHh
+ Wh1co/KaGIurVY76isvtLtvQAPpTh4yh4IJkYWZAtXQhap/gluW2xI+0wIYub4bO
+ cNqSpKYtnkCP5Conq4ehHKUibBy5mkqscWUlvIP2bLu2Cn8mBZee7sLd6yfjjDRH
+ rOAW+Cg2t1822vSpT+5ops5QqKHp8p5m4QqVF8oiqcnLNM5KDl76g==
+X-ME-Sender: <xms:6KEXYnqttXQVvCptrvvz56wah9wHywl9A5y-zqBeU39D0JQheH8uUw>
+ <xme:6KEXYhqVpOsxDBhQ2NzPs0_XEWQaC_NtaICwF_1VW5o75tAl53SH0HHqemF-w60gf
+ nBuSktjlcLwfwQBKsY>
+X-ME-Received: <xmr:6KEXYkMwYSoWyfeT3BJBxHQryfxVkHSYEB_3j2vMzgs7e8kcwdDlCXpdiY_o9I35Wcsvlemf8YClxLaA-FQJyRKd-6YWqELa2YMzcbU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledvgdejhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:6KEXYq4qZTk6Tkl17wKy2VDe6oWM9RaCdYj2RLeORm9FZQeq83HZsg>
+ <xmx:6KEXYm5EF832OiKDTZJrsRiLfZywbTnJEsGLe5lK2v7WXY3debe_Mg>
+ <xmx:6KEXYiiTsTRVVek4FHXLV4oGXvwiyeEalquufE-BY37dq8_pY8Q3Ag>
+ <xmx:6aEXYsk1uheJ3YrmSlv85nJWEzVrUlkRp7CPt0W0n-B78KugT-ywyA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Feb 2022 10:19:04 -0500 (EST)
+Date: Thu, 24 Feb 2022 16:19:02 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 3/7] drm/bridge: Extend struct drm_bus_cfg with clock field
+Message-ID: <20220224151902.4qdgdxdufvmhwezm@houat>
+References: <20220219002844.362157-1-marex@denx.de>
+ <20220219002844.362157-4-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gkjintdkuypnkj4h"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a6f2b4a8-b9f0-dd2b-2361-8ede766b8394@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 15:38:31 up 75 days, 23:24, 89 users,  load average: 0.08, 0.12, 0.17
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20220219002844.362157-4-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +81,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 24, 2022 at 05:36:29PM +0300, Dmitry Osipenko wrote:
-> On 2/24/22 10:47, Sascha Hauer wrote:
-> > On Thu, Feb 17, 2022 at 04:24:29PM +0300, Dmitry Osipenko wrote:
-> >> 17.02.2022 11:29, Sascha Hauer пишет:
-> >>> @@ -28,6 +28,12 @@ config ROCKCHIP_VOP
-> >>>  	  This selects support for the VOP driver. You should enable it
-> >>>  	  on all older SoCs up to RK3399.
-> >>>  
-> >>> +config ROCKCHIP_VOP2
-> >>> +	bool "Rockchip VOP2 driver"
-> >>> +	help
-> >>> +	  This selects support for the VOP2 driver. You should enable it
-> >>> +	  on all newer SoCs beginning form RK3568.
-> >>
-> >> s/form/from/
-> >>
-> >> The ROCKCHIP_VOP option is "default y". Do you really want "default n"
-> >> for the VOP2?
-> > 
-> > ROCKCHIP_VOP is only default y to keep the VOP driver enabled for
-> > existing defconfig that were generated before the introduction of
-> > that symbol.
-> > We don't have this problem for VOP2, so no need to make it default y.
-> 
-> To me it will be more consistent of you'll have both defaulting to y,
-> since both options are behind DRM_ROCKCHIP.
 
-New drivers should not be enabled by default, at least that's what I
-have been told before. The VOP driver is enabled by default for the
-reasons explained. But yes, you are right, it's more consistent to have
-the same default on both drivers. Personally I don't care much, for now
-I just follow what Heiko suggests as he is the one who hopefully merges
-these patches ;)
+--gkjintdkuypnkj4h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Sascha
+Hi,
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+On Sat, Feb 19, 2022 at 01:28:40AM +0100, Marek Vasut wrote:
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index 1701c2128a5cb..32455cf28f0bc 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -1077,6 +1077,11 @@ struct drm_bus_cfg {
+>  	 * @flags: DRM_BUS_* flags used on this bus
+>  	 */
+>  	u32 flags;
+> +
+> +	/**
+> +	 * @clock: Clock frequency in kHz used on this bus
+> +	 */
+> +	u32 clock;
+>  };
+
+This is fairly vague. You were mentioning DSI: is it the pixel clock?
+The HS clock rate? With or without counting the lanes? What about the
+burst mode: would it be the lane or pixel rate?
+
+It would be just as confusing for HDMI: is it the the TMDS character
+rate? The TMDS bit rate ? TMDS Clock rate?
+
+Maxime
+
+--gkjintdkuypnkj4h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYheh5gAKCRDj7w1vZxhR
+xceDAQDh0DMEez71pEaTYEUqMePmCIeno7FTsQ+x4Ak/ZcRZRgEAmE3f/5wfizUf
+btqSGr2hG4wobkisOWk22HPIKrG+4A0=
+=Yuro
+-----END PGP SIGNATURE-----
+
+--gkjintdkuypnkj4h--
