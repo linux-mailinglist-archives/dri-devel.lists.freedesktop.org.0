@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5106E4C3654
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:58:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DD94C3659
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:59:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6400B10E27D;
-	Thu, 24 Feb 2022 19:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 171D910E367;
+	Thu, 24 Feb 2022 19:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7025F10E27D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A0710E284
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 19:58:52 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 1F89183BEE;
+ by phobos.denx.de (Postfix) with ESMTPSA id 8C74183CB1;
  Thu, 24 Feb 2022 20:58:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1645732730;
- bh=IP4CyGUZq1zHQw55d5Xlaud5+xasr2kzW9qAFwzJ+RM=;
- h=From:To:Cc:Subject:Date:From;
- b=g7N7g2Epg50mFecSthAdYRfriyp1+Nx+W/tGMTdWkR+0jQeffFpsuJBlEgZaS/QBO
- lVIGXVgmfKCAXvBPopXXjMHnFaa8MosLwfChWMF7vRYOHAqi+zDphTJ7OVFZoRKoWi
- B/1PrMt/vv5WMABec6tMBDPoR/VxMUeiTBO9odURhHZH3reDgLF2NInb9BNkIctrvq
- 6fG12y33B8+S/62vgLY/5A7j7/Q74FkhdsPzDzTmU+RDMqid94DJGKx8Dtdgo25ClC
- I80DAv1WVRrpuRPDmfECWm3oa0UKT9m5RyVzrztfbAmaTzdyXh5aXtnDxh+lhcPj/l
- A68ef3LufgjyQ==
+ bh=ZbwMhucBkgQqEIzzvqYjhggVxojt0EnMd2sm67HLyEM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ZUcDpk4CQ1AvMuwzhUMYOiTPbZ21JJgLHe5nsHoSgluX40uty9CN+XTYRqzom/yAq
+ +HTbx1vRRyT+WvQaqh1py1y+MFgmPNxirz7cjfuf/tbJrg3FE7fx5EZaYsz8gSqG0n
+ Xxmnt7W44hhR7M8P+WIRijqCpMWlXefJVoOdmx1rHv1ao8KtKdxdIHAnvDG7rpzMzL
+ lnBEoR4BBs2XaanNRqwm4HvtVphYi3LteYHog/AZBAMiXkfibA9SkCmj/HXZhJ5BQi
+ hbgo7z1rztvj4RVoqxbeX3dAG8MQQlxSAcjLR0kD1vIDBnCk3Na0cPOCT7Y6abv7mS
+ SaGn/datZJ0QA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V3 00/12] drm/bridge: tc358767: Add DSI-to-DPI mode support
-Date: Thu, 24 Feb 2022 20:58:05 +0100
-Message-Id: <20220224195817.68504-1-marex@denx.de>
+Subject: [PATCH V3 01/12] dt-bindings: display: bridge: tc358867: Document DPI
+ output support
+Date: Thu, 24 Feb 2022 20:58:06 +0100
+Message-Id: <20220224195817.68504-2-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220224195817.68504-1-marex@denx.de>
+References: <20220224195817.68504-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
@@ -51,50 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Clean up the driver,
-switch to atomic ops, and add support for the DSI-to-DPI mode in
-addition to already supported DPI-to-(e)DP mode.
+modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Document support for the
+DPI output port, which can now be connected both as input and output.
 
+Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org
 To: dri-devel@lists.freedesktop.org
+---
+V2: - Rebase on next-20220217
+V3: - No change
+---
+ .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Marek Vasut (12):
-  dt-bindings: display: bridge: tc358867: Document DPI output support
-  dt-bindings: display: bridge: tc358867: Document DSI data-lanes
-    property
-  drm/bridge: tc358767: Change tc_ prefix to tc_edp_ for (e)DP specific
-    functions
-  drm/bridge: tc358767: Convert to atomic ops
-  drm/bridge: tc358767: Implement atomic_check callback
-  drm/bridge: tc358767: Move hardware init to enable callback
-  drm/bridge: tc358767: Move (e)DP bridge endpoint parsing into
-    dedicated function
-  drm/bridge: tc358767: Wrap (e)DP aux I2C registration into
-    tc_aux_link_setup()
-  drm/bridge: tc358767: Move bridge ops setup into
-    tc_probe_edp_bridge_endpoint()
-  drm/bridge: tc358767: Detect bridge mode from connected endpoints in
-    DT
-  drm/bridge: tc358767: Split tc_set_video_mode() into common and (e)DP
-    part
-  drm/bridge: tc358767: Add DSI-to-DPI mode support
-
- .../display/bridge/toshiba,tc358767.yaml      |  22 +-
- drivers/gpu/drm/bridge/tc358767.c             | 681 +++++++++++++++---
- 2 files changed, 596 insertions(+), 107 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+index f1541cc052977..5cfda6f2ba69c 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+@@ -61,8 +61,8 @@ properties:
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: |
+-            DPI input port. The remote endpoint phandle should be a
+-            reference to a valid DPI output endpoint node
++            DPI input/output port. The remote endpoint phandle should be a
++            reference to a valid DPI output or input endpoint node.
+ 
+       port@2:
+         $ref: /schemas/graph.yaml#/properties/port
 -- 
 2.34.1
 
