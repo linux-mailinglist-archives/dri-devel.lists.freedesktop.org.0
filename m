@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3611F4C2DAB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 14:57:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCBE4C2DAE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 14:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B03710E4D7;
-	Thu, 24 Feb 2022 13:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 384D310E81A;
+	Thu, 24 Feb 2022 13:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D4510E4D7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 13:57:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 7CFBE1F4520E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645711034;
- bh=FU23JamNvvn6c127qa/j3ThUY5jmoMZZrJoFmPK46lk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=j9j905lQZJV6y6Q+ixrGg1d5bX0EWryPbz0rqodSFAm/E1N89Di2GwfyVXuAK4CD/
- risj/WhwnIVEOq7nucZuGfLQ8YMgWH3n0gBke9gATVqtNrfSjazSWRlo6h+IG9IeZJ
- udW+un6ZncU4ehSOA7rYZyOP5dwafIK7P02F2mkkm62uPDPl711zJAOeQB4g7sw96r
- YkMXzt6CePkHxPKyL1hAI+ykjsIXQEKmpkWX3zEtid4R7SvgDjX6DzQtTSdcRR8OqJ
- qC4G5tyRmYV+p7C9xa2EG500xHtMtBrSrgtMvCyeXEXOFLD0Mq3ePM8TW44k1t7rz1
- pb4HzXsgSufXQ==
-Message-ID: <03a5591a-574f-ec07-68c8-0e3f97a0c68f@collabora.com>
-Date: Thu, 24 Feb 2022 14:57:11 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C25F10E814;
+ Thu, 24 Feb 2022 13:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645711133; x=1677247133;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vbVRuThB12/xWAXDw0PRbhLips7wQZ1Yd939k86AU7s=;
+ b=gvazmQ96vSVCFRqcTmINVgJu4D8CAYdES2dCVnfuXUaLJnOZOh86ului
+ cn+8SDZxtAWUhR74SjeMM2C+017ANd9ht/ccoqaUANCQ7GIB57auRfWZ4
+ fKOYA18v0GLa7MeaUm8TXcBfwVqLlgB7e6avuhPOG6CfgeLCeKhPG6jJi
+ aLNVGWxNKhNANU+PPzVgL8Z397O7uOQjrbev31dQEZYhny5k5UeAxEKwH
+ A4x7lGN8mdAqxIu4ay0XTQ9i5AkBIicPeL02YXM4nHmR8K8VFPJx9370o
+ xrDtuzhJgdZSfnXFwkyRlaVjTRPaaBeQwlwT4Cutqj8NyMRFCBkB2KoqX w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="338674695"
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="338674695"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2022 05:58:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="508877461"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga006.jf.intel.com with ESMTP; 24 Feb 2022 05:58:50 -0800
+Received: from [10.249.157.70] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.157.70])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 21ODwm0q030928; Thu, 24 Feb 2022 13:58:48 GMT
+Message-ID: <b2d323a1-01ea-7e75-94f6-4efc36017c1c@intel.com>
+Date: Thu, 24 Feb 2022 14:58:48 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v8 15/19] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [PATCH v5 1/4] drm/i915/guc: Add fetch of hwconfig table
 Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com,
- kishon@ti.com, vkoul@kernel.org, deller@gmx.de, ck.hu@mediatek.com,
- jitao.shi@mediatek.com
-References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-16-granquet@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220218145437.18563-16-granquet@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Jordan Justen <jordan.l.justen@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+References: <20220222103640.1006006-1-jordan.l.justen@intel.com>
+ <20220222103640.1006006-2-jordan.l.justen@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20220222103640.1006006-2-jordan.l.justen@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,415 +64,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/02/22 15:54, Guillaume Ranquet ha scritto:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
+
+
+On 22.02.2022 11:36, Jordan Justen wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
 > 
-> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> Implement support for fetching the hardware description table from the
+> GuC. The call is made twice - once without a destination buffer to
+> query the size and then a second time to fill in the buffer.
 > 
-> It supports the mt8195, the embedded DisplayPort units. It offers
-> hot-plug-detection and DisplayPort 1.4 with up to 4 lanes.
+> Note that the table is only available on ADL-P and later platforms.
 > 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so that
-> both can work with the same register range. The phy driver sets device
-> data that is read by the parent to get the phy device that can be used
-> to control the phy properties.
+> v5 (of Jordan's posting):
+>  * Various changes made by Jordan and recommended by Michal
+>    - Makefile ordering
+>    - Adjust "struct intel_guc_hwconfig hwconfig" comment
+>    - Set Copyright year to 2022 in intel_guc_hwconfig.c/.h
+>    - Drop inline from hwconfig_to_guc()
+>    - Replace hwconfig param with guc in __guc_action_get_hwconfig()
+>    - Move zero size check into guc_hwconfig_discover_size()
+>    - Change comment to say zero size offset/size is needed to get size
+>    - Add has_guc_hwconfig to devinfo and drop has_table()
+>    - Change drm_err to notice in __uc_init_hw() and use %pe
 > 
-> This driver is based on an initial version by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Acked-by: Jon Bloomfield <jon.bloomfield@intel.com>
+> Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
 > ---
->   drivers/gpu/drm/mediatek/Kconfig       |    7 +
->   drivers/gpu/drm/mediatek/Makefile      |    2 +
->   drivers/gpu/drm/mediatek/mtk_dp.c      | 2358 ++++++++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_dp_reg.h  |  568 ++++++
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c |    1 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.h |    1 +
->   6 files changed, 2937 insertions(+)
->   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
->   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+>  drivers/gpu/drm/i915/Makefile                 |   1 +
+>  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+>  .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   3 +
+>  .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 145 ++++++++++++++++++
+>  .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.h   |  19 +++
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   7 +
+>  drivers/gpu/drm/i915/i915_pci.c               |   1 +
+>  drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+>  9 files changed, 182 insertions(+)
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
 > 
-
-
-Sorry for the double review, but I've just noticed something critical:
-
-the new version of mtk_dp_train_handler is severely misbehaving, producing
-
-non-functional display.
-
-I also went on with some effort to give you a solution for this,
-which implies to also tick the DP_STATE with the DP_TRAIN_STATE;
-
-This is my take on it:
-
-static int mtk_dp_train_handler(struct mtk_dp *mtk_dp)
-
-{
-
-	bool training_done = false;
-
-	short max_retry = 50;
-
-	int ret = 0;
-
-
-
-	do {
-
-		switch (mtk_dp->train_state) {
-
-		case MTK_DP_TRAIN_STATE_STARTUP:
-
-			mtk_dp_state_handler(mtk_dp);
-
-			mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKCAP;
-
-			break;
-
-
-
-		case MTK_DP_TRAIN_STATE_CHECKCAP:
-
-			if (mtk_dp_parse_capabilities(mtk_dp)) {
-
-				mtk_dp->train_info.check_cap_count = 0;
-
-				mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKEDID;
-
-			} else {
-
-				mtk_dp->train_info.check_cap_count++;
-
-
-
-				if (mtk_dp->train_info.check_cap_count >
-
-				    MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT) {
-
-					mtk_dp->train_info.check_cap_count = 0;
-
-					mtk_dp->train_state = MTK_DP_TRAIN_STATE_DPIDLE;
-
-					ret = -ETIMEDOUT;
-
-				}
-
-			}
-
-			break;
-
-
-
-		case MTK_DP_TRAIN_STATE_CHECKEDID:
-
-			mtk_dp->audio_enable =
-
-					!mtk_dp_edid_parse_audio_capabilities(
-
-						mtk_dp, &mtk_dp->info.audio_caps);
-
-
-
-			if (!mtk_dp->audio_enable)
-
-				memset(&mtk_dp->info.audio_caps, 0,
-
-				       sizeof(mtk_dp->info.audio_caps));
-
-
-
-			mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING_PRE;
-
-			break;
-
-
-
-		case MTK_DP_TRAIN_STATE_TRAINING_PRE:
-
-			mtk_dp_state_handler(mtk_dp);
-
-			mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING;
-
-			break;
-
-
-
-		case MTK_DP_TRAIN_STATE_TRAINING:
-
-			ret = mtk_dp_train_start(mtk_dp);
-
-			if (ret == 0) {
-
-				mtk_dp_video_mute(mtk_dp, true);
-
-				mtk_dp_audio_mute(mtk_dp, true);
-
-				mtk_dp->train_state = MTK_DP_TRAIN_STATE_NORMAL;
-
-				mtk_dp_fec_enable(mtk_dp, mtk_dp->has_fec);
-
-			} else if (ret != -EAGAIN) {
-
-				mtk_dp->train_state = MTK_DP_TRAIN_STATE_DPIDLE;
-
-			}
-
-			break;
-
-		case MTK_DP_TRAIN_STATE_NORMAL:
-
-			mtk_dp_state_handler(mtk_dp);
-
-			training_done = true;
-
-			break;
-
-		case MTK_DP_TRAIN_STATE_DPIDLE:
-
-			break;
-
-		default:
-
-			break;
-
-		}
-
-
-
-		if (ret) {
-
-			if (ret == -EAGAIN)
-
-				continue;
-
-			/*
-
-			 * If we get any other error number, it doesn't
-
-			 * make any sense to keep iterating.
-
-			 */
-
-			break;
-
-		}
-
-	} while (!training_done || --max_retry);
-
-
-
-	return ret;
-
-}
-
-> +static void mtk_dp_train_handler(struct mtk_dp *mtk_dp)
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index e9ce09620eb5..661f1afb51d7 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -188,6 +188,7 @@ i915-y += gt/uc/intel_uc.o \
+>  	  gt/uc/intel_guc_ct.o \
+>  	  gt/uc/intel_guc_debugfs.o \
+>  	  gt/uc/intel_guc_fw.o \
+> +	  gt/uc/intel_guc_hwconfig.o \
+>  	  gt/uc/intel_guc_log.o \
+>  	  gt/uc/intel_guc_log_debugfs.o \
+>  	  gt/uc/intel_guc_rc.o \
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> index fe5d7d261797..4a61c819f32b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> @@ -137,6 +137,7 @@ enum intel_guc_action {
+>  	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
+>  	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
+>  	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+> +	INTEL_GUC_ACTION_GET_HWCONFIG = 0x4100,
+>  	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
+>  	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
+>  	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+> index 488b6061ee89..f9e2a6aaef4a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
+> @@ -8,6 +8,10 @@
+>  
+>  enum intel_guc_response_status {
+>  	INTEL_GUC_RESPONSE_STATUS_SUCCESS = 0x0,
+> +	INTEL_GUC_RESPONSE_NOT_SUPPORTED = 0x20,
+> +	INTEL_GUC_RESPONSE_NO_ATTRIBUTE_TABLE = 0x201,
+> +	INTEL_GUC_RESPONSE_NO_DECRYPTION_KEY = 0x202,
+> +	INTEL_GUC_RESPONSE_DECRYPTION_FAILED = 0x204,
+>  	INTEL_GUC_RESPONSE_STATUS_GENERIC_FAIL = 0xF000,
+>  };
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index f9240d4baa69..2058eb8c3d0c 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -13,6 +13,7 @@
+>  #include "intel_guc_fw.h"
+>  #include "intel_guc_fwif.h"
+>  #include "intel_guc_ct.h"
+> +#include "intel_guc_hwconfig.h"
+>  #include "intel_guc_log.h"
+>  #include "intel_guc_reg.h"
+>  #include "intel_guc_slpc_types.h"
+> @@ -37,6 +38,8 @@ struct intel_guc {
+>  	struct intel_guc_ct ct;
+>  	/** @slpc: sub-structure containing SLPC related data and objects */
+>  	struct intel_guc_slpc slpc;
+> +	/** @hwconfig: data related to hardware configuration KLV blob */
+> +	struct intel_guc_hwconfig hwconfig;
+>  
+>  	/** @sched_engine: Global engine used to submit requests to GuC */
+>  	struct i915_sched_engine *sched_engine;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+> new file mode 100644
+> index 000000000000..ad289603460c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+> @@ -0,0 +1,145 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2022 Intel Corporation
+> + */
+> +
+> +#include "gt/intel_gt.h"
+> +#include "i915_drv.h"
+> +#include "i915_memcpy.h"
+> +#include "intel_guc_hwconfig.h"
+> +
+> +static struct intel_guc *hwconfig_to_guc(struct intel_guc_hwconfig *hwconfig)
 > +{
-> +	int ret = 0;
-> +	int i = 50;
+> +	return container_of(hwconfig, struct intel_guc, hwconfig);
+> +}
 > +
-> +	do {
-> +		if (mtk_dp->train_state == MTK_DP_TRAIN_STATE_NORMAL)
-> +			continue;
+> +/*
+> + * GuC has a blob containing hardware configuration information (HWConfig).
+> + * This is formatted as a simple and flexible KLV (Key/Length/Value) table.
+> + *
+> + * For example, a minimal version could be:
+> + *   enum device_attr {
+> + *     ATTR_SOME_VALUE = 0,
+> + *     ATTR_SOME_MASK  = 1,
+> + *   };
+> + *
+> + *   static const u32 hwconfig[] = {
+> + *     ATTR_SOME_VALUE,
+> + *     1,		// Value Length in DWords
+> + *     8,		// Value
+> + *
+> + *     ATTR_SOME_MASK,
+> + *     3,
+> + *     0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
+> + *   };
+> + *
+> + * The attribute ids are defined in a hardware spec.
+> + */
 > +
-> +		switch (mtk_dp->train_state) {
-> +		case MTK_DP_TRAIN_STATE_STARTUP:
-> +			mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKCAP;
-> +			break;
+> +static int __guc_action_get_hwconfig(struct intel_guc *guc,
+> +				     u32 ggtt_offset, u32 ggtt_size)
+> +{
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_GET_HWCONFIG,
+> +		ggtt_offset,
+> +		0, /* upper 32 bits of address */
+
+nit: to avoid comments we can use
+
+	lower_32_bits(ggtt_offset),
+	upper_32_bits(ggtt_offset),
+
+> +		ggtt_size,
+> +	};
+> +	int ret;
 > +
-> +		case MTK_DP_TRAIN_STATE_CHECKCAP:
-> +			if (mtk_dp_parse_capabilities(mtk_dp)) {
-> +				mtk_dp->train_info.check_cap_count = 0;
-> +				mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKEDID;
-> +			} else {
-> +				mtk_dp->train_info.check_cap_count++;
+> +	ret = intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
+> +	if (ret == -ENXIO)
+> +		return -ENOENT;
 > +
-> +				if (mtk_dp->train_info.check_cap_count >
-> +					MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT) {
-> +					mtk_dp->train_info.check_cap_count = 0;
-> +					mtk_dp->train_state = MTK_DP_TRAIN_STATE_DPIDLE;
-> +					ret = -ETIMEDOUT;
-> +				}
-> +			}
-> +			break;
+> +	return ret;
+> +}
 > +
-> +		case MTK_DP_TRAIN_STATE_CHECKEDID:
-> +			mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING_PRE;
-> +			break;
+> +static int guc_hwconfig_discover_size(struct intel_guc_hwconfig *hwconfig)
+> +{
+> +	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
+> +	int ret;
 > +
-> +		case MTK_DP_TRAIN_STATE_TRAINING_PRE:
-> +			mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING;
-> +			break;
+> +	/* Sending a query with zero offset and size will return the
+> +	 * size of the blob.
+> +	 */
+
+nit: wrong format of multi line comment
+
+> +	ret = __guc_action_get_hwconfig(guc, 0, 0);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +		case MTK_DP_TRAIN_STATE_TRAINING:
-> +			ret = mtk_dp_train_start(mtk_dp);
-> +			if (!ret) {
-> +				mtk_dp_video_mute(mtk_dp, true);
-> +				mtk_dp->train_state = MTK_DP_TRAIN_STATE_NORMAL;
-> +				mtk_dp_fec_enable(mtk_dp, mtk_dp->has_fec);
-> +			} else if (ret != -EAGAIN) {
-> +				mtk_dp->train_state = MTK_DP_TRAIN_STATE_DPIDLE;
-> +			}
+> +	if (ret == 0)
+> +		return -EINVAL;
 > +
-> +			ret = 0;
-> +			break;
+> +	hwconfig->size = ret;
+> +	return 0;
+> +}
 > +
-> +		case MTK_DP_TRAIN_STATE_NORMAL:
-> +			break;
-> +		case MTK_DP_TRAIN_STATE_DPIDLE:
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +	} while (ret && i--);
+> +static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
+> +{
+> +	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
+> +	struct i915_vma *vma;
+> +	u32 ggtt_offset;
+> +	void *vaddr;
+> +	int ret;
 > +
+> +	GEM_BUG_ON(!hwconfig->size);
+> +
+> +	ret = intel_guc_allocate_and_map_vma(guc, hwconfig->size, &vma, &vaddr);
 > +	if (ret)
-> +		drm_err(mtk_dp->drm_dev, "Train handler failed %d\n", ret);
+> +		return ret;
+> +
+> +	ggtt_offset = intel_guc_ggtt_offset(guc, vma);
+> +
+> +	ret = __guc_action_get_hwconfig(guc, ggtt_offset, hwconfig->size);
+> +	if (ret >= 0)
+> +		memcpy(hwconfig->ptr, vaddr, hwconfig->size);
+> +
+> +	i915_vma_unpin_and_release(&vma, I915_VMA_RELEASE_MAP);
+> +
+> +	return ret;
 > +}
 > +
-> +static void mtk_dp_video_enable(struct mtk_dp *mtk_dp, bool enable)
+> +/**
+> + * intel_guc_hwconfig_fini - Finalize the HWConfig
+> + *
+> + * Free up the memory allocation holding the table.
+> + */
+> +void intel_guc_hwconfig_fini(struct intel_guc_hwconfig *hwconfig)
 > +{
-> +	if (enable) {
-> +		mtk_dp_set_tx_out(mtk_dp);
-> +		mtk_dp_video_mute(mtk_dp, false);
-> +	} else {
-> +		mtk_dp_video_mute(mtk_dp, true);
-> +	}
+> +	kfree(hwconfig->ptr);
+> +	hwconfig->size = 0;
+> +	hwconfig->ptr = NULL;
 > +}
 > +
-> +static void mtk_dp_video_config(struct mtk_dp *mtk_dp)
+> +/**
+> + * intel_guc_hwconfig_init - Initialize the HWConfig
+> + *
+> + * Retrieve the HWConfig table from the GuC and save it away in a local memory
+
+"local memory" may have different meaning, maybe ".. save it locally"
+
+with comment reworded,
+
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+
+> + * allocation. It can then be queried on demand by other users later on.
+> + */
+> +int intel_guc_hwconfig_init(struct intel_guc_hwconfig *hwconfig)
 > +{
-> +	mtk_dp_mn_overwrite_disable(mtk_dp);
+> +	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
+> +	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+> +	int ret;
 > +
-> +	mtk_dp_set_msa(mtk_dp);
+> +	if (!INTEL_INFO(i915)->has_guc_hwconfig)
+> +		return 0;
 > +
-> +	mtk_dp_set_color_depth(mtk_dp, mtk_dp->info.depth);
-> +	mtk_dp_set_color_format(mtk_dp, mtk_dp->info.format);
+> +	ret = guc_hwconfig_discover_size(hwconfig);
+> +	if (ret)
+> +		return ret;
+> +
+> +	hwconfig->ptr = kmalloc(hwconfig->size, GFP_KERNEL);
+> +	if (!hwconfig->ptr) {
+> +		hwconfig->size = 0;
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = guc_hwconfig_fill_buffer(hwconfig);
+> +	if (ret < 0) {
+> +		intel_guc_hwconfig_fini(hwconfig);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
 > +}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
+> new file mode 100644
+> index 000000000000..bfb90ae168dc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2022 Intel Corporation
+> + */
 > +
-> +static void mtk_dp_state_handler(struct mtk_dp *mtk_dp)
-> +{
-> +	switch (mtk_dp->state) {
-> +	case MTK_DP_STATE_INITIAL:
-> +		mtk_dp_video_mute(mtk_dp, true);
-> +		mtk_dp->state = MTK_DP_STATE_IDLE;
-> +		break;
+> +#ifndef _INTEL_GUC_HWCONFIG_H_
+> +#define _INTEL_GUC_HWCONFIG_H_
 > +
-> +	case MTK_DP_STATE_IDLE:
-> +		if (mtk_dp->train_state == MTK_DP_TRAIN_STATE_NORMAL)
-> +			mtk_dp->state = MTK_DP_STATE_PREPARE;
-> +		break;
+> +#include <linux/types.h>
 > +
-> +	case MTK_DP_STATE_PREPARE:
-> +		mtk_dp_video_config(mtk_dp);
-> +		mtk_dp_video_enable(mtk_dp, true);
+> +struct intel_guc_hwconfig {
+> +	u32 size;
+> +	void *ptr;
+> +};
 > +
-> +		mtk_dp->state = MTK_DP_STATE_NORMAL;
-> +		break;
+> +int intel_guc_hwconfig_init(struct intel_guc_hwconfig *hwconfig);
+> +void intel_guc_hwconfig_fini(struct intel_guc_hwconfig *hwconfig);
 > +
-> +	case MTK_DP_STATE_NORMAL:
-> +		if (mtk_dp->train_state != MTK_DP_TRAIN_STATE_NORMAL) {
-> +			mtk_dp_video_mute(mtk_dp, true);
-> +			mtk_dp->state = MTK_DP_STATE_IDLE;
-> +		}
-> +		break;
+> +#endif /* _INTEL_GUC_HWCONFIG_H_ */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index 09ed29df67bc..0cefa2a95190 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -489,6 +489,11 @@ static int __uc_init_hw(struct intel_uc *uc)
+>  	if (ret)
+>  		goto err_log_capture;
+>  
+> +	ret = intel_guc_hwconfig_init(&guc->hwconfig);
+> +	if (ret)
+> +		drm_notice(&i915->drm, "Failed to retrieve hwconfig table: %pe\n",
+> +			   ERR_PTR(ret));
 > +
-> +	default:
-> +		break;
-> +	}
-> +}
+>  	ret = guc_enable_communication(guc);
+>  	if (ret)
+>  		goto err_log_capture;
+> @@ -562,6 +567,8 @@ static void __uc_fini_hw(struct intel_uc *uc)
+>  	if (intel_uc_uses_guc_submission(uc))
+>  		intel_guc_submission_disable(guc);
+>  
+> +	intel_guc_hwconfig_fini(&guc->hwconfig);
 > +
-
-Move mtk_dp_train_handler() here.....
-
-
-> +static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
-> +					struct drm_bridge_state *old_state)
-> +{
-> +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *crtc_state;
-
-	int ret;
-
-> +
-> +	mtk_dp->conn = drm_atomic_get_new_connector_for_encoder(old_state->base.state,
-> +								bridge->encoder);
-> +	if (!mtk_dp->conn) {
-> +		drm_err(mtk_dp->drm_dev,
-> +			"Can't enable bridge as connector is missing\n");
-> +		return;
-> +	}
-> +
-> +	memcpy(mtk_dp->connector_eld, mtk_dp->conn->eld, MAX_ELD_BYTES);
-> +
-> +	conn_state =
-> +		drm_atomic_get_new_connector_state(old_state->base.state, mtk_dp->conn);
-> +	if (!conn_state) {
-> +		drm_err(mtk_dp->drm_dev,
-> +			"Can't enable bridge as connector state is missing\n");
-> +		return;
-> +	}
-> +
-> +	crtc = conn_state->crtc;
-> +	if (!crtc) {
-> +		drm_err(mtk_dp->drm_dev,
-> +			"Can't enable bridge as connector state doesn't have a crtc\n");
-> +		return;
-> +	}
-> +
-> +	crtc_state = drm_atomic_get_new_crtc_state(old_state->base.state, crtc);
-> +	if (!crtc_state) {
-> +		drm_err(mtk_dp->drm_dev,
-> +			"Can't enable bridge as crtc state is missing\n");
-> +		return;
-> +	}
-> +
-> +	mtk_dp_parse_drm_mode_timings(mtk_dp, &crtc_state->adjusted_mode);
-> +	if (!mtk_dp_parse_capabilities(mtk_dp)) {
-> +		drm_err(mtk_dp->drm_dev,
-> +			"Can't enable bridge as nothing is plugged in\n");
-> +		return;
-> +	}
-> +
-> +	/* Training */
-
-The following is very similar to your previous version of this function:
-
-	ret = mtk_dp_train_handler(mtk_dp);
-
-	if (ret) {
-
-		drm_err(mtk_dp->drm_dev, "Train handler failed %d\n", ret);
-
-		return;
-
-	}
-
-
-
-	mtk_dp->enabled = true;
-
-	mtk_dp_update_plugged_status(mtk_dp)
-}
-
-
-> +	mtk_dp_train_handler(mtk_dp);
-> +	mtk_dp_state_handler(mtk_dp);
-> +	mtk_dp->enabled = true;
-> +}
-
-Regards,
-Angelo
+>  	__uc_sanitize(uc);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 76e590fcb903..1d31e35a5154 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -990,6 +990,7 @@ static const struct intel_device_info adl_p_info = {
+>  		BIT(RCS0) | BIT(BCS0) | BIT(VECS0) | BIT(VCS0) | BIT(VCS2),
+>  	.ppgtt_size = 48,
+>  	.dma_mask_size = 39,
+> +	.has_guc_hwconfig = 1,
+>  };
+>  
+>  #undef GEN
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index 3699b1c539ea..82d8d6bc30ff 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -133,6 +133,7 @@ enum intel_ppgtt_type {
+>  	func(gpu_reset_clobbers_display); \
+>  	func(has_reset_engine); \
+>  	func(has_global_mocs); \
+> +	func(has_guc_hwconfig); \
+>  	func(has_gt_uc); \
+>  	func(has_l3_dpf); \
+>  	func(has_llc); \
