@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9924C4054
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 09:42:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 115D94C4052
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 09:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F216E10E5A9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B79910E547;
 	Fri, 25 Feb 2022 08:42:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEA510FB1F;
- Thu, 24 Feb 2022 12:22:42 +0000 (UTC)
-Received: from [127.0.0.1] (unknown [92.167.214.184])
- (Authenticated sender: eric.valette@free.fr)
- by smtp6-g21.free.fr (Postfix) with ESMTPSA id 5446A780674;
- Thu, 24 Feb 2022 13:22:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
- s=smtp-20201208; t=1645705360;
- bh=fP/yrgV3ube2ihjd3ik+3iVnycyzuE8vV8HCQA4UG6U=;
- h=Date:From:To:Cc:Subject:From;
- b=kHNcLOLXnyKHDFY7oK+97QWOSoWL/CEPYgnLONLA2/uJL3xfNI+Xvy2objbV6dsDT
- vV6SiPcF+sIDjEEtmp5kKlR5WoAC6Gtmio6JGfesKCGyAbeUa/VZ2eh7uNQPpe+nHP
- U1vARC25OaiioqlMgB5USBRxV3uFYnAR3FZkM1WdZGgV352uFScBwmtp29Iuisz0Qb
- cmjHSCTiNttDCTNLvCa88JgzIn7d9ppC71Ip/uVrAwfEg5Iw+nta6HskkYaan1n4XV
- SCjA3I20V1K6EmtkUIWjExcbVvRJcEPO2JdlN7iMX4SGidamBWo4aVfamGCXacMN20
- UVqTFahx0vYRA==
-Date: Thu, 24 Feb 2022 12:22:23 +0000 (UTC)
-From: =?UTF-8?Q?=C3=89ric_Valette?= <eric.valette@free.fr>
-To: Alex Deucher <alexdeucher@gmail.com>
-Message-ID: <68ac824b-3419-4644-a355-24341540fa6d@free.fr>
-Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the
- asic in suspend (v2)") on suspend?
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489BA10EA0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 14:36:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 22EA41F44EFF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1645713392;
+ bh=a5HETx9RdGbA+U2GzdkhgfEme4Mq6cVTNkqDGzsr6CQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AmfM8svSLgBD0m64Hmxuea3hI/8v+A+wcJ/0920+h5sCWJuax6L7rG2cym4TEbQFj
+ +A4fHQmsSxWYBKrZRCJyv4Ahl8isE2+KeSE9wAKfBp5JFCJnGPxbR5vQNwt/2I4mxA
+ aL+7fwJKkCL9XLJwNitTHsT8vWirjEDHg4kdAX7SM2HN1OEisEJJJyG8KZRzHa1Nlm
+ MHqc37p3gGq5lNNPPNTjtJc02fkPpA9B/ZrI9G3snn6m/1WZV4IyCy5tNR6a0VZQYS
+ F5qg5nOgfvtJGMeO/DPdRTN7jwu/sgsj7j7iU0gxfIKa5E2jUaWrhUeK4MFp5oiUZV
+ ISNcUqkRGtNcg==
+Message-ID: <a6f2b4a8-b9f0-dd2b-2361-8ede766b8394@collabora.com>
+Date: Thu, 24 Feb 2022 17:36:29 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 21/23] drm: rockchip: Add VOP2 driver
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>
+References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
+ <20220217082954.2967889-22-s.hauer@pengutronix.de>
+ <b9b59c1d-5808-f348-62fb-257746df134d@collabora.com>
+ <20220224074750.GR9136@pengutronix.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220224074750.GR9136@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <68ac824b-3419-4644-a355-24341540fa6d@free.fr>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 25 Feb 2022 08:42:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,36 +54,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
- Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dominique Dumont <dod@debian.org>, Salvatore Bonaccorso <carnil@debian.org>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/22 15:16, Alex Deucher wrote:
+On 2/24/22 10:47, Sascha Hauer wrote:
+> On Thu, Feb 17, 2022 at 04:24:29PM +0300, Dmitry Osipenko wrote:
+>> 17.02.2022 11:29, Sascha Hauer пишет:
+>>> @@ -28,6 +28,12 @@ config ROCKCHIP_VOP
+>>>  	  This selects support for the VOP driver. You should enable it
+>>>  	  on all older SoCs up to RK3399.
+>>>  
+>>> +config ROCKCHIP_VOP2
+>>> +	bool "Rockchip VOP2 driver"
+>>> +	help
+>>> +	  This selects support for the VOP2 driver. You should enable it
+>>> +	  on all newer SoCs beginning form RK3568.
+>>
+>> s/form/from/
+>>
+>> The ROCKCHIP_VOP option is "default y". Do you really want "default n"
+>> for the VOP2?
+> 
+> ROCKCHIP_VOP is only default y to keep the VOP driver enabled for
+> existing defconfig that were generated before the introduction of
+> that symbol.
+> We don't have this problem for VOP2, so no need to make it default y.
 
->>>> Is this system S0i3 or regular S3?
->>=20
->> For me it is real S3.
->>=20
->> The proposed patch is intended for INTEl + intel gpu + amdgpu but I have
->> dual amd GPU.
-> It doesn't really matter what the platform is, it could still
-> potentially help on your system, it depends on the bios implementation
-> for your platform and how it handles suspend. You can try the patch,
-> but I don't think you are hitting the same issue.=C2=A0 I bisect would be
-> helpful in your case.
-
-Trying to add the pach on top of 5.15.24, I got a already applied message a=
-nd indeed the patch is already there. So this particular patch it does not =
-fix my problem.
-
-Saw new modif in 5.15.25. Will try and check if I can find time to bissect.
-
--- eric
+To me it will be more consistent of you'll have both defaulting to y,
+since both options are behind DRM_ROCKCHIP.
