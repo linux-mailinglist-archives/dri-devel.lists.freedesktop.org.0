@@ -1,117 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF194C20ED
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 02:29:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 033224C217C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 03:03:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D214410E3D0;
-	Thu, 24 Feb 2022 01:29:26 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F3F10E3D0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 01:29:25 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220224012923epoutp02ad6778292d9bce0f8e5ecedeb5abd5b6~WlKgH3fg61388813888epoutp02D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 01:29:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220224012923epoutp02ad6778292d9bce0f8e5ecedeb5abd5b6~WlKgH3fg61388813888epoutp02D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1645666163;
- bh=oKV2bBmcTXKAudQ3kQowohQzg6JH+sqRX1vI0I6NbM8=;
- h=Date:Subject:To:From:In-Reply-To:References:From;
- b=VEPEz1HHeczJqhEDXkdvGvGdm4uorjQDWozHFjIZ6iHt0TQSWh00q1xxe20UUT0ny
- DQ1DWFwkKiZq7UGP0xRbsauRGByJvv7u8ht/i8+4SiNAyJbnpejHzSyX1mlvzBRgE3
- pIGvYIpWURzhE8Xp4GPFebJejRQUu1bqXH5KeQ4A=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20220224012922epcas1p415dd6209df7ef6497d8e084e517c8e1b~WlKftnopK2271522715epcas1p4T;
- Thu, 24 Feb 2022 01:29:22 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.38.236]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4K3wL272lyz4x9QL; Thu, 24 Feb
- 2022 01:29:14 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
- 8F.03.21932.86FD6126; Thu, 24 Feb 2022 10:29:12 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20220224012912epcas1p31a933b65acbe2834fc8f43344b7a6b97~WlKVwigtU1897218972epcas1p3d;
- Thu, 24 Feb 2022 01:29:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220224012912epsmtrp1247319c90f000c46656a1ec46666db85~WlKVt9GV-0056300563epsmtrp1Q;
- Thu, 24 Feb 2022 01:29:12 +0000 (GMT)
-X-AuditID: b6c32a38-93fff700000255ac-a7-6216df68b5a2
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- B0.CC.29871.76FD6126; Thu, 24 Feb 2022 10:29:12 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220224012911epsmtip24134ef2aa977f6cb2203d6e84a5b1bf3~WlKVZxGEM1071710717epsmtip2d;
- Thu, 24 Feb 2022 01:29:11 +0000 (GMT)
-Message-ID: <5e18705f-79c1-18a7-57f2-74866abe21e9@samsung.com>
-Date: Thu, 24 Feb 2022 10:41:04 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/exynos: fimd: add BGR support for exynos4/5
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE7CF10E7EA;
+	Thu, 24 Feb 2022 02:03:38 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C120710E7E7;
+ Thu, 24 Feb 2022 02:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645668216; x=1677204216;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=2ExR/Xfm51hnG9KFOmlN3Yay8Zps7ucd3rDkAD+abFU=;
+ b=DrmUK88b3nRLNwZlrgqdd2owr+c5YqUaK0c/YNBhE/c+Inq3CbdPckGy
+ wiy15DvGT5nZJhZGdwuIXpexPKJSPLxYI3fyS5Z5eXpowcS39pCKL592c
+ G9u+/AR2EaHwOemx8bmZOS7BG70AENjKBFxcGsRPcbNa3zrtez3ZovXA5
+ +uLmmzWBtl5EJEJt79UfjRRS7Q4w4z9P2ipOtI1ygGIp3jGs0atCJSUlK
+ OKkEYNI2dP5/PUfw5Z6ny6zquXzhXoTnLtO46qAMlRonvvo55UZMXqvnL
+ VymwOX8JqtMFP4B3dvRPmevWSa22D0VMGGRmaO//qnFJlY+Oxo+5gCxB7 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="249710065"
+X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; d="scan'208";a="249710065"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 18:03:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; d="scan'208";a="591925932"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga008.fm.intel.com with ESMTP; 23 Feb 2022 18:03:35 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 23 Feb 2022 18:03:34 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Wed, 23 Feb 2022 18:03:34 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Wed, 23 Feb 2022 18:03:34 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZZBSHou3ZubQboOOtLD1sKWaAvhMjgwhjPOpx6JbX2C1gdSB02zNi0SZZY1gNPgfb+dQkP7CRhBpaQudAzzcLjG9e4hhXC7A/MN/RxbcsaBACcIMMFLylO5db9sQbhDbO37DP1BqS9H/FtNgC19kZ3rN1YTtIxvfZmwgBV67N8bNZAXl5C+kuK2n2RYBV9A8rHjUJ/XHj4BIR/2Z0sLE6zvQr6pBfQPnhV7rDhJudickbHD0RfHmLCPaMPkjCfCzkI+0cn1yUCc+IH0T+WHzQIuNStC3WxdK3Jjp/KvTpBIjvDiN5LO/QHGFqApZos0JwGTW5HzHqQWdV9/PoR3Kag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eyKOhaX/DIdyxbCXdgo7lfc3Su0Lvl7OHvPOAVm/DDU=;
+ b=VLet+YFfUf2wlwBEHlyyL6uVMWzO0xagyHktj0zyxUpEApKBVmUnO+LPeH+EqE67FigXYCns9xLtkBYn/3fdBaXT6pYw/K/FDCJhg83BxKZ7jQaXdF1Pkzzi76mdxurDsevpPM1I3Ti98t1Fd7olTvQrmbnA/SHtdvok7IpsAuLJq1CRWmUb56lfUo6NMUCda5dv3NnROMO6JZQ/49ouYlGmsLo+9AELAexG4yveGeuB+pX7o4fpgtfiARi+FR+JcWQi6F1xbnvfqwUMXdTGSSQMqg6X+naxvqDBY7RJGG2vLK3MiEZrroQ8wtC98AyyT8xV9Q2gUXwpLCnX9Cv62g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM6PR11MB2555.namprd11.prod.outlook.com (2603:10b6:5:c5::33) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.17; Thu, 24 Feb 2022 02:03:32 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869%4]) with mapi id 15.20.4995.027; Thu, 24 Feb 2022
+ 02:03:32 +0000
+Message-ID: <0cd43952-3a0d-60ec-5702-fb0e395025fa@intel.com>
+Date: Wed, 23 Feb 2022 18:03:24 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [Intel-gfx] [PATCH 5/8] drm/i915/guc: Move lrc desc setup to
+ where it is needed
 Content-Language: en-US
-To: =?UTF-8?Q?Martin_J=c3=bccker?= <martin.juecker@gmail.com>, Joonyoung
- Shim <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski
- <krzysztof.kozlowski@canonical.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Inki Dae <inki.dae@samsung.com>
-In-Reply-To: <20220129220153.GA33165@adroid>
+To: John Harrison <john.c.harrison@intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220217235207.930153-1-John.C.Harrison@Intel.com>
+ <20220217235207.930153-6-John.C.Harrison@Intel.com>
+ <cc5b20ac-86b4-2d8a-8d53-c4b870213b10@intel.com>
+ <0b971744-b456-9a92-818f-1f038669da7f@intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <0b971744-b456-9a92-818f-1f038669da7f@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNJsWRmVeSWpSXmKPExsWy7bCmgW7GfbEkg+MrVSx6z51ksvi/bSKz
- xZWv79ksXty7yGKx8e0PJouzTW/YLTY9vsZqcXnXHDaLGef3MVmc+TeVxWLG5JdsDtwesxp6
- 2Tz2flvA4rFz1l12j+3fHrB63O8+zuSxeUm9R9+WVYwenzfJBXBEZdtkpCampBYppOYl56dk
- 5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAB2qpFCWmFMKFApILC5W0rezKcov
- LUlVyMgvLrFVSi1IySkwLdArTswtLs1L18tLLbEyNDAwMgUqTMjOuP5pLkvBBJ2K3dvOsTQw
- 7lHuYuTkkBAwkdhxeQljFyMXh5DADkaJySdOMIIkhAQ+MUrc3BsFYX9jlGhbbg/TsHvuRqiG
- vYwSX6e+ZYZw3jNKNDYfZgGp4hWwk7g85TUbiM0ioCox/fhNNoi4oMTJmU/AakQFIiReHvnL
- BGILC7hIzFkE0cssIC5x68l8JpChIgInmSUe3JvEDJJgAxo0ccV9sEGcAjoSZw98Z4JokJdo
- 3job7AoJgR0cEtd6XjBB3Ooicf7xKUYIW1ji1fEt7BC2lMTL/jZ2iIbJjBJ3rq9ggXBmMEoc
- /nkdqsNYYv/SyUCTOIBWaEqs36UPEVaU2Pl7LiPEZj6Jd197WEFKJAR4JTrahCBKlCSOXbwB
- NUVC4sKSiWwQtofEj2PnWCFhWi+xsO8q8wRGhVlIATMLKQBmIfltFsIRCxhZVjGKpRYU56an
- FhsWmMCjOzk/dxMjOBVrWexgnPv2g94hRiYOxkOMEhzMSiK8poViSUK8KYmVValF+fFFpTmp
- xYcYTYHRM5FZSjQ5H5gN8kriDU0sDUzMjIxNLAzNDJXEeXunnk4UEkhPLEnNTk0tSC2C6WPi
- 4JRqYIqNTurgthb/mryV9Yma4628Rf/P7LU3Wfbd5Wj67cNzvnIe/ixkeUhswZFCzzW6FXfP
- 7jitwbJ601yRZQVbnPwzVfqu1vQy/Fq4uOW2RiWvhUTxpSRFkTVxCruuvAqP4BHN+Rr+gH0Z
- s/6ZL29XPRQ8tHlu70fNO7rPVp13/eF06H+YNPP3vS5bnyiYTbq9OvWIakOXZmdBycSgsOWq
- v3tsijgPLuE5vLu3c8/UHYFtcqd0pOd1Ga2qOzNHt3Fq58F3e7P+Od9YujKJ23et05S5fyoN
- F2akGhuszvlUmLElc+Lcd09Kgni+NH+Na33peDBg4RrvJs7j/kUpWe1FPysenzPsu5TOFpXP
- cPniYwslluKMREMt5qLiRAAwuQTsTgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42LZdlhJXjfjvliSwa+zjBa9504yWfzfNpHZ
- 4srX92wWL+5dZLHY+PYHk8XZpjfsFpseX2O1uLxrDpvFjPP7mCzO/JvKYjFj8ks2B26PWQ29
- bB57vy1g8dg56y67x/ZvD1g97ncfZ/LYvKTeo2/LKkaPz5vkAjiiuGxSUnMyy1KL9O0SuDKu
- f5rLUjBBp2L3tnMsDYx7lLsYOTkkBEwkds/dyNjFyMUhJLCbUWLezLVsXYwcQAkJiS1bOSBM
- YYnDh4shSt4ySrS/nMUE0ssrYCdxecprNhCbRUBVYvrxm2wQcUGJkzOfsIDYogIREm3LpjCD
- 2MICLhJzFh0GizMLiEvcejKfCWSoiMBpZomJF1YygiSEBOolTk9eDVbEBjR04or7YEM5BXQk
- zh74zgRyELOAusT6eUIQc+QlmrfOZp7AKDgLyepZSFbMQuiYhaRjASPLKkbJ1ILi3PTcYsMC
- w7zUcr3ixNzi0rx0veT83E2M4OjS0tzBuH3VB71DjEwcjIcYJTiYlUR4TQvFkoR4UxIrq1KL
- 8uOLSnNSiw8xSnOwKInzXug6GS8kkJ5YkpqdmlqQWgSTZeLglGpgEmnN2HKwoGhuyhuGslPF
- EzdXPe16N6G3cXnVwtWTn0ZPdzn1zkhU3lQiZhXH+tfp6rvKCpPuMlp8MOPZluevcK0i4/cd
- J6XHcTGPTthYHdywtUL0qmb5zXo2/pqNh/X0p06KfPy3u97qxDY70R3y8tL9d9WsCq+11r3W
- XGxVtU1epWx6bfarJpHpu2wOJ8lMWXHt2u4zZ1v/TjczKQwJlKs1NlixrE//YMb9CQ1XL387
- WuW/JGF9Sa9mh50wo+TdLJO/oebat7r+emnsmH+h+FLOfKd2TtvMS/pPIrYcarZqzNA56Xtq
- 3uylX66ZGFTsXZQRraXFuiM8PtRbedWvK26RbvIx07kKe6aWeyYqsRRnJBpqMRcVJwIA4jBY
- ox0DAAA=
-X-CMS-MailID: 20220224012912epcas1p31a933b65acbe2834fc8f43344b7a6b97
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220129220203epcas1p25b1704191dd7babfb8d5b8dc6704d566
-References: <CGME20220129220203epcas1p25b1704191dd7babfb8d5b8dc6704d566@epcas1p2.samsung.com>
- <20220129220153.GA33165@adroid>
+X-ClientProxiedBy: SJ0PR03CA0134.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::19) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2f8ecc90-c249-4a13-6df6-08d9f739dba5
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2555:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR11MB2555E17386D7D9ED54EDDFEBF43D9@DM6PR11MB2555.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NLWeP1rnyypTvSAlytKFtugwMOS5jzAS+JTJoR7vMiex1mCQjygqH6TQFJKTWmgRPGIbJ23s6wAaDHkSthHvya+UyF/Wj8ZNbb2XGXKtGquKq88nH0+cLNKsyiTGlxlgyXy5uK84yOAEJMXCjmxYWPWGXNep4VGke3jxiNvUSZjLxPptxVYU8gEtMpRt7CPByyuIoYKv9DBCkwOWHl6AFny+MGwKKsB1XAlbuxiPt7wJcb5G22btQfOByo82vlJ2C/BoKG8qbnTkVDhdZ4d5uwAv6BuVT5zcbUllb36WB7Rdd4XioZjKyH08S64oXhw0I0Fv2O97p/7YM5JNbMgqFlPUgoxa6qwpeAO/ZvzIVXP1RTmWeipWBTK/Mh+CzJrUIzfgSC9CURUinl1jdbDRacL53Nj/0LYGIJl6wCybKhS+B+353s3YAro1rUGg62HD+eJdCIijkbfpRbMc7DqJRsd7QJDD4VnE2XVHloALoRYMlW7kVn5njwwHFiNuuKKP6F650IgVKvhelt6tNtGYcRC30u9/Ekk0JINJ1YW3L0TX9zYDKcZqp9oaRysml2SCssUlQ5RFhV/OSif9e2p1vZMW2PJ05hXrOtdAwu6nYVPCqec9ifxjZCS/fkBdJoyzuBDo4h3XlXiqGyTct4fqZcHQRBAEK8M5FuSzO5+sVZK8bRXk2B6HmDKUbojujOjyCUwf8Eg3xtmWaHxuMWYlVpYYYsJ0jTTfwmXSSBU+p7C+o5DX37K/WhiiEFP3+AWB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(36756003)(86362001)(186003)(6506007)(508600001)(6512007)(2616005)(8936002)(31686004)(6666004)(8676002)(31696002)(2906002)(82960400001)(26005)(53546011)(4326008)(66556008)(66946007)(38100700002)(6486002)(5660300002)(83380400001)(450100002)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXFxS2ZZLzIraHE2Q01NU1NXclpEQ25CbUR5UzZtd3hVUmxnZm96NnEwdWt0?=
+ =?utf-8?B?Njl4U25tQjgzVTR0MmNFUE8xSjRuN2E1b09zanc1bTYyZnJJUzg3MGU1aFdp?=
+ =?utf-8?B?eDRqQ2NkVWp1cGJ2S00wbmdrMUQyelFMVDd2QXZqUDM1dStSR2M3WDJiVWcy?=
+ =?utf-8?B?dmY2UmI1aTZvaTVKeE96OVMwd3A1c2x4WUFEQVFna1JTc1dkSkJZb1NOZDVy?=
+ =?utf-8?B?RWU0cFk3L0FnMkFtQkhiUXUwVUwxeGQrQkVrWHdJQjVyYnRvdEc3cWZ3SUJ1?=
+ =?utf-8?B?VHlhNStDbGsydDgyWmVJNXRzS3NSWTFJM3F4Y3RYUzJxRkRXSE1TVGJvNzg2?=
+ =?utf-8?B?cUVMMWZJTHFvS2VXcUJTY1pGK0dpNGRsQ0FqbXRXa29ZRXU5MmltQkhvSnhi?=
+ =?utf-8?B?alZpcEZOQkdwM3c0WFl6SXhSN0dZNW1NbmI2QnkvZzk2SEduVWZUOWJNS0F1?=
+ =?utf-8?B?QlVURVhpcTM1bTNGRVVWdkszTEVUemFORUZBNHhiNmE4K3kra2FqTDJTV2o3?=
+ =?utf-8?B?VVl6eHMzT3E3d0pXekdabXdNd2tyYlFsM3Q0Ri9NeGgyQ2E1cUV2K3M0aGYw?=
+ =?utf-8?B?NEkzVDlrR1pWeWxUTzhWa2kxOUpIT0JmV21nUkx5UnVrOTA0YkYxSDJ1eW1q?=
+ =?utf-8?B?UGhhYmR6bWFzRFJ3eXBZWGRhd09GMkVZWG4xYVhCR3NpT0NsZDZDK0VieEVZ?=
+ =?utf-8?B?ZEhRNFZCeXRGNm05Q2t3QzBwTm81SEFXTm9XTGdmVVhvOGUyWW5UbFlvSHlJ?=
+ =?utf-8?B?ZmVaNUdaOWRjbm02TEgySHBkcHlJTU1rWnNEYWhoMG5LZkJoKzZRdHB4SVc3?=
+ =?utf-8?B?aGZ6VWQxMGwwOSs2TTZWcnVZMmZDakFOLzE5dXY1cDYzUFlGbmdzMGwvZzJQ?=
+ =?utf-8?B?WGg3RkwwVGhhVExtL1Rnd2tYOGJQWEMvRTkzUnZrWDkzSDE4QklwNXhIdGQx?=
+ =?utf-8?B?bHdwS1d3Y2l3WFBua3JEN25naklxK3lJZmN5bmZ6UFFJM2grSDd2ZXdGdnZl?=
+ =?utf-8?B?NFY4aThEYlhvNXBEUkN1UjA1Y0V5aHNRNyszbEp6OGVQRTB4Zm9ybVBsZ1A2?=
+ =?utf-8?B?RkZFbTFGVmZQUVdtN1oyWng1MElQeXkwZytYeWNVNGxUd3kxK3lzUmVPeG4w?=
+ =?utf-8?B?UGRaaHBUak43ZWVVVndha1k2ZmJSdU5FYk1kZ1A1NWtJYjVvblJ5aDVuamgr?=
+ =?utf-8?B?aFRMRlI3ZXdub1lMUWg4WnZaZFEyVnZVRWlrMll2Qy9sMzJVRWxiMnU1RFJP?=
+ =?utf-8?B?Y1FOVjlvOFZ1a2g2QXY0NDdsRDFsa0dpT25kYm44Q3pldEJvS0xFK2hTbFlE?=
+ =?utf-8?B?ZkZQaFd2Uys0UHBabWFVSmduU2FEUWlBbWprMjFCSVJGSS9hVk40Q2dacGcw?=
+ =?utf-8?B?MTBSelZpY3NHRWZXeVdEckdrR2FDL2FlWDBpV2JsOWczUTl6ODRod3IzaldW?=
+ =?utf-8?B?SUhyU2VzbFdaTTlpbC9NSTZqbENvaWVUUUNyV0dyNzhSUDRmUHRpem1zN0dt?=
+ =?utf-8?B?by9pSmFGUnphU2xKVzIreGwxcGIvcDRNbEEwMUpQZTZSM2JxTWwrcWlTQldj?=
+ =?utf-8?B?bjV4Zk1NUnoxeVFFMHJxS0IwT255bU5IK3NXdHJYbUFRQ3pHeFlreFFzMGlO?=
+ =?utf-8?B?aXkxVmdRSUYrTElDbG5sZ0sxcnFsSVBTMzZROXRBKy93ODRHdnFDUFRGZ21X?=
+ =?utf-8?B?T0pCQ0NydlZrdUJ1eWVBV0JuWS9yZ0huSEhuaUxVYkJJcXk0Sm0wS1ZRKzZC?=
+ =?utf-8?B?eDU1Skd3UlZEQWhNdkd3anAvM2N2M2wrUEc2clZtMG92Tkl4dVBKUkhBTTVv?=
+ =?utf-8?B?RDdtMVh2SEFlUnVRdTFzRHdLNW0zVitURTVjb2duUG0zS2dTSktHRE1GWUhE?=
+ =?utf-8?B?d2Z3R2taV1lsUzRJU05PNzFaQUVjZlRveldBT0R6YUR0bkxrWnNhYVFQZTF5?=
+ =?utf-8?B?U1Q1QjVxdXNIdk5IRkZSNkYyY3JsN1hTSlNUVmhHdy91ZEkxMm1FVkNmZnda?=
+ =?utf-8?B?cHRlMUl3QTVpWGsvYkRlT3FYd3dSbFhGT0xOU1o2VnRQMXg3VjRpVk5ydWhP?=
+ =?utf-8?B?aThBOWpCM0lINHNkM25uT1pzdmt2NGxkZERBS1FGUXZJRXdRZ05mYmlNcUpW?=
+ =?utf-8?B?U2lUeVd6Z3B4Tzc3Z0IweUg3eElaWUNUYlNTRVI2bGh4RHk2aVdxT3lUUlQ5?=
+ =?utf-8?B?MjZSSjE2L2tyK2NzNVV0bjBpQnJxajhuYS8yOVlRSE9KaysxNzlhdW5EUFdP?=
+ =?utf-8?B?Q3JIckZLYkJwWWozY1dJMXR1d3pnPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f8ecc90-c249-4a13-6df6-08d9f739dba5
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 02:03:32.1134 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1JJGx7q7bmHhE7yUWRsND+PsFyUQNgFeYwRChegKQUzZK98u/JbXlp6WYA4n2Nnk5uQHphCtgV3pguNijIYoYyAb3GApP3ULjynLPXHys/w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2555
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,166 +160,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Martin.
 
-I found that exynos4 and 5 data sheet include documented same register.
-RGB_ORDER_E field of VIDCONx registers will do same thing.
 
-I'm not sure whether the use of undocumented register is safe or not - maybe some HW bug exists.
+On 2/23/2022 12:23 PM, John Harrison wrote:
+> On 2/22/2022 17:12, Ceraolo Spurio, Daniele wrote:
+>> On 2/17/2022 3:52 PM, John.C.Harrison@Intel.com wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> The LRC descriptor was being initialised early on in the context
+>>> registration sequence. It could then be determined that the actual
+>>> registration needs to be delayed and the descriptor would be wiped
+>>> out. This is inefficient, so move the setup to later in the process
+>>> after the point of no return.
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++++++++--
+>>>   1 file changed, 9 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 0ab2d1a24bf6..aa74ec74194a 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -2153,6 +2153,8 @@ static int 
+>>> __guc_action_register_context(struct intel_guc *guc,
+>>>                            0, loop);
+>>>   }
+>>>   +static void prepare_context_registration_info(struct 
+>>> intel_context *ce);
+>>> +
+>>>   static int register_context(struct intel_context *ce, bool loop)
+>>>   {
+>>>       struct intel_guc *guc = ce_to_guc(ce);
+>>> @@ -2163,6 +2165,8 @@ static int register_context(struct 
+>>> intel_context *ce, bool loop)
+>>>       GEM_BUG_ON(intel_context_is_child(ce));
+>>>       trace_intel_context_register(ce);
+>>>   +    prepare_context_registration_info(ce);
+>>> +
+>>>       if (intel_context_is_parent(ce))
+>>>           ret = __guc_action_register_multi_lrc(guc, ce, ce->guc_id.id,
+>>>                                 offset, loop);
+>>> @@ -2246,7 +2250,6 @@ static void 
+>>> prepare_context_registration_info(struct intel_context *ce)
+>>>       struct intel_context *child;
+>>>         GEM_BUG_ON(!engine->mask);
+>>> -    GEM_BUG_ON(!sched_state_is_init(ce));
+>>>         /*
+>>>        * Ensure LRC + CT vmas are is same region as write barrier is 
+>>> done
+>>> @@ -2314,9 +2317,13 @@ static int try_context_registration(struct 
+>>> intel_context *ce, bool loop)
+>>>       bool context_registered;
+>>>       int ret = 0;
+>>>   +    GEM_BUG_ON(!sched_state_is_init(ce));
+>>> +
+>>>       context_registered = ctx_id_mapped(guc, desc_idx);
+>>>   -    prepare_context_registration_info(ce);
+>>> +    if (context_registered)
+>>> +        clr_ctx_id_mapping(guc, desc_idx);
+>>> +    set_ctx_id_mapping(guc, desc_idx, ce);
+>>
+>> I think we can do the clr unconditionally. Also, should we drop the 
+>> clr/set pair in prepare_context_registration_info? it shouldn't be 
+>> needed, unless I'm missing a path where we don;t pass through here.
+>>
+>> Daniele
+> I don't believe so.
+>
+> The point is that the context id might have changed (it got stolen, 
+> re-used, etc. - all the state machine code below can cause aborts and 
+> retries and such like if something is pending and the register needs 
+> to be delayed). So we need to clear out the old mapping and add a new 
+> one to be safe. Also, I'm not sure if it is safe to do a xa_store to 
+> an already used entry as an update or if you are supposed to clear it 
+> first? But that's what the code did before and I'm trying to not 
+> change any actual behaviour here.
 
-Anyway, I'd like to recommend you to use documented register only.
+I was comparing with previous behavior. before this patch, we only do 
+the setting of the ctx_id here (inside 
+prepare_context_registration_info) and you're not changing any of the 
+abort/retry behavior, so if it was enough before it should be enough now.
 
-Sorry for late and thanks,
-Inki Dae
+Regarding the xa ops, we did an unconditional clear before, so it should 
+be ok to just do the same and have the clear and set back to back 
+without checking if the context ID was already in use or not.
 
-22. 1. 30. 07:01에 Martin Jücker 이(가) 쓴 글:
-> In the downstream kernels for exynos4 and exynos5 devices, there is an
-> undocumented register that controls the order of the RGB output. It can
-> be set to either normal order or reversed, which enables BGR support for
-> those SoCs.
-> 
-> This patch enables the BGR support for all the SoCs that were found to
-> have at least one device with this logic in the corresponding downstream
-> kernels.
-> 
-> Signed-off-by: Martin Jücker <martin.juecker@gmail.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c | 42 ++++++++++++++++++++++--
->  include/video/samsung_fimd.h             |  4 +++
->  2 files changed, 44 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> index c735e53939d8..cb632360c968 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> @@ -109,6 +109,7 @@ struct fimd_driver_data {
->  	unsigned int has_dp_clk:1;
->  	unsigned int has_hw_trigger:1;
->  	unsigned int has_trigger_per_te:1;
-> +	unsigned int has_bgr_support:1;
->  };
->  
->  static struct fimd_driver_data s3c64xx_fimd_driver_data = {
-> @@ -138,6 +139,7 @@ static struct fimd_driver_data exynos4_fimd_driver_data = {
->  	.lcdblk_bypass_shift = 1,
->  	.has_shadowcon = 1,
->  	.has_vtsel = 1,
-> +	.has_bgr_support = 1,
->  };
->  
->  static struct fimd_driver_data exynos5_fimd_driver_data = {
-> @@ -149,6 +151,7 @@ static struct fimd_driver_data exynos5_fimd_driver_data = {
->  	.has_vidoutcon = 1,
->  	.has_vtsel = 1,
->  	.has_dp_clk = 1,
-> +	.has_bgr_support = 1,
->  };
->  
->  static struct fimd_driver_data exynos5420_fimd_driver_data = {
-> @@ -162,6 +165,7 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
->  	.has_vtsel = 1,
->  	.has_mic_bypass = 1,
->  	.has_dp_clk = 1,
-> +	.has_bgr_support = 1,
->  };
->  
->  struct fimd_context {
-> @@ -226,6 +230,18 @@ static const uint32_t fimd_formats[] = {
->  	DRM_FORMAT_ARGB8888,
->  };
->  
-> +static const uint32_t fimd_extended_formats[] = {
-> +	DRM_FORMAT_C8,
-> +	DRM_FORMAT_XRGB1555,
-> +	DRM_FORMAT_XBGR1555,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_BGR565,
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_XBGR8888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_ABGR8888,
-> +};
-> +
->  static const unsigned int capabilities[WINDOWS_NR] = {
->  	0,
->  	EXYNOS_DRM_PLANE_CAP_WIN_BLEND | EXYNOS_DRM_PLANE_CAP_PIX_BLEND,
-> @@ -673,21 +689,25 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
->  		val |= WINCONx_BYTSWP;
->  		break;
->  	case DRM_FORMAT_XRGB1555:
-> +	case DRM_FORMAT_XBGR1555:
->  		val |= WINCON0_BPPMODE_16BPP_1555;
->  		val |= WINCONx_HAWSWP;
->  		val |= WINCONx_BURSTLEN_16WORD;
->  		break;
->  	case DRM_FORMAT_RGB565:
-> +	case DRM_FORMAT_BGR565:
->  		val |= WINCON0_BPPMODE_16BPP_565;
->  		val |= WINCONx_HAWSWP;
->  		val |= WINCONx_BURSTLEN_16WORD;
->  		break;
->  	case DRM_FORMAT_XRGB8888:
-> +	case DRM_FORMAT_XBGR8888:
->  		val |= WINCON0_BPPMODE_24BPP_888;
->  		val |= WINCONx_WSWP;
->  		val |= WINCONx_BURSTLEN_16WORD;
->  		break;
->  	case DRM_FORMAT_ARGB8888:
-> +	case DRM_FORMAT_ABGR8888:
->  	default:
->  		val |= WINCON1_BPPMODE_25BPP_A1888;
->  		val |= WINCONx_WSWP;
-> @@ -695,6 +715,18 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
->  		break;
->  	}
->  
-> +	switch (pixel_format) {
-> +	case DRM_FORMAT_XBGR1555:
-> +	case DRM_FORMAT_XBGR8888:
-> +	case DRM_FORMAT_ABGR8888:
-> +	case DRM_FORMAT_BGR565:
-> +		writel(WIN_RGB_ORDER_REVERSE, ctx->regs + WIN_RGB_ORDER(win));
-> +		break;
-> +	default:
-> +		writel(WIN_RGB_ORDER_FORWARD, ctx->regs + WIN_RGB_ORDER(win));
-> +		break;
-> +	}
-> +
->  	/*
->  	 * Setting dma-burst to 16Word causes permanent tearing for very small
->  	 * buffers, e.g. cursor buffer. Burst Mode switching which based on
-> @@ -1074,8 +1106,14 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
->  	ctx->drm_dev = drm_dev;
->  
->  	for (i = 0; i < WINDOWS_NR; i++) {
-> -		ctx->configs[i].pixel_formats = fimd_formats;
-> -		ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
-> +		if (ctx->driver_data->has_bgr_support) {
-> +			ctx->configs[i].pixel_formats = fimd_extended_formats;
-> +			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_extended_formats);
-> +		} else {
-> +			ctx->configs[i].pixel_formats = fimd_formats;
-> +			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
-> +		}
-> +
->  		ctx->configs[i].zpos = i;
->  		ctx->configs[i].type = fimd_win_types[i];
->  		ctx->configs[i].capabilities = capabilities[i];
-> diff --git a/include/video/samsung_fimd.h b/include/video/samsung_fimd.h
-> index c4a93ce1de48..e6966d187591 100644
-> --- a/include/video/samsung_fimd.h
-> +++ b/include/video/samsung_fimd.h
-> @@ -476,6 +476,10 @@
->   * 1111		-none-	 -none-   -none-   -none-    -none-
->  */
->  
-> +#define WIN_RGB_ORDER(_win)			(0x2020 + ((_win) * 4))
-> +#define WIN_RGB_ORDER_FORWARD			(0 << 11)
-> +#define WIN_RGB_ORDER_REVERSE			(1 << 11)
-> +
->  /* FIMD Version 8 register offset definitions */
->  #define FIMD_V8_VIDTCON0	0x20010
->  #define FIMD_V8_VIDTCON1	0x20014
+Daniele
+
+>
+> John.
+>
+>>
+>>>         /*
+>>>        * The context_lookup xarray is used to determine if the hardware
+>>
+>
+
