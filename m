@@ -1,29 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890074C392D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:50:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D70D4C3926
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C2210E91A;
-	Thu, 24 Feb 2022 22:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E028210E911;
+	Thu, 24 Feb 2022 22:50:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 1802 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Feb 2022 22:50:05 UTC
 Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
  [128.30.2.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id C280210E91A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:50:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B41F210E911
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:50:05 +0000 (UTC)
 Received: from [128.177.79.46] (helo=[10.118.101.22])
  by outgoing-stata.csail.mit.edu with esmtpsa
  (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256) (Exim 4.82)
  (envelope-from <srivatsa@csail.mit.edu>)
- id 1nNMSg-000HH6-Ik; Thu, 24 Feb 2022 17:19:46 -0500
-Subject: [PATCH v5 0/3] Update VMware maintainer entries
+ id 1nNMTe-000HJc-Fb; Thu, 24 Feb 2022 17:20:46 -0500
+Subject: [PATCH v5 3/3] MAINTAINERS: Mark VMware mailing list entries as email
+ aliases
 From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
 To: jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com,
  tglx@linutronix.de, bp@alien8.de
-Date: Thu, 24 Feb 2022 14:23:48 -0800
-Message-ID: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
+Date: Thu, 24 Feb 2022 14:24:49 -0800
+Message-ID: <164574148378.654750.15832494349474144706.stgit@csail.mit.edu>
+In-Reply-To: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
+References: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
 User-Agent: StGit/1.4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -40,44 +45,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: keerthanak@vmware.com, Ronak Doshi <doshir@vmware.com>, sdeep@vmware.com,
- anishs@vmware.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, srivatsa@csail.mit.edu,
- linux-scsi@vger.kernel.org, Vishal Bhakta <vbhakta@vmware.com>,
- namit@vmware.com, srivatsab@vmware.com, kuba@kernel.org, amakhalov@vmware.com,
- joe@perches.com, linux-graphics-maintainer@vmware.com, vithampi@vmware.com,
- rostedt@goodmis.org
+Cc: amakhalov@vmware.com, Ronak Doshi <doshir@vmware.com>,
+ linux-scsi@vger.kernel.org, anishs@vmware.com,
+ Vishal Bhakta <vbhakta@vmware.com>, netdev@vger.kernel.org, sdeep@vmware.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ srivatsa@csail.mit.edu, keerthanak@vmware.com, linux-rdma@vger.kernel.org,
+ namit@vmware.com, srivatsab@vmware.com, kuba@kernel.org,
+ linux-input@vger.kernel.org, joe@perches.com,
+ linux-graphics-maintainer@vmware.com, vithampi@vmware.com, rostedt@goodmis.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series updates a few maintainer entries for VMware-maintained
-subsystems and cleans up references to VMware's private mailing lists
-to make it clear that they are effectively email-aliases to reach out
-to reviewers.
+From: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
 
-Changes from v4->v5:
-- Add Alexey as reviewer for paravirt ops.
+VMware mailing lists in the MAINTAINERS file are private lists meant
+for VMware-internal review/notification for patches to the respective
+subsystems. Anyone can post to these addresses, but there is no public
+read access like open mailing lists, which makes them more like email
+aliases instead (to reach out to reviewers).
 
-Changes from v3->v4:
-- Remove Cc: stable@vger.kernel.org from patches 1 and 2.
+So update all the VMware mailing list references in the MAINTAINERS
+file to mark them as such, using "R: email-alias@vmware.com".
 
-Changes from v1->v3:
-- Add Zack as the named maintainer for vmmouse driver
-- Use R: to denote email-aliases for VMware reviewers
-
-Regards,
-Srivatsa
-VMware Photon OS
-
+Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+Acked-by: Juergen Gross <jgross@suse.com>
+Acked-by: Joe Perches <joe@perches.com>
+Acked-by: Zack Rusin <zackr@vmware.com>
+Cc: Nadav Amit <namit@vmware.com>
+Cc: Vivek Thampi <vithampi@vmware.com>
+Cc: Vishal Bhakta <vbhakta@vmware.com>
+Cc: Ronak Doshi <doshir@vmware.com>
+Cc: pv-drivers@vmware.com
+Cc: linux-graphics-maintainer@vmware.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-input@vger.kernel.org
 ---
 
-Srivatsa S. Bhat (VMware) (3):
-      MAINTAINERS: Update maintainers for paravirt ops and VMware hypervisor interface
-      MAINTAINERS: Add Zack as maintainer of vmmouse driver
-      MAINTAINERS: Mark VMware mailing list entries as email aliases
+ MAINTAINERS |   22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 72771881f159..4041edba891d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6307,8 +6307,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/vboxvideo/
+ 
+ DRM DRIVER FOR VMWARE VIRTUAL GPU
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+ M:	Zack Rusin <zackr@vmware.com>
++R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+@@ -14611,7 +14611,7 @@ PARAVIRT_OPS INTERFACE
+ M:	Juergen Gross <jgross@suse.com>
+ M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+ R:	Alexey Makhalov <amakhalov@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	virtualization@lists.linux-foundation.org
+ L:	x86@kernel.org
+ S:	Supported
+@@ -20642,7 +20642,7 @@ F:	tools/testing/vsock/
+ 
+ VMWARE BALLOON DRIVER
+ M:	Nadav Amit <namit@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	drivers/misc/vmw_balloon.c
+@@ -20650,7 +20650,7 @@ F:	drivers/misc/vmw_balloon.c
+ VMWARE HYPERVISOR INTERFACE
+ M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+ M:	Alexey Makhalov <amakhalov@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	virtualization@lists.linux-foundation.org
+ L:	x86@kernel.org
+ S:	Supported
+@@ -20661,14 +20661,14 @@ F:	arch/x86/kernel/cpu/vmware.c
+ VMWARE PVRDMA DRIVER
+ M:	Bryan Tan <bryantan@vmware.com>
+ M:	Vishnu Dasa <vdasa@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-rdma@vger.kernel.org
+ S:	Maintained
+ F:	drivers/infiniband/hw/vmw_pvrdma/
+ 
+ VMware PVSCSI driver
+ M:	Vishal Bhakta <vbhakta@vmware.com>
+-M:	VMware PV-Drivers <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-scsi@vger.kernel.org
+ S:	Maintained
+ F:	drivers/scsi/vmw_pvscsi.c
+@@ -20676,7 +20676,7 @@ F:	drivers/scsi/vmw_pvscsi.h
+ 
+ VMWARE VIRTUAL PTP CLOCK DRIVER
+ M:	Vivek Thampi <vithampi@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/ptp/ptp_vmw.c
+@@ -20684,15 +20684,15 @@ F:	drivers/ptp/ptp_vmw.c
+ VMWARE VMCI DRIVER
+ M:	Jorgen Hansen <jhansen@vmware.com>
+ M:	Vishnu Dasa <vdasa@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-kernel@vger.kernel.org
+-L:	pv-drivers@vmware.com (private)
+ S:	Maintained
+ F:	drivers/misc/vmw_vmci/
+ 
+ VMWARE VMMOUSE SUBDRIVER
+ M:	Zack Rusin <zackr@vmware.com>
+-M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+-M:	"VMware, Inc." <pv-drivers@vmware.com>
++R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/input/mouse/vmmouse.c
+@@ -20700,7 +20700,7 @@ F:	drivers/input/mouse/vmmouse.h
+ 
+ VMWARE VMXNET3 ETHERNET DRIVER
+ M:	Ronak Doshi <doshir@vmware.com>
+-M:	pv-drivers@vmware.com
++R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/net/vmxnet3/
 
- MAINTAINERS | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
 
