@@ -1,38 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D70D4C3926
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:50:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 502464C38CB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:30:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E028210E911;
-	Thu, 24 Feb 2022 22:50:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22F410E1C4;
+	Thu, 24 Feb 2022 22:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1802 seconds by postgrey-1.36 at gabe;
- Thu, 24 Feb 2022 22:50:05 UTC
-Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
- [128.30.2.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id B41F210E911
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:50:05 +0000 (UTC)
-Received: from [128.177.79.46] (helo=[10.118.101.22])
- by outgoing-stata.csail.mit.edu with esmtpsa
- (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256) (Exim 4.82)
- (envelope-from <srivatsa@csail.mit.edu>)
- id 1nNMTe-000HJc-Fb; Thu, 24 Feb 2022 17:20:46 -0500
-Subject: [PATCH v5 3/3] MAINTAINERS: Mark VMware mailing list entries as email
- aliases
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: jgross@suse.com, x86@kernel.org, pv-drivers@vmware.com,
- tglx@linutronix.de, bp@alien8.de
-Date: Thu, 24 Feb 2022 14:24:49 -0800
-Message-ID: <164574148378.654750.15832494349474144706.stgit@csail.mit.edu>
-In-Reply-To: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
-References: <164574138686.654750.10250173565414769119.stgit@csail.mit.edu>
-User-Agent: StGit/1.4
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8983D10E1C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:30:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C572E61B18;
+ Thu, 24 Feb 2022 22:30:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243A5C340E9;
+ Thu, 24 Feb 2022 22:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645741850;
+ bh=4QkG0AaRxMosVfJXxDTZvlsV/0gw0ZugrI9o5IjzLP8=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=t9GFYfjKD7qzd0aPafe6MZszJCahUnHqNsLrEtKdzz4+1+WRfnxN7/keOyvTkqKtK
+ 8CYq8UW94SVk29dj6wA5wSZSOiR0XNlADGOAyBfk+gGHv1dDg1xnwWhm7sRbV4d6Xv
+ 6zMLzz/bgFv2Xd5v98NDSP+ci/SaV73vrvB/E9M9DX1aUDJD5zJt0BanNSQb1yZMZ6
+ nW4GpckGkGa0RacB5ZfV3L4AktsGAOjoTMjIW7ax0RkbkGXPw697AgKUtFt8g8ekos
+ lBagiooRW0FTxdDM5VvckOZiomXiZ9oeyOsf7xenBWieqUwel2nbxVEa1xF0XXp00b
+ Mx+7giie3nrYw==
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220221151259.xoiyvafhkfpq5zlt@houat>
+References: <20220125141549.747889-1-maxime@cerno.tech>
+ <20220125141549.747889-2-maxime@cerno.tech>
+ <20220219022048.19E1BC340E9@smtp.kernel.org>
+ <20220221151259.xoiyvafhkfpq5zlt@houat>
+Subject: Re: [PATCH v4 01/10] clk: Introduce Kunit Tests for the framework
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 24 Feb 2022 14:30:48 -0800
+User-Agent: alot/0.10
+Message-Id: <20220224223050.243A5C340E9@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,142 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amakhalov@vmware.com, Ronak Doshi <doshir@vmware.com>,
- linux-scsi@vger.kernel.org, anishs@vmware.com,
- Vishal Bhakta <vbhakta@vmware.com>, netdev@vger.kernel.org, sdeep@vmware.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- srivatsa@csail.mit.edu, keerthanak@vmware.com, linux-rdma@vger.kernel.org,
- namit@vmware.com, srivatsab@vmware.com, kuba@kernel.org,
- linux-input@vger.kernel.org, joe@perches.com,
- linux-graphics-maintainer@vmware.com, vithampi@vmware.com, rostedt@goodmis.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+Quoting Maxime Ripard (2022-02-21 07:12:59)
+> Hi Stephen,
+>=20
+> Thanks for your review
+>=20
+> On Fri, Feb 18, 2022 at 06:20:46PM -0800, Stephen Boyd wrote:
+> > It would also be good to add a test that tries to set the clk rate with
+> > clk_set_rate() after a range has been set that is outside the acceptable
+> > range and verify that it fails, and one that tries to set it within the
+> > range and make sure it succeeds (and changes it to be exactly what was
+> > set).
+>=20
+> Do we expect it to fail though?
+>=20
+> If we do:
+>=20
+> clk_set_range_range(clk, 1000, 2000);
+> clk_set_rate(3000);
+>=20
+> The current behaviour is that the rate is going to be rounded to 2000,
+> but it doesn't fail.
+>=20
+> Or is it what you meant by fail? ie, that the return code is 0, but the
+> rate isn't what we asked for?
 
-VMware mailing lists in the MAINTAINERS file are private lists meant
-for VMware-internal review/notification for patches to the respective
-subsystems. Anyone can post to these addresses, but there is no public
-read access like open mailing lists, which makes them more like email
-aliases instead (to reach out to reviewers).
+Yeah sorry for not being clear. I meant that it would be constrained to
+the range from before.
 
-So update all the VMware mailing list references in the MAINTAINERS
-file to mark them as such, using "R: email-alias@vmware.com".
+>=20
+> > We want to test the failure paths as well, to make sure we don't start
+> > causing them to pass, unless it's expected.
+>=20
+> Do you have any other failure condition you want to test? I already
+> tried to come up with those I could think of, but I clearly missed some
+> if you said that :)
 
-Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
-Acked-by: Juergen Gross <jgross@suse.com>
-Acked-by: Joe Perches <joe@perches.com>
-Acked-by: Zack Rusin <zackr@vmware.com>
-Cc: Nadav Amit <namit@vmware.com>
-Cc: Vivek Thampi <vithampi@vmware.com>
-Cc: Vishal Bhakta <vbhakta@vmware.com>
-Cc: Ronak Doshi <doshir@vmware.com>
-Cc: pv-drivers@vmware.com
-Cc: linux-graphics-maintainer@vmware.com
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-rdma@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-input@vger.kernel.org
----
-
- MAINTAINERS |   22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 72771881f159..4041edba891d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6307,8 +6307,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/vboxvideo/
- 
- DRM DRIVER FOR VMWARE VIRTUAL GPU
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
- M:	Zack Rusin <zackr@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-@@ -14611,7 +14611,7 @@ PARAVIRT_OPS INTERFACE
- M:	Juergen Gross <jgross@suse.com>
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
- R:	Alexey Makhalov <amakhalov@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20642,7 +20642,7 @@ F:	tools/testing/vsock/
- 
- VMWARE BALLOON DRIVER
- M:	Nadav Amit <namit@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	drivers/misc/vmw_balloon.c
-@@ -20650,7 +20650,7 @@ F:	drivers/misc/vmw_balloon.c
- VMWARE HYPERVISOR INTERFACE
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
- M:	Alexey Makhalov <amakhalov@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20661,14 +20661,14 @@ F:	arch/x86/kernel/cpu/vmware.c
- VMWARE PVRDMA DRIVER
- M:	Bryan Tan <bryantan@vmware.com>
- M:	Vishnu Dasa <vdasa@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-rdma@vger.kernel.org
- S:	Maintained
- F:	drivers/infiniband/hw/vmw_pvrdma/
- 
- VMware PVSCSI driver
- M:	Vishal Bhakta <vbhakta@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-scsi@vger.kernel.org
- S:	Maintained
- F:	drivers/scsi/vmw_pvscsi.c
-@@ -20676,7 +20676,7 @@ F:	drivers/scsi/vmw_pvscsi.h
- 
- VMWARE VIRTUAL PTP CLOCK DRIVER
- M:	Vivek Thampi <vithampi@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/ptp/ptp_vmw.c
-@@ -20684,15 +20684,15 @@ F:	drivers/ptp/ptp_vmw.c
- VMWARE VMCI DRIVER
- M:	Jorgen Hansen <jhansen@vmware.com>
- M:	Vishnu Dasa <vdasa@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
--L:	pv-drivers@vmware.com (private)
- S:	Maintained
- F:	drivers/misc/vmw_vmci/
- 
- VMWARE VMMOUSE SUBDRIVER
- M:	Zack Rusin <zackr@vmware.com>
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/mouse/vmmouse.c
-@@ -20700,7 +20700,7 @@ F:	drivers/input/mouse/vmmouse.h
- 
- VMWARE VMXNET3 ETHERNET DRIVER
- M:	Ronak Doshi <doshir@vmware.com>
--M:	pv-drivers@vmware.com
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	drivers/net/vmxnet3/
-
-
+Not really! :)
