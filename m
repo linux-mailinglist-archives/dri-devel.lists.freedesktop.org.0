@@ -1,48 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FD24C1FA2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 00:29:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8DF4C2097
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 01:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F4610E35C;
-	Wed, 23 Feb 2022 23:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C5810E15D;
+	Thu, 24 Feb 2022 00:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE5B10E1D6;
- Wed, 23 Feb 2022 23:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645658991; x=1677194991;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=ZfDu1h4uCUoMJYG68VyxwCaelhzJ81rmY8RlHLbjYI8=;
- b=iJ+zCcgy7OomMSi76XZLg4idemaUVysByJIjeH4l2ZUKZeB2r85HubKH
- A+HqafIWhKU4kaIOqTBNAkvpQreI77jQpySKyuPhHOZ2W32ylcuST2WEP
- xlBSZR2z8pmk3PiGQdQ0KoB8thnmJoQsf/QEgimZ7Vw/PNxa1nV/DUJ1e
- LtdTvbpZi4k1O0M+skqpVt+fZbM4NLSD+jhAs5RjjBrk7M+66gLjFNRZK
- eKZnzeyL2KXLwKjQvlQBx7rFZIfOhApEraw18Tj+kqkbpzGIzzJk3wocZ
- jvh/NYmi40SQ1REPL0XOfSLewtbg9O7+ChE5lB6ldiRku5QgOz2cz7ht8 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="232728275"
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; d="scan'208";a="232728275"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 15:29:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; d="scan'208";a="548488246"
-Received: from macunaro-mobl2.amr.corp.intel.com (HELO intel.com)
- ([10.255.39.200])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2022 15:29:48 -0800
-Date: Wed, 23 Feb 2022 18:29:46 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next
-Message-ID: <YhbDan8wNZBR6FzF@intel.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A14810E117;
+ Thu, 24 Feb 2022 00:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645662470; x=1677198470;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=39qc0oj8v8AP/LsR+PDwU9a0qlZaleEmotoVtEoHS9U=;
+ b=v5S9+xdQ5EQDbhDk6ql9OSQoUkDM739vgeiKpU4fTX7jG8QrJl1x7UkS
+ 9L60EKIifhp9DfOAGB508V/b6Y59UhkNF8trczA3OSwn7m/z8zQ2GI9Bs
+ 4R3Dju847L21Vwmn7ZzonrucKcGROnwXSHjrDRyw4+tEbguTMZT04ZrwQ E=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Feb 2022 16:27:49 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 16:27:49 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Wed, 23 Feb 2022 16:27:49 -0800
+Received: from [10.110.59.224] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Wed, 23 Feb
+ 2022 16:27:48 -0800
+Message-ID: <ff169a9c-44b9-797b-0c4e-389a9a68694e@quicinc.com>
+Date: Wed, 23 Feb 2022 16:27:47 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting from
+ drm_writeback_connector structure changes
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
+ <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com> <87y22ts948.fsf@intel.com>
+ <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
+ <CAA8EJpqr6MB64EAtLU3nBjgjx1COwn4auenCCw4kHB489VG0CA@mail.gmail.com>
+ <d69038d6-a853-d2d9-81de-0ad10c4d6a3a@quicinc.com>
+ <54fc4268-6418-817b-7cec-28a9dc9ba7b5@quicinc.com>
+ <YgSbk11nQ6bd4SWK@pendragon.ideasonboard.com>
+ <CAA8EJpqCgnLiQ7G+xY0E1j4PPbvPo+d-4vN+8-Nw84TWMSDmYA@mail.gmail.com>
+ <YhSR7CuSCJnHn0iD@pendragon.ideasonboard.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YhSR7CuSCJnHn0iD@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,933 +75,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
-
-Please notice that this pull request includes the drm-intel-gt-next
-(drm-intel-gt-next-2022-02-17) that didn't applied cleanly for you due to
-many conflicts generated by a big divergence from our drm-intel
-branches.
-
-So, please apply this one and ignore the one that Joonas had sent.
-
-While applying the drm-intel-gt-next-2022-02-17 I have used
-the drm-rerere/fixups/drm-intel-gt-next.patch entirely as part
-of the merge conflict resolution. Now all the i915 changes should
-apply cleanly for you on drm-next.
-
-Moving forward we will need to have more constant cross merges
-or chain PRs whenever we start to have big divergences like this
-so the linux-next and drm-next don't get disrupted again.
-
-Thanks,
-Rodrigo.
-
-Here goes drm-intel-next-2022-02-23:
-Linux core:
------------
-iosys-map: Add offset to iosys_map_memcpy_to() (Lucas)
-iosys-map: Add a few more helpers (Lucas)
-
-i915 (display and core changes on drm-intel-next):
---------------------------------------------------
-
-- Display's DBuf and watermark related fixes and improvements (Ville)
-- More i915 header and other code clean-up (Jani)
-- Display IPS fixes and improvements (Ville)
-- OPRegion fixes and cleanups (Jani)
-- Fix the plane end Y offset check for FBC (Ville)
-- DP 128b/132b updates (Jani)
-- Disable runtime pm wakeref tracking for the mock device selftest (Ville)
-- Many display code clean-up while targeting to fix up DP DFP 4:2:0 handling (Ville)
-- Bigjoiner state tracking and more bigjoiner related work (Ville)
-- Update DMC_DEBUG3 register for DG1 (Chuansheng)
-- SAGV fixes (Ville)
-- More GT register cleanup (Matt)
-- Fix build issue when using clang (Tong)
-- Display DG2 fixes (Matt)
-- ADL-P PHY related fixes (Imre)
-- PSR2 fixes (Jose)
-- Add PCH Support for Alder Lake N (Tejas)
-
-drm-intel-gt-next (drm-intel-gt-next-2022-02-17):
--------------------------------------------------
-UAPI Changes:
-
-- Weak parallel submission support for execlists
-
-  Minimal implementation of the parallel submission support for
-  execlists backend that was previously only implemented for GuC.
-  Support one sibling non-virtual engine.
-
-Core Changes:
-
-- Two backmerges of drm/drm-next for header file renames/changes and
-  i915_regs reorganization
-
-Driver Changes:
-
-- Add new DG2 subplatform: DG2-G12 (Matt R)
-- Add new DG2 workarounds (Matt R, Ram, Bruce)
-- Handle pre-programmed WOPCM registers for DG2+ (Daniele)
-- Update guc shim control programming on XeHP SDV+ (Daniele)
-- Add RPL-S C0/D0 stepping information (Anusha)
-- Improve GuC ADS initialization to work on ARM64 on dGFX (Lucas)
-
-- Fix KMD and GuC race on accessing PMU busyness (Umesh)
-- Use PM timestamp instead of RING TIMESTAMP for reference in PMU with GuC (Umesh)
-- Report error on invalid reset notification from GuC (John)
-- Avoid WARN splat by holding RPM wakelock during PXP unbind (Juston)
-- Fixes to parallel submission implementation (Matt B.)
-- Improve GuC loading status check/error reports (John)
-- Tweak TTM LRU priority hint selection (Matt A.)
-- Align the plane_vma to min_page_size of stolen mem (Ram)
-
-- Introduce vma resources and implement async unbinding (Thomas)
-- Use struct vma_resource instead of struct vma_snapshot (Thomas)
-- Return some TTM accel move errors instead of trying memcpy move (Thomas)
-- Fix a race between vma / object destruction and unbinding (Thomas)
-- Remove short-term pins from execbuf (Maarten)
-- Update to GuC version 69.0.3 (John, Michal Wa.)
-- Improvements to GT reset paths in GuC backend (Matt B.)
-- Use shrinker_release_pages instead of writeback in shmem object hooks (Matt A., Tvrtko)
-- Use trylock instead of blocking lock when freeing GEM objects (Maarten)
-- Allocate intel_engine_coredump_alloc with ALLOW_FAIL (Matt B.)
-- Fixes to object unmapping and purging (Matt A)
-- Check for wedged device in GuC backend (John)
-- Avoid lockdep splat by locking dpt_obj around set_cache_level (Maarten)
-- Allow dead vm to unbind vma's without lock (Maarten)
-- s/engine->i915/i915/ for DG2 engine workarounds (Matt R)
-
-- Use to_gt() helper for GGTT accesses (Michal Wi.)
-- Selftest improvements (Matt B., Thomas, Ram)
-- Coding style and compiler warning fixes (Matt B., Jasmine, Andi, Colin, Gustavo, Dan)
-
-Thanks,
-Rodrigo.
-
-The following changes since commit 7938f4218168ae9fc4bdddb15976f9ebbae41999:
-
-  dma-buf-map: Rename to iosys-map (2022-02-07 16:35:35 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2022-02-23
-
-for you to fetch changes up to 30424ebae8df0f786835e7a31ad790fa00764f35:
-
-  Merge tag 'drm-intel-gt-next-2022-02-17' of git://anongit.freedesktop.org/drm/drm-intel into drm-intel-next (2022-02-23 15:03:51 -0500)
-
-----------------------------------------------------------------
-Linux core:
------------
-iosys-map: Add offset to iosys_map_memcpy_to() (Lucas)
-iosys-map: Add a few more helpers (Lucas)
-
-i915 (display and core changes on drm-intel-next):
---------------------------------------------------
-
-- Display's DBuf and watermark related fixes and improvements (Ville)
-- More i915 header and other code clean-up (Jani)
-- Display IPS fixes and improvements (Ville)
-- OPRegion fixes and cleanups (Jani)
-- Fix the plane end Y offset check for FBC (Ville)
-- DP 128b/132b updates (Jani)
-- Disable runtime pm wakeref tracking for the mock device selftest (Ville)
-- Many display code clean-up while targeting to fix up DP DFP 4:2:0 handling (Ville)
-- Bigjoiner state tracking and more bigjoiner related work (Ville)
-- Update DMC_DEBUG3 register for DG1 (Chuansheng)
-- SAGV fixes (Ville)
-- More GT register cleanup (Matt)
-- Fix build issue when using clang (Tong)
-- Display DG2 fixes (Matt)
-- ADL-P PHY related fixes (Imre)
-- PSR2 fixes (Jose)
-- Add PCH Support for Alder Lake N (Tejas)
-
-drm-intel-gt-next (drm-intel-gt-next-2022-02-17):
--------------------------------------------------
-UAPI Changes:
-
-- Weak parallel submission support for execlists
-
-  Minimal implementation of the parallel submission support for
-  execlists backend that was previously only implemented for GuC.
-  Support one sibling non-virtual engine.
-
-Core Changes:
-
-- Two backmerges of drm/drm-next for header file renames/changes and
-  i915_regs reorganization
-
-Driver Changes:
-
-- Add new DG2 subplatform: DG2-G12 (Matt R)
-- Add new DG2 workarounds (Matt R, Ram, Bruce)
-- Handle pre-programmed WOPCM registers for DG2+ (Daniele)
-- Update guc shim control programming on XeHP SDV+ (Daniele)
-- Add RPL-S C0/D0 stepping information (Anusha)
-- Improve GuC ADS initialization to work on ARM64 on dGFX (Lucas)
-
-- Fix KMD and GuC race on accessing PMU busyness (Umesh)
-- Use PM timestamp instead of RING TIMESTAMP for reference in PMU with GuC (Umesh)
-- Report error on invalid reset notification from GuC (John)
-- Avoid WARN splat by holding RPM wakelock during PXP unbind (Juston)
-- Fixes to parallel submission implementation (Matt B.)
-- Improve GuC loading status check/error reports (John)
-- Tweak TTM LRU priority hint selection (Matt A.)
-- Align the plane_vma to min_page_size of stolen mem (Ram)
-
-- Introduce vma resources and implement async unbinding (Thomas)
-- Use struct vma_resource instead of struct vma_snapshot (Thomas)
-- Return some TTM accel move errors instead of trying memcpy move (Thomas)
-- Fix a race between vma / object destruction and unbinding (Thomas)
-- Remove short-term pins from execbuf (Maarten)
-- Update to GuC version 69.0.3 (John, Michal Wa.)
-- Improvements to GT reset paths in GuC backend (Matt B.)
-- Use shrinker_release_pages instead of writeback in shmem object hooks (Matt A., Tvrtko)
-- Use trylock instead of blocking lock when freeing GEM objects (Maarten)
-- Allocate intel_engine_coredump_alloc with ALLOW_FAIL (Matt B.)
-- Fixes to object unmapping and purging (Matt A)
-- Check for wedged device in GuC backend (John)
-- Avoid lockdep splat by locking dpt_obj around set_cache_level (Maarten)
-- Allow dead vm to unbind vma's without lock (Maarten)
-- s/engine->i915/i915/ for DG2 engine workarounds (Matt R)
-
-- Use to_gt() helper for GGTT accesses (Michal Wi.)
-- Selftest improvements (Matt B., Thomas, Ram)
-- Coding style and compiler warning fixes (Matt B., Jasmine, Andi, Colin, Gustavo, Dan)
-
-----------------------------------------------------------------
-Andi Shyti (2):
-      drm/i915: Remove unused i915->ggtt
-      drm/i915: fix header file inclusion for might_alloc()
-
-Anusha Srivatsa (1):
-      drm/i915/rpl-s: Add stepping info
-
-Bruce Chang (1):
-      drm/i915/dg2: Add Wa_22011100796
-
-Chuansheng Liu (1):
-      drm/i915/dg1: Update DMC_DEBUG3 register
-
-Colin Ian King (1):
-      i915: make array flex_regs static const
-
-Dan Carpenter (1):
-      drm/i915: delete shadow "ret" variable
-
-Daniele Ceraolo Spurio (2):
-      drm/i915/wopcm: Handle pre-programmed WOPCM registers
-      drm/i915/guc: Update guc shim control programming on newer platforms
-
-Gustavo A. R. Silva (1):
-      drm/i915/guc: Use struct_size() helper in kmalloc()
-
-Imre Deak (2):
-      drm/i915: Disconnect PHYs left connected by BIOS on disabled ports
-      drm/i915/adlp: Add TypeC PHY TBT->DP-alt/legacy mode switch workaround
-
-Jani Nikula (46):
-      drm/i915: group i915_drv.h forward declarations together
-      drm/i915/color: hide struct intel_color_funcs
-      drm/i915/hpd: hide struct intel_hotplug_funcs
-      drm/i915/fdi: hide struct intel_fdi_funcs
-      drm/i915/dpll: add intel_dpll_crtc_compute_clock()
-      drm/i915/dpll: hide struct intel_dpll_funcs
-      drm/i915/pm: hide struct drm_i915_clock_gating_funcs
-      drm/i915: move intel_hws_csb_write_index() out of i915_drv.h
-      drm/i915: move the DRIVER_* macros to i915_driver.[ch]
-      drm/i915/opregion: check port number bounds for SWSCI display power state
-      drm/i915/opregion: abstract the check for valid swsci function
-      drm/i915/opregion: early exit from encoder notify if SWSCI isn't there
-      drm/i915/opregion: handle SWSCI Mailbox #2 obsoletion
-      drm/i915/opregion: debug log about Mailbox #2 for backlight
-      drm/dp: add drm_dp_128b132b_read_aux_rd_interval()
-      drm/dp: add 128b/132b link status helpers from DP 2.0 E11
-      drm/dp: add some new DPCD macros from DP 2.0 E11
-      drm/i915/dp: move intel_dp_prepare_link_train() call
-      drm/i915/dp: rewrite DP 2.0 128b/132b link training based on errata
-      drm/i915/dp: add 128b/132b support to link status checks
-      drm/i915/mst: update slot information for 128b/132b
-      drm/i915: split out i915_gem_internal.h from i915_drv.h
-      drm/i915: remove leftover i915_gem_pm.h declarations from i915_drv.h
-      drm/i915: split out gem/i915_gem_dmabuf.h from i915_drv.h
-      drm/i915: split out gem/i915_gem_create.h from i915_drv.h
-      drm/i915: split out gem/i915_gem_domain.h from i915_drv.h
-      drm/i915: move i915_cache_level_str() static in i915_debugfs.c
-      drm/i915: move i915_gem_vm_lookup() where it's used
-      drm/i915: move i915_reset_count()/i915_reset_engine_count() out of i915_drv.h
-      drm/i915: split out i915_file_private.h from i915_drv.h
-      drm/i915: don't include drm_cache.h in i915_drv.h
-      drm/i915: include shmem_fs.h only where needed
-      drm/i915: include some drm headers only where needed
-      drm/i915: axe lots of unnecessary includes from i915_drv.h
-      drm/i915: fix drm_i915.h include grouping and sorting
-      drm/i915/gvt: #include drm_edid.h for drm_edid_block_valid()
-      drm/i915/fbdev: add intel_fbdev_framebuffer() helper
-      drm/i915/fbdev: hide struct intel_fbdev in intel_fbdev.c
-      drm/i915/lrc: move lrc_get_runtime() to intel_lrc.c
-      drm/i915/lrc: replace include with forward declarations
-      drm/i915/dp: remove accidental static on what should be a local variable
-      drm/i915/dsi: disassociate VBT video transfer mode from register values
-      drm/i915/dsi: add separate init timer mask definition for ICL DSI
-      drm/i915/reg: split out vlv_dsi_regs.h and vlv_dsi_pll_regs.h
-      drm/i915/reg: split out icl_dsi_regs.h
-      drm/i915/pxp: prefer forward declaration over includes
-
-Jasmine Newsome (1):
-      drm/i915/gem: Use local pointer ttm for __i915_ttm_move
-
-John Harrison (5):
-      drm/i915/guc: Report error on invalid reset notification
-      drm/i915/guc: Check for wedged before doing stuff
-      drm/i915/guc: Temporarily bump the GuC load timeout
-      drm/i915/guc: Update to GuC version 69.0.3
-      drm/i915/guc: Improve GuC loading status check/error reports
-
-Joonas Lahtinen (1):
-      Merge drm/drm-next into drm-intel-gt-next
-
-José Roberto de Souza (3):
-      drm/i915/display/tgl+: Implement new PLL programming step
-      drm/i915/display: Group PSR2 prog sequences and workarounds
-      drm/i915/display: Implement Wa_16013835468
-
-Jouni Högander (1):
-      drm/i915: Fix for PHY_MISC_TC1 offset
-
-Juston Li (1):
-      drm/i915/pxp: Hold RPM wakelock during PXP unbind
-
-Lucas De Marchi (4):
-      drm/i915/guc: Prepare for error propagation
-      drm/i915/guc: Use a single pass to calculate regset
-      iosys-map: Add offset to iosys_map_memcpy_to()
-      iosys-map: Add a few more helpers
-
-Maarten Lankhorst (8):
-      drm/i915: Call i915_gem_evict_vm in vm_fault_gtt to prevent new ENOSPC errors, v2.
-      drm/i915: Add locking to i915_gem_evict_vm(), v3.
-      drm/i915: Add object locking to i915_gem_evict_for_node and i915_gem_evict_something, v2.
-      drm/i915: Add i915_vma_unbind_unlocked, and take obj lock for i915_vma_unbind, v2.
-      drm/i915: Remove support for unlocked i915_vma unbind
-      drm/i915: Remove short-term pins from execbuf, v6.
-      drm/i915: Lock dpt_obj around set_cache_level, v2.
-      drm/i915: Allow dead vm to unbind vma's without lock.
-
-Manasi Navare (1):
-      drm/i915/display/vrr: Reset VRR capable property on a long hpd
-
-Matt Roper (16):
-      drm/i915/dg2: Add Wa_18018781329
-      drm/i915/dg2: Add Wa_14015227452
-      drm/i915/dg2: s/engine->i915/i915/ for engine workarounds
-      drm/i915: Introduce G12 subplatform of DG2
-      drm/i915/gt: Drop duplicate register definition for VDBOX_CGCTL3F18
-      drm/i915/gt: Move SFC lock bits to intel_engine_regs.h
-      drm/i915/gt: Use parameterized RING_MI_MODE
-      drm/i915/gt: Cleanup spacing of intel_gt_regs.h
-      drm/i915/gt: Use consistent offset notation in intel_gt_regs.h
-      drm/i915/gt: Order GT registers by MMIO offset
-      drm/i915: Define MCH registers relative to MCHBAR_MIRROR_BASE
-      drm/i915: Move MCHBAR registers to their own header
-      drm/i915: Add missing intel_mchbar_regs.h
-      drm/i915/dg2: Print PHY name properly on calibration error
-      drm/i915/dg2: Drop 38.4 MHz MPLLB tables
-      drm/i915/dg2: Enable 5th port
-
-Matthew Auld (7):
-      drm/i915: remove writeback hook
-      drm/i915: clean up shrinker_release_pages
-      drm/i915: don't call free_mmap_offset when purging
-      drm/i915/ttm: only fault WILLNEED objects
-      drm/i915/ttm: add unmap_virtual callback
-      drm/i915/ttm: ensure we unmap when purging
-      drm/i915/ttm: tweak priority hint selection
-
-Matthew Brost (11):
-      drm/i915/execlists: Weak parallel submission support for execlists
-      drm/i915: Fix possible uninitialized variable in parallel extension
-      drm/i915: Increment composite fence seqno
-      drm/i915/selftests: Add a cancel request selftest that triggers a reset
-      drm/i915/guc: Remove hacks for reset and schedule disable G2H being received out of order
-      drm/i915: Allocate intel_engine_coredump_alloc with ALLOW_FAIL
-      drm/i915/guc: Add work queue to trigger a GT reset
-      drm/i915/guc: Flush G2H handler during a GT reset
-      drm/i915: Lock timeline mutex directly in error path of eb_pin_timeline
-      drm/i915/guc: Ensure multi-lrc fini breadcrumb math is correct
-      drm/i915/selftests: Use less in contexts steal guc id test
-
-Michał Winiarski (5):
-      drm/i915/gt: Use to_gt() helper for GGTT accesses
-      drm/i915: Use to_gt() helper for GGTT accesses
-      drm/i915/gem: Use to_gt() helper for GGTT accesses
-      drm/i915/display: Use to_gt() helper for GGTT accesses
-      drm/i915/selftests: Use to_gt() helper for GGTT accesses
-
-Ramalingam C (3):
-      drm/i915/dg2: Add Wa_22011450934
-      drm/i915: align the plane_vma to min_page_size of stolen mem
-      drm/i915: More gt idling time with guc submission
-
-Rodrigo Vivi (1):
-      Merge tag 'drm-intel-gt-next-2022-02-17' of git://anongit.freedesktop.org/drm/drm-intel into drm-intel-next
-
-Tejas Upadhyay (1):
-      drm/i915/adl-n: Add PCH Support for Alder Lake N
-
-Thomas Hellström (9):
-      drm/i915: Initial introduction of vma resources
-      drm/i915: Use the vma resource as argument for gtt binding / unbinding
-      drm/i915: Don't pin the object pages during pending vma binds
-      drm/i915: Use vma resources for async unbinding
-      drm/i915: Asynchronous migration selftest
-      drm/i915: Use struct vma_resource instead of struct vma_snapshot
-      drm/i915: Fix vma resource freeing
-      drm/i915: Fix a race between vma / object destruction and unbinding
-      drm/i915/ttm: Return some errors instead of trying memcpy move
-
-Tong Zhang (1):
-      drm/i915: fix build issue when using clang
-
-Tvrtko Ursulin (1):
-      Merge drm/drm-next into drm-intel-gt-next
-
-Umesh Nerlige Ramappa (2):
-      drm/i915/pmu: Use PM timestamp instead of RING TIMESTAMP for reference
-      drm/i915/pmu: Fix KMD and GuC race on accessing busyness
-
-Ville Syrjälä (52):
-      drm/i915: Fix dbuf slice config lookup
-      drm/i915: Fix mbus join config lookup
-      drm/i915: Move vblank waits out from IPS code
-      drm/i915: Change IPS calling convention
-      drm/i915: Hoover the IPS enable/disable calls into the pre/post update hooks
-      drm/i915: Move the IPS code to its own file
-      drm/i915: Extract hsw_ips_get_config()
-      drm/i915: Fix IPS disable in intel_plane_disable_noatomic()
-      drm/i915/fbc: Fix the plane end Y offset check
-      drm/i915/selftests: Disable runtime pm wakeref tracking for the mock device
-      drm/i915: Drop pointless dev_priv argument
-      drm/i915: Extract skl_ddb_entry_init()
-      drm/i915: Fix plane relative_data_rate calculation
-      drm/i915: Introduce skl_plane_ddb_iter
-      drm/i915: Extract skl_allocate_plane_ddb()
-      drm/i915: Extract skl_crtc_calc_dbuf_bw()
-      drm/i915/hdmi: Simplify intel_hdmi_mode_clock_valid()
-      drm/i915/dp: Reuse intel_hdmi_tmds_clock()
-      drm/i915: Flag crtc scaling_filter changes as modeset
-      drm/i915: Fix bigjoiner state copy fails
-      drm/i915: Remove weird code from intel_atomic_check_bigjoiner()
-      drm/i915: Clean up the bigjoiner state copy logic
-      drm/i915: Nuke some dead code
-      drm/i915: Introduce intel_crtc_is_bigjoiner_{slave,master}()
-      drm/i915: Convert for_each_intel_crtc_mask() to take a pipe mask instead
-      drm/i915: Use for_each_intel_crtc_in_pipe_mask() more
-      drm/i915: Return both master and slave pipes from enabled_bigjoiner_pipes()
-      drm/i915: Change bigjoiner state tracking to use the pipe bitmask
-      drm/i915: Move intel_plane_atomic_calc_changes() & co. out
-      drm/i915: Introduce scaled_planes bitmask
-      drm/i915: Use {active,scaled}_planes to compute ilk watermarks
-      drm/i915: Add REG_GENMASK64() and REG_FIELD_GET64()
-      drm/i915: Widen the QGV point mask
-      drm/i915: Unconfuse pre-icl vs. icl+ intel_sagv_{pre,post}_plane_update()
-      drm/i915: Clean up SSKPD/MLTR defines
-      drm/i915: Introduce intel_crtc_planes_update_arm()
-      drm/i915: Polish ilk+ wm register bits
-      drm/i915: Move PIPE_CHICKEN RMW out from the vblank evade critical section
-      drm/i915: Make the pipe/output CSC register writes lockless
-      drm/i915: Make the CHV CGM CSC register writes lockless
-      drm/i915: Drop pointless i830 PIPECONF read
-      drm/i915: Correctly populate use_sagv_wm for all pipes
-      drm/i915: Fix bw atomic check when switching between SAGV vs. no SAGV
-      drm/i915: Split pre-icl vs. icl+ SAGV hooks apart
-      drm/i915: Pimp icl+ sagv pre/post update
-      Revert "drm/i915/display/vrr: Reset VRR capable property on a long hpd"
-      drm/i915: Dump the crtc hw state always
-      drm/i915: Dump hw.enable and pipe_mode
-      drm/i915: Remove odd any_ms=true assignment
-      drm/i915: Properly clear crtc state when disabling it fully, again
-      drm/i915: Extract icl_qgv_points_mask()
-      drm/i915: Extract intel_bw_check_data_rate()
-
- .../bindings/display/bridge/lvds-codec.yaml        |    1 +
- .../bindings/display/bridge/ti,sn65dsi83.yaml      |    5 +-
- .../bindings/display/panel/panel-simple.yaml       |    2 +
- .../bindings/display/panel/sony,acx424akp.yaml     |   11 +-
- Documentation/gpu/drm-internals.rst                |    6 +
- Documentation/gpu/drm-kms-helpers.rst              |   26 +-
- Documentation/gpu/drm-kms.rst                      |    6 +-
- Documentation/gpu/drm-mm.rst                       |    2 +-
- Documentation/gpu/i915.rst                         |    1 +
- Documentation/gpu/todo.rst                         |   15 +
- Documentation/gpu/vkms.rst                         |    2 -
- drivers/char/agp/ati-agp.c                         |    8 +-
- drivers/char/agp/backend.c                         |    2 +
- drivers/char/agp/frontend.c                        |    4 +-
- drivers/char/agp/nvidia-agp.c                      |    3 +-
- drivers/char/agp/sworks-agp.c                      |    5 +-
- drivers/char/agp/via-agp.c                         |    3 -
- drivers/dma-buf/dma-resv.c                         |   46 +-
- drivers/dma-buf/st-dma-resv.c                      |   26 +-
- drivers/dma-buf/udmabuf.c                          |    4 +
- drivers/firmware/sysfb_simplefb.c                  |    2 +-
- drivers/gpu/drm/Kconfig                            |   15 +
- drivers/gpu/drm/Makefile                           |   14 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |    6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |    6 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c            |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c    |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |    5 +-
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c           |    2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |    4 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |    2 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |    4 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c |    2 +-
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c        |    2 +-
- drivers/gpu/drm/amd/display/dc/os_types.h          |    2 +-
- drivers/gpu/drm/amd/display/include/dpcd_defs.h    |    2 +-
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h    |    2 +-
- .../gpu/drm/arm/display/komeda/d71/d71_component.c |   12 +-
- drivers/gpu/drm/arm/display/komeda/komeda_drv.c    |    3 +-
- drivers/gpu/drm/arm/hdlcd_drv.c                    |    3 +-
- drivers/gpu/drm/arm/malidp_drv.c                   |    3 +-
- drivers/gpu/drm/ast/ast_drv.c                      |   18 +-
- drivers/gpu/drm/ast/ast_main.c                     |    2 +
- drivers/gpu/drm/ast/ast_mode.c                     |    5 +-
- drivers/gpu/drm/bridge/Kconfig                     |    5 +
- drivers/gpu/drm/bridge/adv7511/adv7511.h           |    1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   31 +-
- drivers/gpu/drm/bridge/adv7511/adv7533.c           |    2 +-
- drivers/gpu/drm/bridge/analogix/Kconfig            |    2 +
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |    2 +-
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |    2 +-
- .../gpu/drm/bridge/analogix/analogix-i2c-dptx.c    |    2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |    4 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.h |    2 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c          |  440 +++-
- drivers/gpu/drm/bridge/analogix/anx7625.h          |   80 +-
- drivers/gpu/drm/bridge/cadence/Kconfig             |    1 +
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   20 +-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |    2 +-
- drivers/gpu/drm/bridge/chipone-icn6211.c           |   39 +-
- drivers/gpu/drm/bridge/ite-it66121.c               |    3 -
- drivers/gpu/drm/bridge/lontium-lt9611.c            |    4 +-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |    4 +-
- drivers/gpu/drm/bridge/nwl-dsi.c                   |    8 +-
- drivers/gpu/drm/bridge/parade-ps8640.c             |   33 +-
- drivers/gpu/drm/bridge/sii902x.c                   |  129 +-
- drivers/gpu/drm/bridge/sil-sii8620.c               |    2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   16 +-
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |   25 +-
- drivers/gpu/drm/bridge/tc358767.c                  |    2 +-
- drivers/gpu/drm/bridge/tc358775.c                  |    4 +-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c              |   53 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |    4 +-
- drivers/gpu/drm/dp/Makefile                        |    9 +
- drivers/gpu/drm/{drm_dp_helper.c => dp/drm_dp.c}   |   89 +-
- drivers/gpu/drm/{ => dp}/drm_dp_aux_bus.c          |    4 +-
- drivers/gpu/drm/{ => dp}/drm_dp_aux_dev.c          |    6 +-
- drivers/gpu/drm/{ => dp}/drm_dp_cec.c              |    2 +-
- drivers/gpu/drm/{ => dp}/drm_dp_dual_mode_helper.c |    2 +-
- drivers/gpu/drm/dp/drm_dp_helper_internal.h        |   33 +
- drivers/gpu/drm/dp/drm_dp_helper_mod.c             |   22 +
- drivers/gpu/drm/{ => dp}/drm_dp_mst_topology.c     |    8 +-
- .../drm/{ => dp}/drm_dp_mst_topology_internal.h    |    2 +-
- drivers/gpu/drm/drm_buddy.c                        |  535 ++++
- drivers/gpu/drm/drm_cache.c                        |    2 +-
- drivers/gpu/drm/drm_color_mgmt.c                   |    4 +
- drivers/gpu/drm/drm_crtc_helper_internal.h         |   27 -
- drivers/gpu/drm/drm_dsc.c                          |    2 +-
- drivers/gpu/drm/drm_edid.c                         |  104 +-
- drivers/gpu/drm/drm_fb_helper.c                    |    2 +-
- drivers/gpu/drm/drm_kms_helper_common.c            |   14 -
- drivers/gpu/drm/drm_plane.c                        |    9 +-
- drivers/gpu/drm/drm_privacy_screen.c               |    5 +-
- drivers/gpu/drm/drm_privacy_screen_x86.c           |   17 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c       |    3 +-
- drivers/gpu/drm/exynos/Kconfig                     |    1 +
- drivers/gpu/drm/exynos/exynos_drm_dsi.c            |   13 +-
- drivers/gpu/drm/gma500/cdv_intel_dp.c              |   14 +-
- drivers/gpu/drm/gma500/gma_display.c               |    6 +-
- drivers/gpu/drm/gma500/intel_bios.c                |    2 +-
- drivers/gpu/drm/gma500/mmu.c                       |    8 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |    3 +-
- drivers/gpu/drm/i915/Kconfig                       |    2 +
- drivers/gpu/drm/i915/Makefile                      |    5 +-
- drivers/gpu/drm/i915/display/hsw_ips.c             |  271 ++
- drivers/gpu/drm/i915/display/hsw_ips.h             |   26 +
- drivers/gpu/drm/i915/display/icl_dsi.c             |   14 +-
- drivers/gpu/drm/i915/display/icl_dsi_regs.h        |  342 +++
- drivers/gpu/drm/i915/display/intel_atomic.c        |   11 -
- drivers/gpu/drm/i915/display/intel_atomic.h        |    2 -
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  |  217 +-
- drivers/gpu/drm/i915/display/intel_atomic_plane.h  |   14 +-
- drivers/gpu/drm/i915/display/intel_bios.c          |    8 +-
- drivers/gpu/drm/i915/display/intel_bw.c            |  167 +-
- drivers/gpu/drm/i915/display/intel_bw.h            |    8 +-
- drivers/gpu/drm/i915/display/intel_cdclk.c         |    2 +
- drivers/gpu/drm/i915/display/intel_color.c         |  119 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           |   33 +-
- drivers/gpu/drm/i915/display/intel_display.c       |  981 +++-----
- drivers/gpu/drm/i915/display/intel_display.h       |   11 +-
- .../gpu/drm/i915/display/intel_display_debugfs.c   |   39 +-
- drivers/gpu/drm/i915/display/intel_display_power.c |    1 +
- drivers/gpu/drm/i915/display/intel_display_types.h |   33 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |   95 +-
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c       |    4 +-
- .../gpu/drm/i915/display/intel_dp_link_training.c  |  307 ++-
- .../gpu/drm/i915/display/intel_dp_link_training.h  |    6 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |   33 +-
- drivers/gpu/drm/i915/display/intel_dpll.c          |   12 +
- drivers/gpu/drm/i915/display/intel_dpll.h          |    1 +
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   44 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |    3 +
- drivers/gpu/drm/i915/display/intel_dpt.c           |   37 +-
- drivers/gpu/drm/i915/display/intel_dsb.c           |    2 +
- drivers/gpu/drm/i915/display/intel_dsi.h           |    4 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c       |   11 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.c        |    9 +-
- drivers/gpu/drm/i915/display/intel_fbc.c           |    5 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |   27 +-
- drivers/gpu/drm/i915/display/intel_fbdev.h         |    7 +
- drivers/gpu/drm/i915/display/intel_fdi.c           |    5 +
- drivers/gpu/drm/i915/display/intel_gmbus.c         |   16 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c          |   49 +-
- drivers/gpu/drm/i915/display/intel_hdmi.h          |    1 +
- drivers/gpu/drm/i915/display/intel_hotplug.c       |    7 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c        |    4 +-
- drivers/gpu/drm/i915/display/intel_opregion.c      |   78 +-
- drivers/gpu/drm/i915/display/intel_overlay.c       |    1 +
- drivers/gpu/drm/i915/display/intel_plane_initial.c |   14 +-
- drivers/gpu/drm/i915/display/intel_psr.c           |  119 +-
- drivers/gpu/drm/i915/display/intel_snps_phy.c      |  212 +-
- drivers/gpu/drm/i915/display/intel_tc.c            |   26 +-
- drivers/gpu/drm/i915/display/intel_vbt_defs.h      |    8 +
- drivers/gpu/drm/i915/display/intel_vdsc.c          |   47 +-
- drivers/gpu/drm/i915/display/intel_vdsc.h          |    1 -
- drivers/gpu/drm/i915/display/vlv_dsi.c             |   34 +-
- drivers/gpu/drm/i915/display/vlv_dsi_pll.c         |    1 +
- drivers/gpu/drm/i915/display/vlv_dsi_pll_regs.h    |  109 +
- drivers/gpu/drm/i915/display/vlv_dsi_regs.h        |  480 ++++
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c        |    2 +
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   27 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.h        |    2 +-
- drivers/gpu/drm/i915/gem/i915_gem_create.c         |    3 +
- drivers/gpu/drm/i915/gem/i915_gem_create.h         |   17 +
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |    1 +
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.h         |   18 +
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |    5 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.h         |   15 +
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  249 +-
- drivers/gpu/drm/i915/gem/i915_gem_internal.c       |    1 +
- drivers/gpu/drm/i915/gem/i915_gem_internal.h       |   23 +
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   39 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |   23 +
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |    4 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |   51 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   12 +-
- drivers/gpu/drm/i915/gem/i915_gem_pm.c             |    3 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   20 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |   30 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |    9 +-
- drivers/gpu/drm/i915/gem/i915_gem_throttle.c       |    1 +
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |   15 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   18 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c       |   27 +-
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c    |   42 +-
- .../drm/i915/gem/selftests/i915_gem_client_blt.c   |    4 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |    3 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_migrate.c  |  192 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |   29 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_object.c   |    2 +-
- drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c |    1 +
- drivers/gpu/drm/i915/gem/selftests/mock_context.c  |    1 +
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |   21 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   37 +-
- drivers/gpu/drm/i915/gt/intel_context.c            |    4 +-
- drivers/gpu/drm/i915/gt/intel_context_sseu.c       |    1 +
- drivers/gpu/drm/i915/gt/intel_engine.h             |    2 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   21 +-
- drivers/gpu/drm/i915/gt/intel_engine_regs.h        |   23 +
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |   40 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  133 +-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |    8 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |   14 +-
- drivers/gpu/drm/i915/gt/intel_gt.h                 |    2 +-
- drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |    1 +
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |    1 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            | 2630 ++++++++++----------
- drivers/gpu/drm/i915/gt/intel_gtt.c                |    5 +
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   19 +-
- drivers/gpu/drm/i915/gt/intel_llc.c                |    1 +
- drivers/gpu/drm/i915/gt/intel_lrc.c                |   45 +
- drivers/gpu/drm/i915/gt/intel_lrc.h                |   16 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |   22 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    5 +-
- drivers/gpu/drm/i915/gt/intel_renderstate.c        |    2 +
- drivers/gpu/drm/i915/gt/intel_reset.c              |   25 +-
- drivers/gpu/drm/i915/gt/intel_ring.c               |    1 +
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    |    4 +
- drivers/gpu/drm/i915/gt/intel_rps.c                |    1 +
- drivers/gpu/drm/i915/gt/intel_timeline.c           |    5 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |   45 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |    1 +
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |    3 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |    2 +
- drivers/gpu/drm/i915/gt/selftest_migrate.c         |    2 +
- drivers/gpu/drm/i915/gt/selftest_reset.c           |    2 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c             |    2 +
- drivers/gpu/drm/i915/gt/selftest_workarounds.c     |    1 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |   80 +-
- drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h    |   23 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h      |   82 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  126 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   25 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  204 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |  143 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c          |   38 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |   37 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |   31 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |    3 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |    7 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |    3 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  262 +-
- drivers/gpu/drm/i915/gt/uc/intel_huc.c             |    1 +
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |   31 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   45 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |    2 +-
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |    2 +-
- drivers/gpu/drm/i915/gvt/aperture_gm.c             |    2 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |    7 +-
- drivers/gpu/drm/i915/gvt/execlist.c                |    2 +-
- drivers/gpu/drm/i915/gvt/handlers.c                |    2 +
- drivers/gpu/drm/i915/gvt/kvmgt.c                   |    2 +
- drivers/gpu/drm/i915/i915_buddy.c                  |  466 ----
- drivers/gpu/drm/i915/i915_buddy.h                  |  143 --
- drivers/gpu/drm/i915/i915_cmd_parser.c             |    2 +
- drivers/gpu/drm/i915/i915_debugfs.c                |   19 +-
- drivers/gpu/drm/i915/i915_driver.c                 |   28 +-
- drivers/gpu/drm/i915/i915_driver.h                 |    5 +
- drivers/gpu/drm/i915/i915_drv.h                    |  328 +--
- drivers/gpu/drm/i915/i915_file_private.h           |  108 +
- drivers/gpu/drm/i915/i915_gem.c                    |   44 +-
- drivers/gpu/drm/i915/i915_gem_evict.c              |  101 +-
- drivers/gpu/drm/i915/i915_gem_evict.h              |    6 +-
- drivers/gpu/drm/i915/i915_gem_gtt.c                |   16 +-
- drivers/gpu/drm/i915/i915_gem_gtt.h                |    4 +
- drivers/gpu/drm/i915/i915_getparam.c               |    2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |   91 +-
- drivers/gpu/drm/i915/i915_gpu_error.h              |   11 +
- drivers/gpu/drm/i915/i915_irq.c                    |   17 +-
- drivers/gpu/drm/i915/i915_irq.h                    |    1 +
- drivers/gpu/drm/i915/i915_mitigations.c            |    1 +
- drivers/gpu/drm/i915/i915_module.c                 |    7 +-
- drivers/gpu/drm/i915/i915_pci.c                    |    2 +
- drivers/gpu/drm/i915/i915_perf.c                   |   11 +-
- drivers/gpu/drm/i915/i915_reg.h                    | 1203 +--------
- drivers/gpu/drm/i915/i915_reg_defs.h               |   27 +
- drivers/gpu/drm/i915/i915_request.c                |   13 +-
- drivers/gpu/drm/i915/i915_request.h                |    6 +-
- drivers/gpu/drm/i915/i915_scatterlist.c            |   11 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c      |   37 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.h      |    4 +-
- drivers/gpu/drm/i915/i915_vgpu.c                   |    2 +-
- drivers/gpu/drm/i915/i915_vma.c                    |  569 +++--
- drivers/gpu/drm/i915/i915_vma.h                    |   34 +-
- drivers/gpu/drm/i915/i915_vma_resource.c           |  418 ++++
- drivers/gpu/drm/i915/i915_vma_resource.h           |  234 ++
- drivers/gpu/drm/i915/i915_vma_snapshot.c           |  134 -
- drivers/gpu/drm/i915/i915_vma_snapshot.h           |  112 -
- drivers/gpu/drm/i915/i915_vma_types.h              |   19 +-
- drivers/gpu/drm/i915/intel_device_info.h           |    4 +-
- drivers/gpu/drm/i915/intel_dram.c                  |    1 +
- drivers/gpu/drm/i915/intel_mchbar_regs.h           |  228 ++
- drivers/gpu/drm/i915/intel_pch.c                   |    1 +
- drivers/gpu/drm/i915/intel_pch.h                   |    1 +
- drivers/gpu/drm/i915/intel_pm.c                    |  477 ++--
- drivers/gpu/drm/i915/intel_runtime_pm.c            |    3 +
- drivers/gpu/drm/i915/intel_runtime_pm.h            |    1 +
- drivers/gpu/drm/i915/intel_step.c                  |   15 +
- drivers/gpu/drm/i915/intel_uncore.c                |    2 +-
- drivers/gpu/drm/i915/intel_wopcm.c                 |   42 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h            |    2 +-
- drivers/gpu/drm/i915/selftests/i915_buddy.c        |  787 ------
- drivers/gpu/drm/i915/selftests/i915_gem.c          |   11 +-
- drivers/gpu/drm/i915/selftests/i915_gem_evict.c    |   29 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |  210 +-
- .../gpu/drm/i915/selftests/i915_mock_selftests.h   |    1 -
- drivers/gpu/drm/i915/selftests/i915_request.c      |  120 +-
- drivers/gpu/drm/i915/selftests/i915_selftest.c     |    1 +
- drivers/gpu/drm/i915/selftests/i915_vma.c          |   31 +-
- drivers/gpu/drm/i915/selftests/igt_flush_test.c    |    2 +-
- drivers/gpu/drm/i915/selftests/igt_spinner.c       |    1 +
- .../gpu/drm/i915/selftests/intel_memory_region.c   |   13 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |   13 +-
- drivers/gpu/drm/i915/selftests/mock_gtt.c          |   21 +-
- drivers/gpu/drm/i915/selftests/mock_gtt.h          |    3 +-
- drivers/gpu/drm/imx/dcss/dcss-drv.c                |    3 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   62 +-
- drivers/gpu/drm/ingenic/ingenic-drm.h              |   38 +
- drivers/gpu/drm/meson/meson_drv.c                  |   25 +-
- drivers/gpu/drm/meson/meson_osd_afbcd.c            |   41 +-
- drivers/gpu/drm/meson/meson_osd_afbcd.h            |    1 +
- drivers/gpu/drm/mgag200/mgag200_mode.c             |    5 +-
- drivers/gpu/drm/msm/Kconfig                        |    1 +
- drivers/gpu/drm/msm/dp/dp_audio.c                  |    2 +-
- drivers/gpu/drm/msm/dp/dp_aux.h                    |    2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c                |    2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |    2 +-
- drivers/gpu/drm/msm/edp/edp.h                      |   77 +
- drivers/gpu/drm/msm/edp/edp_ctrl.c                 | 1373 ++++++++++
- drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |    9 +
- drivers/gpu/drm/nouveau/Kconfig                    |    1 +
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |    2 +-
- drivers/gpu/drm/nouveau/nouveau_connector.h        |    2 +-
- drivers/gpu/drm/nouveau/nouveau_dp.c               |   17 +-
- drivers/gpu/drm/nouveau/nouveau_encoder.h          |    4 +-
- drivers/gpu/drm/nouveau/nouveau_mem.c              |    3 +-
- drivers/gpu/drm/nouveau/nouveau_mem.h              |    3 +-
- drivers/gpu/drm/nouveau/nouveau_ttm.c              |   13 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c      |  317 ++-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.h      |   35 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/sorg94.c  |   13 +-
- .../gpu/drm/nouveau/nvkm/engine/disp/sorga102.c    |    4 +
- .../gpu/drm/nouveau/nvkm/engine/disp/sorgf119.c    |   14 +-
- .../gpu/drm/nouveau/nvkm/engine/disp/sorgm107.c    |   18 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/hsfw.c     |    9 +-
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c          |    1 +
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |    8 +-
- drivers/gpu/drm/panel/panel-edp.c                  |   21 +-
- drivers/gpu/drm/panel/panel-samsung-atna33xc20.c   |    4 +-
- drivers/gpu/drm/panel/panel-simple.c               |   33 +
- drivers/gpu/drm/panfrost/panfrost_features.h       |  212 +-
- drivers/gpu/drm/panfrost/panfrost_gpu.c            |   32 +-
- drivers/gpu/drm/radeon/atombios_dp.c               |    2 +-
- drivers/gpu/drm/radeon/radeon_connectors.c         |    4 +-
- drivers/gpu/drm/radeon/radeon_dp_mst.c             |    2 +-
- drivers/gpu/drm/radeon/radeon_mode.h               |    4 +-
- drivers/gpu/drm/radeon/radeon_ttm.c                |    4 +-
- drivers/gpu/drm/rockchip/Kconfig                   |    2 +
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |    4 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c             |    2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.h             |    2 +-
- drivers/gpu/drm/rockchip/rockchip_lvds.c           |    2 +-
- drivers/gpu/drm/rockchip/rockchip_rgb.c            |    2 +-
- drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c |    8 +-
- drivers/gpu/drm/selftests/test-drm_plane_helper.c  |    4 +
- drivers/gpu/drm/stm/drv.c                          |    5 +
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c              |  114 +-
- drivers/gpu/drm/stm/ltdc.c                         |  810 ++++--
- drivers/gpu/drm/stm/ltdc.h                         |   12 +-
- drivers/gpu/drm/tegra/Kconfig                      |    1 +
- drivers/gpu/drm/tegra/dp.c                         |    2 +-
- drivers/gpu/drm/tegra/dpaux.c                      |    2 +-
- drivers/gpu/drm/tegra/sor.c                        |    2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c                |    4 +-
- drivers/gpu/drm/tiny/bochs.c                       |   20 +-
- drivers/gpu/drm/tiny/cirrus.c                      |   17 +-
- drivers/gpu/drm/tiny/simpledrm.c                   |   22 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c                  |    7 +-
- drivers/gpu/drm/ttm/ttm_range_manager.c            |    4 +-
- drivers/gpu/drm/ttm/ttm_resource.c                 |   35 +
- drivers/gpu/drm/ttm/ttm_sys_manager.c              |    3 +-
- drivers/gpu/drm/v3d/v3d_drv.c                      |    8 +-
- drivers/gpu/drm/vc4/vc4_bo.c                       |    2 -
- drivers/gpu/drm/vc4/vc4_drv.c                      |   33 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |  132 +-
- drivers/gpu/drm/vc4/vc4_hdmi.h                     |    5 +-
- drivers/gpu/drm/vc4/vc4_regs.h                     |    3 +
- drivers/gpu/drm/virtio/virtgpu_gem.c               |    3 +
- drivers/gpu/drm/vkms/vkms_drv.h                    |    2 +
- drivers/gpu/drm/vkms/vkms_output.c                 |   29 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c      |    4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c     |    3 +-
- drivers/gpu/drm/xlnx/Kconfig                       |    1 +
- drivers/gpu/drm/xlnx/zynqmp_dp.c                   |    2 +-
- drivers/platform/chrome/Kconfig                    |   11 +
- drivers/platform/chrome/Makefile                   |    1 +
- drivers/platform/chrome/chromeos_privacy_screen.c  |  153 ++
- drivers/platform/x86/thinkpad_acpi.c               |    2 +-
- drivers/video/fbdev/asiliantfb.c                   |    2 +-
- drivers/video/fbdev/core/fbmem.c                   |   29 +-
- drivers/video/fbdev/s3c-fb.c                       |    2 +-
- drivers/video/fbdev/simplefb.c                     |   65 +-
- drivers/video/fbdev/vga16fb.c                      |    5 +
- include/drm/bridge/dw_mipi_dsi.h                   |    4 +-
- include/drm/{ => dp}/drm_dp_aux_bus.h              |    0
- include/drm/{ => dp}/drm_dp_dual_mode_helper.h     |    0
- include/drm/{ => dp}/drm_dp_helper.h               |   31 +-
- include/drm/{ => dp}/drm_dp_mst_helper.h           |    2 +-
- include/drm/drm_buddy.h                            |  150 ++
- include/drm/drm_connector.h                        |   18 +-
- include/drm/drm_crtc.h                             |   10 +
- include/drm/drm_dsc.h                              |    2 +-
- include/drm/drm_edid.h                             |    4 +-
- include/drm/drm_mipi_dbi.h                         |    2 +-
- include/drm/drm_modeset_lock.h                     |    1 +
- include/drm/drm_module.h                           |  125 +
- include/drm/drm_plane.h                            |    2 +-
- include/drm/drm_privacy_screen_driver.h            |   13 +-
- include/drm/ttm/ttm_resource.h                     |   23 +-
- include/linux/dma-buf-map.h                        |  266 ++
- include/linux/dma-resv.h                           |    4 +-
- include/linux/fb.h                                 |    1 +
- include/linux/iosys-map.h                          |  218 +-
- include/linux/rwsem.h                              |    2 +-
- include/soc/bcm2835/raspberrypi-firmware.h         |    1 +
- include/uapi/drm/panfrost_drm.h                    |    4 +-
- 431 files changed, 14323 insertions(+), 8342 deletions(-)
- create mode 100644 drivers/gpu/drm/dp/Makefile
- rename drivers/gpu/drm/{drm_dp_helper.c => dp/drm_dp.c} (97%)
- rename drivers/gpu/drm/{ => dp}/drm_dp_aux_bus.c (99%)
- rename drivers/gpu/drm/{ => dp}/drm_dp_aux_dev.c (98%)
- rename drivers/gpu/drm/{ => dp}/drm_dp_cec.c (99%)
- rename drivers/gpu/drm/{ => dp}/drm_dp_dual_mode_helper.c (99%)
- create mode 100644 drivers/gpu/drm/dp/drm_dp_helper_internal.h
- create mode 100644 drivers/gpu/drm/dp/drm_dp_helper_mod.c
- rename drivers/gpu/drm/{ => dp}/drm_dp_mst_topology.c (99%)
- rename drivers/gpu/drm/{ => dp}/drm_dp_mst_topology_internal.h (94%)
- create mode 100644 drivers/gpu/drm/drm_buddy.c
- create mode 100644 drivers/gpu/drm/i915/display/hsw_ips.c
- create mode 100644 drivers/gpu/drm/i915/display/hsw_ips.h
- create mode 100644 drivers/gpu/drm/i915/display/icl_dsi_regs.h
- create mode 100644 drivers/gpu/drm/i915/display/vlv_dsi_pll_regs.h
- create mode 100644 drivers/gpu/drm/i915/display/vlv_dsi_regs.h
- create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_create.h
- create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_dmabuf.h
- create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_domain.h
- create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_internal.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
- delete mode 100644 drivers/gpu/drm/i915/i915_buddy.c
- delete mode 100644 drivers/gpu/drm/i915/i915_buddy.h
- create mode 100644 drivers/gpu/drm/i915/i915_file_private.h
- create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.c
- create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.h
- delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
- delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
- create mode 100644 drivers/gpu/drm/i915/intel_mchbar_regs.h
- delete mode 100644 drivers/gpu/drm/i915/selftests/i915_buddy.c
- create mode 100644 drivers/gpu/drm/msm/edp/edp.h
- create mode 100644 drivers/gpu/drm/msm/edp/edp_ctrl.c
- create mode 100644 drivers/platform/chrome/chromeos_privacy_screen.c
- rename include/drm/{ => dp}/drm_dp_aux_bus.h (100%)
- rename include/drm/{ => dp}/drm_dp_dual_mode_helper.h (100%)
- rename include/drm/{ => dp}/drm_dp_helper.h (98%)
- rename include/drm/{ => dp}/drm_dp_mst_helper.h (99%)
- create mode 100644 include/drm/drm_buddy.h
- create mode 100644 include/drm/drm_module.h
- create mode 100644 include/linux/dma-buf-map.h
+Hi Laurent
+
+Thanks for responding.
+
+On 2/21/2022 11:34 PM, Laurent Pinchart wrote:
+> Hi Dmitry,
+> 
+> On Tue, Feb 22, 2022 at 06:32:50AM +0300, Dmitry Baryshkov wrote:
+>> On Thu, 10 Feb 2022 at 07:59, Laurent Pinchart wrote:
+>>> On Wed, Feb 09, 2022 at 05:40:29PM -0800, Abhinav Kumar wrote:
+>>>> Hi Laurent
+>>>>
+>>>> Gentle reminder on this.
+>>>
+>>> I won't have time before next week I'm afraid.
+>>
+>> Laurent, another gentle ping.
+> 
+> I'm really late on this so I probably deserve a bit of a rougher ping,
+> but thanks for being gentle :-)
+> 
+>>>> On 2/6/2022 11:20 PM, Abhinav Kumar wrote:
+>>>>> On 2/6/2022 3:32 PM, Dmitry Baryshkov wrote:
+>>>>>> On Wed, 2 Feb 2022 at 16:26, Laurent Pinchart wrote:
+>>>>>>> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
+>>>>>>>> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
+>>>>>>>>> On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+>>>>>>>>>> Changing rcar_du driver to accomadate the change of
+>>>>>>>>>> drm_writeback_connector.base and drm_writeback_connector.encoder
+>>>>>>>>>> to a pointer the reason for which is explained in the
+>>>>>>>>>> Patch(drm: add writeback pointers to drm_connector).
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+>>>>>>>>>> ---
+>>>>>>>>>>    drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+>>>>>>>>>>    drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+>>>>>>>>>>    2 files changed, 7 insertions(+), 3 deletions(-)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>>>>>> index 66e8839db708..68f387a04502 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>>>>>> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+>>>>>>>>>>      const char *const *sources;
+>>>>>>>>>>      unsigned int sources_count;
+>>>>>>>>>>
+>>>>>>>>>> +  struct drm_connector connector;
+>>>>>>>>>> +  struct drm_encoder encoder;
+>>>>>>>>>
+>>>>>>>>> Those fields are, at best, poorly named. Furthermore, there's no need in
+>>>>>>>>> this driver or in other drivers using drm_writeback_connector to create
+>>>>>>>>> an encoder or connector manually. Let's not polute all drivers because
+>>>>>>>>> i915 doesn't have its abstractions right.
+>>>>>>>>
+>>>>>>>> i915 uses the quite common model for struct inheritance:
+>>>>>>>>
+>>>>>>>>         struct intel_connector {
+>>>>>>>>                 struct drm_connector base;
+>>>>>>>>                 /* ... */
+>>>>>>>>         }
+>>>>>>>>
+>>>>>>>> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
+>>>>>>>> radeon, tilcdc, and vboxvideo.
+>>>>>>>>
+>>>>>>>> We could argue about the relative merits of that abstraction, but I
+>>>>>>>> think the bottom line is that it's popular and the drivers using it are
+>>>>>>>> not going to be persuaded to move away from it.
+>>>>>>>
+>>>>>>> Nobody said inheritance is bad.
+>>>>>>>
+>>>>>>>> It's no coincidence that the drivers who've implemented writeback so far
+>>>>>>>> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
+>>>>>>>> because the drm_writeback_connector midlayer does, forcing the issue.
+>>>>>>>
+>>>>>>> Are you sure it's not a coincidence ? :-)
+>>>>>>>
+>>>>>>> The encoder and especially connector created by drm_writeback_connector
+>>>>>>> are there only because KMS requires a drm_encoder and a drm_connector to
+>>>>>>> be exposed to userspace (and I could argue that using a connector for
+>>>>>>> writeback is a hack, but that won't change). The connector is "virtual",
+>>>>>>> I still fail to see why i915 or any other driver would need to wrap it
+>>>>>>> into something else. The whole point of the drm_writeback_connector
+>>>>>>> abstraction is that drivers do not have to manage the writeback
+>>>>>>> drm_connector manually, they shouldn't touch it at all.
+>>>>>>
+>>>>>> Laurent, I wanted to shift a bit from the question of drm_connector to
+>>>>>> the question of drm_encoder being embedded in the drm_writeback_connector.
+>>>>>> In case of the msm driver the drm_encoder is not a lightweight entity,
+>>>>>> but a full-featured driver part. Significant part of it can be shared
+>>>>>> with the writeback implementation, if we allow using a pointer to the
+>>>>>> external drm_encoder with the drm_writeback_connector.
+>>>>>> Does the following patch set stand a chance to receive your ack?
+>>>>>>    - Switch drm_writeback_connector to point to drm_encoder rather than
+>>>>>> embedding it?
+>>>>>>    - Create drm_encoder for the drm_writeback_connector when one is not
+>>>>>> specified, so the current drivers can be left unchanged.
+> 
+> The situation is a bit different for the encoder indeed.
+> 
+> The encoder concept is loosely defined nowadays, with more and more of
+> the "real" encoders being implemented as a drm_bridge. That's what I
+> usually recommend when reviewing new drivers. drm_encoder is slowly
+> becoming an empty shell (see for instance [1]), although that transition
+> is not enforced globally and will thus take a long time to complete (if
+> ever).
+> 
+> This being said, lots of drivers have "featureful" encoder
+> implementations, and that won't go away any time soon. In those cases, I
+> could be OK with drivers optionally passing an encoder fo the writeback
+> helper if the hardware really shares resources between writeback and a
+> real encoder. I would however be careful there, as in many cases I would
+> expect the need to pass a custom encoder to originate from an old
+> software design decision rather than from the hardware architecture. In
+> those cases it would be best, I think, to move towards cleaning up the
+> software architecture, but that can be done step by step and I won't
+> consider that a requirement to implement writeback support.
+> 
+> In the MSM case in particular, can you explain what resources are shared
+> between writeback and hardware encoder(s) ?
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> 
+
+Yes, we indeed have a lot of functionality in our encoder. It shares 
+both interrupt and clock control for all interfaces including writeback.
+
+Moreover, like I was mentioning earlier, on some of the chipsets where 
+display hardware is limited, the hardware components mapped to a drm 
+encoder can be shared between the panel and writeback paths.
+
+For your reference, please check [1]
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#n174
+
+Hence we are requesting that drm_writeback not embed an encoder but 
+acommodate a pointer to drm_encoder instead.
+
+>>>>> I second Dmitry's request here. For the reasons he has mentioned along
+>>>>> with the possibility of the writeback encoder being shared across
+>>>>> display pipelines, strengthens our request of the drm encoder being a
+>>>>> pointer inside the drm_writeback_connector instead of embedding it.
+>>>>>
+>>>>> Like I had shown in my RFC, in case the other drivers dont specify one,
+>>>>> we can allocate one:
+>>>>>
+>>>>> https://patchwork.kernel.org/project/dri-devel/patch/1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com/
+>>>>>
+>>>>> We think this should be a reasonable accomodation to the existing
+>>>>> drm_writeback driver.
+>>>>>
+>>>>>>>> So I think drm_writeback_connector should *not* use the inheritance
+>>>>>>>> abstraction because it's a midlayer that should leave that option tothe
+>>>>>>>> drivers. I think drm_writeback_connector needs to be changed to
+>>>>>>>> accommodate that, and, unfortunately, it means current writeback users
+>>>>>>>> need to be changed as well.
+>>>>>>>>
+>>>>>>>> I am not sure, however, if the series at hand is the right
+>>>>>>>> approach. Perhaps writeback can be modified to allocate the stuff for
+>>>>>>>> you if you prefer it that way, as long as the drm_connector is not
+>>>>>>>> embedded in struct drm_writeback_connector.
+>>>>>>>>
+>>>>>>>>> Nack.
+>>>>>>>>>
+>>>>>>>>>>      struct drm_writeback_connector writeback;
+>>>>>>>>>>    };
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>>>>>> index c79d1259e49b..5b1e83380c47 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>>>>>> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>>>>>>>>>>    {
+>>>>>>>>>>      struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+>>>>>>>>>>
+>>>>>>>>>> -  wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+>>>>>>>>>> -  drm_connector_helper_add(&wb_conn->base,
+>>>>>>>>>> +  wb_conn->base = &rcrtc->connector;
+>>>>>>>>>> +  wb_conn->encoder = &rcrtc->encoder;
+>>>>>>>>>> +  wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+>>>>>>>>>> +  drm_connector_helper_add(wb_conn->base,
+>>>>>>>>>>                               &rcar_du_wb_conn_helper_funcs);
+>>>>>>>>>>
+>>>>>>>>>>      return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+>>>>>>>>>> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+>>>>>>>>>>      struct drm_framebuffer *fb;
+>>>>>>>>>>      unsigned int i;
+>>>>>>>>>>
+>>>>>>>>>> -  state = rcrtc->writeback.base.state;
+>>>>>>>>>> +  state = rcrtc->writeback.base->state;
+>>>>>>>>>>      if (!state || !state->writeback_job)
+>>>>>>>>>>              return;
+>>>>>>>>>>
+> 
