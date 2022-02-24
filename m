@@ -1,46 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115D94C4052
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 09:42:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C574C4053
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 09:42:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B79910E547;
-	Fri, 25 Feb 2022 08:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2137510E5B1;
+	Fri, 25 Feb 2022 08:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489BA10EA0B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 14:36:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 22EA41F44EFF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645713392;
- bh=a5HETx9RdGbA+U2GzdkhgfEme4Mq6cVTNkqDGzsr6CQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AmfM8svSLgBD0m64Hmxuea3hI/8v+A+wcJ/0920+h5sCWJuax6L7rG2cym4TEbQFj
- +A4fHQmsSxWYBKrZRCJyv4Ahl8isE2+KeSE9wAKfBp5JFCJnGPxbR5vQNwt/2I4mxA
- aL+7fwJKkCL9XLJwNitTHsT8vWirjEDHg4kdAX7SM2HN1OEisEJJJyG8KZRzHa1Nlm
- MHqc37p3gGq5lNNPPNTjtJc02fkPpA9B/ZrI9G3snn6m/1WZV4IyCy5tNR6a0VZQYS
- F5qg5nOgfvtJGMeO/DPdRTN7jwu/sgsj7j7iU0gxfIKa5E2jUaWrhUeK4MFp5oiUZV
- ISNcUqkRGtNcg==
-Message-ID: <a6f2b4a8-b9f0-dd2b-2361-8ede766b8394@collabora.com>
-Date: Thu, 24 Feb 2022 17:36:29 +0300
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACEF10E944
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 23:27:27 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id vz16so7588958ejb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 15:27:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=GgRMEaWWsihNXcm9kb5g3aRwU5bYBZ4hRbaIjMsAJ28=;
+ b=AUFG36AaZoBHCxj2mFa36Gyk2gtt4CovwS01kw+H9Xh/Ilh/GUSlQ2vfKMwue7wmNH
+ dPFAMFOUUYE0aqRWl9qi4hxKOGpm64O0QhlKtMPlro/JPnglhWrhTsxdOs+j4OvvDe75
+ +oL3TwZ2u3CAHcwHang4Pm+fuSzDy8EVlVb91DoWvMvhXETHQJpYTOqLkheHOq2XbGRV
+ WXZ/7gpcSQvkhPzKqUQ75ZOtpN2ymWXC45ve8/YfmsnESiLHwQ6phg/zlUmfs4h6suiR
+ rHVw2P5fhqaTpDCPs57g5YRQsimI2RO7Se4Cn0GNTcqSeZJ9NB8kDZL8vkwnVkOJ0uyL
+ BH6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GgRMEaWWsihNXcm9kb5g3aRwU5bYBZ4hRbaIjMsAJ28=;
+ b=ZgG0pFe8pwlMQZ/p1C8WxpPj9e6cIbP7AnwFq3VQL72jyS7uRKM1ixoW2qRkjuXBWl
+ DUJY6dW1hrK43kBIIpNrRAe72wYuZSOz9QmAM3PMl5iFiNcoNHbgtQKMxEQfTD13m8Y7
+ hM8rm/ANla8Ne/U8TCIRdK6RnePkty35+BIyqBPCTYqoDxdNsAD5tOP4NERdbWlcsQNh
+ B9aPRDqi0mq7MmX1QwCuwR0q2lKS/8B2LEN9ZVXZSwy7zTqymoyiVLpN/67LJXjxKDfm
+ /YzzM4NRCl6/juf8gDNZTKrfsP5LoWdwdgv37XXGalE8y7X3nGCqIZl9BFL1OU4tNfqC
+ kH9g==
+X-Gm-Message-State: AOAM533NYz/XKrIvfcPl081EMmNdyp8asRpSyQJHHc1L1R3mYapL7fem
+ QC2ibjzaFYQrNRBPPZ4wUyY=
+X-Google-Smtp-Source: ABdhPJxeDqtcC7ApqeCiRw4GyrajKMiCm4h+3UL3v9qHMLe7wgfJLlcRMpgDniIYPQx7dWC1tP8cDA==
+X-Received: by 2002:a17:907:1245:b0:6cc:e663:7baa with SMTP id
+ wc5-20020a170907124500b006cce6637baamr4001071ejb.447.1645745246283; 
+ Thu, 24 Feb 2022 15:27:26 -0800 (PST)
+Received: from adroid (027-177-184-091.ip-addr.vsenet.de. [91.184.177.27])
+ by smtp.gmail.com with ESMTPSA id
+ ie19-20020a170906df1300b006bc52a7e928sm283931ejc.111.2022.02.24.15.27.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Feb 2022 15:27:25 -0800 (PST)
+Date: Fri, 25 Feb 2022 00:27:23 +0100
+From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: Re: [PATCH] drm/exynos: fimd: add BGR support for exynos4/5
+Message-ID: <20220224232723.GA133007@adroid>
+References: <CGME20220129220203epcas1p25b1704191dd7babfb8d5b8dc6704d566@epcas1p2.samsung.com>
+ <20220129220153.GA33165@adroid>
+ <5e18705f-79c1-18a7-57f2-74866abe21e9@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 21/23] drm: rockchip: Add VOP2 driver
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-22-s.hauer@pengutronix.de>
- <b9b59c1d-5808-f348-62fb-257746df134d@collabora.com>
- <20220224074750.GR9136@pengutronix.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220224074750.GR9136@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <5e18705f-79c1-18a7-57f2-74866abe21e9@samsung.com>
 X-Mailman-Approved-At: Fri, 25 Feb 2022 08:42:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,38 +74,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/24/22 10:47, Sascha Hauer wrote:
-> On Thu, Feb 17, 2022 at 04:24:29PM +0300, Dmitry Osipenko wrote:
->> 17.02.2022 11:29, Sascha Hauer пишет:
->>> @@ -28,6 +28,12 @@ config ROCKCHIP_VOP
->>>  	  This selects support for the VOP driver. You should enable it
->>>  	  on all older SoCs up to RK3399.
->>>  
->>> +config ROCKCHIP_VOP2
->>> +	bool "Rockchip VOP2 driver"
->>> +	help
->>> +	  This selects support for the VOP2 driver. You should enable it
->>> +	  on all newer SoCs beginning form RK3568.
->>
->> s/form/from/
->>
->> The ROCKCHIP_VOP option is "default y". Do you really want "default n"
->> for the VOP2?
-> 
-> ROCKCHIP_VOP is only default y to keep the VOP driver enabled for
-> existing defconfig that were generated before the introduction of
-> that symbol.
-> We don't have this problem for VOP2, so no need to make it default y.
+Hello Inki,
 
-To me it will be more consistent of you'll have both defaulting to y,
-since both options are behind DRM_ROCKCHIP.
+On Thu, Feb 24, 2022 at 10:41:04AM +0900, Inki Dae wrote:
+> Hi Martin.
+> 
+> I found that exynos4 and 5 data sheet include documented same register.
+> RGB_ORDER_E field of VIDCONx registers will do same thing.
+
+If I read the manual correctly, this register combined with the
+RGB_ORDER_O makes it possible to map the whole RGB interface output to a
+different order. What my patch provides is a way to configure each
+hardware plane separately while maintaining a consistent output on the
+RGB interface.
+
+Implementing the RGB_ORDER_O and E would need some logic to make sure
+that all planes are always using the same RGB order.
+
+> 
+> I'm not sure whether the use of undocumented register is safe or not - maybe some HW bug exists.
+
+I see, that makes sense. Would it be possible then to introduce a new
+compatible, e.g. samsung,exynos4210-fimd-ext which can be used on tested
+devices? I know that some other Galaxy Note and S devices with the
+exynos4 chip have the same problem (and solution).
+
+> 
+> Anyway, I'd like to recommend you to use documented register only.
+> 
+> Sorry for late and thanks,
+> Inki Dae
+
+Kind Regards
+Martin
+
+> 
+> 22. 1. 30. 07:01에 Martin Jücker 이(가) 쓴 글:
+> > In the downstream kernels for exynos4 and exynos5 devices, there is an
+> > undocumented register that controls the order of the RGB output. It can
+> > be set to either normal order or reversed, which enables BGR support for
+> > those SoCs.
+> > 
+> > This patch enables the BGR support for all the SoCs that were found to
+> > have at least one device with this logic in the corresponding downstream
+> > kernels.
+> > 
+> > Signed-off-by: Martin Jücker <martin.juecker@gmail.com>
+> > ---
+> >  drivers/gpu/drm/exynos/exynos_drm_fimd.c | 42 ++++++++++++++++++++++--
+> >  include/video/samsung_fimd.h             |  4 +++
+> >  2 files changed, 44 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> > index c735e53939d8..cb632360c968 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> > @@ -109,6 +109,7 @@ struct fimd_driver_data {
+> >  	unsigned int has_dp_clk:1;
+> >  	unsigned int has_hw_trigger:1;
+> >  	unsigned int has_trigger_per_te:1;
+> > +	unsigned int has_bgr_support:1;
+> >  };
+> >  
+> >  static struct fimd_driver_data s3c64xx_fimd_driver_data = {
+> > @@ -138,6 +139,7 @@ static struct fimd_driver_data exynos4_fimd_driver_data = {
+> >  	.lcdblk_bypass_shift = 1,
+> >  	.has_shadowcon = 1,
+> >  	.has_vtsel = 1,
+> > +	.has_bgr_support = 1,
+> >  };
+> >  
+> >  static struct fimd_driver_data exynos5_fimd_driver_data = {
+> > @@ -149,6 +151,7 @@ static struct fimd_driver_data exynos5_fimd_driver_data = {
+> >  	.has_vidoutcon = 1,
+> >  	.has_vtsel = 1,
+> >  	.has_dp_clk = 1,
+> > +	.has_bgr_support = 1,
+> >  };
+> >  
+> >  static struct fimd_driver_data exynos5420_fimd_driver_data = {
+> > @@ -162,6 +165,7 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
+> >  	.has_vtsel = 1,
+> >  	.has_mic_bypass = 1,
+> >  	.has_dp_clk = 1,
+> > +	.has_bgr_support = 1,
+> >  };
+> >  
+> >  struct fimd_context {
+> > @@ -226,6 +230,18 @@ static const uint32_t fimd_formats[] = {
+> >  	DRM_FORMAT_ARGB8888,
+> >  };
+> >  
+> > +static const uint32_t fimd_extended_formats[] = {
+> > +	DRM_FORMAT_C8,
+> > +	DRM_FORMAT_XRGB1555,
+> > +	DRM_FORMAT_XBGR1555,
+> > +	DRM_FORMAT_RGB565,
+> > +	DRM_FORMAT_BGR565,
+> > +	DRM_FORMAT_XRGB8888,
+> > +	DRM_FORMAT_XBGR8888,
+> > +	DRM_FORMAT_ARGB8888,
+> > +	DRM_FORMAT_ABGR8888,
+> > +};
+> > +
+> >  static const unsigned int capabilities[WINDOWS_NR] = {
+> >  	0,
+> >  	EXYNOS_DRM_PLANE_CAP_WIN_BLEND | EXYNOS_DRM_PLANE_CAP_PIX_BLEND,
+> > @@ -673,21 +689,25 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
+> >  		val |= WINCONx_BYTSWP;
+> >  		break;
+> >  	case DRM_FORMAT_XRGB1555:
+> > +	case DRM_FORMAT_XBGR1555:
+> >  		val |= WINCON0_BPPMODE_16BPP_1555;
+> >  		val |= WINCONx_HAWSWP;
+> >  		val |= WINCONx_BURSTLEN_16WORD;
+> >  		break;
+> >  	case DRM_FORMAT_RGB565:
+> > +	case DRM_FORMAT_BGR565:
+> >  		val |= WINCON0_BPPMODE_16BPP_565;
+> >  		val |= WINCONx_HAWSWP;
+> >  		val |= WINCONx_BURSTLEN_16WORD;
+> >  		break;
+> >  	case DRM_FORMAT_XRGB8888:
+> > +	case DRM_FORMAT_XBGR8888:
+> >  		val |= WINCON0_BPPMODE_24BPP_888;
+> >  		val |= WINCONx_WSWP;
+> >  		val |= WINCONx_BURSTLEN_16WORD;
+> >  		break;
+> >  	case DRM_FORMAT_ARGB8888:
+> > +	case DRM_FORMAT_ABGR8888:
+> >  	default:
+> >  		val |= WINCON1_BPPMODE_25BPP_A1888;
+> >  		val |= WINCONx_WSWP;
+> > @@ -695,6 +715,18 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
+> >  		break;
+> >  	}
+> >  
+> > +	switch (pixel_format) {
+> > +	case DRM_FORMAT_XBGR1555:
+> > +	case DRM_FORMAT_XBGR8888:
+> > +	case DRM_FORMAT_ABGR8888:
+> > +	case DRM_FORMAT_BGR565:
+> > +		writel(WIN_RGB_ORDER_REVERSE, ctx->regs + WIN_RGB_ORDER(win));
+> > +		break;
+> > +	default:
+> > +		writel(WIN_RGB_ORDER_FORWARD, ctx->regs + WIN_RGB_ORDER(win));
+> > +		break;
+> > +	}
+> > +
+> >  	/*
+> >  	 * Setting dma-burst to 16Word causes permanent tearing for very small
+> >  	 * buffers, e.g. cursor buffer. Burst Mode switching which based on
+> > @@ -1074,8 +1106,14 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
+> >  	ctx->drm_dev = drm_dev;
+> >  
+> >  	for (i = 0; i < WINDOWS_NR; i++) {
+> > -		ctx->configs[i].pixel_formats = fimd_formats;
+> > -		ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
+> > +		if (ctx->driver_data->has_bgr_support) {
+> > +			ctx->configs[i].pixel_formats = fimd_extended_formats;
+> > +			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_extended_formats);
+> > +		} else {
+> > +			ctx->configs[i].pixel_formats = fimd_formats;
+> > +			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
+> > +		}
+> > +
+> >  		ctx->configs[i].zpos = i;
+> >  		ctx->configs[i].type = fimd_win_types[i];
+> >  		ctx->configs[i].capabilities = capabilities[i];
+> > diff --git a/include/video/samsung_fimd.h b/include/video/samsung_fimd.h
+> > index c4a93ce1de48..e6966d187591 100644
+> > --- a/include/video/samsung_fimd.h
+> > +++ b/include/video/samsung_fimd.h
+> > @@ -476,6 +476,10 @@
+> >   * 1111		-none-	 -none-   -none-   -none-    -none-
+> >  */
+> >  
+> > +#define WIN_RGB_ORDER(_win)			(0x2020 + ((_win) * 4))
+> > +#define WIN_RGB_ORDER_FORWARD			(0 << 11)
+> > +#define WIN_RGB_ORDER_REVERSE			(1 << 11)
+> > +
+> >  /* FIMD Version 8 register offset definitions */
+> >  #define FIMD_V8_VIDTCON0	0x20010
+> >  #define FIMD_V8_VIDTCON1	0x20014
