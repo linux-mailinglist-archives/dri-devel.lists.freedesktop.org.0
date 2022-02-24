@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CFE4C3905
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:48:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E1B4C3918
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C05810E8F2;
-	Thu, 24 Feb 2022 22:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E270010E8F0;
+	Thu, 24 Feb 2022 22:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84EA610E8D0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:48:22 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16A9910E8D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:48:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7751061B9C;
- Thu, 24 Feb 2022 22:48:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E42CC340E9;
- Thu, 24 Feb 2022 22:48:20 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 83089B829E2;
+ Thu, 24 Feb 2022 22:48:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE201C340E9;
+ Thu, 24 Feb 2022 22:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645742900;
- bh=IRqDHR7QQT0K7ufrl0SxHZX4jvEeyzRHDl7tey1+fOY=;
+ s=k20201202; t=1645742902;
+ bh=WsI9+ns+zf8pTfM0e7lrNva8Pq9/6NNaMQeyS3JWV+g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jvGbbN17SKADaKGdOhI6ofwRl3zTJNbmQF/CYiAg5HzraR9NMSzBa0Xi66yDFo873
- o8TzqG4UWDjRUE1o/Fkc8e5Ks9VLYADEPVn7W8lKhkWz9Q/DyT26Qa0P5/1yx/fwxU
- 4bpVRNrLosrIWiGLgsX5gkgmRL5jeiRTirJ6zknmhocb7fztOThLs1BBqdmCylU76f
- Qskh3WnFtZe2Cj+mkP2S163aYGP76ZDUl0XXtDJ19hgcaoR3VJUVOpkfSBH+f9iTNk
- S6TDQ2HBZ6MRcocT323X8BbWC8iithcp+dWDtGM4KCzuK0eLG4GOZgOA1roMeK9/BA
- 70HZ0cCXDZKRQ==
+ b=tB6DjIkg9nTU06U1CNJlwuCgn8MbPHm5TKYehHIyvS30JyOorKIuL3lSGCs5/TuNj
+ p28f3AJAgMmgd6EIMkjzwZt22R/vk6Nq6kMIAcAX1bxQVyCct/A4aGjwW5aIad8+Uf
+ mtd8/ny9wkBWJj00Uuwi5QtmEvZGJ5UPqY8o+NlQd/HJ/7bzHm6td8tfj4DUsFnASk
+ 16pjFntgiOxQ/e4EN0mO3Q5rHkhBQ4g+uDUKKwTB5+uBCJYZja6B/wAMgeWFP0pKyo
+ BpN8DbxSuAchs8Qj/D0oo8kXRcCHhTArD9hi1AFBRl9VLw6XsfetikVrkApHRbufj5
+ 06cVMoAAij2Wg==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v9 08/11] PCI/VGA: Remove empty vga_arb_device_card_gone()
-Date: Thu, 24 Feb 2022 16:47:50 -0600
-Message-Id: <20220224224753.297579-9-helgaas@kernel.org>
+Subject: [PATCH v9 09/11] PCI/VGA: Log bridge control messages when adding
+ devices
+Date: Thu, 24 Feb 2022 16:47:51 -0600
+Message-Id: <20220224224753.297579-10-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220224224753.297579-1-helgaas@kernel.org>
 References: <20220224224753.297579-1-helgaas@kernel.org>
@@ -55,75 +55,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+From: Huacai Chen <chenhuacai@loongson.cn>
 
-vga_arb_device_card_gone() has always been empty.  Remove it.
+Previously vga_arb_device_init() iterated through all VGA devices and
+indicated whether legacy VGA routing to each could be controlled by an
+upstream bridge.
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+But we determine that information in vga_arbiter_add_pci_device(), which we
+call for every device, so we can log it there without iterating through the
+VGA devices again.
+
+Note that we call vga_arbiter_check_bridge_sharing() before adding the
+device to vga_list, so we have to handle the very first device separately.
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- drivers/pci/vgaarb.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/pci/vgaarb.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index e8d5efd85ba6..582f0054b71a 100644
+index 582f0054b71a..7b1bfdea9d10 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -123,8 +123,6 @@ static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
- /* this is only used a cookie - it should not be dereferenced */
- static struct pci_dev *vga_default;
+@@ -719,8 +719,10 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
  
--static void vga_arb_device_card_gone(struct pci_dev *pdev);
--
- /* Find somebody in our list */
- static struct vga_device *vgadev_find(struct pci_dev *pdev)
- {
-@@ -878,10 +876,6 @@ static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
- 	/* Remove entry from list */
- 	list_del(&vgadev->list);
- 	vga_count--;
--	/* Notify userland driver that the device is gone so it discards
--	 * it's copies of the pci_dev pointer
--	 */
--	vga_arb_device_card_gone(pdev);
+ 	vgadev->bridge_has_one_vga = true;
  
- 	/* Wake up all possible waiters */
- 	wake_up_all(&vga_wait_queue);
-@@ -1131,9 +1125,7 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
- 	if (lbuf == NULL)
- 		return -ENOMEM;
+-	if (list_empty(&vga_list))
++	if (list_empty(&vga_list)) {
++		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
+ 		return;
++	}
  
--	/* Shields against vga_arb_device_card_gone (pci_dev going
--	 * away), and allows access to vga list
--	 */
-+	/* Protects vga_list */
- 	spin_lock_irqsave(&vga_lock, flags);
- 
- 	/* If we are targeting the default, use it */
-@@ -1150,8 +1142,6 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
- 		/* Wow, it's not in the list, that shouldn't happen,
- 		 * let's fix us up and return invalid card
- 		 */
--		if (pdev == priv->target)
--			vga_arb_device_card_gone(pdev);
- 		spin_unlock_irqrestore(&vga_lock, flags);
- 		len = sprintf(lbuf, "invalid");
- 		goto done;
-@@ -1495,10 +1485,6 @@ static int vga_arb_release(struct inode *inode, struct file *file)
- 	return 0;
+ 	/* okay iterate the new devices bridge hierarachy */
+ 	new_bus = vgadev->pdev->bus;
+@@ -759,6 +761,11 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+ 		}
+ 		new_bus = new_bus->parent;
+ 	}
++
++	if (vgadev->bridge_has_one_vga)
++		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
++	else
++		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
  }
  
--static void vga_arb_device_card_gone(struct pci_dev *pdev)
--{
--}
--
  /*
-  * callback any registered clients to let them know we have a
-  * change in VGA cards
+@@ -1557,7 +1564,6 @@ static int __init vga_arb_device_init(void)
+ {
+ 	int rc;
+ 	struct pci_dev *pdev;
+-	struct vga_device *vgadev;
+ 
+ 	rc = misc_register(&vga_arb_device);
+ 	if (rc < 0)
+@@ -1573,15 +1579,6 @@ static int __init vga_arb_device_init(void)
+ 			       PCI_ANY_ID, pdev)) != NULL)
+ 		vga_arbiter_add_pci_device(pdev);
+ 
+-	list_for_each_entry(vgadev, &vga_list, list) {
+-		struct device *dev = &vgadev->pdev->dev;
+-
+-		if (vgadev->bridge_has_one_vga)
+-			vgaarb_info(dev, "bridge control possible\n");
+-		else
+-			vgaarb_info(dev, "no bridge control possible\n");
+-	}
+-
+ 	pr_info("loaded\n");
+ 	return rc;
+ }
 -- 
 2.25.1
 
