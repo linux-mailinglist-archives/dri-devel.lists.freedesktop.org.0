@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CCF4C334F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 18:14:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 798814C335B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 18:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE0C10EC9E;
-	Thu, 24 Feb 2022 17:14:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E893C10ECB3;
+	Thu, 24 Feb 2022 17:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3528410EC71;
- Thu, 24 Feb 2022 17:14:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645722852; x=1677258852;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=esY2teakuXNhtG/Bm7XJCOmpP1zw6bkYpljA2klz7/8=;
- b=OJhJrYzupw2iYMnYLUrk5Va+a5jEyJvhB/0ADCLSm3rwXcZ68cZRMsBX
- MJJ6EzSL1wYNdNh5eZoD3g0ZYFuQpcEZS5Y8VH5jxbF8spRSt52avBisJ
- P3jL//k0nUO2R0qIytWFROlvSZfj1hi1W+gZVLupEcLIMPREdDc5q8Fgx
- 5SLgeSeeGyEp8ZlX6ah1V4ZkDAfLoxo+JWTi+6DgpZYtiwLSr/2jk9UiO
- RhjmfXArKLu6JnylEu1gRAy157torhlA91Fen1bq/EoNxiLONjMF7wPO+
- RdjXPObbG2m230Usd4IeKVwj/aZsw9YxGibgA+LnQMvn8LXUIPEHnkhZn A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252023249"
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="252023249"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2022 09:13:58 -0800
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="574283983"
-Received: from acstuden-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.98.77])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2022 09:13:58 -0800
-Date: Thu, 24 Feb 2022 09:13:57 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH 2/2] hda/i915: split the wait for the component binding
-Message-ID: <20220224171357.oozhif52j6zjksbg@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220223195203.13708-1-ramalingam.c@intel.com>
- <20220223195203.13708-3-ramalingam.c@intel.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5DC10ECB3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 17:18:03 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id y24so5096775lfg.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 09:18:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ZEF24tzNN36Ad6E2QTpV8p5Sa4Vkb2AWklLMy5ayQGA=;
+ b=WpodwI797Rwd5d3Bqh4Ioe16qGHmgCq95omZ7cEKxJIStGiKXtvn5YYQjBCG/MVoE8
+ MkrwSod9DOdWu4ufQ+G6EJFktP0MI/vAE6Le/k5cqnofP06II26wzYqlo76bLeUJjd35
+ 2cFTI4mclwQkDi6QC3k6FkF8igTaePP3nExo/K1Ej+6j86esRvLEyiH/1ZD5jg7YCHj3
+ ZS7Yl+8PEvwRYuu9QiLQUoFQ/CXYn94/JoMIK4q1YyWuDNQxlt/Fl2DvOxUalyML7Y4z
+ 5yi8KpjOiqVXI0B3YzIdHebbS++F8NDtdXjqDbIL3s/ck6WVzw235HOsEEA3P57iHDam
+ FM/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZEF24tzNN36Ad6E2QTpV8p5Sa4Vkb2AWklLMy5ayQGA=;
+ b=4xBimeq7Rz8CdI6PCLWYa0Cu0cEH/mwIffvh/MDqm7e58XUwtC7w+QEpZFLXnPxsUv
+ /VV7Id8U4mcypUacYxupD1ozIZX8AF7CJKAJV2oRMR6QL6XxmT4xGd97GREiyJM8IlJV
+ RNDtCg7PoHRYt7+mnXWF+5hw63G5KklRFInUr6kMHwb8GnT1O/k5JxzsLFfO/FkyGqgT
+ 4k3l4EHeel/Ns3EqwDTZ/C7VuVWs4wFQ7VsEe6Y+qnG6/tEaIuMYGw7SIyyEg5/uD0sq
+ s91msHxNORcSUIf8QHrWYXA47F0fcIUkbiuKaSIXgf4DrtJyclymNzLBBSW4cSXDpHyN
+ 69/A==
+X-Gm-Message-State: AOAM530v4QIjNRCszw9Wqfajf1w056PoaA107i7tqnluB9UDkti+wsv5
+ 0dw6a4obp51BF9xwEHS2uow=
+X-Google-Smtp-Source: ABdhPJwcR7KJ1sG1dWn4HB4VUsHPfcXidHtpADKlS/xYTpv7jH43cB37PGeqQzvuPx8FQvhZsYDIFA==
+X-Received: by 2002:ac2:5148:0:b0:442:f24f:1aea with SMTP id
+ q8-20020ac25148000000b00442f24f1aeamr2421864lfd.20.1645723081906; 
+ Thu, 24 Feb 2022 09:18:01 -0800 (PST)
+Received: from [192.168.2.145] (109-252-137-194.dynamic.spd-mgts.ru.
+ [109.252.137.194]) by smtp.googlemail.com with ESMTPSA id
+ n23-20020a2e86d7000000b002460f3e885asm20837ljj.20.2022.02.24.09.18.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 09:18:01 -0800 (PST)
+Message-ID: <0a550dde-7c06-c61d-2cbf-e63ad1a7dcc5@gmail.com>
+Date: Thu, 24 Feb 2022 20:18:00 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220223195203.13708-3-ramalingam.c@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH libdrm v2 05/25] tegra: Add flink helpers
+Content-Language: en-US
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20220217191625.2534521-1-thierry.reding@gmail.com>
+ <20220217191625.2534521-6-thierry.reding@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20220217191625.2534521-6-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,121 +74,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai Vehmanen <kai.vehmanen@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 24, 2022 at 01:22:03AM +0530, Ramalingam C wrote:
->Split the wait for component binding from i915 in multiples of
->sysctl_hung_task_timeout_secs. This helps to avoid the possible kworker
->thread hung detection given below.
->
-><3>[   60.946316] INFO: task kworker/11:1:104 blocked for more than 30
->seconds.
-><3>[   60.946479]       Tainted: G        W
->5.17.0-rc5-CI-CI_DRM_11265+ #1
-><3>[   60.946580] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
->disables this message.
-><6>[   60.946688] task:kworker/11:1    state:D stack:14192 pid:  104
->ppid:     2 flags:0x00004000
-><6>[   60.946713] Workqueue: events azx_probe_work [snd_hda_intel]
-><6>[   60.946740] Call Trace:
-><6>[   60.946745]  <TASK>
-><6>[   60.946763]  __schedule+0x42c/0xa80
-><6>[   60.946797]  schedule+0x3f/0xc0
-><6>[   60.946811]  schedule_timeout+0x1be/0x2e0
-><6>[   60.946829]  ? del_timer_sync+0xb0/0xb0
-><6>[   60.946849]  ? 0xffffffff81000000
-><6>[   60.946864]  ? wait_for_completion_timeout+0x79/0x120
-><6>[   60.946879]  wait_for_completion_timeout+0xab/0x120
-><6>[   60.946906]  snd_hdac_i915_init+0xa5/0xb0 [snd_hda_core]
-><6>[   60.946943]  azx_probe_work+0x71/0x84c [snd_hda_intel]
-><6>[   60.946974]  process_one_work+0x275/0x5c0
-><6>[   60.947010]  worker_thread+0x37/0x370
-><6>[   60.947028]  ? process_one_work+0x5c0/0x5c0
-><6>[   60.947038]  kthread+0xef/0x120
-><6>[   60.947047]  ? kthread_complete_and_exit+0x20/0x20
-><6>[   60.947065]  ret_from_fork+0x22/0x30
-><6>[   60.947110]  </TASK>
->
->Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->cc: Kai Vehmanen <kai.vehmanen@intel.com>
->cc: Lucas De Marchi <lucas.demarchi@intel.com>
+17.02.2022 22:16, Thierry Reding пишет:
+> +int drm_tegra_bo_get_name(struct drm_tegra_bo *bo, uint32_t *name);
+> +int drm_tegra_bo_open(struct drm_tegra *drm, uint32_t name, uint32_t flags,
+> +                      struct drm_tegra_bo **bop);
 
-some more Cc needed?
+drm_tegra_bo_open() isn't a very good name for a function. How will you
+name dmabuf and handle variants?
 
-$ ./scripts/get_maintainer.pl sound/hda/hdac_i915.c
-Jaroslav Kysela <perex@perex.cz> (maintainer:SOUND)
-Takashi Iwai <tiwai@suse.com> (maintainer:SOUND)
-Lucas De Marchi <lucas.demarchi@intel.com> (commit_signer:2/2=100%)
-Rodrigo Vivi <rodrigo.vivi@intel.com> (commit_signer:1/2=50%)
-Ramalingam C <ramalingam.c@intel.com> (commit_signer:1/2=50%,authored:1/2=50%,removed_lines:1/1=100%)
-Chris Wilson <chris@chris-wilson.co.uk> (authored:1/2=50%,added_lines:23/24=96%)
-alsa-devel@alsa-project.org (moderated list:SOUND)
-linux-kernel@vger.kernel.org (open list)
+In grate-drive we're using these names:
 
+drm_tegra_bo_from_name
+drm_tegra_bo_from_dmabuf
+drm_tegra_bo_from_handle
 
->---
-> sound/hda/hdac_i915.c | 17 ++++++++++++++---
-> 1 file changed, 14 insertions(+), 3 deletions(-)
->
->diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
->index d20a450a9a15..daaeebc5099e 100644
->--- a/sound/hda/hdac_i915.c
->+++ b/sound/hda/hdac_i915.c
->@@ -6,6 +6,7 @@
-> #include <linux/init.h>
-> #include <linux/module.h>
-> #include <linux/pci.h>
->+#include <linux/sched/sysctl.h>
-> #include <sound/core.h>
-> #include <sound/hdaudio.h>
-> #include <sound/hda_i915.h>
->@@ -163,7 +164,8 @@ static bool dg1_gfx_present(void)
-> int snd_hdac_i915_init(struct hdac_bus *bus)
-> {
-> 	struct drm_audio_component *acomp;
->-	int err;
->+	unsigned long timeout, ret = 0;
->+	int err, i, itr_cnt;
->
-> 	if (!i915_gfx_present())
-> 		return -ENODEV;
->@@ -182,9 +184,18 @@ int snd_hdac_i915_init(struct hdac_bus *bus)
-> 	if (!acomp->ops) {
-> 		if (!IS_ENABLED(CONFIG_MODULES) ||
-> 		    !request_module("i915")) {
->+			if (!sysctl_hung_task_timeout_secs) {
->+				itr_cnt = 1;
->+				timeout = msecs_to_jiffies(60 * 1000);
->+			} else {
->+				itr_cnt = DIV_ROUND_UP(60, sysctl_hung_task_timeout_secs);
->+				timeout = msecs_to_jiffies(sysctl_hung_task_timeout_secs * 1000);
->+			}
->+
-> 			/* 60s timeout */
->-			wait_for_completion_timeout(&acomp->master_bind_complete,
->-						    msecs_to_jiffies(30 * 1000));
->+			for (i = 0; i < itr_cnt || !ret; i++)
-
-it will return 0 if a timeout occurs so it's trapped forever here? Did
-you mean &&?
-
-Also maybe:
-
-	itr_cnt = DIV_ROUND_UP(60, sysctl_hung_task_timeout_secs ?: 60);
-
-Lucas De Marchi
-
-} while ();
-
->+				ret = wait_for_completion_timeout(&acomp->master_bind_complete,
->+								  timeout);
-> 		}
-> 	}
-> 	if (!acomp->ops) {
->-- 
->2.20.1
->
+I suggest to use more meaningful function names before will be too late,
+especially given that this is the upstream libdrm.
