@@ -1,65 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5CE4C3598
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:16:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE944C3587
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:16:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E016110E8C0;
-	Thu, 24 Feb 2022 19:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCE910E821;
+	Thu, 24 Feb 2022 19:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9096210E8B0;
- Thu, 24 Feb 2022 19:16:49 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id j24so4317851oii.11;
- Thu, 24 Feb 2022 11:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7IUvVKF5Pch8a16lx0MT86rwIlpqNss44lNM/kW3WVs=;
- b=ne21DyBH+0ZWEGvMo7Kz56PYmwP1GgCVw3i0R6NVkPQJMYyrc8sPuQItlSuHxv9VRc
- TXB7pCjba4j8XT/WvxjkN5JbZ1sdP2juBJu7YA/ESnLTa6kEBA+4SmpalQ92HXMMye1F
- 4MGZrYTIq1WdT977vBFe17BmposVWu8IjvsLstrHzkC6RtNDiizXLvU2JJmv/a2ZOnSv
- 6E4A/Z5M/vw965DFZA5o7kFCzhF56hgh4aeI2bscy2u0xjPAuhU7qy2gCRwDTZKwYDkC
- kr92WaJmPK7uTAOkB7Qdp3Cb739BrYnK8/uIhE9jrM30wlrmccSBM61ZnYAtOUSDvnWG
- wyDQ==
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536CF10E821
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 19:16:16 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id l25so4310016oic.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 11:16:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7IUvVKF5Pch8a16lx0MT86rwIlpqNss44lNM/kW3WVs=;
- b=OytLfId7ySkp3ITgMyYlAaAldtwO4AmbP/E7UoUR36azkDN7X3eoxhWU0ZkfzL7Rza
- QnoGpSPwNzqrAVs28GgXEpLs4kk2TzJ2r/SpcHYb6Lru2a5/x/uJMGlUjHygrZxX1dWQ
- lksKQ8FUAkcWBKQrCibpncatlJgYtFJW0O/BAYk0FB2XniswqnjSB1qKe9cI/c/4/dl6
- MBrWtlbF1Z4ZpXaz1hUPRNvfqDB7/SogwMC4mw+RKyILEMvAL7UDti6lJUrFFcrb8W9D
- SNHIFT59UyVbN5hPm7wGBi6o0uQssKYSOgX6qw9QYYykZVAAaYa358lMLVRvLgC76s5Q
- cPGg==
-X-Gm-Message-State: AOAM530UQZ315fMZkg+W9jE2ekB9cSlHutVRKwtfY6YUv3tir/Cd+BMW
- cPN/N3HU4vCYqO6fcDuWXBg=
-X-Google-Smtp-Source: ABdhPJxoXP+tSpCWcygc2lcQGw4uSvebv9aB+dvrgCiioebX38US3T6IU0aiiIwLKSTXbzn8q6EPgw==
-X-Received: by 2002:a05:6870:d1ca:b0:d6:87d5:4ab7 with SMTP id
- b10-20020a056870d1ca00b000d687d54ab7mr5944097oac.331.1645730208809; 
- Thu, 24 Feb 2022 11:16:48 -0800 (PST)
-Received: from localhost.localdomain (189-47-54-110.dsl.telesp.net.br.
- [189.47.54.110]) by smtp.gmail.com with ESMTPSA id
- w3-20020a056830110300b005af14392276sm79509otq.62.2022.02.24.11.16.44
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CIZ8l9ggHI+ksF9ySGra6oc3DHVzkCgMYu8j36TV9TY=;
+ b=LlJaxQx8DYSHPGNVIgRsD/3hpwnOjIv/qEu746M35HpbfimSVIh3D0n1mIWqj2Ifk1
+ zar6eFx3fwlWEL/KFjkGQFEmEKOVo6HAaIbob3P1Raj+mwrm4dFOYI0t6zguDnpS781U
+ Y82IOeZUvecGlIjnWpFs7wtPQfgYFxAuDw2gFonKF+jGiK3f+6V2vYC/+22PanKLqopa
+ M85cFQZPtQBrUN7+PDAPtEXMw0JANQlCTNu3SyQqosuSAfUCprR9naxzMqXVrAXnpv1s
+ TTc5Xlrn+f2v9xluP05bBRn7rmjRgqWtgXe/YHNnrU4/qbuNwnD+4Ogx5/kiU2JP/Jsw
+ 2BJw==
+X-Gm-Message-State: AOAM5303Rc91la0H8fBvYqOfa0uRxNhqmh75JYvchRhkmY3MkwC8M3Yf
+ OAeZUkJjcJoB0BipAO6bqsUU2iMDWA==
+X-Google-Smtp-Source: ABdhPJwxUu9mkz92flMo29/vSvMvRas73bEu7/GHucHHjC7qW5h3B9JoZfONOkccBnWTGnjHJiY6/g==
+X-Received: by 2002:aca:6083:0:b0:2cb:5570:7564 with SMTP id
+ u125-20020aca6083000000b002cb55707564mr8499482oib.57.1645730175518; 
+ Thu, 24 Feb 2022 11:16:15 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
+ 9-20020a9d0c09000000b005afabd759cfsm80036otr.65.2022.02.24.11.16.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 11:16:48 -0800 (PST)
-From: Magali Lemes <magalilemes00@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 4/4] drm/amd/display: Turn functions into static
-Date: Thu, 24 Feb 2022 16:15:51 -0300
-Message-Id: <20220224191551.69103-5-magalilemes00@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224191551.69103-1-magalilemes00@gmail.com>
-References: <20220224191551.69103-1-magalilemes00@gmail.com>
+ Thu, 24 Feb 2022 11:16:14 -0800 (PST)
+Received: (nullmailer pid 3428805 invoked by uid 1000);
+ Thu, 24 Feb 2022 19:16:13 -0000
+Date: Thu, 24 Feb 2022 13:16:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v4,1/5] dt-bindings: arm: mediatek: mmsys: add support
+ for MT8186
+Message-ID: <YhfZff2KIPdOm53H@robh.at.kernel.org>
+References: <20220222052803.3570-1-rex-bc.chen@mediatek.com>
+ <20220222052803.3570-2-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220222052803.3570-2-rex-bc.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,78 +63,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, siqueirajordao@riseup.net,
- Magali Lemes <magalilemes00@gmail.com>, maira.canal@usp.br,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, mwen@igalia.com,
- dri-devel@lists.freedesktop.org, isabbasso@riseup.net
+Cc: devicetree@vger.kernel.org, yongqiang.niu@mediatek.com,
+ chunkuang.hu@kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Silence [-Wmissing-prototypes] sparse warnings from the display folder
-such as:
+On Tue, 22 Feb 2022 13:27:59 +0800, Rex-BC Chen wrote:
+> Add "mediatek,mt8186-mmsys" to binding document.
+> 
+> Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> ---
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml         | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-../drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn315/dcn315_smu.c:126:5: warning: no previous prototype for ‘dcn315_smu_send_msg_with_param’ [-Wmissing-prototypes]
-  126 | int dcn315_smu_send_msg_with_param(
-      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Cc: Qingqing Zhuo (Lillian) <qingqing.zhuo@amd.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
----
- .../gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c    | 2 +-
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c    | 4 ++--
- .../gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c    | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-index d66633bef2b3..357f89b4a8e0 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-@@ -430,7 +430,7 @@ static unsigned int find_clk_for_voltage(
- 	return 0;
- }
- 
--void dcn315_clk_mgr_helper_populate_bw_params(
-+static void dcn315_clk_mgr_helper_populate_bw_params(
- 		struct clk_mgr_internal *clk_mgr,
- 		struct integrated_info *bios_info,
- 		const DpmClocks_315_t *clock_table)
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c
-index a60543258a5b..831fd1494d60 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c
-@@ -123,7 +123,7 @@ static uint32_t dcn315_smu_wait_for_response(struct clk_mgr_internal *clk_mgr, u
- 	return res_val;
- }
- 
--int dcn315_smu_send_msg_with_param(
-+static int dcn315_smu_send_msg_with_param(
- 		struct clk_mgr_internal *clk_mgr,
- 		unsigned int msg_id, unsigned int param)
- {
-@@ -181,7 +181,7 @@ int dcn315_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_dispc
- 
- 	return actual_dispclk_set_mhz * 1000;
- }
--int dcn315_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, int requested_phyclk_khz)
-+static int dcn315_smu_set_voltage_via_phyclk(struct clk_mgr_internal *clk_mgr, int requested_phyclk_khz)
- {
- 	int actual_phypclk_set_mhz = -1;
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c b/drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c
-index 33367773699b..e722171f0d2d 100644
---- a/drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c
-+++ b/drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c
-@@ -42,7 +42,7 @@
- #define DCN_BASE__INST0_SEG4                       0x02403C00
- #define DCN_BASE__INST0_SEG5                       0
- 
--enum dc_irq_source to_dal_irq_source_dcn315(
-+static enum dc_irq_source to_dal_irq_source_dcn315(
- 		struct irq_service *irq_service,
- 		uint32_t src_id,
- 		uint32_t ext_id)
--- 
-2.25.1
-
+Acked-by: Rob Herring <robh@kernel.org>
