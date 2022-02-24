@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41324C2764
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 10:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505134C27F4
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 10:20:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C62010F3BF;
-	Thu, 24 Feb 2022 09:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C264910F452;
+	Thu, 24 Feb 2022 09:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D15410F3BF
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 09:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645693386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zu3JRAMZmyMFpfpAyWAwf1dFrNwpiFycwdVqnbkI0FA=;
- b=gFaT++d5WmCXG75dwNze3x45OZ1RPxFwr+FjEWJRUpiJZfgyJ/5M6GxDCTw8L7oAeCfCeM
- pyP5A++auYhQ8ozJ75mcQi7NZjlTWiZhXO/oOHxI/JcU8CsBEGBdHKa5lnKdul0sNAkcHa
- Cp4snRT1yXYtYdOQDfBczPlt8dqlfkU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-y4mvyTa5Oo28luXGQH0XIA-1; Thu, 24 Feb 2022 04:03:03 -0500
-X-MC-Unique: y4mvyTa5Oo28luXGQH0XIA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e26-20020adfa45a000000b001ea860cd35cso453348wra.4
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 01:03:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Zu3JRAMZmyMFpfpAyWAwf1dFrNwpiFycwdVqnbkI0FA=;
- b=jJpMng2MRINRohMwEHLP9E612N+TLjFfOHfgufXNqVSaVFJiMjQ5/X7J89iUJvLl5O
- nGQJ1hCffemzBMrZOBoxdIVn7bDcxGiYi3N7finqdW+1KjQ0szrYHCarIxf8pqnim59H
- Gm3b7yEwy0VeyI8NKYT3UlKbwJUYO30C+Ra17ePzm6GO5JitZ/ShGobverJX7Q7i63Yr
- FUoIfArXERvGsSZrc2cLb0cmi2cS3k31w5IpivSWXyZT9ceUp6AonRO98QftrdOYXZxi
- JPzfA2wC+ve9CqMAfgnp5WzpX99+3DgvBbKs0eEN54YAkK45B8FCkrPerieU12wM68jz
- N26A==
-X-Gm-Message-State: AOAM530HidTKtFPyM+ZN4nIa5/wXm0djnpqkWaZBb1ih1XpF82bVADsu
- 1453bg78G3FJ6zsIEu5+Ug/p42WhlJz4vheHb/roxVzvG/uFPN8eRQilJaBmplA6IooDJoZ8S2Y
- yIE+DMrQEF1tlxWc+UdXJ/s3ZAVuk
-X-Received: by 2002:a1c:a942:0:b0:380:ead5:c4e2 with SMTP id
- s63-20020a1ca942000000b00380ead5c4e2mr1475282wme.100.1645693382159; 
- Thu, 24 Feb 2022 01:03:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvPLEamBMKxD9kbBLEaOvjdkKui9AlNYY9UPg0V5ThbDzBY/IU9FVgaj6lagofSWiVoX0PUw==
-X-Received: by 2002:a1c:a942:0:b0:380:ead5:c4e2 with SMTP id
- s63-20020a1ca942000000b00380ead5c4e2mr1475259wme.100.1645693381945; 
- Thu, 24 Feb 2022 01:03:01 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id y6sm2770787wrd.30.2022.02.24.01.03.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 01:03:01 -0800 (PST)
-Message-ID: <02cd3c81-d937-eb2a-ebe1-3eb9d83f6adc@redhat.com>
-Date: Thu, 24 Feb 2022 10:02:59 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF6710F413;
+ Thu, 24 Feb 2022 09:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645694422; x=1677230422;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HTNScTSDoVwsCYO2tCRKzaT9sRBk3USJcom113vPPMg=;
+ b=cBdjUivHCb0vZE1I9J9JiE/BtMNj6GOvY3GaB3tPT547czujXOYqahOe
+ dC1n52+r18KKhDRfZu+69ksF7YeOxp18SIdQOYfKrU5NKRLiS2ptAkUnn
+ eRWTc6VknecGya5uOSsoF6b10Reju9QY7hptvY15U0HIU87Ro3zAwD2im
+ ug0kMaM9IItZOMcZDzKZ50K15OEmlEB/blqehvODfHeS7Zh4saBlX8ZW+
+ 5HQZGOq6h1D5/RvGgQYEBPt76CyVMkQp2DzLFlUjjtKp4mR0IHH8fduXG
+ v5Qw626ba9co7I6CNoXo3aA4x4MCo6btVAgNIrnFRdETf0EqYFwESv0tm w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="232162969"
+X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="232162969"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2022 01:20:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="491537721"
+Received: from pallavim-desk.iind.intel.com ([10.145.162.180])
+ by orsmga003.jf.intel.com with ESMTP; 24 Feb 2022 01:20:17 -0800
+From: Pallavi Mishra <pallavi.mishra@intel.com>
+To: gfx-internal-devel@eclists.intel.com
+Subject: [PATCH 1/6] drm/i915/uapi: introduce drm_i915_gem_create_ext
+Date: Thu, 24 Feb 2022 14:52:27 +0530
+Message-Id: <20220224092232.780075-2-pallavi.mishra@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220224092232.780075-1-pallavi.mishra@intel.com>
+References: <20220224092232.780075-1-pallavi.mishra@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 4/5] fbdev: Improve performance of cfb_imageblit()
-To: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220223193804.18636-1-tzimmermann@suse.de>
- <20220223193804.18636-5-tzimmermann@suse.de> <YhaYSeyYIwqur2hy@ravnborg.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YhaYSeyYIwqur2hy@ravnborg.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,44 +55,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, dri-devel@lists.freedesktop.org,
- geert@linux-m68k.org, kraxel@redhat.com
+Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
+ CQ Tang <cq.tang@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ matthew.auld@intel.com, Jason Ekstrand <jason@jlekstrand.net>,
+ mesa-dev@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
+From: Matthew Auld <matthew.auld@intel.com>
 
-On 2/23/22 21:25, Sam Ravnborg wrote:
+Same old gem_create but with now with extensions support. This is needed
+to support various upcoming usecases.
 
-[snip]
+v2:(Chris)
+    - Use separate ioctl number for gem_create_ext, instead of hijacking
+      the existing gem_create ioctl, otherwise we run into the issue
+      with being unable to detect if the kernel supports the new extension
+      behaviour.
+    - We now have gem_create_ext.flags, which should be zeroed.
+    - I915_GEM_CREATE_EXT_SETPARAM value is now zero, since this is the
+      index into our array of extensions.
+    - Setup a "vanilla" object which we can directly apply our extensions
+      to.
+v3:(Daniel & Jason)
+    - drop I915_GEM_CREATE_EXT_SETPARAM. Instead just have each extension
+      do one thing only, instead of generic setparam which can cover
+      various use cases.
+    - add some kernel-doc.
 
-> 
-> Question: What is cfb an abbreviation for anyway?
-> Not related to the patch - but if I have known the memory is lost..
-> 
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: CQ Tang <cq.tang@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: mesa-dev@lists.freedesktop.org
+Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210429103056.407067-5-matthew.auld@intel.com
+(cherry picked from commit ebcb40298947bdb0622e53c69734e6b4fb64b348)
+---
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 56 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h |  2 +
+ drivers/gpu/drm/i915/i915_driver.c         |  1 +
+ include/uapi/drm/i915_drm.h                | 42 ++++++++++++++++
+ 4 files changed, 101 insertions(+)
 
-I was curious so I dug on this. It seems CFB stands for Color Frame Buffer.
-Doing a `git grep "(CFB)"` in the linux history repo [0], I get this:
-
-  Documentation/isdn/README.diversion:   (CFB). 
-  drivers/video/pmag-ba-fb.c: *   PMAG-BA TURBOchannel Color Frame Buffer (CFB) card support,
-  include/video/pmag-ba-fb.h: *   TURBOchannel PMAG-BA Color Frame Buffer (CFB) card support,
-
-Probably the helpers are called like this because they were for any fbdev
-driver but assumed that the framebuffer was always in I/O memory. Later some
-drivers were allocating the framebuffer in system memory and still using the
-helpers, that were using I/O memory accessors and it's ilegal on some arches.
-
-So the sys_* variants where introduced by commit 68648ed1f58d ("fbdev: add
-drawing functions for framebuffers in system RAM") to fix this. The old
-ones just kept their name, but probably it should had been renamed to io_*
-for the naming to be consistent with the sys_* functions.
-
-[0]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 409226df0dd2..1e82633a3898 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -8,6 +8,7 @@
+ 
+ #include "i915_drv.h"
+ #include "i915_trace.h"
++#include "i915_user_extensions.h"
+ 
+ static int i915_gem_publish(struct drm_i915_gem_object *obj,
+ 			    struct drm_file *file,
+@@ -149,3 +150,58 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+ 	i915_gem_object_free(obj);
+ 	return ret;
+ }
++
++struct create_ext {
++	struct drm_i915_private *i915;
++	struct drm_i915_gem_object *vanilla_object;
++};
++
++static const i915_user_extension_fn create_extensions[] = {
++};
++
++/**
++ * Creates a new mm object and returns a handle to it.
++ * @dev: drm device pointer
++ * @data: ioctl data blob
++ * @file: drm file pointer
++ */
++int
++i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
++			  struct drm_file *file)
++{
++	struct drm_i915_private *i915 = to_i915(dev);
++	struct drm_i915_gem_create_ext *args = data;
++	struct create_ext ext_data = { .i915 = i915 };
++	struct drm_i915_gem_object *obj;
++	int ret;
++
++	if (args->flags)
++		return -EINVAL;
++
++	i915_gem_flush_free_objects(i915);
++
++	obj = i915_gem_object_alloc();
++	if (!obj)
++		return -ENOMEM;
++
++	ext_data.vanilla_object = obj;
++	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
++				   create_extensions,
++				   ARRAY_SIZE(create_extensions),
++				   &ext_data);
++	if (ret)
++		goto object_free;
++
++	ret = i915_gem_setup(obj,
++			     intel_memory_region_by_type(i915,
++							 INTEL_MEMORY_SYSTEM),
++			     args->size);
++	if (ret)
++		goto object_free;
++
++	return i915_gem_publish(obj, file, &args->size, &args->handle);
++
++object_free:
++	i915_gem_object_free(obj);
++	return ret;
++}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+index 7fd22f3efbef..28d6526e32ab 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ioctls.h
+@@ -14,6 +14,8 @@ int i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file);
+ int i915_gem_create_ioctl(struct drm_device *dev, void *data,
+ 			  struct drm_file *file);
++int i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
++			      struct drm_file *file);
+ int i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 			       struct drm_file *file);
+ int i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 8b06e56f7d09..11c6d3318308 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -1758,6 +1758,7 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_ENTERVT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_LEAVEVT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_CREATE, i915_gem_create_ioctl, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(I915_GEM_CREATE_EXT, i915_gem_create_ext_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_PREAD, i915_gem_pread_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_PWRITE, i915_gem_pwrite_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_MMAP, i915_gem_mmap_ioctl, DRM_RENDER_ALLOW),
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 58c4ec3f2c22..06ccab39864b 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -406,6 +406,7 @@ typedef struct _drm_i915_sarea {
+ #define DRM_I915_QUERY			0x39
+ #define DRM_I915_GEM_VM_CREATE		0x3a
+ #define DRM_I915_GEM_VM_DESTROY		0x3b
++#define DRM_I915_GEM_CREATE_EXT		0x3c
+ /* Must be kept compact -- no holes */
+ 
+ #define DRM_IOCTL_I915_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_I915_INIT, drm_i915_init_t)
+@@ -438,6 +439,7 @@ typedef struct _drm_i915_sarea {
+ #define DRM_IOCTL_I915_GEM_ENTERVT	DRM_IO(DRM_COMMAND_BASE + DRM_I915_GEM_ENTERVT)
+ #define DRM_IOCTL_I915_GEM_LEAVEVT	DRM_IO(DRM_COMMAND_BASE + DRM_I915_GEM_LEAVEVT)
+ #define DRM_IOCTL_I915_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE, struct drm_i915_gem_create)
++#define DRM_IOCTL_I915_GEM_CREATE_EXT	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE_EXT, struct drm_i915_gem_create_ext)
+ #define DRM_IOCTL_I915_GEM_PREAD	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_PREAD, struct drm_i915_gem_pread)
+ #define DRM_IOCTL_I915_GEM_PWRITE	DRM_IOW (DRM_COMMAND_BASE + DRM_I915_GEM_PWRITE, struct drm_i915_gem_pwrite)
+ #define DRM_IOCTL_I915_GEM_MMAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_MMAP, struct drm_i915_gem_mmap)
+@@ -2975,6 +2977,46 @@ struct drm_i915_query_memory_regions {
+ 	struct drm_i915_memory_region_info regions[];
+ };
+ 
++/**
++ * struct drm_i915_gem_create_ext - Existing gem_create behaviour, with added
++ * extension support using struct i915_user_extension.
++ *
++ * Note that in the future we want to have our buffer flags here, at least for
++ * the stuff that is immutable. Previously we would have two ioctls, one to
++ * create the object with gem_create, and another to apply various parameters,
++ * however this creates some ambiguity for the params which are considered
++ * immutable. Also in general we're phasing out the various SET/GET ioctls.
++ */
++struct drm_i915_gem_create_ext {
++	/**
++	 * @size: Requested size for the object.
++	 *
++	 * The (page-aligned) allocated size for the object will be returned.
++	 *
++	 */
++	__u64 size;
++	/**
++	 * @handle: Returned handle for the object.
++	 *
++	 * Object handles are nonzero.
++	 */
++	__u32 handle;
++	/** @flags: MBZ */
++	__u32 flags;
++	/**
++	 * @extensions: The chain of extensions to apply to this object.
++	 *
++	 * This will be useful in the future when we need to support several
++	 * different extensions, and we need to apply more than one when
++	 * creating the object. See struct i915_user_extension.
++	 *
++	 * If we don't supply any extensions then we get the same old gem_create
++	 * behaviour.
++	 *
++	 */
++	__u64 extensions;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
