@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9F44C3588
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:16:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 391984C3595
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 20:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB7E10E877;
-	Thu, 24 Feb 2022 19:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE8F10E8A1;
+	Thu, 24 Feb 2022 19:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 301D910E877;
- Thu, 24 Feb 2022 19:16:25 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- l25-20020a9d7a99000000b005af173a2875so2017429otn.2; 
- Thu, 24 Feb 2022 11:16:25 -0800 (PST)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F40310E8A1;
+ Thu, 24 Feb 2022 19:16:31 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id 12so4311867oix.12;
+ Thu, 24 Feb 2022 11:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TLiWpOnxapYAVvT4QJds8jwsCUqpq+N+eb8iJ1oxqPc=;
- b=FoSBsHzIox96KnpJAyliB1ZiuIjpzEzM4XYDkOlGoqloV5Eo7EZVSPu2ErTj4vLJMi
- upYaLfSb0X91GX+xn6TnAobrbP6ERdOB5KlZcpaoe7UbiAWgiKPgTlQEtKxHSzdLcHMS
- lOjpOydbBexU4vm5IkOYAkImwvyLuVtkbedyi2e7M1I2TfUrXXZR7/AB5zitxIeKy/IC
- x1F5Q91iYENsXt8Yd24tfJgrSbsl/BS2PPenavqRHuQd9YmcfFKmky7rirOq5DXnIC0b
- XSj6nBARIPzqtJUo0WYZfR72ddf+6yWvaL9fNzHTsevpQcAYyyylt8lzDJ2QWRku7DVr
- pJNA==
+ bh=89DjEEGsLwYVVyD3+lmgDuUkvgmk0sfi5HizC/FoSH4=;
+ b=nLE4O+3a20KBgtMfBCmxPYKi2/yST1qDItJARMiJsPchNEAXZvAamWBMyYOiminHO0
+ f+ViAwcqCo4QglNR7wsM980DfeBcDWIeXP0DYzmx/DqMcfWrtZ0qz7I2c6TyfMpnqz5e
+ IIrErJME1K4nHTD3xFi2OsblyMCLWHZZg2NowBgylgzBMhK5gmry6+qQriY1+WUDSWE6
+ /aEFiwDOdPhuNf0jeGDVq+lwdlyUtTcGnYpJm+09UMFwfVMDtVx6vKhlmy/4PH4m/aKb
+ UWZ9VWjZbyyiYhWMeuu7xRiXXM1TtorNBbw1NozVfPlBs2nnV16Te7V6YlMrspA53Cnx
+ 9uIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TLiWpOnxapYAVvT4QJds8jwsCUqpq+N+eb8iJ1oxqPc=;
- b=3ozsQJEb6Gdm8FPY6nTs086oiYpmK4mRCiaDcYHkwTEs6i3aj4773DanyMHVGuH/GX
- IK2HDgctwuhPexdK3H2jqqcMYeWqgMwNaUx03YdViVEKE6QDBa7e/CLz3nEYkEKmKRM7
- 9FB43p0aQlB8z3gG20qucQ3sfll8lHWjvGyK1bgkfyIqs6Bikz47W57XSf7OCSNEdf09
- smji0Yz7mMXzRiZ3GLpI1SMc/mq5DnGsNvYB9BOccmku4aURJMm4ogqVCzSSPhSoiNBV
- mrfOv7/hQ+N7rX0TJr8X1abF8IbMKU2avOz90+7VX5NAyn4vspfohWag0hS6ODvpdVEN
- ulIA==
-X-Gm-Message-State: AOAM5307rx7fX9HyPuCPg7NBaC2iFr4o84VRMb2ofS9xDCYU76jKMu94
- 4y0fArGAH6pIsvnHx4VKdlY=
-X-Google-Smtp-Source: ABdhPJzBXhUKmpv0W6RRc6cmrcAkgPuFrtLmZVXDFelgeLtmLNAIwubxdHBKS6Tl11+U/IW4kchtiQ==
-X-Received: by 2002:a9d:6e09:0:b0:5ad:1fcd:bfd0 with SMTP id
- e9-20020a9d6e09000000b005ad1fcdbfd0mr1532004otr.312.1645730183457; 
- Thu, 24 Feb 2022 11:16:23 -0800 (PST)
+ bh=89DjEEGsLwYVVyD3+lmgDuUkvgmk0sfi5HizC/FoSH4=;
+ b=g6DX3qi3ucy9MIJC+Hd5LuzLKd99DYiMr+3hAnuxpBvPoZdxobQNahkazOWtxacpvH
+ g9iHawsexh4MZdTX5rOKVbf1ABQWeED1bI6hs5Y1Ujq1jRrspHCWU2RgWWH/ce+eWaNu
+ N13FMse2zHukq3w7JM/Y8OgcJPLItNZerJ7+0PG9ubOXcihuZAxSRZASjEVNNB1fKhHq
+ 2VvrdvEncSujYXaAKjAtiaOS9ZGowNiteeWWklgmIPwMFWjscWw9tZVsSI4ibmyDGQn+
+ YShZyV1AydfpGzh7wuwuuPuJRTJZ0lZTJ+nipw7mfkXK45dV0W6EQHHEEVMMparD5xXz
+ qt/g==
+X-Gm-Message-State: AOAM533HTBbW7ewqHnVab/f4kBt9GYpBjDPe5EwPsUto9yCVA6QxqeuJ
+ hXVUBlQFQzQBuVVUpUJe8Eo=
+X-Google-Smtp-Source: ABdhPJxkqDmRQVez9RKGPAup0tMKEJD6hMNayVig2vxoittVpi0Y4s2/5JCsUDFjoJX87Eht8C51Wg==
+X-Received: by 2002:a05:6871:b10:b0:d3:a3f7:89f9 with SMTP id
+ fq16-20020a0568710b1000b000d3a3f789f9mr6920606oab.163.1645730190688; 
+ Thu, 24 Feb 2022 11:16:30 -0800 (PST)
 Received: from localhost.localdomain (189-47-54-110.dsl.telesp.net.br.
  [189.47.54.110]) by smtp.gmail.com with ESMTPSA id
- w3-20020a056830110300b005af14392276sm79509otq.62.2022.02.24.11.16.18
+ w3-20020a056830110300b005af14392276sm79509otq.62.2022.02.24.11.16.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 11:16:23 -0800 (PST)
+ Thu, 24 Feb 2022 11:16:30 -0800 (PST)
 From: Magali Lemes <magalilemes00@gmail.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 1/4] drm/amd/display: Adjust functions documentation
-Date: Thu, 24 Feb 2022 16:15:48 -0300
-Message-Id: <20220224191551.69103-2-magalilemes00@gmail.com>
+Subject: [PATCH 2/4] drm/amd/display: Add conditional around function
+Date: Thu, 24 Feb 2022 16:15:49 -0300
+Message-Id: <20220224191551.69103-3-magalilemes00@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220224191551.69103-1-magalilemes00@gmail.com>
 References: <20220224191551.69103-1-magalilemes00@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,48 +78,46 @@ Cc: kernel test robot <lkp@intel.com>, siqueirajordao@riseup.net,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Part of the documentation of the 'dc_process_dmub_aux_transfer_async'
-function was misplaced, being put together with the
-‘dc_enable_dmub_notifications’ documentation. This caused the following
-warning:
+When CONFIG_DRM_AMD_DC_DCN is not set, the function
+'dm_helpers_enable_periodic_detection' doesn't have its prototype defined,
+causing the following warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:3757: warning:
-expecting prototype for dc_process_dmub_aux_transfer_async(). Prototype
-was for dc_enable_dmub_notifications() instead
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:805:6:
+warning: no previous prototype for function 'dm_helpers_enable_periodic_detection' [-Wmissing-prototypes]
+   void dm_helpers_enable_periodic_detection(struct dc_context *ctx, bool enable)
+        ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:805:1:
+note: declare 'static' if the function is not intended to be used outside
+of this translation unit
+   void dm_helpers_enable_periodic_detection(struct dc_context *ctx, bool enable)
+   ^
+   static
+   1 warning generated.
 
-This commit fixes the warning by placing the function documentations in
-their right place.
+This commit silences this warning by adding a conditional directive
+around the mentioned function, and also corrects a small spelling error.
 
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Magali Lemes <magalilemes00@gmail.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index b1ce3c0cf477..61e3bb99375f 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -3737,8 +3737,8 @@ bool dc_is_dmub_outbox_supported(struct dc *dc)
- 	return dc->debug.enable_dmub_aux_for_legacy_ddc;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 010498ff5911..f5f39984702f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -977,7 +977,9 @@ void dm_set_phyd32clk(struct dc_context *ctx, int freq_khz)
+        // TODO
  }
  
--/**
-- * dc_process_dmub_aux_transfer_async - Submits aux command to dmub via inbox message
-+/*
-+ *****************************************************************************
-  *  Function: dc_enable_dmub_notifications
-  *
-  *  @brief
-@@ -3780,7 +3780,7 @@ void dc_enable_dmub_outbox(struct dc *dc)
++#if defined(CONFIG_DRM_AMD_DC_DCN)
+ void dm_helpers_enable_periodic_detection(struct dc_context *ctx, bool enable)
+ {
+-	/* TODO: add peridic detection implementation */
++	/* TODO: add periodic detection implementation */
  }
- 
- /**
-- *****************************************************************************
-+ * dc_process_dmub_aux_transfer_async - Submits aux command to dmub via inbox message
-  *                                      Sets port index appropriately for legacy DDC
-  * @dc: dc structure
-  * @link_index: link index
++#endif
 -- 
 2.25.1
 
