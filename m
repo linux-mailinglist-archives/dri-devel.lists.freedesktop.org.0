@@ -1,74 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9070C4C2F41
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 16:19:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FAE4C2F9E
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 16:27:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CDD10E9AD;
-	Thu, 24 Feb 2022 15:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7734810EAE6;
+	Thu, 24 Feb 2022 15:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A91B910E9AD
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 15:19:08 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 06C6B32009F8;
- Thu, 24 Feb 2022 10:19:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 24 Feb 2022 10:19:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=Z5qZ1CnaOPJuRO4buv744YaM6Y4hvgZ5goSCIs
- l012c=; b=ZeghmTbGUncTUenwIZNrw8trrOuhZGzM1sW6mCKsrgaKY4WhzD6QM6
- 89lb+jl7CYGszGL9Y+9H2toD6zwxy9sIEtQd1kKFyApkvru0wjmi0so7FTmn0CuI
- FQEj6Xpn4Zn/T3RfuxTUBQNYYa5LkQVacAgjV6ssfNyDl4EF4tYHZW8WZ8ZIOyr9
- 3OxmhT8dOkm1rAvSQwE6b8tj7KrKZlm/Oay3Z6jnWsS7oB1z78nGDIDo6xpEut3K
- CnRzI/AYZX6G9RKALz3xSwFw3ohEajN2bOhuYXNEjPtfdvzrejBYYe13Lp6o6At+
- Z9MJ/PEaOJbPzZ+vHphU7fKPc0ckEHew==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Z5qZ1CnaOPJuRO4bu
- v744YaM6Y4hvgZ5goSCIsl012c=; b=K+cNLPEmM6tipWbin/9r2ykEyu1pw99nU
- RiUNaQQjTFCaiEvXN9BqhBMSisj41RT0ekFBz06AGgjwAMe7k2ZTALEniHsjml88
- JeSzDUD0ADO4a9F7kFijcnDuG9Ij14bd/qWOxeL3lgdY1/yynQj/Lez06fRZ+ZHh
- Wh1co/KaGIurVY76isvtLtvQAPpTh4yh4IJkYWZAtXQhap/gluW2xI+0wIYub4bO
- cNqSpKYtnkCP5Conq4ehHKUibBy5mkqscWUlvIP2bLu2Cn8mBZee7sLd6yfjjDRH
- rOAW+Cg2t1822vSpT+5ops5QqKHp8p5m4QqVF8oiqcnLNM5KDl76g==
-X-ME-Sender: <xms:6KEXYnqttXQVvCptrvvz56wah9wHywl9A5y-zqBeU39D0JQheH8uUw>
- <xme:6KEXYhqVpOsxDBhQ2NzPs0_XEWQaC_NtaICwF_1VW5o75tAl53SH0HHqemF-w60gf
- nBuSktjlcLwfwQBKsY>
-X-ME-Received: <xmr:6KEXYkMwYSoWyfeT3BJBxHQryfxVkHSYEB_3j2vMzgs7e8kcwdDlCXpdiY_o9I35Wcsvlemf8YClxLaA-FQJyRKd-6YWqELa2YMzcbU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledvgdejhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:6KEXYq4qZTk6Tkl17wKy2VDe6oWM9RaCdYj2RLeORm9FZQeq83HZsg>
- <xmx:6KEXYm5EF832OiKDTZJrsRiLfZywbTnJEsGLe5lK2v7WXY3debe_Mg>
- <xmx:6KEXYiiTsTRVVek4FHXLV4oGXvwiyeEalquufE-BY37dq8_pY8Q3Ag>
- <xmx:6aEXYsk1uheJ3YrmSlv85nJWEzVrUlkRp7CPt0W0n-B78KugT-ywyA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Feb 2022 10:19:04 -0500 (EST)
-Date: Thu, 24 Feb 2022 16:19:02 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 3/7] drm/bridge: Extend struct drm_bus_cfg with clock field
-Message-ID: <20220224151902.4qdgdxdufvmhwezm@houat>
-References: <20220219002844.362157-1-marex@denx.de>
- <20220219002844.362157-4-marex@denx.de>
+Received: from asav22.altibox.net (asav22.altibox.net [109.247.116.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4112510EADF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 15:27:37 +0000 (UTC)
+Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
+ [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav22.altibox.net (Postfix) with ESMTPSA id E077523B79;
+ Thu, 24 Feb 2022 16:27:33 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: robh+dt@kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/5] drm/tiny: Add MIPI DBI compatible SPI driver
+Date: Thu, 24 Feb 2022 16:27:03 +0100
+Message-Id: <20220224152708.14459-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gkjintdkuypnkj4h"
-Content-Disposition: inline
-In-Reply-To: <20220219002844.362157-4-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=KbX8TzQD c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8
+ a=XqjdhIIK1VNfZnpq3w4A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,53 +46,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: devicetree@vger.kernel.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, thierry.reding@gmail.com, maxime@cerno.tech,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---gkjintdkuypnkj4h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
 Hi,
 
-On Sat, Feb 19, 2022 at 01:28:40AM +0100, Marek Vasut wrote:
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 1701c2128a5cb..32455cf28f0bc 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -1077,6 +1077,11 @@ struct drm_bus_cfg {
->  	 * @flags: DRM_BUS_* flags used on this bus
->  	 */
->  	u32 flags;
-> +
-> +	/**
-> +	 * @clock: Clock frequency in kHz used on this bus
-> +	 */
-> +	u32 clock;
->  };
+This patchset adds a driver that will work with most MIPI DBI compatible
+SPI panels out there.
 
-This is fairly vague. You were mentioning DSI: is it the pixel clock?
-The HS clock rate? With or without counting the lanes? What about the
-burst mode: would it be the lane or pixel rate?
+It can replace the SPI interface support in these drivers:
 
-It would be just as confusing for HDMI: is it the the TMDS character
-rate? The TMDS bit rate ? TMDS Clock rate?
+$ grep -lr MIPI_DCS drivers/staging/fbtft/ | grep -v "-" | uniq | sort
+drivers/staging/fbtft/fb_hx8340bn.c
+drivers/staging/fbtft/fb_hx8353d.c
+drivers/staging/fbtft/fb_hx8357d.c
+drivers/staging/fbtft/fb_ili9163.c
+drivers/staging/fbtft/fb_ili9340.c
+drivers/staging/fbtft/fb_ili9341.c
+drivers/staging/fbtft/fb_ili9481.c
+drivers/staging/fbtft/fb_ili9486.c
+drivers/staging/fbtft/fb_s6d02a1.c
+drivers/staging/fbtft/fb_st7735r.c
+drivers/staging/fbtft/fb_st7789v.c
+drivers/staging/fbtft/fb_tinylcd.c
 
-Maxime
+Note that the MIPI DBI parallel interface supported by fbtft does not
+yet exist in DRM.
 
---gkjintdkuypnkj4h
-Content-Type: application/pgp-signature; name="signature.asc"
+Maxime gave[1] a good overview of the situation with these displays and
+proposed to make a driver that works with all MIPI DBI compatible
+controllers and use a firmware file to provide the controller setup for
+a particular panel.
 
------BEGIN PGP SIGNATURE-----
+Changes since version 4:
+- Add sainsmart18 to compatible items (Rob)
+- Expand write-only description (Sam)
+- kconfig: s/DRM_KMS_CMA_HELPER/DRM_GEM_CMA_HELPER/ (Sam)
+- kconfig: Add select VIDEOMODE_HELPERS (Sam)
+- kconfig: Add wiki url in the description (Sam)
+- Split out and use of_get_drm_panel_display_mode()(Sam)
+- Only use the first compatible to look for a firmware file since the
+  binding mandates 2 compatibles.
+- Make having a firmware file mandatory so we can print an error
+  message if it's missing to improve the user experience. It's very
+  unlikely that a controller doesn't need to be initialized and if
+  it doesn't, it's possible to have a firmware file containing only
+  a DCS NOP.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYheh5gAKCRDj7w1vZxhR
-xceDAQDh0DMEez71pEaTYEUqMePmCIeno7FTsQ+x4Ak/ZcRZRgEAmE3f/5wfizUf
-btqSGr2hG4wobkisOWk22HPIKrG+4A0=
-=Yuro
------END PGP SIGNATURE-----
+See wiki[2] for a script to make command firmware files.
 
---gkjintdkuypnkj4h--
+Noralf.
+
+[1] https://lore.kernel.org/dri-devel/20211129093946.xhp22mvdut3m67sc@houat/
+[2] https://github.com/notro/panel-mipi-dbi/wiki
+
+
+Noralf Trønnes (5):
+  dt-bindings: display: add bindings for MIPI DBI compatible SPI panels
+  drm/modes: Remove trailing whitespace
+  drm/modes: Add of_get_drm_panel_display_mode()
+  drm/mipi-dbi: Add driver_private member to struct mipi_dbi_dev
+  drm/tiny: Add MIPI DBI compatible SPI driver
+
+ .../display/panel/panel-mipi-dbi-spi.yaml     | 127 ++++++
+ MAINTAINERS                                   |   8 +
+ drivers/gpu/drm/drm_modes.c                   |  51 ++-
+ drivers/gpu/drm/tiny/Kconfig                  |  15 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         | 398 ++++++++++++++++++
+ include/drm/drm_mipi_dbi.h                    |   8 +
+ include/drm/drm_modes.h                       |   8 +
+ 8 files changed, 615 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+ create mode 100644 drivers/gpu/drm/tiny/panel-mipi-dbi.c
+
+-- 
+2.33.0
+
