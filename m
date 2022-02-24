@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD3A4C38EB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:42:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46574C38EC
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:43:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6086E10E83A;
-	Thu, 24 Feb 2022 22:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2FF310E841;
+	Thu, 24 Feb 2022 22:43:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F0F10E83A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:42:54 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- r41-20020a4a966c000000b0031bf85a4124so4109979ooi.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 14:42:54 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89E010E841;
+ Thu, 24 Feb 2022 22:43:18 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id s13so1824707wrb.6;
+ Thu, 24 Feb 2022 14:43:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bWKLMT4aebSJWW8C7UiCQ3/EbG02GUUsHveIfrNn2xE=;
+ b=hm/yI1Cy2Kc8mLeeLsOCHupF1kEHeji6XjXMjWyWbiitXdcqzotkVsqhN+bU7+hwc5
+ t/Jct+cxOWL03KF/nmu3K5nzMPMgen47vrPBS0NpiuJd/X0wuYF5NXJZvIQIRiPt2m2w
+ t2heHb5g/O+V72fy/UUlcjmfXgRF1p8E3GHQEcggq0h2lJaFK8l+BwBN9SYa65n/7a0w
+ 2C53p+XtaPhGaJgtIquK/MEhhm+6m50rt73HguwdIImHYO/TW5gJo2qec+hnLWvUZBh3
+ 2QRVv8+FfvYeIyvjXTU9Cn8tYpHjqa6RN24Eips/xUqhHgITJM9cj76iUEBh5xuAIJv1
+ Izig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=umB9yAeuY31ST5Z4+hFHkjF0GD+Hu+TObWrQZ6jCCZ0=;
- b=sRMX3a9er3J70DIzvSVokta3QQoswS3y9tvyOAJmoFEgKM6xXNVGx1GG7xaPkYv1TX
- TWAc9/i4hu9CNWdNffWA5GwvuIZe90HqfNIInkTo8NH80gc3T3Am6fbLUcVhK8zw4kww
- 4c/hjxgrWlmCLS3ssiMOdLh07j8Pq5fIcf3HLfM3TLOKUsmNtKumfbka6guGYiamJTWx
- E1KMJP+zPm2xHl9eY6XfJBBZFniaDFWrbl0ZmDLS9HEXDq0RUhaUw5m05by9DZ7W7P9B
- GGzQC01eWQB44WFQUNRtJXtgZsxxYWwA/dXA9iPogpQ5YzbY573bfMueLxXM7kW4TG7i
- 2j2w==
-X-Gm-Message-State: AOAM533mbVHKIUPcPvPJ3GJgcnXPVepjNzUwINtz0qtOExSPXVPC8x2z
- HYI16n5DTuVjErOVJTkFpg==
-X-Google-Smtp-Source: ABdhPJycE04S548CoykfCRSkjqLayOGIOoiW6r1HdJF3EiI0U2siDvmXO1Jo5fo6vbH/haJidkOpiA==
-X-Received: by 2002:a05:6870:3c06:b0:d2:c68f:a900 with SMTP id
- gk6-20020a0568703c0600b000d2c68fa900mr146032oab.33.1645742573462; 
- Thu, 24 Feb 2022 14:42:53 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
- h3-20020a4aa9c3000000b003181c02e7ccsm264965oon.47.2022.02.24.14.42.52
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bWKLMT4aebSJWW8C7UiCQ3/EbG02GUUsHveIfrNn2xE=;
+ b=cg0tBzl96ynCaQf0y8qEpzCalGCIkmWoqvTeEbW8nf2nVFq+GnETSJ9ty4cks/zTVV
+ W7eS7BIktZfpB2jp6JQkBtYvHI4zn0mHQRjb0mCYGHoNWmJ+gQIRu5sGUIlaUl0v6hUv
+ 6c/pRkjsjJkZVBYrNqM3Ms2HxlPDSoFs35iGfkEuy/e1P0YEXCe4qt+ts0xm2S0MTOh6
+ CPWmo1deK2SPsPKq3g16yUfvdxkn1N5gN0TpW0TT3ZcHVXru3JC7TOcqV73BKIcoKxma
+ 5fEJVBk9H3xDMjutajtyr3dsStQDCS5z0UMwOExAyj2oByNRmNBmhmOe2RT0pSUB5F3I
+ suMQ==
+X-Gm-Message-State: AOAM531J4Xj89zV4j+xTkpDEgygbuAq0zC+y2VgY9NYCAikqKRLbD5NL
+ GLxW0FU7bRxaw9eiyW/5n4U=
+X-Google-Smtp-Source: ABdhPJx+iF7F/adABVhKlAG8I0mrA22SnXPr653iA75eyj2+GDckFVmGWApaNaHjkGCuXsZThToCeQ==
+X-Received: by 2002:a05:6000:2c4:b0:1ea:910c:151c with SMTP id
+ o4-20020a05600002c400b001ea910c151cmr3801018wry.92.1645742597131; 
+ Thu, 24 Feb 2022 14:43:17 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ a17-20020a5d5091000000b001edb61b2687sm736421wrt.63.2022.02.24.14.43.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 14:42:52 -0800 (PST)
-Received: (nullmailer pid 3728887 invoked by uid 1000);
- Thu, 24 Feb 2022 22:42:51 -0000
-Date: Thu, 24 Feb 2022 16:42:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V3 02/12] dt-bindings: display: bridge: tc358867:
- Document DSI data-lanes property
-Message-ID: <YhgJ6wcLtrq5QZYE@robh.at.kernel.org>
-References: <20220224195817.68504-1-marex@denx.de>
- <20220224195817.68504-3-marex@denx.de>
+ Thu, 24 Feb 2022 14:43:16 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amdgpu: Fix missing assignment to variable r
+Date: Thu, 24 Feb 2022 22:43:16 +0000
+Message-Id: <20220224224316.149704-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220224195817.68504-3-marex@denx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +72,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: llvm@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Feb 2022 20:58:07 +0100, Marek Vasut wrote:
-> It is necessary to specify the number of connected/used DSI data lanes when
-> using the DSI input port of this bridge. Document the 'data-lanes' property
-> of the DSI input port.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V3: - New patch
-> ---
->  .../display/bridge/toshiba,tc358767.yaml       | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
+Currently the call to function amdgpu_benchmark_move should be
+assigning the return value to variable r as this is checked in
+the next statement, however, this assignment is missing. Fix
+this by adding in the missing assignment.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Addresses clang scan warning:
+drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c:168:7: warning:
+variable 'r' is uninitialized when used here [-Wuninitialized]
+
+Fixes: 9645c9c9fb15 ("drm/amdgpu: plumb error handling though amdgpu_benchmark()")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+index 3136a9ad2d54..bb293a5c6fd5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+@@ -163,7 +163,7 @@ int amdgpu_benchmark(struct amdgpu_device *adev, int test_number)
+ 			 "benchmark test: %d (simple test, VRAM to VRAM)\n",
+ 			 test_number);
+ 		/* simple test, VRAM to VRAM */
+-		amdgpu_benchmark_move(adev, 1024*1024, AMDGPU_GEM_DOMAIN_VRAM,
++		r = amdgpu_benchmark_move(adev, 1024*1024, AMDGPU_GEM_DOMAIN_VRAM,
+ 				      AMDGPU_GEM_DOMAIN_VRAM);
+ 		if (r)
+ 			goto done;
+-- 
+2.34.1
+
