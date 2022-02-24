@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AB84C38D0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:32:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 323054C38D9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 23:39:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3C2510E1C6;
-	Thu, 24 Feb 2022 22:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217FB10E460;
+	Thu, 24 Feb 2022 22:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4810810E1C6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:32:40 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C38010E460
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 22:39:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A522B61AAD;
- Thu, 24 Feb 2022 22:32:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0B8C340E9;
- Thu, 24 Feb 2022 22:32:38 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 83CD3B829D9;
+ Thu, 24 Feb 2022 22:39:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15246C340E9;
+ Thu, 24 Feb 2022 22:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645741959;
- bh=NcvLD+wZKrYEdSg47YbaVSfJCAeRgRIGRh4801MgTY4=;
+ s=k20201202; t=1645742362;
+ bh=XrTCazwincKjtwDT6Eor2EdDbcq+R1mpZ9I8nlWlLvI=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=EKlTWCx01FLoKVTcOsvQLu4d5JQIXZ4poLTULy7izKvOm/ywxqcR6XQFQv70TmfFH
- i7c/5aX9Gjh9LKIksIPFLpmPniMt9+czuPa1aKVMUvZQCr/2uTJDhAL/C0cHBuDUWW
- CNfaMNCUtWxeOJjNkRqAzKqim8WDiucJDmP1PqHIrADh4/aDI2s9GeH8PzCKhu8i4P
- DTykH8SE8Wjzc3QlQVgF8/HTdGTVzY3hi1zrmUs+8Smz0+uBwOZljaEBbC3Bg2dlaF
- K/Veqw9olhREXbTVY+m4UOon/DtQ+Ofx2CieSPA6ljEajGz20uOadSDtfWWi1VHofr
- Dsa4sBPSo/MFQ==
+ b=RryR7GlKCKyOkj0mH9LkR/Jj5KowgyH1JE5zBUUuUSW/bhYOy8S//2pNsLa2LS2BM
+ kC5Soxw8hZdGBjMTGjEXmTkJezQVZfYHWIbztSQzRx+G4mjv59knFPu4MEyyJzLizl
+ AaCZNbw/goJpY63Zp5JOp1UUKHk6u9NDGybCz20be2su7cIjHE78QWLudUsAbt4FyQ
+ xHTz6l4cSkWHNllWHe4FqTq6pi451JAxk8EFaeadr1oQAHKigHoQqQHi8ez8VkhhzG
+ b9p3w/V4RkPffe//fpJCf46bFmL0vzFrDXIXaoF4wI9o2jkhfgf+uVm6YiW5///TDM
+ ioXw1cPTAgYIg==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220221161821.jbktbgx2t6aaxds3@houat>
+In-Reply-To: <20220221164323.6xacozlk3usiidfy@houat>
 References: <20220125141549.747889-1-maxime@cerno.tech>
  <20220125141549.747889-3-maxime@cerno.tech>
  <20220218231508.7B5FCC340E9@smtp.kernel.org>
  <20220221161821.jbktbgx2t6aaxds3@houat>
+ <20220221164323.6xacozlk3usiidfy@houat>
 Subject: Re: [PATCH v4 02/10] clk: Always clamp the rounded rate
 From: Stephen Boyd <sboyd@kernel.org>
 To: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 24 Feb 2022 14:32:37 -0800
+Date: Thu, 24 Feb 2022 14:39:20 -0800
 User-Agent: alot/0.10
-Message-Id: <20220224223239.0B0B8C340E9@smtp.kernel.org>
+Message-Id: <20220224223922.15246C340E9@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +64,56 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2022-02-21 08:18:21)
-> Hi,
+Quoting Maxime Ripard (2022-02-21 08:43:23)
+> Hi again,
 >=20
-> On Fri, Feb 18, 2022 at 03:15:06PM -0800, Stephen Boyd wrote:
-> > Quoting Maxime Ripard (2022-01-25 06:15:41)
-> > > The current core while setting the min and max rate properly in the
-> > > clk_request structure will not make sure that the requested rate is
-> > > within these boundaries, leaving it to each and every driver to make
-> > > sure it is.
+> On Mon, Feb 21, 2022 at 05:18:21PM +0100, Maxime Ripard wrote:
+> > On Fri, Feb 18, 2022 at 03:15:06PM -0800, Stephen Boyd wrote:
+> > > Quoting Maxime Ripard (2022-01-25 06:15:41)
+> > > > +/*
+> > > > + * Test that if our clock has some boundaries and we try to round =
+a rate
+> > > > + * lower than the minimum, the returned rate will be within range.
+> > > > + */
+> > > > +static void clk_range_test_set_range_round_rate_lower(struct kunit=
+ *test)
+> > > > +{
+> > > > +       struct clk_dummy_context *ctx =3D test->priv;
+> > > > +       struct clk_hw *hw =3D &ctx->hw;
+> > > > +       struct clk *clk =3D hw->clk;
+> > > > +       long rate;
+> > > > +
+> > > > +       KUNIT_ASSERT_EQ(test,
+> > > > +                       clk_set_rate_range(clk,
+> > > > +                                          DUMMY_CLOCK_RATE_1,
+> > > > +                                          DUMMY_CLOCK_RATE_2),
+> > > > +                       0);
+> > > > +
+> > > > +       rate =3D clk_round_rate(clk, DUMMY_CLOCK_RATE_1 - 1000);
+> > > > +       KUNIT_ASSERT_GT(test, rate, 0);
+> > > > +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+> > >=20
+> > > The comment says within range but this test says exactly the minimum
+> > > rate. Please change it to test that the rate is within rate 1 and rate
+> > > 2. Also, we should call clk_get_rate() here to make sure the rate is
+> > > within the boundaries and matches what clk_round_rate() returned.
 > >=20
-> > It would be good to describe why. Or decide that it was an oversight and
-> > write that down here.
-> >=20
-> > > Add a clamp call to make sure it's always done, and add a few unit te=
-sts
-> > > to make sure we don't have any regression there.
-> >=20
-> > I looked through the per-user constraint patch history on the list but I
-> > couldn't really figure out why it was done this way. I guess we didn't
-> > clamp the rate in the core because we wanted to give the clk providers
-> > all the information, i.e. the rate that was requested and the boundaries
-> > that the consumers have placed on the rate.
+> > Ok
 >=20
-> I'm not really sure we should really leave it to the users, something lik=
-e:
->=20
-> clk_set_range_rate(clk, 1000, 2000);
-> clk_set_rate(clk, 500);
-> clk_get_rate(clk) # =3D=3D 500
->=20
-> Is definitely weird, and would break the least surprise :)
->=20
-> We shouldn't leave that to drivers, especially since close to none of
-> them handle this properly.
+> Actually, that doesn't work. Calling clk_round_rate() won't affect the
+> clock rate, so the rate returned by clk_get_rate() won't match what
+> clk_round_rate() will return.
 
-Ok.
+Huh? This is asking "what rate will I get if I call clk_set_rate() with
+DUMMY_CLOCK_RATE_1 - 1000 after setting the range to be rate 1 and rate
+2. It should round that up to some value (and we should enforce that it
+is inclusive or exclusive). I think I missed that this is
+clk_round_rate().
 
->=20
-> > With the round_rate() clk_op the providers don't know the min/max
-> > because the rate request structure isn't passed. I think my concern a
-> > long time ago was that a consumer could call clk_round_rate() and get
-> > one frequency and then call clk_set_rate() and get another frequency.
->=20
-> I'm not sure I follow you there.
->=20
-> The function affected is clk_core_determine_round_nolock(), which is
-> called by clk_core_round_rate_nolock() and clk_calc_new_rates(). In
-> turn, they will be part of clk(_hw_)_round_clock for the former, and
-> clk_core_set_rate_nolock() (and thus clk_set_rate()) for the latter.
->=20
-> I don't see how you can get a discrepancy between clk_round_rate() and
-> clk_set_rate().
->=20
-> And yeah, it's true that the round_rate op won't have the min and max
-> passed to them, but i'd consider this an argument for doing this check
-> here, since you don't have that option at all for those clocks.
-
-When the range setting API was introduced the rounding logic and the
-rate setting logic didn't use the same code paths. It looks like that
-code got consolidated now though so we should be fine.
+Either way, the clk provider implementation could say that if you call
+clk_set_rate() with a frequency below the minimum that it lies somewhere
+between the rate 1 and rate 2. The expectation should only check that it
+is within the range and not exactly the minimum because we're not
+testing the clk provider implementation of the rounding here, just that
+the constraints are satisfied and the rate is within range. That's my
+understanding of the comment above the function and the function name.
