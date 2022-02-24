@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779F54C27FA
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 10:20:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AD64C280D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 10:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 608CC10F417;
-	Thu, 24 Feb 2022 09:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 501B810F770;
+	Thu, 24 Feb 2022 09:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664DD10F40F;
- Thu, 24 Feb 2022 09:20:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645694436; x=1677230436;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9CrzIdJ/rsQPm7IKvpE9S1MFXtvqjWab6oVIYHdX6Qc=;
- b=Z7k5xVqf876JrNq66cCQIxiyHjr3L/Y/8X/510OHn4PJNolSqJd6f4C+
- PFwdLFxY9VLSOeeGo4qX6flcaLa81f2TgcOosDW32WNAOlWbsyXzXlyVt
- OffDftaSU0WwKBbIaEC+foRcQDgYodtVcLn91SIimpLLUZATIi/hX08ri
- KzBSdZH4sloSKIQRWEJoxzIs+4PORS9Yfq3HLUvs42eutn8SpOIwUkcG/
- tHhI92qCVsFZGlZU1XPQSkIVaIu+mV9AD/y+3X5NvyQBoMAOwcDmMA3Aj
- wS2sJrG9uiDZcZDG5sPHZQR68v9atfSPj2B7dZVtNSPADAfYxLfqdSUYi w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="232163008"
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="232163008"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2022 01:20:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="491537836"
-Received: from pallavim-desk.iind.intel.com ([10.145.162.180])
- by orsmga003.jf.intel.com with ESMTP; 24 Feb 2022 01:20:31 -0800
-From: Pallavi Mishra <pallavi.mishra@intel.com>
-To: gfx-internal-devel@eclists.intel.com
-Subject: [PATCH 4/6] drm/i915/gem: hide new uAPI behind CONFIG_BROKEN
-Date: Thu, 24 Feb 2022 14:52:30 +0530
-Message-Id: <20220224092232.780075-5-pallavi.mishra@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224092232.780075-1-pallavi.mishra@intel.com>
-References: <20220224092232.780075-1-pallavi.mishra@intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21CCA10F770
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 09:27:34 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id bg10so3003121ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 01:27:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5+kUny2RZ0RuNdhH0rcF0HLlqfcfBOEW7obgNCv8j1s=;
+ b=mYHsOBAn5oGqkqGiL0olxjHcyHEPj4RpaseQt4OcNS3I5AbhfqU+nrzOwrN05KlqTv
+ nQySHUxq+GSoZYjKaPyVm5JTQP+GAMcYbc5xj1jSk5O4mrwqgKUUZbFvzcLnm9sl/AsL
+ rF3NYgIHCPwiRf0+i7kaMYWpFKnhUkMIdOuds=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5+kUny2RZ0RuNdhH0rcF0HLlqfcfBOEW7obgNCv8j1s=;
+ b=rzSUaqoa3DnJ2fRb0l4LJVqJHn9812urn5Li41I8SczsrDruZFlqIjo+v4KYg8LzNV
+ gorwtXtRXZGcxD2jTByVlron7DcRXnoE9jHEevU2ISOHfBzcNSV9xj2C6ltcyjmNY5II
+ MOQfOr9yaaCrOI4k4SwAk2xwbvI7ZCZwk8dO8x19ThZ/Nm409aEiJBYOGUUotBubN7z1
+ M6L7b22Mor92JdLB0ums5/6i0Jw1TAQ9hI5kIKM5ydXoEjc+3GCEsVHW9M8GQgjnYGjp
+ 36oHhbHa1R2bArdnZzeFzuTFUN0BZcyTzLSc2sGlsc15Vd42ytatyWFj81+k0K9Ny+by
+ pHJw==
+X-Gm-Message-State: AOAM5329mE8ME1QiFeQ0KWMy5BnjKZkr3cIs+rRulh8tWIdDQvWz6rNZ
+ BRtpyaHAZZhIbT4Vjlq5ryVXtsleVFlEDmm+9fqeuuv8vBQkqQ==
+X-Google-Smtp-Source: ABdhPJy7NWl6V7uQam8s7xz0z+Q+MYOsJR+U5qx3JJg14ZPkRQFjj+oSeW7E1FTEJBiFECOjP0PDKrc2HCoOW/rfY68=
+X-Received: by 2002:a17:906:4ccd:b0:6b7:75ca:3eac with SMTP id
+ q13-20020a1709064ccd00b006b775ca3eacmr1498686ejt.167.1645694852581; Thu, 24
+ Feb 2022 01:27:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211210174819.2250178-1-jagan@amarulasolutions.com>
+ <20211210174819.2250178-3-jagan@amarulasolutions.com>
+ <CACRpkdb4JGCNyjncqgh8=3wWi4BRCqGNuLyTBRzLiVLK38UzqA@mail.gmail.com>
+ <CAMty3ZDDdxkTiC2GByuiVW9obXW_jdBFK+R2-BAh0k_uB=GApQ@mail.gmail.com>
+In-Reply-To: <CAMty3ZDDdxkTiC2GByuiVW9obXW_jdBFK+R2-BAh0k_uB=GApQ@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 24 Feb 2022 14:57:10 +0530
+Message-ID: <CAMty3ZC4FP31zAU5CE88iG3JtXYaKo6b43bKjWuLiorHsrYBgQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm: bridge: Switch to devm_drm_of_get_bridge
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +63,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>, matthew.auld@intel.com,
- Jason Ekstrand <jason@jlekstrand.net>, mesa-dev@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Auld <matthew.auld@intel.com>
+Hi Linus,
 
-Treat it the same as the fake local-memory stuff, where it is disabled
-for normal kernels, in case some random UMD is tempted to use this. Once
-we have all the other bits and pieces in place, like the TTM conversion,
-we can turn this on for real.
+On Sat, Dec 11, 2021 at 11:59 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Linus,
+>
+> On Sat, Dec 11, 2021 at 5:37 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > On Fri, Dec 10, 2021 at 6:49 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >
+> > > devm_drm_of_get_bridge is capable of looking up the downstream
+> > > bridge and panel and trying to add a panel bridge if the panel
+> > > is found.
+> > >
+> > > Replace explicit finding calls with devm_drm_of_get_bridge.
+> > >
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >
+> > Nice overall!
+> >
+> > > -       /* Look for a panel as a child to this node */
+> > > -       for_each_available_child_of_node(dev->of_node, child) {
+> > > -               panel = of_drm_find_panel(child);
+> > > -               if (IS_ERR(panel)) {
+> > > -                       dev_err(dev, "failed to find panel try bridge (%ld)\n",
+> > > -                               PTR_ERR(panel));
+> > > -                       panel = NULL;
+> > > -
+> > > -                       bridge = of_drm_find_bridge(child);
+> > > -                       if (!bridge) {
+> > > -                               dev_err(dev, "failed to find bridge\n");
+> > > -                               return -EINVAL;
+> > > -                       }
+> > > -               }
+> > > -       }
+> > > -       if (panel) {
+> > > -               bridge = drm_panel_bridge_add_typed(panel,
+> > > -                                                   DRM_MODE_CONNECTOR_DSI);
+> >
+> > And we are guaranteed that the right type of connector will be
+> > used here? (Just checking.)
+>
+> Yes. Each panel driver initialised the connector_type via
+> drm_panel_init and it will check during devm_drm_of_get_bridge.
+>
+> >
+> > > -               if (IS_ERR(bridge)) {
+> > > -                       dev_err(dev, "error adding panel bridge\n");
+> > > -                       return PTR_ERR(bridge);
+> > > -               }
+> > > -               dev_info(dev, "connected to panel\n");
+> > > -               d->panel = panel;
+> >
+> > How does this assignment happen after your patch?
+> > I'm using that...
+> >
+> > devm_drm_of_get_bridge() needs some more argument right?
+>
+> Yes, but I think we don't need to preserve the panel here. Yes I
+> didn't add that change, will take care in v2.
+>
+> >
+> > > -       } else if (bridge) {
+> > > -               /* TODO: AV8100 HDMI encoder goes here for example */
+> > > -               dev_info(dev, "connected to non-panel bridge (unsupported)\n");
+> > > -               return -ENODEV;
+> > > -       } else {
+> > > -               dev_err(dev, "no panel or bridge\n");
+> > > -               return -ENODEV;
+> > > +       bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> > > +       if (IS_ERR(bridge)) {
+> > > +               dev_err(dev, "error to get bridge\n");
+> > > +               return PTR_ERR(bridge);
+> >
+> > I'm gonna want to test this somehow on the hardware. But the TODO comment
+> > there wasn't supposed to be deleted if I will still need to take some special
+> > action whether this is a panel bridge or some other bridge.
+>
+> Agreed. Even I do like to add this prints, since
+> devm_drm_of_get_bridge is not able to return differentiated bridge so
+> it it not possible now. May be we can discuss this point.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: mesa-dev@lists.freedesktop.org
-Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210429103056.407067-9-matthew.auld@intel.com
-(cherry picked from commit 0a46be95c282956a9d3229a46e33ba701c26594c)
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 3 +++
- drivers/gpu/drm/i915/i915_query.c          | 3 +++
- 2 files changed, 6 insertions(+)
+Any comments on this? I will try to send the next version based on it.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index f6729feae582..548ddf39d853 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -335,6 +335,9 @@ static int ext_set_placements(struct i915_user_extension __user *base,
- {
- 	struct drm_i915_gem_create_ext_memory_regions ext;
- 
-+	if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
-+		return -ENODEV;
-+
- 	if (copy_from_user(&ext, base, sizeof(ext)))
- 		return -EFAULT;
- 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 51b368be0fc4..8a72923fbdba 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -434,6 +434,9 @@ static int query_memregion_info(struct drm_i915_private *i915,
- 	u32 total_length;
- 	int ret, id, i;
- 
-+	if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
-+		return -ENODEV;
-+
- 	if (query_item->flags != 0)
- 		return -EINVAL;
- 
+Thanks,
+Jagan.
