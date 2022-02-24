@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37A94C3239
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 17:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903A84C332B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Feb 2022 18:07:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10C4D10E469;
-	Thu, 24 Feb 2022 16:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99EE610E8B5;
+	Thu, 24 Feb 2022 17:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E89110E469
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 16:53:01 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id t14so3747397ljh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 08:53:01 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 520E510E8D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 17:07:12 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id b9so5002667lfv.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 09:07:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6rQxjXtpXu2yAb/jowAuwRKR0kniyxdOrLxDLFvi0yI=;
- b=pJ+/uf9rIZEsItagsr2tmkqzFW9yixs9CzyRhYdA+vydMSnQto9SssCtMdU+vGn217
- ufQTQTy9nXGhxAeyGHlQCDl625iYrmpROdqAnpSzZAbCxwHlEIzIbDYn+lp38PNEXH1N
- ZPSO3epfeS7e5sdxN9fhMvkSmQGSIJiSS2QwPeaCH6lfLGpjRLgtNS2vALMhPx82h8fq
- VFPVWFKsCNyBGdLQCEtIijK1NIP9GHyHVDfDR6embgmBulp/iXPspc/DhZwz9Kwy3gL3
- Y3H1CmkTs+LA4iAHRi+NO6h+mJ91nCXORA2FGH+WWZul2JSQr0eMt2lXnNrQym2hs1Cs
- 2+1w==
+ bh=N0jQLv1+zuQN7juoAXyJ+WWIVk1aqUcFAR93hnw7M9Y=;
+ b=h4SyIOcr6gUDJDSMri5CABMlLmrTqmXTYoPBWmZ5Lsz6MfmMYMHjqQFLDrSWZEaPNm
+ Mnq6Hz6mtjIlWlS1fbJ6a/izSvhS/6Uvomrp9DKrs3Fg3PrltiuwwR0ly1LWmYz22Ysr
+ NsONJOkpJEmpXKKQBv4tu/bLVhIYOu3NXXkxOgGeCaqKoPoAd1eM25dodyz0EEIQKhf4
+ gDbV7jZK2bRJdtz+aAKNWcFgh7lABpJJNGQ4UM4x0f3S8xGjlwoZsRPVDJvzmIa4DdrI
+ 5HIWkNKOK6TLHoEex2DuwVFllrkb02rq3ksmS4B2WP7brvQPdHO6pcIuSrWZH+SYgi8u
+ A1xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6rQxjXtpXu2yAb/jowAuwRKR0kniyxdOrLxDLFvi0yI=;
- b=XV4b5aakUxmwgeTZw97VnyLpmMg8cGB88Il4/T3N0oFk/8g7479EV6eNm61QmWu32C
- hEDJrs85gEKMOyWsxaSOlwtYBvKbacO9KBIRe//jMrBm9OrbylGikwjK3amv8HJ/MWgw
- 69bq2RNlPa61djL5MNbKhFpzqee36Pduzm+cql3XoasGpblJFgwENDyoTz4aEN5zDoFX
- 620ZBIE2nj+4H7SKRstaDWVx3Y0owsd9XxJSRQiJ1yvaPgeSv7RnbYij2nv7O51H7QqE
- rx6mfdtqYwtu/uWRshLg2BZF9VpjHrle3UlNDD8KJJrEtkwO0S1RtuhyeRTubn7yxloY
- BevQ==
-X-Gm-Message-State: AOAM531dhmZ7oO7Y3WLHuoyOvHPVc0Tv4NKPGoo73a0tsAAaz4flcdu4
- SpFCM/kMdD7LRtTRADj4wlE=
-X-Google-Smtp-Source: ABdhPJySeNUF9Se5vXIwdNTcbknxa5e1zw6LB0LqowdsG230BkAJogc8AqFWu/aXzHRkruaOnntzTg==
-X-Received: by 2002:a2e:5c81:0:b0:246:3c1e:b4db with SMTP id
- q123-20020a2e5c81000000b002463c1eb4dbmr2527010ljb.292.1645721579401; 
- Thu, 24 Feb 2022 08:52:59 -0800 (PST)
+ bh=N0jQLv1+zuQN7juoAXyJ+WWIVk1aqUcFAR93hnw7M9Y=;
+ b=oMKefN6SRuPBP93LrVoTUwD/8DVlH079ZDmiB2luwtq6uhuxIwZFNn5m0k15dZhsaQ
+ DR/yIEEMvgU8m6F1M2M3MeBsbpmn4gHXuEoMDr1WxHFyLLJ3CTSroVRHTKy5/WadUlDM
+ uDfVwpvOVPFgfTwpwkkhG/OBQtmtgVVc9sKNF70ya3at2goidWxcvgpvDYIzjr96wKFP
+ it/R+OhgTUFUubtAPCQvj4Qp3TJAIJ4tzOU2cTYbp0p98bNIR2VZ2LQwtxFYi3auW8Ok
+ ObgH3Xn9P4YKQRbSk8FNhaAZ2QFIDziYB8sZugYzdgPYAZg3rScEk9Y389bD6kA8oAK7
+ kA8w==
+X-Gm-Message-State: AOAM530hXrd0uKBejrJ+ziPHWVUihVP2JZfDu2rm/yt+3vgKfFcDvECk
+ NAKIQ4EsuvXF0r5cVgpVX3k=
+X-Google-Smtp-Source: ABdhPJwByzbLPtYGX70Ak/KjjViiZSUd1OOgzHpWQYmN6ffI8my/q+YdLYlcaAtO3d6HUFEPBcq61g==
+X-Received: by 2002:ac2:554d:0:b0:443:6539:a299 with SMTP id
+ l13-20020ac2554d000000b004436539a299mr2456801lfk.552.1645722429067; 
+ Thu, 24 Feb 2022 09:07:09 -0800 (PST)
 Received: from [192.168.2.145] (109-252-137-194.dynamic.spd-mgts.ru.
- [109.252.137.194])
- by smtp.googlemail.com with ESMTPSA id a17sm250224lfb.41.2022.02.24.08.52.58
+ [109.252.137.194]) by smtp.googlemail.com with ESMTPSA id
+ k11-20020a2e920b000000b002463777bbb9sm17962ljg.24.2022.02.24.09.07.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 08:52:58 -0800 (PST)
-Message-ID: <6392f6b1-c41a-b9b9-d3c4-29252b349d97@gmail.com>
-Date: Thu, 24 Feb 2022 19:52:58 +0300
+ Thu, 24 Feb 2022 09:07:08 -0800 (PST)
+Message-ID: <50d71f43-ff35-7dba-8263-0891125984de@gmail.com>
+Date: Thu, 24 Feb 2022 20:07:08 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH libdrm v2 02/25] tegra: Remove unused IOCTL implementations
+Subject: Re: [PATCH libdrm v2 07/25] tegra: Make API more consistent
 Content-Language: en-US
 To: Thierry Reding <thierry.reding@gmail.com>
-References: <20220217191625.2534521-1-thierry.reding@gmail.com>
- <20220217191625.2534521-3-thierry.reding@gmail.com>
+References: <20220217191931.2534836-1-thierry.reding@gmail.com>
+ <20220217191931.2534836-2-thierry.reding@gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20220217191625.2534521-3-thierry.reding@gmail.com>
+In-Reply-To: <20220217191931.2534836-2-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,20 +79,29 @@ Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-17.02.2022 22:16, Thierry Reding пишет:
+17.02.2022 22:19, Thierry Reding пишет:
 > From: Thierry Reding <treding@nvidia.com>
 > 
-> The DRM_TEGRA_GEM_{GET,SET}_FLAGS and DRM_TEGRA_GEM_{GET,SET}_TILING
-> IOCTLs were badly designed and have since been obsoleted by framebuffer
-> modifiers. Remove these implementations to make it clear their usage is
-> discouraged.
+> Most functions in libdrm_tegra take as first parameter the object that
+> they operate on. Make the device and buffer object creation functions
+> follow the same scheme.
 > 
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  tegra/tegra.c           | 13 +++++++------
+>  tegra/tegra.h           | 10 +++++-----
+>  tests/tegra/openclose.c |  2 +-
+>  3 files changed, 13 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tegra/tegra.c b/tegra/tegra.c
+> index cf091c1d758f..6a51c43110e5 100644
+> --- a/tegra/tegra.c
+> +++ b/tegra/tegra.c
+> @@ -66,7 +66,7 @@ static int drm_tegra_wrap(struct drm_tegra **drmp, int fd, bool close)
+>      return 0;
+>  }
+>  
+> -drm_public int drm_tegra_new(struct drm_tegra **drmp, int fd)
+> +drm_public int drm_tegra_new(int fd, struct drm_tegra **drmp)
 
-To me it's not a good idea to remove any function, you're breaking ABI.
-
-I foresee that get/set flags should become useful.
-
-Instead of the removal, you may mark functions deprecated to let
-compiler produce a compile-time warning and add clarifying comments to
-the code.
+Does libdrm allow to break ABI?
