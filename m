@@ -1,58 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220454C3F16
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 08:34:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 277274C3F58
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 08:52:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD4410E517;
-	Fri, 25 Feb 2022 07:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F5D10E54C;
+	Fri, 25 Feb 2022 07:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDB410E517
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 07:33:58 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id cm8so6197024edb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 23:33:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l/9Kn8DIMro5KQ5cQHJ53iCwxNb13sp8neXcQyO5UH4=;
- b=fsqWr9Z1SGRU+M7pEO1mrUt28/apHuCcsfcCbpJAbNkdUWwYsezcRpA1IuYrGKVJaS
- V1H795+330Ty687r4dYp9GoQm0gESlWG2i1I2yTeVneT2NRWUSb5QWBTkMVb6i5GOAEV
- fcdUmLejO6XfWMpHfkqcyDSoQ6eP6OAzKiNfU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l/9Kn8DIMro5KQ5cQHJ53iCwxNb13sp8neXcQyO5UH4=;
- b=g4SKGPNU+tZvM3sDQ/bOhSpM/uHMSgKj/Kjo2AiRbVOIUIkcG9a08if+Gfzius4wVs
- fO/a7DoVoS/QW/wXZMeG7zg2Ik4pixG/07zjGY0vvQNWC/uJI1S4c491028JBIRCA5rY
- 1D+bWF8FgDIl/99r272B9XTwjHnmJGoEKN6NUIALYmwF1qljiORrpBoU+5Rnz//GmXwP
- uA/5rVvFKI395SROgeScfY+ymkQHui9Pqu6Kv3FaENX1bP8nhkM6it06/TcVupDJuUwl
- XrINFp9gBadh6rEGM352vzoi2GWourSv6cAyF6450bc1dcHAY1hWkPo05WrjBMRoVh18
- RBeQ==
-X-Gm-Message-State: AOAM5304GwRO795CSiswOK4iNKZe5yYW5cbeaOX6f1aETJCEUmjCjhsi
- RBxnPDDWuzwXG0e9rIhJykPczRhypfm7zg==
-X-Google-Smtp-Source: ABdhPJxQESFELbwzX1YUYJHYKC0uL3v2ozopjTtnXK/VT/TH3zJ4w2ygo8youOg391P+370tqX3xaQ==
-X-Received: by 2002:a05:6402:1914:b0:412:d9ae:f057 with SMTP id
- e20-20020a056402191400b00412d9aef057mr5881556edz.446.1645774436628; 
- Thu, 24 Feb 2022 23:33:56 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- dn14-20020a05640222ee00b00410b88abd6fsm944342edb.45.2022.02.24.23.33.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 23:33:56 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-fance: Add dma_fence_assert_in_signalling_section
-Date: Fri, 25 Feb 2022 08:33:51 +0100
-Message-Id: <20220225073351.3565619-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.34.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B5610E53E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 07:51:57 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nNVON-0000Ph-A1; Fri, 25 Feb 2022 08:51:55 +0100
+Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nNVOK-00BSXL-Sf; Fri, 25 Feb 2022 08:51:52 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 00/24] drm/rockchip: RK356x VOP2 support
+Date: Fri, 25 Feb 2022 08:51:26 +0100
+Message-Id: <20220225075150.2729401-1-s.hauer@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,80 +46,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Useful for checking for dma-fence signalling annotations since they
-don't quite nest as freely as we'd like to.
+Here is v7 of adding RK356x VOP2 support. The one big notable change this
+time is that I moved the of_graph parsing from runtime code into
+initialization, see patch 2/24. Other than that there are some smaller
+changes due to the review feedback to v6.
 
-Cc: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-fence.c | 19 +++++++++++++++++++
- include/linux/dma-fence.h   |  2 ++
- 2 files changed, 21 insertions(+)
+Sascha
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 066400ed8841..2b7c3fc965e6 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -307,6 +307,25 @@ bool dma_fence_begin_signalling(void)
- }
- EXPORT_SYMBOL(dma_fence_begin_signalling);
- 
-+/**
-+ * dma_fence_assert_in_signalling_section - check fence signalling annotations
-+ *
-+ * Since dma_fence_begin_signalling() and dma_fence_end_signalling() are built
-+ * using lockdep annotations they have limitations on how freely they can be
-+ * nested. Specifically, they cannot be on both inside and outside of locked
-+ * sections, which in practice means the annotations often have to be pushed out
-+ * to the top level callers.
-+ *
-+ * To ensure low-level functions are only called with the correction
-+ * annotations, this function can be used to check for that.
-+ */
-+void dma_fence_assert_in_signalling_section(void)
-+{
-+	if (!in_atomic())
-+		lockdep_assert(lock_is_held(&dma_fence_lockdep_map));
-+}
-+EXPORT_SYMBOL(dma_fence_assert_in_signalling_section);
-+
- /**
-  * dma_fence_end_signalling - end a critical DMA fence signalling section
-  * @cookie: opaque cookie from dma_fence_begin_signalling()
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..7179a5692f72 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -356,6 +356,7 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
- 
- #ifdef CONFIG_LOCKDEP
- bool dma_fence_begin_signalling(void);
-+void dma_fence_assert_in_signalling_section(void);
- void dma_fence_end_signalling(bool cookie);
- void __dma_fence_might_wait(void);
- #else
-@@ -363,6 +364,7 @@ static inline bool dma_fence_begin_signalling(void)
- {
- 	return true;
- }
-+static inline void dma_fence_assert_in_signalling_section(void) {}
- static inline void dma_fence_end_signalling(bool cookie) {}
- static inline void __dma_fence_might_wait(void) {}
- #endif
+Changes since v6:
+- Move of_graph parsing out of runtime code to initialization
+
+Changes since v5:
+- Add new patch to fix dw-hdmi of_graph binding
+- Drop "drm/encoder: Add of_graph port to struct drm_encoder" and solve
+  issue internally in the driver
+- make checkpatch cleaner
+
+Changes since v4:
+- Reorder patches in a way that binding/dts/driver patches are closer together
+- Drop clk patches already applied by Heiko
+
+Changes since v3:
+- added changelog to each patch
+- Add 4k support to hdmi driver
+- rebase on v5.17-rc1
+
+Changes since v2:
+- Add pin names to HDMI supply pin description
+- Add hclk support to HDMI driver
+- Dual license rockchip-vop2 binding, update binding
+- Add HDMI connector to board dts files
+- drop unnecessary gamma_lut registers from vop2
+- Update dclk_vop[012] clock handling, no longer hacks needed
+- Complete regmap conversion
+
+Changes since v1:
+- drop all unnecessary waiting for frames within atomic modeset and plane update
+- Cluster subwin support removed
+- gamma support removed
+- unnecessary irq_lock removed
+- interrupt handling simplified
+- simplified zpos handling
+- drop is_alpha_support(), use fb->format->has_alpha instead
+- use devm_regulator_get() rather than devm_regulator_get_optional() for hdmi regulators
+- Use fixed number of planes per video port
+- Drop homegrown regmap code from vop2 driver (not complete yet)
+- Add separate include file for vop2 driver to not pollute the vop include
+
+Andy Yan (1):
+  drm: rockchip: Add VOP2 driver
+
+Benjamin Gaignard (1):
+  dt-bindings: display: rockchip: dw-hdmi: Add compatible for rk3568
+    HDMI
+
+Douglas Anderson (2):
+  drm/rockchip: dw_hdmi: Use auto-generated tables
+  drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
+
+Michael Riesch (1):
+  arm64: dts: rockchip: enable vop2 and hdmi tx on quartz64a
+
+Nickey Yang (1):
+  drm/rockchip: dw_hdmi: add default 594Mhz clk for 4K@60hz
+
+Sascha Hauer (18):
+  drm/rockchip: Embed drm_encoder into rockchip_decoder
+  drm/rockchip: Add crtc_endpoint_id to rockchip_encoder
+  drm/rockchip: dw_hdmi: rename vpll clock to reference clock
+  dt-bindings: display: rockchip: dw-hdmi: use "ref" as clock name
+  arm64: dts: rockchip: rk3399: rename HDMI ref clock to 'ref'
+  drm/rockchip: dw_hdmi: add rk3568 support
+  drm/rockchip: dw_hdmi: add regulator support
+  dt-bindings: display: rockchip: dw-hdmi: Add regulator support
+  drm/rockchip: dw_hdmi: Add support for hclk
+  dt-bindings: display: rockchip: dw-hdmi: Add additional clock
+  drm/rockchip: dw_hdmi: drop mode_valid hook
+  dt-bindings: display: rockchip: dw-hdmi: Make unwedge pinctrl optional
+  arm64: dts: rockchip: rk356x: Add VOP2 nodes
+  arm64: dts: rockchip: rk356x: Add HDMI nodes
+  arm64: dts: rockchip: rk3568-evb: Enable VOP2 and hdmi
+  drm/rockchip: Make VOP driver optional
+  dt-bindings: display: rockchip: Add binding for VOP2
+  dt-bindings: display: rockchip: dw-hdmi: fix ports description
+
+ .../display/rockchip/rockchip,dw-hdmi.yaml    |   53 +-
+ .../display/rockchip/rockchip-vop2.yaml       |  140 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    2 +-
+ .../boot/dts/rockchip/rk3566-quartz64-a.dts   |   47 +
+ arch/arm64/boot/dts/rockchip/rk3566.dtsi      |    4 +
+ .../boot/dts/rockchip/rk3568-evb1-v10.dts     |   47 +
+ arch/arm64/boot/dts/rockchip/rk3568.dtsi      |    4 +
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      |   83 +
+ drivers/gpu/drm/rockchip/Kconfig              |   14 +
+ drivers/gpu/drm/rockchip/Makefile             |    4 +-
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   32 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   18 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |    2 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   17 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  292 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c          |   32 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   34 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   36 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   20 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |   15 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 2686 +++++++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  477 +++
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   26 +-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  |  281 ++
+ include/dt-bindings/soc/rockchip,vop2.h       |   14 +
+ 26 files changed, 4186 insertions(+), 196 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+ create mode 100644 include/dt-bindings/soc/rockchip,vop2.h
+
 -- 
-2.34.1
+2.30.2
 
