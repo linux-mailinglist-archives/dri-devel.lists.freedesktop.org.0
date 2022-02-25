@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA134C4BD5
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 18:15:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140BB4C4BCF
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 18:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29C3F10E860;
-	Fri, 25 Feb 2022 17:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC88B10E85A;
+	Fri, 25 Feb 2022 17:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E5C10E854
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 17:14:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9F9810E852
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 17:15:01 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 532A75C01E2;
- Fri, 25 Feb 2022 12:14:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 25 Feb 2022 12:14:58 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 340155C01A4;
+ Fri, 25 Feb 2022 12:15:01 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 25 Feb 2022 12:15:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=wOwi3JTZVwiXEI
- sBF7ugW36OW3mfmNje3jQY43p+Zr8=; b=bN6HRkzNjwFkZGmyvLDwjuheyj55Wg
- I3+rjwiflHAIj6ulThRx2zaKdVQcmhaC4qbLYu8kD6361BqfOmSL1M9Y09k+xTn5
- s9lg1ELaygn0CTlZ/vj1Nrm1OWAEuBt2Fyn24zvOrRiSjkwu1Zhj6hImufvAVgrn
- f5yHasRY9vXt7ynT98bn2a+dtCQDDpT4FfJ2sGpxj3cOx0Wi07+GDfGEgKliHqX6
- vHrJz+Y8+J+a4xDEBqErAeyUQLc5Rwat4VRMX3jzBhwhoNPnDywPiZ1f0jcbwmh4
- r+hh30CrTRou9chHyPLM1/7MNrP1zy3PVex3q6LixBzAF01uYVh18toA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=K3tfYrcyCWdbZh
+ RE1S/J5cl5SWWwiCQww3LdJHQwE64=; b=nhK4DdnVXxpBAx78up++2vZgMCFhaN
+ HAmx1cJCleJw2kMQflGismsiGpD6Z1y7fggXQCJu0A0+rY0WcBfXH+YmN+2xFP1m
+ 3ulvkvzV5aRf70TipSUHtqKhmIdt2EYqVfcfelViVwcdpgnmtfGQ1YPVyQXl0dUm
+ rN0w07cUs8Jbuh7cPMBaUzB/By4Fj/mdaijv2oK1lQ6xLkX5PJZKv5Iy8ODflziv
+ 475dgn7JMovO3/uHhpqQeUu0FsQf9lmLr4A4CwhpF6mmHetOvXBCFfJ1RAi3bVWy
+ hxy7oR6cnUKTb1RA5C/x05C8W6cwIq0S7i+2inDQvJ/oEjxpB5Ak0ZIg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=wOwi3JTZVwiXEIsBF7ugW36OW3mfmNje3jQY43p+Z
- r8=; b=joES+k0LFIhmoOwje2dfgmpoOnpiMnfQvr+n295SbogAgXmREsggzJg1c
- lOmktWLCWYP12Rt2Sjxn3+00bJ5wNnOUUFMitzx1w4/D/1p8/vKBvFmE98pwtDCb
- 29YEFaP3xhP2BRJJzs0eDW3K6GlcbcTTGcbn255Mdtc0zhfkWZG7MgFZhgZ4AErt
- zeZk2AjIOiFEKvzY6Xxj658EuQa+3syfLpdb3pg2VQ+k/JliP2dtgeTwGZQ089HW
- V8taiaar4Xv+Bp4K9gAzIT2e5EsluFKD1YP4UAqQp7MyDwQMYUFks3GRxXNLVva0
- 14fBbD8ci8BEhS2PZ61qyVPUO/enw==
-X-ME-Sender: <xms:kg4ZYtXHj5hVIag0cYgEBfwiMoQkxfJTYXK_gZFuvmtkyN6AsVo2HQ>
- <xme:kg4ZYtmPE1nQFck0LRZoJyrN-U_UGqFvN3CAejthb_xXa_y2ndWcUFZcPwhv8tLii
- kw4cT0LrFVPgjCSfes>
-X-ME-Received: <xmr:kg4ZYpaN_UFR0U8yRBdi1ZQnU2wXYpgeUJKY2FS0AiaU-g7sJxkBSTlwvs1EsSJnIUP0oLcB1GxdneeJC1P0dR-VS2WsHNKTLZFVq0g>
+ :x-sasl-enc; s=fm2; bh=K3tfYrcyCWdbZhRE1S/J5cl5SWWwiCQww3LdJHQwE
+ 64=; b=BVnmPAze9vSWTA4vNoJa4dp5+5CwXNbzH5YvQ73XLTSI4aJMSdwoIpNUc
+ JZV9jaiU4qE7M3k4bK7eAy4OoV1mTYsM9zgpziUE6GYh62DXixgkH+qRaS6yT96p
+ UfJUUwS6QcTRqEx1ZqtDKs4Q63MWwdbZd9NDaFxcUfq+UJ4nqNyyb/+hu5JvGM+u
+ YK4hH8r+09ARCDSoJxF51JzqELWoPTBYW0n5OBZyJH9XHSWrh8I3M7Gg7D7auoyx
+ J/4Q1P3VgjsvfNePR5uQfYabysDLZV4RBDxrtPNBRX484mQOUqjR3aKarOewBI3z
+ JhkgAYu0+dWXTOmKOaPvjs0TOB7sg==
+X-ME-Sender: <xms:lQ4ZYiLpP1_-oNsrX_V0fxBuFMapa0QdSeqXKoyHoknBYXM__ix3Hw>
+ <xme:lQ4ZYqLr-Ki6bmHeht4eC3krOiHHIixsGXU4HRmk7gzR08C49PtADuuMpnVYGr-Uo
+ w13nVaUuG8a-ZTYjxA>
+X-ME-Received: <xmr:lQ4ZYis4aEKNYKojVh-8PH8ojGQhSyfpR0nAkjQ9nBc5yeM9yl4lOgHoPH7TelStS62q-1gbJ5uFXlB-5sX863gcULYwlFwYUHhyL7o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdelkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,23 +52,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdelkecutefuodetggdote
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
  keeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:kg4ZYgV5VcVu6AMvnIho_GvG7vV-97kZ4LDJDkqM2raVkoVs55B2HQ>
- <xmx:kg4ZYnnJ_vLQo9tI2VKWLA33uoe0Mq9bpr9Mg6XsoItNGGUjqhnEZQ>
- <xmx:kg4ZYtca8YlOPM7kIbPvbXHzFHd64mnfsjRx-H1dSsIOASmIDhBNjQ>
- <xmx:kg4ZYp4HI1xcwteAkakWN7SUdw4WXQUlx6ZlPmifB5n99B9DDGTWeQ>
+X-ME-Proxy: <xmx:lQ4ZYnb4XT90VFJ706F3MB_XXnVuugxWXQ2LOayx763_cLaxOkq3WA>
+ <xmx:lQ4ZYpaSSAUDT7pcysE0_hvgwJeKNO9IgeV2UogeJDM1Eyv8xM2_ww>
+ <xmx:lQ4ZYjDKxyoWc-K-zml4YNVdmzXW-YTEXCVBuqpm0nIDBxAiUcZlTQ>
+ <xmx:lQ4ZYnOBEXiBqkFKuv5_PTZ5iw4VnKnaSVX4YfBbZ2X9YvnJCgcfkQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Feb 2022 12:14:57 -0500 (EST)
+ 25 Feb 2022 12:15:00 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maxime Ripard <maxime@cerno.tech>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: (subset) [PATCH v2 06/22] drm/object: Add
- drm_object_property_get_default_value() function
-Date: Fri, 25 Feb 2022 18:14:41 +0100
-Message-Id: <164580928297.726994.16474436146828616970.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v2 07/22] drm/object: Add default zpos value at
+ reset
+Date: Fri, 25 Feb 2022 18:14:42 +0100
+Message-Id: <164580928297.726994.18444689513539017894.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221095918.18763-7-maxime@cerno.tech>
+In-Reply-To: <20220221095918.18763-8-maxime@cerno.tech>
 References: <20220221095918.18763-1-maxime@cerno.tech>
- <20220221095918.18763-7-maxime@cerno.tech>
+ <20220221095918.18763-8-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -92,14 +92,17 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Feb 2022 10:59:02 +0100, Maxime Ripard wrote:
+On Mon, 21 Feb 2022 10:59:03 +0100, Maxime Ripard wrote:
 > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
-> Some functions to create properties (drm_plane_create_zpos_property or
-> drm_plane_create_color_properties for example) will ask for a range of
-> acceptable value and an initial one.
+> The drm_plane_create_zpos_property() function asks for an initial value,
+> and will set the associated plane state variable with that value if a
+> state is present.
 > 
-> This initial value is then stored in the values array for that property.
+> However, that function is usually called at a time where there's no
+> state yet. Since the drm_plane_state reset helper doesn't take care of
+> reading that value when it's called, it means that in most cases the
+> initial value will be 0, or the drivers will have to work around it.
 > 
 > [...]
 
