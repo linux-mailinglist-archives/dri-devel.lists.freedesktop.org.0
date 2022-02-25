@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC83F4C3AB7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 02:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F344C3AB8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 02:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E83610E184;
-	Fri, 25 Feb 2022 01:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A371510E1B3;
+	Fri, 25 Feb 2022 01:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5267910E184
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 01:03:39 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id b23so1161258qtt.6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 17:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB1C10E1A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 01:04:09 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so17620647b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 17:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aiBRRmAabEtzf7fAFugu3t5mTsmuCMXobrG596zXrAs=;
- b=Ty8nIS87hvCZgefl4Yw55gr+V2rpupGihj23sMx6ige/z4LJl8/JdNgtd6GLioGsjt
- u2uUOTWcXxjczhsnZ1aPNy8uV496KoA1x6yn+eI8DmtoN2faxl5Y4wTZ4FCPDQ2+IlVx
- kV9sBzCNRRDuCCkzlJ8jnzPm18pSIyFYpu1JHIUlwe9fmvHQhFVL2+UKVd76L5QlINqd
- 5oyaClHDWzn3/+mPDdQU//3Er0jgoD38ysXTM/iqZPYf1XaY5cZy4vob/M1R3HuJd9Af
- bNlvNiWUaXE5fhaDHnoYm6gIBvKdSYD4NbAqlnvgDbH7QdNXbwPUj6lvkYoKWDA5MBRv
- gD5w==
+ :cc; bh=fLq9vithbO7XrDPJ5SVtS9ffuwguRZsBMFjHiFpAmX4=;
+ b=mxUXn/bSHNuGrCPkjZqgqPVf5sqeve57DFDKoGvSCBRmAQmRfxipuIiJEYygEFg8/c
+ /9g9jQX5rNFUsl+V+4OFcfX9Cu12y9yjld065ueFDtAkz72cnGtiLod2AbBZl/+jnQ9q
+ AHmCCQqIEyfsl9KwZQkYwVTuG6+TgzNB7N1dmumvfFXzypi5O21oUA8vEoib3eRYKvQO
+ zbdimuwi/Oc9aIKTXB6F+44uaKqFLjoQblmnwM3XUJmjAFs96W716AMHRIrYzCn3/Iyi
+ xsiPGVsdzH9IxSbGe5MY4lYUf1LxuxtrAALcJIbv3YhKtcU8nDMhRrVuaaHPZ3lSoYM3
+ bdKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aiBRRmAabEtzf7fAFugu3t5mTsmuCMXobrG596zXrAs=;
- b=M2Bt7YeW+AbcCyzEQDXosD6Q1wcG1j/KJVi9/KWGT6xChWaD9xidTR0KLgXr5NGXxq
- +WCjVRvMijx41AY5uLq2CLcDOZl2Nkm0RWxBRH2Dz4jkzZq+p2DJuCQcR4LF/wNQ4KvZ
- IyK6Ah3OAo5vRw5xYpX+/h0oOLV5+S2Ki47m6DSonxwAtULUKe30Zc2Ep/bdkAaNQC3v
- zHrcoSAxs4RPPKb8tLDxYRNn8DULHICipbQWQgWHS9ZPWtFhDqS9TGt9jxM5S4RsIRUs
- RbIV3bUzO7yUFCYKSN/nTaVLeUInquZIll/8ntIxvE0uvMfZRsDG5Lf7iwWUpoAkiQuG
- MHRw==
-X-Gm-Message-State: AOAM530WxWHYnMfJy+Fh8SWkk1fHRqGhBLCofVeA56sHyPXOYbv7aGVi
- RXcoUmWFpw4Xtbc/Nn3wexDgwBkq4hy7uPfNt2FJKQ==
-X-Google-Smtp-Source: ABdhPJyCsRCbuc9sR67sicTg3FPJyaFT+cgt0OhOTMz/K7MH6krdelYdMvuoEs0JmkgcOL9Nriy7nSwCmgr/Aeu++Jo=
-X-Received: by 2002:a05:622a:1206:b0:2de:6fa4:41fb with SMTP id
- y6-20020a05622a120600b002de6fa441fbmr4897026qtx.295.1645751018161; Thu, 24
- Feb 2022 17:03:38 -0800 (PST)
+ bh=fLq9vithbO7XrDPJ5SVtS9ffuwguRZsBMFjHiFpAmX4=;
+ b=Fu6Gj4POg7jStxW5uNjzJ7FCBPlgHXDTCezCi4O8G8Dxu42mMgsg8T+nljTe2ubyFX
+ T/4TFYTtY5RXxvaKBHqZjmmArGCe7CIPNnYF24LoxUxwCMBUj05ycNAAiGfdTymZbzrK
+ nUgjBajd7FQ7m6YFBZk5VJHIDnRHdyR5b7VxXDPwUpCKMx6w906TJHJi8+Dv6A6EYwnA
+ 76yN9+NeUdPxpbruPSfSXh5u8wqn7ZIfH3VguZpF7NRRhBQMvRVdGtgKu2OsLqVt45sc
+ IitMBI+QRX4j/bsif0tDIVBprnjPTgzQZ9mdM0joIEypLwceBnxBbBQixzoFsRKpyPvr
+ hegg==
+X-Gm-Message-State: AOAM532YzXnvBd8rcRIpDTkd7+L2/ATjueZokRTpCxjmCVFYhD58DwCj
+ q5wvO7qeVo+xfepAA5BukTczBJpBlAtuCaCYsGU=
+X-Google-Smtp-Source: ABdhPJxlwbtJxwRyO+74oBoG7/Wn2x/N2mqJZa1LGnX0Wx8wFmQe9nLMcwaHPswcp6wYia4+9/O0Q6bWE9CJAczkD2U=
+X-Received: by 2002:a81:a14d:0:b0:2d6:8052:31b9 with SMTP id
+ y74-20020a81a14d000000b002d6805231b9mr5135033ywg.241.1645751048312; Thu, 24
+ Feb 2022 17:04:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20220223191118.881321-1-robdclark@gmail.com>
-In-Reply-To: <20220223191118.881321-1-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 25 Feb 2022 04:03:27 +0300
-Message-ID: <CAA8EJpoH=czjYKBNjDs2eSjwRAc-18SLR8r8dJKygkKonrQoQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Avoid dirtyfb stalls on video mode displays (v2)
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20220121213831.47229-1-igormtorrente@gmail.com>
+ <20220121213831.47229-10-igormtorrente@gmail.com>
+ <20220210115039.588996bd@eldfell>
+In-Reply-To: <20220210115039.588996bd@eldfell>
+From: Igor Torrente <igormtorrente@gmail.com>
+Date: Thu, 24 Feb 2022 22:03:42 -0300
+Message-ID: <CAOA8r4G5aMSv9o508B9icdNuaKF4-9zU9KsTW1nG1wCZ6nKfbA@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] drm: vkms: Add support to the RGB565 format
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000009f9d3605d8cd4605"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,462 +65,602 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Maxime Ripard <maxime@cerno.tech>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Feb 2022 at 22:11, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Someone on IRC once asked an innocent enough sounding question:  Why
-> with xf86-video-modesetting is es2gears limited at 120fps.
->
-> So I broke out the perfetto tracing mesa MR and took a look.  It turns
-> out the problem was drm_atomic_helper_dirtyfb(), which would end up
-> waiting for vblank.. es2gears would rapidly push two frames to Xorg,
-> which would blit them to screen and in idle hook (I assume) call the
-> DIRTYFB ioctl.  Which in turn would do an atomic update to flush the
-> dirty rects, which would stall until the next vblank.  And then the
-> whole process would repeat.
->
-> But this is a bit silly, we only need dirtyfb for command mode DSI
-> panels.  So track in plane state whether dirtyfb is required, and
-> track in the fb how many attached planes require dirtyfb so that we
-> can skip it when not required.  (Note, mdp4 does not actually have
-> cmd mode support.)
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+--0000000000009f9d3605d8cd4605
+Content-Type: text/plain; charset="UTF-8"
 
-I like the way it ended up being implemented. A really nice hack!
+Hi Pekka,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, Feb 10, 2022 at 6:50 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c   | 20 ++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c  |  5 +--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h  |  3 ++
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c | 19 ++++++++--
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c  |  8 +++++
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h   |  5 +++
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 21 +++++++++--
->  drivers/gpu/drm/msm/msm_atomic.c           | 15 --------
->  drivers/gpu/drm/msm/msm_drv.h              |  6 ++--
->  drivers/gpu/drm/msm/msm_fb.c               | 41 ++++++++++++++++++----
->  10 files changed, 110 insertions(+), 33 deletions(-)
+> On Fri, 21 Jan 2022 18:38:31 -0300
+> Igor Torrente <igormtorrente@gmail.com> wrote:
 >
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 662b7bc9c219..7763558ef566 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1046,6 +1046,20 @@ struct plane_state {
->         u32 pipe_id;
->  };
+> > Adds this common format to vkms.
+> >
+> > This commit also adds new helper macros to deal with fixed-point
+> > arithmetic.
+> >
+> > It was done to improve the precision of the conversion to ARGB16161616
+> > since the "conversion ratio" is not an integer.
+> >
+> > Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+> > ---
+> > V3: Adapt the handlers to the new format introduced in patch 7 V3.
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_formats.c   | 74 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/vkms/vkms_formats.h   |  6 +++
+> >  drivers/gpu/drm/vkms/vkms_plane.c     |  6 ++-
+> >  drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
+> >  4 files changed, 86 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c
+> b/drivers/gpu/drm/vkms/vkms_formats.c
+> > index 661da39d1276..dc612882dd8c 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > @@ -11,6 +11,8 @@ format_transform_func get_fmt_transform_function(u32
+> format)
+> >               return &get_ARGB16161616;
+> >       else if (format == DRM_FORMAT_XRGB16161616)
+> >               return &XRGB16161616_to_ARGB16161616;
+> > +     else if (format == DRM_FORMAT_RGB565)
+> > +             return &RGB565_to_ARGB16161616;
+> >       else
+> >               return &XRGB8888_to_ARGB16161616;
+> >  }
+> > @@ -23,6 +25,8 @@ format_transform_func
+> get_wb_fmt_transform_function(u32 format)
+> >               return &convert_to_ARGB16161616;
+> >       else if (format == DRM_FORMAT_XRGB16161616)
+> >               return &convert_to_XRGB16161616;
+> > +     else if (format == DRM_FORMAT_RGB565)
+> > +             return &convert_to_RGB565;
+> >       else
+> >               return &convert_to_XRGB8888;
+> >  }
+> > @@ -33,6 +37,26 @@ static int pixel_offset(struct vkms_frame_info
+> *frame_info, int x, int y)
+> >                                 + (x * frame_info->cpp);
+> >  }
+> >
+> > +/*
+> > + * FP stands for _Fixed Point_ and **not** _Float Point_
 >
-> +static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
-> +{
-> +       struct drm_crtc *crtc = cstate->crtc;
-> +       struct drm_encoder *encoder;
-> +
-> +       drm_for_each_encoder_mask (encoder, crtc->dev, cstate->encoder_mask) {
-> +               if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_CMD) {
-> +                       return true;
-> +               }
-> +       }
-> +
-> +       return false;
-> +}
-> +
->  static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->                 struct drm_atomic_state *state)
->  {
-> @@ -1066,6 +1080,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->         const struct drm_plane_state *pipe_staged[SSPP_MAX];
->         int left_zpos_cnt = 0, right_zpos_cnt = 0;
->         struct drm_rect crtc_rect = { 0 };
-> +       bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
->
->         pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
->
-> @@ -1097,6 +1112,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->
->          /* get plane state for all drm planes associated with crtc state */
->         drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
-> +               struct dpu_plane_state *dpu_pstate = to_dpu_plane_state(pstate);
->                 struct drm_rect dst, clip = crtc_rect;
->
->                 if (IS_ERR_OR_NULL(pstate)) {
-> @@ -1108,11 +1124,13 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->                 if (cnt >= DPU_STAGE_MAX * 4)
->                         continue;
->
-> -               pstates[cnt].dpu_pstate = to_dpu_plane_state(pstate);
-> +               pstates[cnt].dpu_pstate = dpu_pstate;
->                 pstates[cnt].drm_pstate = pstate;
->                 pstates[cnt].stage = pstate->normalized_zpos;
->                 pstates[cnt].pipe_id = dpu_plane_pipe(plane);
->
-> +               dpu_pstate->needs_dirtyfb = needs_dirtyfb;
-> +
->                 if (pipe_staged[pstates[cnt].pipe_id]) {
->                         multirect_plane[multirect_count].r0 =
->                                 pipe_staged[pstates[cnt].pipe_id];
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index ca75089c9d61..6565682fe227 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -902,7 +902,7 @@ static int dpu_plane_prepare_fb(struct drm_plane *plane,
->
->         if (pstate->aspace) {
->                 ret = msm_framebuffer_prepare(new_state->fb,
-> -                               pstate->aspace);
-> +                               pstate->aspace, pstate->needs_dirtyfb);
->                 if (ret) {
->                         DPU_ERROR("failed to prepare framebuffer\n");
->                         return ret;
-> @@ -933,7 +933,8 @@ static void dpu_plane_cleanup_fb(struct drm_plane *plane,
->
->         DPU_DEBUG_PLANE(pdpu, "FB[%u]\n", old_state->fb->base.id);
->
-> -       msm_framebuffer_cleanup(old_state->fb, old_pstate->aspace);
-> +       msm_framebuffer_cleanup(old_state->fb, old_pstate->aspace,
-> +                               old_pstate->needs_dirtyfb);
->  }
->
->  static bool dpu_plane_validate_src(struct drm_rect *src,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> index 9d51dad5c6a5..50781e2d3577 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> @@ -25,6 +25,7 @@
->   * @pending:   whether the current update is still pending
->   * @plane_fetch_bw: calculated BW per plane
->   * @plane_clk: calculated clk per plane
-> + * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
->   */
->  struct dpu_plane_state {
->         struct drm_plane_state base;
-> @@ -37,6 +38,8 @@ struct dpu_plane_state {
->
->         u64 plane_fetch_bw;
->         u64 plane_clk;
-> +
-> +       bool needs_dirtyfb;
->  };
->
->  /**
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> index 49bdabea8ed5..3e20f72d75ef 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> @@ -7,6 +7,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_damage_helper.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->
->  #include "mdp4_kms.h"
->
-> @@ -90,6 +91,20 @@ static const struct drm_plane_funcs mdp4_plane_funcs = {
->                 .atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
->  };
->
-> +static int mdp4_plane_prepare_fb(struct drm_plane *plane,
-> +                                struct drm_plane_state *new_state)
-> +{
-> +       struct msm_drm_private *priv = plane->dev->dev_private;
-> +       struct msm_kms *kms = priv->kms;
-> +
-> +       if (!new_state->fb)
-> +               return 0;
-> +
-> +       drm_gem_plane_helper_prepare_fb(plane, new_state);
-> +
-> +       return msm_framebuffer_prepare(new_state->fb, kms->aspace, false);
-> +}
-> +
->  static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
->                                   struct drm_plane_state *old_state)
->  {
-> @@ -102,7 +117,7 @@ static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
->                 return;
->
->         DBG("%s: cleanup: FB[%u]", mdp4_plane->name, fb->base.id);
-> -       msm_framebuffer_cleanup(fb, kms->aspace);
-> +       msm_framebuffer_cleanup(fb, kms->aspace, false);
->  }
->
->
-> @@ -130,7 +145,7 @@ static void mdp4_plane_atomic_update(struct drm_plane *plane,
->  }
->
->  static const struct drm_plane_helper_funcs mdp4_plane_helper_funcs = {
-> -               .prepare_fb = msm_atomic_prepare_fb,
-> +               .prepare_fb = mdp4_plane_prepare_fb,
->                 .cleanup_fb = mdp4_plane_cleanup_fb,
->                 .atomic_check = mdp4_plane_atomic_check,
->                 .atomic_update = mdp4_plane_atomic_update,
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> index bb7d066618e6..b966cd69f99d 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> @@ -690,6 +690,8 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
->  {
->         struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
->                                                                           crtc);
-> +       struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc_state);
-> +       struct mdp5_interface *intf = mdp5_cstate->pipeline.intf;
->         struct mdp5_kms *mdp5_kms = get_kms(crtc);
->         struct drm_plane *plane;
->         struct drm_device *dev = crtc->dev;
-> @@ -706,12 +708,18 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
->         DBG("%s: check", crtc->name);
->
->         drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
-> +               struct mdp5_plane_state *mdp5_pstate =
-> +                               to_mdp5_plane_state(pstate);
-> +
->                 if (!pstate->visible)
->                         continue;
->
->                 pstates[cnt].plane = plane;
->                 pstates[cnt].state = to_mdp5_plane_state(pstate);
->
-> +               mdp5_pstate->needs_dirtyfb =
-> +                       intf->mode == MDP5_INTF_DSI_MODE_COMMAND;
-> +
->                 /*
->                  * if any plane on this crtc uses 2 hwpipes, then we need
->                  * the crtc to have a right hwmixer.
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> index ac269a6802df..29bf11f08601 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
-> @@ -100,6 +100,11 @@ struct mdp5_plane_state {
->
->         /* assigned by crtc blender */
->         enum mdp_mixer_stage_id stage;
-> +
-> +       /* whether attached CRTC needs pixel data explicitly flushed to
-> +        * display (ex. DSI command mode display)
-> +        */
-> +       bool needs_dirtyfb;
->  };
->  #define to_mdp5_plane_state(x) \
->                 container_of(x, struct mdp5_plane_state, base)
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> index c6b69afcbac8..b176338ab59b 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> @@ -8,6 +8,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_damage_helper.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_print.h>
->
->  #include "mdp5_kms.h"
-> @@ -140,18 +141,34 @@ static const struct drm_plane_funcs mdp5_plane_funcs = {
->                 .atomic_print_state = mdp5_plane_atomic_print_state,
->  };
->
-> +static int mdp5_plane_prepare_fb(struct drm_plane *plane,
-> +                                struct drm_plane_state *new_state)
-> +{
-> +       struct msm_drm_private *priv = plane->dev->dev_private;
-> +       struct msm_kms *kms = priv->kms;
-> +       bool needs_dirtyfb = to_mdp5_plane_state(new_state)->needs_dirtyfb;
-> +
-> +       if (!new_state->fb)
-> +               return 0;
-> +
-> +       drm_gem_plane_helper_prepare_fb(plane, new_state);
-> +
-> +       return msm_framebuffer_prepare(new_state->fb, kms->aspace, needs_dirtyfb);
-> +}
-> +
->  static void mdp5_plane_cleanup_fb(struct drm_plane *plane,
->                                   struct drm_plane_state *old_state)
->  {
->         struct mdp5_kms *mdp5_kms = get_kms(plane);
->         struct msm_kms *kms = &mdp5_kms->base.base;
->         struct drm_framebuffer *fb = old_state->fb;
-> +       bool needed_dirtyfb = to_mdp5_plane_state(old_state)->needs_dirtyfb;
->
->         if (!fb)
->                 return;
->
->         DBG("%s: cleanup: FB[%u]", plane->name, fb->base.id);
-> -       msm_framebuffer_cleanup(fb, kms->aspace);
-> +       msm_framebuffer_cleanup(fb, kms->aspace, needed_dirtyfb);
->  }
->
->  static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
-> @@ -437,7 +454,7 @@ static void mdp5_plane_atomic_async_update(struct drm_plane *plane,
->  }
->
->  static const struct drm_plane_helper_funcs mdp5_plane_helper_funcs = {
-> -               .prepare_fb = msm_atomic_prepare_fb,
-> +               .prepare_fb = mdp5_plane_prepare_fb,
->                 .cleanup_fb = mdp5_plane_cleanup_fb,
->                 .atomic_check = mdp5_plane_atomic_check,
->                 .atomic_update = mdp5_plane_atomic_update,
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 27c9ae563f2f..1686fbb611fd 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -5,7 +5,6 @@
->   */
->
->  #include <drm/drm_atomic_uapi.h>
-> -#include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_vblank.h>
->
->  #include "msm_atomic_trace.h"
-> @@ -13,20 +12,6 @@
->  #include "msm_gem.h"
->  #include "msm_kms.h"
->
-> -int msm_atomic_prepare_fb(struct drm_plane *plane,
-> -                         struct drm_plane_state *new_state)
-> -{
-> -       struct msm_drm_private *priv = plane->dev->dev_private;
-> -       struct msm_kms *kms = priv->kms;
-> -
-> -       if (!new_state->fb)
-> -               return 0;
-> -
-> -       drm_gem_plane_helper_prepare_fb(plane, new_state);
-> -
-> -       return msm_framebuffer_prepare(new_state->fb, kms->aspace);
-> -}
-> -
->  /*
->   * Helpers to control vblanks while we flush.. basically just to ensure
->   * that vblank accounting is switched on, so we get valid seqn/timestamp
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 57b0cd6f917e..9f68aa685ed7 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -239,8 +239,6 @@ struct msm_format {
->
->  struct msm_pending_timer;
->
-> -int msm_atomic_prepare_fb(struct drm_plane *plane,
-> -                         struct drm_plane_state *new_state);
->  int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
->                 struct msm_kms *kms, int crtc_idx);
->  void msm_atomic_destroy_pending_timer(struct msm_pending_timer *timer);
-> @@ -299,9 +297,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj);
->  void msm_gem_prime_unpin(struct drm_gem_object *obj);
->
->  int msm_framebuffer_prepare(struct drm_framebuffer *fb,
-> -               struct msm_gem_address_space *aspace);
-> +               struct msm_gem_address_space *aspace, bool needs_dirtyfb);
->  void msm_framebuffer_cleanup(struct drm_framebuffer *fb,
-> -               struct msm_gem_address_space *aspace);
-> +               struct msm_gem_address_space *aspace, bool needed_dirtyfb);
->  uint32_t msm_framebuffer_iova(struct drm_framebuffer *fb,
->                 struct msm_gem_address_space *aspace, int plane);
->  struct drm_gem_object *msm_framebuffer_bo(struct drm_framebuffer *fb, int plane);
-> diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
-> index 4d34df5354e0..96b379a08327 100644
-> --- a/drivers/gpu/drm/msm/msm_fb.c
-> +++ b/drivers/gpu/drm/msm/msm_fb.c
-> @@ -18,16 +18,36 @@
->  struct msm_framebuffer {
->         struct drm_framebuffer base;
->         const struct msm_format *format;
-> +
-> +       /* Count of # of attached planes which need dirtyfb: */
-> +       refcount_t dirtyfb;
->  };
->  #define to_msm_framebuffer(x) container_of(x, struct msm_framebuffer, base)
->
->  static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
->                 const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos);
->
-> +static int msm_framebuffer_dirtyfb(struct drm_framebuffer *fb,
-> +                                  struct drm_file *file_priv, unsigned int flags,
-> +                                  unsigned int color, struct drm_clip_rect *clips,
-> +                                  unsigned int num_clips)
-> +{
-> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
-> +
-> +       /* If this fb is not used on any display requiring pixel data to be
-> +        * flushed, then skip dirtyfb
-> +        */
-> +       if (refcount_read(&msm_fb->dirtyfb) == 0)
-> +               return 0;
-> +
-> +       return drm_atomic_helper_dirtyfb(fb, file_priv, flags, color,
-> +                                        clips, num_clips);
-> +}
-> +
->  static const struct drm_framebuffer_funcs msm_framebuffer_funcs = {
->         .create_handle = drm_gem_fb_create_handle,
->         .destroy = drm_gem_fb_destroy,
-> -       .dirty = drm_atomic_helper_dirtyfb,
-> +       .dirty = msm_framebuffer_dirtyfb,
->  };
->
->  #ifdef CONFIG_DEBUG_FS
-> @@ -48,17 +68,19 @@ void msm_framebuffer_describe(struct drm_framebuffer *fb, struct seq_file *m)
->  }
->  #endif
->
-> -/* prepare/pin all the fb's bo's for scanout.  Note that it is not valid
-> - * to prepare an fb more multiple different initiator 'id's.  But that
-> - * should be fine, since only the scanout (mdpN) side of things needs
-> - * this, the gpu doesn't care about fb's.
-> +/* prepare/pin all the fb's bo's for scanout.
->   */
->  int msm_framebuffer_prepare(struct drm_framebuffer *fb,
-> -               struct msm_gem_address_space *aspace)
-> +               struct msm_gem_address_space *aspace,
-> +               bool needs_dirtyfb)
->  {
-> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
->         int ret, i, n = fb->format->num_planes;
->         uint64_t iova;
->
-> +       if (needs_dirtyfb)
-> +               refcount_inc(&msm_fb->dirtyfb);
-> +
->         for (i = 0; i < n; i++) {
->                 ret = msm_gem_get_and_pin_iova(fb->obj[i], aspace, &iova);
->                 drm_dbg_state(fb->dev, "FB[%u]: iova[%d]: %08llx (%d)", fb->base.id, i, iova, ret);
-> @@ -70,10 +92,15 @@ int msm_framebuffer_prepare(struct drm_framebuffer *fb,
->  }
->
->  void msm_framebuffer_cleanup(struct drm_framebuffer *fb,
-> -               struct msm_gem_address_space *aspace)
-> +               struct msm_gem_address_space *aspace,
-> +               bool needed_dirtyfb)
->  {
-> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
->         int i, n = fb->format->num_planes;
->
-> +       if (needed_dirtyfb)
-> +               refcount_dec(&msm_fb->dirtyfb);
-> +
->         for (i = 0; i < n; i++)
->                 msm_gem_unpin_iova(fb->obj[i], aspace);
->  }
-> --
-> 2.34.1
+> Is it common in the kernel that FP always means fixed-point?
 >
 
+I cannot say for sure, but I don't think so. I put it for people like me
+that goes automatically to Floating-Point because never worked with
+fixed-point before.
 
--- 
-With best wishes
-Dmitry
+
+>
+> If there is any doubt about that, I'd suggest using "fixed" and "float"
+> to avoid misunderstandings.
+>
+> And, since you are not supposed to use floats in the kernel unless you
+> really really must and you do all the preparations necessary (which you
+> don't here), maybe replace the "float" with a fraction.
+>
+> In other words, write a macro that takes (65535, 31) as arguments
+> instead of a float, when converting to fixed-point. Then you don't have
+> to use those strange decimal constants either.
+>
+
+It looks better, I will try to implement this.
+
+
+> > + * LF stands for Long Float (i.e. double)
+> > + * The following macros help doing fixed point arithmetic.
+> > + */
+> > +/*
+> > + * With FP scale 15 we have 17 and 15 bits of integer and fractional
+> parts
+> > + * respectively.
+> > + *  | 0000 0000 0000 0000 0.000 0000 0000 0000 |
+> > + * 31                                          0
+> > + */
+> > +#define FP_SCALE 15
+> > +
+> > +#define LF_TO_FP(a) ((a) * (u64)(1 << FP_SCALE))
+> > +#define INT_TO_FP(a) ((a) << FP_SCALE)
+> > +#define FP_MUL(a, b) ((s32)(((s64)(a) * (b)) >> FP_SCALE))
+> > +#define FP_DIV(a, b) ((s32)(((s64)(a) << FP_SCALE) / (b)))
+> > +/* This macro converts a fixed point number to int, and round half up
+> it */
+> > +#define FP_TO_INT_ROUND_UP(a) (((a) + (1 << (FP_SCALE - 1))) >>
+> FP_SCALE)
+> > +
+> >  /*
+> >   * packed_pixels_addr - Get the pointer to pixel of a given pair of
+> coordinates
+> >   *
+> > @@ -125,6 +149,33 @@ void XRGB16161616_to_ARGB16161616(struct
+> vkms_frame_info *frame_info, int y,
+> >       }
+> >  }
+> >
+> > +void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
+> > +                         struct line_buffer *stage_buffer)
+> > +{
+> > +     u16 *src_pixels = get_packed_src_addr(frame_info, y);
+> > +     int x, x_limit = drm_rect_width(&frame_info->dst);
+> > +
+> > +     for (x = 0; x < x_limit; x++, src_pixels++) {
+> > +             u16 rgb_565 = le16_to_cpu(*src_pixels);
+> > +             int fp_r = INT_TO_FP((rgb_565 >> 11) & 0x1f);
+> > +             int fp_g = INT_TO_FP((rgb_565 >> 5) & 0x3f);
+> > +             int fp_b = INT_TO_FP(rgb_565 & 0x1f);
+> > +
+> > +             /*
+> > +              * The magic constants is the "conversion ratio" and is
+> calculated
+> > +              * dividing 65535(2^16 - 1) by 31(2^5 -1) and 63(2^6 - 1)
+> > +              * respectively.
+> > +              */
+> > +             int fp_rb_ratio = LF_TO_FP(2114.032258065);
+> > +             int fp_g_ratio = LF_TO_FP(1040.238095238);
+> > +
+> > +             stage_buffer[x].a = (u16)0xffff;
+> > +             stage_buffer[x].r = FP_TO_INT_ROUND_UP(FP_MUL(fp_r,
+> fp_rb_ratio));
+> > +             stage_buffer[x].g = FP_TO_INT_ROUND_UP(FP_MUL(fp_g,
+> fp_g_ratio));
+> > +             stage_buffer[x].b = FP_TO_INT_ROUND_UP(FP_MUL(fp_b,
+> fp_rb_ratio));
+> > +     }
+> > +}
+> > +
+> >
+> >  /*
+> >   * The following  functions take an line of ARGB16161616 pixels from the
+> > @@ -203,3 +254,26 @@ void convert_to_XRGB16161616(struct vkms_frame_info
+> *frame_info, int y,
+> >               dst_pixels[0] = src_buffer[x].b;
+> >       }
+> >  }
+> > +
+> > +void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,
+> > +                    struct line_buffer *src_buffer)
+> > +{
+> > +     int x, x_dst = frame_info->dst.x1;
+> > +     u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+> > +     int x_limit = drm_rect_width(&frame_info->dst);
+> > +
+> > +     for (x = 0; x < x_limit; x++, dst_pixels++) {
+> > +             int fp_r = INT_TO_FP(src_buffer[x].r);
+> > +             int fp_g = INT_TO_FP(src_buffer[x].g);
+> > +             int fp_b = INT_TO_FP(src_buffer[x].b);
+> > +
+> > +             int fp_rb_ratio = LF_TO_FP(2114.032258065);
+> > +             int fp_g_ratio = LF_TO_FP(1040.238095238);
+>
+> Are there any guarantees that this will not result in floating-point
+> CPU instructions being used? Like a compiler error if it did?
+>
+> Yes, it's a constant expression, but I think there were some funny
+> rules in C that floating-point operations may not be evaluated at
+> compile time. Maybe I'm just paranoid?
+>
+>
+Well, I cannot guarantee anything, but every time that I
+intentionally/unintentionally
+did anything related with floating-point it couldn't link the kernel.
+
+
+>
+> Thanks,
+> pq
+>
+> > +
+> > +             u16 r = FP_TO_INT_ROUND_UP(FP_DIV(fp_r, fp_rb_ratio));
+> > +             u16 g = FP_TO_INT_ROUND_UP(FP_DIV(fp_g, fp_g_ratio));
+> > +             u16 b = FP_TO_INT_ROUND_UP(FP_DIV(fp_b, fp_rb_ratio));
+> > +
+> > +             *dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
+> > +     }
+> > +}
+> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.h
+> b/drivers/gpu/drm/vkms/vkms_formats.h
+> > index 22358f3a33ab..836d6e43ea90 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> > @@ -21,6 +21,9 @@ void get_ARGB16161616(struct vkms_frame_info
+> *frame_info, int y,
+> >  void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_info,
+> int y,
+> >                                 struct line_buffer *stage_buffer);
+> >
+> > +void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
+> > +                         struct line_buffer *stage_buffer);
+> > +
+> >  void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
+> >                        struct line_buffer *src_buffer);
+> >
+> > @@ -33,6 +36,9 @@ void convert_to_ARGB16161616(struct vkms_frame_info
+> *frame_info, int y,
+> >  void convert_to_XRGB16161616(struct vkms_frame_info *frame_info, int y,
+> >                            struct line_buffer *src_buffer);
+> >
+> > +void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,
+> > +                    struct line_buffer *src_buffer);
+> > +
+> >  typedef void (*format_transform_func)(struct vkms_frame_info
+> *frame_info, int y,
+> >                                     struct line_buffer *buffer);
+> >
+> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c
+> b/drivers/gpu/drm/vkms/vkms_plane.c
+> > index 1d70c9e8f109..4643eefcdf29 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > @@ -13,14 +13,16 @@
+> >
+> >  static const u32 vkms_formats[] = {
+> >       DRM_FORMAT_XRGB8888,
+> > -     DRM_FORMAT_XRGB16161616
+> > +     DRM_FORMAT_XRGB16161616,
+> > +     DRM_FORMAT_RGB565
+> >  };
+> >
+> >  static const u32 vkms_plane_formats[] = {
+> >       DRM_FORMAT_ARGB8888,
+> >       DRM_FORMAT_XRGB8888,
+> >       DRM_FORMAT_XRGB16161616,
+> > -     DRM_FORMAT_ARGB16161616
+> > +     DRM_FORMAT_ARGB16161616,
+> > +     DRM_FORMAT_RGB565
+> >  };
+> >
+> >  static struct drm_plane_state *
+> > diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c
+> b/drivers/gpu/drm/vkms/vkms_writeback.c
+> > index 393d3fc7966f..1aaa630090d3 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> > @@ -15,7 +15,8 @@
+> >  static const u32 vkms_wb_formats[] = {
+> >       DRM_FORMAT_XRGB8888,
+> >       DRM_FORMAT_XRGB16161616,
+> > -     DRM_FORMAT_ARGB16161616
+> > +     DRM_FORMAT_ARGB16161616,
+> > +     DRM_FORMAT_RGB565
+> >  };
+> >
+> >  static const struct drm_connector_funcs vkms_wb_connector_funcs = {
+>
+>
+
+--0000000000009f9d3605d8cd4605
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Pekka,<br></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 10, 2022 at 6:50 AM Pekka Pa=
+alanen &lt;<a href=3D"mailto:ppaalanen@gmail.com">ppaalanen@gmail.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
+, 21 Jan 2022 18:38:31 -0300<br>
+Igor Torrente &lt;<a href=3D"mailto:igormtorrente@gmail.com" target=3D"_bla=
+nk">igormtorrente@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; Adds this common format to vkms.<br>
+&gt; <br>
+&gt; This commit also adds new helper macros to deal with fixed-point<br>
+&gt; arithmetic.<br>
+&gt; <br>
+&gt; It was done to improve the precision of the conversion to ARGB16161616=
+<br>
+&gt; since the &quot;conversion ratio&quot; is not an integer.<br>
+&gt; <br>
+&gt; Signed-off-by: Igor Torrente &lt;<a href=3D"mailto:igormtorrente@gmail=
+.com" target=3D"_blank">igormtorrente@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; V3: Adapt the handlers to the new format introduced in patch 7 V3.<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/gpu/drm/vkms/vkms_formats.c=C2=A0 =C2=A0| 74 +++++++++++=
+++++++++++++++++<br>
+&gt;=C2=A0 drivers/gpu/drm/vkms/vkms_formats.h=C2=A0 =C2=A0|=C2=A0 6 +++<br=
+>
+&gt;=C2=A0 drivers/gpu/drm/vkms/vkms_plane.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +=
++-<br>
+&gt;=C2=A0 drivers/gpu/drm/vkms/vkms_writeback.c |=C2=A0 3 +-<br>
+&gt;=C2=A0 4 files changed, 86 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkm=
+s/vkms_formats.c<br>
+&gt; index 661da39d1276..dc612882dd8c 100644<br>
+&gt; --- a/drivers/gpu/drm/vkms/vkms_formats.c<br>
+&gt; +++ b/drivers/gpu/drm/vkms/vkms_formats.c<br>
+&gt; @@ -11,6 +11,8 @@ format_transform_func get_fmt_transform_function(u32=
+ format)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;get_=
+ARGB16161616;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (format =3D=3D DRM_FORMAT_XRGB161616=
+16)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;XRGB=
+16161616_to_ARGB16161616;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0else if (format =3D=3D DRM_FORMAT_RGB565)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;RGB565_to=
+_ARGB16161616;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;XRGB=
+8888_to_ARGB16161616;<br>
+&gt;=C2=A0 }<br>
+&gt; @@ -23,6 +25,8 @@ format_transform_func get_wb_fmt_transform_function(=
+u32 format)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;conv=
+ert_to_ARGB16161616;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (format =3D=3D DRM_FORMAT_XRGB161616=
+16)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;conv=
+ert_to_XRGB16161616;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0else if (format =3D=3D DRM_FORMAT_RGB565)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;convert_t=
+o_RGB565;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &amp;conv=
+ert_to_XRGB8888;<br>
+&gt;=C2=A0 }<br>
+&gt; @@ -33,6 +37,26 @@ static int pixel_offset(struct vkms_frame_info *fra=
+me_info, int x, int y)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ (x * frame_info-&gt;cpp);=
+<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +/*<br>
+&gt; + * FP stands for _Fixed Point_ and **not** _Float Point_<br>
+<br>
+Is it common in the kernel that FP always means fixed-point?<br></blockquot=
+e><div><br></div><div>I cannot say for sure, but I don&#39;t think so. I pu=
+t it for people like me</div><div>that goes automatically to Floating-Point=
+ because never worked with <br></div><div>fixed-point before.<br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+If there is any doubt about that, I&#39;d suggest using &quot;fixed&quot; a=
+nd &quot;float&quot;<br>
+to avoid misunderstandings.<br>
+<br>
+And, since you are not supposed to use floats in the kernel unless you<br>
+really really must and you do all the preparations necessary (which you<br>
+don&#39;t here), maybe replace the &quot;float&quot; with a fraction.<br>
+<br>
+In other words, write a macro that takes (65535, 31) as arguments<br>
+instead of a float, when converting to fixed-point. Then you don&#39;t have=
+<br>
+to use those strange decimal constants either.<br></blockquote><div><br></d=
+iv><div>It looks better, I will try to implement this. <br></div><div><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; + * LF stands for Long Float (i.e. double)<br>
+&gt; + * The following macros help doing fixed point arithmetic.<br>
+&gt; + */<br>
+&gt; +/*<br>
+&gt; + * With FP scale 15 we have 17 and 15 bits of integer and fractional =
+parts<br>
+&gt; + * respectively.<br>
+&gt; + *=C2=A0 | 0000 0000 0000 0000 0.000 0000 0000 0000 |<br>
+&gt; + * 31=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 0<br>
+&gt; + */<br>
+&gt; +#define FP_SCALE 15<br>
+&gt; +<br>
+&gt; +#define LF_TO_FP(a) ((a) * (u64)(1 &lt;&lt; FP_SCALE))<br>
+&gt; +#define INT_TO_FP(a) ((a) &lt;&lt; FP_SCALE)<br>
+&gt; +#define FP_MUL(a, b) ((s32)(((s64)(a) * (b)) &gt;&gt; FP_SCALE))<br>
+&gt; +#define FP_DIV(a, b) ((s32)(((s64)(a) &lt;&lt; FP_SCALE) / (b)))<br>
+&gt; +/* This macro converts a fixed point number to int, and round half up=
+ it */<br>
+&gt; +#define FP_TO_INT_ROUND_UP(a) (((a) + (1 &lt;&lt; (FP_SCALE - 1))) &g=
+t;&gt; FP_SCALE)<br>
+&gt; +<br>
+&gt;=C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0* packed_pixels_addr - Get the pointer to pixel of a given=
+ pair of coordinates<br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt; @@ -125,6 +149,33 @@ void XRGB16161616_to_ARGB16161616(struct vkms_fra=
+me_info *frame_info, int y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0struct line_buffer *stage_buffer)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u16 *src_pixels =3D get_packed_src_addr(frame_inf=
+o, y);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int x, x_limit =3D drm_rect_width(&amp;frame_info=
+-&gt;dst);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (x =3D 0; x &lt; x_limit; x++, src_pixels++) =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 rgb_565 =3D le16_=
+to_cpu(*src_pixels);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_r =3D INT_TO_F=
+P((rgb_565 &gt;&gt; 11) &amp; 0x1f);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_g =3D INT_TO_F=
+P((rgb_565 &gt;&gt; 5) &amp; 0x3f);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_b =3D INT_TO_F=
+P(rgb_565 &amp; 0x1f);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The magic constant=
+s is the &quot;conversion ratio&quot; and is calculated<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * dividing 65535(2^1=
+6 - 1) by 31(2^5 -1) and 63(2^6 - 1)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * respectively.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_rb_ratio =3D L=
+F_TO_FP(2114.032258065);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_g_ratio =3D LF=
+_TO_FP(1040.238095238);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stage_buffer[x].a =3D=
+ (u16)0xffff;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stage_buffer[x].r =3D=
+ FP_TO_INT_ROUND_UP(FP_MUL(fp_r, fp_rb_ratio));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stage_buffer[x].g =3D=
+ FP_TO_INT_ROUND_UP(FP_MUL(fp_g, fp_g_ratio));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stage_buffer[x].b =3D=
+ FP_TO_INT_ROUND_UP(FP_MUL(fp_b, fp_rb_ratio));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0* The following=C2=A0 functions take an line of ARGB161616=
+16 pixels from the<br>
+&gt; @@ -203,3 +254,26 @@ void convert_to_XRGB16161616(struct vkms_frame_in=
+fo *frame_info, int y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst_pixels[0] =
+=3D src_buffer[x].b;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ struct line_buffer *src_buffer)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int x, x_dst =3D frame_info-&gt;dst.x1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0u16 *dst_pixels =3D packed_pixels_addr(frame_info=
+, x_dst, y);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int x_limit =3D drm_rect_width(&amp;frame_info-&g=
+t;dst);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for (x =3D 0; x &lt; x_limit; x++, dst_pixels++) =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_r =3D INT_TO_F=
+P(src_buffer[x].r);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_g =3D INT_TO_F=
+P(src_buffer[x].g);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_b =3D INT_TO_F=
+P(src_buffer[x].b);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_rb_ratio =3D L=
+F_TO_FP(2114.032258065);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fp_g_ratio =3D LF=
+_TO_FP(1040.238095238);<br>
+<br>
+Are there any guarantees that this will not result in floating-point<br>
+CPU instructions being used? Like a compiler error if it did?<br>
+<br>
+Yes, it&#39;s a constant expression, but I think there were some funny<br>
+rules in C that floating-point operations may not be evaluated at<br>
+compile time. Maybe I&#39;m just paranoid?<br>
+<br></blockquote><div>=C2=A0</div><div>Well, I cannot guarantee anything, b=
+ut every time that I intentionally/unintentionally</div><div>did anything r=
+elated with floating-point it couldn&#39;t link the kernel. <br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Thanks,<br>
+pq<br>
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 r =3D FP_TO_INT_R=
+OUND_UP(FP_DIV(fp_r, fp_rb_ratio));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 g =3D FP_TO_INT_R=
+OUND_UP(FP_DIV(fp_g, fp_g_ratio));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 b =3D FP_TO_INT_R=
+OUND_UP(FP_DIV(fp_b, fp_rb_ratio));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*dst_pixels =3D cpu_t=
+o_le16(r &lt;&lt; 11 | g &lt;&lt; 5 | b);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +}<br>
+&gt; diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkm=
+s/vkms_formats.h<br>
+&gt; index 22358f3a33ab..836d6e43ea90 100644<br>
+&gt; --- a/drivers/gpu/drm/vkms/vkms_formats.h<br>
+&gt; +++ b/drivers/gpu/drm/vkms/vkms_formats.h<br>
+&gt; @@ -21,6 +21,9 @@ void get_ARGB16161616(struct vkms_frame_info *frame_=
+info, int y,<br>
+&gt;=C2=A0 void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_=
+info, int y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct line_buffer *stage_b=
+uffer);<br>
+&gt;=C2=A0 <br>
+&gt; +void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0struct line_buffer *stage_buffer);<br>
+&gt; +<br>
+&gt;=C2=A0 void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int=
+ y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 struct line_buffer *src_buffer);<br>
+&gt;=C2=A0 <br>
+&gt; @@ -33,6 +36,9 @@ void convert_to_ARGB16161616(struct vkms_frame_info =
+*frame_info, int y,<br>
+&gt;=C2=A0 void convert_to_XRGB16161616(struct vkms_frame_info *frame_info,=
+ int y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct line_buffer *src_buffer);<br>
+&gt;=C2=A0 <br>
+&gt; +void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ struct line_buffer *src_buffer);<br>
+&gt; +<br>
+&gt;=C2=A0 typedef void (*format_transform_func)(struct vkms_frame_info *fr=
+ame_info, int y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct line_b=
+uffer *buffer);<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/=
+vkms_plane.c<br>
+&gt; index 1d70c9e8f109..4643eefcdf29 100644<br>
+&gt; --- a/drivers/gpu/drm/vkms/vkms_plane.c<br>
+&gt; +++ b/drivers/gpu/drm/vkms/vkms_plane.c<br>
+&gt; @@ -13,14 +13,16 @@<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static const u32 vkms_formats[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB8888,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB16161616<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB16161616,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGB565<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static const u32 vkms_plane_formats[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB8888,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB8888,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB16161616,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB16161616<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB16161616,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGB565<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static struct drm_plane_state *<br>
+&gt; diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/v=
+kms/vkms_writeback.c<br>
+&gt; index 393d3fc7966f..1aaa630090d3 100644<br>
+&gt; --- a/drivers/gpu/drm/vkms/vkms_writeback.c<br>
+&gt; +++ b/drivers/gpu/drm/vkms/vkms_writeback.c<br>
+&gt; @@ -15,7 +15,8 @@<br>
+&gt;=C2=A0 static const u32 vkms_wb_formats[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB8888,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_FORMAT_XRGB16161616,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB16161616<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_ARGB16161616,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0DRM_FORMAT_RGB565<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static const struct drm_connector_funcs vkms_wb_connector_funcs =
+=3D {<br>
+<br>
+</blockquote></div></div>
+
+--0000000000009f9d3605d8cd4605--
