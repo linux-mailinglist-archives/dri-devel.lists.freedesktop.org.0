@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FF24C512A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ECC4C513C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 223B210E9E8;
-	Fri, 25 Feb 2022 22:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B944910E9B6;
+	Fri, 25 Feb 2022 22:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9390610E9E8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:04:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C937F10E292
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:09:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645826670;
+ s=mimecast20190719; t=1645826971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bO21mGiFSjxrTsAgYiuxcv8DPInIyOqBoKvJzjPiVo8=;
- b=NRG3kXXyJXT1bBdLbe4BE2v9p8Yj6TJbhqQflHAasMYZ8AI10SGGFWCkEtnW7e2u9N4yeF
- ettg9/orw7D7xk4EYmpjy+ZuczeDWmSm9qvuW+LwNmI3KRnIo3ccJyyNF2roTxQw2cEwdZ
- eBpFv+8vTL8Me0HKGuwqtiwnvB5JFFI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5PA9hg/jjTKbd4y1qX7Ux68wjGwVszX5ra4xkbOOiek=;
+ b=SAXQnjTffBrkkXf84yXpQyobBf4trw+3AsaNsGw25gSPMtlAUJPCqhp5OxbNrxqJbjRxV9
+ PAlouiSbsFde+PKZ0QF7zbVUA+wrcGdrTLxQTrfkzIE3ZeBrGTblDsI0aIbnul2mN5o4GR
+ lvLvgVcH5f2Szi6qGFyTstJD7QCnAwc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-SwJO7QjJNxaQ34OVvoFsgg-1; Fri, 25 Feb 2022 17:04:29 -0500
-X-MC-Unique: SwJO7QjJNxaQ34OVvoFsgg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v125-20020a1cac83000000b0037e3d70e7e1so2241276wme.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:04:28 -0800 (PST)
+ us-mta-519-bmDaCGVzNb6HTe99Cb4PoQ-1; Fri, 25 Feb 2022 17:09:30 -0500
+X-MC-Unique: bmDaCGVzNb6HTe99Cb4PoQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m21-20020a7bcf35000000b00380e364b5d2so2008651wmg.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:09:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=bO21mGiFSjxrTsAgYiuxcv8DPInIyOqBoKvJzjPiVo8=;
- b=7hNtL/izSOTKqSvrj1mzqXTyL/0ofKW8fV8N3e0xuf66i1APaRUafkdkVd7j3Kz7jW
- V+ymRJVIT+lqsBs8hE02CPyY/ai1nFq/L8P249YyYphZKXT+6uXflXePxD+tVBV0TxRc
- kh15D9FoxiVqtUj110E7DdmxwwNWK+M4Y4JiGgQECVBvUtfTEXhNoil32EJQ6kpOEXLH
- hBokBB5mqSFechmSvwQ3yz5ruG1cmGRB9RY0tS3dUJnvOpcPdSLIHS5YnL62IVBXxrdh
- qL4UxGjQA2q6keOSk7js+6ZnkV+Oqt1pHtGBXI762lCFLffoyJh2u84Rgxttu2t2AqCR
- TcwQ==
-X-Gm-Message-State: AOAM530ZYOkzgoKlwQGkKUBZfkshJJRt0PtP+2AVr/oSZVoPyewg0JqG
- CgXjPbKQn44dux7yvaX7TgRzAjcA9Dp55Nl5HuvVVsE9o16uNf6MTktHGx4P+OqcU75QCcFueW3
- /ywZkHIpiyBZskrmfEyX5yJmChNwf
-X-Received: by 2002:a5d:6da3:0:b0:1e3:2f74:f025 with SMTP id
- u3-20020a5d6da3000000b001e32f74f025mr7609055wrs.59.1645826668016; 
- Fri, 25 Feb 2022 14:04:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzIAVhIjXhFisDaSBcWS97jIQINaeO8cdSnnZqTT9pHKvxm2yqY6ihIXoPEmHCteAon+hDEJg==
-X-Received: by 2002:a5d:6da3:0:b0:1e3:2f74:f025 with SMTP id
- u3-20020a5d6da3000000b001e32f74f025mr7609045wrs.59.1645826667780; 
- Fri, 25 Feb 2022 14:04:27 -0800 (PST)
+ bh=5PA9hg/jjTKbd4y1qX7Ux68wjGwVszX5ra4xkbOOiek=;
+ b=Pr7DKghh2cyD4/DHhrXgIAUQhFRqsacZqCa0bZ2y7sGT0sX2l1pbAaP0XLXUkX7FxH
+ mJM+Y9cr6P0Qvz/LymizaIzZ8aAWGcxTLoRRN9NqD4olqSAJOTXHTuYtYx5wYK5gkad7
+ 9By18tiiuvHA0sEnn6ITcXN06TIqFzQUS+S0ofCGmDXlBFc5KdYtta2K0zCVmA2OYyQW
+ 8TPO6mJqnviHtp1f758vFtuAbZFHut9pWswRe92ZLVHHn0D09XKtsAKUN1tfcSCsl+Gv
+ FSKOsvbqW1vakwLGtMwcsFPs8a/bdrvktw6gyd/8hy1U0lIAlAOhUIUjQ8Q7QsWMCphX
+ YpVg==
+X-Gm-Message-State: AOAM531JIGv8udJ2Hd4LaJsbSQbB19q00gWsTp3AvCgM+8OdNsEU38CO
+ fZ6AiIBKVRyyRQrk9QHxvzl3JaZOUb62xgSdmQSloVYED3KSMv/xp4zKaW6WcnAx5NOsPlqWCsM
+ NSjQpUck4fkta4sKkpQwgd9+nO0YF
+X-Received: by 2002:a05:600c:3483:b0:380:edaf:d479 with SMTP id
+ a3-20020a05600c348300b00380edafd479mr4329863wmq.20.1645826969212; 
+ Fri, 25 Feb 2022 14:09:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyRz8kqXC26lmDuZDgPn8lbcKVBuJ71tDPuJGSpWOnTZ7pH1GMfhj1Tg6aY60ZvqiZQtVKhzw==
+X-Received: by 2002:a05:600c:3483:b0:380:edaf:d479 with SMTP id
+ a3-20020a05600c348300b00380edafd479mr4329851wmq.20.1645826969002; 
+ Fri, 25 Feb 2022 14:09:29 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a05600c241100b0037c01ad7152sm4950807wmp.14.2022.02.25.14.04.26
+ f12-20020a05600c154c00b0037df2e5d8c9sm4311870wmg.27.2022.02.25.14.09.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 14:04:27 -0800 (PST)
-Message-ID: <cdb8e01c-1c0d-8ead-ed2e-e5bf20e54a0e@redhat.com>
-Date: Fri, 25 Feb 2022 23:04:26 +0100
+ Fri, 25 Feb 2022 14:09:28 -0800 (PST)
+Message-ID: <b87cf8eb-a27f-5060-7941-3b374c2792dd@redhat.com>
+Date: Fri, 25 Feb 2022 23:09:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 3/5] drm/i915/dsi: Add some debug logging to mipi_exec_i2c
-To: Hans de Goede <hdegoede@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220225214934.383168-1-hdegoede@redhat.com>
- <20220225214934.383168-3-hdegoede@redhat.com>
+Subject: Re: [PATCH v4 1/3] sysfb: Make config option dependencies explicit
+To: Michal Suchanek <msuchanek@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+References: <1f13e6f2-a87c-83ac-7119-8632c8c8ac8e@redhat.com>
+ <a0fa41e9186653e4c41ad0a28259e5cdc71b1f66.1645822213.git.msuchanek@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220225214934.383168-3-hdegoede@redhat.com>
+In-Reply-To: <a0fa41e9186653e4c41ad0a28259e5cdc71b1f66.1645822213.git.msuchanek@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,22 +89,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, dri-devel@lists.freedesktop.org
+Cc: x86@kernel.org, David Herrmann <dh.herrmann@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+ Martin Mares <mj@ucw.cz>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-video@atrey.karlin.mff.cuni.cz,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hans,
+Hello Michal,
 
-On 2/25/22 22:49, Hans de Goede wrote:
-> Add some debug logging to mipi_exec_i2c, to make debugging various
-> issues seen with it easier.
+On 2/25/22 21:51, Michal Suchanek wrote:
+> efifb and vesafb requires sysfb implicitly but this is not stated in
+> Kconfig. Add the dependency.
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> With that all drivers that require sysfb depend on it so it can default
+> to disabled.
+> 
+> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 > ---
->  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+
+Thanks for the patch. This makes much more sense to me.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
