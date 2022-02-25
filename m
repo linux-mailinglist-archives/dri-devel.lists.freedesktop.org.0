@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC634C3F5C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 08:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DD84C3F5F
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 08:52:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 773D110E54F;
-	Fri, 25 Feb 2022 07:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9930310E59B;
+	Fri, 25 Feb 2022 07:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7481210E54C
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 07:52:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD9F10E548
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 07:52:01 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nNVOR-0000Pz-LX; Fri, 25 Feb 2022 08:51:59 +0100
+ id 1nNVOR-0000Q0-Jo; Fri, 25 Feb 2022 08:51:59 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nNVOL-00BSYC-8o; Fri, 25 Feb 2022 08:51:53 +0100
+ id 1nNVOL-00BSYF-9R; Fri, 25 Feb 2022 08:51:53 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 18/24] arm64: dts: rockchip: rk356x: Add HDMI nodes
-Date: Fri, 25 Feb 2022 08:51:44 +0100
-Message-Id: <20220225075150.2729401-19-s.hauer@pengutronix.de>
+Subject: [PATCH v7 19/24] arm64: dts: rockchip: rk3568-evb: Enable VOP2 and
+ hdmi
+Date: Fri, 25 Feb 2022 08:51:45 +0100
+Message-Id: <20220225075150.2729401-20-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220225075150.2729401-1-s.hauer@pengutronix.de>
 References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
@@ -57,61 +58,102 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the HDMI port found on RK3568.
+This enabled the VOP2 display controller along with hdmi and the
+required port routes which is enough to get a picture out of the
+hdmi port of the board.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 
 Notes:
     Changes since v5:
-    - Drop unnecessary #size-cells/#address-cells from nodes with only single endpoint
+    - Drop reg property from single endpoint node
+    
+    Changes since v4:
+    - Sort nodes alphabetically
+    
+    Changes since v3:
+    - Fix HDMI connector type
 
- arch/arm64/boot/dts/rockchip/rk356x.dtsi | 32 ++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../boot/dts/rockchip/rk3568-evb1-v10.dts     | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-index 19d8e67c4698b..229ed7a755f3b 100644
---- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -502,6 +502,38 @@ vop_mmu: iommu@fe043e00 {
- 		status = "disabled";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
+index 184e2aa2416af..792735d424716 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
+@@ -7,6 +7,7 @@
+ /dts-v1/;
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/pinctrl/rockchip.h>
++#include <dt-bindings/soc/rockchip,vop2.h>
+ #include "rk3568.dtsi"
+ 
+ / {
+@@ -33,6 +34,17 @@ dc_12v: dc-12v {
+ 		regulator-max-microvolt = <12000000>;
  	};
  
-+	hdmi: hdmi@fe0a0000 {
-+		compatible = "rockchip,rk3568-dw-hdmi";
-+		reg = <0x0 0xfe0a0000 0x0 0x20000>;
-+		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru PCLK_HDMI_HOST>,
-+			 <&cru CLK_HDMI_SFR>,
-+			 <&cru CLK_HDMI_CEC>,
-+			 <&pmucru CLK_HDMI_REF>,
-+			 <&cru HCLK_VOP>;
-+		clock-names = "iahb", "isfr", "cec", "ref", "hclk";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
-+		power-domains = <&power RK3568_PD_VO>;
-+		reg-io-width = <4>;
-+		rockchip,grf = <&grf>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
++	hdmi-con {
++		compatible = "hdmi-connector";
++		type = "a";
 +
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			hdmi_in: port@0 {
-+				reg = <0>;
-+			};
-+
-+			hdmi_out: port@1 {
-+				reg = <1>;
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
 +			};
 +		};
 +	};
 +
- 	qos_gpu: qos@fe128000 {
- 		compatible = "rockchip,rk3568-qos", "syscon";
- 		reg = <0x0 0xfe128000 0x0 0x20>;
+ 	vcc3v3_sys: vcc3v3-sys {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "vcc3v3_sys";
+@@ -106,6 +118,24 @@ &gmac1m1_rgmii_clk
+ 	status = "okay";
+ };
+ 
++&hdmi {
++	avdd-0v9-supply = <&vdda0v9_image>;
++	avdd-1v8-supply = <&vcca1v8_image>;
++	status = "okay";
++};
++
++&hdmi_in {
++	hdmi_in_vp0: endpoint {
++		remote-endpoint = <&vp0_out_hdmi>;
++	};
++};
++
++&hdmi_out {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
+ &i2c0 {
+ 	status = "okay";
+ 
+@@ -390,3 +420,20 @@ &sdmmc0 {
+ &uart2 {
+ 	status = "okay";
+ };
++
++&vop {
++	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
++	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
++	status = "okay";
++};
++
++&vop_mmu {
++	status = "okay";
++};
++
++&vp0 {
++	vp0_out_hdmi: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
++		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
++		remote-endpoint = <&hdmi_in_vp0>;
++	};
++};
 -- 
 2.30.2
 
