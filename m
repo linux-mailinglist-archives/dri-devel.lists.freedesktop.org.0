@@ -2,43 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7EF4C4CC1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 18:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494004C4CD2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 18:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D893410E8AA;
-	Fri, 25 Feb 2022 17:42:30 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2257110E8AA;
- Fri, 25 Feb 2022 17:42:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8D6A0B8327E;
- Fri, 25 Feb 2022 17:42:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E00C340F0;
- Fri, 25 Feb 2022 17:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645810946;
- bh=jfHP8ngKi4vi3hByTlvRBRmGbm9iwkShUz8a4jmfoDA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=n2kvSfc3paE5uL2pMwk1S162tbwbF/72CqdijVqlJrce7vDG9FBy+jqWdaH3istvR
- 2VesiPVL/8aE4R3giOSVzAO3EKj1IW4CBrkRgRVWZUgaPbu2sjnyywLMoyrEhhh/TT
- zw93DjlZXGL6IS86ZJmESPcGTiOrZ1UKeC/qikGAW6KDolKQLXnQk3VZRi9Nm7YwsN
- 77Y4nmToTJnrlcd410RW94elR9bPMNuiu9cAxoeXUzKhtmgwO0hIEnaa9VldTHz8oU
- 5dO9RyjQ6SfjzB9pw3qppG5X0senYPvCFW87hoxmezrQuSXbHr6+RiZZim0B2saAMx
- KriJ61n3uN8fw==
-Date: Fri, 25 Feb 2022 11:42:24 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v5 3/7] PCI: Drop the `is_thunderbolt` attribute from PCI
- core
-Message-ID: <20220225174224.GA366735@bhelgaas>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D34A310E8BC;
+	Fri, 25 Feb 2022 17:44:22 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8457A10E8BC;
+ Fri, 25 Feb 2022 17:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645811061; x=1677347061;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kVkHZ6YSaWiHlquueguNgVcHKjFSuSIOYosMw1eLoJQ=;
+ b=LAmzPCB7zxkj1HrRmjEHa4XLSheL3IUNFebjMZQzN88JTGTxf8l5UnLN
+ L8l1GPYMz08satje/s09F9n5gg6eK00s5qudcNz8ivTXgbfFiuqmliPPP
+ ymWXxasFGg21cFFbrnFBejmjT68elJ7iftwLCS1xDhkFXQJ48movJLI/n
+ gQV6cA7lcUYxcos+SshMva+hNuKetOkuVo827z3LjdWF33tcRKtg55r2J
+ a2cnCh6XivbjAxT3Hn97xTJQeRpSHhZzodTXSa6UFFh9S9OaU7b5zhdEO
+ RU6vTNsjxZ8RQn90uobIhbbABgYXR9wmmUJ7iImEuxS6NM/0S16/1R56k w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252275223"
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="252275223"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 09:44:21 -0800
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="549351346"
+Received: from pkinsell-mobl.ger.corp.intel.com (HELO [10.213.234.117])
+ ([10.213.234.117])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 09:44:19 -0800
+Message-ID: <58605636-42d3-1378-af81-eae4a447db9e@linux.intel.com>
+Date: Fri, 25 Feb 2022 17:44:17 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220224215116.7138-4-mario.limonciello@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
+ to avoid overflow
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-2-John.C.Harrison@Intel.com>
+ <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
+ <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
+ <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
+ <85105590-a8be-f4e1-69bc-cd34cad108e2@intel.com>
+ <16a2687b-4996-8d40-456e-019a112f0fb6@linux.intel.com>
+ <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
+ <77a7da0d-4cea-00c5-0073-44c9779b14a5@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <77a7da0d-4cea-00c5-0073-44c9779b14a5@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,97 +69,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Alexander.Deucher@amd.com, Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 24, 2022 at 03:51:12PM -0600, Mario Limonciello wrote:
-> The `is_thunderbolt` attribute originally had a well defined list of
-> quirks that it existed for, but it has been overloaded with more
-> meaning.
+
+On 24/02/2022 19:51, John Harrison wrote:
+> On 2/24/2022 11:19, John Harrison wrote:
+>> [snip]
+>>
+>> I'll change it to _uses_ and repost, then.
+>>
+> [    7.683149] kernel BUG at drivers/gpu/drm/i915/gt/uc/intel_guc.h:367!
 > 
-> Instead use the driver core removable attribute to indicate the
-> detail a device is attached to a thunderbolt or USB4 chain.
-> 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/pci/probe.c               | 2 +-
->  drivers/platform/x86/apple-gmux.c | 2 +-
->  include/linux/pci.h               | 5 ++---
->  3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 17a969942d37..1b752d425c47 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -1584,7 +1584,7 @@ static void set_pcie_thunderbolt(struct pci_dev *dev)
->  	/* Is the device part of a Thunderbolt controller? */
->  	vsec = pci_find_vsec_capability(dev, PCI_VENDOR_ID_INTEL, PCI_VSEC_ID_INTEL_TBT);
->  	if (vsec)
-> -		dev->is_thunderbolt = 1;
-> +		dev->external_facing = true;
->  }
->  
->  static void set_pcie_untrusted(struct pci_dev *dev)
-> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
-> index 57553f9b4d1d..4444da0c39b0 100644
-> --- a/drivers/platform/x86/apple-gmux.c
-> +++ b/drivers/platform/x86/apple-gmux.c
-> @@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
->  
->  static int is_thunderbolt(struct device *dev, void *data)
->  {
-> -	return to_pci_dev(dev)->is_thunderbolt;
-> +	return to_pci_dev(dev)->external_facing;
->  }
->  
->  static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 1e5b769e42fc..d9719eb14654 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -442,7 +442,6 @@ struct pci_dev {
->  	unsigned int	is_virtfn:1;
->  	unsigned int	is_hotplug_bridge:1;
->  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
-> -	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
->  	unsigned int	no_cmd_complete:1;	/* Lies about command completed events */
->  
->  	/*
-> @@ -2447,11 +2446,11 @@ static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
->  {
->  	struct pci_dev *parent = pdev;
->  
-> -	if (pdev->is_thunderbolt)
-> +	if (dev_is_removable(&pdev->dev))
->  		return true;
->  
->  	while ((parent = pci_upstream_bridge(parent)))
-> -		if (parent->is_thunderbolt)
-> +		if (dev_is_removable(&parent->dev))
->  			return true;
->  
->  	return false;
+> Told you that one went bang.
 
-Since you remove this function entirely later, it seems like you might
-as well push this to the end of the series, so you won't have to
-change it before removing it.
+intel_guc_is_used ?
 
-That would just leave the "PCI_VSEC_ID_INTEL_TBT implies external-facing"
-assumption above.  Not having a Thunderbolt spec, I have no idea how
-you deal with that.
+My suggestion was intel_engine_uses_guc. But do note I think it would 
+not work either because of setup vs init ordering. Not sure that it 
+makes sense at engine granularity anyway.
 
-But it is definitely not the case that "dev_is_removable() implies
-device is Thunderbolt", so I don't think this last hunk can work.
+Still I do think "is wanted" is quite bad.
 
-Bjorn
+Regards,
+
+Tvrtko
