@@ -1,160 +1,157 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4B64C4B38
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:47:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C56274C4B5A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BED10E6CB;
-	Fri, 25 Feb 2022 16:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E6F10E739;
+	Fri, 25 Feb 2022 16:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FB510E724;
- Fri, 25 Feb 2022 16:47:09 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 485C110E724;
+ Fri, 25 Feb 2022 16:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645807629; x=1677343629;
+ t=1645807956; x=1677343956;
  h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=gzpxakrWpqR+R0wfRmUyYPMQnw5s9jmXbwD/njZb47M=;
- b=l5KIhU7tq5oTt5qaK6iMalEmaLZp1bCdODPJ+71vrmbsea8oFVNWbiaI
- C0KlDDoKCMSFc0t68UOHoufikC3sdwZw5UUkshB6I/gRC3red/VjMAYfc
- kjtPQIf2iklEzh5i3VZZjwwTSywMoF+5FzhRK4oSlObGkZPclWc184qZx
- cVvm0EIbUV7QrVtBQgHu8GjCe1fE+Y9gFtJEApbI0qmpVWNeeyT5tb6ET
- 4iAOp10CHyQ944OBChdZzTCd7O3jQWZsk7aha9wZ0Q8Rf8zY6F8ETGSg3
- 5hYuhEkV6WVCkH+zMFCCybIXbJWndJ1kITu6kI28AkJfTcbvzpF65SM4I A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="250111145"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="250111145"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 08:46:45 -0800
+ in-reply-to:mime-version;
+ bh=vXxNHWMIQ5pcvgIFMYAfww83JrKCZxBr9g9xKME9EQ4=;
+ b=YBTsRGoFgdZ7MpZFq0q2LPwAENCC/TfIyp44sO4JDD5ytot4iEDBrRVt
+ ufZut1x3mtS2t0yDle2HzYgW7lgwRlc5m3EJahnkHomEAPL7eabekQCJ4
+ FU+outbcG7D0BX8abc14Y4Dn7osGGwiqTTo9WEResY5sqyb1+mrPzCR6R
+ 15rehUOqEzJK+8bBgE4HPSa5HTBfGVOZDM6oVGErn5GBTHiWhNdA1Tkf8
+ AevIjbRHuMmEr1j4wt9t8MqhLpaFVp+YdoGMvAojaeofnqJwHCvU8fqG6
+ dUPeVeTDsuYh97p0nMUjn9NSZhnxKECYOPV4wIdPkepJ49iD7cor3wDzl Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="233156051"
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
+ d="scan'208,217";a="233156051"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 08:52:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="607811018"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga004.fm.intel.com with ESMTP; 25 Feb 2022 08:46:45 -0800
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
+ d="scan'208,217";a="549329435"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga008.jf.intel.com with ESMTP; 25 Feb 2022 08:52:35 -0800
 Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 25 Feb 2022 08:46:45 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ 15.1.2308.21; Fri, 25 Feb 2022 08:52:34 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
  fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 25 Feb 2022 08:46:45 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ 15.1.2308.21; Fri, 25 Feb 2022 08:52:34 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Fri, 25 Feb 2022 08:46:45 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2308.21 via Frontend Transport; Fri, 25 Feb 2022 08:52:34 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Fri, 25 Feb 2022 08:46:44 -0800
+ 15.1.2308.20; Fri, 25 Feb 2022 08:52:33 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GensIo2AfN7nDPKx25aFHAWJ+s6eQezb6uP8Y1N7T9RoIAfklBiMTGmLhmx8M4FLIttGKJBoEpo07Juc43X5dB9NhlE8uTYoqmmHJta/T5f5hvzlbBYNstMAZhzGc9uTGB+v98K9VreuciSLk3ZxXyp1KcmhBcL1T6yREY5v6ft5BIxvUzmOkTMUl6/N9IixsuQFBxIwYxeDiMUv7XlepmHNgc7ePLPwj8/sT++TRgRid+p5ph7cdoFU57M72P0suHHaw5FDk2EQmoe+mT0kadv7vD9izwPaSMnn4YcfvYVWcWEoCwtzCv15cEKQCn0j1BTtKS5tB34hz5PsfKZODg==
+ b=O+fw7OlDzQO67pBF154uTXbLKtcOxU6+ABxmy71Nd+wkMOGvBAbD7NBU/tqjDU12/3B6kWk19R1zANa1qYAgvoW1YZzPKZ4nLmwclpwFy93Q4qG/8zcuWdckbM2n3DO2AttkzQv6S+NKEakO24oaCtKc0GRP5EVq5gxXDeIJ+oVdeXysUtn6sCUgjVchCv8+hkeNyDbWbMofI4K4GkpKbt3YhHt6lOBI3cJr3z5ZAc4jkOxUTEk/tc5f0FtM+W5W3TbRRNreU6uV3YR6mn93G7Q0hNDIvZDBBemF9+3lwBqpu/TcQ+cW+4WQbF49UOnIQOt/HRXrsIHpLHk0P8c75w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VrczSRW/pLPkBUFaVAGI/slzU8lwcKfr1TRrBBNpcUE=;
- b=WY0vGUw0ih98TJa0l8ANSkJcAxr4TyCOydoIV4xQJ7o/k1KJklzsRj4S4LWeT8AmSJpvSsohbOh6dmK3t/yNg2Bs0QicxL1Rdp2FDcdOsPZmHHjpn4FsWyAXqlcnE3+O8haNdm0SOpyCbJ4CMFJvoN1Q1qOHHvDuNE6FoxMN9R2ap9fGh+tuQANrNyZBPnCR2OSkr3BTdqzcOdCQlri4plBx2Kf6Dh28xlr2gt+3YIeX9i+2LnNnRTsatZqZFnHvWrydiPqplWofRbTLUNT2ZePq1PDVr60hcqm7IU637Bul5g/2AMe84o1y2aefr/Cmnz9bhjXgttH+Gq/GjSdsPA==
+ bh=tTSmhjlms5eVW9XXaSLmQmWlM7iTMu0is8wgQT/WSFs=;
+ b=mX9Fjhrg+voR2hAy6ZTLZM2oA38iBJPZQvqkynmQVAyCJUmyzsH6uPaCjI0Q8d6rXjHe1fPMiikyatsOb4rCYX9IWy+E9d17R1HQo2lvxw5NQyYbVh11tbUVyh9woXrUcZ5Ezl/GChQTLoJMbCgFOn88a8DOMKLTVA5rpLt65HVE7JGmQZdff2ZTCB9EOG0bTNq1Ygqt93+vXIWYkGL3Ea+LQifEBwK7oMD7l8RylOaWgs+A6IAFT/OtQgnN0Mc+/hI0iBpU5FnVTZDHxa2poXEtukVsUAf9306eWxFt9UMlALRbgnasKJZamRW3pNw2+8P2+ACjHDrrwHO2W/Qsmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by BL0PR11MB3092.namprd11.prod.outlook.com (2603:10b6:208:7d::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Fri, 25 Feb
- 2022 16:46:41 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::dd36:1843:a629:4ad7]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::dd36:1843:a629:4ad7%4]) with mapi id 15.20.5017.022; Fri, 25 Feb 2022
- 16:46:40 +0000
-Message-ID: <72d84811-b769-4cae-7e18-d076c75ddfa6@intel.com>
-Date: Fri, 25 Feb 2022 08:46:37 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [Intel-gfx] [PATCH v5 1/4] drm/i915/guc: Add fetch of hwconfig
- table
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20220222103640.1006006-1-jordan.l.justen@intel.com>
- <20220222103640.1006006-2-jordan.l.justen@intel.com>
- <621be0f6-63e3-a8fb-93e3-e581bf4b2d4b@intel.com>
- <87y21zh70p.fsf@jljusten-skl>
- <0917f555-1303-dadd-6609-f719dcf0ad61@intel.com>
- <3376b185-6a70-c5e1-2c2c-18a4bdeba9a2@linux.intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <3376b185-6a70-c5e1-2c2c-18a4bdeba9a2@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CO2PR04CA0112.namprd04.prod.outlook.com
- (2603:10b6:104:7::14) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from MWHPR11MB1645.namprd11.prod.outlook.com (2603:10b6:301:b::12)
+ by DM4PR11MB5534.namprd11.prod.outlook.com (2603:10b6:5:391::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Fri, 25 Feb
+ 2022 16:52:31 +0000
+Received: from MWHPR11MB1645.namprd11.prod.outlook.com
+ ([fe80::3db4:813a:16:ba0]) by MWHPR11MB1645.namprd11.prod.outlook.com
+ ([fe80::3db4:813a:16:ba0%7]) with mapi id 15.20.5017.026; Fri, 25 Feb 2022
+ 16:52:31 +0000
+Content-Type: multipart/alternative;
+ boundary="------------QOo0ymLngLY8d3KZr0QSut89"
+Message-ID: <718c6339-4a19-0de0-2666-a32be7c56dd7@intel.com>
+Date: Fri, 25 Feb 2022 08:52:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.5.0
+Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <20220225032436.904942-1-michael.cheng@intel.com>
+ <20220225032436.904942-2-michael.cheng@intel.com>
+ <011a236d-7ed4-0d48-e8a6-c9bd98740d5b@linux.intel.com>
+From: Michael Cheng <michael.cheng@intel.com>
+In-Reply-To: <011a236d-7ed4-0d48-e8a6-c9bd98740d5b@linux.intel.com>
+X-ClientProxiedBy: MWHPR18CA0040.namprd18.prod.outlook.com
+ (2603:10b6:320:31::26) To MWHPR11MB1645.namprd11.prod.outlook.com
+ (2603:10b6:301:b::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 70ca63ed-b8ed-4059-d3c9-08d9f87e65aa
-X-MS-TrafficTypeDiagnostic: BL0PR11MB3092:EE_
+X-MS-Office365-Filtering-Correlation-Id: fbbf983c-17e8-404a-589a-08d9f87f3680
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5534:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BL0PR11MB3092D9EB9C7041558CCF7E3ABD3E9@BL0PR11MB3092.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM4PR11MB55349759B1C48F1852C7DC1FE13E9@DM4PR11MB5534.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yRFFpCiWylvOrWGGikjn8HNVbpX8KhVE9acp48x1OLAF/CiIjH7+2B0Os3mQlFufLSWce0i3N0eYxnQUO0FUebMPskO8WaxSNJtPrOSEEskrGPG8PlTSl56CWEcumYFQqI7SV6giwlktYElz8odl7wCOzEIofe9evIFHfrHXvUSNhWtHezUDyqOCczLuRncXnOVV3lXYwWTnOo6cCZ8c23QY1ZfzmCZQvOCtLxbuZU6HUqKKDv/m+bEt8HScUowW41Yy5/K9Qxt0Ga8a89u6Ns92GUXDPvN5+V4bzrO1Zz/jIUClbwUMbArtABc12Zhr3sQyrQgajoJK+B8IqdPbSIMhqqBSLEgHY/frRQZ5Nqlmx/lk7//vtTvYAfVr5Q4gtfPaPL3yUJZkPGuszkihbrGhfwN35cg+WLKYmsgap5VzzR2A5l9dzanSZbPN56YFxBP6W53Xm+EPyI4rjZpEYY1crizP/pWyUOV2tyWRHMoC9W5xGRmzw05owOp6punMlaPgaGuwQJ6Xdg++KJ3pSFUlMRKGTkpQrio3CTzx484UdkU7H5ega/eEyn9YV5Gd4leIbCsWoCNjcRPAgB2cVrlt9F/lLqbkiWJ43hg8YuH2/uA2A+R7NB+q6KOMvSZwxRN7lPILkATs8fweH1YKVmcFuTF8/Ur3vmmB/YZwTal89oQw3JqYXpyYfi6Bw9jldr2fP8uSYQbowE4+MNFrw+5jsdDPTc6PzFoY5LnLCT3+k1/Fia3kfDPPChWkRurt
+X-Microsoft-Antispam-Message-Info: JE+9zaGHjuCqowF3LlaqVCLlrKHqD5h2M+ZlS3YsBTjyUEoQrr3d1rCmrrozgzC6FaPvZAa3ZxzBBncbWLkKMc8fz2kSe2OZuXLNN9eXmJAEI8eS/S0hotQEx5Z1gw+CqLzZnyKA4rYvYGaQ1o5JxgE6XbPpB/dHJIf6Ih0gaDdx1HjxBdG2vZQkJ0zIVpK7PnkOf92YF7H3iOq5K6OAPOW6fXB/YTfxziFd/x+Js5fTz3U/y073+2E+awv42V05VBrdLMiMP5IDuFpwPbvWcZ2WGfvDQm9hjdO0xyX1IfrIfiE9CPyGfZY+hf/hvGw8Nk8j6tdO2wh/HwR8UopRR/BW5aQ/HwU5751dKf9DMRuZL8RmhjaXfcPrntJQcg4Om9wz1XaJ0hsNFlwQoTmzbsckBFoSA2ZLS7IylYt2w3Za/mIAfYUmYD3beRsT7gVeLKkByhrPd15uPwLtHMtcVlKvu6y20RVQ5DFlx/MJmeFa6EPAkqpHG+6gzCFV8kWLj+yZ5FvPE+lEwJfRBs30ZPTHizR5cUL6irZ0C2oqzBCkY6l9EJ/+23yUFxR4EPTMI60CuediZo8PPLeI11ZwOpERFMlwTtsOrJOsD0gYP8wyh9YadyJLWtfoSHjqOEYQJWBJ2RSQ7LpW2YitKARxi+gcXWTiwAldvGzRQ0hJH1cXmi6KCZ8E8UMClPFNeOHuGY23DgKXKgTu5G54B0GbqkIe+zoVYPbIuFr/ul+jm6E=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(31696002)(2616005)(2906002)(83380400001)(31686004)(6666004)(36756003)(26005)(186003)(6512007)(38100700002)(8936002)(82960400001)(5660300002)(86362001)(6506007)(53546011)(54906003)(316002)(110136005)(508600001)(6486002)(966005)(66476007)(66556008)(8676002)(4326008)(66946007)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1645.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6666004)(31686004)(53546011)(6506007)(36756003)(33964004)(186003)(6486002)(2616005)(6512007)(508600001)(316002)(66476007)(66556008)(82960400001)(4326008)(38100700002)(8676002)(2906002)(86362001)(31696002)(5660300002)(44832011)(8936002)(66946007)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjhCU3hyZHozV1hRcEFhRDd3OTdJdEErNlgyOHNCSE8zbUU0QkpNZThiK1JC?=
- =?utf-8?B?dm1XdzQ3NGNRVnhwUlBybHBPdDhQM3hTdmhEM0plNS96eEgyMlFPMWJGUlBB?=
- =?utf-8?B?K2pOMlFXckdmN25iTmlMVXBJRUszdXUvampTTmxYSjJlS0EvZ1BCRTdqRFlP?=
- =?utf-8?B?SWU2YmtuVGIzbTc1NnhYUU9obnQxTFdEV3NHcjNDT0Y3bGlKWXVQRXUvejRR?=
- =?utf-8?B?d2QwdEJIRmo5aWNzeEFEa2ZDQkxKNGp3YVZqZC9rK1FiRDBNUTBLa0pHSFNB?=
- =?utf-8?B?VU1mUlhUNXpiRkhtdCtaSDRacEM3MW0xVW40QjNHQ0llTk1XN3kwS2hTc05I?=
- =?utf-8?B?a21RQkEvVU9SZk5Mb3ZSRDFaM0R6b09TRFNpRlVKYUhEQVd0Y1pCRXlJbG1T?=
- =?utf-8?B?OExXYWVoSG5FWkZvMUcvbzU5ZkwvOTZMY2NhOGQxbW9GUTQ3UmRucWtTTVE4?=
- =?utf-8?B?aWN0cU1XQlMxQ3JnVWZuNmRzNkxsV3krb0REczhjMzZ1a2pBY0UramkwUnFh?=
- =?utf-8?B?WDNsVWZKTGJ4QjVEK055aEVqVlJUR3hvMUpabGZHbFVmTkhFYktHSWswZmo0?=
- =?utf-8?B?NlNzVVlSd3lld1JPVmI2K0Y2WFU5Vk12TEJFNjFpRjFqdHNMcTFIL3VZL1RK?=
- =?utf-8?B?MFJkVVR6K0R1L1JZUEI4b0tnb01DbXVuemM5QmpUdDhyMFN5WGcyYUk3Q2V5?=
- =?utf-8?B?QlZIK1RKWGl1d0VWYXBMMW9EZm8yQldDYmRUbXhPVzBMdjN3R2VnV0Z1YW1C?=
- =?utf-8?B?cjhCWHNDUzNUdDFBekpjbEt6Z2NYdXR3M0JNQUNMRWloZ1Q2aTRuTHVSS053?=
- =?utf-8?B?bnhHYi9SZzRPd1FjQ2JPTjRkbG54ekI3eENQYnpOeUJHSUZYeUlhcnpEek9m?=
- =?utf-8?B?MCthc051SGd3WEd4eFZIeXJYRUplcTVCdGxpWnZxTWVWQlVPR3BCQXhnSlpH?=
- =?utf-8?B?eUZrTUVuMERKdk5IWlBSWTNYbCtXNC9rODI5aUovMnR0TEZzb1FhcXZJNW9h?=
- =?utf-8?B?Mk1kY1hiSG56eklzcXNzSEpkVmxXLzVCTjhYUVVLZ0NMQ2p0VUozc2l5VEVJ?=
- =?utf-8?B?NXRpWGxPM3V1b2MxdHZWUS9DbDF6Skhjb0R2QnArQTR5cGpvWVNwcE9sVkpR?=
- =?utf-8?B?cFUxY2ZBazUzazlFZkVRS0tYd3pvTHZnbmJWRjgvQkFLeFlPU2Y5TFVJTVgz?=
- =?utf-8?B?STFSd1FYTEdhazcxQlprUG8rTTJaYlUrdENrTkh3ajB5QzlXOXF1MkpaUHZQ?=
- =?utf-8?B?YVVoUWMvbDVldXNuLzg4UWRsRk10L1ZCRDBWZzl6NzVpc0VTRDRYSmJFN1M1?=
- =?utf-8?B?Y0FYQ1NvbWV0MTVPMjFOSWk0Y2toclkxM3ZWanZDRVR0bGpDbWgzN24rNWpD?=
- =?utf-8?B?Rm1pT3gxN2YzU0FHMkk3V2pGUTQ4cW9ublJYNWgrdmQ3QWZGQ3pKcUZZcnpv?=
- =?utf-8?B?T0EzSHdYZU54Y3lESHVVYk1oQ2NuTWxEc3FPOTBDa1JrbFFjRGRIYmowdGNr?=
- =?utf-8?B?QkxtTlcxdTA4Wm1zUVNLdFltQ2FhT0w2UE42NGhhMzh4SWF6eC9CUWl4UWo1?=
- =?utf-8?B?RUNxZmpHTmp0aHVYdU9Wb3g5UWtQY0NQQnMySDlnWG9uaWRpbXg2NnhBalJh?=
- =?utf-8?B?aUo2LzRKdUlUWUszQXA4SVR2ZXY3dy9Id0t2Q21RNG5yYzNhQkRBbmM5aC9z?=
- =?utf-8?B?eFU1MHFkeEZRODVmZ09rS09yWi9GdXpGeUxZUm5zVFdKbEpiT21mTDJ6bGRt?=
- =?utf-8?B?eWEyRFhtTlhzOHUxOFV6NnNrTlBhOTZqdlRDZWFiekZVUW90NXlheFgyallq?=
- =?utf-8?B?YmRNQ2hPZE1KaWR3dmE4TGZ0ci91TkdpQnhrUmR1cmdtRHFiYWZqazNHSDUr?=
- =?utf-8?B?SVhtenNEZVg4NkZVSHYxUU5XMXUwNkFsNkdlYXRweWtPRTZDdUp4OWR3dWpa?=
- =?utf-8?B?RHFybW5scVBUbDYrVzcwMjlpNDQrVHp5c3FERDV2SitmNDcrMGlHSWhJay8v?=
- =?utf-8?B?cVRqdXFsVGhYMG4wWisxcGpjTmwrdzQzUmQvdDJwWW5JQy9pSWphTnFLVXEv?=
- =?utf-8?B?R1hkVHVnOHc0S2NLL1lWUUJIMk1FLzc0QWVvUzZtQjhUV0E1MGhpRS9vWjVD?=
- =?utf-8?B?L2d1QzRGUWRNUEUwRWhaNHdtTWNyR1pEOTExSjFQRVBtaHUwQTR1L3JabUdp?=
- =?utf-8?B?azU5ak5LYTJ4ZTdMbDlsMkFnV1o1M0JyZzFudmx0QmxxWU8ydk9IYjRQSmVX?=
- =?utf-8?Q?mhEASxiB9PnOP9nvTyYWcyxwA4hGcSjFbojnqoEqNQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70ca63ed-b8ed-4059-d3c9-08d9f87e65aa
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWIrSGVWL0ZRWnA3NFRGK1Ewc3gwZUd1NGVYamFOL0xpRGlRVUZ6YVYxWHJC?=
+ =?utf-8?B?THowekRzYnRFSUg1OGxtWWthY0tnTXM2SGxTamUvb21EbXg1SGhwVnFvS2dq?=
+ =?utf-8?B?MFRkNVpmZitBMmUxZnFmMXFyaVVPbmJtTXNaODlEYW1jbk5xUlpzbTN2aVVE?=
+ =?utf-8?B?Zm42ZDZ3QWlUaUZQQTBBRk5SVkZwd0JXK0sxam8wS1dBQWdCNjRIR0FxM3Qw?=
+ =?utf-8?B?VUoxcGpuRVJhVkV5MnZJS0RzenFobGkwMjVFS1JwQ3ZncndtUEtBbXkvMGtP?=
+ =?utf-8?B?MmN2dklSaVpDZjg0VTlBQ0V4WEh5Rk51dGtQdmFubENMZTlaRzBpcXRMQStG?=
+ =?utf-8?B?RDF4aVJwZUxJRmJLSXlkS0Z5VGQyUVVGZFlCSkJlOW42eisxREVDcG5HbWdD?=
+ =?utf-8?B?TkNHeWZJNTVDL21jVGtIVEc0Z1o0OHp2dElweTYxb2sxSm1DQU9IUm1Wei9q?=
+ =?utf-8?B?QlYvV2ZNUW81NW51SzA4cGpLaTJLdWtOalA0V1FXT1NXMEsxQkFBV29FTXFk?=
+ =?utf-8?B?UG1kVkZXc2Ewd21zcEg4eTBiZkYzRHpvRUxybXVzaE5KT0tDa3duTDhleFJk?=
+ =?utf-8?B?NTIrcnY2dkx6Uk9jTlNjdE1xd3R4TXh3RjR5UVpBK2w2Z29DbHdQZ2NzOWEx?=
+ =?utf-8?B?eHowWWQwK3JMc0pmOTdvQTRHd2hWOFFyVUdKL1RMVHpGbjAxNVZVdTU0S2tQ?=
+ =?utf-8?B?eVBYMkZjejNVV3dxQzBZdGJ2MzlSL1lkdGdBUG1FNU9DaGpXKzBscHl0V0J3?=
+ =?utf-8?B?V3N0TUU4bFhxTlcwSjI3OWx2WmRiMjdnZnFPZE91SWVRY081U24vS1p2MS96?=
+ =?utf-8?B?eURKRUdNZjRwVnA3WVl4WUpzU2V5M1lnVnZIYzAyc3hHSklxUW9xSXZpL0tz?=
+ =?utf-8?B?K2xYSlJ6R1NLS0wvSzBjVmhGNWZpaWJOWklJdEcwdUZDblV3Q0tpaW83L01a?=
+ =?utf-8?B?a1VCVnFtbUpnK2lHcmVOWGFHNG1ZR1FqSEVrS2ozR2FHNlpSRCtxQ2dYajBu?=
+ =?utf-8?B?VCt3eHhZNVdVamxJcGJwR1BqV2RaNGpBcnZ6WllrRHJ6UVRDV0xMeUVvWXFB?=
+ =?utf-8?B?TE5iMk1TWnEvaXF2RUJFZ1lwWnhIcGFzVDZBY09yUDUzSXRrenRwb0xYcEY3?=
+ =?utf-8?B?am5LQmJkanBPUU1oc0xTZnMyb1lBMVQ4bFlLMG5aVFlwZkR4ZzhEVGVPR0NQ?=
+ =?utf-8?B?NDZxdFNrZGJLalRQQ1FJNHNOaDlUcDI3eTVKRUxRUlN1bzdsQ3JReEFQV0E0?=
+ =?utf-8?B?elV3ODdoUXM1aVdpSE9aL1pUVjhIL0ZEUkh0U1VPWHAyOFR4d21jWXFXWUF2?=
+ =?utf-8?B?NjRkcWo2aTJPL2l1VWNZU1NxVTExMVBZVjh2VEdCSGx1aDZGY3NvdWZ3WXVO?=
+ =?utf-8?B?THF3TmdNdkU3N201QWIrSzNKSFMvOGZqUHB1U0p4bVkvWFFlVzFqNzZTS2lG?=
+ =?utf-8?B?eEthdjIvdTYvWG1DMnRkRlMyYUwyclBpSTAvbkFrRkErVE84bUMwaXV2NDJz?=
+ =?utf-8?B?RW1GQ2NjQnNNYlI3USsrN2ZWT0J1R0ZJUkFPRmVKbS9VcGo2ZnU4SHh1SkFa?=
+ =?utf-8?B?Nlg5Q3lyOTRoY3VvZmd0TzdQSEJjSWxDdXhKNXpHMHlJY2EzcFJlVjlpS01T?=
+ =?utf-8?B?MDVBVWdLTlI0RlVVcklYMGFxVkgwa3RDZUEwL3pxLzB4NkwrcW50d2cvUHpL?=
+ =?utf-8?B?Y240ZWRaNGRub2VzMGJFeG1tZG9hQnlqMHBpazNZaE9DOGk2RlBwS2ZpR3lD?=
+ =?utf-8?B?NFcxekMzTEhSUVhadjlwNzRxelZlRzVOd3Vyd3R5VUw3emRWaHhFY3VrV3Az?=
+ =?utf-8?B?YWpwcnhZenFVb1dkRDdMRk1HTnRXRnA0ZnV5V3ZkSkp1TlF2WjRHUE13MGVY?=
+ =?utf-8?B?U0RWY3RFeVVKZnhWbnJIaUl6UzhZSnFOcGQwdUtkbDlTSUptVmR2ZGp6RnhY?=
+ =?utf-8?B?WGpxVWl5WUFjMytubC8ybENXSUlGdlJ2Nm1oTHhvZGVLUU9sQmJjU2FXa202?=
+ =?utf-8?B?cUtST3pXb2pweVM5QlYxcFdsT1ZMUTdyS0dkQU1nb2FkK1JzTlVMTWZRTDVZ?=
+ =?utf-8?B?NW55UzlhZXc3ckRxMWdpUDJncjNOaUhjMjFZdjF2UktuMzRtclpmclFNeUVC?=
+ =?utf-8?B?T0dNNWswSXJUV09ldzdNbkk5S2VrSmppTzI1cWZBQ253S2dvVVZTNTVLeGlr?=
+ =?utf-8?B?WWpwdDllREZta3hyRGhCZHdxSkJ2WXNLdTEySDVLZkQwaEZxYlRyL0VOSy9h?=
+ =?utf-8?Q?cfUMRnSR0BBhS/qw2nulnMToBp5rBId3cz/jetYLmQ=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbbf983c-17e8-404a-589a-08d9f87f3680
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1645.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 16:46:40.6928 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 16:52:30.9957 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Taajp0G3poZRrs1oboxt/jUp3MylrzvGU/ESi1NVH+70xLjuckGDDYljG7YyCaFy6zVRldWKYpTWvHu5or0IMDJFl7X+A7ISA73yypJSAcU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3092
+X-MS-Exchange-CrossTenant-UserPrincipalName: MKMRXn1PQ4Kx7Bm+CCmGEf5fmx1xWWVHzqSjXq+2FlwV+YFZuN2vBdI9iWTTjSncoJua6f/irMdYPsBpti3X5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5534
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -168,206 +165,259 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
+ casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/25/2022 05:26, Tvrtko Ursulin wrote:
-> On 25/02/2022 09:44, Michal Wajdeczko wrote:
->> On 25.02.2022 06:03, Jordan Justen wrote:
->>> John Harrison <john.c.harrison@intel.com> writes:
->>>
->>>> On 2/22/2022 02:36, Jordan Justen wrote:
->>>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>>
->>>>> Implement support for fetching the hardware description table from 
->>>>> the
->>>>> GuC. The call is made twice - once without a destination buffer to
->>>>> query the size and then a second time to fill in the buffer.
->>>>>
->>>>> Note that the table is only available on ADL-P and later platforms.
->>>>>
->>>>> v5 (of Jordan's posting):
->>>>>    * Various changes made by Jordan and recommended by Michal
->>>>>      - Makefile ordering
->>>>>      - Adjust "struct intel_guc_hwconfig hwconfig" comment
->>>>>      - Set Copyright year to 2022 in intel_guc_hwconfig.c/.h
->>>>>      - Drop inline from hwconfig_to_guc()
->>>>>      - Replace hwconfig param with guc in __guc_action_get_hwconfig()
->>>>>      - Move zero size check into guc_hwconfig_discover_size()
->>>>>      - Change comment to say zero size offset/size is needed to 
->>>>> get size
->>>>>      - Add has_guc_hwconfig to devinfo and drop has_table()
->>>>>      - Change drm_err to notice in __uc_init_hw() and use %pe
->>>>>
->>>>> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>>> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->>>>> Acked-by: Jon Bloomfield <jon.bloomfield@intel.com>
->>>>> Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
->>>>> ---
->>>>>    +    ret = intel_guc_hwconfig_init(&guc->hwconfig);
->>>>> +    if (ret)
->>>>> +        drm_notice(&i915->drm, "Failed to retrieve hwconfig 
->>>>> table: %pe\n",
->>>> Why only drm_notice? As you are keen to point out, the UMDs won't work
->>>> if the table is not available. All the failure paths in your own
->>>> verification function are 'drm_err'. So why is it only a 'notice' if
->>>> there is no table at all?
->>>
->>> This was requested by Michal in my v3 posting:
->>>
->>> https://patchwork.freedesktop.org/patch/472936/?series=99787&rev=3
->>>
->>> I don't think that it should be a failure for i915 if it is unable to
->>> read the table, or if the table read is invalid. I think it should 
->>> be up
->>> to the UMD to react to the missing hwconfig however they think is
->>> appropriate, but I would like the i915 to guarantee & document the
->>> format returned to userspace to whatever extent is feasible.
->>>
->>> As you point out there is a discrepancy, and I think I should be
->>> consistent with whatever is used here in my "drm/i915/guc: Verify
->>> hwconfig blob matches supported format" patch.
->>>
->>> I guess I'd tend to agree with Michal that "maybe drm_notice since we
->>> continue probe", but I would go along with either if you two want to
->>> discuss further.
->>
->> having consistent message level is a clear benefit but on other hand
->> these other 'errors' may indicate more serious problems related to use
->> of wrong/incompatible firmware that returns corrupted HWconfig (or we
->> use wrong actions), while since we are not using this HWconfig in the
-As stated ad nauseam, you can rule out 'corrupted' hwconfig. The GuC 
-firmware is signed and will not load if it has become corrupted somehow. 
-Likewise, a 'wrong/incompatible' firmware will refuse to load. So it is 
-physically impossible for the later verification stage to ever find an 
-error.
+--------------QOo0ymLngLY8d3KZr0QSut89
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Tvrtko,
 
->> driver we don't care that much that we failed to load HWconfig and
->> 'notice' is enough.
->>
->> but I'm fine with all messages being drm_err (as we will not have to
->> change that once again after HWconfig will be mandatory for the driver
->> as well)
->
-> I would be against drm_err.
->
-> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
-> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken 
-> immediately */
-> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
-> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant 
-> condition */
-> #define KERN_INFO       KERN_SOH "6"    /* informational */
-> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->
-> From the point of view of the kernel driver, this is not an error to 
-> its operation. It can at most be a warning, but notice is also fine by 
-> me. One could argue when reading "normal but significant condition" 
-> that it is not normal, when it is in fact unexpected, so if people 
-> prefer warning that is also okay by me. I still lean towards notice 
-> becuase of the hands-off nature i915 has with the pass-through of this 
-> blob.
- From the point of view of the KMD, i915 will load and be 'functional' 
-if it can't talk to the hardware at all. The UMDs won't work at all but 
-the driver load will be 'fine'. That's a requirement to be able to get 
-the user to a software fallback desktop in order to work out why the 
-hardware isn't working (e.g. no GuC firmware file). I would view this as 
-similar. The KMD might have loaded but the UMDs are not functional. That 
-is definitely an error condition to me.
+It seems without cacheflush.h being included, when I build for arm64 or 
+x86, it stills pulls in cacheflush.h:
 
+./.drm_cache.o.cmd:838: include/linux/cacheflush.h \
+./.drm_cache.o.cmd:839: arch/x86/include/asm/cacheflush.h \
+./.drm_cache.o.cmd:920: include/asm-generic/cacheflush.h \
+./.drm_cache.o.cmd:830: include/linux/cacheflush.h \
+./.drm_cache.o.cmd:831: arch/arm64/include/asm/cacheflush.h \
+./.drm_cache.o.cmd:1085: include/asm-generic/cacheflush.h \
+So it seems without including it, cacheflush.h stills get pulled in,
+I think its because its a required kernel source to build the kernel
+per specific architecture, but please correct if I am wrong,as I am still
+trying to understand how things works!
+Michael Cheng
+On 2022-02-25 8:28 a.m., Tvrtko Ursulin wrote:
 >
->>>> Note that this function is called as part of the reset path. The reset
->>>> path is not allowed to allocate memory. The table is stored in a
->>>> dynamically allocated object. Hence the IGT test failure. The table
->>>> query has to be done elsewhere at driver init time only.
->>>
->>> Thanks for clearing this up. I did notice on dg2 that gpu resets were
->>> causing a re-read of the hwconfig from GuC, but it definitely was not
->>> clear to me that there would be a connection to the IGT failure that 
->>> you
->>> pointed out.
->>>
->>>>
->>>>> +               ERR_PTR(ret));
->>>>> +
->>>>>        ret = guc_enable_communication(guc);
->>>>>        if (ret)
->>>>>            goto err_log_capture;
->>>>> @@ -562,6 +567,8 @@ static void __uc_fini_hw(struct intel_uc *uc)
->>>>>        if (intel_uc_uses_guc_submission(uc))
->>>>>            intel_guc_submission_disable(guc);
->>>>>    +    intel_guc_hwconfig_fini(&guc->hwconfig);
->>>>> +
->>>>>        __uc_sanitize(uc);
->>>>>    }
->>>>>    diff --git a/drivers/gpu/drm/i915/i915_pci.c 
->>>>> b/drivers/gpu/drm/i915/i915_pci.c
->>>>> index 76e590fcb903..1d31e35a5154 100644
->>>>> --- a/drivers/gpu/drm/i915/i915_pci.c
->>>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
->>>>> @@ -990,6 +990,7 @@ static const struct intel_device_info 
->>>>> adl_p_info = {
->>>>>            BIT(RCS0) | BIT(BCS0) | BIT(VECS0) | BIT(VCS0) | 
->>>>> BIT(VCS2),
->>>>>        .ppgtt_size = 48,
->>>>>        .dma_mask_size = 39,
->>>>> +    .has_guc_hwconfig = 1,
->>>> Who requested this change? It was previously done this way but the
->>>> instruction was that i915_pci.c is for hardware features only but that
->>>> this, as you seem extremely keen about pointing out at every
->>>> opportunity, is a software feature.
->>>
->>> This was requested by Michal as well. I definitely agree it is a
->>> software feature, but I was not aware that "i915_pci.c is for hardware
->>> features only".
->>>
->>> Michal, do you agree with this and returning to the previous method for
->>> enabling the feature?
+> On 25/02/2022 03:24, Michael Cheng wrote:
+>> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
+>> performs a flush by first performing a clean, follow by an invalidation
+>> operation.
 >>
->> now I'm little confused as some arch direction was to treat FW as
->> extension of the HW so for me it was natural to have 'has_guc_hwconfig'
->> flag in device_info
+>> v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
+>>             dcache. Thanks Tvrtko for the suggestion.
 >>
->> if still for some reason it is undesired to mix HW and FW/SW flags
->> inside single group of flags then maybe we should just add separate
->> group of immutable flags where has_guc_hwconfig could be defined.
+>> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
 >>
->> let our maintainers decide
+>> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
+>>             symbol that could be use by other modules, thus use
+>>             caches_clean_inval_pou instead. Also this version
+>>                 removes include for cacheflush, since its already
+>>             included base on architecture type.
 >
-> Bah.. :)
->
-> And what was the previous method?
->
-> [comes back later]
->
-> Okay it was:
->
-> +static bool has_table(struct drm_i915_private *i915)
-> +{
-> +    if (IS_ALDERLAKE_P(i915))
-> +        return true;
->
-> Which sucks a bit if we want to argue it does not belong in device info.
->
-> Why can't we ask the GuC if the blob exists? In fact what would happen 
-> if one would call __guc_action_get_hwconfig on any GuC platform?
-That was how I originally wrote the code. However, other parties refuse 
-to allow a H2G call to fail. The underlying CTB layers complain loudly 
-on any CTB error. And the GuC architects insist that a call to query the 
-table on an unsupported platform is an error and should return an 
-'unsupported' error code.
-
-John.
-
+> What does it mean that it is included based on architecture type? Some 
+> of the other header already pulls it in?
 >
 > Regards,
 >
 > Tvrtko
+>
+>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_cache.c | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+>> index c3e6e615bf09..81c28714f930 100644
+>> --- a/drivers/gpu/drm/drm_cache.c
+>> +++ b/drivers/gpu/drm/drm_cache.c
+>> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned long 
+>> length)
+>>         if (wbinvd_on_all_cpus())
+>>           pr_err("Timed out waiting for cache flush\n");
+>> +
+>> +#elif defined(CONFIG_ARM64)
+>> +    void *end = addr + length;
+>> +    caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
+>> +
+>>   #else
+>>       WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
+>>   #endif
+--------------QOo0ymLngLY8d3KZr0QSut89
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p>Hi Tvrtko,</p>
+    <p>It seems without cacheflush.h being included, when I build for
+      arm64 or x86, it stills pulls in cacheflush.h:</p>
+    <div style=3D"font-family: 'Liberation Mono', monospace; white-space: p=
+re"><div><span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: n=
+ormal; font-style: normal; text-decoration: none">./.</span><span style=3D"=
+color: #705050; background: #3f3f3f; font-weight: bold; font-style: normal;=
+ text-decoration: none">drm_cache</span><span style=3D"color: #dcdccc; back=
+ground: #3f3f3f; font-weight: normal; font-style: normal; text-decoration: =
+none">.o.cmd:838:  include/linux/cacheflush.h \                            =
+                                                         </span></div><div>=
+<span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; fo=
+nt-style: normal; text-decoration: none">./.</span><span style=3D"color: #7=
+05050; background: #3f3f3f; font-weight: bold; font-style: normal; text-dec=
+oration: none">drm_cache</span><span style=3D"color: #dcdccc; background: #=
+3f3f3f; font-weight: normal; font-style: normal; text-decoration: none">.o.=
+cmd:839:  arch/x86/include/asm/cacheflush.h \                              =
+                                                </span></div><div><span sty=
+le=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style:=
+ normal; text-decoration: none">./.</span><span style=3D"color: #705050; ba=
+ckground: #3f3f3f; font-weight: bold; font-style: normal; text-decoration: =
+none">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f3f; f=
+ont-weight: normal; font-style: normal; text-decoration: none">.o.cmd:920: =
+ include/asm-generic/cacheflush.h \   </span></div><div><span style=3D"colo=
+r: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: normal; t=
+ext-decoration: none">
+</span></div><div>
+<div style=3D"font-family: 'Liberation Mono', monospace; white-space: pre">=
+<div><span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: norma=
+l; font-style: normal; text-decoration: none">./.</span><span style=3D"colo=
+r: #705050; background: #3f3f3f; font-weight: bold; font-style: normal; tex=
+t-decoration: none">drm_cache</span><span style=3D"color: #dcdccc; backgrou=
+nd: #3f3f3f; font-weight: normal; font-style: normal; text-decoration: none=
+">.o.cmd:830:  include/linux/cacheflush.h \                                =
+                                                     </span></div><div><spa=
+n style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-s=
+tyle: normal; text-decoration: none">./.</span><span style=3D"color: #70505=
+0; background: #3f3f3f; font-weight: bold; font-style: normal; text-decorat=
+ion: none">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f=
+3f; font-weight: normal; font-style: normal; text-decoration: none">.o.cmd:=
+831:  arch/arm64/include/asm/cacheflush.h \                                =
+                                            </span></div><div><span style=
+=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: n=
+ormal; text-decoration: none">./.</span><span style=3D"color: #705050; back=
+ground: #3f3f3f; font-weight: bold; font-style: normal; text-decoration: no=
+ne">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f3f; fon=
+t-weight: normal; font-style: normal; text-decoration: none">.o.cmd:1085:  =
+include/asm-generic/cacheflush.h \ </span></div><div><span style=3D"color: =
+#dcdccc; background: #3f3f3f; font-weight: normal; font-style: normal; text=
+-decoration: none">
+</span></div><div>So it seems without including it, cacheflush.h stills get=
+ pulled in, </div><div>I think its because its a required kernel source to =
+build the kernel </div><div>per specific architecture, but please correct i=
+f I am wrong,as I am still</div><div>trying to understand how things works!=
+</div><div>
+</div><div>Michael Cheng
+<span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; fo=
+nt-style: normal; text-decoration: none"></span></div></div><span style=3D"=
+color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: norma=
+l; text-decoration: none"></span></div><div><span style=3D"color: #dcdccc; =
+background: #3f3f3f; font-weight: normal; font-style: normal; text-decorati=
+on: none">
+</span></div></div>
+    <div class=3D"moz-cite-prefix">On 2022-02-25 8:28 a.m., Tvrtko Ursulin
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:011a236d-7ed4-0d48-e8a6-c9bd98740=
+d5b@linux.intel.com">
+      <br>
+      On 25/02/2022 03:24, Michael Cheng wrote:
+      <br>
+      <blockquote type=3D"cite">Add arm64 support for
+        drm_clflush_virt_range. caches_clean_inval_pou
+        <br>
+        performs a flush by first performing a clean, follow by an
+        invalidation
+        <br>
+        operation.
+        <br>
+        <br>
+        v2 (Michael Cheng): Use correct macro for cleaning and
+        invalidation the
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+dcache. Thanks Tvrtko for the suggestion.
+        <br>
+        <br>
+        v3 (Michael Cheng): Replace asm/cacheflush.h with
+        linux/cacheflush.h
+        <br>
+        <br>
+        v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc
+        as a
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+symbol that could be use by other modules, thus use
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+caches_clean_inval_pou instead. Also this version
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; removes include for cacheflush, since its
+        already
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+included base on architecture type.
+        <br>
+      </blockquote>
+      <br>
+      What does it mean that it is included based on architecture type?
+      Some of the other header already pulls it in?
+      <br>
+      <br>
+      Regards,
+      <br>
+      <br>
+      Tvrtko
+      <br>
+      <br>
+      <blockquote type=3D"cite">Signed-off-by: Michael Cheng
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:michael.cheng@int=
+el.com">&lt;michael.cheng@intel.com&gt;</a>
+        <br>
+        Reviewed-by: Matt Roper <a class=3D"moz-txt-link-rfc2396E" href=3D"=
+mailto:matthew.d.roper@intel.com">&lt;matthew.d.roper@intel.com&gt;</a>
+        <br>
+        ---
+        <br>
+        &nbsp; drivers/gpu/drm/drm_cache.c | 5 +++++
+        <br>
+        &nbsp; 1 file changed, 5 insertions(+)
+        <br>
+        <br>
+        diff --git a/drivers/gpu/drm/drm_cache.c
+        b/drivers/gpu/drm/drm_cache.c
+        <br>
+        index c3e6e615bf09..81c28714f930 100644
+        <br>
+        --- a/drivers/gpu/drm/drm_cache.c
+        <br>
+        +++ b/drivers/gpu/drm/drm_cache.c
+        <br>
+        @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned
+        long length)
+        <br>
+        &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (wbinvd_on_all_cpus())
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pr_err(&quot=
+;Timed out waiting for cache flush\n&quot;);
+        <br>
+        +
+        <br>
+        +#elif defined(CONFIG_ARM64)
+        <br>
+        +&nbsp;&nbsp;&nbsp; void *end =3D addr + length;
+        <br>
+        +&nbsp;&nbsp;&nbsp; caches_clean_inval_pou((unsigned long)addr, (un=
+signed
+        long)end);
+        <br>
+        +
+        <br>
+        &nbsp; #else
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WARN_ONCE(1, &quot;Architecture has =
+no drm_cache.c support\n&quot;);
+        <br>
+        &nbsp; #endif
+        <br>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------QOo0ymLngLY8d3KZr0QSut89--
