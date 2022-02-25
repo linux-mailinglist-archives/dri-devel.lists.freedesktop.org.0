@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D950C4C4AC0
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6A04C4ACA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:32:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C8D10E4F1;
-	Fri, 25 Feb 2022 16:30:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C991B10E5D4;
+	Fri, 25 Feb 2022 16:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241FF10E4F1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 16:30:30 +0000 (UTC)
-Received: by mail-oo1-f44.google.com with SMTP id
- p206-20020a4a2fd7000000b0031bfec11983so6770892oop.13
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 08:30:30 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8A710E5D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 16:32:54 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id j22so5281931wrb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 08:32:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pcnpMGkUTwrOq6wVD6KDZaXy5/GdTI9lT9U97nS7O4s=;
+ b=OT2dbyd+i3BammGBmQ7seIq+G/W89xOguMk7ZOmU3RGt+q+4q5MOMApY2hmn1v4ZtS
+ tRWfhh6zV8GBPDv4M4WgpjiAcIISYhGN62/un1z6+/nOOGGZZWPVecsX4NL6MPjH6hSK
+ aPM9DX2aNuk4Saw4NyJvi+dfgL1B5g00JPqzDvL1lI86n4jwEE5zozq69DuRVLXiz2tb
+ oeRZ4loKnhca4NC10OovgafbKlSFMcIUXrIEykKiv+pNn08tAbcjWLE04l9loLcHWCnA
+ MPOH0XkCZjT4XDGkLHt37wTw17Tyn3XsE4k62M0tmr4IZyifU7DNQuPXO+srQaH/JAKg
+ gcTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1wkrFjytm/bfyZ688DRYD5WIyjqQECAVw3q7pHsvHsw=;
- b=zpMwq56ahOJzzTt0yyzjiDMg0X6CdtFtRv3CE/0cCk4DE0bGMu53o6c0/9SpVp1P3/
- FWs5puzizDkpFl2v+KM2yiV9X7fKUrQwrdkcW94sVIlOmONJwGJQBZszmab6pl5TTyeQ
- MC4pgqWuyCvQQjMUr+Vvt8J9ZGgpc21wGgM/SnUWVaDbOG1Qz1EDk2XYFEmUXIyspdJp
- 2ktl7b8sPpriNV4tas6cSHl+S/EGSFbpNQaNFmgwbGy2qKv6m9c9E91GBrls/yITrhrm
- 4aCVeuT0qyfCCetC9IFi2HkI5wjezc8Zr9waAm+XANnNs5cw8pzvaw+e9IhFUrCAfzn8
- OUqA==
-X-Gm-Message-State: AOAM531AY/HMEeiweWqklb6iNC1KeB6b2/C0LyXYoOC5qPaZB88dzaxr
- 5LkHN4PY4vkpIqF1SC5BeQ==
-X-Google-Smtp-Source: ABdhPJxHnQhONryFwpvuU3O9cL+TRRiq/RY06mE2+ZgOVfuaaBUkDTiEOsd6KQFZQO00sR87pj5RBQ==
-X-Received: by 2002:a05:6870:a552:b0:b5:6c53:b96b with SMTP id
- p18-20020a056870a55200b000b56c53b96bmr1705102oal.124.1645806629409; 
- Fri, 25 Feb 2022 08:30:29 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
- l20-20020a056820031400b0031cf5913126sm1241648ooe.36.2022.02.25.08.30.27
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pcnpMGkUTwrOq6wVD6KDZaXy5/GdTI9lT9U97nS7O4s=;
+ b=Fbgasm9txrsKNcN5sAyU8NIsny8OTkkjIG8KkdlveDcRzizAplP3DLH9To7PvkKm6n
+ dsj/7L6qoiyOwAyDg3ASuU920XUOyW0D1yCmRqa8onRkFA4cLfau3RzPyiXzhAj3WdnO
+ tUZLfA9JEUAj7n4HclJLPPbNuc15RGMxVo7ex6WHyrlpah5p7BEjI/cEcpRtHOUf0Q2Y
+ Os86yVVgnQrJL8nxSdTgXdLjtQCfxmUu/7W/V0D/yHELee52oXWmqf527rdK7XStonvQ
+ W6eZ6FUNPPFM4AIrWMd8rHsXwQAcUmVDF4yMUTNfvjMlo1iEZD+X5wZBA/IhxHOdoZge
+ ukjQ==
+X-Gm-Message-State: AOAM53332BnohoqXGEWdnQDuqi/GobPWxu2XXbmcKJGHapYyjSNKXLR7
+ Kl2PWfgj0N1UDyiggYg/wKUSdVZYODA=
+X-Google-Smtp-Source: ABdhPJxHrcf/hcepc+TJ2lVBWStLolYNEo/QWbjcFrnuG5b+myntxby6A1xyg7CzQ3cgZOw640/yTQ==
+X-Received: by 2002:a5d:410c:0:b0:1ef:766b:ef5b with SMTP id
+ l12-20020a5d410c000000b001ef766bef5bmr1692763wrp.183.1645806772593; 
+ Fri, 25 Feb 2022 08:32:52 -0800 (PST)
+Received: from localhost ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d460e000000b001edc107e4f7sm3985207wrq.81.2022.02.25.08.32.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 08:30:28 -0800 (PST)
-Received: (nullmailer pid 1045540 invoked by uid 1000);
- Fri, 25 Feb 2022 16:30:26 -0000
-Date: Fri, 25 Feb 2022 10:30:26 -0600
-From: Rob Herring <robh@kernel.org>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v3, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
- dt-bindings for lat soc
-Message-ID: <YhkEIr/Jlky+5CZY@robh.at.kernel.org>
-References: <20220217075758.11369-1-yunfei.dong@mediatek.com>
- <20220217075758.11369-2-yunfei.dong@mediatek.com>
+ Fri, 25 Feb 2022 08:32:51 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [GIT PULL] drm/tegra: Changes for v5.18-rc1
+Date: Fri, 25 Feb 2022 17:32:50 +0100
+Message-Id: <20220225163250.1063101-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220217075758.11369-2-yunfei.dong@mediatek.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Steve Cho <stevecho@chromium.org>,
- Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@google.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Feb 2022 15:57:52 +0800, Yunfei Dong wrote:
-> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-soc".
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../media/mediatek,vcodec-subdev-decoder.yaml | 51 +++++++++++++------
->  1 file changed, 35 insertions(+), 16 deletions(-)
-> 
+Hi Dave, Daniel,
 
-Acked-by: Rob Herring <robh@kernel.org>
+The following changes since commit 8913e1aea4b32a866343b14e565c62cec54f3f78:
+
+  drm/tegra: dpaux: Populate AUX bus (2022-02-23 13:00:37 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.18-rc1
+
+for you to fetch changes up to b53c24f69199b88671293de503f1f999a762f4f9:
+
+  drm/tegra: Support YVYU, VYUY and YU24 formats (2022-02-25 16:37:40 +0100)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Changes for v5.18-rc1
+
+This contains a couple more minor fixes that didn't seem urgent enough
+for v5.17. On top of that this improves YUV format support on older
+chips.
+
+----------------------------------------------------------------
+Christophe JAILLET (2):
+      gpu: host1x: Fix an error handling path in 'host1x_probe()'
+      gpu: host1x: Fix a memory leak in 'host1x_remove()'
+
+Dmitry Osipenko (1):
+      drm/tegra: Use dev_err_probe()
+
+Miaoqian Lin (1):
+      drm/tegra: Fix reference leak in tegra_dsi_ganged_probe
+
+Thierry Reding (3):
+      drm/tegra: Fix planar formats on Tegra186 and later
+      drm/tegra: Support semi-planar formats on Tegra114+
+      drm/tegra: Support YVYU, VYUY and YU24 formats
+
+chiminghao (1):
+      drm/tegra: dpaux: Remove unneeded variable
+
+ drivers/gpu/drm/tegra/dc.c    | 50 ++++++++++++++++++-----------
+ drivers/gpu/drm/tegra/dc.h    |  7 +++++
+ drivers/gpu/drm/tegra/dpaux.c |  3 +-
+ drivers/gpu/drm/tegra/dsi.c   |  4 ++-
+ drivers/gpu/drm/tegra/hdmi.c  | 34 ++++++--------------
+ drivers/gpu/drm/tegra/hub.c   | 24 ++++++++------
+ drivers/gpu/drm/tegra/plane.c | 73 ++++++++++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/tegra/plane.h |  2 +-
+ drivers/gpu/host1x/dev.c      |  8 +++--
+ 9 files changed, 140 insertions(+), 65 deletions(-)
