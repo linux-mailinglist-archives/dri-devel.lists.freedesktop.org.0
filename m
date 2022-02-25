@@ -1,65 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908A14C4DCA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 19:35:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51604C4DCC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 19:36:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 222AA10E895;
-	Fri, 25 Feb 2022 18:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C626F10E922;
+	Fri, 25 Feb 2022 18:35:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2338910E81E;
- Fri, 25 Feb 2022 18:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645814119; x=1677350119;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=yIW6oydik5oHgufdlf4hSDQHYLjshYpVXH3/Fju5ZTA=;
- b=eUbsqwbWN2PPIrhX+UNrOGMJWZc+BUiTbiYSSxTqraSqasWrTk9BkZwe
- voakjjEF2J8lj4wyvNDoZXoCvWJ6e2Pv7EtwecG08f1i0C7t9jmuVPof8
- ZTMIsT6deLZrDxQNN+mzJzfHCMRY7nfRhiWiCJrKJruLuxm4begvOPDfd
- isTMvsXpZXkniABWn4i7GmIgwT2lw85swlXcxeyOWDcFw0uxfyLkIujd5
- gF9WwfaDQ/CRjd7ohY+V0WQI+06EtnuDPkBbhiVKL7pWVe6+jwdBXP88Y
- nROl1yNx6/W3np9aMZDFD3gmhjOZtMDRCrQFT4CZTmb56WLGODA8pfrnO Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252285900"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="252285900"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 10:35:17 -0800
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="549371467"
-Received: from pkinsell-mobl.ger.corp.intel.com (HELO [10.213.234.117])
- ([10.213.234.117])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 10:35:14 -0800
-Message-ID: <f092d019-94bc-179b-d2c4-c66d89bda89b@linux.intel.com>
-Date: Fri, 25 Feb 2022 18:35:11 +0000
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2058.outbound.protection.outlook.com [40.107.100.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793FF10E897;
+ Fri, 25 Feb 2022 18:35:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cdHbXqNkVgp3tKTUHcEwiYq7j/2/PANDWqTHipi51hWSN5+/TkTHMqRMSlCCY9NJrST05Lo/BrTzThSm/Oo5Nw2TDlOF6z/ZVFxkILg1+dGTX9P+wCCz/0XP6titUB7ZvfspEd6W+UBERyWdeHnlb4dCUdd92iwQs5G1NYDGml0/SEo+4AGlbcWtKQwhA+adMIEDBPjuI8hsL6pcyoLIRxu7uye0C8RNK7ROtKFZv1KBFKTVWu4/tDVY+vwZSS/1TOckMsTVD25cE1FYSJ5QhZ2D0xqeLPy/WBqWTXevQ6qtoHfI8A6H+SPuFICBCO7OoQDo+0SXFjbcoUU07ylIZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J+j/ck4WPJAIffsuIzkzGrZXXhp3V50tDYiUG7GmdPM=;
+ b=dik0bjLBj7cFBxOCsiMXJL7AaVlVkYliTphsDEUkVH+dotNqk7SOcPvhE4sQXcoP+u69hiZKxHP1jr2B9qVYMrWoTeGxjDIddMSOmlf6bWgAOL7LDCokvxYcIEfx6JBl+KK2mh32p5SphRid75suoHUC4aztRDQKA1L4grIW33GO0/uCKFEkj5rBU30sy99uT/VJ0Eb/4DhII8pmmgoouFOf0wlpH6zUWx8Divn4CoIcRfY9F1W4aedwYhjqDcYPiayo5cf1c0kZYPGG4VaioM0W0/DK2RqOGAOnLmm0FyMoh3P0cXZnmyO2K5Mjiul02a2WrKkfusjiMB5scoeqWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J+j/ck4WPJAIffsuIzkzGrZXXhp3V50tDYiUG7GmdPM=;
+ b=hxqZc351G52VtGJvAZqA0up2nlLNLG424DHEREWAnwV9VET93V28OEXddoaRhwtLfFhmjDKsS3kOixIM4L+/99L29aiLIvtBhiQuiB7EpDLI54/UwzVVT8oNmUf5zKC9oV+D9dN5tFHmjq7jYD7CorUpsdOrP+3z1mV/vCDofaU=
+Received: from MW4PR03CA0094.namprd03.prod.outlook.com (2603:10b6:303:b7::9)
+ by BL0PR12MB4740.namprd12.prod.outlook.com (2603:10b6:208:84::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Fri, 25 Feb
+ 2022 18:35:52 +0000
+Received: from CO1NAM11FT024.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b7:cafe::bb) by MW4PR03CA0094.outlook.office365.com
+ (2603:10b6:303:b7::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24 via Frontend
+ Transport; Fri, 25 Feb 2022 18:35:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT024.mail.protection.outlook.com (10.13.174.162) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5017.22 via Frontend Transport; Fri, 25 Feb 2022 18:35:51 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 25 Feb
+ 2022 12:35:50 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu, amdkfd drm-next-5.18
+Date: Fri, 25 Feb 2022 13:35:35 -0500
+Message-ID: <20220225183535.5907-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v5 1/4] drm/i915/guc: Add fetch of hwconfig
- table
-Content-Language: en-US
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- John Harrison <john.c.harrison@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20220222103640.1006006-1-jordan.l.justen@intel.com>
- <20220222103640.1006006-2-jordan.l.justen@intel.com>
- <621be0f6-63e3-a8fb-93e3-e581bf4b2d4b@intel.com>
- <87y21zh70p.fsf@jljusten-skl>
- <0917f555-1303-dadd-6609-f719dcf0ad61@intel.com>
- <3376b185-6a70-c5e1-2c2c-18a4bdeba9a2@linux.intel.com>
- <72d84811-b769-4cae-7e18-d076c75ddfa6@intel.com>
- <5f1b714c-d0fd-a437-2de8-9ce2c6bd98a7@linux.intel.com>
- <917bb13a-ba32-ba8a-64df-5e1e8fe67128@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <917bb13a-ba32-ba8a-64df-5e1e8fe67128@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83b98c65-af15-48d3-7e64-08d9f88da6a3
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4740:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4740D269F1E16BA1387A8850F73E9@BL0PR12MB4740.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pkZG8Iuf3mEwGRVj9aBhsHMpLxnbBJiBgston2iJFY2S84aawDWNc9p/SFsHfI+ySERifiP/wtkdlUDXdkbXtPL9x8wfrBCe99hmDrBGd1AZVHMLCOS07eCPz7BFvx+8BixGplRt9Ys7z3ippCuiOQ2+QpcZqBFheiL50P3tJKLEPCvFQ/tufyJhJZXnfuOyWHA7cMRAEvFXKQZefQU76KgtKdBrMAOgaMtBn3p8TU/a5aF4J1dB/oc9y+/Y8Zj6e0gdzmbgPINAtKxxICuRKWcqU2ozrVLTnqWjyOPlKX1GszdPAuylUSREwaVpcJTiN+ZzKlX903WSLpg428TVKmPb+nznCbIldimC9mcdcKHUMq8MPQApVnwwX+pb5DCvbmIYojv6fOeJDy355pu7gw5m7ot3pkAo0osyxiDhjJzN7MVPYxmNGIQuvwvAjNRinpGSarWCcMxVh7pSCamHgHEa3IRPcTD1vU6AwZYs5x0G9T/fXwnrSfIbdytsSE34CqcOmsHl60BnvFLinZX1a35lX4r8E3+WItelPeIUJsKl7qJtFanMLyVp+jpW87i6MyeRB7bG8A/uyiFK81EuyhQ/h5OBXoCMM4UDwJAa1JZfUf25M0ZABeGy2hKg6LqY3jy5BLhmC0x3nOjDurdXTav43cXUwnmnONkn62ERakwrqDfuEFilSZDPrnvZVjGGwizqDIUBGLrILztiGcTDEQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(110136005)(82310400004)(1076003)(966005)(8936002)(86362001)(36860700001)(40460700003)(2616005)(6666004)(16526019)(186003)(4326008)(356005)(8676002)(26005)(508600001)(83380400001)(81166007)(70586007)(7696005)(316002)(426003)(70206006)(2906002)(336012)(5660300002)(30864003)(66574015)(47076005)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 18:35:51.7414 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83b98c65-af15-48d3-7e64-08d9f88da6a3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT024.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4740
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,162 +100,356 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Daniel,
 
-On 25/02/2022 18:05, Michal Wajdeczko wrote:
-> On 25.02.2022 18:18, Tvrtko Ursulin wrote:
->>
->> On 25/02/2022 16:46, John Harrison wrote:
->>
->>>>> driver we don't care that much that we failed to load HWconfig and
->>>>> 'notice' is enough.
->>>>>
->>>>> but I'm fine with all messages being drm_err (as we will not have to
->>>>> change that once again after HWconfig will be mandatory for the driver
->>>>> as well)
->>>>
->>>> I would be against drm_err.
->>>>
->>>> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
->>>> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken
->>>> immediately */
->>>> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
->>>> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->>>> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
->>>> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant
->>>> condition */
->>>> #define KERN_INFO       KERN_SOH "6"    /* informational */
->>>> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->>>>
->>>>  From the point of view of the kernel driver, this is not an error to
->>>> its operation. It can at most be a warning, but notice is also fine
->>>> by me. One could argue when reading "normal but significant
->>>> condition" that it is not normal, when it is in fact unexpected, so
->>>> if people prefer warning that is also okay by me. I still lean
->>>> towards notice becuase of the hands-off nature i915 has with the
->>>> pass-through of this blob.
->>>   From the point of view of the KMD, i915 will load and be 'functional'
->>> if it can't talk to the hardware at all. The UMDs won't work at all but
->>
->> Well this reductio ad absurdum fails I think... :)
->>
->>> the driver load will be 'fine'. That's a requirement to be able to get
->>> the user to a software fallback desktop in order to work out why the
->>> hardware isn't working (e.g. no GuC firmware file). I would view this
->>> as similar. The KMD might have loaded but the UMDs are not functional.
->>> That is definitely an error condition to me.
->>
->> ... If GuC fails to load there is no command submission and driver will
->> obviously log that with drm_err.
->>
->> If blob fails to verify it depends on the userspace stack what will
->> happen. As stated before on some platforms, and/or after a certain time,
->> Mesa will not look at the blob at all. So i915 is fine (it is after all
->> just a conduit for opaque data!), system overall is fine, so it
->> definitely isn't a KERN_ERR level event.
->>
->>>>>>>> +               ERR_PTR(ret));
->>>>>>>> +
->>>>>>>>         ret = guc_enable_communication(guc);
->>>>>>>>         if (ret)
->>>>>>>>             goto err_log_capture;
->>>>>>>> @@ -562,6 +567,8 @@ static void __uc_fini_hw(struct intel_uc *uc)
->>>>>>>>         if (intel_uc_uses_guc_submission(uc))
->>>>>>>>             intel_guc_submission_disable(guc);
->>>>>>>>     +    intel_guc_hwconfig_fini(&guc->hwconfig);
->>>>>>>> +
->>>>>>>>         __uc_sanitize(uc);
->>>>>>>>     }
->>>>>>>>     diff --git a/drivers/gpu/drm/i915/i915_pci.c
->>>>>>>> b/drivers/gpu/drm/i915/i915_pci.c
->>>>>>>> index 76e590fcb903..1d31e35a5154 100644
->>>>>>>> --- a/drivers/gpu/drm/i915/i915_pci.c
->>>>>>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
->>>>>>>> @@ -990,6 +990,7 @@ static const struct intel_device_info
->>>>>>>> adl_p_info = {
->>>>>>>>             BIT(RCS0) | BIT(BCS0) | BIT(VECS0) | BIT(VCS0) |
->>>>>>>> BIT(VCS2),
->>>>>>>>         .ppgtt_size = 48,
->>>>>>>>         .dma_mask_size = 39,
->>>>>>>> +    .has_guc_hwconfig = 1,
->>>>>>> Who requested this change? It was previously done this way but the
->>>>>>> instruction was that i915_pci.c is for hardware features only but
->>>>>>> that
->>>>>>> this, as you seem extremely keen about pointing out at every
->>>>>>> opportunity, is a software feature.
->>>>>>
->>>>>> This was requested by Michal as well. I definitely agree it is a
->>>>>> software feature, but I was not aware that "i915_pci.c is for hardware
->>>>>> features only".
->>>>>>
->>>>>> Michal, do you agree with this and returning to the previous method
->>>>>> for
->>>>>> enabling the feature?
->>>>>
->>>>> now I'm little confused as some arch direction was to treat FW as
->>>>> extension of the HW so for me it was natural to have 'has_guc_hwconfig'
->>>>> flag in device_info
->>>>>
->>>>> if still for some reason it is undesired to mix HW and FW/SW flags
->>>>> inside single group of flags then maybe we should just add separate
->>>>> group of immutable flags where has_guc_hwconfig could be defined.
->>>>>
->>>>> let our maintainers decide
->>>>
->>>> Bah.. :)
->>>>
->>>> And what was the previous method?
->>>>
->>>> [comes back later]
->>>>
->>>> Okay it was:
->>>>
->>>> +static bool has_table(struct drm_i915_private *i915)
->>>> +{
->>>> +    if (IS_ALDERLAKE_P(i915))
->>>> +        return true;
->>>>
->>>> Which sucks a bit if we want to argue it does not belong in device info.
->>>>
->>>> Why can't we ask the GuC if the blob exists? In fact what would
->>>> happen if one would call __guc_action_get_hwconfig on any GuC platform?
->>> That was how I originally wrote the code. However, other parties
->>> refuse to allow a H2G call to fail. The underlying CTB layers complain
->>> loudly on any CTB error. And the GuC architects insist that a call to
->>> query the table on an unsupported platform is an error and should
->>> return an 'unsupported' error code.
-> 
-> just for the background: IIRC the reason why arch didn't want 'query'
-> mode that wont fail was that HWconfig is not optional on these selected
-> platforms, so driver shall know up-front on which platforms it shall be
-> working (and driver shall even fail if blob is not available)
-> 
->>
->> Oh well, shrug, sounds silly but I will not pretend I am familiar with H2G
->>
->> In this case has_table does sound better since it indeed isn't a
->> hardware feature. It is a GuC fw thing and if we don't have a way to
->> probe things there at runtime, then at least limit the knowledge to GuC
->> files.
-> 
-> note that arch expectation is that driver itself shall be using this
-> hwconfig (ie. will decode required data). while current approach is that
-> driver acts only as a proxy to UMD, this has to change and refactoring
-> will start (likely) soon. therefore flag has_guc_hwconfig fits better
-> IMHO as this wont be just 'GuC' fw thing.
+New stuff for 5.18.
 
-There we go, Jordan's validation gets a new unexpected use. :D
+The following changes since commit b63c54d978236dd6014cf2ffba96d626e97c915c:
 
-In this case it should maybe be like:
+  drm/amdkfd: Use proper enum in pm_unmap_queues_v9() (2022-02-17 15:59:06 -0500)
 
-#define I915_NEEDS_GUC_HWCONFIG(i915) (IS_PLATFORM(xxx) || VER >= nnn)
+are available in the Git repository at:
 
-Since it is still not a hardware feature like other device info flags.
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.18-2022-02-25
 
-Regards,
+for you to fetch changes up to 111aeed25ec6bf4d5b4a7b4cb5654f002ba9f795:
 
-Tvrtko
+  drm/amdgpu: add gfxoff support for smu 13.0.5 (2022-02-25 11:51:18 -0500)
+
+----------------------------------------------------------------
+amd-drm-next-5.18-2022-02-25:
+
+amdgpu:
+- Raven2 suspend/resume fix
+- SDMA 5.2.6 updates
+- VCN 3.1.2 updates
+- SMU 13.0.5 updates
+- DCN 3.1.5 updates
+- Virtual display fixes
+- SMU code cleanup
+- Harvest fixes
+- Expose benchmark tests via debugfs
+- Drop no longer relevant gart aperture tests
+- More RAS restructuring
+- W=1 fixes
+- PSR rework
+- DP/VGA adapter fixes
+- DP MST fixes
+- GPUVM eviction fix
+- GPU reset debugfs register dumping support
+- Misc display fixes
+- SR-IOV fix
+- Aldebaran mGPU fix
+- Add module parameter to disable XGMI for testing
+
+amdkfd:
+- IH ring overflow logging fixes
+- CRIU fixes
+- Misc fixes
+
+----------------------------------------------------------------
+Alex Deucher (13):
+      drm/amdkfd: make CRAT table missing message informational only
+      drm/amdgpu/benchmark: use dev_info rather than DRM macros for logging
+      drm/amdgpu: plumb error handling though amdgpu_benchmark()
+      drm/amdgpu: print the selected benchmark test in the log
+      drm/amdgpu: add a benchmark mutex
+      drm/amdgpu: expose benchmarks via debugfs
+      drm/amdgpu: drop benchmark module parameter
+      drm/amdgpu: drop testing module parameter
+      drm/amdgpu/display: split dmcu and gpuvm handling logic
+      drm/amdgpu: derive GTT display support from DM
+      drm/amdgpu: use kernel BO API for benchmark buffer management
+      drm/amdgpu: use ktime rather than jiffies for benchmark results
+      drm/amdgpu: fix typo in amdgpu_discovery.c
+
+Alex Sierra (1):
+      drm/amdgpu: Add use_xgmi_p2p module parameter
+
+Andrey Grodzovsky (1):
+      drm/amdgpu: Exclude PCI reset method for now.
+
+Aric Cyr (1):
+      drm/amd/display: 3.2.174
+
+Boyuan Zhang (2):
+      drm/amdgpu/vcn: add vcn support for vcn 3.1.2
+      drm/amdgpu: enable vcn pg and cg for vcn 3.1.2
+
+Charlene Liu (1):
+      drm/amd/display: add debug option to bypass ssinfo from bios.
+
+Chen Gong (1):
+      drm/amdgpu: do not enable asic reset for raven2
+
+Danijel Slivka (1):
+      amdgpu/pm: Disable managing hwmon sysfs attributes for ONEVF mode
+
+David Yat Sin (1):
+      drm/amdkfd: Fix for possible integer overflow
+
+Dmytro Laktyushkin (2):
+      drm/amd/display: limit unbounded requesting to 5k
+      drm/amd/display: revert populating dcn315 clk table based on dcfclk
+
+Duncan Ma (2):
+      drm/amd/display: Set compbuf size to min at prep prevent overbook crb
+      drm/amd/display: Set compbuf size to min at prep prevent overbook crb
+
+Fangzhi Zuo (1):
+      drm/amd/display: Ignore Transitional Invalid Link Rate Error Message
+
+Felix Kuehling (2):
+      drm/amdkfd: Fix criu_restore_bo error handling
+      drm/amdkfd: Use real device for messages
+
+George Shen (1):
+      drm/amd/display: Refactor fixed VS logic for non-transparent mode
+
+Guchun Chen (3):
+      Revert "drm/amdgpu: add modifiers in amdgpu_vkms_plane_init()"
+      drm/amdgpu: bypass tiling flag check in virtual display case (v2)
+      drm/amdgpu: read harvest bit per IP data on legacy GPUs
+
+Harish Kasiviswanathan (1):
+      drm/amdkfd: Print bdf in peer map failure message
+
+Ilya (1):
+      drm/amd/display: Fix wrong resolution with DP/VGA adapter
+
+Kent Russell (1):
+      drm/amdkfd: Drop IH ring overflow message to dbg
+
+Leo Li (1):
+      drm/amd/display: Fix DC definition of PMFW Pstate table for DCN316
+
+Lijo Lazar (1):
+      drm/amd/pm: Fix missing prototype warning
+
+Magali Lemes (4):
+      drm/amd/display: Adjust functions documentation
+      drm/amd/display: Add conditional around function
+      drm/amd/display: Use NULL instead of 0
+      drm/amd/display: Turn functions into static
+
+Maíra Canal (9):
+      drm/amdgpu: Change amdgpu_ras_block_late_init_default function scope
+      drm/amdgpu: Remove unused get_umc_v8_7_channel_index function
+      drm/amd/display: Remove unused temp variable
+      drm/amd/display: Remove unused dcn316_smu_set_voltage_via_phyclk function
+      drm/amd/display: Remove vupdate_int_entry definition
+      drm/amd/display: Remove unused dmub_outbox_irq_info_funcs variable
+      drm/amd/display: Remove unused variable
+      drm/amd/display: Add missing prototypes to dcn201_init
+      drm/amd/display: Turn global functions into static functions
+
+Paul Hsieh (1):
+      drm/amd/display: lock/un-lock cursor if odm pipe split used
+
+Paul Menzel (1):
+      drm/amdgpu: Fix typo in *whether* in comment
+
+Po Ting Chen (1):
+      drm/amd/display: Refactor PSR DPCD caps detection
+
+Prike Liang (4):
+      drm/amdgpu: enable TMZ option for onwards asic
+      drm/amd/pm: validate SMU feature enable message for getting feature enabled mask
+      drm/amdgpu/nv: enable gfx10.3.7 clock gating support
+      drm/amdgpu/nv: set mode2 reset for MP1 13.0.8
+
+Qiang Yu (1):
+      drm/amdgpu: check vm ready by amdgpu_vm->evicting flag
+
+Qingqing Zhuo (11):
+      drm/amd/include: add DCN 3.1.5 registers
+      drm/amd/display: Add DCN315 family information
+      drm/amd/display: Add DCN315 CLK_MGR
+      drm/amd/display: Add DCN315 GPIO
+      drm/amd/display: Add DCN315 IRQ
+      drm/amd/display: Add DCN315 DMUB
+      drm/amd/display: Add DCN315 Resource
+      drm/amd/display: Add DCN315 Command Table Helper
+      drm/amd/display: Add DCN315 blocks to Makefile
+      drm/amd/display: Add DCN315 CORE
+      drm/amd/display: Add DCN315 DM Support
+
+Somalapuram Amaranath (2):
+      drm/amdgpu: add debugfs for reset registers list
+      drm/amdgpu: add reset register dump trace on GPU
+
+Sung Joon Kim (1):
+      drm/amd/display: increasing DRAM BW percent for DCN315
+
+Wayne Lin (1):
+      drm/amd/display: clear remote dc_sink when stop mst
+
+Wenjing Liu (1):
+      drm/amd/display: add cable ID support for usb c connector
+
+Xiaogang Chen (1):
+      drm/amdgpu: config HDP_MISC_CNTL.READ_BUFFER_WATERMARK
+
+Yifan Zhang (13):
+      drm/amdgpu: add support for sdma 5.2.6
+      drm/amdgpu: add support for nbio 7.3.0
+      drm/amdgpu: add smuio support for smuio 13.0.10
+      drm/amdgpu: add support for psp 13.0.5
+      drm/admgpu/pm: add smu 13.0.5 driver interface headers
+      drm/amd/pm: update smc message sequence for smu 13.0.5
+      drm/amd/pm: add smu_v13_0_5_ppt implementation
+      drm/amdgpu: add mp 13.0.5 header files
+      drm/amdgpu: add dm ip block for dcn 3.1.5
+      drm/amdgpu: add mode2 reset support for smu 13.0.5
+      drm/amd/pm: fix mode2 reset fail for smu 13.0.5
+      drm/amd/pm: refine smu 13.0.5 pp table code
+      drm/amdgpu: add gfxoff support for smu 13.0.5
+
+yipechai (1):
+      drm/amdgpu: Fixed warning reported by kernel test robot
+
+ drivers/gpu/drm/amd/amdgpu/Makefile                |      2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |     17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c      |    244 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |    105 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |     36 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |    132 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |     32 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |     30 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |      1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |      4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_test.c           |    250 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          |     16 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |      8 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |      3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |      9 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h           |      3 +-
+ drivers/gpu/drm/amd/amdgpu/hdp_v4_0.c              |      3 +
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c             |      4 +
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |     22 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |      7 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             |     11 +-
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |      4 +-
+ drivers/gpu/drm/amd/amdgpu/umc_v8_7.c              |      7 -
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |     20 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |      2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c         |      8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |      1 -
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |      2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |     61 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |      6 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |      1 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |     24 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |      2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |     58 +-
+ drivers/gpu/drm/amd/display/dc/Makefile            |      1 +
+ .../amd/display/dc/bios/command_table_helper2.c    |      1 +
+ drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile    |      9 +
+ drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c   |     23 +-
+ .../amd/display/dc/clk_mgr/dce100/dce_clk_mgr.c    |      2 +
+ .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c       |      3 +-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |      2 +
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |    617 +
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.h |     49 +
+ .../drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c |    314 +
+ .../drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.h |    126 +
+ .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |     13 +-
+ .../drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.c |     18 +-
+ .../drm/amd/display/dc/clk_mgr/dcn316/dcn316_smu.h |      9 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |      6 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |     35 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c  |      3 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |    230 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |     10 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |      7 +-
+ drivers/gpu/drm/amd/display/dc/dc.h                |      9 +-
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h       |     31 +-
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |      8 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |      4 +-
+ .../drm/amd/display/dc/dce112/dce112_resource.c    |      2 +-
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |      3 -
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |     12 +-
+ .../gpu/drm/amd/display/dc/dcn201/dcn201_init.c    |      1 +
+ drivers/gpu/drm/amd/display/dc/dcn315/Makefile     |     56 +
+ .../drm/amd/display/dc/dcn315/dcn315_resource.c    |   2304 +
+ .../drm/amd/display/dc/dcn315/dcn315_resource.h    |     42 +
+ .../drm/amd/display/dc/dml/display_mode_structs.h  |      1 +
+ drivers/gpu/drm/amd/display/dc/gpio/Makefile       |      8 +
+ .../amd/display/dc/gpio/dcn315/hw_factory_dcn315.c |    260 +
+ .../amd/display/dc/gpio/dcn315/hw_factory_dcn315.h |     31 +
+ .../display/dc/gpio/dcn315/hw_translate_dcn315.c   |    374 +
+ .../display/dc/gpio/dcn315/hw_translate_dcn315.h   |     33 +
+ drivers/gpu/drm/amd/display/dc/gpio/hw_factory.c   |      4 +
+ drivers/gpu/drm/amd/display/dc/gpio/hw_translate.c |      4 +
+ drivers/gpu/drm/amd/display/dc/inc/dc_link_dp.h    |      2 +-
+ drivers/gpu/drm/amd/display/dc/irq/Makefile        |      8 +
+ .../amd/display/dc/irq/dcn20/irq_service_dcn20.c   |      2 +-
+ .../amd/display/dc/irq/dcn201/irq_service_dcn201.c |      5 -
+ .../amd/display/dc/irq/dcn21/irq_service_dcn21.c   |     14 -
+ .../amd/display/dc/irq/dcn30/irq_service_dcn30.c   |      2 +-
+ .../amd/display/dc/irq/dcn315/irq_service_dcn315.c |    438 +
+ .../amd/display/dc/irq/dcn315/irq_service_dcn315.h |     34 +
+ drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |      1 +
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |     44 +
+ drivers/gpu/drm/amd/display/dmub/src/Makefile      |      4 +-
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn315.c |     62 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn315.h |     68 +
+ drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |      9 +-
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |      6 +
+ drivers/gpu/drm/amd/display/include/dal_types.h    |      1 +
+ .../drm/amd/display/include/ddc_service_types.h    |      1 +
+ .../amd/include/asic_reg/dcn/dcn_3_1_5_offset.h    |  15191 +++
+ .../amd/include/asic_reg/dcn/dcn_3_1_5_sh_mask.h   |  62061 +++++++++++
+ .../amd/include/asic_reg/dpcs/dpcs_4_2_2_offset.h  |  11957 ++
+ .../amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h | 103633 ++++++++++++++++++
+ .../drm/amd/include/asic_reg/hdp/hdp_4_0_sh_mask.h |      2 +
+ .../drm/amd/include/asic_reg/mp/mp_13_0_5_offset.h |    455 +
+ .../amd/include/asic_reg/mp/mp_13_0_5_sh_mask.h    |    672 +
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |      4 +
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |      4 +
+ .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_5.h |    140 +
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_5_pmfw.h    |    126 +
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_5_ppsmc.h   |     74 +
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |      3 +
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |      1 +
+ .../drm/amd/pm/swsmu/smu11/cyan_skillfish_ppt.c    |     12 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |     12 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/Makefile        |      2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |      4 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c   |   1057 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.h   |     29 +
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |     82 +-
+ 113 files changed, 201304 insertions(+), 720 deletions(-)
+ delete mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_test.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn315/hw_factory_dcn315.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn315/hw_factory_dcn315.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn315/hw_translate_dcn315.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/gpio/dcn315/hw_translate_dcn315.h
+ create mode 100644 drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/irq/dcn315/irq_service_dcn315.h
+ create mode 100644 drivers/gpu/drm/amd/display/dmub/src/dmub_dcn315.c
+ create mode 100644 drivers/gpu/drm/amd/display/dmub/src/dmub_dcn315.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_1_5_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_1_5_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/mp/mp_13_0_5_offset.h
+ create mode 100644 drivers/gpu/drm/amd/include/asic_reg/mp/mp_13_0_5_sh_mask.h
+ create mode 100644 drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_5.h
+ create mode 100644 drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_5_pmfw.h
+ create mode 100644 drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_5_ppsmc.h
+ create mode 100644 drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c
+ create mode 100644 drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.h
