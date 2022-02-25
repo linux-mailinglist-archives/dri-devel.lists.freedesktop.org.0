@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6DB4C5158
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7314C5165
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49BA310EA62;
-	Fri, 25 Feb 2022 22:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1037510EB20;
+	Fri, 25 Feb 2022 22:17:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2489610EA62
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:15:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 96372CE27F0;
- Fri, 25 Feb 2022 22:15:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A876FC340E7;
- Fri, 25 Feb 2022 22:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645827324;
- bh=tk3VRDpANFYB8NRJhQeUoW4hJrY3AMcDY0PFavgHSlM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=GcEMYWBJDy+GrVvgWXw9G6tgkduT4RiIH8V+ghG8kiqsvZ4gRRBqx9oRhgORLK9JL
- UwD+8MuHddaL4r6piLp1I5iDQF8pmPhxfeFFkFMnVPgrq3IvLr4y4ViLUyuwvvx/79
- eJopq66hUBHEs8nno/mlqTNJZ1TlXD/iMbmN2e5MxkW4NmOkU0x5RmtmWrUARpbrv2
- CZbBV9jFd5gIaIhIGmgdII9kByJyeiYCGkBwfremIbecTfz5TBlngGjl4/k91/ExzL
- 2DY4rluykLyO6tF0BGSdMisRk2jDyc2UhEljCtOJg4AaVCCBYdAeVyeBm/Rvt14M56
- lJACkQE/x0ASg==
-Date: Fri, 25 Feb 2022 16:15:23 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v9 00/11] vgaarb: Rework default VGA device selection
-Message-ID: <20220225221523.GA385757@bhelgaas>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 211A810EB21
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:17:42 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id j2so8678969oie.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:17:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=dXvo0FUwxGOK+PzYKSVnOxYz4S+No09K3o4P0/XBEQY=;
+ b=Zka9dxzwevyuRP7bh7bB+2VLzJcEohGN+IkaQhrqR9tqMLIIhFDAdgjwyUobMemgHG
+ HxbUt/MRrIU5ANvMryCf/IOd5w5VhcWy+QIBZrpdrCO4tJhHOIU/JKKO4sbYy5isTFRF
+ SvjEbvOQ88lMyrUNYjFcACdeObaqTYceEfTfc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=dXvo0FUwxGOK+PzYKSVnOxYz4S+No09K3o4P0/XBEQY=;
+ b=5NpVotr4eiIyWcErpKs4ZVtfiQ/6wCFTuddrlpduiHO/tG/UdTb3rUxRWFfuI96g2x
+ s2LvLWjP86dOkSuvPEosWB/2sTgSOZFAVksNuc5wl0nS5KULKAVt4wHN1kbFp9HY+V3u
+ gdDGJPWSf7AuQT5cOowssm4BkNpGSigvez/VhOYET6WVkpHwJsYdIQKZHCoEHnaTOoOO
+ jwSmXSxJ3VM15+CxsPGz8qfa2SOpSUpFljE5u8N36/mAuZExrtMAGHJVeHkzfb4pjUbz
+ fi4rzAUWR4345KMmUkY+axO1l9LpTqCuCPKMATzkSzn7wSFv/8wOv7fiLFnEfwkXgd9P
+ 2how==
+X-Gm-Message-State: AOAM532rttJaQbYwP2xac6IDX079ZcG7xwPbEynWdRq2l4V5yi+7CtSV
+ EHP1O/mz48LrLQyv5MvB+xfKajl4MrR1HEV3GJlRQw==
+X-Google-Smtp-Source: ABdhPJwZkpsXKtTOoOCmoxhBmLUBoDoC7bnujscOdTuslS997FSPo3U4IMVbsNIzko5zK+fYiQ4P/xGtoL+aut7gVPs=
+X-Received: by 2002:a05:6808:1a28:b0:2d7:3c61:e0d6 with SMTP id
+ bk40-20020a0568081a2800b002d73c61e0d6mr3055013oib.32.1645827461436; Fri, 25
+ Feb 2022 14:17:41 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 25 Feb 2022 14:17:41 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220224224753.297579-1-helgaas@kernel.org>
+In-Reply-To: <1645824192-29670-5-git-send-email-quic_khsieh@quicinc.com>
+References: <1645824192-29670-1-git-send-email-quic_khsieh@quicinc.com>
+ <1645824192-29670-5-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 25 Feb 2022 14:17:40 -0800
+Message-ID: <CAE-0n53s11KHrj-rzRkjV4q775XCoxzZCLK-HRCt=H1++DR-YQ@mail.gmail.com>
+Subject: Re: [PATCH v12 4/4] drm/msm/dp: enable widebus feature for display
+ port
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,36 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 24, 2022 at 04:47:42PM -0600, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> Current default VGA device selection fails in some cases because part of it
-> is done in the vga_arb_device_init() subsys_initcall, and some arches
-> enumerate PCI devices in pcibios_init(), which runs *after* that.
-> 
-> The big change from the v8 posting is that this moves vgaarb.c from
-> drivers/gpu/vga to drivers/pci because it really has nothing to do with
-> GPUs or DRM.
+Quoting Kuogee Hsieh (2022-02-25 13:23:12)
+> Widebus feature will transmit two pixel data per pixel clock to interface.
+> This feature now is required to be enabled to easy migrant to higher
+> resolution applications in future. However since some legacy chipsets
+> does not support this feature, this feature is enabled by setting
+> wide_bus_en flag to true within msm_dp_desc struct.
+>
+> changes in v2:
+> -- remove compression related code from timing
+> -- remove op_info from  struct msm_drm_private
+> -- remove unnecessary wide_bus_en variables
+> -- pass wide_bus_en into timing configuration by struct msm_dp
+>
+> Changes in v3:
+> -- split patch into 3 patches
+> -- enable widebus feature base on chip hardware revision
+>
+> Changes in v5:
+> -- DP_INTF_CONFIG_DATABUS_WIDEN
+>
+> Changes in v6:
+> -- static inline bool msm_dp_wide_bus_enable() in msm_drv.h
+>
+> Changes in v7:
+> -- add Tested-by
+>
+> Changes in v9:
+> -- add wide_bus_en to msm_dp_desc
+>
+> Changes in v10:
+> -- add wide_bus_en boolean to dp_catalog struc to avoid passing it as parameter
+>
+> Changes in v11:
+> -- add const to dp_catalog_hw_revision()
+> -- add const to msm_dp_wide_bus_available()
+>
+> Changes in v12:
+> -- dp_catalog_hw_revision(const struct dp_catalog *dp_catalog)
+> -- msm_dp_wide_bus_available(const struct msm_dp *dp_display)
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
 
-I provisionally applied this to pci/vga and put it into -next just
-to get a little runtime on it.
-
-But I'd prefer not to unilaterally yank this out of drivers/gpu
-without a consensus from the GPU folks that this is the right thing to
-do.
-
-Any thoughts?  If it seems OK to you, I think patch 1/11 (the move
-itself) is all you would need to look at, although of course I would
-still be grateful for any review and feedback on the rest.
-
-After it's in drivers/pci, all the blame for any issues would come my
-way.
-
-Bjorn
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
