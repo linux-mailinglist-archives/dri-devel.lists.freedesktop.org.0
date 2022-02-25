@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C574C5045
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 22:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A254C5072
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 22:16:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1887F10E972;
-	Fri, 25 Feb 2022 21:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 064FB10E95C;
+	Fri, 25 Feb 2022 21:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031CA10E972
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 21:00:05 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- a7-20020a9d5c87000000b005ad1467cb59so4475203oti.5
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 13:00:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=oS4Cf9s92ggJZ4QVT6r04qLKp1QwuHbofPNu4nk2TE4=;
- b=iscRWin3KiKN7beSV8z5t+AVqBHlVVnRk4Yu8Eg2hk3eVpnhjiPgYHXKxe9GP1ZXLW
- DnuNjV9gOZg5+9aPR12prbGfqt7x0djuib5v7imzEuFKEU+fri4Rc0gISBHlpFc7TKi5
- kqlieMzDZsi9E/Sh0gGqN7a64PRIpqW07UuSQ=
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
+ [IPv6:2607:f8b0:4864:20::c2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC5010E204;
+ Fri, 25 Feb 2022 21:16:24 +0000 (UTC)
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ u47-20020a4a9732000000b00316d0257de0so8143844ooi.7; 
+ Fri, 25 Feb 2022 13:16:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ko8qqQEVUil5TWFjZfqRwHEsMLuAIssU02AmVQdPBOw=;
+ b=pGszxkCLQ3puVUxsx62owzoe4FsnFHrgHXfZzjx3PsWQBzq8vGDnk6bIge3G16WDGM
+ +W0ly4wRg2QDX+85iQJuJxRD/pZ8BBjRhZKF6WaYk9BR78am4cRa/Fl+hg3a27kaX3dT
+ oixl5lr930/QhU2LemXNOOgLCA3hbD/Un9/BN1FEapSvvEgTKXIpnWlV23OyKo9vH8hG
+ QURSCbNp2g3jkoLYVgLrLF7Ot0g1Dm8uVLGkKYqP4Yh31coeL9zxOwD7iOPeRYWbgpLd
+ w7Wf6lc5ZK7U12kout/97lFa5Zxvu2jx99n4mF6AEzSroOdnBMNaOTdgvkPB9bVf8yGf
+ 3cCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=oS4Cf9s92ggJZ4QVT6r04qLKp1QwuHbofPNu4nk2TE4=;
- b=ID1BLY/5ZsPC1SPvqwFHXCQJATIGhqNe0xV52VCqxq1r22NQdZyyjVle+1CT1k0QoK
- l/M8+nkgxCHTIbgG3o5QQvzdqluYcONOx/0xPPeL/6rQXgnX8fnJd2x6MaXEcJbSZjeN
- 4gP9ZfP7PjxJcktGw65VR+T/doWzCSf+8jdmNodl/GOifbcK5ZGf+EP9Bs9xlLMb4dqY
- tkUSexHpOauwh0no5IVrr8Gw23mL/ZE5TUEpSnrmK2tnXTFlKgUxeU3KCyrWEomJtTQq
- kDcq93EOcNE1KPUQx88JlUgd4qAfvSj3gk3L0Sz0RHQVuDN/vMiIl6cHGCQjyCFSkUXr
- CMyw==
-X-Gm-Message-State: AOAM532r+G9wlyQPnhk0YoQD3jNdopmy54eX6y4LyZ6nKTEIdbnUwyl9
- LSw4agQFUqVsIWUEVgsUUNc+m/xBaeeU8hztS2WC5A==
-X-Google-Smtp-Source: ABdhPJyL9VmGKts/3WuE32iZATtyuPfLLqQEeKiXq6Pqq17DFPpf74/ftYliT+bCS3h/oUQWNRpopaHJ6Acdedf/Sig=
-X-Received: by 2002:a9d:7687:0:b0:59e:da8c:5d32 with SMTP id
- j7-20020a9d7687000000b0059eda8c5d32mr3694651otl.77.1645822803980; Fri, 25 Feb
- 2022 13:00:03 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 25 Feb 2022 13:00:03 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ko8qqQEVUil5TWFjZfqRwHEsMLuAIssU02AmVQdPBOw=;
+ b=b8g5ponZq6g5dI5mkrUKOuXe9A35KcO5+z616vHsbEWPS/Rce+iZlfqGUukJR7Ixdh
+ fU6r/G84OEo+P8iuj+q6maOQOcnlm72vGemjV6AQkR+jSJ7r8LooqaflefN4V/jnCaqn
+ SYH8uqaSLPienUXxPljk7Yluw0jQHVgGIjLLEJhZc45c3lzOqQMjTFaPpilZO7smCmcx
+ AOIZoqvhBhJLaYXCm9D8KsngntMBiYQO8eUCepk42X+B3/5OdklNeLjEpRe04dtK3Ypt
+ Cq2nah1atAfJYshro3OPmnYiGNlLxkfGbfak9+/Cm1/mrZ1muMkLReSaVibD9a4oXr7Y
+ H4xQ==
+X-Gm-Message-State: AOAM531lVWZ9G01FEpV3CCeiV6jXn1c7l55/WjJIwPUE8V2ic3DnpZzS
+ I5LOCf2JNYAURNYgQApVkfkNlMWi/bXhqNJiOjo=
+X-Google-Smtp-Source: ABdhPJx0UqLcJv9VvPEe1YEdHeHZsbfs190hpTC8C4yhZQ7vGGmV8HjFm9Npla5tYVZetEQv299PhTUQENa8PbJwcq0=
+X-Received: by 2002:a05:6870:3e0d:b0:d3:fe6d:57c3 with SMTP id
+ lk13-20020a0568703e0d00b000d3fe6d57c3mr2338969oab.225.1645823783588; Fri, 25
+ Feb 2022 13:16:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1645821957-22633-6-git-send-email-quic_khsieh@quicinc.com>
-References: <1645821957-22633-1-git-send-email-quic_khsieh@quicinc.com>
- <1645821957-22633-6-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 25 Feb 2022 13:00:03 -0800
-Message-ID: <CAE-0n51S+6QseKhtRDo5oKBqRe4uT2pEs=meDp3e1-V9K-x+gQ@mail.gmail.com>
-Subject: Re: [PATCH v11 4/4] drm/msm/dp: enable widebus feature for display
- port
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+References: <20220225094722.4734-1-tangmeng@uniontech.com>
+ <DM6PR12MB2619714B0189A1A9A70F50F2E43E9@DM6PR12MB2619.namprd12.prod.outlook.com>
+In-Reply-To: <DM6PR12MB2619714B0189A1A9A70F50F2E43E9@DM6PR12MB2619.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 25 Feb 2022 16:16:12 -0500
+Message-ID: <CADnq5_O5dwwmmknOFfMbhTeOTtXUH5QpqJ8CDZ5kAzarbw4Sgw@mail.gmail.com>
+Subject: Re: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private variable
+ name
+To: "Quan, Evan" <Evan.Quan@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,297 +65,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: "airlied@linux.ie" <airlied@linux.ie>, Meng Tang <tangmeng@uniontech.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-02-25 12:45:57)
-> Widebus feature will transmit two pixel data per pixel clock to interface.
-> This feature now is required to be enabled to easy migrant to higher
-> resolution applications in future. However since some legacy chipsets
-> does not support this feature, this feature is enabled by setting
-> wide_bus_en flag to true within msm_dp_desc struct.
->
-> changes in v2:
-> -- remove compression related code from timing
-> -- remove op_info from  struct msm_drm_private
-> -- remove unnecessary wide_bus_en variables
-> -- pass wide_bus_en into timing configuration by struct msm_dp
->
-> Changes in v3:
-> -- split patch into 3 patches
-> -- enable widebus feature base on chip hardware revision
->
-> Changes in v5:
-> -- DP_INTF_CONFIG_DATABUS_WIDEN
->
-> Changes in v6:
-> -- static inline bool msm_dp_wide_bus_enable() in msm_drv.h
->
-> Changes in v7:
-> -- add Tested-by
->
-> Changes in v9:
-> -- add wide_bus_en to msm_dp_desc
->
-> Changes in v10:
-> -- add wide_bus_en boolean to dp_catalog struc to avoid passing it as parameter
->
-> Changes in v11:
-> -- add const to dp_catalog_hw_revision()
-> -- add const to msm_dp_wide_bus_available()
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 +++-
->  drivers/gpu/drm/msm/dp/dp_catalog.c         | 34 +++++++++++++++++++++++++++--
->  drivers/gpu/drm/msm/dp/dp_catalog.h         |  2 ++
->  drivers/gpu/drm/msm/dp/dp_ctrl.c            |  7 +++++-
->  drivers/gpu/drm/msm/dp/dp_ctrl.h            |  1 +
->  drivers/gpu/drm/msm/dp/dp_display.c         | 21 ++++++++++++++++--
->  drivers/gpu/drm/msm/dp/dp_display.h         |  2 ++
->  drivers/gpu/drm/msm/msm_drv.h               |  6 +++++
->  8 files changed, 71 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9a8d992..5356d50 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -2138,8 +2138,10 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->                 timer_setup(&dpu_enc->vsync_event_timer,
->                                 dpu_encoder_vsync_event_handler,
->                                 0);
-> -       else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
-> +       else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
->                 dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
-> +               dpu_enc->wide_bus_en = msm_dp_wide_bus_available(dpu_enc->dp);
-> +       }
->
->         INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
->                         dpu_encoder_off_work);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 6ae9b29..8fb25ff 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -24,6 +24,8 @@
->  #define DP_INTERRUPT_STATUS_ACK_SHIFT  1
->  #define DP_INTERRUPT_STATUS_MASK_SHIFT 2
->
-> +#define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
-> +
->  #define DP_INTERRUPT_STATUS1 \
->         (DP_INTR_AUX_I2C_DONE| \
->         DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
-> @@ -80,7 +82,7 @@ static inline void dp_write_aux(struct dp_catalog_private *catalog,
->         writel(data, catalog->io->dp_controller.aux.base + offset);
->  }
->
-> -static inline u32 dp_read_ahb(struct dp_catalog_private *catalog, u32 offset)
-> +static inline u32 dp_read_ahb(const struct dp_catalog_private *catalog, u32 offset)
->  {
->         return readl_relaxed(catalog->io->dp_controller.ahb.base + offset);
->  }
-> @@ -483,6 +485,22 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
->  }
->
->  /**
-> + * dp_catalog_hw_revision() - retrieve DP hw revision
-> + *
-> + * @dp_catalog: DP catalog structure
-> + *
-> + * Return: DP controller hw revision
-> + *
-> + */
-> +const u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog)
+Applied.  Thanks!
 
-I meant const dp_catalog, not const function.
+Alex
 
-> +{
-> +       const struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +                               struct dp_catalog_private, dp_catalog);
-> +
-> +       return dp_read_ahb(catalog, REG_DP_HW_VERSION);
-> +}
-> +
-> +/**
->   * dp_catalog_ctrl_reset() - reset DP controller
->   *
->   * @dp_catalog: DP catalog structure
-> @@ -743,6 +761,7 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
->  {
->         struct dp_catalog_private *catalog = container_of(dp_catalog,
->                                 struct dp_catalog_private, dp_catalog);
-> +       u32 reg;
+On Fri, Feb 25, 2022 at 8:04 AM Quan, Evan <Evan.Quan@amd.com> wrote:
 >
->         dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
->                                 dp_catalog->total);
-> @@ -751,7 +770,18 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
->         dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
->                                 dp_catalog->width_blanking);
->         dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_catalog->dp_active);
-> -       dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
-> +
-> +       reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
-> +
-> +       if (dp_catalog->wide_bus_en)
-> +               reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
-> +       else
-> +               reg &= ~DP_INTF_CONFIG_DATABUS_WIDEN;
-> +
-> +
-> +       DRM_DEBUG_DP("wide_bus_en=%d reg=%#x\n", dp_catalog->wide_bus_en, reg);
-> +
-> +       dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
->         return 0;
->  }
+> [AMD Official Use Only]
 >
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 6965afa..e067e80 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -70,6 +70,7 @@ struct dp_catalog {
->         enum dp_catalog_audio_sdp_type sdp_type;
->         enum dp_catalog_audio_header_type sdp_header;
->         u32 audio_data;
-> +       bool wide_bus_en;
->  };
+> Thanks!
+> The patch is reviewed-by: Evan Quan <evan.quan@amd.com>
 >
->  /* Debug module */
-> @@ -95,6 +96,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
->  void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
->                                 u32 stream_rate_khz, bool fixed_nvid);
->  int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog, u32 pattern);
-> +const u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog);
->  void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
->  bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
->  void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index c724cb0..b714c5c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1799,6 +1799,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->         int ret = 0;
->         bool mainlink_ready = false;
->         struct dp_ctrl_private *ctrl;
-> +       unsigned long pixel_rate_orig;
->
->         if (!dp_ctrl)
->                 return -EINVAL;
-> @@ -1807,6 +1808,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->
->         ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
->
-> +       pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
-> +       if (dp_ctrl->wide_bus_en)
-> +               ctrl->dp_ctrl.pixel_rate >>= 1;
-> +
->         DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
->                 ctrl->link->link_params.rate,
->                 ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
-> @@ -1846,7 +1851,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->
->         dp_catalog_ctrl_config_msa(ctrl->catalog,
->                 ctrl->link->link_params.rate,
-> -               ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
-> +               pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
->
->         dp_ctrl_setup_tr_unit(ctrl);
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index 2363a2d..a0a5fbb 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -17,6 +17,7 @@ struct dp_ctrl {
->         bool orientation;
->         atomic_t aborted;
->         u32 pixel_rate;
-> +       bool wide_bus_en;
->  };
->
->  int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 7cc4d21..88b2633 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -115,12 +115,15 @@ struct dp_display_private {
->         struct dp_event event_list[DP_EVENT_Q_MAX];
->         spinlock_t event_lock;
->
-> +       bool wide_bus_en;
-> +
->         struct dp_audio *audio;
->  };
->
->  struct msm_dp_desc {
->         phys_addr_t io_start;
->         unsigned int connector_type;
-> +       bool wide_bus_en;
->  };
->
->  struct msm_dp_config {
-> @@ -137,8 +140,8 @@ static const struct msm_dp_config sc7180_dp_cfg = {
->
->  static const struct msm_dp_config sc7280_dp_cfg = {
->         .descs = (const struct msm_dp_desc[]) {
-> -               [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
-> -               [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP },
-> +               [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
-> +               [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
->         },
->         .num_descs = 2,
->  };
-> @@ -808,6 +811,10 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->                 goto error_ctrl;
->         }
->
-> +       /* populate wide_bus_en to differernt layers */
-> +       dp->ctrl->wide_bus_en = dp->wide_bus_en;
-> +       dp->catalog->wide_bus_en = dp->wide_bus_en;
-> +
->         return rc;
->
->  error_ctrl:
-> @@ -1251,6 +1258,7 @@ static int dp_display_probe(struct platform_device *pdev)
->         dp->pdev = pdev;
->         dp->name = "drm_dp";
->         dp->dp_display.connector_type = desc->connector_type;
-> +       dp->wide_bus_en = desc->wide_bus_en;
->
->         rc = dp_init_sub_modules(dp);
->         if (rc) {
-> @@ -1437,6 +1445,15 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
->         dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
->  }
->
-> +const bool msm_dp_wide_bus_available(struct msm_dp *dp_display)
-
-Same, const dp_display, not const function.
-
-> +{
-> +       struct dp_display_private *dp;
-> +
-> +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +
-> +       return dp->wide_bus_en;
-> +}
-> +
->  void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
->  {
->         struct dp_display_private *dp;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index e3adcd5..b718cc9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -24,6 +24,8 @@ struct msm_dp {
->
->         hdmi_codec_plugged_cb plugged_cb;
->
-> +       bool wide_bus_en;
-> +
->         u32 max_pclk_khz;
->
->         u32 max_dp_lanes;
+> > -----Original Message-----
+> > From: Meng Tang <tangmeng@uniontech.com>
+> > Sent: Friday, February 25, 2022 5:47 PM
+> > To: airlied@linux.ie; daniel@ffwll.ch
+> > Cc: Quan, Evan <Evan.Quan@amd.com>; Deucher, Alexander
+> > <Alexander.Deucher@amd.com>; Koenig, Christian
+> > <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; amd-
+> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
+> > kernel@vger.kernel.org; Meng Tang <tangmeng@uniontech.com>
+> > Subject: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private variable
+> > name
+> >
+> > In file vega10_hwmgr.c, the names of struct vega10_power_state *
+> > and struct pp_power_state * are confusingly used, which may lead
+> > to some confusion.
+> >
+> > Status quo is that variables of type struct vega10_power_state *
+> > are named "vega10_ps", "ps", "vega10_power_state". A more
+> > appropriate usage is that struct are named "ps" is used for
+> > variabled of type struct pp_power_state *.
+> >
+> > So rename struct vega10_power_state * which are named "ps" and
+> > "vega10_power_state" to "vega10_ps", I also renamed "psa" to
+> > "vega10_psa" and "psb" to "vega10_psb" to make it more clearly.
+> >
+> > The rows longer than 100 columns are involved.
+> >
+> > Signed-off-by: Meng Tang <tangmeng@uniontech.com>
+> > ---
+> >  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 68 +++++++++++---
+> > -----
+> >  1 file changed, 38 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > index 3f040be0d158..37324f2009ca 100644
+> > --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> > @@ -3095,7 +3095,7 @@ static int
+> > vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
+> >               void *pp_table, uint32_t classification_flag)
+> >  {
+> >       ATOM_Vega10_GFXCLK_Dependency_Record_V2
+> > *patom_record_V2;
+> > -     struct vega10_power_state *vega10_power_state =
+> > +     struct vega10_power_state *vega10_ps =
+> >                       cast_phw_vega10_power_state(&(power_state-
+> > >hardware));
+> >       struct vega10_performance_level *performance_level;
+> >       ATOM_Vega10_State *state_entry = (ATOM_Vega10_State *)state;
+> > @@ -3145,17 +3145,17 @@ static int
+> > vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
+> >       power_state->temperatures.min = 0;
+> >       power_state->temperatures.max = 0;
+> >
+> > -     performance_level = &(vega10_power_state->performance_levels
+> > -                     [vega10_power_state-
+> > >performance_level_count++]);
+> > +     performance_level = &(vega10_ps->performance_levels
+> > +                     [vega10_ps->performance_level_count++]);
+> >
+> >       PP_ASSERT_WITH_CODE(
+> > -                     (vega10_power_state->performance_level_count <
+> > +                     (vega10_ps->performance_level_count <
+> >                                       NUM_GFXCLK_DPM_LEVELS),
+> >                       "Performance levels exceeds SMC limit!",
+> >                       return -1);
+> >
+> >       PP_ASSERT_WITH_CODE(
+> > -                     (vega10_power_state->performance_level_count
+> > <=
+> > +                     (vega10_ps->performance_level_count <=
+> >                                       hwmgr->platform_descriptor.
+> >                                       hardwareActivityPerformanceLevels),
+> >                       "Performance levels exceeds Driver limit!",
+> > @@ -3169,8 +3169,8 @@ static int
+> > vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
+> >       performance_level->mem_clock = mclk_dep_table->entries
+> >                       [state_entry->ucMemClockIndexLow].ulMemClk;
+> >
+> > -     performance_level = &(vega10_power_state->performance_levels
+> > -                             [vega10_power_state-
+> > >performance_level_count++]);
+> > +     performance_level = &(vega10_ps->performance_levels
+> > +                             [vega10_ps->performance_level_count++]);
+> >       performance_level->soc_clock = socclk_dep_table->entries
+> >                               [state_entry->ucSocClockIndexHigh].ulClk;
+> >       if (gfxclk_dep_table->ucRevId == 0) {
+> > @@ -3201,11 +3201,11 @@ static int vega10_get_pp_table_entry(struct
+> > pp_hwmgr *hwmgr,
+> >               unsigned long entry_index, struct pp_power_state *state)
+> >  {
+> >       int result;
+> > -     struct vega10_power_state *ps;
+> > +     struct vega10_power_state *vega10_ps;
+> >
+> >       state->hardware.magic = PhwVega10_Magic;
+> >
+> > -     ps = cast_phw_vega10_power_state(&state->hardware);
+> > +     vega10_ps = cast_phw_vega10_power_state(&state->hardware);
+> >
+> >       result = vega10_get_powerplay_table_entry(hwmgr, entry_index,
+> > state,
+> >                       vega10_get_pp_table_entry_callback_func);
+> > @@ -3218,10 +3218,10 @@ static int vega10_get_pp_table_entry(struct
+> > pp_hwmgr *hwmgr,
+> >        */
+> >       /* set DC compatible flag if this state supports DC */
+> >       if (!state->validation.disallowOnDC)
+> > -             ps->dc_compatible = true;
+> > +             vega10_ps->dc_compatible = true;
+> >
+> > -     ps->uvd_clks.vclk = state->uvd_clocks.VCLK;
+> > -     ps->uvd_clks.dclk = state->uvd_clocks.DCLK;
+> > +     vega10_ps->uvd_clks.vclk = state->uvd_clocks.VCLK;
+> > +     vega10_ps->uvd_clks.dclk = state->uvd_clocks.DCLK;
+> >
+> >       return 0;
+> >  }
+> > @@ -4823,33 +4823,41 @@ static int vega10_check_states_equal(struct
+> > pp_hwmgr *hwmgr,
+> >                               const struct pp_hw_power_state *pstate1,
+> >                       const struct pp_hw_power_state *pstate2, bool
+> > *equal)
+> >  {
+> > -     const struct vega10_power_state *psa;
+> > -     const struct vega10_power_state *psb;
+> > +     const struct vega10_power_state *vega10_psa;
+> > +     const struct vega10_power_state *vega10_psb;
+> >       int i;
+> >
+> >       if (pstate1 == NULL || pstate2 == NULL || equal == NULL)
+> >               return -EINVAL;
+> >
+> > -     psa = cast_const_phw_vega10_power_state(pstate1);
+> > -     psb = cast_const_phw_vega10_power_state(pstate2);
+> > -     /* If the two states don't even have the same number of
+> > performance levels they cannot be the same state. */
+> > -     if (psa->performance_level_count != psb-
+> > >performance_level_count) {
+> > +     vega10_psa = cast_const_phw_vega10_power_state(pstate1);
+> > +     vega10_psb = cast_const_phw_vega10_power_state(pstate2);
+> > +
+> > +     /* If the two states don't even have the same number of
+> > performance levels
+> > +      * they cannot be the same state.
+> > +      */
+> > +     if (vega10_psa->performance_level_count != vega10_psb-
+> > >performance_level_count) {
+> >               *equal = false;
+> >               return 0;
+> >       }
+> >
+> > -     for (i = 0; i < psa->performance_level_count; i++) {
+> > -             if (!vega10_are_power_levels_equal(&(psa-
+> > >performance_levels[i]), &(psb->performance_levels[i]))) {
+> > -                     /* If we have found even one performance level pair
+> > that is different the states are different. */
+> > +     for (i = 0; i < vega10_psa->performance_level_count; i++) {
+> > +             if (!vega10_are_power_levels_equal(&(vega10_psa-
+> > >performance_levels[i]),
+> > +                                                &(vega10_psb-
+> > >performance_levels[i]))) {
+> > +                     /* If we have found even one performance level pair
+> > +                      * that is different the states are different.
+> > +                      */
+> >                       *equal = false;
+> >                       return 0;
+> >               }
+> >       }
+> >
+> >       /* If all performance levels are the same try to use the UVD clocks to
+> > break the tie.*/
+> > -     *equal = ((psa->uvd_clks.vclk == psb->uvd_clks.vclk) && (psa-
+> > >uvd_clks.dclk == psb->uvd_clks.dclk));
+> > -     *equal &= ((psa->vce_clks.evclk == psb->vce_clks.evclk) && (psa-
+> > >vce_clks.ecclk == psb->vce_clks.ecclk));
+> > -     *equal &= (psa->sclk_threshold == psb->sclk_threshold);
+> > +     *equal = ((vega10_psa->uvd_clks.vclk == vega10_psb->uvd_clks.vclk)
+> > &&
+> > +               (vega10_psa->uvd_clks.dclk == vega10_psb-
+> > >uvd_clks.dclk));
+> > +     *equal &= ((vega10_psa->vce_clks.evclk == vega10_psb-
+> > >vce_clks.evclk) &&
+> > +                (vega10_psa->vce_clks.ecclk == vega10_psb-
+> > >vce_clks.ecclk));
+> > +     *equal &= (vega10_psa->sclk_threshold == vega10_psb-
+> > >sclk_threshold);
+> >
+> >       return 0;
+> >  }
+> > @@ -5444,19 +5452,19 @@ static int vega10_get_performance_level(struct
+> > pp_hwmgr *hwmgr, const struct pp_
+> >                               PHM_PerformanceLevelDesignation
+> > designation, uint32_t index,
+> >                               PHM_PerformanceLevel *level)
+> >  {
+> > -     const struct vega10_power_state *ps;
+> > +     const struct vega10_power_state *vega10_ps;
+> >       uint32_t i;
+> >
+> >       if (level == NULL || hwmgr == NULL || state == NULL)
+> >               return -EINVAL;
+> >
+> > -     ps = cast_const_phw_vega10_power_state(state);
+> > +     vega10_ps = cast_const_phw_vega10_power_state(state);
+> >
+> > -     i = index > ps->performance_level_count - 1 ?
+> > -                     ps->performance_level_count - 1 : index;
+> > +     i = index > vega10_ps->performance_level_count - 1 ?
+> > +                     vega10_ps->performance_level_count - 1 : index;
+> >
+> > -     level->coreClock = ps->performance_levels[i].gfx_clock;
+> > -     level->memory_clock = ps->performance_levels[i].mem_clock;
+> > +     level->coreClock = vega10_ps->performance_levels[i].gfx_clock;
+> > +     level->memory_clock = vega10_ps-
+> > >performance_levels[i].mem_clock;
+> >
+> >       return 0;
+> >  }
+> > --
+> > 2.20.1
+> >
+> >
