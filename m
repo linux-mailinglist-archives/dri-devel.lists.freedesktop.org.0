@@ -1,128 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DFE4C4532
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 14:04:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7694C4543
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 14:04:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 065D610E18D;
-	Fri, 25 Feb 2022 13:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36B0810E1AD;
+	Fri, 25 Feb 2022 13:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD2910E18D;
- Fri, 25 Feb 2022 13:03:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mIhO9QvlgOkaaxj5yu9pNej/CX7EuvKtCObjlWmTuRiqbrPJNAK2RGV6jGszQRKvGvIlMwcD6Cfqh1fKaUpQts/XAJR1Fkv0cdhhigY6Ng0A5F1kctDhEXQivv1OTsouS93zI7TSYGnWjMA/LdqibH/D7UH9CVAjlpttazKkNUaORV7lAwc+oSQCkQXQfT7yhI61MQv/ewXk3UGicK6luQXi215DEXcDK1DUSl6kYpsxR/UagwGdQmAOabRqHbgauNM5jxmtQdOHRQrGXs9cMoFoNjc+neZwEv4DWY1JynvoMkkZ3sEwI+TvmD1d2+tB4z/zvK1VAvSiabzDejKfrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ypAVuSHNjxx7igM/SeVwIAfWU+LBv2dcL8SGfSHuxKo=;
- b=Y7YsxeUWGY5t5GlYMZ81dqGG5kqgBG36RbB3hIh5eDNssGeASnhcLOsFu0LFkiFgHe4Lj2HwqCfK58azCAJmaw7HmnZ8b0LH4MEW/SdmGDMhUq0kAVHrznZs8C9Tqb3N9AQm3b4RhB15lR5GCfp9GFu6DWGYCIHIx+MfjOsF1Xw+zmmFo2J6bb8teWxxeIHg6nPNvNUn2BYPf9ZeueT+7AiG7R73ur7WhwMCch3suZT2cz4xQJpfq6mn4HK72GIeb0QKAAwaBZbQBXC3Dpdsb4VGSUd/adqSwUlD7wvMKwYCBt594MUOp2PuuF0UaLmZEHLnXncP1P6mz4y/MX4izw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ypAVuSHNjxx7igM/SeVwIAfWU+LBv2dcL8SGfSHuxKo=;
- b=rbpd9D4ZM+KSALKWOwK1ELhMvceCT4URhSDAOzWcAWWw/jAt3adMrKIPSoyAiP49Z0Qvy4TG2aaC7ywpc3BANDqpjUr6Nk2XHunLeqzQm1w/mkREmw+w0ftZ0epkSovuBcqTBuRZ6VebfSRhPQznDznW8zCaEDt+39Rp/krL6Vg=
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
- CH2PR12MB4312.namprd12.prod.outlook.com (2603:10b6:610:af::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.22; Fri, 25 Feb 2022 13:03:54 +0000
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::7d61:f517:f3f8:9ea]) by DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::7d61:f517:f3f8:9ea%5]) with mapi id 15.20.5017.025; Fri, 25 Feb 2022
- 13:03:54 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: Meng Tang <tangmeng@uniontech.com>, "airlied@linux.ie" <airlied@linux.ie>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private variable
- name
-Thread-Topic: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private
- variable name
-Thread-Index: AQHYKiy7+jRaPGoPcku+5M9g0K/kXaykO7Vg
-Date: Fri, 25 Feb 2022 13:03:54 +0000
-Message-ID: <DM6PR12MB2619714B0189A1A9A70F50F2E43E9@DM6PR12MB2619.namprd12.prod.outlook.com>
-References: <20220225094722.4734-1-tangmeng@uniontech.com>
-In-Reply-To: <20220225094722.4734-1-tangmeng@uniontech.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2022-02-25T13:03:52Z; 
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
- Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=5895e3a7-516d-4965-8176-4699645bd2b2;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_enabled: true
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_setdate: 2022-02-25T13:03:52Z
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_method: Standard
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_name: AMD Official Use
- Only-AIP 2.0
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_actionid: f5db1b40-c924-486c-b760-2a4d349e5ff2
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a1f6031e-7c47-48a6-025d-08d9f85f470f
-x-ms-traffictypediagnostic: CH2PR12MB4312:EE_
-x-microsoft-antispam-prvs: <CH2PR12MB43125C693A5DDA295DE234C2E43E9@CH2PR12MB4312.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YWb0UAZVXEyRpCOfPPn0TqCHepBeNneHyJfznhnLgYAw+lulvAi1gRtgTNn+Im850snF0LieU01r4ol22ZNNz9GKrd9LbYpp1FGAZ9pXjzT5f0w/MWJZB85QKTKyXTp/Oe+sEwfXQRcSeEtSj/1CrfhG6MH1e4bkdKSDDzTKg7nybDn/DvNShLar9fgvFIv/laXGZft732RSdchaBKO/Hb3kC45j1lCkabZC/J2ejGl3dVoGqXE6mCvZu+IF+SyTvsjFUneFZJ1gMwJ5+5pib7htPkkkWVShUvcG2hrNapKznz5Qtzwd0TRPSwaNQr30EJRH9Qyy/ZPEczNI/XK7rXo3NTbzpGuTQrGX6LVb5QMCnp8lwwEGUD7T+1a8Rk9FRg8LP4/smZkiLiQPIi1QsNdaP3zBPLv+d1OlCpXuz8N50vLmUzhK1QlM28YQOlzYQsDePvYuwWKty/DxR4d2oIby2CKrM3mDYB2m7X9RFTZHgLHbHozjyjWptqGTrAzB9k2Lif2u1uDQQKYJDBTdscn6SjSwnB7O51qVz0/zL7qtnFy0mnk1wqUBqRfVJLLoI87WL2pf3xlKcfuhYiz/SzfGV4AW+2nzrLy5DlExNceMjyYL3KZJ92uTsMUDgLZNVBwZ5fQUNNB/8ch92XQ/aQy4B1BglGtv54DLYLJG5o2SFZAIgT7Mc3PDRWdAMUnZgnQhD3Fi8ldY/CXPwS2Yyg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(33656002)(316002)(83380400001)(66946007)(55016003)(71200400001)(8676002)(19627235002)(38100700002)(66476007)(66556008)(110136005)(66446008)(8936002)(86362001)(64756008)(54906003)(4326008)(52536014)(5660300002)(76116006)(26005)(186003)(38070700005)(6506007)(2906002)(122000001)(53546011)(9686003)(7696005)(508600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Lp6jXv30/jRXMNaoPKW59knE/cplRvsy/UE4J+0/CY7/MHdpYUaDHZZv19Tv?=
- =?us-ascii?Q?otyvDgufVlySbLOuUKBs/ItsWkwQZRPKQk5W7Ev8loihs7rSYWBHg3o5ba4R?=
- =?us-ascii?Q?xIPsrpRalJz4QG2yXKoNlPAnOzKlO+AmJR+Z7OQgymtCED6Y7WwlAXLR7FqN?=
- =?us-ascii?Q?f2iXDPeQ5Kc7yXLkaT8/2R4oLZt7ii+XotUJzg9l/2rzx6dxOdZ9Hegycyg6?=
- =?us-ascii?Q?LMIKhCH/XAciMRkI6hRmj+jkNZDkD1KLakkHgeqriWYVRjdcxZv/X3ojC288?=
- =?us-ascii?Q?s86cC/AIDb/DTtTbpbCB0MY3QXPofPrkkdlkRYCN9PjmnR07ZTRHdG0lrfyg?=
- =?us-ascii?Q?EkOrQ7yuB92IqwNabdHO/2rmbYl5RDljp+/+v4viSdgv+e6eIwSE2S9RkSkS?=
- =?us-ascii?Q?t/2JKwu+l+vavOCaDZ9MoEGRCHlBZemv8Zul+zYZ4uwXxA/eEcTj2ZR6v+f/?=
- =?us-ascii?Q?I3gerDAwx2jrcUpC++UaQG7zvXapgOtzl/8wJZJXXaJRrAAfWDBjP8DJ2+Wv?=
- =?us-ascii?Q?lwfrwpKz1EU88pIjnFJyqjdSRYyot/WEf27cHjJwiy0wo9I8hUv6iY38vokX?=
- =?us-ascii?Q?2g25s0/KKf7YE8S9dvqYha75joIMe9ZzxgkfnRi8GbrBohneGiH+eUU65cNv?=
- =?us-ascii?Q?zH5XAir1qX0vxYEgbUqpcD6F8/I/6t1XXFT5N0iupx8Etlg+zkZINTDRkfRk?=
- =?us-ascii?Q?YKh2F02tU9S6myhog9xchC2uDTk5kJaXJbsgjVPANyG40yjZzsm7Fkf1qmBz?=
- =?us-ascii?Q?E3ATGz41umjUjo+ldU0ghUfzYLim6TDK1aFNDbLYHnjqLLE9PeVvjV6q2MiT?=
- =?us-ascii?Q?SXHUNJPQ5UhhfaHfNXuGdDqlsGp5F1EVmFwQo0LK+qSqc6sXpiaYoRT3fnw+?=
- =?us-ascii?Q?Npaq3DU7ZCBpeg0vR6DJ/oaGzwFOw0pGlZbHIorDAcLB6p0c77xXLD6sPg5k?=
- =?us-ascii?Q?kc2fkd9rIYDVMkls2Wj0ao2w+hE4+zEoW70+Zm/yXD8SOX3zyzq0pBr+D/1k?=
- =?us-ascii?Q?bO9PLdxYBwPr4LWjl3TKSBbQzjNy7g19RUnvHWeDaCC0ruM5HkHyBvh0Q1eQ?=
- =?us-ascii?Q?OroIxZHxXAC1SxRRJt8ueHfpaKtw3EZtDlhXspavtkTsAta5bJvyRU784MK4?=
- =?us-ascii?Q?LZpy7IpDcx8SfoJUdi498a3ORPQzWAwOTd4/lMW8OW/42U7kpNw0yNrBMl2H?=
- =?us-ascii?Q?gttPdnuqZ+5nB3j5Q8Q2UbHb1aws5e6GTkJRssn0AG6p6mf4wfO8wnvX1+TN?=
- =?us-ascii?Q?Ow4p3AEZTT3QYeON01ZuH7PW3FYT+ghctEbmRPjHIIyCWI5N/ez6kcSb4KUB?=
- =?us-ascii?Q?wWK6eTnxzzzAalPkoaDBqIZpfdZflQhpEkyirx3msqY/Xq18350K51cs/B5n?=
- =?us-ascii?Q?NkTl/I7Z8LhiR6QeCW0br9HGwHavc89qgsHOke+JZSbold0m5RdYA04B6cJf?=
- =?us-ascii?Q?mz1zktnNYh+NVMtC+fzoCBUcm9wgiMeZ+JjO1vakozLIn7Wi7eeI8rl6aDUI?=
- =?us-ascii?Q?mijUlxzI3GNhZBnnYnlRy5G0K2OK4aZXGtWqpQrpK4+wKDTO3qEprLxXvnfO?=
- =?us-ascii?Q?y3sh1ReE3LzcbRRTK4g=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C53D610E1AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 13:04:47 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id q5so7314078oij.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 05:04:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=qpCLiBzRlJC5XhuMltg4PH37HJYFELUnHZd9am5tLiU=;
+ b=WOyGrdV+9c4MC7siBhPVli3rndAMVAIfFCaDbZH5nLP/v8STcPEw1PLV79OCMzUU//
+ +JKW3cONinG9hBjFXNdctKU6E16tFiRcUiyGDFeAKz94hGhD/2w+wzaFDNMuWhDF8VMc
+ MCd5ADjOB/rl0vNdp+PYAfsaU2h1iaAFEF46LEC9qTCGW2Ci7Z/bnjjdihIpZW2fb2x6
+ dzonV+mSepQxNhyKkrvaja9BTc2uiNM7YWFs14AFkX1YfJqtHZgOEjpLPzdB2+VILTca
+ yUr/p+kM9OlFIbaXvJL7ftsh2PzFsNyn7/j8qUNtt4c+7fnoFNiF3N+P41Rbn/lSChla
+ TXug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=qpCLiBzRlJC5XhuMltg4PH37HJYFELUnHZd9am5tLiU=;
+ b=Ktx2lIF6c35lrFSYRCcdJkD+nBWFAMIpzxZ24dOZ9JhzFQ3kioep14QY22vj/nVuKQ
+ i6dNeiNECZ7kQUJXC3yRmfMRFVFMn6vs/ry+ZjYBLTUp0V4S3Ud5TBOupB8z2hCOAqcv
+ iU1JxtgOH52BD3DcpL2iS06kEbMMgZB7yCMQAcqQwsCAz+x7zZYDz2uBOXLPOwqX7H2C
+ 0GOR6y9Rw0xkXU3W6K1qgcoUT3l4DeVW8jdu1l/X5lvKPp31I2blKVKUNuG5CE40S+/y
+ 3L8w8Rc0GosqLD/bE/U4GlqW7qih7Q46FRN9NwIxAMHUKY5mCZxbZhbYkk7VLxrHHLXP
+ MNPg==
+X-Gm-Message-State: AOAM533WGhhloI5rGOi/wY4rvJS/2R7aElYAMbuNkpY1GAr4Z5AywaTv
+ r6S7h4FUXt16Cfaz7D4kqqVORhy1Cu4oexVCs9ri/Q==
+X-Google-Smtp-Source: ABdhPJzIaZMqWdp+H4loCziAbw3sR72kXDohahJPhw/sRFW5q/U/TtwO1Ts+6RsQ6d49UNf23SfzdLUUI+GV5euJHEY=
+X-Received: by 2002:aca:1b13:0:b0:2d4:b033:450 with SMTP id
+ b19-20020aca1b13000000b002d4b0330450mr1533064oib.214.1645794286909; Fri, 25
+ Feb 2022 05:04:46 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 25 Feb 2022 05:04:46 -0800
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1f6031e-7c47-48a6-025d-08d9f85f470f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2022 13:03:54.6914 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kA+GcFNymu4OeHhUXe42oNeSTyn5c59fxmZPaZr6geRyRZhkSjXauxqZfG23lxQo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4312
+In-Reply-To: <9069bd9d83653fbb286f9e8fa53827b1639d1923.camel@mediatek.com>
+References: <20220218145437.18563-1-granquet@baylibre.com>
+ <20220218145437.18563-16-granquet@baylibre.com>
+ <9069bd9d83653fbb286f9e8fa53827b1639d1923.camel@mediatek.com>
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: alot/0.10
+Date: Fri, 25 Feb 2022 05:04:46 -0800
+Message-ID: <CABnWg9tv5rgvLgc59PhqCFtPNL+gAVQ-LauAFG=7zuW_yV=PUA@mail.gmail.com>
+Subject: Re: [PATCH v8 15/19] drm/mediatek: Add mt8195 Embedded DisplayPort
+ driver
+To: CK Hu <ck.hu@mediatek.com>, airlied@linux.ie, 
+ angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com, 
+ chunkuang.hu@kernel.org, daniel@ffwll.ch, deller@gmx.de, 
+ jitao.shi@mediatek.com, kishon@ti.com, maarten.lankhorst@linux.intel.com, 
+ matthias.bgg@gmail.com, mripard@kernel.org, p.zabel@pengutronix.de, 
+ robh+dt@kernel.org, tzimmermann@suse.de, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,243 +75,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+Quoting CK Hu (2022-02-25 10:45:26)
+> Hi, Guillaume:
+>
+> On Fri, 2022-02-18 at 15:54 +0100, Guillaume Ranquet wrote:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> >
+> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> >
+> > It supports the mt8195, the embedded DisplayPort units. It offers
+> > hot-plug-detection and DisplayPort 1.4 with up to 4 lanes.
+> >
+> > The driver creates a child device for the phy. The child device will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> >
+> > This driver is based on an initial version by
+> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> >
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/Kconfig       |    7 +
+> >  drivers/gpu/drm/mediatek/Makefile      |    2 +
+> >  drivers/gpu/drm/mediatek/mtk_dp.c      | 2358
+> > ++++++++++++++++++++++++
+> >  drivers/gpu/drm/mediatek/mtk_dp_reg.h  |  568 ++++++
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c |    1 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h |    1 +
+> >  6 files changed, 2937 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> >
+> >
+>
+> [snip]
+>
+> > +
+> > +static u32 *mtk_dp_bridge_atomic_get_output_bus_fmts(struct
+> > drm_bridge *bridge,
+> > +                                                  struct
+> > drm_bridge_state *bridge_state,
+> > +                                                  struct
+> > drm_crtc_state *crtc_state,
+> > +                                                  struct
+> > drm_connector_state *conn_state,
+> > +                                                  unsigned int
+> > *num_output_fmts)
+> > +{
+> > +     u32 *output_fmts;
+> > +
+> > +     *num_output_fmts = 0;
+> > +     output_fmts = kcalloc(1, sizeof(*output_fmts), GFP_KERNEL);
+> > +     if (!output_fmts)
+> > +             return NULL;
+> > +     *num_output_fmts = 1;
+> > +     output_fmts[0] = MEDIA_BUS_FMT_FIXED;
+> > +     return output_fmts;
+> > +}
+> > +
+> > +static const u32 mt8195_input_fmts[] = {
+> > +     MEDIA_BUS_FMT_RGB888_1X24,
+> > +     MEDIA_BUS_FMT_YUV8_1X24,
+> > +     MEDIA_BUS_FMT_YUYV8_1X16,
+> > +};
+>
+> This means DPINTF output format, right? Does DPINTF switch output
+> buffer format?
+>
+I'll circle back with mediatek engineers, as I don't have a clue here.
 
-Thanks!
-The patch is reviewed-by: Evan Quan <evan.quan@amd.com>
+> > +
+> > +static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct
+> > drm_bridge *bridge,
+> > +                                                 struct
+> > drm_bridge_state *bridge_state,
+> > +                                                 struct
+> > drm_crtc_state *crtc_state,
+> > +                                                 struct
+> > drm_connector_state *conn_state,
+> > +                                                 u32 output_fmt,
+> > +                                                 unsigned int
+> > *num_input_fmts)
+> > +{
+> > +     u32 *input_fmts;
+> > +     struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+> > +     struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> > +     struct drm_display_info *display_info =
+> > +             &conn_state->connector->display_info;
+> > +     u32 rx_linkrate;
+> > +     u32 bpp;
+> > +
+> > +     bpp = (display_info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+> > ? 16 :
+> > +
+> >       24;
+> > +     rx_linkrate = (u32)mtk_dp->train_info.link_rate * 27000;
+> > +     *num_input_fmts = 0;
+> > +     input_fmts = kcalloc(ARRAY_SIZE(mt8195_input_fmts),
+> > sizeof(*input_fmts),
+> > +                          GFP_KERNEL);
+> > +     if (!input_fmts)
+> > +             return NULL;
+> > +
+> > +     *num_input_fmts = ARRAY_SIZE(mt8195_input_fmts);
+> > +
+> > +     memcpy(input_fmts, mt8195_input_fmts,
+> > +            sizeof(*input_fmts) * ARRAY_SIZE(mt8195_input_fmts));
+> > +
+> > +     if (((rx_linkrate * mtk_dp->train_info.lane_count) <
+> > +          (mode->clock * 24 / 8)) &&
+> > +         ((rx_linkrate * mtk_dp->train_info.lane_count) >
+> > +          (mode->clock * 16 / 8)) &&
+> > +         (display_info->color_formats & DRM_COLOR_FORMAT_YCRCB422))
+> > {
+> > +             kfree(input_fmts);
+> > +             input_fmts = kcalloc(1, sizeof(*input_fmts),
+> > GFP_KERNEL);
+> > +             *num_input_fmts = 1;
+> > +             input_fmts[0] = MEDIA_BUS_FMT_YUYV8_1X16;
+> > +     }
+> > +
+> > +     return input_fmts;
+> > +}
+> > +
+>
+> [snip]
+>
+> > +
+> > +static int mtk_dp_probe(struct platform_device *pdev)
+> > +{
+> > +     struct mtk_dp *mtk_dp;
+> > +     struct device *dev = &pdev->dev;
+> > +     int ret;
+> > +     int irq_num = 0;
+> > +
+> > +     mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
+> > +     if (!mtk_dp)
+> > +             return -ENOMEM;
+> > +
+> > +     mtk_dp->dev = dev;
+> > +
+> > +     irq_num = platform_get_irq(pdev, 0);
+> > +     if (irq_num < 0) {
+> > +             dev_err(dev, "failed to request dp irq resource\n");
+> > +             return irq_num;
+> > +     }
+> > +
+> > +     mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node,
+> > 1, 0);
+> > +     if (IS_ERR(mtk_dp->next_bridge)) {
+> > +             ret = PTR_ERR(mtk_dp->next_bridge);
+> > +             dev_err_probe(dev, ret, "Failed to get bridge\n");
+> > +             return ret;
+> > +     }
+> > +
+> > +     ret = mtk_dp_dt_parse(mtk_dp, pdev);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     mtk_dp_aux_init(mtk_dp);
+> > +
+> > +     ret = devm_request_threaded_irq(dev, irq_num, mtk_dp_hpd_event,
+> > +                                     mtk_dp_hpd_event_thread,
+> > +                                     IRQ_TYPE_LEVEL_HIGH,
+> > dev_name(dev),
+> > +                                     mtk_dp);
+>
+> Embedded displayport is always connected, right? Why do we need process
+> hot plug? Move this to the patch of external displayport.
+>
+That was my initial plan, remove all the HPD related "stuff"... but something
+is being done in the irq that is needed to get eDP working.
+I haven't been able to retrieve the EDID with the irq removed.
 
-> -----Original Message-----
-> From: Meng Tang <tangmeng@uniontech.com>
-> Sent: Friday, February 25, 2022 5:47 PM
-> To: airlied@linux.ie; daniel@ffwll.ch
-> Cc: Quan, Evan <Evan.Quan@amd.com>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; amd-
-> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
-> kernel@vger.kernel.org; Meng Tang <tangmeng@uniontech.com>
-> Subject: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private variabl=
-e
-> name
->=20
-> In file vega10_hwmgr.c, the names of struct vega10_power_state *
-> and struct pp_power_state * are confusingly used, which may lead
-> to some confusion.
->=20
-> Status quo is that variables of type struct vega10_power_state *
-> are named "vega10_ps", "ps", "vega10_power_state". A more
-> appropriate usage is that struct are named "ps" is used for
-> variabled of type struct pp_power_state *.
->=20
-> So rename struct vega10_power_state * which are named "ps" and
-> "vega10_power_state" to "vega10_ps", I also renamed "psa" to
-> "vega10_psa" and "psb" to "vega10_psb" to make it more clearly.
->=20
-> The rows longer than 100 columns are involved.
->=20
-> Signed-off-by: Meng Tang <tangmeng@uniontech.com>
-> ---
->  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 68 +++++++++++---
-> -----
->  1 file changed, 38 insertions(+), 30 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> index 3f040be0d158..37324f2009ca 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> @@ -3095,7 +3095,7 @@ static int
-> vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
->  		void *pp_table, uint32_t classification_flag)
->  {
->  	ATOM_Vega10_GFXCLK_Dependency_Record_V2
-> *patom_record_V2;
-> -	struct vega10_power_state *vega10_power_state =3D
-> +	struct vega10_power_state *vega10_ps =3D
->  			cast_phw_vega10_power_state(&(power_state-
-> >hardware));
->  	struct vega10_performance_level *performance_level;
->  	ATOM_Vega10_State *state_entry =3D (ATOM_Vega10_State *)state;
-> @@ -3145,17 +3145,17 @@ static int
-> vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
->  	power_state->temperatures.min =3D 0;
->  	power_state->temperatures.max =3D 0;
->=20
-> -	performance_level =3D &(vega10_power_state->performance_levels
-> -			[vega10_power_state-
-> >performance_level_count++]);
-> +	performance_level =3D &(vega10_ps->performance_levels
-> +			[vega10_ps->performance_level_count++]);
->=20
->  	PP_ASSERT_WITH_CODE(
-> -			(vega10_power_state->performance_level_count <
-> +			(vega10_ps->performance_level_count <
->  					NUM_GFXCLK_DPM_LEVELS),
->  			"Performance levels exceeds SMC limit!",
->  			return -1);
->=20
->  	PP_ASSERT_WITH_CODE(
-> -			(vega10_power_state->performance_level_count
-> <=3D
-> +			(vega10_ps->performance_level_count <=3D
->  					hwmgr->platform_descriptor.
->  					hardwareActivityPerformanceLevels),
->  			"Performance levels exceeds Driver limit!",
-> @@ -3169,8 +3169,8 @@ static int
-> vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
->  	performance_level->mem_clock =3D mclk_dep_table->entries
->  			[state_entry->ucMemClockIndexLow].ulMemClk;
->=20
-> -	performance_level =3D &(vega10_power_state->performance_levels
-> -				[vega10_power_state-
-> >performance_level_count++]);
-> +	performance_level =3D &(vega10_ps->performance_levels
-> +				[vega10_ps->performance_level_count++]);
->  	performance_level->soc_clock =3D socclk_dep_table->entries
->  				[state_entry->ucSocClockIndexHigh].ulClk;
->  	if (gfxclk_dep_table->ucRevId =3D=3D 0) {
-> @@ -3201,11 +3201,11 @@ static int vega10_get_pp_table_entry(struct
-> pp_hwmgr *hwmgr,
->  		unsigned long entry_index, struct pp_power_state *state)
->  {
->  	int result;
-> -	struct vega10_power_state *ps;
-> +	struct vega10_power_state *vega10_ps;
->=20
->  	state->hardware.magic =3D PhwVega10_Magic;
->=20
-> -	ps =3D cast_phw_vega10_power_state(&state->hardware);
-> +	vega10_ps =3D cast_phw_vega10_power_state(&state->hardware);
->=20
->  	result =3D vega10_get_powerplay_table_entry(hwmgr, entry_index,
-> state,
->  			vega10_get_pp_table_entry_callback_func);
-> @@ -3218,10 +3218,10 @@ static int vega10_get_pp_table_entry(struct
-> pp_hwmgr *hwmgr,
->  	 */
->  	/* set DC compatible flag if this state supports DC */
->  	if (!state->validation.disallowOnDC)
-> -		ps->dc_compatible =3D true;
-> +		vega10_ps->dc_compatible =3D true;
->=20
-> -	ps->uvd_clks.vclk =3D state->uvd_clocks.VCLK;
-> -	ps->uvd_clks.dclk =3D state->uvd_clocks.DCLK;
-> +	vega10_ps->uvd_clks.vclk =3D state->uvd_clocks.VCLK;
-> +	vega10_ps->uvd_clks.dclk =3D state->uvd_clocks.DCLK;
->=20
->  	return 0;
->  }
-> @@ -4823,33 +4823,41 @@ static int vega10_check_states_equal(struct
-> pp_hwmgr *hwmgr,
->  				const struct pp_hw_power_state *pstate1,
->  			const struct pp_hw_power_state *pstate2, bool
-> *equal)
->  {
-> -	const struct vega10_power_state *psa;
-> -	const struct vega10_power_state *psb;
-> +	const struct vega10_power_state *vega10_psa;
-> +	const struct vega10_power_state *vega10_psb;
->  	int i;
->=20
->  	if (pstate1 =3D=3D NULL || pstate2 =3D=3D NULL || equal =3D=3D NULL)
->  		return -EINVAL;
->=20
-> -	psa =3D cast_const_phw_vega10_power_state(pstate1);
-> -	psb =3D cast_const_phw_vega10_power_state(pstate2);
-> -	/* If the two states don't even have the same number of
-> performance levels they cannot be the same state. */
-> -	if (psa->performance_level_count !=3D psb-
-> >performance_level_count) {
-> +	vega10_psa =3D cast_const_phw_vega10_power_state(pstate1);
-> +	vega10_psb =3D cast_const_phw_vega10_power_state(pstate2);
-> +
-> +	/* If the two states don't even have the same number of
-> performance levels
-> +	 * they cannot be the same state.
-> +	 */
-> +	if (vega10_psa->performance_level_count !=3D vega10_psb-
-> >performance_level_count) {
->  		*equal =3D false;
->  		return 0;
->  	}
->=20
-> -	for (i =3D 0; i < psa->performance_level_count; i++) {
-> -		if (!vega10_are_power_levels_equal(&(psa-
-> >performance_levels[i]), &(psb->performance_levels[i]))) {
-> -			/* If we have found even one performance level pair
-> that is different the states are different. */
-> +	for (i =3D 0; i < vega10_psa->performance_level_count; i++) {
-> +		if (!vega10_are_power_levels_equal(&(vega10_psa-
-> >performance_levels[i]),
-> +						   &(vega10_psb-
-> >performance_levels[i]))) {
-> +			/* If we have found even one performance level pair
-> +			 * that is different the states are different.
-> +			 */
->  			*equal =3D false;
->  			return 0;
->  		}
->  	}
->=20
->  	/* If all performance levels are the same try to use the UVD clocks to
-> break the tie.*/
-> -	*equal =3D ((psa->uvd_clks.vclk =3D=3D psb->uvd_clks.vclk) && (psa-
-> >uvd_clks.dclk =3D=3D psb->uvd_clks.dclk));
-> -	*equal &=3D ((psa->vce_clks.evclk =3D=3D psb->vce_clks.evclk) && (psa-
-> >vce_clks.ecclk =3D=3D psb->vce_clks.ecclk));
-> -	*equal &=3D (psa->sclk_threshold =3D=3D psb->sclk_threshold);
-> +	*equal =3D ((vega10_psa->uvd_clks.vclk =3D=3D vega10_psb->uvd_clks.vclk=
-)
-> &&
-> +		  (vega10_psa->uvd_clks.dclk =3D=3D vega10_psb-
-> >uvd_clks.dclk));
-> +	*equal &=3D ((vega10_psa->vce_clks.evclk =3D=3D vega10_psb-
-> >vce_clks.evclk) &&
-> +		   (vega10_psa->vce_clks.ecclk =3D=3D vega10_psb-
-> >vce_clks.ecclk));
-> +	*equal &=3D (vega10_psa->sclk_threshold =3D=3D vega10_psb-
-> >sclk_threshold);
->=20
->  	return 0;
->  }
-> @@ -5444,19 +5452,19 @@ static int vega10_get_performance_level(struct
-> pp_hwmgr *hwmgr, const struct pp_
->  				PHM_PerformanceLevelDesignation
-> designation, uint32_t index,
->  				PHM_PerformanceLevel *level)
->  {
-> -	const struct vega10_power_state *ps;
-> +	const struct vega10_power_state *vega10_ps;
->  	uint32_t i;
->=20
->  	if (level =3D=3D NULL || hwmgr =3D=3D NULL || state =3D=3D NULL)
->  		return -EINVAL;
->=20
-> -	ps =3D cast_const_phw_vega10_power_state(state);
-> +	vega10_ps =3D cast_const_phw_vega10_power_state(state);
->=20
-> -	i =3D index > ps->performance_level_count - 1 ?
-> -			ps->performance_level_count - 1 : index;
-> +	i =3D index > vega10_ps->performance_level_count - 1 ?
-> +			vega10_ps->performance_level_count - 1 : index;
->=20
-> -	level->coreClock =3D ps->performance_levels[i].gfx_clock;
-> -	level->memory_clock =3D ps->performance_levels[i].mem_clock;
-> +	level->coreClock =3D vega10_ps->performance_levels[i].gfx_clock;
-> +	level->memory_clock =3D vega10_ps-
-> >performance_levels[i].mem_clock;
->=20
->  	return 0;
->  }
-> --
-> 2.20.1
->=20
->=20
+As I'm not knowledgeable in this domain or on the architecture, I couldn't
+get to the bottom of it with the available documentation I have.
+
+Probably something is done in the irq for eDP that should happen outside?
+I will try for v9 to remove hot plug detection entirely for the
+initial eDP support.
+
+> > +     if (ret) {
+> > +             dev_err(dev, "failed to request mediatek dptx irq\n");
+> > +             return -EPROBE_DEFER;
+> > +     }
+> > +
+> > +     mutex_init(&mtk_dp->dp_lock);
+>
+> Why need dp_lock, please provide the case information.
+>
+> > +     mutex_init(&mtk_dp->edid_lock);
+>
+> edid_lock is necessary when irq exist.
+>
+> > +
+> > +     platform_set_drvdata(pdev, mtk_dp);
+> > +
+> > +     mtk_dp->phy_dev = platform_device_register_data(dev, "mediatek-
+> > dp-phy",
+> > +                                                     PLATFORM_DEVID_
+> > AUTO,
+> > +                                                     &mtk_dp->regs,
+> > +                                                     sizeof(struct
+> > regmap *));
+> > +     if (IS_ERR(mtk_dp->phy_dev)) {
+> > +             dev_err(dev, "Failed to create device mediatek-dp-phy:
+> > %ld\n",
+> > +                     PTR_ERR(mtk_dp->phy_dev));
+> > +             return PTR_ERR(mtk_dp->phy_dev);
+> > +     }
+> > +
+> > +     mtk_dp_get_calibration_data(mtk_dp);
+> > +
+> > +     mtk_dp->phy = devm_phy_get(&mtk_dp->phy_dev->dev, "dp");
+> > +     if (IS_ERR(mtk_dp->phy)) {
+> > +             dev_err(dev, "Failed to get phy: %ld\n",
+> > PTR_ERR(mtk_dp->phy));
+> > +             platform_device_unregister(mtk_dp->phy_dev);
+> > +             return PTR_ERR(mtk_dp->phy);
+> > +     }
+> > +
+> > +     mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
+> > +     mtk_dp->bridge.of_node = dev->of_node;
+> > +     mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> > +
+> > +     mtk_dp->bridge.ops =
+> > +             DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
+> > DRM_BRIDGE_OP_HPD;
+>
+> DRM_BRIDGE_OP_DETECT? DRM_BRIDGE_OP_HPD?
+>
+> > +     drm_bridge_add(&mtk_dp->bridge);
+> > +
+> > +     pm_runtime_enable(dev);
+> > +     pm_runtime_get_sync(dev);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >
+>
+> [snip]
+>
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> > b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> > new file mode 100644
+> > index 0000000000000..79952ac30e9e6
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> > @@ -0,0 +1,568 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (c) 2019 MediaTek Inc.
+> > + * Copyright (c) 2021 BayLibre
+> > + */
+> > +#ifndef _MTK_DP_REG_H_
+> > +#define _MTK_DP_REG_H_
+> > +
+> > +#define MTK_DP_SIP_CONTROL_AARCH32 0x82000523
+> > +#define MTK_DP_SIP_ATF_VIDEO_UNMUTE 0x20
+> > +#define MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE 0x21
+> > +
+> > +#define DP_PHY_GLB_BIAS_GEN_00 0x0000
+> > +#define RG_XTP_GLB_BIAS_INTR_CTRL (0x1f << 16)
+> > +
+> > +#define DP_PHY_GLB_DPAUX_TX 0x0008
+> > +#define RG_CKM_PT0_CKTX_IMPSEL (0xf << 20)
+> > +
+> > +#define DP_PHY_LANE_TX_0 0x104
+> > +#define RG_XTP_LN0_TX_IMPSEL_PMOS (0xf << 12)
+> > +#define RG_XTP_LN0_TX_IMPSEL_NMOS (0xf << 16)
+> > +
+> > +#define DP_PHY_LANE_TX_1 0x204
+> > +#define RG_XTP_LN1_TX_IMPSEL_PMOS (0xf << 12)
+> > +#define RG_XTP_LN1_TX_IMPSEL_NMOS (0xf << 16)
+> > +
+> > +#define DP_PHY_LANE_TX_2 0x304
+> > +#define RG_XTP_LN2_TX_IMPSEL_PMOS (0xf << 12)
+> > +#define RG_XTP_LN2_TX_IMPSEL_NMOS (0xf << 16)
+> > +
+> > +#define DP_PHY_LANE_TX_3 0x404
+> > +#define RG_XTP_LN3_TX_IMPSEL_PMOS (0xf << 12)
+> > +#define RG_XTP_LN3_TX_IMPSEL_NMOS (0xf << 16)
+>
+> These register should be controlled by dp_phy driver?
+>
+> Regards,
+> CK
+>
+> > +
+> > +#define TOP_OFFSET 0x2000
+> > +#define ENC0_OFFSET 0x3000
+> > +#define ENC1_OFFSET 0x3200
+> > +#define TRANS_OFFSET 0x3400
+> > +#define AUX_OFFSET 0x3600
+> > +#define SEC_OFFSET 0x4000
+> > +
+> >
+>
