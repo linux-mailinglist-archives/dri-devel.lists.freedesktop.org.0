@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3834C4138
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:24:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18664C4139
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:24:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 597DA10E6B5;
-	Fri, 25 Feb 2022 09:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A4810E716;
+	Fri, 25 Feb 2022 09:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664308930F
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:24:01 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426D610E776
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:24:03 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 37C3C1F45AF1
+ (Authenticated sender: kholk11) with ESMTPSA id B946F1F45AF2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645781039;
- bh=SWrJfJ7PskotUKYhO/j7/0MGwDwG0Y2IytOY3Y6T/yQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YYWQbzR1n5nXyP58/+zadQkqg+hNL4GsYRsXaPRpG0rfFCFcgdwnTZHVg2nQqw1K2
- E+dlNDR5JO7+k7dsGJ9HQaNyv3SDYrz2legTree2PBVch6m1lyw0ac/xIzKz4fTtqq
- BFugGaWhL3iI66DkjurSBKONT95MdEK4l9/VBuUwAjNwa7evjO/ivR9OXmY6LRXvBb
- NA8oPzXpX3CAPFPyxXYa0TmBXmDashDpnf/UG9odG6AtoxTfMR1YI+2PslXzBMg8rX
- PaEBwg7rftw6V3MUc5scQkL7FftztzE9vnIgYhabQidMY2gBsi3if8q8A6jZFrAieF
- Qu0d7KqilV6uw==
-Message-ID: <14a8adf3-7f26-e6ca-ddd3-dbbc15f3e61e@collabora.com>
-Date: Fri, 25 Feb 2022 10:23:56 +0100
+ s=mail; t=1645781041;
+ bh=9dKGsZm/HS8cwWk9puFZXvMkfTgYG8TOAGRHzWQr4sE=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=eQ7wEDmUulTkYY0E+lt4sz4qcx1EJR30VNwSoXxAGJ16JtN+yP+HyVzidZcgTu8NA
+ 7vmjhHrGWRukbvQuxY7uqfY2lBbM7SK9Qbqx7bvWnGbWZtC9K24GyyPvMn9g8PEcAO
+ 8BzxNxjZbEkTBGnfNyn/9Q0aJnG7hW+RqgvJqtsdOSkhLa/+Nsqfo8iT8ZAKMLUiPF
+ k/o7/m08Es2GpcxNgRXxppybyA7pIRFwxZfhjaEOpgEvmJIW6uxK5r/xFfh4u7zZK3
+ pyQiMkRDGtXCw78SrDrwhR/aXzHd4WC3ND+EaK+YxQsIOHzbKmwbvIX7MkwwaAxuqW
+ e4RYcGncXZfEQ==
+Message-ID: <ac154b67-054a-0b4a-389d-0a60d9a49e0e@collabora.com>
+Date: Fri, 25 Feb 2022 10:23:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v7, 01/15] media: mtk-vcodec: Add vdec enable/disable
- hardware helpers
-Content-Language: en-US
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v7, 04/15] media: mtk-vcodec: Read max resolution from
+ dec_capability
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Alexandre Courbot <acourbot@chromium.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
@@ -43,9 +42,9 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>,
  <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Tomasz Figa <tfiga@google.com>
 References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
- <20220223034008.15781-2-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220223034008.15781-2-yunfei.dong@mediatek.com>
+ <20220223034008.15781-5-yunfei.dong@mediatek.com>
+Content-Language: en-US
+In-Reply-To: <20220223034008.15781-5-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,8 +70,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 23/02/22 04:39, Yunfei Dong ha scritto:
-> Lock, power and clock are highly coupled operations. Adds vdec
-> enable/disable hardware helpers and uses them.
+> Supported max resolution for different platforms are not the same: 2K
+> or 4K, getting it according to dec_capability.
 > 
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
