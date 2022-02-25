@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8749B4C3A6E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 01:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC83F4C3AB7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 02:03:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E266D10E159;
-	Fri, 25 Feb 2022 00:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E83610E184;
+	Fri, 25 Feb 2022 01:03:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3666010E159
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 00:43:29 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2d07c4a0d06so16787487b3.13
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 16:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5267910E184
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 01:03:39 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id b23so1161258qtt.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 17:03:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E1+NFtaUTch0bpm9xIKRWTnp08xiBPVGJc8lA9iAl38=;
- b=bMD6X32W48R4cXWIFYVzW24r8cqtmrd5y97ERYwMJY0b9PT4NaX3xIzPM3eGHa/JAh
- UolU/SuLs+rMfMUP+M9qhyJcXKhnjjKmFeoY3ZJXVtk5ZAuX69ageRpAwimzfMFqAIV8
- Rpd5egh/AfEaEgbuFldxcWGpj6kiJVQMlViHLqDa2Tp6O3R+8Nme5buOtCbqFAJoq4Oc
- I1thawSAhDd5gzBnM4qhj0uCRcv3NfMrak5b4ZDuF3nRvSBlf/SnL6UflUhmEpKiTwtl
- VmXhULyDJHn5BpB5Poqutk7dD5KJjRJvpjX6pUiCyqnQm+bhmWDL2HTaY0ux9hSVws2y
- 8rmA==
+ :cc; bh=aiBRRmAabEtzf7fAFugu3t5mTsmuCMXobrG596zXrAs=;
+ b=Ty8nIS87hvCZgefl4Yw55gr+V2rpupGihj23sMx6ige/z4LJl8/JdNgtd6GLioGsjt
+ u2uUOTWcXxjczhsnZ1aPNy8uV496KoA1x6yn+eI8DmtoN2faxl5Y4wTZ4FCPDQ2+IlVx
+ kV9sBzCNRRDuCCkzlJ8jnzPm18pSIyFYpu1JHIUlwe9fmvHQhFVL2+UKVd76L5QlINqd
+ 5oyaClHDWzn3/+mPDdQU//3Er0jgoD38ysXTM/iqZPYf1XaY5cZy4vob/M1R3HuJd9Af
+ bNlvNiWUaXE5fhaDHnoYm6gIBvKdSYD4NbAqlnvgDbH7QdNXbwPUj6lvkYoKWDA5MBRv
+ gD5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=E1+NFtaUTch0bpm9xIKRWTnp08xiBPVGJc8lA9iAl38=;
- b=gb2UUAqjNDOdTvMnO8UnhLYpZYC5pkIC+CO0yjMISQkscwqvIJzyWNMMOd+G+mGd2c
- XbiQxPN/hP/ps03Pos9/IlE+5kpEKr6XBb4bXApdmso72SDHV7J0JUbwWsT2PaNIcei+
- N4s+CSvKWFAFEofnGTuRK1kF+VH+0ozB3XFOMhVct4XvEeLRfmYw9+xqF3LgC9SqKXTv
- 83ngr8KG71X0s/GmhEb2JsB+l8Cp3VYVgf8+R+rRf4OY0Hkk9SX7MLjqdfZayLl763gh
- 3DvK/BKSm9f0dUF8HSo3KQsTeD9bUkR8qywgB4Nlp9MxS8kVgTPvNUSMaDsKzI3OjJud
- 8BZQ==
-X-Gm-Message-State: AOAM533HCVYgKUl2ISh18UuKjnb9GcqoFmy+gFmj7NytpZJxoycMyXOP
- r8QGp9oIN2mskFxJVvSOyNBzU7uHsYrpixg0hL7g17/nD1g=
-X-Google-Smtp-Source: ABdhPJzyiSziSJ4cp+zArjM8DGkFjDx53HetNvkleYaSUXSqCGbbaXy2dn3y3htj3ukJT3zZGYsJLAXp9Lok9HQbUTg=
-X-Received: by 2002:a81:3e25:0:b0:2d7:931:a5ce with SMTP id
- l37-20020a813e25000000b002d70931a5cemr5263059ywa.302.1645749808021; Thu, 24
- Feb 2022 16:43:28 -0800 (PST)
+ bh=aiBRRmAabEtzf7fAFugu3t5mTsmuCMXobrG596zXrAs=;
+ b=M2Bt7YeW+AbcCyzEQDXosD6Q1wcG1j/KJVi9/KWGT6xChWaD9xidTR0KLgXr5NGXxq
+ +WCjVRvMijx41AY5uLq2CLcDOZl2Nkm0RWxBRH2Dz4jkzZq+p2DJuCQcR4LF/wNQ4KvZ
+ IyK6Ah3OAo5vRw5xYpX+/h0oOLV5+S2Ki47m6DSonxwAtULUKe30Zc2Ep/bdkAaNQC3v
+ zHrcoSAxs4RPPKb8tLDxYRNn8DULHICipbQWQgWHS9ZPWtFhDqS9TGt9jxM5S4RsIRUs
+ RbIV3bUzO7yUFCYKSN/nTaVLeUInquZIll/8ntIxvE0uvMfZRsDG5Lf7iwWUpoAkiQuG
+ MHRw==
+X-Gm-Message-State: AOAM530WxWHYnMfJy+Fh8SWkk1fHRqGhBLCofVeA56sHyPXOYbv7aGVi
+ RXcoUmWFpw4Xtbc/Nn3wexDgwBkq4hy7uPfNt2FJKQ==
+X-Google-Smtp-Source: ABdhPJyCsRCbuc9sR67sicTg3FPJyaFT+cgt0OhOTMz/K7MH6krdelYdMvuoEs0JmkgcOL9Nriy7nSwCmgr/Aeu++Jo=
+X-Received: by 2002:a05:622a:1206:b0:2de:6fa4:41fb with SMTP id
+ y6-20020a05622a120600b002de6fa441fbmr4897026qtx.295.1645751018161; Thu, 24
+ Feb 2022 17:03:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121213831.47229-1-igormtorrente@gmail.com>
- <20220121213831.47229-8-igormtorrente@gmail.com>
- <20220210113757.77b0a994@eldfell>
-In-Reply-To: <20220210113757.77b0a994@eldfell>
-From: Igor Torrente <igormtorrente@gmail.com>
-Date: Thu, 24 Feb 2022 21:43:01 -0300
-Message-ID: <CAOA8r4Gv9v9YtAq+vOHZX1DJJrgmajY8cAoYs1sfpOa243gxfQ@mail.gmail.com>
-Subject: Re: [PATCH v4 7/9] drm: vkms: Refactor the plane composer to accept
- new formats
-To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20220223191118.881321-1-robdclark@gmail.com>
+In-Reply-To: <20220223191118.881321-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 25 Feb 2022 04:03:27 +0300
+Message-ID: <CAA8EJpoH=czjYKBNjDs2eSjwRAc-18SLR8r8dJKygkKonrQoQQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Avoid dirtyfb stalls on video mode displays (v2)
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,793 +62,462 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
- rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- ~lkcamp/patches@lists.sr.ht, kernel test robot <lkp@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Kalyan Thota <quic_kalyant@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Maxime Ripard <maxime@cerno.tech>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+On Wed, 23 Feb 2022 at 22:11, Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Someone on IRC once asked an innocent enough sounding question:  Why
+> with xf86-video-modesetting is es2gears limited at 120fps.
+>
+> So I broke out the perfetto tracing mesa MR and took a look.  It turns
+> out the problem was drm_atomic_helper_dirtyfb(), which would end up
+> waiting for vblank.. es2gears would rapidly push two frames to Xorg,
+> which would blit them to screen and in idle hook (I assume) call the
+> DIRTYFB ioctl.  Which in turn would do an atomic update to flush the
+> dirty rects, which would stall until the next vblank.  And then the
+> whole process would repeat.
+>
+> But this is a bit silly, we only need dirtyfb for command mode DSI
+> panels.  So track in plane state whether dirtyfb is required, and
+> track in the fb how many attached planes require dirtyfb so that we
+> can skip it when not required.  (Note, mdp4 does not actually have
+> cmd mode support.)
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-On 2/10/22 06:37, Pekka Paalanen wrote:
-> On Fri, 21 Jan 2022 18:38:29 -0300
-> Igor Torrente <igormtorrente@gmail.com> wrote:
->
->> Currently the blend function only accepts XRGB_8888 and ARGB_8888
->> as a color input.
->>
->> This patch refactors all the functions related to the plane composition
->> to overcome this limitation.
->>
->> A new internal format(`struct pixel`) is introduced to deal with all
->> possible inputs. It consists of 16 bits fields that represent each of
->> the channels.
->>
->> The pixels blend is done using this internal format. And new handlers
->> are being added to convert a specific format to/from this internal format.
->>
->> So the blend operation depends on these handlers to convert to this common
->> format. The blended result, if necessary, is converted to the writeback
->> buffer format.
->>
->> This patch introduces three major differences to the blend function.
->> 1 - All the planes are blended at once.
->> 2 - The blend calculus is done as per line instead of per pixel.
->> 3 - It is responsible to calculates the CRC and writing the writeback
->>      buffer(if necessary).
->>
->> These changes allow us to allocate way less memory in the intermediate
->> buffer to compute these operations. Because now we don't need to
->> have the entire intermediate image lines at once, just one line is
->> enough.
->>
->> | Memory consumption (output dimensions) |
->> |:--------------------------------------:|
->> |       Current      |     This patch    |
->> |:------------------:|:-----------------:|
->> |   Width * Heigth   |     2 * Width     |
->>
->> Beyond memory, we also have a minor performance benefit from all
->> these changes. Results running the IGT tests `*kms_cursor_crc*`:
->>
->> |                 Frametime                  |
->> |:------------------------------------------:|
->> |  Implementation |  Current  |  This commit |
->> |:---------------:|:---------:|:------------:|
->> | frametime range |  8~22 ms  |    5~18 ms   |
->> |     Average     |  10.0 ms  |    7.3 ms    |
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
->> ---
->> V2: Improves the performance drastically, by perfoming the operations
->>      per-line and not per-pixel(Pekka Paalanen).
->>      Minor improvements(Pekka Paalanen).
->>
->> V3: Changes the code to blend the planes all at once. This improves
->>      performance, memory consumption, and removes much of the weirdness
->>      of the V2(Pekka Paalanen and me).
->>      Minor improvements(Pekka Paalanen and me).
->>
->> V4: Rebase the code and adapt it to the new NUM_OVERLAY_PLANES constant.
->> ---
->>   drivers/gpu/drm/vkms/Makefile        |   1 +
->>   drivers/gpu/drm/vkms/vkms_composer.c | 335 +++++++++++++--------------
->>   drivers/gpu/drm/vkms/vkms_formats.c  | 138 +++++++++++
->>   drivers/gpu/drm/vkms/vkms_formats.h  |  31 +++
->>   4 files changed, 333 insertions(+), 172 deletions(-)
->>   create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
->>   create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
->
-> Hi Igor,
->
-> I'm really happy to see this, thanks!
->
-> I still have some security/robustness and other comments below.
->
-> I've deleted all the minus lines from the patch to make the new code
-> more clear.
->
->>
->> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
->> index 72f779cbfedd..1b28a6a32948 100644
->> --- a/drivers/gpu/drm/vkms/Makefile
->> +++ b/drivers/gpu/drm/vkms/Makefile
->> @@ -3,6 +3,7 @@ vkms-y := \
->>      vkms_drv.o \
->>      vkms_plane.o \
->>      vkms_output.o \
->> +    vkms_formats.o \
->>      vkms_crtc.o \
->>      vkms_composer.o \
->>      vkms_writeback.o
->> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->> index 95029d2ebcac..9f70fcf84fb9 100644
->> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->> @@ -9,202 +9,210 @@
->>   #include <drm/drm_vblank.h>
->>
->>   #include "vkms_drv.h"
->> +#include "vkms_formats.h"
->>
->> +static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->>   {
->> +    u32 new_color;
->>
->> +    new_color = (src * 0xffff + dst * (0xffff - alpha));
->>
->> +    return DIV_ROUND_UP(new_color, 0xffff);
->
-> Why round-up rather than the usual mathematical rounding?
+I like the way it ended up being implemented. A really nice hack!
 
-AFAIK, this is the only round that's present in the kernel. And if I
-understood correctly it is the round toward positive infinity that we are
-all used to use.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c   | 20 ++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c  |  5 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h  |  3 ++
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c | 19 ++++++++--
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c  |  8 +++++
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h   |  5 +++
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 21 +++++++++--
+>  drivers/gpu/drm/msm/msm_atomic.c           | 15 --------
+>  drivers/gpu/drm/msm/msm_drv.h              |  6 ++--
+>  drivers/gpu/drm/msm/msm_fb.c               | 41 ++++++++++++++++++----
+>  10 files changed, 110 insertions(+), 33 deletions(-)
 >
->>   }
->>
->>   /**
->> + * pre_mul_alpha_blend - alpha blending equation
->> + * @src_frame_info: source framebuffer's metadata
->> + * @stage_buffer: The line with the pixels from src_plane
->> + * @output_buffer: A line buffer that receives all the blends output
->>    *
->> + * Using the information from the `frame_info`, this blends only the
->> + * necessary pixels from the `stage_buffer` to the `output_buffer`
->> + * using premultiplied blend formula.
->>    *
->> + * The current DRM assumption is that pixel color values have been already
->> + * pre-multiplied with the alpha channel values. See more
->> + * drm_plane_create_blend_mode_property(). Also, this formula assumes a
->> + * completely opaque background.
->>    */
->> +static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
->> +                            struct line_buffer *stage_buffer,
->> +                            struct line_buffer *output_buffer)
->>   {
->> +    int x, x_dst = frame_info->dst.x1;
->> +    int x_limit = drm_rect_width(&frame_info->dst);
->> +    struct line_buffer *out = output_buffer + x_dst;
->> +    struct line_buffer *in = stage_buffer;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 662b7bc9c219..7763558ef566 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1046,6 +1046,20 @@ struct plane_state {
+>         u32 pipe_id;
+>  };
 >
-> Here you would check that you don't overrun any of the arrays. At this
-> point, I believe an overrun would indicate a bug in VKMS, so handle it
-> according to the kernel conventions. I have suggestions below
-> how to make that check possible. In other places, I'll just say "check
-> for overruns" for short.
+> +static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
+> +{
+> +       struct drm_crtc *crtc = cstate->crtc;
+> +       struct drm_encoder *encoder;
+> +
+> +       drm_for_each_encoder_mask (encoder, crtc->dev, cstate->encoder_mask) {
+> +               if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_CMD) {
+> +                       return true;
+> +               }
+> +       }
+> +
+> +       return false;
+> +}
+> +
+>  static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>                 struct drm_atomic_state *state)
+>  {
+> @@ -1066,6 +1080,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>         const struct drm_plane_state *pipe_staged[SSPP_MAX];
+>         int left_zpos_cnt = 0, right_zpos_cnt = 0;
+>         struct drm_rect crtc_rect = { 0 };
+> +       bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
 >
->> +
->> +    for (x = 0; x < x_limit; x++) {
->> +            out[x].a = (u16)0xffff;
->> +            out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
->> +            out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
->> +            out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
->>      }
->>   }
->>
->> +static bool check_y_limit(struct vkms_frame_info *frame_info, int y)
->>   {
->> +    if (y >= frame_info->dst.y1 && y < frame_info->dst.y2)
->> +            return true;
->>
->> +    return false;
->>   }
->>
->>   /**
->> + * @wb_frame_info: The writeback frame buffer metadata
->> + * @wb_fmt_func: The format tranformatio function to the wb buffer
->> + * @crtc_state: The crtc state
->> + * @plane_fmt_func: A format tranformation function to each plane
+>         pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
 >
-> Is it not *from* each plane?
+> @@ -1097,6 +1112,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
 >
-> Each plane... does this mean that all planes must have the same pixel
-> format?
+>          /* get plane state for all drm planes associated with crtc state */
+>         drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
+> +               struct dpu_plane_state *dpu_pstate = to_dpu_plane_state(pstate);
+>                 struct drm_rect dst, clip = crtc_rect;
 >
-> Oh wait, it's a pointer, so an array, isn't it? You're passing in an
-> array without passing in the array size. That seems quite risky to me.
-> Think of someone else needing to patch something here without fully
-> understanding how this all works, they'd easily introduce a subtle bug.
+>                 if (IS_ERR_OR_NULL(pstate)) {
+> @@ -1108,11 +1124,13 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>                 if (cnt >= DPU_STAGE_MAX * 4)
+>                         continue;
 >
-> Looks like the array must be number of "active planes" long. So it's
-> not even a constant, and the size of the array is not documented here.
+> -               pstates[cnt].dpu_pstate = to_dpu_plane_state(pstate);
+> +               pstates[cnt].dpu_pstate = dpu_pstate;
+>                 pstates[cnt].drm_pstate = pstate;
+>                 pstates[cnt].stage = pstate->normalized_zpos;
+>                 pstates[cnt].pipe_id = dpu_plane_pipe(plane);
+>
+> +               dpu_pstate->needs_dirtyfb = needs_dirtyfb;
+> +
+>                 if (pipe_staged[pstates[cnt].pipe_id]) {
+>                         multirect_plane[multirect_count].r0 =
+>                                 pipe_staged[pstates[cnt].pipe_id];
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index ca75089c9d61..6565682fe227 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -902,7 +902,7 @@ static int dpu_plane_prepare_fb(struct drm_plane *plane,
+>
+>         if (pstate->aspace) {
+>                 ret = msm_framebuffer_prepare(new_state->fb,
+> -                               pstate->aspace);
+> +                               pstate->aspace, pstate->needs_dirtyfb);
+>                 if (ret) {
+>                         DPU_ERROR("failed to prepare framebuffer\n");
+>                         return ret;
+> @@ -933,7 +933,8 @@ static void dpu_plane_cleanup_fb(struct drm_plane *plane,
+>
+>         DPU_DEBUG_PLANE(pdpu, "FB[%u]\n", old_state->fb->base.id);
+>
+> -       msm_framebuffer_cleanup(old_state->fb, old_pstate->aspace);
+> +       msm_framebuffer_cleanup(old_state->fb, old_pstate->aspace,
+> +                               old_pstate->needs_dirtyfb);
+>  }
+>
+>  static bool dpu_plane_validate_src(struct drm_rect *src,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index 9d51dad5c6a5..50781e2d3577 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -25,6 +25,7 @@
+>   * @pending:   whether the current update is still pending
+>   * @plane_fetch_bw: calculated BW per plane
+>   * @plane_clk: calculated clk per plane
+> + * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
+>   */
+>  struct dpu_plane_state {
+>         struct drm_plane_state base;
+> @@ -37,6 +38,8 @@ struct dpu_plane_state {
+>
+>         u64 plane_fetch_bw;
+>         u64 plane_clk;
+> +
+> +       bool needs_dirtyfb;
+>  };
+>
+>  /**
+> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
+> index 49bdabea8ed5..3e20f72d75ef 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
+> @@ -7,6 +7,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_damage_helper.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+>
+>  #include "mdp4_kms.h"
+>
+> @@ -90,6 +91,20 @@ static const struct drm_plane_funcs mdp4_plane_funcs = {
+>                 .atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+>  };
+>
+> +static int mdp4_plane_prepare_fb(struct drm_plane *plane,
+> +                                struct drm_plane_state *new_state)
+> +{
+> +       struct msm_drm_private *priv = plane->dev->dev_private;
+> +       struct msm_kms *kms = priv->kms;
+> +
+> +       if (!new_state->fb)
+> +               return 0;
+> +
+> +       drm_gem_plane_helper_prepare_fb(plane, new_state);
+> +
+> +       return msm_framebuffer_prepare(new_state->fb, kms->aspace, false);
+> +}
+> +
+>  static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
+>                                   struct drm_plane_state *old_state)
+>  {
+> @@ -102,7 +117,7 @@ static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
+>                 return;
+>
+>         DBG("%s: cleanup: FB[%u]", mdp4_plane->name, fb->base.id);
+> -       msm_framebuffer_cleanup(fb, kms->aspace);
+> +       msm_framebuffer_cleanup(fb, kms->aspace, false);
+>  }
+>
+>
+> @@ -130,7 +145,7 @@ static void mdp4_plane_atomic_update(struct drm_plane *plane,
+>  }
+>
+>  static const struct drm_plane_helper_funcs mdp4_plane_helper_funcs = {
+> -               .prepare_fb = msm_atomic_prepare_fb,
+> +               .prepare_fb = mdp4_plane_prepare_fb,
+>                 .cleanup_fb = mdp4_plane_cleanup_fb,
+>                 .atomic_check = mdp4_plane_atomic_check,
+>                 .atomic_update = mdp4_plane_atomic_update,
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> index bb7d066618e6..b966cd69f99d 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> @@ -690,6 +690,8 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
+>  {
+>         struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+>                                                                           crtc);
+> +       struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc_state);
+> +       struct mdp5_interface *intf = mdp5_cstate->pipeline.intf;
+>         struct mdp5_kms *mdp5_kms = get_kms(crtc);
+>         struct drm_plane *plane;
+>         struct drm_device *dev = crtc->dev;
+> @@ -706,12 +708,18 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
+>         DBG("%s: check", crtc->name);
+>
+>         drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
+> +               struct mdp5_plane_state *mdp5_pstate =
+> +                               to_mdp5_plane_state(pstate);
+> +
+>                 if (!pstate->visible)
+>                         continue;
+>
+>                 pstates[cnt].plane = plane;
+>                 pstates[cnt].state = to_mdp5_plane_state(pstate);
+>
+> +               mdp5_pstate->needs_dirtyfb =
+> +                       intf->mode == MDP5_INTF_DSI_MODE_COMMAND;
+> +
+>                 /*
+>                  * if any plane on this crtc uses 2 hwpipes, then we need
+>                  * the crtc to have a right hwmixer.
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
+> index ac269a6802df..29bf11f08601 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
+> @@ -100,6 +100,11 @@ struct mdp5_plane_state {
+>
+>         /* assigned by crtc blender */
+>         enum mdp_mixer_stage_id stage;
+> +
+> +       /* whether attached CRTC needs pixel data explicitly flushed to
+> +        * display (ex. DSI command mode display)
+> +        */
+> +       bool needs_dirtyfb;
+>  };
+>  #define to_mdp5_plane_state(x) \
+>                 container_of(x, struct mdp5_plane_state, base)
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> index c6b69afcbac8..b176338ab59b 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_damage_helper.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_print.h>
+>
+>  #include "mdp5_kms.h"
+> @@ -140,18 +141,34 @@ static const struct drm_plane_funcs mdp5_plane_funcs = {
+>                 .atomic_print_state = mdp5_plane_atomic_print_state,
+>  };
+>
+> +static int mdp5_plane_prepare_fb(struct drm_plane *plane,
+> +                                struct drm_plane_state *new_state)
+> +{
+> +       struct msm_drm_private *priv = plane->dev->dev_private;
+> +       struct msm_kms *kms = priv->kms;
+> +       bool needs_dirtyfb = to_mdp5_plane_state(new_state)->needs_dirtyfb;
+> +
+> +       if (!new_state->fb)
+> +               return 0;
+> +
+> +       drm_gem_plane_helper_prepare_fb(plane, new_state);
+> +
+> +       return msm_framebuffer_prepare(new_state->fb, kms->aspace, needs_dirtyfb);
+> +}
+> +
+>  static void mdp5_plane_cleanup_fb(struct drm_plane *plane,
+>                                   struct drm_plane_state *old_state)
+>  {
+>         struct mdp5_kms *mdp5_kms = get_kms(plane);
+>         struct msm_kms *kms = &mdp5_kms->base.base;
+>         struct drm_framebuffer *fb = old_state->fb;
+> +       bool needed_dirtyfb = to_mdp5_plane_state(old_state)->needs_dirtyfb;
+>
+>         if (!fb)
+>                 return;
+>
+>         DBG("%s: cleanup: FB[%u]", plane->name, fb->base.id);
+> -       msm_framebuffer_cleanup(fb, kms->aspace);
+> +       msm_framebuffer_cleanup(fb, kms->aspace, needed_dirtyfb);
+>  }
+>
+>  static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
+> @@ -437,7 +454,7 @@ static void mdp5_plane_atomic_async_update(struct drm_plane *plane,
+>  }
+>
+>  static const struct drm_plane_helper_funcs mdp5_plane_helper_funcs = {
+> -               .prepare_fb = msm_atomic_prepare_fb,
+> +               .prepare_fb = mdp5_plane_prepare_fb,
+>                 .cleanup_fb = mdp5_plane_cleanup_fb,
+>                 .atomic_check = mdp5_plane_atomic_check,
+>                 .atomic_update = mdp5_plane_atomic_update,
+> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+> index 27c9ae563f2f..1686fbb611fd 100644
+> --- a/drivers/gpu/drm/msm/msm_atomic.c
+> +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> @@ -5,7 +5,6 @@
+>   */
+>
+>  #include <drm/drm_atomic_uapi.h>
+> -#include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_vblank.h>
+>
+>  #include "msm_atomic_trace.h"
+> @@ -13,20 +12,6 @@
+>  #include "msm_gem.h"
+>  #include "msm_kms.h"
+>
+> -int msm_atomic_prepare_fb(struct drm_plane *plane,
+> -                         struct drm_plane_state *new_state)
+> -{
+> -       struct msm_drm_private *priv = plane->dev->dev_private;
+> -       struct msm_kms *kms = priv->kms;
+> -
+> -       if (!new_state->fb)
+> -               return 0;
+> -
+> -       drm_gem_plane_helper_prepare_fb(plane, new_state);
+> -
+> -       return msm_framebuffer_prepare(new_state->fb, kms->aspace);
+> -}
+> -
+>  /*
+>   * Helpers to control vblanks while we flush.. basically just to ensure
+>   * that vblank accounting is switched on, so we get valid seqn/timestamp
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 57b0cd6f917e..9f68aa685ed7 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -239,8 +239,6 @@ struct msm_format {
+>
+>  struct msm_pending_timer;
+>
+> -int msm_atomic_prepare_fb(struct drm_plane *plane,
+> -                         struct drm_plane_state *new_state);
+>  int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
+>                 struct msm_kms *kms, int crtc_idx);
+>  void msm_atomic_destroy_pending_timer(struct msm_pending_timer *timer);
+> @@ -299,9 +297,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj);
+>  void msm_gem_prime_unpin(struct drm_gem_object *obj);
+>
+>  int msm_framebuffer_prepare(struct drm_framebuffer *fb,
+> -               struct msm_gem_address_space *aspace);
+> +               struct msm_gem_address_space *aspace, bool needs_dirtyfb);
+>  void msm_framebuffer_cleanup(struct drm_framebuffer *fb,
+> -               struct msm_gem_address_space *aspace);
+> +               struct msm_gem_address_space *aspace, bool needed_dirtyfb);
+>  uint32_t msm_framebuffer_iova(struct drm_framebuffer *fb,
+>                 struct msm_gem_address_space *aspace, int plane);
+>  struct drm_gem_object *msm_framebuffer_bo(struct drm_framebuffer *fb, int plane);
+> diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
+> index 4d34df5354e0..96b379a08327 100644
+> --- a/drivers/gpu/drm/msm/msm_fb.c
+> +++ b/drivers/gpu/drm/msm/msm_fb.c
+> @@ -18,16 +18,36 @@
+>  struct msm_framebuffer {
+>         struct drm_framebuffer base;
+>         const struct msm_format *format;
+> +
+> +       /* Count of # of attached planes which need dirtyfb: */
+> +       refcount_t dirtyfb;
+>  };
+>  #define to_msm_framebuffer(x) container_of(x, struct msm_framebuffer, base)
+>
+>  static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
+>                 const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos);
+>
+> +static int msm_framebuffer_dirtyfb(struct drm_framebuffer *fb,
+> +                                  struct drm_file *file_priv, unsigned int flags,
+> +                                  unsigned int color, struct drm_clip_rect *clips,
+> +                                  unsigned int num_clips)
+> +{
+> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
+> +
+> +       /* If this fb is not used on any display requiring pixel data to be
+> +        * flushed, then skip dirtyfb
+> +        */
+> +       if (refcount_read(&msm_fb->dirtyfb) == 0)
+> +               return 0;
+> +
+> +       return drm_atomic_helper_dirtyfb(fb, file_priv, flags, color,
+> +                                        clips, num_clips);
+> +}
+> +
+>  static const struct drm_framebuffer_funcs msm_framebuffer_funcs = {
+>         .create_handle = drm_gem_fb_create_handle,
+>         .destroy = drm_gem_fb_destroy,
+> -       .dirty = drm_atomic_helper_dirtyfb,
+> +       .dirty = msm_framebuffer_dirtyfb,
+>  };
+>
+>  #ifdef CONFIG_DEBUG_FS
+> @@ -48,17 +68,19 @@ void msm_framebuffer_describe(struct drm_framebuffer *fb, struct seq_file *m)
+>  }
+>  #endif
+>
+> -/* prepare/pin all the fb's bo's for scanout.  Note that it is not valid
+> - * to prepare an fb more multiple different initiator 'id's.  But that
+> - * should be fine, since only the scanout (mdpN) side of things needs
+> - * this, the gpu doesn't care about fb's.
+> +/* prepare/pin all the fb's bo's for scanout.
+>   */
+>  int msm_framebuffer_prepare(struct drm_framebuffer *fb,
+> -               struct msm_gem_address_space *aspace)
+> +               struct msm_gem_address_space *aspace,
+> +               bool needs_dirtyfb)
+>  {
+> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
+>         int ret, i, n = fb->format->num_planes;
+>         uint64_t iova;
+>
+> +       if (needs_dirtyfb)
+> +               refcount_inc(&msm_fb->dirtyfb);
+> +
+>         for (i = 0; i < n; i++) {
+>                 ret = msm_gem_get_and_pin_iova(fb->obj[i], aspace, &iova);
+>                 drm_dbg_state(fb->dev, "FB[%u]: iova[%d]: %08llx (%d)", fb->base.id, i, iova, ret);
+> @@ -70,10 +92,15 @@ int msm_framebuffer_prepare(struct drm_framebuffer *fb,
+>  }
+>
+>  void msm_framebuffer_cleanup(struct drm_framebuffer *fb,
+> -               struct msm_gem_address_space *aspace)
+> +               struct msm_gem_address_space *aspace,
+> +               bool needed_dirtyfb)
+>  {
+> +       struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
+>         int i, n = fb->format->num_planes;
+>
+> +       if (needed_dirtyfb)
+> +               refcount_dec(&msm_fb->dirtyfb);
+> +
+>         for (i = 0; i < n; i++)
+>                 msm_gem_unpin_iova(fb->obj[i], aspace);
+>  }
+> --
+> 2.34.1
+>
 
-I didn't think about it. But it makes a lot of sense to me.
 
->
-> What if the fmt_func was a field in struct vkms_frame_info? So you
-> could set it when creating a vkms_frame_info. Wouldn't that simplify
-> the code in blend() and its callers?
-
-This is a great idea! I will change it to the next version.
-
->
->> + * @crc32: The crc output of the final frame
->> + * @output_buffer: A buffer of a row that will receive the result of the blend(s)
->> + * @stage_buffer: The line with the pixels from src_compositor
->
-> I don't see src_compositor?
-
-Oops.
-
->
->>    *
->> + * This function blends the pixels (Using the `pre_mul_alpha_blend`)
->> + * from all planes, calculates the crc32 of the output from the former step,
->> + * and, if necessary, convert and store the output to the writeback buffer.
->>    *
->>    * TODO: completely clear the primary plane (a = 0xff) before starting to blend
->>    * pixel color values
->
-> Mm, you only need to clear output_buffer, not the whole writeback FB.
-> output_buffer will unconditionally and totally overwrite the writeback
-> FB, right?
-
-Right. If I understand it correctly, this was necessary to be implemented
-because of the way the previous code handles the alpha channel.
-
->
->>    */
->> +static void blend(struct vkms_frame_info *wb_frame_info,
->
-> Using "wb" as short for writeback is... well, it's hard for the me
-> remember at least. Could this not be named simply "writeback"?
-
-IMHO it's better to use wb instead of writeback for consistency. Given that wb
-is used throughout the vkms code.
-
->
->> +              format_transform_func wb_fmt_func,
->
-> "writeback_func"
->
->> +              struct vkms_crtc_state *crtc_state,
->> +              format_transform_func *plane_fmt_func,
->> +              u32 *crc32, struct line_buffer *stage_buffer,
->> +              struct line_buffer *output_buffer, s64 row_size)
->>   {
->> +    struct vkms_plane_state **plane = crtc_state->active_planes;
->> +    struct vkms_frame_info *primary_plane_info = plane[0]->frame_info;
->> +    u32 n_active_planes = crtc_state->num_active_planes;
->>
->> +    int y_src = primary_plane_info->dst.y1;
->
-> Shouldn't this be called y_dst instead?
-
-Yes, it should. And will for v5.
-
->
->> +    int h_dst = drm_rect_height(&primary_plane_info->dst);
->>      int y_limit = y_src + h_dst;
->> +    int y, i;
->
-> It took me a while to understand that all these y-coordinates are CRTC
-> coordinates. Maybe call them crtc_y, crtc_y_begin, crtc_y_end,
-> crtc_y_height, etc.
->
->> +
->> +    for (y = y_src; y < y_limit; y++) {
->> +            plane_fmt_func[0](primary_plane_info, y, output_buffer);
->
-> This is initializing output_buffer, right? So why do you have the TODO
-> comment about clearing the primary plane above?
->
-> Is it because the primary plane may not cover the CRTC exactly, the
-> destination rectangle might be bigger or smaller?
->
-> The output_buffer length should be the CRTC width, right?
->
-> Maybe the special-casing the primary plane in this code is wrong.
-> crtc_y needs to iterate over the CRTC height starting from zero. Then,
-> you explicitly clear output_buffer to opaque background color, and
-> primary plane becomes just another plane in the array of active planes
-> with no special handling here.
->
-> That will allow you to support overlay planes *below* the primary plane
-> (as is fairly common in non-PC hardware), and you can even support the
-> background color KMS property.
-
-I thought that the primary would always cover the entire screen exactly.
-
-So yeah, my patch code assumes that CRTC is the same size as the primary plane.
-(and if I'm not mistaken the current version also assumes it).
-
-But If this is not the case, where are the CRTC dimensions?
-Are they in the CRTC properties? drm_mode_config?
-
-I couldn't find them.
-
->
->> +
->> +            /* If there are other planes besides primary, we consider the active
->> +             * planes should be in z-order and compose them associatively:
->> +             * ((primary <- overlay) <- cursor)
->> +             */
->> +            for (i = 1; i < n_active_planes; i++) {
->> +                    if (!check_y_limit(plane[i]->frame_info, y))
->> +                            continue;
->> +
->> +                    plane_fmt_func[i](plane[i]->frame_info, y, stage_buffer);
->> +                    pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
->> +                                        output_buffer);
->>              }
->> +
->> +            *crc32 = crc32_le(*crc32, (void *)output_buffer, row_size);
->> +
->> +            if (wb_frame_info)
->> +                    wb_fmt_func(wb_frame_info, y, output_buffer);
->>      }
->>   }
->>
->> +static void get_format_transform_functions(struct vkms_crtc_state *crtc_state,
->> +                                       format_transform_func plane_funcs[])
->>   {
->> +    struct vkms_plane_state **active_planes = crtc_state->active_planes;
->> +    u32 n_active_planes = crtc_state->num_active_planes, s_fmt;
->> +    int i;
->>
->> +    for (i = 0; i < n_active_planes; i++) {
->> +            s_fmt = active_planes[i]->frame_info->fb->format->format;
->> +            plane_funcs[i] = get_fmt_transform_function(s_fmt);
->> +    }
->> +}
->>
->> +static bool check_planes_x_bounds(struct vkms_crtc_state *crtc_state,
->> +                              struct vkms_frame_info *wb_frame_info)
->> +{
->> +    struct vkms_plane_state **planes = crtc_state->active_planes;
->> +    struct vkms_frame_info *primary_plane_info = planes[0]->frame_info;
->> +    int line_width = drm_rect_width(&primary_plane_info->dst);
->> +    u32 n_active_planes = crtc_state->num_active_planes;
->> +    int i;
->>
->> +    for (i = 0; i < n_active_planes; i++) {
->> +            int x_dst = planes[i]->frame_info->dst.x1;
->> +            int x_src = planes[i]->frame_info->src.x1 >> 16;
->> +            int x2_src = planes[i]->frame_info->src.x2 >> 16;
->> +            int x_limit = drm_rect_width(&planes[i]->frame_info->dst);
->>
->> +            if (x_dst + x_limit > line_width)
->> +                    return false;
->> +            if (x_src + x_limit > x2_src)
->> +                    return false;
->> +    }
->
-> That's interesting. Looks like you reject everything if any plane is
-> not fully inside the primary plane destination rectangle. But that's
-> not the right check, is it? If you want to check this, you would check
-> against the CRTC dimensions.
-
-The same wrong assumption here.
-
->
-> Then again, I think some hardware do allow planes to reach outside of
-> the CRTC dimensions. Cursor plane is probably the best example. The
-> cursor can be partly off-screen. So this is something that would need
-> to be supported both ways I suppose, but going with the "all plane
-> destination rectangles must be strictly inside the CRTC dimensions" is
-> a good start.
->
-> But why only x-coordinate check? y should have the same rules, right?
-
-My code is inconsistent in this regard.
-
-I created this function to prevent out-of-bound memory access by checking all
-the X-axis limits, but because the blend loop ends, no matter what, at
-the primary
-Y-limit (which until now I assumed to be exactly the CRTC dimensions),
-I don't check the Y-axis because it's not possible to cause any
-out-of-bound access.
-
-So, unintentionally, we have the partial off-screen for the Y-axis but
-nor the X-axis.
-
->
->> +
->> +    return true;
->>   }
->>
->> +static int compose_active_planes(struct vkms_frame_info *wb_frame_info,
->> +                             struct vkms_crtc_state *crtc_state,
->> +                             u32 *crc32)
->>   {
->> +    format_transform_func plane_funcs[NUM_OVERLAY_PLANES], wb_func = NULL;
->> +    int line_width, ret = 0, pixel_size = sizeof(struct line_buffer);
->> +    struct vkms_frame_info *primary_plane_info = NULL;
->> +    struct line_buffer *output_buffer, *stage_buffer;
->> +    struct vkms_plane_state *act_plane = NULL;
->> +    u32 wb_format;
->>
->> +    if (WARN_ON(pixel_size != 8))
->> +            return -EINVAL;
->> +
->> +    if (crtc_state->num_active_planes >= 1) {
->> +            act_plane = crtc_state->active_planes[0];
->> +            if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
->> +                    primary_plane_info = act_plane->frame_info;
->>      }
->>
->> +    if (!primary_plane_info)
->> +            return -EINVAL;
->> +
->>      if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
->>              return -EINVAL;
->>
->> +    if (WARN_ON(!check_planes_x_bounds(crtc_state, wb_frame_info)))
->> +            return -EINVAL;
->>
->> +    line_width = drm_rect_width(&primary_plane_info->dst);
->
-> This needs to be CRTC width, not primary plane width.
->
->>
->> +    stage_buffer = kvmalloc(line_width * pixel_size, GFP_KERNEL);
->> +    if (!stage_buffer) {
->> +            DRM_ERROR("Cannot allocate memory for the output line buffer");
->> +            return -ENOMEM;
->> +    }
->>
->> +    output_buffer = kvmalloc(line_width * pixel_size, GFP_KERNEL);
->> +    if (!output_buffer) {
->> +            DRM_ERROR("Cannot allocate memory for intermediate line buffer");
->> +            ret = -ENOMEM;
->> +            goto free_stage_buffer;
->> +    }
->> +
->> +    get_format_transform_functions(crtc_state, plane_funcs);
->> +
->> +    if (wb_frame_info) {
->> +            wb_format = wb_frame_info->fb->format->format;
->> +            wb_func = get_wb_fmt_transform_function(wb_format);
->> +            wb_frame_info->src = primary_plane_info->src;
->> +            wb_frame_info->dst = primary_plane_info->dst;
->> +    }
->> +
->> +    blend(wb_frame_info, wb_func, crtc_state, plane_funcs, crc32,
->> +          stage_buffer, output_buffer, (s64)line_width * pixel_size);
->> +
->> +    kvfree(output_buffer);
->> +free_stage_buffer:
->> +    kvfree(stage_buffer);
->> +
->> +    return ret;
->>   }
->>
->>   /**
->> @@ -222,13 +230,12 @@ void vkms_composer_worker(struct work_struct *work)
->>                                              struct vkms_crtc_state,
->>                                              composer_work);
->>      struct drm_crtc *crtc = crtc_state->base.crtc;
->> +    struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
->> +    struct vkms_frame_info *wb_frame_info = &active_wb->frame_info;
->>      struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->>      bool crc_pending, wb_pending;
->>      u64 frame_start, frame_end;
->> +    u32 crc32 = 0;
->>      int ret;
->>
->>      spin_lock_irq(&out->composer_lock);
->> @@ -248,35 +255,19 @@ void vkms_composer_worker(struct work_struct *work)
->>      if (!crc_pending)
->>              return;
->>
->>      if (wb_pending)
->> +            ret = compose_active_planes(wb_frame_info, crtc_state, &crc32);
->> +    else
->> +            ret = compose_active_planes(NULL, crtc_state, &crc32);
->>
->> +    if (ret)
->>              return;
->>
->>      if (wb_pending) {
->>              drm_writeback_signal_completion(&out->wb_connector, 0);
->>              spin_lock_irq(&out->composer_lock);
->>              crtc_state->wb_pending = false;
->>              spin_unlock_irq(&out->composer_lock);
->>      }
->>
->>      /*
->> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
->> new file mode 100644
->> index 000000000000..0d1838d1b835
->> --- /dev/null
->> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
->> @@ -0,0 +1,138 @@
->> +/* SPDX-License-Identifier: GPL-2.0+ */
->> +
->> +#include <drm/drm_rect.h>
->> +#include "vkms_formats.h"
->> +
->> +format_transform_func get_fmt_transform_function(u32 format)
->> +{
->> +    if (format == DRM_FORMAT_ARGB8888)
->> +            return &ARGB8888_to_ARGB16161616;
->> +    else
->> +            return &XRGB8888_to_ARGB16161616;
->
-> In functions like this you should prepare for caller errors. Use a
-> switch, and fail any attempt to use a pixel format it doesn't support.
-> Failing is much better than silently producing garbage or worse: buffer
-> overruns when bytes-per-pixel is not what you expected.
->
-> What to do on failure depends on whether the failure here is never
-> supposed to happen (follow the kernel style) e.g. malicious userspace
-> cannot trigger it, or if you actually use this function to define the
-> supported for pixel formats.
-
-No, I don't use this function to define supported formats, It's defined:
-- vkms_writeback.c:15
-- vkms_plane.c:14 and 22
-
-And if I'm not mistaken the DRM framework takes care of validation.
-
->
-> The latter means you'd have a list of all DRM pixel formats and then
-> you'd ask for each one if this function knows it, and if yes, you add
-> the format to the list of supported formats advertised to userspace. I
-> don't know if that would be fine by DRM coding style.
->
->> +}
->> +
->> +format_transform_func get_wb_fmt_transform_function(u32 format)
->> +{
->> +    if (format == DRM_FORMAT_ARGB8888)
->> +            return &convert_to_ARGB8888;
->> +    else
->> +            return &convert_to_XRGB8888;
->> +}
->
-> I think you could move the above getter functions to the bottom of the
-> .c file, and make all the four *_to_* functions static, and remove them
-> from the header.
-
-OK. I will do that.
-
-Question, what's the benefits of using static functions?
-
->
->> +
->> +static int pixel_offset(struct vkms_frame_info *frame_info, int x, int y)
->> +{
->> +    return frame_info->offset + (y * frame_info->pitch)
->> +                              + (x * frame_info->cpp);
->> +}
->> +
->> +/*
->> + * packed_pixels_addr - Get the pointer to pixel of a given pair of coordinates
->> + *
->> + * @frame_info: Buffer metadata
->> + * @x: The x(width) coordinate of the 2D buffer
->> + * @y: The y(Heigth) coordinate of the 2D buffer
->> + *
->> + * Takes the information stored in the frame_info, a pair of coordinates, and
->> + * returns the address of the first color channel.
->> + * This function assumes the channels are packed together, i.e. a color channel
->> + * comes immediately after another in the memory. And therefore, this function
->> + * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
->> + */
->> +static void *packed_pixels_addr(struct vkms_frame_info *frame_info, int x, int y)
->> +{
->> +    int offset = pixel_offset(frame_info, x, y);
->> +
->> +    return (u8 *)frame_info->map[0].vaddr + offset;
->> +}
->> +
->> +static void *get_packed_src_addr(struct vkms_frame_info *frame_info, int y)
->> +{
->> +    int x_src = frame_info->src.x1 >> 16;
->> +    int y_src = y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
->> +
->> +    return packed_pixels_addr(frame_info, x_src, y_src);
->> +}
->> +
->> +void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
->> +                          struct line_buffer *stage_buffer)
->
-> I'm fairly sure that DRM will one day add exactly ARGB16161616 format.
-> But that will not be the format you use here (or it might be, but
-> purely accidentally and depending on machine endianess and whatnot), so
-> I would suggest inventing a new name. Also use the same name for the
-> struct to hold a single pixel.
->
-> E.g. struct pixel_argb_u16
-
-I'm terrible with names of variables, functions, etc. I will end-up with
-ARGB8888_to_argb_u16.
-
->
-> So that it is clear it is not meant to be any specific DRM_FORMAT_* format.
->
->> +{
->> +    u8 *src_pixels = get_packed_src_addr(frame_info, y);
->> +    int x, x_limit = drm_rect_width(&frame_info->dst);
->> +
->> +    for (x = 0; x < x_limit; x++, src_pixels += 4) {
->> +            /*
->> +             * Organizes the channels in their respective positions and converts
->> +             * the 8 bits channel to 16.
->> +             * The 257 is the "conversion ratio". This number is obtained by the
->> +             * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
->> +             * the best color value in a pixel format with more possibilities.
->> +             * And a similar idea applies to others RGB color conversions.
->> +             */
->> +            stage_buffer[x].a = (u16)src_pixels[3] * 257;
->> +            stage_buffer[x].r = (u16)src_pixels[2] * 257;
->> +            stage_buffer[x].g = (u16)src_pixels[1] * 257;
->> +            stage_buffer[x].b = (u16)src_pixels[0] * 257;
->> +    }
->> +}
->> +
->> +void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
->> +                          struct line_buffer *stage_buffer)
->> +{
->> +    u8 *src_pixels = get_packed_src_addr(frame_info, y);
->> +    int x, x_limit = drm_rect_width(&frame_info->dst);
->> +
->> +    for (x = 0; x < x_limit; x++, src_pixels += 4) {
->> +            stage_buffer[x].a = (u16)0xffff;
->> +            stage_buffer[x].r = (u16)src_pixels[2] * 257;
->> +            stage_buffer[x].g = (u16)src_pixels[1] * 257;
->> +            stage_buffer[x].b = (u16)src_pixels[0] * 257;
->> +    }
->> +}
->> +
->> +/*
->> + * The following  functions take an line of ARGB16161616 pixels from the
->> + * src_buffer, convert them to a specific format, and store them in the
->> + * destination.
->> + *
->> + * They are used in the `compose_active_planes` to convert and store a line
->> + * from the src_buffer to the writeback buffer.
->> + */
->> +void convert_to_ARGB8888(struct vkms_frame_info *frame_info,
->> +                     int y, struct line_buffer *src_buffer)
->
-> Please, use consistent function naming style. These are using "convert"
-> while the other ones are using "ARGB16161616".
->
->> +{
->> +    int x, x_dst = frame_info->dst.x1;
->> +    u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
->> +    int x_limit = drm_rect_width(&frame_info->dst);
->> +
->> +    for (x = 0; x < x_limit; x++, dst_pixels += 4) {
->> +            /*
->> +             * This sequence below is important because the format's byte order is
->> +             * in little-endian. In the case of the ARGB8888 the memory is
->> +             * organized this way:
->> +             *
->> +             * | Addr     | = blue channel
->> +             * | Addr + 1 | = green channel
->> +             * | Addr + 2 | = Red channel
->> +             * | Addr + 3 | = Alpha channel
->> +             */
->> +            dst_pixels[3] = DIV_ROUND_UP(src_buffer[x].a, 257);
->> +            dst_pixels[2] = DIV_ROUND_UP(src_buffer[x].r, 257);
->> +            dst_pixels[1] = DIV_ROUND_UP(src_buffer[x].g, 257);
->> +            dst_pixels[0] = DIV_ROUND_UP(src_buffer[x].b, 257);
->> +    }
->> +}
->> +
->> +void convert_to_XRGB8888(struct vkms_frame_info *frame_info,
->> +                     int y, struct line_buffer *src_buffer)
->> +{
->> +    int x, x_dst = frame_info->dst.x1;
->> +    u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
->> +    int x_limit = drm_rect_width(&frame_info->dst);
->> +
->> +    for (x = 0; x < x_limit; x++, dst_pixels += 4) {
->> +            dst_pixels[3] = (u8)0xff;
->> +            dst_pixels[2] = DIV_ROUND_UP(src_buffer[x].r, 257);
->> +            dst_pixels[1] = DIV_ROUND_UP(src_buffer[x].g, 257);
->> +            dst_pixels[0] = DIV_ROUND_UP(src_buffer[x].b, 257);
->> +    }
->> +}
->> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
->> new file mode 100644
->> index 000000000000..817e8b2124ae
->> --- /dev/null
->> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
->> @@ -0,0 +1,31 @@
->> +/* SPDX-License-Identifier: GPL-2.0+ */
->> +
->> +#ifndef _VKMS_FORMATS_H_
->> +#define _VKMS_FORMATS_H_
->> +
->> +#include "vkms_drv.h"
->> +
->> +struct line_buffer {
->
-> As I mentioned above, this would be called pixel_argb_u16 or something
-> like that.
->
->> +    u16 a, r, g, b;
->> +};
->
-> I was trying to suggest that a line_buffer would actually hold a whole
-> line, something like the pseudo code:
->
-> struct line_buffer {
->       size_t len_pixels;
->       struct my_pixel_type pixels[];
-> }
->
-> or whatever the kernel style for a variable length array at the end of
-> a struct is. Field names are suggestions.
->
-> Then it is easy to check that you don't overflow any line_buffer when
-> operating on them.
-
-Ok. I will change it.
-
->
->> +
->> +void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
->> +                          struct line_buffer *stage_buffer);
->> +
->> +void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
->> +                          struct line_buffer *stage_buffer);
->> +
->> +void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
->> +                     struct line_buffer *src_buffer);
->> +
->> +void convert_to_XRGB8888(struct vkms_frame_info *frame_info, int y,
->> +                     struct line_buffer *src_buffer);
->
-> You should only need the below functions and not the above ones in this header.
->
->> +
->> +typedef void (*format_transform_func)(struct vkms_frame_info *frame_info, int y,
->> +                                  struct line_buffer *buffer);
->
-> The arguments for this function-pointer should be documented,
-> especially that y is the y-coordinate in CRTC coordinate space, i.e.
-> plane destination rectangle. You might even call it crtc_y.
->
-> I think you should use two different function-pointer types for the two
-> different kinds of functions:
-> - reads arbitrary pixel format and writes to rgba_u16
-> - reads rgba_u16 and writes to arbitrary pixel format
->
-> This will prevent any mistakes in accidentally using the wrong kind of
-> function. If you also have the argument order different between the two
-> types of functions, getting them mixed up is even less likely. I
-> presume the kernel uses the function(destination, source) style of
-> argument ordering. You can also use 'const' on the source, that is a
-> good way to document things too.
->
-> The consequence of using the wrong function could be the leak of kernel
-> memory content to userspace, which is pretty bad. So preventing that
-> kind of problems before they happen is nice.
-
-Okay, all of this makes a lot of sense. I will change it to the next version.
-
-Last question for this email,
-
-I have a patch with the implementation of nv12 and YUV420 formats, but
-I don't know how to test it because the ".*kms_plane@pixel-format*" igt test
-doesn't support these formats (And also it isn't working anymore with my hack).
-
-Do you know how to test it?
-
-Best Regards,
----
-Igor Torrente
-
->
->> +
->> +format_transform_func get_fmt_transform_function(u32 format);
->> +
->> +format_transform_func get_wb_fmt_transform_function(u32 format);
->> +
->> +#endif /* _VKMS_FORMATS_H_ */
->
->
-> Good work!
->
->
-> Thanks,
-> pq
+-- 
+With best wishes
+Dmitry
