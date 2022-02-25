@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6354C4AB5
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:28:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D950C4C4AC0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A542210E49E;
-	Fri, 25 Feb 2022 16:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59C8D10E4F1;
+	Fri, 25 Feb 2022 16:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E47EA10E3CE;
- Fri, 25 Feb 2022 16:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645806517; x=1677342517;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=uThX2L/pp/s5tmGrcBZyaqcQC5m0yvkB1SobFZMhdfI=;
- b=FlEd/PokR8g6hDpqTQ3mCL9L6EgMcfepgfgqzs/+laoNfSbyt0viKvm1
- nRo2drdLmxlLs0484lplM7EH/KluwmPHUe2mYGWHZd3B5ZyMtqHVSZjWD
- f1PBPEzqQTfHdYVZSX3mOtE159h4YY3dAKSRBHlOL9gaayvFSgAjzhp/h
- moIaDLZRvidpU+1bIvgb8EXQcFmdAYalQFdt6FXTIbWYTb2j/pxo6Is9u
- G75AYMxo3AcHxx4OTea20Er8RWmQQm5XhDCR+NuAazoRANaugqO9E0/wl
- LWXn5/85e6RSouzpj3ntuZvbZAHxRV4NupktYSK2+4utGG9PisbyC4HUS w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252448347"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="252448347"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 08:28:36 -0800
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="549320272"
-Received: from pkinsell-mobl.ger.corp.intel.com (HELO [10.213.234.117])
- ([10.213.234.117])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 08:28:34 -0800
-Message-ID: <011a236d-7ed4-0d48-e8a6-c9bd98740d5b@linux.intel.com>
-Date: Fri, 25 Feb 2022 16:28:32 +0000
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 241FF10E4F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 16:30:30 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ p206-20020a4a2fd7000000b0031bfec11983so6770892oop.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 08:30:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1wkrFjytm/bfyZ688DRYD5WIyjqQECAVw3q7pHsvHsw=;
+ b=zpMwq56ahOJzzTt0yyzjiDMg0X6CdtFtRv3CE/0cCk4DE0bGMu53o6c0/9SpVp1P3/
+ FWs5puzizDkpFl2v+KM2yiV9X7fKUrQwrdkcW94sVIlOmONJwGJQBZszmab6pl5TTyeQ
+ MC4pgqWuyCvQQjMUr+Vvt8J9ZGgpc21wGgM/SnUWVaDbOG1Qz1EDk2XYFEmUXIyspdJp
+ 2ktl7b8sPpriNV4tas6cSHl+S/EGSFbpNQaNFmgwbGy2qKv6m9c9E91GBrls/yITrhrm
+ 4aCVeuT0qyfCCetC9IFi2HkI5wjezc8Zr9waAm+XANnNs5cw8pzvaw+e9IhFUrCAfzn8
+ OUqA==
+X-Gm-Message-State: AOAM531AY/HMEeiweWqklb6iNC1KeB6b2/C0LyXYoOC5qPaZB88dzaxr
+ 5LkHN4PY4vkpIqF1SC5BeQ==
+X-Google-Smtp-Source: ABdhPJxHnQhONryFwpvuU3O9cL+TRRiq/RY06mE2+ZgOVfuaaBUkDTiEOsd6KQFZQO00sR87pj5RBQ==
+X-Received: by 2002:a05:6870:a552:b0:b5:6c53:b96b with SMTP id
+ p18-20020a056870a55200b000b56c53b96bmr1705102oal.124.1645806629409; 
+ Fri, 25 Feb 2022 08:30:29 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
+ l20-20020a056820031400b0031cf5913126sm1241648ooe.36.2022.02.25.08.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 08:30:28 -0800 (PST)
+Received: (nullmailer pid 1045540 invoked by uid 1000);
+ Fri, 25 Feb 2022 16:30:26 -0000
+Date: Fri, 25 Feb 2022 10:30:26 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v3, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for lat soc
+Message-ID: <YhkEIr/Jlky+5CZY@robh.at.kernel.org>
+References: <20220217075758.11369-1-yunfei.dong@mediatek.com>
+ <20220217075758.11369-2-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Content-Language: en-US
-To: Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220225032436.904942-1-michael.cheng@intel.com>
- <20220225032436.904942-2-michael.cheng@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220225032436.904942-2-michael.cheng@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220217075758.11369-2-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Steve Cho <stevecho@chromium.org>,
+ Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@google.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 25/02/2022 03:24, Michael Cheng wrote:
-> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
-> performs a flush by first performing a clean, follow by an invalidation
-> operation.
+On Thu, 17 Feb 2022 15:57:52 +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-soc".
 > 
-> v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
-> 		    dcache. Thanks Tvrtko for the suggestion.
-> 
-> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
-> 
-> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
-> 		    symbol that could be use by other modules, thus use
-> 		    caches_clean_inval_pou instead. Also this version
-> 	            removes include for cacheflush, since its already
-> 		    included base on architecture type.
-
-What does it mean that it is included based on architecture type? Some 
-of the other header already pulls it in?
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
-> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->   drivers/gpu/drm/drm_cache.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 51 +++++++++++++------
+>  1 file changed, 35 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index c3e6e615bf09..81c28714f930 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned long length)
->   
->   	if (wbinvd_on_all_cpus())
->   		pr_err("Timed out waiting for cache flush\n");
-> +
-> +#elif defined(CONFIG_ARM64)
-> +	void *end = addr + length;
-> +	caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
-> +
->   #else
->   	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
->   #endif
+
+Acked-by: Rob Herring <robh@kernel.org>
