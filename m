@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23E34C745D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 18:44:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B92FB4C7459
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 18:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9DE10E4F3;
-	Mon, 28 Feb 2022 17:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56EE10E47B;
+	Mon, 28 Feb 2022 17:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9CF5B10E47B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 17:44:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E58EC10E47B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 17:44:35 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 313AD106F;
- Mon, 28 Feb 2022 09:44:34 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A638511FB;
+ Mon, 28 Feb 2022 09:44:35 -0800 (PST)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11DAF3FA35;
- Mon, 28 Feb 2022 09:44:34 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 858AA3FA50;
+ Mon, 28 Feb 2022 09:44:35 -0800 (PST)
 Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 9819D6806B6; Fri, 25 Feb 2022 13:59:04 +0000 (GMT)
-Date: Fri, 25 Feb 2022 13:59:04 +0000
+ id 02804680B8B; Fri, 25 Feb 2022 13:59:59 +0000 (GMT)
+Date: Fri, 25 Feb 2022 13:59:59 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 01/22] drm/komeda: plane: switch to plane reset helper
-Message-ID: <YhjgqO9LRR5g6T76@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH v2 09/22] drm/komeda: plane: Remove redundant zpos
+ initialisation
+Message-ID: <Yhjg35CvT+VDq3K/@e110455-lin.cambridge.arm.com>
 References: <20220221095918.18763-1-maxime@cerno.tech>
- <20220221095918.18763-2-maxime@cerno.tech>
+ <20220221095918.18763-10-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220221095918.18763-2-maxime@cerno.tech>
+In-Reply-To: <20220221095918.18763-10-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,10 +57,13 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 21, 2022 at 10:58:57AM +0100, Maxime Ripard wrote:
-> komeda_plane_reset() does the state initialisation by copying a lot of
-> the code found in the __drm_atomic_helper_plane_reset(). Let's switch to
-> that helper and reduce the boilerplate.
+On Mon, Feb 21, 2022 at 10:59:05AM +0100, Maxime Ripard wrote:
+> The komeda KMS driver will call drm_plane_create_zpos_property() with an
+> init value of the plane index.
+> 
+> Since the initial value wasn't carried over in the state, the driver had
+> to set it again in komeda_plane_reset(). However, the helpers have been
+> adjusted to set it properly at reset, so this is not needed anymore.
 > 
 > Cc: Brian Starkey <brian.starkey@arm.com>
 > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
@@ -73,29 +77,29 @@ Best regards,
 Liviu
 
 > ---
->  drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>  drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-> index d63d83800a8a..1778f6e1ea56 100644
+> index 1778f6e1ea56..383bb2039bd4 100644
 > --- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
 > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-> @@ -145,14 +145,10 @@ static void komeda_plane_reset(struct drm_plane *plane)
+> @@ -135,7 +135,6 @@ static void komeda_plane_destroy(struct drm_plane *plane)
+>  static void komeda_plane_reset(struct drm_plane *plane)
+>  {
+>  	struct komeda_plane_state *state;
+> -	struct komeda_plane *kplane = to_kplane(plane);
 >  
+>  	if (plane->state)
+>  		__drm_atomic_helper_plane_destroy_state(plane->state);
+> @@ -146,7 +145,6 @@ static void komeda_plane_reset(struct drm_plane *plane)
 >  	state = kzalloc(sizeof(*state), GFP_KERNEL);
 >  	if (state) {
-> -		state->base.rotation = DRM_MODE_ROTATE_0;
-> -		state->base.pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
-> -		state->base.alpha = DRM_BLEND_ALPHA_OPAQUE;
-> +		__drm_atomic_helper_plane_reset(plane, &state->base);
->  		state->base.zpos = kplane->layer->base.id;
+>  		__drm_atomic_helper_plane_reset(plane, &state->base);
+> -		state->base.zpos = kplane->layer->base.id;
 >  		state->base.color_encoding = DRM_COLOR_YCBCR_BT601;
 >  		state->base.color_range = DRM_COLOR_YCBCR_LIMITED_RANGE;
-> -		plane->state = &state->base;
-> -		plane->state->plane = plane;
 >  	}
->  }
->  
 > -- 
 > 2.35.1
 > 
