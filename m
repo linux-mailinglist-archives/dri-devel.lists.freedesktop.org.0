@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49D24C458C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 14:12:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF0E4C45DC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 14:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495E410E1BD;
-	Fri, 25 Feb 2022 13:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051FE10E302;
+	Fri, 25 Feb 2022 13:19:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FEBF10E1BD
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 13:11:59 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nNaO5-00025q-Ki; Fri, 25 Feb 2022 14:11:57 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nNaO2-0001Sr-Of; Fri, 25 Feb 2022 14:11:54 +0100
-Date: Fri, 25 Feb 2022 14:11:54 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
-Message-ID: <20220225131154.GE19585@pengutronix.de>
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-11-s.hauer@pengutronix.de>
- <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
- <20220225104924.GC19585@pengutronix.de>
- <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
- <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73EC710E302
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 13:19:41 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21PD3Xqx003900;
+ Fri, 25 Feb 2022 14:19:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=VsFAv3DQYTZW7z2csbeHO0FYKp1hRmmY7ICwLpgV7K0=;
+ b=xCl0QQcaa3lIk6UPjzd9NEkyjYLb7qwyEZxmtlnpmZ+7mAA0EqzYnp9gfifjXlL+pCXO
+ WSSqNP/GmAaexxCa6WLjpvyHG47lGdCT4Yo3r7koaPemh7Y+Xnv1kPvWIeLonQAaeD5K
+ cRkjyldl6PUshfvH79pkpsBQbf+cWBsLhGS01W5PQePSdnzJKWEnf7d9xuE/9HedgOnn
+ N/XIJqA9gXH8oh5cfQ8aV9B79MOBW/vEgSmi7E/Uo64zcfKMhhiVwpxmEb2smIsK2Z/j
+ RtBMYMy+KtTKM0QaKWQ0lNrp5A1fCiMH6m8f9NjEkCXlBch9AHZlz6CYYCdYy51nBPfH OQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3eetrn259e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Feb 2022 14:19:36 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AA6BF10002A;
+ Fri, 25 Feb 2022 14:19:32 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C6100226FC7;
+ Fri, 25 Feb 2022 14:19:32 +0100 (CET)
+Received: from [10.201.22.81] (10.75.127.47) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Fri, 25 Feb
+ 2022 14:19:32 +0100
+Message-ID: <4e6c3c2e-59f8-f04d-0006-893460628afe@foss.st.com>
+Date: Fri, 25 Feb 2022 14:19:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/stm: ltdc: add support for CRC hashing feature
+Content-Language: en-US
+To: =?UTF-8?Q?Rapha=c3=abl_Gallais-Pou?= <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+References: <20220211104620.421177-1-raphael.gallais-pou@foss.st.com>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <20220211104620.421177-1-raphael.gallais-pou@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:00:58 up 76 days, 21:46, 87 users,  load average: 0.68, 0.28, 0.19
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-25_07,2022-02-25_01,2022-02-23_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,99 +74,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- Dmitry Osipenko <digetx@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org,
+ Raphael Gallais-Pou <raphael.gallais-pou@st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
-> On 2022-02-25 11:10, Dmitry Osipenko wrote:
-> > 25.02.2022 13:49, Sascha Hauer пишет:
-> > > On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
-> > > > 25.02.2022 10:51, Sascha Hauer пишет:
-> > > > > The rk3568 HDMI has an additional clock that needs to be enabled for the
-> > > > > HDMI controller to work. The purpose of that clock is not clear. It is
-> > > > > named "hclk" in the downstream driver, so use the same name.
-> > > > > 
-> > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > > > > ---
-> > > > > 
-> > > > > Notes:
-> > > > >      Changes since v5:
-> > > > >      - Use devm_clk_get_optional rather than devm_clk_get
-> > > > > 
-> > > > >   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
-> > > > >   1 file changed, 16 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > index fe4f9556239ac..c6c00e8779ab5 100644
-> > > > > --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > @@ -76,6 +76,7 @@ struct rockchip_hdmi {
-> > > > >   	const struct rockchip_hdmi_chip_data *chip_data;
-> > > > >   	struct clk *ref_clk;
-> > > > >   	struct clk *grf_clk;
-> > > > > +	struct clk *hclk_clk;
-> > > > >   	struct dw_hdmi *hdmi;
-> > > > >   	struct regulator *avdd_0v9;
-> > > > >   	struct regulator *avdd_1v8;
-> > > > > @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
-> > > > >   		return PTR_ERR(hdmi->grf_clk);
-> > > > >   	}
-> > > > > +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
-> > > > > +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
-> > > > 
-> > > > Have you tried to investigate the hclk? I'm still thinking that's not
-> > > > only HDMI that needs this clock and then the hardware description
-> > > > doesn't look correct.
-> > > 
-> > > I am still not sure what you mean. Yes, it's not only the HDMI that
-> > > needs this clock. The VOP2 needs it as well and the driver handles that.
-> > 
-> > I'm curious whether DSI/DP also need that clock to be enabled. If they
-> > do, then you aren't modeling h/w properly AFAICS.
+
+
+On 2/11/22 11:46, Raphaël Gallais-Pou wrote:
+> From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 > 
-> Assuming nobody at Rockchip decided to make things needlessly inconsistent
-> with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
-> interface. Usually, if that affected anything other than accessing VOP
-> registers, indeed it would smell of something being wrong in the clock tree,
-> but in this case I'd also be suspicious of whether it might have ended up
-> clocking related GRF registers as well (either directly, or indirectly via
-> some gate that the clock driver hasn't modelled yet).
+> This patch adds the CRC hashing feature supported by some recent hardware
+> versions of the LTDC. This is useful for test suite such as IGT-GPU-tools
+> [1] where a CRTC output frame can be compared to a test reference frame
+> thanks to their respective CRC hash.
+> 
+> [1] https://cgit.freedesktop.org/drm/igt-gpu-tools
+> 
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
-hanging when HCLK_VOP is disabled by disabling that clock via sysfs
-using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
-of that units can't be accessed. However, when I disable HCLK_VOP by
-directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
-accessing VOP registers hangs, the other units stay functional.
-So it seems it must be the parent clock which must be enabled. The
-parent clock is hclk_vo. This clock should be handled as part of the
-RK3568_PD_VO power domain:
+Applied on drm-misc-next.
+Many thanks for your patch,
+Philippe :-)
 
-	power-domain@RK3568_PD_VO {
-                reg = <RK3568_PD_VO>;
-                clocks = <&cru HCLK_VO>,
-                         <&cru PCLK_VO>,
-                         <&cru ACLK_VOP_PRE>;
-                 pm_qos = <&qos_hdcp>,
-                          <&qos_vop_m0>,
-                          <&qos_vop_m1>;
-                 #power-domain-cells = <0>;
-        };
-
-The HDMI controller is part of that domain, so I think this should work,
-but it doesn't. That's where I am now, I'll have a closer look.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 104 +++++++++++++++++++++++++++++++++++--
+>   drivers/gpu/drm/stm/ltdc.h |   3 ++
+>   2 files changed, 104 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 5eeb32c9c9ce..b29476aec3a1 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -77,6 +77,7 @@
+>   #define LTDC_CPSR	0x0044		/* Current Position Status */
+>   #define LTDC_CDSR	0x0048		/* Current Display Status */
+>   #define LTDC_EDCR	0x0060		/* External Display Control */
+> +#define LTDC_CCRCR	0x007C		/* Computed CRC value */
+>   #define LTDC_FUT	0x0090		/* Fifo underrun Threshold */
+>   
+>   /* Layer register offsets */
+> @@ -121,6 +122,7 @@
+>   
+>   #define GCR_LTDCEN	BIT(0)		/* LTDC ENable */
+>   #define GCR_DEN		BIT(16)		/* Dither ENable */
+> +#define GCR_CRCEN	BIT(19)		/* CRC ENable */
+>   #define GCR_PCPOL	BIT(28)		/* Pixel Clock POLarity-Inverted */
+>   #define GCR_DEPOL	BIT(29)		/* Data Enable POLarity-High */
+>   #define GCR_VSPOL	BIT(30)		/* Vertical Synchro POLarity-High */
+> @@ -227,6 +229,13 @@
+>   
+>   #define NB_PF		8		/* Max nb of HW pixel format */
+>   
+> +/*
+> + * Skip the first value and the second in case CRC was enabled during
+> + * the thread irq. This is to be sure CRC value is relevant for the
+> + * frame.
+> + */
+> +#define CRC_SKIP_FRAMES 2
+> +
+>   enum ltdc_pix_fmt {
+>   	PF_NONE,
+>   	/* RGB formats */
+> @@ -664,6 +673,26 @@ static inline void ltdc_set_ycbcr_coeffs(struct drm_plane *plane)
+>   		     ltdc_ycbcr2rgb_coeffs[enc][ran][1]);
+>   }
+>   
+> +static inline void ltdc_irq_crc_handle(struct ltdc_device *ldev,
+> +				       struct drm_crtc *crtc)
+> +{
+> +	u32 crc;
+> +	int ret;
+> +
+> +	if (ldev->crc_skip_count < CRC_SKIP_FRAMES) {
+> +		ldev->crc_skip_count++;
+> +		return;
+> +	}
+> +
+> +	/* Get the CRC of the frame */
+> +	ret = regmap_read(ldev->regmap, LTDC_CCRCR, &crc);
+> +	if (ret)
+> +		return;
+> +
+> +	/* Report to DRM the CRC (hw dependent feature) */
+> +	drm_crtc_add_crc_entry(crtc, true, drm_crtc_accurate_vblank_count(crtc), &crc);
+> +}
+> +
+>   static irqreturn_t ltdc_irq_thread(int irq, void *arg)
+>   {
+>   	struct drm_device *ddev = arg;
+> @@ -671,9 +700,14 @@ static irqreturn_t ltdc_irq_thread(int irq, void *arg)
+>   	struct drm_crtc *crtc = drm_crtc_from_index(ddev, 0);
+>   
+>   	/* Line IRQ : trigger the vblank event */
+> -	if (ldev->irq_status & ISR_LIF)
+> +	if (ldev->irq_status & ISR_LIF) {
+>   		drm_crtc_handle_vblank(crtc);
+>   
+> +		/* Early return if CRC is not active */
+> +		if (ldev->crc_active)
+> +			ltdc_irq_crc_handle(ldev, crtc);
+> +	}
+> +
+>   	/* Save FIFO Underrun & Transfer Error status */
+>   	mutex_lock(&ldev->err_lock);
+>   	if (ldev->irq_status & ISR_FUIF)
+> @@ -1079,6 +1113,48 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
+>   	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE);
+>   }
+>   
+> +static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+> +{
+> +	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+> +	int ret;
+> +
+> +	DRM_DEBUG_DRIVER("\n");
+> +
+> +	if (!crtc)
+> +		return -ENODEV;
+> +
+> +	if (source && strcmp(source, "auto") == 0) {
+> +		ldev->crc_active = true;
+> +		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
+> +	} else if (!source) {
+> +		ldev->crc_active = false;
+> +		ret = regmap_clear_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
+> +	} else {
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	ldev->crc_skip_count = 0;
+> +	return ret;
+> +}
+> +
+> +static int ltdc_crtc_verify_crc_source(struct drm_crtc *crtc,
+> +				       const char *source, size_t *values_cnt)
+> +{
+> +	DRM_DEBUG_DRIVER("\n");
+> +
+> +	if (!crtc)
+> +		return -ENODEV;
+> +
+> +	if (source && strcmp(source, "auto") != 0) {
+> +		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
+> +				 source, crtc->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*values_cnt = 1;
+> +	return 0;
+> +}
+> +
+>   static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+>   	.destroy = drm_crtc_cleanup,
+>   	.set_config = drm_atomic_helper_set_config,
+> @@ -1091,6 +1167,20 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+>   	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+>   };
+>   
+> +static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
+> +	.destroy = drm_crtc_cleanup,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +	.enable_vblank = ltdc_crtc_enable_vblank,
+> +	.disable_vblank = ltdc_crtc_disable_vblank,
+> +	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+> +	.set_crc_source = ltdc_crtc_set_crc_source,
+> +	.verify_crc_source = ltdc_crtc_verify_crc_source,
+> +};
+> +
+>   /*
+>    * DRM_PLANE
+>    */
+> @@ -1478,8 +1568,13 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+>   
+>   	drm_plane_create_zpos_immutable_property(primary, 0);
+>   
+> -	ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+> -					&ltdc_crtc_funcs, NULL);
+> +	/* Init CRTC according to its hardware features */
+> +	if (ldev->caps.crc)
+> +		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+> +						&ltdc_crtc_with_crc_support_funcs, NULL);
+> +	else
+> +		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+> +						&ltdc_crtc_funcs, NULL);
+>   	if (ret) {
+>   		DRM_ERROR("Can not initialize CRTC\n");
+>   		goto cleanup;
+> @@ -1629,6 +1724,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		ldev->caps.ycbcr_input = false;
+>   		ldev->caps.ycbcr_output = false;
+>   		ldev->caps.plane_reg_shadow = false;
+> +		ldev->caps.crc = false;
+>   		break;
+>   	case HWVER_20101:
+>   		ldev->caps.layer_ofs = LAY_OFS_0;
+> @@ -1643,6 +1739,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		ldev->caps.ycbcr_input = false;
+>   		ldev->caps.ycbcr_output = false;
+>   		ldev->caps.plane_reg_shadow = false;
+> +		ldev->caps.crc = false;
+>   		break;
+>   	case HWVER_40100:
+>   		ldev->caps.layer_ofs = LAY_OFS_1;
+> @@ -1657,6 +1754,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		ldev->caps.ycbcr_input = true;
+>   		ldev->caps.ycbcr_output = true;
+>   		ldev->caps.plane_reg_shadow = true;
+> +		ldev->caps.crc = true;
+>   		break;
+>   	default:
+>   		return -ENODEV;
+> diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
+> index 6968d1ca5149..59fc5d1bbbab 100644
+> --- a/drivers/gpu/drm/stm/ltdc.h
+> +++ b/drivers/gpu/drm/stm/ltdc.h
+> @@ -27,6 +27,7 @@ struct ltdc_caps {
+>   	bool ycbcr_input;	/* ycbcr input converter supported */
+>   	bool ycbcr_output;	/* ycbcr output converter supported */
+>   	bool plane_reg_shadow;	/* plane shadow registers ability */
+> +	bool crc;		/* cyclic redundancy check supported */
+>   };
+>   
+>   #define LTDC_MAX_LAYER	4
+> @@ -46,6 +47,8 @@ struct ltdc_device {
+>   	u32 irq_status;
+>   	struct fps_info plane_fpsi[LTDC_MAX_LAYER];
+>   	struct drm_atomic_state *suspend_state;
+> +	int crc_skip_count;
+> +	bool crc_active;
+>   };
+>   
+>   int ltdc_load(struct drm_device *ddev);
