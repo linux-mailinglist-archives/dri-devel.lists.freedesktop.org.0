@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C34C5236
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 00:45:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 525A34C523C
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 00:45:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430C310E21F;
-	Fri, 25 Feb 2022 23:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90CD10E230;
+	Fri, 25 Feb 2022 23:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9317F10E21F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF73410E223;
  Fri, 25 Feb 2022 23:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1645832733; x=1677368733;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=RkRaaOehFdNq6rkmKg2rJ7qF+0bSMm7iLfcWIiS/AT0=;
- b=argpC3QwkgRIxadKPVm5odFLOduMrxFd32EKSCLLP3swd2B6261PoSbp
- P9BpCD2j17I+iceBlZhQonSMzQ6+k/6DND1qz5BUEUDlNzcGugqwzW936
- xwuMoPcjPlzvWw5dnZK0vw94eE9fkRXs03ESUjNUj+bcilTLXGrE3qFre
- 5qFooKblZbEl52lbTGZ3TRPXdvavftMclOhZnijlhJ0Jm+2IAQytNIfJy
- KZjr86tLwIc/y94kh1pe8gWF/uHqLNBl34VLRsuV5iCf73Wye+bH1ltLR
- ytp1Md7qhdEIy6jkWqxntdIviyB1Ib79rldw/eU8nRIzzjZGtmpDogCXT w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="313322602"
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="313322602"
+ bh=kNAJDgnT8VDyCnUWMabHMNvsEQHQKPVjDGcm+9K/tWM=;
+ b=GUoWAkVA+R89k7Ot4mWfQx4wxIUsDx7WrLIuva602mMNcU8ddrxlO+k4
+ kQCPWqxUQcuTvanTGyAtqk3qCkyQxe+tX+HpurWnGT/+Gr2zTBWbFzuzW
+ t+28r5OdpljOB6HrK1SG8pDCXmmqBdKdGX2N/0sNyAVBzd3LTCBQvWGSr
+ C22rY5Bs012gwHo9Nv83jPn1vc+ImYaCFYobPPbZ8qNCUjfh+NU7WsOur
+ 02QnYWyu6tX5ZV+HJWOJF3/+f5yr0RfxkXMTGEUiwgC8F4FutrZLT5EXw
+ ePjdNCUMi7Eae/wHY+pSwL8RQbMyiO0YlFo8cHQpoXP0pe8BPld+0uqUZ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="313322603"
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="313322603"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Feb 2022 15:45:32 -0800
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="544202768"
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="544202773"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Feb 2022 15:45:32 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [CI 3/4] drm/i915: Use str_enabled_disabled()
-Date: Fri, 25 Feb 2022 15:46:30 -0800
-Message-Id: <20220225234631.3725943-3-lucas.demarchi@intel.com>
+Subject: [CI 4/4] drm/i915: Use str_on_off()
+Date: Fri, 25 Feb 2022 15:46:31 -0800
+Message-Id: <20220225234631.3725943-4-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220225234631.3725943-1-lucas.demarchi@intel.com>
 References: <20220225234631.3725943-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,356 +60,282 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the local enableddisabled() implementation and adopt the
-str_enabled_disabled() from linux/string_helpers.h.
+Remove the local onoff() implementation and adopt the
+str_on_off() from linux/string_helpers.h.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_backlight.c   |  3 ++-
- drivers/gpu/drm/i915/display/intel_display.c     | 16 ++++++++--------
- .../gpu/drm/i915/display/intel_display_debugfs.c |  8 ++++----
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c     |  7 ++++---
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c      |  3 ++-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c        |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c        |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c       |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c        |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c            |  4 ++--
- drivers/gpu/drm/i915/i915_debugfs.c              |  2 +-
- drivers/gpu/drm/i915/i915_driver.c               |  4 +++-
- drivers/gpu/drm/i915/i915_utils.h                |  6 +-----
- drivers/gpu/drm/i915/intel_pm.c                  |  4 ++--
- 14 files changed, 33 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/i915/display/g4x_dp.c              | 6 ++++--
+ drivers/gpu/drm/i915/display/intel_display.c       | 7 ++++---
+ drivers/gpu/drm/i915/display/intel_display_trace.h | 3 ++-
+ drivers/gpu/drm/i915/display/intel_dpll.c          | 3 ++-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 7 +++++--
+ drivers/gpu/drm/i915/display/intel_fdi.c           | 8 +++++---
+ drivers/gpu/drm/i915/display/vlv_dsi_pll.c         | 3 ++-
+ drivers/gpu/drm/i915/gt/intel_rc6.c                | 5 +++--
+ drivers/gpu/drm/i915/i915_utils.h                  | 5 -----
+ drivers/gpu/drm/i915/vlv_suspend.c                 | 3 ++-
+ 10 files changed, 29 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 98f7ea44042f..c8e1fc53a881 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -5,6 +5,7 @@
+diff --git a/drivers/gpu/drm/i915/display/g4x_dp.c b/drivers/gpu/drm/i915/display/g4x_dp.c
+index f67bbaaad8e0..22345051e667 100644
+--- a/drivers/gpu/drm/i915/display/g4x_dp.c
++++ b/drivers/gpu/drm/i915/display/g4x_dp.c
+@@ -5,6 +5,8 @@
+  * DisplayPort support for G4x,ILK,SNB,IVB,VLV,CHV (HSW+ handled by the DDI code).
+  */
  
- #include <linux/kernel.h>
- #include <linux/pwm.h>
 +#include <linux/string_helpers.h>
- 
++
+ #include "g4x_dp.h"
+ #include "intel_audio.h"
  #include "intel_backlight.h"
- #include "intel_connector.h"
-@@ -1633,7 +1634,7 @@ int intel_backlight_setup(struct intel_connector *connector, enum pipe pipe)
- 	drm_dbg_kms(&dev_priv->drm,
- 		    "Connector %s backlight initialized, %s, brightness %u/%u\n",
- 		    connector->base.name,
--		    enableddisabled(panel->backlight.enabled),
-+		    str_enabled_disabled(panel->backlight.enabled),
- 		    panel->backlight.level, panel->backlight.max);
+@@ -192,7 +194,7 @@ static void assert_dp_port(struct intel_dp *intel_dp, bool state)
+ 	I915_STATE_WARN(cur_state != state,
+ 			"[ENCODER:%d:%s] state assertion failure (expected %s, current %s)\n",
+ 			dig_port->base.base.base.id, dig_port->base.base.name,
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
+ #define assert_dp_port_disabled(d) assert_dp_port((d), false)
  
- 	return 0;
+@@ -202,7 +204,7 @@ static void assert_edp_pll(struct drm_i915_private *dev_priv, bool state)
+ 
+ 	I915_STATE_WARN(cur_state != state,
+ 			"eDP PLL state assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
+ #define assert_edp_pll_enabled(d) assert_edp_pll((d), true)
+ #define assert_edp_pll_disabled(d) assert_edp_pll((d), false)
 diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 938354dc6f16..2283c7bad2cd 100644
+index 2283c7bad2cd..6cae58f921a5 100644
 --- a/drivers/gpu/drm/i915/display/intel_display.c
 +++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -2981,8 +2981,8 @@ static void intel_panel_sanitize_ssc(struct drm_i915_private *dev_priv)
- 		if (dev_priv->vbt.lvds_use_ssc != bios_lvds_use_ssc) {
- 			drm_dbg_kms(&dev_priv->drm,
- 				    "SSC %s by BIOS, overriding VBT which says %s\n",
--				    enableddisabled(bios_lvds_use_ssc),
--				    enableddisabled(dev_priv->vbt.lvds_use_ssc));
-+				    str_enabled_disabled(bios_lvds_use_ssc),
-+				    str_enabled_disabled(dev_priv->vbt.lvds_use_ssc));
- 			dev_priv->vbt.lvds_use_ssc = bios_lvds_use_ssc;
- 		}
- 	}
-@@ -5324,7 +5324,7 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
- 		    pipe_config->bigjoiner_pipes);
- 
- 	drm_dbg_kms(&dev_priv->drm, "splitter: %s, link count %d, overlap %d\n",
--		    enableddisabled(pipe_config->splitter.enable),
-+		    str_enabled_disabled(pipe_config->splitter.enable),
- 		    pipe_config->splitter.link_count,
- 		    pipe_config->splitter.pixel_overlap);
- 
-@@ -5412,7 +5412,7 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "pch pfit: " DRM_RECT_FMT ", %s, force thru: %s\n",
- 			    DRM_RECT_ARG(&pipe_config->pch_pfit.dst),
--			    enableddisabled(pipe_config->pch_pfit.enabled),
-+			    str_enabled_disabled(pipe_config->pch_pfit.enabled),
- 			    str_yes_no(pipe_config->pch_pfit.force_thru));
- 
- 	drm_dbg_kms(&dev_priv->drm, "ips: %i, double wide: %i\n",
-@@ -10068,7 +10068,7 @@ static void readout_plane_state(struct drm_i915_private *dev_priv)
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "[PLANE:%d:%s] hw state readout: %s, pipe %c\n",
- 			    plane->base.base.id, plane->base.name,
--			    enableddisabled(visible), pipe_name(pipe));
-+			    str_enabled_disabled(visible), pipe_name(pipe));
- 	}
- 
- 	for_each_intel_crtc(&dev_priv->drm, crtc) {
-@@ -10114,7 +10114,7 @@ static void intel_modeset_readout_hw_state(struct drm_device *dev)
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "[CRTC:%d:%s] hw state readout: %s\n",
- 			    crtc->base.base.id, crtc->base.name,
--			    enableddisabled(crtc_state->hw.active));
-+			    str_enabled_disabled(crtc_state->hw.active));
- 	}
- 
- 	cdclk_state->active_pipes = dbuf_state->active_pipes = active_pipes;
-@@ -10158,7 +10158,7 @@ static void intel_modeset_readout_hw_state(struct drm_device *dev)
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "[ENCODER:%d:%s] hw state readout: %s, pipe %c\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    enableddisabled(encoder->base.crtc),
-+			    str_enabled_disabled(encoder->base.crtc),
- 			    pipe_name(pipe));
- 	}
- 
-@@ -10196,7 +10196,7 @@ static void intel_modeset_readout_hw_state(struct drm_device *dev)
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "[CONNECTOR:%d:%s] hw state readout: %s\n",
- 			    connector->base.base.id, connector->base.name,
--			    enableddisabled(connector->base.encoder));
-+			    str_enabled_disabled(connector->base.encoder));
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index c4dd39ff60bc..c3194d18ae29 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -94,7 +94,7 @@ static int i915_sr_status(struct seq_file *m, void *unused)
- 
- 	intel_display_power_put(dev_priv, POWER_DOMAIN_INIT, wakeref);
- 
--	seq_printf(m, "self-refresh: %s\n", enableddisabled(sr_enabled));
-+	seq_printf(m, "self-refresh: %s\n", str_enabled_disabled(sr_enabled));
- 
- 	return 0;
+@@ -401,7 +401,7 @@ static void wait_for_pipe_scanline_moving(struct intel_crtc *crtc, bool state)
+ 	if (wait_for(pipe_scanline_is_moving(dev_priv, pipe) == state, 100))
+ 		drm_err(&dev_priv->drm,
+ 			"pipe %c scanline %s wait timed out\n",
+-			pipe_name(pipe), onoff(state));
++			pipe_name(pipe), str_on_off(state));
  }
-@@ -296,7 +296,7 @@ static int intel_psr_status(struct seq_file *m, struct intel_dp *intel_dp)
- 		enabled = val & EDP_PSR_ENABLE;
- 	}
- 	seq_printf(m, "Source PSR ctl: %s [0x%08x]\n",
--		   enableddisabled(enabled), val);
-+		   str_enabled_disabled(enabled), val);
- 	psr_source_status(intel_dp, m);
- 	seq_printf(m, "Busy frontbuffer bits: 0x%08x\n",
- 		   psr->busy_frontbuffer_bits);
-@@ -343,7 +343,7 @@ static int intel_psr_status(struct seq_file *m, struct intel_dp *intel_dp)
- 		}
  
- 		seq_printf(m, "PSR2 selective fetch: %s\n",
--			   enableddisabled(psr->psr2_sel_fetch_enabled));
-+			   str_enabled_disabled(psr->psr2_sel_fetch_enabled));
- 	}
- 
- unlock:
-@@ -1268,7 +1268,7 @@ static int i915_lpsp_status(struct seq_file *m, void *unused)
- 		return 0;
- 	}
- 
--	seq_printf(m, "LPSP: %s\n", enableddisabled(lpsp_enabled));
-+	seq_printf(m, "LPSP: %s\n", str_enabled_disabled(lpsp_enabled));
- 
- 	return 0;
+ static void intel_wait_for_pipe_scanline_stopped(struct intel_crtc *crtc)
+@@ -457,7 +457,7 @@ void assert_transcoder(struct drm_i915_private *dev_priv,
+ 	I915_STATE_WARN(cur_state != state,
+ 			"transcoder %s assertion failure (expected %s, current %s)\n",
+ 			transcoder_name(cpu_transcoder),
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
  }
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index 6b4a27372c82..f370e9c4350d 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -30,6 +30,7 @@
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
- #include <linux/slab.h>
+ 
+ static void assert_plane(struct intel_plane *plane, bool state)
+@@ -469,7 +469,8 @@ static void assert_plane(struct intel_plane *plane, bool state)
+ 
+ 	I915_STATE_WARN(cur_state != state,
+ 			"%s assertion failure (expected %s, current %s)\n",
+-			plane->base.name, onoff(state), onoff(cur_state));
++			plane->base.name, str_on_off(state),
++			str_on_off(cur_state));
+ }
+ 
+ #define assert_plane_enabled(p) assert_plane(p, true)
+diff --git a/drivers/gpu/drm/i915/display/intel_display_trace.h b/drivers/gpu/drm/i915/display/intel_display_trace.h
+index dcdd242fffd9..2dd5a4b7f5d8 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_trace.h
++++ b/drivers/gpu/drm/i915/display/intel_display_trace.h
+@@ -9,6 +9,7 @@
+ #if !defined(__INTEL_DISPLAY_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+ #define __INTEL_DISPLAY_TRACE_H__
+ 
 +#include <linux/string_helpers.h>
+ #include <linux/types.h>
+ #include <linux/tracepoint.h>
  
- #include <asm/unaligned.h>
+@@ -161,7 +162,7 @@ TRACE_EVENT(intel_memory_cxsr,
+ 			   ),
  
-@@ -686,9 +687,9 @@ void intel_dsi_log_params(struct intel_dsi *intel_dsi)
- 		    intel_dsi->burst_mode_ratio);
- 	drm_dbg_kms(&i915->drm, "Reset timer %d\n", intel_dsi->rst_timer_val);
- 	drm_dbg_kms(&i915->drm, "Eot %s\n",
--		    enableddisabled(intel_dsi->eotp_pkt));
-+		    str_enabled_disabled(intel_dsi->eotp_pkt));
- 	drm_dbg_kms(&i915->drm, "Clockstop %s\n",
--		    enableddisabled(!intel_dsi->clock_stop));
-+		    str_enabled_disabled(!intel_dsi->clock_stop));
- 	drm_dbg_kms(&i915->drm, "Mode %s\n",
- 		    intel_dsi->operation_mode ? "command" : "video");
- 	if (intel_dsi->dual_link == DSI_DUAL_LINK_FRONT_BACK)
-@@ -715,7 +716,7 @@ void intel_dsi_log_params(struct intel_dsi *intel_dsi)
- 	drm_dbg_kms(&i915->drm, "HS to LP Clock Count 0x%x\n",
- 		    intel_dsi->clk_hs_to_lp_count);
- 	drm_dbg_kms(&i915->drm, "BTA %s\n",
--		    enableddisabled(!(intel_dsi->video_frmt_cfg_bits & DISABLE_VIDEO_BTA)));
-+		    str_enabled_disabled(!(intel_dsi->video_frmt_cfg_bits & DISABLE_VIDEO_BTA)));
- }
- 
- bool intel_dsi_vbt_init(struct intel_dsi *intel_dsi, u16 panel_id)
-diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-index 209cf265bf74..9dc9dccf7b09 100644
---- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+ 	    TP_printk("%s->%s, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
+-		      onoff(__entry->old), onoff(__entry->new),
++		      str_on_off(__entry->old), str_on_off(__entry->new),
+ 		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
+ 		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
+ 		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
+index 14f5ffe27d05..0ae37fdbf2a5 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll.c
 @@ -4,6 +4,7 @@
   */
  
- #include <linux/kthread.h>
+ #include <linux/kernel.h>
 +#include <linux/string_helpers.h>
- #include <trace/events/dma_fence.h>
- #include <uapi/linux/sched/types.h>
  
-@@ -512,7 +513,7 @@ void intel_engine_print_breadcrumbs(struct intel_engine_cs *engine,
- 	if (!b)
+ #include "intel_crtc.h"
+ #include "intel_de.h"
+@@ -1945,7 +1946,7 @@ static void assert_pll(struct drm_i915_private *dev_priv,
+ 	cur_state = intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE;
+ 	I915_STATE_WARN(cur_state != state,
+ 			"PLL state assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
+ 
+ void assert_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index 569903d47aea..f10eae7a75c6 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -21,6 +21,8 @@
+  * DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/string_helpers.h>
++
+ #include "intel_de.h"
+ #include "intel_display_types.h"
+ #include "intel_dpio_phy.h"
+@@ -178,13 +180,14 @@ void assert_shared_dpll(struct drm_i915_private *dev_priv,
+ 	struct intel_dpll_hw_state hw_state;
+ 
+ 	if (drm_WARN(&dev_priv->drm, !pll,
+-		     "asserting DPLL %s with no DPLL\n", onoff(state)))
++		     "asserting DPLL %s with no DPLL\n", str_on_off(state)))
  		return;
  
--	drm_printf(p, "IRQ: %s\n", enableddisabled(b->irq_armed));
-+	drm_printf(p, "IRQ: %s\n", str_enabled_disabled(b->irq_armed));
- 	if (!list_empty(&b->signalers))
- 		print_signals(b, p);
+ 	cur_state = intel_dpll_get_hw_state(dev_priv, pll, &hw_state);
+ 	I915_STATE_WARN(cur_state != state,
+ 	     "%s assertion failure (expected %s, current %s)\n",
+-			pll->info->name, onoff(state), onoff(cur_state));
++			pll->info->name, str_on_off(state),
++			str_on_off(cur_state));
  }
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 13ff3a13d161..d08fd0659aef 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -1643,7 +1643,7 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
  
- 		drm_printf(m, "\tExeclist tasklet queued? %s (%s), preempt? %s, timeslice? %s\n",
- 			   str_yes_no(test_bit(TASKLET_STATE_SCHED, &engine->sched_engine->tasklet.state)),
--			   enableddisabled(!atomic_read(&engine->sched_engine->tasklet.count)),
-+			   str_enabled_disabled(!atomic_read(&engine->sched_engine->tasklet.count)),
- 			   repr_timer(&engine->execlists.preempt),
- 			   repr_timer(&engine->execlists.timer));
+ static enum tc_port icl_pll_id_to_tc_port(enum intel_dpll_id id)
+diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
+index 4e4b43669b14..67d2484afbaa 100644
+--- a/drivers/gpu/drm/i915/display/intel_fdi.c
++++ b/drivers/gpu/drm/i915/display/intel_fdi.c
+@@ -3,6 +3,8 @@
+  * Copyright © 2020 Intel Corporation
+  */
  
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index ba5c46f61d14..f01325cd1b62 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -1203,7 +1203,7 @@ void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
- void intel_guc_ct_print_info(struct intel_guc_ct *ct,
- 			     struct drm_printer *p)
- {
--	drm_printf(p, "CT %s\n", enableddisabled(ct->enabled));
-+	drm_printf(p, "CT %s\n", str_enabled_disabled(ct->enabled));
- 
- 	if (!ct->enabled)
- 		return;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-index 8a99c2e624c2..a24dc6441872 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-@@ -477,7 +477,7 @@ int intel_guc_log_create(struct intel_guc_log *log)
- 
- 	log->level = __get_default_log_level(log);
- 	DRM_DEBUG_DRIVER("guc_log_level=%d (%s, verbose:%s, verbosity:%d)\n",
--			 log->level, enableddisabled(log->level),
-+			 log->level, str_enabled_disabled(log->level),
- 			 str_yes_no(GUC_LOG_LEVEL_IS_VERBOSE(log->level)),
- 			 GUC_LOG_LEVEL_TO_VERBOSITY(log->level));
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-index f8fc90ea71e7..e00661fb0853 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-@@ -66,7 +66,7 @@ static int __guc_rc_control(struct intel_guc *guc, bool enable)
++#include <linux/string_helpers.h>
++
+ #include "intel_atomic.h"
+ #include "intel_crtc.h"
+ #include "intel_ddi.h"
+@@ -34,7 +36,7 @@ static void assert_fdi_tx(struct drm_i915_private *dev_priv,
  	}
- 
- 	drm_info(&gt->i915->drm, "GuC RC: %s\n",
--		 enableddisabled(enable));
-+		 str_enabled_disabled(enable));
- 
- 	return 0;
+ 	I915_STATE_WARN(cur_state != state,
+ 			"FDI TX state assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
  }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 8e756d4c2c16..8c9ef690ac9d 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -524,9 +524,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	}
  
- 	drm_info(&i915->drm, "GuC submission %s\n",
--		 enableddisabled(intel_uc_uses_guc_submission(uc)));
-+		 str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
- 	drm_info(&i915->drm, "GuC SLPC %s\n",
--		 enableddisabled(intel_uc_uses_guc_slpc(uc)));
-+		 str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+ void assert_fdi_tx_enabled(struct drm_i915_private *i915, enum pipe pipe)
+@@ -55,7 +57,7 @@ static void assert_fdi_rx(struct drm_i915_private *dev_priv,
+ 	cur_state = intel_de_read(dev_priv, FDI_RX_CTL(pipe)) & FDI_RX_ENABLE;
+ 	I915_STATE_WARN(cur_state != state,
+ 			"FDI RX state assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
  
- 	return 0;
+ void assert_fdi_rx_enabled(struct drm_i915_private *i915, enum pipe pipe)
+@@ -93,7 +95,7 @@ static void assert_fdi_rx_pll(struct drm_i915_private *i915,
+ 	cur_state = intel_de_read(i915, FDI_RX_CTL(pipe)) & FDI_RX_PLL_ENABLE;
+ 	I915_STATE_WARN(cur_state != state,
+ 			"FDI RX PLL assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
  
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 2323f489150f..747fe9f41e1f 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -491,7 +491,7 @@ static int i915_runtime_pm_status(struct seq_file *m, void *unused)
- 		seq_puts(m, "Runtime power management not supported\n");
+ void assert_fdi_rx_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+index df880f44700a..1385b46aeb26 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+@@ -26,6 +26,7 @@
+  */
  
- 	seq_printf(m, "Runtime power status: %s\n",
--		   enableddisabled(!dev_priv->power_domains.init_wakeref));
-+		   str_enabled_disabled(!dev_priv->power_domains.init_wakeref));
+ #include <linux/kernel.h>
++#include <linux/string_helpers.h>
  
- 	seq_printf(m, "GPU idle: %s\n", str_yes_no(!to_gt(dev_priv)->awake));
- 	seq_printf(m, "IRQs disabled: %s\n",
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 62b3f332bbf5..92a625a174e2 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -36,6 +36,7 @@
+ #include "i915_drv.h"
+ #include "intel_de.h"
+@@ -581,7 +582,7 @@ static void assert_dsi_pll(struct drm_i915_private *i915, bool state)
+ 
+ 	I915_STATE_WARN(cur_state != state,
+ 			"DSI PLL state assertion failure (expected %s, current %s)\n",
+-			onoff(state), onoff(cur_state));
++			str_on_off(state), str_on_off(cur_state));
+ }
+ 
+ void assert_dsi_pll_enabled(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+index 6df359c534fe..63db136cbc27 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rc6.c
++++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+@@ -4,6 +4,7 @@
+  */
+ 
  #include <linux/pm_runtime.h>
- #include <linux/pnp.h>
- #include <linux/slab.h>
 +#include <linux/string_helpers.h>
- #include <linux/vga_switcheroo.h>
- #include <linux/vt.h>
  
-@@ -752,7 +753,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- void
- i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
- {
--	drm_printf(p, "iommu: %s\n", enableddisabled(intel_vtd_active(i915)));
-+	drm_printf(p, "iommu: %s\n",
-+		   str_enabled_disabled(intel_vtd_active(i915)));
- }
+ #include "i915_drv.h"
+ #include "i915_reg.h"
+@@ -430,8 +431,8 @@ static bool bxt_check_bios_rc6_setup(struct intel_rc6 *rc6)
+ 	rc_sw_target >>= RC_SW_TARGET_STATE_SHIFT;
+ 	drm_dbg(&i915->drm, "BIOS enabled RC states: "
+ 			 "HW_CTRL %s HW_RC6 %s SW_TARGET_STATE %x\n",
+-			 onoff(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
+-			 onoff(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
++			 str_on_off(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
++			 str_on_off(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
+ 			 rc_sw_target);
  
- static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ 	if (!(intel_uncore_read(uncore, RC6_LOCATION) & RC6_CTX_IN_DRAM)) {
 diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index 06aac2be49ee..6d26920d0632 100644
+index 6d26920d0632..3ff9611ff81c 100644
 --- a/drivers/gpu/drm/i915/i915_utils.h
 +++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -28,6 +28,7 @@
- #include <linux/list.h>
- #include <linux/overflow.h>
- #include <linux/sched.h>
-+#include <linux/string_helpers.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
- #include <linux/sched/clock.h>
-@@ -404,11 +405,6 @@ static inline const char *onoff(bool v)
- 	return v ? "on" : "off";
- }
+@@ -400,11 +400,6 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+ #define MBps(x) KBps(1000 * (x))
+ #define GBps(x) ((u64)1000 * MBps((x)))
  
--static inline const char *enableddisabled(bool v)
+-static inline const char *onoff(bool v)
 -{
--	return v ? "enabled" : "disabled";
+-	return v ? "on" : "off";
 -}
 -
  void add_taint_for_CI(struct drm_i915_private *i915, unsigned int taint);
  static inline void __add_taint_for_CI(unsigned int taint)
  {
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 5299f8b6b986..742009589a24 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -419,8 +419,8 @@ static bool _intel_set_memory_cxsr(struct drm_i915_private *dev_priv, bool enabl
- 	trace_intel_memory_cxsr(dev_priv, was_enabled, enable);
+diff --git a/drivers/gpu/drm/i915/vlv_suspend.c b/drivers/gpu/drm/i915/vlv_suspend.c
+index 1d9da32195c2..664fde244f59 100644
+--- a/drivers/gpu/drm/i915/vlv_suspend.c
++++ b/drivers/gpu/drm/i915/vlv_suspend.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2020 Intel Corporation
+  */
  
- 	drm_dbg_kms(&dev_priv->drm, "memory self-refresh is %s (was %s)\n",
--		    enableddisabled(enable),
--		    enableddisabled(was_enabled));
-+		    str_enabled_disabled(enable),
-+		    str_enabled_disabled(was_enabled));
++#include <linux/string_helpers.h>
+ #include <linux/kernel.h>
  
- 	return was_enabled;
+ #include <drm/drm_print.h>
+@@ -375,7 +376,7 @@ static void vlv_wait_for_gt_wells(struct drm_i915_private *dev_priv,
+ 	if (vlv_wait_for_pw_status(dev_priv, mask, val))
+ 		drm_dbg(&dev_priv->drm,
+ 			"timeout waiting for GT wells to go %s\n",
+-			onoff(wait_for_on));
++			str_on_off(wait_for_on));
  }
+ 
+ static void vlv_check_no_gt_access(struct drm_i915_private *i915)
 -- 
 2.35.1
 
