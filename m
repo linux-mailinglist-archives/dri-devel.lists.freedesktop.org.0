@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D36B4C4FBC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 21:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB154C4FC8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 21:41:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3129C10E931;
-	Fri, 25 Feb 2022 20:36:49 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B89D10E932;
+	Fri, 25 Feb 2022 20:41:52 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9781210E931;
- Fri, 25 Feb 2022 20:36:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87BF10E935;
+ Fri, 25 Feb 2022 20:41:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645821407; x=1677357407;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Um3Ri3Z5tNczvjbg/Kqd4t82aFPTJQvoXqKHvporKMY=;
- b=HVRk5hM3NGY6TTZh6huaP57h3qzYUAMkJ3CRwfYx+m32FY70S/XpfoJK
- V/6zaYd/toKf8INPqtfOdiPdUP7dgb0qsFg7Dicc8VVTLtY72YM48rr4M
- SE7SqGRcxbMf7thkZcUdkqJWhiuNldkRSGEXbTSSxV1oWNSpiYpAADi+a
- gQQBTFdJ5h+gk98Sc3qFoCBODCG5wKTPlHAKD6V5GH302M1sqMFQViw8M
- 0pNaRW742paCw7CPtyvm1TecL4TKhY0BVCwGFlvd9ZqCLIt2cxZjDMFEQ
- 0HNM39YpFW/oB6vsZ3XgERN3+N3gBB7lPh0QxgW9ilp1MsArP545GfO46 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="315790735"
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="315790735"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ t=1645821711; x=1677357711;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QjFtXA7bfNHPYdiNqPFkVkDuiueUj4uPriiqnct4+Pg=;
+ b=Im4vzB+q/zhIbsP3XYsxXKnTL/fEvVUaSrsV1xlRZjgkqpBvwMi6hoQT
+ sWBnuVf7AjJyG9Iqj5AfM0omH6frS5TJl831dFvSSKFx5RoMKj6pPbtNd
+ vfbhRLeei12QAS6VvxHH8ERkFDs2Js9yGAL71w5Tq8NjJLICFsHPBAYm9
+ qReXksSzoKc5QBJSn74tFdSnFgocCS5hrCAf2kD+/94mvFqpv21MUwE9d
+ +WE5k8z3Z84plXox+31Fr7w1Mq7OMt00Y19UhUwiNss9doE1NCqZkyI3R
+ dZdl5VJiTfDpejGtHFHfWXn+sZwAp8zvfYNpLaIpxEWRzNisrzi6LN8jC w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="315791545"
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="315791545"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 12:36:45 -0800
+ 25 Feb 2022 12:41:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="638353417"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by fmsmga002.fm.intel.com with SMTP; 25 Feb 2022 12:36:41 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 25 Feb 2022 22:36:41 +0200
-Date: Fri, 25 Feb 2022 22:36:41 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 1/3] drm: Extend DEFINE_DRM_GEM_FOPS() for optional fops
-Message-ID: <Yhk92RwhBqAAHcuT@intel.com>
-References: <20220225202614.225197-1-robdclark@gmail.com>
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="549414293"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga008.jf.intel.com with ESMTP; 25 Feb 2022 12:41:51 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/3] Improve anti-pre-emption w/a for compute workloads
+Date: Fri, 25 Feb 2022 12:41:48 -0800
+Message-Id: <20220225204151.2248027-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220225202614.225197-1-robdclark@gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 25, 2022 at 12:26:12PM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Extend the helper macro so we don't have to throw it away if driver adds
-> support for optional fops, like show_fdinfo().
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  include/drm/drm_gem.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 35e7f44c2a75..987e78b18244 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -327,7 +327,7 @@ struct drm_gem_object {
->   * non-static version of this you're probably doing it wrong and will break the
->   * THIS_MODULE reference by accident.
->   */
-> -#define DEFINE_DRM_GEM_FOPS(name) \
-> +#define DEFINE_DRM_GEM_FOPS(name, ...) \
->  	static const struct file_operations name = {\
->  		.owner		= THIS_MODULE,\
->  		.open		= drm_open,\
-> @@ -338,6 +338,7 @@ struct drm_gem_object {
->  		.read		= drm_read,\
->  		.llseek		= noop_llseek,\
->  		.mmap		= drm_gem_mmap,\
-> +		##__VA_ARGS__\
->  	}
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Would it not be less convoluted to make the macro only provide
-the initializers? So you'd get something like:
+Compute workloads are inherently not pre-emptible on current hardware.
+Thus the pre-emption timeout was disabled as a workaround to prevent
+unwanted resets. Instead, the hang detection was left to the heartbeat
+and its (longer) timeout. This is undesirable with GuC submission as
+the heartbeat is a full GT reset rather than a per engine reset and so
+is much more destructive. Instead, just bump the pre-emption timeout
+to a big value. Also, update the heartbeat to allow such a long
+pre-emption delay in the final heartbeat period.
 
-static const struct file_operations foo = {
-	DRM_GEM_FOPS,
-	.my_stuff = whatever,
-};
+v2: Add clamping helpers.
 
->  
->  void drm_gem_object_release(struct drm_gem_object *obj);
-> -- 
-> 2.35.1
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (3):
+  drm/i915/guc: Limit scheduling properties to avoid overflow
+  drm/i915/gt: Make the heartbeat play nice with long pre-emption
+    timeouts
+  drm/i915: Improve long running OCL w/a for GuC submission
+
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  6 ++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 91 ++++++++++++++++++-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 16 ++++
+ drivers/gpu/drm/i915/gt/sysfs_engines.c       | 25 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  9 ++
+ 5 files changed, 134 insertions(+), 13 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.25.1
+
