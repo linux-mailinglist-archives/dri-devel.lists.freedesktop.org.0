@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997B04C40FD
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3834C4138
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32AD110E770;
-	Fri, 25 Feb 2022 09:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597DA10E6B5;
+	Fri, 25 Feb 2022 09:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532BD10E76C;
- Fri, 25 Feb 2022 09:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645780318; x=1677316318;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=cjA3HLMn0MXdDb/gXukOEsMXh5dRqhgoKbD/zCus6Ns=;
- b=J6gHbT8Lj3PkUc2TzwFJK85SIgFHwg+TNs0irItLHjbLW9A2UslGgZJ3
- sMiG8w0aOC6S2cG3PwSYGcmNlIqLd/kWV003qGYJKpSs7InJp5BNjJAnY
- gss3gXI2QbEvzCBKGI9f7+jqh1oGpzWLSeUG6J75wXMwAqtEgIrs9Kntc
- Rg0rSNRrETCgQVQBkRROmlbyrmXv1afAwzFgBSF1aMFpumXnSlXRW0FJG
- bSIhex0TAQZkEOSV1r3Ici0mWyQpSzlPDQv7GxunbQURG822ILBkJBdJI
- 6EJ6EHEXZ/tOykKfN6+WLPAT9t2xIRuEKv7I5l4UQyNu4NRxs6z+mkwRA g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="235967926"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="235967926"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 01:11:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="533507468"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga007.jf.intel.com with SMTP; 25 Feb 2022 01:11:54 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 25 Feb 2022 11:11:53 +0200
-Date: Fri, 25 Feb 2022 11:11:53 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Manasi Navare <manasi.d.navare@intel.com>
-Subject: Re: [PATCH v6 1/2] drm/vrr: Set VRR capable prop only if it is
- attached to connector
-Message-ID: <YhidWUrEFNFtZBXo@intel.com>
-References: <20220225013055.9282-1-manasi.d.navare@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 664308930F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:24:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 37C3C1F45AF1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1645781039;
+ bh=SWrJfJ7PskotUKYhO/j7/0MGwDwG0Y2IytOY3Y6T/yQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YYWQbzR1n5nXyP58/+zadQkqg+hNL4GsYRsXaPRpG0rfFCFcgdwnTZHVg2nQqw1K2
+ E+dlNDR5JO7+k7dsGJ9HQaNyv3SDYrz2legTree2PBVch6m1lyw0ac/xIzKz4fTtqq
+ BFugGaWhL3iI66DkjurSBKONT95MdEK4l9/VBuUwAjNwa7evjO/ivR9OXmY6LRXvBb
+ NA8oPzXpX3CAPFPyxXYa0TmBXmDashDpnf/UG9odG6AtoxTfMR1YI+2PslXzBMg8rX
+ PaEBwg7rftw6V3MUc5scQkL7FftztzE9vnIgYhabQidMY2gBsi3if8q8A6jZFrAieF
+ Qu0d7KqilV6uw==
+Message-ID: <14a8adf3-7f26-e6ca-ddd3-dbbc15f3e61e@collabora.com>
+Date: Fri, 25 Feb 2022 10:23:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220225013055.9282-1-manasi.d.navare@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v7, 01/15] media: mtk-vcodec: Add vdec enable/disable
+ hardware helpers
+Content-Language: en-US
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
+ <20220223034008.15781-2-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220223034008.15781-2-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,45 +60,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 24, 2022 at 05:30:54PM -0800, Manasi Navare wrote:
-> VRR capable property is not attached by default to the connector
-> It is attached only if VRR is supported.
-> So if the driver tries to call drm core set prop function without
-> it being attached that causes NULL dereference.
+Il 23/02/22 04:39, Yunfei Dong ha scritto:
+> Lock, power and clock are highly coupled operations. Adds vdec
+> enable/disable hardware helpers and uses them.
 > 
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-> ---
->  drivers/gpu/drm/drm_connector.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index a50c82bc2b2f..76a8c707c34b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2330,6 +2330,9 @@ EXPORT_SYMBOL(drm_connector_atomic_hdr_metadata_equal);
->  void drm_connector_set_vrr_capable_property(
->  		struct drm_connector *connector, bool capable)
->  {
-> +	if (!connector->vrr_capable_property)
-> +		return;
-> +
->  	drm_object_property_set_value(&connector->base,
->  				      connector->vrr_capable_property,
->  				      capable);
-> -- 
-> 2.19.1
-
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
