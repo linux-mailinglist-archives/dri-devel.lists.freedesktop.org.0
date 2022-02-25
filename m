@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6A04C4ACA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:32:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C784C4C4AF1
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:36:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C991B10E5D4;
-	Fri, 25 Feb 2022 16:32:55 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8A710E5D4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 16:32:54 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id j22so5281931wrb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 08:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pcnpMGkUTwrOq6wVD6KDZaXy5/GdTI9lT9U97nS7O4s=;
- b=OT2dbyd+i3BammGBmQ7seIq+G/W89xOguMk7ZOmU3RGt+q+4q5MOMApY2hmn1v4ZtS
- tRWfhh6zV8GBPDv4M4WgpjiAcIISYhGN62/un1z6+/nOOGGZZWPVecsX4NL6MPjH6hSK
- aPM9DX2aNuk4Saw4NyJvi+dfgL1B5g00JPqzDvL1lI86n4jwEE5zozq69DuRVLXiz2tb
- oeRZ4loKnhca4NC10OovgafbKlSFMcIUXrIEykKiv+pNn08tAbcjWLE04l9loLcHWCnA
- MPOH0XkCZjT4XDGkLHt37wTw17Tyn3XsE4k62M0tmr4IZyifU7DNQuPXO+srQaH/JAKg
- gcTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pcnpMGkUTwrOq6wVD6KDZaXy5/GdTI9lT9U97nS7O4s=;
- b=Fbgasm9txrsKNcN5sAyU8NIsny8OTkkjIG8KkdlveDcRzizAplP3DLH9To7PvkKm6n
- dsj/7L6qoiyOwAyDg3ASuU920XUOyW0D1yCmRqa8onRkFA4cLfau3RzPyiXzhAj3WdnO
- tUZLfA9JEUAj7n4HclJLPPbNuc15RGMxVo7ex6WHyrlpah5p7BEjI/cEcpRtHOUf0Q2Y
- Os86yVVgnQrJL8nxSdTgXdLjtQCfxmUu/7W/V0D/yHELee52oXWmqf527rdK7XStonvQ
- W6eZ6FUNPPFM4AIrWMd8rHsXwQAcUmVDF4yMUTNfvjMlo1iEZD+X5wZBA/IhxHOdoZge
- ukjQ==
-X-Gm-Message-State: AOAM53332BnohoqXGEWdnQDuqi/GobPWxu2XXbmcKJGHapYyjSNKXLR7
- Kl2PWfgj0N1UDyiggYg/wKUSdVZYODA=
-X-Google-Smtp-Source: ABdhPJxHrcf/hcepc+TJ2lVBWStLolYNEo/QWbjcFrnuG5b+myntxby6A1xyg7CzQ3cgZOw640/yTQ==
-X-Received: by 2002:a5d:410c:0:b0:1ef:766b:ef5b with SMTP id
- l12-20020a5d410c000000b001ef766bef5bmr1692763wrp.183.1645806772593; 
- Fri, 25 Feb 2022 08:32:52 -0800 (PST)
-Received: from localhost ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- t14-20020a5d460e000000b001edc107e4f7sm3985207wrq.81.2022.02.25.08.32.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 08:32:51 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL] drm/tegra: Changes for v5.18-rc1
-Date: Fri, 25 Feb 2022 17:32:50 +0100
-Message-Id: <20220225163250.1063101-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A1510E524;
+	Fri, 25 Feb 2022 16:36:49 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E2210E592;
+ Fri, 25 Feb 2022 16:36:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645807008; x=1677343008;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8KX515qNIS/83TCB/1RRKQPWz5YwYYB6iwAk6cHK9HY=;
+ b=Ku6zBu9xBeQGJCeJOpT4O1WT1nvMfFMYEYm2qehI5boJaPHOTSj1gwWE
+ RcWGQzPo8Cgi1wsLX6HGdUVL3tUKsFn1u0/pEqWEtnRIHhi+Ixzkx27uf
+ JV5ZN+GlTFivT+ccd4QBmxKRw9CrdYAGbEeZ1LrlzEgxlmSABNPmBAgNj
+ PZZqlbwaQRzvkAiVvrS9nUXOp5Fb/vPDz9HiQjy5E8fcBpa1s8y26KPL3
+ UGGVgIpy767pYGu1U7NqSBKhpLfDkS08iWxGDYRcD+ttJHpqG4hJ6n7CD
+ RrB9Vl976I9eV6GhF8YNjPxEtyYcTNzfW4ZZY0uGzwOBvO7NfH32wR3St g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="236036670"
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="236036670"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 08:36:47 -0800
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="549323238"
+Received: from pkinsell-mobl.ger.corp.intel.com (HELO [10.213.234.117])
+ ([10.213.234.117])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 08:36:46 -0800
+Message-ID: <e3abab20-084a-146b-8c6f-274474aa7bc1@linux.intel.com>
+Date: Fri, 25 Feb 2022 16:36:44 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 0/3] Improve anti-pre-emption w/a for compute
+ workloads
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <647b611a-d159-3a6f-2e3a-c8039a9503ec@linux.intel.com>
+ <7ceb4723-7ebf-3762-ddb7-b16e48e804d3@intel.com>
+ <ccc8d37f-2bcc-b258-4969-430c609c11d0@linux.intel.com>
+ <6526515c-a4d1-1815-3ee8-6a35dfa5036f@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <6526515c-a4d1-1815-3ee8-6a35dfa5036f@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +65,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
 
-The following changes since commit 8913e1aea4b32a866343b14e565c62cec54f3f78:
+On 24/02/2022 20:02, John Harrison wrote:
+> On 2/23/2022 04:00, Tvrtko Ursulin wrote:
+>> On 23/02/2022 02:22, John Harrison wrote:
+>>> On 2/22/2022 01:53, Tvrtko Ursulin wrote:
+>>>> On 18/02/2022 21:33, John.C.Harrison@Intel.com wrote:
+>>>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>>>
+>>>>> Compute workloads are inherently not pre-emptible on current hardware.
+>>>>> Thus the pre-emption timeout was disabled as a workaround to prevent
+>>>>> unwanted resets. Instead, the hang detection was left to the heartbeat
+>>>>> and its (longer) timeout. This is undesirable with GuC submission as
+>>>>> the heartbeat is a full GT reset rather than a per engine reset and so
+>>>>> is much more destructive. Instead, just bump the pre-emption timeout
+>>>>
+>>>> Can we have a feature request to allow asking GuC for an engine reset?
+>>> For what purpose?
+>>
+>> To allow "stopped heartbeat" to reset the engine, however..
+>>
+>>> GuC manages the scheduling of contexts across engines. With virtual 
+>>> engines, the KMD has no knowledge of which engine a context might be 
+>>> executing on. Even without virtual engines, the KMD still has no 
+>>> knowledge of which context is currently executing on any given engine 
+>>> at any given time.
+>>>
+>>> There is a reason why hang detection should be left to the entity 
+>>> that is doing the scheduling. Any other entity is second guessing at 
+>>> best.
+>>>
+>>> The reason for keeping the heartbeat around even when GuC submission 
+>>> is enabled is for the case where the KMD/GuC have got out of sync 
+>>> with either other somehow or GuC itself has just crashed. I.e. when 
+>>> no submission at all is working and we need to reset the GuC itself 
+>>> and start over.
+>>
+>> .. I wasn't really up to speed to know/remember heartbeats are nerfed 
+>> already in GuC mode.
+> Not sure what you mean by that claim. Engine resets are handled by GuC 
+> because GuC handles the scheduling. You can't do the former if you 
+> aren't doing the latter. However, the heartbeat is still present and is 
+> still the watchdog by which engine resets are triggered. As per the rest 
+> of the submission process, the hang detection and recovery is split 
+> between i915 and GuC.
 
-  drm/tegra: dpaux: Populate AUX bus (2022-02-23 13:00:37 +0100)
+I meant that "stopped heartbeat on engine XXX" can only do a full GPU reset on GuC.
 
-are available in the Git repository at:
+	intel_gt_handle_error(engine->gt, engine->mask,
+			      I915_ERROR_CAPTURE,
+			      "stopped heartbeat on %s",
+			      engine->name);
 
-  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.18-rc1
+intel_gt_handle_error:
 
-for you to fetch changes up to b53c24f69199b88671293de503f1f999a762f4f9:
+	/*
+	 * Try engine reset when available. We fall back to full reset if
+	 * single reset fails.
+	 */
+	if (!intel_uc_uses_guc_submission(&gt->uc) &&
+	    intel_has_reset_engine(gt) && !intel_gt_is_wedged(gt)) {
+		local_bh_disable();
+		for_each_engine_masked(engine, gt, engine_mask, tmp) {
 
-  drm/tegra: Support YVYU, VYUY and YU24 formats (2022-02-25 16:37:40 +0100)
+You said "However, the heartbeat is still present and is still the watchdog by which engine resets are triggered", now I don't know what you meant by this. It actually triggers a single engine reset in GuC mode? Where in code does that happen if this block above shows it not taking the engine reset path?
 
-Thanks,
-Thierry
+>> I am not sure it was the best way since full reset penalizes everyone 
+>> for one hanging engine. Better question would be why leave heartbeats 
+>> around to start with with GuC? If you want to use it to health check 
+>> GuC, as you say, maybe just send a CT message and expect replies? Then 
+>> full reset would make sense. It also achieves the goal of not 
+>> seconding guessing the submission backend you raise.
+> Adding yet another hang detection mechanism is yet more complication and 
+> is unnecessary when we already have one that works well enough. As 
+> above, the heartbeat is still required for sending the pulses that cause 
+> pre-emptions and so let GuC detect hangs. It also provides a fallback 
+> against a dead GuC by default. So why invent yet another wheel?
 
-----------------------------------------------------------------
-drm/tegra: Changes for v5.18-rc1
+Lets first clarify the previous block to make sure there aren't any misunderstandings there.
 
-This contains a couple more minor fixes that didn't seem urgent enough
-for v5.17. On top of that this improves YUV format support on older
-chips.
+Regards,
 
-----------------------------------------------------------------
-Christophe JAILLET (2):
-      gpu: host1x: Fix an error handling path in 'host1x_probe()'
-      gpu: host1x: Fix a memory leak in 'host1x_remove()'
+Tvrtko
 
-Dmitry Osipenko (1):
-      drm/tegra: Use dev_err_probe()
-
-Miaoqian Lin (1):
-      drm/tegra: Fix reference leak in tegra_dsi_ganged_probe
-
-Thierry Reding (3):
-      drm/tegra: Fix planar formats on Tegra186 and later
-      drm/tegra: Support semi-planar formats on Tegra114+
-      drm/tegra: Support YVYU, VYUY and YU24 formats
-
-chiminghao (1):
-      drm/tegra: dpaux: Remove unneeded variable
-
- drivers/gpu/drm/tegra/dc.c    | 50 ++++++++++++++++++-----------
- drivers/gpu/drm/tegra/dc.h    |  7 +++++
- drivers/gpu/drm/tegra/dpaux.c |  3 +-
- drivers/gpu/drm/tegra/dsi.c   |  4 ++-
- drivers/gpu/drm/tegra/hdmi.c  | 34 ++++++--------------
- drivers/gpu/drm/tegra/hub.c   | 24 ++++++++------
- drivers/gpu/drm/tegra/plane.c | 73 ++++++++++++++++++++++++++++++++++++++-----
- drivers/gpu/drm/tegra/plane.h |  2 +-
- drivers/gpu/host1x/dev.c      |  8 +++--
- 9 files changed, 140 insertions(+), 65 deletions(-)
+>> Like it is now, and the need for this series demonstrates it, the 
+>> whole thing has a pretty poor "impedance" match. Not even sure what 
+>> intel_guc_find_hung_context is doing in intel_engine_hearbeat.c - why 
+>> is that not in intel_gt_handle_error at least? Why is hearbeat code 
+>> special and other callers of intel_gt_handle_error don't need it?
+> There is no guilty context if the reset was triggered via debugfs or 
+> similar. And as stated ad nauseam, i915 is no longer handling the 
+> scheduling and so cannot make assumptions about what is or is not 
+> running on the hardware at any given time. And obviously, if the reset 
+> initiated by GuC itself then i915 should not be second guessing the 
+> guilty context as the GuC notification has already told us who was 
+> responsible.
+> 
+> And to be clear, the 'poor impedance match' is purely because we don't 
+> have mid-thread pre-emption and so need a stupidly huge timeout on 
+> compute capable engines. Whereas, we don't want a total heatbeat timeout 
+> of a minute or more. That is the impedance mis-match. If the 640ms was 
+> acceptable for RCS then none of this hacky timeout algorithm mush would 
+> be needed.
+> 
+> John.
+> 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+> 
