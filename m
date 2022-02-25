@@ -1,64 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A6A4C39C3
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 00:40:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71144C3A07
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 01:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45ED310E119;
-	Thu, 24 Feb 2022 23:40:52 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10D8710E119
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 23:40:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 909E461CCA
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 23:40:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9AC9EC34119
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Feb 2022 23:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645746049;
- bh=CKm00h+9FIJSOMsOvh98wYbR0S4G6wxf7Bd7QhgVbtM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=r5BI9HFBkSsJt9kJqfX/pbvnh0okWztp09JAQM6zj4IRR+H2VX8pa4v0hXKtSoroZ
- WiyCTyX/vkJ/sUxnIFyHyRU5NVxgVnzp5ozFnqffrJTp6lsJo/WyMarkXzlHtjU8BS
- j43/FB1MrJB/dLlVDbqH5PIvCPKIbqpcGvAxT2+ZH00yIjnNgpxS2xQUWjMEsQ/Rqj
- RZn9cyNxjyygF8TZxanaBqQc3xrb4152i9Ocomm9t/i5Pz1tGSgbcP4SvfLGkHAO/+
- ufgibSzfggYVY2UctsnGzUhWJLrfmzUv6WUrjSzCs5h1dEizc5LaJI8BYa9Y5u7Etz
- nCu1eGYHZYeWw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8B538C05FF5; Thu, 24 Feb 2022 23:40:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Thu, 24 Feb 2022 23:40:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: randyk161@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-AHKhmupprH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3914410E1AE;
+	Fri, 25 Feb 2022 00:06:25 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7815810E13C;
+ Fri, 25 Feb 2022 00:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645747584; x=1677283584;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=RgPVHmvJcBWZczW988FexdCL58TQFle09NGR1TDYvZI=;
+ b=Cum22c9Gu14xLYrdw+Lpd2lcJVu2LFoCvk9pzS+/TwACcEislUKyONUi
+ yRS61dS15oc3C5NOlNGO/62BjSB5mxY7K1ZYIHMfIl2CcZHK0q111RTvU
+ NDsJNyKUfwPE0ScENn+9seW2NtW8K+w+EfI8RV4YF3YxK9f7vGdHX5eR6
+ 0SRLDosgmgeWXNWUyzs8a6o4yKeC4RoVOqdAL8WHNtrFXBTBzjxStWKD0
+ wQYtGGLJ8fIfheT1Fm8I3Z2gkU9PNwI4dvCx/DZvpLCqBeK6rt5uN3iTn
+ bH9BaBskyXDfhzL4mdUEobC5Rd/qOYP6yL4fNJcSU/tjbF9lWUGvi75Id g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="277012934"
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="277012934"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2022 16:06:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; d="scan'208";a="592278952"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by fmsmga008.fm.intel.com with ESMTP; 24 Feb 2022 16:06:23 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/8] Prep work for next GuC release
+Date: Thu, 24 Feb 2022 16:06:15 -0800
+Message-Id: <20220225000623.1934438-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+From: John Harrison <John.C.Harrison@Intel.com>
 
---- Comment #66 from Randune (randyk161@gmail.com) ---
-So I've been running for about 2.5 weeks now using the amdgpu.runpm=3D0 ker=
-nel
-parameter and I've had no crashes or freezes so far. I'm cautiously optimis=
-tic
-that for me at least this may have solved the problem.  So far I haven't
-noticed any side effects (performance degradation etc.).
+The next GuC firmware release includes some significant backwards
+breaking API changes. One such is that there is no longer an LRC
+descriptor pool. A bunch of prep work for that change can be done in
+advance - the descriptor pool was being used for things it shouldn't
+really have been used for anyway.
 
-I understand that amdgpu.runpm=3D0 is related to power management but I don=
-'t
-know the specifics. Possibly Alex Deucher can chime in and specify exactly =
-what
-this parameter does?
+v2: Extend commit message on 'better name' patch. Improve 'split
+apart' patch to include some necessary re-arrangement that was in a
+later patch and which introduced an unnecessary conditional in said
+patch too. (review feedback from Daniele)
 
-See my previous comments for some context:
-comment 35
-comment 62
-comment 63
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+John Harrison (8):
+  drm/i915/guc: Do not conflate lrc_desc with GuC id for registration
+  drm/i915/guc: Add an explicit 'submission_initialized' flag
+  drm/i915/guc: Better name for context id limit
+  drm/i915/guc: Split guc_lrc_desc_pin apart
+  drm/i915/guc: Move lrc desc setup to where it is needed
+  drm/i915/guc: Rename desc_idx to ctx_id
+  drm/i915/guc: Drop obsolete H2G definitions
+  drm/i915/guc: Fix potential invalid pointer dereferences when decoding
+    G2Hs
+
+ drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   2 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   4 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 181 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |   2 +-
+ 6 files changed, 109 insertions(+), 84 deletions(-)
+
+-- 
+2.25.1
+
