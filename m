@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC6F4C47A7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 15:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26534C47A8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 15:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4695310E6E8;
-	Fri, 25 Feb 2022 14:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3C110E5CA;
+	Fri, 25 Feb 2022 14:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE50B10E673
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:35:58 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 174D05C0138;
- Fri, 25 Feb 2022 09:35:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 25 Feb 2022 09:35:58 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C0210E6B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:36:00 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id F0F075C0138;
+ Fri, 25 Feb 2022 09:35:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 25 Feb 2022 09:35:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=uiveBeYnqGcqK+zu9ioOaNZW1ydXbC
- w+PmOS3Kp8raY=; b=BfsEUYpd4BiAiEIcB4Dt4XJil8q0OsRcLJhm6Vg3L2JuIE
- yDq0V3FY135nlLY9SbcTZ5tf+bhUbyjXIbj7BVW6jp6Cnu73unJ2RHLH64C3lWBz
- Tbhu/fBHeb/czU8aFh6bT5hztqLTiHzP97IKwHDou+8xhLP6hYLQq0sX/HXVOHoB
- fbnl8pPOiIPUL7g6hauKEX08pVSBMIvBxfdt1v20XlVgQTc0sKlhkG/ABjrm+eg9
- 6FO5sJyYJPsnFDqVjtdAHnc5sYTNiCyaDdOZoThz/eLXFZxcDYwo0dk99nEe4epw
- 5LaOF94MNeJePwn4uVbKw1fVzwIGSThzNlFLoigA==
+ :subject:subject:to:to; s=fm2; bh=B/S+5pJTjISbVKXDbmkZvJslRN2Aa6
+ NU173g50j/vbU=; b=XBp17LPoauOjyeNC4WdBZXIG5Y4US0YJ13un+UcoxObIO8
+ t6TCTomoTNNRT+2ULAqRiuY0ke4qktCEJiKwkYJ75nsyguKOO3IRXuBXrmFKHTaE
+ Srpik1wUExrDinF72y2wcoBb4nrflzb3OXCX8X8i8ikYlGal4HkHkHSsTqv+aRAI
+ Zf1Dy0vux5BD83KZ1F761qYREGMiVF/QhmOAjIuVAIF4bD5aYMRgIg37bkbX64JW
+ OtwAJ7WzjwyCEZxrvDByTi43NbDU32X8dBIu+GYUcdq01zmz9OE+XRpskG7JCYT2
+ 9Oa/0eMEorSM+Eojsi4t0aOwc4UFBkxsTUed6R/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uiveBe
- YnqGcqK+zu9ioOaNZW1ydXbCw+PmOS3Kp8raY=; b=j4gb2U1+YOobIkUw1t/jHx
- EVQQzoJtMnp2owNYKBUmPWx7eCx4dJUs+4yhgKV/zFRnxDXAqQCNyeorWEIPBlFn
- TEFcjUjq+Xcf8Jo9/2vO+eKKUPtL8oXlM5jRJb0jMBQnPWSPILSIBtn+7GdwEcdl
- kxScdxHSrf98qAHJzzuqAPkd/RoAJGDv0v+0IBkX6JEB+dkMlCf9+dTPgHm38Jq1
- vV7gaIZTKq1YILNpGcPJZ++Ds4e/imWr3Nyf1xDSJc90xl2DDNhAUkF2tvq+Cjng
- DvBab47l/UVWXGVvCF0WH1WjniiMHiTYgQYtZGOKOUmX8REbVEiQigfhtKdutNmQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=B/S+5p
+ JTjISbVKXDbmkZvJslRN2Aa6NU173g50j/vbU=; b=kAotQOEkxd+hD4BDdLCLA/
+ hBz/1Kry7hN1knZlfWkWSFY5Kk62/Y4AknUJnuItOg103m1/j5WggBVH6EYu32M1
+ 9tqaXf8/USQFRljSgqalUKCbmTvbzXCkBncruymddiUompnaNtFBxQoxmaAZPuSl
+ rAgwaC5bVndChcp6dbAW5rn91fsylQszycIHq0XjTsjeWXEERhKGGsLcDn9BdH42
+ 17SsTG85Y0vCN42FOMb/wuYQ64jyBv+egYtEUrxQJdulclx6H/qQsIoCX7q8D6wh
+ HC6yvpbaEScbzMqcEH7utL6YjjheB2JrzKN+5dm1mcPXlJW3wejCVOoFgucddEcw
  ==
-X-ME-Sender: <xms:TekYYrzHDtG5mYDU5GN6H3e0gL-VYK9DWeu_fDAOlQKiWSuCFF5TLg>
- <xme:TekYYjQPBLzWu2_SFv-aQ7MAgAfiZgnxQ5NueK6Y81bh6eIA69pqHAB_GcWi1vxUA
- 7B1hBLhF6E1LpOkWfk>
-X-ME-Received: <xmr:TekYYlWJs8ao9c87l-JZhLWP8EIimQWOPwgnoUe0eBJmO1tmkzWYfxq4K4Hx1B3r9L7SfVkS0k_eZ8pxPEi_GRaa9DBeYfR_ind6VGU>
+X-ME-Sender: <xms:T-kYYkHbrSHxF9zRYwpN41KjskSHspH3ZbtLihDIa1ShCj8W5sxStQ>
+ <xme:T-kYYtXc5E-hQJYgVLsblT1eCXMIZ2nXSXzwwG3KPmHS7urQmzKuTFpf9Bh27zB-2
+ TnM08Guu0QrAQpvN04>
+X-ME-Received: <xmr:T-kYYuK8leTEbL3o1-QovEQj42yfVV6df0mzz4Fur-pQpuplkxdiIVSRdgfCQyBsT7kYSM6P2yqTE0P_8CgnNy1AfJwG3Pyx4F7J9Y0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:TukYYlhDE33eqWEPz5DEeAxCM6q1pgsY_bWvlpBcYRbxQT7GPnr7uA>
- <xmx:TukYYtCAGDGOkn0fXJCwZaA7Ah2EtpbLSgDlTBscTsmr4FrrNw09lw>
- <xmx:TukYYuJU0IsT1n1aqTu2fTHA1xZWkI7u0fmfpUxFvJCyHtHniIO0wg>
- <xmx:TukYYnDOHxvy_dEWSYABwazl388hTbubKFHIVm1H1ntqho1ET9QJPQ>
+X-ME-Proxy: <xmx:T-kYYmHkrzzG1_4DJtc3QBxbTmg8IpqMsI0piTGA5SXdQt_N2AYivQ>
+ <xmx:T-kYYqUnw8FZ5jTJgeo2-IEBAV9fQXZ-GhHCnky5ojYTK6DSyYRPPA>
+ <xmx:T-kYYpO7uPhLr9RZLxi0Ye03DMmV_Crrlgf0-ijqHCykDf3oV6MMgQ>
+ <xmx:T-kYYlFGw_UUiEv0JSYoO2vq66fawq87d_hgYEQbzc_0bztk9z0Nqw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Feb 2022 09:35:57 -0500 (EST)
+ 25 Feb 2022 09:35:59 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v7 11/12] drm/vc4: Add logging and comments
-Date: Fri, 25 Feb 2022 15:35:33 +0100
-Message-Id: <20220225143534.405820-12-maxime@cerno.tech>
+Subject: [PATCH v7 12/12] drm/vc4: hdmi: Remove clock rate initialization
+Date: Fri, 25 Feb 2022 15:35:34 +0100
+Message-Id: <20220225143534.405820-13-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220225143534.405820-1-maxime@cerno.tech>
 References: <20220225143534.405820-1-maxime@cerno.tech>
@@ -87,45 +87,38 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HVS core clock isn't really obvious, so let's add a bunch more
-comments and some logging for easier debugging.
+Now that the clock driver makes sure we never end up with a rate of 0,
+the HDMI driver doesn't need to care anymore.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 24de29bc1cda..6fe03fc17d73 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -389,8 +389,15 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 						500000000,
- 						new_hvs_state->core_clock_rate);
- 
-+		drm_dbg(dev, "Raising the core clock at %lu Hz\n", core_rate);
-+
-+		/*
-+		 * Do a temporary request on the core clock during the
-+		 * modeset.
-+		 */
- 		clk_set_min_rate(hvs->core_clk, core_rate);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 92b1530aa17b..21aff3ad96cf 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2576,19 +2576,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 			vc4_hdmi->disable_4kp60 = true;
  	}
-+
- 	drm_atomic_helper_commit_modeset_disables(dev, state);
  
- 	vc4_ctm_commit(vc4, state);
-@@ -416,6 +423,10 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		drm_dbg(dev, "Running the core clock at %lu Hz\n",
- 			new_hvs_state->core_clock_rate);
- 
-+		/*
-+		 * Request a clock rate based on the current HVS
-+		 * requirements.
-+		 */
- 		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
- 	}
- }
+-	/*
+-	 * If we boot without any cable connected to the HDMI connector,
+-	 * the firmware will skip the HSM initialization and leave it
+-	 * with a rate of 0, resulting in a bus lockup when we're
+-	 * accessing the registers even if it's enabled.
+-	 *
+-	 * Let's put a sensible default at runtime_resume so that we
+-	 * don't end up in this situation.
+-	 */
+-	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOCK_FREQ);
+-	if (ret)
+-		goto err_put_ddc;
+-
+ 	/*
+ 	 * We need to have the device powered up at this point to call
+ 	 * our reset hook and for the CEC init.
 -- 
 2.35.1
 
