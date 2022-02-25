@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF5E4C5146
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA354C514D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C079B10EABB;
-	Fri, 25 Feb 2022 22:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDB710EAEA;
+	Fri, 25 Feb 2022 22:13:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADCE10EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645827088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j3VxtWAMog8m5ArNU/BgenbWuy7FcGC+lz0O8q97Sw8=;
- b=Rewd7viwx0OkgPiaqXpobyInoqsiuuerWpBNC106v713Afn/XHSb2peqa4G1s3kaTv7N6p
- uSakCapbVyrMYHknpbg1mpS28HKX2h8xwOz7vET0YP5VWbMG6veipUI+zK7QcfhtqEYJ1l
- 8fB44oX7A2E9yFzHgkxII8ap0CAhzNI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-jagw6mkdNhOu6vozBpUChg-1; Fri, 25 Feb 2022 17:11:27 -0500
-X-MC-Unique: jagw6mkdNhOu6vozBpUChg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l31-20020a05600c1d1f00b00380e3425ba7so1990238wms.9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:11:27 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA4310EAEA;
+ Fri, 25 Feb 2022 22:13:43 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id d28so6438297wra.4;
+ Fri, 25 Feb 2022 14:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Fvub+QyCFz4QEI9ir/NnKPK3FMnGBo7v06Vuk7fQ0Sw=;
+ b=BOGNzAA5iflwyhEC3o18l9sUhMnv6KXjashq9J6ClButQKmasUMtt8vkKPGJR0WGDJ
+ Eu9RhDK3UUYaFKWIOfdX/ncnF7AByZ+4t0yVfT2czN6DrOtbiKk1VniQe/8M8R1AVeym
+ XKK0cfeqJfdaItmMcJ50y90w1qOcIB39h4nmEQpR/yJ46IEHeXVvzdF7cu3CLL+Udf1h
+ uxdBczvIDty9nDq3D8k3DAUdmzzLmiGGVIA5zUxbVwJVb3PUBoVfP223wXS6s/m/N0YE
+ 45h5e77OIdcsvRKk/ton3xUcOej4ScU5HwmdXlSO3u7iGoH2xJQJvwj29nV6uF0xR85m
+ fO/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=j3VxtWAMog8m5ArNU/BgenbWuy7FcGC+lz0O8q97Sw8=;
- b=1iJx68dVkAFWJGD54xrBYeR7LDAjcel2BkvEbLE7uz1zm1fuYVtJjaqkNxWYpGFC1Y
- 9FIT9Yxgw7QXZZVmNe4jjSus32mabsSVXkYkstQZGFzC27MOcM7zpuOAujqAv8RRRj7V
- ++5ptNKrL1q7BlAjd9B8pVDTbNiJI8s4gWkI/rFCFUfAoYvXz3Q14+1qpQhv7GTR8Uin
- VXQovKoZtKk07jsbKMD1/DUK+cAPwe88fVPShze25BHNQbJ+fwUINCzFdeBStKZ1q/0B
- pf3RzB/mnGl1MvEFZZ83Hz1hpsXd/+4i4ghNPyMJz7c63Rt4Gr3xraViBAsQ1vGvD5WE
- dgAw==
-X-Gm-Message-State: AOAM533m7yRJBnIWuuHFxQVdOxvoF3KPpMOB2D7lXzQt0NDNTcJ5sIHm
- 7jpIgPPyHkDfaAss80iOFeHbc6HH6nIhB5SCg9B1WLZ8rjwpi3d8prfv9nBcNmFzAg5B1TY9Ln+
- iPoAfTRCH1NAEyT/zJaOLMcTnQy4h
-X-Received: by 2002:adf:e3d0:0:b0:1ea:9be0:3162 with SMTP id
- k16-20020adfe3d0000000b001ea9be03162mr7706155wrm.205.1645827086222; 
- Fri, 25 Feb 2022 14:11:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpYbnDqQh/prWaTqz6c8tOt2xrJUKB8Clt1MsSwRkjB7ijhcF6OjzqFxBwoqAxNJNzJXwD4g==
-X-Received: by 2002:adf:e3d0:0:b0:1ea:9be0:3162 with SMTP id
- k16-20020adfe3d0000000b001ea9be03162mr7706135wrm.205.1645827086036; 
- Fri, 25 Feb 2022 14:11:26 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- l26-20020a05600c1d1a00b00380def7d3desm3652202wms.17.2022.02.25.14.11.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 14:11:25 -0800 (PST)
-Message-ID: <272b6278-b153-1e12-a542-0f9706c592a6@redhat.com>
-Date: Fri, 25 Feb 2022 23:11:24 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fvub+QyCFz4QEI9ir/NnKPK3FMnGBo7v06Vuk7fQ0Sw=;
+ b=jMutjSIHxFriUlZb9a0PYHq6O5nEpOqrd8YC9ZXTUy7BBbMnsOHCSpUKtvaTw3ZaNs
+ T/bXZZSMCwt6Z7wV6l+rzyuZ70fYBQNdzUSaOojYpBotVPxz0z0hqdCg/ocnOn/f9SZS
+ jCgsWCo/a/1DtpIj+x1jc+7YIEBfXUBgYsAUNt0+Z9tb3O6ny5fLrJT1ZOVuzcONzyyf
+ 6V74TOTwhp0w873qayjqJLwgcdP3Fzg9EIRDDLBBYeuBMVuEIqYsjEW/4KxXxSrbTmTq
+ 2uppT4rHJzvZxP5zdh78p+0eb/aAidJ+xvxpxuUujPod1diSD36WdtBdlxKVlltBTKCS
+ bG2Q==
+X-Gm-Message-State: AOAM532LTj1qBXx1SCj0+kkCMqJ6cC/oRYjLTX6/MzVe9wPnsR72NY7c
+ m8ENdOBwERmFllGY0Hn93o22M/NC+plVOlX173l8cf6i
+X-Google-Smtp-Source: ABdhPJwveIMQqTwSIiBLAjZB63N3cmcKmRAPddbsf0evGtTjPoCLjg/1YixxQ9cdei47NO66Xd4LyHyENIWFA3Zb550=
+X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
+ j73-20020adf914f000000b001edbb92d0ccmr7648563wrj.297.1645827221588; Fri, 25
+ Feb 2022 14:13:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 3/3] efifb: Remove redundant efifb_setup_from_dmi stub
-To: Michal Suchanek <msuchanek@suse.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-References: <1f13e6f2-a87c-83ac-7119-8632c8c8ac8e@redhat.com>
- <7416c439d68e9e96068ea5c77e05c99c7df41750.1645822213.git.msuchanek@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <7416c439d68e9e96068ea5c77e05c99c7df41750.1645822213.git.msuchanek@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220225202614.225197-1-robdclark@gmail.com>
+ <20220225202614.225197-3-robdclark@gmail.com>
+In-Reply-To: <20220225202614.225197-3-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 25 Feb 2022 14:14:12 -0800
+Message-ID: <CAF6AEGvXs9etrtBUP5fAx7z6pLMV76a-FEXrdk2gY8npDHrFnA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/msm: Expose client engine utilization via fdinfo
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,34 +64,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, David Herrmann <dh.herrmann@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- linux-efi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
- Martin Mares <mj@ucw.cz>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>, linux-video@atrey.karlin.mff.cuni.cz,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Ard Biesheuvel <ardb@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/25/22 21:51, Michal Suchanek wrote:
-> efifb is the only user of efifb_setup_from_dmi which is provided by
-> sysfb which is selected by efifb. That makes the stub redundant.
-> 
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+On Fri, Feb 25, 2022 at 12:25 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Similar to AMD commit
+> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
+> infrastructure added in previous patches, we add basic client info
+> and GPU engine utilisation for msm.
+>
+> Example output:
+>
+>         # cat /proc/`pgrep glmark2`/fdinfo/6
+>         pos:    0
+>         flags:  02400002
+>         mnt_id: 21
+>         ino:    162
+>         drm-driver:     msm
+>         drm-client-id:  7
+>         drm-engine-gpu: 1734371319 ns
+>         drm-cycles-gpu: 1153645024
+
+Note that it might be useful to have a standardized way to report # of
+cycles and max freq, so userspace tool can derive %utilization in
+addition to just %busy
+
+BR,
+-R
+
+>
+> See also: https://patchwork.freedesktop.org/patch/468505/
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+>  drivers/gpu/drm/msm/msm_drv.c | 17 ++++++++++++++++-
+>  drivers/gpu/drm/msm/msm_gpu.c | 20 ++++++++++++++++++--
+>  drivers/gpu/drm/msm/msm_gpu.h | 19 +++++++++++++++++++
+>  3 files changed, 53 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 16f37f3d9061..fdf401e6f09e 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -911,7 +911,22 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>  };
+>
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
+> +{
+> +       struct drm_file *file = f->private_data;
+> +       struct drm_device *dev = file->minor->dev;
+> +       struct msm_drm_private *priv = dev->dev_private;
+> +       struct drm_printer p = drm_seq_file_printer(m);
+> +
+> +       if (!priv->gpu)
+> +               return;
+> +
+> +       msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
+> +}
+> +
+> +DEFINE_DRM_GEM_FOPS(fops,
+> +       .show_fdinfo = msm_fop_show_fdinfo,
+> +);
+>
+>  static const struct drm_driver msm_driver = {
+>         .driver_features    = DRIVER_GEM |
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index 173ebd449f2f..6302f3fe564b 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -4,6 +4,8 @@
+>   * Author: Rob Clark <robdclark@gmail.com>
+>   */
+>
+> +#include "drm/drm_drv.h"
+> +
+>  #include "msm_gpu.h"
+>  #include "msm_gem.h"
+>  #include "msm_mmu.h"
+> @@ -146,6 +148,15 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+>         return 0;
+>  }
+>
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +                        struct drm_printer *p)
+> +{
+> +       drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
+> +       drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
+> +       drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+> +       drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+> +}
+> +
+>  int msm_gpu_hw_init(struct msm_gpu *gpu)
+>  {
+>         int ret;
+> @@ -643,7 +654,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>  {
+>         int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
+>         volatile struct msm_gpu_submit_stats *stats;
+> -       u64 elapsed, clock = 0;
+> +       u64 elapsed, clock = 0, cycles;
+>         unsigned long flags;
+>
+>         stats = &ring->memptrs->stats[index];
+> @@ -651,12 +662,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>         elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
+>         do_div(elapsed, 192);
+>
+> +       cycles = stats->cpcycles_end - stats->cpcycles_start;
+> +
+>         /* Calculate the clock frequency from the number of CP cycles */
+>         if (elapsed) {
+> -               clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
+> +               clock = cycles * 1000;
+>                 do_div(clock, elapsed);
+>         }
+>
+> +       submit->queue->ctx->elapsed_ns += elapsed;
+> +       submit->queue->ctx->cycles     += cycles;
+> +
+>         trace_msm_gpu_submit_retired(submit, elapsed, clock,
+>                 stats->alwayson_start, stats->alwayson_end);
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 696e2ed8a236..ad4fe05dee03 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -328,6 +328,22 @@ struct msm_file_private {
+>         struct kref ref;
+>         int seqno;
+>
+> +       /**
+> +        * elapsed:
+> +        *
+> +        * The total (cumulative) elapsed time GPU was busy with rendering
+> +        * from this context in ns.
+> +        */
+> +       uint64_t elapsed_ns;
+> +
+> +       /**
+> +        * cycles:
+> +        *
+> +        * The total (cumulative) GPU cycles elapsed attributed to this
+> +        * context.
+> +        */
+> +       uint64_t cycles;
+> +
+>         /**
+>          * entities:
+>          *
+> @@ -511,6 +527,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
+>  int msm_gpu_pm_suspend(struct msm_gpu *gpu);
+>  int msm_gpu_pm_resume(struct msm_gpu *gpu);
+>
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +                        struct drm_printer *p);
+> +
+>  int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
+>  struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
+>                 u32 id);
+> --
+> 2.35.1
+>
