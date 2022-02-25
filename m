@@ -1,158 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56274C4B5A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 17:52:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3116F4C4B9C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 18:06:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E6F10E739;
-	Fri, 25 Feb 2022 16:52:38 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485C110E724;
- Fri, 25 Feb 2022 16:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D67410E87E;
+	Fri, 25 Feb 2022 17:06:36 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5B710E836;
+ Fri, 25 Feb 2022 17:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645807956; x=1677343956;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:mime-version;
- bh=vXxNHWMIQ5pcvgIFMYAfww83JrKCZxBr9g9xKME9EQ4=;
- b=YBTsRGoFgdZ7MpZFq0q2LPwAENCC/TfIyp44sO4JDD5ytot4iEDBrRVt
- ufZut1x3mtS2t0yDle2HzYgW7lgwRlc5m3EJahnkHomEAPL7eabekQCJ4
- FU+outbcG7D0BX8abc14Y4Dn7osGGwiqTTo9WEResY5sqyb1+mrPzCR6R
- 15rehUOqEzJK+8bBgE4HPSa5HTBfGVOZDM6oVGErn5GBTHiWhNdA1Tkf8
- AevIjbRHuMmEr1j4wt9t8MqhLpaFVp+YdoGMvAojaeofnqJwHCvU8fqG6
- dUPeVeTDsuYh97p0nMUjn9NSZhnxKECYOPV4wIdPkepJ49iD7cor3wDzl Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="233156051"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
- d="scan'208,217";a="233156051"
+ t=1645808794; x=1677344794;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Q1A/ivu6EPS6bMVxQQCOx7//IR/SAk2S3QkZuonjRCY=;
+ b=WTM4K0rn+YwP00mjrMcOnczHEzU75FLNxCSDyEkmykFI5b+7V5FVK2I1
+ dCN2IR8creW9Oy9XCyFrqrQSt1YTYGQd847BCcIwPN8jTh/T1J7mRgrOZ
+ 8Wz6/eltONT74dQKHueVs3812j62Y/LbjrWJxXGWUOebD6ywiCPvKjHVC
+ EQdD3vKiQz+rN+uQhNcvrZtbLrHrOkbqxwDn8HteSed9iuP8oYaKCMmLy
+ EaogihKqNCU1rcamogm8q6FJ4YxXcLK8Vc4w3S75dWnROZUdmzisHIsLE
+ DqQC43sX49hyTOihdAMQmWZg88X/YHDQlf4lh20lTK0+APBgHYjkjGdQu A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="338972029"
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="338972029"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 08:52:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
- d="scan'208,217";a="549329435"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga008.jf.intel.com with ESMTP; 25 Feb 2022 08:52:35 -0800
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 25 Feb 2022 08:52:34 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 25 Feb 2022 08:52:34 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Fri, 25 Feb 2022 08:52:34 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Fri, 25 Feb 2022 08:52:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O+fw7OlDzQO67pBF154uTXbLKtcOxU6+ABxmy71Nd+wkMOGvBAbD7NBU/tqjDU12/3B6kWk19R1zANa1qYAgvoW1YZzPKZ4nLmwclpwFy93Q4qG/8zcuWdckbM2n3DO2AttkzQv6S+NKEakO24oaCtKc0GRP5EVq5gxXDeIJ+oVdeXysUtn6sCUgjVchCv8+hkeNyDbWbMofI4K4GkpKbt3YhHt6lOBI3cJr3z5ZAc4jkOxUTEk/tc5f0FtM+W5W3TbRRNreU6uV3YR6mn93G7Q0hNDIvZDBBemF9+3lwBqpu/TcQ+cW+4WQbF49UOnIQOt/HRXrsIHpLHk0P8c75w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tTSmhjlms5eVW9XXaSLmQmWlM7iTMu0is8wgQT/WSFs=;
- b=mX9Fjhrg+voR2hAy6ZTLZM2oA38iBJPZQvqkynmQVAyCJUmyzsH6uPaCjI0Q8d6rXjHe1fPMiikyatsOb4rCYX9IWy+E9d17R1HQo2lvxw5NQyYbVh11tbUVyh9woXrUcZ5Ezl/GChQTLoJMbCgFOn88a8DOMKLTVA5rpLt65HVE7JGmQZdff2ZTCB9EOG0bTNq1Ygqt93+vXIWYkGL3Ea+LQifEBwK7oMD7l8RylOaWgs+A6IAFT/OtQgnN0Mc+/hI0iBpU5FnVTZDHxa2poXEtukVsUAf9306eWxFt9UMlALRbgnasKJZamRW3pNw2+8P2+ACjHDrrwHO2W/Qsmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com (2603:10b6:301:b::12)
- by DM4PR11MB5534.namprd11.prod.outlook.com (2603:10b6:5:391::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Fri, 25 Feb
- 2022 16:52:31 +0000
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::3db4:813a:16:ba0]) by MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::3db4:813a:16:ba0%7]) with mapi id 15.20.5017.026; Fri, 25 Feb 2022
- 16:52:31 +0000
-Content-Type: multipart/alternative;
- boundary="------------QOo0ymLngLY8d3KZr0QSut89"
-Message-ID: <718c6339-4a19-0de0-2666-a32be7c56dd7@intel.com>
-Date: Fri, 25 Feb 2022 08:52:28 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20220225032436.904942-1-michael.cheng@intel.com>
- <20220225032436.904942-2-michael.cheng@intel.com>
- <011a236d-7ed4-0d48-e8a6-c9bd98740d5b@linux.intel.com>
-From: Michael Cheng <michael.cheng@intel.com>
-In-Reply-To: <011a236d-7ed4-0d48-e8a6-c9bd98740d5b@linux.intel.com>
-X-ClientProxiedBy: MWHPR18CA0040.namprd18.prod.outlook.com
- (2603:10b6:320:31::26) To MWHPR11MB1645.namprd11.prod.outlook.com
- (2603:10b6:301:b::12)
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 09:06:33 -0800
+X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; d="scan'208";a="549335127"
+Received: from pkinsell-mobl.ger.corp.intel.com (HELO [10.213.234.117])
+ ([10.213.234.117])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 09:06:32 -0800
+Message-ID: <74d30fd4-cb72-113e-fc09-12602b3cf06d@linux.intel.com>
+Date: Fri, 25 Feb 2022 17:06:29 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fbbf983c-17e8-404a-589a-08d9f87f3680
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5534:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM4PR11MB55349759B1C48F1852C7DC1FE13E9@DM4PR11MB5534.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JE+9zaGHjuCqowF3LlaqVCLlrKHqD5h2M+ZlS3YsBTjyUEoQrr3d1rCmrrozgzC6FaPvZAa3ZxzBBncbWLkKMc8fz2kSe2OZuXLNN9eXmJAEI8eS/S0hotQEx5Z1gw+CqLzZnyKA4rYvYGaQ1o5JxgE6XbPpB/dHJIf6Ih0gaDdx1HjxBdG2vZQkJ0zIVpK7PnkOf92YF7H3iOq5K6OAPOW6fXB/YTfxziFd/x+Js5fTz3U/y073+2E+awv42V05VBrdLMiMP5IDuFpwPbvWcZ2WGfvDQm9hjdO0xyX1IfrIfiE9CPyGfZY+hf/hvGw8Nk8j6tdO2wh/HwR8UopRR/BW5aQ/HwU5751dKf9DMRuZL8RmhjaXfcPrntJQcg4Om9wz1XaJ0hsNFlwQoTmzbsckBFoSA2ZLS7IylYt2w3Za/mIAfYUmYD3beRsT7gVeLKkByhrPd15uPwLtHMtcVlKvu6y20RVQ5DFlx/MJmeFa6EPAkqpHG+6gzCFV8kWLj+yZ5FvPE+lEwJfRBs30ZPTHizR5cUL6irZ0C2oqzBCkY6l9EJ/+23yUFxR4EPTMI60CuediZo8PPLeI11ZwOpERFMlwTtsOrJOsD0gYP8wyh9YadyJLWtfoSHjqOEYQJWBJ2RSQ7LpW2YitKARxi+gcXWTiwAldvGzRQ0hJH1cXmi6KCZ8E8UMClPFNeOHuGY23DgKXKgTu5G54B0GbqkIe+zoVYPbIuFr/ul+jm6E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1645.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6666004)(31686004)(53546011)(6506007)(36756003)(33964004)(186003)(6486002)(2616005)(6512007)(508600001)(316002)(66476007)(66556008)(82960400001)(4326008)(38100700002)(8676002)(2906002)(86362001)(31696002)(5660300002)(44832011)(8936002)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWIrSGVWL0ZRWnA3NFRGK1Ewc3gwZUd1NGVYamFOL0xpRGlRVUZ6YVYxWHJC?=
- =?utf-8?B?THowekRzYnRFSUg1OGxtWWthY0tnTXM2SGxTamUvb21EbXg1SGhwVnFvS2dq?=
- =?utf-8?B?MFRkNVpmZitBMmUxZnFmMXFyaVVPbmJtTXNaODlEYW1jbk5xUlpzbTN2aVVE?=
- =?utf-8?B?Zm42ZDZ3QWlUaUZQQTBBRk5SVkZwd0JXK0sxam8wS1dBQWdCNjRIR0FxM3Qw?=
- =?utf-8?B?VUoxcGpuRVJhVkV5MnZJS0RzenFobGkwMjVFS1JwQ3ZncndtUEtBbXkvMGtP?=
- =?utf-8?B?MmN2dklSaVpDZjg0VTlBQ0V4WEh5Rk51dGtQdmFubENMZTlaRzBpcXRMQStG?=
- =?utf-8?B?RDF4aVJwZUxJRmJLSXlkS0Z5VGQyUVVGZFlCSkJlOW42eisxREVDcG5HbWdD?=
- =?utf-8?B?TkNHeWZJNTVDL21jVGtIVEc0Z1o0OHp2dElweTYxb2sxSm1DQU9IUm1Wei9q?=
- =?utf-8?B?QlYvV2ZNUW81NW51SzA4cGpLaTJLdWtOalA0V1FXT1NXMEsxQkFBV29FTXFk?=
- =?utf-8?B?UG1kVkZXc2Ewd21zcEg4eTBiZkYzRHpvRUxybXVzaE5KT0tDa3duTDhleFJk?=
- =?utf-8?B?NTIrcnY2dkx6Uk9jTlNjdE1xd3R4TXh3RjR5UVpBK2w2Z29DbHdQZ2NzOWEx?=
- =?utf-8?B?eHowWWQwK3JMc0pmOTdvQTRHd2hWOFFyVUdKL1RMVHpGbjAxNVZVdTU0S2tQ?=
- =?utf-8?B?eVBYMkZjejNVV3dxQzBZdGJ2MzlSL1lkdGdBUG1FNU9DaGpXKzBscHl0V0J3?=
- =?utf-8?B?V3N0TUU4bFhxTlcwSjI3OWx2WmRiMjdnZnFPZE91SWVRY081U24vS1p2MS96?=
- =?utf-8?B?eURKRUdNZjRwVnA3WVl4WUpzU2V5M1lnVnZIYzAyc3hHSklxUW9xSXZpL0tz?=
- =?utf-8?B?K2xYSlJ6R1NLS0wvSzBjVmhGNWZpaWJOWklJdEcwdUZDblV3Q0tpaW83L01a?=
- =?utf-8?B?a1VCVnFtbUpnK2lHcmVOWGFHNG1ZR1FqSEVrS2ozR2FHNlpSRCtxQ2dYajBu?=
- =?utf-8?B?VCt3eHhZNVdVamxJcGJwR1BqV2RaNGpBcnZ6WllrRHJ6UVRDV0xMeUVvWXFB?=
- =?utf-8?B?TE5iMk1TWnEvaXF2RUJFZ1lwWnhIcGFzVDZBY09yUDUzSXRrenRwb0xYcEY3?=
- =?utf-8?B?am5LQmJkanBPUU1oc0xTZnMyb1lBMVQ4bFlLMG5aVFlwZkR4ZzhEVGVPR0NQ?=
- =?utf-8?B?NDZxdFNrZGJLalRQQ1FJNHNOaDlUcDI3eTVKRUxRUlN1bzdsQ3JReEFQV0E0?=
- =?utf-8?B?elV3ODdoUXM1aVdpSE9aL1pUVjhIL0ZEUkh0U1VPWHAyOFR4d21jWXFXWUF2?=
- =?utf-8?B?NjRkcWo2aTJPL2l1VWNZU1NxVTExMVBZVjh2VEdCSGx1aDZGY3NvdWZ3WXVO?=
- =?utf-8?B?THF3TmdNdkU3N201QWIrSzNKSFMvOGZqUHB1U0p4bVkvWFFlVzFqNzZTS2lG?=
- =?utf-8?B?eEthdjIvdTYvWG1DMnRkRlMyYUwyclBpSTAvbkFrRkErVE84bUMwaXV2NDJz?=
- =?utf-8?B?RW1GQ2NjQnNNYlI3USsrN2ZWT0J1R0ZJUkFPRmVKbS9VcGo2ZnU4SHh1SkFa?=
- =?utf-8?B?Nlg5Q3lyOTRoY3VvZmd0TzdQSEJjSWxDdXhKNXpHMHlJY2EzcFJlVjlpS01T?=
- =?utf-8?B?MDVBVWdLTlI0RlVVcklYMGFxVkgwa3RDZUEwL3pxLzB4NkwrcW50d2cvUHpL?=
- =?utf-8?B?Y240ZWRaNGRub2VzMGJFeG1tZG9hQnlqMHBpazNZaE9DOGk2RlBwS2ZpR3lD?=
- =?utf-8?B?NFcxekMzTEhSUVhadjlwNzRxelZlRzVOd3Vyd3R5VUw3emRWaHhFY3VrV3Az?=
- =?utf-8?B?YWpwcnhZenFVb1dkRDdMRk1HTnRXRnA0ZnV5V3ZkSkp1TlF2WjRHUE13MGVY?=
- =?utf-8?B?U0RWY3RFeVVKZnhWbnJIaUl6UzhZSnFOcGQwdUtkbDlTSUptVmR2ZGp6RnhY?=
- =?utf-8?B?WGpxVWl5WUFjMytubC8ybENXSUlGdlJ2Nm1oTHhvZGVLUU9sQmJjU2FXa202?=
- =?utf-8?B?cUtST3pXb2pweVM5QlYxcFdsT1ZMUTdyS0dkQU1nb2FkK1JzTlVMTWZRTDVZ?=
- =?utf-8?B?NW55UzlhZXc3ckRxMWdpUDJncjNOaUhjMjFZdjF2UktuMzRtclpmclFNeUVC?=
- =?utf-8?B?T0dNNWswSXJUV09ldzdNbkk5S2VrSmppTzI1cWZBQ253S2dvVVZTNTVLeGlr?=
- =?utf-8?B?WWpwdDllREZta3hyRGhCZHdxSkJ2WXNLdTEySDVLZkQwaEZxYlRyL0VOSy9h?=
- =?utf-8?Q?cfUMRnSR0BBhS/qw2nulnMToBp5rBId3cz/jetYLmQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbbf983c-17e8-404a-589a-08d9f87f3680
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1645.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 16:52:30.9957 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MKMRXn1PQ4Kx7Bm+CCmGEf5fmx1xWWVHzqSjXq+2FlwV+YFZuN2vBdI9iWTTjSncoJua6f/irMdYPsBpti3X5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5534
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
+ to avoid overflow
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-2-John.C.Harrison@Intel.com>
+ <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
+ <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
+ <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
+ <85105590-a8be-f4e1-69bc-cd34cad108e2@intel.com>
+ <16a2687b-4996-8d40-456e-019a112f0fb6@linux.intel.com>
+ <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,259 +68,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------QOo0ymLngLY8d3KZr0QSut89
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Tvrtko,
+On 24/02/2022 19:19, John Harrison wrote:
 
-It seems without cacheflush.h being included, when I build for arm64 or 
-x86, it stills pulls in cacheflush.h:
+[snip]
 
-./.drm_cache.o.cmd:838: include/linux/cacheflush.h \
-./.drm_cache.o.cmd:839: arch/x86/include/asm/cacheflush.h \
-./.drm_cache.o.cmd:920: include/asm-generic/cacheflush.h \
-./.drm_cache.o.cmd:830: include/linux/cacheflush.h \
-./.drm_cache.o.cmd:831: arch/arm64/include/asm/cacheflush.h \
-./.drm_cache.o.cmd:1085: include/asm-generic/cacheflush.h \
-So it seems without including it, cacheflush.h stills get pulled in,
-I think its because its a required kernel source to build the kernel
-per specific architecture, but please correct if I am wrong,as I am still
-trying to understand how things works!
-Michael Cheng
-On 2022-02-25 8:28 a.m., Tvrtko Ursulin wrote:
->
-> On 25/02/2022 03:24, Michael Cheng wrote:
->> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
->> performs a flush by first performing a clean, follow by an invalidation
->> operation.
+>>>>>> ./gt/uc/intel_guc_fwif.h:       u32 execution_quantum;
+>>>>>>
+>>>>>> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
+>>>>>> engine->props.timeslice_duration_ms * 1000;
+>>>>>>
+>>>>>> ./gt/intel_engine_types.h:              unsigned long 
+>>>>>> timeslice_duration_ms;
+>>>>>>
+>>>>>> timeslice_store/preempt_timeout_store:
+>>>>>> err = kstrtoull(buf, 0, &duration);
+>>>>>>
+>>>>>> So both kconfig and sysfs can already overflow GuC, not only 
+>>>>>> because of tick conversion internally but because at backend level 
+>>>>>> nothing was done for assigning 64-bit into 32-bit. Or I failed to 
+>>>>>> find where it is handled.
+>>>>> That's why I'm adding this range check to make sure we don't allow 
+>>>>> overflows.
+>>>>
+>>>> Yes and no, this fixes it, but the first bug was not only due GuC 
+>>>> internal tick conversion. It was present ever since the u64 from 
+>>>> i915 was shoved into u32 sent to GuC. So even if GuC used the value 
+>>>> without additional multiplication, bug was be there. My point being 
+>>>> when GuC backend was added timeout_ms values should have been 
+>>>> limited/clamped to U32_MAX. The tick discovery is additional limit 
+>>>> on top.
+>>> I'm not disagreeing. I'm just saying that the truncation wasn't 
+>>> noticed until I actually tried using very long timeouts to debug a 
+>>> particular problem. Now that it is noticed, we need some method of 
+>>> range checking and this simple clamp solves all the truncation problems.
 >>
->> v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
->>             dcache. Thanks Tvrtko for the suggestion.
+>> Agreed in principle, just please mention in the commit message all 
+>> aspects of the problem.
 >>
->> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
+>> I think we can get away without a Fixes: tag since it requires user 
+>> fiddling to break things in unexpected ways.
 >>
->> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
->>             symbol that could be use by other modules, thus use
->>             caches_clean_inval_pou instead. Also this version
->>                 removes include for cacheflush, since its already
->>             included base on architecture type.
->
-> What does it mean that it is included based on architecture type? Some 
-> of the other header already pulls it in?
->
-> Regards,
->
-> Tvrtko
->
->> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
->> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
->> ---
->>   drivers/gpu/drm/drm_cache.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
->> index c3e6e615bf09..81c28714f930 100644
->> --- a/drivers/gpu/drm/drm_cache.c
->> +++ b/drivers/gpu/drm/drm_cache.c
->> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned long 
->> length)
->>         if (wbinvd_on_all_cpus())
->>           pr_err("Timed out waiting for cache flush\n");
->> +
->> +#elif defined(CONFIG_ARM64)
->> +    void *end = addr + length;
->> +    caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
->> +
->>   #else
->>       WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
->>   #endif
---------------QOo0ymLngLY8d3KZr0QSut89
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>> I would though put in a code a clamping which expresses both, 
+>> something like min(u32, ..GUC LIMIT..). So the full story is 
+>> documented forever. Or "if > u32 || > ..GUC LIMIT..) return -EINVAL". 
+>> Just in case GuC limit one day changes but u32 stays. Perhaps internal 
+>> ticks go away or anything and we are left with plain 1:1 millisecond 
+>> relationship.
+> Can certainly add a comment along the lines of "GuC API only takes a 
+> 32bit field but that is further reduced to GUC_LIMIT due to internal 
+> calculations which would otherwise overflow".
+> 
+> But if the GuC limit is > u32 then, by definition, that means the GuC 
+> API has changed to take a u64 instead of a u32. So there will no u32 
+> truncation any more. So I'm not seeing a need to explicitly test the 
+> integer size when the value check covers that.
 
-<html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <p>Hi Tvrtko,</p>
-    <p>It seems without cacheflush.h being included, when I build for
-      arm64 or x86, it stills pulls in cacheflush.h:</p>
-    <div style=3D"font-family: 'Liberation Mono', monospace; white-space: p=
-re"><div><span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: n=
-ormal; font-style: normal; text-decoration: none">./.</span><span style=3D"=
-color: #705050; background: #3f3f3f; font-weight: bold; font-style: normal;=
- text-decoration: none">drm_cache</span><span style=3D"color: #dcdccc; back=
-ground: #3f3f3f; font-weight: normal; font-style: normal; text-decoration: =
-none">.o.cmd:838:  include/linux/cacheflush.h \                            =
-                                                         </span></div><div>=
-<span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; fo=
-nt-style: normal; text-decoration: none">./.</span><span style=3D"color: #7=
-05050; background: #3f3f3f; font-weight: bold; font-style: normal; text-dec=
-oration: none">drm_cache</span><span style=3D"color: #dcdccc; background: #=
-3f3f3f; font-weight: normal; font-style: normal; text-decoration: none">.o.=
-cmd:839:  arch/x86/include/asm/cacheflush.h \                              =
-                                                </span></div><div><span sty=
-le=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style:=
- normal; text-decoration: none">./.</span><span style=3D"color: #705050; ba=
-ckground: #3f3f3f; font-weight: bold; font-style: normal; text-decoration: =
-none">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f3f; f=
-ont-weight: normal; font-style: normal; text-decoration: none">.o.cmd:920: =
- include/asm-generic/cacheflush.h \   </span></div><div><span style=3D"colo=
-r: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: normal; t=
-ext-decoration: none">
-</span></div><div>
-<div style=3D"font-family: 'Liberation Mono', monospace; white-space: pre">=
-<div><span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: norma=
-l; font-style: normal; text-decoration: none">./.</span><span style=3D"colo=
-r: #705050; background: #3f3f3f; font-weight: bold; font-style: normal; tex=
-t-decoration: none">drm_cache</span><span style=3D"color: #dcdccc; backgrou=
-nd: #3f3f3f; font-weight: normal; font-style: normal; text-decoration: none=
-">.o.cmd:830:  include/linux/cacheflush.h \                                =
-                                                     </span></div><div><spa=
-n style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-s=
-tyle: normal; text-decoration: none">./.</span><span style=3D"color: #70505=
-0; background: #3f3f3f; font-weight: bold; font-style: normal; text-decorat=
-ion: none">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f=
-3f; font-weight: normal; font-style: normal; text-decoration: none">.o.cmd:=
-831:  arch/arm64/include/asm/cacheflush.h \                                =
-                                            </span></div><div><span style=
-=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: n=
-ormal; text-decoration: none">./.</span><span style=3D"color: #705050; back=
-ground: #3f3f3f; font-weight: bold; font-style: normal; text-decoration: no=
-ne">drm_cache</span><span style=3D"color: #dcdccc; background: #3f3f3f; fon=
-t-weight: normal; font-style: normal; text-decoration: none">.o.cmd:1085:  =
-include/asm-generic/cacheflush.h \ </span></div><div><span style=3D"color: =
-#dcdccc; background: #3f3f3f; font-weight: normal; font-style: normal; text=
--decoration: none">
-</span></div><div>So it seems without including it, cacheflush.h stills get=
- pulled in, </div><div>I think its because its a required kernel source to =
-build the kernel </div><div>per specific architecture, but please correct i=
-f I am wrong,as I am still</div><div>trying to understand how things works!=
-</div><div>
-</div><div>Michael Cheng
-<span style=3D"color: #dcdccc; background: #3f3f3f; font-weight: normal; fo=
-nt-style: normal; text-decoration: none"></span></div></div><span style=3D"=
-color: #dcdccc; background: #3f3f3f; font-weight: normal; font-style: norma=
-l; text-decoration: none"></span></div><div><span style=3D"color: #dcdccc; =
-background: #3f3f3f; font-weight: normal; font-style: normal; text-decorati=
-on: none">
-</span></div></div>
-    <div class=3D"moz-cite-prefix">On 2022-02-25 8:28 a.m., Tvrtko Ursulin
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:011a236d-7ed4-0d48-e8a6-c9bd98740=
-d5b@linux.intel.com">
-      <br>
-      On 25/02/2022 03:24, Michael Cheng wrote:
-      <br>
-      <blockquote type=3D"cite">Add arm64 support for
-        drm_clflush_virt_range. caches_clean_inval_pou
-        <br>
-        performs a flush by first performing a clean, follow by an
-        invalidation
-        <br>
-        operation.
-        <br>
-        <br>
-        v2 (Michael Cheng): Use correct macro for cleaning and
-        invalidation the
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-dcache. Thanks Tvrtko for the suggestion.
-        <br>
-        <br>
-        v3 (Michael Cheng): Replace asm/cacheflush.h with
-        linux/cacheflush.h
-        <br>
-        <br>
-        v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc
-        as a
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-symbol that could be use by other modules, thus use
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-caches_clean_inval_pou instead. Also this version
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; removes include for cacheflush, since its
-        already
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-included base on architecture type.
-        <br>
-      </blockquote>
-      <br>
-      What does it mean that it is included based on architecture type?
-      Some of the other header already pulls it in?
-      <br>
-      <br>
-      Regards,
-      <br>
-      <br>
-      Tvrtko
-      <br>
-      <br>
-      <blockquote type=3D"cite">Signed-off-by: Michael Cheng
-        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:michael.cheng@int=
-el.com">&lt;michael.cheng@intel.com&gt;</a>
-        <br>
-        Reviewed-by: Matt Roper <a class=3D"moz-txt-link-rfc2396E" href=3D"=
-mailto:matthew.d.roper@intel.com">&lt;matthew.d.roper@intel.com&gt;</a>
-        <br>
-        ---
-        <br>
-        &nbsp; drivers/gpu/drm/drm_cache.c | 5 +++++
-        <br>
-        &nbsp; 1 file changed, 5 insertions(+)
-        <br>
-        <br>
-        diff --git a/drivers/gpu/drm/drm_cache.c
-        b/drivers/gpu/drm/drm_cache.c
-        <br>
-        index c3e6e615bf09..81c28714f930 100644
-        <br>
-        --- a/drivers/gpu/drm/drm_cache.c
-        <br>
-        +++ b/drivers/gpu/drm/drm_cache.c
-        <br>
-        @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned
-        long length)
-        <br>
-        &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (wbinvd_on_all_cpus())
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pr_err(&quot=
-;Timed out waiting for cache flush\n&quot;);
-        <br>
-        +
-        <br>
-        +#elif defined(CONFIG_ARM64)
-        <br>
-        +&nbsp;&nbsp;&nbsp; void *end =3D addr + length;
-        <br>
-        +&nbsp;&nbsp;&nbsp; caches_clean_inval_pou((unsigned long)addr, (un=
-signed
-        long)end);
-        <br>
-        +
-        <br>
-        &nbsp; #else
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WARN_ONCE(1, &quot;Architecture has =
-no drm_cache.c support\n&quot;);
-        <br>
-        &nbsp; #endif
-        <br>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+Hmm I was thinking if the internal conversion in the GuC fw changes so that GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS goes above u32, then to be extra safe by documenting in code there is the additional limit of the data structure field. Say the field was changed to take some unit larger than a millisecond. Then the check against the GuC MAX limit define would not be enough, unless that would account both for internal implementation and u32 in the protocol. Maybe that is overdefensive but I don't see that it harms. 50-50, but it's do it once and forget so I'd do it.
 
---------------QOo0ymLngLY8d3KZr0QSut89--
+>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>> ---
+>>>>>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 +++++++++++++++
+>>>>>>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 ++++++++++++++
+>>>>>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++++++++
+>>>>>>>   3 files changed, 38 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>> index e53008b4dd05..2a1e9f36e6f5 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct 
+>>>>>>> intel_gt *gt, enum intel_engine_id id,
+>>>>>>>       if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+>>>>>>>           engine->props.preempt_timeout_ms = 0;
+>>>>>>>   +    /* Cap timeouts to prevent overflow inside GuC */
+>>>>>>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
+>>>>>>> +        if (engine->props.timeslice_duration_ms > 
+>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
+>>>>>>
+>>>>>> Hm "wanted".. There's been too much back and forth on the GuC load 
+>>>>>> options over the years to keep track.. intel_engine_uses_guc work 
+>>>>>> sounds like would work and read nicer.
+>>>>> I'm not adding a new feature check here. I'm just using the 
+>>>>> existing one. If we want to rename it yet again then that would be 
+>>>>> a different patch set.
+>>>>
+>>>> $ grep intel_engine_uses_guc . -rl
+>>>> ./i915_perf.c
+>>>> ./i915_request.c
+>>>> ./selftests/intel_scheduler_helpers.c
+>>>> ./gem/i915_gem_context.c
+>>>> ./gt/intel_context.c
+>>>> ./gt/intel_engine.h
+>>>> ./gt/intel_engine_cs.c
+>>>> ./gt/intel_engine_heartbeat.c
+>>>> ./gt/intel_engine_pm.c
+>>>> ./gt/intel_reset.c
+>>>> ./gt/intel_lrc.c
+>>>> ./gt/selftest_context.c
+>>>> ./gt/selftest_engine_pm.c
+>>>> ./gt/selftest_hangcheck.c
+>>>> ./gt/selftest_mocs.c
+>>>> ./gt/selftest_workarounds.c
+>>>>
+>>>> Sounds better to me than intel_guc_submission_is_wanted. What does 
+>>>> the reader know whether "is wanted" translates to "is actually 
+>>>> used". Shrug on "is wanted".
+>>> Yes, but isn't '_uses' the one that hits a BUG_ON if you call it too 
+>>> early in the boot up sequence? I never understood why that was 
+>>> necessary or why we need so many different ways to ask the same 
+>>> question. But this version already exists and definitely works 
+>>> without hitting any explosions.
+>>
+>> No idea if it causes a bug on, doesn't in the helper itself so maybe 
+>> you are saying it is called too early? Might be.. I think over time 
+>> the nice idea we had that "setup" and "init" phases of engine setup 
+>> clearly separated got destroyed a bit. There would always be an option 
+>> to move this clamping in a later phase, once the submission method is 
+>> known. One could argue that if the submission method is not yet known 
+>> at this point, it is even wrong to clamp based on something which will 
+>> only be decided later. Because:
+>>
+>> int intel_engines_init(struct intel_gt *gt)
+>> {
+>>     int (*setup)(struct intel_engine_cs *engine);
+>>     struct intel_engine_cs *engine;
+>>     enum intel_engine_id id;
+>>     int err;
+>>
+>>     if (intel_uc_uses_guc_submission(&gt->uc)) {
+>>         gt->submission_method = INTEL_SUBMISSION_GUC;
+>>
+>> So this uses "uses", not "wanted". Presumably the point for having 
+>> "wanted" and "uses" is that they can disagree, in which case if you 
+>> clamp early based on "wanted" that suggests it could be wrong.
+> 
+> Okay, looks like I was getting confused with intel_guc_is_used(). That 
+> one blows up if called too early.
+> 
+> I'll change it to _uses_ and repost, then.
+
+Check that it isn't called too early, before gt->submission_setup is set.
+
+> 
+>>
+>>>>>> And limit to class instead of applying to all engines looks like a 
+>>>>>> miss.
+>>>>> As per follow up email, the class limit is not applied here.
+>>>>>
+>>>>>>
+>>>>>>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice 
+>>>>>>> duration to %d to prevent possibly overflow\n",
+>>>>>>> +                 GUC_POLICY_MAX_EXEC_QUANTUM_MS);
+>>>>>>> +            engine->props.timeslice_duration_ms = 
+>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+>>>>>>
+>>>>>> I am not sure logging such message during driver load is useful. 
+>>>>>> Sounds more like a confused driver which starts with one value and 
+>>>>>> then overrides itself. I'd just silently set the value appropriate 
+>>>>>> for the active backend. Preemption timeout kconfig text already 
+>>>>>> documents the fact timeouts can get overriden at runtime depending 
+>>>>>> on platform+engine. So maybe just add same text to timeslice kconfig.
+>>>>> The point is to make people aware if they compile with unsupported 
+>>>>> config options. As far as I know, there is no way to apply range 
+>>>>> checking or other limits to config defines. Which means that a user 
+>>>>> would silently get unwanted behaviour. That seems like a bad thing 
+>>>>> to me. If the driver is confused because the user built it in a 
+>>>>> confused manner then we should let them know.
+>>>>
+>>>> Okay, but I think make it notice low level.
+>>>>
+>>>> Also consider in patch 3/3 when you triple it, and then clamp back 
+>>>> down here. That's even more confused state since tripling gets 
+>>>> nerfed. I think that's also an argument to always account preempt 
+>>>> timeout in heartbeat interval calculation. Haven't got to your reply 
+>>>> on 2/3 yet though..
+>>> That sounds like even more reason to make sure the warning gets seen. 
+>>> The more complex the system and the more chances there are to get it 
+>>> wrong, the more important it is to have a nice easy to see and 
+>>> understand notification that it did go wrong.
+>>
+>> I did not disagree, just said make it notice, one level higher than 
+>> info! :)
+> But then it won't appear unless you have explicitly said an elevated 
+> debug level. Whereas info appears in dmesg by default (but is still not 
+> classed as an error by CI and such).
+
+Notice is higher than info! :) If info appears by default so does notice, warning, err, etc...
+
+#define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
+#define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
+#define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
+#define KERN_ERR        KERN_SOH "3"    /* error conditions */
+#define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+#define KERN_NOTICE     KERN_SOH "5"    /* normal but significant condition */
+#define KERN_INFO       KERN_SOH "6"    /* informational */
+#define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+
+>> But also think how, if we agree to go with tripling, that you'd have 
+>> to consider that in the sysfs store when hearbeat timeout is written, 
+>> to consider whether or not to triple and error out if preemption 
+>> timeout is over limit.
+> I see this as just setting the default values. If an end user is 
+> explicitly overriding the defaults then we should obey what they have 
+> requested. If they are changing the heartbeat interval then they can 
+> also change the pre-emption timeout appropriately.
+
+Question is can they unknowingly and without any feedback configure a much worse state than they expect? Like when they set heartbeats up to some value, everything is configured as you intended - but if you go over a certain hidden limit the overall scheme degrades in some way. What is the failure mode here if you silently let them do that?
+
+Regards,
+
+Tvrtko
