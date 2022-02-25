@@ -1,76 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0DA4C403F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 09:40:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1AF4C40E6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:04:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 688EC10E4F2;
-	Fri, 25 Feb 2022 08:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDD210E518;
+	Fri, 25 Feb 2022 09:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734E910E4F2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 08:40:37 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 1D0BE5C01B1;
- Fri, 25 Feb 2022 03:40:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 25 Feb 2022 03:40:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=vgxmWpNYEhXiY22ojyb7yCLDVMO2r4GlptIEhC
- UV78E=; b=FFW1+pB82avP4eVO+oihMA1bfdTfFXaFU+IItNY0BV2jPvVXDt3r0p
- 2GWTnJ+iw3iMzRr+S0uU8tR5riLHQ//ek1Ee8oefuD2uvHbzwTgbVbxQHiukdKtr
- HoQ8/UurvdR3Fc2DWbPQAkwLWwRmRfxxCeUVOMSRiqC3Qcx/gRPnjVlN5Ct0pNcX
- 6fO4z9RwLybtk7O5Y5gAwxtFJU4+585/YZLSgE3A2c5hh9Hem/raBNldEyjjyVso
- /IbqEaXw1KZZ/RKmHDib9QMTmgziI8TCUXP6KmP2zE081D373e+OczeEDKKDGmpW
- Zolkz94zLLzkhK9LtevPE4Ej0yps7Ytg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vgxmWpNYEhXiY22oj
- yb7yCLDVMO2r4GlptIEhCUV78E=; b=Y6ENBGo4zLmgqLxW5jOVLi3EKC9NPFoKg
- NNvDRvFNWAoyfLdac+kLBTIMz7eiw1ivYbcB6W9d/wVzJz7xRg/ruPGKu++NHZ+x
- 8F8jGoUH0GAEY+yjelHy6e30NCy0NqumB3GkDekscTo8h1k0WlyDEK3a8ixJY0qE
- 8vYoOujFc37iMt8wDOsOqkvtyp77nZCnOJHkz4PAhRqg7Bu8HDiRxlCTVuOmjUYa
- 7auqHwrpiTYWZgRVsBjPcFcXxKFDy1bebj7lYVgNCw10UaT4D8bEbE/VRmfxsJOj
- LDun/hgODXWJWWDPwp71+9k2ApSAVVb6hf4TqST3vY85Nrt9GLqnw==
-X-ME-Sender: <xms:AZYYYhWBSXV11xpn1PybFvJwO-ThD4F0D7Nsse1dXKoe3SVXCguQxQ>
- <xme:AZYYYhnwlnfkWyXvpXV0VmIkshrWUc1PQTpTjhcJBHeRSQUiKbQanZRtN71nd7WTd
- 1KWSk3thJSVgC7UD7k>
-X-ME-Received: <xmr:AZYYYtYIZ4Plk_NuW4UwRX3EtumCwLvIiDumU1bXPe3k0wPGzqhqK--gSzl0OpRBu96QLHw7rnUjLe15CHqF-gRsnup-8DhNlTy3cCA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleefgdduudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:AZYYYkVz-oKml5IwdCECuynGj40mx_nJVXuzGFy1M4wxwDiKbX0yAg>
- <xmx:AZYYYrnWEh5qPu7lZ87RtFqiNSOeIca498a-X3wb-1QhFAQTuWoUAQ>
- <xmx:AZYYYhc_YpzyVKBMmkDvUrPPGAWLUCfElzyN-y9Ny8C-TexHmDvuPQ>
- <xmx:ApYYYpjQ1HpicPaCpzyG1EeXyPaMbRnHMza-N7hUeaYDGkpJVzkx3Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Feb 2022 03:40:32 -0500 (EST)
-Date: Fri, 25 Feb 2022 09:40:31 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [RFC][PATCH 0/7] drm/bridge: Add support for selecting DSI host
- HS clock from DSI bridge
-Message-ID: <20220225084031.onvyuq62mhmnnzx2@houat>
-References: <20220219002844.362157-1-marex@denx.de>
- <20220224154010.n65epa73meznvwo3@houat>
- <1941db81-b2c2-58e5-40d7-47c5fe1fbd37@denx.de>
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E03E10E518
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:04:45 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id n11so1868381qtk.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 01:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ANkPRwKigf48wBa9qho3ykHLHum+ZyEFDRigpWv6FrM=;
+ b=H/EQT8/o/JTTZ+SqZ/MSQCOcwUQ734BhzIf5rQ5FoQPx2s45VIDpvJQjvnoC5gAaGy
+ L3gfC7hYMpOGHWFxWSgHEEy5ZCvEfNaRmdgeAvFfp7nLIoYURyLBvJVGaEl42nGj6ILJ
+ mNjC4xiobn62k9HQTHfMQmtozwn0CMLlGhqm9RyRoVkshcRxz7MiJ+F5nBD5I+Nb3t6u
+ RX3rfF1q4uDSvSYEOOBL/ooxDJTy15V/j4c5La8fgotEJKkEy1XarC4jCOIyxZqeFO1z
+ eDytHvcTL0J0ESwbEwrs/sMklxzdXRcd/d16IYhSnTLvAun6xv/nXHDhqHgydoCtKtUr
+ OBEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ANkPRwKigf48wBa9qho3ykHLHum+ZyEFDRigpWv6FrM=;
+ b=X8nFnEsG++VS6caz0kWQrbp1sogGf9Jua4xTC3X/J1FHdzc2RTYRJ+cpJBRcS4NhN8
+ l1uLw+CVhQk1XASYcPdHufjjxR957qfs2BjHkTj5hsVSWKx4KDSMjUmRF+zA1Bt4EgN9
+ RyhJMWIzYBi2DIhHYI8fm77EM19l98T4iZ70dV3+7X778QijxuydZ5jO+PhPQFyWNvTg
+ QZoIOxKOVbut91NcB/es9qwUWttvs3O8VzoVKKGl7kBKXspstTNAFHtkpiDRhCU9v3CI
+ hgz7CkQy40UCFd5qhBYXW5QBA93bzFSwUj+Mj64apPKhAu8jGuXKWOiyoLpP8llKDDUG
+ xjng==
+X-Gm-Message-State: AOAM532Unco4SKw+niYABx7Metmo+tBrVUs6aE64j2tJjYD+XY/BxFiC
+ UvK+/VFp05Dq6G2geOlaAkqoLd3rf40BG54F3eG00g==
+X-Google-Smtp-Source: ABdhPJwee7YOxlUpJV+mKKucwqbVN46Dj8k3X7kuW7mb/thX6qfdYuy3gT46ysbZfschWrCslEMnMdYhiOsnKbxh0GE=
+X-Received: by 2002:ac8:5713:0:b0:2de:4e16:5b25 with SMTP id
+ 19-20020ac85713000000b002de4e165b25mr5875633qtw.682.1645779883043; Fri, 25
+ Feb 2022 01:04:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bnyi6msln5s5cgsx"
-Content-Disposition: inline
-In-Reply-To: <1941db81-b2c2-58e5-40d7-47c5fe1fbd37@denx.de>
+References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
+ <20220211224006.1797846-2-dmitry.baryshkov@linaro.org>
+ <CAE-0n52iHFtHppZj-g0V1UP5oWzXjbNDjpOd-hgR+F=TqFzjVg@mail.gmail.com>
+ <a1b1d3ef-4131-b8a9-5300-89092bce271b@linaro.org>
+ <a219b978-21a8-a2d6-62c0-69c451b10c09@quicinc.com>
+ <CAA8EJpp5RjazoHD3GEE-1wJZtG3hZV9PRc3TtsBFFCcsB4zCNg@mail.gmail.com>
+ <9398567b-6517-8eb3-f5d5-d8c88cb10814@quicinc.com>
+ <CAA8EJpp2KrHfNN0F7s6iNOd8Zh1w-1dBMfAXff4Yy4UAdpPGUA@mail.gmail.com>
+ <aaf172c9-d645-10ed-68ab-1d3c0296af3b@quicinc.com>
+In-Reply-To: <aaf172c9-d645-10ed-68ab-1d3c0296af3b@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 25 Feb 2022 12:04:31 +0300
+Message-ID: <CAA8EJprvtia+x7em1FwSGmkChJmrSvOwqXzsGi2Gobuwv3tTXw@mail.gmail.com>
+Subject: Re: [Freedreno] [RFC PATCH v2 1/5] drm/msm/dp: fix panel bridge
+ attachment
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,157 +71,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 25 Feb 2022 at 07:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 2/24/2022 8:22 PM, Dmitry Baryshkov wrote:
+> > On Fri, 25 Feb 2022 at 05:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 2/24/2022 12:41 PM, Dmitry Baryshkov wrote:
+> >>> On Thu, 24 Feb 2022 at 21:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 2/18/2022 6:26 PM, Dmitry Baryshkov wrote:
+> >>>>> On 19/02/2022 02:56, Stephen Boyd wrote:
+> >>>>>> Quoting Dmitry Baryshkov (2022-02-11 14:40:02)
+> >>>>>>> In commit 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display
+> >>>>>>> enable and disable") the DP driver received a drm_bridge instance, which
+> >>>>>>> is always attached to the encoder as a root bridge. However it conflicts
+> >>>>>>> with the panel_bridge support for eDP panels. The panel bridge attaches
+> >>>>>>> to the encoder before the "dp" bridge has a chace to do so. Change
+> >>>>>>
+> >>>>>> s/chace/chance/
+> >>>>>>
+> >>>>>>> panel_bridge attachment to come after dp_bridge attachment.
+> >>>>>>
+> >>>>>> s/panel_bridge/panel bridge/ possibly? And maybe clarify that dp_bridge
+> >>>>>> is the "DP driver's drm_bridge instance created in
+> >>>>>> msm_dp_bridge_init()"?
+> >>>>>>
+> >>>>>> My understanding is that we want to pass the bridge created in
+> >>>>>> msm_dp_bridge_init() as the 'previous' bridge so that it attaches the
+> >>>>>> panel bridge to the output of the DP bridge that's attached to the
+> >>>>>> encoder.
+> >>>>>
+> >>>>> Thanks! I'll update the commit log when pushing the patches.
+> >>>>
+> >>>> Please correct if i am missing something here.
+> >>>>
+> >>>> You are right that the eDP panel's panel bridge attaches to the encoder
+> >>>> in dp_drm_connector_init() which happens before msm_dp_bridge_init() and
+> >>>> hence it will attach directly to the encoder.
+> >>>>
+> >>>> But we are talking about different encoders here. DP's dp_display has a
+> >>>> different encoder compared to the EDP's dp_display.
+> >>>
+> >>> The encoders are different. However both encoders use the same
+> >>> codepath, which includes dp_bridge. It controls dp_display by calling
+> >>> msm_dp_display_foo() functions.
+> >>>
+> >
+> >>>> So DP's bridge will still be attached to its encoder's root.
+> >>>
+> >>> There is one dp_bridge per each encoder. Consider sc8180x which has 3
+> >>> DP controllers (and thus 3 dp_bridges).
+> >>>
+> >>
+> >> Sorry, but I still didnt follow this.
+> >>
+> >> So for eDP, dp_drm_connector_init() will attach the panel_bridge
+> >> and then msm_dp_bridge_init() will add a drm_bridge.
+> >>
+> >> And yes in that case, the drm_bridge will be after the panel_bridge
+> >>
+> >> But since panel_bridge is at the root for eDP it should be okay.
+> >
+> > No. It is not.
+> > For both DP and eDP the chain should be:
+> > dpu_encoder -> dp_bridge -> external (panel) bridge, optional for DP
+> > -> [other bridges] -> connector
+> >
+> > Otherwise drm_bridge_chain_foo() functions would be called in the
+> > incorrect order.
+>
+> Agreed. For drm_bridge_chain_foo() ordering to be correct, for eDP chain
+> the order should be what you mentioned and panel_bridge should be at the
+> end ( should be the last one ).
+>
+> For the above reason,
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>
+> I still didnt understand what gets affected by this for the
+> msm_dp_display_foo() functions you mentioned earlier and wanted to get
+> some clarity on that.
 
---bnyi6msln5s5cgsx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+They should be called at the correct time.
 
-On Thu, Feb 24, 2022 at 09:24:57PM +0100, Marek Vasut wrote:
-> On 2/24/22 16:40, Maxime Ripard wrote:
-> > Hi,
->=20
-> Hi,
->=20
-> > On Sat, Feb 19, 2022 at 01:28:37AM +0100, Marek Vasut wrote:
-> > > This patch series attempts to address a problem of missing support fo=
-r DSI
-> > > bridge-to-bridge or panel-to-bridge clock frequency negotiation. The =
-problem
-> > > has two variants.
-> > >=20
-> > > First, a DSI->to->x bridge derives its own internal clock from DSI HS=
- clock,
-> > > but the DSI HS clock cannot be set to arbitrary values. TS358767 is o=
-ne such
-> > > bridge in case it operates without Xtal. In that case, the TC358767 d=
-river
-> > > must be able to negotiate the specific suitable DSI HS clock frequenc=
-y for
-> > > the chip.
-> > >=20
-> > > Second, both DSI->to->x bridges and DSI hosts currently calculate, or=
- rather
-> > > guess and hope they both guess the same number as their neighbor, the=
- DSI HS
-> > > clock frequency from form of PLL=3D(width * height * bpp / lanes / 2)=
-=2E This is
-> > > dangerous, since the PLL capabilities on both ends of the DSI bus mig=
-ht differ
-> > > and the DSI host could easily end up generating wildly different cloc=
-k than
-> > > what the DSI bridge/panel expects to receive.
-> > >=20
-> > > This series attempts to address these negotiation problems by extendi=
-ng the
-> > > existing .atomic_get_input_bus_fmts callback into .atomic_get_input_b=
-us_cfgs
-> > > callback in struct drm_bridge_funcs {}. The extended version returns =
-not only
-> > > a list of a list of bus formats supported by a bridge, but the entire=
- list of
-> > > struct drm_bus_cfg, which currently contains format and bus flags, bu=
-t can be
-> > > extended with other members, like desired clock frequency, as require=
-d.
-> > >=20
-> > > This series demonstrates such extension by adding the support for neg=
-otiating
-> > > the DSI clock and by implementing such support in DW DSI Host and TC3=
-58767 DSI
-> > > bridge.
-> >=20
-> > We discussed it a bit on IRC as well but there's another issue with
-> > this, let's imagine this setup:
-> >=20
-> > encoder -> DSI-to-DPI bridge -> DPI-to-HDMI bridge -> HDMI Monitor
-> >=20
-> > HDMI is fairly favorable, and it would probably use pixel clocks of
-> > either 148.5, 297 or 594MHz. Let's simplify this a bit and assume your
-> > DSI-to-DPI bridge can only operate at a frequency equivalent to 297MHz.
-> >=20
-> > 594Mhz is going to be used by those new fancy monitors, and thus the
-> > preferred mode is likely to be using 594MHz.
-> >=20
-> > With your solution, it effectively means that when the system will boot
-> > up, the preferred mode will be reported to the userspace (and the fbdev
-> > emulation), whatever is coming next is going to use it, and you're just
-> > going to... refuse it because it never worked in the first place. You'll
-> > leave a blank display, and that's it. That's not a great behavior,
-> > really.
->=20
-> If you cannot support such a panel with this kind of scanout engine, what
-> else would you do than blank screen ?
+> >
+> > Thus the dp_bridge should be attached directly to the encoder
+> > (drm_encoder) and panel_bridge should use dp_bridge as the 'previous'
+> > bridge.
+> >
+>
+> Agreed.
+>
+> > For example, for the DP port one can use a display-connector (which
+> > actually implements drm_bridge) as an external bridge to provide hpd
+> > or dp power GPIOs.
+> >
+> > Note, that the current dp_connector breaks layering. It makes calls
+> > directly into dp_display, not allowing external bridge (and other
+> > bridges) to override get_modes/mode_valid and other callbacks.
+> > Thus one of the next patches in series (the one that Kuogee had issues
+> > with) tries to replace the chain with the following one:
+> > dpu_encoder -> dp_bridge -> external (panel) bridge -> [other bridges]
+> > -> drm_bridge_connector.
+> >
+> >>
+>
+> So originally the plan was always that the DP connector layer intercepts
+> the call because panel-eDP file did not support reading of the EDID ( we
+> have not provided the aux bus ). So it was intended that we did not want
+> to goto the eDP panel to get the modes. Not an error but something which
+> we wanted to cleanup later when we moved to panel-eDP completely.
 
-An HDMI monitor typically supports multiple pixel clocks. If you can't
-reach one there's usually plenty of other options that could work. And
-if there's none, then so be it, we shouldn't report any either.
+panel_edp_get_modes() correctly handles this case and returns modes
+specified in the panel description. So the code should work even with
+panel-eDP and w/o the AUX bus.
 
-> > And since you don't get a state until you start a commit, this would
-> > need to be able to work without one. Of course, some state parameters
-> > will affect the clock (like the bpc count) so it won't be perfect, but
-> > we can at least try.
-> >=20
-> > Another thing is that the clock that needs to be negociated is likely to
-> > be device specific. It's probably going to be fairly similar across
-> > similar devices (like all the DSI bridges you mentioned are using the HS
-> > clock), but I'm not sure we can make that assumption.
->=20
-> The bridge (data sink) should be able to figure out what kind of clock it
-> needs from the source and then request those, yes. With DSI you can make =
-an
-> assumption about what kind of clock frequencies each link mode would
-> require, but in general, you cannot assume much.
+>
+> Till then we wanted the dp_connector to read the EDID and get the modes.
+>
+> So this was actually intended to happen till the point where we moved to
+> panel-eDP to get the modes.
+>
+> Hence what you have mentioned in your cover letter is right that the
+> chain was broken but there was no loss of functionality due to that today.
+>
+> Now that these changes are made, we can still goto panel-eDP file for
+> the modes because of the below change from Sankeerth where the mode is
+> hard-coded:
+>
+> https://patchwork.freedesktop.org/patch/473431/
+>
+> With this change cherry-picked it should work for kuogee. We will
+> re-test that with this change.
 
-You're modifying the core, you shouldn't be reasoning about DSI, but any
-display interface really.
+I suppose he had both of the changes in the tree. Otherwise the
+panel_edp_get_modes() wouldn't be called.
 
-> > I think we could make something that work by asking the previous bridge
-> > in the chain for a given clock rate with a given mode, and then filter
-> > out / adjust anything we don't like. It would then be able to first
-> > check if it can provide that clock in the first place, and then the rate
-> > it has, and would be free to forward the query up to the encoder. And
-> > since it's tied to the mode, it would work with mode_valid too.
->=20
-> It seems to me this is similar to this solution, except it must happen wh=
-en
-> the mode is available ?
+> >> Your commit text was mentioning about DP.
+> >>
+> >> For DP, for each controller in the catalog, we will call modeset_init()
+> >> which should skip this part for DP
+> >>
+> >>     if (dp_display->panel_bridge) {
+> >>           ret = drm_bridge_attach(dp_display->encoder,
+> >>                       dp_display->panel_bridge, NULL,
+> >
+> > as you see, NULL is incorrect. It should be a pointer to dp_bridge instead
+> >
+> >>                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >>           if (ret < 0) {
+> >>               DRM_ERROR("failed to attach panel bridge: %d\n", ret);
+> >>               return ERR_PTR(ret);
+> >>           }
+> >>       }
+> >>
+> >> Followed by calling msm_dp_bridge_init() which will actually attach the
+> >> bridge:
+> >>
+> >> drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >
+> > And this bridge should be attached before the external bridge.
+> >
+> >>
+> >> Now, even for 3 DP controllers, this shall be true as there will be 3
+> >> separate encoders and 3 dp_displays and hence 3 drm_bridges.
+> >>
+> >> What am i missing here?
+> >>
+> >>>>
+> >>>> So what are we achieving with this change?
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>>
+> >>>>>>> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display
+> >>>>>>> enable and disable")
+> >>>>>>> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> >>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>>>> ---
+> >>>>>>
+> >>>>>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> >>>>>>
+> >>>>>>>     drivers/gpu/drm/msm/dp/dp_drm.c | 21 +++++++++++----------
+> >>>>>>>     1 file changed, 11 insertions(+), 10 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c
+> >>>>>>> b/drivers/gpu/drm/msm/dp/dp_drm.c
+> >>>>>>> index d4d360d19eba..26ef41a4c1b6 100644
+> >>>>>>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> >>>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> >>>>>>> @@ -169,16 +169,6 @@ struct drm_connector
+> >>>>>>> *dp_drm_connector_init(struct msm_dp *dp_display)
+> >>>>>>>
+> >>>>>>>            drm_connector_attach_encoder(connector, dp_display->encoder);
+> >>>>>>>
+> >>>>>>> -       if (dp_display->panel_bridge) {
+> >>>>>>> -               ret = drm_bridge_attach(dp_display->encoder,
+> >>>>>>> -                                       dp_display->panel_bridge, NULL,
+> >>>>>>> -                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >>>>>>> -               if (ret < 0) {
+> >>>>>>> -                       DRM_ERROR("failed to attach panel bridge:
+> >>>>>>> %d\n", ret);
+> >>>>>>> -                       return ERR_PTR(ret);
+> >>>>>>> -               }
+> >>>>>>> -       }
+> >>>>>>> -
+> >>>>>>>            return connector;
+> >>>>>>>     }
+> >>>>>>>
+> >>>>>>> @@ -246,5 +236,16 @@ struct drm_bridge *msm_dp_bridge_init(struct
+> >>>>>>> msm_dp *dp_display, struct drm_devi
+> >>>>>>>                    return ERR_PTR(rc);
+> >>>>>>>            }
+> >>>>>>>
+> >>>>>>> +       if (dp_display->panel_bridge) {
+> >>>>>>> +               rc = drm_bridge_attach(dp_display->encoder,
+> >>>>>>> +                                       dp_display->panel_bridge,
+> >>>>>>> bridge,
+> >>>>>>> +                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >>>>>>> +               if (rc < 0) {
+> >>>>>>> +                       DRM_ERROR("failed to attach panel bridge:
+> >>>>>>> %d\n", rc);
+> >>>>>>> +                       drm_bridge_remove(bridge);
+> >>>>>>> +                       return ERR_PTR(rc);
+> >>>>>>> +               }
+> >>>>>>> +       }
+> >>>>>>> +
+> >>>>>>>            return bridge;
+> >>>>>>
+> >>>>>> Not a problem with this patch, but what is this pointer used for? I see
+> >>>>>> it's assigned to priv->bridges and num_bridges is incremented but nobody
+> >>>>>> seems to look at that.
+> >>>>>
+> >>>>>
+> >>>>> That's on my todo list. to remove connectors array and to destroy
+> >>>>> created bridges during drm device destruction.
+> >>>>>
+> >>>
+> >>>
+> >>>
+> >
+> >
+> >
 
-The mode will pretty much always be available. You can't really reason
-about a clock rate without a mode.
 
-> But then the question also comes to mind, should
-> select_bus_fmt_recursive() be called only after mode is available too
-> ?
 
-Most of the drivers that use either atomic_get_input_bus_fmts or
-atomic_get_output_bus_fmts don't use the state at all, so yes.
-
-The only exception is the HDMI output format selection in dw-hdmi, but
-that's a bit of a mess across drivers, each one going its own separate
-way to achieve this.
-
-So, yeah. Usually formats are less important when it comes to whether a
-device can actually support a given mode than the clock it feeds from
-though, so it has a lesser impact.
-
-Maxime
-
---bnyi6msln5s5cgsx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhiV/gAKCRDj7w1vZxhR
-xWPrAP0Ui9vY0+cdtXwBDFrDXu2vk7ztfmHtFH0V4R6ZH+JW1AEA87BjRVZVOdb9
-0ruK/nCCQ5VzIAX2dRkibHUP9J3QWwI=
-=OymR
------END PGP SIGNATURE-----
-
---bnyi6msln5s5cgsx--
+-- 
+With best wishes
+Dmitry
