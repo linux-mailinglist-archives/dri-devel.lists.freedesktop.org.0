@@ -1,50 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856B24C51B3
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 23:44:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4114C51E6
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 00:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD80010EA01;
-	Fri, 25 Feb 2022 22:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 345FF10E171;
+	Fri, 25 Feb 2022 23:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E35F10EA01
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 22:44:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AF24C61C1A;
- Fri, 25 Feb 2022 22:44:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1947FC340E7;
- Fri, 25 Feb 2022 22:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645829046;
- bh=Qjrl53nCL2BzmMtE1eNdfHJTZQC3VrNII70g1zW6sXg=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=ttpKGnQGBOvGP7yuFgsMXQw2rAQRs1OdcgsU6j7YKWfGzQ1e/3ui7qVmHEyGoMNdH
- IyEPmAXfYgYOvHZUyRt1eHchO5povJKGTRI3dpOcZ4zjCupuoqjRGw5PpRRiFtRM61
- KoLfyp3S9flyaVsZ+z54NHkdACrFX3cutwD+GZR/3dZMi5fpSPm80hs0GK2ZruQD+H
- iy1ghuLXgdZmYXbyRwkMUr80lP6DxnsQKHNmGiDGOtVGL/cTnh/s8166b7jxddQP5J
- cHr16P03WXlU80eoVM/uSpn1kHXu4vuHPHX7DH2ldaTfWp0QRrfwML/rsT+AmKIOow
- 9KxjUbNgC8lqg==
-Content-Type: text/plain; charset="utf-8"
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98EAD10E171
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 23:03:37 +0000 (UTC)
+Date: Sat, 26 Feb 2022 00:03:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1645830215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LGavQJcyxtdypPh/sOUJgnjVuKvImNMokMsQ6IO1gD0=;
+ b=ySl+NoAF93RCkLmtV2kZlkLJOuxa7iR4qJD2Z4k6ffWUsHtokDzYMD5PltltSfDvVINDra
+ vGhklpjalYhhyBOJFydqmKFTuTnKP6vLTi8HEk1qLBpVXuhMwHGNPzOQHOohZFusw16tif
+ 2sT88KmA8rUrHQexH8Q/l+yv6Xlo6TfDw2MMmF1/ZiyGbrEDvkmc8mSR90tW44DO9QKDk3
+ wd6ILftO8amqi4LvWwLpxbOndhRABywU5JWyosWm3mXW4lbRYYHKJH4ZpBU8dTioSw0Ctt
+ NMt1VvUd9lsw6EYS6Rn5aCIuricNiY2aXZtDg3zoDiU8ux7EROwuMiZyM9PegA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1645830215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LGavQJcyxtdypPh/sOUJgnjVuKvImNMokMsQ6IO1gD0=;
+ b=puEcnY1rzUfKwAIEx3RmdZy/PxKg9eYMyF04Y0w3kDAWQfr8c/lgvy7z6CGxKP6hWt7L2i
+ XeRy0soiTIZ75YDQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915: Depend on !PREEMPT_RT.
+Message-ID: <YhlgRb1lZO38gAz5@linutronix.de>
+References: <YgqmfKhwU5spS069@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220225142606.6xpq4nzh7ldtkekk@houat>
-References: <20220223105600.1132593-1-maxime@cerno.tech>
- <20220223105600.1132593-3-maxime@cerno.tech>
- <CAGS_qxqNU+rGFuALEpmqqmtD+LsTQ4R3_WWL3M70Ar-_af6OnA@mail.gmail.com>
- <20220224225422.98298C340E9@smtp.kernel.org>
- <20220225142606.6xpq4nzh7ldtkekk@houat>
-Subject: Re: [PATCH v6 02/12] clk: Introduce Kunit Tests for the framework
-From: Stephen Boyd <sboyd@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 25 Feb 2022 14:44:04 -0800
-User-Agent: alot/0.10
-Message-Id: <20220225224406.1947FC340E7@smtp.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgqmfKhwU5spS069@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,51 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Latypov <dlatypov@google.com>, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, Mike Turquette <mturquette@baylibre.com>,
- Phil Elwell <phil@raspberrypi.com>, kunit-dev@googlegroups.com
+Cc: David Airlie <airlied@linux.ie>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2022-02-25 06:26:06)
-> Hi Stephen,
->=20
-> On Thu, Feb 24, 2022 at 02:54:20PM -0800, Stephen Boyd wrote:
-> > Quoting Daniel Latypov (2022-02-23 14:50:59)
-> > > On Wed, Feb 23, 2022 at 2:56 AM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > Incremental coverage for 3/9 files in --diff_file
-> > > Total incremental: 99.29% coverage (281/283 lines)
-> > >   drivers/clk/clk.c: 84.62% coverage (11/13 lines)
-> > >   drivers/clk/clk_test.c: 100.00% coverage (269/269 lines)
-> > >   include/linux/clk.h: 100.00% coverage (1/1 lines)
-> > >=20
-> > > Missing lines are drivers/clk/clk.c:2397-8, i.e. this part of the dif=
-f:
-> > > +       if (ret) {
-> > > +               /* rollback the changes */
-> > > +               clk->min_rate =3D old_min; <- 2397
-> > > +               clk->max_rate =3D old_max; <- 2398
-> > >=20
-> > > These are from before and were just moved around.
-> >=20
-> > We could trigger a failure in the provider when the rate is set, and
-> > then we could call round_rate() again and make sure the boundaries from
-> > before are maintained.
->=20
-> I tried to do that, and it turns out we can't, since we ignore the
-> set_rate return code:
->=20
-> https://elixir.bootlin.com/linux/latest/source/drivers/clk/clk.c#L2107
->=20
-> We could make determine_rate fail, but then clk_round_rate would fail as
-> well and wouldn't allow us to test whether the boundaries are still in
-> place.
->=20
+On 2022-02-14 19:59:08 [+0100], To intel-gfx@lists.freedesktop.org wrote:
+> There are a few sections in the driver which are not compatible with
+> PREEMPT_RT. They trigger warnings and can lead to deadlocks at runtime.
+> 
+> Disable the i915 driver on a PREEMPT_RT enabled kernel. This way
+> PREEMPT_RT itself can be enabled without needing to address the i915
+> issues first. The RT related patches are still in RT queue and will be
+> handled later.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The test could still do it at a high level right? And when/if we decide
-to bubble up the set_rate failure then we would be testing these lines.
-Seems like a good idea to implement it with a TODO note that clk.c is
-ignoring the set_rate clk_op returning failure.
+A gentle ping ;)
+
+> ---
+>  drivers/gpu/drm/i915/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index a4c94dc2e2164..3aa719d5a0f0d 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -3,6 +3,7 @@ config DRM_I915
+>  	tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
+>  	depends on DRM
+>  	depends on X86 && PCI
+> +	depends on !PREEMPT_RT
+>  	select INTEL_GTT
+>  	select INTERVAL_TREE
+>  	# we need shmfs for the swappable backing store, and in particular
+
+Sebastian
