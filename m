@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5384C413B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:24:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D4A4C413C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 10:24:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25DBE10E579;
-	Fri, 25 Feb 2022 09:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49D410E772;
+	Fri, 25 Feb 2022 09:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4BB10E776
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:24:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6227210E772
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:24:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id D2D471F45AF1
+ (Authenticated sender: kholk11) with ESMTPSA id EF4A81F45AF2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645781056;
- bh=I+K+WOpJ+r6DzLexypzmkpiWw1dTAUKgNSN2s8sEiy8=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=WfURaTEDQnEej5+Sudz4lL8wPrk+0kg3IGFSRQ3tbw7TpHioE70OscGnCSm7DjSRL
- M9Ho4VtG97o6cHpF7p74pMpWfd7b8dt1SxAOUBIMmXiEBwNJFe6uk6eONZMryVJgoo
- SyqHKMrAJqUmRhJVQcvcZXvvsTAfYTPCWFlLU8zrr3f0mVchjPUKyo0iR//RMdTpwk
- kx4Fxcd57anWEYyotX1EiaSIM9zBRXYK5wN/vqpKrwzRc4BztyMlUb/b6kR49l2bLd
- GP6DJ2v7dH6qK4NEyhSZaREYRr/a06x0yKP+gcnNmAEKEYg8TWKJ5UeHIUHnmqPr8W
- NVr2lMjeR3bMQ==
-Message-ID: <cd5cb589-9e3e-eb3a-4adf-9f57f3d22359@collabora.com>
-Date: Fri, 25 Feb 2022 10:24:11 +0100
+ s=mail; t=1645781062;
+ bh=u9idag57rvmc8+kE2xwXHO4QSmwf2cUfuVZYpVWwzno=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HHWrpRKDWWODvpKgHH2FJgoYRczWBTVoDmcsJ+U2u8Xqo6LJt2XZnraOXJYYETihN
+ hg3T7TC/JSIXJjq1Z314B3P/rZ/SkucOhzZtf3qRY4kVe6BOebMcswRYwEsD5oKJGb
+ SUlO7LNPCnyG/O1XvC9dESgyC1ZcYSXHF1vM0piUlEGYLVFjWub+tOFcqqilkm1CWL
+ yqsipCrQwrnh3Icd1weux1eKwl5VO7wKVc1uIhcdfU00QzeoFbT6S3bMGUyCRiOSoD
+ QOr0dW+2w6ppmynj2Qhb4dkptB4Sj6YEGP2Lxf2VC6/uj6wVnhObM1FwrS/FG2ziV7
+ R2W5gl8OWHw6g==
+Message-ID: <5d87e367-4ca8-9f61-bc17-e1998be0ed6c@collabora.com>
+Date: Fri, 25 Feb 2022 10:24:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v7, 08/15] media: mtk-vcodec: Add format to support MT21C
+Subject: Re: [PATCH v7, 11/15] media: mtk-vcodec: record capture queue format
+ type
+Content-Language: en-US
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Alexandre Courbot <acourbot@chromium.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
@@ -42,9 +43,9 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>,
  <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Tomasz Figa <tfiga@google.com>
 References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
- <20220223034008.15781-9-yunfei.dong@mediatek.com>
-Content-Language: en-US
-In-Reply-To: <20220223034008.15781-9-yunfei.dong@mediatek.com>
+ <20220223034008.15781-12-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220223034008.15781-12-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,9 +71,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 23/02/22 04:40, Yunfei Dong ha scritto:
-> Needs to use mediatek compressed mode for mt8192 decoder.
+> Capture queue format type is difference for different platform,
+> need to calculate capture buffer size according to capture queue
+> format type in scp.
 > 
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
+This change is ok, but the commit message should be changed to advertise
+that this is preparation for the new stateless H264 decoding driver.
+Besides, I suggest to reorder the commits sequence, so that this commit
+goes in between "Extract H264 common code" and
+"support stateless H.264 decoding for mt8192", as this last one is
+the actual real user of this change.
+
+
+Anyway, this is my commit message proposal:
+
+The capture queue format type may be differ depending on platform:
+for stateless decoder drivers, we need to calculate the capture buffer
+size according to the capture queue format type in SCP.
+
+As a preparation for introducing drivers for stateless decoding, save
+the current capture queue type on a per vcodec context basis.
+
+After fixing,
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
