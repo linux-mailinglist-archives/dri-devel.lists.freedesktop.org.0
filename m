@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A74B4C47A6
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 15:36:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC6F4C47A7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Feb 2022 15:36:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1138210E6AB;
-	Fri, 25 Feb 2022 14:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4695310E6E8;
+	Fri, 25 Feb 2022 14:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2DBA10E5C4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:35:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE50B10E673
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 14:35:58 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3ECAF5C0138;
- Fri, 25 Feb 2022 09:35:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 25 Feb 2022 09:35:56 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 174D05C0138;
+ Fri, 25 Feb 2022 09:35:58 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 25 Feb 2022 09:35:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=xZ5tDfJaUnDK2zdKkFq1Tltv4rLSsG
- LP6zUbM5VRt6k=; b=AeA6WESdxlCOJrxrW1S4z4f75k6aO3Gf3TbhwR660PFu4y
- gpITCuYEFGTh42c39/AE2SkEgCTm/2LM5PcEYThBr8Guub0XscIjB7hPFbhf73Xi
- 4cYyVXVW7WF6laLCrH2/Fte39AOg+CYw06N9awNH3ri1DbA7Jy52f+mV5EAEoboq
- 7F75IE7p4VP9BblVdE4bdzInppIhV3KNgy5DHWIq6MvFvw389wWTZoDR4yfG76cS
- b8X6eIXi3hiOx1PvJiaYzv1J3WSl3vqIoiO+RS1z/aYogCgEKnTBBqUG9xGQ5EbF
- tScjKbkvZF4RnCu4pCuoj9kC2z+Je2S0Nq0O4H+g==
+ :subject:subject:to:to; s=fm2; bh=uiveBeYnqGcqK+zu9ioOaNZW1ydXbC
+ w+PmOS3Kp8raY=; b=BfsEUYpd4BiAiEIcB4Dt4XJil8q0OsRcLJhm6Vg3L2JuIE
+ yDq0V3FY135nlLY9SbcTZ5tf+bhUbyjXIbj7BVW6jp6Cnu73unJ2RHLH64C3lWBz
+ Tbhu/fBHeb/czU8aFh6bT5hztqLTiHzP97IKwHDou+8xhLP6hYLQq0sX/HXVOHoB
+ fbnl8pPOiIPUL7g6hauKEX08pVSBMIvBxfdt1v20XlVgQTc0sKlhkG/ABjrm+eg9
+ 6FO5sJyYJPsnFDqVjtdAHnc5sYTNiCyaDdOZoThz/eLXFZxcDYwo0dk99nEe4epw
+ 5LaOF94MNeJePwn4uVbKw1fVzwIGSThzNlFLoigA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=xZ5tDf
- JaUnDK2zdKkFq1Tltv4rLSsGLP6zUbM5VRt6k=; b=aiDV2OLTD1lL//JX87lnGX
- ptASzqCQOLkMImoEKzBJbQyJCt2tfNH6u/R9+UlivUd3up6f1M+H4DrnfYIBlrKv
- eHiqVBBZLaSBBrWsl/4UFz54XxCC8K7w2nBwIDDHa3UukqfxSkXpQGqIoEq3I6N3
- lqTWJ1jX4rJgBCfPo62Dm0jSsS/ID1O43F2+1HI/02Lg3Vaf8EHE4Rg+GYzLMCXy
- Bw3pE3pfhg+VVbaruxvYxBc29+JMOxfTEAOJ0D505H177Sr7e3R12XK9dMBli7ho
- x9k1bmGzjbXSG/sKW7b3O2CoeX5E++rmRIpOaC05YxXHjNM+XRKoB6YNGtpZjRRg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uiveBe
+ YnqGcqK+zu9ioOaNZW1ydXbCw+PmOS3Kp8raY=; b=j4gb2U1+YOobIkUw1t/jHx
+ EVQQzoJtMnp2owNYKBUmPWx7eCx4dJUs+4yhgKV/zFRnxDXAqQCNyeorWEIPBlFn
+ TEFcjUjq+Xcf8Jo9/2vO+eKKUPtL8oXlM5jRJb0jMBQnPWSPILSIBtn+7GdwEcdl
+ kxScdxHSrf98qAHJzzuqAPkd/RoAJGDv0v+0IBkX6JEB+dkMlCf9+dTPgHm38Jq1
+ vV7gaIZTKq1YILNpGcPJZ++Ds4e/imWr3Nyf1xDSJc90xl2DDNhAUkF2tvq+Cjng
+ DvBab47l/UVWXGVvCF0WH1WjniiMHiTYgQYtZGOKOUmX8REbVEiQigfhtKdutNmQ
  ==
-X-ME-Sender: <xms:S-kYYmHb2iuOk6IKkJgzfMzmA1TtPEHauXYYiGLw3QUDqw4IVCAddg>
- <xme:S-kYYnWqqvDB1MP-oxLG-BQPyBxm2vn3XF4nOMrWy9NpDAqQaYf2871Xb123kGYu8
- 4lK3Gp2F1KnsO1LQTA>
-X-ME-Received: <xmr:S-kYYgIKDF-xWrFTDppzFIr_WiRLzuWzb9cO1nYT1_hE461DY3Z3bjRafASLBSfku15eVw-cDip-4HwrHBX0cVPvNseZCcrltohllb4>
+X-ME-Sender: <xms:TekYYrzHDtG5mYDU5GN6H3e0gL-VYK9DWeu_fDAOlQKiWSuCFF5TLg>
+ <xme:TekYYjQPBLzWu2_SFv-aQ7MAgAfiZgnxQ5NueK6Y81bh6eIA69pqHAB_GcWi1vxUA
+ 7B1hBLhF6E1LpOkWfk>
+X-ME-Received: <xmr:TekYYlWJs8ao9c87l-JZhLWP8EIimQWOPwgnoUe0eBJmO1tmkzWYfxq4K4Hx1B3r9L7SfVkS0k_eZ8pxPEi_GRaa9DBeYfR_ind6VGU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,18 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdeijecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:TOkYYgF72YNVRBx9vAQjNhUuSaAJRZ0X6TkdlfxrvRKMjgus-XOiCw>
- <xmx:TOkYYsUJTAe87pcq-yTsR9pBwyqFsHNg2CC8hyS-lpThDsvWwzWIHQ>
- <xmx:TOkYYjPDqcSLwh15AQsL-Cc7Wi8PXJs8x9ifkIKpzuoCRkTcwTnTrA>
- <xmx:TOkYYvG7F4DsVkJkar8jXLebCz9MVKxmbzs_nE4XxBMf62alBMI1Pg>
+X-ME-Proxy: <xmx:TukYYlhDE33eqWEPz5DEeAxCM6q1pgsY_bWvlpBcYRbxQT7GPnr7uA>
+ <xmx:TukYYtCAGDGOkn0fXJCwZaA7Ah2EtpbLSgDlTBscTsmr4FrrNw09lw>
+ <xmx:TukYYuJU0IsT1n1aqTu2fTHA1xZWkI7u0fmfpUxFvJCyHtHniIO0wg>
+ <xmx:TukYYnDOHxvy_dEWSYABwazl388hTbubKFHIVm1H1ntqho1ET9QJPQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Feb 2022 09:35:55 -0500 (EST)
+ 25 Feb 2022 09:35:57 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v7 10/12] clk: bcm: rpi: Run some clocks at the minimum rate
- allowed
-Date: Fri, 25 Feb 2022 15:35:32 +0100
-Message-Id: <20220225143534.405820-11-maxime@cerno.tech>
+Subject: [PATCH v7 11/12] drm/vc4: Add logging and comments
+Date: Fri, 25 Feb 2022 15:35:33 +0100
+Message-Id: <20220225143534.405820-12-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220225143534.405820-1-maxime@cerno.tech>
 References: <20220225143534.405820-1-maxime@cerno.tech>
@@ -88,100 +87,45 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The core clock and M2MC clocks are shared between some devices (Unicam
-controllers and the HVS, and the HDMI controllers, respectively) that
-will have various, varying, requirements depending on their current work
-load.
-
-Since those loads can require a fairly high clock rate in extreme
-conditions (up to ~600MHz), we can end up running those clocks at their
-maximum frequency even though we no longer require such a high rate.
-
-Fortunately, those devices don't require an exact rate but a minimum
-rate, and all the drivers are using clk_set_min_rate. Thus, we can just
-rely on the fact that the clk_request minimum (which is the aggregated
-minimum of all the clock users) is what we want at all times.
+The HVS core clock isn't really obvious, so let's add a bunch more
+comments and some logging for easier debugging.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 37 +++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/gpu/drm/vc4/vc4_kms.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index c879f2e9a4a7..9d09621549b9 100644
---- a/drivers/clk/bcm/clk-raspberrypi.c
-+++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -77,6 +77,7 @@ struct raspberrypi_clk_variant {
- 	bool		export;
- 	char		*clkdev;
- 	unsigned long	min_rate;
-+	bool		minimize;
- };
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 24de29bc1cda..6fe03fc17d73 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -389,8 +389,15 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 						500000000,
+ 						new_hvs_state->core_clock_rate);
  
- static struct raspberrypi_clk_variant
-@@ -87,6 +88,18 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 	},
- 	[RPI_FIRMWARE_CORE_CLK_ID] = {
- 		.export = true,
++		drm_dbg(dev, "Raising the core clock at %lu Hz\n", core_rate);
 +
 +		/*
-+		 * The clock is shared between the HVS and the CSI
-+		 * controllers, on the BCM2711 and will change depending
-+		 * on the pixels composited on the HVS and the capture
-+		 * resolution on Unicam.
-+		 *
-+		 * Since the rate can get quite large, and we need to
-+		 * coordinate between both driver instances, let's
-+		 * always use the minimum the drivers will let us.
++		 * Do a temporary request on the core clock during the
++		 * modeset.
 +		 */
-+		.minimize = true,
- 	},
- 	[RPI_FIRMWARE_M2MC_CLK_ID] = {
- 		.export = true,
-@@ -102,6 +115,16 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 		 * in this situation.
- 		 */
- 		.min_rate = 120000000,
+ 		clk_set_min_rate(hvs->core_clk, core_rate);
+ 	}
 +
+ 	drm_atomic_helper_commit_modeset_disables(dev, state);
+ 
+ 	vc4_ctm_commit(vc4, state);
+@@ -416,6 +423,10 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 		drm_dbg(dev, "Running the core clock at %lu Hz\n",
+ 			new_hvs_state->core_clock_rate);
+ 
 +		/*
-+		 * The clock is shared between the two HDMI controllers
-+		 * on the BCM2711 and will change depending on the
-+		 * resolution output on each. Since the rate can get
-+		 * quite large, and we need to coordinate between both
-+		 * driver instances, let's always use the minimum the
-+		 * drivers will let us.
++		 * Request a clock rate based on the current HVS
++		 * requirements.
 +		 */
-+		.minimize = true,
- 	},
- 	[RPI_FIRMWARE_V3D_CLK_ID] = {
- 		.export = true,
-@@ -206,12 +229,26 @@ static int raspberrypi_fw_set_rate(struct clk_hw *hw, unsigned long rate,
- static int raspberrypi_fw_dumb_determine_rate(struct clk_hw *hw,
- 					      struct clk_rate_request *req)
- {
-+	struct raspberrypi_clk_data *data =
-+		container_of(hw, struct raspberrypi_clk_data, hw);
-+	struct raspberrypi_clk_variant *variant = data->variant;
-+
- 	/*
- 	 * The firmware will do the rounding but that isn't part of
- 	 * the interface with the firmware, so we just do our best
- 	 * here.
- 	 */
-+
- 	req->rate = clamp(req->rate, req->min_rate, req->max_rate);
-+
-+	/*
-+	 * We want to aggressively reduce the clock rate here, so let's
-+	 * just ignore the requested rate and return the bare minimum
-+	 * rate we can get away with.
-+	 */
-+	if (variant->minimize && req->min_rate > 0)
-+		req->rate = req->min_rate;
-+
- 	return 0;
+ 		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
+ 	}
  }
- 
 -- 
 2.35.1
 
