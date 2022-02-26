@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6D14C56F9
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 18:12:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD304C56FE
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 18:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B2DA10E2EC;
-	Sat, 26 Feb 2022 17:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440E510E2F4;
+	Sat, 26 Feb 2022 17:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8687110E2EC
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 17:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645895556;
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B7DC10E2F4
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 17:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645895583;
  s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=rAYy4Z35sSvRmW3KU/N66fatHaFpRvigK4dz2yH4zPQ=;
- b=RqqY8R83HtnL0jTR22tpkHKb0et4BaXXkFDbAnYqGNqqnpFOX9QewquRUQJaZa3rSW
- BG/4dxSRpQFuQuMZ2+VUJ+bCkZRBHbDVopudOmBGnxDS/WZhnCKgqDUy6dEuYESKatQb
- CUUThk3ThvCcrps0vfp4qr5HIamaMGW9KyP5wxhRsu3+kT85dNTBcFv0Cs4dmD/07ISv
- 7MS7g/W6qrEhi1nHziGAHNhVLGpxroWY4BT9OMlXNiPgQyuo5N3F2PfAqZXevz4upvoI
- jhBSkOG7tCzQmA7a3dD7JjXmof7qoARDyYeVmz1CW+w/t0FstTI69LCo1X08z2VYjWP6
- 6wTg==
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=dX8jEg+e21ChR95yKlcg++koHvY0KVaNAmBQEWlNZ3k=;
+ b=SyHQUZAYMtTkmAAG2SNPJdaig5+N+GjQzRVpNPh6Ml1BfO3gAPEyBDJdhu6Q4lLmiX
+ WYR89OtX++Wf8dk6/Cp/lgBeAXWqmiaYMg3nBsdq+0DNJgn1Cv1pDCUZnpBiL9g6y8iv
+ ddizYVtytn3ZTnMSJ7FAxAUbTMDtTSNmAAleswi4IMpvT1xNhb6R+eoRsrAkuuQaNujp
+ SPV95eXdwd+64If6JJjyA7o83o5fAioMcck+B+0k5Sx/luV8y9fTMU3fNw7o69GcmRI7
+ str2V0vJoNY4fqnSC7SNmWocCAc9HH9Vclws2NhqXl+bsJUKegJbWED4Rk7scCfKf6fz
+ 89Zw==
 Authentication-Results: strato.com;
     dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43sTrQ="
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcK1D0"
 X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.40.1 SBL|AUTH)
- with ESMTPSA id V41e6fy1QHCYE1v
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.40.1 SBL|AUTH)
+ with ESMTPSA id V41e6fy1QHD3E1w
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sat, 26 Feb 2022 18:12:34 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v15 4/7] drm/bridge: dw-hdmi: repair interworking with
- hdmi-connector for jz4780
+ Sat, 26 Feb 2022 18:13:03 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <9c6f5c0b-5879-736f-344f-dfa12a0d7937@baylibre.com>
-Date: Sat, 26 Feb 2022 18:12:34 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3F01AD9B-EA49-4A34-A421-43E9E6268311@goldelico.com>
-References: <cover.1644681054.git.hns@goldelico.com>
- <d4d08582c49ec089095dd0ede4cdf2752f9d1eb8.1644681054.git.hns@goldelico.com>
- <9c6f5c0b-5879-736f-344f-dfa12a0d7937@baylibre.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-X-Mailer: Apple Mail (2.3445.104.21)
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Paul Boddie <paul@boddie.org.uk>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Paul Cercueil <paul@crapouillou.net>,
+ Maxime Ripard <maxime@cerno.tech>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v16 0/4] MIPS: JZ4780 and CI20 HDMI
+Date: Sat, 26 Feb 2022 18:12:58 +0100
+Message-Id: <cover.1645895582.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,86 +60,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Maxime Ripard <maxime@cerno.tech>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- letux-kernel@openphoenux.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: letux-kernel@openphoenux.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+PATCH V16 2022-02-26 18:13:02:
+* fixed and renamed dw-hdmi bus negotiation patch (by narmstrong@baylibre.com)
+* reordered and merged HPD fix (suggested by paul@crapouillou.net)
+* fixed MODULE_ALIAS for dw-hdmi-ingenic (reported by paul@crapouillou.net)
+* dropped some already merged commits from the series
 
-> Am 21.02.2022 um 09:11 schrieb Neil Armstrong =
-<narmstrong@baylibre.com>:
->=20
-> Hi,
->=20
-> On 12/02/2022 16:50, H. Nikolaus Schaller wrote:
->> Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
-fmts callbacks")
->> introduced a new mechanism to negotiate bus formats between hdmi =
-connector
->> and the synopsys hdmi driver inside the jz4780.
->> By this, the dw-hdmi is no longer the only bridge and sets up a list
->> of formats in dw_hdmi_bridge_atomic_get_output_bus_fmts().
->> This includes MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the jz4780 =
-but only
->> produces a black screen.
->> This fix is based on the observation that max_bpc =3D 0 when running =
-this
->> function while info->bpc =3D 8. Since the formats checks before this =
-always test
->> for max_bpc >=3D info->pbc indirectly my assumption is that we must =
-check it
->> here as well.
->> Adding the proposed patch makes the CI20/jz4780 panel work again in
->> MEDIA_BUS_FMT_RGB888_1X24 mode.
->> Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
-fmts callbacks")
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> ---
->>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
-b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index b0d8110dd412c..826a055a7a273 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2620,10 +2620,10 @@ static u32 =
-*dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->>  		output_fmts[i++] =3D MEDIA_BUS_FMT_RGB101010_1X30;
->>  	}
->>  -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
->> +	if (max_bpc >=3D info->bpc && info->color_formats & =
-DRM_COLOR_FORMAT_YCBCR422)
->>  		output_fmts[i++] =3D MEDIA_BUS_FMT_UYVY8_1X16;
->>  -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->> +	if (max_bpc >=3D info->bpc && info->color_formats & =
-DRM_COLOR_FORMAT_YCBCR444)
->>  		output_fmts[i++] =3D MEDIA_BUS_FMT_YUV8_1X24;
->>    	/* Default 8bit RGB fallback */
->=20
-> Please do the same for all other cases and change the patch subject to =
-something more accurate like:
-> "drm/bridge: dw-hdmi: take display info bpc in account for bus formats =
-negociation"
+PATCH V15 2022-02-12 16:50:54:
+* remove already (elsewhere) merged commits (suggested by paul@crapouillou.net)
+* clarify commit message for (now) 1/7 ((suggested by paul@crapouillou.net))
 
-thank you very much for this analysis.
+PATCH V14 2022-02-12 15:19:25:
+* make compatible to c03d0b52ff71d5 ("drm/connector: Fix typo in output format")
+* move "dw-hdmi/ingenic-dw-hdmi: repair interworking with hdmi-connector" before
+  drm/ingenic: Add dw-hdmi driver specialization for jz4780 (by paul@crapouillou.net)
+* split introduction of dw_hdmi_enable_poll() into separate patch
+* explicitly mark plane f0 as not working in jz4780 (suggested by paul@crapouillou.net)
+* drop 1/9 since it is now in drm-misc/drm-misc-next
 
-In fact my fix was also not correctly doing the right comparisons. The =
-rules should have the
-same structure as for all cases before, i.e. check for >=3D 8 and then =
-handle both color formats.
-I have fixed and tested on my CI20 board and updated the description and =
-Fixes: tags.
+PATCH V13 2022-02-02 17:31:22:
+* 7/9: remove call to gpiod_set_value() because of GPIOD_OUT_HIGH (by paul@crapouillou.net)
+* 4/9: replace ".." by "." (by paul@crapouillou.net)
+* 3/9: remove old hdmi-5v-power in the example (by paul@crapouillou.net)
+* 2/9: disable handling of plane f0 only for jz4780 (by paul@crapouillou.net)
 
-v16 will come now (as part of the jz4780 hdmi series).
+PATCH V12 2022-01-31 13:26:54:
+This version reworks how hdmi ddc power is controlled by connector and not
+by ddc/hdmi bridge driver.
 
-BR and thanks,
-Nikolaus
+Also some patches of the previous version of this series have been removed
+since they are already applied to mips-next/linux/next/v5.17-rc1.
+
+Fixes and changes:
+
+- repair interworking of dw-hdmi with connector-hdmi (by hns@goldelico.com)
+- fix JZ_REG_LCD_OSDC setup for jz4780 (by hns@goldelico.com and paul@crapouillou.net)
+- adjustments for ci20.dts to use connector gpio for +5v (suggested by several)
+- to add control of "ddc-en-gpios" to hdmi-connector driver (by hns@goldelico.com)
+- regulator code removed because we now use the "ddc-en-gpios" of the connector
+  driver (suggested by paul@crapouillou.net)
+- bindings: addition of "ddc-i2c-bus" and "hdmi-5v-supply" removed (suggested by robh+dt@kernel.org)
+- rebase on v5.17-rc2
+
+PATCH V11 2021-12-02 19:39:52:
+- patch 4/8: change devm_regulator_get_optional to devm_regulator_get and
+             remove NULL check (requested by broonie@kernel.org)
+- patch 3/8: make hdmi-5v-supply required (requested by broonie@kernel.org)
+
+PATCH V10 2021-11-30 22:26:41:
+- patch 3/8: fix $id and $ref paths (found by robh@kernel.org)
+
+PATCH V9 2021-11-24 22:29:14:
+- patch 6/8: remove optional <0> for assigned-clocks and unintentionally included "unwedge" setup (found by paul@crapouillou.net)
+- patch 4/8: some cosmetics
+             make regulator enable/disable only if not NULL (found by paul@crapouillou.net)
+             simplify/fix error handling and driver cleanup on remove (proposed by paul@crapouillou.net)
+- patch 3/8: fix #include path in example (found by paul@crapouillou.net)
+             fix missing "i" in unevaluatedProperties (found by robh@kernel.org)
+             fix 4 spaces indentation for required: property (found by robh@kernel.org)
+
+PATCH V8 2021-11-23 19:14:00:
+- fix a bad editing result from patch 2/8 (found by paul@crapouillou.net)
+
+PATCH V7 2021-11-23 18:46:23:
+- changed gpio polarity of hdmi_power to 0 (suggested by paul@crapouillou.net)
+- fixed LCD1 irq number (bug found by paul@crapouillou.net)
+- removed "- 4" for calculating max_register (suggested by paul@crapouillou.net)
+- use unevaluatedPropertes instead of additionalProperties (suggested by robh@kernel.org)
+- moved and renamed ingenic,jz4780-hdmi.yaml (suggested by robh@kernel.org)
+- adjusted assigned-clocks changes to upstream which added some for SSI (by hns@goldelico.com)
+- rebased and tested with v5.16-rc2 + patch set drm/ingenic by paul@crapouillou.net (by hns@goldelico.com)
+
+PATCH V6 2021-11-10 20:43:33:
+- changed CONFIG_DRM_INGENIC_DW_HDMI to "m" (by hns@goldelico.com)
+- made ingenic-dw-hdmi an independent platform driver which can be compiled as module
+  and removed error patch fixes for IPU (suggested by paul@crapouillou.net)
+- moved assigned-clocks from jz4780.dtsi to ci20.dts (suggested by paul@crapouillou.net)
+- fixed reg property in jz4780.dtsi to cover all registers incl. gamma and vee (by hns@goldelico.com)
+- added a base patch to calculate regmap size from DTS reg property (requested by paul@crapouillou.net)
+- restored resetting all bits except one in LCDOSDC (requested by paul@crapouillou.net)
+- clarified setting of cpos (suggested by paul@crapouillou.net)
+- moved bindings definition for ddc-i2c-bus (suggested by paul@crapouillou.net)
+- simplified mask definitions for JZ_LCD_DESSIZE (requested by paul@crapouillou.net)
+- removed setting alpha premultiplication (suggested by paul@crapouillou.net)
+- removed some comments (suggested by paul@crapouillou.net)
+
+PATCH V5 2021-10-05 14:28:44:
+- dropped mode_fixup and timings support in dw-hdmi as it is no longer needed in this V5 (by hns@goldelico.com)
+- dropped "drm/ingenic: add some jz4780 specific features" (stimulated by paul@crapouillou.net)
+- fixed typo in commit subject: "synopsis" -> "synopsys" (by hns@goldelico.com)
+- swapped clocks in jz4780.dtsi to match synopsys,dw-hdmi.yaml (by hns@goldelico.com)
+- improved, simplified, fixed, dtbschecked ingenic-jz4780-hdmi.yaml and made dependent of bridge/synopsys,dw-hdmi.yaml (based on suggestions by maxime@cerno.tech)
+- fixed binding vs. driver&DTS use of hdmi-5v regulator (suggested by maxime@cerno.tech)
+- dropped "drm/bridge: synopsis: Fix to properly handle HPD" - was a no longer needed workaround for a previous version
+  (suggested by maxime@cerno.tech)
+
+PATCH V4 2021-09-27 18:44:38:
+- fix setting output_port = 1 (issue found by paul@crapouillou.net)
+- ci20.dts: convert to use hdmi-connector (by hns@goldelico.com)
+- add a hdmi-regulator to control +5V power (by hns@goldelico.com)
+- added a fix to dw-hdmi to call drm_kms_helper_hotplug_event on plugin event detection (by hns@goldelico.com)
+- always allocate extended descriptor but initialize only for jz4780 (by hns@goldelico.com)
+- updated to work on top of "[PATCH v3 0/6] drm/ingenic: Various improvements v3" (by paul@crapouillou.net)
+- rebased to v5.13-rc3
+
+PATCH V3 2021-08-08 07:10:50:
+This series adds HDMI support for JZ4780 and CI20 board (and fixes one IPU related issue in registration error path)
+- [patch 1/8] switched from mode_fixup to atomic_check (suggested by robert.foss@linaro.org)
+  - the call to the dw-hdmi specialization is still called mode_fixup
+- [patch 3/8] diverse fixes for ingenic-drm-drv (suggested by paul@crapouillou.net)
+  - factor out some non-HDMI features of the jz4780 into a separate patch
+  - multiple fixes around max height
+  - do not change regmap config but a copy on stack
+  - define some constants
+  - factor out fixing of drm_init error path for IPU into separate patch
+  - use FIELD_PREP()
+- [patch 8/8] conversion to component framework dropped (suggested by Laurent.pinchart@ideasonboard.com and paul@crapouillou.net)
+
+PATCH V2 2021-08-05 16:08:05:
+- code and commit messages revisited for checkpatch warnings
+- rebased on v5.14-rc4
+- include (failed, hence RFC 8/8) attempt to convert to component framework
+  (was suggested by Paul Cercueil <paul@crapouillou.net> a while ago)
+
+This series adds HDMI support for JZ4780 and CI20 board
+
+
+
+H. Nikolaus Schaller (3):
+  drm/bridge: dw-hdmi: introduce dw_hdmi_enable_poll()
+  drm/bridge: display-connector: add ddc-en gpio support
+  drm/bridge: dw-hdmi: fix bus formats negotiation for 8 bit modes
+
+Paul Boddie (1):
+  drm/ingenic: Add dw-hdmi driver specialization for jz4780
+
+ drivers/gpu/drm/bridge/display-connector.c |  15 +++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  |  19 +++-
+ drivers/gpu/drm/ingenic/Kconfig            |   9 ++
+ drivers/gpu/drm/ingenic/Makefile           |   1 +
+ drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c  | 105 +++++++++++++++++++++
+ include/drm/bridge/dw_hdmi.h               |   1 +
+ 6 files changed, 146 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+
+-- 
+2.33.0
 
