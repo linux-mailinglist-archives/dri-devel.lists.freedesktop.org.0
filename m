@@ -2,49 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525A34C523C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 00:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2042A4C5269
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 01:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B90CD10E230;
-	Fri, 25 Feb 2022 23:45:43 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF73410E223;
- Fri, 25 Feb 2022 23:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC4A410E26B;
+	Sat, 26 Feb 2022 00:10:53 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A987510E26B;
+ Sat, 26 Feb 2022 00:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645832733; x=1677368733;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=kNAJDgnT8VDyCnUWMabHMNvsEQHQKPVjDGcm+9K/tWM=;
- b=GUoWAkVA+R89k7Ot4mWfQx4wxIUsDx7WrLIuva602mMNcU8ddrxlO+k4
- kQCPWqxUQcuTvanTGyAtqk3qCkyQxe+tX+HpurWnGT/+Gr2zTBWbFzuzW
- t+28r5OdpljOB6HrK1SG8pDCXmmqBdKdGX2N/0sNyAVBzd3LTCBQvWGSr
- C22rY5Bs012gwHo9Nv83jPn1vc+ImYaCFYobPPbZ8qNCUjfh+NU7WsOur
- 02QnYWyu6tX5ZV+HJWOJF3/+f5yr0RfxkXMTGEUiwgC8F4FutrZLT5EXw
- ePjdNCUMi7Eae/wHY+pSwL8RQbMyiO0YlFo8cHQpoXP0pe8BPld+0uqUZ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="313322603"
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="313322603"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 15:45:32 -0800
-X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; d="scan'208";a="544202773"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2022 15:45:32 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [CI 4/4] drm/i915: Use str_on_off()
-Date: Fri, 25 Feb 2022 15:46:31 -0800
-Message-Id: <20220225234631.3725943-4-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220225234631.3725943-1-lucas.demarchi@intel.com>
-References: <20220225234631.3725943-1-lucas.demarchi@intel.com>
+ t=1645834252; x=1677370252;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=R45cYbPWRMotCwk43lJ7aoZxhCwACVELbyweOB+nJ2c=;
+ b=dZSv2HaBBXqDxGzsrTXTlMKmGBDhhXPclH8kQ/ZdTw599HE2c9Jx3Pdz
+ 7jQ7U6yOThlpvqC2OItWnqjiDG66QQyTbrSCuVVbOg9Kb4D4jAJ8zulb1
+ e5uznTltN+bjy0UDwSNz3PBpWdjcuivRYu1gmh86orBTBYyxtaKJxaTvO
+ NUDK5LtoPmM7VOp/iY88MLYFr8oPEmMCy+dUHzsRe4Bpiadj3GlaESewT
+ j+JvdrxvZk9cKKdBFeLOT+R6TK6aI5tLYNM0Kk6t8tMLr8hy35T4PNDos
+ gpxb48DFAhnoplxTfV0lTbcZREKJpjUw2xSUxSCH4euYIRzdR2RbS2e/Z Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="240011908"
+X-IronPort-AV: E=Sophos;i="5.90,138,1643702400"; d="scan'208";a="240011908"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2022 16:10:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,138,1643702400"; d="scan'208";a="506860044"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga002.jf.intel.com with ESMTP; 25 Feb 2022 16:10:51 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 25 Feb 2022 16:10:51 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Fri, 25 Feb 2022 16:10:51 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Fri, 25 Feb 2022 16:10:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jNAez21jWuWOTiF19JTE8YA5nDuskY7dimlHpLPhbUIR+vqV0rgqk+KemtqbW/WXfI5Xxuqo/34SB2JeBb+VPu9R4V0LnrYzlw1JjqpKGvOvMq9S9o7aLZspbNOeC9xkHYDYVf+M4JsikZL/en4CTyp+hbGaSx7cMjjORzwWEA9kXmyzyfng2S05NRspusoIBEcvAfRg4HI8wl65R4V+nC+uyiqaeEVrv7H7HowNmfhsWzdIRHIGugexcXqlQOKzD6ejT9hGJYP2caQcRcJSuBTP8tWK2MmWlZve2sMPIb37TV2lP63XJD11YPh3723t1KZBocetfz8YBOLsokn53w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Wzt0KCzJe3w7yTDsD4rQZ0D5UmjD+MgyHaSRSJjx+i4=;
+ b=IRV6BP7NDVYNkCLgp/o+rjeAhcCklzN+T//rstJXeWSl2b7ByRRkJs+TzObRZ92w2KUhIRszbO+h3qT24Qpq/wKpm70/IAhQPSzOkrj9snOuQU0GspHA5RiEU+Vnyp7/A2xz1KCLerIkRni//qnMNEilE3lFCBrn1k40mv18Vevon1RwT9pWH/zJI9dBSxuyADXeSO5M8VhUYqFV8EQEO9VVq/mcFI2YKZsswPCaBSuuDaPvSHI+PpKPnHza3wjwPIxy4RhTB6OY/pMxkHzD1qFdkBqFVFvMh05FtnlNgOdaMLEyVyVU7WLXokp+FJs2ThNn6LLUBIqtHQCO5DVF6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ BYAPR11MB3701.namprd11.prod.outlook.com (2603:10b6:a03:fc::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.24; Sat, 26 Feb 2022 00:10:46 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869%4]) with mapi id 15.20.5017.026; Sat, 26 Feb 2022
+ 00:10:46 +0000
+Message-ID: <b8a034ee-714d-2590-5528-98a5b9228ee4@intel.com>
+Date: Fri, 25 Feb 2022 16:10:44 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 4/8] drm/i915/guc: Split guc_lrc_desc_pin apart
+Content-Language: en-US
+To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220225000623.1934438-1-John.C.Harrison@Intel.com>
+ <20220225000623.1934438-5-John.C.Harrison@Intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20220225000623.1934438-5-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY3PR03CA0018.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::23) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8319c178-a1af-4bcc-ba62-08d9f8bc6f93
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3701:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR11MB37010F77DECE6A653C7BE116F43F9@BYAPR11MB3701.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8oTkv08eTphMmZL8blCK6xk+aI6WkRdZpWN//piXt6b6aA0i9cBXNI1fdEcZ8Mpv77bd7mbpasiNBzcQzrs7K7abc2daqR78rRTBXSljDEBIhEihTWQko35X0zNJMet2i+bPEfU+Q/WHsbItWaTBR/V4Y5MSSU/1Ms6Lthxc29zECK9XWEagHWVkpn7803/w5aZN3oZASt40uZBBn89JhGdLNqbhP5Kg/7UeDGED71sminsW91MkcryekFxqFPhsedmG6j/JcFzZNz6hBrCYlXcac40J0C6mEMvpc4vmHvRwEi6L45PcXEgoN9UnMdKL9mWNz5mHRiTeNoENTvLozy82kMnqOXJiCIA/jFOhKePFWVGOPx6st7MSj5aXJb7vxfILC5OZbzZGWJApHwXMRjRFoBuIjG5kqVkK5niQ+60moDNEJJSTzDVbDtNFH4HuXkLVk4ZvfNipCdQsIyMx0Wcbkw6U1a7aMgFozMJk0wRDAW/idRuQrLZpH37ubtu9XGqfdAs1GUJ6Hbf675twBDIYh4PAK+bIqjyqoSzI4b+YlSPDHJ1HE9jO839SnYrP7sE1/+giff/bomapAS5TCPKCakZAqrA7vtkWiDUxgTqhDs/tbyD7vcKTKDUiGq2xngDiy4p0xXn/fLX143bukIqwYTyoaoce7Fpkb278jXPnYnBanvlvBV2D4+dnYi4yCmMQmVWl1HcSPZY7oWjuwUa2vLD7Q0mB7skE2nHlZ3hsxtgS+Ou0ARu70vjG7Y0gBHWSipamFSEe2jysE3KlKQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(83380400001)(82960400001)(5660300002)(2616005)(6512007)(31696002)(31686004)(36756003)(38100700002)(66556008)(66476007)(8936002)(186003)(6486002)(508600001)(66946007)(450100002)(8676002)(316002)(4326008)(86362001)(53546011)(26005)(2906002)(6506007)(45980500001)(43740500002)(309714004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dElsT3llOWF4bEdSUWY2SEQveDVzbHp2OWhoTXBWYzRYaStJTk1qNkJrNGZs?=
+ =?utf-8?B?WXZHS21wUDM4NDU1bVdydWRUWHJ3TjN5VmRwYmF6Rm9wc3BERmcvTldFbEFJ?=
+ =?utf-8?B?K0dNM0VqYTFtRGlmdkwwQXNhbGZXS0pIT3dOVzhTaVR3YW1OQmQrZGlpdU5H?=
+ =?utf-8?B?eU1FbkNLSWszRUVaMks4V3hNRnRiRlNheDVCamNBZzdhMDlpZjRsaTAxdGIr?=
+ =?utf-8?B?Qk1aeWFSdW0vQ0tDVUh3ZEtWQUdMVVgvc0pJY2duOTR5bVF0UStBTEJZUXNs?=
+ =?utf-8?B?TW1nT2k2c0VZaGNTT2QyaDE1WXphRTBkNU45M2huS2hhU0p1cEI0ejl0QzZ3?=
+ =?utf-8?B?dkFYMHlvQXdzSVBGanFTRm1TZ3VuVFQ2cUx2Y2FSTjh4SkVoZ25QZitGK2Vx?=
+ =?utf-8?B?SHNyemRZMnBieGhLQ3ZPOU9Xb2tpSkZkUzBkaVZKd2E1WXI3MEppOGszbitO?=
+ =?utf-8?B?b3kxV0cyTzE5dHRCSElpcXZnUFBJd0dva0xVSWIwWmpXblJ4YWlJYWs0dWNT?=
+ =?utf-8?B?N2o0Y2pBWUdVakRFMUVub0ZGUGVTalZvbjNFNjBIMWYvWktka1VZT0wxdUxF?=
+ =?utf-8?B?RW8rWmFRWnBwQnhzV2xZSEhpYnFtM1M1c25mNGNBUjZNcXNmbGNxY2E3T0dF?=
+ =?utf-8?B?dGd5R3hDcWlEd1lpV0cvaHp0N280NUZCUU1JbmZtMTR5eVBxeHk0UCtCZFQw?=
+ =?utf-8?B?U2cwNDZxdGNkQnRubEJILzZJN3lzb2ZHWERrVGZYd0JTZTJMOWRaTGp4ZU1x?=
+ =?utf-8?B?TWJaWlRBaVVJcjRBZjNESld3blB0YXhXQXo1eldVYjlYM0VrVUF1NW5TL3dC?=
+ =?utf-8?B?M0ZVR0xadmR2Q3VOSnQvdHlQOTNWL21jMGE1VWZVd3JpWThZNDlFMHg1UVdw?=
+ =?utf-8?B?Z29rZno4bkxwSEhheVlod2M2Z3JIbDVUaWtVZHg4MlZXRlZaTFZJOThkMkt0?=
+ =?utf-8?B?UTdXRjI4azBnbHozR3dldEVodGJGbzZITkJwRWdtUHFhRVUvYlNQSjNva3cz?=
+ =?utf-8?B?MklwVlhONHZTaFJyQ21SeTFlSWRMaDVhUmo3c05DRDZkNG1ocW5tVUdXSkFR?=
+ =?utf-8?B?K1NPUitqUi9NaGtYQko4bjNndXBNcnVRZUtxdE02bkNVU0Nqc3cyMlZQamxL?=
+ =?utf-8?B?bHRibU9PRmJiSEJpcCs5amU0cXlrTTF0NDY0ZzhkOG0zQzkyRlBDdmtmUHlR?=
+ =?utf-8?B?ZC9iU1lIajRYSDA1M0hJZWE1NzNvVWQyWEs4QXQrd2dHU1J3TU50UWFxbGVF?=
+ =?utf-8?B?aWdpL1BtVXpybUlzZmRIUUNEU0xsN1poM3VNbnZLWkptL3g2MnlYY1g2U2kw?=
+ =?utf-8?B?RTAyQjBEZ2VxUGJpcGZOSDNiWS9GcWxGMXZPQXZvUXR2d3hWZ1lvalIxWitZ?=
+ =?utf-8?B?SmowZHhxVkJMUTd5NHRjeTdrVTUvN1pwbVhsQzNUTDlpVTBGR3E2Zkpqa0ts?=
+ =?utf-8?B?a1NtTnFieFdwZ2ZoYkpNcnY0Z0hrcFRScmtSRjM2c3lTcXNiZFphYzdac2dI?=
+ =?utf-8?B?a2FqRjNieHlSaityRG9mWGdxcS83UVdSREpPYzl6czl4N2wzTG5XajBBczZz?=
+ =?utf-8?B?eVBMS1RPTVdmMEdSOVk2QVlnSjNFVTIwcGlrMVFTL29oMzBWdkFJSFUrdStG?=
+ =?utf-8?B?Q3oxdzFwcjZjWE1WSzdnWGM0MjI3aWVsRnpndm1OaHIza2xsK3BMaUlmbEhz?=
+ =?utf-8?B?Y2w5Y2IxNm95Uk9iOEdTK0hIWDhML3pjaFlwR05YelhmT09ZV3lGcFN5TUha?=
+ =?utf-8?B?NjZVbkM2ZEhRT01YRHoyMXJRZ3VKWmlDSnpERzFuQXlERW1mUFU2WGtYTEJT?=
+ =?utf-8?B?V1g1TTF4aHhvdHdKd0c5VE9wNHBlRlpSZW1UcFdxMmNOS2E2TE9Kb1ViRThJ?=
+ =?utf-8?B?QlpqZlMrZWxRUmNUZHl2K0dPUXNGTncwQ2pTejJ1NHFIeGZLc0Rlc2w1aTFl?=
+ =?utf-8?B?blRLNXlmS0hhclFiNENrTjNZZER1Qk1VUXlMN0VlNC9TaHZXVWkrZ3ZOU1Nh?=
+ =?utf-8?B?Um9uTG03MTlYcU94OEZHd2dFMmczTVFRVEcwOERqcms4TVBJZStrZWJhcW1T?=
+ =?utf-8?B?azI1MzhHdHdRNVppSnhlQ1JidUppREtGR1lZdlZmNjdrTTRrTCtuYk5KbXFu?=
+ =?utf-8?B?NFREeHFCZ2tlWFAxNGUwU0V6V2djREJyV0lwbE5HaTZKRFVEeHlmSFRBVzZa?=
+ =?utf-8?B?bTZMK0N4UlpZZVpNRmxuMDlKcUVGajZCL3BnUDVJT1RTNndqRFpsZ1dGK3Zu?=
+ =?utf-8?B?ZUtSOUxrUFNFM1BZN3dkUkNxOUpBPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8319c178-a1af-4bcc-ba62-08d9f8bc6f93
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2022 00:10:46.1627 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dqFL7Om18F8RDDypFt6GlpXe7cMbej1jqNN7uwS+i5xbNRmBWjQWO6FESZi9YCGiVBQK+VlFXpC3Pk6do+PmuOYtm3M+QRZUvj7Szklk2Uc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3701
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,285 +156,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the local onoff() implementation and adopt the
-str_on_off() from linux/string_helpers.h.
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/display/g4x_dp.c              | 6 ++++--
- drivers/gpu/drm/i915/display/intel_display.c       | 7 ++++---
- drivers/gpu/drm/i915/display/intel_display_trace.h | 3 ++-
- drivers/gpu/drm/i915/display/intel_dpll.c          | 3 ++-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 7 +++++--
- drivers/gpu/drm/i915/display/intel_fdi.c           | 8 +++++---
- drivers/gpu/drm/i915/display/vlv_dsi_pll.c         | 3 ++-
- drivers/gpu/drm/i915/gt/intel_rc6.c                | 5 +++--
- drivers/gpu/drm/i915/i915_utils.h                  | 5 -----
- drivers/gpu/drm/i915/vlv_suspend.c                 | 3 ++-
- 10 files changed, 29 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/g4x_dp.c b/drivers/gpu/drm/i915/display/g4x_dp.c
-index f67bbaaad8e0..22345051e667 100644
---- a/drivers/gpu/drm/i915/display/g4x_dp.c
-+++ b/drivers/gpu/drm/i915/display/g4x_dp.c
-@@ -5,6 +5,8 @@
-  * DisplayPort support for G4x,ILK,SNB,IVB,VLV,CHV (HSW+ handled by the DDI code).
-  */
- 
-+#include <linux/string_helpers.h>
-+
- #include "g4x_dp.h"
- #include "intel_audio.h"
- #include "intel_backlight.h"
-@@ -192,7 +194,7 @@ static void assert_dp_port(struct intel_dp *intel_dp, bool state)
- 	I915_STATE_WARN(cur_state != state,
- 			"[ENCODER:%d:%s] state assertion failure (expected %s, current %s)\n",
- 			dig_port->base.base.base.id, dig_port->base.base.name,
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- #define assert_dp_port_disabled(d) assert_dp_port((d), false)
- 
-@@ -202,7 +204,7 @@ static void assert_edp_pll(struct drm_i915_private *dev_priv, bool state)
- 
- 	I915_STATE_WARN(cur_state != state,
- 			"eDP PLL state assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- #define assert_edp_pll_enabled(d) assert_edp_pll((d), true)
- #define assert_edp_pll_disabled(d) assert_edp_pll((d), false)
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 2283c7bad2cd..6cae58f921a5 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -401,7 +401,7 @@ static void wait_for_pipe_scanline_moving(struct intel_crtc *crtc, bool state)
- 	if (wait_for(pipe_scanline_is_moving(dev_priv, pipe) == state, 100))
- 		drm_err(&dev_priv->drm,
- 			"pipe %c scanline %s wait timed out\n",
--			pipe_name(pipe), onoff(state));
-+			pipe_name(pipe), str_on_off(state));
- }
- 
- static void intel_wait_for_pipe_scanline_stopped(struct intel_crtc *crtc)
-@@ -457,7 +457,7 @@ void assert_transcoder(struct drm_i915_private *dev_priv,
- 	I915_STATE_WARN(cur_state != state,
- 			"transcoder %s assertion failure (expected %s, current %s)\n",
- 			transcoder_name(cpu_transcoder),
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- static void assert_plane(struct intel_plane *plane, bool state)
-@@ -469,7 +469,8 @@ static void assert_plane(struct intel_plane *plane, bool state)
- 
- 	I915_STATE_WARN(cur_state != state,
- 			"%s assertion failure (expected %s, current %s)\n",
--			plane->base.name, onoff(state), onoff(cur_state));
-+			plane->base.name, str_on_off(state),
-+			str_on_off(cur_state));
- }
- 
- #define assert_plane_enabled(p) assert_plane(p, true)
-diff --git a/drivers/gpu/drm/i915/display/intel_display_trace.h b/drivers/gpu/drm/i915/display/intel_display_trace.h
-index dcdd242fffd9..2dd5a4b7f5d8 100644
---- a/drivers/gpu/drm/i915/display/intel_display_trace.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_trace.h
-@@ -9,6 +9,7 @@
- #if !defined(__INTEL_DISPLAY_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
- #define __INTEL_DISPLAY_TRACE_H__
- 
-+#include <linux/string_helpers.h>
- #include <linux/types.h>
- #include <linux/tracepoint.h>
- 
-@@ -161,7 +162,7 @@ TRACE_EVENT(intel_memory_cxsr,
- 			   ),
- 
- 	    TP_printk("%s->%s, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
--		      onoff(__entry->old), onoff(__entry->new),
-+		      str_on_off(__entry->old), str_on_off(__entry->new),
- 		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
- 		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
- 		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
-index 14f5ffe27d05..0ae37fdbf2a5 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/kernel.h>
-+#include <linux/string_helpers.h>
- 
- #include "intel_crtc.h"
- #include "intel_de.h"
-@@ -1945,7 +1946,7 @@ static void assert_pll(struct drm_i915_private *dev_priv,
- 	cur_state = intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE;
- 	I915_STATE_WARN(cur_state != state,
- 			"PLL state assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- void assert_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 569903d47aea..f10eae7a75c6 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -21,6 +21,8 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/string_helpers.h>
-+
- #include "intel_de.h"
- #include "intel_display_types.h"
- #include "intel_dpio_phy.h"
-@@ -178,13 +180,14 @@ void assert_shared_dpll(struct drm_i915_private *dev_priv,
- 	struct intel_dpll_hw_state hw_state;
- 
- 	if (drm_WARN(&dev_priv->drm, !pll,
--		     "asserting DPLL %s with no DPLL\n", onoff(state)))
-+		     "asserting DPLL %s with no DPLL\n", str_on_off(state)))
- 		return;
- 
- 	cur_state = intel_dpll_get_hw_state(dev_priv, pll, &hw_state);
- 	I915_STATE_WARN(cur_state != state,
- 	     "%s assertion failure (expected %s, current %s)\n",
--			pll->info->name, onoff(state), onoff(cur_state));
-+			pll->info->name, str_on_off(state),
-+			str_on_off(cur_state));
- }
- 
- static enum tc_port icl_pll_id_to_tc_port(enum intel_dpll_id id)
-diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
-index 4e4b43669b14..67d2484afbaa 100644
---- a/drivers/gpu/drm/i915/display/intel_fdi.c
-+++ b/drivers/gpu/drm/i915/display/intel_fdi.c
-@@ -3,6 +3,8 @@
-  * Copyright © 2020 Intel Corporation
-  */
- 
-+#include <linux/string_helpers.h>
-+
- #include "intel_atomic.h"
- #include "intel_crtc.h"
- #include "intel_ddi.h"
-@@ -34,7 +36,7 @@ static void assert_fdi_tx(struct drm_i915_private *dev_priv,
- 	}
- 	I915_STATE_WARN(cur_state != state,
- 			"FDI TX state assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- void assert_fdi_tx_enabled(struct drm_i915_private *i915, enum pipe pipe)
-@@ -55,7 +57,7 @@ static void assert_fdi_rx(struct drm_i915_private *dev_priv,
- 	cur_state = intel_de_read(dev_priv, FDI_RX_CTL(pipe)) & FDI_RX_ENABLE;
- 	I915_STATE_WARN(cur_state != state,
- 			"FDI RX state assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- void assert_fdi_rx_enabled(struct drm_i915_private *i915, enum pipe pipe)
-@@ -93,7 +95,7 @@ static void assert_fdi_rx_pll(struct drm_i915_private *i915,
- 	cur_state = intel_de_read(i915, FDI_RX_CTL(pipe)) & FDI_RX_PLL_ENABLE;
- 	I915_STATE_WARN(cur_state != state,
- 			"FDI RX PLL assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- void assert_fdi_rx_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
-index df880f44700a..1385b46aeb26 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
-@@ -26,6 +26,7 @@
-  */
- 
- #include <linux/kernel.h>
-+#include <linux/string_helpers.h>
- 
- #include "i915_drv.h"
- #include "intel_de.h"
-@@ -581,7 +582,7 @@ static void assert_dsi_pll(struct drm_i915_private *i915, bool state)
- 
- 	I915_STATE_WARN(cur_state != state,
- 			"DSI PLL state assertion failure (expected %s, current %s)\n",
--			onoff(state), onoff(cur_state));
-+			str_on_off(state), str_on_off(cur_state));
- }
- 
- void assert_dsi_pll_enabled(struct drm_i915_private *i915)
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 6df359c534fe..63db136cbc27 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/pm_runtime.h>
-+#include <linux/string_helpers.h>
- 
- #include "i915_drv.h"
- #include "i915_reg.h"
-@@ -430,8 +431,8 @@ static bool bxt_check_bios_rc6_setup(struct intel_rc6 *rc6)
- 	rc_sw_target >>= RC_SW_TARGET_STATE_SHIFT;
- 	drm_dbg(&i915->drm, "BIOS enabled RC states: "
- 			 "HW_CTRL %s HW_RC6 %s SW_TARGET_STATE %x\n",
--			 onoff(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
--			 onoff(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
-+			 str_on_off(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
-+			 str_on_off(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
- 			 rc_sw_target);
- 
- 	if (!(intel_uncore_read(uncore, RC6_LOCATION) & RC6_CTX_IN_DRAM)) {
-diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index 6d26920d0632..3ff9611ff81c 100644
---- a/drivers/gpu/drm/i915/i915_utils.h
-+++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -400,11 +400,6 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
- #define MBps(x) KBps(1000 * (x))
- #define GBps(x) ((u64)1000 * MBps((x)))
- 
--static inline const char *onoff(bool v)
--{
--	return v ? "on" : "off";
--}
--
- void add_taint_for_CI(struct drm_i915_private *i915, unsigned int taint);
- static inline void __add_taint_for_CI(unsigned int taint)
- {
-diff --git a/drivers/gpu/drm/i915/vlv_suspend.c b/drivers/gpu/drm/i915/vlv_suspend.c
-index 1d9da32195c2..664fde244f59 100644
---- a/drivers/gpu/drm/i915/vlv_suspend.c
-+++ b/drivers/gpu/drm/i915/vlv_suspend.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2020 Intel Corporation
-  */
- 
-+#include <linux/string_helpers.h>
- #include <linux/kernel.h>
- 
- #include <drm/drm_print.h>
-@@ -375,7 +376,7 @@ static void vlv_wait_for_gt_wells(struct drm_i915_private *dev_priv,
- 	if (vlv_wait_for_pw_status(dev_priv, mask, val))
- 		drm_dbg(&dev_priv->drm,
- 			"timeout waiting for GT wells to go %s\n",
--			onoff(wait_for_on));
-+			str_on_off(wait_for_on));
- }
- 
- static void vlv_check_no_gt_access(struct drm_i915_private *i915)
--- 
-2.35.1
+On 2/24/2022 4:06 PM, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+>
+> The LRC descriptor pool is going away. Further, the function that was
+> populating it was also doing a bunch of logic about the context
+> registration sequence. So, split that code apart into separate state
+> setup and try to register functions. Note that some of those 'try to
+> register' code paths actually undo the state setup and leave it to be
+> redone again later (with potentially different values). This is
+> inefficient. The next patch will correct this.
+>
+> Also, move a comment about ignoring return values to the place where
+> the return values are actually ignored.
+>
+> v2: Move some more splitting from a later patch (and do it correctly).
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+Daniele
+
+> ---
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 54 +++++++++++--------
+>   1 file changed, 33 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index ad784e8068c7..e41e309b9e7e 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -634,7 +634,7 @@ int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
+>   					      true, timeout);
+>   }
+>   
+> -static int guc_lrc_desc_pin(struct intel_context *ce, bool loop);
+> +static int try_context_registration(struct intel_context *ce, bool loop);
+>   
+>   static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+>   {
+> @@ -932,7 +932,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+>   
+>   		if (unlikely(!ctx_id_mapped(guc, ce->guc_id.id) &&
+>   			     !intel_context_is_banned(ce))) {
+> -			ret = guc_lrc_desc_pin(ce, false);
+> +			ret = try_context_registration(ce, false);
+>   			if (unlikely(ret == -EPIPE)) {
+>   				goto deadlk;
+>   			} else if (ret == -EBUSY) {
+> @@ -2237,20 +2237,15 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+>   	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>   }
+>   
+> -static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> +static void prepare_context_registration_info(struct intel_context *ce)
+>   {
+>   	struct intel_engine_cs *engine = ce->engine;
+> -	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
+>   	struct intel_guc *guc = &engine->gt->uc.guc;
+>   	u32 desc_idx = ce->guc_id.id;
+>   	struct guc_lrc_desc *desc;
+> -	bool context_registered;
+> -	intel_wakeref_t wakeref;
+>   	struct intel_context *child;
+> -	int ret = 0;
+>   
+>   	GEM_BUG_ON(!engine->mask);
+> -	GEM_BUG_ON(!sched_state_is_init(ce));
+>   
+>   	/*
+>   	 * Ensure LRC + CT vmas are is same region as write barrier is done
+> @@ -2259,11 +2254,6 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
+>   		   i915_gem_object_is_lmem(ce->ring->vma->obj));
+>   
+> -	context_registered = ctx_id_mapped(guc, desc_idx);
+> -
+> -	clr_ctx_id_mapping(guc, desc_idx);
+> -	set_ctx_id_mapping(guc, desc_idx, ce);
+> -
+>   	desc = __get_lrc_desc(guc, desc_idx);
+>   	desc->engine_class = engine_class_to_guc_class(engine->class);
+>   	desc->engine_submit_mask = engine->logical_mask;
+> @@ -2308,6 +2298,26 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   
+>   		clear_children_join_go_memory(ce);
+>   	}
+> +}
+> +
+> +static int try_context_registration(struct intel_context *ce, bool loop)
+> +{
+> +	struct intel_engine_cs *engine = ce->engine;
+> +	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
+> +	struct intel_guc *guc = &engine->gt->uc.guc;
+> +	intel_wakeref_t wakeref;
+> +	u32 desc_idx = ce->guc_id.id;
+> +	bool context_registered;
+> +	int ret = 0;
+> +
+> +	GEM_BUG_ON(!sched_state_is_init(ce));
+> +
+> +	context_registered = ctx_id_mapped(guc, desc_idx);
+> +
+> +	clr_ctx_id_mapping(guc, desc_idx);
+> +	set_ctx_id_mapping(guc, desc_idx, ce);
+> +
+> +	prepare_context_registration_info(ce);
+>   
+>   	/*
+>   	 * The context_lookup xarray is used to determine if the hardware
+> @@ -3145,7 +3155,7 @@ static int guc_request_alloc(struct i915_request *rq)
+>   	if (unlikely(ret < 0))
+>   		return ret;
+>   	if (context_needs_register(ce, !!ret)) {
+> -		ret = guc_lrc_desc_pin(ce, true);
+> +		ret = try_context_registration(ce, true);
+>   		if (unlikely(ret)) {	/* unwind */
+>   			if (ret == -EPIPE) {
+>   				disable_submission(guc);
+> @@ -3633,9 +3643,17 @@ static void guc_set_default_submission(struct intel_engine_cs *engine)
+>   static inline void guc_kernel_context_pin(struct intel_guc *guc,
+>   					  struct intel_context *ce)
+>   {
+> +	/*
+> +	 * Note: we purposefully do not check the returns below because
+> +	 * the registration can only fail if a reset is just starting.
+> +	 * This is called at the end of reset so presumably another reset
+> +	 * isn't happening and even it did this code would be run again.
+> +	 */
+> +
+>   	if (context_guc_id_invalid(ce))
+>   		pin_guc_id(guc, ce);
+> -	guc_lrc_desc_pin(ce, true);
+> +
+> +	try_context_registration(ce, true);
+>   }
+>   
+>   static inline void guc_init_lrc_mapping(struct intel_guc *guc)
+> @@ -3653,13 +3671,7 @@ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
+>   	 * Also, after a reset the of the GuC we want to make sure that the
+>   	 * information shared with GuC is properly reset. The kernel LRCs are
+>   	 * not attached to the gem_context, so they need to be added separately.
+> -	 *
+> -	 * Note: we purposefully do not check the return of guc_lrc_desc_pin,
+> -	 * because that function can only fail if a reset is just starting. This
+> -	 * is at the end of reset so presumably another reset isn't happening
+> -	 * and even it did this code would be run again.
+>   	 */
+> -
+>   	for_each_engine(engine, gt, id) {
+>   		struct intel_context *ce;
+>   
 
