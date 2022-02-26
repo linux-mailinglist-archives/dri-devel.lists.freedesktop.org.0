@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FAF4C56FF
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 18:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B674C5706
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 18:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DF310E2F7;
-	Sat, 26 Feb 2022 17:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1570210E2FB;
+	Sat, 26 Feb 2022 17:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
  [85.215.255.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4FD10E2F7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9A310E2FA
  for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 17:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645895585;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=i8pTmnLmwlb11chyD0dSM2jAOpH2BALjlZjdfMA39JQ=;
- b=B6v6ihOk/9KDlEIMLQ3sGfeLNWDkgzXpBaLFw9o30/Lq2yLulEEykANLH4DLyhJ6LL
- 73fZMby+nqN6dvgGeGuM0qZJMcTQ5WpQ4MEk55JV50jpsJC6n+MoEnDOIsjVZA3pleHY
- 1phexMxXcHm7bXoX8U7WfTsMYxsFp+6IOkAwtKpo+KdxZtqE2apbMF+ahpVcfSTdUKrm
- p60xO/Y37ULd0UTLQ18Kw81SqOulTOhNCNNPUrJb2g5x4FJCVya/bvZhQRzLbWMu0dW9
- Q+GSJDmSVpiF27cleVVm7bLLwUTSIpYs9XultGrs/B4MUag/q4y61ENaXhjcb/IYQHWb
- 1O6g==
+ bh=Itv7i6Bm9qZTP8Djtnn3kfJowIcb04gXWZLzQuWU4eI=;
+ b=SY9lMrn0n3OMql/lFd2TXmtXDus93skI0DVEBQZI2xDQdwt+pXUj4o1sr6YS7tlIPb
+ BIHDP9L9iLeTgky6h+CHqSJj/jlGc+RZizXvyqow7QTWEnyyglSn4u+OY8qXOxf+6wov
+ SI3BJ3XwHmsiRBWmTEfERJegK5QrwzXNGpaKaV43d2z2LttGaHpQ6nhrewgTRMAUBOt/
+ SUK4SXagUqOG8qQ+rpYOXNxFWR6HThWMEK1U36EEnaMckB+Jl8k48uA3/E790sw86fBj
+ A5EqGWqflY6lC1XNpj+7v7rYaIHFaLkLtaxe2QAz66fHpFwEDO9XYchFCUgJAQa2xtB8
+ ATDg==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcK1D0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.40.1 SBL|AUTH)
- with ESMTPSA id V41e6fy1QHD4E1z
+ with ESMTPSA id V41e6fy1QHD5E20
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sat, 26 Feb 2022 18:13:04 +0100 (CET)
+ Sat, 26 Feb 2022 18:13:05 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
@@ -43,9 +43,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <maxime@cerno.tech>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v16 3/4] drm/bridge: display-connector: add ddc-en gpio support
-Date: Sat, 26 Feb 2022 18:13:01 +0100
-Message-Id: <31045a729978327615a50d4d17b47e6034095192.1645895582.git.hns@goldelico.com>
+Subject: [PATCH v16 4/4] drm/bridge: dw-hdmi: fix bus formats negotiation for
+ 8 bit modes
+Date: Sat, 26 Feb 2022 18:13:02 +0100
+Message-Id: <169afe64b4985c3f420177cd6f4e1e72feeb2449.1645895582.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1645895582.git.hns@goldelico.com>
 References: <cover.1645895582.git.hns@goldelico.com>
@@ -69,65 +70,58 @@ Cc: letux-kernel@openphoenux.org, linux-mips@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"hdmi-connector.yaml" bindings defines an optional property
-"ddc-en-gpios" for a single gpio to enable DDC operation.
+Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus fmts callbacks")
 
-Usually this controls +5V power on the HDMI connector.
-This +5V may also be needed for HPD.
+introduced a new mechanism to negotiate bus formats between hdmi connectors
+and bridges which is to be used e.g. for the jz4780 based CI20 board.
 
-This was not reflected in code.
+In this case dw-hdmi sets up a list of formats in
+dw_hdmi_bridge_atomic_get_output_bus_fmts().
 
-Now, the driver activates the ddc gpio after probe and
-deactivates after remove so it is "almost on".
+This includes e.g. MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the CI20 but
+only produces a black screen.
 
-But only if this driver is loaded (and not e.g. blacklisted
-as module).
+Analysis revealed an omission in
 
+Commit 6c3c719936dafe ("drm/bridge: synopsys: dw-hdmi: add bus format negociation")
+
+to check for 8 bit with when adding UYVY8 or YUV8 formats.
+
+This fix is based on the observation that max_bpc = 0 when running this
+function while info->bpc = 8.
+
+Adding the proposed patch makes the jz4780/CI20 panel work again with default
+MEDIA_BUS_FMT_RGB888_1X24 mode.
+
+Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus fmts callbacks")
+Fixes: 6c3c719936dafe ("drm/bridge: synopsys: dw-hdmi: add bus format negociation")
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index d24f5b90feabf..e4d52a7e31b71 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -24,6 +24,7 @@ struct display_connector {
- 	int			hpd_irq;
- 
- 	struct regulator	*dp_pwr;
-+	struct gpio_desc	*ddc_en;
- };
- 
- static inline struct display_connector *
-@@ -345,6 +346,17 @@ static int display_connector_probe(struct platform_device *pdev)
- 		}
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 43e375da131e8..c08e2cc96584c 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2621,11 +2621,13 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+ 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
  	}
  
-+	/* enable DDC */
-+	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-+		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-+						       GPIOD_OUT_HIGH);
-+
-+		if (IS_ERR(conn->ddc_en)) {
-+			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-+			return PTR_ERR(conn->ddc_en);
-+		}
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
+-		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++	if (max_bpc >= 8 && info->bpc >= 8) {
++		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
++			output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+ 
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
+-		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
++			output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
 +	}
-+
- 	conn->bridge.funcs = &display_connector_bridge_funcs;
- 	conn->bridge.of_node = pdev->dev.of_node;
  
-@@ -373,6 +385,9 @@ static int display_connector_remove(struct platform_device *pdev)
- {
- 	struct display_connector *conn = platform_get_drvdata(pdev);
- 
-+	if (conn->ddc_en)
-+		gpiod_set_value(conn->ddc_en, 0);
-+
- 	if (conn->dp_pwr)
- 		regulator_disable(conn->dp_pwr);
- 
+ 	/* Default 8bit RGB fallback */
+ 	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
 -- 
 2.33.0
 
