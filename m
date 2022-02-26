@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943A44C550C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 11:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0A94C54F7
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 10:53:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7636810ED6C;
-	Sat, 26 Feb 2022 10:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07CCA10E40C;
+	Sat, 26 Feb 2022 09:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpproxy21.qq.com (smtpbg701.qq.com [203.205.195.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6013F10E7E2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Feb 2022 09:47:44 +0000 (UTC)
-X-QQ-mid: bizesmtp69t1645782450t0kbe8hh
-Received: from localhost.localdomain (unknown [58.240.82.166])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 25 Feb 2022 17:47:24 +0800 (CST)
-X-QQ-SSF: 01400000002000C0F000000A0000000
-X-QQ-FEAT: vsfsx1ezZ8T9jEj1xNfTc/NNOY+XLDtQ8KYfXZfbFq1OAyvxyybatFq69W8AI
- mycbPgvMN1QnO8/m3gZ4MXNE0Zk+9eIzUD8kDpcX4/3m0fuYQ1g3dyoYAnSaGiXEl3fj6HF
- Km8scUlBVEan0JXqC0YQjUEIv+KBhB2DCtPGymk80N91YFlBGLQEvDJrWy39/796K1qPCVo
- khjMPwmDue14T9tCbafeiSZU4SIUKbVJYPzTUUtsJitFFd2u/qoW0Q/W4Ir/CiC7S1lWgxU
- hQ3WedHzT9K7OtW/iRZ8aTvg9APS/5NBzkWNrRTQe9cg0PEDaogOItAu/D5uXmJR5xDa+hJ
- qkd9CQSAwDFbvgrIHt/V9YHcl4/IX7b4dN7hOQoCBap8M7kzcg=
-X-QQ-GoodBg: 1
-From: Meng Tang <tangmeng@uniontech.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] gpu/amd: vega10_hwmgr: fix inappropriate private variable name
-Date: Fri, 25 Feb 2022 17:47:22 +0800
-Message-Id: <20220225094722.4734-1-tangmeng@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F3CD10E401;
+ Sat, 26 Feb 2022 09:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645869214; x=1677405214;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=5SH26iFX/5abMXOJDrHZIqkZTywiIPdvLFLmF9f3uik=;
+ b=SMB7lN33ZcrR2QNKhwy9+/8paqupsCTiYsQjA4HlVgL2bZwKZl0az+Et
+ 6LVp+wbpTbWjot+J2OP8AEiC2ptJ2Ciu59KGwqQi35DDdHVmASfkHjkQ+
+ ir7KMSGBhWtTaiUX36Nxr1zsfEsipoqhgWRYAQWy5cWhz884Z+j6HZlw+
+ 2unKGO0d++DArpUTICZCqFd+p+/jsybHX/T7bpLNJ3U2ztdEldhwhndDA
+ uHMmx2REqUFdlfPxdayE5xeXKxtwADKjyZJN3wytD3UqSADFomaV+p09e
+ dEH9PX3wepqS9H2amHw683zIfyyW2Z/r4US3yZgfL6o7IdEbkeMcO6mul A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="251480181"
+X-IronPort-AV: E=Sophos;i="5.90,139,1643702400"; d="scan'208";a="251480181"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2022 01:53:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,139,1643702400"; d="scan'208";a="506953215"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga002.jf.intel.com with ESMTP; 26 Feb 2022 01:53:33 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v7 00/13] Add GuC Error Capture Support
+Date: Sat, 26 Feb 2022 01:55:28 -0800
+Message-Id: <20220226095541.1010534-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
-X-QQ-Bgrelay: 1
-X-Mailman-Approved-At: Sat, 26 Feb 2022 10:00:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,189 +53,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Meng Tang <tangmeng@uniontech.com>, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, evan.quan@amd.com,
- christian.koenig@amd.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In file vega10_hwmgr.c, the names of struct vega10_power_state *
-and struct pp_power_state * are confusingly used, which may lead
-to some confusion.
+This series:
+  1. Enables support of GuC to report error-state-capture
+     using a list of MMIO registers the driver registers
+     and GuC will dump, log and notify right before a GuC
+     triggered engine-reset event.
+  2. Updates the ADS blob creation to register said lists
+     of global, engine class and engine instance registers
+     with GuC.
+  3. Defines tables of register lists that are global or
+     engine class or engine instance in scope.
+  4. Updates usage and buffer-state data for the regions
+     of the shared GuC log-buffer to accomdate both
+     the existing relay logging of general debug logs
+     along with the new error state capture usage.
+  5. Using a pool of preallocated memory, provide ability
+     to extract and format the GuC reported register-capture
+     data into chunks consistent with existing i915 error-
+     state collection flows and structures.
+  6. Connects the i915_gpu_coredump reporting function
+     to the GuC error capture module to print all GuC
+     error state capture dumps that is reported.
 
-Status quo is that variables of type struct vega10_power_state *
-are named "vega10_ps", "ps", "vega10_power_state". A more
-appropriate usage is that struct are named "ps" is used for
-variabled of type struct pp_power_state *.
+This is the 7th rev of this series with the first 3 revs
+labelled as RFC.
 
-So rename struct vega10_power_state * which are named "ps" and
-"vega10_power_state" to "vega10_ps", I also renamed "psa" to
-"vega10_psa" and "psb" to "vega10_psb" to make it more clearly.
+Prior receipts of rvb's:
+  - Patch #5, #12 have received R-v-b's from Umesh Nerlige Ramappa
+    <umesh.nerlige.ramappa@intel.com>
+  - Patch #6 has received an R-v-b from Matthew Brost
+    <matthew.brost@intel.com>
 
-The rows longer than 100 columns are involved.
+Changes from prior revs:
+  v7: - Rebased on lastest drm_tip that has the ADS now using
+        shmem based ads_blob_write utilities. Stress test
+        was performed with this patch included to fix a
+        legacy bug:
+        https://patchwork.freedesktop.org/series/100768/
 
-Signed-off-by: Meng Tang <tangmeng@uniontech.com>
----
- .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 68 +++++++++++--------
- 1 file changed, 38 insertions(+), 30 deletions(-)
+  v6: - In patch #1, ADS reg-list population, we now alloc
+        regular memory to create the lists and cache them for
+        simpler and faster use by GuC ADS module at init, 
+        suspend-resume and reset cycles. This was in response
+        to review comments from Lucas De Marchi that also
+        wanted to ensure the GuC ADS module owns the final
+        copying into the ADS phyical memory.
+      - Thanks to Jani Nikula for pointing out that patch #2
+        and #3 should ensure static tables as constant and
+        dynamic lists should be allocated and cached but
+        attached to the GT level for the case of multiple
+        cards with different fusings for steered registers.
+        These are addressed now along with multiple code
+        style fixups (thanks to review comment from Umesh)
+        and splitting the steered register list generation
+        as a seperate patch.
+      - The extraction functionality, Patch #10 and #11 (was
+        patch #7), has fixed all of Umesh's review comments
+        related to the code styling. Additionally, it was
+        discovered during stress tests that the extraction
+        function could be called by the ct processing thread
+        at the same time as the start of a GT reset event.
+        Thus, a redesign was done whereby the linked list of
+        processed capture-output-nodes are allocated up
+        front and reused throughout the driver's life to
+        ensure no memory locks are taken during extraction.
+      - For patch #6 (now 7, 8 and 9), updates to
+        intel_guc_log was split into smaller chunks and the
+        log_state structure was returned back to inside of
+        the intel_guc_log struct as opposed to the
+        intel_guc struct in prior rev. This is in response
+        to review comments by Matt Brost.
+      - #Patch 13 (previously #10) is mostly identical but
+        addresses all of the code styling comments reviews
+        from Umesh.
+        
+  v5: - Added Gen9->Gen11 register list for CI coverage that
+        included Gen9 with GuC submission.
+      - Redesigned the extraction of the GuC error-capture
+        dumps by grouping them into complete per-engine-reset
+        nodes. Complete here means each node includes the
+        global, engine-class and engine-instance register
+        lists in a single structure.
+      - Extraction is decoupled from the print-out. We now
+        do the extraction immediately when receiving the
+        G2H for error-capture notification. A link list of
+        nodes is maintained with a FIFO based threshold
+        while awaiting retrieval from i915_gpu_coredump's
+        capture_engine function.
+      - Added new plumbing through the i915_gpu_coredump
+        allocation and capture functions to include a flag
+        that is used indicate that GuC had triggered the
+        reset. This new plumbing guarantees an exact match
+        from i915_gpu_coredump's per-engine vma recording
+        and node-retrieval from the guc-error-capture.
+      - Broke the coredump gt_global capture and recording
+        functions into smaller subsets so we can reuse as
+        much of the existing legacy register reading + printing
+        functions and only rely on GuC error-capture for
+        the smaller subset of registers that are tied to
+        engine workload execution.
+      - Updated the register list to follow the legacy execlist
+        format of printout.
+  v4:
+      - Rebased on latest drm-tip that has been merged with the
+        support of GuC firmware version 69.0.3 that is required
+        for GuC error-state-catpure to work.
+      - Added register list for DG2 which is the same as XE_LP
+        except an additional steering register set.
+      - Fixed a bug in the end of capture parsing loop in
+        intel_guc_capture_out_print_next_group that was not
+        properly comparing the engine-instance and engine-
+        class being parsed against the one that triggered
+        the i915_gpu_coredump.
+  v3:
+      - Fixed all review comments from rev2 except the following:
+          - Michal Wajdeczko proposed adding a seperate function
+            to lookup register string nameslookup (based on offset)
+            but decided against it because of offset conflicts
+            and the current table layout is easier to maintain.
+          - Last set of checkpatch errors pertaining to "COMPLEX
+            MACROS" should be fixed on next rev.
+      - Abstracted internal-to-guc-capture information into a new
+        __guc_state_capture_priv structure that allows the exclusion
+        of intel_guc.h and intel_guc_fwif.h from intel_guc_capture.h.
+        Now, only the first 2 patches have a wider build time
+        impact because of the changes to intel_guc_fwif.h but
+        subsequent changes to guc-capture internal structures
+        or firmware interfaces used solely by guc-capture module
+        shoudn't impact the rest of the driver build.
+      - Added missing Gen12LP registers and added slice+subslice
+        indices when reporting extended steered registers.
+      - Add additional checks to ensure that the GuC reported
+        error capture information matches the i915_gpu_coredump
+        that is being printed before we print out the corresponding
+        VMA dumps such as the batch buffer.
+   v2:
+      - Ignore - failed CI retest.
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-index 3f040be0d158..37324f2009ca 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-@@ -3095,7 +3095,7 @@ static int vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
- 		void *pp_table, uint32_t classification_flag)
- {
- 	ATOM_Vega10_GFXCLK_Dependency_Record_V2 *patom_record_V2;
--	struct vega10_power_state *vega10_power_state =
-+	struct vega10_power_state *vega10_ps =
- 			cast_phw_vega10_power_state(&(power_state->hardware));
- 	struct vega10_performance_level *performance_level;
- 	ATOM_Vega10_State *state_entry = (ATOM_Vega10_State *)state;
-@@ -3145,17 +3145,17 @@ static int vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
- 	power_state->temperatures.min = 0;
- 	power_state->temperatures.max = 0;
- 
--	performance_level = &(vega10_power_state->performance_levels
--			[vega10_power_state->performance_level_count++]);
-+	performance_level = &(vega10_ps->performance_levels
-+			[vega10_ps->performance_level_count++]);
- 
- 	PP_ASSERT_WITH_CODE(
--			(vega10_power_state->performance_level_count <
-+			(vega10_ps->performance_level_count <
- 					NUM_GFXCLK_DPM_LEVELS),
- 			"Performance levels exceeds SMC limit!",
- 			return -1);
- 
- 	PP_ASSERT_WITH_CODE(
--			(vega10_power_state->performance_level_count <=
-+			(vega10_ps->performance_level_count <=
- 					hwmgr->platform_descriptor.
- 					hardwareActivityPerformanceLevels),
- 			"Performance levels exceeds Driver limit!",
-@@ -3169,8 +3169,8 @@ static int vega10_get_pp_table_entry_callback_func(struct pp_hwmgr *hwmgr,
- 	performance_level->mem_clock = mclk_dep_table->entries
- 			[state_entry->ucMemClockIndexLow].ulMemClk;
- 
--	performance_level = &(vega10_power_state->performance_levels
--				[vega10_power_state->performance_level_count++]);
-+	performance_level = &(vega10_ps->performance_levels
-+				[vega10_ps->performance_level_count++]);
- 	performance_level->soc_clock = socclk_dep_table->entries
- 				[state_entry->ucSocClockIndexHigh].ulClk;
- 	if (gfxclk_dep_table->ucRevId == 0) {
-@@ -3201,11 +3201,11 @@ static int vega10_get_pp_table_entry(struct pp_hwmgr *hwmgr,
- 		unsigned long entry_index, struct pp_power_state *state)
- {
- 	int result;
--	struct vega10_power_state *ps;
-+	struct vega10_power_state *vega10_ps;
- 
- 	state->hardware.magic = PhwVega10_Magic;
- 
--	ps = cast_phw_vega10_power_state(&state->hardware);
-+	vega10_ps = cast_phw_vega10_power_state(&state->hardware);
- 
- 	result = vega10_get_powerplay_table_entry(hwmgr, entry_index, state,
- 			vega10_get_pp_table_entry_callback_func);
-@@ -3218,10 +3218,10 @@ static int vega10_get_pp_table_entry(struct pp_hwmgr *hwmgr,
- 	 */
- 	/* set DC compatible flag if this state supports DC */
- 	if (!state->validation.disallowOnDC)
--		ps->dc_compatible = true;
-+		vega10_ps->dc_compatible = true;
- 
--	ps->uvd_clks.vclk = state->uvd_clocks.VCLK;
--	ps->uvd_clks.dclk = state->uvd_clocks.DCLK;
-+	vega10_ps->uvd_clks.vclk = state->uvd_clocks.VCLK;
-+	vega10_ps->uvd_clks.dclk = state->uvd_clocks.DCLK;
- 
- 	return 0;
- }
-@@ -4823,33 +4823,41 @@ static int vega10_check_states_equal(struct pp_hwmgr *hwmgr,
- 				const struct pp_hw_power_state *pstate1,
- 			const struct pp_hw_power_state *pstate2, bool *equal)
- {
--	const struct vega10_power_state *psa;
--	const struct vega10_power_state *psb;
-+	const struct vega10_power_state *vega10_psa;
-+	const struct vega10_power_state *vega10_psb;
- 	int i;
- 
- 	if (pstate1 == NULL || pstate2 == NULL || equal == NULL)
- 		return -EINVAL;
- 
--	psa = cast_const_phw_vega10_power_state(pstate1);
--	psb = cast_const_phw_vega10_power_state(pstate2);
--	/* If the two states don't even have the same number of performance levels they cannot be the same state. */
--	if (psa->performance_level_count != psb->performance_level_count) {
-+	vega10_psa = cast_const_phw_vega10_power_state(pstate1);
-+	vega10_psb = cast_const_phw_vega10_power_state(pstate2);
-+
-+	/* If the two states don't even have the same number of performance levels
-+	 * they cannot be the same state.
-+	 */
-+	if (vega10_psa->performance_level_count != vega10_psb->performance_level_count) {
- 		*equal = false;
- 		return 0;
- 	}
- 
--	for (i = 0; i < psa->performance_level_count; i++) {
--		if (!vega10_are_power_levels_equal(&(psa->performance_levels[i]), &(psb->performance_levels[i]))) {
--			/* If we have found even one performance level pair that is different the states are different. */
-+	for (i = 0; i < vega10_psa->performance_level_count; i++) {
-+		if (!vega10_are_power_levels_equal(&(vega10_psa->performance_levels[i]),
-+						   &(vega10_psb->performance_levels[i]))) {
-+			/* If we have found even one performance level pair
-+			 * that is different the states are different.
-+			 */
- 			*equal = false;
- 			return 0;
- 		}
- 	}
- 
- 	/* If all performance levels are the same try to use the UVD clocks to break the tie.*/
--	*equal = ((psa->uvd_clks.vclk == psb->uvd_clks.vclk) && (psa->uvd_clks.dclk == psb->uvd_clks.dclk));
--	*equal &= ((psa->vce_clks.evclk == psb->vce_clks.evclk) && (psa->vce_clks.ecclk == psb->vce_clks.ecclk));
--	*equal &= (psa->sclk_threshold == psb->sclk_threshold);
-+	*equal = ((vega10_psa->uvd_clks.vclk == vega10_psb->uvd_clks.vclk) &&
-+		  (vega10_psa->uvd_clks.dclk == vega10_psb->uvd_clks.dclk));
-+	*equal &= ((vega10_psa->vce_clks.evclk == vega10_psb->vce_clks.evclk) &&
-+		   (vega10_psa->vce_clks.ecclk == vega10_psb->vce_clks.ecclk));
-+	*equal &= (vega10_psa->sclk_threshold == vega10_psb->sclk_threshold);
- 
- 	return 0;
- }
-@@ -5444,19 +5452,19 @@ static int vega10_get_performance_level(struct pp_hwmgr *hwmgr, const struct pp_
- 				PHM_PerformanceLevelDesignation designation, uint32_t index,
- 				PHM_PerformanceLevel *level)
- {
--	const struct vega10_power_state *ps;
-+	const struct vega10_power_state *vega10_ps;
- 	uint32_t i;
- 
- 	if (level == NULL || hwmgr == NULL || state == NULL)
- 		return -EINVAL;
- 
--	ps = cast_const_phw_vega10_power_state(state);
-+	vega10_ps = cast_const_phw_vega10_power_state(state);
- 
--	i = index > ps->performance_level_count - 1 ?
--			ps->performance_level_count - 1 : index;
-+	i = index > vega10_ps->performance_level_count - 1 ?
-+			vega10_ps->performance_level_count - 1 : index;
- 
--	level->coreClock = ps->performance_levels[i].gfx_clock;
--	level->memory_clock = ps->performance_levels[i].mem_clock;
-+	level->coreClock = vega10_ps->performance_levels[i].gfx_clock;
-+	level->memory_clock = vega10_ps->performance_levels[i].mem_clock;
- 
- 	return 0;
- }
+Alan Previn (13):
+  drm/i915/guc: Update GuC ADS size for error capture lists
+  drm/i915/guc: Add XE_LP static registers for GuC error capture.
+  drm/i915/guc: Add XE_LP steered register lists support
+  drm/i915/guc: Add DG2 registers for GuC error state capture.
+  drm/i915/guc: Add Gen9 registers for GuC error state capture.
+  drm/i915/guc: Add GuC's error state capture output structures.
+  drm/i915/guc: Update GuC-log relay function names
+  drm/i915/guc: Add capture region into intel_guc_log
+  drm/i915/guc: Check sizing of guc_capture output
+  drm/i915/guc: Extract GuC error capture lists on G2H notification.
+  drm/i915/guc: Pre-allocate output nodes for extraction
+  drm/i915/guc: Plumb GuC-capture into gpu_coredump
+  drm/i915/guc: Print the GuC error capture output register list.
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |    4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |    2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    7 +
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  216 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   14 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  132 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 1619 +++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.h    |   34 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  126 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |    7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   18 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |    3 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  282 ++-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   35 +-
+ 18 files changed, 2348 insertions(+), 181 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
+
 -- 
-2.20.1
-
-
+2.25.1
 
