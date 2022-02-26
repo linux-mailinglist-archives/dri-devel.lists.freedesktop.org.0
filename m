@@ -1,121 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAADD4C6934
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 11:59:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB504C6B10
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 12:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F8210E39A;
-	Mon, 28 Feb 2022 10:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C6410E4FE;
+	Mon, 28 Feb 2022 11:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A45710E39A;
- Mon, 28 Feb 2022 10:59:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VNWPULWW/hb07qF9zLtTbvPWutqkjyEtDVRMjEBCn+grJpY30aPDc55rg0/Y7V+3oGgLJRq/f2ICb8KcUM35UF045kw7a0PFwjtQ2WvKJilYpNmtfIEuqIr3HCdddlVRI/GvVoM1eW30JlkoSMzTM83uYXm+bZogj+jZ55AISoS4RwSCsNjT1iQCVRLOgzFglPFIiC5oeiWcWlqNEkucCAT6AvMN10H/ZN5H08ILlCbR+SEr+cInAmGrpfBfSxN3clpc+4eH7nJxF7yS/QshlrpSP1VgcPMrEC9CLo2cjAqri9NIv7+9x7z0jv5P6K2AJBlncwPQpmTOJ6+kx+jT0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RVM1eibO2uIdJPjNKDfek0LAcwEuvYV+Qt/29NkdGgA=;
- b=id0P8iP19UGQSfi4RFcEMMYl4WGat+A/pyWBAHSB4caBBhw+7ZIMSUF1c2YKjHLbG8bhz+mU4WkrFk2gix1iY6uzz5MkzoPHTqIWXzW2HGfVPEtCR8eHJtY4BdSFkocehO+Wr907SVtANF3rDzeRJKDCPwcOd+dDneljsurbSFivwK3VCkF+l5ufIez6msjNvltky4DchlHbYFopksNbXoX+UxkrhUbK9dS4IvONRWromGNgCNc4cU5oftSKhNl1KIvpncakv/kGQs0RPOlCsRShi/+saOiXc7rP04rdZPBCIdtnTC74iPV++UGZ+qiH+haJnzaZY5Peg440cgy2nA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVM1eibO2uIdJPjNKDfek0LAcwEuvYV+Qt/29NkdGgA=;
- b=ezBE74qFtgp2IJevVcqII49UkHv/dM27THDIYreNv5lm8RjFdu7T++nk/kCT4HkxdlJEgiuKckgZ+4yS+j3ScEvGXSQRKYcwhDLy6+COemednNYG1byjqLIwbRp6IGMzz3t4S4jpVIc8sgpN6bknAqpK66va7RNNP57EyV3rbVw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW2PR12MB2508.namprd12.prod.outlook.com (2603:10b6:907:9::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Mon, 28 Feb
- 2022 10:59:03 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581%6]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
- 10:59:03 +0000
-Message-ID: <1879517d-f98f-6e96-7157-dccb0c872df0@amd.com>
-Date: Mon, 28 Feb 2022 11:58:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [drm/selftests] 39ec47bbfd:
- kernel_BUG_at_drivers/gpu/drm/drm_buddy.c
-Content-Language: en-US
-To: kernel test robot <oliver.sang@intel.com>,
- Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-References: <20220227151857.GA20405@xsang-OptiPlex-9020>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220227151857.GA20405@xsang-OptiPlex-9020>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM7PR03CA0020.eurprd03.prod.outlook.com
- (2603:10a6:20b:130::30) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com
+ [IPv6:2607:f8b0:4864:20::a31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B24D710E1D8;
+ Sat, 26 Feb 2022 15:17:19 +0000 (UTC)
+Received: by mail-vk1-xa31.google.com with SMTP id f12so3049387vkl.2;
+ Sat, 26 Feb 2022 07:17:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=qgrCf+cGaVt8js2qcg3VtifEUnd2BTvcQSI2avBElxQ=;
+ b=YinRP1/MQDDfGvxMSq1aa3si46mJlzcoAeYHYqPGC2GOkqXNRGaPtycb0QMZjyrPkO
+ TIE9qW3d+NBONsMeFLLDFNjgYc3Dah00a8YMt8UrsfLY1DkW40Y/4BAcg8RLG0roa2Y/
+ kb1bmea3kP8Sffl9A7oZIWvOEIXOXhGJZxK/xNz/+TyLeXVRNAHk9w9uIUBJqCvqeFBA
+ 6b6Ruspw4W0cIJyLx4SW0u8YoeL/1fkRhwx54hTgNWkhunsT/PB2lrQPG1vTEjxI57kE
+ 7dqWDLIcTzPdDlBlphjYOn1A+qrr7l0D/CIkGX+LNMKvVn+Ugh/YiJWRFX67ttTJvnCp
+ flgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=qgrCf+cGaVt8js2qcg3VtifEUnd2BTvcQSI2avBElxQ=;
+ b=ZHNM527Zh3wTSBy4IDnF8urm6onUPn461jV9dd6k7+Jp7BjAZna9hxMx4759kuGG8x
+ 35b4xVofKlalTpuOhP8IUksMDm3UplCPn+8smuN8VuLqi7YUZuw1IiCUlQ/hL+P15I73
+ uztJM1di4hIa8jLSSDv9S4qIw60nhY0KXYXIL0EROp0WLbS0c5c8e0ZNM5/dicRghjrW
+ HZ51DKW1dQaLwa50E4FOGZt7RxsnfcKS9qxVmwQ8hXHqRlgTOSB03/++kKKzC+ybHTug
+ 1ZqgKY5ltlN4TEjFjbpkdYh2adyzuyqYje5CXcvi+9XI54DgZCQOyg7SYwdzfy9TBQQj
+ sBXg==
+X-Gm-Message-State: AOAM5320zzTeNCfziRgueWOnHA7JbX8n76ylZyV7DuIEbO6urfi7VGWN
+ /yyRyBr0/gzuZO7DemdM/gOVMZDPLibOfMS6GM+TlMrnrwMZ+ol2
+X-Google-Smtp-Source: ABdhPJzLxkiqY0r1DSEgOMgrNJ8xMmuAfGc/SM0T/gmawYZr9zceznpJuNzdyR33/iusKI4BOaZdGPu94BMiOWGAfxg=
+X-Received: by 2002:a05:6122:d11:b0:331:2101:1238 with SMTP id
+ az17-20020a0561220d1100b0033121011238mr5640973vkb.22.1645888638205; Sat, 26
+ Feb 2022 07:17:18 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 99132f31-b8e4-489d-501e-08d9faa954cd
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2508:EE_
-X-Microsoft-Antispam-PRVS: <MW2PR12MB2508C09E39C54BB64DCEE22F83019@MW2PR12MB2508.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AnGXbY2L1B8buqA+AB2w1NdWnaHESyrYhkPFMX4MAWlh130u0Y2kysLsGnDOg82YPvnbOblVxUGacnKvMywHrJfYj09k5nb/tTjkYGrG2GecjQqtsxFCnwg8b5aj4iObHFKiOblmrDfnp4AmCu3oIpdKIiz2h+vivcvcySuwXn4EXL5KDdgROq/7yX5aZP8VjoutI+2bj9ss64/yu0uy69pBfRFnn4RSdWZnTTFkzq+Apd+al0u+5f/4JAZF1vWouulkqBUzTixfNmyFdf/yEgc4LmLZ/RB60gOanAShLKxm4jOfFr2lwaSQbTqdXTpy1xCgmN+OfVv8Vh9x3ICpWDSNWw5ATUxAcVjRV9zOnYPFVj4H3bIIUZWyBaBGenKE9xstaTkjwvha+gxv0XsRJUSCLd4ciHKfzS/cCxV2MItbVZtCIZatk4V8meNw11T1uIa2JlHuZ2m9PXYZGM+i2EhTkktrFRXnza5LS0osrKO6KOq+HEaIPa6U45YGa1pRhQ59NyWJXmaTlxcojOC92VJGCRYtQklj6sz6ZZ827M7J53lRyzby1C7RjTvIlOPAvIIaGx1yNd5lluVXxp0Jy4vLpucLhuYLPuVdHbRHdQEgKj9+5g0F73mXrLleRI2NbjiSluocSNXSM6oGkvRiPiTg7vbjAhm+YxqwuET3OvnOXSH8pLUMA8/9VL+qrpDsMwN7YQ1UEEcRcZe44oOOSTQIF5YHQuJ5Htbu8BHGFg8JsRMS4H4FKWuiZ1hu9izd6+Jm5lXXV67vVZwP44OZTTDeIeGoITqc917IeRpuS87H6AnVCPOVXS8WtZ7ouXLUXAKOb465tI8uMMN9HXEBBZ2NUvfRTWvyApoVxPqHRek=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(45080400002)(6486002)(6666004)(966005)(38100700002)(6506007)(36756003)(6512007)(6636002)(31686004)(508600001)(83380400001)(110136005)(54906003)(4326008)(31696002)(8936002)(316002)(86362001)(2616005)(5660300002)(30864003)(2906002)(186003)(66476007)(66946007)(66556008)(8676002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OW5NU3Zobk9KOHZzN1p0dzh6UjBZUldiQ2dWNDJQUGVFbWNvYStTV3ZqMEFq?=
- =?utf-8?B?Y2xvQkJHQ0ZSaHdLOFNnakRBeERVQjJneXFzc2Y4aEtWTlRGRFQ5dy9aSHpw?=
- =?utf-8?B?M1EyMWdHYXlGbWthZExvTVdTd28vdVd6aU5pVElpbFdxSVRaaENjVFNmMkUz?=
- =?utf-8?B?TFF4Zm9HMnN6eTlqdXVzTUZWRTF6L3kwOHplVmRvVVpuS3U1eGJSWTZvTlVv?=
- =?utf-8?B?RlpnRStyNThvTkM0QjEzbFFuOERWMDJDQjJiWDRxT2ZyNjVhcEVvNnVWZ2k4?=
- =?utf-8?B?OWVCUkxmbGZidGpwWXdza0ptbjlGb3NLRk9yUEdVYVloSlhMYUpsbXNkeGdH?=
- =?utf-8?B?T3o5bU1GMFN4OWhFaEpWNXRKTW95WDRsb0VSOEZXbG4yWVZRMFdzaU5va0RG?=
- =?utf-8?B?c2ZGemtqbXZDQ0JDeUFEb2hmUDdpVEc1VnV6Tk0rQ0VHSUZzUzA4VVFSOUdm?=
- =?utf-8?B?M1loSEN2U2k0QXFjaERwTjhnbUgzczE2OGNUYnQrZ1JOZVMzNjNWRDJNWmMy?=
- =?utf-8?B?WCtmeU1WREpMMEh3bUhGOVBwU2NMN2tFNTUvRC9WNFFTWHA3dEJndnpNMG03?=
- =?utf-8?B?bHo1Q2hWL0sxTGRxSXpBQTdXMVFuUjd3WldESG5Ga0FKZ01JRWlzb3VQQ1V5?=
- =?utf-8?B?T3JaVFBiZnlORzB1NHM3djVjYUlRQlo0RC90a0VOaXF3Sk1Lcm9uYWJOWXdk?=
- =?utf-8?B?WUxwYUZwZ3VaWEJIMkd1QmRtZXVGbkNwZUNiUkxjbGo2cy9nREZqNExXMEhZ?=
- =?utf-8?B?cElGVE8wVkpodzB0Y3Zad2kzMDR5ZFQ0U3ZOVjQ4Y2IvdkV1RzVTVFVhZUJl?=
- =?utf-8?B?SlZXQ2duY1lFL3AvR3J4cExhNWpJRzhwT094RW4xckF4NjhiTmg5WlRNckdt?=
- =?utf-8?B?VXM2Y3dOektWYUVpUHg0VWNQMDR1YW9rUTVMOEtlTFB2U0dCODRJNk5sMmY3?=
- =?utf-8?B?TWxIN1hxeW9QeFpYRHhrT3kwcXRUU2lHQURQNzhLTWhrLzNvOGtKTTIxVnJG?=
- =?utf-8?B?dTRSN2pPQ1lBMTlJem5hT0hoTmdpeUQzQ21zQ21BKytCNHd0ZXRXOCtmRWZC?=
- =?utf-8?B?UThlc0l5Q1ZDSU5UOTRFQkcyYkxhT3pXK2dWaWV5QlJMN05RSk11RUNSeWtC?=
- =?utf-8?B?MEZGWVZLa3V0amhIT3cvRXFBYkZ0UnFoWUpmL0c2ZUx1QTJkQ3pHWHZsT3hM?=
- =?utf-8?B?MjJJUVl2bXdxRE9oMTZ4d2RJcUFWQitNYS91WUNiMUZPMXFBeGhWMGtOVnQz?=
- =?utf-8?B?TnBWV3hWOUFFc2twUSt4Z0VUS1d1VEZ5ZGhYQWIzY2xhdTZ2eXJ3YXRSUGpu?=
- =?utf-8?B?b3E1NEdxOVlCNElCTzVqTFVVNldmR20rY2F3ejBMYlFIdzlrOUR1T3lmT2ts?=
- =?utf-8?B?RURsQkIvUXY5SkY2a00vUEY4NTVMcmVoUjFlWGNxak1hOHZmdEVhVWFGcTJB?=
- =?utf-8?B?L2tzWWpLQ3FhczgrTStabVVnVnRUa1QxTnBtWUJVVjNVMDdGNmtrNlMxZ3E0?=
- =?utf-8?B?Ynpmamc0ZjFhVjVjMnBqYzJkNHlxY09GcWF6OFF3Nkp1am80RktqTm5rVXJJ?=
- =?utf-8?B?bmFtNVVybUYvUnZSazVGS3BUNFNUOUNQNzRjaDFnZjUvTWFIaUlDUk1Mb3F1?=
- =?utf-8?B?SGNJQmVpUWZhL2h3QnNsY09yejk2dTRlQ3hGbnpzNmVXdTBLM2t2NVBPZG1m?=
- =?utf-8?B?Ukg1RmxsZTVRZkRpcnJwdmsvRTBHeWVZVUd4R1VsRDkwd3RqeVIva01zZmw1?=
- =?utf-8?B?UnFQS2dYNzJFcXU4U3k3RitrVmFUZmFDN0NMdmJwYlpPdnRvcENzdktEanVZ?=
- =?utf-8?B?UlA5dWI0bmVIU3VyNVUzY21ta1NMZGNublo0MmtjT0dmU3lrZWhqaE4rVW1w?=
- =?utf-8?B?cFRpMi9MR0pRODB1ZG8zcVJGS0NHeVM0YzhKZlVGMmRxbHhJQ3B6UGFxVGFJ?=
- =?utf-8?B?ZDdXSFdSTHB3NXczRWdEb2lSb2p3VzhqSFArR3BqOWxMNTY2M3VHNGdjbWl3?=
- =?utf-8?B?T2IycUQwMzE1b2VIS25NVGpYZ0RsaFd6a1R6QXgrZkZPVGFrdjROVVZzZDRO?=
- =?utf-8?B?cGJaS2pNSnJVdHQwMXFLbDFKeFFUR3dNdVIvRnA5RDg5ai95NVd3bS8ySDRy?=
- =?utf-8?B?Nyt4dFpVL3paalVDK01rMFFoaTZ2VGZiTCtLOG1WU0k3a3Y4d0JJd0ZQNGcx?=
- =?utf-8?Q?R5S/lv53y3uWHzpaAat6ATw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99132f31-b8e4-489d-501e-08d9faa954cd
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 10:59:03.0981 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vDcFhwuTjU0mPumxWqlwJdCxTDjiNPKFZPbxbtve0EZuDcWi6a7EBVGvFPeiml1F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2508
+From: =?UTF-8?B?RMSBdmlzIE1vc8SBbnM=?= <davispuh@gmail.com>
+Date: Sat, 26 Feb 2022 17:17:07 +0200
+Message-ID: <CAOE4rSxqaB6HBqG-nbsi9SWS1yhK10zuHfime_jejrrHMKdKwg@mail.gmail.com>
+Subject: amdgpu: sometimes black screen
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Mon, 28 Feb 2022 11:45:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,212 +63,407 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, 0day robot <lkp@intel.com>,
- intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, lkp@lists.01.org,
- Matthew Auld <matthew.auld@intel.com>, tzimmermann@suse.de,
- alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arun can you take a look at that one here?
+Hi,
 
-It looks like a real problem to me and not just a potential false 
-negative like the other issue.
+I've Gigabyte Radeon RX Vega 64 and sometimes when booting it doesn't
+give any signal to monitor over DisplayPort. Rebooting usually helps
+and it works fine after. Not sure if it's hardware or software issue.
 
-Thanks,
-Christian.
+In dmesg only suspicious thing I see is many
 
-Am 27.02.22 um 16:18 schrieb kernel test robot:
->
-> Greeting,
->
-> FYI, we noticed the following commit (built with gcc-9):
->
-> commit: 39ec47bbfd5dd3cea0b711ee9f1acdca37399c86 ("[PATCH v2 2/7] drm/selftests: add drm buddy alloc limit testcase")
-> url: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2F0day-ci%2Flinux%2Fcommits%2FArunpravin%2Fdrm-selftests-Move-i915-buddy-selftests-into-drm%2F20220223-015043&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C3101ff318a994e6eaf5f08d9fa0481ea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637815719552700496%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=sKvsDtHufRMfSO14HdmHxvNsJiPyDZVDXCFUpWTDwFI%3D&amp;reserved=0
-> patch link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20220222174845.2175-2-Arunpravin.PaneerSelvam%40amd.com&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C3101ff318a994e6eaf5f08d9fa0481ea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637815719552700496%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=aWG4x27aMLcOySOUkHbLQ1NL9L8t8AF4dgXux65IIP8%3D&amp;reserved=0
->
-> in testcase: boot
->
-> on test machine: qemu-system-x86_64 -enable-kvm -cpu Icelake-Server -smp 4 -m 16G
->
-> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
->
->
-> +---------------------------------------------------+------------+------------+
-> |                                                   | be9e8c6c00 | 39ec47bbfd |
-> +---------------------------------------------------+------------+------------+
-> | boot_successes                                    | 14         | 0          |
-> | boot_failures                                     | 0          | 16         |
-> | UBSAN:shift-out-of-bounds_in_include/linux/log2.h | 0          | 16         |
-> | kernel_BUG_at_drivers/gpu/drm/drm_buddy.c         | 0          | 16         |
-> | invalid_opcode:#[##]                              | 0          | 16         |
-> | EIP:drm_buddy_init                                | 0          | 16         |
-> | Kernel_panic-not_syncing:Fatal_exception          | 0          | 16         |
-> +---------------------------------------------------+------------+------------+
->
->
-> If you fix the issue, kindly add following tag
-> Reported-by: kernel test robot <oliver.sang@intel.com>
->
->
-> [   68.124177][    T1] UBSAN: shift-out-of-bounds in include/linux/log2.h:67:13
-> [   68.125333][    T1] shift exponent 4294967295 is too large for 32-bit type 'long unsigned int'
-> [   68.126563][    T1] CPU: 0 PID: 1 Comm: swapper Not tainted 5.17.0-rc2-00311-g39ec47bbfd5d #2
-> [   68.127758][    T1] Call Trace:
-> [ 68.128187][ T1] dump_stack_lvl (lib/dump_stack.c:108)
-> [ 68.128793][ T1] dump_stack (lib/dump_stack.c:114)
-> [ 68.129331][ T1] ubsan_epilogue (lib/ubsan.c:152)
-> [ 68.129958][ T1] __ubsan_handle_shift_out_of_bounds.cold (arch/x86/include/asm/smap.h:85)
-> [ 68.130791][ T1] ? drm_block_alloc+0x28/0x80
-> [ 68.131582][ T1] ? rcu_read_lock_sched_held (kernel/rcu/update.c:125)
-> [ 68.132215][ T1] ? kmem_cache_alloc (include/trace/events/kmem.h:54 mm/slab.c:3501)
-> [ 68.132878][ T1] ? mark_free+0x2e/0x80
-> [ 68.133524][ T1] drm_buddy_init.cold (include/linux/log2.h:67 drivers/gpu/drm/drm_buddy.c:131)
-> [ 68.134145][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
-> [ 68.134770][ T1] igt_buddy_alloc_limit (drivers/gpu/drm/selftests/test-drm_buddy.c:30)
-> [ 68.135472][ T1] ? vprintk_default (kernel/printk/printk.c:2257)
-> [ 68.136057][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
-> [ 68.136812][ T1] test_drm_buddy_init (drivers/gpu/drm/selftests/drm_selftest.c:77 drivers/gpu/drm/selftests/test-drm_buddy.c:95)
-> [ 68.137475][ T1] do_one_initcall (init/main.c:1300)
-> [ 68.138111][ T1] ? parse_args (kernel/params.c:609 kernel/params.c:146 kernel/params.c:188)
-> [ 68.138717][ T1] do_basic_setup (init/main.c:1372 init/main.c:1389 init/main.c:1408)
-> [ 68.139366][ T1] kernel_init_freeable (init/main.c:1617)
-> [ 68.140040][ T1] ? rest_init (init/main.c:1494)
-> [ 68.140634][ T1] kernel_init (init/main.c:1504)
-> [ 68.141155][ T1] ret_from_fork (arch/x86/entry/entry_32.S:772)
-> [   68.141607][    T1] ================================================================================
-> [   68.146730][    T1] ------------[ cut here ]------------
-> [   68.147460][    T1] kernel BUG at drivers/gpu/drm/drm_buddy.c:140!
-> [   68.148280][    T1] invalid opcode: 0000 [#1]
-> [   68.148895][    T1] CPU: 0 PID: 1 Comm: swapper Not tainted 5.17.0-rc2-00311-g39ec47bbfd5d #2
-> [ 68.149896][ T1] EIP: drm_buddy_init (drivers/gpu/drm/drm_buddy.c:140 (discriminator 1))
-> [ 68.149896][ T1] Code: 76 00 b8 ea ff ff ff 8d 65 f4 5b 5e 5f 5d c3 8d 76 00 0f bd 45 d8 75 05 b8 ff ff ff ff 83 c0 21 e9 5e ff ff ff 8d 74 26 00 90 <0f> 0b 8d b6 00 00 00 00 0f 0b 8d b6 00 00 00 00 8b 5d 0c 0f bd 45
-> All code
-> ========
->     0:	76 00                	jbe    0x2
->     2:	b8 ea ff ff ff       	mov    $0xffffffea,%eax
->     7:	8d 65 f4             	lea    -0xc(%rbp),%esp
->     a:	5b                   	pop    %rbx
->     b:	5e                   	pop    %rsi
->     c:	5f                   	pop    %rdi
->     d:	5d                   	pop    %rbp
->     e:	c3                   	retq
->     f:	8d 76 00             	lea    0x0(%rsi),%esi
->    12:	0f bd 45 d8          	bsr    -0x28(%rbp),%eax
->    16:	75 05                	jne    0x1d
->    18:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
->    1d:	83 c0 21             	add    $0x21,%eax
->    20:	e9 5e ff ff ff       	jmpq   0xffffffffffffff83
->    25:	8d 74 26 00          	lea    0x0(%rsi,%riz,1),%esi
->    29:	90                   	nop
->    2a:*	0f 0b                	ud2    		<-- trapping instruction
->    2c:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    32:	0f 0b                	ud2
->    34:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    3a:	8b 5d 0c             	mov    0xc(%rbp),%ebx
->    3d:	0f                   	.byte 0xf
->    3e:	bd                   	.byte 0xbd
->    3f:	45                   	rex.RB
->
-> Code starting with the faulting instruction
-> ===========================================
->     0:	0f 0b                	ud2
->     2:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->     8:	0f 0b                	ud2
->     a:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    10:	8b 5d 0c             	mov    0xc(%rbp),%ebx
->    13:	0f                   	.byte 0xf
->    14:	bd                   	.byte 0xbd
->    15:	45                   	rex.RB
-> [   68.149896][    T1] EAX: 8578e658 EBX: 8578e618 ECX: 8578e658 EDX: 83717c98
-> [   68.149896][    T1] ESI: 83675ee0 EDI: 00000034 EBP: 83675ec0 ESP: 83675e94
-> [   68.149896][    T1] DS: 007b ES: 007b FS: 0000 GS: 0000 SS: 0068 EFLAGS: 00010297
-> [   68.149896][    T1] CR0: 80050033 CR2: 77f35844 CR3: 02a10000 CR4: 00150ed0
-> [   68.149896][    T1] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
-> [   68.149896][    T1] DR6: fffe0ff0 DR7: 00000400
-> [   68.149896][    T1] Call Trace:
-> [ 68.149896][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
-> [ 68.149896][ T1] igt_buddy_alloc_limit (drivers/gpu/drm/selftests/test-drm_buddy.c:30)
-> [ 68.149896][ T1] ? vprintk_default (kernel/printk/printk.c:2257)
-> [ 68.149896][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
-> [ 68.149896][ T1] test_drm_buddy_init (drivers/gpu/drm/selftests/drm_selftest.c:77 drivers/gpu/drm/selftests/test-drm_buddy.c:95)
-> [ 68.149896][ T1] do_one_initcall (init/main.c:1300)
-> [ 68.149896][ T1] ? parse_args (kernel/params.c:609 kernel/params.c:146 kernel/params.c:188)
-> [ 68.149896][ T1] do_basic_setup (init/main.c:1372 init/main.c:1389 init/main.c:1408)
-> [ 68.149896][ T1] kernel_init_freeable (init/main.c:1617)
-> [ 68.149896][ T1] ? rest_init (init/main.c:1494)
-> [ 68.149896][ T1] kernel_init (init/main.c:1504)
-> [ 68.149896][ T1] ret_from_fork (arch/x86/entry/entry_32.S:772)
-> [   68.149896][    T1] Modules linked in:
-> [   68.167316][    T1] ---[ end trace 0000000000000000 ]---
-> [ 68.168062][ T1] EIP: drm_buddy_init (drivers/gpu/drm/drm_buddy.c:140 (discriminator 1))
-> [ 68.168739][ T1] Code: 76 00 b8 ea ff ff ff 8d 65 f4 5b 5e 5f 5d c3 8d 76 00 0f bd 45 d8 75 05 b8 ff ff ff ff 83 c0 21 e9 5e ff ff ff 8d 74 26 00 90 <0f> 0b 8d b6 00 00 00 00 0f 0b 8d b6 00 00 00 00 8b 5d 0c 0f bd 45
-> All code
-> ========
->     0:	76 00                	jbe    0x2
->     2:	b8 ea ff ff ff       	mov    $0xffffffea,%eax
->     7:	8d 65 f4             	lea    -0xc(%rbp),%esp
->     a:	5b                   	pop    %rbx
->     b:	5e                   	pop    %rsi
->     c:	5f                   	pop    %rdi
->     d:	5d                   	pop    %rbp
->     e:	c3                   	retq
->     f:	8d 76 00             	lea    0x0(%rsi),%esi
->    12:	0f bd 45 d8          	bsr    -0x28(%rbp),%eax
->    16:	75 05                	jne    0x1d
->    18:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
->    1d:	83 c0 21             	add    $0x21,%eax
->    20:	e9 5e ff ff ff       	jmpq   0xffffffffffffff83
->    25:	8d 74 26 00          	lea    0x0(%rsi,%riz,1),%esi
->    29:	90                   	nop
->    2a:*	0f 0b                	ud2    		<-- trapping instruction
->    2c:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    32:	0f 0b                	ud2
->    34:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    3a:	8b 5d 0c             	mov    0xc(%rbp),%ebx
->    3d:	0f                   	.byte 0xf
->    3e:	bd                   	.byte 0xbd
->    3f:	45                   	rex.RB
->
-> Code starting with the faulting instruction
-> ===========================================
->     0:	0f 0b                	ud2
->     2:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->     8:	0f 0b                	ud2
->     a:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
->    10:	8b 5d 0c             	mov    0xc(%rbp),%ebx
->    13:	0f                   	.byte 0xf
->    14:	bd                   	.byte 0xbd
->    15:	45                   	rex.RB
->
->
-> To reproduce:
->
->          # build kernel
-> 	cd linux
-> 	cp config-5.17.0-rc2-00311-g39ec47bbfd5d .config
-> 	make HOSTCC=gcc-9 CC=gcc-9 ARCH=i386 olddefconfig prepare modules_prepare bzImage modules
-> 	make HOSTCC=gcc-9 CC=gcc-9 ARCH=i386 INSTALL_MOD_PATH=<mod-install-dir> modules_install
-> 	cd <mod-install-dir>
-> 	find lib/ | cpio -o -H newc --quiet | gzip > modules.cgz
->
->
->          git clone https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests.git&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C3101ff318a994e6eaf5f08d9fa0481ea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637815719552700496%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=NjykC%2F60KxU7%2FmTnzNMNzJReXV06mjFzQPvDM1Pyj%2F4%3D&amp;reserved=0
->          cd lkp-tests
->          bin/lkp qemu -k <bzImage> -m modules.cgz job-script # job-script is attached in this email
->
->          # if come across any failure that blocks the test,
->          # please remove ~/.lkp and /lkp dir to run from a clean state.
->
->
->
-> ---
-> 0DAY/LKP+ Test Infrastructure                   Open Source Technology Center
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.01.org%2Fhyperkitty%2Flist%2Flkp%40lists.01.org&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C3101ff318a994e6eaf5f08d9fa0481ea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637815719552700496%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=v8BQLwbrizBXoDoHb77IgXjPnvrF%2BomFQpmhNYXa8i0%3D&amp;reserved=0       Intel Corporation
->
-> Thanks,
-> Oliver Sang
->
+[drm] perform_link_training_with_retries: Link training attempt 3 of 4 fail=
+ed
 
+Any ideas? Also is there some way to force reload/turn on signal so I
+don't need to reboot?
+
+[    0.640199] ACPI: bus type drm_connector registered
+[    0.654114] efifb: probing for efifb
+[    0.654180] efifb: No BGRT, not showing boot graphics
+[    0.654181] efifb: framebuffer at 0x80000000, using 3072k, total 3072k
+[    0.654183] efifb: mode is 1024x768x32, linelength=3D4096, pages=3D1
+[    0.654184] efifb: scrolling: redraw
+[    0.654185] efifb: Truecolor: size=3D8:8:8:8, shift=3D24:16:8:0
+[    0.654400] fbcon: Deferring console take-over
+[    0.654407] fb0: EFI VGA frame buffer device
+[    3.413771] fbcon: Taking over console
+[    3.721845] [drm] amdgpu kernel modesetting enabled.
+[    3.722127] amdgpu: Ignoring ACPI CRAT on non-APU system
+[    3.722132] amdgpu: Virtual CRAT table created for CPU
+[    3.722294] amdgpu: Topology: Add CPU node
+[    3.722558] amdgpu 0000:44:00.0: runtime IRQ mapping not provided by arc=
+h
+[    3.722589] fb0: switching to amdgpu from EFI VGA
+[    3.724054] amdgpu 0000:44:00.0: vgaarb: deactivate vga console
+[    3.724419] [drm] initializing kernel modesetting (VEGA10
+0x1002:0x687F 0x1002:0x6B76 0xC1).
+[    3.724432] amdgpu 0000:44:00.0: amdgpu: Trusted Memory Zone (TMZ)
+feature not supported
+[    3.724453] [drm] register mmio base: 0x9F000000
+[    3.724455] [drm] register mmio size: 524288
+[    3.724483] [drm] add ip block number 0 <soc15_common>
+[    3.724486] [drm] add ip block number 1 <gmc_v9_0>
+[    3.724488] [drm] add ip block number 2 <vega10_ih>
+[    3.724489] [drm] add ip block number 3 <psp>
+[    3.724490] [drm] add ip block number 4 <powerplay>
+[    3.724492] [drm] add ip block number 5 <dm>
+[    3.724493] [drm] add ip block number 6 <gfx_v9_0>
+[    3.724494] [drm] add ip block number 7 <sdma_v4_0>
+[    3.724495] [drm] add ip block number 8 <uvd_v7_0>
+[    3.724497] [drm] add ip block number 9 <vce_v4_0>
+[    3.726255] amdgpu 0000:44:00.0: No more image in the PCI ROM
+[    3.726277] amdgpu 0000:44:00.0: amdgpu: Fetched VBIOS from ROM BAR
+[    3.726280] amdgpu: ATOM BIOS: 113-D0501400-101
+[    3.730100] [drm] UVD(0) is enabled in VM mode
+[    3.730105] [drm] UVD(0) ENC is enabled in VM mode
+[    3.730107] [drm] VCE enabled in VM mode
+[    3.730460] amdgpu 0000:44:00.0: amdgpu: MEM ECC is not presented.
+[    3.730462] amdgpu 0000:44:00.0: amdgpu: SRAM ECC is not presented.
+[    3.730470] [drm] vm size is 262144 GB, 4 levels, block size is
+9-bit, fragment size is 9-bit
+[    3.730487] amdgpu 0000:44:00.0: BAR 2: releasing [mem
+0x90000000-0x901fffff 64bit pref]
+[    3.730491] amdgpu 0000:44:00.0: BAR 0: releasing [mem
+0x80000000-0x8fffffff 64bit pref]
+[    3.730568] amdgpu 0000:44:00.0: BAR 0: assigned [mem
+0x48000000000-0x481ffffffff 64bit pref]
+[    3.730583] amdgpu 0000:44:00.0: BAR 2: assigned [mem
+0x47f00000000-0x47f001fffff 64bit pref]
+[    3.730648] amdgpu 0000:44:00.0: amdgpu: VRAM: 8176M
+0x000000F400000000 - 0x000000F5FEFFFFFF (8176M used)
+[    3.730651] amdgpu 0000:44:00.0: amdgpu: GART: 512M
+0x0000000000000000 - 0x000000001FFFFFFF
+[    3.730653] amdgpu 0000:44:00.0: amdgpu: AGP: 267419648M
+0x000000F800000000 - 0x0000FFFFFFFFFFFF
+[    3.730661] [drm] Detected VRAM RAM=3D8176M, BAR=3D8192M
+[    3.730662] [drm] RAM width 2048bits HBM
+[    3.731219] [drm] amdgpu: 8176M of VRAM memory ready
+[    3.731223] [drm] amdgpu: 8176M of GTT memory ready.
+[    3.731237] [drm] GART: num cpu pages 131072, num gpu pages 131072
+[    3.731521] [drm] PCIE GART of 512M enabled.
+[    3.731523] [drm] PTB located at 0x000000F400900000
+[    3.737412] amdgpu 0000:44:00.0: amdgpu: PSP runtime database doesn't ex=
+ist
+[    3.737422] amdgpu: hwmgr_sw_init smu backed is vega10_smu
+[    3.782923] [drm] Found UVD firmware Version: 66.43 Family ID: 17
+[    3.782983] [drm] PSP loading UVD firmware
+[    3.794121] [drm] Found VCE firmware Version: 57.6 Binary ID: 4
+[    3.794181] [drm] PSP loading VCE firmware
+[    3.983603] [drm] reserve 0x400000 from 0xf5fec00000 for PSP TMR
+[    4.043970] [drm] Display Core initialized with v3.2.167!
+[    4.236220] [drm] kiq ring mec 2 pipe 1 q 0
+[    4.258101] [drm] UVD and UVD ENC initialized successfully.
+[    4.358563] [drm] VCE initialized successfully.
+[    4.360719] kfd kfd: amdgpu: Allocated 3969056 bytes on gart
+[    4.399639] amdgpu: HMM registered 8176MB device memory
+[    4.402935] amdgpu: SRAT table not found
+[    4.402936] amdgpu: Virtual CRAT table created for GPU
+[    4.403647] amdgpu: Topology: Add dGPU node [0x687f:0x1002]
+[    4.403658] kfd kfd: amdgpu: added device 1002:687f
+[    4.403689] amdgpu 0000:44:00.0: amdgpu: SE 4, SH per SE 1, CU per
+SH 16, active_cu_number 64
+[    4.403989] amdgpu 0000:44:00.0: amdgpu: ring gfx uses VM inv eng 0 on h=
+ub 0
+[    4.403992] amdgpu 0000:44:00.0: amdgpu: ring comp_1.0.0 uses VM
+inv eng 1 on hub 0
+[    4.403994] amdgpu 0000:44:00.0: amdgpu: ring comp_1.1.0 uses VM
+inv eng 4 on hub 0
+[    4.403995] amdgpu 0000:44:00.0: amdgpu: ring comp_1.2.0 uses VM
+inv eng 5 on hub 0
+[    4.403996] amdgpu 0000:44:00.0: amdgpu: ring comp_1.3.0 uses VM
+inv eng 6 on hub 0
+[    4.403998] amdgpu 0000:44:00.0: amdgpu: ring comp_1.0.1 uses VM
+inv eng 7 on hub 0
+[    4.403999] amdgpu 0000:44:00.0: amdgpu: ring comp_1.1.1 uses VM
+inv eng 8 on hub 0
+[    4.404000] amdgpu 0000:44:00.0: amdgpu: ring comp_1.2.1 uses VM
+inv eng 9 on hub 0
+[    4.404001] amdgpu 0000:44:00.0: amdgpu: ring comp_1.3.1 uses VM
+inv eng 10 on hub 0
+[    4.404003] amdgpu 0000:44:00.0: amdgpu: ring kiq_2.1.0 uses VM inv
+eng 11 on hub 0
+[    4.404004] amdgpu 0000:44:00.0: amdgpu: ring sdma0 uses VM inv eng
+0 on hub 1
+[    4.404005] amdgpu 0000:44:00.0: amdgpu: ring page0 uses VM inv eng
+1 on hub 1
+[    4.404007] amdgpu 0000:44:00.0: amdgpu: ring sdma1 uses VM inv eng
+4 on hub 1
+[    4.404008] amdgpu 0000:44:00.0: amdgpu: ring page1 uses VM inv eng
+5 on hub 1
+[    4.404010] amdgpu 0000:44:00.0: amdgpu: ring uvd_0 uses VM inv eng
+6 on hub 1
+[    4.404011] amdgpu 0000:44:00.0: amdgpu: ring uvd_enc_0.0 uses VM
+inv eng 7 on hub 1
+[    4.404013] amdgpu 0000:44:00.0: amdgpu: ring uvd_enc_0.1 uses VM
+inv eng 8 on hub 1
+[    4.404014] amdgpu 0000:44:00.0: amdgpu: ring vce0 uses VM inv eng 9 on =
+hub 1
+[    4.404015] amdgpu 0000:44:00.0: amdgpu: ring vce1 uses VM inv eng
+10 on hub 1
+[    4.404016] amdgpu 0000:44:00.0: amdgpu: ring vce2 uses VM inv eng
+11 on hub 1
+[    4.404727] amdgpu 0000:44:00.0: saving config space at offset 0x0
+(reading 0x687f1002)
+[    4.404730] amdgpu 0000:44:00.0: saving config space at offset 0x4
+(reading 0x100407)
+[    4.404732] amdgpu 0000:44:00.0: saving config space at offset 0x8
+(reading 0x30000c1)
+[    4.404734] amdgpu 0000:44:00.0: saving config space at offset 0xc
+(reading 0x800010)
+[    4.404736] amdgpu 0000:44:00.0: saving config space at offset 0x10
+(reading 0xc)
+[    4.404738] amdgpu 0000:44:00.0: saving config space at offset 0x14
+(reading 0x480)
+[    4.404741] amdgpu 0000:44:00.0: saving config space at offset 0x18
+(reading 0xc)
+[    4.404743] amdgpu 0000:44:00.0: saving config space at offset 0x1c
+(reading 0x47f)
+[    4.404745] amdgpu 0000:44:00.0: saving config space at offset 0x20
+(reading 0x4001)
+[    4.404747] amdgpu 0000:44:00.0: saving config space at offset 0x24
+(reading 0x9f000000)
+[    4.404749] amdgpu 0000:44:00.0: saving config space at offset 0x28
+(reading 0x0)
+[    4.404751] amdgpu 0000:44:00.0: saving config space at offset 0x2c
+(reading 0x6b761002)
+[    4.404753] amdgpu 0000:44:00.0: saving config space at offset 0x30
+(reading 0x9f080000)
+[    4.404755] amdgpu 0000:44:00.0: saving config space at offset 0x34
+(reading 0x48)
+[    4.404757] amdgpu 0000:44:00.0: saving config space at offset 0x38
+(reading 0x0)
+[    4.404759] amdgpu 0000:44:00.0: saving config space at offset 0x3c
+(reading 0x10a)
+[    4.404868] amdgpu 0000:44:00.0: restoring config space at offset
+0x1c (was 0x0, writing 0x47f)
+[    4.404873] amdgpu 0000:44:00.0: restoring config space at offset
+0x14 (was 0x0, writing 0x480)
+[    4.407571] [drm] Initialized amdgpu 3.44.0 20150101 for
+0000:44:00.0 on minor 0
+[    4.414034] fbcon: amdgpudrmfb (fb0) is primary device
+[    4.580097] amdgpu 0000:44:00.0: [drm] fb0: amdgpudrmfb frame buffer dev=
+ice
+[    7.055674] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[    7.189006] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[    7.372339] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[    7.605672] [drm] enabling link 0 failed: 15
+[    7.762340] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[    7.895672] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[    8.078980] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[    8.629006] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[    8.762327] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[    8.945665] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[    9.179005] [drm] enabling link 0 failed: 15
+[    9.332339] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[    9.465655] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[    9.648988] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[    9.882339] [drm] enabling link 0 failed: 15
+[   10.035670] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[   10.168989] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[   10.352324] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[   10.585671] [drm] enabling link 0 failed: 15
+[   10.742338] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[   10.879005] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[   11.062339] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[   11.295672] [drm] enabling link 0 failed: 15
+[   11.452338] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[   11.585656] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[   11.768996] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[   12.002339] [drm] enabling link 0 failed: 15
+[   12.155672] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[   12.288993] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[   12.472325] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[   64.884452] systemd[1]: Starting Load Kernel Module drm...
+[  103.465636] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  103.598976] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  103.782293] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  104.015631] [drm] enabling link 0 failed: 15
+[  104.172276] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  104.305830] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  104.488964] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  104.725642] [drm] enabling link 0 failed: 15
+[  104.882326] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  105.015640] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  105.205781] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  105.438997] [drm] enabling link 0 failed: 15
+[  105.595654] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  105.729193] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  105.912312] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  106.148975] [drm] enabling link 0 failed: 15
+[  106.305657] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  106.438990] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  106.622306] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  106.865660] [drm] enabling link 0 failed: 15
+[  107.022297] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  107.155643] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  149.988227] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  150.121542] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  150.304872] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  150.538039] [drm] enabling link 0 failed: 15
+[  150.694694] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  150.828034] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  151.011341] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  151.244684] [drm] enabling link 0 failed: 15
+[  151.401333] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  151.534668] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  151.718002] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  151.951311] [drm] enabling link 0 failed: 15
+[  152.107978] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  152.241450] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  152.424628] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  152.657944] [drm] enabling link 0 failed: 15
+[  152.811301] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  152.947928] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  153.131275] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  153.364589] [drm] enabling link 0 failed: 15
+[  153.521261] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  153.654599] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  273.063427] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  273.196758] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  273.380256] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  273.616734] [drm] enabling link 0 failed: 15
+[  287.793094] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  287.926437] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  288.109752] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  288.343381] [drm] enabling link 0 failed: 15
+[  288.499939] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  288.633079] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  288.816410] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  289.049736] [drm] enabling link 0 failed: 15
+[  289.203280] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  289.336396] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  289.519911] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  289.753056] [drm] enabling link 0 failed: 15
+[  289.906376] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  290.039722] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  290.223035] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  290.456379] [drm] enabling link 0 failed: 15
+[  290.609709] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  290.743045] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  290.926350] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  291.159839] [drm] enabling link 0 failed: 15
+[  291.316337] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  291.449673] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  431.479081] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  431.612400] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  431.795718] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  432.029062] [drm] enabling link 0 failed: 15
+[  432.182386] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  432.315714] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  432.499024] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  432.732368] [drm] enabling link 0 failed: 15
+[  432.885693] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  433.019001] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  433.202322] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  433.435672] [drm] enabling link 0 failed: 15
+[  433.592315] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  433.725656] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  433.908974] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  434.142313] [drm] enabling link 0 failed: 15
+[  434.295624] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  434.428955] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+[  434.612288] [drm] perform_link_training_with_retries: Link training
+attempt 3 of 4 failed
+[  434.845598] [drm] enabling link 0 failed: 15
+[  434.998948] [drm] perform_link_training_with_retries: Link training
+attempt 1 of 4 failed
+[  435.132258] [drm] perform_link_training_with_retries: Link training
+attempt 2 of 4 failed
+
+Best regards,
+D=C4=81vis
