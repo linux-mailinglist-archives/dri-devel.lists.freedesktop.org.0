@@ -2,77 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AC74C56B7
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 16:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6D14C56F9
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Feb 2022 18:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B83410E2A0;
-	Sat, 26 Feb 2022 15:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B2DA10E2EC;
+	Sat, 26 Feb 2022 17:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24AF110E1D8
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 15:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645891145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Grhy4tvGVEY5R3BS2D+G2b4sVPmyn1TwoVnElYjF3HA=;
- b=Cz3RBWU9OTrgg5/3z7LolJTGzjAFRC4o7cUzT6W8+Fu04L2G5MbI6RVy+aPdxQ3DX8zdIn
- yA/QUNUAv/gyA6NcdbWA1Nhl+EWGOilE1EF/81affeBF0r//u7uiDGLibyVhnV6mqLyFKB
- oF3fLlagyiHTlYffPgNVi36uHKjl35Y=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-578-27q1CsX0PKSNun0QIHLl9A-1; Sat, 26 Feb 2022 10:59:01 -0500
-X-MC-Unique: 27q1CsX0PKSNun0QIHLl9A-1
-Received: by mail-qt1-f197.google.com with SMTP id
- o19-20020a05622a045300b002dd26442ed0so4371846qtx.20
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 07:59:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Grhy4tvGVEY5R3BS2D+G2b4sVPmyn1TwoVnElYjF3HA=;
- b=GtFomD5UJuGxBpAy3R/688ZwksachB1HDsK5pstKVRSyLwAeVPKIgKSvDMjlJOZkrE
- VE7WVzHVhZNtckbM+LTSmY8EKyuEeK+X0bC50wCJFWznkq1vIt0Bgu3JarkpAtVZw1Rm
- Qk7YbWI6aYdQX3Ky7PPHeXeIcoIGL9zIwTt3u4Se/DOG00qusTTtoDGXKis3HjnU9qUH
- kuk9oTJy2P63V9Jj9+pxHWylVy/Jgw/xr6kn5sW1sWDR+7MN/YRBpVkZcJp/z6yTU2wy
- TbY2H1Pff72MS8945xTZL3c7LOScvPduSGdWL02am8f5tVmLvcVCe5caAfA1inPTVfpt
- Jiiw==
-X-Gm-Message-State: AOAM531ctBKQBUT9XqzSPkLP718TJrHXC/d4Ge0MjZ44qWsLQ8e4waet
- MRheIe0btLhpXWu1ZMfnjL7Wzcu265NZ9/W/NT3OXCl/bSY+hECY8fkab6PbkpXQ3P9gKWpMBFy
- yrvCbXt8WccJNXOyuDd/a8ExL8ypi
-X-Received: by 2002:a05:620a:122c:b0:47e:1445:15e8 with SMTP id
- v12-20020a05620a122c00b0047e144515e8mr7667241qkj.200.1645891141071; 
- Sat, 26 Feb 2022 07:59:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyep784W30LsjYckoKZZTZAqrxmyuQo5OmviyaAolfcaSK5XfS1laivNCE0UKTxjerrO/TlHg==
-X-Received: by 2002:a05:620a:122c:b0:47e:1445:15e8 with SMTP id
- v12-20020a05620a122c00b0047e144515e8mr7667237qkj.200.1645891140834; 
- Sat, 26 Feb 2022 07:59:00 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- w9-20020a05620a148900b005f188f755adsm2640064qkj.32.2022.02.26.07.58.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Feb 2022 07:59:00 -0800 (PST)
-From: trix@redhat.com
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, nirmoy.das@amd.com, lijo.lazar@amd.com,
- tom.stdenis@amd.com, evan.quan@amd.com, kevin1.wang@amd.com,
- Amaranath.Somalapuram@amd.com
-Subject: [PATCH] drm/amdgpu: Fix realloc of ptr
-Date: Sat, 26 Feb 2022 07:58:51 -0800
-Message-Id: <20220226155851.4176109-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8687110E2EC
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 17:12:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645895556;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=rAYy4Z35sSvRmW3KU/N66fatHaFpRvigK4dz2yH4zPQ=;
+ b=RqqY8R83HtnL0jTR22tpkHKb0et4BaXXkFDbAnYqGNqqnpFOX9QewquRUQJaZa3rSW
+ BG/4dxSRpQFuQuMZ2+VUJ+bCkZRBHbDVopudOmBGnxDS/WZhnCKgqDUy6dEuYESKatQb
+ CUUThk3ThvCcrps0vfp4qr5HIamaMGW9KyP5wxhRsu3+kT85dNTBcFv0Cs4dmD/07ISv
+ 7MS7g/W6qrEhi1nHziGAHNhVLGpxroWY4BT9OMlXNiPgQyuo5N3F2PfAqZXevz4upvoI
+ jhBSkOG7tCzQmA7a3dD7JjXmof7qoARDyYeVmz1CW+w/t0FstTI69LCo1X08z2VYjWP6
+ 6wTg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43sTrQ="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.40.1 SBL|AUTH)
+ with ESMTPSA id V41e6fy1QHCYE1v
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Sat, 26 Feb 2022 18:12:34 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v15 4/7] drm/bridge: dw-hdmi: repair interworking with
+ hdmi-connector for jz4780
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <9c6f5c0b-5879-736f-344f-dfa12a0d7937@baylibre.com>
+Date: Sat, 26 Feb 2022 18:12:34 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3F01AD9B-EA49-4A34-A421-43E9E6268311@goldelico.com>
+References: <cover.1644681054.git.hns@goldelico.com>
+ <d4d08582c49ec089095dd0ede4cdf2752f9d1eb8.1644681054.git.hns@goldelico.com>
+ <9c6f5c0b-5879-736f-344f-dfa12a0d7937@baylibre.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +61,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Paul Boddie <paul@boddie.org.uk>, Maxime Ripard <maxime@cerno.tech>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ letux-kernel@openphoenux.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+Hi Neil,
 
-Clang static analysis reports this error
-amdgpu_debugfs.c:1690:9: warning: 1st function call
-  argument is an uninitialized value
-  tmp = krealloc_array(tmp, i + 1,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Am 21.02.2022 um 09:11 schrieb Neil Armstrong =
+<narmstrong@baylibre.com>:
+>=20
+> Hi,
+>=20
+> On 12/02/2022 16:50, H. Nikolaus Schaller wrote:
+>> Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
+fmts callbacks")
+>> introduced a new mechanism to negotiate bus formats between hdmi =
+connector
+>> and the synopsys hdmi driver inside the jz4780.
+>> By this, the dw-hdmi is no longer the only bridge and sets up a list
+>> of formats in dw_hdmi_bridge_atomic_get_output_bus_fmts().
+>> This includes MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the jz4780 =
+but only
+>> produces a black screen.
+>> This fix is based on the observation that max_bpc =3D 0 when running =
+this
+>> function while info->bpc =3D 8. Since the formats checks before this =
+always test
+>> for max_bpc >=3D info->pbc indirectly my assumption is that we must =
+check it
+>> here as well.
+>> Adding the proposed patch makes the CI20/jz4780 panel work again in
+>> MEDIA_BUS_FMT_RGB888_1X24 mode.
+>> Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
+fmts callbacks")
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> ---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
+b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index b0d8110dd412c..826a055a7a273 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -2620,10 +2620,10 @@ static u32 =
+*dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>>  		output_fmts[i++] =3D MEDIA_BUS_FMT_RGB101010_1X30;
+>>  	}
+>>  -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
+>> +	if (max_bpc >=3D info->bpc && info->color_formats & =
+DRM_COLOR_FORMAT_YCBCR422)
+>>  		output_fmts[i++] =3D MEDIA_BUS_FMT_UYVY8_1X16;
+>>  -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
+>> +	if (max_bpc >=3D info->bpc && info->color_formats & =
+DRM_COLOR_FORMAT_YCBCR444)
+>>  		output_fmts[i++] =3D MEDIA_BUS_FMT_YUV8_1X24;
+>>    	/* Default 8bit RGB fallback */
+>=20
+> Please do the same for all other cases and change the patch subject to =
+something more accurate like:
+> "drm/bridge: dw-hdmi: take display info bpc in account for bus formats =
+negociation"
 
-realloc will free tmp, so tmp can not be garbage.
-And the return needs to be checked.
+thank you very much for this analysis.
 
-Fixes: 5ce5a584cb82 ("drm/amdgpu: add debugfs for reset registers list")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+In fact my fix was also not correctly doing the right comparisons. The =
+rules should have the
+same structure as for all cases before, i.e. check for >=3D 8 and then =
+handle both color formats.
+I have fixed and tested on my CI20 board and updated the description and =
+Fixes: tags.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index 9eb9b440bd438..159b97c0b4ebc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1676,7 +1676,7 @@ static ssize_t amdgpu_reset_dump_register_list_write(struct file *f,
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)file_inode(f)->i_private;
- 	char reg_offset[11];
--	uint32_t *tmp;
-+	uint32_t *tmp = NULL;
- 	int ret, i = 0, len = 0;
- 
- 	do {
-@@ -1688,6 +1688,10 @@ static ssize_t amdgpu_reset_dump_register_list_write(struct file *f,
- 		}
- 
- 		tmp = krealloc_array(tmp, i + 1, sizeof(uint32_t), GFP_KERNEL);
-+		if (!tmp) {
-+			ret = -ENOMEM;
-+			goto error_free;
-+		}
- 		if (sscanf(reg_offset, "%X %n", &tmp[i], &ret) != 1) {
- 			ret = -EINVAL;
- 			goto error_free;
--- 
-2.26.3
+v16 will come now (as part of the jz4780 hdmi series).
+
+BR and thanks,
+Nikolaus
 
