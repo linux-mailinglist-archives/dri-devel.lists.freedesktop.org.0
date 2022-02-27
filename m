@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC834C59CC
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 07:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74E04C59FA
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 09:18:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDABC10E5A4;
-	Sun, 27 Feb 2022 06:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E56D10E373;
+	Sun, 27 Feb 2022 08:18:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57CCD10E5A4
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 06:17:28 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id 27so8629854pgk.10
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 22:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ow8n9bnT7hSkaP9jr1cS5lcPgbno/KHHbNMAFcjqosI=;
- b=pLWATeuoF6Rho2C/qM1ObggjqCTCKSIYrmdUZXDGKsszkUsAcjDi8VTX5dBAAheyrc
- 2eLojOdeb2kcq1mma3uEI8OUkGk26ttPxm8x3MSBLv08iAAlkpKYBpjC/08jQI8CI6g7
- mNTlEeepAa7CPOnQwdggaSjivRcEMvtwVnkI0rwbjzZqdq3Yk+OshYxU4s/sij/K1dcS
- CYYILFIBcnoy7ZXwgSbgGYPV5U2DYKSXKjk/BuAA0Gdr7+/snYtbGwJMnqjfG25q1NiG
- YE0EA8C6V7uyinJ7fGojLVAL7sWjiuk5pgwHshd1MK98BogSKQHXMomLJq7bf/rjT7dB
- HxPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ow8n9bnT7hSkaP9jr1cS5lcPgbno/KHHbNMAFcjqosI=;
- b=NkjuViJcm+MIim9TijXbg1SH6cXPZWWz1t5DsinAZdcuzgZRR8PlizlRK3dlwcyyLO
- 33FL5y2x5wLP9/azLUO6t9vKo8Mqiy3HYlVs6nQOqqSjDsyeeVgKQnSWI0cdtkJeDgTe
- 2Zxd45+qWdFHwiefqES827vtcP6pJ/hNc+cgbK2suLPKLeWnV5PXhKttDSatvfnuDp4T
- RiAGctEw192oMXn7Pj7hPEP47ffaQnq92tpmcakVoLuBiXtkkQm+Uge8mz2a3kutLcBt
- P4nXPS6sjCcZ/UbZ/Y+zLhuz+S8Dp5NAGfmtbaTeVEYQlmTJOzvRDPIGbMUCZ2J5b4DD
- ctQQ==
-X-Gm-Message-State: AOAM533BkEttJtYIHoonV5XVJXch7SsSWrGf9GFRsoxEUJ2XX8PzItfg
- N7OBLWvhqmR6zgwbLHVChdPanxYVV3+yFDoYrw==
-X-Google-Smtp-Source: ABdhPJy1AveXJn8qgloASy8DlTcYT+KqBr50ybb+b17ayKSx1dDtKKCqD4uBZzJB1bfxpLxka+6SDhFJU63Wx843Tfo=
-X-Received: by 2002:a05:6a00:1991:b0:4e1:a7dd:96e5 with SMTP id
- d17-20020a056a00199100b004e1a7dd96e5mr15890456pfl.2.1645942647724; Sat, 26
- Feb 2022 22:17:27 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58BC310E35E;
+ Sun, 27 Feb 2022 08:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645949913; x=1677485913;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zM+ZgmJi62CXkIYmLDv9QmQgGW2X57F9tFxY+XKy5Ug=;
+ b=gd6xPf8LmHtTkUm+RPGEVtGgyT56D0Fal4zqhU9ryqZNVG1YlhtzvaOl
+ vReeUBY/DLookIwqvPwNLK0GUp8WmUswIubPlrv8wHNbYTDXX85MQq0IU
+ nDlHDGX00GHGIteHWozoO/fqDRR+iKLZRQdikCn8wEqZtSURaPz316CyF
+ 1vQxueq6TdQtsFFJBXowE/lTDStfa/qWyfIGmvp5RBoyamu6bKrvNYVZK
+ XXHY0RHvJxSa/BMvBrRvs7pi729ypdAx0W35v+QYKMP2aKPqMSiu26PZN
+ iVSrtPiFSYA9jWl/ijOz2Q0etetoWc+uoBY4IN9+QL9vGbM4TQPFPTrsF g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10270"; a="252444625"
+X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="252444625"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2022 00:18:32 -0800
+X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="534073253"
+Received: from jingyiji-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.209.25.43])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2022 00:18:32 -0800
+From: Jordan Justen <jordan.l.justen@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v6 0/4] GuC HWCONFIG with documentation
+Date: Sun, 27 Feb 2022 00:18:27 -0800
+Message-Id: <20220227081831.1089720-1-jordan.l.justen@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAMhUBjmetJqbERvQ8513b-wHuV68hqLTuUVWiORyJyXP26gO7Q@mail.gmail.com>
- <YhpBPQuqPNmqasxE@ls3530>
-In-Reply-To: <YhpBPQuqPNmqasxE@ls3530>
-From: Zheyu Ma <zheyuma97@gmail.com>
-Date: Sun, 27 Feb 2022 14:17:16 +0800
-Message-ID: <CAMhUBjn_cGF_Htap+iJri991tXPQiqwn_EPY6XuPu+bH07m=eg@mail.gmail.com>
-Subject: Re: [BUG] fbdev: sm712fb: Page fault in smtcfb_read
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,81 +54,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-fbdev@vger.kernel.org, sudipm.mukherjee@gmail.com,
- dri-devel@lists.freedesktop.org, teddy.wang@siliconmotion.com
+Cc: Jordan Justen <jordan.l.justen@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 26, 2022 at 11:03 PM Helge Deller <deller@gmx.de> wrote:
->
-> * Zheyu Ma <zheyuma97@gmail.com>:
-> > I found a minor in the smtcfb_read() function of the driver sm712fb.
-> >
-> > This read function can not handle the case that the size of the
-> > buffer is 3 and does not check for it, which may cause a page fault.
-> >
-> > The following log reveals it:
-> >
-> > [ 2432.614490] BUG: unable to handle page fault for address: ffffc90001ffffff
-> > [ 2432.618474] RIP: 0010:smtcfb_read+0x230/0x3e0
-> > [ 2432.626551] Call Trace:
-> > [ 2432.626770]  <TASK>
-> > [ 2432.626950]  vfs_read+0x198/0xa00
-> > [ 2432.627225]  ? do_sys_openat2+0x27d/0x350
-> > [ 2432.627552]  ? __fget_light+0x54/0x340
-> > [ 2432.627871]  ksys_read+0xce/0x190
-> > [ 2432.628143]  do_syscall_64+0x43/0x90
->
-> Could you try the attached patch ?
+This is John/Rodrigo's 2 patches with some minor changes, and I added
+2 patches.
 
-Good, the patch works for me, thanks.
+"drm/i915/uapi: Add query for hwconfig blob" was changed:
 
-Tested-by: Zheyu Ma <zheyuma97@gmail.com>
->
->
-> diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
-> index 0dbc6bf8268a..ab45212ccf66 100644
-> --- a/drivers/video/fbdev/sm712fb.c
-> +++ b/drivers/video/fbdev/sm712fb.c
-> @@ -1047,7 +1047,7 @@ static ssize_t smtcfb_read(struct fb_info *info, char __user *buf,
->         if (count + p > total_size)
->                 count = total_size - p;
->
-> -       buffer = kmalloc((count > PAGE_SIZE) ? PAGE_SIZE : count, GFP_KERNEL);
-> +       buffer = kmalloc(PAGE_SIZE, GFP_KERNEL);
->         if (!buffer)
->                 return -ENOMEM;
->
-> @@ -1059,25 +1059,11 @@ static ssize_t smtcfb_read(struct fb_info *info, char __user *buf,
->         while (count) {
->                 c = (count > PAGE_SIZE) ? PAGE_SIZE : count;
->                 dst = buffer;
-> -               for (i = c >> 2; i--;) {
-> -                       *dst = fb_readl(src++);
-> -                       *dst = big_swap(*dst);
-> +               for (i = (c + 3) >> 2; i--;) {
-> +                       u32 val = fb_readl(src++);
-> +                       *dst = big_swap(val);
->                         dst++;
->                 }
-> -               if (c & 3) {
-> -                       u8 *dst8 = (u8 *)dst;
-> -                       u8 __iomem *src8 = (u8 __iomem *)src;
-> -
-> -                       for (i = c & 3; i--;) {
-> -                               if (i & 1) {
-> -                                       *dst8++ = fb_readb(++src8);
-> -                               } else {
-> -                                       *dst8++ = fb_readb(--src8);
-> -                                       src8 += 2;
-> -                               }
-> -                       }
-> -                       src = (u32 __iomem *)src8;
-> -               }
->
->                 if (copy_to_user(buf, buffer, c)) {
->                         err = -EFAULT;
+ * Rename DRM_I915_QUERY_HWCONFIG_TABLE to DRM_I915_QUERY_HWCONFIG_BLOB
+   as requested by Joonas.
 
-Regards,
-Zheyu Ma
+ * Reword commit message
+
+ * I added Acked-by to this patch, but this Acked-by only applies in
+   the context of this version of the patchset.
+
+"drm/i915/uapi: Add struct drm_i915_query_hwconfig_blob_item" adds a
+struct to the uAPI and documents the return value for
+DRM_I915_QUERY_HWCONFIG_BLOB. (Except, keys / values are still
+deferred to the PRM.)
+
+"drm/i915/guc: Verify hwconfig blob matches supported format" does the
+simple verification of the blob to make sure it matches what the uAPI
+documents.
+
+v2:
+ * Fix -Werror errors.
+ * Rebase to drm-intel/for-linux-next instead of
+   drm-intel/for-linux-next-gt, as this seems to be what CI wants.
+ * Fix u32 -> __u32.
+ * Add commit message for "Verify hwconfig blob" patch as requested by
+   Tvrtko.
+ * Reword text added to i915_drm.h as requested by Tvrtko. (Attempting
+   to indicate the overall blob ends right at the last blob item.)
+
+v3:
+ * Add several changes suggested by Tvrtko in the "Verify hwconfig
+   blob", along with some tweaks to i915_drm.h from the feedback for
+   the same patch.
+
+v4:
+ * Rewrite verify_hwconfig_blob() to hopefully be clearer without
+   relying on comments so much, and add various suggestions from
+   Michal.
+ * Michal also had some suggestions in John's "drm/i915/guc: Add fetch
+   of hwconfig table" patch. I held off on making any of these changes
+   in this version.
+
+v5:
+ * Add many changes suggested by Michal in John's "drm/i915/guc: Add
+   fetch of hwconfig table" patch.
+ * Fix documenation formatting as suggested by Daniel in
+   "drm/i915/uapi: Add struct drm_i915_query_hwconfig_blob_item"
+
+v6:
+ * Updated "drm/i915/guc: Add fetch of hwconfig table" by merging in
+   John's v2 patch which saves the hwconfig blob at the GT level. I
+   also added a few changes requested by Michal on the v5 posting.
+ * Tvrtko requested an example of UMD using the i915 hwconfig
+   interface. Mesa support for this interface can be seen in this MR:
+   https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14511
+
+John Harrison (1):
+  drm/i915/guc: Add fetch of hwconfig table
+
+Jordan Justen (2):
+  drm/i915/uapi: Add struct drm_i915_query_hwconfig_blob_item
+  drm/i915/guc: Verify hwconfig blob matches supported format
+
+Rodrigo Vivi (1):
+  drm/i915/uapi: Add query for hwconfig blob
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   6 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   4 +
+ drivers/gpu/drm/i915/gt/intel_hwconfig.h      |  21 ++
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 203 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_query.c             |  23 ++
+ include/uapi/drm/i915_drm.h                   |  44 ++++
+ 9 files changed, 307 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_hwconfig.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+
+-- 
+2.34.1
+
