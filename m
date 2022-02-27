@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E024C5A02
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 09:18:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CBA4C5A01
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 09:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B90410E779;
-	Sun, 27 Feb 2022 08:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69F3510E874;
+	Sun, 27 Feb 2022 08:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4750D10E38A;
- Sun, 27 Feb 2022 08:18:35 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1D110E605;
+ Sun, 27 Feb 2022 08:18:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645949915; x=1677485915;
+ t=1645949920; x=1677485920;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5Tyr1JxOSxTYuF2RCscjeRBTwMPzUNA8XKl80oraQv0=;
- b=mQsHwEdEyWZcvf44/dTXzMnQ3YpVNwYWrnhbynZ4HnkmSyPOdl21GBg9
- 8Yt/DWeMXxtQEJDmaFiYJbZODYsES+S/NVOS6msAe5U6WaH6BBeUBEmDU
- zLjR+gJ0B5j7rdAvpE8J6mISe8lGG0gdCO4WjD6irxjHDOAwXoy+yofmX
- IUsK9AFhmSk7Eg9eirxU3I0O6Sxrp/Cfu471N3DI7fdLIdrswGcZcV4C1
- IrTcp63MlLAjZWTLeGIfFTyTUfYDM/vsBoePkMVuO/fxQlopIiV/+vWcZ
- qlNeDKfp2dIkQxhTXYDugduXleptjmPjyaybtwPlTeSDe8w+dI32wo9vB A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10270"; a="236220748"
-X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="236220748"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2022 00:18:34 -0800
-X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="638668852"
+ bh=8ZciRwQiSwDHpRBFxFqqvha+fcgKRjXdJiEt8ELXRck=;
+ b=etL88AfasoIwkZzAZ6aIadjpfR5ylkofrZWjtjtB02JHfnoBj9NTY/Qq
+ ONGejlgdyTg2k8IEHtF4nHBfyX5htuhGXi9tMFPPgK/6gBzA+BGKp2b8Y
+ pcoOF7a+A5moJSyDEblukCeUmYWw1PXn5NGn2EGw6tkfG0DdgQnhBvezw
+ n7ldAwV0jCi5dKHQ3otyh8cUorge4I666BDu09G1Yvu6JugxdZLdzXK2e
+ pNGsCxdybymkcNGdVi79xCIJIAo8Z5S3scisdlUdIwMbS8uTBHrfYLUD4
+ qmigU5UEATlj0BXZK9KWJrY/NIzRB5l8+ElZK3lreM20mcHs7bzR7c33Q w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10270"; a="250296016"
+X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="250296016"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2022 00:18:39 -0800
+X-IronPort-AV: E=Sophos;i="5.90,140,1643702400"; d="scan'208";a="685041169"
 Received: from jingyiji-mobl.amr.corp.intel.com (HELO localhost)
  ([10.209.25.43])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2022 00:18:34 -0800
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2022 00:18:35 -0800
 From: Jordan Justen <jordan.l.justen@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v6 2/4] drm/i915/uapi: Add query for hwconfig blob
-Date: Sun, 27 Feb 2022 00:18:29 -0800
-Message-Id: <20220227081831.1089720-3-jordan.l.justen@intel.com>
+Subject: [PATCH v6 3/4] drm/i915/uapi: Add struct
+ drm_i915_query_hwconfig_blob_item
+Date: Sun, 27 Feb 2022 00:18:30 -0800
+Message-Id: <20220227081831.1089720-4-jordan.l.justen@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220227081831.1089720-1-jordan.l.justen@intel.com>
 References: <20220227081831.1089720-1-jordan.l.justen@intel.com>
@@ -56,111 +57,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kenneth Graunke <kenneth.w.graunke@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Slawomir Milczarek <slawomir.milczarek@intel.com>,
+Cc: Jordan Justen <jordan.l.justen@intel.com>,
  Jon Bloomfield <jon.bloomfield@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Also, document DRM_I915_QUERY_HWCONFIG_BLOB with this struct.
 
-The DRM_I915_QUERY_HWCONFIG_BLOB query item returns a blob of data
-which it receives from the GuC software. This blob provides some
-useful data about the hardware for drivers.
+v3:
+ * Add various changes suggested by Tvrtko
 
-Although the blob is not fully documented at this time, the basic
-format is an array of u32 values. The array is a simple and flexible
-KLV (Key/Length/Value) formatted table. For example, it could be just:
-enum device_attr { ATTR_SOME_VALUE = 0, ATTR_SOME_MASK = 1, };
+v5:
+ * Fix documenation formatting and verified with `make htmldocs` as
+   suggested by Daniel
 
-  static const u32 hwconfig[] = {
-      ATTR_SOME_VALUE,
-      1,             // Value Length in DWords
-      8,             // Value
-
-      ATTR_SOME_MASK,
-      3,
-      0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
-  };
-
-The attribute ids and meaning of the values will be documented in the
-Programmer Reference Manuals when released.
-
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Acked-by: Jordan Justen <jordan.l.justen@intel.com>
-Tested-by: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
 Acked-by: Jon Bloomfield <jon.bloomfield@intel.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
- include/uapi/drm/i915_drm.h       |  1 +
- 2 files changed, 24 insertions(+)
+ include/uapi/drm/i915_drm.h | 43 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 2dfbc22857a3..b5ca00cb6cf6 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -479,12 +479,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
- 	return total_length;
- }
- 
-+static int query_hwconfig_blob(struct drm_i915_private *i915,
-+			       struct drm_i915_query_item *query_item)
-+{
-+	struct intel_gt *gt = to_gt(i915);
-+	struct intel_hwconfig *hwconfig = &gt->info.hwconfig;
-+
-+	if (!hwconfig->size || !hwconfig->ptr)
-+		return -ENODEV;
-+
-+	if (query_item->length == 0)
-+		return hwconfig->size;
-+
-+	if (query_item->length < hwconfig->size)
-+		return -EINVAL;
-+
-+	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-+			 hwconfig->ptr, hwconfig->size))
-+		return -EFAULT;
-+
-+	return hwconfig->size;
-+}
-+
- static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 					struct drm_i915_query_item *query_item) = {
- 	query_topology_info,
- 	query_engine_info,
- 	query_perf_config,
- 	query_memregion_info,
-+	query_hwconfig_blob,
- };
- 
- int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
 diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 914ebd9290e5..069d2fadfbd9 100644
+index 069d2fadfbd9..d033211cb862 100644
 --- a/include/uapi/drm/i915_drm.h
 +++ b/include/uapi/drm/i915_drm.h
-@@ -2685,6 +2685,7 @@ struct drm_i915_query_item {
- #define DRM_I915_QUERY_ENGINE_INFO	2
- #define DRM_I915_QUERY_PERF_CONFIG      3
- #define DRM_I915_QUERY_MEMORY_REGIONS   4
-+#define DRM_I915_QUERY_HWCONFIG_BLOB	5
- /* Must be kept compact -- no holes and well documented */
+@@ -3279,6 +3279,49 @@ struct drm_i915_gem_create_ext_protected_content {
+ /* ID of the protected content session managed by i915 when PXP is active */
+ #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
  
- 	/**
++/**
++ * DOC: GuC HWCONFIG blob uAPI
++ *
++ * The GuC produces a blob with information about the current device.
++ * i915 reads this blob from GuC and makes it available via this uAPI.
++ *
++ * The returned blob is a sequence of items of variable length
++ * described by struct drm_i915_query_hwconfig_blob_item.
++ *
++ * The overall blob returned by DRM_I915_QUERY_HWCONFIG_BLOB will end
++ * at the same location as the end of the final struct
++ * drm_i915_query_hwconfig_blob_item. In other words, walking through
++ * the individual items is guaranteed to eventually arrive at the
++ * exact end of the entire blob.
++ */
++
++/**
++ * struct drm_i915_query_hwconfig_blob_item - A single hwconfig item
++ * within the sequence of hwconfig items returned by
++ * DRM_I915_QUERY_HWCONFIG_BLOB.
++ *
++ * The length field gives the length of the data[] array. The length
++ * is the number of u32 items in the data[] array, and *not* the
++ * number of bytes.
++ *
++ * The key and length fields are required, so the minimum item size is
++ * 2 x u32, or 8 bytes, when the length field is 0. If the length
++ * field is 1, then the item's size is 12 bytes.
++ *
++ * The meaning of the key field and the data values are documented in
++ * the Programmer's Reference Manual.
++ */
++struct drm_i915_query_hwconfig_blob_item {
++	/** @key: Enum which defines how to interpret @data values. */
++	__u32 key;
++
++	/** @length: The number of u32 values in the @data array. */
++	__u32 length;
++
++	/** @data: Array of values with meaning defined by @key. */
++	__u32 data[];
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
 -- 
 2.34.1
 
