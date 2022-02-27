@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53354C58B0
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 00:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57864C5925
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 04:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A00FC10E203;
-	Sat, 26 Feb 2022 23:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71FA510E333;
+	Sun, 27 Feb 2022 03:33:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0DD10E203
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 23:32:03 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id b11so15376004lfb.12
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 15:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uAAifAuUillXLfQ7S+jdv/GEcpCcdBCKNAMWe6JBNCQ=;
- b=kl11QDr19mfELOll6E4duE12IWzb1KZJnezNEUMeKbnT52BQWSU2on3w5bbUe3b3EW
- rW3t8Br5tZpLcivUEk/wgLUs9+lOCoXY7uTd4WNNnXoGGA306Jvu0z30aTwIYWAfpOwz
- S79pIYJEmp+GFERuOgiC4x7JSTRcQ/8v05gtvfBYOdpvRHb4l+XWw9hddfR5NZsIZ88j
- 4WLwfONr7lUMjEwRSNIQhLHHF1KNW7axMExyPQ89luM9cykWc+2wpJLp/WqDQ+kJjOvm
- t0ddBSdC/QeY+k5sC7iHqI4e9CRE9i2eRETY734XLUgur6PTpPk9rjYmKl4sTiDjCWoS
- fkpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uAAifAuUillXLfQ7S+jdv/GEcpCcdBCKNAMWe6JBNCQ=;
- b=0ati/bixGcwNNWv2VY1Vj24azfi9LF62ZlGZM6TyDnlfHghvBtj2ofAYQt00GjhLoU
- OF1nCxeU5M3MErQQh3/fyuhxjeWPSw4Tt4X2IWso+dwieWbEdsBc/o9qE6OY5DYGDDBC
- m+vP5AmJarrx9vsmoIvRahKu1HNuEe2+V3DUlqKl0KsW1DgLiQZe30hq0ZFj1xcwE/St
- xVj8xcGX5g3PUQLAoWlB+kV966BgaDCA0whrD0NGel3tiHbqmxU/Nmrhn87jd8WJwTRX
- Ovm4mqiwKWJGUdMsBgeqY2VSv2C2efShGahmA+vzYUR5FkxpOpxcDeqN4zJLkNtKjXI5
- YYww==
-X-Gm-Message-State: AOAM533g9Rmz9fHSXInpK2lIuOI4z+SdZIzZr0kb/r8x6rh0H8WqU9oU
- TFdBAcKQLe//w7H+WtG/ByKpSA==
-X-Google-Smtp-Source: ABdhPJyfWldaoFQncybaXzOhjS2bFagYJ2D6zN/7PsPqDmUkKFn53ZIxnFc/UfVapBieoSk7IZEt8Q==
-X-Received: by 2002:ac2:5c09:0:b0:443:7ae5:c341 with SMTP id
- r9-20020ac25c09000000b004437ae5c341mr8956054lfp.623.1645918321159; 
- Sat, 26 Feb 2022 15:32:01 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- a11-20020ac2520b000000b0044363e18b34sm548911lfl.148.2022.02.26.15.32.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Feb 2022 15:32:00 -0800 (PST)
-Message-ID: <33aac1d8-acea-215c-0a76-05f992831f87@linaro.org>
-Date: Sun, 27 Feb 2022 02:31:59 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED4DB10E333
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 03:33:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DE550611E2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 03:33:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF53C340F2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 03:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645932836;
+ bh=sINlhUUL3qCCKmllNYIAS6L68awhHaZWumjFZmCkwbA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Xch1FdbxJomskcGYC0j6vWmaDDUZOoXVKnF0kkvPmVKl/HSsVj5IJVwQSsxNYen12
+ zuPpmG9Irkh8aFI0Oo3rVSJIzs5xrkZtZIDJtoYONSovlJrjgERqaK0ZdpsQxRBGwn
+ g5ZAIFAb2AAOGwG3l4ltj0tmYCJ+uYQAYNKSGFl4mH9ssHzfv8YuqeL4Yj9IFMMCJk
+ TEHwR7xEDAX2YGY+qY2lTfoRFUkb47EOJ/X0NkUAuYpLvi37Pe9hlezfEQ5hxqfRAL
+ vLgYb9Lb1/Thp2xDCPh+T01Xd5VujOpGJDmW0EEvVAo5ZJ+Ob8t41Fb6s54eQw0jHQ
+ z6ZW/M2QrzZmw==
+Received: by mail-ed1-f45.google.com with SMTP id z22so12765772edd.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Feb 2022 19:33:56 -0800 (PST)
+X-Gm-Message-State: AOAM533paq7TP06SRbRRGJby0UIg4czbtscNlOAFbkLvbrQj6DwbTvy1
+ kOsnCevQBWkvmimDowkJV0mb4TUQKB9edyDlpw==
+X-Google-Smtp-Source: ABdhPJzAW6ryJztkKzpfOTbync3l10BoeisdAaTfjrRVJU3ASVjUgrEdyRhZQiMi8L3zCpy9UZ4Vsf9dVHrFb92NAyo=
+X-Received: by 2002:aa7:d415:0:b0:410:a0fa:dc40 with SMTP id
+ z21-20020aa7d415000000b00410a0fadc40mr13507630edq.46.1645932834417; Sat, 26
+ Feb 2022 19:33:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] drm/msm/dpu: Use indexed array initializer to prevent
- mismatches
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org
-References: <20220226194633.204501-1-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220226194633.204501-1-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211202064039.20797-1-jason-jh.lin@mediatek.com>
+ <20211202064039.20797-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20211202064039.20797-3-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 27 Feb 2022 11:33:42 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__rnVMRB=OhkTm4Ojh31yAcYwCQTBGozpGsnC_oC_jqvQ@mail.gmail.com>
+Message-ID: <CAAOTY__rnVMRB=OhkTm4Ojh31yAcYwCQTBGozpGsnC_oC_jqvQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/mediatek: add devlink to cmdq dev
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,148 +61,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, Pavel Dubrova <pashadubrova@gmail.com>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Fei Shao <fshao@chromium.org>,
+ David Airlie <airlied@linux.ie>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/02/2022 22:46, Marijn Suijten wrote:
-> While there's a comment pointing from dpu_intr_set to dpu_hw_intr_reg
-> and vice-versa, an array initializer using indices makes it so that the
-> indices between the enum and array cannot possibly get out of sync even
-> if they're accidentially ordered wrongly.  It is still useful to keep
-> the comment to be made aware where the register offset mapping resides
-> while looking at dpu_hw_intr_reg.
+Hi, Jason:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Build error:
 
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+../drivers/gpu/drm/mediatek/mtk_drm_crtc.c: In function =E2=80=98mtk_drm_cr=
+tc_create=E2=80=99:
+../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:902:26: error: =E2=80=98struct
+mtk_drm_private=E2=80=99 has no member named =E2=80=98dev=E2=80=99
+  mtk_crtc->drm_dev =3D priv->dev;
+                          ^
+../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:974:30: error: =E2=80=98struct
+mtk_drm_private=E2=80=99 has no member named =E2=80=98dev=E2=80=99
+   link =3D device_link_add(priv->dev, mtk_crtc->cmdq_client.chan->mbox->de=
+v,
+                              ^
+In file included from ../include/linux/device.h:15:0,
+                 from ../include/linux/dma-mapping.h:7,
+                 from ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:7:
+../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:977:16: error: =E2=80=98struct
+mtk_drm_private=E2=80=99 has no member named =E2=80=98dev=E2=80=99
+    dev_err(priv->dev, "Unable to link dev=3D%s\n",
+                ^
+Regards,
+Chun-Kuang.
+
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B412=E6=9C=88=
+2=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=882:41=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Add devlink to cmdq to make sure the order of suspend and resume
+> is correct.
+>
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 > ---
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 34 +++++++++----------
->   1 file changed, 17 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index c515b7cf922c..c61b5b283f08 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -54,87 +54,87 @@ struct dpu_intr_reg {
->    * When making changes be sure to sync with dpu_hw_intr_reg
->    */
->   static const struct dpu_intr_reg dpu_intr_set[] = {
-> -	{
-> +	[MDP_SSPP_TOP0_INTR] = {
->   		MDP_SSPP_TOP0_OFF+INTR_CLEAR,
->   		MDP_SSPP_TOP0_OFF+INTR_EN,
->   		MDP_SSPP_TOP0_OFF+INTR_STATUS
->   	},
-> -	{
-> +	[MDP_SSPP_TOP0_INTR2] = {
->   		MDP_SSPP_TOP0_OFF+INTR2_CLEAR,
->   		MDP_SSPP_TOP0_OFF+INTR2_EN,
->   		MDP_SSPP_TOP0_OFF+INTR2_STATUS
->   	},
-> -	{
-> +	[MDP_SSPP_TOP0_HIST_INTR] = {
->   		MDP_SSPP_TOP0_OFF+HIST_INTR_CLEAR,
->   		MDP_SSPP_TOP0_OFF+HIST_INTR_EN,
->   		MDP_SSPP_TOP0_OFF+HIST_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF0_INTR] = {
->   		MDP_INTF_0_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_0_OFF+INTF_INTR_EN,
->   		MDP_INTF_0_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF1_INTR] = {
->   		MDP_INTF_1_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_1_OFF+INTF_INTR_EN,
->   		MDP_INTF_1_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF2_INTR] = {
->   		MDP_INTF_2_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_2_OFF+INTF_INTR_EN,
->   		MDP_INTF_2_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF3_INTR] = {
->   		MDP_INTF_3_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_3_OFF+INTF_INTR_EN,
->   		MDP_INTF_3_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF4_INTR] = {
->   		MDP_INTF_4_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_4_OFF+INTF_INTR_EN,
->   		MDP_INTF_4_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF5_INTR] = {
->   		MDP_INTF_5_OFF+INTF_INTR_CLEAR,
->   		MDP_INTF_5_OFF+INTF_INTR_EN,
->   		MDP_INTF_5_OFF+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_AD4_0_INTR] = {
->   		MDP_AD4_0_OFF + MDP_AD4_INTR_CLEAR_OFF,
->   		MDP_AD4_0_OFF + MDP_AD4_INTR_EN_OFF,
->   		MDP_AD4_0_OFF + MDP_AD4_INTR_STATUS_OFF,
->   	},
-> -	{
-> +	[MDP_AD4_1_INTR] = {
->   		MDP_AD4_1_OFF + MDP_AD4_INTR_CLEAR_OFF,
->   		MDP_AD4_1_OFF + MDP_AD4_INTR_EN_OFF,
->   		MDP_AD4_1_OFF + MDP_AD4_INTR_STATUS_OFF,
->   	},
-> -	{
-> +	[MDP_INTF0_7xxx_INTR] = {
->   		MDP_INTF_0_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_0_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_0_OFF_REV_7xxx+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF1_7xxx_INTR] = {
->   		MDP_INTF_1_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_1_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_1_OFF_REV_7xxx+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF2_7xxx_INTR] = {
->   		MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF3_7xxx_INTR] = {
->   		MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF4_7xxx_INTR] = {
->   		MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_STATUS
->   	},
-> -	{
-> +	[MDP_INTF5_7xxx_INTR] = {
->   		MDP_INTF_5_OFF_REV_7xxx+INTF_INTR_CLEAR,
->   		MDP_INTF_5_OFF_REV_7xxx+INTF_INTR_EN,
->   		MDP_INTF_5_OFF_REV_7xxx+INTF_INTR_STATUS
-> 
-> base-commit: 06aeb1495c39c86ccfaf1adadc1d2200179f16eb
-
-
--- 
-With best wishes
-Dmitry
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 43 ++++++++++++++++++-------
+>  1 file changed, 31 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
+diatek/mtk_drm_crtc.c
+> index 0b4012335e7a..612d1d69c16c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -60,6 +60,7 @@ struct mtk_drm_crtc {
+>  #endif
+>
+>         struct device                   *mmsys_dev;
+> +       struct device                   *drm_dev;
+>         struct mtk_mutex                *mutex;
+>         unsigned int                    ddp_comp_nr;
+>         struct mtk_ddp_comp             **ddp_comp;
+> @@ -159,6 +160,7 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crt=
+c)
+>         mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
+>
+>         if (mtk_crtc->cmdq_client.chan) {
+> +               device_link_remove(mtk_crtc->drm_dev, mtk_crtc->cmdq_clie=
+nt.chan->mbox->dev);
+>                 mbox_free_channel(mtk_crtc->cmdq_client.chan);
+>                 mtk_crtc->cmdq_client.chan =3D NULL;
+>         }
+> @@ -902,6 +904,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                 return -ENOMEM;
+>
+>         mtk_crtc->mmsys_dev =3D priv->mmsys_dev;
+> +       mtk_crtc->drm_dev =3D priv->dev;
+>         mtk_crtc->ddp_comp_nr =3D path_len;
+>         mtk_crtc->ddp_comp =3D devm_kmalloc_array(dev, mtk_crtc->ddp_comp=
+_nr,
+>                                                 sizeof(*mtk_crtc->ddp_com=
+p),
+> @@ -969,6 +972,18 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>         }
+>
+>         if (mtk_crtc->cmdq_client.chan) {
+> +               struct device_link *link;
+> +
+> +               /* add devlink to cmdq dev to make sure suspend/resume or=
+der is correct */
+> +               link =3D device_link_add(priv->dev, mtk_crtc->cmdq_client=
+.chan->mbox->dev,
+> +                                      DL_FLAG_PM_RUNTIME | DL_FLAG_STATE=
+LESS);
+> +               if (!link) {
+> +                       dev_err(priv->dev, "Unable to link dev=3D%s\n",
+> +                               dev_name(mtk_crtc->cmdq_client.chan->mbox=
+->dev));
+> +                       ret =3D -ENODEV;
+> +                       goto cmdq_err;
+> +               }
+> +
+>                 ret =3D of_property_read_u32_index(priv->mutex_node,
+>                                                  "mediatek,gce-events",
+>                                                  i,
+> @@ -976,22 +991,26 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                 if (ret) {
+>                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,=
+gce-events property\n",
+>                                 drm_crtc_index(&mtk_crtc->base));
+> -                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> -                       mtk_crtc->cmdq_client.chan =3D NULL;
+> -               } else {
+> -                       ret =3D mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_c=
+lient,
+> -                                                     &mtk_crtc->cmdq_han=
+dle,
+> -                                                     PAGE_SIZE);
+> -                       if (ret) {
+> -                               dev_dbg(dev, "mtk_crtc %d failed to creat=
+e cmdq packet\n",
+> -                                       drm_crtc_index(&mtk_crtc->base));
+> -                               mbox_free_channel(mtk_crtc->cmdq_client.c=
+han);
+> -                               mtk_crtc->cmdq_client.chan =3D NULL;
+> -                       }
+> +                       goto cmdq_err;
+> +               }
+> +
+> +               ret =3D mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
+> +                                             &mtk_crtc->cmdq_handle,
+> +                                             PAGE_SIZE);
+> +               if (ret) {
+> +                       dev_dbg(dev, "mtk_crtc %d failed to create cmdq p=
+acket\n",
+> +                               drm_crtc_index(&mtk_crtc->base));
+> +                       goto cmdq_err;
+>                 }
+>
+>                 /* for sending blocking cmd in crtc disable */
+>                 init_waitqueue_head(&mtk_crtc->cb_blocking_queue);
+> +
+> +cmdq_err:
+> +               if (ret) {
+> +                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> +                       mtk_crtc->cmdq_client.chan =3D NULL;
+> +               }
+>         }
+>  #endif
+>         return 0;
+> --
+> 2.18.0
+>
