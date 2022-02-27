@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817C04C5F74
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Feb 2022 23:36:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C294C5FE3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 00:19:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5A310E117;
-	Sun, 27 Feb 2022 22:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4ABA10E179;
+	Sun, 27 Feb 2022 23:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BBE10E117
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 22:36:23 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id u11so14987716lju.4
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 14:36:22 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B496E10E179
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 23:19:51 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id u20so18479207lff.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 15:19:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q8l4d/g0eKsVGAXwcSHou4m9texHyFwjSyXWV84L8X0=;
- b=aS+Cuu53E5xh6ezL4BQQcygkZ7taEG098ncxgu4s2QZu+Pf48uAsX8EMwnsNmZzs5O
- eo+kkcQwg/L9tnVyFaERl40XHOJRfEwQ+3p4bNjtTIEqFgNZTrhkUr5c7jHIQo0R2QlD
- 6Z3HbL6vTEGo3aFlsNtdBL0CtUa6ZZQikH6w4=
+ :cc; bh=AJKFWkaNILgrND2ajpv99ahQRaE4hGQV9IUMvW6X5jc=;
+ b=COC/4g+XK0ncFFdjTFjbGI8kwJnazvpy+Y8Z5kBv2abHG/7OdfJl8XVUO/gQJQXrgU
+ 7syJ6Bl4EH1rhevEXJDyJCzV6vXIrdiBYUsB99agtvA7QQFqI7pET+wt/bULnxpe/llB
+ DoHBp+DrTOur4By7IXXtsNs4+hSllcxUFM+zA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=q8l4d/g0eKsVGAXwcSHou4m9texHyFwjSyXWV84L8X0=;
- b=Rt7Nh0tRgUMeDBN3XHdYjnXo88u+YQZ25oHSDk2v8cSwmlqhE8rxh312j5vV84Eiz3
- zRFjNkgYEqC7ZzQqnUAx4uE5mPsXC3aQHqaPjIRmWiZaG7EyEsRWW+UgLU2soKIJO3sI
- G5tWb8xeDb3o0IOhTyknStJkDS165f2n6ldmnsI3BDks1AFFVcyx8puxe+rUhq8ZOqPx
- 1LYg2o+1QVPHlmdwX/85hFswjKaxPqFXlNjXhvW3MvH5gIg7BtfPyQ1Yo+W0vYt2pveG
- 8PsTeFlBF9NuxPc0T65LnTkDBPCbKLFJecu7hWoLoGgXb4eh90y28OSFUpkGFck2zSfR
- SigA==
-X-Gm-Message-State: AOAM531GCPJI8hsn0MGQfB1vcEiLfZmb81AGo3lz3XdESJ6gqQDFDPdw
- y9w7RSB1jjG1izMbz4C/UDSG54BcJo5EmLtbyYM=
-X-Google-Smtp-Source: ABdhPJy7blV3sstEQr9ZgsE1dtUZjsCpT6/VN/ayi1pP2btcxlujwCa1biq38LjWb2k82X2313G+1w==
-X-Received: by 2002:a05:651c:1043:b0:23b:9302:7c2b with SMTP id
- x3-20020a05651c104300b0023b93027c2bmr12306145ljm.302.1646001380794; 
- Sun, 27 Feb 2022 14:36:20 -0800 (PST)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
- [209.85.208.179]) by smtp.gmail.com with ESMTPSA id
- f13-20020a2eb5ad000000b00245516b81a2sm1071945ljn.81.2022.02.27.14.36.18
+ bh=AJKFWkaNILgrND2ajpv99ahQRaE4hGQV9IUMvW6X5jc=;
+ b=X1Wux4L7xkCHCRhAD8BTNmqN/uFmPXZXcBC7Gn+Xc+eUUMqVoYZUQXiafJfvHJZXoB
+ mJaQt7B5AaIndqCMWuDXkxFFREs+jML9A1rSsbE/sVin9EbngXgikyu2qlwnwmUAbhQS
+ e2V8OuDcdIplLZG5vEoL78q+mIHZpcyH8oH9O+8+a4+bw4e62Luntue2fyoucy+MxDB/
+ BZUllYkW8vhTeWdr0DlBciuKoyHpCwTb+9/sFBZaJEeWVIOTrgDdi1koT9e4xrVb58YA
+ TqqmJsJwpmH510lW5CEx9Fp9xR7VQ0LmCt4OwkpLpQ/dWe/WVqaxYq9JLP3sj1xNcxpS
+ Ma7Q==
+X-Gm-Message-State: AOAM533Xc5I1q9SaRQqKAwWGaEj3yqAwIw27hXe2+k4prfSrfVInKSMa
+ 08K8cpeRIgd1Gaf1CsVv3yDULvL+cZscGjE1A4g=
+X-Google-Smtp-Source: ABdhPJz+Cqw6XbI+pHabLqZgICQi6/TDQcS78tiDUBFjSq8L5qImt/AiuhVGBFlk3vaAkAqbTdykvQ==
+X-Received: by 2002:a19:761a:0:b0:43c:79ae:6aef with SMTP id
+ c26-20020a19761a000000b0043c79ae6aefmr11518245lff.630.1646003989814; 
+ Sun, 27 Feb 2022 15:19:49 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
+ [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
+ h8-20020a2e5308000000b002432295576fsm1072703ljb.49.2022.02.27.15.19.49
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:36:19 -0800 (PST)
-Received: by mail-lj1-f179.google.com with SMTP id e8so14997665ljj.2
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 14:36:18 -0800 (PST)
-X-Received: by 2002:a2e:aaa2:0:b0:244:bf42:3e6e with SMTP id
- bj34-20020a2eaaa2000000b00244bf423e6emr12796324ljb.176.1646001378532; Sun, 27
- Feb 2022 14:36:18 -0800 (PST)
+ Sun, 27 Feb 2022 15:19:49 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id r20so15089099ljj.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Feb 2022 15:19:49 -0800 (PST)
+X-Received: by 2002:a2e:b8cc:0:b0:246:4767:7a29 with SMTP id
+ s12-20020a2eb8cc000000b0024647677a29mr12717079ljp.152.1646003517979; Sun, 27
+ Feb 2022 15:11:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20220227215408.3180023-1-arnd@kernel.org>
-In-Reply-To: <20220227215408.3180023-1-arnd@kernel.org>
+ <dd41c574-05b0-23bc-646c-0bd341e6e50b@linaro.org>
+In-Reply-To: <dd41c574-05b0-23bc-646c-0bd341e6e50b@linaro.org>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 27 Feb 2022 14:36:02 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
-Message-ID: <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
-Subject: Re: [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
-To: Arnd Bergmann <arnd@kernel.org>
+Date: Sun, 27 Feb 2022 15:11:41 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wg_r01OASRuSFfbEk_YHjve2BsBbkDYiEiKTaX2jm=53g@mail.gmail.com>
+Message-ID: <CAHk-=wg_r01OASRuSFfbEk_YHjve2BsBbkDYiEiKTaX2jm=53g@mail.gmail.com>
+Subject: Re: [greybus-dev] [PATCH] Kbuild: remove -std=gnu89 from compiler
+ arguments
+To: Alex Elder <elder@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,7 +75,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Michal Marek <michal.lkml@markovi.net>,
+ Arnd Bergmann <arnd@kernel.org>, Michal Marek <michal.lkml@markovi.net>,
  "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
  Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
  linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
@@ -88,54 +90,24 @@ Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 27, 2022 at 1:54 PM Arnd Bergmann <arnd@kernel.org> wrote:
+On Sun, Feb 27, 2022 at 3:04 PM Alex Elder <elder@linaro.org> wrote:
 >
-> Since the differences between gnu99, gnu11 and gnu17 are fairly minimal
-> and mainly impact warnings at the -Wpedantic level that the kernel
-> never enables, the easiest way is to just leave out the -std=gnu89
-> argument entirely, and rely on the compiler default language setting,
-> which is gnu11 for gcc-5, and gnu1x/gnu17 for all other supported
-> versions of gcc or clang.
+> Glancing at the Greybus code, I don't believe there's any
+> reason it needs to shift a negative value.  Such warnings
+> could be fixed by making certain variables unsigned, for
+> example.
 
-Honestly, I'd rather keep the C version we support as some explicit
-thing, instead of "whatever the installed compiler is".
+As mentioned in the original thread, making things unsigned actually
+is likely to introduce bugs and make things worse.
 
-Not only do I suspect that you can set it in gcc spec files (so the
-standard version might actually be site-specific, not compiler version
-specific), but particularly with clang, I'd like that "GNU extensions
-enabled" to be explicit. Yes, maybe it's the default, but let's make
-sure.
+The warning is simply bogus, and the fact that it was enabled by
+-Wextra in gcc for std=gnu99 and up was a mistake that looks likely to
+be fixed in gcc.
 
-The C version level has traditionally had a lot of odd semantic
-meaning details - you mention "inline", others have existed. So it's
-not just the actual new features that some C version implements, it's
-those kind of "same syntax, different meaning" issues. I really don't
-think that's something we want in the kernel any more.
+So don't try to "fix" the code to make any possible warnings go away.
+You may just make things worse.
 
-Been there, done that, and we did the explicit standards level for a reason.
+(That is often true in general for the more esoteric warnings, but in
+this case it's just painfully more obvious).
 
-It may be true that c99/c11/c17 are all very similar, and don't have
-those issues. Or maybe they do.
-
-And I don't want somebody with a newer compiler version to not notice
-that he or she ended up using a c17 feature, just because _that_
-compiler supported it, and then other people get build errors because
-their compilers use gnu11 instead by default.
-
-Put another way: I see absolutely no upside to allowing different
-users using higher/lower versions of the standard. There are only
-downsides.
-
-If gnu11 is supported by gcc-5.1 and up, and all the relevant clang
-versions, then let's just pick that.
-
-And if there are any possible future advantages to gnu17 (or eventual
-gnu2x versions), let's document those, so that we can say "once our
-compiler version requirements go up sufficiently, we'll move to gnuXX
-because we want to take advantage of YY".
-
-Please?
-
-                   Linus
-
-                   Linus
+              Linus
