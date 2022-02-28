@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36924C7262
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 18:19:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3864C723B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 18:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C34FE10E214;
-	Mon, 28 Feb 2022 17:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 538F310E66D;
+	Mon, 28 Feb 2022 17:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from condef-01.nifty.com (condef-01.nifty.com [202.248.20.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02F0C10E214;
- Mon, 28 Feb 2022 17:19:07 +0000 (UTC)
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-01.nifty.com
- with ESMTP id 21SH88lb017247; Tue, 1 Mar 2022 02:08:08 +0900
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171]) (authenticated)
- by conssluserg-05.nifty.com with ESMTP id 21SH7qSE014903;
- Tue, 1 Mar 2022 02:07:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 21SH7qSE014903
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1646068072;
- bh=98mZh3DSkLLdEUaUpwDchiQq5D3wILeXQhtbg+uZ5C0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=D7+3GydIml5G5ULFdTIEOoeqAwyMiUllHF3GnHTuWW10nvZHqUydYyT+Jh/PjJc0C
- 9dGdscCwyV7M2qIK+TzlPN1lAgIFyW+LG8jTroxw3JcjB6xKD7AirJYq0hUGTm8FH0
- G+ADSE21IaerZgVAUzhrazbpc1LG5nCdoDPIyOH+HiPFxvUV/fpB4XJyJl5QpYMKTS
- 4ZTfUYOn5AT4FiPGSuUklu/G/I3NUW/sdn3Ghx5EQK34yrsnKdstPivvN6BQ2Vg4IY
- ckEBCcFgDL3VltZ5/Wnp4REwrg9Mbqj+hvGqQh0dDV6gu6iHvDuGU/mp/Vm9sD7zLJ
- M5BfVt3YSVuhQ==
-X-Nifty-SrcIP: [209.85.210.171]
-Received: by mail-pf1-f171.google.com with SMTP id k1so1033562pfu.2;
- Mon, 28 Feb 2022 09:07:52 -0800 (PST)
-X-Gm-Message-State: AOAM5326S4/hthgerZ1Ozxo07gQDaLyM4wVcQMfdgJ2CUIoDyP9lprY+
- XOhaHdzNa4ZV4jbRjZjKsufi+nihUKRdvamqZjM=
-X-Google-Smtp-Source: ABdhPJyLr4NM5Xb8MWbTJd6oMf6oOtnn2XpS61KrD/xyflT+Su6ouIqvNpJKrYGOOASYu0nk5xFAElbhZTOY0HMSDmM=
-X-Received: by 2002:a63:e758:0:b0:378:8511:cfe7 with SMTP id
- j24-20020a63e758000000b003788511cfe7mr7050358pgk.126.1646068071650; Mon, 28
- Feb 2022 09:07:51 -0800 (PST)
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 600F210E66A;
+ Mon, 28 Feb 2022 17:11:53 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ s203-20020a4a3bd4000000b003191c2dcbe8so19509966oos.9; 
+ Mon, 28 Feb 2022 09:11:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KGfWS2uYCkztuiaNud+EqPaLd7nOZ8rEKRJvpNL/n84=;
+ b=T4bcy7EujoEc5qGaA6AuM+2wYt10TmaSOeZMXzIzMv0qQ6R2SXhQXnva5M6/LCj5d8
+ Qy3M1FFi7wzIZUc0+q2bMfUq4Ljb19T6r321wAFsW9Z8AMKk9VZdcla+ck6+W3EKgbYR
+ 0GaaY6ue+YxcW6+e3Qh5cnYIgVTvma8OXXRCnkIfpmFwng5yhUJFXqkXP9spy42S5FNb
+ CdFAU++R//p0oD7/cp85VmS29bLjPrygf01YznDEmu7jn7Ktt7LIE91awrVyNGR8PZKe
+ CVYgtKlQABJB59WYfNDGP3ZMsxIemQEvyXn5jit3XcfG82FgdjGr8OMZFHKg9NvhQyRT
+ 3PjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KGfWS2uYCkztuiaNud+EqPaLd7nOZ8rEKRJvpNL/n84=;
+ b=ZHAMcLJXGUpO/Uyg+trtl6+xEKplZeFbikbQZCdi+UwrvMJrSVnCsYxuDBhlQ8yAqq
+ JvFx/+IafMivjjDiu0QglCos6IDodtwi0Qr2fE23kzGTAf7f5YrNGNy91xEQFji6eMT6
+ 6oIcFrKd0n2JlwEcOFK5cDlx1szT12Fh61FWMEY5I53xJzNqazgcSsUlu8NMBoSQrzha
+ LPm+cZA1o3K3BuCdqFZdswNAscyrwQbNQrYzd2KeSIgGNViWXJbZoHiPwDjUonGtsJj/
+ mgv7yEWycUnevRsPVFv+4Ws7+N1+bHk2EUEypUonXn51ra0ZM1oyKTGcAFfxvJdxMWT7
+ gXtw==
+X-Gm-Message-State: AOAM532mU0tuoIqre8ZIptIZjgDtC7HcaDu3+u4yyh7tar8g+t5qNLUl
+ y15UhiW3EiGpSLk2zVn4PNMUsEx484IfI+WVUq0=
+X-Google-Smtp-Source: ABdhPJw4oSZ/ldoOMl2FkUDczAIOPMjGLMq24FAhG3wvyuwQnb8PORr1fqMZYM+VPIE2ghXuEkGMXzqLoJ4CHpFL7ho=
+X-Received: by 2002:a05:6870:1b85:b0:d6:feda:913f with SMTP id
+ hm5-20020a0568701b8500b000d6feda913fmr1210825oab.123.1646068311211; Mon, 28
+ Feb 2022 09:11:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
-In-Reply-To: <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 1 Mar 2022 02:07:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbX3TfETQTAr=e5kQLMDSXSn_KetDKTAaeZSq9k_70Uw@mail.gmail.com>
-Message-ID: <CAK7LNATbX3TfETQTAr=e5kQLMDSXSn_KetDKTAaeZSq9k_70Uw@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-To: Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20220225183535.5907-1-alexander.deucher@amd.com>
+ <CAPM=9txx5hq6ystyMqYx6Jx=VHRLoeXbrL0fDW5vHM5c--E1Jg@mail.gmail.com>
+In-Reply-To: <CAPM=9txx5hq6ystyMqYx6Jx=VHRLoeXbrL0fDW5vHM5c--E1Jg@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 28 Feb 2022 12:11:40 -0500
+Message-ID: <CADnq5_PZoNEiKUgycUWLiDEYyadw2Li5XpeOCOrtTi7hi=GxCA@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd drm-next-5.18
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: multipart/mixed; boundary="000000000000f7508905d917245d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,82 +64,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Arnd Bergmann <arnd@kernel.org>, Marco Elver <elver@google.com>,
- Michal Marek <michal.lkml@markovi.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-staging@lists.linux.dev, linux-doc-tw-discuss@lists.sourceforge.net,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
- Alex Shi <alexs@kernel.org>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Hu Haowen <src.res@email.cn>, linux-btrfs@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 8:25 PM Mark Rutland <mark.rutland@arm.com> wrote:
+--000000000000f7508905d917245d
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Feb 28, 2022 at 1:55 AM Dave Airlie <airlied@gmail.com> wrote:
 >
-> Hi Arnd,
->
-> This is great!
->
-> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
+> On Sat, 26 Feb 2022 at 04:35, Alex Deucher <alexander.deucher@amd.com> wrote:
 > >
-> > During a patch discussion, Linus brought up the option of changing
-> > the C standard version from gnu89 to gnu99, which allows using variable
-> > declaration inside of a for() loop. While the C99, C11 and later standards
-> > introduce many other features, most of these are already available in
-> > gnu89 as GNU extensions as well.
+> > Hi Dave, Daniel,
 > >
-> > An earlier attempt to do this when gcc-5 started defaulting to
-> > -std=gnu11 failed because at the time that caused warnings about
-> > designated initializers with older compilers. Now that gcc-5.1 is the
-> > minimum compiler version used for building kernels, that is no longer a
-> > concern. Similarly, the behavior of 'inline' functions changes between
-> > gnu89 and gnu11, but this was taken care of by defining 'inline' to
-> > include __attribute__((gnu_inline)) in order to allow building with
-> > clang a while ago.
+> > New stuff for 5.18.
 > >
-> > One minor issue that remains is an added gcc warning for shifts of
-> > negative integers when building with -Werror, which happens with the
-> > 'make W=1' option, as well as for three drivers in the kernel that always
-> > enable -Werror, but it was only observed with the i915 driver so far.
-> > To be on the safe side, add -Wno-shift-negative-value to any -Wextra
-> > in a Makefile.
+> > The following changes since commit b63c54d978236dd6014cf2ffba96d626e97c915c:
 > >
-> > Nathan Chancellor reported an additional -Wdeclaration-after-statement
-> > warning that appears in a system header on arm, this still needs a
-> > workaround.
+> >   drm/amdkfd: Use proper enum in pm_unmap_queues_v9() (2022-02-17 15:59:06 -0500)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.18-2022-02-25
+> >
+> > for you to fetch changes up to 111aeed25ec6bf4d5b4a7b4cb5654f002ba9f795:
+> >
+> >   drm/amdgpu: add gfxoff support for smu 13.0.5 (2022-02-25 11:51:18 -0500)
+> >
+> > ----------------------------------------------------------------
+> > amd-drm-next-5.18-2022-02-25:
+> >
+> > amdgpu:
+> > - Raven2 suspend/resume fix
+> > - SDMA 5.2.6 updates
+> > - VCN 3.1.2 updates
+> > - SMU 13.0.5 updates
+> > - DCN 3.1.5 updates
+> > - Virtual display fixes
+> > - SMU code cleanup
+> > - Harvest fixes
+> > - Expose benchmark tests via debugfs
+> > - Drop no longer relevant gart aperture tests
+> > - More RAS restructuring
+> > - W=1 fixes
+> > - PSR rework
+> > - DP/VGA adapter fixes
+> > - DP MST fixes
+> > - GPUVM eviction fix
+> > - GPU reset debugfs register dumping support
 >
-> FWIW, I had a go at moving to c99 a few weeks ago (to be able to use
-> for-loop-declarations in some concurrency primitives), and when I tried, I also
-> saw declaration-after-statement warnings when building modpost.c, which is easy
-> enough to fix:
+> (this time keeping cc).
 >
->   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=treewide/gnu99&id=505775bd6fd0bc1883f3271f826963066bbdc194
+> ^ this seems to conflict with the removal of reset_sem or something in
+> that area.
 >
+> Can you trial merge this to drm-next and send a fixup patch I should
+> apply with it?
+
+reset_sem moved from adev->reset_sem to adev->reset_domain->sem.  See
+the attached diff.  I also pushed a sample merge if that is helpful:
+https://gitlab.freedesktop.org/agd5f/linux/-/commits/drm-next-amd-drm-next-merge-5.18
+
+Thanks!
+
+Alex
 
 
-I do not understand this statement:
+>
+> Dave.
 
-"Usually such warnings are implciitly enabled as part of `-std=gnu89`,
- and in preparation for changing the standard used, this patch explciitly
-enales the warnings with `-Wdeclaration-after-statement`, which takes
-effect regardless of which version of the C standard is in use."
+--000000000000f7508905d917245d
+Content-Type: text/x-patch; charset="US-ASCII"; name="semaphore_fixup.diff"
+Content-Disposition: attachment; filename="semaphore_fixup.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l06yf51m0>
+X-Attachment-Id: f_l06yf51m0
 
-
-
-modpost is already built with -std=gnu89.
-
-If  Wdeclaration-after-statement is implied by gnu89,
-why did nobody notice this before?
-
-
--- 
-Best Regards
-Masahiro Yamada
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZWJ1Z2ZzLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGVidWdmcy5jCmluZGV4IGRmZWVk
+NjQxMGY3OS4uNDI2YjYzZTRmMWY2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfZGVidWdmcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9kZWJ1Z2ZzLmMKQEAgLTE2NTEsMjMgKzE2NTEsMjMgQEAgc3RhdGljIHNzaXplX3QgYW1k
+Z3B1X3Jlc2V0X2R1bXBfcmVnaXN0ZXJfbGlzdF9yZWFkKHN0cnVjdCBmaWxlICpmLAogCQlyZXR1
+cm4gMDsKIAogCW1lbXNldChyZWdfb2Zmc2V0LCAwLCAxMik7Ci0JcmV0ID0gZG93bl9yZWFkX2tp
+bGxhYmxlKCZhZGV2LT5yZXNldF9zZW0pOworCXJldCA9IGRvd25fcmVhZF9raWxsYWJsZSgmYWRl
+di0+cmVzZXRfZG9tYWluLT5zZW0pOwogCWlmIChyZXQpCiAJCXJldHVybiByZXQ7CiAKIAlmb3Ig
+KGkgPSAwOyBpIDwgYWRldi0+bnVtX3JlZ3M7IGkrKykgewogCQlzcHJpbnRmKHJlZ19vZmZzZXQs
+ICIweCV4XG4iLCBhZGV2LT5yZXNldF9kdW1wX3JlZ19saXN0W2ldKTsKLQkJdXBfcmVhZCgmYWRl
+di0+cmVzZXRfc2VtKTsKKwkJdXBfcmVhZCgmYWRldi0+cmVzZXRfZG9tYWluLT5zZW0pOwogCQlp
+ZiAoY29weV90b191c2VyKGJ1ZiArIGxlbiwgcmVnX29mZnNldCwgc3RybGVuKHJlZ19vZmZzZXQp
+KSkKIAkJCXJldHVybiAtRUZBVUxUOwogCiAJCWxlbiArPSBzdHJsZW4ocmVnX29mZnNldCk7Ci0J
+CXJldCA9IGRvd25fcmVhZF9raWxsYWJsZSgmYWRldi0+cmVzZXRfc2VtKTsKKwkJcmV0ID0gZG93
+bl9yZWFkX2tpbGxhYmxlKCZhZGV2LT5yZXNldF9kb21haW4tPnNlbSk7CiAJCWlmIChyZXQpCiAJ
+CQlyZXR1cm4gcmV0OwogCX0KIAotCXVwX3JlYWQoJmFkZXYtPnJlc2V0X3NlbSk7CisJdXBfcmVh
+ZCgmYWRldi0+cmVzZXRfZG9tYWluLT5zZW0pOwogCSpwb3MgKz0gbGVuOwogCiAJcmV0dXJuIGxl
+bjsKQEAgLTE2OTksMTMgKzE2OTksMTMgQEAgc3RhdGljIHNzaXplX3QgYW1kZ3B1X3Jlc2V0X2R1
+bXBfcmVnaXN0ZXJfbGlzdF93cml0ZShzdHJ1Y3QgZmlsZSAqZiwKIAkJaSsrOwogCX0gd2hpbGUg
+KGxlbiA8IHNpemUpOwogCi0JcmV0ID0gZG93bl93cml0ZV9raWxsYWJsZSgmYWRldi0+cmVzZXRf
+c2VtKTsKKwlyZXQgPSBkb3duX3dyaXRlX2tpbGxhYmxlKCZhZGV2LT5yZXNldF9kb21haW4tPnNl
+bSk7CiAJaWYgKHJldCkKIAkJZ290byBlcnJvcl9mcmVlOwogCiAJc3dhcChhZGV2LT5yZXNldF9k
+dW1wX3JlZ19saXN0LCB0bXApOwogCWFkZXYtPm51bV9yZWdzID0gaTsKLQl1cF93cml0ZSgmYWRl
+di0+cmVzZXRfc2VtKTsKKwl1cF93cml0ZSgmYWRldi0+cmVzZXRfZG9tYWluLT5zZW0pOwogCXJl
+dCA9IHNpemU7CiAKIGVycm9yX2ZyZWU6CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfZGV2aWNlLmMKaW5kZXggNTM5NmE5ZjE4NjVmLi5jYTg1NDYyNmExMDggMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYworKysgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMKQEAgLTQ3MjEsNyArNDcyMSw3IEBA
+IHN0YXRpYyBpbnQgYW1kZ3B1X3Jlc2V0X3JlZ19kdW1wcyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAq
+YWRldikKIAl1aW50MzJfdCByZWdfdmFsdWU7CiAJaW50IGk7CiAKLQlsb2NrZGVwX2Fzc2VydF9o
+ZWxkKCZhZGV2LT5yZXNldF9zZW0pOworCWxvY2tkZXBfYXNzZXJ0X2hlbGQoJmFkZXYtPnJlc2V0
+X2RvbWFpbi0+c2VtKTsKIAlkdW1wX3N0YWNrKCk7CiAKIAlmb3IgKGkgPSAwOyBpIDwgYWRldi0+
+bnVtX3JlZ3M7IGkrKykgewo=
+--000000000000f7508905d917245d--
