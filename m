@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9734C61D9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 04:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7223B4C61FE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 04:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4A810E143;
-	Mon, 28 Feb 2022 03:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483F010E123;
+	Mon, 28 Feb 2022 03:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D244010E143
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 03:30:31 +0000 (UTC)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B80510E123
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 03:46:49 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4K6Qr52yV0z4xcZ;
- Mon, 28 Feb 2022 14:30:29 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4K6RBr61M6z4xcZ;
+ Mon, 28 Feb 2022 14:46:44 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1646019030;
- bh=fFGfNTWBpPZK6KTga7di37oMpun8zfKH3ME2alMatHA=;
+ s=201702; t=1646020006;
+ bh=JGeeaVAR5956bwfVVgljUJh68aZ9vFPGConLJVz+HF8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=N45U571qMwiy6QSFly3IzVX8Mk64R9GXlTPiOIjqUiwiBmI/XOk6Csid2eyjY+a6A
- M6vNeriDMKP4gIrsOk2yUWVVMoAmf0DBnH0JofDkH3nHd9M+/ixEJpUPBQwl8xXIAP
- obQH1fHt7eE/K13gZ7tp5d6x/lqLExe51jowvWs+xCcA88dcPKIBtmLiIvXH1isVXD
- q3p02Qu64vWd9E/qG7Cx9/EKvq4EmUtHaZDv0weRML6GIVtHZ+L+mkcKm5vEIWIjgJ
- AP278Wik4N38Dnkhno0rwXj6WMIVZ+nhRSLndeQ2XuqYLC7IMUNh22ozkSJleZEhJs
- pROfUekzN7m7Q==
-Date: Mon, 28 Feb 2022 14:30:28 +1100
+ b=UySSGqPFeHqrJ8DdAdVjqez3Z+EoXiBnuLCJlFMUZszuZz5W8fizV8abvPrbnB7zK
+ llUkOCRb9hb8Qsxelwanz+yS6OpJmqqkvKQjTpph5UwxFJpbF5Tzp87H3t+nKoi45P
+ 01BuNuexuhbDuRQ6bYqFKh6/yAql05eBPfOLYOD6wINjAZFLpMkAXtlN06/M+sGWn4
+ yWqGJAo3jXTGjcusgRtBnx2VC8XVejTJVLZYbshBQYjwMtQ/rqfa/zLODGl2Ypredr
+ PK5ctK1TnTbx1ntzI0OacpbQIQ07JRpPeX1PN2pxDEhlt7asCdVRFDFLxsFLMLno+h
+ Mi0bxki9tzpAg==
+Date: Mon, 28 Feb 2022 14:46:44 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Thierry Reding <thierry.reding@gmail.com>, Dave Airlie
- <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the drm-tegra tree with the drm tree
-Message-ID: <20220228143028.53fdde86@canb.auug.org.au>
-In-Reply-To: <20220223163007.328242-1-broonie@kernel.org>
-References: <20220223163007.328242-1-broonie@kernel.org>
+To: Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: build failure after merge of the drm tree
+Message-ID: <20220228144644.776c5261@canb.auug.org.au>
+In-Reply-To: <20220225164231.904173-1-broonie@kernel.org>
+References: <20220225164231.904173-1-broonie@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/p.IHzvdzT7lUS8h=WkGcD31";
+Content-Type: multipart/signed; boundary="Sig_/xcldGrkYlQDSe48aCywZHIr";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,93 +51,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <treding@nvidia.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>, broonie@kernel.org,
+Cc: Allen Chen <allen.chen@ite.com.tw>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Hermes Wu <hermes.wu@ite.com.tw>, broonie@kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Hsin-yi Wang <hsinyi@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/p.IHzvdzT7lUS8h=WkGcD31
+--Sig_/xcldGrkYlQDSe48aCywZHIr
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Wed, 23 Feb 2022 16:30:07 +0000 broonie@kernel.org wrote:
+On Fri, 25 Feb 2022 16:42:31 +0000 broonie@kernel.org wrote:
 >
-> Today's linux-next merge of the drm-tegra tree got conflicts in:
+> After merging the drm tree, today's linux-next build (x86 allmodconfig)
+> failed like this:
 >=20
->   drivers/gpu/drm/tegra/dpaux.c
->   drivers/gpu/drm/tegra/Kconfig
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c: In function 'receive=
+_timing_debugfs_show':
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3077:23: error: array=
+ subscript 4096 is outside array bounds of 'u8[200]' {aka 'unsigned char[20=
+0]'} [-Werror=3Darray-bounds]
+>  3077 |  u8 *str =3D read_buf, *end =3D read_buf + PAGE_SIZE;
+>       |                       ^~~
+> /tmp/next/build/drivers/gpu/drm/bridge/ite-it6505.c:3076:5: note: while r=
+eferencing 'read_buf'
+>  3076 |  u8 read_buf[READ_BUFFER_SIZE];
+>       |     ^~~~~~~~
+> cc1: all warnings being treated as errors
 >=20
-> between commit:
+> Caused by commit
 >=20
->   adb9d5a2cc77e ("drm/dp: Move DisplayPort helpers into separate helper m=
-odule")
+>   b5c84a9edcd418 ("drm/bridge: add it6505 driver")
 >=20
-> from the drm tree and commit:
->=20
->   8913e1aea4b32 ("drm/tegra: dpaux: Populate AUX bus")
->=20
-> from the drm-tegra tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> diff --cc drivers/gpu/drm/tegra/Kconfig
-> index 18c319b804c00,201f5175ecfec..0000000000000
-> --- a/drivers/gpu/drm/tegra/Kconfig
-> +++ b/drivers/gpu/drm/tegra/Kconfig
-> @@@ -5,7 -5,7 +5,8 @@@ config DRM_TEGR
->   	depends on COMMON_CLK
->   	depends on DRM
->   	depends on OF
->  +	select DRM_DP_HELPER
-> + 	select DRM_DP_AUX_BUS
->   	select DRM_KMS_HELPER
->   	select DRM_MIPI_DSI
->   	select DRM_PANEL
-> diff --cc drivers/gpu/drm/tegra/dpaux.c
-> index 8ca500977a46b,d7a731d287d23..0000000000000
-> --- a/drivers/gpu/drm/tegra/dpaux.c
-> +++ b/drivers/gpu/drm/tegra/dpaux.c
-> @@@ -18,7 -18,8 +18,8 @@@
->   #include <linux/reset.h>
->   #include <linux/workqueue.h>
->  =20
->  -#include <drm/drm_dp_helper.h>
->  -#include <drm/drm_dp_aux_bus.h>
->  +#include <drm/dp/drm_dp_helper.h>
-> ++#include <drm/dp/drm_dp_aux_bus.h>
->   #include <drm/drm_panel.h>
->  =20
->   #include "dp.h"
+> I have used the drm tree from yesterday instead.
 
-This is now a conflict between the drm tree and Linus' tree.
+I am still getting these errors and so used the drm tree from
+next-20220224 again.
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/p.IHzvdzT7lUS8h=WkGcD31
+--Sig_/xcldGrkYlQDSe48aCywZHIr
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIcQdQACgkQAVBC80lX
-0Gy8PwgAm4LtXpGy5IwqeR44tbNRTRjR4fhU9B8iuuGFElJ4mNSlTxf4Rbd89das
-MFqdJU5sj1zxk9k8QGcqvPDTfvoO9lmSnSdDmg1Uy381UMCO8m425kqjCSEn1i6F
-IH8/DDGt+PYHAR9JIVHifFuBQxfmI2TEM6DAYhj9MzuNdbozcU5zyor7KbpEbDWk
-rlCUaBgZwVlkmMt0hByqCnsOpwKHO/GGvOOXBQdDt6auUPE3NrXpgRhUXAvmlICm
-948pOrvXWmQaq2ZNavoRc7ILhoVYMRZhRS7OumBn02nAuUAV6TKvbmwZ15kKndCZ
-u25tPBU+bythV4TLRsjxbZHMPAUClw==
-=KWpo
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIcRaQACgkQAVBC80lX
+0GxUyQf/WHKezO+KT8gBi/Py4nVVfOkOJWyyes2+r4+S4bKBGRVb4tfhRR10fswy
+/tOxorz+iAW++BRqJzf5vfNqtIgmmHn8oD7sGQzb0h2chbRCs86g/5hWIg970ET1
+AFht11bLIv/QuIEd5fzZEt1qjFZSxNB0MupR1f+hQuqtV57LMj4WvtQsdJG75y0h
+i5ApJzWWUIcojgunD742cE0+G4QnjKEawlK1oZJW6j0rWQurAFzK11u9DrJUOWdK
+UGvFOxmCFg7hTlPl549WilBwBJkI24t5f7JyW8dweJrKCznG9Dk7Ek5m9SJq7GpC
+SI98fu6ugnYPC6DcvRJlXi5hHjxSIg==
+=69Je
 -----END PGP SIGNATURE-----
 
---Sig_/p.IHzvdzT7lUS8h=WkGcD31--
+--Sig_/xcldGrkYlQDSe48aCywZHIr--
