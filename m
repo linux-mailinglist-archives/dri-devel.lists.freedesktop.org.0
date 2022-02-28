@@ -2,40 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FB54C7E40
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 00:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052F44C7E4E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 00:27:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E98B10E2C5;
-	Mon, 28 Feb 2022 23:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BC210E4C6;
+	Mon, 28 Feb 2022 23:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A394910E2C5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 23:24:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B22F478;
- Tue,  1 Mar 2022 00:24:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646090679;
- bh=GequZV5BwVjpKPb+Q/rQWeSXyCGPG/WT/t2NCTE3e44=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=Xi4ptyLzFjcJ0ffGr6xtQG2NQb6Tbk4Id3luptcVQKUalOnq7cbUIgwJlty9rVGMd
- TevFoHW2bEgBDHUj46YHrjIPfOEZY5t5NTiAEOz//i69Gtnx9P0eytbjrV05xq5ocC
- MbG5jVP6lmrsARn2BaUJRbkXne/VCRmLhDAR3bOw=
-Content-Type: text/plain; charset="utf-8"
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D7310E49F;
+ Mon, 28 Feb 2022 23:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=kySnWHttTi8Odl1WzgGLjQ1pb3b/AWH5qnYZSwnte50=; b=nt03mWtTaEB9qwsFMTflxzDbvW
+ aPSsVBeLr8i8UFwA1l3fNavsuYE231uUwb0yDTUi43cd3zIwbEaMZqro2u+rXbOt0KZriPQpyGi5J
+ +pW6oqM84XOoVppIQh3QNnM4ANpt9aIP3ShEwC0IGa2NKI/m2xxapQAyHhJG42Bevn7SuMSAnyA27
+ 7+3DFdmFFllbJzk1MHudhAJj7GPo/5RsA7npxrePVRbtGBQKbJeOUSye2chevgvDMrFkod2y0FmL7
+ JW29U+rs2LR5a0WX3s04bvbvXotX/UjRCpaaxaXPYROyoDfpDk5Wuy418QovroPX+qbpGelik5Tc/
+ I0FC9RZw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nOpPe-0090gL-Ex; Mon, 28 Feb 2022 23:26:42 +0000
+Date: Mon, 28 Feb 2022 23:26:42 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Message-ID: <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+ <Yh0tl3Lni4weIMkl@casper.infradead.org>
+ <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220228183955.25508-1-jose.exposito89@gmail.com>
-References: <20220228183955.25508-1-jose.exposito89@gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: switch to devm_drm_of_get_bridge
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- andrzej.hajda@intel.com
-Date: Mon, 28 Feb 2022 23:24:36 +0000
-Message-ID: <164609067646.2361501.15747139249939190799@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,68 +55,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, jernej.skrabec@gmail.com, maxime@cerno.tech,
- narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, robert.foss@linaro.org,
- u.kleine-koenig@pengutronix.de,
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- lee.jones@linaro.org, Laurent.pinchart@ideasonboard.com
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jos=C3=A9
+On Mon, Feb 28, 2022 at 12:37:15PM -0800, Linus Torvalds wrote:
+> On Mon, Feb 28, 2022 at 12:16 PM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > Then we can never use -Wshadow ;-(  I'd love to be able to turn it on;
+> > it catches real bugs.
+> 
+> Oh, we already can never use -Wshadow regardless of things like this.
+> That bridge hasn't just been burned, it never existed in the first
+> place.
+> 
+> The whole '-Wshadow' thing simply cannot work with local variables in
+> macros - something that we've used since day 1.
+> 
+> Try this (as a "p.c" file):
+> 
+>         #define min(a,b) ({                     \
+>                 typeof(a) __a = (a);            \
+>                 typeof(b) __b = (b);            \
+>                 __a < __b ? __a : __b; })
+> 
+>         int min3(int a, int b, int c)
+>         {
+>                 return min(a,min(b,c));
+>         }
+> 
+> and now do "gcc -O2 -S t.c".
+> 
+> Then try it with -Wshadow.
 
-Quoting Jos=C3=A9 Exp=C3=B3sito (2022-02-28 18:39:54)
-> The function "drm_of_find_panel_or_bridge" has been deprecated in
-> favor of "devm_drm_of_get_bridge".
->=20
-> Switch to the new function and reduce boilerplate.
->=20
-> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index dab8f76618f3..fb8e16ed7e90 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -1232,15 +1232,9 @@ static int ti_sn_bridge_probe(struct auxiliary_dev=
-ice *adev,
->  {
->         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.parent);
->         struct device_node *np =3D pdata->dev->of_node;
-> -       struct drm_panel *panel;
->         int ret;
-> =20
-> -       ret =3D drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
-> -       if (ret)
-> -               return dev_err_probe(&adev->dev, ret,
-> -                                    "could not find any panel node\n");
-> -
-> -       pdata->next_bridge =3D devm_drm_panel_bridge_add(pdata->dev, pane=
-l);
-> +       pdata->next_bridge =3D devm_drm_of_get_bridge(pdata->dev, np, 1, =
-0);
+#define ___PASTE(a, b)	a##b
+#define __PASTE(a, b) ___PASTE(a, b)
+#define _min(a, b, u) ({         \
+        typeof(a) __PASTE(__a,u) = (a);            \
+        typeof(b) __PASTE(__b,u) = (b);            \
+        __PASTE(__a,u) < __PASTE(__b,u) ? __PASTE(__a,u) : __PASTE(__b,u); })
 
-Yikes, I was about to rely on this panel variable to determine if the
-device is a panel or a display port connector. (Well, I am relying on
-it, and patches are hoping to be reposted this week).
+#define min(a, b) _min(a, b, __COUNTER__)
 
-Is there expected to be another way to identify if the next connection
-is a panel or a bridge?
+int min3(int a, int b, int c)
+{
+        return min(a,min(b,c));
+}
 
-Regards
-
---
-Kieran
-
-
->         if (IS_ERR(pdata->next_bridge)) {
->                 DRM_ERROR("failed to create panel bridge\n");
->                 return PTR_ERR(pdata->next_bridge);
-> --=20
-> 2.25.1
->
+(probably there's a more elegant way to do this)
