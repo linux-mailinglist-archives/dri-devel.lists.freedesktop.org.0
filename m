@@ -1,126 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3A04C6536
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:02:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D0F4C65AB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB45410E285;
-	Mon, 28 Feb 2022 09:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D8510E32C;
+	Mon, 28 Feb 2022 09:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2063.outbound.protection.outlook.com [40.107.20.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C118310E285
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:02:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b6gWrDCQgal1WU7LpHipW8lJgsRbAHKFVOHtr22+zHiV6YBwqWuIUuFcS5yuCEJGCHCVqFpepHXvVcHFC/7i6UpDqP4jULQgHU0zvf5/RmzUnsKBodnsB6EMAnutYmMTxStlvWxV/WuwdxnZ91qankBTxh5YPefWZ1DlGXwnVkW0oJe33J6B6E7cVIpREbj8wdpEaLBHWzC0RdqHkBW9mmaWNiBG6fEDju8Eo5PmdOKD4yZQw0Yk0s87Mr+0Dy/Ag9fmGtfkdOxskO9gZdlEt/8ljM2N1w3SsRY83nmvlR0TQYhYMxJ3VMKFcpnRouWE2MIzby1Sq8DRnlK8827AVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OA6pnhE+2RmvYs9ns/e0hR2fGC6LvEILfC5YKRSL9MU=;
- b=fddu/hqmMrcezCM98WTu2H+sU4sbzlCFWRZUDQdO89W5WqCGQRHqdNBERQa/l1Pw9l9qxB82uKujeNJ/1GGbJm3xjb3tFpyJeEmuLTVQjzz+lHnpfGoO5/TkcU3TZWU1XUTVPl8gSFPC1O7caUjYJ+vy0tbbpVuP0xDD1ACDRKQHSyZ5VU1XVRxHM5r3zfba3NmWFECSoVcHdWay0qwdRv10DqfNGkDmSnCjL6JMja1LSR04FkkBToPS3eXd+Ra8GPBh5FWW1Er0hh0EzI6dCv/BZbPU5J8/v+hd42+qARNWNCEzJdiG6aGwPlzQ4Ep7o8vsl3AVwDNGmgkFZHNDhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OA6pnhE+2RmvYs9ns/e0hR2fGC6LvEILfC5YKRSL9MU=;
- b=HW1ffYEJP0zp2Fq+rtcRkYxMt2yOETQdCmUzfvj1nOW8VcYf0+Rr7D9gTLTFC17xOwa5LXqlpJhmzfmtWBPur0gNSIywWCbGiHxt2HtFqqdH2FOA0jNCeTVxGTcZevyp7fOoOror/NHTUJDpe9HPuq6tTb13DjR7jRaL2EG8jKg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VE1PR04MB7278.eurprd04.prod.outlook.com (2603:10a6:800:1b1::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Mon, 28 Feb
- 2022 09:02:33 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::ddca:beb1:95b0:1ae1]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::ddca:beb1:95b0:1ae1%4]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
- 09:02:33 +0000
-Message-ID: <6344d1828760d4d8625a87243fcc5f5b1096b9d4.camel@oss.nxp.com>
-Subject: Re: [PATCH 2/2] drm/atomic: Force bridge self-refresh-exit on CRTC
- switch
-From: Liu Ying <victor.liu@oss.nxp.com>
-To: Brian Norris <briannorris@chromium.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
- Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 28 Feb 2022 17:02:35 +0800
-In-Reply-To: <20220215155417.2.Ic15a2ef69c540aee8732703103e2cff51fb9c399@changeid>
-References: <20220215235420.1284208-1-briannorris@chromium.org>
- <20220215155417.2.Ic15a2ef69c540aee8732703103e2cff51fb9c399@changeid>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
- To AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0969010E279
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:28:46 +0000 (UTC)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+ by 156.147.23.51 with ESMTP; 28 Feb 2022 18:28:44 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.121 with ESMTP; 28 Feb 2022 18:28:44 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Mon, 28 Feb 2022 18:28:26 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Jan Kara <jack@suse.cz>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <20220228092826.GA5201@X58A-UD3R>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-2-git-send-email-byungchul.park@lge.com>
+ <20220221190204.q675gtsb6qhylywa@quack3.lan>
+ <20220223003534.GA26277@X58A-UD3R>
+ <20220223144859.na2gjgl5efgw5zhn@quack3.lan>
+ <20220224011102.GA29726@X58A-UD3R>
+ <20220224102239.n7nzyyekuacgpnzg@quack3.lan>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8de38c92-49f0-485c-5579-08d9fa990e8b
-X-MS-TrafficTypeDiagnostic: VE1PR04MB7278:EE_
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB7278DECABCD26B9AFADF37FAD9019@VE1PR04MB7278.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ienPtfAj5eIkqZxQoe0Prq15gvq3CRTLeZww5cEeToajQahFQuvhpnhiabAfiqmLBh2BO9ngndlOEEP7UQeBiMCkOZRCS49B9R7y+WBxdN3g8kax84qHKrg1S4+lVA66GByEzKBFtmq2dQb5GLNyk4xLCQ1JF17u1ZEoSqevRGMRh4vezPgJn8rHHnlCzsnkciaWo2EjyLffyl4WxaloUoP1edGYAnxu4YFExqogEy+GAZ+/ih2Qg+rPrPFYg9sAU/noPU7E785qLTCcOqizhnHX4weGB2TsoY+/sKB5DMNXZOc7GzfcaNbdwvZ3Zcq0ZmRILVJQd45RQdVmj8SO7TYU0KH/hh5w52D+Pdydhzp7hjn7uGuJANzY1hA7Y82mL1oORDTftsEMnf0fbAYp/L8HwEPO59Vx0M+D07fM6C6DUFue29bB2MPlIaEW7tzWrGmm08tKpGOUmrr8VSVCJb1v6gUosqI4BHQpXM8kn1RHryI8QZyBfqP6SQ3vOYlY/94Q+MFGfA80XBl75irNS3TIlywFFvGIGTyeG9PVGNhWly7ZLrJ9XPbM+kOOUh5B/IsovBBL7sXNZOjgbWsINakcAoDmqntQjUX3QIbU//+a7W1StxAHUA0DPuRq1Pi/28nYkbV+Mgm3TqlbJSEoQ5Y65Q/h7dIi8FDdwnpZDii3pVFaqTrJtXl3IuvOFu2qx/J2ppCrpxfkItwWZIx1Mg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8936002)(2616005)(6512007)(66946007)(86362001)(66556008)(4326008)(66476007)(6486002)(8676002)(54906003)(38350700002)(5660300002)(316002)(508600001)(52116002)(110136005)(38100700002)(26005)(186003)(6506007)(2906002)(83380400001)(7416002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWp6RElxMUZ4SzlwRXFqOXFHQ2JVYU5kSFo4am1HbzR1Tm12OHhJNmRsY3c2?=
- =?utf-8?B?WkgrWWw0Vncxa0NjOGZLTkgycG0zN2gvemx6OEJaMytvaktnNkJ6YlpHZENS?=
- =?utf-8?B?aTluNWdjejZZN29rRFRCeDkvQ3VzQnkxWnFZVy95UDdQQ1lxcUtSRUtnUW5p?=
- =?utf-8?B?TnMxMUVDckJxMVBySmtqZzVQWDdaWjNuZjVlZzArdGNjcHZ0QzQ0UE5yV21i?=
- =?utf-8?B?U2djUTlTL1dZTlR1MWVnbjRWeG5sSXJhT3ludjQ0ZmhQUXZCQWZVTjh1c0hr?=
- =?utf-8?B?RGM1VGsvOGlyaTVzejBWYnZTbmJZajVvNlNNM1lMbkcwT2diRWdEVXBlaWtB?=
- =?utf-8?B?aUxITWF5eEpGV1NzNk02aTVsYVYzakpmdWJYOU9SZTV6WW5vZFNiUVFGZGhM?=
- =?utf-8?B?dCsrd1dkd3JtY0R6NDlaZW5TeTdxb2U1Ui9hSXY0U1FnQXlXYTVpSGpBSHdP?=
- =?utf-8?B?SWRjdlZhTWVBOEVkOG43KzE2dzVxcXhwbG41dUticGhpaWdpTFo2cVR6eXU2?=
- =?utf-8?B?cTRqVnRpYVNaWHZ0dmx0L1JiY2E5RG9oSTFwOW5SYTNGZyswNWdWdGZ2R0ZP?=
- =?utf-8?B?bWhNRHVaRnFzdmphVnlqbWJBN0JCNldPWVJhT1dlSWZ2a1hhVlBjbHlmN29P?=
- =?utf-8?B?L1kyWG5BOEZiMHlxeERPeHFDY1l3UXVWdkRLaDZvcUJvczlsbTZFdDdzTGJJ?=
- =?utf-8?B?eDhxajlISmRhSS9mWGxFdUFxMG93SGtQZ3JHZFNIUmhPM1gxckNvbU16MHBW?=
- =?utf-8?B?YUlzL3krMS9Md05iMDM4Z1pPZFFsUTNlejlVYzBTd2ZucWo0WEFkV0xZS0JE?=
- =?utf-8?B?ck42QzBWeVZEVlk5dVRFZmYydzlsZGJIbGphM0FKUTNMSG9pTHArdkZNWEZv?=
- =?utf-8?B?aW9raWt0S3lORWo5RFJKUmwzRm1vbkgrY2U4L2gyVTM1OFFQZWorbVR4YkRi?=
- =?utf-8?B?T1NXMmtndVkwYlVkZTJhNzNCS3NxLzFYeXJtN0tQWm9WT2pEYmsvZGhEWmRz?=
- =?utf-8?B?OC9hdE0yQ3IyN2l4NW9MaTNFTURENWJ2SmNVejB2Nzg1T3d1aUt2bDhjdEFW?=
- =?utf-8?B?S0EwK1R4Ni9zKzRTSm1hNXIzN2N5aDRsdmRqWGQyL3VJS0QyUzNCb1Y3L092?=
- =?utf-8?B?ZlBZanVNYjB5dVZ0aFc1azIzS2kyUm1KZVFxUlNyZ1lJaWZyOXVNODRCd3NI?=
- =?utf-8?B?b2xQMUNZU2xmS1l2emZJOVNvQzZEZFdocEtoUUZibXZqU01walRHVXRzQVpm?=
- =?utf-8?B?MVdGOVk4cFBEbWJiMEMvbkhVMitJUUJzaWJIbGVDOG0vUVdJRUpRWkJoSzhF?=
- =?utf-8?B?b1hMVGFnKzBYSHRGSEV5eHZ5VElvclIzemx0Y2tWaE1EUGhQcC82T3YxU0lm?=
- =?utf-8?B?MmdoR2VKeCtaVG5BRjhxOGE4aWJ4WElXWE1XQU40cU93NjVMUHg2TFd3UkxQ?=
- =?utf-8?B?UFdRWXhpRWt5R1FLUTRxRnZKdVJ2eTBweUhmZWZkeThPeXRXSmFXY3FHZVFo?=
- =?utf-8?B?UjNCMlRLZFIzT09QeWFjbkp6QmdJOUgwVTNjZm1ndlNzSGVEZURhZnVjRWlr?=
- =?utf-8?B?NVJTR2pYcWRxeWpHQXM2UXNKNzQzU1dEZUxab3U4RGttVDRwSTk0MEp1eFZy?=
- =?utf-8?B?WGhNQzR5QWdUQkRKSWRxWVVVL3gvaDJhdk04MkNpcGlRYkRKR3pNdGMxbmdp?=
- =?utf-8?B?SkxNbms5WDQyMXN3ZHlmcFN5MDFmKzZNUW4zRGRJVjhiLzZsd0FMZklDbmQv?=
- =?utf-8?B?NUsybEViSi9IcUtHQUltUk8rWCtaRmEvTWJHekRHYkZia0QzMTE3SzY3OVM4?=
- =?utf-8?B?bTNsNXB3akdoYURabytLRkVaSXcwbk1Cd0NBa2xKNkFES0tjV3gwUkh4eWZq?=
- =?utf-8?B?K2R0Z0x1TVV2Y1JoRDYvb3FDL0NyTTVLVzlCa1ZSNlh1Qy9iMjgyMjQyYlFY?=
- =?utf-8?B?alNJS3ByMmFlUTBhaGxLeS9odHJ1bGg3blpRUS8vb21MRUFqNHlTVGFjZ2ht?=
- =?utf-8?B?b0VBTms1bFYwcjBjNVZaVi9rZ3I3N2hWRjhaK0h2eWVLMjd3dzV2TXM0ajdH?=
- =?utf-8?B?azRnUGZYKzV1MkZlYzA3UjhuY0FNOXROdU4vOHpReFNjYnFXRlpRSktRZ1Rv?=
- =?utf-8?B?RCt1U2ZaU3JNZXl0UDU0azVIbzU0Mk9sQzhjYjN1UHpTcHBTSVRQZng1Rkdx?=
- =?utf-8?Q?20NNR4ujESL4Q2RpuNTo/Sw=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8de38c92-49f0-485c-5579-08d9fa990e8b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 09:02:33.4666 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IKSS/8q4kC+/krDnDRixZosioDJfJ0WhNJTI6DS66I6L7AigyWCkiq9jLZWRdAZKRTnzVW5J+dtBftbWxv6rAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7278
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220224102239.n7nzyyekuacgpnzg@quack3.lan>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,79 +50,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Sean Paul <seanpaul@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sean Paul <sean@poorly.run>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, peterz@infradead.org, daniel.vetter@ffwll.ch,
+ amir73il@gmail.com, david@fromorbit.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, bfields@fieldses.org, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, joel@joelfernandes.org, cl@linux.com,
+ will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Brian,
+On Thu, Feb 24, 2022 at 11:22:39AM +0100, Jan Kara wrote:
+> On Thu 24-02-22 10:11:02, Byungchul Park wrote:
+> > On Wed, Feb 23, 2022 at 03:48:59PM +0100, Jan Kara wrote:
+> > > > KJOURNALD2(kthread)	TASK1(ksys_write)	TASK2(ksys_write)
+> > > > 
+> > > > wait A
+> > > > --- stuck
+> > > > 			wait B
+> > > > 			--- stuck
+> > > > 						wait C
+> > > > 						--- stuck
+> > > > 
+> > > > wake up B		wake up C		wake up A
+> > > > 
+> > > > where:
+> > > > A is a wait_queue, j_wait_commit
+> > > > B is a wait_queue, j_wait_transaction_locked
+> > > > C is a rwsem, mapping.invalidate_lock
+> > > 
+> > > I see. But a situation like this is not necessarily a guarantee of a
+> > > deadlock, is it? I mean there can be task D that will eventually call say
+> > > 'wake up B' and unblock everything and this is how things were designed to
+> > > work? Multiple sources of wakeups are quite common I'd say... What does
+> > 
+> > Yes. At the very beginning when I desgined Dept, I was thinking whether
+> > to support multiple wakeup sources or not for a quite long time.
+> > Supporting it would be a better option to aovid non-critical reports.
+> > However, I thought anyway we'd better fix it - not urgent tho - if
+> > there's any single circle dependency. That's why I decided not to
+> > support it for now and wanted to gather the kernel guys' opinions. Thing
+> > is which policy we should go with.
+> 
+> I see. So supporting only a single wakeup source is fine for locks I guess.
+> But for general wait queues or other synchronization mechanisms, I'm afraid
+> it will lead to quite some false positive reports. Just my 2c.
 
-On Tue, 2022-02-15 at 15:54 -0800, Brian Norris wrote:
-> It's possible to change which CRTC is in use for a given
-> connector/encoder/bridge while we're in self-refresh without fully
-> disabling the connector/encoder/bridge along the way. This can confuse
-> the bridge encoder/bridge, because
-> (a) it needs to track the SR state (trying to perform "active"
->     operations while the panel is still in SR can be Bad(TM)); and
-> (b) it tracks the SR state via the CRTC state (and after the switch, the
->     previous SR state is lost).
-> 
-> Thus, we need to either somehow carry the self-refresh state over to the
-> new CRTC, or else force an encoder/bridge self-refresh transition during
-> such a switch.
-> 
-> I choose the latter, so we disable the encoder (and exit PSR) before
-> attaching it to the new CRTC (where we can continue to assume a clean
-> (non-self-refresh) state).
-> 
-> This fixes PSR issues seen on Rockchip RK3399 systems with
-> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c.
-> 
-> Cc: <stable@vger.kernel.org>
-> Fixes: 1452c25b0e60 ("drm: Add helpers to kick off self refresh mode in drivers")
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
-> 
->  drivers/gpu/drm/drm_atomic_helper.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 9603193d2fa1..74161d007894 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1011,9 +1011,19 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
->  		return drm_atomic_crtc_effectively_active(old_state);
->  
->  	/*
-> -	 * We need to run through the crtc_funcs->disable() function if the CRTC
-> -	 * is currently on, if it's transitioning to self refresh mode, or if
-> -	 * it's in self refresh mode and needs to be fully disabled.
-> +	 * We need to disable bridge(s) and CRTC if we're transitioning out of
-> +	 * self-refresh and changing CRTCs at the same time, because the
-> +	 * bridge tracks self-refresh status via CRTC state.
-> +	 */
-> +	if (old_state->self_refresh_active && new_state->enable &&
-> +	    old_state->crtc != new_state->crtc)
-> +		return true;
+Thank you for your feedback.
 
-I think 'new_state->enable' should be changed to 'new_state->active',
-because 'active' is the one to enable/disable the CRTC while 'enable'
-reflects whether a mode blob is set to CRTC state.  The overall logic
-added above is ok to me. Let's see if others have any comments.
+I realized we've been using "false positive" differently. There exist
+the three types of code in terms of dependency and deadlock. It's worth
+noting that dependencies are built from between waits and events in Dept.
 
-Regards,
-Liu Ying
+---
 
-> +
-> +	/*
-> +	 * We also need to run through the crtc_funcs->disable() function if
-> +	 * the CRTC is currently on, if it's transitioning to self refresh
-> +	 * mode, or if it's in self refresh mode and needs to be fully
-> +	 * disabled.
->  	 */
->  	return old_state->active ||
->  	       (old_state->self_refresh_active && !new_state->active) ||
+case 1. Code with an actual circular dependency, but not deadlock.
 
+   A circular dependency can be broken by a rescue wakeup source e.g.
+   timeout. It's not a deadlock. If it's okay that the contexts
+   participating in the circular dependency and others waiting for the
+   events in the circle are stuck until it gets broken. Otherwise, say,
+   if it's not meant, then it's anyway problematic.
+
+   1-1. What if we judge this code is problematic?
+   1-2. What if we judge this code is good?
+
+case 2. Code with an actual circular dependency, and deadlock.
+
+   There's no other wakeup source than those within the circular
+   dependency. Literally deadlock. It's problematic and critical.
+
+   2-1. What if we judge this code is problematic?
+   2-2. What if we judge this code is good?
+
+case 3. Code with no actual circular dependency, and not deadlock.
+
+   Must be good.
+
+   3-1. What if we judge this code is problematic?
+   3-2. What if we judge this code is good?
+
+---
+
+I call only 3-1 "false positive" circular dependency. And you call 1-1
+and 3-1 "false positive" deadlock.
+
+I've been wondering if the kernel guys esp. Linus considers code with
+any circular dependency is problematic or not, even if it won't lead to
+a deadlock, say, case 1. Even though I designed Dept based on what I
+believe is right, of course, I'm willing to change the design according
+to the majority opinion.
+
+However, I would never allow case 1 if I were the owner of the kernel
+for better stability, even though the code works anyway okay for now.
+
+Thanks,
+Byungchul
+
+> > > Dept do to prevent false reports in cases like this?
+> > > 
+> > > > The above is the simplest form. And it's worth noting that Dept focuses
+> > > > on wait and event itself rather than grabing and releasing things like
+> > > > lock. The following is the more descriptive form of it.
+> > > > 
+> > > > KJOURNALD2(kthread)	TASK1(ksys_write)	TASK2(ksys_write)
+> > > > 
+> > > > wait @j_wait_commit
+> > > > 			ext4_truncate_failed_write()
+> > > > 			   down_write(mapping.invalidate_lock)
+> > > > 
+> > > > 			   ext4_truncate()
+> > > > 			      ...
+> > > > 			      wait @j_wait_transaction_locked
+> > > > 
+> > > > 						ext_truncate_failed_write()
+> > > > 						   down_write(mapping.invalidate_lock)
+> > > > 
+> > > > 						ext4_should_retry_alloc()
+> > > > 						   ...
+> > > > 						   __jbd2_log_start_commit()
+> > > > 						      wake_up(j_wait_commit)
+> > > > jbd2_journal_commit_transaction()
+> > > >    wake_up(j_wait_transaction_locked)
+> > > > 			   up_write(mapping.invalidate_lock)
+> > > > 
+> > > > I hope this would help you understand the report.
+> > > 
+> > > I see, thanks for explanation! So the above scenario is impossible because
+> > 
+> > My pleasure.
+> > 
+> > > for anyone to block on @j_wait_transaction_locked the transaction must be
+> > > committing, which is done only by kjournald2 kthread and so that thread
+> > > cannot be waiting at @j_wait_commit. Essentially blocking on
+> > > @j_wait_transaction_locked means @j_wait_commit wakeup was already done.
+> > 
+> > kjournal2 repeatedly does the wait and the wake_up so the above scenario
+> > looks possible to me even based on what you explained. Maybe I should
+> > understand how the journal things work more for furhter discussion. Your
+> > explanation is so helpful. Thank you really.
+> 
+> OK, let me provide you with more details for better understanding :) In
+> jbd2 we have an object called 'transaction'. This object can go through
+> many states but for our case is important that transaction is moved to
+> T_LOCKED state and out of it only while jbd2_journal_commit_transaction()
+> function is executing and waiting on j_wait_transaction_locked waitqueue is
+> exactly waiting for a transaction to get out of T_LOCKED state. Function
+> jbd2_journal_commit_transaction() is executed only by kjournald. Hence
+> anyone can see transaction in T_LOCKED state only if kjournald is running
+> inside jbd2_journal_commit_transaction() and thus kjournald cannot be
+> sleeping on j_wait_commit at the same time. Does this explain things?
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
