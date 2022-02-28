@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62674C6683
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C224C6685
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:58:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B85B010E34D;
-	Mon, 28 Feb 2022 09:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26FB210E361;
+	Mon, 28 Feb 2022 09:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id 366C210E2A8
+ by gabe.freedesktop.org (Postfix) with ESMTP id 487EC10E2BB
  for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:57:21 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
  by 156.147.23.52 with ESMTP; 28 Feb 2022 18:57:20 +0900
@@ -22,9 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org
-Subject: [PATCH v3 15/21] dept: Apply SDT to wait(waitqueue)
-Date: Mon, 28 Feb 2022 18:56:54 +0900
-Message-Id: <1646042220-28952-16-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH v3 16/21] locking/lockdep,
+ cpu/hotplus: Use a weaker annotation in AP thread
+Date: Mon, 28 Feb 2022 18:56:55 +0900
+Message-Id: <1646042220-28952-17-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
 References: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
@@ -61,123 +62,33 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes SDT able to track dependencies by wait(waitqueue).
+cb92173d1f0 (locking/lockdep, cpu/hotplug: Annotate AP thread) was
+introduced to make lockdep_assert_cpus_held() work in AP thread.
+
+However, the annotation is too strong for that purpose. We don't have to
+use more than try lock annotation for that.
+
+Furthermore, now that Dept was introduced, false positive alarms was
+reported by that. Replaced it with try lock annotation.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/wait.h |  6 +++++-
- kernel/sched/wait.c  | 16 ++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ kernel/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/wait.h b/include/linux/wait.h
-index 851e07d..2133998 100644
---- a/include/linux/wait.h
-+++ b/include/linux/wait.h
-@@ -7,6 +7,7 @@
- #include <linux/list.h>
- #include <linux/stddef.h>
- #include <linux/spinlock.h>
-+#include <linux/dept_sdt.h>
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index 407a256..1f92a42 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -355,7 +355,7 @@ int lockdep_is_cpus_held(void)
  
- #include <asm/current.h>
- #include <uapi/linux/wait.h>
-@@ -37,6 +38,7 @@ struct wait_queue_entry {
- struct wait_queue_head {
- 	spinlock_t		lock;
- 	struct list_head	head;
-+	struct dept_map		dmap;
- };
- typedef struct wait_queue_head wait_queue_head_t;
- 
-@@ -56,7 +58,8 @@ struct wait_queue_head {
- 
- #define __WAIT_QUEUE_HEAD_INITIALIZER(name) {					\
- 	.lock		= __SPIN_LOCK_UNLOCKED(name.lock),			\
--	.head		= LIST_HEAD_INIT(name.head) }
-+	.head		= LIST_HEAD_INIT(name.head),				\
-+	.dmap		= DEPT_SDT_MAP_INIT(name) }
- 
- #define DECLARE_WAIT_QUEUE_HEAD(name) \
- 	struct wait_queue_head name = __WAIT_QUEUE_HEAD_INITIALIZER(name)
-@@ -67,6 +70,7 @@ struct wait_queue_head {
- 	do {									\
- 		static struct lock_class_key __key;				\
- 										\
-+		sdt_map_init(&(wq_head)->dmap);					\
- 		__init_waitqueue_head((wq_head), #wq_head, &__key);		\
- 	} while (0)
- 
-diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
-index eca3810..fc5a16a 100644
---- a/kernel/sched/wait.c
-+++ b/kernel/sched/wait.c
-@@ -105,6 +105,7 @@ static int __wake_up_common(struct wait_queue_head *wq_head, unsigned int mode,
- 		if (flags & WQ_FLAG_BOOKMARK)
- 			continue;
- 
-+		sdt_event(&wq_head->dmap);
- 		ret = curr->func(curr, mode, wake_flags, key);
- 		if (ret < 0)
- 			break;
-@@ -268,6 +269,9 @@ void __wake_up_pollfree(struct wait_queue_head *wq_head)
- 		__add_wait_queue(wq_head, wq_entry);
- 	set_current_state(state);
- 	spin_unlock_irqrestore(&wq_head->lock, flags);
-+
-+	if (state & TASK_NORMAL)
-+		sdt_wait_prepare(&wq_head->dmap);
- }
- EXPORT_SYMBOL(prepare_to_wait);
- 
-@@ -286,6 +290,10 @@ void __wake_up_pollfree(struct wait_queue_head *wq_head)
- 	}
- 	set_current_state(state);
- 	spin_unlock_irqrestore(&wq_head->lock, flags);
-+
-+	if (state & TASK_NORMAL)
-+		sdt_wait_prepare(&wq_head->dmap);
-+
- 	return was_empty;
- }
- EXPORT_SYMBOL(prepare_to_wait_exclusive);
-@@ -331,6 +339,9 @@ long prepare_to_wait_event(struct wait_queue_head *wq_head, struct wait_queue_en
- 	}
- 	spin_unlock_irqrestore(&wq_head->lock, flags);
- 
-+	if (!ret && state & TASK_NORMAL)
-+		sdt_wait_prepare(&wq_head->dmap);
-+
- 	return ret;
- }
- EXPORT_SYMBOL(prepare_to_wait_event);
-@@ -352,7 +363,9 @@ int do_wait_intr(wait_queue_head_t *wq, wait_queue_entry_t *wait)
- 		return -ERESTARTSYS;
- 
- 	spin_unlock(&wq->lock);
-+	sdt_wait_prepare(&wq->dmap);
- 	schedule();
-+	sdt_wait_finish();
- 	spin_lock(&wq->lock);
- 
- 	return 0;
-@@ -369,7 +382,9 @@ int do_wait_intr_irq(wait_queue_head_t *wq, wait_queue_entry_t *wait)
- 		return -ERESTARTSYS;
- 
- 	spin_unlock_irq(&wq->lock);
-+	sdt_wait_prepare(&wq->dmap);
- 	schedule();
-+	sdt_wait_finish();
- 	spin_lock_irq(&wq->lock);
- 
- 	return 0;
-@@ -389,6 +404,7 @@ void finish_wait(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_en
+ static void lockdep_acquire_cpus_lock(void)
  {
- 	unsigned long flags;
+-	rwsem_acquire(&cpu_hotplug_lock.dep_map, 0, 0, _THIS_IP_);
++	rwsem_acquire(&cpu_hotplug_lock.dep_map, 0, 1, _THIS_IP_);
+ }
  
-+	sdt_wait_finish();
- 	__set_current_state(TASK_RUNNING);
- 	/*
- 	 * We can check for list emptiness outside the lock
+ static void lockdep_release_cpus_lock(void)
 -- 
 1.9.1
 
