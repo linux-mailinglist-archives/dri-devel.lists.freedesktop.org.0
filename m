@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40344C6C78
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 13:28:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9666E4C6CAE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 13:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 887E910E767;
-	Mon, 28 Feb 2022 12:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367D110E3E5;
+	Mon, 28 Feb 2022 12:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7B4C10E757;
- Mon, 28 Feb 2022 12:28:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7901B478;
- Mon, 28 Feb 2022 13:28:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646051318;
- bh=nkpUPoetzBCMJ66Z46PArQ2YvghP/4DteSB6E3z8DrM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eHKommFjRX2z7sckKnkblxK9gIiHYZD8OApZFT4xz88IgQokGhqpuiztY7nGfQdjF
- SV85x/gX+b0Cgqkp4oC5kdONe0UJp7aokxpelzLEooDxqd3ImR9WM1GNU8l2elmS9W
- Wwnr5Mv6pIDeA4/BqmZJMLm0JBUj2oxOBJMiDKBk=
-Date: Mon, 28 Feb 2022 14:28:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
- from drm_writeback_connector structure changes
-Message-ID: <Yhy/6+z7QshG+qOo@pendragon.ideasonboard.com>
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
- <20220202085429.22261-6-suraj.kandpal@intel.com>
- <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
- <87y22ts948.fsf@intel.com>
- <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
- <87v8xxs2hz.fsf@intel.com>
- <CAF6AEGtdnWWhGp7U7nAPD4r3Uoe5BJKVm2rQ2MS=q5GqF6MYDA@mail.gmail.com>
- <YhyB0WmJDWVFO1se@pendragon.ideasonboard.com>
- <871qzn6vmc.fsf@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5CF10E3E5;
+ Mon, 28 Feb 2022 12:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646051799; x=1677587799;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hFyPoifGxwSPsV9DnD1x71Tkbl7ZkhzKFRXT7wpq8Hw=;
+ b=I1rzKV9voeUMxt6BiONrY3MbCJ456q+IwlgyzNXf+jcxEhAtWPtNyuFF
+ 9Phy2ZJ+j2oplal2gAxfj1MFsRgNJtXi3mdsz4C10ldsYezOYYpSyyNix
+ Jg9isKuq+NCFM5Bsu3bYT7gSL8KnOEBL7/llY+2f0sxaOHdMolIEOegKp
+ 4o3BzgqNKm0sWS0QHybO7UfmtJIGWN++7u6Rw2X/tSRuGFGu3WXCCEdqD
+ d9G0ACZcoJLfo88IZGJMk2K+QYpJFtruAGQnWR4uYTxK8b+rds/ALs5YB
+ MvJ1lOnS4ao/DUGQ0CyGwK/mPoEN80BUyYbFxpouHbRNuGW2w/Hh8saxw A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="233490726"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="233490726"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 04:36:39 -0800
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="550218601"
+Received: from acroni2x-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.26.243])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 04:36:38 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [CI 1/4] drm/i915/ttm: make eviction mappable aware
+Date: Mon, 28 Feb 2022 12:36:04 +0000
+Message-Id: <20220228123607.580432-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <871qzn6vmc.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,146 +55,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>,
- Carsten Haitzler <carsten.haitzler@arm.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, arun.r.murthy@intel.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-On Mon, Feb 28, 2022 at 02:09:15PM +0200, Jani Nikula wrote:
-> On Mon, 28 Feb 2022, Laurent Pinchart wrote:
-> > On Sat, Feb 26, 2022 at 10:27:59AM -0800, Rob Clark wrote:
-> >> On Wed, Feb 2, 2022 at 7:41 AM Jani Nikula wrote:
-> >> > On Wed, 02 Feb 2022, Laurent Pinchart wrote:
-> >> > > On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
-> >> > >> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
-> >> > >> > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
-> >> > >> >> Changing rcar_du driver to accomadate the change of
-> >> > >> >> drm_writeback_connector.base and drm_writeback_connector.encoder
-> >> > >> >> to a pointer the reason for which is explained in the
-> >> > >> >> Patch(drm: add writeback pointers to drm_connector).
-> >> > >> >>
-> >> > >> >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> >> > >> >> ---
-> >> > >> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
-> >> > >> >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
-> >> > >> >>  2 files changed, 7 insertions(+), 3 deletions(-)
-> >> > >> >>
-> >> > >> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> > >> >> index 66e8839db708..68f387a04502 100644
-> >> > >> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> > >> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> > >> >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
-> >> > >> >>   const char *const *sources;
-> >> > >> >>   unsigned int sources_count;
-> >> > >> >>
-> >> > >> >> + struct drm_connector connector;
-> >> > >> >> + struct drm_encoder encoder;
-> >> > >> >
-> >> > >> > Those fields are, at best, poorly named. Furthermore, there's no need in
-> >> > >> > this driver or in other drivers using drm_writeback_connector to create
-> >> > >> > an encoder or connector manually. Let's not polute all drivers because
-> >> > >> > i915 doesn't have its abstractions right.
-> >> > >>
-> >> > >> i915 uses the quite common model for struct inheritance:
-> >> > >>
-> >> > >>      struct intel_connector {
-> >> > >>              struct drm_connector base;
-> >> > >>              /* ... */
-> >> > >>      }
-> >> > >>
-> >> > >> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
-> >> > >> radeon, tilcdc, and vboxvideo.
-> >> > >>
-> >> > >> We could argue about the relative merits of that abstraction, but I
-> >> > >> think the bottom line is that it's popular and the drivers using it are
-> >> > >> not going to be persuaded to move away from it.
-> >> > >
-> >> > > Nobody said inheritance is bad.
-> >> > >
-> >> > >> It's no coincidence that the drivers who've implemented writeback so far
-> >> > >> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
-> >> > >> because the drm_writeback_connector midlayer does, forcing the issue.
-> >> > >
-> >> > > Are you sure it's not a coincidence ? :-)
-> >> > >
-> >> > > The encoder and especially connector created by drm_writeback_connector
-> >> > > are there only because KMS requires a drm_encoder and a drm_connector to
-> >> > > be exposed to userspace (and I could argue that using a connector for
-> >> > > writeback is a hack, but that won't change). The connector is "virtual",
-> >> > > I still fail to see why i915 or any other driver would need to wrap it
-> >> > > into something else. The whole point of the drm_writeback_connector
-> >> > > abstraction is that drivers do not have to manage the writeback
-> >> > > drm_connector manually, they shouldn't touch it at all.
-> >> >
-> >> > The thing is, drm_writeback_connector_init() calling
-> >> > drm_connector_init() on the drm_connector embedded in
-> >> > drm_writeback_connector leads to that connector being added to the
-> >> > drm_device's list of connectors. Ditto for the encoder.
-> >> >
-> >> > All the driver code that handles drm_connectors would need to take into
-> >> > account they might not be embedded in intel_connector. Throughout the
-> >> > driver. Ditto for the encoders.
-> >> 
-> >> The assumption that a connector is embedded in intel_connector doesn't
-> >> really play that well with how bridge and panel connectors work.. so
-> >> in general this seems like a good thing to unwind.
-> >> 
-> >> But as a point of practicality, i915 is a large driver covering a lot
-> >> of generations of hw with a lot of users.  So I can understand
-> >> changing this design isn't something that can happen quickly or
-> >> easily.  IMO we should allow i915 to create it's own connector for
-> >> writeback, and just document clearly that this isn't the approach new
-> >> drivers should take.  I mean, I understand idealism, but sometimes a
-> >> dose of pragmatism is needed. :-)
-> >
-> > i915 is big, but so is Intel. It's not fair to treat everybody else as a
-> > second class citizen and let Intel get away without doing its homework.
-> 
-> Laurent, as you accuse us of not doing our homework, I'll point out that
-> we've been embedding drm crtc, encoder and connector ever since
-> modesetting support was added to i915 in 2008, since before *any* of the
-> things you now use as a rationale for asking us to do a massive rewrite
-> of the driver existed.
-> 
-> It's been ok to embed those structures for well over ten years. It's a
-> common pattern, basically throughout the kernel. Other drivers do it
-> too, not just i915. There hasn't been the slightest hint this should not
-> be done until this very conversation.
-> 
-> > I want to see this refactoring effort moving forward in i915 (and moving
-> > to drm_bridge would then be a good idea too). If writeback support in
-> > i915 urgent, then we can discuss *temporary* pragmatic stopgap measures,
-> > but not without a real effort to fix the core issue.
-> 
-> I think the onus is on you to first convince everyone that embedding the
-> drm core kms structures is an antipattern that all drivers, not just
-> i915, should stop using. In OO terms, you're saying they are classes
-> that should be final and not extended.
-> 
-> And even then, to be totally honest, refactoring the structures is not
-> going to be anywhere near the top of our list of things to do, for a
-> very long time.
+If we need to make room for some mappable object, then we should
+only victimize objects that have one or pages that occupy the visible
+portion of LMEM. Let's also create a new priority hint for objects that
+are placed in mappable memory, where we know that CPU access was
+requested, that way we hopefully victimize these last.
 
-I may have not expressed myself correctly. There's nothing wrong as such
-in embedded those structures in driver-specific structures (a.k.a. C
-inheritance). That doesn't need to change (albeit for drm_encoder I
-think we should move away from that pattern, but that's an entirely
-different issue, and nothing that needs to be addressed soonà.
+v2(Thomas): s/TTM_PL_PRIV/I915_PL_LMEM0/
 
-The issue here is assuming that every drm_connector instance can be
-up-casted to an i915-specific structure.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 65 ++++++++++++++++++++++++-
+ 1 file changed, 63 insertions(+), 2 deletions(-)
 
-> >> > The point is, you can't initialize a connector or an encoder for a
-> >> > drm_device in isolation of the rest of the driver, even if it were
-> >> > supposed to be hidden away.
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index a13e0204a139..3c2f044b9c6b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -7,8 +7,10 @@
+ 
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
++#include <drm/drm_buddy.h>
+ 
+ #include "i915_drv.h"
++#include "i915_ttm_buddy_manager.h"
+ #include "intel_memory_region.h"
+ #include "intel_region_ttm.h"
+ 
+@@ -22,6 +24,7 @@
+ #define I915_TTM_PRIO_PURGE     0
+ #define I915_TTM_PRIO_NO_PAGES  1
+ #define I915_TTM_PRIO_HAS_PAGES 2
++#define I915_TTM_PRIO_NEEDS_CPU_ACCESS 3
+ 
+ /*
+  * Size of struct ttm_place vector in on-stack struct ttm_placement allocs
+@@ -339,6 +342,7 @@ static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,
+ 				       const struct ttm_place *place)
+ {
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
++	struct ttm_resource *res = bo->resource;
+ 
+ 	if (!obj)
+ 		return false;
+@@ -352,7 +356,48 @@ static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,
+ 		return false;
+ 
+ 	/* Will do for now. Our pinned objects are still on TTM's LRU lists */
+-	return i915_gem_object_evictable(obj);
++	if (!i915_gem_object_evictable(obj))
++		return false;
++
++	switch (res->mem_type) {
++	case I915_PL_LMEM0: {
++		struct ttm_resource_manager *man =
++			ttm_manager_type(bo->bdev, res->mem_type);
++		struct i915_ttm_buddy_resource *bman_res =
++			to_ttm_buddy_resource(res);
++		struct drm_buddy *mm = bman_res->mm;
++		struct drm_buddy_block *block;
++
++		if (!place->fpfn && !place->lpfn)
++			return true;
++
++		GEM_BUG_ON(!place->lpfn);
++
++		/*
++		 * If we just want something mappable then we can quickly check
++		 * if the current victim resource is using any of the CPU
++		 * visible portion.
++		 */
++		if (!place->fpfn &&
++		    place->lpfn == i915_ttm_buddy_man_visible_size(man))
++			return bman_res->used_visible_size > 0;
++
++		/* Real range allocation */
++		list_for_each_entry(block, &bman_res->blocks, link) {
++			unsigned long fpfn =
++				drm_buddy_block_offset(block) >> PAGE_SHIFT;
++			unsigned long lpfn = fpfn +
++				(drm_buddy_block_size(mm, block) >> PAGE_SHIFT);
++
++			if (place->fpfn < lpfn && place->lpfn > fpfn)
++				return true;
++		}
++		return false;
++	} default:
++		break;
++	}
++
++	return true;
+ }
+ 
+ static void i915_ttm_evict_flags(struct ttm_buffer_object *bo,
+@@ -852,7 +897,23 @@ void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
+ 	} else if (!i915_gem_object_has_pages(obj)) {
+ 		bo->priority = I915_TTM_PRIO_NO_PAGES;
+ 	} else {
+-		bo->priority = I915_TTM_PRIO_HAS_PAGES;
++		struct ttm_resource_manager *man =
++			ttm_manager_type(bo->bdev, bo->resource->mem_type);
++
++		/*
++		 * If we need to place an LMEM resource which doesn't need CPU
++		 * access then we should try not to victimize mappable objects
++		 * first, since we likely end up stealing more of the mappable
++		 * portion. And likewise when we try to find space for a mappble
++		 * object, we know not to ever victimize objects that don't
++		 * occupy any mappable pages.
++		 */
++		if (i915_ttm_cpu_maps_iomem(bo->resource) &&
++		    i915_ttm_buddy_man_visible_size(man) < man->size &&
++		    !(obj->flags & I915_BO_ALLOC_GPU_ONLY))
++			bo->priority = I915_TTM_PRIO_NEEDS_CPU_ACCESS;
++		else
++			bo->priority = I915_TTM_PRIO_HAS_PAGES;
+ 	}
+ 
+ 	ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
