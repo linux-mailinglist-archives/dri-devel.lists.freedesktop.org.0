@@ -1,52 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032324C6626
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:53:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3666E4C663A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:57:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF5E10E2B3;
-	Mon, 28 Feb 2022 09:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1466210E30B;
+	Mon, 28 Feb 2022 09:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0A510E2B3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:53:19 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id n185so9883399qke.5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 01:53:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pc2xTazJcGjIwl7ZnhXxuCZmmMzULOqgCvZj3IlaMMY=;
- b=LNzfZAX5hieB9FG9FLsPTrIanGwIyMKmJnXN/c610bQayVeDntvgfS92u1OMqT5EPE
- y9Kx3Kd2H9XDu5uKrY/5hzx9MjcZUfKRWf/cDhEiK1rfoH6DQ6RTrSk0yxkASPnHujy9
- L7f2UJFZ/hIrFNXgGWbU5ySh13EaWvCsdP0wY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pc2xTazJcGjIwl7ZnhXxuCZmmMzULOqgCvZj3IlaMMY=;
- b=1z9wyaUgsOk010vgNwyey0kbxB2sVWqQI2YV2B5eTd3ZmcuQV4w81TL0DsHYImSW7y
- ZC7SrmlMjK0hvbJ+FEwLRW/4rKMGhZ2uUAnI7AQ2GjnwQUsRLxg6aFQaNpsbhrAtDk2K
- +GWUcYHiTltFS8z8hLCWPYsJ9KX06vBAPwtJq314T1wxfBfh9bhs56ieiayjtos/tnNc
- nWmvxDeUn03bu8T5C3Mc/ymbogaSg2Fq6p9pSEDs5Tt1qqipffJZrhW+N4Er0WRVPd4F
- iIoJKE2LVoQH+ZeIp7+1ZB1z+Ie8080tFFd5ejZ4a0Tlaxch1j7ERh8a237XQwi4t1bO
- AW2g==
-X-Gm-Message-State: AOAM533Y3fDd8ggQzjrF9UkajaSTWzf2xwM3biFQvQWmn3fhMFs2Ejps
- whFyQmfI9XsyOL605YKyHY19a2fJrRValippA1A=
-X-Google-Smtp-Source: ABdhPJzMUyYueL8jtRtjblWTAghUCWnWt1dd02X0kcufstS2QoUPX8Pj046KPyailSEuY0MJAUQBLTTjgurg5sosZGs=
-X-Received: by 2002:ae9:e841:0:b0:508:1f6e:f020 with SMTP id
- a62-20020ae9e841000000b005081f6ef020mr10495084qkg.243.1646041998337; Mon, 28
- Feb 2022 01:53:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
-In-Reply-To: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 28 Feb 2022 09:53:06 +0000
-Message-ID: <CACPK8XcTDUt8q+5s44nnFFK1XiisXw=PBoGaNZowGS7M-j=Phg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] Add Aspeed AST2600 soc display support
-To: Tommy Haung <tommy_huang@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 56FCD10E29C
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:57:20 +0000 (UTC)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+ by 156.147.23.51 with ESMTP; 28 Feb 2022 18:57:18 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.121 with ESMTP; 28 Feb 2022 18:57:18 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: torvalds@linux-foundation.org
+Subject: [PATCH v3 00/21] DEPT(Dependency Tracker)
+Date: Mon, 28 Feb 2022 18:56:39 +0900
+Message-Id: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,101 +38,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tommy,
+I didn't want to bother you so I was planning to send the next spin
+after making more progress. However, PATCH v2 reports too many false
+positives because Dept tracked the bit_wait_table[] wrong way - I
+apologize for that. So I decided to send PATCH v3 first before going
+further for those who want to run Dept for now.
 
-On Wed, 8 Dec 2021 at 01:34, Tommy Haung <tommy_huang@aspeedtech.com> wrote:
->
-> v5:
->   Add lost reset define.
->
-> v4:
->   Add necessary reset control for ast2600.
->   Add chip caps for futher use.
->   These code are test on AST2500 and AST2600 by below steps.
->
->   1. Add below config to turn VT and LOGO on.
->
->         CONFIG_TTY=y
->         CONFIG_VT=y
->         CONFIG_CONSOLE_TRANSLATIONS=y
->         CONFIG_VT_CONSOLE=y
->         CONFIG_VT_CONSOLE_SLEEP=y
->         CONFIG_HW_CONSOLE=y
->         CONFIG_VT_HW_CONSOLE_BINDING=y
->         CONFIG_UNIX98_PTYS=y
->         CONFIG_LDISC_AUTOLOAD=y
->         CONFIG_DEVMEM=y
->         CONFIG_DUMMY_CONSOLE=y
->         CONFIG_FRAMEBUFFER_CONSOLE=y
->         CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
->         CONFIG_LOGO=y
->         CONFIG_LOGO_LINUX_CLUT224=y
->
->   2. The Linux logo will be shown on the screen, when the BMC boot in Linux.
+There might still be some false positives but not overwhelming.
 
-Sorry for the long delay. I have tested your patches on an ast2600a3
-evb and they worked. I have some questions about the reset lines that
-I couldn't answer by reading the datasheet, so once they are cleared
-up we can go ahead with merging your patches.
+---
 
-When you re-send, you will need to fix your git configuration so your
-name appears correctly:
+Hi Linus and folks,
 
-git config --global user.name "Tommy Haung"
+I've been developing a tool for detecting deadlock possibilities by
+tracking wait/event rather than lock(?) acquisition order to try to
+cover all synchonization machanisms. It's done on v5.17-rc1 tag.
 
-And then for each patch, do this to fix up the authorship and the s-o-b line:
+https://github.com/lgebyungchulpark/linux-dept/commits/dept1.14_on_v5.17-rc1
 
-git commit --amend --reset-author -s
+Benifit:
 
-Cheers,
+	0. Works with all lock primitives.
+	1. Works with wait_for_completion()/complete().
+	2. Works with 'wait' on PG_locked.
+	3. Works with 'wait' on PG_writeback.
+	4. Works with swait/wakeup.
+	5. Works with waitqueue.
+	6. Multiple reports are allowed.
+	7. Deduplication control on multiple reports.
+	8. Withstand false positives thanks to 6.
+	9. Easy to tag any wait/event.
 
-Joel
+Future work:
 
+	0. To make it more stable.
+	1. To separates Dept from Lockdep.
+	2. To improves performance in terms of time and space.
+	3. To use Dept as a dependency engine for Lockdep.
+	4. To add any missing tags of wait/event in the kernel.
+	5. To deduplicate stack trace.
 
+How to interpret reports:
 
->
-> v3:
->   Refine the patch for clear separate purpose.
->   Skip to send devicetree patch
->
-> v2:
->   Remove some unnecessary patch.
->   Refine for reviwer request.
->
-> v1:
->   First add patch.
->
-> Joel Stanley (2):
->   ARM: dts: aspeed: Add GFX node to AST2600
->   ARM: dts: aspeed: ast2600-evb: Enable GFX device
->
-> Tommy Haung (1):
->   dt-bindings:ast2600-clock Add CRT reset define
->
-> tommy-huang (4):
->   drm/aspeed: Update INTR_STS handling
->   drm/aspeed: Add AST2600 chip support
->   drm/aspeed: Add reset and clock for AST2600
->   arm:boot:dts:aspeed-g6 Add more gfx reset control
->
->  arch/arm/boot/dts/aspeed-ast2600-evb.dts  | 18 +++++++
->  arch/arm/boot/dts/aspeed-g6.dtsi          | 13 +++++
->  drivers/gpu/drm/aspeed/aspeed_gfx.h       | 17 +++++-
->  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c  | 16 ++++++
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c   | 65 +++++++++++++++++++++--
->  include/dt-bindings/clock/ast2600-clock.h |  1 +
->  6 files changed, 124 insertions(+), 6 deletions(-)
->
-> --
-> 2.17.1
->
+	1. E(event) in each context cannot be triggered because of the
+	   W(wait) that cannot be woken.
+	2. The stack trace helping find the problematic code is located
+	   in each conext's detail.
+
+Thanks,
+Byungchul
+
+---
+
+Changes from v2:
+
+	1. Disable Dept on bit_wait_table[] in sched/wait_bit.c
+	   reporting a lot of false positives, which is my fault.
+	   Wait/event for bit_wait_table[] should've been tagged in a
+	   higher layer for better work, which is a future work.
+	   (feedback from Jan Kara)
+	2. Disable Dept on crypto_larval's completion to prevent a false
+	   positive.
+
+Changes from v1:
+
+	1. Fix coding style and typo. (feedback from Steven)
+	2. Distinguish each work context from another in workqueue.
+	3. Skip checking lock acquisition with nest_lock, which is about
+	   correct lock usage that should be checked by Lockdep.
+
+Changes from RFC:
+
+	1. Prevent adding a wait tag at prepare_to_wait() but __schedule().
+	   (feedback from Linus and Matthew)
+	2. Use try version at lockdep_acquire_cpus_lock() annotation.
+	3. Distinguish each syscall context from another.
+
+Byungchul Park (21):
+  llist: Move llist_{head,node} definition to types.h
+  dept: Implement Dept(Dependency Tracker)
+  dept: Embed Dept data in Lockdep
+  dept: Add a API for skipping dependency check temporarily
+  dept: Apply Dept to spinlock
+  dept: Apply Dept to mutex families
+  dept: Apply Dept to rwlock
+  dept: Apply Dept to wait_for_completion()/complete()
+  dept: Apply Dept to seqlock
+  dept: Apply Dept to rwsem
+  dept: Add proc knobs to show stats and dependency graph
+  dept: Introduce split map concept and new APIs for them
+  dept: Apply Dept to wait/event of PG_{locked,writeback}
+  dept: Apply SDT to swait
+  dept: Apply SDT to wait(waitqueue)
+  locking/lockdep, cpu/hotplus: Use a weaker annotation in AP thread
+  dept: Distinguish each syscall context from another
+  dept: Distinguish each work from another
+  dept: Disable Dept within the wait_bit layer by default
+  dept: Add nocheck version of init_completion()
+  dept: Disable Dept on struct crypto_larval's completion for now
+
+ crypto/api.c                       |    7 +-
+ include/linux/completion.h         |   50 +-
+ include/linux/dept.h               |  535 +++++++
+ include/linux/dept_page.h          |   78 ++
+ include/linux/dept_sdt.h           |   62 +
+ include/linux/hardirq.h            |    3 +
+ include/linux/irqflags.h           |   33 +-
+ include/linux/llist.h              |    8 -
+ include/linux/lockdep.h            |  158 ++-
+ include/linux/lockdep_types.h      |    3 +
+ include/linux/mutex.h              |   33 +
+ include/linux/page-flags.h         |   45 +-
+ include/linux/pagemap.h            |    7 +-
+ include/linux/percpu-rwsem.h       |   10 +-
+ include/linux/rtmutex.h            |    7 +
+ include/linux/rwlock.h             |   52 +
+ include/linux/rwlock_api_smp.h     |    8 +-
+ include/linux/rwlock_types.h       |    7 +
+ include/linux/rwsem.h              |   33 +
+ include/linux/sched.h              |    7 +
+ include/linux/seqlock.h            |   59 +-
+ include/linux/spinlock.h           |   26 +
+ include/linux/spinlock_types_raw.h |   13 +
+ include/linux/swait.h              |    4 +
+ include/linux/types.h              |    8 +
+ include/linux/wait.h               |    6 +-
+ init/init_task.c                   |    2 +
+ init/main.c                        |    4 +
+ kernel/Makefile                    |    1 +
+ kernel/cpu.c                       |    2 +-
+ kernel/dependency/Makefile         |    4 +
+ kernel/dependency/dept.c           | 2712 ++++++++++++++++++++++++++++++++++++
+ kernel/dependency/dept_hash.h      |   10 +
+ kernel/dependency/dept_internal.h  |   26 +
+ kernel/dependency/dept_object.h    |   13 +
+ kernel/dependency/dept_proc.c      |   92 ++
+ kernel/entry/common.c              |    3 +
+ kernel/exit.c                      |    1 +
+ kernel/fork.c                      |    2 +
+ kernel/locking/lockdep.c           |   12 +-
+ kernel/module.c                    |    2 +
+ kernel/sched/completion.c          |   12 +-
+ kernel/sched/core.c                |    3 +
+ kernel/sched/swait.c               |   10 +
+ kernel/sched/wait.c                |   16 +
+ kernel/sched/wait_bit.c            |    5 +-
+ kernel/softirq.c                   |    6 +-
+ kernel/trace/trace_preemptirq.c    |   19 +-
+ kernel/workqueue.c                 |    3 +
+ lib/Kconfig.debug                  |   21 +
+ mm/filemap.c                       |   68 +
+ mm/page_ext.c                      |    5 +
+ 52 files changed, 4257 insertions(+), 59 deletions(-)
+ create mode 100644 include/linux/dept.h
+ create mode 100644 include/linux/dept_page.h
+ create mode 100644 include/linux/dept_sdt.h
+ create mode 100644 kernel/dependency/Makefile
+ create mode 100644 kernel/dependency/dept.c
+ create mode 100644 kernel/dependency/dept_hash.h
+ create mode 100644 kernel/dependency/dept_internal.h
+ create mode 100644 kernel/dependency/dept_object.h
+ create mode 100644 kernel/dependency/dept_proc.c
+
+-- 
+1.9.1
+
