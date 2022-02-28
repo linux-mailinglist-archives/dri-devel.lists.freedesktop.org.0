@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C5A4C6035
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 01:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2FA4C6039
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 01:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49FD10E229;
-	Mon, 28 Feb 2022 00:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A5810E243;
+	Mon, 28 Feb 2022 00:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BACE210E21C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 00:46:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5492310E21C
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 00:46:44 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id F2BE783A78;
- Mon, 28 Feb 2022 01:46:41 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7CC6583BAF;
+ Mon, 28 Feb 2022 01:46:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1646009202;
- bh=lqFSO4QFcc91D5/Q9J1sWwC4sikFfHQ7hvvSYXappVc=;
+ bh=ftN8UVqoY/cnU4wjQaFw84PDvBEMuCcLLcJvuP4CPJY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xdC9yEqBGrrcexqbz5Z1EP5JKNGat7S2H+Y9ba7Oxj02jgrA1ubJwwaC6YA6IcxPD
- 5sxgbbiklmd1edwanc8GjD8K2NFi+PSUsQQijqptCJGneF2JPDWCQa0M9RBg1cA/2V
- JaiCOA2ApM4vbVjVIW6QHddL4ix+CutoZPRqErMd9QRt3DNRZBlVqfcDEMaNC1H9Th
- AaGQ6+to92AuQGvgPylNnBqxZ1mb+4uOVSvfM25jhRw9JRyWNrQ6hCawUI794QNVDr
- QWXL/svy2pnowm9pJZEEBB1NTMPI4SxSNVRQbA7Z36GGO6h8RqpfLKimOEf0ehxKi8
- jpOTIfxTp5Few==
+ b=U9XAbPIjgw+QvUTxXZXH81MfQOq00udZMONWL5qIpGzlXijNrXuuWjhrFW2iVR/62
+ rrN/WwNgrBVHpa/pG4Fpef8nwMwiu0FobPf+RBr8ROMYUYVyEkjU/ORoKWpohIm+Ip
+ XALm4DAYSUS/Y2taA+s/5MIsObyvGrjP3b7K1jauDT7oVOLSl0F9yBbS3aVWpEdU+7
+ CUhvxvZ51Dq1uxtYI3+FBBZTrH4ooebOxyMuKNwjpqkwApMSIPP11wu4XWWYfb1AEU
+ h2y8AeVb9caVHFcdYBd5AJHskRpi8qxtdhhGb9lh6TzjdRk0VsjEjc+WeKy/+oRHZf
+ a8IKCmRxfvnFQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/9] drm: mxsfb: Simplify LCDIF IRQ handling
-Date: Mon, 28 Feb 2022 01:45:59 +0100
-Message-Id: <20220228004605.367040-3-marex@denx.de>
+Subject: [PATCH 4/9] drm: mxsfb: Wrap FIFO reset and comments into
+ mxsfb_reset_block()
+Date: Mon, 28 Feb 2022 01:46:00 +0100
+Message-Id: <20220228004605.367040-4-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220228004605.367040-1-marex@denx.de>
 References: <20220228004605.367040-1-marex@denx.de>
@@ -59,13 +60,8 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The call to drm_crtc_vblank_off(&lcdif->crtc); disables IRQ generation
-from the LCDIF block already and this is called in mxsfb_load() before
-request_irq(), so explicitly disabling IRQ using custom function like
-mxsfb_irq_disable() is not needed, remove it. The request_irq() call
-would return -ENOTCONN if IRQ is IRQ_NOTCONNECTED already, so remove
-the unnecessary check. Finally, remove both mxsfb_irq_install() and
-mxsfb_irq_uninstall() as well, since they are no longer useful.
+Wrap FIFO reset and comments into mxsfb_reset_block(), this is a clean up.
+No functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -76,80 +72,75 @@ Cc: Robby Cai <robby.cai@nxp.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Stefan Agner <stefan@agner.ch>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 38 +++++++------------------------
- 1 file changed, 8 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 36 +++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index bb15e32d8a014..11298df50917c 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -156,33 +156,6 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 657b6afbbf1f9..015b289d93a3c 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -183,6 +183,12 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+ {
+ 	int ret;
+ 
++	/*
++	 * It seems, you can't re-program the controller if it is still
++	 * running. This may lead to shifted pictures (FIFO issue?), so
++	 * first stop the controller and drain its FIFOs.
++	 */
++
+ 	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_SFTRST);
+ 	if (ret)
+ 		return ret;
+@@ -193,7 +199,20 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+ 	if (ret)
+ 		return ret;
+ 
+-	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
++	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
++	if (ret)
++		return ret;
++
++	/* Clear the FIFOs */
++	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
++	readl(mxsfb->base + LCDC_CTRL1);
++	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_CLR);
++	readl(mxsfb->base + LCDC_CTRL1);
++
++	if (mxsfb->devdata->has_overlay)
++		writel(0, mxsfb->base + LCDC_AS_CTRL);
++
++	return 0;
  }
  
--static void mxsfb_irq_disable(struct drm_device *drm)
--{
--	struct mxsfb_drm_private *mxsfb = drm->dev_private;
--
--	/* Disable and clear VBLANK IRQ */
--	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
--	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
--}
--
--static int mxsfb_irq_install(struct drm_device *dev, int irq)
--{
--	if (irq == IRQ_NOTCONNECTED)
--		return -ENOTCONN;
--
--	mxsfb_irq_disable(dev);
--
--	return request_irq(irq, mxsfb_irq_handler, 0,  dev->driver->name, dev);
--}
--
--static void mxsfb_irq_uninstall(struct drm_device *dev)
--{
--	struct mxsfb_drm_private *mxsfb = dev->dev_private;
--
--	mxsfb_irq_disable(dev);
--	free_irq(mxsfb->irq, dev);
--}
--
- static int mxsfb_load(struct drm_device *drm,
- 		      const struct mxsfb_devdata *devdata)
- {
-@@ -261,7 +234,8 @@ static int mxsfb_load(struct drm_device *drm,
- 		return ret;
- 	mxsfb->irq = ret;
+ static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+@@ -220,26 +239,11 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+ 	u32 vdctrl0, vsync_pulse_len, hsync_pulse_len;
+ 	int err;
  
--	ret = mxsfb_irq_install(drm, mxsfb->irq);
-+	ret = request_irq(mxsfb->irq, mxsfb_irq_handler, 0,
-+			  drm->driver->name, drm);
- 	if (ret < 0) {
- 		dev_err(drm->dev, "Failed to install IRQ handler\n");
- 		return ret;
-@@ -278,16 +252,20 @@ static int mxsfb_load(struct drm_device *drm,
- 
- static void mxsfb_unload(struct drm_device *drm)
- {
-+	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-+
- 	pm_runtime_get_sync(drm->dev);
- 
-+	drm_crtc_vblank_off(&mxsfb->crtc);
-+
- 	drm_kms_helper_poll_fini(drm);
- 	drm_mode_config_cleanup(drm);
- 
--	mxsfb_irq_uninstall(drm);
+-	/*
+-	 * It seems, you can't re-program the controller if it is still
+-	 * running. This may lead to shifted pictures (FIFO issue?), so
+-	 * first stop the controller and drain its FIFOs.
+-	 */
 -
- 	pm_runtime_put_sync(drm->dev);
- 	pm_runtime_disable(drm->dev);
+ 	/* Mandatory eLCDIF reset as per the Reference Manual */
+ 	err = mxsfb_reset_block(mxsfb);
+ 	if (err)
+ 		return;
  
-+	free_irq(mxsfb->irq, drm->dev);
-+
- 	drm->dev_private = NULL;
- }
+-	/* Clear the FIFOs */
+-	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
+-	readl(mxsfb->base + LCDC_CTRL1);
+-	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+-	readl(mxsfb->base + LCDC_CTRL1);
+-
+-	if (mxsfb->devdata->has_overlay)
+-		writel(0, mxsfb->base + LCDC_AS_CTRL);
+-
+ 	mxsfb_set_formats(mxsfb, bus_format);
  
+ 	if (mxsfb->bridge && mxsfb->bridge->timings)
 -- 
 2.34.1
 
