@@ -1,55 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542C84C6F31
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 15:19:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4E44C6F43
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 15:24:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5ADD10E3E2;
-	Mon, 28 Feb 2022 14:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACEA10E60F;
+	Mon, 28 Feb 2022 14:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65DB710E3E2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 14:19:26 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nOgs0-0003QR-H8; Mon, 28 Feb 2022 15:19:24 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nOgrx-0007op-S7; Mon, 28 Feb 2022 15:19:21 +0100
-Date: Mon, 28 Feb 2022 15:19:21 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
-Message-ID: <20220228141921.GN19585@pengutronix.de>
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-11-s.hauer@pengutronix.de>
- <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
- <20220225104924.GC19585@pengutronix.de>
- <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
- <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
- <20220225131154.GE19585@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2139.outbound.protection.outlook.com [40.107.255.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5B110E60F;
+ Mon, 28 Feb 2022 14:24:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n+gOllht2qKrm1XLLOHu8gxqlL/gOqBFKVgjmTruYJ9VGwn3FnY/Gy4hONYQSuOj9Z7J50CvkH7GRO3qAL980mVxbyKCRBe/Eum+38VG+aN3tX0uWs61l6CzUOkcFxl0yqrXNC+ZWqlBd7p0rEEBtRfGGe9O8TJXW5srWY8mxb63AP4brwLj0K0xgaMnVlxPXE8r/i0LJMyaKhvKDxPjU8igPCaS2zXNPg/kUtEprLWe/WNZP1SwYmvhd83ahNoWX9SCYiE/FWx+30HDqn2CCiSS/G4kojhjSGlpCiMQyD2VVszOrXtc+BDSzeqn3sY4+uNGUX50G+mBT6GvWpbBVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IEZ0auUTedp77GAT72BUUWABD00QiV1dQHhxE47xXDI=;
+ b=QWag8EBybgAP4LZGVZKsbvkdoK7VUUGCW26kNuTZoQY/pJo68ukUMt8wdTk/Z+rIYgvP8OrZ9XMJObQdZrnhao0t+/O8CrQWC1kXtZ6DidZFRRI2ZEq84QJhPl/xWrejX08MTyGCZfTn4gwO7kSoD/VlfmAvHoMVDU8DWCGiEAVEtXhcwdQLlgAbXkYiNzf7ghV5VqCs1KHaNkR5UId59QMcMSfD9w24ztwoe8Raww0PsgSqgGNH/Mwar1BtFhWgEpDPkew+1z+cM7iU5Djzh+I22I0OLYiTsgPY9XUSDMyix3pdn1snEQLQb9gPiJiEEmntIH60dYuY6vrxs2ICjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IEZ0auUTedp77GAT72BUUWABD00QiV1dQHhxE47xXDI=;
+ b=bM3hbOu/6TIMfc7LPB9GRZ7ltEDEl5BSDrheKq7dO9ciynaLa4Y7FKVNHK0VtGcw/LSGH/fAVu6dIK7oiXk0OxuQLikvWYJJ0vrB47iNgpz1KTeNFle+VNMHqmQj2Hc0w8VelDg2sIxxXHzE0O5D1PJdCb18SLigXe0lQk5ynew=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
+ by KL1PR0601MB3832.apcprd06.prod.outlook.com (2603:1096:820:1a::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Mon, 28 Feb
+ 2022 14:24:06 +0000
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::d924:a610:681d:6d59]) by HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::d924:a610:681d:6d59%5]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
+ 14:24:06 +0000
+From: Guo Zhengkui <guozhengkui@vivo.com>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Guo Zhengkui <guozhengkui@vivo.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS), 
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
+ GPUS), linux-stm32@st-md-mailman.stormreply.com (moderated list:ARM/STM32
+ ARCHITECTURE), 
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM/STM32 ARCHITECTURE), 
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/nouveau/instmem: fix uninitialized_var.cocci warning
+Date: Mon, 28 Feb 2022 22:23:50 +0800
+Message-Id: <20220228142352.18006-1-guozhengkui@vivo.com>
+X-Mailer: git-send-email 2.20.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220225131154.GE19585@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:52:07 up 79 days, 22:37, 90 users,  load average: 0.15, 0.14, 0.10
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0022.apcprd03.prod.outlook.com
+ (2603:1096:202::32) To HK2PR06MB3492.apcprd06.prod.outlook.com
+ (2603:1096:202:2f::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6b0653f5-1705-4752-baf1-08d9fac5f9e8
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB3832:EE_
+X-Microsoft-Antispam-PRVS: <KL1PR0601MB3832B2B3EB38C45783DD5D01C7019@KL1PR0601MB3832.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /WMNfhz42ODCRUXP36Zq5/Ae2cy/nBYe9yk9TRIxWGfnVQFW0hdz0pYI8vatlU26Ng8/VONK217P1YgCmKDFB2fZAGEoGVCaFqA7b5sK0RpVFG0PqsLNeeIzuCHr97e2q1QrtwT+o2Qw+sqm5L423W9TIPztjAnXaodu3iIEp0aIRjK/hprD3dFu9Zl3SVFGI4baD3+U4fERyAjnUtKyXN/crVAYD+8D4bS/V/z3lbepbjerAekKiNbwNvAaw/C/mez0lSwEL1zw6tBLcKxIGfU/JhNHLsH2lmYc5cWDdTPmlPrxTZ61OyaMHj0pVGO6qFQRHPmGSHY2zzIZicp4pfuY/tZokaM5+oYZ2uZvAfQmZC9EVL7LI98GBGvKiK6Afcd5SDxd3Z7+gYmH7q0N1+gKmTtpMTk9eI8HerNk0ISuAO2qel0I9BsWlXtXn1peyufqJ8zQZDIBIHZG+hUyk02DlWwTI3gBQuTHIN2MIw79BnQzy2sorhkKmBtv9E8rlqltoRk/YaLCtt3ztrXWwRjSBEqrTABAGs+JAlNC95KtSH74K9uKx1DwN7eeeOS89u649j+yN9pGcKVYGqY8eROdb8tizj9A362YXtdhUjou/s/35XD7ZDNmiIMjwZ2VVF9L7f+cJTMT4M12lE2/oTsv7eP2ba2vwNxgLMPGf807+W3AgBFshxlzUfiVyhfXTab/CJbT2nExBRnm43EmE3YN0w4w+v/jAvfjnpG6+5pios6aTSaiCGaFlVfwzwUeJWF/VTf2sWppfhTGB1o33h4O5BYn+gD6IddtkLXXzvDcXJSkwkroQzlSkGna0vEJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2906002)(52116002)(38100700002)(38350700002)(2616005)(921005)(316002)(36756003)(1076003)(6512007)(6486002)(8936002)(110136005)(508600001)(5660300002)(66476007)(66946007)(66556008)(966005)(86362001)(6506007)(6666004)(83380400001)(8676002)(7416002)(186003)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ncgtufGDOvLrHE1JmH7YZ+jqLTWEq1lj8fSfU7p2G1plP6/cDugk6JFHvL6a?=
+ =?us-ascii?Q?CMxWQzTXLGgGPkuw7w91P0KytyMAPNP2jbsgIHYu8QWwrS7luTQ/0V7ahXeX?=
+ =?us-ascii?Q?F6oMEqA+tBpwbELJKHg44DcYmvyuX7PyLtaAdhOpmWETJ8PQyRX5mlvUWccG?=
+ =?us-ascii?Q?dmgxq5y351vXM4YbUyehG5YBsVExJwi53hTF2l7g+OfpnH+JapDDNCiOm3YP?=
+ =?us-ascii?Q?Yktzf+cpZAM4iSMxRubJh3VqtL1ORGViKPfDvB4b7aMCys8dLFbMrib2FFv4?=
+ =?us-ascii?Q?6aF08tovC0Pj+17l3WTnGnJTC17HeNf5O6a/FptjhRbMZXpkj+g3r2gmnsQV?=
+ =?us-ascii?Q?WHtDBNRfR8dG+zkyYYjW22ym1h1hGnrdzhw+cjdHDm2SV6H/3DTPth35IRUt?=
+ =?us-ascii?Q?x50wn5kLy0pL0EijPK30CUNzk1+1vAD5Od8m37ReD2TPP6Se4Aa8TJ+rpW38?=
+ =?us-ascii?Q?AOd7OmpszszqzmUJxqlXIskb5XH+G6JOm0U/fCrWCrvBi6rhBQHBUN8C4Isp?=
+ =?us-ascii?Q?EJvEMduH4JI+UIJGhKoWmEUDsju7N4q27uNj1FT/TRlLD7sWcsHEFFAO/xsj?=
+ =?us-ascii?Q?7dbVw5QDK04X6Sx2hF9PzdPZRvlm6dvjKSF1wnJh4HYY7sGJl9EIcD+/UXeI?=
+ =?us-ascii?Q?EZLzYAivwnlY9nGtlUXBFxbmCo14aY/+Rj6YKYrWJLXFDctmpvDPKWM1F7Xu?=
+ =?us-ascii?Q?9AGnsNYFTFR81QV12VJxsn+UB2OMUIERuo2kjfkpsQAP/O0nQ/htb01aIScO?=
+ =?us-ascii?Q?K8KZHrznrftp383PKHbpw6ceTMgpHmQPH6Fas22+Y9s0nSue/nDiHKZVFI+H?=
+ =?us-ascii?Q?CFXUAicD/PsSWF6d6IXtzHCH+OEorioFJpSekhKYaoqmPb5GhzIraUEP2cpR?=
+ =?us-ascii?Q?YoQdOMO0yAZZmRvnHNTIIhaMnp4ujQEX4v9sNASHyTT8dfzxjQt+NaWGJwJ/?=
+ =?us-ascii?Q?8pGbAOlMGcHp8AycDJi37+fz2bHgd7NuRI31ckhhU8apxo4oQQM/AjrwSwvP?=
+ =?us-ascii?Q?FH7gv/8NXexugPfS/g/iEZCclmGMknDImRN17d7QMYnNq+sIi5tINOxS4UeO?=
+ =?us-ascii?Q?IE+aqgk1WgzQ6FyG9BhnBLFGhMV3yoFQ7vsMcOmBqES4TgCkZE5JFah+IS7S?=
+ =?us-ascii?Q?S+MT5EAP3t9NBL8oN+J3AR0Dv/nIw1Gp8Jr1VOEboA60D1viRTR0aOye/eZH?=
+ =?us-ascii?Q?/DdDmnI8QXs3E2i4ZkRccCNfbql82kB8qhLOXjYWV0RMAC+4FGC35BicQ5tn?=
+ =?us-ascii?Q?Trx+vmX8PkNC5QEKzD4VcncaqRVMLtcVDevC7kW6k8U5ryhYGlUyMM/psx7r?=
+ =?us-ascii?Q?pnO4qNvEw3naW3QujugCx70vGUEBlrMuUHZ3mJM1iQrCtLS3lmOZjABV39PZ?=
+ =?us-ascii?Q?G6HxjyX+qxdm+wi0Eu5o/tFjlVzBVFu6BG1mJpvE6RFkzrJWEEt26lZtIiNa?=
+ =?us-ascii?Q?vQKvrt6lRR5usmkbF0TcVVK93wzx0PtQd1NQN4ZSFDr8RXGrJ3A9PDVlAHE4?=
+ =?us-ascii?Q?faUb9Kp237VdDH+f/IgLD8imYieeIrP7qkdUlW4pnCSPeYcktL0KSweLplCQ?=
+ =?us-ascii?Q?rRM96WMQW5iU2KyD6tf7EkLCzmfK37z4XG+WcLm13S2AgfRDCIdH6NVmYECh?=
+ =?us-ascii?Q?141Shxtpaxm2+uNx7JRYm3k=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b0653f5-1705-4752-baf1-08d9fac5f9e8
+X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 14:24:05.9478 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ty1WW32Fa5MR/ljIUXuYPZo7mIJjTKKkLrYb1txj1rPf8eNUB5rEzXK0EUTG7jyuGg0dI80A3+vzz3+Iid9pEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB3832
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,105 +126,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- Dmitry Osipenko <digetx@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 25, 2022 at 02:11:54PM +0100, Sascha Hauer wrote:
-> On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
-> > On 2022-02-25 11:10, Dmitry Osipenko wrote:
-> > > 25.02.2022 13:49, Sascha Hauer пишет:
-> > > > On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
-> > > > > 25.02.2022 10:51, Sascha Hauer пишет:
-> > > > > > The rk3568 HDMI has an additional clock that needs to be enabled for the
-> > > > > > HDMI controller to work. The purpose of that clock is not clear. It is
-> > > > > > named "hclk" in the downstream driver, so use the same name.
-> > > > > > 
-> > > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > > > > > ---
-> > > > > > 
-> > > > > > Notes:
-> > > > > >      Changes since v5:
-> > > > > >      - Use devm_clk_get_optional rather than devm_clk_get
-> > > > > > 
-> > > > > >   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
-> > > > > >   1 file changed, 16 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > > index fe4f9556239ac..c6c00e8779ab5 100644
-> > > > > > --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > > +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> > > > > > @@ -76,6 +76,7 @@ struct rockchip_hdmi {
-> > > > > >   	const struct rockchip_hdmi_chip_data *chip_data;
-> > > > > >   	struct clk *ref_clk;
-> > > > > >   	struct clk *grf_clk;
-> > > > > > +	struct clk *hclk_clk;
-> > > > > >   	struct dw_hdmi *hdmi;
-> > > > > >   	struct regulator *avdd_0v9;
-> > > > > >   	struct regulator *avdd_1v8;
-> > > > > > @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
-> > > > > >   		return PTR_ERR(hdmi->grf_clk);
-> > > > > >   	}
-> > > > > > +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
-> > > > > > +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
-> > > > > 
-> > > > > Have you tried to investigate the hclk? I'm still thinking that's not
-> > > > > only HDMI that needs this clock and then the hardware description
-> > > > > doesn't look correct.
-> > > > 
-> > > > I am still not sure what you mean. Yes, it's not only the HDMI that
-> > > > needs this clock. The VOP2 needs it as well and the driver handles that.
-> > > 
-> > > I'm curious whether DSI/DP also need that clock to be enabled. If they
-> > > do, then you aren't modeling h/w properly AFAICS.
-> > 
-> > Assuming nobody at Rockchip decided to make things needlessly inconsistent
-> > with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
-> > interface. Usually, if that affected anything other than accessing VOP
-> > registers, indeed it would smell of something being wrong in the clock tree,
-> > but in this case I'd also be suspicious of whether it might have ended up
-> > clocking related GRF registers as well (either directly, or indirectly via
-> > some gate that the clock driver hasn't modelled yet).
-> 
-> Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
-> hanging when HCLK_VOP is disabled by disabling that clock via sysfs
-> using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
-> of that units can't be accessed. However, when I disable HCLK_VOP by
-> directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
-> accessing VOP registers hangs, the other units stay functional.
-> So it seems it must be the parent clock which must be enabled. The
-> parent clock is hclk_vo. This clock should be handled as part of the
-> RK3568_PD_VO power domain:
-> 
-> 	power-domain@RK3568_PD_VO {
->                 reg = <RK3568_PD_VO>;
->                 clocks = <&cru HCLK_VO>,
->                          <&cru PCLK_VO>,
->                          <&cru ACLK_VOP_PRE>;
->                  pm_qos = <&qos_hdcp>,
->                           <&qos_vop_m0>,
->                           <&qos_vop_m1>;
->                  #power-domain-cells = <0>;
->         };
+Fix following coccicheck warning:
+drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:316:11-12:
+WARNING this kind of initialization is deprecated.
 
-Forget this. The clocks in this node are only enabled during enabling or
-disabling the power domain, they are disabled again immediately afterwards.
+`void *map = map` has the same form of
+uninitialized_var() macro. I remove the redundant assignement. It has
+been tested with gcc (Debian 8.3.0-6) 8.3.0.
 
-OK, I need HCLK_VO to access the HDMI registers. I verified that by
-disabling HCLK_VO at register level (CRU_GATE_CON(20) BIT(1)). The
-HDMI registers become inaccessible then. This means I'll replace
-HCLK_VOP in the HDMI node with HCLK_VO. Does this sound sane?
+The patch which removed uninitialized_var() is:
+https://lore.kernel.org/all/20121028102007.GA7547@gmail.com/
+And there is very few "/* GCC */" comments in the Linux kernel code now.
 
-Sascha
+Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+index 96aca0edfa3c..c51bac76174c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+@@ -313,7 +313,7 @@ nv50_instobj_dtor(struct nvkm_memory *memory)
+ 	struct nv50_instobj *iobj = nv50_instobj(memory);
+ 	struct nvkm_instmem *imem = &iobj->imem->base;
+ 	struct nvkm_vma *bar;
+-	void *map = map;
++	void *map;
+ 
+ 	mutex_lock(&imem->mutex);
+ 	if (likely(iobj->lru.next))
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.20.1
+
