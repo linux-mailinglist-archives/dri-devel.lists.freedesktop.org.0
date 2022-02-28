@@ -1,50 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1384C7BF4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:28:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8574C7BFF
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE33510E902;
-	Mon, 28 Feb 2022 21:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0940E10E917;
+	Mon, 28 Feb 2022 21:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5308910E902;
- Mon, 28 Feb 2022 21:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646083715; x=1677619715;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KG9oNSDftVFgYRUphVzHlzi1Cltpy49gXuysJoNOM1M=;
- b=BoXj/hHKutb6qCylua033ijpF6/QnJs8L0RfFQ8haJekrUPPXRfgV2P1
- OO43ZVoJBykCS9UM7OE53WfTKEIYX/+LGNXKKpPeSloda95iivn00Qn+x
- P4EtiWMwBQdymvCd+F0BO2FkyNQ/nXNG0OuT+BiNOQ/EQdpC5LV7UApvX
- +pMT8nPvEwcxVgzPC+SNkuZnEaeu1TG4V/AN+odg9cxnd98rjwGGka6Cv
- k+m1NIw3dTvW2GCnwwAF0l/KkpvfoJtiy2Vlhz8E/ay8YQeooJFJoqokx
- a1R54uK/nJa+YopSSlOQ2Yu9alTxS18fq3YY2ZCRCqVQ0wQXsll+7lSwP Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="236499105"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="236499105"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 13:28:34 -0800
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="550420236"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 13:28:33 -0800
-Date: Tue, 1 Mar 2022 02:58:54 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/i915/gt: Clear compress metadata for Xe_HP platforms
-Message-ID: <20220228212854.GA17318@intel.com>
-References: <20220228212139.17180-1-ramalingam.c@intel.com>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6315010E917
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 21:29:18 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id w7so14882673qvr.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 13:29:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=D7XF/ydXKQe5CNfMxR56kkfmjRc3n07JxRNzL8ONVks=;
+ b=fauPbIptyTaVga2WDVneLHyQup6EjXBbjMvK+uf4GWa4cR/CgaNYMGlKJTC3Aqz/Tx
+ m3mp+p8Mztr5ToniJnQm97RXB3QJlwVnK1kcBzL6qBng4RvMwoMyXLjm6lIScPdadq2j
+ xdwO+Svi9Od6h9xeFMmiY36sYDZtKWIGlcibkUE9mCu92Mk/YUvHdGkjfCKV6EQ9LEtz
+ 8gbZm3ip0KyNmj1GCgaGOpkEtYzgKuUAEvjMlfbQrmOfTPuqMw+mSMOKFmlmvvEpgIqX
+ pDLqxxutFZPNNY+rzu9mkVv9pKDGiZ+e907U4pYi3eOtjshxf0sYgES/iSokbzF8k7g2
+ G9IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=D7XF/ydXKQe5CNfMxR56kkfmjRc3n07JxRNzL8ONVks=;
+ b=66/BKG3zBsd47zAma3Z0lnAHdj0Nyt7XtAcJ5ZxwlHEAOHm4fOjva16efdIkWwMgcx
+ /TBltRrexqLPk1VxZ7cnQnJ3VkTN9VITyxWE863UVSdx1TkS2FUDtjMcbg1dUfwsJJqr
+ g1z4/Ga4gjHpO6oa54rHOg8NfPFcKW8R9hbCUemj5oM4FPD1jikXRhHxW1sP+4c1Sn09
+ IXrhTk7Idii0uOa0f8pla+0GUHN/UL06LzqzKmdTLMZB4qHn+gpOne+bSNAlqVcbIgzt
+ X40DC8KSDFVtprf3D34tEUClgzmN6Nw1ESWEuBWEdps53XqSsS7FfVQxB9DeTGvBxdI2
+ KtEA==
+X-Gm-Message-State: AOAM5316R0W4Z9LnnjCWFrroX6+veEASKXkJOqLgJROx0zDm7Ol95SHv
+ StjmBZdC0+jcuqaWZuvVVz/pUw==
+X-Google-Smtp-Source: ABdhPJyWcexc084R4qQtKlB3l+HRBkObWo1df/YXmN1sBZh8GGvH9no/pxtZlogSJF0ZdzxHxikZXQ==
+X-Received: by 2002:a0c:9c01:0:b0:432:7630:263 with SMTP id
+ v1-20020a0c9c01000000b0043276300263mr15169467qve.47.1646083757352; 
+ Mon, 28 Feb 2022 13:29:17 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net.
+ [173.246.12.168]) by smtp.gmail.com with ESMTPSA id
+ p10-20020ae9f30a000000b00648e783ffbasm5604435qkg.135.2022.02.28.13.29.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Feb 2022 13:29:16 -0800 (PST)
+Message-ID: <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
+Subject: Re: [PATCH v7, 04/15] media: mtk-vcodec: Read max resolution from
+ dec_capability
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
+ Shih <tzungbi@chromium.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Date: Mon, 28 Feb 2022 16:29:15 -0500
+In-Reply-To: <20220223034008.15781-5-yunfei.dong@mediatek.com>
+References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
+ <20220223034008.15781-5-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220228212139.17180-1-ramalingam.c@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,272 +80,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Matt,
+Hi Yunfei,
 
-This is the continuation of review happened at
-https://patchwork.freedesktop.org/patch/475177/?series=100419&rev=1
+this patch does not work unless userland calls enum_framesizes, which is
+completely optional. See comment and suggestion below.
 
-On 2022-03-01 at 02:51:39 +0530, Ramalingam C wrote:
-> From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
+> Supported max resolution for different platforms are not the same: 2K
+> or 4K, getting it according to dec_capability.
 > 
-> Xe-HP and latest devices support Flat CCS which reserved a portion of
-> the device memory to store compression metadata, during the clearing of
-> device memory buffer object we also need to clear the associated
-> CCS buffer.
-> 
-> Flat CCS memory can not be directly accessed by S/W.
-> Address of CCS buffer associated main BO is automatically calculated
-> by device itself. KMD/UMD can only access this buffer indirectly using
-> XY_CTRL_SURF_COPY_BLT cmd via the address of device memory buffer.
-> 
-> v2: Fixed issues with platform naming [Lucas]
-> v3: Rebased [Ram]
->     Used the round_up funcs [Bob]
-> v4: Fixed ccs blk calculation [Ram]
->     Added Kdoc on flat-ccs.
-> v5: GENMASK is used [Matt]
->     mocs fix [Matt]
->     Comments Fix [Matt]
->     Flush address programming [Ram]
-> 
-> Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  15 ++
->  drivers/gpu/drm/i915/gt/intel_migrate.c      | 146 ++++++++++++++++++-
->  2 files changed, 157 insertions(+), 4 deletions(-)
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 29 +++++++++++--------
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  4 +++
+>  2 files changed, 21 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> index f8253012d166..237c1baccc64 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> @@ -203,6 +203,21 @@
->  #define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
->  #define GFX_OP_DRAWRECT_INFO_I965  ((0x7900<<16)|0x2)
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> index 130ecef2e766..304f5afbd419 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> @@ -152,13 +152,15 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
+>  	q_data->coded_height = DFT_CFG_HEIGHT;
+>  	q_data->fmt = ctx->dev->vdec_pdata->default_cap_fmt;
+>  	q_data->field = V4L2_FIELD_NONE;
+> +	ctx->max_width = MTK_VDEC_MAX_W;
+> +	ctx->max_height = MTK_VDEC_MAX_H;
 >  
-> +#define XY_CTRL_SURF_INSTR_SIZE	5
-> +#define MI_FLUSH_DW_SIZE		3
-> +#define XY_CTRL_SURF_COPY_BLT		((2 << 29) | (0x48 << 22) | 3)
-> +#define   SRC_ACCESS_TYPE_SHIFT		21
-> +#define   DST_ACCESS_TYPE_SHIFT		20
-> +#define   CCS_SIZE_MASK			GENMASK(17, 8)
-> +#define   XY_CTRL_SURF_MOCS_MASK	GENMASK(31, 25)
-> +#define   NUM_CCS_BYTES_PER_BLOCK	256
-> +#define   NUM_BYTES_PER_CCS_BYTE	256
-> +#define   NUM_CCS_BLKS_PER_XFER		1024
-> +#define   INDIRECT_ACCESS		0
-> +#define   DIRECT_ACCESS			1
-> +#define  MI_FLUSH_LLC			BIT(9)
-> +#define  MI_FLUSH_CCS			BIT(16)
-> +
->  #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
->  #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
->  #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 20444d6ceb3c..26ee6ae0e1bb 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -16,6 +16,8 @@ struct insert_pte_data {
->  };
+>  	v4l_bound_align_image(&q_data->coded_width,
+>  				MTK_VDEC_MIN_W,
+> -				MTK_VDEC_MAX_W, 4,
+> +				ctx->max_width, 4,
+>  				&q_data->coded_height,
+>  				MTK_VDEC_MIN_H,
+> -				MTK_VDEC_MAX_H, 5, 6);
+> +				ctx->max_height, 5, 6);
 >  
->  #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
-> +#define GET_CCS_BYTES(i915, size)	(HAS_FLAT_CCS(i915) ? \
-> +					 DIV_ROUND_UP(size, NUM_BYTES_PER_CCS_BYTE) : 0)
->  
->  static bool engine_supports_migration(struct intel_engine_cs *engine)
->  {
-> @@ -467,6 +469,113 @@ static bool wa_1209644611_applies(int ver, u32 size)
->  	return height % 4 == 3 && height <= 8;
+>  	q_data->sizeimage[0] = q_data->coded_width * q_data->coded_height;
+>  	q_data->bytesperline[0] = q_data->coded_width;
+> @@ -217,7 +219,7 @@ static int vidioc_vdec_subscribe_evt(struct v4l2_fh *fh,
+>  	}
 >  }
 >  
-> +/**
-> + * DOC: Flat-CCS - Memory compression for Local memory
-> + *
-> + * On Xe-HP and later devices, we use dedicated compression control state (CCS)
-> + * stored in local memory for each surface, to support the 3D and media
-> + * compression formats.
-> + *
-> + * The memory required for the CCS of the entire local memory is 1/256 of the
-> + * local memory size. So before the kernel boot, the required memory is reserved
-> + * for the CCS data and a secure register will be programmed with the CCS base
-> + * address.
-> + *
-> + * Flat CCS data needs to be cleared when a lmem object is allocated.
-> + * And CCS data can be copied in and out of CCS region through
-> + * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
-> + *
-> + * When we exhaust the lmem, if the object's placements support smem, then we can
-> + * directly decompress the compressed lmem object into smem and start using it
-> + * from smem itself.
-> + *
-> + * But when we need to swapout the compressed lmem object into a smem region
-> + * though objects' placement doesn't support smem, then we copy the lmem content
-> + * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
-> + * When the object is referred, lmem content will be swaped in along with
-> + * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
-> + * location.
-> + */
-> +
-> +static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
-> +{
-> +	/* Address needs to be QWORD aligned */
-> +	GEM_BUG_ON(!IS_ALIGNED(dst, 8));
-> +
-> +	*cmd++ = MI_FLUSH_DW | flags;
-> +	*cmd++ = lower_32_bits(dst);
-> +	*cmd++ = upper_32_bits(dst);
-> +
-> +	return cmd;
-> +}
-> +
-> +static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
-> +{
-> +	u32 num_cmds, num_blks, total_size;
-> +
-> +	if (!GET_CCS_BYTES(i915, size))
-> +		return 0;
-> +
-> +	/*
-> +	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
-> +	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
-> +	 * transfer upto 1024 blocks.
-> +	 */
-> +	num_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-> +				NUM_CCS_BYTES_PER_BLOCK);
-> +	num_cmds = DIV_ROUND_UP(num_blks, NUM_CCS_BLKS_PER_XFER);
-> +	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
-> +
-> +	/*
-> +	 * Adding a flush before and after XY_CTRL_SURF_COPY_BLT
-> +	 */
-i couldn't find any Bspec reference for this. But make the data to be
-flushed we are adding before and after.
-> +	total_size += 2 * MI_FLUSH_DW_SIZE;
-> +
-> +	return total_size;
-> +}
-> +
-> +static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
-> +				     u8 src_mem_access, u8 dst_mem_access,
-> +				     int src_mocs, int dst_mocs,
-> +				     u16 ccs_blocks)
-> +{
-> +	int blks_left = ccs_blocks, blks_per_copy;
-> +
-> +	/*
-> +	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
-> +	 * data in and out of the CCS region.
-> +	 *
-> +	 * We can copy at most 1024 blocks of 256 bytes using one
-> +	 * XY_CTRL_SURF_COPY_BLT instruction.
-> +	 *
-> +	 * In case we need to copy more than 1024 blocks, we need to add
-> +	 * another instruction to the same batch buffer.
-> +	 *
-> +	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
-> +	 *
-> +	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
-> +	 */
-> +	do {
-> +		blks_per_copy = blks_left >= NUM_CCS_BLKS_PER_XFER ?
-> +				NUM_CCS_BLKS_PER_XFER : blks_left;
-> +		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
-> +			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
-> +			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
-> +			  FIELD_PREP(CCS_SIZE_MASK, blks_per_copy - 1));
-> +		*cmd++ = lower_32_bits(src_addr);
-> +		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
-> +			  FIELD_PREP(XY_CTRL_SURF_MOCS_MASK, src_mocs));
-> +		*cmd++ = lower_32_bits(dst_addr);
-> +		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
-> +			  FIELD_PREP(XY_CTRL_SURF_MOCS_MASK, dst_mocs));
-> +		src_addr += SZ_64M;
-> +		dst_addr += SZ_64M;
-> +		blks_left -= blks_per_copy;
-> +	} while (blks_left > 0);
-> +
-> +	return cmd;
-> +}
-> +
->  static int emit_copy(struct i915_request *rq,
->  		     u32 dst_offset, u32 src_offset, int size)
+> -static int vidioc_try_fmt(struct v4l2_format *f,
+> +static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
+>  			  const struct mtk_video_fmt *fmt)
 >  {
-> @@ -614,16 +723,24 @@ intel_context_migrate_copy(struct intel_context *ce,
->  	return err;
->  }
+>  	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
+> @@ -225,9 +227,9 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+>  	pix_fmt_mp->field = V4L2_FIELD_NONE;
 >  
-> -static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
-> +static int emit_clear(struct i915_request *rq, u64 offset, int size,
-> +		      u32 value, bool is_lmem)
->  {
-> -	const int ver = GRAPHICS_VER(rq->engine->i915);
-> +	struct drm_i915_private *i915 = rq->engine->i915;
-> +	const int ver = GRAPHICS_VER(i915);
-> +	u32 num_ccs_blks, ccs_ring_size;
-> +	int mocs = rq->engine->gt->mocs.uc_index << 1;
-You mentioned it might be better to be rename uc_index. But this
-variable is used named after the dg1's usage for uc mocs setting..
-But for dg2 and xehpsdv this is used for pointing to uc_coherent_gomem.
-
-So i leaving the variable name as it is for this patch.
-
-Ram
->  	u32 *cs;
+>  	pix_fmt_mp->width =
+> -		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, MTK_VDEC_MAX_W);
+> +		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, ctx->max_width);
+>  	pix_fmt_mp->height =
+> -		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, MTK_VDEC_MAX_H);
+> +		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, ctx->max_height);
 >  
->  	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+>  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+>  		pix_fmt_mp->num_planes = 1;
+> @@ -245,16 +247,16 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+>  		tmp_h = pix_fmt_mp->height;
+>  		v4l_bound_align_image(&pix_fmt_mp->width,
+>  					MTK_VDEC_MIN_W,
+> -					MTK_VDEC_MAX_W, 6,
+> +					ctx->max_width, 6,
+>  					&pix_fmt_mp->height,
+>  					MTK_VDEC_MIN_H,
+> -					MTK_VDEC_MAX_H, 6, 9);
+> +					ctx->max_height, 6, 9);
 >  
->  	offset += (u64)rq->engine->instance << 32;
+>  		if (pix_fmt_mp->width < tmp_w &&
+> -			(pix_fmt_mp->width + 64) <= MTK_VDEC_MAX_W)
+> +			(pix_fmt_mp->width + 64) <= ctx->max_width)
+>  			pix_fmt_mp->width += 64;
+>  		if (pix_fmt_mp->height < tmp_h &&
+> -			(pix_fmt_mp->height + 64) <= MTK_VDEC_MAX_H)
+> +			(pix_fmt_mp->height + 64) <= ctx->max_height)
+>  			pix_fmt_mp->height += 64;
 >  
-> -	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
-> +	/* Clear CCS only when value is 0 */
-> +	ccs_ring_size = (is_lmem && !value) ?
-> +			 calc_ctrl_surf_instr_size(i915, size) : 0;
-> +
-> +	cs = intel_ring_begin(rq, round_up(ver >= 8 ? 8 + ccs_ring_size : 6, 2));
->  	if (IS_ERR(cs))
->  		return PTR_ERR(cs);
->  
-> @@ -646,6 +763,27 @@ static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
->  		*cs++ = value;
+>  		mtk_v4l2_debug(0,
+> @@ -294,7 +296,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
+>  		fmt = mtk_vdec_find_format(f, dec_pdata);
 >  	}
 >  
-> +	if (is_lmem && HAS_FLAT_CCS(i915) && !value) {
-> +		num_ccs_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-> +					    NUM_CCS_BYTES_PER_BLOCK);
-> +
-> +		/*
-> +		 * Flat CCS surface can only be accessed via
-> +		 * XY_CTRL_SURF_COPY_BLT CMD and using indirect
-> +		 * mapping of associated LMEM.
-> +		 * We can clear ccs surface by writing all 0s,
-> +		 * so we will flush the previously cleared buffer
-> +		 * and use it as a source.
-> +		 */
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +		cs = _i915_ctrl_surf_copy_blt(cs, offset, offset,
-> +					      DIRECT_ACCESS, INDIRECT_ACCESS,
-> +					      mocs, mocs, num_ccs_blks);
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +
-> +		if (ccs_ring_size & 1)
-> +			*cs++ = MI_NOOP;
-> +	}
->  	intel_ring_advance(rq, cs);
->  	return 0;
+> -	return vidioc_try_fmt(f, fmt);
+> +	return vidioc_try_fmt(ctx, f, fmt);
 >  }
-> @@ -711,7 +849,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
 >  
-> -		err = emit_clear(rq, offset, len, value);
-> +		err = emit_clear(rq, offset, len, value, is_lmem);
+>  static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
+> @@ -317,7 +319,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
+>  		return -EINVAL;
+>  	}
 >  
->  		/* Arbitration is re-enabled between requests. */
->  out_rq:
-> -- 
-> 2.20.1
-> 
+> -	return vidioc_try_fmt(f, fmt);
+> +	return vidioc_try_fmt(ctx, f, fmt);
+>  }
+>  
+>  static int vidioc_vdec_g_selection(struct file *file, void *priv,
+> @@ -445,7 +447,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
+>  		return -EINVAL;
+>  
+>  	q_data->fmt = fmt;
+> -	vidioc_try_fmt(f, q_data->fmt);
+> +	vidioc_try_fmt(ctx, f, q_data->fmt);
+>  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+>  		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
+>  		q_data->coded_width = pix_mp->width;
+> @@ -545,6 +547,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+>  				fsize->stepwise.min_height,
+>  				fsize->stepwise.max_height,
+>  				fsize->stepwise.step_height);
+> +
+> +		ctx->max_width = fsize->stepwise.max_width;
+> +		ctx->max_height = fsize->stepwise.max_height;
+
+The spec does not require calling enum_fmt, so changing the maximum here is
+incorrect (and fail with GStreamer). If userland never enum the framesizes, the
+resolution get limited to 1080p.
+
+As this only depends and the OUTPUT format and the device being open()
+(condition being dev_capability being set and OUTPUT format being known / not
+VP8), you could initialize the cxt max inside s_fmt(OUTPUT) instead, which is a
+mandatory call. I have tested this change to verify this:
+
+
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+index 044e3dfbdd8c..3e7c571526a4 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+@@ -484,6 +484,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
+ 	if (fmt == NULL)
+ 		return -EINVAL;
+ 
++	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
++	    !(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
++	    fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
++		mtk_v4l2_debug(3, "4K is enabled");
++		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
++		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
++	}
++
+ 	q_data->fmt = fmt;
+ 	vidioc_try_fmt(ctx, f, q_data->fmt);
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+@@ -574,15 +582,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 
+ 		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+ 		fsize->stepwise = dec_pdata->vdec_framesizes[i].stepwise;
+-		if (!(ctx->dev->dec_capability &
+-				VCODEC_CAPABILITY_4K_DISABLED) &&
+-				fsize->pixel_format != V4L2_PIX_FMT_VP8_FRAME) {
+-			mtk_v4l2_debug(3, "4K is enabled");
+-			fsize->stepwise.max_width =
+-					VCODEC_DEC_4K_CODED_WIDTH;
+-			fsize->stepwise.max_height =
+-					VCODEC_DEC_4K_CODED_HEIGHT;
+-		}
++		fsize->stepwise.max_width = ctx->max_width;
++		fsize->stepwise.max_height = ctx->max_height;
++
+ 		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
+ 				ctx->dev->dec_capability,
+ 				fsize->stepwise.min_width,
+@@ -592,8 +594,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 				fsize->stepwise.max_height,
+ 				fsize->stepwise.step_height);
+ 
+-		ctx->max_width = fsize->stepwise.max_width;
+-		ctx->max_height = fsize->stepwise.max_height;
+ 		return 0;
+ 	}
+ 
+
+
+>  		return 0;
+>  	}
+>  
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index bb7b8e914d24..6d27e4d41ede 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -284,6 +284,8 @@ struct vdec_pic_info {
+>   *	  mtk_video_dec_buf.
+>   * @hw_id: hardware index used to identify different hardware.
+>   *
+> + * @max_width: hardware supported max width
+> + * @max_height: hardware supported max height
+>   * @msg_queue: msg queue used to store lat buffer information.
+>   */
+>  struct mtk_vcodec_ctx {
+> @@ -329,6 +331,8 @@ struct mtk_vcodec_ctx {
+>  	struct mutex lock;
+>  	int hw_id;
+>  
+> +	unsigned int max_width;
+> +	unsigned int max_height;
+>  	struct vdec_msg_queue msg_queue;
+>  };
+>  
+
