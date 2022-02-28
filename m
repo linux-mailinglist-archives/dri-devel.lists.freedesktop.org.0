@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1F44C796F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 21:06:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5114C7960
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 21:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C5589718;
-	Mon, 28 Feb 2022 20:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471D810E876;
+	Mon, 28 Feb 2022 20:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB1989718
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 20:06:24 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id y7so14282926oih.5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 12:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+3/hnEGttHw+ykEYwuEW4fvQITLLLeGWeScAdvHl/KA=;
- b=gma3fcbTcxZs3ntTjPMhGnHZHMQhmpr/uq9NeQaA/FpHt4PaWcWXyyH8LNzrSfx0a6
- hWWWhBwmCCtiQdtL9EGlRtEH8eX0XZkWrQPYviWFPnRfcZ58Bo9uYvkT9gadQpsFyn4l
- OGvWJt25QD5DNWSKVbQC9N8mNXyRpjj5T5esY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+3/hnEGttHw+ykEYwuEW4fvQITLLLeGWeScAdvHl/KA=;
- b=2qMEQDg1D1MSiqPnENmxFOR+nMV+BO2861uyE75r/6hzSeqHnUZg/H59pHuOiFknXd
- VKbhKJnb/5ABdMsBQYBjghvnDbQ36DYw6rJ42PJYU6+6Gh7Jibmkq6RcvOSulQepiHPz
- OhfE83Thl2PD9fiDp2RLDZxqp8+LYZimfIW70eZnOpIrWYRNph1rzB4Y84ZNvVHBkzp6
- zG4rcf7xw5WK/XlRn4XJlmkUWpqrxA4x5YN5gny8vh4e5up0Q6owLt72g8yaHvRA+23q
- tfFl1/aiXcr9q8mmB52Z97FkJU4p61pG4j1KOmg8KOG58+AJSlGrUy7L2sSvG2luQIZI
- 5vjA==
-X-Gm-Message-State: AOAM532bl1IiXQAr1gzcJQGI5Y+sy4WBIOYKu+QGlBQgSumEvx9miQmx
- RxX+FBEzzxuE0RRc/CZE6Wf4P3CsskkW5g==
-X-Google-Smtp-Source: ABdhPJz7iIPNXk4PXWU8yaD4U5xkMC6EPflSIBprG3cAyCCqGjZ7UeSrbHTpncnkmM9Y4qstWHEytw==
-X-Received: by 2002:a54:4494:0:b0:2d7:652b:287 with SMTP id
- v20-20020a544494000000b002d7652b0287mr9790817oiv.126.1646078783529; 
- Mon, 28 Feb 2022 12:06:23 -0800 (PST)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com.
- [209.85.161.47]) by smtp.gmail.com with ESMTPSA id
- e25-20020a544f19000000b002d53ce2f979sm6547636oiy.38.2022.02.28.12.06.23
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 12:06:23 -0800 (PST)
-Received: by mail-oo1-f47.google.com with SMTP id
- w3-20020a4ac183000000b0031d806bbd7eso4393161oop.13
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 12:06:23 -0800 (PST)
-X-Received: by 2002:aca:5e86:0:b0:2ce:de77:5256 with SMTP id
- s128-20020aca5e86000000b002cede775256mr12030360oib.117.1646078402626; Mon, 28
- Feb 2022 12:00:02 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EE910E866;
+ Mon, 28 Feb 2022 20:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646078525; x=1677614525;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Wc3dLk+2WGuSwSeJItFUAF/PAymWGtjjoR5UXEjwf54=;
+ b=T9ZL4OuR4WwE2w64rKKcefoXE8n5oXbtnIQaT2FbQ5vlNph+xCJaw9Mw
+ uJsvBSyEIo+JjswOEckK2kaupqQ6jSxb1E9en/rI23gl1eNxCGHxUdStq
+ ohbbGkgc0wsdYoK6UmlnIGQ1EHRB/8MRc3WM51JVDDFiVXSMnnGq4cvDB
+ 7MxNklnbEQq0EaHM3//KiJFMG8pB+Q1K11v6erOnUzTk8AywT5todT/uC
+ q5ir7hIQ4hV6F8ySvFsFF93jrT6XrCKSdjoewRI2MIsR+k9BZe32QvTdz
+ Xnvkcw7gHtha8EhsRsOd1EIILAdIhOJMPy3LK23B2D+XEEMNsn+xm3Wkb w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="252901129"
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="252901129"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 12:02:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="685461368"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Feb 2022 12:02:02 -0800
+Received: from [10.249.130.171] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.130.171])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 21SK21iC013844; Mon, 28 Feb 2022 20:02:01 GMT
+Message-ID: <5cf0034a-fa60-0d80-b538-f070a166614c@intel.com>
+Date: Mon, 28 Feb 2022 21:02:01 +0100
 MIME-Version: 1.0
-References: <20220215235420.1284208-1-briannorris@chromium.org>
- <20220215155417.2.Ic15a2ef69c540aee8732703103e2cff51fb9c399@changeid>
- <6344d1828760d4d8625a87243fcc5f5b1096b9d4.camel@oss.nxp.com>
-In-Reply-To: <6344d1828760d4d8625a87243fcc5f5b1096b9d4.camel@oss.nxp.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Mon, 28 Feb 2022 11:59:51 -0800
-X-Gmail-Original-Message-ID: <CA+ASDXOFcmLO_UBfzZ37NmQ3i3n_=5XPcHa_7=OLFvg6xg=YHg@mail.gmail.com>
-Message-ID: <CA+ASDXOFcmLO_UBfzZ37NmQ3i3n_=5XPcHa_7=OLFvg6xg=YHg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/atomic: Force bridge self-refresh-exit on CRTC
- switch
-To: Liu Ying <victor.liu@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [Intel-gfx] [PATCH v5 3/7] drm/i915/gt: add gt_is_root() helper
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
+ <20220217144158.21555-4-andi.shyti@linux.intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20220217144158.21555-4-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,57 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Sean Paul <seanpaul@chromium.org>,
- stable <stable@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
 
-On Mon, Feb 28, 2022 at 1:02 AM Liu Ying <victor.liu@oss.nxp.com> wrote:
-> On Tue, 2022-02-15 at 15:54 -0800, Brian Norris wrote:
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -1011,9 +1011,19 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
-> >               return drm_atomic_crtc_effectively_active(old_state);
-> >
-> >       /*
-> > -      * We need to run through the crtc_funcs->disable() function if the CRTC
-> > -      * is currently on, if it's transitioning to self refresh mode, or if
-> > -      * it's in self refresh mode and needs to be fully disabled.
-> > +      * We need to disable bridge(s) and CRTC if we're transitioning out of
-> > +      * self-refresh and changing CRTCs at the same time, because the
-> > +      * bridge tracks self-refresh status via CRTC state.
-> > +      */
-> > +     if (old_state->self_refresh_active && new_state->enable &&
-> > +         old_state->crtc != new_state->crtc)
-> > +             return true;
->
-> I think 'new_state->enable' should be changed to 'new_state->active',
-> because 'active' is the one to enable/disable the CRTC while 'enable'
-> reflects whether a mode blob is set to CRTC state.  The overall logic
-> added above is ok to me. Let's see if others have any comments.
 
-Thanks for the review, and good catch. This actually shows that most
-of my development was before commit 69e630016ef4 ("drm/atomic: Check
-new_crtc_state->active to determine if CRTC needs disable in self
-refresh mode"). In fact, the "state->enable" condition was included
-here mostly as a complement to the "!state->enable" condition that was
-present previously, and I didn't adapt it properly upon rebase.
+On 17.02.2022 15:41, Andi Shyti wrote:
+> The "gt_is_root(struct intel_gt *gt)" helper return true if the
+> gt is the root gt, which means that its id is 0. Return false
+> otherwise.
+> 
+> Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+> index 915d6192079b..f17f51e2d394 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+> @@ -19,6 +19,11 @@ struct drm_printer;
+>  		  ##__VA_ARGS__);					\
+>  } while (0)
+>  
+> +static inline bool gt_is_root(struct intel_gt *gt)
+> +{
+> +	return !gt->info.id;
+> +}
+> +
 
-In practice, this portion of the condition is not needed at all; we
-really want to exit PSR on CRTC-switch regardless of the new-CRTC
-state. So rather than change "enable" to "active", I plan to remove it
-entirely.
+we could squash this patch with prev one, where it can be used in:
 
-I'll give it some local tests and send v2 eventually.
+ intel_gt_tile_cleanup(struct intel_gt *gt)
+ {
+ 	intel_uncore_cleanup_mmio(gt->uncore);
 
-Thanks,
-Brian
+-	if (gt->info.id) {
++	if (!gt_is_root(gt)) {
+ 		kfree(gt->uncore);
+ 		kfree(gt);
+ 	}
+ }
+
+or just use it this way in this patch, with that:
+
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+
+>  static inline struct intel_gt *uc_to_gt(struct intel_uc *uc)
+>  {
+>  	return container_of(uc, struct intel_gt, uc);
