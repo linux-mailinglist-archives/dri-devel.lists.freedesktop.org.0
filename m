@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6574C61B8
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 04:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9734C61D9
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 04:30:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E70010E11A;
-	Mon, 28 Feb 2022 03:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4A810E143;
+	Mon, 28 Feb 2022 03:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A163010E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 03:18:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D244010E143
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 03:30:31 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4K6QYc4T1lz4xcZ;
- Mon, 28 Feb 2022 14:17:55 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4K6Qr52yV0z4xcZ;
+ Mon, 28 Feb 2022 14:30:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1646018280;
- bh=lvFotgi2nbWrax1SqwtUR3EuEokM47rQLD5f0//Rv2s=;
- h=Date:From:To:Cc:Subject:From;
- b=hAFB+X+e835Rluh1PCYMjeKlXa/xFFQho/aRuOCh/Ft9eO8h1U7YsEC3JG0zeZcj+
- XLkBdPIBu8qKbJQWJokqNTZZXwaJjmJproOQIwFY52YUdJ6DwaQQMANzSmVF/moDvu
- KwOCIhLMHtBeiVR0GG91aa4dvb3wXSFyz1zzrDJauNpH51BrWoHCmFSRuC8YLlGv4N
- ObVxiZgYcos9DbH32+GJK4Lp8RxZwbAcTFvnx50S36MR2SQbEScddINI1zltBs7LVa
- tCLwXgV4xdQocvbG34ypz8luc9kIYBChpbHjJE8D6oHBgi8MN7Ve2kGLwhFn4cYBUB
- pKllH0/W//UZw==
-Date: Mon, 28 Feb 2022 14:17:52 +1100
+ s=201702; t=1646019030;
+ bh=fFGfNTWBpPZK6KTga7di37oMpun8zfKH3ME2alMatHA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=N45U571qMwiy6QSFly3IzVX8Mk64R9GXlTPiOIjqUiwiBmI/XOk6Csid2eyjY+a6A
+ M6vNeriDMKP4gIrsOk2yUWVVMoAmf0DBnH0JofDkH3nHd9M+/ixEJpUPBQwl8xXIAP
+ obQH1fHt7eE/K13gZ7tp5d6x/lqLExe51jowvWs+xCcA88dcPKIBtmLiIvXH1isVXD
+ q3p02Qu64vWd9E/qG7Cx9/EKvq4EmUtHaZDv0weRML6GIVtHZ+L+mkcKm5vEIWIjgJ
+ AP278Wik4N38Dnkhno0rwXj6WMIVZ+nhRSLndeQ2XuqYLC7IMUNh22ozkSJleZEhJs
+ pROfUekzN7m7Q==
+Date: Mon, 28 Feb 2022 14:30:28 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20220228141752.6a80abf6@canb.auug.org.au>
+To: Thierry Reding <thierry.reding@gmail.com>, Dave Airlie
+ <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: manual merge of the drm-tegra tree with the drm tree
+Message-ID: <20220228143028.53fdde86@canb.auug.org.au>
+In-Reply-To: <20220223163007.328242-1-broonie@kernel.org>
+References: <20220223163007.328242-1-broonie@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/2XtXidRlKSt0ljo5KkyPRnb";
+Content-Type: multipart/signed; boundary="Sig_/p.IHzvdzT7lUS8h=WkGcD31";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,78 +51,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guchun Chen <guchun.chen@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Thierry Reding <treding@nvidia.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>, broonie@kernel.org,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, Leslie Shi <Yuliang.Shi@amd.com>,
- Tomohito Esaki <etom@igel.co.jp>
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/2XtXidRlKSt0ljo5KkyPRnb
+--Sig_/p.IHzvdzT7lUS8h=WkGcD31
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+On Wed, 23 Feb 2022 16:30:07 +0000 broonie@kernel.org wrote:
+>
+> Today's linux-next merge of the drm-tegra tree got conflicts in:
+>=20
+>   drivers/gpu/drm/tegra/dpaux.c
+>   drivers/gpu/drm/tegra/Kconfig
+>=20
+> between commit:
+>=20
+>   adb9d5a2cc77e ("drm/dp: Move DisplayPort helpers into separate helper m=
+odule")
+>=20
+> from the drm tree and commit:
+>=20
+>   8913e1aea4b32 ("drm/tegra: dpaux: Populate AUX bus")
+>=20
+> from the drm-tegra tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> diff --cc drivers/gpu/drm/tegra/Kconfig
+> index 18c319b804c00,201f5175ecfec..0000000000000
+> --- a/drivers/gpu/drm/tegra/Kconfig
+> +++ b/drivers/gpu/drm/tegra/Kconfig
+> @@@ -5,7 -5,7 +5,8 @@@ config DRM_TEGR
+>   	depends on COMMON_CLK
+>   	depends on DRM
+>   	depends on OF
+>  +	select DRM_DP_HELPER
+> + 	select DRM_DP_AUX_BUS
+>   	select DRM_KMS_HELPER
+>   	select DRM_MIPI_DSI
+>   	select DRM_PANEL
+> diff --cc drivers/gpu/drm/tegra/dpaux.c
+> index 8ca500977a46b,d7a731d287d23..0000000000000
+> --- a/drivers/gpu/drm/tegra/dpaux.c
+> +++ b/drivers/gpu/drm/tegra/dpaux.c
+> @@@ -18,7 -18,8 +18,8 @@@
+>   #include <linux/reset.h>
+>   #include <linux/workqueue.h>
+>  =20
+>  -#include <drm/drm_dp_helper.h>
+>  -#include <drm/drm_dp_aux_bus.h>
+>  +#include <drm/dp/drm_dp_helper.h>
+> ++#include <drm/dp/drm_dp_aux_bus.h>
+>   #include <drm/drm_panel.h>
+>  =20
+>   #include "dp.h"
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-
-between commit:
-
-  e2b993302f40 ("drm/amdgpu: bypass tiling flag check in virtual display ca=
-se (v2)")
-
-from Linus' tree and commit:
-
-  2af104290da5 ("drm: introduce fb_modifiers_not_supported flag in mode_con=
-fig")
-
-from the drm tree.
-
-I fixed it up (I think - see below) and can carry the fix as necessary.
-This is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+This is now a conflict between the drm tree and Linus' tree.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index c4387b38229c,9e5fc4cdb8ec..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@@ -1141,7 -1148,7 +1148,8 @@@ int amdgpu_display_framebuffer_init(str
-  	if (ret)
-  		return ret;
- =20
-- 	if (!dev->mode_config.allow_fb_modifiers && !adev->enable_virtual_displa=
-y) {
- -	if (dev->mode_config.fb_modifiers_not_supported) {
-++	if (dev->mode_config.fb_modifiers_not_supported &&
-++	    !adev->enable_virtual_display) {
-  		drm_WARN_ONCE(dev, adev->family >=3D AMDGPU_FAMILY_AI,
-  			      "GFX9+ requires FB check based on format modifier\n");
-  		ret =3D check_tiling_flags_gfx6(rfb);
-
---Sig_/2XtXidRlKSt0ljo5KkyPRnb
+--Sig_/p.IHzvdzT7lUS8h=WkGcD31
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIcPuAACgkQAVBC80lX
-0GyLbAf/Rbr/jGbxNq2x31e5B1z3s0FJHWa2kxEMBw0Eon3w3d1HszcHsQWDP2Qw
-1ErgbxMtAEl2Ii2NUke+vacfmPKbMgaqfZdDVtOYZBVT1rD/QvnUOLvQZuOOVOIG
-GKOvcuOlpTVH6xeb6GW55A8bcwRi3mU5rWfs/KYIe2u/CLH+Ah2ErSbZ9JtiZI9b
-qJyCysTpUh28HQnPeqqeQzqAhtCUpX07ELST1inOdc+HIk8qqUfdAofLlJboeNVJ
-X7iWhLZMmTWSW15XzKyXuCk1aBhEadnczHe7Newj960xXLeqz9vyRNfufhQnTJmc
-zW7MXzVCVFQLN31yOudclauUGXVK3w==
-=r7RX
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIcQdQACgkQAVBC80lX
+0Gy8PwgAm4LtXpGy5IwqeR44tbNRTRjR4fhU9B8iuuGFElJ4mNSlTxf4Rbd89das
+MFqdJU5sj1zxk9k8QGcqvPDTfvoO9lmSnSdDmg1Uy381UMCO8m425kqjCSEn1i6F
+IH8/DDGt+PYHAR9JIVHifFuBQxfmI2TEM6DAYhj9MzuNdbozcU5zyor7KbpEbDWk
+rlCUaBgZwVlkmMt0hByqCnsOpwKHO/GGvOOXBQdDt6auUPE3NrXpgRhUXAvmlICm
+948pOrvXWmQaq2ZNavoRc7ILhoVYMRZhRS7OumBn02nAuUAV6TKvbmwZ15kKndCZ
+u25tPBU+bythV4TLRsjxbZHMPAUClw==
+=KWpo
 -----END PGP SIGNATURE-----
 
---Sig_/2XtXidRlKSt0ljo5KkyPRnb--
+--Sig_/p.IHzvdzT7lUS8h=WkGcD31--
