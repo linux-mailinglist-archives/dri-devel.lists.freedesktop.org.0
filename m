@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C148A4C6B18
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 12:46:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96674C6B2D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 12:46:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAB910E525;
-	Mon, 28 Feb 2022 11:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E7910E5D0;
+	Mon, 28 Feb 2022 11:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E2E10E3D5;
- Mon, 28 Feb 2022 11:08:59 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id lw4so23947027ejb.12;
- Mon, 28 Feb 2022 03:08:59 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF8610E39C;
+ Mon, 28 Feb 2022 11:09:00 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id gb39so24033484ejc.1;
+ Mon, 28 Feb 2022 03:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HpiN/zwO1wBD5W8vJ5qwHzWs2Mz8GYwVSPoaDyTc8jQ=;
- b=hjvTHeqAC17Nm2rqJFqOWVUlo+eMrb6KCGjEjnmUhT0UbOoSD99k2xAziOpWZa+Icu
- SPp4Zg1lqK8FLNpUHi/iGpToynAZh7AAx7I6BqkiBOWQWPIrLjejJ7mt0E6lp79jr43P
- Z8Tz3UxSCHK1qzDcri6ZY14M8lx9G0bi6GCGQHl0DVbHpgXti6eqzCprjBZYIcyI1uce
- Dn/lOukn9J64/ASqyssuY+hk5ExgHfhAh8xyytTN1bW2SLq53AUCqmHXOqxQHzvGm8yg
- Hb8Tr+NdyPNcInoLFcy82stmYANyPP1+b2zh81uncpq/hmnHTquj2t004aepXQhNWxPC
- QShA==
+ bh=NwvvEiJPPM0SG7ZI4yc03tHRsjcGU4DYrm0+p7QW2+g=;
+ b=XoHp2vZs5sXnnQm8jTsL06JwdjgH4Z1Am+qeboNHSyU/csHp7G8mKHTnYwT7vMJf3q
+ 1zZobpdX4BxBQ2erAJx74EzSCDXfVaAB33jAX9ZekfWtpz9xLL4KIzz7DciQBlIBY9DK
+ vi6LJyw6u5UaEjT8CWPzRGPwv8GzX6oWgjgvygChKW8zu7PwVtsUQz/kuHu5rW/3vaBt
+ P3mcu2gbh7uG62xQrliOtXiVl+brL2WoHfh7VHyAXnwazE3NNCXTKdQujGPQMoLCoB+H
+ 4TwL3ENhlSsI5tK0hgbUY+rfbxgFEyt/dohDr5V+g2PZ9mAGfyjh/75qZVaBOXbUEFp6
+ QPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HpiN/zwO1wBD5W8vJ5qwHzWs2Mz8GYwVSPoaDyTc8jQ=;
- b=QOZt135zUYfqwHXDab5Glylqaxh/KW8v7avVBNeX8JdPG7GTNqr/cTjZGIKJwmMG9B
- q9hKRAmv9VMuWBSftnqQtIjKJ2k8D02VC9MJZqyNfFFKulfjfLYiqePEWQ+P9hxe7qIB
- sTNFk+j4o5u6k3hGWzHvL553e2aDgKLsJ9vSN8h7slIrpWMI26r+fSM2OBtz1rfSe0Ge
- X3KDISxW0XY+/i2nWEfIAYm1D0LQn+0yR59uZuyIMpMdr5gyFm54DnSga0mpw91iBKj9
- SDXJL4wzNCT06f4fNCdYObZFX07bjlYSAh1ZgDIr+LS6MXv5NJqhZTZpJqxinVGJu/m2
- ZZfA==
-X-Gm-Message-State: AOAM530kzidjFSOqILjIEI6LGrDd4GgUAZ0K3ztiakltYwSssGIkGOEW
- KKz0iV8xQQWTqc+u7GEaWpc=
-X-Google-Smtp-Source: ABdhPJwIz1+OuMm91LqO5/9SwgL6U3RC8rZg6hPrO7zQUYJxh0T24GQzaSGRh+uNCyYPoPAvBQZaKw==
-X-Received: by 2002:a17:906:3803:b0:6cf:56b9:60a9 with SMTP id
- v3-20020a170906380300b006cf56b960a9mr14108161ejc.716.1646046537823; 
- Mon, 28 Feb 2022 03:08:57 -0800 (PST)
+ bh=NwvvEiJPPM0SG7ZI4yc03tHRsjcGU4DYrm0+p7QW2+g=;
+ b=f+XH9uSRj/e/oOCGvtlTek82HmjogCxijBpZjLX+J0LCSqA6IEUDi9wyq8K0fdpTxw
+ klpvsuIWBxNsdaKW2X0gt/4Vid8spkIR7efX3CbUfCTjMb3SD9JMyJ/TXzcMnFbjVNoz
+ qFRnUswGNZWkNrL+J+q3w1/XLCuvdz+jfkT4cbql7eiwG0MQNAIx3nQHe2l+gu1S+TeT
+ na4TzcKnm0sq0MN5+4gQ6S0uxYeDDSzb8E76G57gnm6nJxxWv3Srv7HzV6jNCGSR1J+s
+ AKE5D7fowOorO3CqnFAipmssqntiHt6Bq68R3kLuzEjLdZVc1FzEowlitZ66Q41IL7L0
+ LvjA==
+X-Gm-Message-State: AOAM532zv2zXA1vhDFbxsjGnj0rZl8HXFpgJDDNA+hmUc/1wJvGI3q9p
+ nYErl/eDjg1xnDeejVF1s/Q=
+X-Google-Smtp-Source: ABdhPJwx6JZK1Sd067eYUFaKDGIuHgaxlGXhzFGfLUQYCLtFq3NCzAqvSFrK3I6DGGTf6F+6FgXuew==
+X-Received: by 2002:a17:906:2608:b0:6c9:b248:4dcf with SMTP id
+ h8-20020a170906260800b006c9b2484dcfmr14572317ejc.320.1646046539415; 
+ Mon, 28 Feb 2022 03:08:59 -0800 (PST)
 Received: from localhost.localdomain (dhcp-077-250-038-153.chello.nl.
  [77.250.38.153]) by smtp.googlemail.com with ESMTPSA id
- z22-20020a17090655d600b006d229436793sm4209049ejp.223.2022.02.28.03.08.56
+ z22-20020a17090655d600b006d229436793sm4209049ejp.223.2022.02.28.03.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 03:08:57 -0800 (PST)
+ Mon, 28 Feb 2022 03:08:59 -0800 (PST)
 From: Jakob Koschel <jakobkoschel@gmail.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH 3/6] treewide: fix incorrect use to determine if list is empty
-Date: Mon, 28 Feb 2022 12:08:19 +0100
-Message-Id: <20220228110822.491923-4-jakobkoschel@gmail.com>
+Subject: [PATCH 4/6] drivers: remove unnecessary use of list iterator variable
+Date: Mon, 28 Feb 2022 12:08:20 +0100
+Message-Id: <20220228110822.491923-5-jakobkoschel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228110822.491923-1-jakobkoschel@gmail.com>
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
@@ -100,103 +100,69 @@ Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The list iterator value will *always* be set by list_for_each_entry().
-It is incorrect to assume that the iterator value will be NULL if the
-list is empty.
+When list_for_each_entry() completes the iteration over the whole list
+without breaking the loop, the iterator value will *always* be a bogus
+pointer computed based on the head element.
 
-Instead of checking the pointer it should be checked if
-the list is empty.
-In acpi_get_pmu_hw_inf() instead of setting the pointer to NULL
-on the break, it is set to the correct value and leaving it
-NULL if no element was found.
+To avoid type confusion use the actual list head directly instead of last
+iterator value.
 
 Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
 ---
- arch/powerpc/sysdev/fsl_gtm.c            |  4 ++--
- drivers/media/pci/saa7134/saa7134-alsa.c |  4 ++--
- drivers/perf/xgene_pmu.c                 | 13 +++++++------
- 3 files changed, 11 insertions(+), 10 deletions(-)
+ drivers/dma/dw-edma/dw-edma-core.c             | 4 ++--
+ drivers/net/ethernet/intel/i40e/i40e_ethtool.c | 3 ++-
+ drivers/net/wireless/ath/ath6kl/htc_mbox.c     | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/arch/powerpc/sysdev/fsl_gtm.c b/arch/powerpc/sysdev/fsl_gtm.c
-index 8963eaffb1b7..39186ad6b3c3 100644
---- a/arch/powerpc/sysdev/fsl_gtm.c
-+++ b/arch/powerpc/sysdev/fsl_gtm.c
-@@ -86,7 +86,7 @@ static LIST_HEAD(gtms);
-  */
- struct gtm_timer *gtm_get_timer16(void)
- {
--	struct gtm *gtm = NULL;
-+	struct gtm *gtm;
- 	int i;
-
- 	list_for_each_entry(gtm, &gtms, list_node) {
-@@ -103,7 +103,7 @@ struct gtm_timer *gtm_get_timer16(void)
- 		spin_unlock_irq(&gtm->lock);
+diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+index 468d1097a1ec..7883c4831857 100644
+--- a/drivers/dma/dw-edma/dw-edma-core.c
++++ b/drivers/dma/dw-edma/dw-edma-core.c
+@@ -136,7 +136,7 @@ static void dw_edma_free_burst(struct dw_edma_chunk *chunk)
  	}
 
--	if (gtm)
-+	if (!list_empty(&gtms))
- 		return ERR_PTR(-EBUSY);
- 	return ERR_PTR(-ENODEV);
+ 	/* Remove the list head */
+-	kfree(child);
++	kfree(chunk->burst);
+ 	chunk->burst = NULL;
  }
-diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-index fb24d2ed3621..d3cde05a6eba 100644
---- a/drivers/media/pci/saa7134/saa7134-alsa.c
-+++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-@@ -1214,7 +1214,7 @@ static int alsa_device_exit(struct saa7134_dev *dev)
 
- static int saa7134_alsa_init(void)
- {
--	struct saa7134_dev *dev = NULL;
-+	struct saa7134_dev *dev;
-
- 	saa7134_dmasound_init = alsa_device_init;
- 	saa7134_dmasound_exit = alsa_device_exit;
-@@ -1229,7 +1229,7 @@ static int saa7134_alsa_init(void)
- 			alsa_device_init(dev);
+@@ -156,7 +156,7 @@ static void dw_edma_free_chunk(struct dw_edma_desc *desc)
  	}
 
--	if (dev == NULL)
-+	if (list_empty(&saa7134_devlist))
- 		pr_info("saa7134 ALSA: no saa7134 cards found\n");
+ 	/* Remove the list head */
+-	kfree(child);
++	kfree(desc->chunk);
+ 	desc->chunk = NULL;
+ }
 
- 	return 0;
-diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
-index 2b6d476bd213..e255f9e665d1 100644
---- a/drivers/perf/xgene_pmu.c
-+++ b/drivers/perf/xgene_pmu.c
-@@ -1460,7 +1460,8 @@ xgene_pmu_dev_ctx *acpi_get_pmu_hw_inf(struct xgene_pmu *xgene_pmu,
- 	struct hw_pmu_info *inf;
- 	void __iomem *dev_csr;
- 	struct resource res;
--	struct resource_entry *rentry;
-+	struct resource_entry *rentry = NULL;
-+	struct resource_entry *tmp;
- 	int enable_bit;
- 	int rc;
+diff --git a/drivers/net/ethernet/intel/i40e/i40e_ethtool.c b/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
+index 091f36adbbe1..c0ea9dbc4ff6 100644
+--- a/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
+@@ -3963,7 +3963,8 @@ static void __i40e_reprogram_flex_pit(struct i40e_pf *pf,
+ 	 * correctly, the hardware will disable flexible field parsing.
+ 	 */
+ 	if (!list_empty(flex_pit_list))
+-		last_offset = list_prev_entry(entry, list)->src_offset + 1;
++		last_offset = list_entry(flex_pit_list->prev,
++					 struct i40e_flex_pit, list)->src_offset + 1;
 
-@@ -1475,16 +1476,16 @@ xgene_pmu_dev_ctx *acpi_get_pmu_hw_inf(struct xgene_pmu *xgene_pmu,
- 		return NULL;
- 	}
+ 	for (; i < 3; i++, last_offset++) {
+ 		i40e_write_rx_ctl(&pf->hw,
+diff --git a/drivers/net/wireless/ath/ath6kl/htc_mbox.c b/drivers/net/wireless/ath/ath6kl/htc_mbox.c
+index e3874421c4c0..cf5b05860799 100644
+--- a/drivers/net/wireless/ath/ath6kl/htc_mbox.c
++++ b/drivers/net/wireless/ath/ath6kl/htc_mbox.c
+@@ -104,7 +104,7 @@ static void ath6kl_credit_init(struct ath6kl_htc_credit_info *cred_info,
+ 	 * it use list_for_each_entry_reverse to walk around the whole ep list.
+ 	 * Therefore assign this lowestpri_ep_dist after walk around the ep_list
+ 	 */
+-	cred_info->lowestpri_ep_dist = cur_ep_dist->list;
++	cred_info->lowestpri_ep_dist = *ep_list;
 
--	list_for_each_entry(rentry, &resource_list, node) {
--		if (resource_type(rentry->res) == IORESOURCE_MEM) {
--			res = *rentry->res;
--			rentry = NULL;
-+	list_for_each_entry(tmp, &resource_list, node) {
-+		if (resource_type(tmp->res) == IORESOURCE_MEM) {
-+			res = *tmp->res;
-+			rentry = tmp;
- 			break;
- 		}
- 	}
- 	acpi_dev_free_resource_list(&resource_list);
+ 	WARN_ON(cred_info->cur_free_credits <= 0);
 
--	if (rentry) {
-+	if (!rentry) {
- 		dev_err(dev, "PMU type %d: No memory resource found\n", type);
- 		return NULL;
- 	}
 --
 2.25.1
 
