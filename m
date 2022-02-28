@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870FE4C78B4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 20:21:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C2B4C7875
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 20:05:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C19B610E39D;
-	Mon, 28 Feb 2022 19:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BFF10E242;
+	Mon, 28 Feb 2022 19:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB6B210E2BC;
- Mon, 28 Feb 2022 19:20:51 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E09810E140;
+ Mon, 28 Feb 2022 19:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646076052; x=1677612052;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=eB60TveDRnULtFaRNmUIrqNu7mRUiEXWYt1vyasn+SI=;
- b=kcS6ZwFTH6Kw5ZlPdOFCHQht1JZAqVj9MEyAY5hy6hRCigcjra9kHYtJ
- n+mZSqzOMQbEmfYSVbXVnRNS5ADG4WKHNwx+RuNYDtRDvY2RRp6X5NnUe
- Cl0MDfHeR3ZI4PF6PjU3F/Aqq/tBZ0/JikYL8HnAg41MLg5/sU95dEa1Z
- bMqAM8a++/2bckSggg1Qmizdwg/qtNpYxdEM+GtbrN3OUdF2G+eqfmlA9
- 4jjd61KDmyJCa3laJ1wWSTvDzTuusVWn9okDM1C24nea7B0K0McEnbcPz
- P5B91I5vu5gRG8XpeqdxcRYO8bQJr4ROqDPdSjMRzdTbaeYRe8VrmNCT9 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="277628175"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="277628175"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 11:20:50 -0800
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="550374498"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 11:20:50 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [CI 2/2] drm/i915/gem: Don't try to map and fence large scanout
- buffers (v9)
-Date: Mon, 28 Feb 2022 11:04:29 -0800
-Message-Id: <20220228190429.1358951-3-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220228190429.1358951-1-vivek.kasireddy@intel.com>
-References: <20220228190429.1358951-1-vivek.kasireddy@intel.com>
+ t=1646075118; x=1677611118;
+ h=from:to:subject:date:message-id:references:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=Fd2rIiwcO2o25pLZmTDc+/l88KUkJXqhMZrQBSSru3Q=;
+ b=gL33UPpSlcWRLTLaqjVcfABx/DLHDnSrgWKCAhvs06wtOtPuJ42Zxhu4
+ 2b+Ok10+xJ5zMZmqYC4IFZ+Wp9nv9eb7zlEnk7iwZIvajUrvSBqQ12MPp
+ iJUHbNiY9AzfB4lfUPhDaZj9hXA+7Gg4NXY6SsXsA7XU13AxjU5eMWy1V
+ o0nbmzmc875hCU0YMvfFj+OobVoVzZ1FFMTDaChWQJ0SDToou5G40bb+u
+ t7bojVlia4N7sc1dCC4x6tb94zXaA7OlrpO8a88UEsklxgx1VMBv0vBhR
+ /56b86call6pakmJnZ8//04IQODKJx0WV0eAPiTw/w1M84zxasdokqK9f Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="316176383"
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="316176383"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 11:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="708758910"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by orsmga005.jf.intel.com with ESMTP; 28 Feb 2022 11:05:17 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 28 Feb 2022 11:05:17 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 28 Feb 2022 11:05:17 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.021;
+ Mon, 28 Feb 2022 11:05:17 -0800
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [Intel-gfx] [CI 1/2] drm/mm: Add an iterator to optimally walk
+ over holes for an allocation (v4)
+Thread-Topic: [Intel-gfx] [CI 1/2] drm/mm: Add an iterator to optimally walk
+ over holes for an allocation (v4)
+Thread-Index: AQHYLAHtLDfjiRfWcEqxornUYK0pI6ypS8GAgAAGMsA=
+Date: Mon, 28 Feb 2022 19:05:17 +0000
+Message-ID: <7ce7408a05c84c978af5b49351aa019b@intel.com>
+References: <20220227172957.1208890-1-vivek.kasireddy@intel.com>
+ <20220227172957.1208890-2-vivek.kasireddy@intel.com>
+ <97f17df4-f820-afd4-7e48-f6f62bb9ee34@linux.intel.com>
+In-Reply-To: <97f17df4-f820-afd4-7e48-f6f62bb9ee34@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.401.20
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,265 +85,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
-more framebuffers/scanout buffers results in only one that is mappable/
-fenceable. Therefore, pageflipping between these 2 FBs where only one
-is mappable/fenceable creates latencies large enough to miss alternate
-vblanks thereby producing less optimal framerate.
-
-This mainly happens because when i915_gem_object_pin_to_display_plane()
-is called to pin one of the FB objs, the associated vma is identified
-as misplaced and therefore i915_vma_unbind() is called which unbinds and
-evicts it. This misplaced vma gets subseqently pinned only when
-i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
-results in a latency of ~10ms and happens every other vblank/repaint cycle.
-Therefore, to fix this issue, we try to see if there is space to map
-at-least two objects of a given size and return early if there isn't. This
-would ensure that we do not try with PIN_MAPPABLE for any objects that
-are too big to map thereby preventing unncessary unbind.
-
-Testcase:
-Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
-with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
-a frame ~7ms before the next vblank, the latencies seen between atomic
-commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
-it misses the vblank every other frame.
-
-Here is the ftrace snippet that shows the source of the ~10ms latency:
-              i915_gem_object_pin_to_display_plane() {
-0.102 us   |    i915_gem_object_set_cache_level();
-                i915_gem_object_ggtt_pin_ww() {
-0.390 us   |      i915_vma_instance();
-0.178 us   |      i915_vma_misplaced();
-                  i915_vma_unbind() {
-                  __i915_active_wait() {
-0.082 us   |        i915_active_acquire_if_busy();
-0.475 us   |      }
-                  intel_runtime_pm_get() {
-0.087 us   |        intel_runtime_pm_acquire();
-0.259 us   |      }
-                  __i915_active_wait() {
-0.085 us   |        i915_active_acquire_if_busy();
-0.240 us   |      }
-                  __i915_vma_evict() {
-                    ggtt_unbind_vma() {
-                      gen8_ggtt_clear_range() {
-10507.255 us |        }
-10507.689 us |      }
-10508.516 us |   }
-
-v2: Instead of using bigjoiner checks, determine whether a scanout
-    buffer is too big by checking to see if it is possible to map
-    two of them into the ggtt.
-
-v3 (Ville):
-- Count how many fb objects can be fit into the available holes
-  instead of checking for a hole twice the object size.
-- Take alignment constraints into account.
-- Limit this large scanout buffer check to >= Gen 11 platforms.
-
-v4:
-- Remove existing heuristic that checks just for size. (Ville)
-- Return early if we find space to map at-least two objects. (Tvrtko)
-- Slightly update the commit message.
-
-v5: (Tvrtko)
-- Rename the function to indicate that the object may be too big to
-  map into the aperture.
-- Account for guard pages while calculating the total size required
-  for the object.
-- Do not subject all objects to the heuristic check and instead
-  consider objects only of a certain size.
-- Do the hole walk using the rbtree.
-- Preserve the existing PIN_NONBLOCK logic.
-- Drop the PIN_MAPPABLE check while pinning the VMA.
-
-v6: (Tvrtko)
-- Return 0 on success and the specific error code on failure to
-  preserve the existing behavior.
-
-v7: (Ville)
-- Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
-  size < ggtt->mappable_end / 4 checks.
-- Drop the redundant check that is based on previous heuristic.
-
-v8:
-- Make sure that we are holding the mutex associated with ggtt vm
-  as we traverse the hole nodes.
-
-v9: (Tvrtko)
-- Use mutex_lock_interruptible_nested() instead of mutex_lock().
-
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/i915/i915_gem.c | 128 +++++++++++++++++++++++---------
- 1 file changed, 94 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 2e10187cd0a0..4bef9eaa8b2e 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -49,6 +49,7 @@
- #include "gem/i915_gem_pm.h"
- #include "gem/i915_gem_region.h"
- #include "gem/i915_gem_userptr.h"
-+#include "gem/i915_gem_tiling.h"
- #include "gt/intel_engine_user.h"
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_pm.h"
-@@ -879,6 +880,96 @@ static void discard_ggtt_vma(struct i915_vma *vma)
- 	spin_unlock(&obj->vma.lock);
- }
- 
-+static int
-+i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
-+				 u64 alignment, u64 flags)
-+{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-+	struct drm_mm_node *hole;
-+	u64 hole_start, hole_end, start, end;
-+	u64 fence_size, fence_alignment;
-+	unsigned int count = 0;
-+	int err = 0;
-+
-+	/*
-+	 * If the required space is larger than the available
-+	 * aperture, we will not able to find a slot for the
-+	 * object and unbinding the object now will be in
-+	 * vain. Worse, doing so may cause us to ping-pong
-+	 * the object in and out of the Global GTT and
-+	 * waste a lot of cycles under the mutex.
-+	 */
-+	if (obj->base.size > ggtt->mappable_end)
-+		return -E2BIG;
-+
-+	/*
-+	 * If NONBLOCK is set the caller is optimistically
-+	 * trying to cache the full object within the mappable
-+	 * aperture, and *must* have a fallback in place for
-+	 * situations where we cannot bind the object. We
-+	 * can be a little more lax here and use the fallback
-+	 * more often to avoid costly migrations of ourselves
-+	 * and other objects within the aperture.
-+	 */
-+	if (!(flags & PIN_NONBLOCK))
-+		return 0;
-+
-+	/*
-+	 * Other objects such as batchbuffers are fairly small compared
-+	 * to FBs and are unlikely to exahust the aperture space.
-+	 * Therefore, return early if this obj is not an FB.
-+	 */
-+	if (!i915_gem_object_is_framebuffer(obj))
-+		return 0;
-+
-+	fence_size = i915_gem_fence_size(i915, obj->base.size,
-+					 i915_gem_object_get_tiling(obj),
-+					 i915_gem_object_get_stride(obj));
-+
-+	if (i915_vm_has_cache_coloring(&ggtt->vm))
-+		fence_size += 2 * I915_GTT_PAGE_SIZE;
-+
-+	fence_alignment = i915_gem_fence_alignment(i915, obj->base.size,
-+						   i915_gem_object_get_tiling(obj),
-+						   i915_gem_object_get_stride(obj));
-+	alignment = max_t(u64, alignment, fence_alignment);
-+
-+	err = mutex_lock_interruptible_nested(&ggtt->vm.mutex, 0);
-+	if (err)
-+		return err;
-+
-+	/*
-+	 * Assuming this object is a large scanout buffer, we try to find
-+	 * out if there is room to map at-least two of them. There could
-+	 * be space available to map one but to be consistent, we try to
-+	 * avoid mapping/fencing any of them.
-+	 */
-+	drm_mm_for_each_suitable_hole(hole, &ggtt->vm.mm, 0, ggtt->mappable_end,
-+				      fence_size, DRM_MM_INSERT_LOW) {
-+		hole_start = drm_mm_hole_node_start(hole);
-+		hole_end = hole_start + hole->hole_size;
-+
-+		do {
-+			start = round_up(hole_start, alignment);
-+			end = min_t(u64, hole_end, ggtt->mappable_end);
-+
-+			if (range_overflows(start, fence_size, end))
-+				break;
-+
-+			if (++count >= 2) {
-+				mutex_unlock(&ggtt->vm.mutex);
-+				return 0;
-+			}
-+
-+			hole_start = start + fence_size;
-+		} while (1);
-+	}
-+
-+	mutex_unlock(&ggtt->vm.mutex);
-+	return -ENOSPC;
-+}
-+
- struct i915_vma *
- i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 			    struct i915_gem_ww_ctx *ww,
-@@ -894,36 +985,9 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 
- 	if (flags & PIN_MAPPABLE &&
- 	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
--		/*
--		 * If the required space is larger than the available
--		 * aperture, we will not able to find a slot for the
--		 * object and unbinding the object now will be in
--		 * vain. Worse, doing so may cause us to ping-pong
--		 * the object in and out of the Global GTT and
--		 * waste a lot of cycles under the mutex.
--		 */
--		if (obj->base.size > ggtt->mappable_end)
--			return ERR_PTR(-E2BIG);
--
--		/*
--		 * If NONBLOCK is set the caller is optimistically
--		 * trying to cache the full object within the mappable
--		 * aperture, and *must* have a fallback in place for
--		 * situations where we cannot bind the object. We
--		 * can be a little more lax here and use the fallback
--		 * more often to avoid costly migrations of ourselves
--		 * and other objects within the aperture.
--		 *
--		 * Half-the-aperture is used as a simple heuristic.
--		 * More interesting would to do search for a free
--		 * block prior to making the commitment to unbind.
--		 * That caters for the self-harm case, and with a
--		 * little more heuristics (e.g. NOFAULT, NOEVICT)
--		 * we could try to minimise harm to others.
--		 */
--		if (flags & PIN_NONBLOCK &&
--		    obj->base.size > ggtt->mappable_end / 2)
--			return ERR_PTR(-ENOSPC);
-+		ret = i915_gem_object_fits_in_aperture(obj, alignment, flags);
-+		if (ret)
-+			return ERR_PTR(ret);
- 	}
- 
- new_vma:
-@@ -935,10 +999,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 		if (flags & PIN_NONBLOCK) {
- 			if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma))
- 				return ERR_PTR(-ENOSPC);
--
--			if (flags & PIN_MAPPABLE &&
--			    vma->fence_size > ggtt->mappable_end / 2)
--				return ERR_PTR(-ENOSPC);
- 		}
- 
- 		if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma)) {
--- 
-2.34.1
-
+SGkgVHZydGtvLA0KDQo+IA0KPiBIaSBWaXZlaywNCj4gDQo+IE9uIDI3LzAyLzIwMjIgMTc6Mjks
+IFZpdmVrIEthc2lyZWRkeSB3cm90ZToNCj4gPiBUaGlzIGl0ZXJhdG9yIHJlbGllcyBvbiBkcm1f
+bW1fZmlyc3RfaG9sZSgpIGFuZCBkcm1fbW1fbmV4dF9ob2xlKCkNCj4gPiBmdW5jdGlvbnMgdG8g
+aWRlbnRpZnkgc3VpdGFibGUgaG9sZXMgZm9yIGFuIGFsbG9jYXRpb24gb2YgYSBnaXZlbg0KPiA+
+IHNpemUgYnkgZWZmaWNpZW50bHkgdHJhdmVyc2luZyB0aGUgcmJ0cmVlIGFzc29jaWF0ZWQgd2l0
+aCB0aGUgZ2l2ZW4NCj4gPiBhbGxvY2F0b3IuDQo+ID4NCj4gPiBJdCByZXBsYWNlcyB0aGUgZm9y
+IGxvb3AgaW4gZHJtX21tX2luc2VydF9ub2RlX2luX3JhbmdlKCkgYW5kIGNhbg0KPiA+IGFsc28g
+YmUgdXNlZCBieSBkcm0gZHJpdmVycyB0byBxdWlja2x5IGlkZW50aWZ5IGhvbGVzIG9mIGEgY2Vy
+dGFpbg0KPiA+IHNpemUgd2l0aGluIGEgZ2l2ZW4gcmFuZ2UuDQo+ID4NCj4gPiB2MjogKFR2cnRr
+bykNCj4gPiAtIFByZXBlbmQgYSBkb3VibGUgdW5kZXJzY29yZSBmb3IgdGhlIG5ld2x5IGV4cG9y
+dGVkIGZpcnN0L25leHRfaG9sZQ0KPiA+IC0gcy9lYWNoX2Jlc3RfaG9sZS9lYWNoX3N1aXRhYmxl
+X2hvbGUvZw0KPiA+IC0gTWFzayBvdXQgRFJNX01NX0lOU0VSVF9PTkNFIGZyb20gdGhlIG1vZGUg
+YmVmb3JlIGNhbGxpbmcNCj4gPiAgICBmaXJzdC9uZXh0X2hvbGUgYW5kIGVsc2V3aGVyZS4NCj4g
+Pg0KPiA+IHYzOiAoVHZydGtvKQ0KPiA+IC0gUmVkdWNlIHRoZSBudW1iZXIgb2YgaHVua3MgYnkg
+cmV0YWluaW5nIHRoZSAibW9kZSIgdmFyaWFibGUgbmFtZQ0KPiA+DQo+ID4gdjQ6DQo+ID4gLSBU
+eXBvOiBzL19fZHJtX21tX25leHRfaG9sZSguLiwgaG9sZS9fX2RybV9tbV9uZXh0X2hvbGUoLi4s
+IHBvcw0KPiA+DQo+ID4gUmV2aWV3ZWQtYnk6IFR2cnRrbyBVcnN1bGluIDx0dnJ0a28udXJzdWxp
+bkBpbnRlbC5jb20+DQo+ID4gQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
+b2VuaWdAYW1kLmNvbT4NCj4gPiBTdWdnZXN0ZWQtYnk6IFR2cnRrbyBVcnN1bGluIDx0dnJ0a28u
+dXJzdWxpbkBsaW51eC5pbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogVml2ZWsgS2FzaXJl
+ZGR5IDx2aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9n
+cHUvZHJtL2RybV9tbS5jIHwgMzIgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0NCj4g
+PiAgIGluY2x1ZGUvZHJtL2RybV9tbS5oICAgICB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKw0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspLCAx
+NyBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X21tLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMNCj4gPiBpbmRleCA4MjU3ZjlkNGY2MTku
+LjhlZmVhNTQ4YWU5ZiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMN
+Cj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMNCj4gPiBAQCAtMzUyLDEwICszNTIs
+MTAgQEAgc3RhdGljIHN0cnVjdCBkcm1fbW1fbm9kZSAqZmluZF9ob2xlX2FkZHIoc3RydWN0IGRy
+bV9tbQ0KPiAqbW0sIHU2NCBhZGRyLCB1NjQgc2l6ZSkNCj4gPiAgIAlyZXR1cm4gbm9kZTsNCj4g
+PiAgIH0NCj4gPg0KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9tbV9ub2RlICoNCj4gPiAtZmlyc3Rf
+aG9sZShzdHJ1Y3QgZHJtX21tICptbSwNCj4gPiAtCSAgIHU2NCBzdGFydCwgdTY0IGVuZCwgdTY0
+IHNpemUsDQo+ID4gLQkgICBlbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlKQ0KPiA+ICtzdHJ1
+Y3QgZHJtX21tX25vZGUgKg0KPiA+ICtfX2RybV9tbV9maXJzdF9ob2xlKHN0cnVjdCBkcm1fbW0g
+Km1tLA0KPiA+ICsJCSAgICB1NjQgc3RhcnQsIHU2NCBlbmQsIHU2NCBzaXplLA0KPiA+ICsJCSAg
+ICBlbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlKQ0KPiA+ICAgew0KPiA+ICAgCXN3aXRjaCAo
+bW9kZSkgew0KPiA+ICAgCWRlZmF1bHQ6DQo+ID4gQEAgLTM3NCw2ICszNzQsNyBAQCBmaXJzdF9o
+b2xlKHN0cnVjdCBkcm1fbW0gKm1tLA0KPiA+ICAgCQkJCQkJaG9sZV9zdGFjayk7DQo+ID4gICAJ
+fQ0KPiA+ICAgfQ0KPiA+ICtFWFBPUlRfU1lNQk9MKF9fZHJtX21tX2ZpcnN0X2hvbGUpOw0KPiA+
+DQo+ID4gICAvKioNCj4gPiAgICAqIERFQ0xBUkVfTkVYVF9IT0xFX0FERFIgLSBtYWNybyB0byBk
+ZWNsYXJlIG5leHQgaG9sZSBmdW5jdGlvbnMNCj4gPiBAQCAtNDEwLDExICs0MTEsMTEgQEAgc3Rh
+dGljIHN0cnVjdCBkcm1fbW1fbm9kZSAqbmFtZShzdHJ1Y3QgZHJtX21tX25vZGUNCj4gKmVudHJ5
+LCB1NjQgc2l6ZSkJXA0KPiA+ICAgREVDTEFSRV9ORVhUX0hPTEVfQUREUihuZXh0X2hvbGVfaGln
+aF9hZGRyLCByYl9sZWZ0LCByYl9yaWdodCkNCj4gPiAgIERFQ0xBUkVfTkVYVF9IT0xFX0FERFIo
+bmV4dF9ob2xlX2xvd19hZGRyLCByYl9yaWdodCwgcmJfbGVmdCkNCj4gPg0KPiA+IC1zdGF0aWMg
+c3RydWN0IGRybV9tbV9ub2RlICoNCj4gPiAtbmV4dF9ob2xlKHN0cnVjdCBkcm1fbW0gKm1tLA0K
+PiA+IC0JICBzdHJ1Y3QgZHJtX21tX25vZGUgKm5vZGUsDQo+ID4gLQkgIHU2NCBzaXplLA0KPiA+
+IC0JICBlbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlKQ0KPiA+ICtzdHJ1Y3QgZHJtX21tX25v
+ZGUgKg0KPiA+ICtfX2RybV9tbV9uZXh0X2hvbGUoc3RydWN0IGRybV9tbSAqbW0sDQo+ID4gKwkJ
+ICAgc3RydWN0IGRybV9tbV9ub2RlICpub2RlLA0KPiA+ICsJCSAgIHU2NCBzaXplLA0KPiA+ICsJ
+CSAgIGVudW0gZHJtX21tX2luc2VydF9tb2RlIG1vZGUpDQo+ID4gICB7DQo+ID4gICAJc3dpdGNo
+IChtb2RlKSB7DQo+ID4gICAJZGVmYXVsdDoNCj4gPiBAQCAtNDMyLDYgKzQzMyw3IEBAIG5leHRf
+aG9sZShzdHJ1Y3QgZHJtX21tICptbSwNCj4gPiAgIAkJcmV0dXJuICZub2RlLT5ob2xlX3N0YWNr
+ID09ICZtbS0+aG9sZV9zdGFjayA/IE5VTEwgOiBub2RlOw0KPiA+ICAgCX0NCj4gPiAgIH0NCj4g
+PiArRVhQT1JUX1NZTUJPTChfX2RybV9tbV9uZXh0X2hvbGUpOw0KPiA+DQo+ID4gICAvKioNCj4g
+PiAgICAqIGRybV9tbV9yZXNlcnZlX25vZGUgLSBpbnNlcnQgYW4gcHJlLWluaXRpYWxpemVkIG5v
+ZGUNCj4gPiBAQCAtNTE2LDExICs1MTgsMTEgQEAgaW50IGRybV9tbV9pbnNlcnRfbm9kZV9pbl9y
+YW5nZShzdHJ1Y3QgZHJtX21tICogY29uc3QNCj4gbW0sDQo+ID4gICAJCQkJdTY0IHNpemUsIHU2
+NCBhbGlnbm1lbnQsDQo+ID4gICAJCQkJdW5zaWduZWQgbG9uZyBjb2xvciwNCj4gPiAgIAkJCQl1
+NjQgcmFuZ2Vfc3RhcnQsIHU2NCByYW5nZV9lbmQsDQo+ID4gLQkJCQllbnVtIGRybV9tbV9pbnNl
+cnRfbW9kZSBtb2RlKQ0KPiA+ICsJCQkJZW51bSBkcm1fbW1faW5zZXJ0X21vZGUgY2FsbGVyX21v
+ZGUpDQo+ID4gICB7DQo+ID4gICAJc3RydWN0IGRybV9tbV9ub2RlICpob2xlOw0KPiA+ICAgCXU2
+NCByZW1haW5kZXJfbWFzazsNCj4gPiAtCWJvb2wgb25jZTsNCj4gPiArCWVudW0gZHJtX21tX2lu
+c2VydF9tb2RlIG1vZGUgPSBjYWxsZXJfbW9kZSAmDQo+IH5EUk1fTU1fSU5TRVJUX09OQ0U7DQo+
+ID4NCj4gPiAgIAlEUk1fTU1fQlVHX09OKHJhbmdlX3N0YXJ0ID4gcmFuZ2VfZW5kKTsNCj4gPg0K
+PiA+IEBAIC01MzMsMTMgKzUzNSw5IEBAIGludCBkcm1fbW1faW5zZXJ0X25vZGVfaW5fcmFuZ2Uo
+c3RydWN0IGRybV9tbSAqIGNvbnN0DQo+IG1tLA0KPiA+ICAgCWlmIChhbGlnbm1lbnQgPD0gMSkN
+Cj4gPiAgIAkJYWxpZ25tZW50ID0gMDsNCj4gPg0KPiA+IC0Jb25jZSA9IG1vZGUgJiBEUk1fTU1f
+SU5TRVJUX09OQ0U7DQo+ID4gLQltb2RlICY9IH5EUk1fTU1fSU5TRVJUX09OQ0U7DQo+ID4gLQ0K
+PiA+ICAgCXJlbWFpbmRlcl9tYXNrID0gaXNfcG93ZXJfb2ZfMihhbGlnbm1lbnQpID8gYWxpZ25t
+ZW50IC0gMSA6IDA7DQo+ID4gLQlmb3IgKGhvbGUgPSBmaXJzdF9ob2xlKG1tLCByYW5nZV9zdGFy
+dCwgcmFuZ2VfZW5kLCBzaXplLCBtb2RlKTsNCj4gPiAtCSAgICAgaG9sZTsNCj4gPiAtCSAgICAg
+aG9sZSA9IG9uY2UgPyBOVUxMIDogbmV4dF9ob2xlKG1tLCBob2xlLCBzaXplLCBtb2RlKSkgew0K
+PiA+ICsJZHJtX21tX2Zvcl9lYWNoX3N1aXRhYmxlX2hvbGUoaG9sZSwgbW0sIHJhbmdlX3N0YXJ0
+LCByYW5nZV9lbmQsDQo+ID4gKwkJCQkgICAgICBzaXplLCBtb2RlKSB7DQo+IA0KPiBJIHdhcyBk
+b2luZyBvbmUgbGFzdCByZWFkIG9mIHRoZSBwYXRjaCBiZWZvcmUgSSBhc2sgdGhlIG1haW50YWlu
+ZXJzDQo+IHdoZXJlIHRvIG1lcmdlIGl0IGFuZCByZWFsaXplZCAtIGRvbid0IHlvdSBuZWVkIHRv
+IHBhc3MgaW4gdGhlDQo+IGNhbGxlcl9tb2RlIGp1c3QgaGVyZSAobm90IG1vZGUgd2hpY2ggaGFz
+IGJlZW4gbWFza2VkIG91dCBmcm9tICJvbmNlIik/DQo+IE90aGVyd2lzZSAib25jZSIgbW9kZSB3
+aWxsIG5vdCBiZSByZXNwZWN0ZWQgYnkgdGhlIGl0ZXJhdG9yLg0KW0thc2lyZWRkeSwgVml2ZWtd
+IFJpZ2h0LCB5ZXQgYW5vdGhlciB0eXBvOyBpdCBzaG91bGQgaGF2ZSBiZWVuIGNhbGxlcl9tb2Rl
+DQppbnN0ZWFkIG9mIG1vZGUuIExldCBtZSBmaXggaXQgYW5kIHJ1biBpdCB0aHJvdWdoIGFub3Ro
+ZXIgQ0kgY3ljbGUuDQoNClRoYW5rcywNClZpdmVrDQo+IA0KPiBSZWdhcmRzLA0KPiANCj4gVHZy
+dGtvDQo+IA0KPiA+ICAgCQl1NjQgaG9sZV9zdGFydCA9IF9fZHJtX21tX2hvbGVfbm9kZV9zdGFy
+dChob2xlKTsNCj4gPiAgIAkJdTY0IGhvbGVfZW5kID0gaG9sZV9zdGFydCArIGhvbGUtPmhvbGVf
+c2l6ZTsNCj4gPiAgIAkJdTY0IGFkal9zdGFydCwgYWRqX2VuZDsNCj4gPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vZHJtX21tLmggYi9pbmNsdWRlL2RybS9kcm1fbW0uaA0KPiA+IGluZGV4IGFj
+MzNiYTFiMThiYy4uZGZmNmRiNjI3ODA3IDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2Ry
+bV9tbS5oDQo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21tLmgNCj4gPiBAQCAtNDAwLDYgKzQw
+MCw0MiBAQCBzdGF0aWMgaW5saW5lIHU2NCBkcm1fbW1faG9sZV9ub2RlX2VuZChjb25zdCBzdHJ1
+Y3QNCj4gZHJtX21tX25vZGUgKmhvbGVfbm9kZSkNCj4gPiAgIAkgICAgIDEgOiAwOyBcDQo+ID4g
+ICAJICAgICBwb3MgPSBsaXN0X25leHRfZW50cnkocG9zLCBob2xlX3N0YWNrKSkNCj4gPg0KPiA+
+ICtzdHJ1Y3QgZHJtX21tX25vZGUgKg0KPiA+ICtfX2RybV9tbV9maXJzdF9ob2xlKHN0cnVjdCBk
+cm1fbW0gKm1tLA0KPiA+ICsJCSAgICB1NjQgc3RhcnQsIHU2NCBlbmQsIHU2NCBzaXplLA0KPiA+
+ICsJCSAgICBlbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlKTsNCj4gPiArDQo+ID4gK3N0cnVj
+dCBkcm1fbW1fbm9kZSAqDQo+ID4gK19fZHJtX21tX25leHRfaG9sZShzdHJ1Y3QgZHJtX21tICpt
+bSwNCj4gPiArCQkgICBzdHJ1Y3QgZHJtX21tX25vZGUgKm5vZGUsDQo+ID4gKwkJICAgdTY0IHNp
+emUsDQo+ID4gKwkJICAgZW51bSBkcm1fbW1faW5zZXJ0X21vZGUgbW9kZSk7DQo+ID4gKw0KPiA+
+ICsvKioNCj4gPiArICogZHJtX21tX2Zvcl9lYWNoX3N1aXRhYmxlX2hvbGUgLSBpdGVyYXRvciB0
+byBvcHRpbWFsbHkgd2FsayBvdmVyIGFsbA0KPiA+ICsgKiBob2xlcyB0aGF0IGNhbiBmaXQgYW4g
+YWxsb2NhdGlvbiBvZiB0aGUgZ2l2ZW4gQHNpemUuDQo+ID4gKyAqIEBwb3M6ICZkcm1fbW1fbm9k
+ZSB1c2VkIGludGVybmFsbHkgdG8gdHJhY2sgcHJvZ3Jlc3MNCj4gPiArICogQG1tOiAmZHJtX21t
+IGFsbG9jYXRvciB0byB3YWxrDQo+ID4gKyAqIEByYW5nZV9zdGFydDogc3RhcnQgb2YgdGhlIGFs
+bG93ZWQgcmFuZ2UgZm9yIHRoZSBhbGxvY2F0aW9uDQo+ID4gKyAqIEByYW5nZV9lbmQ6IGVuZCBv
+ZiB0aGUgYWxsb3dlZCByYW5nZSBmb3IgdGhlIGFsbG9jYXRpb24NCj4gPiArICogQHNpemU6IHNp
+emUgb2YgdGhlIGFsbG9jYXRpb24NCj4gPiArICogQG1vZGU6IGZpbmUtdHVuZSB0aGUgYWxsb2Nh
+dGlvbiBzZWFyY2gNCj4gPiArICoNCj4gPiArICogVGhpcyBpdGVyYXRvciB3YWxrcyBvdmVyIGFs
+bCBob2xlcyBzdWl0YWJsZSBmb3IgdGhlIGFsbG9jYXRpb24gb2YgZ2l2ZW4NCj4gPiArICogQHNp
+emUgaW4gYSB2ZXJ5IGVmZmljaWVudCBtYW5uZXIuIEl0IGlzIGltcGxlbWVudGVkIGJ5IGNhbGxp
+bmcNCj4gPiArICogZHJtX21tX2ZpcnN0X2hvbGUoKSBhbmQgZHJtX21tX25leHRfaG9sZSgpIHdo
+aWNoIGlkZW50aWZ5IHRoZQ0KPiA+ICsgKiBhcHByb3ByaWF0ZSBob2xlcyB3aXRoaW4gdGhlIGdp
+dmVuIHJhbmdlIGJ5IGVmZmljaWVudGx5IHRyYXZlcnNpbmcgdGhlDQo+ID4gKyAqIHJidHJlZSBh
+c3NvY2lhdGVkIHdpdGggQG1tLg0KPiA+ICsgKi8NCj4gPiArI2RlZmluZSBkcm1fbW1fZm9yX2Vh
+Y2hfc3VpdGFibGVfaG9sZShwb3MsIG1tLCByYW5nZV9zdGFydCwgcmFuZ2VfZW5kLCBcDQo+ID4g
+KwkJCQkgICAgICBzaXplLCBtb2RlKSBcDQo+ID4gKwlmb3IgKHBvcyA9IF9fZHJtX21tX2ZpcnN0
+X2hvbGUobW0sIHJhbmdlX3N0YXJ0LCByYW5nZV9lbmQsIHNpemUsIFwNCj4gPiArCQkJCSAgICAg
+ICBtb2RlICYgfkRSTV9NTV9JTlNFUlRfT05DRSk7IFwNCj4gPiArCSAgICAgcG9zOyBcDQo+ID4g
+KwkgICAgIHBvcyA9IG1vZGUgJiBEUk1fTU1fSU5TRVJUX09OQ0UgPyBcDQo+ID4gKwkgICAgIE5V
+TEwgOiBfX2RybV9tbV9uZXh0X2hvbGUobW0sIHBvcywgc2l6ZSwgXA0KPiA+ICsJCQkJICAgICAg
+IG1vZGUgJiB+RFJNX01NX0lOU0VSVF9PTkNFKSkNCj4gPiArDQo+ID4gICAvKg0KPiA+ICAgICog
+QmFzaWMgcmFuZ2UgbWFuYWdlciBzdXBwb3J0IChkcm1fbW0uYykNCj4gPiAgICAqLw0K
