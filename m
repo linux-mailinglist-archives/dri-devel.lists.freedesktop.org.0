@@ -1,68 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E454C6D4F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 14:00:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 601224C6D58
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 14:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0512010E462;
-	Mon, 28 Feb 2022 13:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34AB410E6FA;
+	Mon, 28 Feb 2022 13:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D7410E6FE;
- Mon, 28 Feb 2022 13:00:01 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 5F35721991;
- Mon, 28 Feb 2022 12:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1646053199;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GYvrOH34zCWl0BM57x3MsoAIfmyz0j5aUqs18/+9t2Q=;
- b=CjK8nNU5xeMNbntdPyPSfsq8/1RCdmnnM+tnemCL9lQAmpVtTSbi2i0S/zED3dXrk+604R
- F7IO7CYu/SbuKXg9SBt5CXTg/P34/O1YqlSaqPLhtC63aEQddztfpC4Hi7UwtxSCvZvSgX
- /+ilzqW9cikrpXqztnZDSBZcWjPDsWQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1646053199;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GYvrOH34zCWl0BM57x3MsoAIfmyz0j5aUqs18/+9t2Q=;
- b=YC640EWtiJvSsnZFCbq8EFRrctbU3bFx2JBcqb+i/kX+D3HkAqM4d4d/mY/yRse7T0PyAW
- 0aoolUYAD4EZD9DA==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id 81766A3B84;
- Mon, 28 Feb 2022 12:59:58 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id A86B6DA823; Mon, 28 Feb 2022 13:56:07 +0100 (CET)
-Date: Mon, 28 Feb 2022 13:56:07 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220228125607.GG12643@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz, Arnd Bergmann <arnd@kernel.org>,
- linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
- Jonathan Corbet <corbet@lwn.net>,
- Federico Vaga <federico.vaga@vaga.pv.it>,
- Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
- Michal Marek <michal.lkml@markovi.net>,
- Nick Desaulniers <ndesaulniers@google.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc-tw-discuss@lists.sourceforge.net,
- linux-arm-kernel@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-btrfs@vger.kernel.org
-References: <20220228103142.3301082-1-arnd@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE9910E660;
+ Mon, 28 Feb 2022 13:01:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 62228612C6;
+ Mon, 28 Feb 2022 13:01:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED96C340FB;
+ Mon, 28 Feb 2022 13:01:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646053284;
+ bh=UiMZXTZJMibeG1EW/yB31l1nItCSfnX4i5UKaUmqYi4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=aUSaKk/THutssyZeRam8Ln1InKtmbtGYGpY3YWvcJayXLqxXdTg953ErM2MJCtBtt
+ uScw14Tbo5bg0ZHcC8cU7sgK10lL8TIQKSzKXfK2pkZyGxYCp1liVDXA1C4GiuJ7SO
+ oKHEAWYavKs1p4i7M729QMm1NwF5516rRrjec/lz5dGWlP1/n5JNj3ETeEYxIsNPJb
+ BRWAhjZu7qFxrmpdGKWHJpcfMZ8eeq5JB03Rgt3ARIfPBC1Fwk7KFtLPaICIK7TX3F
+ 4jMGPC4qPpWyyrTwafEVFhjGRcTqgwWsXE9jDdjsorkbn/AQNdVuR7OlQvIUmEXRhX
+ usy66MwlSEfkA==
+Received: by mail-wr1-f48.google.com with SMTP id j17so15397637wrc.0;
+ Mon, 28 Feb 2022 05:01:24 -0800 (PST)
+X-Gm-Message-State: AOAM5320XlH54ZcGM1jsGnAnabmys8ou0MxAz5sAwKlKu4Y/+LFWsIik
+ 8rN4mc4LPFmlfJleNfIgmuVFscdwoFINFmJrgG0=
+X-Google-Smtp-Source: ABdhPJwJZ+uje/xKx7oLYKDj2bjjjypvvR3EipOurSGA++FmSYe2fJ0pQQWQ1o2kkZufMewj6tiI/1i+DeR+CamQFLs=
+X-Received: by 2002:a5d:63c2:0:b0:1ef:840e:e139 with SMTP id
+ c2-20020a5d63c2000000b001ef840ee139mr8331744wrw.192.1646053282413; Mon, 28
+ Feb 2022 05:01:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+References: <20220228103142.3301082-1-arnd@kernel.org>
+ <87v8wz5frv.fsf@intel.com>
+In-Reply-To: <87v8wz5frv.fsf@intel.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 28 Feb 2022 14:01:06 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1YUR4BNu8Nrc5XW+sFjL7-hWTHh7kstV27wmj1aqc4vA@mail.gmail.com>
+Message-ID: <CAK8P3a1YUR4BNu8Nrc5XW+sFjL7-hWTHh7kstV27wmj1aqc4vA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
-Cc: linux-arm-kernel@lists.infradead.org,
- Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Michal Marek <michal.lkml@markovi.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
  Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
  linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
  llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- greybus-dev@lists.linaro.org, Alex Shi <alexs@kernel.org>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
- intel-gfx@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
+ Alex Shi <alexs@kernel.org>, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Hu Haowen <src.res@email.cn>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
- linux-doc-tw-discuss@lists.sourceforge.net, linux-kbuild@vger.kernel.org
+ linux-doc-tw-discuss@lists.sourceforge.net,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> 
-> Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> [v2]
->  - added -std=gnu11 back, rather than just relying on the default
->  - minor changes to changelog text
-> ---
->  Documentation/process/programming-language.rst              | 4 ++--
->  .../translations/it_IT/process/programming-language.rst     | 4 ++--
->  .../translations/zh_CN/process/programming-language.rst     | 4 ++--
->  .../translations/zh_TW/process/programming-language.rst     | 4 ++--
->  Makefile                                                    | 6 +++---
->  arch/arm64/kernel/vdso32/Makefile                           | 2 +-
->  drivers/gpu/drm/i915/Makefile                               | 1 +
->  drivers/staging/greybus/tools/Makefile                      | 3 ++-
+On Mon, Feb 28, 2022 at 1:36 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> >
+> > One minor issue that remains is an added gcc warning for shifts of
+> > negative integers when building with -Werror, which happens with the
+> > 'make W=1' option, as well as for three drivers in the kernel that always
+> > enable -Werror, but it was only observed with the i915 driver so far.
+> > To be on the safe side, add -Wno-shift-negative-value to any -Wextra
+> > in a Makefile.
+>
+> Do you mean always enable -Wall and/or -Wextra instead of -Werror?
+>
+> We do use -Werror for our CI and development too, but it's hidden behind
+> a config option that depends on COMPILE_TEST=n to avoid any problems
+> with allmodconfig/allyesconfig.
 
-For
+What I meant here is that I'm adding -Wno-shift-negative-value to all
+four places in the kernel that already use -Wextra.
 
->  fs/btrfs/Makefile                                           | 1 +
+> For the future, makes me wonder if we couldn't have a way for drivers to
+> locally enable -Wall/-Wextra in a way that incorporates the exceptions
+> from kbuild instead of having to duplicate them.
 
-Acked-by: David Sterba <dsterba@suse.com>
+I have an older patch series that does this, but it also does a few other
+things that I couldn't quite get right in the end with all combinations of
+compiler versions and warning levels, so I did not submit that.
+
+What this allows is to have per-directory statements like
+
+KBUILD_WARN1=1
+KBUILD_ERROR0=1
+
+to force all the default warnings (-Wall etc) to be errors, while
+making the W=1 type warnings (-Wextra etc) normal warnings.
+
+> Anyway, for the i915 changes,
+>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+Thanks,
+
+       Arnd
