@@ -2,46 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420544C7BC6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82274C7BCB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586C710E8F3;
-	Mon, 28 Feb 2022 21:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C02E10E8F4;
+	Mon, 28 Feb 2022 21:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE82210E8F3;
- Mon, 28 Feb 2022 21:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646083279; x=1677619279;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=iEylOzGnMFd8NLZsQa/NLHrqf/3f1TWyMkAnbgwZjdA=;
- b=UCRVYiBcxvD9ej4cs6GU6bszn0XtXk+ycAQopav3WIANKMIQ1PFAvhFP
- sUsIiZInGYN8q4FiEXh9FimSJ/Fb+QrPzIjYTRf1k2N15jARB8GtexUQi
- APxfS14/HKGJZlxHvHlMt7dWS58l7NT+xtAOFV1H1DsUTEhOHK5/2jDg/
- M9jSCIsFOI67kJcDUDg6Rb/Q2a4WV2d0u6vH80W56hECJ1QmiV21iDSK4
- SCNV1ApMdjUEmI5OspXsDdwYAeODTMVOgytAWp8opA55qsenN1yUGytzn
- q8Dm0Y8Ex68XXgomTVblz6/hZwb/reZhBloHDyGmupCy7EstnlJY1SGWR w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="252917789"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="252917789"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 13:21:19 -0800
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="534625547"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 13:21:17 -0800
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/gt: Clear compress metadata for Xe_HP platforms
-Date: Tue,  1 Mar 2022 02:51:39 +0530
-Message-Id: <20220228212139.17180-1-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8403410E8F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 21:21:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nGq+JzaHa/DAe+rITAHuFEhhYtgMYeQRuRmBMvfyUE3IxUGltKhYPpWXGPID6taPtg3nNz0CPaMvZYJmhQrbldB1pJVf+7iKxNwIjt5KSwB3qJ2kVDuX1/DnV8tXG1B+PPfBaHB0LA+oQn9GhpdTl44gRMkUJYWfkfsOmxLUhrlAO2t1ozLEiYbMHQHN4Wbc1Z1Il4wYHNxh28tyBoqCEVroAAcl95UdsFQKoqtyQDqP6KuHUrK8T6ys7dHDX8hllxauZGmuv4eDyVlz2xiQ2sKVY4QIAogGf5NkfivltJyMLe7ZWAGUErik7j1YHgJKXDLgFBp2pM7LKe3Jukih0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zh3qTpgYBUHDTThTeO77/9+ykepZ9n/GPsnTiXI9ACk=;
+ b=R2o9LW9lGyGz2oS2YEoD+/zn4PshnkIeEy0qNuwUMXlMip1xIqrF+uahH49MvthFQl5udUk/tv+W8ui/Yf8JPBqVT64WfEgzCgmboMgcqdVXDqW2hT7Ih20EBFUAc1VIoBqgARGiqkCjjkNn/lY2+Urmno9wwJUcwyYSl9Dbmuhks/w0Bo/H+P3hNz4/aRH5ZS3gHE7QCFqIHvgg1ShsB2+J7ppc9TGrgHVxbD9PhveatyAoXCOy/OHymLF1VIfwoSWPMgXy9gkPljwgBh4ZSXHiVGkaDVT9xJ3ZDP4vz1Xb8z5Lo/uDrrp5XtN/92EwfdK3/FEXWala5t1uVAsdHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zh3qTpgYBUHDTThTeO77/9+ykepZ9n/GPsnTiXI9ACk=;
+ b=KFys8x4AgswQ3fUrc2iTbKXTEvHr1VTvPNBxDPIAA4QQarlJpIUztfWbO/jQ3+ToU/ppFpDQ/ffyCRONQro36yVHnQtR+3m93JCTmu1cI9oFQQjcmqqAQMMiTOd2fs6cGdtMUiSSYTlSU1U+wSoWgneyd73i3iD4XcHhdcGrH60=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by BYAPR12MB3238.namprd12.prod.outlook.com (2603:10b6:a03:13b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Mon, 28 Feb
+ 2022 21:21:47 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3%11]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
+ 21:21:47 +0000
+Message-ID: <9e288f3c-3251-f017-3541-d01ae6afe499@amd.com>
+Date: Mon, 28 Feb 2022 16:21:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/v3d: centralize error handling when init scheduler
+ fails
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>, emma@anholt.net, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220228181647.3794298-1-mwen@igalia.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+In-Reply-To: <20220228181647.3794298-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0040.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::26) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9ef18464-ac82-451c-e01e-08d9fb0053d0
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3238:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB323878EE9D9202FE7AAA93B2EA019@BYAPR12MB3238.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h9tatDuRu133yu+8dlF8s1Uz6V9PZewjSbmBxnc9JGNp09DZJoECtS5lRktpDzYn0Kt/cQbm3AH0QmDLvEXCKtxjwPKqjB9BQXcZndS/ATEm1TXDRyUQxxEbRaJdA0CON2aR45HFB8i1jyL///fz3ZIXrMUtXzxYAaTzVHSVG9RtzIb9m4qgTOqBs9My8gA07p1l3aczh8AHH6B53PfrlPVJTWWvVpcWxHuxUWQQZ9Z/TN/ugLJSDgOxkqeXxw9KB4d7vfIssTA6/0znRBwPz/caeRQlo1qBVeq3nid9FuJO0xydGfoAG0R6viMF3mk173Yt23WEkY963j5Fq6TKusN7WzFA+s8OnjWi/9xTfQcCo1xC3LVs7XQdXQBdQTag5HNf5hIoWg9dxNQyu1bNunHOaG4tXtsK4vUBUT6nDuoyVSFxtNYOmrzVkLcIzxakBapPCjv0zHLpNr+tvY+KK3kXkElZox+AFnzLvi+KxopDrxZglOijVz7AL6Y5iu4VrsGbBkwYCwq/NxBeAuaVNw9AZVsGZo36u32dPlZAXIh3WGjFFZZ6NH9699yVIGTbhVi9Bv7OmjsItbxHu+GIZibiibClrD+S4aMHM4WKQCSZoU/rhvLK3/iAwaFLmkBCB9gRrOiTte7jds3dSpbfgYII8OpzEoMnOGHgYAL35fBxYzB5vCwWD+Uf/MmVfov/BWQZ9tEN5JfLHX+RD0IKm6vxqkg5TSmRw/0CCPVv/64=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(31696002)(38100700002)(86362001)(6512007)(6506007)(53546011)(2616005)(186003)(8936002)(5660300002)(66476007)(4326008)(8676002)(66946007)(66556008)(31686004)(36756003)(2906002)(44832011)(508600001)(6486002)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzgwazYzOVR6OWJoajA0RXZ1eU5aY0tpSFBCZElxcld1RWJlYTNpeWprbHNk?=
+ =?utf-8?B?cXRiSktmWEJuRG5zRVd1N3RXWWY5eWxyV01DaGlaMlVadDZ2bjBlcnpoenVR?=
+ =?utf-8?B?YmVNdERwUkRzNC81cXpDd3htQjYwVk1yU0JhM0FtTVBxWjIvWitVdFQva1NT?=
+ =?utf-8?B?bG5GZWd4NnQ5VzNGcWYxVm9wZnZyeC9KNnJ5c3ZvTk8yM0pOMDNaOTVBRGR2?=
+ =?utf-8?B?RU1WbFpQY0NSTGxZUkVidmV4MEdmbmUwa1VUSWhSeXR4Q2FrZEV0Nmsyd2Rn?=
+ =?utf-8?B?d1F6V0d1K21sL0R4RlZ5SW1mTTFidTFlVm9zdWIwa1Rnd3NScExwaGJsYS9H?=
+ =?utf-8?B?TjdxMlkxb2U0M3pVUVljZXZWYXJUSEwzSmtEcEdaR043ZGozcmx1WTlJcHlS?=
+ =?utf-8?B?RnFVQk12QUFCWE44blc5c2tSOUFpV2w5NVM3SVpzSjBQaitzRitKeSt2ZkVm?=
+ =?utf-8?B?RFEyVENzY0srdGxnaEN0dkVUSDg0c0NuaXA2THNYczErLzlxTjdCT3lZQ0Z4?=
+ =?utf-8?B?SDBNWHFqNCs3WFlIRlhJOVY5K1ZPQWtmV2xmK3hVRCtlcWV5L0I3VDhCV25r?=
+ =?utf-8?B?ZVk5WjlYZ1QvOUFkeWliZUt0ZCtQaW15Y2piOTVLU2NzWE9JbHgvUWtuMlRO?=
+ =?utf-8?B?bXhENVB1MEFIaFNuZ1BBaDlXUTUxVHREVUMzVnU2OG4wN3JIUnRTTUsrS2tz?=
+ =?utf-8?B?eStHUHE3Tm9iZGVVNTJGT3JvcUF3aFkxN3daem81cnhDYnlzUEREMjRrSHha?=
+ =?utf-8?B?UmhlNkd3bVVmSkpJb05ZT2drSGVNcHVwLzZzTW5KQ2dZWlNvV21wZFNGMjdK?=
+ =?utf-8?B?YVh6cVkzMXdIU0FqL29xek1SOW1OMXp1a0R0TTAwR1QxcUxkdm1SQi9MWVQw?=
+ =?utf-8?B?amZmZVFmaVRDZGlPaDBhajFqWitIWldMZ0VxcFBDeGthcUVzeG9nV2xXV0JG?=
+ =?utf-8?B?NHBMeVY3VmhGaU82SjEwU2o3ZlpTaFZMRVFKazh2d3VUVEhNaklvVVVHMEdR?=
+ =?utf-8?B?aG9vdEdEQXhNQTdVNEF6TjY2bS9iQ1lBTDBxcWV5NURaQkJRVGZxdVJXcFRx?=
+ =?utf-8?B?M2VVTytqRlF3cTdZQzBibFF3eFVETmdaWlVMa2t1RHJqa09vcHNYZXUwZmNq?=
+ =?utf-8?B?a0JDQVE3Vm1yQlVCejVLT0txMTdTMVdqcTYvcVFUbktqcGJXRDNnL2NyVlRL?=
+ =?utf-8?B?SnB5bXBidTd1QlRBR3VaSThrSmozTGRCRm9FcHlEQmt2UEdVUEZZNjRZcW1h?=
+ =?utf-8?B?dW5MOEhmOEhWYnlyK01yRnFqU3hnSXdFVUtxWFY4dXNKeC95VVpFcVBnaURv?=
+ =?utf-8?B?cmdXR0xjK1JLWlFJcnE2d2dpUnVjekJqcnVOdWpKKzVlWW1od2lMaC91b1ZE?=
+ =?utf-8?B?V0J0SXM5Zk1FamdDS3pBaTMrVEFYQlNCWjhWYWJnODZwazh4RjVtSnR5QlI0?=
+ =?utf-8?B?aU16Um42R2VSMUZ1L2YyOGFJVkk3ZDNDOTBrNWthTVBGWEhLcUdYNDNpMmNR?=
+ =?utf-8?B?czJFVnRVM05LQWFoU1ovZ1BBeFBYTUgyV2JUVFBrNVBkUExqaXlUTXA5ZFFp?=
+ =?utf-8?B?UTliR1B5N1AxdjFDVGFFUjlZazY1bFptb0F5WExTYldYOGpjdXJRKzZNL0VD?=
+ =?utf-8?B?TXBUSlNCdFM5MS9KL0RXQzhPSVkrcU5QNkFPZFFrdGJyZ2lXcEU2ejFXRzlU?=
+ =?utf-8?B?bGd1Y1o3YzBtUlJqQk9IRnhwWXF2aXBVaHUvaDBreHRMd1dJODhNeDRQNkE4?=
+ =?utf-8?B?dkE3c1RzcHpCcEZ5b1JMdDNyMkFUNzIzTUwzTlpBNytscnlNKzdrcmt2Y3VX?=
+ =?utf-8?B?MDdUaW1KYWVVOFJXRTNLWmdHUTRnTkIyY2JxRFVzK0dEMk1qSitGMEdMQThV?=
+ =?utf-8?B?MXAxZ0NxSklXOUpNeHZ2aGhPdk9Zdmx5MHkyK0JrZkhqdThob3ZtWWNDcitJ?=
+ =?utf-8?B?Q0JhbVdEWXEwQmQvVXNQbS9ISFI2V0ZIQ2o3VFkxS3ZhMEZtbzJRbGJ3aHJi?=
+ =?utf-8?B?dyswTDlDaFBRajUyUVpVVFRjVnpjeFg5cjNPME9nalM2MmdNVE1kcUxuQjRu?=
+ =?utf-8?B?clRCR1JIVURCUVI5RWZ3S3ZIYTFRdFA3TkF1SXJ6UUVYaDJhWUJ3aXNEdVcr?=
+ =?utf-8?B?YVpwbGI5WEtBejQydEpTV01tR052OW5ZQ25kY2k3Y21Ja0FtcmxoTmF2Q3FW?=
+ =?utf-8?B?S1dJOEIvRGxHUXBZRGVBd3hRTEUrWXMzN0dUbUFWOGFCWk9Zd1hTK0JtN2hw?=
+ =?utf-8?Q?X4H01x6ruR+1M71P5/j+8HzooKspgv4yRq+/tf2QbQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ef18464-ac82-451c-e01e-08d9fb0053d0
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 21:21:47.7217 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tERwQAyWTWfpiyCsOWAzp3/2chPDLtTzxw7L5j1PnlzvhNeeKwvuArhrew031PJ2bJPghv7ZBQz5KeFLQitJdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3238
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,257 +129,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+Cc: Jiawei.Gu@amd.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+Acked-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-Xe-HP and latest devices support Flat CCS which reserved a portion of
-the device memory to store compression metadata, during the clearing of
-device memory buffer object we also need to clear the associated
-CCS buffer.
+Andrey
 
-Flat CCS memory can not be directly accessed by S/W.
-Address of CCS buffer associated main BO is automatically calculated
-by device itself. KMD/UMD can only access this buffer indirectly using
-XY_CTRL_SURF_COPY_BLT cmd via the address of device memory buffer.
-
-v2: Fixed issues with platform naming [Lucas]
-v3: Rebased [Ram]
-    Used the round_up funcs [Bob]
-v4: Fixed ccs blk calculation [Ram]
-    Added Kdoc on flat-ccs.
-v5: GENMASK is used [Matt]
-    mocs fix [Matt]
-    Comments Fix [Matt]
-    Flush address programming [Ram]
-
-Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  15 ++
- drivers/gpu/drm/i915/gt/intel_migrate.c      | 146 ++++++++++++++++++-
- 2 files changed, 157 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index f8253012d166..237c1baccc64 100644
---- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -203,6 +203,21 @@
- #define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
- #define GFX_OP_DRAWRECT_INFO_I965  ((0x7900<<16)|0x2)
- 
-+#define XY_CTRL_SURF_INSTR_SIZE	5
-+#define MI_FLUSH_DW_SIZE		3
-+#define XY_CTRL_SURF_COPY_BLT		((2 << 29) | (0x48 << 22) | 3)
-+#define   SRC_ACCESS_TYPE_SHIFT		21
-+#define   DST_ACCESS_TYPE_SHIFT		20
-+#define   CCS_SIZE_MASK			GENMASK(17, 8)
-+#define   XY_CTRL_SURF_MOCS_MASK	GENMASK(31, 25)
-+#define   NUM_CCS_BYTES_PER_BLOCK	256
-+#define   NUM_BYTES_PER_CCS_BYTE	256
-+#define   NUM_CCS_BLKS_PER_XFER		1024
-+#define   INDIRECT_ACCESS		0
-+#define   DIRECT_ACCESS			1
-+#define  MI_FLUSH_LLC			BIT(9)
-+#define  MI_FLUSH_CCS			BIT(16)
-+
- #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
- #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
- #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 20444d6ceb3c..26ee6ae0e1bb 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -16,6 +16,8 @@ struct insert_pte_data {
- };
- 
- #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
-+#define GET_CCS_BYTES(i915, size)	(HAS_FLAT_CCS(i915) ? \
-+					 DIV_ROUND_UP(size, NUM_BYTES_PER_CCS_BYTE) : 0)
- 
- static bool engine_supports_migration(struct intel_engine_cs *engine)
- {
-@@ -467,6 +469,113 @@ static bool wa_1209644611_applies(int ver, u32 size)
- 	return height % 4 == 3 && height <= 8;
- }
- 
-+/**
-+ * DOC: Flat-CCS - Memory compression for Local memory
-+ *
-+ * On Xe-HP and later devices, we use dedicated compression control state (CCS)
-+ * stored in local memory for each surface, to support the 3D and media
-+ * compression formats.
-+ *
-+ * The memory required for the CCS of the entire local memory is 1/256 of the
-+ * local memory size. So before the kernel boot, the required memory is reserved
-+ * for the CCS data and a secure register will be programmed with the CCS base
-+ * address.
-+ *
-+ * Flat CCS data needs to be cleared when a lmem object is allocated.
-+ * And CCS data can be copied in and out of CCS region through
-+ * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
-+ *
-+ * When we exhaust the lmem, if the object's placements support smem, then we can
-+ * directly decompress the compressed lmem object into smem and start using it
-+ * from smem itself.
-+ *
-+ * But when we need to swapout the compressed lmem object into a smem region
-+ * though objects' placement doesn't support smem, then we copy the lmem content
-+ * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
-+ * When the object is referred, lmem content will be swaped in along with
-+ * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
-+ * location.
-+ */
-+
-+static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
-+{
-+	/* Address needs to be QWORD aligned */
-+	GEM_BUG_ON(!IS_ALIGNED(dst, 8));
-+
-+	*cmd++ = MI_FLUSH_DW | flags;
-+	*cmd++ = lower_32_bits(dst);
-+	*cmd++ = upper_32_bits(dst);
-+
-+	return cmd;
-+}
-+
-+static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
-+{
-+	u32 num_cmds, num_blks, total_size;
-+
-+	if (!GET_CCS_BYTES(i915, size))
-+		return 0;
-+
-+	/*
-+	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
-+	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
-+	 * transfer upto 1024 blocks.
-+	 */
-+	num_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-+				NUM_CCS_BYTES_PER_BLOCK);
-+	num_cmds = DIV_ROUND_UP(num_blks, NUM_CCS_BLKS_PER_XFER);
-+	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
-+
-+	/*
-+	 * Adding a flush before and after XY_CTRL_SURF_COPY_BLT
-+	 */
-+	total_size += 2 * MI_FLUSH_DW_SIZE;
-+
-+	return total_size;
-+}
-+
-+static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
-+				     u8 src_mem_access, u8 dst_mem_access,
-+				     int src_mocs, int dst_mocs,
-+				     u16 ccs_blocks)
-+{
-+	int blks_left = ccs_blocks, blks_per_copy;
-+
-+	/*
-+	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
-+	 * data in and out of the CCS region.
-+	 *
-+	 * We can copy at most 1024 blocks of 256 bytes using one
-+	 * XY_CTRL_SURF_COPY_BLT instruction.
-+	 *
-+	 * In case we need to copy more than 1024 blocks, we need to add
-+	 * another instruction to the same batch buffer.
-+	 *
-+	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
-+	 *
-+	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
-+	 */
-+	do {
-+		blks_per_copy = blks_left >= NUM_CCS_BLKS_PER_XFER ?
-+				NUM_CCS_BLKS_PER_XFER : blks_left;
-+		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
-+			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
-+			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
-+			  FIELD_PREP(CCS_SIZE_MASK, blks_per_copy - 1));
-+		*cmd++ = lower_32_bits(src_addr);
-+		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
-+			  FIELD_PREP(XY_CTRL_SURF_MOCS_MASK, src_mocs));
-+		*cmd++ = lower_32_bits(dst_addr);
-+		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
-+			  FIELD_PREP(XY_CTRL_SURF_MOCS_MASK, dst_mocs));
-+		src_addr += SZ_64M;
-+		dst_addr += SZ_64M;
-+		blks_left -= blks_per_copy;
-+	} while (blks_left > 0);
-+
-+	return cmd;
-+}
-+
- static int emit_copy(struct i915_request *rq,
- 		     u32 dst_offset, u32 src_offset, int size)
- {
-@@ -614,16 +723,24 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	return err;
- }
- 
--static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
-+static int emit_clear(struct i915_request *rq, u64 offset, int size,
-+		      u32 value, bool is_lmem)
- {
--	const int ver = GRAPHICS_VER(rq->engine->i915);
-+	struct drm_i915_private *i915 = rq->engine->i915;
-+	const int ver = GRAPHICS_VER(i915);
-+	u32 num_ccs_blks, ccs_ring_size;
-+	int mocs = rq->engine->gt->mocs.uc_index << 1;
- 	u32 *cs;
- 
- 	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
- 
- 	offset += (u64)rq->engine->instance << 32;
- 
--	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
-+	/* Clear CCS only when value is 0 */
-+	ccs_ring_size = (is_lmem && !value) ?
-+			 calc_ctrl_surf_instr_size(i915, size) : 0;
-+
-+	cs = intel_ring_begin(rq, round_up(ver >= 8 ? 8 + ccs_ring_size : 6, 2));
- 	if (IS_ERR(cs))
- 		return PTR_ERR(cs);
- 
-@@ -646,6 +763,27 @@ static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
- 		*cs++ = value;
- 	}
- 
-+	if (is_lmem && HAS_FLAT_CCS(i915) && !value) {
-+		num_ccs_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-+					    NUM_CCS_BYTES_PER_BLOCK);
-+
-+		/*
-+		 * Flat CCS surface can only be accessed via
-+		 * XY_CTRL_SURF_COPY_BLT CMD and using indirect
-+		 * mapping of associated LMEM.
-+		 * We can clear ccs surface by writing all 0s,
-+		 * so we will flush the previously cleared buffer
-+		 * and use it as a source.
-+		 */
-+		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
-+		cs = _i915_ctrl_surf_copy_blt(cs, offset, offset,
-+					      DIRECT_ACCESS, INDIRECT_ACCESS,
-+					      mocs, mocs, num_ccs_blks);
-+		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
-+
-+		if (ccs_ring_size & 1)
-+			*cs++ = MI_NOOP;
-+	}
- 	intel_ring_advance(rq, cs);
- 	return 0;
- }
-@@ -711,7 +849,7 @@ intel_context_migrate_clear(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
--		err = emit_clear(rq, offset, len, value);
-+		err = emit_clear(rq, offset, len, value, is_lmem);
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
--- 
-2.20.1
-
+On 2022-02-28 13:16, Melissa Wen wrote:
+> Remove redundant error message (since now it is very similar to what
+> we do in drm_sched_init) and centralize all error handling in a
+> unique place, as we follow the same steps in any case of failure.
+>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_sched.c | 40 +++++++++++----------------------
+>   1 file changed, 13 insertions(+), 27 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index 39459ae96f30..06238e6d7f5c 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -392,34 +392,24 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms), NULL,
+>   			     NULL, "v3d_bin", v3d->drm.dev);
+> -	if (ret) {
+> -		dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
+> +	if (ret)
+>   		return ret;
+> -	}
+>   
+>   	ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+>   			     &v3d_render_sched_ops,
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms), NULL,
+>   			     NULL, "v3d_render", v3d->drm.dev);
+> -	if (ret) {
+> -		dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
+> -			ret);
+> -		v3d_sched_fini(v3d);
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		goto fail;
+>   
+>   	ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
+>   			     &v3d_tfu_sched_ops,
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms), NULL,
+>   			     NULL, "v3d_tfu", v3d->drm.dev);
+> -	if (ret) {
+> -		dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
+> -			ret);
+> -		v3d_sched_fini(v3d);
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		goto fail;
+>   
+>   	if (v3d_has_csd(v3d)) {
+>   		ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
+> @@ -427,27 +417,23 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   				     hw_jobs_limit, job_hang_limit,
+>   				     msecs_to_jiffies(hang_limit_ms), NULL,
+>   				     NULL, "v3d_csd", v3d->drm.dev);
+> -		if (ret) {
+> -			dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
+> -				ret);
+> -			v3d_sched_fini(v3d);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto fail;
+>   
+>   		ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
+>   				     &v3d_cache_clean_sched_ops,
+>   				     hw_jobs_limit, job_hang_limit,
+>   				     msecs_to_jiffies(hang_limit_ms), NULL,
+>   				     NULL, "v3d_cache_clean", v3d->drm.dev);
+> -		if (ret) {
+> -			dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
+> -				ret);
+> -			v3d_sched_fini(v3d);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto fail;
+>   	}
+>   
+>   	return 0;
+> +
+> +fail:
+> +	v3d_sched_fini(v3d);
+> +	return ret;
+>   }
+>   
+>   void
