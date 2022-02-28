@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E084C6CB2
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 13:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E424C6CB8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 13:37:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0772710E3E9;
-	Mon, 28 Feb 2022 12:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C94B110E46E;
+	Mon, 28 Feb 2022 12:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133D610E3D6;
- Mon, 28 Feb 2022 12:36:44 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B352C10E46A;
+ Mon, 28 Feb 2022 12:37:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646051804; x=1677587804;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=veBf2nwqXxnCHRBd6awnOqfgC5iQHglnFuJQI01TkYI=;
- b=CwrZBtaQcSQimhXq4kjyh6f82eCbAHd+AwHjcRpoZ3TwYRvdRk5ifWYW
- qA/s+37B7Lwkg/ktNj2Ad2uoKZl0FkjOsMild9Xb5ayleKL7OWRPpT58I
- z7kln3pVaBIbXiilWDvepY6DU0FAhaJH7IFeE7xhM4m2YKubqV9bbwyaF
- YcwdqQfEEwpyITs3PZgTU3CpSF4JUdWlnATqQ9ISYp6LiI+XzICDFYsnT
- LP5VDitFYrmSaTYQQvXfkdkaJSBLiF9Zeu8SaGeVTJBGYD744ZzcShQ6c
- Kg5f9CWd2tU42eMHiKYvP0Kxh57ijpTvEfAqrhBsm4QMyYTMnBAxyqthr A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="233490738"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="233490738"
+ t=1646051830; x=1677587830;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=7B5xXQQ6ggh1HFTcP+YadDpRzLVifOjGsC04RK4u89s=;
+ b=A4lQ+1CImVjLXftMmQh/11uPXiQgNtCt2N5R6mgtOPjEijFwjk8KayzH
+ EyeBMWigj+9hoAKbqgnL9rfbrHgWlTwmAonL7OagbAoJFY63T46sIzQp9
+ ts5os4t6+uDwLz07vuEBbbjgLsIaUNozwqRV7baANCxvMRXzIdrK/0mzW
+ r7OBydBAyMPfeyj+XFSYODzrUe+QC6xk4090ao0cW/SZlMNnyHbdpYXjh
+ 66Z8NmSrIKDj9Eg35u3wNLMLSpZOGjJLrEZC9KnFbKmr84Q5p6brpCO2M
+ WOsPoy62RBXvtGNBjY4eV7kZH2LqRHoZUyChLtYg11CpqsWeGr77HoLNn Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="316085531"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="316085531"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 04:36:43 -0800
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="550218625"
-Received: from acroni2x-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.26.243])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 04:37:10 -0800
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="550218755"
+Received: from gkapusti-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.51.8])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 04:36:42 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [CI 4/4] drm/i915/selftests: exercise mmap migration
-Date: Mon, 28 Feb 2022 12:36:07 +0000
-Message-Id: <20220228123607.580432-4-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220228123607.580432-1-matthew.auld@intel.com>
-References: <20220228123607.580432-1-matthew.auld@intel.com>
+ 28 Feb 2022 04:37:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220228103142.3301082-1-arnd@kernel.org>
+Date: Mon, 28 Feb 2022 14:36:52 +0200
+Message-ID: <87v8wz5frv.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,420 +57,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ greybus-dev@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
+ intel-gfx@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-doc-tw-discuss@lists.sourceforge.net, Alex Shi <alexs@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exercise each of the migration scenarios, verifying that the final
-placement and buffer contents match our expectations.
+On Mon, 28 Feb 2022, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> During a patch discussion, Linus brought up the option of changing
+> the C standard version from gnu89 to gnu99, which allows using variable
+> declaration inside of a for() loop. While the C99, C11 and later standards
+> introduce many other features, most of these are already available in
+> gnu89 as GNU extensions as well.
+>
+> An earlier attempt to do this when gcc-5 started defaulting to
+> -std=3Dgnu11 failed because at the time that caused warnings about
+> designated initializers with older compilers. Now that gcc-5.1 is the
+> minimum compiler version used for building kernels, that is no longer a
+> concern. Similarly, the behavior of 'inline' functions changes between
+> gnu89 and gnu11, but this was taken care of by defining 'inline' to
+> include __attribute__((gnu_inline)) in order to allow building with
+> clang a while ago.
+>
+> One minor issue that remains is an added gcc warning for shifts of
+> negative integers when building with -Werror, which happens with the
+> 'make W=3D1' option, as well as for three drivers in the kernel that alwa=
+ys
+> enable -Werror, but it was only observed with the i915 driver so far.
+> To be on the safe side, add -Wno-shift-negative-value to any -Wextra
+> in a Makefile.
 
-v2(Thomas): Replace for_i915_gem_ww() block with simpler object_lock()
+Do you mean always enable -Wall and/or -Wextra instead of -Werror?
 
-v3:
-- For testing purposes allow forcing the io_size such that we can
-  exercise the allocation + migration path on devices that don't have the
-  small BAR limit.
+We do use -Werror for our CI and development too, but it's hidden behind
+a config option that depends on COMPILE_TEST=3Dn to avoid any problems
+with allmodconfig/allyesconfig.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- .../drm/i915/gem/selftests/i915_gem_mman.c    | 329 ++++++++++++++++++
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  10 +
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |   5 +
- 3 files changed, 344 insertions(+)
+For the future, makes me wonder if we couldn't have a way for drivers to
+locally enable -Wall/-Wextra in a way that incorporates the exceptions
+from kbuild instead of having to duplicate them.
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 8ae1a1530bd8..c1b1147479c8 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -8,10 +8,13 @@
- 
- #include "gem/i915_gem_internal.h"
- #include "gem/i915_gem_region.h"
-+#include "gem/i915_gem_ttm.h"
- #include "gt/intel_engine_pm.h"
- #include "gt/intel_gpu_commands.h"
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_pm.h"
-+#include "gt/intel_migrate.h"
-+#include "i915_ttm_buddy_manager.h"
- 
- #include "huge_gem_object.h"
- #include "i915_selftest.h"
-@@ -1001,6 +1004,331 @@ static int igt_mmap(void *arg)
- 	return 0;
- }
- 
-+static void igt_close_objects(struct drm_i915_private *i915,
-+			      struct list_head *objects)
-+{
-+	struct drm_i915_gem_object *obj, *on;
-+
-+	list_for_each_entry_safe(obj, on, objects, st_link) {
-+		i915_gem_object_lock(obj, NULL);
-+		if (i915_gem_object_has_pinned_pages(obj))
-+			i915_gem_object_unpin_pages(obj);
-+		/* No polluting the memory region between tests */
-+		__i915_gem_object_put_pages(obj);
-+		i915_gem_object_unlock(obj);
-+		list_del(&obj->st_link);
-+		i915_gem_object_put(obj);
-+	}
-+
-+	cond_resched();
-+
-+	i915_gem_drain_freed_objects(i915);
-+}
-+
-+static void igt_make_evictable(struct list_head *objects)
-+{
-+	struct drm_i915_gem_object *obj;
-+
-+	list_for_each_entry(obj, objects, st_link) {
-+		i915_gem_object_lock(obj, NULL);
-+		if (i915_gem_object_has_pinned_pages(obj))
-+			i915_gem_object_unpin_pages(obj);
-+		i915_gem_object_unlock(obj);
-+	}
-+
-+	cond_resched();
-+}
-+
-+static int igt_fill_mappable(struct intel_memory_region *mr,
-+			     struct list_head *objects)
-+{
-+	u64 size, total;
-+	int err;
-+
-+	total = 0;
-+	size = mr->io_size;
-+	do {
-+		struct drm_i915_gem_object *obj;
-+
-+		obj = i915_gem_object_create_region(mr, size, 0, 0);
-+		if (IS_ERR(obj)) {
-+			err = PTR_ERR(obj);
-+			goto err_close;
-+		}
-+
-+		list_add(&obj->st_link, objects);
-+
-+		err = i915_gem_object_pin_pages_unlocked(obj);
-+		if (err) {
-+			if (err != -ENXIO && err != -ENOMEM)
-+				goto err_close;
-+
-+			if (size == mr->min_page_size) {
-+				err = 0;
-+				break;
-+			}
-+
-+			size >>= 1;
-+			continue;
-+		}
-+
-+		total += obj->base.size;
-+	} while (1);
-+
-+	pr_info("%s filled=%lluMiB\n", __func__, total >> 20);
-+	return 0;
-+
-+err_close:
-+	igt_close_objects(mr->i915, objects);
-+	return err;
-+}
-+
-+static int ___igt_mmap_migrate(struct drm_i915_private *i915,
-+			       struct drm_i915_gem_object *obj,
-+			       unsigned long addr,
-+			       bool unfaultable)
-+{
-+	struct vm_area_struct *area;
-+	int err = 0, i;
-+
-+	pr_info("igt_mmap(%s, %d) @ %lx\n",
-+		obj->mm.region->name, I915_MMAP_TYPE_FIXED, addr);
-+
-+	mmap_read_lock(current->mm);
-+	area = vma_lookup(current->mm, addr);
-+	mmap_read_unlock(current->mm);
-+	if (!area) {
-+		pr_err("%s: Did not create a vm_area_struct for the mmap\n",
-+		       obj->mm.region->name);
-+		err = -EINVAL;
-+		goto out_unmap;
-+	}
-+
-+	for (i = 0; i < obj->base.size / sizeof(u32); i++) {
-+		u32 __user *ux = u64_to_user_ptr((u64)(addr + i * sizeof(*ux)));
-+		u32 x;
-+
-+		if (get_user(x, ux)) {
-+			err = -EFAULT;
-+			if (!unfaultable) {
-+				pr_err("%s: Unable to read from mmap, offset:%zd\n",
-+				       obj->mm.region->name, i * sizeof(x));
-+				goto out_unmap;
-+			}
-+
-+			continue;
-+		}
-+
-+		if (unfaultable) {
-+			pr_err("%s: Faulted unmappable memory\n",
-+			       obj->mm.region->name);
-+			err = -EINVAL;
-+			goto out_unmap;
-+		}
-+
-+		if (x != expand32(POISON_INUSE)) {
-+			pr_err("%s: Read incorrect value from mmap, offset:%zd, found:%x, expected:%x\n",
-+			       obj->mm.region->name,
-+			       i * sizeof(x), x, expand32(POISON_INUSE));
-+			err = -EINVAL;
-+			goto out_unmap;
-+		}
-+
-+		x = expand32(POISON_FREE);
-+		if (put_user(x, ux)) {
-+			pr_err("%s: Unable to write to mmap, offset:%zd\n",
-+			       obj->mm.region->name, i * sizeof(x));
-+			err = -EFAULT;
-+			goto out_unmap;
-+		}
-+	}
-+
-+	if (unfaultable) {
-+		if (err == -EFAULT)
-+			err = 0;
-+	} else {
-+		obj->flags &= ~I915_BO_ALLOC_GPU_ONLY;
-+		err = wc_check(obj);
-+	}
-+out_unmap:
-+	vm_munmap(addr, obj->base.size);
-+	return err;
-+}
-+
-+#define IGT_MMAP_MIGRATE_TOPDOWN     (1 << 0)
-+#define IGT_MMAP_MIGRATE_FILL        (1 << 1)
-+#define IGT_MMAP_MIGRATE_EVICTABLE   (1 << 2)
-+#define IGT_MMAP_MIGRATE_UNFAULTABLE (1 << 3)
-+static int __igt_mmap_migrate(struct intel_memory_region **placements,
-+			      int n_placements,
-+			      struct intel_memory_region *expected_mr,
-+			      unsigned int flags)
-+{
-+	struct drm_i915_private *i915 = placements[0]->i915;
-+	struct drm_i915_gem_object *obj;
-+	struct i915_request *rq = NULL;
-+	unsigned long addr;
-+	LIST_HEAD(objects);
-+	u64 offset;
-+	int err;
-+
-+	obj = __i915_gem_object_create_user(i915, PAGE_SIZE,
-+					    placements,
-+					    n_placements);
-+	if (IS_ERR(obj))
-+		return PTR_ERR(obj);
-+
-+	if (flags & IGT_MMAP_MIGRATE_TOPDOWN)
-+		obj->flags |= I915_BO_ALLOC_GPU_ONLY;
-+
-+	err = __assign_mmap_offset(obj, I915_MMAP_TYPE_FIXED, &offset, NULL);
-+	if (err)
-+		goto out_put;
-+
-+	/*
-+	 * This will eventually create a GEM context, due to opening dummy drm
-+	 * file, which needs a tiny amount of mappable device memory for the top
-+	 * level paging structures(and perhaps scratch), so make sure we
-+	 * allocate early, to avoid tears.
-+	 */
-+	addr = igt_mmap_offset(i915, offset, obj->base.size,
-+			       PROT_WRITE, MAP_SHARED);
-+	if (IS_ERR_VALUE(addr)) {
-+		err = addr;
-+		goto out_put;
-+	}
-+
-+	if (flags & IGT_MMAP_MIGRATE_FILL) {
-+		err = igt_fill_mappable(placements[0], &objects);
-+		if (err)
-+			goto out_put;
-+	}
-+
-+	err = i915_gem_object_lock(obj, NULL);
-+	if (err)
-+		goto out_put;
-+
-+	err = i915_gem_object_pin_pages(obj);
-+	if (err) {
-+		i915_gem_object_unlock(obj);
-+		goto out_put;
-+	}
-+
-+	err = intel_context_migrate_clear(to_gt(i915)->migrate.context, NULL,
-+					  obj->mm.pages->sgl, obj->cache_level,
-+					  i915_gem_object_is_lmem(obj),
-+					  expand32(POISON_INUSE), &rq);
-+	i915_gem_object_unpin_pages(obj);
-+	if (rq) {
-+		dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
-+		i915_gem_object_set_moving_fence(obj, &rq->fence);
-+		i915_request_put(rq);
-+	}
-+	i915_gem_object_unlock(obj);
-+	if (err)
-+		goto out_put;
-+
-+	if (flags & IGT_MMAP_MIGRATE_EVICTABLE)
-+		igt_make_evictable(&objects);
-+
-+	err = ___igt_mmap_migrate(i915, obj, addr,
-+				  flags & IGT_MMAP_MIGRATE_UNFAULTABLE);
-+	if (!err && obj->mm.region != expected_mr) {
-+		pr_err("%s region mismatch %s\n", __func__, expected_mr->name);
-+		err = -EINVAL;
-+	}
-+
-+out_put:
-+	i915_gem_object_put(obj);
-+	igt_close_objects(i915, &objects);
-+	return err;
-+}
-+
-+static int igt_mmap_migrate(void *arg)
-+{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *system = i915->mm.regions[INTEL_REGION_SMEM];
-+	struct intel_memory_region *mr;
-+	enum intel_region_id id;
-+
-+	for_each_memory_region(mr, i915, id) {
-+		struct intel_memory_region *mixed[] = { mr, system };
-+		struct intel_memory_region *single[] = { mr };
-+		struct ttm_resource_manager *man = mr->region_private;
-+		resource_size_t saved_io_size;
-+		int err;
-+
-+		if (mr->private)
-+			continue;
-+
-+		if (!mr->io_size)
-+			continue;
-+
-+		/*
-+		 * For testing purposes let's force small BAR, if not already
-+		 * present.
-+		 */
-+		saved_io_size = mr->io_size;
-+		if (mr->io_size == mr->total) {
-+			resource_size_t io_size = mr->io_size;
-+
-+			io_size = rounddown_pow_of_two(io_size >> 1);
-+			if (io_size < PAGE_SIZE)
-+				continue;
-+
-+			mr->io_size = io_size;
-+			i915_ttm_buddy_man_force_visible_size(man,
-+							      io_size >> PAGE_SHIFT);
-+		}
-+
-+		/*
-+		 * Allocate in the mappable portion, should be no suprises here.
-+		 */
-+		err = __igt_mmap_migrate(mixed, ARRAY_SIZE(mixed), mr, 0);
-+		if (err)
-+			goto out_io_size;
-+
-+		/*
-+		 * Allocate in the non-mappable portion, but force migrating to
-+		 * the mappable portion on fault (LMEM -> LMEM)
-+		 */
-+		err = __igt_mmap_migrate(single, ARRAY_SIZE(single), mr,
-+					 IGT_MMAP_MIGRATE_TOPDOWN |
-+					 IGT_MMAP_MIGRATE_FILL |
-+					 IGT_MMAP_MIGRATE_EVICTABLE);
-+		if (err)
-+			goto out_io_size;
-+
-+		/*
-+		 * Allocate in the non-mappable portion, but force spilling into
-+		 * system memory on fault (LMEM -> SMEM)
-+		 */
-+		err = __igt_mmap_migrate(mixed, ARRAY_SIZE(mixed), system,
-+					 IGT_MMAP_MIGRATE_TOPDOWN |
-+					 IGT_MMAP_MIGRATE_FILL);
-+		if (err)
-+			goto out_io_size;
-+
-+		/*
-+		 * Allocate in the non-mappable portion, but since the mappable
-+		 * portion is already full, and we can't spill to system memory,
-+		 * then we should expect the fault to fail.
-+		 */
-+		err = __igt_mmap_migrate(single, ARRAY_SIZE(single), mr,
-+					 IGT_MMAP_MIGRATE_TOPDOWN |
-+					 IGT_MMAP_MIGRATE_FILL |
-+					 IGT_MMAP_MIGRATE_UNFAULTABLE);
-+out_io_size:
-+		mr->io_size = saved_io_size;
-+		i915_ttm_buddy_man_force_visible_size(man,
-+						      mr->io_size >> PAGE_SHIFT);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- static const char *repr_mmap_type(enum i915_mmap_type type)
- {
- 	switch (type) {
-@@ -1426,6 +1754,7 @@ int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
- 		SUBTEST(igt_smoke_tiling),
- 		SUBTEST(igt_mmap_offset_exhaustion),
- 		SUBTEST(igt_mmap),
-+		SUBTEST(igt_mmap_migrate),
- 		SUBTEST(igt_mmap_access),
- 		SUBTEST(igt_mmap_revoke),
- 		SUBTEST(igt_mmap_gpu),
-diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-index 92d49a3c378c..129f668f21ff 100644
---- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-+++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-@@ -362,3 +362,13 @@ u64 i915_ttm_buddy_man_visible_size(struct ttm_resource_manager *man)
- 
- 	return bman->visible_size;
- }
-+
-+#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-+void i915_ttm_buddy_man_force_visible_size(struct ttm_resource_manager *man,
-+					   u64 size)
-+{
-+	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
-+
-+	bman->visible_size = size;
-+}
-+#endif
-diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-index 35fe03a6a78c..52d9586d242c 100644
---- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-+++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-@@ -61,4 +61,9 @@ int i915_ttm_buddy_man_reserve(struct ttm_resource_manager *man,
- 
- u64 i915_ttm_buddy_man_visible_size(struct ttm_resource_manager *man);
- 
-+#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-+void i915_ttm_buddy_man_force_visible_size(struct ttm_resource_manager *man,
-+					   u64 size);
-+#endif
-+
- #endif
--- 
-2.34.1
+Anyway, for the i915 changes,
 
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+>
+> Nathan Chancellor reported an additional -Wdeclaration-after-statement
+> warning that appears in a system header on arm, this still needs a
+> workaround.
+>
+> The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
+> minimal and mainly impact warnings at the -Wpedantic level that the
+> kernel never enables. Between these, gnu11 is the newest version
+> that is supported by all supported compiler versions, though it is
+> only the default on gcc-5, while all other supported versions of
+> gcc or clang default to gnu1x/gnu17.
+>
+> Link: https://lore.kernel.org/lkml/CAHk-=3DwiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdK=
+pcovt8fYbVFW3TA@mail.gmail.com/
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> [v2]
+>  - added -std=3Dgnu11 back, rather than just relying on the default
+>  - minor changes to changelog text
+> ---
+>  Documentation/process/programming-language.rst              | 4 ++--
+>  .../translations/it_IT/process/programming-language.rst     | 4 ++--
+>  .../translations/zh_CN/process/programming-language.rst     | 4 ++--
+>  .../translations/zh_TW/process/programming-language.rst     | 4 ++--
+>  Makefile                                                    | 6 +++---
+>  arch/arm64/kernel/vdso32/Makefile                           | 2 +-
+>  drivers/gpu/drm/i915/Makefile                               | 1 +
+>  drivers/staging/greybus/tools/Makefile                      | 3 ++-
+>  fs/btrfs/Makefile                                           | 1 +
+>  scripts/Makefile.extrawarn                                  | 1 +
+>  10 files changed, 17 insertions(+), 13 deletions(-)
+>
+> diff --git a/Documentation/process/programming-language.rst b/Documentati=
+on/process/programming-language.rst
+> index ec474a70a02f..894f2a6eb9db 100644
+> --- a/Documentation/process/programming-language.rst
+> +++ b/Documentation/process/programming-language.rst
+> @@ -5,8 +5,8 @@ Programming Language
+>=20=20
+>  The kernel is written in the C programming language [c-language]_.
+>  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+> -under ``-std=3Dgnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO =
+C90
+> -(including some C99 features). ``clang`` [clang]_ is also supported, see
+> +under ``-std=3Dgnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO =
+C11
+> +(including some C17 features). ``clang`` [clang]_ is also supported, see
+>  docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+>=20=20
+>  This dialect contains many extensions to the language [gnu-extensions]_,
+> diff --git a/Documentation/translations/it_IT/process/programming-languag=
+e.rst b/Documentation/translations/it_IT/process/programming-language.rst
+> index 41db2598ce11..aa21097737ae 100644
+> --- a/Documentation/translations/it_IT/process/programming-language.rst
+> +++ b/Documentation/translations/it_IT/process/programming-language.rst
+> @@ -10,8 +10,8 @@ Linguaggio di programmazione
+>=20=20
+>  Il kernel =C3=A8 scritto nel linguaggio di programmazione C [it-c-langua=
+ge]_.
+>  Pi=C3=B9 precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ u=
+sando
+> -l'opzione ``-std=3Dgnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
+> -dello standard ISO C90 (con l'aggiunta di alcune funzionalit=C3=A0 da C9=
+9).
+> +l'opzione ``-std=3Dgnu11`` [it-gcc-c-dialect-options]_: il dialetto GNU
+> +dello standard ISO C11 (con l'aggiunta di alcune funzionalit=C3=A0 da C1=
+7).
+>  Linux supporta anche ``clang`` [it-clang]_, leggete la documentazione
+>  :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+>=20=20
+> diff --git a/Documentation/translations/zh_CN/process/programming-languag=
+e.rst b/Documentation/translations/zh_CN/process/programming-language.rst
+> index 2a47a1d2ec20..58d2b3bd2d85 100644
+> --- a/Documentation/translations/zh_CN/process/programming-language.rst
+> +++ b/Documentation/translations/zh_CN/process/programming-language.rst
+> @@ -9,8 +9,8 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20=20
+>  =E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 :ref:`c-language=
+ <cn_c-language>` =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=
+=A1=AE=E5=9C=B0=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=
+=AF=E7=94=A8 :ref:`gcc <cn_gcc>`
+> -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
+> +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> +=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC17=E7=89=B9=E6=80=A7=EF=BC=89
+>=20=20
+>  =E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=AD=
+=E8=A8=80 :ref:`gnu-extensions <cn_gnu-extensions>` =E7=9A=84=E8=AE=B8=E5=
+=A4=9A=E6=89=A9=E5=B1=95=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=BB=
+=AC=E8=AE=B8=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=
+=E7=94=A8=E3=80=82
+>=20=20
+> diff --git a/Documentation/translations/zh_TW/process/programming-languag=
+e.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+> index 54e3699eadf8..235de05f7e2c 100644
+> --- a/Documentation/translations/zh_TW/process/programming-language.rst
+> +++ b/Documentation/translations/zh_TW/process/programming-language.rst
+> @@ -12,8 +12,8 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20=20
+>  =E5=85=A7=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AA=9E=E8=A8=80 :ref:`c-language=
+ <tw_c-language>` =E7=B7=A8=E5=AF=AB=E7=9A=84=E3=80=82=E6=9B=B4=E6=BA=96=E7=
+=A2=BA=E5=9C=B0=E8=AA=AA=EF=BC=8C=E5=85=A7=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=
+=AF=E7=94=A8 :ref:`gcc <tw_gcc>`
+> -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
+> +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> +=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC17=E7=89=B9=E6=80=A7=EF=BC=89
+>=20=20
+>  =E9=80=99=E7=A8=AE=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=B0=8D=E8=AA=9E=
+=E8=A8=80 :ref:`gnu-extensions <tw_gnu-extensions>` =E7=9A=84=E8=A8=B1=E5=
+=A4=9A=E6=93=B4=E5=B1=95=EF=BC=8C=E7=95=B6=E7=84=B6=EF=BC=8C=E5=AE=83=E5=80=
+=91=E8=A8=B1=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=85=A7=E6=A0=B8=E4=B8=AD=E4=BD=BF=
+=E7=94=A8=E3=80=82
+>=20=20
+> diff --git a/Makefile b/Makefile
+> index 289ce2be8032..66496eaeb9ec 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -432,7 +432,7 @@ HOSTCXX	=3D g++
+>  endif
+>=20=20
+>  export KBUILD_USERCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-protot=
+ypes \
+> -			      -O2 -fomit-frame-pointer -std=3Dgnu89
+> +			      -O2 -fomit-frame-pointer -std=3Dgnu11
+>  export KBUILD_USERLDFLAGS :=3D
+>=20=20
+>  KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTC=
+FLAGS)
+> @@ -515,7 +515,7 @@ KBUILD_CFLAGS   :=3D -Wall -Wundef -Werror=3Dstrict-p=
+rototypes -Wno-trigraphs \
+>  		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+>  		   -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int \
+>  		   -Werror=3Dreturn-type -Wno-format-security \
+> -		   -std=3Dgnu89
+> +		   -std=3Dgnu11
+>  KBUILD_CPPFLAGS :=3D -D__KERNEL__
+>  KBUILD_AFLAGS_KERNEL :=3D
+>  KBUILD_CFLAGS_KERNEL :=3D
+> @@ -782,7 +782,7 @@ KBUILD_CFLAGS +=3D $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMP=
+LICIT_FALLTHROUGH)
+>=20=20
+>  ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_CPPFLAGS +=3D -Qunused-arguments
+> -# The kernel builds with '-std=3Dgnu89' so use of GNU extensions is acce=
+ptable.
+> +# The kernel builds with '-std=3Dgnu11' so use of GNU extensions is acce=
+ptable.
+>  KBUILD_CFLAGS +=3D -Wno-gnu
+>  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, =
+as the
+>  # source of a reference will be _MergedGlobals and not on of the whiteli=
+sted names.
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
+/Makefile
+> index 6c01b63ff56d..9378ea055bf2 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -68,7 +68,7 @@ VDSO_CFLAGS +=3D -Wall -Wundef -Wstrict-prototypes -Wno=
+-trigraphs \
+>                 -fno-strict-aliasing -fno-common \
+>                 -Werror-implicit-function-declaration \
+>                 -Wno-format-security \
+> -               -std=3Dgnu89
+> +               -std=3Dgnu11
+>  VDSO_CFLAGS  +=3D -O2
+>  # Some useful compiler-dependent flags from top-level Makefile
+>  VDSO_CFLAGS +=3D $(call cc32-option,-Wdeclaration-after-statement,)
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 1b62b9f65196..1618a6e0af4e 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y +=3D -Wno-unused-parameter
+>  subdir-ccflags-y +=3D -Wno-type-limits
+>  subdir-ccflags-y +=3D -Wno-missing-field-initializers
+>  subdir-ccflags-y +=3D -Wno-sign-compare
+> +subdir-ccflags-y +=3D -Wno-shift-negative-value
+>  subdir-ccflags-y +=3D $(call cc-disable-warning, unused-but-set-variable)
+>  subdir-ccflags-y +=3D $(call cc-disable-warning, frame-address)
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) +=3D -Werror
+> diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/gre=
+ybus/tools/Makefile
+> index ad0ae8053b79..a3bbd73171f2 100644
+> --- a/drivers/staging/greybus/tools/Makefile
+> +++ b/drivers/staging/greybus/tools/Makefile
+> @@ -12,7 +12,8 @@ CFLAGS	+=3D -std=3Dgnu99 -Wall -Wextra -g \
+>  	    -Wredundant-decls \
+>  	    -Wcast-align \
+>  	    -Wsign-compare \
+> -	    -Wno-missing-field-initializers
+> +	    -Wno-missing-field-initializers \
+> +	    -Wno-shift-negative-value
+>=20=20
+>  CC	:=3D $(CROSS_COMPILE)gcc
+>=20=20
+> diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
+> index 4188ba3fd8c3..99f9995670ea 100644
+> --- a/fs/btrfs/Makefile
+> +++ b/fs/btrfs/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y +=3D $(condflags)
+>  subdir-ccflags-y +=3D -Wno-missing-field-initializers
+>  subdir-ccflags-y +=3D -Wno-sign-compare
+>  subdir-ccflags-y +=3D -Wno-type-limits
+> +subdir-ccflags-y +=3D -Wno-shift-negative-value
+>=20=20
+>  obj-$(CONFIG_BTRFS_FS) :=3D btrfs.o
+>=20=20
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 8be892887d71..650d0b8ceec3 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -36,6 +36,7 @@ KBUILD_CFLAGS +=3D $(call cc-option, -Wstringop-truncat=
+ion)
+>  KBUILD_CFLAGS +=3D -Wno-missing-field-initializers
+>  KBUILD_CFLAGS +=3D -Wno-sign-compare
+>  KBUILD_CFLAGS +=3D -Wno-type-limits
+> +KBUILD_CFLAGS +=3D -Wno-shift-negative-value
+>=20=20
+>  KBUILD_CPPFLAGS +=3D -DKBUILD_EXTRA_WARN1
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
