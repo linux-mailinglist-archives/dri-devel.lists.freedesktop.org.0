@@ -1,58 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5114C7960
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 21:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDD74C7967
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 21:04:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471D810E876;
-	Mon, 28 Feb 2022 20:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38D6810E8AB;
+	Mon, 28 Feb 2022 20:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88EE910E866;
- Mon, 28 Feb 2022 20:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646078525; x=1677614525;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Wc3dLk+2WGuSwSeJItFUAF/PAymWGtjjoR5UXEjwf54=;
- b=T9ZL4OuR4WwE2w64rKKcefoXE8n5oXbtnIQaT2FbQ5vlNph+xCJaw9Mw
- uJsvBSyEIo+JjswOEckK2kaupqQ6jSxb1E9en/rI23gl1eNxCGHxUdStq
- ohbbGkgc0wsdYoK6UmlnIGQ1EHRB/8MRc3WM51JVDDFiVXSMnnGq4cvDB
- 7MxNklnbEQq0EaHM3//KiJFMG8pB+Q1K11v6erOnUzTk8AywT5todT/uC
- q5ir7hIQ4hV6F8ySvFsFF93jrT6XrCKSdjoewRI2MIsR+k9BZe32QvTdz
- Xnvkcw7gHtha8EhsRsOd1EIILAdIhOJMPy3LK23B2D+XEEMNsn+xm3Wkb w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="252901129"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="252901129"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 12:02:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="685461368"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga001.fm.intel.com with ESMTP; 28 Feb 2022 12:02:02 -0800
-Received: from [10.249.130.171] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.130.171])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 21SK21iC013844; Mon, 28 Feb 2022 20:02:01 GMT
-Message-ID: <5cf0034a-fa60-0d80-b538-f070a166614c@intel.com>
-Date: Mon, 28 Feb 2022 21:02:01 +0100
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B69110E8A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 20:03:56 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id i11so23315555lfu.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 12:03:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
+ b=Y+K+LAchMzIcesbCiqrzhisJgvbUIKYh3oFG/AlZJTKul1K9rRfHylHsN/EgM8hdwz
+ P3hABFpC0Wcw+/0V4cKR5X0P787Wy9QwMeL5ORY50P9+oNZqmMp6NkFq4yV6NAIkP79C
+ 0bvk8ZnwfFSPqzKfD7Qqea+fs2YLRTaNcLanw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
+ b=VAwRc1Q14C6gP+TdJcW2bYXfWYAV8z0G71j/pKQiEu7zmGHX7rZ7yVcu7NmUQI7JzQ
+ ikLOnK1sdVzV+IzXynF+gbuvG9lenvs94Nou0HU8f3iYIX0q85ViezD1fXOIbozfXvwQ
+ cuJL6Gev3NhD3nR1tmpvvwDNKV5PxdntZyWLejbl23DmXDxCZcZ/TeL9+RfC+m2/VUAR
+ NGODfAfBReaOfxtftXig8Ryd9oHk8IMx4jBF1z/weFf9hu9MrdjBYnGqUaJaANMSf64h
+ kuOILBbfjikbv68y7aUAvauoV2XQNHFpHt0rbADZqi7TP/pAt29m2fertMVqXF1UDlWJ
+ zYyA==
+X-Gm-Message-State: AOAM531wJL/184jMUXe0gxPP6YOii3a4MGbpP54CYQ65ge81jUg/+qfj
+ Q06FkW4oQ9TzBse0HQd14R+i8CuM46XETTr2938=
+X-Google-Smtp-Source: ABdhPJyGCwI8CVDNXXQ7tzvLvuveASt+qM/VxoAn2D/2AHO2qmXQrbVlrXzyM4X/fsd0PjZJIL2dHw==
+X-Received: by 2002:ac2:5c48:0:b0:442:eada:dc45 with SMTP id
+ s8-20020ac25c48000000b00442eadadc45mr13298870lfp.640.1646078634254; 
+ Mon, 28 Feb 2022 12:03:54 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+ [209.85.167.49]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a056512068600b004437f8e83edsm1113039lfe.255.2022.02.28.12.03.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 12:03:51 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id bu29so23405351lfb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 12:03:51 -0800 (PST)
+X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
+ c4-20020ac244a4000000b004458fc5a12amr7653619lfm.27.1646078630855; Mon, 28 Feb
+ 2022 12:03:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [Intel-gfx] [PATCH v5 3/7] drm/i915/gt: add gt_is_root() helper
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-4-andi.shyti@linux.intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20220217144158.21555-4-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+In-Reply-To: <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 28 Feb 2022 12:03:34 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +76,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 28, 2022 at 11:56 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> I do wish we could actually poison the 'pos' value after the loop
+> somehow - but clearly the "might be uninitialized" I was hoping for
+> isn't the way to do it.
 
+Side note: we do need *some* way to do it.
 
-On 17.02.2022 15:41, Andi Shyti wrote:
-> The "gt_is_root(struct intel_gt *gt)" helper return true if the
-> gt is the root gt, which means that its id is 0. Return false
-> otherwise.
-> 
-> Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.h | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 915d6192079b..f17f51e2d394 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -19,6 +19,11 @@ struct drm_printer;
->  		  ##__VA_ARGS__);					\
->  } while (0)
->  
-> +static inline bool gt_is_root(struct intel_gt *gt)
-> +{
-> +	return !gt->info.id;
-> +}
-> +
+Because if we make that change, and only set it to another pointer
+when not the head, then we very much change the semantics of
+"list_for_each_head()". The "list was empty" case would now exit with
+'pos' not set at all (or set to NULL if we add that). Or it would be
+set to the last entry.
 
-we could squash this patch with prev one, where it can be used in:
+And regardless, that means that all the
 
- intel_gt_tile_cleanup(struct intel_gt *gt)
- {
- 	intel_uncore_cleanup_mmio(gt->uncore);
+        if (pos == head)
 
--	if (gt->info.id) {
-+	if (!gt_is_root(gt)) {
- 		kfree(gt->uncore);
- 		kfree(gt);
- 	}
- }
+kinds of checks after the loop would be fundamentally broken.
 
-or just use it this way in this patch, with that:
+Darn. I really hoped for (and naively expected) that we could actually
+have the compiler warn about the use-after-loop case. That whole
+"compiler will now complain about bad use" was integral to my clever
+plan to use the C99 feature of declaring the iterator inside the loop.
 
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+But my "clever plan" was apparently some ACME-level Wile E. Coyote sh*t.
 
->  static inline struct intel_gt *uc_to_gt(struct intel_uc *uc)
->  {
->  	return container_of(uc, struct intel_gt, uc);
+Darn.
+
+                   Linus
