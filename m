@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB3F4C66B1
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D561D4C667D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 10:58:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A620C10E37A;
-	Mon, 28 Feb 2022 09:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8C110E341;
+	Mon, 28 Feb 2022 09:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5C73B10E2CD
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 74DC210E2F1
  for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 09:57:20 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.53 with ESMTP; 28 Feb 2022 18:57:18 +0900
+ by 156.147.23.52 with ESMTP; 28 Feb 2022 18:57:19 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 28 Feb 2022 18:57:18 +0900
+ by 156.147.1.121 with ESMTP; 28 Feb 2022 18:57:19 +0900
 X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org
-Subject: [PATCH v3 04/21] dept: Add a API for skipping dependency check
- temporarily
-Date: Mon, 28 Feb 2022 18:56:43 +0900
-Message-Id: <1646042220-28952-5-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH v3 05/21] dept: Apply Dept to spinlock
+Date: Mon, 28 Feb 2022 18:56:44 +0900
+Message-Id: <1646042220-28952-6-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
 References: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
@@ -62,158 +61,122 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dept would skip check for dmaps marked by dept_map_nocheck() permanently.
-However, sometimes it needs to skip check for some dmaps temporarily and
-back to normal, for instance, lock acquisition with a nest lock.
-
-Lock usage check with regard to nest lock could be performed by Lockdep,
-however, dependency check is not necessary for that case. So prepared
-for it by adding two new APIs, dept_skip() and dept_unskip_if_skipped().
+Makes Dept able to track dependencies by spinlock.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- include/linux/dept.h     |  9 +++++++++
- include/linux/dept_sdt.h |  2 +-
- include/linux/lockdep.h  |  4 +++-
- kernel/dependency/dept.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 62 insertions(+), 2 deletions(-)
+ include/linux/lockdep.h            | 18 +++++++++++++++---
+ include/linux/spinlock.h           | 26 ++++++++++++++++++++++++++
+ include/linux/spinlock_types_raw.h | 13 +++++++++++++
+ 3 files changed, 54 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/dept.h b/include/linux/dept.h
-index c3fb3cf..c0bbb8e 100644
---- a/include/linux/dept.h
-+++ b/include/linux/dept.h
-@@ -352,6 +352,11 @@ struct dept_map {
- 	unsigned int			wgen;
- 
- 	/*
-+	 * for skipping dependency check temporarily
-+	 */
-+	atomic_t			skip_cnt;
-+
-+	/*
- 	 * whether this map should be going to be checked or not
- 	 */
- 	bool				nocheck;
-@@ -444,6 +449,8 @@ struct dept_task {
- extern void dept_ask_event(struct dept_map *m);
- extern void dept_event(struct dept_map *m, unsigned long e_f, unsigned long ip, const char *e_fn);
- extern void dept_ecxt_exit(struct dept_map *m, unsigned long ip);
-+extern void dept_skip(struct dept_map *m);
-+extern bool dept_unskip_if_skipped(struct dept_map *m);
- 
- /*
-  * for users who want to manage external keys
-@@ -475,6 +482,8 @@ struct dept_task {
- #define dept_ask_event(m)			do { } while (0)
- #define dept_event(m, e_f, ip, e_fn)		do { (void)(e_fn); } while (0)
- #define dept_ecxt_exit(m, ip)			do { } while (0)
-+#define dept_skip(m)				do { } while (0)
-+#define dept_unskip_if_skipped(m)		(false)
- #define dept_key_init(k)			do { (void)(k); } while (0)
- #define dept_key_destroy(k)			do { (void)(k); } while (0)
- #endif
-diff --git a/include/linux/dept_sdt.h b/include/linux/dept_sdt.h
-index 375c4c3..e9d558d 100644
---- a/include/linux/dept_sdt.h
-+++ b/include/linux/dept_sdt.h
-@@ -13,7 +13,7 @@
- #include <linux/dept.h>
- 
- #ifdef CONFIG_DEPT
--#define DEPT_SDT_MAP_INIT(dname)	{ .name = #dname }
-+#define DEPT_SDT_MAP_INIT(dname)	{ .name = #dname, .skip_cnt = ATOMIC_INIT(0) }
- 
- /*
-  * SDT(Single-event Dependency Tracker) APIs
 diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
-index c56f6b6..c1a56fe 100644
+index c1a56fe..529ea18 100644
 --- a/include/linux/lockdep.h
 +++ b/include/linux/lockdep.h
-@@ -488,7 +488,9 @@ enum xhlock_context_t {
-  */
- #define STATIC_DEPT_MAP_INIT(_name, _key) .dmap = {		\
- 	.name = (_name),					\
--	.keys = NULL },
-+	.keys = NULL,						\
-+	.skip_cnt = ATOMIC_INIT(0),				\
-+	},
- #else
- #define STATIC_DEPT_MAP_INIT(_name, _key)
+@@ -584,9 +584,21 @@ static inline void print_irqtrace_events(struct task_struct *curr)
+ #define lock_acquire_shared(l, s, t, n, i)		lock_acquire(l, s, t, 1, 1, n, i)
+ #define lock_acquire_shared_recursive(l, s, t, n, i)	lock_acquire(l, s, t, 2, 1, n, i)
+ 
+-#define spin_acquire(l, s, t, i)		lock_acquire_exclusive(l, s, t, NULL, i)
+-#define spin_acquire_nest(l, s, t, n, i)	lock_acquire_exclusive(l, s, t, n, i)
+-#define spin_release(l, i)			lock_release(l, i)
++#define spin_acquire(l, s, t, i)					\
++do {									\
++	lock_acquire_exclusive(l, s, t, NULL, i);			\
++	dept_spin_lock(&(l)->dmap, s, t, NULL, "spin_unlock", i);	\
++} while (0)
++#define spin_acquire_nest(l, s, t, n, i)				\
++do {									\
++	lock_acquire_exclusive(l, s, t, n, i);				\
++	dept_spin_lock(&(l)->dmap, s, t, (n) ? &(n)->dmap : NULL, "spin_unlock", i); \
++} while (0)
++#define spin_release(l, i)						\
++do {									\
++	lock_release(l, i);						\
++	dept_spin_unlock(&(l)->dmap, i);				\
++} while (0)
+ 
+ #define rwlock_acquire(l, s, t, i)		lock_acquire_exclusive(l, s, t, NULL, i)
+ #define rwlock_acquire_read(l, s, t, i)					\
+diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
+index 5c0c517..6b5c3f4 100644
+--- a/include/linux/spinlock.h
++++ b/include/linux/spinlock.h
+@@ -95,6 +95,32 @@
+ # include <linux/spinlock_up.h>
  #endif
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index ec3f131..3f22c5b 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -1943,6 +1943,7 @@ void dept_map_init(struct dept_map *m, struct dept_key *k, int sub,
- 	m->name = n;
- 	m->wgen = 0U;
- 	m->nocheck = false;
-+	atomic_set(&m->skip_cnt, 0);
- exit:
- 	dept_exit(flags);
- }
-@@ -1963,6 +1964,7 @@ void dept_map_reinit(struct dept_map *m)
  
- 	clean_classes_cache(&m->keys_local);
- 	m->wgen = 0U;
-+	atomic_set(&m->skip_cnt, 0);
++#ifdef CONFIG_DEPT
++#define dept_spin_lock(m, ne, t, n, e_fn, ip)				\
++do {									\
++	if (t) {							\
++		dept_ecxt_enter(m, 1UL, ip, __func__, e_fn, ne);	\
++		dept_ask_event(m);					\
++	} else if (n) {							\
++		dept_skip(m);						\
++	} else {							\
++		dept_wait(m, 1UL, ip, __func__, ne);			\
++		dept_ecxt_enter(m, 1UL, ip, __func__, e_fn, ne);	\
++		dept_ask_event(m);					\
++	}								\
++} while (0)
++#define dept_spin_unlock(m, ip)						\
++do {									\
++	if (!dept_unskip_if_skipped(m)) {				\
++		dept_event(m, 1UL, ip, __func__);			\
++		dept_ecxt_exit(m, ip);					\
++	}								\
++} while (0)
++#else
++#define dept_spin_lock(m, ne, t, n, e_fn, ip)	do { } while (0)
++#define dept_spin_unlock(m, ip)			do { } while (0)
++#endif
++
+ #ifdef CONFIG_DEBUG_SPINLOCK
+   extern void __raw_spin_lock_init(raw_spinlock_t *lock, const char *name,
+ 				   struct lock_class_key *key, short inner);
+diff --git a/include/linux/spinlock_types_raw.h b/include/linux/spinlock_types_raw.h
+index 91cb36b..279e821 100644
+--- a/include/linux/spinlock_types_raw.h
++++ b/include/linux/spinlock_types_raw.h
+@@ -26,16 +26,28 @@
  
- 	dept_exit(flags);
- }
-@@ -2346,6 +2348,53 @@ void dept_ecxt_exit(struct dept_map *m, unsigned long ip)
- }
- EXPORT_SYMBOL_GPL(dept_ecxt_exit);
+ #define SPINLOCK_OWNER_INIT	((void *)-1L)
  
-+void dept_skip(struct dept_map *m)
-+{
-+	struct dept_task *dt = dept_task();
-+	unsigned long flags;
++#ifdef CONFIG_DEPT
++# define RAW_SPIN_DMAP_INIT(lockname)	.dmap = { .name = #lockname, .skip_cnt = ATOMIC_INIT(0) },
++# define SPIN_DMAP_INIT(lockname)	.dmap = { .name = #lockname, .skip_cnt = ATOMIC_INIT(0) },
++# define LOCAL_SPIN_DMAP_INIT(lockname)	.dmap = { .name = #lockname, .skip_cnt = ATOMIC_INIT(0) },
++#else
++# define RAW_SPIN_DMAP_INIT(lockname)
++# define SPIN_DMAP_INIT(lockname)
++# define LOCAL_SPIN_DMAP_INIT(lockname)
++#endif
 +
-+	if (READ_ONCE(dept_stop) || dt->recursive)
-+		return;
-+
-+	if (m->nocheck)
-+		return;
-+
-+	flags = dept_enter();
-+
-+	atomic_inc(&m->skip_cnt);
-+
-+	dept_exit(flags);
-+}
-+EXPORT_SYMBOL_GPL(dept_skip);
-+
-+/*
-+ * Return true if successfully unskip, otherwise false.
-+ */
-+bool dept_unskip_if_skipped(struct dept_map *m)
-+{
-+	struct dept_task *dt = dept_task();
-+	unsigned long flags;
-+	bool ret = false;
-+
-+	if (READ_ONCE(dept_stop) || dt->recursive)
-+		return false;
-+
-+	if (m->nocheck)
-+		return false;
-+
-+	flags = dept_enter();
-+
-+	if (!atomic_read(&m->skip_cnt))
-+		goto exit;
-+
-+	atomic_dec(&m->skip_cnt);
-+	ret = true;
-+exit:
-+	dept_exit(flags);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(dept_unskip_if_skipped);
-+
- void dept_task_exit(struct task_struct *t)
- {
- 	struct dept_task *dt = &t->dept_task;
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ # define RAW_SPIN_DEP_MAP_INIT(lockname)		\
+ 	.dep_map = {					\
+ 		.name = #lockname,			\
+ 		.wait_type_inner = LD_WAIT_SPIN,	\
++		RAW_SPIN_DMAP_INIT(lockname)		\
+ 	}
+ # define SPIN_DEP_MAP_INIT(lockname)			\
+ 	.dep_map = {					\
+ 		.name = #lockname,			\
+ 		.wait_type_inner = LD_WAIT_CONFIG,	\
++		SPIN_DMAP_INIT(lockname)		\
+ 	}
+ 
+ # define LOCAL_SPIN_DEP_MAP_INIT(lockname)		\
+@@ -43,6 +55,7 @@
+ 		.name = #lockname,			\
+ 		.wait_type_inner = LD_WAIT_CONFIG,	\
+ 		.lock_type = LD_LOCK_PERCPU,		\
++		LOCAL_SPIN_DMAP_INIT(lockname)		\
+ 	}
+ #else
+ # define RAW_SPIN_DEP_MAP_INIT(lockname)
 -- 
 1.9.1
 
