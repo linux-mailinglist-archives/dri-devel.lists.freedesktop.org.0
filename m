@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908EE4C7167
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 17:12:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12A14C7204
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 17:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E8210E67E;
-	Mon, 28 Feb 2022 16:12:03 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6933489760;
- Mon, 28 Feb 2022 16:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646064722; x=1677600722;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=InsrfAFh5NX08db4OvYyU/UTKup9xjJ4qNysiB0/miI=;
- b=mqFN+hoG57Ovn/4oraAWo+FeAal+kC3Yq2Wh7sql9/iXaeF3b5d3HcBO
- YAB6zOKQNvdDpe5o4ysUrhLbkEW1BlqAT1CvFN/7cFgHPwvQ+tDnC2hJq
- 66US323t5l97Idh4+2GRgB6LCw07G/ZQ3la2DjalVXGfAQiV9GD5J3jHc
- Qq9fUVGpaINftXr+11YIy9d5ImUSq/zYtSlyndISy6B2M3vRxbL5NoocO
- lIpb9Laq9r1IfENyBlZI8zqFF4fs4MaWrJGrBes1r7B9Mh75nDq0FVTaS
- mMEVpsYQNhoFuJ+GAPJdFZfs0z8K2vgHgs3ke7EonVlptGTXSWq5nv0zt w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="240328097"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="240328097"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 08:11:54 -0800
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="708693351"
-Received: from jpdecker-mobl3.ger.corp.intel.com (HELO [10.213.235.138])
- ([10.213.235.138])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 08:11:53 -0800
-Message-ID: <4e8888d0-f0da-12f3-4010-159b4ff2bdb3@linux.intel.com>
-Date: Mon, 28 Feb 2022 16:11:51 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9508310E17F;
+	Mon, 28 Feb 2022 16:56:24 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8577910E17F;
+ Mon, 28 Feb 2022 16:56:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6B6F461266;
+ Mon, 28 Feb 2022 16:56:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46A1C340E7;
+ Mon, 28 Feb 2022 16:56:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646067380;
+ bh=523gBdVPJChXozDXmy5Cb2pK2i/xRfAcGRZVUQAHjNc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LgVJuH4da0tpuW1nX+TSzWKpqT1/5OI3uq9Url+IKydIaNvJrwxxCJ02pDsUamp0J
+ BXgyENWeP0ucoramTVXNaT23Z6w+IPOpRsVnisqnZwdBL4ARuBusSY6JLdz3305OfE
+ YtZvql2BfkwdTq2LxRIJRizjGmx3hngX5RBUDcSxgf2mLkssqkaZFIqarTisHboNdy
+ Xy986yF0zeYZbw6HX61O+ecCg/MIlsoP4bKonolKYJ+91DSdYuEy6Ckl7v583fSXhJ
+ fxInQ5iK44jGAKr2Pvl9ywk4psfT+Vv0H/AbdegLc3kV5x8iLrYBvahTmACsIjfZ5u
+ Ol9BFIfpBb+FA==
+Date: Mon, 28 Feb 2022 09:56:13 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+Message-ID: <Yhz+rfcdp9jxgr+P@archlinux-ax161>
+References: <20220228103142.3301082-1-arnd@kernel.org>
+ <CANpmjNP6VE9G8Yng4W7Mayk-0QsqUtAXkrMUSvL5pAP5DpXSmA@mail.gmail.com>
+ <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
- to avoid overflow
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
- <20220218213307.1338478-2-John.C.Harrison@Intel.com>
- <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
- <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
- <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
- <85105590-a8be-f4e1-69bc-cd34cad108e2@intel.com>
- <16a2687b-4996-8d40-456e-019a112f0fb6@linux.intel.com>
- <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
- <74d30fd4-cb72-113e-fc09-12602b3cf06d@linux.intel.com>
- <986dae97-6c68-34cc-d972-22edaddf7261@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <986dae97-6c68-34cc-d972-22edaddf7261@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,313 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, llvm@lists.linux.dev,
+ dri-devel <dri-devel@lists.freedesktop.org>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-staging@lists.linux.dev, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Marco Elver <elver@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Michal Marek <michal.lkml@markovi.net>, Hu Haowen <src.res@email.cn>,
+ linux-doc-tw-discuss@lists.sourceforge.net,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 28, 2022 at 12:57:55PM +0100, Arnd Bergmann wrote:
+> On Mon, Feb 28, 2022 at 12:47 PM Marco Elver <elver@google.com> wrote:
+> > On Mon, 28 Feb 2022 at 11:32, Arnd Bergmann <arnd@kernel.org> wrote:
+> >
+> > > Nathan Chancellor reported an additional -Wdeclaration-after-statement
+> > > warning that appears in a system header on arm, this still needs a
+> > > workaround.
+> >
+> > On the topic of Wdeclaration-after-statement, Clang only respects this
+> > warning with C99 and later starting with Clang 14:
+> > https://github.com/llvm/llvm-project/commit/c65186c89f35#diff-ec770381d76c859f5f572db789175fe44410a72608f58ad5dbb14335ba56eb97R61
+> >
+> > Until Clang 14, -Wdeclaration-after-statement is ignored by Clang in
+> > newer standards. If this is a big problem, we can probably convince
+> > the Clang stable folks to backport the fixes. However, the build won't
+> > fail, folks might just miss the warning if they don't also test with
+> > GCC.
 
-On 25/02/2022 17:39, John Harrison wrote:
-> On 2/25/2022 09:06, Tvrtko Ursulin wrote:
->>
->> On 24/02/2022 19:19, John Harrison wrote:
->>
->> [snip]
->>
->>>>>>>> ./gt/uc/intel_guc_fwif.h: u32 execution_quantum;
->>>>>>>>
->>>>>>>> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
->>>>>>>> engine->props.timeslice_duration_ms * 1000;
->>>>>>>>
->>>>>>>> ./gt/intel_engine_types.h:              unsigned long 
->>>>>>>> timeslice_duration_ms;
->>>>>>>>
->>>>>>>> timeslice_store/preempt_timeout_store:
->>>>>>>> err = kstrtoull(buf, 0, &duration);
->>>>>>>>
->>>>>>>> So both kconfig and sysfs can already overflow GuC, not only 
->>>>>>>> because of tick conversion internally but because at backend 
->>>>>>>> level nothing was done for assigning 64-bit into 32-bit. Or I 
->>>>>>>> failed to find where it is handled.
->>>>>>> That's why I'm adding this range check to make sure we don't 
->>>>>>> allow overflows.
->>>>>>
->>>>>> Yes and no, this fixes it, but the first bug was not only due GuC 
->>>>>> internal tick conversion. It was present ever since the u64 from 
->>>>>> i915 was shoved into u32 sent to GuC. So even if GuC used the 
->>>>>> value without additional multiplication, bug was be there. My 
->>>>>> point being when GuC backend was added timeout_ms values should 
->>>>>> have been limited/clamped to U32_MAX. The tick discovery is 
->>>>>> additional limit on top.
->>>>> I'm not disagreeing. I'm just saying that the truncation wasn't 
->>>>> noticed until I actually tried using very long timeouts to debug a 
->>>>> particular problem. Now that it is noticed, we need some method of 
->>>>> range checking and this simple clamp solves all the truncation 
->>>>> problems.
->>>>
->>>> Agreed in principle, just please mention in the commit message all 
->>>> aspects of the problem.
->>>>
->>>> I think we can get away without a Fixes: tag since it requires user 
->>>> fiddling to break things in unexpected ways.
->>>>
->>>> I would though put in a code a clamping which expresses both, 
->>>> something like min(u32, ..GUC LIMIT..). So the full story is 
->>>> documented forever. Or "if > u32 || > ..GUC LIMIT..) return 
->>>> -EINVAL". Just in case GuC limit one day changes but u32 stays. 
->>>> Perhaps internal ticks go away or anything and we are left with 
->>>> plain 1:1 millisecond relationship.
->>> Can certainly add a comment along the lines of "GuC API only takes a 
->>> 32bit field but that is further reduced to GUC_LIMIT due to internal 
->>> calculations which would otherwise overflow".
->>>
->>> But if the GuC limit is > u32 then, by definition, that means the GuC 
->>> API has changed to take a u64 instead of a u32. So there will no u32 
->>> truncation any more. So I'm not seeing a need to explicitly test the 
->>> integer size when the value check covers that.
->>
->> Hmm I was thinking if the internal conversion in the GuC fw changes so 
->> that GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS goes above u32, then to be 
->> extra safe by documenting in code there is the additional limit of the 
->> data structure field. Say the field was changed to take some unit 
->> larger than a millisecond. Then the check against the GuC MAX limit 
->> define would not be enough, unless that would account both for 
->> internal implementation and u32 in the protocol. Maybe that is 
->> overdefensive but I don't see that it harms. 50-50, but it's do it 
->> once and forget so I'd do it.
-> Huh?
-> 
-> How can the limit be greater than a u32 if the interface only takes a 
-> u32? By definition the limit would be clamped to u32 size.
-> 
-> If you mean that the GuC policy is in different units and those units 
-> might not overflow but ms units do, then actually that is already the 
-> case. The GuC works in us not ms. That's part of why the wrap around is 
-> so low, we have to multiply by 1000 before sending to GuC. However, that 
-> is actually irrelevant because the comparison is being done on the i915 
-> side in i915's units. We have to scale the GuC limit to match what i915 
-> is using. And the i915 side is u64 so if the scaling to i915 numbers 
-> overflows a u32 then who cares because that comparison can be done at 64 
-> bits wide.
-> 
-> If the units change then that is a backwards breaking API change that 
-> will require a manual driver code update. You can't just recompile with 
-> a new header and magically get an ms to us or ms to s conversion in your 
-> a = b assignment. The code will need to be changed to do the new unit 
-> conversion (note we already convert from ms to us, the GuC API is all 
-> expressed in us). And that code change will mean having to revisit any 
-> and all scaling, type conversions, etc. I.e. any pre-existing checks 
-> will not necessarily be valid and will need to be re-visted anyway. But 
-> as above, any scaling to GuC units has to be incorporated into the limit 
-> already because otherwise the limit would not fit in the GuC's own API.
+Unfortunately, none of the branches prior to release/14.x are going to
+see any more updates (at least as far as I am aware, as the LLVM
+community only supports one release branch at a time) but as Arnd
+mentioned below, I do not really see that as a problem, as newer
+versions of clang and GCC will catch these warnings.
 
-Yes I get that, I was just worried that u32 field in the protocol and 
-GUC_POLICY_MAX_EXEC_QUANTUM_MS defines are separate in the source code 
-and then how to protect against forgetting to update both in sync.
+> I don't expect this is to be a big issue, as long as the latest clang behaves
+> as expected. There are many warnings that are only produced by one of the
+> two compilers, so this is something we already deal with.
+> 
+> I think it's more important to address the extra warning that Nathan
+> reported, where clang now complains about the intermingled declaration
+> in a system header when previously neither gcc nor clang noticed this.
 
-Like if the protocol was changed to take nanoseconds, and firmware 
-implementation changed to support the full range, but define 
-left/forgotten at 100s. That would then overflow u32.
+Right. Based on the upstream LLVM bug, I think we should just fix
+arm_neon.h to avoid triggering -Wdeclaration-after-statement to have
+something that is (hopefully) relatively low risk for a clang-14
+backport, rather than addressing the root cause of clang warning in
+system macros, as it sounds like fixing that has some risks that are not
+fully understood at this point. The kernel only uses very specific
+system headers after commit 04e85bbf71c9 ("isystem: delete global
+-isystem compile option"), so I don't think that my suggested approach
+will have many downsides.
 
-Regards,
+I think I see how to potentially fix arm_neon.h in
+clang/utils/TableGen/NeonEmitter.cpp, I just have to think about it a
+little more.
 
-Tvrtko
+Realistically, I don't think special casing this in lib/raid6 is the end
+of the world:
 
-> John.
-> 
->>
->>>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>>>>>> ---
->>>>>>>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 +++++++++++++++
->>>>>>>>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 ++++++++++++++
->>>>>>>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++++++++
->>>>>>>>>   3 files changed, 38 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
->>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>> index e53008b4dd05..2a1e9f36e6f5 100644
->>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct 
->>>>>>>>> intel_gt *gt, enum intel_engine_id id,
->>>>>>>>>       if (GRAPHICS_VER(i915) == 12 && engine->class == 
->>>>>>>>> RENDER_CLASS)
->>>>>>>>>           engine->props.preempt_timeout_ms = 0;
->>>>>>>>>   +    /* Cap timeouts to prevent overflow inside GuC */
->>>>>>>>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
->>>>>>>>> +        if (engine->props.timeslice_duration_ms > 
->>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
->>>>>>>>
->>>>>>>> Hm "wanted".. There's been too much back and forth on the GuC 
->>>>>>>> load options over the years to keep track.. 
->>>>>>>> intel_engine_uses_guc work sounds like would work and read nicer.
->>>>>>> I'm not adding a new feature check here. I'm just using the 
->>>>>>> existing one. If we want to rename it yet again then that would 
->>>>>>> be a different patch set.
->>>>>>
->>>>>> $ grep intel_engine_uses_guc . -rl
->>>>>> ./i915_perf.c
->>>>>> ./i915_request.c
->>>>>> ./selftests/intel_scheduler_helpers.c
->>>>>> ./gem/i915_gem_context.c
->>>>>> ./gt/intel_context.c
->>>>>> ./gt/intel_engine.h
->>>>>> ./gt/intel_engine_cs.c
->>>>>> ./gt/intel_engine_heartbeat.c
->>>>>> ./gt/intel_engine_pm.c
->>>>>> ./gt/intel_reset.c
->>>>>> ./gt/intel_lrc.c
->>>>>> ./gt/selftest_context.c
->>>>>> ./gt/selftest_engine_pm.c
->>>>>> ./gt/selftest_hangcheck.c
->>>>>> ./gt/selftest_mocs.c
->>>>>> ./gt/selftest_workarounds.c
->>>>>>
->>>>>> Sounds better to me than intel_guc_submission_is_wanted. What does 
->>>>>> the reader know whether "is wanted" translates to "is actually 
->>>>>> used". Shrug on "is wanted".
->>>>> Yes, but isn't '_uses' the one that hits a BUG_ON if you call it 
->>>>> too early in the boot up sequence? I never understood why that was 
->>>>> necessary or why we need so many different ways to ask the same 
->>>>> question. But this version already exists and definitely works 
->>>>> without hitting any explosions.
->>>>
->>>> No idea if it causes a bug on, doesn't in the helper itself so maybe 
->>>> you are saying it is called too early? Might be.. I think over time 
->>>> the nice idea we had that "setup" and "init" phases of engine setup 
->>>> clearly separated got destroyed a bit. There would always be an 
->>>> option to move this clamping in a later phase, once the submission 
->>>> method is known. One could argue that if the submission method is 
->>>> not yet known at this point, it is even wrong to clamp based on 
->>>> something which will only be decided later. Because:
->>>>
->>>> int intel_engines_init(struct intel_gt *gt)
->>>> {
->>>>     int (*setup)(struct intel_engine_cs *engine);
->>>>     struct intel_engine_cs *engine;
->>>>     enum intel_engine_id id;
->>>>     int err;
->>>>
->>>>     if (intel_uc_uses_guc_submission(&gt->uc)) {
->>>>         gt->submission_method = INTEL_SUBMISSION_GUC;
->>>>
->>>> So this uses "uses", not "wanted". Presumably the point for having 
->>>> "wanted" and "uses" is that they can disagree, in which case if you 
->>>> clamp early based on "wanted" that suggests it could be wrong.
->>>
->>> Okay, looks like I was getting confused with intel_guc_is_used(). 
->>> That one blows up if called too early.
->>>
->>> I'll change it to _uses_ and repost, then.
->>
->> Check that it isn't called too early, before gt->submission_setup is set.
-> Obviously it is because it blew up. But I am not re-writing the driver 
-> start up sequence just to use the word 'use' instead of 'want'.
-> 
->>
->>>
->>>>
->>>>>>>> And limit to class instead of applying to all engines looks like 
->>>>>>>> a miss.
->>>>>>> As per follow up email, the class limit is not applied here.
->>>>>>>
->>>>>>>>
->>>>>>>>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice 
->>>>>>>>> duration to %d to prevent possibly overflow\n",
->>>>>>>>> +                 GUC_POLICY_MAX_EXEC_QUANTUM_MS);
->>>>>>>>> +            engine->props.timeslice_duration_ms = 
->>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
->>>>>>>>
->>>>>>>> I am not sure logging such message during driver load is useful. 
->>>>>>>> Sounds more like a confused driver which starts with one value 
->>>>>>>> and then overrides itself. I'd just silently set the value 
->>>>>>>> appropriate for the active backend. Preemption timeout kconfig 
->>>>>>>> text already documents the fact timeouts can get overriden at 
->>>>>>>> runtime depending on platform+engine. So maybe just add same 
->>>>>>>> text to timeslice kconfig.
->>>>>>> The point is to make people aware if they compile with 
->>>>>>> unsupported config options. As far as I know, there is no way to 
->>>>>>> apply range checking or other limits to config defines. Which 
->>>>>>> means that a user would silently get unwanted behaviour. That 
->>>>>>> seems like a bad thing to me. If the driver is confused because 
->>>>>>> the user built it in a confused manner then we should let them know.
->>>>>>
->>>>>> Okay, but I think make it notice low level.
->>>>>>
->>>>>> Also consider in patch 3/3 when you triple it, and then clamp back 
->>>>>> down here. That's even more confused state since tripling gets 
->>>>>> nerfed. I think that's also an argument to always account preempt 
->>>>>> timeout in heartbeat interval calculation. Haven't got to your 
->>>>>> reply on 2/3 yet though..
->>>>> That sounds like even more reason to make sure the warning gets 
->>>>> seen. The more complex the system and the more chances there are to 
->>>>> get it wrong, the more important it is to have a nice easy to see 
->>>>> and understand notification that it did go wrong.
->>>>
->>>> I did not disagree, just said make it notice, one level higher than 
->>>> info! :)
->>> But then it won't appear unless you have explicitly said an elevated 
->>> debug level. Whereas info appears in dmesg by default (but is still 
->>> not classed as an error by CI and such).
->>
->> Notice is higher than info! :) If info appears by default so does 
->> notice, warning, err, etc...
-> Doh! I could have sworn those were the other way around.
-> 
-> Okay. Will update to use notice :).
-> 
->>
->> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
->> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken 
->> immediately */
->> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
->> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
->> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant 
->> condition */
->> #define KERN_INFO       KERN_SOH "6"    /* informational */
->> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->>
->>>> But also think how, if we agree to go with tripling, that you'd have 
->>>> to consider that in the sysfs store when hearbeat timeout is 
->>>> written, to consider whether or not to triple and error out if 
->>>> preemption timeout is over limit.
->>> I see this as just setting the default values. If an end user is 
->>> explicitly overriding the defaults then we should obey what they have 
->>> requested. If they are changing the heartbeat interval then they can 
->>> also change the pre-emption timeout appropriately.
->>
->> Question is can they unknowingly and without any feedback configure a 
->> much worse state than they expect? Like when they set heartbeats up to 
->> some value, everything is configured as you intended - but if you go 
->> over a certain hidden limit the overall scheme degrades in some way. 
->> What is the failure mode here if you silently let them do that?
-> You can always configure things to be worse than expected. If you don't 
-> understand what you are doing then any control can make things worse 
-> instead of better. The assumption is that if a user is savvy enough to 
-> be writing to sysfs overrides of kernel parameters then they know what 
-> those parameters are and what their implications are. If they want to 
-> set a very short heartbeat with a very long pre-emption timeout then its 
-> their problem if they hit frequent TDRs. Conversely, if they want to set 
-> a very long heartbeat with a very short pre-emption timeout then its 
-> still their problem if they hit frequent TDRs.
-> 
-> But if the user explicitly requests a heartbeat period of 3s and a 
-> pre-emption timeout of 2s and the i915 arbitrarily splats their 2s and 
-> makes it 9s then that is wrong.
-> 
-> We should give the driver defaults that work for the majority of users 
-> and then let the minority specify exactly what they need.
-> 
-> And there is no silent or hidden limit. If the user specifies a value 
-> too large then they will get -EINVAL. Nothing hidden or silent about 
-> that. Any other values are legal and the behaviour will be whatever has 
-> been requested.
-> 
-> John.
-> 
-> 
->>
->> Regards,
->>
->> Tvrtko
-> 
+diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
+index 45e17619422b..a41ff71b90af 100644
+--- a/lib/raid6/Makefile
++++ b/lib/raid6/Makefile
+@@ -38,6 +38,10 @@ ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+ NEON_FLAGS := -ffreestanding
+ # Enable <arm_neon.h>
+ NEON_FLAGS += -isystem $(shell $(CC) -print-file-name=include)
++# https://github.com/ClangBuiltLinux/linux/issues/1603
++ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_CPU_BIG_ENDIAN),yy)
++NEON_FLAGS += -Wno-declaration-after-statement
++endif
+ ifeq ($(ARCH),arm)
+ NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+ endif
+
+> > > The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
+> > > minimal and mainly impact warnings at the -Wpedantic level that the
+> > > kernel never enables. Between these, gnu11 is the newest version
+> > > that is supported by all supported compiler versions, though it is
+> > > only the default on gcc-5, while all other supported versions of
+> > > gcc or clang default to gnu1x/gnu17.
+> > >
+> > > Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1603
+> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > > Cc: linux-kbuild@vger.kernel.org
+> > > Cc: llvm@lists.linux.dev
+> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Acked-by: Marco Elver <elver@google.com>
+
+Cheers,
+Nathan
