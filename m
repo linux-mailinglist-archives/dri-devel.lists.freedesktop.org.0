@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86CC4C671D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 11:32:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 757284C6723
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 11:35:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495D610E37C;
-	Mon, 28 Feb 2022 10:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1011E10E385;
+	Mon, 28 Feb 2022 10:35:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B18410E376;
- Mon, 28 Feb 2022 10:32:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 46AC1B80FD3;
- Mon, 28 Feb 2022 10:32:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A53CBC340E7;
- Mon, 28 Feb 2022 10:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646044330;
- bh=NTMoGe2qM6Zlz2XjXRYS6obPgPuEJeVRzpLtHtUzKbU=;
- h=From:To:Cc:Subject:Date:From;
- b=rvT9Sz0ZYpqlbao+aNtyUDhbYN60iOK0g94ID0/9blJGJHbgXOMUCx4E6u9j6hi+N
- MOy/YvYTA3T9OkTggpf0QNPZthUon2kBk6f2OBl99CJwNxmM2qZuG1ngx5D8u4EpkI
- 7V5QyKUXLzeme56EkuSPctfKC11Qj4bCGRFrQ2+5Mr+/GlwGc0ZWQhMoZfPLT22M3w
- ANedRGgopyuejv8pL9dimPpPXBfm3gK1SFBnfY8Amk3vS8IYdtZmMEj+pm49RH3D51
- ihAHScB1jNVHki71tguNvLPH6pOa0g76LxFsPOZ7vfCMXzcjRoUjONjBxIz5sDVRuM
- lua1ZFvShJhfQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Subject: [PATCH] [v2] Kbuild: move to -std=gnu11
-Date: Mon, 28 Feb 2022 11:27:43 +0100
-Message-Id: <20220228103142.3301082-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C80010E35E;
+ Mon, 28 Feb 2022 10:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646044508; x=1677580508;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=uiP+91D+jzFZj8302xYQE57ivOxLj1rkSyZ1fQZFgxI=;
+ b=blqJKS8LyY81VUyxUfqwIGQ4KWL7gaunz0Z2i99Qe39pT9ivDFFypGgg
+ GjzSnlHL6OIqlbg4m1skeBWTyczGVBqqFfhftm5x/WdYwrUfcRAZ1LFvP
+ gRDfoZr7vN5TnmZIQObrEy0EP4NG0BQy2NhpsFo1Z4le7FKO5cHsKtLbU
+ c9DXwnPauuyCQnER6oJJXvx38GlQzK+8gmNwgA7E4R52skpQDr4tjTKWb
+ t8n+E7mldoIb9U0hiWAN62R341y5PioyV4CiB585UsZBg8d0/uwDk0k1e
+ frubpw/ue2psY75XftIudC83yxOrW/LyignIQkZgwZk6NzdguT8vkjtS8 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="252780744"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="252780744"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 02:35:07 -0800
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="708600348"
+Received: from jpdecker-mobl3.ger.corp.intel.com (HELO [10.213.235.138])
+ ([10.213.235.138])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 02:35:00 -0800
+Message-ID: <97f17df4-f820-afd4-7e48-f6f62bb9ee34@linux.intel.com>
+Date: Mon, 28 Feb 2022 10:34:57 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [CI 1/2] drm/mm: Add an iterator to optimally walk
+ over holes for an allocation (v4)
+Content-Language: en-US
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220227172957.1208890-1-vivek.kasireddy@intel.com>
+ <20220227172957.1208890-2-vivek.kasireddy@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220227172957.1208890-2-vivek.kasireddy@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,232 +63,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- greybus-dev@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
- intel-gfx@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-doc-tw-discuss@lists.sourceforge.net, Alex Shi <alexs@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-During a patch discussion, Linus brought up the option of changing
-the C standard version from gnu89 to gnu99, which allows using variable
-declaration inside of a for() loop. While the C99, C11 and later standards
-introduce many other features, most of these are already available in
-gnu89 as GNU extensions as well.
+Hi Vivek,
 
-An earlier attempt to do this when gcc-5 started defaulting to
--std=gnu11 failed because at the time that caused warnings about
-designated initializers with older compilers. Now that gcc-5.1 is the
-minimum compiler version used for building kernels, that is no longer a
-concern. Similarly, the behavior of 'inline' functions changes between
-gnu89 and gnu11, but this was taken care of by defining 'inline' to
-include __attribute__((gnu_inline)) in order to allow building with
-clang a while ago.
+On 27/02/2022 17:29, Vivek Kasireddy wrote:
+> This iterator relies on drm_mm_first_hole() and drm_mm_next_hole()
+> functions to identify suitable holes for an allocation of a given
+> size by efficiently traversing the rbtree associated with the given
+> allocator.
+> 
+> It replaces the for loop in drm_mm_insert_node_in_range() and can
+> also be used by drm drivers to quickly identify holes of a certain
+> size within a given range.
+> 
+> v2: (Tvrtko)
+> - Prepend a double underscore for the newly exported first/next_hole
+> - s/each_best_hole/each_suitable_hole/g
+> - Mask out DRM_MM_INSERT_ONCE from the mode before calling
+>    first/next_hole and elsewhere.
+> 
+> v3: (Tvrtko)
+> - Reduce the number of hunks by retaining the "mode" variable name
+> 
+> v4:
+> - Typo: s/__drm_mm_next_hole(.., hole/__drm_mm_next_hole(.., pos
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>   drivers/gpu/drm/drm_mm.c | 32 +++++++++++++++-----------------
+>   include/drm/drm_mm.h     | 36 ++++++++++++++++++++++++++++++++++++
+>   2 files changed, 51 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+> index 8257f9d4f619..8efea548ae9f 100644
+> --- a/drivers/gpu/drm/drm_mm.c
+> +++ b/drivers/gpu/drm/drm_mm.c
+> @@ -352,10 +352,10 @@ static struct drm_mm_node *find_hole_addr(struct drm_mm *mm, u64 addr, u64 size)
+>   	return node;
+>   }
+>   
+> -static struct drm_mm_node *
+> -first_hole(struct drm_mm *mm,
+> -	   u64 start, u64 end, u64 size,
+> -	   enum drm_mm_insert_mode mode)
+> +struct drm_mm_node *
+> +__drm_mm_first_hole(struct drm_mm *mm,
+> +		    u64 start, u64 end, u64 size,
+> +		    enum drm_mm_insert_mode mode)
+>   {
+>   	switch (mode) {
+>   	default:
+> @@ -374,6 +374,7 @@ first_hole(struct drm_mm *mm,
+>   						hole_stack);
+>   	}
+>   }
+> +EXPORT_SYMBOL(__drm_mm_first_hole);
+>   
+>   /**
+>    * DECLARE_NEXT_HOLE_ADDR - macro to declare next hole functions
+> @@ -410,11 +411,11 @@ static struct drm_mm_node *name(struct drm_mm_node *entry, u64 size)	\
+>   DECLARE_NEXT_HOLE_ADDR(next_hole_high_addr, rb_left, rb_right)
+>   DECLARE_NEXT_HOLE_ADDR(next_hole_low_addr, rb_right, rb_left)
+>   
+> -static struct drm_mm_node *
+> -next_hole(struct drm_mm *mm,
+> -	  struct drm_mm_node *node,
+> -	  u64 size,
+> -	  enum drm_mm_insert_mode mode)
+> +struct drm_mm_node *
+> +__drm_mm_next_hole(struct drm_mm *mm,
+> +		   struct drm_mm_node *node,
+> +		   u64 size,
+> +		   enum drm_mm_insert_mode mode)
+>   {
+>   	switch (mode) {
+>   	default:
+> @@ -432,6 +433,7 @@ next_hole(struct drm_mm *mm,
+>   		return &node->hole_stack == &mm->hole_stack ? NULL : node;
+>   	}
+>   }
+> +EXPORT_SYMBOL(__drm_mm_next_hole);
+>   
+>   /**
+>    * drm_mm_reserve_node - insert an pre-initialized node
+> @@ -516,11 +518,11 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+>   				u64 size, u64 alignment,
+>   				unsigned long color,
+>   				u64 range_start, u64 range_end,
+> -				enum drm_mm_insert_mode mode)
+> +				enum drm_mm_insert_mode caller_mode)
+>   {
+>   	struct drm_mm_node *hole;
+>   	u64 remainder_mask;
+> -	bool once;
+> +	enum drm_mm_insert_mode mode = caller_mode & ~DRM_MM_INSERT_ONCE;
+>   
+>   	DRM_MM_BUG_ON(range_start > range_end);
+>   
+> @@ -533,13 +535,9 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+>   	if (alignment <= 1)
+>   		alignment = 0;
+>   
+> -	once = mode & DRM_MM_INSERT_ONCE;
+> -	mode &= ~DRM_MM_INSERT_ONCE;
+> -
+>   	remainder_mask = is_power_of_2(alignment) ? alignment - 1 : 0;
+> -	for (hole = first_hole(mm, range_start, range_end, size, mode);
+> -	     hole;
+> -	     hole = once ? NULL : next_hole(mm, hole, size, mode)) {
+> +	drm_mm_for_each_suitable_hole(hole, mm, range_start, range_end,
+> +				      size, mode) {
 
-One minor issue that remains is an added gcc warning for shifts of
-negative integers when building with -Werror, which happens with the
-'make W=1' option, as well as for three drivers in the kernel that always
-enable -Werror, but it was only observed with the i915 driver so far.
-To be on the safe side, add -Wno-shift-negative-value to any -Wextra
-in a Makefile.
+I was doing one last read of the patch before I ask the maintainers 
+where to merge it and realized - don't you need to pass in the 
+caller_mode just here (not mode which has been masked out from "once")? 
+Otherwise "once" mode will not be respected by the iterator.
 
-Nathan Chancellor reported an additional -Wdeclaration-after-statement
-warning that appears in a system header on arm, this still needs a
-workaround.
+Regards,
 
-The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
-minimal and mainly impact warnings at the -Wpedantic level that the
-kernel never enables. Between these, gnu11 is the newest version
-that is supported by all supported compiler versions, though it is
-only the default on gcc-5, while all other supported versions of
-gcc or clang default to gnu1x/gnu17.
+Tvrtko
 
-Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
-Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Cc: llvm@lists.linux.dev
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-[v2]
- - added -std=gnu11 back, rather than just relying on the default
- - minor changes to changelog text
----
- Documentation/process/programming-language.rst              | 4 ++--
- .../translations/it_IT/process/programming-language.rst     | 4 ++--
- .../translations/zh_CN/process/programming-language.rst     | 4 ++--
- .../translations/zh_TW/process/programming-language.rst     | 4 ++--
- Makefile                                                    | 6 +++---
- arch/arm64/kernel/vdso32/Makefile                           | 2 +-
- drivers/gpu/drm/i915/Makefile                               | 1 +
- drivers/staging/greybus/tools/Makefile                      | 3 ++-
- fs/btrfs/Makefile                                           | 1 +
- scripts/Makefile.extrawarn                                  | 1 +
- 10 files changed, 17 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-index ec474a70a02f..894f2a6eb9db 100644
---- a/Documentation/process/programming-language.rst
-+++ b/Documentation/process/programming-language.rst
-@@ -5,8 +5,8 @@ Programming Language
- 
- The kernel is written in the C programming language [c-language]_.
- More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
--under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
--(including some C99 features). ``clang`` [clang]_ is also supported, see
-+under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11
-+(including some C17 features). ``clang`` [clang]_ is also supported, see
- docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
- 
- This dialect contains many extensions to the language [gnu-extensions]_,
-diff --git a/Documentation/translations/it_IT/process/programming-language.rst b/Documentation/translations/it_IT/process/programming-language.rst
-index 41db2598ce11..aa21097737ae 100644
---- a/Documentation/translations/it_IT/process/programming-language.rst
-+++ b/Documentation/translations/it_IT/process/programming-language.rst
-@@ -10,8 +10,8 @@ Linguaggio di programmazione
- 
- Il kernel è scritto nel linguaggio di programmazione C [it-c-language]_.
- Più precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ usando
--l'opzione ``-std=gnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
--dello standard ISO C90 (con l'aggiunta di alcune funzionalità da C99).
-+l'opzione ``-std=gnu11`` [it-gcc-c-dialect-options]_: il dialetto GNU
-+dello standard ISO C11 (con l'aggiunta di alcune funzionalità da C17).
- Linux supporta anche ``clang`` [it-clang]_, leggete la documentazione
- :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
- 
-diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-index 2a47a1d2ec20..58d2b3bd2d85 100644
---- a/Documentation/translations/zh_CN/process/programming-language.rst
-+++ b/Documentation/translations/zh_CN/process/programming-language.rst
-@@ -9,8 +9,8 @@
- ============
- 
- 内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
--在 ``-std=gnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C90的 GNU 方言（
--包括一些C99特性）
-+在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言（
-+包括一些C17特性）
- 
- 这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
- 
-diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
-index 54e3699eadf8..235de05f7e2c 100644
---- a/Documentation/translations/zh_TW/process/programming-language.rst
-+++ b/Documentation/translations/zh_TW/process/programming-language.rst
-@@ -12,8 +12,8 @@
- ============
- 
- 內核是用C語言 :ref:`c-language <tw_c-language>` 編寫的。更準確地說，內核通常是用 :ref:`gcc <tw_gcc>`
--在 ``-std=gnu89`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect-options>` 下編譯的：ISO C90的 GNU 方言（
--包括一些C99特性）
-+在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect-options>` 下編譯的：ISO C11的 GNU 方言（
-+包括一些C17特性）
- 
- 這種方言包含對語言 :ref:`gnu-extensions <tw_gnu-extensions>` 的許多擴展，當然，它們許多都在內核中使用。
- 
-diff --git a/Makefile b/Makefile
-index 289ce2be8032..66496eaeb9ec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -432,7 +432,7 @@ HOSTCXX	= g++
- endif
- 
- export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
--			      -O2 -fomit-frame-pointer -std=gnu89
-+			      -O2 -fomit-frame-pointer -std=gnu11
- export KBUILD_USERLDFLAGS :=
- 
- KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-@@ -515,7 +515,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
- 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
- 		   -Werror=implicit-function-declaration -Werror=implicit-int \
- 		   -Werror=return-type -Wno-format-security \
--		   -std=gnu89
-+		   -std=gnu11
- KBUILD_CPPFLAGS := -D__KERNEL__
- KBUILD_AFLAGS_KERNEL :=
- KBUILD_CFLAGS_KERNEL :=
-@@ -782,7 +782,7 @@ KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
- 
- ifdef CONFIG_CC_IS_CLANG
- KBUILD_CPPFLAGS += -Qunused-arguments
--# The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
-+# The kernel builds with '-std=gnu11' so use of GNU extensions is acceptable.
- KBUILD_CFLAGS += -Wno-gnu
- # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
- # source of a reference will be _MergedGlobals and not on of the whitelisted names.
-diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-index 6c01b63ff56d..9378ea055bf2 100644
---- a/arch/arm64/kernel/vdso32/Makefile
-+++ b/arch/arm64/kernel/vdso32/Makefile
-@@ -68,7 +68,7 @@ VDSO_CFLAGS += -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
-                -fno-strict-aliasing -fno-common \
-                -Werror-implicit-function-declaration \
-                -Wno-format-security \
--               -std=gnu89
-+               -std=gnu11
- VDSO_CFLAGS  += -O2
- # Some useful compiler-dependent flags from top-level Makefile
- VDSO_CFLAGS += $(call cc32-option,-Wdeclaration-after-statement,)
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 1b62b9f65196..1618a6e0af4e 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -17,6 +17,7 @@ subdir-ccflags-y += -Wno-unused-parameter
- subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-missing-field-initializers
- subdir-ccflags-y += -Wno-sign-compare
-+subdir-ccflags-y += -Wno-shift-negative-value
- subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
- subdir-ccflags-y += $(call cc-disable-warning, frame-address)
- subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
-diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/greybus/tools/Makefile
-index ad0ae8053b79..a3bbd73171f2 100644
---- a/drivers/staging/greybus/tools/Makefile
-+++ b/drivers/staging/greybus/tools/Makefile
-@@ -12,7 +12,8 @@ CFLAGS	+= -std=gnu99 -Wall -Wextra -g \
- 	    -Wredundant-decls \
- 	    -Wcast-align \
- 	    -Wsign-compare \
--	    -Wno-missing-field-initializers
-+	    -Wno-missing-field-initializers \
-+	    -Wno-shift-negative-value
- 
- CC	:= $(CROSS_COMPILE)gcc
- 
-diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
-index 4188ba3fd8c3..99f9995670ea 100644
---- a/fs/btrfs/Makefile
-+++ b/fs/btrfs/Makefile
-@@ -17,6 +17,7 @@ subdir-ccflags-y += $(condflags)
- subdir-ccflags-y += -Wno-missing-field-initializers
- subdir-ccflags-y += -Wno-sign-compare
- subdir-ccflags-y += -Wno-type-limits
-+subdir-ccflags-y += -Wno-shift-negative-value
- 
- obj-$(CONFIG_BTRFS_FS) := btrfs.o
- 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 8be892887d71..650d0b8ceec3 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -36,6 +36,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
- KBUILD_CFLAGS += -Wno-missing-field-initializers
- KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -Wno-type-limits
-+KBUILD_CFLAGS += -Wno-shift-negative-value
- 
- KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
- 
--- 
-2.29.2
-
+>   		u64 hole_start = __drm_mm_hole_node_start(hole);
+>   		u64 hole_end = hole_start + hole->hole_size;
+>   		u64 adj_start, adj_end;
+> diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+> index ac33ba1b18bc..dff6db627807 100644
+> --- a/include/drm/drm_mm.h
+> +++ b/include/drm/drm_mm.h
+> @@ -400,6 +400,42 @@ static inline u64 drm_mm_hole_node_end(const struct drm_mm_node *hole_node)
+>   	     1 : 0; \
+>   	     pos = list_next_entry(pos, hole_stack))
+>   
+> +struct drm_mm_node *
+> +__drm_mm_first_hole(struct drm_mm *mm,
+> +		    u64 start, u64 end, u64 size,
+> +		    enum drm_mm_insert_mode mode);
+> +
+> +struct drm_mm_node *
+> +__drm_mm_next_hole(struct drm_mm *mm,
+> +		   struct drm_mm_node *node,
+> +		   u64 size,
+> +		   enum drm_mm_insert_mode mode);
+> +
+> +/**
+> + * drm_mm_for_each_suitable_hole - iterator to optimally walk over all
+> + * holes that can fit an allocation of the given @size.
+> + * @pos: &drm_mm_node used internally to track progress
+> + * @mm: &drm_mm allocator to walk
+> + * @range_start: start of the allowed range for the allocation
+> + * @range_end: end of the allowed range for the allocation
+> + * @size: size of the allocation
+> + * @mode: fine-tune the allocation search
+> + *
+> + * This iterator walks over all holes suitable for the allocation of given
+> + * @size in a very efficient manner. It is implemented by calling
+> + * drm_mm_first_hole() and drm_mm_next_hole() which identify the
+> + * appropriate holes within the given range by efficiently traversing the
+> + * rbtree associated with @mm.
+> + */
+> +#define drm_mm_for_each_suitable_hole(pos, mm, range_start, range_end, \
+> +				      size, mode) \
+> +	for (pos = __drm_mm_first_hole(mm, range_start, range_end, size, \
+> +				       mode & ~DRM_MM_INSERT_ONCE); \
+> +	     pos; \
+> +	     pos = mode & DRM_MM_INSERT_ONCE ? \
+> +	     NULL : __drm_mm_next_hole(mm, pos, size, \
+> +				       mode & ~DRM_MM_INSERT_ONCE))
+> +
+>   /*
+>    * Basic range manager support (drm_mm.c)
+>    */
