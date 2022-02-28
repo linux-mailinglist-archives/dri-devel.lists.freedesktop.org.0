@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DB24C64CE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 09:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426314C64CF
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 09:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3997210E4F0;
-	Mon, 28 Feb 2022 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B16C210E500;
+	Mon, 28 Feb 2022 08:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 363F110E4F0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 08:22:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1D4283200E5D;
- Mon, 28 Feb 2022 03:22:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 28 Feb 2022 03:22:51 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36B310E4F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Feb 2022 08:22:55 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 5D0A9320046F;
+ Mon, 28 Feb 2022 03:22:54 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 28 Feb 2022 03:22:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=VPLYghddiUSX9R
- +LxV+NPLsTTvSHzyPDCnYSGQdPduc=; b=Ytkov/ctEw3ys3dT7YyF0bElkqgkDf
- Pyh5m14yzKUhS5YnXvimsSrEBN4tNeJJ+tmpntsb5joraBRVBaWs8EYHzWa2I+Qp
- RFA1LNCfO3IZ3mYlF3Lm/19nKtwgFzntNoTdYAL1zPavME7bXEkqGS56Y2g/kTwd
- VfmdCxYkTrOGl+vYZtOutOyPMo3D6ABb0ZkXMMHpbhAd4Is4P+IDflDo7hPl67wy
- SJSsc47+lrU8L7cuZ0uvIjxvYEvsBiPmjfBnFw8/01yuapAHu0KJBVoE5a0AVvTI
- IunxYK42GUMT451hmErYVNOQV//XHf5b8YdJ/QkmeZugv9eSXhYWulsw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=oWWzwBEMp2oR8q
+ lim2q+INm+//ADY2+am6NUMPQ6hE0=; b=nVQMofvCwv6nlsDoqoDeRNFyviG/hZ
+ awZXunsX6BWXNQPB3mBg7a6kQ5pA0cb5YagOO1AHNY+7RhOFsURZ+UQ+0raZtrHT
+ HpFLxfVNv6LTT3XW1bnxieu8bQvdKztnBP/3UN/uIK7kUxd3GorJ08KpnrIHbav4
+ otrLE1usWvDWNqTfjucaWyIXTjjIFWqNAeYEal1XGT7Y0/J8Rk7xQSchXDRxKLPX
+ wboovNMDawM1a1DQ3hG6+XUxMAHuh3yWFo0Id/hubdqgBJ/FbDYgbDUjlaaOFtQD
+ zQv8ThuDb2rdhUkyBEYDeLR3clZuvSqsfrL1CFC6zxISWiJmGJjJBYLA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=VPLYghddiUSX9R+LxV+NPLsTTvSHzyPDCnYSGQdPd
- uc=; b=MkYQ3wmrrhaYW+XuY9XMcv/Rm/gIXTlugPTThbSz3g5QWqYOauTf/kPea
- Xnn0U4QPi0x2jgFEdstl7f0++TTULFszEYH2Gjmt4B12AKMqx4Z389CQN3ReG/51
- 8d1lu5dc6E6lhORLaqtM3XT2hhmIf4k8sbwc8wUTegRUbbNuCJRHle8YWKVT+pTf
- JCCd+cergg5qXUIvKH405tnWSVhxLX3V9N6etrrXZt2bb9apopBISyHYHaYa9lKo
- bUyLK+jN5Pky8NQ5LLtXu88G3VbRHjc6VEdQPWyNHKkkuZwLrtXhHuhEGs7Y6wv/
- G3hVEjmFCL0ZQjWHgIaehMyAbJhHw==
-X-ME-Sender: <xms:WoYcYmpqc6rrjV_rWHxc2_iAZ2D8VVg_yaqoydX34LWLpd0yaSwv1Q>
- <xme:WoYcYkqnbZIiciBRe6d0hNBgxla85GAbfRvgKsoVcZdzQDEH4C1CrS7K4OlK7YW7E
- RWq4GfUF2vtjaN413o>
-X-ME-Received: <xmr:WoYcYrMOlTgFj_zad2cEwSpcF9gbiC05OpTgOIqySmvzDnJSjX3IMCWKyDjkSQKeCnrsbZ_WRL3YSWQICADFWXtgalAhV7-eMOVLzVw>
+ :x-sasl-enc; s=fm2; bh=oWWzwBEMp2oR8qlim2q+INm+//ADY2+am6NUMPQ6h
+ E0=; b=QUVtw+Kb4+gJw7pZLH8jrNEloKRMel9GiGLa3/jIayDsEUk3PQ+rvHJWf
+ DKQCU1aCmdG5o4GqlJtc9riLUe/z7dkPhAzl0Agshr5D90fmEFEXcX8AhtVchT2d
+ SPMlzIeYXZNHhJ0Yw1b3sHvjoIQ4d93bePbomm8WG5GLf9lS0ZQ1W1oGtUsFkxEv
+ r7Kmd8Mal06Iq200HknQG3uqgeua5X9UQqVAMWN9EnTwvaQdTRFuPfApRVFYxjIl
+ jrcCSGE3JOjawvNu6F5IcAX2A1Vsfpt/DF/7tSaAztwec/RaxxfvPawQD48a8DfC
+ 49yHgUz5k4hMb6FnhhfWAeJk1MmvA==
+X-ME-Sender: <xms:XYYcYoIgtJwd4s3bNQ1gTiMMIEhk9dtYRcm6F_cK_8zb63MMSHElwA>
+ <xme:XYYcYoK_tInMeP56EsOPmrSQfeZLMQ_Qt4kWhzOboqu0j63ova96lnXOoFM00r0ou
+ d1HUsLUlrjfIndkX8E>
+X-ME-Received: <xmr:XYYcYouuPEXauLv20yu4xp-MPREe4qbdOmTlQcMhlp2o3mtAohBU13TLyzOskg6AKKxD8_cU11fwis5BQrY9kPJAFPlorDm-I5JkurA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleelgdduudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ieekkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WoYcYl6Akw6Z6ZYb0i-4DcILqSwDuKwtQucEKNWkjSEHoIYBVldCvw>
- <xmx:WoYcYl7gDdHhTO_4hazeigq3oQ7PfCvip9sXbBqcDCh3Qi1zNf5Org>
- <xmx:WoYcYliYC1Y_vkYjLwDy9qMY-OrFIW0lCkoSCKG6jHXB8RePnbLtfQ>
- <xmx:WoYcYgaYF4mWvIhPXDK9or4mUHnhu7p1jBRkIsSbOfmDJBt3gFUUSQ>
+X-ME-Proxy: <xmx:XYYcYlafrraQ2SIb_u1NVzS9CI-qpUokT1ld5j61a3DFxFj-n4whTg>
+ <xmx:XYYcYvbfDF9aIUemx3Fqe_--PCOpNS3CvUOaBb192mbCo312uqSoZw>
+ <xmx:XYYcYhD8YFVxhpMqWB-yaMRmlC6Jx4BmlTeUzZd41A9M4Aw5XuOyuw>
+ <xmx:XYYcYj4utdn4qrJ6U43yaa8xbun2RPzZHNyuw0V2PpHYjcK2Knd6tA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Feb 2022 03:22:49 -0500 (EST)
+ 28 Feb 2022 03:22:53 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>, robh+dt@kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH v6 4/5] drm/mipi-dbi: Add driver_private member
- to struct mipi_dbi_dev
-Date: Mon, 28 Feb 2022 09:22:34 +0100
-Message-Id: <164603650749.9024.11268761207006013829.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v6 5/5] drm/tiny: Add MIPI DBI compatible SPI
+ driver
+Date: Mon, 28 Feb 2022 09:22:35 +0100
+Message-Id: <164603650749.9024.13469000708169367461.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220227124713.39766-5-noralf@tronnes.org>
+In-Reply-To: <20220227124713.39766-6-noralf@tronnes.org>
 References: <20220227124713.39766-1-noralf@tronnes.org>
- <20220227124713.39766-5-noralf@tronnes.org>
+ <20220227124713.39766-6-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -90,14 +90,14 @@ Cc: devicetree@vger.kernel.org, david@lechnology.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Feb 2022 13:47:12 +0100, Noralf Trønnes wrote:
-> devm_drm_dev_alloc() can't allocate structures that embed a structure
-> which then again embeds drm_device. Workaround this by adding a
-> driver_private pointer to struct mipi_dbi_dev which the driver can use for
-> its additional state.
+On Sun, 27 Feb 2022 13:47:13 +0100, Noralf Trønnes wrote:
+> Add a driver that will work with most MIPI DBI compatible SPI panels.
+> This avoids adding a driver for every new MIPI DBI compatible controller
+> that is to be used by Linux. The 'compatible' Device Tree property with
+> a '.bin' suffix will be used to load a firmware file that contains the
+> controller configuration.
 > 
-> v3:
-> - Add documentation
+> Example (driver will load sainsmart18.bin):
 > 
 > [...]
 
