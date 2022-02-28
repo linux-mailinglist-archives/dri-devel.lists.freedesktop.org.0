@@ -2,44 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDBB4C7D1C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 23:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4F64C7D54
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 23:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D689710E92B;
-	Mon, 28 Feb 2022 22:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F68110E8E8;
+	Mon, 28 Feb 2022 22:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0889510E593;
- Mon, 28 Feb 2022 22:13:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [96.44.175.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFDA410E8E8;
+ Mon, 28 Feb 2022 22:29:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1646087344;
+ bh=gnitHaDoKtFYFmdfHx7ZmUK+2K99mC4OdMWiGF3yqts=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=aDv+zUJMVLbpHnTobs88HMeKXt8e/Fsm3NyltqbtXmut8dDpKPmgZQHvU7CQAhpxT
+ x8yyOH8cKkqI9wCCVd7mWgGGPtOdFvurEvTcoJzgoG8F+eqVyUcxI30U1Z3UyKmv+s
+ JFRv6cmaJ/MAgdj571KO+Pve8Zec5bTLqNmzMPjU=
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 2FE4A1281036;
+ Mon, 28 Feb 2022 17:29:04 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id UdsLtl38GfVe; Mon, 28 Feb 2022 17:29:04 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1646087343;
+ bh=gnitHaDoKtFYFmdfHx7ZmUK+2K99mC4OdMWiGF3yqts=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=u33hwQnb0VqdOXP8ulufSc5IRuZCZipVBGZNcGF9+k1EE0TmKFXpcGOMGd4fMwEgO
+ 9syQhDBoNk9Z7GUqfbwA47rALQtXFHUxFeSSP/G0sxjEsJWs9EMuAmppU6twhzQzk+
+ fAgT3F3AJIbVTwM2ufsCoBYKhhHBSRhleqdyR2l4=
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:5c4:4300:c551::527])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 79D416119C;
- Mon, 28 Feb 2022 22:13:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABC48C340F1;
- Mon, 28 Feb 2022 22:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646086425;
- bh=cnDWJ0mUKsMIK/kUZBxrtwaDai/t/1pEAH68lPV8FNI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=g3J98SrFRq1BbJxPN1kJdH/0NbFXhkBE307szRWU7LmrbHX2s2cJ5zQ3v4x9DqVul
- W+UT8Tz7QZYUmLyHrBFi8AlchvPhAIsNb5N/t/1Vum4HNk2hB+M5oV3EPkQCL/YldK
- Yl1lpm9CV0w78mMuBs7wpXWCPyDYS8tFO9ylRSiAoaVrZIBgYz/Fvgxz8o2bG2gMGk
- SFSk5Az0KRyVF0mxmQZLvhhhRajROlVvK/8fDFVWhMxRoD8TO07Q8LkJUySVWRD90T
- lrt8hJFlJ3TW01ylg3BJslwJE+g9BnROM4YsHrUpbHVmWmLR9oT1VQBPyACxUK62w6
- +ISVACI6FIWZA==
-Date: Mon, 28 Feb 2022 16:13:44 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Limonciello, Mario" <Mario.Limonciello@amd.com>
-Subject: Re: [PATCH v5 3/7] PCI: Drop the `is_thunderbolt` attribute from PCI
- core
-Message-ID: <20220228221344.GA529289@bhelgaas>
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id C21DB1280D34;
+ Mon, 28 Feb 2022 17:28:59 -0500 (EST)
+Message-ID: <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop
+ body as a ptr
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Mike Rapoport <rppt@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 28 Feb 2022 17:28:58 -0500
+In-Reply-To: <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BL1PR12MB5157004F38E3FEFF046D9BE4E2019@BL1PR12MB5157.namprd12.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +72,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 03:33:13PM +0000, Limonciello, Mario wrote:
-> [AMD Official Use Only]
+On Mon, 2022-02-28 at 23:59 +0200, Mike Rapoport wrote:
 > 
+> On February 28, 2022 10:42:53 PM GMT+02:00, James Bottomley <
+> James.Bottomley@HansenPartnership.com> wrote:
+> > On Mon, 2022-02-28 at 21:07 +0100, Christian König wrote:
+[...]
+> > > > I do wish we could actually poison the 'pos' value after the
+> > > > loop somehow - but clearly the "might be uninitialized" I was
+> > > > hoping for isn't the way to do it.
+> > > > 
+> > > > Anybody have any ideas?
+> > > 
+> > > I think we should look at the use cases why code is touching
+> > > (pos) after the loop.
+> > > 
+> > > Just from skimming over the patches to change this and experience
+> > > with the drivers/subsystems I help to maintain I think the
+> > > primary pattern looks something like this:
+> > > 
+> > > list_for_each_entry(entry, head, member) {
+> > >      if (some_condition_checking(entry))
+> > >          break;
+> > > }
+> > > do_something_with(entry);
 > > 
-> > On Fri, Feb 25, 2022 at 11:42:24AM -0600, Bjorn Helgaas wrote:
-> > > That would just leave the "PCI_VSEC_ID_INTEL_TBT implies external-
-> > facing"
-> > > assumption above.  Not having a Thunderbolt spec, I have no idea how
-> > > you deal with that.
+> > Actually, we usually have a check to see if the loop found
+> > anything, but in that case it should something like
 > > 
-> > You can download the spec here:
+> > if (list_entry_is_head(entry, head, member)) {
+> >    return with error;
+> > }
+> > do_somethin_with(entry);
 > > 
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fww
-> > w.usb.org%2Fsites%2Fdefault%2Ffiles%2FUSB4%2520Specification%2520202
-> > 11116.zip&amp;data=04%7C01%7Cmario.limonciello%40amd.com%7Ca26e64
-> > 7a4acf4e7681d308d9faa358fd%7C3dd8961fe4884e608e11a82d994e183d%7C0
-> > %7C0%7C637816402472428689%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC
-> > 4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&
-> > amp;sdata=HSDqx%2BHzSnczTZxaBij8sgqvJSS8ajtjCzZd2CPSbR4%3D&amp;re
-> > served=0
-> > 
-> > Inside the archive there is also the DVSEC spec with name "USB4 DVSEC
-> > Version 1.0.pdf".
+> > Suffice?  The list_entry_is_head() macro is designed to cope with
+> > the bogus entry on head problem.
 > 
-> The spec has Host_Router_indication (bits 18-19) as meaning external facing.
-> I'll respin the patch 3 for using that.
+> Won't suffice because the end goal of this work is to limit scope of
+> entry only to loop. Hence the need for additional variable.
 
-Thanks, please include the spec citation when you do.  And probably
-the URL, because it's not at all obvious how the casual reader would
-get from "is_thunderbolt" to a recent add-on to the USB4 spec.
+Well, yes, but my objection is more to the size of churn than the
+desire to do loop local.  I'm not even sure loop local is possible,
+because it's always annoyed me that for (int i = 0; ...  in C++ defines
+i in the outer scope not the loop scope, which is why I never use it.
 
-Bjorn
+However, if the desire is really to poison the loop variable then we
+can do
+
+#define list_for_each_entry(pos, head, member)				\
+	for (pos = list_first_entry(head, typeof(*pos), member);	\
+	     !list_entry_is_head(pos, head, member) && ((pos = NULL) == NULL;			\
+	     pos = list_next_entry(pos, member))
+
+Which would at least set pos to NULL when the loop completes.
+
+> Besides, there are no guarantees that people won't
+> do_something_with(entry) without the check or won't compare entry to
+> NULL to check if the loop finished with break or not.
+
+I get the wider goal, but we have to patch the problem cases now and a
+simple one-liner is better than a larger patch that may or may not work
+if we ever achieve the local definition or value poisoning idea.  I'm
+also fairly certain coccinelle can come up with a use without checking
+for loop completion semantic patch which we can add to 0day.
+
+James
+
+
