@@ -1,46 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF4E4C7B6E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:11:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 658074C7B75
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Feb 2022 22:13:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22F710E8DB;
-	Mon, 28 Feb 2022 21:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D75D810E8DD;
+	Mon, 28 Feb 2022 21:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D9810E8D9;
- Mon, 28 Feb 2022 21:11:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=hlxuHAMRU3IMg6hj7WJxf5M11wcx0ijnT9+HHKNCJmY=; b=obQcFpsBHStgolqorqjWeQ4+Bo
- dXzFLLVuEKqbAFgwEib3HJ8yHcdiLk6GQafUZkwZCbg311p9psRwTkoiDNGZDzqVwgH4mB43qAffI
- wgkft3zSyMGjVhI7uN5KL5KXbp8P9Lyk2GVEDopiXcD/wu4gjBIjXGS6wuySB3aXBh7FAjpO69o1I
- OX/VrbntjRoQ5w+G5ML18oJnElP9XyxqL0+ywMPy+pl9h5t0K4kN3MU/7RDyvR371hCIUJBza2Deu
- B6bMOXgiOfvhwSrvMtaR+t7PNs39lSB+fs7FS4ViQq72Ph1zV4PNQ/z+3EeEbGzQkvXg/jlYCoxSb
- lePgc7Mw==;
-Received: from [165.90.126.25] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nOnJ7-000CFy-Gv; Mon, 28 Feb 2022 22:11:49 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 2/2] drm/amd/display: move FPU code from dcn10 to dml/dcn10
- folder
-Date: Mon, 28 Feb 2022 20:10:47 -0100
-Message-Id: <20220228211047.3957945-3-mwen@igalia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220228211047.3957945-1-mwen@igalia.com>
-References: <20220228211047.3957945-1-mwen@igalia.com>
+X-Greylist: delayed 1815 seconds by postgrey-1.36 at gabe;
+ Mon, 28 Feb 2022 21:13:16 UTC
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [96.44.175.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E7D10E8E3;
+ Mon, 28 Feb 2022 21:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1646082795;
+ bh=b0jOc0WDOwLaR9eob939Fu/T9iRVE4QNy1gcUuEgORI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=fTQp+HhEyDWfdTRw9MD74D4dNoy4lJbDD6ufhn8pOCgDG9LKN5I5E2XfQsXuEnTyE
+ o41BjR/wB9Zx796mcVO5HItpPdbUBqFA5gZFvpxw0W0+8SaIBYecaW0t63X4w0ysYd
+ Uxmzs2O4chqjQ5mD0m0R9/q9wYnJ2eru8WGs04Zw=
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id EE6F612811CE;
+ Mon, 28 Feb 2022 16:13:15 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id fdilm1jMyJ2v; Mon, 28 Feb 2022 16:13:15 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1646082795;
+ bh=b0jOc0WDOwLaR9eob939Fu/T9iRVE4QNy1gcUuEgORI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=fTQp+HhEyDWfdTRw9MD74D4dNoy4lJbDD6ufhn8pOCgDG9LKN5I5E2XfQsXuEnTyE
+ o41BjR/wB9Zx796mcVO5HItpPdbUBqFA5gZFvpxw0W0+8SaIBYecaW0t63X4w0ysYd
+ Uxmzs2O4chqjQ5mD0m0R9/q9wYnJ2eru8WGs04Zw=
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:5c4:4300:c551::527])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 980CE1280320;
+ Mon, 28 Feb 2022 16:13:11 -0500 (EST)
+Message-ID: <ade13f419519350e460e7ef1e64477ec72e828ed.camel@HansenPartnership.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop
+ body as a ptr
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Linus
+ Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 28 Feb 2022 16:13:09 -0500
+In-Reply-To: <0b65541a-3da7-dc35-690a-0ada75b0adae@amd.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <0b65541a-3da7-dc35-690a-0ada75b0adae@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,309 +74,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>, linux-kernel@vger.kernel.org,
- Jasdeep Dhillon <jdhillon@amd.com>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FPU operations in dcn10 was already moved to dml folder via calcs code.
-However, dcn1_0_ip and dcn_1_0_soc with FPU componentd remains on dcn10.
-Following previous changes to isolate FPU, this patch creates dcn10_fpu
-files to isolate FPU-specific code and moves those structs to it.
+On Mon, 2022-02-28 at 21:56 +0100, Christian König wrote:
+> 
+> Am 28.02.22 um 21:42 schrieb James Bottomley:
+> > On Mon, 2022-02-28 at 21:07 +0100, Christian König wrote:
+> > > Am 28.02.22 um 20:56 schrieb Linus Torvalds:
+> > > > On Mon, Feb 28, 2022 at 4:19 AM Christian König
+> > > > <christian.koenig@amd.com> wrote:
+> > > > [SNIP]
+> > > > Anybody have any ideas?
+> > > I think we should look at the use cases why code is touching
+> > > (pos)
+> > > after the loop.
+> > > 
+> > > Just from skimming over the patches to change this and experience
+> > > with the drivers/subsystems I help to maintain I think the
+> > > primary pattern looks something like this:
+> > > 
+> > > list_for_each_entry(entry, head, member) {
+> > >       if (some_condition_checking(entry))
+> > >           break;
+> > > }
+> > > do_something_with(entry);
+> > 
+> > Actually, we usually have a check to see if the loop found
+> > anything, but in that case it should something like
+> > 
+> > if (list_entry_is_head(entry, head, member)) {
+> >      return with error;
+> > }
+> > do_somethin_with(entry);
+> > 
+> > Suffice?  The list_entry_is_head() macro is designed to cope with
+> > the bogus entry on head problem.
+> 
+> That will work and is also what people already do.
+> 
+> The key problem is that we let people do the same thing over and
+> over again with slightly different implementations.
+> 
+> Out in the wild I've seen at least using a separate variable, using
+> a bool to indicate that something was found and just assuming that
+> the list has an entry.
+> 
+> The last case is bogus and basically what can break badly.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../drm/amd/display/dc/dcn10/dcn10_resource.c |  62 ---------
- .../drm/amd/display/dc/dcn10/dcn10_resource.h |   4 +
- drivers/gpu/drm/amd/display/dc/dml/Makefile   |   2 +
- .../drm/amd/display/dc/dml/dcn10/dcn10_fpu.c  | 124 ++++++++++++++++++
- .../drm/amd/display/dc/dml/dcn10/dcn10_fpu.h  |  30 +++++
- 5 files changed, 160 insertions(+), 62 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.c
- create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.h
+Yes, I understand that.  I'm saying we should replace that bogus checks
+of entry->something against some_value loop termination condition with
+the list_entry_is_head() macro.  That should be a one line and fairly
+mechanical change rather than the explosion of code changes we seem to
+have in the patch series.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-index 858b72149897..ac96242cc474 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-@@ -70,68 +70,6 @@
- #include "dce/dce_aux.h"
- #include "dce/dce_i2c.h"
- 
--const struct _vcs_dpi_ip_params_st dcn1_0_ip = {
--	.rob_buffer_size_kbytes = 64,
--	.det_buffer_size_kbytes = 164,
--	.dpte_buffer_size_in_pte_reqs_luma = 42,
--	.dpp_output_buffer_pixels = 2560,
--	.opp_output_buffer_lines = 1,
--	.pixel_chunk_size_kbytes = 8,
--	.pte_enable = 1,
--	.pte_chunk_size_kbytes = 2,
--	.meta_chunk_size_kbytes = 2,
--	.writeback_chunk_size_kbytes = 2,
--	.line_buffer_size_bits = 589824,
--	.max_line_buffer_lines = 12,
--	.IsLineBufferBppFixed = 0,
--	.LineBufferFixedBpp = -1,
--	.writeback_luma_buffer_size_kbytes = 12,
--	.writeback_chroma_buffer_size_kbytes = 8,
--	.max_num_dpp = 4,
--	.max_num_wb = 2,
--	.max_dchub_pscl_bw_pix_per_clk = 4,
--	.max_pscl_lb_bw_pix_per_clk = 2,
--	.max_lb_vscl_bw_pix_per_clk = 4,
--	.max_vscl_hscl_bw_pix_per_clk = 4,
--	.max_hscl_ratio = 4,
--	.max_vscl_ratio = 4,
--	.hscl_mults = 4,
--	.vscl_mults = 4,
--	.max_hscl_taps = 8,
--	.max_vscl_taps = 8,
--	.dispclk_ramp_margin_percent = 1,
--	.underscan_factor = 1.10,
--	.min_vblank_lines = 14,
--	.dppclk_delay_subtotal = 90,
--	.dispclk_delay_subtotal = 42,
--	.dcfclk_cstate_latency = 10,
--	.max_inter_dcn_tile_repeaters = 8,
--	.can_vstartup_lines_exceed_vsync_plus_back_porch_lines_minus_one = 0,
--	.bug_forcing_LC_req_same_size_fixed = 0,
--};
--
--const struct _vcs_dpi_soc_bounding_box_st dcn1_0_soc = {
--	.sr_exit_time_us = 9.0,
--	.sr_enter_plus_exit_time_us = 11.0,
--	.urgent_latency_us = 4.0,
--	.writeback_latency_us = 12.0,
--	.ideal_dram_bw_after_urgent_percent = 80.0,
--	.max_request_size_bytes = 256,
--	.downspread_percent = 0.5,
--	.dram_page_open_time_ns = 50.0,
--	.dram_rw_turnaround_time_ns = 17.5,
--	.dram_return_buffer_per_channel_bytes = 8192,
--	.round_trip_ping_latency_dcfclk_cycles = 128,
--	.urgent_out_of_order_return_per_channel_bytes = 256,
--	.channel_interleave_bytes = 256,
--	.num_banks = 8,
--	.num_chans = 2,
--	.vmm_page_size_bytes = 4096,
--	.dram_clock_change_latency_us = 17.0,
--	.writeback_dram_clock_change_latency_us = 23.0,
--	.return_bus_width_bytes = 64,
--};
--
- #ifndef mmDP0_DP_DPHY_INTERNAL_CTRL
- 	#define mmDP0_DP_DPHY_INTERNAL_CTRL		0x210f
- 	#define mmDP0_DP_DPHY_INTERNAL_CTRL_BASE_IDX	2
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.h b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.h
-index 633025ccb870..bf8e33cd8147 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.h
-@@ -27,6 +27,7 @@
- #define __DC_RESOURCE_DCN10_H__
- 
- #include "core_types.h"
-+#include "dml/dcn10/dcn10_fpu.h"
- 
- #define TO_DCN10_RES_POOL(pool)\
- 	container_of(pool, struct dcn10_resource_pool, base)
-@@ -35,6 +36,9 @@ struct dc;
- struct resource_pool;
- struct _vcs_dpi_display_pipe_params_st;
- 
-+extern struct _vcs_dpi_ip_params_st dcn1_0_ip;
-+extern struct _vcs_dpi_soc_bounding_box_st dcn1_0_soc;
-+
- struct dcn10_resource_pool {
- 	struct resource_pool base;
- };
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-index b16c492593e2..6b7f8b62a56f 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-@@ -58,6 +58,7 @@ CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_lib.o := $(dml_ccflags)
- 
- ifdef CONFIG_DRM_AMD_DC_DCN
- CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_vba.o := $(dml_ccflags)
-+CFLAGS_$(AMDDALPATH)/dc/dml/dcn10/dcn10_fpu.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/dcn20_fpu.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_mode_vba_20.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_mode_vba_20.o := $(dml_ccflags)
-@@ -105,6 +106,7 @@ DML = calcs/dce_calcs.o calcs/custom_float.o calcs/bw_fixed.o
- 
- ifdef CONFIG_DRM_AMD_DC_DCN
- DML += display_mode_lib.o display_rq_dlg_helpers.o dml1_display_rq_dlg_calc.o
-+DML += dcn10/dcn10_fpu.o
- DML += dcn20/dcn20_fpu.o
- DML += display_mode_vba.o dcn20/display_rq_dlg_calc_20.o dcn20/display_mode_vba_20.o
- DML += dcn20/display_rq_dlg_calc_20v2.o dcn20/display_mode_vba_20v2.o
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.c
-new file mode 100644
-index 000000000000..7f08f49eb7b1
---- /dev/null
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright 2021 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
-+
-+#include "dcn10/dcn10_resource.h"
-+
-+#include "dcn10_fpu.h"
-+
-+/**
-+ * DOC: DCN10 FPU manipulation Overview
-+ *
-+ * The DCN architecture relies on FPU operations, which require special
-+ * compilation flags and the use of kernel_fpu_begin/end functions; ideally, we
-+ * want to avoid spreading FPU access across multiple files. With this idea in
-+ * mind, this file aims to centralize DCN10 functions that require FPU access
-+ * in a single place. Code in this file follows the following code pattern:
-+ *
-+ * 1. Functions that use FPU operations should be isolated in static functions.
-+ * 2. The FPU functions should have the noinline attribute to ensure anything
-+ *    that deals with FP register is contained within this call.
-+ * 3. All function that needs to be accessed outside this file requires a
-+ *    public interface that not uses any FPU reference.
-+ * 4. Developers **must not** use DC_FP_START/END in this file, but they need
-+ *    to ensure that the caller invokes it before access any function available
-+ *    in this file. For this reason, public functions in this file must invoke
-+ *    dc_assert_fp_enabled();
-+ *
-+ * Let's expand a little bit more the idea in the code pattern. To fully
-+ * isolate FPU operations in a single place, we must avoid situations where
-+ * compilers spill FP values to registers due to FP enable in a specific C
-+ * file. Note that even if we isolate all FPU functions in a single file and
-+ * call its interface from other files, the compiler might enable the use of
-+ * FPU before we call DC_FP_START. Nevertheless, it is the programmer's
-+ * responsibility to invoke DC_FP_START/END in the correct place. To highlight
-+ * situations where developers forgot to use the FP protection before calling
-+ * the DC FPU interface functions, we introduce a helper that checks if the
-+ * function is invoked under FP protection. If not, it will trigger a kernel
-+ * warning.
-+ */
-+
-+struct _vcs_dpi_ip_params_st dcn1_0_ip = {
-+	.rob_buffer_size_kbytes = 64,
-+	.det_buffer_size_kbytes = 164,
-+	.dpte_buffer_size_in_pte_reqs_luma = 42,
-+	.dpp_output_buffer_pixels = 2560,
-+	.opp_output_buffer_lines = 1,
-+	.pixel_chunk_size_kbytes = 8,
-+	.pte_enable = 1,
-+	.pte_chunk_size_kbytes = 2,
-+	.meta_chunk_size_kbytes = 2,
-+	.writeback_chunk_size_kbytes = 2,
-+	.line_buffer_size_bits = 589824,
-+	.max_line_buffer_lines = 12,
-+	.IsLineBufferBppFixed = 0,
-+	.LineBufferFixedBpp = -1,
-+	.writeback_luma_buffer_size_kbytes = 12,
-+	.writeback_chroma_buffer_size_kbytes = 8,
-+	.max_num_dpp = 4,
-+	.max_num_wb = 2,
-+	.max_dchub_pscl_bw_pix_per_clk = 4,
-+	.max_pscl_lb_bw_pix_per_clk = 2,
-+	.max_lb_vscl_bw_pix_per_clk = 4,
-+	.max_vscl_hscl_bw_pix_per_clk = 4,
-+	.max_hscl_ratio = 4,
-+	.max_vscl_ratio = 4,
-+	.hscl_mults = 4,
-+	.vscl_mults = 4,
-+	.max_hscl_taps = 8,
-+	.max_vscl_taps = 8,
-+	.dispclk_ramp_margin_percent = 1,
-+	.underscan_factor = 1.10,
-+	.min_vblank_lines = 14,
-+	.dppclk_delay_subtotal = 90,
-+	.dispclk_delay_subtotal = 42,
-+	.dcfclk_cstate_latency = 10,
-+	.max_inter_dcn_tile_repeaters = 8,
-+	.can_vstartup_lines_exceed_vsync_plus_back_porch_lines_minus_one = 0,
-+	.bug_forcing_LC_req_same_size_fixed = 0,
-+};
-+
-+struct _vcs_dpi_soc_bounding_box_st dcn1_0_soc = {
-+	.sr_exit_time_us = 9.0,
-+	.sr_enter_plus_exit_time_us = 11.0,
-+	.urgent_latency_us = 4.0,
-+	.writeback_latency_us = 12.0,
-+	.ideal_dram_bw_after_urgent_percent = 80.0,
-+	.max_request_size_bytes = 256,
-+	.downspread_percent = 0.5,
-+	.dram_page_open_time_ns = 50.0,
-+	.dram_rw_turnaround_time_ns = 17.5,
-+	.dram_return_buffer_per_channel_bytes = 8192,
-+	.round_trip_ping_latency_dcfclk_cycles = 128,
-+	.urgent_out_of_order_return_per_channel_bytes = 256,
-+	.channel_interleave_bytes = 256,
-+	.num_banks = 8,
-+	.num_chans = 2,
-+	.vmm_page_size_bytes = 4096,
-+	.dram_clock_change_latency_us = 17.0,
-+	.writeback_dram_clock_change_latency_us = 23.0,
-+	.return_bus_width_bytes = 64,
-+};
-+
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.h b/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.h
-new file mode 100644
-index 000000000000..e74ed4b4ce5b
---- /dev/null
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn10/dcn10_fpu.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright 2021 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
-+
-+#ifndef __DCN10_FPU_H__
-+#define __DCN10_FPU_H__
-+
-+#endif /* __DCN20_FPU_H__ */
--- 
-2.34.1
+James
+
 
