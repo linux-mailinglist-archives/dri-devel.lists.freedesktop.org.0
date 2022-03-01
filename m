@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CBA4C8574
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 08:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAF24C8577
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 08:49:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E05010E571;
-	Tue,  1 Mar 2022 07:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26DE010E589;
+	Tue,  1 Mar 2022 07:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9488A10E527;
- Tue,  1 Mar 2022 07:48:19 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id h15so20819066edv.7;
- Mon, 28 Feb 2022 23:48:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MnJLyK92wo1ianqqQrVmdLoec7cz9whmMUPEVRDu+oA=;
- b=CVaydF1H4XMdJDb1BVhWeAbLrkhb9uB/9ed31/P7uXF7fh/h34wU1g/MGHbhXoqq/x
- PlAA6ghBwhXkZz0+3VrZ5uw8cR7wUALpb3C1CE2aTbH7ymko5+P3tfVdexz15pSjAe8l
- 47p28EUON+tDvymCauYnqyXsxHAAZpOOtW8m+9sos3qbT0ZULSdl3B2T0VP2mojFGfJP
- annWU+NbHk+NTBi5VKQ+btY6oC2k6BUdsouzaNAwklrdOGy7DM3k2xiDHropzjZFGyzj
- lJagdy3GeyFFJSAOggSBegP3gf/wrRzBZPpB1KdALfoSnYN8CAESli6mBQgCF+Uq482n
- iQfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MnJLyK92wo1ianqqQrVmdLoec7cz9whmMUPEVRDu+oA=;
- b=S9LT9/GW93E049pJzEpkJZt8Cn4uEGd56TV9b3nYQ0t+95JOdBgeRE4u8Uu+Jh4YTp
- CQ5nyscb0EQV6tqqCgGaTGw+KPith1az8MNDcT1Pmkwu81ljMbAqs95gsn0Dp2YdaoQE
- CH+Y/9VjMx5Gwu89X4qSJg3S9s/hIJiL98uyue6GAsyOYnmVu8Hsm/lo4AZzxnAud0i5
- pltxHxRK5yRLiMuryJMw7sfyqBaP7AkFop6Jq76yVUrC/e7NMKjB85j9EJHjrNl1Lv/D
- mAf4amh7d26gEh20Nbn+EbnmScfrYKBSte0SwE82GkWas0vHBafv3ndHE8mt65qxDJHT
- O+xQ==
-X-Gm-Message-State: AOAM530DWWA1YvxiLWWrbpMiCvX68LSEICVOrYLs6zU+Sssy3lm5MUNG
- ZzKiM8Sln8pkoFDLGl491qQ=
-X-Google-Smtp-Source: ABdhPJxSZWuYz9uwbnnp09wf9QrW8XIJMOh8VgkpQ43KaO8e9NlZYPo3jPs4kTe8Z1mnpOegt8/XsA==
-X-Received: by 2002:a05:6402:2065:b0:407:eb07:740 with SMTP id
- bd5-20020a056402206500b00407eb070740mr22917504edb.406.1646120897282; 
- Mon, 28 Feb 2022 23:48:17 -0800 (PST)
-Received: from [192.168.178.21] (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
- by smtp.gmail.com with ESMTPSA id
- eo8-20020a1709069b0800b006ce6eef6836sm5045690ejc.131.2022.02.28.23.48.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 23:48:16 -0800 (PST)
-Message-ID: <b87fb8ff-a427-491b-5a5e-3b401e1de462@gmail.com>
-Date: Tue, 1 Mar 2022 08:48:15 +0100
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B0D10E582;
+ Tue,  1 Mar 2022 07:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646120939; x=1677656939;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yNeE3cPPu80L2a3I6/D8IPyjQ2TxUVXzDkaknObQ+xM=;
+ b=E/ZOmgaEqOzap553WdD6qWUKuhBnoqnmlTo77FUuI5yQD2mlAeT6DbQk
+ HmRNHu4ewyDSNBoIw+olmVAT63khfDg+3/Lwh9e+n+f6AqYTV/F31xe+w
+ sFsyCQKvn2462mhPkympxPf1jffbtq1Rf4bOC5Bcon9sOiJTqySCjSGpa
+ 27lzOy7lndftIXWU75e3qMuqwECcmJofZSpJj6KQEDusEmzplOMhUDdDS
+ RcU5+utC/Q/a6hg49brcO8J2h+IjbLQvpgxjoZEttKhTdun/yFfKmHFlI
+ G7WT0nJBl2ORU1cFsxXJjyWoM4N/nCnBPUV3Z+WukzzyWCVat562JEzwG w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="240491839"
+X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; d="scan'208";a="240491839"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 23:48:59 -0800
+X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; d="scan'208";a="639282441"
+Received: from ramyaman-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.150.64])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 23:48:58 -0800
+Date: Mon, 28 Feb 2022 23:48:58 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [PATCH 2/7] drm: Add drm_memcpy_from_wc() variant which accepts
+ destination address
+Message-ID: <20220301074858.hzq2fkjpcor35x6t@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220222145206.76118-1-balasubramani.vivekanandan@intel.com>
+ <20220222145206.76118-3-balasubramani.vivekanandan@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/amdgpu: fix suspend/resume hang regression
-Content-Language: en-US
-To: Qiang Yu <qiang.yu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20220301062655.232955-1-qiang.yu@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220301062655.232955-1-qiang.yu@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220222145206.76118-3-balasubramani.vivekanandan@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +59,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
+ michael.cheng@intel.com, wayne.boyer@intel.com,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ casey.g.bowman@intel.com, dri-devel@lists.freedesktop.org,
+ siva.mullati@intel.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 01.03.22 um 07:26 schrieb Qiang Yu:
-> Regression has been reported that suspend/resume may hang with
-> the previous vm ready check commit:
-> https://gitlab.freedesktop.org/drm/amd/-/issues/1915#note_1278198
+On Tue, Feb 22, 2022 at 08:22:01PM +0530, Balasubramani Vivekanandan wrote:
+>Fast copy using non-temporal instructions for x86 currently exists at two
+>locations. One is implemented in i915 driver at i915/i915_memcpy.c and
+>another copy at drm_cache.c. The plan is to remove the duplicate
+>implementation in i915 driver and use the functions from drm_cache.c.
 >
-> So bring back the evicted list check as a temp fix.
+>A variant of drm_memcpy_from_wc() is added in drm_cache.c which accepts
+>address as argument instead of iosys_map for destination. It is a very
+>common scenario in i915 to copy from a WC memory type, which may be an
+>io memory or a system memory to a destination address pointing to system
+>memory. To avoid the overhead of creating iosys_map type for the
+>destination, new variant is created to accept the address directly.
 >
-> Fixes: cc8dd2cc1a97 ("drm/amdgpu: check vm ready by amdgpu_vm->evicting flag")
-> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org>
-
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>Also a new function is exported in drm_cache.c to find if the fast copy
+>is supported by the platform or not. It is required for i915.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 2cd9f1a2e5fa..fc4563cf2828 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -779,7 +779,8 @@ bool amdgpu_vm_ready(struct amdgpu_vm *vm)
->   	amdgpu_vm_eviction_lock(vm);
->   	ret = !vm->evicting;
->   	amdgpu_vm_eviction_unlock(vm);
-> -	return ret;
-> +
-> +	return ret && list_empty(&vm->evicted);
->   }
->   
->   /**
+>Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>Cc: Maxime Ripard <mripard@kernel.org>
+>Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>Cc: David Airlie <airlied@linux.ie>
+>Cc: Daniel Vetter <daniel@ffwll.ch>
+>Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+>
+>Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+>---
+> drivers/gpu/drm/drm_cache.c | 54 +++++++++++++++++++++++++++++++++++++
+> include/drm/drm_cache.h     |  3 +++
+> 2 files changed, 57 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+>index a21c1350eb09..eb0bcd33665e 100644
+>--- a/drivers/gpu/drm/drm_cache.c
+>+++ b/drivers/gpu/drm/drm_cache.c
+>@@ -358,6 +358,54 @@ void drm_memcpy_from_wc(struct iosys_map *dst,
+> }
+> EXPORT_SYMBOL(drm_memcpy_from_wc);
+>
+>+/**
+>+ * drm_memcpy_from_wc_vaddr - Perform the fastest available memcpy from a source
+>+ * that may be WC.
 
+  .... to a destination in system memory.
+
+>+ * @dst: The destination pointer
+>+ * @src: The source pointer
+>+ * @len: The size of the area to transfer in bytes
+>+ *
+>+ * Same as drm_memcpy_from_wc except destination is accepted as system memory
+>+ * address. Useful in situations where passing destination address as iosys_map
+>+ * is simply an overhead and can be avoided.
+
+although one could do drm_memcpy_from_wc(IOSYS_MAP_INIT_VADDR(addr), ...
+
+(if IOSYS_MAP_INIT_VADDR provided a cast to the struct).
+
+>+ */
+>+void drm_memcpy_from_wc_vaddr(void *dst, const struct iosys_map *src,
+
+name here is confusing as we are copying *to* system memory. Maybe
+drm_memcpy_vaddr_from_wc()? Not sure it's better. Maybe someone in Cc
+has a better suggestion
+
+( To be honest, this whole _from_wc() suffix sound weird when are checking I/O
+   vs system memory.... it may have been the motivation, but maybe it
+   shouldn't be the name of the memcpy() variant )
+
+The implementation looks ok and follows drm_memcpy_from_wc()
+
+Lucas De Marchi
+
+>+			      unsigned long len)
+>+{
+>+	if (WARN_ON(in_interrupt())) {
+>+		iosys_map_memcpy_from(dst, src, 0, len);
+>+		return;
+>+	}
+>+
+>+	if (static_branch_likely(&has_movntdqa)) {
+>+		__drm_memcpy_from_wc(dst,
+>+				     src->is_iomem ?
+>+				     (void const __force *)src->vaddr_iomem :
+>+				     src->vaddr,
+>+				     len);
+>+		return;
+>+	}
+>+
+>+	iosys_map_memcpy_from(dst, src, 0, len);
+>+}
+>+EXPORT_SYMBOL(drm_memcpy_from_wc_vaddr);
+>+
+>+/*
+>+ * drm_memcpy_fastcopy_supported - Returns if fast copy using non-temporal
+>+ * instructions is supported
+>+ *
+>+ * Returns true if platform has support for fast copying from wc memory type
+>+ * using non-temporal instructions. Else false.
+>+ */
+>+bool drm_memcpy_fastcopy_supported(void)
+>+{
+>+	if (static_branch_likely(&has_movntdqa))
+>+		return true;
+>+
+>+	return false;
+>+}
+>+EXPORT_SYMBOL(drm_memcpy_fastcopy_supported);
+>+
+> /*
+>  * drm_memcpy_init_early - One time initialization of the WC memcpy code
+>  */
+>@@ -382,6 +430,12 @@ void drm_memcpy_from_wc(struct iosys_map *dst,
+> }
+> EXPORT_SYMBOL(drm_memcpy_from_wc);
+>
+>+bool drm_memcpy_fastcopy_supported(void)
+>+{
+>+	return false;
+>+}
+>+EXPORT_SYMBOL(drm_memcpy_fastcopy_supported);
+>+
+> void drm_memcpy_init_early(void)
+> {
+> }
+>diff --git a/include/drm/drm_cache.h b/include/drm/drm_cache.h
+>index 22deb216b59c..8f48e4dcd7dc 100644
+>--- a/include/drm/drm_cache.h
+>+++ b/include/drm/drm_cache.h
+>@@ -77,4 +77,7 @@ void drm_memcpy_init_early(void);
+> void drm_memcpy_from_wc(struct iosys_map *dst,
+> 			const struct iosys_map *src,
+> 			unsigned long len);
+>+bool drm_memcpy_fastcopy_supported(void);
+>+void drm_memcpy_from_wc_vaddr(void *dst, const struct iosys_map *src,
+>+			      unsigned long len);
+> #endif
+>-- 
+>2.25.1
+>
