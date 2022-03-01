@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076F54C891E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:20:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE814C8995
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE4C10EB61;
-	Tue,  1 Mar 2022 10:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B63110E631;
+	Tue,  1 Mar 2022 10:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91BAC10EB5D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 10:19:55 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0B6B0811D8;
- Tue,  1 Mar 2022 11:19:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1646129993;
- bh=rhoo1FqQzChSituEZDrwDQBIyXTfh7c4RmHdX2dPJvA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NAVxcYCJwT+xWwIs1Ee0lbw2P1bLVqEKC4cOP59TzVD1/gFdfj98zVjPZXdpRDmIl
- faM2v5S2GN2jb5bQkGLV+2oJNavtZzArSOmAESwMTj05x86inC3eYPepC6qGZnTOgE
- FahXz+wJhEK8ELbWtSulurtzjA9bb/MQU5tSXObNMskmrG/4yQiuAqiVsgqbD0Tdrs
- XSA8AeRjoBzyHrQWqfiHCJDRabRiANHcLCETQe/EgvvzKr7l88wnvdtU/YxRasBioq
- iRZ1bgmBNVXbCGx4Fvz8/JPVxUNsnPBgSrs+exXNXz9XiF/yPO27A7u9eAtOZpVHLw
- o/w6c1WleqqMA==
-Message-ID: <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
-Date: Tue, 1 Mar 2022 11:19:52 +0100
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B37C089819;
+ Tue,  1 Mar 2022 10:44:05 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id r7so17968825iot.3;
+ Tue, 01 Mar 2022 02:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
+ b=WrUDonvN2fO25UTk5VNVhFhd8gruRaN5xzDoP4JD0Sakac0hlwGn0vLFs4yYd4XAFv
+ uZKJIKn4j7cuELvqeeSDPXMNu2C1n0MsJpfl9rt1CcXMWz8ysAwYiWu0FU5ssFw8GnBu
+ KImb7bl4uZxpEQ889GR2FwiQtAowT5cOncwrkuheaR+UErGWa6dJdP5knzUj9ZNji+C6
+ SaCIGAmJwbqyXPo1H+nGW/xKoV4Sv5xxMQcmeQv2UvCQ1LPx9cytIPoPatO3xtpXO37Q
+ QL3drAKRoTDr8u6LO2OfPrWDqwyTUyYOMOn4N3XOwbIN3FW3QG+ijjXJMFfWWnQ72HyS
+ YuTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
+ b=fYEMdJ5+FPFFp3tHfuZPkEAWnlaVjOSk+jEwi0Zs/1MrGGl4oUqs+8BDM0Vgya38KA
+ qzRLCa+edwLcuP3fYStVZnB1NvNnl09yxNuo3HebCp3P3JHPPbhdFwl3OnPBm7Sz3Ozr
+ 67QMuAYmWMdhfZAIEG6WLqFpMuqRjiA3SMXhplV4Jwr5qnxpYH+ys4BUqVPiMRI2Uzi7
+ WA5WU7yHEmgU2ZM7Ot3XFCoQne/KkjXw//wVAN10KKEKMqUJH0x+h74r9/TjonUTwAiL
+ U+vGvAVuv9Av4VHp8MBGv4DFJlLYSDxnIORsxHwG7eW7tlVq2IkwdCdrTBrKCHrWlasZ
+ BdNQ==
+X-Gm-Message-State: AOAM533SnM0QXgX5LSqPIab4VInY97qK1zVsjNG9XJ+hBOVF3fwvE8Uv
+ R2Lb+xMp0f5T6OzZIFOQyD60FiD0BtcxwfOQtoQ=
+X-Google-Smtp-Source: ABdhPJw1aZ/CGkeAZM6RKVYVHBay0f9lMjJdsMqyLhdijbZf60uaKu7bggqdaHiabrS+XPZY5qiqhEF5Hass1iDJqZk=
+X-Received: by 2002:a6b:661a:0:b0:640:dd42:58ff with SMTP id
+ a26-20020a6b661a000000b00640dd4258ffmr18921633ioc.64.1646131444958; Tue, 01
+ Mar 2022 02:44:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Liu Ying <victor.liu@oss.nxp.com>,
- dri-devel@lists.freedesktop.org
-References: <20220228004605.367040-1-marex@denx.de>
- <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
- <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
- <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
- <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
- <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
- <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20220228103142.3301082-1-arnd@kernel.org>
+In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 1 Mar 2022 11:43:53 +0100
+Message-ID: <CANiq72=wmYeBcJvRbBgRj1q_cHjZBVjxStXSu-8Ogv5bJhCqpA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Michal Marek <michal.lkml@markovi.net>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
+ Alex Shi <alexs@kernel.org>, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Hu Haowen <src.res@email.cn>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Linux Btrfs <linux-btrfs@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-doc-tw-discuss@lists.sourceforge.net,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/1/22 11:04, Lucas Stach wrote:
+On Mon, Feb 28, 2022 at 11:32 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> -under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
+> -(including some C99 features). ``clang`` [clang]_ is also supported, see
+> +under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11
+> +(including some C17 features). ``clang`` [clang]_ is also supported, see
 
-Hi,
+I think the "(including some C17)" bit would not make much sense
+anymore. There were no major changes in C17 and GCC implements
+`-std=c11` and `-std=c17` as basically the same thing according to the
+docs (and GNU extensions apply equally to both, I would assume).
 
-[...]
+When I wrote the "(including some C99 features)" I meant that GCC
+implemented some C99 features as extensions in C90 mode, and the
+kernel used some of those (e.g. the now gone VLAs).
 
->> Given the two totally different IPs, I don't see bugs of IP control
->> logics should be fixed for both drivers. Naturally, the two would
->> diverge due to different HWs. Looking at Patch 9/9, it basically
->> squashes code to control LCDIFv3 into the mxsfb drm driver with
->> 'if/else' checks(barely no common control code), which is hard to
->> maintain and not able to achieve good scalability for both 'LCDIFv3'
->> and 'LCDIF'.
-> 
-> I tend to agree with Liu here. Writing a DRM driver isn't that much
-> boilerplate anymore with all the helpers we have available in the
-> framework today.
+With that changed, for `programming-language.rst`:
 
-I did write a separate driver for this IP before I spent time merging 
-them into single driver, that's when I realized a single driver is much 
-better and discarded the separate driver idea.
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-> The IP is so different from the currently supported LCDIF controllers
-> that I think trying to support this one in the existing driver actually
-> increases the chances to break something when modifying the driver in
-> the future. Not everyone is able to test all LCDIF versions. My vote is
-> on having a separate driver for the i.MX8MP LCDIF.
-
-If you look at both controllers, it is clear it is still the LCDIF 
-behind, even the CSC that is bolted on would suggest that.
-
-I am also not happy when I look at the amount of duplication a separate 
-driver would create, it will be some 50% of the code that would be just 
-duplicated.
-
-[...]
+Cheers,
+Miguel
