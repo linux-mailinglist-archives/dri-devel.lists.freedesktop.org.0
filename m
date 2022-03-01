@@ -1,72 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834964C8AAE
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 12:28:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 900114C8B46
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 13:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9868410E121;
-	Tue,  1 Mar 2022 11:28:20 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2A910E121;
- Tue,  1 Mar 2022 11:28:19 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id qx21so30799294ejb.13;
- Tue, 01 Mar 2022 03:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=rLPvv7mVdDwWU3WqqHUc/M/t9o2wkfNNz2uUSA/i/Q0=;
- b=ioxwEWwSec2mkWoQpVaP+m+cuqfrILVMZy97DsxGJQFNwUj5vt0t9wo5G7myUpC8Gn
- ea9oHHWNkcI1g0+ETzPDSekL4muwhDYsG3jrD0dPjJWnH1vW4gUq2ufbL8yBIo9ax2rC
- LCc4peu3G2+oC3D/CoxTwxe0jKznErkS9hGO2cQ4rpTAmgLJ5M6BCvPaoqQObgiQcr6n
- RKDduahlScES6wicQqME3eGzY8GUno55Oqx2eUsC/sQVyrcKAkNt4/DW8JZWJd6l/Vwp
- mTTzA+edxLDCldwyXcUf3Jn0ErW39L5ba+PqRXF7jiU95w3jgcW/Rs/bUGAwA8mWZWkw
- L2Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=rLPvv7mVdDwWU3WqqHUc/M/t9o2wkfNNz2uUSA/i/Q0=;
- b=wnosJEtt+lStdp5RbnD3LICp8D3gBbuhoGeTYi9vBHRbLzjt4P/273lOph/aM+2Y5w
- TpoMfyg33NliiTZLlNPcZLJElzLhnZpqnlHvUPBR+sNOSmuCREdjJkzrtFtm5OS6I9Ew
- jOjC87f0xN8nIkIJ6ypjfQuhp270kzibYZVoIM0vZpcPIGK4NIIaDy483f53k55wfqFh
- Kr3BP0qW5IOUXrcsrfSdQJ9kU3QLY2a0DeasT4jwNRIVnM0zACJ9Gr9PGJ9V2a1CWvkh
- re+wVepiCYcDpVxgQINE4D1koKO7IBOFB3deBgpRo0GmS8xy46IRBNy4cjESexpBA/Vk
- PIrg==
-X-Gm-Message-State: AOAM531LvL/P5hC/JlXhAzSxQag+RS4J388kTgx3IUZQ3WDY1whtjr0a
- 5AeUjsU3iuRtinvBuUSLSr8=
-X-Google-Smtp-Source: ABdhPJykJwlP+KqTh6zSzndCpDSZzE2bN4aLh28OSmyBBaWLei6TdHv4i/sMtFtkO4GxsNuXK9LBkw==
-X-Received: by 2002:a17:906:68c2:b0:6b4:9f26:c099 with SMTP id
- y2-20020a17090668c200b006b49f26c099mr18827008ejr.41.1646134097608; 
- Tue, 01 Mar 2022 03:28:17 -0800 (PST)
-Received: from smtpclient.apple ([2a02:8109:9d80:3f6c:6db3:8d4c:747e:98ad])
- by smtp.gmail.com with ESMTPSA id
- a25-20020a50ff19000000b0040f84cd806csm7036870edu.59.2022.03.01.03.28.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Mar 2022 03:28:17 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-From: Jakob Koschel <jakobkoschel@gmail.com>
-In-Reply-To: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-Date: Tue, 1 Mar 2022 12:28:15 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
- <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
- <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
- <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D545410E7DC;
+	Tue,  1 Mar 2022 12:09:51 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80EF710E7BE;
+ Tue,  1 Mar 2022 12:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646136590; x=1677672590;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=25LkAkKWEzxC7W7Vr+oWmYdoPTAgfppdbQXzcP+UJIw=;
+ b=cGwLDVuSjzkKfS3yKNT8x+fZ6xF3cN4M9SF9sM8ieOmGy87RsvAJH3Xx
+ eU3OZoQunwShNFBvQju0scF4ydJ1a7mjTAy6eQH2ZwwGtII6H8lrHNzru
+ 9bkRdKAHSgTJpH1Qy/1xRF6Maie/usvRq4NeNvxfJ+nsfuro8J3HqsXVa
+ i+dB1NDZFozAd8F5EhLtgsc89gycgt7+986TKcQlLnez7qX2x2tSnSkvD
+ fj13A1Gf8r6NRt0jg9mQCR5C1XwTMS46NYbBY8kNiNA20BZoE/xkgwpss
+ 2dEoD8bNBZhMc/Mu9oz+IY8XQMWWpl6TKHMGRhxsFhDyjB7OTRjls/NsE A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="236627139"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="236627139"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 04:09:50 -0800
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="510486390"
+Received: from ssahani-mobl.amr.corp.intel.com (HELO [10.212.127.177])
+ ([10.212.127.177])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 04:09:48 -0800
+Message-ID: <9bd316d8-004c-621a-916c-2ebad5c31b43@linux.intel.com>
+Date: Tue, 1 Mar 2022 12:09:46 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/gt: Make the heartbeat play nice
+ with long pre-emption timeouts
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-3-John.C.Harrison@Intel.com>
+ <2a486991-1bfd-9b23-0b43-9173d17b7e13@linux.intel.com>
+ <e95e8710-8410-2869-dec1-7f7a9e9a74fb@intel.com>
+ <18205069-1210-745f-3bcc-2eddb0d17da1@linux.intel.com>
+ <94e9889d-d71a-1428-516d-2928807cbf43@intel.com>
+ <6ee75384-2cf0-6b34-ed54-3c7dc9ca31a3@linux.intel.com>
+ <d6624800-87b0-f992-bc83-868744e2839c@intel.com>
+ <ed505a8e-2d2b-135b-aaab-7e4a0befd5ba@linux.intel.com>
+ <f6c70184-121e-9a2b-6bbc-54a67af293cc@intel.com>
+ <96b7ce40-12f1-9ca0-1c5a-323d63dd8153@linux.intel.com>
+ <9df22764-db87-a2d2-2b03-52b4d4c6da9c@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <9df22764-db87-a2d2-2b03-52b4d4c6da9c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,178 +72,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev, "Bos,
- H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- v9fs-developer@lists.sourceforge.net,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+I'll trim it a bit again..
 
-> On 1. Mar 2022, at 01:41, Linus Torvalds =
-<torvalds@linux-foundation.org> wrote:
->=20
-> On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> =
-wrote:
->>=20
->> The goal of this is to get compiler warnings right? This would indeed =
-be great.
->=20
-> Yes, so I don't mind having a one-time patch that has been gathered
-> using some automated checker tool, but I don't think that works from a
-> long-term maintenance perspective.
->=20
-> So if we have the basic rule being "don't use the loop iterator after
-> the loop has finished, because it can cause all kinds of subtle
-> issues", then in _addition_ to fixing the existing code paths that
-> have this issue, I really would want to (a) get a compiler warning for
-> future cases and (b) make it not actually _work_ for future cases.
->=20
-> Because otherwise it will just happen again.
->=20
->> Changing the list_for_each_entry() macro first will break all of =
-those cases
->> (e.g. the ones using 'list_entry_is_head()).
->=20
-> So I have no problems with breaking cases that we basically already
-> have a patch for due to  your automated tool. There were certainly
-> more than a handful, but it didn't look _too_ bad to just make the
-> rule be "don't use the iterator after the loop".
->=20
-> Of course, that's just based on that patch of yours. Maybe there are a
-> ton of other cases that your patch didn't change, because they didn't
-> match your trigger case, so I may just be overly optimistic here.
+On 28/02/2022 18:55, John Harrison wrote:
+> On 2/28/2022 09:12, Tvrtko Ursulin wrote:
+>> On 25/02/2022 18:48, John Harrison wrote:
+>>> On 2/25/2022 10:14, Tvrtko Ursulin wrote:
 
-Based on the coccinelle script there are ~480 cases that need fixing
-in total. I'll now finish all of them and then split them by
-submodules as Greg suggested and repost a patch set per submodule.
-Sounds good?
+[snip]
 
->=20
-> But basically to _me_, the important part is that the end result is
-> maintainable longer-term. I'm more than happy to have a one-time patch
-> to fix a lot of dubious cases if we can then have clean rules going
-> forward.
->=20
->> I assumed it is better to fix those cases first and then have a =
-simple
->> coccinelle script changing the macro + moving the iterator into the =
-scope
->> of the macro.
->=20
-> So that had been another plan of mine, until I actually looked at
-> changing the macro. In the one case I looked at, it was ugly beyond
-> belief.
->=20
-> It turns out that just syntactically, it's really nice to give the
-> type of the iterator from outside the way we do now. Yeah, it may be a
-> bit odd, and maybe it's partly because I'm so used to the
-> "list_for_each_list_entry()" syntax, but moving the type into the loop
-> construct really made it nasty - either one very complex line, or
-> having to split it over two lines which was even worse.
->=20
-> Maybe the place I looked at just happened to have a long typename, but
-> it's basically always going to be a struct, so it's never a _simple_
-> type. And it just looked very odd adn unnatural to have the type as
-> one of the "arguments" to that list_for_each_entry() macro.
->=20
-> So yes, initially my idea had been to just move the iterator entirely
-> inside the macro. But specifying the type got so ugly that I think
-> that
->=20
->        typeof (pos) pos
->=20
-> trick inside the macro really ends up giving us the best of all =
-worlds:
->=20
-> (a) let's us keep the existing syntax and code for all the nice cases
-> that did everything inside the loop anyway
->=20
-> (b) gives us a nice warning for any normal use-after-loop case
-> (unless you explicitly initialized it like that
-> sgx_mmu_notifier_release() function did for no good reason
->=20
-> (c) also guarantees that even if you don't get a warning,
-> non-converted (or newly written) bad code won't actually _work_
->=20
-> so you end up getting the new rules without any ambiguity or mistaken
->=20
->> With this you are no longer able to set the 'outer' pos within the =
-list
->> iterator loop body or am I missing something?
->=20
-> Correct. Any assignment inside the loop will be entirely just to the
-> local loop case. So any "break;" out of the loop will have to set
-> another variable - like your updated patch did.
->=20
->> I fail to see how this will make most of the changes in this
->> patch obsolete (if that was the intention).
->=20
-> I hope my explanation above clarifies my thinking: I do not dislike
-> your patch, and in fact your patch is indeed required to make the new
-> semantics work.
+>>>> Your only objection is that ends up with too long total time before 
+>>>> reset? Or something else as well?
+>>> An unnecessarily long total heartbeat timeout is the main objection. 
+>>> (2.5 + 12) * 5 = 72.5 seconds. That is a massive change from the 
+>>> current 12.5s.
+>>>
+>>> If we are happy with that huge increase then fine. But I'm pretty 
+>>> sure you are going to get a lot more bug reports about hung systems 
+>>> not recovering. 10-20s is just about long enough for someone to wait 
+>>> before leaning on the power button of their machine. Over a minute is 
+>>> not. That kind of delay is going to cause support issues.
+>>
+>> Sorry I wrote 12s, while you actually said tP * 12, so 7.68s, chosen 
+>> just so it is longer than tH * 3?
+>>
+>> And how do you keep coming up with factor of five? Isn't it four 
+>> periods before "heartbeat stopped"? (Prio normal, hearbeat, barrier 
+>> and then reset.)
+> Prio starts at low not normal.
 
-ok it's all clear now, thanks for clarifying.
-I've defined all the 'tmp' iterator variables uninitialized so applying
-your patch on top of that later will just give the nice compiler warning=20=
+Right, slipped my mind since I only keep seeing that one priority ladder 
+block in intel_engine_heartbeat.c/heartbeat()..
 
-if they are used past the loop body.
+>> From the point of view of user experience I agree reasonable 
+>> responsiveness is needed before user "reaches for the power button".
+>>
+>> In your proposal we are talking about 3 * 2.5s + 2 * 7.5s, so 22.5s.
+>>
+>> Question of workloads.. what is the actual preempt timeout compute is 
+>> happy with? And I don't mean compute setups with disabled hangcheck, 
+>> which you say they want anyway, but if we target defaults for end 
+>> users. Do we have some numbers on what they are likely to run?
+> Not that I have ever seen. This is all just finger in the air stuff. I 
+> don't recall if we invented the number and the compute people agreed 
+> with it or if they proposed the number to us.
 
->=20
-> What I disliked was always the maintainability of your patch - making
-> the rules be something that isn't actually visible in the source code,
-> and letting the old semantics still work as well as they ever did, and
-> having to basically run some verification pass to find bad users.
+Yeah me neither. And found nothing in my email archives. :(
 
-Since this patch is not a complete list of cases that need fixing (30%)
-I haven't included the actual change of moving the iterator variable
-into the loop and thought that would be a second step coming after this
-is merged.
+Thinking about it today I don't see that disabled timeout is a practical 
+default.
 
-With these changes alone, yes you still rely on manual verification =
-passes.
+With it, if users have something un-preemptable to run (assuming prio 
+normal), it would get killed after ~13s (5 * 2.5).
 
->=20
-> (I also disliked your original patch that mixed up the "CPU
-> speculation type safety" with the actual non-speculative problems, but
-> that was another issue).
->=20
->                Linus
+If we go for my scheme it gets killed in ~17.5s (3 * (2.5 + 2.5) + 2.5 
+(third pulse triggers preempt timeout)).
 
-- Jakob
+And if we go for your scheme it gets killed in ~22.5s (4 * 2.5 + 2 * 3 * 
+2.5).
 
+If I did not confuse any calculation this time round, then the 
+differences for default case for normal priority sound pretty immaterial 
+to me.
+
+>> What if we gave them a default of 2.5s? That would be 4 * (2.5s + 
+>> 2.5s) = 20s worst case until reset, comparable to your proposal. Are 
+>> there realistic workloads which are non-preemptable for 2.5s? I am 
+>> having hard time imagining someone would run them on a general purpose 
+>> desktop since it would mean frozen and unusable UI anyway.
+>>
+>> Advantage still being in my mind that there would be no fudging of 
+>> timeouts during driver load and heartbeat periods depending on 
+>> priority. To me it feels more plausible to account for preempt timeout 
+>> in heartbeat pulses that to calculate preempt timeout to be longer 
+>> than hearbeat pulses, just to avoid races between the two.
+> Except that when the user asks for a heartbeat period of 2.5s you are 
+> actually setting it to 5s. How is that not a major fudge that is totally 
+> disregarding the user's request?
+
+This is indeed the core question. My thinking:
+
+It is not defined in the heartbeat ABI that N pulses should do anything, 
+just that they are periodic pulses which check the health of an engine.
+
+If we view user priority as not under our control then we can say that 
+any heartbeat pulse can trigger preempt timeout and we should let it do 
+that.
+
+ From that it follows that it is justified to account for preempt 
+timeout in the decision when to schedule heartbeat pulses and that it is 
+legitimate to do it for all of them.
+
+It also avoids the double reset problem, regardless of the backend and 
+regardless of how the user configured the timeouts. Without the need to 
+fudge them neither during driver load or during sysfs store.
+
+User has configured that heartbeat pulses should be sent every N 
+seconds, yes, but I think we are free to account for inherent hardware 
+and software latencies in our calculations. Especially since other than 
+flawed Gen12 RCS, other engines will be much closer to the configured 
+period.
+
+It is just the same as user asking for preempt timeout N and we say on 
+driver load "oh no you won't get it". Same for heartbeats, they said 
+2.5s, we said 2.5s + broken engine factor...
+
+I don't see a problem there. Nothing timing sensitive relies on the 
+heartbeat interval nor we provided any guarantees.
+
+That patch from Chris for instance AFAIR accounted for scheduling or 
+context switch latencies. Because what is the point of sending further 
+elevated priority pulses if we did not leave enough time to the engine 
+to schedule them in, react with preemption, or signalling completion?
+
+>>>>>>> Persistence itself can stay. There are valid UMD use cases. It is 
+>>>>>>> just massively over complicated and doesn't work in all corner 
+>>>>>>> cases when not using execlist submission or on newer platforms. 
+>>>>>>> The simplification that is planned is to allow contexts to 
+>>>>>>> persist until the associated DRM master handle is closed. At that 
+>>>>>>> point, all contexts associated with that DRM handle are killed. 
+>>>>>>> That is what AMD and others apparently implement.
+>>>>>>
+>>>>>> Okay, that goes against one recent IGT patch which appeared to 
+>>>>>> work around something by moving the position of _context_ close.
+>>>>> No it does not. The context close is not the trigger. The trigger is 
+>>>>
+>>>> Well patch says:
+>>>> """
+>>>> The spin all test relied on context persistence unecessarily by trying
+>>>> to destroy contexts while keeping spinners active.
+>>>> The current implementation of context persistence in i915 can cause
+>>>> failures with GuC enabled, and persistence is not needed for this test.
+>>>>
+>>>> Moving intel_ctx_destroy after igt_spin_end.
+>>>> """
+>>>>
+>>>> Implying moving context close to after spin end fixes things for 
+>>>> GuC, not fd close.
+>>> That's because persistence is currently a big pile of poo and does 
+>>> not work in all the corner cases. The correct solution is to leave 
+>>> the IGT alone and just fix the implementation of persistence. 
+>>> However, the IGT update to not use the broken feature is a trivial 
+>>> test change (two lines?) whereas fixing the broken feature is a 
+>>> significant KMD re-work. It needs to be done but no-one currently has 
+>>> the time to do it. But trivially changing the test allows the test to 
+>>> work and test the features it is meant to be testing (which is not 
+>>> persistence).
+>>
+>> Clear as mud. If the statement is that persistence cannot simply be 
+>> removed, then for sure it cannot be said that anything can be fixed or 
+>> unblocked by allowing some test to pass with GuC, by making them avoid 
+>> using persistence (and not even explicitly with a context param). It 
+>> implies persistence does not work with the GuC, which is then in 
+>> contradiction with the statement that we cannot just remove 
+>> persistence. I truly have no idea what the argument is here.
+> Persistence works in the right set of circumstances. Those circumstances 
+> do not involve dynamically changing heartbeat settings, platforms with 
+> dependent engines, etc. The correct fix is to leave the IGT test alone 
+> and fix the persistence implementation. However, that is not trivial and 
+> we have many other high priority holes still to plug. Whereas changing 
+> the IGT to not use a feature it is not intended to be testing anyway is 
+> a trivial change and gets us the test coverage of what that IGT is meant 
+> to be for.
+
+It may be acceptable if someone is reviewing overall coverage and making 
+sure all is not removed and so a missing ABI in GuC backend not swept 
+under the carpet. That's my main concern. If it is acknowledged 
+persistence is a needed ABI, then how can we upstream dependent engine 
+support without making sure this ABI is respected? Removing it's use 
+from random tests does not fill me with confidence that we are on top of 
+this topic.
+
+Regards,
+
+Tvrtko
