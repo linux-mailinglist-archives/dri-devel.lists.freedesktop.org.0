@@ -1,43 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583064C9554
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 21:02:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6A64C959D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 21:14:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEAA510E13F;
-	Tue,  1 Mar 2022 20:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5DC10E124;
+	Tue,  1 Mar 2022 20:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBCD10E13F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 20:02:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C76A10E124
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 20:14:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 6FEF5CE1D23;
- Tue,  1 Mar 2022 20:02:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAACC340EE;
- Tue,  1 Mar 2022 20:02:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 40BE961707;
+ Tue,  1 Mar 2022 20:14:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A78AC340EE;
+ Tue,  1 Mar 2022 20:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646164939;
- bh=UUVYbmulLMUrxKXtd4GDe7HCMoTaW7UmSbQD4MyDMB4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=D5kGyTrI2spf/l4NhdmT6MAfu6xixhKJBqviPcNaGRRDED6ajN1UzpP5rXAYiiuia
- jTBj9CGU34KkG+O57KUHrA3ewxgVMa5RSQpdXpQa/c6cO6uE9TJYin/jEeGU+h3K79
- GNKln+BmV1OsZplf7va3TlkqAtFHEHgmgMR7P3xMJleJv8STfn4Ah+WdZMauHmpSnb
- 0JMEpV8Jew1RdVjBpmik8GdluzN8ZI4PPi8+y6BsLrblZ8KiX7eaOE0G0XhL8nrN4P
- synUu/GHEihS+iTVu4SHcXDVotSKNn+tpN9DDxa73RDy6xGJB+J9Y+p0pFJMR3jWRx
- 0AD9vkEDXV3VA==
-Date: Tue, 1 Mar 2022 14:02:18 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: trix@redhat.com
-Subject: Re: [PATCH] vgaarbiter: fix vgaarbiter doc build break
-Message-ID: <20220301200218.GA642697@bhelgaas>
+ s=k20201202; t=1646165677;
+ bh=sxwcnYZrfijUZ0ABVlMivZuPH26mfl99x4mhbGdhlos=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=cqLj8vkk1MyIDCY+7ct1w4mKPJ4guzps6Nsu7KkHh9yCx80L5C7unZQhIsk3OlkHL
+ UhKC6h+h0cFFODRz32bIeKuN0gC4xCw9spjYp4yP1nxUxhGpmlZkr0GFv+A8j0kFlD
+ +X3we79E57BwqokuhEUrW0Lz7tB/+xsDUAxSYBC3jbfWzT0VV9prF6sMEbzpCAf/5g
+ 3UvgES3ExovXhMuQ/6Hm/EUfyIUyFdu+41LtERWrBVV7aCA0IUXAoonGTmkoXFSitV
+ DQ1weDdzOnXJARrlLXjY7WIx71H6d/cYoUtuCdm19oqYCgAV9KdCrHyhYRBFymi5XE
+ rKJeqEsrTz/hQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 10/28] drm/vc4: hdmi: Unregister codec device on
+ unbind
+Date: Tue,  1 Mar 2022 15:13:15 -0500
+Message-Id: <20220301201344.18191-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220301201344.18191-1-sashal@kernel.org>
+References: <20220301201344.18191-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220301192909.294900-1-trix@redhat.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +56,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, corbet@lwn.net, airlied@linux.ie,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bhelgaas@google.com
+Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 01, 2022 at 11:29:09AM -0800, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> make htmldocs fails with
-> Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
-> 
-> The location of the file changed
-> drivers/gpu/vga/vgaarb.c -> drivers/pci/vgaarb.c
-> So update the docs with the new location.
-> 
-> Fixes: d6e1898bfa5b ("PCI/VGA: Move vgaarb to drivers/pci")
-> Signed-off-by: Tom Rix <trix@redhat.com>
+From: Maxime Ripard <maxime@cerno.tech>
 
-Fixed, thanks!
+[ Upstream commit e40945ab7c7f966d0c37b7bd7b0596497dfe228d ]
 
-> ---
->  Documentation/gpu/vgaarbiter.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
-> index 339ed5fecd2e4..bde3c0afb0590 100644
-> --- a/Documentation/gpu/vgaarbiter.rst
-> +++ b/Documentation/gpu/vgaarbiter.rst
-> @@ -100,7 +100,7 @@ In-kernel interface
->  .. kernel-doc:: include/linux/vgaarb.h
->     :internal:
->  
-> -.. kernel-doc:: drivers/gpu/vga/vgaarb.c
-> +.. kernel-doc:: drivers/pci/vgaarb.c
->     :export:
->  
->  libpciaccess
-> -- 
-> 2.26.3
-> 
+On bind we will register the HDMI codec device but we don't unregister
+it on unbind, leading to a device leakage. Unregister our device at
+unbind.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220127111452.222002-1-maxime@cerno.tech
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 8 ++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 1 +
+ 2 files changed, 9 insertions(+)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 24f11c07bc3c7..2f53ba54b81ac 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1522,6 +1522,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 		dev_err(dev, "Couldn't register the HDMI codec: %ld\n", PTR_ERR(codec_pdev));
+ 		return PTR_ERR(codec_pdev);
+ 	}
++	vc4_hdmi->audio.codec_pdev = codec_pdev;
+ 
+ 	dai_link->cpus		= &vc4_hdmi->audio.cpu;
+ 	dai_link->codecs	= &vc4_hdmi->audio.codec;
+@@ -1561,6 +1562,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 
+ }
+ 
++static void vc4_hdmi_audio_exit(struct vc4_hdmi *vc4_hdmi)
++{
++	platform_device_unregister(vc4_hdmi->audio.codec_pdev);
++	vc4_hdmi->audio.codec_pdev = NULL;
++}
++
+ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = priv;
+@@ -2299,6 +2306,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	kfree(vc4_hdmi->hdmi_regset.regs);
+ 	kfree(vc4_hdmi->hd_regset.regs);
+ 
++	vc4_hdmi_audio_exit(vc4_hdmi);
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 33e9f665ab8e4..c0492da736833 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -113,6 +113,7 @@ struct vc4_hdmi_audio {
+ 	struct snd_soc_dai_link_component platform;
+ 	struct snd_dmaengine_dai_dma_data dma_data;
+ 	struct hdmi_audio_infoframe infoframe;
++	struct platform_device *codec_pdev;
+ 	bool streaming;
+ };
+ 
+-- 
+2.34.1
+
