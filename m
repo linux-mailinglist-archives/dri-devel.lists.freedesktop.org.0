@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31604C9976
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:42:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BBF4C9978
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2103C10E8B0;
-	Tue,  1 Mar 2022 23:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B06E897C5;
+	Tue,  1 Mar 2022 23:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0688310E8B0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:42:00 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id v22so24014869ljh.7
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Je0uRp8727h1TTc3B25vlET4KVfYQCUUi3qPq6QSu/E=;
- b=Mxd3Ju/57STaqFSUcoUHdzkEQamJj8Rs9AVQLfo4UBtN/aEjfV5IoqwLoG8ytsuQJ7
- ir6gM8ycAelCJxTtCKwvyT1dvQxjxijkrqBZPqwyeTS4xaIsln9MhNWrmrkwjW0Txkdf
- UL/AX2mAZIYA5MmxmQmswds1EnKDAxrGAdipYhdFBagPN0kW6vjwwKfYBs9DVjLIohC2
- 9sHxfWJE/ZOZe1wibzi0vN6RWPVJY0XBw7AkeB3ccqsGVX932JcE/cMN7XJ+faOwqFpQ
- MERaNl5eAk+8sExq1oTLy7dPZ7+rnAv7QIHCFoKwmw3LR/WJuzf7oFkWUYIaAW0Yf62T
- fNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Je0uRp8727h1TTc3B25vlET4KVfYQCUUi3qPq6QSu/E=;
- b=EggagLuG4c/8NCGtFeWlE0o20/M467qacFHjX8MRn/hPuH9nvvuwXJhHjkbVkDXDNY
- F6wS6TrzVjZSkaYVOKuVRSA4qVflr33f1Nkqqj4BT4kKChq/brHBRA5GR3nsIw7Q4cj1
- RaELX98a6fIhXnw/AOtqzSC989ogpHWbs0AP28cYXr+ir8BpbrrdP8gZUepBkqqMTwce
- Hm7GzJ7OApHI5OTjMLgm1RmSVQY+PVm4RuDHOWlBhaOI5ZlTvsiSC3KA7wW/u/NuuVcq
- s/e5INU7ZxhZ6ElAo/N5R9Mgysnxads0IfNlxTH/oFEMeIuEE/PJ4dVo4WCWo1gMVW16
- Dxpg==
-X-Gm-Message-State: AOAM531FXTQynAqfim9I9nxGGsBUOM3DurQHvEWiO4krBh35Rq61lkl7
- 4dgfV4N7gat5hhCKXfnQod+zv72/2WVzrGsE2Kc=
-X-Google-Smtp-Source: ABdhPJyJlHbLYJEDb5Mbb7KgoOho3fUrxx1XNMxfJ/LarHcHy/dmpkhdkY1BYbV68w08GOXobHGfpV1ksL2ZmaL3tAA=
-X-Received: by 2002:a05:651c:124d:b0:246:1a54:cc17 with SMTP id
- h13-20020a05651c124d00b002461a54cc17mr19022784ljh.301.1646178119102; Tue, 01
- Mar 2022 15:41:59 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B754897C5;
+ Tue,  1 Mar 2022 23:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646178445; x=1677714445;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=jdHGOotOx5heK0Hhpe+Zafwj5XOn5L+kmPAwUJ49ls0=;
+ b=KxNaL+jTez4j5+SOwpxnZHQpg0fnypeCcE0RmD+CoZZDXa3z7R9Ethgv
+ SuHUVFSAeYxM4nO6APlZJPz5/0oBjUOeWkkyjgIURV5B9HAr7PqdhRAf0
+ gMAudRnmh7WQThigLq9x5o9hved94E8BLtY/CAn55gxFBv4gQQCH8G5m/
+ qCKNTj6an3h+Kgt7MjbKnzuLOa/zfVuxJGKBIysF2DE0PJ4WLug6y5x3H
+ ZDYrkjPxo0L83i0rHuLDgSZ8Hs99t/2sjC8pNhYrRb/TkmmEPnTH2oIgh
+ DbJPwcI4TCGLTGHYb4HyUBOv1AFRhuIdoELtAa6BSkPSlDuR2i6VQhdTZ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="253193331"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="253193331"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 15:47:24 -0800
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="685916514"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 15:47:24 -0800
+Date: Tue, 1 Mar 2022 15:47:23 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v3 11/13] drm/i915/xehp: handle fused off CCS engines
+Message-ID: <Yh6wi/Y+lnazcIVZ@mdroper-desk1.amr.corp.intel.com>
+References: <20220301231549.1817978-1-matthew.d.roper@intel.com>
+ <20220301231549.1817978-12-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-References: <20220228181647.3794298-1-mwen@igalia.com>
- <9e288f3c-3251-f017-3541-d01ae6afe499@amd.com>
-In-Reply-To: <9e288f3c-3251-f017-3541-d01ae6afe499@amd.com>
-From: Melissa Wen <melissa.srw@gmail.com>
-Date: Tue, 1 Mar 2022 22:41:47 -0100
-Message-ID: <CAJeY4oE82RUc2mit-1Mnfr50pG4mGBqgnPQMGiHDAnsXXNSQDw@mail.gmail.com>
-Subject: Re: [PATCH] drm/v3d: centralize error handling when init scheduler
- fails
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220301231549.1817978-12-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +58,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Jiawei.Gu@amd.com, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, Christian Konig <christian.koenig@amd.com>
+Cc: Stuart Summers <stuart.summers@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 8:21 PM Andrey Grodzovsky
-<andrey.grodzovsky@amd.com> wrote:
->
-> Acked-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->
-> Andrey
-Thanks. Applied to drm-misc-next.
+On Tue, Mar 01, 2022 at 03:15:47PM -0800, Matt Roper wrote:
+> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> 
+> HW resources are divided across the active CCS engines at the compute
+> slice level, with each CCS having priority on one of the cslices.
+> If a compute slice has no enabled DSS, its paired compute engine is not
+> usable in full parallel execution because the other ones already fully
+> saturate the HW, so consider it fused off.
+> 
+> v2 (José):
+>  - moved it to its own function
+>  - fixed definition of ccs_mask
+> 
+> v3 (Matt):
+>  - Replace fls() condition with a simple IP version test
+> 
+> Cc: Stuart Summers <stuart.summers@intel.com>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Signed-off-by: Stuart Summers <stuart.summers@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-Melissa
->
-> On 2022-02-28 13:16, Melissa Wen wrote:
-> > Remove redundant error message (since now it is very similar to what
-> > we do in drm_sched_init) and centralize all error handling in a
-> > unique place, as we follow the same steps in any case of failure.
-> >
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >   drivers/gpu/drm/v3d/v3d_sched.c | 40 +++++++++++----------------------
-> >   1 file changed, 13 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> > index 39459ae96f30..06238e6d7f5c 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> > @@ -392,34 +392,24 @@ v3d_sched_init(struct v3d_dev *v3d)
-> >                            hw_jobs_limit, job_hang_limit,
-> >                            msecs_to_jiffies(hang_limit_ms), NULL,
-> >                            NULL, "v3d_bin", v3d->drm.dev);
-> > -     if (ret) {
-> > -             dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
-> > +     if (ret)
-> >               return ret;
-> > -     }
-> >
-> >       ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
-> >                            &v3d_render_sched_ops,
-> >                            hw_jobs_limit, job_hang_limit,
-> >                            msecs_to_jiffies(hang_limit_ms), NULL,
-> >                            NULL, "v3d_render", v3d->drm.dev);
-> > -     if (ret) {
-> > -             dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
-> > -                     ret);
-> > -             v3d_sched_fini(v3d);
-> > -             return ret;
-> > -     }
-> > +     if (ret)
-> > +             goto fail;
-> >
-> >       ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
-> >                            &v3d_tfu_sched_ops,
-> >                            hw_jobs_limit, job_hang_limit,
-> >                            msecs_to_jiffies(hang_limit_ms), NULL,
-> >                            NULL, "v3d_tfu", v3d->drm.dev);
-> > -     if (ret) {
-> > -             dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
-> > -                     ret);
-> > -             v3d_sched_fini(v3d);
-> > -             return ret;
-> > -     }
-> > +     if (ret)
-> > +             goto fail;
-> >
-> >       if (v3d_has_csd(v3d)) {
-> >               ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
-> > @@ -427,27 +417,23 @@ v3d_sched_init(struct v3d_dev *v3d)
-> >                                    hw_jobs_limit, job_hang_limit,
-> >                                    msecs_to_jiffies(hang_limit_ms), NULL,
-> >                                    NULL, "v3d_csd", v3d->drm.dev);
-> > -             if (ret) {
-> > -                     dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
-> > -                             ret);
-> > -                     v3d_sched_fini(v3d);
-> > -                     return ret;
-> > -             }
-> > +             if (ret)
-> > +                     goto fail;
-> >
-> >               ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
-> >                                    &v3d_cache_clean_sched_ops,
-> >                                    hw_jobs_limit, job_hang_limit,
-> >                                    msecs_to_jiffies(hang_limit_ms), NULL,
-> >                                    NULL, "v3d_cache_clean", v3d->drm.dev);
-> > -             if (ret) {
-> > -                     dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
-> > -                             ret);
-> > -                     v3d_sched_fini(v3d);
-> > -                     return ret;
-> > -             }
-> > +             if (ret)
-> > +                     goto fail;
-> >       }
-> >
-> >       return 0;
-> > +
-> > +fail:
-> > +     v3d_sched_fini(v3d);
-> > +     return ret;
-> >   }
-> >
-> >   void
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 25 +++++++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/intel_sseu.c      | 17 ++++++++++++---
+>  drivers/gpu/drm/i915/gt/intel_sseu.h      |  4 +++-
+>  3 files changed, 42 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 92f4cf9833ee..809747c20bc4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -592,6 +592,29 @@ bool gen11_vdbox_has_sfc(struct intel_gt *gt,
+>  	return false;
+>  }
+>  
+> +static void engine_mask_apply_compute_fuses(struct intel_gt *gt)
+> +{
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	struct intel_gt_info *info = &gt->info;
+> +	int ss_per_ccs = info->sseu.max_subslices / I915_MAX_CCS;
+> +	const unsigned long ccs_mask =
+> +		intel_slicemask_from_dssmask(intel_sseu_get_compute_subslices(&info->sseu),
+> +					     ss_per_ccs);
+> +	unsigned int i;
+> +
+> +	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
+> +		return;
+> +
+> +	/*
+> +	 * If all DSS in a quadrant are fused off, the corresponding CCS
+> +	 * engine is not available for use.
+> +	 */
+> +	for_each_clear_bit(i, &ccs_mask, I915_MAX_CCS) {
+> +		info->engine_mask &= ~BIT(_CCS(i));
+> +		drm_dbg(&i915->drm, "ccs%u fused off\n", i);
+> +	}
+> +}
+> +
+>  /*
+>   * Determine which engines are fused off in our particular hardware.
+>   * Note that we have a catch-22 situation where we need to be able to access
+> @@ -673,6 +696,8 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+>  		vebox_mask, VEBOX_MASK(gt));
+>  	GEM_BUG_ON(vebox_mask != VEBOX_MASK(gt));
+>  
+> +	engine_mask_apply_compute_fuses(gt);
+> +
+>  	return info->engine_mask;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
+> index 29118c652811..4ac0bbaf0c31 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_sseu.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+> @@ -32,7 +32,9 @@ intel_sseu_subslice_total(const struct sseu_dev_info *sseu)
+>  	return total;
+>  }
+>  
+> -u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
+> +static u32
+> +_intel_sseu_get_subslices(const struct sseu_dev_info *sseu,
+> +			  const u8 *subslice_mask, u8 slice)
+>  {
+>  	int i, offset = slice * sseu->ss_stride;
+>  	u32 mask = 0;
+> @@ -40,12 +42,21 @@ u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
+>  	GEM_BUG_ON(slice >= sseu->max_slices);
+>  
+>  	for (i = 0; i < sseu->ss_stride; i++)
+> -		mask |= (u32)sseu->subslice_mask[offset + i] <<
+> -			i * BITS_PER_BYTE;
+> +		mask |= (u32)subslice_mask[offset + i] << i * BITS_PER_BYTE;
+>  
+>  	return mask;
+>  }
+>  
+> +u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
+> +{
+> +	return _intel_sseu_get_subslices(sseu, sseu->subslice_mask, slice);
+> +}
+> +
+> +u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu)
+> +{
+> +	return _intel_sseu_get_subslices(sseu, sseu->compute_subslice_mask, 0);
+> +}
+> +
+>  void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
+>  			      u8 *subslice_mask, u32 ss_mask)
+>  {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> index 60882a74741e..8a79cd8eaab4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_sseu.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> @@ -103,7 +103,9 @@ intel_sseu_subslice_total(const struct sseu_dev_info *sseu);
+>  unsigned int
+>  intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice);
+>  
+> -u32  intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
+> +u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
+> +
+> +u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu);
+>  
+>  void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
+>  			      u8 *subslice_mask, u32 ss_mask);
+> -- 
+> 2.34.1
+> 
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
