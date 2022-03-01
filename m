@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AF74C8E25
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:46:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 620924C8E71
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7827C10E588;
-	Tue,  1 Mar 2022 14:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D333210E36E;
+	Tue,  1 Mar 2022 14:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B6310E588;
- Tue,  1 Mar 2022 14:46:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 409F361520;
- Tue,  1 Mar 2022 14:46:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A403BC36AE3;
- Tue,  1 Mar 2022 14:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646145969;
- bh=O7PMjYoyVgpMGjTVJdUqo4vjOgkMH6zVD28CMdfxejY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ScbK0J6pozv/c2GDJYHlIZpbvfONFwSIK/2j9QTvGy0h6OxUAoFSJS7ACLBifahWv
- DcEHKw3lZtb+uu9XBfWLbqlt4501Amp6VUN+Dzs96ZiZLJ0WrXZIhbPfc31qIWMyNy
- ATq4x+Oqa8aCq2GW5gs+Y/j2lbHCJQUV8G4qbfbhkoke2or1lVhj8owINILXGePjRZ
- R7WocAjuMhKmJQAgH9JZzvEWwPneWdjxvB9/qREXxhHUchmngRvsvQS8MYiNKoAhTS
- lRIGGo0c7PSqmvXlDIU+2nV4tRgWSUE8CyjB1CiW2iruBEJHgJWl3+5y31XDNWkEo7
- 0CfBGfIlQclkw==
-Received: by mail-wm1-f44.google.com with SMTP id
- l2-20020a7bc342000000b0037fa585de26so1125809wmj.1; 
- Tue, 01 Mar 2022 06:46:09 -0800 (PST)
-X-Gm-Message-State: AOAM5339YuVfddwoXv8HOO/Q/VnPwTmUhSbv1XR37SyQoXGyA5ElLI+1
- DgbcJBWcWC64jiUfc0IgZrzI8hsZ6on+lfpoJXw=
-X-Google-Smtp-Source: ABdhPJxXTbyRPUGWO5ZqEHYDoeKGRHcrrv5eZPJqecMQqdHX7hdx2ouYJfmaJG1ZffheKZ5NWAXaiF6wK5E6lkn8a4k=
-X-Received: by 2002:a7b:c001:0:b0:381:1afd:5caa with SMTP id
- c1-20020a7bc001000000b003811afd5caamr17359158wmb.35.1646145967920; Tue, 01
- Mar 2022 06:46:07 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B886E10E36E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:59:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=S4GKHj+TGeEAFsd0JvjT4NMBJW11sRJTvUnVl0nG4Uo=; b=b2MZfR9uyRhYcLWYD8pPiFaZws
+ lRzUUUXkMiY5Xh1SwzQ8FHizW5BhZLlZLqqJoZPk2dg7HcHuO1BYwfMgi6kIN0VBOgu+1PcWiAj6i
+ TKEZ0R6kLpRBKy4DUgYSMQ0uBvbMyOQL6fupqARx5E8i1ZzyYoHGeGvsmzwzstEZ6jrUlgt42LQZ3
+ mhcesizyMFWaOPaj0sf/OdaYu44B3lvyPhMqLoi8R+ZcwM+Nhb0qyuTAGE3YvOl09Un19Idfcc93Y
+ gf2ez9ya6xfTXk9GI3FYn1XxOhRG4FLsdZfQG72jzBAnZn4/AWIMw0yCg8d8sKfbSQknE3dpIZWiJ
+ sT4janyw==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nP3xy-0001jD-6C; Tue, 01 Mar 2022 15:59:06 +0100
+Date: Tue, 1 Mar 2022 13:58:26 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH] drm/vc4: add tracepoints for CL submissions
+Message-ID: <20220301145826.6ofizv226oqzesed@mail.igalia.com>
+References: <20220201212651.zhltjmaokisffq3x@mail.igalia.com>
+ <20220225161126.6n7puj5p7saf57u4@houat>
 MIME-Version: 1.0
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <CAKwvOdkLUx1td+qgUYy3w2ojtBG-mJTzpJg3BV8Xv56YHTxHCw@mail.gmail.com>
- <20220228214145.o37bgp3zl3rxpeo4@google.com>
-In-Reply-To: <20220228214145.o37bgp3zl3rxpeo4@google.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 1 Mar 2022 15:45:51 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2ZBOdEWTB1K9wA0v657VTZc-BC4LkDoQ0uw8Hw8FfSyg@mail.gmail.com>
-Message-ID: <CAK8P3a2ZBOdEWTB1K9wA0v657VTZc-BC4LkDoQ0uw8Hw8FfSyg@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-To: Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bokq6fs5zzvbzrxv"
+Content-Disposition: inline
+In-Reply-To: <20220225161126.6n7puj5p7saf57u4@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +53,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, Michal Marek <michal.lkml@markovi.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- linux-btrfs <linux-btrfs@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-doc-tw-discuss@lists.sourceforge.net, Alex Shi <alexs@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 10:41 PM Fangrui Song <maskray@google.com> wrote:
-> >
-> >More precisely, the semantics of "extern inline" functions changed
-> >between ISO C90 and ISO C99.
->
-> Perhaps a clearer explanation to readers is: "extern inline" and "inline" swap
-> semantics with gnu_inline (-fgnu89-inline or __attribute__((__gnu_inline__))).
->
-> >That's the only concern I have, which I doubt is an issue. The kernel
-> >is already covered by the function attribute as you note.
-> >
-> >Just to have some measure:
-> >$ git grep -rn "extern inline" | wc -l
-> >116
->
-> "^inline" behaves like C99+ "extern inline"
->
-> Agree this is handled by
->
->      #define inline inline __gnu_inline __inline_maybe_unused notrace
->
 
-Ok, I've reworded it again, but kept it a bit shorter, I don't think we
-need the full explanation in this patch description in the end.
+--bokq6fs5zzvbzrxv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On 02/25, Maxime Ripard wrote:
+> Hi Melissa,
+>=20
+> On Tue, Feb 01, 2022 at 08:26:51PM -0100, Melissa Wen wrote:
+> > Trace submit_cl_ioctl and related IRQs for CL submission and bin/render
+> > jobs execution. It might be helpful to get a rendering timeline and
+> > track job throttling.
+> >=20
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+>=20
+> I'm not really sure what to do about this patch to be honest.
+>=20
+> My understanding is that tracepoints are considered as userspace ABI,
+> but I can't really judge whether your traces are good enough or if it's
+> something that will bit us some time down the road.
 
-      Arnd
+Hi Maxime,
+
+Thanks for taking a look at this patch.
+
+So, I followed the same path of tracing CL submissions on v3d. I mean,
+tracking submit_cl ioctl, points when a job (bin/render) starts it
+execution, and irqs of completion (bin/render job). We used it to
+examine job throttling when running Chromium and, therefore, in addition
+to have the timeline of jobs execution, I show some data submitted in
+the ioctl to make connections. I think these tracers might be useful for
+some investigation in the future, but I'm also not sure if all data are
+necessary to be displayed.
+
+Melissa
+
+>=20
+> Emma, Daniel, David, any insight?
+>=20
+> Thanks,
+> Maxime
+
+
+
+--bokq6fs5zzvbzrxv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmIeNI0ACgkQwqF3j0dL
+ehyK/A/9EImTcj2Die9IqccFnG3XtJNyTg/8vC1TW5yfwglXtX0lp1ciy2Awmokp
+ZytlMmZx5r73RyfoJG3zRphfzNpBS46ooh0FzOrb6tYfKJIWCFomHrFP+lg11UU4
+44WWRdO/h5O1nJCS2kBEXPDrgG0Nv28mOLylsC7NDHYuPi2D+Ol9ZGO0moUsoNHu
+gHM2jj7PEukiXF9FuYeaL7JRArRBJqnCOrnRxCBLk49MrvSfRV1n6BnuJddYsHup
+TsiEBP69Y/4nHvgWna91nedmdRqm0E3ORRXVYTIbWBnLA4rhAvlTZAk7Mxb66hYD
+kN2bwBnTa5M9V1VBZpuBR+EU6IjUxlAE+cAqRtV4PsSiy5qLtB8BANX2ko35zjui
+UwGLtLjpdIoA07UC1PAMRUL19k1vQjXxCp8q1CgBIobThySR6qN3j+aNngNkLoMF
+w0cYQq6idiNbrbK95ls4iWiJgOl38BqzbqNSwdB/SInx1TliXSDYkKuRwS8yV0F7
+PnGtdoEZBJG1meSaTMaFxsMnZKPiysbMYeTsJCfbxSpCM5F3lmzavCoPCDBz4d7v
+zCMLqySF+C/SCo0jwsBFVn2fBtBWRNFJi6zq+A1UADCfLYyJ9uiABvwsInlKd2oe
+N0j4zTUDd/7sv4zhaa0QFiPJHPIPRtxf6yZRiRdhEBgjRDgrKaY=
+=/B95
+-----END PGP SIGNATURE-----
+
+--bokq6fs5zzvbzrxv--
