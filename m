@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5647C4C90CC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F65F4C90C1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B83F10E75F;
-	Tue,  1 Mar 2022 16:46:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D179810E6F3;
+	Tue,  1 Mar 2022 16:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5BA10E68E;
- Tue,  1 Mar 2022 16:46:54 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id y5so12959523ill.13;
- Tue, 01 Mar 2022 08:46:54 -0800 (PST)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BA210E6B3;
+ Tue,  1 Mar 2022 16:46:55 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id j5so13017323ila.2;
+ Tue, 01 Mar 2022 08:46:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/iB17natQD1MoZXV2qkvWvbusYAfF8+WZi2MjQWQu/w=;
- b=SHplEMJ4dgHQP7e3PXFiBHg0b5PrXGyYSjVU4WM97MmcMC8lOxaE+n44zic8aROkue
- YJdXX8P0waLgppC8wUfg3TPWWpPLZ43WMZhNXseOpaKUIiaQwABtxpUf9fsu7DNCjstI
- 8IbA0ejfY82JTbCixhin11dJbzKOp6EHlG+zrVV9HCZcuvwQdSz48pnbzG4vk7M7RlUx
- VG6drh2X1ywcyBZ2WRkNyO5FWAldJ8e+ijz/Zx5BvGVUqczqyRyvgZZFm9AAh9aHCAtt
- JMjSVUBelGF+64eRHC6eM1PvoM0Y5Piq4V6fEpZLUed4c0GPKgFKSFH3RGyUaBYCImXz
- GMWA==
+ bh=eZXNUqubAB8NNsFmaxywjAoPOWysBIvPMcZdY6L3itE=;
+ b=cBscgP41htfLiQ2OxXZNjPjNT9epnka4RNeYhMMNLhyziuaJKqWOTub2OdKwwH+Odg
+ J81R3HY12eJs4g9jm8hFhikPRdw6qltg4xzra8tbEs3CjKMzN6in5GunPnNjmfjsjaiG
+ t4ebdJlrUqEuN3pXln5duyqK4vRfkT1DYJJNirI9i9zrekSiuqB8QcqS8UDKyEZFRPqU
+ nDmtvEHpFBOZGze2PwgXG69dTSUgVZGOPFnpm019TLO/CRtkIX9DmS76vLmXKfstiTCe
+ efQB6kpsKZ3f/wz++gAVH2/IqK9MFU0Mh3mzGpPrY0n7uWiHaMmfqE00x6Ppn5EtM/op
+ Us5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/iB17natQD1MoZXV2qkvWvbusYAfF8+WZi2MjQWQu/w=;
- b=7ATkrXGVSIsmhMM3BQosbLwjwEyemABmOrGUCh2Z1+W4iwJeoU9fpEiBlm1WtustOb
- fP3rZG1PBz1wEMknuSk5silYa/xjgI/p/9KEWkpJZ892SqyAjbrbv/r8tzmlrboCZikE
- 4laFBlmdPKLIg8u3fB/mTgbaks8GOxaEWpjhU546iWt1qgjjs+A7Lhq6u6t6ALexu6n1
- Mow/yC4O/vWlbOJHC+ncI8qckj4Ypc/LpPTNzWp28DkGJRv3T9n35glUo1+LUmdKIxrz
- zY9/wfz1pVhF3GSFPrHR6ZNgZdfK210SZIYvOOpEiQQzJrors8ayrw+08yQo4afoc6wY
- y5iQ==
-X-Gm-Message-State: AOAM532r0I+ho/6PqmLTxWc0g/vLj/2dbMKxEJee/1lfBDkpPC095Zp8
- hNgAj/RHh6p5tXHfYCpFwH8=
-X-Google-Smtp-Source: ABdhPJxLY8uCZOj8gfXThodH+sbeS3tw4N8aFtECPOV8owdml6wtey6aG7AC7+fAtaCy8s8BIGAwZg==
-X-Received: by 2002:a05:6e02:20e8:b0:2c1:e164:76e6 with SMTP id
- q8-20020a056e0220e800b002c1e16476e6mr23670264ilv.135.1646153214231; 
- Tue, 01 Mar 2022 08:46:54 -0800 (PST)
+ bh=eZXNUqubAB8NNsFmaxywjAoPOWysBIvPMcZdY6L3itE=;
+ b=u6s1zD8Xfkr07kf0bb72tVTZM8zlEkoAVLufSRJoAYAynR7ha4XivAJ8NynF/38hV7
+ wsZtRTiwRDZoPt/B0FXCoELkOKUDkIeml7K/SVrz42ZabPt1ocml54DPLMr3rMpGU4p6
+ y9foQgquMaVQhQAStxFquGOYS1W7wWRnRHCxjBUbKq2YxqF2MpBPfgu5fn7FRAdllxqZ
+ wQPKWtlclzOFoPlaoDq8XkEQIFCh7UUm+Hz1ZQBIcNEVKGWO2w1VYbxae8wVrnSrjeRR
+ GLG+zak5X22cbrcY+v3igSsrwprgXeqxLJ5YiumF+EVETwBiOHUj6T1XGHo1coxzXmtf
+ asdA==
+X-Gm-Message-State: AOAM532Dcm9ceIO4peH5AF9/3k1UDfAZQv8y2r9boc/g2LKjLRwx1D7Q
+ iArd3lzTkDV51B1cBz0jLhQ=
+X-Google-Smtp-Source: ABdhPJwoqnkXIbxFZaZCJRvZ08M8RqoA/qmhVFDfhpmycRS1WR6s4XCCJA+9fPCrhqrKWS3Wy3AylQ==
+X-Received: by 2002:a92:c26b:0:b0:2c2:9037:a788 with SMTP id
+ h11-20020a92c26b000000b002c29037a788mr23790624ild.95.1646153215064; 
+ Tue, 01 Mar 2022 08:46:55 -0800 (PST)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::f10e])
  by smtp.googlemail.com with ESMTPSA id
- o3-20020a6b5a03000000b00640a33c5b0dsm7272411iob.17.2022.03.01.08.46.53
+ o3-20020a6b5a03000000b00640a33c5b0dsm7272411iob.17.2022.03.01.08.46.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 08:46:53 -0800 (PST)
+ Tue, 01 Mar 2022 08:46:54 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 06/13] dyndbg: abstract dyndbg_site_is_printing
-Date: Tue,  1 Mar 2022 09:46:22 -0700
-Message-Id: <20220301164629.3814634-7-jim.cromie@gmail.com>
+Subject: [PATCH 07/13] drm_print: condense enum drm_debug_category
+Date: Tue,  1 Mar 2022 09:46:23 -0700
+Message-Id: <20220301164629.3814634-8-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220301164629.3814634-1-jim.cromie@gmail.com>
 References: <20220301164629.3814634-1-jim.cromie@gmail.com>
@@ -75,27 +75,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hide flags test in a macro.
-no functional changes.
+enum drm_debug_category has 10 "classes", explicitly initialized with
+0x-bitmasks which could be simplified as BIT(X)s.  But lets go
+further: use natural enumeration (int, starting at 0), and do the
+BIT(cat) in drm_debug_enabled(cat) at runtime.
+
+While this slightly pessimizes the bit-test, the category now fits in
+4 bits, allowing it in struct _ddebug.class_id:4.  This sets us up to
+adapt drm to use dyndbg with JUMP_LABEL, thus avoiding all those
+bit-tests anyway.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_print.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 664bb83778d2..106065244f73 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -56,7 +56,7 @@ struct _ddebug {
- #endif
- } __attribute__((aligned(8)));
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 22fabdeed297..b3b470440e46 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -279,49 +279,49 @@ enum drm_debug_category {
+ 	 * @DRM_UT_CORE: Used in the generic drm code: drm_ioctl.c, drm_mm.c,
+ 	 * drm_memory.c, ...
+ 	 */
+-	DRM_UT_CORE		= 0x01,
++	DRM_UT_CORE,
+ 	/**
+ 	 * @DRM_UT_DRIVER: Used in the vendor specific part of the driver: i915,
+ 	 * radeon, ... macro.
+ 	 */
+-	DRM_UT_DRIVER		= 0x02,
++	DRM_UT_DRIVER,
+ 	/**
+ 	 * @DRM_UT_KMS: Used in the modesetting code.
+ 	 */
+-	DRM_UT_KMS		= 0x04,
++	DRM_UT_KMS,
+ 	/**
+ 	 * @DRM_UT_PRIME: Used in the prime code.
+ 	 */
+-	DRM_UT_PRIME		= 0x08,
++	DRM_UT_PRIME,
+ 	/**
+ 	 * @DRM_UT_ATOMIC: Used in the atomic code.
+ 	 */
+-	DRM_UT_ATOMIC		= 0x10,
++	DRM_UT_ATOMIC,
+ 	/**
+ 	 * @DRM_UT_VBL: Used for verbose debug message in the vblank code.
+ 	 */
+-	DRM_UT_VBL		= 0x20,
++	DRM_UT_VBL,
+ 	/**
+ 	 * @DRM_UT_STATE: Used for verbose atomic state debugging.
+ 	 */
+-	DRM_UT_STATE		= 0x40,
++	DRM_UT_STATE,
+ 	/**
+ 	 * @DRM_UT_LEASE: Used in the lease code.
+ 	 */
+-	DRM_UT_LEASE		= 0x80,
++	DRM_UT_LEASE,
+ 	/**
+ 	 * @DRM_UT_DP: Used in the DP code.
+ 	 */
+-	DRM_UT_DP		= 0x100,
++	DRM_UT_DP,
+ 	/**
+ 	 * @DRM_UT_DRMRES: Used in the drm managed resources code.
+ 	 */
+-	DRM_UT_DRMRES		= 0x200,
++	DRM_UT_DRMRES
+ };
  
--
-+#define dyndbg_site_is_printing(desc)	(desc->flags & _DPRINTK_FLAGS_PRINT)
+ static inline bool drm_debug_enabled(enum drm_debug_category category)
+ {
+-	return unlikely(__drm_debug & category);
++	return unlikely(__drm_debug & BIT(category));
+ }
  
- #if defined(CONFIG_DYNAMIC_DEBUG_CORE)
- 
+ /*
 -- 
 2.35.1
 
