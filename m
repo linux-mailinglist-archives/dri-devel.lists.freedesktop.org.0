@@ -1,49 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED534C900A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:15:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3808A4C903D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:22:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A22910E6D2;
-	Tue,  1 Mar 2022 16:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058D010E60E;
+	Tue,  1 Mar 2022 16:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B441610E677
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 16:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ha+4JdGR01aPCEcI+dlbBNP+Ioox1ADjVil79AF8qOA=; b=zeM6jd67B0+PzUFDZuFDCJDo+G
- Cg49AY8Id9mWUKWuqyAngYieIIp2FboCKYyppzOjnPihz278hPHJ++lE0DKlex2EPwUF1Zajlu/ms
- XBnEf43ICpeygIBhdTORDydoKEvyc91k1FdEEFWGOMeAssgJ8kFLtFofH7c518Gn/ZM0jFxYmh6ve
- unMAh7ZazXwuLev2KfH6v7kJwULXm1INE+4D4MxGiBgAPbf2zkugUdZlPo/wsskF9jfVWTb0pG7Qe
- Wdf4mpQAfg9wiLSG0zFZLk/jLJGGvltwjGZGQsk5isv6+58C0dpNbKy+quBkaEmrwC45CWUgEf++6
- IHH9vmfg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nP59r-0003Z8-Bb; Tue, 01 Mar 2022 18:15:27 +0200
-From: cyndis@kapsi.fi
-To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
- will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
- krzysztof.kozlowski@canonical.com
-Subject: [PATCH v4 9/9] drm/tegra: vic: Implement get_streamid_offset
-Date: Tue,  1 Mar 2022 18:14:55 +0200
-Message-Id: <20220301161455.4037062-10-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220301161455.4037062-1-cyndis@kapsi.fi>
-References: <20220301161455.4037062-1-cyndis@kapsi.fi>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE3310E60E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 16:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646151733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VpcEjZ3pDaEx12dH+BduTDFR/D5IwkR6BCpw7XkWHU0=;
+ b=gPj0/G4JttlA8PIQES5HkDDGyu7uuI/AAEmsvq0Hk8ohCU/RLGKsP6/YiL2g4O6GUdD0bB
+ loFPbqzt5gEdJqWOCGMDiBbKONP0mEFjxO8onZ2mdXfY8q275EqPgcN5ya+iLPK4ku16Bw
+ UxKS7T4cqfJkfG1cr4i1U0AdoJ+VRZo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-112-bulUsVJKOtOHM02lwRGOPw-1; Tue, 01 Mar 2022 11:22:12 -0500
+X-MC-Unique: bulUsVJKOtOHM02lwRGOPw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ o9-20020adfca09000000b001ea79f7edf8so3477670wrh.16
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 08:22:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=VpcEjZ3pDaEx12dH+BduTDFR/D5IwkR6BCpw7XkWHU0=;
+ b=1HeH4XntyibcCz59wIkTDMnVUkw7ghXKoBxiDMDxQSvrb9o5YCFHh6ciBEV9SLbyUm
+ KQa/mtUL+yo6iItxIE7mWNDuX9V1Wovh1+C3sUYKBS9x1InfTBZx2+jrqEh0gWbSczoW
+ rDNUXXGMoIxLAxq8Uc+5HS/y1yerbU5fpAhC3BIG0nGQ1ibq1LizuVm285/B3kRduKNC
+ S2ccPzJV7AJF9UED/eHZLUi7xSi6SdrDDorkeIfrFKHTE1fXTJXahbZTJSosqlkpLk8C
+ lRsKVRRBsIOkLMvtlosHdouY+8s1PS/zag7eKJawXwqYBcIcxo1LtCXhml7VppkwgT9x
+ JNKQ==
+X-Gm-Message-State: AOAM5334cSP55FbWoN6MP8GSqvjXbbxoBL3r3mxwz4sWtM82OKRdjuRI
+ FL4Ck/YU5U8mljXJOssP+l8OLtaIy4xYtXt4Lcl1FOi8LoQZeRTzalXIpBCKevfmSbPr0mtLUU/
+ dJL6MKe2aitM0Mh0eAivAs4e6PdtC
+X-Received: by 2002:a05:600c:1e03:b0:381:4134:35ca with SMTP id
+ ay3-20020a05600c1e0300b00381413435camr14983729wmb.145.1646151730958; 
+ Tue, 01 Mar 2022 08:22:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxYfHVRSOGMfPLPfHkM21n2ADlCruTETrhJPt1WIhsU9tWlvnq+Hh/dL+h6goFY71nLBUFD/w==
+X-Received: by 2002:a05:600c:1e03:b0:381:4134:35ca with SMTP id
+ ay3-20020a05600c1e0300b00381413435camr14983702wmb.145.1646151730682; 
+ Tue, 01 Mar 2022 08:22:10 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70e:5e00:88ce:ad41:cb1b:323?
+ (p200300cbc70e5e0088cead41cb1b0323.dip0.t-ipconnect.de.
+ [2003:cb:c70e:5e00:88ce:ad41:cb1b:323])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020a05600c4ec600b0037bf934bca3sm3706698wmq.17.2022.03.01.08.22.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 08:22:10 -0800 (PST)
+Message-ID: <bfae7d17-eb50-55b1-1275-5ba0f86a5273@redhat.com>
+Date: Tue, 1 Mar 2022 17:22:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] mm: split vm_normal_pages for LRU and non-LRU handling
+To: Felix Kuehling <felix.kuehling@amd.com>, Alex Sierra
+ <alex.sierra@amd.com>, jgg@nvidia.com
+References: <20220218192640.GV4160@nvidia.com>
+ <20220228203401.7155-1-alex.sierra@amd.com>
+ <2a042493-d04d-41b1-ea12-b326d2116861@redhat.com>
+ <41469645-55be-1aaa-c1ef-84a123fdb4ea@amd.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <41469645-55be-1aaa-c1ef-84a123fdb4ea@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,158 +94,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: rcampbell@nvidia.com, willy@infradead.org, apopple@nvidia.com,
+ dri-devel@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Implement the get_streamid_offset required for supporting context
-isolation. Since old firmware cannot support context isolation
-without hacks that we don't want to implement, check the firmware
-binary to see if context isolation should be enabled.
+>>
+>>>   		if (PageReserved(page))
+>>> diff --git a/mm/migrate.c b/mm/migrate.c
+>>> index c31d04b46a5e..17d049311b78 100644
+>>> --- a/mm/migrate.c
+>>> +++ b/mm/migrate.c
+>>> @@ -1614,7 +1614,7 @@ static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
+>>>   		goto out;
+>>>   
+>>>   	/* FOLL_DUMP to ignore special (like zero) pages */
+>>> -	follflags = FOLL_GET | FOLL_DUMP;
+>>> +	follflags = FOLL_GET | FOLL_DUMP | FOLL_LRU;
+>>>   	page = follow_page(vma, addr, follflags);
+>> Why wouldn't we want to dump DEVICE_COHERENT pages? This looks wrong.
+> 
+> This function later calls isolate_lru_page, which is something you can't 
+> do with a device page.
+> 
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
-v4:
-* Add locking in vic_load_firmware
-* Return -EOPNOTSUPP if context isolation is not available
-* Update for changed get_streamid_offset declaration
-* Add comment noting that vic_load_firmware is safe to call
-  without the hardware being powered on
----
- drivers/gpu/drm/tegra/vic.c | 68 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 60 insertions(+), 8 deletions(-)
+Then, that code might require care instead. We most certainly don't want
+to have random memory holes in a dump just because some anonymous memory
+was migrated to DEVICE_COHERENT.
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 1e342fa3d27b..61eb0407de2a 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -38,6 +38,8 @@ struct vic {
- 	struct clk *clk;
- 	struct reset_control *rst;
- 
-+	bool can_use_context;
-+
- 	/* Platform configuration */
- 	const struct vic_config *config;
- };
-@@ -229,28 +231,38 @@ static int vic_load_firmware(struct vic *vic)
- {
- 	struct host1x_client *client = &vic->client.base;
- 	struct tegra_drm *tegra = vic->client.drm;
-+	static DEFINE_MUTEX(lock);
-+	u32 fce_bin_data_offset;
- 	dma_addr_t iova;
- 	size_t size;
- 	void *virt;
- 	int err;
- 
--	if (vic->falcon.firmware.virt)
--		return 0;
-+	mutex_lock(&lock);
-+
-+	if (vic->falcon.firmware.virt) {
-+		err = 0;
-+		goto unlock;
-+	}
- 
- 	err = falcon_read_firmware(&vic->falcon, vic->config->firmware);
- 	if (err < 0)
--		return err;
-+		goto unlock;
- 
- 	size = vic->falcon.firmware.size;
- 
- 	if (!client->group) {
- 		virt = dma_alloc_coherent(vic->dev, size, &iova, GFP_KERNEL);
--		if (!virt)
--			return -ENOMEM;
-+		if (!virt) {
-+			err = -ENOMEM;
-+			goto unlock;
-+		}
- 	} else {
- 		virt = tegra_drm_alloc(tegra, size, &iova);
--		if (IS_ERR(virt))
--			return PTR_ERR(virt);
-+		if (IS_ERR(virt)) {
-+			err = PTR_ERR(virt);
-+			goto unlock;
-+		}
- 	}
- 
- 	vic->falcon.firmware.virt = virt;
-@@ -277,7 +289,28 @@ static int vic_load_firmware(struct vic *vic)
- 		vic->falcon.firmware.phys = phys;
- 	}
- 
--	return 0;
-+	/*
-+	 * Check if firmware is new enough to not require mapping firmware
-+	 * to data buffer domains.
-+	 */
-+	fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
-+
-+	if (!vic->config->supports_sid) {
-+		vic->can_use_context = false;
-+	} else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 0xa5a5a5a5) {
-+		/*
-+		 * Firmware will access FCE through STREAMID0, so context
-+		 * isolation cannot be used.
-+		 */
-+		vic->can_use_context = false;
-+		dev_warn_once(vic->dev, "context isolation disabled due to old firmware\n");
-+	} else {
-+		vic->can_use_context = true;
-+	}
-+
-+unlock:
-+	mutex_unlock(&lock);
-+	return err;
- 
- cleanup:
- 	if (!client->group)
-@@ -285,6 +318,7 @@ static int vic_load_firmware(struct vic *vic)
- 	else
- 		tegra_drm_free(tegra, size, virt, iova);
- 
-+	mutex_unlock(&lock);
- 	return err;
- }
- 
-@@ -358,10 +392,28 @@ static void vic_close_channel(struct tegra_drm_context *context)
- 	host1x_channel_put(context->channel);
- }
- 
-+static int vic_get_streamid_offset(struct tegra_drm_client *client, u32 *offset)
-+{
-+	struct vic *vic = to_vic(client);
-+	int err;
-+
-+	/* This doesn't access HW so it's safe to call without powering up. */
-+	err = vic_load_firmware(vic);
-+	if (err < 0)
-+		return err;
-+
-+	if (!vic->can_use_context)
-+		return -EOPNOTSUPP;
-+
-+	*offset = 0x30;
-+	return 0;
-+}
-+
- static const struct tegra_drm_client_ops vic_ops = {
- 	.open_channel = vic_open_channel,
- 	.close_channel = vic_close_channel,
- 	.submit = tegra_drm_submit,
-+	.get_streamid_offset = vic_get_streamid_offset,
- };
- 
- #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
 -- 
-2.35.0
+Thanks,
+
+David / dhildenb
 
