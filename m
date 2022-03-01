@@ -1,76 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43BF4C9383
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:47:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB584C938A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:50:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED73010E6EA;
-	Tue,  1 Mar 2022 18:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C675C10E750;
+	Tue,  1 Mar 2022 18:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF2410E6E3
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:47:38 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id b9so28461988lfv.7
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:47:38 -0800 (PST)
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868CF10E750
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:50:06 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id b20so6298599qkn.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:50:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JZw99KMpsKBs3Ab/LBNeIPMebXALTITXobBfJpN/EsI=;
- b=ZEWbFFu3eWrZxUgaaScwD4ZJ//Z7mV4SGMyACB20WwCKEMFGKIBMMEXVkM4kZXdOyd
- EokMKBVyAcoYChV/SvtOh5q5h0Yafm3wlsC3jCGOeoM0h4pn550KTbE+/sUn3z3m8p0V
- ZL0gG9ZTrYCOlyUURTCDAGrluijISoqXbB1wA=
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=tR+m3BKtc2q7T6REjyTd+tbxkuYAbwb84wcNcVtcDDo=;
+ b=qv5pnnvk7TeB5F2VVork6VcyASkHuuOWpbcXzJ/cyRI1+PmIYBs0U/EhxwQ2jdj+iz
+ ctAJe9aKpLrV9V6eod+MqOLF+7QiLy6rK3fu33GePVDsbqQmnuhE4iWBKDcnPXK3Xv76
+ KPohYg/mFz2m3Zsr2NedsoI1aJoRw2JRXFjNubOcth+U1/2fAxw4X9GX4vE685YUHQ28
+ sQv3PydxnGXuozXRJ9RMqeXb8xDJBTJmcf91k/L9cFuON1fxzCJlrb/gUoRQiVr/NaQV
+ 7BSHai6kmrDU03Az1bPf2EYC2mSqSYYo5T5M1N0vBIFrL5rK9XKddEJohWn7UTm7gZrd
+ AdVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JZw99KMpsKBs3Ab/LBNeIPMebXALTITXobBfJpN/EsI=;
- b=dZ7LiW9Z6AJo/r/kRTIicx4iDyupL0x9IKOJDveXskzi/wH4AVodJFpzlHDCcdWQHJ
- w2y0ejEFimcxnMdl6OkSu6tkzbqPm5umMScp0NyqjoxnI6Q1PtBwXTbia5gkQin6zuLJ
- 4f69FPWNaI2Nu1b68xOgyQ1AzunPgJkZmW+yrbz4hI6XeLCMNlo218C970qnTcDDcnYF
- 4l+NwxVa5v0GXzDPA91Vj48mgQszmYJYLC24Ha6Gud/9V9i4plplZWE++U6/R/ZcspvK
- g3dCjw4W0e0qVgmi6WOjSgddfY7heO+p1Dewi2+ffWzq4e9ZvoBw3r2m6gt5AZT9YiDf
- V6UQ==
-X-Gm-Message-State: AOAM532puPMq6AVv61x0N26Jf5g98C48KTwhH5183svpQ48c2CP2uN0v
- uD2CawNn4ULKIr+2lho02Lf1bbCAonflhjYI/BI=
-X-Google-Smtp-Source: ABdhPJwIDiur0073biILJ5bCZN3a98Pd/E/5wzIwq3Nc9ThiMX0Foie1feMHVKop9dMwdvDYgSmhAQ==
-X-Received: by 2002:ac2:5cb5:0:b0:442:13cb:481f with SMTP id
- e21-20020ac25cb5000000b0044213cb481fmr16228074lfq.174.1646160455824; 
- Tue, 01 Mar 2022 10:47:35 -0800 (PST)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com.
- [209.85.167.51]) by smtp.gmail.com with ESMTPSA id
- u9-20020ac251c9000000b00443dc755dfdsm1618128lfm.215.2022.03.01.10.47.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 10:47:33 -0800 (PST)
-Received: by mail-lf1-f51.google.com with SMTP id m14so28435770lfu.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:47:32 -0800 (PST)
-X-Received: by 2002:a05:6512:2033:b0:443:3d49:dac with SMTP id
- s19-20020a056512203300b004433d490dacmr16440784lfs.52.1646160451271; Tue, 01
- Mar 2022 10:47:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
- <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
- <Yh0tl3Lni4weIMkl@casper.infradead.org>
- <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
- <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
- <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
- <202203011008.AA0B5A2D@keescook>
-In-Reply-To: <202203011008.AA0B5A2D@keescook>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 10:47:14 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whccSm8HKANQbomYrF8cqBa1wUi1dvUEUc3Nf=WoX3WHQ@mail.gmail.com>
-Message-ID: <CAHk-=whccSm8HKANQbomYrF8cqBa1wUi1dvUEUc3Nf=WoX3WHQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: Kees Cook <keescook@chromium.org>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=tR+m3BKtc2q7T6REjyTd+tbxkuYAbwb84wcNcVtcDDo=;
+ b=kxtXaAHi1giJaAS1vukhP88S0EfTqab+fVrdqa7rVTEvznPgkuxzHDbre1hbnopkmf
+ ZfYmMUozQVbJ3DrH1bia0td+s2xGY6xsAeyD4X3OSuQd78maDeazTcYLUU5UxhUFnkpT
+ Wl21FIrv3XCFLDx+PDi0JiV1qI9VHzct72QLGarcjPaygWxpt4CTD3MvPVgfL+nM7VLX
+ fbmdKRd6//SVK3852ASIH9y3/b5efaIjSyeiaPPDL+0H7Fkbp1CxyJrmG5bREKmXbwnw
+ ITjjRtGLtxh20SKilkISYfMEFWi4ds/zN2aogUzWbXT3LKiLQVAX3jAIbPqVRW06noJO
+ O2Ig==
+X-Gm-Message-State: AOAM530KUKPISVwucqOuKv1YUkOcdDeNVm6WA91354YOh/gSlkfl88DI
+ OrbNE0CernxYsZiQZlbKCZG85Q==
+X-Google-Smtp-Source: ABdhPJzSf4CtwvIG03wik3crXOBqVn2fR41pWQVrAZp/7qf1AZE3+yMudYLmNy+Tlo28zIT/Kyx94g==
+X-Received: by 2002:a37:6c45:0:b0:478:a755:8845 with SMTP id
+ h66-20020a376c45000000b00478a7558845mr14371883qkc.362.1646160605528; 
+ Tue, 01 Mar 2022 10:50:05 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net.
+ [173.246.12.168]) by smtp.gmail.com with ESMTPSA id
+ h17-20020a37de11000000b0047caf996ef8sm7044983qkj.20.2022.03.01.10.50.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 10:50:05 -0800 (PST)
+Message-ID: <9d44d2136ba60e7471ea82551f4cfed2c030ce2b.camel@ndufresne.ca>
+Subject: Re: [PATCH v7, 05/15] media: mtk-vcodec: Call
+ v4l2_m2m_set_dst_buffered() set capture buffer buffered
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
+ Shih <tzungbi@chromium.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Date: Tue, 01 Mar 2022 13:50:03 -0500
+In-Reply-To: <20220223034008.15781-6-yunfei.dong@mediatek.com>
+References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
+ <20220223034008.15781-6-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,103 +80,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, Matthew Wilcox <willy@infradead.org>,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, "Bos, H.J." <h.j.bos@vu.nl>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 1, 2022 at 10:14 AM Kees Cook <keescook@chromium.org> wrote:
->
-> The first big glitch with -Wshadow was with shadowed global variables.
-> GCC 4.8 fixed that, but it still yells about shadowed functions. What
-> _almost_ works is -Wshadow=local.
+Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
+> lat thread: output queue      \
+>                                -> lat hardware -> lat trans buffer
+>             lat trans buffer  /
+> 
+> core thread: capture queue     \
+>                                 ->core hardware -> capture queue
+>              lat trans buffer  /
+> 
+> Lat and core work in different thread, setting capture buffer buffered.
 
-Heh. Yeah, I just have long memories of "-Wshadow was a disaster". You
-looked into the details.
+... so that output queue buffers (bitstream) can be process regardless if there
+is available capture buffers.
 
-> Another way to try to catch misused shadow variables is
-> -Wunused-but-set-varible, but it, too, has tons of false positives.
+I have concerns around the usefulness of running a dedicated thread to drive the
+lat and the core blocks. Having 3 threads (counting the m2m worker thread) here
+increase the complexity. The hardware is asynchronous by definition. I think
+this patch will go away after a proper rework of the driver thread model here.
 
-That on the face of it should be an easy warning to get technically
-right for a compiler.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> index 5aebf88f997b..23a154c4e321 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> @@ -314,6 +314,9 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
+>  	src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+>  				 V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>  
+> +	if (ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
+> +		v4l2_m2m_set_dst_buffered(ctx->m2m_ctx, 1);
+> +
+>  	/* Support request api for output plane */
+>  	src_vq->supports_requests = true;
+>  	src_vq->requires_requests = true;
 
-So I assume the "false positives" are simply because we end up having
-various variables that really don't end up being used - and
-"intentionally" so).
-
-Or rather, they might only be used under some config option - perhaps
-the use is even syntactically there and parsed, but the compiler
-notices that it's turned off under some
-
-        if (IS_ENABLED(..))
-
-option? Because yeah, we have a lot of those.
-
-I think that's a common theme with a lot of compiler warnings: on the
-face of it they sound "obviously sane" and nobody should ever write
-code like that.
-
-A conditional that is always true? Sounds idiotic, and sounds like a
-reasonable thing for a compiler to warn about, since why would you
-have a conditional in the first place for that?
-
-But then you realize that maybe the conditional is a build config
-option, and "always true" suddenly makes sense. Or it's a test for
-something that is always true on _that_architecture_ but not in some
-general sense (ie testing "sizeof()"). Or it's a purely syntactic
-conditional, like "do { } while (0)".
-
-It's why I'm often so down on a lot of the odd warnings that are
-hiding under W=1 and friends. They all may make sense in the trivial
-case ("That is insane") but then in the end they happen for sane code.
-
-And yeah, -Wshadow has had tons of history with macro nesting, and
-just being badly done in the first place (eg "strlen" can be a
-perfectly fine local variable).
-
-That said, maybe people could ask the gcc and clan people for a way to
-_mark_ the places where we expect to validly see shadowing. For
-example, that "local variable in a macro expression statement" thing
-is absolutely horrendous to fix with preprocessor tricks to try to
-make for unique identifiers.
-
-But I think it would be much more syntactically reasonable to add (for
-example) a "shadow" attribute to such a variable exactly to tell the
-compiler "yeah, yeah, I know this identifier could shadow an outer
-one" and turn it off that way.
-
-               Linus
