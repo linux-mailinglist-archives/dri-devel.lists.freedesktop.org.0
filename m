@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951AA4C869D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 09:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AC04C8739
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 09:58:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFDE10EBF3;
-	Tue,  1 Mar 2022 08:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8FB10E5E5;
+	Tue,  1 Mar 2022 08:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 931C610EBF3
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 08:37:30 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nOy0d-0005k9-41; Tue, 01 Mar 2022 09:37:27 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nOy0b-0003bu-0J; Tue, 01 Mar 2022 09:37:25 +0100
-Date: Tue, 1 Mar 2022 09:37:24 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
-Message-ID: <20220301083724.GO19585@pengutronix.de>
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-11-s.hauer@pengutronix.de>
- <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
- <20220225104924.GC19585@pengutronix.de>
- <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
- <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
- <20220225131154.GE19585@pengutronix.de>
- <20220228141921.GN19585@pengutronix.de>
- <43eb78d9-4252-938e-aaaa-8d353730314a@collabora.com>
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D51E510E5DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 08:58:12 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id r8so4128540ioj.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 00:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PEgk5klulcAQEghurpTaOMAs7TAwp8sfPglSxNFGlqA=;
+ b=XG3qL7R9Ks1hhuMdeycjwObyDGh7unBtQw4SOHVvhjCMmZbQLmvyhn2q299/2DVNB0
+ +ZRKx4BcoarPhhRVBGhhSFwXoMr37NYJXq1wxB6JC24A03KR01FX5p6aRy7Dc6OTbPtc
+ rkJUWjpPVJQk7B/qZTXiZjEbfIh/fHRj+HGhk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PEgk5klulcAQEghurpTaOMAs7TAwp8sfPglSxNFGlqA=;
+ b=z1EYOH/SOWUV+XLcBIfZaYsY94b+l8lY/RwlWy34UE04iKbMsPsEShk8nc6xMtq36n
+ cEU6U36GOx/jvhMiJVB49HoiJiGJgvMIETsMzTtGY4gJ1MFye4IxkF2D3qOiraRXL4vD
+ u7WYVSa3MtrztIf5gutP0IdpG2vxfDMVx8WnA1Cw3Wx6/O0w+XETiVj+n/kxWubfvXez
+ lYO320CuXXela5WUCNnrN1YUvdTSetIWKKLSMOHAF9fu/Nn8c63N9s4uLxEzThnmZjlh
+ M+OrbKvuTNaWttd532wICbC2Nfgm1VIyeITptesamRzRprixc7Mgipla9Jqaw/t3zagL
+ +AUA==
+X-Gm-Message-State: AOAM532CnVkj5EGPn2gsgUhFsh268D6o0o8SCv5RUDic2aU9vXRKKGRI
+ kFxQqPBN07OhQCDeDmEWchRJDfWzvF607ULEjhQ9cg==
+X-Google-Smtp-Source: ABdhPJwtjuUQyAbuRtHNGo/QfWRipdcVv450+DMXtNuMsDTCVePqpvJvDKSlueJ7dF0rExgYurnYzBUL+lnobGEkL64=
+X-Received: by 2002:a02:2a0d:0:b0:317:380f:8fce with SMTP id
+ w13-20020a022a0d000000b00317380f8fcemr6816591jaw.205.1646125092097; Tue, 01
+ Mar 2022 00:58:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <43eb78d9-4252-938e-aaaa-8d353730314a@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:05:08 up 80 days, 16:50, 82 users,  load average: 1.01, 0.82, 0.44
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20220217082224.1823916-1-hsinyi@chromium.org>
+ <20220217083119.GA3781632@anxtwsw-Precision-3640-Tower>
+In-Reply-To: <20220217083119.GA3781632@anxtwsw-Precision-3640-Tower>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 1 Mar 2022 16:57:45 +0800
+Message-ID: <CAJMQK-gDDtPT-kM56WodE=eo1UAZShbshLsuy_o-YuhorFe8mw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: Clear the DP_AUX_I2C_MOT bit passed in aux
+ read command.
+To: Xin Ji <xji@analogixsemi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,173 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, Dmitry Osipenko <digetx@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 01, 2022 at 01:56:59AM +0300, Dmitry Osipenko wrote:
-> On 2/28/22 17:19, Sascha Hauer wrote:
-> > On Fri, Feb 25, 2022 at 02:11:54PM +0100, Sascha Hauer wrote:
-> >> On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
-> >>> On 2022-02-25 11:10, Dmitry Osipenko wrote:
-> >>>> 25.02.2022 13:49, Sascha Hauer пишет:
-> >>>>> On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
-> >>>>>> 25.02.2022 10:51, Sascha Hauer пишет:
-> >>>>>>> The rk3568 HDMI has an additional clock that needs to be enabled for the
-> >>>>>>> HDMI controller to work. The purpose of that clock is not clear. It is
-> >>>>>>> named "hclk" in the downstream driver, so use the same name.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> >>>>>>> ---
-> >>>>>>>
-> >>>>>>> Notes:
-> >>>>>>>      Changes since v5:
-> >>>>>>>      - Use devm_clk_get_optional rather than devm_clk_get
-> >>>>>>>
-> >>>>>>>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
-> >>>>>>>   1 file changed, 16 insertions(+)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> >>>>>>> index fe4f9556239ac..c6c00e8779ab5 100644
-> >>>>>>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> >>>>>>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> >>>>>>> @@ -76,6 +76,7 @@ struct rockchip_hdmi {
-> >>>>>>>   	const struct rockchip_hdmi_chip_data *chip_data;
-> >>>>>>>   	struct clk *ref_clk;
-> >>>>>>>   	struct clk *grf_clk;
-> >>>>>>> +	struct clk *hclk_clk;
-> >>>>>>>   	struct dw_hdmi *hdmi;
-> >>>>>>>   	struct regulator *avdd_0v9;
-> >>>>>>>   	struct regulator *avdd_1v8;
-> >>>>>>> @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
-> >>>>>>>   		return PTR_ERR(hdmi->grf_clk);
-> >>>>>>>   	}
-> >>>>>>> +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
-> >>>>>>> +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
-> >>>>>>
-> >>>>>> Have you tried to investigate the hclk? I'm still thinking that's not
-> >>>>>> only HDMI that needs this clock and then the hardware description
-> >>>>>> doesn't look correct.
-> >>>>>
-> >>>>> I am still not sure what you mean. Yes, it's not only the HDMI that
-> >>>>> needs this clock. The VOP2 needs it as well and the driver handles that.
-> >>>>
-> >>>> I'm curious whether DSI/DP also need that clock to be enabled. If they
-> >>>> do, then you aren't modeling h/w properly AFAICS.
-> >>>
-> >>> Assuming nobody at Rockchip decided to make things needlessly inconsistent
-> >>> with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
-> >>> interface. Usually, if that affected anything other than accessing VOP
-> >>> registers, indeed it would smell of something being wrong in the clock tree,
-> >>> but in this case I'd also be suspicious of whether it might have ended up
-> >>> clocking related GRF registers as well (either directly, or indirectly via
-> >>> some gate that the clock driver hasn't modelled yet).
-> >>
-> >> Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
-> >> hanging when HCLK_VOP is disabled by disabling that clock via sysfs
-> >> using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
-> >> of that units can't be accessed. However, when I disable HCLK_VOP by
-> >> directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
-> >> accessing VOP registers hangs, the other units stay functional.
-> >> So it seems it must be the parent clock which must be enabled. The
-> >> parent clock is hclk_vo. This clock should be handled as part of the
-> >> RK3568_PD_VO power domain:
-> >>
-> >> 	power-domain@RK3568_PD_VO {
-> >>                 reg = <RK3568_PD_VO>;
-> >>                 clocks = <&cru HCLK_VO>,
-> >>                          <&cru PCLK_VO>,
-> >>                          <&cru ACLK_VOP_PRE>;
-> >>                  pm_qos = <&qos_hdcp>,
-> >>                           <&qos_vop_m0>,
-> >>                           <&qos_vop_m1>;
-> >>                  #power-domain-cells = <0>;
-> >>         };
-> > 
-> > Forget this. The clocks in this node are only enabled during enabling or
-> > disabling the power domain, they are disabled again immediately afterwards.
-> > 
-> > OK, I need HCLK_VO to access the HDMI registers. I verified that by
-> > disabling HCLK_VO at register level (CRU_GATE_CON(20) BIT(1)). The
-> > HDMI registers become inaccessible then. This means I'll replace
-> > HCLK_VOP in the HDMI node with HCLK_VO. Does this sound sane?
-> 
-> The RK3568_PD_VO already has HCLK_VO and the domain should be
-> auto-enabled before HDMI registers are accessed,
-
-As said, the clocks given in the power domain are only enabled during
-the process of enabling/disabling the power domain and are disabled
-again directly afterwards:
-
-> 	if (rockchip_pmu_domain_is_on(pd) != power_on) {
-
-They are enabled here:
-
-> 		ret = clk_bulk_enable(pd->num_clks, pd->clks);
-> 		if (ret < 0) {
-> 			dev_err(pmu->dev, "failed to enable clocks\n");
-> 			mutex_unlock(&pmu->mutex);
-> 			return ret;
-> 		}
-> 
-> 		if (!power_on) {
-> 			rockchip_pmu_save_qos(pd);
-> 
-> 			/* if powering down, idle request to NIU first */
-> 			rockchip_pmu_set_idle_request(pd, true);
-> 		}
+On Thu, Feb 17, 2022 at 4:31 PM Xin Ji <xji@analogixsemi.com> wrote:
 >
+> On Thu, Feb 17, 2022 at 04:22:25PM +0800, Hsin-Yi Wang wrote:
+> > If the previous transfer didn't end with a command without DP_AUX_I2C_MOT,
+> > the next read trasnfer will miss the first byte. But if the command in
+> > previous transfer is requested with length 0, it's a no-op to anx7625
+> > since it can't process this command. anx7625 requires the last command
+> > to be read command with length > 0.
+> >
+> > It's observed that if we clear the DP_AUX_I2C_MOT in read transfer, we
+> > can still get correct data. Clear the read commands with DP_AUX_I2C_MOT
+> > bit to fix this issue.
+>
+> Hi Hsin-Yi, thanks for the patch!
+>
+> Reviewed-by: Xin Ji <xji@analogixsemi.com>
+>
+> Thanks,
+> Xin
 
-Then the power domain is switched:
+Hi Robert,
 
-> 		rockchip_do_pmu_set_power_domain(pd, power_on);
-> 
-> 		if (power_on) {
-> 			/* if powering up, leave idle mode */
-> 			rockchip_pmu_set_idle_request(pd, false);
-> 
-> 			rockchip_pmu_restore_qos(pd);
-> 		}
-> 
+Kindly ping on this fix. Thanks.
 
-And here the clocks are disabled again:
-
-> 		clk_bulk_disable(pd->num_clks, pd->clks);
-> 	}
-
-> hence you should do the
-> opposite and remove the HCLK_VO/P clock from the HDMI DT, not add it. If
-> the HCLK_VO clock isn't enabled by the domain driver, then you need to
-> check why. Or am I missing something?
-
-What the power domain driver additionally does is: It does a of_clk_get()
-on all the clocks found in the node of a power domains consumer. It then
-does a pm_clk_add_clk() on the clocks and sets the GENPD_FLAG_PM_CLK
-flag. This has the effect that all clocks of a device in a power domain
-are enabled as long as the power domain itself is enabled. This means
-when I just add HCLK_VO to the DSI node, then the power domain driver
-will enable it, even when the clock is not touched in the DSI driver at
-all. To me this looks really fishy because I think a device itself
-should have control over its clocks. I don't know how many devices
-really depend on the power domain driver controlling their clocks, but
-everyone of them will stop working when the power domain driver is not
-compiled in.
-
-> 
-> What about DSI and DP? Don't they depend on RK3568_PD_VO as well?
-
-Yes, they depend on that power domain as well.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> >
+> > Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through aux channel")
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> > v1->v2: Offline discussed with Xin Ji, it's better to clear the bit on
+> > read commands only.
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > index 633618bafd75d3..2805e9bed2c2f4 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -253,6 +253,8 @@ static int anx7625_aux_trans(struct anx7625_data *ctx, u8 op, u32 address,
+> >       addrm = (address >> 8) & 0xFF;
+> >       addrh = (address >> 16) & 0xFF;
+> >
+> > +     if (!is_write)
+> > +             op &= ~DP_AUX_I2C_MOT;
+> >       cmd = DPCD_CMD(len, op);
+> >
+> >       /* Set command and length */
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
