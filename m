@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C065A4C8D77
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:14:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E63074C8D75
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A109510E1B1;
-	Tue,  1 Mar 2022 14:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2271210E17B;
+	Tue,  1 Mar 2022 14:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A1410E1B6;
- Tue,  1 Mar 2022 14:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646144084; x=1677680084;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NjojBCsmhSp7vBxnEedXZupiso++RjCixpwrwJr/BJ4=;
- b=gjeZB/br+eqkIOcYKDQYvxcZ/OSrhsoT3g8LRIbIssyF0vlb0lGZngJ/
- MPRXFtGkAqnId3B6PRoa3anb/bxWOrYdzae4OEntmDDESlsDSrmN5mI2a
- HFJr3RF2vI73LYLMNjXBVCiKZ7rwI4/LDLZ41AMZUGWhCeUwqhouHfXhA
- aoQE2a9sps9GXr8wxq+SFa2kNPqU3xE831Y6HDdqDYmkYv+MKgtMKEIJ2
- 4cn7HirVDwi4Cct4vppAZ3/l2LmE2sjgU5g3Z/d8qSFVhoOnjZLRiZoXI
- diyPX7b8XGFtKg1eEVv+hJ96tiAQ7tCV9oVv89vpCOb9tXpAsllhz9hH7 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="316350632"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316350632"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 06:14:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="575712589"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga001.jf.intel.com with SMTP; 01 Mar 2022 06:14:24 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Mar 2022 16:14:24 +0200
-Date: Tue, 1 Mar 2022 16:14:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH] drm/i915: Add a DP1.2 compatible way to read LTTPR
- capabilities
-Message-ID: <Yh4qQD/hlQCuNUFx@intel.com>
-References: <20220228201234.1448613-1-imre.deak@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D47A10E17B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5FE9C614CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C2E24C340F2
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646144064;
+ bh=v6N7todfME5nzrRftPcI+kxGCcbYJ7nNeMeMtUEWoCY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=cZWa5RRiWySI3Q7PI7QakGT8apnFeE+FFDrh2p23dqek2krE7EdVE6v2gF9QW29AG
+ rTktsJjZDmP5fRcnYeJw87p+yraqchk3nwdMN1KpTRYyFAV9DP6Jm4SRKk4seWVH/E
+ rNRm8+ZO5TxgE03GfNxfMTwx231Fj8DXK31dPbJngZDc8W8A9RhchOJq2k4cK4YXsF
+ EP0W6zYEeiI5kJWJWOleQYzNVI0CP3EaQt1SqCdfzN3fE1VlCpU4cYEBdo8R1GL4+9
+ XaGxL7HwozBQ8zfSyoIrTYR8Fi5JgS9KfoRUsTo2rgIV4l8oBrrQ47i5Yygn9U0FZW
+ XMPYHhNqi/YDg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9DC2CCAC6E2; Tue,  1 Mar 2022 14:14:24 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215511] Dual monitor with amd 5700 causes system to hang at
+ startup.
+Date: Tue, 01 Mar 2022 14:14:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215511-2300-BLyWcYqe6H@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215511-2300@https.bugzilla.kernel.org/>
+References: <bug-215511-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220228201234.1448613-1-imre.deak@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,94 +72,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 10:12:34PM +0200, Imre Deak wrote:
-> At least some DELL monitors (P2715Q) with DPCD_REV 1.2 return corrupted
-> DPCD register values when reading from the 0xF0000- LTTPR range with an
-> AUX transaction block size bigger than 1. The DP standard requires 0 to
-> be returned - as for any other reserved/invalid addresses - but these
-> monitors return the DPCD_REV register value repeated in each byte of the
-> read buffer. This will in turn corrupt the values returned by the LTTPRs
-> between the source and the monitor: LTTPRs must adjust the values they
-> read from the downstream DPRX, for instance left-shift/init the
-> downstream DP_PHY_REPEATER_CNT value. Since the value returned by the
-> monitor's DPRX is non-zero the adjusted values will be corrupt.
-> 
-> Reading the LTTPR registers one-by-one instead of reading all of them
-> with a single AUX transfer works around the issue.
-> 
-> According to the DP standard's 0xF0000 register description:
-> "LTTPR-related registers at DPCD Addresses F0000h through F02FFh are
-> valid only for DPCD r1.4 (or higher)." While it's unclear if DPCD r1.4
-> refers to the DPCD_REV or to the
-> LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV register (tickets filed
-> at the VESA site to clarify this haven't been addressed), one
-> possibility is that it's a restriction due to non-compliant monitors
-> described above. Disabling the non-transparent LTTPR mode for all such
-> monitors is not a viable solution: the transparent LTTPR mode has its
-> own issue causing link training failures and this would affect a lot of
-> monitors in use with DPCD_REV < 1.4. Instead this patch works around
-> the problem by reading the LTTPR common and PHY cap registers one-by-one
-> for any monitor with a DPCD_REV < 1.4.
-> 
-> The standard requires the DPCD capabilites to be read after the LTTPR
-> common capabilities are read, so re-read the DPCD capabilities after
-> the LTTPR common and PHY caps were read out.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4531
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/dp/drm_dp.c                   | 58 ++++++++++++-------
->  .../drm/i915/display/intel_dp_link_training.c | 30 +++++++---
->  include/drm/dp/drm_dp_helper.h                |  2 +
->  3 files changed, 59 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/dp/drm_dp.c
-> index 703972ae14c64..f3950d42980f9 100644
-> --- a/drivers/gpu/drm/dp/drm_dp.c
-> +++ b/drivers/gpu/drm/dp/drm_dp.c
-> @@ -2390,9 +2390,36 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
->  }
->  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
->  
-> +static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
-> +				  u8 *buf, int buf_size)
-> +{
-> +	/*
-> +	 * Some monitors with a DPCD_REV < 0x14 return corrupted values when
-> +	 * reading from the 0xF0000- range with a block size bigger than 1.
-> +	 */
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215511
 
-This sounds really scary. Have we checked what other registers might
-end up corrupted? Eg. couple of rounds of comparing full dd bs=1 vs. 
-dd bs=16.
+--- Comment #8 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Philipp Riederer from comment #7)
+> Hi!
+>=20
+> My Lenovo T14s (AMD) crashes with a panic (https://imgur.com/a/P6Twvov) w=
+hen
+> I unplug/replug any monitor. This also happens when waking from DPMS.
+>=20
+> I have bisected the issue to the same
+> 0f591d17e36e08313b0c440b99b0e57b47e01a9a as Jose. The patch (that is alre=
+ady
+> mainlined, if I see that correctly) does not help.
+>=20
+> I have tried all kernel up to 5.15.24 -- I cannot try 5.16 as I use zfs as
+> root device the and zfs module is not (yet) compatible with 5.16.
+>=20
+> Is there anything you would like me to try or should my issue be fixed in
+> 5.16+?
 
-> +	int block_size = dpcd[DP_DPCD_REV] < 0x14 ? 1 : buf_size;
-> +	int offset = 0;
-> +	int ret;
-> +
-> +	while (offset < buf_size) {
+Please open a new ticket as this is a different issue.
 
-Can we use a for loop?
+--=20
+You may reply to this email to add a comment.
 
-> +		ret = drm_dp_dpcd_read(aux,
-> +				       address + offset,
-> +				       &buf[offset], block_size);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		WARN_ON(ret != block_size);
-> +
-> +		offset += block_size;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-
--- 
-Ville Syrjälä
-Intel
+You are receiving this mail because:
+You are watching the assignee of the bug.=
