@@ -1,60 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831D64C95A3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 21:15:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0256D4C95DB
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 21:17:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2A810E145;
-	Tue,  1 Mar 2022 20:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D2910E180;
+	Tue,  1 Mar 2022 20:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2316710E145
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 20:15:05 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id o6so23398504ljp.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 12:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4eHzcr1YBGh9o3F4BfOGRvjDUMT5g6q2aQ+3yXHWlOo=;
- b=IZ7/AMI7eJ+ZC/a6fwyXrw1yeswUH52MRpfmJL+44Eql30HG9WzC+yjvRBlCihk6qS
- EvBYRMpstobbwMQtFKPVT7whOd7g6EVNZ9/wh7HN9tT37SQk/kV5yveCnI1WKJxZgJfl
- u5hnXn2wSwbpo9fmHyh7tnjuQRET8kflkToPHzIjsE09X8R0kVDj2vdGuFiwf8ERMe6P
- ZUYFx2H+eXSISc3wqYR+rj1jGJiYrqhXhAk2plKyJAwvUaqs44FoSzMAFM70O9Zf7sm+
- roIZG0kJTwRPMpvGKMjoahCaVCHPIeV7xANIw5S+Q6dN5bwJxAjfKupRq3TdUUvC7rAX
- ewCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4eHzcr1YBGh9o3F4BfOGRvjDUMT5g6q2aQ+3yXHWlOo=;
- b=4egk3xvhOnMx2p3Mwt1wswOg/3SJHyg8F+Gwd0ifYQQh8Qp7t0O9VMrQAovcWFgZhh
- 88+X0sc9PrFJ+40ZrDpWgfwqjyBB+pcmukSQyQIOMvGArnYJuEmjvUcGADAjKXSz5/cF
- 3Lqs0tItgEZVmxJLj/XufrQKWXgmtNNn35luarWgPMxE0/6aKxUY1AyEYyFtS1jyy274
- VQVZN2/UJcXaOIbnQIzH33EL0g1MqY/AFvtv9ObtWWnD9GA1UVQtSoKUcv688ddXnUzU
- OnvbWcp16Ao1aAP/hZJ3l6h07/vs7EXWdA8ZmJEINMb+NpDc3qee6Z76sW2+WwhG27B7
- pcNA==
-X-Gm-Message-State: AOAM5324i8tyDgWMsxFs084LQyq5Myd9iimhvuGhjK1I+5tjNokhUEdN
- 8INuNJDrkF7rh64FOEsPlJpPptYP8UhekTMpmFIXfg==
-X-Google-Smtp-Source: ABdhPJzNPHP87nTATQhKnvYuvIArBZyNmAuESqaseKTw/6hflPbUYbtD2HuT0mMBWgoGoh8R52W1FO0GY7/eOoWfE0w=
-X-Received: by 2002:a2e:3004:0:b0:223:c126:5d1a with SMTP id
- w4-20020a2e3004000000b00223c1265d1amr18945849ljw.408.1646165703196; Tue, 01
- Mar 2022 12:15:03 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1BD410E180
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 20:17:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 69867B81D12;
+ Tue,  1 Mar 2022 20:17:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4F8C340EE;
+ Tue,  1 Mar 2022 20:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646165833;
+ bh=Lve3H/9JuSxfWkxigkbrwE0meKYwkoHo9r/d5pVKhoc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qPuc6xu8HgZEioRxnGHQSSmltVhXFrzB/RkUFOiAB8uQscWoHiYUFOBCIpQ/xcOhW
+ 4n5jDaHFRsQPWTYywD2goUtKEuAt+FrQz6+pPyp9beq37gsk70t0+1wXgWuKiVSpGa
+ eicZciJAsJfh5w6nPPq58I4TOymKnCc/ZLdaW4k4Q5cpq+/3Afic5n2BnLBcZWA2vI
+ rlzVIViv5semZQY+4cIhw3J0I2Tt8GUWKVXQQWPiX4EWyq93W1GzFsyDQayX8vrc+8
+ q+0Wy7W5qcRSEkgXRKBBMzAM2eUQA29YHzPQLph30nMdb7UgmsKZAQn6Pq+ZSYMdL7
+ +8MnGkBlplsBQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 09/23] drm/vc4: hdmi: Unregister codec device on
+ unbind
+Date: Tue,  1 Mar 2022 15:16:08 -0500
+Message-Id: <20220301201629.18547-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220301201629.18547-1-sashal@kernel.org>
+References: <20220301201629.18547-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20220217153842.3252424-1-trix@redhat.com>
- <51018469-3bab-e56d-7407-b16170b5d74c@amd.com>
- <CADnq5_OGEURo76mzc4Sb2Jar465Xt4vkSMECDi5jCMH332zUAg@mail.gmail.com>
- <CAKwvOdnYTC7mku1=eVaDLGQFHdoN3u8Afoo582OAQ+ApJmfhQQ@mail.gmail.com>
- <CADnq5_PniW+-8G5AhOSwuovESpfeMxL4r6P30b3F1coa_NmMEQ@mail.gmail.com>
- <CAOWid-cXYze56YmUACWP4emNeGHXMFf4q5aZfFGUwVXWNFAvSg@mail.gmail.com>
-In-Reply-To: <CAOWid-cXYze56YmUACWP4emNeGHXMFf4q5aZfFGUwVXWNFAvSg@mail.gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 1 Mar 2022 12:14:51 -0800
-Message-ID: <CAKwvOdn52Kn1dnmp9cCwJtv5kPwZfHgApzhzajsdkjOwF8XqVA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix amdgpu_ras_block_late_init error handler
-To: Kenny Ho <y2kenny@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,39 +56,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Joshi, Mukul" <mukul.joshi@amd.com>, llvm@lists.linux.dev,
- Dennis Li <Dennis.Li@amd.com>, Dave Airlie <airlied@linux.ie>,
- Tom Rix <trix@redhat.com>, Tao Zhou <tao.zhou1@amd.com>,
- xinhui pan <Xinhui.Pan@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Nirmoy Das <nirmoy.das@amd.com>, "Stanley.Yang" <Stanley.Yang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Chai,
- Thomas" <YiPeng.Chai@amd.com>, John Clements <john.clements@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 22, 2022 at 11:12 AM Kenny Ho <y2kenny@gmail.com> wrote:
->
-> On Thu, Feb 17, 2022 at 2:06 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > On Thu, Feb 17, 2022 at 2:04 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > >
-> > > Alex,
-> > > Has AMD been able to set up clang builds, yet?
-> >
-> > No.  I think some individual teams do, but it's never been integrated
-> > into our larger CI systems as of yet as far as I know.
->
-> I have just added clang build to our CI last night so hopefully we
-> should be catching these now.
+From: Maxime Ripard <maxime@cerno.tech>
 
-Wonderful! ++beers_owed;
+[ Upstream commit e40945ab7c7f966d0c37b7bd7b0596497dfe228d ]
+
+On bind we will register the HDMI codec device but we don't unregister
+it on unbind, leading to a device leakage. Unregister our device at
+unbind.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220127111452.222002-1-maxime@cerno.tech
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 8 ++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 1 +
+ 2 files changed, 9 insertions(+)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 9170d948b4483..07887cbfd9cb6 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1522,6 +1522,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 		dev_err(dev, "Couldn't register the HDMI codec: %ld\n", PTR_ERR(codec_pdev));
+ 		return PTR_ERR(codec_pdev);
+ 	}
++	vc4_hdmi->audio.codec_pdev = codec_pdev;
+ 
+ 	dai_link->cpus		= &vc4_hdmi->audio.cpu;
+ 	dai_link->codecs	= &vc4_hdmi->audio.codec;
+@@ -1561,6 +1562,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 
+ }
+ 
++static void vc4_hdmi_audio_exit(struct vc4_hdmi *vc4_hdmi)
++{
++	platform_device_unregister(vc4_hdmi->audio.codec_pdev);
++	vc4_hdmi->audio.codec_pdev = NULL;
++}
++
+ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = priv;
+@@ -2298,6 +2305,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	kfree(vc4_hdmi->hdmi_regset.regs);
+ 	kfree(vc4_hdmi->hd_regset.regs);
+ 
++	vc4_hdmi_audio_exit(vc4_hdmi);
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 33e9f665ab8e4..c0492da736833 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -113,6 +113,7 @@ struct vc4_hdmi_audio {
+ 	struct snd_soc_dai_link_component platform;
+ 	struct snd_dmaengine_dai_dma_data dma_data;
+ 	struct hdmi_audio_infoframe infoframe;
++	struct platform_device *codec_pdev;
+ 	bool streaming;
+ };
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+2.34.1
+
