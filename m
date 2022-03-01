@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4084C88A7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 10:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444554C88DD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 339E510ED64;
-	Tue,  1 Mar 2022 09:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44F910E5B7;
+	Tue,  1 Mar 2022 10:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CD610ED64
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 09:58:39 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id y5so7208259wmi.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 01:58:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ezdeTFdrJTsDEenywDPHfcLnhNipBCHF9MXHMNmg8uE=;
- b=V2OTBoFu/3u2MYQvlXN4XFA5Mpc0sw3VVP6kB35gAmpBt4CBakEr+BEajFVumt4As4
- 0YJzO8ZkJSWBwhRj8Uy59RUU3v/hwzbgxduT2I1y1xX6HI1gg41aETpQIUdjxh7ZnBz4
- HhdMQcg8+L7O8eux9r9AapKed4y6D46u2n+k9nwiZpMaa2tu8mfi2s4ZCxAcFvaUN+tp
- HrzR1JisJxyRdZ3wNr04C/4Vuj0omTcfD+rfi5DwD/mU4leNbAbXNJMtNPKsu3bNCRus
- eGsPP4EAXhwGxUe8HQ9DLeSwcxn2uyLPYqzmE2imgxG0kXR+Hov/16dL3PxdUfxU3h53
- VE0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ezdeTFdrJTsDEenywDPHfcLnhNipBCHF9MXHMNmg8uE=;
- b=iAmZYEuGM4HF3itN9vggBf6VshxR0HT1UqZDNl+DDlKGTmTOi7JqbtVHjm3SIMMMR7
- eQNdk7CmtMTjecxx4ic5KQVz1gnfZoYW/+XgxaOP+oxEQ7YlHhqjhgM8JqgKF3GopX9Z
- DMpswmaZ8StwmUIaeybm5qrZr8SCW+sFPsidf0i1A4/cz9CcOxA3MAsPlwLuZGNufap/
- eWq8Fc0Nr/dOJeaIx++RE6lW+Gm1+vsOlOlZrQhkwiOgtmekW+XDfo6tUwauwgHyBl7W
- kSaTnZ90xLM86n49baMuDLqQE8jA7FDcz75PKSy/JmSNHDo23n38F5RNeoiOmWeI2SFi
- VbwA==
-X-Gm-Message-State: AOAM530csXxllBTq9ylL+1VuPAz4T94Vby6A40k7eIb+Kt6AKBQs5c+k
- MiW7KU1f0fZFz3k9szxbiAoSHQ==
-X-Google-Smtp-Source: ABdhPJyd3JL277KFZFJnNY8vNt+J/UADyqWySP9nrfMl9nw+JMafV9kv9enuyMZSjvJi9JFM8u0lYg==
-X-Received: by 2002:a1c:29c6:0:b0:381:51d6:9afe with SMTP id
- p189-20020a1c29c6000000b0038151d69afemr9268826wmp.0.1646128718201; 
- Tue, 01 Mar 2022 01:58:38 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
- r186-20020a1c2bc3000000b0037bdd94a4e5sm1955820wmr.39.2022.03.01.01.58.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 01:58:37 -0800 (PST)
-Date: Tue, 1 Mar 2022 09:58:34 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Another pass removing cases of 'allOf'
- containing a '$ref'
-Message-ID: <Yh3uSifwByjQWpyO@google.com>
-References: <20220228213802.1639658-1-robh@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A5910E5B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 10:04:20 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nOzMg-0000j8-4y; Tue, 01 Mar 2022 11:04:18 +0100
+Message-ID: <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
+Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Liu Ying <victor.liu@oss.nxp.com>, Marek Vasut <marex@denx.de>, 
+ dri-devel@lists.freedesktop.org
+Date: Tue, 01 Mar 2022 11:04:16 +0100
+In-Reply-To: <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
+References: <20220228004605.367040-1-marex@denx.de>
+ <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
+ <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
+ <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
+ <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
+ <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,104 +53,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-usb@vger.kernel.org,
- Vignesh Raghavendra <vigneshr@ti.com>, linux-remoteproc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
- linux-phy@lists.infradead.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd@lists.infradead.org,
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Guenter Roeck <groeck@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-leds@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Richard Weinberger <richard@nod.at>, Kishon Vijay Abraham I <kishon@ti.com>,
- linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Feb 2022, Rob Herring wrote:
+Hi Marek, hi Liu,
 
-> Another pass at removing unnecessary use of 'allOf' with a '$ref'.
+Am Dienstag, dem 01.03.2022 um 10:44 +0800 schrieb Liu Ying:
+> On Mon, 2022-02-28 at 16:34 +0100, Marek Vasut wrote:
+> > On 2/28/22 09:18, Liu Ying wrote:
+> > 
+> > Hi,
 > 
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords.
+> Hi,
 > 
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Vignesh Raghavendra <vigneshr@ti.com>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-remoteproc@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-spi@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/connector/usb-connector.yaml         |  3 +--
->  .../bindings/display/brcm,bcm2711-hdmi.yaml       |  3 +--
->  .../bindings/display/bridge/adi,adv7511.yaml      |  5 ++---
->  .../bindings/display/bridge/synopsys,dw-hdmi.yaml |  5 ++---
->  .../bindings/display/panel/display-timings.yaml   |  3 +--
->  .../devicetree/bindings/display/ste,mcde.yaml     |  4 ++--
->  .../devicetree/bindings/input/adc-joystick.yaml   |  9 ++++-----
->  .../bindings/leds/cznic,turris-omnia-leds.yaml    |  3 +--
->  .../devicetree/bindings/leds/leds-lp50xx.yaml     |  3 +--
+> > 
+> > > > > On Mon, 2022-02-28 at 01:45 +0100, Marek Vasut wrote:
+> > > > > > Add compatible string for i.MX8MP LCDIF variant. This is called LCDIFv3
+> > > > > > and is completely different from the LCDIFv3 found in i.MX23 in that it
+> > > > > 
+> > > > > In i.MX23 reference manual, there is no LCDIFv3 found, but only LCDIF.
+> > > > 
+> > > > See i.MX23 HW_LCDIF_VERSION MAJOR=0x3 , that's LCDIF V3 . MX28 has LCDIF
+> > > > V4 .
+> > > 
+> > > Ok, got it now. AFAIK, the SoC design team calls i.MX8MP display
+> > > controller as 'LCDIFv3'. Those in other SoCs are called 'LCDIF'.  There
+> > > is not even a register in i.MX8MP display controller to decribe the
+> > > version.
+> > 
+> > We also don't have a version register on MX6SX and we call it LCDIF V6 
+> > in the driver. The naming scheme is confusing.
+> 
+> It looks ok for the current mxsfb drm driver to use its own version
+> tracking mechanism to distinguish kinda small difference across LCDIF
+> variants.  However, LCDIFv3 in i.MX8mp is a totally different IP, which
+> does not apply to the tracking mechanism.
+> 
+> > 
+> > > > > > has a completely scrambled register layout compared to all previous LCDIF
+> > > > > 
+> > > > > It looks like no single register of i.MX8MP LCDIFv3 overlaps with
+> > > > > registers in other i.MX2x/6x/7x/8x LCDIFs. The LCDIFv3 block diagram is
+> > > > > totally different from the LCDIF block diagram, according to the SoC
+> > > > > reference manuals. LCDIFv3 supports SHADOW_EN bit to update horizontal
+> > > > > and vertical size of graphic, position of graphic on the panel, address
+> > > > > of graphic in memory and color formats or color palettes, which is not
+> > > > > supported by LCDIF and impacts display driver control mechanism
+> > > > > considerably. LCDIF supports DOTCLK interface, MPU interface and VSYNC
+> > > > > interface, while LCDIFv3 only supports parallel output as a counterpart
+> > > > > of the DOTCLK interface.
+> > > > > 
+> > > > > Generally speaking, LCDIFv3 is just a new display IP which happens to
+> > > > > have the word 'LCDIF' in its name.  Although both of LCDIFv3 and LCDIF
+> > > > > are display controllers for scanning out frames onto display devices, I
+> > > > > don't think they are in one family.
+> > > > > 
+> > > > > So, LCDIFv3 deserves a new separate dt-binding, IMO.
+> > > > 
+> > > > It seems to me a lot of those bits just map to their previous
+> > > > equivalents in older LCDIF, others were dropped, so this is some sort of
+> > > > new LCDIF mutation, is it not ?
+> > > 
+> > > I say 'LCDIFv3' and 'LCDIF' are totally two IPs, if I compare the names
+> > > of registers and the names of register bits .
+> > > 
+> > > > I am aware NXP has a separate driver in its downstream, but I'm not
+> > > > convinced the duplication of boilerplate code by introducing a separate
+> > > > driver for what looks like another LCDIF variant is the right approach.
+> > > 
+> > > Hmmm, given the two IPs, I think there should be separate drivers.
+> > >   With one single driver, there would be too many 'if/else' checks to
+> > > separate the logics for the IPs, just like Patch 9/9 does.  The
+> > > boilerplate code to do things like registering a drm device is
+> > > acceptable, IMO.
+> > > 
+> > > Aside from that, with separate drivers, we don't have to test too many
+> > > SoCs if we only want to touch either 'LCDIFv3' or 'LCDIF'.
+> > 
+> > But then, with two drivers, you also might miss fixes which get applied 
+> > to one driver and not the other, eventually the two drivers will diverge 
+> > and that's not good.
+> 
+> Given the two totally different IPs, I don't see bugs of IP control
+> logics should be fixed for both drivers. Naturally, the two would
+> diverge due to different HWs. Looking at Patch 9/9, it basically
+> squashes code to control LCDIFv3 into the mxsfb drm driver with
+> 'if/else' checks(barely no common control code), which is hard to
+> maintain and not able to achieve good scalability for both 'LCDIFv3'
+> and 'LCDIF'.
 
->  .../devicetree/bindings/mfd/google,cros-ec.yaml   | 12 ++++--------
+I tend to agree with Liu here. Writing a DRM driver isn't that much
+boilerplate anymore with all the helpers we have available in the
+framework today.
 
-Go for it.
+The IP is so different from the currently supported LCDIF controllers
+that I think trying to support this one in the existing driver actually
+increases the chances to break something when modifying the driver in
+the future. Not everyone is able to test all LCDIF versions. My vote is
+on having a separate driver for the i.MX8MP LCDIF.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+Regards,
+Lucas
 
->  .../devicetree/bindings/mtd/nand-controller.yaml  |  8 +++-----
->  .../bindings/mtd/rockchip,nand-controller.yaml    |  3 +--
->  .../devicetree/bindings/net/ti,cpsw-switch.yaml   |  3 +--
->  .../bindings/phy/phy-stm32-usbphyc.yaml           |  3 +--
->  .../bindings/power/supply/sbs,sbs-manager.yaml    |  4 +---
->  .../bindings/remoteproc/ti,k3-r5f-rproc.yaml      |  3 +--
->  .../devicetree/bindings/soc/ti/ti,pruss.yaml      | 15 +++------------
->  .../devicetree/bindings/sound/st,stm32-sai.yaml   |  3 +--
->  .../devicetree/bindings/sound/tlv320adcx140.yaml  | 13 ++++++-------
->  .../devicetree/bindings/spi/spi-controller.yaml   |  4 +---
->  .../devicetree/bindings/usb/st,stusb160x.yaml     |  4 +---
->  21 files changed, 39 insertions(+), 74 deletions(-)
-
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
