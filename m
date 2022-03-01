@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F1A4C88F0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:06:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076F54C891E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E5110EBEF;
-	Tue,  1 Mar 2022 10:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE4C10EB61;
+	Tue,  1 Mar 2022 10:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385AD10E6AD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 10:06:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91BAC10EB5D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 10:19:55 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DED95B817AD;
- Tue,  1 Mar 2022 10:06:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84BFC340F1;
- Tue,  1 Mar 2022 10:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646129213;
- bh=fYZEvCHUTCzzIGB8L9LcKOsoY2tpWRjSUopTwwDl04A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xx3JkpMGPfR90bvsEfJqssfeOVD4am2Noqa3KOgFZGWbwMPG13nGrRruOPt4zeJk6
- SBnDTJra4wi+jXHwz3J43NUmeyuMstDhoISZnCGhAY8ROQCVJreeKbMA+nARphIuMh
- ZgOw1/MouAINJXpZzmXZJwuoNL3TXV+0LHTvNriedKzFyQm0GtT00zdr2LzOsphHMU
- 6ipvcgHIeNmyMATrUY8U009qFXGO94XM75aYICxRWsy+5+krA86NOT5pbSm8ZWOyIQ
- KR8efYpq0czOCDE/678WEj6ininKhpTtp8FShG/wEs4ASgRLXuHzy96S8SX7m2RobP
- h2fJWhSnBya6Q==
-Date: Tue, 1 Mar 2022 15:36:49 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Another pass removing cases of 'allOf'
- containing a '$ref'
-Message-ID: <Yh3wOYFnN9Q1F68N@matsya>
-References: <20220228213802.1639658-1-robh@kernel.org>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0B6B0811D8;
+ Tue,  1 Mar 2022 11:19:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646129993;
+ bh=rhoo1FqQzChSituEZDrwDQBIyXTfh7c4RmHdX2dPJvA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NAVxcYCJwT+xWwIs1Ee0lbw2P1bLVqEKC4cOP59TzVD1/gFdfj98zVjPZXdpRDmIl
+ faM2v5S2GN2jb5bQkGLV+2oJNavtZzArSOmAESwMTj05x86inC3eYPepC6qGZnTOgE
+ FahXz+wJhEK8ELbWtSulurtzjA9bb/MQU5tSXObNMskmrG/4yQiuAqiVsgqbD0Tdrs
+ XSA8AeRjoBzyHrQWqfiHCJDRabRiANHcLCETQe/EgvvzKr7l88wnvdtU/YxRasBioq
+ iRZ1bgmBNVXbCGx4Fvz8/JPVxUNsnPBgSrs+exXNXz9XiF/yPO27A7u9eAtOZpVHLw
+ o/w6c1WleqqMA==
+Message-ID: <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
+Date: Tue, 1 Mar 2022 11:19:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220228213802.1639658-1-robh@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Liu Ying <victor.liu@oss.nxp.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220228004605.367040-1-marex@denx.de>
+ <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
+ <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
+ <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
+ <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
+ <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
+ <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,56 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-usb@vger.kernel.org,
- Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sre@kernel.org>, linux-phy@lists.infradead.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Guenter Roeck <groeck@chromium.org>, Lee Jones <lee.jones@linaro.org>,
- linux-leds@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Richard Weinberger <richard@nod.at>, Kishon Vijay Abraham I <kishon@ti.com>,
- linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28-02-22, 15:38, Rob Herring wrote:
-> Another pass at removing unnecessary use of 'allOf' with a '$ref'.
+On 3/1/22 11:04, Lucas Stach wrote:
+
+Hi,
+
+[...]
+
+>> Given the two totally different IPs, I don't see bugs of IP control
+>> logics should be fixed for both drivers. Naturally, the two would
+>> diverge due to different HWs. Looking at Patch 9/9, it basically
+>> squashes code to control LCDIFv3 into the mxsfb drm driver with
+>> 'if/else' checks(barely no common control code), which is hard to
+>> maintain and not able to achieve good scalability for both 'LCDIFv3'
+>> and 'LCDIF'.
 > 
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords.
+> I tend to agree with Liu here. Writing a DRM driver isn't that much
+> boilerplate anymore with all the helpers we have available in the
+> framework today.
 
-...
+I did write a separate driver for this IP before I spent time merging 
+them into single driver, that's when I realized a single driver is much 
+better and discarded the separate driver idea.
 
->  .../bindings/connector/usb-connector.yaml         |  3 +--
->  .../bindings/display/brcm,bcm2711-hdmi.yaml       |  3 +--
->  .../bindings/display/bridge/adi,adv7511.yaml      |  5 ++---
->  .../bindings/display/bridge/synopsys,dw-hdmi.yaml |  5 ++---
->  .../bindings/display/panel/display-timings.yaml   |  3 +--
->  .../devicetree/bindings/display/ste,mcde.yaml     |  4 ++--
->  .../devicetree/bindings/input/adc-joystick.yaml   |  9 ++++-----
->  .../bindings/leds/cznic,turris-omnia-leds.yaml    |  3 +--
->  .../devicetree/bindings/leds/leds-lp50xx.yaml     |  3 +--
->  .../devicetree/bindings/mfd/google,cros-ec.yaml   | 12 ++++--------
->  .../devicetree/bindings/mtd/nand-controller.yaml  |  8 +++-----
->  .../bindings/mtd/rockchip,nand-controller.yaml    |  3 +--
->  .../devicetree/bindings/net/ti,cpsw-switch.yaml   |  3 +--
->  .../bindings/phy/phy-stm32-usbphyc.yaml           |  3 +--
+> The IP is so different from the currently supported LCDIF controllers
+> that I think trying to support this one in the existing driver actually
+> increases the chances to break something when modifying the driver in
+> the future. Not everyone is able to test all LCDIF versions. My vote is
+> on having a separate driver for the i.MX8MP LCDIF.
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+If you look at both controllers, it is clear it is still the LCDIF 
+behind, even the CSC that is bolted on would suggest that.
 
--- 
-~Vinod
+I am also not happy when I look at the amount of duplication a separate 
+driver would create, it will be some 50% of the code that would be just 
+duplicated.
+
+[...]
