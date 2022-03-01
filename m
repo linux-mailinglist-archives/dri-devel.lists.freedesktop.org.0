@@ -2,68 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901F94C92D7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:21:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169C64C92F8
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C91710E6D6;
-	Tue,  1 Mar 2022 18:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C7C410E2B2;
+	Tue,  1 Mar 2022 18:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ACB210E6DC
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:21:25 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso512484pjo.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fds8Vu27HO3VizdZYZX37G2L0kdPjlGJwjydpAC62lk=;
- b=kbDptrdu0f26KgjbD0o2z38w3lkKGDPgX1iTHeFHCTnyp8GdCq5qMftyKUSBh6duUj
- WfNj/A6u5i3SYTvNHtilrjGbJ7XPB9BN5cThiWBPQtUhCrDH1721OqL04qTC03fUauzy
- 3YHA9gzqSMuaks5H7GdDPribo7C8kJL0W2A2s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fds8Vu27HO3VizdZYZX37G2L0kdPjlGJwjydpAC62lk=;
- b=WsBGvCPSJI8sotAweud2hCqwXDWnOnoHG6cEpFkx9kP/KaqtL6JWF9zVWtyZE+i66p
- MOpyVkAm1auhBmbF/jL/07u6ZpwyPas8kc/0SSndXK5Ag3q4UGDvvPz+3jgV4mAFt5FQ
- JghDS6iCHDAJ+FJIW8jEQfdgCT06qRG7yZnYBGqngy1c8ZtUDqghUL18h5dSFkL1HKKx
- 95brDHli3fTFAHYtlEHpvtWFadLKhD0n6qBH5tCHPdQXVk6qSIJm30pI/BidghY82UQL
- rUhkH2+YTiYG7E8vj3RUFiG/D0LVmmJvsJm1tedXW/LALUSJNvPKigbpL0udss1XSlUz
- GuIA==
-X-Gm-Message-State: AOAM531b1Xv7eo355swMzfnvvRNqDGTWE3yzC2kmM7VtKxF3VwRxM4Rg
- K5ePzemeE+o1j3BvwjMeIfkBnw==
-X-Google-Smtp-Source: ABdhPJxFvMPIFzTXAIIVPlg/eGuYakalp78L+LNg6VrEL06CzJLvdAz6UlqMRKRHGibjFN8E9JB6yg==
-X-Received: by 2002:a17:90b:4d86:b0:1bd:223f:6cb5 with SMTP id
- oj6-20020a17090b4d8600b001bd223f6cb5mr16669777pjb.151.1646158885116; 
- Tue, 01 Mar 2022 10:21:25 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- oa2-20020a17090b1bc200b001bcff056f09sm2678996pjb.13.2022.03.01.10.21.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 10:21:24 -0800 (PST)
-Date: Tue, 1 Mar 2022 10:21:24 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Jakob Koschel <jakobkoschel@gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Message-ID: <202203011016.48A181EE50@keescook>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
- <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
- <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
- <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
- <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF4310E2B2;
+ Tue,  1 Mar 2022 18:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646159103; x=1677695103;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=PR2futapiZvhBTp56YG5bd4UdkcTWckhuLtgCJbXvXI=;
+ b=XfbpY6dc8xOO1jxFh0ZlsmoaCkAYQErk60StzkVq4eNImeZBzQbE1Tgd
+ at7Q7jzt9F8RPw5hSDvEgLpwu6LjPgeSugwM6bZwmvNhtu0LeRtnyS5rJ
+ KZ0QTFT5U0L7TaAMMt8YMl2JH666XjSx/bsTlnyVpQTv8o62HTJgRo/eF
+ W7iMdytTzXTi7pSnojHi5eSOaiKCNE17ec+Vu8aVYEL6zITRdoHyN/C23
+ YpIiUM+ytdovllqwd9EUrie1MFnGrtXYCXiQXBXNECCurj8xMR5/YMdGZ
+ GOPE6ASnCeC3NTb5qasTxiN9z5sYZ8b5ZThIl36PhAtNcIizg1Ue/tCZQ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="236715434"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="236715434"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 10:25:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="535006409"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga007.jf.intel.com with SMTP; 01 Mar 2022 10:25:00 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 01 Mar 2022 20:24:59 +0200
+Date: Tue, 1 Mar 2022 20:24:59 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH] drm/i915: Add a DP1.2 compatible way to read LTTPR
+ capabilities
+Message-ID: <Yh5k+9MAgZPX5NTk@intel.com>
+References: <20220228201234.1448613-1-imre.deak@intel.com>
+ <Yh4qQD/hlQCuNUFx@intel.com>
+ <20220301181425.GA1465351@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220301181425.GA1465351@ideak-desk.fi.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,68 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev, "Bos,
- H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- v9fs-developer@lists.sourceforge.net,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 01, 2022 at 12:28:15PM +0100, Jakob Koschel wrote:
-> Based on the coccinelle script there are ~480 cases that need fixing
-> in total. I'll now finish all of them and then split them by
-> submodules as Greg suggested and repost a patch set per submodule.
-> Sounds good?
+On Tue, Mar 01, 2022 at 08:14:25PM +0200, Imre Deak wrote:
+> On Tue, Mar 01, 2022 at 04:14:24PM +0200, Ville Syrjälä wrote:
+> > On Mon, Feb 28, 2022 at 10:12:34PM +0200, Imre Deak wrote:
+> > > At least some DELL monitors (P2715Q) with DPCD_REV 1.2 return corrupted
+> > > DPCD register values when reading from the 0xF0000- LTTPR range with an
+> > > AUX transaction block size bigger than 1. The DP standard requires 0 to
+> > > be returned - as for any other reserved/invalid addresses - but these
+> > > monitors return the DPCD_REV register value repeated in each byte of the
+> > > read buffer. This will in turn corrupt the values returned by the LTTPRs
+> > > between the source and the monitor: LTTPRs must adjust the values they
+> > > read from the downstream DPRX, for instance left-shift/init the
+> > > downstream DP_PHY_REPEATER_CNT value. Since the value returned by the
+> > > monitor's DPRX is non-zero the adjusted values will be corrupt.
+> > > 
+> > > Reading the LTTPR registers one-by-one instead of reading all of them
+> > > with a single AUX transfer works around the issue.
+> > > 
+> > > According to the DP standard's 0xF0000 register description:
+> > > "LTTPR-related registers at DPCD Addresses F0000h through F02FFh are
+> > > valid only for DPCD r1.4 (or higher)." While it's unclear if DPCD r1.4
+> > > refers to the DPCD_REV or to the
+> > > LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV register (tickets filed
+> > > at the VESA site to clarify this haven't been addressed), one
+> > > possibility is that it's a restriction due to non-compliant monitors
+> > > described above. Disabling the non-transparent LTTPR mode for all such
+> > > monitors is not a viable solution: the transparent LTTPR mode has its
+> > > own issue causing link training failures and this would affect a lot of
+> > > monitors in use with DPCD_REV < 1.4. Instead this patch works around
+> > > the problem by reading the LTTPR common and PHY cap registers one-by-one
+> > > for any monitor with a DPCD_REV < 1.4.
+> > > 
+> > > The standard requires the DPCD capabilites to be read after the LTTPR
+> > > common capabilities are read, so re-read the DPCD capabilities after
+> > > the LTTPR common and PHY caps were read out.
+> > > 
+> > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4531
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/dp/drm_dp.c                   | 58 ++++++++++++-------
+> > >  .../drm/i915/display/intel_dp_link_training.c | 30 +++++++---
+> > >  include/drm/dp/drm_dp_helper.h                |  2 +
+> > >  3 files changed, 59 insertions(+), 31 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/dp/drm_dp.c
+> > > index 703972ae14c64..f3950d42980f9 100644
+> > > --- a/drivers/gpu/drm/dp/drm_dp.c
+> > > +++ b/drivers/gpu/drm/dp/drm_dp.c
+> > > @@ -2390,9 +2390,36 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+> > >  }
+> > >  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+> > >  
+> > > +static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
+> > > +				  u8 *buf, int buf_size)
+> > > +{
+> > > +	/*
+> > > +	 * Some monitors with a DPCD_REV < 0x14 return corrupted values when
+> > > +	 * reading from the 0xF0000- range with a block size bigger than 1.
+> > > +	 */
+> > 
+> > This sounds really scary. Have we checked what other registers might
+> > end up corrupted? Eg. couple of rounds of comparing full dd bs=1 vs. 
+> > dd bs=16.
+> 
+> Yes, checked now on a DELL P2715Q/ADLP/native-DP (w/o any LTTPR):
+> 
+> dd bs=1 count=1M failes at offset 81 and 83, bs=16 doesn't have this
+> problem.
 
-To help with this splitting, see:
-https://github.com/kees/kernel-tools/blob/trunk/split-on-maintainer
-
-It's not perfect, but it'll get you really close. For example, if you
-had a single big tree-wide patch applied to your tree:
-
-$ rm 0*.patch
-$ git format-patch -1 HEAD
-$ mv 0*.patch treewide.patch
-$ split-on-maintainer treewide.patch
-$ ls 0*.patch
-
-If you have a build log before the patch that spits out warnings, the
---build-log argument can extract those warnings on a per-file basis, too
-(though this can be fragile).
+Huh. Oh well, it's a Dell monitor after all. Not sure what else I was
+expecting tbh.
 
 -- 
-Kees Cook
+Ville Syrjälä
+Intel
