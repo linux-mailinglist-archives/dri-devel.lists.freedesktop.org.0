@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F65F4C90C1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CCB4C90C0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D179810E6F3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC06710E6F2;
 	Tue,  1 Mar 2022 16:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7BA210E6B3;
- Tue,  1 Mar 2022 16:46:55 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id j5so13017323ila.2;
- Tue, 01 Mar 2022 08:46:55 -0800 (PST)
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
+ [IPv6:2607:f8b0:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A486610E6E9;
+ Tue,  1 Mar 2022 16:46:56 +0000 (UTC)
+Received: by mail-il1-x136.google.com with SMTP id d3so12992515ilr.10;
+ Tue, 01 Mar 2022 08:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eZXNUqubAB8NNsFmaxywjAoPOWysBIvPMcZdY6L3itE=;
- b=cBscgP41htfLiQ2OxXZNjPjNT9epnka4RNeYhMMNLhyziuaJKqWOTub2OdKwwH+Odg
- J81R3HY12eJs4g9jm8hFhikPRdw6qltg4xzra8tbEs3CjKMzN6in5GunPnNjmfjsjaiG
- t4ebdJlrUqEuN3pXln5duyqK4vRfkT1DYJJNirI9i9zrekSiuqB8QcqS8UDKyEZFRPqU
- nDmtvEHpFBOZGze2PwgXG69dTSUgVZGOPFnpm019TLO/CRtkIX9DmS76vLmXKfstiTCe
- efQB6kpsKZ3f/wz++gAVH2/IqK9MFU0Mh3mzGpPrY0n7uWiHaMmfqE00x6Ppn5EtM/op
- Us5g==
+ bh=yubkIm83qdloKERgFDUIX083yqNPWzHEzjvX+hTfJ+Y=;
+ b=ISLm3V/IeiSDg5+vhkENxW8YE87dpmigL0ocrTSt3CRgNZkAy1Rz6YjEeVshUsSI9o
+ cV/iEN5PW5UM7azuw3NI4Y36/pPbzowJnMAv9WrteAVy5ODETIp7a3oAQGx0Ts0kBLsX
+ nLwB8485WMmCEirVOC5OQ5s1gSSXNTWcK9Oo0cDBO1SUWbbPtWYkO/7WA2Ek5C3F+Ic0
+ pYlNubvK0/z/A17e5ALxwEI5yukvuizRefuVJcUjefpF0/A/HlSREXoQXhU6D/pGK6mr
+ 7zkLvPozhR95fGHbY3Q69TRIqPzApRIjqSoxQRtHDhAKlwnxzwqNoV4S3Q6JP2X6qtqM
+ HB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eZXNUqubAB8NNsFmaxywjAoPOWysBIvPMcZdY6L3itE=;
- b=u6s1zD8Xfkr07kf0bb72tVTZM8zlEkoAVLufSRJoAYAynR7ha4XivAJ8NynF/38hV7
- wsZtRTiwRDZoPt/B0FXCoELkOKUDkIeml7K/SVrz42ZabPt1ocml54DPLMr3rMpGU4p6
- y9foQgquMaVQhQAStxFquGOYS1W7wWRnRHCxjBUbKq2YxqF2MpBPfgu5fn7FRAdllxqZ
- wQPKWtlclzOFoPlaoDq8XkEQIFCh7UUm+Hz1ZQBIcNEVKGWO2w1VYbxae8wVrnSrjeRR
- GLG+zak5X22cbrcY+v3igSsrwprgXeqxLJ5YiumF+EVETwBiOHUj6T1XGHo1coxzXmtf
- asdA==
-X-Gm-Message-State: AOAM532Dcm9ceIO4peH5AF9/3k1UDfAZQv8y2r9boc/g2LKjLRwx1D7Q
- iArd3lzTkDV51B1cBz0jLhQ=
-X-Google-Smtp-Source: ABdhPJwoqnkXIbxFZaZCJRvZ08M8RqoA/qmhVFDfhpmycRS1WR6s4XCCJA+9fPCrhqrKWS3Wy3AylQ==
-X-Received: by 2002:a92:c26b:0:b0:2c2:9037:a788 with SMTP id
- h11-20020a92c26b000000b002c29037a788mr23790624ild.95.1646153215064; 
+ bh=yubkIm83qdloKERgFDUIX083yqNPWzHEzjvX+hTfJ+Y=;
+ b=HK+JuKTq2uyRETlt5Nn+8Kpfk27Bk/JiZp+YE9Nj6GVWT6nn0lr5ONs/xuYF7lZPGo
+ EAEzBxTS93yBBhUsOeRvVqkq6qET0k7OCYcuhDXx3QPFWEk+wI02r1854QorTDJ1ddak
+ CgJS/SZEjO1NECuyei+/6AjCP7A0LCUmZfN1gp8BKyaXZ3JVQ5EOx1x+PjvMzpkP+0Kv
+ ZI17NBU0ugWtQpvvZ4Ic/ToAB0Nxgnn2gwdXaw9xYpmWHrjesdT63UOP1BHQ1LvpVpEd
+ GrE0wNjHLjvxAyHM7fgO+bdBue3k9mBIxA29LqPSZcaq4pW1DmAQsAtZAxSa9NcIaxmf
+ m3HA==
+X-Gm-Message-State: AOAM5328yBQwiHbixwG71XAHxR5lJCYjCzFHl32+XbSFeB+SmMAOm9N/
+ rvf1V1t5B9qpUJPgV9ENuqo=
+X-Google-Smtp-Source: ABdhPJxJxOoHiU5RuG9v29v8mzh4AH6zyJup46I/ZGT8FLfyyHklpIIpJBYuJj3VKTdtc8iQV4y46A==
+X-Received: by 2002:a05:6e02:1b8e:b0:2c2:2750:1178 with SMTP id
+ h14-20020a056e021b8e00b002c227501178mr23158574ili.126.1646153215928; 
  Tue, 01 Mar 2022 08:46:55 -0800 (PST)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::f10e])
  by smtp.googlemail.com with ESMTPSA id
- o3-20020a6b5a03000000b00640a33c5b0dsm7272411iob.17.2022.03.01.08.46.54
+ o3-20020a6b5a03000000b00640a33c5b0dsm7272411iob.17.2022.03.01.08.46.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 08:46:54 -0800 (PST)
+ Tue, 01 Mar 2022 08:46:55 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
  seanpaul@chromium.org, robdclark@gmail.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/13] drm_print: condense enum drm_debug_category
-Date: Tue,  1 Mar 2022 09:46:23 -0700
-Message-Id: <20220301164629.3814634-8-jim.cromie@gmail.com>
+Subject: [PATCH 08/13] drm_print: interpose drm_*dbg with forwarding macros
+Date: Tue,  1 Mar 2022 09:46:24 -0700
+Message-Id: <20220301164629.3814634-9-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220301164629.3814634-1-jim.cromie@gmail.com>
 References: <20220301164629.3814634-1-jim.cromie@gmail.com>
@@ -75,86 +75,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-enum drm_debug_category has 10 "classes", explicitly initialized with
-0x-bitmasks which could be simplified as BIT(X)s.  But lets go
-further: use natural enumeration (int, starting at 0), and do the
-BIT(cat) in drm_debug_enabled(cat) at runtime.
+drm_dev_dbg() & drm_dbg() sit below the categorized layer of the DRM
+debug API, and implement most of it.  These are good places to insert
+dynamic-debug jump-label mechanics, allowing DRM to avoid the runtime
+cost of drm_debug_enabled().
 
-While this slightly pessimizes the bit-test, the category now fits in
-4 bits, allowing it in struct _ddebug.class_id:4.  This sets us up to
-adapt drm to use dyndbg with JUMP_LABEL, thus avoiding all those
-bit-tests anyway.
+Set up for this by changing the func names by adding '__' prefixes,
+and define forwarding macros to the new names.
+
+no functional changes.
+
+memory cost baseline: (unchanged)
+bash-5.1# drms_load
+[    9.220389] dyndbg:   1 debug prints in module drm
+[    9.224426] ACPI: bus type drm_connector registered
+[    9.302192] dyndbg:   2 debug prints in module ttm
+[    9.305033] dyndbg:   8 debug prints in module video
+[    9.627563] dyndbg: 127 debug prints in module i915
+[    9.721505] AMD-Vi: AMD IOMMUv2 functionality not available on this system - This is not a bug.
+[   10.091345] dyndbg: 2196 debug prints in module amdgpu
+[   10.106589] [drm] amdgpu kernel modesetting enabled.
+[   10.107270] amdgpu: CRAT table not found
+[   10.107926] amdgpu: Virtual CRAT table created for CPU
+[   10.108398] amdgpu: Topology: Add CPU node
+[   10.168507] dyndbg:   3 debug prints in module wmi
+[   10.329587] dyndbg:   3 debug prints in module nouveau
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/drm/drm_print.h | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_print.c | 10 +++++-----
+ include/drm/drm_print.h     |  9 +++++++--
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index f783d4963d4b..e45ba224e57c 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -256,8 +256,8 @@ void drm_dev_printk(const struct device *dev, const char *level,
+ }
+ EXPORT_SYMBOL(drm_dev_printk);
+ 
+-void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+-		 const char *format, ...)
++void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
++		   const char *format, ...)
+ {
+ 	struct va_format vaf;
+ 	va_list args;
+@@ -278,9 +278,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 
+ 	va_end(args);
+ }
+-EXPORT_SYMBOL(drm_dev_dbg);
++EXPORT_SYMBOL(__drm_dev_dbg);
+ 
+-void __drm_dbg(enum drm_debug_category category, const char *format, ...)
++void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
+ {
+ 	struct va_format vaf;
+ 	va_list args;
+@@ -297,7 +297,7 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+ 
+ 	va_end(args);
+ }
+-EXPORT_SYMBOL(__drm_dbg);
++EXPORT_SYMBOL(___drm_dbg);
+ 
+ void __drm_err(const char *format, ...)
+ {
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 22fabdeed297..b3b470440e46 100644
+index b3b470440e46..4bed99326631 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -279,49 +279,49 @@ enum drm_debug_category {
- 	 * @DRM_UT_CORE: Used in the generic drm code: drm_ioctl.c, drm_mm.c,
- 	 * drm_memory.c, ...
- 	 */
--	DRM_UT_CORE		= 0x01,
-+	DRM_UT_CORE,
- 	/**
- 	 * @DRM_UT_DRIVER: Used in the vendor specific part of the driver: i915,
- 	 * radeon, ... macro.
- 	 */
--	DRM_UT_DRIVER		= 0x02,
-+	DRM_UT_DRIVER,
- 	/**
- 	 * @DRM_UT_KMS: Used in the modesetting code.
- 	 */
--	DRM_UT_KMS		= 0x04,
-+	DRM_UT_KMS,
- 	/**
- 	 * @DRM_UT_PRIME: Used in the prime code.
- 	 */
--	DRM_UT_PRIME		= 0x08,
-+	DRM_UT_PRIME,
- 	/**
- 	 * @DRM_UT_ATOMIC: Used in the atomic code.
- 	 */
--	DRM_UT_ATOMIC		= 0x10,
-+	DRM_UT_ATOMIC,
- 	/**
- 	 * @DRM_UT_VBL: Used for verbose debug message in the vblank code.
- 	 */
--	DRM_UT_VBL		= 0x20,
-+	DRM_UT_VBL,
- 	/**
- 	 * @DRM_UT_STATE: Used for verbose atomic state debugging.
- 	 */
--	DRM_UT_STATE		= 0x40,
-+	DRM_UT_STATE,
- 	/**
- 	 * @DRM_UT_LEASE: Used in the lease code.
- 	 */
--	DRM_UT_LEASE		= 0x80,
-+	DRM_UT_LEASE,
- 	/**
- 	 * @DRM_UT_DP: Used in the DP code.
- 	 */
--	DRM_UT_DP		= 0x100,
-+	DRM_UT_DP,
- 	/**
- 	 * @DRM_UT_DRMRES: Used in the drm managed resources code.
- 	 */
--	DRM_UT_DRMRES		= 0x200,
-+	DRM_UT_DRMRES
- };
+@@ -334,7 +334,7 @@ __printf(3, 4)
+ void drm_dev_printk(const struct device *dev, const char *level,
+ 		    const char *format, ...);
+ __printf(3, 4)
+-void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
++void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 		 const char *format, ...);
  
- static inline bool drm_debug_enabled(enum drm_debug_category category)
- {
--	return unlikely(__drm_debug & category);
-+	return unlikely(__drm_debug & BIT(category));
- }
+ /**
+@@ -383,6 +383,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	}								\
+ })
  
- /*
++#define drm_dev_dbg(dev, cat, fmt, ...)				\
++	__drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__)
++
+ /**
+  * DRM_DEV_DEBUG() - Debug output for generic drm code
+  *
+@@ -484,10 +487,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+  */
+ 
+ __printf(2, 3)
+-void __drm_dbg(enum drm_debug_category category, const char *format, ...);
++void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
+ __printf(1, 2)
+ void __drm_err(const char *format, ...);
+ 
++#define __drm_dbg(fmt, ...)		___drm_dbg(fmt, ##__VA_ARGS__)
++
+ /* Macros to make printk easier */
+ 
+ #define _DRM_PRINTK(once, level, fmt, ...)				\
 -- 
 2.35.1
 
