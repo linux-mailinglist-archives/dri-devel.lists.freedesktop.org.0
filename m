@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665994C8BE8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 13:44:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E628C4C8BED
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 13:45:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30CD610E5ED;
-	Tue,  1 Mar 2022 12:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0C1510E94D;
+	Tue,  1 Mar 2022 12:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAAD510E5ED
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 12:44:32 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id p9so20291469wra.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 04:44:32 -0800 (PST)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC05F10E8A2
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 12:45:04 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id i20so7456281wmc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 04:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NE6g7aBhFEFaU1SdDrP5TjQGRb1erEa1b8QUBNRKP18=;
- b=j8QNPzpBBwBQsNRsgki/IixZuYmjcvTT4n/s4mdWQdEU29kERc5OPyQiZw00O0Q6P1
- 4U7qervFacqdo5DSMxwm5qdDcAIhHjlE8VQcCSYnISTmkElcutJFQnYkLU17ZJUpBSX1
- J0wtDaqFPDtSy8xMSaJlAIJArSUuPHYU6nmbF+PabhTXufPApWad9OMVeDB+urqc2tEW
- G0heg/SNI8H/rrcPTZRL4FrLw0x4lqfcqMBlvitAdjExxRrC+7k2cI6Ox9OscZxeF3e7
- S4fwv7u7lUzIYSFZSFla6FCB+7HIDZduKvYzQWEHkGErdYrZT8ZTkNXD4CgtOQ2GzsrR
- Kd9A==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=vVkDLDktF1NJ9W5pxZGteLQiXPtYz4QvqpHL8HfSgw0=;
+ b=Ly23InJsarN0c8lW9n6BqRnQoZXO6uhUx+iFgQRtqL0fbo/KO78/tC0dA81HXKuyZU
+ ZfhASA/BQj/jacTHdgQMOVkSVezfqiFZbHXlAcT6hSYxHxtpFakk3YSQD/BTUdrZMj/D
+ nHCDcGrffrfX46NuDsoqZpkutTJTns3b2zWy1IFxABNml5FJbz/dyFi1oWirxU5YMI9F
+ YZI+SRa8o10rqeVlgowu2BcLyXgQtUI9fiq1Sq93sIRduco06Ayh0gidnV6XatWkR0pR
+ FqCRCl3TXT6SjuvzD0oI2wNI+/CM1IJqKnpuPe7NWWL6rKFgn05ci8DrzoWT6tz6/tj/
+ pvbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NE6g7aBhFEFaU1SdDrP5TjQGRb1erEa1b8QUBNRKP18=;
- b=bPWrDBlrPAGNySAUdjO0SjJcqIFmn1Pbr12M6rr8UVVe6KHYtqpKbDx+z1coRevHFA
- 9JPXaovpTV8C5K/RU6budWluuTCpP9njfG3FbZ2abyO/zDIsOZJwmJNW9vZBHXACXkKO
- KR64qK841IOyaqQwTEfKwtEs1+fFbQ8CM7PL7XtVA/rqZaMIuqKJrhMy+/iYQhkCuili
- /4cBM6WhHUR5PZ4R1yWyUhydJXMCGS+aRCLtv+1fCADZAhGK98wSy7hW3WhZmknEQwnU
- pkbyVHVFK/7kv3eq9kzKPUkod4C64qcgIt/tKqNtENjoz761UEqbaGtJ+CBUAEN4yDhi
- DgHw==
-X-Gm-Message-State: AOAM532g9p1R6otEpBxzMrHvCWiF3xbni2L/NVsa9ZEeBQVnJO66/0/9
- MuVIq50Wk5jJem10iHWrnzCkOIXqw2k=
-X-Google-Smtp-Source: ABdhPJwpD7PBe27k167crPL9h3picvynqlPbpGDczGmcoFFsSiB9LiyAu9LTQqWF2gPNMOoLBBCXiw==
-X-Received: by 2002:a5d:4606:0:b0:1ed:d3c0:19f4 with SMTP id
- t6-20020a5d4606000000b001edd3c019f4mr20045944wrq.555.1646138671186; 
- Tue, 01 Mar 2022 04:44:31 -0800 (PST)
-Received: from localhost ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- a3-20020adfe5c3000000b001e68a5e1c20sm13720105wrn.4.2022.03.01.04.44.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=vVkDLDktF1NJ9W5pxZGteLQiXPtYz4QvqpHL8HfSgw0=;
+ b=V3Bg/7/GcMyaU+BfoFEokxu2DlG8iWYKuyz3BKzc7rVKtcT56xhxd490pemQ6URXIk
+ wk85wsgM6D04Ih2hm4w79y3R3E8Q5gj33IZYOcUvMpa5m2Getu7wRi0buX5ilqqZNAoP
+ djjXxhEkISHjSRP6gY9Nn5+ynrHsY+I5MSKAt4HXYc2kk1rwgJ+R/yxeoN4favzIL500
+ dYOPu+u3DO9pl8NygjwdTf6prBLo9WAEABvgr820eTbyBSxNMjxhdaG9odxlUcts++Nh
+ uAhZqjwb52wkksVa0ePWcPWx9t8Mgwq4a5M5Gmif3O4KZJ0qTdDrtLJQr3xbsY7h+ayl
+ sL1A==
+X-Gm-Message-State: AOAM5322gNLPMWGd5PK0SQzjK+ncuuSDkGoKo/u5pmIPFnO9bA/KNkUq
+ eLsJf3kl5oXpt9+lkCpInL4ykJqvKYQ=
+X-Google-Smtp-Source: ABdhPJywC8YXo+zt45LkAYRRmneKn10kApwWhiB5/AayLAA+CYj8PUsfWsvxUj2wLmjavkXBdTP8pA==
+X-Received: by 2002:a05:600c:3503:b0:345:858e:cbe8 with SMTP id
+ h3-20020a05600c350300b00345858ecbe8mr17148371wmq.73.1646138703180; 
+ Tue, 01 Mar 2022 04:45:03 -0800 (PST)
+Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
+ m10-20020adfe94a000000b001ef57f562ccsm13767800wrn.51.2022.03.01.04.45.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 04:44:30 -0800 (PST)
+ Tue, 01 Mar 2022 04:45:01 -0800 (PST)
+Date: Tue, 1 Mar 2022 13:45:00 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL v2] drm/tegra: Changes for v5.18-rc1
-Date: Tue,  1 Mar 2022 13:44:26 +0100
-Message-Id: <20220301124426.1207653-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220225163250.1063101-1-thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [GIT PULL] drm/tegra: Changes for v5.18-rc1
+Message-ID: <Yh4VTKcJPm8IC38r@orome>
 References: <20220225163250.1063101-1-thierry.reding@gmail.com>
+ <CAPM=9tzr0LSnkHHwP0rUOz+AFwQwtTs38vu+6B-d8VAN=x+BPg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wWYfb0W2agy2UDs5"
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tzr0LSnkHHwP0rUOz+AFwQwtTs38vu+6B-d8VAN=x+BPg@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,60 +71,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
 
-The following changes since commit 8913e1aea4b32a866343b14e565c62cec54f3f78:
+--wWYfb0W2agy2UDs5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  drm/tegra: dpaux: Populate AUX bus (2022-02-23 13:00:37 +0100)
+On Mon, Feb 28, 2022 at 04:51:22PM +1000, Dave Airlie wrote:
+> Hi Thierry,
+>=20
+> dim: d65e338027e7 ("gpu: host1x: Fix an error handling path in
+> 'host1x_probe()'"): SHA1 in fixes line not found:
+> dim:     e3166698a8a0 ("drm/tegra: Implement buffer object cache")
+>=20
+> not the same as
+>=20
+>  1f39b1dfa53c84b56d7ad37fed44afda7004959d
+> Author: Thierry Reding <treding@nvidia.com>
+> Date:   Fri Feb 7 16:50:52 2020 +0100
+>=20
+>     drm/tegra: Implement buffer object cache
+>=20
+> Please fix that up.
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.18-rc1
-
-for you to fetch changes up to cf5086d35d8c7c2b9cb1ca34590097a5f2f8b588:
-
-  drm/tegra: Support YVYU, VYUY and YU24 formats (2022-03-01 11:13:09 +0100)
+Good catch. I sent up an updated version of the PR.
 
 Thanks,
 Thierry
 
-----------------------------------------------------------------
-drm/tegra: Changes for v5.18-rc1
+--wWYfb0W2agy2UDs5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This contains a couple more minor fixes that didn't seem urgent enough
-for v5.17. On top of that this improves YUV format support on older
-chips.
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Christophe JAILLET (2):
-      gpu: host1x: Fix an error handling path in 'host1x_probe()'
-      gpu: host1x: Fix a memory leak in 'host1x_remove()'
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIeFUwACgkQ3SOs138+
+s6HAiw/+LMPw4Gg1CT1MPuljUaQb9yxW4TPoJIusARcNaIwGwpViYD5EXBuibhK4
+c/6nbXStHQkQEC+mgXh7RndAdNqinTGcpidnN2Kw5YvYsDxnVEc4L0xmc62FNHcH
+aVJGVBTInfdg2KRGxBIUhTUXxEV505JV/RaKNqe+W0FHST5L2ueBsAs2Izu8ADa2
+V6ktwtWbq0nxslAAjVx29BeT2fgSy0gKN/AGGiv9ggclP2WdQj4sto5F26bHnHu1
+TritSWIcff9NWq/2l4OG1mmPz55iUr9OKA479bUUSAXCZuvmdXleFJSMy8kD5S0D
+zHnAunCtkugCBRYSaOCP1tyb7ir7C/Ewbhqgag4mdG5xriXE7v1KXFtG3DVKALt7
+CvlJ6eqmjaKdCdPuEIvO1BrNgWZ+AkuG3m0ims90bn99ZLOuE1r0M5c/EtUCwRaG
+dQK5T7rHogNndPNgd8jeBPOEM7IWaCZ2YQ+0FLHHJQAIgpYcMzqCYkPPYBHWhFof
+0sR3zDz2lYrNU4h7KgcuEIHmpRjS2Lg/3Xd8mMhbV/PU7lX/k8MOJ98cSOmEy5y1
+v2pS3ugb8roNilUvtHGkmMM+DavgbI/cO++u/AiRvkIdHPQcvOSjrS2nJCvHk0J2
+cYZIiCXxeMWqcWUobWmpEGyOETszc7SGH9vYeTbhTAvxnORV6TA=
+=6hPg
+-----END PGP SIGNATURE-----
 
-Dmitry Osipenko (1):
-      drm/tegra: Use dev_err_probe()
-
-Miaoqian Lin (1):
-      drm/tegra: Fix reference leak in tegra_dsi_ganged_probe
-
-Thierry Reding (3):
-      drm/tegra: Fix planar formats on Tegra186 and later
-      drm/tegra: Support semi-planar formats on Tegra114+
-      drm/tegra: Support YVYU, VYUY and YU24 formats
-
-chiminghao (1):
-      drm/tegra: dpaux: Remove unneeded variable
-
- drivers/gpu/drm/tegra/dc.c    | 50 ++++++++++++++++++-----------
- drivers/gpu/drm/tegra/dc.h    |  7 +++++
- drivers/gpu/drm/tegra/dpaux.c |  3 +-
- drivers/gpu/drm/tegra/dsi.c   |  4 ++-
- drivers/gpu/drm/tegra/hdmi.c  | 34 ++++++--------------
- drivers/gpu/drm/tegra/hub.c   | 24 ++++++++------
- drivers/gpu/drm/tegra/plane.c | 73 ++++++++++++++++++++++++++++++++++++++-----
- drivers/gpu/drm/tegra/plane.h |  2 +-
- drivers/gpu/host1x/dev.c      |  8 +++--
- 9 files changed, 140 insertions(+), 65 deletions(-)
+--wWYfb0W2agy2UDs5--
