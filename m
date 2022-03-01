@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D194C8D6B
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BC24C8D6C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D2910E94B;
-	Tue,  1 Mar 2022 14:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072F410E898;
+	Tue,  1 Mar 2022 14:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1BE10E898
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:13:18 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id ay5so10708700plb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 06:13:18 -0800 (PST)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B50910E898
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:13:21 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id b8so14152962pjb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 06:13:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7PQVaxp9YYvuXFR5oouUgHJS1okQ3AFQmwBRkeezcmk=;
- b=kNzeZ7i0Vz+vzeoX5GX7PmYIKvg2li1eZowjotqBlJO4TiZSX5SL3m4pUaLv82Abl/
- ZP5uPk2Z6bm+W+RJYSnKlryMBHfLIGdHSmxRlxSi+TOkhLOzbMmU2fPbcEntPV6l3fZl
- Fgr5rBmQvMlKKOYi30O9Gq370YC6P1suqRjBU=
+ bh=iRt+M+Ob+KcM1LrH93JuvfzptMSFKo5T03WLMF24Y/0=;
+ b=Ky85ZWNXOSs3YqHulxjmIxiuTzgvLB/Oa+BYBNeU+kYCmRoKppV42I599EVczpdw55
+ KicKe+1i/QSVz0VprzliHHlXT/O4aWjKnN+a/PftLuDXtEgPWNYW+TrO1Khce3EGTcp4
+ Lvy/i2UrSSkSBAdhx0H88+guJ6RiXkCzSg+Yk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7PQVaxp9YYvuXFR5oouUgHJS1okQ3AFQmwBRkeezcmk=;
- b=hGSY2AVfOH05ZBetwKfKOOb7tuNUmRC4BombrfhKWVcmFV9ToTcMVZ+/qBVb3Q3vyG
- et+XdLFFKDjBgxKoocRMFvA8Dls1BWzJWlyTDRKhaH0iLjekEyOcN57DF7Y/HKGraGFS
- 7tRGMRCv7mgpRI9rroPdOGEWnnf7ksyr2Vbvz18hj0MIdyytXipcQIa2jnATz6spHLFz
- 5jHegUEQ9FeHjR3xm/ya9NL+RPMSbT+2zXfZ+oIwojhFHLnOTWV9ZUeUO8+jfyoYe3Xc
- +sjFN/HQmv7NjVlyNtgh6rE7yuO1mTdtVrrSUS95/+ke21H02L4gz6ggXT48pdmeJadP
- LCew==
-X-Gm-Message-State: AOAM533NFSo6DeG9qxmFg1Cl3t+AMZb7vBuhgDWhcS5irN+cnzusBxJa
- sWyivUZR2wNY423I9u1gfBnrFw==
-X-Google-Smtp-Source: ABdhPJz9zY4ardD4Bhm30BkgRg6UxLBOf2x9bvRBgRTQ9D5lTxoZ9byPKMs25GzVsvbCVhh6ViYN7Q==
-X-Received: by 2002:a17:903:244d:b0:150:18f3:8e98 with SMTP id
- l13-20020a170903244d00b0015018f38e98mr25384278pls.28.1646143997833; 
- Tue, 01 Mar 2022 06:13:17 -0800 (PST)
+ bh=iRt+M+Ob+KcM1LrH93JuvfzptMSFKo5T03WLMF24Y/0=;
+ b=xU+YkKTHkMBwCEwcvp7ZsJfygEGom1Js2VvgR1fZqIGQ7XWGU8aJFFHgdZ8PVYiqKo
+ Q6ercENXrHnnXTrjuwUO5FM/wgolOv9D7Dmvxaq24D5weJ5f1C9KHG+tTZWNo2/eA8/q
+ V0Xt2lGDlcYz+8ChNsEUAmIojvyEJ0sQ0FZc9ac3pS9ylMp5Ns7PmOnkwV2atrC/Da6G
+ BI1qNWl32uHFhUB3vv1XAROqJGl1Jn2U2N8lr2tkDcsim7KqJ5yNbjXNWoLv0VPC0Csy
+ hM4l1jBy41hWIQoa5ZYYbbl7pLsNrnJJTPyCS/fVmoHDZkr7s0MVjBd5X9jySCMbgXbL
+ 6z7A==
+X-Gm-Message-State: AOAM530gzEFGU+0jsL2atz4kUMkE4BW5AatqxA/jClI9LHADR3wy3u4h
+ A144Ozr9TBJF+b/C1VjErumVHFuVZ43QcA==
+X-Google-Smtp-Source: ABdhPJyZXY1sMQD5FAID/tZoUAe4KKkGYpF/FtmxWbedB5px3gFcQjzSXk40AkOi9iFB0JD67zdapA==
+X-Received: by 2002:a17:902:740b:b0:151:8479:3633 with SMTP id
+ g11-20020a170902740b00b0015184793633mr2760060pll.152.1646144001150; 
+ Tue, 01 Mar 2022 06:13:21 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:dbfb:dee9:8dc1:861a])
  by smtp.gmail.com with ESMTPSA id
- d11-20020a056a0010cb00b004e1b76b09c0sm17317571pfu.74.2022.03.01.06.13.15
+ d11-20020a056a0010cb00b004e1b76b09c0sm17317571pfu.74.2022.03.01.06.13.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 06:13:17 -0800 (PST)
+ Tue, 01 Mar 2022 06:13:20 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v2 5/8] drm: bridge: nxp-ptn3460: Switch to
+Subject: [PATCH v2 6/8] drm: bridge: parade-ps8622: Switch to
  devm_drm_of_get_bridge
-Date: Tue,  1 Mar 2022 19:42:44 +0530
-Message-Id: <20220301141247.126911-5-jagan@amarulasolutions.com>
+Date: Tue,  1 Mar 2022 19:42:45 +0530
+Message-Id: <20220301141247.126911-6-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301141247.126911-1-jagan@amarulasolutions.com>
 References: <20220301141247.126911-1-jagan@amarulasolutions.com>
@@ -86,24 +86,23 @@ Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 Changes for v2:
 - split the patch
 
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 7 +------
+ drivers/gpu/drm/bridge/parade-ps8622.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index e941c1132598..1ab91f4e057b 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -263,7 +263,6 @@ static int ptn3460_probe(struct i2c_client *client,
+diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
+index 614b19f0f1b7..37b308850b4e 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8622.c
++++ b/drivers/gpu/drm/bridge/parade-ps8622.c
+@@ -452,18 +452,13 @@ static int ps8622_probe(struct i2c_client *client,
  	struct device *dev = &client->dev;
- 	struct ptn3460_bridge *ptn_bridge;
+ 	struct ps8622_bridge *ps8622;
  	struct drm_bridge *panel_bridge;
 -	struct drm_panel *panel;
  	int ret;
  
- 	ptn_bridge = devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL);
-@@ -271,11 +270,7 @@ static int ptn3460_probe(struct i2c_client *client,
+ 	ps8622 = devm_kzalloc(dev, sizeof(*ps8622), GFP_KERNEL);
+ 	if (!ps8622)
  		return -ENOMEM;
- 	}
  
 -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, NULL);
 -	if (ret)
