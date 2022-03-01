@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271FE4C991B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:17:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6D24C991F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:17:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 569E710E8A9;
-	Tue,  1 Mar 2022 23:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B401D10E833;
+	Tue,  1 Mar 2022 23:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB5C10E833;
- Tue,  1 Mar 2022 23:16:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646176591; x=1677712591;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ms2g7B4CpxD3OaGWYsJFV6y5HJWq4Miy0coNY/SeLN8=;
- b=G6mmEsKW24xUBvCBaw90Gvzdx7H3MZ/RDXbpaSXC0gUnypSLVksiU+VK
- /ZuU5e/jW+aA5zsQ9K9qiGeZaHe2sNtjuLTxAD0TJYTcSEpy1dVn6NCFa
- F63HWQsYEKPeQXQ8PQQ2c7EegIhHG1dlQeAOmR/ffLj5ZlaXjVK5hLXXr
- p4FWeKW+4eYm1xDgNx+1Na4tGHdiOZsJtm6Ev8kbGCNKKlSkqFtAjJ560
- WYWDv1GDS0Nfp0ak6JBoKPK4yfwaBoxTixm1VaKiRialm04K0Os9dGSc3
- dkxGmEF9j/vq/yGhZCEPT+G8I40zqoWeL+Xjkerb45vnu/N8G/XIxhHoC w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="316479073"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316479073"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 15:16:30 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="709253504"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 15:16:29 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 13/13] drm/i915/xehpsdv: Move render/compute engine reset
- domains related workarounds
-Date: Tue,  1 Mar 2022 15:15:49 -0800
-Message-Id: <20220301231549.1817978-14-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220301231549.1817978-1-matthew.d.roper@intel.com>
-References: <20220301231549.1817978-1-matthew.d.roper@intel.com>
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
+ [IPv6:2607:f8b0:4864:20::f36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4D010E83A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:16:50 +0000 (UTC)
+Received: by mail-qv1-xf36.google.com with SMTP id dy10so203203qvb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6LEQhSD9kPhUFJhdm4QVnYBLxI6Q1dvUYGGtcoYTPY4=;
+ b=JXjc6V1oUSYysMCD8ROsxbutKaDtrNzAIhjxm/BHI8OwiUW+CLPoK75FJu0mlozoot
+ NoSY+sBH/f7W6JjAZWt4Ls19FaRwx56UEzv4i9tHRXLIgdg+ZTSdGcbgWPZiwt4QX2uW
+ ZMaZnOhbkHEziQvmynDZeAIyV7mWo5c4F0ujFx03MqmHCZoT55jQKVZkqIK2y+WuawiX
+ jMUGu0j8N/DZ5AnxsGH7Q9gTImSMm6zNogRE/4rozZgs26fUtTNksXyneSU/sb0TlyOi
+ MCaRZy8CVa8xIkjHl/l/4TcjyzGk8gizZl/hPKvZ6EeC2GIq5+GbKhWU5fsDveHnfSDr
+ j6Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6LEQhSD9kPhUFJhdm4QVnYBLxI6Q1dvUYGGtcoYTPY4=;
+ b=K1dx2EhH1MfPMpWmuKiTW5Q+Upq9nH9vHr3H7NsrJVonmOZ6f94d/lb45O7AbKInco
+ EMWIO3fBxDRm6M+LoqGEBwa3dmsld6QS15DMHQ++FHP+7myaDwWFQk1kXvdl9FKdIeqN
+ wIMmpReplWklZVQPyab5BTH3+d1enkuaO8gIYDW9NI+5l+t30JDI6aoKCfhWYuEop5eH
+ 7uulmEijfpJH0DRHgbuQc8TXVHXgw4C0joxAdBsUm7H6BuCK45AC0c9HF2mdJ0BXJ/8W
+ V7gbmDfL/oh5NXZNPyRLj2/HAUkh/eciDH3Kb0t3Mn9r+GNHKguuX5oiaGhkRb5/c54w
+ npnA==
+X-Gm-Message-State: AOAM53044JWbsBGwH1WGOZeU3oLYwGOczWjTIvYvDXZKVwbTdZufvr7z
+ IMGtWeMBLBGYwQvQviPwLQvcRExJoQyTQ9FZsQFEZ5eHzQs=
+X-Google-Smtp-Source: ABdhPJw25ridC2MDvo8XWVUeik7An6TOGY6ncUYKZQlZ5z1Gz2h5pIoUJpn/RtQ4xXAqZMGXxlEmL+3fbfu3FTJE3AU=
+X-Received: by 2002:ad4:53a4:0:b0:430:1d8c:18ea with SMTP id
+ j4-20020ad453a4000000b004301d8c18eamr18928372qvv.115.1646176609345; Tue, 01
+ Mar 2022 15:16:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220301210513.1855076-1-robh@kernel.org>
+In-Reply-To: <20220301210513.1855076-1-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 2 Mar 2022 02:16:38 +0300
+Message-ID: <CAA8EJppACmfoz1dgRXbrG2zw_Wa1oJf0zGRCB8utPDXNhLZftg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display/msm: Drop bogus interrupt flags cell
+ on MDSS nodes
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,85 +63,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Srinivasan Shanmugam <srinivasan.s@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Loic Poulain <loic.poulain@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.s@intel.com>
+On Wed, 2 Mar 2022 at 00:05, Rob Herring <robh@kernel.org> wrote:
+>
+> The MDSS interrupt provider is a single cell, so specifying interrupt flags
+> on the consumers is incorrect.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Registers that exist in the shared render/compute reset domain need to
-be placed on an engine workaround list to ensure that they are properly
-re-applied whenever an RCS or CCS engine is reset.  We have a number of
-workarounds (updating registers MLTICTXCTL, L3SQCREG1_CCS0,
-GEN12_MERT_MOD_CTRL, and GEN12_GAMCNTRL_CTRL) that are incorrectly
-implemented on the 'gt' workaround list and need to be moved
-accordingly.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.s@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 26 ++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+> ---
+>  .../devicetree/bindings/display/msm/dpu-msm8998.yaml          | 4 ++--
+>  .../devicetree/bindings/display/msm/dpu-qcm2290.yaml          | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> index 167bc48748d7..2df64afb76e6 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+> @@ -155,7 +155,7 @@ examples:
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>      #include <dt-bindings/power/qcom-rpmpd.h>
+>
+> -    display-subsystem@c900000 {
+> +    mdss: display-subsystem@c900000 {
+>          compatible = "qcom,msm8998-mdss";
+>          reg = <0x0c900000 0x1000>;
+>          reg-names = "mdss";
+> @@ -192,7 +192,7 @@ examples:
+>              clock-names = "iface", "bus", "mnoc", "core", "vsync";
+>
+>              interrupt-parent = <&mdss>;
+> -            interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupts = <0>;
+>              operating-points-v2 = <&mdp_opp_table>;
+>              power-domains = <&rpmpd MSM8998_VDDMX>;
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> index 8766b13f0c46..28617bc1d2ff 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> @@ -197,7 +197,7 @@ examples:
+>                  power-domains = <&rpmpd QCM2290_VDDCX>;
+>
+>                  interrupt-parent = <&mdss>;
+> -                interrupts = <0 IRQ_TYPE_NONE>;
+> +                interrupts = <0>;
+>
+>                  ports {
+>                          #address-cells = <1>;
+> --
+> 2.32.0
+>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 0b9435d62808..c014b40d2e9f 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -1343,12 +1343,6 @@ xehpsdv_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 	/* Wa_1409757795:xehpsdv */
- 	wa_write_or(wal, SCCGCTL94DC, CG3DDISURB);
- 
--	/* Wa_18011725039:xehpsdv */
--	if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A1, STEP_B0)) {
--		wa_masked_dis(wal, MLTICTXCTL, TDONRENDER);
--		wa_write_or(wal, L3SQCREG1_CCS0, FLUSHALLNONCOH);
--	}
--
- 	/* Wa_16011155590:xehpsdv */
- 	if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A0, STEP_B0))
- 		wa_write_or(wal, UNSLICE_UNIT_LEVEL_CLKGATE,
-@@ -1385,19 +1379,12 @@ xehpsdv_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 			    GAMTLBVEBOX0_CLKGATE_DIS);
- 	}
- 
--	/* Wa_14012362059:xehpsdv */
--	wa_write_or(wal, GEN12_MERT_MOD_CTRL, FORCE_MISS_FTLB);
--
- 	/* Wa_16012725990:xehpsdv */
- 	if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A1, STEP_FOREVER))
- 		wa_write_or(wal, UNSLICE_UNIT_LEVEL_CLKGATE, VFUNIT_CLKGATE_DIS);
- 
- 	/* Wa_14011060649:xehpsdv */
- 	wa_14011060649(gt, wal);
--
--	/* Wa_14014368820:xehpsdv */
--	wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
--		    GLOBAL_INVALIDATION_MODE);
- }
- 
- static void
-@@ -2617,6 +2604,19 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
- 		/* Wa_14010449647:xehpsdv */
- 		wa_masked_en(wal, GEN7_HALF_SLICE_CHICKEN1,
- 			     GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE);
-+
-+		/* Wa_18011725039:xehpsdv */
-+		if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A1, STEP_B0)) {
-+			wa_masked_dis(wal, MLTICTXCTL, TDONRENDER);
-+			wa_write_or(wal, L3SQCREG1_CCS0, FLUSHALLNONCOH);
-+		}
-+
-+		/* Wa_14012362059:xehpsdv */
-+		wa_write_or(wal, GEN12_MERT_MOD_CTRL, FORCE_MISS_FTLB);
-+
-+		/* Wa_14014368820:xehpsdv */
-+		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
-+				GLOBAL_INVALIDATION_MODE);
- 	}
- }
- 
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
