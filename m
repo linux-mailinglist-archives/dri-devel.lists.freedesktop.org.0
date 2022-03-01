@@ -1,53 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3434C933F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:28:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43BF4C9383
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:47:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8640710E820;
-	Tue,  1 Mar 2022 18:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED73010E6EA;
+	Tue,  1 Mar 2022 18:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDBA10E829
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646159331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cLntVg1A2GtP5Mk+abzswn9NBODKG9gpF8Mfluysqbk=;
- b=egaBVInCYuhgUC2jyhzGPRkYEmwBTlXEXb3P+dZOBAfF/YumYXgGXUV3BfSdLncXMI3QY9
- 7UgS3Mz4r7mn/Ds3MnjzCKuIDCIbiF5lzlUDuqYAvacyqRdWK7hCWjaGlBMD06Q4OjQxmI
- GoplzgivmlQitzNL1QHPNNBnBYSLhk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-489-QlxQAoN2PdyIiLAMBUF16g-1; Tue, 01 Mar 2022 13:28:48 -0500
-X-MC-Unique: QlxQAoN2PdyIiLAMBUF16g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4792B1854E21;
- Tue,  1 Mar 2022 18:28:45 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.195.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E207286C41;
- Tue,  1 Mar 2022 18:28:38 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: kvm@vger.kernel.org
-Subject: [PATCH v3 11/11] KVM: SVM: allow to avoid not needed updates to
- is_running
-Date: Tue,  1 Mar 2022 20:26:39 +0200
-Message-Id: <20220301182639.559568-12-mlevitsk@redhat.com>
-In-Reply-To: <20220301182639.559568-1-mlevitsk@redhat.com>
-References: <20220301182639.559568-1-mlevitsk@redhat.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF2410E6E3
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:47:38 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b9so28461988lfv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:47:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JZw99KMpsKBs3Ab/LBNeIPMebXALTITXobBfJpN/EsI=;
+ b=ZEWbFFu3eWrZxUgaaScwD4ZJ//Z7mV4SGMyACB20WwCKEMFGKIBMMEXVkM4kZXdOyd
+ EokMKBVyAcoYChV/SvtOh5q5h0Yafm3wlsC3jCGOeoM0h4pn550KTbE+/sUn3z3m8p0V
+ ZL0gG9ZTrYCOlyUURTCDAGrluijISoqXbB1wA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JZw99KMpsKBs3Ab/LBNeIPMebXALTITXobBfJpN/EsI=;
+ b=dZ7LiW9Z6AJo/r/kRTIicx4iDyupL0x9IKOJDveXskzi/wH4AVodJFpzlHDCcdWQHJ
+ w2y0ejEFimcxnMdl6OkSu6tkzbqPm5umMScp0NyqjoxnI6Q1PtBwXTbia5gkQin6zuLJ
+ 4f69FPWNaI2Nu1b68xOgyQ1AzunPgJkZmW+yrbz4hI6XeLCMNlo218C970qnTcDDcnYF
+ 4l+NwxVa5v0GXzDPA91Vj48mgQszmYJYLC24Ha6Gud/9V9i4plplZWE++U6/R/ZcspvK
+ g3dCjw4W0e0qVgmi6WOjSgddfY7heO+p1Dewi2+ffWzq4e9ZvoBw3r2m6gt5AZT9YiDf
+ V6UQ==
+X-Gm-Message-State: AOAM532puPMq6AVv61x0N26Jf5g98C48KTwhH5183svpQ48c2CP2uN0v
+ uD2CawNn4ULKIr+2lho02Lf1bbCAonflhjYI/BI=
+X-Google-Smtp-Source: ABdhPJwIDiur0073biILJ5bCZN3a98Pd/E/5wzIwq3Nc9ThiMX0Foie1feMHVKop9dMwdvDYgSmhAQ==
+X-Received: by 2002:ac2:5cb5:0:b0:442:13cb:481f with SMTP id
+ e21-20020ac25cb5000000b0044213cb481fmr16228074lfq.174.1646160455824; 
+ Tue, 01 Mar 2022 10:47:35 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com.
+ [209.85.167.51]) by smtp.gmail.com with ESMTPSA id
+ u9-20020ac251c9000000b00443dc755dfdsm1618128lfm.215.2022.03.01.10.47.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 10:47:33 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id m14so28435770lfu.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 10:47:32 -0800 (PST)
+X-Received: by 2002:a05:6512:2033:b0:443:3d49:dac with SMTP id
+ s19-20020a056512203300b004433d490dacmr16440784lfs.52.1646160451271; Tue, 01
+ Mar 2022 10:47:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+ <Yh0tl3Lni4weIMkl@casper.infradead.org>
+ <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
+ <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
+ <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
+ <202203011008.AA0B5A2D@keescook>
+In-Reply-To: <202203011008.AA0B5A2D@keescook>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 1 Mar 2022 10:47:14 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whccSm8HKANQbomYrF8cqBa1wUi1dvUEUc3Nf=WoX3WHQ@mail.gmail.com>
+Message-ID: <CAHk-=whccSm8HKANQbomYrF8cqBa1wUi1dvUEUc3Nf=WoX3WHQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,183 +83,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
- Maxim Levitsky <mlevitsk@redhat.com>, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, Matthew Wilcox <willy@infradead.org>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, "Bos, H.J." <h.j.bos@vu.nl>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow optionally to make KVM not update is_running unless it is
-functionally needed which is only when a vCPU halts,
-or is in the guest mode.
+On Tue, Mar 1, 2022 at 10:14 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> The first big glitch with -Wshadow was with shadowed global variables.
+> GCC 4.8 fixed that, but it still yells about shadowed functions. What
+> _almost_ works is -Wshadow=local.
 
-This means security wise that if a vCPU is scheduled out,
-other vCPUs could still send doorbell messages to the
-last physical CPU where this vCPU was last running.
+Heh. Yeah, I just have long memories of "-Wshadow was a disaster". You
+looked into the details.
 
-This in theory can be considered less secure, thus
-this option is not enabled by default.
+> Another way to try to catch misused shadow variables is
+> -Wunused-but-set-varible, but it, too, has tons of false positives.
 
-The option is avic_doorbell_strict and is true by
-default, setting it to false allows this relaxed
-non strict mode.
+That on the face of it should be an easy warning to get technically
+right for a compiler.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- arch/x86/kvm/svm/avic.c | 39 +++++++++++++++++++++++++++------------
- arch/x86/kvm/svm/svm.c  |  7 +++++--
- arch/x86/kvm/svm/svm.h  |  1 +
- virt/kvm/kvm_main.c     |  3 ++-
- 4 files changed, 35 insertions(+), 15 deletions(-)
+So I assume the "false positives" are simply because we end up having
+various variables that really don't end up being used - and
+"intentionally" so).
 
-diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
-index dd13fd3588e2b..1d690a9d3952e 100644
---- a/arch/x86/kvm/svm/avic.c
-+++ b/arch/x86/kvm/svm/avic.c
-@@ -166,10 +166,13 @@ void avic_physid_shadow_table_update_vcpu_location(struct kvm_vcpu *vcpu, int cp
- 	raw_spin_lock_irqsave(&kvm_svm->avic.table_entries_lock, flags);
- 
- 	list_for_each_entry(e, &vcpu_svm->nested.physid_ref_entries, link) {
--		u64 sentry = READ_ONCE(*e->sentry);
-+		u64 old_sentry = READ_ONCE(*e->sentry);
-+		u64 new_sentry = old_sentry;
- 
--		physid_entry_set_apicid(&sentry, cpu);
--		WRITE_ONCE(*e->sentry, sentry);
-+		physid_entry_set_apicid(&new_sentry, cpu);
-+
-+		if (new_sentry != old_sentry)
-+			WRITE_ONCE(*e->sentry, new_sentry);
- 		nentries++;
- 	}
- 
-@@ -1507,7 +1510,7 @@ avic_update_iommu_vcpu_affinity(struct kvm_vcpu *vcpu, int cpu, bool r)
- 
- void avic_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
- {
--	u64 entry;
-+	u64 old_entry, new_entry;
- 	/* ID = 0xff (broadcast), ID > 0xff (reserved) */
- 	int h_physical_id = kvm_cpu_get_apicid(cpu);
- 	struct vcpu_svm *svm = to_svm(vcpu);
-@@ -1531,14 +1534,16 @@ void avic_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
- 	if (kvm_vcpu_is_blocking(vcpu))
- 		return;
- 
--	entry = READ_ONCE(*(svm->avic_physical_id_cache));
--	WARN_ON(entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK);
-+	old_entry = READ_ONCE(*(svm->avic_physical_id_cache));
-+	new_entry = old_entry;
- 
--	entry &= ~AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK;
--	entry |= (h_physical_id & AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK);
--	entry |= AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
-+	new_entry &= ~AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK;
-+	new_entry |= (h_physical_id & AVIC_PHYSICAL_ID_ENTRY_HOST_PHYSICAL_ID_MASK);
-+	new_entry |= AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
-+
-+	if (old_entry != new_entry)
-+		WRITE_ONCE(*(svm->avic_physical_id_cache), new_entry);
- 
--	WRITE_ONCE(*(svm->avic_physical_id_cache), entry);
- 	avic_update_iommu_vcpu_affinity(vcpu, h_physical_id, true);
- }
- 
-@@ -1549,14 +1554,24 @@ void avic_vcpu_put(struct kvm_vcpu *vcpu)
- 
- 	lockdep_assert_preemption_disabled();
- 
-+	avic_update_iommu_vcpu_affinity(vcpu, -1, 0);
-+
-+	/*
-+	 * It is only meaningful to intercept IPIs from the guest
-+	 * when either vCPU is blocked, or in guest mode.
-+	 * In all other cases (e.g userspace vmexit, or preemption
-+	 * by other task, the vCPU is guaranteed to return to guest mode
-+	 * as soon as it can
-+	 */
-+	if (!avic_doorbell_strict && !kvm_vcpu_is_blocking(vcpu) && !is_guest_mode(vcpu))
-+		return;
-+
- 	entry = READ_ONCE(*(svm->avic_physical_id_cache));
- 
- 	/* Nothing to do if IsRunning == '0' due to vCPU blocking. */
- 	if (!(entry & AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK))
- 		return;
- 
--	avic_update_iommu_vcpu_affinity(vcpu, -1, 0);
--
- 	entry &= ~AVIC_PHYSICAL_ID_ENTRY_IS_RUNNING_MASK;
- 	WRITE_ONCE(*(svm->avic_physical_id_cache), entry);
- }
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 0d6b715375a69..463b756f665ae 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -202,6 +202,9 @@ module_param(tsc_scaling, int, 0444);
- static bool avic;
- module_param(avic, bool, 0444);
- 
-+bool avic_doorbell_strict = true;
-+module_param(avic_doorbell_strict, bool, 0444);
-+
- bool __read_mostly dump_invalid_vmcb;
- module_param(dump_invalid_vmcb, bool, 0644);
- 
-@@ -1340,7 +1343,8 @@ static void svm_vcpu_put(struct kvm_vcpu *vcpu)
- 	svm->loaded = false;
- 
- 	if (svm->nested.initialized && svm->avic_enabled)
--		avic_physid_shadow_table_update_vcpu_location(vcpu, -1);
-+		if (!avic_doorbell_strict || kvm_vcpu_is_blocking(vcpu))
-+			avic_physid_shadow_table_update_vcpu_location(vcpu, -1);
- 
- 	svm_prepare_host_switch(vcpu);
- 
-@@ -4707,7 +4711,6 @@ static __init void svm_set_cpu_caps(void)
- 	/* CPUID 0x80000001 and 0x8000000A (SVM features) */
- 	if (nested) {
- 		kvm_cpu_cap_set(X86_FEATURE_SVM);
--		kvm_cpu_cap_set(X86_FEATURE_VMCBCLEAN);
- 
- 		if (nrips)
- 			kvm_cpu_cap_set(X86_FEATURE_NRIPS);
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index 8ebda12995abe..d0108bae2cdac 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -33,6 +33,7 @@
- extern u32 msrpm_offsets[MSRPM_OFFSETS] __read_mostly;
- extern bool npt_enabled;
- extern bool intercept_smi;
-+extern bool avic_doorbell_strict;
- 
- /*
-  * Clean bits in VMCB.
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index cdf1fa3c60ae2..67a29233e216b 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -3291,9 +3291,10 @@ bool kvm_vcpu_block(struct kvm_vcpu *vcpu)
- 
- 	vcpu->stat.generic.blocking = 1;
- 
-+	prepare_to_rcuwait(wait);
-+
- 	kvm_arch_vcpu_blocking(vcpu);
- 
--	prepare_to_rcuwait(wait);
- 	for (;;) {
- 		set_current_state(TASK_INTERRUPTIBLE);
- 
--- 
-2.26.3
+Or rather, they might only be used under some config option - perhaps
+the use is even syntactically there and parsed, but the compiler
+notices that it's turned off under some
 
+        if (IS_ENABLED(..))
+
+option? Because yeah, we have a lot of those.
+
+I think that's a common theme with a lot of compiler warnings: on the
+face of it they sound "obviously sane" and nobody should ever write
+code like that.
+
+A conditional that is always true? Sounds idiotic, and sounds like a
+reasonable thing for a compiler to warn about, since why would you
+have a conditional in the first place for that?
+
+But then you realize that maybe the conditional is a build config
+option, and "always true" suddenly makes sense. Or it's a test for
+something that is always true on _that_architecture_ but not in some
+general sense (ie testing "sizeof()"). Or it's a purely syntactic
+conditional, like "do { } while (0)".
+
+It's why I'm often so down on a lot of the odd warnings that are
+hiding under W=1 and friends. They all may make sense in the trivial
+case ("That is insane") but then in the end they happen for sane code.
+
+And yeah, -Wshadow has had tons of history with macro nesting, and
+just being badly done in the first place (eg "strlen" can be a
+perfectly fine local variable).
+
+That said, maybe people could ask the gcc and clan people for a way to
+_mark_ the places where we expect to validly see shadowing. For
+example, that "local variable in a macro expression statement" thing
+is absolutely horrendous to fix with preprocessor tricks to try to
+make for unique identifiers.
+
+But I think it would be much more syntactically reasonable to add (for
+example) a "shadow" attribute to such a variable exactly to tell the
+compiler "yeah, yeah, I know this identifier could shadow an outer
+one" and turn it off that way.
+
+               Linus
