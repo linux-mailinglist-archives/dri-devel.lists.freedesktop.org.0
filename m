@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3764C9323
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0CC4C932C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 19:28:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA6110E720;
-	Tue,  1 Mar 2022 18:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD9D10E79D;
+	Tue,  1 Mar 2022 18:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A88110E798
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:28:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6580110E79D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 18:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646159279;
+ s=mimecast20190719; t=1646159302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pWwqXFMojK6l0GX9CplhMLt5g8KdQtN+Qa+5duN8pyQ=;
- b=M9EzmxVlqwcfqIYJgOkwmpeoVuCowBjZHGRIXW3Espnx6YRQsCm+TUjA2PMMhqsBFk03xy
- WE905G6cbj5XZeRDmQo3uRXZ1hRjh8zfNXN/pAW2+RGQCGNqDMC1vs0N056YtHGhnEs0Pk
- fj6SCohFpXBmxeNAtAX6EzbV2upA03g=
+ bh=RciSJIldoTiMXM2AhqFSNwGmbuOFshdyAhmjEosT1+M=;
+ b=JYbIcGD1WCrWLn58cJl0ol6aoieYmkAswCmlfgxa9qY9KJBSynFZJAbetntkNTd47CRyIb
+ k4mi0Q7zOCNvBr5VNo5GonYB8klnm4XkpQIeHdO04ciZxQVUAy48s4cEmRIXzH1/RSCzdf
+ U1xTE0VPKDC7Um3xzn/FLmQN5/Tvc48=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-9aCjjUiIOOybODwI7bfHFA-1; Tue, 01 Mar 2022 13:27:56 -0500
-X-MC-Unique: 9aCjjUiIOOybODwI7bfHFA-1
+ us-mta-424-xQ4QPppBN6eJpVP0WyM45A-1; Tue, 01 Mar 2022 13:28:19 -0500
+X-MC-Unique: xQ4QPppBN6eJpVP0WyM45A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E3BD81424A;
- Tue,  1 Mar 2022 18:27:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31C40801DDB;
+ Tue,  1 Mar 2022 18:28:16 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.195.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B216D86C51;
- Tue,  1 Mar 2022 18:27:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89FA086C51;
+ Tue,  1 Mar 2022 18:27:53 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: kvm@vger.kernel.org
-Subject: [PATCH v3 06/11] KVM: x86: lapic: don't allow to change APIC ID when
- apic acceleration is enabled
-Date: Tue,  1 Mar 2022 20:26:34 +0200
-Message-Id: <20220301182639.559568-7-mlevitsk@redhat.com>
+Subject: [PATCH v3 07/11] KVM: x86: SVM: remove avic's broken code that
+ updated APIC ID
+Date: Tue,  1 Mar 2022 20:26:35 +0200
+Message-Id: <20220301182639.559568-8-mlevitsk@redhat.com>
 In-Reply-To: <20220301182639.559568-1-mlevitsk@redhat.com>
 References: <20220301182639.559568-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -74,61 +74,74 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No normal guest has any reason to change physical APIC IDs, and
-allowing this introduces bugs into APIC acceleration code.
+Now that KVM doesn't allow to change APIC ID in case AVIC is
+enabled, remove buggy AVIC code that tried to do so.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- arch/x86/kvm/lapic.c | 28 +++++++++++++++++++++++-----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+ arch/x86/kvm/svm/avic.c | 35 -----------------------------------
+ 1 file changed, 35 deletions(-)
 
-diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
-index 80a2020c4db40..ffb5fc6449bc5 100644
---- a/arch/x86/kvm/lapic.c
-+++ b/arch/x86/kvm/lapic.c
-@@ -2042,10 +2042,20 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
+index d5ce0868c5a74..90f106d4af45e 100644
+--- a/arch/x86/kvm/svm/avic.c
++++ b/arch/x86/kvm/svm/avic.c
+@@ -441,35 +441,6 @@ static int avic_handle_ldr_update(struct kvm_vcpu *vcpu)
+ 	return ret;
+ }
  
- 	switch (reg) {
- 	case APIC_ID:		/* Local APIC ID */
--		if (!apic_x2apic_mode(apic))
--			kvm_apic_set_xapic_id(apic, val >> 24);
--		else
-+		if (apic_x2apic_mode(apic)) {
- 			ret = 1;
-+			break;
-+		}
-+		/*
-+		 * Don't allow setting APIC ID with any APIC acceleration
-+		 * enabled to avoid unexpected issues
-+		 */
-+		if (enable_apicv && ((val >> 24) != apic->vcpu->vcpu_id)) {
-+			kvm_vm_bugged(apic->vcpu->kvm);
-+			break;
-+		}
-+
-+		kvm_apic_set_xapic_id(apic, val >> 24);
- 		break;
- 
- 	case APIC_TASKPRI:
-@@ -2613,8 +2623,16 @@ int kvm_get_apic_interrupt(struct kvm_vcpu *vcpu)
- static int kvm_apic_state_fixup(struct kvm_vcpu *vcpu,
- 		struct kvm_lapic_state *s, bool set)
+-static int avic_handle_apic_id_update(struct kvm_vcpu *vcpu)
+-{
+-	u64 *old, *new;
+-	struct vcpu_svm *svm = to_svm(vcpu);
+-	u32 id = kvm_xapic_id(vcpu->arch.apic);
+-
+-	if (vcpu->vcpu_id == id)
+-		return 0;
+-
+-	old = avic_get_physical_id_entry(vcpu, vcpu->vcpu_id);
+-	new = avic_get_physical_id_entry(vcpu, id);
+-	if (!new || !old)
+-		return 1;
+-
+-	/* We need to move physical_id_entry to new offset */
+-	*new = *old;
+-	*old = 0ULL;
+-	to_svm(vcpu)->avic_physical_id_cache = new;
+-
+-	/*
+-	 * Also update the guest physical APIC ID in the logical
+-	 * APIC ID table entry if already setup the LDR.
+-	 */
+-	if (svm->ldr_reg)
+-		avic_handle_ldr_update(vcpu);
+-
+-	return 0;
+-}
+-
+ static void avic_handle_dfr_update(struct kvm_vcpu *vcpu)
  {
--	if (apic_x2apic_mode(vcpu->arch.apic)) {
--		u32 *id = (u32 *)(s->regs + APIC_ID);
-+	u32 *id = (u32 *)(s->regs + APIC_ID);
-+
-+	if (!apic_x2apic_mode(vcpu->arch.apic)) {
-+		/* Don't allow setting APIC ID with any APIC acceleration
-+		 * enabled to avoid unexpected issues
-+		 */
-+		if (enable_apicv && (*id >> 24) != vcpu->vcpu_id)
-+			return -EINVAL;
-+	} else {
-+
- 		u32 *ldr = (u32 *)(s->regs + APIC_LDR);
- 		u64 icr;
+ 	struct vcpu_svm *svm = to_svm(vcpu);
+@@ -488,10 +459,6 @@ static int avic_unaccel_trap_write(struct kvm_vcpu *vcpu)
+ 				AVIC_UNACCEL_ACCESS_OFFSET_MASK;
  
+ 	switch (offset) {
+-	case APIC_ID:
+-		if (avic_handle_apic_id_update(vcpu))
+-			return 0;
+-		break;
+ 	case APIC_LDR:
+ 		if (avic_handle_ldr_update(vcpu))
+ 			return 0;
+@@ -583,8 +550,6 @@ int avic_init_vcpu(struct vcpu_svm *svm)
+ 
+ void avic_apicv_post_state_restore(struct kvm_vcpu *vcpu)
+ {
+-	if (avic_handle_apic_id_update(vcpu) != 0)
+-		return;
+ 	avic_handle_dfr_update(vcpu);
+ 	avic_handle_ldr_update(vcpu);
+ }
 -- 
 2.26.3
 
