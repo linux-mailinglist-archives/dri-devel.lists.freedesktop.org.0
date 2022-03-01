@@ -1,52 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8D64C9983
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:51:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F11D4C9988
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:56:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468AC10E14C;
-	Tue,  1 Mar 2022 23:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDD910E85D;
+	Tue,  1 Mar 2022 23:56:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 855FD10E14C;
- Tue,  1 Mar 2022 23:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646178682; x=1677714682;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=as8pABuwtrfUNkMGwa96wvpe8GYlbn7jlMA5L5SrD7M=;
- b=McBzbfk3JLYaBMSvjaFH/zuhS0oAh4twrh1BugRq0GSSsNRpnNVk7/xJ
- J+guFGnoWjo8CraoyPXhme4cconcObhO2Wxl6h6WyzGeUDz5skyk7FDqP
- jgY2q/FFI2AvccvngfAZzj8s4MeTqALskdYTC7TjXRxAN5zbgbjNHjlds
- qcQ5U5kSHvgh8e2qMJFGuLi3KHGT6Q0izQ6UI3bfydm00AtfVY1G9Jnyv
- cGDVzFcxOqehOD/sK5su69szym1p4Zz2XyAmLKhP82hPx+qahUIaXc4wP
- oiZ+pFbG2phMBPEwVI5JvPjMmcF6JQeTpKTkp1BVNR/IZmKn1T/QhaF48 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="277940511"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="277940511"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 15:51:21 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="575898280"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril-10.165.21.154)
- ([10.165.21.154])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 15:51:21 -0800
-Date: Tue, 1 Mar 2022 15:51:21 -0800
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 08/13] drm/i915/xehp: Enable ccs/dual-ctx
- in RCU_MODE
-Message-ID: <20220301235121.GB25848@unerlige-ril-10.165.21.154>
-References: <20220301231549.1817978-1-matthew.d.roper@intel.com>
- <20220301231549.1817978-9-matthew.d.roper@intel.com>
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE6910E85D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:56:02 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id e8so32838ljj.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
+ b=A1xSV6w+mnGI8KddmZFT+SVp47UhRqZlj7dZE7Ue1BgWjGw2+QCc51Zb6PIPvKiXuh
+ /TGd1P3o63R0kiFyLwVU+kzDBf6Kt9wFSZwwJYnrWAqavu9szp3nfmKm0Qe68N3l8Mdl
+ bWvesgtwBf4BWRSm4aUiCmj0pmAaHYwmzAjUs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
+ b=sYwSlg0j40C2CdtplGNS4IbIZ7u1coOTFoLMt6fvrKpgkUX+Xxs62ZLYs1/AYCHrM/
+ h4f//ayWuq4tWPAmkEfxzWSuyaTphy5cbGrAsZs7VfCE9meUknWbF8W3FGyuvlvL7qB0
+ 4zWhQO2SBqJREvGF1e61+RKMPVhJCpnohY7E+yN82RxzyD2XmX/bD5HRifk7L2wb7BhG
+ bt6iaZle08bD0lfguk/w9XMcA+8axHC/T6uw1UqwN4RakAQx+3LpQgpA94l+UFwcWKI2
+ p0LdqXIc/AuBjbzpfQzESscd8qqdGjqaK13P9WUwbeqtVEiPYFQYw72qB5wjxCjJhaGf
+ jtlQ==
+X-Gm-Message-State: AOAM531YpLXXPoQGlmUqBMhS+8euXUJMm0pbYRVINySXDPZ0ye7wBtvI
+ EAG/JAIfjeX74V9xR1d0afapNX/CWJbu7w98hII=
+X-Google-Smtp-Source: ABdhPJxARDmwQoqwvhaA59urVs3wE3RqB0Itmxcq9YwphuwLWHq8XaIfj18OqIPcQu6qI+YVC5Q3yA==
+X-Received: by 2002:a2e:bd13:0:b0:244:da2f:ff4d with SMTP id
+ n19-20020a2ebd13000000b00244da2fff4dmr19045838ljq.213.1646178960599; 
+ Tue, 01 Mar 2022 15:56:00 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
+ [209.85.167.47]) by smtp.gmail.com with ESMTPSA id
+ k1-20020a2ea281000000b00244bc2ecfe9sm2178081lja.66.2022.03.01.15.55.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 15:55:59 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id i11so29634437lfu.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:55:58 -0800 (PST)
+X-Received: by 2002:a05:6512:3042:b0:437:96f5:e68a with SMTP id
+ b2-20020a056512304200b0043796f5e68amr17643498lfb.449.1646178958685; Tue, 01
+ Mar 2022 15:55:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220301231549.1817978-9-matthew.d.roper@intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+ <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+ <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+In-Reply-To: <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 1 Mar 2022 15:55:42 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+To: David Laight <David.Laight@aculab.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,192 +84,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>,
+ "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ dma <dmaengine@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 01, 2022 at 03:15:44PM -0800, Matt Roper wrote:
->We have to specify in the Render Control Unit Mode register
->when CCS is enabled.
+On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
 >
->v2:
-> - Move RCU_MODE programming to a helper function.  (Tvrtko)
-> - Clean up and clarify comments.  (Tvrtko)
-> - Add RCU_MODE to the GuC save/restore list.  (Daniele)
->v3:
-> - Move this patch before the GuC ADS update to enable compute engines;
->   the definition of RCU_MODE and its insertion into the save/restore
->   list moves to this patch.  (Daniele)
->
->Bspec: 46034
->Original-author: Michel Thierry
->Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
->Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->---
-> drivers/gpu/drm/i915/gt/intel_engine.h          |  2 ++
-> drivers/gpu/drm/i915/gt/intel_engine_cs.c       | 17 +++++++++++++++++
-> .../drm/i915/gt/intel_execlists_submission.c    | 16 ++++++++++++++++
-> drivers/gpu/drm/i915/gt/intel_gt_regs.h         |  3 +++
-> drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c      |  4 ++++
-> .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 16 ++++++++++++++++
-> 6 files changed, 58 insertions(+)
->
->diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
->index be4b1e65442f..1c0ab05c3c40 100644
->--- a/drivers/gpu/drm/i915/gt/intel_engine.h
->+++ b/drivers/gpu/drm/i915/gt/intel_engine.h
->@@ -265,6 +265,8 @@ intel_engine_create_pinned_context(struct intel_engine_cs *engine,
->
-> void intel_engine_destroy_pinned_context(struct intel_context *ce);
->
->+void xehp_enable_ccs_engines(struct intel_engine_cs *engine);
->+
-> #define ENGINE_PHYSICAL	0
-> #define ENGINE_MOCK	1
-> #define ENGINE_VIRTUAL	2
->diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->index 2136c56d3abc..92f4cf9833ee 100644
->--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->@@ -2070,6 +2070,23 @@ intel_engine_execlist_find_hung_request(struct intel_engine_cs *engine)
-> 	return active;
-> }
->
->+void xehp_enable_ccs_engines(struct intel_engine_cs *engine)
->+{
->+	/*
->+	 * If there are any non-fused-off CCS engines, we need to enable CCS
->+	 * support in the RCU_MODE register.  This only needs to be done once,
->+	 * so for simplicity we'll take care of this in the RCS engine's
->+	 * resume handler; since the RCS and all CCS engines belong to the
->+	 * same reset domain and are reset together, this will also take care
->+	 * of re-applying the setting after i915-triggered resets.
->+	 */
->+	if (!CCS_MASK(engine->gt))
->+		return;
->+
->+	intel_uncore_write(engine->uncore, GEN12_RCU_MODE,
->+			   _MASKED_BIT_ENABLE(GEN12_RCU_MODE_CCS_ENABLE));
->+}
->+
-> #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> #include "mock_engine.c"
-> #include "selftest_engine.c"
->diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->index c8407cc96c42..574c0542c92f 100644
->--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->@@ -2914,6 +2914,19 @@ static int execlists_resume(struct intel_engine_cs *engine)
-> 	return 0;
-> }
->
->+static int gen12_rcs_resume(struct intel_engine_cs *engine)
->+{
->+	int ret;
->+
->+	ret = execlists_resume(engine);
->+	if (ret)
->+		return ret;
->+
->+	xehp_enable_ccs_engines(engine);
->+
->+	return 0;
->+}
->+
-> static void execlists_reset_prepare(struct intel_engine_cs *engine)
-> {
-> 	ENGINE_TRACE(engine, "depth<-%d\n",
->@@ -3468,6 +3481,9 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
-> 		engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_rcs;
-> 		break;
-> 	}
->+
->+	if (engine->class == RENDER_CLASS)
->+		engine->resume = gen12_rcs_resume;
-> }
->
-> int intel_execlists_submission_setup(struct intel_engine_cs *engine)
->diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->index 84f189738a68..e629443e07ae 100644
->--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->@@ -1327,6 +1327,9 @@
-> #define   ECOBITS_PPGTT_CACHE64B		(3 << 8)
-> #define   ECOBITS_PPGTT_CACHE4B			(0 << 8)
->
->+#define GEN12_RCU_MODE				_MMIO(0x14800)
->+#define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
->+
-> #define CHV_FUSE_GT				_MMIO(VLV_DISPLAY_BASE + 0x2168)
-> #define   CHV_FGT_DISABLE_SS0			(1 << 10)
-> #define   CHV_FGT_DISABLE_SS1			(1 << 11)
->diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->index 847e00390b00..29fbe4681ca7 100644
->--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->@@ -335,6 +335,10 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
-> 	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
-> 	ret |= GUC_MMIO_REG_ADD(regset, RING_IMR(base), false);
->
->+	if (engine->class == RENDER_CLASS &&
->+	    CCS_MASK(engine->gt))
->+		ret |= GUC_MMIO_REG_ADD(regset, GEN12_RCU_MODE, true);
->+
-> 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++)
-> 		ret |= GUC_MMIO_REG_ADD(regset, wa->reg, wa->masked_reg);
->
->diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->index 891b98236155..7e248e2001de 100644
->--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->@@ -3603,6 +3603,19 @@ static bool guc_sched_engine_disabled(struct i915_sched_engine *sched_engine)
-> 	return !sched_engine->tasklet.callback;
-> }
->
->+static int gen12_rcs_resume(struct intel_engine_cs *engine)
->+{
->+	int ret;
->+
->+	ret = guc_resume(engine);
->+	if (ret)
->+		return ret;
->+
->+	xehp_enable_ccs_engines(engine);
->+
->+	return 0;
->+}
->+
-> static void guc_set_default_submission(struct intel_engine_cs *engine)
-> {
-> 	engine->submit_request = guc_submit_request;
->@@ -3723,6 +3736,9 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
-> 		engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_rcs;
-> 		break;
-> 	}
->+
->+	if (engine->class == RENDER_CLASS)
->+		engine->resume = gen12_rcs_resume;
+> Having said that there are so few users of list_entry_is_head()
+> it is reasonable to generate two new names.
 
-Why not just have guc_resume and execlist_resume call 
-xehp_enable_ccs_engines(engine) for render case?
+Well, the problem is that the users of list_entry_is_head() may be few
+- but there are a number of _other_ ways to check "was that the HEAD
+pointer", and not all of them are necessarily correct.
 
-Also what happens if render itself is not present/fused-off (if there is 
-such a thing)?
+IOW, different places do different random tests for "did we walk the
+whole loop without breaking out". And many of them happen to work. In
+fact, in practice, pretty much *all* of them happen to work, and you
+have to have the right struct layout and really really bad luck to hit
+a case of "type confusion ended up causing the test to not work".
 
-Just those questions, overall the patch looks fine as is:
+And *THAT* is the problem here. It's not the "there are 25ish places
+that current use list_entry_is_head()".
 
-Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+It's the "there are ~480 places that use the type-confused HEAD entry
+that has been cast to the wrong type".
 
-Umesh
+And THAT is why I think we'd be better off with that bigger change
+that simply means that you can't use the iterator variable at all
+outside the loop, and try to make it something where the compiler can
+help catch mis-uses.
 
+Now, making the list_for_each_entry() thing force the iterator to NULL
+at the end of the loop does fix the problem. The issue I have with it
+is really just that you end up getting no warning at all from the
+compiler if you mix old-style and new-style semantics. Now, you *will*
+get an oops (if using a new-style iterator with an old-style check),
+but many of these things will be in odd driver code and may happen
+only for error cases.
 
-> }
->
-> static inline void guc_default_irqs(struct intel_engine_cs *engine)
->-- 
->2.34.1
->
+And if you use a new-style check with an old-style iterator (ie some
+backport problem), you will probably end up getting random memory
+corruption, because you'll decide "it's not a HEAD entry", and then
+you'll actually *use* the HEAD that has the wrong type cast associated
+with it.
+
+See what my worry is?
+
+With the "don't use iterator outside the loop" approach, the exact
+same code works in both the old world order and the new world order,
+and you don't have the semantic confusion. And *if* you try to use the
+iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+about it not being initialized.
+
+             Linus
+
+(*) Unless somebody initializes the iterator pointer pointlessly.
+Which clearly does happen. Thus the "mostly". It's not perfect, and
+that's most definitely not nice - but it should at least hopefully
+make it that much harder to mess up.
