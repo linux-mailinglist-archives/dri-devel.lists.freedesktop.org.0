@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221F14C9914
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:17:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8274C9919
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E98F10E87D;
-	Tue,  1 Mar 2022 23:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3246E10E897;
+	Tue,  1 Mar 2022 23:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7F2C10E85D;
- Tue,  1 Mar 2022 23:16:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 282DE10E861;
+ Tue,  1 Mar 2022 23:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646176589; x=1677712589;
+ t=1646176590; x=1677712590;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EaNJ8DFzp72Q9xiHttaNlDzhQNIua2xmsJsN8xxDTp0=;
- b=bE9HLpMoXAKhPTpCspA03dnvlfdvV7WhGv2s7zdkbiHUNX8Ia1NyP3KC
- eGVhV4bV7yl4eI61+PWh5bSVitu921WzXzGYVvPLCbFiYpRJgATUOyvwc
- wM78TDpKrxtxujilX2umvfDiJabJEOivjfXXh5yYPsAjbb0pKBKD8rPnI
- N4Dx4Y6D/WT1iZUbch2ACj7OyeKtQcduGzNAcJ7rJxdN2/+njeYwYA9Bs
- sOsHjCGd2z2NkGnfGXO5mu2tWMamGp7rewX0QoODxx0s83AOjyAsgUY1/
- HoKOAdKHeErittPebBpcU7kjqKiwAxUeoxbdqXpbsR7POUGQmfHoImfG4 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="316479062"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316479062"
+ bh=7mSfCcyl+IdgcRanqe/lXRYMaN7qVyRphUhw1Ni7Tfg=;
+ b=dBMsQvB5sJc3eMP5Q+UVEVn6G2uwzSPalx91gnSCEn+xyR9wzugBVglH
+ vnKQjGF9g8WkcYgOQ4+BKx7c6T9o/AxYw/o4b97yB2fS3DGzlXQwIoBxI
+ FTews6jQ961FBW8QmLtvWf1vu1YsMjl0ZEGkRnyiEC4Ozmqd9tC+GPfWf
+ bDrJqetvLrRtizRRSYoQTRGyu6ChpkK0PXJX5DAILYIXzcVWTBKl1dUOT
+ Lt5QGzY2fEbPcWGeRx5oo7iiCstr0WYDAhFlZaSV1QyEEBdBS+kCFyUVZ
+ EYHEKOMFRY6RerC8Z/zIDOS8PVbZe3mM79OK4F4EOgvcZhsdiGOPF6wtr Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="316479064"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316479064"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Mar 2022 15:16:29 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="709253474"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="709253481"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Mar 2022 15:16:28 -0800
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 07/13] drm/i915/xehp: Define context scheduling attributes
- in lrc descriptor
-Date: Tue,  1 Mar 2022 15:15:43 -0800
-Message-Id: <20220301231549.1817978-8-matthew.d.roper@intel.com>
+Subject: [PATCH v3 08/13] drm/i915/xehp: Enable ccs/dual-ctx in RCU_MODE
+Date: Tue,  1 Mar 2022 15:15:44 -0800
+Message-Id: <20220301231549.1817978-9-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220301231549.1817978-1-matthew.d.roper@intel.com>
 References: <20220301231549.1817978-1-matthew.d.roper@intel.com>
@@ -57,121 +56,180 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- Prasad Nallani <prasad.nallani@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In Dual Context mode the EUs are shared between render and compute
-command streamers. The hardware provides a field in the lrc descriptor
-to indicate the prioritization of the thread dispatch associated to the
-corresponding context.
+We have to specify in the Render Control Unit Mode register
+when CCS is enabled.
 
-The context priority is set to 'low' at creation time and relies on the
-existing context priority to set it to low/normal/high.
+v2:
+ - Move RCU_MODE programming to a helper function.  (Tvrtko)
+ - Clean up and clarify comments.  (Tvrtko)
+ - Add RCU_MODE to the GuC save/restore list.  (Daniele)
+v3:
+ - Move this patch before the GuC ADS update to enable compute engines;
+   the definition of RCU_MODE and its insertion into the save/restore
+   list moves to this patch.  (Daniele)
 
-Bspec: 46145, 46260
+Bspec: 46034
 Original-author: Michel Thierry
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Signed-off-by: Prasad Nallani <prasad.nallani@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c       |  4 +++-
- drivers/gpu/drm/i915/gt/intel_engine_types.h    |  1 +
- .../drm/i915/gt/intel_execlists_submission.c    |  6 +++++-
- drivers/gpu/drm/i915/gt/intel_lrc.h             | 17 +++++++++++++++++
- 4 files changed, 26 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine.h          |  2 ++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c       | 17 +++++++++++++++++
+ .../drm/i915/gt/intel_execlists_submission.c    | 16 ++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h         |  3 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c      |  4 ++++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 16 ++++++++++++++++
+ 6 files changed, 58 insertions(+)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index be4b1e65442f..1c0ab05c3c40 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -265,6 +265,8 @@ intel_engine_create_pinned_context(struct intel_engine_cs *engine,
+ 
+ void intel_engine_destroy_pinned_context(struct intel_context *ce);
+ 
++void xehp_enable_ccs_engines(struct intel_engine_cs *engine);
++
+ #define ENGINE_PHYSICAL	0
+ #define ENGINE_MOCK	1
+ #define ENGINE_VIRTUAL	2
 diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index b0982a9e4476..2136c56d3abc 100644
+index 2136c56d3abc..92f4cf9833ee 100644
 --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
 +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -435,8 +435,10 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
- 		engine->props.preempt_timeout_ms = 0;
+@@ -2070,6 +2070,23 @@ intel_engine_execlist_find_hung_request(struct intel_engine_cs *engine)
+ 	return active;
+ }
  
- 	/* features common between engines sharing EUs */
--	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS)
-+	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS) {
- 		engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
-+		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
-+	}
- 
- 	engine->defaults = engine->props; /* never to change again */
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 5fa5f21bbf2d..19ff8758e34d 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -525,6 +525,7 @@ struct intel_engine_cs {
- #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
- #define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
- #define I915_ENGINE_HAS_RCS_REG_STATE  BIT(9)
-+#define I915_ENGINE_HAS_EU_PRIORITY    BIT(10)
- 	unsigned int flags;
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 47fca5ebfa76..c8407cc96c42 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -665,9 +665,13 @@ static inline void execlists_schedule_out(struct i915_request *rq)
- static u64 execlists_update_context(struct i915_request *rq)
- {
- 	struct intel_context *ce = rq->context;
--	u64 desc = ce->lrc.desc;
-+	u64 desc;
- 	u32 tail, prev;
- 
-+	desc = ce->lrc.desc;
-+	if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
-+		desc |= lrc_desc_priority(rq_prio(rq));
-+
- 	/*
- 	 * WaIdleLiteRestore:bdw,skl
- 	 *
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h b/drivers/gpu/drm/i915/gt/intel_lrc.h
-index bb0e6c5b9922..6e4f9f58fca5 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.h
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
-@@ -6,6 +6,9 @@
- #ifndef __INTEL_LRC_H__
- #define __INTEL_LRC_H__
- 
-+#include "i915_priolist_types.h"
-+
-+#include <linux/bitfield.h>
- #include <linux/types.h>
- 
- struct drm_i915_gem_object;
-@@ -90,6 +93,10 @@ enum {
- #define GEN8_CTX_L3LLC_COHERENT			(1 << 5)
- #define GEN8_CTX_PRIVILEGE			(1 << 8)
- #define GEN8_CTX_ADDRESSING_MODE_SHIFT		3
-+#define GEN12_CTX_PRIORITY_MASK			GENMASK(10, 9)
-+#define GEN12_CTX_PRIORITY_HIGH			FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 2)
-+#define GEN12_CTX_PRIORITY_NORMAL		FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 1)
-+#define GEN12_CTX_PRIORITY_LOW			FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 0)
- #define GEN8_CTX_ID_SHIFT			32
- #define GEN8_CTX_ID_WIDTH			21
- #define GEN11_SW_CTX_ID_SHIFT			37
-@@ -103,4 +110,14 @@ enum {
- #define XEHP_SW_COUNTER_SHIFT			58
- #define XEHP_SW_COUNTER_WIDTH			6
- 
-+static inline u32 lrc_desc_priority(int prio)
++void xehp_enable_ccs_engines(struct intel_engine_cs *engine)
 +{
-+	if (prio > I915_PRIORITY_NORMAL)
-+		return GEN12_CTX_PRIORITY_HIGH;
-+	else if (prio < I915_PRIORITY_NORMAL)
-+		return GEN12_CTX_PRIORITY_LOW;
-+	else
-+		return GEN12_CTX_PRIORITY_NORMAL;
++	/*
++	 * If there are any non-fused-off CCS engines, we need to enable CCS
++	 * support in the RCU_MODE register.  This only needs to be done once,
++	 * so for simplicity we'll take care of this in the RCS engine's
++	 * resume handler; since the RCS and all CCS engines belong to the
++	 * same reset domain and are reset together, this will also take care
++	 * of re-applying the setting after i915-triggered resets.
++	 */
++	if (!CCS_MASK(engine->gt))
++		return;
++
++	intel_uncore_write(engine->uncore, GEN12_RCU_MODE,
++			   _MASKED_BIT_ENABLE(GEN12_RCU_MODE_CCS_ENABLE));
 +}
 +
- #endif /* __INTEL_LRC_H__ */
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "mock_engine.c"
+ #include "selftest_engine.c"
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index c8407cc96c42..574c0542c92f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2914,6 +2914,19 @@ static int execlists_resume(struct intel_engine_cs *engine)
+ 	return 0;
+ }
+ 
++static int gen12_rcs_resume(struct intel_engine_cs *engine)
++{
++	int ret;
++
++	ret = execlists_resume(engine);
++	if (ret)
++		return ret;
++
++	xehp_enable_ccs_engines(engine);
++
++	return 0;
++}
++
+ static void execlists_reset_prepare(struct intel_engine_cs *engine)
+ {
+ 	ENGINE_TRACE(engine, "depth<-%d\n",
+@@ -3468,6 +3481,9 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
+ 		engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_rcs;
+ 		break;
+ 	}
++
++	if (engine->class == RENDER_CLASS)
++		engine->resume = gen12_rcs_resume;
+ }
+ 
+ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 84f189738a68..e629443e07ae 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -1327,6 +1327,9 @@
+ #define   ECOBITS_PPGTT_CACHE64B		(3 << 8)
+ #define   ECOBITS_PPGTT_CACHE4B			(0 << 8)
+ 
++#define GEN12_RCU_MODE				_MMIO(0x14800)
++#define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
++
+ #define CHV_FUSE_GT				_MMIO(VLV_DISPLAY_BASE + 0x2168)
+ #define   CHV_FGT_DISABLE_SS0			(1 << 10)
+ #define   CHV_FGT_DISABLE_SS1			(1 << 11)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 847e00390b00..29fbe4681ca7 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -335,6 +335,10 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
+ 	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
+ 	ret |= GUC_MMIO_REG_ADD(regset, RING_IMR(base), false);
+ 
++	if (engine->class == RENDER_CLASS &&
++	    CCS_MASK(engine->gt))
++		ret |= GUC_MMIO_REG_ADD(regset, GEN12_RCU_MODE, true);
++
+ 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++)
+ 		ret |= GUC_MMIO_REG_ADD(regset, wa->reg, wa->masked_reg);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 891b98236155..7e248e2001de 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -3603,6 +3603,19 @@ static bool guc_sched_engine_disabled(struct i915_sched_engine *sched_engine)
+ 	return !sched_engine->tasklet.callback;
+ }
+ 
++static int gen12_rcs_resume(struct intel_engine_cs *engine)
++{
++	int ret;
++
++	ret = guc_resume(engine);
++	if (ret)
++		return ret;
++
++	xehp_enable_ccs_engines(engine);
++
++	return 0;
++}
++
+ static void guc_set_default_submission(struct intel_engine_cs *engine)
+ {
+ 	engine->submit_request = guc_submit_request;
+@@ -3723,6 +3736,9 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
+ 		engine->emit_fini_breadcrumb = gen8_emit_fini_breadcrumb_rcs;
+ 		break;
+ 	}
++
++	if (engine->class == RENDER_CLASS)
++		engine->resume = gen12_rcs_resume;
+ }
+ 
+ static inline void guc_default_irqs(struct intel_engine_cs *engine)
 -- 
 2.34.1
 
