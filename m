@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D4A4C89A8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 11:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF4A4C8A42
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 12:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C91D10EC1D;
-	Tue,  1 Mar 2022 10:51:03 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED9E10EC0E;
- Tue,  1 Mar 2022 10:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646131861; x=1677667861;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4GB4qjiiZp+MaVtvQChHi+CT6NDxdKKe03RQpnpr8uI=;
- b=I1o7f9WsU11pBdzHra69ff6BaHbosk/SahW1TPkourkidfXn0OL0zFKL
- oz88UiuBw44B7NkkTL2uWLcpzmklcE45cqWdxjbPTDCLZ6Pbvz8zi46zp
- bS8DN818C11mY6fi3IdwsJYeoRBi4sx9OxJFKfqFg6p5UTg3WR8BN0dA6
- xmwGvwsm2gq9auJaJq+J15QpZf2Ucx51yys/WJAZyY1xLsQ5RRX30azUv
- aXzcoLfqwWaUW2t8XQanA1sAEpbV0JFw15g5VQR+SbcPHI4BmAsnDgu2R
- FUH56mMCxP927QuZNQJDkXgzQYDjK0PA3BrPNPi3NA5I4S6pwdSHz4ULo A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="313828838"
-X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; d="scan'208";a="313828838"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 02:51:00 -0800
-X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; d="scan'208";a="510462472"
-Received: from ssahani-mobl.amr.corp.intel.com (HELO [10.212.127.177])
- ([10.212.127.177])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 02:50:59 -0800
-Message-ID: <d931b54e-0b89-877e-9a7f-ede3c3bf165f@linux.intel.com>
-Date: Tue, 1 Mar 2022 10:50:57 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36A4010E5F8;
+	Tue,  1 Mar 2022 11:05:07 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 074FD10EACE
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 11:05:05 +0000 (UTC)
+Received: by mail-qv1-xf31.google.com with SMTP id dy10so1433010qvb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 03:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eNwcCZs+3ecEfOTGDHb0yJb7mKFZMDv/GLNrupw/17E=;
+ b=JoYXmgVKIH9VUHvlFhkIw7PSpm8moOFoUhAVvm1VMVWi/ViQGl074+/ruZF4zyE66U
+ KdLLRQJfLEbHR+UhIoagz6d59NZLobhTVeOS7ng1PoYE136e3PBhv09DTyuPi2TSQWgL
+ /Kt/8hGTXRdJrU0xv3urnq4yTuuSh4lRIM6E0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eNwcCZs+3ecEfOTGDHb0yJb7mKFZMDv/GLNrupw/17E=;
+ b=6QnlK25+PB3Y03qQ8a1OKlTnD9+qiy1AgN3bU7ATdZDRNhJ7w33zUxfL4xP13QXRux
+ JCrTcvoXx1/T+SS8qUHIdkWCzMlUiXAnjnAfu1CI4a151CNdV526xytZWIWLq3htQ/ud
+ 3RdOnduK6vYKXgvOB7hKHKn2lYl5IWFYjQnAt2XXEBZ5M6vwats2oTMjZDiwG+b9ZjxN
+ sKGncwoMX4Z3FMZ1mEoAZ87Wic8W2PuFWbD+W0SPx9HcE2MArs95CEe3yN1QayeXMBUp
+ kSsSFO9eWItvqzwP8rF2h96cbjVcyaWcuEJDHuAw5Y+ZqbaYEKdcbLxB3NxcH/qnyfUx
+ J1qA==
+X-Gm-Message-State: AOAM531Lih7s+t2uymLfySQvR2uLtX1RXFZ6rGhEqY609geHP2gQ815h
+ pcP0SULuijgLQhQ+l6z3xfgmM+FiXORXl4IARio=
+X-Google-Smtp-Source: ABdhPJwDZ95OZcgGd7ihlsrgAQAioszvmBGbdKhq2Gm22rztIQG16pJLXF7C0pFz+/GW3luzlXIMKCey8L8RYjtDi8w=
+X-Received: by 2002:a05:6214:628:b0:432:c2db:94e3 with SMTP id
+ a8-20020a056214062800b00432c2db94e3mr12990477qvx.107.1646132704840; Tue, 01
+ Mar 2022 03:05:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
- to avoid overflow
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
- <20220218213307.1338478-2-John.C.Harrison@Intel.com>
- <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
- <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
- <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
- <85105590-a8be-f4e1-69bc-cd34cad108e2@intel.com>
- <16a2687b-4996-8d40-456e-019a112f0fb6@linux.intel.com>
- <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
- <74d30fd4-cb72-113e-fc09-12602b3cf06d@linux.intel.com>
- <986dae97-6c68-34cc-d972-22edaddf7261@intel.com>
- <4e8888d0-f0da-12f3-4010-159b4ff2bdb3@linux.intel.com>
- <fc96ce57-37f7-9962-6d15-1741de9fcd89@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <fc96ce57-37f7-9962-6d15-1741de9fcd89@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
+ <20211208013337.13806-6-tommy_huang@aspeedtech.com>
+ <CACPK8XfA8Mz6tU2r=G+PxuVkvTZ5Nzw0g-V7EAoBhkKO-TOPfQ@mail.gmail.com>
+ <SG2PR06MB4818A370D5DDEC18D1B34FE6E1029@SG2PR06MB4818.apcprd06.prod.outlook.com>
+In-Reply-To: <SG2PR06MB4818A370D5DDEC18D1B34FE6E1029@SG2PR06MB4818.apcprd06.prod.outlook.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 1 Mar 2022 11:04:52 +0000
+Message-ID: <CACPK8Xdn8eqNieXhEKcCyFeuste_XKJneePwuZy9T7CAQZFocQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,371 +62,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 1 Mar 2022 at 07:00, Tommy Huang <tommy_huang@aspeedtech.com> wrote:
+>
+> Hi Joel,
+>
+>         It seems that the reset control could keep original code behavior.
+>         Just change the reset define in the .dtsi file from ASPEED_RESET_CRT1 into ASPEED_RESET_GRAPHICS.
 
-On 28/02/2022 18:32, John Harrison wrote:
-> On 2/28/2022 08:11, Tvrtko Ursulin wrote:
->> On 25/02/2022 17:39, John Harrison wrote:
->>> On 2/25/2022 09:06, Tvrtko Ursulin wrote:
->>>>
->>>> On 24/02/2022 19:19, John Harrison wrote:
->>>>
->>>> [snip]
->>>>
->>>>>>>>>> ./gt/uc/intel_guc_fwif.h: u32 execution_quantum;
->>>>>>>>>>
->>>>>>>>>> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
->>>>>>>>>> engine->props.timeslice_duration_ms * 1000;
->>>>>>>>>>
->>>>>>>>>> ./gt/intel_engine_types.h:              unsigned long 
->>>>>>>>>> timeslice_duration_ms;
->>>>>>>>>>
->>>>>>>>>> timeslice_store/preempt_timeout_store:
->>>>>>>>>> err = kstrtoull(buf, 0, &duration);
->>>>>>>>>>
->>>>>>>>>> So both kconfig and sysfs can already overflow GuC, not only 
->>>>>>>>>> because of tick conversion internally but because at backend 
->>>>>>>>>> level nothing was done for assigning 64-bit into 32-bit. Or I 
->>>>>>>>>> failed to find where it is handled.
->>>>>>>>> That's why I'm adding this range check to make sure we don't 
->>>>>>>>> allow overflows.
->>>>>>>>
->>>>>>>> Yes and no, this fixes it, but the first bug was not only due 
->>>>>>>> GuC internal tick conversion. It was present ever since the u64 
->>>>>>>> from i915 was shoved into u32 sent to GuC. So even if GuC used 
->>>>>>>> the value without additional multiplication, bug was be there. 
->>>>>>>> My point being when GuC backend was added timeout_ms values 
->>>>>>>> should have been limited/clamped to U32_MAX. The tick discovery 
->>>>>>>> is additional limit on top.
->>>>>>> I'm not disagreeing. I'm just saying that the truncation wasn't 
->>>>>>> noticed until I actually tried using very long timeouts to debug 
->>>>>>> a particular problem. Now that it is noticed, we need some method 
->>>>>>> of range checking and this simple clamp solves all the truncation 
->>>>>>> problems.
->>>>>>
->>>>>> Agreed in principle, just please mention in the commit message all 
->>>>>> aspects of the problem.
->>>>>>
->>>>>> I think we can get away without a Fixes: tag since it requires 
->>>>>> user fiddling to break things in unexpected ways.
->>>>>>
->>>>>> I would though put in a code a clamping which expresses both, 
->>>>>> something like min(u32, ..GUC LIMIT..). So the full story is 
->>>>>> documented forever. Or "if > u32 || > ..GUC LIMIT..) return 
->>>>>> -EINVAL". Just in case GuC limit one day changes but u32 stays. 
->>>>>> Perhaps internal ticks go away or anything and we are left with 
->>>>>> plain 1:1 millisecond relationship.
->>>>> Can certainly add a comment along the lines of "GuC API only takes 
->>>>> a 32bit field but that is further reduced to GUC_LIMIT due to 
->>>>> internal calculations which would otherwise overflow".
->>>>>
->>>>> But if the GuC limit is > u32 then, by definition, that means the 
->>>>> GuC API has changed to take a u64 instead of a u32. So there will 
->>>>> no u32 truncation any more. So I'm not seeing a need to explicitly 
->>>>> test the integer size when the value check covers that.
->>>>
->>>> Hmm I was thinking if the internal conversion in the GuC fw changes 
->>>> so that GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS goes above u32, then to be 
->>>> extra safe by documenting in code there is the additional limit of 
->>>> the data structure field. Say the field was changed to take some 
->>>> unit larger than a millisecond. Then the check against the GuC MAX 
->>>> limit define would not be enough, unless that would account both for 
->>>> internal implementation and u32 in the protocol. Maybe that is 
->>>> overdefensive but I don't see that it harms. 50-50, but it's do it 
->>>> once and forget so I'd do it.
->>> Huh?
->>>
->>> How can the limit be greater than a u32 if the interface only takes a 
->>> u32? By definition the limit would be clamped to u32 size.
->>>
->>> If you mean that the GuC policy is in different units and those units 
->>> might not overflow but ms units do, then actually that is already the 
->>> case. The GuC works in us not ms. That's part of why the wrap around 
->>> is so low, we have to multiply by 1000 before sending to GuC. 
->>> However, that is actually irrelevant because the comparison is being 
->>> done on the i915 side in i915's units. We have to scale the GuC limit 
->>> to match what i915 is using. And the i915 side is u64 so if the 
->>> scaling to i915 numbers overflows a u32 then who cares because that 
->>> comparison can be done at 64 bits wide.
->>>
->>> If the units change then that is a backwards breaking API change that 
->>> will require a manual driver code update. You can't just recompile 
->>> with a new header and magically get an ms to us or ms to s conversion 
->>> in your a = b assignment. The code will need to be changed to do the 
->>> new unit conversion (note we already convert from ms to us, the GuC 
->>> API is all expressed in us). And that code change will mean having to 
->>> revisit any and all scaling, type conversions, etc. I.e. any 
->>> pre-existing checks will not necessarily be valid and will need to be 
->>> re-visted anyway. But as above, any scaling to GuC units has to be 
->>> incorporated into the limit already because otherwise the limit would 
->>> not fit in the GuC's own API.
->>
->> Yes I get that, I was just worried that u32 field in the protocol and 
->> GUC_POLICY_MAX_EXEC_QUANTUM_MS defines are separate in the source code 
->> and then how to protect against forgetting to update both in sync.
->>
->> Like if the protocol was changed to take nanoseconds, and firmware 
->> implementation changed to support the full range, but define 
->> left/forgotten at 100s. That would then overflow u32.
-> Huh? If the API was updated to 'support the full range' then how can you 
-> get overflow by forgetting to update the limit? You could get 
-> unnecessary clamping, which hopefully would be noticed by whoever is 
-> testing the new API and/or whoever requested the change. But you can't 
-> get u32 overflow errors if all the code has been updated to u64.
+Right, because the ASPEED_RESET_CRT reset is released by the
+ASPEED_CLK_GATE_D1CLK line?
 
-1)
-Change the protocol so that "u32 desc->execution_quantum" now takes nano seconds.
+include/dt-bindings/clock/ast2600-clock.h:#define ASPEED_RESET_CRT
+         13
 
-This now makes the maximum time 4.29.. seconds.
+drivers/clk/clk-ast2600.c:      /*
+clk rst  name               parent   flags */
+drivers/clk/clk-ast2600.c:      [ASPEED_CLK_GATE_D1CLK]         = {
+10, 13, "d1clk-gate",       "d1clk", 0 >
 
-2)
-Forget to update GUC_POLICY_MAX_EXEC_QUANTUM_MS from 100s, since for instance that part at that point still not part of the interface contract.
 
-3)
-User passes in 5 seconds.
 
-Clamping check says all is good.
+>
+>         By the way, the HW controller states and FW programming register will be reset by CRT reset line.
+>         And another part HW controller states will be reset by engine reset line.
 
-"engine->props.timeslice_duration_ms > GUC_POLICY_MAX_EXEC_QUANTUM_MS"
+Thanks. Can we include that in the commit message for the device tree change?
 
-4)
-
-Assignment was updated:
-
-gt/uc/intel_guc_submission.c:
-
-   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
-
-But someone did not realize field is u32.
-
-   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
-
-Defensive solution:
-
-   if (overflows_type(engine->props.timeslice_duration_ms * 1e6, desc->execution_quantum))
-	drm_WARN_ON...
-
-   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
-
-Regards,
-
-Tvrtko
-
-  
-> John.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> John.
->>>
->>>>
->>>>>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>>>>>>>> ---
->>>>>>>>>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 15 
->>>>>>>>>>> +++++++++++++++
->>>>>>>>>>>   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 14 
->>>>>>>>>>> ++++++++++++++
->>>>>>>>>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 9 +++++++++
->>>>>>>>>>>   3 files changed, 38 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
->>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>>>> index e53008b4dd05..2a1e9f36e6f5 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>>>>>>>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct 
->>>>>>>>>>> intel_gt *gt, enum intel_engine_id id,
->>>>>>>>>>>       if (GRAPHICS_VER(i915) == 12 && engine->class == 
->>>>>>>>>>> RENDER_CLASS)
->>>>>>>>>>>           engine->props.preempt_timeout_ms = 0;
->>>>>>>>>>>   +    /* Cap timeouts to prevent overflow inside GuC */
->>>>>>>>>>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
->>>>>>>>>>> +        if (engine->props.timeslice_duration_ms > 
->>>>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
->>>>>>>>>>
->>>>>>>>>> Hm "wanted".. There's been too much back and forth on the GuC 
->>>>>>>>>> load options over the years to keep track.. 
->>>>>>>>>> intel_engine_uses_guc work sounds like would work and read nicer.
->>>>>>>>> I'm not adding a new feature check here. I'm just using the 
->>>>>>>>> existing one. If we want to rename it yet again then that would 
->>>>>>>>> be a different patch set.
->>>>>>>>
->>>>>>>> $ grep intel_engine_uses_guc . -rl
->>>>>>>> ./i915_perf.c
->>>>>>>> ./i915_request.c
->>>>>>>> ./selftests/intel_scheduler_helpers.c
->>>>>>>> ./gem/i915_gem_context.c
->>>>>>>> ./gt/intel_context.c
->>>>>>>> ./gt/intel_engine.h
->>>>>>>> ./gt/intel_engine_cs.c
->>>>>>>> ./gt/intel_engine_heartbeat.c
->>>>>>>> ./gt/intel_engine_pm.c
->>>>>>>> ./gt/intel_reset.c
->>>>>>>> ./gt/intel_lrc.c
->>>>>>>> ./gt/selftest_context.c
->>>>>>>> ./gt/selftest_engine_pm.c
->>>>>>>> ./gt/selftest_hangcheck.c
->>>>>>>> ./gt/selftest_mocs.c
->>>>>>>> ./gt/selftest_workarounds.c
->>>>>>>>
->>>>>>>> Sounds better to me than intel_guc_submission_is_wanted. What 
->>>>>>>> does the reader know whether "is wanted" translates to "is 
->>>>>>>> actually used". Shrug on "is wanted".
->>>>>>> Yes, but isn't '_uses' the one that hits a BUG_ON if you call it 
->>>>>>> too early in the boot up sequence? I never understood why that 
->>>>>>> was necessary or why we need so many different ways to ask the 
->>>>>>> same question. But this version already exists and definitely 
->>>>>>> works without hitting any explosions.
->>>>>>
->>>>>> No idea if it causes a bug on, doesn't in the helper itself so 
->>>>>> maybe you are saying it is called too early? Might be.. I think 
->>>>>> over time the nice idea we had that "setup" and "init" phases of 
->>>>>> engine setup clearly separated got destroyed a bit. There would 
->>>>>> always be an option to move this clamping in a later phase, once 
->>>>>> the submission method is known. One could argue that if the 
->>>>>> submission method is not yet known at this point, it is even wrong 
->>>>>> to clamp based on something which will only be decided later. 
->>>>>> Because:
->>>>>>
->>>>>> int intel_engines_init(struct intel_gt *gt)
->>>>>> {
->>>>>>     int (*setup)(struct intel_engine_cs *engine);
->>>>>>     struct intel_engine_cs *engine;
->>>>>>     enum intel_engine_id id;
->>>>>>     int err;
->>>>>>
->>>>>>     if (intel_uc_uses_guc_submission(&gt->uc)) {
->>>>>>         gt->submission_method = INTEL_SUBMISSION_GUC;
->>>>>>
->>>>>> So this uses "uses", not "wanted". Presumably the point for having 
->>>>>> "wanted" and "uses" is that they can disagree, in which case if 
->>>>>> you clamp early based on "wanted" that suggests it could be wrong.
->>>>>
->>>>> Okay, looks like I was getting confused with intel_guc_is_used(). 
->>>>> That one blows up if called too early.
->>>>>
->>>>> I'll change it to _uses_ and repost, then.
->>>>
->>>> Check that it isn't called too early, before gt->submission_setup is 
->>>> set.
->>> Obviously it is because it blew up. But I am not re-writing the 
->>> driver start up sequence just to use the word 'use' instead of 'want'.
->>>
->>>>
->>>>>
->>>>>>
->>>>>>>>>> And limit to class instead of applying to all engines looks 
->>>>>>>>>> like a miss.
->>>>>>>>> As per follow up email, the class limit is not applied here.
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice 
->>>>>>>>>>> duration to %d to prevent possibly overflow\n",
->>>>>>>>>>> + GUC_POLICY_MAX_EXEC_QUANTUM_MS);
->>>>>>>>>>> + engine->props.timeslice_duration_ms = 
->>>>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
->>>>>>>>>>
->>>>>>>>>> I am not sure logging such message during driver load is 
->>>>>>>>>> useful. Sounds more like a confused driver which starts with 
->>>>>>>>>> one value and then overrides itself. I'd just silently set the 
->>>>>>>>>> value appropriate for the active backend. Preemption timeout 
->>>>>>>>>> kconfig text already documents the fact timeouts can get 
->>>>>>>>>> overriden at runtime depending on platform+engine. So maybe 
->>>>>>>>>> just add same text to timeslice kconfig.
->>>>>>>>> The point is to make people aware if they compile with 
->>>>>>>>> unsupported config options. As far as I know, there is no way 
->>>>>>>>> to apply range checking or other limits to config defines. 
->>>>>>>>> Which means that a user would silently get unwanted behaviour. 
->>>>>>>>> That seems like a bad thing to me. If the driver is confused 
->>>>>>>>> because the user built it in a confused manner then we should 
->>>>>>>>> let them know.
->>>>>>>>
->>>>>>>> Okay, but I think make it notice low level.
->>>>>>>>
->>>>>>>> Also consider in patch 3/3 when you triple it, and then clamp 
->>>>>>>> back down here. That's even more confused state since tripling 
->>>>>>>> gets nerfed. I think that's also an argument to always account 
->>>>>>>> preempt timeout in heartbeat interval calculation. Haven't got 
->>>>>>>> to your reply on 2/3 yet though..
->>>>>>> That sounds like even more reason to make sure the warning gets 
->>>>>>> seen. The more complex the system and the more chances there are 
->>>>>>> to get it wrong, the more important it is to have a nice easy to 
->>>>>>> see and understand notification that it did go wrong.
->>>>>>
->>>>>> I did not disagree, just said make it notice, one level higher 
->>>>>> than info! :)
->>>>> But then it won't appear unless you have explicitly said an 
->>>>> elevated debug level. Whereas info appears in dmesg by default (but 
->>>>> is still not classed as an error by CI and such).
->>>>
->>>> Notice is higher than info! :) If info appears by default so does 
->>>> notice, warning, err, etc...
->>> Doh! I could have sworn those were the other way around.
->>>
->>> Okay. Will update to use notice :).
->>>
->>>>
->>>> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
->>>> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken 
->>>> immediately */
->>>> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
->>>> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->>>> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
->>>> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant 
->>>> condition */
->>>> #define KERN_INFO       KERN_SOH "6"    /* informational */
->>>> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->>>>
->>>>>> But also think how, if we agree to go with tripling, that you'd 
->>>>>> have to consider that in the sysfs store when hearbeat timeout is 
->>>>>> written, to consider whether or not to triple and error out if 
->>>>>> preemption timeout is over limit.
->>>>> I see this as just setting the default values. If an end user is 
->>>>> explicitly overriding the defaults then we should obey what they 
->>>>> have requested. If they are changing the heartbeat interval then 
->>>>> they can also change the pre-emption timeout appropriately.
->>>>
->>>> Question is can they unknowingly and without any feedback configure 
->>>> a much worse state than they expect? Like when they set heartbeats 
->>>> up to some value, everything is configured as you intended - but if 
->>>> you go over a certain hidden limit the overall scheme degrades in 
->>>> some way. What is the failure mode here if you silently let them do 
->>>> that?
->>> You can always configure things to be worse than expected. If you 
->>> don't understand what you are doing then any control can make things 
->>> worse instead of better. The assumption is that if a user is savvy 
->>> enough to be writing to sysfs overrides of kernel parameters then 
->>> they know what those parameters are and what their implications are. 
->>> If they want to set a very short heartbeat with a very long 
->>> pre-emption timeout then its their problem if they hit frequent TDRs. 
->>> Conversely, if they want to set a very long heartbeat with a very 
->>> short pre-emption timeout then its still their problem if they hit 
->>> frequent TDRs.
->>>
->>> But if the user explicitly requests a heartbeat period of 3s and a 
->>> pre-emption timeout of 2s and the i915 arbitrarily splats their 2s 
->>> and makes it 9s then that is wrong.
->>>
->>> We should give the driver defaults that work for the majority of 
->>> users and then let the minority specify exactly what they need.
->>>
->>> And there is no silent or hidden limit. If the user specifies a value 
->>> too large then they will get -EINVAL. Nothing hidden or silent about 
->>> that. Any other values are legal and the behaviour will be whatever 
->>> has been requested.
->>>
->>> John.
->>>
->>>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>
-> 
+>
+>         Thanks,
+>
+>         By Tommy
+>
+> > -----Original Message-----
+> > From: Joel Stanley <joel@jms.id.au>
+> > Sent: Monday, February 28, 2022 5:51 PM
+> > To: Tommy Huang <tommy_huang@aspeedtech.com>
+> > Cc: David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Rob
+> > Herring <robh+dt@kernel.org>; Andrew Jeffery <andrew@aj.id.au>;
+> > linux-aspeed <linux-aspeed@lists.ozlabs.org>; open list:DRM DRIVERS
+> > <dri-devel@lists.freedesktop.org>; devicetree <devicetree@vger.kernel.org>;
+> > Linux ARM <linux-arm-kernel@lists.infradead.org>; Linux Kernel Mailing List
+> > <linux-kernel@vger.kernel.org>; BMC-SW <BMC-SW@aspeedtech.com>
+> > Subject: Re: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
+> >
+> > On Wed, 8 Dec 2021 at 01:34, Tommy Haung
+> > <tommy_huang@aspeedtech.com> wrote:
+> > >
+> > > From: tommy-huang <tommy_huang@aspeedtech.com>
+> > >
+> > > Add more reset and clock select code for AST2600.
+> > > The gfx_flags parameter was added for chip caps idenified.
+> >
+> > Can you tell me a bit more about the two reset lines:
+> >
+> > What is the CRT reset line controlling?
+> >
+> > What does the engine reset line control?
+> >
+> > Can we use devm_reset_control_array_get() to get whichever are specified in
+> > the device tree, so we don't need to have different logic for the 2600 and
+> > earlier chips?
+> >
+> >
+> >
+> > >
+> > > Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
+> > > ---
+> > >  drivers/gpu/drm/aspeed/aspeed_gfx.h      | 16 +++++++-
+> > >  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 16 ++++++++
+> > > drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 50
+> > ++++++++++++++++++++++--
+> > >  3 files changed, 77 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > index 4e6a442c3886..2c733225d3c7 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > @@ -8,7 +8,8 @@ struct aspeed_gfx {
+> > >         struct drm_device               drm;
+> > >         void __iomem                    *base;
+> > >         struct clk                      *clk;
+> > > -       struct reset_control            *rst;
+> > > +       struct reset_control            *rst_crt;
+> > > +       struct reset_control            *rst_engine;
+> > >         struct regmap                   *scu;
+> > >
+> > >         u32                             dac_reg;
+> > > @@ -16,6 +17,7 @@ struct aspeed_gfx {
+> > >         u32                             vga_scratch_reg;
+> > >         u32                             throd_val;
+> > >         u32                             scan_line_max;
+> > > +       u32                             flags;
+> > >
+> > >         struct drm_simple_display_pipe  pipe;
+> > >         struct drm_connector            connector;
+> > > @@ -106,3 +108,15 @@ int aspeed_gfx_create_output(struct drm_device
+> > > *drm);
+> > >  /* CRT_THROD */
+> > >  #define CRT_THROD_LOW(x)               (x)
+> > >  #define CRT_THROD_HIGH(x)              ((x) << 8)
+> > > +
+> > > +/* SCU control */
+> > > +#define SCU_G6_CLK_COURCE              0x300
+> > > +
+> > > +/* GFX FLAGS */
+> > > +#define RESET_MASK                     BIT(0)
+> > > +#define RESET_G6                       BIT(0)
+> > > +#define CLK_MASK                       BIT(4)
+> > > +#define CLK_G6                         BIT(4)
+> > > +
+> > > +#define G6_CLK_MASK                    (BIT(8) | BIT(9) | BIT(10))
+> > > +#define G6_USB_40_CLK                  BIT(9)
+> > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > index 827e62c1daba..e0975ecda92d 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > @@ -77,6 +77,18 @@ static void aspeed_gfx_disable_controller(struct
+> > aspeed_gfx *priv)
+> > >         regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);  }
+> > >
+> > > +static void aspeed_gfx_set_clk(struct aspeed_gfx *priv) {
+> > > +       switch (priv->flags & CLK_MASK) {
+> > > +       case CLK_G6:
+> > > +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE,
+> > G6_CLK_MASK, 0x0);
+> > > +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE,
+> > G6_CLK_MASK, G6_USB_40_CLK);
+> > > +               break;
+> > > +       default:
+> > > +               break;
+> > > +       }
+> > > +}
+> > > +
+> > >  static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)  {
+> > >         struct drm_display_mode *m =
+> > > &priv->pipe.crtc.state->adjusted_mode;
+> > > @@ -87,6 +99,8 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct
+> > aspeed_gfx *priv)
+> > >         if (err)
+> > >                 return;
+> > >
+> > > +       aspeed_gfx_set_clk(priv);
+> > > +
+> > >  #if 0
+> > >         /* TODO: we have only been able to test with the 40MHz USB
+> > clock. The
+> > >          * clock is fixed, so we cannot adjust it here. */ @@ -193,6
+> > > +207,7 @@ static void aspeed_gfx_pipe_update(struct
+> > > drm_simple_display_pipe *pipe,  static int
+> > > aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)  {
+> > >         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
+> > > +
+> > >         u32 reg = readl(priv->base + CRT_CTRL1);
+> > >
+> > >         /* Clear pending VBLANK IRQ */ @@ -207,6 +222,7 @@ static int
+> > > aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)  static
+> > > void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
+> > > {
+> > >         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
+> > > +
+> > >         u32 reg = readl(priv->base + CRT_CTRL1);
+> > >
+> > >         reg &= ~CRT_CTRL_VERTICAL_INTR_EN; diff --git
+> > > a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > index d10246b1d1c2..59a0de92650f 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > @@ -64,6 +64,7 @@ struct aspeed_gfx_config {
+> > >         u32 vga_scratch_reg;    /* VGA scratch register in SCU */
+> > >         u32 throd_val;          /* Default Threshold Seting */
+> > >         u32 scan_line_max;      /* Max memory size of one scan line */
+> > > +       u32 gfx_flags;          /* Flags for gfx chip caps */
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2400_config = { @@ -72,6
+> > > +73,7 @@ static const struct aspeed_gfx_config ast2400_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x1e) | CRT_THROD_HIGH(0x12),
+> > >         .scan_line_max = 64,
+> > > +       .gfx_flags = 0,
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2500_config = { @@ -80,6
+> > > +82,7 @@ static const struct aspeed_gfx_config ast2500_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3c),
+> > >         .scan_line_max = 128,
+> > > +       .gfx_flags = 0,
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2600_config = { @@ -88,6
+> > > +91,7 @@ static const struct aspeed_gfx_config ast2600_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x50) | CRT_THROD_HIGH(0x70),
+> > >         .scan_line_max = 128,
+> > > +       .gfx_flags = RESET_G6 | CLK_G6,
+> > >  };
+> > >
+> > >  static const struct of_device_id aspeed_gfx_match[] = { @@ -138,6
+> > > +142,44 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
+> > >         return IRQ_NONE;
+> > >  }
+> > >
+> > > +static int aspeed_gfx_reset(struct drm_device *drm) {
+> > > +       struct platform_device *pdev = to_platform_device(drm->dev);
+> > > +       struct aspeed_gfx *priv = to_aspeed_gfx(drm);
+> > > +
+> > > +       switch (priv->flags & RESET_MASK) {
+> > > +       case RESET_G6:
+> > > +               priv->rst_crt = devm_reset_control_get(&pdev->dev,
+> > "crt");
+> > > +               if (IS_ERR(priv->rst_crt)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid crt reset controller
+> > device tree entry");
+> > > +                       return PTR_ERR(priv->rst_crt);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_crt);
+> > > +
+> > > +               priv->rst_engine = devm_reset_control_get(&pdev->dev,
+> > "engine");
+> > > +               if (IS_ERR(priv->rst_engine)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid engine reset
+> > controller device tree entry");
+> > > +                       return PTR_ERR(priv->rst_engine);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_engine);
+> > > +               break;
+> > > +
+> > > +       default:
+> > > +               priv->rst_crt =
+> > devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> > > +               if (IS_ERR(priv->rst_crt)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid reset controller
+> > device tree entry");
+> > > +                       return PTR_ERR(priv->rst_crt);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_crt);
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  static int aspeed_gfx_load(struct drm_device *drm)  {
+> > >         struct platform_device *pdev = to_platform_device(drm->dev);
+> > > @@ -163,6 +205,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> > >         priv->vga_scratch_reg = config->vga_scratch_reg;
+> > >         priv->throd_val = config->throd_val;
+> > >         priv->scan_line_max = config->scan_line_max;
+> > > +       priv->flags = config->gfx_flags;
+> > >
+> > >         priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
+> > >         if (IS_ERR(priv->scu)) {
+> > > @@ -186,13 +229,12 @@ static int aspeed_gfx_load(struct drm_device
+> > *drm)
+> > >                 return ret;
+> > >         }
+> > >
+> > > -       priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> > > -       if (IS_ERR(priv->rst)) {
+> > > +       ret = aspeed_gfx_reset(drm);
+> > > +       if (ret) {
+> > >                 dev_err(&pdev->dev,
+> > >                         "missing or invalid reset controller device tree
+> > entry");
+> > > -               return PTR_ERR(priv->rst);
+> > > +               return ret;
+> > >         }
+> > > -       reset_control_deassert(priv->rst);
+> > >
+> > >         priv->clk = devm_clk_get(drm->dev, NULL);
+> > >         if (IS_ERR(priv->clk)) {
+> > > --
+> > > 2.17.1
+> > >
