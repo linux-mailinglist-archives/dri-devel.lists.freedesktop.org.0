@@ -2,72 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46374C9417
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 20:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914714C943D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 20:29:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D7810E116;
-	Tue,  1 Mar 2022 19:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6940A10E7AE;
+	Tue,  1 Mar 2022 19:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD5610E116
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 19:15:26 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id qk11so33541607ejb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 11:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+FYbGAw6yxU17iUDUp61Ry7f+ZSO9wN0ehJ+hGfk2DQ=;
- b=NEmpYuhxkY3jphhiKwB9rL7CFHETV0OarciDwH/Y25b8gogpFDGLbcsm2Hp5JlhbRM
- fgLdNaX0z1k1bpDTdAa2T+xhPoQGBlkWInAyVtxomjmoWydKKz6S1Vw5P8QyPxUNcXPG
- O8s4ZVUjpR1ZVkG2oqZOMI9ApgRXI/RsyC5iE=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59BEA10E7AE
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 19:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646162961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b+msLQunHEcmiuuu7B6KPaPcoKHsejBtZdFml9n1AXs=;
+ b=Nxwwv3c+u8hFFYzQG29JnvfQZu6AgxKmOLb50sP0FXAxyeqOwJwOHP9Sa7wJOaKklp7Hra
+ PkHBmDpxAjIWqeofrPJStWNC7Kv1j/v/Tv9ha6FwBPZyuqkRJK9F6b7b8+WAmqJtRgmqzy
+ ENP+ehN6LA4S863WxO2QNWafzgmqdS8=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-587-rnU9rDl7OhabdWXVdZZO3A-1; Tue, 01 Mar 2022 14:29:20 -0500
+X-MC-Unique: rnU9rDl7OhabdWXVdZZO3A-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ b10-20020a4a340a000000b0031937d5a5efso10984304ooa.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 11:29:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+FYbGAw6yxU17iUDUp61Ry7f+ZSO9wN0ehJ+hGfk2DQ=;
- b=8OQ+a8nqha6FgTgNk+0KMTZIPnihULR4jNpvHnrrKsYbvDbPjo3LV6VEH/GR6hXvgR
- xTvnsi5hVoerY03s93Jnlp+0HFNWDqGCN7284CzHjTzHP8iGHajDlm31L2TT6IRekY16
- PQoZfzIj3+JsGNT2ZL6qvjTBSme0ZuGssyoJwy6lXuw1qJ97yXtZ5n4vyR7/tcWneByv
- Q/P/IamZBC4WwNIRNxRSVk7y7wj3Q6YYnEZcKycZ8x3JoFgLiChmiHvGdq4cK79er4G0
- DxNPOrNEJa9dx7N3c3uSx3bk0j0G6fMUDUT37XW+hfSmxGOa6SKjsLJID6MQyreKnovQ
- yIHQ==
-X-Gm-Message-State: AOAM5311upmxB8jZDODavNoARy5TMLeUrVPn3/2AaTHaKX06bIvkp5J+
- AUjcFyXeWuZwPo1aBaG31mPZR+P8sNoLtJ6IVJA=
-X-Google-Smtp-Source: ABdhPJz4zyuRwwPqOxj672YP7TiBQTzdzInoVOQeGx2/tHMYmIXWVY9hjmEdPpapeVxoayn1k+bnCQ==
-X-Received: by 2002:a17:906:b2c6:b0:6cf:e599:6b81 with SMTP id
- cf6-20020a170906b2c600b006cfe5996b81mr19772522ejb.578.1646162124801; 
- Tue, 01 Mar 2022 11:15:24 -0800 (PST)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
- [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
- kk17-20020a170907767100b006d6df16a159sm1239247ejc.224.2022.03.01.11.15.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 11:15:24 -0800 (PST)
-Received: by mail-wr1-f47.google.com with SMTP id e10so4489416wro.13
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 11:15:24 -0800 (PST)
-X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
- w19-20020a2e3013000000b002462ca9365emr17902580ljw.291.1646161622598; Tue, 01
- Mar 2022 11:07:02 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=b+msLQunHEcmiuuu7B6KPaPcoKHsejBtZdFml9n1AXs=;
+ b=KyL1hjUAodojbeymXtzVXbctNjSQBoBgUa7fsVJwQwYLiNdNSoguOR47TIaWDBNVd8
+ 8jABis6sJIwIwNHFA8Q+O5n0EvhKjbn7vb1sCppFF0cf9VGEL6Ftsy+RUml5FJT+KnIq
+ o50fmExBlbMd9AGe6mCAhQgrI2eLgk0sy6NyI3BT5tcMqX+Ygxoeg6GS2osUIGUpbBBN
+ KjfNrGnhZrJLvPkMvoXEzId/Wh3uKIkBndd829UEj+uj5ohzo/eapIKbzaqLGVLfxsJD
+ 45qJOMShafk7j4Yevxt7H6UIYOpKOG6WoUSJDh+/0oMf+Vjm0nT9fFnhtMCDYuqwFszx
+ u6nw==
+X-Gm-Message-State: AOAM531NNxli/7yIU3JiiuVwzfKt/Ny9kotfXRw2eO5++rCLHxN7BcOL
+ +XSM5AH+VxxMAXMezP1oOPcG/lKHoi7qF8zd29e99zfvBb1k1M9YHlpoho9nisEfjODO1IxofiV
+ 7uFTLmH8a4q9MWiEzrsea61JVTaBo
+X-Received: by 2002:a05:6870:87c4:b0:bc:4b13:b0c0 with SMTP id
+ s4-20020a05687087c400b000bc4b13b0c0mr5039316oam.136.1646162959407; 
+ Tue, 01 Mar 2022 11:29:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxpLY9TTBQgKSPEKTWZlSp5xirp8uo7AKtiTGqXvhErF6hETfzSvsXuEhplLz2OX8xyyVD/vQ==
+X-Received: by 2002:a05:6870:87c4:b0:bc:4b13:b0c0 with SMTP id
+ s4-20020a05687087c400b000bc4b13b0c0mr5039301oam.136.1646162959171; 
+ Tue, 01 Mar 2022 11:29:19 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
+ t7-20020a9d5907000000b005afa4058a4csm7019270oth.1.2022.03.01.11.29.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 11:29:18 -0800 (PST)
+From: trix@redhat.com
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, corbet@lwn.net, bhelgaas@google.com
+Subject: [PATCH] vgaarbiter: fix vgaarbiter doc build break
+Date: Tue,  1 Mar 2022 11:29:09 -0800
+Message-Id: <20220301192909.294900-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
- <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
-In-Reply-To: <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 11:06:45 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-Message-ID: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,94 +82,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 2:29 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> However, if the desire is really to poison the loop variable then we
-> can do
->
-> #define list_for_each_entry(pos, head, member)                          \
->         for (pos = list_first_entry(head, typeof(*pos), member);        \
->              !list_entry_is_head(pos, head, member) && ((pos = NULL) == NULL;                   \
->              pos = list_next_entry(pos, member))
->
-> Which would at least set pos to NULL when the loop completes.
+From: Tom Rix <trix@redhat.com>
 
-That would actually have been excellent if we had done that
-originally. It would not only avoid the stale and incorrectly typed
-head entry left-over turd, it would also have made it very easy to
-test for "did I find an entry in the loop".
+make htmldocs fails with
+Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
 
-But I don't much like it in the situation we are now.
+The location of the file changed
+drivers/gpu/vga/vgaarb.c -> drivers/pci/vgaarb.c
+So update the docs with the new location.
 
-Why? Mainly because it basically changes the semantics of the loop
-_without_ any warnings about it.  And we don't actually get the
-advantage of the nicer semantics, because we can't actually make code
-do
+Fixes: d6e1898bfa5b ("PCI/VGA: Move vgaarb to drivers/pci")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ Documentation/gpu/vgaarbiter.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-        list_for_each_entry(entry, ....) {
-                ..
-        }
-        if (!entry)
-                return -ESRCH;
-        .. use the entry we found ..
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index 339ed5fecd2e4..bde3c0afb0590 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -100,7 +100,7 @@ In-kernel interface
+ .. kernel-doc:: include/linux/vgaarb.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/vga/vgaarb.c
++.. kernel-doc:: drivers/pci/vgaarb.c
+    :export:
+ 
+ libpciaccess
+-- 
+2.26.3
 
-because that would be a disaster for back-porting, plus it would be a
-flag-day issue (ie we'd have to change the semantics of the loop at
-the same time we change every single user).
-
-So instead of that simple "if (!entry)", we'd effectively have to
-continue to use something that still works with the old world order
-(ie that "if (list_entry_is_head())" model).
-
-So we couldn't really take _advantage_ of the nicer semantics, and
-we'd not even get a warning if somebody does it wrong - the code would
-just silently do the wrong thing.
-
-IOW: I don't think you are wrong about that patch: it would solve the
-problem that Jakob wants to solve, and it would have absolutely been
-much better if we had done this from the beginning. But I think that
-in our current situation, it's actually a really fragile solution to
-the "don't do that then" problem we have.
-
-              Linus
