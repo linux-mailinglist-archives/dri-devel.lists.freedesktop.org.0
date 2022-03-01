@@ -1,50 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7824C97F7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 22:53:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAC84C980B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 22:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7587810E622;
-	Tue,  1 Mar 2022 21:53:24 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96DAE10E622;
- Tue,  1 Mar 2022 21:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50A9A10E39B;
+	Tue,  1 Mar 2022 21:56:54 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D589E10E38B;
+ Tue,  1 Mar 2022 21:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646171602; x=1677707602;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ML14URIr6uysbUGZe37QLpL9MYR3aHwvz4TsDiwT1Kc=;
- b=k9TLqKmtd/7rZSz/aOAu/A1/VIx7wuO4/UiDEEw4mDF7KjzOF3nuGo5o
- BIKwBZVJ9AauydP13JHV5IMV3jxTyTOZtvIiehDK+mw6XgEHiHAN8FOor
- fe+7SCTtQHz+Ezq13sYteVRP5ij1Bx5RrDm4Q9tdMvfY9yFhO71+sRvwQ
- 30vnCfIzOrGzWcrSsVOw8l8sGFKHAfB9xgIzlzkpFRM+bDv/HdaResdBV
- Nw70/OfzLDoLqBz23KR5+drlFnZa/0qulfgQ8OvevoYKFchaJs/REvS4Q
- 4YS4Mu9MhlBZl0F1LKXM3mpcz7/BX7EURk5hjHIxPAxFrnayGqB4kSPAj w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="277922716"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="277922716"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 13:53:22 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="510704664"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 13:53:20 -0800
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 4/4] drm/i915/migrate: Evict and restore the flatccs
- capable lmem obj
-Date: Wed,  2 Mar 2022 03:23:34 +0530
-Message-Id: <20220301215334.20543-5-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220301215334.20543-1-ramalingam.c@intel.com>
-References: <20220301215334.20543-1-ramalingam.c@intel.com>
+ t=1646171812; x=1677707812;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=i/D3tai0Sd6z0TfEy1u/4/4eV7Fk3DH+K/4rN60mp1I=;
+ b=U+nxfc3AH/gTFJBACjQ6QSJk1XeAPEOBB47ZTRbY6BIeH0lwS06wiFP8
+ cw26vgQ6Zug23oR3i83B9Ag+ST623vGA6G5bDHhuAdnvJkVoqSj+k908e
+ Aeg7G9aR+O7FdLOnXwWFFjdWCf856OxUHsQNYdjuRgewHIyWTeQBJ18gq
+ K0qkE0ZkYn4YGZEW/jzHFZc+1AJE+98U3WWPHjqhET93iwjdPucehGLYU
+ bq5Ow7ngSxIn7OPrAfXr53povMB0neUv2E4C1bH8VG0qKp5PM6uZrJdLS
+ J6XClI1IYCpFoR8sxiS/0C5nDGvia4XiviG4wpxEI6t2AaifAV3nyHDbc Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233221341"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233221341"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 13:56:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="685885883"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by fmsmga001.fm.intel.com with ESMTP; 01 Mar 2022 13:56:52 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 1 Mar 2022 13:56:52 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 1 Mar 2022 13:56:51 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Tue, 1 Mar 2022 13:56:51 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 1 Mar 2022 13:56:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IxOvsvP9CilBOaw+FCA9htVi2wzQerhfF9zY4d+1wJlpmvmw0w7Eup6H/U4P1ZeE5R6+vg1uIdNgZBM+tkAMzKdnqJguNUNFH9h+2lFaQ3NxnW/JnKsX213HB/jZISpzIKwQP9QqwvxAeJjFulcacZAnEWkLAhhcbVXe/d7NdrjXe46XaOQLfY/8kkg/qnMhWNEe69L00t87/ZCCEAjnUzGLURyPgeZd+37CQlnfZA4CGtc0I3Wcv3v7b38/iJiu0GzoWYzAcLmOnhtXmRqawVb/zAYBa7FtSpR10I1JwwFo3o5dYiDLkD6QgMRwjIpvQe1oyRGKUz3ClyvjHGtxjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zo8PnErV//QjhcrBzUCko44FqDMYhVNVAGqntX7JBm0=;
+ b=WbFKWR6ir1tMcotlcEGGtKSzXr9rNObmP8nAV90McfQukikiKppuXAj97pfKuI9Q+wzO5etJ84TS50iTLOhj7GEhVgcPbyxKiU2288i75ezjTK9O3L8eEQ0hjXwMPz9ThtIz9ss+u/gKRFBbeoz38MzG0ANzvoBGLr7aIZJUlF+18V4+7suAPB3LWIn9tVnxzAZsclerVPRbyyjBMvhPrEYY1mGvDDHdf1JfonmPNi+wnQPMAJ37Slk9vC+djXmORKs/8BvsKdD9UQn0VzHzNFY/RgtWEXySLLuOgMaal/LboWpgUihYfYmYDTdyvzS9vDd1w0Jb4ZBf+v2BFIANjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ SN6PR11MB2864.namprd11.prod.outlook.com (2603:10b6:805:63::26) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5017.22; Tue, 1 Mar 2022 21:56:50 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::3c4e:eb25:76ff:a869%4]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 21:56:49 +0000
+Message-ID: <71effe00-e13c-1f3c-741a-8fc6e4a73de5@intel.com>
+Date: Tue, 1 Mar 2022 13:56:47 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/guc: Do not complain about stale
+ reset notifications
+Content-Language: en-US
+To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220225015232.1939497-1-John.C.Harrison@Intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20220225015232.1939497-1-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0051.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::28) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3eb1c39f-08ae-4b02-f888-08d9fbce633e
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2864:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR11MB286409167815D20A9E8091B5F4029@SN6PR11MB2864.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kb02N9UoNSngWQnOziQ3+YGSFvSjnwzB6Qe7gl3Tdx+073EFCEUFmPf94mIauf21R/Pzkx8D5dz4kCkqt0FoxkespK2k0w3XHDj/qCa+dMiEGPS33NqQ6qSZcrD343Y9epUp6fj0MJa/YRxWu8EqPOCCwVc+6sA0P9xgAeD5vufqS8aga/1AQAE+0aq+8AO/eB9eUS49WEq660ClbHjSQEhTIfmawEWDD4/jZ1GNnTvyCHXf7mxNNz2pJ5EniftyHp7MKKZDLVur1G6blhi/yqIvx0/I6MBOIU6Z2G+n3LmJxGBhbF34b1d9ZVAtCDcRLgPoR2m6eWUw+4rBAvEV18ORxBCU7PmgrUE1CWxUJe74Ae3tVSKvUsSU+/LQdULseoojfmV23ZixqwUzAe93VHIpurrQIOfP9vFMl33rL4QyWo8tLgF0xTOanzVwdImn3ELOGMuBUGGG/XPp+4Yqtg1YdcItx93Ctv02K115sv79UyNT1opWmB/7JQHsHG24XRE9UzLqJUAQgzVMjlb59LED2Sx1zu05epNvPdSlkS8hSG+TZdS2QMbvXu8THGRklt2o9a+JURCLAILMLYKg3cxTmq01AVnhA2YObdSZ8FuoQOIqSbIvMDIXYRfL159OeUh6K8uQN9BaAsUpS0MkF4g87k1NF40C3zWc6DoAWYepf5xKVn41LCrIXi2JXARslzGJ5X7Iz2xB3rTYNEYOTr6Hv5epmHBUHP9iDO5bZomO+roeCYG0tiR47PZRLyGf
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(8936002)(6486002)(86362001)(2906002)(31696002)(508600001)(82960400001)(38100700002)(5660300002)(15650500001)(66946007)(186003)(66476007)(66556008)(83380400001)(8676002)(4326008)(450100002)(36756003)(26005)(31686004)(316002)(6512007)(53546011)(6506007)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q3ZFTnd5QkVkbjBubnhpc0hmSmt5VUptWHB0WDNNd1ZERjhRL1hHMFBsOGly?=
+ =?utf-8?B?d1NRaFpldVRpVFJBYVVYd1h1U0ZtWjV0RzFlRG81UDhYZXI2OVFxNnhtakFM?=
+ =?utf-8?B?MkNBY0NpNkRFK0NPb3Zhek5NclBMQ3g1eXJRWUFlV1JPM05QTThwdVRpUitU?=
+ =?utf-8?B?MFZaOG0zcjhiRlJXeDBWUVVBMDZ4NHBTcWg3VTNqcWdTVnZzYS9ocTMvUzNZ?=
+ =?utf-8?B?UWpVQnQ0WlNMTHAxMU1pMFlMNUlCdGtVWWFrR1FLN3oxRmErWDJleUtBMmJx?=
+ =?utf-8?B?R3A0YURhSmNOdXMrOU45bGJYeThIdm9yUmVCSzZQc3BCMjV2elFZcUwrMXBJ?=
+ =?utf-8?B?eGtoMmdXRlk2S0kwSS92eXBPUENZdTBYVi9nYXdEaEpnemdCWHBxY0Y2SUJn?=
+ =?utf-8?B?OWx4ZVhGQTBGRlNIVUl5QjlPc3daRkdCTnB0bkFmRTV5SEZQRUNyOFpjU0JE?=
+ =?utf-8?B?akFHOGZmRHNvNmdjMGltZ3lHSkNCY0ZWM1JobjdseVMxZjNEQzRQdnEwU2Jy?=
+ =?utf-8?B?ZDlMT1hPR0JmRXhIOThqRFdSczBieVl1ZnBrTVBjUjVzR29mNzkvdHlieU5r?=
+ =?utf-8?B?UEYrUnlmeU1ETnFYU1oyc1JVeml5Z3dsbDR1dWprblNRWFRSUUQxYlBOajV3?=
+ =?utf-8?B?cU5ZVU1QenM3WWMzQmlaaFVqQzNFcUFCSVdyb1dkOG9HYlIwZVlZWHMyb1Z6?=
+ =?utf-8?B?S2NmSUd0VFkwMHRlRHFHdm5PaVBsT1FvbkdLUnVKZEMyWmdIV2ZTSXpkVCtU?=
+ =?utf-8?B?cEVUTFFzRWVPYkxuV1dTaDZkeFp6RXo4Z3ZNQVBlQmoxNGhDeUVRc1ZEeE5C?=
+ =?utf-8?B?UjRnb2s4OG5aYUE5YUE4Mit2T25HaXdyY3MwMklxOFVDOWRaaXBwM2Zrb1FY?=
+ =?utf-8?B?UkhHWitaR1ZteS9nb0pjNmtsZ3NlYmVSS1dybHpoWXVIaUdwLzR3V3JSdzJ6?=
+ =?utf-8?B?RlJlaXhvMUd0SjlIOFBVeDJvSXRVVlZqQnNHQk9TeHNvenVjREVlMHdWclYv?=
+ =?utf-8?B?bUF5OXVOZjdLNVdIdURjT2VKT2s3RHVndENUbDdrL3Erb2FHSU5aQThXZjMy?=
+ =?utf-8?B?NTkrVHVhd282RVlkK2E0d2R2b2xRTFl4UTAyYUE4N3BnakxJcHRJdGlsQnpv?=
+ =?utf-8?B?NTlKazFtWGcxM05ZZWQ3VUZFV2JveElzQ29vWGlJU2FjaXEwZXI0QkRuTVhS?=
+ =?utf-8?B?Tk5sSnRYYlBLcy9hWkYzRC8rdy81OUsrWUJEbTBjeEc5QnJYWURQTVJucmZl?=
+ =?utf-8?B?WVJ6aUwvNVlpcHoyUHRBZXJUU00vWElaUVlIVGM0dFRQT3NIN3lhM09uMGFa?=
+ =?utf-8?B?V3NvbU4zQk91Z0xCVFkxUzV1eTVEelhhRTIvUWQ1U2pFaUtDMkJrbTROTTRl?=
+ =?utf-8?B?NmdOdklLMXBZcy9oV1dhMlYrS3lQWnFlQ1NSeUV1RG5UbENqQzFUeFNPN1RW?=
+ =?utf-8?B?SndSY3ZVWVc4d0M0cEZ2c0dLbWxlYk8zdDFnbm1IazhDeGJZeCtJVlU0N3hu?=
+ =?utf-8?B?Y1lYUDBkdWV1Y0gxZ0hYSmd6QkVqQlpyNWNCSThqSXRjYm9Xc0daUTgzVmJs?=
+ =?utf-8?B?aUIxVWF0emdIcVBnNE15bEVYTHg3T0NmYlRGYWFReXFaamN5c3ZPbjJWRW44?=
+ =?utf-8?B?N2l0MjZwaEdvRDFlYTFNVG5xUHJmRHFENEVFWlpMTFFNak1idWQ2RmNNS3l3?=
+ =?utf-8?B?R1lSZDRwTDJjRmY5VllycXlBemNNQ3RaNVJ0S0RRWU5wVDV1a2o5RVFta0tZ?=
+ =?utf-8?B?Z2xMYnpvQW9XM3BQSDFHRkJmVjlxUGNwVHY3SklZTkxiRlE1VkQrTVgwMDVa?=
+ =?utf-8?B?TnlJdlpZVmdUYjdrZVREVUVZUUc4OWFuOHI4bE5SZ1Y2Ty9Ob2tKQUp0LzQ1?=
+ =?utf-8?B?cjJ2aUM3UkFzOFFRWWl0WHhBOGpKVHlRQ0hhcmluZE1xUGJoMVNtOWRWOXI2?=
+ =?utf-8?B?Wkg2NjNJOXA2ODdScmRTSFZlMzZ0RHlFTitCMmdWRnpsQWFIbCtPRTBOZVB4?=
+ =?utf-8?B?d2pmWkwwZk9aMUx4WjU1RkJmZENzK3M2RkV4MnpFeUVkaXhZNXY3YWRLMitt?=
+ =?utf-8?B?VFkvbFRDT0ZiV0VmRGtveXR4Ry9ienRGK1RxdTFnMFoxd21YeUlBb2p3Vnla?=
+ =?utf-8?B?VHkrcXBpMVgwYWNjUWgyaytSQ1pmcXY4M0cvVGF6aHBHeVA3TkhaNEw3RmdY?=
+ =?utf-8?B?NjhuSlpzZktCZldLNU9iODFoQmtYeFVPcEVTRlhia3VsQW8xQm9QQS9jSC9S?=
+ =?utf-8?B?TjI5bG1takI0RkQrTVp4TVJubkxRPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3eb1c39f-08ae-4b02-f888-08d9fbce633e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 21:56:49.8587 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qjr77/TjdGSuUlg5GM4i0nXoq3P3VbOpWEjXNs5dCSihFZ9f1a3SPA2JDUCSviw5T3vxmVpLgTM6ED2Qf1RyXZMdrCP624zpYk/1+qLETw0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2864
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,298 +160,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
 
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem. ccs data is 1/256 of
-lmem size.
 
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
+On 2/24/2022 5:52 PM, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+>
+> It is possible for reset notifications to arrive for a context that is
+> in the process of being banned. So don't flag these as an error, just
+> report it as informational (because it is still useful to know that
+> resets are happening even if they are being ignored).
+>
+> v2: Better wording for the message (review feedback from Tvrtko).
+> v3: Fix rebase issue (review feedback from Daniele).
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-v2: Fixing the ccs handling
+Daniele
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 184 +++++++++++++++++++++---
- 1 file changed, 167 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 330fcdc3e0cf..73ac7382aeb6 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -341,12 +341,9 @@ static int emit_no_arbitration(struct i915_request *rq)
- 	return 0;
- }
- 
--static int emit_pte(struct i915_request *rq,
--		    struct sgt_dma *it,
-+static int emit_pte(struct i915_request *rq, struct sgt_dma *it,
- 		    enum i915_cache_level cache_level,
--		    bool is_lmem,
--		    u64 offset,
--		    int length)
-+		    bool is_lmem, u64 offset, int length)
- {
- 	bool has_64K_pages = HAS_64K_PAGES(rq->engine->i915);
- 	const u64 encode = rq->context->vm->pte_encode(0, cache_level,
-@@ -573,14 +570,54 @@ static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
- 	return cmd;
- }
- 
-+static int emit_ccs_copy(struct i915_request *rq,
-+			 bool dst_is_lmem, u32 dst_offset,
-+			 bool src_is_lmem, u32 src_offset, int size)
-+{
-+	struct drm_i915_private *i915 = rq->engine->i915;
-+	int mocs = rq->engine->gt->mocs.uc_index << 1;
-+	u32 num_ccs_blks, ccs_ring_size;
-+	u8 src_access, dst_access;
-+	u32 *cs;
-+
-+	GEM_BUG_ON(!(src_is_lmem ^ dst_is_lmem) || !HAS_FLAT_CCS(i915));
-+
-+	ccs_ring_size = calc_ctrl_surf_instr_size(i915, size);
-+	WARN_ON(!ccs_ring_size);
-+
-+	cs = intel_ring_begin(rq, round_up(ccs_ring_size, 2));
-+	if (IS_ERR(cs))
-+		return PTR_ERR(cs);
-+
-+	num_ccs_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-+				    NUM_CCS_BYTES_PER_BLOCK);
-+
-+	src_access = !src_is_lmem && dst_is_lmem;
-+	dst_access = !src_access;
-+
-+	cs = i915_flush_dw(cs, MI_FLUSH_LLC | MI_FLUSH_CCS);
-+	cs = _i915_ctrl_surf_copy_blt(cs, src_offset, dst_offset,
-+				      src_access, dst_access,
-+				      mocs, mocs, num_ccs_blks);
-+	cs = i915_flush_dw(cs, MI_FLUSH_LLC | MI_FLUSH_CCS);
-+	if (ccs_ring_size & 1)
-+		*cs++ = MI_NOOP;
-+
-+	intel_ring_advance(rq, cs);
-+
-+	return 0;
-+}
-+
- static int emit_copy(struct i915_request *rq,
--		     u32 dst_offset, u32 src_offset, int size)
-+		     bool dst_is_lmem, u32 dst_offset,
-+		     bool src_is_lmem, u32 src_offset, int size)
- {
- 	const int ver = GRAPHICS_VER(rq->engine->i915);
- 	u32 instance = rq->engine->instance;
- 	u32 *cs;
- 
- 	cs = intel_ring_begin(rq, ver >= 8 ? 10 : 6);
-+
- 	if (IS_ERR(cs))
- 		return PTR_ERR(cs);
- 
-@@ -620,6 +657,18 @@ static int emit_copy(struct i915_request *rq,
- 	return 0;
- }
- 
-+static int scatter_list_length(struct scatterlist *sg)
-+{
-+	int len = 0;
-+
-+	while (sg) {
-+		len += sg_dma_len(sg);
-+		sg = sg_next(sg);
-+	};
-+
-+	return len;
-+}
-+
- int
- intel_context_migrate_copy(struct intel_context *ce,
- 			   const struct i915_deps *deps,
-@@ -632,7 +681,10 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			   struct i915_request **out)
- {
- 	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-+	struct drm_i915_private *i915 = ce->engine->i915;
-+	u32 src_sz, dst_sz, ccs_bytes = 0, bytes_to_cpy;
- 	struct i915_request *rq;
-+	bool ccs_copy = false;
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-@@ -640,9 +692,28 @@ intel_context_migrate_copy(struct intel_context *ce,
- 
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
- 
-+	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
-+		src_sz = scatter_list_length(src);
-+		dst_sz = scatter_list_length(dst);
-+
-+		if (src_is_lmem)
-+			bytes_to_cpy = src_sz;
-+		else if (dst_is_lmem)
-+			bytes_to_cpy = dst_sz;
-+
-+		/*
-+		 * When there is a eviction of ccs needed smem will have the
-+		 * extra pages for the ccs data
-+		 *
-+		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
-+		 * but still we have some requests of smem->lmem with same size.
-+		 * Need to fix it.
-+		 */
-+		ccs_bytes = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
-+	}
-+
- 	do {
--		u32 src_offset, dst_offset;
--		int len;
-+		u32 src_offset, dst_offset, copy_sz;
- 
- 		rq = i915_request_create(ce);
- 		if (IS_ERR(rq)) {
-@@ -682,27 +753,82 @@ intel_context_migrate_copy(struct intel_context *ce,
- 				dst_offset = 2 * CHUNK_SZ;
- 		}
- 
--		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
--			       src_offset, CHUNK_SZ);
--		if (len <= 0) {
--			err = len;
-+		if (ccs_copy) {
-+			/* Flat-CCS: CCS data copy */
-+			if (!src_is_lmem) { /* src is smem */
-+				/*
-+				 * We can only copy the ccs data corresponding to
-+				 * the CHUNK_SZ of lmem which is
-+				 * GET_CCS_BYTES(i915, CHUNK_SZ))
-+				 */
-+				src_sz = min_t(int, bytes_to_cpy,
-+					       GET_CCS_BYTES(i915, CHUNK_SZ));
-+				dst_sz = CHUNK_SZ;
-+			} else {
-+				src_sz = CHUNK_SZ;
-+				dst_sz = min_t(int, bytes_to_cpy,
-+					       GET_CCS_BYTES(i915, CHUNK_SZ));
-+			}
-+		} else if (!ccs_copy && ccs_bytes) {
-+			/* Flat-CCS: Main memory copy */
-+			if (!src_is_lmem) {
-+				src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
-+				dst_sz = CHUNK_SZ;
-+			} else {
-+				dst_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
-+				src_sz = CHUNK_SZ;
-+			}
-+		} else { /* ccs handling is not required */
-+			src_sz = CHUNK_SZ;
-+		}
-+
-+		src_sz = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
-+				  src_offset, src_sz);
-+		if (src_sz <= 0) {
-+			err = src_sz;
- 			goto out_rq;
- 		}
- 
-+		if (!ccs_bytes)
-+			dst_sz = src_sz;
-+
- 		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
--			       dst_offset, len);
-+			       dst_offset, dst_sz);
- 		if (err < 0)
- 			goto out_rq;
--		if (err < len) {
-+		if (err < dst_sz && !ccs_bytes) {
- 			err = -EINVAL;
- 			goto out_rq;
- 		}
- 
-+		dst_sz = err;
-+
- 		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
- 		if (err)
- 			goto out_rq;
- 
--		err = emit_copy(rq, dst_offset, src_offset, len);
-+		if (ccs_copy) {
-+			/*
-+			 * Using max of src_sz and dst_sz, as we need to
-+			 * pass the lmem size corresponding to the ccs
-+			 * blocks we need to handle.
-+			 */
-+			copy_sz = max_t(int, src_sz, dst_sz);
-+			err = emit_ccs_copy(rq, dst_is_lmem, dst_offset,
-+					    src_is_lmem, src_offset,
-+					    copy_sz);
-+
-+			/* Converting back to ccs bytes */
-+			copy_sz = GET_CCS_BYTES(i915, copy_sz);
-+		} else {
-+			WARN(src_sz != dst_sz, "%d != %d", src_sz, dst_sz);
-+			copy_sz = src_sz;
-+			err = emit_copy(rq, dst_is_lmem, dst_offset,
-+					src_is_lmem, src_offset, copy_sz);
-+		}
-+
-+		if (!err && ccs_bytes)
-+			bytes_to_cpy -= copy_sz;
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
-@@ -710,9 +836,33 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			i915_request_put(*out);
- 		*out = i915_request_get(rq);
- 		i915_request_add(rq);
--		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
--			break;
- 
-+		if (err || !it_src.sg || !sg_dma_len(it_src.sg) ||
-+		    !it_dst.sg || !sg_dma_len(it_src.sg)) {
-+			if (err || !ccs_bytes)
-+				break;
-+
-+			GEM_BUG_ON(bytes_to_cpy);
-+			if (ccs_copy) {
-+				break;
-+			} else if (ccs_bytes) {
-+				if (src_is_lmem) {
-+					WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
-+					it_src = sg_sgt(src);
-+				} else {
-+					WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
-+					it_dst = sg_sgt(dst);
-+				}
-+				bytes_to_cpy = ccs_bytes;
-+				ccs_copy = true;
-+
-+				continue;
-+			} else {
-+				DRM_ERROR("Invalid state\n");
-+				err = -EINVAL;
-+				break;
-+			}
-+		}
- 		cond_resched();
- 	} while (1);
- 
--- 
-2.20.1
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index b3a429a92c0d..d39d74d39794 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -4022,10 +4022,9 @@ static void guc_handle_context_reset(struct intel_guc *guc,
+>   		capture_error_state(guc, ce);
+>   		guc_context_replay(ce);
+>   	} else {
+> -		drm_err(&guc_to_gt(guc)->i915->drm,
+> -			"Invalid GuC engine reset notificaion for 0x%04X on %s: banned = %d, blocked = %d",
+> -			ce->guc_id.id, ce->engine->name, intel_context_is_banned(ce),
+> -			context_blocked(ce));
+> +		drm_info(&guc_to_gt(guc)->i915->drm,
+> +			 "Ignoring context reset notification of banned context 0x%04X on %s",
+> +			 ce->guc_id.id, ce->engine->name);
+>   	}
+>   }
+>   
 
