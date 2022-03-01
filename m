@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A337D4C804D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 02:20:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DB14C8072
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 02:47:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFF710E1F9;
-	Tue,  1 Mar 2022 01:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C615110E148;
+	Tue,  1 Mar 2022 01:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF5A10E1F9
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 01:20:32 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4K6zvY1KjMz4xmt;
- Tue,  1 Mar 2022 12:20:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1646097628;
- bh=3zkLK1DB9BDVoMqb7VGAMm8+RO0CcJeGkkYb0Ikb7kk=;
- h=Date:From:To:Cc:Subject:From;
- b=s77EHbKhJfzKsstKlwIv2fOafWWWngyVWHgRG6i6WkG7leBBahasA2udb8fuoLOUU
- U+YikW/M55pbD+xNrb4UR3hyZA9B+aWe4APiA6X3Amzw/py48Nhx6IbAmOiJ9TMe53
- L0mLOvi/UCxa667hA99229cHle4fw/Gv9X+pfKSuSbQ8bGNgd92tOzLwkhj16tfcDx
- Z8wJoruJCiqJsD/WTxYAn+xURudLpC8MdgDgv1zKXkvhkh7+qR6ISuf5O1snEOIZXC
- ipTzDp1Lj7PYxiMAFjSL4MKy9n3rhgWzlo1uysDOZI14ZSIrn/f86Y01EFh8CF8+oF
- i50KwzwO6hF6A==
-Date: Tue, 1 Mar 2022 12:20:24 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: linux-next: manual merge of the drm tree with the v4l-dvb tree
-Message-ID: <20220301122024.47cb2dcf@canb.auug.org.au>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D5710E148
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 01:47:00 +0000 (UTC)
+X-UUID: 6f33e31bd00749f998d87b09d184cfc6-20220301
+X-UUID: 6f33e31bd00749f998d87b09d184cfc6-20220301
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1245295757; Tue, 01 Mar 2022 09:46:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 1 Mar 2022 09:46:42 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 1 Mar 2022 09:46:42 +0800
+Message-ID: <fa9a04263ed0b1aa54a140e7eec47e838d3e5587.camel@mediatek.com>
+Subject: Re: [PATCH v4 2/2] drm/mediatek: add devlink to cmdq dev
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 1 Mar 2022 09:46:42 +0800
+In-Reply-To: <CAAOTY__rnVMRB=OhkTm4Ojh31yAcYwCQTBGozpGsnC_oC_jqvQ@mail.gmail.com>
+References: <20211202064039.20797-1-jason-jh.lin@mediatek.com>
+ <20211202064039.20797-3-jason-jh.lin@mediatek.com>
+ <CAAOTY__rnVMRB=OhkTm4Ojh31yAcYwCQTBGozpGsnC_oC_jqvQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/svc=vizdYk0mCEN9obg/1F+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,223 +51,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- "jason-jh.lin" <jason-jh.lin@mediatek.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Yong Wu <yong.wu@mediatek.com>
+Cc: Fei Shao <fshao@chromium.org>, David Airlie <airlied@linux.ie>,
+ singo.chang@mediatek.com, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/svc=vizdYk0mCEN9obg/1F+
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Chun-Kuang,
 
-Hi all,
+Thanks for the reviews.
 
-Today's linux-next merge of the drm tree got a conflict in:
+I forgot to add the comment that the patch should be based on [1].
+We can only apply it after applying [1].
 
-  Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+So please apply it after that. Thank you very much!
 
-between commit:
-
-  6d0990e6e844 ("media: dt-binding: mediatek: Get rid of mediatek,larb for =
-multimedia HW")
-
-from the v4l-dvb tree and commit:
-
-  4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each block to =
-individual yaml")
-
-from the drm tree.
-
-I fixed it up (I deleted the file and added the following merge fix patch)
-and can carry the fix as necessary. This is now fixed as far as linux-next
-is concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Tue, 1 Mar 2022 12:17:12 +1100
-Subject: [PATCH] fix up for "media: dt-binding: mediatek: Get rid of
- mediatek,larb for multimedia HW"
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Regards,
+Jason-JH.Lin
 ---
- .../bindings/display/mediatek/mediatek,ovl-2l.yaml     | 10 ----------
- .../bindings/display/mediatek/mediatek,ovl.yaml        | 10 ----------
- .../bindings/display/mediatek/mediatek,rdma.yaml       | 10 ----------
- .../bindings/display/mediatek/mediatek,wdma.yaml       | 10 ----------
- 4 files changed, 40 deletions(-)
+[1] drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ov=
-l-2l.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl=
--2l.yaml
-index 611a2dbdefa4..e3cef99d0f98 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.ya=
-ml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.ya=
-ml
-@@ -46,15 +46,6 @@ properties:
-       This property should point to the respective IOMMU block with master=
- port as argument,
-       see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for =
-details.
-=20
--  mediatek,larb:
--    description:
--      This property should contain a phandle pointing to the local arbiter=
- devices defined in
--      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-la=
-rb.yaml.
--      It must sort according to the local arbiter index, like larb0, larb1=
-, larb2...
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    minItems: 1
--    maxItems: 32
--
-   mediatek,gce-client-reg:
-     description: The register of client driver can be configured by gce wi=
-th
-       4 arguments defined in this property, such as phandle of gce, subsys=
- id,
-@@ -83,6 +74,5 @@ examples:
-         power-domains =3D <&spm MT8183_POWER_DOMAIN_DISP>;
-         clocks =3D <&mmsys CLK_MM_DISP_OVL0_2L>;
-         iommus =3D <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
--        mediatek,larb =3D <&larb0>;
-         mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
-     };
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ov=
-l.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.ya=
-ml
-index e71f79bc2dee..93d5c68a2dbd 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-@@ -61,15 +61,6 @@ properties:
-       This property should point to the respective IOMMU block with master=
- port as argument,
-       see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for =
-details.
-=20
--  mediatek,larb:
--    description:
--      This property should contain a phandle pointing to the local arbiter=
- devices defined in
--      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-la=
-rb.yaml.
--      It must sort according to the local arbiter index, like larb0, larb1=
-, larb2...
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    minItems: 1
--    maxItems: 32
--
-   mediatek,gce-client-reg:
-     description: The register of client driver can be configured by gce wi=
-th
-       4 arguments defined in this property, such as phandle of gce, subsys=
- id,
-@@ -98,6 +89,5 @@ examples:
-         power-domains =3D <&scpsys MT8173_POWER_DOMAIN_MM>;
-         clocks =3D <&mmsys CLK_MM_DISP_OVL0>;
-         iommus =3D <&iommu M4U_PORT_DISP_OVL0>;
--        mediatek,larb =3D <&larb0>;
-         mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
-     };
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rd=
-ma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.=
-yaml
-index 8ef821641672..b56e22fbcd52 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-@@ -63,15 +63,6 @@ properties:
-       This property should point to the respective IOMMU block with master=
- port as argument,
-       see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for =
-details.
-=20
--  mediatek,larb:
--    description:
--      This property should contain a phandle pointing to the local arbiter=
- devices defined in
--      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-la=
-rb.yaml.
--      It must sort according to the local arbiter index, like larb0, larb1=
-, larb2...
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    minItems: 1
--    maxItems: 32
--
-   mediatek,rdma-fifo-size:
-     description:
-       rdma fifo size may be different even in same SOC, add this property =
-to the
-@@ -111,7 +102,6 @@ examples:
-         power-domains =3D <&scpsys MT8173_POWER_DOMAIN_MM>;
-         clocks =3D <&mmsys CLK_MM_DISP_RDMA0>;
-         iommus =3D <&iommu M4U_PORT_DISP_RDMA0>;
--        mediatek,larb =3D <&larb0>;
-         mediatek,rdma-fifosize =3D <8192>;
-         mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
-     };
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,wd=
-ma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.=
-yaml
-index aaf5649b6413..f9f00a518edf 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-@@ -44,15 +44,6 @@ properties:
-       This property should point to the respective IOMMU block with master=
- port as argument,
-       see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for =
-details.
-=20
--  mediatek,larb:
--    description:
--      This property should contain a phandle pointing to the local arbiter=
- devices defined in
--      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-la=
-rb.yaml.
--      It must sort according to the local arbiter index, like larb0, larb1=
-, larb2...
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    minItems: 1
--    maxItems: 32
--
-   mediatek,gce-client-reg:
-     description: The register of client driver can be configured by gce wi=
-th
-       4 arguments defined in this property, such as phandle of gce, subsys=
- id,
-@@ -81,6 +72,5 @@ examples:
-         power-domains =3D <&scpsys MT8173_POWER_DOMAIN_MM>;
-         clocks =3D <&mmsys CLK_MM_DISP_WDMA0>;
-         iommus =3D <&iommu M4U_PORT_DISP_WDMA0>;
--        mediatek,larb =3D <&larb0>;
-         mediatek,gce-client-reg =3D <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
-     };
---=20
-2.34.1
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220222100741.30138-21-nancy.lin@mediatek.com/
+---
 
---=20
-Cheers,
-Stephen Rothwell
+On Sun, 2022-02-27 at 11:33 +0800, Chun-Kuang Hu wrote:
+> Hi, Jason:
+> 
+> Build error:
+> 
+> ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c: In function
+> ‘mtk_drm_crtc_create’:
+> ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:902:26: error: ‘struct
+> mtk_drm_private’ has no member named ‘dev’
+>   mtk_crtc->drm_dev = priv->dev;
+>                           ^
+> ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:974:30: error: ‘struct
+> mtk_drm_private’ has no member named ‘dev’
+>    link = device_link_add(priv->dev, mtk_crtc->cmdq_client.chan-
+> >mbox->dev,
+>                               ^
+> In file included from ../include/linux/device.h:15:0,
+>                  from ../include/linux/dma-mapping.h:7,
+>                  from ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:7:
+> ../drivers/gpu/drm/mediatek/mtk_drm_crtc.c:977:16: error: ‘struct
+> mtk_drm_private’ has no member named ‘dev’
+>     dev_err(priv->dev, "Unable to link dev=%s\n",
+>                 ^
+> Regards,
+> Chun-Kuang.
 
---Sig_/svc=vizdYk0mCEN9obg/1F+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIddNgACgkQAVBC80lX
-0Gwiwwf8DpqdHFaP3vENUgrQThEzwRgxUcRkx0dsVFNRK5UBHxsVfLd/lvEJelUW
-xi31Q7vT+tJNI6mN7Ax46IOdxY8VPPwEV8WmVwws0daDJNHuqOkc1cjqVxJyvITG
-iuBgFAx9huilX7S2FuW/vOrfp5QJGYnrKuWG2lPd3uGGyrTCBAMkjxIowiJsqvXd
-cYLm0iJJLJNlhKqMDNqTWRrYefAx7+lEFNkbbJDoKVjy4cHJ6W6UdCpVZdkQEbzq
-p9mIw571yJbCl6xQ1zM2ybOauYZQIaJpxz/9z/IsyXr0Qi+XL8PrArw0NXecsvGh
-j2oNEKo5TGwfasy4eCNwpO8xie3bJg==
-=dNK2
------END PGP SIGNATURE-----
-
---Sig_/svc=vizdYk0mCEN9obg/1F+--
