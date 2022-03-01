@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63074C8D75
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4360F4C8DAB
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2271210E17B;
-	Tue,  1 Mar 2022 14:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA03110E1BF;
+	Tue,  1 Mar 2022 14:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D47A10E17B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5FE9C614CD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C2E24C340F2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646144064;
- bh=v6N7todfME5nzrRftPcI+kxGCcbYJ7nNeMeMtUEWoCY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cZWa5RRiWySI3Q7PI7QakGT8apnFeE+FFDrh2p23dqek2krE7EdVE6v2gF9QW29AG
- rTktsJjZDmP5fRcnYeJw87p+yraqchk3nwdMN1KpTRYyFAV9DP6Jm4SRKk4seWVH/E
- rNRm8+ZO5TxgE03GfNxfMTwx231Fj8DXK31dPbJngZDc8W8A9RhchOJq2k4cK4YXsF
- EP0W6zYEeiI5kJWJWOleQYzNVI0CP3EaQt1SqCdfzN3fE1VlCpU4cYEBdo8R1GL4+9
- XaGxL7HwozBQ8zfSyoIrTYR8Fi5JgS9KfoRUsTo2rgIV4l8oBrrQ47i5Yygn9U0FZW
- XMPYHhNqi/YDg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9DC2CCAC6E2; Tue,  1 Mar 2022 14:14:24 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215511] Dual monitor with amd 5700 causes system to hang at
- startup.
-Date: Tue, 01 Mar 2022 14:14:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215511-2300-BLyWcYqe6H@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215511-2300@https.bugzilla.kernel.org/>
-References: <bug-215511-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C1310E1BF;
+ Tue,  1 Mar 2022 14:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646144843; x=1677680843;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Olj/7Og0cDEDlC4o+iiIESvBX+/QWh5RtbWHEWn/m6c=;
+ b=j85YKD1GIB+1gh9rpDqxURql62UOfd+E5wodhQ918SAxPqlR7NPpIFbO
+ dMWGd0wyrZIwU6ZdNKXNh62VJrEfKx++prIGAwSH+84qoewj4yudRoJMS
+ Fa1Avd14fBfLf8bBv1aO7h1WDm1Z0/OVCY+Nn4y7S0IZf/Wb8hQngTsjk
+ WYX9yD4NPsqDpxHZxflKy/MrQmQZvXSvvmGAnvJnvR0135iSAESH71Xpy
+ mMG7QNIKcKnfHyU1MWau6Tdb5/3Oa8zDXym5yVCT3yzxl/zzR2VbkbTkJ
+ BqGRh84NX1eWdgwsNmju4XdADzd4q+o5HBHh8/SXNsMWraVMksEJi3e/p w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="313859936"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="313859936"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 06:27:22 -0800
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="510528592"
+Received: from ssahani-mobl.amr.corp.intel.com (HELO [10.212.127.177])
+ ([10.212.127.177])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 06:27:21 -0800
+Message-ID: <42282635-50a8-505f-0bd5-5aef9945e3d3@linux.intel.com>
+Date: Tue, 1 Mar 2022 14:27:18 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/i915: Depend on !PREEMPT_RT.
+Content-Language: en-US
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <YgqmfKhwU5spS069@linutronix.de> <YhlgRb1lZO38gAz5@linutronix.de>
+ <474ded6f-4fe8-8355-9a96-2254401d10fc@linux.intel.com>
+ <YhylgaoHtSKi7+el@linutronix.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <YhylgaoHtSKi7+el@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +62,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215511
 
---- Comment #8 from Alex Deucher (alexdeucher@gmail.com) ---
-(In reply to Philipp Riederer from comment #7)
-> Hi!
->=20
-> My Lenovo T14s (AMD) crashes with a panic (https://imgur.com/a/P6Twvov) w=
-hen
-> I unplug/replug any monitor. This also happens when waking from DPMS.
->=20
-> I have bisected the issue to the same
-> 0f591d17e36e08313b0c440b99b0e57b47e01a9a as Jose. The patch (that is alre=
-ady
-> mainlined, if I see that correctly) does not help.
->=20
-> I have tried all kernel up to 5.15.24 -- I cannot try 5.16 as I use zfs as
-> root device the and zfs module is not (yet) compatible with 5.16.
->=20
-> Is there anything you would like me to try or should my issue be fixed in
-> 5.16+?
+On 28/02/2022 10:35, Sebastian Andrzej Siewior wrote:
+> On 2022-02-28 10:10:48 [+0000], Tvrtko Ursulin wrote:
+>> Hi,
+> Hi,
+> 
+>> Could you paste a link to the queue of i915 patches pending for a quick
+>> overview of how much work there is and in what areas?
+> 
+> Last post to the list:
+>    https://https://lkml.kernel.org/r/.kernel.org/all/20211214140301.520464-1-bigeasy@linutronix.de/
+> 
+> or if you look at the DRM section in
+>     https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/tree/patches/series?h=v5.17-rc6-rt10-patches#n156
 
-Please open a new ticket as this is a different issue.
+Thanks!
 
---=20
-You may reply to this email to add a comment.
+> you see:
+>     0003-drm-i915-Use-preempt_disable-enable_rt-where-recomme.patch
+>     0004-drm-i915-Don-t-disable-interrupts-on-PREEMPT_RT-duri.patch
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Two for the display folks.
+
+>     0005-drm-i915-Don-t-check-for-atomic-context-on-PREEMPT_R.patch
+
+What do preempt_disable/enable do on PREEMPT_RT? Thinking if instead the 
+solution could be to always force the !ATOMIC path (for the whole 
+_wait_for_atomic macro) on PREEMPT_RT.
+
+>     0006-drm-i915-Disable-tracing-points-on-PREEMPT_RT.patch
+
+If the issue is only with certain trace points why disable all?
+
+>     0007-drm-i915-skip-DRM_I915_LOW_LEVEL_TRACEPOINTS-with-NO.patch
+
+Didn't quite fully understand, why is this not fixable? Especially 
+thinking if the option of not blanket disabling all tracepoints in the 
+previous patch.
+
+>     0008-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch
+
+Not sure about why cond_resched was put between irq_work_queue and 
+irq_work_sync - would it not be like-for-like change to have the two 
+together? Commit message makes me think _queue already starts the 
+handler on x86 at least.
+
+>     0009-drm-i915-gt-Use-spin_lock_irq-instead-of-local_irq_d.patch
+
+I think this is okay. The part after the unlock is serialized by the 
+tasklet already.
+
+Slight doubt due the comment:
+
+   local_irq_enable(); /* flush irq_work (e.g. breadcrumb enabling) */
+
+Makes me want to think about it harder but not now.
+
+Another thing to check is if execlists_context_status_change still needs 
+the atomic notifier chain with this change.
+
+>     0010-drm-i915-Drop-the-irqs_disabled-check.patch
+
+LGTM.
+
+>     Revert-drm-i915-Depend-on-PREEMPT_RT.patch
+
+Okay.
+
+And finally for this very patch (the thread I am replying to):
+
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
+
+> 
+> and you could view them from
+>     https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/tree/patches?h=v5.17-rc6-rt10-patches
+> 
+>> Also, I assume due absence of ARCH_SUPPORTS_RT being defined by any arch,
+>> that something more is not yet ready?
+> 
+> Correct. Looking at what I have queued for the next merge window I have
+> less than 20 patches (excluding i915 and printk) before ARCH_SUPPORTS_RT
+> can be enabled for x86-64.
+>   
+>> Regards,
+>>
+>> Tvrtko
+> 
+> Sebastian
