@@ -1,60 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024614C8173
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 04:04:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2015F4C81A8
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 04:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F35610E3E0;
-	Tue,  1 Mar 2022 03:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB2910E46C;
+	Tue,  1 Mar 2022 03:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D748B10E3E0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 03:03:56 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-267-9MSeLLg1PRGi9Q5Mk98pjw-1; Tue, 01 Mar 2022 03:03:54 +0000
-X-MC-Unique: 9MSeLLg1PRGi9Q5Mk98pjw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 03:03:52 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Tue, 1 Mar 2022 03:03:52 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Matthew Wilcox' <willy@infradead.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Index: AQHYLOAn+DU/OogLf0+tiSFmjztyUKyp1n9A
-Date: Tue, 1 Mar 2022 03:03:52 +0000
-Message-ID: <198022f201814cdc9384ef083741185e@AcuMS.aculab.com>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
- <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
- <Yh0tl3Lni4weIMkl@casper.infradead.org>
-In-Reply-To: <Yh0tl3Lni4weIMkl@casper.infradead.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150077.outbound.protection.outlook.com [40.107.15.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D187E10E46C
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 03:34:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BKN4yB93m7GIow1hvdHM/zd0J3HTmoLP6VR31sSobb6FdGok5L2q6NNvTVcMly7LdXVfSstsYS1tstPBtQmhSY4lrp/zIV+cY0+D6UXHM9C/XghS6YmcxLDqoAtCWnxUvX8HfUFyOKBTHEKSheorp+sQGLruj0858LPw5fQNOJmFcp6iZ8B1SJH1dToAVONzg91riyCLYVT9HDRVM4B06Wt0oWqG9D0PdFgAL2qw8aSOpKjbil0AHtu2Bf/EbAidVXit/HOmxh76mD9oRy4HkOYpPBiyXwTeaoFXq7fDCUW4rUhJZ8v01dUFh6Kb47mbWbRZPWpvISEtwlqLj+xcPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L9bAUNOJPR9gmK40TV8xVYS2UBDT8gn14L05I4EZzJA=;
+ b=b05L70VVlz/GgVizYc8uLwPQSGMHffTQ8RQiWOQx5Tv9aLC8K4nEK1scnQtIx7m5A8TmEhPTiOipdPyW4UWivW3MALy7iXwhydMTDm3qThQaNQ9w5+r/eYPsYd/fbjxU5NSYcOGTOZXk6uaOkwgIdP2Z1zPoMohsZis/9THrpYc/YFz2HAdBqABGviZrvT8B15eYgPeOrkjsZNWrN8jZXcpnpINIKLw7jY1TzJAhMtlor1xDot+gSMlLWFGLSJ/7VeBabp0/ITOb/29//XyX4/ZW51xXiYfyT0uwddFo727rvLMP5O2AV30kmaB14avqU5roOHlRwsg8p6XqXfpDrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9bAUNOJPR9gmK40TV8xVYS2UBDT8gn14L05I4EZzJA=;
+ b=cHJBwnfD+PlEX+bEF9f8lv/ZOu2Mczeg4S395OtZQYUjAXksT3BPyTxBc/cKgaynJO8lctRvRfMPM9D25sCVeds0iRmwjTGjTKpzjHnE9a07nN4DcqFEZne3p5PRm4bCXxazdDwESXQdI5/mF8dw8BZL6OaZRlasC0iEX4b4L8c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM6PR04MB6069.eurprd04.prod.outlook.com (2603:10a6:20b:72::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Tue, 1 Mar
+ 2022 03:34:42 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1%4]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 03:34:42 +0000
+Message-ID: <f5b88701c709857489110f1b85d7a34fe1fe3082.camel@oss.nxp.com>
+Subject: Re: [PATCH v2 2/2] drm/atomic: Force bridge self-refresh-exit on
+ CRTC switch
+From: Liu Ying <victor.liu@oss.nxp.com>
+To: Brian Norris <briannorris@chromium.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
+ Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Date: Tue, 01 Mar 2022 11:34:46 +0800
+In-Reply-To: <20220228122522.v2.2.Ic15a2ef69c540aee8732703103e2cff51fb9c399@changeid>
+References: <20220228202532.869740-1-briannorris@chromium.org>
+ <20220228122522.v2.2.Ic15a2ef69c540aee8732703103e2cff51fb9c399@changeid>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0010.apcprd02.prod.outlook.com
+ (2603:1096:4:194::15) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 77d6a7d2-02b8-429c-0161-08d9fb346c28
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6069:EE_
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-Microsoft-Antispam-PRVS: <AM6PR04MB6069520A925CEDCD2B2160E0D9029@AM6PR04MB6069.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Xs7imqssqhHx2D5kC8K0IYjBmJdx2RjA9hn8EDm0ZAFA2YwWg/IOrZlrQcows0ewSBE610UjRgdnriZvk6svyTHG+aPDRybt5g/gJKcTHXeqKc2U6CYX9CLj7zHLgShhfpeYbj/K8GMJqIsdsMgZu+IX2m3PBvAdyJEKOMcr3PDKv9TR0m7j7Qxy6Xxfza/dQk+xrVIYeFOTMWsFclRwCu/q5dRE4923im2Ob9kmPXrpf8et8xSEdaEknfHvh3fcwkMa5K5hIBFW0HuoOHSC/Af3sD7ND7jNO/VTz8aduf4H26xEM5MDtPtc7x2hkoYFZvqUmMOO5qR1d8XL4YMO3l/mqqp6PhYUeO1UnlsJ2E3GSHlgGWWYG/lO1PNZiuQEAUxPHqKfF+VPyavJZUrgGb72fL8iPTlkJuE3TnNlj3rsmhs8HWH9NdIlMZ3UId0rLs/LSpErHb2FoibTXTowTGQm5sS6g3wCzrzqeIzS7uvjHNdPdyDJ0ZnO+kvQtDso1LVXjvRnD7pQUg/OecH3uyPKuFvciYBklapw9Il+/05WCzNem0XaobVm62YtgBP7V+PMHkQcsUzbOFXKKr4mij0xjOplZc3xsO0FIf9Tc83w4CPg0Qj3cR9ocJe0cgj/B0/noW+BR7Rc8c6SQvkRQ/SnjIkB2LhQLryS2rAELlUTsmYJCDR8boYn2ZJupV0AGrC/bkuiVV8x8bNEbuSS5A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66946007)(66556008)(66476007)(54906003)(8676002)(316002)(2616005)(110136005)(8936002)(508600001)(6486002)(52116002)(4326008)(7416002)(5660300002)(6506007)(2906002)(6512007)(38100700002)(38350700002)(83380400001)(86362001)(186003)(26005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWJSbmR5YXlHUkx3S3NvNkRGeEU3UUtzRSt5TGFmYzhyOHJndUVmUVkrdnRi?=
+ =?utf-8?B?b2g3dHVLTUJVTWhycEZBRm4xb0k5am1GQ0hUWldZV2xGSUcxZG9CTWVmRE9y?=
+ =?utf-8?B?SGxlMDVwUHdrWXg1UUJxTFkxdFVkaU5xNW5iOUZCSXpLZUVEdGZMUG1NemNC?=
+ =?utf-8?B?THNlMVhtWFdwbmF2Q2RXU1ZlZ0w4bC9ZemVDUlM3NWg1MllacU8xZGFxZXVJ?=
+ =?utf-8?B?aVNVMUNCZGQyb1lNaEdFV2w2RHA4UEtJM0JFc2hTYnZKWFVmcmNHL0tyZDRq?=
+ =?utf-8?B?WHd1R3Y0UG5SRXNQN1dvNkNMNWNxNWY0QUZDdkhwVE9HU3lsNFByQVlaMnVB?=
+ =?utf-8?B?cW50ay80b2tQc0JvbThpZ1lEeGw5MzlGQ3pCYVZTbG9jRXJnaGlUU2NwSHdy?=
+ =?utf-8?B?N0hJY2hvQzFHdE9ZalV0cHhQQXp0aFVhUXhJcHI4MllvSlJhMUVaaDRVTGxi?=
+ =?utf-8?B?OEVWdlg1RlJRQ1BYbmMrRHdweW1zQnJ4MHI0RXlOWUVPNVFqVHdValZVVHpi?=
+ =?utf-8?B?MlBxSi9TNVYyZmNXdk1LSUxKbndza2FwM0gwdVBjR3BCVHlHQ1BnNXZpSW4z?=
+ =?utf-8?B?ZXNMb1ZzaUZpaDlxTXBMWTBFTHI2b29NVFFUWUJDT3pyYitnSWROdit1aE1p?=
+ =?utf-8?B?SWVORHVtOFNVS1pvd1BlZmQzVDVhQzl5MnQzRFVETmRveUVHb3A1L1dUOTR3?=
+ =?utf-8?B?aE5XOFFyMmZrOFBQOUkwZGtMU1lad3NGeHVoTGprampFR3g3MkkxOXNyZXIv?=
+ =?utf-8?B?MTRNam1Ic1Y5dGxJeFBGMzJQRE9zSjRoUS9ZaWtXdTVqOG1abVFQTnhyZW04?=
+ =?utf-8?B?NHpiK2JPT041UnovZlprRTJlUk5mVEpaTDdWeUI0aDJwWlh0OU4yUzFjL3px?=
+ =?utf-8?B?dnZBMU5ENlZpMXI2aU84YWU1d0hQRG1hMG1aQmQ0d21NRm9wMHFub3lHNS9n?=
+ =?utf-8?B?SWhtcXN2emdXVlpVS3E4ZWhXN21VSCtBL0JhUHUxL0FYckU0RmZIekN1Uy90?=
+ =?utf-8?B?YmpyMkk0dE0remFZVjJRTjRscTd6V1BPNHVBYkFMTUIrUXAyM1JzVlg1UDdX?=
+ =?utf-8?B?Smx6aXFEeWx2U1haR3h2NWRFejNKYkZmRWVCRWt6SU5KUjNDdlh5L21DRzNu?=
+ =?utf-8?B?UjRUaEdtRFBDZkJoRDA4MnhJc2ZldWMzWEpSemhtWiszeWh0aGJwZWFNb2g2?=
+ =?utf-8?B?ZENMMjgvVzM3a1ZWUytRODJHcVZxYjVmTWVEd3JzejF5UU9UTXB2eFJuVnYw?=
+ =?utf-8?B?L1lrSW9xNThSM1NtY051K1FVRllKVjdTUTg0V0RreTBWbVl6ZDR3TEFNczg2?=
+ =?utf-8?B?MHB1UFhLY0Qza0JvUHR3eGh6R3dXa0lNR1dZZ21VdGVPV2dtR1FqQkhYcWFB?=
+ =?utf-8?B?MjBaN041bTZMNkF5bnJ0NCtNdmx0dG91ZWhvTmNveEZrYytsREVTc21rVlNi?=
+ =?utf-8?B?MEFCNDZURmtjWHR6S1psaTFhbWdDNlpUTnpPZjhGeUsxTUdiNjlhZ21Zc2wv?=
+ =?utf-8?B?NTZUeWlQNEdralp2aDhTV25QVnc3cmJQQStsUzVnZEk5S1RxTWIxTUZmc2RQ?=
+ =?utf-8?B?ZmhBQ3hWUVUxaVNOS1p0Q0E0VUZDcjk4QmVueU9XdTJZNmx3VDVUUkNDcGs5?=
+ =?utf-8?B?MlRnUDRDMWxsOE01ZjRPRS9uRDF1Mk10VE1Vc3UvZ1Q4bFQ0Mi9rOFd0Yllt?=
+ =?utf-8?B?M252Vm1KeVB6dVkyRDFiNmcxazExMXpwZ0YxRW9vVEJmMGtwdUMyMHhUWTJB?=
+ =?utf-8?B?UUxKRE16K3FjWG5GeU9Md0tWYUtBNWc1S1ZVOEZSeGU2aHhwMGFPRitUQ2Yr?=
+ =?utf-8?B?QjNJR0p4RXJlOGJDVVA1OW83N29uQWFleGxEcEszV2hhMnpnNG11NnNzYUZy?=
+ =?utf-8?B?a3hjbG1YNERwKzh6azNHV2NYbDZRaE1iRXJkYVFVSnFqMnNuS0RkSDVCZ05Q?=
+ =?utf-8?B?bVdjb2ZJbFVCVU1VTTNsYXk3aTlxMlBSdDBJMVhNSW8wMVMzeHluc1k4Q3gr?=
+ =?utf-8?B?alZ6eDVVVTNwQm5zMmtlRDFUTUpVNGZKOHNYdTBWVkdIcTBQaHU4UGtiMjhu?=
+ =?utf-8?B?eitrTVMvUENVVE10NnE2UE92Q1g2eHhxN1pUd2RoeDlZa09qTWFTc25lNTZT?=
+ =?utf-8?B?emZFMWtkMCtPY0xsOWloTnhkRTBYR1pCRk5VZWxEZ0MvSHpsdXdqUEhSWW9S?=
+ =?utf-8?Q?Cd9sknYvpU5y3jjLjC20fTs=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77d6a7d2-02b8-429c-0161-08d9fb346c28
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 03:34:42.6690 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EEC6KmBJkSqWf5EAYsAW4xXt3hZ6UakKj4g6v7z46YBqyXw7BuhETOu+uWjgYsLN1rz1UAhqdjGseGmNB1oDvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB6069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +134,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- KVM list <kvm@vger.kernel.org>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd
- Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Jakob
- Koschel <jakobkoschel@gmail.com>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux F2FS Dev
- Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Wilcox
-> Sent: 28 February 2022 20:16
->=20
-> On Mon, Feb 28, 2022 at 12:10:24PM -0800, Linus Torvalds wrote:
-> > We can do
-> >
-> >         typeof(pos) pos
-> >
-> > in the 'for ()' loop, and never use __iter at all.
-> >
-> > That means that inside the for-loop, we use a _different_ 'pos' than ou=
-tside.
->=20
-> Then we can never use -Wshadow ;-(  I'd love to be able to turn it on;
-> it catches real bugs.
->=20
-> > +#define list_for_each_entry(pos, head, member)=09=09=09=09=09\
-> > +=09for (typeof(pos) pos =3D list_first_entry(head, typeof(*pos), membe=
-r);=09\
-> > +=09     !list_entry_is_head(pos, head, member);=09\
-> >  =09     pos =3D list_next_entry(pos, member))
+On Mon, 2022-02-28 at 12:25 -0800, Brian Norris wrote:
+> It's possible to change which CRTC is in use for a given
+> connector/encoder/bridge while we're in self-refresh without fully
+> disabling the connector/encoder/bridge along the way. This can confuse
+> the bridge encoder/bridge, because
+> (a) it needs to track the SR state (trying to perform "active"
+>     operations while the panel is still in SR can be Bad(TM)); and
+> (b) it tracks the SR state via the CRTC state (and after the switch, the
+>     previous SR state is lost).
+> 
+> Thus, we need to either somehow carry the self-refresh state over to the
+> new CRTC, or else force an encoder/bridge self-refresh transition during
+> such a switch.
+> 
+> I choose the latter, so we disable the encoder (and exit PSR) before
+> attaching it to the new CRTC (where we can continue to assume a clean
+> (non-self-refresh) state).
+> 
+> This fixes PSR issues seen on Rockchip RK3399 systems with
+> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c.
+> 
+> Change in v2:
+> 
+> - Drop "->enable" condition; this could possibly be "->active" to
+>   reflect the intended hardware state, but it also is a little
+>   over-specific. We want to make a transition through "disabled" any
+>   time we're exiting PSR at the same time as a CRTC switch.
 
-Actually can't you use 'pos' to temporarily hold the address of 'member'.
-Something like:
-=09for (pos =3D (void *)head; \
-=09=09pos ? ((pos =3D (void *)pos - offsetof(member)), 1) : 0; \
-=09=09pos =3D (void *)pos->next)
-So that 'pos' is NULL if the loop terminates.
-No pointers outside structures are generated.
-Probably need to kill list_entry_is_head() - or it just checks for NULL.
+Cool. I don't see any particular issue regarding the drop.
 
-=09David
+Liu Ying
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+>   (Thanks Liu Ying)
+> 
+> Cc: Liu Ying <victor.liu@oss.nxp.com>
+> Cc: <stable@vger.kernel.org>
+> Fixes: 1452c25b0e60 ("drm: Add helpers to kick off self refresh mode in drivers")
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 9603193d2fa1..987e4b212e9f 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1011,9 +1011,19 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
+>  		return drm_atomic_crtc_effectively_active(old_state);
+>  
+>  	/*
+> -	 * We need to run through the crtc_funcs->disable() function if the CRTC
+> -	 * is currently on, if it's transitioning to self refresh mode, or if
+> -	 * it's in self refresh mode and needs to be fully disabled.
+> +	 * We need to disable bridge(s) and CRTC if we're transitioning out of
+> +	 * self-refresh and changing CRTCs at the same time, because the
+> +	 * bridge tracks self-refresh status via CRTC state.
+> +	 */
+> +	if (old_state->self_refresh_active &&
+> +	    old_state->crtc != new_state->crtc)
+> +		return true;
+> +
+> +	/*
+> +	 * We also need to run through the crtc_funcs->disable() function if
+> +	 * the CRTC is currently on, if it's transitioning to self refresh
+> +	 * mode, or if it's in self refresh mode and needs to be fully
+> +	 * disabled.
+>  	 */
+>  	return old_state->active ||
+>  	       (old_state->self_refresh_active && !new_state->active) ||
 
