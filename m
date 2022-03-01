@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067BB4C98F8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:13:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B394C9900
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:16:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8D110E7AC;
-	Tue,  1 Mar 2022 23:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F7810E7C9;
+	Tue,  1 Mar 2022 23:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B882810E7AC
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:13:08 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id g26so4787380ybj.10
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:13:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WVmXAPYzuyUp9cPda82pRMyWYcgH127Atrd/jKRj/J8=;
- b=MMpefUKWjVLrwv5LyYzK/4sO2meBH5IYzRhRVr9wZZiL3CfVmFuUqulaLyIvmAr/9P
- lcX5LJx1OjRdXhAkN0EV/OcgYBIW8d2zmMKg89H5NNiw27exN7RV/WEvq010kN5bKAEq
- mq8C/nHdHhjSdmvSIC6GaJC8ChSXxn+xzKeor86oyrtkFsHaGDgkL9cE4qEFBxbgg5iA
- FkgSVGUbuNjxoqVDYUgXwDz+YYbCheAFUIbT69Nvtk1fsW1kzTFSaRak4iYGKWUYX38d
- 6Q/C1ft2MI/Mka0cEyF2sie6ORc6UeCKIXMvrLxW7QXpMb7VL7v82VTOuA4DHrjoHz6B
- SKLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WVmXAPYzuyUp9cPda82pRMyWYcgH127Atrd/jKRj/J8=;
- b=u4QFobXEqWsceVUOHASZb1cKMncRgH655mRv7kA9KpOofujWdYZGsf3WBzJ/HsMZFR
- KnUYxzw77snuBFCDCGytQhAEMcTOVHLjXc0z3bADqxd8EAh/CzP5g++m+0j6tpBlLWjm
- ndXH7VbJvGK7LArrc0L/coCUCqVNXdlJB9z2g9vuC/CYnkVUv2+sBAlFdCGWrJfm6bDj
- 47R905tw45A3us9uuAghSDF4C0MLVV1gMIxyPlH2mL7a13KRwTOLQ/gHfP4V/7w3LW1j
- qYwjraDBKsI2bSbQh3PMb4c18ecMlU7tLqWH55S2aprTnuYfCjSQTB4Zq0xiyX6eHrk/
- 3nYg==
-X-Gm-Message-State: AOAM533jKHbYG9L3MFIIggMsC4jBisv3qyvcyz+Z8o8+tV7RSJh9J4Fq
- hL2hq2S6vzRV7cSUKi6JGblSJ8eBT0LC4qdZtwZBQg==
-X-Google-Smtp-Source: ABdhPJyEEmeor1mBkhy3MUQwqj7GjVnh17sHiCPOo6b/VIrKmCUfokqzS4hxI37QqfQnmDEVDqnyEF7BicOglbuC5Iw=
-X-Received: by 2002:a25:cc8b:0:b0:628:9263:38ba with SMTP id
- l133-20020a25cc8b000000b00628926338bamr578433ybf.291.1646176387971; Tue, 01
- Mar 2022 15:13:07 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 058DE10E7BB;
+ Tue,  1 Mar 2022 23:16:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646176587; x=1677712587;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FaPLvtupEuSx6dSAgxUIh/822pvF8jCv8uVXZ+L7X0s=;
+ b=dnam4Q8UvnsWPtac5IaaLPH081yBcceU0CILhW8SiTTTfa439cBMUkBs
+ kp1tParhPxb9+C7QB0y6PvYpAAtEZJIHIUdJi/jt/d2OhxhHKX6a6242l
+ KbEygKMwB6KoraMzVyo4/z5XihQNsfw53q1dbHaCye+zjMVwQDV9CqXvO
+ Z8zfCnqp2qZyrMVK9MMOhZ9J92R2kS5qUlxBGkj7PvqfBVtWt/h2pljAC
+ PKN2JRIfynFdBPgYe2wuMoHigj2kUe1z4BMRF+5PaHPj9gtP2RX5G2dLL
+ XpGXPXnqmEd1IVqkNZy55PKAyEHmKQEldIAemkpkuaY2G9WyFqJ0hOjUC Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="316479049"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316479049"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 15:16:26 -0800
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="709253443"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 15:16:26 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 00/13] i915: Prepare for Xe_HP compute engines
+Date: Tue,  1 Mar 2022 15:15:36 -0800
+Message-Id: <20220301231549.1817978-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220301141247.126911-1-jagan@amarulasolutions.com>
- <20220301141247.126911-8-jagan@amarulasolutions.com>
-In-Reply-To: <20220301141247.126911-8-jagan@amarulasolutions.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 2 Mar 2022 00:12:55 +0100
-Message-ID: <CACRpkdZAPbe=_RMjnHkmAVBUir=HobMPWtp-4TQgETSsmEd8ww@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] drm: bridge: anx7625: Switch to
- devm_drm_of_get_bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +54,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-amarula@amarulasolutions.com,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 1, 2022 at 3:13 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+The Xe_HP architecture introduces compute engines as a new engine class.
+These compute command streamers (CCS) are similar to the render engine,
+except that they're intended for GPGPU usage and lack support for the 3D
+pipeline.
 
-> devm_drm_of_get_bridge is capable of looking up the downstream
-> bridge and panel and trying to add a panel bridge if the panel
-> is found.
->
-> Replace explicit finding calls with devm_drm_of_get_bridge.
->
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v2:
-> - split the patch
+For now we're just sending some initial "under the hood" preparation for
+CCS engines without actually exposing them to userspace or adding them
+to any platform's engine list yet.  There may be a bit more GuC-related
+updates necessary before it's safe to expose them, so the actual uabi
+bits will come later once that's all worked out.
 
-This will be nice code reduction when it works!
+v2:
+ - General rebase of patches from September.
+ - Drop ABI bits for now; we'll make it visible to userspace later once
+   all the GuC work is hammered out.
 
-> -       struct drm_panel *panel = NULL;
-> -       struct drm_bridge *bridge = NULL;
-> +       struct drm_bridge *bridge;
+v3:
+ - Flip order of RCU_MODE patch and GuC's ADS update to enable compute
+   engines.  (Daniele)
+ - Replace fls(CCS_MASK) condition on fusing check with a simple IP
+   version test to omit pre-Xe_HP platforms.
+ - Fix a handful of checkpatch warnings.
 
-OK... and then you delete the code that uses panel. But:
 
-static void mcde_dsi_unbind(struct device *dev, struct device *master,
-                            void *data)
-{
-        struct mcde_dsi *d = dev_get_drvdata(dev);
+Daniele Ceraolo Spurio (3):
+  drm/i915/xehp: compute engine pipe_control
+  drm/i915/xehp/guc: enable compute engine inside GuC
+  drm/i915/xehp: handle fused off CCS engines
 
-        if (d->panel)
-                drm_panel_bridge_remove(d->bridge_out);
-        regmap_update_bits(d->prcmu, PRCM_DSI_SW_RESET,
-                           PRCM_DSI_SW_RESET_DSI0_SW_RESETN, 0);
-}
+Matt Roper (8):
+  drm/i915/xehp: Define compute class and engine
+  drm/i915/xehp: CCS shares the render reset domain
+  drm/i915/xehp: Add Compute CS IRQ handlers
+  drm/i915/xehp: CCS should use RCS setup functions
+  drm/i915: Move context descriptor fields to intel_lrc.h
+  drm/i915/xehp: Define context scheduling attributes in lrc descriptor
+  drm/i915/xehp: Enable ccs/dual-ctx in RCU_MODE
+  drm/i915/xehp: Add compute workarounds
 
-So this will not even compile.
+Matthew Brost (1):
+  drm/i915/xehp: Don't support parallel submission on compute / render
 
-I suppose you have a solution for removing the panel bridge automatically
-as well?
+Srinivasan Shanmugam (1):
+  drm/i915/xehpsdv: Move render/compute engine reset domains related
+    workarounds
 
-Yours,
-Linus Walleij
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 +++
+ .../drm/i915/gem/selftests/i915_gem_context.c |  8 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 34 ++++++--
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  2 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 83 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  | 11 ++-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |  5 +-
+ .../drm/i915/gt/intel_execlists_submission.c  | 24 +++++-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  | 15 ++++
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 15 +++-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 45 +++-------
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 12 ++-
+ drivers/gpu/drm/i915/gt/intel_lrc.h           | 51 ++++++++++++
+ drivers/gpu/drm/i915/gt/intel_sseu.c          | 17 +++-
+ drivers/gpu/drm/i915/gt/intel_sseu.h          |  4 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 73 +++++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  5 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 32 +++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 18 +++-
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  4 +
+ drivers/gpu/drm/i915/i915_drv.h               |  2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  4 +
+ 22 files changed, 394 insertions(+), 80 deletions(-)
+
+-- 
+2.34.1
+
