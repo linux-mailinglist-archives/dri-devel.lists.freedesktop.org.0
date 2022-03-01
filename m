@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733C14C8D6F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:13:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C065A4C8D77
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 15:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F56410E9E4;
-	Tue,  1 Mar 2022 14:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A109510E1B1;
+	Tue,  1 Mar 2022 14:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF13D10E9E4
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 14:13:29 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- q8-20020a17090a178800b001bc299b8de1so2288057pja.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 06:13:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8VZ+1+x00//VHYdLM+85OInV2D6cw8S7xV1ddz5BzBo=;
- b=RwZ6EPrZk5uBGp0BSa/TfQFzC4O05J6LaQlM/IdbCIpvsb225oA/ID9VPASeNKOCLb
- fOcS71519hI9LC1jv4BS7kzDtb6RAAoQDA/dd/cVbTIKyDVrqdhWs55z6BKYB3Rp2/F4
- 7+hZiVlgpHUTYj1MXM4wTbsyl5634FLKAwbOM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8VZ+1+x00//VHYdLM+85OInV2D6cw8S7xV1ddz5BzBo=;
- b=tI/8WwW+wkOvStTydMsaEogH91VqCf8Ma4ngqWvXVMKdA1MNm0hIinyetnTmBbLM+l
- JbwJmA5DhjMyLQwA7EPiJPEs4zgkZ/O2lVg1tSzkHmCEkoBiqty+zOmKLrftDibRvpdn
- wkHUjHovL5ML15ChFEP3OvqEbrd0z0TvcnfR4PewwR/k44vJxVXekOb/YwAWIbHoyuXO
- apax4syCDpQ2ZYhA416Ohwz3fvp0XE2nBr0wxWPxJt+XXh3kDVjiAEoh4UvLKVNDLSWd
- eAL8s/9wWKe0kNXeVuB7O+INSqK6oMuORn43Ggcul9cifN8phmx82sE3UZnk5bwtbgqP
- nc3w==
-X-Gm-Message-State: AOAM5337lV9uiGNIv83vpkL2upqfwdBZMgXodUs21rlZ189/eFAaCkyl
- Fpn9PmnvXRuc6z8fHbFPc286nQ==
-X-Google-Smtp-Source: ABdhPJyqUQXIKIkRpcimMN3gJso/NQITLT80HwlQNijX3ni08L0HCBQyA77jhLHAwH3/uA4OMlCXbw==
-X-Received: by 2002:a17:903:32d0:b0:150:9b8b:12b2 with SMTP id
- i16-20020a17090332d000b001509b8b12b2mr21081165plr.40.1646144009458; 
- Tue, 01 Mar 2022 06:13:29 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a0a9:dbfb:dee9:8dc1:861a])
- by smtp.gmail.com with ESMTPSA id
- d11-20020a056a0010cb00b004e1b76b09c0sm17317571pfu.74.2022.03.01.06.13.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 06:13:28 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v2 8/8] drm: bridge: anx7625: Switch to devm_drm_of_get_bridge
-Date: Tue,  1 Mar 2022 19:42:47 +0530
-Message-Id: <20220301141247.126911-8-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220301141247.126911-1-jagan@amarulasolutions.com>
-References: <20220301141247.126911-1-jagan@amarulasolutions.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0A1410E1B6;
+ Tue,  1 Mar 2022 14:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646144084; x=1677680084;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=NjojBCsmhSp7vBxnEedXZupiso++RjCixpwrwJr/BJ4=;
+ b=gjeZB/br+eqkIOcYKDQYvxcZ/OSrhsoT3g8LRIbIssyF0vlb0lGZngJ/
+ MPRXFtGkAqnId3B6PRoa3anb/bxWOrYdzae4OEntmDDESlsDSrmN5mI2a
+ HFJr3RF2vI73LYLMNjXBVCiKZ7rwI4/LDLZ41AMZUGWhCeUwqhouHfXhA
+ aoQE2a9sps9GXr8wxq+SFa2kNPqU3xE831Y6HDdqDYmkYv+MKgtMKEIJ2
+ 4cn7HirVDwi4Cct4vppAZ3/l2LmE2sjgU5g3Z/d8qSFVhoOnjZLRiZoXI
+ diyPX7b8XGFtKg1eEVv+hJ96tiAQ7tCV9oVv89vpCOb9tXpAsllhz9hH7 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="316350632"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="316350632"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 06:14:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="575712589"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga001.jf.intel.com with SMTP; 01 Mar 2022 06:14:24 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 01 Mar 2022 16:14:24 +0200
+Date: Tue, 1 Mar 2022 16:14:24 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH] drm/i915: Add a DP1.2 compatible way to read LTTPR
+ capabilities
+Message-ID: <Yh4qQD/hlQCuNUFx@intel.com>
+References: <20220228201234.1448613-1-imre.deak@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220228201234.1448613-1-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,83 +60,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_drm_of_get_bridge is capable of looking up the downstream
-bridge and panel and trying to add a panel bridge if the panel
-is found.
+On Mon, Feb 28, 2022 at 10:12:34PM +0200, Imre Deak wrote:
+> At least some DELL monitors (P2715Q) with DPCD_REV 1.2 return corrupted
+> DPCD register values when reading from the 0xF0000- LTTPR range with an
+> AUX transaction block size bigger than 1. The DP standard requires 0 to
+> be returned - as for any other reserved/invalid addresses - but these
+> monitors return the DPCD_REV register value repeated in each byte of the
+> read buffer. This will in turn corrupt the values returned by the LTTPRs
+> between the source and the monitor: LTTPRs must adjust the values they
+> read from the downstream DPRX, for instance left-shift/init the
+> downstream DP_PHY_REPEATER_CNT value. Since the value returned by the
+> monitor's DPRX is non-zero the adjusted values will be corrupt.
+> 
+> Reading the LTTPR registers one-by-one instead of reading all of them
+> with a single AUX transfer works around the issue.
+> 
+> According to the DP standard's 0xF0000 register description:
+> "LTTPR-related registers at DPCD Addresses F0000h through F02FFh are
+> valid only for DPCD r1.4 (or higher)." While it's unclear if DPCD r1.4
+> refers to the DPCD_REV or to the
+> LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV register (tickets filed
+> at the VESA site to clarify this haven't been addressed), one
+> possibility is that it's a restriction due to non-compliant monitors
+> described above. Disabling the non-transparent LTTPR mode for all such
+> monitors is not a viable solution: the transparent LTTPR mode has its
+> own issue causing link training failures and this would affect a lot of
+> monitors in use with DPCD_REV < 1.4. Instead this patch works around
+> the problem by reading the LTTPR common and PHY cap registers one-by-one
+> for any monitor with a DPCD_REV < 1.4.
+> 
+> The standard requires the DPCD capabilites to be read after the LTTPR
+> common capabilities are read, so re-read the DPCD capabilities after
+> the LTTPR common and PHY caps were read out.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4531
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/dp/drm_dp.c                   | 58 ++++++++++++-------
+>  .../drm/i915/display/intel_dp_link_training.c | 30 +++++++---
+>  include/drm/dp/drm_dp_helper.h                |  2 +
+>  3 files changed, 59 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/dp/drm_dp.c
+> index 703972ae14c64..f3950d42980f9 100644
+> --- a/drivers/gpu/drm/dp/drm_dp.c
+> +++ b/drivers/gpu/drm/dp/drm_dp.c
+> @@ -2390,9 +2390,36 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+>  }
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+>  
+> +static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
+> +				  u8 *buf, int buf_size)
+> +{
+> +	/*
+> +	 * Some monitors with a DPCD_REV < 0x14 return corrupted values when
+> +	 * reading from the 0xF0000- range with a block size bigger than 1.
+> +	 */
 
-Replace explicit finding calls with devm_drm_of_get_bridge.
+This sounds really scary. Have we checked what other registers might
+end up corrupted? Eg. couple of rounds of comparing full dd bs=1 vs. 
+dd bs=16.
 
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
-Changes for v2:
-- split the patch
+> +	int block_size = dpcd[DP_DPCD_REV] < 0x14 ? 1 : buf_size;
+> +	int offset = 0;
+> +	int ret;
+> +
+> +	while (offset < buf_size) {
 
- drivers/gpu/drm/mcde/mcde_dsi.c | 39 +++++----------------------------
- 1 file changed, 5 insertions(+), 34 deletions(-)
+Can we use a for loop?
 
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 5651734ce977..9371349b8b25 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -1073,9 +1073,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct mcde *mcde = to_mcde(drm);
- 	struct mcde_dsi *d = dev_get_drvdata(dev);
--	struct device_node *child;
--	struct drm_panel *panel = NULL;
--	struct drm_bridge *bridge = NULL;
-+	struct drm_bridge *bridge;
- 
- 	if (!of_get_available_child_count(dev->of_node)) {
- 		dev_info(dev, "unused DSI interface\n");
-@@ -1100,37 +1098,10 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 		return PTR_ERR(d->lp_clk);
- 	}
- 
--	/* Look for a panel as a child to this node */
--	for_each_available_child_of_node(dev->of_node, child) {
--		panel = of_drm_find_panel(child);
--		if (IS_ERR(panel)) {
--			dev_err(dev, "failed to find panel try bridge (%ld)\n",
--				PTR_ERR(panel));
--			panel = NULL;
--
--			bridge = of_drm_find_bridge(child);
--			if (!bridge) {
--				dev_err(dev, "failed to find bridge\n");
--				return -EINVAL;
--			}
--		}
--	}
--	if (panel) {
--		bridge = drm_panel_bridge_add_typed(panel,
--						    DRM_MODE_CONNECTOR_DSI);
--		if (IS_ERR(bridge)) {
--			dev_err(dev, "error adding panel bridge\n");
--			return PTR_ERR(bridge);
--		}
--		dev_info(dev, "connected to panel\n");
--		d->panel = panel;
--	} else if (bridge) {
--		/* TODO: AV8100 HDMI encoder goes here for example */
--		dev_info(dev, "connected to non-panel bridge (unsupported)\n");
--		return -ENODEV;
--	} else {
--		dev_err(dev, "no panel or bridge\n");
--		return -ENODEV;
-+	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-+	if (IS_ERR(bridge)) {
-+		dev_err(dev, "error to get bridge\n");
-+		return PTR_ERR(bridge);
- 	}
- 
- 	d->bridge_out = bridge;
+> +		ret = drm_dp_dpcd_read(aux,
+> +				       address + offset,
+> +				       &buf[offset], block_size);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		WARN_ON(ret != block_size);
+> +
+> +		offset += block_size;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
 -- 
-2.25.1
-
+Ville Syrjälä
+Intel
