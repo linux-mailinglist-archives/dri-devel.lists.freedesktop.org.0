@@ -2,73 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF4C4C94F7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 20:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863514C9542
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 20:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCCE510E4C0;
-	Tue,  1 Mar 2022 19:49:06 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994C510E7F6
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 19:49:05 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id q17so23448206edd.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 11:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
- b=MSgmT6lRet0jPev3NhT8poLSNE2IuVKHhTmnMdindDPsxNrbDdzPrkBSaT4BauMeD+
- LWq3ALR2NImH9IAbyg/9Mpz0DLX1H3V94a1gLKACC1HvSqM9EwtH2Km4ZUYlkqLoZgsQ
- ZV7jqWBOB7cCGsim0JopuTtvt6tgng/ReKRwg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
- b=HVaUHllzHyqGl4Q7ROlPlBEPpgoNHZMM6zq7M4awDfUywul5EHMcwJhTTa/1juOzVU
- lkBYpfqiMwLwxHfavULa7mtlvoIWRYIOTXE58K9hbkQRpgSX5ZSE70is1eu2sLszs7hP
- 7P5JCawcUAe6e4qYraXcsWkcBCNMmN7kO+Or2UyYodUrxbKVUM7MrFFqFlUNM8NWBFTY
- t4699JgbrFsf/rGY+Q1Y8psjy6pSxgBDQCPwvWSkWOyZ82rOb+Y+bFapmftUM9wgvKcG
- hrGAmKjrp3REsOqAS7IY/m1br/1z0MUPPIQ6RK3UucWe3o6doTJY919KZJiBnjsYjEaK
- sDCA==
-X-Gm-Message-State: AOAM530FreWa2CxovZfP6NDxlDaBiD3O03VwJZ1SvNRk8I+Cvbl1AxQ1
- qF0zEQcAjJ/nL2DgG1xPwQccWqZIMOB+abwaCmM=
-X-Google-Smtp-Source: ABdhPJyOYdN3OboBFrfacdAtllXsT0EqxA510grOhgoVktLrD7cXfG9gDENIkMC+Q7IMVBWWzM8cPg==
-X-Received: by 2002:aa7:d8d8:0:b0:3f5:9041:2450 with SMTP id
- k24-20020aa7d8d8000000b003f590412450mr26592758eds.322.1646164143853; 
- Tue, 01 Mar 2022 11:49:03 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
- [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
- gq15-20020a170906e24f00b006cfba1c5433sm5657550ejb.172.2022.03.01.11.49.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 11:49:03 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id d17so22152439wrc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 11:49:03 -0800 (PST)
-X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
- w19-20020a2e3013000000b002462ca9365emr17983151ljw.291.1646163763108; Tue, 01
- Mar 2022 11:42:43 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 455DE10E831;
+	Tue,  1 Mar 2022 19:57:26 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D88810E13F;
+ Tue,  1 Mar 2022 19:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646164644; x=1677700644;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=LrQvRQ7MmSJ6+nhYeMhINo0SomtcFYD2WNZCP4ZycVY=;
+ b=eU7x9eOwJpBs/61A+XdRjFwy/LIUwiwR7DkOc/ELR9Al4aMR8Fy1CkG+
+ Lw0kSu0WXN4WOolnRVQKE2wp5GuUFCd6uLdWINCsME5ZAB7Z25/ykWtw4
+ RJu+CdunLxofBsb4j8coIr3Q9g5sNwXi/1Dkh5O+AGTROhTeiOdFYDMY5
+ k8xkN3W8mdtLUpkraM589in85YgY8wMp1Ixi1IB2wXhYU/LKyUyAIACeJ
+ ssX2hHIkld+KHIAGqseNTa0MYCeUcAQW0R8OKWbtnyz39hsdArstWNwIA
+ tgZByYJqXcecB+tE8Gxd8civCz6Vtut1lIeC/ujhnyJ5xhgjs/6JSp4JZ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="277894607"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="277894607"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 11:57:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="778574449"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by fmsmga006.fm.intel.com with ESMTP; 01 Mar 2022 11:57:23 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 1 Mar 2022 11:57:22 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Tue, 1 Mar 2022 11:57:22 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 1 Mar 2022 11:57:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LQGNgeCOJWvIJTXcGueESOSXHNDcOsthJp0N1VFlLxRy5XrlrE4O8WMnZKsoz47Wh4vDtxTtHJVOdv28yLQ7tgm3xb3hWd99V5+ovfcJqy21Q83tDe6HmwmK0UjFQfDSem/OLPiMC8KLMEH8fxA6nZtBtgxmVWeRZDzPzhvjijzqx1cIlxPDMdIMGgeIupExuMA/4YwC7KlU6rd3my/SgztoVV4ZSzV3i7DlHntVPdpZqFZOKBOa+8Qu6wEWTKgcaG+Zp3VmfB0vrNzHL9UkXE4fr8achFmKAcf00HclTkkMNmYnGfX/MBYufeEA4tc2Hnmfc1ZNVHCLRRYrp5X4LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3mQyT4LlqFTsdzAiryAyFAaCQYZdXyIAn3AFW62+5s0=;
+ b=MOTww3YZaoKQNDe3Qr9W94egHbQEDwguswO+8wTX1EAAaJVRA3UfRsEVcL2kSDOWhkYupunWTcG87ylTrIrYM0Yf3X86/MpEBTHHQCs/iWTNfN5vgQKuwEt6ZEOzQC8hq0OW7ZW6F+pewFQ9gjvW8emNno4AJhKn3s8T/2ejTMBuGUc6OvnHbd6ngQjpZJSE8vek2mOMA8QH55YSed63uWwjajSrNj4K9xzDiRJqhBZIGBDUqZHmAL/0S3Ejg8oNIp7sAo7TBuMiaZ7LSK+btVS5pC8lqD4wBCCFm0XT3NflLSIPyzKaOheMMOy8NkYLFQhga0ITcN/7XqdRGc6Wyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by DM4PR11MB5309.namprd11.prod.outlook.com (2603:10b6:5:390::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Tue, 1 Mar
+ 2022 19:57:20 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::dd36:1843:a629:4ad7]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::dd36:1843:a629:4ad7%4]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 19:57:20 +0000
+Message-ID: <1b8edddb-f0c4-0ff9-a07e-25e4a496ea4d@intel.com>
+Date: Tue, 1 Mar 2022 11:57:16 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/guc: Limit scheduling properties
+ to avoid overflow
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
+ <20220218213307.1338478-2-John.C.Harrison@Intel.com>
+ <0d0c5a79-1285-0830-3794-e9f0644811a5@linux.intel.com>
+ <94c3184e-c1e2-668f-5824-00fd55797736@intel.com>
+ <17e69f0c-8084-10dc-b20f-7d5108260180@linux.intel.com>
+ <85105590-a8be-f4e1-69bc-cd34cad108e2@intel.com>
+ <16a2687b-4996-8d40-456e-019a112f0fb6@linux.intel.com>
+ <c1472196-260a-d2c8-c508-10fe58d4cd47@intel.com>
+ <74d30fd4-cb72-113e-fc09-12602b3cf06d@linux.intel.com>
+ <986dae97-6c68-34cc-d972-22edaddf7261@intel.com>
+ <4e8888d0-f0da-12f3-4010-159b4ff2bdb3@linux.intel.com>
+ <fc96ce57-37f7-9962-6d15-1741de9fcd89@intel.com>
+ <d931b54e-0b89-877e-9a7f-ede3c3bf165f@linux.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <d931b54e-0b89-877e-9a7f-ede3c3bf165f@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0336.namprd04.prod.outlook.com
+ (2603:10b6:303:8a::11) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
- <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-In-Reply-To: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 11:42:26 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
-Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 929c6ae8-0440-4097-dc4d-08d9fbbdb1c4
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5309:EE_
+X-Microsoft-Antispam-PRVS: <DM4PR11MB530912907CBDC39B4DD2892CBD029@DM4PR11MB5309.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +PLnPOnkqG6JL3MGtfr1Davper29T3Y/Tz8XZpSnc7KekCmafl1VDvuazpkH2Aadsg4wZz/RXkxMT1xrzbr3a1ICttHbay+82k/uNe3aorvaL/hHyDvyeDZy6h02U0L37MfEqcMPG+NTfDvxv6WogA02UCb74pNx4W2p2ZfuL8vcQC8Rm8Nyzi8BH8ta2MrOxw5G0O/8eBf/1ePAdiDvbPt/pzPMRIuv2Q5ivEY2HfCyEzJ6dmxiD7FRPxvFIk3b9INk1zSU5ZdASWzSLfCILFljoU/lUvASMOnriugf7P3/167ywX00nsQ77JNbxJT1xz28A3NrV29dVuwpwC735ZkT14YG/Vy+gQ7AV+NC3zX0/W90yNz/81FrAioV4jYAXrE/qkPFrYUWwmmDZDjT5Fj3jHsWzVNl4dkn/uRr6ftPdUZdYFaaEZjmwbHr9ICVa3uJ/dgIt7/1geYCRDWAGHMOLkgCyPOHfuVh3MHgWC7WRNYcQguk/h6wHBrfMmNJs1QdcAaJDDdc+Xfu3NnMhTK3W/0Zv8lljlcSwXMv7u4hC43+xC6RUEixcAJNGs9eY/fExMtHf0ygfEiXPKAV9jt6EYDCWMQ4vL3XUStQZ0z8sSLi+PsdOtfqxAYdqu9O3gAYHo0MboOThrfbqL10v5kX2Al7JzCnaIosstv76QnaM1CbDzWgE91qaaQicM/v6YFnTjaYM0SDNS0AGQSXJVpZUNGVUEZxL+DsmXGqxCv411ggJF580zH99CPa+ou9
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6512007)(316002)(5660300002)(31696002)(8936002)(2616005)(86362001)(8676002)(66946007)(66476007)(66556008)(4326008)(2906002)(38100700002)(30864003)(26005)(186003)(36756003)(53546011)(82960400001)(6506007)(6486002)(6666004)(83380400001)(508600001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlovSkNnRkU4R1N1ejg2Z0hNQnBlNEc1VXZSdy9WZCs1RnBFdk55Zzk1Uk5D?=
+ =?utf-8?B?U2JSUm8wakpraURXR1dTMXZDSUtMenVwNnIwdEtrd09mNzliM25wRU5aRllR?=
+ =?utf-8?B?S2g4SVVjT082bVkyV1B6TTBJTVUzeWViOThGbHFlem43ZVc1TUpiL3RXL1o4?=
+ =?utf-8?B?VmpJK3E4KzVNbHRROXNwNGFJSlVpMlhMejBrS3BIU1pLRFJ1ajhyUk83VDZa?=
+ =?utf-8?B?VHZqMmRIazFVWUJWK1JuZlBoZ0VTSENRVitTYVlpSXcwZnY3ZXgrd1IyU3lN?=
+ =?utf-8?B?bmFGT1pRNk9raUM5Z0wrSEJyN2VSbE1ZZGhLalNheENKQWVueFdta2FPUS9k?=
+ =?utf-8?B?MUxXOVUvRU9iRjZvb0RoL3phaSt4QndEUzhuTHkxRGZCUGo5ZndTRklJWTMy?=
+ =?utf-8?B?Y2F5RktRM1NYSXRURmRBUk05Z0FFOGRyTjErRERIOG1zbVlYL3VVejJwMmFG?=
+ =?utf-8?B?d2Y4Ulc4NExpS1FlN0ZzbGJPZGJXN3liVkxUNnl6cmF5L2txcW8zdUpnajRL?=
+ =?utf-8?B?T1ZwbmJOSmllOGt2WjE3SVEzcDk2SUtuK0dVclQ4emFiSHhBbXhhcEZWZlNC?=
+ =?utf-8?B?RlVZRzhVZDkvQndDeTFYelZXQ0xyYk9CMXJMZVFpNjFwbUhaT24rUHJtZDVO?=
+ =?utf-8?B?QkJTQmpYcDRSb29FZEtlcnluMGxGNm8xc1V3aC9xYVRiODBjbHEvaU0zV1Z0?=
+ =?utf-8?B?T3Nyd0tLV3gvOUo0Q09DVlZRdzU2UEZXL1ZHU1pXNmVSc25uaG0vdkQwSC96?=
+ =?utf-8?B?ZlNJbnpLbEIyVDNGWFVaUU5GNVBrdExIM2IwRVh2TjBmQytTNGJma1Y3R0t4?=
+ =?utf-8?B?a0J3aHpZV0JOcWJvMnVNZzZXRTR4akVUczZicXBEZVZCVnZvUmhLcFgyc1U4?=
+ =?utf-8?B?UnhoUndaa24yUGd6YjcrZWhudHVzcmVXV1hmd2EwcXdTbEpyR3BmdkdkMVAr?=
+ =?utf-8?B?UXduMVR1bDNjbEdkY0FveTJiYVA4dCtWSjFmUkQ5bk16dlJRd3NtcS8xTTdi?=
+ =?utf-8?B?Wk5LL3RzNTZwWHZkYnlRVVFNaEVtSVN6bml0UEJKY3ZORys0eEJMRjZMT0Zo?=
+ =?utf-8?B?Y3l2MnZDMDB6M3FnQStBYTRONSsyM2VUK2p1RzBYVUNSdmpXUXBUYzgySy9n?=
+ =?utf-8?B?YXREczdMOVArd2NpZzZxbVdVbkFHMytpRjlSWjBtZzlhbVNJOWptZEw5N3hN?=
+ =?utf-8?B?WUxDa2RVeXQ3WEFFd000M0Ywak5xd1F2VlBqaGRUeDQ4ZEpBWG9OVU5VRDZF?=
+ =?utf-8?B?VmRmTjNDcW0vYTVFb3FSUzJ1dE9HdEhpcVlkbnc0V0c2WFpiTUFDelFCcURV?=
+ =?utf-8?B?UVk1U0tvZm1wRXhQNWJlSTdHTit6MzllZnFvR09zTW1jMjlhUS96U2xoTzVx?=
+ =?utf-8?B?QmtSaWo2ME5MNlh6OGNXT3ZSWUV6blI4eFJlcjhrZjBTQm80cFV3eGlZc3Fl?=
+ =?utf-8?B?UGlPUDVtOEF5WkdHOEt0YkZsMUNXMmtQdVpObjg0NHd0WjYySUxaQXk5bGY2?=
+ =?utf-8?B?dkdjV1V5T1hsRUxZM1ZuZEV5YkxaNitiQ0pXYWdxNnc3M3F3NDNXWDRETHpV?=
+ =?utf-8?B?VHdTdCtYb3I0YkgrZ213MkJhQnhaakR2M1Y3Z0lPNjk5MkMvNDdnRW4vVnV6?=
+ =?utf-8?B?OTN6bVRnZm5VUStsQ0Fwb2FBZFBmUkYreXp3SjhKUjRjVFEzT01IQTdvNzV3?=
+ =?utf-8?B?U3E0SC9nd3Qwd1lGbVlLUmd3cDlEVEg1N1AwUjdsNndKbDFZWkJ3UlRpMUdl?=
+ =?utf-8?B?TVJBVkhrT3o1MGFhNFdmYVJiMUpvdm5xZU0yS1A1Vm1GZDN0dTBmRTg5SDk5?=
+ =?utf-8?B?alR2dWQ0bEduNnpWK3hodmVCbUY0ZGszbFV5eUZGRVpteGhMT2tkVFgySjVV?=
+ =?utf-8?B?dmRXNEFKbFVUWTQ0QUtZdTBsRDg3SFhUTXFvbDRVNVUrQmNQbGFxT1orajZY?=
+ =?utf-8?B?dkZBOE9aTVpPWE5LMzFYaUhxVm02VC9Mbm80ajVkZmJ5c3c3S0h4QVhqUTZv?=
+ =?utf-8?B?dmdSWkpERkhMbGY4aGl3aFd3cUhleVNJMS9nS1U2MC8wSUZMRlRLb1hzVDRH?=
+ =?utf-8?B?eTBUd256SFAwbVRjVTl2YktJZm1FeERmSlBTYXhWeXZEVDZLRmw5c2Rsd2F4?=
+ =?utf-8?B?RzU4Z3ZweldVVm5hUHN0YnhKLzNNcnNQUklDVm9rSFoxUmVyZGJZM0NLL0xI?=
+ =?utf-8?B?ZE1HMUlkWW9YaWw5bktpQ0RQZjIxbjBOcDRLbnArOC92Y3pKd2QySVdXdXc4?=
+ =?utf-8?Q?Byjy1UotL9O7bg64HBN3PUXveD6g+qp5vqENhEFzSA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 929c6ae8-0440-4097-dc4d-08d9fbbdb1c4
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 19:57:20.0901 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ni7HZqY39VgCB3hYywiFI4Qqb9RF65xXg9Yl9tSEpX04OQMnPY/JG+BJFdLCKSAsIkZaCWJ930QDg5qkz8nwosowNeg7cS8gJi8eZiYRW5E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5309
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,75 +169,400 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 1, 2022 at 11:06 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On 3/1/2022 02:50, Tvrtko Ursulin wrote:
+> On 28/02/2022 18:32, John Harrison wrote:
+>> On 2/28/2022 08:11, Tvrtko Ursulin wrote:
+>>> On 25/02/2022 17:39, John Harrison wrote:
+>>>> On 2/25/2022 09:06, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 24/02/2022 19:19, John Harrison wrote:
+>>>>>
+>>>>> [snip]
+>>>>>
+>>>>>>>>>>> ./gt/uc/intel_guc_fwif.h: u32 execution_quantum;
+>>>>>>>>>>>
+>>>>>>>>>>> ./gt/uc/intel_guc_submission.c: desc->execution_quantum = 
+>>>>>>>>>>> engine->props.timeslice_duration_ms * 1000;
+>>>>>>>>>>>
+>>>>>>>>>>> ./gt/intel_engine_types.h: unsigned long timeslice_duration_ms;
+>>>>>>>>>>>
+>>>>>>>>>>> timeslice_store/preempt_timeout_store:
+>>>>>>>>>>> err = kstrtoull(buf, 0, &duration);
+>>>>>>>>>>>
+>>>>>>>>>>> So both kconfig and sysfs can already overflow GuC, not only 
+>>>>>>>>>>> because of tick conversion internally but because at backend 
+>>>>>>>>>>> level nothing was done for assigning 64-bit into 32-bit. Or 
+>>>>>>>>>>> I failed to find where it is handled.
+>>>>>>>>>> That's why I'm adding this range check to make sure we don't 
+>>>>>>>>>> allow overflows.
+>>>>>>>>>
+>>>>>>>>> Yes and no, this fixes it, but the first bug was not only due 
+>>>>>>>>> GuC internal tick conversion. It was present ever since the 
+>>>>>>>>> u64 from i915 was shoved into u32 sent to GuC. So even if GuC 
+>>>>>>>>> used the value without additional multiplication, bug was be 
+>>>>>>>>> there. My point being when GuC backend was added timeout_ms 
+>>>>>>>>> values should have been limited/clamped to U32_MAX. The tick 
+>>>>>>>>> discovery is additional limit on top.
+>>>>>>>> I'm not disagreeing. I'm just saying that the truncation wasn't 
+>>>>>>>> noticed until I actually tried using very long timeouts to 
+>>>>>>>> debug a particular problem. Now that it is noticed, we need 
+>>>>>>>> some method of range checking and this simple clamp solves all 
+>>>>>>>> the truncation problems.
+>>>>>>>
+>>>>>>> Agreed in principle, just please mention in the commit message 
+>>>>>>> all aspects of the problem.
+>>>>>>>
+>>>>>>> I think we can get away without a Fixes: tag since it requires 
+>>>>>>> user fiddling to break things in unexpected ways.
+>>>>>>>
+>>>>>>> I would though put in a code a clamping which expresses both, 
+>>>>>>> something like min(u32, ..GUC LIMIT..). So the full story is 
+>>>>>>> documented forever. Or "if > u32 || > ..GUC LIMIT..) return 
+>>>>>>> -EINVAL". Just in case GuC limit one day changes but u32 stays. 
+>>>>>>> Perhaps internal ticks go away or anything and we are left with 
+>>>>>>> plain 1:1 millisecond relationship.
+>>>>>> Can certainly add a comment along the lines of "GuC API only 
+>>>>>> takes a 32bit field but that is further reduced to GUC_LIMIT due 
+>>>>>> to internal calculations which would otherwise overflow".
+>>>>>>
+>>>>>> But if the GuC limit is > u32 then, by definition, that means the 
+>>>>>> GuC API has changed to take a u64 instead of a u32. So there will 
+>>>>>> no u32 truncation any more. So I'm not seeing a need to 
+>>>>>> explicitly test the integer size when the value check covers that.
+>>>>>
+>>>>> Hmm I was thinking if the internal conversion in the GuC fw 
+>>>>> changes so that GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS goes above u32, 
+>>>>> then to be extra safe by documenting in code there is the 
+>>>>> additional limit of the data structure field. Say the field was 
+>>>>> changed to take some unit larger than a millisecond. Then the 
+>>>>> check against the GuC MAX limit define would not be enough, unless 
+>>>>> that would account both for internal implementation and u32 in the 
+>>>>> protocol. Maybe that is overdefensive but I don't see that it 
+>>>>> harms. 50-50, but it's do it once and forget so I'd do it.
+>>>> Huh?
+>>>>
+>>>> How can the limit be greater than a u32 if the interface only takes 
+>>>> a u32? By definition the limit would be clamped to u32 size.
+>>>>
+>>>> If you mean that the GuC policy is in different units and those 
+>>>> units might not overflow but ms units do, then actually that is 
+>>>> already the case. The GuC works in us not ms. That's part of why 
+>>>> the wrap around is so low, we have to multiply by 1000 before 
+>>>> sending to GuC. However, that is actually irrelevant because the 
+>>>> comparison is being done on the i915 side in i915's units. We have 
+>>>> to scale the GuC limit to match what i915 is using. And the i915 
+>>>> side is u64 so if the scaling to i915 numbers overflows a u32 then 
+>>>> who cares because that comparison can be done at 64 bits wide.
+>>>>
+>>>> If the units change then that is a backwards breaking API change 
+>>>> that will require a manual driver code update. You can't just 
+>>>> recompile with a new header and magically get an ms to us or ms to 
+>>>> s conversion in your a = b assignment. The code will need to be 
+>>>> changed to do the new unit conversion (note we already convert from 
+>>>> ms to us, the GuC API is all expressed in us). And that code change 
+>>>> will mean having to revisit any and all scaling, type conversions, 
+>>>> etc. I.e. any pre-existing checks will not necessarily be valid and 
+>>>> will need to be re-visted anyway. But as above, any scaling to GuC 
+>>>> units has to be incorporated into the limit already because 
+>>>> otherwise the limit would not fit in the GuC's own API.
+>>>
+>>> Yes I get that, I was just worried that u32 field in the protocol 
+>>> and GUC_POLICY_MAX_EXEC_QUANTUM_MS defines are separate in the 
+>>> source code and then how to protect against forgetting to update 
+>>> both in sync.
+>>>
+>>> Like if the protocol was changed to take nanoseconds, and firmware 
+>>> implementation changed to support the full range, but define 
+>>> left/forgotten at 100s. That would then overflow u32.
+>> Huh? If the API was updated to 'support the full range' then how can 
+>> you get overflow by forgetting to update the limit? You could get 
+>> unnecessary clamping, which hopefully would be noticed by whoever is 
+>> testing the new API and/or whoever requested the change. But you 
+>> can't get u32 overflow errors if all the code has been updated to u64.
 >
-> So instead of that simple "if (!entry)", we'd effectively have to
-> continue to use something that still works with the old world order
-> (ie that "if (list_entry_is_head())" model).
+> 1)
+> Change the protocol so that "u32 desc->execution_quantum" now takes 
+> nano seconds.
+>
+> This now makes the maximum time 4.29.. seconds.
+You seriously think this is likely to happen?
 
-Just to prove my point about how this is painful, that doesn't work at all.
+That the GuC people would force an API change on us that is completely 
+backwards from what we have been asking? And that such a massive 
+backwards step would not get implemented correctly because someone 
+didn't notice just how huge an impact it was?
 
-If the loop iterator at the end is NULL (good, in theory), we can't
-use "list_entry_is_head()" to check whether we ended. We'd have to use
-a new thing entirely, to handle the "list_for_each_entry() has the
-old/new semantics" cases.
+>
+> 2)
+> Forget to update GUC_POLICY_MAX_EXEC_QUANTUM_MS from 100s, since for 
+> instance that part at that point still not part of the interface 
+> contract.
+There is zero chance of the us -> ns change occurring in the foreseeable 
+future whereas the expectation is to have the limits be part of the spec 
+in the next firmware release. So this scenario is just not going to 
+happen. And as above, it would be such a big change with such a huge 
+amount of push back and discussion going on that it would be impossible 
+for the limit update to be missed/forgotten.
 
-That's largely why I was pushing for the "let's make it impossible to
-use the loop iterator at all outside the loop". It avoids the
-confusing case, and the patches to move to that stricter semantic can
-be merged independently (and before) doing the actual semantic change.
+>
+> 3)
+> User passes in 5 seconds.
+>
+> Clamping check says all is good.
+>
+> "engine->props.timeslice_duration_ms > GUC_POLICY_MAX_EXEC_QUANTUM_MS"
+>
+> 4)
+>
+> Assignment was updated:
+>
+> gt/uc/intel_guc_submission.c:
+>
+>   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
+>
+> But someone did not realize field is u32.
+>
+>   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
+>
+> Defensive solution:
+>
+>   if (overflows_type(engine->props.timeslice_duration_ms * 1e6, 
+> desc->execution_quantum))
+>     drm_WARN_ON...
 
-I'm not saying my suggested approach is wonderful either. Honestly,
-it's painful that we have so nasty semantics for the end-of-loop case
-for list_for_each_entry().
+All you are saying is that bugs can happen. The above is just one more 
+place to have a bug.
 
-The minimal patch would clearly be to keep those broken semantics, and
-just force everybody to use the list_entry_is_head() case. That's the
-"we know we messed up, we are too lazy to fix it, we'll just work
-around it and people need to be careful" approach.
+The purpose of the limit is to take into account all reasons for there 
+being a limit. Having a bunch of different tests that are all testing 
+the same thing is pointless.
 
-And laziness is a virtue. But bad semantics are bad semantics. So it's
-a question of balancing those two issues.
+John.
 
-               Linus
+>
+>   desc->execution_quantum = engine->props.timeslice_duration_ms * 1e6;
+>
+> Regards,
+>
+> Tvrtko
+>
+>
+>> John.
+>>
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> John.
+>>>>
+>>>>>
+>>>>>>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>> drivers/gpu/drm/i915/gt/intel_engine_cs.c | 15 +++++++++++++++
+>>>>>>>>>>>> drivers/gpu/drm/i915/gt/sysfs_engines.c | 14 ++++++++++++++
+>>>>>>>>>>>> drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 9 +++++++++
+>>>>>>>>>>>>   3 files changed, 38 insertions(+)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>>>>>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>>>>>>> index e53008b4dd05..2a1e9f36e6f5 100644
+>>>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>>>>>>>> @@ -389,6 +389,21 @@ static int intel_engine_setup(struct 
+>>>>>>>>>>>> intel_gt *gt, enum intel_engine_id id,
+>>>>>>>>>>>>       if (GRAPHICS_VER(i915) == 12 && engine->class == 
+>>>>>>>>>>>> RENDER_CLASS)
+>>>>>>>>>>>> engine->props.preempt_timeout_ms = 0;
+>>>>>>>>>>>>   +    /* Cap timeouts to prevent overflow inside GuC */
+>>>>>>>>>>>> +    if (intel_guc_submission_is_wanted(&gt->uc.guc)) {
+>>>>>>>>>>>> +        if (engine->props.timeslice_duration_ms > 
+>>>>>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS) {
+>>>>>>>>>>>
+>>>>>>>>>>> Hm "wanted".. There's been too much back and forth on the 
+>>>>>>>>>>> GuC load options over the years to keep track.. 
+>>>>>>>>>>> intel_engine_uses_guc work sounds like would work and read 
+>>>>>>>>>>> nicer.
+>>>>>>>>>> I'm not adding a new feature check here. I'm just using the 
+>>>>>>>>>> existing one. If we want to rename it yet again then that 
+>>>>>>>>>> would be a different patch set.
+>>>>>>>>>
+>>>>>>>>> $ grep intel_engine_uses_guc . -rl
+>>>>>>>>> ./i915_perf.c
+>>>>>>>>> ./i915_request.c
+>>>>>>>>> ./selftests/intel_scheduler_helpers.c
+>>>>>>>>> ./gem/i915_gem_context.c
+>>>>>>>>> ./gt/intel_context.c
+>>>>>>>>> ./gt/intel_engine.h
+>>>>>>>>> ./gt/intel_engine_cs.c
+>>>>>>>>> ./gt/intel_engine_heartbeat.c
+>>>>>>>>> ./gt/intel_engine_pm.c
+>>>>>>>>> ./gt/intel_reset.c
+>>>>>>>>> ./gt/intel_lrc.c
+>>>>>>>>> ./gt/selftest_context.c
+>>>>>>>>> ./gt/selftest_engine_pm.c
+>>>>>>>>> ./gt/selftest_hangcheck.c
+>>>>>>>>> ./gt/selftest_mocs.c
+>>>>>>>>> ./gt/selftest_workarounds.c
+>>>>>>>>>
+>>>>>>>>> Sounds better to me than intel_guc_submission_is_wanted. What 
+>>>>>>>>> does the reader know whether "is wanted" translates to "is 
+>>>>>>>>> actually used". Shrug on "is wanted".
+>>>>>>>> Yes, but isn't '_uses' the one that hits a BUG_ON if you call 
+>>>>>>>> it too early in the boot up sequence? I never understood why 
+>>>>>>>> that was necessary or why we need so many different ways to ask 
+>>>>>>>> the same question. But this version already exists and 
+>>>>>>>> definitely works without hitting any explosions.
+>>>>>>>
+>>>>>>> No idea if it causes a bug on, doesn't in the helper itself so 
+>>>>>>> maybe you are saying it is called too early? Might be.. I think 
+>>>>>>> over time the nice idea we had that "setup" and "init" phases of 
+>>>>>>> engine setup clearly separated got destroyed a bit. There would 
+>>>>>>> always be an option to move this clamping in a later phase, once 
+>>>>>>> the submission method is known. One could argue that if the 
+>>>>>>> submission method is not yet known at this point, it is even 
+>>>>>>> wrong to clamp based on something which will only be decided 
+>>>>>>> later. Because:
+>>>>>>>
+>>>>>>> int intel_engines_init(struct intel_gt *gt)
+>>>>>>> {
+>>>>>>>     int (*setup)(struct intel_engine_cs *engine);
+>>>>>>>     struct intel_engine_cs *engine;
+>>>>>>>     enum intel_engine_id id;
+>>>>>>>     int err;
+>>>>>>>
+>>>>>>>     if (intel_uc_uses_guc_submission(&gt->uc)) {
+>>>>>>>         gt->submission_method = INTEL_SUBMISSION_GUC;
+>>>>>>>
+>>>>>>> So this uses "uses", not "wanted". Presumably the point for 
+>>>>>>> having "wanted" and "uses" is that they can disagree, in which 
+>>>>>>> case if you clamp early based on "wanted" that suggests it could 
+>>>>>>> be wrong.
+>>>>>>
+>>>>>> Okay, looks like I was getting confused with intel_guc_is_used(). 
+>>>>>> That one blows up if called too early.
+>>>>>>
+>>>>>> I'll change it to _uses_ and repost, then.
+>>>>>
+>>>>> Check that it isn't called too early, before gt->submission_setup 
+>>>>> is set.
+>>>> Obviously it is because it blew up. But I am not re-writing the 
+>>>> driver start up sequence just to use the word 'use' instead of 'want'.
+>>>>
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>>>>>> And limit to class instead of applying to all engines looks 
+>>>>>>>>>>> like a miss.
+>>>>>>>>>> As per follow up email, the class limit is not applied here.
+>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>>> + drm_info(&engine->i915->drm, "Warning, clamping timeslice 
+>>>>>>>>>>>> duration to %d to prevent possibly overflow\n",
+>>>>>>>>>>>> + GUC_POLICY_MAX_EXEC_QUANTUM_MS);
+>>>>>>>>>>>> + engine->props.timeslice_duration_ms = 
+>>>>>>>>>>>> GUC_POLICY_MAX_EXEC_QUANTUM_MS;
+>>>>>>>>>>>
+>>>>>>>>>>> I am not sure logging such message during driver load is 
+>>>>>>>>>>> useful. Sounds more like a confused driver which starts with 
+>>>>>>>>>>> one value and then overrides itself. I'd just silently set 
+>>>>>>>>>>> the value appropriate for the active backend. Preemption 
+>>>>>>>>>>> timeout kconfig text already documents the fact timeouts can 
+>>>>>>>>>>> get overriden at runtime depending on platform+engine. So 
+>>>>>>>>>>> maybe just add same text to timeslice kconfig.
+>>>>>>>>>> The point is to make people aware if they compile with 
+>>>>>>>>>> unsupported config options. As far as I know, there is no way 
+>>>>>>>>>> to apply range checking or other limits to config defines. 
+>>>>>>>>>> Which means that a user would silently get unwanted 
+>>>>>>>>>> behaviour. That seems like a bad thing to me. If the driver 
+>>>>>>>>>> is confused because the user built it in a confused manner 
+>>>>>>>>>> then we should let them know.
+>>>>>>>>>
+>>>>>>>>> Okay, but I think make it notice low level.
+>>>>>>>>>
+>>>>>>>>> Also consider in patch 3/3 when you triple it, and then clamp 
+>>>>>>>>> back down here. That's even more confused state since tripling 
+>>>>>>>>> gets nerfed. I think that's also an argument to always account 
+>>>>>>>>> preempt timeout in heartbeat interval calculation. Haven't got 
+>>>>>>>>> to your reply on 2/3 yet though..
+>>>>>>>> That sounds like even more reason to make sure the warning gets 
+>>>>>>>> seen. The more complex the system and the more chances there 
+>>>>>>>> are to get it wrong, the more important it is to have a nice 
+>>>>>>>> easy to see and understand notification that it did go wrong.
+>>>>>>>
+>>>>>>> I did not disagree, just said make it notice, one level higher 
+>>>>>>> than info! :)
+>>>>>> But then it won't appear unless you have explicitly said an 
+>>>>>> elevated debug level. Whereas info appears in dmesg by default 
+>>>>>> (but is still not classed as an error by CI and such).
+>>>>>
+>>>>> Notice is higher than info! :) If info appears by default so does 
+>>>>> notice, warning, err, etc...
+>>>> Doh! I could have sworn those were the other way around.
+>>>>
+>>>> Okay. Will update to use notice :).
+>>>>
+>>>>>
+>>>>> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
+>>>>> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken 
+>>>>> immediately */
+>>>>> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
+>>>>> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+>>>>> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+>>>>> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant 
+>>>>> condition */
+>>>>> #define KERN_INFO       KERN_SOH "6"    /* informational */
+>>>>> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+>>>>>
+>>>>>>> But also think how, if we agree to go with tripling, that you'd 
+>>>>>>> have to consider that in the sysfs store when hearbeat timeout 
+>>>>>>> is written, to consider whether or not to triple and error out 
+>>>>>>> if preemption timeout is over limit.
+>>>>>> I see this as just setting the default values. If an end user is 
+>>>>>> explicitly overriding the defaults then we should obey what they 
+>>>>>> have requested. If they are changing the heartbeat interval then 
+>>>>>> they can also change the pre-emption timeout appropriately.
+>>>>>
+>>>>> Question is can they unknowingly and without any feedback 
+>>>>> configure a much worse state than they expect? Like when they set 
+>>>>> heartbeats up to some value, everything is configured as you 
+>>>>> intended - but if you go over a certain hidden limit the overall 
+>>>>> scheme degrades in some way. What is the failure mode here if you 
+>>>>> silently let them do that?
+>>>> You can always configure things to be worse than expected. If you 
+>>>> don't understand what you are doing then any control can make 
+>>>> things worse instead of better. The assumption is that if a user is 
+>>>> savvy enough to be writing to sysfs overrides of kernel parameters 
+>>>> then they know what those parameters are and what their 
+>>>> implications are. If they want to set a very short heartbeat with a 
+>>>> very long pre-emption timeout then its their problem if they hit 
+>>>> frequent TDRs. Conversely, if they want to set a very long 
+>>>> heartbeat with a very short pre-emption timeout then its still 
+>>>> their problem if they hit frequent TDRs.
+>>>>
+>>>> But if the user explicitly requests a heartbeat period of 3s and a 
+>>>> pre-emption timeout of 2s and the i915 arbitrarily splats their 2s 
+>>>> and makes it 9s then that is wrong.
+>>>>
+>>>> We should give the driver defaults that work for the majority of 
+>>>> users and then let the minority specify exactly what they need.
+>>>>
+>>>> And there is no silent or hidden limit. If the user specifies a 
+>>>> value too large then they will get -EINVAL. Nothing hidden or 
+>>>> silent about that. Any other values are legal and the behaviour 
+>>>> will be whatever has been requested.
+>>>>
+>>>> John.
+>>>>
+>>>>
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Tvrtko
+>>>>
+>>
+
