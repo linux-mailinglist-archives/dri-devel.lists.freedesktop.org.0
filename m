@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF114C98D7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067BB4C98F8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 00:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 005D289FED;
-	Tue,  1 Mar 2022 23:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8D110E7AC;
+	Tue,  1 Mar 2022 23:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0645C89FED
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:09:54 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id qa43so7998198ejc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B882810E7AC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 23:13:08 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id g26so4787380ybj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:13:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ojIOUCrgcIak8ZCc1skMdXRKcTVmt9Elm/o+1+I6jGA=;
- b=fmg4LXx5HRB2mrrWsHndl76rC2chdk1sBRQyNWtz+o2V+K2vg9psF6vr/ppax24roG
- 0IEY6nkgVM6qwn95jhK4YeupoNeTj8/flkbxBQUDmf863ReCVguQlY3gsMWixLyIz8Mx
- ewpCP9yjbapnom8xtoCAmNy70uRnweYHKzlsw=
+ :cc; bh=WVmXAPYzuyUp9cPda82pRMyWYcgH127Atrd/jKRj/J8=;
+ b=MMpefUKWjVLrwv5LyYzK/4sO2meBH5IYzRhRVr9wZZiL3CfVmFuUqulaLyIvmAr/9P
+ lcX5LJx1OjRdXhAkN0EV/OcgYBIW8d2zmMKg89H5NNiw27exN7RV/WEvq010kN5bKAEq
+ mq8C/nHdHhjSdmvSIC6GaJC8ChSXxn+xzKeor86oyrtkFsHaGDgkL9cE4qEFBxbgg5iA
+ FkgSVGUbuNjxoqVDYUgXwDz+YYbCheAFUIbT69Nvtk1fsW1kzTFSaRak4iYGKWUYX38d
+ 6Q/C1ft2MI/Mka0cEyF2sie6ORc6UeCKIXMvrLxW7QXpMb7VL7v82VTOuA4DHrjoHz6B
+ SKLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ojIOUCrgcIak8ZCc1skMdXRKcTVmt9Elm/o+1+I6jGA=;
- b=GsPbDzDLRCxt8EEFQbuNsB5X9cnwmtcZqm0imbNCrphfiz9JEZHgtn/tiGkqWB3F9y
- hhHhp3KvNhbOmlxrg2EyYJ1Z2h/nbvY1mLcZ0WwUJxaYKA5ypmlPOO4RNOO5Fiu4zsvc
- WCb9v3353wqW+v4cOcIuNu+vkpHGF7DW/NBMWRBdb23KLrrikEBBf0oFZlFc8frF8Ds/
- 8r8+R2I4t9zYz6fSNEdPj2/3VP6byz0jlJF3erpiW/n5SHgA1Ii240jFU1wj2I5UWBm7
- cXO7TPrrEMK/FG496ENNuBwd74sNbt3abFiScGq6KrED223pIosfnVX+rN77JhQOozEq
- V32A==
-X-Gm-Message-State: AOAM533l5Vok5i1oRAPA0YYENpgvh4I62yHoklmBv5MWmILpJ8uI9qED
- 7MyfNbe/bwiPuqQ+sLBU4dnuMikEUxqijC6uVNI=
-X-Google-Smtp-Source: ABdhPJx+m76R/H9eWI3OIVsCfqMQMu/d0F1pH7DDnWD1AlTtuTTwb04bkW3JwcpQU8GYLtJNLAQBWQ==
-X-Received: by 2002:a17:907:2a53:b0:6ce:e4fe:3f92 with SMTP id
- fe19-20020a1709072a5300b006cee4fe3f92mr20309370ejc.389.1646176192368; 
- Tue, 01 Mar 2022 15:09:52 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- n13-20020a1709062bcd00b006cf71d46a1csm5687826ejg.136.2022.03.01.15.09.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 15:09:52 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id p9so22896224wra.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 15:09:52 -0800 (PST)
-X-Received: by 2002:a2e:924d:0:b0:246:370c:5618 with SMTP id
- v13-20020a2e924d000000b00246370c5618mr18436468ljg.358.1646175815802; Tue, 01
- Mar 2022 15:03:35 -0800 (PST)
+ bh=WVmXAPYzuyUp9cPda82pRMyWYcgH127Atrd/jKRj/J8=;
+ b=u4QFobXEqWsceVUOHASZb1cKMncRgH655mRv7kA9KpOofujWdYZGsf3WBzJ/HsMZFR
+ KnUYxzw77snuBFCDCGytQhAEMcTOVHLjXc0z3bADqxd8EAh/CzP5g++m+0j6tpBlLWjm
+ ndXH7VbJvGK7LArrc0L/coCUCqVNXdlJB9z2g9vuC/CYnkVUv2+sBAlFdCGWrJfm6bDj
+ 47R905tw45A3us9uuAghSDF4C0MLVV1gMIxyPlH2mL7a13KRwTOLQ/gHfP4V/7w3LW1j
+ qYwjraDBKsI2bSbQh3PMb4c18ecMlU7tLqWH55S2aprTnuYfCjSQTB4Zq0xiyX6eHrk/
+ 3nYg==
+X-Gm-Message-State: AOAM533jKHbYG9L3MFIIggMsC4jBisv3qyvcyz+Z8o8+tV7RSJh9J4Fq
+ hL2hq2S6vzRV7cSUKi6JGblSJ8eBT0LC4qdZtwZBQg==
+X-Google-Smtp-Source: ABdhPJyEEmeor1mBkhy3MUQwqj7GjVnh17sHiCPOo6b/VIrKmCUfokqzS4hxI37QqfQnmDEVDqnyEF7BicOglbuC5Iw=
+X-Received: by 2002:a25:cc8b:0:b0:628:9263:38ba with SMTP id
+ l133-20020a25cc8b000000b00628926338bamr578433ybf.291.1646176387971; Tue, 01
+ Mar 2022 15:13:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
- <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
-In-Reply-To: <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 15:03:19 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
-Message-ID: <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: David Laight <David.Laight@aculab.com>
+References: <20220301141247.126911-1-jagan@amarulasolutions.com>
+ <20220301141247.126911-8-jagan@amarulasolutions.com>
+In-Reply-To: <20220301141247.126911-8-jagan@amarulasolutions.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 2 Mar 2022 00:12:55 +0100
+Message-ID: <CACRpkdZAPbe=_RMjnHkmAVBUir=HobMPWtp-4TQgETSsmEd8ww@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm: bridge: anx7625: Switch to
+ devm_drm_of_get_bridge
+To: Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,74 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- dma <dmaengine@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-amarula@amarulasolutions.com,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 1, 2022 at 2:58 PM David Laight <David.Laight@aculab.com> wrote:
+On Tue, Mar 1, 2022 at 3:13 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+
+> devm_drm_of_get_bridge is capable of looking up the downstream
+> bridge and panel and trying to add a panel bridge if the panel
+> is found.
 >
-> Can it be resolved by making:
-> #define list_entry_is_head(pos, head, member) ((pos) == NULL)
-> and double-checking that it isn't used anywhere else (except in
-> the list macros themselves).
+> Replace explicit finding calls with devm_drm_of_get_bridge.
+>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v2:
+> - split the patch
 
-Well, yes, except for the fact that then the name is entirely misleading...
+This will be nice code reduction when it works!
 
-And somebody possibly uses it together with list_first_entry() etc, so
-it really is completely broken to mix that change with the list
-traversal change.
+> -       struct drm_panel *panel = NULL;
+> -       struct drm_bridge *bridge = NULL;
+> +       struct drm_bridge *bridge;
 
-             Linus
+OK... and then you delete the code that uses panel. But:
 
-               Linus
+static void mcde_dsi_unbind(struct device *dev, struct device *master,
+                            void *data)
+{
+        struct mcde_dsi *d = dev_get_drvdata(dev);
+
+        if (d->panel)
+                drm_panel_bridge_remove(d->bridge_out);
+        regmap_update_bits(d->prcmu, PRCM_DSI_SW_RESET,
+                           PRCM_DSI_SW_RESET_DSI0_SW_RESETN, 0);
+}
+
+So this will not even compile.
+
+I suppose you have a solution for removing the panel bridge automatically
+as well?
+
+Yours,
+Linus Walleij
