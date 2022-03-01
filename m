@@ -1,89 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5311F4C9063
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:32:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A464C9097
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Mar 2022 17:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5B610E6B8;
-	Tue,  1 Mar 2022 16:32:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE4110E5CB;
+	Tue,  1 Mar 2022 16:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E657110E6F3
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Mar 2022 16:32:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646152350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n44Wo6vgxZpi5bWperlxNMLPYijk8JsTILs9YPWVgno=;
- b=ev/F+9HK1B5n47Khw3eIrrSbtGBzIKfSMiTPlQIzO8XL96Lqhs/+H/mB2j2rjP2NI9dsXd
- DNTrzlwQXpMDtEcULsg0IA31i0LLsg12j6y2thjtmXPzbQlPSZ0pJf7UswziY3a/r3mE9y
- yfcVIVhqoHiZLJ8ONQ90eMXbHasYK3g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-2axQSNaFOe6MQcq5KEgExQ-1; Tue, 01 Mar 2022 11:32:27 -0500
-X-MC-Unique: 2axQSNaFOe6MQcq5KEgExQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- az11-20020a05600c600b00b00381b45e12b7so1145142wmb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 08:32:27 -0800 (PST)
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A4610E499;
+ Tue,  1 Mar 2022 16:46:50 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id r7so19121248iot.3;
+ Tue, 01 Mar 2022 08:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I1DKkFkTD51crlgMGLdpYJpND0N6pwdsFJPVoE5cl6o=;
+ b=jEPhltpGhYcqAq57XkAAn66Kov5OWMOzOGhPUapIU2W5R+8LDIKiQXjhzEK561SyQo
+ 6N+iLEMORuUO2QCZ/IA6jXaXN+R39vV/86n08B/6hwSkRM7Q3xFgIL56RbEZ8RT4NRcs
+ 4bPPlOQkCX9qDbVvKpfbtb5FaD0ef8AEeLLn9Aocksq7fKVAKk8VVFLeYzAWK77llleb
+ 9kW2am6M5Fd4C37wTrEXDi7wd2MwGNXaEQ6BT5FQrIRqtkjaWAm09bIGIKGnU2Pp7u9K
+ iE+zqate6yY9iBSW2Lock8xbkvA3vojZ+Br9HhzRxdDiP2FU5uZj81qf5tN4G1Jh4E1G
+ 53Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=n44Wo6vgxZpi5bWperlxNMLPYijk8JsTILs9YPWVgno=;
- b=JxnIUU5eA7RGl9r2E4u0w79O05lRhVjcdJLa3FGJuOLKQP5i8fmkWSkEPWY4T2/o5d
- 5FEbir+DxePUMJY2rcb4rQVYPjNuil6PRaqFgq6lhRVMOnvQhMZ0lYpbTBo2vBYU05HC
- dbjAU7HrMRATbC1aKFCX3/aDfXwt+dkA3dyGAxznkY7DGvJHP07cWfF5EKc7RkOAYyTT
- 6HnFwEBZ4hipiWNW7vcf/yVZWdxzOwIRT2lAh0DWUzzVN8klyO3FM5HsBjc60Dww11qN
- riXOOZSpGEzwPmNxV/ZDfLC8NCAj/sCOnZDd4qjFO+jeWI0Lox9Gdxnh2lffvQb8xlgR
- t5FQ==
-X-Gm-Message-State: AOAM531DES5fJgP9mLrPwnbhOZ1+dT6qj0iJJEdtmTiDaUCFAjuWYsaL
- P6UVQLeKkr6gvq1lHOIeymecCTQ+CIE+BonpI9tCGmQXxtL3m5qPBdWXFDXJYOatex2ARpvRzAY
- O22UPGFJni0I/hqXNKkbBmzU+wFKi
-X-Received: by 2002:a05:6000:1b0c:b0:1ef:956e:3210 with SMTP id
- f12-20020a0560001b0c00b001ef956e3210mr10718768wrz.322.1646152346585; 
- Tue, 01 Mar 2022 08:32:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3kzdNGIIvZpX2C9to3Pb3Y486zu3gVqra59S1lC+acXexuk7wv16jDLZDxszLnYK+EvUsSg==
-X-Received: by 2002:a05:6000:1b0c:b0:1ef:956e:3210 with SMTP id
- f12-20020a0560001b0c00b001ef956e3210mr10718743wrz.322.1646152346319; 
- Tue, 01 Mar 2022 08:32:26 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70e:5e00:88ce:ad41:cb1b:323?
- (p200300cbc70e5e0088cead41cb1b0323.dip0.t-ipconnect.de.
- [2003:cb:c70e:5e00:88ce:ad41:cb1b:323])
- by smtp.gmail.com with ESMTPSA id
- m34-20020a05600c3b2200b00380e3225af9sm3328629wms.0.2022.03.01.08.32.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 08:32:25 -0800 (PST)
-Message-ID: <85a68c56-7cce-ef98-7aa6-c68eabf3fa0b@redhat.com>
-Date: Tue, 1 Mar 2022 17:32:24 +0100
+ bh=I1DKkFkTD51crlgMGLdpYJpND0N6pwdsFJPVoE5cl6o=;
+ b=vp7PnBl2a307R4+g7WK8QPJB6Z9lAPPVRg7Oxe1PWnRYRzhBNAYpe6rb1gOVdUVTE8
+ KC0Mzu2V7jZOk7WGoeNRAbTCeFm5njnfZPeKROPJhExi2vPv6iMKyr5WXeQji/ooMArp
+ vvsAmVBWMxtp6sCN71b15Wds1rCSZkJhui7BmKZ/HBmz6bGHg3sFXuBTt67IrwSH6Kg9
+ 3zjOmUGKfvXIONx6c5rE8/EdAlRxQ2HS7obUf3qQ31TiQDdzhML/sRLiiJiqFwN0c0PN
+ NDbdK+faR5NzIl/ODr1I6jWj1w/7bPX41FQ8GkxTyK6iHJid1XzYXASMFpSxGMLQGxii
+ fA2A==
+X-Gm-Message-State: AOAM530cyzPAiITA6Z2jyIzDRo4GKYii8Av7MRC0zdd6y/arQmJrulO/
+ 5nCtBQbSxrcYdPg8xaSxpIw=
+X-Google-Smtp-Source: ABdhPJwc3IPrO6b8RuyjrC3bbWDPNt8/BFUm757dn432bTjFTSza1QlncnWOpq0GGb7foTgAqGxYRw==
+X-Received: by 2002:a05:6638:204d:b0:314:a290:48c with SMTP id
+ t13-20020a056638204d00b00314a290048cmr22222271jaj.264.1646153209259; 
+ Tue, 01 Mar 2022 08:46:49 -0800 (PST)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::f10e])
+ by smtp.googlemail.com with ESMTPSA id
+ o3-20020a6b5a03000000b00640a33c5b0dsm7272411iob.17.2022.03.01.08.46.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 08:46:48 -0800 (PST)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, robdclark@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/12] use dynamic-debug under drm.debug api
+Date: Tue,  1 Mar 2022 09:46:16 -0700
+Message-Id: <20220301164629.3814634-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] mm: split vm_normal_pages for LRU and non-LRU handling
-To: Felix Kuehling <felix.kuehling@amd.com>, Alex Sierra
- <alex.sierra@amd.com>, jgg@nvidia.com
-References: <20220218192640.GV4160@nvidia.com>
- <20220228203401.7155-1-alex.sierra@amd.com>
- <2a042493-d04d-41b1-ea12-b326d2116861@redhat.com>
- <41469645-55be-1aaa-c1ef-84a123fdb4ea@amd.com>
- <bfae7d17-eb50-55b1-1275-5ba0f86a5273@redhat.com>
- <353c7bbd-b20e-8a7a-029a-cda9b531e5e8@amd.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <353c7bbd-b20e-8a7a-029a-cda9b531e5e8@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,45 +70,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, amd-gfx@lists.freedesktop.org, apopple@nvidia.com,
- dri-devel@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
- jglisse@redhat.com, willy@infradead.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.03.22 17:30, Felix Kuehling wrote:
-> Am 2022-03-01 um 11:22 schrieb David Hildenbrand:
->>>>>    		if (PageReserved(page))
->>>>> diff --git a/mm/migrate.c b/mm/migrate.c
->>>>> index c31d04b46a5e..17d049311b78 100644
->>>>> --- a/mm/migrate.c
->>>>> +++ b/mm/migrate.c
->>>>> @@ -1614,7 +1614,7 @@ static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
->>>>>    		goto out;
->>>>>    
->>>>>    	/* FOLL_DUMP to ignore special (like zero) pages */
->>>>> -	follflags = FOLL_GET | FOLL_DUMP;
->>>>> +	follflags = FOLL_GET | FOLL_DUMP | FOLL_LRU;
->>>>>    	page = follow_page(vma, addr, follflags);
->>>> Why wouldn't we want to dump DEVICE_COHERENT pages? This looks wrong.
->>> This function later calls isolate_lru_page, which is something you can't
->>> do with a device page.
->>>
->> Then, that code might require care instead. We most certainly don't want
->> to have random memory holes in a dump just because some anonymous memory
->> was migrated to DEVICE_COHERENT.
-> I don't think this code is for core dumps. The call chain I see is
-> 
-> SYSCALL_DEFINE6(move_pages, ...) -> kernel_move_pages -> do_pages_move 
-> -> add_page_for_migration
-> 
+hi Jason, Greg, Daniel, DRM-everyone
 
-Ah, sorry, I got mislead by FOLL_DUMP and thought we'd be in
-get_dump_page() . As you said, nothing to do.
+drm.debug api provides ~23 macros to issue 10 categories of debug
+messages, each enabled by a bit in /sys/module/drm/parameters/debug.
+drm_debug_enabled(category) tests these bits at runtime; while cheap
+individually, the costs accumulate.
+
+Daniel,
+I think this revision addresses most of your early review, a lot has
+changed since.  Heres the link:
+https://patchwork.freedesktop.org/patch/443989/
+
+For CONFIG_DRM_USE_DYNAMIC_DEBUG=y, this patchset obsoletes those
+runtime tests (inside drm_*dbg) by wrapping the 2 fns in one of the
+dynamic_func_call* Factory macros.  The config dependence is due to
+the .data footprint cost of the tables; AMDGPU has ~4k callsites, at
+56 bytes each.
+
+This patchset creates entries in /proc/dynamic_debug/control for each
+callsite, and each has .class_id = macros' category.  Those entries,
+and a new query keyword, allow (1st):
+
+  # 1=DRM_UT_KMS (iirc)
+  #> echo "module drm class 1 +p  > /proc/dynamic_debug/control
+
+Then equivalently:
+  # except it also clears other flags
+  #> echo 0x01 > /sys/module/drm/parameters/debug
+
+series overview:
+
+dyndbg:
+ - fix a bug in dyndbg static_key toggling, @stable cc'd
+ - adds support for distinct classes to dyndbg (new,unused feature)
+ - add DECLARE_DYNAMIC_DEBUG_CLASSBITS macro and callbacks
+   to implement bitmap -> classid sysfs knob
+dyndbg:
+ - drops exported fn: dynamic_debug_exec_queries()
+   any potential users would just use macro, or a tweak on it.
+ - improve info-msg to print both "old -> new" flags
+drm:
+ - adapts drm debug category to dyndbg.class_id
+ - wraps drm_*dbg() in a dyndbg Factory macro to get NOOP optimized debugs
+   this disconnects drm.debug sysfs knob
+ - uses DECLARE_DYNAMIC_DEBUG_CLASSBITS macro
+   this reconnects sysfs knob
+
+This could be -v12, but the focus and subject has wandered a bit, and
+patchwork CI had multiple different notions of the version.
+
+Noteworthy changes:
+
+- no tracefs stuff here, refocus
+
+In contrast, the previous drm.debug approach:
+
+- replaced drm_dbg & drm_devdbg with calls to pr_debug & dev_dbg
+  this preserved the optional decorations: module:function:line:
+
+- used DRM_UT_CORE => "drm:core:" prefix-string, cpp cat'd to formats
+  this made sites selectable by matching to that format prefix
+
+This version:
+
+- .class_id is easier to explain, and no config/format-string diffs
+
+- wraps drm_dbg & drm_devdbg callsites for jumplabel enablement
+  efficiency was original goal.
+
+- loses the optional decorations.
+  drm has its own logmsg standards, doesn't need decorations slapped on
+  later: could recast flags for drm specific decorations
+
+This is based on 5.17-rc4, for no particular reason.
+
+Its also here: in (dd-drm branch)
+  ghlinux-ro	https://github.com/jimc/linux.git (fetch)
+
+
+Jim Cromie (13):
+  dyndbg: fix static_branch manipulation @stable
+  dyndbg: add class_id field and query support
+  dyndbg: add DEFINE_DYNAMIC_DEBUG_CLASSBITS macro and callbacks
+  dyndbg: drop EXPORTed dynamic_debug_exec_queries
+  dyndbg: improve change-info to have old and new
+  dyndbg: abstract dyndbg_site_is_printing
+  drm_print: condense enum drm_debug_category
+  drm_print: interpose drm_*dbg with forwarding macros
+  drm_print: wrap drm_*_dbg in dyndbg jumplabel
+  drm_print: refine drm_debug_enabled for dyndbg+jump-label
+  drm_print: prefer bare printk KERN_DEBUG on generic fn
+  drm_print: add _ddebug desc to drm_*dbg prototypes
+  drm_print: use DEFINE_DYNAMIC_DEBUG_CLASSBITS for drm.debug
+
+ .../admin-guide/dynamic-debug-howto.rst       |   7 +
+ drivers/gpu/drm/Kconfig                       |  12 ++
+ drivers/gpu/drm/Makefile                      |   2 +
+ drivers/gpu/drm/drm_print.c                   |  56 ++++---
+ include/drm/drm_print.h                       |  80 +++++++---
+ include/linux/dynamic_debug.h                 | 113 +++++++++++---
+ lib/dynamic_debug.c                           | 140 ++++++++++++++----
+ 7 files changed, 323 insertions(+), 87 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.35.1
 
