@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C30E4CA4DC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 13:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446774CA4DF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 13:33:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7380910EC5F;
-	Wed,  2 Mar 2022 12:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 211F210ED06;
+	Wed,  2 Mar 2022 12:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 309E410EC5F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 12:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zs30rfcp9Gy4eJZTj0VHE0zYlF+YvSpqPJY+NDZEYbQ=; b=UUTGwTkeNLZrsWztZAVHFKWbag
- mghQYTZlvPjb4FN4MLAnP6GihRzwI+TJBnDNClIiajEHBC7JdWRUYGLHfi6TxGllLez/0oIIAJU8K
- q7YHlVx9JkDBJLAOZXnHujwAED4tjQDplKkOaPng/B60rGnXAqtXztQq9iaJGjAjWOsi7XUM3SKKr
- iPP8zgnmXrJ40CLUIrmGb852hMqt7ItWxEPzbXzRRQbV8cny5ANiwfQKpHwlljH17brygcWa4K71o
- 0AbKmnfOw/QUhc99QJiKykKala7dZO/LplW+jorpooSnXx2jkI/Zq0Ak+e6AYaGG+yBwb+3G0BxZ6
- AJc2KK1Q==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nPO8x-00023j-D7; Wed, 02 Mar 2022 14:31:47 +0200
-Message-ID: <3466cb33-7f5c-7b57-85f8-387e93516432@kapsi.fi>
-Date: Wed, 2 Mar 2022 14:31:46 +0200
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE89410ED06
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 12:32:56 +0000 (UTC)
+Date: Wed, 2 Mar 2022 13:32:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1646224375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a6/1rKVTrXaC4pmzDxfiDtmQeP/5Nibph0yrdWe6Uu4=;
+ b=VeQ2aWuJGFUmggPa1CiE3w+VFOu25SqTtkWRkWhyRS0P+UMCmToTnjE/eHy4lOQ5FTyhzN
+ Jbk8EenfDWm4ors7vhD3yDJrySbtR89JlzhEW5kYtB1w1UmBxjis7Z6pWHhAqfanSjtqdw
+ Zu26OFZyC2nTdC1eUaw1vMDpbKRn4rCMcBAR3A8mu3xoDPnWbJUqPnPG0WgdVX39Eql3y4
+ rSj8CNIYv2EVRS77JOvhPaVWEkWsCiS8Sv2Tt2724PDq1OpGSumVnzqtCHXAU6F0dfqloJ
+ nM8vOeDjPzBjDDGzMSUEZoS/LUjYS8saTkbJ1opIoawfOxeaC2PHoYxr6Yf0RA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1646224375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a6/1rKVTrXaC4pmzDxfiDtmQeP/5Nibph0yrdWe6Uu4=;
+ b=Lc2YK7LOVX2wJqtytmqs49eRgti4xiGgBxb1unvD6MvapTeOunYPmwzwggrUbOU4KoQPBf
+ YFJ+Vj2X2kxLNVBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: Depend on !PREEMPT_RT.
+Message-ID: <Yh9j9URUNOiHN4TW@linutronix.de>
+References: <YgqmfKhwU5spS069@linutronix.de> <YhlgRb1lZO38gAz5@linutronix.de>
+ <474ded6f-4fe8-8355-9a96-2254401d10fc@linux.intel.com>
+ <YhylgaoHtSKi7+el@linutronix.de>
+ <42282635-50a8-505f-0bd5-5aef9945e3d3@linux.intel.com>
+ <Yh44NxT/DMhB4Sqf@linutronix.de>
+ <cc09f4d6-c0f5-3ea5-0eab-fa1d2a7c6519@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v4 1/9] dt-bindings: host1x: Add iommu-map property
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski@canonical.com
-References: <20220301161455.4037062-1-cyndis@kapsi.fi>
- <20220301161455.4037062-2-cyndis@kapsi.fi>
- <4a748c85-4fdb-0c10-19d8-0379b9e42ab5@arm.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <4a748c85-4fdb-0c10-19d8-0379b9e42ab5@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cc09f4d6-c0f5-3ea5-0eab-fa1d2a7c6519@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,75 +59,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/1/22 20:12, Robin Murphy wrote:
-> On 2022-03-01 16:14, cyndis@kapsi.fi wrote:
->> From: Mikko Perttunen <mperttunen@nvidia.com>
->>
->> Add schema information for specifying context stream IDs. This uses
->> the standard iommu-map property.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v3:
->> * New patch
->> v4:
->> * Remove memory-contexts subnode.
->> ---
->>   .../bindings/display/tegra/nvidia,tegra20-host1x.yaml        | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git 
->> a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml 
->> b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml 
->>
->> index 4fd513efb0f7..0adeb03b9e3a 100644
->> --- 
->> a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml 
->>
->> +++ 
->> b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml 
->>
->> @@ -144,6 +144,11 @@ allOf:
->>           reset-names:
->>             maxItems: 1
->> +        iommu-map:
->> +          description: Specification of stream IDs available for 
->> memory context device
->> +            use. Should be a mapping of IDs 0..n to IOMMU entries 
->> corresponding to
+On 2022-03-02 11:42:35 [+0000], Tvrtko Ursulin wrote:
+> > > >      0005-drm-i915-Don-t-check-for-atomic-context-on-PREEMPT_R.patch
+> > > 
+> > > What do preempt_disable/enable do on PREEMPT_RT? Thinking if instead the
+> > > solution could be to always force the !ATOMIC path (for the whole
+> > > _wait_for_atomic macro) on PREEMPT_RT.
+> > 
+> > Could be one way to handle it. But please don't disable preemption and
+> > or interrupts for longer period of time as all of it increases the
+> > overall latency.
 > 
-> Nit: maybe "context IDs 0..n" for maximum possible clarity?
-
-I left it at "IDs" since there is no "context ID" or similar concept in 
-the hardware, so I thought to leave it just as a kind of an 'abstract ID 
-as used in iommu-map property'.
-
+> I am looking for your guidance of what is the correct thing here.
 > 
-> Either way, though, I'm happy that if the simplest and most 
-> straightforward approach works, then it's the best choice.
+> Main purpose of this macro on the i915 side is to do short waits on GPU
+> registers changing post write from spin-locked sections. But there were rare
+> cases when very short waits were needed from unlocked sections, shorter than
+> 10us (which is AFAIR what usleep_range documents should be a lower limit).
+> Which is why non-atomic path was added to the macro. That path uses
+> preempt_disable/enable so it can use local_clock().
+>
+> All this may, or may not be, compatible with PREEMPT_RT to start with?
 
-I am happy as well, this is certainly much cleaner than the mess in the 
-downstream driver :)
+Your assumption about atomic is not correct and that is why I aim to
+ignore for RT. Or maybe alter so it fits.
+It is assumed, that in_atomic() is true in an interrupts handler or with
+an acquired spinlock_t, right? Both condition keep the context
+preemptible so the atomic check triggers. However, both (the force
+threaded interrupt handler and the spinlock_t) ensure that the task is
+stuck on the CPU.
 
+So maybe your _WAIT_FOR_ATOMIC_CHECK() could point to cant_migrate().
+It looks like you try to ensure that local_clock() is from the same CPU.
+
+> Or question phrased differently, how we should implement the <10us waits
+> from non-atomic sections under PREEMPT_RT?
+
+I think if you swap check in _WAIT_FOR_ATOMIC_CHECK() it should be good.
+After all the remains preemptible during the condition polls so it
+should work.
+
+> > The problem is that you can't acquire that lock from within that
+> > trace-point on PREEMPT_RT. On !RT it is possible but it is also
+> > problematic because LOCKDEP does not see possible dead locks unless that
+> > trace-point is enabled.
 > 
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> Oh I meant could the include ordering problem be fixed differently?
 > 
-> Cheers,
-> Robin.
-
-Thanks!
-Mikko
-
+> """
+> [PATCH 07/10] drm/i915: skip DRM_I915_LOW_LEVEL_TRACEPOINTS with
+>  NOTRACE
 > 
->> +            usable stream IDs.
->> +
->>         required:
->>           - reg-names
+> The order of the header files is important. If this header file is
+> included after tracepoint.h was included then the NOTRACE here becomes a
+> nop. Currently this happens for two .c files which use the tracepoitns
+> behind DRM_I915_LOW_LEVEL_TRACEPOINTS.
+> """
+> 
+> Like these two .c files - can order of includes just be changed in them?
 
+Maybe. Let me check and get back to you.
+
+> > I've been talking to Steven (after
+> > https://lkml.kernel.org/r/20211214115837.6f33a9b2@gandalf.local.home)
+> > and he wants to come up with something where you can pass a lock as
+> > argument to the tracing-API. That way the lock can be acquired before
+> > the trace event is invoked and lockdep will see it even if the trace
+> > event is disabled.
+> > So there is an idea how to get it to work eventually without disabling
+> > it in the long term.
+> > 
+> > Making the register a raw_spinlock_t would solve problem immediately but
+> > I am a little worried given the increased latency in a quick test:
+> >     https://lore.kernel.org/all/20211006164628.s2mtsdd2jdbfyf7g@linutronix.de/
+> > 
+> > also, this one single hardware but the upper limit atomic-polls is high.
+> > 
+> > > >      0008-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch
+> > > 
+> > > Not sure about why cond_resched was put between irq_work_queue and
+> > > irq_work_sync - would it not be like-for-like change to have the two
+> > > together?
+> > 
+> > maybe it loops for a while and an additional scheduling would be nice.
+> > 
+> > > Commit message makes me think _queue already starts the handler on
+> > > x86 at least.
+> > 
+> > Yes, irq_work_queue() triggers the IRQ right away on x86,
+> > irq_work_sync() would wait for it to happen in case it did not happen.
+> > On architectures which don't provide an IRQ-work interrupt, it is
+> > delayed to the HZ tick timer interrupt. So this serves also as an
+> > example in case someone want to copy the code ;)
+> 
+> My question wasn't why is there a need_resched() in there, but why is the
+> patch:
+> 
+> +		irq_work_queue(&b->irq_work);
+>  		cond_resched();
+> +		irq_work_sync(&b->irq_work);
+> 
+> And not:
+> 
+> +		irq_work_queue(&b->irq_work);
+> +		irq_work_sync(&b->irq_work);
+>  		cond_resched();
+> 
+> To preserve like for like, if my understanding of the commit message was
+> correct.
+
+No strong need, it can be put as you suggest.
+Should someone else schedule &b->irq_work from another CPU then you
+could first attempt to cond_resched() and then wait for &b->irq_work's
+completion. Assuming that this does not happen (because the irq_work was
+previously queued and invoked immediately) irq_work_sync) will just return.
+
+> > > >      0009-drm-i915-gt-Use-spin_lock_irq-instead-of-local_irq_d.patch
+> > > 
+> > > I think this is okay. The part after the unlock is serialized by the tasklet
+> > > already.
+> > > 
+> > > Slight doubt due the comment:
+> > > 
+> > >    local_irq_enable(); /* flush irq_work (e.g. breadcrumb enabling) */
+> > > 
+> > > Makes me want to think about it harder but not now.
+> > 
+> > Clark reported it and confirmed that the warning is gone on RT and
+> > everything appears to work ;)
+> 
+> I will need to think about it harder at some point.
+> 
+> > PREEMPT_RT wise there is no synchronisation vs irq_work other than an
+> > actual lock (in case it is needed).
+> 
+> Okay, marking as todo/later for me. Need to see if enabling breadcrumbs
+> earlier than it used to be after this patch makes any difference.
+
+Okay.
+
+> > > Another thing to check is if execlists_context_status_change still needs the
+> > > atomic notifier chain with this change.
+> > > 
+> > > >      0010-drm-i915-Drop-the-irqs_disabled-check.patch
+> > > 
+> > > LGTM.
+> > 
+> > Do you want me to repost that one?
+> 
+> I think it's up to you whether you go one by one, or repost the whole series
+> or whatever.
+
+If it is up to me then let me repost that one single patch and I have it
+out of my queue :) And
+0008-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch without
+cond_resched() in the middle.
+
+> Regards,
+> 
+> Tvrtko
+
+Sebastian
