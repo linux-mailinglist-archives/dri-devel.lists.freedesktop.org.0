@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B87F4CABAE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:28:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9704D4CABB0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:28:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142A410EEFC;
-	Wed,  2 Mar 2022 17:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CAC10EEFF;
+	Wed,  2 Mar 2022 17:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785C210EEFB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 17:28:40 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF0810EEFF
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 17:28:45 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1646242120; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1646242125; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=RMTWf5MAA2Ifjviwl27v9Z408h353xyic/juCBa2+rc=;
- b=wUUluuG8vl0dzKBfV8sGBEzZPJr5yxEhHxakaIm3PIaBl6agTwscEfQ/y4en/gp0lCcqXbQK
- XLlOlgmvUQkcpBVa/orNoIT8qDQBE3m6dqqYwK422BHd646u3/KEpaRhH1vp929XFk8q4sAJ
- K9/WNMYFbJ45rs2einggH+TxUCg=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ bh=A/7P7csz45sM8M75vo/R3s4K0v3XOsjwI3F7niEIByg=;
+ b=oGiqOj9MSJ0EbpJIzyPBNClFPLmh6Hk45TutF2OF0sbIFk5p5qxQJcVhIiD+fSPl3NriURj9
+ KwLRaxIyGFLBCcqitA3L2vC/HRokUWKaARNKi3i/UHdS/AzScQRqRuOsroW6UNeP1Mhkkv+b
+ zl18VR30/sbXEW+kbNwaJkWi72g=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 621fa948ea5f8dddb548c0ef (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Mar 2022 17:28:40
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 621fa94d33c4b4b7592f5a56 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Mar 2022 17:28:45
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2D9C0C43638; Wed,  2 Mar 2022 17:28:40 +0000 (UTC)
+ id 32865C43163; Wed,  2 Mar 2022 17:28:45 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,9 +39,9 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
 Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C60C9C4360D;
- Wed,  2 Mar 2022 17:28:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org C60C9C4360D
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A0A55C43637;
+ Wed,  2 Mar 2022 17:28:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org A0A55C43637
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=fail (p=none dis=none) header.from=quicinc.com
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -52,9 +52,9 @@ To: freedreno <freedreno@lists.freedesktop.org>,
  Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PATCH v1 09/10] drm/msm: Remove pm_runtime_get() from msm_job_run()
-Date: Wed,  2 Mar 2022 22:57:35 +0530
-Message-Id: <20220302225551.v1.9.I5e0f1bc491d12b7dec6c449554c27d2ccdf7a144@changeid>
+Subject: [PATCH v1 10/10] drm/msm/a6xx: Free gmu_debug crashstate bo
+Date: Wed,  2 Mar 2022 22:57:36 +0530
+Message-Id: <20220302225551.v1.10.I94896351ce7af04c2249ced42cf1557fb2bb0d33@changeid>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
 References: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
@@ -70,41 +70,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We do pm_runtime_get() within msm_gpu_submit(). So remove the redundant
-pm_runtime_get/put from msm_job_run().
+Free gmu_debug bo while destroying the gpu crashstate.
 
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
 
- drivers/gpu/drm/msm/msm_ringbuffer.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 3bbf574..43fb04e 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -18,8 +18,6 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 4d4588a..09bb993 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -1054,6 +1054,9 @@ static void a6xx_gpu_state_destroy(struct kref *kref)
+ 	if (a6xx_state->gmu_hfi)
+ 		kvfree(a6xx_state->gmu_hfi->data);
  
- 	submit->hw_fence = msm_fence_alloc(submit->ring->fctx);
- 
--	pm_runtime_get_sync(&gpu->pdev->dev);
--
- 	/* TODO move submit path over to using a per-ring lock.. */
- 	mutex_lock(&gpu->lock);
- 
-@@ -27,8 +25,6 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 
- 	mutex_unlock(&gpu->lock);
- 
--	pm_runtime_put(&gpu->pdev->dev);
--
- 	return dma_fence_get(submit->hw_fence);
- }
++	if (a6xx_state->gmu_debug)
++		kvfree(a6xx_state->gmu_debug->data);
++
+ 	list_for_each_entry_safe(obj, tmp, &a6xx_state->objs, node)
+ 		kfree(obj);
  
 -- 
 2.7.4
