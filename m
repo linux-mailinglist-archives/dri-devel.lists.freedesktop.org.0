@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0EF4CA900
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 16:24:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3AA4CA8FF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 16:24:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C050B10E52C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C5110E1AF;
 	Wed,  2 Mar 2022 15:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org
- [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A19EA10E11D
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 15:24:42 +0000 (UTC)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 184C510E11D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 15:24:43 +0000 (UTC)
 Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id C679E287297;
- Wed,  2 Mar 2022 15:24:40 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 74E6D2872A2;
+ Wed,  2 Mar 2022 15:24:41 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1646234681; bh=V8eUzX43DhUQfu4aEgjqN49QCXk4XynlzQf/WzqRq40=;
+ t=1646234681; bh=s3gzlHrhBJIsPWq/5ffBiP7iu7APqAbkJV/LhoPQ5nA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JtKTrcmWuYVKx/ZsGcpTV5ToDb2mChALcnS6rQw2zQO8TYj7F7uyXhjW952I8T9zj
- hNJbgZ8tf85d2SlnUc6pkvpfNesmuXBYUwD0aBEUcisoHYMbAM54Pg7aroc+H8EMiG
- UrrCBys3oox/pTqXYskO1JlLZ/69+fba4PI2usMXJRrDhklosATQH6bpRIlPSqU3uR
- hQqSCGOZzTDhXrG91wal2IP/D3AQApcKOnyYThIoudY3uwXzTOZwbm9ymFot7rqLlE
- KU8//EgfkubFWV1CVpc46VZx2u29a48DFDYUMxlZtYXAVrFvDdNZhHfh5zKgUSdIbJ
- qIBAlKyKilxqw==
+ b=bnEpAb67Wg+CjV1afjhF93JSo9Oew/GGi2L7W26fQz7OCw9lcrgsuhuxQoGePQafO
+ QoU01zAHVBW8ZA+EdjKPr0crpJcx4UclEdOASnKXj3rSZ8N/P5IZWyh7CMkafSKlSV
+ nt3yka4VbBxV+Gja4kcvECuhvBiPpz5oMoPfG8PFk3NYUhEclEj56zzXvq5p9jQNCV
+ Gwyuw4ED1YkO9RtuU48F6D0tOACUqfIXczLfmxR9f+j29ram+ibn4HXzHuT6l20Q7c
+ uVqhVCPGDlYFjGrBJg6WPq4GR1H+RYBusYdR8+6alFBlXfLaXF26ovaNpRVpFwzOzc
+ /xFp9bcVSuT1g==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/8] drm/vmwgfx: Cleanup multimon initialization code
-Date: Wed,  2 Mar 2022 10:24:20 -0500
-Message-Id: <20220302152426.885214-3-zack@kde.org>
+Subject: [PATCH 3/8] drm/vmwgfx: Print capabilities early during the
+ initialization
+Date: Wed,  2 Mar 2022 10:24:21 -0500
+Message-Id: <20220302152426.885214-4-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220302152426.885214-1-zack@kde.org>
 References: <20220302152426.885214-1-zack@kde.org>
@@ -55,62 +55,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-The results of the legacy display unit initialization were being silently
-ignored. Unifying the selection of number of display units based
-on whether the underlying device supports multimon makes it easier
-to add error checking to all paths.
-
-This makes the driver report the errors in ldu initialization paths
-and try to recover from them.
+Capabilities were logged at the end of initialization so any early errors
+would make them not appear in the logs. Which is also when they're needed
+the most.
+Print the the capabilities right after fetching them, before the init
+code starts using them to make sure they always show up in the logs.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index 643c1608ddfd..e4347faccee0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -492,6 +492,8 @@ int vmw_kms_ldu_init_display(struct vmw_private *dev_priv)
- {
- 	struct drm_device *dev = &dev_priv->drm;
- 	int i, ret;
-+	int num_display_units = (dev_priv->capabilities & SVGA_CAP_MULTIMON) ?
-+					VMWGFX_NUM_DISPLAY_UNITS : 1;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 621231c66fd4..f43afd56915e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -848,12 +848,16 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
  
- 	if (unlikely(dev_priv->ldu_priv)) {
- 		return -EINVAL;
-@@ -506,21 +508,17 @@ int vmw_kms_ldu_init_display(struct vmw_private *dev_priv)
- 	dev_priv->ldu_priv->last_num_active = 0;
- 	dev_priv->ldu_priv->fb = NULL;
  
--	/* for old hardware without multimon only enable one display */
--	if (dev_priv->capabilities & SVGA_CAP_MULTIMON)
--		ret = drm_vblank_init(dev, VMWGFX_NUM_DISPLAY_UNITS);
--	else
--		ret = drm_vblank_init(dev, 1);
-+	ret = drm_vblank_init(dev, num_display_units);
- 	if (ret != 0)
- 		goto err_free;
+ 	dev_priv->capabilities = vmw_read(dev_priv, SVGA_REG_CAPABILITIES);
+-
++	vmw_print_bitmap(&dev_priv->drm, "Capabilities",
++			 dev_priv->capabilities,
++			 cap1_names, ARRAY_SIZE(cap1_names));
+ 	if (dev_priv->capabilities & SVGA_CAP_CAP2_REGISTER) {
+ 		dev_priv->capabilities2 = vmw_read(dev_priv, SVGA_REG_CAP2);
++		vmw_print_bitmap(&dev_priv->drm, "Capabilities2",
++				 dev_priv->capabilities2,
++				 cap2_names, ARRAY_SIZE(cap2_names));
+ 	}
  
- 	vmw_kms_create_implicit_placement_property(dev_priv);
+-
+ 	ret = vmw_dma_select_mode(dev_priv);
+ 	if (unlikely(ret != 0)) {
+ 		drm_info(&dev_priv->drm,
+@@ -939,14 +943,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		 "MOB limits: max mob size = %u kB, max mob pages = %u\n",
+ 		 dev_priv->max_mob_size / 1024, dev_priv->max_mob_pages);
  
--	if (dev_priv->capabilities & SVGA_CAP_MULTIMON)
--		for (i = 0; i < VMWGFX_NUM_DISPLAY_UNITS; ++i)
--			vmw_ldu_init(dev_priv, i);
--	else
--		vmw_ldu_init(dev_priv, 0);
-+	for (i = 0; i < num_display_units; ++i) {
-+		ret = vmw_ldu_init(dev_priv, i);
-+		if (ret != 0)
-+			goto err_free;
-+	}
- 
- 	dev_priv->active_display_unit = vmw_du_legacy;
- 
+-	vmw_print_bitmap(&dev_priv->drm, "Capabilities",
+-			 dev_priv->capabilities,
+-			 cap1_names, ARRAY_SIZE(cap1_names));
+-	if (dev_priv->capabilities & SVGA_CAP_CAP2_REGISTER)
+-		vmw_print_bitmap(&dev_priv->drm, "Capabilities2",
+-				 dev_priv->capabilities2,
+-				 cap2_names, ARRAY_SIZE(cap2_names));
+-
+ 	ret = vmw_dma_masks(dev_priv);
+ 	if (unlikely(ret != 0))
+ 		goto out_err0;
 -- 
 2.32.0
 
