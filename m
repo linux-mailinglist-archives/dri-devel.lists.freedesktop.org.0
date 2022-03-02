@@ -2,43 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1F74CA1F5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489D84CA20A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0600110EE86;
-	Wed,  2 Mar 2022 10:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86C210F04E;
+	Wed,  2 Mar 2022 10:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68A610EE85
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:14:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id D18B01F44C93
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646216083;
- bh=CRz1hl04S7o5hFhSfEJ8l4P0iLKv8xFFSD4PLarV2g4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gNDI0v4pUxf2bQQJJvn9Vuebv0Z+f5T03H5csv0tVva6ordHyKgokbRavmSAGxWjB
- q6yx+vho1qMuhf9ON8MvdKwYpQMym2QUm4x5r1ojCIxtMDHsf3gz0TNhiPlXYYW2+S
- L0tmUkYMfPLMxSsdfu7UM3UfmPPWxGEYfHiBJHNxzk0fUdSOVslyQMbgY0PxtKekkY
- SkqJ4uRpsKbbWLdYm+3pxEGbR/nOrRE4cjTZ/0jQkkFETbngW0F/nEyIZgK6/Ab8Fp
- nNw2adEw/r+TcioMZEFl9Lae5hmJyejfsDbik37z8fB/CAicFgN6Nu/HDOgowuj3js
- t3LhNxxJQVCpw==
-Message-ID: <909f6957-86c5-1ebc-47b2-73085dd7399a@collabora.com>
-Date: Wed, 2 Mar 2022 11:14:39 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D04BB10E45E;
+ Wed,  2 Mar 2022 10:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646216541; x=1677752541;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=f8cpTuTjmJmddJ1eX0bdJQn6xkooDGll48emWrxVVM8=;
+ b=eVZ9OahDeIvQit8zWQklY1KgGxrG6RuX1oPhCaL1YVscUCpwfgHq7ekJ
+ HzCMDwt9k8NVvSRpK8rIFSLRCj9Tb832egbTOSsO/62BwVOmSVfdl/qq6
+ 4IE33EmKtPEdzgGcCvwE4Yq4t/fLGAMArUIT9hMIyNvFskfYjRs39q3ic
+ mAfZ9OlfYnf5SP4gQCU/zcZ0fjzDwFti5q4obNhhCiBo2m8UZTX/H2SJg
+ CJXa2U162DxPTEYquQNvdg9+5GLJSyshKfcg9vIbh5aWOzjq26KcGvJxY
+ Ht7mNETZy2G60rJjth8iPC2fK1+sjLrGpewaOXxqZ5JZtAfbMBT/fRDsS Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="339798888"
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="339798888"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 02:22:21 -0800
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="493494420"
+Received: from ccrisan-mobl3.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.224])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 02:22:19 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/3] vm- and vma cleanups
+Date: Wed,  2 Mar 2022 11:21:57 +0100
+Message-Id: <20220302102200.158637-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v12 04/23] dt-bindings: reset: mt8195: add vdosys1 reset
- control bit
-Content-Language: en-US
-To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
-References: <20220222100741.30138-1-nancy.lin@mediatek.com>
- <20220222100741.30138-5-nancy.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220222100741.30138-5-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,22 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ niranjana.vishwanathapura@intel.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 22/02/22 11:07, Nancy.Lin ha scritto:
-> Add vdosys1 reset control bit for MT8195 platform.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+The first patch of the series addresses a vm open count bug by
+removing the vm open count.
 
+The second patch removes the vma refcount that is no longer needed;
+the vma is kept a live by taking the vm refcount and object lock.
 
+Finally the last patch removes some unnecessary code. There should be
+no functional changes.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Thomas Hellström (3):
+  drm/i915: Remove the vm open count
+  drm/i915: Remove the vma refcount
+  drm/i915/gem: Remove some unnecessary code
+
+ drivers/gpu/drm/i915/display/intel_dpt.c      |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 29 ++-----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++
+ .../gpu/drm/i915/gem/selftests/mock_context.c |  5 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 30 +++----
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 54 ++++++++----
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 56 ++++--------
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  | 86 +++++++++----------
+ drivers/gpu/drm/i915/i915_gem.c               | 55 ++++++------
+ drivers/gpu/drm/i915/i915_vma.c               | 69 +++++++++------
+ drivers/gpu/drm/i915/i915_vma.h               | 14 ---
+ drivers/gpu/drm/i915/i915_vma_resource.c      |  2 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |  6 ++
+ drivers/gpu/drm/i915/i915_vma_types.h         |  8 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+ 16 files changed, 216 insertions(+), 212 deletions(-)
+
+-- 
+2.34.1
+
