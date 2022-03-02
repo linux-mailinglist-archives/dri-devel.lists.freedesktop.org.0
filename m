@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA0A4C99EF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436A54C99F5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5187F10E5FE;
-	Wed,  2 Mar 2022 00:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA9489739;
+	Wed,  2 Mar 2022 00:34:07 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B38410E1D5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96EB610E5FE;
  Wed,  2 Mar 2022 00:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1646181239; x=1677717239;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Nix4eBHA6iNejbbyf/o+k+ONEDzJx0BgbA4nQBwoDu0=;
- b=hvjsErVeZkkkrGpTUTnNgBUxcvPrFhTHYC8zPbVXlrRPVHlg/hKPdJjo
- +VVBXc7r3x+ijU0yNf/OLNqaVW6IGZSTIB4FQXLUak2cUarYr1Fap0I3c
- RPDBotRguhqmv6Mi4ajqyQ0Hz3qa2RVB8bXwXPNMQkGkAomUC4+eAN6Cq
- YHm0REE4wM9VKaVEzcGjZUOgTu7a8ca2ik/uLnLCpOpPHm1U8s1+CFKiE
- YVm9sRvPbPRU+85Zf2sAFCXjJIE4ZOymjKdirq/PMPwjYCDe3huhfSARw
- XWzxQuKLfMkWPSIZszYIbcfNlVudiWiM10dWHj2qtXKHcG1VPboC1dOlT A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243142"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243142"
+ bh=eNPiS9edewBNE8uJh8nsm9geI6TYOHxLz0y8JdglFnM=;
+ b=Xg90BPiDVtqaJ9EHinnjY7t8tAiCRx+XyQohJnmLYowiDfI9VUw1w4ww
+ IAx75zSjoFsQ98rvi0hFdWXJBEjoNxDBfimbQwGUqGdW8f831egW+cSXu
+ QgFQpWzGLQh/bcqcI1Xnd+0p2O5U+7HvchRi2fX9xOvcDKqMcWeatq5AG
+ zIkVJfWEqOAbTwL15dH/v6W7TDAgBEo2UR3adN6onPrrEwAy+H4APdaA3
+ pX6f69eJXd/EPc+fCSw28M6KjfVFrQQGqwS913+FZHcvT89PTJqdWFeL0
+ m22sqeNA0IVmUWpL1jQ3FsUznyY4oJRAbG0bsDAdc/l2iOB9AtNkylPcz w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243144"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243144"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Mar 2022 16:33:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577384"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577388"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2022 16:33:58 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 6/8] drm/i915/guc: Rename desc_idx to ctx_id
-Date: Tue,  1 Mar 2022 16:33:55 -0800
-Message-Id: <20220302003357.4188363-7-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 7/8] drm/i915/guc: Drop obsolete H2G definitions
+Date: Tue,  1 Mar 2022 16:33:56 -0800
+Message-Id: <20220302003357.4188363-8-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
 References: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
@@ -64,187 +64,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-The LRC descriptor pool is going away. So, stop naming context ids as
-descriptor pool indecies.
-
-While at it, add a bunch of missing line feeds to some error messages.
+The CTB registration process changed significantly a while back using
+a single KLV based H2G. So drop the original and now obsolete H2G
+definitions.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 +++++++++----------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index f493bb57f64e..5dbebf15fae1 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2232,7 +2232,7 @@ static void prepare_context_registration_info(struct intel_context *ce)
- {
- 	struct intel_engine_cs *engine = ce->engine;
- 	struct intel_guc *guc = &engine->gt->uc.guc;
--	u32 desc_idx = ce->guc_id.id;
-+	u32 ctx_id = ce->guc_id.id;
- 	struct guc_lrc_desc *desc;
- 	struct intel_context *child;
- 
-@@ -2245,7 +2245,7 @@ static void prepare_context_registration_info(struct intel_context *ce)
- 	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
- 		   i915_gem_object_is_lmem(ce->ring->vma->obj));
- 
--	desc = __get_lrc_desc(guc, desc_idx);
-+	desc = __get_lrc_desc(guc, ctx_id);
- 	desc->engine_class = engine_class_to_guc_class(engine->class);
- 	desc->engine_submit_mask = engine->logical_mask;
- 	desc->hw_context_desc = ce->lrc.lrca;
-@@ -2297,16 +2297,16 @@ static int try_context_registration(struct intel_context *ce, bool loop)
- 	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
- 	struct intel_guc *guc = &engine->gt->uc.guc;
- 	intel_wakeref_t wakeref;
--	u32 desc_idx = ce->guc_id.id;
-+	u32 ctx_id = ce->guc_id.id;
- 	bool context_registered;
- 	int ret = 0;
- 
- 	GEM_BUG_ON(!sched_state_is_init(ce));
- 
--	context_registered = ctx_id_mapped(guc, desc_idx);
-+	context_registered = ctx_id_mapped(guc, ctx_id);
- 
--	clr_ctx_id_mapping(guc, desc_idx);
--	set_ctx_id_mapping(guc, desc_idx, ce);
-+	clr_ctx_id_mapping(guc, ctx_id);
-+	set_ctx_id_mapping(guc, ctx_id, ce);
- 
- 	/*
- 	 * The context_lookup xarray is used to determine if the hardware
-@@ -2332,7 +2332,7 @@ static int try_context_registration(struct intel_context *ce, bool loop)
- 		}
- 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
- 		if (unlikely(disabled)) {
--			clr_ctx_id_mapping(guc, desc_idx);
-+			clr_ctx_id_mapping(guc, ctx_id);
- 			return 0;	/* Will get registered later */
- 		}
- 
-@@ -2348,9 +2348,9 @@ static int try_context_registration(struct intel_context *ce, bool loop)
- 		with_intel_runtime_pm(runtime_pm, wakeref)
- 			ret = register_context(ce, loop);
- 		if (unlikely(ret == -EBUSY)) {
--			clr_ctx_id_mapping(guc, desc_idx);
-+			clr_ctx_id_mapping(guc, ctx_id);
- 		} else if (unlikely(ret == -ENODEV)) {
--			clr_ctx_id_mapping(guc, desc_idx);
-+			clr_ctx_id_mapping(guc, ctx_id);
- 			ret = 0;	/* Will get registered later */
- 		}
- 	}
-@@ -3861,26 +3861,26 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
- }
- 
- static inline struct intel_context *
--g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
-+g2h_context_lookup(struct intel_guc *guc, u32 ctx_id)
- {
- 	struct intel_context *ce;
- 
--	if (unlikely(desc_idx >= GUC_MAX_CONTEXT_ID)) {
-+	if (unlikely(ctx_id >= GUC_MAX_CONTEXT_ID)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Invalid desc_idx %u", desc_idx);
-+			"Invalid ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
--	ce = __get_context(guc, desc_idx);
-+	ce = __get_context(guc, ctx_id);
- 	if (unlikely(!ce)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Context is NULL, desc_idx %u", desc_idx);
-+			"Context is NULL, ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
- 	if (unlikely(intel_context_is_child(ce))) {
- 		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Context is child, desc_idx %u", desc_idx);
-+			"Context is child, ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
-@@ -3892,14 +3892,14 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 					  u32 len)
- {
- 	struct intel_context *ce;
--	u32 desc_idx = msg[0];
-+	u32 ctx_id = msg[0];
- 
- 	if (unlikely(len < 1)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
- 
--	ce = g2h_context_lookup(guc, desc_idx);
-+	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
- 		return -EPROTO;
- 
-@@ -3943,14 +3943,14 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	unsigned long flags;
--	u32 desc_idx = msg[0];
-+	u32 ctx_id = msg[0];
- 
- 	if (unlikely(len < 2)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
- 
--	ce = g2h_context_lookup(guc, desc_idx);
-+	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
- 		return -EPROTO;
- 
-@@ -3958,8 +3958,8 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- 		     (!context_pending_enable(ce) &&
- 		     !context_pending_disable(ce)))) {
- 		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Bad context sched_state 0x%x, desc_idx %u",
--			ce->guc_state.sched_state, desc_idx);
-+			"Bad context sched_state 0x%x, ctx_id %u\n",
-+			ce->guc_state.sched_state, ctx_id);
- 		return -EPROTO;
- 	}
- 
-@@ -4057,14 +4057,14 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	unsigned long flags;
--	int desc_idx;
-+	int ctx_id;
- 
- 	if (unlikely(len != 1)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
- 		return -EPROTO;
- 	}
- 
--	desc_idx = msg[0];
-+	ctx_id = msg[0];
- 
- 	/*
- 	 * The context lookup uses the xarray but lookups only require an RCU lock
-@@ -4073,7 +4073,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- 	 * asynchronously until the reset is done.
- 	 */
- 	xa_lock_irqsave(&guc->context_lookup, flags);
--	ce = g2h_context_lookup(guc, desc_idx);
-+	ce = g2h_context_lookup(guc, ctx_id);
- 	if (ce)
- 		intel_context_get(ce);
- 	xa_unlock_irqrestore(&guc->context_lookup, flags);
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+index 7afdadc7656f..e77f955435ce 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+@@ -131,8 +131,6 @@ enum intel_guc_action {
+ 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+ 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
+ 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
+-	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
+-	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
+ 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
+ 	INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC = 0x4601,
+ 	INTEL_GUC_ACTION_CLIENT_SOFT_RESET = 0x5507,
 -- 
 2.25.1
 
