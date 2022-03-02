@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE3C4C9A77
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 02:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2AA4C9A83
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 02:38:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0149810E153;
-	Wed,  2 Mar 2022 01:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDBBB10E164;
+	Wed,  2 Mar 2022 01:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9A610E153
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 01:34:20 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4K7c964Ghdz4xRC;
- Wed,  2 Mar 2022 12:34:18 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1646184858;
- bh=9ERfiG0ux20qDDrgqpUPmqx2CbOv6dPCn4/BAE2VpNQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Acvj5Xgcd+m1rECKccHdzMN1W+kBCGSU/76PAtK5UvTLVsrkJ1+hylorRXxa3xfiR
- DSQMOd6zz2Y9ijayFlBmIdHWuTtrDrhfDnIpYtrFKU6tH7Wb1awZZ75+rf99mF5d3z
- HKo7qfLxJvDHJg7GLx3l7Ulbw0K/YRsZHJVlmoXWNz7uuYcLCaGX/wb+sHWX57zSt8
- 5JM5kzUpHXrPIOO8nxVE39cAer8ZUKf1xjxcY9jsMhTATM+UISL7iO+oRAWMxlpmul
- 5wu4CO2oCne1UNJ0FlTqu0UzU4clJJemQKg1qNPfD+9z7DnQcmLuIg/BdDdyvkXCDC
- FPFgg3s+sFoiw==
-Date: Wed, 2 Mar 2022 12:34:17 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: linux-next: build warning after merge of the drm tree
-Message-ID: <20220302123417.2c84200b@canb.auug.org.au>
-In-Reply-To: <f50d5044-7192-bdb3-7ca9-7217ed311787@redhat.com>
-References: <20220202150201.290c7d3d@canb.auug.org.au>
- <20220202150320.3e9bdd62@canb.auug.org.au>
- <f50d5044-7192-bdb3-7ca9-7217ed311787@redhat.com>
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0211410E164
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 01:38:52 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ x6-20020a4a4106000000b003193022319cso321889ooa.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 17:38:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=rIkwW4M5gVOhf6lStrndyYQMI45yK4r8ntbnRtdBpfQ=;
+ b=TKKK6Cm980ULKq4I2QCxffulSprZbP7BMvFu2JAr/2/up2F7lA2dwyqJ12Zt6efIim
+ PUS2AW5T8/QbIO7WsJ0Nei+H1tlbhOklnsWn7koBBV49QPJUxR697SSlt5j/U/o6pv13
+ gRYOnZ/vjQ6anC866KKgcw89XkP7CotO/+KLE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=rIkwW4M5gVOhf6lStrndyYQMI45yK4r8ntbnRtdBpfQ=;
+ b=EEWSEDOor9C36M/qHcqaCo+Nv32+0gs9W8eRfALMMCdhdymEYepVWRgB2S30cuHmTf
+ Ms+/7WtrhEt+f7FsSrKPONQfHie/dNS2FqQEvkZif37IHZYwZ74saqKn2eLNpR8fh107
+ YH3X9YbBGu7ubMCNJjRIuEucSGtN8ddzEEx9L3ojUvW40uu4U1qv84rXETuXHSuUpQXM
+ NSE6Bp+eCGlH0xEsLdJjjWHyk8/PBNX8L2YrFMGsK5fD9opcvRqylzpi4gWVTaBVWQRV
+ J+s/fRS6ud0DWIbUcwukp9R6GQ9WPVU82enQ4sLDxdxsr/bG2EL5IhtPX/p2BSdm9ojw
+ x2/A==
+X-Gm-Message-State: AOAM53009aypAbR2fYu76TIbVjEXHRk9nyNE9ZaGRK7b1pza8ryBijsP
+ 5YC2Kw0q/u6WKt3Gaf35cEKckgahbALQcZ7bTBViPA==
+X-Google-Smtp-Source: ABdhPJxzYrMW2U+TG3BLR0861lZPPswIdwTyU+n8hPIaCWD803U1juloOlCoo84blCjcV1MqrGMAewbBXyc6GyGp9bU=
+X-Received: by 2002:a4a:9821:0:b0:320:52bb:3806 with SMTP id
+ y30-20020a4a9821000000b0032052bb3806mr797405ooi.1.1646185132284; Tue, 01 Mar
+ 2022 17:38:52 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 1 Mar 2022 17:38:51 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7QwcZAmKRbelXU19vvkVHx5";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20220302005210.2267725-1-dmitry.baryshkov@linaro.org>
+References: <20220302005210.2267725-1-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 1 Mar 2022 17:38:51 -0800
+Message-ID: <CAE-0n52brK_6gg5-hYA1cNzk3WVw9f0f_XO3QpUywJzY19u=kg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] arm64: dts: qcom: msm8996: Drop flags for mdss irqs
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Rob Clark <robdclark@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,61 +69,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Rajat Jain <rajatja@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7QwcZAmKRbelXU19vvkVHx5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Quoting Dmitry Baryshkov (2022-03-01 16:52:06)
+> The number of interrupt cells for the mdss interrupt controller is 1,
+> meaning there should only be one cell for the interrupt number, not two.
+> Drop the second cell containing (unused) irq flags.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Hi all,
-
-On Wed, 2 Feb 2022 09:38:37 +0100 Hans de Goede <hdegoede@redhat.com> wrote:
->=20
-> On 2/2/22 05:03, Stephen Rothwell wrote:
-> >=20
-> > On Wed, 2 Feb 2022 15:02:01 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote: =20
-> >>
-> >> After merging the drm tree, today's linux-next build (htmldocs) produc=
-ed
-> >> this warning:
-> >>
-> >> drivers/gpu/drm/drm_privacy_screen.c:X: warning: Function parameter or=
- member 'data' not described in 'drm_privacy_screen_register' =20
-> >=20
-> > Actually:
-> >=20
-> > drivers/gpu/drm/drm_privacy_screen.c:392: warning: Function parameter o=
-r member 'data' not described in 'drm_privacy_screen_register' =20
->=20
-> Thank you for reporting this, I will prepare a patch fixing this.
-
-I am still seeing this warning.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/7QwcZAmKRbelXU19vvkVHx5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIeyZkACgkQAVBC80lX
-0Gz/gQf7B58tYUOfd3B9KtVf8Y1meMGpuXxqezMeqYLKdqTE92UDXUsM0HVfMY5T
-Vcr+ahslBMkDv2HkB4OW+1FX4jPU2LH+1kBcXcYxaI/ka0I5lIq6crKvSYXYra8p
-aP7ur4uuEWT9rLjuj3ys9Cd52TkKDfDZITbyfm62SoFeMjybH6tgy8WmbRyCkEws
-jeJTEmj30KrDoTIAU3v9nYDZtQ2NQd3rZRk+R2GL3CDQXgZy6zLr8pIRxAAR2gIv
-LIOomgpUWPc6K9XYKgvjbU0wMEu8aWZ+48HMHX7E0MrWcHK1pwm0pPIdvH5Q4pJ0
-6j4Qk6i6SLh6hOH6CT9DvMv3jMOE1Q==
-=0kj1
------END PGP SIGNATURE-----
-
---Sig_/7QwcZAmKRbelXU19vvkVHx5--
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
