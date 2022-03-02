@@ -1,52 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B234CA3CD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:34:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0BF4CA3D7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:35:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D536E10E381;
-	Wed,  2 Mar 2022 11:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFA710E86A;
+	Wed,  2 Mar 2022 11:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55D8E10E381
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 11:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646220844; x=1677756844;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=y0e0DF3MspqEl8ha55uPDWvf5C90XzgSbIFCc/ooqro=;
- b=OfrlGP9NtmVpc2vQ0hsi7qDWibcLg1dZfJud2LobU7t3XeMj3QiFwiG+
- a4E0aZBZDN+wPb4+OH6oVfR2HPGHhk5IHR2syXeH6UZFzPKv0+R1fQ/Cg
- dPxmbmp+gH4F9NmBzd+YG3tYZKa6NiK17qr6O97ssJSg+fir7FgBrqjbl
- Gyr2Dqm8vCQEoDjvWZToAoM5Iz6zBYpexVvtQa6LYYkBxp7kfPT0KAgZ5
- kRlkj0RyunL7DShR/QoxqrlpyF/U0P3Oq6PYMW0PlyppS021aTJKa4EFa
- aVslp0SORq39BYbz9dwLEKrF2Bm4V/q8HpBQNCVlAKgXZmFKPR7cGUbH8 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="250954538"
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="250954538"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 03:34:03 -0800
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="510975615"
-Received: from ijpoole-mobl.ger.corp.intel.com (HELO localhost) ([10.252.1.10])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 03:33:59 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: CA+G9fYu4PPE6_91mzor0bW7RSzBDNJ3xqqgeeK-jR1jokmhYOQ@mail.gmail.com,
- dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: MSM8960: gpu/drm/dp/drm_dp.c:59:27: warning: array subscript 10
- is outside, array bounds of 'const u8[6]'
-In-Reply-To: <8e13f51a-845b-1fdf-11ea-6053f7d8df9e@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <8e13f51a-845b-1fdf-11ea-6053f7d8df9e@gmail.com>
-Date: Wed, 02 Mar 2022 13:33:56 +0200
-Message-ID: <87ee3k6123.fsf@intel.com>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F0E10E86A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 11:35:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 192CAFB03;
+ Wed,  2 Mar 2022 12:35:00 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Le1pHLclBSLN; Wed,  2 Mar 2022 12:34:59 +0100 (CET)
+Date: Wed, 2 Mar 2022 12:34:57 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH] drm/bridge: nwl-dsi: Remove superfluous write to
+ NWL_DSI_IRQ_MASK register
+Message-ID: <Yh9WYZ5pA/MUyZFx@qwark.sigxcpu.org>
+References: <20220216085842.1973868-1-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220216085842.1973868-1-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,49 +43,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- dianders@chromium.org, lkft-triage@lists.linaro.org, airlied@redhat.com,
- Kees Cook <keescook@chromium.org>
+Cc: robert.foss@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Mar 2022, Rudraksha Gupta <guptarud@gmail.com> wrote:
-> Hi all,
->
->
-> I am getting this warning when compiling the kernel for the MSM8960 with=
-=20
-> this defconfig:=20
-> https://raw.githubusercontent.com/apq8064-mainline/linux/qcom-apq8064-nex=
-t/arch/arm/configs/qcom_apq8064_defconfig
->
->
-> Warning:
->
-> ../drivers/gpu/drm/dp/drm_dp.c: In function=20
-> 'drm_dp_get_adjust_request_post_cursor':
-> ../drivers/gpu/drm/dp/drm_dp.c:59:27: warning: array subscript 10 is=20
-> outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'}=20
-> [-Warray-bounds]
->  =C2=A0=C2=A0 59 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- link_status[r - DP_LANE0_1_STATUS];
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~~~~~~~~~~~^~~~~~~~~~~~=
-~~~~~~~~~~~
-> ../drivers/gpu/drm/dp/drm_dp.c:210:51: note: while referencing 'link_stat=
-us'
->  =C2=A0 210 | u8 drm_dp_get_adjust_request_post_cursor(const u8=20
-> link_status[DP_LINK_STATUS_SIZE],
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
->
+Hi Liu,
+On Wed, Feb 16, 2022 at 04:58:42PM +0800, Liu Ying wrote:
+> To initialize register NWL_DSI_IRQ_MASK, it's enough to write it
+> only once in function nwl_dsi_init_interrupts().
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  drivers/gpu/drm/bridge/nwl-dsi.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+> index af07eeb47ca0..fcc4a2889ad4 100644
+> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
+> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+> @@ -333,17 +333,13 @@ static int nwl_dsi_config_dpi(struct nwl_dsi *dsi)
+>  
+>  static int nwl_dsi_init_interrupts(struct nwl_dsi *dsi)
+>  {
+> -	u32 irq_enable;
+> -
+> -	nwl_dsi_write(dsi, NWL_DSI_IRQ_MASK, 0xffffffff);
+> -	nwl_dsi_write(dsi, NWL_DSI_IRQ_MASK2, 0x7);
+> -
+> -	irq_enable = ~(u32)(NWL_DSI_TX_PKT_DONE_MASK |
+> -			    NWL_DSI_RX_PKT_HDR_RCVD_MASK |
+> -			    NWL_DSI_TX_FIFO_OVFLW_MASK |
+> -			    NWL_DSI_HS_TX_TIMEOUT_MASK);
+> +	u32 irq_enable = ~(u32)(NWL_DSI_TX_PKT_DONE_MASK |
+> +				NWL_DSI_RX_PKT_HDR_RCVD_MASK |
+> +				NWL_DSI_TX_FIFO_OVFLW_MASK |
+> +				NWL_DSI_HS_TX_TIMEOUT_MASK);
+>  
+>  	nwl_dsi_write(dsi, NWL_DSI_IRQ_MASK, irq_enable);
+> +	nwl_dsi_write(dsi, NWL_DSI_IRQ_MASK2, 0x7);
 
-Please see https://lore.kernel.org/r/20220225035610.2552144-3-keescook@chro=
-mium.org
+Works fine here. I thought it was due to some hw quirk but can't find
+any note in it so:
 
-BR,
-Jani.
+Reviewed-by: Guido Günther <agx@sigxcpu.org>
 
+Thanks,
+ -- Guido
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+>  
+>  	return nwl_dsi_clear_error(dsi);
+>  }
+> -- 
+> 2.25.1
+> 
