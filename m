@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0246F4CA1A4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE2E4CA1AB
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:04:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA94010F32B;
-	Wed,  2 Mar 2022 10:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA310F33D;
+	Wed,  2 Mar 2022 10:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3EFD10F32B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:02:19 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3EB8C5C00B9;
- Wed,  2 Mar 2022 05:02:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 02 Mar 2022 05:02:19 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C697B10F33D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:03:58 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 281855C0400;
+ Wed,  2 Mar 2022 05:03:58 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 02 Mar 2022 05:03:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=QtKqkW/kZXmhsuKsm2YypGF5T7gpe9xcJbRTXN
- txCkI=; b=c6knt2d9ERSXAltqJdSVvidYoT/GipzgBj3iuDZLDPX4C6FFdUFNi9
- 7hyqgCCQCkyLgJqKijDmOin0mWtnZyfR1x3qjaUBlQjMpViyd1vhQpj07/Tu0BEA
- C/Q9jCsovmkSTjPQ5L3uO2zqlUNfgwSXNW7lp7IFy6aufqHEwEqv4SCQGK6nuhCx
- C1obOqMrHAaijtie2BLcpSl8R4D1zAPW5WotJBfT6wug9uW6MezrHcxIRQgyHctn
- bNVNst0vyF3cw7axOuyzNE0nRd3orOh4LRGlClG46/EsXKu5T1xAhZshUPzn++KP
- Eb3VyHNOjAUGwKSC6weCwL1v8K9O4Uzw==
+ :subject:to:to; s=fm2; bh=pVulkV/Oqq1PP/FHdGdDl/UEAHszoco4gyMzlN
+ kE4rU=; b=mAZX2G0ItbBFftNBTi3U+GtcL3OGEhX5W6EIDr2yIwsJx0gdD61ccp
+ IfBOC31k+mgKU8D8V8mAU57Zq2H1snFpXoVXPUhBEKS6FaInNxeGRX/A7mTL1Nxn
+ XoQAskJFzoM0CsC3/+06/aHCXFEZqYh2V32dwCLQSV++XaMf4V5iu0eWQeQzRLF5
+ lmdWeNaNvuaOz7qcN9W72tMx4e0TjMIWBr3IvqK2osacE/1Lo5/sbiCH2k8olqpW
+ oUKDur/drS+CaAwS5nZalb4mGEtekfWnGxfItcTJ2ULRjk3QVXP2vC/+/uH2OMe3
+ I52OOGdM6HVJbDZh4eFU5dQ8g8HMZb+A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QtKqkW/kZXmhsuKsm
- 2YypGF5T7gpe9xcJbRTXNtxCkI=; b=bZLhDHh8N3yb1PX7Nspb3gXC3zOkx2akK
- pu1lgtGJ5kn0mDAdgJrTbvHwCg/WCx/YVWDQnwXZBDkPXDcLvNkYzio/78ppcn3H
- 7/KL9RtD20iSjVQ9uGRLfjK+IiAYQSouvtEKVq/+pYd8qhEzVdayq8CPMeJROXNH
- ggCETVavys6WvcUwzQFP2/9/bMl9s/VBXp3kJlItMaOOAEWPNL9AvJh2HgcGcRmb
- LsGKeDmYOb+7pFLb82q+KY9JhJMwgwNQ3ULpwOBwHeSceOIfqeNgBv4Y7M0EjLg9
- +pHVYQds5A0rgnAZh0uywpGlA/TIRcYMKbHIVuACowBhyX1QwnpCA==
-X-ME-Sender: <xms:q0AfYtva4SRqrtUm5_WAm5pkbKi1GaSdOjAeNFF_dbT23ssrydNTjg>
- <xme:q0AfYmcNpZLeDqKbkz9JROyXjYux-rZSWOjGk92ui9cIzxXkIWKtRROwsXPtPHErR
- HiaXhYyO1ZmnguBukk>
-X-ME-Received: <xmr:q0AfYgyXpV4C77IT9zbXesgm74BuBf7E915ZGrCmcFXBOBmEUp2x36cVA1A7sO6EPzmlBvo-5gY5Aj_FyYY8oX4ECUX-yY2xtIqJ-98>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=pVulkV/Oqq1PP/FHd
+ GdDl/UEAHszoco4gyMzlNkE4rU=; b=AicfwBFhRYWYvT2oJPwUgTaE6Iei8NgMC
+ s3gSZZZ6S9iGWlQ4NAakQzMvMTNvNfPLI125TawOCvtj4mF+p5qoWloS3pDcKgvI
+ h3oUIm5q+9GO5ykkx67VmathY6Y5JGZ0/eq0naQLoVtWwrc9DPUsH+xQS3bJ6NaK
+ vs2uDajz1l2d467KOf/fPTqLq/vjjdsD7x0JvSY7SXoWye/+oqBckwCAzpUvjcoq
+ OU+4CSVyaplIdJfsGx7+82pKcbvy5uVPNEOeZbx+gWFymY3rl08+sgjA0ZaiT/S2
+ g9UzC9MIfxTLjC6AeMdV+2rX5WeuEaUmLVgDJuXhFBsTiXHNR0Fkg==
+X-ME-Sender: <xms:DUEfYoLxxO3EelCxMvMHRzNKQBeURIJflPkFt4Bh7EhTgevBBbUQsQ>
+ <xme:DUEfYoK8o9WjKEpNcbyehj3i1XuWzvSS-egTG8meAn0nBtmDKyOnGIQx5y_cUh6sz
+ aE5ehgqouUCvO2lkIQ>
+X-ME-Received: <xmr:DUEfYotnTI2Smpd5tXxWGd0nFYwPnbC1l4oi8vQq_CO78nhUo_NLw-bXvRFYw32aVeLkHujD8YBG6OE5898qYqcul_3R-k2ec7VXPhE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgtdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
- ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:q0AfYkOEKf4Q_LUU9PiRnOD-2Tqs77GcjM_8TbbIYmIe1JPgns4Zug>
- <xmx:q0AfYt9GicghB6bZ7UNl4ThQkMoc4Va3Srd5nwJRSpTKzIKtJgJWEQ>
- <xmx:q0AfYkUjmvDdJ3pt77ZyDtbR609QGd6STUfu9G2tlLhfFoT-JYWXpQ>
- <xmx:q0AfYpYYDitwWTv5AzsY3GwVAxridemF9z90nOdYHXoYR6vt7EHR7w>
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:DkEfYlZklhHVMroB4hCKJSSVMfhKnw6q_I0tE1YG4BEMEFZPa4OOWg>
+ <xmx:DkEfYvbAuepjrvtBpmz_E2XrlAjytFYLouGFmp9H9p3JY037smACjA>
+ <xmx:DkEfYhDJIoxHJePet0stMp_vQ6e1XldOVUrlxKTqW_xaQZRUwg1yUg>
+ <xmx:DkEfYuUwKwZczwvc445LT9nvKUIGGHeu08fqvDNHeNQZLjVuzOAtjA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Mar 2022 05:02:18 -0500 (EST)
-Date: Wed, 2 Mar 2022 11:02:17 +0100
+ 2 Mar 2022 05:03:57 -0500 (EST)
+Date: Wed, 2 Mar 2022 11:03:56 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 05/12] drm: bridge: icn6211: Add generic DSI-to-DPI
- PLL configuration
-Message-ID: <20220302100217.ceqpp5jgmqtkboq6@houat>
+Subject: Re: [PATCH V2 06/12] drm: bridge: icn6211: Use DSI burst mode
+ without EoT and with LP command mode
+Message-ID: <20220302100356.ghssk3wfbvts7mxp@houat>
 References: <20220217002530.396563-1-marex@denx.de>
- <20220217002530.396563-6-marex@denx.de>
+ <20220217002530.396563-7-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="caxsjqthnai6v34f"
+ protocol="application/pgp-signature"; boundary="vmaepo7cjgm4axox"
 Content-Disposition: inline
-In-Reply-To: <20220217002530.396563-6-marex@denx.de>
+In-Reply-To: <20220217002530.396563-7-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,28 +89,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---caxsjqthnai6v34f
+--vmaepo7cjgm4axox
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 17, 2022 at 01:25:23AM +0100, Marek Vasut wrote:
-> The chip contains fractional PLL, however the driver currently hard-codes
-> one specific PLL setting. Implement generic PLL parameter calculation cod=
-e,
-> so any DPI panel with arbitrary pixel clock can be attached to this bridg=
-e.
->=20
-> The datasheet for this bridge is not available, the PLL behavior has been
-> inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
-> The PLL limits might be wrong, but at least the calculated values match a=
-ll
-> the example code available. This is better than one hard-coded pixel clock
-> value anyway.
->=20
-> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gp=
-u/drm/bridge/icn6211.c
-> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
+On Thu, Feb 17, 2022 at 01:25:24AM +0100, Marek Vasut wrote:
+> The DSI burst mode is more energy efficient than the DSI sync pulse mode,
+> make use of the burst mode since the chip supports it as well. Disable the
+> generation of EoT packet, the chip ignores it, so no point in emitting it.
+> Enable transmission of data in LP mode, otherwise register read via DSI
+> does not work with this chip.
 >=20
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Jagan Teki <jagan@amarulasolutions.com>
@@ -124,15 +113,15 @@ Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---caxsjqthnai6v34f
+--vmaepo7cjgm4axox
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9AqQAKCRDj7w1vZxhR
-xUycAQCYmU+s5sDLhQSg4Z2u7dcBd3CreQtmW33j08DUl75AzwD+M8xT1P8pxn3A
-2azznhp68h1zkk1ppRpBOh0pkpk9gQ8=
-=UxyS
+iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9BDAAKCRDj7w1vZxhR
+xae3APiJMRd33uhzDJ8hEv0brb55SaIRhE8P4Ku93zXOQdVrAQC+wJjcyUvNR6Sa
+TjUFV1dTBM/G2GMQxvgHy/9b3a5xDw==
+=vEyy
 -----END PGP SIGNATURE-----
 
---caxsjqthnai6v34f--
+--vmaepo7cjgm4axox--
