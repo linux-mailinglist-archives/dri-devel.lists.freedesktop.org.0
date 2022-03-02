@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5743C4CA903
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 16:25:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F020C4CA905
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 16:25:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A244510E11D;
-	Wed,  2 Mar 2022 15:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7658210E459;
+	Wed,  2 Mar 2022 15:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org
- [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C70310E11D
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E52F910E378
  for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 15:24:46 +0000 (UTC)
 Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 73A81287297;
- Wed,  2 Mar 2022 15:24:44 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 21B7228729D;
+ Wed,  2 Mar 2022 15:24:45 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1646234684; bh=m2dP9qApAL01VFp9qy+xJrDK91P77R9vS54gcF/RtGA=;
+ t=1646234685; bh=VaoQAWlNKWhjTgJFA1lyXvXwkZMBG56WRFcxaVNCQbE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MxDo8svVXzZnbZ/OAhwvgk1LknSd0AbBdvDH5TVARIPMd2CTV1bMDPUa/ZjDoWE+B
- tK1kZAGNONgk52BiB3TJQ+L1fXfH7GZV1Ctf5JnYub6TM56MTQD6F7c8donwpm6z9S
- eNf+QZt9Q8BiKqnbcEdEwr90UfM1uZPEDCB/lPxSf2yJ20NvlAMFH3Rs4QqurP5ERg
- f5tmqCRF+lYWaolnMv2N1ZNuVw+ZP4Ah1GJLORnPGWYyyT3lfZn7RYHq2mouUTn4Ac
- cYHvASQXfOmuSFPuP5BsFOAIBJylICrYq3xusdEvo2wmQKN4SmE6cNpnK8c7v1Tab/
- kDPxxdan6fX0A==
+ b=HakD2jdkmQPOKPIIZ6TgzAobbCEdgm1hJruZrOqzWQDWH3KSACnTLBvlSF0J/SZ6c
+ fVh362Xq2cnsBkXZz1q4yzbnU/+bOo0RwfAh0dlrIQWZJ1TcCRBf1oi4V5eBfdQObE
+ CKOvqR7X2VYmvZZj8fjY1QvGfti6LybaF9AfeCkUFL9fvLKDJY9boj3b0VgnLbJalG
+ GpHLr2NJj2mcldpkRiQVc2MFI71voWt/Ha3jGHOoeCE6NUUs8PY9spHj5N4Z4JGXQX
+ T6RbDpOxUJAuEgiJAr+sTlgUgi8a/BctrfAqw7uXndTE7Q4XNon7faPm8lAzScRPTD
+ Qy0DMo6Nx1eLw==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/vmwgfx: Implement MSI/MSI-X support for IRQs
-Date: Wed,  2 Mar 2022 10:24:25 -0500
-Message-Id: <20220302152426.885214-8-zack@kde.org>
+Subject: [PATCH 8/8] drm/vmwgfx: Stop using surface dma commands on most
+ configurations
+Date: Wed,  2 Mar 2022 10:24:26 -0500
+Message-Id: <20220302152426.885214-9-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220302152426.885214-1-zack@kde.org>
 References: <20220302152426.885214-1-zack@kde.org>
@@ -55,151 +55,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-SVGAv3 deprecates legacy interrupts and adds support for MSI/MSI-X. With
-MSI the driver visible side remains largely unchanged but with MSI-X
-each interrupt gets delivered on its own vector.
+Initial version of guest backed objects in the host had some performance
+issues that made using surface-dma's instead of direct copies faster.
+Surface dma's force a migration to vram which at best is slow and at
+worst is impossible (e.g. on svga3 where there's not enough vram
+to migrate fb's to it).
 
-Add support for MSI/MSI-X while preserving the old functionality for
-SVGAv2. Code between the SVGAv2 and SVGAv3 is exactly the same, only
-the number of available vectors changes, in particular between legacy
-and MSI-X interrupts.
+Slowly migrate away from surface dma's to direct copies by limiting
+their usage to systems with more than 32MB of vram.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  9 ++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_irq.c | 54 +++++++++++++++++++++++++----
- 3 files changed, 57 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index f43afd56915e..791f9a5f3868 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -980,7 +980,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 42b5ecb0c5e9..eb014b97d156 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -138,6 +138,11 @@ static void vmw_stdu_destroy(struct vmw_screen_target_display_unit *stdu);
+  * Screen Target Display Unit CRTC Functions
+  *****************************************************************************/
  
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK) {
--		ret = vmw_irq_install(&dev_priv->drm, pdev->irq);
-+		ret = vmw_irq_install(dev_priv);
- 		if (ret != 0) {
- 			drm_err(&dev_priv->drm,
- 				"Failed installing irq: %d\n", ret);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 12eb4de41036..be19aa6e1f13 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -65,6 +65,11 @@
- #define VMWGFX_PCI_ID_SVGA2              0x0405
- #define VMWGFX_PCI_ID_SVGA3              0x0406
- 
-+/*
-+ * This has to match get_count_order(SVGA_IRQFLAG_MAX)
-+ */
-+#define VMWGFX_MAX_NUM_IRQS 6
++static bool vmw_stdu_use_cpu_blit(const struct vmw_private *vmw)
++{
++	return !(vmw->capabilities & SVGA_CAP_3D) || vmw->vram_size < (32 * 1024 * 1024);
++}
 +
- /*
-  * Perhaps we should have sysfs entries for these.
-  */
-@@ -532,6 +537,8 @@ struct vmw_private {
- 	bool has_mob;
- 	spinlock_t hw_lock;
- 	bool assume_16bpp;
-+	u32 irqs[VMWGFX_MAX_NUM_IRQS];
-+	u32 num_irq_vectors;
- 
- 	enum vmw_sm_type sm_type;
- 
-@@ -1158,7 +1165,7 @@ bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd);
-  * IRQs and wating - vmwgfx_irq.c
-  */
- 
--extern int vmw_irq_install(struct drm_device *dev, int irq);
-+extern int vmw_irq_install(struct vmw_private *dev_priv);
- extern void vmw_irq_uninstall(struct drm_device *dev);
- extern bool vmw_seqno_passed(struct vmw_private *dev_priv,
- 				uint32_t seqno);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-index fe4732bf2c9d..482989b1f211 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
-@@ -300,6 +300,7 @@ void vmw_irq_uninstall(struct drm_device *dev)
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint32_t status;
-+	u32 i;
- 
- 	if (!(dev_priv->capabilities & SVGA_CAP_IRQMASK))
- 		return;
-@@ -309,20 +310,61 @@ void vmw_irq_uninstall(struct drm_device *dev)
- 	status = vmw_irq_status_read(dev_priv);
- 	vmw_irq_status_write(dev_priv, status);
- 
--	free_irq(pdev->irq, dev);
-+	for (i = 0; i < dev_priv->num_irq_vectors; ++i)
-+		free_irq(dev_priv->irqs[i], dev);
-+
-+	pci_free_irq_vectors(pdev);
-+	dev_priv->num_irq_vectors = 0;
- }
  
  /**
-  * vmw_irq_install - Install the irq handlers
-  *
-- * @dev:  Pointer to the drm device.
-- * @irq:  The irq number.
-+ * @dev_priv:  Pointer to the vmw_private device.
-  * Return:  Zero if successful. Negative number otherwise.
-  */
--int vmw_irq_install(struct drm_device *dev, int irq)
-+int vmw_irq_install(struct vmw_private *dev_priv)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
-+	struct drm_device *dev = &dev_priv->drm;
-+	int ret;
-+	int nvec;
-+	int i = 0;
-+
-+	BUILD_BUG_ON((SVGA_IRQFLAG_MAX >> VMWGFX_MAX_NUM_IRQS) != 1);
-+	BUG_ON(VMWGFX_MAX_NUM_IRQS != get_count_order(SVGA_IRQFLAG_MAX));
-+
-+	nvec = pci_alloc_irq_vectors(pdev, 1, VMWGFX_MAX_NUM_IRQS,
-+				     PCI_IRQ_ALL_TYPES);
-+
-+	if (nvec <= 0) {
-+		drm_err(&dev_priv->drm,
-+			"IRQ's are unavailable, nvec: %d\n", nvec);
-+		goto done;
-+	}
-+
- 	vmw_irq_preinstall(dev);
+  * vmw_stdu_crtc_destroy - cleans up the STDU
+@@ -689,7 +694,7 @@ int vmw_kms_stdu_dma(struct vmw_private *dev_priv,
+ 		container_of(vfb, struct vmw_framebuffer_bo, base)->buffer;
+ 	struct vmw_stdu_dirty ddirty;
+ 	int ret;
+-	bool cpu_blit = !(dev_priv->capabilities & SVGA_CAP_3D);
++	bool cpu_blit = vmw_stdu_use_cpu_blit(dev_priv);
+ 	DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
  
--	return request_threaded_irq(irq, vmw_irq_handler, vmw_thread_fn,
--				    IRQF_SHARED, VMWGFX_DRIVER_NAME, dev);
-+	for (i = 0; i < nvec; ++i) {
-+		ret = pci_irq_vector(pdev, i);
-+		if (ret < 0) {
-+			drm_err(&dev_priv->drm,
-+				"failed getting irq vector: %d\n", ret);
-+			goto done;
-+		}
-+		dev_priv->irqs[i] = ret;
-+
-+		ret = request_threaded_irq(dev_priv->irqs[i], vmw_irq_handler, vmw_thread_fn,
-+					   IRQF_SHARED, VMWGFX_DRIVER_NAME, dev);
-+		if (ret != 0) {
-+			drm_err(&dev_priv->drm,
-+				"Failed installing irq(%d): %d\n",
-+				dev_priv->irqs[i], ret);
-+			goto done;
-+		}
-+	}
-+
-+done:
-+	dev_priv->num_irq_vectors = i;
-+	return ret;
- }
+ 	/*
+@@ -1164,7 +1169,7 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	 * so cache these mappings
+ 	 */
+ 	if (vps->content_fb_type == SEPARATE_BO &&
+-	    !(dev_priv->capabilities & SVGA_CAP_3D))
++	    vmw_stdu_use_cpu_blit(dev_priv))
+ 		vps->cpp = new_fb->pitches[0] / new_fb->width;
+ 
+ 	return 0;
+@@ -1368,7 +1373,7 @@ static int vmw_stdu_plane_update_bo(struct vmw_private *dev_priv,
+ 	bo_update.base.vfb = vfb;
+ 	bo_update.base.out_fence = out_fence;
+ 	bo_update.base.mutex = NULL;
+-	bo_update.base.cpu_blit = !(dev_priv->capabilities & SVGA_CAP_3D);
++	bo_update.base.cpu_blit = vmw_stdu_use_cpu_blit(dev_priv);
+ 	bo_update.base.intr = false;
+ 
+ 	/*
 -- 
 2.32.0
 
