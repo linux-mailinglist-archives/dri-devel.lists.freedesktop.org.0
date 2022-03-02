@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD9B4CA196
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 10:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0AE4CA1A1
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF92710EABC;
-	Wed,  2 Mar 2022 09:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7462210F2CB;
+	Wed,  2 Mar 2022 10:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEE5A10EDB0
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 09:59:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 5979C5C022D;
- Wed,  2 Mar 2022 04:59:08 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 02 Mar 2022 04:59:08 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CFC10F2CB
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:01:45 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4F7CC5C021A;
+ Wed,  2 Mar 2022 05:01:45 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 02 Mar 2022 05:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=KFvsxfF8JDHM7wL+/s5I2mmQ232f/C4ItehR9h
- TyJ68=; b=giYpHCbL9fkEqdPIVhzFubdDx9kk7vE9LfBRisM9CTJa0Lg5eas1+V
- GB8V6br8aC32b9olOq/ZlQjU71sqB40CHl3tFmO3xawxVm20J1ZIqfC8LEB8lTAc
- Cx3VfGWVm8Kolh+jblk5i2IIihkxH77G9gV47mpYE/uBnx74GxCPaSyWE6+9ZWeD
- LWKG30ieiy5VScnLIgJ6NDB4k+ayirYP+Xssh90bNuRDs9iXfuCkNqhYiuywN2E7
- 1mdSWEj44Sv7CB7Irngqrq287CmNmCMrX7wgt6mAi3QE0JDUrkjXhbjw7NsW1JqC
- UTvfvShBatjXBSLpAKZzLs9nDXtUnqeQ==
+ :subject:to:to; s=fm2; bh=7oxw8JwtH0lCDzPoOYEhtfAWeS0vp2Tq9n2Vih
+ c5gUw=; b=d3svpoYH2XOqupp0RGUxgnR1sOdwkTF8V1601npuEw4hdkk/HeUnnM
+ LaKEvqo6kjD7VeHLDr38tDHnohjDHsvLmDVjzn2dN4T3/4GUH/5YY1jibpg2BlRb
+ TODANek5nRGWSeRgA0Wk1PkGZz4nZAEagvmFUZvmlXEnpAC3vI5zjJMAoylfnQJh
+ YF1ypVU4GIWww+OWeGTanGg1Xon31uZn53YY5wMpmCFHf+Uy+CyDmtrRv1sCt1xI
+ fEdJqb0rAcMi/rtYpEzy+AJAJ5JnY1KUAP+gMbaUbmD0+G6BdJzO2VfPvkkH6Afj
+ jKoGReImpi9z4mfczUt0FkyNMxfBvcAA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KFvsxfF8JDHM7wL+/
- s5I2mmQ232f/C4ItehR9hTyJ68=; b=EamGSNJ+dCDU5RQPPZeCD/n/ZN+838yFI
- lRBk5Sx6t33ypkVBM8TW7AXy9rHa3V1vMG2zJVuPf3XdSkII0XNTEpDw47exbuWA
- gkCVVdNCBvlVXDr8kuYTAjr8HZjL/I35w39H98E+PI1JRZDgZuevECgZ1YKu5Vxk
- /ApC410uv+BvfaKyK6mX9bzpRimUzVJhk/qKworTYSDOZ3ovGeGmIFycpOktLYQQ
- oxqb+CYNfGc503JE7C1qYHQq+vxLBuUIwVx8rEhS439p7I1y+CORYY6lCBeZ+JlS
- j3k6waBHoDmMjUG2uutW7lJ+PBOikTlfGOMw1GoatzZs+aQvuMQPg==
-X-ME-Sender: <xms:7D8fYg9ovEsxuaOyVCwhuIX0Gpj7xg2mhTrnyn7CKwuQlI_1FgHQ6Q>
- <xme:7D8fYovkf7wjk1GFRyUNefhvbzdZB_CpUyIQm-mA6Px0p50q9qR8JXVvNBycqzbn2
- u1cGOnmjH-9AZ9dpIE>
-X-ME-Received: <xmr:7D8fYmCJTVv4sqHTjbhfuqIbUwHHPS2zfLpK8hx8YxuBT5JYBDfm3w13Dr5JFGkhyOZdQvK-okOT2jtpwArwjLR3g96jiulNuzveBwE>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7oxw8JwtH0lCDzPoO
+ YEhtfAWeS0vp2Tq9n2Vihc5gUw=; b=dfFjVIkDty+aKBRJ0ossEnQZwQo9YXk1C
+ FFrbnaC2V5R/1YHEkQa+VPVPk99bSEPCu+ySyUuG1bjRMZUTb/m1yPvZ+UphWIkp
+ YBrAqY3s45L/0qcDb8kt+lEqJEVJhMsZ6SA02IagbGCcnrAsJw7dgc1Rde8oYoZe
+ T7OXSGRVFmpDTr3p8bXUCruI6PiwUxyhLymLj2LHCdXGc/hP20kNzIXZEnJbPT2I
+ EK42p+iCNEu8aNQlgCKGaCARw0JsVQjCBL4BN++NzXyywsUz1RzoMzU+d9GUkcgu
+ J/UhEF9t7DFRNzMmb3M0yf4FoeRFbZDtVemkAjglx4AhHh98OkmuA==
+X-ME-Sender: <xms:iEAfYth61sNqGUHwQTX0wfudK8z6ie3346DHZ2MmLRHZKjKEh7Gn8Q>
+ <xme:iEAfYiB6xuu4nvnJ4zZMdjoS4tFMQI9BDnImUKPtryXUps-91stzw8qZy0X9g6ERC
+ q9Y_JQ2SZKe1ak-zn8>
+X-ME-Received: <xmr:iEAfYtEXGwJiIaq923G4p4v-iQ15QTwwksHv8OrZZvcIPI8uRWl3QqSi8L-sHjwV1YSSCFH_lM1euFDXdapOmL0XpU-vbsnJmgNqAyg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgtdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -51,25 +51,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgtdekucetufdoteggod
  htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
  gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:7D8fYgcq07Jim2NNjHCPO3hFOPbn8nebhpvzeSXBkctA1CM861oxFA>
- <xmx:7D8fYlPzYugoI7_bHqGIBqnJDm-sGdxpQN4fBHecziveKKVgZUoZVA>
- <xmx:7D8fYqnIKKQm_GGjDqI_aWGpezrFA9mwu-GEBiXNxt5_6rUfkB8Ujg>
- <xmx:7D8fYqq6d15af0x6GbdZKmvsddZa4xaE28s8v0iGokv_OHUoRCo_LA>
+X-ME-Proxy: <xmx:iUAfYiRWfrSRE1LWSj8bkTpCuJD0ce-Sr_TD_OhD_GWlFiWkLCLocw>
+ <xmx:iUAfYqzJojhkatZBqkBoq7SyqfSpAyvl9l9w6RoUwsnHUj9v0JnuYA>
+ <xmx:iUAfYo4C9_H9kzSPC4sxxtijJ1tgkYItRJiZXNN8Fbo0psEY8mXFkQ>
+ <xmx:iUAfYkvOQzAqQl1cnfjNBqt1cAa50ZSMKQJRRWqUP9Y8DB7QH5QNqw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Mar 2022 04:59:07 -0500 (EST)
-Date: Wed, 2 Mar 2022 10:59:06 +0100
+ 2 Mar 2022 05:01:44 -0500 (EST)
+Date: Wed, 2 Mar 2022 11:01:43 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 03/12] drm: bridge: icn6211: Add HS/VS/DE polarity
- handling
-Message-ID: <20220302095906.zevdeadlx2cpyyrx@houat>
+Subject: Re: [PATCH V2 04/12] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+Message-ID: <20220302100143.pvy77sw2sgd57tql@houat>
 References: <20220217002530.396563-1-marex@denx.de>
- <20220217002530.396563-4-marex@denx.de>
+ <20220217002530.396563-5-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3cx4htcgpbloxmna"
+ protocol="application/pgp-signature"; boundary="kzdr55c5mebf6o3s"
 Content-Disposition: inline
-In-Reply-To: <20220217002530.396563-4-marex@denx.de>
+In-Reply-To: <20220217002530.396563-5-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +89,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3cx4htcgpbloxmna
+--kzdr55c5mebf6o3s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 17, 2022 at 01:25:21AM +0100, Marek Vasut wrote:
-> The driver currently hard-codes HS/VS polarity to active-low and DE to
-> active-high, which is not correct for a lot of supported DPI panels.
-> Add the missing mode flag handling for HS/VS/DE polarity.
+On Thu, Feb 17, 2022 at 01:25:22AM +0100, Marek Vasut wrote:
+> The driver currently hard-codes DSI lane count to two, however the chip
+> is capable of operating in 1..4 DSI lanes mode. Parse 'data-lanes' DT
+> property and program the result into DSI_CTRL register.
 >=20
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Jagan Teki <jagan@amarulasolutions.com>
@@ -109,58 +109,71 @@ On Thu, Feb 17, 2022 at 01:25:21AM +0100, Marek Vasut wrote:
 > ---
 > V2: Rebase on next-20220214
 > ---
->  drivers/gpu/drm/bridge/chipone-icn6211.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/chipone-icn6211.c | 21 ++++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/b=
 ridge/chipone-icn6211.c
-> index e29e6a84c39a6..2ac8eb7e25f52 100644
+> index 2ac8eb7e25f52..7c013a08c7b00 100644
 > --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 > +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> @@ -165,8 +165,16 @@ static void chipone_atomic_enable(struct drm_bridge =
-*bridge,
->  				  struct drm_bridge_state *old_bridge_state)
->  {
->  	struct chipone *icn =3D bridge_to_chipone(bridge);
-> +	struct drm_atomic_state *state =3D old_bridge_state->base.state;
->  	struct drm_display_mode *mode =3D &icn->mode;
-> +	const struct drm_bridge_state *bridge_state;
->  	u16 hfp, hbp, hsync;
-> +	u32 bus_flags;
-> +	u8 pol;
-> +
-> +	/* Get the DPI flags from the bridge state. */
-> +	bridge_state =3D drm_atomic_get_new_bridge_state(state, bridge);
-> +	bus_flags =3D bridge_state->output_bus_cfg.flags;
+> @@ -136,10 +136,12 @@ struct chipone {
+>  	struct drm_bridge bridge;
+>  	struct drm_display_mode mode;
+>  	struct drm_bridge *panel_bridge;
+> +	struct device_node *host_node;
+>  	struct gpio_desc *enable_gpio;
+>  	struct regulator *vdd1;
+>  	struct regulator *vdd2;
+>  	struct regulator *vdd3;
+> +	int dsi_lanes;
+>  };
 > =20
->  	ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
-> =20
-> @@ -206,7 +214,13 @@ static void chipone_atomic_enable(struct drm_bridge =
+>  static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridg=
+e)
+> @@ -212,6 +214,11 @@ static void chipone_atomic_enable(struct drm_bridge =
 *bridge,
+>  	/* dsi specific sequence */
+>  	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
 >  	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
+> +
+> +	/* DSI data lane count */
+> +	ICN6211_DSI(icn, DSI_CTRL,
+> +		    DSI_CTRL_UNKNOWN | DSI_CTRL_DSI_LANES(icn->dsi_lanes - 1));
+> +
 >  	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
 >  	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
-> -	ICN6211_DSI(icn, BIST_POL, BIST_POL_DE_POL);
-> +
-> +	/* DPI HS/VS/DE polarity */
-> +	pol =3D ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIST_POL_HSYNC_POL : 0)=
- |
-> +	      ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIST_POL_VSYNC_POL : 0) |
-> +	      ((bus_flags & DRM_BUS_FLAG_DE_HIGH) ? BIST_POL_DE_POL : 0);
+> =20
+> @@ -314,6 +321,7 @@ static const struct drm_bridge_funcs chipone_bridge_f=
+uncs =3D {
+>  static int chipone_parse_dt(struct chipone *icn)
+>  {
+>  	struct device *dev =3D icn->dev;
+> +	struct device_node *endpoint;
+>  	struct drm_panel *panel;
+>  	int ret;
+> =20
+> @@ -350,6 +358,16 @@ static int chipone_parse_dt(struct chipone *icn)
+>  		return PTR_ERR(icn->enable_gpio);
+>  	}
+> =20
+> +	endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> +	icn->dsi_lanes =3D of_property_count_u32_elems(endpoint, "data-lanes");
 
-Is there a reason you didn't use bus_flags for all the polarities there?
+The binding must be amended to allow for the usage of data-lanes, and
+you need to keep the previous value as default for older device trees
 
 Maxime
 
---3cx4htcgpbloxmna
+--kzdr55c5mebf6o3s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh8/6gAKCRDj7w1vZxhR
-xTXhAQCpjkjKri4AMisZTgA4md9Psi7qww+meuvPJQ7+tFGQjQD8D3FlmBTtLMIe
-jEPUhRmNyHp9/lhsD5MH/ZRCveZcAg8=
-=4M+M
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9AhwAKCRDj7w1vZxhR
+xeEJAP4rKR0Gf9rcwygCJ0K0PemJe47h3eAzdZ+o7ipvY1kDsgEAhqYcoUSy3td7
+hZhpHvY0nZ55DBCmdDRStJZuDQ3MXwU=
+=9Y4/
 -----END PGP SIGNATURE-----
 
---3cx4htcgpbloxmna--
+--kzdr55c5mebf6o3s--
