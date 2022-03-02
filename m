@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAC24C9F65
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 09:38:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18F94CA01A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 09:58:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E168110EBEC;
-	Wed,  2 Mar 2022 08:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BB710EEBB;
+	Wed,  2 Mar 2022 08:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3978310EBB5
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 08:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646210279; x=1677746279;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=mIuhDtlrgen1l9iRAE8No5i7Dyr4qpdBl/nKYxgko7k=;
- b=LTzjrRhxaBSMu81yG9dZ3Vj3HNqkSCFp5WW27sLFn/vumCY+korBvfRZ
- UzbyrElgwmFG83Jq+DTzMR2D8JE6x5O/VIYW5wfexrtZSNyL6tjg+I2/+
- tlAwrW2JXbP21dCdzhC0riJgq5dZF3BeyAU5I+EQ7bUWz7PP5upd0jfv+
- tQaic99000zn+oql7eip0IEELHB7dtY8r/DN+euRWq56i7a9J819bZc9o
- 6So0wb0cyQIpXdUgzAWOnHv9D9nFT8PQOAt86uz89rbbZwDSz/dp7D9nQ
- qYqhtuzZrJI75eWl86a0JBrLTgxnCk7kTsYXIiYa77dWAJ0/wj6ejc4h5 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="253539697"
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="253539697"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 00:37:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="508124716"
-Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.78])
- by orsmga002.jf.intel.com with ESMTP; 02 Mar 2022 00:37:57 -0800
-From: Lee Shawn C <shawn.c.lee@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA0910EEC7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 08:57:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8372EB81ED1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 08:57:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DE02C340F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 08:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646211474;
+ bh=zEJCsu9Ft6v/8QqpEB9XYa210Rig4YFxKdt+caP56Y4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=onAMeak42J8o4+X7QgAe3gTXH6Tj8duxAHyf/yOoILUvnJuK7nzTenY7Iw3HMi2hu
+ CesH+OHgJ1gDeWCK0aL+dt0ux19BlQ6MrS17koSr+p22e4z8JrmG7TwPp0H5RvP3Jq
+ 0aA8+ISIWaupMjuV+74L7UB69K+FVx+JbwBTWA1oyr0pKFdXhbIBYAWH+P2mstJgIL
+ 30gW08KS2wLOMnaoBLLWn8sO9YKW9nFHyJEuBxgMRwDPGaWTvJVIgU35fs4Vy04lZw
+ 8hQwJzPFb3C3dwdl22C1ROZvb3J3bWlInIDcPa8QorGi6ZbO4Dv2R+65dESCvTco0t
+ bq/+rACr1zK8A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 2FF98CAC6E2; Wed,  2 Mar 2022 08:57:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [v3 4/4] drm/edid: parse HF-EEODB CEA extension block
-Date: Wed,  2 Mar 2022 16:50:57 +0800
-Message-Id: <20220302085057.27317-5-shawn.c.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220302085057.27317-1-shawn.c.lee@intel.com>
-References: <20220302085057.27317-1-shawn.c.lee@intel.com>
+Subject: [Bug 215648] amdgpu: Changing monitor configuration
+ (plug/unplug/wake from DPMS) causes kernel panic
+Date: Wed, 02 Mar 2022 08:57:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pr_kernel@tum.fail
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215648-2300-iqy2ihl5eh@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215648-2300@https.bugzilla.kernel.org/>
+References: <bug-215648-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,194 +72,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, ankit.k.nautiyal@intel.com,
- Lee Shawn C <shawn.c.lee@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While adding CEA modes, try to get available EEODB block
-number. Then based on it to parse numbers of ext blocks,
-retrieve CEA information and add more CEA modes.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215648
 
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
----
- drivers/gpu/drm/drm_displayid.c |  5 ++++-
- drivers/gpu/drm/drm_edid.c      | 35 +++++++++++++++++++--------------
- include/drm/drm_edid.h          |  2 +-
- 3 files changed, 25 insertions(+), 17 deletions(-)
+--- Comment #2 from Philipp Riederer (pr_kernel@tum.fail) ---
+Hey,
 
-diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 32da557b960f..dc649a9efaa2 100644
---- a/drivers/gpu/drm/drm_displayid.c
-+++ b/drivers/gpu/drm/drm_displayid.c
-@@ -37,7 +37,10 @@ static const u8 *drm_find_displayid_extension(const struct edid *edid,
- 					      int *length, int *idx,
- 					      int *ext_index)
- {
--	const u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
-+	const u8 *displayid = drm_find_edid_extension(edid,
-+						      DISPLAYID_EXT,
-+						      ext_index,
-+						      edid->extensions);
- 	const struct displayid_header *base;
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index e5ac9ab0b9d0..2b8ddc956ce2 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3360,23 +3360,23 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
-  * Search EDID for CEA extension block.
-  */
- const u8 *drm_find_edid_extension(const struct edid *edid,
--				  int ext_id, int *ext_index)
-+				  int ext_id, int *ext_index, int ext_blk_num)
- {
- 	const u8 *edid_ext = NULL;
- 	int i;
- 
- 	/* No EDID or EDID extensions */
--	if (edid == NULL || edid->extensions == 0)
-+	if (edid == NULL || edid->extensions == 0 || *ext_index >= ext_blk_num)
- 		return NULL;
- 
- 	/* Find CEA extension */
--	for (i = *ext_index; i < edid->extensions; i++) {
-+	for (i = *ext_index; i < ext_blk_num; i++) {
- 		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
- 		if (edid_ext[0] == ext_id)
- 			break;
- 	}
- 
--	if (i >= edid->extensions)
-+	if (i >= ext_blk_num)
- 		return NULL;
- 
- 	*ext_index = i + 1;
-@@ -3384,14 +3384,15 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
- 	return edid_ext;
- }
- 
--static const u8 *drm_find_cea_extension(const struct edid *edid, int *ext_index)
-+static const u8 *drm_find_cea_extension(const struct edid *edid,
-+					int *ext_index, int ext_blk_num)
- {
- 	const struct displayid_block *block;
- 	struct displayid_iter iter;
- 	const u8 *cea;
- 
- 	/* Look for a CEA extension block from ext_index */
--	cea = drm_find_edid_extension(edid, CEA_EXT, ext_index);
-+	cea = drm_find_edid_extension(edid, CEA_EXT, ext_index, ext_blk_num);
- 	if (cea)
- 		return cea;
- 
-@@ -3675,7 +3676,7 @@ add_alternate_cea_modes(struct drm_connector *connector, struct edid *edid)
- 	int modes = 0, ext_index = 0;
- 
- 	/* Don't add CEA modes if the CEA extension block is missing */
--	if (!drm_find_cea_extension(edid, &ext_index))
-+	if (!drm_find_cea_extension(edid, &ext_index, edid->extensions))
- 		return 0;
- 
- 	/*
-@@ -4327,7 +4328,7 @@ size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid)
- 	int i, start, end, ext_index = 0;
- 
- 	if (edid->extensions) {
--		cea = drm_find_cea_extension(edid, &ext_index);
-+		cea = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 
- 		if (cea && !cea_db_offsets(cea, &start, &end))
- 			for_each_cea_db(cea, i, start, end)
-@@ -4386,12 +4387,16 @@ add_cea_modes(struct drm_connector *connector, struct edid *edid)
- 	u8 dbl, hdmi_len;
- 	int modes = 0, ext_index = 0;
- 	int i, start, end;
-+	int ext_blk_num = drm_edid_read_hf_eeodb_blk_count(edid);
-+
-+	if (!ext_blk_num)
-+		ext_blk_num = edid->extensions;
- 
- 	for (;;) {
- 		const u8 *hdmi = NULL, *video = NULL;
- 		u8 video_len = 0;
- 
--		cea = drm_find_cea_extension(edid, &ext_index);
-+		cea = drm_find_cea_extension(edid, &ext_index, ext_blk_num);
- 		if (!cea)
- 			break;
- 
-@@ -4640,7 +4645,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
- 	if (!edid)
- 		return;
- 
--	cea = drm_find_cea_extension(edid, &ext_index);
-+	cea = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!cea) {
- 		DRM_DEBUG_KMS("ELD: no CEA Extension found\n");
- 		return;
-@@ -4728,7 +4733,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
- 	int i, start, end, dbl;
- 	const u8 *cea;
- 
--	cea = drm_find_cea_extension(edid, &ext_index);
-+	cea = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!cea) {
- 		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
- 		return 0;
-@@ -4790,7 +4795,7 @@ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
- 	int i, start, end, dbl;
- 	const u8 *cea;
- 
--	cea = drm_find_cea_extension(edid, &ext_index);
-+	cea = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!cea) {
- 		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
- 		return 0;
-@@ -4885,7 +4890,7 @@ bool drm_detect_hdmi_monitor(struct edid *edid)
- 	int i;
- 	int start_offset, end_offset, ext_index = 0;
- 
--	edid_ext = drm_find_cea_extension(edid, &ext_index);
-+	edid_ext = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!edid_ext)
- 		return false;
- 
-@@ -4924,7 +4929,7 @@ bool drm_detect_monitor_audio(struct edid *edid)
- 	bool has_audio = false;
- 	int start_offset, end_offset, ext_index = 0;
- 
--	edid_ext = drm_find_cea_extension(edid, &ext_index);
-+	edid_ext = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!edid_ext)
- 		goto end;
- 
-@@ -5248,7 +5253,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 	const u8 *edid_ext;
- 	int i, start, end, ext_index = 0;
- 
--	edid_ext = drm_find_cea_extension(edid, &ext_index);
-+	edid_ext = drm_find_cea_extension(edid, &ext_index, edid->extensions);
- 	if (!edid_ext)
- 		return;
- 
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 5549da7bd7be..5555b27e92f9 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -591,7 +591,7 @@ struct drm_display_mode *
- drm_display_mode_from_cea_vic(struct drm_device *dev,
- 			      u8 video_code);
- const u8 *drm_find_edid_extension(const struct edid *edid,
--				  int ext_id, int *ext_index);
-+				  int ext_id, int *ext_index, int ext_blk_num);
- size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid);
- 
- #endif /* __DRM_EDID_H__ */
--- 
-2.31.1
+this is the log I could recover:
 
+> <4>[   70.829010] RSP: 0018:ffffad060ad67838 EFLAGS: 00000202
+> <4>[   70.829013] RAX: 0000000000000000 RBX: ffff92c82ff28000 RCX:
+> 00000000000001f5
+> <4>[   70.829014] RDX: ffffffffc2fc3970 RSI: ffffffffc3047f09 RDI:
+> 0000000000000000
+> <4>[   70.829014] RBP: 0000000000000012 R08: 0000000000000000 R09:
+> ffffad060ad67610
+> <4>[   70.829015] R10: ffffad060ad67608 R11: ffffffff9b743bc8 R12:
+> ffff92c827b30c00
+> <4>[   70.829016] R13: ffff92c7e0b35000 R14: ffff92c82c8c0000 R15:
+> ffff92c82c8c0b58
+> <4>[   70.829017] FS:  0000000000000000(0000) GS:ffff92cabf900000(0000)
+> knlGS:0000000000000000
+> <4>[   70.829018] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> <4>[   70.829018] CR2: 00007f2afe48ef20 CR3: 000000014a5b4000 CR4:
+> 0000000000350ee0
+> <0>[   70.829020] Kernel panic - not syncing: Fatal exception in interrupt
+> <0>[   70.829047] Kernel Offset: 0x19000000 from 0xffffffff81000000
+> (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+> <4>[   70.741431] ---[ end trace d042cf4ec67f5116 ]---
+> <4>[   70.829001] RIP: 0010:kgdb_breakpoint+0x10/0x20
+> <4>[   70.829009] Code: c0 c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 31 c=
+0 c3
+> 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 f0 ff 05 fc f9 f3 01 0f ae f8 cc <=
+0f>
+> ae f8 f0 ff 0d ee f9 f3 01 c3 0f 1f 44 00 00 0f 1f 44 00 00 48
+> <4>[   70.702654]  videodev snd_hda_core ecdh_generic drm_kms_helper ecc
+> snd_hwdep cdc_acm joydev mc thinkpad_acpi sp5100_tco snd_rn_pci_acp3x
+> serio_raw efi_pstore k10temp cfg80211 snd_pcm i2c_piix4 nvram cec rtsx_pci
+> snd_pci_acp3x ccp snd_timer rc_core ipmi_devintf ledtrig_audio ucsi_acpi
+> platform_profile mfd_core ipmi_msghandler typec_ucsi snd roles mac_hid ty=
+pec
+> soundcore rfkill wmi video i2c_designware_platform i2c_scmi pinctrl_amd
+> amd_pmc i2c_designware_core acpi_cpufreq vboxnetadp(OE) vboxnetflt(OE) nf=
+sd
+> auth_rpcgss vboxdrv(OE) drm nfs_acl lockd grace backlight fuse i2c_core
+> configfs sunrpc bpf_preload efivarfs zfs(POE) zunicode(POE) zzstd(OE)
+> zlua(OE) zavl(POE) icp(POE) crc32_pclmul crc32c_intel zcommon(POE)
+> znvpair(POE) spl(OE) xhci_pci xhci_pci_renesas aesni_intel r8169 crypto_s=
+imd
+> realtek cryptd xhci_hcd mdio_devres ehci_pci libphy ehci_hcd
+> <4>[   70.702619]  ? set_kthread_struct+0x40/0x40
+> <4>[   70.702620]  ret_from_fork+0x22/0x30
+> <4>[   70.702623]  </TASK>
+> <4>[   70.702623] Modules linked in: ccm xt_mark xt_comment tun xt_CHECKS=
+UM
+> xt_MASQUERADE xt_conntrack ipt_REJECT nf_reject_ipv4 ip6table_mangle
+> ip6table_nat ip6table_filter ip6_tables iptable_mangle iptable_nat nf_nat
+> nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c iptable_filter ip_ta=
+bles
+> bridge stp llc cmac algif_skcipher bnep intel_rapl_msr intel_rapl_common
+> snd_acp3x_rn snd_soc_dmic snd_acp3x_pdm_dma snd_soc_core snd_compress
+> rtsx_pci_sdmmc edac_mce_amd snd_pcm_dmaengine mmc_core ac97_bus wmi_bmof
+> kvm_amd snd_ctl_led iwlmvm snd_hda_codec_realtek amdgpu mac80211
+> snd_hda_codec_generic kvm snd_hda_codec_hdmi uvcvideo btusb libarc4 btrtl
+> irqbypass btbcm drm_ttm_helper cdc_ether snd_hda_intel btintel
+> videobuf2_vmalloc crct10dif_pclmul videobuf2_memops ttm snd_intel_dspcfg
+> snd_usb_audio usbnet snd_intel_sdw_acpi ghash_clmulni_intel videobuf2_v4l2
+> iommu_v2 snd_usbmidi_lib gpu_sched bluetooth iwlwifi snd_hda_codec r8152
+> videobuf2_common snd_rawmidi rapl i2c_algo_bit mii snd_seq_device
+> <4>[   70.702134]  ? dc_validate_global_state+0x321/0x3c0 [amdgpu]
+> <4>[   70.702259]  ? dm_plane_helper_prepare_fb+0x231/0x2b0 [amdgpu]
+> <4>[   70.702382]  ? __cond_resched+0x16/0x40
+> <4>[   70.702385]  ? __wait_for_common+0x3b/0x160
+> <4>[   70.702386]  ? __raw_callee_save___native_queued_spin_unlock+0x11/0=
+x1e
+> <4>[   70.702390]  commit_tail+0x94/0x120 [drm_kms_helper]
+> <4>[   70.702401]  drm_atomic_helper_commit+0x113/0x140 [drm_kms_helper]
+> <4>[   70.702412]  drm_client_modeset_commit_atomic+0x1e4/0x220 [drm]
+> <4>[   70.702430]  drm_client_modeset_commit_locked+0x56/0x150 [drm]
+> <4>[   70.702444]  drm_client_modeset_commit+0x24/0x40 [drm]
+> <4>[   70.702458]  drm_fb_helper_set_par+0xa5/0xd0 [drm_kms_helper]
+> <4>[   70.702468]  drm_fb_helper_hotplug_event.part.0+0xa8/0xc0
+> [drm_kms_helper]
+> <4>[   70.702476]  drm_kms_helper_hotplug_event+0x26/0x30 [drm_kms_helper]
+> <4>[   70.702486]  handle_hpd_irq+0x12b/0x160 [amdgpu]
+> <4>[   70.702611]  process_one_work+0x1f1/0x390
+> <4>[   70.702614]  worker_thread+0x53/0x3e0
+> <4>[   70.702615]  ? process_one_work+0x390/0x390
+> <4>[   70.702617]  kthread+0x127/0x150
+> <4>[   70.701096] RBP: 0000000000000012 R08: 0000000000000000 R09:
+> ffffad060ad67610
+> <4>[   70.701096] R10: ffffad060ad67608 R11: ffffffff9b743bc8 R12:
+> ffff92c827b30c00
+> <4>[   70.701097] R13: ffff92c7e0b35000 R14: ffff92c82c8c0000 R15:
+> ffff92c82c8c0b58
+> <4>[   70.701098] FS:  0000000000000000(0000) GS:ffff92cabf900000(0000)
+> knlGS:0000000000000000
+> <4>[   70.701099] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> <4>[   70.701099] CR2: 00007f2afe48ef20 CR3: 000000003f610000 CR4:
+> 0000000000350ee0
+> <4>[   70.701100] Call Trace:
+> <4>[   70.701102]  <TASK>
+> <4>[   70.701103]  mpc2_assert_idle_mpcc+0xaf/0xf0 [amdgpu]
+> <4>[   70.701242]  dcn20_program_front_end_for_ctx+0x70f/0xd40 [amdgpu]
+> <4>[   70.701373]  dc_commit_state+0x49c/0xa60 [amdgpu]
+> <4>[   70.701507]  amdgpu_dm_atomic_commit_tail+0x55c/0x2630 [amdgpu]
+> <4>[   70.701635]  ? dcn21_validate_bandwidth_fp+0x109/0x700 [amdgpu]
+> <4>[   70.701760]  ? kfree+0xba/0x400
+> <4>[   70.701764]  ? dcn21_validate_bandwidth_fp+0xc1/0x700 [amdgpu]
+> <4>[   70.701886]  ? dc_fpu_end+0x70/0x80 [amdgpu]
+> <4>[   70.702010]  ? dcn21_validate_bandwidth+0x44/0x50 [amdgpu]
+
+The system is locked down hard after this.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
