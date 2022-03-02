@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BEB4CA44C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080624CA44E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A4A10EEA4;
-	Wed,  2 Mar 2022 11:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B2C10EED6;
+	Wed,  2 Mar 2022 11:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E640D10EEA4
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 11:57:04 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nPNbK-00063g-6g; Wed, 02 Mar 2022 12:57:02 +0100
-Message-ID: <7e0323b120ebd8faef162a9b0f0ab048bdb7a34b.camel@pengutronix.de>
-Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Liu Ying <victor.liu@oss.nxp.com>, Marek Vasut <marex@denx.de>, Adam
- Ford <aford173@gmail.com>
-Date: Wed, 02 Mar 2022 12:57:00 +0100
-In-Reply-To: <049a182d8bf75110dc5ebe72f5b58d209b64d58a.camel@oss.nxp.com>
-References: <20220228004605.367040-1-marex@denx.de>
- <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
- <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
- <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
- <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
- <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
- <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
- <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
- <8bf0b5a1c9ab9faee28077436cdfd49c0cd08792.camel@pengutronix.de>
- <CAHCN7xJ6ypDxZouZV1b1F1EgQFwdTvmY6EEekj+_z-UWbQMD5Q@mail.gmail.com>
- <4253aa4b5dc4a3568e45755678849961468bfd38.camel@pengutronix.de>
- <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
- <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
- <049a182d8bf75110dc5ebe72f5b58d209b64d58a.camel@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D240610EEF5
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 11:57:20 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c4so14104547b3.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 03:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BsNIu6fDISsVxMduZrcPuozipWlQALxU0u67vMbxYao=;
+ b=X8ZyG8kIb5j4Jbo18O460EcWiOxOqm/lqp8jA4xpSswgoZhkd3Yd7XuxHqdKfnQ8mN
+ +gzbG7kYF2dAFxGrxWaeilKuTn6AJsWs2I9DJNAsTeUK+C3uEiRr/joIB3swCzmz5MEB
+ KC/FYekt633+329fwQMw6pineJ1DI/tatyw69Io3hhRuZmK+bFgxJhmqkY0VXvN2OFcd
+ OC3zMZc0oFDu0gBipKVa8FylNPNllURFQDf9tPmxIHGH4TDhQqCT/zAHd6gPILPLaCKh
+ 9piHp2+q1Qo1kUol+0angk3lwH4aslFzGwK/BTwueND7yVkQDP5oC+BAOpgP5tsKQycL
+ 9Naw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BsNIu6fDISsVxMduZrcPuozipWlQALxU0u67vMbxYao=;
+ b=j3ZGVnr6AreADR0qobb4gA39KsIjCkxtYABChGInFQOChOOTF9vIsYGC+9v1rBf+ab
+ RewCwWXwYHzGxd/TAqyopvmbYm7jiy+SgniTFldbEJshToPgNX11La4PhZSAtxb2yz2c
+ AjfbsajDo1VcjLukrCPaWDwl1T0lr9qTc3Bqe35FHwqD56CvnAYP7xeJWD+6qEO/cfNr
+ OfsEgYBue3EGGam0JrtFmYMk8FCnFMvhaWPz+1jcFd+KC2csIi6rPCJ6wDPL5LMYdXsh
+ pkFW7OXq5H+DI18x7N2XWzjzMeOx2Hs2zZJdw0stz2XhKeggOrncmmHi2Lw6m3ScBRn7
+ uWuA==
+X-Gm-Message-State: AOAM5333cHaq8M533Zx2expjpdGnXcWmz+Ej9ouzp5ixHK30w43V5y7T
+ 2QiykhBMApVDDCEqhQZVz2FrpkstV+73QiZmTXCOH4GAKJQI0g==
+X-Google-Smtp-Source: ABdhPJzQT8wc1uvejvbDswKE1xFf86Rsc1kIJCWBTZu1aAD3z0A+xiKiDs9DBReOqFney4N4+81zklgdpuLd+UX8e5Y=
+X-Received: by 2002:a81:9c47:0:b0:2db:9e18:6e75 with SMTP id
+ n7-20020a819c47000000b002db9e186e75mr12672123ywa.437.1646222240030; Wed, 02
+ Mar 2022 03:57:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20220301141247.126911-1-jagan@amarulasolutions.com>
+ <20220301141247.126911-8-jagan@amarulasolutions.com>
+ <CACRpkdb4msdDt+pqggyaMXNxs_PWNqcP1+N5RL5nVw6QxWZ1Qw@mail.gmail.com>
+ <CAMty3ZCqJ0KuoiRKzwG4VubBJVwzx-k0XTpBtF0XGVaJhxDaXw@mail.gmail.com>
+In-Reply-To: <CAMty3ZCqJ0KuoiRKzwG4VubBJVwzx-k0XTpBtF0XGVaJhxDaXw@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 2 Mar 2022 12:57:08 +0100
+Message-ID: <CACRpkdZiX1wwcN+XQ_jg8NGLer3kEgQM6LKwqAnp9-hSg7opEQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm: bridge: anx7625: Switch to
+ devm_drm_of_get_bridge
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,110 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, linux-amarula@amarulasolutions.com,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 02.03.2022 um 17:41 +0800 schrieb Liu Ying:
-> On Wed, 2022-03-02 at 10:23 +0100, Lucas Stach wrote:
-> > Am Mittwoch, dem 02.03.2022 um 03:54 +0100 schrieb Marek Vasut:
-> > > On 3/1/22 14:18, Lucas Stach wrote:
-> > > > Am Dienstag, dem 01.03.2022 um 07:03 -0600 schrieb Adam Ford:
-> > > > > On Tue, Mar 1, 2022 at 5:05 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > > > Am Dienstag, dem 01.03.2022 um 11:19 +0100 schrieb Marek Vasut:
-> > > > > > > On 3/1/22 11:04, Lucas Stach wrote:
-> > > > > > > 
-> > > > > > > Hi,
-> > > > > > > 
-> > > > > > > [...]
-> > > > > > > 
-> > > > > > > > > Given the two totally different IPs, I don't see bugs of IP control
-> > > > > > > > > logics should be fixed for both drivers. Naturally, the two would
-> > > > > > > > > diverge due to different HWs. Looking at Patch 9/9, it basically
-> > > > > > > > > squashes code to control LCDIFv3 into the mxsfb drm driver with
-> > > > > > > > > 'if/else' checks(barely no common control code), which is hard to
-> > > > > > > > > maintain and not able to achieve good scalability for both 'LCDIFv3'
-> > > > > > > > > and 'LCDIF'.
-> > > > > > > > 
-> > > > > > > > I tend to agree with Liu here. Writing a DRM driver isn't that much
-> > > > > > > > boilerplate anymore with all the helpers we have available in the
-> > > > > > > > framework today.
-> > > > > > > 
-> > > > > > > I did write a separate driver for this IP before I spent time merging
-> > > > > > > them into single driver, that's when I realized a single driver is much
-> > > > > > > better and discarded the separate driver idea.
-> > > > > > > 
-> > > > > > > > The IP is so different from the currently supported LCDIF controllers
-> > > > > > > > that I think trying to support this one in the existing driver actually
-> > > > > > > > increases the chances to break something when modifying the driver in
-> > > > > > > > the future. Not everyone is able to test all LCDIF versions. My vote is
-> > > > > > > > on having a separate driver for the i.MX8MP LCDIF.
-> > > > > > > 
-> > > > > > > If you look at both controllers, it is clear it is still the LCDIF
-> > > > > > > behind, even the CSC that is bolted on would suggest that.
-> > > > > > 
-> > > > > > Yes, but from a driver PoV what you care about is not really the
-> > > > > > hardware blocks used to implement something, but the programming model,
-> > > > > > i.e. the register interface exposed to software.
-> > > > > > 
-> > > > > > > I am also not happy when I look at the amount of duplication a separate
-> > > > > > > driver would create, it will be some 50% of the code that would be just
-> > > > > > > duplicated.
-> > > > > > > 
-> > > > > > Yea, the duplicated code is still significant, as the HW itself is so
-> > > > > > simple. However, if you find yourself in the situation where basically
-> > > > > > every actual register access in the driver ends up being in a "if (some
-> > > > > > HW rev) ... " clause, i still think it would be better to have a
-> > > > > > separate driver, as the programming interface is just different.
-> > > > > 
-> > > > > I tend to agree with Marek on this one.  We have an instance where the
-> > > > > blk-ctrl and the GPC driver between 8m, mini, nano, plus are close,
-> > > > > but different enough where each SoC has it's own set of tables and
-> > > > > some checks.   Lucas created the framework, and others adapted it for
-> > > > > various SoC's.  If there really is nearly 50% common code for the
-> > > > > LCDIF, why not either leave the driver as one or split the common code
-> > > > > into its own driver like lcdif-common and then have smaller drivers
-> > > > > that handle their specific variations.
-> > > > 
-> > > > I don't know exactly how the standalone driver looks like, but I guess
-> > > > the overlap is not really in any real HW specific parts, but the common
-> > > > DRM boilerplate, so there isn't much point in creating a common lcdif
-> > > > driver.
-> > > 
-> > > The mxsfb currently has 1280 LoC as of patch 8/9 of this series. Of 
-> > > that, there is some 400 LoC which are specific to old LCDIF and this 
-> > > patch adds 380 LoC for the new LCDIF. So that's 800 LoC or ~60% of 
-> > > shared boilerplate that would be duplicated .
-> > 
-> > That is probably ignoring the fact that the 8MP LCDIF does not support
-> > any overlays, so it could use the drm_simple_display_pipe
-> > infrastructure to reduce the needed boilerplate.
-> 
-> The drm_simple_display_pipe infrastructure is probably too simple for
-> i.MX8MP LCDIF, since it uses one only crtc for one drm device. i.MX8MP
-> embeds *three* LCDIF instances to support MIPI DSI, LVDS and HDMI
-> outputs respectively. To use that infrastructure means there would be
-> three dri cards in all. However, the three LCDIF instances can be
-> wrapped by the one drm device, which is not the boilerplate code in the
-> current mxsfb driver may handle.
+On Wed, Mar 2, 2022 at 5:37 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> On Wed, Mar 2, 2022 at 4:50 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > On Tue, Mar 1, 2022 at 3:13 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > > +       bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> > > +       if (IS_ERR(bridge)) {
+> > > +               dev_err(dev, "error to get bridge\n");
+> > > +               return PTR_ERR(bridge);
+> > >         }
+> > >
+> > >         d->bridge_out = bridge;
+> >
+> > Also notice how this bridge gets used in other places:
+> >
+> > struct drm_connector *connector = drm_panel_bridge_connector(mcde->bridge);
+>
+> mcde->bridge bridge is the current bridge pointer it cannot affect
+> this change. d->bridge_out is what we are finding of the downstream
+> bridge.
 
-While that may make things a little simpler for userspace, I'm not sure
-if this is the right thing to do. It complicates the driver a lot,
-especially if you want to get things like independent power management,
-etc. right. It also creates a fake view for userspace, where is looks
-like there might be some shared resources between the different display
-paths, while in reality they are fully independent.
+Sorry I confused things.
 
-While we do something similar on the GPU side and collect all GPU cores
-under a single DRM device, I'm not fully convinced that this was a good
-decision. It now comes back to bite us when the SoC topologies get a
-little more interesting and e.g. devices are behind different IOMMU
-streams.
+Got lost in my own code :/
 
-Regards,
-Lucas
+The bridge in the other file is for DPI obviously...
+I should rename it dpi_panel_bridge.
 
+> > Since you deleted:
+> >
+> > -       } else if (bridge) {
+> > -               /* TODO: AV8100 HDMI encoder goes here for example */
+> > -               dev_info(dev, "connected to non-panel bridge (unsupported)\n");
+> > -               return -ENODEV;
+>
+> So, this means mcde dsi can support if the downstream bridge is the
+> panel not if the downstream bridge is the next bridge. With
+> devm_drm_of_get_bridge we cannot find that diff. Identifying the
+> panel-bridge with some name pointer during panel_bridge_add might
+> solve this, not sure that is proper way to do that?
+
+I'd say leave it, as the DSI bridge (bridge_out) doesn't really care
+about this being a panel or not. A further bridge down the chain
+should "just work" (famous last words).
+
+Just make sure we properly remove bridge_out in unbind call.
+
+Yours,
+Linus Walleij
