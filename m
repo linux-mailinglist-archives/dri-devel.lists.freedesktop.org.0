@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8CB4CA3FF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:42:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BEB4CA44C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 12:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32E9A10E88E;
-	Wed,  2 Mar 2022 11:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A4A10EEA4;
+	Wed,  2 Mar 2022 11:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 744D010E88E;
- Wed,  2 Mar 2022 11:42:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646221360; x=1677757360;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=hpfHanUBTT6yrSQckm/GnJ6C7bOYDBfoO37uha4e6zY=;
- b=hyIxUf8j5QLuHRRsLKvAjaCtW3w/E3Xl6fPicW2GZRvHE2tQSe2uDiIR
- VZA07f8R6S3vv9OxdQoch/w6pWc852q9FjsR2qZvCpcDdj7V+Fbk4E1zS
- FXcenQkS4RkytWIHNQX+FC0Z5QUYEktLQ9uZv1nKCBVBJy4d8x4opcyGz
- uQxCTseUCBv9d97mxLUorcbtP9UrwCj+twdvmpjKadU2FciZHsVpfmD60
- xmPoMg4BfdsNe1iDEd9zpbM8p2RDFiFYXDWJrNGLZLmjlV5LTbEE4OUW7
- bn1a7NMWP+tfNvigWCpA+juJlC+zVhZO80X6D5EVR42gV6E98UlzubqZU g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="252210444"
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="252210444"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 03:42:39 -0800
-X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="641670020"
-Received: from jbuller-mobl1.ger.corp.intel.com (HELO [10.213.194.231])
- ([10.213.194.231])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 03:42:37 -0800
-Message-ID: <cc09f4d6-c0f5-3ea5-0eab-fa1d2a7c6519@linux.intel.com>
-Date: Wed, 2 Mar 2022 11:42:35 +0000
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E640D10EEA4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 11:57:04 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nPNbK-00063g-6g; Wed, 02 Mar 2022 12:57:02 +0100
+Message-ID: <7e0323b120ebd8faef162a9b0f0ab048bdb7a34b.camel@pengutronix.de>
+Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Liu Ying <victor.liu@oss.nxp.com>, Marek Vasut <marex@denx.de>, Adam
+ Ford <aford173@gmail.com>
+Date: Wed, 02 Mar 2022 12:57:00 +0100
+In-Reply-To: <049a182d8bf75110dc5ebe72f5b58d209b64d58a.camel@oss.nxp.com>
+References: <20220228004605.367040-1-marex@denx.de>
+ <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
+ <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
+ <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
+ <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
+ <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
+ <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
+ <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
+ <8bf0b5a1c9ab9faee28077436cdfd49c0cd08792.camel@pengutronix.de>
+ <CAHCN7xJ6ypDxZouZV1b1F1EgQFwdTvmY6EEekj+_z-UWbQMD5Q@mail.gmail.com>
+ <4253aa4b5dc4a3568e45755678849961468bfd38.camel@pengutronix.de>
+ <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
+ <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
+ <049a182d8bf75110dc5ebe72f5b58d209b64d58a.camel@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/i915: Depend on !PREEMPT_RT.
-Content-Language: en-US
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <YgqmfKhwU5spS069@linutronix.de> <YhlgRb1lZO38gAz5@linutronix.de>
- <474ded6f-4fe8-8355-9a96-2254401d10fc@linux.intel.com>
- <YhylgaoHtSKi7+el@linutronix.de>
- <42282635-50a8-505f-0bd5-5aef9945e3d3@linux.intel.com>
- <Yh44NxT/DMhB4Sqf@linutronix.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Yh44NxT/DMhB4Sqf@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,177 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 01/03/2022 15:13, Sebastian Andrzej Siewior wrote:
-> On 2022-03-01 14:27:18 [+0000], Tvrtko Ursulin wrote:
->>> you see:
->>>      0003-drm-i915-Use-preempt_disable-enable_rt-where-recomme.patch
->>>      0004-drm-i915-Don-t-disable-interrupts-on-PREEMPT_RT-duri.patch
->>
->> Two for the display folks.
->>
->>>      0005-drm-i915-Don-t-check-for-atomic-context-on-PREEMPT_R.patch
->>
->> What do preempt_disable/enable do on PREEMPT_RT? Thinking if instead the
->> solution could be to always force the !ATOMIC path (for the whole
->> _wait_for_atomic macro) on PREEMPT_RT.
+Am Mittwoch, dem 02.03.2022 um 17:41 +0800 schrieb Liu Ying:
+> On Wed, 2022-03-02 at 10:23 +0100, Lucas Stach wrote:
+> > Am Mittwoch, dem 02.03.2022 um 03:54 +0100 schrieb Marek Vasut:
+> > > On 3/1/22 14:18, Lucas Stach wrote:
+> > > > Am Dienstag, dem 01.03.2022 um 07:03 -0600 schrieb Adam Ford:
+> > > > > On Tue, Mar 1, 2022 at 5:05 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > > > Am Dienstag, dem 01.03.2022 um 11:19 +0100 schrieb Marek Vasut:
+> > > > > > > On 3/1/22 11:04, Lucas Stach wrote:
+> > > > > > > 
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > [...]
+> > > > > > > 
+> > > > > > > > > Given the two totally different IPs, I don't see bugs of IP control
+> > > > > > > > > logics should be fixed for both drivers. Naturally, the two would
+> > > > > > > > > diverge due to different HWs. Looking at Patch 9/9, it basically
+> > > > > > > > > squashes code to control LCDIFv3 into the mxsfb drm driver with
+> > > > > > > > > 'if/else' checks(barely no common control code), which is hard to
+> > > > > > > > > maintain and not able to achieve good scalability for both 'LCDIFv3'
+> > > > > > > > > and 'LCDIF'.
+> > > > > > > > 
+> > > > > > > > I tend to agree with Liu here. Writing a DRM driver isn't that much
+> > > > > > > > boilerplate anymore with all the helpers we have available in the
+> > > > > > > > framework today.
+> > > > > > > 
+> > > > > > > I did write a separate driver for this IP before I spent time merging
+> > > > > > > them into single driver, that's when I realized a single driver is much
+> > > > > > > better and discarded the separate driver idea.
+> > > > > > > 
+> > > > > > > > The IP is so different from the currently supported LCDIF controllers
+> > > > > > > > that I think trying to support this one in the existing driver actually
+> > > > > > > > increases the chances to break something when modifying the driver in
+> > > > > > > > the future. Not everyone is able to test all LCDIF versions. My vote is
+> > > > > > > > on having a separate driver for the i.MX8MP LCDIF.
+> > > > > > > 
+> > > > > > > If you look at both controllers, it is clear it is still the LCDIF
+> > > > > > > behind, even the CSC that is bolted on would suggest that.
+> > > > > > 
+> > > > > > Yes, but from a driver PoV what you care about is not really the
+> > > > > > hardware blocks used to implement something, but the programming model,
+> > > > > > i.e. the register interface exposed to software.
+> > > > > > 
+> > > > > > > I am also not happy when I look at the amount of duplication a separate
+> > > > > > > driver would create, it will be some 50% of the code that would be just
+> > > > > > > duplicated.
+> > > > > > > 
+> > > > > > Yea, the duplicated code is still significant, as the HW itself is so
+> > > > > > simple. However, if you find yourself in the situation where basically
+> > > > > > every actual register access in the driver ends up being in a "if (some
+> > > > > > HW rev) ... " clause, i still think it would be better to have a
+> > > > > > separate driver, as the programming interface is just different.
+> > > > > 
+> > > > > I tend to agree with Marek on this one.  We have an instance where the
+> > > > > blk-ctrl and the GPC driver between 8m, mini, nano, plus are close,
+> > > > > but different enough where each SoC has it's own set of tables and
+> > > > > some checks.   Lucas created the framework, and others adapted it for
+> > > > > various SoC's.  If there really is nearly 50% common code for the
+> > > > > LCDIF, why not either leave the driver as one or split the common code
+> > > > > into its own driver like lcdif-common and then have smaller drivers
+> > > > > that handle their specific variations.
+> > > > 
+> > > > I don't know exactly how the standalone driver looks like, but I guess
+> > > > the overlap is not really in any real HW specific parts, but the common
+> > > > DRM boilerplate, so there isn't much point in creating a common lcdif
+> > > > driver.
+> > > 
+> > > The mxsfb currently has 1280 LoC as of patch 8/9 of this series. Of 
+> > > that, there is some 400 LoC which are specific to old LCDIF and this 
+> > > patch adds 380 LoC for the new LCDIF. So that's 800 LoC or ~60% of 
+> > > shared boilerplate that would be duplicated .
+> > 
+> > That is probably ignoring the fact that the 8MP LCDIF does not support
+> > any overlays, so it could use the drm_simple_display_pipe
+> > infrastructure to reduce the needed boilerplate.
 > 
-> Could be one way to handle it. But please don't disable preemption and
-> or interrupts for longer period of time as all of it increases the
-> overall latency.
+> The drm_simple_display_pipe infrastructure is probably too simple for
+> i.MX8MP LCDIF, since it uses one only crtc for one drm device. i.MX8MP
+> embeds *three* LCDIF instances to support MIPI DSI, LVDS and HDMI
+> outputs respectively. To use that infrastructure means there would be
+> three dri cards in all. However, the three LCDIF instances can be
+> wrapped by the one drm device, which is not the boilerplate code in the
+> current mxsfb driver may handle.
 
-I am looking for your guidance of what is the correct thing here.
+While that may make things a little simpler for userspace, I'm not sure
+if this is the right thing to do. It complicates the driver a lot,
+especially if you want to get things like independent power management,
+etc. right. It also creates a fake view for userspace, where is looks
+like there might be some shared resources between the different display
+paths, while in reality they are fully independent.
 
-Main purpose of this macro on the i915 side is to do short waits on GPU 
-registers changing post write from spin-locked sections. But there were 
-rare cases when very short waits were needed from unlocked sections, 
-shorter than 10us (which is AFAIR what usleep_range documents should be 
-a lower limit). Which is why non-atomic path was added to the macro. 
-That path uses preempt_disable/enable so it can use local_clock().
-
-All this may, or may not be, compatible with PREEMPT_RT to start with?
-
-Or question phrased differently, how we should implement the <10us waits 
-from non-atomic sections under PREEMPT_RT?
-
-> Side note: All of these patches is a collection over time. I personally
-> have only a single i7-sandybridge with i915 and here I don't really
-> enter all the possible paths here. People report, I patch and look
-> around and then they are quiet so I assume that it is working.
-> 
->>>      0006-drm-i915-Disable-tracing-points-on-PREEMPT_RT.patch
->>
->> If the issue is only with certain trace points why disable all?
-> 
-> It is a class and it is easier that way.
-> 
->>>      0007-drm-i915-skip-DRM_I915_LOW_LEVEL_TRACEPOINTS-with-NO.patch
->>
->> Didn't quite fully understand, why is this not fixable? Especially thinking
->> if the option of not blanket disabling all tracepoints in the previous
->> patch.
-> 
-> The problem is that you can't acquire that lock from within that
-> trace-point on PREEMPT_RT. On !RT it is possible but it is also
-> problematic because LOCKDEP does not see possible dead locks unless that
-> trace-point is enabled.
-
-Oh I meant could the include ordering problem be fixed differently?
-
-"""
-[PATCH 07/10] drm/i915: skip DRM_I915_LOW_LEVEL_TRACEPOINTS with
-  NOTRACE
-
-The order of the header files is important. If this header file is
-included after tracepoint.h was included then the NOTRACE here becomes a
-nop. Currently this happens for two .c files which use the tracepoitns
-behind DRM_I915_LOW_LEVEL_TRACEPOINTS.
-"""
-
-Like these two .c files - can order of includes just be changed in them?
-
-> 
-> I've been talking to Steven (after
-> https://lkml.kernel.org/r/20211214115837.6f33a9b2@gandalf.local.home)
-> and he wants to come up with something where you can pass a lock as
-> argument to the tracing-API. That way the lock can be acquired before
-> the trace event is invoked and lockdep will see it even if the trace
-> event is disabled.
-> So there is an idea how to get it to work eventually without disabling
-> it in the long term.
-> 
-> Making the register a raw_spinlock_t would solve problem immediately but
-> I am a little worried given the increased latency in a quick test:
->     https://lore.kernel.org/all/20211006164628.s2mtsdd2jdbfyf7g@linutronix.de/
-> 
-> also, this one single hardware but the upper limit atomic-polls is high.
-> 
->>>      0008-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch
->>
->> Not sure about why cond_resched was put between irq_work_queue and
->> irq_work_sync - would it not be like-for-like change to have the two
->> together?
-> 
-> maybe it loops for a while and an additional scheduling would be nice.
-> 
->> Commit message makes me think _queue already starts the handler on
->> x86 at least.
-> 
-> Yes, irq_work_queue() triggers the IRQ right away on x86,
-> irq_work_sync() would wait for it to happen in case it did not happen.
-> On architectures which don't provide an IRQ-work interrupt, it is
-> delayed to the HZ tick timer interrupt. So this serves also as an
-> example in case someone want to copy the code ;)
-
-My question wasn't why is there a need_resched() in there, but why is 
-the patch:
-
-+		irq_work_queue(&b->irq_work);
-  		cond_resched();
-+		irq_work_sync(&b->irq_work);
-
-And not:
-
-+		irq_work_queue(&b->irq_work);
-+		irq_work_sync(&b->irq_work);
-  		cond_resched();
-
-To preserve like for like, if my understanding of the commit message was 
-correct.
-
-> 
->>>      0009-drm-i915-gt-Use-spin_lock_irq-instead-of-local_irq_d.patch
->>
->> I think this is okay. The part after the unlock is serialized by the tasklet
->> already.
->>
->> Slight doubt due the comment:
->>
->>    local_irq_enable(); /* flush irq_work (e.g. breadcrumb enabling) */
->>
->> Makes me want to think about it harder but not now.
-> 
-> Clark reported it and confirmed that the warning is gone on RT and
-> everything appears to work ;)
-
-I will need to think about it harder at some point.
-
-> PREEMPT_RT wise there is no synchronisation vs irq_work other than an
-> actual lock (in case it is needed).
-
-Okay, marking as todo/later for me. Need to see if enabling breadcrumbs 
-earlier than it used to be after this patch makes any difference.
-
->> Another thing to check is if execlists_context_status_change still needs the
->> atomic notifier chain with this change.
->>
->>>      0010-drm-i915-Drop-the-irqs_disabled-check.patch
->>
->> LGTM.
-> 
-> Do you want me to repost that one?
-
-I think it's up to you whether you go one by one, or repost the whole 
-series or whatever.
-
->>>      Revert-drm-i915-Depend-on-PREEMPT_RT.patch
->>
->> Okay.
->>
->> And finally for this very patch (the thread I am replying to):
->>
->> Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Thanks.
-
-Np - and I've pushed this one.
+While we do something similar on the GPU side and collect all GPU cores
+under a single DRM device, I'm not fully convinced that this was a good
+decision. It now comes back to bite us when the SoC topologies get a
+little more interesting and e.g. devices are behind different IOMMU
+streams.
 
 Regards,
+Lucas
 
-Tvrtko
