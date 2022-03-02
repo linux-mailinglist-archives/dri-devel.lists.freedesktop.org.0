@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A884CAB6A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180584CAB92
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5636C10EDD8;
-	Wed,  2 Mar 2022 17:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4FC10EEDF;
+	Wed,  2 Mar 2022 17:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2823C10ED1C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 17:20:29 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id p15so5165581ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 09:20:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fp8Y0aDLoUe+DH2fgkyBlmdv7Y4+jYVsy+4arRjQfos=;
- b=huJB9FLr6glLVeu4hvhrBj1hsbJqWU4/WsVtIRFZkkk7fvorFNA7N6fB++co1ruBXj
- Kn8fmvj89RUbt6bUJ9uC1vWQyX8L6OcMrASsme1lqpnEER79VhkiDGw8nFnLeLs1i01j
- rkdZvfBsM/s0dLwg1iqScRjX5fv5oaTxrwXoifGouT0gnQOXZqkC21iNW8uIx8Z0EBkz
- xlT4btaQTBmFfQUHaoVZ8tAixRGIYqwQ+m0/nFtLrus5FJRWtsJrb/BlaQrMhcyM/uwb
- 8ZAlas5w5VrvUmssfNcmmobBAz6Vd97+3u+lP2+UyTiGygk4kl8C/Dl1n77JELmaNTw+
- SakQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fp8Y0aDLoUe+DH2fgkyBlmdv7Y4+jYVsy+4arRjQfos=;
- b=ePXMQcG4pz/B+AS0K03qvN03HfU3Y/GQFbArUMhvqEVqWfCf7NjbU/IdP+4iDKoyi3
- OqXs4ah6YwXAxdyLY8c+KdRAZPc3WhST2OO0RyUs+rT7kLHboI4fBrVVUEu/CgTdRqXi
- wXf+xVBfgebFobo5/ovTk5EkW503rUKT1kEn+2vFXikRyvEssuhHw0Um/Q8jXzTNjqLV
- G2RDNS78YtYGoRNWT/J3jUVu42FPLYUHaFm/aCHS4Um7fnmXpilQDx5j76gHKF/jWuQe
- kGZaZz31Gg8aSuxVbZm3WHQwFQXaLBYq28NDjVsfap/TnBkndrD/hlYmfy6SE4+AX8Wb
- 52bg==
-X-Gm-Message-State: AOAM533qX6rYvSuYoZTZagjbJ1MPeaSuHM/gsjufS5RukiAk+/aINXk5
- 6AQNsz75ObLkSEwATjW7/9Fs2hGfspSK2BvUwPaUZA==
-X-Google-Smtp-Source: ABdhPJwF/HGlB49/EWAaDtJpLO7rdVUW8JHTBIwl462dkY+gCKqxYCVv/h/XgEol5/SQKHkvhFAh7MsJ/88l92pjjhA=
-X-Received: by 2002:a17:906:7f09:b0:6d6:daee:566f with SMTP id
- d9-20020a1709067f0900b006d6daee566fmr9615015ejr.294.1646241626567; Wed, 02
- Mar 2022 09:20:26 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
- <CAD=FV=WX3i+6yubPVry8KUkO_14P94HTXv_uU8Pd5yPpw+iPRQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WX3i+6yubPVry8KUkO_14P94HTXv_uU8Pd5yPpw+iPRQ@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 2 Mar 2022 17:20:10 +0000
-Message-ID: <CAPY8ntDX-XfpxQyLfZhW_jy=5nuG+znaufScHOBX9pNGGcE+bg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] DSI host and peripheral initialisation ordering
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C83A10EEDE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 17:27:52 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1646242072; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Qa4oeOoMQCNOhiFhjfjB7NxSM+9SxKiZPhTh4vJHGJU=;
+ b=N4jsx5vGC18Jj0wf2KRV3mTExv/q13FTgWr2wdEBQxCd7AG1+Xyw1dGyh4PF+mYYuywk1hN2
+ EanxGMjL1KS653b7s6UE3qnVAt0GLc67Ef66xFd9gejV8FY2TN5GARsSLa2JA3TP9gFbXa6o
+ h2z5Idj/Ei0DN5ebVF7xTJIZEuo=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 621fa91718892df15f8b849b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Mar 2022 17:27:51
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8EDCBC4361C; Wed,  2 Mar 2022 17:27:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8C826C4338F;
+ Wed,  2 Mar 2022 17:27:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 8C826C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=fail (p=none dis=none) header.from=quicinc.com
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=quicinc.com
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: [PATCH v1 00/10] Support for GMU coredump and some related
+ improvements
+Date: Wed,  2 Mar 2022 22:57:26 +0530
+Message-Id: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,117 +68,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>, Wang Qing <wangqing@vivo.com>,
+ Yangtao Li <tiny.windzz@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug
+Major enhancement in this series is the support for a minimal gmu coredump
+which can be captured inline instead of through our usual recover worker. It
+is helpful in the case of gmu errors during gpu wake-up/suspend path and
+helps to capture a snapshot of gmu before we do a suspend. I had to introduce
+a lock to synchronize the crashstate because the runtime-suspend can happen
+from an asynchronous RPM thread.
 
-On Wed, 2 Mar 2022 at 00:13, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Wed, Feb 16, 2022 at 9:00 AM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > Hi All
-> >
-> > Hopefully I've cc'ed all those that have bashed this problem around previously,
-> > or are otherwise linked to DRM bridges.
-> >
-> > There have been numerous discussions around how DSI support is currently broken
-> > as it doesn't support initialising the PHY to LP-11 and potentially the clock
-> > lane to HS prior to configuring the DSI peripheral. There is no op where the
-> > interface is initialised but HS video isn't also being sent.
-> > Currently you have:
-> > - peripheral pre_enable (host not initialised yet)
-> > - host pre_enable
-> > - encoder enable
-> > - host enable
-> > - peripheral enable (video already running)
-> >
-> > vc4 and exynos currently implement the DSI host as an encoder, and split the
-> > bridge_chain. This fails if you want to switch to being a bridge and/or use
-> > atomic calls as the state of all the elements split off are not added by
-> > drm_atomic_add_encoder_bridges.
-> >
-> > dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
-> > the bridge/panel pre_enable can send commands. In their post_disable they then
-> > call the downstream bridge/panel post_disable op manually so that shutdown
-> > commands can be sent before shutting down the PHY. Nothing handles that fact,
-> > so the framework then continues down the bridge chain and calls the post_disable
-> > again, so we get unbalanced panel prepare/unprepare calls being reported [3].
-> >
-> > There have been patches[4] proposing reversing the entire direction of
-> > pre_enable and post_disable, but that risks driving voltage into devices that
-> > have yet to be powered up.
-> > There have been discussions about adding either a pre_pre_enable, or adding a
-> > DSI host_op to initialise the host[5]. Both require significant reworking to all
-> > existing drivers in moving initialisation phases.
-> > We have patches that look like they may well be addressing race conditions in
-> > starting up a DSI peripheral[6].
->
-> In general I'm happy to let the more senior people in DRM set the
-> direction here so I probably won't do lots of review, but I will point
-> out that I did have another proposal that sorta got lost in the noise
-> of the whole "reversing the entire direction". That's basically:
->
-> https://lists.freedesktop.org/archives/dri-devel/2021-October/328934.html
->
-> I have no idea if something like that would work for your use case,
-> but after analyzing it it felt like a surprisingly clean proposal even
-> if my first instinct when I thought about it was that it was a hack.
-> ;-) I suspect (but haven't analyzed your code) that it might be
-> equivalent to your proposal of using a flag but maybe easier to wrap
-> ones head around?
+Apart from this, there are some improvements to gracefully handle the
+gmu errors by propagating the error back to parent or by retrying. Also, a
+few patches to fix some trivial bugs in the related code.
 
-If I'm reading that right, then you're proposing adding
-after_pre_enable and before_post_disable hooks.
-That's almost the same as the power_up() and power_down() ops that
-Dmitry suggested earlier, or pre_pre_enable / post_post_disable that
-had also been considered.
 
-Neither of those options handles the case of a longer chain in which
-two non-consecutive links want their upstream bridge enabled first.
-As per the clarification in patch 1/2, considering the chain
-- Panel
- - Bridge 1
- - Bridge 2 DRM_BRIDGE_OP_UPSTREAM_FIRST
- - Bridge 3
- - Bridge 4 DRM_BRIDGE_OP_UPSTREAM_FIRST
- - Bridge 5
- - Encoder
-With the flag option we call pre_enables as Panel, Bridge 1, Bridge 3,
-Bridge 2, Bridge 5, Bridge 4, Encoder.
-If adding after_pre_enable, then we end up with Panel, Bridge 1,
-Bridge 3, Bridge 5, Bridge 4 (after_pre_enable), Bridge 2
-(after_pre_enable), Encoder.
-(power_on / pre_pre_enable from encoder to connector would end up with
-Bridge 5 (power_on), Bridge 3 (power_on), Bridge 1 (power_on), Panel,
-Bridge 2, Bridge 4, Encoder).
-Those potentially work, but it seems a less logical order compared to
-using a flag to swap only the bridges of interest. I think power_on /
-pre_pre_enable covers DSI better than after_pre_enable.
+Akhil P Oommen (10):
+  drm/msm/a6xx: Add helper to check smmu is stalled
+  drm/msm/a6xx: Send NMI to gmu when it is hung
+  drm/msm/a6xx: Avoid gmu lock in pm ops
+  drm/msm/a6xx: Enhance debugging of gmu faults
+  drm/msm: Do recovery on hw_init failure
+  drm/msm/a6xx: Propagate OOB set error
+  drm/msm/adreno: Retry on gpu resume failure
+  drm/msm/a6xx: Remove clk votes on failure
+  drm/msm: Remove pm_runtime_get() from msm_job_run()
+  drm/msm/a6xx: Free gmu_debug crashstate bo
 
-Adding the extra ops requires the source bridge (eg DSI host) to know
-the behaviour the sink bridge/panel wants. So do all DSI hosts have to
-implement power_on to power up and enter LP-11. Some DSI peripherals
-may be quite happy or even prefer to have the bus totally idle /
-powered down at pre_enable, but there would be no way of implementing
-that.
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c       | 89 +++++++++++++++++++++++------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h       |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 31 +++++++---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |  4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 79 +++++++++++++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_device.c  | 10 +++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     | 10 +++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  2 +
+ drivers/gpu/drm/msm/msm_gpu.c               | 28 ++++++++-
+ drivers/gpu/drm/msm/msm_gpu.h               | 11 ++--
+ drivers/gpu/drm/msm/msm_ringbuffer.c        |  4 --
+ 11 files changed, 218 insertions(+), 51 deletions(-)
 
-You seem to be looking at DP, which I have very little knowledge of,
-and I don't quite understand your comments about the AUX bus and how
-ordering should be configured. If your panel isn't a generic driver,
-couldn't it request that the upstream bridge is pre_enabled first?
+-- 
+2.7.4
 
-  Dave
