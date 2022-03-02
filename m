@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EB74CAFC1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 21:31:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74B54CAFFB
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 21:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 457B010E707;
-	Wed,  2 Mar 2022 20:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CFE10E125;
+	Wed,  2 Mar 2022 20:35:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA11410E5EC;
- Wed,  2 Mar 2022 20:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646253062; x=1677789062;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=GHL+JIPG3x184/pxJbSBFeF64NXauuVxdh0tdfUG+nw=;
- b=m+Fb8gvkFD/J3W2QySwy42aVA7WP7XDDeV1u71XZliFMeWMxYnamvsYc
- MNGUk6poLIwvrwtmpYLVVwUGzRldE39SGerW/BmpC0+Lwdsq0/mJDoao6
- Jh4F/IpX+Gh0BDBDQoTynalmyhSvzYZ0PY9anE6mZqHZhwttSr7XYZ4ud
- WXITizAYvATyteon/tA180sEMtWkG6FL0wmEhKs2qKxTV1TqZ9WQxHfLi
- j4zXHy0qEI70SPmLoE96FKkeYbJaVSfB4+RZhrxzviE9bKBhzOxEbU6C0
- FygZZXAvn9zcqXuXcAZRp1lYqyPqkMnhDbwh/7iyQq7s10M2Py/B0aL3n w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="316711840"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="316711840"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 12:31:02 -0800
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="508331542"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 12:31:02 -0800
-Date: Wed, 2 Mar 2022 12:33:19 -0800
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v2 1/3] drm/i915: Remove the vm open count
-Message-ID: <20220302203319.GG25117@nvishwa1-DESK>
-References: <20220302102200.158637-1-thomas.hellstrom@linux.intel.com>
- <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365AA10E125
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 20:35:15 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id f5so5810919ybg.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 12:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=YN53eJBlO6LI/dYQM4OOvtFLJWL+MHGBWyX2JV/h26E=;
+ b=MjTUXz+h+5C2ABW2kp6n/wfpKph9zjugJLEft4fxu9vbSc/qQJeMNwIJnU98XfelTu
+ k1qblw8oM+RUAojZ2jWn93wCOGQGnMlLhIJ/qzWd5MhsuCo5TqzHEiVbj8mwAX/XfmT0
+ yCF47HYjnAx88lDOlIbswy1f56wcZJ43pdA8SfZLRP75YbiYO3PADUDS0PcrJ7HEryaa
+ 9ncPo4FxKTbZkMVn03TdSlaYwavvZCqwHeb+TJjSGoYrvPIEzdqaCwwYvmlOZpKujx37
+ RhiuCCYJq+MIx9SIdVvE0hMf6QsRS69hhc5TK7gOpK9segF0z71CO1ipblYf5oiwwx8K
+ E1mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=YN53eJBlO6LI/dYQM4OOvtFLJWL+MHGBWyX2JV/h26E=;
+ b=8IpLBMm+o/+6sU3TEaXL8T2ZLml4UommjQB2M6l8kM0ay6bHia6xvueIQObtG6rNV2
+ ShWpyBaPYEDOXuIFTYMinfYygKrDB6DZBubApdblZ9hkPCd+GlwXwGn1czGi3gSsnvS1
+ w1pZ+4c7fnrSjKKq05bNKb4A5eTFXUVx60J9UPWfmKiKnAKnZE619iPsXNWdl6Kxv3xk
+ J+5kz4lPoe6c0fbVssovWmXOLyAtg24KXzs1o1EOsDKpzJCje6P4OiTRwJWQBgG8traX
+ NengvFXqTyWBn7pK1vfCPd+G2fiLEf9YaVoIXL7blY5+cOZq6/7YboWUZV3zzc21bMY1
+ e2lw==
+X-Gm-Message-State: AOAM532txZpUnp+DKouQkNkW2CFXQEmoysiDAYYLwPrHw4cFQRHMxqr2
+ Tjuxp9gof3SKvWSi3ITDr2/Z5bwwQIEJ2Opse9xuOwNGXPHLDWMx
+X-Google-Smtp-Source: ABdhPJylK2gA9RiCUe9oMAiDiWQmGtVyD6BZsGXQHCmK4IyH7fWX0PSUF9GNfeuHUaRhi6m2osLhrJ+274RgJEcSS+U=
+X-Received: by 2002:a25:da91:0:b0:628:aa84:f69e with SMTP id
+ n139-20020a25da91000000b00628aa84f69emr3474229ybf.603.1646253313554; Wed, 02
+ Mar 2022 12:35:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Thu, 3 Mar 2022 02:05:02 +0530
+Message-ID: <CA+G9fYtRBNVJdrFYnrRC22CfXg5iVwbb+EWMqZGARO-DHagapQ@mail.gmail.com>
+Subject: [next] arm64: db410c: Internal error: Oops: 96000004 -
+ msm_gpu_pm_suspend
+To: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ lkft-triage@lists.linaro.org, 
+ Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,55 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Anders Roxell <anders.roxell@linaro.org>, Vinod Koul <vinod.koul@linaro.org>,
+ David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Linux Kernel Functional Testing <lkft@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 02, 2022 at 11:21:58AM +0100, Thomas Hellström wrote:
->vms are not getting properly closed. Rather than fixing that,
->Remove the vm open count and instead rely on the vm refcount.
->
->The vm open count existed solely to break the strong references the
->vmas had on the vms. Now instead make those references weak and
->ensure vmas are destroyed when the vm is destroyed.
->
->Unfortunately if the vm destructor and the object destructor both
->wants to destroy a vma, that may lead to a race in that the vm
->destructor just unbinds the vma and leaves the actual vma destruction
->to the object destructor. However in order for the object destructor
->to ensure the vma is unbound it needs to grab the vm mutex. In order
->to keep the vm mutex alive until the object destructor is done with
->it, somewhat hackishly grab a vm_resv refcount that is released late
->in the vma destruction process, when the vm mutex is no longer needed.
->
->v2: Address review-comments from Niranjana
->- Clarify that the struct i915_address_space::skip_pte_rewrite is a hack and
->  should ideally be replaced in an upcoming patch.
->- Remove an unneeded continue in clear_vm_list and update comment.
->
->Co-developed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->---
-> drivers/gpu/drm/i915/display/intel_dpt.c      |  2 +-
-> drivers/gpu/drm/i915/gem/i915_gem_context.c   | 29 ++-----
-> .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++
-> .../gpu/drm/i915/gem/selftests/mock_context.c |  5 +-
-> drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  2 +-
-> drivers/gpu/drm/i915/gt/intel_ggtt.c          | 30 +++----
-> drivers/gpu/drm/i915/gt/intel_gtt.c           | 54 ++++++++----
-> drivers/gpu/drm/i915/gt/intel_gtt.h           | 56 ++++--------
-> drivers/gpu/drm/i915/gt/selftest_execlists.c  | 86 +++++++++----------
-> drivers/gpu/drm/i915/i915_gem.c               |  6 +-
-> drivers/gpu/drm/i915/i915_vma.c               | 55 ++++++++----
-> drivers/gpu/drm/i915/i915_vma_resource.c      |  2 +-
-> drivers/gpu/drm/i915/i915_vma_resource.h      |  6 ++
-> drivers/gpu/drm/i915/i915_vma_types.h         |  7 ++
-> drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
-> 15 files changed, 186 insertions(+), 164 deletions(-)
->
+[Please ignore this email if it is already reported]
 
-Looks good to me.
-Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Linux next-20220302 running on Qcom db410c the following kernel crash
+reported [1].
 
+metadata:
+  git_ref: master
+  git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+  git_sha: adaedcf826dccf01b69d9a1f1997c9446c6b2c54
+  git_describe: next-20220302
+  kernel-config: https://builds.tuxbuild.com/25pJv2XjzFav5peWxwfhaU3LFEN/config
+
+
+Kernel crash:
+
+ Failed to start Entropy Daemon based on the HAVEGE algorithm
+[   12.104662] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000010
+[   12.121151]   ESR = 0x96000004
+[   12.121211]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   12.123137]   SET = 0, FnV = 0
+[   12.128687]   EA = 0, S1PTW = 0
+[   12.131464]   FSC = 0x04: level 0 translation fault
+[   12.134572] Data abort info:
+[   12.139457]   ISV = 0, ISS = 0x00000004
+[   12.142566]   CM = 0, WnR = 0
+[   12.146165] user pgtable: 4k pages, 48-bit VAs, pgdp=000000008235d000
+[   12.149360] [0000000000000010] pgd=0000000000000000, p4d=0000000000000000
+[   12.156339] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[   12.162370] Modules linked in: videobuf2_dma_contig adv7511(+)
+crct10dif_ce qcom_wcnss_pil cec qrtr qcom_q6v5_mss qcom_camss
+snd_soc_lpass_apq8016 qcom_pil_info snd_soc_lpass_cpu rtc_pm8xxx
+videobuf2_dma_sg qcom_spmi_vadc snd_soc_msm8916_analog qcom_q6v5
+snd_soc_msm8916_digital snd_soc_apq8016_sbc snd_soc_lpass_platform
+qcom_pon v4l2_fwnode snd_soc_qcom_common qcom_spmi_temp_alarm
+qcom_sysmon qcom_vadc_common venus_core msm qcom_common v4l2_async
+qcom_glink_smem qmi_helpers v4l2_mem2mem videobuf2_memops mdt_loader
+qnoc_msm8916 gpu_sched icc_smd_rpm display_connector drm_dp_helper
+videobuf2_v4l2 drm_kms_helper qcom_stats videobuf2_common qcom_rng
+i2c_qcom_cci rpmsg_char drm socinfo rmtfs_mem fuse
+[   12.207393] CPU: 0 PID: 66 Comm: kworker/0:4 Not tainted
+5.17.0-rc6-next-20220302 #1
+[   12.207407] Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+[   12.207415] Workqueue: pm pm_runtime_work
+[   12.243952] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   12.247862] pc : hrtimer_active+0x14/0x80
+[   12.254628] lr : hrtimer_cancel+0x28/0x70
+[   12.258795] sp : ffff80000b423b70
+[   12.262786] x29: ffff80000b423b70 x28: 0000000000000000 x27: 0000000000000000
+[   12.266092] x26: ffff80000ad5d2e0 x25: 00000002d138d917 x24: ffff00000d8dbb80
+[   12.273210] x23: ffff00000326c010 x22: ffff00000f6b2020 x21: ffff00000f6b2000
+[   12.280328] x20: ffff00000f6b20f8 x19: ffff00000f6b2318 x18: 0000000000000000
+[   12.287447] x17: ffff800035bf3000 x16: ffff800008004000 x15: 0000000000004000
+[   12.294564] x14: 0000000000000000 x13: 0000000000000000 x12: ffff80000a8b7000
+[   12.301682] x11: 0000087facb61180 x10: 0000000000000bc0 x9 : ffff8000081d3a78
+[   12.308800] x8 : ffff000003c68000 x7 : 0000000000000018 x6 : 000000001483ced5
+[   12.315918] x5 : 00ffffffffffffff x4 : 0000000000000000 x3 : 0000000000000000
+[   12.323036] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00000f6b2318
+[   12.330156] Call trace:
+[   12.337263]  hrtimer_active+0x14/0x80
+[   12.339524]  msm_devfreq_suspend+0x30/0x60 [msm]
+[   12.343348]  msm_gpu_pm_suspend+0x44/0x144 [msm]
+[   12.348035]  adreno_suspend+0x6c/0x174 [msm]
+[   12.352634]  pm_generic_runtime_suspend+0x38/0x50
+[   12.356885]  genpd_runtime_suspend+0xb4/0x314
+[   12.361487]  __rpm_callback+0x50/0x180
+[   12.365824]  rpm_callback+0x74/0x80
+[   12.369470]  rpm_suspend+0x110/0x634
+[   12.372856]  pm_runtime_work+0xd0/0xd4
+[   12.376676]  process_one_work+0x1dc/0x450
+[   12.380235]  worker_thread+0x154/0x450
+[   12.384314]  kthread+0x100/0x110
+[   12.387959]  ret_from_fork+0x10/0x20
+[   12.391351] Code: aa1e03e9 d503201f d503233f f9401802 (b9401041)
+[   12.394913] ---[ end trace 0000000000000000 ]---
+
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+
+--
+Linaro LKFT
+https://lkft.linaro.org
+[1] https://lkft.validation.linaro.org/scheduler/job/4643232#L2396
