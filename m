@@ -2,49 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96BB4C9CEC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 06:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABB44C9CEE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 06:11:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509B410EAA9;
-	Wed,  2 Mar 2022 05:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468B010EA59;
+	Wed,  2 Mar 2022 05:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 328 seconds by postgrey-1.36 at gabe;
- Wed, 02 Mar 2022 05:07:40 UTC
-Received: from gimli.rothwell.id.au (unknown
- [IPv6:2404:9400:2:0:216:3eff:fee1:997a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B045910EAA9;
- Wed,  2 Mar 2022 05:07:40 +0000 (UTC)
-Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.rothwell.id.au (Postfix) with ESMTPSA id 4K7hmr2W2DzyR1;
- Wed,  2 Mar 2022 16:02:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rothwell.id.au;
- s=201702; t=1646197326;
- bh=uzjcaWgkXXsocOO4l8FmrzePxqW13WJublt0pDESlHs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=i983zv3fziLp2PBywQALnf/P1IukX8e25j0L3qxcgWqbcNX0NFGJJ2OhUJOziQEFx
- I54UUySJ1vTgUDs4DCLaYDof1bM7c0wMqPwQbaClhxMPPaRfzjTzxF4mRlYmLIFR49
- bmRNihxyauSeUmpK2qczkoO+1DaxPvjzfbpl2XpklIWAs0/3qZEWoS3078bH1GNZC2
- 5jzPMNBFnhS9Zawg9OojZMOhxOsC36aCHFENrpPQzUvaSOgRzDy9eGnOewKOdJpYcs
- BIMrYPE15YmBamkCbE7vO8Ft/GcRjCqzejnTaA5cIpiah7rJ+nA9MPLFbHqHXsJabu
- +teymvxn3QRbA==
-Date: Wed, 2 Mar 2022 16:02:01 +1100
-From: Stephen Rothwell <sfr@rothwell.id.au>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20220302160201.6ee2c586@elm.ozlabs.ibm.com>
-In-Reply-To: <14b6a691-d31e-2e54-cf91-352b9b30414d@amd.com>
-References: <20211117134926.1d339d71@canb.auug.org.au>
- <20220120142639.02c54ae9@canb.auug.org.au>
- <20220302123126.65bcbc82@canb.auug.org.au>
- <14b6a691-d31e-2e54-cf91-352b9b30414d@amd.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5065D10EA59
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 05:11:10 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id o26so680377pgb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 21:11:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VXYJujKtr44YtvQDoOdyVAgb3HOMrNGPu6HPM67Z31Y=;
+ b=CI94sNlicCE8vnH2iXXu/anR1zPHMrfYfeJ8eYUU3X/4KZi2brqoqABHB4WVln2xQZ
+ ZFO4w6MPQZrevm9xFmyWD1byh/PR8/zc1QJfDdj4rLDLQBh63r1aaK/WbVvI5aMqh2hG
+ g6r64kFoS1XKPXSEelOx6A3j/7HV4OGWdu5b3c/68jXo0wGCriRFWqYGuKMhvHlzdedg
+ +NiVerY1Exf3V7mq+IbTNjbJ1nXEZh2RvgPfmvn5QqGCmhhET3Bgp8A26nf65A0AxACY
+ W5EbC3W2R6fNIaSwE6M7Gf5lBQJ7k509gopNRxsbq6rkmSYbIQ9/ziSsZXaFo4jgwQ8H
+ TVsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=VXYJujKtr44YtvQDoOdyVAgb3HOMrNGPu6HPM67Z31Y=;
+ b=iBwuTRcqAflqq1fsBJ19fPziBi5Y5qno4RG3vEjc+HhWjyXuJOIeXwoaDJBUZIed91
+ 3SSyqW6qF+QVo67tdJMOLzJutCrEBzDjRyiEILzidqbHWMW9blwJCP/wkYlY2oV1PyzT
+ iptzhG6Ks0FtpsIoqRkyNGU1Y+24Xke6q20SryEFKHopPUK1TWsscsEeacdFtJrKwXhS
+ YumGXaKqXoNFdrf42h/zgv2c05XEZNQH25UHqYk99c5aB/7J8jI01T4LiGHvcME6R/7g
+ vhJkoAkcaho44RIuEoD5TkIZKFchxJuqIULatEPEl/iNhxgahcNO3bRCZIMxTM68X0OC
+ P1NQ==
+X-Gm-Message-State: AOAM533cvRtqb3O8uYUfwiPFwyxXDgyPZgmcmszbJpZjq8LsG9Dy3LG9
+ 9mQZAKRucuyNpLUKIQmE8b7q2YyzWPm7HA==
+X-Google-Smtp-Source: ABdhPJxLjPxHaXKauIVKY96fVaLPwD3J1+P2lCyvRvSZNfehciKkFmVCRLxs1Ww9G/4haOE/E0ZtMA==
+X-Received: by 2002:a63:cc52:0:b0:372:7f35:cf84 with SMTP id
+ q18-20020a63cc52000000b003727f35cf84mr24662539pgi.211.1646197869757; 
+ Tue, 01 Mar 2022 21:11:09 -0800 (PST)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id
+ nn10-20020a17090b38ca00b001bc3a60b324sm3386177pjb.46.2022.03.01.21.11.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 21:11:08 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Tommy Haung <tommy_huang@aspeedtech.com>
+Subject: [PATCH] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
+Date: Wed,  2 Mar 2022 15:40:56 +1030
+Message-Id: <20220302051056.678367-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/+CPxGtbE5SBkEEZMmwIvi+1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,51 +68,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/+CPxGtbE5SBkEEZMmwIvi+1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Convert the bindings to yaml and add the ast2600 compatible string.
 
-Hi Andrey,
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
+ .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
+ 2 files changed, 69 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
 
-On Tue, 1 Mar 2022 22:26:12 -0500 Andrey Grodzovsky <andrey.grodzovsky@amd.=
-com> wrote:
->
-> Please check you have commit c7703ce38c1e Andrey Grodzovsky=C2=A0=C2=A0 3=
- weeks ago=C2=A0=C2=A0=C2=A0 drm/amdgpu: Fix htmldoc warning
+diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+new file mode 100644
+index 000000000000..8ddc4fa6e8e4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED GFX display device
++
++maintainers:
++  - Joel Stanley <joel@jms.id.au>
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - aspeed,ast2400-gfx
++          - aspeed,ast2500-gfx
++          - aspeed,ast2600-gfx
++      - const: syscon
++
++  reg:
++    minItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  memory-region: true
++
++  syscon: true
++
++  reg-io-width: true
++
++required:
++  - reg
++  - compatible
++  - interrupts
++  - clocks
++  - resets
++  - memory-region
++  - syscon
++
++additionalProperties: false
++
++examples:
++  - |
++   #include <dt-bindings/clock/aspeed-clock.h>
++   gfx: display@1e6e6000 {
++       compatible = "aspeed,ast2500-gfx", "syscon";
++       reg = <0x1e6e6000 0x1000>;
++       reg-io-width = <4>;
++       clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
++       resets = <&syscon ASPEED_RESET_CRT1>;
++       interrupts = <0x19>;
++       syscon = <&syscon>;
++       memory-region = <&gfx_memory>;
++   };
++
++   gfx_memory: framebuffer {
++       size = <0x01000000>;
++       alignment = <0x01000000>;
++       compatible = "shared-dma-pool";
++       reusable;
++   };
+diff --git a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt b/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+deleted file mode 100644
+index 958bdf962339..000000000000
+--- a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Device tree configuration for the GFX display device on the ASPEED SoCs
+-
+-Required properties:
+-  - compatible
+-    * Must be one of the following:
+-      + aspeed,ast2500-gfx
+-      + aspeed,ast2400-gfx
+-    * In addition, the ASPEED pinctrl bindings require the 'syscon' property to
+-      be present
+-
+-  - reg: Physical base address and length of the GFX registers
+-
+-  - interrupts: interrupt number for the GFX device
+-
+-  - clocks: clock number used to generate the pixel clock
+-
+-  - resets: reset line that must be released to use the GFX device
+-
+-  - memory-region:
+-    Phandle to a memory region to allocate from, as defined in
+-    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+-
+-
+-Example:
+-
+-gfx: display@1e6e6000 {
+-	compatible = "aspeed,ast2500-gfx", "syscon";
+-	reg = <0x1e6e6000 0x1000>;
+-	reg-io-width = <4>;
+-	clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
+-	resets = <&syscon ASPEED_RESET_CRT1>;
+-	interrupts = <0x19>;
+-	memory-region = <&gfx_memory>;
+-};
+-
+-gfx_memory: framebuffer {
+-	size = <0x01000000>;
+-	alignment = <0x01000000>;
+-	compatible = "shared-dma-pool";
+-	reusable;
+-};
+-- 
+2.34.1
 
-That has arrived in linux-next today for the first time.  It is in the
-drm tree, but that tree has had build problems for some time and so has
-not been included completely until today.
-
-Thanks.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/+CPxGtbE5SBkEEZMmwIvi+1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIe+kkACgkQAVBC80lX
-0Gy6zAf+JLyE27RwbUECLPb5aqE7lO8RcwYu0T82oZkMwLJ0dvV3vLJDWsspmOdW
-/GOOnbp3HgK+BnmzswANmXJ7AQKV+kZz345wLuAkxwIb093msrH4zTz7v2cSZzT9
-oBly2C2V427DkjeZAJ66Y4522MNq4tqMJIG/ElyrhWDgghqRCskQbnh5/eDZJIcc
-53IldotYe4YC5jhdWmd31rYOW+EobwSx8Pmu3NOBE3iRatj/qC+XvJzi79CLb0S2
-f0rWUxXu0q4lxIQ7mV4cKP2m9Psgpv33Jv6dxn3GNrcKz0tv2NIIuhllb1w+8b6G
-2IOvnB4EfX0fzlst9e2CsQPAj8Rwbw==
-=9KR5
------END PGP SIGNATURE-----
-
---Sig_/+CPxGtbE5SBkEEZMmwIvi+1--
