@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5E94CA239
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5397A4CA255
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBDAB10F47A;
-	Wed,  2 Mar 2022 10:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0C210F497;
+	Wed,  2 Mar 2022 10:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A388810F478
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646217163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kPpPQo0rFTcgUQrPoN9LDSfjjllxDYkn6tRSloMNpvs=;
- b=jP/jOnOORxqjrNxjJIFJEAceENdF8ET2fhw5OMqxoEda0t0WA6hq739zqoBJauTxf4yx7V
- bXGMQOYWPdWL50URkJ1JR5he3bLJTRZT07A+w2zCmMrdtZ5DMOlKOHPgXijdwIhATFJSVD
- Trrppp8MOjTb41BVrGOofTPiL1QTnZM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-QybQlxyeOIWAlv8HPAZCxQ-1; Wed, 02 Mar 2022 05:32:40 -0500
-X-MC-Unique: QybQlxyeOIWAlv8HPAZCxQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- c23-20020a170906925700b006d6e2797863so759034ejx.14
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 02:32:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kPpPQo0rFTcgUQrPoN9LDSfjjllxDYkn6tRSloMNpvs=;
- b=uPpjAVWaR5MGMEOjHd/eDYQUSz1T2IjXxUiAChq9xLB9yKtSy9wL6IE43lIlJ/utjN
- +efsS2RLwj5vbfHSySN2E/+pQwLJat4nVz428JoU81+AvzngzzLox04aa7KXdgAOYZ2b
- HN3l2sYGAjLWGCGyISgRAx9n9Nj9ysIdjSFR/XW0YU4uGJhveNtx0VPXoVju9+vRb0Jm
- SweJYtD4pC5byauKO6IdmcppL4XPtBJFxCz5ABeE+BTk3yUqaKPLbjzxfvszuZB9WjLa
- hPZhAu1FIhMIKhXEAlCTXH4sFhsdW/bw4E9gWR6PQ7hSlcVgAqDPh1v76K4KL6BwOu1r
- DJ8g==
-X-Gm-Message-State: AOAM531V94Z/IBdtG1LjpggoamD7KSKwEbm8uREPFFYkDzRXerotHCKi
- JIEc7L9ZUOw4Z8I9m/7PR3a0cMZdxTPGMEFH+QzoaC2GuKfMIIWIG9qFXnOtw/OKzKIOYJ8WpvM
- 7RRtb6LZpfDUHsu6xDPykWL8aAMYI
-X-Received: by 2002:a50:8d1a:0:b0:415:a1ce:89a8 with SMTP id
- s26-20020a508d1a000000b00415a1ce89a8mr4185344eds.146.1646217159196; 
- Wed, 02 Mar 2022 02:32:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzgt5fBNpSUSHz6W30noIClOvZSA7o9CWwo8lkYp+IWSlTUeGZLpFqRU4MWM0XGxUgTLVLFbg==
-X-Received: by 2002:a50:8d1a:0:b0:415:a1ce:89a8 with SMTP id
- s26-20020a508d1a000000b00415a1ce89a8mr4185326eds.146.1646217158987; 
- Wed, 02 Mar 2022 02:32:38 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id
- f3-20020a056402068300b0041594aa9eedsm1554151edy.54.2022.03.02.02.32.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Mar 2022 02:32:38 -0800 (PST)
-Message-ID: <9925b272-b52d-be3c-bac9-e56cea421199@redhat.com>
-Date: Wed, 2 Mar 2022 11:32:37 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D6310F497;
+ Wed,  2 Mar 2022 10:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646217445; x=1677753445;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=bl/kn8wsyMQAPxCRMAmGszNM18vXJanwFRfFFWl+vmE=;
+ b=UUZot5DqM/XNrUVDN0xMDbbUEkkTow5tJqrIjsMos9SBRSxFu7FrnoMq
+ ee512Tgb6Q1tSb2GCbLdqq3fZpexkvZEoOwTURz6bVWgp2FO84CsTeuPd
+ AobIbCfHPl24t3AFv2QED7oTFWdueQWNTXR4NoxV6iCxNOX/efLJtfqLl
+ fFwRANRVhsDujoQKg/sO/Zp0sDQQm+iXbGuA3MOchd7KJEWX4Q5A90ges
+ AeaXnaRlBrHxIDbIwWfG2COsY59eM1NHVi07pfFnvigCBaLWZWJSrRf4x
+ rxYckU481ZWdoPgz4UF9ByZCjttIwosGPEXnNg6OHxuyL50Q8YKc5UQhg A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233336939"
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="233336939"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 02:37:24 -0800
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="641652498"
+Received: from jbuller-mobl1.ger.corp.intel.com (HELO [10.213.194.231])
+ ([10.213.194.231])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 02:37:21 -0800
+Message-ID: <9586bba7-ffb8-945f-eb30-88629e34737d@linux.intel.com>
+Date: Wed, 2 Mar 2022 10:37:18 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: linux-next: build warning after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20220202150201.290c7d3d@canb.auug.org.au>
- <20220202150320.3e9bdd62@canb.auug.org.au>
- <f50d5044-7192-bdb3-7ca9-7217ed311787@redhat.com>
- <20220302123417.2c84200b@canb.auug.org.au>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220302123417.2c84200b@canb.auug.org.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/i915/gt: Handle errors for i915_gem_object_trylock
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, radhakrishna.sripada@intel.com,
+ ville.syrjala@linux.intel.com, matthew.d.roper@intel.com,
+ lucas.demarchi@intel.com, jose.souza@intel.com,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
+References: <20220302061946.46630-1-jiasheng@iscas.ac.cn>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220302061946.46630-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,49 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Rajat Jain <rajatja@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 3/2/22 02:34, Stephen Rothwell wrote:
-> Hi all,
++ Thomas, Matt
+
+On 02/03/2022 06:19, Jiasheng Jiang wrote:
+> As the potential failure of the i915_gem_object_trylock(),
+> it should be better to check it and return error if fails.
 > 
-> On Wed, 2 Feb 2022 09:38:37 +0100 Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> On 2/2/22 05:03, Stephen Rothwell wrote:
->>>
->>> On Wed, 2 Feb 2022 15:02:01 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:  
->>>>
->>>> After merging the drm tree, today's linux-next build (htmldocs) produced
->>>> this warning:
->>>>
->>>> drivers/gpu/drm/drm_privacy_screen.c:X: warning: Function parameter or member 'data' not described in 'drm_privacy_screen_register'  
->>>
->>> Actually:
->>>
->>> drivers/gpu/drm/drm_privacy_screen.c:392: warning: Function parameter or member 'data' not described in 'drm_privacy_screen_register'  
->>
->> Thank you for reporting this, I will prepare a patch fixing this.
+> Fixes: 94ce0d65076c ("drm/i915/gt: Setup a default migration context on the GT")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/i915/gt/selftest_migrate.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> I am still seeing this warning.
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> index fa4293d2944f..79c6c68f7316 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> @@ -465,7 +465,11 @@ create_init_lmem_internal(struct intel_gt *gt, size_t sz, bool try_lmem)
+>   			return obj;
+>   	}
+>   
+> -	i915_gem_object_trylock(obj, NULL);
 
-Weird, this should be fixed by:
+Guys why is this a trylock to start with? (Since being added in 
+94ce0d65076c ("drm/i915/gt: Setup a default migration context on the GT").
 
-https://cgit.freedesktop.org/drm-misc/commit/?id=ccbeca4ca04302d129602093c8d611065e3f7958
-
-Which was added to the "drm-misc-next-2022-02-23" drm-misc tag/pull-req 7 days ago,
-which was merged into drm-next 6 days ago ?
-
-I just reverted that did a make htmldocs and got the warning, then re-applied and
-the warning was gone...
+Surely it can't ever fail since the object has just been created.
 
 Regards,
 
-Hans
+Tvrtko
 
+> +	if (!i915_gem_object_trylock(obj, NULL)) {
+> +		i915_gem_object_put(obj);
+> +		return ERR_PTR(-EBUSY);
+> +	}
+> +
+>   	err = i915_gem_object_pin_pages(obj);
+>   	if (err) {
+>   		i915_gem_object_unlock(obj);
