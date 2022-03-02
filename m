@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0E54C99C7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:18:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B844C99D3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD40889EBD;
-	Wed,  2 Mar 2022 00:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89CDC10E1D1;
+	Wed,  2 Mar 2022 00:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C4689EBD;
- Wed,  2 Mar 2022 00:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646180289; x=1677716289;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jFnqVQRqiC8aoc1lHH90eCtahq0D/mBKHDCvYou20OY=;
- b=YUwaV2YfoQ7PJ7May+rDsujM+Ik9Xlu0916IW61GaYNLqRpxk0Xglpxi
- I2zQTEiJ0rkBa7mX9aBdV6s1P7cT5Gx1TLnKtpeElC72bf1do9bbXKBxj
- 1wZllrLDDdq7BWMdFU68+iZTcNg1g0Jl0pSkYZFvkkJlBe4SMg3r+khY6
- 5zgR9Wrqt3l8nZgdTDTEw2kefZ4TvFVjMzCI4ATJIIZUnYVeYUc5LeW0z
- 21dbKBz+Y5HZ4gJMNKieUw3rvFXi6vMzJ301vtfXdvCLIuVu8oXJSv510
- mMpnSpG06uZmwZaarXS/XruvpdneXTRtS9dAf0rHU6mgrwLAtM+GMFyca Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="250850619"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="250850619"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 16:18:08 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="806111271"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 16:18:08 -0800
-Date: Tue, 1 Mar 2022 16:18:07 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3 09/13] drm/i915/xehp/guc: enable compute engine inside
- GuC
-Message-ID: <Yh63v7JoeHqO047A@mdroper-desk1.amr.corp.intel.com>
-References: <20220301231549.1817978-1-matthew.d.roper@intel.com>
- <20220301231549.1817978-10-matthew.d.roper@intel.com>
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44B0310E1D1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 00:24:53 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id b13so13218qkj.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 16:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zf2ULn0elai1DQP6DK4nPbrJ4hgulzfjwpA+B07Mye4=;
+ b=Vaxfzhe5jRSu7pBxU/9C864q1lnnA2SgZ58NAG4fQYy7kuZfQIsa339XAguSx8eRza
+ DrNpLkLts46hPPsCfr/Ag9tcOvBLRdLVA1+aCUDNZVAk+3GxowkInx2wERDpBw+8MNeD
+ Uk711xHciJjdZrnOlFSve9+CRRkv2ybLhofRXbqfgajOvSpCtSyi1p6D8+cdBkzdGYaZ
+ K6e4KnLqF5bdOC0OloeF2kgtS9AEoM1t2rQSQnfdmcmlWyJRb9qtcuDhTGqVsz2ZW1KL
+ 9t+rFhEDWsbE56oGhG59Ys6J8ZhiVrXAgCH/DR/5vXEU67SU6aJojTWJZozIlm6QlMI9
+ PjGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zf2ULn0elai1DQP6DK4nPbrJ4hgulzfjwpA+B07Mye4=;
+ b=Qhd7WAYlfdujmj7q1Hc9cta3IKauhSXeX5gnc6UWRuiwdUn1Aym9KFTQLjeVT/JB7e
+ tbosh5BvdgsSEo+D+iT8fkaZkeoXDhQlQZ2C2UykVJyytq9IZ5R5iKTA6vvnK98Jk9vs
+ huubjiCkDHuca/c26ukSP5rbaDdQcKUxKucsRbSFvDbr/I2K7oCpCxAKIpbA+VPlGdhF
+ d21nby798zbCwoFscZ/fqfCoZGcCHEQ+AFnwYCjUq4ZMPKfQZbCDY2kVn7J6qY8q3gfd
+ ZBI6tej1jmiaUjfv3ygOW887GKIE7JBK1ugub2sYsDBO5YOamlEV+MzGAFwjofg3T6ow
+ dAAQ==
+X-Gm-Message-State: AOAM5331WKTK0vFy79a7Qsl5vEnABPTDSI+b4h2jjjk9AnTj2079jMvQ
+ 4JaP3o48+wsMo/cpjuJntXtSg6rPkgRAVcD19xO4xA==
+X-Google-Smtp-Source: ABdhPJy7pua4Isz2AeTn/110l78HrRyd3wHGQp0SFekEFMbjXORFyFMGDeo8frJ3QUcf28v/6BObspZkZXX39859Y4M=
+X-Received: by 2002:a05:620a:4307:b0:507:d5b1:f65e with SMTP id
+ u7-20020a05620a430700b00507d5b1f65emr15137243qko.363.1646180692367; Tue, 01
+ Mar 2022 16:24:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220301231549.1817978-10-matthew.d.roper@intel.com>
+References: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 2 Mar 2022 03:24:41 +0300
+Message-ID: <CAA8EJpr9e2-wz0Hmm7joqOMmAL9asiv4_od+WhS=3Pzs2C9fGQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH] dt-bindings: display/msm: add missing brace in
+ dpu-qcm2290.yaml
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,47 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 01, 2022 at 03:15:45PM -0800, Matt Roper wrote:
-> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> Tell GuC that CCS is enabled by setting a bit in its ADS.
-> 
-> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Original-author: Michel Thierry
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+On Wed, 2 Mar 2022 at 03:14, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Add missing brace in dpu-qcm2290.yaml. While we are at it, also fix
+> indentation for another brace, so it matches the corresponding line.
+>
+> Reported-by: Rob Herring <robh@kernel.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Also
+Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for
+QCM2290 DPU bindings")
 
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 29fbe4681ca7..9bb551b83e7a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -434,6 +434,7 @@ static void fill_engine_enable_masks(struct intel_gt *gt,
->  				     struct iosys_map *info_map)
->  {
->  	info_map_write(info_map, engine_enabled_masks[GUC_RENDER_CLASS], 1);
-> +	info_map_write(info_map, engine_enabled_masks[GUC_COMPUTE_CLASS], CCS_MASK(gt));
->  	info_map_write(info_map, engine_enabled_masks[GUC_BLITTER_CLASS], 1);
->  	info_map_write(info_map, engine_enabled_masks[GUC_VIDEO_CLASS], VDBOX_MASK(gt));
->  	info_map_write(info_map, engine_enabled_masks[GUC_VIDEOENHANCE_CLASS], VEBOX_MASK(gt));
-> -- 
-> 2.34.1
-> 
+> Didn't include freedreno@ in the first email, so resending.
+> ---
+
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+With best wishes
+Dmitry
