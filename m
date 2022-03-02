@@ -1,66 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9D94C9A2D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:52:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FB24C9A12
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:48:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6F110E8FB;
-	Wed,  2 Mar 2022 00:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B82610E666;
+	Wed,  2 Mar 2022 00:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2164C10E93B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 00:52:19 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id v28so125122ljv.9
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 16:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mdO1kFafRmQB1ylhJ2FjgGW8EzDUwR+K8t4/Xs4kq9Q=;
- b=Fxtmo3aMycl7xk+Lul0LSWm5TG/mfwTVTqYPa+KjBqw5rC0QwR7Ao0sUfevGtF5LD4
- k64tX8Oo4Lji0Neh2ivP2XcbTNozVjQZ02oR1Nq42hy8yNDHgzFbvVup1KAMGd/AUj4z
- J5bd2yGF/yd/cXGRy8M0E6h1bI/X2QcQUDBFaSpPSmogfHEwn3hhkFEkxYGOVvU0fhVW
- uEVLgFXq+9blz33lpJTojXDydraVexwlMs0VZ/Ra4aQG66KwSwbME0Ze4wWQuv4GjwkD
- SnEsJAQw7eFWZc2JRZ+m931di+scS7Ohj+zfIR4887/m6dwmD/D6YZCL7mvTovY+c/w7
- +zNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mdO1kFafRmQB1ylhJ2FjgGW8EzDUwR+K8t4/Xs4kq9Q=;
- b=OHc5WcqP4biglP1Tvx33DUWQVNFe+FAfJSYFU/zgVcUa1y/kMqmBoieEvaHklvyWrf
- kRGWa9iH0k18l3mKT2ud6beQ/ZuHJcIBePB0ZecBj+3qh/eTaKnAHX3c6V9JilELch8C
- 0qN3pzqvwEbphqPphkCgWRCqa6S8lBdidKKjf69Rtsc66plPQ74z0QUflAN2zSk9e8Tk
- IdIFh0Mrk0lzgeNKbWSvtiefk55Th7Rz3cDNpQe0d1aAuScZuNPDnPFO/3woGK6fOxjo
- 6ftj7MDl/2EbT+xAWbTJFiqqbQqDw482hJh5jZzcxrjELMEFJ0e5oNKoAvlfGA/UQlvW
- seCQ==
-X-Gm-Message-State: AOAM531CT2L1lcs+mS436ntEhzIn9qnc54m6iZ2UGWkX33Wvrh/VDsZN
- 6Es5FTKNFkKH3IYAbuFKRdkbfw==
-X-Google-Smtp-Source: ABdhPJxpIAoiAGbopIhIpyPpAucdmEDZ21agCkEkSvjzXqvdU+rcmpCfmeynxX6N0Hks9plHTf6bhQ==
-X-Received: by 2002:a05:651c:1209:b0:22e:353c:76c0 with SMTP id
- i9-20020a05651c120900b0022e353c76c0mr18589141lja.139.1646182337477; 
- Tue, 01 Mar 2022 16:52:17 -0800 (PST)
-Received: from eriador.lan ([2001:470:dd84:abc0:5258:5528:7624:3edd])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a19ef17000000b00445b8db3c42sm198171lfh.172.2022.03.01.16.52.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 16:52:17 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH 5/5] arm64: dts: qcom: sm8250: Drop flags for mdss irqs
-Date: Wed,  2 Mar 2022 03:52:10 +0300
-Message-Id: <20220302005210.2267725-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220302005210.2267725-1-dmitry.baryshkov@linaro.org>
-References: <20220302005210.2267725-1-dmitry.baryshkov@linaro.org>
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5AAE10E666
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 00:48:34 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20220302004832epoutp03961e3eaf385a41c3ae3d978f408f2078~Yaejh9OO22976429764epoutp03u
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 00:48:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20220302004832epoutp03961e3eaf385a41c3ae3d978f408f2078~Yaejh9OO22976429764epoutp03u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1646182112;
+ bh=g8MoU63sw3XIixgasBMCK1cjIz737KkFB4MQNePIfdA=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=IgitYznP7RoVQTtxCLw8xUB+UzEdFrTPgAfh2Ju4nO6iEPspGr6au3DkFUxeaqiaT
+ c8rWPeA2Snf51op/8dOwNQGQeZDstPBERqWb1cw6OMkXmmaQitkDCwIPiHvEPt0Krd
+ aHJ5Tt3gA3qtB9+RAiVRRIlPndvbOwG5/Jql7P00=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220302004832epcas1p12cb79bab6a697a63de9402d486bf9f0f~YaejPbiyV2139221392epcas1p18;
+ Wed,  2 Mar 2022 00:48:32 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.36.135]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4K7b8D12Bkz4x9Qb; Wed,  2 Mar
+ 2022 00:48:28 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 24.2E.64085.BDEBE126; Wed,  2 Mar 2022 09:48:27 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220302004826epcas1p4b05a69a12945d6e146f183e98d99076e~YaeeDeNMC1998319983epcas1p4e;
+ Wed,  2 Mar 2022 00:48:26 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220302004826epsmtrp29aa6be0b97fe451b296eaa6e950ec9e6~YaeeCsJt01498814988epsmtrp2X;
+ Wed,  2 Mar 2022 00:48:26 +0000 (GMT)
+X-AuditID: b6c32a35-9c3ff7000000fa55-57-621ebedb18fe
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F8.4E.29871.ADEBE126; Wed,  2 Mar 2022 09:48:26 +0900 (KST)
+Received: from [10.113.221.211] (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220302004826epsmtip1285db42e5eafd830033eff4f5220f0e6~Yaedyc8eQ0650106501epsmtip1c;
+ Wed,  2 Mar 2022 00:48:26 +0000 (GMT)
+Message-ID: <6270db2d-667d-8d6f-9289-be92da486c25@samsung.com>
+Date: Wed, 2 Mar 2022 10:00:18 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 RESEND 21/24] drm/exynos/decon5433: add local path
+ support
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>
+From: Inki Dae <inki.dae@samsung.com>
+In-Reply-To: <b3c98aa3-751b-acc4-8e57-5566af27f922@canonical.com>
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphk+LIzCtJLcpLzFFi42LZdljTQPf2Prkkg2XP2SzuL/7MYnHl63s2
+ i41vfzBZzDi/j8li7ZG77A6sHrMaetk8Fu95yeRxv/s4k0ffllWMHp83yQWwRmXbZKQmpqQW
+ KaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gAtV1IoS8wpBQoFJBYX
+ K+nb2RTll5akKmTkF5fYKqUWpOQUmBboFSfmFpfmpevlpZZYGRoYGJkCFSZkZ2xeuo+14Bt3
+ xYZ3N9gaGI9wdjFyckgImEjsbf3B1sXIxSEksINR4nnjVCaQhJDAJ0aJGcs5IOxvjBJ7uuAa
+ Hh5+xwIR38sosaXXBaL5PaPElIfvwRK8AnYSZ78+ZAWxWQRUJK71zmKGiAtKnJz5BKxGVCBC
+ 4uWRv2DLhAWCJbp3dLOD2MwC4hK3nswHi4sIpElc3P4VKl4qserCCzCbTUBVYuKK+2wgNqeA
+ o8S938uhauQlmrfOZoY4tJFD4vJxOwjbReLdsz9QcWGJV8e3sEPYUhKf3+0F+15CYDKjxJ3r
+ K1ggnBmMEod/XmeEqDKW2L90MtBFHEAbNCXW79KHCCtK7Pw9lxFiMZ/Eu689rCAlEgK8Eh1t
+ QhAlShLHLt6AmiIhcWHJRDYI20Ni5qK1TBMYFWchBcssJO/PQvLOLITFCxhZVjGKpRYU56an
+ FhsWGMLjOjk/dxMjOFlqme5gnPj2g94hRiYOxkOMEhzMSiK8F3/KJAnxpiRWVqUW5ccXleak
+ Fh9iNAVGzkRmKdHkfGC6ziuJNzSxNDAxMzI2sTA0M1QS51017XSikEB6YklqdmpqQWoRTB8T
+ B6dUA9PBC2vvtv46HLz0eVB4bQj7vjvdrWJN1kl5fV8qm0+cybJq9zG6N2eXqrb5l70Xi1ZO
+ 71h53EM1mrXLfKFQyFEzdRFx9l9OiUeuPpyfuY0v+KXGvS2szHt3L498diSnd6Ptjtx+a5e7
+ gSzzE+uTAu/ty9rfcsTi7Q6Ldr6ZnKkFnI81/jid6Op+EThJqd5mO3Mwr/xuriX51Tc+1Xx7
+ wmbcf3z6u3v1Kn/+fHO4fkvtfZXOxV4hq9JzPPsSinewRncyaH+4e98ptbjlcpqV4guHK/d3
+ hmQzp7sdVHmR0ra2j1ulceHm6QqPLu2U9fq1fkeE6ab5/JmPt70wfWDPszr0W0OxnK2VzcSH
+ bz/amiqxFGckGmoxFxUnAgC0sCIkHwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWy7bCSnO6tfXJJBp/n6lncX/yZxeLK1/ds
+ Fhvf/mCymHF+H5PF2iN32R1YPWY19LJ5LN7zksnjfvdxJo++LasYPT5vkgtgjeKySUnNySxL
+ LdK3S+DK2Lx0H2vBN+6KDe9usDUwHuHsYuTkkBAwkXh4+B1LFyMXh5DAbkaJGetuMXYxcgAl
+ JCS2bOWAMIUlDh8uhih5yyhx69dZFpBeXgE7ibNfH7KC2CwCKhLXemcxQ8QFJU7OfAJWIyoQ
+ IdG2bApYXFggWKJ7Rzc7iM0sIC5x68l8JhBbRCBNYtX93ywQ8VKJb9N/sEIs+8woMaHtPxtI
+ gk1AVWLiivtgNqeAo8S938vZQY5jFlCXWD9PCKJXXqJ562zmCYxCs5CcMQvJulkIHbOQdCxg
+ ZFnFKJlaUJybnltsWGCYl1quV5yYW1yal66XnJ+7iREcHVqaOxi3r/qgd4iRiYPxEKMEB7OS
+ CO/FnzJJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTDt
+ S1z5TWAfV0PG9HXR9qnxC1YHbn8XbKG3c25X/7v2QuG96w30ZkZ5mpSsP/Ex+8ahmXp7gkLu
+ KJdNz+mJaXhVPdlRTd3XrUhi2XWl4Mm7l13bVuq8KOMaW5buAuFwv20mLx/38kw5finXKXFd
+ TVZgnG5Vk2nehNO8URdXNWjNmrHU6M3/q8ntdh/ve3DNypWI05JfHKi/a+Mcu0irizP+/j5W
+ 1bL/5F2jla3befccKrnG1Hqt42mv7IxTGmddrld1lX97KOr4QmSmtVbtcsNZ9ldb55iuWTCn
+ bo1eY1ntxn/hJyo67j17uZ3xr+KfQra7zCn9trOe/U6ue1I8wdrqhtqEgDeWur+OHf8YKaKl
+ xFKckWioxVxUnAgAPN13vf0CAAA=
+X-CMS-MailID: 20220302004826epcas1p4b05a69a12945d6e146f183e98d99076e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190325071401eucas1p10df709b256570f1aba9cbc4e875da1b3
+References: <20190325071349.22600-1-a.hajda@samsung.com>
+ <CGME20190325071401eucas1p10df709b256570f1aba9cbc4e875da1b3@eucas1p1.samsung.com>
+ <20190325071349.22600-22-a.hajda@samsung.com>
+ <b3c98aa3-751b-acc4-8e57-5566af27f922@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +120,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The number of interrupt cells for the mdss interrupt controller is 1,
-meaning there should only be one cell for the interrupt number, not two.
-Drop the second cell containing (unused) irq flags.
+Hi Krzysztof,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8250.dtsi | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+22. 2. 7. 01:51에 Krzysztof Kozlowski 이(가) 쓴 글:
+> On 25/03/2019 08:13, Andrzej Hajda wrote:
+>> GSCALERs in Exynos5433 have local path to DECON and DECON_TV.
+>> They can be used as extra planes with support for non-RGB formats and scaling.
+>> To enable it on DECON update_plane and disable_plane callback should
+>> be modified. Moreover DSD mux should be set accordingly, and finally
+>> atomic_check callback should be used to limit the number of active planes.
+>>
+>> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+>> ---
+>>  drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 80 +++++++++++++++----
+>>  drivers/gpu/drm/exynos/regs-decon5433.h       |  6 ++
+>>  2 files changed, 72 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ex
+> Hi guys!
+> 
+> I am working on DRM bindings conversion to DT schema format and I found
+> this set only partially applied. I merged the DTS patches ("dsd" clock),
+> but I think the driver and bindings were not picked up.
+> 
+> Nevertheless I am going to include the "dsd" clock in the new bindings,
+> so the DTS passes DT schema checks. Let me know if other approach
+> (revert of DTS change) should be taken.
+> 
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-index fdaf303ba047..956848068871 100644
---- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-@@ -3200,7 +3200,7 @@ mdss_mdp: mdp@ae01000 {
- 				power-domains = <&rpmhpd SM8250_MMCX>;
- 
- 				interrupt-parent = <&mdss>;
--				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <0>;
- 
- 				ports {
- 					#address-cells = <1>;
-@@ -3252,7 +3252,7 @@ dsi0: dsi@ae94000 {
- 				reg-names = "dsi_ctrl";
- 
- 				interrupt-parent = <&mdss>;
--				interrupts = <4 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <4>;
- 
- 				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
- 					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-@@ -3325,7 +3325,7 @@ dsi1: dsi@ae96000 {
- 				reg-names = "dsi_ctrl";
- 
- 				interrupt-parent = <&mdss>;
--				interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <5>;
- 
- 				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
- 					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
--- 
-2.34.1
+Sorry for late response.
 
+As of now, "dsd" is a dead property not used anywhere.
+This patch series makes real user not to work correctly due to ABI change.
+How about reverting it until this patch series is merged after fixing the real user problem?
+
+Thanks,
+Inki Dae
+
+> Best regards,
+> Krzysztof
+> 
