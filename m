@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D9D4C9A61
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 02:27:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 599CB4C9A66
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 02:27:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0F510E642;
-	Wed,  2 Mar 2022 01:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C04310E944;
+	Wed,  2 Mar 2022 01:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E3310E927
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 01:27:39 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- i10-20020a4aab0a000000b002fccf890d5fso294775oon.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 17:27:39 -0800 (PST)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB69210E93C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 01:27:40 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id s5so424853oic.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 17:27:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=knKff9m1SSa1i2Jf9YTF9j12Lvs6C0dJTe/yY9EehIE=;
- b=JKVAG8VNOqbdpBasGXOclZzoF4HHztXmyufblKs9S+8MzQg09t2La3l2aemOnatttM
- ruvsh9OD9Bwj47/d4GLD9VfqIsP0KKYBXYxHratz3WFOQvAykgAmjJ6n3LbzCe2l/Vi8
- LOVoXWBi7WWLZ9aijWHyAFr4j4WMbW9wn1AfT47EE+F1VKLmZSgx9+XT1nwx/Jec6JHv
- TNq+SebN8j6GNN9ySAHPQaz49P1d7sasEmZ/Jui5lKR/TummVcZioNFU92cL4j3hZCdI
- uBQAYZ9tEw76VPgUW6/UD1O7SWwy2BZfJOFS90YcMu03FR1XBhZHysMAqLcBnbzP9mSW
- 98dw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Tv+YgwvAaGuJMMXzyf8UKPqJBKWn/rWVKPq429RSyAw=;
+ b=x3LtYqtKWT+YwkG6aAomkFJqE6JU/MeXuxpFJ2KtyAYFGYKoKOeI40r8rnf/ayswII
+ E47xrummwGUAXr1NOPjw4BOQY0pDjWlpO58zJuELtiacrBW/iJFYzzd9s1X5t5EM11q1
+ 09kpz+lXNSepjtrEr3XjDD5D7usBJ7ZJOKN/ttIZC0AzyNoVFcM7YRhBWsB4dZOASqg5
+ T/bdPwwM3Nw8IhMqH9O7rYIvI4y02rvoj7RAZFy2pWkTf6rWbQRQvIs5ltlBMzMAYmcm
+ uX/hyel18lnuhsEddrvP0SUcJBP+3lZ/gAsd5DZtrCLGAaDhjlr9tUQ1U7TqWPd1LDjH
+ z1fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=knKff9m1SSa1i2Jf9YTF9j12Lvs6C0dJTe/yY9EehIE=;
- b=WzzLjpkN0nwGAwgk2lnXfBu+hJ9WiMg5FGMblXWSdriRcYOq/1sT2HZpdJQUQGuR/4
- M9AEIQeGP9W8qY64+ULa3ewmzfLR5VwMyv5I0b47g/AdteMx0gNLL+PzNGwUUtKite8v
- j1uI1k2cbx4Lga1m8C+FqZOK3rNlf0WUXlPELCiOtVx0aWkhZFr+pZ//9t+5EP3zAnqp
- ANFsy8XRJTw5xqoNsMXIRPrTxlg+6FQRYiM9PbfQHam1Ety+a+bppFH5izKm7yfLKufj
- 7gXYhZDZfJnzXJ571wYN7sI9dvZnzRAECN2yKoq/XOzYI7BX6sxNLDOLLF3JstgLcAJ1
- lpRw==
-X-Gm-Message-State: AOAM53292mv9HdIBfvgPdyPK8LAygIzzK4rf3m0/E0rF9j7Ke7V/89o+
- 5zldOXBmnr5a8/zC5Dy7JB+CTQ==
-X-Google-Smtp-Source: ABdhPJxixOFh3lm/h04oBLu7zQ0+6NPTfLFIsCxfmBOqi2YYi85+e8re5ihk2kbh5qJLy2J+D+JM8Q==
-X-Received: by 2002:a05:6870:9a29:b0:d6:bba7:970f with SMTP id
- fo41-20020a0568709a2900b000d6bba7970fmr13678368oab.166.1646184459005; 
- Tue, 01 Mar 2022 17:27:39 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Tv+YgwvAaGuJMMXzyf8UKPqJBKWn/rWVKPq429RSyAw=;
+ b=ggpgCCqim8xpom6uq+d5nbtqJzWXTeTo8hJgSD/fWrZ3LepbRF84e4T6WqxSgR/GKe
+ G8cejKr3RTBrQP6KfOl2whljb3ghjyMfRjWg4+X59hJC2voQ+FTWMxF2gIgaq6M7dlyV
+ WKlVA71CLcXmT4vSzwcVu0tgCbqfhz43sSj8MQ4Da51gPCcFsFO50Op7PwY5d4AOG5WG
+ 54Yy+KaOoANRxTY1nGmB1BvCh5bUQT4H125EM7sGZiaN1sgF2GfvldXu2D7UQgTGV7vl
+ 9ks4PJJBeP9tsivwf+iCK5WnIGaS2zInYQqiwuUVhDi8arXxe+0EUjz7nm876EeB6xwM
+ DxEg==
+X-Gm-Message-State: AOAM5329Bqy9OUn4YUCZytVm/pqxUXtVgqN35VWpT2wRGz5zrY/AbdA4
+ 6B1FDqbxm49hXNvIKY82lfKhLg==
+X-Google-Smtp-Source: ABdhPJw1w163ZojylGuWVadLsX0xJp3N7FA4hCgFYCgLBgnY+wNU4byJA3FAoTr+v9eYoM7s9CYlaQ==
+X-Received: by 2002:a05:6808:e89:b0:2cf:cad3:e427 with SMTP id
+ k9-20020a0568080e8900b002cfcad3e427mr15963208oil.20.1646184460000; 
+ Tue, 01 Mar 2022 17:27:40 -0800 (PST)
 Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
  by smtp.gmail.com with ESMTPSA id
- t9-20020a056871054900b000c53354f98esm6728948oal.13.2022.03.01.17.27.38
+ t9-20020a056871054900b000c53354f98esm6728948oal.13.2022.03.01.17.27.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 17:27:38 -0800 (PST)
+ Tue, 01 Mar 2022 17:27:39 -0800 (PST)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Loic Poulain <loic.poulain@linaro.org>
-Subject: [PATCH v2 1/2] dt-bindings: display: msm: Add optional resets
-Date: Tue,  1 Mar 2022 17:29:30 -0800
-Message-Id: <20220302012931.4107196-1-bjorn.andersson@linaro.org>
+Subject: [PATCH v2 2/2] drm/msm/dpu: Issue MDSS reset during initialization
+Date: Tue,  1 Mar 2022 17:29:31 -0800
+Message-Id: <20220302012931.4107196-2-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220302012931.4107196-1-bjorn.andersson@linaro.org>
+References: <20220302012931.4107196-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,87 +72,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an optional reference to the MDSS_CORE reset, which when specified
-can be used by the implementation to reset the hardware blocks.
+It's typical for the bootloader to bring up the display for showing a
+boot splash or efi framebuffer. But in some cases the kernel driver ends
+up only partially configuring (in particular) the DPU, which might
+result in e.g. that two different data paths attempts to push data to
+the interface - with resulting graphical artifacts.
+
+Naturally the end goal would be to inherit the bootloader's
+configuration and provide the user with a glitch free handover from the
+boot configuration to a running DPU.
+
+But as implementing seamless transition from the bootloader
+configuration to the running OS will be a considerable effort, start by
+simply resetting the entire MDSS to its power-on state, to avoid the
+partial configuration.
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
 
 Changes since v1:
-- New approach/patch
+- Rather than trying to deconfigure individual pieces of the DPU, reset the
+  entire block.
 
- .../devicetree/bindings/display/msm/dpu-qcm2290.yaml          | 4 ++++
- Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml | 4 ++++
- Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml | 4 ++++
- Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml | 4 ++++
- 4 files changed, 16 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c | 18 ++++++++++++++++++
+ drivers/gpu/drm/msm/msm_drv.c            |  4 ++++
+ drivers/gpu/drm/msm/msm_kms.h            |  1 +
+ 3 files changed, 23 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-index 8766b13f0c46..965027fe205c 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-@@ -66,6 +66,10 @@ properties:
-   interconnect-names:
-     const: mdp0-mem
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+index b10ca505f9ac..419eaaefe606 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+@@ -7,6 +7,7 @@
+ #include <linux/irqchip.h>
+ #include <linux/irqdesc.h>
+ #include <linux/irqchip/chained_irq.h>
++#include <linux/reset.h>
+ #include "dpu_kms.h"
  
-+  resets:
-+    items:
-+      - description: MDSS_CORE reset
+ #define to_dpu_mdss(x) container_of(x, struct dpu_mdss, base)
+@@ -31,6 +32,7 @@ struct dpu_mdss {
+ 	void __iomem *mmio;
+ 	struct clk_bulk_data *clocks;
+ 	size_t num_clocks;
++	struct reset_control *reset;
+ 	struct dpu_irq_controller irq_controller;
+ };
+ 
+@@ -197,10 +199,18 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
+ 	dpu_mdss->mmio = NULL;
+ }
+ 
++static int dpu_mdss_reset(struct msm_mdss *mdss)
++{
++	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
 +
- patternProperties:
-   "^display-controller@[0-9a-f]+$":
-     type: object
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-index 12a86b1ec1bc..b41991eaa454 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-@@ -65,6 +65,10 @@ properties:
-   interconnect-names:
-     const: mdp0-mem
- 
-+  resets:
-+    items:
-+      - description: MDSS_CORE reset
++	return reset_control_reset(dpu_mdss->reset);
++}
 +
- patternProperties:
-   "^display-controller@[0-9a-f]+$":
-     type: object
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-index fbeb931a026e..6e417d06fc79 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
-@@ -64,6 +64,10 @@ properties:
-   interconnect-names:
-     const: mdp0-mem
+ static const struct msm_mdss_funcs mdss_funcs = {
+ 	.enable	= dpu_mdss_enable,
+ 	.disable = dpu_mdss_disable,
+ 	.destroy = dpu_mdss_destroy,
++	.reset = dpu_mdss_reset,
+ };
  
-+  resets:
-+    items:
-+      - description: MDSS_CORE reset
+ int dpu_mdss_init(struct platform_device *pdev)
+@@ -227,6 +237,13 @@ int dpu_mdss_init(struct platform_device *pdev)
+ 	}
+ 	dpu_mdss->num_clocks = ret;
+ 
++	dpu_mdss->reset = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
++	if (IS_ERR(dpu_mdss->reset)) {
++		ret = PTR_ERR(dpu_mdss->reset);
++		DPU_ERROR("failed to acquire mdss reset, ret=%d", ret);
++		goto reset_parse_err;
++	}
 +
- patternProperties:
-   "^display-controller@[0-9a-f]+$":
-     type: object
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
-index 0dca4b3d66e4..1a42491efdbc 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
-@@ -57,6 +57,10 @@ properties:
+ 	dpu_mdss->base.dev = &pdev->dev;
+ 	dpu_mdss->base.funcs = &mdss_funcs;
  
-   ranges: true
+@@ -252,6 +269,7 @@ int dpu_mdss_init(struct platform_device *pdev)
+ irq_error:
+ 	_dpu_mdss_irq_domain_fini(dpu_mdss);
+ irq_domain_error:
++reset_parse_err:
+ clk_parse_err:
+ 	if (dpu_mdss->mmio)
+ 		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 129fa841ac22..7595f83da3f1 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -388,6 +388,10 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 	if (ret)
+ 		return ret;
  
-+  resets:
-+    items:
-+      - description: MDSS_CORE reset
++	/* Issue a reset of the entire MDSS */
++	if (priv->mdss && priv->mdss->funcs->reset)
++		priv->mdss->funcs->reset(priv->mdss);
 +
- patternProperties:
-   "^display-controller@[0-9a-f]+$":
-     type: object
+ 	/* Bind all our sub-components: */
+ 	ret = component_bind_all(dev, ddev);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 2a4f0526cb98..716a34fca1cd 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -205,6 +205,7 @@ struct msm_mdss_funcs {
+ 	int (*enable)(struct msm_mdss *mdss);
+ 	int (*disable)(struct msm_mdss *mdss);
+ 	void (*destroy)(struct msm_mdss *mdss);
++	int (*reset)(struct msm_mdss *mdss);
+ };
+ 
+ struct msm_mdss {
 -- 
 2.33.1
 
