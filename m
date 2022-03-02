@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CA34CA093
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 10:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E7B4CA0BC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 10:29:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6910210F2BC;
-	Wed,  2 Mar 2022 09:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F3410F2F3;
+	Wed,  2 Mar 2022 09:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324C510F2C8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 09:23:30 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nPLCh-00046V-OS; Wed, 02 Mar 2022 10:23:27 +0100
-Message-ID: <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
-Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>
-Date: Wed, 02 Mar 2022 10:23:25 +0100
-In-Reply-To: <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
-References: <20220228004605.367040-1-marex@denx.de>
- <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
- <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
- <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
- <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
- <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
- <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
- <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
- <8bf0b5a1c9ab9faee28077436cdfd49c0cd08792.camel@pengutronix.de>
- <CAHCN7xJ6ypDxZouZV1b1F1EgQFwdTvmY6EEekj+_z-UWbQMD5Q@mail.gmail.com>
- <4253aa4b5dc4a3568e45755678849961468bfd38.camel@pengutronix.de>
- <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F7310F235
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 09:29:36 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id s25so1391037lji.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 01:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+ b=IQg4uBejV+wOE9gbvRPz3nvi4LkiiVw4YSIjC8NPteocLXX0uLpiZyGXJ60leACu72
+ E2mMgbaj2BDeYnhoOw0DKPRcT2bjIlB4yRTWQZ65OcYRTHhlWzgeq8LyFprIEpiij6N8
+ YNaymndxJaFKphqyYHlKdyPolm4uaJOX+WJuI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+ b=Q2IBmtyckZM5whPN/cM8kyuaORH7RwAI5mooIIgvfUol4gzOW28jPUMu/85rrV1K+U
+ KQoVLI4ThQQwfJ1jlvze0stfyNtJU35FR+1QmGJfIOqBQQYjWux800nTaFIVMKN+HL0L
+ BgrHEKD6VPF/sPeCnB91PE8yb1Cfr62Ow6wtROjL4f0RNW5PNw+U0V28M61W7t69UWwP
+ DvqPtbtYUZ4X9U4KitZiVs2m9yZsalOSPgEeVwXlHKTbmo/4Q13WcCEXMizgxFZrlm5H
+ 62PFxUI6GHTdbt96km2Vi0TJeNrXdObvkwfMx0hmzlft4H8Hg8tF7m4nyFTlEGo5uhYH
+ X+gA==
+X-Gm-Message-State: AOAM5317sc8XmqYAfIrGaR7WZC2P8yyd3KTxv0hcpl36Z4ifQZc3igES
+ WZeVhKwgw5PzrbuXzS76L59VlA==
+X-Google-Smtp-Source: ABdhPJxPRWTwhfDKGEWi/HTZUmtnN6xoKL1T2KNwEAF9KgB2sMMXSt6lke7BfBVtPRIEaNMyntkyzw==
+X-Received: by 2002:a2e:3c0d:0:b0:246:3c52:7ada with SMTP id
+ j13-20020a2e3c0d000000b002463c527adamr19885072lja.459.1646213374808; 
+ Wed, 02 Mar 2022 01:29:34 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+ by smtp.gmail.com with ESMTPSA id
+ f36-20020a0565123b2400b0043795432e87sm1960430lfv.150.2022.03.02.01.29.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Mar 2022 01:29:33 -0800 (PST)
+Message-ID: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
+Date: Wed, 2 Mar 2022 10:29:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ David Laight <David.Laight@aculab.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+ <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+ <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+ <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,106 +85,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Liu Ying <victor.liu@oss.nxp.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>,
+ "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ dma <dmaengine@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 02.03.2022 um 03:54 +0100 schrieb Marek Vasut:
-> On 3/1/22 14:18, Lucas Stach wrote:
-> > Am Dienstag, dem 01.03.2022 um 07:03 -0600 schrieb Adam Ford:
-> > > On Tue, Mar 1, 2022 at 5:05 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > 
-> > > > Am Dienstag, dem 01.03.2022 um 11:19 +0100 schrieb Marek Vasut:
-> > > > > On 3/1/22 11:04, Lucas Stach wrote:
-> > > > > 
-> > > > > Hi,
-> > > > > 
-> > > > > [...]
-> > > > > 
-> > > > > > > Given the two totally different IPs, I don't see bugs of IP control
-> > > > > > > logics should be fixed for both drivers. Naturally, the two would
-> > > > > > > diverge due to different HWs. Looking at Patch 9/9, it basically
-> > > > > > > squashes code to control LCDIFv3 into the mxsfb drm driver with
-> > > > > > > 'if/else' checks(barely no common control code), which is hard to
-> > > > > > > maintain and not able to achieve good scalability for both 'LCDIFv3'
-> > > > > > > and 'LCDIF'.
-> > > > > > 
-> > > > > > I tend to agree with Liu here. Writing a DRM driver isn't that much
-> > > > > > boilerplate anymore with all the helpers we have available in the
-> > > > > > framework today.
-> > > > > 
-> > > > > I did write a separate driver for this IP before I spent time merging
-> > > > > them into single driver, that's when I realized a single driver is much
-> > > > > better and discarded the separate driver idea.
-> > > > > 
-> > > > > > The IP is so different from the currently supported LCDIF controllers
-> > > > > > that I think trying to support this one in the existing driver actually
-> > > > > > increases the chances to break something when modifying the driver in
-> > > > > > the future. Not everyone is able to test all LCDIF versions. My vote is
-> > > > > > on having a separate driver for the i.MX8MP LCDIF.
-> > > > > 
-> > > > > If you look at both controllers, it is clear it is still the LCDIF
-> > > > > behind, even the CSC that is bolted on would suggest that.
-> > > > 
-> > > > Yes, but from a driver PoV what you care about is not really the
-> > > > hardware blocks used to implement something, but the programming model,
-> > > > i.e. the register interface exposed to software.
-> > > > 
-> > > > > 
-> > > > > I am also not happy when I look at the amount of duplication a separate
-> > > > > driver would create, it will be some 50% of the code that would be just
-> > > > > duplicated.
-> > > > > 
-> > > > Yea, the duplicated code is still significant, as the HW itself is so
-> > > > simple. However, if you find yourself in the situation where basically
-> > > > every actual register access in the driver ends up being in a "if (some
-> > > > HW rev) ... " clause, i still think it would be better to have a
-> > > > separate driver, as the programming interface is just different.
-> > > 
-> > > I tend to agree with Marek on this one.  We have an instance where the
-> > > blk-ctrl and the GPC driver between 8m, mini, nano, plus are close,
-> > > but different enough where each SoC has it's own set of tables and
-> > > some checks.   Lucas created the framework, and others adapted it for
-> > > various SoC's.  If there really is nearly 50% common code for the
-> > > LCDIF, why not either leave the driver as one or split the common code
-> > > into its own driver like lcdif-common and then have smaller drivers
-> > > that handle their specific variations.
-> > 
-> > I don't know exactly how the standalone driver looks like, but I guess
-> > the overlap is not really in any real HW specific parts, but the common
-> > DRM boilerplate, so there isn't much point in creating a common lcdif
-> > driver.
+On 02/03/2022 00.55, Linus Torvalds wrote:
+> On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
+>>
+
+> With the "don't use iterator outside the loop" approach, the exact
+> same code works in both the old world order and the new world order,
+> and you don't have the semantic confusion. And *if* you try to use the
+> iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+> about it not being initialized.
 > 
-> The mxsfb currently has 1280 LoC as of patch 8/9 of this series. Of 
-> that, there is some 400 LoC which are specific to old LCDIF and this 
-> patch adds 380 LoC for the new LCDIF. So that's 800 LoC or ~60% of 
-> shared boilerplate that would be duplicated .
-
-That is probably ignoring the fact that the 8MP LCDIF does not support
-any overlays, so it could use the drm_simple_display_pipe
-infrastructure to reduce the needed boilerplate.
+>              Linus
 > 
-> > As you brought up the blk-ctrl as an example: I'm all for supporting
-> > slightly different hardware in the same driver, as long as the HW
-> > interface is close enough. But then I also opted for a separate 8MP
-> > blk-ctrl driver for those blk-ctrls that differ significantly from the
-> > others, as I think it would make the common driver unmaintainable
-> > trying to support all the different variants in one driver.
-> 
-> But then you also need to maintain two sets of boilerplate, they 
-> diverge, and that is not good.
+> (*) Unless somebody initializes the iterator pointer pointlessly.
+> Which clearly does happen. Thus the "mostly". It's not perfect, and
+> that's most definitely not nice - but it should at least hopefully
+> make it that much harder to mess up.
 
-I don't think that there is much chance for bugs going unfixed due to
-divergence in the boilerplate, especially if you use the simple pipe
-framework to handle most of that stuff for you, which gives you a lot
-of code sharing with other simple DRM drivers.
+This won't help the current issue (because it doesn't exist and might
+never), but just in case some compiler people are listening, I'd like to
+have some sort of way to tell the compiler "treat this variable as
+uninitialized from here on". So one could do
 
-Regards,
-Lucas
+#define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
 
+with __magic_uninit being a magic no-op that doesn't affect the
+semantics of the code, but could be used by the compiler's "[is/may be]
+used uninitialized" machinery to flag e.g. double frees on some odd
+error path etc. It would probably only work for local automatic
+variables, but it should be possible to just ignore the hint if p is
+some expression like foo->bar or has side effects. If we had that, the
+end-of-loop test could include that to "uninitialize" the iterator.
 
+Maybe sparse/smatch or some other static analyzer could implement such a
+magic thing? Maybe it's better as a function attribute
+[__attribute__((uninitializes(1)))] to avoid having to macrofy all
+functions that release resources.
+
+Rasmus
