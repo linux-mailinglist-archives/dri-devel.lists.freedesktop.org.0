@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB29E4CA73C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 15:06:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E52D4CA7A7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 15:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6710E7DF;
-	Wed,  2 Mar 2022 14:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCE910E855;
+	Wed,  2 Mar 2022 14:11:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C2410E776
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:19 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC6E10E855
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:11:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2063061017
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8863EC004E1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:14 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 463E9CE21A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:11:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CE8DC340ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646229974;
- bh=yOX5IEft4s9jRHfI6QaAY2DWlxytBkRKWDnv48O3E5Y=;
+ s=k20201202; t=1646230267;
+ bh=yUbziAAVwRGwWQgOoLS1wc1I88YsuXGL11y/DTnMlLg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=mGJBdkiFmLxL0lJfFJcPmhX5ZH4rVGiTnAF4o7VINcfnZyV+z/6liwCsn8lyNaL2Q
- zB2/UDWjMJWQZSV/PVhiWqR+kLh1mSbWWvpPXg4g+1AUC1PdxOZ7KpddTHQ2yUcGXP
- puB/SvQf1rg1iZWLR/5xA+Rx1QKxTUvs8NUuaZJdMS0WjDyAs4jBU4sxoaWAlgXHom
- 6brKd9NqgimXWHZmFCq+A4POUhSLZvWTqF51npLEbEEVWTutXjNwWno3iNSbBolMiP
- /Xa6PeI2jj1JvlA8mEfheZKZlaSyj/P8fg71Dy3+ktxa3LMlyLbZJGq8opn5f+Cz4A
- aTRB176aS4cpw==
+ b=u9w6/tSw5apWLPyXsmsLvNvbEyNFiSk3LrgS8za0QbOLBwLWjnv3gej/kF87h7HEi
+ VoVJjIaW3QjkUE7mKggGQDFO8tG+0krY0OwTo0fZ5XexWoF7T1R7kIKT05wmguMiHJ
+ immO3O6/vh0NadBI3x69I4+dPCzoLgZNit5QdhHnxXnytmq3WxFSzX0kvg2Aazws87
+ LPVK2VpYZgeZRGXNtF0sXWUKsLYL22LwgV5LlI3Kr8kJYFJXO9KBfuXpubiugpRAOS
+ OtO+1cYBSDSsF0WtLX9yVh+OaIdd6/KyoRRPvyUUQ5gF34G4p+A9/3aX5p/SEeA/qc
+ 95Q6AVEfhlYzw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 68771C05FD5; Wed,  2 Mar 2022 14:06:14 +0000 (UTC)
+ from userid 48) id 7F8D6C05FD5; Wed,  2 Mar 2022 14:11:07 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215648] amdgpu: Changing monitor configuration
  (plug/unplug/wake from DPMS) causes kernel panic
-Date: Wed, 02 Mar 2022 14:06:14 +0000
+Date: Wed, 02 Mar 2022 14:11:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,14 +44,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: pr_kernel@tum.fail
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215648-2300-NEo2c191je@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-215648-2300-PUsuGQTidp@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215648-2300@https.bugzilla.kernel.org/>
 References: <bug-215648-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,8 +76,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215648
 
---- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
-Thanks.  Can you get the dmesg output from boot prior to the hang?
+--- Comment #4 from Philipp Riederer (pr_kernel@tum.fail) ---
+Created attachment 300517
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300517&action=3Dedit
+dmesg from boot using kernel 5.15.12@94ba5b0fb52d6dbf1f200351876a839afb74ae=
+dd
 
 --=20
 You may reply to this email to add a comment.
