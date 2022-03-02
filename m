@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABB44C9CEE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 06:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5614C9D12
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 06:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468B010EA59;
-	Wed,  2 Mar 2022 05:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0770210E743;
+	Wed,  2 Mar 2022 05:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5065D10EA59
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 05:11:10 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id o26so680377pgb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 21:11:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VXYJujKtr44YtvQDoOdyVAgb3HOMrNGPu6HPM67Z31Y=;
- b=CI94sNlicCE8vnH2iXXu/anR1zPHMrfYfeJ8eYUU3X/4KZi2brqoqABHB4WVln2xQZ
- ZFO4w6MPQZrevm9xFmyWD1byh/PR8/zc1QJfDdj4rLDLQBh63r1aaK/WbVvI5aMqh2hG
- g6r64kFoS1XKPXSEelOx6A3j/7HV4OGWdu5b3c/68jXo0wGCriRFWqYGuKMhvHlzdedg
- +NiVerY1Exf3V7mq+IbTNjbJ1nXEZh2RvgPfmvn5QqGCmhhET3Bgp8A26nf65A0AxACY
- W5EbC3W2R6fNIaSwE6M7Gf5lBQJ7k509gopNRxsbq6rkmSYbIQ9/ziSsZXaFo4jgwQ8H
- TVsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=VXYJujKtr44YtvQDoOdyVAgb3HOMrNGPu6HPM67Z31Y=;
- b=iBwuTRcqAflqq1fsBJ19fPziBi5Y5qno4RG3vEjc+HhWjyXuJOIeXwoaDJBUZIed91
- 3SSyqW6qF+QVo67tdJMOLzJutCrEBzDjRyiEILzidqbHWMW9blwJCP/wkYlY2oV1PyzT
- iptzhG6Ks0FtpsIoqRkyNGU1Y+24Xke6q20SryEFKHopPUK1TWsscsEeacdFtJrKwXhS
- YumGXaKqXoNFdrf42h/zgv2c05XEZNQH25UHqYk99c5aB/7J8jI01T4LiGHvcME6R/7g
- vhJkoAkcaho44RIuEoD5TkIZKFchxJuqIULatEPEl/iNhxgahcNO3bRCZIMxTM68X0OC
- P1NQ==
-X-Gm-Message-State: AOAM533cvRtqb3O8uYUfwiPFwyxXDgyPZgmcmszbJpZjq8LsG9Dy3LG9
- 9mQZAKRucuyNpLUKIQmE8b7q2YyzWPm7HA==
-X-Google-Smtp-Source: ABdhPJxLjPxHaXKauIVKY96fVaLPwD3J1+P2lCyvRvSZNfehciKkFmVCRLxs1Ww9G/4haOE/E0ZtMA==
-X-Received: by 2002:a63:cc52:0:b0:372:7f35:cf84 with SMTP id
- q18-20020a63cc52000000b003727f35cf84mr24662539pgi.211.1646197869757; 
- Tue, 01 Mar 2022 21:11:09 -0800 (PST)
-Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id
- nn10-20020a17090b38ca00b001bc3a60b324sm3386177pjb.46.2022.03.01.21.11.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 21:11:08 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Tommy Haung <tommy_huang@aspeedtech.com>
-Subject: [PATCH] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-Date: Wed,  2 Mar 2022 15:40:56 +1030
-Message-Id: <20220302051056.678367-1-joel@jms.id.au>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA7310EA33;
+ Wed,  2 Mar 2022 05:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646198417; x=1677734417;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=nDvWiQqDIKjf5ndBF/6wpxBnmaJIuVljMOv9sbsk4YE=;
+ b=lmiB3ie+FoYgVEYtJ9j3GHTB3u8ZwKRuQRle3Gt+rchdU9IQlI7JWZcP
+ eHpVNU0jJyXUXD9SFvAPGflEkaV+OapMf+a1fvyOdK1FrYjs7yDzK45mh
+ tXcghS68+idVr2gcCsib5HJ5pJUFsv5R9vIq4B/b29RqCLk2U121MdyQP
+ 9w5F/qV0rixyypl1f3TMJBjn9u0+KD0PGjfJX+8ucDQju/lXKfo7tDOGo
+ FkCgJ/Wyw0XJo3pLmZp+LrvJHAoIhqGoAQp8eVO/haE6estVi0hWRB1Ly
+ nWGapZDvUDorV6B163iO7TfcbB/rSl+H5a7KM2j82nWhq39+xXtE975iN Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="252145269"
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="252145269"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 21:20:16 -0800
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; d="scan'208";a="709370989"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 21:20:15 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 11/13] drm/i915/xehp: handle fused off CCS engines
+Date: Tue,  1 Mar 2022 21:20:08 -0800
+Message-Id: <20220302052008.1884985-1-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220301231549.1817978-12-matthew.d.roper@intel.com>
+References: <20220301231549.1817978-12-matthew.d.roper@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,143 +56,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>, dri-devel@lists.freedesktop.org,
+ Stuart Summers <stuart.summers@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the bindings to yaml and add the ast2600 compatible string.
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+HW resources are divided across the active CCS engines at the compute
+slice level, with each CCS having priority on one of the cslices.
+If a compute slice has no enabled DSS, its paired compute engine is not
+usable in full parallel execution because the other ones already fully
+saturate the HW, so consider it fused off.
+
+v2 (José):
+ - moved it to its own function
+ - fixed definition of ccs_mask
+
+v3 (Matt):
+ - Replace fls() condition with a simple IP version test
+
+v4 (Matt):
+ - Don't try to calculate a ccs_mask using
+   intel_slicemask_from_dssmask() until we've determined that we're
+   running on an Xe_HP platform where the logic makes sense (and won't
+   overflow).
+
+Cc: Stuart Summers <stuart.summers@intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Signed-off-by: Stuart Summers <stuart.summers@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
- .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
- 2 files changed, 69 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
- delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 25 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_sseu.c      | 17 ++++++++++++---
+ drivers/gpu/drm/i915/gt/intel_sseu.h      |  4 +++-
+ 3 files changed, 42 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-new file mode 100644
-index 000000000000..8ddc4fa6e8e4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 92f4cf9833ee..e1aa78b20d2d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -592,6 +592,29 @@ bool gen11_vdbox_has_sfc(struct intel_gt *gt,
+ 	return false;
+ }
+ 
++static void engine_mask_apply_compute_fuses(struct intel_gt *gt)
++{
++	struct drm_i915_private *i915 = gt->i915;
++	struct intel_gt_info *info = &gt->info;
++	int ss_per_ccs = info->sseu.max_subslices / I915_MAX_CCS;
++	unsigned long ccs_mask;
++	unsigned int i;
 +
-+title: ASPEED GFX display device
++	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
++		return;
 +
-+maintainers:
-+  - Joel Stanley <joel@jms.id.au>
++	ccs_mask = intel_slicemask_from_dssmask(intel_sseu_get_compute_subslices(&info->sseu),
++						ss_per_ccs);
++	/*
++	 * If all DSS in a quadrant are fused off, the corresponding CCS
++	 * engine is not available for use.
++	 */
++	for_each_clear_bit(i, &ccs_mask, I915_MAX_CCS) {
++		info->engine_mask &= ~BIT(_CCS(i));
++		drm_dbg(&i915->drm, "ccs%u fused off\n", i);
++	}
++}
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - aspeed,ast2400-gfx
-+          - aspeed,ast2500-gfx
-+          - aspeed,ast2600-gfx
-+      - const: syscon
+ /*
+  * Determine which engines are fused off in our particular hardware.
+  * Note that we have a catch-22 situation where we need to be able to access
+@@ -673,6 +696,8 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+ 		vebox_mask, VEBOX_MASK(gt));
+ 	GEM_BUG_ON(vebox_mask != VEBOX_MASK(gt));
+ 
++	engine_mask_apply_compute_fuses(gt);
 +
-+  reg:
-+    minItems: 1
+ 	return info->engine_mask;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
+index 29118c652811..4ac0bbaf0c31 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.c
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+@@ -32,7 +32,9 @@ intel_sseu_subslice_total(const struct sseu_dev_info *sseu)
+ 	return total;
+ }
+ 
+-u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
++static u32
++_intel_sseu_get_subslices(const struct sseu_dev_info *sseu,
++			  const u8 *subslice_mask, u8 slice)
+ {
+ 	int i, offset = slice * sseu->ss_stride;
+ 	u32 mask = 0;
+@@ -40,12 +42,21 @@ u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
+ 	GEM_BUG_ON(slice >= sseu->max_slices);
+ 
+ 	for (i = 0; i < sseu->ss_stride; i++)
+-		mask |= (u32)sseu->subslice_mask[offset + i] <<
+-			i * BITS_PER_BYTE;
++		mask |= (u32)subslice_mask[offset + i] << i * BITS_PER_BYTE;
+ 
+ 	return mask;
+ }
+ 
++u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
++{
++	return _intel_sseu_get_subslices(sseu, sseu->subslice_mask, slice);
++}
 +
-+  interrupts:
-+    maxItems: 1
++u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu)
++{
++	return _intel_sseu_get_subslices(sseu, sseu->compute_subslice_mask, 0);
++}
 +
-+  clocks:
-+    maxItems: 1
+ void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
+ 			      u8 *subslice_mask, u32 ss_mask)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+index 60882a74741e..8a79cd8eaab4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.h
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+@@ -103,7 +103,9 @@ intel_sseu_subslice_total(const struct sseu_dev_info *sseu);
+ unsigned int
+ intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice);
+ 
+-u32  intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
++u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
 +
-+  resets:
-+    maxItems: 1
-+
-+  memory-region: true
-+
-+  syscon: true
-+
-+  reg-io-width: true
-+
-+required:
-+  - reg
-+  - compatible
-+  - interrupts
-+  - clocks
-+  - resets
-+  - memory-region
-+  - syscon
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+   #include <dt-bindings/clock/aspeed-clock.h>
-+   gfx: display@1e6e6000 {
-+       compatible = "aspeed,ast2500-gfx", "syscon";
-+       reg = <0x1e6e6000 0x1000>;
-+       reg-io-width = <4>;
-+       clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
-+       resets = <&syscon ASPEED_RESET_CRT1>;
-+       interrupts = <0x19>;
-+       syscon = <&syscon>;
-+       memory-region = <&gfx_memory>;
-+   };
-+
-+   gfx_memory: framebuffer {
-+       size = <0x01000000>;
-+       alignment = <0x01000000>;
-+       compatible = "shared-dma-pool";
-+       reusable;
-+   };
-diff --git a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt b/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-deleted file mode 100644
-index 958bdf962339..000000000000
---- a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Device tree configuration for the GFX display device on the ASPEED SoCs
--
--Required properties:
--  - compatible
--    * Must be one of the following:
--      + aspeed,ast2500-gfx
--      + aspeed,ast2400-gfx
--    * In addition, the ASPEED pinctrl bindings require the 'syscon' property to
--      be present
--
--  - reg: Physical base address and length of the GFX registers
--
--  - interrupts: interrupt number for the GFX device
--
--  - clocks: clock number used to generate the pixel clock
--
--  - resets: reset line that must be released to use the GFX device
--
--  - memory-region:
--    Phandle to a memory region to allocate from, as defined in
--    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
--
--
--Example:
--
--gfx: display@1e6e6000 {
--	compatible = "aspeed,ast2500-gfx", "syscon";
--	reg = <0x1e6e6000 0x1000>;
--	reg-io-width = <4>;
--	clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
--	resets = <&syscon ASPEED_RESET_CRT1>;
--	interrupts = <0x19>;
--	memory-region = <&gfx_memory>;
--};
--
--gfx_memory: framebuffer {
--	size = <0x01000000>;
--	alignment = <0x01000000>;
--	compatible = "shared-dma-pool";
--	reusable;
--};
++u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu);
+ 
+ void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
+ 			      u8 *subslice_mask, u32 ss_mask);
 -- 
 2.34.1
 
