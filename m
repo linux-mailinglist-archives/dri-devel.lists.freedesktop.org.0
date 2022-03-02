@@ -2,40 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE4D4CAE51
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 20:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9C64CAEB7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 20:30:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36A110E16A;
-	Wed,  2 Mar 2022 19:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0427410E900;
+	Wed,  2 Mar 2022 19:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8623910E16A;
- Wed,  2 Mar 2022 19:10:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A16A8139F;
- Wed,  2 Mar 2022 11:10:36 -0800 (PST)
-Received: from [10.57.39.47] (unknown [10.57.39.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 40F6A3F70D;
- Wed,  2 Mar 2022 11:10:34 -0800 (PST)
-Message-ID: <9d09be2d-34f2-212c-70c0-c698a1d8145a@arm.com>
-Date: Wed, 2 Mar 2022 19:10:29 +0000
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405DD10E900
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 19:30:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 997FA1F37E;
+ Wed,  2 Mar 2022 19:30:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646249441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fcHoM6cQ9at4klEyIoq3bVgBwzGCr3APnq0fqr+Iq5c=;
+ b=QCaSewL2i8uH7CA4Zq0V4kDTsEH5rdkyX9S7xMmnfijO75M1kTzv7zkJ8S+824K7E7M4ir
+ LIaOniYciCLu+h293ZmKSM80ZVRxTMuQRgJO1RhEFtBpmi1iDvtKpTiPVEDPEg3inDoj30
+ wlnGp0EkiUd7Aimcc6KXpjvhWUo4bQc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646249441;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fcHoM6cQ9at4klEyIoq3bVgBwzGCr3APnq0fqr+Iq5c=;
+ b=ShPOk5CWFlLLIps+BEXzezAFkSzYpIyZaNtU9pfek0OG4fSfq5TDfW0k83T9QkAXkK6Ksz
+ OqSLJYIVnx9533BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 64C4E13AA7;
+ Wed,  2 Mar 2022 19:30:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id PHOPF+HFH2KWcwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Mar 2022 19:30:41 +0000
+Message-ID: <64a99de0-3a22-af8a-fe77-4c19b5f56af3@suse.de>
+Date: Wed, 2 Mar 2022 20:30:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Content-Language: en-GB
-To: Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220225032436.904942-1-michael.cheng@intel.com>
- <20220225032436.904942-2-michael.cheng@intel.com>
- <5c254623-98d2-75f3-52cb-209b8de304b6@arm.com>
- <3750c398-e8fb-c4e1-ba31-e6ac5fbc01d0@intel.com>
- <2f82d150-47c4-d7c3-50da-eaf4aa4a24af@arm.com>
- <49e4a740-c127-0d5d-e2e8-3ff482fdce3c@intel.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <49e4a740-c127-0d5d-e2e8-3ff482fdce3c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 0/5] fbdev: Improve performance of fbdev console
+Content-Language: en-US
+To: daniel@ffwll.ch, deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org, 
+ sam@ravnborg.org, kraxel@redhat.com, ppaalanen@gmail.com
+References: <20220223193804.18636-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220223193804.18636-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------iYN3qqew3186UAYwbeo9FkBy"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,174 +70,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, balasubramani.vivekanandan@intel.com,
- wayne.boyer@intel.com, Catalin Marinas <catalin.marinas@arm.com>,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, Will Deacon <will@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-03-02 15:55, Michael Cheng wrote:
-> Thanks for the feedback Robin!
-> 
-> Sorry my choices of word weren't that great, but what I meant is to 
-> understand how ARM flushes a range of dcache for device drivers, and not 
-> an equal to x86 clflush.
-> 
-> I believe the concern is if the CPU writes an update, that update might 
-> only be sitting in the CPU cache and never make it to device memory 
-> where the device can see it; there are specific places that we are 
-> supposed to flush the CPU caches to make sure our updates are visible to 
-> the hardware.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------iYN3qqew3186UAYwbeo9FkBy
+Content-Type: multipart/mixed; boundary="------------MRF06PG04iBGucZbDlbaVMDC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
+ sam@ravnborg.org, kraxel@redhat.com, ppaalanen@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <64a99de0-3a22-af8a-fe77-4c19b5f56af3@suse.de>
+Subject: Re: [PATCH v3 0/5] fbdev: Improve performance of fbdev console
+References: <20220223193804.18636-1-tzimmermann@suse.de>
+In-Reply-To: <20220223193804.18636-1-tzimmermann@suse.de>
 
-Ah, OK, if it's more about ordering, and it's actually write buffers 
-rather than caches that you care about flushing, then we might be a lot 
-safer, phew!
+--------------MRF06PG04iBGucZbDlbaVMDC
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-For a very simple overview, in a case where the device itself needs to 
-observe memory writes in the correct order, e.g.:
+SGksDQoNCm1lcmdlZCB3aXRoIGZpeGVzIGZvciB0aGUgdHlwb2VzIGluIHRoZSBmaW5hbCBw
+YXRjaC4gVGhhbmtzIGZvciByZXZpZXdpbmcuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
+CkFtIDIzLjAyLjIyIHVtIDIwOjM3IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+IE9w
+dGltaXplIHBlcmZvcm1hbmNlIG9mIHRoZSBmYmRldiBjb25zb2xlIGZvciB0aGUgY29tbW9u
+IGNhc2Ugb2YNCj4gc29mdHdhcmUtYmFzZWQgY2xlYXJpbmcgYW5kIGltYWdlIGJsaXR0aW5n
+Lg0KPiANCj4gVGhlIGNvbW1pdCBkZXNjcmlwdG9uIG9mIGVhY2ggcGF0Y2ggY29udGFpbnMg
+cmVzdWxzIG9zIGEgc2ltcGxlDQo+IG1pY3JvYmVuY2htYXJrLiBJIGFsc28gdGVzdGVkIHRo
+ZSBmdWxsIHBhdGNoc2V0J3MgZWZmZWN0IG9uIHRoZQ0KPiBjb25zb2xlIG91dHB1dCBieSBw
+cmludGluZyBkaXJlY3RvcnkgbGlzdGluZ3MgKGk3LTQ3OTAsIEZ1bGxIRCwNCj4gc2ltcGxl
+ZHJtLCBrZXJuZWwgd2l0aCBkZWJ1Z2dpbmcpLg0KPiANCj4gICAgPiB0aW1lIGZpbmQgL3Vz
+ci9zaGFyZS9kb2MgLXR5cGUgZg0KPiANCj4gSW4gdGhlIHVub3B0aW1pemVkIGNhc2U6DQo+
+IA0KPiAgICByZWFsICAgIDBtNi4xNzNzDQo+ICAgIHVzZXIgICAgMG0wLjA0NHMNCj4gICAg
+c3lzICAgICAwbTYuMTA3cw0KPiANCj4gV2l0aCBvcHRpbWl6YXRpb25zIGFwcGxpZWQ6DQo+
+IA0KPiAgICByZWFsICAgIDBtNC43NTRzDQo+ICAgIHVzZXIgICAgMG0wLjA0NHMNCj4gICAg
+c3lzICAgICAwbTQuNjk4cw0KPiANCj4gSW4gdGhlIG9wdGltaXplZCBjYXNlLCBwcmludGlu
+ZyB0aGUgZGlyZWN0b3J5IGxpc3RpbmcgaXMgfjI1JSBmYXN0ZXINCj4gdGhhbiBiZWZvcmUu
+DQo+IA0KPiBJbiB2MiBvZiB0aGUgcGF0Y2hzZXQsIGFmdGVyIGltcGxlbWVudGluZyBTYW0n
+cyBzdWdnZXN0aW9uIHRvIHVwZGF0ZQ0KPiBjZmJfaW1hZ2VibGl0KCkgYXMgd2VsbCwgaXQg
+dHVybnMgb3V0IHRoYXQgdGhlIGNvbXBpbGVkIGNvZGUgaW4NCj4gc3lzX2ltYWdlYmxpdCgp
+IGlzIHN0aWxsIHNpZ25pZmljYW50bHkgc2xvd2VyIHRoYW4gdGhlIENGQiB2ZXJzaW9uLiBB
+DQo+IGZpeCBpcyBwcm9iYWJseSBhIGxhcmdlciB0YXNrIGFuZCB3b3VsZCBpbmNsdWRlIGFy
+Y2hpdGVjdHVyZS1zcGVjaWZpYw0KPiBjaGFuZ2VzLiBBIG5ldyBUT0RPIGl0ZW0gc3VnZ2Vz
+dHMgdG8gaW52ZXN0aWdhdGUgdGhlIHBlcmZvcm1hbmNlIG9mIHRoZQ0KPiB2YXJpb3VzIGhl
+bHBlcnMgYW5kIGZvcm1hdC1jb252ZXJzaW9uIGZ1bmN0aW9ucyBpbiBEUk0gYW5kIGZiZGV2
+Lg0KPiANCj4gdjM6DQo+IAkqIGZpeCBkZXNjcmlwdGlvbiBvZiBjZmJfaW1hZ2VibGl0KCkg
+cGF0Y2ggKFBla2thKQ0KPiB2MjoNCj4gCSogaW1wcm92ZSByZWFkYWJpbGl0eSBmb3Igc3lz
+X2ltYWdlYmxpdCgpIChHZXJkLCBTYW0pDQo+IAkqIG5ldyBUT0RPIGl0ZW0gZm9yIGZ1cnRo
+ZXIgb3B0aW1pemF0aW9uDQo+IA0KPiBUaG9tYXMgWmltbWVybWFubiAoNSk6DQo+ICAgIGZi
+ZGV2OiBJbXByb3ZlIHBlcmZvcm1hbmNlIG9mIHN5c19maWxscmVjdCgpDQo+ICAgIGZiZGV2
+OiBJbXByb3ZlIHBlcmZvcm1hbmNlIG9mIHN5c19pbWFnZWJsaXQoKQ0KPiAgICBmYmRldjog
+UmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzIGZyb20gY2ZiaW1nYmx0LmMNCj4gICAgZmJk
+ZXY6IEltcHJvdmUgcGVyZm9ybWFuY2Ugb2YgY2ZiX2ltYWdlYmxpdCgpDQo+ICAgIGRybTog
+QWRkIFRPRE8gaXRlbSBmb3Igb3B0aW1pemluZyBmb3JtYXQgaGVscGVycw0KPiANCj4gICBE
+b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCAgICAgICAgICAgICB8ICAyMiArKysrKw0KPiAg
+IGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9jZmJpbWdibHQuYyAgIHwgMTA3ICsrKysrKysr
+KysrKysrKystLS0tLS0tLS0NCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvc3lzZmls
+bHJlY3QuYyB8ICAxNiArLS0tDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL3N5c2lt
+Z2JsdC5jICAgfCAgNDkgKysrKysrKystLS0NCj4gICA0IGZpbGVzIGNoYW5nZWQsIDEzMyBp
+bnNlcnRpb25zKCspLCA2MSBkZWxldGlvbnMoLSkNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
+YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
+IFRvdGV2DQo=
 
-	data_descriptor.valid = 1;
+--------------MRF06PG04iBGucZbDlbaVMDC--
 
-	clflush(&data_descriptor);
+--------------iYN3qqew3186UAYwbeo9FkBy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-	command_descriptor.data = &data_descriptor
+-----BEGIN PGP SIGNATURE-----
 
-	writel(/* control register to read command to then read data */)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIfxeAFAwAAAAAACgkQlh/E3EQov+CN
+MBAAqqvnn3Ja9uh9l4/JBHvhQm4BRK++FdFiXbUOK+po4kjwep47F9M1Wej85pIoUj0nexQpKsG9
+0vVc/iIFJOVUgmR8v0i4kAkHLoFGff0T86Qi+BCksBk7+EyF5xNMbz5C0T4EE8E3XzH2T/ADyjjQ
+3OnCGC5BTL862wP91waAI3ftU11GPx7ugu61OY9+sff3Chwo9OKefl4b3jxhOD5J5kjuVaY8Y+ej
+uvMx49NYQSwmBp8tZbkWw0PF0rdUBznCIHgsJqL/kDTkXguwjs89YKOIJ0sZZSuX3JNKOKAz+gMB
++VUt39au+58Pn89p56LZ8h+NlcqHbjg/8ZlxpD5KKQKIZLYh7EOy882KU7W/526Nr5uu6CHHM3sy
+aTkI6PO/OYzfGdrsNRIBUaPmmd5pz1iSQp5j0sl5bxFGKALRCxH/tZBNPx12C/UzukqjU7JRtXzr
+CCkKke5J827R6M3j9GOhpeH0oHm1RxKzdNUlMC8HDfR9TwIPdK5871k0a6s+OOyb/DG50DjCjJVw
+2lrZJXvUrrc0ZRehkMYFkA83W84NKlKsAd9278CWcGHqpG9aFqhKVGvrmbwY2A9cg0yqO//PdWya
+iUxyyiFdp5v845KLVbrWGlFT2u0Vat/XQkU/ujQvu2ovZZ3Nhmb2u9wvFHc0UdEbpaEXk5MyV0PW
+B70=
+=KgK4
+-----END PGP SIGNATURE-----
 
-then dma_wmb() between the first two writes should be the right tool to 
-ensure that the command does not observe the command update while the 
-data update is still sat somewhere in a CPU write buffer.
-
-If you want a slightly stronger notion that, at a given point, all prior 
-writes have actually been issued and should now be visible (rather than 
-just that they won't become visible in the wrong order whenever they 
-do), then wmb() should suffice on arm64.
-
-Note that wioth arm64 memory types, a Non-Cacheable mapping of DRAM for 
-a non-coherent DMA mapping, or of VRAM in a prefetchable BAR, can still 
-be write-buffered, so barriers still matter even when actual cache 
-maintenance ops don't (and as before if you're trying to perform cache 
-maintenance outside the DMA API then you've already lost anyway). MMIO 
-registers should be mapped as Device memory via ioremap(), which is not 
-bufferable, hence the barrier implicit in writel() effectively pushes 
-out any prior buffered writes ahead of a register write, which is why we 
-don't need to worry about this most of the time.
-
-This is only a very rough overview, though, and I'm not familiar enough 
-with x86 semantics, your hardware, or the exact use-case to be able to 
-say whether barriers alone are anywhere near the right answer or not.
-
-Robin.
-
-> 
-> +Matt Roper
-> 
-> Matt, Lucas, any feed back here?
-> 
-> On 2022-03-02 4:49 a.m., Robin Murphy wrote:
->> On 2022-02-25 19:27, Michael Cheng wrote:
->>> Hi Robin,
->>>
->>> [ +arm64 maintainers for their awareness, which would have been a 
->>> good thing to do from the start ]
->>>
->>>   * Thanks for adding the arm64 maintainer and sorry I didn't rope them
->>>     in sooner.
->>>
->>> Why does i915 need to ensure the CPU's instruction cache is coherent 
->>> with its data cache? Is it a self-modifying driver?
->>>
->>>   * Also thanks for pointing this out. Initially I was using
->>>     dcache_clean_inval_poc, which seem to be the equivalently to what
->>>     x86 is doing for dcache flushing, but it was giving me build errors
->>>     since its not on the global list of kernel symbols. And after
->>>     revisiting the documentation for caches_clean_inval_pou, it won't
->>>     fly for what we are trying to do. Moving forward, what would you (or
->>>     someone in the ARM community) suggest we do? Could it be possible to
->>>     export dcache_clean_inval_poc as a global symbol?
->>
->> Unlikely, unless something with a legitimate need for CPU-centric 
->> cache maintenance like kexec or CPU hotplug ever becomes modular.
->>
->> In the case of a device driver, it's not even the basic issues of 
->> assuming to find direct equivalents to x86 semantics in other CPU 
->> architectures, or effectively reinventing parts of the DMA API, it's 
->> even bigger than that. Once you move from being integrated in a single 
->> vendor's system architecture to being on a discrete card, you 
->> fundamentally *no longer have any control over cache coherency*. 
->> Whether the host CPU architecture happens to be AArch64, RISC-V, or 
->> whatever doesn't really matter, you're at the mercy of 3rd-party PCIe 
->> and interconnect IP vendors, and SoC integrators. You'll find yourself 
->> in systems where PCIe simply cannot snoop any caches, where you'd 
->> better have the correct DMA API calls in place to have any hope of 
->> even the most basic functionality working properly; you'll find 
->> yourself in systems where even if the PCIe root complex claims to 
->> support No Snoop, your uncached traffic will still end up snooping 
->> stale data that got prefetched back into caches you thought you'd 
->> invalidated; you'll find yourself in systems where your memory 
->> attributes may or may not get forcibly rewritten by an IOMMU depending 
->> on the kernel config and/or command line.
->>
->> It's not about simply finding a substitute for clflush, it's that the 
->> reasons you have for using clflush in the first place can no longer be 
->> assumed to be valid.
->>
->> Robin.
->>
->>> On 2022-02-25 10:24 a.m., Robin Murphy wrote:
->>>> [ +arm64 maintainers for their awareness, which would have been a 
->>>> good thing to do from the start ]
->>>>
->>>> On 2022-02-25 03:24, Michael Cheng wrote:
->>>>> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
->>>>> performs a flush by first performing a clean, follow by an 
->>>>> invalidation
->>>>> operation.
->>>>>
->>>>> v2 (Michael Cheng): Use correct macro for cleaning and invalidation 
->>>>> the
->>>>>             dcache. Thanks Tvrtko for the suggestion.
->>>>>
->>>>> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
->>>>>
->>>>> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
->>>>>             symbol that could be use by other modules, thus use
->>>>>             caches_clean_inval_pou instead. Also this version
->>>>>                 removes include for cacheflush, since its already
->>>>>             included base on architecture type.
->>>>>
->>>>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
->>>>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
->>>>> ---
->>>>>   drivers/gpu/drm/drm_cache.c | 5 +++++
->>>>>   1 file changed, 5 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
->>>>> index c3e6e615bf09..81c28714f930 100644
->>>>> --- a/drivers/gpu/drm/drm_cache.c
->>>>> +++ b/drivers/gpu/drm/drm_cache.c
->>>>> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned 
->>>>> long length)
->>>>>         if (wbinvd_on_all_cpus())
->>>>>           pr_err("Timed out waiting for cache flush\n");
->>>>> +
->>>>> +#elif defined(CONFIG_ARM64)
->>>>> +    void *end = addr + length;
->>>>> +    caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
->>>>
->>>> Why does i915 need to ensure the CPU's instruction cache is coherent 
->>>> with its data cache? Is it a self-modifying driver?
->>>>
->>>> Robin.
->>>>
->>>> (Note that the above is somewhat of a loaded question, and I do 
->>>> actually have half an idea of what you're trying to do here and why 
->>>> it won't fly, but I'd like to at least assume you've read the 
->>>> documentation of the function you decided was OK to use)
->>>>
->>>>> +
->>>>>   #else
->>>>>       WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
->>>>>   #endif
+--------------iYN3qqew3186UAYwbeo9FkBy--
