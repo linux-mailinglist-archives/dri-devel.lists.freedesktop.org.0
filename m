@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B844C99D3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9274F4C99E7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CDC10E1D1;
-	Wed,  2 Mar 2022 00:24:54 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B0310E1D1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 00:24:53 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id b13so13218qkj.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Mar 2022 16:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zf2ULn0elai1DQP6DK4nPbrJ4hgulzfjwpA+B07Mye4=;
- b=Vaxfzhe5jRSu7pBxU/9C864q1lnnA2SgZ58NAG4fQYy7kuZfQIsa339XAguSx8eRza
- DrNpLkLts46hPPsCfr/Ag9tcOvBLRdLVA1+aCUDNZVAk+3GxowkInx2wERDpBw+8MNeD
- Uk711xHciJjdZrnOlFSve9+CRRkv2ybLhofRXbqfgajOvSpCtSyi1p6D8+cdBkzdGYaZ
- K6e4KnLqF5bdOC0OloeF2kgtS9AEoM1t2rQSQnfdmcmlWyJRb9qtcuDhTGqVsz2ZW1KL
- 9t+rFhEDWsbE56oGhG59Ys6J8ZhiVrXAgCH/DR/5vXEU67SU6aJojTWJZozIlm6QlMI9
- PjGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zf2ULn0elai1DQP6DK4nPbrJ4hgulzfjwpA+B07Mye4=;
- b=Qhd7WAYlfdujmj7q1Hc9cta3IKauhSXeX5gnc6UWRuiwdUn1Aym9KFTQLjeVT/JB7e
- tbosh5BvdgsSEo+D+iT8fkaZkeoXDhQlQZ2C2UykVJyytq9IZ5R5iKTA6vvnK98Jk9vs
- huubjiCkDHuca/c26ukSP5rbaDdQcKUxKucsRbSFvDbr/I2K7oCpCxAKIpbA+VPlGdhF
- d21nby798zbCwoFscZ/fqfCoZGcCHEQ+AFnwYCjUq4ZMPKfQZbCDY2kVn7J6qY8q3gfd
- ZBI6tej1jmiaUjfv3ygOW887GKIE7JBK1ugub2sYsDBO5YOamlEV+MzGAFwjofg3T6ow
- dAAQ==
-X-Gm-Message-State: AOAM5331WKTK0vFy79a7Qsl5vEnABPTDSI+b4h2jjjk9AnTj2079jMvQ
- 4JaP3o48+wsMo/cpjuJntXtSg6rPkgRAVcD19xO4xA==
-X-Google-Smtp-Source: ABdhPJy7pua4Isz2AeTn/110l78HrRyd3wHGQp0SFekEFMbjXORFyFMGDeo8frJ3QUcf28v/6BObspZkZXX39859Y4M=
-X-Received: by 2002:a05:620a:4307:b0:507:d5b1:f65e with SMTP id
- u7-20020a05620a430700b00507d5b1f65emr15137243qko.363.1646180692367; Tue, 01
- Mar 2022 16:24:52 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B8810E6D0;
+	Wed,  2 Mar 2022 00:33:59 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0940F10E1D5;
+ Wed,  2 Mar 2022 00:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646181238; x=1677717238;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JbVPYhzmaYYdyxSADxCkR2AqersbJkO87R8zJFh7sOk=;
+ b=VaLolDXTDmmP7TjQrXv2iNNPmPzDbWqXZeHRG08lnPZj+GoCjGDsHjjW
+ KbhRhoU8IrFZLSpZYOIoiSXzdjJIm0zEXUZgU/XrdDx7O8ZBBHhYJF23P
+ ceopbyWVt87tqmBwNqus/45YKVgNn+R7mjOU5T+nx6HqLNRbjIGa8WD4m
+ AN6aLoDl6KR77VKGLjEhWdt7yBJ0Ybn/zTAH945uFODw0HNBOapVuOyT5
+ AQQd3ljyf0mQCinueFLdsIzWZ66oIN8IYv2tFtgb5c8UcuRlqrdmsgjH2
+ YboU1tRPL8KEy7ZhL+qxpI4X2rtnLHKMBREmXlMVPSilYk/Ka47cmik1E A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243136"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243136"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 16:33:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577364"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2022 16:33:57 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v3 0/8] Prep work for next GuC release
+Date: Tue,  1 Mar 2022 16:33:49 -0800
+Message-Id: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Mar 2022 03:24:41 +0300
-Message-ID: <CAA8EJpr9e2-wz0Hmm7joqOMmAL9asiv4_od+WhS=3Pzs2C9fGQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH] dt-bindings: display/msm: add missing brace in
- dpu-qcm2290.yaml
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,33 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Mar 2022 at 03:14, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Add missing brace in dpu-qcm2290.yaml. While we are at it, also fix
-> indentation for another brace, so it matches the corresponding line.
->
-> Reported-by: Rob Herring <robh@kernel.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Also
-Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for
-QCM2290 DPU bindings")
+The next GuC firmware release includes some significant backwards
+breaking API changes. One such is that there is no longer an LRC
+descriptor pool. A bunch of prep work for that change can be done in
+advance - the descriptor pool was being used for things it shouldn't
+really have been used for anyway.
 
-> ---
-> Didn't include freedreno@ in the first email, so resending.
-> ---
+v2: Extend commit message on 'better name' patch. Improve 'split
+apart' patch to include some necessary re-arrangement that was in a
+later patch and which introduced an unnecessary conditional in said
+patch too. (review feedback from Daniele)
 
+v3: Rebase to newer tree.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (8):
+  drm/i915/guc: Do not conflate lrc_desc with GuC id for registration
+  drm/i915/guc: Add an explicit 'submission_initialized' flag
+  drm/i915/guc: Better name for context id limit
+  drm/i915/guc: Split guc_lrc_desc_pin apart
+  drm/i915/guc: Move lrc desc setup to where it is needed
+  drm/i915/guc: Rename desc_idx to ctx_id
+  drm/i915/guc: Drop obsolete H2G definitions
+  drm/i915/guc: Fix potential invalid pointer dereferences when decoding
+    G2Hs
+
+ drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   2 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   4 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 181 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |   2 +-
+ 6 files changed, 109 insertions(+), 84 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.25.1
+
