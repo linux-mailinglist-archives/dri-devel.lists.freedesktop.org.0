@@ -1,55 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C964CA701
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 15:04:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB29E4CA73C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 15:06:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4097610E2F2;
-	Wed,  2 Mar 2022 14:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6710E7DF;
+	Wed,  2 Mar 2022 14:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0320C10E1DE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:04:15 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
-X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>, "torvalds@linux-foundation.org"
- <torvalds@linux-foundation.org>
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
-Date: Wed, 2 Mar 2022 14:04:06 +0000
-Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
-References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
- <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C2410E776
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2063061017
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8863EC004E1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 14:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646229974;
+ bh=yOX5IEft4s9jRHfI6QaAY2DWlxytBkRKWDnv48O3E5Y=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=mGJBdkiFmLxL0lJfFJcPmhX5ZH4rVGiTnAF4o7VINcfnZyV+z/6liwCsn8lyNaL2Q
+ zB2/UDWjMJWQZSV/PVhiWqR+kLh1mSbWWvpPXg4g+1AUC1PdxOZ7KpddTHQ2yUcGXP
+ puB/SvQf1rg1iZWLR/5xA+Rx1QKxTUvs8NUuaZJdMS0WjDyAs4jBU4sxoaWAlgXHom
+ 6brKd9NqgimXWHZmFCq+A4POUhSLZvWTqF51npLEbEEVWTutXjNwWno3iNSbBolMiP
+ /Xa6PeI2jj1JvlA8mEfheZKZlaSyj/P8fg71Dy3+ktxa3LMlyLbZJGq8opn5f+Cz4A
+ aTRB176aS4cpw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 68771C05FD5; Wed,  2 Mar 2022 14:06:14 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215648] amdgpu: Changing monitor configuration
+ (plug/unplug/wake from DPMS) causes kernel panic
+Date: Wed, 02 Mar 2022 14:06:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215648-2300-NEo2c191je@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215648-2300@https.bugzilla.kernel.org/>
+References: <bug-215648-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,98 +72,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "h.j.bos@vu.nl" <h.j.bos@vu.nl>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "keescook@chromium.org" <keescook@chromium.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
- "jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-f2fs-devel@lists.sourceforge.net"
- <linux-f2fs-devel@lists.sourceforge.net>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "rppt@kernel.org" <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaomeng Tong
-> Sent: 02 March 2022 09:31
->=20
-> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > But basically to _me_, the important part is that the end result is
-> > maintainable longer-term.
->=20
-> I couldn't agree more. And because of that, I stick with the following
-> approach because it's maintainable longer-term than "type(pos) pos" one:
->  Implements a new macro for each list_for_each_entry* with _inside suffix=
-.
->   #define list_for_each_entry_inside(pos, type, head, member)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215648
 
-I think that it would be better to make any alternate loop macro
-just set the variable to NULL on the loop exit.
-That is easier to code for and the compiler might be persuaded to
-not redo the test.
+--- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
+Thanks.  Can you get the dmesg output from boot prior to the hang?
 
-It also doesn't need an extra variable defined in the for() statement
-so can be back-ported to older kernels without required declaration
-in the middle of blocks.
+--=20
+You may reply to this email to add a comment.
 
-OTOH there may be alternative definitions that can be used to get
-the compiler (or other compiler-like tools) to detect broken code.
-Even if the definition can't possibly generate a working kerrnel.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
