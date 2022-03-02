@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8C64CAB4D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A884CAB6A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC9410E51B;
-	Wed,  2 Mar 2022 17:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5636C10EDD8;
+	Wed,  2 Mar 2022 17:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F0B10E51B;
- Wed,  2 Mar 2022 17:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646241306; x=1677777306;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=quZJORXDoBJnmtXWeY1UEG0LMErZNbKWG4uR8GxuM8A=;
- b=EgFtrQTE2RuXhvw9sRIr3IT+pA0Ncb8f9tiCc0SC60P5NxN5IIJ1lIbG
- qRXhfI2wJDlspyrIGC0iL/9/1vb/Lqq8nOVou0CScelNSeM2zFz5ZYwQd
- vRCxbYiuOYMHLgn2p868GOLIzIRhmd1d7Ftp+C+uIAO1rF5yphwxH1nTK
- BZo8QGgTZGobcAwOhtAkimiecLreyGJPEymFRGwK29ytkPQQTUw1YAXwn
- 7s74MTXIjfdUqEKiu1QGwymv12Ru01fVqM/H0rIJHbiNJzFQB0n0mysA7
- 4izUGN7Nj88HSoNqykEmQlZt68TbXwAcpy2jJWkt8gcliob3VHMqMtNgg A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253382755"
-X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="253382755"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 09:15:05 -0800
-X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="551343768"
-Received: from jbuller-mobl1.ger.corp.intel.com (HELO [10.213.194.231])
- ([10.213.194.231])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 09:14:53 -0800
-Message-ID: <ed52ce3c-0f4a-a1e8-4176-543657d6228d@linux.intel.com>
-Date: Wed, 2 Mar 2022 17:14:50 +0000
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2823C10ED1C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 17:20:29 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id p15so5165581ejc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 09:20:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fp8Y0aDLoUe+DH2fgkyBlmdv7Y4+jYVsy+4arRjQfos=;
+ b=huJB9FLr6glLVeu4hvhrBj1hsbJqWU4/WsVtIRFZkkk7fvorFNA7N6fB++co1ruBXj
+ Kn8fmvj89RUbt6bUJ9uC1vWQyX8L6OcMrASsme1lqpnEER79VhkiDGw8nFnLeLs1i01j
+ rkdZvfBsM/s0dLwg1iqScRjX5fv5oaTxrwXoifGouT0gnQOXZqkC21iNW8uIx8Z0EBkz
+ xlT4btaQTBmFfQUHaoVZ8tAixRGIYqwQ+m0/nFtLrus5FJRWtsJrb/BlaQrMhcyM/uwb
+ 8ZAlas5w5VrvUmssfNcmmobBAz6Vd97+3u+lP2+UyTiGygk4kl8C/Dl1n77JELmaNTw+
+ SakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fp8Y0aDLoUe+DH2fgkyBlmdv7Y4+jYVsy+4arRjQfos=;
+ b=ePXMQcG4pz/B+AS0K03qvN03HfU3Y/GQFbArUMhvqEVqWfCf7NjbU/IdP+4iDKoyi3
+ OqXs4ah6YwXAxdyLY8c+KdRAZPc3WhST2OO0RyUs+rT7kLHboI4fBrVVUEu/CgTdRqXi
+ wXf+xVBfgebFobo5/ovTk5EkW503rUKT1kEn+2vFXikRyvEssuhHw0Um/Q8jXzTNjqLV
+ G2RDNS78YtYGoRNWT/J3jUVu42FPLYUHaFm/aCHS4Um7fnmXpilQDx5j76gHKF/jWuQe
+ kGZaZz31Gg8aSuxVbZm3WHQwFQXaLBYq28NDjVsfap/TnBkndrD/hlYmfy6SE4+AX8Wb
+ 52bg==
+X-Gm-Message-State: AOAM533qX6rYvSuYoZTZagjbJ1MPeaSuHM/gsjufS5RukiAk+/aINXk5
+ 6AQNsz75ObLkSEwATjW7/9Fs2hGfspSK2BvUwPaUZA==
+X-Google-Smtp-Source: ABdhPJwF/HGlB49/EWAaDtJpLO7rdVUW8JHTBIwl462dkY+gCKqxYCVv/h/XgEol5/SQKHkvhFAh7MsJ/88l92pjjhA=
+X-Received: by 2002:a17:906:7f09:b0:6d6:daee:566f with SMTP id
+ d9-20020a1709067f0900b006d6daee566fmr9615015ejr.294.1646241626567; Wed, 02
+ Mar 2022 09:20:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 6/6] treewide: remove check of list iterator
- against head past the loop body
-Content-Language: en-US
-To: Jakob Koschel <jakobkoschel@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-7-jakobkoschel@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220228110822.491923-7-jakobkoschel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
+ <CAD=FV=WX3i+6yubPVry8KUkO_14P94HTXv_uU8Pd5yPpw+iPRQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=WX3i+6yubPVry8KUkO_14P94HTXv_uU8Pd5yPpw+iPRQ@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 2 Mar 2022 17:20:10 +0000
+Message-ID: <CAPY8ntDX-XfpxQyLfZhW_jy=5nuG+znaufScHOBX9pNGGcE+bg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] DSI host and peripheral initialisation ordering
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,199 +64,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, alsa-devel@alsa-project.org,
- kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, amd-gfx@lists.freedesktop.org,
- linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
- linux-arch <linux-arch@vger.kernel.org>, linux-cifs@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-scsi@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, "Bos,
- H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
- intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
- bcm-kernel-feedback-list@broadcom.com,
- Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, dmaengine@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- v9fs-developer@lists.sourceforge.net, linux-tegra@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-sgx@vger.kernel.org,
- linux-block@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, tipc-discussion@lists.sourceforge.net,
- linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Doug
 
-On 28/02/2022 11:08, Jakob Koschel wrote:
-> When list_for_each_entry() completes the iteration over the whole list
-> without breaking the loop, the iterator value will be a bogus pointer
-> computed based on the head element.
-> 
-> While it is safe to use the pointer to determine if it was computed
-> based on the head element, either with list_entry_is_head() or
-> &pos->member == head, using the iterator variable after the loop should
-> be avoided.
-> 
-> In preparation to limiting the scope of a list iterator to the list
-> traversal loop, use a dedicated pointer to point to the found element.
-> 
-> Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+On Wed, 2 Mar 2022 at 00:13, Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Wed, Feb 16, 2022 at 9:00 AM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi All
+> >
+> > Hopefully I've cc'ed all those that have bashed this problem around previously,
+> > or are otherwise linked to DRM bridges.
+> >
+> > There have been numerous discussions around how DSI support is currently broken
+> > as it doesn't support initialising the PHY to LP-11 and potentially the clock
+> > lane to HS prior to configuring the DSI peripheral. There is no op where the
+> > interface is initialised but HS video isn't also being sent.
+> > Currently you have:
+> > - peripheral pre_enable (host not initialised yet)
+> > - host pre_enable
+> > - encoder enable
+> > - host enable
+> > - peripheral enable (video already running)
+> >
+> > vc4 and exynos currently implement the DSI host as an encoder, and split the
+> > bridge_chain. This fails if you want to switch to being a bridge and/or use
+> > atomic calls as the state of all the elements split off are not added by
+> > drm_atomic_add_encoder_bridges.
+> >
+> > dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
+> > the bridge/panel pre_enable can send commands. In their post_disable they then
+> > call the downstream bridge/panel post_disable op manually so that shutdown
+> > commands can be sent before shutting down the PHY. Nothing handles that fact,
+> > so the framework then continues down the bridge chain and calls the post_disable
+> > again, so we get unbalanced panel prepare/unprepare calls being reported [3].
+> >
+> > There have been patches[4] proposing reversing the entire direction of
+> > pre_enable and post_disable, but that risks driving voltage into devices that
+> > have yet to be powered up.
+> > There have been discussions about adding either a pre_pre_enable, or adding a
+> > DSI host_op to initialise the host[5]. Both require significant reworking to all
+> > existing drivers in moving initialisation phases.
+> > We have patches that look like they may well be addressing race conditions in
+> > starting up a DSI peripheral[6].
+>
+> In general I'm happy to let the more senior people in DRM set the
+> direction here so I probably won't do lots of review, but I will point
+> out that I did have another proposal that sorta got lost in the noise
+> of the whole "reversing the entire direction". That's basically:
+>
+> https://lists.freedesktop.org/archives/dri-devel/2021-October/328934.html
+>
+> I have no idea if something like that would work for your use case,
+> but after analyzing it it felt like a surprisingly clean proposal even
+> if my first instinct when I thought about it was that it was a hack.
+> ;-) I suspect (but haven't analyzed your code) that it might be
+> equivalent to your proposal of using a flag but maybe easier to wrap
+> ones head around?
 
-[snip until i915 parts]
+If I'm reading that right, then you're proposing adding
+after_pre_enable and before_post_disable hooks.
+That's almost the same as the power_up() and power_down() ops that
+Dmitry suggested earlier, or pre_pre_enable / post_post_disable that
+had also been considered.
 
->   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 14 +++---
->   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 ++++---
->   drivers/gpu/drm/i915/gt/intel_ring.c          | 15 ++++---
+Neither of those options handles the case of a longer chain in which
+two non-consecutive links want their upstream bridge enabled first.
+As per the clarification in patch 1/2, considering the chain
+- Panel
+ - Bridge 1
+ - Bridge 2 DRM_BRIDGE_OP_UPSTREAM_FIRST
+ - Bridge 3
+ - Bridge 4 DRM_BRIDGE_OP_UPSTREAM_FIRST
+ - Bridge 5
+ - Encoder
+With the flag option we call pre_enables as Panel, Bridge 1, Bridge 3,
+Bridge 2, Bridge 5, Bridge 4, Encoder.
+If adding after_pre_enable, then we end up with Panel, Bridge 1,
+Bridge 3, Bridge 5, Bridge 4 (after_pre_enable), Bridge 2
+(after_pre_enable), Encoder.
+(power_on / pre_pre_enable from encoder to connector would end up with
+Bridge 5 (power_on), Bridge 3 (power_on), Bridge 1 (power_on), Panel,
+Bridge 2, Bridge 4, Encoder).
+Those potentially work, but it seems a less logical order compared to
+using a flag to swap only the bridges of interest. I think power_on /
+pre_pre_enable covers DSI better than after_pre_enable.
 
-[snip]
+Adding the extra ops requires the source bridge (eg DSI host) to know
+the behaviour the sink bridge/panel wants. So do all DSI hosts have to
+implement power_on to power up and enter LP-11. Some DSI peripherals
+may be quite happy or even prefer to have the bus totally idle /
+powered down at pre_enable, but there would be no way of implementing
+that.
 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 00327b750fbb..80c79028901a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -107,25 +107,27 @@ static void lut_close(struct i915_gem_context *ctx)
->   	radix_tree_for_each_slot(slot, &ctx->handles_vma, &iter, 0) {
->   		struct i915_vma *vma = rcu_dereference_raw(*slot);
->   		struct drm_i915_gem_object *obj = vma->obj;
-> -		struct i915_lut_handle *lut;
-> +		struct i915_lut_handle *lut = NULL;
-> +		struct i915_lut_handle *tmp;
-> 
->   		if (!kref_get_unless_zero(&obj->base.refcount))
->   			continue;
-> 
->   		spin_lock(&obj->lut_lock);
-> -		list_for_each_entry(lut, &obj->lut_list, obj_link) {
-> -			if (lut->ctx != ctx)
-> +		list_for_each_entry(tmp, &obj->lut_list, obj_link) {
-> +			if (tmp->ctx != ctx)
->   				continue;
-> 
-> -			if (lut->handle != iter.index)
-> +			if (tmp->handle != iter.index)
->   				continue;
-> 
-> -			list_del(&lut->obj_link);
-> +			list_del(&tmp->obj_link);
-> +			lut = tmp;
->   			break;
->   		}
->   		spin_unlock(&obj->lut_lock);
-> 
-> -		if (&lut->obj_link != &obj->lut_list) {
-> +		if (lut) {
->   			i915_lut_handle_free(lut);
->   			radix_tree_iter_delete(&ctx->handles_vma, &iter, slot);
+You seem to be looking at DP, which I have very little knowledge of,
+and I don't quite understand your comments about the AUX bus and how
+ordering should be configured. If your panel isn't a generic driver,
+couldn't it request that the upstream bridge is pre_enabled first?
 
-Looks okay although personally I would have left lut as is for a smaller 
-diff and introduced a new local like 'found' or 'unlinked'.
-
->   			i915_vma_close(vma);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 1736efa43339..fda9e3685ad2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -2444,7 +2444,8 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
->   {
->   	struct intel_ring *ring = ce->ring;
->   	struct intel_timeline *tl = ce->timeline;
-> -	struct i915_request *rq;
-> +	struct i915_request *rq = NULL;
-> +	struct i915_request *tmp;
-> 
->   	/*
->   	 * Completely unscientific finger-in-the-air estimates for suitable
-> @@ -2460,15 +2461,17 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
->   	 * claiming our resources, but not so long that the ring completely
->   	 * drains before we can submit our next request.
->   	 */
-> -	list_for_each_entry(rq, &tl->requests, link) {
-> -		if (rq->ring != ring)
-> +	list_for_each_entry(tmp, &tl->requests, link) {
-> +		if (tmp->ring != ring)
->   			continue;
-> 
-> -		if (__intel_ring_space(rq->postfix,
-> -				       ring->emit, ring->size) > ring->size / 2)
-> +		if (__intel_ring_space(tmp->postfix,
-> +				       ring->emit, ring->size) > ring->size / 2) {
-> +			rq = tmp;
->   			break;
-> +		}
->   	}
-> -	if (&rq->link == &tl->requests)
-> +	if (!rq)
->   		return NULL; /* weird, we will check again later for real */
-
-Alternatively, instead of break could simply do "return 
-i915_request_get(rq);" and replace the end of the function after the 
-loop with "return NULL;". A bit smaller diff, or at least less "spread 
-out" over the function, so might be easier to backport stuff touching 
-this area in the future. But looks correct as is.
-
-> 
->   	return i915_request_get(rq);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
-> index 2fdd52b62092..4881c4e0c407 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
-> @@ -191,24 +191,27 @@ wait_for_space(struct intel_ring *ring,
->   	       struct intel_timeline *tl,
->   	       unsigned int bytes)
->   {
-> -	struct i915_request *target;
-> +	struct i915_request *target = NULL;
-> +	struct i915_request *tmp;
->   	long timeout;
-> 
->   	if (intel_ring_update_space(ring) >= bytes)
->   		return 0;
-> 
->   	GEM_BUG_ON(list_empty(&tl->requests));
-> -	list_for_each_entry(target, &tl->requests, link) {
-> -		if (target->ring != ring)
-> +	list_for_each_entry(tmp, &tl->requests, link) {
-> +		if (tmp->ring != ring)
->   			continue;
-> 
->   		/* Would completion of this request free enough space? */
-> -		if (bytes <= __intel_ring_space(target->postfix,
-> -						ring->emit, ring->size))
-> +		if (bytes <= __intel_ring_space(tmp->postfix,
-> +						ring->emit, ring->size)) {
-> +			target = tmp;
->   			break;
-> +		}
->   	}
-> 
-> -	if (GEM_WARN_ON(&target->link == &tl->requests))
-> +	if (GEM_WARN_ON(!target))
->   		return -ENOSPC;
-> 
->   	timeout = i915_request_wait(target,
-
-Looks okay as well. Less clear here if there is a clean solution to make 
-the diff smaller so no suggestions. I mean do I dare mention "goto 
-found;" from inside the loop, where the break is, instead of the 
-variable renames.. risky.. :) (And ofc "return -ENOSPC" immediately 
-after the loop.)
-
-As a summary changes looks okay, up to you if you want to try to make 
-the diffs smaller or not. It doesn't matter hugely really, all I have is 
-a vague and uncertain "maybe it makes backporting of something, someday 
-easier". So for i915 it is good either way.
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com> # i915 bits only
-
-Regards,
-
-Tvrtko
+  Dave
