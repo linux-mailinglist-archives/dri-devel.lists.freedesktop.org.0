@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0B84CAFB3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 21:27:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EB74CAFC1
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 21:31:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22C8A10E22C;
-	Wed,  2 Mar 2022 20:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 457B010E707;
+	Wed,  2 Mar 2022 20:31:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA9310E38B;
- Wed,  2 Mar 2022 20:27:07 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA11410E5EC;
+ Wed,  2 Mar 2022 20:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646252827; x=1677788827;
+ t=1646253062; x=1677789062;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=K3q8zRml+UKFd50zEJLFV+JzMMvJ4PJNZMpO3zrnSEg=;
- b=HxF7b5GKOcKdax/K0lWtn0lIOdfv31hk3SvJOgFa4CYoxlPrSQ+6uuhh
- SD1rA+RkoZ+UYTJDe5g+Yof+AaLRmhi9msBc6jfcBxtF/JJduwugazA+k
- egYCIPZk7OjIFQ+49NUT4G8raDJ79uYZv0ciXny5Yw2JBqQ/PkruDd5Ci
- YzHZOtgRgpER7UA95IDYOcBviwFxoKqmSrfITR/RNZEi86nFDBEqH8xrt
- 7cf7UNPgIr5kxAqrtNPNzSEtElS5t5f9puWc0IkkyykwZ43iPTOzzcRsp
- Gti59gNS1wviDWRi4hJPYMIcrbO5/4LF7weyNuTs4hDfQE/1xZUlIIbJc w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253693188"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="253693188"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 12:27:06 -0800
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="535529576"
+ bh=GHL+JIPG3x184/pxJbSBFeF64NXauuVxdh0tdfUG+nw=;
+ b=m+Fb8gvkFD/J3W2QySwy42aVA7WP7XDDeV1u71XZliFMeWMxYnamvsYc
+ MNGUk6poLIwvrwtmpYLVVwUGzRldE39SGerW/BmpC0+Lwdsq0/mJDoao6
+ Jh4F/IpX+Gh0BDBDQoTynalmyhSvzYZ0PY9anE6mZqHZhwttSr7XYZ4ud
+ WXITizAYvATyteon/tA180sEMtWkG6FL0wmEhKs2qKxTV1TqZ9WQxHfLi
+ j4zXHy0qEI70SPmLoE96FKkeYbJaVSfB4+RZhrxzviE9bKBhzOxEbU6C0
+ FygZZXAvn9zcqXuXcAZRp1lYqyPqkMnhDbwh/7iyQq7s10M2Py/B0aL3n w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="316711840"
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="316711840"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 12:31:02 -0800
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="508331542"
 Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 12:27:06 -0800
-Date: Wed, 2 Mar 2022 12:29:23 -0800
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 12:31:02 -0800
+Date: Wed, 2 Mar 2022 12:33:19 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v2 3/3] drm/i915/gem: Remove some unnecessary code
-Message-ID: <20220302202923.GF25117@nvishwa1-DESK>
+Subject: Re: [PATCH v2 1/3] drm/i915: Remove the vm open count
+Message-ID: <20220302203319.GG25117@nvishwa1-DESK>
 References: <20220302102200.158637-1-thomas.hellstrom@linux.intel.com>
- <20220302102200.158637-4-thomas.hellstrom@linux.intel.com>
+ <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220302102200.158637-4-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,71 +63,50 @@ Cc: intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 02, 2022 at 11:22:00AM +0100, Thomas Hellström wrote:
->The test for vma should always return true, and when assigning -EBUSY
->to ret, the variable should already have that value.
+On Wed, Mar 02, 2022 at 11:21:58AM +0100, Thomas Hellström wrote:
+>vms are not getting properly closed. Rather than fixing that,
+>Remove the vm open count and instead rely on the vm refcount.
 >
+>The vm open count existed solely to break the strong references the
+>vmas had on the vms. Now instead make those references weak and
+>ensure vmas are destroyed when the vm is destroyed.
+>
+>Unfortunately if the vm destructor and the object destructor both
+>wants to destroy a vma, that may lead to a race in that the vm
+>destructor just unbinds the vma and leaves the actual vma destruction
+>to the object destructor. However in order for the object destructor
+>to ensure the vma is unbound it needs to grab the vm mutex. In order
+>to keep the vm mutex alive until the object destructor is done with
+>it, somewhat hackishly grab a vm_resv refcount that is released late
+>in the vma destruction process, when the vm mutex is no longer needed.
+>
+>v2: Address review-comments from Niranjana
+>- Clarify that the struct i915_address_space::skip_pte_rewrite is a hack and
+>  should ideally be replaced in an upcoming patch.
+>- Remove an unneeded continue in clear_vm_list and update comment.
+>
+>Co-developed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 >Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 >---
-> drivers/gpu/drm/i915/i915_gem.c | 32 ++++++++++++++------------------
-> 1 file changed, 14 insertions(+), 18 deletions(-)
+> drivers/gpu/drm/i915/display/intel_dpt.c      |  2 +-
+> drivers/gpu/drm/i915/gem/i915_gem_context.c   | 29 ++-----
+> .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++
+> .../gpu/drm/i915/gem/selftests/mock_context.c |  5 +-
+> drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  2 +-
+> drivers/gpu/drm/i915/gt/intel_ggtt.c          | 30 +++----
+> drivers/gpu/drm/i915/gt/intel_gtt.c           | 54 ++++++++----
+> drivers/gpu/drm/i915/gt/intel_gtt.h           | 56 ++++--------
+> drivers/gpu/drm/i915/gt/selftest_execlists.c  | 86 +++++++++----------
+> drivers/gpu/drm/i915/i915_gem.c               |  6 +-
+> drivers/gpu/drm/i915/i915_vma.c               | 55 ++++++++----
+> drivers/gpu/drm/i915/i915_vma_resource.c      |  2 +-
+> drivers/gpu/drm/i915/i915_vma_resource.h      |  6 ++
+> drivers/gpu/drm/i915/i915_vma_types.h         |  7 ++
+> drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+> 15 files changed, 186 insertions(+), 164 deletions(-)
 >
->diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
->index c26110abcc0b..9747924cc57b 100644
->--- a/drivers/gpu/drm/i915/i915_gem.c
->+++ b/drivers/gpu/drm/i915/i915_gem.c
->@@ -118,6 +118,7 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
-> 			   unsigned long flags)
-> {
-> 	struct intel_runtime_pm *rpm = &to_i915(obj->base.dev)->runtime_pm;
->+	bool vm_trylock = !!(flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
-> 	LIST_HEAD(still_in_list);
-> 	intel_wakeref_t wakeref;
-> 	struct i915_vma *vma;
->@@ -170,26 +171,21 @@ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
-> 		 * and destroy the vma from under us.
-> 		 */
->
->-		if (vma) {
->-			bool vm_trylock = !!(flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
->-			ret = -EBUSY;
->-			if (flags & I915_GEM_OBJECT_UNBIND_ASYNC) {
->-				assert_object_held(vma->obj);
->-				ret = i915_vma_unbind_async(vma, vm_trylock);
->-			}
->+		ret = -EBUSY;
->+		if (flags & I915_GEM_OBJECT_UNBIND_ASYNC) {
->+			assert_object_held(vma->obj);
->+			ret = i915_vma_unbind_async(vma, vm_trylock);
->+		}
->
->-			if (ret == -EBUSY && (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
->-					      !i915_vma_is_active(vma))) {
->-				if (vm_trylock) {
->-					if (mutex_trylock(&vma->vm->mutex)) {
->-						ret = __i915_vma_unbind(vma);
->-						mutex_unlock(&vma->vm->mutex);
->-					} else {
->-						ret = -EBUSY;
->-					}
->-				} else {
->-					ret = i915_vma_unbind(vma);
->+		if (ret == -EBUSY && (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
->+				      !i915_vma_is_active(vma))) {
->+			if (vm_trylock) {
->+				if (mutex_trylock(&vma->vm->mutex)) {
->+					ret = __i915_vma_unbind(vma);
->+					mutex_unlock(&vma->vm->mutex);
-> 				}
->+			} else {
->+				ret = i915_vma_unbind(vma);
-> 			}
-> 		}
 
 Looks good to me.
 Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
->
->-- 
->2.34.1
->
