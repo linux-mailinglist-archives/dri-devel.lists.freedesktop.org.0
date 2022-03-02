@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB544C99F1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7934C9A0F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:46:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9DA110E8F8;
-	Wed,  2 Mar 2022 00:34:04 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A325E10E666;
- Wed,  2 Mar 2022 00:33:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646181239; x=1677717239;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2IJ7sSSfG/HfauHHGiwyGRv4WGJYp1scqsdWF8JFufM=;
- b=TfCAJ8+m6Knsas3zdO11k+HxqJUFyvcP8UmDlORRyXFiXfyMJJdl3zCL
- xw5yaL2wEzYPemYhKUlsxKbkZYePdRs78jNKtEl7N48MCAEwS/WaST9KX
- U6EmQPsi0YMmef+4RrO/o1xs8a0ZieJJMqK1vqg3U1iwrUjDgRMKYCUWu
- IlXlz8J3Br9N/pCih9dHhrYm4Bh6yQyKyuZJ544lmQwzYh7Lkcjw1O4wt
- gAwtxRWJPk232KmBKnidDP0ugsGJntqSUlsT0fLIe1GqydHzl2lXC6r8O
- wA5fnrtTQf0R+tBPnMvYFvKipS/3/XMolvub5i771qvCoBxHZIbrgkv8A g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243145"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243145"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 16:33:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577391"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2022 16:33:58 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 8/8] drm/i915/guc: Fix potential invalid pointer
- dereferences when decoding G2Hs
-Date: Tue,  1 Mar 2022 16:33:57 -0800
-Message-Id: <20220302003357.4188363-9-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
-References: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC70710E5A8;
+	Wed,  2 Mar 2022 00:46:37 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC9210E5A8;
+ Wed,  2 Mar 2022 00:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1646181997; x=1677717997;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=BhuMmdAD/LfhkWmuL1OOqvJOjDCJsGnQvfhy8iQXU/Y=;
+ b=AhFYH4ItLM5uFlY4RriYb0JbzQzjCRDSKRGrWVrHDC/4CoY06TvPza43
+ i1/4A8b4uM0tiZLETzixNPgURev73xWILazrf5baaSpkxx2QOjou4TpO9
+ 4dKOl3OaB0PBLAkX0eJaLL7dZL9gT/++8LW0bWGf2/AhiNH/pbD7x7kEm E=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Mar 2022 16:46:35 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2022 16:46:35 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Tue, 1 Mar 2022 16:46:34 -0800
+Received: from [10.110.107.103] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Tue, 1 Mar 2022
+ 16:46:33 -0800
+Message-ID: <7fa201c7-8c9d-319b-7643-2e8acefa62e9@quicinc.com>
+Date: Tue, 1 Mar 2022 16:46:33 -0800
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [Freedreno] [RESEND PATCH] dt-bindings: display/msm: add missing
+ brace in dpu-qcm2290.yaml
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>
+References: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220302001410.2264039-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +68,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen
+ Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
 
-Some G2H handlers were reading the context id field from the payload
-before checking the payload met the minimum length required.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 5dbebf15fae1..a85e10af0d24 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3892,12 +3892,13 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 					  u32 len)
- {
- 	struct intel_context *ce;
--	u32 ctx_id = msg[0];
-+	u32 ctx_id;
- 
- 	if (unlikely(len < 1)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
-+	ctx_id = msg[0];
- 
- 	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
-@@ -3943,12 +3944,13 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	unsigned long flags;
--	u32 ctx_id = msg[0];
-+	u32 ctx_id;
- 
- 	if (unlikely(len < 2)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
-+	ctx_id = msg[0];
- 
- 	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
--- 
-2.25.1
-
+On 3/1/2022 4:14 PM, Dmitry Baryshkov wrote:
+> Add missing brace in dpu-qcm2290.yaml. While we are at it, also fix
+> indentation for another brace, so it matches the corresponding line.
+> 
+> Reported-by: Rob Herring <robh@kernel.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> Didn't include freedreno@ in the first email, so resending.
+> ---
+>   Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> index 8766b13f0c46..b1b4652077db 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+> @@ -209,6 +209,7 @@ examples:
+>                                           remote-endpoint = <&dsi0_in>;
+>                                   };
+>                           };
+> -                 };
+> +                };
+>            };
+> +    };
+>   ...
