@@ -2,68 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140A84CB068
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 21:59:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519494CB0A4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 22:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63AC910E11C;
-	Wed,  2 Mar 2022 20:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B38710E2D7;
+	Wed,  2 Mar 2022 21:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3219F10E19C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 20:59:30 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id e15so1402261pfv.11
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 12:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
- b=d2ZFN7FzXJICmnX4Tyt0wAx0nHny3V7g7RBF7BzoFi4JqvMjvTlFe6r9CSmtZHYpfY
- sI7cCbacBhQSn0c2nYjk/wWGRSWn9quhJSSynH9lMYRKPPdVW/LYlF+HQ4F3tfS4GoN+
- rfxT6gA9HHGJJFfNnOWheyqKpysRyPxkd0f8U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
- b=6clcP3D9DwTerSHqD8+U1el5BELnresUc128QskvQXHQttehjjWCOcvXOQ1RI4nD08
- /t719545tfwfUKIEqrgRV1jS9NR+SGtTyph09yd+jVGMOABV6qVLNJseoPF3Lu/1dXSJ
- O4U6TIfjOVybp9KlXfhIxfW0twkZpF7YxQqKbdPBNlUF/i9zKbOQxa/HT56T7bGjcPKR
- wt/FJGn75WoFzbyqwAKvAJUuraymcrl3IwZqJmj0Z8yu9TQGSyTWoDCu6+GohryA3B+L
- dx2aPE7D75tyjUlDinQ0Gkacy7Iyk6i96GsEq5C/4a9PB87jgCKUgab4xZdrwmlKCh3i
- 7EuA==
-X-Gm-Message-State: AOAM531Ur0KlCvaGGxFm3JYfk72tDsOk7KUaC+5hudNF17Sx1hfPEqKc
- nY1c1l7jq8AtO6w/5HAoy9ODDQ==
-X-Google-Smtp-Source: ABdhPJwV5Vftpu3BNFYOd1YAI3xcgBfQbmCq2DPnKYT59xnVma61vCMoUamoUdgwMbiUWTPibOctJw==
-X-Received: by 2002:a63:595e:0:b0:378:b203:a74e with SMTP id
- j30-20020a63595e000000b00378b203a74emr13280856pgm.328.1646254769698; 
- Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- z9-20020a655a49000000b00373459df190sm58337pgs.35.2022.03.02.12.59.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Date: Wed, 2 Mar 2022 12:59:28 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Message-ID: <202203021256.69D7C4BCA6@keescook>
-References: <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
- <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
- <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
- <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
- <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
- <202203021158.DB5204A0@keescook>
- <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+X-Greylist: delayed 978 seconds by postgrey-1.36 at gabe;
+ Wed, 02 Mar 2022 21:06:42 UTC
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15F210E299;
+ Wed,  2 Mar 2022 21:06:42 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=109.170.220.31; 
+Received: from localhost (unverified [109.170.220.31]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 1078884-1500050 for multiple; Wed, 02 Mar 2022 20:50:20 +0000
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220302182657.1483623-1-fei.yang@intel.com>
+References: <20220302182657.1483623-1-fei.yang@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: avoid concurrent writes to aux_inv
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: dri-devel@lists.freedesktop.org, fei.yang@intel.com,
+ intel-gfx@lists.freedesktop.org
+Date: Wed, 02 Mar 2022 20:50:19 +0000
+Message-ID: <164625421996.6785.4140948249426110978@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,90 +43,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- David Laight <David.Laight@aculab.com>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- dma <dmaengine@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 02, 2022 at 12:18:45PM -0800, Linus Torvalds wrote:
-> On Wed, Mar 2, 2022 at 12:07 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > I've long wanted to change kfree() to explicitly set pointers to NULL on
-> > free. https://github.com/KSPP/linux/issues/87
-> 
-> We've had this discussion with the gcc people in the past, and gcc
-> actually has some support for it, but it's sadly tied to the actual
-> function name (ie gcc has some special-casing for "free()")
-> 
-> See
-> 
->     https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94527
-> 
-> for some of that discussion.
-> 
-> Oh, and I see some patch actually got merged since I looked there last
-> so that you can mark "deallocator" functions, but I think it's only
-> for the context matching, not for actually killing accesses to the
-> pointer afterwards.
+Quoting fei.yang@intel.com (2022-03-02 18:26:57)
+> From: Fei Yang <fei.yang@intel.com>
+>=20
+> GPU hangs have been observed when multiple engines write to the
+> same aux_inv register at the same time. To avoid this each engine
+> should only invalidate its own auxiliary table. The function
+> gen12_emit_flush_xcs() currently invalidate the auxiliary table for
+> all engines because the rq->engine is not necessarily the engine
+> eventually carrying out the request, and potentially the engine
+> could even be a virtual one (with engine->instance being -1).
+> With this patch, auxiliary table invalidation is done only for the
+> engine executing the request. And the mmio address for the aux_inv
+> register is set after the engine instance becomes certain.
+>=20
+> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 41 ++++---------------
+>  .../drm/i915/gt/intel_execlists_submission.c  | 38 +++++++++++++++++
+>  drivers/gpu/drm/i915/i915_request.h           |  2 +
+>  3 files changed, 47 insertions(+), 34 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i=
+915/gt/gen8_engine_cs.c
+> index b1b9c3fd7bf9..af62e2bc2c9b 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -165,30 +165,6 @@ static u32 preparser_disable(bool state)
+>         return MI_ARB_CHECK | 1 << 8 | state;
+>  }
+> =20
+> -static i915_reg_t aux_inv_reg(const struct intel_engine_cs *engine)
+> -{
+> -       static const i915_reg_t vd[] =3D {
+> -               GEN12_VD0_AUX_NV,
+> -               GEN12_VD1_AUX_NV,
+> -               GEN12_VD2_AUX_NV,
+> -               GEN12_VD3_AUX_NV,
+> -       };
+> -
+> -       static const i915_reg_t ve[] =3D {
+> -               GEN12_VE0_AUX_NV,
+> -               GEN12_VE1_AUX_NV,
+> -       };
+> -
+> -       if (engine->class =3D=3D VIDEO_DECODE_CLASS)
+> -               return vd[engine->instance];
+> -
+> -       if (engine->class =3D=3D VIDEO_ENHANCEMENT_CLASS)
+> -               return ve[engine->instance];
+> -
+> -       GEM_BUG_ON("unknown aux_inv reg\n");
+> -       return INVALID_MMIO_REG;
+> -}
+> -
+>  static u32 *gen12_emit_aux_table_inv(const i915_reg_t inv_reg, u32 *cs)
+>  {
+>         *cs++ =3D MI_LOAD_REGISTER_IMM(1);
+> @@ -288,7 +264,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32=
+ mode)
+>         if (mode & EMIT_INVALIDATE)
+>                 aux_inv =3D rq->engine->mask & ~BIT(BCS0);
+>         if (aux_inv)
+> -               cmd +=3D 2 * hweight32(aux_inv) + 2;
+> +               cmd +=3D 4;
+> =20
+>         cs =3D intel_ring_begin(rq, cmd);
+>         if (IS_ERR(cs))
+> @@ -319,16 +295,13 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u=
+32 mode)
+>         *cs++ =3D 0; /* value */
+> =20
+>         if (aux_inv) { /* hsdes: 1809175790 */
+> -               struct intel_engine_cs *engine;
+> -               unsigned int tmp;
+> -
+> -               *cs++ =3D MI_LOAD_REGISTER_IMM(hweight32(aux_inv));
+> -               for_each_engine_masked(engine, rq->engine->gt, aux_inv, t=
+mp) {
+> -                       *cs++ =3D i915_mmio_reg_offset(aux_inv_reg(engine=
+));
+> -                       *cs++ =3D AUX_INV;
+> -               }
+> +               *cs++ =3D MI_LOAD_REGISTER_IMM(1);
+> +               rq->vd_ve_aux_inv =3D cs;
+> +               *cs++ =3D 0; /* address to be set at submission to HW */
+> +               *cs++ =3D AUX_INV;
+>                 *cs++ =3D MI_NOOP;
+> -       }
+> +       } else
+> +               rq->vd_ve_aux_inv =3D NULL;
+> =20
+>         if (mode & EMIT_INVALIDATE)
+>                 *cs++ =3D preparser_disable(false);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drive=
+rs/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 1c602d4ae297..a018de6dcac5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -1258,6 +1258,34 @@ static bool completed(const struct i915_request *r=
+q)
+>         return __i915_request_is_complete(rq);
+>  }
+> =20
+> +static i915_reg_t aux_inv_reg(const struct intel_engine_cs *engine)
+> +{
+> +       static const i915_reg_t vd[] =3D {
+> +               GEN12_VD0_AUX_NV,
+> +               GEN12_VD1_AUX_NV,
+> +               GEN12_VD2_AUX_NV,
+> +               GEN12_VD3_AUX_NV,
+> +       };
+> +
+> +       static const i915_reg_t ve[] =3D {
+> +               GEN12_VE0_AUX_NV,
+> +               GEN12_VE1_AUX_NV,
+> +       };
+> +
+> +       if (engine->class =3D=3D VIDEO_DECODE_CLASS) {
+> +               GEM_BUG_ON(engine->instance >=3D ARRAY_SIZE(vd));
+> +               return vd[engine->instance];
+> +       }
+> +
+> +       if (engine->class =3D=3D VIDEO_ENHANCEMENT_CLASS) {
+> +               GEM_BUG_ON(engine->instance >=3D ARRAY_SIZE(ve));
+> +               return ve[engine->instance];
+> +       }
+> +
+> +       GEM_BUG_ON("unknown aux_inv reg\n");
+> +       return INVALID_MMIO_REG;
+> +}
+> +
+>  static void execlists_dequeue(struct intel_engine_cs *engine)
+>  {
+>         struct intel_engine_execlists * const execlists =3D &engine->exec=
+lists;
+> @@ -1538,6 +1566,16 @@ static void execlists_dequeue(struct intel_engine_=
+cs *engine)
+>                         }
+> =20
+>                         if (__i915_request_submit(rq)) {
+> +                               /* hsdes: 1809175790 */
+> +                               if ((GRAPHICS_VER(engine->i915) =3D=3D 12=
+) &&
+> +                                   rq->vd_ve_aux_inv &&
+> +                                   (engine->class =3D=3D VIDEO_DECODE_CL=
+ASS ||
+> +                                    engine->class =3D=3D VIDEO_ENHANCEME=
+NT_CLASS)) {
 
-Ah! I missed that getting added in GCC 11. But yes, there it is:
+We do not need the extra checks here; we just do as we are told. We only
+tell ourselves to apply the fixup when required.
 
-https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-malloc-function-attribute
+> +                                       *rq->vd_ve_aux_inv =3D i915_mmio_=
+reg_offset
 
-Hah, now we may need to split __malloc from __alloc_size. ;)
+Likewise, vd_ve is overspecific, aux_inv_fixup or aux_inv_wa (or
+wa_aux_iv, fixup_aux_inv).
 
-I'd still like the NULL assignment behavior, though, since some things
-can easily avoid static analysis.
+> +                                               (aux_inv_reg(engine));
+> +                                       rq->vd_ve_aux_inv =3D NULL;
 
--- 
-Kees Cook
+Move this to i915_request initialisation so that we only set aux_inv
+when required, which probably explains the extra defence.
+
+> +                                       rq->execution_mask =3D engine->ma=
+sk;
+> +                               }
+>                                 if (!merge) {
+>                                         *port++ =3D i915_request_get(last=
+);
+>                                         last =3D NULL;
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i=
+915_request.h
+> index 28b1f9db5487..69de32e5e15d 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -350,6 +350,8 @@ struct i915_request {
+>                 struct list_head link;
+>                 unsigned long delay;
+>         } mock;)
+> +
+> +       u32 *vd_ve_aux_inv;
+
+Not at the end of the struct; that's where we put things in the dungeon.
+The selftest struct should be last; I do hope no one has been putting
+things at random places in the struct without considering the layout and
+semantics. From the flow, this is akin to batch, capture_list; before
+emitted_jiffies would be a good spot.
+-Chris
