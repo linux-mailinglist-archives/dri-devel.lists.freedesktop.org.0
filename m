@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0B54CA1F0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:13:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1F74CA1F5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 948A210F3EE;
-	Wed,  2 Mar 2022 10:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0600110EE86;
+	Wed,  2 Mar 2022 10:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C9010F3EC
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:13:55 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D68A610EE85
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:14:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 262CF1F44C86
+ (Authenticated sender: kholk11) with ESMTPSA id D18B01F44C93
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646216034;
- bh=C6D6VdCgO9fMDC+Gq63slbbHePN146cgfQaNo6alzhU=;
+ s=mail; t=1646216083;
+ bh=CRz1hl04S7o5hFhSfEJ8l4P0iLKv8xFFSD4PLarV2g4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CemZGLKZJrKXYg3EdTQKRR5h0nLahTHTY4qxlu2kuiwAAjK2xs4cmZKauuJoT7Q0f
- rIjQstDlQkY/xaBHwkBDmQo/WOJw8TvsbmKKrOJkFY1rR+56PfxBaTaKKl4h8kRkRx
- DGljyJIt/OL/Y+EeIOrmPdwiDcsZQWR91i/kfQGjEIcGHx/Iw2On7nviUY2BnjCCEP
- 7u/EqQVjI7bFjqbPgRCbmN/aVJ8InXqc/h5K3bJcsAB+0FD8ah28yybR+WjNKQvtQX
- ftc14gmMrZrUfnYgm5B5jy5Q/8NiL2oLVtKdVG0DmQaMthjG+4b8lEVszMyQpy69Ys
- eQh0C94GSkudA==
-Message-ID: <243c2a77-6fbf-6afa-b773-de9b58aa4997@collabora.com>
-Date: Wed, 2 Mar 2022 11:13:50 +0100
+ b=gNDI0v4pUxf2bQQJJvn9Vuebv0Z+f5T03H5csv0tVva6ordHyKgokbRavmSAGxWjB
+ q6yx+vho1qMuhf9ON8MvdKwYpQMym2QUm4x5r1ojCIxtMDHsf3gz0TNhiPlXYYW2+S
+ L0tmUkYMfPLMxSsdfu7UM3UfmPPWxGEYfHiBJHNxzk0fUdSOVslyQMbgY0PxtKekkY
+ SkqJ4uRpsKbbWLdYm+3pxEGbR/nOrRE4cjTZ/0jQkkFETbngW0F/nEyIZgK6/Ab8Fp
+ nNw2adEw/r+TcioMZEFl9Lae5hmJyejfsDbik37z8fB/CAicFgN6Nu/HDOgowuj3js
+ t3LhNxxJQVCpw==
+Message-ID: <909f6957-86c5-1ebc-47b2-73085dd7399a@collabora.com>
+Date: Wed, 2 Mar 2022 11:14:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v12 03/23] dt-bindings: mediatek: add ethdr definition for
- mt8195
+Subject: Re: [PATCH v12 04/23] dt-bindings: reset: mt8195: add vdosys1 reset
+ control bit
 Content-Language: en-US
 To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
 References: <20220222100741.30138-1-nancy.lin@mediatek.com>
- <20220222100741.30138-4-nancy.lin@mediatek.com>
+ <20220222100741.30138-5-nancy.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220222100741.30138-4-nancy.lin@mediatek.com>
+In-Reply-To: <20220222100741.30138-5-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,171 +62,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 22/02/22 11:07, Nancy.Lin ha scritto:
-> Add vdosys1 ETHDR definition.
+> Add vdosys1 reset control bit for MT8195 platform.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
->   .../display/mediatek/mediatek,ethdr.yaml      | 147 ++++++++++++++++++
->   1 file changed, 147 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-> new file mode 100644
-> index 000000000000..131eed5eeeb7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-> @@ -0,0 +1,147 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek Ethdr Device Tree Bindings
-> +
-> +maintainers:
-> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
-> +
-> +description: |
-> +  ETHDR is designed for HDR video and graphics conversion in the external display path.
-> +  It handles multiple HDR input types and performs tone mapping, color space/color
-> +  format conversion, and then combine different layers, output the required HDR or
-> +  SDR signal to the subsequent display path. This engine is composed of two video
-> +  frontends, two graphic frontends, one video backend and a mixer. ETHDR has two
-> +  DMA function blocks, DS and ADL. These two function blocks read the pre-programmed
-> +  registers from DRAM and set them to HW in the v-blanking period.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: mediatek,mt8195-disp-ethdr
-> +  reg:
-> +    maxItems: 7
-> +  reg-names:
-> +    items:
-> +      - const: mixer
-> +      - const: vdo_fe0
-> +      - const: vdo_fe1
-> +      - const: gfx_fe0
-> +      - const: gfx_fe1
-> +      - const: vdo_be
-> +      - const: adl_ds
-> +  interrupts:
-> +    minItems: 1
-> +  iommus:
-> +    description: The compatible property is DMA function blocks.
-> +      Should point to the respective IOMMU block with master port as argument,
-> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-> +      details.
-> +    minItems: 1
-> +    maxItems: 2
-> +  clocks:
-> +    items:
-> +      - description: mixer clock
-> +      - description: video frontend 0 clock
-> +      - description: video frontend 1 clock
-> +      - description: graphic frontend 0 clock
-> +      - description: graphic frontend 1 clock
-> +      - description: video backend clock
-> +      - description: autodownload and menuload clock
-> +      - description: video frontend 0 async clock
-> +      - description: video frontend 1 async clock
-> +      - description: graphic frontend 0 async clock
-> +      - description: graphic frontend 1 async clock
-> +      - description: video backend async clock
-> +      - description: ethdr top clock
-> +  clock-names:
-> +    items:
-> +      - const: mixer
-> +      - const: vdo_fe0
-> +      - const: vdo_fe1
-> +      - const: gfx_fe0
-> +      - const: gfx_fe1
-> +      - const: vdo_be
-> +      - const: adl_ds
-> +      - const: vdo_fe0_async
-> +      - const: vdo_fe1_async
-> +      - const: gfx_fe0_async
-> +      - const: gfx_fe1_async
-> +      - const: vdo_be_async
-> +      - const: ethdr_top
-> +  power-domains:
-> +    maxItems: 1
-> +  resets:
-> +    maxItems: 5
-> +  mediatek,gce-client-reg:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: The register of display function block to be set by gce.
-> +      There are 4 arguments in this property, gce node, subsys id, offset and
-> +      register size. The subsys id is defined in the gce header of each chips
-> +      include/include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
-> +      display function block.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
 
-Please fix inclusions and address/size cells.
 
-Thanks,
-Angelo
 
-> +
-> +    disp_ethdr@1c114000 {
-> +            compatible = "mediatek,mt8195-disp-ethdr";
-> +            reg = <0 0x1c114000 0 0x1000>,
-> +                  <0 0x1c115000 0 0x1000>,
-> +                  <0 0x1c117000 0 0x1000>,
-> +                  <0 0x1c119000 0 0x1000>,
-> +                  <0 0x1c11A000 0 0x1000>,
-> +                  <0 0x1c11B000 0 0x1000>,
-> +                  <0 0x1c11C000 0 0x1000>;
-> +            reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-> +                        "vdo_be", "adl_ds";
-> +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0xA000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0xB000 0x1000>,
-> +                                      <&gce0 SUBSYS_1c11XXXX 0xC000 0x1000>;
-> +            clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-> +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-> +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-> +                     <&vdosys1 CLK_VDO1_26M_SLOW>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-> +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-> +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-> +                     <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-> +                     <&topckgen CLK_TOP_ETHDR_SEL>;
-> +            clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-> +                          "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
-> +                          "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
-> +                          "ethdr_top";
-> +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> +            iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-> +                     <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-> +            interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
-> +            resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-> +                     <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-> +                     <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-> +                     <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-> +                     <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-> +    };
-> +
-> +...
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
