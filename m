@@ -1,75 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0764CA51D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 13:45:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFC14CA534
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 13:49:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C628410ECFA;
-	Wed,  2 Mar 2022 12:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C300210E4FB;
+	Wed,  2 Mar 2022 12:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3399310ECF8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 12:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646225142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QOqtk8N28P4LW85N0QCWUUhlLsc+6PwvTIzB1n1peR4=;
- b=UpfN4E2DMrBRaCP5ezNVpSRNTAAaSQNthH0il2+B33WrL+oOK4/VQSn2+Zs+cIAxnXW8VJ
- LvgDaYD5dDheUu66X/PvpLufzXD9SnZmnqY9LrD2beHKqObifbMEWPzEHS7h+r1nBb/lZo
- 49nyNNyubylHnEYBmkTZDJ5I8cqSYcw=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-OBH3ExCsOROUhd3YLBqxsQ-1; Wed, 02 Mar 2022 07:45:41 -0500
-X-MC-Unique: OBH3ExCsOROUhd3YLBqxsQ-1
-Received: by mail-oo1-f69.google.com with SMTP id
- b10-20020a4a340a000000b0031937d5a5efso1145618ooa.15
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 04:45:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QOqtk8N28P4LW85N0QCWUUhlLsc+6PwvTIzB1n1peR4=;
- b=EMLBIO0or4MUuKYnx1/lH707eYnEnPnGPXoN9ps6xKZaLKFZ4B5zBh+43HbEtW9HXB
- 9kR/rOnDf3HQbOHAwzJaxJUJ47QLDoqujpQ+gAMj8C/T6ROlS1Myb4/XUi85DW9qgRwD
- lupQzt6fwEyGRiq8p38nwTCxgWdipCwiYvmdCTdLieivXByEj3O0jg2p3lhHvFSnDWFv
- b9bVwjsmm14Fw4FcQka9IE07krB7058osW6oSpUC34E+TNgfuHoVm2EYLobCgeo3H6FX
- q0YFwHIFiPc8Piw3FBuyV0KBymI6v6dXt/WugZmysTVGCYepF0+jKAn0SUox745eSD4v
- jYYA==
-X-Gm-Message-State: AOAM530xd6GTjKeNCyBJxhVdYgfvVxl4CUuKDoQq4OC6Dfh0pX+ahBrS
- wxraY0u0oGOPg0DlhkF6vIDwHcEOPe+J+xPxOVbcxIbkLKyPx4K3r8d8FGm65rw7pVw5k1Nm/YX
- mQXVJxmr9avxu8VNhQ7dROB4+T7X8
-X-Received: by 2002:a05:6830:19c8:b0:5b0:298f:42fa with SMTP id
- p8-20020a05683019c800b005b0298f42famr6537989otp.167.1646225140341; 
- Wed, 02 Mar 2022 04:45:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnDPc+2WvUOGatFtOiVPEE5LXJGFam8aUb+jqjAchdLIWMbnsYv+rv/jMkNL9HI/Eoo4PdeA==
-X-Received: by 2002:a05:6830:19c8:b0:5b0:298f:42fa with SMTP id
- p8-20020a05683019c800b005b0298f42famr6537973otp.167.1646225140110; 
- Wed, 02 Mar 2022 04:45:40 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- y28-20020a4aea3c000000b0031c0cddfbf9sm7743217ood.20.2022.03.02.04.45.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 04:45:39 -0800 (PST)
-From: trix@redhat.com
-To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v2] drm/panfrost: cleanup comments
-Date: Wed,  2 Mar 2022 04:45:35 -0800
-Message-Id: <20220302124535.358060-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5D13D10E4F2;
+ Wed,  2 Mar 2022 12:49:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B64C13D5;
+ Wed,  2 Mar 2022 04:49:39 -0800 (PST)
+Received: from [10.57.39.47] (unknown [10.57.39.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B65673F70D;
+ Wed,  2 Mar 2022 04:49:37 -0800 (PST)
+Message-ID: <2f82d150-47c4-d7c3-50da-eaf4aa4a24af@arm.com>
+Date: Wed, 2 Mar 2022 12:49:32 +0000
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
+Content-Language: en-GB
+To: Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220225032436.904942-1-michael.cheng@intel.com>
+ <20220225032436.904942-2-michael.cheng@intel.com>
+ <5c254623-98d2-75f3-52cb-209b8de304b6@arm.com>
+ <3750c398-e8fb-c4e1-ba31-e6ac5fbc01d0@intel.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <3750c398-e8fb-c4e1-ba31-e6ac5fbc01d0@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,92 +46,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@linux.intel.com, balasubramani.vivekanandan@intel.com,
+ wayne.boyer@intel.com, Catalin Marinas <catalin.marinas@arm.com>,
+ casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, Will Deacon <will@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+On 2022-02-25 19:27, Michael Cheng wrote:
+> Hi Robin,
+> 
+> [ +arm64 maintainers for their awareness, which would have been a good 
+> thing to do from the start ]
+> 
+>   * Thanks for adding the arm64 maintainer and sorry I didn't rope them
+>     in sooner.
+> 
+> Why does i915 need to ensure the CPU's instruction cache is coherent 
+> with its data cache? Is it a self-modifying driver?
+> 
+>   * Also thanks for pointing this out. Initially I was using
+>     dcache_clean_inval_poc, which seem to be the equivalently to what
+>     x86 is doing for dcache flushing, but it was giving me build errors
+>     since its not on the global list of kernel symbols. And after
+>     revisiting the documentation for caches_clean_inval_pou, it won't
+>     fly for what we are trying to do. Moving forward, what would you (or
+>     someone in the ARM community) suggest we do? Could it be possible to
+>     export dcache_clean_inval_poc as a global symbol?
 
-For spdx
-change tab to space delimiter
-Use // for *.c
+Unlikely, unless something with a legitimate need for CPU-centric cache 
+maintenance like kexec or CPU hotplug ever becomes modular.
 
-Replacements
-commited to committed
-regsiters to registers
-initialze to initialize
+In the case of a device driver, it's not even the basic issues of 
+assuming to find direct equivalents to x86 semantics in other CPU 
+architectures, or effectively reinventing parts of the DMA API, it's 
+even bigger than that. Once you move from being integrated in a single 
+vendor's system architecture to being on a discrete card, you 
+fundamentally *no longer have any control over cache coherency*. Whether 
+the host CPU architecture happens to be AArch64, RISC-V, or whatever 
+doesn't really matter, you're at the mercy of 3rd-party PCIe and 
+interconnect IP vendors, and SoC integrators. You'll find yourself in 
+systems where PCIe simply cannot snoop any caches, where you'd better 
+have the correct DMA API calls in place to have any hope of even the 
+most basic functionality working properly; you'll find yourself in 
+systems where even if the PCIe root complex claims to support No Snoop, 
+your uncached traffic will still end up snooping stale data that got 
+prefetched back into caches you thought you'd invalidated; you'll find 
+yourself in systems where your memory attributes may or may not get 
+forcibly rewritten by an IOMMU depending on the kernel config and/or 
+command line.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
-v2: remove multiline comment change
+It's not about simply finding a substitute for clflush, it's that the 
+reasons you have for using clflush in the first place can no longer be 
+assumed to be valid.
 
- drivers/gpu/drm/panfrost/panfrost_drv.c          | 2 +-
- drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c | 2 +-
- drivers/gpu/drm/panfrost/panfrost_issues.h       | 2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c          | 2 +-
- drivers/gpu/drm/panfrost/panfrost_regs.h         | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+Robin.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 96bb5a4656278..94b6f0a19c83a 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -562,7 +562,7 @@ static int panfrost_probe(struct platform_device *pdev)
- 
- 	pfdev->coherent = device_get_dma_attr(&pdev->dev) == DEV_DMA_COHERENT;
- 
--	/* Allocate and initialze the DRM device. */
-+	/* Allocate and initialize the DRM device. */
- 	ddev = drm_dev_alloc(&panfrost_drm_driver, &pdev->dev);
- 	if (IS_ERR(ddev))
- 		return PTR_ERR(ddev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-index b0142341e2235..77e7cb6d1ae3b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
-+// SPDX-License-Identifier: GPL-2.0
- /* Copyright (C) 2019 Arm Ltd.
-  *
-  * Based on msm_gem_freedreno.c:
-diff --git a/drivers/gpu/drm/panfrost/panfrost_issues.h b/drivers/gpu/drm/panfrost/panfrost_issues.h
-index 8e59d765bf19f..501a76c5e95ff 100644
---- a/drivers/gpu/drm/panfrost/panfrost_issues.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_issues.h
-@@ -14,7 +14,7 @@
-  */
- enum panfrost_hw_issue {
- 	/* Need way to guarantee that all previously-translated memory accesses
--	 * are commited */
-+	 * are committed */
- 	HW_ISSUE_6367,
- 
- 	/* On job complete with non-done the cache is not flushed */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 39562f2d11a47..d3f82b26a631d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier:	GPL-2.0
-+// SPDX-License-Identifier: GPL-2.0
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- 
- #include <drm/panfrost_drm.h>
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index 6c5a11ef1ee87..efe4b75149d35 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -292,7 +292,7 @@
- #define AS_FAULTADDRESS_LO(as)		(MMU_AS(as) + 0x20) /* (RO) Fault Address for address space n, low word */
- #define AS_FAULTADDRESS_HI(as)		(MMU_AS(as) + 0x24) /* (RO) Fault Address for address space n, high word */
- #define AS_STATUS(as)			(MMU_AS(as) + 0x28) /* (RO) Status flags for address space n */
--/* Additional Bifrost AS regsiters */
-+/* Additional Bifrost AS registers */
- #define AS_TRANSCFG_LO(as)		(MMU_AS(as) + 0x30) /* (RW) Translation table configuration for address space n, low word */
- #define AS_TRANSCFG_HI(as)		(MMU_AS(as) + 0x34) /* (RW) Translation table configuration for address space n, high word */
- #define AS_FAULTEXTRA_LO(as)		(MMU_AS(as) + 0x38) /* (RO) Secondary fault address for address space n, low word */
--- 
-2.26.3
-
+> On 2022-02-25 10:24 a.m., Robin Murphy wrote:
+>> [ +arm64 maintainers for their awareness, which would have been a good 
+>> thing to do from the start ]
+>>
+>> On 2022-02-25 03:24, Michael Cheng wrote:
+>>> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
+>>> performs a flush by first performing a clean, follow by an invalidation
+>>> operation.
+>>>
+>>> v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
+>>>             dcache. Thanks Tvrtko for the suggestion.
+>>>
+>>> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
+>>>
+>>> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
+>>>             symbol that could be use by other modules, thus use
+>>>             caches_clean_inval_pou instead. Also this version
+>>>                 removes include for cacheflush, since its already
+>>>             included base on architecture type.
+>>>
+>>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+>>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_cache.c | 5 +++++
+>>>   1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+>>> index c3e6e615bf09..81c28714f930 100644
+>>> --- a/drivers/gpu/drm/drm_cache.c
+>>> +++ b/drivers/gpu/drm/drm_cache.c
+>>> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned long 
+>>> length)
+>>>         if (wbinvd_on_all_cpus())
+>>>           pr_err("Timed out waiting for cache flush\n");
+>>> +
+>>> +#elif defined(CONFIG_ARM64)
+>>> +    void *end = addr + length;
+>>> +    caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
+>>
+>> Why does i915 need to ensure the CPU's instruction cache is coherent 
+>> with its data cache? Is it a self-modifying driver?
+>>
+>> Robin.
+>>
+>> (Note that the above is somewhat of a loaded question, and I do 
+>> actually have half an idea of what you're trying to do here and why it 
+>> won't fly, but I'd like to at least assume you've read the 
+>> documentation of the function you decided was OK to use)
+>>
+>>> +
+>>>   #else
+>>>       WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
+>>>   #endif
