@@ -1,50 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B6B4CAD98
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 19:32:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013FB4CADDF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 19:47:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B0A10E4AA;
-	Wed,  2 Mar 2022 18:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A73B810E1C7;
+	Wed,  2 Mar 2022 18:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 798A910E4AA;
- Wed,  2 Mar 2022 18:31:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53DF09FF;
- Wed,  2 Mar 2022 19:31:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646245916;
- bh=ZWw5ZBgR+HDYQJm11wK2xVa89J4FEmLovtO1aPcWj38=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FKoldtfMB5YKFDvGk7x2Z7jcFuFvSXYZkxYhqDeGZEha5k61fJ8X15qbhL9l44Orl
- 0Ip2WcUEZo1GCDpGGtGglasZXA59YzlpAc1eQIiK2lR7T8FlWdvgxXgxOEdyjXkgGC
- /qqUwIdC3Z4kc5iaRLydcp9r5PW/32b9wyhq923g=
-Date: Wed, 2 Mar 2022 20:31:44 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
- from drm_writeback_connector structure changes
-Message-ID: <Yh+4EOKA5FgrlZrF@pendragon.ideasonboard.com>
-References: <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
- <87y22ts948.fsf@intel.com>
- <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
- <87v8xxs2hz.fsf@intel.com>
- <CAF6AEGtdnWWhGp7U7nAPD4r3Uoe5BJKVm2rQ2MS=q5GqF6MYDA@mail.gmail.com>
- <YhyB0WmJDWVFO1se@pendragon.ideasonboard.com>
- <871qzn6vmc.fsf@intel.com>
- <Yhy/6+z7QshG+qOo@pendragon.ideasonboard.com>
- <YhzROBOwTUkZw3Ez@pendragon.ideasonboard.com>
- <4d8daabe-10d9-a3cf-d305-68414cffe4ed@quicinc.com>
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D0C10E1C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 18:47:43 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id bq11so3552971edb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 10:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=temVCJmzY6jHTpKmuU3c4b6mCQisMR2DA6PE6kC7kMs=;
+ b=RJ4WEvVXkmlBdMHWpfpv9z4K05AI8z7gPWwv+6LTDgX3FjJxLrblupDd1YPYPbvG8Y
+ IwXWseCCKq/3W1dcmdVe0O2ha62Niax3KG+DokPvU4Gtg2khj8v0W1PBMcFsat/gCUuW
+ LK4Cg4GAkL/N2DD4mERCrNX6WAShCuH8MgRUs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=temVCJmzY6jHTpKmuU3c4b6mCQisMR2DA6PE6kC7kMs=;
+ b=Vmjn8dtkGtc6EsAdVzo0ynF9QqKPRYyZKFttfWYTBSkJfBNFvQrML8AJ9ieN6zlpdt
+ fLY6UE3itM+KcLKOO6DunOtR92McnXAjq2syaGYmXRwvKZxooOrq6lj1HN2wgiX0Xqi6
+ dBQ+DDVK05NkPcEOIQeTBPeZ47ENXc6opv9lRyHZiY0OxAzAtqWBqCOjXWFN9svPlBRP
+ IlMNEhEcLmNQwCXHp3NjfHs0mAS81jfnE8nhk6odtMX0+QFbXN48A59/3VoReJagufsh
+ aboLsRbF0B5ygnkoqQ6TsgYPhQJ95VS8ng+aU/w/tPz663fEjvdKrn9L3OgtCi175XyO
+ MVzQ==
+X-Gm-Message-State: AOAM531puigXQVMz0sDqa6ENiHP7pzvRj1ZxxtVojb5r6rsXhj7PiN13
+ SvHqbnTZxWuTf/e29m510Y+jc3e5VLIPwhbT
+X-Google-Smtp-Source: ABdhPJw8MNf+QQsWIFA3zFW0g9kZLbyXgpzQJHjWblQbmM9X8lNS3qyrUZEOILbAr3JG6rexpjILog==
+X-Received: by 2002:a05:6402:c10:b0:40f:33cd:a39 with SMTP id
+ co16-20020a0564020c1000b0040f33cd0a39mr30830300edb.234.1646246862028; 
+ Wed, 02 Mar 2022 10:47:42 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a170906608e00b006d1455acc62sm6617769ejj.74.2022.03.02.10.47.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Mar 2022 10:47:40 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id
+ q7-20020a7bce87000000b00382255f4ca9so3434096wmj.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Mar 2022 10:47:40 -0800 (PST)
+X-Received: by 2002:a05:600c:1d08:b0:381:6eda:67d1 with SMTP id
+ l8-20020a05600c1d0800b003816eda67d1mr1005017wms.88.1646246859458; Wed, 02 Mar
+ 2022 10:47:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d8daabe-10d9-a3cf-d305-68414cffe4ed@quicinc.com>
+References: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
+ <CAD=FV=WX3i+6yubPVry8KUkO_14P94HTXv_uU8Pd5yPpw+iPRQ@mail.gmail.com>
+ <CAPY8ntDX-XfpxQyLfZhW_jy=5nuG+znaufScHOBX9pNGGcE+bg@mail.gmail.com>
+In-Reply-To: <CAPY8ntDX-XfpxQyLfZhW_jy=5nuG+znaufScHOBX9pNGGcE+bg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 2 Mar 2022 10:47:26 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WsGe=THJdSjK0eMR3mfFrzqQMHNy=YzN4geMYc2a8fdg@mail.gmail.com>
+Message-ID: <CAD=FV=WsGe=THJdSjK0eMR3mfFrzqQMHNy=YzN4geMYc2a8fdg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] DSI host and peripheral initialisation ordering
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,179 +74,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>,
- Carsten Haitzler <carsten.haitzler@arm.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, arun.r.murthy@intel.com
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+Hi,
 
-On Wed, Mar 02, 2022 at 10:28:03AM -0800, Abhinav Kumar wrote:
-> On 2/28/2022 5:42 AM, Laurent Pinchart wrote:
-> > On Mon, Feb 28, 2022 at 02:28:27PM +0200, Laurent Pinchart wrote:
-> >> On Mon, Feb 28, 2022 at 02:09:15PM +0200, Jani Nikula wrote:
-> >>> On Mon, 28 Feb 2022, Laurent Pinchart wrote:
-> >>>> On Sat, Feb 26, 2022 at 10:27:59AM -0800, Rob Clark wrote:
-> >>>>> On Wed, Feb 2, 2022 at 7:41 AM Jani Nikula wrote:
-> >>>>>> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
-> >>>>>>> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
-> >>>>>>>> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
-> >>>>>>>>> On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
-> >>>>>>>>>> Changing rcar_du driver to accomadate the change of
-> >>>>>>>>>> drm_writeback_connector.base and drm_writeback_connector.encoder
-> >>>>>>>>>> to a pointer the reason for which is explained in the
-> >>>>>>>>>> Patch(drm: add writeback pointers to drm_connector).
-> >>>>>>>>>>
-> >>>>>>>>>> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> >>>>>>>>>> ---
-> >>>>>>>>>>   drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
-> >>>>>>>>>>   drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
-> >>>>>>>>>>   2 files changed, 7 insertions(+), 3 deletions(-)
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >>>>>>>>>> index 66e8839db708..68f387a04502 100644
-> >>>>>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >>>>>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >>>>>>>>>> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
-> >>>>>>>>>>    const char *const *sources;
-> >>>>>>>>>>    unsigned int sources_count;
-> >>>>>>>>>>
-> >>>>>>>>>> + struct drm_connector connector;
-> >>>>>>>>>> + struct drm_encoder encoder;
-> >>>>>>>>>
-> >>>>>>>>> Those fields are, at best, poorly named. Furthermore, there's no need in
-> >>>>>>>>> this driver or in other drivers using drm_writeback_connector to create
-> >>>>>>>>> an encoder or connector manually. Let's not polute all drivers because
-> >>>>>>>>> i915 doesn't have its abstractions right.
-> >>>>>>>>
-> >>>>>>>> i915 uses the quite common model for struct inheritance:
-> >>>>>>>>
-> >>>>>>>>       struct intel_connector {
-> >>>>>>>>               struct drm_connector base;
-> >>>>>>>>               /* ... */
-> >>>>>>>>       }
-> >>>>>>>>
-> >>>>>>>> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
-> >>>>>>>> radeon, tilcdc, and vboxvideo.
-> >>>>>>>>
-> >>>>>>>> We could argue about the relative merits of that abstraction, but I
-> >>>>>>>> think the bottom line is that it's popular and the drivers using it are
-> >>>>>>>> not going to be persuaded to move away from it.
-> >>>>>>>
-> >>>>>>> Nobody said inheritance is bad.
-> >>>>>>>
-> >>>>>>>> It's no coincidence that the drivers who've implemented writeback so far
-> >>>>>>>> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
-> >>>>>>>> because the drm_writeback_connector midlayer does, forcing the issue.
-> >>>>>>>
-> >>>>>>> Are you sure it's not a coincidence ? :-)
-> >>>>>>>
-> >>>>>>> The encoder and especially connector created by drm_writeback_connector
-> >>>>>>> are there only because KMS requires a drm_encoder and a drm_connector to
-> >>>>>>> be exposed to userspace (and I could argue that using a connector for
-> >>>>>>> writeback is a hack, but that won't change). The connector is "virtual",
-> >>>>>>> I still fail to see why i915 or any other driver would need to wrap it
-> >>>>>>> into something else. The whole point of the drm_writeback_connector
-> >>>>>>> abstraction is that drivers do not have to manage the writeback
-> >>>>>>> drm_connector manually, they shouldn't touch it at all.
-> >>>>>>
-> >>>>>> The thing is, drm_writeback_connector_init() calling
-> >>>>>> drm_connector_init() on the drm_connector embedded in
-> >>>>>> drm_writeback_connector leads to that connector being added to the
-> >>>>>> drm_device's list of connectors. Ditto for the encoder.
-> >>>>>>
-> >>>>>> All the driver code that handles drm_connectors would need to take into
-> >>>>>> account they might not be embedded in intel_connector. Throughout the
-> >>>>>> driver. Ditto for the encoders.
-> >>>>>
-> >>>>> The assumption that a connector is embedded in intel_connector doesn't
-> >>>>> really play that well with how bridge and panel connectors work.. so
-> >>>>> in general this seems like a good thing to unwind.
-> >>>>>
-> >>>>> But as a point of practicality, i915 is a large driver covering a lot
-> >>>>> of generations of hw with a lot of users.  So I can understand
-> >>>>> changing this design isn't something that can happen quickly or
-> >>>>> easily.  IMO we should allow i915 to create it's own connector for
-> >>>>> writeback, and just document clearly that this isn't the approach new
-> >>>>> drivers should take.  I mean, I understand idealism, but sometimes a
-> >>>>> dose of pragmatism is needed. :-)
-> >>>>
-> >>>> i915 is big, but so is Intel. It's not fair to treat everybody else as a
-> >>>> second class citizen and let Intel get away without doing its homework.
-> >>>
-> >>> Laurent, as you accuse us of not doing our homework, I'll point out that
-> >>> we've been embedding drm crtc, encoder and connector ever since
-> >>> modesetting support was added to i915 in 2008, since before *any* of the
-> >>> things you now use as a rationale for asking us to do a massive rewrite
-> >>> of the driver existed.
-> >>>
-> >>> It's been ok to embed those structures for well over ten years. It's a
-> >>> common pattern, basically throughout the kernel. Other drivers do it
-> >>> too, not just i915. There hasn't been the slightest hint this should not
-> >>> be done until this very conversation.
-> >>>
-> >>>> I want to see this refactoring effort moving forward in i915 (and moving
-> >>>> to drm_bridge would then be a good idea too). If writeback support in
-> >>>> i915 urgent, then we can discuss *temporary* pragmatic stopgap measures,
-> >>>> but not without a real effort to fix the core issue.
-> >>>
-> >>> I think the onus is on you to first convince everyone that embedding the
-> >>> drm core kms structures is an antipattern that all drivers, not just
-> >>> i915, should stop using. In OO terms, you're saying they are classes
-> >>> that should be final and not extended.
-> >>>
-> >>> And even then, to be totally honest, refactoring the structures is not
-> >>> going to be anywhere near the top of our list of things to do, for a
-> >>> very long time.
-> >>
-> >> I may have not expressed myself correctly. There's nothing wrong as such
-> >> in embedded those structures in driver-specific structures (a.k.a. C
-> >> inheritance). That doesn't need to change (albeit for drm_encoder I
-> >> think we should move away from that pattern, but that's an entirely
-> >> different issue, and nothing that needs to be addressed soonà.
-> >>
-> >> The issue here is assuming that every drm_connector instance can be
-> >> up-casted to an i915-specific structure.
-> > 
-> > Thinking some more about this, I wonder a way forward could be to drop
-> > the writeback connectors from the connectors list, or at least make them
-> > invisible to drivers. The connectors list is used extensively for two
-> > different purposes: tracking all drm_connector instances, and tracking
-> > all real connectors. The former is mostly needed by the DRM core for
-> > bookkeeping purposes and to expose all drm_connector instances to
-> > userspace, while the latter is also used by drivers, in many cases in
-> > locations that don't expect writeback connectors. Using a drm_connector
-> > to implement writeback isn't something we can revisit, but we could
-> > avoid exposing that to drivers by considering "real" connectors and
-> > writeback connectors two different types of entities in the APIs the DRM
-> > core exposes to drivers. What do you think, would it help for i915 ?
-> 
-> Hi Jani and Suraj
-> 
-> Since atleast there is agreement on changing the drm_encoder to a 
-> pointer in the drm_writeback_connector, can we re-arrange the series OR 
-> split it into encoder first and then connector so that atleast those 
-> bits can go in first? It will benefit both our (i915 & MSM ) 
-> implementations.
-> 
-> Hi Laurent
-> 
-> For the connector part, can you please post a RFC for your proposal?
-> Perhaps myself and Suraj can evaluate our implementations on top of that 
-> and the encoder change.
+On Wed, Mar 2, 2022 at 9:20 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Doug
+>
+> On Wed, 2 Mar 2022 at 00:13, Doug Anderson <dianders@chromium.org> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Feb 16, 2022 at 9:00 AM Dave Stevenson
+> > <dave.stevenson@raspberrypi.com> wrote:
+> > >
+> > > Hi All
+> > >
+> > > Hopefully I've cc'ed all those that have bashed this problem around previously,
+> > > or are otherwise linked to DRM bridges.
+> > >
+> > > There have been numerous discussions around how DSI support is currently broken
+> > > as it doesn't support initialising the PHY to LP-11 and potentially the clock
+> > > lane to HS prior to configuring the DSI peripheral. There is no op where the
+> > > interface is initialised but HS video isn't also being sent.
+> > > Currently you have:
+> > > - peripheral pre_enable (host not initialised yet)
+> > > - host pre_enable
+> > > - encoder enable
+> > > - host enable
+> > > - peripheral enable (video already running)
+> > >
+> > > vc4 and exynos currently implement the DSI host as an encoder, and split the
+> > > bridge_chain. This fails if you want to switch to being a bridge and/or use
+> > > atomic calls as the state of all the elements split off are not added by
+> > > drm_atomic_add_encoder_bridges.
+> > >
+> > > dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
+> > > the bridge/panel pre_enable can send commands. In their post_disable they then
+> > > call the downstream bridge/panel post_disable op manually so that shutdown
+> > > commands can be sent before shutting down the PHY. Nothing handles that fact,
+> > > so the framework then continues down the bridge chain and calls the post_disable
+> > > again, so we get unbalanced panel prepare/unprepare calls being reported [3].
+> > >
+> > > There have been patches[4] proposing reversing the entire direction of
+> > > pre_enable and post_disable, but that risks driving voltage into devices that
+> > > have yet to be powered up.
+> > > There have been discussions about adding either a pre_pre_enable, or adding a
+> > > DSI host_op to initialise the host[5]. Both require significant reworking to all
+> > > existing drivers in moving initialisation phases.
+> > > We have patches that look like they may well be addressing race conditions in
+> > > starting up a DSI peripheral[6].
+> >
+> > In general I'm happy to let the more senior people in DRM set the
+> > direction here so I probably won't do lots of review, but I will point
+> > out that I did have another proposal that sorta got lost in the noise
+> > of the whole "reversing the entire direction". That's basically:
+> >
+> > https://lists.freedesktop.org/archives/dri-devel/2021-October/328934.html
+> >
+> > I have no idea if something like that would work for your use case,
+> > but after analyzing it it felt like a surprisingly clean proposal even
+> > if my first instinct when I thought about it was that it was a hack.
+> > ;-) I suspect (but haven't analyzed your code) that it might be
+> > equivalent to your proposal of using a flag but maybe easier to wrap
+> > ones head around?
+>
+> If I'm reading that right, then you're proposing adding
+> after_pre_enable and before_post_disable hooks.
+> That's almost the same as the power_up() and power_down() ops that
+> Dmitry suggested earlier, or pre_pre_enable / post_post_disable that
+> had also been considered.
+>
+> Neither of those options handles the case of a longer chain in which
+> two non-consecutive links want their upstream bridge enabled first.
+> As per the clarification in patch 1/2, considering the chain
+> - Panel
+>  - Bridge 1
+>  - Bridge 2 DRM_BRIDGE_OP_UPSTREAM_FIRST
+>  - Bridge 3
+>  - Bridge 4 DRM_BRIDGE_OP_UPSTREAM_FIRST
+>  - Bridge 5
+>  - Encoder
+> With the flag option we call pre_enables as Panel, Bridge 1, Bridge 3,
+> Bridge 2, Bridge 5, Bridge 4, Encoder.
+> If adding after_pre_enable, then we end up with Panel, Bridge 1,
+> Bridge 3, Bridge 5, Bridge 4 (after_pre_enable), Bridge 2
+> (after_pre_enable), Encoder.
+> (power_on / pre_pre_enable from encoder to connector would end up with
+> Bridge 5 (power_on), Bridge 3 (power_on), Bridge 1 (power_on), Panel,
+> Bridge 2, Bridge 4, Encoder).
+> Those potentially work, but it seems a less logical order compared to
+> using a flag to swap only the bridges of interest. I think power_on /
+> pre_pre_enable covers DSI better than after_pre_enable.
+>
+> Adding the extra ops requires the source bridge (eg DSI host) to know
+> the behaviour the sink bridge/panel wants. So do all DSI hosts have to
+> implement power_on to power up and enter LP-11. Some DSI peripherals
+> may be quite happy or even prefer to have the bus totally idle /
+> powered down at pre_enable, but there would be no way of implementing
+> that.
 
-I'm afraid I won't have time to work on this personally for at least
-several weeks, if not more.
+Ah, that makes it super clear, thanks! :-) If the local swap of just
+two components that you're doing is more useful to you than the two
+stage approach and everyone likes it then I have no objections.
 
-> >>>>>> The point is, you can't initialize a connector or an encoder for a
-> >>>>>> drm_device in isolation of the rest of the driver, even if it were
-> >>>>>> supposed to be hidden away.
 
--- 
-Regards,
+> You seem to be looking at DP, which I have very little knowledge of,
+> and I don't quite understand your comments about the AUX bus and how
+> ordering should be configured. If your panel isn't a generic driver,
+> couldn't it request that the upstream bridge is pre_enabled first?
 
-Laurent Pinchart
+I basically ended up solving my problem in a different way, so I have
+no immediate need of swapping the order right now. I am happy you are
+tackling it, though, and I can definitely see myself needing something
+like this in the future. :-)
+
+-Doug
