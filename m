@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072D34C99F4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43D54C99E9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95E398933D;
-	Wed,  2 Mar 2022 00:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7AF310E1D5;
+	Wed,  2 Mar 2022 00:34:00 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B61B910E549;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB1110E1D5;
  Wed,  2 Mar 2022 00:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646181238; x=1677717238;
+ t=1646181239; x=1677717239;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iSepYJAFCdMzvh1cXZAIiBiKDOW0bLqK06gNgnrGgLA=;
- b=NZlyvcngr4T/3J7Fma+YYXwX52arHbINaHUuAZHaaOIicP2rHKTdxpD2
- 9ySka4xYxBWEi4qj0F17zsg3csBO/8SXkkzIDOBi/SXy5gx7jKdVsPplK
- 1u2AlZJQb44JMn4kyHjXWTiebExJWICgO5hcW4v9ZPVU2HNb/ryh5Ktc8
- ygBDCs9KXL3OLeJxutLHloNhDgqRLOHZZaZsrnu0thzftO3ECJOwa/Z7F
- PiNLgga4u18MOqxPX85oXV0p11Q8nIhrXVDHuHeyGvDx+o2LUjqazm62o
- xS2JVEUT7QDbsl+96jHdAsg1sgXf4ET9U/S3Wbaqf9HePLYMVCI68J8uB Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243139"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243139"
+ bh=Gqfz/aln5oRCor93K8xf2Ru0aM1hUH/fldRfu+nKbL8=;
+ b=EQI+GD14HBFPjV4gPsjF9TwEZ8hlmKygVrv0dPL+XNrpWLrY/mebDrMl
+ DuXnUB87VCY6GPZ+YQx4g4ofnx8KoX8D30Ng6s7rJlus0LbcaDz2feFgS
+ 6ZmjLPMoIsGe6gJu0U5PTKKD35WmvrEZ66iE6Eg/Ul969qQna8isYhNde
+ dnudWRbBIbG1XEBSgZdYzybMu+djQVoRuI+Szk178Ch4CLDsyKpc3tZf1
+ g/sFGrimSmCQ9OH3uwrn4Fz9jcJ8IEgMb7i4z09w2IBKj3/r0taXMQhYg
+ bMKSwvbLEJC91Jjl6WiHh1Ku7R0KDqXeGj/JA6lHCJByL+BV+e/l9jc0y A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243140"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243140"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2022 16:33:57 -0800
+ 01 Mar 2022 16:33:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577374"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577377"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2022 16:33:57 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 3/8] drm/i915/guc: Better name for context id limit
-Date: Tue,  1 Mar 2022 16:33:52 -0800
-Message-Id: <20220302003357.4188363-4-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 4/8] drm/i915/guc: Split guc_lrc_desc_pin apart
+Date: Tue,  1 Mar 2022 16:33:53 -0800
+Message-Id: <20220302003357.4188363-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
 References: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
@@ -64,137 +64,150 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-The LRC descriptor pool is going away. So, stop using it as the limit
-for how many context ids are available. Instead, size the pool
-according to the number of contexts allowed. Note that this is just a
-naming change, the actual limit is identical in value.
+The LRC descriptor pool is going away. Further, the function that was
+populating it was also doing a bunch of logic about the context
+registration sequence. So, split that code apart into separate state
+setup and try to register functions. Note that some of those 'try to
+register' code paths actually undo the state setup and leave it to be
+redone again later (with potentially different values). This is
+inefficient. The next patch will correct this.
 
-While at it, also update a kzalloc(sizeof()*count) to be a
-kcalloc(count,size).
+Also, move a comment about ignoring return values to the place where
+the return values are actually ignored.
+
+v2: Move some more splitting from a later patch (and do it correctly).
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.c          |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h      |  4 ++--
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++--------
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c        |  2 +-
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 54 +++++++++++--------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 5d0ec7c49b6a..d87145b8fca0 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -400,7 +400,7 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
- 	INIT_LIST_HEAD(&ce->guc_state.fences);
- 	INIT_LIST_HEAD(&ce->guc_state.requests);
- 
--	ce->guc_id.id = GUC_INVALID_LRC_ID;
-+	ce->guc_id.id = GUC_INVALID_CONTEXT_ID;
- 	INIT_LIST_HEAD(&ce->guc_id.link);
- 
- 	INIT_LIST_HEAD(&ce->destroyed_link);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index 6a4612a852e2..11099f0320ce 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -32,8 +32,8 @@
- #define GUC_CLIENT_PRIORITY_NORMAL	3
- #define GUC_CLIENT_PRIORITY_NUM		4
- 
--#define GUC_MAX_LRC_DESCRIPTORS		65535
--#define	GUC_INVALID_LRC_ID		GUC_MAX_LRC_DESCRIPTORS
-+#define GUC_MAX_CONTEXT_ID		65535
-+#define	GUC_INVALID_CONTEXT_ID		GUC_MAX_CONTEXT_ID
- 
- #define GUC_RENDER_ENGINE		0
- #define GUC_VIDEO_ENGINE		1
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index f2251ce8776e..833e57e67f2f 100644
+index 833e57e67f2f..04b6af6fc416 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -351,12 +351,12 @@ request_to_scheduling_context(struct i915_request *rq)
- 
- static inline bool context_guc_id_invalid(struct intel_context *ce)
- {
--	return ce->guc_id.id == GUC_INVALID_LRC_ID;
-+	return ce->guc_id.id == GUC_INVALID_CONTEXT_ID;
+@@ -631,7 +631,7 @@ int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
+ 					      true, timeout);
  }
  
- static inline void set_context_guc_id_invalid(struct intel_context *ce)
+-static int guc_lrc_desc_pin(struct intel_context *ce, bool loop);
++static int try_context_registration(struct intel_context *ce, bool loop);
+ 
+ static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
  {
--	ce->guc_id.id = GUC_INVALID_LRC_ID;
-+	ce->guc_id.id = GUC_INVALID_CONTEXT_ID;
+@@ -929,7 +929,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+ 
+ 		if (unlikely(!ctx_id_mapped(guc, ce->guc_id.id) &&
+ 			     !intel_context_is_banned(ce))) {
+-			ret = guc_lrc_desc_pin(ce, false);
++			ret = try_context_registration(ce, false);
+ 			if (unlikely(ret == -EPIPE)) {
+ 				goto deadlk;
+ 			} else if (ret == -EBUSY) {
+@@ -2224,20 +2224,15 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+ 	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
  }
  
- static inline struct intel_guc *ce_to_guc(struct intel_context *ce)
-@@ -471,7 +471,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+-static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
++static void prepare_context_registration_info(struct intel_context *ce)
  {
- 	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+ 	struct intel_engine_cs *engine = ce->engine;
+-	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
+ 	struct intel_guc *guc = &engine->gt->uc.guc;
+ 	u32 desc_idx = ce->guc_id.id;
+ 	struct guc_lrc_desc *desc;
+-	bool context_registered;
+-	intel_wakeref_t wakeref;
+ 	struct intel_context *child;
+-	int ret = 0;
  
--	GEM_BUG_ON(index >= GUC_MAX_LRC_DESCRIPTORS);
-+	GEM_BUG_ON(index >= GUC_MAX_CONTEXT_ID);
+ 	GEM_BUG_ON(!engine->mask);
+-	GEM_BUG_ON(!sched_state_is_init(ce));
  
- 	return &base[index];
- }
-@@ -480,7 +480,7 @@ static inline struct intel_context *__get_context(struct intel_guc *guc, u32 id)
+ 	/*
+ 	 * Ensure LRC + CT vmas are is same region as write barrier is done
+@@ -2246,11 +2241,6 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+ 	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
+ 		   i915_gem_object_is_lmem(ce->ring->vma->obj));
+ 
+-	context_registered = ctx_id_mapped(guc, desc_idx);
+-
+-	clr_ctx_id_mapping(guc, desc_idx);
+-	set_ctx_id_mapping(guc, desc_idx, ce);
+-
+ 	desc = __get_lrc_desc(guc, desc_idx);
+ 	desc->engine_class = engine_class_to_guc_class(engine->class);
+ 	desc->engine_submit_mask = engine->logical_mask;
+@@ -2295,6 +2285,26 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+ 
+ 		clear_children_join_go_memory(ce);
+ 	}
++}
++
++static int try_context_registration(struct intel_context *ce, bool loop)
++{
++	struct intel_engine_cs *engine = ce->engine;
++	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
++	struct intel_guc *guc = &engine->gt->uc.guc;
++	intel_wakeref_t wakeref;
++	u32 desc_idx = ce->guc_id.id;
++	bool context_registered;
++	int ret = 0;
++
++	GEM_BUG_ON(!sched_state_is_init(ce));
++
++	context_registered = ctx_id_mapped(guc, desc_idx);
++
++	clr_ctx_id_mapping(guc, desc_idx);
++	set_ctx_id_mapping(guc, desc_idx, ce);
++
++	prepare_context_registration_info(ce);
+ 
+ 	/*
+ 	 * The context_lookup xarray is used to determine if the hardware
+@@ -3132,7 +3142,7 @@ static int guc_request_alloc(struct i915_request *rq)
+ 	if (unlikely(ret < 0))
+ 		return ret;
+ 	if (context_needs_register(ce, !!ret)) {
+-		ret = guc_lrc_desc_pin(ce, true);
++		ret = try_context_registration(ce, true);
+ 		if (unlikely(ret)) {	/* unwind */
+ 			if (ret == -EPIPE) {
+ 				disable_submission(guc);
+@@ -3620,9 +3630,17 @@ static void guc_set_default_submission(struct intel_engine_cs *engine)
+ static inline void guc_kernel_context_pin(struct intel_guc *guc,
+ 					  struct intel_context *ce)
  {
- 	struct intel_context *ce = xa_load(&guc->context_lookup, id);
- 
--	GEM_BUG_ON(id >= GUC_MAX_LRC_DESCRIPTORS);
-+	GEM_BUG_ON(id >= GUC_MAX_CONTEXT_ID);
- 
- 	return ce;
++	/*
++	 * Note: we purposefully do not check the returns below because
++	 * the registration can only fail if a reset is just starting.
++	 * This is called at the end of reset so presumably another reset
++	 * isn't happening and even it did this code would be run again.
++	 */
++
+ 	if (context_guc_id_invalid(ce))
+ 		pin_guc_id(guc, ce);
+-	guc_lrc_desc_pin(ce, true);
++
++	try_context_registration(ce, true);
  }
-@@ -491,7 +491,7 @@ static int guc_lrc_desc_pool_create(struct intel_guc *guc)
- 	int ret;
  
- 	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) *
--			  GUC_MAX_LRC_DESCRIPTORS);
-+			  GUC_MAX_CONTEXT_ID);
- 	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->lrc_desc_pool,
- 					     (void **)&guc->lrc_desc_pool_vaddr);
- 	if (ret)
-@@ -2428,7 +2428,7 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
- 		GUC_CONTEXT_DISABLE
- 	};
+ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
+@@ -3640,13 +3658,7 @@ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
+ 	 * Also, after a reset the of the GuC we want to make sure that the
+ 	 * information shared with GuC is properly reset. The kernel LRCs are
+ 	 * not attached to the gem_context, so they need to be added separately.
+-	 *
+-	 * Note: we purposefully do not check the return of guc_lrc_desc_pin,
+-	 * because that function can only fail if a reset is just starting. This
+-	 * is at the end of reset so presumably another reset isn't happening
+-	 * and even it did this code would be run again.
+ 	 */
+-
+ 	for_each_engine(engine, gt, id) {
+ 		struct intel_context *ce;
  
--	GEM_BUG_ON(guc_id == GUC_INVALID_LRC_ID);
-+	GEM_BUG_ON(guc_id == GUC_INVALID_CONTEXT_ID);
- 
- 	GEM_BUG_ON(intel_context_is_child(ce));
- 	trace_intel_context_sched_disable(ce);
-@@ -3841,7 +3841,7 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
- 	spin_lock_init(&guc->timestamp.lock);
- 	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
- 
--	guc->submission_state.num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
-+	guc->submission_state.num_guc_ids = GUC_MAX_CONTEXT_ID;
- 	guc->submission_supported = __guc_submission_supported(guc);
- 	guc->submission_selected = __guc_submission_selected(guc);
- }
-@@ -3851,7 +3851,7 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
- {
- 	struct intel_context *ce;
- 
--	if (unlikely(desc_idx >= GUC_MAX_LRC_DESCRIPTORS)) {
-+	if (unlikely(desc_idx >= GUC_MAX_CONTEXT_ID)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm,
- 			"Invalid desc_idx %u", desc_idx);
- 		return NULL;
-diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-index a115894d5896..1df71d0796ae 100644
---- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-@@ -148,7 +148,7 @@ static int intel_guc_steal_guc_ids(void *arg)
- 	struct i915_request *spin_rq = NULL, *rq, *last = NULL;
- 	int number_guc_id_stolen = guc->number_guc_id_stolen;
- 
--	ce = kzalloc(sizeof(*ce) * GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL);
-+	ce = kcalloc(GUC_MAX_CONTEXT_ID, sizeof(*ce), GFP_KERNEL);
- 	if (!ce) {
- 		pr_err("Context array allocation failed\n");
- 		return -ENOMEM;
 -- 
 2.25.1
 
