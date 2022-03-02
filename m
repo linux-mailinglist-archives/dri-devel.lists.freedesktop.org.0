@@ -2,74 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693544CA1BB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:05:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0A04CA1BF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2930210EE95;
-	Wed,  2 Mar 2022 10:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5D010EEBC;
+	Wed,  2 Mar 2022 10:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDFC10EE95
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:05:13 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id CDF7F5C03FF;
- Wed,  2 Mar 2022 05:05:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 02 Mar 2022 05:05:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=+GDpBz+x/R4gg5jy6C3Ux8xV+TTfqijkFUoHTz
- sxN90=; b=GVsD6XznNpQy6Jb2hPEO35je1LTnBFZ0iFVrUlp6sI49lt2MOOwkGE
- DbfICWXm8n0LyYexxQ/LqFYF+r4cPmIYWJUS/v9cMZ2wjt9cMOvhNprugvTiS+xS
- 6SoGe7tkx8UufHAmhpTvgYAAaLzrsgFj8KpnqLO5xz60ch4hW/0HSn4OOZjdSHn+
- kw6yNNZ7QuTa6Z6hnjjVFRsFknSIQCqGDwD8a/mt26m0yOYl2OGD5zbvNxKIgvGf
- U9dc6uESQNUVBLMEMOWVcKv/VUgFSIoIvtXrksHbHwWtyoPTeAPrY+8+bjGfdhud
- huDTks1J+TxUqktIqLkHt4pmXXMSx64Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+GDpBz+x/R4gg5jy6
- C3Ux8xV+TTfqijkFUoHTzsxN90=; b=Y0TirTqeh9lpqcPjAHfsxIpmAy4L8mIgc
- xY+/Pf7mGX2W/AyHx3VfXBgUHZnYk0fJozXoLllrd06FFEKULK2LTI1C3rKiLisR
- tQQsMipLBfE8Xi1sJktdL19ofrVtYA0hJbDSZT4gUOrj74K/ByXHZGw0Nbn9Pt/c
- icV4uRBf+c064t9KF77dJVzllf57hf3Y3h4tOXe1NRvgb+CN5Z5+2jRGj3GcAwC6
- DbeI5+0wfRe1kpacPy8eq8UufLMdW8EHmh0YO8JOWtNWf3UcE2aur9WtUxuQAuio
- Et6KDt0UW2NpcMSyQORki5WYFNfjR+4KMxN7ojPLEUCfZXQ7JiCUg==
-X-ME-Sender: <xms:WEEfYphB9UAn9mw_7vn1-H_8ZUaAxI4yJEj5pSudivG_zd0OIHsBHA>
- <xme:WEEfYuCZcZEycSL5S7EkReSScQUWYMmk-hRbj0YengazebbH3xjYM8sayrsXpwasE
- eCO72DcNSLbugUjiyE>
-X-ME-Received: <xmr:WEEfYpEcfg9Htc76I6iV1pG-UFVUAwZcq7cY96coZZpuYkSOSXzXhc4sJ0wX_o-wGugxBJbZuw-Tt0XPlivbICETLLA5XH5VL5rKtLo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedguddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:WEEfYuTb6z6IOo7LCnxrP0jOUxlJIYtmnowNXM_THfIDHMRsn78xew>
- <xmx:WEEfYmw8b1zkt4ZgYCGQlY8wyJOdzv6cVdbc0xs0mUpA4X28HVJb9A>
- <xmx:WEEfYk5eHCjBb_Z7eHo--Qexcbu5pE8-IP2kmssoDKTCAjtWlRdbpQ>
- <xmx:WEEfYgu3Ez7gARSw4BFwiLG0r8DGWd-90Po2krQy6bnW6oPjetO6AA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Mar 2022 05:05:12 -0500 (EST)
-Date: Wed, 2 Mar 2022 11:05:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 09/12] drm: bridge: icn6211: Implement
- atomic_get_input_bus_fmts
-Message-ID: <20220302100511.wbgnl5iewyxg5iu3@houat>
-References: <20220217002530.396563-1-marex@denx.de>
- <20220217002530.396563-10-marex@denx.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17AC710EEBE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:05:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id B87CD1F44C4F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646215532;
+ bh=Px5GBQ7EElBGp4NHQzwbv9Xg/hWCIXOMw+5mUBSPG2w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KgVMT15N2sjROZubbpp8d8WeavE8c+WnOJo8lSV3mcp4FWNTN5a0E1n5mF7b8L2r/
+ WBE0z93+LCWoewqdEpB12TDge0xCWcKwvbZtpFAOTSSain4IsLWu1S6eiEObc7X7LC
+ D8ds76/q5vrK87/dBQI5610sq0VcTAjTsTh+v30++rpJfKJjklLZaI+T22koGpxcZU
+ mJER3zD0mRXJJK/xQPzmpCkCBhdwUmcvaHBAbp+J4Q8ddQiT9GltvlfDJQPUiZMB9k
+ JyEax3kaPE2xHPgwtsAwj6mS1Im+5HB+hlOopN2wSE0dfgxBb2uTrffMiycESfJaD4
+ oIaoCuVA9OlHQ==
+Message-ID: <0b7ec857-2dd7-1037-2896-07103506ce17@collabora.com>
+Date: Wed, 2 Mar 2022 11:05:29 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="x35hns23l6zckenn"
-Content-Disposition: inline
-In-Reply-To: <20220217002530.396563-10-marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v12 19/23] drm/mediatek: add dma dev get function
+Content-Language: en-US
+To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+References: <20220222100741.30138-1-nancy.lin@mediatek.com>
+ <20220222100741.30138-20-nancy.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220222100741.30138-20-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,45 +50,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 22/02/22 11:07, Nancy.Lin ha scritto:
+> This is a preparation for adding support for the ovl_adaptor sub driver
+> Ovl_adaptor is a DRM sub driver, which doesn't have dma dev. Add
+> dma_dev_get function for getting representative dma dev in ovl_adaptor.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 
---x35hns23l6zckenn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 17, 2022 at 01:25:27AM +0100, Marek Vasut wrote:
-> Implement .atomic_get_input_bus_fmts callback, which sets up the
-> input (DSI-end) format, and that format can then be used in pipeline
-> format negotiation between the DSI-end of this bridge and the other
-> component closer to the scanout engine.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> To: dri-devel@lists.freedesktop.org
-
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
-Maxime
-
---x35hns23l6zckenn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9BVwAKCRDj7w1vZxhR
-xYmZAQDwDri5gt7E50EZ71L/7E8Tebf6a9YeOISYx/mern10QAEAwuPHHvOpUvtM
-l9tBqccXbib03Wbi8IwzuxzuIaeEpQk=
-=fUJx
------END PGP SIGNATURE-----
-
---x35hns23l6zckenn--
+Reviewed-by: AngeloGioachino Del Regno <angelogioacchino.delregno@collabora.com>
