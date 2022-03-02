@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0AE4CA1A1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0246F4CA1A4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 11:02:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7462210F2CB;
-	Wed,  2 Mar 2022 10:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA94010F32B;
+	Wed,  2 Mar 2022 10:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CFC10F2CB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:01:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EFD10F32B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Mar 2022 10:02:19 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4F7CC5C021A;
- Wed,  2 Mar 2022 05:01:45 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 02 Mar 2022 05:01:45 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 3EB8C5C00B9;
+ Wed,  2 Mar 2022 05:02:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 02 Mar 2022 05:02:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=7oxw8JwtH0lCDzPoOYEhtfAWeS0vp2Tq9n2Vih
- c5gUw=; b=d3svpoYH2XOqupp0RGUxgnR1sOdwkTF8V1601npuEw4hdkk/HeUnnM
- LaKEvqo6kjD7VeHLDr38tDHnohjDHsvLmDVjzn2dN4T3/4GUH/5YY1jibpg2BlRb
- TODANek5nRGWSeRgA0Wk1PkGZz4nZAEagvmFUZvmlXEnpAC3vI5zjJMAoylfnQJh
- YF1ypVU4GIWww+OWeGTanGg1Xon31uZn53YY5wMpmCFHf+Uy+CyDmtrRv1sCt1xI
- fEdJqb0rAcMi/rtYpEzy+AJAJ5JnY1KUAP+gMbaUbmD0+G6BdJzO2VfPvkkH6Afj
- jKoGReImpi9z4mfczUt0FkyNMxfBvcAA==
+ :subject:to:to; s=fm2; bh=QtKqkW/kZXmhsuKsm2YypGF5T7gpe9xcJbRTXN
+ txCkI=; b=c6knt2d9ERSXAltqJdSVvidYoT/GipzgBj3iuDZLDPX4C6FFdUFNi9
+ 7hyqgCCQCkyLgJqKijDmOin0mWtnZyfR1x3qjaUBlQjMpViyd1vhQpj07/Tu0BEA
+ C/Q9jCsovmkSTjPQ5L3uO2zqlUNfgwSXNW7lp7IFy6aufqHEwEqv4SCQGK6nuhCx
+ C1obOqMrHAaijtie2BLcpSl8R4D1zAPW5WotJBfT6wug9uW6MezrHcxIRQgyHctn
+ bNVNst0vyF3cw7axOuyzNE0nRd3orOh4LRGlClG46/EsXKu5T1xAhZshUPzn++KP
+ Eb3VyHNOjAUGwKSC6weCwL1v8K9O4Uzw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7oxw8JwtH0lCDzPoO
- YEhtfAWeS0vp2Tq9n2Vihc5gUw=; b=dfFjVIkDty+aKBRJ0ossEnQZwQo9YXk1C
- FFrbnaC2V5R/1YHEkQa+VPVPk99bSEPCu+ySyUuG1bjRMZUTb/m1yPvZ+UphWIkp
- YBrAqY3s45L/0qcDb8kt+lEqJEVJhMsZ6SA02IagbGCcnrAsJw7dgc1Rde8oYoZe
- T7OXSGRVFmpDTr3p8bXUCruI6PiwUxyhLymLj2LHCdXGc/hP20kNzIXZEnJbPT2I
- EK42p+iCNEu8aNQlgCKGaCARw0JsVQjCBL4BN++NzXyywsUz1RzoMzU+d9GUkcgu
- J/UhEF9t7DFRNzMmb3M0yf4FoeRFbZDtVemkAjglx4AhHh98OkmuA==
-X-ME-Sender: <xms:iEAfYth61sNqGUHwQTX0wfudK8z6ie3346DHZ2MmLRHZKjKEh7Gn8Q>
- <xme:iEAfYiB6xuu4nvnJ4zZMdjoS4tFMQI9BDnImUKPtryXUps-91stzw8qZy0X9g6ERC
- q9Y_JQ2SZKe1ak-zn8>
-X-ME-Received: <xmr:iEAfYtEXGwJiIaq923G4p4v-iQ15QTwwksHv8OrZZvcIPI8uRWl3QqSi8L-sHjwV1YSSCFH_lM1euFDXdapOmL0XpU-vbsnJmgNqAyg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgtdekucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QtKqkW/kZXmhsuKsm
+ 2YypGF5T7gpe9xcJbRTXNtxCkI=; b=bZLhDHh8N3yb1PX7Nspb3gXC3zOkx2akK
+ pu1lgtGJ5kn0mDAdgJrTbvHwCg/WCx/YVWDQnwXZBDkPXDcLvNkYzio/78ppcn3H
+ 7/KL9RtD20iSjVQ9uGRLfjK+IiAYQSouvtEKVq/+pYd8qhEzVdayq8CPMeJROXNH
+ ggCETVavys6WvcUwzQFP2/9/bMl9s/VBXp3kJlItMaOOAEWPNL9AvJh2HgcGcRmb
+ LsGKeDmYOb+7pFLb82q+KY9JhJMwgwNQ3ULpwOBwHeSceOIfqeNgBv4Y7M0EjLg9
+ +pHVYQds5A0rgnAZh0uywpGlA/TIRcYMKbHIVuACowBhyX1QwnpCA==
+X-ME-Sender: <xms:q0AfYtva4SRqrtUm5_WAm5pkbKi1GaSdOjAeNFF_dbT23ssrydNTjg>
+ <xme:q0AfYmcNpZLeDqKbkz9JROyXjYux-rZSWOjGk92ui9cIzxXkIWKtRROwsXPtPHErR
+ HiaXhYyO1ZmnguBukk>
+X-ME-Received: <xmr:q0AfYgyXpV4C77IT9zbXesgm74BuBf7E915ZGrCmcFXBOBmEUp2x36cVA1A7sO6EPzmlBvo-5gY5Aj_FyYY8oX4ECUX-yY2xtIqJ-98>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgtdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:iUAfYiRWfrSRE1LWSj8bkTpCuJD0ce-Sr_TD_OhD_GWlFiWkLCLocw>
- <xmx:iUAfYqzJojhkatZBqkBoq7SyqfSpAyvl9l9w6RoUwsnHUj9v0JnuYA>
- <xmx:iUAfYo4C9_H9kzSPC4sxxtijJ1tgkYItRJiZXNN8Fbo0psEY8mXFkQ>
- <xmx:iUAfYkvOQzAqQl1cnfjNBqt1cAa50ZSMKQJRRWqUP9Y8DB7QH5QNqw>
+ htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
+ ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:q0AfYkOEKf4Q_LUU9PiRnOD-2Tqs77GcjM_8TbbIYmIe1JPgns4Zug>
+ <xmx:q0AfYt9GicghB6bZ7UNl4ThQkMoc4Va3Srd5nwJRSpTKzIKtJgJWEQ>
+ <xmx:q0AfYkUjmvDdJ3pt77ZyDtbR609QGd6STUfu9G2tlLhfFoT-JYWXpQ>
+ <xmx:q0AfYpYYDitwWTv5AzsY3GwVAxridemF9z90nOdYHXoYR6vt7EHR7w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Mar 2022 05:01:44 -0500 (EST)
-Date: Wed, 2 Mar 2022 11:01:43 +0100
+ 2 Mar 2022 05:02:18 -0500 (EST)
+Date: Wed, 2 Mar 2022 11:02:17 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 04/12] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
-Message-ID: <20220302100143.pvy77sw2sgd57tql@houat>
+Subject: Re: [PATCH V2 05/12] drm: bridge: icn6211: Add generic DSI-to-DPI
+ PLL configuration
+Message-ID: <20220302100217.ceqpp5jgmqtkboq6@houat>
 References: <20220217002530.396563-1-marex@denx.de>
- <20220217002530.396563-5-marex@denx.de>
+ <20220217002530.396563-6-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kzdr55c5mebf6o3s"
+ protocol="application/pgp-signature"; boundary="caxsjqthnai6v34f"
 Content-Disposition: inline
-In-Reply-To: <20220217002530.396563-5-marex@denx.de>
+In-Reply-To: <20220217002530.396563-6-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +89,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---kzdr55c5mebf6o3s
+--caxsjqthnai6v34f
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 17, 2022 at 01:25:22AM +0100, Marek Vasut wrote:
-> The driver currently hard-codes DSI lane count to two, however the chip
-> is capable of operating in 1..4 DSI lanes mode. Parse 'data-lanes' DT
-> property and program the result into DSI_CTRL register.
+On Thu, Feb 17, 2022 at 01:25:23AM +0100, Marek Vasut wrote:
+> The chip contains fractional PLL, however the driver currently hard-codes
+> one specific PLL setting. Implement generic PLL parameter calculation cod=
+e,
+> so any DPI panel with arbitrary pixel clock can be attached to this bridg=
+e.
+>=20
+> The datasheet for this bridge is not available, the PLL behavior has been
+> inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
+> The PLL limits might be wrong, but at least the calculated values match a=
+ll
+> the example code available. This is better than one hard-coded pixel clock
+> value anyway.
+>=20
+> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gp=
+u/drm/bridge/icn6211.c
+> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
 >=20
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Jagan Teki <jagan@amarulasolutions.com>
@@ -106,74 +119,20 @@ On Thu, Feb 17, 2022 at 01:25:22AM +0100, Marek Vasut wrote:
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > To: dri-devel@lists.freedesktop.org
-> ---
-> V2: Rebase on next-20220214
-> ---
->  drivers/gpu/drm/bridge/chipone-icn6211.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/b=
-ridge/chipone-icn6211.c
-> index 2ac8eb7e25f52..7c013a08c7b00 100644
-> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> @@ -136,10 +136,12 @@ struct chipone {
->  	struct drm_bridge bridge;
->  	struct drm_display_mode mode;
->  	struct drm_bridge *panel_bridge;
-> +	struct device_node *host_node;
->  	struct gpio_desc *enable_gpio;
->  	struct regulator *vdd1;
->  	struct regulator *vdd2;
->  	struct regulator *vdd3;
-> +	int dsi_lanes;
->  };
-> =20
->  static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridg=
-e)
-> @@ -212,6 +214,11 @@ static void chipone_atomic_enable(struct drm_bridge =
-*bridge,
->  	/* dsi specific sequence */
->  	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
->  	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
-> +
-> +	/* DSI data lane count */
-> +	ICN6211_DSI(icn, DSI_CTRL,
-> +		    DSI_CTRL_UNKNOWN | DSI_CTRL_DSI_LANES(icn->dsi_lanes - 1));
-> +
->  	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
->  	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
-> =20
-> @@ -314,6 +321,7 @@ static const struct drm_bridge_funcs chipone_bridge_f=
-uncs =3D {
->  static int chipone_parse_dt(struct chipone *icn)
->  {
->  	struct device *dev =3D icn->dev;
-> +	struct device_node *endpoint;
->  	struct drm_panel *panel;
->  	int ret;
-> =20
-> @@ -350,6 +358,16 @@ static int chipone_parse_dt(struct chipone *icn)
->  		return PTR_ERR(icn->enable_gpio);
->  	}
-> =20
-> +	endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> +	icn->dsi_lanes =3D of_property_count_u32_elems(endpoint, "data-lanes");
 
-The binding must be amended to allow for the usage of data-lanes, and
-you need to keep the previous value as default for older device trees
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---kzdr55c5mebf6o3s
+--caxsjqthnai6v34f
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9AhwAKCRDj7w1vZxhR
-xeEJAP4rKR0Gf9rcwygCJ0K0PemJe47h3eAzdZ+o7ipvY1kDsgEAhqYcoUSy3td7
-hZhpHvY0nZ55DBCmdDRStJZuDQ3MXwU=
-=9Y4/
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYh9AqQAKCRDj7w1vZxhR
+xUycAQCYmU+s5sDLhQSg4Z2u7dcBd3CreQtmW33j08DUl75AzwD+M8xT1P8pxn3A
+2azznhp68h1zkk1ppRpBOh0pkpk9gQ8=
+=UxyS
 -----END PGP SIGNATURE-----
 
---kzdr55c5mebf6o3s--
+--caxsjqthnai6v34f--
