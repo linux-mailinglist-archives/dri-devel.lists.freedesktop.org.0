@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08154C99F3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA0A4C99EF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 01:34:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E6910E934;
-	Wed,  2 Mar 2022 00:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5187F10E5FE;
+	Wed,  2 Mar 2022 00:34:04 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 118AE10E549;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B38410E1D5;
  Wed,  2 Mar 2022 00:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1646181239; x=1677717239;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=potoo9Phd/a+iPMdyl9Egvty7nVXUYthdVSQzuOo1B4=;
- b=b3pSL6MG6Ro8b/w/0n82L7OWA5wuaAI7VOUgDTdgyEetLL8N55kb8zcs
- s2R3velLi9FOy3Q1zpcGd5LvStXfrBOpSEjVpDN6y0DfJCWJ5YLT3Ze8g
- 2DYFpUEhN3nhtgHkw/aN0gfQYCw7Xm3ymJoH9dDOfbuExZ2EvzJy9Y27w
- jKLFtG66ZJ11wSbn6gewPYAv1crzOsbPnvykedZEHPPesyZWlUAL4KoEX
- 1qgEvVxurDviEQUXqVuB5MwDdLAGhrYBgLbW0XgWNeWjybYQIl7fNFs5W
- CMPnOo2m1Qm/Qi5MOeR+B+Lio1NLNE9SQovq4EMNgMfEyXSrOMUgVE9bw A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243141"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243141"
+ bh=Nix4eBHA6iNejbbyf/o+k+ONEDzJx0BgbA4nQBwoDu0=;
+ b=hvjsErVeZkkkrGpTUTnNgBUxcvPrFhTHYC8zPbVXlrRPVHlg/hKPdJjo
+ +VVBXc7r3x+ijU0yNf/OLNqaVW6IGZSTIB4FQXLUak2cUarYr1Fap0I3c
+ RPDBotRguhqmv6Mi4ajqyQ0Hz3qa2RVB8bXwXPNMQkGkAomUC4+eAN6Cq
+ YHm0REE4wM9VKaVEzcGjZUOgTu7a8ca2ik/uLnLCpOpPHm1U8s1+CFKiE
+ YVm9sRvPbPRU+85Zf2sAFCXjJIE4ZOymjKdirq/PMPwjYCDe3huhfSARw
+ XWzxQuKLfMkWPSIZszYIbcfNlVudiWiM10dWHj2qtXKHcG1VPboC1dOlT A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="233243142"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="233243142"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Mar 2022 16:33:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577381"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; d="scan'208";a="639577384"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2022 16:33:58 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 5/8] drm/i915/guc: Move lrc desc setup to where it is needed
-Date: Tue,  1 Mar 2022 16:33:54 -0800
-Message-Id: <20220302003357.4188363-6-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 6/8] drm/i915/guc: Rename desc_idx to ctx_id
+Date: Tue,  1 Mar 2022 16:33:55 -0800
+Message-Id: <20220302003357.4188363-7-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
 References: <20220302003357.4188363-1-John.C.Harrison@Intel.com>
@@ -64,52 +64,187 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-The LRC descriptor was being initialised early on in the context
-registration sequence. It could then be determined that the actual
-registration needs to be delayed and the descriptor would be wiped
-out. This is inefficient, so move the setup to later in the process
-after the point of no return.
+The LRC descriptor pool is going away. So, stop naming context ids as
+descriptor pool indecies.
 
-v2: Move some split changes into the split patch (and do them
-correctly).
+While at it, add a bunch of missing line feeds to some error messages.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 +++++++++----------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 04b6af6fc416..f493bb57f64e 100644
+index f493bb57f64e..5dbebf15fae1 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2140,6 +2140,8 @@ static int __guc_action_register_context(struct intel_guc *guc,
- 					     0, loop);
- }
- 
-+static void prepare_context_registration_info(struct intel_context *ce);
-+
- static int register_context(struct intel_context *ce, bool loop)
+@@ -2232,7 +2232,7 @@ static void prepare_context_registration_info(struct intel_context *ce)
  {
- 	struct intel_guc *guc = ce_to_guc(ce);
-@@ -2150,6 +2152,8 @@ static int register_context(struct intel_context *ce, bool loop)
- 	GEM_BUG_ON(intel_context_is_child(ce));
- 	trace_intel_context_register(ce);
+ 	struct intel_engine_cs *engine = ce->engine;
+ 	struct intel_guc *guc = &engine->gt->uc.guc;
+-	u32 desc_idx = ce->guc_id.id;
++	u32 ctx_id = ce->guc_id.id;
+ 	struct guc_lrc_desc *desc;
+ 	struct intel_context *child;
  
-+	prepare_context_registration_info(ce);
-+
- 	if (intel_context_is_parent(ce))
- 		ret = __guc_action_register_multi_lrc(guc, ce, ce->guc_id.id,
- 						      offset, loop);
-@@ -2304,8 +2308,6 @@ static int try_context_registration(struct intel_context *ce, bool loop)
- 	clr_ctx_id_mapping(guc, desc_idx);
- 	set_ctx_id_mapping(guc, desc_idx, ce);
+@@ -2245,7 +2245,7 @@ static void prepare_context_registration_info(struct intel_context *ce)
+ 	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
+ 		   i915_gem_object_is_lmem(ce->ring->vma->obj));
  
--	prepare_context_registration_info(ce);
--
+-	desc = __get_lrc_desc(guc, desc_idx);
++	desc = __get_lrc_desc(guc, ctx_id);
+ 	desc->engine_class = engine_class_to_guc_class(engine->class);
+ 	desc->engine_submit_mask = engine->logical_mask;
+ 	desc->hw_context_desc = ce->lrc.lrca;
+@@ -2297,16 +2297,16 @@ static int try_context_registration(struct intel_context *ce, bool loop)
+ 	struct intel_runtime_pm *runtime_pm = engine->uncore->rpm;
+ 	struct intel_guc *guc = &engine->gt->uc.guc;
+ 	intel_wakeref_t wakeref;
+-	u32 desc_idx = ce->guc_id.id;
++	u32 ctx_id = ce->guc_id.id;
+ 	bool context_registered;
+ 	int ret = 0;
+ 
+ 	GEM_BUG_ON(!sched_state_is_init(ce));
+ 
+-	context_registered = ctx_id_mapped(guc, desc_idx);
++	context_registered = ctx_id_mapped(guc, ctx_id);
+ 
+-	clr_ctx_id_mapping(guc, desc_idx);
+-	set_ctx_id_mapping(guc, desc_idx, ce);
++	clr_ctx_id_mapping(guc, ctx_id);
++	set_ctx_id_mapping(guc, ctx_id, ce);
+ 
  	/*
  	 * The context_lookup xarray is used to determine if the hardware
- 	 * context is currently registered. There are two cases in which it
+@@ -2332,7 +2332,7 @@ static int try_context_registration(struct intel_context *ce, bool loop)
+ 		}
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 		if (unlikely(disabled)) {
+-			clr_ctx_id_mapping(guc, desc_idx);
++			clr_ctx_id_mapping(guc, ctx_id);
+ 			return 0;	/* Will get registered later */
+ 		}
+ 
+@@ -2348,9 +2348,9 @@ static int try_context_registration(struct intel_context *ce, bool loop)
+ 		with_intel_runtime_pm(runtime_pm, wakeref)
+ 			ret = register_context(ce, loop);
+ 		if (unlikely(ret == -EBUSY)) {
+-			clr_ctx_id_mapping(guc, desc_idx);
++			clr_ctx_id_mapping(guc, ctx_id);
+ 		} else if (unlikely(ret == -ENODEV)) {
+-			clr_ctx_id_mapping(guc, desc_idx);
++			clr_ctx_id_mapping(guc, ctx_id);
+ 			ret = 0;	/* Will get registered later */
+ 		}
+ 	}
+@@ -3861,26 +3861,26 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
+ }
+ 
+ static inline struct intel_context *
+-g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
++g2h_context_lookup(struct intel_guc *guc, u32 ctx_id)
+ {
+ 	struct intel_context *ce;
+ 
+-	if (unlikely(desc_idx >= GUC_MAX_CONTEXT_ID)) {
++	if (unlikely(ctx_id >= GUC_MAX_CONTEXT_ID)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm,
+-			"Invalid desc_idx %u", desc_idx);
++			"Invalid ctx_id %u\n", ctx_id);
+ 		return NULL;
+ 	}
+ 
+-	ce = __get_context(guc, desc_idx);
++	ce = __get_context(guc, ctx_id);
+ 	if (unlikely(!ce)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm,
+-			"Context is NULL, desc_idx %u", desc_idx);
++			"Context is NULL, ctx_id %u\n", ctx_id);
+ 		return NULL;
+ 	}
+ 
+ 	if (unlikely(intel_context_is_child(ce))) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm,
+-			"Context is child, desc_idx %u", desc_idx);
++			"Context is child, ctx_id %u\n", ctx_id);
+ 		return NULL;
+ 	}
+ 
+@@ -3892,14 +3892,14 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+ 					  u32 len)
+ {
+ 	struct intel_context *ce;
+-	u32 desc_idx = msg[0];
++	u32 ctx_id = msg[0];
+ 
+ 	if (unlikely(len < 1)) {
+-		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
++		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
+ 		return -EPROTO;
+ 	}
+ 
+-	ce = g2h_context_lookup(guc, desc_idx);
++	ce = g2h_context_lookup(guc, ctx_id);
+ 	if (unlikely(!ce))
+ 		return -EPROTO;
+ 
+@@ -3943,14 +3943,14 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ {
+ 	struct intel_context *ce;
+ 	unsigned long flags;
+-	u32 desc_idx = msg[0];
++	u32 ctx_id = msg[0];
+ 
+ 	if (unlikely(len < 2)) {
+-		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
++		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
+ 		return -EPROTO;
+ 	}
+ 
+-	ce = g2h_context_lookup(guc, desc_idx);
++	ce = g2h_context_lookup(guc, ctx_id);
+ 	if (unlikely(!ce))
+ 		return -EPROTO;
+ 
+@@ -3958,8 +3958,8 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ 		     (!context_pending_enable(ce) &&
+ 		     !context_pending_disable(ce)))) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm,
+-			"Bad context sched_state 0x%x, desc_idx %u",
+-			ce->guc_state.sched_state, desc_idx);
++			"Bad context sched_state 0x%x, ctx_id %u\n",
++			ce->guc_state.sched_state, ctx_id);
+ 		return -EPROTO;
+ 	}
+ 
+@@ -4057,14 +4057,14 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+ {
+ 	struct intel_context *ce;
+ 	unsigned long flags;
+-	int desc_idx;
++	int ctx_id;
+ 
+ 	if (unlikely(len != 1)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
+ 		return -EPROTO;
+ 	}
+ 
+-	desc_idx = msg[0];
++	ctx_id = msg[0];
+ 
+ 	/*
+ 	 * The context lookup uses the xarray but lookups only require an RCU lock
+@@ -4073,7 +4073,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+ 	 * asynchronously until the reset is done.
+ 	 */
+ 	xa_lock_irqsave(&guc->context_lookup, flags);
+-	ce = g2h_context_lookup(guc, desc_idx);
++	ce = g2h_context_lookup(guc, ctx_id);
+ 	if (ce)
+ 		intel_context_get(ce);
+ 	xa_unlock_irqrestore(&guc->context_lookup, flags);
 -- 
 2.25.1
 
