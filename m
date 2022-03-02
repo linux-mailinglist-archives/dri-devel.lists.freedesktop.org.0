@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8E44CAB1E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:07:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8C64CAB4D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Mar 2022 18:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DAA710EC86;
-	Wed,  2 Mar 2022 17:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC9410E51B;
+	Wed,  2 Mar 2022 17:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB36310EC86;
- Wed,  2 Mar 2022 17:07:00 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- k9-20020a056830242900b005ad25f8ebfdso2202440ots.7; 
- Wed, 02 Mar 2022 09:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3ez6WyL9F1jUYJ3lwjI5LoseBaGemqthQn8NeyAQi/A=;
- b=k2sTbLZtgUHm7BzG1bv5xZPCz9YsEeMyhAhcgtCW4cpaDA9faQlY97bI9u4zgAtJ/D
- Pq6urEO3TQbQ5a8IccWZFJzS5fPDqs+dy5GqaeCnDZuW0qJF+hvG7xeMm+CUguETjak6
- rs00ZR17XdP1fsUK9ZCwrQfxLzXdWkEcssKCwPw1K9/Lzpq/8y8OS917eO3WRLZXHj7l
- B/RTh9uowjHkbxSGDmI6R9qWC2Geytri6PzdcmBucZFdlBYBVBaKpQrUQ3LBkp4Lc6YS
- J38L1Qcork/bccQWUBv8FyVvuZk1x5NLDJkTqH0AxgBPtleytj1pCm0GT/mtaW3IkR50
- VvlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3ez6WyL9F1jUYJ3lwjI5LoseBaGemqthQn8NeyAQi/A=;
- b=aigoSaxhW74rWkpZ2Ptl6Xd6CVEm63Gkyp6kh+cKtBjkFfbwF53EqiY+/NVE3WDHvR
- OBy02ukPJmZdzFC22lWxcmgZiAMC2pgCQASSN0pFey0jWdOpJuMlBUL9e8grnDBWKzxN
- eDDodzldU7shLnzgmbrxVacYbrtiue87IqurX64Df6Y8dtvLBSOV7FhSjicVwHl7cpun
- Abu8rXx3+nDvUlARi/0kydbDb1a8WxJybxeH9eP/LAUbjWm4P6h+k2YMOgzHS8xB3zB6
- GIMOgxsa+bCySViLUsAz4hcDt2fTlZ9o9xil2T1vmCaVSDpD7kBLpcLr18iaA1gPqRis
- 8PqA==
-X-Gm-Message-State: AOAM532sNaLJwrVym2JKAEIYPIlaIFHpfS0gQSn3dfPiidUij1/41yI5
- CfqicRvOG9Qeudbpnpd6DX51yWNbViacAxOaZF8=
-X-Google-Smtp-Source: ABdhPJxysHgKDsB4dSbLgvNNZTo4s2zTUPd66Id1zg8IPF8n3SHLBi5sx8GtFxTtZt4Y7f0DmqykPu5QwgjVXm6/Dl8=
-X-Received: by 2002:a9d:5a06:0:b0:5af:b5fd:5b72 with SMTP id
- v6-20020a9d5a06000000b005afb5fd5b72mr16310414oth.200.1646240819901; Wed, 02
- Mar 2022 09:06:59 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F0B10E51B;
+ Wed,  2 Mar 2022 17:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646241306; x=1677777306;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=quZJORXDoBJnmtXWeY1UEG0LMErZNbKWG4uR8GxuM8A=;
+ b=EgFtrQTE2RuXhvw9sRIr3IT+pA0Ncb8f9tiCc0SC60P5NxN5IIJ1lIbG
+ qRXhfI2wJDlspyrIGC0iL/9/1vb/Lqq8nOVou0CScelNSeM2zFz5ZYwQd
+ vRCxbYiuOYMHLgn2p868GOLIzIRhmd1d7Ftp+C+uIAO1rF5yphwxH1nTK
+ BZo8QGgTZGobcAwOhtAkimiecLreyGJPEymFRGwK29ytkPQQTUw1YAXwn
+ 7s74MTXIjfdUqEKiu1QGwymv12Ru01fVqM/H0rIJHbiNJzFQB0n0mysA7
+ 4izUGN7Nj88HSoNqykEmQlZt68TbXwAcpy2jJWkt8gcliob3VHMqMtNgg A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253382755"
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="253382755"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 09:15:05 -0800
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="551343768"
+Received: from jbuller-mobl1.ger.corp.intel.com (HELO [10.213.194.231])
+ ([10.213.194.231])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 09:14:53 -0800
+Message-ID: <ed52ce3c-0f4a-a1e8-4176-543657d6228d@linux.intel.com>
+Date: Wed, 2 Mar 2022 17:14:50 +0000
 MIME-Version: 1.0
-References: <20220225032436.904942-1-michael.cheng@intel.com>
- <20220225032436.904942-2-michael.cheng@intel.com>
- <5c254623-98d2-75f3-52cb-209b8de304b6@arm.com>
- <3750c398-e8fb-c4e1-ba31-e6ac5fbc01d0@intel.com>
- <2f82d150-47c4-d7c3-50da-eaf4aa4a24af@arm.com>
- <49e4a740-c127-0d5d-e2e8-3ff482fdce3c@intel.com>
-In-Reply-To: <49e4a740-c127-0d5d-e2e8-3ff482fdce3c@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 2 Mar 2022 12:06:48 -0500
-Message-ID: <CADnq5_MM0wdb+gU5ZKdFMh2X9LXoy=ayuu6Qn6J0r1dri_5K=A@mail.gmail.com>
-Subject: Re: [PATCH v12 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-To: Michael Cheng <michael.cheng@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 6/6] treewide: remove check of list iterator
+ against head past the loop body
+Content-Language: en-US
+To: Jakob Koschel <jakobkoschel@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-7-jakobkoschel@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220228110822.491923-7-jakobkoschel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,149 +63,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- balasubramani.vivekanandan@intel.com, Will Deacon <will@kernel.org>,
- wayne.boyer@intel.com, Catalin Marinas <catalin.marinas@arm.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- casey.g.bowman@intel.com, Lucas De Marchi <lucas.demarchi@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: linux-wireless@vger.kernel.org, alsa-devel@alsa-project.org,
+ kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, amd-gfx@lists.freedesktop.org,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, linux-cifs@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-scsi@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, "Bos,
+ H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dmaengine@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ v9fs-developer@lists.sourceforge.net, linux-tegra@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sgx@vger.kernel.org,
+ linux-block@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, tipc-discussion@lists.sourceforge.net,
+ linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 2, 2022 at 10:55 AM Michael Cheng <michael.cheng@intel.com> wrote:
->
-> Thanks for the feedback Robin!
->
-> Sorry my choices of word weren't that great, but what I meant is to
-> understand how ARM flushes a range of dcache for device drivers, and not
-> an equal to x86 clflush.
->
-> I believe the concern is if the CPU writes an update, that update might
-> only be sitting in the CPU cache and never make it to device memory
-> where the device can see it; there are specific places that we are
-> supposed to flush the CPU caches to make sure our updates are visible to
-> the hardware.
->
-> +Matt Roper
->
-> Matt, Lucas, any feed back here?
 
-MMIO (e.g., PCI BARs, etc.) should be mapped uncached.  If it's not
-you'll have a lot of problems using a GPU on that architecture.  One
-thing that you may want to check is if your device has its own caches
-or write queues on the BAR aperture.  You may have to flush them after
-CPU access to the BAR to make sure CPU updates land in device memory.
-For system memory, PCI, per the spec, should be cache coherent with
-the CPU.  If it's not, you'll have a lot of trouble using a GPU on
-that platform.
+On 28/02/2022 11:08, Jakob Koschel wrote:
+> When list_for_each_entry() completes the iteration over the whole list
+> without breaking the loop, the iterator value will be a bogus pointer
+> computed based on the head element.
+> 
+> While it is safe to use the pointer to determine if it was computed
+> based on the head element, either with list_entry_is_head() or
+> &pos->member == head, using the iterator variable after the loop should
+> be avoided.
+> 
+> In preparation to limiting the scope of a list iterator to the list
+> traversal loop, use a dedicated pointer to point to the found element.
+> 
+> Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
 
-Alex
+[snip until i915 parts]
 
->
-> On 2022-03-02 4:49 a.m., Robin Murphy wrote:
-> > On 2022-02-25 19:27, Michael Cheng wrote:
-> >> Hi Robin,
-> >>
-> >> [ +arm64 maintainers for their awareness, which would have been a
-> >> good thing to do from the start ]
-> >>
-> >>   * Thanks for adding the arm64 maintainer and sorry I didn't rope them
-> >>     in sooner.
-> >>
-> >> Why does i915 need to ensure the CPU's instruction cache is coherent
-> >> with its data cache? Is it a self-modifying driver?
-> >>
-> >>   * Also thanks for pointing this out. Initially I was using
-> >>     dcache_clean_inval_poc, which seem to be the equivalently to what
-> >>     x86 is doing for dcache flushing, but it was giving me build errors
-> >>     since its not on the global list of kernel symbols. And after
-> >>     revisiting the documentation for caches_clean_inval_pou, it won't
-> >>     fly for what we are trying to do. Moving forward, what would you (or
-> >>     someone in the ARM community) suggest we do? Could it be possible to
-> >>     export dcache_clean_inval_poc as a global symbol?
-> >
-> > Unlikely, unless something with a legitimate need for CPU-centric
-> > cache maintenance like kexec or CPU hotplug ever becomes modular.
-> >
-> > In the case of a device driver, it's not even the basic issues of
-> > assuming to find direct equivalents to x86 semantics in other CPU
-> > architectures, or effectively reinventing parts of the DMA API, it's
-> > even bigger than that. Once you move from being integrated in a single
-> > vendor's system architecture to being on a discrete card, you
-> > fundamentally *no longer have any control over cache coherency*.
-> > Whether the host CPU architecture happens to be AArch64, RISC-V, or
-> > whatever doesn't really matter, you're at the mercy of 3rd-party PCIe
-> > and interconnect IP vendors, and SoC integrators. You'll find yourself
-> > in systems where PCIe simply cannot snoop any caches, where you'd
-> > better have the correct DMA API calls in place to have any hope of
-> > even the most basic functionality working properly; you'll find
-> > yourself in systems where even if the PCIe root complex claims to
-> > support No Snoop, your uncached traffic will still end up snooping
-> > stale data that got prefetched back into caches you thought you'd
-> > invalidated; you'll find yourself in systems where your memory
-> > attributes may or may not get forcibly rewritten by an IOMMU depending
-> > on the kernel config and/or command line.
-> >
-> > It's not about simply finding a substitute for clflush, it's that the
-> > reasons you have for using clflush in the first place can no longer be
-> > assumed to be valid.
-> >
-> > Robin.
-> >
-> >> On 2022-02-25 10:24 a.m., Robin Murphy wrote:
-> >>> [ +arm64 maintainers for their awareness, which would have been a
-> >>> good thing to do from the start ]
-> >>>
-> >>> On 2022-02-25 03:24, Michael Cheng wrote:
-> >>>> Add arm64 support for drm_clflush_virt_range. caches_clean_inval_pou
-> >>>> performs a flush by first performing a clean, follow by an
-> >>>> invalidation
-> >>>> operation.
-> >>>>
-> >>>> v2 (Michael Cheng): Use correct macro for cleaning and invalidation
-> >>>> the
-> >>>>             dcache. Thanks Tvrtko for the suggestion.
-> >>>>
-> >>>> v3 (Michael Cheng): Replace asm/cacheflush.h with linux/cacheflush.h
-> >>>>
-> >>>> v4 (Michael Cheng): Arm64 does not export dcache_clean_inval_poc as a
-> >>>>             symbol that could be use by other modules, thus use
-> >>>>             caches_clean_inval_pou instead. Also this version
-> >>>>                 removes include for cacheflush, since its already
-> >>>>             included base on architecture type.
-> >>>>
-> >>>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
-> >>>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-> >>>> ---
-> >>>>   drivers/gpu/drm/drm_cache.c | 5 +++++
-> >>>>   1 file changed, 5 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> >>>> index c3e6e615bf09..81c28714f930 100644
-> >>>> --- a/drivers/gpu/drm/drm_cache.c
-> >>>> +++ b/drivers/gpu/drm/drm_cache.c
-> >>>> @@ -174,6 +174,11 @@ drm_clflush_virt_range(void *addr, unsigned
-> >>>> long length)
-> >>>>         if (wbinvd_on_all_cpus())
-> >>>>           pr_err("Timed out waiting for cache flush\n");
-> >>>> +
-> >>>> +#elif defined(CONFIG_ARM64)
-> >>>> +    void *end = addr + length;
-> >>>> +    caches_clean_inval_pou((unsigned long)addr, (unsigned long)end);
-> >>>
-> >>> Why does i915 need to ensure the CPU's instruction cache is coherent
-> >>> with its data cache? Is it a self-modifying driver?
-> >>>
-> >>> Robin.
-> >>>
-> >>> (Note that the above is somewhat of a loaded question, and I do
-> >>> actually have half an idea of what you're trying to do here and why
-> >>> it won't fly, but I'd like to at least assume you've read the
-> >>> documentation of the function you decided was OK to use)
-> >>>
-> >>>> +
-> >>>>   #else
-> >>>>       WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
-> >>>>   #endif
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 14 +++---
+>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 ++++---
+>   drivers/gpu/drm/i915/gt/intel_ring.c          | 15 ++++---
+
+[snip]
+
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 00327b750fbb..80c79028901a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -107,25 +107,27 @@ static void lut_close(struct i915_gem_context *ctx)
+>   	radix_tree_for_each_slot(slot, &ctx->handles_vma, &iter, 0) {
+>   		struct i915_vma *vma = rcu_dereference_raw(*slot);
+>   		struct drm_i915_gem_object *obj = vma->obj;
+> -		struct i915_lut_handle *lut;
+> +		struct i915_lut_handle *lut = NULL;
+> +		struct i915_lut_handle *tmp;
+> 
+>   		if (!kref_get_unless_zero(&obj->base.refcount))
+>   			continue;
+> 
+>   		spin_lock(&obj->lut_lock);
+> -		list_for_each_entry(lut, &obj->lut_list, obj_link) {
+> -			if (lut->ctx != ctx)
+> +		list_for_each_entry(tmp, &obj->lut_list, obj_link) {
+> +			if (tmp->ctx != ctx)
+>   				continue;
+> 
+> -			if (lut->handle != iter.index)
+> +			if (tmp->handle != iter.index)
+>   				continue;
+> 
+> -			list_del(&lut->obj_link);
+> +			list_del(&tmp->obj_link);
+> +			lut = tmp;
+>   			break;
+>   		}
+>   		spin_unlock(&obj->lut_lock);
+> 
+> -		if (&lut->obj_link != &obj->lut_list) {
+> +		if (lut) {
+>   			i915_lut_handle_free(lut);
+>   			radix_tree_iter_delete(&ctx->handles_vma, &iter, slot);
+
+Looks okay although personally I would have left lut as is for a smaller 
+diff and introduced a new local like 'found' or 'unlinked'.
+
+>   			i915_vma_close(vma);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 1736efa43339..fda9e3685ad2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2444,7 +2444,8 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
+>   {
+>   	struct intel_ring *ring = ce->ring;
+>   	struct intel_timeline *tl = ce->timeline;
+> -	struct i915_request *rq;
+> +	struct i915_request *rq = NULL;
+> +	struct i915_request *tmp;
+> 
+>   	/*
+>   	 * Completely unscientific finger-in-the-air estimates for suitable
+> @@ -2460,15 +2461,17 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
+>   	 * claiming our resources, but not so long that the ring completely
+>   	 * drains before we can submit our next request.
+>   	 */
+> -	list_for_each_entry(rq, &tl->requests, link) {
+> -		if (rq->ring != ring)
+> +	list_for_each_entry(tmp, &tl->requests, link) {
+> +		if (tmp->ring != ring)
+>   			continue;
+> 
+> -		if (__intel_ring_space(rq->postfix,
+> -				       ring->emit, ring->size) > ring->size / 2)
+> +		if (__intel_ring_space(tmp->postfix,
+> +				       ring->emit, ring->size) > ring->size / 2) {
+> +			rq = tmp;
+>   			break;
+> +		}
+>   	}
+> -	if (&rq->link == &tl->requests)
+> +	if (!rq)
+>   		return NULL; /* weird, we will check again later for real */
+
+Alternatively, instead of break could simply do "return 
+i915_request_get(rq);" and replace the end of the function after the 
+loop with "return NULL;". A bit smaller diff, or at least less "spread 
+out" over the function, so might be easier to backport stuff touching 
+this area in the future. But looks correct as is.
+
+> 
+>   	return i915_request_get(rq);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
+> index 2fdd52b62092..4881c4e0c407 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+> @@ -191,24 +191,27 @@ wait_for_space(struct intel_ring *ring,
+>   	       struct intel_timeline *tl,
+>   	       unsigned int bytes)
+>   {
+> -	struct i915_request *target;
+> +	struct i915_request *target = NULL;
+> +	struct i915_request *tmp;
+>   	long timeout;
+> 
+>   	if (intel_ring_update_space(ring) >= bytes)
+>   		return 0;
+> 
+>   	GEM_BUG_ON(list_empty(&tl->requests));
+> -	list_for_each_entry(target, &tl->requests, link) {
+> -		if (target->ring != ring)
+> +	list_for_each_entry(tmp, &tl->requests, link) {
+> +		if (tmp->ring != ring)
+>   			continue;
+> 
+>   		/* Would completion of this request free enough space? */
+> -		if (bytes <= __intel_ring_space(target->postfix,
+> -						ring->emit, ring->size))
+> +		if (bytes <= __intel_ring_space(tmp->postfix,
+> +						ring->emit, ring->size)) {
+> +			target = tmp;
+>   			break;
+> +		}
+>   	}
+> 
+> -	if (GEM_WARN_ON(&target->link == &tl->requests))
+> +	if (GEM_WARN_ON(!target))
+>   		return -ENOSPC;
+> 
+>   	timeout = i915_request_wait(target,
+
+Looks okay as well. Less clear here if there is a clean solution to make 
+the diff smaller so no suggestions. I mean do I dare mention "goto 
+found;" from inside the loop, where the break is, instead of the 
+variable renames.. risky.. :) (And ofc "return -ENOSPC" immediately 
+after the loop.)
+
+As a summary changes looks okay, up to you if you want to try to make 
+the diffs smaller or not. It doesn't matter hugely really, all I have is 
+a vague and uncertain "maybe it makes backporting of something, someday 
+easier". So for i915 it is good either way.
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com> # i915 bits only
+
+Regards,
+
+Tvrtko
