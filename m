@@ -1,65 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F202A4CB5D4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 05:14:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE43E4CB5F6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 05:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0608410E61D;
-	Thu,  3 Mar 2022 04:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3488B10EEB4;
+	Thu,  3 Mar 2022 04:50:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB8810E61D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 04:14:28 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8919F83B9F;
- Thu,  3 Mar 2022 05:14:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1646280866;
- bh=2xWG+M4NrZBWRPXzWMdjfDGDaYcG7GwtQKJiX8d2DEk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MXWpKZrPKXfgBcrp1gNoymzGBVfzz8+gn74WyjQDumcBNJp6gYNy+RAHOxiQEd9w6
- ryIoB4fcch+BbLzpBIlGgKryD23piaYQU/OAsP9CsptpwgVEPVpsBOnrnr+OR8VF/c
- f1zWNGJAYfkc8LyarPMuNMAnkgoSyzI+Rq4avzLr1Z5Xa9+JhERBBEFbYGjEeJ3Z7j
- jwTn/mYkBl2IijaT93E20clYmLe5MHJouCvOpeapc8qDdoWtR/tqKU5ocvKSir4w45
- gIMSOC/vZCBBfx3VsrPXMT2fb+gljvCAzVF9fLvpbhRJHPkjVLG7opzzt6E3UORHQ9
- FPivVfz5G99iQ==
-Message-ID: <e8802c2b-2e0a-1e37-de79-f5de60147a59@denx.de>
-Date: Thu, 3 Mar 2022 05:14:25 +0100
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4F010EEB2;
+ Thu,  3 Mar 2022 04:50:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwS4UPQADQMvtncl7rRr1lsTXD/Xrc8+zMEkzQM/V1R0jNwFTvbJYkCYmL9u4C+tEkZZIsIiY699ZZazyaV47dZyG1/EeCoVSyGb1o70UDhO4jIhP7sz9qyXt3/cMIYl8FxhXmCJwgQ0RYmsVETNZeK0bsmYmtTmJhBL7BA3NHrlKinEv7fEL/fIuRNKfMyQiudu+xGisM+oYbs3Oxsrx/4nBxJXpEXaBA7ryuJc5cU26I1BGW1HEENtnstn4epY+MWgMwCddopXRcmt/2yHPju9B1b207py1Y+7oI01Ue4RexsaCKNcIAo4iUWMi7+PkB2sBsUzjGe7xJY6qZGGRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZhThnJPhp5eA2RqQctPoWtrLQbpiO89oHMl5CQOu9qs=;
+ b=fmbniaEhJsHyN/FB425AAPqgNuqcIukrqDOjYETjVOtju8/epyN3hTunDQhMp8XML1CLGRhsXJ2daMgyb3VdFuro1dFu1/RxYbs948HL7k2fbbjieIBVccVqMLdf4PHBxxlva0NqN0pVA5VcaWURWlw5POGxmgoe260Ukd2MoM/MeCXTeRnSdRsrm71RhQ3st19DK5jy+tRCOIf34sMugkvhjxJq0FcCGJTiDVfVCJjPN5+EB0ALRID3l1fo+hDmtdN7mTDZeWiAqodNIed/3Z0fr3/Zp7nmxmL+opDWZfrIchsRtdrDAzo5TAVUkxSx/SGnSd44BjOEHn6Rm4cQUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZhThnJPhp5eA2RqQctPoWtrLQbpiO89oHMl5CQOu9qs=;
+ b=L6TxBVV8QnHLwLflOYBDzesR5DwWHzxTB5BHlUldF6iT+5wpw54hIp5ttjK8zrHU0FtLueOFrIO67B8v+voMOdnELCyIkHZroJFQ5/h2GWV6pRNSEPDyPBB2HlAD+oHutSzWOJ1Qv2SQUajNXU15jUAjpkdYZp1zj7aGXA4nt7w=
+Received: from MW4PR03CA0212.namprd03.prod.outlook.com (2603:10b6:303:b9::7)
+ by CY4PR1201MB0007.namprd12.prod.outlook.com (2603:10b6:903:d4::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 3 Mar
+ 2022 04:50:52 +0000
+Received: from CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b9:cafe::85) by MW4PR03CA0212.outlook.office365.com
+ (2603:10b6:303:b9::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
+ Transport; Thu, 3 Mar 2022 04:50:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT064.mail.protection.outlook.com (10.13.175.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5038.14 via Frontend Transport; Thu, 3 Mar 2022 04:50:51 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 2 Mar
+ 2022 22:50:48 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-5.17
+Date: Wed, 2 Mar 2022 23:50:35 -0500
+Message-ID: <20220303045035.5650-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
-Content-Language: en-US
-To: Liu Ying <victor.liu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Adam Ford <aford173@gmail.com>
-References: <20220228004605.367040-1-marex@denx.de>
- <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
- <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
- <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
- <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
- <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
- <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
- <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
- <8bf0b5a1c9ab9faee28077436cdfd49c0cd08792.camel@pengutronix.de>
- <CAHCN7xJ6ypDxZouZV1b1F1EgQFwdTvmY6EEekj+_z-UWbQMD5Q@mail.gmail.com>
- <4253aa4b5dc4a3568e45755678849961468bfd38.camel@pengutronix.de>
- <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
- <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
- <049a182d8bf75110dc5ebe72f5b58d209b64d58a.camel@oss.nxp.com>
- <7e0323b120ebd8faef162a9b0f0ab048bdb7a34b.camel@pengutronix.de>
- <15a6222b256f67a01ef947bb44a2737a6606ad4c.camel@oss.nxp.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <15a6222b256f67a01ef947bb44a2737a6606ad4c.camel@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f25e2d5-9516-469a-5cd9-08d9fcd1647c
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0007:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0007E2FAF794CA44BAC66AA4F7049@CY4PR1201MB0007.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZUNfRstJpaYlxn91apL8ZaLbgrwAaqMmNhA85pcUkH8nFU9Lx4yj72QgRjNcVje7kMCak0qSXlwfL12lFkf7Cdqrp+7J5LcKu2+s+Bm0SjFgdj5w0G9SNU+9MB0KJnt5Er1s2w70HVGztZ8iT/jndY0XizztVfuJe++JsxUKapu5yUkqVjppJ7Zw/isCv+Hdp+qNoFlCzlwONPKzC46N4koFKpZamPavFthQjgjZfn0zg9/YTT2bBNbRukXLOLnaeB07+qNgU6FycYjqH0qFFIkY+76bKVDwhez2TEky5nrpdKuxMvuNW4umuGBFSAa+SouDkfUXNk+ptJW5EZ4OIt58k8+Z6eU14wBdR5Tjy+VoXgXhAt+jyi7LlQ1M0LQx+31qJhD7cl6qCrXsV569mK0j1NcBNQi028dxUUrnJBsqz6acr9eS3O22rFSsmyzD9YE0oQH6/iJ8LvWOYYoWW5x8HxaPzrpcp+SQKmMVPBQr0VVjc3gSzCC2aHiN6cuwHYUcUrk2n55fqrX4ILSCaweUx4UZRU6XC/5mirih6OTOro02Fx3dFQ2B47mbuAGeVVa6JoSb1qcwT9ENRLN8wXcemHm2Lw8NYgFri1MF1WRlDPRyr4gipda9t/7WJeE7+WfjOilfuDx42BR5ZqdSpXbNGssOBDKj4AQW9Frsd+bJMoDBaqHhEGwZBtFyCVP24PeLP9XVD7/7m+y1Fs2new==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(4326008)(966005)(5660300002)(40460700003)(70206006)(70586007)(47076005)(4744005)(8676002)(336012)(426003)(16526019)(356005)(36756003)(2616005)(81166007)(83380400001)(1076003)(508600001)(8936002)(186003)(26005)(82310400004)(6666004)(2906002)(7696005)(86362001)(110136005)(36860700001)(316002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 04:50:51.1997 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f25e2d5-9516-469a-5cd9-08d9fcd1647c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,138 +100,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/3/22 03:54, Liu Ying wrote:
-> On Wed, 2022-03-02 at 12:57 +0100, Lucas Stach wrote:
->> Am Mittwoch, dem 02.03.2022 um 17:41 +0800 schrieb Liu Ying:
->>> On Wed, 2022-03-02 at 10:23 +0100, Lucas Stach wrote:
->>>> Am Mittwoch, dem 02.03.2022 um 03:54 +0100 schrieb Marek Vasut:
->>>>> On 3/1/22 14:18, Lucas Stach wrote:
->>>>>> Am Dienstag, dem 01.03.2022 um 07:03 -0600 schrieb Adam Ford:
->>>>>>> On Tue, Mar 1, 2022 at 5:05 AM Lucas Stach <l.stach@pengutronix.de> wrote:
->>>>>>>> Am Dienstag, dem 01.03.2022 um 11:19 +0100 schrieb Marek Vasut:
->>>>>>>>> On 3/1/22 11:04, Lucas Stach wrote:
->>>>>>>>>
->>>>>>>>> Hi,
->>>>>>>>>
->>>>>>>>> [...]
->>>>>>>>>
->>>>>>>>>>> Given the two totally different IPs, I don't see bugs of IP control
->>>>>>>>>>> logics should be fixed for both drivers. Naturally, the two would
->>>>>>>>>>> diverge due to different HWs. Looking at Patch 9/9, it basically
->>>>>>>>>>> squashes code to control LCDIFv3 into the mxsfb drm driver with
->>>>>>>>>>> 'if/else' checks(barely no common control code), which is hard to
->>>>>>>>>>> maintain and not able to achieve good scalability for both 'LCDIFv3'
->>>>>>>>>>> and 'LCDIF'.
->>>>>>>>>>
->>>>>>>>>> I tend to agree with Liu here. Writing a DRM driver isn't that much
->>>>>>>>>> boilerplate anymore with all the helpers we have available in the
->>>>>>>>>> framework today.
->>>>>>>>>
->>>>>>>>> I did write a separate driver for this IP before I spent time merging
->>>>>>>>> them into single driver, that's when I realized a single driver is much
->>>>>>>>> better and discarded the separate driver idea.
->>>>>>>>>
->>>>>>>>>> The IP is so different from the currently supported LCDIF controllers
->>>>>>>>>> that I think trying to support this one in the existing driver actually
->>>>>>>>>> increases the chances to break something when modifying the driver in
->>>>>>>>>> the future. Not everyone is able to test all LCDIF versions. My vote is
->>>>>>>>>> on having a separate driver for the i.MX8MP LCDIF.
->>>>>>>>>
->>>>>>>>> If you look at both controllers, it is clear it is still the LCDIF
->>>>>>>>> behind, even the CSC that is bolted on would suggest that.
->>>>>>>>
->>>>>>>> Yes, but from a driver PoV what you care about is not really the
->>>>>>>> hardware blocks used to implement something, but the programming model,
->>>>>>>> i.e. the register interface exposed to software.
->>>>>>>>
->>>>>>>>> I am also not happy when I look at the amount of duplication a separate
->>>>>>>>> driver would create, it will be some 50% of the code that would be just
->>>>>>>>> duplicated.
->>>>>>>>>
->>>>>>>> Yea, the duplicated code is still significant, as the HW itself is so
->>>>>>>> simple. However, if you find yourself in the situation where basically
->>>>>>>> every actual register access in the driver ends up being in a "if (some
->>>>>>>> HW rev) ... " clause, i still think it would be better to have a
->>>>>>>> separate driver, as the programming interface is just different.
->>>>>>>
->>>>>>> I tend to agree with Marek on this one.  We have an instance where the
->>>>>>> blk-ctrl and the GPC driver between 8m, mini, nano, plus are close,
->>>>>>> but different enough where each SoC has it's own set of tables and
->>>>>>> some checks.   Lucas created the framework, and others adapted it for
->>>>>>> various SoC's.  If there really is nearly 50% common code for the
->>>>>>> LCDIF, why not either leave the driver as one or split the common code
->>>>>>> into its own driver like lcdif-common and then have smaller drivers
->>>>>>> that handle their specific variations.
->>>>>>
->>>>>> I don't know exactly how the standalone driver looks like, but I guess
->>>>>> the overlap is not really in any real HW specific parts, but the common
->>>>>> DRM boilerplate, so there isn't much point in creating a common lcdif
->>>>>> driver.
->>>>>
->>>>> The mxsfb currently has 1280 LoC as of patch 8/9 of this series. Of
->>>>> that, there is some 400 LoC which are specific to old LCDIF and this
->>>>> patch adds 380 LoC for the new LCDIF. So that's 800 LoC or ~60% of
->>>>> shared boilerplate that would be duplicated .
->>>>
->>>> That is probably ignoring the fact that the 8MP LCDIF does not support
->>>> any overlays, so it could use the drm_simple_display_pipe
->>>> infrastructure to reduce the needed boilerplate.
->>>
->>> The drm_simple_display_pipe infrastructure is probably too simple for
->>> i.MX8MP LCDIF, since it uses one only crtc for one drm device. i.MX8MP
->>> embeds *three* LCDIF instances to support MIPI DSI, LVDS and HDMI
->>> outputs respectively. To use that infrastructure means there would be
->>> three dri cards in all. However, the three LCDIF instances can be
->>> wrapped by the one drm device, which is not the boilerplate code in the
->>> current mxsfb driver may handle.
->>
->> While that may make things a little simpler for userspace, I'm not sure
->> if this is the right thing to do. It complicates the driver a lot,
->> especially if you want to get things like independent power management,
->> etc. right. It also creates a fake view for userspace, where is looks
->> like there might be some shared resources between the different display
->> paths, while in reality they are fully independent.
-> 
-> Trade-off will be made between one drm device and three. My first
-> impression of using the drm_simple_display_pipe infrastructure is that
-> it's too simple and less flexible/scalable, because SoC designer will
-> be likely to add muxes between CRTCs and encoders/bridges or overlay
-> plane(s) in next generations of SoCs(SW developers don't seem have good
-> reasons to suggest not to do that).  Another concern is that whether
-> the userspace may use the three drm devices well or not.
-> 
-> A few more points:
-> 1) With one drm device, userspace may use drm lease APIs to control
-> those independant pipes with drm masters(not sure about the userspace
-> maturity).
-> 2) Code to gather all LCDIFs as one drm device has chance to be created
-> as helpers once there are similar use cases in other drivers(maybe,
-> there is/are already).
-> 3) Power management doesn't seem to be a problem, since each LCDIF has
-> it's own struct device which can be used to do runtime PM at some
-> drm_crtc_helper_funcs callbacks.
-> 4) Regarding the fake view of shared resources, atomic check can handle
-> that, so it doesn't seem to be a big problem, either.
-> 
->>
->> While we do something similar on the GPU side and collect all GPU cores
->> under a single DRM device, I'm not fully convinced that this was a good
->> decision. It now comes back to bite us when the SoC topologies get a
->> little more interesting and e.g. devices are behind different IOMMU
->> streams.
-> 
-> Right, SoC topologies may change, like the aforementioned muxes.
-> Generally speaking, I think one drm device is more flexible and
-> scalable than three.
+Hi Dave, Daniel,
 
-I agree with Lucas on one driver instance - one IP instance. Each IP 
-instance is separate, so it should have separate driver instance bound 
-to it.
+Just one small fix for 5.17.
+
+The following changes since commit e7c470a4b543375d50d88a4c5abd4b9e0f5adcea:
+
+  Merge tag 'exynos-drm-fixes-v5.17-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-fixes (2022-02-28 14:05:44 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.17-2022-03-02
+
+for you to fetch changes up to f1ef17011c765495c876fa75435e59eecfdc1ee4:
+
+  drm/amdgpu: fix suspend/resume hang regression (2022-03-02 18:36:43 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.17-2022-03-02:
+
+amdgpu:
+- Suspend regression fix
+
+----------------------------------------------------------------
+Qiang Yu (1):
+      drm/amdgpu: fix suspend/resume hang regression
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
