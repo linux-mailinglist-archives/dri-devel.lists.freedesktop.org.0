@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47A94CC874
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:59:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F904CC87F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:05:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E91110E20F;
-	Thu,  3 Mar 2022 21:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C9E10E2CF;
+	Thu,  3 Mar 2022 22:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49F410E20F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:59:31 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0346101E;
- Thu,  3 Mar 2022 22:59:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646344770;
- bh=tu4nl7oMY6soz2c3whO1qbqCHUSafi/7e+F/6CMnMlM=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=cWq/k33atmYXJ1snfvtAEUqdVLrTAn7ydpWd8WSMQ3r0ARmExthG9Pj9fyi5pKbFZ
- Zw9bMbWPKPh5XSo3uwY4cYrD020QmAlCtCbjkOOxx1Qep+TMUootcnM/aHvdyXCJkO
- 9QJt7pDmZpoYDR2nitPTMIgaRYrm3j56sEWUFuN4=
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3013D10E322
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 22:05:41 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id q5so6131839oij.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=PKohUg2qG/pCEPlXibG2AgUnEJqrXhfRLiwdaT8RtZw=;
+ b=D7YSxbf9YXlA/4GXf6hdHT3HLvlA58JNPLh26N+ob5BKmSnH4xtDfs1DKlG+a90Rv4
+ ZO6EG+FZRdzqxbfeZimjrs6Kb+2JcEXIB0O+cBLy7GH5s4NOT7pSYnmyW3G8ySdnTQDh
+ zZfjkPYBJYi+jjdSHrHTw0Oz/FOmDKscxJib4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=PKohUg2qG/pCEPlXibG2AgUnEJqrXhfRLiwdaT8RtZw=;
+ b=MYkIwz5CgQykCoLkk/ETbR71ZxG7mTj6MXe+Y5VpK7/LeySOPh2cywVo1UE9G3T9Wo
+ qN1dscbsOsHu28JgVXK1Sn4y5Wi3XbsRkKwGKK7KPltzs4zynm/l9asrcTjAewo9thGA
+ BQtI6bt5rYaPgz5mGICjCb5dxrZowRjFfQTy9D4wOalmGvz/jt+hpM1f5SueSy0bisX9
+ L3Ve+nsFBeLa6pz/GdhzwJSeF8OlR9cB2NkJVYGlYHKNn/a+qTOoFAmEYLhsZm2iU9cG
+ mvg1OdKlhka5f/AvGIjYloqqO6lEYDCIGty5yrJrKvKgq17ikQdZIuEzeq8josPeYgDo
+ 4mrQ==
+X-Gm-Message-State: AOAM531RNiTBLABbVQLZaKhrE+BrcEI7/Nj/htOfOPDgUXIcmfRDKzfm
+ j00/o/ZOW3EhpojKnw5GVfMdFY3BSHsO+oiNK6j2JA==
+X-Google-Smtp-Source: ABdhPJy47x1D2qJGCMALwvxUqjRjAF8d7zyb8QVQXnlC6qzKxDZbC7qJi/ar2Vw+nacHvEUEoLG1Gb9z04TrKcGKOvM=
+X-Received: by 2002:a05:6808:20a7:b0:2d4:d2f1:9edc with SMTP id
+ s39-20020a05680820a700b002d4d2f19edcmr6563793oiw.64.1646345140349; Thu, 03
+ Mar 2022 14:05:40 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 3 Mar 2022 14:05:39 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220303183720.GA334969@elementary>
-References: <20220228183955.25508-1-jose.exposito89@gmail.com>
- <164609067646.2361501.15747139249939190799@Monstersaurus>
- <20220303183720.GA334969@elementary>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: switch to devm_drm_of_get_bridge
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Date: Thu, 03 Mar 2022 21:59:26 +0000
-Message-ID: <164634476693.3683041.3124143336848085499@Monstersaurus>
+In-Reply-To: <1646300401-9063-2-git-send-email-quic_vpolimer@quicinc.com>
+References: <1646300401-9063-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1646300401-9063-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
+Date: Thu, 3 Mar 2022 14:05:39 -0800
+Message-ID: <CAE-0n53FVc_JNN-gkXeaQjt810e7_nV6kCireqgPfPsE7rq4Bw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] arm64/dts/qcom/sc7280: remove assigned-clock-rate
+ property for mdp clk
+To: Vinod Polimera <quic_vpolimer@quicinc.com>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,87 +67,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, jernej.skrabec@gmail.com, maxime@cerno.tech,
- jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, robert.foss@linaro.org, andrzej.hajda@intel.com,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- Laurent.pinchart@ideasonboard.com
+Cc: quic_kalyant@quicinc.com, linux-kernel@vger.kernel.org,
+ dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jos=C3=A9 Exp=C3=B3sito (2022-03-03 18:37:20)
-> On Mon, Feb 28, 2022 at 11:24:36PM +0000, Kieran Bingham wrote:
-> > Hi Jos=C3=A9
-> >=20
-> > Quoting Jos=C3=A9 Exp=C3=B3sito (2022-02-28 18:39:54)
-> > > The function "drm_of_find_panel_or_bridge" has been deprecated in
-> > > favor of "devm_drm_of_get_bridge".
-> > >=20
-> > > Switch to the new function and reduce boilerplate.
-> > >=20
-> > > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 +-------
-> > >  1 file changed, 1 insertion(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/=
-bridge/ti-sn65dsi86.c
-> > > index dab8f76618f3..fb8e16ed7e90 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > @@ -1232,15 +1232,9 @@ static int ti_sn_bridge_probe(struct auxiliary=
-_device *adev,
-> > >  {
-> > >         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.pare=
-nt);
-> > >         struct device_node *np =3D pdata->dev->of_node;
-> > > -       struct drm_panel *panel;
-> > >         int ret;
-> > > =20
-> > > -       ret =3D drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
-> > > -       if (ret)
-> > > -               return dev_err_probe(&adev->dev, ret,
-> > > -                                    "could not find any panel node\n=
-");
-> > > -
-> > > -       pdata->next_bridge =3D devm_drm_panel_bridge_add(pdata->dev, =
-panel);
-> > > +       pdata->next_bridge =3D devm_drm_of_get_bridge(pdata->dev, np,=
- 1, 0);
-> >=20
-> > Yikes, I was about to rely on this panel variable to determine if the
-> > device is a panel or a display port connector. (Well, I am relying on
-> > it, and patches are hoping to be reposted this week).
-> >=20
-> > Is there expected to be another way to identify if the next connection
-> > is a panel or a bridge?
-> >=20
-> > Regards
->=20
-> Hi Kieran,
->=20
-> I'm getting started in the DRM subsystem. I couldn't tell if there is a
-> good way to access the panel pointer... I didn't manage to find it, but
-> hopefully someone with more experience can point us to a solution.
->=20
-> Since you mentioned display port, I'm not sure if in your case checking
-> "pdata->next_bridge->type" could be good enough.
->=20
-> Anyway, if this patch causes you problems, please go ahead and ignore it.
-> I'm sure the series you are working on are more important than removing
-> a deprecated function :)
+Quoting Vinod Polimera (2022-03-03 01:39:58)
+> Kernel clock driver assumes that initial rate is the
+> max rate for that clock and was not allowing it to scale
+> beyond the assigned clock value.
+>
+> Drop the assigned clock rate property and vote on the mdp clock as per
+> calculated value during the usecase.
+>
+> Changes in v2:
+> - Remove assigned-clock-rate property and set mdp clk during resume sequence.
+> - Add fixes tag.
+>
+> Changes in v3:
+> - Remove extra line after fixes tag.(Stephen Boyd)
+>
 
-If it's deprecated, I don't want to block it's removal. Hopefully I can
-resume my work on this tomorrow so I can check to see what I can parse.
-Thanks for the lead on the bridge type, I'm sure I've seen that around
-too so hopefully that's enough. If it is, I'll rebase my work on top of
-your patch and retest.
+This changelog goes below triple dash when they aren't intended for drm.
 
---
-Kieran
+> Fixes: 62fbdce91("arm64: dts: qcom: sc7280: add display dt nodes")
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> ---
 
-
->=20
-> Best wishes,
-> Jose
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
