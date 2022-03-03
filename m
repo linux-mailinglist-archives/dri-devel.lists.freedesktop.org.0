@@ -1,54 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A504CC825
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:35:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9D34CC831
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086F910EE02;
-	Thu,  3 Mar 2022 21:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9D710EE39;
+	Thu,  3 Mar 2022 21:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B00410EE02
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:35:49 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id v3so5789281qta.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:35:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L1Q9sdnTqYlZlLU7twPdWgz9bcNxdvX07ZYQ1tXE7K4=;
- b=d4iSdfFLz79BntOhrp2p23HpQHlgolCX34pjwXD+Bt64bl6GqMOLNaU7D0XXuJYsI0
- +yY46c+Q+80iklOBa6DgVfWb+h2jyvOtLH4TaaK3dxZ1SEeoAtTj4zw2Ug4CQR1dN11F
- Ws8OWXekp6+7uJFhnPWiATWP6JI95i0+Tke3Y=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8185510EE15
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646343630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xtbmEfHUQ1QhBdRYfxa2FFiLrPGe7Eovpy4drHSn/Dk=;
+ b=euRBgTQxHglY5TBJzdXyvP2ImKdiiGvHOR7CKz5V63ZAmnRE03iBAyRiyD4kNP7BZbqFQS
+ eUNFzrbzxckI9GQiv1qVqPllZtQ1I9v2zGEDSHGdAunel5tHx6QuL85vTsg2OAwIkw/9ig
+ 8qs0gh1zgEd//bsSAaT9EPR+JZCn8QM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-L5SsNZI2MCiwcOUksekNjA-1; Thu, 03 Mar 2022 16:40:25 -0500
+X-MC-Unique: L5SsNZI2MCiwcOUksekNjA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ u12-20020a05620a0c4c00b00475a9324977so4166238qki.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:40:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L1Q9sdnTqYlZlLU7twPdWgz9bcNxdvX07ZYQ1tXE7K4=;
- b=NSV5Bqzdj6FkNlpgFROSa2ZZDQIjCyMd2w38dZDHRd9VD46a2bxiT5s1yJ26Nd+O08
- Iar99/30qxbZYt1wwKhDAnXuaHC2tMVIcFjOUPE3/PElAa1gzsVYGtM/lsbd+6VAMmKF
- 4qut82JZ2ekM4sOHf8gsGRnwosZMLhK+Ms6/bsvwFTF3fGNvPqYkP5wazcizqRkmKR0Z
- LsD0zMKoC9yTwabK4H0N6lHdwTD0I0YdoJY75rHOshbsXD7uahllmRcH3P0XtcRB6Nza
- altUQdx7tJ7qo34Q4hVcd1ELHBkFU7KkN2wWnSyyROwaJ9e17pZpfShfxrye3wKejuD9
- S5Dg==
-X-Gm-Message-State: AOAM5309eDuPNPyNghkQfRnL3a//13/aNFtO4rfOBFR7wtOBc10bX8xH
- rMkQ09nFQ+LueKuHfWNvfAfar9QuUngI5WdZlvdVRteFuYRtMCFy
-X-Google-Smtp-Source: ABdhPJx1dtBQ1EOQRQQ2DfFAxZ+hxlYYPAxznboh4jmMsmSM2GTXYrz2DJR6SYcMuO7VVOrl354ZqMz2TfqnaZuFIUs=
-X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
- a2-20020ac85b82000000b002cf232db1f8mr29367893qta.58.1646343348365; Thu, 03
- Mar 2022 13:35:48 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=xtbmEfHUQ1QhBdRYfxa2FFiLrPGe7Eovpy4drHSn/Dk=;
+ b=XppUErMURxoNSj0DwvUHJlzujLVZ2UBkvdVUV8ShsD4AC9vTVIojwORINw3se28Pua
+ s2W96149IsPU+qcLbT3LaYv4UTjYmzYxvirmgaXiDJ83EdufC2N0Q5amRrz+V4bYHHRJ
+ Xdqm+Y6fmX+t4cCQbLg1HuamI3Yk+TDPfFCikJ5fUvcDd8RKCNa2M4ywNYmtMX74qA3S
+ /of3kXlA+o3h6npA6sVuE9PdQOqBO0eP1768XHlqWQ5c2IdBIQuxsbu9XC5EFzcIGXPw
+ d/azQBgnPIjMTmYV6Pk27COJ3CGo+NNaRrY8bdS9GPssH823K3OWDljpyYYpVucJCn7l
+ Keyw==
+X-Gm-Message-State: AOAM532el0L8avyoZ30pRMjCRE5zyTx2NFLY+HC0K5qSjir5liLl6+nc
+ E6zqR41cvP0uqvz0Nmv0XtLGdC9V5DFaIfJIhqRQJwvH5FQf806Jud7HBpd3n0z6wtBOWecDMig
+ ldX6bYhspUdI55hy/3MlCPsaVKgHn
+X-Received: by 2002:a05:622a:1344:b0:2df:e997:6681 with SMTP id
+ w4-20020a05622a134400b002dfe9976681mr23905389qtk.206.1646343624513; 
+ Thu, 03 Mar 2022 13:40:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCA+yenE8eTjRZAZCZvGlnVr52EddV1dU7aim5O2e6OJbzh14S7YnLKVi7sNxTU2jKsuO0vg==
+X-Received: by 2002:a05:622a:1344:b0:2df:e997:6681 with SMTP id
+ w4-20020a05622a134400b002dfe9976681mr23905369qtk.206.1646343624164; 
+ Thu, 03 Mar 2022 13:40:24 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
+ [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
+ y11-20020ac85f4b000000b002de4b0a015asm2331075qta.5.2022.03.03.13.40.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 13:40:23 -0800 (PST)
+Message-ID: <80f0071bbfb744921b842c870ac6f2793c4816b6.camel@redhat.com>
+Subject: 2022 X.Org Board of Directors Elections timeline extended, Request
+ for nominations
+From: Lyude Paul <lyude@redhat.com>
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Thu, 03 Mar 2022 16:40:21 -0500
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
 MIME-Version: 1.0
-References: <20220302051056.678367-1-joel@jms.id.au>
- <Yh+w7+CdtYYJoRkh@robh.at.kernel.org>
- <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 3 Mar 2022 21:35:36 +0000
-Message-ID: <CACPK8XfYRHTPz50wgNp7Q0Pi4rKVag9-bLD7kHcyKrHwHdKW7A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-To: Rob Herring <robh@kernel.org>, Andrew Jeffery <andrew@aj.id.au>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +88,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tommy Haung <tommy_huang@aspeedtech.com>
+Cc: board@foundation.x.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 3 Mar 2022 at 19:34, Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Mar 2, 2022 at 12:01 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Mar 02, 2022 at 03:40:56PM +1030, Joel Stanley wrote:
-> > > Convert the bindings to yaml and add the ast2600 compatible string.
-> > >
-> > > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > > ---
-> > >  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
-> > >  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
-> > >  2 files changed, 69 insertions(+), 41 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-> > >  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-> >
-> > Applied, thanks.
->
-> Uggg, now dropped...
->
-> What's Documentation/devicetree/bindings/mfd/aspeed-gfx.txt and also
-> the example in Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml?
-> Please sort those out.
+We are seeking nominations for candidates for election to the X.org Foundation
+Board of Directors. However, as we presently do not have enough nominations to
+start the election - the decision has been made to extend the timeline by 2
+weeks. Note this is a fairly regular part of the elections process.
 
-I think the aspeed-gfx.txt can be deleted. And the example in the
-pinctrl bindings needs to be updated with the required properties.
+The new deadline for nominations to the X.org Board of Directors is 23:59 UTC
+on 20th March 2022.
 
-Andrew, can you clarify what's going on with those other files?
+The Board consists of directors elected from the membership.  Each year, an
+election is held to bring the total number of directors to eight. The four
+members receiving the highest vote totals will serve as directors for two year
+terms.
+
+The directors who received two year terms starting in 2021 were Lyude Paul,
+Samuel Iglesias Gonsálvez, Manasi D Navare and Daniel Vetter. They will
+continue to serve until their term ends in 2023. Current directors whose term
+expires in 2022 are Emma Anholt, Keith Packard, Harry Wentland and Mark
+Filion.
+
+A director is expected to participate in the fortnightly IRC meeting to
+discuss current business and to attend the annual meeting of the X.Org
+Foundation, which will be held at a location determined in advance by the
+Board of Directors.
+
+A member may nominate themselves or any other member they feel is qualified.
+Nominations should be sent to the Election Committee at elections at x.org.
+
+Nominees shall be required to be current members of the X.Org Foundation, and
+submit a personal statement of up to 200 words that will be provided to
+prospective voters.  The collected statements, along with the statement of
+contribution to the X.Org Foundation in the member's account page on
+http://members.x.org, will be made available to all voters to help them make
+their voting decisions.
+
+Nominations, membership applications or renewals and completed personal
+statements must be received no later than 23:59 UTC on 20th March 2022.
+
+The slate of candidates will be published 28th March 2022 and candidate Q&A
+will begin then. The deadline for Xorg membership applications and renewals is
+31st March 2022.
+
+Cheers,
+   Lyude Paul, on behalf of the X.Org BoD
+
