@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DCD4CC2F1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 17:37:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 607A04CC2F2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 17:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEDFA10E9E1;
-	Thu,  3 Mar 2022 16:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F79210EA3E;
+	Thu,  3 Mar 2022 16:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5F310E9E1
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 16:37:45 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- c16-20020a17090aa61000b001befad2bfaaso4870655pjq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 08:37:45 -0800 (PST)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0082310EA3E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 16:37:53 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id 6so449168pgg.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 08:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uLbgWPGTvslOBS5UpaKI0SJIKPvPO+ELrEhMx1Q0zDM=;
- b=gVrdwHfK8hS94wnYjan9hGxzyWaQI2gDtUUbElO/bT9QrRf7DCGhEaNKE6CqsOaGOn
- orNt/VjAl0eCQNtlQALz7iyHTsfx+u/6GyLFBRWQ+r96vpjkG9oofPhmN+y+AiF1+26c
- /NB1e2+OOxAeVDdNYyg1nku+WgpaDn8Vbo0s4=
+ bh=LqxMAJ8/uNH+xDV5ABc3SJFvaxw+zJIGqvUEcIBudhI=;
+ b=IM9EGV6IMN3547F1mzjKyf6VP/5cjyxT3tvF13f89mQHGAg5Lj5LydksdY+SzfJBag
+ 2XNTYC8w3rjDGYOnCOKtF39q1ucmpvtUF+qwvsJkypkZx1lvCDMAmE40pTeRn3EcnIu1
+ ytBPGUqEHSKLYYJICYhyWs3zW+dXrDt9QyufU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLbgWPGTvslOBS5UpaKI0SJIKPvPO+ELrEhMx1Q0zDM=;
- b=3wtww2BNTUsYfGYpeiGzobffJTWvBZF3XJGgSz72dCC/0ZhnO3rIL9dozxHBn0Fm1W
- td/iAfmdNOs7ZU+uzAchctYWVjI07s0ajp80aGFkC57NWr5oqObmW5Cc+u0048QYp+P2
- ynon405u50Vv50Y2SQqb5HhaH6l5VInCz4a5cw+vQ+FDNh3MXZMQCjwuLJ1E7lh/sX2m
- nrZuATdW95kKcpe5xolffx+nv/KmlB+gzjnViQjPLz146gTEQ1C5LZVpQc5GQAUJ6p55
- 0FC4CXj4mBkPNLgyeh5JIx3nsJAaRWttM20Zs5whwq5qCuaipQp3vm87mhz3sRQ+9xzH
- HBzw==
-X-Gm-Message-State: AOAM531i4Ehkvc53NClUzASqnKyfL6aMeXd7YMlAi8qeykZmGi7HejPE
- kl7Q2j4E/Zx01vF5F2Yc2TagGg==
-X-Google-Smtp-Source: ABdhPJzQGuqa2S6u9A6+9EDe0KyWpp40bNrsu0T7FdmJ1HT+x6UXcCtAHXAiyRQoXaJ4IokcQWGj+A==
-X-Received: by 2002:a17:902:7041:b0:14f:c724:42c7 with SMTP id
- h1-20020a170902704100b0014fc72442c7mr36866699plt.11.1646325465047; 
- Thu, 03 Mar 2022 08:37:45 -0800 (PST)
+ bh=LqxMAJ8/uNH+xDV5ABc3SJFvaxw+zJIGqvUEcIBudhI=;
+ b=X4IQdUXEI/+dDAJDlcaZ+/2n93H11ltTrQaBJrFX3rvmhzE07dHfzuqDmYHQ3E9nXj
+ cOgZUr/MyvwRj469LKBhuctteVwJ81+oQo7J2jvpvZRkJjyKnfx7FTysNHkNxvwAn8jF
+ swDZubNbXaqpELtlTuJl2WQ6ISb/CekN2tBCETiKh2flkE1/h2FR3uCHqP6Wqq04fdTA
+ WJZcX97YoNnM7Dg+9Pp7uml0baMezwGopbLcvAddt6EzrPkDxKdNiuLh1AUVxzbHAatp
+ LJtmLx+BmNRPRh02QaQ81K/wbNl9mkmEHsCC6s/bB2Vt134cZF9Hs3I0wTiQ6P6UEmnN
+ bS6g==
+X-Gm-Message-State: AOAM533rROGyIlGhL/fZ2wAcSm31yB5qmhQN07+UWF/pOZK2yABhsXLo
+ QTzOWqwkDDXdnmPauXjHDg2TPA==
+X-Google-Smtp-Source: ABdhPJxIt+kgU1IKvlrzc56cx9nBnOLXnryPaEL1TFMuchiwj4QVNuBCsjoYvGU9qEN+rj2SydFBhQ==
+X-Received: by 2002:a05:6a00:1a56:b0:4f4:1a2a:6d1b with SMTP id
+ h22-20020a056a001a5600b004f41a2a6d1bmr19378527pfv.65.1646325473491; 
+ Thu, 03 Mar 2022 08:37:53 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:4526:5253:a010:63f4])
  by smtp.gmail.com with ESMTPSA id
- j20-20020a056a00235400b004e192221ec2sm3220983pfj.14.2022.03.03.08.37.37
+ j20-20020a056a00235400b004e192221ec2sm3220983pfj.14.2022.03.03.08.37.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 08:37:44 -0800 (PST)
+ Thu, 03 Mar 2022 08:37:53 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -55,9 +54,9 @@ To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
  Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v6 2/6] drm: bridge: panel: Reset the connector state pointer
-Date: Thu,  3 Mar 2022 22:06:50 +0530
-Message-Id: <20220303163654.3381470-3-jagan@amarulasolutions.com>
+Subject: [PATCH v6 3/6] exynos: drm: dsi: Attach in_bridge in MIC driver
+Date: Thu,  3 Mar 2022 22:06:51 +0530
+Message-Id: <20220303163654.3381470-4-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303163654.3381470-1-jagan@amarulasolutions.com>
 References: <20220303163654.3381470-1-jagan@amarulasolutions.com>
@@ -80,68 +79,125 @@ Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trigger hotplug event with drm_kms_helper_hotplug_event might fail if the
-connector state pointer is NULL.
+MIC drivers in the Exynos5433 display pipeline are already registered
+as bridge drivers and it is more advisable to attach the downstream
+bridge on the bridge attach call instead of doing the same in the
+DSI driver.
 
-BUG observed in exynos dsi driver where drm_bridge_attach is trying to register
-a connector in panel_bridge before the hotplug event is triggered,
+This makes bridge attachment more meaningful and avoids the races
+during bridge function calls.
 
-WARNING: CPU: 1 PID: 1 at drivers/gpu/drm/drm_atomic_state_helper.c:494 drm_atomic_helper_connector_duplicate_state+0x94/0x9c
-Modules linked in:
-CPU: 1 PID: 1 Comm: swapper/0 Tainted: G W 5.16.0-rc1-00009-g704b1dbfa4c2 #11058
-Hardware name: Samsung Exynos (Flattened Device Tree)
-[<c0110b30>] (unwind_backtrace) from [<c010c618>] (show_stack+0x10/0x14)
-[<c010c618>] (show_stack) from [<c0b657d4>] (dump_stack_lvl+0x58/0x70)
-[<c0b657d4>] (dump_stack_lvl) from [<c01261dc>] (__warn+0xd0/0x134)
-[<c01261dc>] (__warn) from [<c0b5f628>] (warn_slowpath_fmt+0x5c/0xb4)
-[<c0b5f628>] (warn_slowpath_fmt) from [<c064bce4>] (drm_atomic_helper_connector_duplicate_state+0x94/0x9c)
-[<c064bce4>] (drm_atomic_helper_connector_duplicate_state) from [<c0666b64>] (drm_atomic_get_connector_state+0xd4/0x190)
-[<c0666b64>] (drm_atomic_get_connector_state) from [<c0667928>] (__drm_atomic_helper_set_config+0x314/0x368)
-[<c0667928>] (__drm_atomic_helper_set_config) from [<c067e628>] (drm_client_modeset_commit_atomic+0x170/0x278)
-[<c067e628>] (drm_client_modeset_commit_atomic) from [<c067e800>] (drm_client_modeset_commit_locked+0x60/0x1c8)
-[<c067e800>] (drm_client_modeset_commit_locked) from [<c067e98c>] (drm_client_modeset_commit+0x24/0x40)
-[<c067e98c>] (drm_client_modeset_commit) from [<c06509c0>] (drm_fb_helper_set_par+0xb8/0xf8)
-[<c06509c0>] (drm_fb_helper_set_par) from [<c05b86d0>] (fbcon_init+0x2c0/0x518)
-[<c05b86d0>] (fbcon_init) from [<c060636c>] (visual_init+0xc0/0x108)
-[<c060636c>] (visual_init) from [<c06085e4>] (do_bind_con_driver+0x1b8/0x3a4)
-[<c06085e4>] (do_bind_con_driver) from [<c0608b40>] (do_take_over_console+0x13c/0x1e8)
-[<c0608b40>] (do_take_over_console) from [<c05b6854>] (do_fbcon_takeover+0x78/0xd8)
-[<c05b6854>] (do_fbcon_takeover) from [<c05b1154>] (register_framebuffer+0x208/0x2e0)
-[<c05b1154>] (register_framebuffer) from [<c064ead0>] (__drm_fb_helper_initial_config_and_unlock+0x400/0x63c)
-[<c064ead0>] (__drm_fb_helper_initial_config_and_unlock) from [<c063a718>] (drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063a718>] (drm_kms_helper_hotplug_event) from [<c068f668>] (exynos_dsi_host_attach+0x174/0x1fc)
-[<c068f668>] (exynos_dsi_host_attach) from [<c0699354>] (s6e8aa0_probe+0x1b4/0x218)
-
-So reset the atomic state for a given connector by freeing the state pointer
-and allocate a new empty state object. This can be done using connector
-funcs->reset helper and has to be done before the hotplug even calls.
-
-This patch calls the connector->funcs->reset in panel_bridge_attach.
+So, move the bridge finding and drm_bridge_attach from DSI to MIC.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v6, v5:
-- none
-Changes for v4:
+Changes for v6:
 - new patch
 
- drivers/gpu/drm/bridge/panel.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 15 ---------------
+ drivers/gpu/drm/exynos/exynos_drm_mic.c | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index b32295abd9e7..f6eea194482a 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -83,6 +83,9 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
- 	drm_connector_attach_encoder(&panel_bridge->connector,
- 					  bridge->encoder);
- 
-+	if (connector->funcs->reset)
-+		connector->funcs->reset(connector);
-+
- 	return 0;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index b7d0a4aead0a..741c046513e8 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1660,11 +1660,6 @@ static int exynos_dsi_of_read_u32(const struct device_node *np,
+ 	return ret;
  }
  
+-enum {
+-	DSI_PORT_IN,
+-	DSI_PORT_OUT
+-};
+-
+ static int exynos_dsi_parse_dt(struct exynos_dsi *dsi)
+ {
+ 	struct device *dev = dsi->dev;
+@@ -1695,8 +1690,6 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 	struct exynos_dsi *dsi = dev_get_drvdata(dev);
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 	struct drm_device *drm_dev = data;
+-	struct device_node *in_bridge_node;
+-	struct drm_bridge *in_bridge;
+ 	int ret;
+ 
+ 	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+@@ -1707,14 +1700,6 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	in_bridge_node = of_graph_get_remote_node(dev->of_node, DSI_PORT_IN, 0);
+-	if (in_bridge_node) {
+-		in_bridge = of_drm_find_bridge(in_bridge_node);
+-		if (in_bridge)
+-			drm_bridge_attach(encoder, in_bridge, NULL, 0);
+-		of_node_put(in_bridge_node);
+-	}
+-
+ 	return mipi_dsi_host_register(&dsi->dsi_host);
+ }
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+index 32672bf8ae4a..9e06f8e2a863 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+@@ -102,6 +102,7 @@ struct exynos_mic {
+ 	struct videomode vm;
+ 	struct drm_encoder *encoder;
+ 	struct drm_bridge bridge;
++	struct drm_bridge *next_bridge;
+ 
+ 	bool enabled;
+ };
+@@ -298,12 +299,22 @@ static void mic_pre_enable(struct drm_bridge *bridge)
+ 
+ static void mic_enable(struct drm_bridge *bridge) { }
+ 
++static int mic_attach(struct drm_bridge *bridge,
++		      enum drm_bridge_attach_flags flags)
++{
++	struct exynos_mic *mic = bridge->driver_private;
++
++	return drm_bridge_attach(bridge->encoder, mic->next_bridge,
++				 &mic->bridge, flags);
++}
++
+ static const struct drm_bridge_funcs mic_bridge_funcs = {
+ 	.disable = mic_disable,
+ 	.post_disable = mic_post_disable,
+ 	.mode_set = mic_mode_set,
+ 	.pre_enable = mic_pre_enable,
+ 	.enable = mic_enable,
++	.attach = mic_attach,
+ };
+ 
+ static int exynos_mic_bind(struct device *dev, struct device *master,
+@@ -377,6 +388,7 @@ static int exynos_mic_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct exynos_mic *mic;
++	struct device_node *remote;
+ 	struct resource res;
+ 	int ret, i;
+ 
+@@ -420,6 +432,16 @@ static int exynos_mic_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	remote = of_graph_get_remote_node(dev->of_node, 1, 0);
++	mic->next_bridge = of_drm_find_bridge(remote);
++	if (IS_ERR(mic->next_bridge)) {
++		DRM_DEV_ERROR(dev, "mic: Failed to find next bridge\n");
++		ret = PTR_ERR(mic->next_bridge);
++		goto err;
++	}
++
++	of_node_put(remote);
++
+ 	platform_set_drvdata(pdev, mic);
+ 
+ 	mic->bridge.funcs = &mic_bridge_funcs;
 -- 
 2.25.1
 
