@@ -2,81 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C964CB935
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 09:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9133D4CB9C9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 10:05:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9EC10EF60;
-	Thu,  3 Mar 2022 08:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF37110EBD6;
+	Thu,  3 Mar 2022 09:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F315D10EF58
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 08:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646296687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7VbL5lT53mUztHyArx9pP7wyihmJ4M3NPqTtcvOQ2VI=;
- b=X6hNB79T/AP8VlAWg15d9IveEEkZKNhsAeiO9I6craiqet1W8RrTPyfV5gZ9nJKXHgQPPl
- TBRWekikCjQwAjodNsYphOZlFRzCV6Pcl0HNESx98t5F2G5sXeOjhzKAv006v4Z+aEwxhT
- gNd3ewXtXz1jVrkxqXHaIePQQAm/jbQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-NXfKnH30NoqvnamIYH8sVA-1; Thu, 03 Mar 2022 03:38:06 -0500
-X-MC-Unique: NXfKnH30NoqvnamIYH8sVA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p18-20020adfba92000000b001e8f7697cc7so1744792wrg.20
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 00:38:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=7VbL5lT53mUztHyArx9pP7wyihmJ4M3NPqTtcvOQ2VI=;
- b=FjI6NvyjBGkP7HDN4RYjS4Uqd9tjOsqUtOgoN+uejdFw7Ppsa4C6MpL82w7zZPd7eQ
- bhqD/gKfYRfVwRjoqHH1RcBfjDgoTzVWeX6D2FueBsRt03vqcgEWDXl2Fr3sOjm0M+Mi
- ps5m5Gb8AvKqScwHWUoJ6jt3LinUJUbb5/F1rLqO2DU6bA8LUotJChCYasxRR3m9SkHx
- wK3cY3rP7uExWZf4rL2LJw3qSJkiu/cUp/9zKMswQJtqfo0EM5p2VcJQxCefuh3WNwze
- R65isYDlGiJvhNr9VfY+PWlnq9NNmzhaiPA8RAcg52z+zbpFMnqS0tQcF2L7qpWyQjPM
- lPpQ==
-X-Gm-Message-State: AOAM532Ft5RHwSZxVq5ywxpaace921svRetEAbLrBkjCm2fpcTBXTTqx
- Ugpc3cbAPgTXIGS1FvVQSleCmW66CQHYFx8yH1cP1vskkgMKS0mcNkjDDF6W0ROQq5dqBni8t88
- h3I2JBW0PTd65eyd4rWV22MBwjbz7
-X-Received: by 2002:a5d:47a4:0:b0:1f0:46e4:19bc with SMTP id
- 4-20020a5d47a4000000b001f046e419bcmr4066496wrb.601.1646296684782; 
- Thu, 03 Mar 2022 00:38:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw/AOr9kcfSCL6dEmzp2KPAxB6X5N/u/fMMDoNJCyjfqcaaRT42zcBqSgBSliGMWF1kL7ADpA==
-X-Received: by 2002:a5d:47a4:0:b0:1f0:46e4:19bc with SMTP id
- 4-20020a5d47a4000000b001f046e419bcmr4066475wrb.601.1646296684567; 
- Thu, 03 Mar 2022 00:38:04 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- v15-20020a5d590f000000b001f04b96f9a9sm1338936wrd.42.2022.03.03.00.38.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 00:38:04 -0800 (PST)
-Message-ID: <8cef7451-ac6a-9ca5-b521-1eec53d30880@redhat.com>
-Date: Thu, 3 Mar 2022 09:38:03 +0100
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7CA10EBD6
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 09:05:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 289AA32003F4;
+ Thu,  3 Mar 2022 04:05:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Mar 2022 04:05:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; bh=j
+ d/D3eXjGYTd37iCGQN3di1Q9aNYeSKu4Z8w+Pavvxs=; b=svcSzFeuHBjys+R+f
+ D5Pl2JrUERkOfhbQBZiTX1AnkJzKVU8/LJD26H/TdJ0agxDIVIMgbBaD0yRswsz6
+ 2tQj2DL7hOc4lbSttQWX0gZwveYvWBvcj+nF/OdoVG6KQM18iymHmuD0ZSYAfw1J
+ nNnBUxuJ1B02xLhER4xiimnedTT5vzwrr+wQzSnSNfJ9pnBAVNqZeYlCtMuwKohw
+ E+2BbFEARKsAHpOffsdYphaKBGju/++VQzc30m8zwIiaGeKxVxXzkzWQ3BPqyjSx
+ UXsTMBINOKvWYMU6gXZn872vEfJNsrlxFh1WHiDJIxqbnHtGH5ZhI1jgJWf2z+cl
+ pVSMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=jd/D3eXjGYTd37iCGQN3di1Q9aNYeSKu4Z8w+Pavv
+ xs=; b=lsIvkPabUasLDw7DEBSYPAu7/gFS6H8Q75LhnD0bdsCwm8Q7I6OQnY6Zs
+ ud9i/LSaxEGXhfEQQEtHy0I2fMb+epnoHhZJNZJbsalvrE5Zy3sXeKgzHeuTjqpQ
+ DkSMFjFcFsHX3Lm8keZtlT6xmSW0jaOonUgZvZnOv4zJq2i84dhZolh1qkLL2nyf
+ jLyjFpI1dIwHn7fp44M7NoFdMpLlGSDkrPKxZLU2iNg7lJQ8wmRiEaqu681xXRsh
+ 8uaDyxKogBuyxHdsmUiaIQ4u2kb88Gl8yRuIfh/+eVOVCUNDX7uUF9wAgxcXqhb5
+ dy30xIejRgRz6j2uGZeil1c3nUgmA==
+X-ME-Sender: <xms:xoQgYq3FBAcZPgI6Zn4CQ_Adj_3rdrGw8Xj2Hgp8guN8DYTkxFeHuw>
+ <xme:xoQgYtG0E9A_-p3d-nucf7eab8TmcWh1e4TVddvcLHBxhFaTR_UtGnoipCA2LpI9B
+ ewCYe8UVJmoIx3tIdw>
+X-ME-Received: <xmr:xoQgYi4b5DJPS5vmep26Ff1n5WH5Jn9cPCOlgYxy3UE-uhq4jfELhCPzt2_tHxXlP3K5IIruVz78DqXAKpXnNAKSy_TxYrcbbsN_kXY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddthedguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfggtggusehgtderre
+ dttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghr
+ nhhordhtvggthheqnecuggftrfgrthhtvghrnhepgeehvddvffelveeiuefggfeiueduvd
+ fhfeeuhffgleejleeghfdvgedtveegleeknecuvehluhhsthgvrhfuihiivgeptdenucfr
+ rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:xoQgYr1S1tIOkEJjRNFdkljFJtkVKvx8w9KY2yZyP6kTfXXtlbFhdg>
+ <xmx:xoQgYtHMFryfJ1UkRKFkUSKykdiIKEtTLrQoAaBE-WblsgoFGr7CPw>
+ <xmx:xoQgYk-XSyECY90NcVXar7UhSQpX3F9xFyYffjt151kW8VnGZxiieg>
+ <xmx:xoQgYgMwPOTk3ViDpzcvsd2SFGCkkO-YrOL5Nr6BO7ImiXMBFLsQ4w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Mar 2022 04:05:09 -0500 (EST)
+Date: Thu, 3 Mar 2022 10:05:07 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Mandatory Test Suite for KMS Drivers?
+Message-ID: <20220303090507.grenwdro7u4fzmoe@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH][next] drm: ssd130x: remove redundant initialization of
- pointer mode
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-References: <20220302175309.1098827-1-colin.i.king@gmail.com>
- <CAFOAJEfS9dMY5nudeFxtwchTtLnBCh7N4qKaCdqvaodnRUFKzA@mail.gmail.com>
-In-Reply-To: <CAFOAJEfS9dMY5nudeFxtwchTtLnBCh7N4qKaCdqvaodnRUFKzA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gjbp5kld2r3vrbfj"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +77,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, llvm@lists.linux.dev,
- kernel-janitors@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/2/22 19:29, Javier Martinez Canillas wrote:
-> Hello Colin,
-> 
-> Thanks for the patch.
-> 
-> On Wed, Mar 2, 2022 at 6:53 PM Colin Ian King <colin.i.king@gmail.com> wrote:
->>
->> Pointer mode is being assigned a value that is never read, it is
->> being re-assigned later with a new value. The initialization is
->> redundant and can be removed.
->>
-> 
-> Indeed.
-> 
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
->
 
-Pushed to drm-misc-next (with fixed drm/ssd130x subject prefix).
+--gjbp5kld2r3vrbfj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks!
- -- 
-Best regards,
+Hi,
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Back at XDC we floated the idea of creating a test suite for IGT that we
+expect any KMS driver to pass, similar to what v4l2-compliance and
+cec-compliance provide for v4l2 and CEC respectively.
 
+I was looking at the list of tests, and it's fairly massive, so it's not
+clear to me what tests we could start this suite with. I can only assume
+all the KMS (but the chamelium ones) and fbdev related ones would be a
+good start?
+
+What do you think?
+Maxime
+
+--gjbp5kld2r3vrbfj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYiCEwwAKCRDj7w1vZxhR
+xYEPAP4wWX/UvJPJGzZxQArnd78Hzt17r5fwycxoIW4ED+mWdgD/R1LIodCabRyO
++6j6QSNqtNS3m5ahq9W2890Dq7WoxAE=
+=wmlu
+-----END PGP SIGNATURE-----
+
+--gjbp5kld2r3vrbfj--
