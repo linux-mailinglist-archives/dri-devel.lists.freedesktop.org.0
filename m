@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5425A4CC741
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 21:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C3E4CC773
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 21:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27DA110E69C;
-	Thu,  3 Mar 2022 20:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B62D10E9C3;
+	Thu,  3 Mar 2022 20:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6CB10E69C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 20:47:12 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- j7-20020a4ad6c7000000b0031c690e4123so7129027oot.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 12:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=+Puf4aNWGnBjbMoB3Susur6crhlYcLtx4j9Ip8HC7kA=;
- b=k6W8e10+Uf4sakf0fAoRyizRgUlCGT2fKfRGf7YwCJrtx8hpizrlDmaFiq8woyaLIu
- W+2+qR2dv4+7DFP95rd8s2jg2ZvOv5SouJRZ7Afuui/tPsw9eOVrD0vpNwJnfae5s/1O
- p4+Jh9D3nwk0keSiFtAGFSLDSlgSabeDgSqRk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=+Puf4aNWGnBjbMoB3Susur6crhlYcLtx4j9Ip8HC7kA=;
- b=M0B2n1l+J6r0cau+jg6oVVj/BVwpTRrZtR8GLocrvpX0U0ViemUm6Zuzyr4MzgGxlj
- LFs3UIWCGbbOYRjFtSSgIuEchTTN5+Pu0BQ1fOkyXVDeXyHZemAvYSoaihXLKxklAQTp
- DgSYibitgcZFfSya8rhArySXzPWLCrhUvOBaCZtasrpSoEepw/u9eP1K8fmpk+mk52Zx
- JuhFv3HQEScYDxLyn4B6djh4/pG2l3FPsgTno1egTG5O74rQs8djaBXxFflZTDzYkT02
- GHiy6i+Jd0m1pjuFVEbsXJrLrBC6+2NtKjz2BOtOJEhZe6mBo8PPHU+BS21Q1p48lynD
- PsrQ==
-X-Gm-Message-State: AOAM532Q55D6u1Iv/4x6dF9ZjQZuxgkDNsaIVDOs7nXf2xoAH/X5srjk
- XUUboxoKsLgvhLZmsr5NfPzkSCP2+62SJYlTLI4osQ==
-X-Google-Smtp-Source: ABdhPJzs1MvRVnkrIzc9Yf/1HC1AcAjxcK4UHZbLjJ8EUNjw5BY9npnsX81bicw0V269DxxbFy1/oRBcFej16mWlsGQ=
-X-Received: by 2002:a4a:a9cf:0:b0:2e9:5c75:e242 with SMTP id
- h15-20020a4aa9cf000000b002e95c75e242mr19586044oon.25.1646340431451; Thu, 03
- Mar 2022 12:47:11 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 12:47:10 -0800
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED5D10E79E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 20:58:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7A01A2113B;
+ Thu,  3 Mar 2022 20:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646341121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=tzloYSWb9woade52JqwYOqpvH73D+5PCkYIzoJtfRww=;
+ b=AIrTsKO9vnJOw1oFTXXsfqeHUJMRimn68YjArpRaPC3pmCCVrz84EulVb0fSij/uRlL+KH
+ znF5zxY/XTTJu3Qy/nsnoRk3bZVGjrm/wfGMS7Cvm//MXKUvXq23YVcRpoChS2bLiwgf7P
+ xe2q0RUPOS0+7XZyagG+GdCaCXKHTgs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646341121;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=tzloYSWb9woade52JqwYOqpvH73D+5PCkYIzoJtfRww=;
+ b=ceEcdBlqmxmv3j9lGl0H0Np853JQLmaQiX7E851kbA6RXMLNq0sVRCgUDKfA8CzafManHh
+ 9jne/VvxuoaXa0CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E5C0139B5;
+ Thu,  3 Mar 2022 20:58:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lq2bDQEsIWJoHAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 03 Mar 2022 20:58:41 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, deller@gmx.de, javierm@redhat.com
+Subject: [PATCH 0/9] drm: Support GEM SHMEM fbdev without shadow FB
+Date: Thu,  3 Mar 2022 21:58:30 +0100
+Message-Id: <20220303205839.28484-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220303194758.710358-4-robdclark@gmail.com>
-References: <20220303194758.710358-1-robdclark@gmail.com>
- <20220303194758.710358-4-robdclark@gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 12:47:10 -0800
-Message-ID: <CAE-0n532ZX=qXTBKSFyRYAmkqFN7oqKyPvJHBuVMmr2eHY+O4A@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/msm: Add SYSPROF param
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,95 +62,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Yangtao Li <tiny.windzz@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Clark (2022-03-03 11:46:47)
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index fde9a29f884e..0ba1dbd4e50f 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -330,6 +337,24 @@ struct msm_file_private {
->         struct kref ref;
->         int seqno;
->
-> +       /**
-> +        * sysprof:
-> +        *
-> +        * The value of MSM_PARAM_SYSPROF set by userspace.  This is
-> +        * intended to be used by system profiling tools like Mesa's
-> +        * pps-producer (perfetto), and restricted to CAP_SYS_ADMIN.
-> +        *
-> +        * Setting a value of 1 will preserve performance counters across
-> +        * context switches.  Setting a value of 2 will in addition
-> +        * suppress suspend.  (Performance counters loose  state across
+Rework the fbdev deferred-I/O to not interfere with fields of struct
+page. Make the code more flexible and implement GEM SHMEM mmap on top
+of it.
 
-s/loose  /lose/
+This patchset removes the need for a special shadow framebuffer for
+fbdev mmap when using GEM SHMEM. SHMEM pages are now mmap'ed from
+/dev/fb directly.
 
-> +        * power collapse, which is undesirable for profiling in some
-> +        * cases.)
-> +        *
-> +        * The value automatically reverts to zero when the drm device
-> +        * file is closed.
-> +        */
-> +       int sysprof;
-> +
->         /**
->          * elapsed:
->          *
-> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-> index 7cb158bcbcf6..4179db54ac93 100644
-> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
-> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-> @@ -7,6 +7,40 @@
->
->  #include "msm_gpu.h"
->
-> +int msm_file_private_set_sysprof(struct msm_file_private *ctx,
-> +                                struct msm_gpu *gpu, int sysprof)
-> +{
-> +       /* unwind old value first: */
-> +       switch (ctx->sysprof) {
-> +       case 2:
-> +               pm_runtime_put_autosuspend(&gpu->pdev->dev);
-> +               fallthrough;
-> +       case 1:
-> +               refcount_dec(&gpu->sysprof_active);
-> +               fallthrough;
-> +       case 0:
-> +               break;
-> +       }
-> +
-> +       /* then apply new value: */
+Patches 2 and 3 rework the fbdev deferred I/O code. It now allows
+drivers to have better control of the mmap operations. All references
+to fields in struct page are gone. The rsp state is help in a 
+separate pageref structure.
 
-It would be safer to swap this. Otherwise a set when the values are at
-"1" would drop to "zero" here and potentially trigger some glitch,
-whereas incrementing one more time and then dropping the previous state
-would avoid that short blip.
+Patches 4 to 7 provide callbacks an helpers to implement deferred I/O
+with DRM drivers. Specifically, patch 6 introduces a callback to create
+a dumb buffer for fbdev. This will be useful for many drivers that
+currently cannot use generic fbdev emulation because of special placement
+needs of the BO, such as amdgpu or radeon. The drivers can handle the
+differences to regular dumb buffers in their new callback implementation.
 
-> +       switch (sysprof) {
-> +       default:
-> +               return -EINVAL;
+Patch 8 extends the GEM SHMEM memory manager with a new helper for fbdev
+dumb-buffer creation. The returned BO has it's mmap set up to implement
+deferred I/O with SHMEM pages. No additional shadow buffer is requires
+any longer. Many drivers can immediatelly benefit from this change.
 
-This will become more complicated though.
+Patch 9 extends virtgpu to support fbdev dumb buffers. It's build on
+top of GEM SHMEM, but has some modifications that need to be implemented
+for fbdev as well.
 
-> +       case 2:
-> +               pm_runtime_get_sync(&gpu->pdev->dev);
-> +               fallthrough;
-> +       case 1:
-> +               refcount_inc(&gpu->sysprof_active);
-> +               fallthrough;
-> +       case 0:
-> +               break;
-> +       }
-> +
-> +       ctx->sysprof = sysprof;
-> +
-> +       return 0;
-> +}
+There's no immediate fbdev performance improvement from this patchset.
+Most of all, it removes unnecessary shadow framebuffers and rsp memcpys.
+A shadow fb for a FullHD display is ~8 MiB, which we now save. The patches
+do reduce latency between drawing to the fbdev buffer to displaying
+on the screen. Watching a video on the fbdev console felt smoother and
+had less flickering.
+
+Thomas Zimmermann (9):
+  drm/simpledrm: Use fbdev defaults for shadow buffering
+  fbdev: Put mmap for deferred I/O into drivers
+  fbdev: Track deferred-I/O pages in pageref struct
+  fbdev: Export helper for implementing page_mkwrite
+  drm/fb-helper: Separate deferred I/O from shadow buffers
+  drm/fb-helper: Provide callback to create fbdev dumb buffers
+  drm/fb-helper: Provide fbdev deferred-I/O helpers
+  drm/gem-shmem: Implement fbdev dumb buffer and mmap helpers
+  drm/virtio: Implement dumb_create_fbdev with GEM SHMEM helpers
+
+ drivers/gpu/drm/drm_client.c            |  14 +-
+ drivers/gpu/drm/drm_crtc_internal.h     |   3 +
+ drivers/gpu/drm/drm_dumb_buffers.c      |  36 +++-
+ drivers/gpu/drm/drm_fb_helper.c         |  79 +++++++--
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 204 ++++++++++++++++++++---
+ drivers/gpu/drm/gud/gud_drv.c           |   2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c   |   2 +-
+ drivers/gpu/drm/tiny/cirrus.c           |   2 +-
+ drivers/gpu/drm/tiny/gm12u320.c         |   2 +-
+ drivers/gpu/drm/tiny/simpledrm.c        |   3 +-
+ drivers/gpu/drm/udl/udl_drv.c           |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c    |   2 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |   2 +
+ drivers/gpu/drm/virtio/virtgpu_object.c |  54 +++++-
+ drivers/gpu/drm/vkms/vkms_drv.c         |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c      |   6 +-
+ drivers/hid/hid-picolcd_fb.c            |   1 +
+ drivers/staging/fbtft/fbtft-core.c      |   6 +-
+ drivers/video/fbdev/broadsheetfb.c      |   6 +-
+ drivers/video/fbdev/core/fb_defio.c     | 211 +++++++++++++++++-------
+ drivers/video/fbdev/core/fbmem.c        |  19 +--
+ drivers/video/fbdev/hecubafb.c          |   1 +
+ drivers/video/fbdev/hyperv_fb.c         |   6 +-
+ drivers/video/fbdev/metronomefb.c       |   6 +-
+ drivers/video/fbdev/sh_mobile_lcdcfb.c  |  12 +-
+ drivers/video/fbdev/smscufx.c           |   8 +-
+ drivers/video/fbdev/ssd1307fb.c         |   1 +
+ drivers/video/fbdev/udlfb.c             |   8 +-
+ drivers/video/fbdev/xen-fbfront.c       |   6 +-
+ include/drm/drm_client.h                |   3 +-
+ include/drm/drm_drv.h                   |  27 +++
+ include/drm/drm_fb_helper.h             |   9 +
+ include/drm/drm_gem_shmem_helper.h      |  63 ++++++-
+ include/linux/fb.h                      |  12 +-
+ 35 files changed, 668 insertions(+), 154 deletions(-)
+
+
+base-commit: 710a019ad85e96e66f7d75ee7f4733cdd8a2b0d0
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
+-- 
+2.35.1
+
