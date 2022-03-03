@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCF94CC97A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5BC4CC980
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA3410E3AA;
-	Thu,  3 Mar 2022 22:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1DA10E345;
+	Thu,  3 Mar 2022 22:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2F510E3BD
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 22:50:50 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id s5so6207726oic.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:50:50 -0800 (PST)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C80710E3BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 22:54:15 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ j7-20020a4ad6c7000000b0031c690e4123so7456475oot.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=KeDmke7qScTaAmmjjyQpyutbM2DWizHtambCdZkz9so=;
- b=c7uNVxCrj7GWjWl8k15rd3NWuQMjPYmBmVx9kC/NvH/2mYFJpmqswTrYbwyAjtUVT0
- XC+Ya9MELFv9OKGEGj4MaSGRxQiuhylUuua9ECXenWnE0XYmPgg2+6oimoL7ONr4mh+E
- NhAyMHITEtLx0K0RbybO+ZHvp19uo/sYUII1Y=
+ bh=SWwr6PfQx9+FPyvTdo8KBfSMVcyO3fHRr3T3bQXm+ds=;
+ b=QBW+znNKKa/bk/d9EArBF7hxjYyQk4nEwGsuQPFy4XkOyGaGnr2MqkogedjMGH6P6x
+ IDtN+u+8Ykw/r3Mgxm1L+pc7zVn/aMdZjDLZ2isamgiU7xVKEAtCY7dXqnJkd5RQpCh+
+ 8Y5Yl4c26VGBMMpyT8YAIzoZVEcGktlM9tX18=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=KeDmke7qScTaAmmjjyQpyutbM2DWizHtambCdZkz9so=;
- b=QrS1lTMzjmrPwKYM5DT2XrcXi3J7l/Epx/fDZii5Z9jL3u38pWvZj4z2JwK/t/Q8EE
- /5LrlOndvsMi3ePnBrwQNtvmTmxsePAd3VaEe6Awy3BoFumX/xEkA1N8/PgDJaBYLZJR
- TklugHTr2wM5cysLYLsbHfbXVCwAGFSDdwytoS3U3lKF5Y1RSmQ92QIjbMXNzXoGVFvn
- 9EhKtyO8X6O2YXzBQQUo4cmFEZ/cGk8Yynl9MOzznaU1MuX0B37+Xng/XEmIgjk3U+Ah
- EakTWMOVkoYuHrr53EuVOXCqUhp6/3l3o+hwBXZx2dTa5a4XadnHXpSj4cw4CoVPnDKL
- Ibqw==
-X-Gm-Message-State: AOAM532MtnTlnOjs9Ej2V5XTt/UMXj/M3e0hsugkTSOsvf6xTnz/RfcR
- j9vNoWLH+tgVe11VLRvn/FBADAbAjZxPgUHLJ1Te8ZDlUTw=
-X-Google-Smtp-Source: ABdhPJxA0gclpLTZ0n3tm36YIjXGwbHs5/bZqav5p1HszkHa+lfQd5VovmMf1U0kgnme3ZuS28Lh/1eE7rePS9rZovo=
-X-Received: by 2002:a05:6808:20a7:b0:2d4:d2f1:9edc with SMTP id
- s39-20020a05680820a700b002d4d2f19edcmr6732813oiw.64.1646347849504; Thu, 03
- Mar 2022 14:50:49 -0800 (PST)
+ bh=SWwr6PfQx9+FPyvTdo8KBfSMVcyO3fHRr3T3bQXm+ds=;
+ b=Z1kJ+GCwyTTgr6cFyKIEJDYWzSBC+4Umwr6Ecvr7/wmdnHpt8HuugPZVlApG2Wq7V4
+ EBn9Ad42is/JpSZkeUO3pWNCH/Aoll2lZfm4PAENSVs4BYJ7C4JJ/gHAeYDT/hFqPbN+
+ jozcXFPD9tmh+CxIq6r4/Qj6Zjvzpk0i/RZg5A2tnVP4aakEGWVWVrWk+1J3U44cCdcd
+ IRFXlpZag/OJMTZ9t0yn2UjG/FUOD1C9OAZuf3HvS0bffazRmK9USkF3Fe6PounFoKje
+ mlNZCmjM6/8Bds02hDmBJwpSuU1DQq9aPaT3QGsBMBPxoz7JTqI620dMFw+eNe+OHETl
+ PiAA==
+X-Gm-Message-State: AOAM530iDvw7vaZrx4r9gVKJU3QE6q/in+Y+Y2N8H0k8ZWjOo/ASR2oT
+ L3hGo8276jbs5S6sJZzRK2WnsqmykroBDhtwAJjecA==
+X-Google-Smtp-Source: ABdhPJx/6Rxm4cp68BFJJFqy3CAujhE6UWDHQU3lHjqBYT+eQ18QrGqQbyqLY4SwEdptGIgYFgUpSCqce2VueXCbcBs=
+X-Received: by 2002:a05:6870:14cf:b0:d9:a9ce:92a9 with SMTP id
+ l15-20020a05687014cf00b000d9a9ce92a9mr5886672oab.64.1646348054835; Thu, 03
+ Mar 2022 14:54:14 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 14:50:49 -0800
+ HTTPREST; Thu, 3 Mar 2022 14:54:14 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220119224005.3104578-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220119224005.3104578-3-dmitry.baryshkov@linaro.org>
 References: <20220119224005.3104578-1-dmitry.baryshkov@linaro.org>
- <20220119224005.3104578-2-dmitry.baryshkov@linaro.org>
+ <20220119224005.3104578-3-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 14:50:49 -0800
-Message-ID: <CAE-0n526yEZzk8Yzje+HszN79MFPkovVFDKXPffMwL8sE9n_8w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/msm: unify MDSS drivers
+Date: Thu, 3 Mar 2022 14:54:14 -0800
+Message-ID: <CAE-0n51MFCFedPR4H__ousJGsatRWJKJpoo8rHUmJ4qdea22pw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] drm/msm: remove extra indirection for msm_mdss
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -72,107 +73,67 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-01-19 14:40:02)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> similarity index 58%
-> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> rename to drivers/gpu/drm/msm/msm_mdss.c
-> index 9f5cc7f9e9a9..f5429eb0ae52 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -188,22 +182,64 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
+Quoting Dmitry Baryshkov (2022-01-19 14:40:03)
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index be06a62d7ccb..f18dfbb614f0 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1211,19 +1212,32 @@ static int msm_pdev_probe(struct platform_device *pdev)
 >
->         pm_runtime_suspend(mdss->dev);
->         pm_runtime_disable(mdss->dev);
-> -       _dpu_mdss_irq_domain_fini(dpu_mdss);
-> +       irq_domain_remove(dpu_mdss->irq_controller.domain);
-> +       dpu_mdss->irq_controller.domain = NULL;
->         irq = platform_get_irq(pdev, 0);
->         irq_set_chained_handler_and_data(irq, NULL, NULL);
-> -
-> -       if (dpu_mdss->mmio)
-> -               devm_iounmap(&pdev->dev, dpu_mdss->mmio);
-> -       dpu_mdss->mmio = NULL;
+>         switch (get_mdp_ver(pdev)) {
+>         case KMS_MDP5:
+> -               ret = msm_mdss_init(pdev, true);
+> +               mdss = msm_mdss_init(pdev, true);
+> +               if (IS_ERR(mdss)) {
+> +                       ret = PTR_ERR(mdss);
+> +                       platform_set_drvdata(pdev, NULL);
+> +
+> +                       return ret;
+> +               } else {
+
+Drop else
+
+> +                       priv->mdss = mdss;
+> +                       pm_runtime_enable(&pdev->dev);
+> +               }
+>                 break;
+>         case KMS_DPU:
+> -               ret = msm_mdss_init(pdev, false);
+> +               mdss = msm_mdss_init(pdev, false);
+> +               if (IS_ERR(mdss)) {
+> +                       ret = PTR_ERR(mdss);
+> +                       platform_set_drvdata(pdev, NULL);
+> +
+> +                       return ret;
+> +               } else {
+> +                       priv->mdss = mdss;
+> +                       pm_runtime_enable(&pdev->dev);
+> +               }
+
+This is the same so why can't it be done below in the deleted if (ret)?
+
+>                 break;
+>         default:
+> -               ret = 0;
+>                 break;
+>         }
+> -       if (ret) {
+> -               platform_set_drvdata(pdev, NULL);
+> -               return ret;
+> -       }
+>
+>         if (get_mdp_ver(pdev)) {
+>                 ret = add_display_components(pdev, &match);
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> index 2459ba479caf..0c341660941a 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -239,50 +228,44 @@ int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_data **c
+>         return num_clocks;
 >  }
 >
->  static const struct msm_mdss_funcs mdss_funcs = {
-> -       .enable = dpu_mdss_enable,
-> -       .disable = dpu_mdss_disable,
-> -       .destroy = dpu_mdss_destroy,
-> +       .enable = msm_mdss_enable,
-> +       .disable = msm_mdss_disable,
-> +       .destroy = msm_mdss_destroy,
->  };
->
-> -int dpu_mdss_init(struct platform_device *pdev)
-> +/*
-> + * MDP5 MDSS uses at most three specified clocks.
-> + */
-> +#define MDP5_MDSS_NUM_CLOCKS 3
-> +int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
+> -int msm_mdss_init(struct platform_device *pdev, bool mdp5)
+> +struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool mdp5)
 
-static?
-
-> +{
-> +       struct clk_bulk_data *bulk;
-> +       struct clk *clk;
-> +       int num_clocks = 0;
-> +
-> +       if (!pdev)
-> +               return -EINVAL;
-> +
-> +       bulk = devm_kcalloc(&pdev->dev, MDP5_MDSS_NUM_CLOCKS, sizeof(struct clk_bulk_data), GFP_KERNEL);
-> +       if (!bulk)
-> +               return -ENOMEM;
-> +
-> +       /* We ignore all the errors except deferral: typically they mean that the clock is not provided in the dts. */
-> +       clk = msm_clk_get(pdev, "iface");
-> +       if (!IS_ERR(clk)) {
-> +               bulk[num_clocks].id = "iface";
-> +               bulk[num_clocks].clk = clk;
-> +               num_clocks++;
-> +       } else if (clk == ERR_PTR(-EPROBE_DEFER))
-> +               return -EPROBE_DEFER;
-> +
-> +       clk = msm_clk_get(pdev, "bus");
-> +       if (!IS_ERR(clk)) {
-> +               bulk[num_clocks].id = "bus";
-> +               bulk[num_clocks].clk = clk;
-> +               num_clocks++;
-> +       } else if (clk == ERR_PTR(-EPROBE_DEFER))
-> +               return -EPROBE_DEFER;
-> +
-> +       clk = msm_clk_get(pdev, "vsync");
-> +       if (!IS_ERR(clk)) {
-> +               bulk[num_clocks].id = "vsync";
-> +               bulk[num_clocks].clk = clk;
-> +               num_clocks++;
-> +       } else if (clk == ERR_PTR(-EPROBE_DEFER))
-> +               return -EPROBE_DEFER;
-> +
-> +       return num_clocks;
-> +}
-> +
-> +int msm_mdss_init(struct platform_device *pdev, bool mdp5)
-
-Maybe is_mdp5 so the if reads simpler.
-
->  {
->         struct msm_drm_private *priv = platform_get_drvdata(pdev);
->         struct dpu_mdss *dpu_mdss;
-> @@ -220,27 +256,28 @@ int dpu_mdss_init(struct platform_device *pdev)
->
->         DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
->
-> -       ret = msm_parse_clock(pdev, &dpu_mdss->clocks);
-> +       if (mdp5)
-> +               ret = mdp5_mdss_parse_clock(pdev, &dpu_mdss->clocks);
-> +       else
-> +               ret = msm_parse_clock(pdev, &dpu_mdss->clocks);
->         if (ret < 0) {
-> -               DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
-> -               goto clk_parse_err;
-> +               DRM_ERROR("failed to parse clocks, ret=%d\n", ret);
-> +               return ret;
->         }
->         dpu_mdss->num_clocks = ret;
+Ah I see it will quickly become not static. Still should have static
+first and remove it here.
