@@ -1,33 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513674CB856
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 09:08:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 429F84CB85E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 09:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8B610EE9A;
-	Thu,  3 Mar 2022 08:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1681D10EE9E;
+	Thu,  3 Mar 2022 08:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-132.freemail.mail.aliyun.com
- (out30-132.freemail.mail.aliyun.com [115.124.30.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C110F10EE9A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 08:08:20 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R411e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0V66azns_1646294894; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0V66azns_1646294894) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 03 Mar 2022 16:08:18 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: paul@crapouillou.net
-Subject: [PATCH] drm/ingenic: Use resource_size function on resource object
-Date: Thu,  3 Mar 2022 16:08:12 +0800
-Message-Id: <20220303080812.27342-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5243A10EE9E;
+ Thu,  3 Mar 2022 08:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1646294923; x=1677830923;
+ h=from:to:cc:subject:date:message-id;
+ bh=+bYsDhgswS3zG/uB6uGZaEGIcMgyRUKoKz7L41FkkoU=;
+ b=eBd+JUU/IFx27mV61HRhVB1S1O1NYmYrWWhgP7RZHgaiUanCsPQrf5D+
+ qnqjkac1cXfKMEoxnl6vrfGBtVkMgnQwlwDKcO5+7nLW1+OBtgpcoH58Z
+ /F48J7OwkOvSahSFVTYQDZs91KSVGUn4jqCZah7lbil+P52GY1SQE46oC g=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 03 Mar 2022 00:08:43 -0800
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 03 Mar 2022 00:08:41 -0800
+X-QCInternal: smtphost
+Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 03 Mar 2022 13:38:29 +0530
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id 166B64E1B; Thu,  3 Mar 2022 13:38:28 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v3 0/3] Update mdp clk to max supported value to support
+ higher refresh rates
+Date: Thu,  3 Mar 2022 13:38:21 +0530
+Message-Id: <1646294904-4753-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,36 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
- Abaci Robot <abaci@linux.alibaba.com>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, swboyd@chromium.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up the following coccicheck warning:
+*** BLURB HERE ***
 
-./drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1110:35-38: WARNING:
-Suspicious code. resource_size is maybe missing with res.
+Vinod Polimera (3):
+  arm64/dts/qcom/sc7280: remove assigned-clock-rate property for mdp clk
+  arm64/dts/qcom/sc7180: remove assigned-clock-rate property for mdp clk
+  arm64/dts/qcom/sdm845: remove assigned-clock-rate property for mdp clk
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 9 ++-------
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 ++-------
+ arch/arm64/boot/dts/qcom/sdm845.dtsi | 9 ++-------
+ 3 files changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index ac52b49bf901..52ad5cab64bb 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1107,7 +1107,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	}
- 
- 	regmap_config = ingenic_drm_regmap_config;
--	regmap_config.max_register = res->end - res->start;
-+	regmap_config.max_register = resource_size(res);
- 	priv->map = devm_regmap_init_mmio(dev, base,
- 					  &regmap_config);
- 	if (IS_ERR(priv->map)) {
 -- 
-2.20.1.7.g153144c
+2.7.4
 
