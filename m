@@ -2,42 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB32C4CB9E8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 10:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3924D4CBA10
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 10:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 159E110E9D7;
-	Thu,  3 Mar 2022 09:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0869310EE8A;
+	Thu,  3 Mar 2022 09:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D1F10EAA4
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 09:14:37 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1A6885;
- Thu,  3 Mar 2022 10:14:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646298876;
- bh=OSe+PR5iWXfk7TT5SmP463t6QDDD1+tQqfbrYuJ59f8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XnUFRHaoCchmSwwnyhCDedhVyStwSz2xuZyQIv1ynac1QJiCugETWID5aNAINkn0p
- tpChYrzOvLoJh6Tv78+ZZ2V0KnuTwB0WmtY7iK5EbxWEh4sMnxGzLtebJZ+3LarCIN
- Z4kWWgD51SU28KPoS1cw/FwUbTe6bHkRWX6Jij/Y=
-Date: Thu, 3 Mar 2022 11:14:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 3/3] dt-bindings: display: bridge: renesas, lvds: Document
- r8a77961 bindings
-Message-ID: <YiCG7xSHx6qqFlrc@pendragon.ideasonboard.com>
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-4-nikita.yoush@cogentembedded.com>
- <YcyRAk/d2728mDgH@pendragon.ideasonboard.com>
- <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2EB10EE7C;
+ Thu,  3 Mar 2022 09:21:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id D15781F4537A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646299309;
+ bh=Oe2pV1nTwtl1ZAeBq7ptzCBBqpUgYg8U9OQ8spRg7k0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kxwvKdJAr8t3ibeUYyY3yZwFjajIrc8P7Izj4oGXdVD8DepEDb8cHlC6SQHcUe1+6
+ P5wGoTx1r7580zSAScrN+FoSMg4nK1kc+Fgmz3YnDKHYHFW5erqwKkfCNF4U0af5ai
+ 69xDhPXEgIYTW4uFXwOIqY0Ef1Jr8KYiRT/Fjfdm1216hApVM0PU+0TKPWSzNfDtKq
+ DyslyhiFTfwRe/3qTRGRB++2ApHP5qAZkP21+hqNqdmz+euw1ZlrArm5QJNTRwXiY2
+ wqhx33a2wZqYobw/xwc/InZYoztSn7aOsMLZ3nhANidG5f9l2kcEM0jwDOTjF3Xujm
+ QGKio3vllwnFw==
+Message-ID: <373491a2-0fa5-0326-29cd-1650f86202d4@collabora.com>
+Date: Thu, 3 Mar 2022 10:21:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v1 07/10] drm/msm/adreno: Retry on gpu resume failure
+Content-Language: en-US
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220302225551.v1.7.I55e39e28375b64455d1605f67453d5e91b0c2710@changeid>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220302225551.v1.7.I55e39e28375b64455d1605f67453d5e91b0c2710@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +55,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ Martin Botka <martin.botka@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 02, 2022 at 06:00:08PM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 29, 2021 at 5:47 PM Laurent Pinchart wrote:
-> > On Fri, Dec 24, 2021 at 08:23:09AM +0300, Nikita Yushchenko wrote:
-> > > Document the R-Car M3-W+ (R8A77961) SoC in the R-Car LVDS encoder
-> > > bindings.
-> > >
-> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > ---
-> > >  .../devicetree/bindings/display/bridge/renesas,lvds.yaml         | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > index acfc327f70a7..ca5443e5c2e3 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > @@ -27,6 +27,7 @@ properties:
-> > >        - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-> > >        - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-> > >        - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-> > > +      - renesas,r8a77961-lvds # for R-Car M3-W+ compatible LVDS encoders
-> >
-> > I'll move this line after the next to keep them sorted. No need to
-> > resubmit.
+Il 02/03/22 18:27, Akhil P Oommen ha scritto:
+> Retry infinitely on resume failure because there is nothing much we can
+> do if GPU is not ON. Also, this helps us to avoid checking for the
+> return value of pm_runtime_get() to see if GPU is ON.
 > 
-> Any chance this will happen soon? Same for patch 1/3 .
-> Patch 2/3 is already queued in soc/for-next.
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+> 
+>   drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 89cfd84..abcc553 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -603,8 +603,16 @@ static const struct of_device_id dt_match[] = {
+>   static int adreno_resume(struct device *dev)
+>   {
+>   	struct msm_gpu *gpu = dev_to_gpu(dev);
+> +	int ret;
+> +
+> +	/* What hope do we have for the future if we can't turn ON gpu */
 
-Oops. I can send a pull request right away, but we're already at -rc6,
-so I'm afraid it will get delayed to v5.19.
+Hello Akhil,
 
--- 
+the hope for the future would be to at least not lock up everything with
+an infinite loop, so, please change this to have a limited amount of retries.
+
+My guess would be that a maximum of 10 is already a lot of retries, but
+feel free to choose an appropriate number.
+
 Regards,
+Angelo
 
-Laurent Pinchart
+> +	while (true) {
+> +		ret = gpu->funcs->pm_resume(gpu);
+> +		if (!ret)
+> +			break;
+> +	}
+>   
+> -	return gpu->funcs->pm_resume(gpu);
+> +	return 0;
+>   }
+>   
+>   static int active_submits(struct msm_gpu *gpu)
+
+
