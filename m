@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF00B4CC9C8
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 00:04:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC814CC9E2
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 00:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A319210E349;
-	Thu,  3 Mar 2022 23:04:33 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 845A010E33B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 23:04:32 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- w3-20020a4ac183000000b0031d806bbd7eso7489230oop.13
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 15:04:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=jZQpccdlXEVBV5XW48/HF6CSAPH1NUoB+GZhDpANl/I=;
- b=c/qUAjUweKw2rta2i7GR4qIr9spmKWqQxkGSY/VbfQLtOj3u9qkS+pxYMXypmV8idJ
- xCGueq1dZ1dGwfvzRR/Zfa5GbHQXBQYI9P2IlQdoPt9xeZH9lE6CTy/xWd4s573YBKnM
- g8n8ZF1rrZ9Y/t0b9ZxHyq1X76YF/yqafoqYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=jZQpccdlXEVBV5XW48/HF6CSAPH1NUoB+GZhDpANl/I=;
- b=H9a3eAMGsKQpMfScxVbU3yUmvq4hl5AmxOW1k380U0unJ92E/5rU+GWRPKoJgsogWp
- fORVhvUgEiHe6WwaXXFhI0YOb8wMletUBwVpy1TjjVsKkup/zIJLU/DFIq6869iBL2Dd
- kORTorRRlLfiINVL/odrussNP3RE/hPuYyrkR1tGinU8jE2FxdNTWih9cMX0X1VSELqf
- VuxaEczrPvjLxZuFC1hDxMU25D1OsvxZ6rXwfTP7Jo2P+wpMftSCuLufgm2ZDVq4boOl
- oxogk+Azq8qDBIrC3GxyeGZMeotBvrx2ycAO6MKb7Gs2JmNBED2Nw/xk2s1XQSnGcYXR
- yDtA==
-X-Gm-Message-State: AOAM53388oaq+SVTtPI0nwZPuKwN40xB+sBLKFuAJthe9dtJsLl9PJRh
- bbOUudDCoy1y1+DGFjVVGY43fOcDq5ogtxO+5/UCoA==
-X-Google-Smtp-Source: ABdhPJwtxRzTqJwjec3If3NOvx+suns7yeg8hgpj6o6n3vB3ZASvqDKWo0zR3tmGIuShX71IDVuArXoKwiJ4Dd2Jau8=
-X-Received: by 2002:a4a:9821:0:b0:320:52bb:3806 with SMTP id
- y30-20020a4a9821000000b0032052bb3806mr6999481ooi.1.1646348671847; Thu, 03 Mar
- 2022 15:04:31 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 15:04:31 -0800
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA9B510E33B;
+	Thu,  3 Mar 2022 23:16:46 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD50A10E33B;
+ Thu,  3 Mar 2022 23:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646349405; x=1677885405;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=K5NCl7c6l3snJcQzwWfBmo3TIQkhEQd1GIfIElaR+kM=;
+ b=TspiehXXz/OwHMZp9d4t5pZ34QepnI/0pYZMwcf6EehDR4kTNiA9PmiF
+ fogcMhao4xxbXN1NuFvk6nYFrO6IslTiOm0bx+0pesOv+t9iofrA+QO3d
+ gl68W3NzJGUyWmgj0PpQhGMKfBQa2PNx0HoCQI6igBjg92QjSLjwcmKu+
+ hemLBM6jiIbchlAXvayQWpa665F1/poP80yBc1A8pNs3Ti6E4TOnDKGwC
+ 5baKyQXK0Aa/tySVEsNxHHM3icn8bDwgNf9w8Gp/4mS/dW5+dw7hr0hl4
+ VvAN40hwQ6dkVadzRRUzLa41W8zo4dFPkv4HAywOT/XRu5x9i1jWFJwmr w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="253772723"
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="253772723"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2022 15:16:45 -0800
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="551972142"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2022 15:16:44 -0800
+Date: Thu, 3 Mar 2022 15:16:43 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [PATCH v3 2/4] drm/i915: Fix compute pre-emption w/a to apply to
+ compute engines
+Message-ID: <YiFMW13U31UMNKF1@mdroper-desk1.amr.corp.intel.com>
+References: <20220303223737.708659-1-John.C.Harrison@Intel.com>
+ <20220303223737.708659-3-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20220119224005.3104578-5-dmitry.baryshkov@linaro.org>
-References: <20220119224005.3104578-1-dmitry.baryshkov@linaro.org>
- <20220119224005.3104578-5-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 15:04:31 -0800
-Message-ID: <CAE-0n50KN-9G6ty40ZDwwLNMMn3xFPzDzkWVRDU+_rgz2UKsGA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/msm: stop using device's match data pointer
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220303223737.708659-3-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,72 +59,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-GFX@lists.freedesktop.org,
+ DRI-Devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Stuart Summers <stuart.summers@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-01-19 14:40:05)
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index 759076357e0e..f83dca99f03d 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -314,11 +314,11 @@ static const struct dev_pm_ops mdss_pm_ops = {
->         .complete = msm_pm_complete,
->  };
->
-> -static int get_mdp_ver(struct platform_device *pdev)
-> +static bool get_is_mdp5(struct platform_device *pdev)
->  {
->         struct device *dev = &pdev->dev;
->
-> -       return (int) (unsigned long) of_device_get_match_data(dev);
-> +       return (bool) (unsigned long) of_device_get_match_data(dev);
->  }
->
->  static int find_mdp_node(struct device *dev, void *data)
-> @@ -331,21 +331,18 @@ static int mdss_probe(struct platform_device *pdev)
->  {
->         struct msm_mdss *mdss;
->         struct msm_drm_private *priv;
-> -       int mdp_ver = get_mdp_ver(pdev);
-> +       bool is_mdp5 = get_is_mdp5(pdev);
+On Thu, Mar 03, 2022 at 02:37:35PM -0800, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> An earlier patch added support for compute engines. However, it missed
+> enabling the anti-pre-emption w/a for the new engine class. So move
+> the 'compute capable' flag earlier and use it for the pre-emption w/a
+> test.
+> 
+> Fixes: c674c5b9342e ("drm/i915/xehp: CCS should use RCS setup functions")
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: "Michał Winiarski" <michal.winiarski@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> Cc: Stuart Summers <stuart.summers@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-	is_mdp5 = of_device_is_compatible(pdev->dev.of_node, "qcom,mdss");
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
->         struct device *mdp_dev;
->         struct device *dev = &pdev->dev;
->         int ret;
->
-> -       if (mdp_ver != KMS_MDP5 && mdp_ver != KMS_DPU)
-> -               return -EINVAL;
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 22e70e4e007c..4185c7338581 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -421,6 +421,12 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+>  	engine->logical_mask = BIT(logical_instance);
+>  	__sprint_engine_name(engine);
+>  
+> +	/* features common between engines sharing EUs */
+> +	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS) {
+> +		engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
+> +		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
+> +	}
+> +
+>  	engine->props.heartbeat_interval_ms =
+>  		CONFIG_DRM_I915_HEARTBEAT_INTERVAL;
+>  	engine->props.max_busywait_duration_ns =
+> @@ -433,15 +439,9 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+>  		CONFIG_DRM_I915_TIMESLICE_DURATION;
+>  
+>  	/* Override to uninterruptible for OpenCL workloads. */
+> -	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+> +	if (GRAPHICS_VER(i915) == 12 && (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE))
+>  		engine->props.preempt_timeout_ms = 0;
+>  
+> -	/* features common between engines sharing EUs */
+> -	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS) {
+> -		engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
+> -		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
+> -	}
 > -
->         priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
->         if (!priv)
->                 return -ENOMEM;
->
->         platform_set_drvdata(pdev, priv);
->
-> -       mdss = msm_mdss_init(pdev, mdp_ver == KMS_MDP5);
-> +       mdss = msm_mdss_init(pdev, is_mdp5);
->         if (IS_ERR(mdss)) {
->                 ret = PTR_ERR(mdss);
->                 platform_set_drvdata(pdev, NULL);
-> @@ -409,12 +406,12 @@ static int mdss_remove(struct platform_device *pdev)
->  }
->
->  static const struct of_device_id mdss_dt_match[] = {
-> -       { .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
-> -       { .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
-> -       { .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
-> -       { .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
-> -       { .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
-> -       { .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
-> +       { .compatible = "qcom,mdss", .data = (void *)true },
-> +       { .compatible = "qcom,sdm845-mdss", .data = (void *)false },
-> +       { .compatible = "qcom,sc7180-mdss", .data = (void *)false },
-> +       { .compatible = "qcom,sc7280-mdss", .data = (void *)false },
-> +       { .compatible = "qcom,sm8150-mdss", .data = (void *)false },
-> +       { .compatible = "qcom,sm8250-mdss", .data = (void *)false },
+>  	/* Cap properties according to any system limits */
+>  #define CLAMP_PROP(field) \
+>  	do { \
+> -- 
+> 2.25.1
+> 
 
-And then no data needed?
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
