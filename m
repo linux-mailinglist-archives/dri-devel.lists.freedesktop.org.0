@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1064CC867
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:52:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B47A94CC874
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECAC10E9A6;
-	Thu,  3 Mar 2022 21:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E91110E20F;
+	Thu,  3 Mar 2022 21:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679AE10E9A6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:52:12 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id v5so5069774qkj.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:52:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7H8W+iRhHgP+pCnSQOjF4hQNmgpqnsMBxwOtw5ONNI0=;
- b=D8Lunl+P1XayMvWFGPMHQYu097oqvfILbigErXwqOgwLBbKtZycF9/9n+LUfKjiqCG
- psC0r6hbO7EOWq8kiPCUK6tGeckGqfUZVvcYldpC4NGnHFD1J+n2OctfkOOsC7xEiVQ9
- xjqri+didOFMYxx6FXIXiCvds9aDw3dhoWuB0GfT8nasQAluVBwE+KOpKQ1rI5T8GBK9
- tvmiZHbdjZRRhYvFa+Rp1iNNrFmG//Do4tZLx/tCIQZwFxEKlHX86GZyoIGkPFWbVD9J
- tge97PbNMDG9G5skmhv3PD6Gw6rK06l3C6rIdfae411dKfo/FYqv1JHFZm9got+3M563
- EkZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7H8W+iRhHgP+pCnSQOjF4hQNmgpqnsMBxwOtw5ONNI0=;
- b=2sY5hF6+JtV9FD1xy1XAs8G3wtu1V7fcpq5ae3TEhW5N/C+PhW6QzpAUyR+jArijq3
- sVX8sb7N8ssSmPxMQS1bY2/NrNzsPGr9kVCOLpS0L6VV2Os64P5ZgEVh+huZnUaXqnzW
- oP8pbt8KynfB8RL8YdvE1hI5DuoPRYDQWRNRE+bXkOAVxEJ9oglLHWxmlQ8XFf+1j4Az
- FyQtEQGfVwXmz0yNTQl/jQF7Jji5blzny9MkYFhQ2EwwcSVbVWGONU5krnwiT8tDjQ0I
- lrzUbR032s8sk/34t57vEqzoLDL5N9YI1FIbOpZKPKIvbQfLpTfDQGysoCN0knxJ4TmP
- z9oA==
-X-Gm-Message-State: AOAM530DrqWRJ1BMEkDAEO/dAbJEoJ7tT/5y1VNRoeUv2UEVQ/1eXbGR
- Ul0h9zz8NH676RbLHtks7ddpU2pIEMUDhdEJG25w0A==
-X-Google-Smtp-Source: ABdhPJxOwj+3tNXzMiaHU4qnZoihRIXcuB3LLrxVK9tzS/R5Y4vbwr2p+GBm/Qq+c8tRTIsvJT8y+j4N85Uo+hCDgnI=
-X-Received: by 2002:a05:620a:1673:b0:62c:da57:aa32 with SMTP id
- d19-20020a05620a167300b0062cda57aa32mr821322qko.203.1646344331420; Thu, 03
- Mar 2022 13:52:11 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49F410E20F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:59:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0346101E;
+ Thu,  3 Mar 2022 22:59:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646344770;
+ bh=tu4nl7oMY6soz2c3whO1qbqCHUSafi/7e+F/6CMnMlM=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=cWq/k33atmYXJ1snfvtAEUqdVLrTAn7ydpWd8WSMQ3r0ARmExthG9Pj9fyi5pKbFZ
+ Zw9bMbWPKPh5XSo3uwY4cYrD020QmAlCtCbjkOOxx1Qep+TMUootcnM/aHvdyXCJkO
+ 9QJt7pDmZpoYDR2nitPTMIgaRYrm3j56sEWUFuN4=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220217043148.480898-1-dmitry.baryshkov@linaro.org>
- <CAE-0n50+s_FSgV5q21DduC4=QFWhsO6WPqENJyM7xF218ec7Cw@mail.gmail.com>
-In-Reply-To: <CAE-0n50+s_FSgV5q21DduC4=QFWhsO6WPqENJyM7xF218ec7Cw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 4 Mar 2022 00:52:00 +0300
-Message-ID: <CAA8EJppziFTb-L=aSkr7nU8EwS=nv5rbX+aKwq8YZDCCvu2TJQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] drm/msm/dpu: simplify IRQ helpers
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220303183720.GA334969@elementary>
+References: <20220228183955.25508-1-jose.exposito89@gmail.com>
+ <164609067646.2361501.15747139249939190799@Monstersaurus>
+ <20220303183720.GA334969@elementary>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: switch to devm_drm_of_get_bridge
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Date: Thu, 03 Mar 2022 21:59:26 +0000
+Message-ID: <164634476693.3683041.3124143336848085499@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +49,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-pwm@vger.kernel.org, jernej.skrabec@gmail.com, maxime@cerno.tech,
+ jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 4 Mar 2022 at 00:23, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Dmitry Baryshkov (2022-02-16 20:31:42)
-> > This is the second part of
-> > https://patchwork.freedesktop.org/series/91631/ reworked and cleaned up.
-> >
-> > Changes since v1:
->
-> v2?
+Quoting Jos=C3=A9 Exp=C3=B3sito (2022-03-03 18:37:20)
+> On Mon, Feb 28, 2022 at 11:24:36PM +0000, Kieran Bingham wrote:
+> > Hi Jos=C3=A9
+> >=20
+> > Quoting Jos=C3=A9 Exp=C3=B3sito (2022-02-28 18:39:54)
+> > > The function "drm_of_find_panel_or_bridge" has been deprecated in
+> > > favor of "devm_drm_of_get_bridge".
+> > >=20
+> > > Switch to the new function and reduce boilerplate.
+> > >=20
+> > > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 +-------
+> > >  1 file changed, 1 insertion(+), 7 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/=
+bridge/ti-sn65dsi86.c
+> > > index dab8f76618f3..fb8e16ed7e90 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > @@ -1232,15 +1232,9 @@ static int ti_sn_bridge_probe(struct auxiliary=
+_device *adev,
+> > >  {
+> > >         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.pare=
+nt);
+> > >         struct device_node *np =3D pdata->dev->of_node;
+> > > -       struct drm_panel *panel;
+> > >         int ret;
+> > > =20
+> > > -       ret =3D drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
+> > > -       if (ret)
+> > > -               return dev_err_probe(&adev->dev, ret,
+> > > -                                    "could not find any panel node\n=
+");
+> > > -
+> > > -       pdata->next_bridge =3D devm_drm_panel_bridge_add(pdata->dev, =
+panel);
+> > > +       pdata->next_bridge =3D devm_drm_of_get_bridge(pdata->dev, np,=
+ 1, 0);
+> >=20
+> > Yikes, I was about to rely on this panel variable to determine if the
+> > device is a panel or a display port connector. (Well, I am relying on
+> > it, and patches are hoping to be reposted this week).
+> >=20
+> > Is there expected to be another way to identify if the next connection
+> > is a panel or a bridge?
+> >=20
+> > Regards
+>=20
+> Hi Kieran,
+>=20
+> I'm getting started in the DRM subsystem. I couldn't tell if there is a
+> good way to access the panel pointer... I didn't manage to find it, but
+> hopefully someone with more experience can point us to a solution.
+>=20
+> Since you mentioned display port, I'm not sure if in your case checking
+> "pdata->next_bridge->type" could be good enough.
+>=20
+> Anyway, if this patch causes you problems, please go ahead and ignore it.
+> I'm sure the series you are working on are more important than removing
+> a deprecated function :)
 
-And the series should have been v3. Thanks for pointing it out!
+If it's deprecated, I don't want to block it's removal. Hopefully I can
+resume my work on this tomorrow so I can check to see what I can parse.
+Thanks for the lead on the bridge type, I'm sure I've seen that around
+too so hopefully that's enough. If it is, I'll rebase my work on top of
+your patch and retest.
 
->
-> >  - Fix warning ins dpu_trace.h related to
-> >    dpu_core_irq_unregister_callback event
->
-> Any plans to migrate to hierarchical irqchip in here?
-
-I haven't thought about it. I think that using Linux irq framework for
-the DPU driver internals might be an overkill.
-I'd say that it's not at the top of my todo list. However the point is noted.
+--
+Kieran
 
 
--- 
-With best wishes
-Dmitry
+>=20
+> Best wishes,
+> Jose
