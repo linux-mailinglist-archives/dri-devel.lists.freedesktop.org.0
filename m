@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AEC4CB53C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 04:09:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D447C4CB541
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 04:14:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B4F10EE2A;
-	Thu,  3 Mar 2022 03:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E5710ED37;
+	Thu,  3 Mar 2022 03:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADEB810ECEE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 03:09:11 +0000 (UTC)
-X-UUID: 133d936a7f2d4e438bf40450ed05303c-20220303
-X-UUID: 133d936a7f2d4e438bf40450ed05303c-20220303
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1448947605; Thu, 03 Mar 2022 11:09:04 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 3 Mar 2022 11:09:03 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 3 Mar 2022 11:09:03 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 3 Mar 2022 11:09:02 +0800
-Message-ID: <dab8913e9a50110fd13650e14f35f13a30239013.camel@mediatek.com>
-Subject: Re: [PATCH v1,2/3] drm/mediatek: Add TOPCKGEN select mux control
- dpi_clk
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-Date: Thu, 3 Mar 2022 11:09:17 +0800
-In-Reply-To: <6db20053-71dc-d0e3-aac9-de5da1d7ba9e@collabora.com>
-References: <1645782833-27875-1-git-send-email-xinlei.lee@mediatek.com>
- <1645782833-27875-3-git-send-email-xinlei.lee@mediatek.com>
- <6db20053-71dc-d0e3-aac9-de5da1d7ba9e@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D65D210ED5D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 03:14:49 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9F64583B62;
+ Thu,  3 Mar 2022 04:14:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646277287;
+ bh=l0A1nC/+QSSj8+TnshaWbDUsgjKz2is7Ll2cwznuPbw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hmV1KKiqQKLv4tFXMWEcOnCV90hH+R9IXN+k2lmu8HSF1Qfo86Zu+tusewqueDe9t
+ xjmNWSz1N8HmtX909LfY72FcPS7d0NnhuUwAsywaP4ddAliALTqc1GzUrJnzN/9tWe
+ 5caxEDUvJxHziTskNx5VcKkh8yOKYQNkTESEWih/QlV51YnE1x2fc3wpvkMkGBWzp2
+ SNbkKfgPscGgr6yVPoMb8tYrLnniluA7lpm0LczGTp26SF2owowfx76QHJN9lM/5o4
+ oeWTBG1t/vGmO2lyIQxv6RrSuyw/l+xeKCvemwLrdaKPwqEfY0KUxwMDaxRLbFtWFY
+ HYLAezyiyqI9g==
+Message-ID: <430de480-5a7a-6ed0-eecd-4105f5940aba@denx.de>
+Date: Thu, 3 Mar 2022 04:14:46 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/9] dt-bindings: mxsfb: Add compatible for i.MX8MP
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>
+References: <20220228004605.367040-1-marex@denx.de>
+ <35b981d0d9d763525c427491ca0e25b6e4c03d0f.camel@oss.nxp.com>
+ <8eac8a2c-bc6d-0c79-c727-bdaa2cd9abee@denx.de>
+ <a3ab4ec2dd0c7b87698bc7902509a4de6950dd25.camel@oss.nxp.com>
+ <33207e88-da9b-96d7-0fef-461cb4496c88@denx.de>
+ <284d65f53dffb6085bde6ef6ecd398f10d4c6c80.camel@oss.nxp.com>
+ <8950434843ff7bbd1a527b0c799d9a74a75ee36d.camel@pengutronix.de>
+ <7aeed693-dfb7-950f-fdf0-3c90de285392@denx.de>
+ <8bf0b5a1c9ab9faee28077436cdfd49c0cd08792.camel@pengutronix.de>
+ <CAHCN7xJ6ypDxZouZV1b1F1EgQFwdTvmY6EEekj+_z-UWbQMD5Q@mail.gmail.com>
+ <4253aa4b5dc4a3568e45755678849961468bfd38.camel@pengutronix.de>
+ <b655f565-43b2-4e42-953e-d6efa02f0219@denx.de>
+ <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <85af7c5dfa120903a22e5e704e3bddd87830033c.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,146 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, allen-kh.cheng@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Liu Ying <victor.liu@oss.nxp.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-03-02 at 10:07 +0100, AngeloGioacchino Del Regno wrote:
-> Il 25/02/22 10:53, xinlei.lee@mediatek.com ha scritto:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > 
-> > Dpi_clk is controlled by the mux selected
-> > by TOPCKGEN and APMIXEDSYS can support small resolution.
-> > 
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Hello Xinlei,
-> 
-> as it was pointed out by reviewers in the MT8195 DisplayPort series,
-> that is
-> adding the same logic that you are proposing in this patch, the clock
-> parent
-> selection should be performed by the clock drivers, I'd say in the
-> callback
-> .set_rate_and_parent(), and not by the mtk_dpi driver.
-> 
-> Please fix this in the proper drivers (clocks!) instead.
-> 
-> Thanks,
-> Angelo
-> 
-> > ---
-> >   drivers/gpu/drm/mediatek/mtk_dpi.c | 38
-> > ++++++++++++++++++++++++++----
-> >   1 file changed, 34 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 4554e2de1430..bad686817e29 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -63,6 +63,14 @@ enum mtk_dpi_out_color_format {
-> >   	MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL
-> >   };
-> >   
-> > +enum TVDPLL_CLK {
-> > +	TVDPLL_PLL = 0,
-> > +	TVDPLL_D2 = 2,
-> > +	TVDPLL_D4 = 4,
-> > +	TVDPLL_D8 = 8,
-> > +	TVDPLL_D16 = 16,
-> > +};
-> > +
-> >   struct mtk_dpi {
-> >   	struct drm_encoder encoder;
-> >   	struct drm_bridge bridge;
-> > @@ -73,6 +81,7 @@ struct mtk_dpi {
-> >   	struct clk *engine_clk;
-> >   	struct clk *pixel_clk;
-> >   	struct clk *tvd_clk;
-> > +	struct clk *pclk_src[5];
-> >   	int irq;
-> >   	struct drm_display_mode mode;
-> >   	const struct mtk_dpi_conf *conf;
-> > @@ -459,6 +468,7 @@ static int mtk_dpi_set_display_mode(struct
-> > mtk_dpi *dpi,
-> >   	struct videomode vm = { 0 };
-> >   	unsigned long pll_rate;
-> >   	unsigned int factor;
-> > +	struct clk *clksrc = NULL;
-> >   
-> >   	/* let pll_rate can fix the valid range of tvdpll (1G~2GHz) */
-> >   	factor = dpi->conf->cal_factor(mode->clock);
-> > @@ -473,11 +483,26 @@ static int mtk_dpi_set_display_mode(struct
-> > mtk_dpi *dpi,
-> >   
-> >   	vm.pixelclock = pll_rate / factor;
-> >   	if ((dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE) ||
-> > -	    (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE))
-> > -		clk_set_rate(dpi->pixel_clk, vm.pixelclock * 2);
-> > -	else
-> > -		clk_set_rate(dpi->pixel_clk, vm.pixelclock);
-> > +	    (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE)) {
-> > +		if (factor == 8)
-> > +			clksrc = dpi->pclk_src[2];
-> > +		else if (factor == 4)
-> > +			clksrc = dpi->pclk_src[1];
-> > +		else
-> > +			clksrc = dpi->pclk_src[1];
-> > +		}
-> > +	else {
-> > +		if (factor == 8)
-> > +			clksrc = dpi->pclk_src[3];
-> > +		else if (factor == 4)
-> > +			clksrc = dpi->pclk_src[2];
-> > +		else
-> > +			clksrc = dpi->pclk_src[2];
-> > +	}
-> >   
-> > +	clk_prepare_enable(dpi->pixel_clk);
-> > +	clk_set_parent(dpi->pixel_clk, clksrc);
-> > +	clk_disable_unprepare(dpi->pixel_clk);
-> >   
-> >   	vm.pixelclock = clk_get_rate(dpi->pixel_clk);
-> >   
-> > @@ -893,6 +918,11 @@ static int mtk_dpi_probe(struct
-> > platform_device *pdev)
-> >   		return ret;
-> >   	}
-> >   
-> > +	dpi->pclk_src[1] = devm_clk_get_optional(dev, "tvdpll_d2");
-> > +	dpi->pclk_src[2] = devm_clk_get_optional(dev, "tvdpll_d4");
-> > +	dpi->pclk_src[3] = devm_clk_get_optional(dev, "tvdpll_d8");
-> > +	dpi->pclk_src[4] = devm_clk_get_optional(dev, "tvdpll_d16");
-> > +
-> >   	dpi->irq = platform_get_irq(pdev, 0);
-> >   	if (dpi->irq <= 0)
-> >   		return -EINVAL;
-> 
-> 
+On 3/2/22 10:23, Lucas Stach wrote:
 
-Hi Angelo:
+[...]
 
-Thanks for your review, I would like to explain why I operate clk in
-dpi driver.
-A patch I mentioned on the cover: 
-http://lists.infradead.org/pipermail/linux-mediatek/2016-May/005281.html
-It contains instructions:
+>>>> I tend to agree with Marek on this one.  We have an instance where the
+>>>> blk-ctrl and the GPC driver between 8m, mini, nano, plus are close,
+>>>> but different enough where each SoC has it's own set of tables and
+>>>> some checks.   Lucas created the framework, and others adapted it for
+>>>> various SoC's.  If there really is nearly 50% common code for the
+>>>> LCDIF, why not either leave the driver as one or split the common code
+>>>> into its own driver like lcdif-common and then have smaller drivers
+>>>> that handle their specific variations.
+>>>
+>>> I don't know exactly how the standalone driver looks like, but I guess
+>>> the overlap is not really in any real HW specific parts, but the common
+>>> DRM boilerplate, so there isn't much point in creating a common lcdif
+>>> driver.
+>>
+>> The mxsfb currently has 1280 LoC as of patch 8/9 of this series. Of
+>> that, there is some 400 LoC which are specific to old LCDIF and this
+>> patch adds 380 LoC for the new LCDIF. So that's 800 LoC or ~60% of
+>> shared boilerplate that would be duplicated .
+> 
+> That is probably ignoring the fact that the 8MP LCDIF does not support
+> any overlays, so it could use the drm_simple_display_pipe
+> infrastructure to reduce the needed boilerplate.
 
-+ * The dpi0_sel clock should not propagate rate changes to its parent
-+ * clock so the dpi driver can have full control over PLL and divider.
+It seems the IMXRT1070 LCDIF v2 (heh ...) does support overlays, so no, 
+the mxsfb and hypothetical lcdif drivers would look really very similar.
 
-My understanding is that the clk driver will no longer perform the
-set_rate_and_parent() operation on dpi_clk, but will hand over the
-control to the dpi driver.
-The current modification may be to synchronize the previous clk
-modification.
-Can we operate clk on dpi driver for this reson?
+>>> As you brought up the blk-ctrl as an example: I'm all for supporting
+>>> slightly different hardware in the same driver, as long as the HW
+>>> interface is close enough. But then I also opted for a separate 8MP
+>>> blk-ctrl driver for those blk-ctrls that differ significantly from the
+>>> others, as I think it would make the common driver unmaintainable
+>>> trying to support all the different variants in one driver.
+>>
+>> But then you also need to maintain two sets of boilerplate, they
+>> diverge, and that is not good.
+> 
+> I don't think that there is much chance for bugs going unfixed due to
+> divergence in the boilerplate, especially if you use the simple pipe
+> framework to handle most of that stuff for you, which gives you a lot
+> of code sharing with other simple DRM drivers.
 
-Best Regards!
-xinlei
+But I can not use the simple pipe because overlays, see imxrt1070 .
 
+[...]
+
+We can always split the drivers later if this becomes unmaintainable 
+too, no ?
