@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615BD4CB363
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 01:35:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 119984CB3E6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 02:01:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF0410E95C;
-	Thu,  3 Mar 2022 00:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0508E10E9F4;
+	Thu,  3 Mar 2022 01:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7BDD10E2AB
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 00:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646267705; x=1677803705;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4zSXdc7KAQv6ROJTapgLcs4iC6Ro436n8GV5J48iRho=;
- b=ljmJdOq1o0Tu5Y+Cfxllg70PFai4jL8X/HFV80n2NkTRB5lDabMkE0Z1
- TN3BYolbD7oTpjnjaFtq/ayO2bCaS+EctKE3fxTgnBkzAin13XJ1RzEm6
- vOG9kueqR5E8PfL+DUvVwks5o15qV1LlhEyErQkGJB66jmhL2XlTyBhry
- +Vmx3nt5TZ6tDXbI9fKwx7bofGI6E6UQW6IpagWlf6VSdmMqurJ9e59cR
- 1FEF8DGMNtI+Ov+91ZeF62OGwUc8pFJr4XAb3Kvj1eEBRiAaW39RatfyV
- 9wQve8c+EOZ+h6xSkRaps9CKR/H379Dsq4VG0vLe+cuk1Duu3Yl5PYzdy Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="314257983"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="314257983"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 16:35:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="594197552"
-Received: from lkp-server02.sh.intel.com (HELO e9605edfa585) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2022 16:35:03 -0800
-Received: from kbuild by e9605edfa585 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nPZQs-00029A-EQ; Thu, 03 Mar 2022 00:35:02 +0000
-Date: Thu, 3 Mar 2022 08:34:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack@kde.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 7/8] drm/vmwgfx: Implement MSI/MSI-X support for IRQs
-Message-ID: <202203030802.itIYtJH1-lkp@intel.com>
-References: <20220302152426.885214-8-zack@kde.org>
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AE23D10E9F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 01:00:55 +0000 (UTC)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+ by 156.147.23.51 with ESMTP; 3 Mar 2022 10:00:54 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.121 with ESMTP; 3 Mar 2022 10:00:54 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Thu, 3 Mar 2022 10:00:33 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Jan Kara <jack@suse.cz>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <20220303010033.GB20752@X58A-UD3R>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-1-git-send-email-byungchul.park@lge.com>
+ <1645096204-31670-2-git-send-email-byungchul.park@lge.com>
+ <20220221190204.q675gtsb6qhylywa@quack3.lan>
+ <20220223003534.GA26277@X58A-UD3R>
+ <20220223144859.na2gjgl5efgw5zhn@quack3.lan>
+ <20220224011102.GA29726@X58A-UD3R>
+ <20220224102239.n7nzyyekuacgpnzg@quack3.lan>
+ <20220228092826.GA5201@X58A-UD3R>
+ <20220228101444.6frl63dn5vmgycbp@quack3.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220302152426.885214-8-zack@kde.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220228101444.6frl63dn5vmgycbp@quack3.lan>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,83 +52,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, llvm@lists.linux.dev, kbuild-all@lists.01.org,
- mombasawalam@vmware.com
+Cc: hamohammed.sa@gmail.com, peterz@infradead.org, daniel.vetter@ffwll.ch,
+ amir73il@gmail.com, david@fromorbit.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, bfields@fieldses.org, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, joel@joelfernandes.org, cl@linux.com,
+ will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack,
+On Mon, Feb 28, 2022 at 11:14:44AM +0100, Jan Kara wrote:
+> On Mon 28-02-22 18:28:26, Byungchul Park wrote:
+> > case 1. Code with an actual circular dependency, but not deadlock.
+> > 
+> >    A circular dependency can be broken by a rescue wakeup source e.g.
+> >    timeout. It's not a deadlock. If it's okay that the contexts
+> >    participating in the circular dependency and others waiting for the
+> >    events in the circle are stuck until it gets broken. Otherwise, say,
+> >    if it's not meant, then it's anyway problematic.
+> > 
+> >    1-1. What if we judge this code is problematic?
+> >    1-2. What if we judge this code is good?
+> > 
+> > case 2. Code with an actual circular dependency, and deadlock.
+> > 
+> >    There's no other wakeup source than those within the circular
+> >    dependency. Literally deadlock. It's problematic and critical.
+> > 
+> >    2-1. What if we judge this code is problematic?
+> >    2-2. What if we judge this code is good?
+> > 
+> > case 3. Code with no actual circular dependency, and not deadlock.
+> > 
+> >    Must be good.
+> > 
+> >    3-1. What if we judge this code is problematic?
+> >    3-2. What if we judge this code is good?
+> > 
+> > ---
+> > 
+> > I call only 3-1 "false positive" circular dependency. And you call 1-1
+> > and 3-1 "false positive" deadlock.
+> > 
+> > I've been wondering if the kernel guys esp. Linus considers code with
+> > any circular dependency is problematic or not, even if it won't lead to
+> > a deadlock, say, case 1. Even though I designed Dept based on what I
+> > believe is right, of course, I'm willing to change the design according
+> > to the majority opinion.
+> > 
+> > However, I would never allow case 1 if I were the owner of the kernel
+> > for better stability, even though the code works anyway okay for now.
+> 
+> So yes, I call a report for the situation "There is circular dependency but
+> deadlock is not possible." a false positive. And that is because in my
+> opinion your definition of circular dependency includes schemes that are
+> useful and used in the kernel.
+> 
+> Your example in case 1 is kind of borderline (I personally would consider
+> that bug as well) but there are other more valid schemes with multiple
+> wakeup sources like:
+> 
+> We have a queue of work to do Q protected by lock L. Consumer process has
+> code like:
+> 
+> while (1) {
+> 	lock L
+> 	prepare_to_wait(work_queued);
+> 	if (no work) {
+> 		unlock L
+> 		sleep
+> 	} else {
+> 		unlock L
+> 		do work
+> 		wake_up(work_done)
+> 	}
+> }
+> 
+> AFAIU Dept will create dependency here that 'wakeup work_done' is after
+> 'wait for work_queued'. Producer has code like:
 
-I love your patch! Perhaps something to improve:
+First of all, thank you for this good example.
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc6 next-20220302]
-[cannot apply to airlied/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> while (1) {
+> 	lock L
+> 	prepare_to_wait(work_done)
+> 	if (too much work queued) {
+> 		unlock L
+> 		sleep
+> 	} else {
+> 		queue work
+> 		unlock L
+> 		wake_up(work_queued)
+> 	}
+> }
+> 
+> And Dept will create dependency here that 'wakeup work_queued' is after
+> 'wait for work_done'. And thus we have a trivial cycle in the dependencies
+> despite the code being perfectly valid and safe.
 
-url:    https://github.com/0day-ci/linux/commits/Zack-Rusin/drm-vmwgfx-3D-on-arm64-and-large-cursor-support/20220302-232641
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20220303/202203030802.itIYtJH1-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/63d27e1cb11562966a6f07bf0e667b0a54dc2412
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Zack-Rusin/drm-vmwgfx-3D-on-arm64-and-large-cursor-support/20220302-232641
-        git checkout 63d27e1cb11562966a6f07bf0e667b0a54dc2412
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/vmwgfx/
+Unfortunately, it's neither perfect nor safe without another wakeup
+source - rescue wakeup source.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+   consumer			producer
 
-All warnings (new ones prefixed by >>):
+				lock L
+				(too much work queued == true)
+				unlock L
+				--- preempted
+   lock L
+   unlock L
+   do work
+   lock L
+   unlock L
+   do work
+   ...
+   (no work == true)
+   sleep
+				--- scheduled in
+				sleep
 
->> drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:340:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (nvec <= 0) {
-               ^~~~~~~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:369:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:340:2: note: remove the 'if' if its condition is always false
-           if (nvec <= 0) {
-           ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:330:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 warning generated.
+This code leads a deadlock without another wakeup source, say, not safe.
 
+But yes. I also think this code should be allowed if it anyway runs
+alongside another wakeup source. For the case, Dept should track the
+rescue wakeup source instead that leads a actual deadlock.
 
-vim +340 drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+I will correct code to make Dept track its rescue wakeup source whenever
+finding the case.
 
-   319	
-   320	/**
-   321	 * vmw_irq_install - Install the irq handlers
-   322	 *
-   323	 * @dev_priv:  Pointer to the vmw_private device.
-   324	 * Return:  Zero if successful. Negative number otherwise.
-   325	 */
-   326	int vmw_irq_install(struct vmw_private *dev_priv)
-   327	{
-   328		struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
-   329		struct drm_device *dev = &dev_priv->drm;
-   330		int ret;
-   331		int nvec;
-   332		int i = 0;
-   333	
-   334		BUILD_BUG_ON((SVGA_IRQFLAG_MAX >> VMWGFX_MAX_NUM_IRQS) != 1);
-   335		BUG_ON(VMWGFX_MAX_NUM_IRQS != get_count_order(SVGA_IRQFLAG_MAX));
-   336	
-   337		nvec = pci_alloc_irq_vectors(pdev, 1, VMWGFX_MAX_NUM_IRQS,
-   338					     PCI_IRQ_ALL_TYPES);
-   339	
- > 340		if (nvec <= 0) {
+Lastly, just for your information, I need to explain how Dept works a
+little more for you not to misunderstand Dept.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Assuming the consumer and producer guarantee not to lead a deadlock like
+the following, Dept won't report it a problem:
+
+   consumer			producer
+
+				sleep
+   wakeup work_done
+				queue work
+   sleep
+				wakeup work_queued
+   do work
+				sleep
+   wakeup work_done
+				queue work
+   sleep
+				wakeup work_queued
+   do work
+				sleep
+   ...				...
+
+Dept does not consider all waits preceeding an event but only waits that
+might lead a deadlock. In this case, Dept works with each region
+independently.
+
+   consumer			producer
+
+				sleep <- initiates region 1
+   --- region 1 starts
+   ...				...
+   --- region 1 ends
+   wakeup work_done
+   ...				...
+				queue work
+   ...				...
+   sleep <- initiates region 2
+				--- region 2 starts
+   ...				...
+				--- region 2 ends
+				wakeup work_queued
+   ...				...
+   do work
+   ...				...
+				sleep <- initiates region 3
+   --- region 3 starts
+   ...				...
+   --- region 3 ends
+   wakeup work_done
+   ...				...
+				queue work
+   ...				...
+   sleep <- initiates region 4
+				--- region 4 starts
+   ...				...
+				--- region 4 ends
+				wakeup work_queued
+   ...				...
+   do work
+   ...				...
+
+That is, Dept does not build dependencies across different regions. So
+you don't have to worry about unreasonable false positives that much.
+
+Thoughts?
+
+Thanks,
+Byungchul
+
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
