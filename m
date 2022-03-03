@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F413C4CC7E1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064234CC7E4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4A310EDA6;
-	Thu,  3 Mar 2022 21:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0B010E2D9;
+	Thu,  3 Mar 2022 21:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B25CF10EDA6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:20:59 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- j9-20020a9d7d89000000b005ad5525ba09so5725716otn.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:20:59 -0800 (PST)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9521210EDEA
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:21:56 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id l25so6004519oic.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Hwl7I4m0IAvH1IB5uiBYfdzL/5feDwEgsR7JKnlSjLc=;
- b=EAD636OXNSgrT0qYQwzcqOKBCCy5FKrDC+5Mqd/5OU2KBWeJSLDS8cpBaQq+Ah6bdP
- AdNMyTuBY30ce0lGFZbNQuEaQkG1qxqmLXUUsz2TWfRbuv7dFi1jsu8zhp/Kx3zAZTjZ
- xwPVNzDymKn5yvoqPzCnyC2DOIZl0LZ/wk3eo=
+ bh=u8F7qO2DIewFITLJ93GigBGQGuhxjcSS8uNlVM/WrZs=;
+ b=FUNxvrjnrB/d5xJL+6gNtstATnjL7b0e2NggjjbefEJ2uWZiCg+QS3pnOOPOMhkuAt
+ u4ZbCA6xXBRekcwZnyDYzBM+OFvnC4Mcwpokhm99mZvSb1/tUVuZ/DOU5o+Uu5nz7wte
+ Hwq+wW6v8LTK8i0F3URgjHOH+2T3Fh47ZKLX0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Hwl7I4m0IAvH1IB5uiBYfdzL/5feDwEgsR7JKnlSjLc=;
- b=J+oGavCVptVWYD+YIUMFIcrRYzLpcFIXr03hYyjgVQs/dkes+WhpdsK16GBCxaMH3M
- RTHJbsEyz/lo3pgDWHosBju7x/N/ECqF+A3O8Hxzv7Agj7D9oNp0e4CooZnHiQ6la1nB
- Z4rgPtNQdSt/lgowgBzeQ0/Qu+wfgh/3sX4sM5FhmMXrYX2VhJhUvgU5PHgC7IAOuTlr
- 6tb747mT6Tw58w8xumgY0jN0SVYxQedTA2cElDTv1Ppd5OYzdncqt1lUcdg0AZLNlIwt
- 8e+yrajt9C0HXrBzRi2ogIUvWgPBYC/uzNv+wqersh0G6X5I4eNae4tYV9ZlUWEiedSm
- 6BEg==
-X-Gm-Message-State: AOAM533EABxxmD6MyfQ8Nm/sB8QTI3CZ0mgu27eY+uiVwqLTmq/Q5/E2
- HZH6em4dVUvIp3Rzi8M4ccsTH+wW1n7WwGRt24eWFg==
-X-Google-Smtp-Source: ABdhPJw56B13uigu/hY5MG0oWkkMDqQ9qp7zzpqRCMOe29550tcjSwDProBE8u06q7bGyfbwjnolaU+cUTWXk6a4eOM=
-X-Received: by 2002:a9d:7687:0:b0:59e:da8c:5d32 with SMTP id
- j7-20020a9d7687000000b0059eda8c5d32mr20539994otl.77.1646342458677; Thu, 03
- Mar 2022 13:20:58 -0800 (PST)
+ bh=u8F7qO2DIewFITLJ93GigBGQGuhxjcSS8uNlVM/WrZs=;
+ b=cSqBGcNCVXEMgYUL3fAg41o3Bl+N8Lp/oVFnbwoosf+U+fnyeFAB7Ud9AOk79NhUpP
+ rR9t67mJNtOxl2NHcwrCT/hfgJX8VjOpiaa45ZOlVMugxqRFB/uDJf9J8ZXQ2hIHVGLa
+ 099ez59gIs6s7s4ABOjtuG0PdY9zmDnK5sXPbfZqc0GhY27AsnzrFPuIAFJX6QFnzs1a
+ Z6LQO8r4MiTaEjD3UR55b4mniq0o7+MvHLEkfVe6fk7mc7Hu2EAyUqGaMli99fNwjnI2
+ rzZEGob7e3q0goXhdnFVI3Kmq9HAsEk7hjWmKLImVd6S4t/4lpJBdwT4apIviDD9EoN1
+ K6BQ==
+X-Gm-Message-State: AOAM531WUK7Nt3WR4x3Uj/wwEanjtlLvlYnFBClZXUwZ/w2H5f2wa0gQ
+ 78SFq5S7j9Nl6ZczsSBjVu+Xo+XmC+pv8v+qaudYLQ==
+X-Google-Smtp-Source: ABdhPJwQh/TsFdMQ8Nq+spfvb0hS7u3P5GakHbvhwCHrbUQ5jdokEhzF89sm7Ev5fs56EJT352zNf0RJeA6y30qu2AY=
+X-Received: by 2002:aca:3346:0:b0:2d9:91f9:a7f2 with SMTP id
+ z67-20020aca3346000000b002d991f9a7f2mr649700oiz.32.1646342515877; Thu, 03 Mar
+ 2022 13:21:55 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 13:20:58 -0800
+ HTTPREST; Thu, 3 Mar 2022 13:21:55 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220217043148.480898-4-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220217043148.480898-6-dmitry.baryshkov@linaro.org>
 References: <20220217043148.480898-1-dmitry.baryshkov@linaro.org>
- <20220217043148.480898-4-dmitry.baryshkov@linaro.org>
+ <20220217043148.480898-6-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 13:20:58 -0800
-Message-ID: <CAE-0n53q2BKcZPUwsesPxx6KktTsakpbjnJQzUceE+fFzWfe8g@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] drm/msm/dpu: allow just single IRQ callback
+Date: Thu, 3 Mar 2022 13:21:55 -0800
+Message-ID: <CAE-0n50CABTnqjTw_SdHOrLK3C8-YtQAeicYU844cJAMHWa4iQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] drm/msm/dpu: remove struct dpu_encoder_irq
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -68,19 +67,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-02-16 20:31:45)
-> DPU interrupts code allows multiple callbacks per interrut. In reality
-> none of the interrupts is shared between blocks (and will probably never
-> be). Drop support for registering multiple callbacks per interrupt to
-> simplify interrupt handling code.
+Quoting Dmitry Baryshkov (2022-02-16 20:31:47)
+> Remove additional indirection: specify IRQ callbacks and IRQ indices
+> directly rather than through the pointer in the irq structure. For each
+> IRQ we have a constant IRQ callback. This change simplifies code review
+> as the reader no longer needs to remember which function is called.
 >
-> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
