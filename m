@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929124CC7D2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F413C4CC7E1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 22:21:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D85F10ED19;
-	Thu,  3 Mar 2022 21:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4A310EDA6;
+	Thu,  3 Mar 2022 21:21:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F3A10EDA6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:17:46 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id z7so6043443oid.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:17:46 -0800 (PST)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25CF10EDA6
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 21:20:59 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ j9-20020a9d7d89000000b005ad5525ba09so5725716otn.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 13:20:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=e2GwE/etBc8Erbx+qDPyfK2b6bnQoQKlh2QZmZkCGw0=;
- b=IqNBWgHpJBN9OIsvdvC320YGgb7owQkrWetdfLWuoM7P4UlGQdbLJKpof83f9h1pZE
- eScsziKsjuxEjZIiufVnBNwkQEXjjo5Qd9MUy/LeikzbE57826NmsyOpYeA75WBxH4l0
- qPDwDywb807AeIC7YeJwMwMnEm5tlkLpeBQoM=
+ bh=Hwl7I4m0IAvH1IB5uiBYfdzL/5feDwEgsR7JKnlSjLc=;
+ b=EAD636OXNSgrT0qYQwzcqOKBCCy5FKrDC+5Mqd/5OU2KBWeJSLDS8cpBaQq+Ah6bdP
+ AdNMyTuBY30ce0lGFZbNQuEaQkG1qxqmLXUUsz2TWfRbuv7dFi1jsu8zhp/Kx3zAZTjZ
+ xwPVNzDymKn5yvoqPzCnyC2DOIZl0LZ/wk3eo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=e2GwE/etBc8Erbx+qDPyfK2b6bnQoQKlh2QZmZkCGw0=;
- b=NJccDY0R+4juMrv0NDL1bv1a3pRR6fbJ3vNY436CaMooVz6nVzHXan1jyxR1TBo8QL
- bxe+VwVRLSurdFQIoS/tboYARmBlUt8lMlirw32oKMcMJhP3k43n8KpHwCqftaR3w6Ze
- RkPQQHHhrAfZvUT4zPwKg2CN+ePfkBeMwQWMd0GUkzQEz8gArlhJ06ILzFo09IhD0NET
- Qvu8/Njnhj7+H/xiajmvh5qQITs9ZwjnMbXJr+e69l5BZ3Jr4H0Rr2SpqOZnw7yAi4Wb
- AQKzQWjFiuKRAExE8uMLJD6eQlYKGS5qs3YsqCRTuiF5d4CQG5IsabIhzosmVG9WVs0c
- 02DQ==
-X-Gm-Message-State: AOAM531lxPWd/yeUJK04/OHau9NFIKXoAyJp63OlgsrVL5hD01Vw7WfT
- XF1hcQPXBeuKoWZAKdw6fe7+2g2Vk0Acd98SDN3iSQ==
-X-Google-Smtp-Source: ABdhPJy2OaJ7nt/oAxQEwMPJPSU7tb3bmd7tpnufgN1Oxgb2jMr1nMe0XjmXO/BnyT9pVQtNgRdAzGzdxiSdKJs2gkc=
-X-Received: by 2002:a05:6808:20a7:b0:2d4:d2f1:9edc with SMTP id
- s39-20020a05680820a700b002d4d2f19edcmr6391521oiw.64.1646342265870; Thu, 03
- Mar 2022 13:17:45 -0800 (PST)
+ bh=Hwl7I4m0IAvH1IB5uiBYfdzL/5feDwEgsR7JKnlSjLc=;
+ b=J+oGavCVptVWYD+YIUMFIcrRYzLpcFIXr03hYyjgVQs/dkes+WhpdsK16GBCxaMH3M
+ RTHJbsEyz/lo3pgDWHosBju7x/N/ECqF+A3O8Hxzv7Agj7D9oNp0e4CooZnHiQ6la1nB
+ Z4rgPtNQdSt/lgowgBzeQ0/Qu+wfgh/3sX4sM5FhmMXrYX2VhJhUvgU5PHgC7IAOuTlr
+ 6tb747mT6Tw58w8xumgY0jN0SVYxQedTA2cElDTv1Ppd5OYzdncqt1lUcdg0AZLNlIwt
+ 8e+yrajt9C0HXrBzRi2ogIUvWgPBYC/uzNv+wqersh0G6X5I4eNae4tYV9ZlUWEiedSm
+ 6BEg==
+X-Gm-Message-State: AOAM533EABxxmD6MyfQ8Nm/sB8QTI3CZ0mgu27eY+uiVwqLTmq/Q5/E2
+ HZH6em4dVUvIp3Rzi8M4ccsTH+wW1n7WwGRt24eWFg==
+X-Google-Smtp-Source: ABdhPJw56B13uigu/hY5MG0oWkkMDqQ9qp7zzpqRCMOe29550tcjSwDProBE8u06q7bGyfbwjnolaU+cUTWXk6a4eOM=
+X-Received: by 2002:a9d:7687:0:b0:59e:da8c:5d32 with SMTP id
+ j7-20020a9d7687000000b0059eda8c5d32mr20539994otl.77.1646342458677; Thu, 03
+ Mar 2022 13:20:58 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 13:17:45 -0800
+ HTTPREST; Thu, 3 Mar 2022 13:20:58 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220222062246.242577-5-dmitry.baryshkov@linaro.org>
-References: <20220222062246.242577-1-dmitry.baryshkov@linaro.org>
- <20220222062246.242577-5-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220217043148.480898-4-dmitry.baryshkov@linaro.org>
+References: <20220217043148.480898-1-dmitry.baryshkov@linaro.org>
+ <20220217043148.480898-4-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 13:17:45 -0800
-Message-ID: <CAE-0n53D_UwHZ8zCiLdK3dH+1JjdP0XrXVPMFjKpUMt1OReDdw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/msm/dpu: drop INTF_EDP from interface type
- conditions
+Date: Thu, 3 Mar 2022 13:20:58 -0800
+Message-ID: <CAE-0n53q2BKcZPUwsesPxx6KktTsakpbjnJQzUceE+fFzWfe8g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] drm/msm/dpu: allow just single IRQ callback
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -68,16 +68,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-02-21 22:22:46)
-> To remove possible confusion between (old) INTF_EDP and newer INTF_DP,
-> stop using INTF_EDP in DPU's code. Until the 8x74/8x84 SoCs are
-> supported by DPU driver, there is no point in using INTF_EDP.
+Quoting Dmitry Baryshkov (2022-02-16 20:31:45)
+> DPU interrupts code allows multiple callbacks per interrut. In reality
+> none of the interrupts is shared between blocks (and will probably never
+> be). Drop support for registering multiple callbacks per interrupt to
+> simplify interrupt handling code.
 >
+> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
