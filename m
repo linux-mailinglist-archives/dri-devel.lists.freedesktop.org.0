@@ -1,45 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2DA4CB7CF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 08:29:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1922A4CB7D9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 08:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9588810EB32;
-	Thu,  3 Mar 2022 07:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A0B10E9CC;
+	Thu,  3 Mar 2022 07:32:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 987FD10E9CC
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 07:29:13 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4K8N0150d3z4xbw;
- Thu,  3 Mar 2022 18:29:05 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1646292548;
- bh=qHElhGY8fx0IVkA4MKaoAT7SKM+zW+9ViYbBstwm0qs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=aIyY689iO5Ub2F3h0/YJn7qTudOFn5rwYsr0nmJi1qb7/hdplSA6zfgtIzjyWFa6v
- yW51QBkSrGmBySUO4PvmQuDWzEjknWQ/Q909NxxG1ym6uw1xXf177Ob21kqQ3CpA6n
- XiePVycbfe4sjhkOy60jrTT8rvUOIBW4B1H0AoaSkB0CQv6lq4nDsfzj5goc+SNjJ8
- nx2G65gOYNO9Wx9Lb/q36Bnne/C4cvK+ogKbp0TTF3kUsil/mmTF2yZNn3LKpAjoQn
- 0s+z2ioFOi3oGL8+OQGKhh7+yNbsFbOZ0nZFAjhWaGZupZeK9wKRvtQbsb5Qq3fAg8
- sPF1FaaAUTX9g==
-Date: Thu, 3 Mar 2022 18:29:04 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Kees Cook <keescook@chromium.org>
-Subject: Re: linux-next: build failure after merge of the kspp tree
-Message-ID: <20220303182904.43c5b1fb@canb.auug.org.au>
-In-Reply-To: <20220302201610.56ccfbc3@canb.auug.org.au>
-References: <20220301092730.10de23c5@canb.auug.org.au>
- <202202281453.C8B840C7@keescook>
- <20220302201610.56ccfbc3@canb.auug.org.au>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YxTb1i_/VP0VO9/qtU0JIP0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0374B10E9CC;
+ Thu,  3 Mar 2022 07:32:36 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id a23so8728632eju.3;
+ Wed, 02 Mar 2022 23:32:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=Gor8M86/GsIuBlid/S84lkBznvRDaKBCWzgLUKh5JV4=;
+ b=k+fk9urovAn8Fq6hF831psJF6X0Hx41hiPVDAocMfW4Gi2tjP5gBRRyYi9UY1gS3y9
+ T1f7NxhpZChRCZGs3wiKfQBYFQeu68Ugjwk2rWVNy++UqI5E9Ffm7Qe5sREsy932o9zn
+ yoQiy9LiamLlfFC8y8nGBw2mIwTduboT8pHpf33UZ2RGjV2D/meZqmuHsAbl7tfxfJuC
+ e8redX9TOEvOJZ9E1AYG0yGidZEg6kfprz6yLCxUQC7gampXaGyLYaXWTA6umkTeR66S
+ hL8UX9htvKnv+kjTxwKZtpIsvgv4G4bDiBBsZxSW5S7a6ZZ6AFWNSxZHN5mDaVwEmoV0
+ Hg1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=Gor8M86/GsIuBlid/S84lkBznvRDaKBCWzgLUKh5JV4=;
+ b=3fAH0LtpJx9pZG98hAJzNtIR3MlQqnm+gmqqHR7toJAmofeGkcgmZ8N9RQmqFhvhu4
+ QEieUZheNjbdgNSxGEgpI5myTO8KErwFqKjxWXHBpvS7k0z2Vy8Vql9wYFEyuxR1FLeb
+ nTYMyU3Q52iKtKLDILONd9u/4NqBbdZrJK/rH7E9dTFirI9rHkfnpaJx2O20sIQOzamC
+ oR395LiHVDF4kx2zMzCXnTxwLBgy4/oJDh+3AfKYokMnSKKOjruf4xGdRXGkBKmaftMW
+ vSWv3/VBWFXDD2xpjpgp3AeZW9p1sX3bBL5MW1fo43j05AnCLGerbUmP1BljZh3gg2DX
+ W8tQ==
+X-Gm-Message-State: AOAM533qNquOcbMivBvQRAA1jX3Xrf0KK9OSudaXkjJ7jnuNu71HtlNI
+ TU1vIeCBq3Uh8eUzraPEZgk=
+X-Google-Smtp-Source: ABdhPJzeteUoFgq8PxHWf79kt1+XNtdp+qSeHQzci99kHRtMUTD40dS4a5KNav7C0/39ueCDeIyc3w==
+X-Received: by 2002:a17:906:7c93:b0:6cd:341a:a1d5 with SMTP id
+ w19-20020a1709067c9300b006cd341aa1d5mr25639417ejo.698.1646292754302; 
+ Wed, 02 Mar 2022 23:32:34 -0800 (PST)
+Received: from smtpclient.apple ([2a02:8109:9d80:3f6c:896:faf2:6663:1f74])
+ by smtp.gmail.com with ESMTPSA id
+ gj18-20020a170907741200b006da82539c83sm410819ejc.73.2022.03.02.23.32.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 02 Mar 2022 23:32:33 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+From: Jakob Koschel <jakobkoschel@gmail.com>
+In-Reply-To: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
+Date: Thu, 3 Mar 2022 08:32:31 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A568BD90-FE81-4740-B1D3-C795EB636A5A@gmail.com>
+References: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+ <20220303022729.9321-1-xiam0nd.tong@gmail.com>
+ <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
+To: David Laight <David.Laight@ACULAB.COM>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,57 +74,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Mark Brown <broonie@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Allen Chen <allen.chen@ite.com.tw>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "h.j.bos@vu.nl" <h.j.bos@vu.nl>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "keescook@chromium.org" <keescook@chromium.org>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+ "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "rppt@kernel.org" <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/YxTb1i_/VP0VO9/qtU0JIP0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-ok, today I used the current kspp tree and added three patches as merge fix=
-ups:
+> On 3. Mar 2022, at 05:58, David Laight <David.Laight@ACULAB.COM> =
+wrote:
+>=20
+> From: Xiaomeng Tong
+>> Sent: 03 March 2022 02:27
+>>=20
+>> On Wed, 2 Mar 2022 14:04:06 +0000, David Laight
+>> <David.Laight@ACULAB.COM> wrote:
+>>> I think that it would be better to make any alternate loop macro
+>>> just set the variable to NULL on the loop exit.
+>>> That is easier to code for and the compiler might be persuaded to
+>>> not redo the test.
+>>=20
+>> No, that would lead to a NULL dereference.
+>=20
+> Why, it would make it b ethe same as the 'easy to use':
+> 	for (item =3D head; item; item =3D item->next) {
+> 		...
+> 		if (...)
+> 			break;
+> 		...
+> 	}
+> 	if (!item)
+> 		return;
+>=20
+>> The problem is the mis-use of iterator outside the loop on exit, and
+>> the iterator will be the HEAD's container_of pointer which pointers
+>> to a type-confused struct. Sidenote: The *mis-use* here refers to
+>> mistakely access to other members of the struct, instead of the
+>> list_head member which acutally is the valid HEAD.
+>=20
+> The problem is that the HEAD's container_of pointer should never
+> be calculated at all.
+> This is what is fundamentally broken about the current definition.
+>=20
+>> IOW, you would dereference a (NULL + offset_of_member) address here.
+>=20
+> Where?
+>=20
+>> Please remind me if i missed something, thanks.
+>>=20
+>> Can you share your "alternative definitions" details? thanks!
+>=20
+> The loop should probably use as extra variable that points
+> to the 'list node' in the next structure.
+> Something like:
+> 	for (xxx *iter =3D head->next;
+> 		iter =3D=3D &head ? ((item =3D NULL),0) : ((item =3D =
+list_item(iter),1));
+> 		iter =3D item->member->next) {
+> 	   ...
+> With a bit of casting you can use 'item' to hold 'iter'.
 
-https://lore.kernel.org/all/20220228081421.1504213-1-hsinyi@chromium.org/
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3Dd4da1f27396fb1dde079=
-447a3612f4f512caed07
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3Da2151490cc6c57b368d7=
-974ffd447a8b36ade639
+I think this would make sense, it would mean you only assign the =
+containing
+element on valid elements.
 
-(the second one required a bit of fuzzing)
+I was thinking something along the lines of:
 
-I will remove them as they appear in the drm trees (hopefully).
+#define list_for_each_entry(pos, head, member)					=
+\
+	for (struct list_head *list =3D head->next, typeof(pos) pos;	=
+\
+	     list =3D=3D head ? 0 : (( pos =3D list_entry(pos, list, =
+member), 1));	\
+	     list =3D list->next)
 
-Kees, you just need to remember that you have a dependency on the DRM
-patches being in Linus' tree before you send your pull request.
+Although the initialization block of the for loop is not valid C, I'm
+not sure there is any way to declare two variables of a different type
+in the initialization part of the loop.
 
---=20
-Cheers,
-Stephen Rothwell
+I believe all this does is get rid of the &pos->member =3D=3D (head) =
+check
+to terminate the list.
+It alone will not fix any of the other issues that using the iterator
+variable after the loop currently has.
 
---Sig_/YxTb1i_/VP0VO9/qtU0JIP0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+AFAIK Adri=C3=A1n Moreno is working on doing something along those lines
+for the list iterator in openvswitch (that was similar to the kernel
+one before) [1].
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIgbkAACgkQAVBC80lX
-0Gw4Ngf9Hh9eVHWDQaSTSHnrUIHmluK7vvHnUi0Pjx7xKwZQa3sRpGhNgBE28dgp
-GgvFpjgLlH0zTebqMXovp17jeyylA198sromn6QAnrctzTQskJAIG/TAYI71FMGc
-eAaU2FQae9QR581hBTZVG6MZVxSWkMPJRUFly7FOO53QHk5xbWH+Z5JcztX9L77S
-5h3GpvbPij1uyybDjwfj8dm06gA1NYd1pyqgZJo0kzvCtSzManYdTfyRZuZk+vmS
-9/I1MdCHCUElvpGnEqfitzO6JCtFa/05jQa6b2P2SwDUhF4SErOW9Y3+47vCIx9y
-pUiPzw4KbXxKt6mGlaqjHmxFoNGmRw==
-=4sHe
------END PGP SIGNATURE-----
+I *think* they don't declare 'pos' within the loop which we *do want*
+to avoid any uses of it after the loop.
+(If pos is not declared in the initialization block, shadowing the
+*outer* pos, it would just point to the last element of the list or stay
+uninitialized if the list is empty).
 
---Sig_/YxTb1i_/VP0VO9/qtU0JIP0--
+
+[1] https://www.mail-archive.com/ovs-dev@openvswitch.org/msg63497.html
+
+
+>=20
+>>=20
+>>> OTOH there may be alternative definitions that can be used to get
+>>> the compiler (or other compiler-like tools) to detect broken code.
+>>> Even if the definition can't possibly generate a working kerrnel.
+>>=20
+>> The "list_for_each_entry_inside(pos, type, head, member)" way makes
+>> the iterator invisiable outside the loop, and would be catched by
+>> compiler if use-after-loop things happened.
+>=20
+> It is also a compete PITA for anything doing a search.
+>=20
+> 	David
+>=20
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, =
+MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+>=20
+
+- Jakob=
