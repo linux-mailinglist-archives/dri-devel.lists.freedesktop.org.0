@@ -1,38 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827624CB321
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 01:18:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615BD4CB363
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 01:35:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D4E10E87E;
-	Thu,  3 Mar 2022 00:18:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF0410E95C;
+	Thu,  3 Mar 2022 00:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id 04A5A10E922
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 00:18:35 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
- by 156.147.23.53 with ESMTP; 3 Mar 2022 09:18:34 +0900
-X-Original-SENDERIP: 156.147.1.126
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.126 with ESMTP; 3 Mar 2022 09:18:34 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Thu, 3 Mar 2022 09:18:13 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Subject: Re: [PATCH v3 00/21] DEPT(Dependency Tracker)
-Message-ID: <20220303001812.GA20752@X58A-UD3R>
-References: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
- <Yh70VkRkUfwIjPWv@ip-172-31-19-208.ap-northeast-1.compute.internal>
- <Yh74VbNZZt35wHZD@ip-172-31-19-208.ap-northeast-1.compute.internal>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BDD10E2AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 00:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646267705; x=1677803705;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4zSXdc7KAQv6ROJTapgLcs4iC6Ro436n8GV5J48iRho=;
+ b=ljmJdOq1o0Tu5Y+Cfxllg70PFai4jL8X/HFV80n2NkTRB5lDabMkE0Z1
+ TN3BYolbD7oTpjnjaFtq/ayO2bCaS+EctKE3fxTgnBkzAin13XJ1RzEm6
+ vOG9kueqR5E8PfL+DUvVwks5o15qV1LlhEyErQkGJB66jmhL2XlTyBhry
+ +Vmx3nt5TZ6tDXbI9fKwx7bofGI6E6UQW6IpagWlf6VSdmMqurJ9e59cR
+ 1FEF8DGMNtI+Ov+91ZeF62OGwUc8pFJr4XAb3Kvj1eEBRiAaW39RatfyV
+ 9wQve8c+EOZ+h6xSkRaps9CKR/H379Dsq4VG0vLe+cuk1Duu3Yl5PYzdy Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="314257983"
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="314257983"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 16:35:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; d="scan'208";a="594197552"
+Received: from lkp-server02.sh.intel.com (HELO e9605edfa585) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2022 16:35:03 -0800
+Received: from kbuild by e9605edfa585 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nPZQs-00029A-EQ; Thu, 03 Mar 2022 00:35:02 +0000
+Date: Thu, 3 Mar 2022 08:34:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zack Rusin <zack@kde.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 7/8] drm/vmwgfx: Implement MSI/MSI-X support for IRQs
+Message-ID: <202203030802.itIYtJH1-lkp@intel.com>
+References: <20220302152426.885214-8-zack@kde.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yh74VbNZZt35wHZD@ip-172-31-19-208.ap-northeast-1.compute.internal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20220302152426.885214-8-zack@kde.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,296 +59,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: krastevm@vmware.com, llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 02, 2022 at 04:53:41AM +0000, Hyeonggon Yoo wrote:
-> On Wed, Mar 02, 2022 at 04:36:38AM +0000, Hyeonggon Yoo wrote:
-> > On Mon, Feb 28, 2022 at 06:56:39PM +0900, Byungchul Park wrote:
-> > > I didn't want to bother you so I was planning to send the next spin
-> > > after making more progress. However, PATCH v2 reports too many false
-> > > positives because Dept tracked the bit_wait_table[] wrong way - I
-> > > apologize for that. So I decided to send PATCH v3 first before going
-> > > further for those who want to run Dept for now.
-> > > 
-> > > There might still be some false positives but not overwhelming.
-> > >
-> > 
-> > Hello Byungchul, I'm running DEPT v3 on my system
-> > and I see report below.
-> > 
-> > Looking at the kmemleak code and comment, I think
-> > kmemleak tried to avoid lockdep recursive warning
-> > but detected by DEPT?
-> >
-> 
-> Forgot to include another warning caused by DEPT.
-> 
-> And comment below might be useful for debugging:
-> 
-> in kmemleak.c:
->   43  * Locks and mutexes are acquired/nested in the following order:
->   44  *
->   45  *   scan_mutex [-> object->lock] -> kmemleak_lock -> other_object->lock (SINGLE_DEPTH_NESTING)
->   46  *
->   47  * No kmemleak_lock and object->lock nesting is allowed outside scan_mutex
->   48  * regions.
-> 
-> ===================================================
-> DEPT: Circular dependency has been detected.
-> 5.17.0-rc1+ #1 Tainted: G        W        
-> ---------------------------------------------------
-> summary
-> ---------------------------------------------------
-> *** DEADLOCK ***
-> 
-> context A
->     [S] __raw_spin_lock_irqsave(&object->lock:0)
->     [W] __raw_spin_lock_irqsave(kmemleak_lock:0)
->     [E] spin_unlock(&object->lock:0)
-> 
-> context B
->     [S] __raw_spin_lock_irqsave(kmemleak_lock:0)
->     [W] _raw_spin_lock_nested(&object->lock:0)
->     [E] spin_unlock(kmemleak_lock:0)
-> 
-> [S]: start of the event context
-> [W]: the wait blocked
-> [E]: the event not reachable
+Hi Zack,
 
-Hi Hyeonggon,
+I love your patch! Perhaps something to improve:
 
-Dept also allows the following scenario when an user guarantees that
-each lock instance is different from another at a different depth:
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc6 next-20220302]
+[cannot apply to airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-   lock A0 with depth
-   lock A1 with depth + 1
-   lock A2 with depth + 2
-   lock A3 with depth + 3
-   (and so on)
-   ..
-   unlock A3
-   unlock A2
-   unlock A1
-   unlock A0
+url:    https://github.com/0day-ci/linux/commits/Zack-Rusin/drm-vmwgfx-3D-on-arm64-and-large-cursor-support/20220302-232641
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20220303/202203030802.itIYtJH1-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/63d27e1cb11562966a6f07bf0e667b0a54dc2412
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Zack-Rusin/drm-vmwgfx-3D-on-arm64-and-large-cursor-support/20220302-232641
+        git checkout 63d27e1cb11562966a6f07bf0e667b0a54dc2412
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/vmwgfx/
 
-However, Dept does not allow the following scenario where another lock
-class cuts in the dependency chain:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-   lock A0 with depth
-   lock B
-   lock A1 with depth + 1
-   lock A2 with depth + 2
-   lock A3 with depth + 3
-   (and so on)
-   ..
-   unlock A3
-   unlock A2
-   unlock A1
-   unlock B
-   unlock A0
+All warnings (new ones prefixed by >>):
 
-This scenario is clearly problematic. What do you think is going to
-happen with another context running the following?
+>> drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:340:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (nvec <= 0) {
+               ^~~~~~~~~
+   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:369:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:340:2: note: remove the 'if' if its condition is always false
+           if (nvec <= 0) {
+           ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vmwgfx/vmwgfx_irq.c:330:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
-   lock A1 with depth
-   lock B
-   lock A2 with depth + 1
-   lock A3 with depth + 2
-   (and so on)
-   ..
-   unlock A3
-   unlock A2
-   unlock B
-   unlock A1
 
-It's a deadlock. That's why Dept reports this case as a problem. Or am I
-missing something?
+vim +340 drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
 
-Thanks,
-Byungchul
+   319	
+   320	/**
+   321	 * vmw_irq_install - Install the irq handlers
+   322	 *
+   323	 * @dev_priv:  Pointer to the vmw_private device.
+   324	 * Return:  Zero if successful. Negative number otherwise.
+   325	 */
+   326	int vmw_irq_install(struct vmw_private *dev_priv)
+   327	{
+   328		struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+   329		struct drm_device *dev = &dev_priv->drm;
+   330		int ret;
+   331		int nvec;
+   332		int i = 0;
+   333	
+   334		BUILD_BUG_ON((SVGA_IRQFLAG_MAX >> VMWGFX_MAX_NUM_IRQS) != 1);
+   335		BUG_ON(VMWGFX_MAX_NUM_IRQS != get_count_order(SVGA_IRQFLAG_MAX));
+   336	
+   337		nvec = pci_alloc_irq_vectors(pdev, 1, VMWGFX_MAX_NUM_IRQS,
+   338					     PCI_IRQ_ALL_TYPES);
+   339	
+ > 340		if (nvec <= 0) {
 
-> ---------------------------------------------------
-> context A's detail
-> ---------------------------------------------------
-> context A
->     [S] __raw_spin_lock_irqsave(&object->lock:0)
->     [W] __raw_spin_lock_irqsave(kmemleak_lock:0)
->     [E] spin_unlock(&object->lock:0)
-> 
-> [S] __raw_spin_lock_irqsave(&object->lock:0):
-> [<ffffffc00810302c>] scan_gray_list+0x84/0x13c
-> stacktrace:
->       dept_ecxt_enter+0x88/0xf4
->       _raw_spin_lock_irqsave+0xf0/0x1c4
->       scan_gray_list+0x84/0x13c
->       kmemleak_scan+0x2d8/0x54c
->       kmemleak_scan_thread+0xac/0xd4
->       kthread+0xd4/0xe4
->       ret_from_fork+0x10/0x20
-> 
-> [W] __raw_spin_lock_irqsave(kmemleak_lock:0):
-> [<ffffffc008102ebc>] scan_block+0x3c/0x128
-> stacktrace:
->       __dept_wait+0x8c/0xa4
->       dept_wait+0x6c/0x88
->       _raw_spin_lock_irqsave+0xb8/0x1c4
->       scan_block+0x3c/0x128
->       scan_gray_list+0xc4/0x13c
->       kmemleak_scan+0x2d8/0x54c
->       kmemleak_scan_thread+0xac/0xd4
->       kthread+0xd4/0xe4
->       ret_from_fork+0x10/0x20
-> 
-> [E] spin_unlock(&object->lock:0):
-> [<ffffffc008102ee0>] scan_block+0x60/0x128
-> 
-> ---------------------------------------------------
-> context B's detail
-> ---------------------------------------------------
-> context B
->     [S] __raw_spin_lock_irqsave(kmemleak_lock:0)
->     [W] _raw_spin_lock_nested(&object->lock:0)
->     [E] spin_unlock(kmemleak_lock:0)
-> 
-> [S] __raw_spin_lock_irqsave(kmemleak_lock:0):
-> [<ffffffc008102ebc>] scan_block+0x3c/0x128
-> stacktrace:
->       dept_ecxt_enter+0x88/0xf4
->       _raw_spin_lock_irqsave+0xf0/0x1c4
->       scan_block+0x3c/0x128
->       kmemleak_scan+0x19c/0x54c
->       kmemleak_scan_thread+0xac/0xd4
->       kthread+0xd4/0xe4
->       ret_from_fork+0x10/0x20
-> 
-> [W] _raw_spin_lock_nested(&object->lock:0):
-> [<ffffffc008102f34>] scan_block+0xb4/0x128
-> stacktrace:
->       dept_wait+0x74/0x88
->       _raw_spin_lock_nested+0xa8/0x1b0
->       scan_block+0xb4/0x128
->       kmemleak_scan+0x19c/0x54c
->       kmemleak_scan_thread+0xac/0xd4
->       kthread+0xd4/0xe4
->       ret_from_fork+0x10/0x20
-> [E] spin_unlock(kmemleak_lock:0):
-> [<ffffffc008102ee0>] scan_block+0x60/0x128
-> stacktrace:
->       dept_event+0x7c/0xfc
->       _raw_spin_unlock_irqrestore+0x8c/0x120
->       scan_block+0x60/0x128
->       kmemleak_scan+0x19c/0x54c
->       kmemleak_scan_thread+0xac/0xd4
->       kthread+0xd4/0xe4
->       ret_from_fork+0x10/0x20
-> ---------------------------------------------------
-> information that might be helpful
-> ---------------------------------------------------
-> CPU: 1 PID: 38 Comm: kmemleak Tainted: G        W         5.17.0-rc1+ #1
-> Hardware name: linux,dummy-virt (DT)
-> Call trace:
->  dump_backtrace.part.0+0x9c/0xc4
->  show_stack+0x14/0x28
->  dump_stack_lvl+0x9c/0xcc
->  dump_stack+0x14/0x2c
->  print_circle+0x2d4/0x438
->  cb_check_dl+0x6c/0x70
->  bfs+0xc0/0x168
->  add_dep+0x88/0x11c
->  add_wait+0x2d0/0x2dc
->  __dept_wait+0x8c/0xa4
->  dept_wait+0x6c/0x88
->  _raw_spin_lock_irqsave+0xb8/0x1c4
->  scan_block+0x3c/0x128
->  scan_gray_list+0xc4/0x13c
->  kmemleak_scan+0x2d8/0x54c
->  kmemleak_scan_thread+0xac/0xd4
->  kthread+0xd4/0xe4
->  ret_from_fork+0x10/0x20
-> 
-> > ===================================================
-> > DEPT: Circular dependency has been detected.
-> > 5.17.0-rc1+ #1 Tainted: G        W
-> > ---------------------------------------------------
-> > summary
-> > ---------------------------------------------------
-> > *** AA DEADLOCK ***
-> > 
-> > context A
-> >     [S] __raw_spin_lock_irqsave(&object->lock:0)
-> >     [W] _raw_spin_lock_nested(&object->lock:0)
-> >     [E] spin_unlock(&object->lock:0)
-> > 
-> > [S]: start of the event context
-> > [W]: the wait blocked
-> > [E]: the event not reachable
-> > ---------------------------------------------------
-> > context A's detail
-> > ---------------------------------------------------
-> > context A
-> >     [S] __raw_spin_lock_irqsave(&object->lock:0)
-> >     [W] _raw_spin_lock_nested(&object->lock:0)
-> >     [E] spin_unlock(&object->lock:0)
-> > 
-> > [S] __raw_spin_lock_irqsave(&object->lock:0):
-> > [<ffffffc00810302c>] scan_gray_list+0x84/0x13c
-> > stacktrace:
-> >       dept_ecxt_enter+0x88/0xf4
-> >       _raw_spin_lock_irqsave+0xf0/0x1c4
-> >       scan_gray_list+0x84/0x13c
-> >       kmemleak_scan+0x2d8/0x54c
-> >       kmemleak_scan_thread+0xac/0xd4
-> >       kthread+0xd4/0xe4
-> >       ret_from_fork+0x10/0x20
-> > 
-> > [E] spin_unlock(&object->lock:0):
-> > [<ffffffc008102ee0>] scan_block+0x60/0x128
-> > ---------------------------------------------------
-> > information that might be helpful
-> > ---------------------------------------------------
-> > CPU: 1 PID: 38 Comm: kmemleak Tainted: G        W         5.17.0-rc1+ #1
-> > Hardware name: linux,dummy-virt (DT)
-> > Call trace:
-> >  dump_backtrace.part.0+0x9c/0xc4
-> >  show_stack+0x14/0x28
-> >  dump_stack_lvl+0x9c/0xcc
-> >  dump_stack+0x14/0x2c
-> >  print_circle+0x2d4/0x438
-> >  cb_check_dl+0x44/0x70
-> >  bfs+0x60/0x168
-> >  add_dep+0x88/0x11c
-> >  add_wait+0x2d0/0x2dc
-> >  __dept_wait+0x8c/0xa4
-> >  dept_wait+0x6c/0x88
-> >  _raw_spin_lock_nested+0xa8/0x1b0
-> >  scan_block+0xb4/0x128
-> >  scan_gray_list+0xc4/0x13c
-> >  kmemleak_scan+0x2d8/0x54c
-> >  kmemleak_scan_thread+0xac/0xd4
-> >  kthread+0xd4/0xe4
-> >  ret_from_fork+0x10/0x20
-> >
-> [...]
-> 
-> --
-> Thank you, You are awesome!
-> Hyeonggon :-)
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
