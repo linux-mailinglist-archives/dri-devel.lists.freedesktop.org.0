@@ -2,86 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC8F4CC25D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 17:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34814CC265
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 17:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B8810E29F;
-	Thu,  3 Mar 2022 16:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E90110E174;
+	Thu,  3 Mar 2022 16:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CAD310E29F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 16:12:12 +0000 (UTC)
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 2C4933F5F5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 16:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1646323931;
- bh=1BGQjVNrvfbXoY5ZS3EibqKZUO0QZ3KFVt6NQJQD05k=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=qOX1PP7czXt6QXiG+pBZ//IDuWn9Zt+HYDTEKOyndhiHFq1h8m+m6B+Fz53baoFsk
- F3451DYa4BiRN5b3WBV6KP1dxVTidC8QuaUw6Zg0WliQONcLV4nFM81W3t9l19CjcN
- J1zshAH+MSTg6byTRFNwV3MHJidkSXTgwgFXWzgc+SFYWsUjCosu0aSt8LPAyVOq1o
- 4Kxy5yVfenWDKm1tnKGuEFaDk6Su+TH+ORzgmpW91TBTv1vo7KH+D7UtecpoOeVhH/
- jgvkLySGYnu8cQBwRUvBleVOXyLaRIpe17u6s5k3nMs9VzL/ijKMQiXf5EuKgg8A5q
- 47X6uQnnYGx9A==
-Received: by mail-wm1-f71.google.com with SMTP id
- d8-20020a05600c34c800b0037e3cd6225eso1517830wmq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 08:12:11 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B272D10E174
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 16:14:16 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id j17so8676822wrc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 08:14:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=EiWdlBLeSii7BF7fhJgTvosOIK7psLAdb2tPEkPGzBs=;
+ b=QW/zlldr+uaWGiEiITw09O4hMbDaLBGe9FbVKjB3fazYjRDu5FD1BfaXucr96ZnFzS
+ Cl3JmBLbkHbq2S7E0S1FmtCkHI1xJkxUdhnYHqlvB2CaHbRF8G8KAUjlH+o2+UMzUZkG
+ dpTtxwPAj5Znpf7dV8QFAx7oMp2lDPblYbQJrRf8zI6KKFXkMQqAwKgolo/VonTyNFxE
+ wpAZQffnlsjr6YnzqqnZ622LOTUwmU6lNHxiwT9njPq8QbDEd2/+AjR/MT4EeApZhL7E
+ FSoV5nx4wtupNerja8ZvTYrr6Jy5G6haumorkvRuLYPs9lbmhhJpOFlu5249XdQfuaG9
+ A0XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=1BGQjVNrvfbXoY5ZS3EibqKZUO0QZ3KFVt6NQJQD05k=;
- b=0sNPY+DD1gTEQ4waLTAGe07pxSVM99NfojTAir7K8LQ8fxjmpx3sElS+R0b5g4ACfl
- tVPz6I7pQ4uiDjoLsJvOrhIDm/8Jkh9aTJ50CfKxbwuF8bixyDp5KKi+9Dgpu/1tCeVl
- Vc+SSFXjBm+DZ1VGpTqh2xzjZx3P7EeatHgklCZdCNq1ZuZAAw1VRmejW6y627pBYBkl
- sFAKJzYWbdv6kf8I9d6mPuq7HFJXVUGOTdjpid005QiOL99k+RiHB9EL3yvGEQrCXrv7
- ld8HM1cPdwD67/jSfKXg2a0qZayO5vb6E8a13FmIQcRMjBZRcE1bC6lYwgMFEcxRVbDo
- CdmA==
-X-Gm-Message-State: AOAM530tGxngFlh0y4IUpv+HEBp8mt0MFCCN90grWDztpRkKXUgYA/vt
- hVVr7zkWzKdQmVOXcRzz2dNIBuF4Ri/RjDBiDApYSpQLukynJBpU+Gc/BokmxZRicJvkOhueIUe
- hgzfJuLdSLgKJZ6aGn4fTr6PWPrcIf5bZeyiV7fIOKqbTSA==
-X-Received: by 2002:adf:9dcf:0:b0:1e3:200d:a363 with SMTP id
- q15-20020adf9dcf000000b001e3200da363mr28146358wre.105.1646323930544; 
- Thu, 03 Mar 2022 08:12:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7RxXzehx6WHCRoPsdx4WU9Q0UoR4WjMDO68zYZ8/KBCOOAFgdSIOncP68hbntK0mVj4ZDXA==
-X-Received: by 2002:adf:9dcf:0:b0:1e3:200d:a363 with SMTP id
- q15-20020adf9dcf000000b001e3200da363mr28146340wre.105.1646323930366; 
- Thu, 03 Mar 2022 08:12:10 -0800 (PST)
-Received: from [192.168.0.137] (xdsl-188-155-181-108.adslplus.ch.
- [188.155.181.108]) by smtp.gmail.com with ESMTPSA id
- s17-20020adfbc11000000b001f023d197b8sm2407077wrg.68.2022.03.03.08.12.09
+ bh=EiWdlBLeSii7BF7fhJgTvosOIK7psLAdb2tPEkPGzBs=;
+ b=4DmaNo/BK6pTjzJd/HnBgG2kEk8gxb8Lv1IyfngM2m2k105ofnXp+aglrQZZNIPJqj
+ 9nz+5Q18QYIHa6Szo6gnJIFSKpQ21nLJ+IwUk/A368M8l9q4rNO9UF2NfJBcIQx9Dt3v
+ LI2vpX5pCLX0+BOD0WFE03Y/qaLHNfuPRSSiPwn1tRWkJ8IAf+bw2EayG8vW55Gn4nPl
+ b/p/75j6c9ywtkRbqoqmg+VNcuUZa940dWyaf7oBmaeApNixzVbnTyQBnCq63JLKCnI+
+ xl4KWU8v3Nx6/NSODYiD8C2FjtCHn45lyPzWM1poApKXvX8altZlDEEeFMVaj1YyCRR4
+ WXXA==
+X-Gm-Message-State: AOAM530Mo2zjEV2ClA0i/v+GM/I4t/3/EqfLCWJKqrSeHUQ2TSeAUIFv
+ Dl7Nq41M+yIFieBCxm0CquMmZw==
+X-Google-Smtp-Source: ABdhPJzT3sVllSZTbfjXxQrZ/T7Xkb8VIdjboVZuvHel+BUPVFd0faUP7glzn6sHWW/L1+1zkbYvAg==
+X-Received: by 2002:a5d:64cb:0:b0:1ef:d80d:8129 with SMTP id
+ f11-20020a5d64cb000000b001efd80d8129mr14374253wri.21.1646324055016; 
+ Thu, 03 Mar 2022 08:14:15 -0800 (PST)
+Received: from ?IPV6:2001:861:44c0:66c0:2f5b:3553:677f:a39?
+ ([2001:861:44c0:66c0:2f5b:3553:677f:a39])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a5d674b000000b001f047c49e99sm2388307wrw.2.2022.03.03.08.14.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 08:12:09 -0800 (PST)
-Message-ID: <7288b8b4-0043-1d2a-10c3-964008ab2948@canonical.com>
-Date: Thu, 3 Mar 2022 17:12:08 +0100
+ Thu, 03 Mar 2022 08:14:14 -0800 (PST)
+Message-ID: <15d2625a-b569-0841-cc0e-ace7cffcd8de@baylibre.com>
+Date: Thu, 3 Mar 2022 17:14:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 RESEND 21/24] drm/exynos/decon5433: add local path
- support
+Subject: Re: [PATCH v16 4/4] drm/bridge: dw-hdmi: fix bus formats negotiation
+ for 8 bit modes
 Content-Language: en-US
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Inki Dae <inki.dae@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>
-References: <20190325071349.22600-1-a.hajda@samsung.com>
- <CGME20190325071401eucas1p10df709b256570f1aba9cbc4e875da1b3@eucas1p1.samsung.com>
- <20190325071349.22600-22-a.hajda@samsung.com>
- <b3c98aa3-751b-acc4-8e57-5566af27f922@canonical.com>
- <6270db2d-667d-8d6f-9289-be92da486c25@samsung.com>
- <9c1dc8ee-c717-377b-879c-0706a1613cf3@canonical.com>
- <ac077b37-5861-594f-560f-654f9257959d@samsung.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <ac077b37-5861-594f-560f-654f9257959d@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <cover.1645895582.git.hns@goldelico.com>
+ <169afe64b4985c3f420177cd6f4e1e72feeb2449.1645895582.git.hns@goldelico.com>
+ <5da069b6-8a99-79c2-109c-c85715165857@baylibre.com>
+ <E0D3B7E8-0C8D-4119-8267-0556AB921B24@goldelico.com>
+ <fca28594-8d4e-dd2f-93a0-a052cb888d90@baylibre.com>
+ <75CBD357-577A-402D-9E3B-DBE82A84BC43@goldelico.com>
+ <4cb08b5d-c1ec-f2b4-a107-63a771146ec0@baylibre.com>
+ <598F3A49-9CE2-4C59-95D4-CDA888A3B3BF@goldelico.com>
+ <3625b23b-9718-640a-1aac-0b30773a26ab@baylibre.com>
+ <E95145AB-DEFC-419D-B926-B0BAF0985D09@goldelico.com>
+ <d75cd860-2a4c-6f81-b5d0-dc75f37b7150@baylibre.com>
+ <890BB299-AB92-4177-83E8-74C8AA551AF1@goldelico.com>
+ <1E255C32-3B9C-4556-A4A7-0B575DF0F915@goldelico.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <1E255C32-3B9C-4556-A4A7-0B575DF0F915@goldelico.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,55 +90,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ linux-mips <linux-mips@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/03/2022 17:11, Marek Szyprowski wrote:
-> Hi Krzysztof,
+Hi,
+
+On 03/03/2022 16:37, H. Nikolaus Schaller wrote:
+> Hi Neil,
 > 
-> On 03.03.2022 17:03, Krzysztof Kozlowski wrote:
->> On 02/03/2022 02:00, Inki Dae wrote:
->>> 22. 2. 7. 01:51에 Krzysztof Kozlowski 이(가) 쓴 글:
->>>> On 25/03/2019 08:13, Andrzej Hajda wrote:
->>>>> GSCALERs in Exynos5433 have local path to DECON and DECON_TV.
->>>>> They can be used as extra planes with support for non-RGB formats and scaling.
->>>>> To enable it on DECON update_plane and disable_plane callback should
->>>>> be modified. Moreover DSD mux should be set accordingly, and finally
->>>>> atomic_check callback should be used to limit the number of active planes.
->>>>>
->>>>> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
->>>>> ---
->>>>>   drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 80 +++++++++++++++----
->>>>>   drivers/gpu/drm/exynos/regs-decon5433.h       |  6 ++
->>>>>   2 files changed, 72 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/ex
->>>> Hi guys!
->>>>
->>>> I am working on DRM bindings conversion to DT schema format and I found
->>>> this set only partially applied. I merged the DTS patches ("dsd" clock),
->>>> but I think the driver and bindings were not picked up.
->>>>
->>>> Nevertheless I am going to include the "dsd" clock in the new bindings,
->>>> so the DTS passes DT schema checks. Let me know if other approach
->>>> (revert of DTS change) should be taken.
->>>>
->>> Sorry for late response.
+>> Am 03.03.2022 um 12:45 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+>>
+>> Hi Neil,
+>>
+>>> Am 03.03.2022 um 12:42 schrieb Neil Armstrong <narmstrong@baylibre.com>:
 >>>
->>> As of now, "dsd" is a dead property not used anywhere.
->>> This patch series makes real user not to work correctly due to ABI change.
->>> How about reverting it until this patch series is merged after fixing the real user problem?
->> The Exynos5433 DECON bindings were already merged by Rob, so someone
->> would need to send a revert. However this does not answer the actual
->> question - whether the "dsd" clock is necessary, whether it is there
->> (routed to DECON). If it is, it should stay in the bindings.
+>>>> So how can we get that merged? IMHO your proposal should be before we add ingenic-dw-hdmi.
+>>>> If you have a version with proper commit message I can add it to the beginning of my
+>>>> seried and include it in a v17. Or if you get yours merged to drm-misc/drm-misc-next I
+>>>> can build on top.
+>>>
+>>> You can add it in your v17 patchset with my authorship and my Signed-off-by tag + yours.
+>>>
+>>> As commit message something like :
+>>> ====================
+>>> drm/bridge: dw-hdmi: handle unusable or non-configured CSC module
+>>>
+>>> The dw-hdmi integrates an optional Color Space Conversion feature used
+>>> to handle color-space conversions.
+>>>
+>>> On some platforms, the CSC isn't built-in or non-functional.
+>>>
+>>> This adds the necessary code to disable the CSC functionality
+>>> and limit the bus format negotiation to force using the same
+>>> input bus format as the output bus format.
+>>> ====================
+>>
+>> Fine! Will do.
 > 
-> It is routed to DECON hardware and enabling it is needed to make the so 
-> called 'local path' (when DECON takes image data directly from the 
-> GSCALER hardware block instead of the memory buffer) working.
+> I was a little too early.
+> 
+> While preparing the patches I found that I still had the hack to force
+> sink_is_hdmi = false in my test branch. Sorry for that.
+> 
+> Removing this made the panel go black again, even with your latest
+> proposal.
+> 
+> So I looked deeper into your patch and it seems to influence the
+> input formats only in dw_hdmi_bridge_atomic_get_input_bus_fmts()?
+> 
+> While the problem I see is with output formats and we had worked on
+> modifying dw_hdmi_bridge_atomic_get_output_bus_fmts().
 
-Awesome, thanks for confirmation! Bindings are good then.
+I just looked and the ingenic drm driver first bridge uses drm_atomic_helper_bridge_propagate_bus_fmt()
+which is why this last patch doesn't work, and perhaps would be the main issue here.
 
-Best regards,
-Krzysztof
+Indeed, the core will loop on all the possible output formats for your HDMI monitor :
+- MEDIA_BUS_FMT_UYVY8_1X16
+- MEDIA_BUS_FMT_YUV8_1X24
+- MEDIA_BUS_FMT_RGB888_1X24
+
+For each of these, the dw-hdmi dw_hdmi_bridge_atomic_get_input_bus_fmts() will
+return the same format + the possible CSC transformations, for example
+for MEDIA_BUS_FMT_UYVY8_1X16 will return as possible inputs:
+- MEDIA_BUS_FMT_UYVY8_1X16
+- MEDIA_BUS_FMT_YUV8_1X24
+- MEDIA_BUS_FMT_RGB888_1X24
+
+The the core will call for each of the those the .atomic_get_input_bus_fmts of
+the Ingenic DRM driver, but by using drm_atomic_helper_bridge_propagate_bus_fmt()
+it basically sets a pass-through and accepts any format.
+
+This is why MEDIA_BUS_FMT_UYVY8_1X16 is selected, but in this case the ingenic
+ingenic_drm_bridge_atomic_check() would fail in the switch.
+
+The Ingenic should implement a proper .atomic_get_input_bus_fmts returning
+only the possible supported formats.
+
+Can you check if you hit the default case in ingenic_drm_bridge_atomic_check() ?
+
+Neil
+
+> 
+> BR and thanks,
+> Nikolaus
+> 
+
