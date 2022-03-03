@@ -1,60 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E744CC922
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:36:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F1D4CC92B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9612210E2BA;
-	Thu,  3 Mar 2022 22:36:19 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA8410E38C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 22:36:18 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id i5so6223152oih.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:36:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=+IxH+v4af7VzrKdvTOvKB5ZMTKZ+t8ui6EDkfQqlJ0s=;
- b=PJEWLzqqseHPPRxvwZuM6uOTCWfL7xJ4o5KBWyKiuf78oArICZi8oBY5JN41+D6+U4
- 1V9U45UN69k8kRFLyAd9as/9FWGo1nF+iiwSB/r4fL96T8nXvfeocBGPnibJfvM2El6W
- 4MoTqRyW2rvnGjSsyvxThTWme7V1vFH2sns3U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=+IxH+v4af7VzrKdvTOvKB5ZMTKZ+t8ui6EDkfQqlJ0s=;
- b=hPa4hXIERPmMq8CoOtt+S1q/fPVK6sEEl7+McYiv1xdgO7ciK7SX6EvlgksKlHiCNg
- CZ2q1BhZRiwgTJQbtO8UKMD7AqyxwzkTwt4jOx8BeMFRvPP6Nh3FmJs0wdmSezrYLGCK
- gxuPlynIXs5Vt40qpJrOiQzdp4rOIwna4oGJsZZ1D9jfxjMWtpRZTqNdaPYkC0WVDOrO
- YeM5w2whJEX7RIvQE86S5Pvaj7fhhkn2BIfeLOHmsSgw+0++ctNwMolWfh249AoiVRRj
- 9/UeF6PkXc2POTyDcVcfJ62ZfxKywSHLodIxMp+tD5+QbtOm2aSzU4u+lVUl6vIC4ZxF
- b/oA==
-X-Gm-Message-State: AOAM532PYUG2svzCkbGLVSTKgkTJOiLHPFMu2OtcEDXnIOzuCD5YT+QW
- Tn2aECKp3rj9wJJWmQNn3Kvj3XFKn4qYWtJyWbbZXw==
-X-Google-Smtp-Source: ABdhPJwzE9l5wF1WBh0ZzcfsjbubuW7clbOvgM6f0zoFQo0kH1jqpjN6+RqUObMiyusKhqmjRdcZskOhtJ9BSyNvUUE=
-X-Received: by 2002:aca:3346:0:b0:2d9:91f9:a7f2 with SMTP id
- z67-20020aca3346000000b002d991f9a7f2mr922767oiz.32.1646346977864; Thu, 03 Mar
- 2022 14:36:17 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Mar 2022 14:36:17 -0800
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D3110E38E;
+	Thu,  3 Mar 2022 22:37:39 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59DD710E38C;
+ Thu,  3 Mar 2022 22:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646347058; x=1677883058;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SAIZn7QMcErgUj045llNbSAaHZzAH+QF2uvWKFGNeXg=;
+ b=dI7O9OBt+ullKZjoGAQHCGBtEPRrJumOdMIhZwGnTNI4Y2agMRC23GWV
+ 4DOSVubWp0TIZ6O72pCkfcAxi9aP9QRbeqeXqSyFWYVybkhF4YpT03PPU
+ tHby3QG/WrUFkTTu0n5EYA5scYauK0kh3qInzhrFY7HVjHEC/6aLosH4w
+ ugXs6JVeJ+tQ1FSm6fEHl/S3utb+zIKJ49ae75if8g1HeupdJtCdw0otM
+ TQlUjAhyYQZwGqIaNZsL5sFrtWWhtpAQRbIn2Fdm12X2AR8jcLXTMy+BJ
+ YNSe1cNInqr7hmUyeFve8M9Tdxk+n9OtCk3gEtpUhgEd7iAIjNZE+nWan Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="233794761"
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="233794761"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2022 14:37:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="609745278"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2022 14:37:37 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v3 0/4] Improve anti-pre-emption w/a for compute workloads
+Date: Thu,  3 Mar 2022 14:37:33 -0800
+Message-Id: <20220303223737.708659-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGuaYEC2rYxi1uU0S_Hkx-DbjT6wO4zz6sKSRON=eX10ng@mail.gmail.com>
-References: <20220303194758.710358-1-robdclark@gmail.com>
- <20220303194758.710358-4-robdclark@gmail.com>
- <CAE-0n532ZX=qXTBKSFyRYAmkqFN7oqKyPvJHBuVMmr2eHY+O4A@mail.gmail.com>
- <CAF6AEGstzPaLFf-9z9Gf+S4G8n6twxExLvKaqLZk9ML2tUWiLw@mail.gmail.com>
- <CAF6AEGuaYEC2rYxi1uU0S_Hkx-DbjT6wO4zz6sKSRON=eX10ng@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 3 Mar 2022 14:36:17 -0800
-Message-ID: <CAE-0n52xXJG3kohetn3sDBmsBpMqL5zvS2yRzP+sPdq5+7vHgQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/msm: Add SYSPROF param
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Yangtao Li <tiny.windzz@gmail.com>,
- Emma Anholt <emma@anholt.net>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno <freedreno@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Clark (2022-03-03 13:47:14)
-> On Thu, Mar 3, 2022 at 1:17 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Thu, Mar 3, 2022 at 12:47 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > >
-> > > Quoting Rob Clark (2022-03-03 11:46:47)
-> > > > +
-> > > > +       /* then apply new value: */
-> > >
-> > > It would be safer to swap this. Otherwise a set when the values are at
-> > > "1" would drop to "zero" here and potentially trigger some glitch,
-> > > whereas incrementing one more time and then dropping the previous state
-> > > would avoid that short blip.
-> > >
-> > > > +       switch (sysprof) {
-> > > > +       default:
-> > > > +               return -EINVAL;
-> > >
-> > > This will become more complicated though.
-> >
-> > Right, that is why I took the "unwind first and then re-apply"
-> > approach.. in practice I expect userspace to set the value before it
-> > starts sampling counter values, so I wasn't too concerned about this
-> > racing with a submit and clearing the counters.  (Plus any glitch if
-> > userspace did decide to change it dynamically would just be transient
-> > and not really a big deal.)
->
-> Actually I could just swap the two switch's.. the result would be that
-> an EINVAL would not change the state instead of dropping the state to
-> zero.  Maybe that is better anyways
->
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Yeah it isn't clear to me what should happen if the new state is
-invalid. Outright rejection is probably better than replacing the
-previous state with an invalid state.
+Compute workloads are inherently not pre-emptible on current hardware.
+Thus the pre-emption timeout was disabled as a workaround to prevent
+unwanted resets. Instead, the hang detection was left to the heartbeat
+and its (longer) timeout. This is undesirable with GuC submission as
+the heartbeat is a full GT reset rather than a per engine reset and so
+is much more destructive. Instead, just bump the pre-emption timeout
+to a big value. Also, update the heartbeat to allow such a long
+pre-emption delay in the final heartbeat period.
+
+v2: Add clamping helpers.
+v3: Remove long timeout algorithm and replace with hard coded value
+(review feedback from Tvrtko). Also, fix execlist selftest failure and
+fix bug in compute enabling patch related to pre-emption timeouts.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (4):
+  drm/i915/guc: Limit scheduling properties to avoid overflow
+  drm/i915: Fix compute pre-emption w/a to apply to compute engines
+  drm/i915: Make the heartbeat play nice with long pre-emption timeouts
+  drm/i915: Improve long running OCL w/a for GuC submission
+
+ drivers/gpu/drm/i915/Kconfig.profile          | 26 +++++-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  6 ++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 92 +++++++++++++++++--
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 18 ++++
+ drivers/gpu/drm/i915/gt/sysfs_engines.c       | 25 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  9 ++
+ 6 files changed, 153 insertions(+), 23 deletions(-)
+
+-- 
+2.25.1
+
