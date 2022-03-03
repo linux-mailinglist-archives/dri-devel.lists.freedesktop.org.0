@@ -2,38 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF424CB73B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 07:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29274CB742
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 07:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5044A10EB95;
-	Thu,  3 Mar 2022 06:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AB910EE5C;
+	Thu,  3 Mar 2022 06:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8DC010EB95
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 06:53:31 +0000 (UTC)
-X-UUID: df35ec03309a404eb4332c5bead0315d-20220303
-X-UUID: df35ec03309a404eb4332c5bead0315d-20220303
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7423910EE5C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 06:57:33 +0000 (UTC)
+X-UUID: 46c81073d6544573a1770f6446d486b9-20220303
+X-UUID: 46c81073d6544573a1770f6446d486b9-20220303
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 390624326; Thu, 03 Mar 2022 14:53:24 +0800
+ with ESMTP id 1554214115; Thu, 03 Mar 2022 14:57:28 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 3 Mar 2022 14:53:23 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 3 Mar 2022 14:57:26 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 3 Mar 2022 14:53:23 +0800
+ Frontend Transport; Thu, 3 Mar 2022 14:57:26 +0800
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH V6 5/5] drm/mediatek: add display support for MT8186
-Date: Thu, 3 Mar 2022 14:53:13 +0800
-Message-ID: <20220303065322.23132-2-rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
+Subject: [RESEND V6 0/5] add display support for MediaTek SoC MT8186
+Date: Thu, 3 Mar 2022 14:57:20 +0800
+Message-ID: <20220303065725.23384-1-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220303065322.23132-1-rex-bc.chen@mediatek.com>
-References: <20220303065322.23132-1-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -49,103 +45,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- hsinyi@chromium.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ yongqiang.niu@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ fparent@baylibre.com, linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+v6:
+1. Remove mmsys patches which are accepted.
+2. Fix error of dt-binding.
 
-Add mmsys driver data and compatible for MT8186 in mtk_drm_drv.c.
+v5:
+1. Add binding patch of aal for MT8183.
+2. Revise enum to const.
+3. Change to use enum for mutex.
+4. Remove patches which are accepted by maintainers. (mmsys and mutex)
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 33 ++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+v4:
+1. Remove binding of dsi and dpi.
+2. Revise aal binding.
+3. Fix indention in [4/5].
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 56ff8c57ef8f..be582e64d067 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -158,6 +158,24 @@ static const enum mtk_ddp_comp_id mt8183_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8186_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSI0,
-+};
-+
-+static const enum mtk_ddp_comp_id mt8186_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_2L0,
-+	DDP_COMPONENT_RDMA1,
-+	DDP_COMPONENT_DPI0,
-+};
-+
- static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
-@@ -221,6 +239,13 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
-+	.main_path = mt8186_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8186_mtk_ddp_main),
-+	.ext_path = mt8186_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8186_mtk_ddp_ext),
-+};
-+
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.main_path = mt8192_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-@@ -463,6 +488,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8183-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8186-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-od",
-@@ -511,12 +538,16 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8183-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8186-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8183-dsi",
- 	  .data = (void *)MTK_DSI },
-+	{ .compatible = "mediatek,mt8186-dsi",
-+	  .data = (void *)MTK_DSI },
- 	{ }
- };
- 
-@@ -533,6 +564,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8173_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8183-mmsys",
- 	  .data = &mt8183_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8186-mmsys",
-+	  .data = &mt8186_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ }
+v3:
+1. Modify display binding based on mtk display binding patch. ([1])
+2. Remove patch: drm/mediatek: separate postmask component from mtk_disp_drv.c
+3. Remove compatible of 8186 ovl because we can re-use compatible of 8192 for 8186.
+4. Fix issue of space before tab on mutex patch.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-drm-next&id=4ed545e7d10049b5492afc184e61a67e478a2cfd
+
+v2:
+1. Add binding documentation for mmsys, mutex and mtk_display.
+2. Remove duplicated definition of postmask registers on mtk_drm_drv.
+3. Add disp_ovl support for MT8186.
+4. Add detailed commit messages.
+
+Rex-BC Chen (4):
+  dt-bindings: display: mediatek: add aal binding for MT8183
+  dt-bindings: display: mediatek: revise enum to const
+  dt-bindings: display: mediatek: change to use enum for mutex
+  dt-bindings: display: mediatek: add MT8186 SoC binding
+
+Yongqiang Niu (1):
+  drm/mediatek: add display support for MT8186
+
+ .../display/mediatek/mediatek,aal.yaml        |  7 +++-
+ .../display/mediatek/mediatek,ccorr.yaml      |  5 ++-
+ .../display/mediatek/mediatek,color.yaml      |  7 ++--
+ .../display/mediatek/mediatek,dither.yaml     |  4 +--
+ .../display/mediatek/mediatek,gamma.yaml      |  4 +--
+ .../display/mediatek/mediatek,mutex.yaml      | 25 ++++++--------
+ .../display/mediatek/mediatek,ovl-2l.yaml     |  4 +++
+ .../display/mediatek/mediatek,ovl.yaml        |  8 +++--
+ .../display/mediatek/mediatek,postmask.yaml   |  4 +++
+ .../display/mediatek/mediatek,rdma.yaml       |  7 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 33 +++++++++++++++++++
+ 11 files changed, 76 insertions(+), 32 deletions(-)
+
 -- 
 2.18.0
 
