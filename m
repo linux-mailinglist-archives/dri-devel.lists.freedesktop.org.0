@@ -1,62 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15B84CBD0B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 12:45:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C944CBD39
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 12:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9611E10E20D;
-	Thu,  3 Mar 2022 11:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237AF10E40C;
+	Thu,  3 Mar 2022 11:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7DD10E20D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 11:45:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1646307904;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=1U0RlICpC801yZ3pY7dq3Eqr5R+bRmZDq6Rw9zvDVVs=;
- b=mq6ftPqufFdfSq4Eu6iiJWsM4rQoXmcuM9eM277EAhbXY1hKkblJTEIQQd42F8SmQw
- 7GooQoTwQPnEdSrTYkSkvW/9szLvgK7SCQZr0ntfVf9VA8RGwLmSufWgfMsGoCTM0W/a
- YhYJGSex8+llRP1/aznRRyVkLlwynt4h6ga3BpkKJvkbMw4UQM5yNwwxzGBFrXKGUjuh
- fXKFz3uHCEelVvI0/Y7gqTCSywL6PjC9wMd/QGoBckdM9HJLXLNDydSeGZ90P0/W9SDy
- D0w6LUANSH0yvN/aHC2M0zDagGg+GLyigcXC6YtlMvVgxqrOOzVo2u5LDvYJm5uDDWPo
- 97Qg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw47tT+k="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.40.1 DYNA|AUTH)
- with ESMTPSA id V41e6fy23Bj4Ypx
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 3 Mar 2022 12:45:04 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v16 4/4] drm/bridge: dw-hdmi: fix bus formats negotiation
- for 8 bit modes
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <d75cd860-2a4c-6f81-b5d0-dc75f37b7150@baylibre.com>
-Date: Thu, 3 Mar 2022 12:45:03 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E5410E40C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 11:58:25 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C64D1885;
+ Thu,  3 Mar 2022 12:58:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646308703;
+ bh=3C6f/ycPKmaoNmqT3yx0OSWwR8z9czYHKLD2+cA2AYs=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=HcLMrzMg6twNzw8rD492xF5XNVV1mCMsrMN/SEs+LencIyjq2MBgzdsNW/6s3V8p0
+ juinAG1e0BwGkteKqRZy/QXaWO13t4W74+0e/TZ84q4sUUkRLIe09O/Bo8DS8fkkK0
+ mLgiPFGA1Bwew4vE7dTJHfK0f6SJMLUnXFVzIdgU=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <890BB299-AB92-4177-83E8-74C8AA551AF1@goldelico.com>
-References: <cover.1645895582.git.hns@goldelico.com>
- <169afe64b4985c3f420177cd6f4e1e72feeb2449.1645895582.git.hns@goldelico.com>
- <5da069b6-8a99-79c2-109c-c85715165857@baylibre.com>
- <E0D3B7E8-0C8D-4119-8267-0556AB921B24@goldelico.com>
- <fca28594-8d4e-dd2f-93a0-a052cb888d90@baylibre.com>
- <75CBD357-577A-402D-9E3B-DBE82A84BC43@goldelico.com>
- <4cb08b5d-c1ec-f2b4-a107-63a771146ec0@baylibre.com>
- <598F3A49-9CE2-4C59-95D4-CDA888A3B3BF@goldelico.com>
- <3625b23b-9718-640a-1aac-0b30773a26ab@baylibre.com>
- <E95145AB-DEFC-419D-B926-B0BAF0985D09@goldelico.com>
- <d75cd860-2a4c-6f81-b5d0-dc75f37b7150@baylibre.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-X-Mailer: Apple Mail (2.3445.104.21)
+In-Reply-To: <20220221171340.11113-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220221171340.11113-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220221171340.11113-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/2] drm: rcar-du: Don't select VSP1 sink on Gen3
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Date: Thu, 03 Mar 2022 11:58:21 +0000
+Message-ID: <164630870160.3471399.12354976589425521185@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Maxime Ripard <maxime@cerno.tech>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-mips <linux-mips@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org, Michael Rodin <mrodin@de.adit-jv.com>,
+ efriedrich@de.adit-jv.com, michael@rodin.online, erosca@de.adit-jv.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+Quoting Laurent Pinchart (2022-02-21 17:13:39)
+> The VSP1 sink selection through register DEFR8 is only available on Gen2
+> hardware. Skip it on Gen3.
 
-> Am 03.03.2022 um 12:42 schrieb Neil Armstrong =
-<narmstrong@baylibre.com>:
->=20
->> So how can we get that merged? IMHO your proposal should be before we =
-add ingenic-dw-hdmi.
->> If you have a version with proper commit message I can add it to the =
-beginning of my
->> seried and include it in a v17. Or if you get yours merged to =
-drm-misc/drm-misc-next I
->> can build on top.
->=20
-> You can add it in your v17 patchset with my authorship and my =
-Signed-off-by tag + yours.
->=20
-> As commit message something like :
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> drm/bridge: dw-hdmi: handle unusable or non-configured CSC module
->=20
-> The dw-hdmi integrates an optional Color Space Conversion feature used
-> to handle color-space conversions.
->=20
-> On some platforms, the CSC isn't built-in or non-functional.
->=20
-> This adds the necessary code to disable the CSC functionality
-> and limit the bus format negotiation to force using the same
-> input bus format as the output bus format.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+aha, interesting, and I see how this leads into the second patch.
 
-Fine! Will do.
+Looks fine on it's own too though:
 
-BR and thanks,
-Nikolaus
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rc=
+ar-du/rcar_du_plane.c
+> index 862197be1e01..9b058d6cb032 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> @@ -549,8 +549,10 @@ void __rcar_du_plane_setup(struct rcar_du_group *rgr=
+p,
+>                 rcar_du_plane_setup_format(rgrp, (state->hwindex + 1) % 8,
+>                                            state);
+> =20
+> -       if (rcdu->info->gen < 3)
+> -               rcar_du_plane_setup_scanout(rgrp, state);
+> +       if (rcdu->info->gen >=3D 3)
+> +               return;
+> +
+> +       rcar_du_plane_setup_scanout(rgrp, state);
+> =20
+>         if (state->source =3D=3D RCAR_DU_PLANE_VSPD1) {
+>                 unsigned int vspd1_sink =3D rgrp->index ? 2 : 0;
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
