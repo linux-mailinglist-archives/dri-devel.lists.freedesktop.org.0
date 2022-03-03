@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58D24CC92F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:37:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 069B54CC934
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 23:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4517010E3B2;
-	Thu,  3 Mar 2022 22:37:40 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F387110E38C;
- Thu,  3 Mar 2022 22:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646347058; x=1677883058;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=11J2CUQdpabO4ZfG+3yEoif29r2jD1GKLWPchj+jM2w=;
- b=e2fyq0GvYBcB7t/XUfwGFtwE5e04uq32K1lksVhDv1qy03LSUEaBy4IS
- RiEITqgsnRBXCxKkAn+nc2zpa7J5wEMMDastGT6BWRdqcMto7vxvhYybN
- Es0NLnYq2eAtBFEQksidv6kG10WHgDlhrGhlOmBL2thIHMwMnINclGvwn
- 08FmG6Q+kQwF39UXXnUIz336HNHm7GPN9hy6fUvEihjaNY/Zgc6L4WISk
- F3AMQMz3xf879dIssVE8sSbCOROIktz05txGq63mdzx7JtOZjgR/IEUNd
- RvFO2bCImuJg+8NsHFdZ0gNPFiUWffe/yzond6mAy5pjP+Bkn5Zh1Q2zk Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="233794766"
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="233794766"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2022 14:37:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; d="scan'208";a="609745295"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2022 14:37:38 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 4/4] drm/i915: Improve long running OCL w/a for GuC
- submission
-Date: Thu,  3 Mar 2022 14:37:37 -0800
-Message-Id: <20220303223737.708659-5-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220303223737.708659-1-John.C.Harrison@Intel.com>
-References: <20220303223737.708659-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id B63DA10E3B8;
+	Thu,  3 Mar 2022 22:38:16 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D4D10E3B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 22:38:15 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id yy13so4876025ejb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:38:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ST9Fc76g6pvjQi4fhR+noZ4Seq3datbHBQS0X9jUxZ8=;
+ b=FrOz5ub3zWjEQK22ZLwg3u+vEvcmxk5pcWahe3+zoJFfvsvs0UQBjv/AElEkUlyAw9
+ EePN55pYYRl4RbnXJxniWi54yJRwLRFnUpNNgmipiWdmEHy76MIi5bA6dIIROOGw5+9j
+ DlrsvRRt7Ab5hlgGMIvKwZMS89rVmz14yqa6Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ST9Fc76g6pvjQi4fhR+noZ4Seq3datbHBQS0X9jUxZ8=;
+ b=XOyNOURyHQAVh5evfJL8xB+s1+FILThCwsMR85fMx9RDorHS55ALMetvOLlqBk361C
+ kVfiwcGJO/037qjwIGP2Nmkeu1Fc17KSKlOFqWlX3KMbyy6pbVhRRnWXMV+RO/ocv8DW
+ tshI563sKOFlJ7O21Z9CfbMsAHqAHzxUz1HjYbjgUy84VyAtYegGeQScE3EoCJe+s8BC
+ Zt7SnvHDnT3uOyE1g5ge925SUO6GYzjdfW2EOlV2F6CpS1l9maFsOZUGx1FmzcmdmVkY
+ 4dBdbLgRe8SR8L5SMGGZ0JUCvCWkutHQ4E07J2A6jvwd5CDHFQBxuInmnC+HhfQl88hl
+ mq2A==
+X-Gm-Message-State: AOAM530pMEXux7ayT4gp+pMOrlODeYQkuohCNnUia25GoQx6BvI2aq/Q
+ B83bnBqa4/yUesav7zXdRmxwj7WqHuEhFQ==
+X-Google-Smtp-Source: ABdhPJzWiMy3HqTT2Qy9/8L2V4GY71JDuBgU/9nhNsYsqa+PxngWpS/KxZe3QH6q3ccP02PgoAnq1w==
+X-Received: by 2002:a17:906:3fd4:b0:6da:8ab0:a882 with SMTP id
+ k20-20020a1709063fd400b006da8ab0a882mr4664498ejj.572.1646347094022; 
+ Thu, 03 Mar 2022 14:38:14 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ o2-20020a50d802000000b00410d7f0c52csm1419703edj.8.2022.03.03.14.38.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 14:38:13 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id
+ l2-20020a7bc342000000b0037fa585de26so4564446wmj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 14:38:13 -0800 (PST)
+X-Received: by 2002:a7b:c381:0:b0:37b:e01f:c1c0 with SMTP id
+ s1-20020a7bc381000000b0037be01fc1c0mr5453850wmj.98.1646347092922; Thu, 03 Mar
+ 2022 14:38:12 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+References: <1646300401-9063-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1646300401-9063-2-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1646300401-9063-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 3 Mar 2022 14:38:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VHBn0H6Oz0F3vHrXZzSSo8y+QbLc-xn+CVVSQkommsHw@mail.gmail.com>
+Message-ID: <CAD=FV=VHBn0H6Oz0F3vHrXZzSSo8y+QbLc-xn+CVVSQkommsHw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] arm64/dts/qcom/sc7280: remove assigned-clock-rate
+ property for mdp clk
+To: Vinod Polimera <quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,106 +74,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Mrozek <michal.mrozek@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: quic_kalyant@quicinc.com,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi,
 
-A workaround was added to the driver to allow OpenCL workloads to run
-'forever' by disabling pre-emption on the RCS engine for Gen12.
-It is not totally unbound as the heartbeat will kick in eventually
-and cause a reset of the hung engine.
+On Thu, Mar 3, 2022 at 1:40 AM Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
+>
+> Kernel clock driver assumes that initial rate is the
+> max rate for that clock and was not allowing it to scale
+> beyond the assigned clock value.
+>
+> Drop the assigned clock rate property and vote on the mdp clock as per
+> calculated value during the usecase.
 
-However, this does not work well in GuC submission mode. In GuC mode,
-the pre-emption timeout is how GuC detects hung contexts and triggers
-a per engine reset. Thus, disabling the timeout means also losing all
-per engine reset ability. A full GT reset will still occur when the
-heartbeat finally expires, but that is a much more destructive and
-undesirable mechanism.
+I see the "Drop the assigned clock rate property" part, but where is
+the "and vote on the mdp clock" part? Did it already land or
+something? I definitely see that commit 5752c921d267 ("drm/msm/dpu:
+simplify clocks handling") changed a bunch of this but it looks like
+dpu_core_perf_init() still sets "max_core_clk_rate" to whatever the
+clock was at bootup. I assume you need to modify that function to call
+into the OPP layer to find the max frequency?
 
-The purpose of the workaround is actually to give OpenCL tasks longer
-to reach a pre-emption point after a pre-emption request has been
-issued. This is necessary because Gen12 does not support mid-thread
-pre-emption and OpenCL can have long running threads.
 
-So, rather than disabling the timeout completely, just set it to a
-'long' value.
+> Changes in v2:
+> - Remove assigned-clock-rate property and set mdp clk during resume sequence.
+> - Add fixes tag.
+>
+> Changes in v3:
+> - Remove extra line after fixes tag.(Stephen Boyd)
+>
+> Fixes: 62fbdce91("arm64: dts: qcom: sc7280: add display dt nodes")
 
-v2: Review feedback from Tvrtko - must hard code the 'long' value
-instead of determining it algorithmically. So make it an extra CONFIG
-definition. Also, remove the execlist centric comment from the
-existing pre-emption timeout CONFIG option given that it applies to
-more than just execlists.
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> (v1)
-Acked-by: Michal Mrozek <michal.mrozek@intel.com>
----
- drivers/gpu/drm/i915/Kconfig.profile      | 26 +++++++++++++++++++----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c |  9 ++++++--
- 2 files changed, 29 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
-index 39328567c200..7cc38d25ee5c 100644
---- a/drivers/gpu/drm/i915/Kconfig.profile
-+++ b/drivers/gpu/drm/i915/Kconfig.profile
-@@ -57,10 +57,28 @@ config DRM_I915_PREEMPT_TIMEOUT
- 	default 640 # milliseconds
- 	help
- 	  How long to wait (in milliseconds) for a preemption event to occur
--	  when submitting a new context via execlists. If the current context
--	  does not hit an arbitration point and yield to HW before the timer
--	  expires, the HW will be reset to allow the more important context
--	  to execute.
-+	  when submitting a new context. If the current context does not hit
-+	  an arbitration point and yield to HW before the timer expires, the
-+	  HW will be reset to allow the more important context to execute.
-+
-+	  This is adjustable via
-+	  /sys/class/drm/card?/engine/*/preempt_timeout_ms
-+
-+	  May be 0 to disable the timeout.
-+
-+	  The compiled in default may get overridden at driver probe time on
-+	  certain platforms and certain engines which will be reflected in the
-+	  sysfs control.
-+
-+config DRM_I915_PREEMPT_TIMEOUT_COMPUTE
-+	int "Preempt timeout for compute engines (ms, jiffy granularity)"
-+	default 7500 # milliseconds
-+	help
-+	  How long to wait (in milliseconds) for a preemption event to occur
-+	  when submitting a new context to a compute capable engine. If the
-+	  current context does not hit an arbitration point and yield to HW
-+	  before the timer expires, the HW will be reset to allow the more
-+	  important context to execute.
- 
- 	  This is adjustable via
- 	  /sys/class/drm/card?/engine/*/preempt_timeout_ms
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 4185c7338581..cc0954ad836a 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -438,9 +438,14 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
- 	engine->props.timeslice_duration_ms =
- 		CONFIG_DRM_I915_TIMESLICE_DURATION;
- 
--	/* Override to uninterruptible for OpenCL workloads. */
-+	/*
-+	 * Mid-thread pre-emption is not available in Gen12. Unfortunately,
-+	 * some OpenCL workloads run quite long threads. That means they get
-+	 * reset due to not pre-empting in a timely manner. So, bump the
-+	 * pre-emption timeout value to be much higher for compute engines.
-+	 */
- 	if (GRAPHICS_VER(i915) == 12 && (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE))
--		engine->props.preempt_timeout_ms = 0;
-+		engine->props.preempt_timeout_ms = CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE;
- 
- 	/* Cap properties according to any system limits */
- #define CLAMP_PROP(field) \
--- 
-2.25.1
-
+Having a "Fixes" is good, but presumably you need a code change along
+with this, right? Otherwise if someone picks this back to stable then
+they'll end up breaking, right? We need to tag / note that _somehow_.
