@@ -2,78 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE99B4CC701
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 21:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847454CC713
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 21:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7494310EF96;
-	Thu,  3 Mar 2022 20:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DFA810F00F;
+	Thu,  3 Mar 2022 20:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64DA10EF96
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 20:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646338793;
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BDD10F00F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 20:31:54 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 354EFC8496
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 20:26:37 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id D6AC91BF209;
+ Thu,  3 Mar 2022 20:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1646339192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W+Yb3jSVbGXS2UsBEDl+Z51/w7cVcv7OgJoaeEwhScE=;
- b=Q3Vu7866MDdY7xCJLeI1VGCExy3Ut+fs8dJZWMzJh9tsGFzYYkdqLn4DmIRT+3DlOty1B5
- MK73fsmQ5ofG+iVsqpZODN+cHpMIW6TS96gugY+1raJD8oofN4BxBZKjQbSB4vRxUCnadg
- v0ymSJ1LiCls/lg28H8Xy8yjbMG5lpI=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-NqnvXNARM6GRxG8z8irpfA-1; Thu, 03 Mar 2022 15:19:50 -0500
-X-MC-Unique: NqnvXNARM6GRxG8z8irpfA-1
-Received: by mail-oi1-f199.google.com with SMTP id
- o2-20020a0568080bc200b002d64d89d460so3894136oik.17
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 12:19:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W+Yb3jSVbGXS2UsBEDl+Z51/w7cVcv7OgJoaeEwhScE=;
- b=yW9OEw/QTPA8Kg9hNbvBncrwzYDx1kmYNWzaAZdd3t1BeADVl3kgxqYvxvWSmOMMnM
- J5OKpL91p7XYczrjQMMmDvDaU84im0wtPQjCAEBWfMuoNU9gMWt6PU46WMZm48HZqCer
- 8Zmdrhr9Eo8vid89CoViEcTU16LzY8sDUCAeymWnBkuHuAXe/iasbyBu5ImEUVa4UaBa
- PtLfBfZs4NwoYJ6mUc34Dm/fo28gDLdkSREtns7dnOL1tuWo9olmDEZXyOJ7PJQSEuwH
- hPZVIuF8Cr8YSJm0p1jKebCONwPOznC9dL/QLf1TmHkFuy245afobYC0j8dK6d2LsYq9
- W4LQ==
-X-Gm-Message-State: AOAM533uK81QLVc+0tPZeqLaRy8C7gZyR3AVAabj5cyScuxFobqaSOqM
- nxjJ7E58kE4eqOIJrKSfQGLm3uKU3SFYxXabx898C91XhgPWVaK/v+2howxO9jymfs+ErYKkH0A
- qmu6ljGiYnZiqKf4gyxtHv3YCpeqH
-X-Received: by 2002:a05:6870:128c:b0:ce:c0c9:5ba with SMTP id
- 12-20020a056870128c00b000cec0c905bamr5481243oal.12.1646338789965; 
- Thu, 03 Mar 2022 12:19:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9UL7z0i5c0I1zBYkPbE2sDhIbft3n5S0zsg8O5Iu/S8GWiXtXSO4aUx3Hz5c0J+4lOC6M2Q==
-X-Received: by 2002:a05:6870:128c:b0:ce:c0c9:5ba with SMTP id
- 12-20020a056870128c00b000cec0c905bamr5481217oal.12.1646338789724; 
- Thu, 03 Mar 2022 12:19:49 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- 52-20020a9d0bb7000000b005afa463d9f8sm1411532oth.19.2022.03.03.12.19.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 12:19:49 -0800 (PST)
-From: trix@redhat.com
-To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- nathan@kernel.org, ndesaulniers@google.com, xji@analogixsemi.com,
- hsinyi@chromium.org, sam@ravnborg.org, tzungbi@google.com,
- pihsun@chromium.org, maxime@cerno.tech
-Subject: [PATCH] drm/bridge: anx7625: check the return on anx7625_aux_trans
-Date: Thu,  3 Mar 2022 12:19:43 -0800
-Message-Id: <20220303201943.501746-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ in-reply-to:in-reply-to:references:references;
+ bh=OSOJ3kuQzCkZua/OeYAqnp+UFLiftx3F4xeTpKuHtx8=;
+ b=bh6rpPVyHNxR10+DtwREKZgssQo0qhISq9txvfa6DW7D2wJbt+di9KAWOBOXsi0X/UJH5Z
+ KEVi184duAp5nPl+TAO5XD1zInCfdm4Ej1JVMwpylVkWeYKZpBZFPxqqlCQFdoOwfAIl88
+ YLd4iHcD6S9oB/rAe+fn6ls+TSJHg8JnF+Yd9V/fEM3O/5T1zxIVty8ML8iNRSsgg+J0Te
+ ZXUd/Ekh+pmL++++c44edrw7PPgD9G+7gocrh6IuEZpDOHvS0yRW5Kze9gifHR2mUWsY1G
+ FCrMheRjmqR4B8mLAxni7AT1E7mzxOM2Uc0mEkcv9VnBXXiXEiOlWqasii0krA==
+Date: Thu, 3 Mar 2022 21:26:30 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v4] drm: of: Lookup if child node has panel or bridge
+Message-ID: <YiEkaBO/lz05DkAD@aptenodytes>
+References: <20220202160414.16493-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qKAQr4fJrEuSA+RI"
+Content-Disposition: inline
+In-Reply-To: <20220202160414.16493-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,44 +52,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-amarula@amarulasolutions.com,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
 
-Clang static analysis reports this issue
-anx7625.c:876:13: warning: The left operand of '&' is
-  a garbage value
-  if (!(bcap & 0xOA01)) {
-        ~~~~ ^
+--qKAQr4fJrEuSA+RI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-bcap is only set by a successful call to
-anx7625_aux_trans().  So check.
+Hi Jagan,
 
-Fixes: cd1637c7e480 ("drm/bridge: anx7625: add HDCP support")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Wed 02 Feb 22, 21:34, Jagan Teki wrote:
+> Devices can also be child nodes when we also control that device
+> through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+>=20
+> drm_of_find_panel_or_bridge can lookup panel or bridge for a given
+> device has port and endpoint and it fails to lookup if the device
+> has a child nodes.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 633618bafd75d..f02ac079ed2ec 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -872,7 +872,10 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- 	}
- 
- 	/* Read downstream capability */
--	anx7625_aux_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
-+	ret = anx7625_aux_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
-+	if (ret < 0)
-+		return ret;
-+
- 	if (!(bcap & 0x01)) {
- 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
- 		return 0;
--- 
-2.26.3
+This patch breaks the logicvc drm driver that I'm currently developping.
+The symptom is that drm_of_find_panel_or_bridge now always returns
+-EPROBE_DEFER even after the panel has probed and is running well.
+It seems that the function can no longer find the panel.
 
+I haven't figured out the details, but reverting your patch makes
+it work again. I suspect other drivers might be affected as well, so
+it would probably be a good idea to revert the patch until the root
+cause is clearly understood and the patch can be adapted accordingly.
+
+Here is what the device-tree looks like:
+
+/ {
+	panel: panel-lvds {
+		compatible =3D "panel-lvds";
+
+		[...]
+
+		port {
+			#address-cells =3D <1>;
+			#size-cells =3D <0>;
+
+			panel_input: endpoint@0 {
+				reg =3D <0>;
+				remote-endpoint =3D <&logicvc_output>;
+			};
+		};
+	};
+};
+
+&amba {
+	logicvc: logicvc@43c00000 {
+		compatible =3D "xylon,logicvc-3.02.a", "syscon", "simple-mfd";
+		reg =3D <0x43c00000 0x6000>;
+
+		#address-cells =3D <1>;
+		#size-cells =3D <1>;
+
+		[...]
+
+		logicvc_display: display-engine@0 {
+			compatible =3D "xylon,logicvc-4.01.a-display";
+
+			[...]
+
+			port {
+				#address-cells =3D <1>;
+				#size-ce/lls =3D <0>;
+
+				logicvc_output: endpoint@0 {
+					reg =3D <0>;
+					remote-endpoint =3D <&panel_input>;
+				};
+			};
+		};
+	};
+};
+
+Cheers,
+
+Paul
+
+> This patch add support to lookup for a child node of the given parent
+> that isn't either port or ports.
+>=20
+> Example OF graph representation of DSI host, which has port but
+> not has ports and has child panel node.
+>=20
+> dsi {
+> 	compatible =3D "allwinner,sun6i-a31-mipi-dsi";
+> 	#address-cells =3D <1>;
+> 	#size-cells =3D <0>;
+>=20
+> 	port {
+> 		dsi_in_tcon0: endpoint {
+> 			remote-endpoint =3D <tcon0_out_dsi>;
+> 	};
+>=20
+> 	panel@0 {
+> 		reg =3D <0>;
+> 	};
+> };
+>=20
+> Example OF graph representation of DSI host, which has ports but
+> not has port and has child panel node.
+>=20
+> dsi {
+>         compatible =3D "samsung,exynos5433-mipi-dsi";
+>         #address-cells =3D <1>;
+>         #size-cells =3D <0>;
+>=20
+> 	ports {
+> 		#address-cells =3D <1>;
+> 		#size-cells =3D <0>;
+>=20
+> 		port@0 {
+> 			reg =3D <0>;
+>=20
+>                 	dsi_to_mic: endpoint {
+>                         	remote-endpoint =3D <&mic_to_dsi>;
+>                 	};
+>                 };
+>         };
+>=20
+>         panel@0 {
+>                 reg =3D <0>;
+>         };
+> };
+>=20
+> Example OF graph representation of DSI host, which has neither a port
+> nor a ports but has child panel node.
+>=20
+> dsi0 {
+> 	compatible =3D "ste,mcde-dsi";
+> 	#address-cells =3D <1>;
+> 	#size-cells =3D <0>;
+>=20
+> 	panel@0 {
+> 		reg =3D <0>;
+> 	};
+> };
+>=20
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> Changes for v4:
+> - update comments and commit message
+> Changes for v3:
+> - updated based on other usecase where 'ports' used along with child
+> Changes for v2:
+> - drop of helper
+> https://patchwork.kernel.org/project/dri-devel/cover/20211207054747.46102=
+9-1-jagan@amarulasolutions.com/
+> - support 'port' alone OF graph
+> - updated comments
+> - added simple code
+>=20
+>  drivers/gpu/drm/drm_of.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 59d368ea006b..9d90cd75c457 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -249,6 +249,21 @@ int drm_of_find_panel_or_bridge(const struct device_=
+node *np,
+>  	if (panel)
+>  		*panel =3D NULL;
+> =20
+> +	/**
+> +	 * Devices can also be child nodes when we also control that device
+> +	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+> +	 *
+> +	 * Lookup for a child node of the given parent that isn't either port
+> +	 * or ports.
+> +	 */
+> +	for_each_available_child_of_node(np, remote) {
+> +		if (of_node_name_eq(remote, "port") ||
+> +		    of_node_name_eq(remote, "ports"))
+> +			continue;
+> +
+> +		goto of_find_panel_or_bridge;
+> +	}
+> +
+>  	/*
+>  	 * of_graph_get_remote_node() produces a noisy error message if port
+>  	 * node isn't found and the absence of the port is a legit case here,
+> @@ -259,6 +274,8 @@ int drm_of_find_panel_or_bridge(const struct device_n=
+ode *np,
+>  		return -ENODEV;
+> =20
+>  	remote =3D of_graph_get_remote_node(np, port, endpoint);
+> +
+> +of_find_panel_or_bridge:
+>  	if (!remote)
+>  		return -ENODEV;
+> =20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--qKAQr4fJrEuSA+RI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIhJHYACgkQ3cLmz3+f
+v9FQpggAnC+9Vu+MTKOF5lbIfhAwANmGaaiTc7V+3btrmKbEQA7DkbZdBDiN+iwA
+aJZOyWZpeM2ZMqgDAb71zqrlNZ0jOBFNGOLhgOGHQHCZ9vKnUrBd9VfnHiP1gs/i
+JbBsNNbaOVjRq5i9pjG35muORiXSqnZRZ+8lZaUtSVyVWGSJquACCWJzc/cVjNyr
+tyMUSxCACq4j1N8akExapLUc+PfUu/mhxNlCMxw8MhI8ikSIcM6vdp1aFw/VYRCH
+DxjdsNRl68gjvNcFM9r3hW5OX1ZSYkcJ0MCQabBkDxTJPnVAwz+ud7LMvv9adRVA
+ZbCIrk9W2fBhmBuRFZkjEvkv1W9K2w==
+=a3nY
+-----END PGP SIGNATURE-----
+
+--qKAQr4fJrEuSA+RI--
