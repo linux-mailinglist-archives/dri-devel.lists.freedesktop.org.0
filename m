@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5503B4CBA2D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 10:28:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 898AD4CBA34
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 10:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D05C10EBD2;
-	Thu,  3 Mar 2022 09:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7B310E248;
+	Thu,  3 Mar 2022 09:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2F510EBD2;
- Thu,  3 Mar 2022 09:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646299714; x=1677835714;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=O6WsRZr2GyMu3wgt5/RvryWKIuOxg4xdSh9hQqs3lPY=;
- b=HstlfHFc0i/x8zidRUMn59CumSkqqyXpXDP4l2vkEoR3uApLwJeH5QZn
- 7DgP/eAkJvO6DypvOgPJ9h/shdDBgl0Torpn4fwTqRExsLyyQaWkG/pLA
- 7SVRxOVtUuv9d9CUccd2LNInnlPEt1JPOAwa5aTX4L3LQD/62PaFQ6XT/
- pF6ywn1BffjvKNckCadh42QrS6+qF02lgPTB5TwEMa8xYyp71iu8X0rNF
- TdSdDA4y3WlO/+0XCBFG8dim0/cfY0EDdEP1S/PvvbgxD47j3tOHAbJF1
- FIAcFDU3BFo0W+VM+PiUb2Gk+SSaHZifVQ7xDkbIvCNt+1HY8ZpPepLTy w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="251201886"
-X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; d="scan'208";a="251201886"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2022 01:28:33 -0800
-X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; d="scan'208";a="709856285"
-Received: from mgheorgh-mobl1.ger.corp.intel.com (HELO [10.252.53.16])
- ([10.252.53.16])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2022 01:28:31 -0800
-Message-ID: <48fabd78-ade9-f80b-c724-13726c7be69e@linux.intel.com>
-Date: Thu, 3 Mar 2022 10:28:29 +0100
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68DF610EB63
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 09:30:19 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-318-HvTdrMxlM1W3jsGT6It_3A-1; Thu, 03 Mar 2022 09:30:16 +0000
+X-MC-Unique: HvTdrMxlM1W3jsGT6It_3A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Thu, 3 Mar 2022 09:30:14 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Thu, 3 Mar 2022 09:30:14 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+QgADRVYCAACVtoIAALj+AgAAE1XA=
+Date: Thu, 3 Mar 2022 09:30:14 +0000
+Message-ID: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
+References: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
+ <20220303072657.11124-1-xiam0nd.tong@gmail.com>
+In-Reply-To: <20220303072657.11124-1-xiam0nd.tong@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.0
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,216 +61,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "h.j.bos@vu.nl" <h.j.bos@vu.nl>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "keescook@chromium.org" <keescook@chromium.org>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+ "jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
+ "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "rppt@kernel.org" <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-next-2022-03-03:
-drm-misc-next for v5.18:
+RnJvbTogWGlhb21lbmcgVG9uZw0KPiBTZW50OiAwMyBNYXJjaCAyMDIyIDA3OjI3DQo+IA0KPiBP
+biBUaHUsIDMgTWFyIDIwMjIgMDQ6NTg6MjMgKzAwMDAsIERhdmlkIExhaWdodCB3cm90ZToNCj4g
+PiBvbiAzIE1hciAyMDIyIDEwOjI3OjI5ICswODAwLCBYaWFvbWVuZyBUb25nIHdyb3RlOg0KPiA+
+ID4gVGhlIHByb2JsZW0gaXMgdGhlIG1pcy11c2Ugb2YgaXRlcmF0b3Igb3V0c2lkZSB0aGUgbG9v
+cCBvbiBleGl0LCBhbmQNCj4gPiA+IHRoZSBpdGVyYXRvciB3aWxsIGJlIHRoZSBIRUFEJ3MgY29u
+dGFpbmVyX29mIHBvaW50ZXIgd2hpY2ggcG9pbnRlcnMNCj4gPiA+IHRvIGEgdHlwZS1jb25mdXNl
+ZCBzdHJ1Y3QuIFNpZGVub3RlOiBUaGUgKm1pcy11c2UqIGhlcmUgcmVmZXJzIHRvDQo+ID4gPiBt
+aXN0YWtlbHkgYWNjZXNzIHRvIG90aGVyIG1lbWJlcnMgb2YgdGhlIHN0cnVjdCwgaW5zdGVhZCBv
+ZiB0aGUNCj4gPiA+IGxpc3RfaGVhZCBtZW1iZXIgd2hpY2ggYWN1dGFsbHkgaXMgdGhlIHZhbGlk
+IEhFQUQuDQo+ID4NCj4gPiBUaGUgcHJvYmxlbSBpcyB0aGF0IHRoZSBIRUFEJ3MgY29udGFpbmVy
+X29mIHBvaW50ZXIgc2hvdWxkIG5ldmVyDQo+ID4gYmUgY2FsY3VsYXRlZCBhdCBhbGwuDQo+ID4g
+VGhpcyBpcyB3aGF0IGlzIGZ1bmRhbWVudGFsbHkgYnJva2VuIGFib3V0IHRoZSBjdXJyZW50IGRl
+ZmluaXRpb24uDQo+IA0KPiBZZXMsIHRoZSBydWxlIGlzICJ0aGUgSEVBRCdzIGNvbnRhaW5lcl9v
+ZiBwb2ludGVyIHNob3VsZCBuZXZlciBiZQ0KPiBjYWxjdWxhdGVkIGF0IGFsbCBvdXRzaWRlIHRo
+ZSBsb29wIiwgYnV0IGhvdyBkbyB5b3UgbWFrZSBzdXJlIGV2ZXJ5b25lDQo+IGZvbGxvd3MgdGhp
+cyBydWxlPw0KPiBFdmVyeW9uZSBtYWtlcyBtaXN0YWtlcywgYnV0IHdlIGNhbiBlbGltaW5hdGUg
+dGhlbSBhbGwgZnJvbSB0aGUgYmVnaW5uaW5nDQo+IHdpdGggdGhlIGhlbHAgb2YgY29tcGlsZXIg
+d2hpY2ggY2FuIGNhdGNoIHN1Y2ggdXNlLWFmdGVyLWxvb3AgdGhpbmdzLg0KPiANCj4gPiA+IElP
+VywgeW91IHdvdWxkIGRlcmVmZXJlbmNlIGEgKE5VTEwgKyBvZmZzZXRfb2ZfbWVtYmVyKSBhZGRy
+ZXNzIGhlcmUuDQo+ID4NCj4gPldoZXJlPw0KPiANCj4gSW4gdGhlIGNhc2Ugd2hlcmUgYSBkZXZl
+bG9wZXIgZG8gbm90IGZvbGxvd3MgdGhlIGFib3ZlIHJ1bGUsIGFuZCBtaXN0YWtlbHkNCj4gYWNj
+ZXNzIGEgbm9uLWxpc3QtaGVhZCBtZW1iZXIgb2YgdGhlIEhFQUQncyBjb250YWluZXJfb2YgcG9p
+bnRlciBvdXRzaWRlDQo+IHRoZSBsb29wLiBGb3IgZXhhbXBsZToNCj4gICAgIHN0cnVjdCByZXF7
+DQo+ICAgICAgIGludCBhOw0KPiAgICAgICBzdHJ1Y3QgbGlzdF9oZWFkIGg7DQo+ICAgICB9DQo+
+ICAgICBzdHJ1Y3QgcmVxICpyOw0KPiAgICAgbGlzdF9mb3JfZWFjaF9lbnRyeShyLCBIRUFELCBo
+KSB7DQo+ICAgICAgIGlmIChyLT5hID09IDB4MTApDQo+ICAgICAgICAgYnJlYWs7DQo+ICAgICB9
+DQo+ICAgICAvLyB0aGUgZGV2ZWxvcGVyIG1hZGUgYSBtaXN0YWtlOiBoZSBkaWRuJ3QgdGFrZSB0
+aGlzIHNpdHVhdGlvbiBpbnRvDQo+ICAgICAvLyBhY2NvdW50IHdoZXJlIGFsbCBlbnRyaWVzIGlu
+IHRoZSBsaXN0IGFyZSAqci0+YSAhPSAweDEwKiwgYW5kIG5vdw0KPiAgICAgLy8gdGhlIHIgaXMg
+dGhlIEhFQUQncyBjb250YWluZXJfb2YgcG9pbnRlci4NCj4gICAgIHItPmEgPSAweDIwOw0KPiBU
+aHVzIHRoZSAici0+YSA9IDB4MjAiIHdvdWxkIGRlcmVmZXJlbmNlIGEgKE5VTEwgKyBvZmZzZXRf
+b2ZfbWVtYmVyKQ0KPiBhZGRyZXNzIGhlcmUuDQoNClRoYXQgaXMganVzdCBhIGJ1Zy4NCk5vIGRp
+ZmZlcmVudCB0byBmYWlsaW5nIHRvIGNoZWNrIGFueXRoaW5nIGVsc2UgbWlnaHQgJ3JldHVybicN
+CmEgTlVMTCBwb2ludGVyLg0KQmVjYXVzZSBpdCBpcyBhIE5VTEwgZGVyZWZlcmVuY2UgeW91IGZp
+bmQgb3V0IHByZXR0eSBxdWlja2x5Lg0KVGhlIGV4aXN0aW5nIGxvb3AgbGVhdmVzIHlvdSB3aXRo
+IGEgdmFsaWQgcG9pbnRlciB0byBzb21ldGhpbmcNCnRoYXQgaXNuJ3QgYSBsaXN0IGl0ZW0uDQoN
+Cj4gPiA+IFBsZWFzZSByZW1pbmQgbWUgaWYgaSBtaXNzZWQgc29tZXRoaW5nLCB0aGFua3MuDQo+
+ID4gPg0KPiA+ID4gQ2FuIHlvdSBzaGFyZSB5b3VyICJhbHRlcm5hdGl2ZSBkZWZpbml0aW9ucyIg
+ZGV0YWlscz8gdGhhbmtzIQ0KPiA+DQo+ID4gVGhlIGxvb3Agc2hvdWxkIHByb2JhYmx5IHVzZSBh
+cyBleHRyYSB2YXJpYWJsZSB0aGF0IHBvaW50cw0KPiA+IHRvIHRoZSAnbGlzdCBub2RlJyBpbiB0
+aGUgbmV4dCBzdHJ1Y3R1cmUuDQo+ID4gU29tZXRoaW5nIGxpa2U6DQo+ID4gCWZvciAoeHh4ICpp
+dGVyID0gaGVhZC0+bmV4dDsNCj4gPiAJCWl0ZXIgPT0gJmhlYWQgPyAoKGl0ZW0gPSBOVUxMKSww
+KSA6ICgoaXRlbSA9IGxpc3RfaXRlbShpdGVyKSwxKSk7DQo+ID4gCQlpdGVyID0gaXRlbS0+bWVt
+YmVyLT5uZXh0KSB7DQo+ID4gCSAgIC4uLg0KPiA+IFdpdGggYSBiaXQgb2YgY2FzdGluZyB5b3Ug
+Y2FuIHVzZSAnaXRlbScgdG8gaG9sZCAnaXRlcicuDQo+IA0KPiB5b3Ugc3RpbGwgY2FuIG5vdCBt
+YWtlIHN1cmUgZXZlcnlvbmUgZm9sbG93cyB0aGlzIHJ1bGU6DQo+ICJkbyBub3QgdXNlIGl0ZXJh
+dG9yIG91dHNpZGUgdGhlIGxvb3AiIHdpdGhvdXQgdGhlIGhlbHAgb2YgY29tcGlsZXIsDQo+IGJl
+Y2F1c2UgaXRlbSBpcyBkZWNsYXJlZCBvdXRzaWRlIHRoZSBsb29wLg0KDQpUaGF0IG9uZSBoYXMg
+J2l0ZXInIGRlZmluZWQgaW4gdGhlIGxvb3AuDQoNCj4gQlRXLCB0byBhdm9pZCBhbWJpZ3VpdHnv
+vIx0aGUgImFsdGVybmF0aXZlIGRlZmluaXRpb25zIiBoZXJlIGkgYXNrZWQgaXMNCj4gc29tZXRo
+aW5nIGZyb20geW91IGluIHRoaXMgY29udGV4dDoNCj4gIk9UT0ggdGhlcmUgbWF5IGJlIGFsdGVy
+bmF0aXZlIGRlZmluaXRpb25zIHRoYXQgY2FuIGJlIHVzZWQgdG8gZ2V0DQo+IHRoZSBjb21waWxl
+ciAob3Igb3RoZXIgY29tcGlsZXItbGlrZSB0b29scykgdG8gZGV0ZWN0IGJyb2tlbiBjb2RlLg0K
+PiBFdmVuIGlmIHRoZSBkZWZpbml0aW9uIGNhbid0IHBvc3NpYmx5IGdlbmVyYXRlIGEgd29ya2lu
+ZyBrZXJybmVsLiINCg0KSSB3YXMgdGhpbmtpbmcgb2Ygc29tZXRoaW5nIGxpa2U6DQoJaWYgKChw
+b3MgPSBsaXN0X2ZpcnN0KSksIDEpIHBvcyA9IE5VTEwgZWxzZQ0Kc28gdGhhdCB1bmNoZWNrZWQg
+ZGVyZWZlcmVuY2VzIGFmdGVyIHRoZSBsb29wIHdpbGwgYmUgZGV0ZWN0YWJsZQ0KYXMgTlVMTCBw
+b2ludGVyIG9mZnNldHMgLSBidXQgdGhhdCBpbiBpdHNlbGYgaXNuJ3QgZW5vdWdoIHRvIGF2b2lk
+DQpvdGhlciB3YXJuaW5ncy4NCg0KPiA+ID4gVGhlICJsaXN0X2Zvcl9lYWNoX2VudHJ5X2luc2lk
+ZShwb3MsIHR5cGUsIGhlYWQsIG1lbWJlcikiIHdheSBtYWtlcw0KPiA+ID4gdGhlIGl0ZXJhdG9y
+IGludmlzaWFibGUgb3V0c2lkZSB0aGUgbG9vcCwgYW5kIHdvdWxkIGJlIGNhdGNoZWQgYnkNCj4g
+PiA+IGNvbXBpbGVyIGlmIHVzZS1hZnRlci1sb29wIHRoaW5ncyBoYXBwZW5lZC4NCj4gDQo+ID4g
+SXQgaXMgYWxzbyBhIGNvbXBldGUgUElUQSBmb3IgYW55dGhpbmcgZG9pbmcgYSBzZWFyY2guDQo+
+IA0KPiBZb3UgbWVhbiBpdCB3b3VsZCBiZSBhIGJ1cmRlbiBvbiBzZWFyY2g/IGNhbiB5b3Ugc2hv
+dyBtZSBzb21lIGV4YW1wbGVzPw0KDQpUaGUgd2hvbGUgYnVzaW5lc3Mgb2YgaGF2aW5nIHRvIHNh
+dmUgdGhlIHBvaW50ZXIgdG8gdGhlIGxvY2F0ZWQgaXRlbQ0KYmVmb3JlIGJyZWFraW5nIHRoZSBs
+b29wLCByZW1lbWJlcmluZyB0byBoYXZlIHNldCBpdCB0byBOVUxMIGVhcmxpZXIgZXRjLg0KDQpJ
+dCBpcyBzbyBtdWNoIGJldHRlciBpZiB5b3UgY2FuIGp1c3QgZG86DQoJCWlmIChmb3VuZCkNCgkJ
+CWJyZWFrOw0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFt
+bGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3Ry
+YXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-UAPI Changes:
-
-Cross-subsystem Changes:
-- Improve performance of some fbdev ops, in some cases up to 6x faster.
-
-Core Changes:
-- Some small DP fixes.
-- Find panels in subnodes of OF devices, and add of_get_drm_panel_display_mode
-  to retrieve mode.
-- Add drm_object_property_get_default_value and use it for resetting
-  zpos in plane state reset, removing the need for individual drivers
-  to do it.
-- Same for color encoding and color range props.
-- Update panic handling todo doc.
-- Add todo that format conversion helpers should be sped up similarly to fbdev ops.
-
-Driver Changes:
-- Add panel orientation property to simpledrm for quirked panels.
-- Assorted small fixes to tiny/repaper, nouveau, stm, omap, ssd130x.
-- Add crc support to stm/ltdc.
-- Add MIPI DBI compatible SPI driver
-- Assorted small fixes to tiny panels and bridge drivers.
-- Add AST2600 support to aspeed.
-The following changes since commit f915686bd97a9c234602426e6d132b74a112a8d6:
-
-  drm/selftests: add drm buddy pathological testcase (2022-02-23 10:46:32 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2022-03-03
-
-for you to fetch changes up to 701920ca9822eb63b420b3bcb627f2c1ec759903:
-
-  drm/ssd130x: remove redundant initialization of pointer mode (2022-03-03 09:28:55 +0100)
-
-----------------------------------------------------------------
-drm-misc-next for v5.18:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-- Improve performance of some fbdev ops, in some cases up to 6x faster.
-
-Core Changes:
-- Some small DP fixes.
-- Find panels in subnodes of OF devices, and add of_get_drm_panel_display_mode
-  to retrieve mode.
-- Add drm_object_property_get_default_value and use it for resetting
-  zpos in plane state reset, removing the need for individual drivers
-  to do it.
-- Same for color encoding and color range props.
-- Update panic handling todo doc.
-- Add todo that format conversion helpers should be sped up similarly to fbdev ops.
-
-Driver Changes:
-- Add panel orientation property to simpledrm for quirked panels.
-- Assorted small fixes to tiny/repaper, nouveau, stm, omap, ssd130x.
-- Add crc support to stm/ltdc.
-- Add MIPI DBI compatible SPI driver
-- Assorted small fixes to tiny panels and bridge drivers.
-- Add AST2600 support to aspeed.
-
-----------------------------------------------------------------
-Cai Huoqing (1):
-      drm/nouveau: Remove the unused header file nvif/list.h
-
-Colin Ian King (1):
-      drm/ssd130x: remove redundant initialization of pointer mode
-
-Daniel Vetter (1):
-      drm/todo: Update panic handling todo
-
-Dave Stevenson (3):
-      drm/object: Add drm_object_property_get_default_value() function
-      drm/object: Add default zpos value at reset
-      drm/object: Add default color encoding and range value at reset
-
-Hans de Goede (1):
-      drm/simpledrm: Add "panel orientation" property on non-upright mounted LCD panels
-
-Hsin-Yi Wang (2):
-      drm/bridge: it6505: Fix the read buffer array bound
-      drm/bridge: Clear the DP_AUX_I2C_MOT bit passed in aux read command.
-
-Jagan Teki (1):
-      drm: of: Lookup if child node has panel or bridge
-
-Javier Martinez Canillas (1):
-      drm/repaper: Use format helper for xrgb8888 to monochrome conversion
-
-José Expósito (1):
-      drm/bridge: chipone-icn6211: switch to devm_drm_of_get_bridge
-
-Kees Cook (2):
-      drm/dp: Fix off-by-one in register cache size
-      drm/dp: Fix OOB read when handling Post Cursor2 register
-
-Liu Ying (1):
-      drm/bridge: nwl-dsi: Remove superfluous write to NWL_DSI_IRQ_MASK register
-
-Maxime Ripard (8):
-      drm/omap: plane: Fix zpos initial value mismatch
-      drm/msm/mdp5: Remove redundant zpos initialisation
-      drm/nouveau/kms: Remove redundant zpos initialisation
-      drm/omap: plane: Remove redundant zpos initialisation
-      drm/rcar: plane: Remove redundant zpos initialisation
-      drm/sti: plane: Remove redundant zpos initialisation
-      drm/sun4i: layer: Remove redundant zpos initialisation
-      drm/omap: plane: Remove redundant color encoding and range initialisation
-
-Melissa Wen (1):
-      drm/v3d: centralize error handling when init scheduler fails
-
-Nathan Chancellor (1):
-      drm/stm: Avoid using val uninitialized in ltdc_set_ycbcr_config()
-
-Nishanth Menon (1):
-      drm/bridge: cdns-dsi: Make sure to to create proper aliases for dt
-
-Noralf Trønnes (5):
-      dt-bindings: display: add bindings for MIPI DBI compatible SPI panels
-      drm/modes: Remove trailing whitespace
-      drm/modes: Add of_get_drm_panel_display_mode()
-      drm/mipi-dbi: Add driver_private member to struct mipi_dbi_dev
-      drm/tiny: Add MIPI DBI compatible SPI driver
-
-Rahul T R (1):
-      drm/panel: simple: Initialize bpc in RK101II01D-CT panel descriptor
-
-Raphael Gallais-Pou (1):
-      drm/stm: ltdc: add support for CRC hashing feature
-
-Thomas Zimmermann (5):
-      fbdev: Improve performance of sys_fillrect()
-      fbdev: Improve performance of sys_imageblit()
-      fbdev: Remove trailing whitespaces from cfbimgblt.c
-      fbdev: Improve performance of cfb_imageblit()
-      drm: Add TODO item for optimizing format helpers
-
-Tom Rix (1):
-      drm/panfrost: cleanup comments
-
-Tommy Haung (2):
-      drm/aspeed: Update INTR_STS handling
-      drm/aspeed: Add AST2600 chip support
-
-Xin Ji (1):
-      drm/bridge: anx7625: Fix release wrong workqueue
-
- .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 126 +++++++
- Documentation/gpu/todo.rst                         |  47 ++-
- MAINTAINERS                                        |   8 +
- drivers/gpu/drm/aspeed/aspeed_gfx.h                |   1 +
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |  15 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c          |   6 +-
- drivers/gpu/drm/bridge/cdns-dsi.c                  |   1 +
- drivers/gpu/drm/bridge/chipone-icn6211.c           |   7 +-
- drivers/gpu/drm/bridge/ite-it6505.c                |   4 +-
- drivers/gpu/drm/bridge/nwl-dsi.c                   |  14 +-
- drivers/gpu/drm/dp/drm_dp.c                        |  10 -
- drivers/gpu/drm/drm_atomic_state_helper.c          |  25 ++
- drivers/gpu/drm/drm_mode_object.c                  |  53 ++-
- drivers/gpu/drm/drm_modes.c                        |  51 ++-
- drivers/gpu/drm/drm_of.c                           |  17 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c         |  16 +-
- drivers/gpu/drm/nouveau/dispnv50/wndw.c            |   2 -
- drivers/gpu/drm/nouveau/include/nvif/list.h        | 353 ------------------
- drivers/gpu/drm/omapdrm/omap_plane.c               |  22 +-
- drivers/gpu/drm/panel/panel-simple.c               |   1 +
- drivers/gpu/drm/panfrost/panfrost_drv.c            |   2 +-
- drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c   |   2 +-
- drivers/gpu/drm/panfrost/panfrost_issues.h         |   2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c            |   2 +-
- drivers/gpu/drm/panfrost/panfrost_regs.h           |   2 +-
- drivers/gpu/drm/rcar-du/rcar_du_plane.c            |   1 -
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c              |   1 -
- drivers/gpu/drm/solomon/ssd130x.c                  |   2 +-
- drivers/gpu/drm/sti/sti_cursor.c                   |   2 +-
- drivers/gpu/drm/sti/sti_gdp.c                      |   2 +-
- drivers/gpu/drm/sti/sti_hqvdp.c                    |   2 +-
- drivers/gpu/drm/sti/sti_plane.c                    |   6 -
- drivers/gpu/drm/sti/sti_plane.h                    |   1 -
- drivers/gpu/drm/stm/ltdc.c                         | 107 +++++-
- drivers/gpu/drm/stm/ltdc.h                         |   3 +
- drivers/gpu/drm/sun4i/sun4i_layer.c                |  16 +-
- drivers/gpu/drm/tegra/dp.c                         |  11 +-
- drivers/gpu/drm/tiny/Kconfig                       |  15 +
- drivers/gpu/drm/tiny/Makefile                      |   1 +
- drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 398 +++++++++++++++++++++
- drivers/gpu/drm/tiny/repaper.c                     |  24 +-
- drivers/gpu/drm/tiny/simpledrm.c                   |   3 +
- drivers/gpu/drm/v3d/v3d_sched.c                    |  40 +--
- drivers/video/fbdev/core/cfbimgblt.c               | 107 ++++--
- drivers/video/fbdev/core/sysfillrect.c             |  16 +-
- drivers/video/fbdev/core/sysimgblt.c               |  49 ++-
- include/drm/dp/drm_dp_helper.h                     |   4 +-
- include/drm/drm_mipi_dbi.h                         |   8 +
- include/drm/drm_mode_object.h                      |   7 +
- include/drm/drm_modes.h                            |   8 +
- 50 files changed, 1051 insertions(+), 572 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
- delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/list.h
- create mode 100644 drivers/gpu/drm/tiny/panel-mipi-dbi.c
