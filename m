@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251064CC41E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 18:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9944F4CC436
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Mar 2022 18:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565BC10E319;
-	Thu,  3 Mar 2022 17:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2A389DB9;
+	Thu,  3 Mar 2022 17:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 689A410E319;
- Thu,  3 Mar 2022 17:39:05 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id bt3so5277194qtb.0;
- Thu, 03 Mar 2022 09:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PdHkhmgFrN18jtLLrdBiFbT8wL4tSQG37dtWwlBWtT0=;
- b=AQxJ7abEXO4r6/q3xXg/DERUZl1b4TYybcoUUTJC8Js8/5fhmdQ5uXCLPL8eXZ8N5E
- MKF88FwPSbRVjNucW0Lx6hrCwXoJEku5X+kiUQnGR0L3cRsH6oRbVE2Hsc3Ey8ISvK42
- l76kW9Q22MNaKG3nb3GXCQE83U9IBFtYTgkxDSoxCz4yU15aAFDz5n1ujdz9FN7GBoMl
- zlkcEtSOhHLfFMmJmcLwfc7LvCMlEIDt9uCkvj4+/LAsRhZneFyM7Juo01urVgjfit9c
- LfZ79xPIFhAOee3oz2eYObdFkeIFnbECawt0jruzWpRXrPvSj+UpvfjiDfxysgCZ1ogQ
- BJeA==
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D2C89DB9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 17:43:29 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id t19so1647661plr.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 09:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=3mNZQL2VC2uYb431PEz6jnFD5ZTmVgeO3AWfSaB6+TY=;
+ b=TSou/dg3MxKfuVnSlJ7/9Ygb6rTt3uj1IAV4FuRAP0EFPtQzGCi18SqZsbllXX+6S8
+ ntcMT0x0I5bMkPvRf+RymUl7ybQA3dv1GWojQ1350VFS3FT8qE2h7SFFXSceT7yfD2T8
+ voM8RJe8gyMdGEmB0QSQndTKjgdU+d71aw2BA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PdHkhmgFrN18jtLLrdBiFbT8wL4tSQG37dtWwlBWtT0=;
- b=5y4fJ1GdMQ8TAaHD/MCEOt4xrB8mzpOFwY4Xy1qXly/8jOxC2NDUrtWZMRxIwWgGpV
- 2SrmizekfbRR1ByRnUOFRmzHqZ454ze3MaW35fXMGp/5XOqGo8tILvWmJVWS6dYOxpKm
- tTzfipEdIgAz5Dt/SEJ6vP9jOTxacObCtu5uE1noZ9zprPqMZa5x5Y4fcYvqKR2SveO0
- CUzK5LXSu73vGMHQOieKRgFHxwpL1oOpaSCkchwourIMsey2wlKFM0NUbaYsuH7zbS9i
- fjGCZcpwzRTwA7069HKmu35Wa4eVPgSWIi4F2e6EjIqnJA4KOON71S9SyljJ5YyxAiUg
- 465A==
-X-Gm-Message-State: AOAM533tLhCjTNejl2NllsYBrBDXNtenUsEDUJPAoqODtasMEEkXsfdM
- Kss6Xsw6oeKTiYfLZR1FGhS7BwZwzzbOWGuf85o=
-X-Google-Smtp-Source: ABdhPJxK6Q9LckANdymDGEhFpexGAWD8VrH4za7cu4VqNXVNFKYNXpMKTVswD2LIZ2eN+/4oH1eGM1UlwXkpw3xeKYQ=
-X-Received: by 2002:ac8:7dc8:0:b0:2de:619:a73f with SMTP id
- c8-20020ac87dc8000000b002de0619a73fmr27765318qte.614.1646329144516; Thu, 03
- Mar 2022 09:39:04 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3mNZQL2VC2uYb431PEz6jnFD5ZTmVgeO3AWfSaB6+TY=;
+ b=0btXTYVs9OPJxKtmYTttwv3K180zGbZE+YzGf/+QvuLxwQpor7FOcSAY51OF4Z8zwz
+ 3Rzc1FfDgrVbcGycFci7Hv3u82ALkZUFaC+C9o7U6RBRkMNg3hnXKnU/8iKu3HykhocF
+ Us58iK1Apsuv9V9u1LVeFlQR80iG1earWNHcMTUKxfCQ58j9h3RMgsyr8iAR995DA+B3
+ a4hH2r35GfNMfblT9EnHN39iWD8RNLophQCXAnu+JfAPRh4yJWQ/eVM2WCMxjDCKzqTo
+ ydZR725P+zdC7iIyOy5Iyx8Hx7iNiCr5C6JqeQwLPGFrrIHkuDQ9DQzPIy9A8UIW6+OA
+ cAjA==
+X-Gm-Message-State: AOAM5336vR2ZmNbMxfZrGOeECz0w/ovQYlsyMYtUgxmgBlV63ygBvZcn
+ 0S/MP5kz0YZADB9KCisy20rEhQ==
+X-Google-Smtp-Source: ABdhPJwuuWN6vPSVt7Mv7dHURNIv9eDx1oLiv+vp7zPxRp6zIMVlyTuNFHJ/8c8jo+dQfkkeI/rm5Q==
+X-Received: by 2002:a17:902:d2cd:b0:14f:c169:dc6f with SMTP id
+ n13-20020a170902d2cd00b0014fc169dc6fmr36769598plc.170.1646329409448; 
+ Thu, 03 Mar 2022 09:43:29 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ t9-20020a655549000000b0036570f81245sm2536433pgr.84.2022.03.03.09.43.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 09:43:29 -0800 (PST)
+Date: Thu, 3 Mar 2022 09:43:28 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] drm/amd/display: Fix Wstringop-overflow warnings
+ in dc_link_dp.c
+Message-ID: <202203030937.5BFE3EF@keescook>
+References: <20220303172503.GA1731116@embeddedor>
 MIME-Version: 1.0
-References: <20220302102200.158637-1-thomas.hellstrom@linux.intel.com>
- <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220302102200.158637-2-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 3 Mar 2022 17:38:38 +0000
-Message-ID: <CAM0jSHOqyma-ds=uxwSh8iE+fhS7e-8AWEc1-QoazekR=PY4SQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2 1/3] drm/i915: Remove the vm open count
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220303172503.GA1731116@embeddedor>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Mar 2022 at 10:22, Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
->
-> vms are not getting properly closed. Rather than fixing that,
-> Remove the vm open count and instead rely on the vm refcount.
->
-> The vm open count existed solely to break the strong references the
-> vmas had on the vms. Now instead make those references weak and
-> ensure vmas are destroyed when the vm is destroyed.
->
-> Unfortunately if the vm destructor and the object destructor both
-> wants to destroy a vma, that may lead to a race in that the vm
-> destructor just unbinds the vma and leaves the actual vma destruction
-> to the object destructor. However in order for the object destructor
-> to ensure the vma is unbound it needs to grab the vm mutex. In order
-> to keep the vm mutex alive until the object destructor is done with
-> it, somewhat hackishly grab a vm_resv refcount that is released late
-> in the vma destruction process, when the vm mutex is no longer needed.
->
-> v2: Address review-comments from Niranjana
-> - Clarify that the struct i915_address_space::skip_pte_rewrite is a hack =
-and
->   should ideally be replaced in an upcoming patch.
-> - Remove an unneeded continue in clear_vm_list and update comment.
->
-> Co-developed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@int=
-el.com>
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel=
-.com>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+On Thu, Mar 03, 2022 at 11:25:03AM -0600, Gustavo A. R. Silva wrote:
+> Fix the following Wstringop-overflow warnings when building with GCC-11:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpia.c:493:17: warning: ‘dp_decide_lane_settings’ accessing 4 bytes in a region of size 1 [-Wstringop-overflow=]
+
+Can you "show your work" a little more here? I don't actually see the
+what is getting fixed:
+
+enum dc_lane_count {
+	...
+        LANE_COUNT_FOUR = 4,
+	...
+        LANE_COUNT_DP_MAX = LANE_COUNT_FOUR
+};
+
+struct link_training_settings {
+	...
+        union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP_MAX];
+};
+
+void dp_hw_to_dpcd_lane_settings(
+		...
+		union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP_MAX])
+{
+	...
+}
+
+static enum link_training_result dpia_training_cr_transparent(
+		...
+                struct link_training_settings *lt_settings)
+{
+	...
+                dp_decide_lane_settings(lt_settings, dpcd_lane_adjust,
+                                lt_settings->hw_lane_settings, lt_settings->dpcd_lane_settings);
+	...
+}
+
+Everything looks to be the correct size?
+
+-- 
+Kees Cook
