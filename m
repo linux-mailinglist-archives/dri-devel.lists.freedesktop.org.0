@@ -1,69 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9237D4CDFEC
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 22:49:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E2A4CDFF8
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 22:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D40113AA8;
-	Fri,  4 Mar 2022 21:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEC72113B8B;
+	Fri,  4 Mar 2022 21:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD69113AA4
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 21:49:44 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id yy13so11239473ejb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 13:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com
+ [IPv6:2607:f8b0:4864:20::931])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8903F113B79;
+ Fri,  4 Mar 2022 21:57:22 +0000 (UTC)
+Received: by mail-ua1-x931.google.com with SMTP id l45so4118952uad.1;
+ Fri, 04 Mar 2022 13:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gorolFJ2WIFQvAsoxOSrO8YEN0k5n1TryFpMGW1zZQQ=;
- b=LzsQ5rUYvvNub8x9l9kvDaWf7K77rlY+iRkn5dlD+82ZPl7ZCGrmcqBTtvNe+X0bPW
- MXRTMoQCl8ndHSQ6jy2WO/qD7mm7dVBag6oQqBnicr4/Dj55BzR195+oqLqUf8RbLZob
- PzkGqmSuP2Iou/Cr3Jb7zTgkEP2cvx8IU6iZs=
+ :content-transfer-encoding;
+ bh=kzw6QuVm+EBqAnL95ABBmHf9VAnd3ZR56Wc0DpU/Pas=;
+ b=hs1s6xg+8GLsUsdVH6mHfvxJO4HtzBUpJxpirMSpc8rKZvMv7z1sZZrNqha63u7aRI
+ PnOlVbw4S1b5X5hUjpT4DeOEXyQDVz0OtWzRWc/CtgsHyyXC10hHBMygO8/ExkJPCguV
+ LSsHFLavgcQ0re40RsGY+9uGLW/Z2aTDIDnunxDtx8YGnaSqV1n08Ko5Gr67vojWvzVJ
+ p1p7MLaDPwnU8eQ2iSaCHAtr0dyNg0ZT9Pn6QG1+NaoFiuKzxAOGkgLYh8aRoEWofimd
+ Yf6GqEGWS3a7bHRh2CvWcz4OxXMoAkHOuxcAV6X183oWWkcc6+W+hffEos/DYlLzNHE/
+ BJRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gorolFJ2WIFQvAsoxOSrO8YEN0k5n1TryFpMGW1zZQQ=;
- b=DkRUCYkyUt9gMjzXhvXhsmS1kxgZE1+k7IwYLMwoyOiX2/o6HCBIkhXlqf5cCiqGWD
- 0j5FDYB2qdlHqs6fgh8gD133G0WLeGtx4jo71LLWqnXiAyX83N3GGE87UrpcJjW+/sxR
- m+gcbcoBZ5uVk+meUuqH2WS+kkHnPKFB0N50KQZUrPTVDO6pCe5kz/LmaQ05iSMyfAKY
- /qEWbd2UZ6SttrbPw/qiG0PkM4WMaLGoINrjEBeq2qwHQlL2V+4AjSgEImwjOAENzVrk
- S3QJQO3xt+WsWB5pryH7KsVUUkKaemE2QpRcawuJjfgYfa2wM5aXteEjWorGXEU0kgnE
- uqyg==
-X-Gm-Message-State: AOAM53076S8tOX17XhhnExfsgHPUrx22AfjC5hdQSrTItsNnhAmqXM8Y
- 6LeWUPxk9/OJ0UnSrrcOJLlZIfWsQSyZC/Fz
-X-Google-Smtp-Source: ABdhPJwKe82oT3iuI3Egyy3tDUqRUQ0WLKWcu4bA+9emOaPqhLS5O7FwO8+JUB6yMaAfys7eIJBKWg==
-X-Received: by 2002:a17:907:3ea1:b0:6da:633b:9143 with SMTP id
- hs33-20020a1709073ea100b006da633b9143mr662369ejc.10.1646430582331; 
- Fri, 04 Mar 2022 13:49:42 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
- [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
- f5-20020a17090624c500b006cee6661b6esm2185448ejb.10.2022.03.04.13.49.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 13:49:40 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id 19so5497804wmy.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 13:49:40 -0800 (PST)
-X-Received: by 2002:a05:600c:1d08:b0:381:6eda:67d1 with SMTP id
- l8-20020a05600c1d0800b003816eda67d1mr9758221wms.88.1646430579829; Fri, 04 Mar
- 2022 13:49:39 -0800 (PST)
+ :message-id:subject:to:content-transfer-encoding;
+ bh=kzw6QuVm+EBqAnL95ABBmHf9VAnd3ZR56Wc0DpU/Pas=;
+ b=m5eAMVlJsBBAoEgYQLmDoXMV5HUvcHmjeXjtQx5+nFJC7NTcRnVW16hBe/Z/T6T7eI
+ A20MvoXEz0AHS2wR3CqVEmcTWjC/QUOcJJPB1lQ86GM6q9s9NfG6S80XxElpcpr+p0u7
+ P/iYm0thXtxEA3JbcDdykNprbiGNom6WlhfWJPi4vUoA4NXDpVRReuCJIn3Yts2IImCS
+ BqL5m3jOefmbOGicx8AclFXMpCsfCZi4I/7BDfwAa4ePzqEkUrGMWVKLYyiQ0gFQ3Vmw
+ WiH1P87jvsIriaVtjA2y6deBN3YIhagyKWcdZfrpSSrRPueDbuVcxKttAAXplAbPu3Rg
+ AgCA==
+X-Gm-Message-State: AOAM533G9AdpRDGBq0htMEkPyM6sDR3/XRSoIl4C7bVSuB/pscrX1fwW
+ MjAbQfCXU7kI136ngsk/Rivs/lMQG+tUQJdhI15kh2MA
+X-Google-Smtp-Source: ABdhPJwN7hcq6zhnUlTGWNm4JNy3Izxjiyu9zetu1tfresupJUcvFkAfT+Eu3dhZLYopdQCwLALi7+jGpgCAyXAlHPY=
+X-Received: by 2002:a9f:2c4b:0:b0:341:3619:215 with SMTP id
+ s11-20020a9f2c4b000000b0034136190215mr258805uaj.75.1646431041372; Fri, 04 Mar
+ 2022 13:57:21 -0800 (PST)
 MIME-Version: 1.0
-References: <1646300401-9063-1-git-send-email-quic_vpolimer@quicinc.com>
- <1646300401-9063-5-git-send-email-quic_vpolimer@quicinc.com>
- <CAA8EJpqkK8q7g8q56rfiOO22ykxgycJTpSJKHuhcqGk05nsVzA@mail.gmail.com>
- <CAE-0n53jGQcn=NThrrW92NL-cry8yrFErdSYTHHEHWW48b3xbg@mail.gmail.com>
- <CAA8EJpoEpn2RPByeDkaGPUX+OC7tvbEw4k78Gd+RKs02jpzG1w@mail.gmail.com>
-In-Reply-To: <CAA8EJpoEpn2RPByeDkaGPUX+OC7tvbEw4k78Gd+RKs02jpzG1w@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 4 Mar 2022 13:49:27 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WZUSuNa0Ei_0ByjHRdsJ7smhD+uVghs28NzNGvGp0LwQ@mail.gmail.com>
-Message-ID: <CAD=FV=WZUSuNa0Ei_0ByjHRdsJ7smhD+uVghs28NzNGvGp0LwQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] arm64/dts/qcom/sm8250: remove assigned-clock-rate
- property for mdp clk
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220301164629.3814634-1-jim.cromie@gmail.com>
+ <164616821973.8601.9122442025972091120@emeril.freedesktop.org>
+In-Reply-To: <164616821973.8601.9122442025972091120@emeril.freedesktop.org>
+From: jim.cromie@gmail.com
+Date: Fri, 4 Mar 2022 14:56:55 -0700
+Message-ID: <CAJfuBxy_guKp0w49Fxg79Mu6KkohOhvE9taTQK110wxwsA-c7A@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=E2=9C=97_Fi=2ECI=2ECHECKPATCH=3A_warning_for_use_dynamic=2Dde?=
+ =?UTF-8?Q?bug_under_drm=2Edebug_api_=28rev2=29?=
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jason Baron <jbaron@akamai.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +69,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Mar 3, 2022 at 4:16 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Tue, Mar 1, 2022 at 1:57 PM Patchwork
+<patchwork@emeril.freedesktop.org> wrote:
 >
-> On Fri, 4 Mar 2022 at 02:56, Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Quoting Dmitry Baryshkov (2022-03-03 15:50:50)
-> > > On Thu, 3 Mar 2022 at 12:40, Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
-> > > >
-> > > > Kernel clock driver assumes that initial rate is the
-> > > > max rate for that clock and was not allowing it to scale
-> > > > beyond the assigned clock value.
-> > > >
-> > > > Drop the assigned clock rate property and vote on the mdp clock as per
-> > > > calculated value during the usecase.
-> > > >
-> > > > Fixes: 7c1dffd471("arm64: dts: qcom: sm8250.dtsi: add display system nodes")
-> > >
-> > > Please remove the Fixes tags from all commits. Otherwise the patches
-> > > might be picked up into earlier kernels, which do not have a patch
-> > > adding a vote on the MDP clock.
-> >
-> > What patch is that? The Fixes tag could point to that commit.
+> =3D=3D Series Details =3D=3D
 >
-> Please correct me if I'm wrong.
-> Currently the dtsi enforces bumping the MDP clock when the mdss device
-> is being probed and when the dpu device is being probed.
-> Later during the DPU lifetime the core_perf would change the clock's
-> rate as it sees fit according to the CRTC requirements.
-
-"Currently" means _before_ ${SUBJECT} patch lands, right? Since
-${SUBJECT} patch is removing the bump to max.
-
-
-> However it would happen only when the during the
-> dpu_crtc_atomic_flush(), before we call this function, the MDP clock
-> is left in the undetermined state. The power rails controlled by the
-> opp table are left in the undetermined state.
+> Series: use dynamic-debug under drm.debug api (rev2)
+> URL   : https://patchwork.freedesktop.org/series/100289/
+> State : warning
 >
-> I suppose that during the dpu_bind we should bump the clock to the max
-> possible freq and let dpu_core_perf handle it afterwards.
+> =3D=3D Summary =3D=3D
+>
+> $ dim checkpatch origin/drm-tip
+> c2ed9cc02d9c dyndbg: fix static_branch manipulation
+> a8f6c71f283e dyndbg: add class_id field and query support
+> -:141: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'id' - possible side-e=
+ffects?
+> #141: FILE: include/linux/dynamic_debug.h:142:
+> +#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {  \
+> +       DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);        \
+> +       if (DYNAMIC_DEBUG_BRANCH(id))                           \
+> +               func(&id, ##__VA_ARGS__);                       \
+>  } while (0)
+>
+> -:151: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'id' - possible side-e=
+ffects?
+> #151: FILE: include/linux/dynamic_debug.h:148:
+> +#define __dynamic_func_call_no_desc_cls(id, cls, fmt, func, ...) do {  \
+> +       DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);                \
+> +       if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+> +               func(__VA_ARGS__);                                      \
+>  } while (0)
+>
 
-Definitely feels like seeing the clock to something predictable during
-the initial probe makes sense. If it's just for the initial probe then
-setting it to max (based on the opp table) seems fine. I think an
-earlier version of this series set it to max every time we did runtime
-resume. We'd have to have a good reason to do that.
+Can I get a pass on this ?
 
--Doug
+the usual approach doesnt work:
++       typeof(id) id =3D (id);           \
+
+it appears to be due to the outer / wrapping macro inserting the
+__UNIQUE_ID(ddebug)
+which gets expanded 2x, giving:
+
+      |         ^~~~~~~~
+/home/jimc/projects/lx/linux.git/include/linux/compiler-gcc.h:42:45:
+note: previous definition of =E2=80=98__UNIQUE_ID_ddebug437=E2=80=99 with t=
+ype =E2=80=98int=E2=80=99
+   42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_,
+prefix), __COUNTER__)
+      |                                             ^~~~~~~~~~~~
+/home/jimc/projects/lx/linux.git/include/linux/dynamic_debug.h:230:20:
+note: in definition of macro =E2=80=98__dynamic_func_call_cls=E2=80=99
+  230 |         typeof(id) id =3D (id);           \
+
+
+Moreover, these 2 macros imitate existing macros,
+which would suffer the same WARNING.
+
+My macro-fu is insufficient,
+can anyone suggest a clean way to fix this warning ?
+
+tia
+Jim
