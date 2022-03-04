@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1282F4CCC50
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 04:34:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A075A4CCC86
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 05:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C677A10E11B;
-	Fri,  4 Mar 2022 03:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3FAF10E407;
+	Fri,  4 Mar 2022 04:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58AE710E11B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 03:34:49 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id f8so9118632edf.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 19:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=WcXHhklBNGyAi1Fm2zsLjVuAug9s+ql0EDjZsbPKYAI=;
- b=E1FpFJLB7abJxZed1WCMQcULZn9hQTMbGxiNPi0CCVnGiIdUpD+xXROcHfApd0/lhy
- Fj8d3Tr13RwSsb2kdxmdA2eb2hZRt4zK1ql7T4hz1+YKU36UXfm141BQ8dAfNWF9unc+
- XzFCDq2JChZ6YhsZxAz4pOLc8l6nuIuu4cjDXLs4EOuoK9lhb+ayiN1eBrOaUNLwohVq
- QMbQKbEMuHG87cggJq/oVgE8YdyOPZZga7JQMPOs2dCT4KD10W9joDxIKV6BQMpwJPXs
- 8IcXc+FPkt5hzKMTw5xGyka1VDAoxaBX2m8/m7Ikqstkdd+fN1mjXZ5WG7aMkNLfO7qF
- OCSQ==
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C3210E438
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 04:23:18 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id v3so6456620qta.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 20:23:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nsDOb5W4kO2pCN7e4bMOr2XwyKC2uG4Nui8/giIgSNQ=;
+ b=m5Yc0RyCI7mI1MlnkM1Oafg7bBKegJFMtTwz3Ty0ouBFdfngkF9DFgZWyJJC5su10X
+ 96VnRyyLJBey9+Fnz5l1HjmlzZx0QZxr+j4odF8gvhLHQeP7pf6uIeXndb2rvHu9Obc9
+ iPR/0+d/C9qs4bAzqKIFXE0n9BFhMm4tslS3jRmL4RhzsxAE9zEOd7a/7/LRaMgcphkC
+ zjXPIhLI1WbAyVtW6VeFBkDHNsnqUtpHcyzJdrfg3r0CBfP8IX6kGm7Z8z+Yus8Sk2c5
+ cWLoqqaRyUNb1FNksSXShVGh/OXDbT0IiGNw5I0DdC2XzKx/F3XZaWRTNU6w61/dSAfB
+ 8pBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=WcXHhklBNGyAi1Fm2zsLjVuAug9s+ql0EDjZsbPKYAI=;
- b=yD7r1vgGa1BrvXYdrfCjwU+Pulvjdk+k4j4mjabR7/5qmnreaW1I9uJZWOY2Jfvc+c
- VEg0lCD/JdkLTucrkKiTHhoMUWMIJmMboud4h8gVIaBfBnrN41VPuBUgxHpmkbY+j58V
- o2ORVT4iPdlDyOWxaxwyfCi2+jxDPq1GvHSJwQ8rvcE3t1GSfCsSiN5zRsyKhwIbCb8a
- HJBzdoA2xtPlghgVq3+uK1/bPalRKlrzv4GapfZpdyvzGIX+fOeKbydEUo3pdcw1+13G
- pAeRp0XHSjLs+mQQQAx5lWRjTMOJ3EKZSn7K8R21NAfSChk++e3fsJZ34ne3c8hlvKwN
- GEaQ==
-X-Gm-Message-State: AOAM531szBjjdTz/MNmE/jdHDA7m/35uVGSlL8/eVzBXiVIpKda6QgK9
- rOU8EXzh5lliV/Q/jIx2urlgVDDy3N76nWzOOJK4kwqWIRM=
-X-Google-Smtp-Source: ABdhPJyXRTi7eberRDwVlKzM1WsiDZWyFjob4oE6YkzfUlvwNJGcVLVLAZaRhQfnUp4HRm6+9FZDwJgMnGvbfsNN/+s=
-X-Received: by 2002:a05:6402:f0b:b0:415:ec3c:68aa with SMTP id
- i11-20020a0564020f0b00b00415ec3c68aamr4186570eda.86.1646364887656; Thu, 03
- Mar 2022 19:34:47 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nsDOb5W4kO2pCN7e4bMOr2XwyKC2uG4Nui8/giIgSNQ=;
+ b=qyrxEqpB22DwwKut/YmG097NvtQSNS+adenJa6kyK8oZkNtX0My0HA2OLxl1Xiea0u
+ ENQbosWJUCDP2yf8EjsAWGutRC1iVI44OwWA0o1TWSv97ag2iNFcP7nOkzNbq/Z4ps9r
+ d5S8r6RwjeDDrygxTssC8HbbamjPwYE3kYZTWxYz2aLmMi/mQAEFU+YxP+m+r2MmvAey
+ AMDHxmnGbWsNCTp7m3wnZEF7GEX73hySU5CmzEfmqYBcuvK1iQ5AGaLf0W5ozSfLdAtP
+ EtLHh9F3R2ov7LKsRqn1PH9q6FOMu0Wz4nZ9wA7R9XdDHSzW4EiK0IHua/W7AsqLrt7s
+ Bh8g==
+X-Gm-Message-State: AOAM5328OzGc5b6WJfBOuRNvwzubP+p1dK/LIiTLkgXqqu5LkjWC4lWm
+ mAOrrLB9w6NkJiyFgKw77kxitnK+NUBpisfIHOr8Qw==
+X-Google-Smtp-Source: ABdhPJw4wxEbildbq7sVeR+eNwjQkYAVA22pw3J8WfvviBTFny8uWbj3UqZfX96fC8ABiY9RoSl0kH8G/ieeIOvV1V0=
+X-Received: by 2002:ac8:5713:0:b0:2de:4e16:5b25 with SMTP id
+ 19-20020ac85713000000b002de4e165b25mr29662425qtw.682.1646367797855; Thu, 03
+ Mar 2022 20:23:17 -0800 (PST)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 4 Mar 2022 13:34:36 +1000
-Message-ID: <CAPM=9txdUAqhJOhz+09qtFLJNOThDMNQxLu6kV-v6o1bopXhNA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.17-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220217055529.499829-1-dmitry.baryshkov@linaro.org>
+ <20220217055529.499829-4-dmitry.baryshkov@linaro.org>
+ <CAE-0n529mx1ke89iw8xXZEDcs0z84hA09B31cWeVQSTU9RAAYg@mail.gmail.com>
+In-Reply-To: <CAE-0n529mx1ke89iw8xXZEDcs0z84hA09B31cWeVQSTU9RAAYg@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 4 Mar 2022 07:23:06 +0300
+Message-ID: <CAA8EJpq4fXHH6GEJO=m3Ckw0A2p7B_X0D3SiXi1xnJ=4VZOC=g@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] drm/msm/dp: set stream_pixel rate directly
+To: Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,132 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Fri, 4 Mar 2022 at 01:32, Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Dmitry Baryshkov (2022-02-16 21:55:27)
+> > The only clock for which we set the rate is the "stream_pixel". Rather
+> > than storing the rate and then setting it by looping over all the
+> > clocks, set the clock rate directly.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [...]
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > index 07f6bf7e1acb..8e6361dedd77 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > @@ -1315,7 +1315,7 @@ static void dp_ctrl_set_clock_rate(struct dp_ctrl_private *ctrl,
+> >         DRM_DEBUG_DP("setting rate=%lu on clk=%s\n", rate, name);
+> >
+> >         if (num)
+> > -               cfg->rate = rate;
+> > +               clk_set_rate(cfg->clk, rate);
+>
+> This looks bad. From what I can tell we set the rate of the pixel clk
+> after enabling the phy and configuring it. See the order of operations
+> in dp_ctrl_enable_mainlink_clocks() and note how dp_power_clk_enable()
+> is the one that eventually sets a rate through dp_power_clk_set_rate()
+>
+>         dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
+>                                         ctrl->link->link_params.rate * 1000);
+>
+>         phy_configure(phy, &dp_io->phy_opts);
+>         phy_power_on(phy);
+>
+>         ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, true);
 
-Things are quieting down as expected, just a small set of fixes, i915,
-exynos, amdgpu, vrr, bridge and hdlcd. Nothing scary at all.
+This code has been changed in the previous patch.
 
-Dave.
+Let's get back a bit.
+Currently dp_ctrl_set_clock_rate() doesn't change the clock rate. It
+just stores the rate in the config so that later the sequence of
+dp_power_clk_enable() -> dp_power_clk_set_rate() ->
+[dp_power_clk_set_link_rate() -> dev_pm_opp_set_rate() or
+msm_dss_clk_set_rate() -> clk_set_rate()] will use that.
 
-drm-fixes-2022-03-04:
-drm fixes for 5.17-rc7
+There are only two users of dp_ctrl_set_clock_rate():
+- dp_ctrl_enable_mainlink_clocks(), which you have quoted above.
+  This case is handled in the patch 1 from this series. It makes
+dp_ctrl_enable_mainlink_clocks() call dev_pm_opp_set_rate() directly
+without storing (!) the rate in the config, calling
+phy_configure()/phy_power_on() and then setting the opp via the
+sequence of calls specified above
 
-i915:
-- Fix GuC SLPC unset command
-- Fix misidentification of some Apple MacBook Pro laptops as Jasper Lake.
+- dp_ctrl_enable_stream_clocks(), which calls dp_power_clk_enable()
+immediately afterwards. This call would set the stream_pixel rate
+while enabling stream clocks. As far as I can see, the stream_pixel is
+the only stream clock. So this patch sets the clock rate without
+storing in the interim configuration data.
 
-amdgpu:
-- Suspend regression fix
+Could you please clarify, what exactly looks bad to you?
 
-exynos:
-- irq handling fixes.
-- Fix two regressions to TE-gpio handling.
+> and I vaguely recall that the DP phy needs to be configured for some
+> frequency so that the pixel clk can use it when determining the rate to
+> set.
+>
+> >         else
+> >                 DRM_ERROR("%s clock doesn't exit to set rate %lu\n",
+> >                                 name, rate);
 
-arm/hdlcd:
-- Select DRM_GEM_CMEA_HELPER for HDLCD
 
-bridge:
-- ti-sn65dsi86: Properly undo autosuspend
 
-vrr:
-- Fix potential NULL-pointer deref
-The following changes since commit 7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3=
-:
-
-  Linux 5.17-rc6 (2022-02-27 14:36:33 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-03-04
-
-for you to fetch changes up to 8fdb19679722a02fe21642d39710c701d2ed567a:
-
-  Merge tag 'drm-misc-fixes-2022-03-03' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-03-04
-13:04:11 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.17-rc7
-
-i915:
-- Fix GuC SLPC unset command
-- Fix misidentification of some Apple MacBook Pro laptops as Jasper Lake.
-
-amdgpu:
-- Suspend regression fix
-
-exynos:
-- irq handling fixes.
-- Fix two regressions to TE-gpio handling.
-
-arm/hdlcd:
-- Select DRM_GEM_CMEA_HELPER for HDLCD
-
-bridge:
-- ti-sn65dsi86: Properly undo autosuspend
-
-vrr:
-- Fix potential NULL-pointer deref
-
-----------------------------------------------------------------
-Carsten Haitzler (1):
-      drm/arm: arm hdlcd select DRM_GEM_CMA_HELPER
-
-Dave Airlie (4):
-      Merge tag 'exynos-drm-fixes-v5.17-rc6' of
-git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
-drm-fixes
-      Merge tag 'drm-intel-fixes-2022-03-03' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.17-2022-03-02' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-03-03' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Douglas Anderson (1):
-      drm/bridge: ti-sn65dsi86: Properly undo autosuspend
-
-Lad Prabhakar (5):
-      drm/exynos/exynos7_drm_decon: Use platform_get_irq_byname() to
-get the interrupt
-      drm/exynos: mixer: Use platform_get_irq() to get the interrupt
-      drm/exynos/exynos_drm_fimd: Use platform_get_irq_byname() to get
-the interrupt
-      drm/exynos/fimc: Use platform_get_irq() to get the interrupt
-      drm/exynos: gsc: Use platform_get_irq() to get the interrupt
-
-Manasi Navare (1):
-      drm/vrr: Set VRR capable prop only if it is attached to connector
-
-Marek Szyprowski (2):
-      drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
-      drm/exynos: Search for TE-gpio in DSI panel's node
-
-Qiang Yu (1):
-      drm/amdgpu: fix suspend/resume hang regression
-
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915: s/JSP2/ICP2/ PCH
-
-Vinay Belgaumkar (1):
-      drm/i915/guc/slpc: Correct the param count for unset param
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      |  3 ++-
- drivers/gpu/drm/arm/Kconfig                 |  1 +
- drivers/gpu/drm/bridge/ti-sn65dsi86.c       |  5 +++--
- drivers/gpu/drm/drm_connector.c             |  3 +++
- drivers/gpu/drm/exynos/exynos7_drm_decon.c  | 12 +++---------
- drivers/gpu/drm/exynos/exynos_drm_dsi.c     |  6 ++++--
- drivers/gpu/drm/exynos/exynos_drm_fimc.c    | 13 +++++--------
- drivers/gpu/drm/exynos/exynos_drm_fimd.c    | 13 ++++---------
- drivers/gpu/drm/exynos/exynos_drm_gsc.c     | 10 +++-------
- drivers/gpu/drm/exynos/exynos_mixer.c       | 14 ++++++--------
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c |  2 +-
- drivers/gpu/drm/i915/intel_pch.c            |  2 +-
- drivers/gpu/drm/i915/intel_pch.h            |  2 +-
- 13 files changed, 37 insertions(+), 49 deletions(-)
+-- 
+With best wishes
+Dmitry
