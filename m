@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E5F4CCAA3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 01:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871DC4CCABC
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 01:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C303E10E3C3;
-	Fri,  4 Mar 2022 00:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50BAF10E3D2;
+	Fri,  4 Mar 2022 00:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
- [IPv6:2607:f8b0:4864:20::f2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB3310E3C3
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 00:16:01 +0000 (UTC)
-Received: by mail-qv1-xf2b.google.com with SMTP id f4so5091018qvd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 16:16:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eCjc4x4By6clCaeAiAFIhXtDZP9qpnoE7G+iXzZ8y04=;
- b=oP3Se4QqoP9oAlQ1HRVSjzyG5E2i34IxROypI6Bz8iIiSEekElY8/BTpuNTyk1HKwf
- G7LkEPxIO5SPYolkl29HrX0Ox50rktrbuHE/KZoQqyyZ1tJAlFmeVxoYHFGEQ363oRhz
- 9tD+IEJaGkj6cadV74LDDg52Z4I4om+nAsNfXOsMY2idn/iul+VqA9UBWw28A6N4VLom
- +qwsMv4qn+Uo3rXGbQA0+czOGICIRcUvvdyT6zxOqZm73F6dk9FgBbqu6vVsKwjAeDiJ
- uzugSydM4U8v9MWShFmWMA1PVBrpWbLrdJ0eDQlRjim8O8Xfk69nxx3+yR3Us6QdFQYH
- uWsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eCjc4x4By6clCaeAiAFIhXtDZP9qpnoE7G+iXzZ8y04=;
- b=EpV65e3F+V9YXNLzZgwExaR3HWwxKG9zvXdzQljeDr1Lsx86qnsph13NJM5pqglFij
- WTHMRP5KNDlhO0LVniHgPw55t5qVlK5Hn26Wvq4tTKGRsT+g04VSZ2XNUzJzXbelne9t
- rJgGGxJp6VINZvmWaSi/aj21KIZTOVV/wcQUzouQ5/paWg87sAw9CCXTDeYFzN7cGhbd
- lW9HYYFU4M4P4881TAg0nlcdMml9PlkKbNgyVm2mzZEJQ/L0nytRKRuC1OYJr0zTNgiQ
- rFxHAa5226w3h5ca0Ckbc5YF5cSlrcV/zPK2FZ/NU5JQoJJO4je+KsBstrX/KdtuFWHx
- /LhA==
-X-Gm-Message-State: AOAM532VX4A7ReJtU+MKJYf527xv/b6r4oSChjsLW/WKJME7brB8RjOZ
- qzR6SoT/GydaZcjgzKuM+tJiyLBD9an8BiEIIF1tEw==
-X-Google-Smtp-Source: ABdhPJxum/m+TEt3e7BQD9vNYZDUIpyt+gK4TZ209Fwn4ctVQ9miyXr7mySaKYi3BuSGNSTDSVnqVqbdgDlUxVbPp/Q=
-X-Received: by 2002:a0c:d807:0:b0:42c:1ff7:7242 with SMTP id
- h7-20020a0cd807000000b0042c1ff77242mr26194090qvj.119.1646352960853; Thu, 03
- Mar 2022 16:16:00 -0800 (PST)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1281310E223
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 00:25:39 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id A64BF837F5;
+ Fri,  4 Mar 2022 01:25:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646353538;
+ bh=OKw4LLlVpOtNBOmcqoCZ1VJKTtGIEndDwPguA6e99CY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pBCBrJYoPOVVj9DM9L0wfN6DLln7h4cjmTnzZkYdSD4CTmyeYP526iXSrp+JRpJa5
+ 3QVC/mb8UewG+jrtOFmqd+sm4EAe5GtxPKGUgnbfBuhgYkDoNiAo+bvDCbQe/IwQyo
+ vZXUAMUXWiftXKe21q6LWeOXXjCZVKXxP8KwrxXwavxOWK26rekD8Vs8iUZ88GuqUd
+ e+mrsqDpt4FeMqQOHfo6m3QmDFfMDbl/ax0dVtcVCdEuZ2GMSXHgQVuGizGAEBRrxx
+ WTiBV6ZWmPf4VPnT58TwzBwyh2v5Z3I7kkNS4kPAtrBaeI6QrD/WhXlNhG22n3T0Nh
+ 4w4aHjUgjsQNA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V3 00/13] drm: bridge: icn6211: Fix hard-coded panel settings
+ and add I2C support
+Date: Fri,  4 Mar 2022 01:24:55 +0100
+Message-Id: <20220304002508.75676-1-marex@denx.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <1646300401-9063-1-git-send-email-quic_vpolimer@quicinc.com>
- <1646300401-9063-5-git-send-email-quic_vpolimer@quicinc.com>
- <CAA8EJpqkK8q7g8q56rfiOO22ykxgycJTpSJKHuhcqGk05nsVzA@mail.gmail.com>
- <CAE-0n53jGQcn=NThrrW92NL-cry8yrFErdSYTHHEHWW48b3xbg@mail.gmail.com>
-In-Reply-To: <CAE-0n53jGQcn=NThrrW92NL-cry8yrFErdSYTHHEHWW48b3xbg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 4 Mar 2022 03:15:49 +0300
-Message-ID: <CAA8EJpoEpn2RPByeDkaGPUX+OC7tvbEw4k78Gd+RKs02jpzG1w@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] arm64/dts/qcom/sm8250: remove assigned-clock-rate
- property for mdp clk
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org, dianders@chromium.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 4 Mar 2022 at 02:56, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Dmitry Baryshkov (2022-03-03 15:50:50)
-> > On Thu, 3 Mar 2022 at 12:40, Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
-> > >
-> > > Kernel clock driver assumes that initial rate is the
-> > > max rate for that clock and was not allowing it to scale
-> > > beyond the assigned clock value.
-> > >
-> > > Drop the assigned clock rate property and vote on the mdp clock as per
-> > > calculated value during the usecase.
-> > >
-> > > Fixes: 7c1dffd471("arm64: dts: qcom: sm8250.dtsi: add display system nodes")
-> >
-> > Please remove the Fixes tags from all commits. Otherwise the patches
-> > might be picked up into earlier kernels, which do not have a patch
-> > adding a vote on the MDP clock.
->
-> What patch is that? The Fixes tag could point to that commit.
+This series fixes multiple problems with the ICN6211 driver and adds
+support for configuration of the chip via I2C bus.
 
-Please correct me if I'm wrong.
-Currently the dtsi enforces bumping the MDP clock when the mdss device
-is being probed and when the dpu device is being probed.
-Later during the DPU lifetime the core_perf would change the clock's
-rate as it sees fit according to the CRTC requirements.
+First, in the current state, the ICN6211 driver hard-codes DPI timing
+and clock settings specific to some unknown panel. The settings provided
+by panel driver are ignored. Using any other panel than the one for which
+this driver is currently hard-coded can lead to permanent damage of the
+panel (per display supplier warning, and it sure did in my case. The
+damage looks like multiple rows of dead pixels at the bottom of the
+panel, and this is not going away even after long power off time).
 
-However it would happen only when the during the
-dpu_crtc_atomic_flush(), before we call this function, the MDP clock
-is left in the undetermined state. The power rails controlled by the
-opp table are left in the undetermined state.
+Much of this series thus fixes incorrect register layout, DPI timing
+programming, clock generation by adding actual PLL configuration code.
+This series also adds lane count decoding instead of using hard-coded
+value, and fills in a couple of registers with likely correct default
+values.
 
-I suppose that during the dpu_bind we should bump the clock to the max
-possible freq and let dpu_core_perf handle it afterwards.
+Second, this series adds support for I2C configuration of the ICN6211.
+The device can be configured either via DSI command mode or via I2C,
+the register layout is the same in both cases.
 
+Since the datasheet for this device is very hard to come by, a lot of
+information has been salvaged from [1] and [2].
 
---
-With best wishes
-Dmitry
+[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+[2] https://github.com/tdjastrzebski/ICN6211-Configurator
+
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
+
+Marek Vasut (13):
+  dt-bindings: display: bridge: icn6211: Document DSI data-lanes
+    property
+  drm: bridge: icn6211: Fix register layout
+  drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and HFP_MIN handling
+  drm: bridge: icn6211: Add HS/VS/DE polarity handling
+  drm: bridge: icn6211: Add DSI lane count DT property parsing
+  drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration
+  drm: bridge: icn6211: Use DSI burst mode without EoT and with LP
+    command mode
+  drm: bridge: icn6211: Disable DPI color swap
+  drm: bridge: icn6211: Set SYS_CTRL_1 to value used in examples
+  drm: bridge: icn6211: Implement atomic_get_input_bus_fmts
+  drm: bridge: icn6211: Add I2C configuration support
+  drm: bridge: icn6211: Rework ICN6211_DSI to chipone_writeb()
+  drm: bridge: icn6211: Read and validate chip IDs before configuration
+
+ .../display/bridge/chipone,icn6211.yaml       |  18 +-
+ drivers/gpu/drm/bridge/chipone-icn6211.c      | 534 ++++++++++++++++--
+ 2 files changed, 496 insertions(+), 56 deletions(-)
+
+-- 
+2.34.1
+
