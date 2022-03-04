@@ -1,71 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A7F4CD455
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 13:36:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57514CD526
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 14:30:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDAB10F41F;
-	Fri,  4 Mar 2022 12:36:07 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43BFF10F41C;
- Fri,  4 Mar 2022 12:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646397366; x=1677933366;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=k+cnuyWjviu4fuZkZwhrH1DYuCOS9KVIJvi92JFhiHk=;
- b=Y+X9WML/uf/Dtq94fhshetka4JaX05jFEBtNB4xEN8/DE94MJ6Kctqp+
- y0NOUHp7id4oIwRalkrhCu3eACPV7nQ1BLONpniOr+q49tlQusuwnpeeZ
- xC4PlZx4ZkV3nMn915PEu+ijK1d/hKTuf90/HkTtyfR6ZFBTQlYVmZCk6
- k8tZkZT80D86GeLqQ7Gk5fJ1XDAtt+0TVpMTzStUW6G0LbCHlKLZZ7/So
- Diya8ZIMhovGO8RLWB8VdEMmSGJhbDZmdDBg7BAPW481b8tDbCq/kAA2R
- rD23ZTXjmtuGICzOw1KLh7ZOwO4IOBi0LfLSm/r1SKzEWHwyHvMioo3kJ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="340397315"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="340397315"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 04:36:05 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="536265582"
-Received: from dlalwani-mobl.ger.corp.intel.com (HELO [10.213.223.211])
- ([10.213.223.211])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 04:36:04 -0800
-Message-ID: <2bb1563f-83b6-495e-db8f-63b870744bf3@linux.intel.com>
-Date: Fri, 4 Mar 2022 12:36:01 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE97610F6B4;
+	Fri,  4 Mar 2022 13:30:50 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 593B510F6B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 13:30:49 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ bi14-20020a05600c3d8e00b00386f2897400so1444051wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 05:30:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=cPfkU0KHxPREtnhaJp4z/04k/a3Q7j3VHmpgeJr2Xjo=;
+ b=F9TM2fZFsUTKDOJZ7Nvqk/hMKf3/T64t4VwUCOwqk+IHpMUt6/zptX/+Eom2mqgLWP
+ KVVPIpafw1WPFnWMYcIAXkB36KdhhDRJHDBsnyWf/PGKwoXrZ90CNp2LtEswHY+tzBLZ
+ s59LW9W3lAJE52KTd+pI4KcfSrl/ZYx4vYQnSZ5jaKZ7rq49/JLed6SlBEyHFY69iwSr
+ MQS7nu1Sqm9etzceS8dIpb9CNHzPRDIlFE3r3wN5gC3viJX9oi3XJOD9/p06j9/vpQcr
+ wVvbJDETlWru+dkfBzWhYsvsr6YGb5SqrO9B7jXJlgdbil+oX6I2YClWFS2KOinssV4S
+ 8DhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=cPfkU0KHxPREtnhaJp4z/04k/a3Q7j3VHmpgeJr2Xjo=;
+ b=sj1SGcJ43geHF0df7vEVPES96+FT3c+G1+B9XKgUO7Ud59cLSifte1JW0ZRTWcB8s8
+ 8VSWZ9lt+CXhB5r9JCcrBWwox5cDyOP1DBfbxlcB1nY5abrFRTWoJsmNBe268wpeZ/Vp
+ 1Z5l7G0H/TxBzyJqFilFNvRX8a2piBawpxFUlrlHTNn6O0a+bd2s1l+zKB0a9vreGGyD
+ PFeJtakdCn0p+n6LI3MiN5TjHwnELGY20HbzhSN1uRJuaOLK6m6N4XpI+yGOZi+TqpP2
+ 7/shw9eKxE7/PfkN0VP4hQb3T4L0eKRbLbLX2iY/yisGgsQv1qftgcM0RkMVfpLitNMq
+ +9xw==
+X-Gm-Message-State: AOAM530Yc7AaUI+3VKMiIoax3g1WIa6y6H04C8vQrItw5Ybhz+hj1Os5
+ B1DR6rYa1Bcw94FjWowQItqmMg==
+X-Google-Smtp-Source: ABdhPJwpgV4INtmhuZOx8hDaBaPG7q4meQfKqdjqRFwCmDbpm/iIJfcmGSw4CJtxETTxmxdQkD+Cgw==
+X-Received: by 2002:a7b:cd90:0:b0:389:7e42:b5d1 with SMTP id
+ y16-20020a7bcd90000000b003897e42b5d1mr2483095wmj.55.1646400647711; 
+ Fri, 04 Mar 2022 05:30:47 -0800 (PST)
+Received: from ?IPV6:2001:861:44c0:66c0:520f:a3ed:d47d:90c8?
+ ([2001:861:44c0:66c0:520f:a3ed:d47d:90c8])
+ by smtp.gmail.com with ESMTPSA id
+ n5-20020a05600c3b8500b00380fc02ff76sm5524384wms.15.2022.03.04.05.30.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 05:30:47 -0800 (PST)
+Message-ID: <a52702bd-c929-8170-8896-d34ba82aba3c@baylibre.com>
+Date: Fri, 4 Mar 2022 14:30:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/gt: Make the heartbeat play nice
- with long pre-emption timeouts
+Subject: Re: [Letux-kernel] [PATCH v16 1/4] drm/bridge: dw-hdmi: introduce
+ dw_hdmi_enable_poll()
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Intel-GFX@Lists.FreeDesktop.Org, "Bloomfield, Jon"
- <jon.bloomfield@intel.com>, "Ewins, Jon" <jon.ewins@intel.com>
-References: <20220218213307.1338478-1-John.C.Harrison@Intel.com>
- <20220218213307.1338478-3-John.C.Harrison@Intel.com>
- <2a486991-1bfd-9b23-0b43-9173d17b7e13@linux.intel.com>
- <e95e8710-8410-2869-dec1-7f7a9e9a74fb@intel.com>
- <18205069-1210-745f-3bcc-2eddb0d17da1@linux.intel.com>
- <94e9889d-d71a-1428-516d-2928807cbf43@intel.com>
- <6ee75384-2cf0-6b34-ed54-3c7dc9ca31a3@linux.intel.com>
- <d6624800-87b0-f992-bc83-868744e2839c@intel.com>
- <ed505a8e-2d2b-135b-aaab-7e4a0befd5ba@linux.intel.com>
- <f6c70184-121e-9a2b-6bbc-54a67af293cc@intel.com>
- <96b7ce40-12f1-9ca0-1c5a-323d63dd8153@linux.intel.com>
- <9df22764-db87-a2d2-2b03-52b4d4c6da9c@intel.com>
- <9bd316d8-004c-621a-916c-2ebad5c31b43@linux.intel.com>
- <8fb0a3a7-7968-79cb-9ea1-e31b0593acaa@intel.com>
- <42b114a7-04ea-71eb-7cd6-507fb4fb1655@linux.intel.com>
- <389c16df-f579-81df-8405-376fcf8ce613@intel.com>
- <f9daab55-6bda-b359-352d-8e585bce899c@linux.intel.com>
- <711fbb74-e6fd-c78b-5c01-9cb1d1b6d624@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <711fbb74-e6fd-c78b-5c01-9cb1d1b6d624@intel.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Paul Cercueil <paul@crapouillou.net>
+References: <cover.1645895582.git.hns@goldelico.com>
+ <e54838849f80454b863f9f5634dd10f79ef7bb8f.1645895582.git.hns@goldelico.com>
+ <983e9064-17ad-e646-f37d-ca9173ba0967@baylibre.com>
+ <C8AE9A7A-E288-4637-ACAD-40CD33CD5F8C@goldelico.com>
+ <3E620AF4-402E-45EA-9D92-92EAEA9647F5@goldelico.com>
+ <SHH68R.Z3J9KSY0GQVA2@crapouillou.net>
+ <ABC1BD09-383B-4499-B034-340CE88725B3@goldelico.com>
+ <RUI68R.Z009SPJAAD8N1@crapouillou.net>
+ <F0F8F36B-3A0A-476C-8C7D-566255C629C6@goldelico.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <F0F8F36B-3A0A-476C-8C7D-566255C629C6@goldelico.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,97 +88,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-mips <linux-mips@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 03/03/2022 19:09, John Harrison wrote:
-
->> Actions:
->>
->> 1)
->> Get a number from compute/OpenCL people for what they say is minimum 
->> preempt timeout for default out of the box Linux desktop experience.
-> That would be the one that has been agreed upon by both linux software 
-> arch and all UMD teams and has been in use for the past year or more in 
-> the internal tree.
-
-What has been used in the internal tree is irrelevant when UMD ack is needed for changes which affect upstream shipping platforms like Tigerlake.
-
->> This does not mean them running some tests and can't be bothered to 
->> setup up the machine for the extreme use cases, but workloads average 
->> users can realistically be expected to run.
->>
->> Say for instance some image manipulation software which is OpenCL 
->> accelerated or similar. How long unpreemptable sections are expected 
->> there. Or similar. I am not familiar what all OpenCL accelerated use 
->> cases there are on Linux.
->>
->> And this number should be purely about minimum preempt timeout, not 
->> considering heartbeats. This is because preempt timeout may kick in 
->> sooner than stopped heartbeat if the user workload is low priority.
->>
-> And driver is simply hosed in the intervening six months or more that it 
-> takes for the right people to find the time to do this.
-
-What is hosed? Driver currently contains a patch which was acked by the compute UMD to disable preemption. If it takes six months for compute UMD to give us a different number which works for the open source stack and typical use cases then what can we do.
-
-> Right now, it is broken. This patch set improves things. Actual numbers 
-> can be refined later as/when some random use case that we hadn't 
-> previously thought of pops up. But not fixing the basic problem at all 
-> until we have an absolutely perfect for all parties solution is 
-> pointless. Not least because there is no perfect solution. No matter 
-> what number you pick it is going to be wrong for someone.
+On 03/03/2022 18:59, H. Nikolaus Schaller wrote:
+> Hi Paul, Neil,
 > 
-> 2.5s, 7.5s, X.Ys, I really don't care. 2.5s is a number you seem to have 
-> picked out of the air totally at random, or maybe based on it being the 
-> heartbeat period (except that you keep arguing that basing tP on tH is 
-> wrong). 7.5s is a number that has been in active use for a lot of 
-> testing for quite some time - KMD CI, UMD CI, E2E, etc. But either way, 
-> the initial number is almost irrelevant as long as it is not zero. So 
-> can we please just get something merged now as a starting point?
+>> Am 03.03.2022 um 18:20 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>
+>> Hi Nikolaus,
+>>
+>> [snip]
+>>
+>>>> Well he said "the Ingenic DRM core" aka ingenic-drm-drv.c. You do have access to the main drm_device in the ingenic_drm_bind() function, so you can add it there (with a cleanup function calling drm_kms_helper_poll_fini() registered with drmm_add_action_or_reset()).
+>>> Well, do you really want to mix HPD detection between connector, Synopsys bridge and Ingenic DRM core? These are independent...
+>>> Or should be accessed only through the bridge chain pointers.
+>>> IMHO we should keep separate functions separate.
+>>
+>> The drm_kms_helper_poll_init() just says "this DRM device may have connectors that need to be polled" so it very well fits inside the main driver, IMHO.
+> 
+> As far as I understand, it has the side-effect to always set dev->mode_config.poll_enabled and
+> schedule_delayed_work() for all devices.
+> I am not sure if this is intended for arbitrary ingenic-drm devices. But you know better than me.
 > 
 > 
->> 2)
->> Commit message should explain the effect on the worst case time until 
->> engine reset.
->>
->> 3)
->> OpenCL/compute should ack the change publicly as well since they acked 
->> the disabling of preemption.
-> This patch set has already been publicly acked by the compute team. See 
-> the 'acked-by' tag.
+> Hm. But wait, I think I now finally remember why I have proposed it the way it is!
+> It is always better to go back to requirements and find the least invasive solution.
+> 
+> - HPD IRQ works and calls dw_hdmi_irq() [as can be shown by adding printk()]
+> - it is just that the udevd is only notified if poll_enabled = true (but no polling takes place!).
+> 
+> An earlier version (v4) to fix this proposed to add an explicit call to drm_kms_helper_hotplug_event()
+> in dw_hdmi_irq() but that was rejected a while ago because drm_helper_hpd_irq_event() will already call it:
+> 
+> 	https://www.spinics.net/lists/dri-devel/msg316846.html
+> 
+> Since this did not take into account that dev->mode_config.poll_enabled must be set true, I then proposed the
+> enable_poll() mechanism just to set this bit for the ingenic-dw-hdmi specialization.
+> 
+> So a HPD event is delivered to the dw-hdmi driver as dw_hdmi_irq() and that calls drm_helper_hpd_irq_event()
+> but not drm_kms_helper_hotplug_event() and user-space is not getting aware.
+> 
+> It is all a hack because we mix the dw-hdmi driver which originally did register its own connector
+> with an explicit connector...
+> 
+> In summary I now thing that the v4 patch is the simplest and least invasive solution.
+> 
+> We neither have to introduce a dw_hdmi_enable_poll() function or call drm_kms_helper_poll_init() anywhere.
+> 
+> It is just a single line to add to dw-hdmi. And neither touches ingenic-dw-hdmi nor ingenic-drm-drv.
+> 
+> So let's go back to v4 version (just modify commit message to better describe why we have to call
+> drm_kms_helper_hotplug_event() explicitly) and forget about alternatives.
 
-I can't find the reply which contained the ack on the mailing list - do you have a msg-id or an archive link?
+Please don't and add drm_kms_helper_poll_init() from the ingenic-drm-drv.c like every other DRM driver.
 
-Also, ack needs to be against the the fixed timeout patch and not one dependent on the heartbeat interval.
+Adding drm_kms_helper_hotplug_event() in dw-hdmi will impact other drivers using dw-hdmi but correctly
+calling drm_kms_helper_poll_init().
 
->> 4)
->> I really want overflows_type in the first patch.
-> In the final GuC assignment? Only if it is a BUG_ON. If we get a failure 
-> there it is an internal driver error and cannot be corrected for. It is 
-> too late for any plausible range check action.
+Neil
 
-If you can find a test which exercises setting insane values to the relevant timeouts and so would hit the problem in our CI then BUG_ON is fine. Otherwise I think BUG_ON is too anti-social and prefer drm_warn or drm_WARN_ON. I don't think adding a test is strictly necessary, if we don't already have one, given how unlikely this is too be hit, but if you insist on a BUG_ON instead of a flavour of a warn then I think we need one so we can catch in CI 100% of the time.
-  
-> And if you mean in the the actual helper function with the rest of the 
-> clamping then you are bleeding internal GuC API structure details into 
-> non-GuC code. Plus the test would be right next to the 'if (size < 
+> 
+> BR,
+> Nikolaus
 
-In my other reply I exactly described that would be a downside and that I prefer checks at the assignment sites.
-
-Also regarding this comment in the relevant patch:
-
-+	/*
-+	 * NB: The GuC API only supports 32bit values. However, the limit is further
-+	 * reduced due to internal calculations which would otherwise overflow.
-+	 */
-
-I would suggest clarifying this as "The GuC API only supports timeouts up to U32_MAX micro-seconds. However, ...". Given the function at hand deals in milliseconds explicitly calling out that additional scaling factor makes sense I think.
-
-Big picture - it's really still very simple. Public ack for a fixed number and a warn on is not really a lot to ask.
-
-Regards,
-
-Tvrtko
