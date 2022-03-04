@@ -1,27 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8F94CDD5F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 20:38:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464A44CDDB1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 21:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9A4113420;
-	Fri,  4 Mar 2022 19:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0431134F1;
+	Fri,  4 Mar 2022 20:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9FB5113420
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 19:38:41 +0000 (UTC)
-Date: Fri, 04 Mar 2022 19:38:29 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/bridge_connector: enable HPD by default if supported
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Message-Id: <5WJ88R.LXNASHJRBDGL1@crapouillou.net>
-In-Reply-To: <20211225063151.2110878-1-nikita.yoush@cogentembedded.com>
-References: <20211225063151.2110878-1-nikita.yoush@cogentembedded.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5495B1134F0
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 20:00:24 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7CA1B21129;
+ Fri,  4 Mar 2022 20:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646424022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2SG4NM4EVrSS3exMfsZrC7gWoyjIGrnlFGBQMDfIamY=;
+ b=Jd9EyHzq5QAYWn3c4QnQ5glYw7TicrR1pYGl0FNMyYjwHRK61JGK96cZTE6sgEluHUOXp4
+ v8CzYJk/YLqYFFEArxqT4MBAJKcj+N+Kmm2Pe/N9X9uXR7M5UOXGr5a+gMljQDXt+hq1go
+ lmbk1zPBxMov5fgHjWhyq/cTxFCFSBo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646424022;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2SG4NM4EVrSS3exMfsZrC7gWoyjIGrnlFGBQMDfIamY=;
+ b=Ilf7bd059vX8aWwcu1Y0LM1FCnaQg35LPVANN5CcFkQNtEipjG35plXZ88U2a3DEHiJEYs
+ Jh1WqziBgNXz8TCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1785C13B74;
+ Fri,  4 Mar 2022 20:00:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /zu3BNZvImJAIwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 04 Mar 2022 20:00:22 +0000
+Message-ID: <81f87874-4aa8-265d-a0ed-c8a67708a92a@suse.de>
+Date: Fri, 4 Mar 2022 21:00:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] simpldrm: Enable boot time VESA graphic mode selection.
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+References: <20220218093334.24830-1-msuchanek@suse.de>
+ <354f3cfd-bfa0-3ebe-3d67-705423d9294e@suse.de>
+ <20220302193846.GT3113@kunlun.suse.cz>
+ <2ba8497f-ba6d-558b-d782-bb3ee67d23ec@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <2ba8497f-ba6d-558b-d782-bb3ee67d23ec@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------9YQkqF7dRSWVmMuP7AhZgAw4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,71 +73,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-video@atrey.karlin.mff.cuni.cz, Borislav Petkov <bp@alien8.de>,
+ Maxime Ripard <maxime@cerno.tech>, "H. Peter Anvin" <hpa@zytor.com>,
+ Martin Mares <mj@ucw.cz>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Ingo Molnar <mingo@redhat.com>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikita,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------9YQkqF7dRSWVmMuP7AhZgAw4
+Content-Type: multipart/mixed; boundary="------------isOeU2gFLokjvcP9fJJxe08j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
+Cc: linux-fbdev@vger.kernel.org, x86@kernel.org, Arnd Bergmann
+ <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-video@atrey.karlin.mff.cuni.cz, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Maxime Ripard <maxime@cerno.tech>,
+ "H. Peter Anvin" <hpa@zytor.com>, Martin Mares <mj@ucw.cz>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Mack <daniel@zonque.org>
+Message-ID: <81f87874-4aa8-265d-a0ed-c8a67708a92a@suse.de>
+Subject: Re: [PATCH] simpldrm: Enable boot time VESA graphic mode selection.
+References: <20220218093334.24830-1-msuchanek@suse.de>
+ <354f3cfd-bfa0-3ebe-3d67-705423d9294e@suse.de>
+ <20220302193846.GT3113@kunlun.suse.cz>
+ <2ba8497f-ba6d-558b-d782-bb3ee67d23ec@redhat.com>
+In-Reply-To: <2ba8497f-ba6d-558b-d782-bb3ee67d23ec@redhat.com>
 
-Le sam., d=E9c. 25 2021 at 09:31:51 +0300, Nikita Yushchenko=20
-<nikita.yoush@cogentembedded.com> a =E9crit :
-> Hotplug events reported by bridge drivers over drm_bridge_hpd_notify()
-> get ignored unless somebody calls drm_bridge_hpd_enable(). When the
-> connector for the bridge is bridge_connector, such a call is done from
-> drm_bridge_connector_enable_hpd().
->=20
-> However drm_bridge_connector_enable_hpd() is never called on init=20
-> paths,
-> documentation suggests that it is intended for suspend/resume paths.
->=20
-> In result, once encoders are switched to bridge_connector,
-> bridge-detected HPD stops working.
->=20
-> This patch adds a call to that API on init path.
->=20
-> This fixes HDMI HPD with rcar-du + adv7513 case when adv7513 reports=20
-> HPD
-> events via interrupts.
->=20
-> Fixes: c24110a8fd09 ("drm: rcar-du: Use drm_bridge_connector_init()=20
-> helper")
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+--------------isOeU2gFLokjvcP9fJJxe08j
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Merged to drm-misc-next.
+SGksDQoNCkkndmUgbWVyZ2VkIHRoZSBwYXRjaGVzIGludG8gZHJtLW1pc2MtZml4ZXMuIFRo
+YW5rcyBhIGxvdCB0byBib3RoIG9mIHlvdS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
+QW0gMDIuMDMuMjIgdW0gMjA6NDcgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6
+DQo+IEhlbGxvLA0KPiANCj4gT24gMy8yLzIyIDIwOjM4LCBNaWNoYWwgU3VjaMOhbmVrIHdy
+b3RlOg0KPj4gSGVsbG8sDQo+Pg0KPj4gT24gV2VkLCBNYXIgMDIsIDIwMjIgYXQgMDg6MzE6
+MjVQTSArMDEwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4gSGksDQo+Pj4NCj4+
+PiBpcyB0aGlzIHJlYWR5IHRvIGJlIG1lcmdlZD8NCj4+DQo+PiBUaGUgb2JqZWN0aW9ucyBy
+YWlzZWQgc28gZmFyIGhhdmUgYmVlbiBhZGRyZXNzZWQgaW4gdjQuDQo+Pg0KPj4gSSB0aGlu
+ayB0aGlzIGlzIGdvb2QgdG8gbWVyZ2UuDQo+Pg0KPiANCj4gVGhlIHY0IHBhdGNoZXMgbG9v
+a3MgZ29vZCB0byBtZSBhbmQgaGF2ZSBwcm92aWRlZCBteSBSZXZpZXdlZC1ieSB0byBhbGwg
+b2YgdGhlbS4NCj4gICANCj4+IFRoYW5rcw0KPj4NCj4+IE1pY2hhbA0KPj4NCj4+Pg0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
+IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
+pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Thanks!
+--------------isOeU2gFLokjvcP9fJJxe08j--
 
-Cheers,
--Paul
+--------------9YQkqF7dRSWVmMuP7AhZgAw4
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> ---
->  drivers/gpu/drm/drm_bridge_connector.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge_connector.c=20
-> b/drivers/gpu/drm/drm_bridge_connector.c
-> index 791379816837..4f20137ef21d 100644
-> --- a/drivers/gpu/drm/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> @@ -369,8 +369,10 @@ struct drm_connector=20
-> *drm_bridge_connector_init(struct drm_device *drm,
->  				    connector_type, ddc);
->  	drm_connector_helper_add(connector,=20
-> &drm_bridge_connector_helper_funcs);
->=20
-> -	if (bridge_connector->bridge_hpd)
-> +	if (bridge_connector->bridge_hpd) {
->  		connector->polled =3D DRM_CONNECTOR_POLL_HPD;
-> +		drm_bridge_connector_enable_hpd(connector);
-> +	}
->  	else if (bridge_connector->bridge_detect)
->  		connector->polled =3D DRM_CONNECTOR_POLL_CONNECT
->  				  | DRM_CONNECTOR_POLL_DISCONNECT;
-> --
-> 2.30.2
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIib9UFAwAAAAAACgkQlh/E3EQov+Bz
+cxAAuToEBb/XS3yHnuR6bd6s5rHKDeUZujJnQKLo1eN+UuJoEgw9rvfVzEhDHyqUHw63wZx8jU71
+754UtF5AXu5N71HoeJ9dqFV/hoM5F+g2KJyHhosT97+LhFTQaCauzouK0iGJFIric1/T0O9h1/MM
+odHcor3nfcrf5fhNmqauqNNkpj9QEdj6IJ8B5Ki3Bc/LzipgoErN6MhDYQIiSGH8jTjmk3vW3b7J
+ur1jTCOaVAMTMmuoPqsPwZMqKGwWKqW1aVb2Sr+w6ikUmsjEyTJw/wxX5M0tDJ2z/5h39cXQs7Pv
+bs2do3S3mVIpt5vO+ZLso1l/Yo9NaJt8louon1uwC09I1Wm/cQdnuEyoICpaDiYMcvHtytkwtpbN
+c64GcwNbbp1bK6+kmXMCeBiFYo+YtDaOE1XwgO+gc6v2t+p8WOQGt/gaUBNGwOOxy+hhVLhdf4FW
+YQ67IQnerCUk/432vjiKwVPdrw9mgApeEK34HjHy2IWl1TKx+oigOvSIbLsBeXqMC65nDuqIrgse
+gmZRKM/2L9joWrZu7bOD9omMTHGWdC5VATbQmqSTEHwSEeCYkFTznNrNubrh6gaWOmIRWaKng+2f
+9W6TtfetZ2+Gw12/Prjp4PWoTyYK8Xt8VOrSnOVmv/Gc37YAIONDVIH3ESXV/ho0y84yyhjhw0Iw
+nNw=
+=qzB5
+-----END PGP SIGNATURE-----
 
+--------------9YQkqF7dRSWVmMuP7AhZgAw4--
