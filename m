@@ -2,72 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0324CD923
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 17:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722AC4CD968
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 17:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2234112713;
-	Fri,  4 Mar 2022 16:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C4B1128D4;
+	Fri,  4 Mar 2022 16:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36FA7112713
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 16:31:13 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id y2so6809149edc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 08:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kipyyfQhII/lUc7ysFVEiW0FpeN/L7xlD0io3E8wlvc=;
- b=V9VXpoR2CA3L+SEaFUZyvVoeyi/77ttHxWBlqvxLVMmPTjoYR/nKzSOkXUSlRFawnH
- SUWqu7YOXW9wdIjUgiRAmaJXZDwLokkfZ19LAfe5+A5R7Y0l4IQWKyO/T7HW2uT5KIoS
- +IIi0cc+vsdq4W/QrEKG3xPPXJ5ATrszY1WkM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kipyyfQhII/lUc7ysFVEiW0FpeN/L7xlD0io3E8wlvc=;
- b=GRJ2HwBzoLqX9mPfQUTjr22JC4E/H5zssYagE9mMpOvfnk8WAx55CGtPBYwoAWl1xp
- qiD8k6SJmBjOiecnZ8Hnsec+aZ5NEhbQpZulJZkP8/CMc0xKy3PAhS+hJU+MTOGFQ0nP
- 0GV7Fk7a45wY/8Rm4hOqZDNMR21AMWsQJpUOcVo3ZuGBL5ZSeuXmk4dupijhKDnC4XPj
- ugHxEJ03ze+yBywl1W6KOTNYNtLCb8QNs99MnD/IMmN8Vx0wU+eRGYnYJnohBSx/CDLL
- kzqEBnq3+HumQFrbT6ViyHDAGDyzJ2hh9PmeQX0xJ6H9BhD+hVtkV49XjKGjYwLszU5N
- THIA==
-X-Gm-Message-State: AOAM533VR20+k8htYoKRbtpeYHWbGJ9Nl+UWpzc+Q7vRv2sVmac+lVQy
- QPq0CAF6jZfBzi5IIXi/JR+wU3+SuAXuyz7s
-X-Google-Smtp-Source: ABdhPJyfv2Bti/78xXd9yepPNzcZhy7BN1ayA34N63lryR7icNxElKo9bvI+2oqbb04CbFimpyzwYQ==
-X-Received: by 2002:a05:6402:1941:b0:413:2555:53e3 with SMTP id
- f1-20020a056402194100b00413255553e3mr39918089edz.164.1646411471234; 
- Fri, 04 Mar 2022 08:31:11 -0800 (PST)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
- [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
- hg8-20020a1709072cc800b006d6e469fbf0sm1914109ejc.134.2022.03.04.08.31.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 08:31:10 -0800 (PST)
-Received: by mail-wm1-f54.google.com with SMTP id
- l2-20020a7bc342000000b0037fa585de26so5575008wmj.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 08:31:09 -0800 (PST)
-X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
- s1-20020a7bc0c1000000b00385be1b0e6amr8416576wmh.73.1646411469246; Fri, 04 Mar
- 2022 08:31:09 -0800 (PST)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E841128D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 16:47:31 +0000 (UTC)
+Date: Fri, 04 Mar 2022 16:47:19 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [Letux-kernel] [PATCH v16 1/4] drm/bridge: dw-hdmi: introduce
+ dw_hdmi_enable_poll()
+To: Neil Armstrong <narmstrong@baylibre.com>
+Message-Id: <VYB88R.ATGIVGZ13PFM1@crapouillou.net>
+In-Reply-To: <a52702bd-c929-8170-8896-d34ba82aba3c@baylibre.com>
+References: <cover.1645895582.git.hns@goldelico.com>
+ <e54838849f80454b863f9f5634dd10f79ef7bb8f.1645895582.git.hns@goldelico.com>
+ <983e9064-17ad-e646-f37d-ca9173ba0967@baylibre.com>
+ <C8AE9A7A-E288-4637-ACAD-40CD33CD5F8C@goldelico.com>
+ <3E620AF4-402E-45EA-9D92-92EAEA9647F5@goldelico.com>
+ <SHH68R.Z3J9KSY0GQVA2@crapouillou.net>
+ <ABC1BD09-383B-4499-B034-340CE88725B3@goldelico.com>
+ <RUI68R.Z009SPJAAD8N1@crapouillou.net>
+ <F0F8F36B-3A0A-476C-8C7D-566255C629C6@goldelico.com>
+ <a52702bd-c929-8170-8896-d34ba82aba3c@baylibre.com>
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
- <YNPDAyODcvlWtxpj@pendragon.ideasonboard.com>
- <CAD=FV=W6npK+NhethhY8ghtt7gwDHYfpX00w07nHE82anqx5aA@mail.gmail.com>
- <164563818901.4066078.3221991328451321918@Monstersaurus>
- <CAD=FV=VxOOhZMjVWzXHbEV_EZKRLxtuKgbko-7SUFMsj7upz0g@mail.gmail.com>
- <164640875638.4039516.894310137608889285@Monstersaurus>
-In-Reply-To: <164640875638.4039516.894310137608889285@Monstersaurus>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 4 Mar 2022 08:30:57 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WC09+-H+pFTgxFHa8B+fqMkJPO0Jm81FLJiu6+PeNn7w@mail.gmail.com>
-Message-ID: <CAD=FV=WC09+-H+pFTgxFHa8B+fqMkJPO0Jm81FLJiu6+PeNn7w@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug
- detection
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,49 +44,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, "H. Nikolaus Schaller" <hns@goldelico.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ linux-mips <linux-mips@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Neil,
 
-On Fri, Mar 4, 2022 at 7:46 AM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
->
-> > > What about:
-> > >
-> > >         pdata->no_hpd = of_property_read_bool(np, "no-hpd");
-> > >         if (panel && !pdata->no_hpd) {
-> > >                 DRM_ERROR("Panels will not function with HPD. Enforcing no-hpd\n");
-> > >                 pdata->no_hpd = true;
-> > >         }
-> > >
-> > > That leaves it still optional to DP connectors, but enforced on eDP?
-> >
-> > Yeah, that's fine with me. Nits would be to use "warn" instead of
-> > "error" since this isn't fatal and use the non-SHOUTING versions of
-> > the prints since the SHOUTING versions are deprecated.
->
-> Could you clarify this please? The whole driver uses DRM_ERROR style. Is
-> there a new debug macro somewhere?
+Le ven., mars 4 2022 at 14:30:46 +0100, Neil Armstrong=20
+<narmstrong@baylibre.com> a =E9crit :
+> Hi,
+>=20
+> On 03/03/2022 18:59, H. Nikolaus Schaller wrote:
+>> Hi Paul, Neil,
+>>=20
+>>> Am 03.03.2022 um 18:20 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>>=20
+>>> Hi Nikolaus,
+>>>=20
+>>> [snip]
+>>>=20
+>>>>> Well he said "the Ingenic DRM core" aka ingenic-drm-drv.c. You do=20
+>>>>> have access to the main drm_device in the ingenic_drm_bind()=20
+>>>>> function, so you can add it there (with a cleanup function=20
+>>>>> calling drm_kms_helper_poll_fini() registered with=20
+>>>>> drmm_add_action_or_reset()).
+>>>> Well, do you really want to mix HPD detection between connector,=20
+>>>> Synopsys bridge and Ingenic DRM core? These are independent...
+>>>> Or should be accessed only through the bridge chain pointers.
+>>>> IMHO we should keep separate functions separate.
+>>>=20
+>>> The drm_kms_helper_poll_init() just says "this DRM device may have=20
+>>> connectors that need to be polled" so it very well fits inside the=20
+>>> main driver, IMHO.
+>>=20
+>> As far as I understand, it has the side-effect to always set=20
+>> dev->mode_config.poll_enabled and
+>> schedule_delayed_work() for all devices.
+>> I am not sure if this is intended for arbitrary ingenic-drm devices.=20
+>> But you know better than me.
+>>=20
+>>=20
+>> Hm. But wait, I think I now finally remember why I have proposed it=20
+>> the way it is!
+>> It is always better to go back to requirements and find the least=20
+>> invasive solution.
+>>=20
+>> - HPD IRQ works and calls dw_hdmi_irq() [as can be shown by adding=20
+>> printk()]
+>> - it is just that the udevd is only notified if poll_enabled =3D true=20
+>> (but no polling takes place!).
+>>=20
+>> An earlier version (v4) to fix this proposed to add an explicit call=20
+>> to drm_kms_helper_hotplug_event()
+>> in dw_hdmi_irq() but that was rejected a while ago because=20
+>> drm_helper_hpd_irq_event() will already call it:
+>>=20
+>> 	https://www.spinics.net/lists/dri-devel/msg316846.html
+>>=20
+>> Since this did not take into account that=20
+>> dev->mode_config.poll_enabled must be set true, I then proposed the
+>> enable_poll() mechanism just to set this bit for the ingenic-dw-hdmi=20
+>> specialization.
+>>=20
+>> So a HPD event is delivered to the dw-hdmi driver as dw_hdmi_irq()=20
+>> and that calls drm_helper_hpd_irq_event()
+>> but not drm_kms_helper_hotplug_event() and user-space is not getting=20
+>> aware.
+>>=20
+>> It is all a hack because we mix the dw-hdmi driver which originally=20
+>> did register its own connector
+>> with an explicit connector...
+>>=20
+>> In summary I now thing that the v4 patch is the simplest and least=20
+>> invasive solution.
+>>=20
+>> We neither have to introduce a dw_hdmi_enable_poll() function or=20
+>> call drm_kms_helper_poll_init() anywhere.
+>>=20
+>> It is just a single line to add to dw-hdmi. And neither touches=20
+>> ingenic-dw-hdmi nor ingenic-drm-drv.
+>>=20
+>> So let's go back to v4 version (just modify commit message to better=20
+>> describe why we have to call
+>> drm_kms_helper_hotplug_event() explicitly) and forget about=20
+>> alternatives.
+>=20
+> Please don't and add drm_kms_helper_poll_init() from the=20
+> ingenic-drm-drv.c like every other DRM driver.
+>=20
+> Adding drm_kms_helper_hotplug_event() in dw-hdmi will impact other=20
+> drivers using dw-hdmi but correctly
+> calling drm_kms_helper_poll_init().
 
-Mostly looking at commit 306589856399 ("drm/print: Add deprecation
-notes to DRM_...() functions"), which I added a few months ago.
-Despite the fact that I added the documentation, though, I'm not the
-one driving the transition away from the SHOUTing versions. If you
-look through history you can see this is driven by more senior DRM
-people.
+ From what I understood in Nikolaus' last message, HDMI hotplug is=20
+actually correctly detected, so there's no need for polling. What is=20
+missing is the call to drm_kms_helper_hotplug_event *somewhere*, so=20
+that the information is correctly relayed to userspace.
 
-IMO it's fine to transition slowly to the new non-shouting versions
-and it doesn't bother me to have some code in a file using the old
-SHOUTing versions and some using the newer functions. Basically for
-new code or when we're touching code anyway we do the transition then.
-That being said, if you want to
+I think this issue can be fixed by calling=20
+drm_bridge_connector_enable_hpd() on the connector in ingenic-drm-drv.c.
 
--Doug
+Cheers,
+-Paul
+
+
