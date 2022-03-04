@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74A74CDA4B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 18:24:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DB74CDA4F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 18:24:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAB41129CE;
-	Fri,  4 Mar 2022 17:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4728B112B07;
+	Fri,  4 Mar 2022 17:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A733F112A32;
- Fri,  4 Mar 2022 17:24:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A9210FED3;
+ Fri,  4 Mar 2022 17:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646414664; x=1677950664;
+ t=1646414666; x=1677950666;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LKGc1TT9GPmDXb9i3/Z6KC6MlQAG3xUDW2WIV92/s50=;
- b=mDgOH3SWSQRCMTgpPJNkHvGTVp3DnTUKliqg3+xIYM3+KUe3Abkql22i
- fn1MwzeYmLbqAH8+DbL9dwNkRWowm6RFdZ40UFZpiTEDYRIB/BCURCZBc
- GaItbomHrnkIqbHObyMQYhjw2rxMvZa5Fh0DJMrIjy69iB+vEkvVsJ722
- cncY4D7onG6M2eExsqgyhjpDOuvns6qeg3s+QulY0bQoANA1lXyRVpi2d
- RzNBZsxV61U9vc2eYcv8ruNajPqUtmzOxO9EHSy5d7eXWpwKTc/cC5mN0
- C4iKyUUzSdwPnteCLaTD2FtmSaFvU7XA41hktvE7fQbZr/iNehA7zA35w g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="252848990"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="252848990"
+ bh=snHbOntyYfQr9K82seOaBfBl8X9a55eeg1V89w+NDqo=;
+ b=ETyQmzsF8DrK7aThU7fBmrRUXR49fewLGf3c4f3cODt7tYZuUZTZ3ADG
+ uKNkf0vg+cu1PBvziDLT9gSOBW/g+4kfVgC0ghah1aYkQemdTk6Qs8+G3
+ VjUjQgVt4x514K+GFadkB4Ckgn0BsDuOkdog8oZnIvnW1JcF6SVZS9Tgi
+ j2vsKWTDLmMRgiOnzVFcHc9tkVGZiW1lELZukCjNc7t2eijABwUy4wmsa
+ xzanRim9RrIc+XInFpnIdFcXX5V3Xnq3ZtHuCc0lzlFXEC+ikjr9yTMjn
+ cNL8i0YA8SpRrbD0/uf/K6w3HP0qeIXvA1bziMIDgpwtU3NBm/9j2TrIT w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="252848997"
+X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="252848997"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 09:24:24 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="631216631"
+ 04 Mar 2022 09:24:26 -0800
+X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="631216639"
 Received: from vkats-mobl1.ccr.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.28.8])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 09:24:23 -0800
+ 04 Mar 2022 09:24:24 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/i915: fixup the initial fb base on DG1
-Date: Fri,  4 Mar 2022 17:23:32 +0000
-Message-Id: <20220304172333.991778-8-matthew.auld@intel.com>
+Subject: [PATCH 8/8] drm/i915: fixup the initial fb on DG2
+Date: Fri,  4 Mar 2022 17:23:33 +0000
+Message-Id: <20220304172333.991778-9-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220304172333.991778-1-matthew.auld@intel.com>
 References: <20220304172333.991778-1-matthew.auld@intel.com>
@@ -62,48 +62,47 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The offset we get looks to be the exact start of DSM, but the
-inital_plane_vma expects the address to be relative.
+On DG2+ the initial fb shouldn't be placed anywhere close to DSM, and so
+should just be allocated directly from LMEM.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- .../drm/i915/display/intel_plane_initial.c    | 22 +++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_plane_initial.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-index f797fcef18fc..b39d3a8dfe45 100644
+index b39d3a8dfe45..5a3baeb620a6 100644
 --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
 +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-@@ -56,10 +56,24 @@ initial_plane_vma(struct drm_i915_private *i915,
- 	if (!mem || plane_config->size == 0)
+@@ -68,8 +68,12 @@ initial_plane_vma(struct drm_i915_private *i915,
+ 		 * On future discrete HW, like DG2, we should be able to just
+ 		 * allocate directly from LMEM, due to larger LMEM size.
+ 		 */
+-		if (base >= i915->dsm.start)
++		if (base >= i915->dsm.start) {
+ 			base -= i915->dsm.start;
++		} else {
++			WARN_ON_ONCE(IS_DG1(i915));
++			mem = i915->mm.regions[INTEL_REGION_LMEM];
++		}
+ 	}
+ 
+ 	size = roundup(base + plane_config->size, mem->min_page_size);
+@@ -82,11 +86,11 @@ initial_plane_vma(struct drm_i915_private *i915,
+ 	 * features.
+ 	 */
+ 	if (IS_ENABLED(CONFIG_FRAMEBUFFER_CONSOLE) &&
++	    mem == i915->mm.stolen_region &&
+ 	    size * 2 > i915->stolen_usable_size)
  		return NULL;
  
--	base = round_down(plane_config->base,
--			  I915_GTT_MIN_ALIGNMENT);
--	size = round_up(plane_config->base + plane_config->size,
--			mem->min_page_size);
-+	base = plane_config->base;
-+	if (IS_DGFX(i915)) {
-+		/*
-+		 * On discrete the base address should be somewhere in LMEM, but
-+		 * depending on the size of LMEM the base address might
-+		 * intersect with the start of DSM, like on DG1, in which case
-+		 * we need the relative address. In such cases we might also
-+		 * need to choose between inital fb vs fbc, if space is limited.
-+		 *
-+		 * On future discrete HW, like DG2, we should be able to just
-+		 * allocate directly from LMEM, due to larger LMEM size.
-+		 */
-+		if (base >= i915->dsm.start)
-+			base -= i915->dsm.start;
-+	}
-+
-+	size = roundup(base + plane_config->size, mem->min_page_size);
-+	base = round_down(base, I915_GTT_MIN_ALIGNMENT);
- 	size -= base;
+-	obj = i915_gem_object_create_region_at(i915->mm.stolen_region,
+-					       base, size, 0);
++	obj = i915_gem_object_create_region_at(mem, base, size, 0);
+ 	if (IS_ERR(obj))
+ 		return NULL;
  
- 	/*
 -- 
 2.34.1
 
