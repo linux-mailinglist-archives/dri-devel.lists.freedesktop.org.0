@@ -1,85 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D9F4CDEE6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 21:48:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 720004CDF81
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 22:04:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99AD11293F;
-	Fri,  4 Mar 2022 20:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE811124B0;
+	Fri,  4 Mar 2022 21:04:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B6911292D
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 20:48:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9619A10F4D6
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 21:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646426883;
+ s=mimecast20190719; t=1646427849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fIKaFpflRd9hwR16NlF6OnU9QoRFMeWutPRp1q0p0c0=;
- b=XFhNIIaGGxeEaNe5UIGYV8BXf8vMC6N4SK8tl6WFFVUlQpOm5RYMw6b4YOOtSEbI3RLOVj
- ZoB+FoM8quLDSd4VIFRMlmg0pyhkMWvj4jOg2rmTX6yuUnF7Tx5Z0fynaadEitHYRCrey4
- XwgcmLhgb8bT84t59AHjC8sD42YZm9w=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aB6Kk4CiP7ma9Bi5vpnU1x/1xVJ2+zGmFV9PkjhVvyE=;
+ b=HwOYScgs6xdPOrHILXVJJKAvFq05HZAuTsYBOXrvtZvMwyciVoGLvBYABtNpHZMfpVz9PI
+ arUvfR8ktUv11iz/bYVSPH51nef4RBUxyiEEoLYKp105mhZdX1w1ufD35S0lpwGyXuIpBe
+ XDYfTsDy5E5up+31veYjcpL0Wi8u8pI=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-xX4p6LqfNbCqT50eDh2Mqg-1; Fri, 04 Mar 2022 15:48:00 -0500
-X-MC-Unique: xX4p6LqfNbCqT50eDh2Mqg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f13-20020a05600c154d00b003818123caf9so2857534wmg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 12:47:59 -0800 (PST)
+ us-mta-397-Y07AX2IIP_-Ljq7dUqpD3Q-1; Fri, 04 Mar 2022 16:04:06 -0500
+X-MC-Unique: Y07AX2IIP_-Ljq7dUqpD3Q-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ w15-20020a05622a190f00b002dda0988c11so7104323qtc.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 13:04:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fIKaFpflRd9hwR16NlF6OnU9QoRFMeWutPRp1q0p0c0=;
- b=g7mLNNonIeLhuy7E2KThd1lkOz9igLRZLngN+mjqz9CmJV/uTGmXRpYIuyZmZqYzxq
- uhq6SLNh2bHYmHJ/r6jI+8uD86cQXIEtqXUq0XOo4Z4W8GAG/D6vX9IDYBAGj5V4kT8n
- JKtLeuH4krdx92E+IoNlksV+ucTvUJtRv1Z6v50kKKlJWvzPercOSFZeUi+/t56KHyyY
- kDsUWSGlGtT5ytoHuKE0AhO8AUzIB75dVxdCiy0Ga/GfqhNkXmV/X9KYedhMChf7UTQe
- 33psT7jS0Ahd8Qi15yg5f8jEsDOwZgKs5kPlPFw37TIn2SrdgcLdmlsejiC365MeJm4F
- oEcw==
-X-Gm-Message-State: AOAM530Gip2jALv+BbKbs4F6o8ifuAaDHkgQPUIDx8OZoBiNoUkAYobJ
- d+hAG76IMDNDG7YkhQu1f5Pbg4hLQquEQDUa/Iwa7ORcAzZjlGEGGnd+dp7HJ+bLVqSZoVmJj0G
- iADN0uo+TFgQc94uKsUEveBk7GxXU
-X-Received: by 2002:a5d:6c66:0:b0:1f0:5fd5:697 with SMTP id
- r6-20020a5d6c66000000b001f05fd50697mr365411wrz.65.1646426878899; 
- Fri, 04 Mar 2022 12:47:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzltMdM718VwuVL5pcJNjWElXTGeJCCvXaeW2MlBTYMP981ds1+0SMQ7OOkDx5SiXxjBKq6wA==
-X-Received: by 2002:a5d:6c66:0:b0:1f0:5fd5:697 with SMTP id
- r6-20020a5d6c66000000b001f05fd50697mr365399wrz.65.1646426878644; 
- Fri, 04 Mar 2022 12:47:58 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- x3-20020a5d6b43000000b001e317fb86ecsm5110984wrw.57.2022.03.04.12.47.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 12:47:58 -0800 (PST)
-Message-ID: <8d1c3caf-96ad-ae4c-021e-ac38f179dfcb@redhat.com>
-Date: Fri, 4 Mar 2022 21:47:56 +0100
+ bh=aB6Kk4CiP7ma9Bi5vpnU1x/1xVJ2+zGmFV9PkjhVvyE=;
+ b=K3Upqln3J7TbslVHfElF78eMkEiWCXbMcXo7u4ZFQxHrmhg/YbDI54ox3aqpos0xCq
+ /9poVIbohlTI8/DdMGJ9skcp/ehc8g0lMlo1NeY+14hypYPVBmXga9gBxK0NFd2lh19o
+ mnrV+tnlVVs+bHoRC7lZi/aMjzxjiFbHqRvMBmC14Aq2/0uCpTnjGzDqewklEdNrtx7q
+ SZKD6X7OXOVtNUeZbzT5kqGydX4TundaJW0SHElKp2RS95/w2WEvwGucrvwBP+MBKyl4
+ fK9n6Szt4kKsS/1IXmbPoGAvPa3YLHqoOxkc2z886xDsaNH+ThKJPxhRbqbrNJBA3uiK
+ Dsvg==
+X-Gm-Message-State: AOAM533A8G1ftDLj4CHu8DF5rPSHGw6W61cOYOBzfvAO9LieqZitn/mp
+ cGQiF4HinzJSoOrUv4/C3R6wfzMgIP7DayvOdqq2TRLMdPpT/+6AfqMG43LwuMI0NmuvQSlvqcy
+ 7VOelz8TDHUlc+/IDy9xpwFOrUXWX
+X-Received: by 2002:ac8:7d0d:0:b0:2e0:4e16:d3e3 with SMTP id
+ g13-20020ac87d0d000000b002e04e16d3e3mr596088qtb.140.1646427845905; 
+ Fri, 04 Mar 2022 13:04:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzl8+Ou2jNdvl2lw+bUe6/hKRdnkUMPqvw52WVW8CnKDZfAXFw9zzSyaFkAoX7LqTGuVUhhjg==
+X-Received: by 2002:ac8:7d0d:0:b0:2e0:4e16:d3e3 with SMTP id
+ g13-20020ac87d0d000000b002e04e16d3e3mr596051qtb.140.1646427845459; 
+ Fri, 04 Mar 2022 13:04:05 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
+ d15-20020a05622a15cf00b002de711a190bsm4066708qty.71.2022.03.04.13.04.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Mar 2022 13:04:05 -0800 (PST)
+From: trix@redhat.com
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
+ ville.syrjala@linux.intel.com, matthew.d.roper@intel.com,
+ lucas.demarchi@intel.com, airlied@redhat.com, imre.deak@intel.com
+Subject: [PATCH] drm/i915: rework the error handling in *_dpll_params
+Date: Fri,  4 Mar 2022 13:03:55 -0800
+Message-Id: <20220304210355.608898-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] simpldrm: Enable boot time VESA graphic mode selection.
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-References: <20220218093334.24830-1-msuchanek@suse.de>
- <354f3cfd-bfa0-3ebe-3d67-705423d9294e@suse.de>
- <20220302193846.GT3113@kunlun.suse.cz>
- <2ba8497f-ba6d-558b-d782-bb3ee67d23ec@redhat.com>
- <81f87874-4aa8-265d-a0ed-c8a67708a92a@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <81f87874-4aa8-265d-a0ed-c8a67708a92a@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,38 +85,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-video@atrey.karlin.mff.cuni.cz, Borislav Petkov <bp@alien8.de>,
- Maxime Ripard <maxime@cerno.tech>, "H. Peter Anvin" <hpa@zytor.com>,
- Martin Mares <mj@ucw.cz>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Ingo Molnar <mingo@redhat.com>,
- Daniel Mack <daniel@zonque.org>
+Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+From: Tom Rix <trix@redhat.com>
 
-On 3/4/22 21:00, Thomas Zimmermann wrote:
-> Hi,
-> 
-> I've merged the patches into drm-misc-fixes. Thanks a lot to both of you.
-> 
+Clang static analysis reports this issue
+intel_dpll.c:472:31: warning: The left operand of '-'
+  is a garbage value [core.UndefinedBinaryOperatorResult]
+  this_err = abs(clock.dot - target);
+                 ~~~~~~~~~ ^
 
-Ard already picked these through the efi tree:
+In a loop clock.dot is set on successful call to
+i9xx_calc_dpll_params().  If the call fails, the later
+*is_valid() will use the previous loop's clock.dot.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/log/
+The *_dpll_params functions return an arithmetic statement
+with the clock.dot as the variable.  Change the error handler
+to set clock.dot to 0 and jump to the return statement.
 
-> Best regards
-> Thomas
-> 
+Fixes: dccbea3b0704 ("drm/i915: calculate the port clock rate along with other PLL params")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/i915/display/intel_dpll.c | 32 ++++++++++++++---------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
+index 0ae37fdbf2a5b..ba7cada704288 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll.c
+@@ -309,11 +309,13 @@ int pnv_calc_dpll_params(int refclk, struct dpll *clock)
+ {
+ 	clock->m = clock->m2 + 2;
+ 	clock->p = clock->p1 * clock->p2;
+-	if (WARN_ON(clock->n == 0 || clock->p == 0))
+-		return 0;
++	if (WARN_ON(clock->n == 0 || clock->p == 0)) {
++		clock->dot = 0;
++		goto end;
++	}
+ 	clock->vco = DIV_ROUND_CLOSEST(refclk * clock->m, clock->n);
+ 	clock->dot = DIV_ROUND_CLOSEST(clock->vco, clock->p);
+-
++end:
+ 	return clock->dot;
+ }
+ 
+@@ -326,11 +328,13 @@ int i9xx_calc_dpll_params(int refclk, struct dpll *clock)
+ {
+ 	clock->m = i9xx_dpll_compute_m(clock);
+ 	clock->p = clock->p1 * clock->p2;
+-	if (WARN_ON(clock->n + 2 == 0 || clock->p == 0))
+-		return 0;
++	if (WARN_ON(clock->n + 2 == 0 || clock->p == 0)) {
++		clock->dot = 0;
++		goto end;
++	}
+ 	clock->vco = DIV_ROUND_CLOSEST(refclk * clock->m, clock->n + 2);
+ 	clock->dot = DIV_ROUND_CLOSEST(clock->vco, clock->p);
+-
++end:
+ 	return clock->dot;
+ }
+ 
+@@ -338,11 +342,13 @@ int vlv_calc_dpll_params(int refclk, struct dpll *clock)
+ {
+ 	clock->m = clock->m1 * clock->m2;
+ 	clock->p = clock->p1 * clock->p2;
+-	if (WARN_ON(clock->n == 0 || clock->p == 0))
+-		return 0;
++	if (WARN_ON(clock->n == 0 || clock->p == 0)) {
++		clock->dot = 0;
++		goto end;
++	}
+ 	clock->vco = DIV_ROUND_CLOSEST(refclk * clock->m, clock->n);
+ 	clock->dot = DIV_ROUND_CLOSEST(clock->vco, clock->p);
+-
++end:
+ 	return clock->dot / 5;
+ }
+ 
+@@ -350,12 +356,14 @@ int chv_calc_dpll_params(int refclk, struct dpll *clock)
+ {
+ 	clock->m = clock->m1 * clock->m2;
+ 	clock->p = clock->p1 * clock->p2;
+-	if (WARN_ON(clock->n == 0 || clock->p == 0))
+-		return 0;
++	if (WARN_ON(clock->n == 0 || clock->p == 0)) {
++		clock->dot = 0;
++		goto end;
++	}
+ 	clock->vco = DIV_ROUND_CLOSEST_ULL(mul_u32_u32(refclk, clock->m),
+ 					   clock->n << 22);
+ 	clock->dot = DIV_ROUND_CLOSEST(clock->vco, clock->p);
+-
++end:
+ 	return clock->dot / 5;
+ }
+ 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.26.3
 
