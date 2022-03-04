@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330F34CD1B3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 10:55:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5A44CD1B7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 10:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D1210E48F;
-	Fri,  4 Mar 2022 09:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62CAE10E4A0;
+	Fri,  4 Mar 2022 09:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF5510E481
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 09:55:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67EF810E487
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 09:55:07 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id F14D01F46484
+ (Authenticated sender: kholk11) with ESMTPSA id 3924D1F46486
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646387705;
- bh=5NfY/OJo8jqAhMoYvWFCELHiFzPVbvYo7BtN/XmNlig=;
+ s=mail; t=1646387706;
+ bh=e4C8wnAcuL8k5FwceR/IW4yZe9+rSJuGVPXQwJtpD1U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DPnVo17AchbcX1D6AJFR5p0tyDHCjx99Esxk+83qV7geF2q0lS2SLQp7ICsRZEZHb
- 2O1WBR/t6S1KKLt4z05Bb28WIBfhQLkaqE7d7FSJJP5BtOMQW+yspONmpoz6SD8kwa
- mbw2HB9CHwyYwB1oOGgzbCG6zcFRLNnJbX0PwQOgzpnpmErvJtdqwxwI16I3h3AZ3L
- rmurszwu/YQhiMy1sy/pekCLuaLantfHqFCUxXYe7+Z5Sr9M21Z8kzZN+gPe3m5eOE
- NlXdWk5FVwohdv9m1p957p3qNgPrubrrPSkLCjbwAPTKZmNozxAYZygTNxQUAN5VTT
- B2nv9/mnJNOqQ==
+ b=aUR/YCFlNX2e6vMy8tlrinUWThnwSawU1hOBQWS4mR9lrCsnEdKiPotxuyZSznHoW
+ CuxSxQ+db6rQ/SknV8SZF4B3iV0XwDiQ7VKqxVuimOTDAJJRV5uJqj7oJHy/typqbs
+ qpx0Sm0URGHzD99/nutjEt2AYZ+C+5/7Fx2C+EHp5+2Tbvo6kGuF3qeLb0rOhmHpe2
+ VC1LRjx5/4DaxeSzPCai0uD5191p6KeXqNX7SEkK9ilbpTBR93J2YtkmYUVWUdHFWi
+ mNNw6yzpAgEawpwBqgjcOp6pwzn+NgIfg3vjuZ7S+mec55/ePOaFn6I9Jh5C6wNXX3
+ bCMDOHNO63iMw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH 1/3] dt-bindings: display: mediatek, mutex: Fix mediatek,
- gce-events type
-Date: Fri,  4 Mar 2022 10:54:56 +0100
-Message-Id: <20220304095458.12409-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 2/3] dt-bindings: display: mediatek,
+ ovl: Fix 'iommu' required property typo
+Date: Fri,  4 Mar 2022 10:54:57 +0100
+Message-Id: <20220304095458.12409-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
 References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
@@ -59,28 +59,27 @@ Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mediatek,gce-events property needs as value an array of uint32
-corresponding to the CMDQ events to listen to, and not any phandle.
+The property is called 'iommus' and not 'iommu'. Fix this typo.
 
 Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each block to individual yaml")
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,mutex.yaml    | 2 +-
+ .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-index 6eca525eced0..842ba7b07a34 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-@@ -58,7 +58,7 @@ properties:
-       The event id which is mapping to the specific hardware event signal
-       to gce. The event id is defined in the gce header
-       include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+index 93d5c68a2dbd..fc691d00c60e 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+@@ -75,7 +75,7 @@ required:
+   - interrupts
+   - power-domains
+   - clocks
+-  - iommu
++  - iommus
  
- required:
-   - compatible
+ additionalProperties: false
+ 
 -- 
 2.35.1
 
