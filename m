@@ -1,34 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7724A4CCE77
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:08:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AA64CCEFF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77D610F58C;
-	Fri,  4 Mar 2022 07:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81D310E950;
+	Fri,  4 Mar 2022 07:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id 51A6210F2BD
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 07:07:10 +0000 (UTC)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.51 with ESMTP; 4 Mar 2022 16:07:09 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 4 Mar 2022 16:07:09 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-From: Byungchul Park <byungchul.park@lge.com>
-To: torvalds@linux-foundation.org
-Subject: [PATCH v4 24/24] dept: Disable Dept on that map once it's been
- handled until next turn
-Date: Fri,  4 Mar 2022 16:06:43 +0900
-Message-Id: <1646377603-19730-25-git-send-email-byungchul.park@lge.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1646377603-19730-1-git-send-email-byungchul.park@lge.com>
-References: <1646377603-19730-1-git-send-email-byungchul.park@lge.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D99110E950;
+ Fri,  4 Mar 2022 07:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646378759; x=1677914759;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=arcUkRQFbIhbxWJ6wWGD3LeSNf+eatOH2vr0aWB2GFc=;
+ b=Emqo755snMc9CcsPmpGF+70jUlKBwixTff6lXHp2GbUsVE4F/COm1cbL
+ Y9unlh/fYr4nVEquGxl4mBga6o7wXrQLRGPgu79dzMgXmg9a8nK6GVLGw
+ pmfLZOGwU97rQaLIeoWMpGwnm6g1eq71iQyoKIB+WANvIHPoplOMRWss6
+ 7GF8s1iGAMBfZdzpNe+jL4XV6yO8n/MyRXtSQvCNiMfnKjCrFLrYGbo7F
+ XBfoUfdEkl2DaUZK/0UI7KXNfyAFAw63ppp8OxsJ1Gw3ACXbyK0q76ALW
+ LG097MwUQwnLrRDJq852baJQwm77gH2LoIR79bHgIV4fj/HwZ0otbh8vv g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="254108719"
+X-IronPort-AV: E=Sophos;i="5.90,154,1643702400"; d="scan'208";a="254108719"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2022 23:25:58 -0800
+X-IronPort-AV: E=Sophos;i="5.90,154,1643702400"; d="scan'208";a="536181361"
+Received: from davidgba-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.215.14])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2022 23:25:58 -0800
+Date: Thu, 3 Mar 2022 23:25:58 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/xehp: Support platforms with
+ CCS engines but no RCS
+Message-ID: <20220304072558.jhmcr3wnqkdh6vjg@ldmartin-desk2>
+References: <20220303223435.2793124-1-matthew.d.roper@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220303223435.2793124-1-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,69 +57,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dept works with waits preceeding an event, that might lead a deadlock.
-Once the event has been handled, it's hard to ensure further waits
-actually contibute to deadlock until next turn, which will start when
-a sleep associated with that map happens.
+On Thu, Mar 03, 2022 at 02:34:34PM -0800, Matt Roper wrote:
+>In the past we've always assumed that an RCS engine is present on every
+>platform.  However now that we have compute engines there may be
+>platforms that have CCS engines but no RCS, or platforms that are
+>designed to have both, but have the RCS engine fused off.
+>
+>Various engine-centric initialization that only needs to be done a
+>single time for the group of RCS+CCS engines can't rely on being setup
+>with the RCS now; instead we add a I915_ENGINE_FIRST_RENDER_COMPUTE flag
+>that will be assigned to a single engine in the group; whichever engine
+>has this flag will be responsible for some of the general setup
+>(RCU_MODE programming, initialization of certain workarounds, etc.).
+>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-So let Dept start tracking dependency when a sleep happens and stop
-tracking dependency once the event e.i. wake up, has been handled.
 
-Signed-off-by: Byungchul Park <byungchul.park@lge.com>
----
- kernel/dependency/dept.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index cc1b3a3..1c91db8 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -2325,6 +2325,12 @@ void dept_event(struct dept_map *m, unsigned long e_f, unsigned long ip,
- 		do_event((void *)m, c, READ_ONCE(m->wgen), ip);
- 		pop_ecxt((void *)m);
- 	}
-+
-+	/*
-+	 * Keep the map diabled until the next sleep.
-+	 */
-+	WRITE_ONCE(m->wgen, 0);
-+
- 	dept_exit(flags);
- }
- EXPORT_SYMBOL_GPL(dept_event);
-@@ -2447,6 +2453,11 @@ void dept_event_split_map(struct dept_map_each *me,
- 		pop_ecxt((void *)me);
- 	}
- 
-+	/*
-+	 * Keep the map diabled until the next sleep.
-+	 */
-+	WRITE_ONCE(me->wgen, 0);
-+
- 	dept_exit(flags);
- }
- EXPORT_SYMBOL_GPL(dept_event_split_map);
--- 
-1.9.1
-
+Lucas De Marchi
