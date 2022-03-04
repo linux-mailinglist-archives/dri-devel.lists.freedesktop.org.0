@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4154E4CE11D
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AB54CE122
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:45:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0356210FA5A;
-	Fri,  4 Mar 2022 23:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3E210EDE1;
+	Fri,  4 Mar 2022 23:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B94D10FA5A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:44:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F078E10EDE1
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 76E7A61E2C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:44:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56AAAC340F4
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:43:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5E5A161F32
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E6E4C340F8
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646437439;
- bh=16b3mHxGo7CXPa/opMj9XBta1y9/zRDIU0OwsIYy1LM=;
+ s=k20201202; t=1646437515;
+ bh=NeRBwotyA+2T4DJi4XwW8R9F5009UEd0x0u94q4HzSU=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=lNE1FWE2VLO2AASJfC6duh+flMjHcAj1hpQGW1NHjm8rPyER1vCT/bMTz+9AcyR7i
- MpTwzcfAVei4VFMKtHZC7Ps9vRilwLDx1jNRvVhNhh1+ezFm7qN6AFK9xnsDB3CckR
- nq/xkhI1YvAHwckPcgt2NhE5m1yqtqCcNwjtSiqsfKWWZH/zaJNj8gN3aoHvgfiwG5
- LfHAo0OBP/45GsZB/4IQEvjjf+XAt0GaqfE4cneDTgx3Ed1NCEROCBOAfxfR3Tuc6Q
- xPSixbOi/gs5bGgO4hINtSbAOHIYppnlrcmpPXKWD0NxhN4Hng8NQkgpHZRx8zNgsO
- la4b07wrtmq8w==
-Received: by mail-ej1-f52.google.com with SMTP id dr20so20471286ejc.6
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 15:43:59 -0800 (PST)
-X-Gm-Message-State: AOAM531rgCo/sXYF16AjNrm999o/4DBm/RkOwIR0eph8E/H/rB0uiD4c
- 7LEB4FRrdJklVPqhNz5/nL/6VkwONbGynNPn1A==
-X-Google-Smtp-Source: ABdhPJwnZliVE4KHmolx7T1uMZ0t0Ia2+Lso1v5G32G3bJxHN2JjX0zgzbElexB7kKBvJcmKTP8sZXJn0s/5C8B2wqE=
-X-Received: by 2002:a17:907:3f8d:b0:6d5:bb03:c4c6 with SMTP id
- hr13-20020a1709073f8d00b006d5bb03c4c6mr953594ejc.680.1646437437567; Fri, 04
- Mar 2022 15:43:57 -0800 (PST)
+ b=F4kIJg1JBz7deNxMyZ/NWRHbYHAWiOoPzls/nqlVNxWR4XRC0AXHq9Bu8c/tdM0nt
+ F/b68J2MS2rmnOFIhnh3J31DgEZgxe6h6VKEUKH1UDGlmAD+ruRiX51NkXcPnYxO53
+ P38M7Rdo1D/zecUw92XgmrDTpmYDJ+bWeiZ3I4USeCvAvrNblBNMVo/bJXvvNV2M2T
+ Rkn7GhSGMcgQIa76sgpyGpdKgmNMvNibCCGlw7lwJ+Y9MxIyNGSgJ/IkZbyn7j/rPd
+ xopIiph9c6NMqICzJUO0XL7G8oJm+nO7ps0zP/z3AktHuIn+CoDwm9JGjBzUMey3eK
+ +5qbQBJ5uWYrA==
+Received: by mail-ej1-f45.google.com with SMTP id qx21so20461665ejb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 15:45:15 -0800 (PST)
+X-Gm-Message-State: AOAM532Lo2OtFhjIwaBeGPh47fx9FfhywtYrVqDIiZGZjmJzCL5Ze/PL
+ 7MPbrFNRlYcnXffZxHNbxthbOXyOh8LN3iiP/g==
+X-Google-Smtp-Source: ABdhPJxYS0br7Fg3mai1Y52kvgn22FUhmJLrfoIufPjrILVKI7waYv7yh1S/8ojIS55W4FhA8IZFUbN9+nd9WWD+qnA=
+X-Received: by 2002:a17:906:b348:b0:6cf:5b66:2f80 with SMTP id
+ cd8-20020a170906b34800b006cf5b662f80mr903212ejb.638.1646437513692; Fri, 04
+ Mar 2022 15:45:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
- <20220304095458.12409-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220304095458.12409-2-angelogioacchino.delregno@collabora.com>
+ <20220304095458.12409-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220304095458.12409-3-angelogioacchino.delregno@collabora.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 5 Mar 2022 07:43:46 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8TSQ+-LW4jRK28=G1CcwJBXYmXsgHMadaAScd7APtjNA@mail.gmail.com>
-Message-ID: <CAAOTY_8TSQ+-LW4jRK28=G1CcwJBXYmXsgHMadaAScd7APtjNA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek, mutex: Fix mediatek, 
- gce-events type
+Date: Sat, 5 Mar 2022 07:45:02 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9m06C63xXQqDSZeV2ZojEqE_Hb+V8stPc1x4oUdD5OGA@mail.gmail.com>
+Message-ID: <CAAOTY_9m06C63xXQqDSZeV2ZojEqE_Hb+V8stPc1x4oUdD5OGA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: display: mediatek,ovl: Fix 'iommu'
+ required property typo
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,10 +70,10 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
  linux-kernel <linux-kernel@vger.kernel.org>, DTML <devicetree@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -85,8 +84,7 @@ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
 2022=E5=B9=B43=E6=9C=884=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:55=
 =E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> The mediatek,gce-events property needs as value an array of uint32
-> corresponding to the CMDQ events to listen to, and not any phandle.
+> The property is called 'iommus' and not 'iommu'. Fix this typo.
 
 Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
@@ -96,27 +94,26 @@ ock to individual yaml")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > ---
->  .../devicetree/bindings/display/mediatek/mediatek,mutex.yaml    | 2 +-
+>  .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml      | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-mutex.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mu=
-tex.yaml
-> index 6eca525eced0..842ba7b07a34 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y=
-aml
-> @@ -58,7 +58,7 @@ properties:
->        The event id which is mapping to the specific hardware event signa=
+ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.=
+yaml
+> index 93d5c68a2dbd..fc691d00c60e 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
 l
->        to gce. The event id is defined in the gce header
->        include/dt-bindings/gce/<chip>-gce.h of each chips.
-> -    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
+l
+> @@ -75,7 +75,7 @@ required:
+>    - interrupts
+>    - power-domains
+>    - clocks
+> -  - iommu
+> +  - iommus
 >
->  required:
->    - compatible
+>  additionalProperties: false
+>
 > --
 > 2.35.1
 >
