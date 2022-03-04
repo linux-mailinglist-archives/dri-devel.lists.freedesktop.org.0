@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B684CCB07
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 01:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8517B4CCB09
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 01:58:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F30D10E404;
-	Fri,  4 Mar 2022 00:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9D210E412;
+	Fri,  4 Mar 2022 00:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C6110E402;
- Fri,  4 Mar 2022 00:58:47 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- gj15-20020a17090b108f00b001bef86c67c1so6460919pjb.3; 
- Thu, 03 Mar 2022 16:58:47 -0800 (PST)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F35510E41D;
+ Fri,  4 Mar 2022 00:58:51 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id d17so6271545pfl.0;
+ Thu, 03 Mar 2022 16:58:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ytOUMOh2Tl97mA0t3dQsH3Iaw7ED9UKYQDbSghK/IvU=;
- b=qnWebqhmSUN2ykTGUf5NTGC9LCvr+AxTNFXJu8gTvei+C0TZShSzxePPZm7Wqb8oKu
- p0XL3K9zoXOAsJH9E8WSNm5eD5YR6oMlsSIH/VZ3tiSnk7hldIXhPodDdn4oyZLa7DRQ
- jzqLepvs/hee3JAuRuGKbWkv0BAbVLHbhX2xsxZhDgVfrHcaCzLfBSp01nVM2M/WwXuE
- 6UPnB3nqXDdCLIhc2z0d5wTt7Zc/QZf8uXa6KlTKQj+MapHlod28Wv8d616WA8+YA3le
- /U9QJwCerQW1owPiZ1BC3s1t5AazoD+rAyuk98+nYEfqT0oS1cMz/2XTH8awyJQxwRbH
- KOmg==
+ bh=Kv77qd4PSFspNn60wgWHjcnbGuvG0XAUW/UNL97NgM8=;
+ b=khzeGuKmCXjXbwofoPBleHTv5nP7hSLS2E2RqjTJNIUopIl0dYhlTfQN9pzt9uc9gQ
+ iQjXrm4DMaP4xyJm7ImI1O5HElmSKwrXGuSu8C7pebs6dAXhL4u6Z/6frf6oHo+y+cqK
+ bRBuXNHlvf9o+He5KI4egPDp+ju/F5lcrv+6jNFmnkThO1Kk++oA+YwLJVq2s+y2k5dd
+ RcLoLUJYOSFByB8EJvQcfkPnqVtq9AWrFkiriyEpOciOM2MehMCPc0woJKVNWCwhMdKL
+ xAGCuJNHRV7LnydJgzDREckzv/t/73p8tPFaXZjjeG7zIBq79pPtIB+jffMLaDu6YBN2
+ vApw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ytOUMOh2Tl97mA0t3dQsH3Iaw7ED9UKYQDbSghK/IvU=;
- b=OkpWjLycjo2KUvGNvoJj155T5BPojd3lhitVlXNwoI+y+67UyF3784DIIwZL9DIAKX
- 1DQ0P3kiP0KooHv1VmGzHi7ubyl+ahrkUlmPOtXkvIU+BZnPOfGjigHx60erYLRHARBT
- VMiNhY+m49W1ZruQ8e6/q9Onf1SF0/CkDjUy2ktGTsJ/Ho+m7YzcksMOgoTa7zjc8oYR
- zU6PfSR6yv5UDSrPX7o4cs/WWlIhw3WGDFen6sjdZN4uO9wyaFwkn1iSggky4eEembtq
- 8/sqP2hY9WY/zBEDOu6VPsse1eU+EOAMOm9m/MKjig9Fg8QH5n8k5a1VDFTzzCuKNyx5
- hthA==
-X-Gm-Message-State: AOAM531MWw76g3vxKHJpMdyjR+zI/bLEE8Fdc7n9b0nyclDaehQhgLbu
- X2K7VdeCQ4Ks9XPnW2BFQ4OqqMt45bw=
-X-Google-Smtp-Source: ABdhPJyCXY7a6lQyt3Ie6M7z9kn6VnY+6lt2SmSEFxRfGXPOW76jUqZw9+9eP/LElBrlpQJzSTLQVg==
-X-Received: by 2002:a17:90a:a502:b0:1bc:8dd6:a859 with SMTP id
- a2-20020a17090aa50200b001bc8dd6a859mr8121797pjq.46.1646355526407; 
- Thu, 03 Mar 2022 16:58:46 -0800 (PST)
+ bh=Kv77qd4PSFspNn60wgWHjcnbGuvG0XAUW/UNL97NgM8=;
+ b=osoIzVGzbpDx++h6Gw0SM0qrUeI3HORpojNMlsvrApmmeJBKO93DKeOnt8fMr355ZP
+ u+uXOI7Z4gmnsAsxSqp36D5YV9tY8TbztgZd6pO/IYwCKdvWRShAUM4Jf/FAAEcagBx3
+ MnM1rn9F9ruOR4fF6S7wg0emgkqqMTl7NAbLws4/TJBFol+VjgAvSZIDlyo0zq0pPqQM
+ ltNvPnSr667USOolrWOm3LZ2PIbNg/wCi+hC/uN45QP82kRmXrVkt+DfFnNQY5uSHGlt
+ Y2V7WQvLJYQ85YRMY4p7BYqIUIm4HU8zhdwKBx3SpsVz7zk60A7jGAX++UyhdiTIL/J6
+ P1NA==
+X-Gm-Message-State: AOAM533jJqKOg01c0wEY8Z0HGOqcGoPYBIce9y0+rJh+lreEH4L+LU9A
+ xYVxCdP/IxFYn5+KqDDkZf5CoAXoo30=
+X-Google-Smtp-Source: ABdhPJxbDPSAz5zACha46Uptn48v/t+AJ6SSwLF9ex8ZzdmGzA5kwQWIyNCPlmEtKEAWFPLH1xCu8g==
+X-Received: by 2002:a63:110e:0:b0:375:89f4:b54e with SMTP id
+ g14-20020a63110e000000b0037589f4b54emr31874054pgl.430.1646355530123; 
+ Thu, 03 Mar 2022 16:58:50 -0800 (PST)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
  by smtp.gmail.com with ESMTPSA id
- s33-20020a056a0017a100b004bf85a94ef2sm3873451pfg.183.2022.03.03.16.58.44
+ d11-20020a056a0010cb00b004e1b76b09c0sm3634242pfu.74.2022.03.03.16.58.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 16:58:45 -0800 (PST)
+ Thu, 03 Mar 2022 16:58:49 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/msm: Add SET_PARAM ioctl
-Date: Thu,  3 Mar 2022 16:52:15 -0800
-Message-Id: <20220304005317.776110-3-robdclark@gmail.com>
+Subject: [PATCH 3/4] drm/msm: Add SYSPROF param (v2)
+Date: Thu,  3 Mar 2022 16:52:16 -0800
+Message-Id: <20220304005317.776110-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220304005317.776110-1-robdclark@gmail.com>
 References: <20220304005317.776110-1-robdclark@gmail.com>
@@ -71,238 +70,201 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Yangtao Li <tiny.windzz@gmail.com>,
- open list <linux-kernel@vger.kernel.org>, Emma Anholt <emma@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Emma Anholt <emma@anholt.net>, Jonathan Marek <jonathan@marek.ca>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-It was always expected to have a use for this some day, so we left a
-placeholder.  Now we do.  (And I expect another use in the not too
-distant future when we start allowing userspace to allocate GPU iova.)
+Add a SYSPROF param for system profiling tools like Mesa's pps-producer
+(perfetto) to control behavior related to system-wide performance
+counter collection.  In particular, for profiling, one wants to ensure
+that GPU context switches do not effect perfcounter state, and might
+want to suppress suspend (which would cause counters to lose state).
+
+v2: Swap the order in msm_file_private_set_sysprof() [sboyd] and
+    initialize the sysprof_active refcount to one (because the under/
+    overflow checking in refcount_t doesn't expect a 0->1 transition)
+    meaning that values greater than 1 means sysprof is active.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c   |  1 +
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c   |  1 +
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  1 +
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  1 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 +++++++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
- drivers/gpu/drm/msm/msm_drv.c           | 20 ++++++++++++++++++
- drivers/gpu/drm/msm/msm_gpu.h           |  2 ++
- include/uapi/drm/msm_drm.h              | 27 ++++++++++++++-----------
- 10 files changed, 54 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +++
+ drivers/gpu/drm/msm/msm_drv.c           |  8 +++++
+ drivers/gpu/drm/msm/msm_gpu.c           |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h           | 27 +++++++++++++++++
+ drivers/gpu/drm/msm/msm_submitqueue.c   | 39 +++++++++++++++++++++++++
+ include/uapi/drm/msm_drm.h              |  1 +
+ 6 files changed, 81 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-index 22e8295a5e2b..6c9a747eb4ad 100644
---- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-@@ -471,6 +471,7 @@ static u32 a2xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-+		.set_param = adreno_set_param,
- 		.hw_init = a2xx_hw_init,
- 		.pm_suspend = msm_gpu_pm_suspend,
- 		.pm_resume = msm_gpu_pm_resume,
-diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-index 2e481e2692ba..0ab0e1dd8bbb 100644
---- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-@@ -486,6 +486,7 @@ static u32 a3xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-+		.set_param = adreno_set_param,
- 		.hw_init = a3xx_hw_init,
- 		.pm_suspend = msm_gpu_pm_suspend,
- 		.pm_resume = msm_gpu_pm_resume,
-diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-index c5524d6e8705..0c6b2a6d0b4c 100644
---- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-@@ -621,6 +621,7 @@ static u32 a4xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-+		.set_param = adreno_set_param,
- 		.hw_init = a4xx_hw_init,
- 		.pm_suspend = a4xx_pm_suspend,
- 		.pm_resume = a4xx_pm_resume,
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 3d28fcf841a6..407f50a15faa 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1700,6 +1700,7 @@ static uint32_t a5xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-+		.set_param = adreno_set_param,
- 		.hw_init = a5xx_hw_init,
- 		.pm_suspend = a5xx_pm_suspend,
- 		.pm_resume = a5xx_pm_resume,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7d23c741db4a..237c2e7a7baa 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1800,6 +1800,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-+		.set_param = adreno_set_param,
- 		.hw_init = a6xx_hw_init,
- 		.pm_suspend = a6xx_pm_suspend,
- 		.pm_resume = a6xx_pm_resume,
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 15c8997b7251..6a37d409653b 100644
+index 6a37d409653b..c91ea363c373 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -283,6 +283,16 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	}
- }
- 
-+int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+		     uint32_t param, uint64_t value)
-+{
-+	switch (param) {
-+	default:
-+		DBG("%s: invalid param: %u", gpu->name, param);
-+		return -EINVAL;
-+	}
-+}
-+
- const struct firmware *
- adreno_request_fw(struct adreno_gpu *adreno_gpu, const char *fwname)
+@@ -287,6 +287,10 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		     uint32_t param, uint64_t value)
  {
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index b1ee453d627d..0490c5fbb780 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -282,6 +282,8 @@ static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
- 
- int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 		     uint32_t param, uint64_t *value);
-+int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+		     uint32_t param, uint64_t value);
- const struct firmware *adreno_request_fw(struct adreno_gpu *adreno_gpu,
- 		const char *fwname);
- struct drm_gem_object *adreno_fw_create_bo(struct msm_gpu *gpu,
+ 	switch (param) {
++	case MSM_PARAM_SYSPROF:
++		if (!capable(CAP_SYS_ADMIN))
++			return -EPERM;
++		return msm_file_private_set_sysprof(ctx, gpu, value);
+ 	default:
+ 		DBG("%s: invalid param: %u", gpu->name, param);
+ 		return -EINVAL;
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index fdf401e6f09e..ca9a8a866292 100644
+index ca9a8a866292..780f9748aaaf 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -614,6 +614,25 @@ static int msm_ioctl_get_param(struct drm_device *dev, void *data,
- 				     args->param, &args->value);
+@@ -559,8 +559,16 @@ static void context_close(struct msm_file_private *ctx)
+ 
+ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+ {
++	struct msm_drm_private *priv = dev->dev_private;
+ 	struct msm_file_private *ctx = file->driver_priv;
+ 
++	/*
++	 * It is not possible to set sysprof param to non-zero if gpu
++	 * is not initialized:
++	 */
++	if (priv->gpu)
++		msm_file_private_set_sysprof(ctx, priv->gpu, 0);
++
+ 	context_close(ctx);
  }
  
-+static int msm_ioctl_set_param(struct drm_device *dev, void *data,
-+		struct drm_file *file)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_msm_param *args = data;
-+	struct msm_gpu *gpu;
-+
-+	if (args->pipe != MSM_PIPE_3D0)
-+		return -EINVAL;
-+
-+	gpu = priv->gpu;
-+
-+	if (!gpu)
-+		return -ENXIO;
-+
-+	return gpu->funcs->set_param(gpu, file->driver_priv,
-+				     args->param, args->value);
-+}
-+
- static int msm_ioctl_gem_new(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -899,6 +918,7 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index c4fe8bc9445e..8fe4aee96aa9 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -975,6 +975,8 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
  
- static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_SET_PARAM,    msm_ioctl_set_param,    DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,      DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_INFO,     msm_ioctl_gem_info,     DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_PREP, msm_ioctl_gem_cpu_prep, DRM_RENDER_ALLOW),
+ 	gpu->nr_rings = nr_rings;
+ 
++	refcount_set(&gpu->sysprof_active, 1);
++
+ 	return 0;
+ 
+ fail:
 diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index ad4fe05dee03..fde9a29f884e 100644
+index fde9a29f884e..a84140055920 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.h
 +++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -45,6 +45,8 @@ struct msm_gpu_config {
- struct msm_gpu_funcs {
- 	int (*get_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 			 uint32_t param, uint64_t *value);
-+	int (*set_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+			 uint32_t param, uint64_t value);
- 	int (*hw_init)(struct msm_gpu *gpu);
- 	int (*pm_suspend)(struct msm_gpu *gpu);
- 	int (*pm_resume)(struct msm_gpu *gpu);
+@@ -160,6 +160,13 @@ struct msm_gpu {
+ 	struct msm_ringbuffer *rb[MSM_GPU_MAX_RINGS];
+ 	int nr_rings;
+ 
++	/**
++	 * sysprof_active:
++	 *
++	 * The count of contexts that have enabled system profiling.
++	 */
++	refcount_t sysprof_active;
++
+ 	/**
+ 	 * cur_ctx_seqno:
+ 	 *
+@@ -330,6 +337,24 @@ struct msm_file_private {
+ 	struct kref ref;
+ 	int seqno;
+ 
++	/**
++	 * sysprof:
++	 *
++	 * The value of MSM_PARAM_SYSPROF set by userspace.  This is
++	 * intended to be used by system profiling tools like Mesa's
++	 * pps-producer (perfetto), and restricted to CAP_SYS_ADMIN.
++	 *
++	 * Setting a value of 1 will preserve performance counters across
++	 * context switches.  Setting a value of 2 will in addition
++	 * suppress suspend.  (Performance counters lose state across
++	 * power collapse, which is undesirable for profiling in some
++	 * cases.)
++	 *
++	 * The value automatically reverts to zero when the drm device
++	 * file is closed.
++	 */
++	int sysprof;
++
+ 	/**
+ 	 * elapsed:
+ 	 *
+@@ -545,6 +570,8 @@ void msm_submitqueue_close(struct msm_file_private *ctx);
+ 
+ void msm_submitqueue_destroy(struct kref *kref);
+ 
++int msm_file_private_set_sysprof(struct msm_file_private *ctx,
++				 struct msm_gpu *gpu, int sysprof);
+ void __msm_file_private_destroy(struct kref *kref);
+ 
+ static inline void msm_file_private_put(struct msm_file_private *ctx)
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 7cb158bcbcf6..79b6ccd6ce64 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -7,6 +7,45 @@
+ 
+ #include "msm_gpu.h"
+ 
++int msm_file_private_set_sysprof(struct msm_file_private *ctx,
++				 struct msm_gpu *gpu, int sysprof)
++{
++	/*
++	 * Since pm_runtime and sysprof_active are both refcounts, we
++	 * call apply the new value first, and then unwind the previous
++	 * value
++	 */
++
++	switch (sysprof) {
++	default:
++		return -EINVAL;
++	case 2:
++		pm_runtime_get_sync(&gpu->pdev->dev);
++		fallthrough;
++	case 1:
++		refcount_inc(&gpu->sysprof_active);
++		fallthrough;
++	case 0:
++		break;
++	}
++
++	/* unwind old value: */
++	switch (ctx->sysprof) {
++	case 2:
++		pm_runtime_put_autosuspend(&gpu->pdev->dev);
++		fallthrough;
++	case 1:
++		refcount_dec(&gpu->sysprof_active);
++		fallthrough;
++	case 0:
++		break;
++	}
++
++	ctx->sysprof = sysprof;
++
++	return 0;
++}
++
+ void __msm_file_private_destroy(struct kref *kref)
+ {
+ 	struct msm_file_private *ctx = container_of(kref,
 diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 6cd45a7f6947..a1bb2a17a8b9 100644
+index a1bb2a17a8b9..07efc8033492 100644
 --- a/include/uapi/drm/msm_drm.h
 +++ b/include/uapi/drm/msm_drm.h
-@@ -67,16 +67,20 @@ struct drm_msm_timespec {
- 	__s64 tv_nsec;         /* nanoseconds */
- };
- 
--#define MSM_PARAM_GPU_ID     0x01
--#define MSM_PARAM_GMEM_SIZE  0x02
--#define MSM_PARAM_CHIP_ID    0x03
--#define MSM_PARAM_MAX_FREQ   0x04
--#define MSM_PARAM_TIMESTAMP  0x05
--#define MSM_PARAM_GMEM_BASE  0x06
--#define MSM_PARAM_PRIORITIES 0x07  /* The # of priority levels */
--#define MSM_PARAM_PP_PGTABLE 0x08  /* => 1 for per-process pagetables, else 0 */
--#define MSM_PARAM_FAULTS     0x09
--#define MSM_PARAM_SUSPENDS   0x0a
-+/* Below "RO" indicates a read-only param, "WO" indicates write-only, and
-+ * "RW" indicates a param that can be both read (GET_PARAM) and written
-+ * (SET_PARAM)
-+ */
-+#define MSM_PARAM_GPU_ID     0x01  /* RO */
-+#define MSM_PARAM_GMEM_SIZE  0x02  /* RO */
-+#define MSM_PARAM_CHIP_ID    0x03  /* RO */
-+#define MSM_PARAM_MAX_FREQ   0x04  /* RO */
-+#define MSM_PARAM_TIMESTAMP  0x05  /* RO */
-+#define MSM_PARAM_GMEM_BASE  0x06  /* RO */
-+#define MSM_PARAM_PRIORITIES 0x07  /* RO: The # of priority levels */
-+#define MSM_PARAM_PP_PGTABLE 0x08  /* RO: Deprecated, always returns zero */
-+#define MSM_PARAM_FAULTS     0x09  /* RO */
-+#define MSM_PARAM_SUSPENDS   0x0a  /* RO */
+@@ -81,6 +81,7 @@ struct drm_msm_timespec {
+ #define MSM_PARAM_PP_PGTABLE 0x08  /* RO: Deprecated, always returns zero */
+ #define MSM_PARAM_FAULTS     0x09  /* RO */
+ #define MSM_PARAM_SUSPENDS   0x0a  /* RO */
++#define MSM_PARAM_SYSPROF    0x0b  /* WO: 1 preserves perfcntrs, 2 also disables suspend */
  
  /* For backwards compat.  The original support for preemption was based on
   * a single ring per priority level so # of priority levels equals the #
-@@ -335,9 +339,7 @@ struct drm_msm_submitqueue_query {
- };
- 
- #define DRM_MSM_GET_PARAM              0x00
--/* placeholder:
- #define DRM_MSM_SET_PARAM              0x01
-- */
- #define DRM_MSM_GEM_NEW                0x02
- #define DRM_MSM_GEM_INFO               0x03
- #define DRM_MSM_GEM_CPU_PREP           0x04
-@@ -353,6 +355,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
- 
- #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
-+#define DRM_IOCTL_MSM_SET_PARAM        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SET_PARAM, struct drm_msm_param)
- #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
- #define DRM_IOCTL_MSM_GEM_INFO         DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_INFO, struct drm_msm_gem_info)
- #define DRM_IOCTL_MSM_GEM_CPU_PREP     DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_GEM_CPU_PREP, struct drm_msm_gem_cpu_prep)
 -- 
 2.35.1
 
