@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E884CD22D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 11:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2E04CD230
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 11:16:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0720B10EA0C;
-	Fri,  4 Mar 2022 10:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8819310EA0B;
+	Fri,  4 Mar 2022 10:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3C310EA0B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 10:16:09 +0000 (UTC)
-X-UUID: 4deb768d8428441ea6fdc307b9fe0b41-20220304
-X-UUID: 4deb768d8428441ea6fdc307b9fe0b41-20220304
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF37310EA0B
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 10:16:14 +0000 (UTC)
+X-UUID: 7edb30452023434b81a81a3897372ef1-20220304
+X-UUID: 7edb30452023434b81a81a3897372ef1-20220304
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 510925633; Fri, 04 Mar 2022 18:16:04 +0800
+ with ESMTP id 868685608; Fri, 04 Mar 2022 18:16:08 +0800
 Received: from MTKMBS34N1.mediatek.inc (172.27.4.172) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 4 Mar 2022 18:16:02 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 4 Mar 2022 18:16:06 +0800
 Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS34N1.mediatek.inc
  (172.27.4.172) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 4 Mar 2022 18:16:01 +0800
+ Fri, 4 Mar 2022 18:16:05 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 4 Mar 2022 18:16:00 +0800
+ 15.0.1497.2 via Frontend Transport; Fri, 4 Mar 2022 18:16:04 +0800
 From: <xinlei.lee@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
 Subject: [PATCH v2,
- 1/4] drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
-Date: Fri, 4 Mar 2022 18:15:53 +0800
-Message-ID: <1646388956-8033-2-git-send-email-xinlei.lee@mediatek.com>
+ 2/4] drm/mediatek: Separate poweron/poweroff from enable/disable and
+ define new funcs
+Date: Fri, 4 Mar 2022 18:15:54 +0800
+Message-ID: <1646388956-8033-3-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
 References: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
@@ -62,48 +63,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jitao Shi <jitao.shi@mediatek.com>
 
-Old sequence:
-1. Pull the MIPI signal high
-2. Delay & Dsi_reset
-3. Set the dsi timing register
-4. dsi clk & lanes leave ulp mode and enter hs mode
+In order to match the changes of "Use the drm_panel_bridge API",
+the poweron/poweroff of dsi is extracted from enable/disable and
+defined as new funcs (pre_enable/post_disable).
 
-New sequence:
-1. Set the dsi timing register
-2. Pull the MIPI signal high
-3. Delay & Dsi_reset
-4. dsi clk & lanes leave ulp mode and enter hs mode
-
-In the new sequence 2 & 3 & 4 will be moved to dsi_enbale in later patch.
+Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge API")
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 5d90d2eb0019..6d7b66d5da42 100644
+index 6d7b66d5da42..e47c338a7c22 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -649,14 +649,14 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+@@ -679,16 +679,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
+ 	if (--dsi->refcount != 0)
+ 		return;
+ 
+-	/*
+-	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+-	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
+-	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
+-	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
+-	 * after dsi is fully set.
+-	 */
+-	mtk_dsi_stop(dsi);
+-
+-	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
  	mtk_dsi_reset_engine(dsi);
- 	mtk_dsi_phy_timconfig(dsi);
+ 	mtk_dsi_lane0_ulp_mode_enter(dsi);
+ 	mtk_dsi_clk_ulp_mode_enter(dsi);
+@@ -703,17 +693,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
  
--	mtk_dsi_rxtx_control(dsi);
--	usleep_range(30, 100);
--	mtk_dsi_reset_dphy(dsi);
- 	mtk_dsi_ps_control_vact(dsi);
- 	mtk_dsi_set_vm_cmd(dsi);
- 	mtk_dsi_config_vdo_timing(dsi);
- 	mtk_dsi_set_interrupt_enable(dsi);
+ static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+ {
+-	int ret;
+-
+ 	if (dsi->enabled)
+ 		return;
  
-+	mtk_dsi_rxtx_control(dsi);
-+	usleep_range(30, 100);
-+	mtk_dsi_reset_dphy(dsi);
- 	mtk_dsi_clk_ulp_mode_leave(dsi);
- 	mtk_dsi_lane0_ulp_mode_leave(dsi);
- 	mtk_dsi_clk_hs_mode(dsi, 0);
+-	ret = mtk_dsi_poweron(dsi);
+-	if (ret < 0) {
+-		DRM_ERROR("failed to power on dsi\n");
+-		return;
+-	}
+-
+ 	mtk_dsi_set_mode(dsi);
+ 	mtk_dsi_clk_hs_mode(dsi, 1);
+ 
+@@ -727,7 +709,16 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
+ 	if (!dsi->enabled)
+ 		return;
+ 
+-	mtk_dsi_poweroff(dsi);
++	/*
++	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
++	 * mtk_dsi_stop() should be called after mtk_drm_crtc_atomic_disable(),
++	 * which needs irq for vblank, and mtk_dsi_stop() will disable irq.
++	 * mtk_dsi_start() needs to be called in mtk_output_dsi_enable(),
++	 * after dsi is fully set.
++	 */
++	mtk_dsi_stop(dsi);
++
++	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+ 
+ 	dsi->enabled = false;
+ }
+@@ -765,10 +756,26 @@ static void mtk_dsi_bridge_enable(struct drm_bridge *bridge)
+ 	mtk_output_dsi_enable(dsi);
+ }
+ 
++static void mtk_dsi_bridge_pre_enable(struct drm_bridge *bridge)
++{
++	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
++
++	mtk_dsi_poweron(dsi);
++}
++
++static void mtk_dsi_bridge_post_disable(struct drm_bridge *bridge)
++{
++	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
++
++	mtk_dsi_poweroff(dsi);
++}
++
+ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.attach = mtk_dsi_bridge_attach,
+ 	.disable = mtk_dsi_bridge_disable,
+ 	.enable = mtk_dsi_bridge_enable,
++	.pre_enable = mtk_dsi_bridge_pre_enable,
++	.post_disable = mtk_dsi_bridge_post_disable,
+ 	.mode_set = mtk_dsi_bridge_mode_set,
+ };
+ 
 -- 
 2.18.0
 
