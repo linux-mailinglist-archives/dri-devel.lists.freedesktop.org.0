@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7064CCE6E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7724A4CCE77
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AEF310F57D;
-	Fri,  4 Mar 2022 07:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E77D610F58C;
+	Fri,  4 Mar 2022 07:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3402B10F57D
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 51A6210F2BD
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 07:07:10 +0000 (UTC)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.52 with ESMTP; 4 Mar 2022 16:07:09 +0900
+ by 156.147.23.51 with ESMTP; 4 Mar 2022 16:07:09 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,9 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org
-Subject: [PATCH v4 23/24] dept: Let it work with real sleeps in __schedule()
-Date: Fri,  4 Mar 2022 16:06:42 +0900
-Message-Id: <1646377603-19730-24-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH v4 24/24] dept: Disable Dept on that map once it's been
+ handled until next turn
+Date: Fri,  4 Mar 2022 16:06:43 +0900
+Message-Id: <1646377603-19730-25-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1646377603-19730-1-git-send-email-byungchul.park@lge.com>
 References: <1646377603-19730-1-git-send-email-byungchul.park@lge.com>
@@ -61,37 +62,48 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dept commits the staged wait in __schedule() even if the corresponding
-wake_up() has already woken up the task. Which means Dept considers the
-case as a sleep. This would help Dept work for stronger detection but
-also leads false positives.
+Dept works with waits preceeding an event, that might lead a deadlock.
+Once the event has been handled, it's hard to ensure further waits
+actually contibute to deadlock until next turn, which will start when
+a sleep associated with that map happens.
 
-It'd be better to let Dept work only with real sleeps conservatively for
-now. So did it.
+So let Dept start tracking dependency when a sleep happens and stop
+tracking dependency once the event e.i. wake up, has been handled.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- kernel/sched/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ kernel/dependency/dept.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 6a422aa..2ec7cf8 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -6192,7 +6192,12 @@ static void __sched notrace __schedule(unsigned int sched_mode)
- 	local_irq_disable();
- 	rcu_note_context_switch(!!sched_mode);
- 
--	if (sched_mode == SM_NONE)
+diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
+index cc1b3a3..1c91db8 100644
+--- a/kernel/dependency/dept.c
++++ b/kernel/dependency/dept.c
+@@ -2325,6 +2325,12 @@ void dept_event(struct dept_map *m, unsigned long e_f, unsigned long ip,
+ 		do_event((void *)m, c, READ_ONCE(m->wgen), ip);
+ 		pop_ecxt((void *)m);
+ 	}
++
 +	/*
-+	 * Skip the commit if the current task does not actually go to
-+	 * sleep.
++	 * Keep the map diabled until the next sleep.
 +	 */
-+	if (READ_ONCE(prev->__state) & TASK_NORMAL &&
-+	    sched_mode == SM_NONE)
- 		dept_ask_event_wait_commit(_RET_IP_);
++	WRITE_ONCE(m->wgen, 0);
++
+ 	dept_exit(flags);
+ }
+ EXPORT_SYMBOL_GPL(dept_event);
+@@ -2447,6 +2453,11 @@ void dept_event_split_map(struct dept_map_each *me,
+ 		pop_ecxt((void *)me);
+ 	}
  
- 	/*
++	/*
++	 * Keep the map diabled until the next sleep.
++	 */
++	WRITE_ONCE(me->wgen, 0);
++
+ 	dept_exit(flags);
+ }
+ EXPORT_SYMBOL_GPL(dept_event_split_map);
 -- 
 1.9.1
 
