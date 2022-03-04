@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174C44CD052
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 09:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D518B4CD066
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 09:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A99DC10F14C;
-	Fri,  4 Mar 2022 08:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE6310F21B;
+	Fri,  4 Mar 2022 08:45:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E782E10EC3B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 08:43:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6CE22613E2;
- Fri,  4 Mar 2022 08:43:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B38C340F3;
- Fri,  4 Mar 2022 08:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646383388;
- bh=Y/h5g78WyLqqOP8Rn0lKLi8NsiNAlk4GlgEJY1S01sI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hwgDBdQxwNwUxcqs7Mrm6x8e1VA+vX8/2al4UI9R/pPxoeGSTYzEB/JANFjqUVv8B
- wcUkeo0ApVoHqGCkQsQ8Y9gFq9xBYQB7ON9ca+8tP2IuFxZM/4FeBGnV1NTP4mWZON
- a0TqKCG0m7L8u76K9yjxGxprev3gBcg7oAkH8NbaWWYQSP59sHR6fDU1q0j3j7AGnq
- yXsNaFMViEmYKAkisJEWLmbF/WzGEQlgxXvW9r+z/3zPPbKU5Tu8ocANRM52/qDBQs
- W5D6LPPO361ku0kN+AkN25Vx7ya8oXUA5k5freV1T0vy9r9cU0EhA32R7ZZU1Q6WVT
- ohjD9Bq4GhB7Q==
-Date: Fri, 4 Mar 2022 09:43:05 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] i2c: at91: use dma safe buffers
-Message-ID: <YiHRGa5bDJAuBuHj@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Michael Walle <michael@walle.cc>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-i2c@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-References: <20220303161724.3324948-1-michael@walle.cc>
- <fff424e7-247c-38d8-4151-8b0503a16a7d@amd.com>
- <YiHIIjSs03gDJmHV@shikoro>
- <4e25e595-cccb-0970-67b3-fc215bfd5b14@amd.com>
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE8810E266
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 08:45:20 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id f5so15475191ybg.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 00:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PLF7+bq13iQ5C6/SzqxABIu1vzDvMD471Sme1AILTpE=;
+ b=FDx3RhqzN3RFl3Cv8oh4d+TzVJtWwOB0i/leEqwYQexpR/8zByxiwZ0oLnG4/9Rgve
+ jMvd3rAb0WmGWEurbaFtSE/4aRoE42g35TjB8kYG8mcNbXv8ah/sMRvUkLKZ6DKTVYZC
+ a7e/jp1iFWKYSy3r5Cn4v5GVwOVbnB+95WxVFZ0F1Ub13KTwuObTr4ixzfyIYZ10v8xf
+ 27+sjZg27353IgS40N1MpQ5ovM7DazHLTO3UTGEVSGN2rPqg895aoWa3En786jmJEN60
+ ofadJeWLWePID3P7YOBjVrVuS2wcnlQpnRjNTQoWuQbvTmIC7KRF0DjXh2JbdoUp9BLr
+ DhSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PLF7+bq13iQ5C6/SzqxABIu1vzDvMD471Sme1AILTpE=;
+ b=dXmzkr7CQ0O13yLyN3yA1OsYdWuU3ZgrQrc8A8D7fcgEwZtjSWEycNcqG1Q1eWgzwC
+ uU4C3/1v82lWjNmrw3Osm+AcfauQ5Cy03Df44EAb/yVTwWD5aLyK3JjzyVnO3N1iXZXx
+ FoEhMc9092Ja8YdUZohiRNr4gwOF+AOIzsHgOtFPn6qp9ffuToiM9/G64mUyGU/N0CCf
+ Bn0i42Td+nFI9265jMBx7qnXF4JucOA7hUHVjIFTRjuXzABxerUl0gDKb8feseCS4AGT
+ O4PFP+qgjrES5hnE6Po7Ku0il0fre0onkdI0pNWdK2eQ6U4bQKE3e98GxLOaFpeS3GQC
+ If+w==
+X-Gm-Message-State: AOAM533Yp2jsMYsoPXrCf+17OAPO4mTx6nbumX6koYTlR3crcvJoVxGA
+ 5om37voesUheNXQuZkqsaOfcDSd49XrDggCNUwQOKg==
+X-Google-Smtp-Source: ABdhPJws5Mfn1T8KkyQDUvTKU6lQNDtGx0yKpQzP7ZRAJQ6LzcHh4Eybu4jfkr3KyrTuokV11JHn+PmboMh3EY+1np0=
+X-Received: by 2002:a25:8d07:0:b0:61d:b996:44b3 with SMTP id
+ n7-20020a258d07000000b0061db99644b3mr36958127ybl.111.1646383518906; Fri, 04
+ Mar 2022 00:45:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="MgWtAcUD42BapLAT"
-Content-Disposition: inline
-In-Reply-To: <4e25e595-cccb-0970-67b3-fc215bfd5b14@amd.com>
+References: <20220303090507.grenwdro7u4fzmoe@houat>
+ <YiCeCeNobS2FCiQB@intel.com>
+In-Reply-To: <YiCeCeNobS2FCiQB@intel.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 4 Mar 2022 08:45:07 +0000
+Message-ID: <CAPj87rOjof_WMT32G3-mb-ukVmOxVWJfXEVB4hYbUj0_VCV6ng@mail.gmail.com>
+Subject: Re: [igt-dev] Mandatory Test Suite for KMS Drivers?
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-kernel@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
- dri-devel@lists.freedesktop.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
- linaro-mm-sig@lists.linaro.org, Michael Walle <michael@walle.cc>,
- linux-i2c@vger.kernel.org, stable@vger.kernel.org,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: igt-dev@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---MgWtAcUD42BapLAT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, 3 Mar 2022 at 10:53, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> On Thu, Mar 03, 2022 at 10:05:07AM +0100, Maxime Ripard wrote:
+> > Back at XDC we floated the idea of creating a test suite for IGT that we
+> > expect any KMS driver to pass, similar to what v4l2-compliance and
+> > cec-compliance provide for v4l2 and CEC respectively.
+> >
+> > I was looking at the list of tests, and it's fairly massive, so it's not
+> > clear to me what tests we could start this suite with. I can only assume
+> > all the KMS (but the chamelium ones) and fbdev related ones would be a
+> > good start?
+> >
+> > What do you think?
+>
+> I believe we should start with the group of the tests that we know that
+> are reliably passing today on most of the platforms and then increase
+> the list as the tests and drivers become more reliable.
+>
+> For instance, many of these would be candidate to be filtered out for now
+> https://intel-gfx-ci.01.org/tree/drm-next/index.html?testfilter=kms
+>
+> compared to the whole view of kms tests:
+> https://intel-gfx-ci.01.org/tree/drm-next/shards-all.html?testfilter=kms
 
+We are running some of IGT on Panfrost + amdgpu + i915 as part of
+KernelCI as well: go to https://linux.kernelci.org/test/ and search
+for 'igt-gpu'. This gets run for mainline, next, and whatever other
+kernel trees push into i915.
 
-> I'm getting quite a bunch of unrelated mails because the regex is not the
-> best.
+There is a Grafana-based dashboard that the KernelCI team have been
+working on to visualise test runs, but it's currently having some
+backend issues so I can't show you a link for that. I did raise a
+suggestion in their design discussion for a proper testing dashboard
+for making it easier to see the status, so feel free to pile in there:
+https://github.com/kernelci/kernelci-project/discussions/28#discussioncomment-2293696
 
-I can imagine!
-
-> On the other hand the framework is used in a lot of drivers and I do want to
-> be notified when they mess with their interfaces.
-
-Sure thing. I am convinced the regex can be improved to ensure that to a
-high degree. I think it is also less work for you than asking people to
-rename their variable all the time :)
-
-> Going to take a another look at that when I have time.
-
-Thank you!
-
-
---MgWtAcUD42BapLAT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIh0RQACgkQFA3kzBSg
-KbaJFBAAqSSNSBv1vXoKC5gg1YCzVL7Z8QcCOY32Q2Ai40kXufU/bZLFFViRm1lF
-TiAd3E3ENGMg7jK9VPwxHQGhbMSQ0Agf8tzNXYbDBCp9dYtgD6Xx42KSK6PAXGZX
-wI4zyr4QpW+gwqPa/1ZzFdAi6YJ6Ow4yzUnLcmF4X/0D01B/VwnRf3pQMdA7Zi5N
-at2M36wMnW5hYx/YXTg7CAP6BRhLdvbxzGeEvQySX1CK0CGOM38zYSjucL+FMB/+
-FosFvlt7/yjNHe9Gp0yO673YNaiZ0ugk63PoaM2+U5gsMvYRuJ1FEeXpsQfissVy
-O9co7S6LkoIQ3HfnIWEQ7FUfIANmYsiX4+zE9j/JDV+RxqbkLARQVAXJbIB9v1oN
-0ZlxorUzxT5fpxLwgyWSJe4/ZqnbPapjr8tXFrl/7Rqzgl9HpgSfeqtbAPHNwSo5
-xZB1z2JgUEtTaljT75JeuLs3D6DhYl75uZLqkl47iybY45+tCFJOKo51PB3CIKfn
-lHk3hnPstc2TgUtGP3uxqn8PjIlqybOEGFnfCdfJNEajsPdcskyKlDOOtUkvO2NC
-j/RR84QKsz8AcbfmbS47kAmS3owUeQLHvZF7Jf0AZwrg5sWTJb5MuabNc1uJscYK
-H2df7m+0afUQeOVx40UmLUDZDl3pDW1J8bmvIQh0tPhL6+RG3nU=
-=H7in
------END PGP SIGNATURE-----
-
---MgWtAcUD42BapLAT--
+Cheers,
+Daniel
