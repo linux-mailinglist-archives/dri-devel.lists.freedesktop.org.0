@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2F14CDD4B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 20:22:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A42C4CDD51
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 20:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3200113358;
-	Fri,  4 Mar 2022 19:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB9D891D6;
+	Fri,  4 Mar 2022 19:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9D1113355;
- Fri,  4 Mar 2022 19:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1646421759; x=1677957759;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UBESVlzmGH+/Gac4srZ64vERJW8ASdnCOUV8oAcRbY0=;
- b=dA4CKrcFtPmJKoaNsFVVEkJdx/kkUCCuNE72I1NS5AVU024+bpBWL0Yt
- e9YzVLrtE8/4FNaqi3Sa7s3aMMd5Cdqb/vFUMj+KlYvrK8xS+kVnLOKRx
- Bw7o0lU0m7pM9kfvEp2i1UHi5JRiMz37EZKnwjJ3nBeShKOh8CQ4uQJiC c=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Mar 2022 11:22:38 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 11:22:38 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Fri, 4 Mar 2022 11:22:37 -0800
-Received: from [10.216.41.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 4 Mar 2022
- 11:22:29 -0800
-Message-ID: <b1740f38-81f2-32d3-e900-30f6e2ad970b@quicinc.com>
-Date: Sat, 5 Mar 2022 00:52:25 +0530
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B8D1133BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 19:29:04 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id a8so19459199ejc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 11:29:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2feTJ8tP3DC/YFFoVPPzvKdizBU6tg9lhj95h2BK0Uk=;
+ b=M6uJy3jiqnYZQ0PUmcG9NFo1HLo/wJenMcAEDj8OcYlR9/RQqdhxHfSkm6Iz8Hh9j+
+ S2tVbOzWmTyNQWI7IehtdN0/doGOGBH+9z4AYvxiIUBQtm/oGDsIMDl/58jnglUsqcs6
+ 4PG/NyJteifuVuoi41+Wbf2iHgHbzRXtxdFTI3sszlV8I+N/veBbFrR16u6uKEZzWuWT
+ YB8aIEu9GUS8lTNfvcjZ9yuYi6h33a3rVUp5BRkgiLUbna+Tq5TxZEFS5VJG9e5t2vUC
+ BsUnwJ8dXcPJk8VIQXlJjC6sYe8z8GsVkL68X9QTAQjrlf6qV+IkO1ovVHYW7UYuq3cp
+ wDjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2feTJ8tP3DC/YFFoVPPzvKdizBU6tg9lhj95h2BK0Uk=;
+ b=rw+L5PWAm+V1ICGd82fl60t3SpBrRh/FfGNe9Tb9HTay9EmzoGRF12/OZcnHpImCt5
+ +kx4B0ocYofcN4NaR05WQ6qumroVfDNRwzvaawJQ+bKY6IWXGadE+ReDHwFT1xFauIzO
+ ZRE3sH/Fkb9fuQOmFCkQKIbYujRQjnklK+VRG7XPufV74DEzdDb7RpK+FeD3kNJW05Ya
+ GLxaGwBE9iPhc2I1+j65BxON8JdbxIHiKrgdGqtwwsJkMcsKOm70dNtm4n3vlEYIkBmw
+ 3ixIsfeuka1Uh/a3OaqZYJ7RfqZLhTcK72Ousqukht8+L3bd4SRJ5Vdp0cwZSpOMYt0g
+ jAPg==
+X-Gm-Message-State: AOAM533vdfRwlRKuQW9o8qU1fsvCu72viqep9ydRCLWxFofbn2NtSwzd
+ GzWnJj2bnezr3XLQaqqb/Ac=
+X-Google-Smtp-Source: ABdhPJxDMYpnJkvbS4DeRXy/SlQQziXOQnVycA9teF/oaohkBhHHeN4VqtYX3TuB4i8JAUwVxLhqXg==
+X-Received: by 2002:a17:907:334c:b0:6cd:76b7:3948 with SMTP id
+ yr12-20020a170907334c00b006cd76b73948mr262340ejb.55.1646422143286; 
+ Fri, 04 Mar 2022 11:29:03 -0800 (PST)
+Received: from [192.168.1.103] ([178.176.72.82])
+ by smtp.gmail.com with ESMTPSA id
+ s15-20020a056402520f00b00415e50f8ce1sm2242179edd.54.2022.03.04.11.28.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 11:29:02 -0800 (PST)
+Subject: Re: [PATCH v4 16/24] locking/lockdep, cpu/hotplus: Use a weaker
+ annotation in AP thread
+To: Byungchul Park <byungchul.park@lge.com>, torvalds@linux-foundation.org
+References: <1646377603-19730-1-git-send-email-byungchul.park@lge.com>
+ <1646377603-19730-17-git-send-email-byungchul.park@lge.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <aac81d30-ccc6-b351-729a-7265e8b6ec2c@gmail.com>
+Date: Fri, 4 Mar 2022 22:28:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v1 07/10] drm/msm/adreno: Retry on gpu resume failure
+In-Reply-To: <1646377603-19730-17-git-send-email-byungchul.park@lge.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Bjorn
- Andersson" <bjorn.andersson@linaro.org>
-References: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
- <20220302225551.v1.7.I55e39e28375b64455d1605f67453d5e91b0c2710@changeid>
- <373491a2-0fa5-0326-29cd-1650f86202d4@collabora.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <373491a2-0fa5-0326-29cd-1650f86202d4@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +75,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
- Martin Botka <martin.botka@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/3/2022 2:51 PM, AngeloGioacchino Del Regno wrote:
-> Il 02/03/22 18:27, Akhil P Oommen ha scritto:
->> Retry infinitely on resume failure because there is nothing much we can
->> do if GPU is not ON. Also, this helps us to avoid checking for the
->> return value of pm_runtime_get() to see if GPU is ON.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>
->>   drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++++++-
->>   1 file changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c 
->> b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> index 89cfd84..abcc553 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> @@ -603,8 +603,16 @@ static const struct of_device_id dt_match[] = {
->>   static int adreno_resume(struct device *dev)
->>   {
->>       struct msm_gpu *gpu = dev_to_gpu(dev);
->> +    int ret;
->> +
->> +    /* What hope do we have for the future if we can't turn ON gpu */
->
-> Hello Akhil,
->
-> the hope for the future would be to at least not lock up everything with
-> an infinite loop, so, please change this to have a limited amount of 
-> retries.
->
-> My guess would be that a maximum of 10 is already a lot of retries, but
-> feel free to choose an appropriate number.
+On 3/4/22 10:06 AM, Byungchul Park wrote:
 
-Thanks for the feedback, Angelo. I will revisit this.
+> cb92173d1f0 (locking/lockdep, cpu/hotplug: Annotate AP thread) was
 
--Akhil.
->
-> Regards,
-> Angelo
->
->> +    while (true) {
->> +        ret = gpu->funcs->pm_resume(gpu);
->> +        if (!ret)
->> +            break;
->> +    }
->>   -    return gpu->funcs->pm_resume(gpu);
->> +    return 0;
->>   }
->>     static int active_submits(struct msm_gpu *gpu)
->
->
+   You need to enclose the commit summary in (""), not just (). :-)
 
+> introduced to make lockdep_assert_cpus_held() work in AP thread.
+> 
+> However, the annotation is too strong for that purpose. We don't have to
+> use more than try lock annotation for that.
+> 
+> Furthermore, now that Dept was introduced, false positive alarms was
+> reported by that. Replaced it with try lock annotation.
+> 
+> Signed-off-by: Byungchul Park <byungchul.park@lge.com>
+[...]
+
+MBR, Sergey
