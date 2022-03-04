@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AB54CE122
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:45:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22CA4CE128
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3E210EDE1;
-	Fri,  4 Mar 2022 23:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4E310F961;
+	Fri,  4 Mar 2022 23:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F078E10EDE1
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5E5A161F32
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E6E4C340F8
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646437515;
- bh=NeRBwotyA+2T4DJi4XwW8R9F5009UEd0x0u94q4HzSU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=F4kIJg1JBz7deNxMyZ/NWRHbYHAWiOoPzls/nqlVNxWR4XRC0AXHq9Bu8c/tdM0nt
- F/b68J2MS2rmnOFIhnh3J31DgEZgxe6h6VKEUKH1UDGlmAD+ruRiX51NkXcPnYxO53
- P38M7Rdo1D/zecUw92XgmrDTpmYDJ+bWeiZ3I4USeCvAvrNblBNMVo/bJXvvNV2M2T
- Rkn7GhSGMcgQIa76sgpyGpdKgmNMvNibCCGlw7lwJ+Y9MxIyNGSgJ/IkZbyn7j/rPd
- xopIiph9c6NMqICzJUO0XL7G8oJm+nO7ps0zP/z3AktHuIn+CoDwm9JGjBzUMey3eK
- +5qbQBJ5uWYrA==
-Received: by mail-ej1-f45.google.com with SMTP id qx21so20461665ejb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 15:45:15 -0800 (PST)
-X-Gm-Message-State: AOAM532Lo2OtFhjIwaBeGPh47fx9FfhywtYrVqDIiZGZjmJzCL5Ze/PL
- 7MPbrFNRlYcnXffZxHNbxthbOXyOh8LN3iiP/g==
-X-Google-Smtp-Source: ABdhPJxYS0br7Fg3mai1Y52kvgn22FUhmJLrfoIufPjrILVKI7waYv7yh1S/8ojIS55W4FhA8IZFUbN9+nd9WWD+qnA=
-X-Received: by 2002:a17:906:b348:b0:6cf:5b66:2f80 with SMTP id
- cd8-20020a170906b34800b006cf5b662f80mr903212ejb.638.1646437513692; Fri, 04
- Mar 2022 15:45:13 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3D610F047;
+ Fri,  4 Mar 2022 23:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646437605; x=1677973605;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nJeE5ga6pJ23aN2MKhrNAYY7um3FoXmF8c9XEEI25UQ=;
+ b=Qh9bNtSrVAm6e7Q4zHxNZkzaZQDueV4ZkEc2y1lGpC/fm018jHfqFsc+
+ GL+pMZ//v4ghtoJZcAbxaCsMkv5LAvFvAxmDtOyVsYc2QE9mm4YXn7u3Q
+ lj+7iTO8pcb3vKxLi2PRwYCR7Ku8Cbb/2We+glAj5+HPrDFEfi582SQcF
+ cjCq1k5s6+RMOpxUfJxqtefDpBaw1eeErSi/K/silPqMGXmnqwW1JwRNS
+ ZjNOQ4EVK1+DhEp2bYbQV77L1ZyPE6G5wSnUPc6pynIbnOgeeb5BOHknj
+ wWZUczZEh+dc9//3h/uMLLjIfbSRwanqQ6EmWJi4iZ0BGe60GbPW1s1C0 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="254280746"
+X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; d="scan'208";a="254280746"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2022 15:46:44 -0800
+X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; d="scan'208";a="687024879"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2022 15:46:44 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/i915/dg2: Add preemption changes for Wa_14015141709
+Date: Fri,  4 Mar 2022 15:46:38 -0800
+Message-Id: <20220304234639.3231617-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
- <20220304095458.12409-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220304095458.12409-3-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 5 Mar 2022 07:45:02 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9m06C63xXQqDSZeV2ZojEqE_Hb+V8stPc1x4oUdD5OGA@mail.gmail.com>
-Message-ID: <CAAOTY_9m06C63xXQqDSZeV2ZojEqE_Hb+V8stPc1x4oUdD5OGA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: display: mediatek,ovl: Fix 'iommu'
- required property typo
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +53,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- krzysztof.kozlowski@canonical.com, David Airlie <airlied@linux.ie>,
- Jason-JH Lin <jason-jh.lin@mediatek.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, DTML <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, John Harrison <john.c.harrison@intel.com>,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Angelo:
+From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2022=E5=B9=B43=E6=9C=884=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:55=
-=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The property is called 'iommus' and not 'iommu'. Fix this typo.
+Starting with DG2, preemption can no longer be controlled using userspace
+on a per-context basis. Instead, the hardware only allows us to enable or
+disable preemption in a global, system-wide basis.  Also, we lose the
+ability to specify the preemption granularity (such as batch-level vs
+command-level vs object-level).
 
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+v2 (MattR):
+ - Move debugfs interface to a separate patch.  (Jani)
 
->
-> Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each bl=
-ock to individual yaml")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.=
-yaml
-> index 93d5c68a2dbd..fc691d00c60e 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
-l
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
-l
-> @@ -75,7 +75,7 @@ required:
->    - interrupts
->    - power-domains
->    - clocks
-> -  - iommu
-> +  - iommus
->
->  additionalProperties: false
->
-> --
-> 2.35.1
->
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
+ drivers/gpu/drm/i915/i915_drv.h             | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index beca8735bae5..f695a9c96c8d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2310,7 +2310,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 			     FF_DOP_CLOCK_GATE_DISABLE);
+ 	}
+ 
+-	if (IS_GRAPHICS_VER(i915, 9, 12)) {
++	if (HAS_PERCTX_PREEMPT_CTRL(i915)) {
+ 		/* FtrPerCtxtPreemptionGranularityControl:skl,bxt,kbl,cfl,cnl,icl,tgl */
+ 		wa_masked_en(wal,
+ 			     GEN7_FF_SLICE_CS_CHICKEN1,
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 943267393ecb..afefb3bd2714 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1396,6 +1396,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define HAS_GUC_DEPRIVILEGE(dev_priv) \
+ 	(INTEL_INFO(dev_priv)->has_guc_deprivilege)
+ 
++#define HAS_PERCTX_PREEMPT_CTRL(i915) \
++	((GRAPHICS_VER(i915) >= 9) &&  GRAPHICS_VER_FULL(i915) < IP_VER(12, 55))
++
+ static inline bool run_as_guest(void)
+ {
+ 	return !hypervisor_is_type(X86_HYPER_NATIVE);
+-- 
+2.34.1
+
