@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E724CD38E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 12:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5CA4CD39D
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 12:38:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7684310EDDE;
-	Fri,  4 Mar 2022 11:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA1D10F03A;
+	Fri,  4 Mar 2022 11:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0760310EDA5;
- Fri,  4 Mar 2022 11:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646393728; x=1677929728;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WhCjVHxroIxSCZEeZUS+H9OvmAySNULdfegGUuQzW3Q=;
- b=eiX5DMzwgcMuhfFgbcGUEnXv0ntF7UgXF9MU3mZBM0NYlGNVfjadkRtV
- 3Nfobq2EyK6Sgf25WdLSAmL79oDE8voPlLGfGtEE18EjAVspY/j8SYQzq
- pJm/0tw+ulKSZUdbKaYd+UUP3ya+Q3uBNLr+DXsws+hfnFPXmTQqlYDDO
- bVMWhidn1wm1J8xNKJPBmUqkTy2fEeKUQ+bd9ycztKjeMuBesf94ofVCN
- gz89RBgFnJLOFBjf14yFlbg72E03w4kmmsTJLmxYAB5lOhk/zvbkiQNCs
- 4KcgeggBTvbs4HDmTJanYlZ7qnEh7RPWcPUjwsJWEGRS7Iq495rRgI+S6 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="254150932"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="254150932"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 03:35:27 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="536249107"
-Received: from dlalwani-mobl.ger.corp.intel.com (HELO [10.213.223.211])
- ([10.213.223.211])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 03:35:26 -0800
-Message-ID: <7a69b7ce-54cc-9ad3-b6ad-bc2228e4db42@linux.intel.com>
-Date: Fri, 4 Mar 2022 11:35:23 +0000
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBA410F03E
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 11:38:28 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 8E87C3201464;
+ Fri,  4 Mar 2022 06:38:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 04 Mar 2022 06:38:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=Zt6ger87IIwuVDB23LYuh2mdUpYNNHELXOhVsd
+ LFqZY=; b=C30yfSmXKONLwS4u0UO0X3Rnokh9iDzAY4i/TctAM8F9kKN7/Vcpw/
+ mtPipN18CjFiMb8aS6+/3AE5Qaq6LJMGi1TT2IqX6Vp3zJHM/OOZzShCWsqri/p/
+ 2g0tQzwrrB/ZWmxqY9MTESLUpkquNVsgnsDWh7fbXlWfqVeBqr7m/qU5sSxggPK+
+ hD/H7xu+BkF6ndkE6VGivVkzn1v7wrcLuJ2ccY4Z7PCKvPw31T7mRv9YMGHu+TDi
+ vP92qhX2Clig38X4rvqiJeeNfi1Vya7i1Yhm396ZbJI3ArDeilRjTlsVuETZiVeV
+ sGA9TQ5ZWMyoMi6V95sSxhzkUu/Qz2Xg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Zt6ger87IIwuVDB23
+ LYuh2mdUpYNNHELXOhVsdLFqZY=; b=hvIzAkcOXuKrWyXAoCPmQMhv/8Rr3gkZZ
+ IPsjrL+67dIiFF8lr+SVaJeWZWkHaGVnr7KU7hGXzM+eB73VqqHiW22FWFTvDyS5
+ siU05WyWfEmuzU3nXKmlA5wiaSh8OlsFk2mrq3cjCC1GiuFxkIrisK/JaO5vww7N
+ pI6uJu7WoorzdgDIymjx2UCkp7lpX1BrZtNKc85uz8f1heDV9gO4MNyPBdtDm88E
+ hwScPkyOsgadEm6q71vmnYhjguWkXGiqQSdosJcQ2jZszJHtzP+QTS8DQgnVU3qd
+ fA2mZigmsQFI7Upe7J/Fz+/U0zzOpHkmi471WJz6GzJ3gIzcN0/Cg==
+X-ME-Sender: <xms:L_ohYnfczwJJGKyuaa2SwkFYwjHvK6D9DJypv_n9gsjzrq5c_WIj-Q>
+ <xme:L_ohYtPkPap5U02re85CpyRwJ3_2zBg8eT3owKP_yfpAucKjAdxKSMguv8Qa6JfpG
+ TjBXxzkMIw7LZPi0pA>
+X-ME-Received: <xmr:L_ohYghY1PuirrUsPpQNYAjAO5WBiinkwl234qv5lruQ7TNDX0cHshjsd0rlN57ivexwKEVsG33uSN4wjSO79la130RlxGD-L5sJ344>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgfedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:L_ohYo8XxFwtUKRo-rb4wPZ5IUH4xOtS3PKK_OuZ-gFBugjmBKaL2g>
+ <xmx:L_ohYjtGwKKZZT4eSd9thgCzaQp6bP5ZgF3Qxz_cFmeHD5vYIswiCQ>
+ <xmx:L_ohYnGFQXTBEDINSVQcwX3AKENmTAl8wW5VLZA4Skhz3d9Of2RyNA>
+ <xmx:MPohYpBS6bRSyr8PNepcfp1vGPE8IdCDtKECpXnELgKGn55Sv6ZeZw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Mar 2022 06:38:23 -0500 (EST)
+Date: Fri, 4 Mar 2022 12:38:21 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4] drm: of: Lookup if child node has panel or bridge
+Message-ID: <20220304113821.jfu6fxgehohlj5in@houat>
+References: <20220202160414.16493-1-jagan@amarulasolutions.com>
+ <YiEkaBO/lz05DkAD@aptenodytes>
+ <20220304085445.avdrxlx5wnytriyk@houat>
+ <YiHxU5GvnRuTeWqc@aptenodytes> <YiHyatlgpmkMY4/T@aptenodytes>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/dg2: Add preemption changes for
- Wa_14015141709
-Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220303224256.2793639-1-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220303224256.2793639-1-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tufvwv7zjv55obc5"
+Content-Disposition: inline
+In-Reply-To: <YiHyatlgpmkMY4/T@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,160 +83,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-amarula@amarulasolutions.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 03/03/2022 22:42, Matt Roper wrote:
-> From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-> 
-> Starting with DG2, preemption can no longer be controlled using userspace
-> on a per-context basis. Instead, the hardware only allows us to enable or
-> disable preemption in a global, system-wide basis. Also, we lose the
-> ability to specify the preemption granularity (such as batch-level vs
-> command-level vs object-level).
-> 
-> As a result of this - for debugging purposes, this patch adds debugfs
-> interface to configure (disable/enable) preemption globally.
-> 
-> Jira: VLK-27831
-> 
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
-> Cc: John Harrison <john.c.harrison@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  3 ++
->   drivers/gpu/drm/i915/gt/intel_workarounds.c |  2 +-
->   drivers/gpu/drm/i915/i915_debugfs.c         | 50 +++++++++++++++++++++
->   drivers/gpu/drm/i915/i915_drv.h             |  3 ++
->   4 files changed, 57 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index 19cd34f24263..21ede1887b9f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -468,6 +468,9 @@
->   #define VF_PREEMPTION				_MMIO(0x83a4)
->   #define   PREEMPTION_VERTEX_COUNT		REG_GENMASK(15, 0)
->   
-> +#define GEN12_VFG_PREEMPTION_CHICKEN		_MMIO(0x83b4)
-> +#define   GEN12_VFG_PREEMPT_CHICKEN_DISABLE	REG_BIT(8)
-> +
->   #define GEN8_RC6_CTX_INFO			_MMIO(0x8504)
->   
->   #define GEN12_SQCM				_MMIO(0x8724)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> index c014b40d2e9f..18dc82f29776 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -2310,7 +2310,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
->   			     FF_DOP_CLOCK_GATE_DISABLE);
->   	}
->   
-> -	if (IS_GRAPHICS_VER(i915, 9, 12)) {
-> +	if (HAS_PERCTX_PREEMPT_CTRL(i915)) {
->   		/* FtrPerCtxtPreemptionGranularityControl:skl,bxt,kbl,cfl,cnl,icl,tgl */
->   		wa_masked_en(wal,
->   			     GEN7_FF_SLICE_CS_CHICKEN1,
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index 747fe9f41e1f..40e6e17e2950 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -571,6 +571,55 @@ static int i915_wa_registers(struct seq_file *m, void *unused)
->   	return 0;
->   }
->   
-> +static void i915_global_preemption_config(struct drm_i915_private *i915,
-> +					  u32 val)
-> +{
-> +	const u32 bit = GEN12_VFG_PREEMPT_CHICKEN_DISABLE;
-> +
-> +	if (val)
-> +		intel_uncore_write(&i915->uncore, GEN12_VFG_PREEMPTION_CHICKEN,
-> +				   _MASKED_BIT_DISABLE(bit));
-> +	else
-> +		intel_uncore_write(&i915->uncore, GEN12_VFG_PREEMPTION_CHICKEN,
-> +				   _MASKED_BIT_ENABLE(bit));
+--tufvwv7zjv55obc5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In addition to what Jani suggested some other questions:
+On Fri, Mar 04, 2022 at 12:05:14PM +0100, Paul Kocialkowski wrote:
+> On Fri 04 Mar 22, 12:00, Paul Kocialkowski wrote:
+> > Hi Maxime,
+> >=20
+> > On Fri 04 Mar 22, 09:54, Maxime Ripard wrote:
+> > > Hi Paul,
+> > >=20
+> > > On Thu, Mar 03, 2022 at 09:26:30PM +0100, Paul Kocialkowski wrote:
+> > > > On Wed 02 Feb 22, 21:34, Jagan Teki wrote:
+> > > > > Devices can also be child nodes when we also control that device
+> > > > > through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+> > > > >=20
+> > > > > drm_of_find_panel_or_bridge can lookup panel or bridge for a given
+> > > > > device has port and endpoint and it fails to lookup if the device
+> > > > > has a child nodes.
+> > > >=20
+> > > > This patch breaks the logicvc drm driver that I'm currently develop=
+ping.
+> > > > The symptom is that drm_of_find_panel_or_bridge now always returns
+> > > > -EPROBE_DEFER even after the panel has probed and is running well.
+> > > > It seems that the function can no longer find the panel.
+> > > >=20
+> > > > I haven't figured out the details, but reverting your patch makes
+> > > > it work again. I suspect other drivers might be affected as well, so
+> > > > it would probably be a good idea to revert the patch until the root
+> > > > cause is clearly understood and the patch can be adapted accordingl=
+y.
+> > > >=20
+> > > > Here is what the device-tree looks like:
+> > > >=20
+> > > > / {
+> > > > 	panel: panel-lvds {
+> > > > 		compatible =3D "panel-lvds";
+> > > >=20
+> > > > 		[...]
+> > > >=20
+> > > > 		port {
+> > > > 			#address-cells =3D <1>;
+> > > > 			#size-cells =3D <0>;
+> > > >=20
+> > > > 			panel_input: endpoint@0 {
+> > > > 				reg =3D <0>;
+> > > > 				remote-endpoint =3D <&logicvc_output>;
+> > > > 			};
+> > > > 		};
+> > > > 	};
+> > > > };
+> > > >=20
+> > > > &amba {
+> > > > 	logicvc: logicvc@43c00000 {
+> > > > 		compatible =3D "xylon,logicvc-3.02.a", "syscon", "simple-mfd";
+> > > > 		reg =3D <0x43c00000 0x6000>;
+> > > >=20
+> > > > 		#address-cells =3D <1>;
+> > > > 		#size-cells =3D <1>;
+> > > >=20
+> > > > 		[...]
+> > > >=20
+> > > > 		logicvc_display: display-engine@0 {
+> > > > 			compatible =3D "xylon,logicvc-4.01.a-display";
+> > > >=20
+> > > > 			[...]
+> > >=20
+> > > I think the issue lies in what you left out here: you have another no=
+de
+> > > aside from the port one, called layers. I *think* the issue is that t=
+he
+> > > code will now pick up the layers node, and try to use it as a panel,
+> > > which will never probe.
+> > >=20
+> > > I've had a look at all the other bindings though, it seems like this
+> > > driver is the only one that can be affected: the anx7625 seems to be =
+the
+> > > only other driver that has a child node that isn't either a port or a
+> > > panel (aux-bus) but it doesn't use drm_of_find_panel_or_bridge either.
+> >=20
+> > Thanks a lot for looking into this so quickly!
+> >=20
+> > After some testing it clearly appears that you're right and the layers
+> > node is the one conflicting with the patch. Removing it brings the
+> > behavior back to normal. I'll try to dig-in a bit more to understand
+> > why this is happening since it's really not obvious when just looking
+> > at the patch.
+>=20
+> Ah wait I do understand it actually. The patch will take the *first* node
+> that doesn't have ports/port in it and use that as remote instead of
+> of_graph_get_remote_node.
+>=20
+> So maybe the fix would be to first look via of_graph_get_remote_node and
+> if nothing is returned then it should try to use the first node as remote.
+> tl;dr just inverting the order of the logic.
+>=20
+> Do you think that would work?
 
-Does this setting survive GT reset?
+We can have multiple strategies here. The one you have in mind does work
+indeed, but relying on the node order is still fairly fragile.
 
-Would intel_reg read/write work?
+I think it would work fine then if:
 
-Can we not add the debugfs file to start with if register is n/a for a platform?
+  - We first lookup any endpoint, and see if we have a panel or bridge.
+    If so, we return it.
 
-> +}
-> +
-> +static int i915_global_preempt_support_get(void *data, u64 *val)
-> +{
-> +	struct drm_i915_private *i915 = data;
-> +	intel_wakeref_t wakeref;
-> +	u32 curr_status = 0;
-> +
-> +	if (HAS_PERCTX_PREEMPT_CTRL(i915) || GRAPHICS_VER(i915) < 11)
-> +		return -EINVAL;
+  - Then, we look at any available child node, and see if we have a
+    panel or bridge attached. If so, we return it.
 
-What is the purpose of the "< 11" condition here? Because HAS_PERCTX_PREEMPT_CTRL is defined as starting on Gen9? Is the 11 arbitrary then or has some deeper meaning?
+  - we return -EPROBE_DEFER
 
-Regards,
+That way, even if we have something like:
 
-Tvrtko
+node {
+     totally-not-a-panel {
+     }
 
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-> +		curr_status = intel_uncore_read(&i915->uncore,
-> +						GEN12_VFG_PREEMPTION_CHICKEN);
-> +	*val = (curr_status & GEN12_VFG_PREEMPT_CHICKEN_DISABLE) ? 0 : 1;
-> +
-> +	return 0;
-> +}
-> +
-> +static int i915_global_preempt_support_set(void *data, u64 val)
-> +{
-> +	struct drm_i915_private *i915 = data;
-> +	intel_wakeref_t wakeref;
-> +
-> +	if (HAS_PERCTX_PREEMPT_CTRL(i915) || GRAPHICS_VER(i915) < 11)
-> +		return -EINVAL;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-> +		i915_global_preemption_config(i915, val);
-> +
-> +	return 0;
-> +}
-> +
-> +DEFINE_SIMPLE_ATTRIBUTE(i915_global_preempt_support_fops,
-> +			i915_global_preempt_support_get,
-> +			i915_global_preempt_support_set,
-> +			"%lld\n");
-> +
->   static int i915_wedged_get(void *data, u64 *val)
->   {
->   	struct drm_i915_private *i915 = data;
-> @@ -765,6 +814,7 @@ static const struct i915_debugfs_files {
->   	const struct file_operations *fops;
->   } i915_debugfs_files[] = {
->   	{"i915_perf_noa_delay", &i915_perf_noa_delay_fops},
-> +	{"i915_global_preempt_support", &i915_global_preempt_support_fops},
->   	{"i915_wedged", &i915_wedged_fops},
->   	{"i915_gem_drop_caches", &i915_drop_caches_fops},
->   #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 457bc1993d19..8c3f69c87d36 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1407,6 +1407,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->   #define HAS_GUC_DEPRIVILEGE(dev_priv) \
->   	(INTEL_INFO(dev_priv)->has_guc_deprivilege)
->   
-> +#define HAS_PERCTX_PREEMPT_CTRL(i915) \
-> +	((GRAPHICS_VER(i915) >= 9) &&  GRAPHICS_VER_FULL(i915) < IP_VER(12, 55))
-> +
->   static inline bool run_as_guest(void)
->   {
->   	return !hypervisor_is_type(X86_HYPER_NATIVE);
+     panel {
+     }
+}
+
+It would work fine, without relying on the node name (well, except for
+port(s)?)
+
+What do you think?
+Maxime
+
+--tufvwv7zjv55obc5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYiH6LQAKCRDj7w1vZxhR
+xc1+AP4qU25jNc62ilmS5KrlTO9CHSMa8X0tPT1IopsbUQxwoAEAjILcVK/sMCZM
+s/FVfE6Ihlj+kAYc3gvtzLTlP5uVYww=
+=zRqB
+-----END PGP SIGNATURE-----
+
+--tufvwv7zjv55obc5--
