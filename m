@@ -2,122 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261E64CCF24
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7B74CCF6E
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 466D210F5C0;
-	Fri,  4 Mar 2022 07:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF0110F0BF;
+	Fri,  4 Mar 2022 07:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2052.outbound.protection.outlook.com [40.107.212.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F26110F5BF
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 07:35:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b9GZQRVTqmom0onir62HtYSJhlUO9SxoejKeV1aN5trNacowkjw78hCdD9dnErWFiYp+qwbmKNtnHmdYBki5dC8FGJc6jrHQn1PjqEK2QONZtmQ8JOgnGO+/HbLlTGzTnk+8kJYN6lwMkMp5OzLjxJhnaplW3YFSoEfUgAlqBVRNuT41yvUfDNSCgbVrai2D7ZG8lcSdDGacS7uw0LKVoD16572+ygaJW7ZR5x7qY/L0fdFKLm1qS029tCPzrLUDFUA0NhAwtOQar/sdcKwohnRJv43uPytNFnQZ6o1z9xmP7o1fzGJwpmxdbkl3+h0En+xGLls9Je1UhAXMQXaLzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jo9em+kGrQaLMjVMuZOCmPtHQaSySg5uC8Ody1xj6CE=;
- b=awDad9N3YcorzCyqFINP/JzC9QFybs2HrbIsmbTo/Pn3j7jnZ1lP7lAVu4u9W7o1j1Ht52qCIjKzkMSJ94oUGZDRHwj2xA8L/cf9B0539FNcpms8+ulpnfYvBP54QejFpQIBSu6qd1fnigTXJBrk2Pr0u537o0pZW3xaVJp0QUBB/6L8+0wuw48kSpNx2XjkQ3GFZFtumK15hImVLRlPU9se04P5biRhycUSNeHoirMdufn34bYYxKmBGSX43imFnbH/lXg+3vCTIdilv/tW3fTqeE0d2s5BomNGzvuRpfdY1Hw7RcQan3hP3VJaXiw/MjeQYE8MIxS/iXwibQDECQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jo9em+kGrQaLMjVMuZOCmPtHQaSySg5uC8Ody1xj6CE=;
- b=fgPatY5YShnpp1dfmogdeg2p6wnGbZ7+NoY4O/PgYhPxwx2v3O+zmCRheZqXlezhZ7JMMUdATgwkhYjMbE9oT8iLPFMBBoRVx1o49bho5kJ3fx0lA5D1drhqWu2xlzBfWq29gQ0r9DEuM+r2yIr6kZKz1TvFK99SA+q+L5kWrTg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BYAPR12MB3045.namprd12.prod.outlook.com (2603:10b6:a03:ac::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Fri, 4 Mar
- 2022 07:35:52 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581%6]) with mapi id 15.20.5038.014; Fri, 4 Mar 2022
- 07:35:51 +0000
-Message-ID: <fff424e7-247c-38d8-4151-8b0503a16a7d@amd.com>
-Date: Fri, 4 Mar 2022 08:35:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] i2c: at91: use dma safe buffers
-Content-Language: en-US
-To: Michael Walle <michael@walle.cc>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <20220303161724.3324948-1-michael@walle.cc>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220303161724.3324948-1-michael@walle.cc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P193CA0130.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:85::35) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E43C10F0BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 07:59:15 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id t21so5880227qkg.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 23:59:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hvu/peVgD6fJaER9RWxznT70/W3U9QttCqf/QNoHRDU=;
+ b=tTi/8bkntcVU6In/S1Pb/OP73F5xC2e/EjBVnV4h4GAuomqZ5xcM5uJeJ/C4++58Ci
+ bBdFyS5ex60SImaTHtJIigr3AEXyaTqwJo0bTaj636s4AvFEJfxWMvfI48NmXxsrDDct
+ i9BtADuo9Lf0wq+cIFRmkiY04O/Uhc2YZR/zyey0NBHyep3+dl3r/6PcvBZXp1juLjQn
+ /mQXuTqL3aAX5mpLU5gZKPMnLcXv5BuET/NC9JvU5hK9i/PG2IlZaHKJmE0siLitDxOf
+ 0hu2LgldPy4SpUbsXi/mdPM6Cwwyz6/SYcqLjb4j/smxrezGToWkXU8dSSosl45EACpx
+ t4sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hvu/peVgD6fJaER9RWxznT70/W3U9QttCqf/QNoHRDU=;
+ b=E6sVig7A1nJL9LjtpZ6IP7shx3Y00QKcH9tCTfenJ/VROSLFzvpNzfato0yRDkDGLa
+ W5DiVlBdfhUdZSEM2jkxLer4YiGi9rTxmaLtqPsXE/tRdvAaKALKUxiwBrNROdPu8fY4
+ RhNVWyQouDX6w6j8U9Ie3ZYYJoWZdmnSxrHgHu4vos+v37ckniFd+fcWOD744+gdQU4J
+ I0HRd+coe37e+YLRZrzHPGedumzJ2Y/fEZS45wM1hhp0xvdmZkPhjoSjpO9JGNsN32Ph
+ asNJ7zyS6otD69EIM5l3j5Li/C76919ajcmw3voxUOw0SftRNccuhoSTB2Eq3pA5fUmp
+ MmOw==
+X-Gm-Message-State: AOAM533PPKmcHlvxMG5Ll/R3UKEiXZ5Dkv2tfYNr/MhL9zlLIRcsuJ+4
+ WjbhhBZlqhhGvHuWGgR+fw5hEW3Vs+Xk87yr1ur1jA==
+X-Google-Smtp-Source: ABdhPJxGpg//Qbn9sDTSA/IIrc+b7rNBDFwK+45t1tYmJLD5x9yvJUEuvKNe+/DlkgM6bbD29W3ZS2Jp3rXEzt506ic=
+X-Received: by 2002:a05:620a:1673:b0:62c:da57:aa32 with SMTP id
+ d19-20020a05620a167300b0062cda57aa32mr1838413qko.203.1646380749414; Thu, 03
+ Mar 2022 23:59:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6da3efe1-05ab-4d7f-5c1f-08d9fdb19b98
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3045:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3045F991C189E9DF85FE402D83059@BYAPR12MB3045.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: O+KpSNg+VQuj8fXqfoiknauVU8TsPoL+JUBxFPfRoBX/1GwjyvmYboa6fd7Rx5NVWo/l4R6VfGJ+AtANgFpfxhnh9yHvpBcoLkQGcE9NK+SvTBJEJkvn1CBhlJVwcretT0Elk59HktdRDpsLh9uq2QC1RqDssYYvmiip13IpoRhrb7mmMWCh/lWQLQMiLL52PjueEtCEMdFRp4y/d5UTwejhGvysUg6G1jB3ETitUb1++WuHRdm2IQkGwGgsDdGwPW2Knmi98xsLptZFcgIrdHHgoTPWYU0vXjIY7lDw9lWpk64s3VsE51tgtzr8q4tx4Rin44rrfvRQHs7xv752AdJXoftldDuhnm2ze4MjCNJPVgE4/vidM6oNW+pJMZHEDW+WdfIbhmrNzn08VRuvWTcCv+rEDnv9C4Tn9HztouvDaUoFO9XY/2+Cm2tf2z4bZsIrhBv9rqOkX0jyESbecTTzTdXBpJYzOhcrtF3pzWMfVSZOywkTOS1T2U7dZeazovUUxgQMbjMs+yeFTpzaKTM+GmxRqhe2W5xTELMkIeMEs4NriXikgmHW9MBz5GaT4whHa7MCasXF9Cobb5tv2yclm6BGfByASJ2Se/q6VCDShAIArrQcwyeTVR6SgkTqEf1V17bUI4o1UZfQjj+ci+C3bhC9N0SwyB68EaHol9JLN1eRxWFGLjOZ7XaaBjLuZmmAno9/9QtnTcYiuBva9Riat4NEKxB/e1ld68y8/5M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6486002)(38100700002)(6666004)(36756003)(6506007)(31686004)(83380400001)(508600001)(110136005)(2906002)(4326008)(86362001)(316002)(6512007)(7416002)(31696002)(5660300002)(26005)(186003)(66476007)(66556008)(8676002)(2616005)(66946007)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dGljZGFIa2pxWkVaWnZMcTNIajAxbkNvaEppNmkzZzVKdFBxalBnNHN6czFa?=
- =?utf-8?B?VEVYNUxDakZHL253VWJEdXBOSmxsNmoxNTVzUHdwQzJLSkpyNUV0SkowaU1O?=
- =?utf-8?B?eGFCVjQvMVVrT1ljclA3Z0laOWgzb2hTZnRtZC82bk8zNFZtUjJQanRPNnVt?=
- =?utf-8?B?Kzk5dDBxY20yZks4eHhuU0VSTmJnbTdnRmI3Ti9FeW1naWc4dVdsMHZMTkxi?=
- =?utf-8?B?OGg1U2tQMk1rKzR1Yzh0VWFUNGN2Nk9FNXhwWTZxNFJCcHgzYTN0dzhjMzhk?=
- =?utf-8?B?NVhIWHdJUmYvM1dyRTVITzZqMVJFS2Y3WDRVNG5QYVRvVStlTk5CaEJsdUNU?=
- =?utf-8?B?SFVKMWl3RERYZzFYczN3MFNvNm0zYkV5eHFERnByNEZuQURGNmIwRFRpcmFy?=
- =?utf-8?B?bWd5aFk3VDRqL3pwNzBnVVNvMjBhUUNlbGI4TDl2ekFXdWRoZUF0L2x3VDJy?=
- =?utf-8?B?L2g0N0FUMndsYXJxd3g4YzNGT3I5MXVQbXJab0JldlA1SW1nc005UzVWaDN2?=
- =?utf-8?B?YVozVmdKeGxYRVROVzVUOHIxWmgvWXdqMFFLUGMxY3hvUi9sZXNLbTNxYkE5?=
- =?utf-8?B?L1JuZ0JiTnpXMld0RHdHYUIrR1RUbWNqUEFPU2M5SFd5VTZrbndLNHZsci9K?=
- =?utf-8?B?OVk1VVdEd25UQlltZ0VsQ1FRTFN2QmpGTG10OWlRVlJveGxacnRjbndVVSty?=
- =?utf-8?B?R2l4R3dObE1XZVJNSmpBdExlSmVRR1RNU1JUMUFzSnpmVGZ2T0cvRHZJWFdv?=
- =?utf-8?B?Uk1ZZXZua1NCMHl0Y0MwNEJVWFBoQzNwakhKdkc0T281b3dTNlBESEhDL2RJ?=
- =?utf-8?B?NEt4ZjBEY0p0T3kyOWR3M0Y3Y29OQllsWmtVK3BudWpJaDNWbTAyRjhOZkRP?=
- =?utf-8?B?YVBodlp0TDZnMTg2bjMvdElwOHM2VUZNTEVBRysyenJzREQ5emttcFJMWG1x?=
- =?utf-8?B?aHV0dFdMVHNzUU1XNEhGK3lxekc5Y21vMm9TMXRvMkxOYjVGWDYyNGFyZXFY?=
- =?utf-8?B?SEtQOHVDSW9IcGdOdHN0aHRhL2FuaEdaTHMveExORFhMTGJlbk5JZjJCRjkx?=
- =?utf-8?B?Vjd5Y0w4RERCM0dVRlVtNDJqZ3lxekF4YzdsVjg1Q0x4R1FPeStmRXJNK2ZU?=
- =?utf-8?B?cmRPaDV1Tlh4dXcxNXBWSEtrOHFmVlcwTm1xUlZoS0tYdHpmZUlNMGZoczhv?=
- =?utf-8?B?OHA1bTF1eTF0MU9zNkpMNTgwdk9zcmpZbGFUdEhDazg5Q2pXZkpCOFFLakpi?=
- =?utf-8?B?dndZcTVRVnBpdGJuSjNQcnpLVG5SdTNQY0FzSzVNbitJMUxDak9DeVZhdkFv?=
- =?utf-8?B?SWpoRDU4U1JQNStKdDYzOUZjUnpJc3hibXozUlg1ZENMUWRseERXUzZLMmZt?=
- =?utf-8?B?QS9yL2F1dmVhUDN6NkJIU2VzdFlVMnJhTUdjalVkWVdYdEhLcmhQN1VqSWVm?=
- =?utf-8?B?MHhFZzNLVHRKZWdyem42eDN0Mk93R3FNdm0vaHJKZUtLM3BNN2VOTEVlZ0FN?=
- =?utf-8?B?VHNRbDRBN2F4VDNNZ2lCcFVmME1HbGd4aHNXT3B1eUlIamkwaklqN09oNDQw?=
- =?utf-8?B?bmdkekphRVgwN1JkN0MrUmJ2akpucjZpaCtFbERqOFJqVG1TOGR1aGcvWnFP?=
- =?utf-8?B?NWM2WmJ4bUFrOE5xam5HM3ZLOFpDa1lXaWs3VlF3aHNpQWR0YkxMK1ZrYi9G?=
- =?utf-8?B?UzQrRlovUnVsL2drTW8yc2xQQjl6R1czQ3dUQ1dCQlp1QWtIUlBiVFlqam5Q?=
- =?utf-8?B?ZnFzb01Bb1FHYnlYWjAvNVlQMFVhdFhQNUxRL3JTMFBoR043MldVNnN2WWpQ?=
- =?utf-8?B?MUY2ZG5Md0ZCVXZtOWJaaW90STRoOVRmc1l3Zms2cGdySlFCcHM3dDZGY3pV?=
- =?utf-8?B?S1lpbGpiV2xRcWtXU1dURkhoWWtYVHZadzFFaGlnNHlGUVhvZUVGU0VSRFVW?=
- =?utf-8?B?OS9vTWE2ZUFZb1JqaThZd0NIcXhyeG9hVVZra1VIYmdqVEd3VDFsTzRWWTFv?=
- =?utf-8?B?azk1bTlQU0t0N2lTSWNBVXBlQ1JNTVU4bUdpT29SZC8wRU1wQkxKREp5bVdF?=
- =?utf-8?B?dnZva3Jpd1ZwNUN1ZUpiS1AxZEt1dW9wYlUvTmsxdFVybURJakd0eVg4YzUw?=
- =?utf-8?Q?Pdb8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6da3efe1-05ab-4d7f-5c1f-08d9fdb19b98
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 07:35:51.4096 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pu69Q1u5fSSgNOD/ALrmfaJwvtCXxCGyKdW+yRafzg0rkd0y5+mX2mvEo0y+lyw9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3045
+References: <20220217055529.499829-1-dmitry.baryshkov@linaro.org>
+ <20220217055529.499829-4-dmitry.baryshkov@linaro.org>
+ <CAE-0n529mx1ke89iw8xXZEDcs0z84hA09B31cWeVQSTU9RAAYg@mail.gmail.com>
+ <CAA8EJpq4fXHH6GEJO=m3Ckw0A2p7B_X0D3SiXi1xnJ=4VZOC=g@mail.gmail.com>
+ <CAE-0n50h=REsyLsjNMaMaZtH7Dptowink7Tq0nzmBRYNas9OmQ@mail.gmail.com>
+In-Reply-To: <CAE-0n50h=REsyLsjNMaMaZtH7Dptowink7Tq0nzmBRYNas9OmQ@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 4 Mar 2022 10:58:58 +0300
+Message-ID: <CAA8EJppT9O+bDjfEZv9tWCWpeCDMDPTf+VV0a0HxDw2mXhiMtw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] drm/msm/dp: set stream_pixel rate directly
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,72 +66,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
- stable@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.03.22 um 17:17 schrieb Michael Walle:
-> The supplied buffer might be on the stack and we get the following error
-> message:
-> [    3.312058] at91_i2c e0070600.i2c: rejecting DMA map of vmalloc memory
+On Fri, 4 Mar 2022 at 07:31, Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> Use i2c_{get,put}_dma_safe_msg_buf() to get a DMA-able memory region if
-> necessary.
+> Quoting Dmitry Baryshkov (2022-03-03 20:23:06)
+> > On Fri, 4 Mar 2022 at 01:32, Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Dmitry Baryshkov (2022-02-16 21:55:27)
+> > > > The only clock for which we set the rate is the "stream_pixel". Rather
+> > > > than storing the rate and then setting it by looping over all the
+> > > > clocks, set the clock rate directly.
+> > > >
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > [...]
+> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > > > index 07f6bf7e1acb..8e6361dedd77 100644
+> > > > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > > > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > > > @@ -1315,7 +1315,7 @@ static void dp_ctrl_set_clock_rate(struct dp_ctrl_private *ctrl,
+> > > >         DRM_DEBUG_DP("setting rate=%lu on clk=%s\n", rate, name);
+> > > >
+> > > >         if (num)
+> > > > -               cfg->rate = rate;
+> > > > +               clk_set_rate(cfg->clk, rate);
+> > >
+> > > This looks bad. From what I can tell we set the rate of the pixel clk
+> > > after enabling the phy and configuring it. See the order of operations
+> > > in dp_ctrl_enable_mainlink_clocks() and note how dp_power_clk_enable()
+> > > is the one that eventually sets a rate through dp_power_clk_set_rate()
+> > >
+> > >         dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
+> > >                                         ctrl->link->link_params.rate * 1000);
+> > >
+> > >         phy_configure(phy, &dp_io->phy_opts);
+> > >         phy_power_on(phy);
+> > >
+> > >         ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, true);
+> >
+> > This code has been changed in the previous patch.
+> >
+> > Let's get back a bit.
+> > Currently dp_ctrl_set_clock_rate() doesn't change the clock rate. It
+> > just stores the rate in the config so that later the sequence of
+> > dp_power_clk_enable() -> dp_power_clk_set_rate() ->
+> > [dp_power_clk_set_link_rate() -> dev_pm_opp_set_rate() or
+> > msm_dss_clk_set_rate() -> clk_set_rate()] will use that.
+> >
+> > There are only two users of dp_ctrl_set_clock_rate():
+> > - dp_ctrl_enable_mainlink_clocks(), which you have quoted above.
+> >   This case is handled in the patch 1 from this series. It makes
 >
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> ---
+> Patch 1 form this series says DP is unaffected. Huh?
 >
-> I'm not sure if or which Fixes: tag I should add to this patch. The issue
-> seems to be since a very long time, but nobody seem to have triggered it.
-> FWIW, I'm using the sff,sfp driver, which triggers this.
+> > dp_ctrl_enable_mainlink_clocks() call dev_pm_opp_set_rate() directly
+> > without storing (!) the rate in the config, calling
+> > phy_configure()/phy_power_on() and then setting the opp via the
+> > sequence of calls specified above
+
+Note, this handles the "ctrl_link" clock.
+
+> >
+> > - dp_ctrl_enable_stream_clocks(), which calls dp_power_clk_enable()
+> > immediately afterwards. This call would set the stream_pixel rate
+> > while enabling stream clocks. As far as I can see, the stream_pixel is
+> > the only stream clock. So this patch sets the clock rate without
+> > storing in the interim configuration data.
+> >
+> > Could you please clarify, what exactly looks bad to you?
+> >
+
+Note, this handles the "stream_pixel" clock.
+
 >
->   drivers/i2c/busses/i2c-at91-master.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/i2c/busses/i2c-at91-master.c b/drivers/i2c/busses/i2c-at91-master.c
-> index b0eae94909f4..a7a22fedbaba 100644
-> --- a/drivers/i2c/busses/i2c-at91-master.c
-> +++ b/drivers/i2c/busses/i2c-at91-master.c
-> @@ -656,6 +656,7 @@ static int at91_twi_xfer(struct i2c_adapter *adap, struct i2c_msg *msg, int num)
->   	unsigned int_addr_flag = 0;
->   	struct i2c_msg *m_start = msg;
->   	bool is_read;
-> +	u8 *dma_buf;
+> I'm concerned about the order of operations changing between the
+> phy being powered on and the pixel clk frequency being set. From what I
+> recall the pixel clk rate operations depend on the phy frequency being
+> set (which is done through phy_configure?) so if we call clk_set_rate()
+> on the pixel clk before the phy is set then the clk frequency will be
+> calculated badly and probably be incorrect.
 
-Maybe call your variable differently. DMA-buf is an inter driver buffer 
-sharing frame we use for GPU acceleration and V4L.
+But the order of operations is mostly unchanged. The only major change
+is that the opp point is now set before calling the
+phy_configure()/phy_power_on()
 
-It doesn't cause any technical issues, but the maintainer regex now 
-triggers on that. So you are CCing people not related to this code in 
-any way.
+For the pixel clock the driver has:
+static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
+{
+        int ret = 0;
 
-Regards,
-Christian.
+        dp_ctrl_set_clock_rate(ctrl, DP_STREAM_PM, "stream_pixel",
+                                        ctrl->dp_ctrl.pixel_rate * 1000);
 
->   
->   	dev_dbg(&adap->dev, "at91_xfer: processing %d messages:\n", num);
->   
-> @@ -703,7 +704,18 @@ static int at91_twi_xfer(struct i2c_adapter *adap, struct i2c_msg *msg, int num)
->   	dev->msg = m_start;
->   	dev->recv_len_abort = false;
->   
-> +	if (dev->use_dma) {
-> +		dma_buf = i2c_get_dma_safe_msg_buf(m_start, 1);
-> +		if (!dma_buf) {
-> +			ret = -ENOMEM;
-> +			goto out;
-> +		}
-> +		dev->buf = dma_buf;
-> +	}
-> +
-> +
->   	ret = at91_do_twi_transfer(dev);
-> +	i2c_put_dma_safe_msg_buf(dma_buf, m_start, !ret);
->   
->   	ret = (ret < 0) ? ret : num;
->   out:
+        ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, true);
+[skipped the error handling]
+}
 
+dp_power_clk_enable() doesn't have any special handlers for the the
+DP_STREAM_PM,
+so this code would be equivalent to the following pseudo code (given
+that there is only one stream clock):
+
+unsigned int rate = ctrl->dp_ctrl.pixel_rate * 1000;
+
+/* dp_ctrl_set_clock_rate() */
+cfg = find_clock_cfg("stream_pixel");
+cfg->rate = rate;
+
+/* dp_power_clk_enable() */
+clk = find_clock("stream_pixel")
+clk_set_rate(clk, cfg->rate);
+clk_prepare_enable(clk);
+
+The proposed patch does exactly this.
+
+Please correct me if I'm wrong.
+
+-- 
+With best wishes
+Dmitry
