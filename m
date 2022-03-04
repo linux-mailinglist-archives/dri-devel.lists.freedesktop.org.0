@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30CF4CD9C3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 18:08:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26BA4CDB4A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 18:50:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA641129F2;
-	Fri,  4 Mar 2022 17:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B32E710F196;
+	Fri,  4 Mar 2022 17:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8653C1129F2;
- Fri,  4 Mar 2022 17:08:50 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id i5so8441844oih.1;
- Fri, 04 Mar 2022 09:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gi/unIqjj+EE1Nzn6J49QLVgnUqGPh615g5SFKJniNA=;
- b=nsFYJv4oWBuqxGTF0HQ7cnTNw6KmBoJ+JvjdHUMiOXYkLuKwr4OPDPojSMLxd+LHlh
- 5/v7eI1MdqWL7kO974UCQeNRDSRpJKp6xUeRnEIKWDpID81sc/5e7Swpt8Q0mgEEUuXm
- avEufNonnAOcFHW17q6HQgLwiXF2kdDm68w3UOcrQWSP1VLts+QW8f9Pw1l8MBOOzD9z
- Ezz+W8xfv7RlbwFJTpdJnqHzeSQYQ7gAODdGGpuumG5DWBej3dN5RAHBE9ciIUoh/C0J
- SZE142AstxXAFv02FgCJXKSUHplHirhqMIBDxHl61J1Jp/DAXu2iLk3Uz848EPmweC9l
- y6Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gi/unIqjj+EE1Nzn6J49QLVgnUqGPh615g5SFKJniNA=;
- b=xrOeK8auLh2TWFOT/xdKSCbjCn8dqJYwgbFpMxHG3teRC1elts6Okty+HYApI7mtCm
- inv5sCWy+htW8wuB4CXvGhdx6AAgtIbCCx4Q38+AmbAZ0ozi6+Ol8OH585pxJRltNFOW
- i+yHPCl9j7niVd/njFD2SkFW3auxvZemcna2lMwhbxDVjIqrt0X5zBk5sKWQ9c4kTKtp
- 2nfNHeFcd1UjX2B2EEt+emh6mWu7raTiBy366Y2ITO7UECVqUCOp3potDHiydKj2JiAv
- YcVjZOw0NRtPJ+iB5GWxJYN5n4jSEjUMrExmAJO+w6hzn6HJYYBepLpNgl+aYHKsKc1T
- V0Gw==
-X-Gm-Message-State: AOAM531JGYRl2dleaKpq/2xNVDXH7M1a48tMimy/e3dzbrbVADYnn9gJ
- 7zA/3ZHjT+WSmgc4nJoFMZG8MAxTuNd7iQM6PeI=
-X-Google-Smtp-Source: ABdhPJx/Z2+3w9vow2hddhT2Ieli5lnM7myxL9Kbn0KIBh++s/pr3Ofj6bvN+QEsl1Mjn/ULhvBd0VbnZtrk9bwq8I0=
-X-Received: by 2002:a05:6808:1281:b0:2d9:a01a:4bd6 with SMTP id
- a1-20020a056808128100b002d9a01a4bd6mr42381oiw.253.1646413729711; Fri, 04 Mar
- 2022 09:08:49 -0800 (PST)
+X-Greylist: delayed 1756 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Mar 2022 17:50:10 UTC
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C3110F196;
+ Fri,  4 Mar 2022 17:50:10 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4K9F4N3svmz9sT7;
+ Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TyXhPEw7-5kd; Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4K9F4N33rfz9sT5;
+ Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 56D468B779;
+ Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id DBmceHuew_2J; Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.204.129])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 130BA8B763;
+ Fri,  4 Mar 2022 18:20:52 +0100 (CET)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+ by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 224HKfFE1981097
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Fri, 4 Mar 2022 18:20:41 +0100
+Received: (from chleroy@localhost)
+ by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 224HKeEo1981096;
+ Fri, 4 Mar 2022 18:20:40 +0100
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to
+ christophe.leroy@csgroup.eu using -f
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/nouveau/bios: Rename prom_init() and friends functions
+Date: Fri,  4 Mar 2022 18:20:40 +0100
+Message-Id: <2d97ae92b9c06214be0e088a72cf303eb591bf01.1646414295.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220303172503.GA1731116@embeddedor>
- <202203030937.5BFE3EF@keescook>
- <20220303181957.GA1731711@embeddedor> <20220303204526.GA1733280@embeddedor>
-In-Reply-To: <20220303204526.GA1733280@embeddedor>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 4 Mar 2022 12:08:38 -0500
-Message-ID: <CADnq5_M6bJUOOY3Uc-8+grGKQTL=AsXC9SXaO4KYdc=z7WVGtg@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: Fix Wstringop-overflow warnings in
- dc_link_dp.c
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1646414439; l=2099; s=20211009;
+ h=from:subject:message-id; bh=Khg4HGI1DyRpLRO9YvLyJlbsHAN+KPfyy8yNdyTdf+M=;
+ b=7CmKxM1azLkVlusnQx1tTk/BpceR0kdJRAC/Kqbzcdc28wtrhUTIXtoUzvqf3p8Qk7aOfbzaAbrr
+ +IhfTTqYCSwXAyGlGPijvOeRDltq/I/Otm6tCwoo0mFio3bmnIfC
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519;
+ pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,160 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-hardening@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 3, 2022 at 3:37 PM Gustavo A. R. Silva
-<gustavoars@kernel.org> wrote:
->
-> On Thu, Mar 03, 2022 at 12:19:57PM -0600, Gustavo A. R. Silva wrote:
-> > On Thu, Mar 03, 2022 at 09:43:28AM -0800, Kees Cook wrote:
-> > > On Thu, Mar 03, 2022 at 11:25:03AM -0600, Gustavo A. R. Silva wrote:
-> > > > Fix the following Wstringop-overflow warnings when building with GC=
-C-11:
-> > > >
-> > > > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dpia.c:493:17=
-: warning: =E2=80=98dp_decide_lane_settings=E2=80=99 accessing 4 bytes in a=
- region of size 1 [-Wstringop-overflow=3D]
-> > >
-> > > Can you "show your work" a little more here? I don't actually see the
-> > > what is getting fixed:
-> > >
-> > > enum dc_lane_count {
-> > >     ...
-> > >         LANE_COUNT_FOUR =3D 4,
-> > >     ...
-> > >         LANE_COUNT_DP_MAX =3D LANE_COUNT_FOUR
-> > > };
-> > >
-> > > struct link_training_settings {
-> > >     ...
-> > >         union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP_MAX=
-];
-> > > };
-> > >
-> > > void dp_hw_to_dpcd_lane_settings(
-> > >             ...
-> > >             union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP=
-_MAX])
-> > > {
-> > >     ...
-> > > }
-> > >
-> > > static enum link_training_result dpia_training_cr_transparent(
-> > >             ...
-> > >                 struct link_training_settings *lt_settings)
-> > > {
-> > >     ...
-> > >                 dp_decide_lane_settings(lt_settings, dpcd_lane_adjust=
-,
-> > >                                 lt_settings->hw_lane_settings, lt_set=
-tings->dpcd_lane_settings);
-> > >     ...
-> > > }
-> > >
-> > > Everything looks to be the correct size?
-> >
-> > Yep; this fix is similar to the one for intel_pm.c in this
-> >
-> >       commit e7c6e405e171fb33990a12ecfd14e6500d9e5cf2
-> >
-> > where the array size of 8 seems to be fine for all the
-> > struct members related (pri_latency, spr_latency, cur_latency
-> > and skl_latency):
-> >
-> > drivers/gpu/drm/i915/i915_drv.h:465:struct drm_i915_private {
-> > ...
-> >
-> > drivers/gpu/drm/i915/i915_drv.h-739-    struct {
-> >
-> > ...
-> > drivers/gpu/drm/i915/i915_drv.h-745-            /* primary */
-> > drivers/gpu/drm/i915/i915_drv.h-746-            u16 pri_latency[5];
-> > drivers/gpu/drm/i915/i915_drv.h-747-            /* sprite */
-> > drivers/gpu/drm/i915/i915_drv.h-748-            u16 spr_latency[5];
-> > drivers/gpu/drm/i915/i915_drv.h-749-            /* cursor */
-> > drivers/gpu/drm/i915/i915_drv.h-750-            u16 cur_latency[5];
-> > drivers/gpu/drm/i915/i915_drv.h-751-            /*
-> > drivers/gpu/drm/i915/i915_drv.h-752-             * Raw watermark memory=
- latency values
-> > drivers/gpu/drm/i915/i915_drv.h-753-             * for SKL for all 8 le=
-vels
-> > drivers/gpu/drm/i915/i915_drv.h-754-             * in 1us units.
-> > drivers/gpu/drm/i915/i915_drv.h-755-             */
-> > drivers/gpu/drm/i915/i915_drv.h-756-            u16 skl_latency[8];
-> >
-> > ...
-> > drivers/gpu/drm/i915/i915_drv.h-773-    } wm;
-> > ...
-> > }
->
-> and in this case the ilk_wm_max_level() returns the right maximum size fo=
-r the
-> corresponding 'struct wm' member:
->
-> drivers/gpu/drm/i915/intel_pm.c:2993:int ilk_wm_max_level(const struct dr=
-m_i915_private *dev_priv)
-> drivers/gpu/drm/i915/intel_pm.c-2994-{
-> drivers/gpu/drm/i915/intel_pm.c-2995-   /* how many WM levels are we expe=
-cting */
-> drivers/gpu/drm/i915/intel_pm.c-2996-   if (HAS_HW_SAGV_WM(dev_priv))
-> drivers/gpu/drm/i915/intel_pm.c-2997-           return 5;
-> drivers/gpu/drm/i915/intel_pm.c-2998-   else if (DISPLAY_VER(dev_priv) >=
-=3D 9)
-> drivers/gpu/drm/i915/intel_pm.c-2999-           return 7;
-> drivers/gpu/drm/i915/intel_pm.c-3000-   else if (IS_HASWELL(dev_priv) || =
-IS_BROADWELL(dev_priv))
-> drivers/gpu/drm/i915/intel_pm.c-3001-           return 4;
-> drivers/gpu/drm/i915/intel_pm.c-3002-   else if (DISPLAY_VER(dev_priv) >=
-=3D 6)
-> drivers/gpu/drm/i915/intel_pm.c-3003-           return 3;
-> drivers/gpu/drm/i915/intel_pm.c-3004-   else
-> drivers/gpu/drm/i915/intel_pm.c-3005-           return 2;
-> drivers/gpu/drm/i915/intel_pm.c-3006-}
->
-> drivers/gpu/drm/i915/intel_pm.c:3009:static void intel_print_wm_latency(s=
-truct drm_i915_private *dev_priv,
-> drivers/gpu/drm/i915/intel_pm.c-3010-                              const =
-char *name,
-> drivers/gpu/drm/i915/intel_pm.c-3011-                              const =
-u16 wm[])
-> drivers/gpu/drm/i915/intel_pm.c-3012-{
-> drivers/gpu/drm/i915/intel_pm.c-3013-   int level, max_level =3D ilk_wm_m=
-ax_level(dev_priv);
-> drivers/gpu/drm/i915/intel_pm.c-3014-
-> drivers/gpu/drm/i915/intel_pm.c-3015-   for (level =3D 0; level <=3D max_=
-level; level++) {
-> drivers/gpu/drm/i915/intel_pm.c-3016-           unsigned int latency =3D =
-wm[level];
-> drivers/gpu/drm/i915/intel_pm.c-3017-
-> ...
-> }
->
-> still GCC warns about this with Wstringop-overread, as it is explained
-> in commit e7c6e405e171.
+While working on powerpc headers, I ended up with the following error.
 
-Did you want to respin with expanded explanation?
+	drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c:48:1: error: conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *, const char *)'
+	make[5]: *** [scripts/Makefile.build:288: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
 
-Alex
+powerpc and a few other architectures have a prom_init() global function.
+One day or another it will conflict with the one in shadowrom.c
 
->
-> --
-> Gustavo
->
-> >
-> > however GCC warns about accessing bytes beyond the limits, and turning =
-the
-> > argument declarations into pointers (removing the over-specified array
-> > size from the argument declaration) silence the warnings.
-> >
-> > --
-> > Gustavo
+Those being static, they can easily be renamed. Do it.
+
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+index ffa4b395220a..9c951e90e622 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+@@ -25,7 +25,7 @@
+ #include <subdev/pci.h>
+ 
+ static u32
+-prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
++nvbios_rom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
+ {
+ 	struct nvkm_device *device = data;
+ 	u32 i;
+@@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
+ }
+ 
+ static void
+-prom_fini(void *data)
++nvbios_rom_fini(void *data)
+ {
+ 	struct nvkm_device *device = data;
+ 	nvkm_pci_rom_shadow(device->pci, true);
+ }
+ 
+ static void *
+-prom_init(struct nvkm_bios *bios, const char *name)
++nvbios_rom_init(struct nvkm_bios *bios, const char *name)
+ {
+ 	struct nvkm_device *device = bios->subdev.device;
+ 	if (device->card_type == NV_40 && device->chipset >= 0x4c)
+@@ -57,8 +57,8 @@ prom_init(struct nvkm_bios *bios, const char *name)
+ const struct nvbios_source
+ nvbios_rom = {
+ 	.name = "PROM",
+-	.init = prom_init,
+-	.fini = prom_fini,
+-	.read = prom_read,
++	.init = nvbios_rom_init,
++	.fini = nvbios_rom_fini,
++	.read = nvbios_rom_read,
+ 	.rw = false,
+ };
+-- 
+2.34.1
+
