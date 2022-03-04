@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6564F4CE134
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F464CE140
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:55:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34FD410E983;
-	Fri,  4 Mar 2022 23:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC90210E602;
+	Fri,  4 Mar 2022 23:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59D4E10E983
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:49:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AD98761F0F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9322DC340F5
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646437770;
- bh=4ELZp74PMU7CcPVa1I6hOUB32VqfOzoIpZtL5yF8JJM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bH8Y9/qdfdmdEHqoPRStJ7/fyR414JEoPT8jqsRV7LWELkcJMkLjrB6qlTo4SvWoO
- rkqZduxODORdeDwBSek+U6J7GS+DpuEq8APBgOyPkiLAfMEYExBoFr4CYdJWOQmUsC
- 7d4g/jAurqDNgogC57b3sMARoQgqA+7lizXuxw8Jt9YuAycE8UAdVw46OFZqnNIrRm
- DXTblS8GaC04L+TmYEeojPB5v8Ol1JQZVLSsJn2sMHrB4iWJGVf4Ec0QB4TrB02F7E
- 1rysmAvGAHVeSdhPPHABHD6KFG3l9s9PTNZzRf2ytP6wApzGyBdpczY6EeYoGVsvj2
- 6tz6mXbSMcQnQ==
-Received: by mail-ej1-f54.google.com with SMTP id d10so20492610eje.10
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Mar 2022 15:49:30 -0800 (PST)
-X-Gm-Message-State: AOAM530MBmmqGB7sjIoM/I15Mi+0Tzw6DNgB3qb2GHlCTBgVHSfHR+IO
- 2Li/Z8ynRUXhCpGMwNtT4jWNh5o5s+i1hHswqw==
-X-Google-Smtp-Source: ABdhPJwKzfXlFjDAMAwtLcoz0QtxWyjlL5WxxrHe/cElb7iEak4IuABWyNlIa9tTLPAXSXTcst+Vdbv+PcgD7ZHGvOs=
-X-Received: by 2002:a17:907:e87:b0:6da:8de2:ce94 with SMTP id
- ho7-20020a1709070e8700b006da8de2ce94mr959302ejc.406.1646437768870; Fri, 04
- Mar 2022 15:49:28 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FEC710E2FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:55:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id C8F251F46E3C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646438143;
+ bh=IUw5jFkv39jqcPQCo/oRiqH/4ARuLA0Q4Zt6gaiOlhM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HNF/gPoA3dcCx/RvyZJPlcMcVoLUzr4SEeIA/3z4PmW3iYql2H1xwb7ZzyDnsMZq2
+ xgE1vIuTQuEPU0Bmjl82Kc8fPAf6i/MBVOnaLi9hIj3+zDoW0vAVS7JRJrUgwfsZCt
+ DoFqlwwYBa2Ir/kucA3Fek9ObQYfieGaFdf5mZfunoV1dSqIMbnvT4ZVLkdBiAsP3i
+ 3pPmB5vV3TGwjW3Jbkd9PGRLuejthXs9Y5sY3IKmy2f0BKGvsjIjvCNkOf6x3BKNLc
+ GHCSnY6NzntQPhZzWRg7cYHm3qqLLfGsPMyWm690TDHVXt2UxDGc+P1WTLCbeVE0KR
+ XNBRe7r69/erA==
+Message-ID: <9ea0134e-aac7-60e1-5c58-ae31b4e1c422@collabora.com>
+Date: Sat, 5 Mar 2022 02:55:40 +0300
 MIME-Version: 1.0
-References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 5 Mar 2022 07:49:17 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8CTewRw2Le9RjXoCrqF8AyHD0_p01EMiJ2QQ63yf-HKQ@mail.gmail.com>
-Message-ID: <CAAOTY_8CTewRw2Le9RjXoCrqF8AyHD0_p01EMiJ2QQ63yf-HKQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix MediaTek display dt-bindings issues
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>, Robin Murphy
+ <robin.murphy@arm.com>, Andy Yan <andy.yan@rock-chips.com>
+References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
+ <20220225075150.2729401-11-s.hauer@pengutronix.de>
+ <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
+ <20220225104924.GC19585@pengutronix.de>
+ <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
+ <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
+ <20220225131154.GE19585@pengutronix.de>
+ <20220228141921.GN19585@pengutronix.de>
+ <5184ecf2-8734-3121-cbbc-5dcfcf0d02f8@arm.com>
+ <20220302112528.GV19585@pengutronix.de>
+ <20220304142235.GL22780@pengutronix.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220304142235.GL22780@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,66 +60,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- krzysztof.kozlowski@canonical.com, David Airlie <airlied@linux.ie>,
- Jason-JH Lin <jason-jh.lin@mediatek.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, DTML <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Dmitry Osipenko <digetx@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Rob:
+On 3/4/22 17:22, Sascha Hauer wrote:
+> On Wed, Mar 02, 2022 at 12:25:28PM +0100, Sascha Hauer wrote:
+>> On Tue, Mar 01, 2022 at 01:39:31PM +0000, Robin Murphy wrote:
+>>> On 2022-02-28 14:19, Sascha Hauer wrote:
+>>>> On Fri, Feb 25, 2022 at 02:11:54PM +0100, Sascha Hauer wrote:
+>>>>> On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
+>>>>>> On 2022-02-25 11:10, Dmitry Osipenko wrote:
+>>>>>>> 25.02.2022 13:49, Sascha Hauer пишет:
+>>>>>>>> On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
+>>>>>>>>> 25.02.2022 10:51, Sascha Hauer пишет:
+>>>>>>>>>> The rk3568 HDMI has an additional clock that needs to be enabled for the
+>>>>>>>>>> HDMI controller to work. The purpose of that clock is not clear. It is
+>>>>>>>>>> named "hclk" in the downstream driver, so use the same name.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+>>>>>>>>>> ---
+>>>>>>>>>>
+>>>>>>>>>> Notes:
+>>>>>>>>>>       Changes since v5:
+>>>>>>>>>>       - Use devm_clk_get_optional rather than devm_clk_get
+>>>>>>>>>>
+>>>>>>>>>>    drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
+>>>>>>>>>>    1 file changed, 16 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>>>>>>>>>> index fe4f9556239ac..c6c00e8779ab5 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>>>>>>>>>> @@ -76,6 +76,7 @@ struct rockchip_hdmi {
+>>>>>>>>>>    	const struct rockchip_hdmi_chip_data *chip_data;
+>>>>>>>>>>    	struct clk *ref_clk;
+>>>>>>>>>>    	struct clk *grf_clk;
+>>>>>>>>>> +	struct clk *hclk_clk;
+>>>>>>>>>>    	struct dw_hdmi *hdmi;
+>>>>>>>>>>    	struct regulator *avdd_0v9;
+>>>>>>>>>>    	struct regulator *avdd_1v8;
+>>>>>>>>>> @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+>>>>>>>>>>    		return PTR_ERR(hdmi->grf_clk);
+>>>>>>>>>>    	}
+>>>>>>>>>> +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
+>>>>>>>>>> +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
+>>>>>>>>>
+>>>>>>>>> Have you tried to investigate the hclk? I'm still thinking that's not
+>>>>>>>>> only HDMI that needs this clock and then the hardware description
+>>>>>>>>> doesn't look correct.
+>>>>>>>>
+>>>>>>>> I am still not sure what you mean. Yes, it's not only the HDMI that
+>>>>>>>> needs this clock. The VOP2 needs it as well and the driver handles that.
+>>>>>>>
+>>>>>>> I'm curious whether DSI/DP also need that clock to be enabled. If they
+>>>>>>> do, then you aren't modeling h/w properly AFAICS.
+>>>>>>
+>>>>>> Assuming nobody at Rockchip decided to make things needlessly inconsistent
+>>>>>> with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
+>>>>>> interface. Usually, if that affected anything other than accessing VOP
+>>>>>> registers, indeed it would smell of something being wrong in the clock tree,
+>>>>>> but in this case I'd also be suspicious of whether it might have ended up
+>>>>>> clocking related GRF registers as well (either directly, or indirectly via
+>>>>>> some gate that the clock driver hasn't modelled yet).
+>>>>>
+>>>>> Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
+>>>>> hanging when HCLK_VOP is disabled by disabling that clock via sysfs
+>>>>> using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
+>>>>> of that units can't be accessed. However, when I disable HCLK_VOP by
+>>>>> directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
+>>>>> accessing VOP registers hangs, the other units stay functional.
+>>>>> So it seems it must be the parent clock which must be enabled. The
+>>>>> parent clock is hclk_vo. This clock should be handled as part of the
+>>>>> RK3568_PD_VO power domain:
+>>>>>
+>>>>> 	power-domain@RK3568_PD_VO {
+>>>>>                  reg = <RK3568_PD_VO>;
+>>>>>                  clocks = <&cru HCLK_VO>,
+>>>>>                           <&cru PCLK_VO>,
+>>>>>                           <&cru ACLK_VOP_PRE>;
+>>>>>                   pm_qos = <&qos_hdcp>,
+>>>>>                            <&qos_vop_m0>,
+>>>>>                            <&qos_vop_m1>;
+>>>>>                   #power-domain-cells = <0>;
+>>>>>          };
+>>>>
+>>>> Forget this. The clocks in this node are only enabled during enabling or
+>>>> disabling the power domain, they are disabled again immediately afterwards.
+>>>>
+>>>> OK, I need HCLK_VO to access the HDMI registers. I verified that by
+>>>> disabling HCLK_VO at register level (CRU_GATE_CON(20) BIT(1)). The
+>>>> HDMI registers become inaccessible then. This means I'll replace
+>>>> HCLK_VOP in the HDMI node with HCLK_VO. Does this sound sane?
+>>>
+>>> Well, it's still a mystery hack overall, and in some ways it seems even more
+>>> suspect to be claiming a whole branch of the clock tree rather than a leaf
+>>> gate with a specific purpose. I'm really starting to think that the
+>>> underlying issue here is a bug in the clock driver, or a hardware mishap
+>>> that should logically be worked around by the clock driver, rather than
+>>> individual the consumers.
+>>>
+>>> Does it work if you hack the clock driver to think that PCLK_VO is a child
+>>> of HCLK_VO? Even if that's not technically true, it would seem to
+>>> effectively match the observed behaviour (i.e. all 3 things whose register
+>>> access apparently *should* be enabled by a gate off PCLK_VO, seem to also
+>>> require HCLK_VO).
+>>
+>> Yes, that works as expected. I am not sure though if we really want to
+>> go that path. The pclk rates will become completely bogus with this and
+>> should we have to play with the rates in the future we might regret this
+>> step.
+> 
+> How do we proceed here? I can include a patch which makes PCLK_VO a
+> child of HCLK_VO if that's what we agree upon.
 
-Would you like to take this series into your tree, or I take this
-series into my tree?
+Couldn't Andy clarify the actual clock tree structure of the h/w for us?
 
-Regards,
-Chun-Kuang.
-
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2022=E5=B9=B43=E6=9C=884=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:55=
-=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The vdosys0 series carried a nice dt-bindings conversion of the old
-> txt documentation for the entire mediatek-drm driver, but some of
-> the issues in there weren't seen.
->
-> This series is fixing all of the issues pointed out by a
-> `dt_binding_check` run, followed by `dtbs_check`.
->
-> AngeloGioacchino Del Regno (3):
->   dt-bindings: display: mediatek,mutex: Fix mediatek,gce-events type
->   dt-bindings: display: mediatek,ovl: Fix 'iommu' required property typo
->   dt-bindings: display: mediatek: Fix examples on new bindings
->
->  .../display/mediatek/mediatek,aal.yaml        | 24 +++--
->  .../display/mediatek/mediatek,ccorr.yaml      | 23 +++--
->  .../display/mediatek/mediatek,color.yaml      | 23 +++--
->  .../display/mediatek/mediatek,dither.yaml     | 23 +++--
->  .../display/mediatek/mediatek,dpi.yaml        |  3 +-
->  .../display/mediatek/mediatek,dsc.yaml        | 23 +++--
->  .../display/mediatek/mediatek,ethdr.yaml      | 99 ++++++++++---------
->  .../display/mediatek/mediatek,gamma.yaml      | 23 +++--
->  .../display/mediatek/mediatek,merge.yaml      | 49 +++++----
->  .../display/mediatek/mediatek,mutex.yaml      | 27 +++--
->  .../display/mediatek/mediatek,od.yaml         | 14 ++-
->  .../display/mediatek/mediatek,ovl-2l.yaml     | 26 +++--
->  .../display/mediatek/mediatek,ovl.yaml        | 28 ++++--
->  .../display/mediatek/mediatek,postmask.yaml   | 23 +++--
->  .../display/mediatek/mediatek,rdma.yaml       | 28 ++++--
->  .../display/mediatek/mediatek,split.yaml      | 17 +++-
->  .../display/mediatek/mediatek,ufoe.yaml       | 19 ++--
->  .../display/mediatek/mediatek,wdma.yaml       | 26 +++--
->  18 files changed, 318 insertions(+), 180 deletions(-)
->
-> --
-> 2.35.1
->
+This will be the best option because datasheet doesn't give the clear
+answer, or at least I couldn't find it. Technically, PCLK indeed should
+be a child of the HCLK in general, so Robin could be right.
