@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2650D4CDCD6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 19:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2F14CDD4B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 20:22:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB69911303F;
-	Fri,  4 Mar 2022 18:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3200113358;
+	Fri,  4 Mar 2022 19:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B0011303F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 18:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1646419297;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=/MUNtByHB8GFgXjsMc5MkPuL29UEpObxA5Rw7m+X2Xo=;
- b=fL8XEwIZi2ZMz43WgoEOuyZb8z8NbJXKj0rr4h0RiCsJjc/3hRrl1WHyf2bIixqEWH
- tfYRUmLH0Q85HwuxfHnj9mO6Vu0vyqyyyndHrXDbtnH2c2Rmo16WPpaDexWCS6sBsz80
- Q3X6VZspePaRmu4nDZmyc+PDY352NUBeEOQYUKGaXI5d5Lg0E7EhtHMaTm58TGNWR0mi
- cfi0OdAzkI7PtnGqdadjC0qarYvzQG/UFXp4YfjYD54Q+vdGNhnktLPlxP2+8LFdATtK
- JyCjtFVGswgiC6BKUegXPEUY56Vm2L1a8bgYPkqB+eSkgjFZ2x/45/b4sOQ38EOt7q1p
- feiw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8QUWw=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.40.1 DYNA|AUTH)
- with ESMTPSA id n729cey24Ifb7os
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Fri, 4 Mar 2022 19:41:37 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [Letux-kernel] [PATCH v16 1/4] drm/bridge: dw-hdmi: introduce
- dw_hdmi_enable_poll()
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <NWG88R.ZTPBZB4D9J5Z@crapouillou.net>
-Date: Fri, 4 Mar 2022 19:41:36 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <02FDA8C2-68FD-4EB8-9846-AF510D16424D@goldelico.com>
-References: <cover.1645895582.git.hns@goldelico.com>
- <e54838849f80454b863f9f5634dd10f79ef7bb8f.1645895582.git.hns@goldelico.com>
- <983e9064-17ad-e646-f37d-ca9173ba0967@baylibre.com>
- <C8AE9A7A-E288-4637-ACAD-40CD33CD5F8C@goldelico.com>
- <3E620AF4-402E-45EA-9D92-92EAEA9647F5@goldelico.com>
- <SHH68R.Z3J9KSY0GQVA2@crapouillou.net>
- <ABC1BD09-383B-4499-B034-340CE88725B3@goldelico.com>
- <RUI68R.Z009SPJAAD8N1@crapouillou.net>
- <F0F8F36B-3A0A-476C-8C7D-566255C629C6@goldelico.com>
- <a52702bd-c929-8170-8896-d34ba82aba3c@baylibre.com>
- <VYB88R.ATGIVGZ13PFM1@crapouillou.net>
- <929BF693-D54F-40F0-BB61-520301D1C31F@goldelico.com>
- <8JF88R.9V5YQ3Q6E8QO2@crapouillou.net>
- <5CC8B441-AA50-45F5-A5D3-2F40F72A1B50@goldelico.com>
- <NWG88R.ZTPBZB4D9J5Z@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9D1113355;
+ Fri,  4 Mar 2022 19:22:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1646421759; x=1677957759;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=UBESVlzmGH+/Gac4srZ64vERJW8ASdnCOUV8oAcRbY0=;
+ b=dA4CKrcFtPmJKoaNsFVVEkJdx/kkUCCuNE72I1NS5AVU024+bpBWL0Yt
+ e9YzVLrtE8/4FNaqi3Sa7s3aMMd5Cdqb/vFUMj+KlYvrK8xS+kVnLOKRx
+ Bw7o0lU0m7pM9kfvEp2i1UHi5JRiMz37EZKnwjJ3nBeShKOh8CQ4uQJiC c=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Mar 2022 11:22:38 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2022 11:22:38 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Fri, 4 Mar 2022 11:22:37 -0800
+Received: from [10.216.41.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 4 Mar 2022
+ 11:22:29 -0800
+Message-ID: <b1740f38-81f2-32d3-e900-30f6e2ad970b@quicinc.com>
+Date: Sat, 5 Mar 2022 00:52:25 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v1 07/10] drm/msm/adreno: Retry on gpu resume failure
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Bjorn
+ Andersson" <bjorn.andersson@linaro.org>
+References: <1646242056-2456-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20220302225551.v1.7.I55e39e28375b64455d1605f67453d5e91b0c2710@changeid>
+ <373491a2-0fa5-0326-29cd-1650f86202d4@collabora.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <373491a2-0fa5-0326-29cd-1650f86202d4@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,100 +70,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-mips <linux-mips@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ Martin Botka <martin.botka@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/3/2022 2:51 PM, AngeloGioacchino Del Regno wrote:
+> Il 02/03/22 18:27, Akhil P Oommen ha scritto:
+>> Retry infinitely on resume failure because there is nothing much we can
+>> do if GPU is not ON. Also, this helps us to avoid checking for the
+>> return value of pm_runtime_get() to see if GPU is ON.
+>>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+>>
+>>   drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c 
+>> b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> index 89cfd84..abcc553 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> @@ -603,8 +603,16 @@ static const struct of_device_id dt_match[] = {
+>>   static int adreno_resume(struct device *dev)
+>>   {
+>>       struct msm_gpu *gpu = dev_to_gpu(dev);
+>> +    int ret;
+>> +
+>> +    /* What hope do we have for the future if we can't turn ON gpu */
+>
+> Hello Akhil,
+>
+> the hope for the future would be to at least not lock up everything with
+> an infinite loop, so, please change this to have a limited amount of 
+> retries.
+>
+> My guess would be that a maximum of 10 is already a lot of retries, but
+> feel free to choose an appropriate number.
 
+Thanks for the feedback, Angelo. I will revisit this.
 
-> Am 04.03.2022 um 19:33 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
->=20
->=20
-> Le ven., mars 4 2022 at 19:15:13 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> Hi Paul,
->>> Am 04.03.2022 um 19:04 schrieb Paul Cercueil <paul@crapouillou.net>:
->>> Le ven., mars 4 2022 at 18:51:14 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->>>> Hi Paul, Neil,
->>>>> Am 04.03.2022 um 17:47 schrieb Paul Cercueil =
-<paul@crapouillou.net>:
->>>>> =46rom what I understood in Nikolaus' last message, HDMI hotplug =
-is actually correctly detected, so there's no need for polling. What is =
-missing is the call to drm_kms_helper_hotplug_event *somewhere*, so that =
-the information is correctly relayed to userspace.
->>>> Exactly.
->>>> As Maxime pointed out it should already be called by =
-drm_helper_hpd_irq_event() in dw_hdmi_irq() but isn't
->>>> because mode_config.poll_enabled isn't enabled.
->>>> So we can either
->>>> a) enable mode_config.poll_enabled so that it is called by =
-drm_helper_hpd_irq_event() or
->>>> b) make drm_kms_helper_hotplug_event() being called explicitly in =
-dw_hdmi_irq().
->>>>   We could guard that by mode_config.poll_enabled to avoid =
-drm_kms_helper_hotplug_event()
->>>>   being called twice (but I think the "changed" mechanism will take =
-care of).
->>>>> I think this issue can be fixed by calling =
-drm_bridge_connector_enable_hpd() on the connector in ingenic-drm-drv.c.
->>>> I don't see yet how this would solve it, but it may work.
->>> dw_hdmi_irq() calls drm_bridge_hpd_notify(), which would call =
-bridge->hpd_cb() if it was non-NULL.
->> Ok, this is a case c).
->> I vaguely remember having tried to analyse what bridge->hpd_cb is but =
-stopped since it is NULL...
->>> Calling drm_bridge_connector_enable_hpd() will set the =
-bridge->hpd_cb() callback to point to drm_bridge_connector_hpd_cb(), =
-which itself will call drm_kms_helper_hotplug_event(). Therefore, all =
-that is missing is one call to drm_bridge_connector_enable_hpd().
->> Ah, ok, I see.
->>>> Anyways, this all is a missing feature (sometimes called "bug") of =
-the *dw-hdmi driver* and IMHO
->>>> neither of the connector nor the ingenic-drm-drv.
->> Well, a little more analysis shows that =
-drm_bridge_connector_enable_hpd is called
->> in the *-drv.c for some other plaforms:
->> =
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/imx/dcss/dc=
-ss-dev.c#L292
->> =
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/imx/dcss/dc=
-ss-kms.c#L145
->> =
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/oma=
-p_drv.c#L393
->> =
-https://elixir.bootlin.com/linux/v5.17-rc6/source/drivers/gpu/drm/msm/hdmi=
-/hdmi.c#L317
->>>> So I think it should not be solved outside dw-hdmi.
->> Hm. Can we call drm_bridge_connector_enable_hpd() from inside =
-dw-hdmi?
->> Or would this be the solution if merged? (I currently can't try =
-code).
->> =
-https://lore.kernel.org/lkml/a7d0b013-6114-07b3-0a7b-0d17db8a3982@cogentem=
-bedded.com/T/
->=20
-> Looks correct to me. It has been reviewed by two people so I believe =
-it will be merged very soon.
-
-Great. I will try asap. If it works we can drop all our private ideas...
-
-And focus on the last missing piece for jz4780 HDMI: the output format =
-negotiation (which still is not working properly - but I have to analyse =
-why).
-
-BR and thanks,
-Nikolaus
+-Akhil.
+>
+> Regards,
+> Angelo
+>
+>> +    while (true) {
+>> +        ret = gpu->funcs->pm_resume(gpu);
+>> +        if (!ret)
+>> +            break;
+>> +    }
+>>   -    return gpu->funcs->pm_resume(gpu);
+>> +    return 0;
+>>   }
+>>     static int active_submits(struct msm_gpu *gpu)
+>
+>
 
