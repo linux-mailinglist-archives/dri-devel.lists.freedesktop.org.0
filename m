@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CB64CD3E2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 12:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9C24CD3F2
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 13:03:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD0810F07B;
-	Fri,  4 Mar 2022 11:59:56 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5752610F069;
- Fri,  4 Mar 2022 11:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646395194; x=1677931194;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=XQfkAyACPDfukEYZhSsqO3RX1ZyfcidMaFvEbtNmT/I=;
- b=Y0LjZlLnsG+JupeiMhFdYlEE6j+vSvrs7tSVKXLx5qQSPF35tRrExo0M
- dzYtvfrGcS8ed6LzS68057+mQtg+61N1uuEEpPXT1MIN4pedfBw8tFVdv
- 5LHKDIHj1hbnbnWtBf8hnjsNfNkYF1Fg9RiLqHNME7pkYFwDf5ib8lM4K
- c60Q3mMdpXjI3AwSw9NoZ5wtr3ockf0FyG4Ls+nN3tBtkabHLGr5O7q0i
- iyYcJHq3CaYb1PQDIeX2iaY3OyWXm884TcWZ9XLr7pK9qAouzbwiHFR18
- rfpr9UwuIx/dwB1FtBkSmdPywkKi3y7QwIOZRjgH6qfPF5fAtZCG2uNXj A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="233921582"
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="233921582"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 03:59:50 -0800
-X-IronPort-AV: E=Sophos;i="5.90,155,1643702400"; d="scan'208";a="511828938"
-Received: from pruilobx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.28.174])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2022 03:59:48 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-Subject: Re: [Intel-gfx] [PATCH v2 1/8] drm/i915/guc: Do not conflate
- lrc_desc with GuC id for registration
-In-Reply-To: <20220225000623.1934438-2-John.C.Harrison@Intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220225000623.1934438-1-John.C.Harrison@Intel.com>
- <20220225000623.1934438-2-John.C.Harrison@Intel.com>
-Date: Fri, 04 Mar 2022 13:59:46 +0200
-Message-ID: <87ilsu2aj1.fsf@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB8910F30A;
+	Fri,  4 Mar 2022 12:03:41 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8CB10F303
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 12:03:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 64CE31F46649
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646395418;
+ bh=XpAzJvb+GVH+2SCPpPI7qbwtiD8hua3WPwflOJsyPPY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gZtJuURO4W0mnhLtB38xAdJ3cdvMB7FrXPlaxb6oi6+JZKm9ojcJBjTFsEzjXukaZ
+ 67G97REeiCebwJQ9oe1vab/ndYVoWnzx/aiN5WEQxHp4MHarWxKBlqh7LU/61nmFqN
+ UfSB3sXqrk1OdGwNt2bCofCtAhO6HZAboQo2xOmJJQnSeVOkcpHModeurFD+qGqffA
+ EncxG+jNU7L/IT2JuU2HUs9HN7nGmbCpbggpoHJ2TOrFq8+QZONRSlId1IW57P+jLW
+ zlTq2VOB9m+/zVz6AraDIneiDezqngfbo5BP4eJKQwvGLyl5k+kI10vNUoaOP0PfUq
+ mNlRqDtadrmFg==
+Message-ID: <386e5a59-8b06-58f5-90d0-2c5a5eaa614f@collabora.com>
+Date: Fri, 4 Mar 2022 13:03:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2, 1/3] dt-bindings: display: mediatek: dsi: Convert
+ dsi_dtbinding to .yaml
+Content-Language: en-US
+To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+ airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com
+References: <1645178869-18048-1-git-send-email-xinlei.lee@mediatek.com>
+ <1645178869-18048-2-git-send-email-xinlei.lee@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <1645178869-18048-2-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,219 +52,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: jitao.shi@mediatek.com, allen-kh.cheng@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Feb 2022, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
->
-> The LRC descriptor pool is going away. So, stop using it as a check for
-> context registration, use the GuC id instead (being the thing that
-> actually gets registered with the GuC).
->
-> Also, rename the set/clear/query helper functions for context id
-> mappings to better reflect their purpose and to differentiate from
-> other registration related helper functions.
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Il 18/02/22 11:07, xinlei.lee@mediatek.com ha scritto:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
+> 
+> Convert mediatek,dsi.txt to mediatek,dsi.yaml format
+> 
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 > ---
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 69 ++++++++++---------
->  1 file changed, 38 insertions(+), 31 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b3a429a92c0d..7fb889e14995 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -514,31 +514,20 @@ static inline bool guc_submission_initialized(struct intel_guc *guc)
->  	return !!guc->lrc_desc_pool_vaddr;
->  }
->  
-> -static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
-> +static inline void _reset_lrc_desc(struct intel_guc *guc, u32 id)
->  {
-> -	if (likely(guc_submission_initialized(guc))) {
-> -		struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
-> -		unsigned long flags;
+>   .../display/mediatek/mediatek,dsi.txt         | 62 --------------
+>   .../display/mediatek/mediatek,dsi.yaml        | 85 +++++++++++++++++++
+>   2 files changed, 85 insertions(+), 62 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> deleted file mode 100644
+> index 36b01458f45c..000000000000
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -Mediatek DSI Device
+> -===================
 > -
-> -		memset(desc, 0, sizeof(*desc));
-> +	struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
->  
-> -		/*
-> -		 * xarray API doesn't have xa_erase_irqsave wrapper, so calling
-> -		 * the lower level functions directly.
-> -		 */
-> -		xa_lock_irqsave(&guc->context_lookup, flags);
-> -		__xa_erase(&guc->context_lookup, id);
-> -		xa_unlock_irqrestore(&guc->context_lookup, flags);
-> -	}
-> +	memset(desc, 0, sizeof(*desc));
->  }
->  
-> -static inline bool lrc_desc_registered(struct intel_guc *guc, u32 id)
-> +static inline bool ctx_id_mapped(struct intel_guc *guc, u32 id)
->  {
->  	return __get_context(guc, id);
->  }
->  
-> -static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
-> -					   struct intel_context *ce)
-> +static inline void set_ctx_id_mapping(struct intel_guc *guc, u32 id,
-> +				      struct intel_context *ce)
->  {
->  	unsigned long flags;
->  
-> @@ -551,6 +540,24 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
->  	xa_unlock_irqrestore(&guc->context_lookup, flags);
->  }
->  
-> +static inline void clr_ctx_id_mapping(struct intel_guc *guc, u32 id)
-> +{
-> +	unsigned long flags;
+> -The Mediatek DSI function block is a sink of the display subsystem and can
+> -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized for dual-
+> -channel output.
+> -
+> -Required properties:
+> -- compatible: "mediatek,<chip>-dsi"
+> -- the supported chips are mt2701, mt7623, mt8167, mt8173 and mt8183.
+> -- reg: Physical base address and length of the controller's registers
+> -- interrupts: The interrupt signal from the function block.
+> -- clocks: device clocks
+> -  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> -- clock-names: must contain "engine", "digital", and "hs"
+> -- phys: phandle link to the MIPI D-PHY controller.
+> -- phy-names: must contain "dphy"
+> -- port: Output port node with endpoint definitions as described in
+> -  Documentation/devicetree/bindings/graph.txt. This port should be connected
+> -  to the input port of an attached DSI panel or DSI-to-eDP encoder chip.
+> -
+> -Optional properties:
+> -- resets: list of phandle + reset specifier pair, as described in [1].
+> -
+> -[1] Documentation/devicetree/bindings/reset/reset.txt
+> -
+> -MIPI TX Configuration Module
+> -============================
+> -
+> -See phy/mediatek,dsi-phy.yaml
+> -
+> -Example:
+> -
+> -mipi_tx0: mipi-dphy@10215000 {
+> -	compatible = "mediatek,mt8173-mipi-tx";
+> -	reg = <0 0x10215000 0 0x1000>;
+> -	clocks = <&clk26m>;
+> -	clock-output-names = "mipi_tx0_pll";
+> -	#clock-cells = <0>;
+> -	#phy-cells = <0>;
+> -	drive-strength-microamp = <4600>;
+> -	nvmem-cells= <&mipi_tx_calibration>;
+> -	nvmem-cell-names = "calibration-data";
+> -};
+> -
+> -dsi0: dsi@1401b000 {
+> -	compatible = "mediatek,mt8173-dsi";
+> -	reg = <0 0x1401b000 0 0x1000>;
+> -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
+> -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
+> -		 <&mipi_tx0>;
+> -	clock-names = "engine", "digital", "hs";
+> -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
+> -	phys = <&mipi_tx0>;
+> -	phy-names = "dphy";
+> -
+> -	port {
+> -		dsi0_out: endpoint {
+> -			remote-endpoint = <&panel_in>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+> new file mode 100644
+> index 000000000000..552a013786fe
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	if (unlikely(!guc_submission_initialized(guc)))
-> +		return;
-> +
-> +	_reset_lrc_desc(guc, id);
-> +
-> +	/*
-> +	 * xarray API doesn't have xa_erase_irqsave wrapper, so calling
-> +	 * the lower level functions directly.
-> +	 */
-> +	xa_lock_irqsave(&guc->context_lookup, flags);
-> +	__xa_erase(&guc->context_lookup, id);
-> +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> +}
+> +title: mediatek DSI Controller Device Tree Bindings
 
-There are a plethora of static inlines in the guc .c files, and this
-adds more. How about just letting the compiler decide what's the best
-course of action, inline or not? I think hand rolling the inline is a
-micro optimization that you'd need to justify i.e. show that you're
-doing a better job than the compiler.
-
-The main downsides to using inlines are that you'll miss compiler
-warnings for unused functions, and it sets an example for people to
-start using inline more, while they should be an exception.
-
-BR,
-Jani.
-
-
-PS. I also don't much like the likely/unlikely annotations, but that's
-another can of worms.
-
+Shouldn't this be "MediaTek"?
 
 > +
->  static void decr_outstanding_submission_g2h(struct intel_guc *guc)
->  {
->  	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
-> @@ -795,7 +802,7 @@ static int __guc_wq_item_append(struct i915_request *rq)
->  	GEM_BUG_ON(!atomic_read(&ce->guc_id.ref));
->  	GEM_BUG_ON(context_guc_id_invalid(ce));
->  	GEM_BUG_ON(context_wait_for_deregister_to_register(ce));
-> -	GEM_BUG_ON(!lrc_desc_registered(ce_to_guc(ce), ce->guc_id.id));
-> +	GEM_BUG_ON(!ctx_id_mapped(ce_to_guc(ce), ce->guc_id.id));
->  
->  	/* Insert NOOP if this work queue item will wrap the tail pointer. */
->  	if (wqi_size > wq_space_until_wrap(ce)) {
-> @@ -923,7 +930,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
->  	if (submit) {
->  		struct intel_context *ce = request_to_scheduling_context(last);
->  
-> -		if (unlikely(!lrc_desc_registered(guc, ce->guc_id.id) &&
-> +		if (unlikely(!ctx_id_mapped(guc, ce->guc_id.id) &&
->  			     !intel_context_is_banned(ce))) {
->  			ret = guc_lrc_desc_pin(ce, false);
->  			if (unlikely(ret == -EPIPE)) {
-> @@ -1897,7 +1904,7 @@ static bool need_tasklet(struct intel_guc *guc, struct i915_request *rq)
->  
->  	return submission_disabled(guc) || guc->stalled_request ||
->  		!i915_sched_engine_is_empty(sched_engine) ||
-> -		!lrc_desc_registered(guc, ce->guc_id.id);
-> +		!ctx_id_mapped(guc, ce->guc_id.id);
->  }
->  
->  static void guc_submit_request(struct i915_request *rq)
-> @@ -1954,7 +1961,7 @@ static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
->  		else
->  			ida_simple_remove(&guc->submission_state.guc_ids,
->  					  ce->guc_id.id);
-> -		reset_lrc_desc(guc, ce->guc_id.id);
-> +		clr_ctx_id_mapping(guc, ce->guc_id.id);
->  		set_context_guc_id_invalid(ce);
->  	}
->  	if (!list_empty(&ce->guc_id.link))
-> @@ -2250,10 +2257,10 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->  	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
->  		   i915_gem_object_is_lmem(ce->ring->vma->obj));
->  
-> -	context_registered = lrc_desc_registered(guc, desc_idx);
-> +	context_registered = ctx_id_mapped(guc, desc_idx);
->  
-> -	reset_lrc_desc(guc, desc_idx);
-> -	set_lrc_desc_registered(guc, desc_idx, ce);
-> +	clr_ctx_id_mapping(guc, desc_idx);
-> +	set_ctx_id_mapping(guc, desc_idx, ce);
->  
->  	desc = __get_lrc_desc(guc, desc_idx);
->  	desc->engine_class = engine_class_to_guc_class(engine->class);
-> @@ -2324,7 +2331,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->  		}
->  		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->  		if (unlikely(disabled)) {
-> -			reset_lrc_desc(guc, desc_idx);
-> +			clr_ctx_id_mapping(guc, desc_idx);
->  			return 0;	/* Will get registered later */
->  		}
->  
-> @@ -2340,9 +2347,9 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->  		with_intel_runtime_pm(runtime_pm, wakeref)
->  			ret = register_context(ce, loop);
->  		if (unlikely(ret == -EBUSY)) {
-> -			reset_lrc_desc(guc, desc_idx);
-> +			clr_ctx_id_mapping(guc, desc_idx);
->  		} else if (unlikely(ret == -ENODEV)) {
-> -			reset_lrc_desc(guc, desc_idx);
-> +			clr_ctx_id_mapping(guc, desc_idx);
->  			ret = 0;	/* Will get registered later */
->  		}
->  	}
-> @@ -2529,7 +2536,7 @@ static bool context_cant_unblock(struct intel_context *ce)
->  
->  	return (ce->guc_state.sched_state & SCHED_STATE_NO_UNBLOCK) ||
->  		context_guc_id_invalid(ce) ||
-> -		!lrc_desc_registered(ce_to_guc(ce), ce->guc_id.id) ||
-> +		!ctx_id_mapped(ce_to_guc(ce), ce->guc_id.id) ||
->  		!intel_context_is_pinned(ce);
->  }
->  
-> @@ -2699,7 +2706,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
->  	bool disabled;
->  
->  	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
-> -	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
-> +	GEM_BUG_ON(!ctx_id_mapped(guc, ce->guc_id.id));
->  	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
->  	GEM_BUG_ON(context_enabled(ce));
->  
-> @@ -2816,7 +2823,7 @@ static void guc_context_destroy(struct kref *kref)
->  	 */
->  	spin_lock_irqsave(&guc->submission_state.lock, flags);
->  	destroy = submission_disabled(guc) || context_guc_id_invalid(ce) ||
-> -		!lrc_desc_registered(guc, ce->guc_id.id);
-> +		!ctx_id_mapped(guc, ce->guc_id.id);
->  	if (likely(!destroy)) {
->  		if (!list_empty(&ce->guc_id.link))
->  			list_del_init(&ce->guc_id.link);
-> @@ -3059,7 +3066,7 @@ static void guc_signal_context_fence(struct intel_context *ce)
->  static bool context_needs_register(struct intel_context *ce, bool new_guc_id)
->  {
->  	return (new_guc_id || test_bit(CONTEXT_LRCA_DIRTY, &ce->flags) ||
-> -		!lrc_desc_registered(ce_to_guc(ce), ce->guc_id.id)) &&
-> +		!ctx_id_mapped(ce_to_guc(ce), ce->guc_id.id)) &&
->  		!submission_disabled(ce_to_guc(ce));
->  }
+> +maintainers:
+> +  - CK Hu <ck.hu@mediatek.com>
+> +  - Jitao Shi <jitao.shi@mediatek.com>
+> +  - Xinlei Lee <xinlei.lee@mediatek.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt2701-dsi
+> +      - mediatek,mt8173-dsi
+> +      - mediatek,mt8183-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Engine Clock
+> +      - description: Digital Clock
+> +      - description: Hs Clock
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+HS should be all capital letters.
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: engine
+> +      - const: digital
+> +      - const: hs
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  phys:
+> +    maxItems: 1
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dphy
+
+Add #address-cells, #size-cells with const 2
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - phys
+> +  - phy-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +    #include <dt-bindings/reset/mt8183-resets.h>
+> +
+
+Since all users are using two address and size cells:
+
+     soc {
+         #address-cells = <2>;
+         #size-cells = <2>;
+
+         dsi0: dsi@14014000 {
+             compatible = "mediatek,mt8183-dsi";
+             reg = <0 0x14014000 0 0x1000>;
+                   .....etc.....
+         };
+     };
+
+> +    dsi0: dsi@14014000 {
+> +        compatible = "mediatek,mt8183-dsi";
+> +        reg = <0x14014000 0x1000>;
+> +        interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_LOW>;
+> +        power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +        clocks = <&mmsys CLK_MM_DSI0_MM>,
+> +            <&mmsys CLK_MM_DSI0_IF>,
+> +            <&mipi_tx0>;
+> +        clock-names = "engine", "digital", "hs";
+> +        resets = <&mmsys MT8183_MMSYS_SW0_RST_B_DISP_DSI0>;
+> +        phys = <&mipi_tx0>;
+> +        phy-names = "dphy";
+> +    };
+
+
