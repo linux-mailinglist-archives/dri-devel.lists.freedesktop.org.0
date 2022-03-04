@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB724CCF60
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F924CCF5F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Mar 2022 08:57:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A2F10F637;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A17EC10F636;
 	Fri,  4 Mar 2022 07:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3933D10E26E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Mar 2022 12:38:52 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso4716764pjo.5
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Mar 2022 04:38:52 -0800 (PST)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EEBC10F1DF;
+ Fri,  4 Mar 2022 07:00:21 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d17so6928086pfl.0;
+ Thu, 03 Mar 2022 23:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Xw1t8RJEBLs6nNo618ULi5yqJsMgKqz1ONvJ2a5MT3c=;
- b=BzrkK1hJiQ+JPPG9UrxzPIeXGct5pIgTB7o+w9LPLZpdlhw7yhoWA1GMh5N61uZfF/
- PncBXmid0UFMAuiub2OnBJ72eeoETL66hxSZhF+f6FXTMhgAP82GWSXHwZEIimpTW2Qq
- 7c61woZrDZKYd5zhfndnPY5TegWp8YItlyVknSXTgeVSZ+T6iyQLaEJqoglIo/hdtHs4
- Z8HVrCi7NFr6cs8zHgPcouRaNQ7Lab/z+IYkC5z/RIoeNT2FKku0gTGOQnu+pzm7NStv
- unipj1p2yZj7cPNJekdxtvWRdtz5+OLkobNPxtRBn30IJ2Tc5sJpjX6tA+yZp7pogBRh
- YbOA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
+ b=UcHSzcmMAevEFsqxc8gimvoSIew96LrW3UYvjfgkcaeLb/Edql9668oTELTgMdhcyh
+ uwTLYgNgPfuwuQfZCbkLtuIX59UkP2xXrD0mK6eOfNdOu/KSihdjQUFHL7gwAFzgpb4Z
+ PeSQfhLMwS3uLkuXfSSL1QQyblGTA4kTyWBkcty1viz6EkWmIbbGn99xu95lY6jAsJ0c
+ CbisDo/RPFGn8gAJnKluj00ht4OQ80XaXmCEvGalnXTnvAWrV5UWFfWh6kgUBnLZJvSQ
+ W0PYU136vUwP4grvjJEIhDxHc0WM1lPQ2cysIXPjh+breTQ07tU9AM0RgZ3Jr4UsSFjT
+ NaGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Xw1t8RJEBLs6nNo618ULi5yqJsMgKqz1ONvJ2a5MT3c=;
- b=BeyZn1zoFbKfbYOQTT3Cdvoa/KdxqY3Kw8nRR8vlho15H/l9nJLcEGp1GLyURKqG8O
- 9akbSIBsDp8GCvQpFTSW7T58xoSEZlEaA/4nny7+0p70ebCy28r0xl/9q0Izc+MbeuoL
- q/D0mrrALarwbaUhCuYqSC9kozzHAJo6zeCYnooraJPgBhx5hlMrtqkC8nFo2b2L4To7
- Namxyjz+DjIGy71AWYAJanyL9xACuq44oHwUK5bCJjmz4Qy5D/+uMWbDJl9YTtQFQeGK
- vactRa+QTyMx8k35sQ4/4DPPLF+zLNsFjX6P3CBHN9fCpMV56cjtrV1IzGofUaSqx7lX
- qh3g==
-X-Gm-Message-State: AOAM5327+17qo4V10YUnYEbmy59hh1B5XkdL6z7GFXiaQl87E7Ju48as
- COPzVN6OTrSevZ4s6lIe40M=
-X-Google-Smtp-Source: ABdhPJz17qOFmFlBrNJNUqYdHV9n7lTWYbm2jjytljRWsyBIk/kiynuY77vwBHskQjfvfh0lM0uI3g==
-X-Received: by 2002:a17:90a:430d:b0:1bc:f340:8096 with SMTP id
- q13-20020a17090a430d00b001bcf3408096mr5017886pjg.93.1646311131665; 
- Thu, 03 Mar 2022 04:38:51 -0800 (PST)
-Received: from ip-172-31-19-208.ap-northeast-1.compute.internal
- (ec2-18-181-137-102.ap-northeast-1.compute.amazonaws.com. [18.181.137.102])
- by smtp.gmail.com with ESMTPSA id
- d2-20020a056a0010c200b004f102a13040sm2550047pfu.19.2022.03.03.04.38.41
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
+ b=hXzdQdFR7uRrMbDpGvxS2ZPGew7M6SJb0ulSwysgx7DWWXsT3bQzprQd9X21VOYFWG
+ tjU5i6+SWz30Kzz5mJjuwSb7gCtAJyzHD11O045UeWjtFbmrnAAuIN1MdUWUdqpQoCPV
+ eH/oJInZYAGMlFtqgHk0MhBQSEIaOAERrAS6tIcN1X+PubhaYyjMgzDzD658gunS0gF7
+ DrQYJeMqf4gjg+eXtXWjIl94TJtJZimrudO6UC/9tPpPcizRkDnaPuwgEuSacEFyOtma
+ BELAeSuFEyTi2gs7VQtnT3lCZanMENYcrHL8DoKzEbM7sJNfFMjxKc/kLeKNsPnrV58H
+ H8pg==
+X-Gm-Message-State: AOAM532SB0yXyGEhnflNiaEmCF7fEIo3+3woOnbr144ZnnNNUOH4nUxP
+ PxSzsoNEXKNNnnkHRV3H3Ao=
+X-Google-Smtp-Source: ABdhPJxBFOb3A6C/RlDh1uHGrWM51HjSkR68cXfNAhNGErUbSC2hd/FilwMHkJmidt1eEHAWD7GVrA==
+X-Received: by 2002:a05:6a00:cc7:b0:4ec:c6f3:ad29 with SMTP id
+ b7-20020a056a000cc700b004ecc6f3ad29mr41958698pfv.66.1646377221067; 
+ Thu, 03 Mar 2022 23:00:21 -0800 (PST)
+Received: from ubuntu.huawei.com ([119.3.119.19])
+ by smtp.googlemail.com with ESMTPSA id
+ f6-20020a654006000000b00346193b405fsm3665134pgp.44.2022.03.03.23.00.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 04:38:51 -0800 (PST)
-Date: Thu, 3 Mar 2022 12:38:39 +0000
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [PATCH v3 00/21] DEPT(Dependency Tracker)
-Message-ID: <YiC2z2NDbiYd2nEA@ip-172-31-19-208.ap-northeast-1.compute.internal>
-References: <1646042220-28952-1-git-send-email-byungchul.park@lge.com>
- <Yh70VkRkUfwIjPWv@ip-172-31-19-208.ap-northeast-1.compute.internal>
- <Yh74VbNZZt35wHZD@ip-172-31-19-208.ap-northeast-1.compute.internal>
- <20220303001812.GA20752@X58A-UD3R>
- <YiB2SZFzgBEcywgg@ip-172-31-19-208.ap-northeast-1.compute.internal>
- <20220303094824.GA24977@X58A-UD3R>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220303094824.GA24977@X58A-UD3R>
+ Thu, 03 Mar 2022 23:00:20 -0800 (PST)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: daniel.thompson@linaro.org
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Date: Fri,  4 Mar 2022 14:59:57 +0800
+Message-Id: <20220304065957.16799-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220303121824.qdyrognluik74iph@maple.lan>
+References: <20220303121824.qdyrognluik74iph@maple.lan>
 X-Mailman-Approved-At: Fri, 04 Mar 2022 07:56:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,455 +68,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- Catalin Marinas <catalin.marinas@arm.com>, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, gustavo@embeddedor.com,
+ linux-iio@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+ linux@rasmusvillemoes.dk, dri-devel@lists.freedesktop.org, c.giuffrida@vu.nl,
+ amd-gfx@lists.freedesktop.org, torvalds@linux-foundation.org,
+ samba-technical@lists.samba.org, linux1394-devel@lists.sourceforge.net,
+ drbd-dev@lists.linbit.com, linux-arch@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-staging@lists.linux.dev, h.j.bos@vu.nl, jgg@ziepe.ca,
+ intel-wired-lan@lists.osuosl.org, nouveau@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, dan.carpenter@oracle.com,
+ linux-media@vger.kernel.org, keescook@chromium.org, arnd@arndb.de,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ bjohannesmeyer@gmail.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+ jakobkoschel@gmail.com, v9fs-developer@lists.sourceforge.net,
+ linux-tegra@vger.kernel.org, tglx@linutronix.de,
+ andriy.shevchenko@linux.intel.com, linux-arm-kernel@lists.infradead.org,
+ linux-sgx@vger.kernel.org, nathan@kernel.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ xiam0nd.tong@gmail.com, david.laight@aculab.com,
+ tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ akpm@linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
+ christian.koenig@amd.com, rppt@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 03, 2022 at 06:48:24PM +0900, Byungchul Park wrote:
-> On Thu, Mar 03, 2022 at 08:03:21AM +0000, Hyeonggon Yoo wrote:
-> > On Thu, Mar 03, 2022 at 09:18:13AM +0900, Byungchul Park wrote:
-> > > Hi Hyeonggon,
-> > > 
-> > > Dept also allows the following scenario when an user guarantees that
-> > > each lock instance is different from another at a different depth:
+On Thu, 3 Mar 2022 12:18:24 +0000, Daniel Thompson wrote:
+> On Thu, Mar 03, 2022 at 03:26:57PM +0800, Xiaomeng Tong wrote:
+> > On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
+> > > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
+> > > > The problem is the mis-use of iterator outside the loop on exit, and
+> > > > the iterator will be the HEAD's container_of pointer which pointers
+> > > > to a type-confused struct. Sidenote: The *mis-use* here refers to
+> > > > mistakely access to other members of the struct, instead of the
+> > > > list_head member which acutally is the valid HEAD.
 > > >
-> > >    lock A0 with depth
-> > >    lock A1 with depth + 1
-> > >    lock A2 with depth + 2
-> > >    lock A3 with depth + 3
-> > >    (and so on)
-> > >    ..
-> > >    unlock A3
-> > >    unlock A2
-> > >    unlock A1
-> > >    unlock A0
-> 
-
-[+Cc kmemleak maintainer]
-
-> Look at this. Dept allows object->lock -> other_object->lock (with a
-> different depth using *_lock_nested()) so won't report it.
->
-
-No, It did.
-
-S: object->lock ( _raw_spin_lock_irqsave)
-W: other_object->lock (_raw_spin_lock_nested)
-
-DEPT reported this as AA deadlock.
-
-===================================================
-DEPT: Circular dependency has been detected.
-5.17.0-rc1+ #1 Tainted: G        W
----------------------------------------------------
-summary
----------------------------------------------------
-*** AA DEADLOCK ***
-
-context A
-    [S] __raw_spin_lock_irqsave(&object->lock:0)
-    [W] _raw_spin_lock_nested(&object->lock:0)
-    [E] spin_unlock(&object->lock:0)
-
-[S]: start of the event context
-[W]: the wait blocked
-[E]: the event not reachable
----------------------------------------------------
-context A's detail
----------------------------------------------------
-context A
-    [S] __raw_spin_lock_irqsave(&object->lock:0)
-    [W] _raw_spin_lock_nested(&object->lock:0)
-    [E] spin_unlock(&object->lock:0)
----------------------------------------------------
-context A's detail
----------------------------------------------------
-context A
-    [S] __raw_spin_lock_irqsave(&object->lock:0)
-    [W] _raw_spin_lock_nested(&object->lock:0)
-    [E] spin_unlock(&object->lock:0)
-
-[S] __raw_spin_lock_irqsave(&object->lock:0):
-[<ffffffc00810302c>] scan_gray_list+0x84/0x13c
-stacktrace:
-      dept_ecxt_enter+0x88/0xf4
-      _raw_spin_lock_irqsave+0xf0/0x1c4
-      scan_gray_list+0x84/0x13c
-      kmemleak_scan+0x2d8/0x54c
-      kmemleak_scan_thread+0xac/0xd4
-      kthread+0xd4/0xe4
-      ret_from_fork+0x10/0x20
-
-[W] _raw_spin_lock_nested(&object->lock:0):
-[<ffffffc008102f34>] scan_block+0xb4/0x128
-stacktrace:
-      __dept_wait+0x8c/0xa4
-      dept_wait+0x6c/0x88
-      _raw_spin_lock_nested+0xa8/0x1b0
-      scan_block+0xb4/0x128
-      scan_gray_list+0xc4/0x13c
-      kmemleak_scan+0x2d8/0x54c
-      kmemleak_scan_thread+0xac/0xd4
-      kthread+0xd4/0xe4
-      ret_from_fork+0x10/0x20
-
-[E] spin_unlock(&object->lock:0):
-[<ffffffc008102ee0>] scan_block+0x60/0x128
----------------------------------------------------
-information that might be helpful
----------------------------------------------------
-CPU: 2 PID: 38 Comm: kmemleak Tainted: G        W         5.17.0-rc1+ #1
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace.part.0+0x9c/0xc4
- show_stack+0x14/0x28
- dump_stack_lvl+0x9c/0xcc
- dump_stack+0x14/0x2c
- print_circle+0x2d4/0x438
- cb_check_dl+0x44/0x70
- bfs+0x60/0x168
- add_dep+0x88/0x11c
- add_wait+0x2d0/0x2dc
- __dept_wait+0x8c/0xa4
- dept_wait+0x6c/0x88
- _raw_spin_lock_nested+0xa8/0x1b0
- scan_block+0xb4/0x128
- scan_gray_list+0xc4/0x13c
- kmemleak_scan+0x2d8/0x54c
- kmemleak_scan_thread+0xac/0xd4
- kthread+0xd4/0xe4
- ret_from_fork+0x10/0x20
-
-> > > However, Dept does not allow the following scenario where another lock
-> > > class cuts in the dependency chain:
-> > > 
-> > >    lock A0 with depth
-> > >    lock B
-> > >    lock A1 with depth + 1
-> > >    lock A2 with depth + 2
-> > >    lock A3 with depth + 3
-> > >    (and so on)
-> > >    ..
-> > >    unlock A3
-> > >    unlock A2
-> > >    unlock A1
-> > >    unlock B
-> > >    unlock A0
-> > > 
-> > > This scenario is clearly problematic. What do you think is going to
-> > > happen with another context running the following?
-> > >
+> > > The problem is that the HEAD's container_of pointer should never
+> > > be calculated at all.
+> > > This is what is fundamentally broken about the current definition.
 > > 
-> > First of all, I want to say I'm not expert at locking primitives.
-> > I may be wrong.
+> > Yes, the rule is "the HEAD's container_of pointer should never be
+> > calculated at all outside the loop", but how do you make sure everyone
+> > follows this rule?
 > 
-> It's okay. Thanks anyway for your feedback.
->
+> Your formulation of the rule is correct: never run container_of() on HEAD
+> pointer.
 
-Thanks.
+Actually, it is not my rule. My rule is that never access other members
+of the struct except for the list_head member after the loop, because
+this is a invalid member after loop exit, but valid for the list_head
+member which just is HEAD and the lately caculation (&pos->head) seems
+harmless.
 
-> > > >   45  *   scan_mutex [-> object->lock] -> kmemleak_lock -> other_object->lock (SINGLE_DEPTH_NESTING)
-> > > >   46  *
-> > > >   47  * No kmemleak_lock and object->lock nesting is allowed outside scan_mutex
-> > > >   48  * regions.
-> > 
-> > lock order in kmemleak is described above.
-> > 
-> > and DEPT detects two cases as deadlock:
-> > 
-> > 1) object->lock -> other_object->lock
+I have considered the case that the HEAD's container "pos" is layouted
+across the max and the min address boundary, which means the address of
+HEAD is likely 0x60, and the address of pos is likely 0xffffffe0.
+It seems ok to caculate pos with:
+((type *)(__mptr - offsetof(type, member)));
+and it seems ok to caculate head outside the loop with:
+if (&pos->head == &HEAD)
+    return NULL;
+
+The only case I can think of with the rule "never run container_of()
+on HEAD" must be followed is when the first argument (which is &HEAD)
+passing to container_of() is NULL + some offset, it may lead to the
+resulting "pos->member" access being a NULL dereference. But maybe
+the caller can take the responsibility to check if it is NULL, not
+container_of() itself.
+
+Please remind me if i missed somthing, thanks.
+
 > 
-> It's not a deadlock *IF* two have different depth using *_lock_nested().
-> Dept also allows this case. So Dept wouldn't report it.
->
-> > 2) object->lock -> kmemleak_lock, kmemleak_lock -> other_object->lock
->
-> But this usage is risky. I already explained it in the mail you replied
-> to. I copied it. See the below.
->
+> However the rule that is introduced by list_for_each_entry_inside() is
+> *not* this rule. The rule it introduces is: never access the iterator
+> variable outside the loop.
 
-I understand why you said this is risky.
-Its lock ordering is not good.
+Sorry for the confusion, indeed, that is two *different* rule.
 
-> context A
-> > >    lock A0 with depth
-> > >    lock B
-> > >    lock A1 with depth + 1
-> > >    lock A2 with depth + 2
-> > >    lock A3 with depth + 3
-> > >    (and so on)
-> > >    ..
-> > >    unlock A3
-> > >    unlock A2
-> > >    unlock A1
-> > >    unlock B
-> > >    unlock A0
->
-> ...
->
-> context B
-> > >    lock A1 with depth
-> > >    lock B
-> > >    lock A2 with depth + 1
-> > >    lock A3 with depth + 2
-> > >    (and so on)
-> > >    ..
-> > >    unlock A3
-> > >    unlock A2
-> > >    unlock B
-> > >    unlock A1
 > 
-> where Ax : object->lock, B : kmemleak_lock.
+> Making the iterator NULL on loop exit does follow the rule you proposed
+> but using a different technique: do not allow HEAD to be stored in the
+> iterator variable after loop exit. This also makes it impossible to run
+> container_of() on the HEAD pointer.
 > 
-> A deadlock might occur if the two contexts run at the same time.
->
 
-But I want to say kmemleak is getting things under control. No two contexts
-can run at same time.
+It does not. My rule is: never access the iterator variable outside the loop.
+The "Making the iterator NULL on loop exit" way still leak the pos with NULL
+outside the loop, may lead to a NULL deference.
 
-> > And in kmemleak case, 1) and 2) is not possible because it must hold
-> > scan_mutex first.
 > 
-> This is another issue. Let's focus on whether the order is okay for now.
->
-
-Why is it another issue?
-
-> > I think the author of kmemleak intended lockdep to treat object->lock
-> > and other_object->lock as different class, using raw_spin_lock_nested().
+> > Everyone makes mistakes, but we can eliminate them all from the beginning
+> > with the help of compiler which can catch such use-after-loop things.
 > 
-> Yes. The author meant to assign a different class according to its depth
-> using a Lockdep API. Strictly speaking, those are the same class anyway
-> but we assign a different class to each depth to avoid Lockdep splats
-> *IF* the user guarantees the nesting lock usage is safe, IOW, guarantees
-> each lock instance is different at a different depth.
+> Indeed but if we introduce new interfaces then we don't have to worry
+> about existing usages and silent regressions. Code will have been
+> written knowing the loop can exit with the iterator set to NULL.
 
-Then why DEPT reports 1) and 2) as deadlock?
-Does DEPT assign same class unlike Lockdep?
+Yes, it is more simple and compatible with existing interfaces. Howerver,
+you should make every developers to remember that "pos will be set NULL on
+loop exit", which is unreasonable and impossible for *every* single person.
+Otherwise the mis-use-after-loop will lead to a NULL dereference.
+But we can kill this problem by declaring iterator inside the loop and the
+complier will catch it if somebody mis-use-after-loop.
 
-> I was fundamentally asking you... so... is the nesting lock usage safe
-> for real?
-
-I don't get what the point is. I agree it's not a good lock ordering.
-But in kmemleak case, I think kmemleak is getting things under control.
-
--- 
-Thank you, You are awesome!
-Hyeonggon :-)
-
-> I hope you distinguish between the safe case and the risky
-> case when *_lock_nested() is involved. Thoughts?
->
-> Thanks,
-> Byungchul
 > 
-> > Am I missing something?
-> > 
-> > Thanks.
-> > 
-> > >    lock A1 with depth
-> > >    lock B
-> > >    lock A2 with depth + 1
-> > >    lock A3 with depth + 2
-> > >    (and so on)
-> > >    ..
-> > >    unlock A3
-> > >    unlock A2
-> > >    unlock B
-> > >    unlock A1
-> > > 
-> > > It's a deadlock. That's why Dept reports this case as a problem. Or am I
-> > > missing something?
-> > >
-> > > Thanks,
-> > > Byungchul
-> > > 
-> > > > ---------------------------------------------------
-> > > > context A's detail
-> > > > ---------------------------------------------------
-> > > > context A
-> > > >     [S] __raw_spin_lock_irqsave(&object->lock:0)
-> > > >     [W] __raw_spin_lock_irqsave(kmemleak_lock:0)
-> > > >     [E] spin_unlock(&object->lock:0)
-> > > > 
-> > > > [S] __raw_spin_lock_irqsave(&object->lock:0):
-> > > > [<ffffffc00810302c>] scan_gray_list+0x84/0x13c
-> > > > stacktrace:
-> > > >       dept_ecxt_enter+0x88/0xf4
-> > > >       _raw_spin_lock_irqsave+0xf0/0x1c4
-> > > >       scan_gray_list+0x84/0x13c
-> > > >       kmemleak_scan+0x2d8/0x54c
-> > > >       kmemleak_scan_thread+0xac/0xd4
-> > > >       kthread+0xd4/0xe4
-> > > >       ret_from_fork+0x10/0x20
-> > > > 
-> > > > [W] __raw_spin_lock_irqsave(kmemleak_lock:0):
-> > > > [<ffffffc008102ebc>] scan_block+0x3c/0x128
-> > > > stacktrace:
-> > > >       __dept_wait+0x8c/0xa4
-> > > >       dept_wait+0x6c/0x88
-> > > >       _raw_spin_lock_irqsave+0xb8/0x1c4
-> > > >       scan_block+0x3c/0x128
-> > > >       scan_gray_list+0xc4/0x13c
-> > > >       kmemleak_scan+0x2d8/0x54c
-> > > >       kmemleak_scan_thread+0xac/0xd4
-> > > >       kthread+0xd4/0xe4
-> > > >       ret_from_fork+0x10/0x20
-> > > > 
-> > > > [E] spin_unlock(&object->lock:0):
-> > > > [<ffffffc008102ee0>] scan_block+0x60/0x128
-> > > > 
-> > > > ---------------------------------------------------
-> > > > context B's detail
-> > > > ---------------------------------------------------
-> > > > context B
-> > > >     [S] __raw_spin_lock_irqsave(kmemleak_lock:0)
-> > > >     [W] _raw_spin_lock_nested(&object->lock:0)
-> > > >     [E] spin_unlock(kmemleak_lock:0)
-> > > > 
-> > > > [S] __raw_spin_lock_irqsave(kmemleak_lock:0):
-> > > > [<ffffffc008102ebc>] scan_block+0x3c/0x128
-> > > > stacktrace:
-> > > >       dept_ecxt_enter+0x88/0xf4
-> > > >       _raw_spin_lock_irqsave+0xf0/0x1c4
-> > > >       scan_block+0x3c/0x128
-> > > >       kmemleak_scan+0x19c/0x54c
-> > > >       kmemleak_scan_thread+0xac/0xd4
-> > > >       kthread+0xd4/0xe4
-> > > >       ret_from_fork+0x10/0x20
-> > > > 
-> > > > [W] _raw_spin_lock_nested(&object->lock:0):
-> > > > [<ffffffc008102f34>] scan_block+0xb4/0x128
-> > > > stacktrace:
-> > > >       dept_wait+0x74/0x88
-> > > >       _raw_spin_lock_nested+0xa8/0x1b0
-> > > >       scan_block+0xb4/0x128
-> > > >       kmemleak_scan+0x19c/0x54c
-> > > >       kmemleak_scan_thread+0xac/0xd4
-> > > >       kthread+0xd4/0xe4
-> > > >       ret_from_fork+0x10/0x20
-> > > > [E] spin_unlock(kmemleak_lock:0):
-> > > > [<ffffffc008102ee0>] scan_block+0x60/0x128
-> > > > stacktrace:
-> > > >       dept_event+0x7c/0xfc
-> > > >       _raw_spin_unlock_irqrestore+0x8c/0x120
-> > > >       scan_block+0x60/0x128
-> > > >       kmemleak_scan+0x19c/0x54c
-> > > >       kmemleak_scan_thread+0xac/0xd4
-> > > >       kthread+0xd4/0xe4
-> > > >       ret_from_fork+0x10/0x20
-> > > > ---------------------------------------------------
-> > > > information that might be helpful
-> > > > ---------------------------------------------------
-> > > > CPU: 1 PID: 38 Comm: kmemleak Tainted: G        W         5.17.0-rc1+ #1
-> > > > Hardware name: linux,dummy-virt (DT)
-> > > > Call trace:
-> > > >  dump_backtrace.part.0+0x9c/0xc4
-> > > >  show_stack+0x14/0x28
-> > > >  dump_stack_lvl+0x9c/0xcc
-> > > >  dump_stack+0x14/0x2c
-> > > >  print_circle+0x2d4/0x438
-> > > >  cb_check_dl+0x6c/0x70
-> > > >  bfs+0xc0/0x168
-> > > >  add_dep+0x88/0x11c
-> > > >  add_wait+0x2d0/0x2dc
-> > > >  __dept_wait+0x8c/0xa4
-> > > >  dept_wait+0x6c/0x88
-> > > >  _raw_spin_lock_irqsave+0xb8/0x1c4
-> > > >  scan_block+0x3c/0x128
-> > > >  scan_gray_list+0xc4/0x13c
-> > > >  kmemleak_scan+0x2d8/0x54c
-> > > >  kmemleak_scan_thread+0xac/0xd4
-> > > >  kthread+0xd4/0xe4
-> > > >  ret_from_fork+0x10/0x20
-> > > > 
-> > > > > ===================================================
-> > > > > DEPT: Circular dependency has been detected.
-> > > > > 5.17.0-rc1+ #1 Tainted: G        W
-> > > > > ---------------------------------------------------
-> > > > > summary
-> > > > > ---------------------------------------------------
-> > > > > *** AA DEADLOCK ***
-> > > > > 
-> > > > > context A
-> > > > >     [S] __raw_spin_lock_irqsave(&object->lock:0)
-> > > > >     [W] _raw_spin_lock_nested(&object->lock:0)
-> > > > >     [E] spin_unlock(&object->lock:0)
-> > > > > 
-> > > > > [S]: start of the event context
-> > > > > [W]: the wait blocked
-> > > > > [E]: the event not reachable
-> > > > > ---------------------------------------------------
-> > > > > context A's detail
-> > > > > ---------------------------------------------------
-> > > > > context A
-> > > > >     [S] __raw_spin_lock_irqsave(&object->lock:0)
-> > > > >     [W] _raw_spin_lock_nested(&object->lock:0)
-> > > > >     [E] spin_unlock(&object->lock:0)
-> > > > > 
-> > > > > [S] __raw_spin_lock_irqsave(&object->lock:0):
-> > > > > [<ffffffc00810302c>] scan_gray_list+0x84/0x13c
-> > > > > stacktrace:
-> > > > >       dept_ecxt_enter+0x88/0xf4
-> > > > >       _raw_spin_lock_irqsave+0xf0/0x1c4
-> > > > >       scan_gray_list+0x84/0x13c
-> > > > >       kmemleak_scan+0x2d8/0x54c
-> > > > >       kmemleak_scan_thread+0xac/0xd4
-> > > > >       kthread+0xd4/0xe4
-> > > > >       ret_from_fork+0x10/0x20
-> > > > > 
-> > > > > [E] spin_unlock(&object->lock:0):
-> > > > > [<ffffffc008102ee0>] scan_block+0x60/0x128
-> > > > > ---------------------------------------------------
-> > > > > information that might be helpful
-> > > > > ---------------------------------------------------
-> > > > > CPU: 1 PID: 38 Comm: kmemleak Tainted: G        W         5.17.0-rc1+ #1
-> > > > > Hardware name: linux,dummy-virt (DT)
-> > > > > Call trace:
-> > > > >  dump_backtrace.part.0+0x9c/0xc4
-> > > > >  show_stack+0x14/0x28
-> > > > >  dump_stack_lvl+0x9c/0xcc
-> > > > >  dump_stack+0x14/0x2c
-> > > > >  print_circle+0x2d4/0x438
-> > > > >  cb_check_dl+0x44/0x70
-> > > > >  bfs+0x60/0x168
-> > > > >  add_dep+0x88/0x11c
-> > > > >  add_wait+0x2d0/0x2dc
-> > > > >  __dept_wait+0x8c/0xa4
-> > > > >  dept_wait+0x6c/0x88
-> > > > >  _raw_spin_lock_nested+0xa8/0x1b0
-> > > > >  scan_block+0xb4/0x128
-> > > > >  scan_gray_list+0xc4/0x13c
-> > > > >  kmemleak_scan+0x2d8/0x54c
-> > > > >  kmemleak_scan_thread+0xac/0xd4
-> > > > >  kthread+0xd4/0xe4
-> > > > >  ret_from_fork+0x10/0x20
-> > > > >
-> > > > [...]
-> > > > 
-> > > > --
-> > > > Thank you, You are awesome!
-> > > > Hyeonggon :-)
-> > 
-> > -- 
-> > Thank you, You are awesome!
-> > Hyeonggon :-)
+> Sure it is still possible for programmers to make mistakes and
+> dereference the NULL pointer but C programmers are well training w.r.t.
+> NULL pointer checking so such mistakes are much less likely than with
+> the current list_for_each_entry() macro. This risk must be offset
+> against the way a NULLify approach can lead to more elegant code when we
+> are doing a list search.
+> 
 
+Yes, the NULLify approach is better than the current list_for_each_entry()
+macro, but i stick with that the list_for_each_entry_inside() way is best
+and perfect _technically_.
+
+Thus, my idea is *better a finger off than always aching*, let's settle this
+damn problem once and for all, with list_for_each_entry_inside().
+
+--
+Xiaomeng Tong
