@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F464CE140
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 00:55:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3AD4CE1AC
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 01:40:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC90210E602;
-	Fri,  4 Mar 2022 23:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7132510E166;
+	Sat,  5 Mar 2022 00:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FEC710E2FC
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 23:55:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id C8F251F46E3C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646438143;
- bh=IUw5jFkv39jqcPQCo/oRiqH/4ARuLA0Q4Zt6gaiOlhM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HNF/gPoA3dcCx/RvyZJPlcMcVoLUzr4SEeIA/3z4PmW3iYql2H1xwb7ZzyDnsMZq2
- xgE1vIuTQuEPU0Bmjl82Kc8fPAf6i/MBVOnaLi9hIj3+zDoW0vAVS7JRJrUgwfsZCt
- DoFqlwwYBa2Ir/kucA3Fek9ObQYfieGaFdf5mZfunoV1dSqIMbnvT4ZVLkdBiAsP3i
- 3pPmB5vV3TGwjW3Jbkd9PGRLuejthXs9Y5sY3IKmy2f0BKGvsjIjvCNkOf6x3BKNLc
- GHCSnY6NzntQPhZzWRg7cYHm3qqLLfGsPMyWm690TDHVXt2UxDGc+P1WTLCbeVE0KR
- XNBRe7r69/erA==
-Message-ID: <9ea0134e-aac7-60e1-5c58-ae31b4e1c422@collabora.com>
-Date: Sat, 5 Mar 2022 02:55:40 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE4010E158;
+ Sat,  5 Mar 2022 00:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1646440799; x=1677976799;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lk0dQDqSMKVd6nANL2uEhs22u+9SZLPLJE2Ov44mZFM=;
+ b=vMWrN8UJJaTFPh0umYRFphOL1WhT5bWHQlI0lczvaZU4pu2sJG2UQF4i
+ qHzYykPC+cGYk7eB7+h6072vckQHcy3JaMACOv27sfaPj8nLJGR2Uwoem
+ 3m2scpqls0U5Aa9mS59kc/a3ctYl+BmcEGJZUCXxILfBCq6J7wzfisjqW w=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 04 Mar 2022 16:39:58 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2022 16:39:58 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Fri, 4 Mar 2022 16:39:57 -0800
+Received: from [10.110.60.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 4 Mar 2022
+ 16:39:57 -0800
+Message-ID: <b5e47b01-96e9-5d0e-9215-bbaeb702207d@quicinc.com>
+Date: Fri, 4 Mar 2022 16:39:56 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v3 1/5] drm/msm: unify MDSS drivers
 Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, Robin Murphy
- <robin.murphy@arm.com>, Andy Yan <andy.yan@rock-chips.com>
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-11-s.hauer@pengutronix.de>
- <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
- <20220225104924.GC19585@pengutronix.de>
- <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
- <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
- <20220225131154.GE19585@pengutronix.de>
- <20220228141921.GN19585@pengutronix.de>
- <5184ecf2-8734-3121-cbbc-5dcfcf0d02f8@arm.com>
- <20220302112528.GV19585@pengutronix.de>
- <20220304142235.GL22780@pengutronix.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220304142235.GL22780@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220304032106.2866043-1-dmitry.baryshkov@linaro.org>
+ <20220304032106.2866043-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220304032106.2866043-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,127 +66,623 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Dmitry Osipenko <digetx@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/4/22 17:22, Sascha Hauer wrote:
-> On Wed, Mar 02, 2022 at 12:25:28PM +0100, Sascha Hauer wrote:
->> On Tue, Mar 01, 2022 at 01:39:31PM +0000, Robin Murphy wrote:
->>> On 2022-02-28 14:19, Sascha Hauer wrote:
->>>> On Fri, Feb 25, 2022 at 02:11:54PM +0100, Sascha Hauer wrote:
->>>>> On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
->>>>>> On 2022-02-25 11:10, Dmitry Osipenko wrote:
->>>>>>> 25.02.2022 13:49, Sascha Hauer пишет:
->>>>>>>> On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
->>>>>>>>> 25.02.2022 10:51, Sascha Hauer пишет:
->>>>>>>>>> The rk3568 HDMI has an additional clock that needs to be enabled for the
->>>>>>>>>> HDMI controller to work. The purpose of that clock is not clear. It is
->>>>>>>>>> named "hclk" in the downstream driver, so use the same name.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
->>>>>>>>>> ---
->>>>>>>>>>
->>>>>>>>>> Notes:
->>>>>>>>>>       Changes since v5:
->>>>>>>>>>       - Use devm_clk_get_optional rather than devm_clk_get
->>>>>>>>>>
->>>>>>>>>>    drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
->>>>>>>>>>    1 file changed, 16 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>> index fe4f9556239ac..c6c00e8779ab5 100644
->>>>>>>>>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>> @@ -76,6 +76,7 @@ struct rockchip_hdmi {
->>>>>>>>>>    	const struct rockchip_hdmi_chip_data *chip_data;
->>>>>>>>>>    	struct clk *ref_clk;
->>>>>>>>>>    	struct clk *grf_clk;
->>>>>>>>>> +	struct clk *hclk_clk;
->>>>>>>>>>    	struct dw_hdmi *hdmi;
->>>>>>>>>>    	struct regulator *avdd_0v9;
->>>>>>>>>>    	struct regulator *avdd_1v8;
->>>>>>>>>> @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->>>>>>>>>>    		return PTR_ERR(hdmi->grf_clk);
->>>>>>>>>>    	}
->>>>>>>>>> +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
->>>>>>>>>> +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
->>>>>>>>>
->>>>>>>>> Have you tried to investigate the hclk? I'm still thinking that's not
->>>>>>>>> only HDMI that needs this clock and then the hardware description
->>>>>>>>> doesn't look correct.
->>>>>>>>
->>>>>>>> I am still not sure what you mean. Yes, it's not only the HDMI that
->>>>>>>> needs this clock. The VOP2 needs it as well and the driver handles that.
->>>>>>>
->>>>>>> I'm curious whether DSI/DP also need that clock to be enabled. If they
->>>>>>> do, then you aren't modeling h/w properly AFAICS.
->>>>>>
->>>>>> Assuming nobody at Rockchip decided to make things needlessly inconsistent
->>>>>> with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
->>>>>> interface. Usually, if that affected anything other than accessing VOP
->>>>>> registers, indeed it would smell of something being wrong in the clock tree,
->>>>>> but in this case I'd also be suspicious of whether it might have ended up
->>>>>> clocking related GRF registers as well (either directly, or indirectly via
->>>>>> some gate that the clock driver hasn't modelled yet).
->>>>>
->>>>> Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
->>>>> hanging when HCLK_VOP is disabled by disabling that clock via sysfs
->>>>> using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
->>>>> of that units can't be accessed. However, when I disable HCLK_VOP by
->>>>> directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
->>>>> accessing VOP registers hangs, the other units stay functional.
->>>>> So it seems it must be the parent clock which must be enabled. The
->>>>> parent clock is hclk_vo. This clock should be handled as part of the
->>>>> RK3568_PD_VO power domain:
->>>>>
->>>>> 	power-domain@RK3568_PD_VO {
->>>>>                  reg = <RK3568_PD_VO>;
->>>>>                  clocks = <&cru HCLK_VO>,
->>>>>                           <&cru PCLK_VO>,
->>>>>                           <&cru ACLK_VOP_PRE>;
->>>>>                   pm_qos = <&qos_hdcp>,
->>>>>                            <&qos_vop_m0>,
->>>>>                            <&qos_vop_m1>;
->>>>>                   #power-domain-cells = <0>;
->>>>>          };
->>>>
->>>> Forget this. The clocks in this node are only enabled during enabling or
->>>> disabling the power domain, they are disabled again immediately afterwards.
->>>>
->>>> OK, I need HCLK_VO to access the HDMI registers. I verified that by
->>>> disabling HCLK_VO at register level (CRU_GATE_CON(20) BIT(1)). The
->>>> HDMI registers become inaccessible then. This means I'll replace
->>>> HCLK_VOP in the HDMI node with HCLK_VO. Does this sound sane?
->>>
->>> Well, it's still a mystery hack overall, and in some ways it seems even more
->>> suspect to be claiming a whole branch of the clock tree rather than a leaf
->>> gate with a specific purpose. I'm really starting to think that the
->>> underlying issue here is a bug in the clock driver, or a hardware mishap
->>> that should logically be worked around by the clock driver, rather than
->>> individual the consumers.
->>>
->>> Does it work if you hack the clock driver to think that PCLK_VO is a child
->>> of HCLK_VO? Even if that's not technically true, it would seem to
->>> effectively match the observed behaviour (i.e. all 3 things whose register
->>> access apparently *should* be enabled by a gate off PCLK_VO, seem to also
->>> require HCLK_VO).
->>
->> Yes, that works as expected. I am not sure though if we really want to
->> go that path. The pclk rates will become completely bogus with this and
->> should we have to play with the rates in the future we might regret this
->> step.
+
+
+On 3/3/2022 7:21 PM, Dmitry Baryshkov wrote:
+> MDP5 and DPU1 both provide the driver handling the MDSS region, which
+> handles the irq domain and (incase of DPU1) adds some init for the UBWC
+> controller. Unify those two pieces of code into a common driver.
 > 
-> How do we proceed here? I can include a patch which makes PCLK_VO a
-> child of HCLK_VO if that's what we agree upon.
-
-Couldn't Andy clarify the actual clock tree structure of the h/w for us?
-
-This will be the best option because datasheet doesn't give the clear
-answer, or at least I couldn't find it. Technically, PCLK indeed should
-be a child of the HCLK in general, so Robin could be right.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/Makefile                  |   3 +-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c     | 252 ------------------
+>   drivers/gpu/drm/msm/msm_drv.c                 |   4 +-
+>   drivers/gpu/drm/msm/msm_kms.h                 |   3 +-
+>   .../msm/{disp/dpu1/dpu_mdss.c => msm_mdss.c}  | 145 +++++-----
+>   5 files changed, 83 insertions(+), 324 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+>   rename drivers/gpu/drm/msm/{disp/dpu1/dpu_mdss.c => msm_mdss.c} (63%)
+> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index e9cc7d8ac301..e76927b42033 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -42,7 +42,6 @@ msm-y := \
+>   	disp/mdp5/mdp5_crtc.o \
+>   	disp/mdp5/mdp5_encoder.o \
+>   	disp/mdp5/mdp5_irq.o \
+> -	disp/mdp5/mdp5_mdss.o \
+>   	disp/mdp5/mdp5_kms.o \
+>   	disp/mdp5/mdp5_pipe.o \
+>   	disp/mdp5/mdp5_mixer.o \
+> @@ -67,7 +66,6 @@ msm-y := \
+>   	disp/dpu1/dpu_hw_util.o \
+>   	disp/dpu1/dpu_hw_vbif.o \
+>   	disp/dpu1/dpu_kms.o \
+> -	disp/dpu1/dpu_mdss.o \
+>   	disp/dpu1/dpu_plane.o \
+>   	disp/dpu1/dpu_rm.o \
+>   	disp/dpu1/dpu_vbif.o \
+> @@ -88,6 +86,7 @@ msm-y := \
+>   	msm_gpu_devfreq.o \
+>   	msm_io_utils.o \
+>   	msm_iommu.o \
+> +	msm_mdss.o \
+>   	msm_perf.o \
+>   	msm_rd.o \
+>   	msm_ringbuffer.o \
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+> deleted file mode 100644
+> index 049c6784a531..000000000000
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+> +++ /dev/null
+> @@ -1,252 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-only
+> -/*
+> - * Copyright (c) 2016, The Linux Foundation. All rights reserved.
+> - */
+> -
+> -#include <linux/irqdomain.h>
+> -#include <linux/irq.h>
+> -
+> -#include "msm_drv.h"
+> -#include "mdp5_kms.h"
+> -
+> -#define to_mdp5_mdss(x) container_of(x, struct mdp5_mdss, base)
+> -
+> -struct mdp5_mdss {
+> -	struct msm_mdss base;
+> -
+> -	void __iomem *mmio, *vbif;
+> -
+> -	struct clk *ahb_clk;
+> -	struct clk *axi_clk;
+> -	struct clk *vsync_clk;
+> -
+> -	struct {
+> -		volatile unsigned long enabled_mask;
+> -		struct irq_domain *domain;
+> -	} irqcontroller;
+> -};
+> -
+> -static inline void mdss_write(struct mdp5_mdss *mdp5_mdss, u32 reg, u32 data)
+> -{
+> -	msm_writel(data, mdp5_mdss->mmio + reg);
+> -}
+> -
+> -static inline u32 mdss_read(struct mdp5_mdss *mdp5_mdss, u32 reg)
+> -{
+> -	return msm_readl(mdp5_mdss->mmio + reg);
+> -}
+> -
+> -static irqreturn_t mdss_irq(int irq, void *arg)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = arg;
+> -	u32 intr;
+> -
+> -	intr = mdss_read(mdp5_mdss, REG_MDSS_HW_INTR_STATUS);
+> -
+> -	VERB("intr=%08x", intr);
+> -
+> -	while (intr) {
+> -		irq_hw_number_t hwirq = fls(intr) - 1;
+> -
+> -		generic_handle_domain_irq(mdp5_mdss->irqcontroller.domain, hwirq);
+> -		intr &= ~(1 << hwirq);
+> -	}
+> -
+> -	return IRQ_HANDLED;
+> -}
+> -
+> -/*
+> - * interrupt-controller implementation, so sub-blocks (MDP/HDMI/eDP/DSI/etc)
+> - * can register to get their irq's delivered
+> - */
+> -
+> -#define VALID_IRQS  (MDSS_HW_INTR_STATUS_INTR_MDP | \
+> -		MDSS_HW_INTR_STATUS_INTR_DSI0 | \
+> -		MDSS_HW_INTR_STATUS_INTR_DSI1 | \
+> -		MDSS_HW_INTR_STATUS_INTR_HDMI | \
+> -		MDSS_HW_INTR_STATUS_INTR_EDP)
+> -
+> -static void mdss_hw_mask_irq(struct irq_data *irqd)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = irq_data_get_irq_chip_data(irqd);
+> -
+> -	smp_mb__before_atomic();
+> -	clear_bit(irqd->hwirq, &mdp5_mdss->irqcontroller.enabled_mask);
+> -	smp_mb__after_atomic();
+> -}
+> -
+> -static void mdss_hw_unmask_irq(struct irq_data *irqd)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = irq_data_get_irq_chip_data(irqd);
+> -
+> -	smp_mb__before_atomic();
+> -	set_bit(irqd->hwirq, &mdp5_mdss->irqcontroller.enabled_mask);
+> -	smp_mb__after_atomic();
+> -}
+> -
+> -static struct irq_chip mdss_hw_irq_chip = {
+> -	.name		= "mdss",
+> -	.irq_mask	= mdss_hw_mask_irq,
+> -	.irq_unmask	= mdss_hw_unmask_irq,
+> -};
+> -
+> -static int mdss_hw_irqdomain_map(struct irq_domain *d, unsigned int irq,
+> -				 irq_hw_number_t hwirq)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = d->host_data;
+> -
+> -	if (!(VALID_IRQS & (1 << hwirq)))
+> -		return -EPERM;
+> -
+> -	irq_set_chip_and_handler(irq, &mdss_hw_irq_chip, handle_level_irq);
+> -	irq_set_chip_data(irq, mdp5_mdss);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct irq_domain_ops mdss_hw_irqdomain_ops = {
+> -	.map = mdss_hw_irqdomain_map,
+> -	.xlate = irq_domain_xlate_onecell,
+> -};
+> -
+> -
+> -static int mdss_irq_domain_init(struct mdp5_mdss *mdp5_mdss)
+> -{
+> -	struct device *dev = mdp5_mdss->base.dev;
+> -	struct irq_domain *d;
+> -
+> -	d = irq_domain_add_linear(dev->of_node, 32, &mdss_hw_irqdomain_ops,
+> -				  mdp5_mdss);
+> -	if (!d) {
+> -		DRM_DEV_ERROR(dev, "mdss irq domain add failed\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	mdp5_mdss->irqcontroller.enabled_mask = 0;
+> -	mdp5_mdss->irqcontroller.domain = d;
+> -
+> -	return 0;
+> -}
+> -
+> -static int mdp5_mdss_enable(struct msm_mdss *mdss)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = to_mdp5_mdss(mdss);
+> -	DBG("");
+> -
+> -	clk_prepare_enable(mdp5_mdss->ahb_clk);
+> -	clk_prepare_enable(mdp5_mdss->axi_clk);
+> -	clk_prepare_enable(mdp5_mdss->vsync_clk);
+> -
+> -	return 0;
+> -}
+> -
+> -static int mdp5_mdss_disable(struct msm_mdss *mdss)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = to_mdp5_mdss(mdss);
+> -	DBG("");
+> -
+> -	clk_disable_unprepare(mdp5_mdss->vsync_clk);
+> -	clk_disable_unprepare(mdp5_mdss->axi_clk);
+> -	clk_disable_unprepare(mdp5_mdss->ahb_clk);
+> -
+> -	return 0;
+> -}
+> -
+> -static int msm_mdss_get_clocks(struct mdp5_mdss *mdp5_mdss)
+> -{
+> -	struct platform_device *pdev =
+> -			to_platform_device(mdp5_mdss->base.dev);
+> -
+> -	mdp5_mdss->ahb_clk = msm_clk_get(pdev, "iface");
+> -	if (IS_ERR(mdp5_mdss->ahb_clk))
+> -		mdp5_mdss->ahb_clk = NULL;
+> -
+> -	mdp5_mdss->axi_clk = msm_clk_get(pdev, "bus");
+> -	if (IS_ERR(mdp5_mdss->axi_clk))
+> -		mdp5_mdss->axi_clk = NULL;
+> -
+> -	mdp5_mdss->vsync_clk = msm_clk_get(pdev, "vsync");
+> -	if (IS_ERR(mdp5_mdss->vsync_clk))
+> -		mdp5_mdss->vsync_clk = NULL;
+> -
+> -	return 0;
+> -}
+> -
+> -static void mdp5_mdss_destroy(struct msm_mdss *mdss)
+> -{
+> -	struct mdp5_mdss *mdp5_mdss = to_mdp5_mdss(mdss);
+> -
+> -	if (!mdp5_mdss)
+> -		return;
+> -
+> -	irq_domain_remove(mdp5_mdss->irqcontroller.domain);
+> -	mdp5_mdss->irqcontroller.domain = NULL;
+> -
+> -	pm_runtime_disable(mdss->dev);
+> -}
+> -
+> -static const struct msm_mdss_funcs mdss_funcs = {
+> -	.enable	= mdp5_mdss_enable,
+> -	.disable = mdp5_mdss_disable,
+> -	.destroy = mdp5_mdss_destroy,
+> -};
+> -
+> -int mdp5_mdss_init(struct platform_device *pdev)
+> -{
+> -	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+> -	struct mdp5_mdss *mdp5_mdss;
+> -	int ret;
+> -
+> -	DBG("");
+> -
+> -	if (!of_device_is_compatible(pdev->dev.of_node, "qcom,mdss"))
+> -		return 0;
+> -
+> -	mdp5_mdss = devm_kzalloc(&pdev->dev, sizeof(*mdp5_mdss), GFP_KERNEL);
+> -	if (!mdp5_mdss) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+> -	mdp5_mdss->base.dev = &pdev->dev;
+> -
+> -	mdp5_mdss->mmio = msm_ioremap(pdev, "mdss_phys");
+> -	if (IS_ERR(mdp5_mdss->mmio)) {
+> -		ret = PTR_ERR(mdp5_mdss->mmio);
+> -		goto fail;
+> -	}
+> -
+> -	mdp5_mdss->vbif = msm_ioremap(pdev, "vbif_phys");
+> -	if (IS_ERR(mdp5_mdss->vbif)) {
+> -		ret = PTR_ERR(mdp5_mdss->vbif);
+> -		goto fail;
+> -	}
+> -
+> -	ret = msm_mdss_get_clocks(mdp5_mdss);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to get clocks: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	ret = devm_request_irq(&pdev->dev, platform_get_irq(pdev, 0),
+> -			       mdss_irq, 0, "mdss_isr", mdp5_mdss);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to init irq: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	ret = mdss_irq_domain_init(mdp5_mdss);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to init sub-block irqs: %d\n", ret);
+> -		goto fail;
+> -	}
+> -
+> -	mdp5_mdss->base.funcs = &mdss_funcs;
+> -	priv->mdss = &mdp5_mdss->base;
+> -
+> -	pm_runtime_enable(&pdev->dev);
+> -
+> -	return 0;
+> -fail:
+> -	return ret;
+> -}
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 30fd18ca88c4..078c7e951a6e 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1208,10 +1208,10 @@ static int msm_pdev_probe(struct platform_device *pdev)
+>   
+>   	switch (get_mdp_ver(pdev)) {
+>   	case KMS_MDP5:
+> -		ret = mdp5_mdss_init(pdev);
+> +		ret = msm_mdss_init(pdev, true);
+>   		break;
+>   	case KMS_DPU:
+> -		ret = dpu_mdss_init(pdev);
+> +		ret = msm_mdss_init(pdev, false);
+>   		break;
+>   	default:
+>   		ret = 0;
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> index 2a4f0526cb98..10d5ae3e76df 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -212,8 +212,7 @@ struct msm_mdss {
+>   	const struct msm_mdss_funcs *funcs;
+>   };
+>   
+> -int mdp5_mdss_init(struct platform_device *dev);
+> -int dpu_mdss_init(struct platform_device *dev);
+> +int msm_mdss_init(struct platform_device *pdev, bool is_mdp5);
+>   
+>   #define for_each_crtc_mask(dev, crtc, crtc_mask) \
+>   	drm_for_each_crtc(crtc, dev) \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> similarity index 63%
+> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+> rename to drivers/gpu/drm/msm/msm_mdss.c
+> index b10ca505f9ac..71f3277bde32 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -7,7 +7,12 @@
+>   #include <linux/irqchip.h>
+>   #include <linux/irqdesc.h>
+>   #include <linux/irqchip/chained_irq.h>
+> -#include "dpu_kms.h"
+> +
+> +#include "msm_drv.h"
+> +#include "msm_kms.h"
+> +
+> +/* for DPU_HW_* defines */
+> +#include "disp/dpu1/dpu_hw_catalog.h"
+>   
+>   #define to_dpu_mdss(x) container_of(x, struct dpu_mdss, base)
+>   
+> @@ -18,23 +23,18 @@
+>   #define UBWC_CTRL_2			0x150
+>   #define UBWC_PREDICTION_MODE		0x154
+>   
+> -/* Max BW defined in KBps */
+> -#define MAX_BW				6800000
+> -
+> -struct dpu_irq_controller {
+> -	unsigned long enabled_mask;
+> -	struct irq_domain *domain;
+> -};
+> -
+>   struct dpu_mdss {
+>   	struct msm_mdss base;
+>   	void __iomem *mmio;
+>   	struct clk_bulk_data *clocks;
+>   	size_t num_clocks;
+> -	struct dpu_irq_controller irq_controller;
+> +	struct {
+> +		unsigned long enabled_mask;
+> +		struct irq_domain *domain;
+> +	} irq_controller;
+>   };
+>   
+> -static void dpu_mdss_irq(struct irq_desc *desc)
+> +static void msm_mdss_irq(struct irq_desc *desc)
+>   {
+>   	struct dpu_mdss *dpu_mdss = irq_desc_get_handler_data(desc);
+>   	struct irq_chip *chip = irq_desc_get_chip(desc);
+> @@ -62,7 +62,7 @@ static void dpu_mdss_irq(struct irq_desc *desc)
+>   	chained_irq_exit(chip, desc);
+>   }
+>   
+> -static void dpu_mdss_irq_mask(struct irq_data *irqd)
+> +static void msm_mdss_irq_mask(struct irq_data *irqd)
+>   {
+>   	struct dpu_mdss *dpu_mdss = irq_data_get_irq_chip_data(irqd);
+>   
+> @@ -73,7 +73,7 @@ static void dpu_mdss_irq_mask(struct irq_data *irqd)
+>   	smp_mb__after_atomic();
+>   }
+>   
+> -static void dpu_mdss_irq_unmask(struct irq_data *irqd)
+> +static void msm_mdss_irq_unmask(struct irq_data *irqd)
+>   {
+>   	struct dpu_mdss *dpu_mdss = irq_data_get_irq_chip_data(irqd);
+>   
+> @@ -84,30 +84,31 @@ static void dpu_mdss_irq_unmask(struct irq_data *irqd)
+>   	smp_mb__after_atomic();
+>   }
+>   
+> -static struct irq_chip dpu_mdss_irq_chip = {
+> +static struct irq_chip msm_mdss_irq_chip = {
+>   	.name = "dpu_mdss",
+> -	.irq_mask = dpu_mdss_irq_mask,
+> -	.irq_unmask = dpu_mdss_irq_unmask,
+> +	.irq_mask = msm_mdss_irq_mask,
+> +	.irq_unmask = msm_mdss_irq_unmask,
+>   };
+>   
+> -static struct lock_class_key dpu_mdss_lock_key, dpu_mdss_request_key;
+> +static struct lock_class_key msm_mdss_lock_key, msm_mdss_request_key;
+>   
+> -static int dpu_mdss_irqdomain_map(struct irq_domain *domain,
+> +static int msm_mdss_irqdomain_map(struct irq_domain *domain,
+>   		unsigned int irq, irq_hw_number_t hwirq)
+>   {
+>   	struct dpu_mdss *dpu_mdss = domain->host_data;
+>   
+> -	irq_set_lockdep_class(irq, &dpu_mdss_lock_key, &dpu_mdss_request_key);
+> -	irq_set_chip_and_handler(irq, &dpu_mdss_irq_chip, handle_level_irq);
+> +	irq_set_lockdep_class(irq, &msm_mdss_lock_key, &msm_mdss_request_key);
+> +	irq_set_chip_and_handler(irq, &msm_mdss_irq_chip, handle_level_irq);
+> +
+>   	return irq_set_chip_data(irq, dpu_mdss);
+>   }
+>   
+> -static const struct irq_domain_ops dpu_mdss_irqdomain_ops = {
+> -	.map = dpu_mdss_irqdomain_map,
+> +static const struct irq_domain_ops msm_mdss_irqdomain_ops = {
+> +	.map = msm_mdss_irqdomain_map,
+>   	.xlate = irq_domain_xlate_onecell,
+>   };
+>   
+> -static int _dpu_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
+> +static int _msm_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
+>   {
+>   	struct device *dev;
+>   	struct irq_domain *domain;
+> @@ -115,9 +116,9 @@ static int _dpu_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
+>   	dev = dpu_mdss->base.dev;
+>   
+>   	domain = irq_domain_add_linear(dev->of_node, 32,
+> -			&dpu_mdss_irqdomain_ops, dpu_mdss);
+> +			&msm_mdss_irqdomain_ops, dpu_mdss);
+>   	if (!domain) {
+> -		DPU_ERROR("failed to add irq_domain\n");
+> +		DRM_ERROR("failed to add irq_domain\n");
+>   		return -EINVAL;
+>   	}
+>   
+> @@ -127,21 +128,14 @@ static int _dpu_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
+>   	return 0;
+>   }
+>   
+> -static void _dpu_mdss_irq_domain_fini(struct dpu_mdss *dpu_mdss)
+> -{
+> -	if (dpu_mdss->irq_controller.domain) {
+> -		irq_domain_remove(dpu_mdss->irq_controller.domain);
+> -		dpu_mdss->irq_controller.domain = NULL;
+> -	}
+> -}
+> -static int dpu_mdss_enable(struct msm_mdss *mdss)
+> +static int msm_mdss_enable(struct msm_mdss *mdss)
+>   {
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+>   	int ret;
+>   
+>   	ret = clk_bulk_prepare_enable(dpu_mdss->num_clocks, dpu_mdss->clocks);
+>   	if (ret) {
+> -		DPU_ERROR("clock enable failed, ret:%d\n", ret);
+> +		DRM_ERROR("clock enable failed, ret:%d\n", ret);
+>   		return ret;
+>   	}
+>   
+> @@ -171,7 +165,7 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
+>   	return ret;
+>   }
+>   
+> -static int dpu_mdss_disable(struct msm_mdss *mdss)
+> +static int msm_mdss_disable(struct msm_mdss *mdss)
+>   {
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+>   
+> @@ -180,7 +174,7 @@ static int dpu_mdss_disable(struct msm_mdss *mdss)
+>   	return 0;
+>   }
+>   
+> -static void dpu_mdss_destroy(struct msm_mdss *mdss)
+> +static void msm_mdss_destroy(struct msm_mdss *mdss)
+>   {
+>   	struct platform_device *pdev = to_platform_device(mdss->dev);
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+> @@ -188,22 +182,49 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
+>   
+>   	pm_runtime_suspend(mdss->dev);
+>   	pm_runtime_disable(mdss->dev);
+> -	_dpu_mdss_irq_domain_fini(dpu_mdss);
+> +	irq_domain_remove(dpu_mdss->irq_controller.domain);
+> +	dpu_mdss->irq_controller.domain = NULL;
+>   	irq = platform_get_irq(pdev, 0);
+>   	irq_set_chained_handler_and_data(irq, NULL, NULL);
+> -
+> -	if (dpu_mdss->mmio)
+> -		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+> -	dpu_mdss->mmio = NULL;
+>   }
+>   
+>   static const struct msm_mdss_funcs mdss_funcs = {
+> -	.enable	= dpu_mdss_enable,
+> -	.disable = dpu_mdss_disable,
+> -	.destroy = dpu_mdss_destroy,
+> +	.enable	= msm_mdss_enable,
+> +	.disable = msm_mdss_disable,
+> +	.destroy = msm_mdss_destroy,
+>   };
+>   
+> -int dpu_mdss_init(struct platform_device *pdev)
+> +/*
+> + * MDP5 MDSS uses at most three specified clocks.
+> + */
+> +#define MDP5_MDSS_NUM_CLOCKS 3
+> +static int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
+> +{
+> +	struct clk_bulk_data *bulk;
+> +	int num_clocks = 0;
+> +	int ret;
+> +
+> +	if (!pdev)
+> +		return -EINVAL;
+> +
+> +	bulk = devm_kcalloc(&pdev->dev, MDP5_MDSS_NUM_CLOCKS, sizeof(struct clk_bulk_data), GFP_KERNEL);
+> +	if (!bulk)
+> +		return -ENOMEM;
+> +
+> +	bulk[num_clocks++].id = "iface";
+> +	bulk[num_clocks++].id = "bus";
+> +	bulk[num_clocks++].id = "vsync";
+> +
+> +	ret = devm_clk_bulk_get_optional(&pdev->dev, num_clocks, bulk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*clocks = bulk;
+> +
+> +	return num_clocks;
+> +}
+> +
+> +int msm_mdss_init(struct platform_device *pdev, bool is_mdp5)
+>   {
+>   	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+>   	struct dpu_mdss *dpu_mdss;
+> @@ -220,27 +241,28 @@ int dpu_mdss_init(struct platform_device *pdev)
+>   
+>   	DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
+>   
+> -	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_mdss->clocks);
+> +	if (is_mdp5)
+> +		ret = mdp5_mdss_parse_clock(pdev, &dpu_mdss->clocks);
+> +	else
+> +		ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_mdss->clocks);
+>   	if (ret < 0) {
+> -		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
+> -		goto clk_parse_err;
+> +		DRM_ERROR("failed to parse clocks, ret=%d\n", ret);
+> +		return ret;
+>   	}
+>   	dpu_mdss->num_clocks = ret;
+>   
+>   	dpu_mdss->base.dev = &pdev->dev;
+>   	dpu_mdss->base.funcs = &mdss_funcs;
+>   
+> -	ret = _dpu_mdss_irq_domain_add(dpu_mdss);
+> -	if (ret)
+> -		goto irq_domain_error;
+> -
+>   	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0) {
+> -		ret = irq;
+> -		goto irq_error;
+> -	}
+> +	if (irq < 0)
+> +		return irq;
+>   
+> -	irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
+> +	ret = _msm_mdss_irq_domain_add(dpu_mdss);
+> +	if (ret)
+> +		return ret;
+> +
+> +	irq_set_chained_handler_and_data(irq, msm_mdss_irq,
+>   					 dpu_mdss);
+>   
+>   	priv->mdss = &dpu_mdss->base;
+> @@ -248,13 +270,4 @@ int dpu_mdss_init(struct platform_device *pdev)
+>   	pm_runtime_enable(&pdev->dev);
+>   
+>   	return 0;
+> -
+> -irq_error:
+> -	_dpu_mdss_irq_domain_fini(dpu_mdss);
+> -irq_domain_error:
+> -clk_parse_err:
+> -	if (dpu_mdss->mmio)
+> -		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+> -	dpu_mdss->mmio = NULL;
+> -	return ret;
+>   }
