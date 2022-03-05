@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C852C4CE406
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 10:51:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB01E4CE43F
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 11:38:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C683E10EDD6;
-	Sat,  5 Mar 2022 09:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8CBA10E26C;
+	Sat,  5 Mar 2022 10:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6684410EA1F;
- Sat,  5 Mar 2022 09:51:47 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4K9g3g4Tr5z9sT3;
- Sat,  5 Mar 2022 10:51:43 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7txCBD_yNCyT; Sat,  5 Mar 2022 10:51:43 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4K9g3g3jC8z9sSx;
- Sat,  5 Mar 2022 10:51:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 6AEE38B766;
- Sat,  5 Mar 2022 10:51:43 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id bbc_MSMvmabX; Sat,  5 Mar 2022 10:51:43 +0100 (CET)
-Received: from [192.168.204.180] (unknown [192.168.204.180])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id B56C28B763;
- Sat,  5 Mar 2022 10:51:42 +0100 (CET)
-Message-ID: <672043db-5290-293c-fde4-440989c78d09@csgroup.eu>
-Date: Sat, 5 Mar 2022 10:51:43 +0100
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D4110E275
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 10:38:04 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id g24so8368732qkl.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Mar 2022 02:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lz9u63IzQ1ny8p1MWQPaj5qIKrAWncsqwglKvPt7b18=;
+ b=ureuxwwCPGYZzOPqWphv5EaO1kY1yEOA+OfcMXKh++Ta5PzP3Vqj41pK77KeSt1CKr
+ oHiDbgZS3JHbshLxXF+pEYWSLCyWKXK/3lNXWTjopaR9vPXmmPkmu1OeG56DQVBJKixm
+ r1cZRZJw0aXAtNVTrDkVjGhEATMpLEMgHw1s67JnIwIUkOTer5TKItbrALbdsagJRkso
+ 1vze8yvTmfCCdTYPrB4FmzaUBlrchxOnMSc8i6PM4to8Avv9Su3Z1nVYOaYiJ32b+cLI
+ BpP5eGR4IFMfuig3q+aDiYLkT8Xi41yIKswVkI2IOnKqaxrgZyqMnvFpr7tWsXugSDJ6
+ ri2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lz9u63IzQ1ny8p1MWQPaj5qIKrAWncsqwglKvPt7b18=;
+ b=k1suAjz9aSkdDqN6ROMvWL6jHJcymK0MoWEJ0NB9oNip0cxmGuKCkHQj1bJnsxrvGx
+ Txp9f9o1IpuJ7KX3RBPVoh39umCYnZ3W+7NjLKlzHwHe2T6eER4IDMF/oJHu7Y0POQW8
+ ZlzJ08PDYu2fE7dvaVV/VjTM/lFpS0CMJsE3A6Ekr4HbUPibiNnYWg8WxyKoh5v6k325
+ rB2q3mZzbv4gbSaLD1uxGiOO+faqseRzra4o7Aq7b46VX4ydPomaeKAdDi+5Wq1U8GUp
+ Y6S3lIcrkISKRNEZk19hDVTmhGDMPEXSMgqjXAwu2IvYtCsZEEfdyVrjMgGmXgiI8MDi
+ NyFA==
+X-Gm-Message-State: AOAM5337XHX77vHnAbsG6c1fdpWuqwvzd091E30lddZuvyy0NyPXK050
+ UbKvwC8/sz+4yf0skF79PhzDwFkZSoGiyebA5Ct34A==
+X-Google-Smtp-Source: ABdhPJwhxXcWrkTJz60CRz6vpb74RSpT9uPgyqmT08HWXkR+SLRk4QdjvtxL/93LY0auGa7N0SvwegppCk4zzWi/9Z4=
+X-Received: by 2002:a05:620a:1392:b0:60d:d76a:5073 with SMTP id
+ k18-20020a05620a139200b0060dd76a5073mr1620167qki.59.1646476683364; Sat, 05
+ Mar 2022 02:38:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/nouveau/bios: Rename prom_init() and friends functions
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Lyude Paul <lyude@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <2d97ae92b9c06214be0e088a72cf303eb591bf01.1646414295.git.christophe.leroy@csgroup.eu>
- <47e09d6010852db928c0de29b89450ea7eee74d8.camel@redhat.com>
- <edb9aabd-09af-ae0c-348d-f0500e3405d7@csgroup.eu>
-In-Reply-To: <edb9aabd-09af-ae0c-348d-f0500e3405d7@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220304202406.846485-1-robdclark@gmail.com>
+ <CAA8EJprik57F+t0KicoYaRm=oDOgcQHyHSBjJKbekBKjO_-=0A@mail.gmail.com>
+ <CAF6AEGtM+Jhye7ahW3uFg-8PFHH257-T7Qudo=XMU5-AU2LvcA@mail.gmail.com>
+In-Reply-To: <CAF6AEGtM+Jhye7ahW3uFg-8PFHH257-T7Qudo=XMU5-AU2LvcA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 5 Mar 2022 13:37:52 +0300
+Message-ID: <CAA8EJpr3yDW=f4gc4d06KiETtNJkrLNaTcOx28UpS3toVOh6nw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: Fix missing ARRAY_SIZE() check
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +64,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, 5 Mar 2022 at 00:57, Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Fri, Mar 4, 2022 at 1:47 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Fri, 4 Mar 2022 at 23:23, Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Fixes: f6d62d091cfd ("drm/msm/a6xx: add support for Adreno 660 GPU")
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > However see the comment below.
+> >
+> > > ---
+> > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > index 02b47977b5c3..6406d8c3411a 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > @@ -687,6 +687,7 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+> > >
+> > >         BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
+> > >         BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
+> > > +       BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
+> >
+> > The magic number 32 and 48 are repeated through this code. I'd suggest
+> > to define them and use defined names.
+> > It can come up as a separate commit.
+> >
+>
+> Or perhaps instead:
+
+IMO this is much better.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ----
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 6406d8c3411a..58c371930fb4 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -683,20 +683,23 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+>  {
+>         struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>         const u32 *regs = a6xx_protect;
+> -       unsigned i, count = ARRAY_SIZE(a6xx_protect), count_max = 32;
+> -
+> -       BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
+> -       BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
+> -       BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
+> +       unsigned i, count, count_max;
+>
+>         if (adreno_is_a650(adreno_gpu)) {
+>                 regs = a650_protect;
+>                 count = ARRAY_SIZE(a650_protect);
+>                 count_max = 48;
+> +               BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
+>         } else if (adreno_is_a660_family(adreno_gpu)) {
+>                 regs = a660_protect;
+>                 count = ARRAY_SIZE(a660_protect);
+>                 count_max = 48;
+> +               BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
+> +       } else {
+> +               regs = a6xx_protect;
+> +               count = ARRAY_SIZE(a6xx_protect);
+> +               count_max = 32;
+> +               BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
+>         }
+>
+>         /*
+> ----
+>
+> that moves each of the two uses of constant together..  adding three
+> #defines each used only twice seems a bit silly, IMHO
+>
+> BR,
+> -R
 
 
-Le 05/03/2022 à 08:38, Christophe Leroy a écrit :
-> 
-> 
-> Le 04/03/2022 à 21:24, Lyude Paul a écrit :
->> This mostly looks good to me. Just one question (and one comment down 
->> below
->> that needs addressing). Is this with ppc32? (I ask because ppc64le 
->> doesn't
->> seem to hit this compilation error).
-> 
-> That's with PPC64, see 
-> http://kisskb.ellerman.id.au/kisskb/branch/chleroy/head/252ba609bea83234d2e35841c19ae84c67b43ec7/ 
-> 
-> 
-> But that's not (yet) with the mainline tree. That's work I'm doing to 
-> cleanup our asm/asm-protoypes.h header.
-> 
-> Since commit 4efca4ed05cb ("kbuild: modversions for EXPORT_SYMBOL() for 
-> asm") that file is dedicated to prototypes of functions defined in 
-> assembly. Therefore I'm trying to dispatch C functions prototypes in 
-> other headers. I wanted to move prom_init() prototype into asm/prom.h 
-> and then I hit the problem.
-> 
-> In the beginning I was thinking about just changing the name of the 
-> function in powerpc, but as I see that M68K, MIPS and SPARC also have a 
-> prom_init() function, I thought it would be better to change the name in 
-> shadowrom.c to avoid any future conflict like the one I got while 
-> reworking the headers.
-> 
-> 
->>> @@ -57,8 +57,8 @@ prom_init(struct nvkm_bios *bios, const char *name)
->>>   const struct nvbios_source
->>>   nvbios_rom = {
->>>          .name = "PROM",
->>> -       .init = prom_init,
->>> -       .fini = prom_fini,
->>> -       .read = prom_read,
->>> +       .init = nvbios_rom_init,
->>> +       .fini = nvbios_rom_fini,
->>> +       .read = nvbios_rom_read,
->>
->> Seeing as the source name is prom, I think using the naming convention
->> nvbios_prom_* would be better then nvbios_rom_*.
->>
-> 
-> Yes I wasn't sure about the best naming as the file name is shadowrom.c 
-> and not shadowprom.c.
-> 
-> I will send v2 using nvbios_prom_* as a name.
 
-While preparing v2 I remembered that in fact, I called the functions 
-nvbios_rom_* because the name of the nvbios_source struct is nvbios_rom, 
-so for me it made sense to use the name of the struct as a prefix for 
-the functions.
-
-So I'm OK to change it to nvbios_prom_* but it looks less logical to me.
-
-Please confirm you still prefer nvbios_prom as prefix to the function names.
-
-Christophe
+-- 
+With best wishes
+Dmitry
