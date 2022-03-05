@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACADF4CE26F
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 04:27:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F014CE27F
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 04:41:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C9010E1F2;
-	Sat,  5 Mar 2022 03:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D664710E9B5;
+	Sat,  5 Mar 2022 03:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7902710E596
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 03:27:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B06BB10E9B5
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 03:41:27 +0000 (UTC)
 Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net
  [108.7.220.252]) (authenticated bits=0)
  (User authenticated as tytso@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2253QNNF013482
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2253eZvh017067
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 4 Mar 2022 22:26:24 -0500
+ Fri, 4 Mar 2022 22:40:36 -0500
 Received: by cwcc.thunk.org (Postfix, from userid 15806)
- id 7552F15C0038; Fri,  4 Mar 2022 22:26:23 -0500 (EST)
-Date: Fri, 4 Mar 2022 22:26:23 -0500
+ id B8EDD15C0038; Fri,  4 Mar 2022 22:40:35 -0500 (EST)
+Date: Fri, 4 Mar 2022 22:40:35 -0500
 From: "Theodore Ts'o" <tytso@mit.edu>
 To: Byungchul Park <byungchul.park@lge.com>
 Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
-Message-ID: <YiLYX0sqmtkTEM5U@mit.edu>
+Message-ID: <YiLbs9rszWXpHm/P@mit.edu>
 References: <YiAow5gi21zwUT54@mit.edu>
  <1646285013-3934-1-git-send-email-byungchul.park@lge.com>
- <YiDSabde88HJ/aTt@mit.edu> <20220304004237.GB6112@X58A-UD3R>
+ <YiDSabde88HJ/aTt@mit.edu> <20220304032002.GD6112@X58A-UD3R>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220304004237.GB6112@X58A-UD3R>
+In-Reply-To: <20220304032002.GD6112@X58A-UD3R>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,44 +65,38 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 04, 2022 at 09:42:37AM +0900, Byungchul Park wrote:
+On Fri, Mar 04, 2022 at 12:20:02PM +0900, Byungchul Park wrote:
 > 
-> All contexts waiting for any of the events in the circular dependency
-> chain will be definitely stuck if there is a circular dependency as I
-> explained. So we need another wakeup source to break the circle. In
-> ext4 code, you might have the wakeup source for breaking the circle.
-> 
-> What I agreed with is:
-> 
->    The case that 1) the circular dependency is unevitable 2) there are
->    another wakeup source for breadking the circle and 3) the duration
->    in sleep is short enough, should be acceptable.
-> 
-> Sounds good?
+> I found a point that the two wait channels don't lead a deadlock in
+> some cases thanks to Jan Kara. I will fix it so that Dept won't
+> complain it.
 
-These dependencies are part of every single ext4 metadata update,
-and if there were any unnecessary sleeps, this would be a major
-performance gap, and this is a very well studied part of ext4.
+I sent my last (admittedly cranky) message before you sent this.  I'm
+glad you finally understood Jan's explanation.  I was trying to tell
+you the same thing, but apparently I failed to communicate in a
+sufficiently clear manner.  In any case, what Jan described is a
+fundamental part of how wait queues work, and I'm kind of amazed that
+you were able to implement DEPT without understanding it.  (But maybe
+that is why some of the DEPT reports were completely incomprehensible
+to me; I couldn't interpret why in the world DEPT was saying there was
+a problem.)
 
-There are some places where we sleep, sure.  In some case
-start_this_handle() needs to wait for a commit to complete, and the
-commit thread might need to sleep for I/O to complete.  But the moment
-the thing that we're waiting for is complete, we wake up all of the
-processes on the wait queue.  But in the case where we wait for I/O
-complete, that wakeupis coming from the device driver, when it
-receives the the I/O completion interrupt from the hard drive.  Is
-that considered an "external source"?  Maybe DEPT doesn't recognize
-that this is certain to happen just as day follows the night?  (Well,
-maybe the I/O completion interrupt might not happen if the disk drive
-bursts into flames --- but then, you've got bigger problems. :-)
+In any case, the thing I would ask is a little humility.  We regularly
+use lockdep, and we run a huge number of stress tests, throughout each
+development cycle.
 
-In any case, if DEPT is going to report these "circular dependencies
-as bugs that MUST be fixed", it's going to be pure noise and I will
-ignore all DEPT reports, and will push back on having Lockdep replaced
-by DEPT --- because Lockdep give us actionable reports, and if DEPT
-can't tell the difference between a valid programming pattern and a
-bug, then it's worse than useless.
+So if DEPT is issuing lots of reports about apparently circular
+dependencies, please try to be open to the thought that the fault is
+in DEPT, and don't try to argue with maintainers that their code MUST
+be buggy --- but since you don't understand our code, and DEPT must be
+theoretically perfect, that it is up to the Maintainers to prove to
+you that their code is correct.
 
-Sounds good?
+I am going to gently suggest that it is at least as likely, if not
+more likely, that the failure is in DEPT or your understanding of what
+how kernel wait channels and locking works.  After all, why would it
+be that we haven't found these problems via our other QA practices?
 
-							- Ted
+Cheers,
+
+						- Ted
