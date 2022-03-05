@@ -2,122 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AF34CE371
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 08:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62C24CE37C
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 08:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B90D11A87A;
-	Sat,  5 Mar 2022 07:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF3811A994;
+	Sat,  5 Mar 2022 07:50:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from FRA01-PR2-obe.outbound.protection.outlook.com
- (mail-eopbgr120051.outbound.protection.outlook.com [40.107.12.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEAE711A878;
- Sat,  5 Mar 2022 07:38:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TzzHfhyGJUeFBpnYloi3FUMZfinX7m927jXwakqyLUWjR7Zjp45aR8keBOVTLYzWi2ufWdAGzmlRC5Zfxxflp+QpTfsw2ZCZViakikXqNrdErZuH0iUxoKTDaX37zmB2z4QFT240eG/tp5XiszjAwV0L702pChu+zRpN1iMXiq7ClBG0Je9/TDZfNOlInzhZrXmFncSWJ/T/s007pZwY2q0cl59HowAeI0vChS0bggv0HfV1BBSRf0mXSSjpYukXfW2GhqJZJukybuMyiKaGxLMfZeKBW1EGgLhTVH71d7zm47rtaUNPz1FnAHeBtgOd+sU44dvjTPjsKCPwRVsYbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BIHoCpE2Q1xWpmwxfGDqxSB6rcUfj7MlACGfZnsFAjY=;
- b=IRdSYMa9j4D9bokex3BF71so5ZZGyiKVNMNpssd57fiBvgeQmA/bqR1McnALx0ybxki6OS5VS1Bl1Gb15FHUzfFppNodhTbe1s1wGUeNOTSLjDdLF4vVrpm8BjUlkd52lmfyyqnB4rtUkLEh+hT91V0H8eAaeJLLXrAe5BMcUX2GEAC9d6NdtL1DNSNguWGsQar8O7Q/tnkh+tEQttpqDzJczoZ0NJeTgyhZH8Ljq4XIwkul2OjCgdYoF4d+iJPz6FeyrtL+Ug2X1xOq/GIjyVdPOOc765P8Ad6Z7fWz8um4E+Bz+XETVnT653T1KlyNMLOAwsDWkBIBVHHUtlMYvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
- dkim=pass header.d=csgroup.eu; arc=none
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
- by MR1P264MB2256.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:15::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Sat, 5 Mar
- 2022 07:38:43 +0000
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::cd2f:d05d:9aa3:400d]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::cd2f:d05d:9aa3:400d%4]) with mapi id 15.20.5038.019; Sat, 5 Mar 2022
- 07:38:43 +0000
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Lyude Paul <lyude@redhat.com>, Ben Skeggs <bskeggs@redhat.com>, Karol
- Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/nouveau/bios: Rename prom_init() and friends functions
-Thread-Topic: [PATCH] drm/nouveau/bios: Rename prom_init() and friends
- functions
-Thread-Index: AQHYL+w0cqx8XUQTF0SmnJmJ5+J/4Kyvq+SAgAC8V4A=
-Date: Sat, 5 Mar 2022 07:38:43 +0000
-Message-ID: <edb9aabd-09af-ae0c-348d-f0500e3405d7@csgroup.eu>
-References: <2d97ae92b9c06214be0e088a72cf303eb591bf01.1646414295.git.christophe.leroy@csgroup.eu>
- <47e09d6010852db928c0de29b89450ea7eee74d8.camel@redhat.com>
-In-Reply-To: <47e09d6010852db928c0de29b89450ea7eee74d8.camel@redhat.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=csgroup.eu;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 44c1ae05-5bfa-4196-2451-08d9fe7b2cd8
-x-ms-traffictypediagnostic: MR1P264MB2256:EE_
-x-microsoft-antispam-prvs: <MR1P264MB2256EE08598A8BFC5D6FA730ED069@MR1P264MB2256.FRAP264.PROD.OUTLOOK.COM>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BKQYudpde9+gxmnHkvVFJ6FNOiPvS3ZMfnJeACBOV4/emQbs2DWhfa9zW9qPU4Rn4XQluoThANn4FcERZ6W0pB5NaZGhCX6VKxuJPHUI1v08IIU5w1NJHJvPqY1t6+/lJM43vAaaS331DmHuljADDw+lPQgA15n/NCpRZ9golkhx6MLO55UOtoOv2elWmPv6vrdGr80lrBdYnAjt50EDIwF262vL9BFeP4eHkw/idtAvvgCaiA7aBwcqLYzRYNqELAdRPWlOD1k8kx7sjEbynq/6/82vCCrWznLBGI0Rw5fIJsD41ZmoiNYw1AvefxoV/AI6hvobS38RCtaNZsJn/os6MiM3UslEJrO+4k8Oosk3zWZtiM6O4seTg8bZROAWFSFYGTiQPJrLO7Tj+EEEEbNDc+M0XEdbUEwFDSxcoowobSlSwCJJ3yzYtjEqvGZkdGtwqVyqLUZ5fFbggqxo0Rw1DhFuodsbURz4CMDMZYVvYUFyGdJpky7P0wi+RpKrRv6K2drlO3TYrY+LaJiazj/vD93g2RPSgaESY72g1FBbbC1FzUE+1nzl/gQRMW6NRbI+w7V147dK2nkWOeM6Pg01XQwK2B81wh0yJzhxO1OfViEk/3hpk6YX0b1C4KPffr/bGFsVKkzTQl2WZbwI8NPI4Z/YMP201jX/Eg1BOR8taKEf+Ds0jKCnXd/KiZWnsB4hBuyBzkcXk4xakEQcixMwofp3gVvtYCbukcJcFTQALEZj4vE4uks8KkQ67BiDOrJtufbHA3Y8R6SBX+2UdJO+WmCgbVfGatzCEGNIoUB1zU/eMAcuFjBibyIFv8QuV4VwLb/m8XQPgv6/QGkxP6dihCXB9liF8StBBgYVG2w=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(508600001)(122000001)(6512007)(6506007)(110136005)(71200400001)(36756003)(26005)(66574015)(186003)(2616005)(8936002)(316002)(66446008)(66476007)(66556008)(86362001)(66946007)(64756008)(76116006)(38100700002)(8676002)(4326008)(5660300002)(44832011)(91956017)(31696002)(38070700005)(54906003)(31686004)(966005)(6486002)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Qjhhc296MU51aGdPWFQ3UlNWWDVjcXZMWHdDdklkZUJpT0pONVRsVWZDWjhI?=
- =?utf-8?B?TGYwOG0yWEpuR09ZV3JnWDBscmY2UzJHczZTWFVtRUVHV0pwWlZsazhGOC9h?=
- =?utf-8?B?RC96TllPTTliVXlLRVg5cG1YNGtYK2swZDY0NmFkMmMyZmh2czdvMmV3SEZK?=
- =?utf-8?B?a2pUYnVJRnB3QWxGZlg5c0pIUllHWXlhcGRGMlVUcFVkZGdjWUNsaHNkZHhn?=
- =?utf-8?B?djdSd3RXTjU5L2JqVUFmVkp0WTdxTHEvMnloY2szUnM4WG0wVHZaTDFBV3dR?=
- =?utf-8?B?L0FhbnFKZU8xRC9Wdm9nd1FxL1VSSGx3QkVkaENhWXczNDREYTJHNHNEdGMv?=
- =?utf-8?B?WVJmRHZNY1krSVNUNm85YWp4dndHSmhwNzZ1UGJBUTI3Wkthd0E3d0Y4V2hT?=
- =?utf-8?B?K2ZGUHE1TlBqTzl2ODRhSDRRRVZTbm5FcjQ3eUJvMVZuNXd0QWxSYi9lMnd0?=
- =?utf-8?B?OVdFdVBSVGtscG5KMDU1R1J4MHlJdlh5WlF5NFo4bkM2dXB0L2NjRkVUNWpj?=
- =?utf-8?B?SVVINTFpMTM4T01IdWtScTJ6UmJBR093cE5BbkpZa1pLVUxsWUtjL0lITjdr?=
- =?utf-8?B?bHJWdy9BYy9PbXRmZDZzam5IM3p5TVZqdEUxaHBJWGE2eGhxSWp5MnBjSVhD?=
- =?utf-8?B?Z2Rtb2dIQmFNQnpxQXUvTjk0eTRObVo2U3IyUHZNWFNkaGVtbGVQQUk2NmRo?=
- =?utf-8?B?WTJOYk53bVNCZEJvSjB6Ym1lNmJKbFhLczFJYTQybUlHcmZzWVFvaU1FZVF0?=
- =?utf-8?B?WnBGTUJBTExLZXJuSlZraGprUFJWdHFrM1NLbkFUVnl3S0tTRFVzb2tlSGZQ?=
- =?utf-8?B?T08ycmtLL3YzcVpGUWVhWXMybHpSOVdySnljcmlKTi9UelVxOWUrWnczVTB1?=
- =?utf-8?B?N2E2S3N0b0NWVGtIOUhkYzFWenFGbHhoZnRpcnF5ZGhqYmZKOUUyTzRJU3VB?=
- =?utf-8?B?NjFxMDdWM0FUVGpIY3NnRVdxLzdRandqT1R5WWNnUW53K2RXUjM2UEhpR29W?=
- =?utf-8?B?REltWSsweTZaTjhpL3paT0Y1b1BVYlNLOGt1VkxHOFNhZE1ZaGgyb3pyakNS?=
- =?utf-8?B?b3VVSHZiWnJ2bjhCdGdQQUhQaTFQNGhMNlAwd2s0Vll3dGw1eXpQOUxLNmUx?=
- =?utf-8?B?Ylg3d3l1alRFK29BVXVUY01IRE93UnpiSFNNenF5TVVyRkI5M2FNai9CV0FW?=
- =?utf-8?B?ejNQNGd6Umk5cFZyR3JhMjJnWnJrRUVkQk1IV3B4NGVTampFaEJQM09oQkJU?=
- =?utf-8?B?MW0xdXVqTjUzWHpnOEhXay9pQkJhcVdHaDJDQzN6ZHo3cmVaeEpxSFJxZnVq?=
- =?utf-8?B?UjdnK2lQbENpdS9XR1ZkaEQzYVhiOHk3WXZxL2k1S01hb1M3WnhMVzFoWTI5?=
- =?utf-8?B?ZjZTckxxUDY0N2pkVEFhVFR1S3JrVmtOdFBCY3NSMmZpWjNUQnZGT3YwUUpn?=
- =?utf-8?B?dXU2NmhVN1hLT0ZiZjFveTZXYXZrVmxTR3pySmlNYjBta3RWRlhQb0xKODVR?=
- =?utf-8?B?Wnk3UndwNFd5V2lvN3lYcXJXTE5FSjc1cTRCMDQ2OHFGOFRYajJGcW9nYm5O?=
- =?utf-8?B?U3VhQis1d3lEUnRTNWtZM05ya1k0THh5Z1RUU2EwcjVoYlhZaVRLcXRBcnhB?=
- =?utf-8?B?VlpBOWFoeWt5ZFRhQWg2OWpDUWJLOGtENmZsS25xQ2hhajVmME0reS9TMEhZ?=
- =?utf-8?B?L1lwdU51cnlpUzVCRXk3VThHd21mZkhXVENkbVQ4Uk1rZDlPZXdiUWd6WGFk?=
- =?utf-8?B?Y21sQ3NDTjZTdGJLMmlNNEhLZEJPdi9ReVdpMGdxR0tPZ2ZnMUlNa3g5d2w2?=
- =?utf-8?B?VkpNVDhaNk5yWU1aOTNteHE2dER4WkFDQW10Q0pjMFIxQitQMXlObVhJWmZy?=
- =?utf-8?B?OFNOOFdKTGtrdFVMemljTUtMZGttREpKaDhkdkZCTTJXNUV2TlAxUkNFWnRV?=
- =?utf-8?B?MG9HVG9sUzlOT3RkdER4aktZN3lPZTB2YUhZdFN6NGFSRWhLZ1pBTDU2R1RG?=
- =?utf-8?B?V2ZoYnFBVEo4Y3NSSjBuZS9VbUFWNEZRQjZqSWdGdEVRUE42WjIwNFpOckNT?=
- =?utf-8?B?Q2FzNnJnT0ZPYTNCajNzMFM2UEVFMEdYV2ttMDl6ejRoRFQ4bEdyOTBDYVpO?=
- =?utf-8?B?VVZ4VGM2K01PZDhQSUVoNVFZeWhFNU8ycEc2Vlo5cVJZZDUxZzV2Ui9BRWJ5?=
- =?utf-8?B?Vy9XZE53R2FqcWtPR3dxQy95aHZEUlpkallQbkdVdjVMQ3VGRFo1dWorSEdG?=
- =?utf-8?Q?Wqs9LWQyEngD4ylXM7htiEGJirad2arz8KAKWDaLyY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6D0156ADC48BE54EABF8600BA391162B@FRAP264.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: csgroup.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44c1ae05-5bfa-4196-2451-08d9fe7b2cd8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2022 07:38:43.4567 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hn5/WzcQ04BCCacYY7XEA1nLmdfqtUhnQzQQdNvDCK5JYyUHjTxE9uOq0Tvl45RIJnYn2Aef0UxcEpqbtfdbL5Kbr2lZasBIg5OFQTqb/Wk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB2256
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C654A11A992
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 07:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1646466598;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=Rd2dzRhbC7TMKXZYXCyMjIw3Nh9dHZcfGisq2xIWIBY=;
+ b=kSLmZLvXfi/dtKgen6iTcjlzMLBh9l8EZfiflqV8TCRolJEisq6/9FMB3bsmN2+Kru
+ AXBiAZah3tu0zY7v3wM2FSSAuwIiQnlYIW6Bx7mr6rcAQaHE/lhMeUJ6DZEP0R68wiyb
+ jsQC/1dKEpQxmP5cTqyh9thzgUcHPTgiTVXamAuGeCjokl9VOUF2aO7GfDE/dCMYQ6XG
+ Y0Ol5lW/n64nPTYHl399XUyptDnEi3x3KIybp0CkXooSgMgRMtN9znQTgEejzq+8UumB
+ vV+o5iUNZwAQLtzDsIDo+3kLRRfpchN+DANlCBw0eH3JpIo9rZIA4zXVya9RAEPcfR4D
+ +DPg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8cX7w=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.40.1 DYNA|AUTH)
+ with ESMTPSA id n729cey257nuBmA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Sat, 5 Mar 2022 08:49:56 +0100 (CET)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [Letux-kernel] [PATCH v16 1/4] drm/bridge: dw-hdmi: introduce
+ dw_hdmi_enable_poll()
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <02FDA8C2-68FD-4EB8-9846-AF510D16424D@goldelico.com>
+Date: Sat, 5 Mar 2022 08:49:56 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C61F337D-7325-43BA-AFF1-A6E7FD602693@goldelico.com>
+References: <cover.1645895582.git.hns@goldelico.com>
+ <e54838849f80454b863f9f5634dd10f79ef7bb8f.1645895582.git.hns@goldelico.com>
+ <983e9064-17ad-e646-f37d-ca9173ba0967@baylibre.com>
+ <C8AE9A7A-E288-4637-ACAD-40CD33CD5F8C@goldelico.com>
+ <3E620AF4-402E-45EA-9D92-92EAEA9647F5@goldelico.com>
+ <SHH68R.Z3J9KSY0GQVA2@crapouillou.net>
+ <ABC1BD09-383B-4499-B034-340CE88725B3@goldelico.com>
+ <RUI68R.Z009SPJAAD8N1@crapouillou.net>
+ <F0F8F36B-3A0A-476C-8C7D-566255C629C6@goldelico.com>
+ <a52702bd-c929-8170-8896-d34ba82aba3c@baylibre.com>
+ <VYB88R.ATGIVGZ13PFM1@crapouillou.net>
+ <929BF693-D54F-40F0-BB61-520301D1C31F@goldelico.com>
+ <8JF88R.9V5YQ3Q6E8QO2@crapouillou.net>
+ <5CC8B441-AA50-45F5-A5D3-2F40F72A1B50@goldelico.com>
+ <NWG88R.ZTPBZB4D9J5Z@crapouillou.net>
+ <02FDA8C2-68FD-4EB8-9846-AF510D16424D@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,42 +74,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-mips <linux-mips@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCkxlIDA0LzAzLzIwMjIgw6AgMjE6MjQsIEx5dWRlIFBhdWwgYSDDqWNyaXTCoDoNCj4gVGhp
-cyBtb3N0bHkgbG9va3MgZ29vZCB0byBtZS4gSnVzdCBvbmUgcXVlc3Rpb24gKGFuZCBvbmUgY29t
-bWVudCBkb3duIGJlbG93DQo+IHRoYXQgbmVlZHMgYWRkcmVzc2luZykuIElzIHRoaXMgd2l0aCBw
-cGMzMj8gKEkgYXNrIGJlY2F1c2UgcHBjNjRsZSBkb2Vzbid0DQo+IHNlZW0gdG8gaGl0IHRoaXMg
-Y29tcGlsYXRpb24gZXJyb3IpLg0KDQpUaGF0J3Mgd2l0aCBQUEM2NCwgc2VlIA0KaHR0cDovL2tp
-c3NrYi5lbGxlcm1hbi5pZC5hdS9raXNza2IvYnJhbmNoL2NobGVyb3kvaGVhZC8yNTJiYTYwOWJl
-YTgzMjM0ZDJlMzU4NDFjMTlhZTg0YzY3YjQzZWM3Lw0KDQpCdXQgdGhhdCdzIG5vdCAoeWV0KSB3
-aXRoIHRoZSBtYWlubGluZSB0cmVlLiBUaGF0J3Mgd29yayBJJ20gZG9pbmcgdG8gDQpjbGVhbnVw
-IG91ciBhc20vYXNtLXByb3RveXBlcy5oIGhlYWRlci4NCg0KU2luY2UgY29tbWl0IDRlZmNhNGVk
-MDVjYiAoImtidWlsZDogbW9kdmVyc2lvbnMgZm9yIEVYUE9SVF9TWU1CT0woKSBmb3IgDQphc20i
-KSB0aGF0IGZpbGUgaXMgZGVkaWNhdGVkIHRvIHByb3RvdHlwZXMgb2YgZnVuY3Rpb25zIGRlZmlu
-ZWQgaW4gDQphc3NlbWJseS4gVGhlcmVmb3JlIEknbSB0cnlpbmcgdG8gZGlzcGF0Y2ggQyBmdW5j
-dGlvbnMgcHJvdG90eXBlcyBpbiANCm90aGVyIGhlYWRlcnMuIEkgd2FudGVkIHRvIG1vdmUgcHJv
-bV9pbml0KCkgcHJvdG90eXBlIGludG8gYXNtL3Byb20uaCANCmFuZCB0aGVuIEkgaGl0IHRoZSBw
-cm9ibGVtLg0KDQpJbiB0aGUgYmVnaW5uaW5nIEkgd2FzIHRoaW5raW5nIGFib3V0IGp1c3QgY2hh
-bmdpbmcgdGhlIG5hbWUgb2YgdGhlIA0KZnVuY3Rpb24gaW4gcG93ZXJwYywgYnV0IGFzIEkgc2Vl
-IHRoYXQgTTY4SywgTUlQUyBhbmQgU1BBUkMgYWxzbyBoYXZlIGEgDQpwcm9tX2luaXQoKSBmdW5j
-dGlvbiwgSSB0aG91Z2h0IGl0IHdvdWxkIGJlIGJldHRlciB0byBjaGFuZ2UgdGhlIG5hbWUgaW4g
-DQpzaGFkb3dyb20uYyB0byBhdm9pZCBhbnkgZnV0dXJlIGNvbmZsaWN0IGxpa2UgdGhlIG9uZSBJ
-IGdvdCB3aGlsZSANCnJld29ya2luZyB0aGUgaGVhZGVycy4NCg0KDQo+PiBAQCAtNTcsOCArNTcs
-OCBAQCBwcm9tX2luaXQoc3RydWN0IG52a21fYmlvcyAqYmlvcywgY29uc3QgY2hhciAqbmFtZSkN
-Cj4+ICDCoGNvbnN0IHN0cnVjdCBudmJpb3Nfc291cmNlDQo+PiAgwqBudmJpb3Nfcm9tID0gew0K
-Pj4gIMKgwqDCoMKgwqDCoMKgwqAubmFtZSA9ICJQUk9NIiwNCj4+IC3CoMKgwqDCoMKgwqDCoC5p
-bml0ID0gcHJvbV9pbml0LA0KPj4gLcKgwqDCoMKgwqDCoMKgLmZpbmkgPSBwcm9tX2ZpbmksDQo+
-PiAtwqDCoMKgwqDCoMKgwqAucmVhZCA9IHByb21fcmVhZCwNCj4+ICvCoMKgwqDCoMKgwqDCoC5p
-bml0ID0gbnZiaW9zX3JvbV9pbml0LA0KPj4gK8KgwqDCoMKgwqDCoMKgLmZpbmkgPSBudmJpb3Nf
-cm9tX2ZpbmksDQo+PiArwqDCoMKgwqDCoMKgwqAucmVhZCA9IG52Ymlvc19yb21fcmVhZCwNCj4g
-DQo+IFNlZWluZyBhcyB0aGUgc291cmNlIG5hbWUgaXMgcHJvbSwgSSB0aGluayB1c2luZyB0aGUg
-bmFtaW5nIGNvbnZlbnRpb24NCj4gbnZiaW9zX3Byb21fKiB3b3VsZCBiZSBiZXR0ZXIgdGhlbiBu
-dmJpb3Nfcm9tXyouDQo+IA0KDQpZZXMgSSB3YXNuJ3Qgc3VyZSBhYm91dCB0aGUgYmVzdCBuYW1p
-bmcgYXMgdGhlIGZpbGUgbmFtZSBpcyBzaGFkb3dyb20uYyANCmFuZCBub3Qgc2hhZG93cHJvbS5j
-Lg0KDQpJIHdpbGwgc2VuZCB2MiB1c2luZyBudmJpb3NfcHJvbV8qIGFzIGEgbmFtZS4NCg0KQ2hy
-aXN0b3BoZQ==
+Hi Paul,
+
+> Am 04.03.2022 um 19:41 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>=20
+>=20
+>=20
+>> Am 04.03.2022 um 19:33 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>>=20
+>>=20
+>> Le ven., mars 4 2022 at 19:15:13 +0100, H. Nikolaus Schaller =
+<hns@goldelico.com> a =C3=A9crit :
+>>> Hi Paul,
+>>>> Am 04.03.2022 um 19:04 schrieb Paul Cercueil =
+<paul@crapouillou.net>:
+>>>> Le ven., mars 4 2022 at 18:51:14 +0100, H. Nikolaus Schaller =
+<hns@goldelico.com> a =C3=A9crit :
+>>>>> Hi Paul, Neil,
+>>>>>> Am 04.03.2022 um 17:47 schrieb Paul Cercueil =
+<paul@crapouillou.net>:
+>>>>>> =46rom what I understood in Nikolaus' last message, HDMI hotplug =
+is actually correctly detected, so there's no need for polling. What is =
+missing is the call to drm_kms_helper_hotplug_event *somewhere*, so that =
+the information is correctly relayed to userspace.
+>>>>> Exactly.
+>>>>> As Maxime pointed out it should already be called by =
+drm_helper_hpd_irq_event() in dw_hdmi_irq() but isn't
+>>>>> because mode_config.poll_enabled isn't enabled.
+>>>>> So we can either
+>>>>> a) enable mode_config.poll_enabled so that it is called by =
+drm_helper_hpd_irq_event() or
+>>>>> b) make drm_kms_helper_hotplug_event() being called explicitly in =
+dw_hdmi_irq().
+>>>>>  We could guard that by mode_config.poll_enabled to avoid =
+drm_kms_helper_hotplug_event()
+>>>>>  being called twice (but I think the "changed" mechanism will take =
+care of).
+>>>>>> I think this issue can be fixed by calling =
+drm_bridge_connector_enable_hpd() on the connector in ingenic-drm-drv.c.
+>>>>> I don't see yet how this would solve it, but it may work.
+>>>> dw_hdmi_irq() calls drm_bridge_hpd_notify(), which would call =
+bridge->hpd_cb() if it was non-NULL.
+>>> Ok, this is a case c).
+>>> I vaguely remember having tried to analyse what bridge->hpd_cb is =
+but stopped since it is NULL...
+>>>> Calling drm_bridge_connector_enable_hpd() will set the =
+bridge->hpd_cb() callback to point to drm_bridge_connector_hpd_cb(), =
+which itself will call drm_kms_helper_hotplug_event(). Therefore, all =
+that is missing is one call to drm_bridge_connector_enable_hpd().
+>>> Ah, ok, I see.
+>>>>> Anyways, this all is a missing feature (sometimes called "bug") of =
+the *dw-hdmi driver* and IMHO
+>>>>> neither of the connector nor the ingenic-drm-drv.
+>>> Well, a little more analysis shows that =
+drm_bridge_connector_enable_hpd is called
+>>> in the *-drv.c for some other plaforms:
+>>> =
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/imx/dcss/dc=
+ss-dev.c#L292
+>>> =
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/imx/dcss/dc=
+ss-kms.c#L145
+>>> =
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/oma=
+p_drv.c#L393
+>>> =
+https://elixir.bootlin.com/linux/v5.17-rc6/source/drivers/gpu/drm/msm/hdmi=
+/hdmi.c#L317
+>>>>> So I think it should not be solved outside dw-hdmi.
+>>> Hm. Can we call drm_bridge_connector_enable_hpd() from inside =
+dw-hdmi?
+>>> Or would this be the solution if merged? (I currently can't try =
+code).
+>>> =
+https://lore.kernel.org/lkml/a7d0b013-6114-07b3-0a7b-0d17db8a3982@cogentem=
+bedded.com/T/
+>>=20
+>> Looks correct to me. It has been reviewed by two people so I believe =
+it will be merged very soon.
+>=20
+> Great. I will try asap. If it works we can drop all our private =
+ideas...
+>=20
+> And focus on the last missing piece for jz4780 HDMI: the output format =
+negotiation (which still is not working properly - but I have to analyse =
+why).
+
+Yes, it works. And I see you have merged it to drm-misc-next so that I =
+can build on it.
+
+So there is only the bus format negotiation to be understood and finally =
+solved for v17.
+
+Great and thanks,
+Nikolaus
+
