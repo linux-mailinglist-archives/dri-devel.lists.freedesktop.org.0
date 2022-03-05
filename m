@@ -2,43 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E7C4CE668
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 19:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB364CE747
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Mar 2022 22:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C197610E365;
-	Sat,  5 Mar 2022 18:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0A010E3C7;
+	Sat,  5 Mar 2022 21:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE2710E365
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 18:35:04 +0000 (UTC)
-X-UUID: f4bb02b4348442a490919c7c3bc193f3-20220306
-X-UUID: f4bb02b4348442a490919c7c3bc193f3-20220306
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1204001000; Sun, 06 Mar 2022 02:34:58 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sun, 6 Mar 2022 02:34:57 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 6 Mar 2022 02:34:57 +0800
-Message-ID: <84e2bb5d7047fc1291d765131ce3f6b265a5304e.camel@mediatek.com>
-Subject: Re: [PATCH 3/3] dt-bindings: display: mediatek: Fix examples on new
- bindings
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>
-Date: Sun, 6 Mar 2022 02:34:57 +0800
-In-Reply-To: <20220304095458.12409-4-angelogioacchino.delregno@collabora.com>
-References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
- <20220304095458.12409-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793E610E3C7
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 21:49:09 +0000 (UTC)
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id C70603F1CB
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 21:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1646516947;
+ bh=xIGwC4dMVAbcNM9VbnP/VQuX2kHBkqPx10EnWit2MpM=;
+ h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+ In-Reply-To:Content-Type;
+ b=DYLBzoBy7CVUeD37FMqOFo4vuWl/sr34iyf1e/FF7NiO1ODMnJP5CJA1EFqwt4bN9
+ nHRUnC5pzKCMPnNh1+22NbpxSTKmZInnYh84TXgbRXYLShsAlu4B2uOnM6YuTkq02P
+ efjkZo8valUdoWd5kctOxNTEvodcp0n2njkvahBgI2bnZyPHKfYXIoWQMlhi+sq7vP
+ 1PHbnYj1zbHsTnwzGK+4k5jSuyCdAivFLBdRERg4H5FFa1a4BOu+2kb1KOlilP3TPL
+ 3GzYXCTP6abia/8BNSI+rT3CauQytKC95Lr1gG8CylJZeyFNy5efXZqXyFp/nCrpgL
+ xVpmGeTb6hjqQ==
+Received: by mail-ej1-f72.google.com with SMTP id
+ l24-20020a170906a41800b006da873d66b6so4743675ejz.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Mar 2022 13:49:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xIGwC4dMVAbcNM9VbnP/VQuX2kHBkqPx10EnWit2MpM=;
+ b=a3dzff/CIx/VFRw6W72ynaLSJ/wkuhKkYQ3ylKRWlanOsbKiywjNlgOdpb45sLka9C
+ JUKh5WoaKFporXq02eQTGbTXbx9Jz/z8gOZxCskViTm9OgnwfMhfhv23fHhpJtFGYZSm
+ 59X2nnqYPK78/aeaww71s4Tg6sbagqFVOylKBLiKd7q87BkvnCxJdJdIV3GSlPJKEJk/
+ Az4brlS+3DhxYfdFgvi3NVfU0EXKHg926dKmmL1378hm6PuTLFe79tZLAMqbToPxLl5r
+ VSnL269UEKLxVG5NOpgBbKmvGbQ1qBMN59EhgtjJQPPv8J94aNmFEYbSNrAqw2XSBYOU
+ lsZw==
+X-Gm-Message-State: AOAM531/dW/cD0KjpclQo/Kc/0FVRyMXWyxPWxmrRaCvcWspHRvFXVul
+ Bw7iyn0Bm0YuwMoeARBTGEUGT3GlEG8kav9lfoPl0oi5IHpbmVbEKpuP50qCVJXxx3yyBBFsCjq
+ ArmMx1xDPHxOJyoLtJPPHxbNGLjS/Ot+zBeFK8PknNjO/FQ==
+X-Received: by 2002:a17:906:a10:b0:6ce:7107:598b with SMTP id
+ w16-20020a1709060a1000b006ce7107598bmr3838140ejf.653.1646516947421; 
+ Sat, 05 Mar 2022 13:49:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyr2kT1aeQLLJO9FBVlLCJJEpNgkXx6haeqI+gPwVq8L5czrgAUT8X08CZ0HwZ0nOoFqxAA7Q==
+X-Received: by 2002:a17:906:a10:b0:6ce:7107:598b with SMTP id
+ w16-20020a1709060a1000b006ce7107598bmr3838131ejf.653.1646516947209; 
+ Sat, 05 Mar 2022 13:49:07 -0800 (PST)
+Received: from [192.168.0.140] (xdsl-188-155-181-108.adslplus.ch.
+ [188.155.181.108]) by smtp.gmail.com with ESMTPSA id
+ z21-20020a1709063a1500b006da6436819dsm3247439eje.173.2022.03.05.13.49.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 05 Mar 2022 13:49:06 -0800 (PST)
+Message-ID: <44308465-db4c-80e7-2beb-b0f676d16edf@canonical.com>
+Date: Sat, 5 Mar 2022 22:49:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/2] dt-bindings: gpu: Convert aspeed-gfx bindings to
+ yaml
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>
+References: <20220304000311.970267-1-joel@jms.id.au>
+ <20220304000311.970267-3-joel@jms.id.au>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220304000311.970267-3-joel@jms.id.au>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,288 +89,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
- krzysztof.kozlowski@canonical.com, airlied@linux.ie,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, mcoquelin.stm32@gmail.com,
- matthias.bgg@gmail.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+ linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
-
-Thanks you very much for fixing them all.
-I really appreciate it :-)
-
-I tested these patches and found some small problem.
-
-
-On Fri, 2022-03-04 at 10:54 +0100, AngeloGioacchino Del Regno wrote:
-> To avoid failure of dt_binding_check perform a slight refactoring
-> of the examples: the main block is kept, but that required fixing
-> the address and size cells, plus the inclusion of missing dt-bindings
-> headers, required to parse some of the values assigned to various
-> properties.
+On 04/03/2022 01:03, Joel Stanley wrote:
+> Convert the bindings to yaml and add the ast2600 compatible string.
 > 
-> Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split
-> each block to individual yaml")
-> Signed-off-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
+> The legacy mfd description was put in place before the gfx bindings
+> existed, to document the compatible that is used in the pinctrl
+> bindings.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
->  .../display/mediatek/mediatek,aal.yaml        | 24 +++--
->  .../display/mediatek/mediatek,ccorr.yaml      | 23 +++--
->  .../display/mediatek/mediatek,color.yaml      | 23 +++--
->  .../display/mediatek/mediatek,dither.yaml     | 23 +++--
->  .../display/mediatek/mediatek,dpi.yaml        |  3 +-
->  .../display/mediatek/mediatek,dsc.yaml        | 23 +++--
->  .../display/mediatek/mediatek,ethdr.yaml      | 99 ++++++++++-------
-> --
->  .../display/mediatek/mediatek,gamma.yaml      | 23 +++--
->  .../display/mediatek/mediatek,merge.yaml      | 49 +++++----
->  .../display/mediatek/mediatek,mutex.yaml      | 25 +++--
->  .../display/mediatek/mediatek,od.yaml         | 14 ++-
->  .../display/mediatek/mediatek,ovl-2l.yaml     | 26 +++--
->  .../display/mediatek/mediatek,ovl.yaml        | 26 +++--
->  .../display/mediatek/mediatek,postmask.yaml   | 23 +++--
->  .../display/mediatek/mediatek,rdma.yaml       | 28 ++++--
->  .../display/mediatek/mediatek,split.yaml      | 17 +++-
->  .../display/mediatek/mediatek,ufoe.yaml       | 19 ++--
->  .../display/mediatek/mediatek,wdma.yaml       | 26 +++--
->  18 files changed, 316 insertions(+), 178 deletions(-)
-
-[snip]
-
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> aml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> aml
-> index 131eed5eeeb7..e16deca0dc2b 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> aml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> aml
-> @@ -97,51 +97,62 @@ additionalProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +    #include <dt-bindings/memory/mt8195-memory-port.h>
-
-This header file should base on [1].
-[1] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
-
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
-
-> +    #include <dt-bindings/power/mt8195-power.h>
-> +    #include <dt-bindings/reset/mt8195-resets.h>
->  
-> -    disp_ethdr@1c114000 {
-> -            compatible = "mediatek,mt8195-disp-ethdr";
-> -            reg = <0 0x1c114000 0 0x1000>,
-> -                  <0 0x1c115000 0 0x1000>,
-> -                  <0 0x1c117000 0 0x1000>,
-> -                  <0 0x1c119000 0 0x1000>,
-> -                  <0 0x1c11A000 0 0x1000>,
-> -                  <0 0x1c11B000 0 0x1000>,
-> -                  <0 0x1c11C000 0 0x1000>;
-> -            reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0",
-> "gfx_fe1",
-> -                        "vdo_be", "adl_ds";
-> -            mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0x5000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0x7000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0x9000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0xA000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0xB000
-> 0x1000>,
-> -                                      <&gce0 SUBSYS_1c11XXXX 0xC000
-> 0x1000>;
-> -            clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-> -                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-> -                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-> -                     <&vdosys1 CLK_VDO1_26M_SLOW>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-> -                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-> -                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-> -                     <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-> -                     <&topckgen CLK_TOP_ETHDR_SEL>;
-> -            clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0",
-> "gfx_fe1",
-> -                          "vdo_be", "adl_ds", "vdo_fe0_async",
-> "vdo_fe1_async",
-> -                          "gfx_fe0_async",
-> "gfx_fe1_async","vdo_be_async",
-> -                          "ethdr_top";
-> -            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> -            iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-> -                     <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-> -            interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /*
-> disp mixer */
-> -            resets = <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-> -                     <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-> -                     <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-> -                     <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-> -                     <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
+>  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
+>  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
+>  .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
+>  3 files changed, 69 insertions(+), 58 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> new file mode 100644
+> index 000000000000..8ddc4fa6e8e4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +        disp_ethdr@1c114000 {
-> +                compatible = "mediatek,mt8195-disp-ethdr";
-> +                reg = <0 0x1c114000 0 0x1000>,
-> +                      <0 0x1c115000 0 0x1000>,
-> +                      <0 0x1c117000 0 0x1000>,
-> +                      <0 0x1c119000 0 0x1000>,
-> +                      <0 0x1c11A000 0 0x1000>,
-> +                      <0 0x1c11B000 0 0x1000>,
-> +                      <0 0x1c11C000 0 0x1000>;
-> +                reg-names = "mixer", "vdo_fe0", "vdo_fe1",
-> "gfx_fe0", "gfx_fe1",
-> +                            "vdo_be", "adl_ds";
-> +                mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX
-> 0x4000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0x5000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0x7000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0x9000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0xA000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0xB000 0x1000>,
-> +                                          <&gce0 SUBSYS_1c11XXXX
-> 0xC000 0x1000>;
-> +                clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-> +                         <&vdosys1 CLK_VDO1_26M_SLOW>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-> +                         <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-> +                         <&topckgen CLK_TOP_ETHDR>;
-> +                clock-names = "mixer", "vdo_fe0", "vdo_fe1",
-> "gfx_fe0", "gfx_fe1",
-> +                              "vdo_be", "adl_ds", "vdo_fe0_async",
-> "vdo_fe1_async",
-> +                              "gfx_fe0_async",
-> "gfx_fe1_async","vdo_be_async",
-> +                              "ethdr_top";
-> +                power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> +                iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-> +                         <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-> +                interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /*
-> disp mixer */
-> +                resets = <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-> +                         <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-> +                         <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-> +                         <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-> +                         <&vdosys1
-> MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-
-These define should base on [2].
-[2] dt-bindings: reset: mt8195: add vdosys1 reset control bit
-
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220222100741.30138-5-nancy.lin@mediatek.com/
-
-+        };
->      };
->  
-
-[snip]
-
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-
-> 2l.yaml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-
-> 2l.yaml
-> index e3cef99d0f98..25d2ac2a4f05 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-
-> 2l.yaml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-
-> 2l.yaml
-> @@ -66,13 +66,23 @@ additionalProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/mt8173-clk.h>
-> +    #include <dt-bindings/power/mt8173-power.h>
-> +    #include <dt-bindings/gce/mt8173-gce.h>
-> +    #include <dt-bindings/memory/mt8173-larb-port.h>
-
-These should be mt8183 header files.
-
-#include <dt-bindings/clock/mt8183-clk.h>
-#include <dt-bindings/power/mt8183-power.h>
-#include <dt-bindings/gce/mt8183-gce.h>
-#include <dt-bindings/memory/mt8183-larb-port.h>
-
-> -    ovl_2l0: ovl@14009000 {
-> -        compatible = "mediatek,mt8183-disp-ovl-2l";
-> -        reg = <0 0x14009000 0 0x1000>;
-> -        interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_LOW>;
-> -        power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> -        clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-> -        iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
-> -        mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000
-> 0x1000>;
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
+> +title: ASPEED GFX display device
 > +
-> +        ovl_2l0: ovl@14009000 {
-> +            compatible = "mediatek,mt8183-disp-ovl-2l";
-> +            reg = <0 0x14009000 0 0x1000>;
-> +            interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_LOW>;
-> +            power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +            clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-> +            iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
-> +            mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000
-> 0x1000>;
-> +        };
->      };
+> +maintainers:
+> +  - Joel Stanley <joel@jms.id.au>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - aspeed,ast2400-gfx
+> +          - aspeed,ast2500-gfx
+> +          - aspeed,ast2600-gfx
 
-[snip]
+That's different than original bindings - new patch. It's not currently
+supported, so adding it is more than just updating bindings to current
+state.
 
-Thanks again! 
-Tested-by: Jason-JH.Lin <jason-jh.lin@medaitek.com>
+> +      - const: syscon
+> +
+> +  reg:
+> +    minItems: 1
 
-Regards,
-Jason-JH.Lin
+maxItems?
 
--- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  memory-region: true
+> +
+> +  syscon: true
 
+You need at least description. I see old bindings did not mention it
+(except that it is required)... I think you also need a type, because it
+is not a standard property.
+
+> +
+> +  reg-io-width: true
+
+Some constraints? Can it be anything from syscon schema?
+
+Best regards,
+Krzysztof
