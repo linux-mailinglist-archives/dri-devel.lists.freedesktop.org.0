@@ -1,121 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3544CF37A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 09:24:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A97374CF37C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 09:25:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C52310E09F;
-	Mon,  7 Mar 2022 08:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43DEB10E1A3;
+	Mon,  7 Mar 2022 08:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70040.outbound.protection.outlook.com [40.107.7.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A65610EB55
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Mar 2022 08:29:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BG9gW9nOMNCWM38mDWyspdo1L+cZLvNfhEMnjzRkBRKWXPKv79/ECz8XTBuD+x/a9T08xsev2NCLZda7j7XCNKuZrgxnz6W1LFqm9EtPwa3zPyFhbsI5USR6uwqPsn3PXVzrrgYuS0BOVPpFWNafiUxMgot71y5OHti7Ivwvi9F3p+/G8Fgi9JMBVX/ynnyvsx6NM4nGBP1eCfg+X2+d1U586+m9zgxEWFhSU8WoeCvnbq2tuoHmIjszxs7EhgQwhjHANmWkXlKDv/EkYc/DNO4qoxBWq0xpe48gb9lmhAHlEaMKAIUsUCSelrstNGp7dQCtPgsP0jP3eOB1g7+PNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KeIp91Ggqwreogg8I78Kr1nXTYg5a+61S91MtlAbzGQ=;
- b=E24qTBjqvyucTDFsPRTxQ7M1w8IyGm928f1h4CkdZiMDUSo+iAaVqVd9Barrz/2eu6EipP2AM/aQE/Z/4phCo/Ki3O2MzjK+Om1CkrfJNit6UyrQDAUHEfMgjyyJ5by9V8gT+eFqGR1U9/mQE2v2zUvT1Aox9TZTRqvzK268dlVVKwuZguGdSwi7Q+JfB03yrpl7TtHj5itlqaUvHynoepqutqsHm3Yw+yzVjcIsP95j89P/6fvqdjg5eo2IWMvDsULbX1j9TaBIJWt1TJhZ1mUkn+cqTCioVlcbccl4Lpw0G/ECybQXHROCtoAwHg26Akk70x0bDQNSgLwT1v+P0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KeIp91Ggqwreogg8I78Kr1nXTYg5a+61S91MtlAbzGQ=;
- b=Y68SjhOinx+ekOS3jXm0THrE402BLHgdj8q2A3i1kSSJF7ByGU5oJSax+85Q+0yKo24G0TW8kaeK2z/mshPd65h1DtydcsGHSL6PicXaPlCcpeBde5qMF4UdP3rAbAT5YJfFKMjB2e8jCCr7rMoyuUICuv22+wjM9idZTf9QclM=
-Received: from AM9PR04MB8907.eurprd04.prod.outlook.com (2603:10a6:20b:40a::22)
- by HE1PR0401MB2523.eurprd04.prod.outlook.com (2603:10a6:3:83::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
- 2022 08:29:23 +0000
-Received: from AM9PR04MB8907.eurprd04.prod.outlook.com
- ([fe80::2558:6415:f9a3:48fa]) by AM9PR04MB8907.eurprd04.prod.outlook.com
- ([fe80::2558:6415:f9a3:48fa%5]) with mapi id 15.20.5038.017; Fri, 4 Mar 2022
- 08:29:23 +0000
-From: Alison Wang <alison.wang@nxp.com>
-To: Yang Li <yang.lee@linux.alibaba.com>
-Subject: RE: [EXT] [PATCH -next] drm/fsl-dcu: Remove unnecessary print
- function dev_err()
-Thread-Topic: [EXT] [PATCH -next] drm/fsl-dcu: Remove unnecessary print
- function dev_err()
-Thread-Index: AQHYLqaflcAkQynvCUmYWVe4uEkb6ayu5fgw
-Date: Fri, 4 Mar 2022 08:29:23 +0000
-Message-ID: <AM9PR04MB89078D8090D1FAD28BCB48F5F4059@AM9PR04MB8907.eurprd04.prod.outlook.com>
-References: <20220303023010.61403-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220303023010.61403-1-yang.lee@linux.alibaba.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d76230e7-4ae9-418e-e755-08d9fdb91690
-x-ms-traffictypediagnostic: HE1PR0401MB2523:EE_
-x-microsoft-antispam-prvs: <HE1PR0401MB252304637C8674EE607985B7F4059@HE1PR0401MB2523.eurprd04.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6JJupPy0/PU5WWgyhqQH3VsLHeZBORMfPskuONR0kznDKFMoShQ9OFRO28YZRJANHcbARbq9Xavet3gXgfxPs3YTZp7BUy878NYmblyJtFWpBQzfwwHD9Lknamn6/QaotdBnDFGElMr6/JCvZnAT+SWPnfUVBYOx7Nu7rvoIOogaed3kRgxFgIsAd10H3cc3SuYXmHtFdxB2bKDB8Qrd264iEt+XvUDaFW48uC0pQFg0da3B1eNC6/osrXIhQIPDkgAUVPbq1Ya/IEocp5BB70E4F58B/wLB8RX1FZyswXePZx+VOJTrZ9sWl5nDurUIyA7/gA/hIr13YueoEUgIHTtpd3XrKuEinP5xkBGhX9wBp+XQFEo/J76/cbgtWDaa9YzOzXPN3tBOzVCUQAucAHei+oRzj/WqBuL4hQ5CKePjFklV/jzJiMMVvT51M2HPL/hJHD5fmYVCoehALTBZd3bT13JSWTMckl0F1GNPvQjI3liIrf/0yD+HRCA3BvFX7SY0AfJaJRyVy2wp6wRqv/gsk1H4pjL5OLLwMzG1JAKrGCpHAVoTEqQaGSg2Ey2F5pq/ToRvON6B1SSeq0YYL/lLkwsi9+TaYVOgvTiwcW8GlRQdjUVEI2OkuFLNGJn3XO6NcuDjCSi5asuUszSWVZadDCjJVaOpPUzz3HFzgpNrKlTYXDfXAxKu8vl2WMO9TousaBZXOp1NbHs7GyqQag==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR04MB8907.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(71200400001)(2906002)(122000001)(6506007)(86362001)(33656002)(6916009)(54906003)(26005)(186003)(38100700002)(44832011)(316002)(55016003)(5660300002)(8936002)(52536014)(4326008)(53546011)(8676002)(66476007)(66946007)(7696005)(66556008)(66446008)(64756008)(76116006)(9686003)(38070700005)(83380400001)(508600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?Sk44SnpyMHZKT0MyZGE2TTd5dGpOd2ZHQlNMUTRDUkNJV251c090TkNhRDhW?=
- =?gb2312?B?N25EUVVKRnRscXk4N2t1UDkyTkN3N2w2SmlqTmNFOFV5ZEt6VjJkSVJNUUM3?=
- =?gb2312?B?NmZjeFoyc1JudWk1OTZxaHZOb2p0WlRyeG1aT0tZWk1UZXltYVdCSm5wUmdn?=
- =?gb2312?B?Q0QwelFwU09tSmZCazlwbTdiRnRaRWVVVk43ZGFCbndVc3NqQWZoUEtSQ0k0?=
- =?gb2312?B?RTZBclhkclhiT3RqOFlNM21lZEkwQ3FBUTJUUlp4V1NJK1orZWxmbXZyd1JK?=
- =?gb2312?B?eUR0V1pUUVlDN29paHlLSTdDS2xPcVkwbk9Cc000UWswTXVhSjJ6NDVETE9o?=
- =?gb2312?B?MHZ0UGJkZFVtWkFNWWVlVDVjbi9iaFY4em5ZZ2pWQnVxVElQUmpGLzhOVHBs?=
- =?gb2312?B?WmptVXFTVkd2L0h6c3AxWjFIWjg4dk16UmFDZkFDbzc5MEduWU8rT3VTWCtN?=
- =?gb2312?B?ODFWNWNBaHduWS9ZN1pXM241SDljNWN1eTdXV1lEYWsrOUNyM1JRR3pHZzVC?=
- =?gb2312?B?SmxoV2ZYYkZydm1ISytNaVE3d242N0RaTktJVWM2Rk5vUXVpMnpUNGZxNmNq?=
- =?gb2312?B?VnYrN0hnSnZ4eWxBL29kYnBESE9mSTNDYTZXNjBpNEE2WllHZXAzTGpBWnda?=
- =?gb2312?B?cDllMEU1NFRTMEFhU3pINWcrSlN3d0JZREdZbmdYUGxGWEU1Y1hIKzdqQ0ZJ?=
- =?gb2312?B?Ri8rcXNvUGxtQ25uOC9vRTBLczA2ZWcrWkZESFJMWTZEUmtnVDl5SEhOSGE3?=
- =?gb2312?B?OUpjNzFPNG1TeXdmNS84ckgzLzdBK0RHY2xEWGpaZUFFNkcxeFl3VFBycUs5?=
- =?gb2312?B?cjZjbzNpOUNqRnFmaXpCMDBjRXp5U3FWKzRvZnc3NVdJak05VEtFNFY0N2tB?=
- =?gb2312?B?ZjZ2b0lNdzc0MVdodWlrSXJwY3N3SEIrdXRuTWFkZktFWmNlaTBKeXNvS3BF?=
- =?gb2312?B?N0doQTVOclJjWUZOcTFRRk5Id3pJUWpsSnQrSXEvaldydHBRZW1DUjFabE9L?=
- =?gb2312?B?aHFvWEw4aUJuQW9RcElqSG1mZDRvZVhudFRkb084WTFRamIyT2trZ245czdZ?=
- =?gb2312?B?VzlZY1FUL21ZNGlUekpaVDJjSWNPWXlwL3NzL1hacXI2Ky9lamdybzJ0cnJt?=
- =?gb2312?B?dU12VyswMFplaThuaXBQT0cvejRJM1poR3VMdEFnRWxWRGhZR0tkSitlZXo1?=
- =?gb2312?B?Ry9CUmJ1Wk5USTB0enVOYktzTGR3bWhIRUxtbmVzOEowa3kxa2d1UFZDQm5l?=
- =?gb2312?B?SUhlNTF2YmpWVUVDa0Z1NmhYdk5Dd3JOTVJVd0EwakllcVZId2V6bnFjVmtn?=
- =?gb2312?B?WEZScEtOZmJkb1BDYm9yMVpmQ3BPSkIxS2MvOUVPY1pFRXhSUlR0a3ZjS3Nl?=
- =?gb2312?B?Z2pRNnZZa25KY1lDdVUrTGxzTlVwTFV2dmI3WWtMNUVjVlRYOGVDTFVkS3FH?=
- =?gb2312?B?S0VNSHllY0hIUkpHTEphSzF3WWxTQktPd1BLNnIvRklqekdTa0xJUXNqbnU4?=
- =?gb2312?B?Vm5tMTNPSGNXNmlEWXNrYm1FOE1RR2dxN0tnQWtWV25xSC9jd2ZXUDhKelNu?=
- =?gb2312?B?UFZPL1Q3RjlITWdyRzVzVjlUVkxkNlRVZEc5NzVPc0xLbDd0K2QyK0crS29J?=
- =?gb2312?B?VzlZQ1pHd3VlZkQ2OVZXSFplK0pyZ0c5dzUzUW5KTzZReDRIWXNHTFFFSXg1?=
- =?gb2312?B?MFhuSHIzeEI4NlRVUE81M2hhQ2dYdW5rR2ZKZy82VGRMYnVMSXMwOGs5U1Fa?=
- =?gb2312?B?eWkyc3VUbjJ5dFRsdzdYa1BFREF1SFBxclZ0blUrWUp3MmVCT2RiTmNNRXlR?=
- =?gb2312?B?SVMzVHZGT0NpVnNKTnJScnErS0ZwSVIwUHNyTGl5c3dPcUVGWWVndXVkSXBY?=
- =?gb2312?B?WVZsbWNnM3o4a2NwNGNVckphNjlQVlJwZXRLMjRHUnMwbytOK080Q3llc3pZ?=
- =?gb2312?B?OTBQZzhHaWtiR04vemJpL3lQam81eUtOT05aQk8wQnNPbHVxQnBibDUyYmxI?=
- =?gb2312?B?dHJrSnJBNjRQNmFQeDNXZjRFdmp6TElZOE11YmZ4TW9NcHlYTk52ak1tVjlv?=
- =?gb2312?B?UzBPSkZDM0V1UjZBczRsV0dkM21iUm1kUURPcno2K0JLNkJNS3BlNTY1dy8z?=
- =?gb2312?B?WVYxcFd5MlozaHBBLzBtZnFxN01COWN6ckxVM1ZxWnBINkhwR3Rsd0hmaFlC?=
- =?gb2312?B?VFE9PQ==?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C81F310E3D6
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 15:05:25 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id e2so9790086qte.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Mar 2022 07:05:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=geC5xDAay5dBwn3cRxysbEgCyiuAzwcwhdO/zo7/1yQ=;
+ b=tixvP1FGnq2wfskq9ETIT5h8JQ7JPBjYQlaZiVU5QEF2ebRlSOd9Hj4GHFYYxuldWh
+ AEzNtAg/yji+2YKFPr0a17Al0EC/FApvTFNyo+sILOPE6zyZMSw0ZdguDzVRFqh+N+G9
+ axgAo/svRSLgSVS0G7iScy/imA1XKMIHb1NgI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=geC5xDAay5dBwn3cRxysbEgCyiuAzwcwhdO/zo7/1yQ=;
+ b=1mt+BNw3go0LEqhWYyMd7tAdxa8HxEYap1wXq5ZbAS1mjzMBAQTG0ZY6ecW4POBiFG
+ W0alCaoGa4nugUw7QfKvkJxSH3SQFVolDKh5MUgy3q5z2muxsqZIgjW86FbfB3c5306I
+ bXfWu84JEh2Hwgg7AwlrQJq9122fnRrxwoIR5NXXBvS5n/0dXE0yy6XtWyf0v5AjAixe
+ +w6nqSH2w8ylHsy0SCpFremrYU7GxD8sgZ681sUg+aqNud66X/zeO1c0xl9uiGd6tA7T
+ Q06iz6TjPlrQGfUdg9ZhwgYBQCmO1/UjLSvKO/Rt2iE9JgP+lur0QZC9qKXKILvPgPgo
+ rhsw==
+X-Gm-Message-State: AOAM531AWKUXyllI0Bl0dIBhmTusnIeb+OJdx5zbJupiMQw3Mdq2ChoO
+ fMuF3d7rtkKei1W/jldIqalpMg==
+X-Google-Smtp-Source: ABdhPJzC6+sWbvHtOZiDBxeMwB424Rg3yPbjjQ/pVZIkOOUQmsA5JEXntpUeTe+z/0BHUPh5FnkxHA==
+X-Received: by 2002:a05:622a:3ca:b0:2df:1cae:397b with SMTP id
+ k10-20020a05622a03ca00b002df1cae397bmr3200121qtx.556.1646492724622; 
+ Sat, 05 Mar 2022 07:05:24 -0800 (PST)
+Received: from localhost (228.221.150.34.bc.googleusercontent.com.
+ [34.150.221.228]) by smtp.gmail.com with ESMTPSA id
+ t128-20020a37aa86000000b0060ddf2dc3ecsm3859545qke.104.2022.03.05.07.05.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Mar 2022 07:05:24 -0800 (PST)
+Date: Sat, 5 Mar 2022 15:05:23 +0000
+From: Joel Fernandes <joel@joelfernandes.org>
+To: Byungchul Park <byungchul.park@lge.com>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <YiN8M4FwAeW/UAoN@google.com>
+References: <YiAow5gi21zwUT54@mit.edu>
+ <1646285013-3934-1-git-send-email-byungchul.park@lge.com>
+ <YiDSabde88HJ/aTt@mit.edu> <20220304004237.GB6112@X58A-UD3R>
+ <YiLYX0sqmtkTEM5U@mit.edu> <20220305141538.GA31268@X58A-UD3R>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8907.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d76230e7-4ae9-418e-e755-08d9fdb91690
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2022 08:29:23.8383 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C8I1uYUK4VhAO3aOpdE7juhvobQiWpwg95ORiLZjHHS3jwpJXsb5hK9lOyRBhxOho7908cI/vErtC1y5N2Pt3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0401MB2523
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220305141538.GA31268@X58A-UD3R>
 X-Mailman-Approved-At: Mon, 07 Mar 2022 08:24:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,41 +71,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- Abaci Robot <abaci@linux.alibaba.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, paulmck@kernel.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWNrZWQtYnk6IEFsaXNvbiBXYW5nIDxhbGlzb24ud2FuZ0BueHAuY29tPg0KDQoNCkJlc3QgUmVn
-YXJkcywNCkFsaXNvbiBXYW5nDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206
-IFlhbmcgTGkgPHlhbmcubGVlQGxpbnV4LmFsaWJhYmEuY29tPiANClNlbnQ6IDIwMjLE6jPUwjPI
-1SAxMDozMA0KVG86IEFsaXNvbiBXYW5nIDxhbGlzb24ud2FuZ0BueHAuY29tPg0KQ2M6IHN0ZWZh
-bkBhZ25lci5jaDsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyBkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBZYW5n
-IExpIDx5YW5nLmxlZUBsaW51eC5hbGliYWJhLmNvbT47IEFiYWNpIFJvYm90IDxhYmFjaUBsaW51
-eC5hbGliYWJhLmNvbT4NClN1YmplY3Q6IFtFWFRdIFtQQVRDSCAtbmV4dF0gZHJtL2ZzbC1kY3U6
-IFJlbW92ZSB1bm5lY2Vzc2FyeSBwcmludCBmdW5jdGlvbiBkZXZfZXJyKCkNCg0KQ2F1dGlvbjog
-RVhUIEVtYWlsDQoNClRoZSBwcmludCBmdW5jdGlvbiBkZXZfZXJyKCkgaXMgcmVkdW5kYW50IGJl
-Y2F1c2UgcGxhdGZvcm1fZ2V0X2lycSgpIGFscmVhZHkgcHJpbnRzIGFuIGVycm9yLg0KDQpFbGlt
-aW5hdGUgdGhlIGZvbGxvdyBjb2NjaWNoZWNrIHdhcm5pbmc6DQouL2RyaXZlcnMvZ3B1L2RybS9m
-c2wtZGN1L2ZzbF9kY3VfZHJtX2Rydi5jOjI3NzoyLTk6IGxpbmUgMjc3IGlzIHJlZHVuZGFudCBi
-ZWNhdXNlIHBsYXRmb3JtX2dldF9pcnEoKSBhbHJlYWR5IHByaW50cyBhbiBlcnJvcg0KDQpSZXBv
-cnRlZC1ieTogQWJhY2kgUm9ib3QgPGFiYWNpQGxpbnV4LmFsaWJhYmEuY29tPg0KU2lnbmVkLW9m
-Zi1ieTogWWFuZyBMaSA8eWFuZy5sZWVAbGludXguYWxpYmFiYS5jb20+DQotLS0NCiBkcml2ZXJz
-L2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9kcnYuYyB8IDQgKy0tLQ0KIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2Zz
-bC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMNCmluZGV4IDdhNTAzYmYwOGQwZi4uMjA4OTVlYTc5NzM5
-IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMN
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX2Rydi5jDQpAQCAtMjcz
-LDEwICsyNzMsOCBAQCBzdGF0aWMgaW50IGZzbF9kY3VfZHJtX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKnBkZXYpDQogICAgICAgIH0NCg0KICAgICAgICBmc2xfZGV2LT5pcnEgPSBwbGF0
-Zm9ybV9nZXRfaXJxKHBkZXYsIDApOw0KLSAgICAgICBpZiAoZnNsX2Rldi0+aXJxIDwgMCkgew0K
-LSAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGdldCBpcnFcbiIpOw0KKyAg
-ICAgICBpZiAoZnNsX2Rldi0+aXJxIDwgMCkNCiAgICAgICAgICAgICAgICByZXR1cm4gZnNsX2Rl
-di0+aXJxOw0KLSAgICAgICB9DQoNCiAgICAgICAgZnNsX2Rldi0+cmVnbWFwID0gZGV2bV9yZWdt
-YXBfaW5pdF9tbWlvKGRldiwgYmFzZSwNCiAgICAgICAgICAgICAgICAgICAgICAgICZmc2xfZGN1
-X3JlZ21hcF9jb25maWcpOw0KLS1bQWxpc29uIFdhbmddIHINCjIuMjAuMS43LmcxNTMxNDRjDQoN
-Cg==
+On Sat, Mar 05, 2022 at 11:15:38PM +0900, Byungchul Park wrote:
+> On Fri, Mar 04, 2022 at 10:26:23PM -0500, Theodore Ts'o wrote:
+> > On Fri, Mar 04, 2022 at 09:42:37AM +0900, Byungchul Park wrote:
+> > > 
+> > > All contexts waiting for any of the events in the circular dependency
+> > > chain will be definitely stuck if there is a circular dependency as I
+> > > explained. So we need another wakeup source to break the circle. In
+> > > ext4 code, you might have the wakeup source for breaking the circle.
+> > > 
+> > > What I agreed with is:
+> > > 
+> > >    The case that 1) the circular dependency is unevitable 2) there are
+> > >    another wakeup source for breadking the circle and 3) the duration
+> > >    in sleep is short enough, should be acceptable.
+> > > 
+> > > Sounds good?
+> > 
+> > These dependencies are part of every single ext4 metadata update,
+> > and if there were any unnecessary sleeps, this would be a major
+> > performance gap, and this is a very well studied part of ext4.
+> > 
+> > There are some places where we sleep, sure.  In some case
+> > start_this_handle() needs to wait for a commit to complete, and the
+> > commit thread might need to sleep for I/O to complete.  But the moment
+> > the thing that we're waiting for is complete, we wake up all of the
+> > processes on the wait queue.  But in the case where we wait for I/O
+> > complete, that wakeupis coming from the device driver, when it
+> > receives the the I/O completion interrupt from the hard drive.  Is
+> > that considered an "external source"?  Maybe DEPT doesn't recognize
+> > that this is certain to happen just as day follows the night?  (Well,
+> > maybe the I/O completion interrupt might not happen if the disk drive
+> > bursts into flames --- but then, you've got bigger problems. :-)
+> 
+> Almost all you've been blaming at Dept are totally non-sense. Based on
+> what you're saying, I'm conviced that you don't understand how Dept
+> works even 1%. You don't even try to understand it before blame.
+> 
+> You don't have to understand and support it. But I can't response to you
+> if you keep saying silly things that way.
+
+Byungchul, other than ext4 have there been any DEPT reports that other
+subsystem maintainers' agree were valid usecases?
+
+Regarding false-positives, just to note lockdep is not without its share of
+false-positives. Just that (as you know), the signal-to-noise ratio should be
+high for it to be useful. I've put up with lockdep's false positives just
+because it occasionally saves me from catastrophe.
+
+> > In any case, if DEPT is going to report these "circular dependencies
+> > as bugs that MUST be fixed", it's going to be pure noise and I will
+> > ignore all DEPT reports, and will push back on having Lockdep replaced
+> 
+> Dept is going to be improved so that what you are concerning about won't
+> be reported.
+
+Yeah I am looking forward to learning more about it however I was wondering
+about the following: lockdep can already be used for modeling "resource
+acquire/release" and "resource wait" semantics that are unrelated to locks,
+like we do in mm reclaim. I am wondering why we cannot just use those existing
+lockdep mechanisms for the wait/wake usecases (Assuming that we can agree
+that circular dependencies on related to wait/wake is a bad thing. Or perhaps
+there's a reason why Peter Zijlstra did not use lockdep for wait/wake
+dependencies (such as multiple wake sources) considering he wrote a lot of
+that code.
+
+Keep kicking ass brother, you're doing great.
+
+Thanks,
+
+     Joel
+
