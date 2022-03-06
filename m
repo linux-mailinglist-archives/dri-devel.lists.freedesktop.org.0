@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139A64CEDB2
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 21:31:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F074CEDBF
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 21:36:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE3810E5D1;
-	Sun,  6 Mar 2022 20:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD24510E655;
+	Sun,  6 Mar 2022 20:36:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6187D10E5D1
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Mar 2022 20:31:31 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id a8so27872294ejc.8
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Mar 2022 12:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K4n21OYXdDZM4hk/UjVZvxqo76lcN1HhOZ4vArZv8OU=;
- b=WKfevEQAwsxI+yju5ynzzh6Tx2zdUBz9O/xOYN8MkQkoFhsfBcGRIIqxWqNNhJv9G9
- cGj9+7GBoGSyhhebJh2v7ZgRmX9Y/0YouNMSe9pzeYPYkwmbWR5SN8jg6yed730dyeuL
- E0KZ7sQOluB9Tc2GoJQZZlOfdFNT2RWadGnQZ57/g3VotDS2NUWY5yQH8rdO4C23djHP
- sbqkyIMfGlS6fBhuNFN3q2n/saPK3O0tIhTwBfuihtVasHdNOuhE6LaPL5Daycqfikbs
- k1d0yq2xWK35u/5jDuHjaaLgHMF8F4598TwUs5gRX1P0nYoj2VDtYq90a5lSdV3/LftJ
- T8eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K4n21OYXdDZM4hk/UjVZvxqo76lcN1HhOZ4vArZv8OU=;
- b=A2zQpdKx23tzDg/groT5SNEa4+vznRWsmZbdOEzGIGiByhQ46SNdcrHmQc8z8U8Z7G
- +b67RJaxd20c5V22+/KgRgR0WUQ74guzBFxN94vKVxwGetZo89syMchTkzZB/nD2EJD4
- piGK74M2Vq3ukCUzIAhzJTdvVbHN0FdhUTbtfg+Vml9rbZ44vkt6IRbl+piUL+3J0h/d
- 8y2M/dXbM5VqWzX91p5NzfJ8UsqXgX8mIa28X2r3vu/Laa/xNwqdE9s3ovRwyCXf50Z4
- +Iw9ng9n6iqtUlCtZKtqJiKhDpdFmFEDPG262tyiQiOuWU3U7CvlIRBLInIvJsbvPmHZ
- L76w==
-X-Gm-Message-State: AOAM5321j/P3HsU6rxfPV2rtld9L+z6rBKTOqrXUrfB8bCAzDV1qNOtQ
- /jGCQqnY6N76Tn3kr9VP6Vd3DKpW3VtSxry6d0Q=
-X-Google-Smtp-Source: ABdhPJwq+ENNOmm023HEMN0NHnRWKo1CSAdsqHqpMxrXDwLXKbqpfQ6vkWwsTliG+xADpIloRlSQ/LKUP/4vyZlwxb8=
-X-Received: by 2002:a17:907:d13:b0:6db:de8:615e with SMTP id
- gn19-20020a1709070d1300b006db0de8615emr3928656ejc.649.1646598689737; Sun, 06
- Mar 2022 12:31:29 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8247C10E651
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Mar 2022 20:36:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CC8091F38F;
+ Sun,  6 Mar 2022 20:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646598980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4QqXTDO1dt286Q8SKcRrG/QfrEqUe9zwpj1OQR8lY2I=;
+ b=fEpEtRDoitD+qCyITrQmbMiBO7kxBzcjWm2FRHUuIeXson17fXe/04WNXVN4b5x6D6URnm
+ QDMWS/ERS18EWZ/ix68qSvzbeSF4reOUrHsXDCK0Xm/GET2jGWrVdVMIrDfkz2tQvvnjqg
+ GM+53AsomtVGUvZHhT7fcrvk5/TBZd4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646598980;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4QqXTDO1dt286Q8SKcRrG/QfrEqUe9zwpj1OQR8lY2I=;
+ b=d54PQwTmNJ8AAd0fgNQjnXvQzhaoPgwM+v5Z6U1VHS3XtmNzL9mGQ15pvwABxrWDbrs1+z
+ WPMZc6oa80+rD6DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3F28134CD;
+ Sun,  6 Mar 2022 20:36:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id V8mXJkQbJWJ3KAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sun, 06 Mar 2022 20:36:20 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: patrik.r.jakobsson@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH 00/10] drm/gma500: Various cleanups to GEM code
+Date: Sun,  6 Mar 2022 21:36:09 +0100
+Message-Id: <20220306203619.22624-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
-In-Reply-To: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 6 Mar 2022 21:31:18 +0100
-Message-ID: <CAFBinCBVB8eK-4k3Kgz5bNr++k=7pjHFg+hsqO8WGTLzUzhePw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Drop commas after SoC match table sentinels
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,31 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Kevin Hilman <khilman@baylibre.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 3, 2022 at 1:45 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> It does not make sense to have a comma after a sentinel, as any new
-> elements must be added before the sentinel.
-agreed, thanks for taking care of this!
+Refactor and simplify various parts of the memory management. This
+includes locking, initialization and finalizer functions, and code
+organization.
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/bridge/nwl-dsi.c  | 2 +-
->  drivers/gpu/drm/meson/meson_drv.c | 2 +-
-for drivers/gpu/drm/meson/meson_drv.c:
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Tested on Atom N2800 hardware.
+
+Thomas Zimmermann (10):
+  drm/gma500: Remove struct psb_gem_object.npage
+  drm/gma500: Acquire reservation lock for GEM objects
+  drm/gma500: Move GTT locking into GTT helpers
+  drm/gma500: Remove struct psb_gtt.sem sempahore
+  drm/gma500: Move GTT setup and restoration into helper funtions
+  drm/gma500: Move GTT resume logic out of psb_gtt_init()
+  drm/gma500: Cleanup GTT uninit and error handling
+  drm/gma500: Split GTT init/resume/fini into GTT and GEM functions
+  drm/gma500: Inline psb_gtt_restore()
+  drm/gma500: Move GEM memory management functions to gem.c
+
+ drivers/gpu/drm/gma500/gem.c         | 161 ++++++++++++++++--
+ drivers/gpu/drm/gma500/gem.h         |  13 +-
+ drivers/gpu/drm/gma500/gma_display.c |   8 +-
+ drivers/gpu/drm/gma500/gtt.c         | 239 +++++++++++++--------------
+ drivers/gpu/drm/gma500/gtt.h         |   8 +-
+ drivers/gpu/drm/gma500/power.c       |   5 +-
+ drivers/gpu/drm/gma500/psb_drv.c     |  13 +-
+ drivers/gpu/drm/gma500/psb_drv.h     |   1 -
+ 8 files changed, 296 insertions(+), 152 deletions(-)
 
 
-Best regards,
-Martin
+base-commit: 710a019ad85e96e66f7d75ee7f4733cdd8a2b0d0
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
+-- 
+2.35.1
+
