@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEB04CED57
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 20:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E204CED5E
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 20:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F254A10E0D1;
-	Sun,  6 Mar 2022 19:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD5E10E106;
+	Sun,  6 Mar 2022 19:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9322110E0D0;
- Sun,  6 Mar 2022 19:20:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5310E0E4;
+ Sun,  6 Mar 2022 19:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646594439; x=1678130439;
+ t=1646594629; x=1678130629;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=2KijYDCX/wpuRw8fR5c/LZEHBuicn2Iiw+lGtRh+Hi8=;
- b=no5/pLBhQG84FMSK4edm/sZN+nOrJb9afrKSk4opqD5UQPr/PZwCn0b/
- ysWNZE7NXQ/+h1cqGJCtVd5lgkzThDyua+DQwg2uNIJIF8J3OAP3bxrlv
- lL0IftJTJKlgtpwF1OEtcrzgv3dHxMWNDUu694SPobbo9ikCpjGo6uiaB
- 7nnjorHMqro5Cr+8B6mvzu8CcrnYGHg8ezT2vLtLFug+ceWJsABR6kFV9
- hUuSuciOg+09Bc0zicsLjOEwkSSNR7N8cXMO2fyQ370FMNpmfUJxNRo+G
- N7xHSLLqeEKjIanVkj9TmGryFOvDYyUQPNavovjn9+RzFBEaVvzrlEIbi A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="234209365"
-X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="234209365"
+ mime-version:in-reply-to;
+ bh=nlcmAEkcfWn3z+w+TBjJx8rEzELfzh4KdiJ5YuhKpY0=;
+ b=fWC7NpUqMhLQAolFyFCAKk/9oCe9JMIZWoDotY964g71LeB38XZEZaoL
+ VaG1rL//GTvJq2hVHSTqP1K82vWQiK105Tkai48VkvFVLiGINroRQupOe
+ 8T4A1IqPN8iRZMeVYT2a/KxEtM+1nqZWb8n5fdsgrFJag/V7+iOvluIl/
+ dVNtngMwEfMjeRXcrJoC5A/LSiR2lFcBUTF065wq+H7SbvmfBrDVueH8o
+ uWst6HtzN+ZuFmDW5geROYhkdnXrWR0CsnDiw8M/JHa1IK9CluO8RwQo+
+ to3LNXX75DdF1PC+SulNKdpeCNy8wVe6yJTN/ZH6luS3nCOZjRKqxsTQl g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="234209466"
+X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="234209466"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2022 11:20:38 -0800
-X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="552872033"
+ 06 Mar 2022 11:23:48 -0800
+X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="552872372"
 Received: from swray-mobl1.ger.corp.intel.com (HELO intel.com) ([10.252.53.53])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2022 11:20:34 -0800
-Date: Sun, 6 Mar 2022 21:20:32 +0200
+ 06 Mar 2022 11:23:45 -0800
+Date: Sun, 6 Mar 2022 21:23:42 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v5 2/7] drm/i915: Prepare for multiple GTs
-Message-ID: <YiUJgKaZx3ulPRMa@intel.intel>
+Subject: Re: [Intel-gfx] [PATCH v5 3/7] drm/i915/gt: add gt_is_root() helper
+Message-ID: <YiUKPl7Sa966t8kV@intel.intel>
 References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-3-andi.shyti@linux.intel.com>
- <730e317a-8672-c13b-fa8d-713e9e7bd0d7@intel.com>
+ <20220217144158.21555-4-andi.shyti@linux.intel.com>
+ <5cf0034a-fa60-0d80-b538-f070a166614c@intel.com>
+ <9bf5b3df-dca9-285e-761f-572c6f9a37a7@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <730e317a-8672-c13b-fa8d-713e9e7bd0d7@intel.com>
+In-Reply-To: <9bf5b3df-dca9-285e-761f-572c6f9a37a7@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,106 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+Hi Andrzej and Michal,
 
-[...]
-
-> > -int intel_gt_probe_lmem(struct intel_gt *gt)
-> > +static int intel_gt_probe_lmem(struct intel_gt *gt)
+> > > The "gt_is_root(struct intel_gt *gt)" helper return true if the
+> > > gt is the root gt, which means that its id is 0. Return false
+> > > otherwise.
+> > > 
+> > > Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_gt.h | 5 +++++
+> > >   1 file changed, 5 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+> > > index 915d6192079b..f17f51e2d394 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+> > > @@ -19,6 +19,11 @@ struct drm_printer;
+> > >   		  ##__VA_ARGS__);					\
+> > >   } while (0)
+> > > +static inline bool gt_is_root(struct intel_gt *gt)
+> > > +{
+> > > +	return !gt->info.id;
+> > > +}
+> > > +
+> > we could squash this patch with prev one, where it can be used in:
+> > 
+> >   intel_gt_tile_cleanup(struct intel_gt *gt)
 > >   {
-> >   	struct drm_i915_private *i915 = gt->i915;
-> > +	unsigned int instance = gt->info.id;
-> >   	struct intel_memory_region *mem;
-> >   	int id;
-> >   	int err;
-> > +	id = INTEL_REGION_LMEM_0 + instance;
-> > +	if (drm_WARN_ON(&i915->drm, id >= INTEL_REGION_STOLEN_SMEM))
+> >   	intel_uncore_cleanup_mmio(gt->uncore);
+> > 
+> > -	if (gt->info.id) {
+> > +	if (!gt_is_root(gt)) {
+> >   		kfree(gt->uncore);
+> >   		kfree(gt);
+> >   	}
+> >   }
 > 
-> Do we need to check id correctness? wouldn't be enough to check it on
-> initialization of gt->info.id.
-> If yes, maybe (id > INTEL_REGION_LMEM_3) would be more readable, or (info.id
-> < MAX_GT),  up to you.
+> It can be used in intel_gt_tile_setup as well, and then you can remove id
+> var.
 
-yes, it's indeed redundant. Also because if that 'if' was true it
-would be a bit more catastrophic than a simple warning. I will
-remove it completely.
+I will move this before, then before patch 2 and use it where you
+suggested, as well.
 
-[...]
-
-> > +	if (id) {
-> > +		struct intel_uncore_mmio_debug *mmio_debug;
-> > +		struct intel_uncore *uncore;
-> > +
-> > +		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
-> > +		if (!gt->uncore)
-> > +			return -ENOMEM;
+> > 
+> > or just use it this way in this patch, with that:
+> > 
+> > Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Accordingly:
 > 
-> s/gt->uncore/uncore/
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-thanks!
+Thank you!
 
-[...]
-
-> > +static void
-> > +intel_gt_tile_cleanup(struct intel_gt *gt)
-> > +{
-> > +	intel_uncore_cleanup_mmio(gt->uncore);
-> > +
-> > +	if (gt->info.id) {
-> > +		kfree(gt->uncore);
-> > +		kfree(gt);
-> 
-> What about gt->uncore->debug ?
-
-you don't want to leak anything? :)
-
-will add it, nice catch! Thanks!
-
-[...]
-
-> > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> > index 1c67ff735f18..144f989e4fef 100644
-> > --- a/drivers/gpu/drm/i915/i915_driver.c
-> > +++ b/drivers/gpu/drm/i915/i915_driver.c
-> > @@ -320,9 +320,8 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
-> >   	intel_device_info_subplatform_init(dev_priv);
-> >   	intel_step_init(dev_priv);
-> > -	intel_gt_init_early(to_gt(dev_priv), dev_priv);
-> > +	/* All tiles share a single mmio_debug */
-> 
-> So why are we allocating mmio_debug in intel_gt_tile_setup ?
-
-yes... this is a leftover from previous development cycles... I
-will remove the comment. Indeed this goes only to tile 0.
-
-[...]
-
-> >   void intel_uncore_cleanup_mmio(struct intel_uncore *uncore)
-> >   {
-> > -	struct pci_dev *pdev = to_pci_dev(uncore->i915->drm.dev);
-> > -
-> > -	pci_iounmap(pdev, uncore->regs);
-> > +	if (uncore->regs)
-> > +		iounmap(uncore->regs);
-> 
-> 'if' is not necessary, up to you.
-
-will remove, thanks!
-
-[...]
-
-Thank you for the review!
 Andi
