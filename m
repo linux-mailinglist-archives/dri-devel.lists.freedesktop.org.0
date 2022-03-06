@@ -2,64 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225584CF37D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 09:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B314CF37B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 09:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F318D10E1AB;
-	Mon,  7 Mar 2022 08:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F92310E044;
+	Mon,  7 Mar 2022 08:24:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-xforward.gmx.net (mout-xforward.gmx.net [82.165.159.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497D210E30B
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Mar 2022 15:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1646493155;
- bh=m1wvyXcdmqw6SUGsb6WV3jmsFgfj7oNi36tuWjXyAkM=;
- h=X-UI-Sender-Class:Subject:From:In-Reply-To:Date:Cc:References:To;
- b=DJN6ASTmsXnmy9508UVvVAWneNbqlhxUUhC1cGGWcsJO5YCylURfI/AZcQX7xZoEf
- o4V35s3iNdNGuzBK3jl9KBVQlVSgVfu/aPx2k3Z0CNUIO0IDHtJcpSo9fqJKFFdtyE
- UtOJqK47iuFs7XGmvRmJTnFtEvI8SVNE9k06QOt8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from smtpclient.apple ([98.128.181.196]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryTF-1nwDfK1uOD-00nwc9; Sat, 05
- Mar 2022 16:12:35 +0100
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
-From: =?utf-8?Q?Reimar_D=C3=B6ffinger?= <Reimar.Doeffinger@gmx.de>
-In-Reply-To: <20220305145534.GB31268@X58A-UD3R>
-Date: Sat, 5 Mar 2022 16:12:27 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <56315101-B3A5-4596-947E-5D34A5FFBB37@gmx.de>
-References: <YiAow5gi21zwUT54@mit.edu>
- <1646285013-3934-1-git-send-email-byungchul.park@lge.com>
- <YiDSabde88HJ/aTt@mit.edu> <20220304032002.GD6112@X58A-UD3R>
- <YiLbs9rszWXpHm/P@mit.edu> <20220305145534.GB31268@X58A-UD3R>
-To: Byungchul Park <byungchul.park@lge.com>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
-X-Provags-ID: V03:K1:whvk+lhsJ/zxK8CBSH/p6zkUgWk2DoodFfcAiSCDJJDa+Hp52O6
- Nfbhzzi+ktuZGYLtwoW9qfNJSraLEANrCWwT6xWYdnQrtUG7isGY5jyxYDHq4HWVXkcNwht
- L9exf7duZUup6Aj10JBs0SWk28hmicYpdhO/lD+yWMXlJTEBEhIt2rcl05AL/SZCvLbMreY
- BxuBvW4ogWm5Bxp58qVkg==
-X-Spam-Flag: YES
-X-UI-Out-Filterresults: junk:10;V03:K0:zweSzRTuMLc=:1xDoFGJXHax66F8wkqbjhSe+
- jrZLpaWfX7RdsGmf8c0wJqGXUOnP34+DW7J0BkFSDsySKSvgdL1OmujM86iapxROKsjWBK2at
- AaC7YJVZCyA69Hv3P27MHCgbSK2zzZ4KK2Oe6GrYEmlwpy2FVbSCC/7xeun6zHlkVjuvIiddh
- D4/pwsRjcVcrDUVoJICcsRBTchjbZLhIzt6oU67TpQkTiAEHOXsRgD1jE7K/aARIlal/l2DVl
- xPrJgqJCdEeMD3K9HvWDaPdYPjGsLT+GqqhXDVTE/ZcBhH7gKjsxJ1+6Mx4r/zZIKC+9botr2
- IqYgSgXq5eRA+8vyUQh0uKDBl4f8f86J1pLHhUfqTVAzMUY39gYDS3LotRNJ3MFJABZf/lfjU
- 0cyRUgOdsJ6qqJcIKXfabLzgCot3capLHxR2Y+QRnznXqMxMkuBWP/rfXMs4MV3IkGURCPEoR
- wjCQhSrxHEGzJg0IgcnYcPBWmaLWaoVy2k4UegQ/5MPQzywDfjBbz7bByArBN6HJXmBIwBB9y
- Pnh842Sj+JQ973UNMWaTtagNhqHDCFCUaii/U8GlWHeF0T3tZnXCKT9K+bTK3JEC9wI0mr+N7
- 5c68iMxdADA2W/VhYX6D4ze1a7YULWtNZNMNy3FDWaZyegNOruAYBPRGqiC1ncvx1LUISdbO/
- 8cW5Vg63lSiNWbL7GiPnEdRbk3vOksWKOVO4yhLonUE4f42S4PeEXN8IGr/zcBfEmPt4mImVd
- VWm9zpdNEo757DatvTW65sCdc6d9d4k4HWmXtEImH0pfIKwvELQRKV5KqWKK8AzF0jSCe08yN
- Pi333IVY6GV+LnI6SAxcsz0pac55X8Thf6xgpZKv08yi9/E/8ZPSGr44SrhTn4LnoZTrCkjA9
- +rdNMQQcevr3RF/Clrov3MYdmjcrJdJgY1A5A4/XUa98fnknpSHrjwxR3ZEUQ+U9XNqdW0pqm
- GDTzGpUb3Ha6onL+4oSq75jck6wezug8OqsouYMtWySjuX8G+mKJRihqyBiSNzVlSvOoXp8g/
- 2H4Eb86TLwPlahcEuRGUNI1dWpXZnpZHfWWaVTjpDLy7wPmUwWJY9U6bdxiBhka347RRMDMyY
- OpNYdXIQhCSfFWczlu9AXKQxyo5fAi+eho0to5QLeVlsFKfKAqCn+yg==
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81AEB10E8B4;
+ Sun,  6 Mar 2022 01:57:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 047F260FD4;
+ Sun,  6 Mar 2022 01:57:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2F9C004E1;
+ Sun,  6 Mar 2022 01:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646531855;
+ bh=qhbhEF4KNGgan5nuXFyOhv3ib4IX2nZMIJjs4aq0fyQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=k0LfDnUWsEGXgD8jhE2p9wCSnE2zvazHvi7Zycl/K+OZho4693jO+sPfaHcpYlzjv
+ sbavPNJCGy9OzNjGgd0KvVP540g6l4Y1tUeziYCqh3P/KyMCs2JqHayEJOYRLwQOeg
+ YU3rC79wtkDOsxvJC78cHZHTtmCgI3vg+TOmJnU5jbS4GuauA21q+O1WFVzEClLZn6
+ gZMUT0c86cpnMr9QStPq7sqCbu01iEPo/Cy2kdZxTF2VrZXINl71cmzsSoPjFcncGr
+ ZxpDmAQOc0X2yF6rAgI/7twHJhNZP3HHWTMdZj/xB1XGm8Dlx7dnLQLVtbu3Ne+32i
+ WKiDxJTtU1LNQ==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH RFC] mm: Add f_ops->populate()
+Date: Sun,  6 Mar 2022 03:56:44 +0200
+Message-Id: <20220306015648.82595-1-jarkko@kernel.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 07 Mar 2022 08:24:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,117 +50,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, Theodore Ts'o <tytso@mit.edu>,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Jason Ekstrand <jason@jlekstrand.net>,
+ Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ "maintainer:CODA FILE SYSTEM" <coda@cs.cmu.edu>,
+ Matthew Auld <matthew.auld@intel.com>, Vasily Averin <vvs@virtuozzo.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jan Harkes <jaharkes@cs.cmu.edu>,
+ "open list:INTEL DRM DRIVERS excluding Poulsbo, Moorestow..., 
+ dri-devel@lists.freedesktop.org open list:DRM DRIVERS,
+ codalist@coda.cs.cmu.edu open list:CODA FILE SYSTEM,
+ linux-unionfs@vger.kernel.org open list:OVERLAY FILESYSTEM,
+ linux-fsdevel@vger.kernel.org open list:FILESYSTEMS VFS and infrastructure,
+ linux-mm@kvack.org open list:MEMORY MANAGEMENT"
+ <intel-gfx@lists.freedesktop.org>, Shakeel Butt <shakeelb@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nathaniel McCallum <nathaniel@profian.com>,
+ "open list:MIPS" <linux-mips@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Alexey Gladkov <legion@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-Sorry to butt in as an outsider, but this seems like a shockingly =
-disrespectful discussion for such a wide CC list.
-I don't want to make rules how you discuss things (I very rarely =
-contribute), and I see the value in a frank discussion, but maybe you =
-could continue with a reduced CC list?
-I find it unlikely that I am the only one who could do without this.
+Sometimes you might want to use MAP_POPULATE to ask a device driver to
+initialize the device memory in some specific manner. SGX driver can use
+this to request more memory by issuing ENCLS[EAUG] x86 opcode for each
+page in the address range.
 
-Best regards,
-Reimar D=C3=B6ffinger
+Add f_ops->populate() with the same parameters as f_ops->mmap() and make
+it conditionally called inside call_mmap(). Update call sites
+accodingly.
 
-> On 5 Mar 2022, at 15:55, Byungchul Park <byungchul.park@lge.com> =
-wrote:
->=20
-> On Fri, Mar 04, 2022 at 10:40:35PM -0500, Theodore Ts'o wrote:
->> On Fri, Mar 04, 2022 at 12:20:02PM +0900, Byungchul Park wrote:
->>>=20
->>> I found a point that the two wait channels don't lead a deadlock in
->>> some cases thanks to Jan Kara. I will fix it so that Dept won't
->>> complain it.
->>=20
->> I sent my last (admittedly cranky) message before you sent this.  I'm
->> glad you finally understood Jan's explanation.  I was trying to tell
->=20
-> Not finally. I've understood him whenever he tried to tell me =
-something.
->=20
->> you the same thing, but apparently I failed to communicate in a
->=20
-> I don't think so. Your point and Jan's point are different. All he has
-> said make sense. But yours does not.
->=20
->> sufficiently clear manner.  In any case, what Jan described is a
->> fundamental part of how wait queues work, and I'm kind of amazed that
->> you were able to implement DEPT without understanding it.  (But maybe
->=20
-> Of course, it was possible because all that Dept has to know for basic
-> work is wait and event. The subtle things like what Jan told me help
-> Dept be better.
->=20
->> that is why some of the DEPT reports were completely incomprehensible
->=20
-> It's because you are blinded to blame at it without understanding how
-> Dept works at all. I will fix those that must be fixed. Don't worry.
->=20
->> to me; I couldn't interpret why in the world DEPT was saying there =
-was
->> a problem.)
->=20
-> I can tell you if you really want to understand why. But I can't if =
-you
-> are like this.
->=20
->> In any case, the thing I would ask is a little humility.  We =
-regularly
->> use lockdep, and we run a huge number of stress tests, throughout =
-each
->> development cycle.
->=20
-> Sure.
->=20
->> So if DEPT is issuing lots of reports about apparently circular
->> dependencies, please try to be open to the thought that the fault is
->=20
-> No one was convinced that Dept doesn't have a fault. I think your
-> worries are too much.
->=20
->> in DEPT, and don't try to argue with maintainers that their code MUST
->> be buggy --- but since you don't understand our code, and DEPT must =
-be
->=20
-> No one argued that their code must be buggy, either. So I don't think
-> you have to worry about what's never happened.
->=20
->> theoretically perfect, that it is up to the Maintainers to prove to
->> you that their code is correct.
->>=20
->> I am going to gently suggest that it is at least as likely, if not
->> more likely, that the failure is in DEPT or your understanding of =
-what
->=20
-> No doubt. I already think so. But it doesn't mean that I have to keep
-> quiet without discussing to imporve Dept. I will keep improving Dept =
-in
-> a reasonable way.
->=20
->> how kernel wait channels and locking works.  After all, why would it
->> be that we haven't found these problems via our other QA practices?
->=20
-> Let's talk more once you understand how Dept works at least 10%. Or I
-> think we cannot talk in a productive way.
->=20
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ arch/mips/kernel/vdso.c                    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c |  2 +-
+ fs/coda/file.c                             |  2 +-
+ fs/overlayfs/file.c                        |  2 +-
+ include/linux/fs.h                         | 10 ++++++++--
+ include/linux/mm.h                         |  2 +-
+ ipc/shm.c                                  |  2 +-
+ mm/mmap.c                                  | 10 +++++-----
+ mm/nommu.c                                 |  4 ++--
+ 9 files changed, 21 insertions(+), 15 deletions(-)
+
+diff --git a/arch/mips/kernel/vdso.c b/arch/mips/kernel/vdso.c
+index 3d0cf471f2fe..89f3f3da9abd 100644
+--- a/arch/mips/kernel/vdso.c
++++ b/arch/mips/kernel/vdso.c
+@@ -102,7 +102,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
+ 		base = mmap_region(NULL, STACK_TOP, PAGE_SIZE,
+ 				VM_READ | VM_EXEC |
+ 				VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
+-				0, NULL);
++				0, NULL, false);
+ 		if (IS_ERR_VALUE(base)) {
+ 			ret = base;
+ 			goto out;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 1b526039a60d..4c71f64d6a79 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -107,7 +107,7 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *
+ 	if (!obj->base.filp)
+ 		return -ENODEV;
+ 
+-	ret = call_mmap(obj->base.filp, vma);
++	ret = call_mmap(obj->base.filp, vma, false);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/fs/coda/file.c b/fs/coda/file.c
+index 29dd87be2fb8..e14f312fdbf8 100644
+--- a/fs/coda/file.c
++++ b/fs/coda/file.c
+@@ -173,7 +173,7 @@ coda_file_mmap(struct file *coda_file, struct vm_area_struct *vma)
+ 	spin_unlock(&cii->c_lock);
+ 
+ 	vma->vm_file = get_file(host_file);
+-	ret = call_mmap(vma->vm_file, vma);
++	ret = call_mmap(vma->vm_file, vma, false);
+ 
+ 	if (ret) {
+ 		/* if call_mmap fails, our caller will put host_file so we
+diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+index fa125feed0ff..b963a9397e80 100644
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -503,7 +503,7 @@ static int ovl_mmap(struct file *file, struct vm_area_struct *vma)
+ 	vma_set_file(vma, realfile);
+ 
+ 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
+-	ret = call_mmap(vma->vm_file, vma);
++	ret = call_mmap(vma->vm_file, vma, false);
+ 	revert_creds(old_cred);
+ 	ovl_file_accessed(file);
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index e2d892b201b0..fb90284e1c82 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1993,6 +1993,7 @@ struct file_operations {
+ 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+ 	int (*mmap) (struct file *, struct vm_area_struct *);
++	int (*populate)(struct file *, struct vm_area_struct *);
+ 	unsigned long mmap_supported_flags;
+ 	int (*open) (struct inode *, struct file *);
+ 	int (*flush) (struct file *, fl_owner_t id);
+@@ -2074,9 +2075,14 @@ static inline ssize_t call_write_iter(struct file *file, struct kiocb *kio,
+ 	return file->f_op->write_iter(kio, iter);
+ }
+ 
+-static inline int call_mmap(struct file *file, struct vm_area_struct *vma)
++static inline int call_mmap(struct file *file, struct vm_area_struct *vma, bool do_populate)
+ {
+-	return file->f_op->mmap(file, vma);
++	int ret = file->f_op->mmap(file, vma);
++
++	if (!ret && do_populate)
++		ret = file->f_op->populate(file, vma);
++
++	return ret;
+ }
+ 
+ extern ssize_t vfs_read(struct file *, char __user *, size_t, loff_t *);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 213cc569b192..6c8c036f423b 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2683,7 +2683,7 @@ extern unsigned long get_unmapped_area(struct file *, unsigned long, unsigned lo
+ 
+ extern unsigned long mmap_region(struct file *file, unsigned long addr,
+ 	unsigned long len, vm_flags_t vm_flags, unsigned long pgoff,
+-	struct list_head *uf);
++	struct list_head *uf, bool do_populate);
+ extern unsigned long do_mmap(struct file *file, unsigned long addr,
+ 	unsigned long len, unsigned long prot, unsigned long flags,
+ 	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
+diff --git a/ipc/shm.c b/ipc/shm.c
+index b3048ebd5c31..89b28f32acf0 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -587,7 +587,7 @@ static int shm_mmap(struct file *file, struct vm_area_struct *vma)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = call_mmap(sfd->file, vma);
++	ret = call_mmap(sfd->file, vma, do_populate);
+ 	if (ret) {
+ 		shm_close(vma);
+ 		return ret;
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 1e8fdb0b51ed..5eca79957d4c 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1413,6 +1413,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+ 			unsigned long flags, unsigned long pgoff,
+ 			unsigned long *populate, struct list_head *uf)
+ {
++	bool do_populate = (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE;
+ 	struct mm_struct *mm = current->mm;
+ 	vm_flags_t vm_flags;
+ 	int pkey = 0;
+@@ -1579,10 +1580,9 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+ 			vm_flags |= VM_NORESERVE;
+ 	}
+ 
+-	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
++	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf, do_populate);
+ 	if (!IS_ERR_VALUE(addr) &&
+-	    ((vm_flags & VM_LOCKED) ||
+-	     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
++	    ((vm_flags & VM_LOCKED) || do_populate))
+ 		*populate = len;
+ 	return addr;
+ }
+@@ -1721,7 +1721,7 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+ 
+ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 		unsigned long len, vm_flags_t vm_flags, unsigned long pgoff,
+-		struct list_head *uf)
++		struct list_head *uf, bool do_populate)
+ {
+ 	struct mm_struct *mm = current->mm;
+ 	struct vm_area_struct *vma, *prev, *merge;
+@@ -1790,7 +1790,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 		}
+ 
+ 		vma->vm_file = get_file(file);
+-		error = call_mmap(file, vma);
++		error = call_mmap(file, vma, do_populate);
+ 		if (error)
+ 			goto unmap_and_free_vma;
+ 
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 55a9e48a7a02..a3c20b803c27 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -941,7 +941,7 @@ static int do_mmap_shared_file(struct vm_area_struct *vma)
+ {
+ 	int ret;
+ 
+-	ret = call_mmap(vma->vm_file, vma);
++	ret = call_mmap(vma->vm_file, vma, false);
+ 	if (ret == 0) {
+ 		vma->vm_region->vm_top = vma->vm_region->vm_end;
+ 		return 0;
+@@ -972,7 +972,7 @@ static int do_mmap_private(struct vm_area_struct *vma,
+ 	 * - VM_MAYSHARE will be set if it may attempt to share
+ 	 */
+ 	if (capabilities & NOMMU_MAP_DIRECT) {
+-		ret = call_mmap(vma->vm_file, vma);
++		ret = call_mmap(vma->vm_file, vma, false);
+ 		if (ret == 0) {
+ 			/* shouldn't return success if we're not sharing */
+ 			BUG_ON(!(vma->vm_flags & VM_MAYSHARE));
+-- 
+2.35.1
 
