@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E204CED5E
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 20:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139A64CEDB2
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 21:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD5E10E106;
-	Sun,  6 Mar 2022 19:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE3810E5D1;
+	Sun,  6 Mar 2022 20:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5310E0E4;
- Sun,  6 Mar 2022 19:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646594629; x=1678130629;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=nlcmAEkcfWn3z+w+TBjJx8rEzELfzh4KdiJ5YuhKpY0=;
- b=fWC7NpUqMhLQAolFyFCAKk/9oCe9JMIZWoDotY964g71LeB38XZEZaoL
- VaG1rL//GTvJq2hVHSTqP1K82vWQiK105Tkai48VkvFVLiGINroRQupOe
- 8T4A1IqPN8iRZMeVYT2a/KxEtM+1nqZWb8n5fdsgrFJag/V7+iOvluIl/
- dVNtngMwEfMjeRXcrJoC5A/LSiR2lFcBUTF065wq+H7SbvmfBrDVueH8o
- uWst6HtzN+ZuFmDW5geROYhkdnXrWR0CsnDiw8M/JHa1IK9CluO8RwQo+
- to3LNXX75DdF1PC+SulNKdpeCNy8wVe6yJTN/ZH6luS3nCOZjRKqxsTQl g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="234209466"
-X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="234209466"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2022 11:23:48 -0800
-X-IronPort-AV: E=Sophos;i="5.90,160,1643702400"; d="scan'208";a="552872372"
-Received: from swray-mobl1.ger.corp.intel.com (HELO intel.com) ([10.252.53.53])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2022 11:23:45 -0800
-Date: Sun, 6 Mar 2022 21:23:42 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 3/7] drm/i915/gt: add gt_is_root() helper
-Message-ID: <YiUKPl7Sa966t8kV@intel.intel>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-4-andi.shyti@linux.intel.com>
- <5cf0034a-fa60-0d80-b538-f070a166614c@intel.com>
- <9bf5b3df-dca9-285e-761f-572c6f9a37a7@intel.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6187D10E5D1
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Mar 2022 20:31:31 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id a8so27872294ejc.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Mar 2022 12:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K4n21OYXdDZM4hk/UjVZvxqo76lcN1HhOZ4vArZv8OU=;
+ b=WKfevEQAwsxI+yju5ynzzh6Tx2zdUBz9O/xOYN8MkQkoFhsfBcGRIIqxWqNNhJv9G9
+ cGj9+7GBoGSyhhebJh2v7ZgRmX9Y/0YouNMSe9pzeYPYkwmbWR5SN8jg6yed730dyeuL
+ E0KZ7sQOluB9Tc2GoJQZZlOfdFNT2RWadGnQZ57/g3VotDS2NUWY5yQH8rdO4C23djHP
+ sbqkyIMfGlS6fBhuNFN3q2n/saPK3O0tIhTwBfuihtVasHdNOuhE6LaPL5Daycqfikbs
+ k1d0yq2xWK35u/5jDuHjaaLgHMF8F4598TwUs5gRX1P0nYoj2VDtYq90a5lSdV3/LftJ
+ T8eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K4n21OYXdDZM4hk/UjVZvxqo76lcN1HhOZ4vArZv8OU=;
+ b=A2zQpdKx23tzDg/groT5SNEa4+vznRWsmZbdOEzGIGiByhQ46SNdcrHmQc8z8U8Z7G
+ +b67RJaxd20c5V22+/KgRgR0WUQ74guzBFxN94vKVxwGetZo89syMchTkzZB/nD2EJD4
+ piGK74M2Vq3ukCUzIAhzJTdvVbHN0FdhUTbtfg+Vml9rbZ44vkt6IRbl+piUL+3J0h/d
+ 8y2M/dXbM5VqWzX91p5NzfJ8UsqXgX8mIa28X2r3vu/Laa/xNwqdE9s3ovRwyCXf50Z4
+ +Iw9ng9n6iqtUlCtZKtqJiKhDpdFmFEDPG262tyiQiOuWU3U7CvlIRBLInIvJsbvPmHZ
+ L76w==
+X-Gm-Message-State: AOAM5321j/P3HsU6rxfPV2rtld9L+z6rBKTOqrXUrfB8bCAzDV1qNOtQ
+ /jGCQqnY6N76Tn3kr9VP6Vd3DKpW3VtSxry6d0Q=
+X-Google-Smtp-Source: ABdhPJwq+ENNOmm023HEMN0NHnRWKo1CSAdsqHqpMxrXDwLXKbqpfQ6vkWwsTliG+xADpIloRlSQ/LKUP/4vyZlwxb8=
+X-Received: by 2002:a17:907:d13:b0:6db:de8:615e with SMTP id
+ gn19-20020a1709070d1300b006db0de8615emr3928656ejc.649.1646598689737; Sun, 06
+ Mar 2022 12:31:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9bf5b3df-dca9-285e-761f-572c6f9a37a7@intel.com>
+References: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
+In-Reply-To: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sun, 6 Mar 2022 21:31:18 +0100
+Message-ID: <CAFBinCBVB8eK-4k3Kgz5bNr++k=7pjHFg+hsqO8WGTLzUzhePw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Drop commas after SoC match table sentinels
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,66 +63,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Kevin Hilman <khilman@baylibre.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej and Michal,
+On Thu, Mar 3, 2022 at 1:45 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> It does not make sense to have a comma after a sentinel, as any new
+> elements must be added before the sentinel.
+agreed, thanks for taking care of this!
 
-> > > The "gt_is_root(struct intel_gt *gt)" helper return true if the
-> > > gt is the root gt, which means that its id is 0. Return false
-> > > otherwise.
-> > > 
-> > > Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > ---
-> > >   drivers/gpu/drm/i915/gt/intel_gt.h | 5 +++++
-> > >   1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > index 915d6192079b..f17f51e2d394 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > @@ -19,6 +19,11 @@ struct drm_printer;
-> > >   		  ##__VA_ARGS__);					\
-> > >   } while (0)
-> > > +static inline bool gt_is_root(struct intel_gt *gt)
-> > > +{
-> > > +	return !gt->info.id;
-> > > +}
-> > > +
-> > we could squash this patch with prev one, where it can be used in:
-> > 
-> >   intel_gt_tile_cleanup(struct intel_gt *gt)
-> >   {
-> >   	intel_uncore_cleanup_mmio(gt->uncore);
-> > 
-> > -	if (gt->info.id) {
-> > +	if (!gt_is_root(gt)) {
-> >   		kfree(gt->uncore);
-> >   		kfree(gt);
-> >   	}
-> >   }
-> 
-> It can be used in intel_gt_tile_setup as well, and then you can remove id
-> var.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/bridge/nwl-dsi.c  | 2 +-
+>  drivers/gpu/drm/meson/meson_drv.c | 2 +-
+for drivers/gpu/drm/meson/meson_drv.c:
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-I will move this before, then before patch 2 and use it where you
-suggested, as well.
 
-> > 
-> > or just use it this way in this patch, with that:
-> > 
-> > Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Accordingly:
-> 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Thank you!
-
-Andi
+Best regards,
+Martin
