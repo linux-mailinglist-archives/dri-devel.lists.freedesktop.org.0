@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031BE4CEC8E
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 18:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0154CEC98
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Mar 2022 18:39:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9009010EB75;
-	Sun,  6 Mar 2022 17:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249E710EB7A;
+	Sun,  6 Mar 2022 17:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37CD10EB77
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Mar 2022 17:39:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA50F10EB77
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Mar 2022 17:39:23 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 429C9482;
- Sun,  6 Mar 2022 18:39:20 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74A4F741;
+ Sun,  6 Mar 2022 18:39:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646588361;
- bh=ywoVmQNqU9OcRFUjFQv8ux4/JC1YVycOwhZKUoi+QXY=;
- h=From:To:Cc:Subject:Date:From;
- b=S20ihGSyDvtZrPojmqTCirUA4Wt3g6Oo9v3J1+oqjVyht/DRyQQYonGg9RN+zUR70
- EOQAgBAxTKYih0l/3lxryFmZjATdk+fjHXVWZvlCc7Au67NoSPrqOUwy36pasAeBhN
- RzXnxIR33vlNEXRDh2vfiqBdtpE2taN2TsOcdugI=
+ s=mail; t=1646588362;
+ bh=ZiTUCPVoH8QCGEvf/MOMQSiOW/5yefTSHer42RcOTUQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ml66c9gOGpYO7NklaJ8SsXCSwpOCDlRE5xvD5yyt148wxQn/sR3JKbiFPHEa19GY/
+ gUnxp1PRTpnhz7vNnivbxfW6gVFWwlO1CSshsewkLvBCwTkQ2b5nVLz58nEdzSCZcy
+ 5egducbCvF6ON/YpI+RmFlQKkbTaWmicat2WxgK8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/3] dt-bindings: Add macros for video interface bus types
-Date: Sun,  6 Mar 2022 19:39:02 +0200
-Message-Id: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 1/3] dt-bindings: media: Add macros for video interface bus
+ types
+Date: Sun,  6 Mar 2022 19:39:03 +0200
+Message-Id: <20220306173905.22990-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
+References: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,52 +59,43 @@ Cc: Jacopo Mondi <jacopo@jmondi.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Add a new dt-bindings/media/video-interfaces.h header that defines
+macros corresponding to the bus types from media/video-interfaces.yaml.
+This allows avoiding hardcoded constants in device tree sources.
 
-This small patch series is the result of me getting a bus-type numerical
-value wrong in a device tree file and spending too long debugging the
-issue. Hopefully there's nothing controversial here.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+Changes since v1:
 
-Compared to v1, the PARALLEL bus type has been renamed to BT601, and
-patch 3/3 now converts existing DT sources. See individual patches for a
-detailed changelog.
-
-I can split patch 3/3 per architecture or per board if desired, but
-given that this is a mechanical change, and the patch is fairly small,
-I'd rather keep it as-is and merge it as part of the series.
-
-When writing 3/3 I noticed that the anx7625 bindings and the
-corresponding driver badly misuse the bus type (mapping CCP2 to mean
-MIPI DPI, and PARALLEL - now BT601 - to mean MIPI DSI). This misuse
-hasn't reached a released mainline kernel as it got merged in v5.17-rc1,
-so there may still be a chance to fix it. Let's discuss this in [1],
-I'll update this series and rebase it on v5.18-rc1 once released based
-on the outcome of the discussion.
-
-[1] https://lore.kernel.org/all/YiTruiCIkyxs3jTC@pendragon.ideasonboard.com/
-
-Laurent Pinchart (3):
-  dt-bindings: media: Add macros for video interface bus types
-  dt-bindings: Use new video interface bus type macros in examples
-  ARM: dts: Use new media bus type macros
-
- .../display/bridge/analogix,anx7625.yaml         |  3 ++-
- .../devicetree/bindings/media/i2c/mipi-ccs.yaml  |  3 ++-
- .../bindings/media/i2c/ovti,ov772x.yaml          |  3 ++-
- .../bindings/media/marvell,mmp2-ccic.yaml        |  3 ++-
- .../bindings/media/microchip,xisc.yaml           |  3 ++-
- .../devicetree/bindings/media/st,stm32-dcmi.yaml |  4 +++-
- arch/arm/boot/dts/imx6ul-14x14-evk.dtsi          |  4 +++-
- arch/arm/boot/dts/omap3-n900.dts                 |  5 +++--
- arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts  | 11 +++++++----
- .../r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi    |  4 +++-
- .../r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi    |  4 +++-
- arch/arm/boot/dts/stm32429i-eval.dts             |  3 ++-
- arch/arm/boot/dts/stm32mp157c-ev1.dts            |  3 ++-
- include/dt-bindings/media/video-interfaces.h     | 16 ++++++++++++++++
- 14 files changed, 52 insertions(+), 17 deletions(-)
+- Dual-license under GPL-2.0-only or MIT
+- Rename PARALLEL TO BT601
+---
+ include/dt-bindings/media/video-interfaces.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
  create mode 100644 include/dt-bindings/media/video-interfaces.h
 
+diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
+new file mode 100644
+index 000000000000..4c3810edff4c
+--- /dev/null
++++ b/include/dt-bindings/media/video-interfaces.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
++/*
++ * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ */
++
++#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
++#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
++
++#define MEDIA_BUS_TYPE_CSI2_CPHY		1
++#define MEDIA_BUS_TYPE_CSI1			2
++#define MEDIA_BUS_TYPE_CCP2			3
++#define MEDIA_BUS_TYPE_CSI2_DPHY		4
++#define MEDIA_BUS_TYPE_BT601			5
++#define MEDIA_BUS_TYPE_BT656			6
++
++#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
 -- 
 Regards,
 
