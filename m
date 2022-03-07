@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5474D0367
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:50:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A88D4D0390
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5A410E03A;
-	Mon,  7 Mar 2022 15:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFD110E047;
+	Mon,  7 Mar 2022 15:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0049210E03A;
- Mon,  7 Mar 2022 15:50:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8ED4FB80CA8;
- Mon,  7 Mar 2022 15:50:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C24CC340EB;
- Mon,  7 Mar 2022 15:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646668214;
- bh=kOQrIB//kV8fsU32x9w7qLTU4u76ufnPafjP+aW2LGY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xn3UfVQig7siysNhTckqEt/3YwfSb/hQX777ZeUBNR25CWtPmBg3AozCiz0C9Vx6e
- vI0+ZBFRrmaTJtZfVDBV/wXr9kndWweVAzDmNxzcrOpxEk6sb14183+qU7UsuGoPyD
- BJdWxk6dfqo2i8LIPODB/uTqA5n5E/QX1Oc7iq5pAYpzAleGc7lc3aIGfn/PwB89lT
- Ot8o/PrK/bdSm0BXhzDWSnMhi1VaTaPkbIEK8WSygHQZnXIc+PUDkiS/iC31zhENiH
- FHocAoA6uueu5ukIdmZ08K5KjK1lXb4Pte/4tQ3FvPFI29pSDVfw1hXJlmCJ0ZynWA
- ECBe+IItixYgw==
-Date: Mon, 7 Mar 2022 17:49:33 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
-Message-ID: <YiYpjdD8BYcoGQ4s@iki.fi>
-References: <20220306053211.135762-1-jarkko@kernel.org>
- <d6b09f23-f470-c119-8d3e-7d72a3448b64@redhat.com>
- <YiYVHTkS8IsMMw6T@iki.fi>
- <dab25b2d-88f1-7ad5-c28a-15a97b38af03@redhat.com>
+X-Greylist: delayed 434 seconds by postgrey-1.36 at gabe;
+ Mon, 07 Mar 2022 15:58:10 UTC
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com
+ [203.205.221.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1164610E047
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 15:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1646668687;
+ bh=G82lazBOx7DFY/zMCCyXrCilpaNxKFxTYmuMePU5tEA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=a0v48sRwwA4+od6BaTpU9woS0/hNvNj9izOwCLlk571Z+Z/QfD5RWZ3hfOyS6cyzy
+ 7TwWQQ/FbMDLGt4nv+J2599agLjJ8znpUCNMhYNr8rvdevfZVKjeBsAq0H50bAUpPK
+ iiFsCHcs3NyqT0N3/AbYYu7xvk5io3g/VlBV60bY=
+Received: from localhost.localdomain ([111.193.130.237])
+ by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
+ id CAC2A825; Mon, 07 Mar 2022 23:50:44 +0800
+X-QQ-mid: xmsmtpt1646668244t9rz4uo6a
+Message-ID: <tencent_8D468E4512625A79304E1722C87490BFED09@qq.com>
+X-QQ-XMAILINFO: NfMab3Cum/2cda1K3R/kl8BWW20+Yor0jHlUrAchyQQav/PBUPafDIROa8k1hl
+ sNTtpSIThcoIuFuU619zGZ7DwSlX7XH2GUWyCjE4S9CBRil1NtTgwFAiejs6lFrAbcRC5+zG28+N
+ hgPnltyz7ihySv4qgQYgZkRmyhuaNVUYhg6ryUfB4NrLwmklRVkNlCvE9imO0HCTA/o3QGMWDc4I
+ pmjpTrGWJjzkrLLp3aEYIn66y2rb9qchlgDA40ZdzDdsPgsgAH7ZejqSKM+prJNT25qbVDQXCOKS
+ YqSppvOHTg88yVU0RjQ4wyamt6vC8+MGaCh8pWxwcH49ZiD6S82uUVL8C2dQAL8ivgI8ZObyEJPS
+ zI5ymaOlueVdpvSHgXXun1QGUJxZwNZC+5oWNMKQyQY2Q+crYyU0nhfMItkZAa2QxvxOzOj0p3Ym
+ eCGnQLGTuJNbyJ5okvdmBMXw7RH+QCgJmZVZVQYa1jG5QZoIX1zRdoHHFeni9rQHMUfrShGpaOMJ
+ zghXpc5zpCoLNJ/lRfeKEumpJtHr1ECPYQMrItfYS73uTStdk6xkn9IpxrxOuvwm3Jv7xniMTliL
+ gCBf6rHXypNgnYS/krLq1La7fiOkLWXb3w1FrTkmKphpkoPsu4cFGNiNsltz0GRbZ3/PJ6DooG6d
+ 3JNZ6UK4cTcHfmwH9KETMFqR9M/06SMxWxREDbALcdAtyXxHxPG4KK6v06Ub9Fja8nxnFpoNTW5g
+ +LZJ1vvs+vB6dkeYI7Pm+799yzLI9iYM2gDWwwcjLuK+329yuSjI2DB3/BoufNrAWt8GQjq0Z0qy
+ KLyO2hGS9MFZb9EDtNgwNI/FwpgAkxK0JkDCizaub/FWpLwE94aO0vLByXcqkrVQtHb4Wa5C2/Ci
+ 2vL5UOPQ/3DqTy+Lv9D6WOp2WlFahTcE2wjUKkRlvdyFQc1U3C4io2HpPScRCBh+hp2StYOcCHKy
+ narm8+tDo=
+From: Weiguo Li <liwg06@foxmail.com>
+To: bparrot@ti.com,
+	narmstrong@baylibre.com
+Subject: RE: a null derefrence at [v7,
+ 9/9] drm/omap: Add a 'right overlay' to plane state
+Date: Mon,  7 Mar 2022 23:50:43 +0800
+X-OQ-MSGID: <20220307155043.134698-1-liwg06@foxmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <https://patchwork.freedesktop.org/patch/msgid/20211117141928.771082-10-narmstrong@baylibre.com>
+References: <https://patchwork.freedesktop.org/patch/msgid/20211117141928.771082-10-narmstrong@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dab25b2d-88f1-7ad5-c28a-15a97b38af03@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,96 +65,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
- Jason Ekstrand <jason@jlekstrand.net>,
- Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-unionfs@vger.kernel.org,
- codalist@coda.cs.cmu.edu, Matthew Auld <matthew.auld@intel.com>,
- Vasily Averin <vvs@virtuozzo.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Shakeel Butt <shakeelb@google.com>,
- Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nathaniel McCallum <nathaniel@profian.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Alexey Gladkov <legion@kernel.org>
+Cc: tomi.valkeinen@ideasonboard.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 03:33:52PM +0100, David Hildenbrand wrote:
-> On 07.03.22 15:22, Jarkko Sakkinen wrote:
-> > On Mon, Mar 07, 2022 at 11:12:44AM +0100, David Hildenbrand wrote:
-> >> On 06.03.22 06:32, Jarkko Sakkinen wrote:
-> >>> For device memory (aka VM_IO | VM_PFNMAP) MAP_POPULATE does nothing. Allow
-> >>> to use that for initializing the device memory by providing a new callback
-> >>> f_ops->populate() for the purpose.
-> >>>
-> >>> SGX patches are provided to show the callback in context.
-> >>>
-> >>> An obvious alternative is a ioctl but it is less elegant and requires
-> >>> two syscalls (mmap + ioctl) per memory range, instead of just one
-> >>> (mmap).
-> >>
-> >> What about extending MADV_POPULATE_READ | MADV_POPULATE_WRITE to support
-> >> VM_IO | VM_PFNMAP (as well?) ?
-> > 
-> > What would be a proper point to bind that behaviour? For mmap/mprotect it'd
-> > be probably populate_vma_page_range() because that would span both mmap()
-> > and mprotect() (Dave's suggestion in this thread).
 > 
-> MADV_POPULATE_* ends up in faultin_vma_page_range(), right next to
-> populate_vma_page_range(). So it might require a similar way to hook
-> into the driver I guess.
+> From: Benoit Parrot <bparrot@ti.com>
 > 
-> > 
-> > For MAP_POPULATE I did not have hard proof to show that it would be used
-> > by other drivers but for madvice() you can find at least a few ioctl
-> > based implementations:
-> > 
-> > $ git grep -e madv --and \( -e ioc \)  drivers/
-> > drivers/gpu/drm/i915/gem/i915_gem_ioctls.h:int i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
-> > drivers/gpu/drm/i915/i915_driver.c:     DRM_IOCTL_DEF_DRV(I915_GEM_MADVISE, i915_gem_madvise_ioctl, DRM_RENDER_ALLOW),
-> > drivers/gpu/drm/i915/i915_gem.c:i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
-> > drivers/gpu/drm/msm/msm_drv.c:static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
-> > drivers/gpu/drm/msm/msm_drv.c:  DRM_IOCTL_DEF_DRV(MSM_GEM_MADVISE,  msm_ioctl_gem_madvise,  DRM_RENDER_ALLOW),
-> > drivers/gpu/drm/panfrost/panfrost_drv.c:static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
-> > drivers/gpu/drm/vc4/vc4_drv.c:  DRM_IOCTL_DEF_DRV(VC4_GEM_MADVISE, vc4_gem_madvise_ioctl, DRM_RENDER_ALLOW),
-> > drivers/gpu/drm/vc4/vc4_drv.h:int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
-> > drivers/gpu/drm/vc4/vc4_gem.c:int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
-> > 
-> > IMHO this also provides supportive claim for MAP_POPULATE, and yeah, I
-> > agree that to be consistent implementation, both madvice() and MAP_POPULATE
-> > should work.
+> If the drm_plane has a source width that's greater than the max width
+> supported by a single hw overlay, then we assign a 'r_overlay' to it in
+> omap_plane_atomic_check().
 > 
-> MADV_POPULATE_WRITE + MADV_DONTNEED/FALLOC_FL_PUNCH_HOLE is one way to
-> dynamically manage memory consumption inside a sparse memory mapping
-> (preallocate/populate via MADV_POPULATE_WRITE, discard via
-> MADV_DONTNEED/FALLOC_FL_PUNCH_HOLE).  Extending that whole mechanism to
-> deal with VM_IO | VM_PFNMAP mappings as well could be interesting.
+> Both overlays should have the capabilities required to handle the source
+> framebuffer. The only parameters that vary between the left and right
+> hwoverlays are the src_w, crtc_w, src_x and crtc_x as we just even chop
+> the fb into left and right halves.
 > 
-> At least I herd about some ideas where we might want to dynamically
-> expose memory to a VM (via virtio-mem) inside a sparse memory mapping,
-> and the memory in that sparse memory mapping is provided from a
-> dedicated memory pool managed by a device driver -- not just using
-> ordinary anonymous/file/hugetlb memory as we do right now.
+> We also take care of not creating odd width size when dealing with YUV
+> formats.
 > 
-> Now, this is certainly stuff for the future, I just wanted to mention it.
+> Since both halves need to be 'appear' side by side the zpos is
+> recalculated when dealing with dual overlay cases so that the other
+> planes zpos is consistent.
+> 
+> Depending on user space usage it is possible that on occasion the number
+> of requested planes exceeds the numbers of overlays required to display
+> them. In that case a failure would be returned for the plane that cannot
+> be handled at that time. It is up to user space to make sure the H/W
+> resource are not over-subscribed.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/gpu/drm/omapdrm/omap_drv.c     |  98 ++++++++++++++++++++-
+>  drivers/gpu/drm/omapdrm/omap_fb.c      |  33 ++++++-
+>  drivers/gpu/drm/omapdrm/omap_fb.h      |   4 +-
+>  drivers/gpu/drm/omapdrm/omap_overlay.c |  23 ++++-
+>  drivers/gpu/drm/omapdrm/omap_overlay.h |   3 +-
+>  drivers/gpu/drm/omapdrm/omap_plane.c   | 117 +++++++++++++++++++++++--
+>  drivers/gpu/drm/omapdrm/omap_plane.h   |   1 +
+>  7 files changed, 267 insertions(+), 12 deletions(-)
+> 
+> ...
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_overlay.c b/drivers/gpu/drm/omapdrm/omap_overlay.c
+> index afb2b44fdf86..10730c9b2752 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_overlay.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_overlay.c
+> @@ -67,12 +67,13 @@  omap_plane_find_free_overlay(struct drm_device *dev, struct drm_plane *hwoverlay
+>   * next global overlay_map to be enabled when atomic transaction is valid.
+>   */
+>  int omap_overlay_assign(struct drm_atomic_state *s, struct drm_plane *plane,
+> -			u32 caps, u32 fourcc, struct omap_hw_overlay **overlay)
+> +			u32 caps, u32 fourcc, struct omap_hw_overlay **overlay,
+> +			struct omap_hw_overlay **r_overlay)
+>  {
+>  	/* Get the global state of the current atomic transaction */
+>  	struct omap_global_state *state = omap_get_global_state(s);
+>  	struct drm_plane **overlay_map = state->hwoverlay_to_plane;
+> -	struct omap_hw_overlay *ovl;
+> +	struct omap_hw_overlay *ovl, *r_ovl;
+>  
+>  	ovl = omap_plane_find_free_overlay(s->dev, overlay_map, caps, fourcc);
+>  	if (!ovl)
+> @@ -81,8 +82,26 @@  int omap_overlay_assign(struct drm_atomic_state *s, struct drm_plane *plane,
+>  	overlay_map[ovl->idx] = plane;
+>  	*overlay = ovl;
+>  
+> +	if (r_overlay) {
+> +		r_ovl = omap_plane_find_free_overlay(s->dev, overlay_map,
+> +						     caps, fourcc);
+> +		if (!r_ovl) {
+> +			overlay_map[r_ovl->idx] = NULL;
 
-For SGX purposes I'm now studying the possibly to use ra_state to get
-idea where do "prefetching" (EAUG's) in batches, as it is something
-that would not require any intrusive changes to mm but thank you for
-sharing this. Looking into implementing this properly is the 2nd option,
-if that does not work out.
+Hi,
 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+  a null derefrence "r_ovl->idx" when "r_ovl" is null, in inner if clause.
 
-BR, Jarkko
+
