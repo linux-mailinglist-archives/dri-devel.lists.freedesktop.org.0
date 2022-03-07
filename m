@@ -1,83 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76874CF9AB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 11:12:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3374CFB22
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 11:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5EF10F115;
-	Mon,  7 Mar 2022 10:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6BA710F387;
+	Mon,  7 Mar 2022 10:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBD210F114
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 10:12:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EAtJPNtZqQT+pzIC8Y0yY8ijMFQMxHJn+7uAlJm9E2A=;
- b=Ap5JrlyFIm6Nqu766DUOeEhTHSDPQeURKKCN6Ik52vDoek/MTZxZZcQ5++BWaq+FEWfjM9
- jocsfvYWMN02jbIIc3X8XRmnCfAMdNGmv+cr+Dskh3+qyy2SAtU5R2vx4QYJ3lOayD3M6D
- y/JDT8AhCYNIaRQRmMKmueuXMFUgeTY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-EvcNNXtKNgeL2VASOEMWjA-1; Mon, 07 Mar 2022 05:12:47 -0500
-X-MC-Unique: EvcNNXtKNgeL2VASOEMWjA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 26-20020a05600c22da00b00388307f3503so5187984wmg.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 02:12:47 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCACC10F387
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 10:32:27 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id i8so22427015wrr.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 02:32:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8Gy2GGJRNoE8yXst/AS7H0JV0qPwD/Ie1gxojbs4D5c=;
+ b=Fo26egBRntaoWEL3/DfwEyAAq742j6+C9p7nDoRR3xfgwKcH+E0TDoMeGdqSawnRY0
+ zK2N5vNx5GMF6qcKk9V2KQnbaO6UyAUZCaFdE/FXr9jbVZfTgPCvGzsNhJ97oyKdTfTT
+ 9E7Vnhv8Rurn78Ms2XDJxajn01Dbp0imBBo9Q3pRVgfySlysnVpEFWUvCcmDxiOegZIl
+ WWg1dZA3DQ/fsbnGYraHhMuoUVT/avjAHhbckx1TMJO0ndoAh5wSR7jCu7rJm18ex+HD
+ 6/yN5sjeCaH7th5JEU44U3ejPjC2rJ/XGT+w0F7t3lGOEwoOp7GFPRO/arGAf2ZkvV7U
+ 7hpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=EAtJPNtZqQT+pzIC8Y0yY8ijMFQMxHJn+7uAlJm9E2A=;
- b=2FEyTrRLGa2iRtEj72VvxdAsR1Tx0i0sqr4EeVUvuvHGdt7XoVkj3XMvGrBL0bpkr7
- PUkdE+YGBBE3ScOdDQ1UokDYgRKVRcHkQigpDH2tx+qzfInZJoi0qgdnq3aK2Yiqwb/4
- xLfSV88MpOQMhKCchsx2qPNNUTIAv5VGVWl4dKIy97+YaT3QgZ1+5MldH13/QsZZ1w//
- CdGUqUBmx75LCIrsKbh3y6FQM4W9BVnGa8LWd44B7nRZAwGlSk6yYR7aSb2qeQaMj8cd
- Mb7ViC6+sw3YSn24e3LrvyS2QkMci32pvj0jUzir5OPD1WnUDN2z4fb9wLHuYM4SWn3C
- VqYg==
-X-Gm-Message-State: AOAM531JGzG2aPGkdAFQt7on3qCWH4WX9Hdk1DLJfaE/oCCFnUFo0TE2
- Kj+sLBrogLtZXpbCLYiC/Zjv+s/NTiCmeS+Rkiufu3EzjuI5yye12ziYqYcNxylBFzy17Fu1tI4
- ogLn5j3N3oA2PPzZayuuSWyrQs7pE
-X-Received: by 2002:a5d:6046:0:b0:1f0:4973:142f with SMTP id
- j6-20020a5d6046000000b001f04973142fmr7674911wrt.538.1646647966509; 
- Mon, 07 Mar 2022 02:12:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwEV99RC6J+Vin5f1sKjrk/pcIneCd29UN8hGV1eMibccSf0NvkVF1D5zaL4pxEGhCcclmMGQ==
-X-Received: by 2002:a5d:6046:0:b0:1f0:4973:142f with SMTP id
- j6-20020a5d6046000000b001f04973142fmr7674887wrt.538.1646647966292; 
- Mon, 07 Mar 2022 02:12:46 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:1e00:8d67:f75a:a8ae:dc02?
- (p200300cbc7051e008d67f75aa8aedc02.dip0.t-ipconnect.de.
- [2003:cb:c705:1e00:8d67:f75a:a8ae:dc02])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8Gy2GGJRNoE8yXst/AS7H0JV0qPwD/Ie1gxojbs4D5c=;
+ b=2shZHVLMy+Teng262YII/jQWlPEZFP4X8VmmMuj7S0wFzhl6AK79CU7F9FHpTdAGSL
+ EZwAGkEgsxDzWJyoafnD0rRFXw1cyCdLzbxsYV+h+dfMEAx2I1RQAyHlRkcPuCq50pXk
+ PHvLTR02stcjN8ZRbI5bbZmIm796nag2PzTGq6Z+CfQdquvYUGEet3UP60F/CC9U9re1
+ uxDuhIhiKnwt5lG81GFSjMcSv5GKUHznWz2PzhugoVR5KPkQTaKBVAGZnbRa1e4+OynS
+ UQ+CJnejYf9ss7jvuibO2fAY+ESEMrOUGOTbV6oAasXKleSCgg0t6QQi4SEepK4KgVvl
+ 8Iaw==
+X-Gm-Message-State: AOAM5302G7wWYNfQ3gZDiKUGogrmtLEs3rPvp1UsczB1jnOioJ4BSatW
+ UDVqWP/Do+N4BNVa1ElfPqK/+g==
+X-Google-Smtp-Source: ABdhPJwHiGercBUiYw+DtjYkKgYMr9GAQJXwN7tAmH0OoSry2XwjfzU/p74ni4PpTyE4NNe4RLvE1w==
+X-Received: by 2002:adf:e98c:0:b0:1f0:2f5c:2e9 with SMTP id
+ h12-20020adfe98c000000b001f02f5c02e9mr7534324wrm.356.1646649146147; 
+ Mon, 07 Mar 2022 02:32:26 -0800 (PST)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:1451:71b4:fefe:6096])
  by smtp.gmail.com with ESMTPSA id
- bg18-20020a05600c3c9200b0037c2ef07493sm14954074wmb.3.2022.03.07.02.12.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 02:12:45 -0800 (PST)
-Message-ID: <d6b09f23-f470-c119-8d3e-7d72a3448b64@redhat.com>
-Date: Mon, 7 Mar 2022 11:12:44 +0100
+ v10-20020a05600c214a00b00389bcc75559sm385091wml.27.2022.03.07.02.32.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 02:32:25 -0800 (PST)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm: Drop commas after SoC match table sentinels
+Date: Mon,  7 Mar 2022 11:32:23 +0100
+Message-Id: <164664911819.1311314.8887306245856110435.b4-ty@baylibre.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
+References: <298f0644275d7d0b4aa3ee7143756a2431a4900c.1646311443.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
-To: Jarkko Sakkinen <jarkko@kernel.org>, linux-mm@kvack.org
-References: <20220306053211.135762-1-jarkko@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220306053211.135762-1-jarkko@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +79,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Jason Ekstrand <jason@jlekstrand.net>,
- Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-unionfs@vger.kernel.org,
- codalist@coda.cs.cmu.edu, Matthew Auld <matthew.auld@intel.com>,
- Vasily Averin <vvs@virtuozzo.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Shakeel Butt <shakeelb@google.com>,
- Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nathaniel McCallum <nathaniel@profian.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Alexey Gladkov <legion@kernel.org>
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.03.22 06:32, Jarkko Sakkinen wrote:
-> For device memory (aka VM_IO | VM_PFNMAP) MAP_POPULATE does nothing. Allow
-> to use that for initializing the device memory by providing a new callback
-> f_ops->populate() for the purpose.
-> 
-> SGX patches are provided to show the callback in context.
-> 
-> An obvious alternative is a ioctl but it is less elegant and requires
-> two syscalls (mmap + ioctl) per memory range, instead of just one
-> (mmap).
+Hi,
 
-What about extending MADV_POPULATE_READ | MADV_POPULATE_WRITE to support
-VM_IO | VM_PFNMAP (as well?) ?
+On Thu, 3 Mar 2022 13:44:56 +0100, Geert Uytterhoeven wrote:
+> It does not make sense to have a comma after a sentinel, as any new
+> elements must be added before the sentinel.
+> 
+> 
 
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/1] drm: Drop commas after SoC match table sentinels
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f6e68388443ff50088e224b3a75090bdc0403be6
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Neil
