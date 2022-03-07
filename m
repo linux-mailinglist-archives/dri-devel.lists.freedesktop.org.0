@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DD04CFFFF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 14:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE474D0011
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 14:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF47D10F8BB;
-	Mon,  7 Mar 2022 13:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88A610E3D0;
+	Mon,  7 Mar 2022 13:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA1D10F8BB;
- Mon,  7 Mar 2022 13:26:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B4A10E39E;
+ Mon,  7 Mar 2022 13:30:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 043D96122C;
- Mon,  7 Mar 2022 13:26:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D7FC340E9;
- Mon,  7 Mar 2022 13:26:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 44EE0611A6;
+ Mon,  7 Mar 2022 13:30:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00802C340E9;
+ Mon,  7 Mar 2022 13:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646659612;
- bh=qX81leV8bx9GvO9cEY2kcfusSYlXGTfvKVJTjhs6u1k=;
+ s=k20201202; t=1646659816;
+ bh=oBLz9AgNUk2wIEBHGy6U9s99emBLztMRAodnUzUj5w8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EC5A4Xv6QJzgcsYzCWZkTnri1S1yMA6bREkS5X2l9zN2F1BasfM3p9xw1HQ5LfMcP
- Nwtut30wUo1NePVEIVCcgq6s0teloneCRYm3xr9DLbDZUahN5RvHxiqHLLp2j1kgWE
- SnJUZO1FhecuEYalCzLn+5OK2E+6s07YlZ1YRsy9+eY7jdeC76jyH/Yz3Ie2bmIRIR
- GblNgqmdg0SQr5GjqMSzE8Sc8CpWRwT4T0PJp+RCi9fKYhZYMb6/ZlLkVIA1MtvFCj
- 2kVaAxYDvdR3laIZVSikufQ4LXJsMAB/Spv2b3PZVzr+4T2DD0EVIelk6vWCBOcCid
- aVATXTZ8VVvmQ==
-Date: Mon, 7 Mar 2022 15:26:11 +0200
+ b=sFCk7udNm2J44RTzfUJ+MfPwopHSW/nmauJl4OmAbMfrWN2sP0SwIOWXTFvBG7ITK
+ ZckklcNFLR5z7x04rHy7YPPgl/p5kkHiqVMVYe26/xj40ZZ/jSJS6b2bBHs4cT+qlg
+ lSryt84BjNDG2rf9ETJvTM0G+a+p4bQl/Xod+mFKXtsAk8t/TDHR0+xtUPhy5OHE2n
+ RV7OiySPImo+g4q9DZSj1HLZYgcZTUZlg7l86k4mMgBlrwGy8WT95FerjuTQ/xJ2ij
+ Fs2tnxaydRH2XVd9fVLVS75/YXpyxiD2u+Dk0fyp2LN6w5OcLV76rEDlCEotG1qXaU
+ ODeQnJrvkkvkg==
+Date: Mon, 7 Mar 2022 15:29:35 +0200
 From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH RFC 1/3] mm: Add f_ops->populate()
-Message-ID: <YiYH88wJQzCMvSPC@iki.fi>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
+Message-ID: <YiYIv9guOgClLKT8@iki.fi>
 References: <20220306053211.135762-1-jarkko@kernel.org>
- <20220306053211.135762-2-jarkko@kernel.org>
- <YiSGgCV9u9NglYsM@kroah.com> <YiTpQTM+V6rlDy6G@iki.fi>
- <YiU5E6qqYAI+WPw9@casper.infradead.org> <YiYFxq87p2WVkZcz@iki.fi>
+ <YiSb7tsUEBRGS+HA@casper.infradead.org>
+ <YiW4yurDXSifTYUt@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YiYFxq87p2WVkZcz@iki.fi>
+In-Reply-To: <YiW4yurDXSifTYUt@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,16 +53,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangyiru <zhangyiru3@huawei.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
  Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
  Jason Ekstrand <jason@jlekstrand.net>,
  Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
  Florian Fainelli <f.fainelli@gmail.com>, linux-unionfs@vger.kernel.org,
- codalist@coda.cs.cmu.edu, Matthew Auld <matthew.auld@intel.com>,
- Vasily Averin <vvs@virtuozzo.com>,
+ Matthew Wilcox <willy@infradead.org>, codalist@coda.cs.cmu.edu,
+ Matthew Auld <matthew.auld@intel.com>, Vasily Averin <vvs@virtuozzo.com>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, G@iki.fi, linux-mips@vger.kernel.org,
  Shakeel Butt <shakeelb@google.com>,
  Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -76,50 +75,18 @@ Cc: zhangyiru <zhangyiru3@huawei.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 03:16:57PM +0200, Jarkko Sakkinen wrote:
-> On Sun, Mar 06, 2022 at 10:43:31PM +0000, Matthew Wilcox wrote:
-> > On Sun, Mar 06, 2022 at 07:02:57PM +0200, Jarkko Sakkinen wrote:
-> > > So can I conclude from this that in general having populate available for
-> > > device memory is something horrid, or just the implementation path?
+On Sun, Mar 06, 2022 at 11:48:26PM -0800, Christoph Hellwig wrote:
+> On Sun, Mar 06, 2022 at 11:33:02AM +0000, Matthew Wilcox wrote:
+> > On Sun, Mar 06, 2022 at 07:32:04AM +0200, Jarkko Sakkinen wrote:
+> > > For device memory (aka VM_IO | VM_PFNMAP) MAP_POPULATE does nothing. Allow
+> > > to use that for initializing the device memory by providing a new callback
+> > > f_ops->populate() for the purpose.
 > > 
-> > You haven't even attempted to explain what the problem is you're trying
-> > to solve.  You've shown up with some terrible code and said "Hey, is
-> > this a good idea".  No, no, it's not.
+> > As I said, NAK.
 > 
-> The problem is that in order to include memory to enclave, which is
-> essentially a reserved address range processes virtual address space
-> there's two steps into it:
-> 
-> 1. Host side (kernel) does ENCLS[EAUG] to request a new page to be
->    added to the enclave.
-> 2. Enclave accepts request with ENCLU[EACCEPT] or ENCLU[EACCEPTCOPY].
-> 
-> In the current SGX2 patch set this taken care by the page fault
-> handler. I.e. the enclave calls ENCLU[EACCEPT] for an empty address
-> and the #PF handler then does EAUG for a single page.
-> 
-> So if you want to process a batch of pages this generates O(n)
-> round-trips.
-> 
-> So if there was a way pre-do a batch of EAUG's, that would allow
-> to load data to the enclave without causing page faults happening
-> constantly.
-> 
-> One solution for this simply add ioctl:
-> 
-> https://lore.kernel.org/linux-sgx/YiLRBglTEbu8cHP9@iki.fi/T/#m195ec84bf85614a140abeee245c5118c22ace8f3
-> 
-> But in practice when you wanted to use it, you would setup the
-> parameters so that they match the mmap() range. So for pratical
-> user space API having mmap() take care of this would be much more
-> lean option.
+> Agreed.  This is an amazingly bad interface.
 
-For something like Graphene [1] the lazy #PF based option is probably
-a way to go. For wasm runtime that we're doing in Enarx [2] we get better
-performance by having something like this. I.e. we most of the time take
-as much as we use.
-
-[1] https://github.com/gramineproject/graphene
-[2] https://enarx.dev/
+So what would you suggest to sort out the issue? I'm happy to go with
+ioctl if nothing else is acceptable.
 
 BR, Jarkko
