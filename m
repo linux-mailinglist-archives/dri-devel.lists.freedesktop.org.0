@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D295C4D0455
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 17:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFA64D045C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 17:43:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A6610E087;
-	Mon,  7 Mar 2022 16:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5DD10E089;
+	Mon,  7 Mar 2022 16:43:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B9210E086;
- Mon,  7 Mar 2022 16:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646671347; x=1678207347;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=s0NoDX1VtPJKAdo+1GksrlvYVNf+UImED0itv2byKcM=;
- b=nqpyli8xqEPfqInjq5awl/7V7xSWVAdpBil8kKTNN0l8ktMCGy7hZ62T
- nFXW3MoW3odzTaCJDQZS5W/GLUEU8rTzpjSf7KOmNd4/R5AxiUzRk5JPo
- CnQMj9epbTbz8t/ph8/IiH6ffA/5jC0Q5VB6vr+jLpquVL/neqy9LDuk8
- mWkxUP9M7C3iuVHUD8Bi4kLdI5iZKIdV6rv7i+lKt7bNjUQHNpGQCGQ2G
- shgBZt+BXCHgI5egA9mc3sp0VlJTbm3WBYGU/MltFIweJKjk9gNifznp+
- alhsNAiSZl2Q1EaLGurNMraGhHCNq5zCwZAv4WCkKN7G65DeneYZunjxd A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="241873520"
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="241873520"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 08:41:46 -0800
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="780382147"
-Received: from aaronmux-mobl.ger.corp.intel.com (HELO [10.252.2.25])
- ([10.252.2.25])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 08:41:44 -0800
-Message-ID: <78232c15-0d0c-3594-ab59-63560e63eb4e@intel.com>
-Date: Mon, 7 Mar 2022 16:41:42 +0000
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
+ [209.85.161.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E75C10E089
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 16:43:25 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id
+ x26-20020a4a9b9a000000b003211029e80fso1889539ooj.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 08:43:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6ahRBp9yt0ZPpBFG2Tzui7hdIn/8fP27GT8DryPqqNA=;
+ b=WFTt40wJT9u6EVRBAnCcRmFf9RPoCxrALhBhhUOOv0EltGYmFHOlOMMUXVAtLytKFF
+ xk6MsqcY13Rpk8hyZir3N0z5jz+e71r1L4zwqc/w1pxBjRLjBVgqWIwe5ESlQKfuKaNg
+ 3mLqdimuPq4KRiUxrNbUKmKDOJr6qZ3RpH60ZkTBtUvXlf4z8LWQq3Q/uMgIIQmQP05z
+ OfgaRZORXNrRKihXjdg1BkigIk0rQs4Wa3gmsYPbSReiVMo+DADN1Yj9wzOLz11ZS9Hx
+ DDhoF1rx2fPEDNNod3/SjocIbp/DrvvxW24XWa9GzoaJoSEW14wKs+RQJlPHuwgIBep3
+ Nh4A==
+X-Gm-Message-State: AOAM533lCs86YArsGNPbO583/xaPW7A0YrEGdMgBCGAxnDSBDaP1Y8K6
+ SU5BzlGbILkVa+83i+yzYA==
+X-Google-Smtp-Source: ABdhPJwK7Z8VahsxmcSCvl23V4RUpi+Y1xGPVc+4r9GinlZLpWcbqoisF16Xe98HLqEc7r2Fua2VNA==
+X-Received: by 2002:a05:6870:315:b0:d9:a20e:c0bf with SMTP id
+ m21-20020a056870031500b000d9a20ec0bfmr6530459oaf.128.1646671404592; 
+ Mon, 07 Mar 2022 08:43:24 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ g2-20020a9d5f82000000b005af678c9cfdsm6527808oti.41.2022.03.07.08.43.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 08:43:23 -0800 (PST)
+Received: (nullmailer pid 2731161 invoked by uid 1000);
+ Mon, 07 Mar 2022 16:43:22 -0000
+Date: Mon, 7 Mar 2022 10:43:22 -0600
+From: Rob Herring <robh@kernel.org>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH v1 2/2] Revert "arm64: dts: mt8183: jacuzzi: Fix bus
+ properties in anx's DSI endpoint"
+Message-ID: <YiY2KiXz1qsFQvuM@robh.at.kernel.org>
+References: <20220307154558.2505734-1-robert.foss@linaro.org>
+ <20220307154558.2505734-3-robert.foss@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm: remove min_order BUG_ON check
-Content-Language: en-GB
-To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220307154558.2505734-3-robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, airlied@linux.ie,
+ Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, xji@analogixsemi.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/03/2022 14:37, Arunpravin wrote:
-> place BUG_ON(order < min_order) outside do..while
-> loop as it fails Unigine Heaven benchmark.
-> 
-> Unigine Heaven has buffer allocation requests for
-> example required pages are 161 and alignment request
-> is 128. To allocate the remaining 33 pages, continues
-> the iteration to find the order value which is 5 and
-> when it compares with min_order = 7, enables the
-> BUG_ON(). To avoid this problem, placed the BUG_ON
-> check outside of do..while loop.
-> 
-> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+On Mon, Mar 07, 2022 at 04:45:58PM +0100, Robert Foss wrote:
+> This reverts commit 32568ae37596b529628ac09b875f4874e614f63f.
 > ---
->   drivers/gpu/drm/drm_buddy.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 72f52f293249..ed94c56b720f 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -669,10 +669,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   	order = fls(pages) - 1;
->   	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
->   
-> +	BUG_ON(order < min_order);
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> index e8f133dc96b95..8f7bf33f607da 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> @@ -171,8 +171,6 @@ port@0 {
+>  
+>  			anx7625_in: endpoint {
+>  				remote-endpoint = <&dsi_out>;
+> -				bus-type = <5>;
+> -				data-lanes = <0 1 2 3>;
 
-Isn't the issue that we are allowing a size that is not aligned to the 
-requested min_page_size? Should we not fix the caller(and throw a normal 
-error here), or perhaps add the round_up() here instead?
+Well, this was clearly wrong. Connected to a DSI output, but parallel 
+interface with lanes...
 
-i.e if someone does:
+We should have a schema to disallow this combination.
 
-alloc_blocks(mm, 0, end, 4096, 1<<16, &blocks, flags);
-
-This will still trigger the BUG_ON() even if we move it out of the loop, 
-AFAICT.
-
-> +
->   	do {
->   		order = min(order, (unsigned int)fls(pages) - 1);
->   		BUG_ON(order > mm->max_order);
-> -		BUG_ON(order < min_order);
->   
->   		do {
->   			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
-> 
-> base-commit: 8025c79350b90e5a8029234d433578f12abbae2b
+Rob
