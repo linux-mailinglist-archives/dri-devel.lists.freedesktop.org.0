@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004EF4CFFED
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 14:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DD04CFFFF
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 14:26:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C834410F5C7;
-	Mon,  7 Mar 2022 13:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF47D10F8BB;
+	Mon,  7 Mar 2022 13:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B7310F5C7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 13:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1646659542;
- bh=/O6l7hkL0uaacIQ/iMx/QBKyPp5fhtRwIBhUp3/cTu4=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=ccCdse4vpkfQI5F08kiPQ6PbQowNCfVJXRx3NVBLWVYFK1/TGbh+1VUT7+PLyhdh0
- kYfNIModpIgxB0p3u9eNJuVPS+cjGLiCIvcU0JqCUkWs3yZymyniTBFgJB/uRlL7wv
- 97Xfw2PLCISx4JA55rbKZv5+vJmWe0ppOuCMVLbw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.169.192]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MI5QF-1nLU4g38PX-00F9vK; Mon, 07
- Mar 2022 14:25:41 +0100
-Message-ID: <ea285d28-1b96-984a-b033-4c539c653d11@gmx.de>
-Date: Mon, 7 Mar 2022 14:25:40 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA1D10F8BB;
+ Mon,  7 Mar 2022 13:26:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 043D96122C;
+ Mon,  7 Mar 2022 13:26:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D7FC340E9;
+ Mon,  7 Mar 2022 13:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646659612;
+ bh=qX81leV8bx9GvO9cEY2kcfusSYlXGTfvKVJTjhs6u1k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EC5A4Xv6QJzgcsYzCWZkTnri1S1yMA6bREkS5X2l9zN2F1BasfM3p9xw1HQ5LfMcP
+ Nwtut30wUo1NePVEIVCcgq6s0teloneCRYm3xr9DLbDZUahN5RvHxiqHLLp2j1kgWE
+ SnJUZO1FhecuEYalCzLn+5OK2E+6s07YlZ1YRsy9+eY7jdeC76jyH/Yz3Ie2bmIRIR
+ GblNgqmdg0SQr5GjqMSzE8Sc8CpWRwT4T0PJp+RCi9fKYhZYMb6/ZlLkVIA1MtvFCj
+ 2kVaAxYDvdR3laIZVSikufQ4LXJsMAB/Spv2b3PZVzr+4T2DD0EVIelk6vWCBOcCid
+ aVATXTZ8VVvmQ==
+Date: Mon, 7 Mar 2022 15:26:11 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH RFC 1/3] mm: Add f_ops->populate()
+Message-ID: <YiYH88wJQzCMvSPC@iki.fi>
+References: <20220306053211.135762-1-jarkko@kernel.org>
+ <20220306053211.135762-2-jarkko@kernel.org>
+ <YiSGgCV9u9NglYsM@kroah.com> <YiTpQTM+V6rlDy6G@iki.fi>
+ <YiU5E6qqYAI+WPw9@casper.infradead.org> <YiYFxq87p2WVkZcz@iki.fi>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] omapfb: Add missing of_node_put() in dvic_probe_of
-Content-Language: en-US
-To: Miaoqian Lin <linmq006@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Dave Airlie <airlied@gmail.com>,
- linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20220307123816.31888-1-linmq006@gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220307123816.31888-1-linmq006@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dZ56hsbY+6HJ6VDAQ/N9tk9Ko4iaHAHR03UaXmJm1eaWw1Mh/vB
- DG+3M82ZwLfE3FHRHEnwXmyUxnbSywthcLabvt57wn7yyuk6JkLuZ/mPez3kzsD0y9yHdSe
- /dq5BcbG3cGaJorKcEbmMX3J8mUatxag7lH4gshRI/XQjUTAUkvfC614OU2YwUkuHz3GttB
- YlT62iyEoYjBzGPrB2N/g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h2qOqFjmeLA=:i3fGhRnr2uvK9ix8KeR57h
- X0QbM5PNDOIfSdqC7GyG/Klxj44Z1fL06cXkEZoZxyHwmaVycBdYU4N8Wx01WRoBHgNWUZ6Wj
- iM3haxNcSGCG9bSdstRgyFE3raPM4AnFcrZuFsmTAFwSUP6ZeDQa0H+AYkMQAjCqfPkXoTXt5
- J9gh5Foo/hB2BzjBuyDK6fOnA7030yBY4XD7ZXkasmWawF1pj5Xfao++Uf69Q9o2c2CITWzV2
- 1AAppwsNg5YWw40O2/n7WMXfv9p/q06R8yNoMc5aL9AzOECogGikZE+XqwgmkToKLR9Q990QI
- j4jHPE3BU6hUaYwp+EL8ygnoERZbfUZIidtQXAflFbceYGsdK9o7hMKpqHmjwJnDNDitj61q4
- LaHd7WV0meErvwDE9kg/XpVFIxNGXzjUNa15SAb3x25i1c3u7MNXx4DmxcA2/wuL1uMX3XLnp
- alImYClUJPFAPNkEoqfxu0AGLbc8nC3ktvkiUx1MLNe33v68Goh7snI60Sh6o4qcyRUKrHXaG
- AV28nJu9T0qZSCVVve3pzRmagic39ZsUJZuufo38HHBdCimn+a+8+JRfHaDyTIPXqlgaJpMyd
- PVwu4w/TN5cJQC2D4c6XOJ1qD0HwU7zcTmJdM/1iV+IsMPFOuPVTBUHEEaAggtdS74HrvYmDv
- ZX5Q5w4FMgT2JKlubB6D0JJzpKakwQXUNgByYvSuw+sv81CbtAUJ8DIQGQehxSZudyZp+EOKp
- cwjFxgTpdWgF3CF9BzC301ct7GR9dNhMXrF/pLyB4sXJ7YIWk9S4i12NPHytFdddM9DHqOH5K
- pk1mARboHErVK5aFHV12VGdd8pWXYqPhTYRrM9lMRw9/XPYkIWFXdsuA/eiZDd2Snl/TqV5CT
- 3qIKN3CuSV0vqCaqSz2NczdNeYYuQcSmXK6iVaCm1WsRvZFoClcL0AC5oc+ztvsHNiWKhHkoV
- auN2+tvpX0sFki1AEyJNXJzU8ocG5WwG1nt32yB62M3hKzO0wiJDLx1V6a0kZXRj1xWSL5bUT
- 9DUSbFfcTpIIn1SGhvrODlG6TKgL153UIIYI2poQgRM7HyzdiqkiHHvwnM7/Dq/36hqnbUhza
- vfDfrWcHa4PNjs=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YiYFxq87p2WVkZcz@iki.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,36 +55,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: zhangyiru <zhangyiru3@huawei.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, linux-unionfs@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, Matthew Auld <matthew.auld@intel.com>,
+ Vasily Averin <vvs@virtuozzo.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Shakeel Butt <shakeelb@google.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nathaniel McCallum <nathaniel@profian.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Alexey Gladkov <legion@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/7/22 13:38, Miaoqian Lin wrote:
-> The device_node pointer is returned by of_parse_phandle()  with refcount
-> incremented. We should use of_node_put() on it when done.
->
-> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+On Mon, Mar 07, 2022 at 03:16:57PM +0200, Jarkko Sakkinen wrote:
+> On Sun, Mar 06, 2022 at 10:43:31PM +0000, Matthew Wilcox wrote:
+> > On Sun, Mar 06, 2022 at 07:02:57PM +0200, Jarkko Sakkinen wrote:
+> > > So can I conclude from this that in general having populate available for
+> > > device memory is something horrid, or just the implementation path?
+> > 
+> > You haven't even attempted to explain what the problem is you're trying
+> > to solve.  You've shown up with some terrible code and said "Hey, is
+> > this a good idea".  No, no, it's not.
+> 
+> The problem is that in order to include memory to enclave, which is
+> essentially a reserved address range processes virtual address space
+> there's two steps into it:
+> 
+> 1. Host side (kernel) does ENCLS[EAUG] to request a new page to be
+>    added to the enclave.
+> 2. Enclave accepts request with ENCLU[EACCEPT] or ENCLU[EACCEPTCOPY].
+> 
+> In the current SGX2 patch set this taken care by the page fault
+> handler. I.e. the enclave calls ENCLU[EACCEPT] for an empty address
+> and the #PF handler then does EAUG for a single page.
+> 
+> So if you want to process a batch of pages this generates O(n)
+> round-trips.
+> 
+> So if there was a way pre-do a batch of EAUG's, that would allow
+> to load data to the enclave without causing page faults happening
+> constantly.
+> 
+> One solution for this simply add ioctl:
+> 
+> https://lore.kernel.org/linux-sgx/YiLRBglTEbu8cHP9@iki.fi/T/#m195ec84bf85614a140abeee245c5118c22ace8f3
+> 
+> But in practice when you wanted to use it, you would setup the
+> parameters so that they match the mmap() range. So for pratical
+> user space API having mmap() take care of this would be much more
+> lean option.
 
-applied to the fbdev for-next tree.
-Thanks!
-Helge
+For something like Graphene [1] the lazy #PF based option is probably
+a way to go. For wasm runtime that we're doing in Enarx [2] we get better
+performance by having something like this. I.e. we most of the time take
+as much as we use.
 
-> ---
->  drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c b=
-/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> index 2fa436475b40..c8ad3ef42bd3 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> @@ -246,6 +246,7 @@ static int dvic_probe_of(struct platform_device *pde=
-v)
->  	adapter_node =3D of_parse_phandle(node, "ddc-i2c-bus", 0);
->  	if (adapter_node) {
->  		adapter =3D of_get_i2c_adapter_by_node(adapter_node);
-> +		of_node_put(adapter_node);
->  		if (adapter =3D=3D NULL) {
->  			dev_err(&pdev->dev, "failed to parse ddc-i2c-bus\n");
->  			omap_dss_put_device(ddata->in);
+[1] https://github.com/gramineproject/graphene
+[2] https://enarx.dev/
 
+BR, Jarkko
