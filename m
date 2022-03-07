@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFFE4D05DB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 19:00:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0808D4D060F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 19:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D1110E0F3;
-	Mon,  7 Mar 2022 18:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A127010E100;
+	Mon,  7 Mar 2022 18:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4876A10E025
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 18:00:08 +0000 (UTC)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83AC8B6C;
- Mon,  7 Mar 2022 19:00:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646676007;
- bh=7GnlsHeL9MDTdwZOlEToDD/Ya3nglGn1iT+wlz721dQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ogfGNwOMkHIZxJaUjQGXGW3hc0/8hVU5ccDudAo4P43J7GjAIU6XDWj9ZpXyiZme9
- M3iRFhpF+4vZHo+I4iUtAjEakqhgHK0i7J/bPhpuNmBC/cA5NLyQSrCKLyCEe3NZU8
- IghAyW2WG9QZcQxmLVLwLc6pSSP0i2E8G7DD1OQc=
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 4/4] drm/bridge: ti-sn65dsi86: Support hotplug detection
-Date: Mon,  7 Mar 2022 17:59:55 +0000
-Message-Id: <20220307175955.363057-5-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BE310E100
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 18:13:02 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d17so5939723pfv.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 10:13:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=B6TsA2XdiYCsVCW3zF/aw39LpYtkoWg4fApwKJ6gmVw=;
+ b=NPI9cJpZJGsl1RRJXCbjypAIObWaZrfLdzSTVP4Hl8FLRMVmD8hxJvJveN331QcppE
+ qPQW4nt53HD/7XlOdvP7Wxi74RUHnFCJ5/gWZEp97N8iOKA2kh6WcINEwXJqcjo03jt6
+ g3nH8X5TAifEYgahdO+5cjwPEbnOfcMtE7wKUACGy1hLYJqq7IXBB0O3gLS9YwQVRTV3
+ 5PDuMjV/QgR3r0XdnDzs7YZ7VM3bMu2O6lxtmJHubNz5fDqVw/lhAaIGulJQBoFcsh8B
+ 5RMuIPLgYcjn0V9iE2h6EvMy/G9I6xtWuYeKXYPY/4jdeMTLpMzD2aXMatk4vKnbao+G
+ PLvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=B6TsA2XdiYCsVCW3zF/aw39LpYtkoWg4fApwKJ6gmVw=;
+ b=KzpBRKYXYpHnZPCWSty8Jpje8ooeNIHm/4meBGYP+adpY0QmeKj1PIixAmT02pBADu
+ vMNhRHzsu0e6CTz0xkI6Mqv+3K2RyVbPffl98hlBlepvyiC6IJTsUf/vZ1X+fRiOTESS
+ ZXg1i+2DDoOWQpCUkpj1mwytRUWAcYlOYEzegD5HBBlE0GK7GoUgAlOO1AaqjaZgJDtd
+ +AweGt8y9y/X9cNntZ71VC/PkhNeVGVknA+Cnukqf9zCRzCktzbFBomm/M4Im1Z/B5v9
+ SEgpdtPNfr459Enx6wfHvCG4EE+Rmo/mX2wpo8WWg58IzukiwqOmrsy+jMlptavKYsKd
+ D0hA==
+X-Gm-Message-State: AOAM531doHhkFHljpP9ylW2OaB9ZAk0V4ucWpLt/y+ClMSN8sp1gE3qj
+ oNd94iB7r3VjeCcJb0Dw+flcS675z7AK9Q/opsA=
+X-Google-Smtp-Source: ABdhPJwv8Oq73LsXdfaVk3NJmFp9gR6Y6EpdkcLPgyA9p4k18Xc3iMqj44R+bhPSTRJjFK2FsUjccNownQ2eZaZAYG4=
+X-Received: by 2002:a63:c011:0:b0:378:74a6:9c31 with SMTP id
+ h17-20020a63c011000000b0037874a69c31mr10811098pgg.585.1646676781529; Mon, 07
+ Mar 2022 10:13:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220301153122.20660-1-cbranchereau@gmail.com>
+ <20220301153122.20660-4-cbranchereau@gmail.com>
+ <VM548R.0I9BAN681OS83@crapouillou.net>
+In-Reply-To: <VM548R.0I9BAN681OS83@crapouillou.net>
+From: Christophe Branchereau <cbranchereau@gmail.com>
+Date: Mon, 7 Mar 2022 19:12:49 +0100
+Message-ID: <CAFsFa85Wb7HcxCqGCYQoSOHOTLJY9xtUHc85PoxO3XTbr=HN4g@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/panel : innolux-ej030na and abt-y030xx067a :
+ add .enable and .disable
+To: Paul Cercueil <paul@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,270 +67,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the SN65DSI86 is used in DisplayPort mode, its output is likely
-routed to a DisplayPort connector, which can benefit from hotplug
-detection. Support it in such cases, with polling mode only for now.
+Hi Paul, it should in theory, but doesn't work in practice, the
+display doesn't like having that bit set outside of the init sequence.
 
-The implementation is limited to the bridge operations, as the connector
-operations are legacy and new users should use
-DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+Feel free to experiment if you think you can make it work though, you
+should have that panel on 1 or 2 devices I think.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-Changes since v1:
+KR
+CB
 
-- Document the no_hpd field
-- Rely on the SN_HPD_DISABLE_REG default value in the HPD case
-- Add a TODO comment regarding IRQ support
-[Kieran]
-- Fix spelling s/assrted/asserted/
-- Only enable HPD on DisplayPort connector.
-- Support IRQ based hotplug detect
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 133 +++++++++++++++++++++++---
- 1 file changed, 120 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 461f963faa0b..febb4e672ece 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -68,6 +68,7 @@
- #define  BPP_18_RGB				BIT(0)
- #define SN_HPD_DISABLE_REG			0x5C
- #define  HPD_DISABLE				BIT(0)
-+#define  HPD_DEBOUNCED_STATE			BIT(4)
- #define SN_GPIO_IO_REG				0x5E
- #define  SN_GPIO_INPUT_SHIFT			4
- #define  SN_GPIO_OUTPUT_SHIFT			0
-@@ -104,10 +105,24 @@
- #define SN_PWM_EN_INV_REG			0xA5
- #define  SN_PWM_INV_MASK			BIT(0)
- #define  SN_PWM_EN_MASK				BIT(1)
-+#define SN_IRQ_EN_REG				0xE0
-+#define  IRQ_EN					BIT(0)
-+#define SN_IRQ_HPD_REG				0xE6
-+#define  IRQ_HPD_EN				BIT(0)
-+#define  IRQ_HPD_INSERTION_EN			BIT(1)
-+#define  IRQ_HPD_REMOVAL_EN			BIT(2)
-+#define  IRQ_HPD_REPLUG_EN			BIT(3)
-+#define  IRQ_HPD_PLL_UNLOCK_EN			BIT(5)
- #define SN_AUX_CMD_STATUS_REG			0xF4
- #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
- #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
- #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
-+#define SN_IRQ_HPD_STATUS_REG			0xF5
-+#define  IRQ_HPD_STATUS				BIT(0)
-+#define  IRQ_HPD_INSERTION_STATUS		BIT(1)
-+#define  IRQ_HPD_REMOVAL_STATUS			BIT(2)
-+#define  IRQ_HPD_REPLUG_STATUS			BIT(3)
-+#define  IRQ_PLL_UNLOCK				BIT(5)
- 
- #define MIN_DSI_CLK_FREQ_MHZ	40
- 
-@@ -166,6 +181,11 @@
-  * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
-  * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
-  * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-+ *
-+ * @no_hpd:       Disable hot-plug detection as instructed by device tree (used
-+ *                for instance for eDP panels whose HPD signal won't be asserted
-+ *                until the panel is turned on, and is thus not usable for
-+ *                downstream device detection).
-  */
- struct ti_sn65dsi86 {
- 	struct auxiliary_device		bridge_aux;
-@@ -200,6 +220,8 @@ struct ti_sn65dsi86 {
- 	atomic_t			pwm_pin_busy;
- #endif
- 	unsigned int			pwm_refclk_freq;
-+
-+	bool				no_hpd;
- };
- 
- static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
-@@ -314,23 +336,25 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
- 	ti_sn_bridge_set_refclk_freq(pdata);
- 
- 	/*
--	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
--	 * so the HPD is an internal signal that's only there to signal that
--	 * the panel is done powering up.  ...but the bridge chip debounces
--	 * this signal by between 100 ms and 400 ms (depending on process,
--	 * voltage, and temperate--I measured it at about 200 ms).  One
-+	 * As this is an eDP bridge, the output will be connected to a fixed
-+	 * panel in most systems. HPD is in that case only an internal signal
-+	 * to signal that the panel is done powering up. The bridge chip
-+	 * debounces this signal by between 100 ms and 400 ms (depending on
-+	 * process, voltage, and temperate--I measured it at about 200 ms). One
- 	 * particular panel asserted HPD 84 ms after it was powered on meaning
- 	 * that we saw HPD 284 ms after power on.  ...but the same panel said
- 	 * that instead of looking at HPD you could just hardcode a delay of
--	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
--	 * delay in its prepare and always disable HPD.
-+	 * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
-+	 * assume that the panel driver will have the hardcoded delay in its
-+	 * prepare and always disable HPD.
- 	 *
--	 * If HPD somehow makes sense on some future panel we'll have to
--	 * change this to be conditional on someone specifying that HPD should
--	 * be used.
-+	 * However, on some systems, the output is connected to a DisplayPort
-+	 * connector. HPD is needed in such cases. To accommodate both use
-+	 * cases, enable HPD only when requested.
- 	 */
--	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
--			   HPD_DISABLE);
-+	if (pdata->no_hpd)
-+		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-+				   HPD_DISABLE, HPD_DISABLE);
- 
- 	pdata->comms_enabled = true;
- 
-@@ -1164,6 +1188,36 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
- 	pm_runtime_put_sync(pdata->dev);
- }
- 
-+static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	int val;
-+
-+	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-+
-+	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-+					 : connector_status_disconnected;
-+}
-+
-+static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	/* The device must remain active for HPD to function */
-+	pm_runtime_get_sync(pdata->dev);
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
-+		     IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
-+		     IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
-+}
-+
-+static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
-+	pm_runtime_put_autosuspend(pdata->dev);
-+}
-+
- static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
- 					  struct drm_connector *connector)
- {
-@@ -1185,6 +1239,9 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.enable = ti_sn_bridge_enable,
- 	.disable = ti_sn_bridge_disable,
- 	.post_disable = ti_sn_bridge_post_disable,
-+	.detect = ti_sn_bridge_detect,
-+	.hpd_enable = ti_sn_bridge_hpd_enable,
-+	.hpd_disable = ti_sn_bridge_hpd_disable,
- 	.get_edid = ti_sn_bridge_get_edid,
- };
- 
-@@ -1264,6 +1321,14 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 		return PTR_ERR(pdata->next_bridge);
- 	}
- 
-+	pdata->no_hpd = of_property_read_bool(np, "no-hpd");
-+	if (pdata->next_bridge->type != DRM_MODE_CONNECTOR_DisplayPort &&
-+	    !pdata->no_hpd) {
-+		dev_warn(pdata->dev,
-+			 "HPD support requires a DisplayPort connector\n");
-+		pdata->no_hpd = true;
-+	}
-+
- 	ti_sn_bridge_parse_lanes(pdata, np);
- 
- 	ret = ti_sn_bridge_parse_dsi_host(pdata);
-@@ -1272,7 +1337,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 
- 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
- 	pdata->bridge.of_node = np;
--	pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
-+	pdata->bridge.ops = (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_HPD)
-+			  | DRM_BRIDGE_OP_EDID;
- 	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
- 			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
- 
-@@ -1840,6 +1906,34 @@ static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
- 				       pdata->supplies);
- }
- 
-+static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
-+{
-+	struct ti_sn65dsi86 *pdata = arg;
-+	int ret;
-+	int hpd;
-+
-+	ret = regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
-+	if (ret || !hpd)
-+		return IRQ_NONE;
-+
-+	if (hpd & IRQ_HPD_INSERTION_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_connected);
-+
-+	if (hpd & IRQ_HPD_REMOVAL_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-+
-+	/* When replugged, ensure we trigger a detect to update the display */
-+	if (hpd & IRQ_HPD_REPLUG_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-+
-+	/* reset the status registers */
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
-+		     IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
-+		     IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int ti_sn65dsi86_probe(struct i2c_client *client,
- 			      const struct i2c_device_id *id)
- {
-@@ -1881,6 +1975,16 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 		return dev_err_probe(dev, PTR_ERR(pdata->refclk),
- 				     "failed to get reference clock\n");
- 
-+	if (client->irq > 0) {
-+		ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+						ti_sn65dsi86_irq_handler,
-+						IRQF_ONESHOT, "sn65dsi86-irq",
-+						pdata);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to register DP interrupt\n");
-+	}
-+
- 	pm_runtime_enable(dev);
- 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_runtime_disable, dev);
- 	if (ret)
-@@ -1888,6 +1992,9 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 	pm_runtime_set_autosuspend_delay(pdata->dev, 500);
- 	pm_runtime_use_autosuspend(pdata->dev);
- 
-+	/* Enable interrupt handling */
-+	regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
-+
- 	ti_sn65dsi86_debugfs_init(pdata);
- 
- 	/*
--- 
-2.32.0
-
+On Wed, Mar 2, 2022 at 12:22 PM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Hi Christophe,
+>
+> Le mar., mars 1 2022 at 16:31:22 +0100, Christophe Branchereau
+> <cbranchereau@gmail.com> a =C3=A9crit :
+> > Following the introduction of bridge_atomic_enable in the ingenic
+> > drm driver, the crtc is enabled between .prepare and .enable, if
+> > it exists.
+> >
+> > Add it so the backlight is only enabled after the crtc is, to avoid
+> > graphical issues.
+> >
+> > Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 23 ++++++++++++--
+> >  drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31
+> > ++++++++++++++++---
+> >  2 files changed, 48 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> > b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> > index f043b484055b..b5736344e3ec 100644
+> > --- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> > +++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> > @@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel
+> > *panel)
+> >               goto err_disable_regulator;
+> >       }
+> >
+> > -     msleep(120);
+> > -
+> >       return 0;
+> >
+> >  err_disable_regulator:
+> > @@ -202,6 +200,25 @@ static int y030xx067a_unprepare(struct drm_panel
+> > *panel)
+> >       return 0;
+> >  }
+> >
+> > +static int y030xx067a_enable(struct drm_panel *panel)
+> > +{
+> > +     if (panel->backlight) {
+> > +             /* Wait for the picture to be ready before enabling backl=
+ight */
+> > +             msleep(120);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int y030xx067a_disable(struct drm_panel *panel)
+> > +{
+> > +     struct y030xx067a *priv =3D to_y030xx067a(panel);
+> > +
+> > +     regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
+>
+> Shouldn't that be balanced by a regmap_set_bits() in the .enable()
+> function?
+>
+> Cheers,
+> -Paul
+>
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int y030xx067a_get_modes(struct drm_panel *panel,
+> >                               struct drm_connector *connector)
+> >  {
+> > @@ -239,6 +256,8 @@ static int y030xx067a_get_modes(struct drm_panel
+> > *panel,
+> >  static const struct drm_panel_funcs y030xx067a_funcs =3D {
+> >       .prepare        =3D y030xx067a_prepare,
+> >       .unprepare      =3D y030xx067a_unprepare,
+> > +     .enable         =3D y030xx067a_enable,
+> > +     .disable        =3D y030xx067a_disable,
+> >       .get_modes      =3D y030xx067a_get_modes,
+> >  };
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> > b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> > index c558de3f99be..6de7370185cd 100644
+> > --- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> > +++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> > @@ -80,8 +80,6 @@ static const struct reg_sequence
+> > ej030na_init_sequence[] =3D {
+> >       { 0x47, 0x08 },
+> >       { 0x48, 0x0f },
+> >       { 0x49, 0x0f },
+> > -
+> > -     { 0x2b, 0x01 },
+> >  };
+> >
+> >  static int ej030na_prepare(struct drm_panel *panel)
+> > @@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel
+> > *panel)
+> >               goto err_disable_regulator;
+> >       }
+> >
+> > -     msleep(120);
+> > -
+> >       return 0;
+> >
+> >  err_disable_regulator:
+> > @@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel
+> > *panel)
+> >       return 0;
+> >  }
+> >
+> > +static int ej030na_enable(struct drm_panel *panel)
+> > +{
+> > +     struct ej030na *priv =3D to_ej030na(panel);
+> > +
+> > +     /* standby off */
+> > +     regmap_write(priv->map, 0x2b, 0x01);
+> > +
+> > +     if (panel->backlight) {
+> > +             /* Wait for the picture to be ready before enabling backl=
+ight */
+> > +             msleep(120);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int ej030na_disable(struct drm_panel *panel)
+> > +{
+> > +     struct ej030na *priv =3D to_ej030na(panel);
+> > +
+> > +     /* standby on */
+> > +     regmap_write(priv->map, 0x2b, 0x00);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int ej030na_get_modes(struct drm_panel *panel,
+> >                            struct drm_connector *connector)
+> >  {
+> > @@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel
+> > *panel,
+> >  static const struct drm_panel_funcs ej030na_funcs =3D {
+> >       .prepare        =3D ej030na_prepare,
+> >       .unprepare      =3D ej030na_unprepare,
+> > +     .enable         =3D ej030na_enable,
+> > +     .disable        =3D ej030na_disable,
+> >       .get_modes      =3D ej030na_get_modes,
+> >  };
+> >
+> > --
+> > 2.34.1
+> >
+>
+>
