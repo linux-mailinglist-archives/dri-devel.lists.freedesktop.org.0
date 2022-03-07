@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2874CEFAC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 03:37:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533E04CEFB8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 03:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC6010E0A8;
-	Mon,  7 Mar 2022 02:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C97AD10E0AC;
+	Mon,  7 Mar 2022 02:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D69E10E0A8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 02:37:09 +0000 (UTC)
-X-UUID: 1d06e0ebbc004aa1a0fa1cda32fb3747-20220307
-X-UUID: 1d06e0ebbc004aa1a0fa1cda32fb3747-20220307
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1226672711; Mon, 07 Mar 2022 10:37:04 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 7 Mar 2022 10:37:03 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 7 Mar 2022 10:37:02 +0800
-Message-ID: <89e2c254cb8a391aef5fed550b65ba6531b5adee.camel@mediatek.com>
-Subject: Re: [PATCH v12 01/23] dt-bindings: mediatek: add vdosys1 RDMA
- definition for mt8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "CK
- Hu" <ck.hu@mediatek.com>
-Date: Mon, 7 Mar 2022 10:37:02 +0800
-In-Reply-To: <a958a934-5a24-e5c5-c4c9-ce46a2b140b6@collabora.com>
-References: <20220222100741.30138-1-nancy.lin@mediatek.com>
- <20220222100741.30138-2-nancy.lin@mediatek.com>
- <a958a934-5a24-e5c5-c4c9-ce46a2b140b6@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D995910E0AC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 02:43:53 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
+ by 156.147.23.52 with ESMTP; 7 Mar 2022 11:43:50 +0900
+X-Original-SENDERIP: 156.147.1.127
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.127 with ESMTP; 7 Mar 2022 11:43:50 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Mon, 7 Mar 2022 11:43:25 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <20220307024325.GA6323@X58A-UD3R>
+References: <YiAow5gi21zwUT54@mit.edu>
+ <1646285013-3934-1-git-send-email-byungchul.park@lge.com>
+ <YiDSabde88HJ/aTt@mit.edu> <20220304004237.GB6112@X58A-UD3R>
+ <YiLYX0sqmtkTEM5U@mit.edu> <20220305141538.GA31268@X58A-UD3R>
+ <YiN8M4FwAeW/UAoN@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YiN8M4FwAeW/UAoN@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,153 +47,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, paulmck@kernel.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
-
-Thanks for the review.
-
-On Wed, 2022-03-02 at 11:13 +0100, AngeloGioacchino Del Regno wrote:
-> Il 22/02/22 11:07, Nancy.Lin ha scritto:
-> > Add vdosys1 RDMA definition.
+On Sat, Mar 05, 2022 at 03:05:23PM +0000, Joel Fernandes wrote:
+> On Sat, Mar 05, 2022 at 11:15:38PM +0900, Byungchul Park wrote:
+> > Almost all you've been blaming at Dept are totally non-sense. Based on
+> > what you're saying, I'm conviced that you don't understand how Dept
+> > works even 1%. You don't even try to understand it before blame.
 > > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > ---
-> >   .../arm/mediatek/mediatek,mdp-rdma.yaml       | 77
-> > +++++++++++++++++++
-> >   1 file changed, 77 insertions(+)
-> >   create mode 100644
-> > Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> > rdma.yaml
+> > You don't have to understand and support it. But I can't response to you
+> > if you keep saying silly things that way.
+> 
+> Byungchul, other than ext4 have there been any DEPT reports that other
+> subsystem maintainers' agree were valid usecases?
+
+Not yet.
+
+> Regarding false-positives, just to note lockdep is not without its share of
+> false-positives. Just that (as you know), the signal-to-noise ratio should be
+> high for it to be useful. I've put up with lockdep's false positives just
+> because it occasionally saves me from catastrophe.
+
+I love your insight. Agree. A tool would be useful only when it's
+*actually* helpful. I hope Dept would be so.
+
+> > > In any case, if DEPT is going to report these "circular dependencies
+> > > as bugs that MUST be fixed", it's going to be pure noise and I will
+> > > ignore all DEPT reports, and will push back on having Lockdep replaced
 > > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > new file mode 100644
-> > index 000000000000..d70b81ec1914
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > @@ -0,0 +1,77 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > https://urldefense.com/v3/__http://devicetree.org/schemas/arm/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!zIPCtbPPoflk_hFhtOHugiiLMs-r5rgosZX1t7X_vJxEL13ZNvZ3fMKFvJ5XPNDs$
-> >  
-> > +$schema: 
-> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!zIPCtbPPoflk_hFhtOHugiiLMs-r5rgosZX1t7X_vJxEL13ZNvZ3fMKFvECZss8_$
-> >  
-> > +
-> > +title: Mediatek MDP RDMA
-> > +
-> > +maintainers:
-> > +  - Matthias Brugger <matthias.bgg@gmail.com>
-> > +
-> > +description: |
-> > +  The mediatek MDP RDMA stands for Read Direct Memory Access.
-> > +  It provides real time data to the back-end panel driver, such as
-> > DSI,
-> > +  DPI and DP_INTF.
-> > +  It contains one line buffer to store the sufficient pixel data.
-> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
-> > node.
-> > +  For a description of the MMSYS_CONFIG binding, see
-> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
-> > ml for details.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - const: mediatek,mt8195-vdo1-rdma
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    description: A phandle and PM domain specifier as defined by
-> > bindings of
-> > +      the power controller specified by phandle. See
-> > +      Documentation/devicetree/bindings/power/power-domain.yaml
-> > for details.
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: RDMA Clock
-> > +
-> > +  iommus:
-> > +    description:
-> > +      This property should point to the respective IOMMU block
-> > with master port as argument,
-> > +      see
-> > Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-> > details.
-> > +
-> > +  mediatek,gce-client-reg:
-> > +    description:
-> > +      The register of display function block to be set by gce.
-> > There are 4 arguments,
-> > +      such as gce node, subsys id, offset and register size. The
-> > subsys id that is
-> > +      mapping to the register of display function blocks is
-> > defined in the gce header
-> > +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - power-domains
-> > +  - clocks
-> > +  - iommus
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
+> > Dept is going to be improved so that what you are concerning about won't
+> > be reported.
 > 
-> You're missing a couple of header inclusions and relying on the
-> default
-> address-cells, size-cells, which is wrong here, as you have two of
-> both.
-> 
-> #include .........
-> 
-> soc {
->      #address-cells = <2>;
->      #size-cells = <2>;
-> 
->          vdo1_rdma0: .......
-> 
-OK, I will fix it in the next revision.
+> Yeah I am looking forward to learning more about it however I was wondering
+> about the following: lockdep can already be used for modeling "resource
+> acquire/release" and "resource wait" semantics that are unrelated to locks,
+> like we do in mm reclaim. I am wondering why we cannot just use those existing
+> lockdep mechanisms for the wait/wake usecases (Assuming that we can agree
 
-Best,
-Nancy
-> > +
-> > +    vdo1_rdma0: vdo1_rdma@1c104000 {
-> > +        compatible = "mediatek,mt8195-vdo1-rdma";
-> > +        reg = <0 0x1c104000 0 0x1000>;
-> > +        interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +        clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> > +        power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +        iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> > +        mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000
-> > 0x1000>;
-> > +    };
-> > +
+1. Lockdep can't work with general waits/events happening across
+   contexts basically. To get over this, manual tagging of
+   acquire/release can be used at each section that we suspect. But
+   unfortunately, we cannot use the method if we cannot simply identify
+   the sections. Furthermore, it's inevitable to miss sections that
+   shouldn't get missed.
 
+2. Some cases should be correctly tracked via wait/event model, not
+   acquisition order model. For example, read-lock in rwlock should be
+   defined as a waiter waiting for write-unlock, write-lock in rwlock
+   as a waiter waiting for either read-unlock or write-unlock.
+   Otherwise, if we try to track those cases using acquisition order,
+   it cannot completely work. Don't you think it looks werid?
+
+3. Tracking what we didn't track before means both stronger detection
+   and new emergence of false positives, exactly same as Lockdep at its
+   beginning when it started to track what we hadn't tracked before.
+   Even though the emergence was allowed at that time, now that Locdkep
+   got stable enough, folks would be more strict on new emergences. It's
+   gonna get even worse if valid reports are getting prevented by false
+   positives.
+
+   For that reason, multi reporting functionality is essential. I was
+   thinking to improve Lockdep to allow multi reporting. But it might be
+   needed to change more than developing a new tool from scratch. Plus
+   it might be even more difficult cuz Lockdep already works not badly.
+   So even for Lockdep, I thought the new thing should be developed
+   independently leaving Lockdep as it is.
+
+4. (minor reason) The concept and name of acquisition and release is not
+   for general wait/event. The design and implementation are not,
+   either. I wanted to address the issue as soon as possible before we
+   squeeze out Lockdep to use for general wait/event more and the kernel
+   code gets weird. Of course, it doesn't mean Dept is more stable than
+   Lockdep. However, I can tell Dept works what a dependency tool should
+   do and we need to make the code go right.
+
+> that circular dependencies on related to wait/wake is a bad thing. Or perhaps
+> there's a reason why Peter Zijlstra did not use lockdep for wait/wake
+> dependencies (such as multiple wake sources) considering he wrote a lot of
+> that code.
+> 
+> Keep kicking ass brother, you're doing great.
+
+Thank you! I'll go through this in a right way so as not to disappoint
+you!
+
+Thanks,
+Byungchul
