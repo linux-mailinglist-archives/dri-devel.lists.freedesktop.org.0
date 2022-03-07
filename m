@@ -1,49 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE8B4D0334
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:45:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9EF4D0339
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 813F410E03D;
-	Mon,  7 Mar 2022 15:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFB710E02F;
+	Mon,  7 Mar 2022 15:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67B8B10E03D;
- Mon,  7 Mar 2022 15:44:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E65C3614BB;
- Mon,  7 Mar 2022 15:44:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0485DC340E9;
- Mon,  7 Mar 2022 15:44:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646667898;
- bh=U0RuGnkHGZSN7rcOCs7fzKl6Y7/Lp0fhUWcoOUZcq5Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ij3eAcL4q9iwJKBYHI831XyC2X3aweJTDGKv6pq1qYjqFEHhsWcwvpfB4x74p7jeI
- jFVHLTLY/v/fHZGjI13dQeb/stTFMTUwwewrvRGShRnmRMpzfD4CzTq8UH75DJsGDx
- r0WKa4OnhjgUMOWB7xEGpUJBcf8WpA6K0sJJ9iRggWFEXACaqjHBng5aBZAJw4w+KM
- Ar3x3Ce8iUywGtRo6BWM6TWzj4MetT1f1Ul5K0nGGW0FPta87KPXS8vPUoHbgrrlsy
- Iq/eaXjutkywtcI/65tVlISD1sXTttoZX4PxUOO0P8p65u7DT9fjliaLz36kMGk1pb
- 203t6MtlONLhA==
-Date: Mon, 7 Mar 2022 17:44:17 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH RFC v2] mm: Add f_ops->populate()
-Message-ID: <YiYoUfYuTDsld6L0@iki.fi>
-References: <20220306032655.97863-1-jarkko@kernel.org>
- <20220306152456.2649b1c56da2a4ce4f487be4@linux-foundation.org>
- <c3083144-bfc1-3260-164c-e59b2d110df8@intel.com>
- <YiXsJRE8CWOvFNWH@iki.fi>
- <3c974f25-ece6-102b-01c3-bd7e6274f613@intel.com>
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC3C10E02F
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 15:46:16 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id y22so1472937eds.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 07:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O2robocWX/4eX3h0HkkMwskjpGu6tvHElNahbn7kKFw=;
+ b=G9xK+pOQDnRlW9TPM9PfZSJ+HE03a8E0WnxkTNwtnH+cVBA4mObITDp5hePOIoBiHz
+ HYtUXJ7pLhIiprdZUmnfyFeDFg9XE1B4vwemp1DbGxIsiBy1dCmVIJt29Cx3DY9+a8mJ
+ /cJnrDju5fawzi4IbBHnHrL7LhiBTpm3TLeZ8cxuEsDy4SpKPrM6lC6mh2iKEaYuZLeB
+ 2kmyKFWpFtmrNBhF6IVYcmWMBZ4vHoJtkLu1OfpI9HVuaxkGBZxWIRAps2tQiL0GiFGf
+ 5xfhwIRGIPstbdmIMj8GVeaHkZSknqdypmELx3xdjPyZmE0TeEYanW4fWbFbpBuOjc/h
+ Z8UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O2robocWX/4eX3h0HkkMwskjpGu6tvHElNahbn7kKFw=;
+ b=P3H3UMmUR+bM5r7qqhw6LCirQHsEBIFO1Rh/cQcMoJlyivlRqCenrloNPqf6RUt94x
+ R7EATBPK2L4dQF/kMcehB1kA16OZRxkUmaGytuLXxhY2xF6l3oj5LkJDIzycPK4jAHRD
+ G7mMWjpQcrsedM13oayhhIYSkpxvHpEWVdL2cpPzZTRwCCMsDNUsRZECv+N+jBHe032e
+ H0zFYw/dHONe4PUSyBWSn/DPTrkTZx0XbDHeK1iI0QWEZ6LYfbp8QYbQD7IDDSiRQaPU
+ HiMs5WWnlh1j35IJHdsgc3zwWkl/T+D/+/BIJzgiX5vPWET6W3xPCe6zvg8eu511Gjnf
+ 62Qg==
+X-Gm-Message-State: AOAM533M002FC1j7LfyqhhwH6bb/0dTzWwQioEBi+CJ7P3GKCoisFQl8
+ KXHfyceJ/wmzRuBL7c8p4W+viw==
+X-Google-Smtp-Source: ABdhPJzIFSku8aVjJrO50LvyMLTMndzAvl2LadpIo5JOvunKayfQxPpk+9wCWH705xaBAJv5DVyZ6w==
+X-Received: by 2002:aa7:c4cf:0:b0:416:e28:45b9 with SMTP id
+ p15-20020aa7c4cf000000b004160e2845b9mr11805955edr.319.1646667974548; 
+ Mon, 07 Mar 2022 07:46:14 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+ by smtp.gmail.com with ESMTPSA id
+ e12-20020a056402190c00b0041615cd434csm4210747edz.60.2022.03.07.07.46.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 07:46:13 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ matthias.bgg@gmail.com, robert.foss@linaro.org, xji@analogixsemi.com,
+ hsinyi@chromium.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+Subject: [PATCH v1 0/2] Revert vendor property from anx7625 bindings
+Date: Mon,  7 Mar 2022 16:45:56 +0100
+Message-Id: <20220307154558.2505734-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c974f25-ece6-102b-01c3-bd7e6274f613@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,27 +73,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: codalist@telemann.coda.cs.cmu.edu, jaharkes@cs.cmu.edu,
- Nathaniel McCallum <nathaniel@profian.com>, linux-unionfs@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 07:29:22AM -0800, Dave Hansen wrote:
-> On 3/7/22 03:27, Jarkko Sakkinen wrote:
-> > But e.g. in __mm_populate() anything with (VM_IO | VM_PFNMAP) gets
-> > filtered out and never reach that function.
-> > 
-> > I don't know unorthodox that'd be but could we perhaps have a VM
-> > flag for SGX?
-> 
-> SGX only works on a subset of the chips from one vendor on one
-> architecture.  That doesn't seem worth burning a VM flag.
+An issue[1] related to how the V4L2_FWNODE_BUS_TYPE_PARALLEL flag is mis-used
+was found in recent addition to the anx7625 driver.
 
-What do you think of Matthew's idea of using ra_state for prediction?
+In order to not introduce this issue into the ABI, let's revert the changes
+to the anx7625 dt-binding related to this.
 
-BR, Jarkko
+[1] https://lore.kernel.org/all/YiTruiCIkyxs3jTC@pendragon.ideasonboard.com/
+
+Robert Foss (2):
+  Revert "dt-bindings:drm/bridge:anx7625:add vendor define"
+  Revert "arm64: dts: mt8183: jacuzzi: Fix bus properties in anx's DSI
+    endpoint"
+
+ .../display/bridge/analogix,anx7625.yaml      | 65 +------------------
+ .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  2 -
+ 2 files changed, 2 insertions(+), 65 deletions(-)
+
+-- 
+2.32.0
+
