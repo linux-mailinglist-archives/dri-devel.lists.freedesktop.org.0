@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAF24CFCC9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 12:28:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D5D4CFDBE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 13:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3195410F722;
-	Mon,  7 Mar 2022 11:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771FF10F7A0;
+	Mon,  7 Mar 2022 12:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E9610F722;
- Mon,  7 Mar 2022 11:28:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AA6B3B80FAB;
- Mon,  7 Mar 2022 11:28:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232DCC340E9;
- Mon,  7 Mar 2022 11:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646652494;
- bh=CoioyM0zIXElo8AmL5lOe9QJ9NofNT4LxKFCkZhNubU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SKA3As2Yp0LuIulW1zXgVDONqGP5hbS9VFG+vVYQod0UmHUi6UPA8Y8VxsEutOIxK
- RdqcQTK2KdDpqkLso/Ze/vknDLOudeZqMzI4IyWs1I1RKkLK9P4P8w6EaAO5sjx6G4
- Y9jdSiMw8DWfTtAdMHy3mhqsUDbwHqjgPm4WPBVE5pmFou86QdYv7Icu79rkyLMlr3
- y1FObIg9d+jqzRRs3JF8h6WBEky7RdBwEqh/+KVxkT2O6t/pnHpmZTmzwMpPCJ5g6Y
- eSn+tbxZFwThOFwyhU36MfvqJjhZ/XfObC59oeVuDQX1k2u5PfI3xt16lzDpGvD12s
- qH+rdZcT7wO/w==
-Date: Mon, 7 Mar 2022 13:27:33 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH RFC v2] mm: Add f_ops->populate()
-Message-ID: <YiXsJRE8CWOvFNWH@iki.fi>
-References: <20220306032655.97863-1-jarkko@kernel.org>
- <20220306152456.2649b1c56da2a4ce4f487be4@linux-foundation.org>
- <c3083144-bfc1-3260-164c-e59b2d110df8@intel.com>
+Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
+ [115.236.121.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3CB10EA1C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 12:06:15 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 1C9D7AC0245;
+ Mon,  7 Mar 2022 20:06:11 +0800 (CST)
+Message-ID: <1483d5c1-1a4b-615c-b7c0-41da51b5f38c@rock-chips.com>
+Date: Mon, 7 Mar 2022 20:06:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3083144-bfc1-3260-164c-e59b2d110df8@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 15/24] drm/rockchip: dw_hdmi: add default 594Mhz clk
+ for 4K@60hz
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
+ <20220225075150.2729401-16-s.hauer@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20220225075150.2729401-16-s.hauer@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRoeTxlWH0xKHRpJHx
+ 5IQk4aVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NTI6Khw4Aj4MKzMxKEgPPygj
+ HzBPCgxVSlVKTU9NTU5PTExKTUhMVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElOSzcG
+X-HM-Tid: 0a7f6445d0eeb039kuuu1c9d7ac0245
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,57 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: codalist@telemann.coda.cs.cmu.edu, jaharkes@cs.cmu.edu,
- Nathaniel McCallum <nathaniel@profian.com>, linux-unionfs@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 06, 2022 at 03:41:54PM -0800, Dave Hansen wrote:
-> On 3/6/22 15:24, Andrew Morton wrote:
-> > On Sun,  6 Mar 2022 05:26:55 +0200 Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > 
-> >> Sometimes you might want to use MAP_POPULATE to ask a device driver to
-> >> initialize the device memory in some specific manner. SGX driver can use
-> >> this to request more memory by issuing ENCLS[EAUG] x86 opcode for each
-> >> page in the address range.
-> > Why is this useful?  Please fully describe the benefit to kernel users.
-> > Convince us that the benefit justifies the code churn, maintenance
-> > cost and larger kernel footprint.
-> 
-> In short: page faults stink.  The core kernel has lots of ways of
-> avoiding page faults like madvise(MADV_WILLNEED) or mmap(MAP_POPULATE).
->  But, those only work on normal RAM that the core mm manages.
-> 
-> SGX is weird.  SGX memory is managed outside the core mm.  It doesn't
-> have a 'struct page' and get_user_pages() doesn't work on it.  Its VMAs
-> are marked with VM_IO.  So, none of the existing methods for avoiding
-> page faults work on SGX memory.
-> 
-> This essentially helps extend existing "normal RAM" kernel ABIs to work
-> for avoiding faults for SGX too.  SGX users want to enjoy all of the
-> benefits of a delayed allocation policy (better resource use,
-> overcommit, NUMA affinity) but without the cost of millions of faults.
-> 
-> That said, this isn't how I would have implemented it.  I probably would
-> have hooked in to populate_vma_page_range() or its callers.
+Hi:
 
-The exact implementation path is not driver in this. I'm open for
-better options. The point of these patches is more to show an issue
-rather than solution, and they do carry RFC because of that.
+  I have a test with the 24 patches applied on Linux-5.17-rc5 on 
+rk3568-evb1-v10 board with Sony XR-75z9j  HDMI TV,
 
-Hooking into populate_vma_page_range() does sound like a better idea,
-because then it would be nicely embedded into __mm_populate() and
-other functionality that calls that function.
+4K don't work, the tv shows no signal.
 
-But e.g. in __mm_populate() anything with (VM_IO | VM_PFNMAP) gets
-filtered out and never reach that function.
+1080P can work.
 
-I don't know unorthodox that'd be but could we perhaps have a VM
-flag for SGX?
-
-BR, Jarkko
+On 2/25/22 15:51, Sascha Hauer wrote:
+> From: Nickey Yang <nickey.yang@rock-chips.com>
+>
+> add 594Mhz configuration parameters in rockchip_phy_config
+>
+> Signed-off-by: Nickey Yang <nickey.yang@rock-chips.com>
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>
+> Notes:
+>      Changes since v3:
+>      - new patch
+>
+>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> index e97ba072a097b..03cda7229e559 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> @@ -192,6 +192,7 @@ static const struct dw_hdmi_phy_config rockchip_phy_config[] = {
+>   	{ 74250000,  0x8009, 0x0004, 0x0272},
+>   	{ 148500000, 0x802b, 0x0004, 0x028d},
+>   	{ 297000000, 0x8039, 0x0005, 0x028d},
+> +	{ 594000000, 0x8039, 0x0000, 0x019d},
+>   	{ ~0UL,	     0x0000, 0x0000, 0x0000}
+>   };
+>   
