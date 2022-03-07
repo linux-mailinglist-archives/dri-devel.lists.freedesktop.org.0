@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078924CFEF3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 13:40:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 853424CFF32
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 13:54:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C60510F0C7;
-	Mon,  7 Mar 2022 12:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE1BB10E1F4;
+	Mon,  7 Mar 2022 12:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90BF910F0C7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 12:40:03 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id z3so5154273plg.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 04:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id;
- bh=dHsR3ao0+xiXYz+qySp/eO6Jeo43rF2+fndDyCDm5CI=;
- b=Rc0lOw3FgFRLAsd7u/DZJrhDJcbnYhMJ/edMTz2xVyQIeT0FJq00ihuiveFiTc8z1G
- iMfvs7k+Lw2IHVlSyq7jCRsbeTHobIFuiaEUPH0sYlNERgv/qTA+s5h/feUQVVammIqB
- jCx5gxtn0oICvoNEMKRnVgXMkKHJ6oW6Bb2VeJSOTd/Sovq6oyCc6y+Oqj3zzXX3v+UR
- R47BD4fM6PuDJtwYDSIV12jd8oSksmffC8nATaB3VogSj5Gk3PetfwqoRtbkb1H7yLHv
- tsWP8oZnkfxW8TNf8N/b8NFPdx2wmzKHhvyeir+LhwdAagZTpr9JcbUhL6/VX7znWUES
- bCFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=dHsR3ao0+xiXYz+qySp/eO6Jeo43rF2+fndDyCDm5CI=;
- b=OLAMex2uKWfSmJQEvjQDuD1J6wUZoB8GeA+Pfm5kV9gW65BjEGWr03rzfc2Quu4rEU
- QiPYvI2FrHH6G4A8CeoqSf2x/yspoo8bqw8tE3Ns1Ru/JSN8gYRm65fqIHnqFCwZ8Lie
- LVuzH0GjlNZCvoQZmN+tjNhkrS3Ij6frAipLG/v4FYF6k1m8pAZQbIS/BKd2CPZh6f3n
- uwmcfSgkl8NMK9vlnXiX8zyty/kvT7GFzscQ89HR83K+u3oghw+O/ZVtrE+uPYfOgOEX
- OKDIFKH6gLef5uljMEiV/bg+YJLC9n0qyqSI5Eeef3D4ZtVy73Ak9kO0GzzX2vSNGb0v
- lnww==
-X-Gm-Message-State: AOAM531+Jk2/3jgEuW5WXx/v1x5Z4l1cQJFcsqA2vtJHR8oUChm1uN1W
- yq33Rb+yUy4WPCMDj5oUMjc=
-X-Google-Smtp-Source: ABdhPJznGIbMiQ2zK8bIDsA3ZjDX9lSU/OOB0ngOTGlZjuFIN3Qa4EfVixbTbjo+6MMS4ZEfjCq9ZA==
-X-Received: by 2002:a17:903:291:b0:150:4197:7cf2 with SMTP id
- j17-20020a170903029100b0015041977cf2mr11633351plr.173.1646656803121; 
- Mon, 07 Mar 2022 04:40:03 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- w5-20020a17090a6b8500b001bf564e624esm4687093pjj.39.2022.03.07.04.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 04:40:02 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Helge Deller <deller@gmx.de>, Miaoqian Lin <linmq006@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Dave Airlie <airlied@gmail.com>, linux-omap@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] omapfb: Add missing of_node_put() in dvic_probe_of
-Date: Mon,  7 Mar 2022 12:38:12 +0000
-Message-Id: <20220307123816.31888-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4E810E1F4
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 12:54:27 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nRCsb-0005Xn-Fq; Mon, 07 Mar 2022 13:54:25 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nRCsX-0004Aq-Vo; Mon, 07 Mar 2022 13:54:21 +0100
+Date: Mon, 7 Mar 2022 13:54:21 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v7 22/24] drm: rockchip: Add VOP2 driver
+Message-ID: <20220307125421.GD405@pengutronix.de>
+References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
+ <20220225075150.2729401-23-s.hauer@pengutronix.de>
+ <bb077f34-333e-a07a-1fcb-702a6807f941@rock-chips.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb077f34-333e-a07a-1fcb-702a6807f941@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 13:50:40 up 86 days, 21:36, 86 users,  load average: 0.14, 0.11, 0.13
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device_node pointer is returned by of_parse_phandle()  with refcount
-incremented. We should use of_node_put() on it when done.
+Hi Andy,
 
-Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Mar 07, 2022 at 08:18:08PM +0800, Andy Yan wrote:
+> Hi Sascha:
+> 
+> On 2/25/22 15:51, Sascha Hauer wrote:
+> > From: Andy Yan <andy.yan@rock-chips.com>
+> > 
+> > The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
+> > It replaces the VOP unit found in the older Rockchip SoCs.
+> > 
+> > This driver has been derived from the downstream Rockchip Kernel and
+> > heavily modified:
+> > 
+> > - All nonstandard DRM properties have been removed
+> > - dropped struct vop2_plane_state and pass around less data between
+> >    functions
+> > - Dropped all DRM_FORMAT_* not known on upstream
+> > - rework register access to get rid of excessively used macros
+> > - Drop all waiting for framesyncs
+> > 
+> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+> > board. Overlay support is tested with the modetest utility. AFBC support
+> > on the cluster windows is tested with weston-simple-dmabuf-egl on
+> > weston using the (yet to be upstreamed) panfrost driver support.
+> 
+> 
+> When run a weston 10.0.0:
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-index 2fa436475b40..c8ad3ef42bd3 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-@@ -246,6 +246,7 @@ static int dvic_probe_of(struct platform_device *pdev)
- 	adapter_node = of_parse_phandle(node, "ddc-i2c-bus", 0);
- 	if (adapter_node) {
- 		adapter = of_get_i2c_adapter_by_node(adapter_node);
-+		of_node_put(adapter_node);
- 		if (adapter == NULL) {
- 			dev_err(&pdev->dev, "failed to parse ddc-i2c-bus\n");
- 			omap_dss_put_device(ddata->in);
+I used weston 9.0.90 during testing. I'll try to reproduce the issue
+with weston 10.
+
+Could you maybe have a look at the HCLK issue we are discussing? This
+thread could use some input from someone who has contact to the hardware
+guys.
+
+Regards,
+  Sascha
+
+
 -- 
-2.17.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
