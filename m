@@ -2,45 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D5C4CEFA5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 03:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D85E4CEFA6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 03:33:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C209010E0A6;
-	Mon,  7 Mar 2022 02:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C3110E0A9;
+	Mon,  7 Mar 2022 02:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADC310E0A6
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 02:33:21 +0000 (UTC)
-X-UUID: f04e7b6820a34fcf89eaa803e36e7bf9-20220307
-X-UUID: f04e7b6820a34fcf89eaa803e36e7bf9-20220307
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 552993424; Mon, 07 Mar 2022 10:33:12 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 7 Mar 2022 10:33:11 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 7 Mar 2022 10:33:11 +0800
-Message-ID: <70f7c7bcf9d2b0596bd5f75444c6c12bd593e387.camel@mediatek.com>
-Subject: Re: [PATCH v12 03/23] dt-bindings: mediatek: add ethdr definition
- for mt8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "CK
- Hu" <ck.hu@mediatek.com>
-Date: Mon, 7 Mar 2022 10:33:11 +0800
-In-Reply-To: <243c2a77-6fbf-6afa-b773-de9b58aa4997@collabora.com>
-References: <20220222100741.30138-1-nancy.lin@mediatek.com>
- <20220222100741.30138-4-nancy.lin@mediatek.com>
- <243c2a77-6fbf-6afa-b773-de9b58aa4997@collabora.com>
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr40067.outbound.protection.outlook.com [40.107.4.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A7110E0A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 02:33:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KRYBzs3+IviMIxMJCQccojJCCHOcu/EWT3plkRT8OBY0F2WxbSD8xn37ZBrQe7kxdSlKkR3tRVXG+FAxkKIH06/MpmpCdISBZe0PymFiFZATNVejL73HVieDmYdjRNjZ1nBK5vYNiM4g3zGBz6Jzk+O92DZoo5fbslLsllUNprLQ9FrlGgGJOq2OYzyq2fb4t7YI+96UiW2tL82hKPl7I9v9XUNMni6n339WtjoW+/NxacBVheWcGFDxner5kG6x5a0jLtz7HDRmgaz7fNyh8nb1Y8Yk4npRpz0tC64K7zc7faxh7mr7EDHY6LVaN1jdLWh36D0QQLrWHtH3KTP1EQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y26M5nx/fY+YMNAHRfqQZm1EZfr/r1P+2DPFObWjD/s=;
+ b=gjvVp5GvH2NcZhzc1f5iHDLulNRyVuFWr7bmxN/T+EkIwiZ04k42U6jcoQkZAOQY5/ohNgVfkY/JPV0ivupT6+/g+36Z/GPYE6Tu6+ZX5/pc452Fs0B/v5GhlOHhOGOSxVTHtE0qQttqZDxvYtRgAhP71fVkItf3NgvmQf+SV5YOhDmW2XAGZjrL+xohYjsxuq/DLqK7/WhWW//4zjIQZHvuB9i7LIV7hw5no+xlTaVeQVhFHhbFA2Wio5u0KizT3YWI5dwF42T2lmVMc6hYtOYjn5U3jVYJX5iCYvaG7nqT//IMdsVDptu6rG5UWhlS+O5vhPXRjP/8REUgayl1YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y26M5nx/fY+YMNAHRfqQZm1EZfr/r1P+2DPFObWjD/s=;
+ b=J2CMZjGAg4bVLniaUbzu39VhcGoCTFoaeRgZzzh8BDeXaxO4/VxkqgsztEByTu5+Y8lXdnclb48l4J3Z8S7UAUIe4jItNoqYQCXgFmFdCqLZi+pFmV3kh8R8qK2mKidlHuS2TTStIXuFb7qCMcQ44MUaclcwnQtjZcNYs6CnFQ0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM5PR0402MB2785.eurprd04.prod.outlook.com (2603:10a6:203:98::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.18; Mon, 7 Mar
+ 2022 02:33:50 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::6117:74ed:7550:b3b3]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::6117:74ed:7550:b3b3%6]) with mapi id 15.20.5038.026; Mon, 7 Mar 2022
+ 02:33:50 +0000
+Message-ID: <9ac021dcf3c6a7a3dfa3d88dfcde18fac8a74243.camel@nxp.com>
+Subject: Re: [PATCH RESEND] drm/self_refresh: Don't trigger the entry timer
+ for self refresh work if CRTC state is inactive
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Mon, 07 Mar 2022 10:33:41 +0800
+In-Reply-To: <20220207054617.987811-1-victor.liu@nxp.com>
+References: <20220207054617.987811-1-victor.liu@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
+User-Agent: Evolution 3.36.4-0ubuntu1 
 Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-ClientProxiedBy: SG2PR04CA0202.apcprd04.prod.outlook.com
+ (2603:1096:4:187::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9b0c4ecf-74d7-4814-fc86-08d9ffe2e9ce
+X-MS-TrafficTypeDiagnostic: AM5PR0402MB2785:EE_
+X-Microsoft-Antispam-PRVS: <AM5PR0402MB2785930799CE54C729D66B0198089@AM5PR0402MB2785.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uMJU45enmlp8gxAJn5y59Sh6H9GNqF7SViAHd17WRjfKCTMEPyXzVwfyfL+gWgoTsC00afcP+dqnwXjp7VcoivdVox+MWsu/f8aS95NQ2x1+L1NmhMSFlaBfLPtHIwdXRGDQXmbyoceqhTFRDsIoLvgoGl/RoFCn1EX76jHJ5ol2mtcyKnmPXKTvjxY/IZEel5w8vB4mr3bxoSN6jr0lxHZv81PTffRImDnl5YyC5roA+hD6Vad8yMqzcmJlHRIHXUgnT8wByeGAdnBOvyNLFG82d2z0/tafBvj2aBUIzAjJ6lDQM2cesm+0E1CiZPcblqxfdt0uL1RvSkGXcGat6G9gemu0KCEqvkkcGMkhdasu1XrmwVIRtK9q7s0bxk/8zJlcUhywQemeGOIOa9kako/FXFu9txq7ZQrGIerqv/qJrf1xfVFbvVXT3Wq+Wowxp6Lp8XcxBwdYwNEQaPmfAQ8EhUT1oSM5GqURl2TB781jD/k4IKcXfezk7suLStWWaIq2nTmqobxSQ/+CWHxbcSU43qWPZqb9e9zBod546fDoIfEbz2RaBmJSFSwoM9jbkzJz+q2TFxgvUXosTc9gqLeweyH8ocgtLwCP1gvjKMpr9c6Cb/sd/ssN8mNq3SISD5kzFyXWSypPxZU96ItfISSNE8NuRGScW1T9uxwEkKjX40808NssoLajiy1DUPadUKwnzB2t4c8Oa0z8wRxBSA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66476007)(66556008)(6486002)(36756003)(4326008)(8676002)(83380400001)(66946007)(8936002)(498600001)(54906003)(7416002)(6506007)(38100700002)(86362001)(186003)(6512007)(38350700002)(2616005)(26005)(2906002)(5660300002)(6666004)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2l6bEZtMDJmL05LUUlsQ1ArTXVwOTJRRy9WSVJDeE9jMGRMQlNUQUFKdU1z?=
+ =?utf-8?B?VDY5RzhZRVVxUFY1N3VJWkJ0dXUxcDg4ZlZvbmNJMkNBQ0ttQWhLazN1U1I3?=
+ =?utf-8?B?WW1vUVRUeENFWHBETW5Qak9Oc2d4OUNITFQ2TUs5QnlncSt6c09hZFN5bkhq?=
+ =?utf-8?B?bHMrU3JhOFgxTXdrRy9vWVBYZlBWMGsrZWd0eTF3TTBhSEdXM2UyRWlqQTRM?=
+ =?utf-8?B?eG5mOVBZL0tCcTBEWmZRV2grUUZjMDVsdm4ybUhSdmlwcVZMZW5ZVVpkVVhD?=
+ =?utf-8?B?YlZNdC9iemlvVFBVQVhMcHZyeVNSVnZlUW00VExQeHEzbmdXNktlbWxwbk5o?=
+ =?utf-8?B?Y05EZmRsdnpseXpuU1lUNDhPbUJhK0NoRzNVVUU0TVpKRDlFNFdtSDZVYkhG?=
+ =?utf-8?B?WStsa2VFM0djR05mZmc5bXZCSDNxTWtLdGU2SEI5ckFDcUpXY2haelAzaUdl?=
+ =?utf-8?B?TXZCSkNvbXRacGpYenhTTVYzS21KUzA0eTh2YU1OZTdsZ0ZCR3E2WlF6VFhl?=
+ =?utf-8?B?cmxIWThreXo0S3VVUDlZRTRqOFJCaW45Zm1DSkhhb2NBS3NNdnZucjI4a0FC?=
+ =?utf-8?B?T25UbDFQR1hJNDVoSUFyb3cwRW5MS3JtYXM4TlVCNURESlU5NWlkVEZoQmJI?=
+ =?utf-8?B?eDN5YVN1WHpIMGVvQjNKbXBMOFRIUTJoZ0w1WTZnUFVGUXpWUEZ4MDU2SWRh?=
+ =?utf-8?B?TmpLdkI4VXlaZloyMEU5WDJMdmRwMU1hRko3Zk5wSjBpOTJYcHE5RFJPRDRS?=
+ =?utf-8?B?TDlBY1ZMaVhTKzgwejI0ZWp1K3pjeEpTUWxQVnVyZnF6WVdQZWE3WEErQmVy?=
+ =?utf-8?B?blpwOVpaSHFTWjJ0UVhtMTlXYWZJYzE5aXBxcTZuYUU1SElSd3Vmc2JoWWh2?=
+ =?utf-8?B?UHR6ZklRanl5ZVFWZnJPSktyMlpwRDZFdStGWFNXb0lvQk1ZWERQV0tEaUk1?=
+ =?utf-8?B?OUd2cXR3V1dXL2xFZWNYVmxPYXNTM1RnR0tzTEs5cUM0OVhmc0lWMHh0MUk1?=
+ =?utf-8?B?VkNQdmZxNDVvcDRxUS83TVpqb052NElBM1ByemZyeEh5eXB4VWVVR3ZvbnNL?=
+ =?utf-8?B?TUhranovOTdBM094SEo5V0V6R0VlVTVxUmpPZldyS0RsOVc3VnkzWDhiWjMv?=
+ =?utf-8?B?QUJhblNnRGhWODQ3R1VMOXRMaTlHVE9tRFZJcGJVNDVyVlBjeUVnb1o4WUxD?=
+ =?utf-8?B?QlR0V0QzLzNsNlpnUDRPVjAyRkJtSFlqdHZhb2RJTklJbXlBTzByUzlnQWNU?=
+ =?utf-8?B?eURwQmhOUGxIZGRLS3l0dVZqOGxIVjRlYTRnWnRqQWVtRzhrUURlRk05MjV0?=
+ =?utf-8?B?R3RmSTVlTzZsVWw3QUZVT3IxSGp2N2dvUW42RStKMEQzc1o4UGR6OWpLWHpT?=
+ =?utf-8?B?WGs3SFd1T0FGQldKQnc4OFV6QzdVdG5rdjl4M1NXelVIenNVYUNKZTBIeWUy?=
+ =?utf-8?B?d1MySVl6OXBzM0hGR29qbEZnQ0VMQktYanJORGhZU2IyTXlDYUwrZ0IwV1lo?=
+ =?utf-8?B?eTArS1lVL0FQMlIxclpHTDhEelZlY1FUTUpYUDdZRFVLZDhselZZcWNGcGx0?=
+ =?utf-8?B?T0VpT0pLbmFDWHJFQmF6NlgxUVpqRWM5QVJERGxQMk5GVUZJM0xTd2F6UnJM?=
+ =?utf-8?B?YW9LNXdOUXhFanV0OVpOdzIzQzh1ZzhkUDV4QmNzUlU5LzBja3J3MHJieE9J?=
+ =?utf-8?B?N3U1N3JWdHUxaE5XZitsQjV2cVpKTjRNOXc0b0xTY3VlNTdYTG9xYUNjcU5r?=
+ =?utf-8?B?U3JVdlpvUk1VQVpFcU9nNUNUeGxKT0k4ZURYay9KVk5zazhzUG5qU01wZk91?=
+ =?utf-8?B?M0dEdXhla3VJb25EZmVXYlZLemYrYVVwRzl2dTNTRCtZbEE0VDZ3SXNBajhi?=
+ =?utf-8?B?WVhVK2NLSWd2VDRQMHJkU0FzR1NxUE1xaGliVFJTaGgreWp2MjdTYmkyZ1Bp?=
+ =?utf-8?B?TCtqZHV2YVJad0NVSzlCaldIUmQ0WWE0a2lkUzA1cEJiRXZwVm5LRXB3UDd2?=
+ =?utf-8?B?Vmd0akw2a2FQY1ppRDdmazlxb29oakZPVFNQTFM1d1UyZDlEZlJNSXViTk9D?=
+ =?utf-8?B?cXVjNFA3NVJGTitiU2pYQ05Tb2Z0aXhVeFEzdUd2bmNCYWlmdlRlL3YydXE3?=
+ =?utf-8?B?NWJrUDJFMEMxb09SMU9GRitMWGdvYlBxL3lmNkRhTGpvSlhnSnZFVWtUdUVm?=
+ =?utf-8?Q?m0SLLtjaNZnnUFg3o5s+qHs=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b0c4ecf-74d7-4814-fc86-08d9ffe2e9ce
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 02:33:50.1702 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FfBlBwKO6usX1F3ku0bVOA1TtgcPQbyYt2am15wODYIhVsW4Js17JmkOxSvereipPxkkOF8DHro3Utvxk+3lzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2785
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,244 +125,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, Zain Wang <wzz@rock-chips.com>,
+ David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ linux-imx@nxp.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
-
-Thanks for the review.
-
-On Wed, 2022-03-02 at 11:13 +0100, AngeloGioacchino Del Regno wrote:
-> Il 22/02/22 11:07, Nancy.Lin ha scritto:
-> > Add vdosys1 ETHDR definition.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > ---
-> >   .../display/mediatek/mediatek,ethdr.yaml      | 147
-> > ++++++++++++++++++
-> >   1 file changed, 147 insertions(+)
-> >   create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> > aml
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr
-> > .yaml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr
-> > .yaml
-> > new file mode 100644
-> > index 000000000000..131eed5eeeb7
-> > --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr
-> > .yaml
-> > @@ -0,0 +1,147 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml*__;Iw!!CTRNKA9wMg0ARbw!y6qWSq3epOM61tyVt6ijw6CRNaNmcK382oF8TQ-a57UAcXvx8o1yIPd7pTKakQkU$
-> >  
-> > +$schema: 
-> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!y6qWSq3epOM61tyVt6ijw6CRNaNmcK382oF8TQ-a57UAcXvx8o1yIPd7pTQVqP2v$
-> >  
-> > +
-> > +title: Mediatek Ethdr Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > +  - Philipp Zabel <p.zabel@pengutronix.de>
-> > +
-> > +description: |
-> > +  ETHDR is designed for HDR video and graphics conversion in the
-> > external display path.
-> > +  It handles multiple HDR input types and performs tone mapping,
-> > color space/color
-> > +  format conversion, and then combine different layers, output the
-> > required HDR or
-> > +  SDR signal to the subsequent display path. This engine is
-> > composed of two video
-> > +  frontends, two graphic frontends, one video backend and a mixer.
-> > ETHDR has two
-> > +  DMA function blocks, DS and ADL. These two function blocks read
-> > the pre-programmed
-> > +  registers from DRAM and set them to HW in the v-blanking period.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: mediatek,mt8195-disp-ethdr
-> > +  reg:
-> > +    maxItems: 7
-> > +  reg-names:
-> > +    items:
-> > +      - const: mixer
-> > +      - const: vdo_fe0
-> > +      - const: vdo_fe1
-> > +      - const: gfx_fe0
-> > +      - const: gfx_fe1
-> > +      - const: vdo_be
-> > +      - const: adl_ds
-> > +  interrupts:
-> > +    minItems: 1
-> > +  iommus:
-> > +    description: The compatible property is DMA function blocks.
-> > +      Should point to the respective IOMMU block with master port
-> > as argument,
-> > +      see
-> > Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-> > +      details.
-> > +    minItems: 1
-> > +    maxItems: 2
-> > +  clocks:
-> > +    items:
-> > +      - description: mixer clock
-> > +      - description: video frontend 0 clock
-> > +      - description: video frontend 1 clock
-> > +      - description: graphic frontend 0 clock
-> > +      - description: graphic frontend 1 clock
-> > +      - description: video backend clock
-> > +      - description: autodownload and menuload clock
-> > +      - description: video frontend 0 async clock
-> > +      - description: video frontend 1 async clock
-> > +      - description: graphic frontend 0 async clock
-> > +      - description: graphic frontend 1 async clock
-> > +      - description: video backend async clock
-> > +      - description: ethdr top clock
-> > +  clock-names:
-> > +    items:
-> > +      - const: mixer
-> > +      - const: vdo_fe0
-> > +      - const: vdo_fe1
-> > +      - const: gfx_fe0
-> > +      - const: gfx_fe1
-> > +      - const: vdo_be
-> > +      - const: adl_ds
-> > +      - const: vdo_fe0_async
-> > +      - const: vdo_fe1_async
-> > +      - const: gfx_fe0_async
-> > +      - const: gfx_fe1_async
-> > +      - const: vdo_be_async
-> > +      - const: ethdr_top
-> > +  power-domains:
-> > +    maxItems: 1
-> > +  resets:
-> > +    maxItems: 5
-> > +  mediatek,gce-client-reg:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    description: The register of display function block to be set
-> > by gce.
-> > +      There are 4 arguments in this property, gce node, subsys id,
-> > offset and
-> > +      register size. The subsys id is defined in the gce header of
-> > each chips
-> > +      include/include/dt-bindings/gce/<chip>-gce.h, mapping to the
-> > register of
-> > +      display function block.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - interrupts
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
+On Mon, 2022-02-07 at 13:46 +0800, Liu Ying wrote:
+> If the CRTC state is already inactive, it doesn't make sense to trigger
+> the entry timer for self refresh work to make the display enter self
+> refresh mode, because the disabled CRTC hints that either the entire
+> display pipeline is disabled or the previous atomic commit is triggered
+> by the self refresh work(the CRTC is disabled, while the relevant encoder
+> and bridges could be disabled or not depending on the drivers).
 > 
-> Please fix inclusions and address/size cells.
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Zain Wang <wzz@rock-chips.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+
+Gentle ping...
+
+Thanks,
+Liu Ying
+
+> ---
+>  drivers/gpu/drm/drm_self_refresh_helper.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> Thanks,
-> Angelo
-> 
-
-Because the patch has been applied to mediatek-drm-next [1].
-I saw that you have a patch for fixing this issue [2]. I think I will
-just remove this patch in the next revision. Do you think this is OK? 
-
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next
-[2] 
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220304095458.12409-4-
-angelogioacchino.delregno@collabora.com/
-
-Best,
-Nancy
-
-> > +
-> > +    disp_ethdr@1c114000 {
-> > +            compatible = "mediatek,mt8195-disp-ethdr";
-> > +            reg = <0 0x1c114000 0 0x1000>,
-> > +                  <0 0x1c115000 0 0x1000>,
-> > +                  <0 0x1c117000 0 0x1000>,
-> > +                  <0 0x1c119000 0 0x1000>,
-> > +                  <0 0x1c11A000 0 0x1000>,
-> > +                  <0 0x1c11B000 0 0x1000>,
-> > +                  <0 0x1c11C000 0 0x1000>;
-> > +            reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0",
-> > "gfx_fe1",
-> > +                        "vdo_be", "adl_ds";
-> > +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX
-> > 0x4000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0x5000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0x7000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0x9000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0xA000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0xB000 0x1000>,
-> > +                                      <&gce0 SUBSYS_1c11XXXX
-> > 0xC000 0x1000>;
-> > +            clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-> > +                     <&vdosys1 CLK_VDO1_26M_SLOW>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-> > +                     <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-> > +                     <&topckgen CLK_TOP_ETHDR_SEL>;
-> > +            clock-names = "mixer", "vdo_fe0", "vdo_fe1",
-> > "gfx_fe0", "gfx_fe1",
-> > +                          "vdo_be", "adl_ds", "vdo_fe0_async",
-> > "vdo_fe1_async",
-> > +                          "gfx_fe0_async",
-> > "gfx_fe1_async","vdo_be_async",
-> > +                          "ethdr_top";
-> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +            iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-> > +                     <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-> > +            interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /*
-> > disp mixer */
-> > +            resets = <&vdosys1
-> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-> > +                     <&vdosys1
-> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-> > +                     <&vdosys1
-> > MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-> > +                     <&vdosys1
-> > MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-> > +                     <&vdosys1
-> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-> > +    };
-> > +
-> > +...
+> diff --git a/drivers/gpu/drm/drm_self_refresh_helper.c b/drivers/gpu/drm/drm_self_refresh_helper.c
+> index dd33fec5aabd..e76eb3cd22c7 100644
+> --- a/drivers/gpu/drm/drm_self_refresh_helper.c
+> +++ b/drivers/gpu/drm/drm_self_refresh_helper.c
+> @@ -204,8 +204,12 @@ void drm_self_refresh_helper_alter_state(struct drm_atomic_state *state)
+>  		struct drm_self_refresh_data *sr_data;
+>  		unsigned int delay;
+>  
+> -		/* Don't trigger the entry timer when we're already in SR */
+> -		if (crtc_state->self_refresh_active)
+> +		/*
+> +		 * Don't trigger the entry timer when we're already inactive.
+> +		 * Note that the inactive state hints that either we're already
+> +		 * in SR or the entire display pipeline is already disabled.
+> +		 */
+> +		if (!crtc_state->active)
+>  			continue;
+>  
+>  		sr_data = crtc->self_refresh_data;
 
