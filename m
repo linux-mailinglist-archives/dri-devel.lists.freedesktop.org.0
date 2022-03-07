@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E794D0BF9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 00:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CBC4D0BFB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 00:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F2B10E19F;
-	Mon,  7 Mar 2022 23:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D74D10E1A2;
+	Mon,  7 Mar 2022 23:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9866A10E19F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 23:22:15 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id c20so3704961edr.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 15:22:15 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD62010E1A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 23:22:33 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id d10so35329954eje.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 15:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NtQPHi8MlejTb0WOYkUro+FgYs2jI22g5jze1Xz11Wc=;
- b=EDn3vpkM0MQwAwbvMPZgM+4OdqB7ZpPc9q1RFkFJr/ikmYNZUKI3PXVdTz9AODjcx4
- gzVtjQYGQmSseMru8nUKU6chiUchOkZOxR6fIMRcX9zdvOO2cZ9rD/Zmp3udjJpBSOCG
- uBO3oq/4FaIzk8ef+UNffI1feZv+ynCiuTZc0=
+ :cc; bh=7c0lRQq10amigm9U6do+3Ys9rNR/b4CU3fPdyFOu4gY=;
+ b=HwY5GTqnDqf74vvoTyzbBQmxNTwIEvaO8ErNPwkqdmhJj9sEm6Y9G+EStOPRdb4K7S
+ iNeYXpjX7AWkD3Cf5J56hkeHc87m1Wze/ve9MZEDylQ53RIwtqNduwOM1SYKpVbOImc/
+ rrmWooZg1AhyGRoFUXt26TjfoiOUAyUGKf0dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NtQPHi8MlejTb0WOYkUro+FgYs2jI22g5jze1Xz11Wc=;
- b=LwIL0Vd7Iy3pfcmlmZsF0rSMw6ZYLrslgArnV5R81iRAU9+rEM+0jnymqe80PDaaeP
- bS+Tr2/Nry7eAjpVGu2H+UbuMdJ5zL2Z7uCOjKmHIzKMgNfips+FfEegnnR91Afg2ZIi
- pkTHBMIj76nGYvuby37joOa6caLZXwgVk7Q9M9OJAzaDWECjkXiB3crDW0w1rmo8Gaiy
- g4DYqi9Y8jburpOl6uXmQA0VFnGsIxlaYzNGXiM11lUsPOabU6qb1H9ShXtvS6nYp74I
- 02CqApOFDswSvBLyvLiaxzNMyC0e3I9+LyEFZZ7kh9V/J4lnaAkLlAoCX4te35YaEyNd
- O3rA==
-X-Gm-Message-State: AOAM531A+asvL7w6LD9qX1SUEgMQv+KR/UU/utoeL51uYaa/TPXkPqd1
- 9yMdtWO7p0pTVFxM6blw0skxrr4xvZici5+D
-X-Google-Smtp-Source: ABdhPJw5NmCVWW7oUwmNOs4Bkw/VJJP8+4K83Irpo5EY1KhTwTr8ttYCf8XOXV69nlVteBLfzbWr9A==
-X-Received: by 2002:aa7:d288:0:b0:416:3cc5:1eae with SMTP id
- w8-20020aa7d288000000b004163cc51eaemr8598081edq.306.1646695333770; 
- Mon, 07 Mar 2022 15:22:13 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- n4-20020a056402060400b00415a1f9a4dasm6820041edv.91.2022.03.07.15.22.13
+ bh=7c0lRQq10amigm9U6do+3Ys9rNR/b4CU3fPdyFOu4gY=;
+ b=6MTK/JrKt8xdcSvnlvb748adCid7wlsQROP/ZrL5b3DrjASSA5eeZmkNHosEsuVlfM
+ oIp/l48dDhVMYGHiO8+Z06WMTlYLx7SfBue/gf9OPYDNNreabQ+zhZVEtAxU6Cl/a/WF
+ jIO/owuF1hnorxQ3Mv2GXBy0Xdtn7dJCfafJy/6l+OxWST6GeOGzVkpR6eFr0/rpHWRJ
+ Kp0iq9X2w6IiKSWaGG0sE32CI80kD6TlZ+QCNVd0wnqo2o23FPN36NSVpd78Xb7bwqT3
+ m6cqzrGBJo9kXBcMWkT8GLIpFXtUjN7KQAW6LOJecBtWt4fkPkCraZyvPZ0cqXKQ+/F7
+ PNwg==
+X-Gm-Message-State: AOAM531qcVo6Sb71WSvNm3gOKOEpELUltT1usYlyW7SzOou6fnKwX6uE
+ kKbb5JETLqQilZm5pIE+NhiySVTctQJ7W9Z9
+X-Google-Smtp-Source: ABdhPJye87uIFJ2U7jfSvO0OAPxnhuTdcg+ZZj+xKY2oDltoNE3XgtJMGND/0IpQjZk2uY6dRsqRiA==
+X-Received: by 2002:a17:906:7245:b0:6cf:d3c6:8c63 with SMTP id
+ n5-20020a170906724500b006cfd3c68c63mr10467942ejk.677.1646695352071; 
+ Mon, 07 Mar 2022 15:22:32 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
+ [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
+ u19-20020a17090617d300b006cea86ca384sm5224062eje.40.2022.03.07.15.22.31
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 15:22:13 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- bi14-20020a05600c3d8e00b00386f2897400so361889wmb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 15:22:13 -0800 (PST)
-X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
- s1-20020a7bc0c1000000b00385be1b0e6amr1048093wmh.73.1646695332499; Mon, 07 Mar
- 2022 15:22:12 -0800 (PST)
+ Mon, 07 Mar 2022 15:22:31 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id
+ o18-20020a05600c4fd200b003826701f847so364579wmq.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 15:22:31 -0800 (PST)
+X-Received: by 2002:a05:600c:4ec7:b0:389:bf36:ce3a with SMTP id
+ g7-20020a05600c4ec700b00389bf36ce3amr1065825wmq.118.1646695350832; Mon, 07
+ Mar 2022 15:22:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
- <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
+ <20220307175955.363057-5-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220307175955.363057-5-kieran.bingham+renesas@ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 7 Mar 2022 15:22:00 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-Message-ID: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
+Date: Mon, 7 Mar 2022 15:22:17 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Unx5CPgVF5X9q5G3SbbqqxNpxRQYPywYHy39uqndYpgw@mail.gmail.com>
+Message-ID: <CAD=FV=Unx5CPgVF5X9q5G3SbbqqxNpxRQYPywYHy39uqndYpgw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/bridge: ti-sn65dsi86: Support hotplug detection
 To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,83 +89,79 @@ Hi,
 On Mon, Mar 7, 2022 at 10:00 AM Kieran Bingham
 <kieran.bingham+renesas@ideasonboard.com> wrote:
 >
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-> routed to a DisplayPort connector. Enable DisplayPort mode when the next
-> component in the display pipeline is detected as a DisplayPort
-> connector, and disable eDP features in that case.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reworked to set bridge type based on the next bridge/connector.
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> --
-> Changes since v1/RFC:
->  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
->    devm_drm_of_get_bridge"
->  - eDP/DP mode determined from the next bridge connector type.
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 29f5f7123ed9..461f963faa0b 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -60,6 +60,7 @@
->  #define SN_LN_ASSIGN_REG                       0x59
->  #define  LN_ASSIGN_WIDTH                       2
->  #define SN_ENH_FRAME_REG                       0x5A
-> +#define  ASSR_CONTROL                          BIT(0)
->  #define  VSTREAM_ENABLE                                BIT(3)
->  #define  LN_POLRS_OFFSET                       4
->  #define  LN_POLRS_MASK                         0xf0
-> @@ -91,6 +92,8 @@
->  #define SN_DATARATE_CONFIG_REG                 0x94
->  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
->  #define  DP_DATARATE(x)                                ((x) << 5)
-> +#define SN_TRAINING_SETTING_REG                        0x95
-> +#define  SCRAMBLE_DISABLE                      BIT(4)
->  #define SN_ML_TX_MODE_REG                      0x96
->  #define  ML_TX_MAIN_LINK_OFF                   0
->  #define  ML_TX_NORMAL_MODE                     BIT(0)
-> @@ -1005,6 +1008,11 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
->         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
->                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
->
-> +       /* For DisplayPort, use the standard DP scrambler seed. */
-> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
-> +                                  ASSR_CONTROL, 0);
-
-I thought it was agreed that this hunk wasn't doing anything and
-should be removed? I did some research previously [1] and the manual
-said that this bit is "read only" unless "TEST2" is pulled high. In
-the previous discussion Laurent said that it wasn't. I also pointed
-out that this conflicts with the bit of code in ti_sn_bridge_enable()
-which tells the sink to enable the alternate scrambler.
-
-
->         /* enable DP PLL */
->         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
->
-> @@ -1016,6 +1024,11 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
->                 goto exit;
+> @@ -1264,6 +1321,14 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>                 return PTR_ERR(pdata->next_bridge);
 >         }
 >
-> +       /* For DisplayPort, disable scrambling mode. */
-> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
-> +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
+> +       pdata->no_hpd = of_property_read_bool(np, "no-hpd");
+> +       if (pdata->next_bridge->type != DRM_MODE_CONNECTOR_DisplayPort &&
+> +           !pdata->no_hpd) {
+> +               dev_warn(pdata->dev,
+> +                        "HPD support requires a DisplayPort connector\n");
 
-In my previous review I asked for some comments to include the "why"
-we disabling scrambling mode for DP. Can you please add that?
+Maybe "HPD support only implemented for full DP connectors".
 
-I also presume that for DP it's probably a good idea to avoid the code
-in ti_sn_bridge_enable() that tells the sink to use the alternate
-scrambler.
+Plausibly someone could come up with a reason to hook HPD up for eDP
+one day, but so far we haven't seen it.
 
 
-[1] https://lore.kernel.org/r/CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com
+> @@ -1272,7 +1337,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>
+>         pdata->bridge.funcs = &ti_sn_bridge_funcs;
+>         pdata->bridge.of_node = np;
+> -       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> +       pdata->bridge.ops = (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_HPD)
+> +                         | DRM_BRIDGE_OP_EDID;
+
+Seems like "OP_HPD" ought to be dependent on whether the IRQ was
+provided, right? AKA you could have "detect" because HPD is plumbed
+through to the bridge but not "HPD" if the IRQ from the bridge isn't
+hooked up to the main processor...
+
+
+> @@ -1840,6 +1906,34 @@ static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
+>                                        pdata->supplies);
+>  }
+>
+> +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
+> +{
+> +       struct ti_sn65dsi86 *pdata = arg;
+> +       int ret;
+> +       int hpd;
+
+`hpd` should be an `unsigned int` to match the prototype of regmap-read.
+
+
+> @@ -1881,6 +1975,16 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>                 return dev_err_probe(dev, PTR_ERR(pdata->refclk),
+>                                      "failed to get reference clock\n");
+>
+> +       if (client->irq > 0) {
+> +               ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> +                                               ti_sn65dsi86_irq_handler,
+> +                                               IRQF_ONESHOT, "sn65dsi86-irq",
+> +                                               pdata);
+> +               if (ret)
+> +                       return dev_err_probe(dev, ret,
+> +                                            "Failed to register DP interrupt\n");
+> +       }
+
+Is this the right place to request the IRQ, or should it be in
+ti_sn_bridge_probe(). As soon as you request it the interrupt can go
+off, but you're relying on a bunch of bridge stuff to have been
+initted, right?
+
+
+> @@ -1888,6 +1992,9 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>         pm_runtime_set_autosuspend_delay(pdata->dev, 500);
+>         pm_runtime_use_autosuspend(pdata->dev);
+>
+> +       /* Enable interrupt handling */
+> +       regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
+
+Shouldn't we only enable interrupt handling if client->irq > 0? AKA
+combine this with the "if" statement?
+
+
 
 -Doug
