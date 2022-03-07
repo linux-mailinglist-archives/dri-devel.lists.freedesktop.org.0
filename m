@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1CD4D0351
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:48:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6B4D0357
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A47F10E05D;
-	Mon,  7 Mar 2022 15:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7969A10E068;
+	Mon,  7 Mar 2022 15:48:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE1210E04F;
- Mon,  7 Mar 2022 15:48:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1112710E052;
+ Mon,  7 Mar 2022 15:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=is4Wucf0t+NH2XPrCi6O1Zp3ETIT4WXTUQQTsoL+jLc=; b=bUbVSalsAOAzPa6svAGMaSDFTb
- MfV99vhb4r26qzFAazJAW/EuWGGOP41gSAe2jhxeUSEBqytVLgFPAnx0idtL7E+R0aGwSO3WKzufh
- MZVCFsVoqJJq9EmVeijGvctZuumvGpS1fDQvq1Ge3RQIsdD0+s11dXdvUSajJ3DT0a1zc7AhS9CzC
- O96qKVbnuWkF9VFoBMpjbWmMy2Uw1rELFA5Hgy1nLc1+3QLKBYCSHmNZsbujsgJwc9IC+skZVCZh6
- E4uofeoqtZeBMuTk9LHcZJ+IPYocfRjSek+hxXvN194q4DdsjPenVIo3W60X9jdGxdh7HjUun5SvV
- CMBUW5SA==;
+ bh=SUYyjzJa+Ccqw8POIwaRZM01873mllmmbE+fQkBB8Mk=; b=eMIVIH1+qSZtUy81y54xdnprS1
+ /EdxKG82Th/BKZ2WZNVTRFzDlCmGKvPMqwTTUL4AGVx6YrqVndX6A2plLio91WFMgHbWTy+hoE4RW
+ H6qjTYR9rlZdx1eDd5hQlG/1RHOQ00iHZmkntL6ZAKRJyMBWzsPBTlUcu8y/ZBxhGuZi84N4SyNOt
+ 9ulRXrp/LCh/jPllNPsRpTCgf7lQmR/lHBOlibCLglKemeFWuV2yofCzD9Eq9jrU0kovzD4phRtPh
+ Jt8fa8fsfy0BnOvfFb8iCeHHGKvz5R4IXM/MZIIC1Tl0DTECjvhlpBm62XhecoERqfBEd5A8RUa10
+ wpJMEIWA==;
 Received: from [192.168.12.191] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nRFav-0002rG-7Y; Mon, 07 Mar 2022 16:48:21 +0100
+ id 1nRFaw-0002rG-OK; Mon, 07 Mar 2022 16:48:22 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 1/3] drm/amd/dicplay: move FPU related code from dcn31 to
+Subject: [PATCH 2/3] drm/amd/display: move FPU related code from dcn315 to
  dml/dcn31 folder
-Date: Mon,  7 Mar 2022 14:47:59 -0100
-Message-Id: <20220307154801.2196284-2-mwen@igalia.com>
+Date: Mon,  7 Mar 2022 14:48:00 -0100
+Message-Id: <20220307154801.2196284-3-mwen@igalia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307154801.2196284-1-mwen@igalia.com>
 References: <20220307154801.2196284-1-mwen@igalia.com>
@@ -61,50 +61,39 @@ Cc: Melissa Wen <mwen@igalia.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Creates FPU files in dml/dcn31 folder to centralize FPU operations
-from 3.1x drivers and moves all FPU-associated code from dcn31 driver
-to there. It includes the struct _vcs_dpi_ip_params_st and
-_vcs_dpi_soc_bounding_box_st and functions:
-
-- dcn31_calculate_wm_and_dlg_fp()
-- dcn31_update_bw_bounding_box()
-
-adding dc_assert_fp_enabled to them and drop DC_FP_START/END inside
-functions that was moved to dml folder, as required.
+Moves related structs and dcn315_update_bw_bounding_box from dcn315
+driver code to dml/dcn31_fpu that centralizes FPU code for DCN 3.1x.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn31/Makefile |  26 --
- .../drm/amd/display/dc/dcn31/dcn31_resource.c | 355 +--------------
- .../drm/amd/display/dc/dcn31/dcn31_resource.h |   4 +-
- drivers/gpu/drm/amd/display/dc/dml/Makefile   |   2 +
- .../drm/amd/display/dc/dml/dcn31/dcn31_fpu.c  | 406 ++++++++++++++++++
- .../drm/amd/display/dc/dml/dcn31/dcn31_fpu.h  |  39 ++
- 6 files changed, 451 insertions(+), 381 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
- create mode 100644 drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
+ .../gpu/drm/amd/display/dc/dcn315/Makefile    |  26 --
+ .../amd/display/dc/dcn315/dcn315_resource.c   | 232 +-----------------
+ .../amd/display/dc/dcn315/dcn315_resource.h   |   3 +
+ .../drm/amd/display/dc/dml/dcn31/dcn31_fpu.c  | 228 +++++++++++++++++
+ .../drm/amd/display/dc/dml/dcn31/dcn31_fpu.h  |   3 +
+ 5 files changed, 235 insertions(+), 257 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-index d20e3b8ccc30..ec041e3cda30 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-@@ -15,32 +15,6 @@ DCN31 = dcn31_resource.o dcn31_hubbub.o dcn31_hwseq.o dcn31_init.o dcn31_hubp.o
- 	dcn31_apg.o dcn31_hpo_dp_stream_encoder.o dcn31_hpo_dp_link_encoder.o \
- 	dcn31_afmt.o dcn31_vpg.o
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/Makefile b/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+index c831ad46e81c..59381d24800b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dcn315/Makefile
+@@ -25,32 +25,6 @@
+ 
+ DCN315 = dcn315_resource.o
  
 -ifdef CONFIG_X86
--CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o := -msse
+-CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o := -msse
 -endif
 -
 -ifdef CONFIG_PPC64
--CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o := -mhard-float -maltivec
+-CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o := -mhard-float -maltivec
 -endif
 -
 -ifdef CONFIG_CC_IS_GCC
 -ifeq ($(call cc-ifversion, -lt, 0701, y), y)
 -IS_OLD_GCC = 1
 -endif
--CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mhard-float
+-CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o += -mhard-float
 -endif
 -
 -ifdef CONFIG_X86
@@ -112,41 +101,47 @@ index d20e3b8ccc30..ec041e3cda30 100644
 -# Stack alignment mismatch, proceed with caution.
 -# GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
 -# (8B stack alignment).
--CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mpreferred-stack-boundary=4
+-CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o += -mpreferred-stack-boundary=4
 -else
--CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -msse2
+-CFLAGS_$(AMDDALPATH)/dc/dcn315/dcn315_resource.o += -msse2
 -endif
 -endif
 -
- AMD_DAL_DCN31 = $(addprefix $(AMDDALPATH)/dc/dcn31/,$(DCN31))
+ AMD_DAL_DCN315 = $(addprefix $(AMDDALPATH)/dc/dcn315/,$(DCN315))
  
- AMD_DISPLAY_FILES += $(AMD_DAL_DCN31)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-index e8f38f4a9378..0e51ac029c8a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
-@@ -65,6 +65,7 @@
+ AMD_DISPLAY_FILES += $(AMD_DAL_DCN315)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
+index 756fec81b9ad..51a712958dbd 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
+@@ -66,6 +66,7 @@
  #include "virtual/virtual_stream_encoder.h"
  #include "dce110/dce110_resource.h"
  #include "dml/display_mode_vba.h"
 +#include "dml/dcn31/dcn31_fpu.h"
  #include "dcn31/dcn31_dccg.h"
  #include "dcn10/dcn10_resource.h"
- #include "dcn31_panel_cntl.h"
-@@ -102,152 +103,6 @@
+ #include "dcn31/dcn31_panel_cntl.h"
+@@ -133,158 +134,9 @@
  
- #define DC_LOGGER_INIT(logger)
+ #include "link_enc_cfg.h"
  
--#define DCN3_1_DEFAULT_DET_SIZE 384
+-#define DC_LOGGER_INIT(logger)
 -
--struct _vcs_dpi_ip_params_st dcn3_1_ip = {
+-#define DCN3_15_DEFAULT_DET_SIZE 192
+ #define DCN3_15_MAX_DET_SIZE 384
+-#define DCN3_15_MIN_COMPBUF_SIZE_KB 128
+ #define DCN3_15_CRB_SEGMENT_SIZE_KB 64
+ 
+-struct _vcs_dpi_ip_params_st dcn3_15_ip = {
 -	.gpuvm_enable = 1,
 -	.gpuvm_max_page_table_levels = 1,
 -	.hostvm_enable = 1,
 -	.hostvm_max_page_table_levels = 2,
 -	.rob_buffer_size_kbytes = 64,
--	.det_buffer_size_kbytes = DCN3_1_DEFAULT_DET_SIZE,
--	.config_return_buffer_size_in_kbytes = 1792,
+-	.det_buffer_size_kbytes = DCN3_15_DEFAULT_DET_SIZE,
+-	.min_comp_buffer_size_kbytes = DCN3_15_MIN_COMPBUF_SIZE_KB,
+-	.config_return_buffer_size_in_kbytes = 1024,
 -	.compressed_buffer_segment_size_in_kbytes = 64,
 -	.meta_fifo_size_in_kentries = 32,
 -	.zero_size_buffer_entries = 512,
@@ -163,7 +158,7 @@ index e8f38f4a9378..0e51ac029c8a 100644
 -	.maximum_dsc_bits_per_component = 10,
 -	.dsc422_native_support = false,
 -	.is_line_buffer_bpp_fixed = true,
--	.line_buffer_fixed_bpp = 48,
+-	.line_buffer_fixed_bpp = 49,
 -	.line_buffer_size_bits = 789504,
 -	.max_line_buffer_lines = 12,
 -	.writeback_interface_buffer_size_kbytes = 90,
@@ -182,7 +177,7 @@ index e8f38f4a9378..0e51ac029c8a 100644
 -	.dpte_buffer_size_in_pte_reqs_luma = 64,
 -	.dpte_buffer_size_in_pte_reqs_chroma = 34,
 -	.dispclk_ramp_margin_percent = 1,
--	.max_inter_dcn_tile_repeaters = 8,
+-	.max_inter_dcn_tile_repeaters = 9,
 -	.cursor_buffer_size = 16,
 -	.cursor_chunk_size = 2,
 -	.writeback_line_buffer_buffer_size = 0,
@@ -203,60 +198,60 @@ index e8f38f4a9378..0e51ac029c8a 100644
 -	.dcc_supported = true,
 -};
 -
--struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc = {
+-struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc = {
 -		/*TODO: correct dispclk/dppclk voltage level determination*/
 -	.clock_limits = {
 -		{
 -			.state = 0,
--			.dispclk_mhz = 1200.0,
--			.dppclk_mhz = 1200.0,
--			.phyclk_mhz = 600.0,
--			.phyclk_d18_mhz = 667.0,
--			.dscclk_mhz = 186.0,
--			.dtbclk_mhz = 625.0,
--		},
--		{
--			.state = 1,
--			.dispclk_mhz = 1200.0,
--			.dppclk_mhz = 1200.0,
--			.phyclk_mhz = 810.0,
--			.phyclk_d18_mhz = 667.0,
--			.dscclk_mhz = 209.0,
--			.dtbclk_mhz = 625.0,
--		},
--		{
--			.state = 2,
--			.dispclk_mhz = 1200.0,
--			.dppclk_mhz = 1200.0,
--			.phyclk_mhz = 810.0,
--			.phyclk_d18_mhz = 667.0,
--			.dscclk_mhz = 209.0,
--			.dtbclk_mhz = 625.0,
--		},
--		{
--			.state = 3,
--			.dispclk_mhz = 1200.0,
--			.dppclk_mhz = 1200.0,
--			.phyclk_mhz = 810.0,
--			.phyclk_d18_mhz = 667.0,
--			.dscclk_mhz = 371.0,
--			.dtbclk_mhz = 625.0,
--		},
--		{
--			.state = 4,
--			.dispclk_mhz = 1200.0,
--			.dppclk_mhz = 1200.0,
+-			.dispclk_mhz = 1372.0,
+-			.dppclk_mhz = 1372.0,
 -			.phyclk_mhz = 810.0,
 -			.phyclk_d18_mhz = 667.0,
 -			.dscclk_mhz = 417.0,
--			.dtbclk_mhz = 625.0,
+-			.dtbclk_mhz = 600.0,
+-		},
+-		{
+-			.state = 1,
+-			.dispclk_mhz = 1372.0,
+-			.dppclk_mhz = 1372.0,
+-			.phyclk_mhz = 810.0,
+-			.phyclk_d18_mhz = 667.0,
+-			.dscclk_mhz = 417.0,
+-			.dtbclk_mhz = 600.0,
+-		},
+-		{
+-			.state = 2,
+-			.dispclk_mhz = 1372.0,
+-			.dppclk_mhz = 1372.0,
+-			.phyclk_mhz = 810.0,
+-			.phyclk_d18_mhz = 667.0,
+-			.dscclk_mhz = 417.0,
+-			.dtbclk_mhz = 600.0,
+-		},
+-		{
+-			.state = 3,
+-			.dispclk_mhz = 1372.0,
+-			.dppclk_mhz = 1372.0,
+-			.phyclk_mhz = 810.0,
+-			.phyclk_d18_mhz = 667.0,
+-			.dscclk_mhz = 417.0,
+-			.dtbclk_mhz = 600.0,
+-		},
+-		{
+-			.state = 4,
+-			.dispclk_mhz = 1372.0,
+-			.dppclk_mhz = 1372.0,
+-			.phyclk_mhz = 810.0,
+-			.phyclk_d18_mhz = 667.0,
+-			.dscclk_mhz = 417.0,
+-			.dtbclk_mhz = 600.0,
 -		},
 -	},
 -	.num_states = 5,
 -	.sr_exit_time_us = 9.0,
 -	.sr_enter_plus_exit_time_us = 11.0,
--	.sr_exit_z8_time_us = 442.0,
--	.sr_enter_plus_exit_z8_time_us = 560.0,
+-	.sr_exit_z8_time_us = 50.0,
+-	.sr_enter_plus_exit_z8_time_us = 50.0,
 -	.writeback_latency_us = 12.0,
 -	.dram_channel_width_bytes = 4,
 -	.round_trip_ping_latency_dcfclk_cycles = 106,
@@ -275,7 +270,7 @@ index e8f38f4a9378..0e51ac029c8a 100644
 -	.fabric_datapath_to_dcn_data_return_bytes = 32,
 -	.return_bus_width_bytes = 64,
 -	.downspread_percent = 0.38,
--	.dcn_downspread_percent = 0.5,
+-	.dcn_downspread_percent = 0.38,
 -	.gpuvm_min_page_size_bytes = 4096,
 -	.hostvm_min_page_size_bytes = 4096,
 -	.do_urgent_latency_adjustment = false,
@@ -286,168 +281,24 @@ index e8f38f4a9378..0e51ac029c8a 100644
  enum dcn31_clk_src_array_id {
  	DCN31_CLK_SRC_PLL0,
  	DCN31_CLK_SRC_PLL1,
-@@ -1869,143 +1724,6 @@ void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context)
- 	}
- }
- 
--static void dcn31_calculate_wm_and_dlg_fp(
--		struct dc *dc, struct dc_state *context,
--		display_e2e_pipe_params_st *pipes,
--		int pipe_cnt,
--		int vlevel)
--{
--	int i, pipe_idx;
--	double dcfclk = context->bw_ctx.dml.vba.DCFCLKState[vlevel][context->bw_ctx.dml.vba.maxMpcComb];
--
--	if (context->bw_ctx.dml.soc.min_dcfclk > dcfclk)
--		dcfclk = context->bw_ctx.dml.soc.min_dcfclk;
--
--	/* We don't recalculate clocks for 0 pipe configs, which can block
--	 * S0i3 as high clocks will block low power states
--	 * Override any clocks that can block S0i3 to min here
--	 */
--	if (pipe_cnt == 0) {
--		context->bw_ctx.bw.dcn.clk.dcfclk_khz = dcfclk; // always should be vlevel 0
--		return;
--	}
--
--	pipes[0].clks_cfg.voltage = vlevel;
--	pipes[0].clks_cfg.dcfclk_mhz = dcfclk;
--	pipes[0].clks_cfg.socclk_mhz = context->bw_ctx.dml.soc.clock_limits[vlevel].socclk_mhz;
--
--#if 0 // TODO
--	/* Set B:
--	 * TODO
--	 */
--	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].valid) {
--		if (vlevel == 0) {
--			pipes[0].clks_cfg.voltage = 1;
--			pipes[0].clks_cfg.dcfclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dcfclk_mhz;
--		}
--		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.pstate_latency_us;
--		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.sr_enter_plus_exit_time_us;
--		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.sr_exit_time_us;
--	}
--	context->bw_ctx.bw.dcn.watermarks.b.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.b.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--
--	pipes[0].clks_cfg.voltage = vlevel;
--	pipes[0].clks_cfg.dcfclk_mhz = dcfclk;
--
--	/* Set C:
--	 * TODO
--	 */
--	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].valid) {
--		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.pstate_latency_us;
--		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_enter_plus_exit_time_us;
--		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_exit_time_us;
--	}
--	context->bw_ctx.bw.dcn.watermarks.c.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.c.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--
--	/* Set D:
--	 * TODO
--	 */
--	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].valid) {
--		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.pstate_latency_us;
--		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.sr_enter_plus_exit_time_us;
--		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.sr_exit_time_us;
--	}
--	context->bw_ctx.bw.dcn.watermarks.d.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.d.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--#endif
--
--	/* Set A:
--	 * All clocks min required
--	 *
--	 * Set A calculated last so that following calculations are based on Set A
--	 */
--	dc->res_pool->funcs->update_soc_for_wm_a(dc, context);
--	context->bw_ctx.bw.dcn.watermarks.a.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	context->bw_ctx.bw.dcn.watermarks.a.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
--	/* TODO: remove: */
--	context->bw_ctx.bw.dcn.watermarks.b = context->bw_ctx.bw.dcn.watermarks.a;
--	context->bw_ctx.bw.dcn.watermarks.c = context->bw_ctx.bw.dcn.watermarks.a;
--	context->bw_ctx.bw.dcn.watermarks.d = context->bw_ctx.bw.dcn.watermarks.a;
--	/* end remove*/
--
--	for (i = 0, pipe_idx = 0; i < dc->res_pool->pipe_count; i++) {
--		if (!context->res_ctx.pipe_ctx[i].stream)
--			continue;
--
--		pipes[pipe_idx].clks_cfg.dispclk_mhz = get_dispclk_calculated(&context->bw_ctx.dml, pipes, pipe_cnt);
--		pipes[pipe_idx].clks_cfg.dppclk_mhz = get_dppclk_calculated(&context->bw_ctx.dml, pipes, pipe_cnt, pipe_idx);
--
--		if (dc->config.forced_clocks || dc->debug.max_disp_clk) {
--			pipes[pipe_idx].clks_cfg.dispclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dispclk_mhz;
--			pipes[pipe_idx].clks_cfg.dppclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dppclk_mhz;
--		}
--		if (dc->debug.min_disp_clk_khz > pipes[pipe_idx].clks_cfg.dispclk_mhz * 1000)
--			pipes[pipe_idx].clks_cfg.dispclk_mhz = dc->debug.min_disp_clk_khz / 1000.0;
--		if (dc->debug.min_dpp_clk_khz > pipes[pipe_idx].clks_cfg.dppclk_mhz * 1000)
--			pipes[pipe_idx].clks_cfg.dppclk_mhz = dc->debug.min_dpp_clk_khz / 1000.0;
--
--		pipe_idx++;
--	}
--
--	DC_FP_START();
--	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
--	DC_FP_END();
--}
--
- void dcn31_calculate_wm_and_dlg(
- 		struct dc *dc, struct dc_state *context,
- 		display_e2e_pipe_params_st *pipes,
-@@ -2073,77 +1791,6 @@ static struct dc_cap_funcs cap_funcs = {
+@@ -1859,88 +1711,6 @@ static struct dc_cap_funcs cap_funcs = {
  	.get_dcc_compression_cap = dcn20_get_dcc_compression_cap
  };
  
--void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params)
+-static void dcn315_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params)
 -{
 -	struct clk_limit_table *clk_table = &bw_params->clk_table;
 -	struct _vcs_dpi_voltage_scaling_st clock_limits[DC__VOLTAGE_STATES];
 -	unsigned int i, closest_clk_lvl;
+-	int max_dispclk_mhz = 0, max_dppclk_mhz = 0;
 -	int j;
 -
 -	// Default clock levels are used for diags, which may lead to overclocking.
 -	if (!IS_DIAG_DC(dc->ctx->dce_environment)) {
--		int max_dispclk_mhz = 0, max_dppclk_mhz = 0;
 -
--		dcn3_1_ip.max_num_otg = dc->res_pool->res_cap->num_timing_generator;
--		dcn3_1_ip.max_num_dpp = dc->res_pool->pipe_count;
--		dcn3_1_soc.num_chans = bw_params->num_channels;
+-		dcn3_15_ip.max_num_otg = dc->res_pool->res_cap->num_timing_generator;
+-		dcn3_15_ip.max_num_dpp = dc->res_pool->pipe_count;
+-		dcn3_15_soc.num_chans = bw_params->num_channels;
 -
 -		ASSERT(clk_table->num_entries);
 -
@@ -461,161 +312,95 @@ index e8f38f4a9378..0e51ac029c8a 100644
 -
 -		for (i = 0; i < clk_table->num_entries; i++) {
 -			/* loop backwards*/
--			for (closest_clk_lvl = 0, j = dcn3_1_soc.num_states - 1; j >= 0; j--) {
--				if ((unsigned int) dcn3_1_soc.clock_limits[j].dcfclk_mhz <= clk_table->entries[i].dcfclk_mhz) {
+-			for (closest_clk_lvl = 0, j = dcn3_15_soc.num_states - 1; j >= 0; j--) {
+-				if ((unsigned int) dcn3_15_soc.clock_limits[j].dcfclk_mhz <= clk_table->entries[i].dcfclk_mhz) {
 -					closest_clk_lvl = j;
 -					break;
 -				}
+-			}
+-			if (clk_table->num_entries == 1) {
+-				/*smu gives one DPM level, let's take the highest one*/
+-				closest_clk_lvl = dcn3_15_soc.num_states - 1;
 -			}
 -
 -			clock_limits[i].state = i;
 -
 -			/* Clocks dependent on voltage level. */
 -			clock_limits[i].dcfclk_mhz = clk_table->entries[i].dcfclk_mhz;
+-			if (clk_table->num_entries == 1 &&
+-				clock_limits[i].dcfclk_mhz < dcn3_15_soc.clock_limits[closest_clk_lvl].dcfclk_mhz) {
+-				/*SMU fix not released yet*/
+-				clock_limits[i].dcfclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dcfclk_mhz;
+-			}
 -			clock_limits[i].fabricclk_mhz = clk_table->entries[i].fclk_mhz;
 -			clock_limits[i].socclk_mhz = clk_table->entries[i].socclk_mhz;
 -			clock_limits[i].dram_speed_mts = clk_table->entries[i].memclk_mhz * 2 * clk_table->entries[i].wck_ratio;
 -
 -			/* Clocks independent of voltage level. */
 -			clock_limits[i].dispclk_mhz = max_dispclk_mhz ? max_dispclk_mhz :
--				dcn3_1_soc.clock_limits[closest_clk_lvl].dispclk_mhz;
+-				dcn3_15_soc.clock_limits[closest_clk_lvl].dispclk_mhz;
 -
 -			clock_limits[i].dppclk_mhz = max_dppclk_mhz ? max_dppclk_mhz :
--				dcn3_1_soc.clock_limits[closest_clk_lvl].dppclk_mhz;
+-				dcn3_15_soc.clock_limits[closest_clk_lvl].dppclk_mhz;
 -
--			clock_limits[i].dram_bw_per_chan_gbps = dcn3_1_soc.clock_limits[closest_clk_lvl].dram_bw_per_chan_gbps;
--			clock_limits[i].dscclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].dscclk_mhz;
--			clock_limits[i].dtbclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].dtbclk_mhz;
--			clock_limits[i].phyclk_d18_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].phyclk_d18_mhz;
--			clock_limits[i].phyclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].phyclk_mhz;
+-			clock_limits[i].dram_bw_per_chan_gbps = dcn3_15_soc.clock_limits[closest_clk_lvl].dram_bw_per_chan_gbps;
+-			clock_limits[i].dscclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dscclk_mhz;
+-			clock_limits[i].dtbclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dtbclk_mhz;
+-			clock_limits[i].phyclk_d18_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].phyclk_d18_mhz;
+-			clock_limits[i].phyclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].phyclk_mhz;
 -		}
 -		for (i = 0; i < clk_table->num_entries; i++)
--			dcn3_1_soc.clock_limits[i] = clock_limits[i];
+-			dcn3_15_soc.clock_limits[i] = clock_limits[i];
 -		if (clk_table->num_entries) {
--			dcn3_1_soc.num_states = clk_table->num_entries;
+-			dcn3_15_soc.num_states = clk_table->num_entries;
 -		}
 -	}
 -
--	dcn3_1_soc.dispclk_dppclk_vco_speed_mhz = dc->clk_mgr->dentist_vco_freq_khz / 1000.0;
--	dc->dml.soc.dispclk_dppclk_vco_speed_mhz = dc->clk_mgr->dentist_vco_freq_khz / 1000.0;
+-	if (max_dispclk_mhz) {
+-		dcn3_15_soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
+-		dc->dml.soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
+-	}
 -
 -	if (!IS_FPGA_MAXIMUS_DC(dc->ctx->dce_environment))
--		dml_init_instance(&dc->dml, &dcn3_1_soc, &dcn3_1_ip, DML_PROJECT_DCN31);
+-		dml_init_instance(&dc->dml, &dcn3_15_soc, &dcn3_15_ip, DML_PROJECT_DCN31);
 -	else
--		dml_init_instance(&dc->dml, &dcn3_1_soc, &dcn3_1_ip, DML_PROJECT_DCN31_FPGA);
+-		dml_init_instance(&dc->dml, &dcn3_15_soc, &dcn3_15_ip, DML_PROJECT_DCN31_FPGA);
 -}
 -
- static struct resource_funcs dcn31_res_pool_funcs = {
- 	.destroy = dcn31_destroy_resource_pool,
+ static struct resource_funcs dcn315_res_pool_funcs = {
+ 	.destroy = dcn315_destroy_resource_pool,
  	.link_enc_create = dcn31_link_encoder_create,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-index 4b7ab21ea15b..1ce6509c1ed1 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.h
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
+index f3a36820a31f..39929fa67a51 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.h
 @@ -31,6 +31,9 @@
- #define TO_DCN31_RES_POOL(pool)\
- 	container_of(pool, struct dcn31_resource_pool, base)
+ #define TO_DCN315_RES_POOL(pool)\
+ 	container_of(pool, struct dcn315_resource_pool, base)
  
-+extern struct _vcs_dpi_ip_params_st dcn3_1_ip;
-+extern struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc;
++extern struct _vcs_dpi_ip_params_st dcn3_15_ip;
++extern struct _vcs_dpi_ip_params_st dcn3_15_soc;
 +
- struct dcn31_resource_pool {
+ struct dcn315_resource_pool {
  	struct resource_pool base;
  };
-@@ -47,7 +50,6 @@ int dcn31_populate_dml_pipes_from_context(
- 	struct dc *dc, struct dc_state *context,
- 	display_e2e_pipe_params_st *pipes,
- 	bool fast_validate);
--void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params);
- void dcn31_update_soc_for_wm_a(struct dc *dc, struct dc_state *context);
- 
- struct resource_pool *dcn31_create_resource_pool(
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-index 28978ce62f87..ee911452c048 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-@@ -71,6 +71,7 @@ CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) $(fram
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_rq_dlg_calc_30.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_mode_vba_31.o := $(dml_ccflags) $(frame_warn_flag)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_rq_dlg_calc_31.o := $(dml_ccflags)
-+CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/dcn31_fpu.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn301/dcn301_fpu.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn302/dcn302_fpu.o := $(dml_ccflags)
- CFLAGS_$(AMDDALPATH)/dc/dml/dcn303/dcn303_fpu.o := $(dml_ccflags)
-@@ -114,6 +115,7 @@ DML += dcn20/display_rq_dlg_calc_20v2.o dcn20/display_mode_vba_20v2.o
- DML += dcn21/display_rq_dlg_calc_21.o dcn21/display_mode_vba_21.o
- DML += dcn30/display_mode_vba_30.o dcn30/display_rq_dlg_calc_30.o
- DML += dcn31/display_mode_vba_31.o dcn31/display_rq_dlg_calc_31.o
-+DML += dcn31/dcn31_fpu.o
- DML += dcn301/dcn301_fpu.o
- DML += dcn302/dcn302_fpu.o
- DML += dcn303/dcn303_fpu.o
 diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-new file mode 100644
-index 000000000000..7ff8fe9e8712
---- /dev/null
+index 7ff8fe9e8712..f70b47ef850c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
 +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -0,0 +1,406 @@
-+/*
-+ * Copyright 2019-2021 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
-+
-+#include "resource.h"
-+#include "clk_mgr.h"
-+
-+#include "dml/dcn20/dcn20_fpu.h"
-+#include "dcn31_fpu.h"
-+
-+/**
-+ * DOC: DCN31x FPU manipulation Overview
-+ *
-+ * The DCN architecture relies on FPU operations, which require special
-+ * compilation flags and the use of kernel_fpu_begin/end functions; ideally, we
-+ * want to avoid spreading FPU access across multiple files. With this idea in
-+ * mind, this file aims to centralize all DCN3.1.x functions that require FPU
-+ * access in a single place. Code in this file follows the following code
-+ * pattern:
-+ *
-+ * 1. Functions that use FPU operations should be isolated in static functions.
-+ * 2. The FPU functions should have the noinline attribute to ensure anything
-+ *    that deals with FP register is contained within this call.
-+ * 3. All function that needs to be accessed outside this file requires a
-+ *    public interface that not uses any FPU reference.
-+ * 4. Developers **must not** use DC_FP_START/END in this file, but they need
-+ *    to ensure that the caller invokes it before access any function available
-+ *    in this file. For this reason, public functions in this file must invoke
-+ *    dc_assert_fp_enabled();
-+ */
-+
-+struct _vcs_dpi_ip_params_st dcn3_1_ip = {
+@@ -194,6 +194,150 @@ struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc = {
+ 	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
+ };
+ 
++struct _vcs_dpi_ip_params_st dcn3_15_ip = {
 +	.gpuvm_enable = 1,
 +	.gpuvm_max_page_table_levels = 1,
 +	.hostvm_enable = 1,
 +	.hostvm_max_page_table_levels = 2,
 +	.rob_buffer_size_kbytes = 64,
-+	.det_buffer_size_kbytes = DCN3_1_DEFAULT_DET_SIZE,
-+	.config_return_buffer_size_in_kbytes = 1792,
++	.det_buffer_size_kbytes = DCN3_15_DEFAULT_DET_SIZE,
++	.min_comp_buffer_size_kbytes = DCN3_15_MIN_COMPBUF_SIZE_KB,
++	.config_return_buffer_size_in_kbytes = 1024,
 +	.compressed_buffer_segment_size_in_kbytes = 64,
 +	.meta_fifo_size_in_kentries = 32,
 +	.zero_size_buffer_entries = 512,
@@ -632,7 +417,7 @@ index 000000000000..7ff8fe9e8712
 +	.maximum_dsc_bits_per_component = 10,
 +	.dsc422_native_support = false,
 +	.is_line_buffer_bpp_fixed = true,
-+	.line_buffer_fixed_bpp = 48,
++	.line_buffer_fixed_bpp = 49,
 +	.line_buffer_size_bits = 789504,
 +	.max_line_buffer_lines = 12,
 +	.writeback_interface_buffer_size_kbytes = 90,
@@ -651,7 +436,7 @@ index 000000000000..7ff8fe9e8712
 +	.dpte_buffer_size_in_pte_reqs_luma = 64,
 +	.dpte_buffer_size_in_pte_reqs_chroma = 34,
 +	.dispclk_ramp_margin_percent = 1,
-+	.max_inter_dcn_tile_repeaters = 8,
++	.max_inter_dcn_tile_repeaters = 9,
 +	.cursor_buffer_size = 16,
 +	.cursor_chunk_size = 2,
 +	.writeback_line_buffer_buffer_size = 0,
@@ -672,60 +457,60 @@ index 000000000000..7ff8fe9e8712
 +	.dcc_supported = true,
 +};
 +
-+struct _vcs_dpi_soc_bounding_box_st dcn3_1_soc = {
++struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc = {
 +		/*TODO: correct dispclk/dppclk voltage level determination*/
 +	.clock_limits = {
 +		{
 +			.state = 0,
-+			.dispclk_mhz = 1200.0,
-+			.dppclk_mhz = 1200.0,
-+			.phyclk_mhz = 600.0,
-+			.phyclk_d18_mhz = 667.0,
-+			.dscclk_mhz = 186.0,
-+			.dtbclk_mhz = 625.0,
-+		},
-+		{
-+			.state = 1,
-+			.dispclk_mhz = 1200.0,
-+			.dppclk_mhz = 1200.0,
-+			.phyclk_mhz = 810.0,
-+			.phyclk_d18_mhz = 667.0,
-+			.dscclk_mhz = 209.0,
-+			.dtbclk_mhz = 625.0,
-+		},
-+		{
-+			.state = 2,
-+			.dispclk_mhz = 1200.0,
-+			.dppclk_mhz = 1200.0,
-+			.phyclk_mhz = 810.0,
-+			.phyclk_d18_mhz = 667.0,
-+			.dscclk_mhz = 209.0,
-+			.dtbclk_mhz = 625.0,
-+		},
-+		{
-+			.state = 3,
-+			.dispclk_mhz = 1200.0,
-+			.dppclk_mhz = 1200.0,
-+			.phyclk_mhz = 810.0,
-+			.phyclk_d18_mhz = 667.0,
-+			.dscclk_mhz = 371.0,
-+			.dtbclk_mhz = 625.0,
-+		},
-+		{
-+			.state = 4,
-+			.dispclk_mhz = 1200.0,
-+			.dppclk_mhz = 1200.0,
++			.dispclk_mhz = 1372.0,
++			.dppclk_mhz = 1372.0,
 +			.phyclk_mhz = 810.0,
 +			.phyclk_d18_mhz = 667.0,
 +			.dscclk_mhz = 417.0,
-+			.dtbclk_mhz = 625.0,
++			.dtbclk_mhz = 600.0,
++		},
++		{
++			.state = 1,
++			.dispclk_mhz = 1372.0,
++			.dppclk_mhz = 1372.0,
++			.phyclk_mhz = 810.0,
++			.phyclk_d18_mhz = 667.0,
++			.dscclk_mhz = 417.0,
++			.dtbclk_mhz = 600.0,
++		},
++		{
++			.state = 2,
++			.dispclk_mhz = 1372.0,
++			.dppclk_mhz = 1372.0,
++			.phyclk_mhz = 810.0,
++			.phyclk_d18_mhz = 667.0,
++			.dscclk_mhz = 417.0,
++			.dtbclk_mhz = 600.0,
++		},
++		{
++			.state = 3,
++			.dispclk_mhz = 1372.0,
++			.dppclk_mhz = 1372.0,
++			.phyclk_mhz = 810.0,
++			.phyclk_d18_mhz = 667.0,
++			.dscclk_mhz = 417.0,
++			.dtbclk_mhz = 600.0,
++		},
++		{
++			.state = 4,
++			.dispclk_mhz = 1372.0,
++			.dppclk_mhz = 1372.0,
++			.phyclk_mhz = 810.0,
++			.phyclk_d18_mhz = 667.0,
++			.dscclk_mhz = 417.0,
++			.dtbclk_mhz = 600.0,
 +		},
 +	},
 +	.num_states = 5,
 +	.sr_exit_time_us = 9.0,
 +	.sr_enter_plus_exit_time_us = 11.0,
-+	.sr_exit_z8_time_us = 442.0,
-+	.sr_enter_plus_exit_z8_time_us = 560.0,
++	.sr_exit_z8_time_us = 50.0,
++	.sr_enter_plus_exit_z8_time_us = 50.0,
 +	.writeback_latency_us = 12.0,
 +	.dram_channel_width_bytes = 4,
 +	.round_trip_ping_latency_dcfclk_cycles = 106,
@@ -744,168 +529,37 @@ index 000000000000..7ff8fe9e8712
 +	.fabric_datapath_to_dcn_data_return_bytes = 32,
 +	.return_bus_width_bytes = 64,
 +	.downspread_percent = 0.38,
-+	.dcn_downspread_percent = 0.5,
++	.dcn_downspread_percent = 0.38,
 +	.gpuvm_min_page_size_bytes = 4096,
 +	.hostvm_min_page_size_bytes = 4096,
 +	.do_urgent_latency_adjustment = false,
 +	.urgent_latency_adjustment_fabric_clock_component_us = 0,
 +	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
 +};
+ 
+ void dcn31_calculate_wm_and_dlg_fp(
+ 		struct dc *dc, struct dc_state *context,
+@@ -404,3 +548,87 @@ void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params
+ 	else
+ 		dml_init_instance(&dc->dml, &dcn3_1_soc, &dcn3_1_ip, DML_PROJECT_DCN31_FPGA);
+ }
 +
-+
-+void dcn31_calculate_wm_and_dlg_fp(
-+		struct dc *dc, struct dc_state *context,
-+		display_e2e_pipe_params_st *pipes,
-+		int pipe_cnt,
-+		int vlevel)
-+{
-+	int i, pipe_idx;
-+	double dcfclk = context->bw_ctx.dml.vba.DCFCLKState[vlevel][context->bw_ctx.dml.vba.maxMpcComb];
-+
-+	dc_assert_fp_enabled();
-+
-+	if (context->bw_ctx.dml.soc.min_dcfclk > dcfclk)
-+		dcfclk = context->bw_ctx.dml.soc.min_dcfclk;
-+
-+	/* We don't recalculate clocks for 0 pipe configs, which can block
-+	 * S0i3 as high clocks will block low power states
-+	 * Override any clocks that can block S0i3 to min here
-+	 */
-+	if (pipe_cnt == 0) {
-+		context->bw_ctx.bw.dcn.clk.dcfclk_khz = dcfclk; // always should be vlevel 0
-+		return;
-+	}
-+
-+	pipes[0].clks_cfg.voltage = vlevel;
-+	pipes[0].clks_cfg.dcfclk_mhz = dcfclk;
-+	pipes[0].clks_cfg.socclk_mhz = context->bw_ctx.dml.soc.clock_limits[vlevel].socclk_mhz;
-+
-+#if 0 // TODO
-+	/* Set B:
-+	 * TODO
-+	 */
-+	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].valid) {
-+		if (vlevel == 0) {
-+			pipes[0].clks_cfg.voltage = 1;
-+			pipes[0].clks_cfg.dcfclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dcfclk_mhz;
-+		}
-+		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.pstate_latency_us;
-+		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.sr_enter_plus_exit_time_us;
-+		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_B].dml_input.sr_exit_time_us;
-+	}
-+	context->bw_ctx.bw.dcn.watermarks.b.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.b.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+
-+	pipes[0].clks_cfg.voltage = vlevel;
-+	pipes[0].clks_cfg.dcfclk_mhz = dcfclk;
-+
-+	/* Set C:
-+	 * TODO
-+	 */
-+	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].valid) {
-+		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.pstate_latency_us;
-+		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_enter_plus_exit_time_us;
-+		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_C].dml_input.sr_exit_time_us;
-+	}
-+	context->bw_ctx.bw.dcn.watermarks.c.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.c.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+
-+	/* Set D:
-+	 * TODO
-+	 */
-+	if (dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].valid) {
-+		context->bw_ctx.dml.soc.dram_clock_change_latency_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.pstate_latency_us;
-+		context->bw_ctx.dml.soc.sr_enter_plus_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.sr_enter_plus_exit_time_us;
-+		context->bw_ctx.dml.soc.sr_exit_time_us = dc->clk_mgr->bw_params->wm_table.nv_entries[WM_D].dml_input.sr_exit_time_us;
-+	}
-+	context->bw_ctx.bw.dcn.watermarks.d.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.d.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+#endif
-+
-+	/* Set A:
-+	 * All clocks min required
-+	 *
-+	 * Set A calculated last so that following calculations are based on Set A
-+	 */
-+	dc->res_pool->funcs->update_soc_for_wm_a(dc, context);
-+	context->bw_ctx.bw.dcn.watermarks.a.urgent_ns = get_wm_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_enter_plus_exit_ns = get_wm_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_exit_ns = get_wm_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.pstate_change_ns = get_wm_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_enter_plus_exit_z8_ns = get_wm_z8_stutter_enter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.cstate_pstate.cstate_exit_z8_ns = get_wm_z8_stutter_exit(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.pte_meta_urgent_ns = get_wm_memory_trip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.frac_urg_bw_nom = get_fraction_of_urgent_bandwidth(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.frac_urg_bw_flip = get_fraction_of_urgent_bandwidth_imm_flip(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	context->bw_ctx.bw.dcn.watermarks.a.urgent_latency_ns = get_urgent_latency(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
-+	/* TODO: remove: */
-+	context->bw_ctx.bw.dcn.watermarks.b = context->bw_ctx.bw.dcn.watermarks.a;
-+	context->bw_ctx.bw.dcn.watermarks.c = context->bw_ctx.bw.dcn.watermarks.a;
-+	context->bw_ctx.bw.dcn.watermarks.d = context->bw_ctx.bw.dcn.watermarks.a;
-+	/* end remove*/
-+
-+	for (i = 0, pipe_idx = 0; i < dc->res_pool->pipe_count; i++) {
-+		if (!context->res_ctx.pipe_ctx[i].stream)
-+			continue;
-+
-+		pipes[pipe_idx].clks_cfg.dispclk_mhz = get_dispclk_calculated(&context->bw_ctx.dml, pipes, pipe_cnt);
-+		pipes[pipe_idx].clks_cfg.dppclk_mhz = get_dppclk_calculated(&context->bw_ctx.dml, pipes, pipe_cnt, pipe_idx);
-+
-+		if (dc->config.forced_clocks || dc->debug.max_disp_clk) {
-+			pipes[pipe_idx].clks_cfg.dispclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dispclk_mhz;
-+			pipes[pipe_idx].clks_cfg.dppclk_mhz = context->bw_ctx.dml.soc.clock_limits[0].dppclk_mhz;
-+		}
-+		if (dc->debug.min_disp_clk_khz > pipes[pipe_idx].clks_cfg.dispclk_mhz * 1000)
-+			pipes[pipe_idx].clks_cfg.dispclk_mhz = dc->debug.min_disp_clk_khz / 1000.0;
-+		if (dc->debug.min_dpp_clk_khz > pipes[pipe_idx].clks_cfg.dppclk_mhz * 1000)
-+			pipes[pipe_idx].clks_cfg.dppclk_mhz = dc->debug.min_dpp_clk_khz / 1000.0;
-+
-+		pipe_idx++;
-+	}
-+
-+	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
-+}
-+
-+void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params)
++void dcn315_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params)
 +{
 +	struct clk_limit_table *clk_table = &bw_params->clk_table;
 +	struct _vcs_dpi_voltage_scaling_st clock_limits[DC__VOLTAGE_STATES];
 +	unsigned int i, closest_clk_lvl;
++	int max_dispclk_mhz = 0, max_dppclk_mhz = 0;
 +	int j;
 +
 +	dc_assert_fp_enabled();
 +
 +	// Default clock levels are used for diags, which may lead to overclocking.
 +	if (!IS_DIAG_DC(dc->ctx->dce_environment)) {
-+		int max_dispclk_mhz = 0, max_dppclk_mhz = 0;
 +
-+		dcn3_1_ip.max_num_otg = dc->res_pool->res_cap->num_timing_generator;
-+		dcn3_1_ip.max_num_dpp = dc->res_pool->pipe_count;
-+		dcn3_1_soc.num_chans = bw_params->num_channels;
++		dcn3_15_ip.max_num_otg = dc->res_pool->res_cap->num_timing_generator;
++		dcn3_15_ip.max_num_dpp = dc->res_pool->pipe_count;
++		dcn3_15_soc.num_chans = bw_params->num_channels;
 +
 +		ASSERT(clk_table->num_entries);
 +
@@ -919,94 +573,80 @@ index 000000000000..7ff8fe9e8712
 +
 +		for (i = 0; i < clk_table->num_entries; i++) {
 +			/* loop backwards*/
-+			for (closest_clk_lvl = 0, j = dcn3_1_soc.num_states - 1; j >= 0; j--) {
-+				if ((unsigned int) dcn3_1_soc.clock_limits[j].dcfclk_mhz <= clk_table->entries[i].dcfclk_mhz) {
++			for (closest_clk_lvl = 0, j = dcn3_15_soc.num_states - 1; j >= 0; j--) {
++				if ((unsigned int) dcn3_15_soc.clock_limits[j].dcfclk_mhz <= clk_table->entries[i].dcfclk_mhz) {
 +					closest_clk_lvl = j;
 +					break;
 +				}
++			}
++			if (clk_table->num_entries == 1) {
++				/*smu gives one DPM level, let's take the highest one*/
++				closest_clk_lvl = dcn3_15_soc.num_states - 1;
 +			}
 +
 +			clock_limits[i].state = i;
 +
 +			/* Clocks dependent on voltage level. */
 +			clock_limits[i].dcfclk_mhz = clk_table->entries[i].dcfclk_mhz;
++			if (clk_table->num_entries == 1 &&
++				clock_limits[i].dcfclk_mhz < dcn3_15_soc.clock_limits[closest_clk_lvl].dcfclk_mhz) {
++				/*SMU fix not released yet*/
++				clock_limits[i].dcfclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dcfclk_mhz;
++			}
 +			clock_limits[i].fabricclk_mhz = clk_table->entries[i].fclk_mhz;
 +			clock_limits[i].socclk_mhz = clk_table->entries[i].socclk_mhz;
 +			clock_limits[i].dram_speed_mts = clk_table->entries[i].memclk_mhz * 2 * clk_table->entries[i].wck_ratio;
 +
 +			/* Clocks independent of voltage level. */
 +			clock_limits[i].dispclk_mhz = max_dispclk_mhz ? max_dispclk_mhz :
-+				dcn3_1_soc.clock_limits[closest_clk_lvl].dispclk_mhz;
++				dcn3_15_soc.clock_limits[closest_clk_lvl].dispclk_mhz;
 +
 +			clock_limits[i].dppclk_mhz = max_dppclk_mhz ? max_dppclk_mhz :
-+				dcn3_1_soc.clock_limits[closest_clk_lvl].dppclk_mhz;
++				dcn3_15_soc.clock_limits[closest_clk_lvl].dppclk_mhz;
 +
-+			clock_limits[i].dram_bw_per_chan_gbps = dcn3_1_soc.clock_limits[closest_clk_lvl].dram_bw_per_chan_gbps;
-+			clock_limits[i].dscclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].dscclk_mhz;
-+			clock_limits[i].dtbclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].dtbclk_mhz;
-+			clock_limits[i].phyclk_d18_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].phyclk_d18_mhz;
-+			clock_limits[i].phyclk_mhz = dcn3_1_soc.clock_limits[closest_clk_lvl].phyclk_mhz;
++			clock_limits[i].dram_bw_per_chan_gbps = dcn3_15_soc.clock_limits[closest_clk_lvl].dram_bw_per_chan_gbps;
++			clock_limits[i].dscclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dscclk_mhz;
++			clock_limits[i].dtbclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].dtbclk_mhz;
++			clock_limits[i].phyclk_d18_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].phyclk_d18_mhz;
++			clock_limits[i].phyclk_mhz = dcn3_15_soc.clock_limits[closest_clk_lvl].phyclk_mhz;
 +		}
 +		for (i = 0; i < clk_table->num_entries; i++)
-+			dcn3_1_soc.clock_limits[i] = clock_limits[i];
++			dcn3_15_soc.clock_limits[i] = clock_limits[i];
 +		if (clk_table->num_entries) {
-+			dcn3_1_soc.num_states = clk_table->num_entries;
++			dcn3_15_soc.num_states = clk_table->num_entries;
 +		}
 +	}
 +
-+	dcn3_1_soc.dispclk_dppclk_vco_speed_mhz = dc->clk_mgr->dentist_vco_freq_khz / 1000.0;
-+	dc->dml.soc.dispclk_dppclk_vco_speed_mhz = dc->clk_mgr->dentist_vco_freq_khz / 1000.0;
++	if (max_dispclk_mhz) {
++		dcn3_15_soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
++		dc->dml.soc.dispclk_dppclk_vco_speed_mhz = max_dispclk_mhz * 2;
++	}
 +
 +	if (!IS_FPGA_MAXIMUS_DC(dc->ctx->dce_environment))
-+		dml_init_instance(&dc->dml, &dcn3_1_soc, &dcn3_1_ip, DML_PROJECT_DCN31);
++		dml_init_instance(&dc->dml, &dcn3_15_soc, &dcn3_15_ip, DML_PROJECT_DCN31);
 +	else
-+		dml_init_instance(&dc->dml, &dcn3_1_soc, &dcn3_1_ip, DML_PROJECT_DCN31_FPGA);
++		dml_init_instance(&dc->dml, &dcn3_15_soc, &dcn3_15_ip, DML_PROJECT_DCN31_FPGA);
 +}
 diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
-new file mode 100644
-index 000000000000..baadb5150e7d
---- /dev/null
+index baadb5150e7d..b15b587cf8c4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
 +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h
-@@ -0,0 +1,39 @@
-+/*
-+ * Copyright 2019-2021 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: AMD
-+ *
-+ */
-+
-+#ifndef __DCN31_FPU_H__
-+#define __DCN31_FPU_H__
-+
-+#define DCN3_1_DEFAULT_DET_SIZE 384
-+
-+void dcn31_calculate_wm_and_dlg_fp(
-+		struct dc *dc, struct dc_state *context,
-+		display_e2e_pipe_params_st *pipes,
-+		int pipe_cnt,
-+		int vlevel);
-+
-+void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params);
-+
-+#endif /* __DCN31_FPU_H__*/
+@@ -27,6 +27,8 @@
+ #define __DCN31_FPU_H__
+ 
+ #define DCN3_1_DEFAULT_DET_SIZE 384
++#define DCN3_15_DEFAULT_DET_SIZE 192
++#define DCN3_15_MIN_COMPBUF_SIZE_KB 128
+ 
+ void dcn31_calculate_wm_and_dlg_fp(
+ 		struct dc *dc, struct dc_state *context,
+@@ -35,5 +37,6 @@ void dcn31_calculate_wm_and_dlg_fp(
+ 		int vlevel);
+ 
+ void dcn31_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params);
++void dcn315_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_params);
+ 
+ #endif /* __DCN31_FPU_H__*/
 -- 
 2.34.1
 
