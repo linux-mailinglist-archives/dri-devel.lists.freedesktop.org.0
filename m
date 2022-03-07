@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B314CF37B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 09:24:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA364CF28F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 08:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F92310E044;
-	Mon,  7 Mar 2022 08:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF9510E1FC;
+	Mon,  7 Mar 2022 07:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81AEB10E8B4;
- Sun,  6 Mar 2022 01:57:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 047F260FD4;
- Sun,  6 Mar 2022 01:57:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2F9C004E1;
- Sun,  6 Mar 2022 01:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646531855;
- bh=qhbhEF4KNGgan5nuXFyOhv3ib4IX2nZMIJjs4aq0fyQ=;
- h=From:To:Cc:Subject:Date:From;
- b=k0LfDnUWsEGXgD8jhE2p9wCSnE2zvazHvi7Zycl/K+OZho4693jO+sPfaHcpYlzjv
- sbavPNJCGy9OzNjGgd0KvVP540g6l4Y1tUeziYCqh3P/KyMCs2JqHayEJOYRLwQOeg
- YU3rC79wtkDOsxvJC78cHZHTtmCgI3vg+TOmJnU5jbS4GuauA21q+O1WFVzEClLZn6
- gZMUT0c86cpnMr9QStPq7sqCbu01iEPo/Cy2kdZxTF2VrZXINl71cmzsSoPjFcncGr
- ZxpDmAQOc0X2yF6rAgI/7twHJhNZP3HHWTMdZj/xB1XGm8Dlx7dnLQLVtbu3Ne+32i
- WKiDxJTtU1LNQ==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH RFC] mm: Add f_ops->populate()
-Date: Sun,  6 Mar 2022 03:56:44 +0200
-Message-Id: <20220306015648.82595-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.35.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E607C10E1EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 07:26:43 +0000 (UTC)
+X-UUID: 4e5e7ae0206d4c55be473e61197f1569-20220307
+X-UUID: 4e5e7ae0206d4c55be473e61197f1569-20220307
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1209327713; Mon, 07 Mar 2022 15:26:39 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 7 Mar 2022 15:26:38 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 7 Mar 2022 15:26:38 +0800
+Message-ID: <aa601633fdbb17da450bcf0e627040f4fe6d7d74.camel@mediatek.com>
+Subject: Re: [PATCH v12 23/23] arm64: dts: mt8195: add display node for vdosys1
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "CK
+ Hu" <ck.hu@mediatek.com>
+Date: Mon, 7 Mar 2022 15:26:38 +0800
+In-Reply-To: <2f79204f-073b-aac3-88b6-1f9868c97f70@collabora.com>
+References: <20220222100741.30138-1-nancy.lin@mediatek.com>
+ <20220222100741.30138-24-nancy.lin@mediatek.com>
+ <2f79204f-073b-aac3-88b6-1f9868c97f70@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 07 Mar 2022 08:24:51 +0000
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,228 +52,385 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Jason Ekstrand <jason@jlekstrand.net>,
- Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
- "maintainer:CODA FILE SYSTEM" <coda@cs.cmu.edu>,
- Matthew Auld <matthew.auld@intel.com>, Vasily Averin <vvs@virtuozzo.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jan Harkes <jaharkes@cs.cmu.edu>,
- "open list:INTEL DRM DRIVERS excluding Poulsbo, Moorestow..., 
- dri-devel@lists.freedesktop.org open list:DRM DRIVERS,
- codalist@coda.cs.cmu.edu open list:CODA FILE SYSTEM,
- linux-unionfs@vger.kernel.org open list:OVERLAY FILESYSTEM,
- linux-fsdevel@vger.kernel.org open list:FILESYSTEMS VFS and infrastructure,
- linux-mm@kvack.org open list:MEMORY MANAGEMENT"
- <intel-gfx@lists.freedesktop.org>, Shakeel Butt <shakeelb@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nathaniel McCallum <nathaniel@profian.com>,
- "open list:MIPS" <linux-mips@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Jarkko Sakkinen <jarkko@kernel.org>,
- Alexey Gladkov <legion@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sometimes you might want to use MAP_POPULATE to ask a device driver to
-initialize the device memory in some specific manner. SGX driver can use
-this to request more memory by issuing ENCLS[EAUG] x86 opcode for each
-page in the address range.
+Hi Angelo,
 
-Add f_ops->populate() with the same parameters as f_ops->mmap() and make
-it conditionally called inside call_mmap(). Update call sites
-accodingly.
+Thanks for the review.
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
- arch/mips/kernel/vdso.c                    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c |  2 +-
- fs/coda/file.c                             |  2 +-
- fs/overlayfs/file.c                        |  2 +-
- include/linux/fs.h                         | 10 ++++++++--
- include/linux/mm.h                         |  2 +-
- ipc/shm.c                                  |  2 +-
- mm/mmap.c                                  | 10 +++++-----
- mm/nommu.c                                 |  4 ++--
- 9 files changed, 21 insertions(+), 15 deletions(-)
+On Wed, 2022-03-02 at 11:10 +0100, AngeloGioacchino Del Regno wrote:
+> Il 22/02/22 11:07, Nancy.Lin ha scritto:
+> > Add display node for vdosys1.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > ---
+> >   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 222
+> > +++++++++++++++++++++++
+> >   1 file changed, 222 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> > b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> > index e136761345db..a69a7b57e070 100644
+> > --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> > +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> > @@ -10,6 +10,7 @@
+> >   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >   #include <dt-bindings/interrupt-controller/irq.h>
+> >   #include <dt-bindings/power/mt8195-power.h>
+> > +#include <dt-bindings/reset/mt8195-resets.h>
+> >   
+> >   / {
+> >   	compatible = "mediatek,mt8195";
+> > @@ -20,6 +21,22 @@
+> >   	aliases {
+> >   		gce0 = &gce0;
+> >   		gce1 = &gce1;
+> > +		ethdr0 = &ethdr0;
+> > +		mutex0 = &mutex;
+> > +		mutex1 = &mutex1;
+> > +		merge1 = &merge1;
+> > +		merge2 = &merge2;
+> > +		merge3 = &merge3;
+> > +		merge4 = &merge4;
+> > +		merge5 = &merge5;
+> > +		vdo1_rdma0 = &vdo1_rdma0;
+> 
+> If you really need these aliases, then they should not have
+> underscores.
+> 
+> vdo1-rdma0 = &vdo1_rdma0;
+> 
+OK, I will fix it in the next revision.
 
-diff --git a/arch/mips/kernel/vdso.c b/arch/mips/kernel/vdso.c
-index 3d0cf471f2fe..89f3f3da9abd 100644
---- a/arch/mips/kernel/vdso.c
-+++ b/arch/mips/kernel/vdso.c
-@@ -102,7 +102,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
- 		base = mmap_region(NULL, STACK_TOP, PAGE_SIZE,
- 				VM_READ | VM_EXEC |
- 				VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
--				0, NULL);
-+				0, NULL, false);
- 		if (IS_ERR_VALUE(base)) {
- 			ret = base;
- 			goto out;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 1b526039a60d..4c71f64d6a79 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -107,7 +107,7 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *
- 	if (!obj->base.filp)
- 		return -ENODEV;
- 
--	ret = call_mmap(obj->base.filp, vma);
-+	ret = call_mmap(obj->base.filp, vma, false);
- 	if (ret)
- 		return ret;
- 
-diff --git a/fs/coda/file.c b/fs/coda/file.c
-index 29dd87be2fb8..e14f312fdbf8 100644
---- a/fs/coda/file.c
-+++ b/fs/coda/file.c
-@@ -173,7 +173,7 @@ coda_file_mmap(struct file *coda_file, struct vm_area_struct *vma)
- 	spin_unlock(&cii->c_lock);
- 
- 	vma->vm_file = get_file(host_file);
--	ret = call_mmap(vma->vm_file, vma);
-+	ret = call_mmap(vma->vm_file, vma, false);
- 
- 	if (ret) {
- 		/* if call_mmap fails, our caller will put host_file so we
-diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
-index fa125feed0ff..b963a9397e80 100644
---- a/fs/overlayfs/file.c
-+++ b/fs/overlayfs/file.c
-@@ -503,7 +503,7 @@ static int ovl_mmap(struct file *file, struct vm_area_struct *vma)
- 	vma_set_file(vma, realfile);
- 
- 	old_cred = ovl_override_creds(file_inode(file)->i_sb);
--	ret = call_mmap(vma->vm_file, vma);
-+	ret = call_mmap(vma->vm_file, vma, false);
- 	revert_creds(old_cred);
- 	ovl_file_accessed(file);
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index e2d892b201b0..fb90284e1c82 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1993,6 +1993,7 @@ struct file_operations {
- 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
- 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
- 	int (*mmap) (struct file *, struct vm_area_struct *);
-+	int (*populate)(struct file *, struct vm_area_struct *);
- 	unsigned long mmap_supported_flags;
- 	int (*open) (struct inode *, struct file *);
- 	int (*flush) (struct file *, fl_owner_t id);
-@@ -2074,9 +2075,14 @@ static inline ssize_t call_write_iter(struct file *file, struct kiocb *kio,
- 	return file->f_op->write_iter(kio, iter);
- }
- 
--static inline int call_mmap(struct file *file, struct vm_area_struct *vma)
-+static inline int call_mmap(struct file *file, struct vm_area_struct *vma, bool do_populate)
- {
--	return file->f_op->mmap(file, vma);
-+	int ret = file->f_op->mmap(file, vma);
-+
-+	if (!ret && do_populate)
-+		ret = file->f_op->populate(file, vma);
-+
-+	return ret;
- }
- 
- extern ssize_t vfs_read(struct file *, char __user *, size_t, loff_t *);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 213cc569b192..6c8c036f423b 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2683,7 +2683,7 @@ extern unsigned long get_unmapped_area(struct file *, unsigned long, unsigned lo
- 
- extern unsigned long mmap_region(struct file *file, unsigned long addr,
- 	unsigned long len, vm_flags_t vm_flags, unsigned long pgoff,
--	struct list_head *uf);
-+	struct list_head *uf, bool do_populate);
- extern unsigned long do_mmap(struct file *file, unsigned long addr,
- 	unsigned long len, unsigned long prot, unsigned long flags,
- 	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
-diff --git a/ipc/shm.c b/ipc/shm.c
-index b3048ebd5c31..89b28f32acf0 100644
---- a/ipc/shm.c
-+++ b/ipc/shm.c
-@@ -587,7 +587,7 @@ static int shm_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (ret)
- 		return ret;
- 
--	ret = call_mmap(sfd->file, vma);
-+	ret = call_mmap(sfd->file, vma, do_populate);
- 	if (ret) {
- 		shm_close(vma);
- 		return ret;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 1e8fdb0b51ed..5eca79957d4c 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1413,6 +1413,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
- 			unsigned long flags, unsigned long pgoff,
- 			unsigned long *populate, struct list_head *uf)
- {
-+	bool do_populate = (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE;
- 	struct mm_struct *mm = current->mm;
- 	vm_flags_t vm_flags;
- 	int pkey = 0;
-@@ -1579,10 +1580,9 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
- 			vm_flags |= VM_NORESERVE;
- 	}
- 
--	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
-+	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf, do_populate);
- 	if (!IS_ERR_VALUE(addr) &&
--	    ((vm_flags & VM_LOCKED) ||
--	     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
-+	    ((vm_flags & VM_LOCKED) || do_populate))
- 		*populate = len;
- 	return addr;
- }
-@@ -1721,7 +1721,7 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
- 
- unsigned long mmap_region(struct file *file, unsigned long addr,
- 		unsigned long len, vm_flags_t vm_flags, unsigned long pgoff,
--		struct list_head *uf)
-+		struct list_head *uf, bool do_populate)
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma, *prev, *merge;
-@@ -1790,7 +1790,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
- 		}
- 
- 		vma->vm_file = get_file(file);
--		error = call_mmap(file, vma);
-+		error = call_mmap(file, vma, do_populate);
- 		if (error)
- 			goto unmap_and_free_vma;
- 
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 55a9e48a7a02..a3c20b803c27 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -941,7 +941,7 @@ static int do_mmap_shared_file(struct vm_area_struct *vma)
- {
- 	int ret;
- 
--	ret = call_mmap(vma->vm_file, vma);
-+	ret = call_mmap(vma->vm_file, vma, false);
- 	if (ret == 0) {
- 		vma->vm_region->vm_top = vma->vm_region->vm_end;
- 		return 0;
-@@ -972,7 +972,7 @@ static int do_mmap_private(struct vm_area_struct *vma,
- 	 * - VM_MAYSHARE will be set if it may attempt to share
- 	 */
- 	if (capabilities & NOMMU_MAP_DIRECT) {
--		ret = call_mmap(vma->vm_file, vma);
-+		ret = call_mmap(vma->vm_file, vma, false);
- 		if (ret == 0) {
- 			/* shouldn't return success if we're not sharing */
- 			BUG_ON(!(vma->vm_flags & VM_MAYSHARE));
--- 
-2.35.1
+> > +		vdo1_rdma1 = &vdo1_rdma1;
+> > +		vdo1_rdma2 = &vdo1_rdma2;
+> > +		vdo1_rdma3 = &vdo1_rdma3;
+> > +		vdo1_rdma4 = &vdo1_rdma4;
+> > +		vdo1_rdma5 = &vdo1_rdma5;
+> > +		vdo1_rdma6 = &vdo1_rdma6;
+> > +		vdo1_rdma7 = &vdo1_rdma7;
+> >   	};
+> >   
+> >   	clocks {
+> > @@ -1235,7 +1252,212 @@
+> >   		vdosys1: syscon@1c100000 {
+> >   			compatible = "mediatek,mt8195-vdosys1",
+> > "syscon";
+> >   			reg = <0 0x1c100000 0 0x1000>;
+> > +			mboxes = <&gce0 1 CMDQ_THR_PRIO_4>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x0000 0x1000>;
+> >   			#clock-cells = <1>;
+> > +			#reset-cells = <1>;
+> > +		};
+> > +
+> > +		mutex1: disp_mutex0@1c101000 {
+> 
+> Please, no underscores.
+> 
+> This should be either mutex@1c101000 or disp-mutex@1c101000.
+> I prefer the first one, without "disp-" prefix.
+> 
+OK, I will fix it in the next revision.
+> > +			compatible = "mediatek,mt8195-disp-mutex";
+> > +			reg = <0 0x1c101000 0 0x1000>;
+> > +			reg-names = "vdo1_mutex";
+> > +			interrupts = <GIC_SPI 494 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			clocks = <&vdosys1 CLK_VDO1_DISP_MUTEX>;
+> > +			clock-names = "vdo1_mutex";
+> > +			mediatek,gce-events =
+> > <CMDQ_EVENT_VDO1_STREAM_DONE_ENG_0>;
+> > +		};
+> > +
+> > +		vdo1_rdma0: vdo1_rdma@1c104000 {
+> 
+> vdo1_rdma0: disp-rdma@1c104000 or, simply, vdo1_rdma0: rdma@1c104000
+> 
+> ... Same for the others.
+> 
+OK, I will fix it in the next revision.
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c104000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x4000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma1: vdo1_rdma@1c105000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c105000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 496 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA1>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x5000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma2: vdo1_rdma@1c106000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c106000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 497 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA2>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA2>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x6000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma3: vdo1_rdma@1c107000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c107000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA3>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA3>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x7000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma4: vdo1_rdma@1c108000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c108000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 499 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA4>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA4>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x8000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma5: vdo1_rdma@1c109000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c109000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA5>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA5>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0x9000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma6: vdo1_rdma@1c10a000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c10a000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA6>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA6>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xa000 0x1000>;
+> > +		};
+> > +
+> > +		vdo1_rdma7: vdo1_rdma@1c10b000 {
+> > +			compatible = "mediatek,mt8195-vdo1-rdma";
+> > +			reg = <0 0x1c10b000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 502 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA7>;
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA7>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xb000 0x1000>;
+> > +		};
+> > +
+> > +		merge1: disp_vpp_merge@1c10c000 {
+> 
+> vpp-merge@1c10c000 (etc)
+> 
+OK, I will fix it in the next revision.
+> > +			compatible = "mediatek,mt8195-disp-merge";
+> > +			reg = <0 0x1c10c000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 503 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE0>,
+> > +				 <&vdosys1 CLK_VDO1_MERGE0_DL_ASYNC>;
+> > +			clock-names = "merge","merge_async";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xc000 0x1000>;
+> > +			mediatek,merge-mute = <1>;
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC>;
+> > +		};
+> > +
+> > +		merge2: disp_vpp_merge@1c10d000 {
+> > +			compatible = "mediatek,mt8195-disp-merge";
+> > +			reg = <0 0x1c10d000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE1>,
+> > +				 <&vdosys1 CLK_VDO1_MERGE1_DL_ASYNC>;
+> > +			clock-names = "merge","merge_async";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xd000 0x1000>;
+> > +			mediatek,merge-mute = <1>;
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC>;
+> > +		};
+> > +
+> > +		merge3: disp_vpp_merge@1c10e000 {
+> > +			compatible = "mediatek,mt8195-disp-merge";
+> > +			reg = <0 0x1c10e000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE2>,
+> > +				 <&vdosys1 CLK_VDO1_MERGE2_DL_ASYNC>;
+> > +			clock-names = "merge","merge_async";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xe000 0x1000>;
+> > +			mediatek,merge-mute = <1>;
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC>;
+> > +		};
+> > +
+> > +		merge4: disp_vpp_merge@1c10f000 {
+> > +			compatible = "mediatek,mt8195-disp-merge";
+> > +			reg = <0 0x1c10f000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE3>,
+> > +				 <&vdosys1 CLK_VDO1_MERGE3_DL_ASYNC>;
+> > +			clock-names = "merge","merge_async";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c10XXXX 0xf000 0x1000>;
+> > +			mediatek,merge-mute = <1>;
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC>;
+> > +		};
+> > +
+> > +		merge5: disp_vpp_merge@1c110000 {
+> > +			compatible = "mediatek,mt8195-disp-merge";
+> > +			reg = <0 0x1c110000 0 0x1000>;
+> > +			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH
+> > 0>;
+> > +			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE4>,
+> > +				 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
+> > +			clock-names = "merge","merge_async";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c11XXXX 0x0000 0x1000>;
+> > +			mediatek,merge-fifo-en = <1>;
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
+> > +		};
+> > +
+> > +		ethdr0: disp_ethdr@1c114000 {
+> 
+> ethdr@1c114000
+> 
+OK, I will fix it in the next revision.
+
+Regards,
+Nancy
+
+> > +			compatible = "mediatek,mt8195-disp-ethdr";
+> > +			reg = <0 0x1c114000 0 0x1000>,
+> > +			      <0 0x1c115000 0 0x1000>,
+> > +			      <0 0x1c117000 0 0x1000>,
+> > +			      <0 0x1c119000 0 0x1000>,
+> > +			      <0 0x1c11A000 0 0x1000>,
+> > +			      <0 0x1c11B000 0 0x1000>,
+> > +			      <0 0x1c11C000 0 0x1000>;
+> > +			reg-names = "mixer", "vdo_fe0", "vdo_fe1",
+> > "gfx_fe0", "gfx_fe1",
+> > +				    "vdo_be", "adl_ds";
+> > +			mediatek,gce-client-reg = <&gce0
+> > SUBSYS_1c11XXXX 0x4000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0x5000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0x7000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0x9000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0xA000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0xB000 0x1000>,
+> > +						  <&gce0
+> > SUBSYS_1c11XXXX 0xC000 0x1000>;
+> > +			clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
+> > +				 <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
+> > +				 <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
+> > +				 <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
+> > +				 <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
+> > +				 <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
+> > +				 <&vdosys1 CLK_VDO1_26M_SLOW>,
+> > +				 <&vdosys1
+> > CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
+> > +				 <&vdosys1
+> > CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
+> > +				 <&vdosys1
+> > CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
+> > +				 <&vdosys1
+> > CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
+> > +				 <&vdosys1
+> > CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
+> > +				 <&topckgen CLK_TOP_ETHDR>;
+> > +			clock-names = "mixer", "vdo_fe0", "vdo_fe1",
+> > "gfx_fe0", "gfx_fe1",
+> > +				      "vdo_be", "adl_ds",
+> > "vdo_fe0_async", "vdo_fe1_async",
+> > +				      "gfx_fe0_async",
+> > "gfx_fe1_async","vdo_be_async",
+> > +				      "ethdr_top";
+> > +			power-domains = <&spm
+> > MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +			iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
+> > +				 <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
+> > +			interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH
+> > 0>; /* disp mixer */
+> > +			resets = <&vdosys1
+> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
+> > +				 <&vdosys1
+> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
+> > +				 <&vdosys1
+> > MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
+> > +				 <&vdosys1
+> > MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
+> > +				 <&vdosys1
+> > MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
+> >   		};
+> >   	};
+> >   
+> > 
+> 
+> 
 
