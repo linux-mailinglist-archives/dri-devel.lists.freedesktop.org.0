@@ -1,55 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254604D04EC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 18:07:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB484D0500
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 18:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6D410E0AB;
-	Mon,  7 Mar 2022 17:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C26010E0B6;
+	Mon,  7 Mar 2022 17:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE50510E0A7;
- Mon,  7 Mar 2022 17:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646672817; x=1678208817;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Q7L9xRf2tcVTTnr8FAf0+fsv+jV9fMqBAMn8Sjv0jng=;
- b=Z4lMqHsEPYk6NVhrxqKnX1YOV8U9qSGuig9hJOFl4R3/f91DAhYYIm7d
- ARz/PP32QFtw1KPVMlAsDd9ZR9/vZIRxbYvU4XTY27p5TWKtoM7X5Dw9k
- lUqSevXAI21ftONcJII2o2rQEQm+HR8NVh2HKd1hnvmcvMjuvbFzkc0gI
- VN8MKVjdAk1Tx+oRHJDxHNtTmhuNkZwjt8r93kvGBp1I+zgVrgN03/PU8
- nUtHHKOHUXD5c7jUYN/+Ne3kJvsLZbXhSTD1p2JRbhEX9p3I/2CkCLIxW
- HiU5Bkq7/tIhbHgakHIJhFQCdSu+znthAVT2PHOvCIcxnDUSy8Ot+9/Op w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="340880646"
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="340880646"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 09:06:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="687605308"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by fmsmga001.fm.intel.com with SMTP; 07 Mar 2022 09:06:54 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Mar 2022 19:06:54 +0200
-Date: Mon, 7 Mar 2022 19:06:54 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 7/8] drm/i915: fixup the initial fb base on DG1
-Message-ID: <YiY7riuJH2I1UbDB@intel.com>
-References: <20220304172333.991778-1-matthew.auld@intel.com>
- <20220304172333.991778-8-matthew.auld@intel.com>
- <YiJpkwFRUHIAoh0F@intel.com>
- <ebfc9db8-e7b3-bb01-e96e-0b37f047bcd2@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC6710E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 17:10:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65AC951C;
+ Mon,  7 Mar 2022 18:10:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646673056;
+ bh=hPqdb7olEWnqiNRqjAujSZ3gHfvXUdS7jjQtpXwqhxw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E+M5NqeW5SnGfeR2GkHOwFbrK8C1VrUVBjiYg5RH2kljzGFf5zIUGesuVPjiLumi/
+ sGJ5NyJqqA2kxXYIG44zO2M5doFnYrr8wvYEughyBVEuxLOJ6yRSq1bRmXIaSUqNRb
+ W3Mg7BiY3QMhJK+pBQ7bl7XbkV8AaRe6zgS10+18=
+Date: Mon, 7 Mar 2022 19:10:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH v1 1/2] Revert "dt-bindings:drm/bridge:anx7625:add vendor
+ define"
+Message-ID: <YiY8ko5WX3mQfDLY@pendragon.ideasonboard.com>
+References: <20220307154558.2505734-1-robert.foss@linaro.org>
+ <20220307154558.2505734-2-robert.foss@linaro.org>
+ <YiY1CP6DkfgU4re/@robh.at.kernel.org>
+ <CAG3jFyssPxuRXzZsZkVHWrSS8b6pRHRRmpZCTvLmDV-t2CDA1g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebfc9db8-e7b3-bb01-e96e-0b37f047bcd2@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <CAG3jFyssPxuRXzZsZkVHWrSS8b6pRHRRmpZCTvLmDV-t2CDA1g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,75 +50,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, airlied@linux.ie,
+ Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ hsinyi@chromium.org, matthias.bgg@gmail.com, xji@analogixsemi.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 10:32:36AM +0000, Matthew Auld wrote:
-> On 04/03/2022 19:33, Ville Syrjälä wrote:
-> > On Fri, Mar 04, 2022 at 05:23:32PM +0000, Matthew Auld wrote:
-> >> The offset we get looks to be the exact start of DSM, but the
-> >> inital_plane_vma expects the address to be relative.
-> >>
-> >> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> >> ---
-> >>   .../drm/i915/display/intel_plane_initial.c    | 22 +++++++++++++++----
-> >>   1 file changed, 18 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> >> index f797fcef18fc..b39d3a8dfe45 100644
-> >> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> >> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> >> @@ -56,10 +56,24 @@ initial_plane_vma(struct drm_i915_private *i915,
-> >>   	if (!mem || plane_config->size == 0)
-> >>   		return NULL;
-> >>   
-> >> -	base = round_down(plane_config->base,
-> >> -			  I915_GTT_MIN_ALIGNMENT);
-> >> -	size = round_up(plane_config->base + plane_config->size,
-> >> -			mem->min_page_size);
-> >> +	base = plane_config->base;
-> >> +	if (IS_DGFX(i915)) {
-> >> +		/*
-> >> +		 * On discrete the base address should be somewhere in LMEM, but
-> >> +		 * depending on the size of LMEM the base address might
-> >> +		 * intersect with the start of DSM, like on DG1, in which case
-> >> +		 * we need the relative address. In such cases we might also
-> >> +		 * need to choose between inital fb vs fbc, if space is limited.
-> >> +		 *
-> >> +		 * On future discrete HW, like DG2, we should be able to just
-> >> +		 * allocate directly from LMEM, due to larger LMEM size.
-> >> +		 */
-> >> +		if (base >= i915->dsm.start)
-> >> +			base -= i915->dsm.start;
-> > 
-> > Subsequent code expects the object to actually be inside stolen.
-> > If that is not the case we should just give up.
+On Mon, Mar 07, 2022 at 05:57:47PM +0100, Robert Foss wrote:
+> On Mon, 7 Mar 2022 at 17:38, Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Mar 07, 2022 at 04:45:57PM +0100, Robert Foss wrote:
+> > > This reverts commit a43661e7e819b100e1f833a35018560a1d9abb39.
+> >
+> > S-o-b and reason for the revert?
+> >
+> > > ---
+> > >  .../display/bridge/analogix,anx7625.yaml      | 65 +------------------
+> > >  1 file changed, 2 insertions(+), 63 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > index 1d3e88daca041..ab48ab2f4240d 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > @@ -43,70 +43,14 @@ properties:
+> > >    vdd33-supply:
+> > >      description: Regulator that provides the supply 3.3V power.
+> > >
+> > > -  analogix,lane0-swing:
+> > > -    $ref: /schemas/types.yaml#/definitions/uint8-array
+> > > -    minItems: 1
+> > > -    maxItems: 20
+> > > -    description:
+> > > -      an array of swing register setting for DP tx lane0 PHY.
+> > > -      Registers 0~9 are Swing0_Pre0, Swing1_Pre0, Swing2_Pre0,
+> > > -      Swing3_Pre0, Swing0_Pre1, Swing1_Pre1, Swing2_Pre1, Swing0_Pre2,
+> > > -      Swing1_Pre2, Swing0_Pre3, they are for [Boost control] and
+> > > -      [Swing control] setting.
+> > > -      Registers 0~9, bit 3:0 is [Boost control], these bits control
+> > > -      post cursor manual, increase the [Boost control] to increase
+> > > -      Pre-emphasis value.
+> > > -      Registers 0~9, bit 6:4 is [Swing control], these bits control
+> > > -      swing manual, increase [Swing control] setting to add Vp-p value
+> > > -      for each Swing, Pre.
+> > > -      Registers 10~19 are Swing0_Pre0, Swing1_Pre0, Swing2_Pre0,
+> > > -      Swing3_Pre0, Swing0_Pre1, Swing1_Pre1, Swing2_Pre1, Swing0_Pre2,
+> > > -      Swing1_Pre2, Swing0_Pre3, they are for [R select control] and
+> > > -      [R Termination control] setting.
+> > > -      Registers 10~19, bit 4:0 is [R select control], these bits are
+> > > -      compensation manual, increase it can enhance IO driven strength
+> > > -      and Vp-p.
+> > > -      Registers 10~19, bit 5:6 is [R termination control], these bits
+> > > -      adjust 50ohm impedance of DP tx termination. 00:55 ohm,
+> > > -      01:50 ohm(default), 10:45 ohm, 11:40 ohm.
+> > > -
+> > > -  analogix,lane1-swing:
+> > > -    $ref: /schemas/types.yaml#/definitions/uint8-array
+> > > -    minItems: 1
+> > > -    maxItems: 20
+> > > -    description:
+> > > -      an array of swing register setting for DP tx lane1 PHY.
+> > > -      DP TX lane1 swing register setting same with lane0
+> > > -      swing, please refer lane0-swing property description.
+> >
+> > These apply to the DP side, so no need to revert this part.
 > 
-> Thanks for taking a look at this. Is that subsequent code outside 
-> initial_plane_vma()? In the next patch this is now using LMEM directly 
-> for dg2. Would that blow up somewhere else?
-
-It uses i915_gem_object_create_stolen_for_preallocated() which assumes
-the stuff is inside stolen.
-
-> > The fact that we fail to confirm any of that on integrated
-> > parts has always bugged me, but not enough to actually do
-> > anything about it. Such a check would be somewhat more involved
-> > since we'd have to look at the PTEs. But on discrete sounds like
-> > we can get away with a trivial check.
+> Ack.
 > 
-> Which PTEs?
+> >
+> > > -
+> > > -  analogix,audio-enable:
+> > > -    type: boolean
+> > > -    description: let the driver enable audio HDMI codec function or not.
+> > > -
+> >
+> > Not sure on this one...
+> 
+> These additions are independent from my reading of this, would you
+> like a v2 with only the bus-type related changes reverted?
+> 
+> >
+> > >    ports:
+> > >      $ref: /schemas/graph.yaml#/properties/ports
+> > >
+> > >      properties:
+> > >        port@0:
+> > > -        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > -        unevaluatedProperties: false
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > >          description:
+> > > -          MIPI DSI/DPI input.
+> > > -
+> > > -        properties:
+> > > -          endpoint:
+> > > -            $ref: /schemas/media/video-interfaces.yaml#
+> > > -            type: object
+> > > -            additionalProperties: false
+> > > -
+> > > -            properties:
+> > > -              remote-endpoint: true
+> > > -
+> > > -              bus-type:
+> > > -                enum: [1, 5]
+> >
+> > I think the error here is really 1 should be 4 which corresponds to
+> > D-PHY which is used by both CSI and DSI. Otherwise, I don't really see
+> > the issue with bus-type being shared between CSI and DSI.
+> 
+> I think that would be a correct solution. And ignoring everything
+> else, the range of this property is something that should be fixed.
+> 
+> But that would mean that CPI (camera parallel interface) and DPI
+> (display parallel interface) would share the
+> V4L2_FWNODE_BUS_TYPE_PARALLEL enum. I think that would be perfectly
+> functional, but it is not what V4L2_FWNODE_BUS_TYPE_PARALLEL is
+> documented to represent. As far as I can see it's only intended to
+> represent CPI.
 
-The PTEs the plane is actually using. We have no idea where they
-actually point to and just assume they represent a 1:1 mapping of
-stolen.
+Are you aware of any standard documenting camera parallel interfaces
+with separate sync signals ? I was looking for that the other day, and
+couldn't find much. CPI seems to be an old MIPI standard, but I couldn't
+find any public document, I'not not sure if it actually matches.
 
-I suppose with lmem we'll just start assuming a 1:1 mapping of
-the whole lmem rather than just stolen.
+Another common parallel interface in SoCs is AXI4 Stream, which we will
+likely need a bus type for. We'll then have to decide on how to handle
+on-SoC custom parallel buses.
+
+> Instead of having V4L2_FWNODE_BUS_TYPE_PARALLEL represent two
+> standards, I think they should be split. And possibly
+> V4L2_FWNODE_BUS_TYPE_PARALLEL should be renamed for CPI, but that is a
+> separate story. This would provide for the neatest and most legible
+> solution. If this solution is implemented, this range would be
+> incorrect. Additionally the snippet reverted in 2/2 of this series
+> would no longer be valid.
+> 
+> As it stands V4L2_FWNODE_BUS_TYPE_PARALLEL was used to represent DPI
+> due to not being caught in the review process.
+
+We may end up using those values, but I think it should be discussed and
+not rushed in v5.17 if possible.
+
+> > > -                default: 1
+> > > -
+> > > -              data-lanes: true
+> > > +          Video port for MIPI DSI input.
+> > >
+> > >        port@1:
+> > >          $ref: /schemas/graph.yaml#/properties/port
+> > > @@ -143,9 +87,6 @@ examples:
+> > >              vdd10-supply = <&pp1000_mipibrdg>;
+> > >              vdd18-supply = <&pp1800_mipibrdg>;
+> > >              vdd33-supply = <&pp3300_mipibrdg>;
+> > > -            analogix,audio-enable;
+> > > -            analogix,lane0-swing = /bits/ 8 <0x14 0x54 0x64 0x74>;
+> > > -            analogix,lane1-swing = /bits/ 8 <0x14 0x54 0x64 0x74>;
+> > >
+> > >              ports {
+> > >                  #address-cells = <1>;
+> > > @@ -155,8 +96,6 @@ examples:
+> > >                      reg = <0>;
+> > >                      anx7625_in: endpoint {
+> > >                          remote-endpoint = <&mipi_dsi>;
+> > > -                        bus-type = <5>;
+> > > -                        data-lanes = <0 1 2 3>;
+> > >                      };
+> > >                  };
+> > >
+> > > --
+> > > 2.32.0
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
 
 -- 
-Ville Syrjälä
-Intel
+Regards,
+
+Laurent Pinchart
