@@ -1,42 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58204D0190
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 15:38:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362694D01B3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 15:45:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BB810E40F;
-	Mon,  7 Mar 2022 14:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB1110E146;
+	Mon,  7 Mar 2022 14:45:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C4310E420;
- Mon,  7 Mar 2022 14:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=NW9RpFh+hvH2B+kdkMZrrBGYcByfxt2ECpS3XLUg5ic=; b=tJW4g9xzh7Hr7eTiR6n30j60WO
- IYwXR9LZ0duAlYTPi8RrvkjPPngfb7+5UiJ9/ZQDEmqZxuVEE7Qbp6lMMYytUbktkhxgCkWSDTHz/
- 1HZ0/A46EkR5RhOL/6a/GA/m7T0Xdl7GYI14I9F+ekXEYTzuywuHs6g05qrRgYv8hr/bztXDiu2e+
- NN0Vkgbei6YVv2EJhvRxLOhyg0NOBGLz0ad8LGOORcltIsEZCfhwsdgFVWe1FyuU/IK3Nyj+5fUwi
- f50yHXIse9zePYwFp7mtZTHd3yptwZqau6qA/Lwjq3Ry8EyNIJpG+QOGy9Q7M8mbbEBcnSDA3dMvA
- /ZHTriAA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nREUe-00FIYz-EZ; Mon, 07 Mar 2022 14:37:48 +0000
-Date: Mon, 7 Mar 2022 14:37:48 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH RFC v2] mm: Add f_ops->populate()
-Message-ID: <YiYYvAWYgC+PKEx0@casper.infradead.org>
-References: <20220306032655.97863-1-jarkko@kernel.org>
- <20220306152456.2649b1c56da2a4ce4f487be4@linux-foundation.org>
- <c3083144-bfc1-3260-164c-e59b2d110df8@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8AC10E13C;
+ Mon,  7 Mar 2022 14:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646664348; x=1678200348;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=KYdedZKsN/8uGL6jG2r23x2DKqGVvfmm8ZNk9lQLr4c=;
+ b=aHP3P0PjjPqwklhnENNdh0drIaGj2q3pxxql9uNCfUUdhc/d5E/zwh8W
+ g1tPLhxfi6QsQbz1nCSdqH/gty/DudfYlXAmilYjPzofwf3MWog6WxEKi
+ kLM2fHISit/5p7eU1192TonjZLv4E9lBQiORAqKlPYh/KrOmMGYeHvNNv
+ ZBkm4R0SYeEQoX1OyGAfHgmURYqvKAc5/3AvuI4j9brVbgsOmqmrx2YBH
+ CpggIkMiLCRmUgEzVqwxfgFjx2c6u13c1gAi+C0L7GZr+6r3OC/+bMkk5
+ vJkLhvH5EPdzF55rdXy7wpy5DJhWD6nlmUtr6kNmigL/wQTkLDZzVUoDZ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="254596046"
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="254596046"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2022 06:45:47 -0800
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="643270081"
+Received: from hazimham-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.27.252])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2022 06:45:44 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm: remove min_order BUG_ON check
+In-Reply-To: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
+Date: Mon, 07 Mar 2022 16:45:37 +0200
+Message-ID: <874k493jou.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3083144-bfc1-3260-164c-e59b2d110df8@intel.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,40 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: codalist@telemann.coda.cs.cmu.edu, jaharkes@cs.cmu.edu,
- Nathaniel McCallum <nathaniel@profian.com>, linux-unionfs@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Jarkko Sakkinen <jarkko@kernel.org>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org
+Cc: alexander.deucher@amd.com, matthew.auld@intel.com, christian.koenig@amd.com,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 06, 2022 at 03:41:54PM -0800, Dave Hansen wrote:
-> In short: page faults stink.  The core kernel has lots of ways of
-> avoiding page faults like madvise(MADV_WILLNEED) or mmap(MAP_POPULATE).
->  But, those only work on normal RAM that the core mm manages.
-> 
-> SGX is weird.  SGX memory is managed outside the core mm.  It doesn't
-> have a 'struct page' and get_user_pages() doesn't work on it.  Its VMAs
-> are marked with VM_IO.  So, none of the existing methods for avoiding
-> page faults work on SGX memory.
-> 
-> This essentially helps extend existing "normal RAM" kernel ABIs to work
-> for avoiding faults for SGX too.  SGX users want to enjoy all of the
-> benefits of a delayed allocation policy (better resource use,
-> overcommit, NUMA affinity) but without the cost of millions of faults.
+On Mon, 07 Mar 2022, Arunpravin <Arunpravin.PaneerSelvam@amd.com> wrote:
+> place BUG_ON(order < min_order) outside do..while
+> loop as it fails Unigine Heaven benchmark.
+>
+> Unigine Heaven has buffer allocation requests for
+> example required pages are 161 and alignment request
+> is 128. To allocate the remaining 33 pages, continues
+> the iteration to find the order value which is 5 and
+> when it compares with min_order = 7, enables the
+> BUG_ON(). To avoid this problem, placed the BUG_ON
+> check outside of do..while loop.
 
-We have a mechanism for dynamically reducing the number of page faults
-already; it's just buried in the page cache code.  You have vma->vm_file,
-which contains a file_ra_state.  You can use this to track where
-recent faults have been and grow the size of the region you fault in
-per page fault.  You don't have to (indeed probably don't want to) use
-the same algorithm as the page cache, but the _principle_ is the same --
-were recent speculative faults actually used; should we grow the number
-of pages actually faulted in, or is this a random sparse workload where
-we want to allocate individual pages.
+How about turning these BUG_ON()s to WARN_ON()s with an error return?
+What's the point in oopsing?
 
-Don't rely on the user to ask.  They don't know.
+BR,
+Jani.
+
+
+>
+> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>  drivers/gpu/drm/drm_buddy.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 72f52f293249..ed94c56b720f 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -669,10 +669,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>  	order = fls(pages) - 1;
+>  	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
+>  
+> +	BUG_ON(order < min_order);
+> +
+>  	do {
+>  		order = min(order, (unsigned int)fls(pages) - 1);
+>  		BUG_ON(order > mm->max_order);
+> -		BUG_ON(order < min_order);
+>  
+>  		do {
+>  			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
+>
+> base-commit: 8025c79350b90e5a8029234d433578f12abbae2b
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
