@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44E24D05DA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 19:00:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D754D05D9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 19:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E5110E0F2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 299B910E0EA;
 	Mon,  7 Mar 2022 18:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB88D10E025
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 18:00:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4176010E025
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 18:00:07 +0000 (UTC)
 Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD12C8C1;
- Mon,  7 Mar 2022 19:00:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 569778EB;
+ Mon,  7 Mar 2022 19:00:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1646676005;
- bh=sD1oH3Anlxn9WQLfDYfbvc6dUo2C8d8M8uM9rAaJFvY=;
+ bh=cMlE7TLxSpeyuuIFaKRoG+l9kmINH8LyAl/UsPH9YhM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z8f7HH5v4fb1Xq8do2kwKqjhlyEMjpn1EhZ/olS8jNu8uIzRAUvIzHBVbWsUkiwmf
- RBvwqAExvvuJXDIYRtbQAMVWV1eJJs80N0DG2NKv5ihv7AXSeNAjj0WhzndCOfJInX
- BE+60waWzp9rfy1gtlwkO1LKl0FdSlA9Oqo+5Me8=
+ b=J0BYA5p3XkDykWrmQeW4UEfDkwnVk1pNPhLvikKhPRSTlOQa/SbqLNLmG1yvgbErY
+ 4JGTjK4scKUkwLxesLp24l1q4NoCixcHtEIRpee8M7Wev7JUQDWLy+iEjXz3X3AYqi
+ jQ6dp5951EvPxTyXodkHyNZETiYRqSO4psU772yo=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/4] drm/bridge: ti-sn65dsi86: Implement bridge connector
- operations
-Date: Mon,  7 Mar 2022 17:59:52 +0000
-Message-Id: <20220307175955.363057-2-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v2 2/4] drm/bridge: ti-sn65dsi86: Make connector creation
+ optional
+Date: Mon,  7 Mar 2022 17:59:53 +0000
+Message-Id: <20220307175955.363057-3-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
@@ -51,8 +51,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
  Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>
@@ -61,72 +60,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Implement the bridge connector-related .get_edid() operation, and report
-the related bridge capabilities and type.
+Now that the driver supports the connector-related bridge operations,
+make the connector creation optional. This enables usage of the
+sn65dsi86 with the DRM bridge connector helper.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 ---
 Changes since v1:
+ - None
 
-- The connector .get_modes() operation doesn't rely on EDID anymore,
-  __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
-  together
-
-Notes from Kieran:
-
-RB Tags collected from:
- https://lore.kernel.org/all/20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com/
-
-However this was over a year ago, so let me know if other patches now
-superceed this one or otherwise invalidate this update.
-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c55848588123..ffb6c04f6c46 100644
+index ffb6c04f6c46..29f5f7123ed9 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1154,6 +1154,19 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
- 	pm_runtime_put_sync(pdata->dev);
- }
+@@ -745,11 +745,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 	int ret;
  
-+static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-+					  struct drm_connector *connector)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	struct edid *edid;
-+
-+	pm_runtime_get_sync(pdata->dev);
-+	edid = drm_get_edid(connector, &pdata->aux.ddc);
-+	pm_runtime_put_autosuspend(pdata->dev);
-+
-+	return edid;
-+}
-+
- static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.attach = ti_sn_bridge_attach,
- 	.detach = ti_sn_bridge_detach,
-@@ -1162,6 +1175,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.enable = ti_sn_bridge_enable,
- 	.disable = ti_sn_bridge_disable,
- 	.post_disable = ti_sn_bridge_post_disable,
-+	.get_edid = ti_sn_bridge_get_edid,
- };
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
+-	}
+-
+ 	pdata->aux.drm_dev = bridge->dev;
+ 	ret = drm_dp_aux_register(&pdata->aux);
+ 	if (ret < 0) {
+@@ -757,12 +752,14 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 		return ret;
+ 	}
  
- static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-@@ -1248,6 +1262,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+-	ret = ti_sn_bridge_connector_init(pdata);
+-	if (ret < 0)
+-		goto err_conn_init;
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
++		ret = ti_sn_bridge_connector_init(pdata);
++		if (ret < 0)
++			goto err_conn_init;
  
- 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
- 	pdata->bridge.of_node = np;
-+	pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
-+	pdata->bridge.type = DRM_MODE_CONNECTOR_eDP;
+-	/* We never want the next bridge to *also* create a connector: */
+-	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
++		/* We never want the next bridge to *also* create a connector: */
++		flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
++	}
  
- 	drm_bridge_add(&pdata->bridge);
- 
+ 	/* Attach the next bridge */
+ 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
 -- 
 2.32.0
 
