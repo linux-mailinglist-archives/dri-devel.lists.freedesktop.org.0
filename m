@@ -1,49 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627054D0857
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 21:30:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD57B4D08D0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 21:53:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1810810E184;
-	Mon,  7 Mar 2022 20:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 528DB10E217;
+	Mon,  7 Mar 2022 20:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 691A610E175;
- Mon,  7 Mar 2022 20:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646685012; x=1678221012;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5N0gkIFroCOw+svEfGm5wl7vXcCMD538hE3lK74HXzU=;
- b=gLZtPTMw3Sm79doerfs9vMfkz0muudd19BHDqj1pbKTAskpScZZokAcy
- 1IH+WU31XstW16QraBBUkKFjYZqLkfQ+e0VD1vCTMHEIAO3BKqMyCIyrm
- wy/xXU6fDShbdVqiZ8DhSWxePOCePhRfNeX5V9dWDIXZAGyE1RTvmSCH8
- 2qsPkZARXm0biX55DEtV4dDfE1UNfXRs3yq9Dlg/f4JXpFwhwHB10XGVw
- efyGeYVSVuDKJGC5E78CrCAQqGzLzVmbfV93a+Ds5/B8aeTw/9tGEciOp
- VzFWmdhjRH92EKJheyXVuG7mms3KBRNbOml5PRhGi8MtDBjQgd9SSc8vS Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254437545"
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="254437545"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 12:29:43 -0800
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="495188052"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 07 Mar 2022 12:29:41 -0800
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC v2 2/2] drm/doc/rfc: VM_BIND uapi definition
-Date: Mon,  7 Mar 2022 12:31:46 -0800
-Message-Id: <20220307203146.648-3-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20220307203146.648-1-niranjana.vishwanathapura@intel.com>
-References: <20220307203146.648-1-niranjana.vishwanathapura@intel.com>
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B7B10E217
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 20:52:59 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6100:2d37:4115:c358])
+ by andre.telenet-ops.be with bizsmtp
+ id 3Ysu270081Yj8bA01Ysuv6; Mon, 07 Mar 2022 21:52:57 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nRKLY-0036Qc-Ct; Mon, 07 Mar 2022 21:52:48 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nRKLX-0034hC-RC; Mon, 07 Mar 2022 21:52:47 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
+Subject: [PATCH v2 00/10] drm: Add support for low-color frame buffer formats
+Date: Mon,  7 Mar 2022 21:52:35 +0100
+Message-Id: <cover.1646683502.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,201 +49,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, thomas.hellstrom@intel.com,
- chris.p.wilson@intel.com
+Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VM_BIND und related uapi definitions
+	Hi all,
 
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- Documentation/gpu/rfc/i915_vm_bind.h | 176 +++++++++++++++++++++++++++
- 1 file changed, 176 insertions(+)
- create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+A long outstanding issue with the DRM subsystem has been the lack of
+support for low-color displays, as used typically on older desktop
+systems, and on small embedded displays.
 
-diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
-new file mode 100644
-index 000000000000..80f00ee6c8a1
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_vm_bind.h
-@@ -0,0 +1,176 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+/* VM_BIND feature availability through drm_i915_getparam */
-+#define I915_PARAM_HAS_VM_BIND		57
-+
-+/* VM_BIND related ioctls */
-+#define DRM_I915_GEM_VM_BIND		0x3d
-+#define DRM_I915_GEM_VM_UNBIND		0x3e
-+#define DRM_I915_GEM_WAIT_USER_FENCE	0x3f
-+
-+#define DRM_IOCTL_I915_GEM_VM_BIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
-+#define DRM_IOCTL_I915_GEM_VM_UNBIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
-+#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_WAIT_USER_FENCE, struct drm_i915_gem_wait_user_fence)
-+
-+/**
-+ * struct drm_i915_gem_vm_bind - VA to object/buffer mapping to [un]bind.
-+ */
-+struct drm_i915_gem_vm_bind {
-+	/** vm to [un]bind */
-+	__u32 vm_id;
-+
-+	/**
-+	 * BO handle or file descriptor.
-+	 * 'fd' value of -1 is reserved for system pages (SVM)
-+	 */
-+	union {
-+		__u32 handle; /* For unbind, it is reserved and must be 0 */
-+		__s32 fd;
-+	}
-+
-+	/** VA start to [un]bind */
-+	__u64 start;
-+
-+	/** Offset in object to [un]bind */
-+	__u64 offset;
-+
-+	/** VA length to [un]bind */
-+	__u64 length;
-+
-+	/** Flags */
-+	__u64 flags;
-+	/** Bind the mapping immediately instead of during next submission */
-+#define I915_GEM_VM_BIND_IMMEDIATE   (1 << 0)
-+	/** Read-only mapping */
-+#define I915_GEM_VM_BIND_READONLY    (1 << 1)
-+	/** Capture this mapping in the dump upon GPU error */
-+#define I915_GEM_VM_BIND_CAPTURE     (1 << 2)
-+
-+	/** Zero-terminated chain of extensions */
-+	__u64 extensions;
-+};
-+
-+/**
-+ * struct drm_i915_vm_bind_ext_user_fence - Bind completion signaling extension.
-+ */
-+struct drm_i915_vm_bind_ext_user_fence {
-+#define I915_VM_BIND_EXT_USER_FENCE	0
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+
-+	/** User/Memory fence qword alinged process virtual address */
-+	__u64 addr;
-+
-+	/** User/Memory fence value to be written after bind completion */
-+	__u64 val;
-+
-+	/** Reserved for future extensions */
-+	__u64 rsvd;
-+};
-+
-+/**
-+ * struct drm_i915_gem_execbuffer_ext_user_fence - First level batch completion
-+ * signaling extension.
-+ *
-+ * This extension allows user to attach a user fence (<addr, value> pair) to an
-+ * execbuf to be signaled by the command streamer after the completion of 1st
-+ * level batch, by writing the <value> at specified <addr> and triggering an
-+ * interrupt.
-+ * User can either poll for this user fence to signal or can also wait on it
-+ * with i915_gem_wait_user_fence ioctl.
-+ * This is very much usefaul for long running contexts where waiting on dma-fence
-+ * by user (like i915_gem_wait ioctl) is not supported.
-+ */
-+struct drm_i915_gem_execbuffer_ext_user_fence {
-+#define DRM_I915_GEM_EXECBUFFER_EXT_USER_FENCE		0
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+
-+	/**
-+	 * User/Memory fence qword aligned GPU virtual address.
-+	 * Address has to be a valid GPU virtual address at the time of
-+	 * 1st level batch completion.
-+	 */
-+	__u64 addr;
-+
-+	/**
-+	 * User/Memory fence Value to be written to above address
-+	 * after 1st level batch completes.
-+	 */
-+	__u64 value;
-+
-+	/** Reserved for future extensions */
-+	__u64 rsvd;
-+};
-+
-+struct drm_i915_gem_vm_control {
-+/** Flag to opt-in for VM_BIND mode of binding during VM creation */
-+#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1 << 0)
-+};
-+
-+
-+struct drm_i915_gem_create_ext {
-+/** Extension to make the object private to a specified VM */
-+#define I915_GEM_CREATE_EXT_VM_PRIVATE		2
-+};
-+
-+
-+struct prelim_drm_i915_gem_context_create_ext {
-+/** Flag to declare context as long running */
-+#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
-+};
-+
-+/**
-+ * struct drm_i915_gem_wait_user_fence
-+ *
-+ * Wait on user/memory fence. User/Memory fence can be woken up either by,
-+ *    1. GPU context indicated by 'ctx_id', or,
-+ *    2. Kerrnel driver async worker upon I915_UFENCE_WAIT_SOFT.
-+ *       'ctx_id' is ignored when this flag is set.
-+ *
-+ * Wakeup when below condition is true.
-+ * (*addr & MASK) OP (VALUE & MASK)
-+ *
-+ */
-+~struct drm_i915_gem_wait_user_fence {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	__u64 extensions;
-+
-+	/** User/Memory fence address */
-+	__u64 addr;
-+
-+	/** Id of the Context which will signal the fence. */
-+	__u32 ctx_id;
-+
-+	/** Wakeup condition operator */
-+	__u16 op;
-+#define I915_UFENCE_WAIT_EQ      0
-+#define I915_UFENCE_WAIT_NEQ     1
-+#define I915_UFENCE_WAIT_GT      2
-+#define I915_UFENCE_WAIT_GTE     3
-+#define I915_UFENCE_WAIT_LT      4
-+#define I915_UFENCE_WAIT_LTE     5
-+#define I915_UFENCE_WAIT_BEFORE  6
-+#define I915_UFENCE_WAIT_AFTER   7
-+
-+	/** Flags */
-+	__u16 flags;
-+#define I915_UFENCE_WAIT_SOFT    0x1
-+#define I915_UFENCE_WAIT_ABSTIME 0x2
-+
-+	/** Wakeup value */
-+	__u64 value;
-+
-+	/** Wakeup mask */
-+	__u64 mask;
-+#define I915_UFENCE_WAIT_U8     0xffu
-+#define I915_UFENCE_WAIT_U16    0xffffu
-+#define I915_UFENCE_WAIT_U32    0xfffffffful
-+#define I915_UFENCE_WAIT_U64    0xffffffffffffffffull
-+
-+	/** Timeout */
-+	__s64 timeout;
-+};
+This patch series adds support for color-indexed frame buffer formats
+with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+work-in-progress Atari DRM driver supporting 2, 4, 16, and 256 colors,
+with text console operation, fbtest, and modetest.
+
+Overview:
+  - Patch 1 introduces a helper, to be used by later patches in the
+    series,
+  - Patch 2 introduces a flag to indicate color-indexed formats,
+  - Patches 3 and 4 correct calculations of bits per pixel for sub-byte
+    pixel formats,
+  - Patches 5 and 6 introduce the new C[124] formats,
+  - Patch 7 fixes an untested code path,
+  - Patch 8 documents the use of "red" for light-on-dark displays,
+  - Patches 9 and 10 add more fourcc codes for light-on-dark and
+    dark-on-light frame buffer formats, which may be useful for e.g. the
+    ssd130x and repaper drivers.
+
+Changes compared to v1[1]:
+  - Reshuffle patches,
+  - New patch "[PATCH v2 02/10] drm/fourcc: Add
+    drm_format_info.is_color_indexed flag",
+  - Improve pixel descriptions,
+  - Require depth to match bpp in drm_mode_legacy_fb_format(),
+  - Set .is_color_indexed flag.
+  - Use drm_format_info_bpp() helper instead of deprecated .depth field
+    or format-dependent calculations,
+  - Use new .is_color_indexed field instead of checking against a list
+    of formats,
+  - Add Acked-by,
+  - Replace FIXME by TODO comment,
+  - New patch "[PATCH v2 08/10] [RFC] drm/fourcc: Document that
+    single-channel "red" can be any color",
+  - Add rationale for adding new formats,
+  - Add D[248] for completeness.
+
+Notes:
+  - Using modetest with the C4 formats requires [2].
+  - Using modetest with the default XR24 format requires [3].
+  - As this was used on emulated hardware only, and I do not have Atari
+    hardware, I do not have performance figures to compare with fbdev.
+    I hope to do proper measuring with an Amiga DRM driver, eventually.
+
+Thanks for your comments!
+
+[1] "[PATCH 0/8] drm: Add support for low-color frame buffer formats"
+    https://lore.kernel.org/r/20220215165226.2738568-1-geert@linux-m68k.org/
+[2] "[PATCH libdrm 0/3] Add support for low-color frame buffer formats"
+    https://lore.kernel.org/r/cover.1646683737.git.geert@linux-m68k.org
+[3] "[PATCH RFC libdrm 0/2] Big-endian fixes"
+    https://lore.kernel.org/r/cover.1646684158.git.geert@linux-m68k.org
+
+Geert Uytterhoeven (10):
+  drm/fourcc: Add drm_format_info_bpp() helper
+  drm/fourcc: Add drm_format_info.is_color_indexed flag
+  drm/client: Use actual bpp when allocating frame buffers
+  drm/framebuffer: Use actual bpp for DRM_IOCTL_MODE_GETFB
+  drm/fourcc: Add DRM_FORMAT_C[124]
+  drm/fb-helper: Add support for DRM_FORMAT_C[124]
+  [RFC] drm/gem-fb-helper: Use actual bpp for size calculations
+  [RFC] drm/fourcc: Document that single-channel "red" can be any color
+  [RFC] drm/fourcc: Add DRM_FORMAT_R[124]
+  [RFC] drm/fourcc: Add DRM_FORMAT_D[1248]
+
+ drivers/gpu/drm/drm_client.c                 |   4 +-
+ drivers/gpu/drm/drm_fb_helper.c              | 101 ++++++++++++++-----
+ drivers/gpu/drm/drm_fourcc.c                 |  55 +++++++++-
+ drivers/gpu/drm/drm_framebuffer.c            |   2 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |  12 +--
+ include/drm/drm_fourcc.h                     |   4 +
+ include/uapi/drm/drm_fourcc.h                |  36 +++++--
+ 7 files changed, 169 insertions(+), 45 deletions(-)
+
 -- 
-2.21.0.rc0.32.g243a4c7e27
+2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
