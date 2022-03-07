@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF2C4D0742
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 20:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6C94D0786
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 20:20:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D96210E121;
-	Mon,  7 Mar 2022 19:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA23210E134;
+	Mon,  7 Mar 2022 19:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754F810E121
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 19:07:50 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id ecfd2899-9e49-11ec-b2df-0050568cd888;
- Mon, 07 Mar 2022 19:08:08 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 82088194B3A;
- Mon,  7 Mar 2022 20:07:51 +0100 (CET)
-Date: Mon, 7 Mar 2022 20:07:44 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 06/10] drm/gma500: Move GTT resume logic out of
- psb_gtt_init()
-Message-ID: <YiZYAFdM28igTrC3@ravnborg.org>
-References: <20220306203619.22624-1-tzimmermann@suse.de>
- <20220306203619.22624-7-tzimmermann@suse.de>
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627FC10E134;
+ Mon,  7 Mar 2022 19:20:08 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id b23so14167554qtt.6;
+ Mon, 07 Mar 2022 11:20:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=R7o+nT0JafYl6ez7zdRokzyUGr8DQzHkjeMOYPitiLQ=;
+ b=Lkc0fQG2mm6q3tJXW7l2I3BJI4dzrla/rBcaD/7ue70gGuNHao822m9v8IiamXTXWx
+ mM2mdq1dG+mCb/uLzAp5Ghx0HJhaQws44pFbr/8TJJJESXtxft22q22JpA+YHNIcGepK
+ MHKbWGFpR2ll/mOWICCL3xD4Q3+M0sajES5fzz1Taz/shWyu40HVjVWIPeoYbPVLqvYZ
+ K1qy+CEs51QA1BUsu3ch7+2vqtS5mmDo3iPj78PqeS5/z2oiH2rZqnNYSQmI+p/eDxOc
+ O2gTyVWWjSyzyDu4whM1zp955ILXYPtU4viQKPwphtkDqe4jwlPwfefIrLaU8HEFyC/q
+ n8Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=R7o+nT0JafYl6ez7zdRokzyUGr8DQzHkjeMOYPitiLQ=;
+ b=K47tmRjpuA5J3yJdypE+tHKfaUU7FPA3FVPvup/PFiSlAbFvSP1zfizj7ktMEbt20n
+ +WfZdkL1w8b7kWZh3+7X0QhXI5ihlqnKzc1Py/98u1CKlw3/tsvFVn0CQa+7OC9pVt+u
+ W9b/Oji6kPC5WNzEgi9JdHSeLJGEEouliqR3dwHFc9ITR0m657KHLsIg3MRjCREx8Y8C
+ sqHl28W35xAMNvKgxDj1Dwhpce5vk3vFYILk4tSi/QV0FcI8h3UL8Mv2aEpHcQuh5dy2
+ o5UHc8zPdg/FwJ8kexafLDTqGj0Y7hI3Mea0TMr7n8xTuhRFmvY7AZmCeVYDsbCmy3NK
+ pxGw==
+X-Gm-Message-State: AOAM530a2yRlXn1ofHQE193WxCbYW1AeeKS8n5nEKmvj7QGHwMHwTg6H
+ uvHJk6TATLfVo515GXmvGk0a7uJX+rn0FBU/NCg=
+X-Google-Smtp-Source: ABdhPJwe2YancvZvZUEVtwWbJ08SmZHjehTEpMrgRbnoXLpo6vM/gziqUcrcflFDtRGHPN6715GyRyC30qWQsIB3Duw=
+X-Received: by 2002:ac8:570c:0:b0:2e0:29f:4fc2 with SMTP id
+ 12-20020ac8570c000000b002e0029f4fc2mr10898462qtw.645.1646680807152; Mon, 07
+ Mar 2022 11:20:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220306203619.22624-7-tzimmermann@suse.de>
+References: <20220304172333.991778-1-matthew.auld@intel.com>
+ <20220304172333.991778-8-matthew.auld@intel.com> <YiJpkwFRUHIAoh0F@intel.com>
+ <ebfc9db8-e7b3-bb01-e96e-0b37f047bcd2@intel.com> <YiY7riuJH2I1UbDB@intel.com>
+ <476964f2-772f-b734-1a17-8e65c74b309c@intel.com> <YiZRy78PW2n2I/HB@intel.com>
+In-Reply-To: <YiZRy78PW2n2I/HB@intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 7 Mar 2022 19:19:40 +0000
+Message-ID: <CAM0jSHNyGSYQ19FHoDVnr-QkE7tOjcqK5SHWr7PdJ-W9t5qhbg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 7/8] drm/i915: fixup the initial fb base on DG1
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,222 +67,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-One comment below.
-
-On Sun, Mar 06, 2022 at 09:36:15PM +0100, Thomas Zimmermann wrote:
-> The current implementation of psb_gtt_init() also does resume
-> handling. Move the resume code into its own helper.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/gma500/gtt.c     | 122 ++++++++++++++++++++++++++-----
->  drivers/gpu/drm/gma500/gtt.h     |   2 +-
->  drivers/gpu/drm/gma500/psb_drv.c |   2 +-
->  3 files changed, 104 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> index acd50ee26b03..43ad3ec38c80 100644
-> --- a/drivers/gpu/drm/gma500/gtt.c
-> +++ b/drivers/gpu/drm/gma500/gtt.c
-> @@ -209,7 +209,7 @@ static void psb_gtt_populate_resources(struct drm_psb_private *pdev)
->  	drm_dbg(dev, "Restored %u of %u gtt ranges (%u KB)", restored, total, (size / 1024));
->  }
->  
-> -int psb_gtt_init(struct drm_device *dev, int resume)
-> +int psb_gtt_init(struct drm_device *dev)
->  {
->  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> @@ -218,10 +218,8 @@ int psb_gtt_init(struct drm_device *dev, int resume)
->  	struct psb_gtt *pg;
->  	int ret = 0;
->  
-> -	if (!resume) {
-> -		mutex_init(&dev_priv->gtt_mutex);
-> -		mutex_init(&dev_priv->mmap_mutex);
-> -	}
-> +	mutex_init(&dev_priv->gtt_mutex);
-> +	mutex_init(&dev_priv->mmap_mutex);
->  
->  	pg = &dev_priv->gtt;
->  
-> @@ -290,13 +288,6 @@ int psb_gtt_init(struct drm_device *dev, int resume)
->  	dev_dbg(dev->dev, "Stolen memory base 0x%x, size %luK\n",
->  			dev_priv->stolen_base, vram_stolen_size / 1024);
->  
-> -	if (resume && (gtt_pages != pg->gtt_pages) &&
-> -	    (stolen_size != pg->stolen_size)) {
-> -		dev_err(dev->dev, "GTT resume error.\n");
-> -		ret = -EINVAL;
-> -		goto out_err;
-> -	}
-> -
->  	pg->gtt_pages = gtt_pages;
->  	pg->stolen_size = stolen_size;
->  	dev_priv->vram_stolen_size = vram_stolen_size;
-> @@ -304,19 +295,14 @@ int psb_gtt_init(struct drm_device *dev, int resume)
->  	/*
->  	 *	Map the GTT and the stolen memory area
->  	 */
-> -	if (!resume)
-> -		dev_priv->gtt_map = ioremap(pg->gtt_phys_start,
-> -						gtt_pages << PAGE_SHIFT);
-> +	dev_priv->gtt_map = ioremap(pg->gtt_phys_start, gtt_pages << PAGE_SHIFT);
->  	if (!dev_priv->gtt_map) {
->  		dev_err(dev->dev, "Failure to map gtt.\n");
->  		ret = -ENOMEM;
->  		goto out_err;
->  	}
->  
-> -	if (!resume)
-> -		dev_priv->vram_addr = ioremap_wc(dev_priv->stolen_base,
-> -						 stolen_size);
-> -
-> +	dev_priv->vram_addr = ioremap_wc(dev_priv->stolen_base, stolen_size);
->  	if (!dev_priv->vram_addr) {
->  		dev_err(dev->dev, "Failure to map stolen base.\n");
->  		ret = -ENOMEM;
-> @@ -333,11 +319,107 @@ int psb_gtt_init(struct drm_device *dev, int resume)
->  	return ret;
->  }
+On Mon, 7 Mar 2022 at 18:41, Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
 >
-The below is a lot of duplicated complex code.
-Can you add one more helper for this?
+> On Mon, Mar 07, 2022 at 06:26:32PM +0000, Matthew Auld wrote:
+> > On 07/03/2022 17:06, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > On Mon, Mar 07, 2022 at 10:32:36AM +0000, Matthew Auld wrote:
+> > >> On 04/03/2022 19:33, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > >>> On Fri, Mar 04, 2022 at 05:23:32PM +0000, Matthew Auld wrote:
+> > >>>> The offset we get looks to be the exact start of DSM, but the
+> > >>>> inital_plane_vma expects the address to be relative.
+> > >>>>
+> > >>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > >>>> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > >>>> ---
+> > >>>>    .../drm/i915/display/intel_plane_initial.c    | 22 ++++++++++++=
++++----
+> > >>>>    1 file changed, 18 insertions(+), 4 deletions(-)
+> > >>>>
+> > >>>> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/=
+drivers/gpu/drm/i915/display/intel_plane_initial.c
+> > >>>> index f797fcef18fc..b39d3a8dfe45 100644
+> > >>>> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
+> > >>>> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+> > >>>> @@ -56,10 +56,24 @@ initial_plane_vma(struct drm_i915_private *i91=
+5,
+> > >>>>          if (!mem || plane_config->size =3D=3D 0)
+> > >>>>                  return NULL;
+> > >>>>
+> > >>>> -        base =3D round_down(plane_config->base,
+> > >>>> -                          I915_GTT_MIN_ALIGNMENT);
+> > >>>> -        size =3D round_up(plane_config->base + plane_config->size=
+,
+> > >>>> -                        mem->min_page_size);
+> > >>>> +        base =3D plane_config->base;
+> > >>>> +        if (IS_DGFX(i915)) {
+> > >>>> +                /*
+> > >>>> +                 * On discrete the base address should be somewhe=
+re in LMEM, but
+> > >>>> +                 * depending on the size of LMEM the base address=
+ might
+> > >>>> +                 * intersect with the start of DSM, like on DG1, =
+in which case
+> > >>>> +                 * we need the relative address. In such cases we=
+ might also
+> > >>>> +                 * need to choose between inital fb vs fbc, if sp=
+ace is limited.
+> > >>>> +                 *
+> > >>>> +                 * On future discrete HW, like DG2, we should be =
+able to just
+> > >>>> +                 * allocate directly from LMEM, due to larger LME=
+M size.
+> > >>>> +                 */
+> > >>>> +                if (base >=3D i915->dsm.start)
+> > >>>> +                        base -=3D i915->dsm.start;
+> > >>>
+> > >>> Subsequent code expects the object to actually be inside stolen.
+> > >>> If that is not the case we should just give up.
+> > >>
+> > >> Thanks for taking a look at this. Is that subsequent code outside
+> > >> initial_plane_vma()? In the next patch this is now using LMEM direct=
+ly
+> > >> for dg2. Would that blow up somewhere else?
+> > >
+> > > It uses i915_gem_object_create_stolen_for_preallocated() which assume=
+s
+> > > the stuff is inside stolen.
+> >
+> > At the start of the series that gets ripped out and replaced with
+> > i915_gem_object_create_region_at(), where we can now just pass in the
+> > intel_memory_region, and the backend hopefully takes care of the rest.
+>
+> Why? Is the BIOS no longer allocating its fbs from stolen?
 
-> +static int psb_gtt_resume(struct drm_device *dev)
-> +{
-> +	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +	unsigned int gtt_pages;
-> +	unsigned long stolen_size, vram_stolen_size;
-> +	struct psb_gtt *pg;
-> +	int ret = 0;
-> +
-> +	pg = &dev_priv->gtt;
+On discrete, so far DSM is always just snipped off the end of lmem. On
+DG1, which only has 4G lmem, the base seems to always exactly match
+the DSM start(not sure if this is a fluke). However on DG2, which has
+much larger lmem size, the base is still the same IIRC, but it isn't
+even close to where DSM is located on such a device. Best guess is
+that we were meant to just treat the bios fb(or that part of stolen
+lmem) as a part of normal lmem, and might explain why the base is not
+relative to the dsm.start like on integrated?
 
-static void psb_enable_gtt(..)
-{
-> +
-> +	/* Enable the GTT */
-> +	pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
-> +	pci_write_config_word(pdev, PSB_GMCH_CTRL,
-> +			      dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
-> +
-> +	dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
-> +	PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
-> +	(void) PSB_RVDC32(PSB_PGETBL_CTL);
-> +
-> +	/* The root resource we allocate address space from */
-> +	dev_priv->gtt_initialized = 1;
-> +
-> +	pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-> +
-> +	/*
-> +	 *	The video mmu has a hw bug when accessing 0x0D0000000.
-> +	 *	Make gatt start at 0x0e000,0000. This doesn't actually
-> +	 *	matter for us but may do if the video acceleration ever
-> +	 *	gets opened up.
-> +	 */
-> +	pg->mmu_gatt_start = 0xE0000000;
-> +
-> +	pg->gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
-> +	gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE) >> PAGE_SHIFT;
-> +	/* CDV doesn't report this. In which case the system has 64 gtt pages */
-> +	if (pg->gtt_start == 0 || gtt_pages == 0) {
-> +		dev_dbg(dev->dev, "GTT PCI BAR not initialized.\n");
-> +		gtt_pages = 64;
-> +		pg->gtt_start = dev_priv->pge_ctl;
-> +	}
-> +
-> +	pg->gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
-> +	pg->gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE) >> PAGE_SHIFT;
-> +	dev_priv->gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
-> +
-> +	if (pg->gatt_pages == 0 || pg->gatt_start == 0) {
-> +		static struct resource fudge;	/* Preferably peppermint */
-> +		/*
-> +		 * This can occur on CDV systems. Fudge it in this case. We
-> +		 * really don't care what imaginary space is being allocated
-> +		 * at this point.
-> +		 */
-> +		dev_dbg(dev->dev, "GATT PCI BAR not initialized.\n");
-> +		pg->gatt_start = 0x40000000;
-> +		pg->gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
-> +		/*
-> +		 * This is a little confusing but in fact the GTT is providing
-> +		 * a view from the GPU into memory and not vice versa. As such
-> +		 *  this is really allocating space that is not the same as the
-> +		 *  CPU address space on CDV.
-> +		 */
-> +		fudge.start = 0x40000000;
-> +		fudge.end = 0x40000000 + 128 * 1024 * 1024 - 1;
-> +		fudge.name = "fudge";
-> +		fudge.flags = IORESOURCE_MEM;
-> +		dev_priv->gtt_mem = &fudge;
-> +	}
-> +
-> +	pci_read_config_dword(pdev, PSB_BSM, &dev_priv->stolen_base);
-> +	vram_stolen_size = pg->gtt_phys_start - dev_priv->stolen_base - PAGE_SIZE;
-> +	stolen_size = vram_stolen_size;
-> +
-> +	dev_dbg(dev->dev, "Stolen memory base 0x%x, size %luK\n",
-> +			dev_priv->stolen_base, vram_stolen_size / 1024);
-}
-
-And then use this helper in both init and resume?
-
-> +
-> +	if ((gtt_pages != pg->gtt_pages) && (stolen_size != pg->stolen_size)) {
-> +		dev_err(dev->dev, "GTT resume error.\n");
-> +		ret = -EINVAL;
-> +		goto out_err;
-> +	}
-> +
-
-> +	pg->gtt_pages = gtt_pages;
-> +	pg->stolen_size = stolen_size;
-Not needed for resume, we just checked them.
-
-> +	dev_priv->vram_stolen_size = vram_stolen_size;
-> +
-> +	psb_gtt_clear(dev_priv);
-> +	psb_gtt_populate_stolen(dev_priv);
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	psb_gtt_takedown(dev);
-> +	return ret;
-> +}
-> +
->  int psb_gtt_restore(struct drm_device *dev)
->  {
->  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->  
-> -	psb_gtt_init(dev, 1);
-> +	psb_gtt_resume(dev);
->  
->  	psb_gtt_populate_resources(dev_priv);
->  
-> diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-> index 31500533ac45..cb270ea40794 100644
-> --- a/drivers/gpu/drm/gma500/gtt.h
-> +++ b/drivers/gpu/drm/gma500/gtt.h
-> @@ -25,7 +25,7 @@ struct psb_gtt {
->  };
->  
->  /* Exported functions */
-> -extern int psb_gtt_init(struct drm_device *dev, int resume);
-> +int psb_gtt_init(struct drm_device *dev);
->  extern void psb_gtt_takedown(struct drm_device *dev);
->  extern int psb_gtt_restore(struct drm_device *dev);
-A cleanup patch to remove all extern would be nice.
-But that's not related to this series.
-
-	Sam
+>
+> >
+> > >
+> > >>> The fact that we fail to confirm any of that on integrated
+> > >>> parts has always bugged me, but not enough to actually do
+> > >>> anything about it. Such a check would be somewhat more involved
+> > >>> since we'd have to look at the PTEs. But on discrete sounds like
+> > >>> we can get away with a trivial check.
+> > >>
+> > >> Which PTEs?
+> > >
+> > > The PTEs the plane is actually using. We have no idea where they
+> > > actually point to and just assume they represent a 1:1 mapping of
+> > > stolen.
+> > >
+> > > I suppose with lmem we'll just start assuming a 1:1 mapping of
+> > > the whole lmem rather than just stolen.
+> >
+> > So IIUC the base that we read is actually some GGTT address(I guess it
+> > comes pre-programmed or something?), and that hopefully 1:1 maps to
+> > stolen. Ok, so as you say, I guess we only want to subtract the
+> > dsm.start for the physical allocation, and not the GGTT address, when
+> > dealing with stolen lmem.
+> >
+> > >
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
