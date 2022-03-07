@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CC04D08D3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 21:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FA74D08E6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 21:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF18410E21B;
-	Mon,  7 Mar 2022 20:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B60B10E268;
+	Mon,  7 Mar 2022 20:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4AF10E232
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 20:53:13 +0000 (UTC)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD57010E24E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 20:53:35 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6100:2d37:4115:c358])
- by andre.telenet-ops.be with bizsmtp
- id 3Yt92700L1Yj8bA01Yt9xl; Mon, 07 Mar 2022 21:53:12 +0100
+ by baptiste.telenet-ops.be with bizsmtp
+ id 3YtW2700A1Yj8bA01YtWpf; Mon, 07 Mar 2022 21:53:33 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nRKLY-0036Qj-JD; Mon, 07 Mar 2022 21:52:48 +0100
+ id 1nRKLY-0036Qk-NS; Mon, 07 Mar 2022 21:52:48 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nRKLY-0034hv-1V; Mon, 07 Mar 2022 21:52:48 +0100
+ id 1nRKLY-0034i2-2N; Mon, 07 Mar 2022 21:52:48 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -31,10 +31,10 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Javier Martinez Canillas <javierm@redhat.com>,
  Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 RFC 07/10] drm/gem-fb-helper: Use actual bpp for size
- calculations
-Date: Mon,  7 Mar 2022 21:52:42 +0100
-Message-Id: <842ab0a286ff743b625277e655d9bef505b630c1.1646683502.git.geert@linux-m68k.org>
+Subject: [PATCH v2 RFC 08/10] drm/fourcc: Document that single-channel "red"
+ can be any color
+Date: Mon,  7 Mar 2022 21:52:43 +0100
+Message-Id: <585dc03acb4016bba910e7d15fec3ef4f0aec5b0.1646683502.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1646683502.git.geert@linux-m68k.org>
 References: <cover.1646683502.git.geert@linux-m68k.org>
@@ -58,60 +58,45 @@ Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AFBC helpers derive the number of bits per pixel from the deprecated
-drm_format_info.cpp[] field, which does not take into account block
-sizes.
-
-Fix this by using the actual number of bits per pixel instead.
+Traditionally, the first channel has been called the "red" channel, but
+the fourcc values for single-channel "red" formats can also be used for
+other light-on-dark displays, like grayscale.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
-RFC, as this code path was untested.
+RFC, as I have no immediate need for these formats.
 
 v2:
-  - Replace FIXME by TODO comment.
+  - New.
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ include/uapi/drm/drm_fourcc.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 746fd8c738451247..e5b8443378d2294b 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -492,6 +492,8 @@ void drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_data_directi
- }
- EXPORT_SYMBOL(drm_gem_fb_end_cpu_access);
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 457ed39cc48f08e1..f0187cf20e4619d2 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -104,16 +104,16 @@ extern "C" {
+ #define DRM_FORMAT_C4		fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:4 two pixels/byte */
+ #define DRM_FORMAT_C8		fourcc_code('C', '8', ' ', ' ') /* [7:0] C 8 one pixel/byte */
  
-+// TODO Drop this function and replace by drm_format_info_bpp() once all
-+// DRM_FORMAT_* provide proper block info in drivers/gpu/drm/drm_fourcc.c
- static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
- 				  const struct drm_mode_fb_cmd2 *mode_cmd)
- {
-@@ -499,11 +501,6 @@ static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
+-/* 8 bpp Red */
++/* 8 bpp Red (or generic light-on-dark) */
+ #define DRM_FORMAT_R8		fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
  
- 	info = drm_get_format_info(dev, mode_cmd);
+-/* 10 bpp Red */
++/* 10 bpp Red (or generic light-on-dark) */
+ #define DRM_FORMAT_R10		fourcc_code('R', '1', '0', ' ') /* [15:0] x:R 6:10 little endian */
  
--	/* use whatever a driver has set */
--	if (info->cpp[0])
--		return info->cpp[0] * 8;
--
--	/* guess otherwise */
- 	switch (info->format) {
- 	case DRM_FORMAT_YUV420_8BIT:
- 		return 12;
-@@ -512,11 +509,8 @@ static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
- 	case DRM_FORMAT_VUY101010:
- 		return 30;
- 	default:
--		break;
-+		return drm_format_info_bpp(info, 0);
- 	}
--
--	/* all attempts failed */
--	return 0;
- }
+-/* 12 bpp Red */
++/* 12 bpp Red (or generic light-on-dark) */
+ #define DRM_FORMAT_R12		fourcc_code('R', '1', '2', ' ') /* [15:0] x:R 4:12 little endian */
  
- static int drm_gem_afbc_min_size(struct drm_device *dev,
+-/* 16 bpp Red */
++/* 16 bpp Red (or generic light-on-dark) */
+ #define DRM_FORMAT_R16		fourcc_code('R', '1', '6', ' ') /* [15:0] R little endian */
+ 
+ /* 16 bpp RG */
 -- 
 2.25.1
 
