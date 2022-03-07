@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54444D0443
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 17:38:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D295C4D0455
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 17:42:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC94A10E07B;
-	Mon,  7 Mar 2022 16:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A6610E087;
+	Mon,  7 Mar 2022 16:42:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
- [209.85.210.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915CC10E07B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 16:38:35 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id
- s35-20020a0568302aa300b005b2463a41faso877513otu.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 08:38:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=G2URj90cYLqtG2lIJusw4O3o8WOwpC5yHpCp8rYs1A8=;
- b=VJuuIh/VlDUZ12mRZwlK8a2jY4tZqJFfxOVHY4KlL3443cC0EM6J072hoV/p55wtMh
- 6Lji1nv4vcmzzZKsb25QK4O4Uuh/fwciFziFGc1u5Q89lI3NvAr9tNP5JnMwIVJzlXH5
- X/KIB6ngmSgTdbC0UU7uFP0npGGYmXOz3RPqSyS4avm097MQy46NHeVHztUbKTyDcUVA
- NVd52qb0VOjH8+8Y27GtRSm7Qx7H3gTVCrz5rVt1/JOgGU3FO5IUmEk+9XcmUtIhdYMT
- FGedt++wV5UO/fnVYpsLqEN1SSJjjINO0/AcEminT4gRYZzI363E0fmBbZf67zn3adxu
- O9Fg==
-X-Gm-Message-State: AOAM5332bAeb6eOIfRALlcc8enHkwdMQ97NiAWfF97cIl0Zd9ZqainEr
- 8ui4Hm2diTFJ4jSrKAV+zA==
-X-Google-Smtp-Source: ABdhPJwG6TQ1eVLmDZC3HPSQcHalxWCETuB8YBMN2NdaUXdQXdZEWF19x+Z006sW1YkSwErpjfaY6g==
-X-Received: by 2002:a9d:6047:0:b0:5b2:4003:cfcb with SMTP id
- v7-20020a9d6047000000b005b24003cfcbmr1164225otj.59.1646671114763; 
- Mon, 07 Mar 2022 08:38:34 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- bb33-20020a056820162100b00320ecc89402sm1427379oob.36.2022.03.07.08.38.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 08:38:33 -0800 (PST)
-Received: (nullmailer pid 2723434 invoked by uid 1000);
- Mon, 07 Mar 2022 16:38:32 -0000
-Date: Mon, 7 Mar 2022 10:38:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Robert Foss <robert.foss@linaro.org>
-Subject: Re: [PATCH v1 1/2] Revert "dt-bindings:drm/bridge:anx7625:add vendor
- define"
-Message-ID: <YiY1CP6DkfgU4re/@robh.at.kernel.org>
-References: <20220307154558.2505734-1-robert.foss@linaro.org>
- <20220307154558.2505734-2-robert.foss@linaro.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B9210E086;
+ Mon,  7 Mar 2022 16:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646671347; x=1678207347;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=s0NoDX1VtPJKAdo+1GksrlvYVNf+UImED0itv2byKcM=;
+ b=nqpyli8xqEPfqInjq5awl/7V7xSWVAdpBil8kKTNN0l8ktMCGy7hZ62T
+ nFXW3MoW3odzTaCJDQZS5W/GLUEU8rTzpjSf7KOmNd4/R5AxiUzRk5JPo
+ CnQMj9epbTbz8t/ph8/IiH6ffA/5jC0Q5VB6vr+jLpquVL/neqy9LDuk8
+ mWkxUP9M7C3iuVHUD8Bi4kLdI5iZKIdV6rv7i+lKt7bNjUQHNpGQCGQ2G
+ shgBZt+BXCHgI5egA9mc3sp0VlJTbm3WBYGU/MltFIweJKjk9gNifznp+
+ alhsNAiSZl2Q1EaLGurNMraGhHCNq5zCwZAv4WCkKN7G65DeneYZunjxd A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="241873520"
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="241873520"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2022 08:41:46 -0800
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; d="scan'208";a="780382147"
+Received: from aaronmux-mobl.ger.corp.intel.com (HELO [10.252.2.25])
+ ([10.252.2.25])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2022 08:41:44 -0800
+Message-ID: <78232c15-0d0c-3594-ab59-63560e63eb4e@intel.com>
+Date: Mon, 7 Mar 2022 16:41:42 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220307154558.2505734-2-robert.foss@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm: remove min_order BUG_ON check
+Content-Language: en-GB
+To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,132 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie,
- Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
- matthias.bgg@gmail.com, xji@analogixsemi.com,
- linux-arm-kernel@lists.infradead.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 04:45:57PM +0100, Robert Foss wrote:
-> This reverts commit a43661e7e819b100e1f833a35018560a1d9abb39.
-
-S-o-b and reason for the revert?
-
+On 07/03/2022 14:37, Arunpravin wrote:
+> place BUG_ON(order < min_order) outside do..while
+> loop as it fails Unigine Heaven benchmark.
+> 
+> Unigine Heaven has buffer allocation requests for
+> example required pages are 161 and alignment request
+> is 128. To allocate the remaining 33 pages, continues
+> the iteration to find the order value which is 5 and
+> when it compares with min_order = 7, enables the
+> BUG_ON(). To avoid this problem, placed the BUG_ON
+> check outside of do..while loop.
+> 
+> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 > ---
->  .../display/bridge/analogix,anx7625.yaml      | 65 +------------------
->  1 file changed, 2 insertions(+), 63 deletions(-)
+>   drivers/gpu/drm/drm_buddy.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index 1d3e88daca041..ab48ab2f4240d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -43,70 +43,14 @@ properties:
->    vdd33-supply:
->      description: Regulator that provides the supply 3.3V power.
->  
-> -  analogix,lane0-swing:
-> -    $ref: /schemas/types.yaml#/definitions/uint8-array
-> -    minItems: 1
-> -    maxItems: 20
-> -    description:
-> -      an array of swing register setting for DP tx lane0 PHY.
-> -      Registers 0~9 are Swing0_Pre0, Swing1_Pre0, Swing2_Pre0,
-> -      Swing3_Pre0, Swing0_Pre1, Swing1_Pre1, Swing2_Pre1, Swing0_Pre2,
-> -      Swing1_Pre2, Swing0_Pre3, they are for [Boost control] and
-> -      [Swing control] setting.
-> -      Registers 0~9, bit 3:0 is [Boost control], these bits control
-> -      post cursor manual, increase the [Boost control] to increase
-> -      Pre-emphasis value.
-> -      Registers 0~9, bit 6:4 is [Swing control], these bits control
-> -      swing manual, increase [Swing control] setting to add Vp-p value
-> -      for each Swing, Pre.
-> -      Registers 10~19 are Swing0_Pre0, Swing1_Pre0, Swing2_Pre0,
-> -      Swing3_Pre0, Swing0_Pre1, Swing1_Pre1, Swing2_Pre1, Swing0_Pre2,
-> -      Swing1_Pre2, Swing0_Pre3, they are for [R select control] and
-> -      [R Termination control] setting.
-> -      Registers 10~19, bit 4:0 is [R select control], these bits are
-> -      compensation manual, increase it can enhance IO driven strength
-> -      and Vp-p.
-> -      Registers 10~19, bit 5:6 is [R termination control], these bits
-> -      adjust 50ohm impedance of DP tx termination. 00:55 ohm,
-> -      01:50 ohm(default), 10:45 ohm, 11:40 ohm.
-> -
-> -  analogix,lane1-swing:
-> -    $ref: /schemas/types.yaml#/definitions/uint8-array
-> -    minItems: 1
-> -    maxItems: 20
-> -    description:
-> -      an array of swing register setting for DP tx lane1 PHY.
-> -      DP TX lane1 swing register setting same with lane0
-> -      swing, please refer lane0-swing property description.
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 72f52f293249..ed94c56b720f 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -669,10 +669,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   	order = fls(pages) - 1;
+>   	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
+>   
+> +	BUG_ON(order < min_order);
 
-These apply to the DP side, so no need to revert this part.
+Isn't the issue that we are allowing a size that is not aligned to the 
+requested min_page_size? Should we not fix the caller(and throw a normal 
+error here), or perhaps add the round_up() here instead?
 
-> -
-> -  analogix,audio-enable:
-> -    type: boolean
-> -    description: let the driver enable audio HDMI codec function or not.
-> -
+i.e if someone does:
 
-Not sure on this one...
+alloc_blocks(mm, 0, end, 4096, 1<<16, &blocks, flags);
 
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
->      properties:
->        port@0:
-> -        $ref: /schemas/graph.yaml#/$defs/port-base
-> -        unevaluatedProperties: false
-> +        $ref: /schemas/graph.yaml#/properties/port
->          description:
-> -          MIPI DSI/DPI input.
-> -
-> -        properties:
-> -          endpoint:
-> -            $ref: /schemas/media/video-interfaces.yaml#
-> -            type: object
-> -            additionalProperties: false
-> -
-> -            properties:
-> -              remote-endpoint: true
-> -
-> -              bus-type:
-> -                enum: [1, 5]
+This will still trigger the BUG_ON() even if we move it out of the loop, 
+AFAICT.
 
-I think the error here is really 1 should be 4 which corresponds to 
-D-PHY which is used by both CSI and DSI. Otherwise, I don't really see 
-the issue with bus-type being shared between CSI and DSI.
-
-> -                default: 1
-> -
-> -              data-lanes: true
-> +          Video port for MIPI DSI input.
->  
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
-> @@ -143,9 +87,6 @@ examples:
->              vdd10-supply = <&pp1000_mipibrdg>;
->              vdd18-supply = <&pp1800_mipibrdg>;
->              vdd33-supply = <&pp3300_mipibrdg>;
-> -            analogix,audio-enable;
-> -            analogix,lane0-swing = /bits/ 8 <0x14 0x54 0x64 0x74>;
-> -            analogix,lane1-swing = /bits/ 8 <0x14 0x54 0x64 0x74>;
->  
->              ports {
->                  #address-cells = <1>;
-> @@ -155,8 +96,6 @@ examples:
->                      reg = <0>;
->                      anx7625_in: endpoint {
->                          remote-endpoint = <&mipi_dsi>;
-> -                        bus-type = <5>;
-> -                        data-lanes = <0 1 2 3>;
->                      };
->                  };
->  
-> -- 
-> 2.32.0
+> +
+>   	do {
+>   		order = min(order, (unsigned int)fls(pages) - 1);
+>   		BUG_ON(order > mm->max_order);
+> -		BUG_ON(order < min_order);
+>   
+>   		do {
+>   			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
 > 
-> 
+> base-commit: 8025c79350b90e5a8029234d433578f12abbae2b
