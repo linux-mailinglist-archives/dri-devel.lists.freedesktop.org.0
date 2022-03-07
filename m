@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191CB4D0364
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5474D0367
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Mar 2022 16:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D568910E008;
-	Mon,  7 Mar 2022 15:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5A410E03A;
+	Mon,  7 Mar 2022 15:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F083A10E008
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 15:49:22 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id v4so13979786pjh.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 07:49:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FL0gXsWbGhLI04YBjzXHDJu+JMl7WurtGcAsv91Hz5k=;
- b=Kp5yZGW0Ab5T2mjqzxPvmuVftl8sYQc7xz0cyW35fQuBN9lAzVFYMt+71xB4nVz2zH
- OeqnKiQ8ARMsefAnzjPdcQQr0qnaZSFSofHxl3uXNmPUJE+TWv9vC7pKnQ0E86RGO26f
- OmWvW9mIB3DCeM5SjFKiW2Eo6gDntru4y4WsxiJDX/YLcpy5ikRdvD8ki+fQtSYMyuSl
- 8qHCRcaikR+yQiYofkjmEKsDWTY1r3w/SMRn3ST1rrDZ5PuIsof8pGiNyTxsNx3AA4gJ
- 1afiH/g1Ob+IDASGSyiF5K7SScsJ7FSqIlYSkwfT9pdjNq5uF1A/5znvHVkBLct0O5sh
- nO+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FL0gXsWbGhLI04YBjzXHDJu+JMl7WurtGcAsv91Hz5k=;
- b=x5CHgZUJ2+wiperw96IuMwhPaXYcyh2tRBb6crzDBwCaqOYjZmnAE1lT5Wf6Y7ayeI
- 4oZwHoy68XdE6Y39c8EQouW+ZN3j1M8ODObZ8vcwj6OrrngfAhMXOuYsgVQcL2e6nBLG
- jhTcb0CvZ1u4l8MeAGlLdfM1lloP802dRkgTvCto8esvGR3jyjPM1blIo+paCzJBdgCm
- Ft4wCcev2KpEzkHoFwKhyHBa82T+l68AslhUKDLa+jqp0DjBrHjVd1fRRVMKdbkkIeNJ
- Tu5mOLQKVYKGsjmw6U7YpT/KtqCH45BQ4BLvg9gXsvP/gYJltUWFon2wUCB7crq93QAY
- kAZg==
-X-Gm-Message-State: AOAM530YN7NztLwNhWb+zqvalCjsJ+ubbehpcKu3PetXvrjt2ufloi8Q
- KO6OQTHiIStvgNMMS6PeIuYn/+COIZmZ/AVH5978xQ==
-X-Google-Smtp-Source: ABdhPJy2roW03lthAIX6j+2h+EPCsVhhcpMTUdZeJAti7tvAKjOU/gBksPov6kZj/ME8zDET9PX1au5aJNKDhNlfY8s=
-X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
- gx12-20020a17090b124c00b001bc369b7db5mr26044708pjb.179.1646668162460; Mon, 07
- Mar 2022 07:49:22 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0049210E03A;
+ Mon,  7 Mar 2022 15:50:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8ED4FB80CA8;
+ Mon,  7 Mar 2022 15:50:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C24CC340EB;
+ Mon,  7 Mar 2022 15:50:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646668214;
+ bh=kOQrIB//kV8fsU32x9w7qLTU4u76ufnPafjP+aW2LGY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xn3UfVQig7siysNhTckqEt/3YwfSb/hQX777ZeUBNR25CWtPmBg3AozCiz0C9Vx6e
+ vI0+ZBFRrmaTJtZfVDBV/wXr9kndWweVAzDmNxzcrOpxEk6sb14183+qU7UsuGoPyD
+ BJdWxk6dfqo2i8LIPODB/uTqA5n5E/QX1Oc7iq5pAYpzAleGc7lc3aIGfn/PwB89lT
+ Ot8o/PrK/bdSm0BXhzDWSnMhi1VaTaPkbIEK8WSygHQZnXIc+PUDkiS/iC31zhENiH
+ FHocAoA6uueu5ukIdmZ08K5KjK1lXb4Pte/4tQ3FvPFI29pSDVfw1hXJlmCJ0ZynWA
+ ECBe+IItixYgw==
+Date: Mon, 7 Mar 2022 17:49:33 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
+Message-ID: <YiYpjdD8BYcoGQ4s@iki.fi>
+References: <20220306053211.135762-1-jarkko@kernel.org>
+ <d6b09f23-f470-c119-8d3e-7d72a3448b64@redhat.com>
+ <YiYVHTkS8IsMMw6T@iki.fi>
+ <dab25b2d-88f1-7ad5-c28a-15a97b38af03@redhat.com>
 MIME-Version: 1.0
-References: <20211105031904.2641088-1-xji@analogixsemi.com>
- <20211105031904.2641088-3-xji@analogixsemi.com>
- <YiTruiCIkyxs3jTC@pendragon.ideasonboard.com>
- <YiWiYpEfTOOqgyAN@google.com>
-In-Reply-To: <YiWiYpEfTOOqgyAN@google.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 7 Mar 2022 16:49:11 +0100
-Message-ID: <CAG3jFys-BYsBp07AAFQ2O_TFsXOwhcVDnsOh8WVNNSag3HZw+Q@mail.gmail.com>
-Subject: Re: [PATCH v12 3/4] drm/bridge: anx7625: add MIPI DPI input feature
-To: Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dab25b2d-88f1-7ad5-c28a-15a97b38af03@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,107 +55,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- bliang@analogixsemi.com, drinkcat@google.com, sam@ravnborg.org,
- jernej.skrabec@gmail.com, tzungbi@google.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- jonas@kwiboo.se, qwen@analogixsemi.com, robh+dt@kernel.org, maxime@cerno.tech,
- pihsun@chromium.org, hsinyi@chromium.org, Xin Ji <xji@analogixsemi.com>,
- linux-kernel@vger.kernel.org
+Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, linux-unionfs@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, Matthew Auld <matthew.auld@intel.com>,
+ Vasily Averin <vvs@virtuozzo.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Shakeel Butt <shakeelb@google.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, linux-sgx@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nathaniel McCallum <nathaniel@profian.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Alexey Gladkov <legion@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Mar 2022 at 07:12, Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> On Sun, Mar 06, 2022 at 07:13:30PM +0200, Laurent Pinchart wrote:
-> > Hello Xin,
-> >
-> > (Question for Rob below, and I'm afraid this is urgent as we need to
-> > merge a fix in v5.17).
-> >
-> > On Fri, Nov 05, 2021 at 11:19:03AM +0800, Xin Ji wrote:
-> > > The basic anx7625 driver only support MIPI DSI rx signal input.
-> > > This patch add MIPI DPI rx input configuration support, after apply
-> > > this patch, the driver can support DSI rx or DPI rx by adding
-> > > 'bus-type' in DT.
-> > >
-> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 247 ++++++++++++++++------
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.h |  18 +-
-> > >  2 files changed, 205 insertions(+), 60 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index f48e91134c20..f7c3386c8929 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
->
-> [...]
->
-> > >  static int anx7625_parse_dt(struct device *dev,
-> > >                         struct anx7625_platform_data *pdata)
-> > >  {
-> > > -   struct device_node *np = dev->of_node;
-> > > +   struct device_node *np = dev->of_node, *ep0;
-> > >     struct drm_panel *panel;
-> > >     int ret;
-> > > +   int bus_type, mipi_lanes;
-> > > +
-> > > +   anx7625_get_swing_setting(dev, pdata);
-> > >
-> > > +   pdata->is_dpi = 1; /* default dpi mode */
-> > >     pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
-> > >     if (!pdata->mipi_host_node) {
-> > >             DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
-> > >             return -ENODEV;
-> > >     }
-> > >
-> > > -   DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
-> > > +   bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
-> > > +   mipi_lanes = MAX_LANES_SUPPORT;
-> > > +   ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
-> > > +   if (ep0) {
-> > > +           if (of_property_read_u32(ep0, "bus-type", &bus_type))
-> > > +                   bus_type = 0;
-> > > +
-> > > +           mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
-> > > +   }
-> > > +
-> > > +   if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
-> >
-> > This is not correct *at all*. V4L2_FWNODE_BUS_TYPE_PARALLEL has nothing
-> > to do with DSI. DSI stands for Digital *Serial* Interface. If anything,
-> > the V4L2_FWNODE_BUS_TYPE_PARALLEL type would map better to DPI, even if
-> > it's not an exact match.
-> >
-> > This patch has landed in v5.17-rc1, along with the corresponding
-> > bindings. As DT bindings are an ABI, we should really fix this before
-> > v5.17 is released. There is no DSI bus types defined in DT, and adding
-> > one as a fix so late in the v5.17-rc cycle seems a bit of a stretch to
-> > me (unless Rob disagrees).
-> >
-> > It would seem best to revert this series and the corresponding bindings,
-> > and retry in v5.18.
->
-> There is a DT patch using this property that is already queued up for 5.17
-> in the soc tree:
->
-> https://lore.kernel.org/all/20220214200507.2500693-1-nfraprado@collabora.com/
->
-> merged here:
->
-> http://git.kernel.org/soc/soc/c/32568ae37596b529628ac09b875f4874e614f63f
->
-> We will need to revert that one as well.
+On Mon, Mar 07, 2022 at 03:33:52PM +0100, David Hildenbrand wrote:
+> On 07.03.22 15:22, Jarkko Sakkinen wrote:
+> > On Mon, Mar 07, 2022 at 11:12:44AM +0100, David Hildenbrand wrote:
+> >> On 06.03.22 06:32, Jarkko Sakkinen wrote:
+> >>> For device memory (aka VM_IO | VM_PFNMAP) MAP_POPULATE does nothing. Allow
+> >>> to use that for initializing the device memory by providing a new callback
+> >>> f_ops->populate() for the purpose.
+> >>>
+> >>> SGX patches are provided to show the callback in context.
+> >>>
+> >>> An obvious alternative is a ioctl but it is less elegant and requires
+> >>> two syscalls (mmap + ioctl) per memory range, instead of just one
+> >>> (mmap).
+> >>
+> >> What about extending MADV_POPULATE_READ | MADV_POPULATE_WRITE to support
+> >> VM_IO | VM_PFNMAP (as well?) ?
+> > 
+> > What would be a proper point to bind that behaviour? For mmap/mprotect it'd
+> > be probably populate_vma_page_range() because that would span both mmap()
+> > and mprotect() (Dave's suggestion in this thread).
+> 
+> MADV_POPULATE_* ends up in faultin_vma_page_range(), right next to
+> populate_vma_page_range(). So it might require a similar way to hook
+> into the driver I guess.
+> 
+> > 
+> > For MAP_POPULATE I did not have hard proof to show that it would be used
+> > by other drivers but for madvice() you can find at least a few ioctl
+> > based implementations:
+> > 
+> > $ git grep -e madv --and \( -e ioc \)  drivers/
+> > drivers/gpu/drm/i915/gem/i915_gem_ioctls.h:int i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
+> > drivers/gpu/drm/i915/i915_driver.c:     DRM_IOCTL_DEF_DRV(I915_GEM_MADVISE, i915_gem_madvise_ioctl, DRM_RENDER_ALLOW),
+> > drivers/gpu/drm/i915/i915_gem.c:i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
+> > drivers/gpu/drm/msm/msm_drv.c:static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
+> > drivers/gpu/drm/msm/msm_drv.c:  DRM_IOCTL_DEF_DRV(MSM_GEM_MADVISE,  msm_ioctl_gem_madvise,  DRM_RENDER_ALLOW),
+> > drivers/gpu/drm/panfrost/panfrost_drv.c:static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+> > drivers/gpu/drm/vc4/vc4_drv.c:  DRM_IOCTL_DEF_DRV(VC4_GEM_MADVISE, vc4_gem_madvise_ioctl, DRM_RENDER_ALLOW),
+> > drivers/gpu/drm/vc4/vc4_drv.h:int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
+> > drivers/gpu/drm/vc4/vc4_gem.c:int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
+> > 
+> > IMHO this also provides supportive claim for MAP_POPULATE, and yeah, I
+> > agree that to be consistent implementation, both madvice() and MAP_POPULATE
+> > should work.
+> 
+> MADV_POPULATE_WRITE + MADV_DONTNEED/FALLOC_FL_PUNCH_HOLE is one way to
+> dynamically manage memory consumption inside a sparse memory mapping
+> (preallocate/populate via MADV_POPULATE_WRITE, discard via
+> MADV_DONTNEED/FALLOC_FL_PUNCH_HOLE).  Extending that whole mechanism to
+> deal with VM_IO | VM_PFNMAP mappings as well could be interesting.
+> 
+> At least I herd about some ideas where we might want to dynamically
+> expose memory to a VM (via virtio-mem) inside a sparse memory mapping,
+> and the memory in that sparse memory mapping is provided from a
+> dedicated memory pool managed by a device driver -- not just using
+> ordinary anonymous/file/hugetlb memory as we do right now.
+> 
+> Now, this is certainly stuff for the future, I just wanted to mention it.
 
-I just submitted a series reverting the dt-binding change + the
-related commit to "mt8183: jacuzzi".
-Can I get a quick r-b/a-b in order to get this into v5.17.
+For SGX purposes I'm now studying the possibly to use ra_state to get
+idea where do "prefetching" (EAUG's) in batches, as it is something
+that would not require any intrusive changes to mm but thank you for
+sharing this. Looking into implementing this properly is the 2nd option,
+if that does not work out.
 
-https://lore.kernel.org/all/20220307154558.2505734-3-robert.foss@linaro.org/
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
->
-> ChenYu
+BR, Jarkko
