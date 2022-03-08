@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820924D141B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:00:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D844D1440
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60CC10E230;
-	Tue,  8 Mar 2022 10:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9689F10E34B;
+	Tue,  8 Mar 2022 10:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0609110E230
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:00:31 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- mv5-20020a17090b198500b001bf2a039831so1725352pjb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA5410E34F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:07:58 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id qt6so37983951ejb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:07:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w3pwSt00P8dq6UBwqoWZplPcJrIB0Twk+vNu1P1BFVs=;
- b=L7srTIOZ8D0DZTGnRZ7EHHRoCmawxSsPAQyn/J9KoAPqsTr+S5L+A2Wrx55SIn5X+H
- l6oRFyDkbe2VZLF9uHm4CqDRJpfC5E6s8qTi5CGq5NTLl1ZXQ+2ngxCTbu5MoLwZRCjX
- FE/dnSTMzKVHzHr3G41DX6xkQb5EMUvQquStOPuzl0jSHoi1yequGbqPgo7XswP6tjh8
- z74qBjieToCxyJ8JyCVa9UOomtKdiXwHHMoJ4TpefldBA93npQYduoRrrD3eFEfeBaeB
- va8s4KKAXSXJDOMFpKFb+v+rbgCCQ+4j4Z4qzKQPxE/ArYrt1PYwb0Jcme81inWNactP
- Zs6Q==
+ :cc; bh=wjq5d37nDqkRC7sNFuDZ5VhqK60r/cIBXSzUP4l+0VM=;
+ b=j5DfEcIHPg9855vtFAKEp1b90EfmdUbMHejc4faC0p/1JANu+o+ey1O9YMyLCI8akL
+ KH5+C0J5gbFcwboWqGwS2Dnuyil97uu3vftEGVy7GQpR1I2yq4tNSDp9BtQl7Oj/LMZU
+ 7X850PP9u8TDLELdXxP3rosMymSCBRyF5X1x4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=w3pwSt00P8dq6UBwqoWZplPcJrIB0Twk+vNu1P1BFVs=;
- b=w8SD2Fu73+PgYs6OHtYnYvfg/FHoetcUx7WpmdCd2Y/PhbWzDk+7V+6+uhoJx8RlZ9
- ME8pZZYlZD/emMBah8Bzei5sLPA5s1gq1nQl5de6Pn1pU6dIdoE2qyiJrDnPr/3O42II
- Jmy9dZU8mCyuBS+ykmgQbXl1MBQ+17wQs9312ydkbVV45zF0O9pXdoEO1PEyxgj3K0S9
- POB0b+H2LWuDfJrc/paoZddaKR5zE6louslZkeM7YMhK6wWtxA1tAhS/nUzhmxbNoadY
- ssPREz/m9WnZScCSxNr7LCkeps5R5y3vN3S8/pyzZHyyzcNOX5n4A19peorK0cTxFW3d
- uDdw==
-X-Gm-Message-State: AOAM532YLSRHUJzNb2uotT6aEjdOdyy3oBw1z8/ti7GzsiMz9Dpr47VT
- v/PucdvlP4NDCwj+Tz/IH0atwdJUAokBAWt2KeNXCQ==
-X-Google-Smtp-Source: ABdhPJzXQqAcXnz/aS3XETnYjpLXEoBzJ29ntiGDh/VQ4OO+pWZTDXDaij3GjfN1QM1mGyOkybVK52zKUs0tJl9KZPs=
-X-Received: by 2002:a17:90b:906:b0:1be:e765:882 with SMTP id
- bo6-20020a17090b090600b001bee7650882mr3815408pjb.152.1646733631227; Tue, 08
- Mar 2022 02:00:31 -0800 (PST)
+ bh=wjq5d37nDqkRC7sNFuDZ5VhqK60r/cIBXSzUP4l+0VM=;
+ b=g435zsukiOorv+H4vO/OqtGhrHx9Ue1hQk1sMWxPGWvQV5I5GbLfZ6s4icO3voBlHM
+ /eZrZkOcMUBlmMbyr334Pud2JiUtl6Ndz7efPaLw8Xxsq3u1rqMZxXRyixLRRi7APbeL
+ gkuX3fF9sevPPLKSpVF/1nNfMqjCCGDkeqhyLbsHiJjO8ZnA9tCJOlNLtZc+tbNcwjk+
+ 1gXuOcM3d7szzVtGDB4rudsFyzbagUoRur+M3Eb3VpIaXokiQVPXMvKAdMkIV+qZBQUQ
+ ipavgBaYf8KuWE9oKm+lb4p/dj813Suv9YCGFQ06fv5/EIKTinTzW8ztniYmBcIZcjcg
+ u/8A==
+X-Gm-Message-State: AOAM532/OuEwBFEdSoGWswYHftOggk+y5PPNHOScZt3G7lz9yc/8udxZ
+ c2HIWEu/S4+kkv2UmIl/FIrkp/aeqPDXa/tWCxYVHw==
+X-Google-Smtp-Source: ABdhPJxZTnLDNJCysnV2dsH8GogneTgGvG9QzSkujmPMSoBqlmSx9JbeYOE4+G1zdSC2DxI1t5f6CESsQcyKzSyxQuo=
+X-Received: by 2002:a17:906:4ccd:b0:6b7:75ca:3eac with SMTP id
+ q13-20020a1709064ccd00b006b775ca3eacmr12442004ejt.167.1646734076539; Tue, 08
+ Mar 2022 02:07:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20211105031904.2641088-1-xji@analogixsemi.com>
- <20211105031904.2641088-3-xji@analogixsemi.com>
- <YiTruiCIkyxs3jTC@pendragon.ideasonboard.com>
- <YiWiYpEfTOOqgyAN@google.com>
- <CAG3jFys-BYsBp07AAFQ2O_TFsXOwhcVDnsOh8WVNNSag3HZw+Q@mail.gmail.com>
-In-Reply-To: <CAG3jFys-BYsBp07AAFQ2O_TFsXOwhcVDnsOh8WVNNSag3HZw+Q@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 8 Mar 2022 11:00:20 +0100
-Message-ID: <CAG3jFyu47cv8oSecONM95KVoP=NOvgwafAp4TQ33CZ0Y4zWmnQ@mail.gmail.com>
-Subject: Re: [PATCH v12 3/4] drm/bridge: anx7625: add MIPI DPI input feature
-To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+In-Reply-To: <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 8 Mar 2022 15:37:45 +0530
+Message-ID: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,115 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- bliang@analogixsemi.com, drinkcat@google.com, sam@ravnborg.org,
- jernej.skrabec@gmail.com, tzungbi@google.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- jonas@kwiboo.se, qwen@analogixsemi.com, robh+dt@kernel.org, maxime@cerno.tech,
- pihsun@chromium.org, hsinyi@chromium.org, Xin Ji <xji@analogixsemi.com>,
- linux-kernel@vger.kernel.org
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Mar 2022 at 16:49, Robert Foss <robert.foss@linaro.org> wrote:
+On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
 >
-> On Mon, 7 Mar 2022 at 07:12, Chen-Yu Tsai <wenst@chromium.org> wrote:
-> >
-> > On Sun, Mar 06, 2022 at 07:13:30PM +0200, Laurent Pinchart wrote:
-> > > Hello Xin,
-> > >
-> > > (Question for Rob below, and I'm afraid this is urgent as we need to
-> > > merge a fix in v5.17).
-> > >
-> > > On Fri, Nov 05, 2021 at 11:19:03AM +0800, Xin Ji wrote:
-> > > > The basic anx7625 driver only support MIPI DSI rx signal input.
-> > > > This patch add MIPI DPI rx input configuration support, after apply
-> > > > this patch, the driver can support DSI rx or DPI rx by adding
-> > > > 'bus-type' in DT.
-> > > >
-> > > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 247 ++++++++++++++++------
-> > > >  drivers/gpu/drm/bridge/analogix/anx7625.h |  18 +-
-> > > >  2 files changed, 205 insertions(+), 60 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > index f48e91134c20..f7c3386c8929 100644
-> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> >
-> > [...]
-> >
-> > > >  static int anx7625_parse_dt(struct device *dev,
-> > > >                         struct anx7625_platform_data *pdata)
-> > > >  {
-> > > > -   struct device_node *np = dev->of_node;
-> > > > +   struct device_node *np = dev->of_node, *ep0;
-> > > >     struct drm_panel *panel;
-> > > >     int ret;
-> > > > +   int bus_type, mipi_lanes;
-> > > > +
-> > > > +   anx7625_get_swing_setting(dev, pdata);
-> > > >
-> > > > +   pdata->is_dpi = 1; /* default dpi mode */
-> > > >     pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
-> > > >     if (!pdata->mipi_host_node) {
-> > > >             DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
-> > > >             return -ENODEV;
-> > > >     }
-> > > >
-> > > > -   DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
-> > > > +   bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
-> > > > +   mipi_lanes = MAX_LANES_SUPPORT;
-> > > > +   ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
-> > > > +   if (ep0) {
-> > > > +           if (of_property_read_u32(ep0, "bus-type", &bus_type))
-> > > > +                   bus_type = 0;
-> > > > +
-> > > > +           mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
-> > > > +   }
-> > > > +
-> > > > +   if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
-> > >
-> > > This is not correct *at all*. V4L2_FWNODE_BUS_TYPE_PARALLEL has nothing
-> > > to do with DSI. DSI stands for Digital *Serial* Interface. If anything,
-> > > the V4L2_FWNODE_BUS_TYPE_PARALLEL type would map better to DPI, even if
-> > > it's not an exact match.
-> > >
-> > > This patch has landed in v5.17-rc1, along with the corresponding
-> > > bindings. As DT bindings are an ABI, we should really fix this before
-> > > v5.17 is released. There is no DSI bus types defined in DT, and adding
-> > > one as a fix so late in the v5.17-rc cycle seems a bit of a stretch to
-> > > me (unless Rob disagrees).
-> > >
-> > > It would seem best to revert this series and the corresponding bindings,
-> > > and retry in v5.18.
-> >
-> > There is a DT patch using this property that is already queued up for 5.17
-> > in the soc tree:
-> >
-> > https://lore.kernel.org/all/20220214200507.2500693-1-nfraprado@collabora.com/
-> >
-> > merged here:
-> >
-> > http://git.kernel.org/soc/soc/c/32568ae37596b529628ac09b875f4874e614f63f
-> >
-> > We will need to revert that one as well.
+> On 3/8/22 09:03, Jagan Teki wrote:
 >
-> I just submitted a series reverting the dt-binding change + the
-> related commit to "mt8183: jacuzzi".
-> Can I get a quick r-b/a-b in order to get this into v5.17.
+> Hi,
 >
-> https://lore.kernel.org/all/20220307154558.2505734-3-robert.foss@linaro.org/
+> [...]
 >
+> >> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+> >>   static int chipone_parse_dt(struct chipone *icn)
+> >>   {
+> >>          struct device *dev = icn->dev;
+> >> +       struct device_node *endpoint;
+> >>          struct drm_panel *panel;
+> >> +       int dsi_lanes;
+> >>          int ret;
+> >>
+> >>          icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+> >> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+> >>                  return PTR_ERR(icn->enable_gpio);
+> >>          }
+> >>
+> >> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> >> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+> >> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+> >> +       of_node_put(endpoint);
+> >> +
+> >> +       if (!icn->host_node)
+> >> +               return -ENODEV;
+> >
+> > The non-ports-based OF graph returns a -19 example on the Allwinner
+> > Display pipeline in R16 [1].
+> >
+> > We need to have a helper to return host_node for non-ports as I have
+> > done it for drm_of_find_bridge.
+> >
+> > [1] https://patchwork.amarulasolutions.com/patch/1805/
+>
+> The link points to a patch marked "DO NOT MERGE", maybe that patch is
+> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+> required, see:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+>
+> What is "non-ports-based OF graph" ?
+>
+> I don't see drm_of_find_bridge() in linux-next , what is that ?
 
-v2 of revert submitted.
+port@0 is optional as some of the DSI host OF-graph represent the
+bridge or panel as child nodes instead of ports. (i think dt-binding
+has to fix it to make port@0 optional)
 
-https://lore.kernel.org/all/20220308094911.2680291-1-robert.foss@linaro.org/
+Example OF-graph is on the commit message.
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/drm_of.c?id=80253168dbfd256bca97cf7f13312863c5a7f2e5
 
-Xin: Will you spin a series that adds DPI support and re-enables DPI
-for anx7625? Additionally, "mt8183: jacuzzi" will have to have DPI
-re-enabled.
+Jagan.
