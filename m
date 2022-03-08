@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB14D2202
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 20:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A789F4D2229
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 21:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3BE310E4F9;
-	Tue,  8 Mar 2022 19:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7B010E53F;
+	Tue,  8 Mar 2022 20:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A389910E351
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 19:52:27 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 122C21F39E;
- Tue,  8 Mar 2022 19:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646769146; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ur4G2eEW3Y3URYb715xgR1bM9avwKczfnCkTyEqxH/U=;
- b=ZD1OB+qDwz9/gTxV7ZqC+UJKWvQ9byufIPlM09I8mYab4q6bAkm5XFqhKeyyU14CU7V20V
- aZu9VbEppShAQX1FfwlmJtFvwnb6rlY03C2IRUW9gKSK8c3MpP9+BF3oHp87fhmiG002OC
- T9h9IcfdIGTAElHr5fxu6DzcRLTO1XI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646769146;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ur4G2eEW3Y3URYb715xgR1bM9avwKczfnCkTyEqxH/U=;
- b=JYijV0Bd1vYjjz3KSnqsKnSAiqcs7TN20U5LFg3w6RLDpfsIyqg2rOMeUGK/UbzqyA1LzH
- iDW5UE7uMTq5g5Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E60E013CFB;
- Tue,  8 Mar 2022 19:52:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4MI+N/mzJ2KKEwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Mar 2022 19:52:25 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: patrik.r.jakobsson@gmail.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH v2 12/12] drm/gma500: Move GTT memory-range setup into helper
-Date: Tue,  8 Mar 2022 20:52:22 +0100
-Message-Id: <20220308195222.13471-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220308195222.13471-1-tzimmermann@suse.de>
-References: <20220308195222.13471-1-tzimmermann@suse.de>
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
+ [IPv6:2607:f8b0:4864:20::c2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C5A10E53F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 20:05:41 +0000 (UTC)
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ h16-20020a4a6f10000000b00320507b9ccfso301507ooc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 12:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=QX67c8/LWZdvLCoz7zI9uFhqDQjOSWv595jQDqaaHvw=;
+ b=AoYICMH8irjSWwtZb+Z4eLYjCkWJeNSak3Ym+tkyXo7JKkBgfi/ApgCW8h+4uiTLk4
+ 9/ZBh92aXPInfCxmDlAWVb4MzPrC9fWhQAXR1EaTZrKwakYnK4HXEBRhrYs3Ep5zfB2E
+ sF7dLTDPwJru+Mre8SMqknSkzXsiym3TOgeUA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=QX67c8/LWZdvLCoz7zI9uFhqDQjOSWv595jQDqaaHvw=;
+ b=sZSyuvxRo7l/twTmnC7wGxbXYJ9Ow2PQmEp6z0W3sBDDdBL9aj9gjdggR9YQUCcEBz
+ uxdwWHl/oapcgUnvJiB33abE39JWaPaMLARNhN52LjMQTyApwPEcMn7GU8MwBha/y75t
+ aCNe0hvwMXBm1JyEAhoY1qKJCSaMBeA0Hsp7V7AeWtNsqMzzzbQUvhB3ddKpiJscFewP
+ Qk7wQlr4OKXC5j6zN4n36rbofhxcK2ISpgBDakjg7tgR4OoHaiMDQfqi7GYl7G9m+CCL
+ h45JRRTTUTqISLJuwfPLnmQEilE3/eQjSGydBRxAxgUxeZdj/Z2GIzQ3MbGSYm+2Zlnr
+ i2EQ==
+X-Gm-Message-State: AOAM532OWRwRzYyJLhgrOTGQ8JeKTUETMVLvv9oL6WMFvsxrZ2I0GopC
+ oS8NyTlubJwY3AlpAKLVzeAbSjq8tePR5YL3occ/Wg==
+X-Google-Smtp-Source: ABdhPJxFRuIHirmuMcP8JQW2CiIQQrW1zixcggRe6oOvjNpt2ZWhCvmWo6ALkosrHI8M9jLM4bLDX5HuCCoQWjlEW1Q=
+X-Received: by 2002:a05:6870:d250:b0:da:b3f:3211 with SMTP id
+ h16-20020a056870d25000b000da0b3f3211mr3425601oac.193.1646769940572; Tue, 08
+ Mar 2022 12:05:40 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 8 Mar 2022 12:05:39 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1646758500-3776-2-git-send-email-quic_vpolimer@quicinc.com>
+References: <1646758500-3776-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1646758500-3776-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 8 Mar 2022 12:05:39 -0800
+Message-ID: <CAE-0n51bfqWs8yOiyQ-A_bEQ7CZSqavz8epcFEWYyZxxoRYFHg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] arm64/dts/qcom/sc7280: remove assigned-clock-rate
+ property for mdp clk
+To: Vinod Polimera <quic_vpolimer@quicinc.com>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,228 +68,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: quic_kalyant@quicinc.com, linux-kernel@vger.kernel.org,
+ dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the setup code for GTT/GATT memory ranges into a new helper and
-call the function from psb_gtt_init() and psb_gtt_resume(). Removes
-code duplication.
+Quoting Vinod Polimera (2022-03-08 08:54:56)
+> Kernel clock driver assumes that initial rate is the
+> max rate for that clock and was not allowing it to scale
+> beyond the assigned clock value.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/gma500/gtt.c | 153 +++++++++++++++--------------------
- 1 file changed, 64 insertions(+), 89 deletions(-)
+How? I see ftbl_disp_cc_mdss_mdp_clk_src[] has multiple frequencies and
+clk_rcg2_shared_ops so it doesn't look like anything in the clk driver
+is preventing the frequency from changing beyond the assigned value.
 
-diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-index 83d9a9f7c73c..379bc218aa6b 100644
---- a/drivers/gpu/drm/gma500/gtt.c
-+++ b/drivers/gpu/drm/gma500/gtt.c
-@@ -182,68 +182,91 @@ static void psb_gtt_clear(struct drm_psb_private *pdev)
- 	(void)ioread32(pdev->gtt_map + i - 1);
- }
- 
--int psb_gtt_init(struct drm_device *dev)
-+static void psb_gtt_init_ranges(struct drm_psb_private *dev_priv)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct drm_device *dev = &dev_priv->dev;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct psb_gtt *pg = &dev_priv->gtt;
--	unsigned gtt_pages;
--	int ret;
--
--	mutex_init(&dev_priv->gtt_mutex);
--
--	ret = psb_gtt_enable(dev_priv);
--	if (ret)
--		goto err_mutex_destroy;
-+	resource_size_t gtt_phys_start, mmu_gatt_start, gtt_start, gtt_pages,
-+			gatt_start, gatt_pages;
-+	struct resource *gtt_mem;
- 
- 	/* The root resource we allocate address space from */
--	pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-+	gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
- 
- 	/*
--	 *	The video mmu has a hw bug when accessing 0x0D0000000.
--	 *	Make gatt start at 0x0e000,0000. This doesn't actually
--	 *	matter for us but may do if the video acceleration ever
--	 *	gets opened up.
-+	 * The video MMU has a HW bug when accessing 0x0d0000000. Make
-+	 * GATT start at 0x0e0000000. This doesn't actually matter for
-+	 * us now, but maybe will if the video acceleration ever gets
-+	 * opened up.
- 	 */
--	pg->mmu_gatt_start = 0xE0000000;
-+	mmu_gatt_start = 0xe0000000;
-+
-+	gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
-+	gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE) >> PAGE_SHIFT;
- 
--	pg->gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
--	gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE)
--								>> PAGE_SHIFT;
- 	/* CDV doesn't report this. In which case the system has 64 gtt pages */
--	if (pg->gtt_start == 0 || gtt_pages == 0) {
-+	if (!gtt_start || !gtt_pages) {
- 		dev_dbg(dev->dev, "GTT PCI BAR not initialized.\n");
- 		gtt_pages = 64;
--		pg->gtt_start = dev_priv->pge_ctl;
-+		gtt_start = dev_priv->pge_ctl;
- 	}
- 
--	pg->gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
--	pg->gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE)
--								>> PAGE_SHIFT;
--	dev_priv->gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
-+	gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
-+	gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE) >> PAGE_SHIFT;
- 
--	if (pg->gatt_pages == 0 || pg->gatt_start == 0) {
-+	if (!gatt_pages || !gatt_start) {
- 		static struct resource fudge;	/* Preferably peppermint */
--		/* This can occur on CDV systems. Fudge it in this case.
--		   We really don't care what imaginary space is being allocated
--		   at this point */
-+
-+		/*
-+		 * This can occur on CDV systems. Fudge it in this case. We
-+		 * really don't care what imaginary space is being allocated
-+		 * at this point.
-+		 */
- 		dev_dbg(dev->dev, "GATT PCI BAR not initialized.\n");
--		pg->gatt_start = 0x40000000;
--		pg->gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
--		/* This is a little confusing but in fact the GTT is providing
--		   a view from the GPU into memory and not vice versa. As such
--		   this is really allocating space that is not the same as the
--		   CPU address space on CDV */
-+		gatt_start = 0x40000000;
-+		gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
-+
-+		/*
-+		 * This is a little confusing but in fact the GTT is providing
-+		 * a view from the GPU into memory and not vice versa. As such
-+		 * this is really allocating space that is not the same as the
-+		 * CPU address space on CDV.
-+		 */
- 		fudge.start = 0x40000000;
- 		fudge.end = 0x40000000 + 128 * 1024 * 1024 - 1;
- 		fudge.name = "fudge";
- 		fudge.flags = IORESOURCE_MEM;
--		dev_priv->gtt_mem = &fudge;
-+
-+		gtt_mem = &fudge;
-+	} else {
-+		gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
- 	}
- 
-+	pg->gtt_phys_start = gtt_phys_start;
-+	pg->mmu_gatt_start = mmu_gatt_start;
-+	pg->gtt_start = gtt_start;
- 	pg->gtt_pages = gtt_pages;
-+	pg->gatt_start = gatt_start;
-+	pg->gatt_pages = gatt_pages;
-+	dev_priv->gtt_mem = gtt_mem;
-+}
-+
-+int psb_gtt_init(struct drm_device *dev)
-+{
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct psb_gtt *pg = &dev_priv->gtt;
-+	int ret;
-+
-+	mutex_init(&dev_priv->gtt_mutex);
-+
-+	ret = psb_gtt_enable(dev_priv);
-+	if (ret)
-+		goto err_mutex_destroy;
- 
--	dev_priv->gtt_map = ioremap(pg->gtt_phys_start, gtt_pages << PAGE_SHIFT);
-+	psb_gtt_init_ranges(dev_priv);
-+
-+	dev_priv->gtt_map = ioremap(pg->gtt_phys_start, pg->gtt_pages << PAGE_SHIFT);
- 	if (!dev_priv->gtt_map) {
- 		dev_err(dev->dev, "Failure to map gtt.\n");
- 		ret = -ENOMEM;
-@@ -264,9 +287,8 @@ int psb_gtt_init(struct drm_device *dev)
- int psb_gtt_resume(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct psb_gtt *pg = &dev_priv->gtt;
--	unsigned int gtt_pages;
-+	unsigned int old_gtt_pages = pg->gtt_pages;
- 	int ret;
- 
- 	/* Enable the GTT */
-@@ -274,61 +296,14 @@ int psb_gtt_resume(struct drm_device *dev)
- 	if (ret)
- 		return ret;
- 
--	/* The root resource we allocate address space from */
--	pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
--
--	/*
--	 *	The video mmu has a hw bug when accessing 0x0D0000000.
--	 *	Make gatt start at 0x0e000,0000. This doesn't actually
--	 *	matter for us but may do if the video acceleration ever
--	 *	gets opened up.
--	 */
--	pg->mmu_gatt_start = 0xE0000000;
--
--	pg->gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
--	gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE) >> PAGE_SHIFT;
--	/* CDV doesn't report this. In which case the system has 64 gtt pages */
--	if (pg->gtt_start == 0 || gtt_pages == 0) {
--		dev_dbg(dev->dev, "GTT PCI BAR not initialized.\n");
--		gtt_pages = 64;
--		pg->gtt_start = dev_priv->pge_ctl;
--	}
--
--	pg->gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
--	pg->gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE) >> PAGE_SHIFT;
--	dev_priv->gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
-+	psb_gtt_init_ranges(dev_priv);
- 
--	if (pg->gatt_pages == 0 || pg->gatt_start == 0) {
--		static struct resource fudge;	/* Preferably peppermint */
--		/*
--		 * This can occur on CDV systems. Fudge it in this case. We
--		 * really don't care what imaginary space is being allocated
--		 * at this point.
--		 */
--		dev_dbg(dev->dev, "GATT PCI BAR not initialized.\n");
--		pg->gatt_start = 0x40000000;
--		pg->gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
--		/*
--		 * This is a little confusing but in fact the GTT is providing
--		 * a view from the GPU into memory and not vice versa. As such
--		 *  this is really allocating space that is not the same as the
--		 *  CPU address space on CDV.
--		 */
--		fudge.start = 0x40000000;
--		fudge.end = 0x40000000 + 128 * 1024 * 1024 - 1;
--		fudge.name = "fudge";
--		fudge.flags = IORESOURCE_MEM;
--		dev_priv->gtt_mem = &fudge;
--	}
--
--	if (gtt_pages != pg->gtt_pages) {
-+	if (old_gtt_pages != pg->gtt_pages) {
- 		dev_err(dev->dev, "GTT resume error.\n");
--		ret = -EINVAL;
-+		ret = -ENODEV;
- 		goto err_psb_gtt_disable;
- 	}
- 
--	pg->gtt_pages = gtt_pages;
--
- 	psb_gtt_clear(dev_priv);
- 
- err_psb_gtt_disable:
--- 
-2.35.1
+>
+> Drop the assigned clock rate property and vote on the mdp clock as per
+> calculated value during the usecase.
+>
+> Changes in v2:
+> - Remove assigned-clock-rate property and set mdp clk during resume sequence.
+> - Add fixes tag.
+>
+> Changes in v3:
+> - Remove extra line after fixes tag.(Stephen Boyd)
 
+This changelog should be removed.
+
+>
+> Fixes: 62fbdce91("arm64: dts: qcom: sc7280: add display dt nodes")
+
+I thought folks were saying that this is bad to keep? I don't really
+mind either way, but I guess it's better to drop the fixes tag because
+this is largely a performance improvement?
+
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
