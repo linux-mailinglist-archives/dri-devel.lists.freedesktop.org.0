@@ -1,76 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B65D4D1618
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:21:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 023CF4D164C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D25E410E5F2;
-	Tue,  8 Mar 2022 11:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4DA10E240;
+	Tue,  8 Mar 2022 11:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 420FD10E70D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:21:30 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E8A7E3201F1A;
- Tue,  8 Mar 2022 06:21:28 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 08 Mar 2022 06:21:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=z0dgs/nLCUEaUJ
- 97BFyT/rCTk7+HqMDGbw7diAaTdns=; b=GN7F0izHr81GDr5frIi6xPLCzYz+jt
- ukmpT5nyALjeSmeruURmsrsvap6CE1EVyh3rsvET76J5HKfMEqH/idj3eFZX7B32
- AbCGRfF72vDYNNrzw+xPRAHar4PAkglACh2sfWR3Lh5RuT9+dnBudylszFFHNlYh
- wdsZqHJUcCIU3rHN4R/UGAyIqwfWXNtM8wRuiMbatDQyxAPc3kovgRaWOJzLDwWc
- 7ty6ogW5fTPREkMEOGZu0EWhXA1f3gUGwwDI5pusMeSKHUHQwUUaTXOWIZk8wWf5
- s70jPeU+Dx4fgnJGVNtjrULbQhMDtOnMUSgBL8V/fGCBgYhTYkMpQlcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=z0dgs/nLCUEaUJ97BFyT/rCTk7+HqMDGbw7diAaTd
- ns=; b=GQZbptD/6VPdyd4eIBaHYSVetin3f36RFf/9M5p6PmqB8UkZDzYIxZNPy
- ifzwE97AHi9c+D5ZUJEHaX7g/7WTRW9Wncz8RnEkouvEWfZpz+D258lBFg7xBGC/
- UgfICrRXVazPUf8tWymQxkjkgaigGAGVi6+Cj66xKfGcTMWmj8vX1/5LcKv5aZoh
- x3FUMlmKbf9h9DrF52J8mD5HmZ3BjQrgqWmKnrg5AaR3CLoqlXWf1PcyMMNoa+8E
- 6uKz1MBV8KlkSe6pmDZfGj3T7B1GMiFq5pWXolsOyOqYWMWh/juXmqHxigPCbkvN
- IDNChSVrp2h+qlm5p+2s+C6UWam0g==
-X-ME-Sender: <xms:ODwnYpxJ8Mo_K4WILGV5QX1Pg2cm2q7I7wAagjmW9XcwkKbyEAtHYg>
- <xme:ODwnYpSbN7Y6i9QO55WKZqOVd17arPog10sXFbuJnjQMqKmRgIc9IS5iRTeFk6SSq
- WcK1zQqe7clFz2wOMQ>
-X-ME-Received: <xmr:ODwnYjWOREdAI8DiBIGvdldQj7XygAU5mYO7ipevdeSbW-1TnQ8xxN962B22hUjSUnUzcL41E6NK9URhe1OvJojEbPvwdRF4DABisIw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ODwnYriWs0PlaAC1vqbU8kMHXximACFoTnHrypbRezQvUVIUGCQuZQ>
- <xmx:ODwnYrBAxOoTY_0oGhAf5ZUn47DQAO5Yh7fuXYCdKAcaUB59iAT2IA>
- <xmx:ODwnYkJH1AqMpTkIgw88UrPzoFTyARbaeMACGgMcIxZBQkm3Dpdbcw>
- <xmx:ODwnYv5efASGlGa3B0UcwTCkO2sfZ3rjbOHF7fWnFza2nRRWit9gCA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Mar 2022 06:21:27 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- andrzej.hajda@intel.com
-Subject: Re: (subset) [PATCH] drm/bridge: ti-sn65dsi83: switch to
- devm_drm_of_get_bridge
-Date: Tue,  8 Mar 2022 12:21:06 +0100
-Message-Id: <164673846305.2436174.3713832532943884361.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220228183724.25030-1-jose.exposito89@gmail.com>
-References: <20220228183724.25030-1-jose.exposito89@gmail.com>
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 599D410E240
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:31:13 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id b24so1401879edu.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 03:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zagytqRanMqmGZPaeZYMEhXfaOgjty5ndKR4qYehJqg=;
+ b=Jq82/CxYirJBuGuzNePcQu1UMKXNY25JLT1l1ke+oJN/zLSj/FOppoJPENL2MAfIRu
+ s1E2/pOfTRUVkqNWvjm67jtEzW35jGuM/8l8qzKbpkQECw3jdZNUIL7T8QYJGQUMlVuD
+ ab6yomX723E3XEgtUqrjFyx+SGPGdRPK1arQg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zagytqRanMqmGZPaeZYMEhXfaOgjty5ndKR4qYehJqg=;
+ b=rIOIFaLkLYqnNhA8QhPU8+uI0p/5/N+IX2YnAXB42KyiEXQgLwN0TwRyoZO58LOORq
+ CBkPZbPpc3xwIdFSpJpIAwtlBxzIlg5fwXWEF0wImP+A/GrvGxo1Ao9T4NOq/WICFPiS
+ xCLuTIv7eE8Nw1ivkpIFQvSjiYzntfGeic6URuPuEZ/R5zod870NqbB4UObFD1Meq6ov
+ C2T05oOSXujLPNMGBhXzK+s0t2GVEZ7UDis0aZlhts59wpTJWtGdzmqfmuadS1Wid3QE
+ aoo89Apc0MlP2ZeRi4XlJKEE+5aSXw7mwU7YjIHbFf/6ogosimEhWEkTHEjAmM+1+Fed
+ DpPg==
+X-Gm-Message-State: AOAM531uYZXNx19xZiDrPh8NVQg9NvareBhLSaEPIqTIkEt03TlbN4XR
+ zsQ9yTfAXvGzW1Edgxi+EqjrKTPkbazRGzHebSOdfQ==
+X-Google-Smtp-Source: ABdhPJxdDz8gEfcI9ebtRv8bH5oH/qYk7ojEEaPFHDFMMzuPbrutVm4ZhylyTOEujsY/zbd3Ky9zCzsYQMte2sBKUsk=
+X-Received: by 2002:a05:6402:278e:b0:416:5064:b39b with SMTP id
+ b14-20020a056402278e00b004165064b39bmr7820528ede.157.1646739071790; Tue, 08
+ Mar 2022 03:31:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220228182904.22982-1-jose.exposito89@gmail.com>
+ <164673846305.2436174.1857157702611077242.b4-ty@cerno.tech>
+In-Reply-To: <164673846305.2436174.1857157702611077242.b4-ty@cerno.tech>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 8 Mar 2022 17:01:00 +0530
+Message-ID: <CAMty3ZAC1vj8Kc2tKP4wL5O15W7FA-OWf030JcTKRs9feDLejw@mail.gmail.com>
+Subject: Re: (subset) [PATCH] drm/bridge: parade-ps8622: switch to
+ devm_drm_of_get_bridge
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,22 +64,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, narmstrong@baylibre.com, airlied@linux.ie,
- robert.foss@linaro.org, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Laurent.pinchart@ideasonboard.com
+Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
+ jernej.skrabec@gmail.com, andrzej.hajda@intel.com,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Feb 2022 19:37:24 +0100, José Expósito wrote:
-> The function "drm_of_find_panel_or_bridge" has been deprecated in
-> favor of "devm_drm_of_get_bridge".
-> 
-> Switch to the new function and reduce boilerplate.
-> 
-> 
+Hi Maxime,
 
-Applied to drm/drm-misc (drm-misc-next).
+On Tue, Mar 8, 2022 at 4:51 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, 28 Feb 2022 19:29:04 +0100, Jos=C3=A9 Exp=C3=B3sito wrote:
+> > The function "drm_of_find_panel_or_bridge" has been deprecated in
+> > favor of "devm_drm_of_get_bridge".
+> >
+> > Switch to the new function and reduce boilerplate.
+> >
+> >
+>
+> Applied to drm/drm-misc (drm-misc-next).
 
-Thanks!
-Maxime
+Not sure whether it was intentionally or accidentally applied? the
+same patch has sent before this date and has sent the v3 a few hours
+ago.
+
+https://patchwork.kernel.org/project/dri-devel/patch/20211210174819.2250178=
+-3-jagan@amarulasolutions.com/
+
+Thanks,
+Jagan.
