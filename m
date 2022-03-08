@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688B14D146C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3A94D1474
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8CA110E498;
-	Tue,  8 Mar 2022 10:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B52AA10E4C9;
+	Tue,  8 Mar 2022 10:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1AA10E488;
- Tue,  8 Mar 2022 10:11:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E50010E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:11:44 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C392F61501;
- Tue,  8 Mar 2022 10:11:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F770C340EB;
- Tue,  8 Mar 2022 10:11:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646734286;
- bh=fYSUhe3wecNdmSDhFtYlrEjcl8plDtdT7/KRcR78mg8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=u4nsxISBKCbp0kWFZQFzaUS+y+q3Vc8eNVHhG0Dmv4Nb/JhF26ncQ7Echex+2TBWw
- HzESBnHl4TLrNzabSQGNB7ZbF8RfKTG8YIJq2SApT5oCxEWRfJr2l9JoJPXihK3vfQ
- duy0ns8W9IpIrx2oeLNdvolKx2mHVixqS4CJNaiMHhOoWN2qQZmcekG4CxoSZIyJX4
- EJo+hN5kIQOs94WI2C6ml3xu/HoLZzZhctA1CyAepjY5M6e1IrYFTj5uS071+txQfv
- E2z0+8a/Amxg9QK2hYAnt6jFaeTl8IVajwPvjbBMhdwUfexozvzQDosql+YtSoO6QB
- ViNC/V8kidVXQ==
-Date: Tue, 8 Mar 2022 12:10:45 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: David Laight <David.Laight@aculab.com>
-Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
-Message-ID: <YicrpX9K1dSdCK7u@iki.fi>
-References: <20220306053211.135762-1-jarkko@kernel.org>
- <YiSb7tsUEBRGS+HA@casper.infradead.org>
- <YiW4yurDXSifTYUt@infradead.org> <YiYIv9guOgClLKT8@iki.fi>
- <YiYrRWMp1akXY8Vb@infradead.org>
- <5729d03d6a174da6b66d1534ebdb1127@AcuMS.aculab.com>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6DB75836A3;
+ Tue,  8 Mar 2022 11:11:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646734302;
+ bh=7nUaBqP43TAM0QE3aZdIYJDM7hWJwAEEb5LxwDUukWQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=y16lf0VQpZnIvjCtCB3I5EsGmP92zuda42EKHSSEXo923eVUy3lqedjgo659EdJbp
+ 8I0+w+CcRTydBiVIbSKCfzwBor32r3Su4FSSJgVzmU20gQ/UKzBio/x84Urzw6d5x6
+ gbhZZqm2lcchy6c12oRua5C6cpk+J8sZs5ao5E115UblXL8LILmkdq5OwKSJztJ2NX
+ i/hmQ85Go8mmlt5I7rx19/LSs+6U+raHzVzWFV0Z3Fz+/2H4xetRmCboax48qL8suI
+ GMXwSsnh0B5v1ujoK0CpKEUrYS+WjgcQ5ooio40gHS3hwUAAQhMXe0quV/FxMLPR0q
+ 2s+hpD+jBbl4w==
+Message-ID: <f3ed01e3-b50e-30e3-d131-d6e371800f9f@denx.de>
+Date: Tue, 8 Mar 2022 11:11:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5729d03d6a174da6b66d1534ebdb1127@AcuMS.aculab.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH V3 06/13] drm: bridge: icn6211: Add generic DSI-to-DPI PLL
+ configuration
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-7-marex@denx.de>
+ <CAMty3ZBpb55wB+1PKmmmZoZxjm3epmhhRtrx1p0wHQo_Gm7pnA@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZBpb55wB+1PKmmmZoZxjm3epmhhRtrx1p0wHQo_Gm7pnA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,71 +58,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- "codalist@coda.cs.cmu.edu" <codalist@coda.cs.cmu.edu>,
- 'Christoph Hellwig' <hch@infradead.org>, Matthew Auld <matthew.auld@intel.com>,
- Vasily Averin <vvs@virtuozzo.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "G@iki.fi" <G@iki.fi>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- Shakeel Butt <shakeelb@google.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nathaniel McCallum <nathaniel@profian.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Alexey Gladkov <legion@kernel.org>
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 07, 2022 at 10:11:19PM +0000, David Laight wrote:
-> From: Christoph Hellwig
-> > Sent: 07 March 2022 15:57
-> > 
-> > On Mon, Mar 07, 2022 at 03:29:35PM +0200, Jarkko Sakkinen wrote:
-> > > So what would you suggest to sort out the issue? I'm happy to go with
-> > > ioctl if nothing else is acceptable.
-> > 
-> > PLenty of drivers treat all mmaps as if MAP_POPULATE was specified,
-> > typically by using (io_)remap_pfn_range.  If there any reason to only
-> > optionally have the pre-fault semantics for sgx?  If not this should
-> > be really simple.  And if we have a real need for it to be optional
-> > we'll just need to find a sane way to pass that information to ->mmap.
+On 3/8/22 09:07, Jagan Teki wrote:
+> On Fri, Mar 4, 2022 at 5:55 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> The chip contains fractional PLL, however the driver currently hard-codes
+>> one specific PLL setting. Implement generic PLL parameter calculation code,
+>> so any DPI panel with arbitrary pixel clock can be attached to this bridge.
+>>
+>> The datasheet for this bridge is not available, the PLL behavior has been
+>> inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
+>> The PLL limits might be wrong, but at least the calculated values match all
+>> the example code available. This is better than one hard-coded pixel clock
+>> value anyway.
+>>
+>> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+>> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
+>>
+>> Acked-by: Maxime Ripard <maxime@cerno.tech>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+>> Cc: Maxime Ripard <maxime@cerno.tech>
+>> Cc: Robert Foss <robert.foss@linaro.org>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> To: dri-devel@lists.freedesktop.org
+>> ---
+>> V2: Rebase on next-20220214
+>> V3: Add AB from Maxime
+>> ---
+>>   drivers/gpu/drm/bridge/chipone-icn6211.c | 87 +++++++++++++++++++++++-
+>>   1 file changed, 84 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+>> index df8e75a068ad0..71c83a18984fa 100644
+>> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
+>> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+>> @@ -163,6 +163,87 @@ static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
+>>                  chipone_dsi_write(icn, d, ARRAY_SIZE(d));       \
+>>          }
+>>
+>> +static void chipone_configure_pll(struct chipone *icn,
+>> +                                 const struct drm_display_mode *mode)
+>> +{
+>> +       unsigned int best_p = 0, best_m = 0, best_s = 0;
+>> +       unsigned int delta, min_delta = 0xffffffff;
+>> +       unsigned int freq_p, freq_s, freq_out;
+>> +       unsigned int p_min, p_max;
+>> +       unsigned int p, m, s;
+>> +       unsigned int fin;
+>> +
+>> +       /*
+>> +        * DSI clock lane frequency (input into PLL) is calculated as:
+>> +        *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
+>> +        * the 2 is there because the bus is DDR.
+>> +        *
+>> +        * DPI pixel clock frequency (output from PLL) is mode clock.
+>> +        *
+>> +        * The chip contains fractional PLL which works as follows:
+>> +        *  DPI_CLK = ((DSI_CLK / P) * M) / S
+>> +        * P is pre-divider, register PLL_REF_DIV[3:0] is 2^(n+1) divider
+>> +        *                   register PLL_REF_DIV[4] is extra 1:2 divider
+>> +        * M is integer multiplier, register PLL_INT(0) is multiplier
+>> +        * S is post-divider, register PLL_REF_DIV[7:5] is 2^(n+1) divider
+>> +        *
+>> +        * It seems the PLL input clock after applying P pre-divider have
+>> +        * to be lower than 20 MHz.
+>> +        */
+>> +       fin = mode->clock * mipi_dsi_pixel_format_to_bpp(icn->dsi->format) /
 > 
-> Is there any space in vma->vm_flags ?
+> no dsi in chipone structure. please preserve format during the probe.
 > 
-> That would be better than an extra argument or function.
+> drivers/gpu/drm/bridge/chipone-icn6211.c:193:61: error: ‘struct
+> chipone’ has no member named ‘dsi’
+>    193 |         fin = mode->clock *
+> mipi_dsi_pixel_format_to_bpp(icn->dsi->format) /
 
-It's very dense but I'll give a shot for callback route based on Dave's
-comments in this thread. I.e. use it as filter inside __mm_populate() and
-populate_vma_page_range().
-
-For Enarx, which we are implementing being able to use MAP_POPULATE and get
-the full range EAUG'd would be best way to optimize the performance of wasm
-JIT (Enarx is a wasm run-time capable of running inside an SGX enclave, AMD
-SEV-SNP VM etc.). More so than any predictor (ra_state, madvice etc.) inside
-#PF handler, which have been suggested in this thread.
-
-After some research on how we implement user space, I'd rather keep the #PF
-handler working on a single page (EAUG a single page) and have either ioctl
-or MAP_POPULATE to do the batch fill.
-
-We can still "not trust the user space" i.e. the populate does not have to
-guarantee to do the full length since the #PF handler will then fill the
-holes. This was one concern in this thread but it is not hard to address.
-
-BR, Jarkko
+Ah , yes, this was added in
+[PATCH V3 11/13] drm: bridge: icn6211: Add I2C configuration support
+and needs to be moved here.
