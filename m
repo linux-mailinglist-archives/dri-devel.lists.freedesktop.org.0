@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25374D123A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 09:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FC04D127B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 09:42:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEEF910ED68;
-	Tue,  8 Mar 2022 08:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D06110E398;
+	Tue,  8 Mar 2022 08:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D46E810ED68
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 08:28:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7F8EA6115A;
- Tue,  8 Mar 2022 08:28:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF1B3C340EB;
- Tue,  8 Mar 2022 08:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646728122;
- bh=LmTt6qQQP0XkYMoZQar+hciBceY5wUpzOfDL2qp0/aM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ym3sMQo1fM9JBon0wFT7Wa73ahE9ARjcD6RcFSbFx3hvgRMcXBozrZ3thvNugBiW+
- 4S959oBIjdUUQL2bTr+1EsVDvnF8BowDy7GX1InlAYCgUn0+MVqgeD5Q8xz2/RHhiF
- JisOY97woHkFCvsErLBE+NhYY4jlNN2CEJ9CgFtYi6FQADYVogFMezVyD8zrnpNvmo
- gONNPoQ3Wgii6+RraFfNKaBMKvMqRDktFbKUCcp9ZyVrDO06Sgm/eKEgaZytyyMayN
- 3TQQAyoyuk25YCgCegLtMsQQ7CYyWTUfGGNQSftpdrpi5uTwRdoG7EEXvrjXRu0FaP
- m3NFlZclSdopQ==
-Message-ID: <ef9575ab-d566-908f-9a45-291207316266@kernel.org>
-Date: Tue, 8 Mar 2022 10:28:39 +0200
+Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
+ [115.236.121.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12DDE10E394
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 08:42:14 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 2F016AC0510;
+ Tue,  8 Mar 2022 16:42:11 +0800 (CST)
+Message-ID: <ae4314db-09c0-049b-ccc9-f6b1c3003dcb@rock-chips.com>
+Date: Tue, 8 Mar 2022 16:42:10 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/omap: fix NULL but dereferenced coccicheck error
+Subject: Re: [PATCH v7 22/24] drm: rockchip: Add VOP2 driver
 Content-Language: en-US
-To: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220307095612.409090-1-wanjiabing@vivo.com>
-From: Tomi Valkeinen <tomba@kernel.org>
-In-Reply-To: <20220307095612.409090-1-wanjiabing@vivo.com>
+To: Daniel Stone <daniel@fooishbar.org>
+References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
+ <20220225075150.2729401-23-s.hauer@pengutronix.de>
+ <bb077f34-333e-a07a-1fcb-702a6807f941@rock-chips.com>
+ <CAPj87rO2sztocJrE-CeSQWry9j_cSe2uv9F1Yf81pGnBXdu2Ag@mail.gmail.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <CAPj87rO2sztocJrE-CeSQWry9j_cSe2uv9F1Yf81pGnBXdu2Ag@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWUNPGUJWT0xNT0IaTU
+ MaQkoYVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktDSUNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OT46FTo*IT4MMzJOGDgYVjET
+ AR1PC01VSlVKTU9NTElDQkhKQk9MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0JDSjcG
+X-HM-Tid: 0a7f68b168bcb039kuuu2f016ac0510
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,38 +51,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kael_w@qq.com
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Daniel:
 
-On 07/03/2022 11:56, Wan Jiabing wrote:
-> Fix the following coccicheck warning:
-> ./drivers/gpu/drm/omapdrm/omap_overlay.c:89:22-25: ERROR: r_ovl is NULL
-> but dereferenced.
-> 
-> Here should be ovl->idx rather than r_ovl->idx.
-> 
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
-> ---
->   drivers/gpu/drm/omapdrm/omap_overlay.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_overlay.c b/drivers/gpu/drm/omapdrm/omap_overlay.c
-> index 10730c9b2752..b0bc9ad2ef73 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_overlay.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_overlay.c
-> @@ -86,7 +86,7 @@ int omap_overlay_assign(struct drm_atomic_state *s, struct drm_plane *plane,
->   		r_ovl = omap_plane_find_free_overlay(s->dev, overlay_map,
->   						     caps, fourcc);
->   		if (!r_ovl) {
-> -			overlay_map[r_ovl->idx] = NULL;
-> +			overlay_map[ovl->idx] = NULL;
->   			*overlay = NULL;
->   			return -ENOMEM;
->   		}
+On 3/7/22 21:09, Daniel Stone wrote:
+> Hi Andy,
+>
+> On Mon, 7 Mar 2022 at 12:18, Andy Yan <andy.yan@rock-chips.com> wrote:
+>> On 2/25/22 15:51, Sascha Hauer wrote:
+>>> The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
+>>> It replaces the VOP unit found in the older Rockchip SoCs.
+>>>
+>>> This driver has been derived from the downstream Rockchip Kernel and
+>>> heavily modified:
+>>>
+>>> - All nonstandard DRM properties have been removed
+>>> - dropped struct vop2_plane_state and pass around less data between
+>>>     functions
+>>> - Dropped all DRM_FORMAT_* not known on upstream
+>>> - rework register access to get rid of excessively used macros
+>>> - Drop all waiting for framesyncs
+>>>
+>>> The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+>>> board. Overlay support is tested with the modetest utility. AFBC support
+>>> on the cluster windows is tested with weston-simple-dmabuf-egl on
+>>> weston using the (yet to be upstreamed) panfrost driver support.
+>> When run a weston 10.0.0:
+>>
+>>    # export XDG_RUNTIME_DIR=/tmp
+>>    # weston --backend=drm-backend.so --use-pixma --tty=2
+>> --continue=without-input
+>>
+>> I got the following error:
+>>
+>> drm_atomic_check_only [PLANE:31:Smart0-win0] CRTC set but no FB
+> Can you please start Weston with --logger-scopes=log,drm-backend and
+> attach the output?
 
-Thanks, I'll pick this up.
+Please see the weston ouput here[0]
 
-  Tomi
+
+This failed is from   drm_atom_plane_check: both CRTC and FB must be set 
+or neither.
+
+static int drm_atomic_plane_check(const struct drm_plane_state 
+*old_plane_state,
+                                   const struct drm_plane_state 
+*new_plane_state)
+{
+         struct drm_plane *plane = new_plane_state->plane;
+         struct drm_crtc *crtc = new_plane_state->crtc;
+         const struct drm_framebuffer *fb = new_plane_state->fb;
+         unsigned int fb_width, fb_height;
+         struct drm_mode_rect *clips;
+         uint32_t num_clips;
+         int ret;
+
+         /* either *both* CRTC and FB must be set, or neither */
+         if (crtc && !fb) {
+                 drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but 
+no FB\n",
+                                plane->base.id, plane->name);
+                 return -EINVAL;
+         } else if (fb && !crtc) {
+                 drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] FB set but no 
+CRTC\n",
+                                plane->base.id, plane->name);
+                 return -EINVAL;
+         }
+
+[0]https://pastebin.com/mGXKqD2S
+
+> Cheers,
+> Daniel
