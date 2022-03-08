@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89A94D0C17
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 00:33:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB194D0D1D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 01:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849EF10E1B8;
-	Mon,  7 Mar 2022 23:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB2310E1B2;
+	Tue,  8 Mar 2022 00:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com
- [209.85.161.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF7510E1B8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Mar 2022 23:33:01 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id
- l24-20020a4a8558000000b00320d5a1f938so7264568ooh.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 15:33:01 -0800 (PST)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1481910E1B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 00:57:37 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id n7so7495746oif.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 16:57:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MMFvv+A8EpZWIQh+l11k5XPjimtRgswqGHQotND/lwY=;
- b=fwcrTZ3sc+FEZEcfEWg7yvc2qJXdJZfRHKm9bWzxRCkyEakWbHQY5DcuKd7BFCITXD
- p80hB5Erk2W8m5QpSocLlm0j2e/t2J/n+nl2Nvy8XK0cRSIBVPpvYJBiK4yGGC4kjiRC
- SaZSC9ndhtJlrIQKYUOjFMOAuktvEMW88YS1TJWoJVEwJhaxDrxRfXZDcyCcudGEd5jc
- nc6BE4L5TW6dnxI835SuR4JtC57GR2hHGNo4i5BF1fnLNwz1561I5VgJ8ySqsxsppxCe
- IkW/X9mk4oFrDcVTEQSeOmQh3f1uzJ2z6ksSoTMS0YJW7Fw6JaasW1rlSPuqrfP/oMIv
- pd6A==
-X-Gm-Message-State: AOAM530nuh+mw1O8EGY7N5qJLpRWvzsqUv32VYABf3+mpOndDuCOy7F5
- ly3IPUeAiePHQEzKNo7g0J9B1+O07w==
-X-Google-Smtp-Source: ABdhPJz9uuu/bb+uGVeQCedRpt1336Cmy3Vq6EP+ZSw5UR3pIqTaDOUphnklb82Hx9iiqwixa6i9ZA==
-X-Received: by 2002:a05:6870:1682:b0:da:b3f:3255 with SMTP id
- j2-20020a056870168200b000da0b3f3255mr789618oae.261.1646695981151; 
- Mon, 07 Mar 2022 15:33:01 -0800 (PST)
+ bh=gq59UE3cTSs3qNXLzpjqXYkCpDSstIwAsqV4QUkUf5U=;
+ b=08dROTWtccJtF4gdz/1Ah5mDGFQBGci9ov/TA+qo/bSZAtl67VSs0wObduqeJU0nyG
+ U4NIqRECgF4C+n1lJ2vzR3F6YW22dmvrCwKXy0sPDPO9sBPq+4jcj33jy8yu6vrQEdte
+ Q9nMXu5PZ92KDQuo2C5GBkY2peHzoqVFt9C4ioj12PG+POHupNrRZISf7MnfoLrzmDUn
+ pUap44/rMPlFtD0FQ2NPJv/TttggBYU704gcVgtGbK5waFPMQqgModHEiAzYtXC53gOf
+ wMwYUJI4loJL0Thypo3RUgafQg7OVYr9iIgf43nb9PE6W65bSl/0THTyArtNFxWkuC5H
+ qJpw==
+X-Gm-Message-State: AOAM532obCP39Bh2A0AU6Snlc4ZUNW9sNSRL4MUAfoOp60QH8VqUJZvJ
+ wZdXXHP6vX5E+t6p9CfE4w==
+X-Google-Smtp-Source: ABdhPJyNzfmC3eXDfqkGUdgxXQi9iFr9d6NGbT86dkIYFRYjW7BxPs5o55rCdVmWsq7DztwRgxOOLg==
+X-Received: by 2002:a05:6808:169f:b0:2d7:9bbd:ae82 with SMTP id
+ bb31-20020a056808169f00b002d79bbdae82mr1085492oib.136.1646701056249; 
+ Mon, 07 Mar 2022 16:57:36 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m5-20020a056870194500b000d9a0818925sm6106997oak.25.2022.03.07.15.32.59
+ o2-20020a05687072c200b000d9ae3e1fabsm6217940oak.12.2022.03.07.16.57.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 15:33:00 -0800 (PST)
-Received: (nullmailer pid 3472110 invoked by uid 1000);
- Mon, 07 Mar 2022 23:32:59 -0000
-Date: Mon, 7 Mar 2022 17:32:59 -0600
+ Mon, 07 Mar 2022 16:57:35 -0800 (PST)
+Received: (nullmailer pid 3606977 invoked by uid 1000);
+ Tue, 08 Mar 2022 00:57:33 -0000
+Date: Mon, 7 Mar 2022 18:57:33 -0600
 From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V3 01/13] dt-bindings: display: bridge: icn6211: Document
- DSI data-lanes property
-Message-ID: <YiaWK8QqwE0Wa6Pr@robh.at.kernel.org>
-References: <20220304002508.75676-1-marex@denx.de>
- <20220304002508.75676-2-marex@denx.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: gpu: Convert aspeed-gfx bindings to
+ yaml
+Message-ID: <Yiap/f48pLUXzaQ0@robh.at.kernel.org>
+References: <20220304000311.970267-1-joel@jms.id.au>
+ <20220304000311.970267-3-joel@jms.id.au>
+ <44308465-db4c-80e7-2beb-b0f676d16edf@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220304002508.75676-2-marex@denx.de>
+In-Reply-To: <44308465-db4c-80e7-2beb-b0f676d16edf@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +64,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Andrew Jeffery <andrew@aj.id.au>, dri-devel@lists.freedesktop.org,
+ Joel Stanley <joel@jms.id.au>, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 04 Mar 2022 01:24:56 +0100, Marek Vasut wrote:
-> It is necessary to specify the number of connected/used DSI data lanes when
-> using the DSI input port of this bridge. Document the 'data-lanes' property
-> of the DSI input port.
+On Sat, Mar 05, 2022 at 10:49:05PM +0100, Krzysztof Kozlowski wrote:
+> On 04/03/2022 01:03, Joel Stanley wrote:
+> > Convert the bindings to yaml and add the ast2600 compatible string.
+> > 
+> > The legacy mfd description was put in place before the gfx bindings
+> > existed, to document the compatible that is used in the pinctrl
+> > bindings.
+> > 
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
+> >  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
+> >  .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
+> >  3 files changed, 69 insertions(+), 58 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> > new file mode 100644
+> > index 000000000000..8ddc4fa6e8e4
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> > @@ -0,0 +1,69 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ASPEED GFX display device
+> > +
+> > +maintainers:
+> > +  - Joel Stanley <joel@jms.id.au>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - aspeed,ast2400-gfx
+> > +          - aspeed,ast2500-gfx
+> > +          - aspeed,ast2600-gfx
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V3: New patch
-> ---
->  .../display/bridge/chipone,icn6211.yaml        | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
+> That's different than original bindings - new patch. It's not currently
+> supported, so adding it is more than just updating bindings to current
+> state.
 > 
+> > +      - const: syscon
+> > +
+> > +  reg:
+> > +    minItems: 1
+> 
+> maxItems?
+> 
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  memory-region: true
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Also need to define how many (maxItems: 1).
+
+> > +
+> > +  syscon: true
+> 
+> You need at least description. I see old bindings did not mention it
+> (except that it is required)... I think you also need a type, because it
+> is not a standard property.
+> 
+> > +
+> > +  reg-io-width: true
+> 
+> Some constraints? Can it be anything from syscon schema?
+> 
+> Best regards,
+> Krzysztof
+> 
