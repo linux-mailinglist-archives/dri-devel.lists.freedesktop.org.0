@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0614D24BD
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 00:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B9E4D24F2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 00:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4D110E32B;
-	Tue,  8 Mar 2022 23:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A3510E311;
+	Tue,  8 Mar 2022 23:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6128310E32B
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 23:18:25 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id n7so929541oif.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 15:18:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iit0u9zWiQbQ3YiVBUcj7kSNoNspLfGLfmOn3xXbkEQ=;
- b=q9mp1jK22JJEHhMk4HE7x2LsVUnzI7fNdlvnz0NQn7PhB3MIEnJFAzB9xzJ7IDsgAp
- oq6wHnFtAMKdlK8NPs7JRxj5sFtJj/t3cc/i1Ob8wRNP7b9Q6+SvS82Uu26IM2Ov2LPX
- l56cGpX9p/eSV5djqHDlLwzlaXxhyNXSVeihMXqTIvTPI3wwaBTEHRLbEINOOpLRbm9R
- x8NEfvH+BxPMbiK8kiFz9qFtRZ0k9WoJhgSEOctmEATrSlA1Y8xbM7lTOyntil1n240K
- oFUKiXeP5FT4MO2CaIgEgsVb10oweeafPepR/oKf6dQqNgBNMh6HAWsc90IA833qtwhH
- fiNA==
-X-Gm-Message-State: AOAM530zYt9Iopw1jmZuckLvQmFNihpqK623be4GMM1Lh6Ut4XCRBNMU
- 9/VA8ma3MlhoGi6lYQ36gg==
-X-Google-Smtp-Source: ABdhPJxyh2TC/u+YmC4dbuRB94Ndhj6I+qJNb4nn1oht99Z0poj4FiI9BQlsQnzRtlNfAVkLp/uQdA==
-X-Received: by 2002:a05:6808:14d2:b0:2d9:dad1:a148 with SMTP id
- f18-20020a05680814d200b002d9dad1a148mr4272138oiw.257.1646781504401; 
- Tue, 08 Mar 2022 15:18:24 -0800 (PST)
-Received: from rob (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
- by smtp.gmail.com with ESMTPSA id
- x25-20020a056830409900b005af164235b4sm88950ott.2.2022.03.08.15.18.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 15:18:23 -0800 (PST)
-Received: (nullmailer pid 1546596 invoked by uid 1000);
- Tue, 08 Mar 2022 23:18:22 -0000
-Date: Tue, 8 Mar 2022 16:18:22 -0700
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add macros for video
- interface bus types
-Message-ID: <20220308231822.GA1538975@robh.at.kernel.org>
-References: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
- <20220306173905.22990-2-laurent.pinchart@ideasonboard.com>
- <YiT3wZ746ES6x3gl@pendragon.ideasonboard.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DED010E311
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 23:36:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 601521F427CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646782616;
+ bh=kRaFRXBGux+TbENn2Kyrr3Xa4IzJA4fzoh4b5x/nepw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RCLl30ojsnSTZtavefq4yuA7iIUEcgyigjumu75n7L3YhfvPjwuRamXHUgCeAItHh
+ XZhNdlsTpbH/OWe0ogEo62R5WKTrp+xRefpWqqCWU4Rie4HKqhsbLC0fhtrhCj+WDg
+ lGC2BddpWgP/KIkdTyyET1ABkGkambfn+ld/aqz8xxJg73d0LeytRk5vXZXUviDK29
+ 3tOB4iJVP+wMkWrpunLzQlgoTaIiV8511jRotqj1k5Lcpb68yGNae14mkPNXHr6luT
+ 70c2GvE419Q0Fogo2ULSWnyzPqBpDDdYTMbkDkTfJT6jEablCwhYu9kM0NimL5RP/s
+ VQ/+yD6+qprMA==
+Message-ID: <42facae5-8f2c-9c1f-5144-4ebb99c798bd@collabora.com>
+Date: Wed, 9 Mar 2022 02:36:52 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YiT3wZ746ES6x3gl@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
+ <CAF6AEGt=aVJ9nR+Wv+bJEFZrn-cNOSNXG1TaJr=Cx-FTgutwKA@mail.gmail.com>
+ <d2290971-ea22-8203-631e-b896c76a994b@collabora.com>
+ <CAF6AEGuR8B6z+z=VFQ6y01wbboYS_qpkghD1GYdLES_RZOW1wA@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGuR8B6z+z=VFQ6y01wbboYS_qpkghD1GYdLES_RZOW1wA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 06, 2022 at 08:04:49PM +0200, Laurent Pinchart wrote:
-> On Sun, Mar 06, 2022 at 07:39:03PM +0200, Laurent Pinchart wrote:
-> > Add a new dt-bindings/media/video-interfaces.h header that defines
-> > macros corresponding to the bus types from media/video-interfaces.yaml.
-> > This allows avoiding hardcoded constants in device tree sources.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> > 
-> > - Dual-license under GPL-2.0-only or MIT
-> > - Rename PARALLEL TO BT601
+On 3/9/22 01:24, Rob Clark wrote:
+> On Tue, Mar 8, 2022 at 11:28 AM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>>
+>> On 3/8/22 19:29, Rob Clark wrote:
+>>> On Tue, Mar 8, 2022 at 5:17 AM Dmitry Osipenko
+>>> <dmitry.osipenko@collabora.com> wrote:
+>>>>
+>>>> Hello,
+>>>>
+>>>> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver.
+>>>> During OOM, the shrinker will release BOs that are marked as "not needed"
+>>>> by userspace using the new madvise IOCTL. The userspace in this case is
+>>>> the Mesa VirGL driver, it will mark the cached BOs as "not needed",
+>>>> allowing kernel driver to release memory of the cached shmem BOs on lowmem
+>>>> situations, preventing OOM kills.
+>>>
+>>> Will host memory pressure already trigger shrinker in guest?
+>>
+>> The host memory pressure won't trigger shrinker in guest here. This
+>> series will help only with the memory pressure within the guest using a
+>> usual "virgl context".
+>>
+>> Having a host shrinker in a case of "virgl contexts" should be a
+>> difficult problem to solve.
 > 
-> Contrary to popular belief, further investigation revealed that BT.601
-> doesn't define VSYNC and HSYNC (or HREF, as it is also commonly called)
-> signals. MEDIA_BUS_TYPE_BT601 is thus likely not a good name. I haven't
-> been able to find a standard for parallel camera interfaces that would
-> be a good match here. On the display side there's MIPI DPI, but on the
-> camera side it seems things have evolved quite organically. I may have
-> missed something though.
+> Hmm, I think we just need the balloon driver to trigger the shrinker
+> in the guest kernel?  I suppose a driver like drm/virtio might want to
+> differentiate between host and guest pressure (ie. consider only
+> objects that have host vs guest storage), but even without that,
+> freeing up memory in the guest when host is under memory pressure
+> seems worthwhile.  Maybe I'm over-simplifying?
 
-So keep 'PARALLEL' and anything less ambiguous will be a new type.
+Might be the opposite, i.e. me over-complicating :) The variant with
+memory ballooning actually could be good and will work for all kinds of
+virtio contexts universally. There will be some back-n-forth between
+host and guest, but perhaps it will work okay. Thank you for the suggestion.
 
-Rob
+>>> This is
+>>> something I'm quite interested in for "virtgpu native contexts" (ie.
+>>> native guest driver with new context type sitting on top of virtgpu),
+>>
+>> In a case of "native contexts" it should be doable, at least I can't see
+>> any obvious problems. The madvise invocations could be passed to the
+>> host using a new virtio-gpu command by the guest's madvise IOCTL
+>> handler, instead-of/in-addition-to handling madvise in the guest's
+>> kernel, and that's it.
+> 
+> I think we don't want to do that, because MADV:WILLNEED would be by
+> far the most frequent guest<->host synchronous round trip.  So from
+> that perspective tracking madvise state in guest kernel seems quite
+> attractive.
+
+This is a valid concern. I'd assume that the overhead should be
+tolerable, but I don't have any actual perf numbers.
+
+> If we really can't track madvise state in the guest for dealing with
+> host memory pressure, I think the better option is to introduce
+> MADV:WILLNEED_REPLACE, ie. something to tell the host kernel that the
+> buffer is needed but the previous contents are not (as long as the GPU
+> VA remains the same).  With this the host could allocate new pages if
+> needed, and the guest would not need to wait for a reply from host.
+
+If variant with the memory ballooning will work, then it will be
+possible to track the state within guest-only. Let's consider the
+simplest variant for now.
+
+I'll try to implement the balloon driver support in the v2 and will get
+back to you.
+
+>>> since that isn't using host storage
+>>
+>> s/host/guest ?
+> 
+> Yes, sorry, I meant that it is not using guest storage.
+
+Thank you for the clarification.
