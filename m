@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3BB4D1D27
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 17:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B42B4D1D35
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 17:31:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB5910E49E;
-	Tue,  8 Mar 2022 16:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229CD10E4C1;
+	Tue,  8 Mar 2022 16:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194D810E49E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:29:05 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id t11so29430892wrm.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 08:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SYDOiiE/T/Y7VYsIB3p/zW4CbpW2wGMyym0vbgifcOE=;
- b=WNVHOSyNNfjEW9O3TED1BUUpsZlmtWZ5GMHSHHEVFGg7+rjPoN4aQMb1uneNNfYFmJ
- t6flvC3RMKFIUdsgeIjsapRQTl+EqkEfyUY61YObOG7prCe8glX8SziJdfhIhh9ntGtw
- 5PYICSaCHkWCxD9iay5Qo/8n1YfjEmPAl5TY6IFLzCxewPS15FEJr6ImSYwI3RRgUul9
- d9JvnyrG3dWs1ImlSIkqz7bMqSZA+4UTu3JYiEOZaBJrz5b/y8MOqLgL3Glvr7MJ561P
- SaAw9NkYUHoo0W3dRhvxVTpr/NdQMotVJH1ht/KW0KosH4wu3toSK3wPypEvUgLGA8UK
- OAEQ==
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EFB10E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:31:13 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id bc10so16594797qtb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 08:31:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SYDOiiE/T/Y7VYsIB3p/zW4CbpW2wGMyym0vbgifcOE=;
- b=bg9Bde7lZxYAf7a7kI9iGDClopoRzXd42xNoCDd+hySxBWMLh9yzBH7NEVc5vvM55s
- VIz/xdyVdz/igBc2wKavG+1f9dOpFMCkExL9NKo2n4qG+mgfNNkvFk4eIUkbb5oDg8rs
- o/V4FcCSWAVQrQ9VBnt0+CKU+jmUcgPPgwlPr1vbr9cT+cr+Sq33Ha+JrJ8EhPvmDSXH
- 9AJO9jZSlHkJjW1tHxP6KyrkEuaT21sSpeKeGbSqB+eKrZW4WLcHN3COirKswTuocQ1R
- HP/b7ptUSSssKVuP5syOxdO9w2MQmMQrZmeXdZaAp4qA+uksMO1DSf9ZjCYUAl8qotTA
- +IwA==
-X-Gm-Message-State: AOAM531j7zoEp1RW6nx5Map+Klr63h6opeceSXXDQzNqsd0ZF/tbjyfF
- 86YibpLRZfFdwWZM5cRci+x64YqfYLjDYlDdsxA=
-X-Google-Smtp-Source: ABdhPJyR74mrKbhqIZt8QWvM99w64IQ3UB0prHiSjO57e806D1kgvYf/kWL3XMCcUIHNTOXynsFWDPS+QJu3axJda3U=
-X-Received: by 2002:a5d:5382:0:b0:1f0:2f64:5a5a with SMTP id
- d2-20020a5d5382000000b001f02f645a5amr12914704wrv.418.1646756943508; Tue, 08
- Mar 2022 08:29:03 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HwPCO4dFtjlzDdsvWKkUtYlqbyqtlLf5x449OlOiOMg=;
+ b=r+ab68frD98402umJYOUKMmvD4qzi5p1djGE4Knf/2XCvVbYk37pw7/OEeIuP5PyXc
+ rON+eXRwrrp/5OYY8d4jBjqAARxorHcYIyS8mmMvQQ/sdvK8Mx3kH1PMW6X0+kGSTMOM
+ gyMYZLfJknD+LssCqs9a9X3Hpc1hhUCM3Az5PSu4+Xiog84H3hOU1u4R6jNaDsGNZgeU
+ UH9O6rI6ljXGyTdArPNg6bVkJi6HLQ31AbFUgh8l4l+qvTfZIMVwVWIP/FmP4yFKF49l
+ pRxLL4h+8f0e1hXRGZagwnf0z/QuD10HjC8RacYRTf+WvHBXR8Q3eaYPsKfPKUuBr0gB
+ MCEQ==
+X-Gm-Message-State: AOAM532+OP5Dln4CAmAz/9fk1L5zErMSN/UG5cJ4QNMo86j3Uy4Dyqwe
+ NRmBMCPIRS44X6L7AAWB3DZzs1FtznILgw==
+X-Google-Smtp-Source: ABdhPJw+I1jALxIuhosFbrgoODGpkF9AG8BngYqfWXEAwifHcwHQCPruBjE2VN+UPzJLs+HvnE0OZw==
+X-Received: by 2002:a05:622a:48f:b0:2dd:b41a:e206 with SMTP id
+ p15-20020a05622a048f00b002ddb41ae206mr13928892qtx.274.1646757071362; 
+ Tue, 08 Mar 2022 08:31:11 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
+ [209.85.219.178]) by smtp.gmail.com with ESMTPSA id
+ s21-20020a05620a16b500b0067b1205878esm3842716qkj.7.2022.03.08.08.31.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 08:31:10 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id g1so38870890ybe.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 08:31:10 -0800 (PST)
+X-Received: by 2002:a25:8486:0:b0:619:9fba:895e with SMTP id
+ v6-20020a258486000000b006199fba895emr12806820ybk.342.1646757069990; Tue, 08
+ Mar 2022 08:31:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 8 Mar 2022 08:29:32 -0800
-Message-ID: <CAF6AEGt=aVJ9nR+Wv+bJEFZrn-cNOSNXG1TaJr=Cx-FTgutwKA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20220214133710.3278506-1-javierm@redhat.com>
+ <20220214133710.3278506-4-javierm@redhat.com>
+In-Reply-To: <20220214133710.3278506-4-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Mar 2022 17:30:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU+29x4ZHLAiPiReyLKw_VYBCCLw0bCoQmw9s6sQ4Bxcw@mail.gmail.com>
+Message-ID: <CAMuHMdU+29x4ZHLAiPiReyLKw_VYBCCLw0bCoQmw9s6sQ4Bxcw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +67,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gert Wollny <gert.wollny@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- David Airlie <airlied@linux.ie>,
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 5:17 AM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Hello,
->
-> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver.
-> During OOM, the shrinker will release BOs that are marked as "not needed"
-> by userspace using the new madvise IOCTL. The userspace in this case is
-> the Mesa VirGL driver, it will mark the cached BOs as "not needed",
-> allowing kernel driver to release memory of the cached shmem BOs on lowmem
-> situations, preventing OOM kills.
+Hi Javier,
 
-Will host memory pressure already trigger shrinker in guest?  This is
-something I'm quite interested in for "virtgpu native contexts" (ie.
-native guest driver with new context type sitting on top of virtgpu),
-since that isn't using host storage
+On Mon, Feb 14, 2022 at 2:37 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> This adds a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon
+> OLED display controllers.
+>
+> It's only the core part of the driver and a bus specific driver is needed
+> for each transport interface supported by the display controllers.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-BR,
--R
+Thanks for your patch, which is now commit a61732e808672cfa ("drm:
+Add driver for Solomon SSD130x OLED displays") in drm/drm-next
 
-> This patchset includes couple fixes for problems I found while was working
-> on the shrinker, it also includes prerequisite DMA API usage improvement
-> needed by the shrinker.
->
-> The Mesa and IGT patches will be kept on hold until this kernel series
-> will be approved and applied.
->
-> This patchset was tested using Qemu and crosvm, including both cases of
-> IOMMU off/on.
->
-> Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
-> IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/tree/virtio-madvise
->
-> Dmitry Osipenko (5):
->   drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
->   drm/virtio: Check whether transferred 2D BO is shmem
->   drm/virtio: Unlock GEM reservations in error code path
->   drm/virtio: Improve DMA API usage for shmem BOs
->   drm/virtio: Add memory shrinker
->
->  drivers/gpu/drm/virtio/Makefile               |   3 +-
->  drivers/gpu/drm/virtio/virtgpu_drv.c          |  22 +++-
->  drivers/gpu/drm/virtio/virtgpu_drv.h          |  31 ++++-
->  drivers/gpu/drm/virtio/virtgpu_gem.c          |  84 ++++++++++++
->  drivers/gpu/drm/virtio/virtgpu_gem_shrinker.c | 124 ++++++++++++++++++
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 ++++++
->  drivers/gpu/drm/virtio/virtgpu_kms.c          |  17 ++-
->  drivers/gpu/drm/virtio/virtgpu_object.c       |  63 +++------
->  drivers/gpu/drm/virtio/virtgpu_plane.c        |  17 ++-
->  drivers/gpu/drm/virtio/virtgpu_vq.c           |  30 +++--
->  include/uapi/drm/virtgpu_drm.h                |  14 ++
->  11 files changed, 373 insertions(+), 69 deletions(-)
->  create mode 100644 drivers/gpu/drm/virtio/virtgpu_gem_shrinker.c
->
-> --
-> 2.35.1
->
+Sorry for the delay, but finally I gave it a try on my Adafruit
+FeatherWing 128x32 OLED.
+Some of the weird issues (cursor disappears after printing some text,
+more text also doesn't appear until I clear the display) are still there.
+Unfortunately a regression was introduced since your v3: printed
+text is mirrored upside-down. I.e. "E" is rendered correctly, but "L"
+turns into "=CE=93" (Greek Gamma).
+I suspect something went wrong with the display initialization
+sequence.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
