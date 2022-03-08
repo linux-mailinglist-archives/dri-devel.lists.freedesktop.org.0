@@ -1,66 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A9E4D12A4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 09:48:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8DC4D12D6
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 09:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AAF610E403;
-	Tue,  8 Mar 2022 08:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9231710E43D;
+	Tue,  8 Mar 2022 08:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2CB910E403
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 08:48:40 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 499BB1F396;
- Tue,  8 Mar 2022 08:48:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646729319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w+s2oZyGEZg8uQxVKV8DoUts7pg4NFNmPPibovZ9nCQ=;
- b=Asc2Qp0tnfdL1ZpSj/OTD+88ui6ztkad6FjFUvhcpUQip3BCJgeiMD8lFs4GbLTQ/jxPkP
- xpRz6+DVxMYlMW8ha20IDDgFs4kOAkw98KrR6Q1D9B4Qy03SiZD3RAsLQffr3+F+laudx5
- Wc1ZmMoht/a1h7NTTdgpvFrYJTBclpA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646729319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w+s2oZyGEZg8uQxVKV8DoUts7pg4NFNmPPibovZ9nCQ=;
- b=zwmB7cmU2HCXrxZBXFJZiK8UmObTkgGUHCh404k60gxiuBYXscfOFzAjwIXxBzbYs0S64l
- zDZAlIyWjIDnqdCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 290A913C2F;
- Tue,  8 Mar 2022 08:48:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GTj+CGcYJ2IzFQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Mar 2022 08:48:39 +0000
-Message-ID: <f8706174-c85c-94a5-b475-8b537dba7c1c@suse.de>
-Date: Tue, 8 Mar 2022 09:48:38 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6823110E43D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 08:51:15 +0000 (UTC)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi
+ [91.156.85.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA5C451C;
+ Tue,  8 Mar 2022 09:51:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646729473;
+ bh=tx1v41sFjwGQBvE+sIrqGvKblBFOQcSEb0qoE7wv6Xk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Jy5uYLZcwLb3KPsPqVod83/S0uNHXV1yFHxrkizv+pb8dLcTPQ5oNOd8pJzjzjund
+ M0qFloP+xTpNuZPF/EVZbZy9fWLLv2IcCf3jZNUaJuhGWpbxmoVTk5iNfbqb2KmQW3
+ vy5SBv4M39NYY6ZYg3dSPMIjPZ3oWinmlBT9cQq8=
+Message-ID: <dbc365c3-db91-91ca-8ccf-dafd849a3105@ideasonboard.com>
+Date: Tue, 8 Mar 2022 10:51:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 06/10] drm/gma500: Move GTT resume logic out of
- psb_gtt_init()
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/3] drm: omapdrm: Fix excessive GEM buffers DMM/CMA usage
 Content-Language: en-US
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20220306203619.22624-1-tzimmermann@suse.de>
- <20220306203619.22624-7-tzimmermann@suse.de> <YiZYAFdM28igTrC3@ravnborg.org>
- <CAMeQTsY9VRvy8t4=GTOa9rD9HFBnRqFj9NxQ2ofig1JVkiLfKw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMeQTsY9VRvy8t4=GTOa9rD9HFBnRqFj9NxQ2ofig1JVkiLfKw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------QUz3rKQytqJVZGiq2bcCx8mv"
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, tomba@kernel.org
+References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <be4e1cd8-a994-303d-9424-14439ce1f7d4@ideasonboard.com>
+ <47dbc690-bff2-8839-f01f-9287403a7562@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <47dbc690-bff2-8839-f01f-9287403a7562@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,233 +51,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: tony@atomide.com, merlijn@wizzup.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------QUz3rKQytqJVZGiq2bcCx8mv
-Content-Type: multipart/mixed; boundary="------------Euinm7aVaVQUMp78e1ZTM955";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <f8706174-c85c-94a5-b475-8b537dba7c1c@suse.de>
-Subject: Re: [PATCH 06/10] drm/gma500: Move GTT resume logic out of
- psb_gtt_init()
-References: <20220306203619.22624-1-tzimmermann@suse.de>
- <20220306203619.22624-7-tzimmermann@suse.de> <YiZYAFdM28igTrC3@ravnborg.org>
- <CAMeQTsY9VRvy8t4=GTOa9rD9HFBnRqFj9NxQ2ofig1JVkiLfKw@mail.gmail.com>
-In-Reply-To: <CAMeQTsY9VRvy8t4=GTOa9rD9HFBnRqFj9NxQ2ofig1JVkiLfKw@mail.gmail.com>
+On 17/02/2022 18:21, Ivaylo Dimitrov wrote:
+> Hi Tomi,
+> 
+> On 17.02.22 г. 15:03 ч., Tomi Valkeinen wrote:
+>> Hi Ivaylo,
+>>
+>> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
+>>> This patch series fixes excessive DMM or CMA usage of GEM buffers 
+>>> leading to
+>>> various runtime allocation failures. The series enables daily usage 
+>>> of devices
+>>> without exausting limited resources like CMA or DMM space if GPU 
+>>> rendering is
+>>> needed.
+>>>
+>>> The first patch doesn't bring any functional changes, it just moves some
+>>> TILER/DMM related code to a separate function, to simplify the review 
+>>> of the
+>>> next two patches.
+>>>
+>>> The second patch allows off-CPU rendering to non-scanout buffers. 
+>>> Without that
+>>> patch, it is basically impossible to use the driver allocated GEM 
+>>> buffers on
+>>> OMAP3 for anything else but a basic CPU rendered examples as if we 
+>>> want GPU
+>>> rendering, we must allocate buffers as scanout buffers, which are CMA 
+>>> allocated.
+>>> CMA soon gets fragmented and we start seeing allocation failures. 
+>>> Such failres
+>>> in Xorg cannot be handeled gracefully, so the system is basically 
+>>> unusable.
+>>>
+>>> Third patch fixes similar issue on OMAP4/5, where DMM/TILER spaces get
+>>> fragmented with time, leading to allocation failures.
+>>
+>> I think this is just hacking around the problem. The problem is that 
+>> omapdrm is being used by some as a generic buffer allocator. Those users 
+> 
+> Well, the user of omap_bo interface I know is xf86-video-omap. Unless if 
+> by users you mean 'kernel users' which I know none.
+> 
+> I think that if 'we' are to teach xorg omap DDX (or any other user in 
+> that regard) to use GPU driver allocator for non-scanout buffers and 
+> omapdrm for scanout, it will become a mess. Not impossible though, just 
+> way more complicated than the $series. Also, why do omapdrm allow 
+> allocation of non-linear buffers and CPU (userspace) access to them, but 
+> refuses to export them to kernel drivers? Isn't that the whole point of 
+> DMABUF stuff? This is not consistent to me. The series fixes that 
+> inconsistency, nothing more.
+> 
+>> should be changed to use a their own allocator or a generic allocator. 
+> 
+> SGX driver/userspace has and uses its own allocator, however, I think 
+> there is more than that - what about TILER/VRFB? Do you say that SGX 
+> userspace shall be smart enough to requests TILER buffers from omapdrm 
+> when scanout buffer is requested and use its own allocator when not?
 
---------------Euinm7aVaVQUMp78e1ZTM955
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+All I'm saying is that omapdrm should not support allocating buffers 
+that are not usable by the omapdrm hardware. It doesn't make any sense.
 
-SGkgU2FtIGFuZCBQYXRyaWsNCg0KQW0gMDcuMDMuMjIgdW0gMjI6MDIgc2NocmllYiBQYXRy
-aWsgSmFrb2Jzc29uOg0KPiBPbiBNb24sIE1hciA3LCAyMDIyIGF0IDg6MDcgUE0gU2FtIFJh
-dm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90ZToNCj4+DQo+PiBIaSBUaG9tYXMsDQo+
-Pg0KPj4gT25lIGNvbW1lbnQgYmVsb3cuDQo+Pg0KPj4gT24gU3VuLCBNYXIgMDYsIDIwMjIg
-YXQgMDk6MzY6MTVQTSArMDEwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4gVGhl
-IGN1cnJlbnQgaW1wbGVtZW50YXRpb24gb2YgcHNiX2d0dF9pbml0KCkgYWxzbyBkb2VzIHJl
-c3VtZQ0KPj4+IGhhbmRsaW5nLiBNb3ZlIHRoZSByZXN1bWUgY29kZSBpbnRvIGl0cyBvd24g
-aGVscGVyLg0KPj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+DQo+Pj4gLS0tDQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vZ21h
-NTAwL2d0dC5jICAgICB8IDEyMiArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tDQo+
-Pj4gICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2d0dC5oICAgICB8ICAgMiArLQ0KPj4+ICAg
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2LmMgfCAgIDIgKy0NCj4+PiAgIDMgZmls
-ZXMgY2hhbmdlZCwgMTA0IGluc2VydGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQ0KPj4+DQo+
-Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ3R0LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZ21hNTAwL2d0dC5jDQo+Pj4gaW5kZXggYWNkNTBlZTI2YjAzLi40M2FkM2Vj
-MzhjODAgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuYw0K
-Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ3R0LmMNCj4+PiBAQCAtMjA5LDcg
-KzIwOSw3IEBAIHN0YXRpYyB2b2lkIHBzYl9ndHRfcG9wdWxhdGVfcmVzb3VyY2VzKHN0cnVj
-dCBkcm1fcHNiX3ByaXZhdGUgKnBkZXYpDQo+Pj4gICAgICAgIGRybV9kYmcoZGV2LCAiUmVz
-dG9yZWQgJXUgb2YgJXUgZ3R0IHJhbmdlcyAoJXUgS0IpIiwgcmVzdG9yZWQsIHRvdGFsLCAo
-c2l6ZSAvIDEwMjQpKTsNCj4+PiAgIH0NCj4+Pg0KPj4+IC1pbnQgcHNiX2d0dF9pbml0KHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCByZXN1bWUpDQo+Pj4gK2ludCBwc2JfZ3R0X2lu
-aXQoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4+PiAgIHsNCj4+PiAgICAgICAgc3RydWN0
-IGRybV9wc2JfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19kcm1fcHNiX3ByaXZhdGUoZGV2KTsN
-Cj4+PiAgICAgICAgc3RydWN0IHBjaV9kZXYgKnBkZXYgPSB0b19wY2lfZGV2KGRldi0+ZGV2
-KTsNCj4+PiBAQCAtMjE4LDEwICsyMTgsOCBAQCBpbnQgcHNiX2d0dF9pbml0KHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsIGludCByZXN1bWUpDQo+Pj4gICAgICAgIHN0cnVjdCBwc2JfZ3R0
-ICpwZzsNCj4+PiAgICAgICAgaW50IHJldCA9IDA7DQo+Pj4NCj4+PiAtICAgICBpZiAoIXJl
-c3VtZSkgew0KPj4+IC0gICAgICAgICAgICAgbXV0ZXhfaW5pdCgmZGV2X3ByaXYtPmd0dF9t
-dXRleCk7DQo+Pj4gLSAgICAgICAgICAgICBtdXRleF9pbml0KCZkZXZfcHJpdi0+bW1hcF9t
-dXRleCk7DQo+Pj4gLSAgICAgfQ0KPj4+ICsgICAgIG11dGV4X2luaXQoJmRldl9wcml2LT5n
-dHRfbXV0ZXgpOw0KPj4+ICsgICAgIG11dGV4X2luaXQoJmRldl9wcml2LT5tbWFwX211dGV4
-KTsNCj4+Pg0KPj4+ICAgICAgICBwZyA9ICZkZXZfcHJpdi0+Z3R0Ow0KPj4+DQo+Pj4gQEAg
-LTI5MCwxMyArMjg4LDYgQEAgaW50IHBzYl9ndHRfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LCBpbnQgcmVzdW1lKQ0KPj4+ICAgICAgICBkZXZfZGJnKGRldi0+ZGV2LCAiU3RvbGVu
-IG1lbW9yeSBiYXNlIDB4JXgsIHNpemUgJWx1S1xuIiwNCj4+PiAgICAgICAgICAgICAgICAg
-ICAgICAgIGRldl9wcml2LT5zdG9sZW5fYmFzZSwgdnJhbV9zdG9sZW5fc2l6ZSAvIDEwMjQp
-Ow0KPj4+DQo+Pj4gLSAgICAgaWYgKHJlc3VtZSAmJiAoZ3R0X3BhZ2VzICE9IHBnLT5ndHRf
-cGFnZXMpICYmDQo+Pj4gLSAgICAgICAgIChzdG9sZW5fc2l6ZSAhPSBwZy0+c3RvbGVuX3Np
-emUpKSB7DQo+Pj4gLSAgICAgICAgICAgICBkZXZfZXJyKGRldi0+ZGV2LCAiR1RUIHJlc3Vt
-ZSBlcnJvci5cbiIpOw0KPj4+IC0gICAgICAgICAgICAgcmV0ID0gLUVJTlZBTDsNCj4+PiAt
-ICAgICAgICAgICAgIGdvdG8gb3V0X2VycjsNCj4+PiAtICAgICB9DQo+Pj4gLQ0KPj4+ICAg
-ICAgICBwZy0+Z3R0X3BhZ2VzID0gZ3R0X3BhZ2VzOw0KPj4+ICAgICAgICBwZy0+c3RvbGVu
-X3NpemUgPSBzdG9sZW5fc2l6ZTsNCj4+PiAgICAgICAgZGV2X3ByaXYtPnZyYW1fc3RvbGVu
-X3NpemUgPSB2cmFtX3N0b2xlbl9zaXplOw0KPj4+IEBAIC0zMDQsMTkgKzI5NSwxNCBAQCBp
-bnQgcHNiX2d0dF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCByZXN1bWUpDQo+
-Pj4gICAgICAgIC8qDQo+Pj4gICAgICAgICAqICAgICAgTWFwIHRoZSBHVFQgYW5kIHRoZSBz
-dG9sZW4gbWVtb3J5IGFyZWENCj4+PiAgICAgICAgICovDQo+Pj4gLSAgICAgaWYgKCFyZXN1
-bWUpDQo+Pj4gLSAgICAgICAgICAgICBkZXZfcHJpdi0+Z3R0X21hcCA9IGlvcmVtYXAocGct
-Pmd0dF9waHlzX3N0YXJ0LA0KPj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBndHRfcGFnZXMgPDwgUEFHRV9TSElGVCk7DQo+Pj4gKyAgICAgZGV2
-X3ByaXYtPmd0dF9tYXAgPSBpb3JlbWFwKHBnLT5ndHRfcGh5c19zdGFydCwgZ3R0X3BhZ2Vz
-IDw8IFBBR0VfU0hJRlQpOw0KPj4+ICAgICAgICBpZiAoIWRldl9wcml2LT5ndHRfbWFwKSB7
-DQo+Pj4gICAgICAgICAgICAgICAgZGV2X2VycihkZXYtPmRldiwgIkZhaWx1cmUgdG8gbWFw
-IGd0dC5cbiIpOw0KPj4+ICAgICAgICAgICAgICAgIHJldCA9IC1FTk9NRU07DQo+Pj4gICAg
-ICAgICAgICAgICAgZ290byBvdXRfZXJyOw0KPj4+ICAgICAgICB9DQo+Pj4NCj4+PiAtICAg
-ICBpZiAoIXJlc3VtZSkNCj4+PiAtICAgICAgICAgICAgIGRldl9wcml2LT52cmFtX2FkZHIg
-PSBpb3JlbWFwX3djKGRldl9wcml2LT5zdG9sZW5fYmFzZSwNCj4+PiAtICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0b2xlbl9zaXplKTsNCj4+PiAt
-DQo+Pj4gKyAgICAgZGV2X3ByaXYtPnZyYW1fYWRkciA9IGlvcmVtYXBfd2MoZGV2X3ByaXYt
-PnN0b2xlbl9iYXNlLCBzdG9sZW5fc2l6ZSk7DQo+Pj4gICAgICAgIGlmICghZGV2X3ByaXYt
-PnZyYW1fYWRkcikgew0KPj4+ICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LT5kZXYsICJG
-YWlsdXJlIHRvIG1hcCBzdG9sZW4gYmFzZS5cbiIpOw0KPj4+ICAgICAgICAgICAgICAgIHJl
-dCA9IC1FTk9NRU07DQo+Pj4gQEAgLTMzMywxMSArMzE5LDEwNyBAQCBpbnQgcHNiX2d0dF9p
-bml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCByZXN1bWUpDQo+Pj4gICAgICAgIHJl
-dHVybiByZXQ7DQo+Pj4gICB9DQo+Pj4NCj4+IFRoZSBiZWxvdyBpcyBhIGxvdCBvZiBkdXBs
-aWNhdGVkIGNvbXBsZXggY29kZS4NCj4+IENhbiB5b3UgYWRkIG9uZSBtb3JlIGhlbHBlciBm
-b3IgdGhpcz8NCj4gDQoNClRoYXQgbWFrZXMgYSBsb3Qgb2Ygc2Vuc2UuDQoNCj4gSSB3YXMg
-dGhpbmtpbmcgdGhlIHNhbWUgYnV0IGZpZ3VyZWQgaXQgd291bGQgYmUgYW4gZWFzeSBmb2xs
-b3cgdXANCj4gcGF0Y2guIEJ1dCBzdXJlLCB3aHkgbm90IGZpeCBpdCBoZXJlIGFscmVhZHku
-DQo+IA0KPiBXaGlsZSBhdCBpdCwgdGhlIGd0dCBlbmFibGUvZGlzYWJsZSBjb2RlIGNvdWxk
-IGJlIHB1dCBpbiBoZWxwZXJzIGFzIHdlbGwuDQoNClBhdHJpaywgZG8geW91IGtub3cgd2h5
-IHRoZSBjb2RlIHJlLXJlYWRzIGFsbCB0aGVzZSB2YWx1ZXMgZHVyaW5nIA0KcmVzdW1lPyBE
-byB0aGUgdmFsdWVzIGNoYW5nZT8gIFRoZSBkcml2ZXIgbmV2ZXIgc2VlbXMgdG8gZG8gYW55
-dGhpbmcgDQp3aXRoIHRoZSB1cGRhdGVkIHZhbHVlcy4gRm9yIGV4YW1wbGUsIGl0IGRvZXNu
-J3QgdXBkYXRlIHRoZSBHVFQgbWFwcGluZyANCmlmIGd0dF9waHlzX3N0YXJ0IGNoYW5nZXMu
-ICBDYW4gd2UgcmVtb3ZlIGFsbCB0aGF0IGNvZGUgZnJvbSB0aGUgcmVzdW1lIA0KZnVuY3Rp
-b24/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+Pg0KPj4+ICtzdGF0aWMgaW50
-IHBzYl9ndHRfcmVzdW1lKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4gK3sNCj4+PiAr
-ICAgICBzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlICpkZXZfcHJpdiA9IHRvX2RybV9wc2JfcHJp
-dmF0ZShkZXYpOw0KPj4+ICsgICAgIHN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gdG9fcGNpX2Rl
-dihkZXYtPmRldik7DQo+Pj4gKyAgICAgdW5zaWduZWQgaW50IGd0dF9wYWdlczsNCj4+PiAr
-ICAgICB1bnNpZ25lZCBsb25nIHN0b2xlbl9zaXplLCB2cmFtX3N0b2xlbl9zaXplOw0KPj4+
-ICsgICAgIHN0cnVjdCBwc2JfZ3R0ICpwZzsNCj4+PiArICAgICBpbnQgcmV0ID0gMDsNCj4+
-PiArDQo+Pj4gKyAgICAgcGcgPSAmZGV2X3ByaXYtPmd0dDsNCj4+DQo+PiBzdGF0aWMgdm9p
-ZCBwc2JfZW5hYmxlX2d0dCguLikNCj4+IHsNCj4+PiArDQo+Pj4gKyAgICAgLyogRW5hYmxl
-IHRoZSBHVFQgKi8NCj4+PiArICAgICBwY2lfcmVhZF9jb25maWdfd29yZChwZGV2LCBQU0Jf
-R01DSF9DVFJMLCAmZGV2X3ByaXYtPmdtY2hfY3RybCk7DQo+Pj4gKyAgICAgcGNpX3dyaXRl
-X2NvbmZpZ193b3JkKHBkZXYsIFBTQl9HTUNIX0NUUkwsDQo+Pj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGRldl9wcml2LT5nbWNoX2N0cmwgfCBfUFNCX0dNQ0hfRU5BQkxFRCk7
-DQo+Pj4gKw0KPj4+ICsgICAgIGRldl9wcml2LT5wZ2VfY3RsID0gUFNCX1JWREMzMihQU0Jf
-UEdFVEJMX0NUTCk7DQo+Pj4gKyAgICAgUFNCX1dWREMzMihkZXZfcHJpdi0+cGdlX2N0bCB8
-IF9QU0JfUEdFVEJMX0VOQUJMRUQsIFBTQl9QR0VUQkxfQ1RMKTsNCj4+PiArICAgICAodm9p
-ZCkgUFNCX1JWREMzMihQU0JfUEdFVEJMX0NUTCk7DQo+Pj4gKw0KPj4+ICsgICAgIC8qIFRo
-ZSByb290IHJlc291cmNlIHdlIGFsbG9jYXRlIGFkZHJlc3Mgc3BhY2UgZnJvbSAqLw0KPj4+
-ICsgICAgIGRldl9wcml2LT5ndHRfaW5pdGlhbGl6ZWQgPSAxOw0KPj4+ICsNCj4+PiArICAg
-ICBwZy0+Z3R0X3BoeXNfc3RhcnQgPSBkZXZfcHJpdi0+cGdlX2N0bCAmIFBBR0VfTUFTSzsN
-Cj4+PiArDQo+Pj4gKyAgICAgLyoNCj4+PiArICAgICAgKiAgICAgIFRoZSB2aWRlbyBtbXUg
-aGFzIGEgaHcgYnVnIHdoZW4gYWNjZXNzaW5nIDB4MEQwMDAwMDAwLg0KPj4+ICsgICAgICAq
-ICAgICAgTWFrZSBnYXR0IHN0YXJ0IGF0IDB4MGUwMDAsMDAwMC4gVGhpcyBkb2Vzbid0IGFj
-dHVhbGx5DQo+Pj4gKyAgICAgICogICAgICBtYXR0ZXIgZm9yIHVzIGJ1dCBtYXkgZG8gaWYg
-dGhlIHZpZGVvIGFjY2VsZXJhdGlvbiBldmVyDQo+Pj4gKyAgICAgICogICAgICBnZXRzIG9w
-ZW5lZCB1cC4NCj4+PiArICAgICAgKi8NCj4+PiArICAgICBwZy0+bW11X2dhdHRfc3RhcnQg
-PSAweEUwMDAwMDAwOw0KPj4+ICsNCj4+PiArICAgICBwZy0+Z3R0X3N0YXJ0ID0gcGNpX3Jl
-c291cmNlX3N0YXJ0KHBkZXYsIFBTQl9HVFRfUkVTT1VSQ0UpOw0KPj4+ICsgICAgIGd0dF9w
-YWdlcyA9IHBjaV9yZXNvdXJjZV9sZW4ocGRldiwgUFNCX0dUVF9SRVNPVVJDRSkgPj4gUEFH
-RV9TSElGVDsNCj4+PiArICAgICAvKiBDRFYgZG9lc24ndCByZXBvcnQgdGhpcy4gSW4gd2hp
-Y2ggY2FzZSB0aGUgc3lzdGVtIGhhcyA2NCBndHQgcGFnZXMgKi8NCj4+PiArICAgICBpZiAo
-cGctPmd0dF9zdGFydCA9PSAwIHx8IGd0dF9wYWdlcyA9PSAwKSB7DQo+Pj4gKyAgICAgICAg
-ICAgICBkZXZfZGJnKGRldi0+ZGV2LCAiR1RUIFBDSSBCQVIgbm90IGluaXRpYWxpemVkLlxu
-Iik7DQo+Pj4gKyAgICAgICAgICAgICBndHRfcGFnZXMgPSA2NDsNCj4+PiArICAgICAgICAg
-ICAgIHBnLT5ndHRfc3RhcnQgPSBkZXZfcHJpdi0+cGdlX2N0bDsNCj4+PiArICAgICB9DQo+
-Pj4gKw0KPj4+ICsgICAgIHBnLT5nYXR0X3N0YXJ0ID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBk
-ZXYsIFBTQl9HQVRUX1JFU09VUkNFKTsNCj4+PiArICAgICBwZy0+Z2F0dF9wYWdlcyA9IHBj
-aV9yZXNvdXJjZV9sZW4ocGRldiwgUFNCX0dBVFRfUkVTT1VSQ0UpID4+IFBBR0VfU0hJRlQ7
-DQo+Pj4gKyAgICAgZGV2X3ByaXYtPmd0dF9tZW0gPSAmcGRldi0+cmVzb3VyY2VbUFNCX0dB
-VFRfUkVTT1VSQ0VdOw0KPj4+ICsNCj4+PiArICAgICBpZiAocGctPmdhdHRfcGFnZXMgPT0g
-MCB8fCBwZy0+Z2F0dF9zdGFydCA9PSAwKSB7DQo+Pj4gKyAgICAgICAgICAgICBzdGF0aWMg
-c3RydWN0IHJlc291cmNlIGZ1ZGdlOyAgIC8qIFByZWZlcmFibHkgcGVwcGVybWludCAqLw0K
-Pj4+ICsgICAgICAgICAgICAgLyoNCj4+PiArICAgICAgICAgICAgICAqIFRoaXMgY2FuIG9j
-Y3VyIG9uIENEViBzeXN0ZW1zLiBGdWRnZSBpdCBpbiB0aGlzIGNhc2UuIFdlDQo+Pj4gKyAg
-ICAgICAgICAgICAgKiByZWFsbHkgZG9uJ3QgY2FyZSB3aGF0IGltYWdpbmFyeSBzcGFjZSBp
-cyBiZWluZyBhbGxvY2F0ZWQNCj4+PiArICAgICAgICAgICAgICAqIGF0IHRoaXMgcG9pbnQu
-DQo+Pj4gKyAgICAgICAgICAgICAgKi8NCj4+PiArICAgICAgICAgICAgIGRldl9kYmcoZGV2
-LT5kZXYsICJHQVRUIFBDSSBCQVIgbm90IGluaXRpYWxpemVkLlxuIik7DQo+Pj4gKyAgICAg
-ICAgICAgICBwZy0+Z2F0dF9zdGFydCA9IDB4NDAwMDAwMDA7DQo+Pj4gKyAgICAgICAgICAg
-ICBwZy0+Z2F0dF9wYWdlcyA9ICgxMjggKiAxMDI0ICogMTAyNCkgPj4gUEFHRV9TSElGVDsN
-Cj4+PiArICAgICAgICAgICAgIC8qDQo+Pj4gKyAgICAgICAgICAgICAgKiBUaGlzIGlzIGEg
-bGl0dGxlIGNvbmZ1c2luZyBidXQgaW4gZmFjdCB0aGUgR1RUIGlzIHByb3ZpZGluZw0KPj4+
-ICsgICAgICAgICAgICAgICogYSB2aWV3IGZyb20gdGhlIEdQVSBpbnRvIG1lbW9yeSBhbmQg
-bm90IHZpY2UgdmVyc2EuIEFzIHN1Y2gNCj4+PiArICAgICAgICAgICAgICAqICB0aGlzIGlz
-IHJlYWxseSBhbGxvY2F0aW5nIHNwYWNlIHRoYXQgaXMgbm90IHRoZSBzYW1lIGFzIHRoZQ0K
-Pj4+ICsgICAgICAgICAgICAgICogIENQVSBhZGRyZXNzIHNwYWNlIG9uIENEVi4NCj4+PiAr
-ICAgICAgICAgICAgICAqLw0KPj4+ICsgICAgICAgICAgICAgZnVkZ2Uuc3RhcnQgPSAweDQw
-MDAwMDAwOw0KPj4+ICsgICAgICAgICAgICAgZnVkZ2UuZW5kID0gMHg0MDAwMDAwMCArIDEy
-OCAqIDEwMjQgKiAxMDI0IC0gMTsNCj4+PiArICAgICAgICAgICAgIGZ1ZGdlLm5hbWUgPSAi
-ZnVkZ2UiOw0KPj4+ICsgICAgICAgICAgICAgZnVkZ2UuZmxhZ3MgPSBJT1JFU09VUkNFX01F
-TTsNCj4+PiArICAgICAgICAgICAgIGRldl9wcml2LT5ndHRfbWVtID0gJmZ1ZGdlOw0KPj4+
-ICsgICAgIH0NCj4+PiArDQo+Pj4gKyAgICAgcGNpX3JlYWRfY29uZmlnX2R3b3JkKHBkZXYs
-IFBTQl9CU00sICZkZXZfcHJpdi0+c3RvbGVuX2Jhc2UpOw0KPj4+ICsgICAgIHZyYW1fc3Rv
-bGVuX3NpemUgPSBwZy0+Z3R0X3BoeXNfc3RhcnQgLSBkZXZfcHJpdi0+c3RvbGVuX2Jhc2Ug
-LSBQQUdFX1NJWkU7DQo+Pj4gKyAgICAgc3RvbGVuX3NpemUgPSB2cmFtX3N0b2xlbl9zaXpl
-Ow0KPj4+ICsNCj4+PiArICAgICBkZXZfZGJnKGRldi0+ZGV2LCAiU3RvbGVuIG1lbW9yeSBi
-YXNlIDB4JXgsIHNpemUgJWx1S1xuIiwNCj4+PiArICAgICAgICAgICAgICAgICAgICAgZGV2
-X3ByaXYtPnN0b2xlbl9iYXNlLCB2cmFtX3N0b2xlbl9zaXplIC8gMTAyNCk7DQo+PiB9DQo+
-Pg0KPj4gQW5kIHRoZW4gdXNlIHRoaXMgaGVscGVyIGluIGJvdGggaW5pdCBhbmQgcmVzdW1l
-Pw0KPj4NCj4+PiArDQo+Pj4gKyAgICAgaWYgKChndHRfcGFnZXMgIT0gcGctPmd0dF9wYWdl
-cykgJiYgKHN0b2xlbl9zaXplICE9IHBnLT5zdG9sZW5fc2l6ZSkpIHsNCj4+PiArICAgICAg
-ICAgICAgIGRldl9lcnIoZGV2LT5kZXYsICJHVFQgcmVzdW1lIGVycm9yLlxuIik7DQo+Pj4g
-KyAgICAgICAgICAgICByZXQgPSAtRUlOVkFMOw0KPj4+ICsgICAgICAgICAgICAgZ290byBv
-dXRfZXJyOw0KPj4+ICsgICAgIH0NCj4+PiArDQo+Pg0KPj4+ICsgICAgIHBnLT5ndHRfcGFn
-ZXMgPSBndHRfcGFnZXM7DQo+Pj4gKyAgICAgcGctPnN0b2xlbl9zaXplID0gc3RvbGVuX3Np
-emU7DQo+PiBOb3QgbmVlZGVkIGZvciByZXN1bWUsIHdlIGp1c3QgY2hlY2tlZCB0aGVtLg0K
-Pj4NCj4+PiArICAgICBkZXZfcHJpdi0+dnJhbV9zdG9sZW5fc2l6ZSA9IHZyYW1fc3RvbGVu
-X3NpemU7DQo+Pj4gKw0KPj4+ICsgICAgIHBzYl9ndHRfY2xlYXIoZGV2X3ByaXYpOw0KPj4+
-ICsgICAgIHBzYl9ndHRfcG9wdWxhdGVfc3RvbGVuKGRldl9wcml2KTsNCj4+PiArDQo+Pj4g
-KyAgICAgcmV0dXJuIDA7DQo+Pj4gKw0KPj4+ICtvdXRfZXJyOg0KPj4+ICsgICAgIHBzYl9n
-dHRfdGFrZWRvd24oZGV2KTsNCj4+PiArICAgICByZXR1cm4gcmV0Ow0KPj4+ICt9DQo+Pj4g
-Kw0KPj4+ICAgaW50IHBzYl9ndHRfcmVzdG9yZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0K
-Pj4+ICAgew0KPj4+ICAgICAgICBzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlICpkZXZfcHJpdiA9
-IHRvX2RybV9wc2JfcHJpdmF0ZShkZXYpOw0KPj4+DQo+Pj4gLSAgICAgcHNiX2d0dF9pbml0
-KGRldiwgMSk7DQo+Pj4gKyAgICAgcHNiX2d0dF9yZXN1bWUoZGV2KTsNCj4+Pg0KPj4+ICAg
-ICAgICBwc2JfZ3R0X3BvcHVsYXRlX3Jlc291cmNlcyhkZXZfcHJpdik7DQo+Pj4NCj4+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuaCBiL2RyaXZlcnMvZ3B1
-L2RybS9nbWE1MDAvZ3R0LmgNCj4+PiBpbmRleCAzMTUwMDUzM2FjNDUuLmNiMjcwZWE0MDc5
-NCAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2d0dC5oDQo+Pj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuaA0KPj4+IEBAIC0yNSw3ICsyNSw3
-IEBAIHN0cnVjdCBwc2JfZ3R0IHsNCj4+PiAgIH07DQo+Pj4NCj4+PiAgIC8qIEV4cG9ydGVk
-IGZ1bmN0aW9ucyAqLw0KPj4+IC1leHRlcm4gaW50IHBzYl9ndHRfaW5pdChzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LCBpbnQgcmVzdW1lKTsNCj4+PiAraW50IHBzYl9ndHRfaW5pdChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2KTsNCj4+PiAgIGV4dGVybiB2b2lkIHBzYl9ndHRfdGFrZWRv
-d24oc3RydWN0IGRybV9kZXZpY2UgKmRldik7DQo+Pj4gICBleHRlcm4gaW50IHBzYl9ndHRf
-cmVzdG9yZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsNCj4+IEEgY2xlYW51cCBwYXRjaCB0
-byByZW1vdmUgYWxsIGV4dGVybiB3b3VsZCBiZSBuaWNlLg0KPj4gQnV0IHRoYXQncyBub3Qg
-cmVsYXRlZCB0byB0aGlzIHNlcmllcy4NCj4+DQo+PiAgICAgICAgICBTYW0NCg0KLS0gDQpU
-aG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0
-d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
-bmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNm
-w7xocmVyOiBJdm8gVG90ZXYNCg==
+> Actually I was thinking about something like that, and it is achievable 
+> now we have:
+> 
+> https://github.com/maemo-leste/sgx-ddk-um/blob/master/dbm/dbm.c (REed 
+> SGX 1.17 ddk gbm backend)
+> 
+>> And we could then drop the OMAP_BO_SCANOUT flag, as all buffers would 
+>> be scanout buffers.
+>>
+> 
+> And what about OMAP_BO_TILED_XX stuff? To me this is even more of a 
+> hack, but it is what it is.
 
---------------Euinm7aVaVQUMp78e1ZTM955--
+Yes, I agree, I don't think those OMAP_BO_TILED_* values should be 
+exposed to userspace. But I also agree to the "it is what it is" =).
 
---------------QUz3rKQytqJVZGiq2bcCx8mv
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> Do I get it correctly that you want to get rid of omap_bo_new/_tiled and 
+> have only dumb buffers available in omapdrm? TBH this would be great, 
+> however I still don't see how a TILER/VRFB buffer would be allocated, 
+> given that flags in drm_mode_create_dumb is not used anywhere in the 
+> kernel(AFAIK). Unless all scanout buffers are allocated through 
+> TILER/VRFB (which is a good idea IMO).
 
------BEGIN PGP SIGNATURE-----
+We can't get rid of those as they're userspace API.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmInGGYFAwAAAAAACgkQlh/E3EQov+B0
-ghAAteoxUCUQBoRlUncK8tPUsHtZCq5uK3N5ROjaRRy0qyWeit1z23mOdqm806SCGbagQLYUyv5N
-3hHobn0vO/uDOqgZ5g/6uGi+FY5rKXGovxEeIU/9jwx0Jz0WhRD2siMKewsOQMkG7cZYlecUd1jq
-BvJGT1RZTtvl3jw7vl4UDqrAo+p9wyVhnV1M9nx+xEvogsraGM7XWc+516PBpKiyLKfZVHML1e29
-B/Ca/Wqlgl2jT5jVmUsO6YrXMlIKoOiUgJenBEHZatkxlDDZ27lYdU9sTiDWlVfpNV5YP6TqODIc
-qixRuAxc7UfzGy35rLm4kLv4L6MDJld/Xp3BksmW0RyjY74e7gwTAZQwXC5fp8SoSf5E+CSNBE6j
-xPWn3ZQvzvOPnV4083P3AAvUYkZNXb4783TIK4nqTBtxmvtqoxkN3VY8vZk8y7zg3iaVBn2qnJhk
-GVVIgg7fOXklsvrh58OFmftHXP4SRmgIoXS2IiYIeIE9EbLx4R5xwg4fUDBKqy70pdN9otud+wMf
-f3VFcip4uF5J6HmizkHajmX0+ljIafbg9oiWJbiQD1jKIEwuu4EoO/R5dpb89fXjaxpnaFjc5Hc5
-2Ul2KWT03/m5pf4SQyWcqk++elRJKg3ZSJGZt/0sAQp1wa3PedtythtkSPD+/elSxmOV6nXBUIb+
-PuM=
-=ITfM
------END PGP SIGNATURE-----
+>> Or do we have a regression in the driver? My understanding is that 
+>> this has never really worked.
+>>
+> 
+> There are couple of patches in omapdrm that change around BO flags and 
+> their meaning so I think there is a regression, as the same 
+> userspace/DDX on linux 5.9 results in only 2 linear buffers being 
+> allocated, but as SGX driver has different version as well, I can't be 
+> 100% sure without going through a lengthy assessment of SGX 
+> driver/omapdrm code and patches since 5.9. Which I am not going to do as 
+> I don't see what the benefit will be.
+> 
+> Please consider this patch series as a fix to an inconsistency, as it is 
+> merely that, it does not really bring any new functionality in terms of 
+> what is allocated.
 
---------------QUz3rKQytqJVZGiq2bcCx8mv--
+I've considered, and I think I agree. The design of omapdrm + tiler is 
+broken in my opinion, but it's there, it has userspace APIs, and it's 
+all old code. It's probably not worth the effort to try to clean it up, 
+while still somehow keeping the old userspace working.
+
+I've had these patchesin my work branch for a while and I haven't seen 
+any issues. I'll keep them there for a bit longer and I'll look at these 
+patches a bit more, but I think I'll merge them at some point.
+
+  Tomi
