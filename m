@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E384D150D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D324D1517
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B73210E502;
-	Tue,  8 Mar 2022 10:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C5610E86E;
+	Tue,  8 Mar 2022 10:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED2010E502
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:46:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 02E5BB81860;
- Tue,  8 Mar 2022 10:46:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D7AC340F7;
- Tue,  8 Mar 2022 10:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1646736395;
- bh=IKXUYtmKjsKoAjOIxL2cGHVYl7X2/wSeAGkMxrw6wbk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=2HgbNvC3Zl7sd8IKCk+IBar9B5vPyQwHEDCQKWfVOSPk3Z85YuSayYAQC/6l5dKxT
- Nw5PuSjss76hIwTLRNo0BeNQSaRwgX1E50WTH3phRbR4LWfAtcCzUuPD9LGBUCCeL/
- 6w2J6tEK5xl8aNLUZXMZjPebohzuKEIf3pkzOiEU=
-Date: Tue, 8 Mar 2022 11:46:32 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] staging: fbtft: Consider type of init sequence
- values in fbtft_init_display()
-Message-ID: <Yic0CN+qSvDtSiEz@kroah.com>
-References: <20220304193414.88006-1-andriy.shevchenko@linux.intel.com>
- <Yictcf0BCvveVT+V@smile.fi.intel.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6492910E86E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:48:47 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j17so27891339wrc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:48:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=oePfju4fJo1u0s2xutLmdABPmoZWfyejObfpQ2SykO4=;
+ b=Kvw4rYX1l2sThJBvtCbIACTNXs1/EIDUO7KiaORWiPElVea4Aug/UYOTP+zjI/JyJK
+ 27zrtK+BkR4xPR0hwcDn0ewK9C/ltgfxEuBhpij0ZOFUwYpQpp12I2BXFpv2fB8mjRDN
+ UJV+7o0cMfCQTraeALyQd2k0q9tinPQA9Rk4gNS2DeucN6mxnz61dnJ0pbmqdvMi8Pmw
+ 687pFuRIOXgKHJO++mTRgs0kINcItgyzAazm2Kp66ihf5JJYF8X9dU7hImFdFRDTphTz
+ B8puYe7LgWXVqP+6wEsz4XGPfSyn+/pVJnxRBuLUAZEyU65MRd35xVsEVGq7A+V+9FQj
+ zDYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=oePfju4fJo1u0s2xutLmdABPmoZWfyejObfpQ2SykO4=;
+ b=vPQmD+Ddb4jWDIHp/aDA2yWj7e5dzg+CddR1jMv+dsxThKTzlS8qsq7/IFEM5N+xkm
+ WWvfQN3ulfCmp/126OExbjFi9Gq+W4po2ThfZrxdhWfnUXCyj7iMQ8TIBptcg9iFuWt6
+ ah/qCClc9JCwrD8e88FC5+VXjGikHdxkZcJ4LM2EVCmV7QoKppapTULdCuBa5jAqb8v4
+ 7RxafjvxH1bwzCOwXTGt77+K1IX2k2vj6RX8s6baJAxD4q7phcxnz+lNbV0F9JDdcFCw
+ YLlCkF2ef0SutNLJyjvrrAg9rASwG4h8Hx3P0Tc+ZbdUG2rPRrn4NeKd8yJGo9lHGrX3
+ vYXw==
+X-Gm-Message-State: AOAM533yjskLmSIqsEoNICpQbU4ZzOGgK/bNX10iYQTKhclRTcynEKW8
+ 4Bhww5hO0aM/Noq8wmu3pNS+dQ==
+X-Google-Smtp-Source: ABdhPJzJ87arojJYxVBgmLEfJTdVqi9wnz2y1QmFwmq0HFgSG6F6XH8GI/oU72rHX3ZHD0Ni89Qz0w==
+X-Received: by 2002:adf:80d0:0:b0:1dc:90a8:4a1d with SMTP id
+ 74-20020adf80d0000000b001dc90a84a1dmr11506035wrl.180.1646736525957; 
+ Tue, 08 Mar 2022 02:48:45 -0800 (PST)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
+ [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
+ r12-20020a05600c2c4c00b003816932de9csm1823380wmg.24.2022.03.08.02.48.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 02:48:45 -0800 (PST)
+Date: Tue, 8 Mar 2022 10:48:43 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] backlight: backlight: Slighly simplify
+ devm_of_find_backlight()
+Message-ID: <Yic0i9DFzv3bWoTz@google.com>
+References: <f998a4291d865273afa0d1f85764a9ac7fbc1b64.1644738084.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Yictcf0BCvveVT+V@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f998a4291d865273afa0d1f85764a9ac7fbc1b64.1644738084.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,24 +72,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Helge Deller <deller@gmx.de>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 08, 2022 at 12:18:25PM +0200, Andy Shevchenko wrote:
-> +Cc: Helge
+On Sun, 13 Feb 2022, Christophe JAILLET wrote:
+
+> Use devm_add_action_or_reset() instead of devm_add_action()+hand writing
+> what is done in the release function, should an error occur.
 > 
-> Maybe you can pick this up?
+> This is more straightforward and saves a few lines of code.
 > 
-> On Fri, Mar 04, 2022 at 09:34:14PM +0200, Andy Shevchenko wrote:
+> While at it, remove a useless test in devm_backlight_release(). 'data' is
+> known to be not NULL when this function is called.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/video/backlight/backlight.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 
-You sent this less than a week ago!  Please relax, staging driver
-patches are way down my list of priorities at the moment.  Wait at least
-2 weeks before trying to get someone else to take patches for this
-subsystem.
+Applied, thanks.
 
-relax...
-
-greg k-h
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
