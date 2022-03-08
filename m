@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDF74D1394
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308E24D13A1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E64810E391;
-	Tue,  8 Mar 2022 09:43:23 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCCCD10E3E6;
- Tue,  8 Mar 2022 09:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646732601; x=1678268601;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Y1z//sElY2xI8TTgmIPB4EQcVboDLTJXzCf1YfSpY8A=;
- b=ipAKILGmsASKkT7CSOzyaoV33syu8Qm5mUCnkoN+vJmICFDVjWhtZf3V
- 6tPdnsWqLBMGndTBtbsGaQyvA0jmp9PErIVVyvEPyQhFBz4/wqAxD/xKm
- o4wFRrJrZaVvxZKtcvgWYKf0S7mxnP6ygmgFYy/dpRORidIbpIjkZodhU
- XszWY/k5apWh2WM0znXz+V+DgfvU6EOhInE2Bt0120MvNGBrha+821SkR
- wxFrt9XGAS9XcrBhCYWM5wBPh/obNKDWAGSdZj9Y2tInQJ5BtrRUc3+t0
- YHIRm4FNwx/bqMyX2pPZHpbwuqgM66obaljlcgsAJOcBYbLTDyxMCqlzI w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="252214306"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="252214306"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 01:43:21 -0800
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="537503406"
-Received: from sklehane-mobl1.ger.corp.intel.com (HELO [10.213.197.202])
- ([10.213.197.202])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 01:43:19 -0800
-Message-ID: <897489fb-e0d4-78bc-11d0-d7ec9c20ae07@linux.intel.com>
-Date: Tue, 8 Mar 2022 09:43:17 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE04110E2DA;
+	Tue,  8 Mar 2022 09:45:01 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AFA10E2DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:45:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BC5271F396;
+ Tue,  8 Mar 2022 09:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646732698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kpHjumSWpKgMug35vEyl7CC/OVgTfDjtoHX6Y26cqiw=;
+ b=10KHbdD9Ubm+xSRCRF6tRPSIvK8k3AxHjyeGsbuoUhZpMYJNMUhDK9HcQW1H3YCaAA+fw3
+ OatRIDqB9BpAitClG/zCAxGB/A1wL6E2d62t8EIPR+aQvZYH4LDfg20n6RscCTGP4ZnYA1
+ kIYNa2LLYQKVjneJXHF4EJ8i23yTgLM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646732698;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kpHjumSWpKgMug35vEyl7CC/OVgTfDjtoHX6Y26cqiw=;
+ b=mj+b5zDYRZs+ZpXV4zdL2/ENkDv93qV1upo9TDsImWHIvMf0aDgpQYE1fmYjn7zTCEG7y6
+ +dlPvpclX8wMCuDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 80E9313C24;
+ Tue,  8 Mar 2022 09:44:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uKjCHZolJ2JUMQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 08 Mar 2022 09:44:58 +0000
+Message-ID: <f94a6b14-e884-5af4-436b-37715a9c7693@suse.de>
+Date: Tue, 8 Mar 2022 10:44:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v3 1/4] drm/i915/guc: Limit scheduling
- properties to avoid overflow
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 0/9] drm: Support GEM SHMEM fbdev without shadow FB
 Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220303223737.708659-1-John.C.Harrison@Intel.com>
- <20220303223737.708659-2-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220303223737.708659-2-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ deller@gmx.de
+References: <20220303205839.28484-1-tzimmermann@suse.de>
+ <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------efYlL8xBs1Adf5KDbgqz5xaP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,290 +72,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------efYlL8xBs1Adf5KDbgqz5xaP
+Content-Type: multipart/mixed; boundary="------------lbNzRd5Jc6xrvvxkgVyLKP5j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <f94a6b14-e884-5af4-436b-37715a9c7693@suse.de>
+Subject: Re: [PATCH 0/9] drm: Support GEM SHMEM fbdev without shadow FB
+References: <20220303205839.28484-1-tzimmermann@suse.de>
+ <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
+In-Reply-To: <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
 
+--------------lbNzRd5Jc6xrvvxkgVyLKP5j
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 03/03/2022 22:37, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> GuC converts the pre-emption timeout and timeslice quantum values into
-> clock ticks internally. That significantly reduces the point of 32bit
-> overflow. On current platforms, worst case scenario is approximately
-> 110 seconds. Rather than allowing the user to set higher values and
-> then get confused by early timeouts, add limits when setting these
-> values.
-> 
-> v2: Add helper functins for clamping (review feedback from Tvrtko).
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> (v1)
+SGkgSmF2aWVyDQoNCkFtIDA4LjAzLjIyIHVtIDEwOjEzIHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBIZWxsbyBUaG9tYXMsDQo+IA0KPiBPbiAzLzMvMjIgMjE6NTgs
+IFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmV3b3JrIHRoZSBmYmRldiBkZWZlcnJl
+ZC1JL08gdG8gbm90IGludGVyZmVyZSB3aXRoIGZpZWxkcyBvZiBzdHJ1Y3QNCj4+IHBhZ2Uu
+IE1ha2UgdGhlIGNvZGUgbW9yZSBmbGV4aWJsZSBhbmQgaW1wbGVtZW50IEdFTSBTSE1FTSBt
+bWFwIG9uIHRvcA0KPj4gb2YgaXQuDQo+Pg0KPj4gVGhpcyBwYXRjaHNldCByZW1vdmVzIHRo
+ZSBuZWVkIGZvciBhIHNwZWNpYWwgc2hhZG93IGZyYW1lYnVmZmVyIGZvcg0KPj4gZmJkZXYg
+bW1hcCB3aGVuIHVzaW5nIEdFTSBTSE1FTS4gU0hNRU0gcGFnZXMgYXJlIG5vdyBtbWFwJ2Vk
+IGZyb20NCj4+IC9kZXYvZmIgZGlyZWN0bHkuDQo+Pg0KPiANCj4gSW50ZXJlc3RpbmcuIEkg
+d29uZGVyIGlmIHlvdSBoYXZlIGFueSBwZXJmb3JtYW5jZSBpbXByb3ZlbWVudHMgYWZ0ZXIN
+Cj4gZHJvcHBpbmcgdGhlIHNoYWRvdyBidWZmZXIuDQo+IA0KPj4gUGF0Y2hlcyAyIGFuZCAz
+IHJld29yayB0aGUgZmJkZXYgZGVmZXJyZWQgSS9PIGNvZGUuIEl0IG5vdyBhbGxvd3MNCj4+
+IGRyaXZlcnMgdG8gaGF2ZSBiZXR0ZXIgY29udHJvbCBvZiB0aGUgbW1hcCBvcGVyYXRpb25z
+LiBBbGwgcmVmZXJlbmNlcw0KPj4gdG8gZmllbGRzIGluIHN0cnVjdCBwYWdlIGFyZSBnb25l
+LiBUaGUgcnNwIHN0YXRlIGlzIGhlbHAgaW4gYQ0KPj4gc2VwYXJhdGUgcGFnZXJlZiBzdHJ1
+Y3R1cmUuDQo+Pg0KPiANCj4gVGhhdCdzIGEgdmVyeSBuaWNlIGNsZWFudXAuIFRoaXMgcmVh
+bGx5IHdhcyBhIGh1Z2UgbGF5ZXJpbmcgdmlvbGF0aW9uLg0KPiAgIA0KPj4gUGF0Y2hlcyA0
+IHRvIDcgcHJvdmlkZSBjYWxsYmFja3MgYW4gaGVscGVycyB0byBpbXBsZW1lbnQgZGVmZXJy
+ZWQgSS9PDQo+PiB3aXRoIERSTSBkcml2ZXJzLiBTcGVjaWZpY2FsbHksIHBhdGNoIDYgaW50
+cm9kdWNlcyBhIGNhbGxiYWNrIHRvIGNyZWF0ZQ0KPj4gYSBkdW1iIGJ1ZmZlciBmb3IgZmJk
+ZXYuIFRoaXMgd2lsbCBiZSB1c2VmdWwgZm9yIG1hbnkgZHJpdmVycyB0aGF0DQo+PiBjdXJy
+ZW50bHkgY2Fubm90IHVzZSBnZW5lcmljIGZiZGV2IGVtdWxhdGlvbiBiZWNhdXNlIG9mIHNw
+ZWNpYWwgcGxhY2VtZW50DQo+PiBuZWVkcyBvZiB0aGUgQk8sIHN1Y2ggYXMgYW1kZ3B1IG9y
+IHJhZGVvbi4gVGhlIGRyaXZlcnMgY2FuIGhhbmRsZSB0aGUNCj4+IGRpZmZlcmVuY2VzIHRv
+IHJlZ3VsYXIgZHVtYiBidWZmZXJzIGluIHRoZWlyIG5ldyBjYWxsYmFjayBpbXBsZW1lbnRh
+dGlvbi4NCj4+DQo+PiBQYXRjaCA4IGV4dGVuZHMgdGhlIEdFTSBTSE1FTSBtZW1vcnkgbWFu
+YWdlciB3aXRoIGEgbmV3IGhlbHBlciBmb3IgZmJkZXYNCj4+IGR1bWItYnVmZmVyIGNyZWF0
+aW9uLiBUaGUgcmV0dXJuZWQgQk8gaGFzIGl0J3MgbW1hcCBzZXQgdXAgdG8gaW1wbGVtZW50
+DQo+PiBkZWZlcnJlZCBJL08gd2l0aCBTSE1FTSBwYWdlcy4gTm8gYWRkaXRpb25hbCBzaGFk
+b3cgYnVmZmVyIGlzIHJlcXVpcmVzDQo+PiBhbnkgbG9uZ2VyLiBNYW55IGRyaXZlcnMgY2Fu
+IGltbWVkaWF0ZWxseSBiZW5lZml0IGZyb20gdGhpcyBjaGFuZ2UuDQo+Pg0KPj4gUGF0Y2gg
+OSBleHRlbmRzIHZpcnRncHUgdG8gc3VwcG9ydCBmYmRldiBkdW1iIGJ1ZmZlcnMuIEl0J3Mg
+YnVpbGQgb24NCj4+IHRvcCBvZiBHRU0gU0hNRU0sIGJ1dCBoYXMgc29tZSBtb2RpZmljYXRp
+b25zIHRoYXQgbmVlZCB0byBiZSBpbXBsZW1lbnRlZA0KPj4gZm9yIGZiZGV2IGFzIHdlbGwu
+DQo+Pg0KPj4gVGhlcmUncyBubyBpbW1lZGlhdGUgZmJkZXYgcGVyZm9ybWFuY2UgaW1wcm92
+ZW1lbnQgZnJvbSB0aGlzIHBhdGNoc2V0Lg0KPj4gTW9zdCBvZiBhbGwsIGl0IHJlbW92ZXMg
+dW5uZWNlc3Nhcnkgc2hhZG93IGZyYW1lYnVmZmVycyBhbmQgcnNwIG1lbWNweXMuDQo+PiBB
+IHNoYWRvdyBmYiBmb3IgYSBGdWxsSEQgZGlzcGxheSBpcyB+OCBNaUIsIHdoaWNoIHdlIG5v
+dyBzYXZlLiBUaGUgcGF0Y2hlcw0KPj4gZG8gcmVkdWNlIGxhdGVuY3kgYmV0d2VlbiBkcmF3
+aW5nIHRvIHRoZSBmYmRldiBidWZmZXIgdG8gZGlzcGxheWluZw0KPj4gb24gdGhlIHNjcmVl
+bi4gV2F0Y2hpbmcgYSB2aWRlbyBvbiB0aGUgZmJkZXYgY29uc29sZSBmZWx0IHNtb290aGVy
+IGFuZA0KPj4gaGFkIGxlc3MgZmxpY2tlcmluZy4NCj4+DQo+IA0KPiBBd2Vzb21lLiBBbmQg
+eW91IGFsc28gYW5zd2VyZWQgaGVyZSB0aGUgcXVlc3Rpb24gSSBoYWQgYWJvdmUuDQoNClRo
+ZXJlJ3Mgbm8gc2lnbmlmaWNhbnQgaW1wcm92ZW1lbnQgaW4gcGVyZm9ybWFuY2UuDQoNCkJ1
+dCB3aGVuIEkgcGxheSBCdWcgQnVjayBCdW5ueSBpbiBtcGxheWVyJ3MgYmVuY2htYXJrIG1v
+ZGUsIHRoZSANCmRpc3BsYXllZCBhbmltYXRpb24gbG9va3Mgc21vb3RoZXIgdGhhbiBiZWZv
+cmUuIFRoZSB0ZXN0IGZpbmlzaGVzIGluIDczIA0Kc2Vjb25kcyBpbnN0ZWFkIG9mIDc0LiBJ
+IGd1ZXNzIHRoYXQgb25lLXNlY29uZCBpbXByb3ZlbWVudCBjb21lcyBmcm9tIA0KdGhlIG1l
+bWNweSB0aGF0IHdlIG5vdyBzYXZlLiBJIHVzZSBhIHNvbWV3aGF0IHJlY2VudCBDb3JlIGk3
+IGZvciANCnRlc3RpbmcuIE9uIG9sZCBoYXJkd2FyZSwgd2UgbWlnaHQgZ2V0IG1vcmUgcGVy
+Zm9ybWFuY2Ugb3V0IG9mIGl0LiBJIGNhbiANCnJlYWxseSBvbmx5IGd1ZXNzIGhlcmUuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
+CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
+cm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQoo
+SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2
+DQo=
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b3a429a92c0d..8208164c25e7 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2218,13 +2218,24 @@ static inline u32 get_children_join_value(struct intel_context *ce,
-  static void guc_context_policy_init(struct intel_engine_cs *engine,
-                                     struct guc_lrc_desc *desc)
-  {
-+       struct drm_device *drm = &engine->i915->drm;
-+
-         desc->policy_flags = 0;
-  
-         if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
-                 desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE;
-  
-         /* NB: For both of these, zero means disabled. */
-+       if (overflows_type(engine->props.timeslice_duration_ms * 1000,
-+                          desc->execution_quantum))
-+               drm_warn_once(drm, "GuC interface cannot support %lums timeslice!\n",
-+                             engine->props.timeslice_duration_ms);
-         desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
-+
-+       if (overflows_type(engine->props.preempt_timeout_ms * 1000,
-+                          desc->preemption_timeout))
-+               drm_warn_once(drm, "GuC interface cannot support %lums preemption timeout!\n",
-+                             engine->props.preempt_timeout_ms);
-         desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
-  }
-  
+--------------lbNzRd5Jc6xrvvxkgVyLKP5j--
 
-With that:
+--------------efYlL8xBs1Adf5KDbgqz5xaP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmInJZkFAwAAAAAACgkQlh/E3EQov+Dv
+Mw/+LOC/WzJfPQQ7D38jyWkjwz5NUGY1IXZ31qV1QTsOrS7paUkg/KHiAGmjM03/uzIJrNgUijmR
+h5Y95cpDZKMKxGke+4kzC9N9Gm1wWq1RCo5EB2XaEMUKumnUBWNtIyREa8l8SkMuV4jL+sJf0H2w
+U7Vm96VmE2xlL4rWNG73Pt0Vx9Bjhtxbfz06YZ+kE/uUt+vpL+fL/USZcIMx+3DU063hqZkyC0nD
+eKhuiwsgs1u/N8T7py3I4bKbZhai9z02xwIx7KSAhs15SraWOrsYpHQBvOOQv631FMDJpGdkGglY
+6MsYgcTQ1Td0/TPD6tgkeyxtUCfZ4UvxJVNzmOsifseOlztsS94bgRHlkdqFQpQ7nz8EJtJbVxhu
+lJh08gCQG/Ecmcs2x2PEUjoAEop9NEwQAdoyuleghfgqCRUGdtsddnfj6lNZB/IgcO7vCj7YF7tr
+2sigWg3Y/q+BTlFeiYuudPpwiuzcNJgljT0w38ljW0qP4zYVSb+ykMP99qVMavOnsUPIARwdoIgf
+dJY3FBRbtSsG7KEz+6T11dcpIC6m7Ot4K9dDHntOpw4QPHJXE1TupG4SNtvax9Sbe1HMzLs/Xqz7
+3h6ttvmEKVJCBumUBhS+cKcCh5rybvo9o1lC+EKTFy6/Z0et6zU3zWKymoM2NsoJt5MTFIpBbGUn
+PHk=
+=OQ1v
+-----END PGP SIGNATURE-----
 
-Tvrtko
-
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine.h      |  6 ++
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 69 +++++++++++++++++++++
->   drivers/gpu/drm/i915/gt/sysfs_engines.c     | 25 +++++---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  9 +++
->   4 files changed, 99 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index 1c0ab05c3c40..d7044c4e526e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -351,4 +351,10 @@ intel_engine_get_hung_context(struct intel_engine_cs *engine)
->   	return engine->hung_ce;
->   }
->   
-> +u64 intel_clamp_heartbeat_interval_ms(struct intel_engine_cs *engine, u64 value);
-> +u64 intel_clamp_max_busywait_duration_ns(struct intel_engine_cs *engine, u64 value);
-> +u64 intel_clamp_preempt_timeout_ms(struct intel_engine_cs *engine, u64 value);
-> +u64 intel_clamp_stop_timeout_ms(struct intel_engine_cs *engine, u64 value);
-> +u64 intel_clamp_timeslice_duration_ms(struct intel_engine_cs *engine, u64 value);
-> +
->   #endif /* _INTEL_RINGBUFFER_H_ */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 7447411a5b26..22e70e4e007c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -442,6 +442,26 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
->   		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
->   	}
->   
-> +	/* Cap properties according to any system limits */
-> +#define CLAMP_PROP(field) \
-> +	do { \
-> +		u64 clamp = intel_clamp_##field(engine, engine->props.field); \
-> +		if (clamp != engine->props.field) { \
-> +			drm_notice(&engine->i915->drm, \
-> +				   "Warning, clamping %s to %lld to prevent overflow\n", \
-> +				   #field, clamp); \
-> +			engine->props.field = clamp; \
-> +		} \
-> +	} while (0)
-> +
-> +	CLAMP_PROP(heartbeat_interval_ms);
-> +	CLAMP_PROP(max_busywait_duration_ns);
-> +	CLAMP_PROP(preempt_timeout_ms);
-> +	CLAMP_PROP(stop_timeout_ms);
-> +	CLAMP_PROP(timeslice_duration_ms);
-> +
-> +#undef CLAMP_PROP
-> +
->   	engine->defaults = engine->props; /* never to change again */
->   
->   	engine->context_size = intel_engine_context_size(gt, engine->class);
-> @@ -464,6 +484,55 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
->   	return 0;
->   }
->   
-> +u64 intel_clamp_heartbeat_interval_ms(struct intel_engine_cs *engine, u64 value)
-> +{
-> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
-> +
-> +	return value;
-> +}
-> +
-> +u64 intel_clamp_max_busywait_duration_ns(struct intel_engine_cs *engine, u64 value)
-> +{
-> +	value = min(value, jiffies_to_nsecs(2));
-> +
-> +	return value;
-> +}
-> +
-> +u64 intel_clamp_preempt_timeout_ms(struct intel_engine_cs *engine, u64 value)
-> +{
-> +	/*
-> +	 * NB: The GuC API only supports 32bit values. However, the limit is further
-> +	 * reduced due to internal calculations which would otherwise overflow.
-> +	 */
-> +	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
-> +		value = min_t(u64, value, GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS);
-> +
-> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
-> +
-> +	return value;
-> +}
-> +
-> +u64 intel_clamp_stop_timeout_ms(struct intel_engine_cs *engine, u64 value)
-> +{
-> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
-> +
-> +	return value;
-> +}
-> +
-> +u64 intel_clamp_timeslice_duration_ms(struct intel_engine_cs *engine, u64 value)
-> +{
-> +	/*
-> +	 * NB: The GuC API only supports 32bit values. However, the limit is further
-> +	 * reduced due to internal calculations which would otherwise overflow.
-> +	 */
-> +	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
-> +		value = min_t(u64, value, GUC_POLICY_MAX_EXEC_QUANTUM_MS);
-> +
-> +	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
-> +
-> +	return value;
-> +}
-> +
->   static void __setup_engine_capabilities(struct intel_engine_cs *engine)
->   {
->   	struct drm_i915_private *i915 = engine->i915;
-> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> index 967031056202..f2d9858d827c 100644
-> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> @@ -144,7 +144,7 @@ max_spin_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	       const char *buf, size_t count)
->   {
->   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
-> -	unsigned long long duration;
-> +	unsigned long long duration, clamped;
->   	int err;
->   
->   	/*
-> @@ -168,7 +168,8 @@ max_spin_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	if (err)
->   		return err;
->   
-> -	if (duration > jiffies_to_nsecs(2))
-> +	clamped = intel_clamp_max_busywait_duration_ns(engine, duration);
-> +	if (duration != clamped)
->   		return -EINVAL;
->   
->   	WRITE_ONCE(engine->props.max_busywait_duration_ns, duration);
-> @@ -203,7 +204,7 @@ timeslice_store(struct kobject *kobj, struct kobj_attribute *attr,
->   		const char *buf, size_t count)
->   {
->   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
-> -	unsigned long long duration;
-> +	unsigned long long duration, clamped;
->   	int err;
->   
->   	/*
-> @@ -218,7 +219,8 @@ timeslice_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	if (err)
->   		return err;
->   
-> -	if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
-> +	clamped = intel_clamp_timeslice_duration_ms(engine, duration);
-> +	if (duration != clamped)
->   		return -EINVAL;
->   
->   	WRITE_ONCE(engine->props.timeslice_duration_ms, duration);
-> @@ -256,7 +258,7 @@ stop_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	   const char *buf, size_t count)
->   {
->   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
-> -	unsigned long long duration;
-> +	unsigned long long duration, clamped;
->   	int err;
->   
->   	/*
-> @@ -272,7 +274,8 @@ stop_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	if (err)
->   		return err;
->   
-> -	if (duration > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
-> +	clamped = intel_clamp_stop_timeout_ms(engine, duration);
-> +	if (duration != clamped)
->   		return -EINVAL;
->   
->   	WRITE_ONCE(engine->props.stop_timeout_ms, duration);
-> @@ -306,7 +309,7 @@ preempt_timeout_store(struct kobject *kobj, struct kobj_attribute *attr,
->   		      const char *buf, size_t count)
->   {
->   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
-> -	unsigned long long timeout;
-> +	unsigned long long timeout, clamped;
->   	int err;
->   
->   	/*
-> @@ -322,7 +325,8 @@ preempt_timeout_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	if (err)
->   		return err;
->   
-> -	if (timeout > jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
-> +	clamped = intel_clamp_preempt_timeout_ms(engine, timeout);
-> +	if (timeout != clamped)
->   		return -EINVAL;
->   
->   	WRITE_ONCE(engine->props.preempt_timeout_ms, timeout);
-> @@ -362,7 +366,7 @@ heartbeat_store(struct kobject *kobj, struct kobj_attribute *attr,
->   		const char *buf, size_t count)
->   {
->   	struct intel_engine_cs *engine = kobj_to_engine(kobj);
-> -	unsigned long long delay;
-> +	unsigned long long delay, clamped;
->   	int err;
->   
->   	/*
-> @@ -379,7 +383,8 @@ heartbeat_store(struct kobject *kobj, struct kobj_attribute *attr,
->   	if (err)
->   		return err;
->   
-> -	if (delay >= jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT))
-> +	clamped = intel_clamp_heartbeat_interval_ms(engine, delay);
-> +	if (delay != clamped)
->   		return -EINVAL;
->   
->   	err = intel_engine_set_heartbeat(engine, delay);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index 4b300b6cc0f9..a2d574f2fdd5 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -262,6 +262,15 @@ struct guc_lrc_desc {
->   
->   #define GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US 500000
->   
-> +/*
-> + * GuC converts the timeout to clock ticks internally. Different platforms have
-> + * different GuC clocks. Thus, the maximum value before overflow is platform
-> + * dependent. Current worst case scenario is about 110s. So, limit to 100s to be
-> + * safe.
-> + */
-> +#define GUC_POLICY_MAX_EXEC_QUANTUM_MS		(100 * 1000)
-> +#define GUC_POLICY_MAX_PREEMPT_TIMEOUT_MS	(100 * 1000)
-> +
->   struct guc_policies {
->   	u32 submission_queue_depth[GUC_MAX_ENGINE_CLASSES];
->   	/* In micro seconds. How much time to allow before DPC processing is
+--------------efYlL8xBs1Adf5KDbgqz5xaP--
