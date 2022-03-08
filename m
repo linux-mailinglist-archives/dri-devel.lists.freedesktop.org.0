@@ -1,82 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4094D1F31
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 18:36:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C514D1F50
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 18:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F5110E414;
-	Tue,  8 Mar 2022 17:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B27F210E2DC;
+	Tue,  8 Mar 2022 17:43:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623EC10E454
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 17:36:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4959410E2DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 17:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646760995;
+ s=mimecast20190719; t=1646761431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TWLYdwevdepBzx0X1glUvwId31sNoQVYJST0iSmDSu4=;
- b=eTCK28cnD/1qZMjI3+wPWzI2YYxf8qFTuhiZno+3kjto/VnAkXCa4GrOVMA/TC/PbMnize
- Daymjp9u/QGxCr9nMYJb6Te/YyoVacLs7t6aD5eIW1y/cZbL5nEqPFlS0I1zxJoMra4dK0
- PEH+g/O5CHQ5x+hsImqqKXLoaYQxXrE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=alZLDhY3ctKEsDcSiL/Qu/J5K/GOOm/V8wMQqvRO8KI=;
+ b=Jy3AjAee/ussIpmLzbRa1KhuKHpYxT9AaFDnYdyPa79NNn02rK299y1RWgvXNSfaV4PDl+
+ 32kos9Rf4qbHG0IeyV8fZ13ugO6vPryjINmcvmSoK5UxFK+TCuSM6eEvp4M6CvOfIDRGd4
+ Hky4/Z/i0DcxctpLA4dQEk+nt9uG24Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-wQi4lDvZMkSiJ16wbkIXkw-1; Tue, 08 Mar 2022 12:36:34 -0500
-X-MC-Unique: wQi4lDvZMkSiJ16wbkIXkw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 10-20020a1c020a000000b0037fae68fcc2so1436768wmc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 09:36:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TWLYdwevdepBzx0X1glUvwId31sNoQVYJST0iSmDSu4=;
- b=bBj8gqFG+2XWHsF+0Ib4oHpmBNYaXL403XsSbUrQlR+ACOkA1pJ6JQjqJjbTrvy8yI
- J8D6UC/uYUCYvrEMcJuf1Ks9x9Tp6l61/Je6Pez2m5oYaJL2R1LbgxQEOm232TaoQOhT
- rNt/OXrup/2OC48CyaaC1XWZpb/+UbYbc+Up/NUdBVpPoE/hlHcKfpCbTGh2bPZWhS34
- M6en5bSKfe+iBjXHBS36Gzykwf1Nb1HatCyS6bFgvy0n310uTJ2UYUXBsf0fXWYfyIc4
- ftijR8IaGuO3fcFTZBFXuf0SKOZyuvlzhTSOv9wLdnO0/IRcYcxrbah+GBp1ETIm77vL
- T62g==
-X-Gm-Message-State: AOAM531FtQwhEZYqp4LBDPcV5rvoLmwspfR5bc2/79UTSUYT3lszwYvB
- Bljg15S9FLzXjxhqWHEx3hpV+DFd3qSft6Mt+piWwiNIQrczwrO2D5wMrHSJCXea7oCtpTk/yKm
- wQnVUqV+R2/oaHPAokeJgfT3eFG9T
-X-Received: by 2002:adf:a341:0:b0:1f0:1a12:8920 with SMTP id
- d1-20020adfa341000000b001f01a128920mr13798454wrb.100.1646760992901; 
- Tue, 08 Mar 2022 09:36:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxun/q4GEh8tpJ7AT1flRZIvX5efklF9A8vrPY/7OjKPozKYFDpKU61OhOKqIuRAHEieRC8Pw==
-X-Received: by 2002:adf:a341:0:b0:1f0:1a12:8920 with SMTP id
- d1-20020adfa341000000b001f01a128920mr13798437wrb.100.1646760992722; 
- Tue, 08 Mar 2022 09:36:32 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- n5-20020a5d5985000000b001f0122f63e1sm9408127wri.85.2022.03.08.09.36.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 09:36:32 -0800 (PST)
-Message-ID: <45beb705-57f2-8574-32b2-7ffe8300d990@redhat.com>
-Date: Tue, 8 Mar 2022 18:36:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/mgag200: Fix PLL setup for g200wb and g200ew
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <20220308171111.220557-1-jfalempe@redhat.com>
- <YieS530V0nGYydGa@kroah.com>
+ us-mta-531-PWD1tRqTPI2mTQluLvE8fw-1; Tue, 08 Mar 2022 12:43:50 -0500
+X-MC-Unique: PWD1tRqTPI2mTQluLvE8fw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76C3D180A08C;
+ Tue,  8 Mar 2022 17:43:48 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.192.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2ECE980FC8;
+ Tue,  8 Mar 2022 17:43:42 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <YieS530V0nGYydGa@kroah.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/mgag200: Fix PLL setup for g200wb and g200ew
+Date: Tue,  8 Mar 2022 18:43:21 +0100
+Message-Id: <20220308174321.225606-1-jfalempe@redhat.com>
+In-Reply-To: <20220308171111.220557-1-jfalempe@redhat.com>
+References: <20220308171111.220557-1-jfalempe@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +59,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, michel@daenzer.net, tzimmermann@suse.de,
- stable@vger.kernel.org
+Cc: stable@vger.kernel.org, michel@daenzer.net,
+ Jocelyn Falempe <jfalempe@redhat.com>, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/03/2022 18:31, Greg KH wrote:
-> On Tue, Mar 08, 2022 at 06:11:11PM +0100, Jocelyn Falempe wrote:
->> commit f86c3ed55920ca1d874758cc290890902a6cffc4 ("drm/mgag200: Split PLL
->> setup into compute and update functions") introduced a regression for
->> g200wb and g200ew.
-> 
-> No need for all those digits in the sha1, see below:
-> 
->> The PLLs are not set up properly, and VGA screen stays
->> black, or displays "out of range" message.
->>
->> MGA1064_WB_PIX_PLLC_N/M/P was mistakenly replaced with
->> MGA1064_PIX_PLLC_N/M/P which have different addresses.
->>
->> Patch tested on a Dell T310 with g200wb
->>
->> Fixes: f86c3ed55920ca1d874758cc290890902a6cffc4
-> 
-> As per the documentation that line should read:
-> 
-> Fixes: f86c3ed55920 ("drm/mgag200: Split PLL setup into compute and update functions")
+commit f86c3ed55920 ("drm/mgag200: Split PLL setup into compute and
+ update functions") introduced a regression for g200wb and g200ew.
+The PLLs are not set up properly, and VGA screen stays
+black, or displays "out of range" message.
 
-Sorry, I will send a v2 shortly.
-> 
-> thanks,
-> 
-> greg k-h
-> 
+MGA1064_WB_PIX_PLLC_N/M/P was mistakenly replaced with
+MGA1064_PIX_PLLC_N/M/P which have different addresses.
+
+Patch tested on a Dell T310 with g200wb
+
+Fixes: f86c3ed55920 ("drm/mgag200: Split PLL setup into compute and update functions")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/mgag200/mgag200_pll.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/mgag200/mgag200_pll.c b/drivers/gpu/drm/mgag200/mgag200_pll.c
+index e9ae22b4f813..52be08b744ad 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_pll.c
++++ b/drivers/gpu/drm/mgag200/mgag200_pll.c
+@@ -404,9 +404,9 @@ mgag200_pixpll_update_g200wb(struct mgag200_pll *pixpll, const struct mgag200_pl
+ 		udelay(50);
+ 
+ 		/* program pixel pll register */
+-		WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
+-		WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
+-		WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
++		WREG_DAC(MGA1064_WB_PIX_PLLC_N, xpixpllcn);
++		WREG_DAC(MGA1064_WB_PIX_PLLC_M, xpixpllcm);
++		WREG_DAC(MGA1064_WB_PIX_PLLC_P, xpixpllcp);
+ 
+ 		udelay(50);
+ 
+-- 
+2.35.1
 
