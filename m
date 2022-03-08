@@ -1,65 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D324D1517
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:48:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC774D151B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C5610E86E;
-	Tue,  8 Mar 2022 10:48:48 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6492910E86E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:48:47 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id j17so27891339wrc.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:48:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oePfju4fJo1u0s2xutLmdABPmoZWfyejObfpQ2SykO4=;
- b=Kvw4rYX1l2sThJBvtCbIACTNXs1/EIDUO7KiaORWiPElVea4Aug/UYOTP+zjI/JyJK
- 27zrtK+BkR4xPR0hwcDn0ewK9C/ltgfxEuBhpij0ZOFUwYpQpp12I2BXFpv2fB8mjRDN
- UJV+7o0cMfCQTraeALyQd2k0q9tinPQA9Rk4gNS2DeucN6mxnz61dnJ0pbmqdvMi8Pmw
- 687pFuRIOXgKHJO++mTRgs0kINcItgyzAazm2Kp66ihf5JJYF8X9dU7hImFdFRDTphTz
- B8puYe7LgWXVqP+6wEsz4XGPfSyn+/pVJnxRBuLUAZEyU65MRd35xVsEVGq7A+V+9FQj
- zDYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oePfju4fJo1u0s2xutLmdABPmoZWfyejObfpQ2SykO4=;
- b=vPQmD+Ddb4jWDIHp/aDA2yWj7e5dzg+CddR1jMv+dsxThKTzlS8qsq7/IFEM5N+xkm
- WWvfQN3ulfCmp/126OExbjFi9Gq+W4po2ThfZrxdhWfnUXCyj7iMQ8TIBptcg9iFuWt6
- ah/qCClc9JCwrD8e88FC5+VXjGikHdxkZcJ4LM2EVCmV7QoKppapTULdCuBa5jAqb8v4
- 7RxafjvxH1bwzCOwXTGt77+K1IX2k2vj6RX8s6baJAxD4q7phcxnz+lNbV0F9JDdcFCw
- YLlCkF2ef0SutNLJyjvrrAg9rASwG4h8Hx3P0Tc+ZbdUG2rPRrn4NeKd8yJGo9lHGrX3
- vYXw==
-X-Gm-Message-State: AOAM533yjskLmSIqsEoNICpQbU4ZzOGgK/bNX10iYQTKhclRTcynEKW8
- 4Bhww5hO0aM/Noq8wmu3pNS+dQ==
-X-Google-Smtp-Source: ABdhPJzJ87arojJYxVBgmLEfJTdVqi9wnz2y1QmFwmq0HFgSG6F6XH8GI/oU72rHX3ZHD0Ni89Qz0w==
-X-Received: by 2002:adf:80d0:0:b0:1dc:90a8:4a1d with SMTP id
- 74-20020adf80d0000000b001dc90a84a1dmr11506035wrl.180.1646736525957; 
- Tue, 08 Mar 2022 02:48:45 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
- r12-20020a05600c2c4c00b003816932de9csm1823380wmg.24.2022.03.08.02.48.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 02:48:45 -0800 (PST)
-Date: Tue, 8 Mar 2022 10:48:43 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] backlight: backlight: Slighly simplify
- devm_of_find_backlight()
-Message-ID: <Yic0i9DFzv3bWoTz@google.com>
-References: <f998a4291d865273afa0d1f85764a9ac7fbc1b64.1644738084.git.christophe.jaillet@wanadoo.fr>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BDE10E87F;
+	Tue,  8 Mar 2022 10:49:00 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1626A10E87F;
+ Tue,  8 Mar 2022 10:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646736540; x=1678272540;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=p1Z+mwMNu6doyIZ+PY/F2NpcypktBPpZyrwE9rUTvVI=;
+ b=jo9j/rq4/YnTiPg4hLrFRwFlDBr4ubmpGS9JVESucWti9HHOlAY0X6KV
+ sHvMbXY99Et9SmHf74V4KYw4BnzgMpn4VYXl5OKrIaUkXTR0YYV68Iekb
+ J/33p5z+OgX8dH0bAQU8z9UfaD6iEOY9TjV+eGbKIOW4oD25emOEnfCFe
+ ciReh3ttXZ8pCZWjUj92wv6vW33vHcj2U/b4v6gFo3Yhd0BdFYoO8Ty9o
+ M0lXVpxHmxfah8L4F5dDU66DAI7HHSCRDvzR/V8EaJpKiIzXIJ6QOjTKR
+ F/D3fmfDtCWCxyRoe/UC7elhaAdf/COgbi55tWoWVjRRN78tYUHNJnUSW g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="341086295"
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="341086295"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2022 02:48:59 -0800
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="643615788"
+Received: from acushion-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.29.47])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2022 02:48:49 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+Subject: Re: [Intel-gfx] [PATCH v2 1/8] drm/i915/guc: Do not conflate
+ lrc_desc with GuC id for registration
+In-Reply-To: <c6aeece0-9b12-e135-c991-25793f7640bb@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220225000623.1934438-1-John.C.Harrison@Intel.com>
+ <20220225000623.1934438-2-John.C.Harrison@Intel.com>
+ <87ilsu2aj1.fsf@intel.com>
+ <c6aeece0-9b12-e135-c991-25793f7640bb@intel.com>
+Date: Tue, 08 Mar 2022 12:48:46 +0200
+Message-ID: <87o82g1zzl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f998a4291d865273afa0d1f85764a9ac7fbc1b64.1644738084.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,32 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 13 Feb 2022, Christophe JAILLET wrote:
+On Fri, 04 Mar 2022, John Harrison <john.c.harrison@intel.com> wrote:
+> On 3/4/2022 03:59, Jani Nikula wrote:
+>> On Thu, 24 Feb 2022, John.C.Harrison@Intel.com wrote:
+>> There are a plethora of static inlines in the guc .c files, and this
+>> adds more. How about just letting the compiler decide what's the best
+>> course of action, inline or not? I think hand rolling the inline is a
+>> micro optimization that you'd need to justify i.e. show that you're
+>> doing a better job than the compiler.
+>>
+>> The main downsides to using inlines are that you'll miss compiler
+>> warnings for unused functions, and it sets an example for people to
+>> start using inline more, while they should be an exception.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>> PS. I also don't much like the likely/unlikely annotations, but that's
+>> another can of worms.
+> Technically, this patch isn't adding any new ones. It is just reworking 
+> existing functions in their existing style. So it basically comes under 
+> your last point of people just following the prevailing style because 
+> it's already there.
+>
+> I can add a task to the clean-up backlog to remove all mention of 
+> inline. Not sure why you think the (un)likely tags are bad? Again, I 
+> have no particular view either way.
 
-> Use devm_add_action_or_reset() instead of devm_add_action()+hand writing
-> what is done in the release function, should an error occur.
-> 
-> This is more straightforward and saves a few lines of code.
-> 
-> While at it, remove a useless test in devm_backlight_release(). 'data' is
-> known to be not NULL when this function is called.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/video/backlight/backlight.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+The (un)likely annotations are similar to static inlines in that they're
+often unjustified micro optimizations. Having plenty of them gives
+people the false impression using them should be the rule rather than
+the exception. And getting them wrong could have a high performance
+penalty. They're certainly not meant for regular error handling.
 
-Applied, thanks.
+Similar to static inlines, (un)likely have their uses, but they need to
+be used sparingly and the use needs to be justified. For static inlines,
+especially within .c files, just let the compiler do its job. For
+(un)likely, just let the CPU branch predictor do its job.
+
+The link's pretty old, but see also: https://lwn.net/Articles/420019/
+
+
+BR,
+Jani.
+
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Jani Nikula, Intel Open Source Graphics Center
