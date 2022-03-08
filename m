@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DD84D160D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:21:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0684D1610
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A1610E5B0;
-	Tue,  8 Mar 2022 11:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2099B10E5BB;
+	Tue,  8 Mar 2022 11:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A4710E5B0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:21:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E36410E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:21:15 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 8C99C3200F81;
- Tue,  8 Mar 2022 06:21:10 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 264513201C39;
+ Tue,  8 Mar 2022 06:21:14 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 08 Mar 2022 06:21:11 -0500
+ by compute5.internal (MEProxy); Tue, 08 Mar 2022 06:21:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=CdZrMhODLMAY5p
- aagnkeQEyFhM0Ql5esHdKus1Ks+Yc=; b=ER3t45+fI9cauoJdFopJJ7DyXgozQf
- 4Gyqn8yNQ9Zmgv0qe7gQmKw+lnQZeKWRIDj6jTz/iq7VvlaOxTqQrNb9hYhe+eAL
- gknXBTef1UTxkTrpNhl8G4JChJ7BzRNNFLj6D59+cg1kMF+YhXPubZzh7Fyz2ANL
- 82dLWwl1bKIiZeFyKhMpFL9OA+zn/BttaJiXNFDM6roRe2j9secJsvrdukfJPGfl
- bjiS4bMpY0Ydt+UBufkvYNl871CQ/JgJqRUOGZTqHynzTU1webaNPUM5Sw25yHR2
- FNPaQUSYbIPXDCAUHCwrSA2q14lSIAJUtVIoapAvmzo7UnMfFmVb0h/w==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=vUt/hjyYKhUFZD
+ 0GhNOiqTdU+eUWZ03MPpM5Tk05368=; b=jbJXNIhNlNT0Kxp99CnpljQebPdruO
+ GZMLyOJwrrf2ul8HxXpy+WHjtTAV5fw9hlNelPjLa7emZ8xbs/wqoqnr/v20Y1GP
+ voXzjOa4/RvBX0v7zfVJqVs+xHlctYFa+izR+OtcaZX2ZtOohXUW12V9FMiSb4Wq
+ jql2OmB6KrVe8Xn73e6laNyh9bakeo9JasaYZ7Mx4NTySLUko57f0Fww6GM/M8Fi
+ npRvON/QUFGwoR7oz1Y1BJf7X+Je/eU3+0pqZJ8TAVQ3eweNPOqs0vxkjEtioOx5
+ R1PS+rQ58Rel5VCHFi2oXywNmeWlhrVFLq5egPG0EvTysJAHrE7mgjlg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=CdZrMhODLMAY5paagnkeQEyFhM0Ql5esHdKus1Ks+
- Yc=; b=Oe7MbOPKJFZBKqafQdmmjSpzzZqn9az4NfY+YyJD/8gtbn4UV3BYRUCq8
- ojYSkPDbSJiBMmdhur+CduFG1AXNUaKKKAuTI3MmozyWsgssQZMm7n+AdGNE5y/3
- tVAEPnbnsFGN0OjXLMFiDUPWLQUjliZdBum+HdXeC9THRcQKSOW0syH2JyozRyPa
- Ez+/ujfn16LdXxd3KXMnt2JQ3yt25R+9BcyPG3Wgrp00K5Or84FONTaLaiNYqBEE
- IDKgiLzRMOJXhqEMMcUr9u8zpNirlhM6YohNUXX2rUHcZx+SwPcS3X9L2O5YcEOD
- e5VtjeVTCENxf4ByW4/4aAWg0gZ9w==
-X-ME-Sender: <xms:JTwnYk_7WCZRxHHZ1IHJKp4rCzM9t7XHIlTHiQ74laPyUVwJ2P6bpg>
- <xme:JTwnYssWdrxKDwbRSJYEqKaYyjhnjZJWXpevLkCPQ3YaMVDspWqncUxVixnpcG2pG
- uWLnYbVB_GQzV8d7LI>
-X-ME-Received: <xmr:JTwnYqBuRlsV-bxmPCKVyRJCYg2dg0au1yjo8vHkeVL7PHJwIDkUOduPRPoJiZhmqT0LIukEDWlLrNLS5SQDt-T6ujNe-UIFUxVgH6w>
+ :x-sasl-enc; s=fm2; bh=vUt/hjyYKhUFZD0GhNOiqTdU+eUWZ03MPpM5Tk053
+ 68=; b=Qijw5CGdpPaIJWJXNogQyuxbMqHss/mcKfkHpXd9XtnyUT6UqoMI+d3/h
+ 7XteXLn7fc6IzwPEh7PfDw+fpKLZBJm4Bd7ExI+pwBgnEd2RU3YezN/zbM4wGPmG
+ lc8mJQmsa58VSwUbCFEYlWceeOLMTAOnopZogs6/1iI0LcdCwUg5h2BtIEWBwOGe
+ B/qmQPDReW0Gl4Dc5RHlc3fb+PV55veXx8O83QVMRde8vQH5hkHP9cU0MUzB6cKg
+ 63//ryNUqaxW04GWShO5y7K1XezU+F7PnpUGk7DslZ7eJXMvSRBJa5zGS2Eecpji
+ Mda0mzrddAwiWcnaVrZ+0H2uAWiPg==
+X-ME-Sender: <xms:KTwnYlZz3SwecXiiFtzhXErSu6clnZ5l93aZCqAIYR1Wh_vBuhLB8A>
+ <xme:KTwnYsZ7Jz-EyO-XAyg5X2ZwkW5TfZcvSxx0f4-0a2OBU_THx6ZSv2ro_x4Eu0ius
+ uNDuuvQ2Kggw68lDy8>
+X-ME-Received: <xmr:KTwnYn_v6yKzq1s9KxCIBj0q3yW-cYmuTei2b6Hrp-20Drla1Zb-cwGXyVLvT2BmljxswVbeqE5vP2Yo6nxXGlxqf_yJKebuilRPo58>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,22 +52,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvdeiucetufdoteggod
  htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
  ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:JTwnYkdGxCRhefpe2ifGo0q-DBjnKNfQREJEXAM8B4CdupqKyPJpag>
- <xmx:JTwnYpN6bZb_Bg_6VP4ni1KHA0qmEig5Uci7PtrJP0E8dx5sz69AWA>
- <xmx:JTwnYuneJ2OJqr8jJVpaangkkGoNoqCHaLYzozUjiynzJKWq7HL9Jw>
- <xmx:JjwnYqHXw0fc1snHf2FbTvO8pQ0wyYIUcPx9qz5PSe7MipfWpULc2w>
+X-ME-Proxy: <xmx:KTwnYjp_mAdHd0J9fgmfKiNMFxzYq9TvRkBlajrvGB1dObcCqy-ypg>
+ <xmx:KTwnYgoM-A93FUjMnNFUjbnbOLe1qf1GCSei_9ydjyTPGGlFuuZaCw>
+ <xmx:KTwnYpS4jO2HGN8Icj-WTJVY56sS81p0mb42zX5g5MmrO2uVh0S50g>
+ <xmx:KTwnYti0AcNLBT5gU7J0vyFTzQNe69HY3Y5e0wxk0lqXo-BYW95J0w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Mar 2022 06:21:09 -0500 (EST)
+ 8 Mar 2022 06:21:13 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
  andrzej.hajda@intel.com
-Subject: Re: (subset) [PATCH] drm/bridge: nxp-ptn3460: switch to
+Subject: Re: (subset) [PATCH] drm/bridge: parade-ps8622: switch to
  devm_drm_of_get_bridge
-Date: Tue,  8 Mar 2022 12:21:01 +0100
-Message-Id: <164673846305.2436174.13416229211421085343.b4-ty@cerno.tech>
+Date: Tue,  8 Mar 2022 12:21:02 +0100
+Message-Id: <164673846305.2436174.1857157702611077242.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220228182600.22463-1-jose.exposito89@gmail.com>
-References: <20220228182600.22463-1-jose.exposito89@gmail.com>
+In-Reply-To: <20220228182904.22982-1-jose.exposito89@gmail.com>
+References: <20220228182904.22982-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -90,7 +90,7 @@ Cc: jernej.skrabec@gmail.com, narmstrong@baylibre.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Feb 2022 19:26:00 +0100, José Expósito wrote:
+On Mon, 28 Feb 2022 19:29:04 +0100, José Expósito wrote:
 > The function "drm_of_find_panel_or_bridge" has been deprecated in
 > favor of "devm_drm_of_get_bridge".
 > 
