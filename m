@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCBE4D14A2
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:21:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264824D14C5
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E9C10E74A;
-	Tue,  8 Mar 2022 10:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C0D10E3C5;
+	Tue,  8 Mar 2022 10:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D25E710E766
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646734909; x=1678270909;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=tlfAGEzWZupbhLz4z0/Y6/HTRgwEljOiRNv5zyXFBDo=;
- b=HxhFgXCzcCAv4X2iKWaZXPMiLg9K+YefXIUSOjiCG40dq+n+lV887J0w
- O5hqeNG/74tXQu/YYTzSyRYM7TGN7i7j3T3iOgYPPUjJL/YEcTTYURh/b
- 9FC8Qx7zw1ruABqcDC2pBVIbe/IA7HL9GdstGEyBPGwFagzGDoUvb6gAE
- ZH5FRqh4fD2VWLqmTyYkRAA3Q5/JNeEM6z+oamMnI1k9A+aMiFDV/mk+s
- K6YRCBl5/TDYdnu73ofOgr7nVnrF16Kyl51rJTtILIJODahDmDM7mG3pu
- 1C+n0gA3/z6eBVNNjaz/3YZpmGa2l80G4Zp9/GfJyYtmaBGTSQSTbXIOT w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="315364660"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="315364660"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 02:21:49 -0800
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="513055616"
-Received: from acushion-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.29.47])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 02:21:45 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "xinlei.lee" <xinlei.lee@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
- matthias.bgg@gmail.com
-Subject: Re: [PATCH v2, 0/4] Cooperate with DSI RX devices to modify dsi
- funcs and delay mipi high to cooperate with panel sequence
-In-Reply-To: <9e3cd215a2f771236855bdb2f5faa172dcbd1aec.camel@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
- <87lexq2aw4.fsf@intel.com>
- <9e3cd215a2f771236855bdb2f5faa172dcbd1aec.camel@mediatek.com>
-Date: Tue, 08 Mar 2022 12:21:42 +0200
-Message-ID: <87tuc8218p.fsf@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C0F10E3C5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:30:02 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 51DCF81119;
+ Tue,  8 Mar 2022 11:30:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646735400;
+ bh=MQHO1sDBT1Km0UlFvhRtba/QQjGJCnnzG420sQE0a+M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CN1dcuUaS22QA3yn6ivu4St6ebG9zaFiV/W4eCL0M+3Ml9Beg8RuNpyLR3XStXqeZ
+ ropHNHxfeN7/86VUgg7hA5LWdoyN+Mpa/rFSUe10lJZChRbX/D4QcHpzdzghJARsCx
+ JPHAhp/ucqbme3/hvhXmXR5VrulLHmwe/yGiYVOdp0rWAzNCRrjcZQBZ1cwIqaDHpk
+ d+d/SKfebSD9yR+xWCC+16yr7LAoFnyO42PwHJdyzehWrShk80EdquoPAN4R0ZsmKD
+ eMO/+kgankmwlyDOHK62oGNqC2JaLmz8A4zYP7TbSAuRMr2IRJzNgV54ZBE2HmWZsZ
+ GPdJZMphQynew==
+Message-ID: <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
+Date: Tue, 8 Mar 2022 11:29:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+ <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,36 +60,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, allen-kh.cheng@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Mar 2022, xinlei.lee <xinlei.lee@mediatek.com> wrote:
-> On Fri, 2022-03-04 at 13:51 +0200, Jani Nikula wrote:
->> Please also prefix cover letters with drm/mediatek if that's the only
->> place you're touching.
->
-> Thanks for your review.
-> Is your suggestion for me to put the fix id on the cover ?
+On 3/8/22 11:07, Jagan Teki wrote:
+> On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 3/8/22 09:03, Jagan Teki wrote:
+>>
+>> Hi,
+>>
+>> [...]
+>>
+>>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+>>>>    static int chipone_parse_dt(struct chipone *icn)
+>>>>    {
+>>>>           struct device *dev = icn->dev;
+>>>> +       struct device_node *endpoint;
+>>>>           struct drm_panel *panel;
+>>>> +       int dsi_lanes;
+>>>>           int ret;
+>>>>
+>>>>           icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+>>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+>>>>                   return PTR_ERR(icn->enable_gpio);
+>>>>           }
+>>>>
+>>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+>>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+>>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+>>>> +       of_node_put(endpoint);
+>>>> +
+>>>> +       if (!icn->host_node)
+>>>> +               return -ENODEV;
+>>>
+>>> The non-ports-based OF graph returns a -19 example on the Allwinner
+>>> Display pipeline in R16 [1].
+>>>
+>>> We need to have a helper to return host_node for non-ports as I have
+>>> done it for drm_of_find_bridge.
+>>>
+>>> [1] https://patchwork.amarulasolutions.com/patch/1805/
+>>
+>> The link points to a patch marked "DO NOT MERGE", maybe that patch is
+>> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+>> required, see:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+>>
+>> What is "non-ports-based OF graph" ?
+>>
+>> I don't see drm_of_find_bridge() in linux-next , what is that ?
+> 
+> port@0 is optional as some of the DSI host OF-graph represent the
+> bridge or panel as child nodes instead of ports. (i think dt-binding
+> has to fix it to make port@0 optional)
 
-Heh, it's not really review, just something to ease me going through the
-dri-devel mails in the future.
+The current upstream DT binding document says:
 
-The cover letter subject is "Cooperate with DSI RX devices to modify dsi
-funcs and delay mipi high to cooperate with panel sequence" and I don't
-know whether the thread is about drm dsi helpers or some drivers and
-what drivers. If the cover letter subject also had the prefix
-"drm/mediatek:" like all the patches, I could've just skipped it
-altogether.
+     required:
+       - port@0
+       - port@1
 
-Just something to consider in the future, no need to do anything here.
+So port@0 is mandatory.
 
-Thanks,
-Jani.
+So I don't think any change is needed to this patch ?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> Example OF-graph is on the commit message.
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/drm_of.c?id=80253168dbfd256bca97cf7f13312863c5a7f2e5
+
+It seems the current upstream DT bindings only support DSI hosts which 
+do provide an endpoint, because port@0 is required per DT binding 
+document. If you want to support the other options as listed in the 
+aforementioned commit, then you would have to extend this driver and its 
+bindings, but that is out of scope of this series.
