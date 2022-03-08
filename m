@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D918B4D13C1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6094D13C5
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3258710E30A;
-	Tue,  8 Mar 2022 09:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118B410E4C8;
+	Tue,  8 Mar 2022 09:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7610C10E37D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:49:17 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id j26so17171923wrb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:49:17 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E89C510E37D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:49:18 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id k24so18074370wrd.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:49:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8Gn7RMbXnK5pOX3NLfwNAKfKCwU3agMth+Gnkiqncgw=;
- b=n1mtQkUkGKPBmZFNsNswSmpz1kilToriI0Gn2TXWimIaqUwnDcc793xA5k7sXREWB6
- aDIQ/y9tV1HqnLZy8JuSpLONMKWZBzeYvyd/x5N+mpbnjbPY2kBQ/c/WhErow4Fj1gor
- uOUMKwuD3519EGocbq+2HEjX84vF+gNrm4pDky3TtSrp9TCsWw1OZXF1eKhWMwb6bucv
- AWU1SucCnbuQgDzehoDmQV4lYdc4iMbLZtYMON9jA38ZZANdSt7LNKT/DbZXN9Z64NET
- EM7BtQDNvqOrhthwtkfpqZjHH6GSMyGu3tVGyEkyZ95FwSLGaBhQvvuuU3nXZgpE7ZyV
- yYJw==
+ bh=6Vptup9snjTByrwJQ9zSJpQbWeuT9OeToRX24egqXZE=;
+ b=ZkvqwDQcHKwDX84OOnDMiAlBzjBS5NMVrq2VBIAW9dRo+lZGFGg3x8XK1DFS0RuYw1
+ jkV5mgBKgGBFp5ULdFQWgj/rYPEFcRog/8vMTiSd1HDGyxrndTzswnzycMaUOgt3FaSq
+ Si4oRF2seEYg/4ywLp4m+dCSVQ21bFYQs4tdSA/h9Zqw8dlrlIjX/8JZ7tHQoslw4+BM
+ mfZcM7JvwHmpjVfSeSZpYHdOEViNZa1ftqdyTxnwads01Am5McQdyroikyUjnWjDG/ZM
+ vas1/rV6+k4Du8d0onFwDWKgrEL58IWmFBTXPLQ14vSzHRBVn/5T7oAtbmci3wBzyYAN
+ RkWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Gn7RMbXnK5pOX3NLfwNAKfKCwU3agMth+Gnkiqncgw=;
- b=jafEIlaD9K2S6xN/qMrQIFdI8siT0XXwYcgkRnOpYAPbvSBA6C1nzPYIFLDuQZoqbm
- 27/VE/9bi9HgW+7eodX6vl2WLzT/y5O1oBMp9xRIehm1hnWBokzC1JXn8BrEfkGZIVww
- 3Gcv0RnAeNRDT0vd/A5gdZkIZr4W7T7Djtgo4mkpTFdd7cqBpx2brcTOWL86oblOm7Za
- 4EUxvjl0YWst4iUGGlGKMg2lKpCy9jMHNUZNpAoezIFgiKK5Q2w9zxz07KrJQsO+oJeQ
- SJQJpnoQTGVUp4tivBl9aVOEYAc+coxEdv82WPeUOUiHu2cx+qOIoosi+Lc5swVsHx7g
- ziEw==
-X-Gm-Message-State: AOAM531qlwyQwtW8hOvVUWZWb3NbnIb3RxHthS8A1V2qViB6yK/X+n7h
- p398yWNj91MagoehMjTcw3AOYQ==
-X-Google-Smtp-Source: ABdhPJwgpwNlL+6iw/j8w2WjZiYerIbGT8Nl7xwa9rGUtNmbZvaZejExak5PLKkv0MXEHhHj+9F2TQ==
-X-Received: by 2002:a5d:6344:0:b0:1f0:21ee:9705 with SMTP id
- b4-20020a5d6344000000b001f021ee9705mr11450999wrw.93.1646732955982; 
- Tue, 08 Mar 2022 01:49:15 -0800 (PST)
+ bh=6Vptup9snjTByrwJQ9zSJpQbWeuT9OeToRX24egqXZE=;
+ b=naXm5iP5wlBE/Yd23UUeGmpylcVmrqphzuOLNzbUQ9iAAHJiA2p9vz/SxveR7/nTkJ
+ +9TuFAO0+xoSBWDZi5FuZ2bFAb3m5qFcbdNHa1kxvbRLMhiYAcDXBhAGFTqr4uyPPMcu
+ nULfEX7u5yqZB7UxDj6GuJPzUFVgNNJGD1vefBs1wn8YZ3QFkqYtrCE5Jn70VqxgY6FY
+ l72gJHnKgzMAt+Poj1AM4gXP1balICjKBapAahYnOY5RnPiR1GbznDV2Rmzw1m9dXSuN
+ 4/LbNNAX3r5KIF0R1wovCAWkzOYFHY7g+zw8zLh4v4y2sz8VPSk0oMZZJuoMbwr1CXMK
+ yzuQ==
+X-Gm-Message-State: AOAM531SbmhGNdg7fyIrHZi3xxBG2CPomiqcWE8vd8rSHnlzn+U/7GRs
+ UbShRmASs0fq5MB0YBLZvdHJdg==
+X-Google-Smtp-Source: ABdhPJwyHtSnI5DdyZsEddgf/hq4aj4GLJcAaVuxD5wI/kt3z5s/DN1pKpabP9/LthhErPegg06whQ==
+X-Received: by 2002:a5d:6e0f:0:b0:1ea:9418:c2a5 with SMTP id
+ h15-20020a5d6e0f000000b001ea9418c2a5mr11280082wrz.244.1646732957483; 
+ Tue, 08 Mar 2022 01:49:17 -0800 (PST)
 Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a1cf403000000b0037d1f4a2201sm1684885wma.21.2022.03.08.01.49.14
+ z3-20020a1cf403000000b0037d1f4a2201sm1684885wma.21.2022.03.08.01.49.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 01:49:15 -0800 (PST)
+ Tue, 08 Mar 2022 01:49:17 -0800 (PST)
 From: Robert Foss <robert.foss@linaro.org>
 To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  matthias.bgg@gmail.com, robert.foss@linaro.org,
@@ -55,9 +55,10 @@ To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  Chen-Yu Tsai <wenst@chromium.org>, arnd@arndb.de
-Subject: [PATCH v2 1/2] dt-bindings: drm/bridge: anx7625: Revert DPI support
-Date: Tue,  8 Mar 2022 10:49:10 +0100
-Message-Id: <20220308094911.2680291-2-robert.foss@linaro.org>
+Subject: [PATCH v2 2/2] Revert "arm64: dts: mt8183: jacuzzi: Fix bus
+ properties in anx's DSI endpoint"
+Date: Tue,  8 Mar 2022 10:49:11 +0100
+Message-Id: <20220308094911.2680291-3-robert.foss@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220308094911.2680291-1-robert.foss@linaro.org>
 References: <20220308094911.2680291-1-robert.foss@linaro.org>
@@ -78,66 +79,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Revert DPI support from binding.
-
-DPI support relies on the bus-type enum which does not yet support
-Mipi DPI, since no v4l2_fwnode_bus_type has been defined for this
-bus type.
-
-When DPI for anx7625 was initially added, it assumed that
-V4L2_FWNODE_BUS_TYPE_PARALLEL was the correct bus type for
-representing DPI, which it is not.
-
-In order to prevent adding this mis-usage to the ABI, let's revert
-the support.
+This reverts commit 32568ae37596b529628ac09b875f4874e614f63f.
 
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 --
+ 1 file changed, 2 deletions(-)
 
-Changes since v1:
-- Rob: Instead of reverting the entire commit introducing this,
-       do a partial revert of only the relevant parts.
-
- .../display/bridge/analogix,anx7625.yaml      | 19 +------------------
- 1 file changed, 1 insertion(+), 18 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-index 1d3e88daca041..25b5ef3f759ca 100644
---- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-@@ -91,22 +91,7 @@ properties:
-         $ref: /schemas/graph.yaml#/$defs/port-base
-         unevaluatedProperties: false
-         description:
--          MIPI DSI/DPI input.
--
--        properties:
--          endpoint:
--            $ref: /schemas/media/video-interfaces.yaml#
--            type: object
--            additionalProperties: false
--
--            properties:
--              remote-endpoint: true
--
--              bus-type:
--                enum: [1, 5]
--                default: 1
--
--              data-lanes: true
-+          Video port for MIPI DSI input.
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+index e8f133dc96b95..8f7bf33f607da 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+@@ -171,8 +171,6 @@ port@0 {
  
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-@@ -155,8 +140,6 @@ examples:
-                     reg = <0>;
-                     anx7625_in: endpoint {
-                         remote-endpoint = <&mipi_dsi>;
--                        bus-type = <5>;
--                        data-lanes = <0 1 2 3>;
-                     };
-                 };
+ 			anx7625_in: endpoint {
+ 				remote-endpoint = <&dsi_out>;
+-				bus-type = <5>;
+-				data-lanes = <0 1 2 3>;
+ 			};
+ 		};
  
 -- 
 2.32.0
