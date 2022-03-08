@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26974D29A3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 08:40:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E494D29A4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 08:40:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480B410E428;
-	Wed,  9 Mar 2022 07:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A651110E3EC;
+	Wed,  9 Mar 2022 07:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F122B10E61E;
- Tue,  8 Mar 2022 13:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646744528; x=1678280528;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=6w0Cw2NnRiuEX9yftsc+XScX5Mg51Zv8P11X8CazHyo=;
- b=nSRWrSXJ4iEDsQhEL9THTKbfIRhEO/u9eofUcgs9OOVaOu7yArBK1coc
- 66lJqhkjaIHnlgFW8MG8+eTMBlg6ugWh1nbFApQ/+TINzGO515PNNYXmY
- 5wnvJigl8angyf3TMG6exBXSnt1AfYd3GimJJFLIFsNqKOtTYXvKMRHSb
- fizIVPHPu/CyyUWbAGTvH/gNatkSKm6pRLyGUM8h4+zcthveR1Jdxs+6a
- sUNDPcE4tZ8IWFRcu4nZqfaHbP2JGzY+Jsf8eYNm/O8fvzfWsENxX/xbz
- y6oMKsYFqzLd7T/2OGDaWLp+K3f1NqeVolALVzoeBvREF4Va7tLxmNHHw Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="234630402"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
- d="scan'208,217";a="234630402"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 05:02:07 -0800
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
- d="scan'208,217";a="553608512"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.218.61])
- ([10.251.218.61])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 05:02:06 -0800
-Content-Type: multipart/alternative;
- boundary="------------FxguhPwXl54QhIFAwAFpwJHv"
-Message-ID: <42e30a3e-1724-df69-4530-383ee4f215f5@linux.intel.com>
-Date: Tue, 8 Mar 2022 14:02:04 +0100
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56B4810E301;
+ Tue,  8 Mar 2022 18:04:15 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id dr20so40960705ejc.6;
+ Tue, 08 Mar 2022 10:04:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JyOC3AtfamkTzi//22nHDHd+VjR8L1NjkAGyV+gd6kU=;
+ b=GLqsQUKX2rW4Bh9t3iHWFYlkZqVehovBHHS42QGvXr1i0w31eAkNKPBIB+MJwGQFr8
+ QLqKwQJx2xHWKwJJkr6LQtlxLc0thhHPtQlWHixTavVVKQkbrsOW9EkQS5C6OjWH9hhd
+ qQL4sVmQP2OScQ5fYu08mrm0KY/3EGHo7/yzcaDg+Dn7HGiUYaPtpLHuKtYvoa9Gubyh
+ Qi53tNSiz/6Dq81wE6GtjMIIU19WBAV1dIa3XaariOgsEvFafIzGlrrrb7kkyw25WeIw
+ yKMNnTX7NsGbmDKEu1v+NbNINQsnTByNOZtiMp8ouk/Lh8gF2zftQJe9A5Uld3tZzbom
+ l3wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JyOC3AtfamkTzi//22nHDHd+VjR8L1NjkAGyV+gd6kU=;
+ b=4T2tY/Eg1uvfasGZm/cFxak8wZCy/EiBJC3G5wIGfjXDpEpW0HuAK0tsa3DxafvSdf
+ G1fDFO2RdLeh4VtNmXvb2j7W8MxOZ10ark5bWRzWn+DXXoH7mEqEB7jsx1dx6QO5sV3I
+ EUXb1vMHsb44VeRLyXPKcv/MtcfHSBi/JTD5QHRh92cEaLLHYFLHF0hsmXANimmg9YYn
+ nYWD5+rVTRR02nSnA7T28fZSm3eCYCxMSYl2ZQ1xy6O7H+yyJIM7112e8hJXN15t2tDK
+ kOz3A0bI7KESlbjKHY/EArMBCJe2FTofW71HB/GLlR//ER2geUeKXKYir5UEl78Ncrbe
+ 260w==
+X-Gm-Message-State: AOAM532ypDwuqjk4aDl7arHX0hbqj5JkubosgO1+7S4889ZgJO3EM7L5
+ cXz9L+WTupuBN1yDOCg9wS7XgpA1Ysk1O+pIHbT5eg==
+X-Google-Smtp-Source: ABdhPJwFStH7Nt+PEo8vGPlUVPPEIut4lyLDcqaK8KhW74OGqJAfX94WlSrVFxXH1ExHi8QveYoaUA==
+X-Received: by 2002:a17:907:9691:b0:6d1:711d:9050 with SMTP id
+ hd17-20020a170907969100b006d1711d9050mr15063375ejc.755.1646762651871; 
+ Tue, 08 Mar 2022 10:04:11 -0800 (PST)
+Received: from shashanks-buildpc.amd.com
+ (ip5f5bf208.dynamic.kabel-deutschland.de. [95.91.242.8])
+ by smtp.gmail.com with ESMTPSA id
+ fx3-20020a170906b74300b006daecedee44sm4515985ejb.220.2022.03.08.10.04.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 10:04:11 -0800 (PST)
+From: Shashank Sharma <contactshashanksharma@gmail.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+Date: Tue,  8 Mar 2022 19:04:02 +0100
+Message-Id: <20220308180403.75566-1-contactshashanksharma@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gtt: reduce overzealous alignment
- constraints for GGTT
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220303100229.839282-1-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220303100229.839282-1-matthew.auld@intel.com>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 09 Mar 2022 07:40:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,95 +69,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Alexandar Deucher <alexander.deucher@amd.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
+ Shashank Sharma <shashank.sharma@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------FxguhPwXl54QhIFAwAFpwJHv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Shashank Sharma <shashank.sharma@amd.com>
 
-|Acked-by: Nirmoy Das <nirmoy.das@intel.com>|
+This patch adds a new sysfs event, which will indicate
+the userland about a GPU reset, and can also provide
+some information like:
+- process ID of the process involved with the GPU reset
+- process name of the involved process
+- the GPU status info (using flags)
 
-On 03/03/2022 11:02, Matthew Auld wrote:
-> Currently this will enforce both 2M alignment and padding for any LMEM
-> pages inserted into the GGTT. However, this was only meant to be applied
-> to the compact-pt layout with the ppGTT. For the GGTT we can reduce the
-> alignment and padding to 64K.
->
-> Bspec: 45015
-> Fixes: 87bd701ee268 ("drm/i915: enforce min GTT alignment for discrete cards")
-> Signed-off-by: Matthew Auld<matthew.auld@intel.com>
-> Cc: Thomas Hellström<thomas.hellstrom@linux.intel.com>
-> Cc: Robert Beckett<bob.beckett@collabora.com>
-> Cc: Ramalingam C<ramalingam.c@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gtt.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 4bcdfcab3642..a5f5b2dda332 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -234,7 +234,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->   	memset64(vm->min_alignment, I915_GTT_MIN_ALIGNMENT,
->   		 ARRAY_SIZE(vm->min_alignment));
->   
-> -	if (HAS_64K_PAGES(vm->i915) && NEEDS_COMPACT_PT(vm->i915)) {
-> +	if (HAS_64K_PAGES(vm->i915) && NEEDS_COMPACT_PT(vm->i915) &&
-> +	    subclass == VM_CLASS_PPGTT) {
->   		vm->min_alignment[INTEL_MEMORY_LOCAL] = I915_GTT_PAGE_SIZE_2M;
->   		vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = I915_GTT_PAGE_SIZE_2M;
->   	} else if (HAS_64K_PAGES(vm->i915)) {
---------------FxguhPwXl54QhIFAwAFpwJHv
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+This patch also introduces the first flag of the flags
+bitmap, which can be appended as and when required.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff"><span class="hljs-addition">Acked-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></span></code></pre>
-    <div class="moz-cite-prefix">On 03/03/2022 11:02, Matthew Auld
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220303100229.839282-1-matthew.auld@intel.com">
-      <pre class="moz-quote-pre" wrap="">Currently this will enforce both 2M alignment and padding for any LMEM
-pages inserted into the GGTT. However, this was only meant to be applied
-to the compact-pt layout with the ppGTT. For the GGTT we can reduce the
-alignment and padding to 64K.
+V2: Addressed review comments from Christian and Amar
+   - move the reset information structure to DRM layer
+   - drop _ctx from struct name
+   - make pid 32 bit(than 64)
+   - set flag when VRAM invalid (than valid)
+   - add process name as well (Amar)
 
-Bspec: 45015
-Fixes: 87bd701ee268 ("drm/i915: enforce min GTT alignment for discrete cards")
-Signed-off-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Cc: Thomas Hellström <a class="moz-txt-link-rfc2396E" href="mailto:thomas.hellstrom@linux.intel.com">&lt;thomas.hellstrom@linux.intel.com&gt;</a>
-Cc: Robert Beckett <a class="moz-txt-link-rfc2396E" href="mailto:bob.beckett@collabora.com">&lt;bob.beckett@collabora.com&gt;</a>
-Cc: Ramalingam C <a class="moz-txt-link-rfc2396E" href="mailto:ramalingam.c@intel.com">&lt;ramalingam.c@intel.com&gt;</a>
+Cc: Alexandar Deucher <alexander.deucher@amd.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Amaranath Somalapuram <amaranath.somalapuram@amd.com>
+Signed-off-by: Shashank Sharma <shashank.sharma@amd.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gtt.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_sysfs.c | 31 +++++++++++++++++++++++++++++++
+ include/drm/drm_sysfs.h     | 10 ++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 4bcdfcab3642..a5f5b2dda332 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -234,7 +234,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	memset64(vm-&gt;min_alignment, I915_GTT_MIN_ALIGNMENT,
- 		 ARRAY_SIZE(vm-&gt;min_alignment));
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index 430e00b16eec..840994810910 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -409,6 +409,37 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+ }
+ EXPORT_SYMBOL(drm_sysfs_hotplug_event);
  
--	if (HAS_64K_PAGES(vm-&gt;i915) &amp;&amp; NEEDS_COMPACT_PT(vm-&gt;i915)) {
-+	if (HAS_64K_PAGES(vm-&gt;i915) &amp;&amp; NEEDS_COMPACT_PT(vm-&gt;i915) &amp;&amp;
-+	    subclass == VM_CLASS_PPGTT) {
- 		vm-&gt;min_alignment[INTEL_MEMORY_LOCAL] = I915_GTT_PAGE_SIZE_2M;
- 		vm-&gt;min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = I915_GTT_PAGE_SIZE_2M;
- 	} else if (HAS_64K_PAGES(vm-&gt;i915)) {
-</pre>
-    </blockquote>
-  </body>
-</html>
++/**
++ * drm_sysfs_reset_event - generate a DRM uevent to indicate GPU reset
++ * @dev: DRM device
++ * @reset_info: The contextual information about the reset (like PID, flags)
++ *
++ * Send a uevent for the DRM device specified by @dev. This informs
++ * user that a GPU reset has occurred, so that an interested client
++ * can take any recovery or profiling measure.
++ */
++void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_event *reset_info)
++{
++	unsigned char pid_str[13];
++	unsigned char flags_str[15];
++	unsigned char pname_str[TASK_COMM_LEN + 6];
++	unsigned char reset_str[] = "RESET=1";
++	char *envp[] = { reset_str, pid_str, pname_str, flags_str, NULL };
++
++	if (!reset_info) {
++		DRM_WARN("No reset info, not sending the event\n");
++		return;
++	}
++
++	DRM_DEBUG("generating reset event\n");
++
++	snprintf(pid_str, ARRAY_SIZE(pid_str), "PID=%u", reset_info->pid);
++	snprintf(pname_str, ARRAY_SIZE(pname_str), "NAME=%s", reset_info->pname);
++	snprintf(flags_str, ARRAY_SIZE(flags_str), "FLAGS=%u", reset_info->flags);
++	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
++}
++EXPORT_SYMBOL(drm_sysfs_reset_event);
++
+ /**
+  * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any connector
+  * change
+diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+index 6273cac44e47..5ba11c760619 100644
+--- a/include/drm/drm_sysfs.h
++++ b/include/drm/drm_sysfs.h
+@@ -1,16 +1,26 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #ifndef _DRM_SYSFS_H_
+ #define _DRM_SYSFS_H_
++#include <linux/sched.h>
++
++#define DRM_GPU_RESET_FLAG_VRAM_INVALID (1 << 0)
+ 
+ struct drm_device;
+ struct device;
+ struct drm_connector;
+ struct drm_property;
+ 
++struct drm_reset_event {
++	uint32_t pid;
++	uint32_t flags;
++	char pname[TASK_COMM_LEN];
++};
++
+ int drm_class_device_register(struct device *dev);
+ void drm_class_device_unregister(struct device *dev);
+ 
+ void drm_sysfs_hotplug_event(struct drm_device *dev);
++void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_event *reset_info);
+ void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+ void drm_sysfs_connector_status_event(struct drm_connector *connector,
+ 				      struct drm_property *property);
+-- 
+2.32.0
 
---------------FxguhPwXl54QhIFAwAFpwJHv--
