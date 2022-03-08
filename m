@@ -1,62 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902D84D22BA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 21:36:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C04D22BF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 21:38:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4E510E360;
-	Tue,  8 Mar 2022 20:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD49110E3EE;
+	Tue,  8 Mar 2022 20:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B4410E360
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 20:36:08 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- n5-20020a4a9545000000b0031d45a442feso426240ooi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 12:36:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=qVaJCfxjsUXAyjD9fhWkvYzGM86k2JdETPIA3qn9/JY=;
- b=kilFiNI5uz22iSJPK1Gt8KB1l705LrDfOOJTBrWLBRjWLsOv9Vx0dmkSuJDHS8YUR4
- nj6Cgp99iN79rUXo3IbjsynDHsneQ2aM2fN8+C5qTK/Zxryr437+/N8aV9hz+KVWy5Ex
- dypcGDKJ1gAJcXM4b5HIFVedOF0n22V06x7BY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F37210E3EE
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 20:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646771914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FoBRIeqgLPupnZmRM+iNXvFKf6bd3tq0ykamYd2tTu8=;
+ b=S9O8+Imm/ywyEPqtBTfFS6pyMnS9ivbZH2YcsV9W4OkgJf2LsLY/Qr7osnaTz/emez0Ou/
+ Xu2C74ottis+u+9yElzMkoQ/GUafYuU7z/ilGwQNmhkHxYPGXWbfBAAeDqRKKN9ET6yLE6
+ T1wX00o9/g4FeGGebLGQ6Y23kwyQCGo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-vX4b0A8SPl2tZrWDANW7OQ-1; Tue, 08 Mar 2022 15:38:33 -0500
+X-MC-Unique: vX4b0A8SPl2tZrWDANW7OQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f189-20020a1c38c6000000b0037d1bee4847so1628431wma.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 12:38:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=qVaJCfxjsUXAyjD9fhWkvYzGM86k2JdETPIA3qn9/JY=;
- b=eKux9rGwQeHHmi/QDuev665Zlj2KJ8hFjfh9Lx7fumUe5KqaDASSQPPt6Arvyg6EEr
- tpLcAVzZk7V8FehqZ01sIK14kTGAjPdfzaFjGCUhVHOvK2sd8JL7eDf/W2g3nG1aRyKB
- NbG4XNLRluMz24y7uugkOW2QjycGZm7DZ0PS0stz3GUMBLIEGuZX0W5wx4V+xqQEGOPp
- 8qxImm9fhzDuccD2VnyZfdfcf7vAHT/T48hG/hDeega74cgarvAmd2lLNSGzk/iKcv6k
- i6zOa7T9dHsyBrg6EFNR9aK6miVlhDZXJZIEiN3Y1UurQcQ1MpymHggm/OqlgkHjdQM9
- jH8g==
-X-Gm-Message-State: AOAM531yXQVU7/6aKCV25K4s+6RIkDFWFhjfe+2+qPDvdmEV5W52CbMa
- xqo50JruEqJDE1zJqxgsxmQ4VkcDZKHaI+RqsCTquQ==
-X-Google-Smtp-Source: ABdhPJxx/oEwjmfSR8atG/+Wq8RQXmGfnslvHo7Kqa54uPuTrLx6bcwyb6JqhK/QYSqu5rmC2ZrOkU7VXX3UHlgihBY=
-X-Received: by 2002:a05:6870:d250:b0:da:b3f:3211 with SMTP id
- h16-20020a056870d25000b000da0b3f3211mr3492462oac.193.1646771767902; Tue, 08
- Mar 2022 12:36:07 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 8 Mar 2022 12:36:07 -0800
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FoBRIeqgLPupnZmRM+iNXvFKf6bd3tq0ykamYd2tTu8=;
+ b=ufGfvrdSvkE+Xv20m8Fyq3gJwPaIoYkqG59unZClt8feaQhMawhKiwDztBN4potQBK
+ ZFNcbMpGKbi7R/w9Q1ipJbEqczJdb38meNagKtbuEIHo4OOn50aJwVY6HT26y3qC04Vu
+ 39r2ifIYv2E3cK5ZW5xuyYkFJddHFi/4gGLPnlC8rFYPcAB7XscpAE+e8Glzb2TkHH1A
+ 5sKQmH2gSrFNvX1zu2c5kZ4BGtdl0eZUtHKsVGZneWEHjkOMf7eM/LCVWkFlrlvIrSCE
+ h9Q1L2ZmrFn9h2IAG7+V3m/IKfHn2Xdag60pW+pJU5X0b2/z7JNgFta93TZhm8x3vAIR
+ ee3w==
+X-Gm-Message-State: AOAM533a1DDaXLX6xMp6/Nu36JdVOfmfN2Ky/F6Qhd8HACdC6KOeTXdK
+ GyiOmTvElXx2q3IV1duRJ/WpySNrRWdS6gqugwWj+9fgYxjKoajljs7hQQEw9TTjdt7t+d+kB2i
+ vUzpPBPQDGvZR38gUkjoztsNG1JJ2
+X-Received: by 2002:a05:6000:1a8f:b0:1e8:3301:1273 with SMTP id
+ f15-20020a0560001a8f00b001e833011273mr13579027wry.707.1646771910930; 
+ Tue, 08 Mar 2022 12:38:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyACu+l5d8zlO5fn6jeLt1osubbTuoLy1Qt9BUBcsvksAAefifa1CtOLhGbeqsEGUGu19bi4g==
+X-Received: by 2002:a05:6000:1a8f:b0:1e8:3301:1273 with SMTP id
+ f15-20020a0560001a8f00b001e833011273mr13579012wry.707.1646771910702; 
+ Tue, 08 Mar 2022 12:38:30 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a05600012cc00b001f059bcbd7asm13726134wrx.31.2022.03.08.12.38.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 12:38:30 -0800 (PST)
+Message-ID: <85ed6113-ad81-94a2-14ac-b5046139e217@redhat.com>
+Date: Tue, 8 Mar 2022 21:38:29 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220304032106.2866043-6-dmitry.baryshkov@linaro.org>
-References: <20220304032106.2866043-1-dmitry.baryshkov@linaro.org>
- <20220304032106.2866043-6-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 8 Mar 2022 12:36:07 -0800
-Message-ID: <CAE-0n50jrtvunQgj40nrwOjrZrsKunOixnHGjMCvu+wEHG2nLg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] drm/msm: allow compile time selection of driver
- components
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/2] drm: ssd130x: Always apply segment remap setting
+To: Chen-Yu Tsai <wens@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220308160758.26060-1-wens@kernel.org>
+ <20220308160758.26060-2-wens@kernel.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220308160758.26060-2-wens@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,18 +89,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-03-03 19:21:06)
-> MSM DRM driver already allows one to compile out the DP or DSI support.
-> Add support for disabling other features like MDP4/MDP5/DPU drivers or
-> direct HDMI output support.
+On 3/8/22 17:07, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> Currently the ssd130x driver only sets the segment remap setting when
+> the device tree requests it; it however does not clear the setting if
+> it is not requested. This leads to the setting incorrectly persisting
+> if the hardware is always on and has no reset GPIO wired. This might
+> happen when a developer is trying to find the correct settings for an
+> unknown module, and cause the developer to get confused because the
+> settings from the device tree are not consistently applied.
+> 
+> Make the driver apply the segment remap setting consistently, setting
+> the value correctly based on the device tree setting. This also makes
+> this setting's behavior consistent with the other settings, which are
+> always applied.
 >
-> Suggested-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Nice catch. This is certainly much better. Thanks!
+ 
+> Fixes: a61732e80867 ("drm: Add driver for Solomon SSD130x OLED displays")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 > ---
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
