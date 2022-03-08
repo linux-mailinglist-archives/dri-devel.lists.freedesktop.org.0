@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A224D1597
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:05:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6934D1599
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:05:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25ED810E298;
-	Tue,  8 Mar 2022 11:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023A110E260;
+	Tue,  8 Mar 2022 11:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD9110E260
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:05:02 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id D69B13200D60;
- Tue,  8 Mar 2022 06:05:00 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13C610E260
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:05:05 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 611833200D60;
+ Tue,  8 Mar 2022 06:05:04 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 08 Mar 2022 06:05:01 -0500
+ by compute2.internal (MEProxy); Tue, 08 Mar 2022 06:05:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=IZJXw3OylIMetL
- y3x2akI/CNvnobcGXdBeKGkdnjc3M=; b=kUvix9QsQtydDMOS8Idf0MpjGvYQC3
- LlxRAfIE1r0tuquR6yjMx8nncRcjDlZZBeBB2hQtRgk/zbs2kmikTk+8Rl/CRrTc
- hBIrdaoSY2Gmpzv021UeU0+YczLR5ERoSys1lag5q8fQ1UQppZn7Tf6vn6PsDYvG
- QBneIKfZQioMW6D+4b6DTDLof1js1EIU9ZwfPPPQ5D7QUt8DIBMOVyWHVMN6lYqz
- wNskWXSZu4LO9VjiRLuvH4w0FtfUllRzeSHahTcoNTZ/mBLDLrHhLU7RsklZFVN3
- 1KymmcOCaOZWHtMa7NpN8OspoueMtAYsmKoh8BNvWxxigXri3vOrC5Jg==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=qmqR5H8sosiOXR
+ 0AfYVYuyGKuqgI3h8DG2aJojKmmVc=; b=uCHf0xXLcUziZXzCLv9JYuFCMGYxDr
+ j9xIY4lbXnDdVo7pRr3tMnRtLVPqer8r/D2G149ZZj9M0V9wi24AbLMtSOUZkPpV
+ HsnXT56EdssLdagcXIVfwDU5VrqtPGDjGDrGd4bGCzypThAEB4EwK6900UiVUD+S
+ iZ+i/mo5qkiPEqRftTka7zhhLOtnH7eA/7mJK7CeUxeTukYUX9Ar2uf3+wyM5rHd
+ TmvvRmY12M1Zjy6XKII/nj8KfvptI1UcjV/QQksq9vnUh0i7vXIKFP5QpErGnnBJ
+ RgZ5OskVOdQJ8C0iNG/YoJB0clrnqR1+DgY6UDG33Wkd41wb6Dix1/LQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=IZJXw3OylIMetLy3x2akI/CNvnobcGXdBeKGkdnjc
- 3M=; b=lLMfZTqwWZwOgYky/fC/tCRYTjMacS5U8OD/AG+yKLFcAXh65jVg14BOa
- 5HRYFgZvXWNa9bbo3MtnQ6PBVF1n124QPyIVis8q2YNRaxbyItqYcrX7dEBe4s3o
- bLDPYy0A44CQgN4m2WotGJs3EC74DtcVaYU6/Q58+KcuFSufncd9fSgP7IC89Sjl
- oWgPAw0RCjydayUI0o8f1y7/1NKE23KDfwOobefUa+Y98j9EplAFCXO43Z/46ZDd
- RAhxsD+6VxDPrXMFieP0nEeRGWUum31MD883izE6ejgqEiGOzHZomO9PMkjSO3E3
- y3ALA3uS5DLKo/8mdxFm5Srw43BEw==
-X-ME-Sender: <xms:XDgnYkp8kg0SJPffR20cGVR0XjLL-QflbEJbdwamKNLUwejVy--8lw>
- <xme:XDgnYqqDN2vesNP4hZ_owValweqO0I7ibFV1JMBQ4jZoIHe3jJ5t5lxOsOSVnnj-v
- d4f86009v-9XIPKigQ>
-X-ME-Received: <xmr:XDgnYpMjBkunBYRp-eGeRi-phjjrtt_oH1kZ7PUZ4neXUxM__AG42cBWVk2_GlFNqs0IqYQtJpGPkU16M9ano01LytwrRVz-sTlnmPc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvdegucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; bh=qmqR5H8sosiOXR0AfYVYuyGKuqgI3h8DG2aJojKmm
+ Vc=; b=obpBlceBbChnIIZVmS+YUKyK8peCJMkBMr2W3dkyEHb4Lh4j1nvSoHAuT
+ XQgFR4Z47t6M0aTIQKTfHlaEXBz/4560foDfDkgHWICQZ6w7Ry6LQP5hworC6Nkj
+ YAhKwyC3TBtriJJe7aK+EtxEAg2WHd3fvXS/fFt9Ri5uM1WJQGhEzEqX0sXGl5OK
+ h2CWi0aHJis0qRoM5J4G/dxOizS+AoVtfSBJ9OzlAgvv6UDdTKZJCER53H8JlNDQ
+ 3XnwGiyspC1pOOZhaKoME12GP8cPIu1FwHKPUPcRJOzJf24OX3R0SzLwbQSZC3yM
+ kJagLxh+SPKrVESV37Tn8QjxWYEkg==
+X-ME-Sender: <xms:XzgnYq7cSvlQTpHaBAZGX03PLzJtUEnRrhf-zwvxSewCgLGcQUGfmg>
+ <xme:XzgnYj5mggPpsCg4B8D-8uix6I56tM41EHAvSO0VOkhqrAQ-27Ma1FakzmxbuybGw
+ vRdepQzlNQZ5fhJbBQ>
+X-ME-Received: <xmr:XzgnYpeU6aLT2QpdgNRCI1ZLjD-6L5R_4ZOT9iq7R8bjqX5ILzIbip6Q1Aeq4PD4FDM21h1MMVyZv5rD2nmiNDbExYa9ZsLcQ8fkOfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ieekkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:XDgnYr6j-v-6p7fGwolq6zQzMRNCD6fw83gVX60RMCSp40dXIBipbg>
- <xmx:XDgnYj4wQCCBoVii6FeFWSUXKPZHGscHjA8IcVRxEaalqhdrmQ4P2Q>
- <xmx:XDgnYrjauiR7OofcUk0FSezgBh9bl_VHUNCFDYBi3mLR-iCmr1vMpQ>
- <xmx:XDgnYgxOK13fTQ9B1HNO1qAKarIdnTFYqic8nTdjig6PwYdkVUF3YA>
+X-ME-Proxy: <xmx:XzgnYnJaC2tgl8ukFtvu9flRcKOvWjrgTpO9B8eVRhU7APrCrCo2GA>
+ <xmx:XzgnYuKyc0D5EPSbwk3r3a_fmxyQfpM1jq0vB8JPCD18UlQsc6Y5_g>
+ <xmx:XzgnYozSOMm--yPBa_HkPc0f0dbJc7Fzw0mD6ja-oCz9AG0jhtXXLQ>
+ <xmx:XzgnYrDBlKPaQs8jxzObpieTBp8f8otOuorO5iiEujcIH3ZBU9dNUA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Mar 2022 06:04:59 -0500 (EST)
+ 8 Mar 2022 06:05:03 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: Re: (subset) [PATCH v2 09/22] drm/komeda: plane: Remove redundant
- zpos initialisation
-Date: Tue,  8 Mar 2022 12:04:51 +0100
-Message-Id: <164673748849.2320194.2179196023214933808.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v2 19/22] drm/komeda: plane: Remove redundant
+ color encoding and range initialisation
+Date: Tue,  8 Mar 2022 12:04:52 +0100
+Message-Id: <164673748850.2320194.5599548171158538063.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221095918.18763-10-maxime@cerno.tech>
+In-Reply-To: <20220221095918.18763-20-maxime@cerno.tech>
 References: <20220221095918.18763-1-maxime@cerno.tech>
- <20220221095918.18763-10-maxime@cerno.tech>
+ <20220221095918.18763-20-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -94,9 +94,10 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Feb 2022 10:59:05 +0100, Maxime Ripard wrote:
-> The komeda KMS driver will call drm_plane_create_zpos_property() with an
-> init value of the plane index.
+On Mon, 21 Feb 2022 10:59:15 +0100, Maxime Ripard wrote:
+> The komeda KMS driver will call drm_plane_create_color_properties() with
+> a default encoding and range values of BT601 and Limited Range,
+> respectively.
 > 
 > Since the initial value wasn't carried over in the state, the driver had
 > to set it again in komeda_plane_reset(). However, the helpers have been
