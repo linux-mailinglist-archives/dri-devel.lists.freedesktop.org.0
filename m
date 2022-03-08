@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023CF4D164C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764C44D1652
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 12:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4DA10E240;
-	Tue,  8 Mar 2022 11:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFFB10E251;
+	Tue,  8 Mar 2022 11:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 599D410E240
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:31:13 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id b24so1401879edu.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 03:31:13 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2F310E251
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 11:32:58 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id p15so38533529ejc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 03:32:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zagytqRanMqmGZPaeZYMEhXfaOgjty5ndKR4qYehJqg=;
- b=Jq82/CxYirJBuGuzNePcQu1UMKXNY25JLT1l1ke+oJN/zLSj/FOppoJPENL2MAfIRu
- s1E2/pOfTRUVkqNWvjm67jtEzW35jGuM/8l8qzKbpkQECw3jdZNUIL7T8QYJGQUMlVuD
- ab6yomX723E3XEgtUqrjFyx+SGPGdRPK1arQg=
+ :cc; bh=4aTbXAelWOVgWCAyoW1GlVbHyxLTBA3LwDn7Z1eEzsE=;
+ b=Z9RDnBv6PyqBxE7qtAHcaxAz/hnw1/8bDd2DYZ7twiZCLkyjijERAGLEUjpT5BJ22C
+ 2PU9cc1uPdOaaGxFJUNCIiVnHVsdh2M7QgN3azTHpDpDTgw9xNUgPbSBPFvnaJwOadv2
+ ugINW9MfynKFdOYat7hGmPi5obhFIHfMAMuHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zagytqRanMqmGZPaeZYMEhXfaOgjty5ndKR4qYehJqg=;
- b=rIOIFaLkLYqnNhA8QhPU8+uI0p/5/N+IX2YnAXB42KyiEXQgLwN0TwRyoZO58LOORq
- CBkPZbPpc3xwIdFSpJpIAwtlBxzIlg5fwXWEF0wImP+A/GrvGxo1Ao9T4NOq/WICFPiS
- xCLuTIv7eE8Nw1ivkpIFQvSjiYzntfGeic6URuPuEZ/R5zod870NqbB4UObFD1Meq6ov
- C2T05oOSXujLPNMGBhXzK+s0t2GVEZ7UDis0aZlhts59wpTJWtGdzmqfmuadS1Wid3QE
- aoo89Apc0MlP2ZeRi4XlJKEE+5aSXw7mwU7YjIHbFf/6ogosimEhWEkTHEjAmM+1+Fed
- DpPg==
-X-Gm-Message-State: AOAM531uYZXNx19xZiDrPh8NVQg9NvareBhLSaEPIqTIkEt03TlbN4XR
- zsQ9yTfAXvGzW1Edgxi+EqjrKTPkbazRGzHebSOdfQ==
-X-Google-Smtp-Source: ABdhPJxdDz8gEfcI9ebtRv8bH5oH/qYk7ojEEaPFHDFMMzuPbrutVm4ZhylyTOEujsY/zbd3Ky9zCzsYQMte2sBKUsk=
-X-Received: by 2002:a05:6402:278e:b0:416:5064:b39b with SMTP id
- b14-20020a056402278e00b004165064b39bmr7820528ede.157.1646739071790; Tue, 08
- Mar 2022 03:31:11 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=4aTbXAelWOVgWCAyoW1GlVbHyxLTBA3LwDn7Z1eEzsE=;
+ b=OSYLIbghM+hU6ChN6FvBFmCdkQ/JHBCxW+cXkSxoZrS+JYs3En0WFOVZInyXJvBQoK
+ EiLD3jtQW+HQ2J4iS5EmGvVnYDaBzCPCRNmO5YJCRH1s7RtoPwwBjar5kV32MyFtD2Q7
+ I+NWVq89VFS/DHTKblCCPObU8hVqn70e9hHJxGXv8yQ2wmDFUui7WSdcJ1m7NZy70Z0l
+ uwNRQdZcW8Q47mdpq++KKUepyxPonW8veymyjy6F+twmNb2U2cT7RIF5VK57UUJnohh1
+ l1u2CugSwcrbZkC9Z9SWCCwJ6ik3iGw4N2W2DFs+fUkj6THuGbrUoj5sgAB8LYycST4l
+ n34g==
+X-Gm-Message-State: AOAM531Cof+6nabAIciLp4YpXXQC+3vowGeB4znZpUgvw61eqrijukYc
+ mrLGnYTsMC/wk5BG9b+ZqviaX9EdkMIew9N7pBfi++oTs1cUuA==
+X-Google-Smtp-Source: ABdhPJx+qOWc8+4XUrNr+y8VTeseVxbBw7kgz/Hkxsvw+1MzyqGsBjXIVvBl8eyA64Qq8KqYKmNbb82HqWRx8ZurcxQ=
+X-Received: by 2002:a17:906:c59:b0:6b9:59d8:263e with SMTP id
+ t25-20020a1709060c5900b006b959d8263emr13157138ejf.770.1646739176946; Tue, 08
+ Mar 2022 03:32:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20220228182904.22982-1-jose.exposito89@gmail.com>
- <164673846305.2436174.1857157702611077242.b4-ty@cerno.tech>
-In-Reply-To: <164673846305.2436174.1857157702611077242.b4-ty@cerno.tech>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+ <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+ <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
+In-Reply-To: <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 8 Mar 2022 17:01:00 +0530
-Message-ID: <CAMty3ZAC1vj8Kc2tKP4wL5O15W7FA-OWf030JcTKRs9feDLejw@mail.gmail.com>
-Subject: Re: (subset) [PATCH] drm/bridge: parade-ps8622: switch to
- devm_drm_of_get_bridge
-To: Maxime Ripard <maxime@cerno.tech>
+Date: Tue, 8 Mar 2022 17:02:45 +0530
+Message-ID: <CAMty3ZBhbXgX5nsCPPUrYSjO2-J6LYd5D88u556gfXCMWpekug@mail.gmail.com>
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- jernej.skrabec@gmail.com, andrzej.hajda@intel.com,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- laurent.pinchart@ideasonboard.com
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Marek,
 
-On Tue, Mar 8, 2022 at 4:51 PM Maxime Ripard <maxime@cerno.tech> wrote:
+On Tue, Mar 8, 2022 at 4:00 PM Marek Vasut <marex@denx.de> wrote:
 >
-> On Mon, 28 Feb 2022 19:29:04 +0100, Jos=C3=A9 Exp=C3=B3sito wrote:
-> > The function "drm_of_find_panel_or_bridge" has been deprecated in
-> > favor of "devm_drm_of_get_bridge".
+> On 3/8/22 11:07, Jagan Teki wrote:
+> > On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 3/8/22 09:03, Jagan Teki wrote:
+> >>
+> >> Hi,
+> >>
+> >> [...]
+> >>
+> >>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+> >>>>    static int chipone_parse_dt(struct chipone *icn)
+> >>>>    {
+> >>>>           struct device *dev = icn->dev;
+> >>>> +       struct device_node *endpoint;
+> >>>>           struct drm_panel *panel;
+> >>>> +       int dsi_lanes;
+> >>>>           int ret;
+> >>>>
+> >>>>           icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+> >>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+> >>>>                   return PTR_ERR(icn->enable_gpio);
+> >>>>           }
+> >>>>
+> >>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> >>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+> >>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+> >>>> +       of_node_put(endpoint);
+> >>>> +
+> >>>> +       if (!icn->host_node)
+> >>>> +               return -ENODEV;
+> >>>
+> >>> The non-ports-based OF graph returns a -19 example on the Allwinner
+> >>> Display pipeline in R16 [1].
+> >>>
+> >>> We need to have a helper to return host_node for non-ports as I have
+> >>> done it for drm_of_find_bridge.
+> >>>
+> >>> [1] https://patchwork.amarulasolutions.com/patch/1805/
+> >>
+> >> The link points to a patch marked "DO NOT MERGE", maybe that patch is
+> >> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+> >> required, see:
+> >>
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+> >>
+> >> What is "non-ports-based OF graph" ?
+> >>
+> >> I don't see drm_of_find_bridge() in linux-next , what is that ?
 > >
-> > Switch to the new function and reduce boilerplate.
-> >
-> >
+> > port@0 is optional as some of the DSI host OF-graph represent the
+> > bridge or panel as child nodes instead of ports. (i think dt-binding
+> > has to fix it to make port@0 optional)
 >
-> Applied to drm/drm-misc (drm-misc-next).
+> The current upstream DT binding document says:
+>
+>      required:
+>        - port@0
+>        - port@1
+>
+> So port@0 is mandatory.
+>
+> So I don't think any change is needed to this patch ?
+>
+> > Example OF-graph is on the commit message.
+> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/drm_of.c?id=80253168dbfd256bca97cf7f13312863c5a7f2e5
+>
+> It seems the current upstream DT bindings only support DSI hosts which
+> do provide an endpoint, because port@0 is required per DT binding
+> document. If you want to support the other options as listed in the
+> aforementioned commit, then you would have to extend this driver and its
+> bindings, but that is out of scope of this series.
 
-Not sure whether it was intentionally or accidentally applied? the
-same patch has sent before this date and has sent the v3 a few hours
-ago.
+Your comments seem to be valid, thanks.
 
-https://patchwork.kernel.org/project/dri-devel/patch/20211210174819.2250178=
--3-jagan@amarulasolutions.com/
-
-Thanks,
 Jagan.
