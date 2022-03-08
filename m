@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8944D1415
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820924D141B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2979410E249;
-	Tue,  8 Mar 2022 10:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60CC10E230;
+	Tue,  8 Mar 2022 10:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96D610E230
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:00:09 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:4811:6402:845b:efd9] (unknown
- [IPv6:2a01:e0a:120:3210:4811:6402:845b:efd9])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: benjamin.gaignard)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E23A71F4202F;
- Tue,  8 Mar 2022 10:00:07 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646733608;
- bh=xdvuBC/6rJ7mRv0WXERduz6BoazwFnAj8i0gEbg1WNM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iCn6St22JDk+boB19eAP0n80BERkF63B48X/I+imDwa6hWzWOEkXwnpKtCuAbaRtB
- Z6bLHQCEF/o317bZuYT6urzvlDdKRlY3TZNCzC7TWbQDK8VB1UfG7IFC+ZgWqpqb1o
- ndq8L13+KvEzo5uhiLtOoprsvaVv7SXXEElsY7H8g0GE8su13tL6me0gBwjIUspIy0
- LJyoKWYeNwxLi+vjZ/DrtDOwh74n0lmMEAj5geITKMocNQmLpNp2nDmlqdECJivMhu
- xcD+xEuikUEaF8vk7Kt6CYQfC7XJPOAYkrWRfCmTf7ysM/Oj+C5Ija81Lka2pc0ecV
- rDOwOvWee9NGA==
-Message-ID: <d6f880e1-83c6-7663-2a8a-8541115f5242@collabora.com>
-Date: Tue, 8 Mar 2022 11:00:05 +0100
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0609110E230
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:00:31 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ mv5-20020a17090b198500b001bf2a039831so1725352pjb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:00:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w3pwSt00P8dq6UBwqoWZplPcJrIB0Twk+vNu1P1BFVs=;
+ b=L7srTIOZ8D0DZTGnRZ7EHHRoCmawxSsPAQyn/J9KoAPqsTr+S5L+A2Wrx55SIn5X+H
+ l6oRFyDkbe2VZLF9uHm4CqDRJpfC5E6s8qTi5CGq5NTLl1ZXQ+2ngxCTbu5MoLwZRCjX
+ FE/dnSTMzKVHzHr3G41DX6xkQb5EMUvQquStOPuzl0jSHoi1yequGbqPgo7XswP6tjh8
+ z74qBjieToCxyJ8JyCVa9UOomtKdiXwHHMoJ4TpefldBA93npQYduoRrrD3eFEfeBaeB
+ va8s4KKAXSXJDOMFpKFb+v+rbgCCQ+4j4Z4qzKQPxE/ArYrt1PYwb0Jcme81inWNactP
+ Zs6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w3pwSt00P8dq6UBwqoWZplPcJrIB0Twk+vNu1P1BFVs=;
+ b=w8SD2Fu73+PgYs6OHtYnYvfg/FHoetcUx7WpmdCd2Y/PhbWzDk+7V+6+uhoJx8RlZ9
+ ME8pZZYlZD/emMBah8Bzei5sLPA5s1gq1nQl5de6Pn1pU6dIdoE2qyiJrDnPr/3O42II
+ Jmy9dZU8mCyuBS+ykmgQbXl1MBQ+17wQs9312ydkbVV45zF0O9pXdoEO1PEyxgj3K0S9
+ POB0b+H2LWuDfJrc/paoZddaKR5zE6louslZkeM7YMhK6wWtxA1tAhS/nUzhmxbNoadY
+ ssPREz/m9WnZScCSxNr7LCkeps5R5y3vN3S8/pyzZHyyzcNOX5n4A19peorK0cTxFW3d
+ uDdw==
+X-Gm-Message-State: AOAM532YLSRHUJzNb2uotT6aEjdOdyy3oBw1z8/ti7GzsiMz9Dpr47VT
+ v/PucdvlP4NDCwj+Tz/IH0atwdJUAokBAWt2KeNXCQ==
+X-Google-Smtp-Source: ABdhPJzXQqAcXnz/aS3XETnYjpLXEoBzJ29ntiGDh/VQ4OO+pWZTDXDaij3GjfN1QM1mGyOkybVK52zKUs0tJl9KZPs=
+X-Received: by 2002:a17:90b:906:b0:1be:e765:882 with SMTP id
+ bo6-20020a17090b090600b001bee7650882mr3815408pjb.152.1646733631227; Tue, 08
+ Mar 2022 02:00:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2, 0/4] Cooperate with DSI RX devices to modify dsi funcs
- and delay mipi high to cooperate with panel sequence
-Content-Language: en-US
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-References: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
- <fb73a54a-7e75-2e5d-d78a-cacb5f065b06@collabora.com>
- <CAJMQK-jkmw1iKmy1s6CU5rbngQWNPDS4zT23PnuDf2nGus=X2w@mail.gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CAJMQK-jkmw1iKmy1s6CU5rbngQWNPDS4zT23PnuDf2nGus=X2w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20211105031904.2641088-1-xji@analogixsemi.com>
+ <20211105031904.2641088-3-xji@analogixsemi.com>
+ <YiTruiCIkyxs3jTC@pendragon.ideasonboard.com>
+ <YiWiYpEfTOOqgyAN@google.com>
+ <CAG3jFys-BYsBp07AAFQ2O_TFsXOwhcVDnsOh8WVNNSag3HZw+Q@mail.gmail.com>
+In-Reply-To: <CAG3jFys-BYsBp07AAFQ2O_TFsXOwhcVDnsOh8WVNNSag3HZw+Q@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 8 Mar 2022 11:00:20 +0100
+Message-ID: <CAG3jFyu47cv8oSecONM95KVoP=NOvgwafAp4TQ33CZ0Y4zWmnQ@mail.gmail.com>
+Subject: Re: [PATCH v12 3/4] drm/bridge: anx7625: add MIPI DPI input feature
+To: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,174 +67,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC.Chen@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, allen-kh.cheng@mediatek.com
+Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ bliang@analogixsemi.com, drinkcat@google.com, sam@ravnborg.org,
+ jernej.skrabec@gmail.com, tzungbi@google.com, dan.carpenter@oracle.com,
+ devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ jonas@kwiboo.se, qwen@analogixsemi.com, robh+dt@kernel.org, maxime@cerno.tech,
+ pihsun@chromium.org, hsinyi@chromium.org, Xin Ji <xji@analogixsemi.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 7 Mar 2022 at 16:49, Robert Foss <robert.foss@linaro.org> wrote:
+>
+> On Mon, 7 Mar 2022 at 07:12, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> >
+> > On Sun, Mar 06, 2022 at 07:13:30PM +0200, Laurent Pinchart wrote:
+> > > Hello Xin,
+> > >
+> > > (Question for Rob below, and I'm afraid this is urgent as we need to
+> > > merge a fix in v5.17).
+> > >
+> > > On Fri, Nov 05, 2021 at 11:19:03AM +0800, Xin Ji wrote:
+> > > > The basic anx7625 driver only support MIPI DSI rx signal input.
+> > > > This patch add MIPI DPI rx input configuration support, after apply
+> > > > this patch, the driver can support DSI rx or DPI rx by adding
+> > > > 'bus-type' in DT.
+> > > >
+> > > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > ---
+> > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 247 ++++++++++++++++------
+> > > >  drivers/gpu/drm/bridge/analogix/anx7625.h |  18 +-
+> > > >  2 files changed, 205 insertions(+), 60 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > index f48e91134c20..f7c3386c8929 100644
+> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> >
+> > [...]
+> >
+> > > >  static int anx7625_parse_dt(struct device *dev,
+> > > >                         struct anx7625_platform_data *pdata)
+> > > >  {
+> > > > -   struct device_node *np = dev->of_node;
+> > > > +   struct device_node *np = dev->of_node, *ep0;
+> > > >     struct drm_panel *panel;
+> > > >     int ret;
+> > > > +   int bus_type, mipi_lanes;
+> > > > +
+> > > > +   anx7625_get_swing_setting(dev, pdata);
+> > > >
+> > > > +   pdata->is_dpi = 1; /* default dpi mode */
+> > > >     pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+> > > >     if (!pdata->mipi_host_node) {
+> > > >             DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+> > > >             return -ENODEV;
+> > > >     }
+> > > >
+> > > > -   DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
+> > > > +   bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
+> > > > +   mipi_lanes = MAX_LANES_SUPPORT;
+> > > > +   ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
+> > > > +   if (ep0) {
+> > > > +           if (of_property_read_u32(ep0, "bus-type", &bus_type))
+> > > > +                   bus_type = 0;
+> > > > +
+> > > > +           mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
+> > > > +   }
+> > > > +
+> > > > +   if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
+> > >
+> > > This is not correct *at all*. V4L2_FWNODE_BUS_TYPE_PARALLEL has nothing
+> > > to do with DSI. DSI stands for Digital *Serial* Interface. If anything,
+> > > the V4L2_FWNODE_BUS_TYPE_PARALLEL type would map better to DPI, even if
+> > > it's not an exact match.
+> > >
+> > > This patch has landed in v5.17-rc1, along with the corresponding
+> > > bindings. As DT bindings are an ABI, we should really fix this before
+> > > v5.17 is released. There is no DSI bus types defined in DT, and adding
+> > > one as a fix so late in the v5.17-rc cycle seems a bit of a stretch to
+> > > me (unless Rob disagrees).
+> > >
+> > > It would seem best to revert this series and the corresponding bindings,
+> > > and retry in v5.18.
+> >
+> > There is a DT patch using this property that is already queued up for 5.17
+> > in the soc tree:
+> >
+> > https://lore.kernel.org/all/20220214200507.2500693-1-nfraprado@collabora.com/
+> >
+> > merged here:
+> >
+> > http://git.kernel.org/soc/soc/c/32568ae37596b529628ac09b875f4874e614f63f
+> >
+> > We will need to revert that one as well.
+>
+> I just submitted a series reverting the dt-binding change + the
+> related commit to "mt8183: jacuzzi".
+> Can I get a quick r-b/a-b in order to get this into v5.17.
+>
+> https://lore.kernel.org/all/20220307154558.2505734-3-robert.foss@linaro.org/
+>
 
-Le 08/03/2022 à 10:12, Hsin-Yi Wang a écrit :
-> On Fri, Mar 4, 2022 at 7:25 PM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->>
->> Le 04/03/2022 à 11:15, xinlei.lee@mediatek.com a écrit :
->>> From: Xinlei Lee <xinlei.lee@mediatek.com>
->>>
->>> In upstream-v5.8, dsi_enable will operate panel_enable, but this
->>> modification has been moved in v5.9. In order to ensure the timing of
->>> dsi_power_on/off and the timing of pulling up/down the MIPI signal,
->>> the modification of v5.9 is synchronized in this series of patches.
->> Hello,
->>
->> I'm trying to debug an issue on mt8183 kukui krane sku176 device.
->> The problem is that boe-tv101wum-nl6 panel isn't working.
->> At boot time I can see these logs:
->> panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
->> panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init panel: -62
->> and a DSI interrupt time out.
->>
->> Since I believe the problem is link to DSI/panel enabling sequence
->> I have try this series but that doesn't solve the issue.
->> I notice that when going out of deep sleep mode panel is functional.
->>
->> May you have any idea to debug/solve this problem ?
->>
-> Hi Benjamin,
->
-> I think this might not be related to this series. Which kernel are you using?
-> I tried the krane sku176 with linux-next 5.17-rc6
-> (519dd6c19986696f59847ff8bf930436ccffd9a1 (tag: next-20220307,
-> linux-next/master) with or without this series, both can get the display on.
->
-> dsi related message:
-> [    0.206330] mediatek-drm mediatek-drm.1.auto: Adding component
-> match for /soc/dsi@14014000
-> [    4.567577] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
-> not found, using dummy regulator
-> [    4.567732] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup for
-> consumer enable
-> [    4.567738] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
-> tree for GPIO lookup
-> [    4.567757] of_get_named_gpiod_flags: parsed 'enable-gpios'
-> property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
-> [    4.585884] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
-> not found, using dummy regulator
-> [    4.586037] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup for
-> consumer enable
-> [    4.586042] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
-> tree for GPIO lookup
-> [    4.586059] of_get_named_gpiod_flags: parsed 'enable-gpios'
-> property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
-> [    4.587430] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi
-> (ops 0xffffffd369a752b8)
->
->
-> Maybe some config is not enabled?
+v2 of revert submitted.
 
-I using 5.17.0-rc1-next-20220127 kernel tag.
-The configs look similar.
+https://lore.kernel.org/all/20220308094911.2680291-1-robert.foss@linaro.org/
 
-I have the follow log at boot time:
-
-[    1.533384] phy phy-11e50000.dsi-phy.2: Looking up phy-supply from device tree
-[    1.533402] phy phy-11e50000.dsi-phy.2: Looking up phy-supply property in node /soc/dsi-phy@11e50000 failed
-[    3.173068] mediatek-drm mediatek-drm.1.auto: Adding component match for /soc/dsi@14014000
-[    4.671806] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avdd-supply from device tree
-[    4.680348] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avee-supply from device tree
-[    4.688784] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp3300-supply from device tree
-[    4.697816] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp1800-supply from device tree
-[    4.842346] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avdd-supply from device tree
-[    4.854573] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avee-supply from device tree
-[    4.862976] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp3300-supply from device tree
-[    4.871568] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp1800-supply from device tree
-[    4.964021] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi (ops mtk_dsi_component_ops)
-...
-[   38.273437] [drm] Wait DSI IRQ(0x00000002) Timeout
-[   38.281584] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
-[   38.288651] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init panel: -62
-...
-[   70.113674] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR* flip_done timed out
-[   70.121054] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR* [CRTC:45:crtc-0] commit wait timed out
-[   70.130037] [drm:mtk_drm_crtc_atomic_begin] *ERROR* new event while there is still a pending event
-[   70.241222] ------------[ cut here ]------------
-[   70.245898] [CRTC:45:crtc-0] vblank wait timed out
-[   70.250729] WARNING: CPU: 7 PID: 397 at drivers/gpu/drm/drm_atomic_helper.c:1529 drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x24
-[   70.262815] Modules linked in: hci_uart btqca btbcm bluetooth cdc_ether usbnet r8152 mtk_mdp3 hid_multitouch mtk_jpeg panfrost cros_6
-[   70.309348] CPU: 7 PID: 397 Comm: gnome-shell Tainted: G        W         5.17.0-rc1-next-20220127+ #57
-[   70.318731] Hardware name: MediaTek krane sku176 board (DT)
-[   70.324293] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   70.331244] pc : drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-[   70.337762] lr : drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-[   70.344279] sp : ffff8000092339e0
-[   70.347583] x29: ffff8000092339e0 x28: 0000000000000001 x27: 0000000000000000
-[   70.354713] x26: 0000000000000000 x25: ffffc7e8feee4660 x24: 0000000000000038
-[   70.361842] x23: ffff6fe702b0d000 x22: 0000000000000001 x21: ffff6fe7030d5080
-[   70.368970] x20: ffff6fe709d7d700 x19: 0000000000000000 x18: 0000000000000030
-[   70.376099] x17: 000000040044ffff x16: 00400032b5503510 x15: ffffffffffffffff
-[   70.383227] x14: ffffc7e8ffa99220 x13: 000000000000094b x12: 0000000000000319
-[   70.390354] x11: 6e616c6276205d30 x10: ffffc7e8ffb49220 x9 : 00000000ffffe000
-[   70.397483] x8 : ffffc7e8ffa99220 x7 : 0000000000000001 x6 : 0000000000000000
-[   70.404611] x5 : 0000000000000000 x4 : ffff6fe73b5e4cf8 x3 : ffff6fe73b5f0840
-[   70.411738] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff6fe702f20000
-[   70.418866] Call trace:
-[   70.421301]  drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-[   70.427472]  drm_atomic_helper_commit_tail_rpm+0x88/0xac
-[   70.432775]  commit_tail+0xa0/0x17c
-[   70.436254]  drm_atomic_helper_commit+0x190/0x3a0
-[   70.440949]  drm_atomic_commit+0x5c/0x6c
-[   70.444864]  drm_mode_gamma_set_ioctl+0x45c/0x640
-[   70.449560]  drm_ioctl_kernel+0xc4/0x174
-[   70.453475]  drm_ioctl+0x238/0x45c
-[   70.456868]  __arm64_sys_ioctl+0xac/0xf0
-[   70.460786]  invoke_syscall+0x48/0x114
-[   70.464529]  el0_svc_common.constprop.0+0x60/0x11c
-[   70.469312]  do_el0_svc+0x28/0x90
-[   70.472619]  el0_svc+0x4c/0x100
-[   70.475754]  el0t_64_sync_handler+0xec/0xf0
-[   70.479928]  el0t_64_sync+0x1a0/0x1a4
-[   70.483582] irq event stamp: 0
-[   70.486625] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-[   70.492883] hardirqs last disabled at (0): [<ffffc7e8fd49383c>] copy_process+0x658/0x197c
-[   70.501053] softirqs last  enabled at (0): [<ffffc7e8fd49383c>] copy_process+0x658/0x197c
-[   70.509219] softirqs last disabled at (0): [<0000000000000000>] 0x0
-[   70.515475] ---[ end trace 0000000000000000 ]---
-
-Regards,
-Benjamin
-
->
->
->
->> Regards,
->> Benjamin
->>
->>> Changes since v1:
->>> 1. Dsi sequence marked with patch adjustment
->>> 2. Fixes: mtk_dsi: Use the drm_panel_bridge
->>>
->>> Jitao Shi (3):
->>>     drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
->>>     drm/mediatek: Separate poweron/poweroff from enable/disable and define
->>>       new funcs
->>>     drm/mediatek: keep dsi as LP00 before dcs cmds transfer
->>>
->>> Xinlei Lee (1):
->>>     drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
->>>       function
->>>
->>>    drivers/gpu/drm/mediatek/mtk_dsi.c | 73 ++++++++++++++++++++----------
->>>    1 file changed, 49 insertions(+), 24 deletions(-)
->>>
->> _______________________________________________
->> Linux-mediatek mailing list
->> Linux-mediatek@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-mediatek
->>
->> _______________________________________________
->> Linux-mediatek mailing list
->> Linux-mediatek@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+Xin: Will you spin a series that adds DPI support and re-enables DPI
+for anx7625? Additionally, "mt8183: jacuzzi" will have to have DPI
+re-enabled.
