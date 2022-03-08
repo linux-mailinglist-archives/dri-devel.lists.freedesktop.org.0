@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C244D0E54
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 04:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9618F4D0E77
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 04:48:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1777010E4EC;
-	Tue,  8 Mar 2022 03:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF8D10E5DF;
+	Tue,  8 Mar 2022 03:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
- [115.236.121.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5D8F10E4EC
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 03:31:25 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 1E19CAC03A0;
- Tue,  8 Mar 2022 11:31:23 +0800 (CST)
-Message-ID: <035f2dfd-bf35-abca-32bf-2be85cc88f8a@rock-chips.com>
-Date: Tue, 8 Mar 2022 11:31:22 +0800
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA79A10E5DF
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 03:48:05 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id u61so35179509ybi.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 19:48:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SB1pR6R36cG/5vqUJ9L1OYX7dRask2g/0weyNuOkOYQ=;
+ b=Aqt++puDVTDcltryRW77a9cwhFd1XciMKNs9AsjManml5e4eEQPtDOB/5nEXjsn+P9
+ GkEs/gI5+4vK3gNMFYbQocu8XMlxE9wCZPPoS8OfoPNDIE6avBWb/hU6LMu1/Cf2whCu
+ FFb8lEOczvnEeE5kzWcvCMw/ecWn+5SZxlX2s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SB1pR6R36cG/5vqUJ9L1OYX7dRask2g/0weyNuOkOYQ=;
+ b=G2hKsfBTjNfoxqsKVy5HVdNnMBIeg8PmZqxQLsAjooW0e4qS97k0c6mHDO7+bpk8Y9
+ N7vgghs6GXEzqs9t5blmJWN/rU/sPX/mBYc06kl/qZdWh2a46e0SttwRFtONCFltpWrB
+ qqQLx/kndjkCBV3q7eEvRCIHcIIFmDW8Bo//vHUbjfa3Ptc2ClNpbzx/y7ru+NH/coAn
+ 2PlybwrU7gD+ebw7X9bWYsgBDsOhL9+Y9JW1I/mfPK8y6rnGWrxTWu0kS0ezjA3ZSLPn
+ N0Wi/RWn3iB9o6B9uqlq7E/lKWVn3LufUsd+9WXicFkpSUvMFY7sgAbmMfGdSsCbVIH4
+ dGJg==
+X-Gm-Message-State: AOAM532L93ZI8CfImH13dHmLEt6DaXrrrTk37OYwhf+a4+nRmlQHduoI
+ 9cQHXNsWEKbPab+QJkpPDvrFVZWdKmfUJiB9LJchuA==
+X-Google-Smtp-Source: ABdhPJyuGeWIUlb3utDkOR1PhipoTjIrNi/Cf0gmscf2NmU/0KOasS7EzcBrtPdNSmwisXmV8F84klzvCTpKGd/lH2w=
+X-Received: by 2002:a25:d449:0:b0:628:945d:713c with SMTP id
+ m70-20020a25d449000000b00628945d713cmr11205541ybf.164.1646711284731; Mon, 07
+ Mar 2022 19:48:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Robin Murphy <robin.murphy@arm.com>,
- elaine.zhang@rock-chips.com
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-11-s.hauer@pengutronix.de>
- <47ddcaf3-4544-2b7c-a2f6-1f6346907f33@gmail.com>
- <20220225104924.GC19585@pengutronix.de>
- <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
- <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
- <20220225131154.GE19585@pengutronix.de>
- <20220228141921.GN19585@pengutronix.de>
- <5184ecf2-8734-3121-cbbc-5dcfcf0d02f8@arm.com>
- <20220302112528.GV19585@pengutronix.de>
- <20220304142235.GL22780@pengutronix.de>
- <9ea0134e-aac7-60e1-5c58-ae31b4e1c422@collabora.com>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <9ea0134e-aac7-60e1-5c58-ae31b4e1c422@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRpNSE5WSRhDHRpKGB
- hLGUpKVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBQ6Ayo4PT5RNzItAx8xDhYL
- N1FPC0tVSlVKTU9NTEpLSUNIQk5LVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBQkNPQjcG
-X-HM-Tid: 0a7f6794dd93b039kuuu1e19cac03a0
+References: <20220307154558.2505734-1-robert.foss@linaro.org>
+ <20220307154558.2505734-3-robert.foss@linaro.org>
+ <CAG3jFytGV3NNfkEPqx_rZX9O9aZjTjzo2tpeSK8mFimOrYt9zw@mail.gmail.com>
+In-Reply-To: <CAG3jFytGV3NNfkEPqx_rZX9O9aZjTjzo2tpeSK8mFimOrYt9zw@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 8 Mar 2022 11:47:53 +0800
+Message-ID: <CAGXv+5H7RvczEeAyLEmJ-RNAwqV1G71FhsG3Kpi0r+qPkXVaeQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] Revert "arm64: dts: mt8183: jacuzzi: Fix bus
+ properties in anx's DSI endpoint"
+To: Robert Foss <robert.foss@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Olof Johansson <olof@lixom.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,131 +63,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: huangtao@rock-chips.com, devicetree@vger.kernel.org,
- algea.cao@rock-chips.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Kever Yang <Kever.yang@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Dmitry Osipenko <digetx@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, xji@analogixsemi.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi :
-
-On 3/5/22 07:55, Dmitry Osipenko wrote:
-> On 3/4/22 17:22, Sascha Hauer wrote:
->> On Wed, Mar 02, 2022 at 12:25:28PM +0100, Sascha Hauer wrote:
->>> On Tue, Mar 01, 2022 at 01:39:31PM +0000, Robin Murphy wrote:
->>>> On 2022-02-28 14:19, Sascha Hauer wrote:
->>>>> On Fri, Feb 25, 2022 at 02:11:54PM +0100, Sascha Hauer wrote:
->>>>>> On Fri, Feb 25, 2022 at 12:41:23PM +0000, Robin Murphy wrote:
->>>>>>> On 2022-02-25 11:10, Dmitry Osipenko wrote:
->>>>>>>> 25.02.2022 13:49, Sascha Hauer пишет:
->>>>>>>>> On Fri, Feb 25, 2022 at 01:26:14PM +0300, Dmitry Osipenko wrote:
->>>>>>>>>> 25.02.2022 10:51, Sascha Hauer пишет:
->>>>>>>>>>> The rk3568 HDMI has an additional clock that needs to be enabled for the
->>>>>>>>>>> HDMI controller to work. The purpose of that clock is not clear. It is
->>>>>>>>>>> named "hclk" in the downstream driver, so use the same name.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
->>>>>>>>>>> ---
->>>>>>>>>>>
->>>>>>>>>>> Notes:
->>>>>>>>>>>        Changes since v5:
->>>>>>>>>>>        - Use devm_clk_get_optional rather than devm_clk_get
->>>>>>>>>>>
->>>>>>>>>>>     drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
->>>>>>>>>>>     1 file changed, 16 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>>> index fe4f9556239ac..c6c00e8779ab5 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>>>>>>>>>> @@ -76,6 +76,7 @@ struct rockchip_hdmi {
->>>>>>>>>>>     	const struct rockchip_hdmi_chip_data *chip_data;
->>>>>>>>>>>     	struct clk *ref_clk;
->>>>>>>>>>>     	struct clk *grf_clk;
->>>>>>>>>>> +	struct clk *hclk_clk;
->>>>>>>>>>>     	struct dw_hdmi *hdmi;
->>>>>>>>>>>     	struct regulator *avdd_0v9;
->>>>>>>>>>>     	struct regulator *avdd_1v8;
->>>>>>>>>>> @@ -229,6 +230,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->>>>>>>>>>>     		return PTR_ERR(hdmi->grf_clk);
->>>>>>>>>>>     	}
->>>>>>>>>>> +	hdmi->hclk_clk = devm_clk_get_optional(hdmi->dev, "hclk");
->>>>>>>>>>> +	if (PTR_ERR(hdmi->hclk_clk) == -EPROBE_DEFER) {
->>>>>>>>>> Have you tried to investigate the hclk? I'm still thinking that's not
->>>>>>>>>> only HDMI that needs this clock and then the hardware description
->>>>>>>>>> doesn't look correct.
->>>>>>>>> I am still not sure what you mean. Yes, it's not only the HDMI that
->>>>>>>>> needs this clock. The VOP2 needs it as well and the driver handles that.
->>>>>>>> I'm curious whether DSI/DP also need that clock to be enabled. If they
->>>>>>>> do, then you aren't modeling h/w properly AFAICS.
->>>>>>> Assuming nobody at Rockchip decided to make things needlessly inconsistent
->>>>>>> with previous SoCs, HCLK_VOP should be the clock for the VOP's AHB slave
->>>>>>> interface. Usually, if that affected anything other than accessing VOP
->>>>>>> registers, indeed it would smell of something being wrong in the clock tree,
->>>>>>> but in this case I'd also be suspicious of whether it might have ended up
->>>>>>> clocking related GRF registers as well (either directly, or indirectly via
->>>>>>> some gate that the clock driver hasn't modelled yet).
->>>>>> Ok, I am beginning to understand. I verified that hdmi, mipi and dp are
->>>>>> hanging when HCLK_VOP is disabled by disabling that clock via sysfs
->>>>>> using CLOCK_ALLOW_WRITE_DEBUGFS. When it's disabled then the registers
->>>>>> of that units can't be accessed. However, when I disable HCLK_VOP by
->>>>>> directly writing to the gate bit RK3568_CLKGATE_CON(20) then only
->>>>>> accessing VOP registers hangs, the other units stay functional.
->>>>>> So it seems it must be the parent clock which must be enabled. The
->>>>>> parent clock is hclk_vo. This clock should be handled as part of the
->>>>>> RK3568_PD_VO power domain:
->>>>>>
->>>>>> 	power-domain@RK3568_PD_VO {
->>>>>>                   reg = <RK3568_PD_VO>;
->>>>>>                   clocks = <&cru HCLK_VO>,
->>>>>>                            <&cru PCLK_VO>,
->>>>>>                            <&cru ACLK_VOP_PRE>;
->>>>>>                    pm_qos = <&qos_hdcp>,
->>>>>>                             <&qos_vop_m0>,
->>>>>>                             <&qos_vop_m1>;
->>>>>>                    #power-domain-cells = <0>;
->>>>>>           };
->>>>> Forget this. The clocks in this node are only enabled during enabling or
->>>>> disabling the power domain, they are disabled again immediately afterwards.
->>>>>
->>>>> OK, I need HCLK_VO to access the HDMI registers. I verified that by
->>>>> disabling HCLK_VO at register level (CRU_GATE_CON(20) BIT(1)). The
->>>>> HDMI registers become inaccessible then. This means I'll replace
->>>>> HCLK_VOP in the HDMI node with HCLK_VO. Does this sound sane?
->>>> Well, it's still a mystery hack overall, and in some ways it seems even more
->>>> suspect to be claiming a whole branch of the clock tree rather than a leaf
->>>> gate with a specific purpose. I'm really starting to think that the
->>>> underlying issue here is a bug in the clock driver, or a hardware mishap
->>>> that should logically be worked around by the clock driver, rather than
->>>> individual the consumers.
->>>>
->>>> Does it work if you hack the clock driver to think that PCLK_VO is a child
->>>> of HCLK_VO? Even if that's not technically true, it would seem to
->>>> effectively match the observed behaviour (i.e. all 3 things whose register
->>>> access apparently *should* be enabled by a gate off PCLK_VO, seem to also
->>>> require HCLK_VO).
->>> Yes, that works as expected. I am not sure though if we really want to
->>> go that path. The pclk rates will become completely bogus with this and
->>> should we have to play with the rates in the future we might regret this
->>> step.
->> How do we proceed here? I can include a patch which makes PCLK_VO a
->> child of HCLK_VO if that's what we agree upon.
-> Couldn't Andy clarify the actual clock tree structure of the h/w for us?
+On Tue, Mar 8, 2022 at 12:20 AM Robert Foss <robert.foss@linaro.org> wrote:
 >
-> This will be the best option because datasheet doesn't give the clear
-> answer, or at least I couldn't find it. Technically, PCLK indeed should
-> be a child of the HCLK in general, so Robin could be right.
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
 
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Add our clk expert Elaine, she will share some information about the 
-actual clock structure.
+I think we need to send this directly to the soc maintainers to get it
+picked up before the final 5.17 release?
 
-
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+>
+> On Mon, 7 Mar 2022 at 16:46, Robert Foss <robert.foss@linaro.org> wrote:
+> >
+> > This reverts commit 32568ae37596b529628ac09b875f4874e614f63f.
+> > ---
+> >  arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> > index e8f133dc96b95..8f7bf33f607da 100644
+> > --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> > +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> > @@ -171,8 +171,6 @@ port@0 {
+> >
+> >                         anx7625_in: endpoint {
+> >                                 remote-endpoint = <&dsi_out>;
+> > -                               bus-type = <5>;
+> > -                               data-lanes = <0 1 2 3>;
+> >                         };
+> >                 };
+> >
+> > --
+> > 2.32.0
+> >
