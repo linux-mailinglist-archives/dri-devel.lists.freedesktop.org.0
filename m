@@ -1,85 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E164D1406
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:58:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8944D1415
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8720C10EC55;
-	Tue,  8 Mar 2022 09:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2979410E249;
+	Tue,  8 Mar 2022 10:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACB710EC3C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646733508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qc/dPF9NCELBNu4QqNWKZSQHX9YzQPWRojivE3+b0CU=;
- b=GkSDVgvU6z9yOhhGuvq+eNbRilZSOUqPAqIfsBu0oECG+dtKcNW4Azk3ryBRDcxua1xODc
- obvPR52mOuFQLXQ1/tlbwORxvllkedHe1DJlZ7tulh09lsMxv2MdQY025ILi6ZokHXLgHF
- jf/+J7Gel78k+HjRe3nltgZDZujRDoU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-8OCpVW_EP9uvTe-T1wbVTw-1; Tue, 08 Mar 2022 04:58:24 -0500
-X-MC-Unique: 8OCpVW_EP9uvTe-T1wbVTw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l10-20020a05600012ca00b001f1e4669c98so1599821wrx.23
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:58:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Qc/dPF9NCELBNu4QqNWKZSQHX9YzQPWRojivE3+b0CU=;
- b=y389ws4BAzZm+Z04ZJKpVBbbWzZfmzX4FCOvX+1eD0FtFdvReA9IPf0KsHHpMQ89N/
- VaTt6eH1pJPRmnCyQQdhagL4H48umJJrGh28GN8+WIDOaVeIturXmS9IPLd8FpJFqbmM
- oCJPOAkS1cRegl3eDTGuuOaqtoKQR8KimVop0gOcY1i6NZ0nG9iNsKIRJgPXlUNzTI+3
- l7zSTM1C3JQ9mOtsg0A7f2LG5d3XpP/Q1b95vNl7pi+GiX7x8RJdYjWchaMIatjTzkeZ
- M8fn2EWCn7ZIM13kyo+YH5JJQqf3mm5tZB2FEu/aanZi0rqyGAvnBqEMsZie6CDCLfGB
- +Faw==
-X-Gm-Message-State: AOAM533zxgN5E0dSoIFoJfyPgBP1nMF/s9CQPX2YrQJpDJ9L9058AIpJ
- QYCI1bWSFSFm4Js+AybbAgVak2EmdxAVXLuTXiUxWniNBl4NsNOT6IQzS4YfWjfo+kdmydnDHUv
- paYZaZsRoqy96SqLEHGCWsMwu9CM/
-X-Received: by 2002:a05:600c:35d5:b0:389:bd4a:fde0 with SMTP id
- r21-20020a05600c35d500b00389bd4afde0mr2905729wmq.127.1646733503696; 
- Tue, 08 Mar 2022 01:58:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJtj7RKYw3qkkDGfz/aSVN5Brr3Z9cCTJdq5hynPwmNva1D24fAYp/TKddQMzVWxr4O9YHKw==
-X-Received: by 2002:a05:600c:35d5:b0:389:bd4a:fde0 with SMTP id
- r21-20020a05600c35d500b00389bd4afde0mr2905711wmq.127.1646733503447; 
- Tue, 08 Mar 2022 01:58:23 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- 9-20020a1c0209000000b003868897278asm2475185wmc.23.2022.03.08.01.58.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 01:58:23 -0800 (PST)
-Message-ID: <f869d4ee-210f-06b4-015b-b3ec78eaf4fb@redhat.com>
-Date: Tue, 8 Mar 2022 10:58:22 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B96D610E230
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:00:09 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:4811:6402:845b:efd9] (unknown
+ [IPv6:2a01:e0a:120:3210:4811:6402:845b:efd9])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: benjamin.gaignard)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E23A71F4202F;
+ Tue,  8 Mar 2022 10:00:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646733608;
+ bh=xdvuBC/6rJ7mRv0WXERduz6BoazwFnAj8i0gEbg1WNM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iCn6St22JDk+boB19eAP0n80BERkF63B48X/I+imDwa6hWzWOEkXwnpKtCuAbaRtB
+ Z6bLHQCEF/o317bZuYT6urzvlDdKRlY3TZNCzC7TWbQDK8VB1UfG7IFC+ZgWqpqb1o
+ ndq8L13+KvEzo5uhiLtOoprsvaVv7SXXEElsY7H8g0GE8su13tL6me0gBwjIUspIy0
+ LJyoKWYeNwxLi+vjZ/DrtDOwh74n0lmMEAj5geITKMocNQmLpNp2nDmlqdECJivMhu
+ xcD+xEuikUEaF8vk7Kt6CYQfC7XJPOAYkrWRfCmTf7ysM/Oj+C5Ija81Lka2pc0ecV
+ rDOwOvWee9NGA==
+Message-ID: <d6f880e1-83c6-7663-2a8a-8541115f5242@collabora.com>
+Date: Tue, 8 Mar 2022 11:00:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/9] drm/simpledrm: Use fbdev defaults for shadow buffering
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- deller@gmx.de
-References: <20220303205839.28484-1-tzimmermann@suse.de>
- <20220303205839.28484-2-tzimmermann@suse.de>
- <a9e7aa2c-9954-94ee-6f7c-0d6822342897@redhat.com>
- <80342fbf-5aee-5769-b439-3e147c44711f@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <80342fbf-5aee-5769-b439-3e147c44711f@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2, 0/4] Cooperate with DSI RX devices to modify dsi funcs
+ and delay mipi high to cooperate with panel sequence
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+References: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
+ <fb73a54a-7e75-2e5d-d78a-cacb5f065b06@collabora.com>
+ <CAJMQK-jkmw1iKmy1s6CU5rbngQWNPDS4zT23PnuDf2nGus=X2w@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAJMQK-jkmw1iKmy1s6CU5rbngQWNPDS4zT23PnuDf2nGus=X2w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,55 +57,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC.Chen@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, allen-kh.cheng@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/8/22 10:56, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 08.03.22 um 10:31 schrieb Javier Martinez Canillas:
->> On 3/3/22 21:58, Thomas Zimmermann wrote:
->>> Don't select shadow buffering for the fbdev console explicitly. The
->>> fbdev emulation's heuristic will enable it for any framebuffer with
->>> .dirty callback.
+
+Le 08/03/2022 à 10:12, Hsin-Yi Wang a écrit :
+> On Fri, Mar 4, 2022 at 7:25 PM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 04/03/2022 à 11:15, xinlei.lee@mediatek.com a écrit :
+>>> From: Xinlei Lee <xinlei.lee@mediatek.com>
 >>>
+>>> In upstream-v5.8, dsi_enable will operate panel_enable, but this
+>>> modification has been moved in v5.9. In order to ensure the timing of
+>>> dsi_power_on/off and the timing of pulling up/down the MIPI signal,
+>>> the modification of v5.9 is synchronized in this series of patches.
+>> Hello,
 >>
->> Indeed it does. Not related to your series but looking at this
->> patch I noticed that drivers/gpu/drm/tiny/bochs.c will be the
->> only driver that sets .prefer_shadow_fbdev after this lands.
+>> I'm trying to debug an issue on mt8183 kukui krane sku176 device.
+>> The problem is that boe-tv101wum-nl6 panel isn't working.
+>> At boot time I can see these logs:
+>> panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
+>> panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init panel: -62
+>> and a DSI interrupt time out.
 >>
->> The driver is using GEM so I wonder if after your series this
->> DRM driver could have a .dirty callback and the field just be
->> dropped? Or there would still be a case where it is needed ?
-> Bochs uses VRAM helpers (i.e., TTM). Fbdev and userspace would directly 
-> write into that buffer memory without a copy. So the dirty function 
-> would be empty.
-> 
-> Other drivers with VRAM helpers (e.g., hibmc, ast) operate on uncached 
-> I/O memory AFAICT. So they set .prefer_shadow, which also affects 
-> userspace. Bochs uses cached memory and shouldn't need prefer_shadow. 
-> Setting prefer_shadow_fbdev is only there for making the fbdev buffer 
-> object evictable from video memory.
-> 
-> As it stands, using prefer_shadow_fbdev is the cleanest solution, even 
-> if bochs is the only user of that field.
-> 
-> Alternatively, we could make it a requirement that qemu provides enough 
-> video memory for bochs to unconditionally pin the fbdev BO there without 
-> ever evicting. I guess, that would mean 32 MiB of VRAM at least.
+>> Since I believe the problem is link to DSI/panel enabling sequence
+>> I have try this series but that doesn't solve the issue.
+>> I notice that when going out of deep sleep mode panel is functional.
+>>
+>> May you have any idea to debug/solve this problem ?
+>>
+> Hi Benjamin,
 >
+> I think this might not be related to this series. Which kernel are you using?
+> I tried the krane sku176 with linux-next 5.17-rc6
+> (519dd6c19986696f59847ff8bf930436ccffd9a1 (tag: next-20220307,
+> linux-next/master) with or without this series, both can get the display on.
+>
+> dsi related message:
+> [    0.206330] mediatek-drm mediatek-drm.1.auto: Adding component
+> match for /soc/dsi@14014000
+> [    4.567577] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
+> not found, using dummy regulator
+> [    4.567732] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup for
+> consumer enable
+> [    4.567738] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
+> tree for GPIO lookup
+> [    4.567757] of_get_named_gpiod_flags: parsed 'enable-gpios'
+> property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
+> [    4.585884] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
+> not found, using dummy regulator
+> [    4.586037] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup for
+> consumer enable
+> [    4.586042] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
+> tree for GPIO lookup
+> [    4.586059] of_get_named_gpiod_flags: parsed 'enable-gpios'
+> property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
+> [    4.587430] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi
+> (ops 0xffffffd369a752b8)
+>
+>
+> Maybe some config is not enabled?
 
-I see. Thanks a lot for this explanation.
- 
-> Best regards
-> Thomas
-> 
+I using 5.17.0-rc1-next-20220127 kernel tag.
+The configs look similar.
 
--- 
-Best regards,
+I have the follow log at boot time:
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+[    1.533384] phy phy-11e50000.dsi-phy.2: Looking up phy-supply from device tree
+[    1.533402] phy phy-11e50000.dsi-phy.2: Looking up phy-supply property in node /soc/dsi-phy@11e50000 failed
+[    3.173068] mediatek-drm mediatek-drm.1.auto: Adding component match for /soc/dsi@14014000
+[    4.671806] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avdd-supply from device tree
+[    4.680348] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avee-supply from device tree
+[    4.688784] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp3300-supply from device tree
+[    4.697816] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp1800-supply from device tree
+[    4.842346] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avdd-supply from device tree
+[    4.854573] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up avee-supply from device tree
+[    4.862976] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp3300-supply from device tree
+[    4.871568] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up pp1800-supply from device tree
+[    4.964021] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi (ops mtk_dsi_component_ops)
+...
+[   38.273437] [drm] Wait DSI IRQ(0x00000002) Timeout
+[   38.281584] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
+[   38.288651] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init panel: -62
+...
+[   70.113674] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR* flip_done timed out
+[   70.121054] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR* [CRTC:45:crtc-0] commit wait timed out
+[   70.130037] [drm:mtk_drm_crtc_atomic_begin] *ERROR* new event while there is still a pending event
+[   70.241222] ------------[ cut here ]------------
+[   70.245898] [CRTC:45:crtc-0] vblank wait timed out
+[   70.250729] WARNING: CPU: 7 PID: 397 at drivers/gpu/drm/drm_atomic_helper.c:1529 drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x24
+[   70.262815] Modules linked in: hci_uart btqca btbcm bluetooth cdc_ether usbnet r8152 mtk_mdp3 hid_multitouch mtk_jpeg panfrost cros_6
+[   70.309348] CPU: 7 PID: 397 Comm: gnome-shell Tainted: G        W         5.17.0-rc1-next-20220127+ #57
+[   70.318731] Hardware name: MediaTek krane sku176 board (DT)
+[   70.324293] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   70.331244] pc : drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
+[   70.337762] lr : drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
+[   70.344279] sp : ffff8000092339e0
+[   70.347583] x29: ffff8000092339e0 x28: 0000000000000001 x27: 0000000000000000
+[   70.354713] x26: 0000000000000000 x25: ffffc7e8feee4660 x24: 0000000000000038
+[   70.361842] x23: ffff6fe702b0d000 x22: 0000000000000001 x21: ffff6fe7030d5080
+[   70.368970] x20: ffff6fe709d7d700 x19: 0000000000000000 x18: 0000000000000030
+[   70.376099] x17: 000000040044ffff x16: 00400032b5503510 x15: ffffffffffffffff
+[   70.383227] x14: ffffc7e8ffa99220 x13: 000000000000094b x12: 0000000000000319
+[   70.390354] x11: 6e616c6276205d30 x10: ffffc7e8ffb49220 x9 : 00000000ffffe000
+[   70.397483] x8 : ffffc7e8ffa99220 x7 : 0000000000000001 x6 : 0000000000000000
+[   70.404611] x5 : 0000000000000000 x4 : ffff6fe73b5e4cf8 x3 : ffff6fe73b5f0840
+[   70.411738] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff6fe702f20000
+[   70.418866] Call trace:
+[   70.421301]  drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
+[   70.427472]  drm_atomic_helper_commit_tail_rpm+0x88/0xac
+[   70.432775]  commit_tail+0xa0/0x17c
+[   70.436254]  drm_atomic_helper_commit+0x190/0x3a0
+[   70.440949]  drm_atomic_commit+0x5c/0x6c
+[   70.444864]  drm_mode_gamma_set_ioctl+0x45c/0x640
+[   70.449560]  drm_ioctl_kernel+0xc4/0x174
+[   70.453475]  drm_ioctl+0x238/0x45c
+[   70.456868]  __arm64_sys_ioctl+0xac/0xf0
+[   70.460786]  invoke_syscall+0x48/0x114
+[   70.464529]  el0_svc_common.constprop.0+0x60/0x11c
+[   70.469312]  do_el0_svc+0x28/0x90
+[   70.472619]  el0_svc+0x4c/0x100
+[   70.475754]  el0t_64_sync_handler+0xec/0xf0
+[   70.479928]  el0t_64_sync+0x1a0/0x1a4
+[   70.483582] irq event stamp: 0
+[   70.486625] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   70.492883] hardirqs last disabled at (0): [<ffffc7e8fd49383c>] copy_process+0x658/0x197c
+[   70.501053] softirqs last  enabled at (0): [<ffffc7e8fd49383c>] copy_process+0x658/0x197c
+[   70.509219] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   70.515475] ---[ end trace 0000000000000000 ]---
 
+Regards,
+Benjamin
+
+>
+>
+>
+>> Regards,
+>> Benjamin
+>>
+>>> Changes since v1:
+>>> 1. Dsi sequence marked with patch adjustment
+>>> 2. Fixes: mtk_dsi: Use the drm_panel_bridge
+>>>
+>>> Jitao Shi (3):
+>>>     drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
+>>>     drm/mediatek: Separate poweron/poweroff from enable/disable and define
+>>>       new funcs
+>>>     drm/mediatek: keep dsi as LP00 before dcs cmds transfer
+>>>
+>>> Xinlei Lee (1):
+>>>     drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
+>>>       function
+>>>
+>>>    drivers/gpu/drm/mediatek/mtk_dsi.c | 73 ++++++++++++++++++++----------
+>>>    1 file changed, 49 insertions(+), 24 deletions(-)
+>>>
+>> _______________________________________________
+>> Linux-mediatek mailing list
+>> Linux-mediatek@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+>>
+>> _______________________________________________
+>> Linux-mediatek mailing list
+>> Linux-mediatek@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-mediatek
