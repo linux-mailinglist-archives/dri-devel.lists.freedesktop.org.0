@@ -1,41 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B274D102A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 07:21:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3EC4D11FA
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 09:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 783FA10E886;
-	Tue,  8 Mar 2022 06:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD9D10ED12;
+	Tue,  8 Mar 2022 08:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 895D310E763
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 06:20:25 +0000 (UTC)
-X-UUID: d3f6a3356913435eb3fc7ac5febe3f76-20220308
-X-UUID: d3f6a3356913435eb3fc7ac5febe3f76-20220308
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1073014832; Tue, 08 Mar 2022 14:20:19 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 8 Mar 2022 14:20:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 8 Mar 2022 14:20:18 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Subject: [PATCH v13 22/22] arm64: dts: mt8195: add display node for vdosys1
-Date: Tue, 8 Mar 2022 14:20:12 +0800
-Message-ID: <20220308062012.21838-23-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220308062012.21838-1-nancy.lin@mediatek.com>
-References: <20220308062012.21838-1-nancy.lin@mediatek.com>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 832B010E00D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 01:56:26 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id 6so10572479pgg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 17:56:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2E8yu0dx7WwOCxdxcyi0NQqYJT6dBXDVWvwU57lz8KQ=;
+ b=W4Vvp4Om53sRLaPMGoPv5Lw3SKc1neqXL4ODSGoSFaBNP4IX+aOSiXUdqKNhBI1OLU
+ 0+beRrK3uYfg8BWDrympGzCfIi66zeCPkX0fLoNA19CS/iCRkHKA+uk2vKPPxmEzNRg4
+ ZM3ycFOrv6n6KdLAoJieK+TsbBUTPC4hSjCgUsCF/L8P3cmush/4rcPuiuonl0whQhyS
+ RrozoUF0mcg0tb9JSS453Z5DAzB7TacoKp/s+nN6LuSvH76qiIA4wP0CKbCIMf4/5Y06
+ qbmnQIzm3JdWCFW4yi5GJwB/AoB2og/tQCSEpoApP4QAURHorqMd5zAi3SEjUurw2urR
+ AgTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2E8yu0dx7WwOCxdxcyi0NQqYJT6dBXDVWvwU57lz8KQ=;
+ b=tQR9V7O3nM8WQS1VLRBF8xjT+YSDYMJbLAE7lly3SqIicJPAlB3SFWG/J3YRvVUbJ6
+ FX/e80xcHHBR6LATjpRnA1T3xG8Glzj2A5o5iJ0z37gKaR4YE87lHERv/DNH+qOQE35O
+ 6KtxlPkZf7rNNFMdP6A9UPNJeg64nsDWQIzSR06yfGqghWLgxdodeETKTAc4ZiM60pVE
+ femoeTW3Cjyj6w/lYiaEZdRq76QWO1hxAv+Tt4eyqVnkGqMwgq2Mn+8wxFl9gyvC9nMo
+ 6je/+j513fFdNW1Rl5ybZM9o80u6hfjqB0UnLCNpDNDckSzjzUDWYciMEMT+ZSV6FZEJ
+ diWw==
+X-Gm-Message-State: AOAM532VQPOMwXltsiSefAiieG+jpq2Ywkz8Y6EMOvhb8DPc3vg1/mEF
+ 7RNxskZbaNrY3CU8Ya3rdik=
+X-Google-Smtp-Source: ABdhPJyc8tex3nzmMFhV2LyL3qoBzinohm5njUfxL/3uqEMMkFBn6X+k9KVvHtUHpCN1RBuTP/4w4Q==
+X-Received: by 2002:a05:6a00:a23:b0:4f6:72a8:20c7 with SMTP id
+ p35-20020a056a000a2300b004f672a820c7mr15968222pfh.12.1646704585971; 
+ Mon, 07 Mar 2022 17:56:25 -0800 (PST)
+Received: from lxb-server.lan ([2605:52c0:2:32c::])
+ by smtp.gmail.com with ESMTPSA id
+ mm17-20020a17090b359100b001bef7e5bdffsm619629pjb.20.2022.03.07.17.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 17:56:25 -0800 (PST)
+From: Yunhao Tian <t123yh.xyz@gmail.com>
+To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH] drm/mipi-dbi: Fix max_chunk calculation in spi_transfer
+Date: Tue,  8 Mar 2022 09:56:11 +0800
+Message-Id: <20220308015611.3007395-1-t123yh.xyz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 08 Mar 2022 08:19:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,272 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
+ Yunhao Tian <t123yh.xyz@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add display node for vdosys1.
+In __spi_validate, there's a validation that no partial transfers
+are accepted (xfer->len % w_size must be zero). When
+max_chunk is not a multiple of bpw (e.g.max_chunk = 65535,
+bpw = 16), the transfer will be rejected.
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+This patch clamps max_chunk to the word size, preventing
+the transfer from being rejected.
+
+Signed-off-by: Yunhao Tian <t123yh.xyz@gmail.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 223 +++++++++++++++++++++++
- 1 file changed, 223 insertions(+)
+ drivers/gpu/drm/drm_mipi_dbi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index dbca699bba05..e650ec759235 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -11,6 +11,7 @@
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/phy/phy.h>
- #include <dt-bindings/pinctrl/mt8195-pinfunc.h>
-+#include <dt-bindings/reset/mt8195-resets.h>
- #include <dt-bindings/reset/ti-syscon.h>
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 71b646c4131f..440dc9fec6cc 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -1182,6 +1182,15 @@ int mipi_dbi_spi_transfer(struct spi_device *spi, u32 speed_hz,
+ 	struct spi_message m;
+ 	size_t chunk;
+ 	int ret;
++	int w_size;
++
++	if (bpw <= 8)
++		w_size = 1;
++	else if (bpw <= 16)
++		w_size = 2;
++	else
++		w_size = 4;
++	max_chunk -= (max_chunk % w_size);
  
- / {
-@@ -22,6 +23,22 @@
- 	aliases {
- 		gce0 = &gce0;
- 		gce1 = &gce1;
-+		ethdr0 = &ethdr0;
-+		mutex0 = &mutex;
-+		mutex1 = &mutex1;
-+		merge1 = &merge1;
-+		merge2 = &merge2;
-+		merge3 = &merge3;
-+		merge4 = &merge4;
-+		merge5 = &merge5;
-+		vdo1-rdma0 = &vdo1_rdma0;
-+		vdo1-rdma1 = &vdo1_rdma1;
-+		vdo1-rdma2 = &vdo1_rdma2;
-+		vdo1-rdma3 = &vdo1_rdma3;
-+		vdo1-rdma4 = &vdo1_rdma4;
-+		vdo1-rdma5 = &vdo1_rdma5;
-+		vdo1-rdma6 = &vdo1_rdma6;
-+		vdo1-rdma7 = &vdo1_rdma7;
- 	};
+ 	spi_message_init_with_transfers(&m, &tr, 1);
  
- 	cpus {
-@@ -1188,7 +1205,213 @@
- 		vdosys1: syscon@1c100000 {
- 			compatible = "mediatek,mt8195-vdosys1", "syscon";
- 			reg = <0 0x1c100000 0 0x1000>;
-+			mboxes = <&gce0 1 CMDQ_THR_PRIO_4>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x0000 0x1000>;
- 			#clock-cells = <1>;
-+			#reset-cells = <1>;
- 		};
-+
-+		mutex1: mutex0@1c101000 {
-+			compatible = "mediatek,mt8195-disp-mutex";
-+			reg = <0 0x1c101000 0 0x1000>;
-+			reg-names = "vdo1_mutex";
-+			interrupts = <GIC_SPI 494 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			clocks = <&vdosys1 CLK_VDO1_DISP_MUTEX>;
-+			clock-names = "vdo1_mutex";
-+			mediatek,gce-events = <CMDQ_EVENT_VDO1_STREAM_DONE_ENG_0>;
-+		};
-+
-+		vdo1_rdma0: mdp-rdma@1c104000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c104000 0 0x1000>;
-+			interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000 0x1000>;
-+		};
-+
-+		vdo1_rdma1: mdp-rdma@1c105000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c105000 0 0x1000>;
-+			interrupts = <GIC_SPI 496 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA1>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x5000 0x1000>;
-+		};
-+
-+		vdo1_rdma2: mdp-rdma@1c106000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c106000 0 0x1000>;
-+			interrupts = <GIC_SPI 497 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA2>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA2>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x6000 0x1000>;
-+		};
-+
-+		vdo1_rdma3: mdp-rdma@1c107000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c107000 0 0x1000>;
-+			interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA3>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA3>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x7000 0x1000>;
-+		};
-+
-+		vdo1_rdma4: mdp-rdma@1c108000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c108000 0 0x1000>;
-+			interrupts = <GIC_SPI 499 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA4>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA4>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x8000 0x1000>;
-+		};
-+
-+		vdo1_rdma5: mdp-rdma@1c109000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c109000 0 0x1000>;
-+			interrupts = <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA5>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA5>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x9000 0x1000>;
-+		};
-+
-+		vdo1_rdma6: mdp-rdma@1c10a000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c10a000 0 0x1000>;
-+			interrupts = <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA6>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA6>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xa000 0x1000>;
-+		};
-+
-+		vdo1_rdma7: mdp-rdma@1c10b000 {
-+			compatible = "mediatek,mt8195-vdo1-rdma";
-+			reg = <0 0x1c10b000 0 0x1000>;
-+			interrupts = <GIC_SPI 502 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_MDP_RDMA7>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_MDP_RDMA7>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xb000 0x1000>;
-+		};
-+
-+		merge1: vpp-merge@1c10c000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10c000 0 0x1000>;
-+			interrupts = <GIC_SPI 503 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE0>,
-+				 <&vdosys1 CLK_VDO1_MERGE0_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xc000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC>;
-+		};
-+
-+		merge2: vpp-merge@1c10d000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10d000 0 0x1000>;
-+			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE1>,
-+				 <&vdosys1 CLK_VDO1_MERGE1_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xd000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC>;
-+		};
-+
-+		merge3: vpp-merge@1c10e000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10e000 0 0x1000>;
-+			interrupts = <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE2>,
-+				 <&vdosys1 CLK_VDO1_MERGE2_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xe000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC>;
-+		};
-+
-+		merge4: vpp-merge@1c10f000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c10f000 0 0x1000>;
-+			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE3>,
-+				 <&vdosys1 CLK_VDO1_MERGE3_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0xf000 0x1000>;
-+			mediatek,merge-mute = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC>;
-+		};
-+
-+		merge5: vpp-merge@1c110000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c110000 0 0x1000>;
-+			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vdosys1 CLK_VDO1_VPP_MERGE4>,
-+				 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
-+			clock-names = "merge","merge_async";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x0000 0x1000>;
-+			mediatek,merge-fifo-en = <1>;
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
-+		};
-+
-+		ethdr0: ethdr@1c114000 {
-+			compatible = "mediatek,mt8195-disp-ethdr";
-+			reg = <0 0x1c114000 0 0x1000>,
-+			      <0 0x1c115000 0 0x1000>,
-+			      <0 0x1c117000 0 0x1000>,
-+			      <0 0x1c119000 0 0x1000>,
-+			      <0 0x1c11A000 0 0x1000>,
-+			      <0 0x1c11B000 0 0x1000>,
-+			      <0 0x1c11C000 0 0x1000>;
-+			reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+				    "vdo_be", "adl_ds";
-+			mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xA000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xB000 0x1000>,
-+						  <&gce0 SUBSYS_1c11XXXX 0xC000 0x1000>;
-+			clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-+				 <&vdosys1 CLK_VDO1_26M_SLOW>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-+				 <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-+				 <&topckgen CLK_TOP_ETHDR>;
-+			clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+				      "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
-+				      "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
-+				      "ethdr_top";
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+			iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-+				 <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-+			interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
-+			resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-+				 <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-+		};
-+
- 	};
- };
 -- 
-2.18.0
+2.25.1
 
