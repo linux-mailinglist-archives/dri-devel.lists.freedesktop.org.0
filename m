@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E7C4D1CC9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 17:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369714D1CE8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 17:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 176DD10E25C;
-	Tue,  8 Mar 2022 16:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A40110E320;
+	Tue,  8 Mar 2022 16:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C064810E2D3
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:08:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E719B10E320
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:13:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3CA226170B;
- Tue,  8 Mar 2022 16:08:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8484AC340EF;
- Tue,  8 Mar 2022 16:08:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6E50861647
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:13:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1973C340F6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 16:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646755690;
- bh=xRcUbaosez9eu3DFVA2FXMe6aBdN7Vix+MKm/XQd+FI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ogol2p7vJMvLPc+WiHqrwoWVCAa6G3PXJpADWQPrycGCZOdS8nWNULGU9v9Dqb8ol
- D1VmJJYhCbe9QYBDZY88WtXwCjSxF9B7SFLCsqBsmqxZFPvop5OLuyiIkUK95SG8m+
- Txm2QC7lbG64ZywsNlr6lCI84p2Tqck1uoJKXq3auR0lR3ejXrxKFyUvLt4sMR47oI
- qRxsz9C4pLfaMreloqbsV4g8DgaCC/wFTXeK9/HiQQCxVfjIvT1h3qEeclXgET5s9M
- 2BfBhxuswFBbdQSvX17HP1JnDhR9nBe26ab9piTqMPN7gPqLws5P5pO2M7VQvXCZux
- yFZvXnhYkd9VQ==
-Received: by wens.tw (Postfix, from userid 1000)
- id 49B865FA0C; Wed,  9 Mar 2022 00:08:08 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm: ssd130x: Always apply segment remap setting
-Date: Wed,  9 Mar 2022 00:07:58 +0800
-Message-Id: <20220308160758.26060-2-wens@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220308160758.26060-1-wens@kernel.org>
-References: <20220308160758.26060-1-wens@kernel.org>
+ s=k20201202; t=1646756025;
+ bh=jXBz2f9tChtMFtKyOyZ4Q3h2mhlA6Onv+Izw71UufzM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=UnxR/RJqQQzmrMWTZA3iu/62twkicgqrZxqPlgt9nko9YFkMPdzqQdhKoUlmtE+sA
+ LsIrzYMHxXsjIhdqok6IGMj9Rq+1a6gWFNyB+Z+70KJtOOsqpOWNvFYljWZILzQJFj
+ LCxFHq/7Of/gQbIlyvcaL2wihl5o1JEWd4jIsnhVX/JV05yIIeslM8V9wzZWNaplmt
+ l79agZVVIiUMcMfcrko3HrLFLt+J5HqqOBuZ0IiRMIWFolhZ93VD/j8oJUDeiczv1Y
+ ubHFl6HiKUy6yf1IWu6VGT4SBvF3/AqCtwo8kPFLx0yRK8d3B/jrDwCqPJscQUbEO6
+ W1eCuj5HSAGvw==
+Received: by mail-ej1-f41.google.com with SMTP id d10so40315351eje.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 08:13:45 -0800 (PST)
+X-Gm-Message-State: AOAM5338BldNaK6Frqv9zwsPywl8ZcvkhUpn8ObcuphO3CC3xU3q1cyQ
+ QuGZglILxO78EM6ffXUiWTQvYlWzZLZB8VjhRg==
+X-Google-Smtp-Source: ABdhPJwgjUirqReFAL6N3dmjsf1cllJkmUJ+TfjKooqF93ar8SLKSqqP4oME9QxeInU2UXWZqXn7edss5wrmTCZW8Po=
+X-Received: by 2002:a17:906:181a:b0:6d0:ebf5:c064 with SMTP id
+ v26-20020a170906181a00b006d0ebf5c064mr13580319eje.82.1646756024055; Tue, 08
+ Mar 2022 08:13:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220304095458.12409-1-angelogioacchino.delregno@collabora.com>
+ <CAAOTY_8CTewRw2Le9RjXoCrqF8AyHD0_p01EMiJ2QQ63yf-HKQ@mail.gmail.com>
+In-Reply-To: <CAAOTY_8CTewRw2Le9RjXoCrqF8AyHD0_p01EMiJ2QQ63yf-HKQ@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 8 Mar 2022 10:13:31 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+qqCHvzg8uKx6xaD4cDJJq7hOUvJGME18V7cuLW5OPqQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+qqCHvzg8uKx6xaD4cDJJq7hOUvJGME18V7cuLW5OPqQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Fix MediaTek display dt-bindings issues
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,80 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: DTML <devicetree@vger.kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chen-Yu Tsai <wens@csie.org>
+On Fri, Mar 4, 2022 at 5:49 PM Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
+>
+> Hi, Rob:
+>
+> Would you like to take this series into your tree, or I take this
+> series into my tree?
 
-Currently the ssd130x driver only sets the segment remap setting when
-the device tree requests it; it however does not clear the setting if
-it is not requested. This leads to the setting incorrectly persisting
-if the hardware is always on and has no reset GPIO wired. This might
-happen when a developer is trying to find the correct settings for an
-unknown module, and cause the developer to get confused because the
-settings from the device tree are not consistently applied.
+I can't. I don't have the broken commits in my tree.
 
-Make the driver apply the segment remap setting consistently, setting
-the value correctly based on the device tree setting. This also makes
-this setting's behavior consistent with the other settings, which are
-always applied.
-
-Fixes: a61732e80867 ("drm: Add driver for Solomon SSD130x OLED displays")
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- drivers/gpu/drm/solomon/ssd130x.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index ccd378135589..d08d86ef07bc 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -48,7 +48,7 @@
- #define SSD130X_CONTRAST			0x81
- #define SSD130X_SET_LOOKUP_TABLE		0x91
- #define SSD130X_CHARGE_PUMP			0x8d
--#define SSD130X_SEG_REMAP_ON			0xa1
-+#define SSD130X_SET_SEG_REMAP			0xa0
- #define SSD130X_DISPLAY_OFF			0xae
- #define SSD130X_SET_MULTIPLEX_RATIO		0xa8
- #define SSD130X_DISPLAY_ON			0xaf
-@@ -61,6 +61,8 @@
- #define SSD130X_SET_COM_PINS_CONFIG		0xda
- #define SSD130X_SET_VCOMH			0xdb
- 
-+#define SSD130X_SET_SEG_REMAP_MASK		GENMASK(0, 0)
-+#define SSD130X_SET_SEG_REMAP_SET(val)		FIELD_PREP(SSD130X_SET_SEG_REMAP_MASK, (val))
- #define SSD130X_SET_COM_SCAN_DIR_MASK		GENMASK(3, 3)
- #define SSD130X_SET_COM_SCAN_DIR_SET(val)	FIELD_PREP(SSD130X_SET_COM_SCAN_DIR_MASK, (val))
- #define SSD130X_SET_CLOCK_DIV_MASK		GENMASK(3, 0)
-@@ -235,7 +237,7 @@ static void ssd130x_power_off(struct ssd130x_device *ssd130x)
- 
- static int ssd130x_init(struct ssd130x_device *ssd130x)
- {
--	u32 precharge, dclk, com_invdir, compins, chargepump;
-+	u32 precharge, dclk, com_invdir, compins, chargepump, seg_remap;
- 	int ret;
- 
- 	/* Set initial contrast */
-@@ -244,11 +246,11 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
- 		return ret;
- 
- 	/* Set segment re-map */
--	if (ssd130x->seg_remap) {
--		ret = ssd130x_write_cmd(ssd130x, 1, SSD130X_SEG_REMAP_ON);
--		if (ret < 0)
--			return ret;
--	}
-+	seg_remap = (SSD130X_SET_SEG_REMAP |
-+		     SSD130X_SET_SEG_REMAP_SET(ssd130x->seg_remap));
-+	ret = ssd130x_write_cmd(ssd130x, 1, seg_remap);
-+	if (ret < 0)
-+		return ret;
- 
- 	/* Set COM direction */
- 	com_invdir = (SSD130X_SET_COM_SCAN_DIR |
--- 
-2.34.1
-
+Rob
