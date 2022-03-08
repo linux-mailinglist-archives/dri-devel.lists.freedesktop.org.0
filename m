@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D844D1440
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:08:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 688B14D146C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9689F10E34B;
-	Tue,  8 Mar 2022 10:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8CA110E498;
+	Tue,  8 Mar 2022 10:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA5410E34F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:07:58 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id qt6so37983951ejb.11
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 02:07:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wjq5d37nDqkRC7sNFuDZ5VhqK60r/cIBXSzUP4l+0VM=;
- b=j5DfEcIHPg9855vtFAKEp1b90EfmdUbMHejc4faC0p/1JANu+o+ey1O9YMyLCI8akL
- KH5+C0J5gbFcwboWqGwS2Dnuyil97uu3vftEGVy7GQpR1I2yq4tNSDp9BtQl7Oj/LMZU
- 7X850PP9u8TDLELdXxP3rosMymSCBRyF5X1x4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wjq5d37nDqkRC7sNFuDZ5VhqK60r/cIBXSzUP4l+0VM=;
- b=g435zsukiOorv+H4vO/OqtGhrHx9Ue1hQk1sMWxPGWvQV5I5GbLfZ6s4icO3voBlHM
- /eZrZkOcMUBlmMbyr334Pud2JiUtl6Ndz7efPaLw8Xxsq3u1rqMZxXRyixLRRi7APbeL
- gkuX3fF9sevPPLKSpVF/1nNfMqjCCGDkeqhyLbsHiJjO8ZnA9tCJOlNLtZc+tbNcwjk+
- 1gXuOcM3d7szzVtGDB4rudsFyzbagUoRur+M3Eb3VpIaXokiQVPXMvKAdMkIV+qZBQUQ
- ipavgBaYf8KuWE9oKm+lb4p/dj813Suv9YCGFQ06fv5/EIKTinTzW8ztniYmBcIZcjcg
- u/8A==
-X-Gm-Message-State: AOAM532/OuEwBFEdSoGWswYHftOggk+y5PPNHOScZt3G7lz9yc/8udxZ
- c2HIWEu/S4+kkv2UmIl/FIrkp/aeqPDXa/tWCxYVHw==
-X-Google-Smtp-Source: ABdhPJxZTnLDNJCysnV2dsH8GogneTgGvG9QzSkujmPMSoBqlmSx9JbeYOE4+G1zdSC2DxI1t5f6CESsQcyKzSyxQuo=
-X-Received: by 2002:a17:906:4ccd:b0:6b7:75ca:3eac with SMTP id
- q13-20020a1709064ccd00b006b775ca3eacmr12442004ejt.167.1646734076539; Tue, 08
- Mar 2022 02:07:56 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1AA10E488;
+ Tue,  8 Mar 2022 10:11:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C392F61501;
+ Tue,  8 Mar 2022 10:11:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F770C340EB;
+ Tue,  8 Mar 2022 10:11:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646734286;
+ bh=fYSUhe3wecNdmSDhFtYlrEjcl8plDtdT7/KRcR78mg8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u4nsxISBKCbp0kWFZQFzaUS+y+q3Vc8eNVHhG0Dmv4Nb/JhF26ncQ7Echex+2TBWw
+ HzESBnHl4TLrNzabSQGNB7ZbF8RfKTG8YIJq2SApT5oCxEWRfJr2l9JoJPXihK3vfQ
+ duy0ns8W9IpIrx2oeLNdvolKx2mHVixqS4CJNaiMHhOoWN2qQZmcekG4CxoSZIyJX4
+ EJo+hN5kIQOs94WI2C6ml3xu/HoLZzZhctA1CyAepjY5M6e1IrYFTj5uS071+txQfv
+ E2z0+8a/Amxg9QK2hYAnt6jFaeTl8IVajwPvjbBMhdwUfexozvzQDosql+YtSoO6QB
+ ViNC/V8kidVXQ==
+Date: Tue, 8 Mar 2022 12:10:45 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Laight <David.Laight@aculab.com>
+Subject: Re: [PATCH RFC 0/3] MAP_POPULATE for device memory
+Message-ID: <YicrpX9K1dSdCK7u@iki.fi>
+References: <20220306053211.135762-1-jarkko@kernel.org>
+ <YiSb7tsUEBRGS+HA@casper.infradead.org>
+ <YiW4yurDXSifTYUt@infradead.org> <YiYIv9guOgClLKT8@iki.fi>
+ <YiYrRWMp1akXY8Vb@infradead.org>
+ <5729d03d6a174da6b66d1534ebdb1127@AcuMS.aculab.com>
 MIME-Version: 1.0
-References: <20220304002508.75676-1-marex@denx.de>
- <20220304002508.75676-6-marex@denx.de>
- <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
- <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
-In-Reply-To: <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 8 Mar 2022 15:37:45 +0530
-Message-ID: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
-Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5729d03d6a174da6b66d1534ebdb1127@AcuMS.aculab.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>, zhangyiru <zhangyiru3@huawei.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "codalist@coda.cs.cmu.edu" <codalist@coda.cs.cmu.edu>,
+ 'Christoph Hellwig' <hch@infradead.org>, Matthew Auld <matthew.auld@intel.com>,
+ Vasily Averin <vvs@virtuozzo.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "G@iki.fi" <G@iki.fi>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ Shakeel Butt <shakeelb@google.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nathaniel McCallum <nathaniel@profian.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Alexey Gladkov <legion@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
->
-> On 3/8/22 09:03, Jagan Teki wrote:
->
-> Hi,
->
-> [...]
->
-> >> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
-> >>   static int chipone_parse_dt(struct chipone *icn)
-> >>   {
-> >>          struct device *dev = icn->dev;
-> >> +       struct device_node *endpoint;
-> >>          struct drm_panel *panel;
-> >> +       int dsi_lanes;
-> >>          int ret;
-> >>
-> >>          icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
-> >> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
-> >>                  return PTR_ERR(icn->enable_gpio);
-> >>          }
-> >>
-> >> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> >> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> >> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
-> >> +       of_node_put(endpoint);
-> >> +
-> >> +       if (!icn->host_node)
-> >> +               return -ENODEV;
-> >
-> > The non-ports-based OF graph returns a -19 example on the Allwinner
-> > Display pipeline in R16 [1].
-> >
-> > We need to have a helper to return host_node for non-ports as I have
-> > done it for drm_of_find_bridge.
-> >
-> > [1] https://patchwork.amarulasolutions.com/patch/1805/
->
-> The link points to a patch marked "DO NOT MERGE", maybe that patch is
-> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
-> required, see:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
->
-> What is "non-ports-based OF graph" ?
->
-> I don't see drm_of_find_bridge() in linux-next , what is that ?
+On Mon, Mar 07, 2022 at 10:11:19PM +0000, David Laight wrote:
+> From: Christoph Hellwig
+> > Sent: 07 March 2022 15:57
+> > 
+> > On Mon, Mar 07, 2022 at 03:29:35PM +0200, Jarkko Sakkinen wrote:
+> > > So what would you suggest to sort out the issue? I'm happy to go with
+> > > ioctl if nothing else is acceptable.
+> > 
+> > PLenty of drivers treat all mmaps as if MAP_POPULATE was specified,
+> > typically by using (io_)remap_pfn_range.  If there any reason to only
+> > optionally have the pre-fault semantics for sgx?  If not this should
+> > be really simple.  And if we have a real need for it to be optional
+> > we'll just need to find a sane way to pass that information to ->mmap.
+> 
+> Is there any space in vma->vm_flags ?
+> 
+> That would be better than an extra argument or function.
 
-port@0 is optional as some of the DSI host OF-graph represent the
-bridge or panel as child nodes instead of ports. (i think dt-binding
-has to fix it to make port@0 optional)
+It's very dense but I'll give a shot for callback route based on Dave's
+comments in this thread. I.e. use it as filter inside __mm_populate() and
+populate_vma_page_range().
 
-Example OF-graph is on the commit message.
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/drm_of.c?id=80253168dbfd256bca97cf7f13312863c5a7f2e5
+For Enarx, which we are implementing being able to use MAP_POPULATE and get
+the full range EAUG'd would be best way to optimize the performance of wasm
+JIT (Enarx is a wasm run-time capable of running inside an SGX enclave, AMD
+SEV-SNP VM etc.). More so than any predictor (ra_state, madvice etc.) inside
+#PF handler, which have been suggested in this thread.
 
-Jagan.
+After some research on how we implement user space, I'd rather keep the #PF
+handler working on a single page (EAUG a single page) and have either ioctl
+or MAP_POPULATE to do the batch fill.
+
+We can still "not trust the user space" i.e. the populate does not have to
+guarantee to do the full length since the #PF handler will then fill the
+holes. This was one concern in this thread but it is not hard to address.
+
+BR, Jarkko
