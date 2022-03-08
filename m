@@ -2,82 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79DE4D1ADD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 15:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982A24D1AEE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 15:47:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA6510E5EA;
-	Tue,  8 Mar 2022 14:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB6410E6D9;
+	Tue,  8 Mar 2022 14:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB5310E5DC
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:42:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646750568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tATbOgHJcJ/4hUpKdLQsepBRnBgdhbYd9x5YyJps/7o=;
- b=i0Kd/V+dTuRhTH9w+Ca1lNbCL4i7ttVpdgKwHTG4AlDHF2SxSVGxS06H0hrmupAIs/aJjj
- Kd3CUGmp2bSaqcr6p0VkFfB8c26cowAbB8nPw+JlNQoOKIlkCrHszY7UFoFCZz1s+XkBqh
- WIv3QQuTJWBqWAXIhKiYLoihvWOPeOk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-dKePLxtLMOijR8NzgS-UjQ-1; Tue, 08 Mar 2022 09:42:45 -0500
-X-MC-Unique: dKePLxtLMOijR8NzgS-UjQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 187-20020a1c19c4000000b0037cc0d56524so1262646wmz.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 06:42:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tATbOgHJcJ/4hUpKdLQsepBRnBgdhbYd9x5YyJps/7o=;
- b=jHCVZJJ5ND90SaiSLpZs0UvpaZRxCmaysKWrh0YqwqPv1i79gUzkxI7TI5DUwUfOeo
- UTB3jvcNY2K2VO9yJr4kwiKa0eyNfzojm+HZFWDcaO2ywcmhaUV6Srl48iAxZN4TgWqW
- 2ZH3aQzT04RzSWoLwzKkNucGSdlMs+vh9FuqemdcZpoyYnxiMKbyr7Cea/cPFnT6byR8
- +rxVLop7xYnvXOprBmN37kCpuDAxoQkZmi6ead98kqMTkiVSc1g7kTyIc5mPczYcr0Vt
- dDn2wmvdNwZKUt7+KMy/+eKSmyy14Hv4ZSeJD/uDxgBs9QiqlNRg1+1n+zKF6Hw4PIgO
- LVRQ==
-X-Gm-Message-State: AOAM5308229TcjGIHaycnkSarni+ndtJe5CIRRUTcobdOjaTyzomGWur
- NdKKnvGd6y9XyA2ELegRuhkLrHiu763wK2OouKwte5XMNVGsmaDGwecEpJc2slspISf/32snzOb
- vFT/NUrgJUSTL1fHkWaIC4/qMVpxj
-X-Received: by 2002:adf:b1da:0:b0:1f0:1205:89c1 with SMTP id
- r26-20020adfb1da000000b001f0120589c1mr12369664wra.27.1646750563995; 
- Tue, 08 Mar 2022 06:42:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOZcVU+hFCO17d0FKfNV//pcbVvoZdXclr9zQPpsTXnY/L9Y2Kt6jpCy1GSMTv1uSfM8TgFQ==
-X-Received: by 2002:adf:b1da:0:b0:1f0:1205:89c1 with SMTP id
- r26-20020adfb1da000000b001f0120589c1mr12369647wra.27.1646750563746; 
- Tue, 08 Mar 2022 06:42:43 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- e2-20020adfe7c2000000b001f04d622e7fsm14003199wrn.39.2022.03.08.06.42.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 06:42:43 -0800 (PST)
-Message-ID: <291426e8-32ed-ba0b-4d23-38218d450c93@redhat.com>
-Date: Tue, 8 Mar 2022 15:42:42 +0100
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1116810E6D9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:47:24 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9805C8312A;
+ Tue,  8 Mar 2022 15:47:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646750843;
+ bh=2MbyhdQoXHbolEY/NkJirLdC4DxQyi7U4Lu1NrzFM0w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MrDOvZKffpNd34jy7LlN/kPSDlX+m8CXa5kxdVdXi/uHLRGju4TJ5U+7Orjj5uyd8
+ fU8eapKgtQthEBY7Ptd+mZdLTm9z+qYTojzJXoPcEHGk2bqKEshQt4+jU1YnuYyyq8
+ 9MUtOGJQLX3AL1wL+xcViyy7jT3wgSwUckitccJisl65ZQne9vndcPC0xlkoOXSXoX
+ qW7Q6aX1zd9lozu98s5w2kJoinagrPvldps6U6befkPNqNz2bBegJncEvSdD8JJ9lw
+ oksebanfvOeF/FQ/n68bz/ehi3Lb7ekYtQpqJs8BUR4WciUHtmXJLjg7aUrEwhEqH8
+ dJ8DLFW+quZxA==
+Message-ID: <1ac9057e-fb6d-02f8-78df-c6518fb6e897@denx.de>
+Date: Tue, 8 Mar 2022 15:47:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/9] fbdev: Track deferred-I/O pages in pageref struct
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- deller@gmx.de
-References: <20220303205839.28484-1-tzimmermann@suse.de>
- <20220303205839.28484-4-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220303205839.28484-4-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.6.1
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+ <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+ <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
+ <20220308125140.e7orpvocrerr5xdv@houat>
+ <dd68f569-7fe3-dc00-b2f0-536b066ec37a@denx.de>
+ <20220308134921.zebs533xeazq46ts@houat>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220308134921.zebs533xeazq46ts@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,96 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/3/22 21:58, Thomas Zimmermann wrote:
-> Store the per-page state for fbdev's deferred I/O in struct
-> fb_deferred_io_pageref. Maintain a list of pagerefs for the pages
-> that have to be flushed out to video memory. Update all affected
-> drivers.
+On 3/8/22 14:49, Maxime Ripard wrote:
+> On Tue, Mar 08, 2022 at 02:27:40PM +0100, Marek Vasut wrote:
+>> On 3/8/22 13:51, Maxime Ripard wrote:
+>>> On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
+>>>> On 3/8/22 11:07, Jagan Teki wrote:
+>>>>> On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
+>>>>>>
+>>>>>> On 3/8/22 09:03, Jagan Teki wrote:
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> [...]
+>>>>>>
+>>>>>>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+>>>>>>>>      static int chipone_parse_dt(struct chipone *icn)
+>>>>>>>>      {
+>>>>>>>>             struct device *dev = icn->dev;
+>>>>>>>> +       struct device_node *endpoint;
+>>>>>>>>             struct drm_panel *panel;
+>>>>>>>> +       int dsi_lanes;
+>>>>>>>>             int ret;
+>>>>>>>>
+>>>>>>>>             icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+>>>>>>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+>>>>>>>>                     return PTR_ERR(icn->enable_gpio);
+>>>>>>>>             }
+>>>>>>>>
+>>>>>>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+>>>>>>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+>>>>>>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+>>>>>>>> +       of_node_put(endpoint);
+>>>>>>>> +
+>>>>>>>> +       if (!icn->host_node)
+>>>>>>>> +               return -ENODEV;
+>>>>>>>
+>>>>>>> The non-ports-based OF graph returns a -19 example on the Allwinner
+>>>>>>> Display pipeline in R16 [1].
+>>>>>>>
+>>>>>>> We need to have a helper to return host_node for non-ports as I have
+>>>>>>> done it for drm_of_find_bridge.
+>>>>>>>
+>>>>>>> [1] https://patchwork.amarulasolutions.com/patch/1805/
+>>>>>>
+>>>>>> The link points to a patch marked "DO NOT MERGE", maybe that patch is
+>>>>>> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+>>>>>> required, see:
+>>>>>>
+>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+>>>>>>
+>>>>>> What is "non-ports-based OF graph" ?
+>>>>>>
+>>>>>> I don't see drm_of_find_bridge() in linux-next , what is that ?
+>>>>>
+>>>>> port@0 is optional as some of the DSI host OF-graph represent the
+>>>>> bridge or panel as child nodes instead of ports. (i think dt-binding
+>>>>> has to fix it to make port@0 optional)
+>>>>
+>>>> The current upstream DT binding document says:
+>>>>
+>>>>       required:
+>>>>         - port@0
+>>>>         - port@1
+>>>>
+>>>> So port@0 is mandatory.
+>>>
+>>> In the binding, sure, but fundamentally the DT excerpt Jagan provided is
+>>> correct. If the bridge supports DCS, there's no reason to use the OF
+>>> graph in the first place: the bridge node will be a child node of the
+>>> MIPI-DSI controller (and there's no obligation to use the OF-graph for a
+>>> MIPI-DSI controller).
+>>>
+>>> I believe port@0 should be made optional (or downright removed if
+>>> MIPI-DCS in the only control bus).
+>>
+>> That's out of scope of this series anyway, so Jagan can implement patches
+>> for that mode if needed.
 > 
-> Like with pages before, fbdev acquires a pageref when an mmaped page
-> of the framebuffer is being written to. It holds the pageref in a
-> list of all currently written pagerefs until it flushes the written
-> pages to video memory. Writeback occurs periodically. After writeback
-> fbdev releases all pagerefs and builds up a new dirty list until the
-> next writeback occurs.
-> 
-> Using pagerefs has a number of benefits.
-> 
-> For pages of the framebuffer, the deferred I/O code used struct
-> page.lru as an entry into the list of dirty pages. The lru field is
-> owned by the page cache, which makes deferred I/O incompatible with
-> some memory pages (e.g., most notably DRM's GEM SHMEM allocator).
-> struct fb_deferred_io_pageref now provides an entry into a list of
-> dirty framebuffer pages, free'ing lru for use with the page cache.
-> 
-> Drivers also assumed that struct page.index is the page offset into
-> the framebuffer. This is not true for DRM buffers, which are located
-> at various offset within a mapped area. struct fb_deferred_io_pageref
-> explicitly stores an offset into the framebuffer. struct page.index
-> is now only the page offset into the mapped area.
-> 
-> These changes will allow DRM to use fbdev deferred I/O without an
-> intermediate shadow buffer.
-> 
+> Not really? You can't count on the port@0 being there generally
+> speaking, so you can't count on data-lanes being there either, which
+> exactly what you're doing in this patch.
 
-As mentioned, this is a very nice cleanup.
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
-
-[snip]
-
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-> index 33f355907fbb..a35f695727c9 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-> @@ -322,12 +322,13 @@ static void vmw_deferred_io(struct fb_info *info,
->  	struct vmw_fb_par *par = info->par;
->  	unsigned long start, end, min, max;
->  	unsigned long flags;
-> -	struct page *page;
-> +	struct fb_deferred_io_pageref *pageref;
->  	int y1, y2;
->  
->  	min = ULONG_MAX;
->  	max = 0;
-> -	list_for_each_entry(page, pagelist, lru) {
-> +	list_for_each_entry(pageref, pagelist, list) {
-> +		struct page *page = pageref->page;
->  		start = page->index << PAGE_SHIFT;
-
-Do you think that may be worth it to also decouple the struct page.index and 
-store the index as a struct fb_deferred_io_pageref.index field ? 
-
-It's unlikely that this would change but it feels as if the layers are more
-separated that way, since no driver will access struct page fields directly.
-
-The mapping would be 1:1 anyways just like it's the case for the page offset.
-
-In fact, that could allow to even avoid declaring a struct page *page here.
-
-[snip]
-
-> @@ -340,7 +340,8 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagelist)
->  	spin_unlock(&par->dirty_lock);
->  
->  	/* Mark display lines as dirty */
-> -	list_for_each_entry(page, pagelist, lru) {
-> +	list_for_each_entry(pageref, pagelist, list) {
-> +		struct page *page = pageref->page;
-
-Same here and the other drivers. You only need the page for the index AFAICT.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+I can because the upstream DT bindings currently say port@0 must be 
+present, see above. If that requirement should be relaxed, sure, but 
+that's a separate series.
