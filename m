@@ -2,49 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEDE4D13FD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E164D1406
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E7D10EC33;
-	Tue,  8 Mar 2022 09:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8720C10EC55;
+	Tue,  8 Mar 2022 09:58:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E7910EC33
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:57:28 +0000 (UTC)
-X-UUID: 8d89ee78e0c445d49a8243a8a7a1a7cf-20220308
-X-UUID: 8d89ee78e0c445d49a8243a8a7a1a7cf-20220308
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1609988712; Tue, 08 Mar 2022 17:57:23 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 8 Mar 2022 17:57:22 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 8 Mar 2022 17:57:22 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Mar 2022 17:57:21 +0800
-Message-ID: <e410a1916d8dad431822c811ab50e837f90c5654.camel@mediatek.com>
-Subject: Re: [PATCH v2, 1/3] dt-bindings: display: mediatek: dsi: Convert
- dsi_dtbinding to .yaml
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-Date: Tue, 8 Mar 2022 17:57:36 +0800
-In-Reply-To: <386e5a59-8b06-58f5-90d0-2c5a5eaa614f@collabora.com>
-References: <1645178869-18048-1-git-send-email-xinlei.lee@mediatek.com>
- <1645178869-18048-2-git-send-email-xinlei.lee@mediatek.com>
- <386e5a59-8b06-58f5-90d0-2c5a5eaa614f@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACB710EC3C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646733508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qc/dPF9NCELBNu4QqNWKZSQHX9YzQPWRojivE3+b0CU=;
+ b=GkSDVgvU6z9yOhhGuvq+eNbRilZSOUqPAqIfsBu0oECG+dtKcNW4Azk3ryBRDcxua1xODc
+ obvPR52mOuFQLXQ1/tlbwORxvllkedHe1DJlZ7tulh09lsMxv2MdQY025ILi6ZokHXLgHF
+ jf/+J7Gel78k+HjRe3nltgZDZujRDoU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-593-8OCpVW_EP9uvTe-T1wbVTw-1; Tue, 08 Mar 2022 04:58:24 -0500
+X-MC-Unique: 8OCpVW_EP9uvTe-T1wbVTw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l10-20020a05600012ca00b001f1e4669c98so1599821wrx.23
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:58:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Qc/dPF9NCELBNu4QqNWKZSQHX9YzQPWRojivE3+b0CU=;
+ b=y389ws4BAzZm+Z04ZJKpVBbbWzZfmzX4FCOvX+1eD0FtFdvReA9IPf0KsHHpMQ89N/
+ VaTt6eH1pJPRmnCyQQdhagL4H48umJJrGh28GN8+WIDOaVeIturXmS9IPLd8FpJFqbmM
+ oCJPOAkS1cRegl3eDTGuuOaqtoKQR8KimVop0gOcY1i6NZ0nG9iNsKIRJgPXlUNzTI+3
+ l7zSTM1C3JQ9mOtsg0A7f2LG5d3XpP/Q1b95vNl7pi+GiX7x8RJdYjWchaMIatjTzkeZ
+ M8fn2EWCn7ZIM13kyo+YH5JJQqf3mm5tZB2FEu/aanZi0rqyGAvnBqEMsZie6CDCLfGB
+ +Faw==
+X-Gm-Message-State: AOAM533zxgN5E0dSoIFoJfyPgBP1nMF/s9CQPX2YrQJpDJ9L9058AIpJ
+ QYCI1bWSFSFm4Js+AybbAgVak2EmdxAVXLuTXiUxWniNBl4NsNOT6IQzS4YfWjfo+kdmydnDHUv
+ paYZaZsRoqy96SqLEHGCWsMwu9CM/
+X-Received: by 2002:a05:600c:35d5:b0:389:bd4a:fde0 with SMTP id
+ r21-20020a05600c35d500b00389bd4afde0mr2905729wmq.127.1646733503696; 
+ Tue, 08 Mar 2022 01:58:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJtj7RKYw3qkkDGfz/aSVN5Brr3Z9cCTJdq5hynPwmNva1D24fAYp/TKddQMzVWxr4O9YHKw==
+X-Received: by 2002:a05:600c:35d5:b0:389:bd4a:fde0 with SMTP id
+ r21-20020a05600c35d500b00389bd4afde0mr2905711wmq.127.1646733503447; 
+ Tue, 08 Mar 2022 01:58:23 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020a1c0209000000b003868897278asm2475185wmc.23.2022.03.08.01.58.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 01:58:23 -0800 (PST)
+Message-ID: <f869d4ee-210f-06b4-015b-b3ec78eaf4fb@redhat.com>
+Date: Tue, 8 Mar 2022 10:58:22 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/9] drm/simpledrm: Use fbdev defaults for shadow buffering
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ deller@gmx.de
+References: <20220303205839.28484-1-tzimmermann@suse.de>
+ <20220303205839.28484-2-tzimmermann@suse.de>
+ <a9e7aa2c-9954-94ee-6f7c-0d6822342897@redhat.com>
+ <80342fbf-5aee-5769-b439-3e147c44711f@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <80342fbf-5aee-5769-b439-3e147c44711f@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,243 +92,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, allen-kh.cheng@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-03-04 at 13:03 +0100, AngeloGioacchino Del Regno wrote:
-> Il 18/02/22 11:07, xinlei.lee@mediatek.com ha scritto:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > 
-> > Convert mediatek,dsi.txt to mediatek,dsi.yaml format
-> > 
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > ---
-> >   .../display/mediatek/mediatek,dsi.txt         | 62 --------------
-> >   .../display/mediatek/mediatek,dsi.yaml        | 85
-> > +++++++++++++++++++
-> >   2 files changed, 85 insertions(+), 62 deletions(-)
-> >   delete mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> >   create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
-> > l
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
-> > xt
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
-> > xt
-> > deleted file mode 100644
-> > index 36b01458f45c..000000000000
-> > ---
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
-> > xt
-> > +++ /dev/null
-> > @@ -1,62 +0,0 @@
-> > -Mediatek DSI Device
-> > -===================
-> > -
-> > -The Mediatek DSI function block is a sink of the display subsystem
-> > and can
-> > -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
-> > for dual-
-> > -channel output.
-> > -
-> > -Required properties:
-> > -- compatible: "mediatek,<chip>-dsi"
-> > -- the supported chips are mt2701, mt7623, mt8167, mt8173 and
-> > mt8183.
-> > -- reg: Physical base address and length of the controller's
-> > registers
-> > -- interrupts: The interrupt signal from the function block.
-> > -- clocks: device clocks
-> > -  See Documentation/devicetree/bindings/clock/clock-bindings.txt
-> > for details.
-> > -- clock-names: must contain "engine", "digital", and "hs"
-> > -- phys: phandle link to the MIPI D-PHY controller.
-> > -- phy-names: must contain "dphy"
-> > -- port: Output port node with endpoint definitions as described in
-> > -  Documentation/devicetree/bindings/graph.txt. This port should be
-> > connected
-> > -  to the input port of an attached DSI panel or DSI-to-eDP encoder
-> > chip.
-> > -
-> > -Optional properties:
-> > -- resets: list of phandle + reset specifier pair, as described in
-> > [1].
-> > -
-> > -[1] Documentation/devicetree/bindings/reset/reset.txt
-> > -
-> > -MIPI TX Configuration Module
-> > -============================
-> > -
-> > -See phy/mediatek,dsi-phy.yaml
-> > -
-> > -Example:
-> > -
-> > -mipi_tx0: mipi-dphy@10215000 {
-> > -	compatible = "mediatek,mt8173-mipi-tx";
-> > -	reg = <0 0x10215000 0 0x1000>;
-> > -	clocks = <&clk26m>;
-> > -	clock-output-names = "mipi_tx0_pll";
-> > -	#clock-cells = <0>;
-> > -	#phy-cells = <0>;
-> > -	drive-strength-microamp = <4600>;
-> > -	nvmem-cells= <&mipi_tx_calibration>;
-> > -	nvmem-cell-names = "calibration-data";
-> > -};
-> > -
-> > -dsi0: dsi@1401b000 {
-> > -	compatible = "mediatek,mt8173-dsi";
-> > -	reg = <0 0x1401b000 0 0x1000>;
-> > -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
-> > -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
-> > -		 <&mipi_tx0>;
-> > -	clock-names = "engine", "digital", "hs";
-> > -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
-> > -	phys = <&mipi_tx0>;
-> > -	phy-names = "dphy";
-> > -
-> > -	port {
-> > -		dsi0_out: endpoint {
-> > -			remote-endpoint = <&panel_in>;
-> > -		};
-> > -	};
-> > -};
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
-> > aml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
-> > aml
-> > new file mode 100644
-> > index 000000000000..552a013786fe
-> > --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
-> > aml
-> > @@ -0,0 +1,85 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: mediatek DSI Controller Device Tree Bindings
+On 3/8/22 10:56, Thomas Zimmermann wrote:
+> Hi
 > 
-> Shouldn't this be "MediaTek"?
+> Am 08.03.22 um 10:31 schrieb Javier Martinez Canillas:
+>> On 3/3/22 21:58, Thomas Zimmermann wrote:
+>>> Don't select shadow buffering for the fbdev console explicitly. The
+>>> fbdev emulation's heuristic will enable it for any framebuffer with
+>>> .dirty callback.
+>>>
+>>
+>> Indeed it does. Not related to your series but looking at this
+>> patch I noticed that drivers/gpu/drm/tiny/bochs.c will be the
+>> only driver that sets .prefer_shadow_fbdev after this lands.
+>>
+>> The driver is using GEM so I wonder if after your series this
+>> DRM driver could have a .dirty callback and the field just be
+>> dropped? Or there would still be a case where it is needed ?
+> Bochs uses VRAM helpers (i.e., TTM). Fbdev and userspace would directly 
+> write into that buffer memory without a copy. So the dirty function 
+> would be empty.
 > 
-> > +
-> > +maintainers:
-> > +  - CK Hu <ck.hu@mediatek.com>
-> > +  - Jitao Shi <jitao.shi@mediatek.com>
-> > +  - Xinlei Lee <xinlei.lee@mediatek.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - mediatek,mt2701-dsi
-> > +      - mediatek,mt8173-dsi
-> > +      - mediatek,mt8183-dsi
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Engine Clock
-> > +      - description: Digital Clock
-> > +      - description: Hs Clock
+> Other drivers with VRAM helpers (e.g., hibmc, ast) operate on uncached 
+> I/O memory AFAICT. So they set .prefer_shadow, which also affects 
+> userspace. Bochs uses cached memory and shouldn't need prefer_shadow. 
+> Setting prefer_shadow_fbdev is only there for making the fbdev buffer 
+> object evictable from video memory.
 > 
-> HS should be all capital letters.
+> As it stands, using prefer_shadow_fbdev is the cleanest solution, even 
+> if bochs is the only user of that field.
 > 
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: engine
-> > +      - const: digital
-> > +      - const: hs
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  phys:
-> > +    maxItems: 1
-> > +
-> > +  phy-names:
-> > +    items:
-> > +      - const: dphy
-> 
-> Add #address-cells, #size-cells with const 2
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - power-domains
-> > +  - clocks
-> > +  - clock-names
-> > +  - phys
-> > +  - phy-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/mt8183-clk.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/power/mt8183-power.h>
-> > +    #include <dt-bindings/phy/phy.h>
-> > +    #include <dt-bindings/reset/mt8183-resets.h>
-> > +
-> 
-> Since all users are using two address and size cells:
-> 
->      soc {
->          #address-cells = <2>;
->          #size-cells = <2>;
-> 
->          dsi0: dsi@14014000 {
->              compatible = "mediatek,mt8183-dsi";
->              reg = <0 0x14014000 0 0x1000>;
->                    .....etc.....
->          };
->      };
-> 
-> > +    dsi0: dsi@14014000 {
-> > +        compatible = "mediatek,mt8183-dsi";
-> > +        reg = <0x14014000 0x1000>;
-> > +        interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_LOW>;
-> > +        power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> > +        clocks = <&mmsys CLK_MM_DSI0_MM>,
-> > +            <&mmsys CLK_MM_DSI0_IF>,
-> > +            <&mipi_tx0>;
-> > +        clock-names = "engine", "digital", "hs";
-> > +        resets = <&mmsys MT8183_MMSYS_SW0_RST_B_DISP_DSI0>;
-> > +        phys = <&mipi_tx0>;
-> > +        phy-names = "dphy";
-> > +    };
-> 
+> Alternatively, we could make it a requirement that qemu provides enough 
+> video memory for bochs to unconditionally pin the fbdev BO there without 
+> ever evicting. I guess, that would mean 32 MiB of VRAM at least.
+>
+
+I see. Thanks a lot for this explanation.
+ 
+> Best regards
+> Thomas
 > 
 
-Hi angelogioacchino:
+-- 
+Best regards,
 
-Thank you for your review, I will revise it according to your
-suggestion and send the next v3 in the near future.
-
-Best Regards!
-xinlei
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
