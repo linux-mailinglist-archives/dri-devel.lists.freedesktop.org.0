@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AE54D1869
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 13:55:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860E54D18AC
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 14:06:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C8210E2AC;
-	Tue,  8 Mar 2022 12:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9863510E6D0;
+	Tue,  8 Mar 2022 13:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBE510E2AC;
- Tue,  8 Mar 2022 12:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646744127; x=1678280127;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=NYrXls5pr28/YqLnwHsHfZyvhY0KcSAOepllwzDc9VE=;
- b=Sn5ROj6GppYD5aF0NnCCPmmA59/EyD1skTfsx+PAqMG+x6xQSrNpr4OJ
- vPgk5agL/Sj54wdBPSm8rXf9VssVDmuKgjC7MqT2korH8ACy/t+HWFSwh
- ctrncaeNQg6O70H2ejJ1qyh7n2Wad4Wvt9xFnH3hb5KdJTB0N2+ylqzrk
- xyFENNwbKKNZnS5+wb9aYuMQtkEfFuGPosaouXJZyokjrBn7J43FkZqql
- 14SKo4FrIs9yvaJJXGD4TyeWfiFUZmsgSLcoRuVPkv3eNK1Ly1YSROayz
- 0/vAkMekJPeewcttNUZYcz4U6TDc9N579RPBXujyVyIO8cEmiUtqKmcQy g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254865663"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="254865663"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 04:55:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="610995763"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2022 04:55:22 -0800
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nRZN3-0001Ou-Qn; Tue, 08 Mar 2022 12:55:21 +0000
-Date: Tue, 8 Mar 2022 20:54:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v1 02/10] drm/msm/a6xx: Send NMI to gmu when it is hung
-Message-ID: <202203082018.IcI00Nvs-lkp@intel.com>
-References: <20220302225551.v1.2.Icda301aa85f1e4367601fa9b830b3365d377e669@changeid>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91E210E6D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 13:06:54 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id h15so4096543wrc.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 05:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QVUkiMBPzb0V6Lwr/lYCzPY0l/r9IyoIGkL0psVfcQI=;
+ b=qzXZpTAo/WJaeuIoQBRD5jTnhWiPQOyDSdWnCQNbzQThVGfJFRmQDwh9PK25ZJkk7W
+ dAPsQXTWgokt3vcoJV8Ag+/tPVYRe62tIzAwPd89fyCg9GhgKmpmkyKl/E/NiP2PnGf7
+ 3aWMEuqfAAecFDBaeFqphSe028pjKKm0S8rRPCTjqlhVu69JhfijMUdsfkTHnqwyDSRb
+ PeVozssOnR+3OEmnVziuR+OyNTBqLjoBNyrO/X/898eW6r7wRwL/F7U8uoWuvWiz3Sp0
+ AIrJjFX6FgTBL2t2hpFvzTFyaWdVv2/ZclGogNMZBd4WFhGZ8Xj3N+fg07LhYwqItCz3
+ B+Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QVUkiMBPzb0V6Lwr/lYCzPY0l/r9IyoIGkL0psVfcQI=;
+ b=o6uHDwwyBSon1dO8/uuIx/Mg2/mBmSnPaNgsLU+mRAU84Tqh7P8lCdA9jHqRmjubml
+ 72jd0lfxhWWAIb5CujGJZzbO4oypeW/B0m2kqRzRklygASTdrdJw/aMn9aLLaePfKaKs
+ 6ruW6Z5ahJD+DIW7rwhA8Z9HOZ7Tyhas2QfdF68YAggDd053e2/JoW8Y88jNUaH8UPAa
+ IBEeK943BM0AeQgD1ntiRIexbs2Y9hnpq+f2oswTKVaTSuj1XG0KvIrgV4HG11i6nT6x
+ LlFPleOvgq6P1D7lUwDQY+Jq0pxTxz66a5lFd/mT2Pdl0Yhbo0Xq6luI00Gac0FH5xyL
+ KMEA==
+X-Gm-Message-State: AOAM5326ofl3sFwbwXFWz688Pd4rtW0yxe8Rd5ONgDBy6M06DapACD2i
+ 3zOcbXlDd6uH+YwZFQD+4PE=
+X-Google-Smtp-Source: ABdhPJwEXW2eoxeiOUY7hBK48npDtQn6u2AmK1ULMUO0dMBQUJaUo2G2MAIrO/TZM9EuRy0f2RfUWQ==
+X-Received: by 2002:a5d:6985:0:b0:1f0:4916:4d00 with SMTP id
+ g5-20020a5d6985000000b001f049164d00mr12099481wru.461.1646744813267; 
+ Tue, 08 Mar 2022 05:06:53 -0800 (PST)
+Received: from monk.home ([2a01:cb10:430:ec00:4737:d56e:186b:af1])
+ by smtp.gmail.com with ESMTPSA id
+ p15-20020a05600c1d8f00b003899d50f01csm2129159wms.6.2022.03.08.05.06.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 05:06:52 -0800 (PST)
+From: Christophe Branchereau <cbranchereau@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 0/4] Ingenic DRM bridge_atomic_enable proposal
+Date: Tue,  8 Mar 2022 14:06:39 +0100
+Message-Id: <20220308130643.260683-1-cbranchereau@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220302225551.v1.2.Icda301aa85f1e4367601fa9b830b3365d377e669@changeid>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,74 +69,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, kbuild-all@lists.01.org,
- Dan Carpenter <error27@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Wang Qing <wangqing@vivo.com>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Akhil,
+Hello, this is the v2 for my set of patches :
 
-Thank you for the patch! Perhaps something to improve:
+- use dev_err_probe() instead of dev_err() in the newvision panel
+driver probe function
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc7 next-20220308]
-[cannot apply to airlied/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+- add bindings documentation for the Leadtek ltk035c5444t
 
-url:    https://github.com/0day-ci/linux/commits/Akhil-P-Oommen/Support-for-GMU-coredump-and-some-related-improvements/20220303-013028
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: riscv-randconfig-r042-20220307 (https://download.01.org/0day-ci/archive/20220308/202203082018.IcI00Nvs-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/23953efc645803299a93f178e9a32f2ae97dae39
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Akhil-P-Oommen/Support-for-GMU-coredump-and-some-related-improvements/20220303-013028
-        git checkout 23953efc645803299a93f178e9a32f2ae97dae39
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/msm/
+Cheers - Christophe
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+------------------------
 
-All warnings (new ones prefixed by >>):
+Hello, this is a set of patches to allow the upstreaming of the
+NV3052C panel found in the Anbernic RG350M mips gaming handheld.
 
->> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:967:6: warning: no previous prototype for function 'a6xx_get_gmu_state' [-Wmissing-prototypes]
-   void a6xx_get_gmu_state(struct msm_gpu *gpu, struct a6xx_gpu_state *a6xx_state)
-        ^
-   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:967:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void a6xx_get_gmu_state(struct msm_gpu *gpu, struct a6xx_gpu_state *a6xx_state)
-   ^
-   static 
-   1 warning generated.
+It was never upstreamed so far due to a longstanding graphical
+bug, which I propose to solve by introducing ingenic_drm_bridge_atomic_enable
+in the drm driver so the CRTC can be enabled after the panel itself slept
+out, and not before as it used to.
 
+After the drm change, 2 of the existing panels have to be modified accordingly
+to introduce missing .enable and .disable in their code.
 
-vim +/a6xx_get_gmu_state +967 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+Christophe Branchereau (4):
+  drm/ingenic : add ingenic_drm_bridge_atomic_enable
+  drm/panel: Add panel driver for NewVision NV3052C based LCDs
+  drm/panel : innolux-ej030na and abt-y030xx067a : add .enable and
+    .disable
+  dt-bindings: display/panel: Add Leadtek ltk035c5444t
 
-   966	
- > 967	void a6xx_get_gmu_state(struct msm_gpu *gpu, struct a6xx_gpu_state *a6xx_state)
-   968	{
-   969		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-   970		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-   971		struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
-   972	
-   973		if (gmu->hung)
-   974			a6xx_gmu_send_nmi(gmu);
-   975	
-   976		a6xx_get_gmu_registers(gpu, a6xx_state);
-   977	}
-   978	
+ .../panel/leadtek,ltk035c5444t-spi.yaml       |  59 +++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  19 +-
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  23 +-
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c |  31 +-
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   | 497 ++++++++++++++++++
+ 7 files changed, 627 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t-spi.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+2.34.1
+
