@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C344D1344
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:24:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6160B4D1353
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:30:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3DD710E1EC;
-	Tue,  8 Mar 2022 09:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3D110E204;
+	Tue,  8 Mar 2022 09:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CC910E1EC
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:24:46 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id z26so15974775lji.8
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:24:46 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38A410E204
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:30:01 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id w27so31087782lfa.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:30:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Qc3cdtb2ObmZKvz2L8H2f36LArmlcfQVA40kTItDy2Y=;
- b=UOFi8/nxnDKYN9DV6hYfvHsbmJ9Xo3GDKCIzi1mqq/vv3PDq5xezVAMrOKJiYes2q6
- VuPJwYCMOhh5WLEJBq8tSQcVBWljUg/9a6kkheKtTwXhrUS3hUR9sGS9SvgkNBzblu0O
- 7Fn3Okopy24xD0npgsASCEHav4G9VavME66GmLllzq7uS4u2Bxbe+nFgDTuOi2WDDoYl
- +r26vyG8Gzx+7qDI6QLl0dyQ8lhPACxgg7G/yorWJeQPm0K4sLaJd94YopM49GYwrqGe
- lC9E7uc+abKiBcgweUOuGbFw+vjJXE+7+dPlSht8hB3a4b3HJJYrkuDl/Ne2gaPJBsHe
- odJg==
+ :mime-version; bh=ga9S2XkZFL0z/IdGKvGm1bT0IfoZFxwQdK6AxGAbNLI=;
+ b=qD6NE5nq1xDdKVAWbwSDI9N7F8NF77L+pqiX64EWLJKoj33zBwoMrCMhg1Lv8iCDLU
+ aujqIoLD1KG2tmDZ08ZGjIcS57GU+4OTLbFV53a83wRqmkjLJz4xzNy4Z5rWXJ6nVFJA
+ iBCo+ctpar8xjLjVz/g++Az/55YsjElT5Mk1LR5xPIZsOA0B3/x7OXZudJRNq0XxZETm
+ VyDkF7x3G8bqcbqS/P26ir8BzirQWMn4Wo/Am7nTZJyv3N5/y57AiqMvVQNmok5QLCVy
+ lQGXFUnEyqdOa+om4/NbrYoyXIj8bPHVSonPbsFWFaOUviYLWDaXK64fEabQyaykZiSS
+ qIlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=Qc3cdtb2ObmZKvz2L8H2f36LArmlcfQVA40kTItDy2Y=;
- b=zxtCZlA2BYA0eLpHNv7lm3CIyaDX3tehUhRbKwDrOiw/NFvM926zeVwCe2EFRncoe6
- dgUq0VI04T1/rhCrAq8/8ejMQnzjpL5wSMTOyriZfMIBFvPxm6SVVCibRjMDZco+ccRb
- LrrIqgLKR4lVLm5rDmsSTwRDJ1A/FE5U2Yje7Qt1ydhUpZwEN4C2ErebXV8diCnDYo39
- telGYx6msq1FArAWeN5Z42kobU97871ZxpytYBi/1PUTfUrpMp7mEoCfqQCg7yEwF8y4
- RnjeKd+UxAWxT6ugdoCsMtBeEF/ISi21NS+MDGBAHhhzCsTCD1yzy+40o7Msqb4mqAxx
- YRag==
-X-Gm-Message-State: AOAM533XSqiWfSt8lOHFErc2R/GBUDh+mQBaLVUx7l/KWD/EWAiLLypq
- 9oDtWWZLchn2frZ5OzIFBUE=
-X-Google-Smtp-Source: ABdhPJwS4ykfunOcYuzHIB1MB+GfCL56dZzm0pnKdbHfdJpVOpihwuOGmvJ4GFa68yoBf7ayziqUSA==
-X-Received: by 2002:a2e:3e13:0:b0:246:7097:87eb with SMTP id
- l19-20020a2e3e13000000b00246709787ebmr10223359lja.168.1646731484954; 
- Tue, 08 Mar 2022 01:24:44 -0800 (PST)
+ bh=ga9S2XkZFL0z/IdGKvGm1bT0IfoZFxwQdK6AxGAbNLI=;
+ b=oo/TE+e9UkcFY35hOwI3E3v+WPnCT9tyfK+tsfkPvzPYGFzJT3UGRLTUXeqnHqQb3x
+ iuhUHf2T/hogSQFW74NXSUnCTwVXebFrk0r5D318i7DgPQTkSppM842jx4sOWxngp41T
+ xN65XyRsXSZRtZb08cWvTYJoeoZJv+nEUZBDRcRnEzXJISza/GUJ1NuwqTFKVXHi4Q35
+ BsDGtDat5b33MYOg3nGg2nA9GsKo0nlfAdFjRff+YhH40/XP+U0+8gSmjtIwl49qNyGN
+ hxoATG9sauzlIqtYFbzjHFJA0AZfMayIKlF1/TuQ//L59b5G0kKIlhFfrysJA9kJHqEV
+ HEDQ==
+X-Gm-Message-State: AOAM532+ZUqLfKF09tnmLX2iABMGnT2UG8geCONSpxKn+B1W+gcnriam
+ F8Yi9CpmL75VxUCul2ffsW4=
+X-Google-Smtp-Source: ABdhPJw6tvyjhN2yXMNWbZmDziUTnUGlD4E0wPEKKO1S/V5OqiTMiqFNJ71OVhp4onpYyostFcFXgg==
+X-Received: by 2002:a05:6512:228b:b0:448:246d:97d with SMTP id
+ f11-20020a056512228b00b00448246d097dmr9270131lfu.94.1646731799953; 
+ Tue, 08 Mar 2022 01:29:59 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- z32-20020a0565120c2000b004431836523esm3361488lfu.250.2022.03.08.01.24.44
+ i6-20020a198c46000000b0044424910c94sm3376017lfj.113.2022.03.08.01.29.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 01:24:44 -0800 (PST)
-Date: Tue, 8 Mar 2022 11:24:41 +0200
+ Tue, 08 Mar 2022 01:29:59 -0800 (PST)
+Date: Tue, 8 Mar 2022 11:29:56 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH libdrm 2/3] drm_fourcc: Add DRM_FORMAT_C[124]
-Message-ID: <20220308112441.6e9e785a@eldfell>
-In-Reply-To: <c9b62e081b77b625654e7d4477bfd63fe3833c35.1646683737.git.geert@linux-m68k.org>
-References: <cover.1646683737.git.geert@linux-m68k.org>
- <c9b62e081b77b625654e7d4477bfd63fe3833c35.1646683737.git.geert@linux-m68k.org>
+Subject: Re: [PATCH RFC libdrm 2/2] util: Fix 32 bpp patterns on big-endian
+Message-ID: <20220308112956.73598e53@eldfell>
+In-Reply-To: <1be5820fe86d6940aab8acd52a522d39a35995c3.1646684158.git.geert@linux-m68k.org>
+References: <cover.1646684158.git.geert@linux-m68k.org>
+ <1be5820fe86d6940aab8acd52a522d39a35995c3.1646684158.git.geert@linux-m68k.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_3wdydvDyrrM4pNvdv+shA2";
+Content-Type: multipart/signed; boundary="Sig_/s9LE=MLSN/epi5g8OW.516d";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,126 +73,85 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/_3wdydvDyrrM4pNvdv+shA2
+--Sig_/s9LE=MLSN/epi5g8OW.516d
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon,  7 Mar 2022 21:53:17 +0100
+On Mon,  7 Mar 2022 21:53:42 +0100
 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> Add fourcc codes for color-indexed frame buffer formats with two, four,
-> and sixteen colors.  Add support for creating buffers using these
-> formats.
+> DRM formats are defined to be little-endian, unless the
+> DRM_FORMAT_BIG_ENDIAN flag is set.  Hence writes of multi-byte pixel
+> values need to take endianness into account.
 >=20
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
->  include/drm/drm_fourcc.h |  5 ++++-
->  tests/modetest/buffers.c | 15 +++++++++++++++
->  tests/util/format.c      |  3 +++
->  3 files changed, 22 insertions(+), 1 deletion(-)
->=20
-> diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-> index 957c7be29239c0a1..f8b18d28a71dabff 100644
-> --- a/include/drm/drm_fourcc.h
-> +++ b/include/drm/drm_fourcc.h
-> @@ -99,7 +99,10 @@ extern "C" {
->  #define DRM_FORMAT_INVALID	0
-> =20
->  /* color index */
-> -#define DRM_FORMAT_C8		fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
-> +#define DRM_FORMAT_C1		fourcc_code('C', '1', ' ', ' ') /* [7:0] C0:C1:C2=
-:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte */
-> +#define DRM_FORMAT_C2		fourcc_code('C', '2', ' ', ' ') /* [7:0] C0:C1:C2=
-:C3 2:2:2:2 four pixels/byte */
-> +#define DRM_FORMAT_C4		fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:=
-4 two pixels/byte */
-> +#define DRM_FORMAT_C8		fourcc_code('C', '8', ' ', ' ') /* [7:0] C 8 one =
-pixel/byte */
+> Introduce a cpu_to_le32() helper to convert 32-bit values from
+> CPU-endian to little-endian, and use them in the various pattern fill
+> functions for 32-bit formats.
 
 Hi Geert,
 
-I believe updates to drm_fourcc.h in libdrm must be done with the
-specific process, please see
+FWIW, this explanation matches my understanding, so it sounds correct
+to me. That's all I can say. I guess that means
 
-https://gitlab.freedesktop.org/mesa/drm/-/blob/main/include/drm/README
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-section "When and how to update these files".
+?
 
 
 Thanks,
 pq
 
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> Works now with Linux' drm_fb_xrgb8888_to_rgb332_line(), which uses
+> le32_to_cpu() to read pixel values from memory.
+>=20
+> ---
+>  tests/util/pattern.c | 30 +++++++++++++++++++++---------
+>  1 file changed, 21 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/tests/util/pattern.c b/tests/util/pattern.c
+> index 42d75d700700dc3d..48677ea6d25b2676 100644
+> --- a/tests/util/pattern.c
+> +++ b/tests/util/pattern.c
+> @@ -61,6 +61,18 @@ struct color_yuv {
+>  	  .u =3D MAKE_YUV_601_U(r, g, b), \
+>  	  .v =3D MAKE_YUV_601_V(r, g, b) }
 > =20
->  /* 8 bpp Red */
->  #define DRM_FORMAT_R8		fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
-> diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
-> index 8a8d9e0143474378..af7f60b4fb4d09ad 100644
-> --- a/tests/modetest/buffers.c
-> +++ b/tests/modetest/buffers.c
-> @@ -135,6 +135,18 @@ bo_create(int fd, unsigned int format,
->  	int ret;
-> =20
->  	switch (format) {
-> +	case DRM_FORMAT_C1:
-> +		bpp =3D 1;
-> +		break;
-> +
-> +	case DRM_FORMAT_C2:
-> +		bpp =3D 2;
-> +		break;
-> +
-> +	case DRM_FORMAT_C4:
-> +		bpp =3D 4;
-> +		break;
-> +
->  	case DRM_FORMAT_C8:
->  	case DRM_FORMAT_NV12:
->  	case DRM_FORMAT_NV21:
-> @@ -283,6 +295,9 @@ bo_create(int fd, unsigned int format,
->  		planes[2] =3D virtual + offsets[2];
->  		break;
-> =20
-> +	case DRM_FORMAT_C1:
-> +	case DRM_FORMAT_C2:
-> +	case DRM_FORMAT_C4:
->  	case DRM_FORMAT_C8:
->  	case DRM_FORMAT_ARGB4444:
->  	case DRM_FORMAT_XRGB4444:
-> diff --git a/tests/util/format.c b/tests/util/format.c
-> index 1ca1b82ce947b2f4..4b984af9bce8ac6f 100644
-> --- a/tests/util/format.c
-> +++ b/tests/util/format.c
-> @@ -40,6 +40,9 @@
-> =20
->  static const struct util_format_info format_info[] =3D {
->  	/* Indexed */
-> +	{ DRM_FORMAT_C1, "C1" },
-> +	{ DRM_FORMAT_C2, "C2" },
-> +	{ DRM_FORMAT_C4, "C4" },
->  	{ DRM_FORMAT_C8, "C8" },
->  	/* YUV packed */
->  	{ DRM_FORMAT_UYVY, "UYVY", MAKE_YUV_INFO(YUV_YCbCr | YUV_CY, 2, 2, 2) },
+> +#if defined(__BIG_ENDIAN__) || defined(__sparc__) || defined(__mc68000__=
+) || defined(__MIPSEB__)
+> +static inline uint32_t cpu_to_le32(uint32_t x)
+> +{
+> +	return ((x & 0x000000ffU) << 24) |
+> +	       ((x & 0x0000ff00U) <<  8) |
+> +	       ((x & 0x00ff0000U) >>  8) |
+> +	       ((x & 0xff000000U) >> 24);
+> +}
+> +#else
+> +#define cpu_to_le32(x)	(x)
+> +#endif
 
 
---Sig_/_3wdydvDyrrM4pNvdv+shA2
+--Sig_/s9LE=MLSN/epi5g8OW.516d
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmInINkACgkQI1/ltBGq
-qqf3TQ/+JyaSOx0+rYn7UhZ67w/TYCanMqkATpHMwbDY8muQE/4fIGzTlW2N+aGM
-xFIvRzAk7jWaU9PaynSq94EeR+w1XAtS/HpO/FLxYEfPK2GLBw2nN3OPz4LK1Fj4
-Mjb5rz+arB1PqFPXAj+qyczNhMyXPzqti8WDWu4TjyhAj8wHaLCbVC64+m4a5kQO
-Lcah4KmkOcNvhFhDFyspzdftMhDS+9dnsvPN/mmFEK7hRe0tT3wGaTugIF5IuzWS
-FwS6Gql7vxYKtoUBVOK/6fSh2HKfiSLjhk986t8jPR0/WQKa4OddfR+aP9VSBoS2
-GkYH0yZIjU81ep+PKFvT7zw/G1nV3LG6/ag/7Z04BVAHLXr4hyH/kWpQg4DBQOJn
-Gou179g86zR+VFxqRa7ZBOau3JKQEao5sx9JxpkVYTO98vJiBMF/3T1myBdDbwqn
-Ni0Wh6L6r1FHS90NkPXsDX90X+zpVxae/5UUUxP99fpl+qO2Kq58BJsivfYMlAuY
-bNlwnM5xpbwUA/vvT7iWA85vb2piWXrDpI0aBJrbvlN3t3Wq/y7ftJXF1dXSuE7E
-fnfdjc6xaWNR92pknUHAMFo3xYBAxOMbR+n+U0BjaViVbJeyqsKKQpQg99KCYF5w
-o59ywDS7zS//HIds1HsPt7fjvCKPSCxMh96SqA75av8yiNa4JbU=
-=RvgS
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmInIhQACgkQI1/ltBGq
+qqesnQ/+PJ0AbdwL6Pa88PL1CNGPbO77spmrf/5fy8iSK5g1I+QAcRbgi9wd+8yv
+JkCEYlpXaFFWO1idOoPsBna/bJ3mRaQV0qk1niWYyKpBdJ/TKCEqnuAaRS5yutDu
+wIbqStqUDLsHFl+IJqUwse/1/mZnHqfdDFej0e2z0Gruh8WIw20+2MCirBHuGNBy
+wtoK26DeM/R/wKyhCwgrTx7nNm8F43PbDKHFxhsejLFhNltWxmuu8erBhfRpg8o8
+wAjdDfsu8YSdtgvTKq0E4NGjWNkaFbxduME3aiOZn6Va8ye1ScRA3U8XCSor0ZSi
+F/1lWu8Hfk93XM6WJ62YoVmurs2mvIh8B2I4fMuJ+927NHO4RrQ2pb9Qsj+3u7YN
+rJ7fl317yXmqez9NvcRzt6ycBijDm74LcdfTfE+dgTNgT5Ntd6KtapiGEyihK7dW
+RcUgu6RZ7Ap+a2JU5NExPlA062EdU+K6SfGl8n3WLBCa6p41wTFehEl5rN8mjNGp
+iQg9FSppJnVxwMyu1cu7qSqz/xYw4JCWrkF1M2iEmS8Al8br0y7k/Tyb+puqcdnm
+6QRyL0UsGWNYH+xe5Zu7gLxHN0cS0DbtFTXxCbhMj6rHfEDOQkWCSaBAjCDtpXd1
+ExdkCO32YSuwtN24qQtTfpNWUuqJ188eZoBQKhl8aq3piUMJl94=
+=JnlO
 -----END PGP SIGNATURE-----
 
---Sig_/_3wdydvDyrrM4pNvdv+shA2--
+--Sig_/s9LE=MLSN/epi5g8OW.516d--
