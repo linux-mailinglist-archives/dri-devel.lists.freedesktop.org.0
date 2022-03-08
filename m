@@ -2,36 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388434D183B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 13:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641AB4D1851
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 13:51:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E164310E56E;
-	Tue,  8 Mar 2022 12:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197DC10E5BD;
+	Tue,  8 Mar 2022 12:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 165CB10E56E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 12:48:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83B41139F;
- Tue,  8 Mar 2022 04:48:57 -0800 (PST)
-Received: from [10.57.41.254] (unknown [10.57.41.254])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 156733FA50;
- Tue,  8 Mar 2022 04:48:56 -0800 (PST)
-Message-ID: <d35d377d-ceb7-726e-a8cd-93ea8df93100@arm.com>
-Date: Tue, 8 Mar 2022 12:48:52 +0000
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B14F510E608;
+ Tue,  8 Mar 2022 12:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646743899; x=1678279899;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lNPuPzRLaunxQwdSRIF6od9IRn1Yu4QpcK5gsAyVDLw=;
+ b=EsEWHq16uIcOmAw+6tVAbnhct3NWRpiRU1RlS6M1/erXAz/L0R7O4S6Q
+ c8BVYiCHaJDkgWA6dj5Ji2NIBYj/Ud1WADH2CbxeYSDd4jnxKWQboaeC0
+ PIfPFF6HtypsQtptFyKwK5XOt6ews8rTSZmcOYrp7jFeWdZvV5p9vXPDG
+ /KlC3rofOgmZDUE2qyP6KCnabxzwWL/1L4ZaO2xbAjnHh7oxcjWehAkAR
+ x6GphDHgVDSUrI50sOnybG5IVD/U9CWYMK4H+G2v6x+qoPH/7k6NvUD6r
+ sADrsxH+eBpnyCCQ5whxFwOty6gQeYN+4nA3XjN5ANqrw8TakBAnLkDjj Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="317903777"
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="317903777"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2022 04:51:39 -0800
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="537556442"
+Received: from mrynekx-mobl3.ger.corp.intel.com (HELO [10.252.3.128])
+ ([10.252.3.128])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2022 04:51:37 -0800
+Message-ID: <8189fc23-f9d7-9daf-f3a7-8e5054425e0d@intel.com>
+Date: Tue, 8 Mar 2022 12:51:35 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH RFC libdrm 1/2] intel: Improve checks for big-endian
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/doc: pull in drm_buddy.c
 Content-Language: en-GB
-To: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
-References: <cover.1646684158.git.geert@linux-m68k.org>
- <9a2d5522f15688981783c5f113563c2bb562568d.1646684158.git.geert@linux-m68k.org>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <9a2d5522f15688981783c5f113563c2bb562568d.1646684158.git.geert@linux-m68k.org>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220208151228.344997-1-matthew.auld@intel.com>
+ <4dfd15b6-e402-f15d-f793-6d31e591fb20@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <4dfd15b6-e402-f15d-f793-6d31e591fb20@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,50 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-03-07 20:53, Geert Uytterhoeven wrote:
->    - sparc64-linux-gnu-gcc does not define __BIG_ENDIAN__ or SPARC, but
->      does define __sparc__, hence replace the check for SPARC by a check
->      for __sparc__,
->    - powerpc{,64,64}-linux-gnu-gcc does not define __ppc__ or __ppc64__,
->      but does define __BIG_ENDIAN__.
->      powerpc64le-linux-gnu-gcc does not define __ppc__ or __ppc64__, but
->      does define __LITTLE_ENDIAN__.
->      Hence remove the checks for __ppc__ and __ppc64__.
->    - mips{,64}-linux-gnu{,abi64}-gcc does not define __BIG_ENDIAN__, but
->      does define __MIPSEB__, so add a check for the latter,
->    - m68k-linux-gnu-gcc does not define __BIG_ENDIAN__, but does define
->      __mc68000__, so add a check for the latter,
->    - hppa{,64}-linux-gnu-gcc defines __BIG_ENDIAN__, and thus should work
->      out-of-the-box.
-
-FWIW there's also __ARM_BIG_ENDIAN for arm-* and aarch64-* targets in BE 
-mode, if you want to flesh out the list even more. In principle there's 
-also "__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__" which should supposedly be 
-consistent across platforms, but I don't know if that's even more of a 
-specific GCC-ism.
-
-Robin.
-
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> Untested due to lack of hardware.
-> ---
->   intel/uthash.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On 09/02/2022 07:32, Christian König wrote:
+> Am 08.02.22 um 16:12 schrieb Matthew Auld:
+>> Make sure we pull in the kernel-doc for this.
+>>
+>> Reported-by: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
 > 
-> diff --git a/intel/uthash.h b/intel/uthash.h
-> index 45d1f9fc12a1d6f9..0f5480be6e8ca033 100644
-> --- a/intel/uthash.h
-> +++ b/intel/uthash.h
-> @@ -648,7 +648,7 @@ do {
->   #define MUR_PLUS2_ALIGNED(p) (((unsigned long)p & 3UL) == 2UL)
->   #define MUR_PLUS3_ALIGNED(p) (((unsigned long)p & 3UL) == 3UL)
->   #define WP(p) ((uint32_t*)((unsigned long)(p) & ~3UL))
-> -#if (defined(__BIG_ENDIAN__) || defined(SPARC) || defined(__ppc__) || defined(__ppc64__))
-> +#if (defined(__BIG_ENDIAN__) || defined(__sparc__) || defined(__mc68000__) || defined(__MIPSEB__))
->   #define MUR_THREE_ONE(p) ((((*WP(p))&0x00ffffff) << 8) | (((*(WP(p)+1))&0xff000000) >> 24))
->   #define MUR_TWO_TWO(p)   ((((*WP(p))&0x0000ffff) <<16) | (((*(WP(p)+1))&0xffff0000) >> 16))
->   #define MUR_ONE_THREE(p) ((((*WP(p))&0x000000ff) <<24) | (((*(WP(p)+1))&0xffffff00) >>  8))
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Thanks. Could you also push this?
+
+> 
+>> ---
+>>   Documentation/gpu/drm-mm.rst | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+>> index 198bcc1affa1..f32ccce5722d 100644
+>> --- a/Documentation/gpu/drm-mm.rst
+>> +++ b/Documentation/gpu/drm-mm.rst
+>> @@ -466,6 +466,15 @@ DRM MM Range Allocator Function References
+>>   .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>>      :export:
+>> +DRM Buddy Allocator
+>> +===================
+>> +
+>> +DRM Buddy Function References
+>> +-----------------------------
+>> +
+>> +.. kernel-doc:: drivers/gpu/drm/drm_buddy.c
+>> +   :export:
+>> +
+>>   DRM Cache Handling and Fast WC memcpy()
+>>   =======================================
+> 
