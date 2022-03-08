@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860E54D18AC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 14:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA8D4D18AD
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 14:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9863510E6D0;
-	Tue,  8 Mar 2022 13:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEEE710E6D5;
+	Tue,  8 Mar 2022 13:06:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E91E210E6D0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 13:06:54 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id h15so4096543wrc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 05:06:54 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB1110E6D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 13:06:56 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id i8so28425372wrr.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 05:06:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QVUkiMBPzb0V6Lwr/lYCzPY0l/r9IyoIGkL0psVfcQI=;
- b=qzXZpTAo/WJaeuIoQBRD5jTnhWiPQOyDSdWnCQNbzQThVGfJFRmQDwh9PK25ZJkk7W
- dAPsQXTWgokt3vcoJV8Ag+/tPVYRe62tIzAwPd89fyCg9GhgKmpmkyKl/E/NiP2PnGf7
- 3aWMEuqfAAecFDBaeFqphSe028pjKKm0S8rRPCTjqlhVu69JhfijMUdsfkTHnqwyDSRb
- PeVozssOnR+3OEmnVziuR+OyNTBqLjoBNyrO/X/898eW6r7wRwL/F7U8uoWuvWiz3Sp0
- AIrJjFX6FgTBL2t2hpFvzTFyaWdVv2/ZclGogNMZBd4WFhGZ8Xj3N+fg07LhYwqItCz3
- B+Aw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kABsl8nFckhHhGe72PdD4LYbj+x9bM4gFy/8W5Qq+ys=;
+ b=CeNbbGSqvyasiw3aKrSWBu+ByZiMzoj0xOyu80rURPjmzSMameTQ41nAx19Gr6BGiR
+ rvKB/ErAp7bOr0L8qDoNIYLdOEAUvQYU12U8QGY6McoiVecBP+DzZa+EojmmHKqfFfaF
+ d570wz2HMUlTB6yeNWfcoM1b3TwXxa5eEphl++JfoJN7aUPEW3OIeG0yJmV/w+gSBthD
+ msrX+vxehJVzaksBhyXTJcNdefwZzeGDEmoyRcJtaNiXOajJpX7bZKpn/+OMF6rPTOpD
+ 28Dj0H0G9MuiLhBVAylZLydjWTQ941HvZ9fNALjvr7IbBKx3Jz/pkIxYmaNVXRtncmSi
+ onoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QVUkiMBPzb0V6Lwr/lYCzPY0l/r9IyoIGkL0psVfcQI=;
- b=o6uHDwwyBSon1dO8/uuIx/Mg2/mBmSnPaNgsLU+mRAU84Tqh7P8lCdA9jHqRmjubml
- 72jd0lfxhWWAIb5CujGJZzbO4oypeW/B0m2kqRzRklygASTdrdJw/aMn9aLLaePfKaKs
- 6ruW6Z5ahJD+DIW7rwhA8Z9HOZ7Tyhas2QfdF68YAggDd053e2/JoW8Y88jNUaH8UPAa
- IBEeK943BM0AeQgD1ntiRIexbs2Y9hnpq+f2oswTKVaTSuj1XG0KvIrgV4HG11i6nT6x
- LlFPleOvgq6P1D7lUwDQY+Jq0pxTxz66a5lFd/mT2Pdl0Yhbo0Xq6luI00Gac0FH5xyL
- KMEA==
-X-Gm-Message-State: AOAM5326ofl3sFwbwXFWz688Pd4rtW0yxe8Rd5ONgDBy6M06DapACD2i
- 3zOcbXlDd6uH+YwZFQD+4PE=
-X-Google-Smtp-Source: ABdhPJwEXW2eoxeiOUY7hBK48npDtQn6u2AmK1ULMUO0dMBQUJaUo2G2MAIrO/TZM9EuRy0f2RfUWQ==
-X-Received: by 2002:a5d:6985:0:b0:1f0:4916:4d00 with SMTP id
- g5-20020a5d6985000000b001f049164d00mr12099481wru.461.1646744813267; 
- Tue, 08 Mar 2022 05:06:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kABsl8nFckhHhGe72PdD4LYbj+x9bM4gFy/8W5Qq+ys=;
+ b=PtIZNLiDVVn9KAMn4Z0KLaPzKGMGmG3WyKfIsqLG/oyNzlprid8Q7Hfvt366j6UYEJ
+ VP3FeRiLGUDfo3tLQe1iTHjcXvjMtL5ntBTZF2PrJfjyRWwie2RSPDKLa4iezSbvo+SA
+ Dx7tXjC10D/UHhGgyFdwK7PMhpaI2f0CNxiZyYQ9xzKtUhgQIoKbA9OaeRXKR2yKanii
+ suhR6dsi7Ds+eyegP8yBNo/Z2pQW2sf4OOPUfO19YtrpmAwegXQVjD4KsDgIaYMXSyrl
+ ZmfKhI/LxJTVWpfsbNfaWrHIjejD6tJuprYVSnac85kXW5SpPta6+VLyVvaVNgxYYAPU
+ 63Dg==
+X-Gm-Message-State: AOAM533O/i/4hYtpf59ccSHxQlwP31Rbqw6ZXaaxbA1ND9ybBcpxNxbJ
+ HP1wGoVnNf9bQuhDm5ZP8Es=
+X-Google-Smtp-Source: ABdhPJyQTsNDK4VxbuzBVRU4ohQD6eHLp6t1D2aSuYrQhwZeUjA0ogkAH1NuopdvNJL7wd5OE6WbLw==
+X-Received: by 2002:a5d:5850:0:b0:1f0:2d5b:dc35 with SMTP id
+ i16-20020a5d5850000000b001f02d5bdc35mr12095290wrf.344.1646744815193; 
+ Tue, 08 Mar 2022 05:06:55 -0800 (PST)
 Received: from monk.home ([2a01:cb10:430:ec00:4737:d56e:186b:af1])
  by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c1d8f00b003899d50f01csm2129159wms.6.2022.03.08.05.06.52
+ p15-20020a05600c1d8f00b003899d50f01csm2129159wms.6.2022.03.08.05.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 05:06:52 -0800 (PST)
+ Tue, 08 Mar 2022 05:06:54 -0800 (PST)
 From: Christophe Branchereau <cbranchereau@gmail.com>
 To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 0/4] Ingenic DRM bridge_atomic_enable proposal
-Date: Tue,  8 Mar 2022 14:06:39 +0100
-Message-Id: <20220308130643.260683-1-cbranchereau@gmail.com>
+Subject: [PATCH v2 1/4] drm/ingenic : add ingenic_drm_bridge_atomic_enable
+Date: Tue,  8 Mar 2022 14:06:40 +0100
+Message-Id: <20220308130643.260683-2-cbranchereau@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220308130643.260683-1-cbranchereau@gmail.com>
+References: <20220308130643.260683-1-cbranchereau@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,46 +76,64 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello, this is the v2 for my set of patches :
+This allows the CRTC to be enabled after panels have slept out,
+and before their display is turned on, solving a graphical bug
+on the newvision nv3502c
 
-- use dev_err_probe() instead of dev_err() in the newvision panel
-driver probe function
+Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+---
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-- add bindings documentation for the Leadtek ltk035c5444t
-
-Cheers - Christophe
-
-------------------------
-
-Hello, this is a set of patches to allow the upstreaming of the
-NV3052C panel found in the Anbernic RG350M mips gaming handheld.
-
-It was never upstreamed so far due to a longstanding graphical
-bug, which I propose to solve by introducing ingenic_drm_bridge_atomic_enable
-in the drm driver so the CRTC can be enabled after the panel itself slept
-out, and not before as it used to.
-
-After the drm change, 2 of the existing panels have to be modified accordingly
-to introduce missing .enable and .disable in their code.
-
-Christophe Branchereau (4):
-  drm/ingenic : add ingenic_drm_bridge_atomic_enable
-  drm/panel: Add panel driver for NewVision NV3052C based LCDs
-  drm/panel : innolux-ej030na and abt-y030xx067a : add .enable and
-    .disable
-  dt-bindings: display/panel: Add Leadtek ltk035c5444t
-
- .../panel/leadtek,ltk035c5444t-spi.yaml       |  59 +++
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  19 +-
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  23 +-
- drivers/gpu/drm/panel/panel-innolux-ej030na.c |  31 +-
- .../gpu/drm/panel/panel-newvision-nv3052c.c   | 497 ++++++++++++++++++
- 7 files changed, 627 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t-spi.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index dcf44cb00821..51512f41263e 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -226,6 +226,18 @@ static int ingenic_drm_update_pixclk(struct notifier_block *nb,
+ 	}
+ }
+ 
++static void ingenic_drm_bridge_atomic_enable(struct drm_bridge *bridge,
++					     struct drm_bridge_state *old_bridge_state)
++{
++	struct ingenic_drm *priv = drm_device_get_priv(bridge->dev);
++
++	regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
++
++	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
++			   JZ_LCD_CTRL_ENABLE | JZ_LCD_CTRL_DISABLE,
++			   JZ_LCD_CTRL_ENABLE);
++}
++
+ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 					   struct drm_atomic_state *state)
+ {
+@@ -237,17 +249,11 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (WARN_ON(IS_ERR(priv_state)))
+ 		return;
+ 
+-	regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
+-
+ 	/* Set addresses of our DMA descriptor chains */
+ 	next_id = priv_state->use_palette ? HWDESC_PALETTE : 0;
+ 	regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, next_id));
+ 	regmap_write(priv->map, JZ_REG_LCD_DA1, dma_hwdesc_addr(priv, 1));
+ 
+-	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
+-			   JZ_LCD_CTRL_ENABLE | JZ_LCD_CTRL_DISABLE,
+-			   JZ_LCD_CTRL_ENABLE);
+-
+ 	drm_crtc_vblank_on(crtc);
+ }
+ 
+@@ -968,6 +974,7 @@ static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs =
+ 
+ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
+ 	.attach			= ingenic_drm_bridge_attach,
++	.atomic_enable		= ingenic_drm_bridge_atomic_enable,
+ 	.atomic_check		= ingenic_drm_bridge_atomic_check,
+ 	.atomic_reset		= drm_atomic_helper_bridge_reset,
+ 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
 -- 
 2.34.1
 
