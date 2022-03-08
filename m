@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F464D242A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 23:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FCF4D247A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 23:47:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B3A10E294;
-	Tue,  8 Mar 2022 22:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6078D10E2AA;
+	Tue,  8 Mar 2022 22:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161AE10E270
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 22:23:56 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id r10so296189wrp.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 14:23:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB6BB10E2E6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 22:47:47 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id l12so602892ljh.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 14:47:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VLNTenH17gTL++hzFtoUTNEHN+pSYqZsQ93MYsewbsE=;
- b=B+Y+aj0Kp1KcmHD1TJUXHwyix6ApB1/FqwmXZGhx1wcc4TAOmxh9gxTlBgAGamLqPE
- vpKcowdhEgZzk2U98r53D5Hy1Scrw6xH8PQcSydekPlZ5HI3qiA9pxOFbKVYi/9OQf1Z
- 2z+/4YhPKMZ9oKQH20k7HP91wcJX8Isk8gqkO9jES0i3L0GPwD3p1LcGOB9U6h/BRgsQ
- 8084feHyzqqtSFPTbppFkm13Ecg1wAy6AkYXNngnc+JaHTQVPUGmgGjdIb5GLtIM4Q/G
- bFqhl4gpP3fujkTcmelxXGFmAibfXsgFjzDNGvuS4OkzK2lYWp6unZQFj+/yXcyvAvNf
- Zjsg==
+ :cc; bh=TcDMQ6nS/X1H1j7aeyleDEMXXGffGCszydA5VcjYqgg=;
+ b=mcIi5/LNOJSSSJDRimjIysrZdWErNM2fT0Mn788ztDzYtBr1Eq9gMtW0aFWEdbgizR
+ b6HjS6DSva7ctaBWgtPwYFxoZGo2OohKiNKldxcxKIP007B23tOFG3hDQgElt8QzAg4d
+ Bw/eNhTiphc4MnYNs+J5FyUu59cJmkR85gUmQhkYoQyybdgiT1LjR8igBzbrc13xqlRr
+ P2jgpaIxbhnYxn67onVUUux10T5Z2bJNtKXWsucAZCb3a6i8gNiRzpWZAXG+j/Ud3kIL
+ UgzgXGoYTJ6HMQ+fl2L93ws9j7gJoxkVWCo7gLm4BnwVRLokNwEJqylIyNxa3pF2J9w2
+ T77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VLNTenH17gTL++hzFtoUTNEHN+pSYqZsQ93MYsewbsE=;
- b=jdWy8KYQYKgd/duiynFYuQdLx3IkscXQZpRMy2IXGG+kMwyKo81nlb/kbEEkDMnF+s
- dXScgEYJBoUkfoj+FYbcqh4LCVFtHQIi36KIjXWgQ8lQZJvfTl5zb9Mrrb8x3Ut3uFjV
- QhZujE5z8wtuq0tDFYnAfELSF+MXY+7auezyu+BUbKp5RFZ8i5MDvJZdY1ne8QIPbWrA
- J4UlelF6yQPFUs8UHgDtT43knx9fePo6H3d/iFN95vv3kW2qdbcmH8KDyx+dedGkdlHl
- ej5hYxPj7i2WeV5B8p/IWq5ejuU2icPUltMPhdxP1IUQzWQsSZ/weU99M2F/l9LzNLbh
- I+hw==
-X-Gm-Message-State: AOAM531uA92K5FEF8T/f+L2OueYRSe2ZpP4ra/hZh1JAEVHABHXNDqKR
- 0epjn3LYdtvGiFJA3PydX/AO8ul+VQINXp6NOwA=
-X-Google-Smtp-Source: ABdhPJyGuPzIrRNVs2k9a2b1qGUaqAliN4KUm5RnUtzkOdj1rRLWp/R6GjNYrs64hWACoBMY67pIWSlhNB+JjFA13n4=
-X-Received: by 2002:a05:6000:15c5:b0:1f1:e64d:e4c3 with SMTP id
- y5-20020a05600015c500b001f1e64de4c3mr11545524wry.328.1646778234465; Tue, 08
- Mar 2022 14:23:54 -0800 (PST)
+ bh=TcDMQ6nS/X1H1j7aeyleDEMXXGffGCszydA5VcjYqgg=;
+ b=QdpKEkr4a058fWgrAkKExE70kncOirlcwNY73nAqwmy3drXiUYyaZK1MgaK3/eBy4Y
+ GaOVVw4CunWvEp43EALQOkEUCD6nv4paXFT7ex2RuevY1trtO6sc2miV8rgqd35VbUWI
+ zCIbaKwXJoSImj9sRyeod6zWbuHEkWtTjSCaoeEe6JqwNRNtdf8KRJSBKk0P5nSY+jf3
+ 8DsjvaSIZ0hx5PpAaGDdk0xiOZQUdpZCElliAGWPs0m0UdThx1+u9vGaR6udSjmmPlAe
+ hU9/zjmDbOnvfJCSMz9ArED0EL+UBlMzm0feMOYJftIRjnNPvuWAZGF2mNfTwVYWxKF4
+ 7wLw==
+X-Gm-Message-State: AOAM532etcdFoQyK8QXo62GMQjC3+SP8hY4KQHtfuVii9GHM8ZW94H1O
+ 9pTdjgBjqQv8UjIr3erWmOrYtGgnUPTuRKoNYSwT8g==
+X-Google-Smtp-Source: ABdhPJzlxzIurB5HwPVFvPKrN6sox392JtzvHKNiMG1iJ5m52KHtMlH5aTxsK0urYbyIhWlEJGxod+fGDgevjQEk784=
+X-Received: by 2002:a2e:8942:0:b0:246:4536:cf22 with SMTP id
+ b2-20020a2e8942000000b002464536cf22mr12164694ljk.235.1646779665519; Tue, 08
+ Mar 2022 14:47:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
- <CAF6AEGt=aVJ9nR+Wv+bJEFZrn-cNOSNXG1TaJr=Cx-FTgutwKA@mail.gmail.com>
- <d2290971-ea22-8203-631e-b896c76a994b@collabora.com>
-In-Reply-To: <d2290971-ea22-8203-631e-b896c76a994b@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 8 Mar 2022 14:24:22 -0800
-Message-ID: <CAF6AEGuR8B6z+z=VFQ6y01wbboYS_qpkghD1GYdLES_RZOW1wA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20220302235909.784935-1-nathan@kernel.org>
+In-Reply-To: <20220302235909.784935-1-nathan@kernel.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 8 Mar 2022 14:47:34 -0800
+Message-ID: <CAKwvOdkT1Lz8RqKmR0efPzpHxFgp98bwepwHURTUckEFYe5zYg@mail.gmail.com>
+Subject: Re: [PATCH] drm/selftest: plane_helper: Put test structures in static
+ storage
+To: Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,78 +63,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gert Wollny <gert.wollny@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ llvm@lists.linux.dev, patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Claudio Suarez <cssk@net-c.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 11:28 AM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
+On Wed, Mar 2, 2022 at 4:00 PM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On 3/8/22 19:29, Rob Clark wrote:
-> > On Tue, Mar 8, 2022 at 5:17 AM Dmitry Osipenko
-> > <dmitry.osipenko@collabora.com> wrote:
-> >>
-> >> Hello,
-> >>
-> >> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver.
-> >> During OOM, the shrinker will release BOs that are marked as "not needed"
-> >> by userspace using the new madvise IOCTL. The userspace in this case is
-> >> the Mesa VirGL driver, it will mark the cached BOs as "not needed",
-> >> allowing kernel driver to release memory of the cached shmem BOs on lowmem
-> >> situations, preventing OOM kills.
-> >
-> > Will host memory pressure already trigger shrinker in guest?
+> Clang warns on certain 32-bit architectures:
 >
-> The host memory pressure won't trigger shrinker in guest here. This
-> series will help only with the memory pressure within the guest using a
-> usual "virgl context".
+>   drivers/gpu/drm/selftests/test-drm_plane_helper.c:76:5: warning: stack frame size (1064) exceeds limit (1024) in 'igt_check_plane_state' [-Wframe-larger-than]
+>   int igt_check_plane_state(void *ignored)
+>       ^
+>   1 warning generated.
 >
-> Having a host shrinker in a case of "virgl contexts" should be a
-> difficult problem to solve.
-
-Hmm, I think we just need the balloon driver to trigger the shrinker
-in the guest kernel?  I suppose a driver like drm/virtio might want to
-differentiate between host and guest pressure (ie. consider only
-objects that have host vs guest storage), but even without that,
-freeing up memory in the guest when host is under memory pressure
-seems worthwhile.  Maybe I'm over-simplifying?
-
-> > This is
-> > something I'm quite interested in for "virtgpu native contexts" (ie.
-> > native guest driver with new context type sitting on top of virtgpu),
+> The structures in igt_check_plane_state() total 1008 bytes, so any small
+> amount of inlining will cause the stack frame to exceed the 32-bit limit
+> of 1024, triggering the warning.
 >
-> In a case of "native contexts" it should be doable, at least I can't see
-> any obvious problems. The madvise invocations could be passed to the
-> host using a new virtio-gpu command by the guest's madvise IOCTL
-> handler, instead-of/in-addition-to handling madvise in the guest's
-> kernel, and that's it.
-
-I think we don't want to do that, because MADV:WILLNEED would be by
-far the most frequent guest<->host synchronous round trip.  So from
-that perspective tracking madvise state in guest kernel seems quite
-attractive.
-
-If we really can't track madvise state in the guest for dealing with
-host memory pressure, I think the better option is to introduce
-MADV:WILLNEED_REPLACE, ie. something to tell the host kernel that the
-buffer is needed but the previous contents are not (as long as the GPU
-VA remains the same).  With this the host could allocate new pages if
-needed, and the guest would not need to wait for a reply from host.
-
-> > since that isn't using host storage
+> Move these structures to static storage, which dramatically reduces the
+> amount of stack space in igt_check_plane_state(). There is no testing
+> impact, as igt_check_plane_state() is only called once in the driver.
 >
-> s/host/guest ?
+> Fixes: 943e6a8beeac ("mock a drm_plane in igt_check_plane_state to make the test more robust")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1600
+> Reported-by: kernel test robot <lkp@intel.com>
+> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Yes, sorry, I meant that it is not using guest storage.
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-BR,
--R
+> ---
+>  drivers/gpu/drm/selftests/test-drm_plane_helper.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/selftests/test-drm_plane_helper.c b/drivers/gpu/drm/selftests/test-drm_plane_helper.c
+> index ceebeede55ea..b61273e9c403 100644
+> --- a/drivers/gpu/drm/selftests/test-drm_plane_helper.c
+> +++ b/drivers/gpu/drm/selftests/test-drm_plane_helper.c
+> @@ -77,7 +77,7 @@ int igt_check_plane_state(void *ignored)
+>  {
+>         int ret;
+>
+> -       const struct drm_crtc_state crtc_state = {
+> +       static const struct drm_crtc_state crtc_state = {
+>                 .crtc = ZERO_SIZE_PTR,
+>                 .enable = true,
+>                 .active = true,
+> @@ -87,14 +87,14 @@ int igt_check_plane_state(void *ignored)
+>                                 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC)
+>                 },
+>         };
+> -       struct drm_plane plane = {
+> +       static struct drm_plane plane = {
+>                 .dev = NULL
+>         };
+> -       struct drm_framebuffer fb = {
+> +       static struct drm_framebuffer fb = {
+>                 .width = 2048,
+>                 .height = 2048
+>         };
+> -       struct drm_plane_state plane_state = {
+> +       static struct drm_plane_state plane_state = {
+>                 .plane = &plane,
+>                 .crtc = ZERO_SIZE_PTR,
+>                 .fb = &fb,
+>
+> base-commit: 9ae2ac4d31a85ce59cc560d514a31b95f4ace154
+> --
+> 2.35.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
