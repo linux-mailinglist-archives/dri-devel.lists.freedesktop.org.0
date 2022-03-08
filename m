@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8CE4D18AE
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 14:07:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27DF4D18AF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 14:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B1110E6F0;
-	Tue,  8 Mar 2022 13:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 857F810E6F6;
+	Tue,  8 Mar 2022 13:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9C110E6F0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 13:06:58 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id q14so12884850wrc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 05:06:58 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16C1510E6F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 13:07:00 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id p9so28432075wra.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 05:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yT/jLMavWzWNWxYJnbgv8x0+7fWNMgopN7NzlMWbIS4=;
- b=XPbT52w0uzrr8Ok+bC8w8kgPPYtYYdQwpUW7e5oyH4XgSLUWgRnbr2iob5dgTAKl9o
- 6NZk6dLQCyl1c2I+FzgU8M8lsCcclhh7FgL8lyY/Gu//aM3EHZqwfec4NmFT+3ygwrf1
- QKRMM/HxjWb94GkqRJYu1Ur/kN4ddFwtv7VWpbxfJS7nihgVd0i/MIdfW4WcIgLMHAFX
- b/7ATHj8zLOf8h2MnJXRnxHDNqnhqMUsBS98zfXNwD9cYW761PVW4gWIXwKHSlYgzW/2
- I0aMuvDwLJoPITFfrXp8boj0aRleoiPrvTKWVtkgmQ5AmyrsKqAPDnm56Ss3nQ2KVAzl
- fGdw==
+ bh=CDRCVh5+XHKQRRsWU/rtw+qyV3P2V1tvxwx8uNiM2Wo=;
+ b=Ky4TTzhOPngv49aT29V3Wwzh8Gxpvbyud2eTLHJxWa3yJrv963ei4srJhgtR1xD3aQ
+ vADvj8+hWIZ2UgiupW1q7/lyPlr+AfzVWa02FUkiFiq/SpeKOIbU909QYao9nRXMwoWl
+ g+e4648qYPBk05do9LYcaNmNm0bxbsoQqQWnnyDFfKz8NLe0DowfLveHPJaQ6G/LZlde
+ yp7TOB8kBoQFYL1Bbuuy5fCtf8t7VvebX6G4UPtwkcOqVOs67Pl7+vqPMby7M62HQh3y
+ Y4da6WpWKn2aLKF6VhQFGM52QO1TYYLj1r9S+eT0LzdpUPDZLDpIa0yEwpbhzAkivDh/
+ 9exQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yT/jLMavWzWNWxYJnbgv8x0+7fWNMgopN7NzlMWbIS4=;
- b=BXYOS+yym/2x9ffK7yECzPeVVzowAqQh+9iq2V6FVHu8HdqPhx96VUwp9kZ2p81fCj
- hqoWsst20o1eZ2+lcZf0nQ2qeKmLhDLjzAtKdxm8zwxXxN5xgWjfsmFCJMt46AFuK+ML
- Q7OWiIMLuElJR9OmeYZf8GNHu8KK++6PUgQOsRymDerUQ1bXgqRAnPn23/Ci3iwDhZ6S
- L1BACzP66ealFXuszb0totTnfGsBE+K6SbmZ3EKFpFKszsP1c0dRrWVE6STN5t7Bzive
- 5bKtN0DhwDyROxDh8URjhS90K50Z7bmB+grQcJk304lS4HhUHLN/RnmnDzu6uB7CVgED
- +ydQ==
-X-Gm-Message-State: AOAM533Nid4pAJeU31TQIw/hHuCQoWQFEP391nvtwoSjW65hc3jLsQDI
- Eu6e2OnCk3G9GjiSX+z53UU=
-X-Google-Smtp-Source: ABdhPJwgJWWuXM1CTl8oNejWj59U2IcCVbFdKz8V2LmHQ5GoUnWDHCnlGwDXmgl4RZnB/6viCa2GDQ==
-X-Received: by 2002:a5d:6d0c:0:b0:1fc:71c0:4a1b with SMTP id
- e12-20020a5d6d0c000000b001fc71c04a1bmr5043205wrq.186.1646744817043; 
- Tue, 08 Mar 2022 05:06:57 -0800 (PST)
+ bh=CDRCVh5+XHKQRRsWU/rtw+qyV3P2V1tvxwx8uNiM2Wo=;
+ b=a7mGk9OyLCin4QJcfcx0SwV1oeB/X4Aw31D6XRffD0kK2CLsyfSmnoO9A3mkSVO0u9
+ RnHEcD0aE+blcWC24DqtVyojjkTE9zhJGee5h9gAciRgtT2n/Wlle7P3wkYGBDitcCUf
+ qo6LzamTkLy1/nCzjHelAwxQCbdBWsuDwyskxTFKNkOJzrzlquRC37ler2w8jSuozLXk
+ r2PrWezviH7UnB7cXbbdLldTmpdWqZfmIPZ/uiRIUavz3tYxysRvXOLz9cAgv6x5bMXf
+ sq/HLuSHyXU8RSabfGE0njgafTEveXPGQMKltP/DdKuAWaL+iZ/jPQgDvylkhgSdyp/9
+ 9hrw==
+X-Gm-Message-State: AOAM533NJNeM1Xdi2QIo0ZIMqgRG3Fn3cv6fz+q51URcLRmGUIEdZORw
+ 8kvbvOAKzDQdnyzKjUkPhmI=
+X-Google-Smtp-Source: ABdhPJw9ctP/0Y0MryDoGfe6G+0lgBK3RxXcgbm7ksoJh1Dk30TNepsME/lbIh14ITPs/Wgq9oN6XA==
+X-Received: by 2002:adf:e6d0:0:b0:1f1:dfaa:ac39 with SMTP id
+ y16-20020adfe6d0000000b001f1dfaaac39mr11765891wrm.239.1646744818605; 
+ Tue, 08 Mar 2022 05:06:58 -0800 (PST)
 Received: from monk.home ([2a01:cb10:430:ec00:4737:d56e:186b:af1])
  by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c1d8f00b003899d50f01csm2129159wms.6.2022.03.08.05.06.55
+ p15-20020a05600c1d8f00b003899d50f01csm2129159wms.6.2022.03.08.05.06.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 05:06:56 -0800 (PST)
+ Tue, 08 Mar 2022 05:06:58 -0800 (PST)
 From: Christophe Branchereau <cbranchereau@gmail.com>
 To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 2/4] drm/panel: Add panel driver for NewVision NV3052C
- based LCDs
-Date: Tue,  8 Mar 2022 14:06:41 +0100
-Message-Id: <20220308130643.260683-3-cbranchereau@gmail.com>
+Subject: [PATCH v2 3/4] drm/panel : innolux-ej030na and abt-y030xx067a : add
+ .enable and .disable
+Date: Tue,  8 Mar 2022 14:06:42 +0100
+Message-Id: <20220308130643.260683-4-cbranchereau@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220308130643.260683-1-cbranchereau@gmail.com>
 References: <20220308130643.260683-1-cbranchereau@gmail.com>
@@ -77,377 +77,99 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver supports the NewVision NV3052C based LCDs. Right now, it
-only supports the LeadTek LTK035C5444T 2.4" 640x480 TFT LCD panel, which
-can be found in the Anbernic RG-350M handheld console.
+Following the introduction of bridge_atomic_enable in the ingenic
+drm driver, the crtc is enabled between .prepare and .enable, if
+it exists.
+
+Add it so the backlight is only enabled after the crtc is, to avoid
+graphical issues.
 
 Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
 ---
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-newvision-nv3052c.c   | 497 ++++++++++++++++++
- 3 files changed, 507 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 23 ++++++++++++--
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31 ++++++++++++++++---
+ 2 files changed, 48 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index bb2e47229c68..40084f709789 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -283,6 +283,15 @@ config DRM_PANEL_NEC_NL8048HL11
- 	  panel (found on the Zoom2/3/3630 SDP boards). To compile this driver
- 	  as a module, choose M here.
+diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+index f043b484055b..b5736344e3ec 100644
+--- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
++++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+@@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel *panel)
+ 		goto err_disable_regulator;
+ 	}
  
-+config DRM_PANEL_NEWVISION_NV3052C
-+	tristate "NewVision NV3052C RGB/SPI panel"
-+	depends on OF && SPI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_MIPI_DBI
-+	help
-+	  Say Y here if you want to enable support for the panels built
-+	  around the NewVision NV3052C display controller.
-+
- config DRM_PANEL_NOVATEK_NT35510
- 	tristate "Novatek NT35510 RGB panel driver"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 5740911f637c..42a7ab54234b 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
- obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
- obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
- obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
-+obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3052C) += panel-newvision-nv3052c.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35560) += panel-novatek-nt35560.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35950) += panel-novatek-nt35950.o
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-new file mode 100644
-index 000000000000..30ab7a9fc828
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -0,0 +1,497 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * NevVision NV3052C IPS LCD panel driver
-+ *
-+ * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
-+ * Copyright (C) 2022, Christophe Branchereau <cbranchereau@gmail.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct nv3052c_panel_info {
-+	const struct drm_display_mode *display_modes;
-+	unsigned int num_modes;
-+	u16 width_mm, height_mm;
-+	u32 bus_format, bus_flags;
-+};
-+
-+struct nv3052c {
-+	struct device *dev;
-+	struct drm_panel panel;
-+	struct mipi_dbi dbi;
-+
-+	const struct nv3052c_panel_info *panel_info;
-+
-+	struct regulator *supply;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+struct nv3052c_reg {
-+	u8 cmd;
-+	u8 val;
-+};
-+
-+static const struct nv3052c_reg nv3052c_panel_regs[] = {
-+	{ 0xff, 0x30 },
-+	{ 0xff, 0x52 },
-+	{ 0xff, 0x01 },
-+	{ 0xe3, 0x00 },
-+	{ 0x40, 0x00 },
-+	{ 0x03, 0x40 },
-+	{ 0x04, 0x00 },
-+	{ 0x05, 0x03 },
-+	{ 0x08, 0x00 },
-+	{ 0x09, 0x07 },
-+	{ 0x0a, 0x01 },
-+	{ 0x0b, 0x32 },
-+	{ 0x0c, 0x32 },
-+	{ 0x0d, 0x0b },
-+	{ 0x0e, 0x00 },
-+	{ 0x23, 0xa0 },
-+
-+	{ 0x24, 0x0c },
-+	{ 0x25, 0x06 },
-+	{ 0x26, 0x14 },
-+	{ 0x27, 0x14 },
-+
-+	{ 0x38, 0xcc },
-+	{ 0x39, 0xd7 },
-+	{ 0x3a, 0x4a },
-+
-+	{ 0x28, 0x40 },
-+	{ 0x29, 0x01 },
-+	{ 0x2a, 0xdf },
-+	{ 0x49, 0x3c },
-+	{ 0x91, 0x77 },
-+	{ 0x92, 0x77 },
-+	{ 0xa0, 0x55 },
-+	{ 0xa1, 0x50 },
-+	{ 0xa4, 0x9c },
-+	{ 0xa7, 0x02 },
-+	{ 0xa8, 0x01 },
-+	{ 0xa9, 0x01 },
-+	{ 0xaa, 0xfc },
-+	{ 0xab, 0x28 },
-+	{ 0xac, 0x06 },
-+	{ 0xad, 0x06 },
-+	{ 0xae, 0x06 },
-+	{ 0xaf, 0x03 },
-+	{ 0xb0, 0x08 },
-+	{ 0xb1, 0x26 },
-+	{ 0xb2, 0x28 },
-+	{ 0xb3, 0x28 },
-+	{ 0xb4, 0x33 },
-+	{ 0xb5, 0x08 },
-+	{ 0xb6, 0x26 },
-+	{ 0xb7, 0x08 },
-+	{ 0xb8, 0x26 },
-+	{ 0xf0, 0x00 },
-+	{ 0xf6, 0xc0 },
-+
-+	{ 0xff, 0x30 },
-+	{ 0xff, 0x52 },
-+	{ 0xff, 0x02 },
-+	{ 0xb0, 0x0b },
-+	{ 0xb1, 0x16 },
-+	{ 0xb2, 0x17 },
-+	{ 0xb3, 0x2c },
-+	{ 0xb4, 0x32 },
-+	{ 0xb5, 0x3b },
-+	{ 0xb6, 0x29 },
-+	{ 0xb7, 0x40 },
-+	{ 0xb8, 0x0d },
-+	{ 0xb9, 0x05 },
-+	{ 0xba, 0x12 },
-+	{ 0xbb, 0x10 },
-+	{ 0xbc, 0x12 },
-+	{ 0xbd, 0x15 },
-+	{ 0xbe, 0x19 },
-+	{ 0xbf, 0x0e },
-+	{ 0xc0, 0x16 },
-+	{ 0xc1, 0x0a },
-+	{ 0xd0, 0x0c },
-+	{ 0xd1, 0x17 },
-+	{ 0xd2, 0x14 },
-+	{ 0xd3, 0x2e },
-+	{ 0xd4, 0x32 },
-+	{ 0xd5, 0x3c },
-+	{ 0xd6, 0x22 },
-+	{ 0xd7, 0x3d },
-+	{ 0xd8, 0x0d },
-+	{ 0xd9, 0x07 },
-+	{ 0xda, 0x13 },
-+	{ 0xdb, 0x13 },
-+	{ 0xdc, 0x11 },
-+	{ 0xdd, 0x15 },
-+	{ 0xde, 0x19 },
-+	{ 0xdf, 0x10 },
-+	{ 0xe0, 0x17 },
-+	{ 0xe1, 0x0a },
-+
-+	{ 0xff, 0x30 },
-+	{ 0xff, 0x52 },
-+	{ 0xff, 0x03 },
-+	{ 0x00, 0x2a },
-+	{ 0x01, 0x2a },
-+	{ 0x02, 0x2a },
-+	{ 0x03, 0x2a },
-+	{ 0x04, 0x61 },
-+	{ 0x05, 0x80 },
-+	{ 0x06, 0xc7 },
-+	{ 0x07, 0x01 },
-+	{ 0x08, 0x03 },
-+	{ 0x09, 0x04 },
-+	{ 0x70, 0x22 },
-+	{ 0x71, 0x80 },
-+	{ 0x30, 0x2a },
-+	{ 0x31, 0x2a },
-+	{ 0x32, 0x2a },
-+	{ 0x33, 0x2a },
-+	{ 0x34, 0x61 },
-+	{ 0x35, 0xc5 },
-+	{ 0x36, 0x80 },
-+	{ 0x37, 0x23 },
-+	{ 0x40, 0x03 },
-+	{ 0x41, 0x04 },
-+	{ 0x42, 0x05 },
-+	{ 0x43, 0x06 },
-+	{ 0x44, 0x11 },
-+	{ 0x45, 0xe8 },
-+	{ 0x46, 0xe9 },
-+	{ 0x47, 0x11 },
-+	{ 0x48, 0xea },
-+	{ 0x49, 0xeb },
-+	{ 0x50, 0x07 },
-+	{ 0x51, 0x08 },
-+	{ 0x52, 0x09 },
-+	{ 0x53, 0x0a },
-+	{ 0x54, 0x11 },
-+	{ 0x55, 0xec },
-+	{ 0x56, 0xed },
-+	{ 0x57, 0x11 },
-+	{ 0x58, 0xef },
-+	{ 0x59, 0xf0 },
-+	{ 0xb1, 0x01 },
-+	{ 0xb4, 0x15 },
-+	{ 0xb5, 0x16 },
-+	{ 0xb6, 0x09 },
-+	{ 0xb7, 0x0f },
-+	{ 0xb8, 0x0d },
-+	{ 0xb9, 0x0b },
-+	{ 0xba, 0x00 },
-+	{ 0xc7, 0x02 },
-+	{ 0xca, 0x17 },
-+	{ 0xcb, 0x18 },
-+	{ 0xcc, 0x0a },
-+	{ 0xcd, 0x10 },
-+	{ 0xce, 0x0e },
-+	{ 0xcf, 0x0c },
-+	{ 0xd0, 0x00 },
-+	{ 0x81, 0x00 },
-+	{ 0x84, 0x15 },
-+	{ 0x85, 0x16 },
-+	{ 0x86, 0x10 },
-+	{ 0x87, 0x0a },
-+	{ 0x88, 0x0c },
-+	{ 0x89, 0x0e },
-+	{ 0x8a, 0x02 },
-+	{ 0x97, 0x00 },
-+	{ 0x9a, 0x17 },
-+	{ 0x9b, 0x18 },
-+	{ 0x9c, 0x0f },
-+	{ 0x9d, 0x09 },
-+	{ 0x9e, 0x0b },
-+	{ 0x9f, 0x0d },
-+	{ 0xa0, 0x01 },
-+
-+	{ 0xff, 0x30 },
-+	{ 0xff, 0x52 },
-+	{ 0xff, 0x02 },
-+	{ 0x01, 0x01 },
-+	{ 0x02, 0xda },
-+	{ 0x03, 0xba },
-+	{ 0x04, 0xa8 },
-+	{ 0x05, 0x9a },
-+	{ 0x06, 0x70 },
-+	{ 0x07, 0xff },
-+	{ 0x08, 0x91 },
-+	{ 0x09, 0x90 },
-+	{ 0x0a, 0xff },
-+	{ 0x0b, 0x8f },
-+	{ 0x0c, 0x60 },
-+	{ 0x0d, 0x58 },
-+	{ 0x0e, 0x48 },
-+	{ 0x0f, 0x38 },
-+	{ 0x10, 0x2b },
-+
-+	{ 0xff, 0x30 },
-+	{ 0xff, 0x52 },
-+	{ 0xff, 0x00 },
-+	{ 0x36, 0x0a },
-+};
-+
-+static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
+-	msleep(120);
+-
+ 	return 0;
+ 
+ err_disable_regulator:
+@@ -202,6 +200,25 @@ static int y030xx067a_unprepare(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
++static int y030xx067a_enable(struct drm_panel *panel)
 +{
-+	return container_of(panel, struct nv3052c, panel);
-+}
-+
-+static int nv3052c_prepare(struct drm_panel *panel)
-+{
-+	struct nv3052c *priv = to_nv3052c(panel);
-+	struct mipi_dbi *dbi = &priv->dbi;
-+	unsigned int i;
-+	int err;
-+
-+	err = regulator_enable(priv->supply);
-+	if (err) {
-+		dev_err(priv->dev, "Failed to enable power supply: %d\n", err);
-+		return err;
++	if (panel->backlight) {
++		/* Wait for the picture to be ready before enabling backlight */
++		msleep(120);
 +	}
-+
-+	/* Reset the chip */
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	usleep_range(10, 1000);
-+	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-+	msleep(5);
-+
-+	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
-+		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
-+				       nv3052c_panel_regs[i].val);
-+
-+		if (err) {
-+			dev_err(priv->dev, "Unable to set register: %d\n", err);
-+			goto err_disable_regulator;
-+		}
-+	}
-+
-+	err = mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	if (err) {
-+		dev_err(priv->dev, "Unable to exit sleep mode: %d\n", err);
-+		goto err_disable_regulator;
-+	}
-+
-+	return 0;
-+
-+err_disable_regulator:
-+	regulator_disable(priv->supply);
-+	return err;
-+}
-+
-+static int nv3052c_unprepare(struct drm_panel *panel)
-+{
-+	struct nv3052c *priv = to_nv3052c(panel);
-+	struct mipi_dbi *dbi = &priv->dbi;
-+	int err;
-+
-+	err = mipi_dbi_command(dbi, MIPI_DCS_ENTER_SLEEP_MODE);
-+	if (err) {
-+		dev_err(priv->dev, "Unable to enter sleep mode: %d\n", err);
-+		return err;
-+	}
-+
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	regulator_disable(priv->supply);
 +
 +	return 0;
 +}
 +
-+static int nv3052c_enable(struct drm_panel *panel)
++static int y030xx067a_disable(struct drm_panel *panel)
 +{
-+	struct nv3052c *priv = to_nv3052c(panel);
-+	struct mipi_dbi *dbi = &priv->dbi;
-+	int err;
++	struct y030xx067a *priv = to_y030xx067a(panel);
 +
-+	err = mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	if (err) {
-+		dev_err(priv->dev, "Unable to enable display: %d\n", err);
-+		return err;
-+	}
++	regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
++
++	return 0;
++}
++
+ static int y030xx067a_get_modes(struct drm_panel *panel,
+ 				struct drm_connector *connector)
+ {
+@@ -239,6 +256,8 @@ static int y030xx067a_get_modes(struct drm_panel *panel,
+ static const struct drm_panel_funcs y030xx067a_funcs = {
+ 	.prepare	= y030xx067a_prepare,
+ 	.unprepare	= y030xx067a_unprepare,
++	.enable		= y030xx067a_enable,
++	.disable	= y030xx067a_disable,
+ 	.get_modes	= y030xx067a_get_modes,
+ };
+ 
+diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+index c558de3f99be..6de7370185cd 100644
+--- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
++++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+@@ -80,8 +80,6 @@ static const struct reg_sequence ej030na_init_sequence[] = {
+ 	{ 0x47, 0x08 },
+ 	{ 0x48, 0x0f },
+ 	{ 0x49, 0x0f },
+-
+-	{ 0x2b, 0x01 },
+ };
+ 
+ static int ej030na_prepare(struct drm_panel *panel)
+@@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel *panel)
+ 		goto err_disable_regulator;
+ 	}
+ 
+-	msleep(120);
+-
+ 	return 0;
+ 
+ err_disable_regulator:
+@@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
++static int ej030na_enable(struct drm_panel *panel)
++{
++	struct ej030na *priv = to_ej030na(panel);
++
++	/* standby off */
++	regmap_write(priv->map, 0x2b, 0x01);
 +
 +	if (panel->backlight) {
 +		/* Wait for the picture to be ready before enabling backlight */
@@ -457,173 +179,28 @@ index 000000000000..30ab7a9fc828
 +	return 0;
 +}
 +
-+static int nv3052c_disable(struct drm_panel *panel)
++static int ej030na_disable(struct drm_panel *panel)
 +{
-+	struct nv3052c *priv = to_nv3052c(panel);
-+	struct mipi_dbi *dbi = &priv->dbi;
-+	int err;
++	struct ej030na *priv = to_ej030na(panel);
 +
-+	err = mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+	if (err) {
-+		dev_err(priv->dev, "Unable to disable display: %d\n", err);
-+		return err;
-+	}
++	/* standby on */
++	regmap_write(priv->map, 0x2b, 0x00);
 +
 +	return 0;
 +}
 +
-+static int nv3052c_get_modes(struct drm_panel *panel,
-+			     struct drm_connector *connector)
-+{
-+	struct nv3052c *priv = to_nv3052c(panel);
-+	const struct nv3052c_panel_info *panel_info = priv->panel_info;
-+	struct drm_display_mode *mode;
-+	unsigned int i;
-+
-+	for (i = 0; i < panel_info->num_modes; i++) {
-+		mode = drm_mode_duplicate(connector->dev,
-+					  &panel_info->display_modes[i]);
-+		if (!mode)
-+			return -ENOMEM;
-+
-+		drm_mode_set_name(mode);
-+
-+		mode->type = DRM_MODE_TYPE_DRIVER;
-+		if (panel_info->num_modes == 1)
-+			mode->type |= DRM_MODE_TYPE_PREFERRED;
-+
-+		drm_mode_probed_add(connector, mode);
-+	}
-+
-+	connector->display_info.bpc = 8;
-+	connector->display_info.width_mm = panel_info->width_mm;
-+	connector->display_info.height_mm = panel_info->height_mm;
-+
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &panel_info->bus_format, 1);
-+	connector->display_info.bus_flags = panel_info->bus_flags;
-+
-+	return panel_info->num_modes;
-+}
-+
-+static const struct drm_panel_funcs nv3052c_funcs = {
-+	.prepare	= nv3052c_prepare,
-+	.unprepare	= nv3052c_unprepare,
-+	.enable		= nv3052c_enable,
-+	.disable	= nv3052c_disable,
-+	.get_modes	= nv3052c_get_modes,
-+};
-+
-+static int nv3052c_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct nv3052c *priv;
-+	int err;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = dev;
-+
-+	priv->panel_info = of_device_get_match_data(dev);
-+	if (!priv->panel_info)
-+		return -EINVAL;
-+
-+	priv->supply = devm_regulator_get(dev, "power");
-+	if (IS_ERR(priv->supply))
-+		return dev_err_probe(dev, PTR_ERR(priv->supply), "Failed to get power supply\n");
-+
-+	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to get reset GPIO\n");
-+
-+	err = mipi_dbi_spi_init(spi, &priv->dbi, NULL);
-+	if (err)
-+		return dev_err_probe(dev, err, "MIPI DBI init failed\n");
-+
-+	priv->dbi.read_commands = NULL;
-+
-+	spi_set_drvdata(spi, priv);
-+
-+	drm_panel_init(&priv->panel, dev, &nv3052c_funcs,
-+		       DRM_MODE_CONNECTOR_DPI);
-+
-+	err = drm_panel_of_backlight(&priv->panel);
-+	if (err)
-+		return dev_err_probe(dev, err, "Failed to attach backlight\n");
-+
-+	drm_panel_add(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static int nv3052c_remove(struct spi_device *spi)
-+{
-+	struct nv3052c *priv = spi_get_drvdata(spi);
-+
-+	drm_panel_remove(&priv->panel);
-+	drm_panel_disable(&priv->panel);
-+	drm_panel_unprepare(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode ltk035c5444t_modes[] = {
-+	{ /* 60 Hz */
-+		.clock = 24000,
-+		.hdisplay = 640,
-+		.hsync_start = 640 + 96,
-+		.hsync_end = 640 + 96 + 16,
-+		.htotal = 640 + 96 + 16 + 48,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 5,
-+		.vsync_end = 480 + 5 + 2,
-+		.vtotal = 480 + 5 + 2 + 13,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+	{ /* 50 Hz */
-+		.clock = 18000,
-+		.hdisplay = 640,
-+		.hsync_start = 640 + 39,
-+		.hsync_end = 640 + 39 + 2,
-+		.htotal = 640 + 39 + 2 + 39,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 5,
-+		.vsync_end = 480 + 5 + 2,
-+		.vtotal = 480 + 5 + 2 + 13,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+};
-+
-+static const struct nv3052c_panel_info ltk035c5444t_spi_panel_info = {
-+	.display_modes = ltk035c5444t_modes,
-+	.num_modes = ARRAY_SIZE(ltk035c5444t_modes),
-+	.width_mm = 77,
-+	.height_mm = 64,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+};
-+
-+static const struct of_device_id nv3052c_of_match[] = {
-+	{ .compatible = "leadtek,ltk035c5444t-spi", .data = &ltk035c5444t_spi_panel_info },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, nv3052c_of_match);
-+
-+static struct spi_driver nv3052c_driver = {
-+	.driver = {
-+		.name = "nv3052c",
-+		.of_match_table = nv3052c_of_match,
-+	},
-+	.probe = nv3052c_probe,
-+	.remove = nv3052c_remove,
-+};
-+module_spi_driver(nv3052c_driver);
-+
-+MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
-+MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
-+MODULE_LICENSE("GPL v2");
+ static int ej030na_get_modes(struct drm_panel *panel,
+ 			     struct drm_connector *connector)
+ {
+@@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel *panel,
+ static const struct drm_panel_funcs ej030na_funcs = {
+ 	.prepare	= ej030na_prepare,
+ 	.unprepare	= ej030na_unprepare,
++	.enable		= ej030na_enable,
++	.disable	= ej030na_disable,
+ 	.get_modes	= ej030na_get_modes,
+ };
+ 
 -- 
 2.34.1
 
