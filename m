@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308E24D13A1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389E04D13C0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 10:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE04110E2DA;
-	Tue,  8 Mar 2022 09:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA2310E4B0;
+	Tue,  8 Mar 2022 09:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50AFA10E2DA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:45:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BC5271F396;
- Tue,  8 Mar 2022 09:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646732698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kpHjumSWpKgMug35vEyl7CC/OVgTfDjtoHX6Y26cqiw=;
- b=10KHbdD9Ubm+xSRCRF6tRPSIvK8k3AxHjyeGsbuoUhZpMYJNMUhDK9HcQW1H3YCaAA+fw3
- OatRIDqB9BpAitClG/zCAxGB/A1wL6E2d62t8EIPR+aQvZYH4LDfg20n6RscCTGP4ZnYA1
- kIYNa2LLYQKVjneJXHF4EJ8i23yTgLM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646732698;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kpHjumSWpKgMug35vEyl7CC/OVgTfDjtoHX6Y26cqiw=;
- b=mj+b5zDYRZs+ZpXV4zdL2/ENkDv93qV1upo9TDsImWHIvMf0aDgpQYE1fmYjn7zTCEG7y6
- +dlPvpclX8wMCuDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 80E9313C24;
- Tue,  8 Mar 2022 09:44:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uKjCHZolJ2JUMQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Mar 2022 09:44:58 +0000
-Message-ID: <f94a6b14-e884-5af4-436b-37715a9c7693@suse.de>
-Date: Tue, 8 Mar 2022 10:44:57 +0100
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4219410E37D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 09:49:16 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id q14so11976878wrc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 01:49:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=02UDf1pdb0U70hOLizwodglM9/0MIkQTrFbx130jmiE=;
+ b=TjZphH9hgyELIqRwTi2WvGdoGj1J9+ko37q3Dy+QljjxZrcmoDk6pGD+9BkVeoWGl1
+ c9cQYim68QjDDKBJC75LgOBARQdj4uHxDI5dHKKBf7O/my4JRPQbITljSvXVICz+kIzQ
+ uzMuCIEvQpgxiO7KMGkHAA9CI20uLtfq+mC2kUGMuJymhFoQsgvBfeH8Dh37Ijctf9/1
+ j9s1H20UTvvd4CNKc+lJbQwbO0zPanfu1nuz0cHXv/0abJA/1RsruwvnID4aMwSvIGmN
+ GPY9CCl/Vys09GOCr4GHKBC8J9A02W7kZrjPxLAvuU0LUvaGFMMvdelTSF37S0lPxzqf
+ ddAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=02UDf1pdb0U70hOLizwodglM9/0MIkQTrFbx130jmiE=;
+ b=BS5SdAyMr4Sv2PHy/c9Avono6WHeePSPH2hZfiGjI6riEk4uI5ES2O4RohUQt+oG/i
+ hUcm2vkF4Sd7gL20cKYAOQe5Fu6RBZkRmjiY3xm4EOjjwm798Hh1W0Rv1qAhm7yFWxeG
+ PdcJj9k/AWTKd8RrZJBxA2gev0NbJVxBLkS+mN1I+VQKw2Bxi5HiQGnsUxYdyKwgjOI/
+ anHUM0lII+L8dTfp0DFeUYw0pF7pce5kwP4AhUJU31jOf1yNuRe95s7Fua1mT48k8qin
+ TY4gIQOnzdiTXowZ97ILv9frPob0EYdocby6nMqdzU6ex+lH3jqJhhTJlKZrSz0tWU1r
+ F6Tg==
+X-Gm-Message-State: AOAM530earJQ89/5tWJz4C17tJcggek1LH2GpDWwL2uzxf1SSl2Mqch8
+ FCfYWomKhgu1wd4u0jhe41v7CA==
+X-Google-Smtp-Source: ABdhPJwJl4t5Tn7r80HbhzAHKE1pKs8GUwcFZWPV2LvK0bS7AXZojL7riB/OQzKcrK/Px9dayrwCYg==
+X-Received: by 2002:adf:fa46:0:b0:1f1:d99a:4b1 with SMTP id
+ y6-20020adffa46000000b001f1d99a04b1mr11663745wrr.516.1646732954621; 
+ Tue, 08 Mar 2022 01:49:14 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a1cf403000000b0037d1f4a2201sm1684885wma.21.2022.03.08.01.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 01:49:14 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ matthias.bgg@gmail.com, robert.foss@linaro.org,
+ laurent.pinchart@ideasonboard.com, xji@analogixsemi.com,
+ hsinyi@chromium.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Chen-Yu Tsai <wenst@chromium.org>, arnd@arndb.de
+Subject: [PATCH v2 0/2] Revert vendor property from anx7625 bindings
+Date: Tue,  8 Mar 2022 10:49:09 +0100
+Message-Id: <20220308094911.2680291-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 0/9] drm: Support GEM SHMEM fbdev without shadow FB
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- deller@gmx.de
-References: <20220303205839.28484-1-tzimmermann@suse.de>
- <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------efYlL8xBs1Adf5KDbgqz5xaP"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,107 +73,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------efYlL8xBs1Adf5KDbgqz5xaP
-Content-Type: multipart/mixed; boundary="------------lbNzRd5Jc6xrvvxkgVyLKP5j";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Message-ID: <f94a6b14-e884-5af4-436b-37715a9c7693@suse.de>
-Subject: Re: [PATCH 0/9] drm: Support GEM SHMEM fbdev without shadow FB
-References: <20220303205839.28484-1-tzimmermann@suse.de>
- <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
-In-Reply-To: <9ccf6f00-6611-7bbb-0ea8-ccf4f0a2920f@redhat.com>
+An issue[1] related to how the V4L2_FWNODE_BUS_TYPE_PARALLEL flag is mis-used
+was found in recent addition to the anx7625 driver.
 
---------------lbNzRd5Jc6xrvvxkgVyLKP5j
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+As used currently CPI (camera parallel interface) and DPI
+(display parallel interface) would share the
+V4L2_FWNODE_BUS_TYPE_PARALLEL enum. I think that would be perfectly
+functional, but it is not what V4L2_FWNODE_BUS_TYPE_PARALLEL is
+documented to represent. As far as I can see it's only intended to
+represent CPI.
 
-SGkgSmF2aWVyDQoNCkFtIDA4LjAzLjIyIHVtIDEwOjEzIHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBIZWxsbyBUaG9tYXMsDQo+IA0KPiBPbiAzLzMvMjIgMjE6NTgs
-IFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmV3b3JrIHRoZSBmYmRldiBkZWZlcnJl
-ZC1JL08gdG8gbm90IGludGVyZmVyZSB3aXRoIGZpZWxkcyBvZiBzdHJ1Y3QNCj4+IHBhZ2Uu
-IE1ha2UgdGhlIGNvZGUgbW9yZSBmbGV4aWJsZSBhbmQgaW1wbGVtZW50IEdFTSBTSE1FTSBt
-bWFwIG9uIHRvcA0KPj4gb2YgaXQuDQo+Pg0KPj4gVGhpcyBwYXRjaHNldCByZW1vdmVzIHRo
-ZSBuZWVkIGZvciBhIHNwZWNpYWwgc2hhZG93IGZyYW1lYnVmZmVyIGZvcg0KPj4gZmJkZXYg
-bW1hcCB3aGVuIHVzaW5nIEdFTSBTSE1FTS4gU0hNRU0gcGFnZXMgYXJlIG5vdyBtbWFwJ2Vk
-IGZyb20NCj4+IC9kZXYvZmIgZGlyZWN0bHkuDQo+Pg0KPiANCj4gSW50ZXJlc3RpbmcuIEkg
-d29uZGVyIGlmIHlvdSBoYXZlIGFueSBwZXJmb3JtYW5jZSBpbXByb3ZlbWVudHMgYWZ0ZXIN
-Cj4gZHJvcHBpbmcgdGhlIHNoYWRvdyBidWZmZXIuDQo+IA0KPj4gUGF0Y2hlcyAyIGFuZCAz
-IHJld29yayB0aGUgZmJkZXYgZGVmZXJyZWQgSS9PIGNvZGUuIEl0IG5vdyBhbGxvd3MNCj4+
-IGRyaXZlcnMgdG8gaGF2ZSBiZXR0ZXIgY29udHJvbCBvZiB0aGUgbW1hcCBvcGVyYXRpb25z
-LiBBbGwgcmVmZXJlbmNlcw0KPj4gdG8gZmllbGRzIGluIHN0cnVjdCBwYWdlIGFyZSBnb25l
-LiBUaGUgcnNwIHN0YXRlIGlzIGhlbHAgaW4gYQ0KPj4gc2VwYXJhdGUgcGFnZXJlZiBzdHJ1
-Y3R1cmUuDQo+Pg0KPiANCj4gVGhhdCdzIGEgdmVyeSBuaWNlIGNsZWFudXAuIFRoaXMgcmVh
-bGx5IHdhcyBhIGh1Z2UgbGF5ZXJpbmcgdmlvbGF0aW9uLg0KPiAgIA0KPj4gUGF0Y2hlcyA0
-IHRvIDcgcHJvdmlkZSBjYWxsYmFja3MgYW4gaGVscGVycyB0byBpbXBsZW1lbnQgZGVmZXJy
-ZWQgSS9PDQo+PiB3aXRoIERSTSBkcml2ZXJzLiBTcGVjaWZpY2FsbHksIHBhdGNoIDYgaW50
-cm9kdWNlcyBhIGNhbGxiYWNrIHRvIGNyZWF0ZQ0KPj4gYSBkdW1iIGJ1ZmZlciBmb3IgZmJk
-ZXYuIFRoaXMgd2lsbCBiZSB1c2VmdWwgZm9yIG1hbnkgZHJpdmVycyB0aGF0DQo+PiBjdXJy
-ZW50bHkgY2Fubm90IHVzZSBnZW5lcmljIGZiZGV2IGVtdWxhdGlvbiBiZWNhdXNlIG9mIHNw
-ZWNpYWwgcGxhY2VtZW50DQo+PiBuZWVkcyBvZiB0aGUgQk8sIHN1Y2ggYXMgYW1kZ3B1IG9y
-IHJhZGVvbi4gVGhlIGRyaXZlcnMgY2FuIGhhbmRsZSB0aGUNCj4+IGRpZmZlcmVuY2VzIHRv
-IHJlZ3VsYXIgZHVtYiBidWZmZXJzIGluIHRoZWlyIG5ldyBjYWxsYmFjayBpbXBsZW1lbnRh
-dGlvbi4NCj4+DQo+PiBQYXRjaCA4IGV4dGVuZHMgdGhlIEdFTSBTSE1FTSBtZW1vcnkgbWFu
-YWdlciB3aXRoIGEgbmV3IGhlbHBlciBmb3IgZmJkZXYNCj4+IGR1bWItYnVmZmVyIGNyZWF0
-aW9uLiBUaGUgcmV0dXJuZWQgQk8gaGFzIGl0J3MgbW1hcCBzZXQgdXAgdG8gaW1wbGVtZW50
-DQo+PiBkZWZlcnJlZCBJL08gd2l0aCBTSE1FTSBwYWdlcy4gTm8gYWRkaXRpb25hbCBzaGFk
-b3cgYnVmZmVyIGlzIHJlcXVpcmVzDQo+PiBhbnkgbG9uZ2VyLiBNYW55IGRyaXZlcnMgY2Fu
-IGltbWVkaWF0ZWxseSBiZW5lZml0IGZyb20gdGhpcyBjaGFuZ2UuDQo+Pg0KPj4gUGF0Y2gg
-OSBleHRlbmRzIHZpcnRncHUgdG8gc3VwcG9ydCBmYmRldiBkdW1iIGJ1ZmZlcnMuIEl0J3Mg
-YnVpbGQgb24NCj4+IHRvcCBvZiBHRU0gU0hNRU0sIGJ1dCBoYXMgc29tZSBtb2RpZmljYXRp
-b25zIHRoYXQgbmVlZCB0byBiZSBpbXBsZW1lbnRlZA0KPj4gZm9yIGZiZGV2IGFzIHdlbGwu
-DQo+Pg0KPj4gVGhlcmUncyBubyBpbW1lZGlhdGUgZmJkZXYgcGVyZm9ybWFuY2UgaW1wcm92
-ZW1lbnQgZnJvbSB0aGlzIHBhdGNoc2V0Lg0KPj4gTW9zdCBvZiBhbGwsIGl0IHJlbW92ZXMg
-dW5uZWNlc3Nhcnkgc2hhZG93IGZyYW1lYnVmZmVycyBhbmQgcnNwIG1lbWNweXMuDQo+PiBB
-IHNoYWRvdyBmYiBmb3IgYSBGdWxsSEQgZGlzcGxheSBpcyB+OCBNaUIsIHdoaWNoIHdlIG5v
-dyBzYXZlLiBUaGUgcGF0Y2hlcw0KPj4gZG8gcmVkdWNlIGxhdGVuY3kgYmV0d2VlbiBkcmF3
-aW5nIHRvIHRoZSBmYmRldiBidWZmZXIgdG8gZGlzcGxheWluZw0KPj4gb24gdGhlIHNjcmVl
-bi4gV2F0Y2hpbmcgYSB2aWRlbyBvbiB0aGUgZmJkZXYgY29uc29sZSBmZWx0IHNtb290aGVy
-IGFuZA0KPj4gaGFkIGxlc3MgZmxpY2tlcmluZy4NCj4+DQo+IA0KPiBBd2Vzb21lLiBBbmQg
-eW91IGFsc28gYW5zd2VyZWQgaGVyZSB0aGUgcXVlc3Rpb24gSSBoYWQgYWJvdmUuDQoNClRo
-ZXJlJ3Mgbm8gc2lnbmlmaWNhbnQgaW1wcm92ZW1lbnQgaW4gcGVyZm9ybWFuY2UuDQoNCkJ1
-dCB3aGVuIEkgcGxheSBCdWcgQnVjayBCdW5ueSBpbiBtcGxheWVyJ3MgYmVuY2htYXJrIG1v
-ZGUsIHRoZSANCmRpc3BsYXllZCBhbmltYXRpb24gbG9va3Mgc21vb3RoZXIgdGhhbiBiZWZv
-cmUuIFRoZSB0ZXN0IGZpbmlzaGVzIGluIDczIA0Kc2Vjb25kcyBpbnN0ZWFkIG9mIDc0LiBJ
-IGd1ZXNzIHRoYXQgb25lLXNlY29uZCBpbXByb3ZlbWVudCBjb21lcyBmcm9tIA0KdGhlIG1l
-bWNweSB0aGF0IHdlIG5vdyBzYXZlLiBJIHVzZSBhIHNvbWV3aGF0IHJlY2VudCBDb3JlIGk3
-IGZvciANCnRlc3RpbmcuIE9uIG9sZCBoYXJkd2FyZSwgd2UgbWlnaHQgZ2V0IG1vcmUgcGVy
-Zm9ybWFuY2Ugb3V0IG9mIGl0LiBJIGNhbiANCnJlYWxseSBvbmx5IGd1ZXNzIGhlcmUuDQoN
-CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
-CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
-cm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQoo
-SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2
-DQo=
+Instead of having V4L2_FWNODE_BUS_TYPE_PARALLEL represent two
+standards, I think they should be split. And possibly
+V4L2_FWNODE_BUS_TYPE_PARALLEL should be renamed for CPI, but that is a
+separate story. This would provide for the neatest and most legible
+solution. If this solution is implemented, this range would be
+incorrect. Additionally the snippet reverted in 2/2 of this series
+would no longer be valid.
 
---------------lbNzRd5Jc6xrvvxkgVyLKP5j--
+As it stands V4L2_FWNODE_BUS_TYPE_PARALLEL was used to represent DPI
+due to not being caught in the review process.
 
---------------efYlL8xBs1Adf5KDbgqz5xaP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+In order to not introduce this issue into the ABI, let's revert the changes
+to the anx7625 dt-binding related to this.
 
------BEGIN PGP SIGNATURE-----
+[1] https://lore.kernel.org/all/YiTruiCIkyxs3jTC@pendragon.ideasonboard.com/
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmInJZkFAwAAAAAACgkQlh/E3EQov+Dv
-Mw/+LOC/WzJfPQQ7D38jyWkjwz5NUGY1IXZ31qV1QTsOrS7paUkg/KHiAGmjM03/uzIJrNgUijmR
-h5Y95cpDZKMKxGke+4kzC9N9Gm1wWq1RCo5EB2XaEMUKumnUBWNtIyREa8l8SkMuV4jL+sJf0H2w
-U7Vm96VmE2xlL4rWNG73Pt0Vx9Bjhtxbfz06YZ+kE/uUt+vpL+fL/USZcIMx+3DU063hqZkyC0nD
-eKhuiwsgs1u/N8T7py3I4bKbZhai9z02xwIx7KSAhs15SraWOrsYpHQBvOOQv631FMDJpGdkGglY
-6MsYgcTQ1Td0/TPD6tgkeyxtUCfZ4UvxJVNzmOsifseOlztsS94bgRHlkdqFQpQ7nz8EJtJbVxhu
-lJh08gCQG/Ecmcs2x2PEUjoAEop9NEwQAdoyuleghfgqCRUGdtsddnfj6lNZB/IgcO7vCj7YF7tr
-2sigWg3Y/q+BTlFeiYuudPpwiuzcNJgljT0w38ljW0qP4zYVSb+ykMP99qVMavOnsUPIARwdoIgf
-dJY3FBRbtSsG7KEz+6T11dcpIC6m7Ot4K9dDHntOpw4QPHJXE1TupG4SNtvax9Sbe1HMzLs/Xqz7
-3h6ttvmEKVJCBumUBhS+cKcCh5rybvo9o1lC+EKTFy6/Z0et6zU3zWKymoM2NsoJt5MTFIpBbGUn
-PHk=
-=OQ1v
------END PGP SIGNATURE-----
+Robert Foss (2):
+  dt-bindings: drm/bridge: anx7625: Revert DPI support
+  Revert "arm64: dts: mt8183: jacuzzi: Fix bus properties in anx's DSI
+    endpoint"
 
---------------efYlL8xBs1Adf5KDbgqz5xaP--
+ .../display/bridge/analogix,anx7625.yaml      | 19 +------------------
+ .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  2 --
+ 2 files changed, 1 insertion(+), 20 deletions(-)
+
+-- 
+2.32.0
+
