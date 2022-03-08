@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA4F4D1C63
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 16:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EF34D1C80
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 16:57:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9019410E26E;
-	Tue,  8 Mar 2022 15:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C0010E221;
+	Tue,  8 Mar 2022 15:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D7010E1E3;
- Tue,  8 Mar 2022 15:55:26 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 1C8345C00ED;
- Tue,  8 Mar 2022 10:55:26 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D8310E1E3;
+ Tue,  8 Mar 2022 15:57:26 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id B72D55C01EC;
+ Tue,  8 Mar 2022 10:57:25 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 08 Mar 2022 10:55:26 -0500
+ by compute3.internal (MEProxy); Tue, 08 Mar 2022 10:57:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=0YnIqCDu3gKawpIM8w/cy0yec0uVqzld1dHM5H
- VipnY=; b=KPJF/FTrRYuxnfWjCI62cvZ4ANIDPbw/nkUJ8xJV4Jc1lDCHM4Qu/x
- vzZ3hK/g2tA3v6F2BQaJt7bBu67UqiH5pI4pq1dHSJxY8q4vodCFyAKMo6VEy/od
- rw3pud/0oPN8PcJOU76dXM2xH+hH2DS1SHd81hWgUX7WJupG4TgpqPF/iTLDs/Zc
- L2On6IuQNIa2YSpFggLU/MvnkSiREXnLagpUiuuEeuK9fgP0P+PdwSdTWerdYouD
- eWZhx6U+pHflM4/KIXFSgkpsQxcVnvfNQPxrFvvHcsKxdumwdo0uAPxTTPFkbIt2
- 8fjlLSnveqpzQTaQa9QimVd6gDa1BEtg==
+ :subject:to:to; s=fm2; bh=MwUl8+V2rjOZhZ/YbNsmhcOOqKrJmfUnnhPt6L
+ MwgsE=; b=IzHIbPkyF22IpTHkXprkkSgj2PY4Q3Gr1YkbD38STEoStSxIP1AjxZ
+ XLCO2/fNd8d0QqhrXUR7tm3Sa1pQzu40MmYK8G7befIsoPEGxjKaAD9tZpzuys5X
+ 5YDbmECcvaOAgLUHi7oFKl0p9cX/vWIRJ04J2Ji6TQnttgiLawyHuRRAFDECdtvp
+ ncuplAfSWdiPqad0MgGwjL0m1BSx0vtwF0DAomnhOhJXC1LVB6mH+EHqZ7O37Q3Q
+ 4sgcHWMgyv7EiEz2+RrbvrhyUCifFahs/t2Ke4YdxQODazPTafOsjo+9df5nhlqs
+ CuhwqsvmjjwdwHWNRY/TZpIazWZVyr/g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0YnIqCDu3gKawpIM8
- w/cy0yec0uVqzld1dHM5HVipnY=; b=OxIeHU9VzXVpyoCo/te4dbNf/gayo/pGC
- 3aZpPqWJYSmiS59AWbtPrTtAFDhX2lWM2Weox7UKoK5qQuDlWJDy8IR31w1GgLIj
- ZKfE0bKsaPVa+pkexIh4L9e15EZ+l1fiZJIvDmG1eZUUhzvI70vkRcOkhL1kdifp
- HghGCo/dtttiW95v/kOdKWLF0hSvrnQ7/D23mijETqpNspnl/wM7t82w2hioYvMj
- 83dKVeBvtTaT0LntD+b3JdcdlxRQiGK/hmd7BvPUWI8m0+vyaxxzwnd/HfHpayD8
- ITN2bfeDusNRJhHXnuaUy7NZHVcU+VXq7ZpmVySsY5hASPaW7mlyA==
-X-ME-Sender: <xms:bXwnYhJ2f96ukA6Ke7znY3lazWzS8cy4XUSvZmRIyqmPTVXI_Ta1eQ>
- <xme:bXwnYtKN5_y3g37XsrKyKd-tehGtA9guusASdEyOrEHTy5aaipgGaXeiiclpni28t
- -KjkPaxJMRPEjZC_D4>
-X-ME-Received: <xmr:bXwnYptm-ohM2qUhIKAh15UA9dTIwmUD_pygODYkZvItJvOE35eDYLX0qWDANuIlQjqVjdZprrRxsfEziP10KsnFl0U0aHtjZr6KtkU>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MwUl8+V2rjOZhZ/Yb
+ NsmhcOOqKrJmfUnnhPt6LMwgsE=; b=VHfiotHg4FWKNBm9QJMZdn70kNlqTmdaK
+ Hw34TRPu9CvX1Cg1PxsjLep8t292rd2FjU7xgxQV/pDVkPh9eqljNPlFCL3ihNUK
+ zYqxir0lO2+V0a8onzMh/wVvy+lpw4G5Eb+Zl8WSCEM5clhrzgDgbTp/EnlUKvLD
+ ymJcHzfif+xcxyt+PMb8+kE90NnxcdSYKgc3ZPtCWXyRiAY0wUkQzwn5/nWtgVzO
+ qk4yEyGmjvyWjf21TR/pw7eckyaBsu3QgNm5qzxsKnkxrAj1/j+hzhvZqtuDTNRr
+ Jy/WWResyzi4TY/mXr0dDdQgBGge4poRvRLxhWiAXwELsJyD2FzWw==
+X-ME-Sender: <xms:5XwnYn-8bYT2T_bvsK99Fh7WJpVA4aZMUdfYSm96not2njg_0S26NA>
+ <xme:5XwnYjt4HSlwqA1XjnN85jNcvYWOjDZ7zXlRsC7jPda_H5sxU0WQI0x3N2A_ljUPW
+ S7lUP05uLaJ5bTSo_Q>
+X-ME-Received: <xmr:5XwnYlCLVfOmCKKLexcp13QAlk9LGin_MXOMTZTs6Yt6DxOR774VefXTl2flxziOiTYIVZvyTIPdKNXH2Btt3mTB54FM3XrRdLys04I>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgkedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeettdffgeejhfduledtjeejteeiffekuedtffdtveeiffdttdejheejledu
- tdffnecuffhomhgrihhnpedtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:bXwnYiZelJD6ao8YaRdZr-fFlW9DgDHQrmwsO9fksUQ8swmte3Og-Q>
- <xmx:bXwnYob-DdfUB2cm0MPjYdBZxIvFinFu-gy1QPyCOFX55CuMCiAoxg>
- <xmx:bXwnYmBfEHyyMXoLEoE4VYRpjyOdmG5_nPul1cOmagNOH8642GzxMw>
- <xmx:bnwnYjzIbhpsA-q4Hqkv5Y-WVXu1izqMGe4AqYtW6G8O3yWAYyXXOA>
+ htvghrnhepgedvvdfgkeekffelvdeifeduhfdvfeehieeggedutddtfeejteehjeefheel
+ tedvnecuffhomhgrihhnpedtuddrohhrghdpkhgvrhhnvghltghirdhorhhgpdhgihhthh
+ husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+ ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:5XwnYjedOYnxN2XkR6vvvgx3c5qTbuopT7ioylVQCnEpLw-PPQ4x7w>
+ <xmx:5XwnYsMevw065WkkpyyKvDepWB4TFmAGDd4-qrimjh5381y87Eg-Zw>
+ <xmx:5XwnYlnnrYbbuAYxIaFtBsJ7zg7c-aDcQIZwWrL0bPE2b68-51lW6Q>
+ <xmx:5XwnYlYhuMXBq1cS6p0p9PYZU6WdhQ9Ka72A3Wb0jz4Bqe2V5XFxyQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Mar 2022 10:55:25 -0500 (EST)
-Date: Tue, 8 Mar 2022 16:55:23 +0100
+ 8 Mar 2022 10:57:25 -0500 (EST)
+Date: Tue, 8 Mar 2022 16:57:23 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: Mandatory Test Suite for KMS Drivers?
-Message-ID: <20220308155523.nhbg4i3y66pm3x55@houat>
+To: Daniel Stone <daniel@fooishbar.org>
+Subject: Re: [igt-dev] Mandatory Test Suite for KMS Drivers?
+Message-ID: <20220308155723.jpgpkbavay5ama2u@houat>
 References: <20220303090507.grenwdro7u4fzmoe@houat>
  <YiCeCeNobS2FCiQB@intel.com>
+ <CAPj87rOjof_WMT32G3-mb-ukVmOxVWJfXEVB4hYbUj0_VCV6ng@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="az3d6kpqqzu5hmzq"
+ protocol="application/pgp-signature"; boundary="lmjlpxwdpy5jli4o"
 Content-Disposition: inline
-In-Reply-To: <YiCeCeNobS2FCiQB@intel.com>
+In-Reply-To: <CAPj87rOjof_WMT32G3-mb-ukVmOxVWJfXEVB4hYbUj0_VCV6ng@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,70 +83,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---az3d6kpqqzu5hmzq
+--lmjlpxwdpy5jli4o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rodrigo,
+Hi Daniel,
 
-On Thu, Mar 03, 2022 at 05:52:57AM -0500, Rodrigo Vivi wrote:
-> On Thu, Mar 03, 2022 at 10:05:07AM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Back at XDC we floated the idea of creating a test suite for IGT that we
-> > expect any KMS driver to pass, similar to what v4l2-compliance and
-> > cec-compliance provide for v4l2 and CEC respectively.
-> >=20
-> > I was looking at the list of tests, and it's fairly massive, so it's not
-> > clear to me what tests we could start this suite with. I can only assume
-> > all the KMS (but the chamelium ones) and fbdev related ones would be a
-> > good start?
-> >=20
-> > What do you think?
+On Fri, Mar 04, 2022 at 08:45:07AM +0000, Daniel Stone wrote:
+> On Thu, 3 Mar 2022 at 10:53, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > On Thu, Mar 03, 2022 at 10:05:07AM +0100, Maxime Ripard wrote:
+> > > Back at XDC we floated the idea of creating a test suite for IGT that=
+ we
+> > > expect any KMS driver to pass, similar to what v4l2-compliance and
+> > > cec-compliance provide for v4l2 and CEC respectively.
+> > >
+> > > I was looking at the list of tests, and it's fairly massive, so it's =
+not
+> > > clear to me what tests we could start this suite with. I can only ass=
+ume
+> > > all the KMS (but the chamelium ones) and fbdev related ones would be a
+> > > good start?
+> > >
+> > > What do you think?
+> >
+> > I believe we should start with the group of the tests that we know that
+> > are reliably passing today on most of the platforms and then increase
+> > the list as the tests and drivers become more reliable.
+> >
+> > For instance, many of these would be candidate to be filtered out for n=
+ow
+> > https://intel-gfx-ci.01.org/tree/drm-next/index.html?testfilter=3Dkms
+> >
+> > compared to the whole view of kms tests:
+> > https://intel-gfx-ci.01.org/tree/drm-next/shards-all.html?testfilter=3D=
+kms
 >=20
-> I believe we should start with the group of the tests that we know that
-> are reliably passing today on most of the platforms and then increase
-> the list as the tests and drivers become more reliable.
+> We are running some of IGT on Panfrost + amdgpu + i915 as part of
+> KernelCI as well: go to https://linux.kernelci.org/test/ and search
+> for 'igt-gpu'. This gets run for mainline, next, and whatever other
+> kernel trees push into i915.
 
-I can see why that would be an objective too, but I'm not sure it would
-cover mine. What I'd like this series to be is something we can ask
-upfront to new drivers being submitted to make sure that they are sane.
+I was mainly interested in KMS, but I saw that there's an igt-kms test
+as well, thanks!
 
-Whether or not old drivers pass that bar is a bit irrelevant to that
-objective (and this would actually create tasks for newcomers that are
-looking for something to work on).
+> There is a Grafana-based dashboard that the KernelCI team have been
+> working on to visualise test runs, but it's currently having some
+> backend issues so I can't show you a link for that. I did raise a
+> suggestion in their design discussion for a proper testing dashboard
+> for making it easier to see the status, so feel free to pile in there:
+> https://github.com/kernelci/kernelci-project/discussions/28#discussioncom=
+ment-2293696
 
-So, yeah, I don't mind having failing tests on older drivers, I kind of
-even expect them to fail somehow. It would essentially be a bar to show
-what any driver should strive for, not the lowest common denominator.
-
-Does that make sense?
-
-> For instance, many of these would be candidate to be filtered out for now
-> https://intel-gfx-ci.01.org/tree/drm-next/index.html?testfilter=3Dkms
->=20
-> compared to the whole view of kms tests:
-> https://intel-gfx-ci.01.org/tree/drm-next/shards-all.html?testfilter=3Dkms
-
-So the set of tests that are always run would be the latter, right?
-
+I'll have a look, thanks
 Maxime
 
---az3d6kpqqzu5hmzq
+--lmjlpxwdpy5jli4o
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYid8awAKCRDj7w1vZxhR
-xT2LAP9nq0W8cnjXaiqZWyA0fWnsNV6+F4ZuzrLPeV2ZyR232AEAyRR+VOMRVipC
-lK7DS4JQxYaR03qcrJJq9eN/QrO8sAk=
-=MdhL
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYid84wAKCRDj7w1vZxhR
+xYbLAP9THsui2KO5jnwGsFJhap62n8Zlg1aPGtNv/mMmV4dxDgEA8YSp5DIAaXa7
+RhH4OR3ZN7AcXx8wvCYAx4uqV7Uoowk=
+=y1yh
 -----END PGP SIGNATURE-----
 
---az3d6kpqqzu5hmzq--
+--lmjlpxwdpy5jli4o--
