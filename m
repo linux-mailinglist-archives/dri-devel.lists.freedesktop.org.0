@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9618F4D0E77
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 04:48:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C652F4D1012
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 07:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF8D10E5DF;
-	Tue,  8 Mar 2022 03:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E15410E789;
+	Tue,  8 Mar 2022 06:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA79A10E5DF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 03:48:05 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id u61so35179509ybi.11
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Mar 2022 19:48:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SB1pR6R36cG/5vqUJ9L1OYX7dRask2g/0weyNuOkOYQ=;
- b=Aqt++puDVTDcltryRW77a9cwhFd1XciMKNs9AsjManml5e4eEQPtDOB/5nEXjsn+P9
- GkEs/gI5+4vK3gNMFYbQocu8XMlxE9wCZPPoS8OfoPNDIE6avBWb/hU6LMu1/Cf2whCu
- FFb8lEOczvnEeE5kzWcvCMw/ecWn+5SZxlX2s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SB1pR6R36cG/5vqUJ9L1OYX7dRask2g/0weyNuOkOYQ=;
- b=G2hKsfBTjNfoxqsKVy5HVdNnMBIeg8PmZqxQLsAjooW0e4qS97k0c6mHDO7+bpk8Y9
- N7vgghs6GXEzqs9t5blmJWN/rU/sPX/mBYc06kl/qZdWh2a46e0SttwRFtONCFltpWrB
- qqQLx/kndjkCBV3q7eEvRCIHcIIFmDW8Bo//vHUbjfa3Ptc2ClNpbzx/y7ru+NH/coAn
- 2PlybwrU7gD+ebw7X9bWYsgBDsOhL9+Y9JW1I/mfPK8y6rnGWrxTWu0kS0ezjA3ZSLPn
- N0Wi/RWn3iB9o6B9uqlq7E/lKWVn3LufUsd+9WXicFkpSUvMFY7sgAbmMfGdSsCbVIH4
- dGJg==
-X-Gm-Message-State: AOAM532L93ZI8CfImH13dHmLEt6DaXrrrTk37OYwhf+a4+nRmlQHduoI
- 9cQHXNsWEKbPab+QJkpPDvrFVZWdKmfUJiB9LJchuA==
-X-Google-Smtp-Source: ABdhPJyuGeWIUlb3utDkOR1PhipoTjIrNi/Cf0gmscf2NmU/0KOasS7EzcBrtPdNSmwisXmV8F84klzvCTpKGd/lH2w=
-X-Received: by 2002:a25:d449:0:b0:628:945d:713c with SMTP id
- m70-20020a25d449000000b00628945d713cmr11205541ybf.164.1646711284731; Mon, 07
- Mar 2022 19:48:04 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B83110E61A
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 06:20:23 +0000 (UTC)
+X-UUID: b1edf13044a24d43885224ccf27e46c6-20220308
+X-UUID: b1edf13044a24d43885224ccf27e46c6-20220308
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1508227225; Tue, 08 Mar 2022 14:20:16 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 8 Mar 2022 14:20:15 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 8 Mar 2022 14:20:15 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v13 00/22] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Tue, 8 Mar 2022 14:19:50 +0800
+Message-ID: <20220308062012.21838-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20220307154558.2505734-1-robert.foss@linaro.org>
- <20220307154558.2505734-3-robert.foss@linaro.org>
- <CAG3jFytGV3NNfkEPqx_rZX9O9aZjTjzo2tpeSK8mFimOrYt9zw@mail.gmail.com>
-In-Reply-To: <CAG3jFytGV3NNfkEPqx_rZX9O9aZjTjzo2tpeSK8mFimOrYt9zw@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 8 Mar 2022 11:47:53 +0800
-Message-ID: <CAGXv+5H7RvczEeAyLEmJ-RNAwqV1G71FhsG3Kpi0r+qPkXVaeQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] Revert "arm64: dts: mt8183: jacuzzi: Fix bus
- properties in anx's DSI endpoint"
-To: Robert Foss <robert.foss@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
- Olof Johansson <olof@lixom.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,45 +46,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
- matthias.bgg@gmail.com, xji@analogixsemi.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 12:20 AM Robert Foss <robert.foss@linaro.org> wrote:
->
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Add DRM and these modules support by the patches below:
 
-I think we need to send this directly to the soc maintainers to get it
-picked up before the final 5.17 release?
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
 
->
-> On Mon, 7 Mar 2022 at 16:46, Robert Foss <robert.foss@linaro.org> wrote:
-> >
-> > This reverts commit 32568ae37596b529628ac09b875f4874e614f63f.
-> > ---
-> >  arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> > index e8f133dc96b95..8f7bf33f607da 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> > @@ -171,8 +171,6 @@ port@0 {
-> >
-> >                         anx7625_in: endpoint {
-> >                                 remote-endpoint = <&dsi_out>;
-> > -                               bus-type = <5>;
-> > -                               data-lanes = <0 1 2 3>;
-> >                         };
-> >                 };
-> >
-> > --
-> > 2.32.0
-> >
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220112114724.1953-4-tinghan.shen@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] arm64: dts: mt8195: add gce node
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220126090109.32143-1-jason-jh.lin@mediatek.com/
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220225021535.2655-1-jason-jh.lin@mediatek.com/
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=620795
+
+Nancy.Lin (22):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: mmsys: Specify 64BIT dependency for MTK_MMSYS
+  soc: mediatek: change the mutex defines and the mutex_mod type
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../arm/mediatek/mediatek,mdp-rdma.yaml       |  86 ++++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 223 +++++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  29 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  89 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 443 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  55 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  31 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   9 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 329 +++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 376 +++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  23 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/Kconfig                  |   1 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  79 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |  11 +
+ drivers/soc/mediatek/mtk-mutex.c              | 318 +++++++------
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+ 25 files changed, 2439 insertions(+), 255 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
