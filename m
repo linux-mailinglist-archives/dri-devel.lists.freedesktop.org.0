@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5924D24A4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 00:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0614D24BD
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 00:18:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D052F10E329;
-	Tue,  8 Mar 2022 23:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4D110E32B;
+	Tue,  8 Mar 2022 23:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4C410E329
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 23:10:44 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id w12so658955lfr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 15:10:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tclsFaPE34TrWsSULlYvU9YsW3x7Tf6mvtJ/Ff+EAgw=;
- b=YTxtynEturtmQ9+fQ2vk4MLEzSozTMNeDRXaVWblqZvl5cNILUeHdpEsitwfPfNIzn
- uCtJuZ5NsjYf2Ok6NBtbFh9Ma45M5vV4eDFye5M5b2CqwFnkNoA8DFyU50SPmMselqV/
- q/tlUGMcxIMfJNgMyYAgT5U/xKc9hbMGY84CXSrjQz3QPryQGm3EntO5dzCPy4t1eLLM
- PJF3EWLGIRs9IQkx+NbaWBj8+A2ASwVgX7J8o5ZMMpRM0FvqYWU3ThHQDTV7BjFmtynz
- gVx61JpRkMOep1q+pQ1+vJQs7ocgJhkFT/XQnL7qiyo2bgs0+u1VgxYEfGddeAxQFlhp
- Cxgg==
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6128310E32B
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 23:18:25 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id n7so929541oif.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 15:18:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tclsFaPE34TrWsSULlYvU9YsW3x7Tf6mvtJ/Ff+EAgw=;
- b=MEJSRL/apE2hwfBBmQdBBRfcRs3rLgansbAYK2NnTf/ulAkwDbkY6YHldbGapd0Vdq
- TXLJaLeufs0D0jMsTjsYlwALmqEBoKLzyXh/boUZlVUCXqrEBKyJoj5Xql/8/upzGF86
- eW2FApchngoJjTtQx8Yly/QICKIwJ55OmGvKEslh10WyPf1d5pvV1sRv6mT9p4KFkd1l
- vtRZOG6mfNOtJI6tmSb/kP5iqPdM+xYBXJ+a5mams2hBHOcB6xqFh0FUSi4IF1tZL5Yv
- WXLxzng8gn8ig8kzgVnDw5TAjwA6TMtRJd3ELE5RfSKF3oPsS+yS66fd11VDktmB+rn9
- /ugQ==
-X-Gm-Message-State: AOAM5325xI2jSoQI8cSXHH8jMi6HY7baSsbderPx3fZB20tAYMQkrAvZ
- J2nMD/5N5CsHNL0d+KHMYESDd5K3rVHwam4PKzKUFA==
-X-Google-Smtp-Source: ABdhPJx/fglOdwsFUXGzUPIPq1H3ZUZI8HoqBE3Dc7CpwH2vZZ4CHq8MWt1insKPhpHz2VgNI0Ys/4lxjE1mEucfOrE=
-X-Received: by 2002:a05:6512:31d4:b0:445:e4ef:c0f8 with SMTP id
- j20-20020a05651231d400b00445e4efc0f8mr12498094lfe.626.1646781042694; Tue, 08
- Mar 2022 15:10:42 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iit0u9zWiQbQ3YiVBUcj7kSNoNspLfGLfmOn3xXbkEQ=;
+ b=q9mp1jK22JJEHhMk4HE7x2LsVUnzI7fNdlvnz0NQn7PhB3MIEnJFAzB9xzJ7IDsgAp
+ oq6wHnFtAMKdlK8NPs7JRxj5sFtJj/t3cc/i1Ob8wRNP7b9Q6+SvS82Uu26IM2Ov2LPX
+ l56cGpX9p/eSV5djqHDlLwzlaXxhyNXSVeihMXqTIvTPI3wwaBTEHRLbEINOOpLRbm9R
+ x8NEfvH+BxPMbiK8kiFz9qFtRZ0k9WoJhgSEOctmEATrSlA1Y8xbM7lTOyntil1n240K
+ oFUKiXeP5FT4MO2CaIgEgsVb10oweeafPepR/oKf6dQqNgBNMh6HAWsc90IA833qtwhH
+ fiNA==
+X-Gm-Message-State: AOAM530zYt9Iopw1jmZuckLvQmFNihpqK623be4GMM1Lh6Ut4XCRBNMU
+ 9/VA8ma3MlhoGi6lYQ36gg==
+X-Google-Smtp-Source: ABdhPJxyh2TC/u+YmC4dbuRB94Ndhj6I+qJNb4nn1oht99Z0poj4FiI9BQlsQnzRtlNfAVkLp/uQdA==
+X-Received: by 2002:a05:6808:14d2:b0:2d9:dad1:a148 with SMTP id
+ f18-20020a05680814d200b002d9dad1a148mr4272138oiw.257.1646781504401; 
+ Tue, 08 Mar 2022 15:18:24 -0800 (PST)
+Received: from rob (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+ by smtp.gmail.com with ESMTPSA id
+ x25-20020a056830409900b005af164235b4sm88950ott.2.2022.03.08.15.18.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 15:18:23 -0800 (PST)
+Received: (nullmailer pid 1546596 invoked by uid 1000);
+ Tue, 08 Mar 2022 23:18:22 -0000
+Date: Tue, 8 Mar 2022 16:18:22 -0700
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add macros for video
+ interface bus types
+Message-ID: <20220308231822.GA1538975@robh.at.kernel.org>
+References: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
+ <20220306173905.22990-2-laurent.pinchart@ideasonboard.com>
+ <YiT3wZ746ES6x3gl@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20220307181704.149076-1-colin.i.king@gmail.com>
-In-Reply-To: <20220307181704.149076-1-colin.i.king@gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 8 Mar 2022 15:10:31 -0800
-Message-ID: <CAKwvOdkXNGRJkZDd7Cg8jhL9Ex7R+VPYqEEc+VpwDyi9NJKXQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: remove redundant assignment to pointer
- connector
-To: Colin Ian King <colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YiT3wZ746ES6x3gl@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +64,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: knaerzche@gmail.com, David Airlie <airlied@linux.ie>, llvm@lists.linux.dev,
- kernel-janitors@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 7, 2022 at 10:17 AM Colin Ian King <colin.i.king@gmail.com> wrote:
->
-> The pointer connector is being assigned a value that is never read,
-> it is being re-assigned in the following statement. The assignment
-> is redundant and can be removed.
->
-> Cleans up clang scan build warning:
-> drivers/gpu/drm/rockchip/rockchip_rgb.c:153:2: warning: Value stored
-> to 'connector' is never read [deadcode.DeadStores]
+On Sun, Mar 06, 2022 at 08:04:49PM +0200, Laurent Pinchart wrote:
+> On Sun, Mar 06, 2022 at 07:39:03PM +0200, Laurent Pinchart wrote:
+> > Add a new dt-bindings/media/video-interfaces.h header that defines
+> > macros corresponding to the bus types from media/video-interfaces.yaml.
+> > This allows avoiding hardcoded constants in device tree sources.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Dual-license under GPL-2.0-only or MIT
+> > - Rename PARALLEL TO BT601
+> 
+> Contrary to popular belief, further investigation revealed that BT.601
+> doesn't define VSYNC and HSYNC (or HREF, as it is also commonly called)
+> signals. MEDIA_BUS_TYPE_BT601 is thus likely not a good name. I haven't
+> been able to find a standard for parallel camera interfaces that would
+> be a good match here. On the display side there's MIPI DPI, but on the
+> camera side it seems things have evolved quite organically. I may have
+> missed something though.
 
-+ Author & reviewer of:
-Fixes: 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR
-flag to drm_bridge_attach")
+So keep 'PARALLEL' and anything less ambiguous will be a new type.
 
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_rgb.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> index 2494b079489d..92a727931a49 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> @@ -150,7 +150,6 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
->         if (ret)
->                 goto err_free_encoder;
->
-> -       connector = &rgb->connector;
->         connector = drm_bridge_connector_init(rgb->drm_dev, encoder);
->         if (IS_ERR(connector)) {
->                 DRM_DEV_ERROR(drm_dev->dev,
-> --
-> 2.35.1
->
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+Rob
