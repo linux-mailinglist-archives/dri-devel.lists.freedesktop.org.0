@@ -1,74 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494F14D1A32
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 15:17:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 730464D1A3A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 15:18:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2428A10E616;
-	Tue,  8 Mar 2022 14:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651C710E6C1;
+	Tue,  8 Mar 2022 14:18:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264C210E61E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:17:26 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id k24so19317940wrd.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Mar 2022 06:17:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=V8TIHc0j5BWltEXkyzmvOawt/D8EVJ6xLmc2G9cv1xY=;
- b=K4mICRpvPbg4yfk1/E03sYIpk212hPRiJBfYlEqJWOqDQD0I1S4dC+Lb9H2kmvCuO2
- y9PR2ugdSdc9C69y5TRmJ23a+wY5+uJInO+y8614FH1gLjK0WYe8sJ5mQiWgkw4EdVFc
- oasQc05uCh50MLN2NaKDTj7KDaIz8yv5BmB/sLv+YyxYGpSVGgIGgAwk/J8umYukIg/c
- d4UJSdEg2FvqE27PF3Jm4nKcZJY9YMcX+wC8oNanxi9PVyCrcmG3HDGAaZQG0++izngK
- 91pvCR3JbVz6fLNzVp49gK7qe2f+jgSn14f2EUtlKR6loZY+ftJhoaWiRIq4bVQurVAJ
- 2zxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=V8TIHc0j5BWltEXkyzmvOawt/D8EVJ6xLmc2G9cv1xY=;
- b=xDzfvOYwc38QDOOF/i52hupFcIbMH9GdOPMjaj17KZFbXrguc2xL2BGIUMo24JT0oz
- 2flFhtHntHojEHe552P2Zu3/WzHkgZwxTKZdH625spCuCtgLmLIlaKzebaf4q3m6i0ed
- ouGGv1jVwoqAKh1z86EfMlJRp8JEY0tA63h4FrAOZw+5sDAaYyhF1PkSBvvZ134vbGBV
- gc4XKyBdQo/CGDn9RSmkXHuxSXJDZwkerjmu2x0BB8af5QuB0ydxoZutzem7dDWYHRoS
- xGovG4uVFUM23NLbpjdtEEP/x5gRl2U/fAzLuIfub4UNIpwnqSBWzsyx2fm60IziSah7
- kcKg==
-X-Gm-Message-State: AOAM532Hoir4csy4u5ty5Z1XOkKD6rInZaODXe5OCVFz9oZL8O25KR6T
- swXC7MaFBsx+H0o1HEUTjDU=
-X-Google-Smtp-Source: ABdhPJxmSrGi9ymzbuPvYZowQx0hfPeyCWJrAyYDfaErh/FqxdYePSY4ti4PFua0HMh9SPgP45MVUA==
-X-Received: by 2002:a5d:6251:0:b0:1ea:9412:fc8b with SMTP id
- m17-20020a5d6251000000b001ea9412fc8bmr12140763wrv.657.1646749044470; 
- Tue, 08 Mar 2022 06:17:24 -0800 (PST)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- l13-20020a5d4bcd000000b001f0620ecb3csm12818160wrt.40.2022.03.08.06.17.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 06:17:23 -0800 (PST)
-Message-ID: <709dcead-8f00-3bd1-dbfe-0d1f6c228260@gmail.com>
-Date: Tue, 8 Mar 2022 15:17:22 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C06310E6C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:18:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 84D9361479
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:18:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0B0CC36AE7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 14:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646749098;
+ bh=Ov52j4hbvOHm+L3Ideth34Stj/DFLIbjjtJ9E1sR1dE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=iNQjolr3xo9sF1TMCkVIbUOaEGVeNrEcc7v/eWTPqc07XLgsfaUfUcO03zzifZ3Yr
+ BVJtwG/tL4s6I+Fbo8TBYBj4nUR0RSTKk16/7ka4Du/pBYYOKxXMrNc61cDqOFfI7M
+ PvS2kJvCkIvNrkBfXglTYcAGNnlqhwyhuf7B5JVUQcwVBrFp5Yuge+NMSPS5QsT5nw
+ 6l33TRJzK4HuTY2bYrtPGNyo6nukMjscL2UJ8d3T0CSOLXP1G/1y9ZwB5ZD9aXEPnC
+ 4J4bh9klmH/VueKNJTYI7T6Id2gyWoZLUAt3kmbuwDWz/Feq4EyRFAxzf14awPnsC1
+ mX60xON7Mo23Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A4BFFC05FF5; Tue,  8 Mar 2022 14:18:18 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215669] [drm:gfx_v10_0_priv_reg_irq [amdgpu]] *ERROR* Illegal
+ register access in command stream
+Date: Tue, 08 Mar 2022 14:18:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215669-2300-HMfcDtyeqg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215669-2300@https.bugzilla.kernel.org/>
+References: <bug-215669-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/2] Revert "arm64: dts: mt8183: jacuzzi: Fix bus
- properties in anx's DSI endpoint"
-Content-Language: en-US
-To: Robert Foss <robert.foss@linaro.org>, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, laurent.pinchart@ideasonboard.com, xji@analogixsemi.com,
- hsinyi@chromium.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Chen-Yu Tsai <wenst@chromium.org>, arnd@arndb.de,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-References: <20220308094911.2680291-1-robert.foss@linaro.org>
- <20220308094911.2680291-3-robert.foss@linaro.org>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220308094911.2680291-3-robert.foss@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,31 +74,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215669
 
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-On 08/03/2022 10:49, Robert Foss wrote:
-> This reverts commit 32568ae37596b529628ac09b875f4874e614f63f.
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+This is most likely a mesa bug.  I'd suggest moving it to here:
+https://gitlab.freedesktop.org/groups/mesa/-/issues
 
-> ---
->   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> index e8f133dc96b95..8f7bf33f607da 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
-> @@ -171,8 +171,6 @@ port@0 {
->   
->   			anx7625_in: endpoint {
->   				remote-endpoint = <&dsi_out>;
-> -				bus-type = <5>;
-> -				data-lanes = <0 1 2 3>;
->   			};
->   		};
->   
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
