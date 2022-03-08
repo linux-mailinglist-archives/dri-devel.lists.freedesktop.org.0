@@ -1,53 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC774D151B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:49:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3DF4D1547
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Mar 2022 11:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BDE10E87F;
-	Tue,  8 Mar 2022 10:49:00 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1626A10E87F;
- Tue,  8 Mar 2022 10:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646736540; x=1678272540;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=p1Z+mwMNu6doyIZ+PY/F2NpcypktBPpZyrwE9rUTvVI=;
- b=jo9j/rq4/YnTiPg4hLrFRwFlDBr4ubmpGS9JVESucWti9HHOlAY0X6KV
- sHvMbXY99Et9SmHf74V4KYw4BnzgMpn4VYXl5OKrIaUkXTR0YYV68Iekb
- J/33p5z+OgX8dH0bAQU8z9UfaD6iEOY9TjV+eGbKIOW4oD25emOEnfCFe
- ciReh3ttXZ8pCZWjUj92wv6vW33vHcj2U/b4v6gFo3Yhd0BdFYoO8Ty9o
- M0lXVpxHmxfah8L4F5dDU66DAI7HHSCRDvzR/V8EaJpKiIzXIJ6QOjTKR
- F/D3fmfDtCWCxyRoe/UC7elhaAdf/COgbi55tWoWVjRRN78tYUHNJnUSW g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="341086295"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="341086295"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 02:48:59 -0800
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; d="scan'208";a="643615788"
-Received: from acushion-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.29.47])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 02:48:49 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-Subject: Re: [Intel-gfx] [PATCH v2 1/8] drm/i915/guc: Do not conflate
- lrc_desc with GuC id for registration
-In-Reply-To: <c6aeece0-9b12-e135-c991-25793f7640bb@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220225000623.1934438-1-John.C.Harrison@Intel.com>
- <20220225000623.1934438-2-John.C.Harrison@Intel.com>
- <87ilsu2aj1.fsf@intel.com>
- <c6aeece0-9b12-e135-c991-25793f7640bb@intel.com>
-Date: Tue, 08 Mar 2022 12:48:46 +0200
-Message-ID: <87o82g1zzl.fsf@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32FC910E3F2;
+	Tue,  8 Mar 2022 10:56:41 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E50610E3F2
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Mar 2022 10:56:40 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 5FFD73200E5F;
+ Tue,  8 Mar 2022 05:56:36 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 08 Mar 2022 05:56:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=yjUncJHKU6QhdU
+ GVHrY9w8/SgC17hVJfVi1G6k5UjMc=; b=P6/iyWcsOszl771U+3WQhqb5HJl/uL
+ tqkHPjK5/h3WXEBLKoq+bQm0ZpPZznQIXjMR3ILW/jD0COwRO0JW1iv6prtkCaAZ
+ ptwP0ttUyUErw+4ixv0aLgvoc2o0nutQeqH1ZHaVjgHs0nw44x5xwLmm9yEjUlEk
+ 3OH+P00kgajKW+RBy7Asrsv7+J/Anco16SWoijW8NZcvolr+55KGFrKZ51ogXA96
+ vQC2PblNPZpgV8XUagiaxrHjvTkrXgN6JFz9KIUgo5c953gSMUJIzNqD0YHW/Y5Q
+ O/V8vF/tjmsPT5ZXeiHCQmgN2PCOlpZN/+vqeUzODwXk8mxcpX+xIlvA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=yjUncJHKU6QhdUGVHrY9w8/SgC17hVJfVi1G6k5Uj
+ Mc=; b=kl/KzXqPa2QjrMUATtHPhAXzOzsM8/qsf/hZ27PHvNIyzw42RHqoHKSF2
+ xdgsZ1376bfOpwSWpB3hqAmP7iYP2yK77G4YcHurZa3L0d3qpMuQMCMtx+rofWXb
+ CKyoohMLXyhWlqPf16diLkvb6SvKZuyL0KIn0IAsF1nSe83pyiZb/istQfK+qpO2
+ aJmjDyAYJL+7aqEg7azls+NV1fg3YWHlxx3EanF6ruPvVr64lkdU9+UtnsBUCdy1
+ AqxiVKz/mmvqdesXHW/3z0E3WIfU+OaJtV4AS0hNppeDuntBf7+f8Yt/5Tdwva6a
+ acYrxxy6pwQxCIr9uEaEqaGtz1x2A==
+X-ME-Sender: <xms:YzYnYv_-qTKkXlvhCHY34MncxGV-9CUOLYGBVGHCvCLBuZRRIX3hGQ>
+ <xme:YzYnYrvIhMoXmi-HudwJq3PzJOK5j1ODxk-KeWCjHd4qDj_82z4EIlkQGJaLrtNSj
+ F4F2gdyuzaPlBTKRtI>
+X-ME-Received: <xmr:YzYnYtDRpbSQkw6TKs4tJZUZtBjdotZfRa98MUqYvMJ8BiEE9ngf9lHrHf-AxD9F7b-0fOdXbpQisSL2FuJJAAMBzSAFmw5Z9009G8Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+ ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YzYnYrehvvXYbfnTQWxfBQYW9kPTfQ3C5lDBTepn3HWD5y6tD5es_w>
+ <xmx:YzYnYkMJberTk8rtDQj6zn_MGf7IBmfZvr5dYlfD-UEUZHK06-nRyw>
+ <xmx:YzYnYtm_aesTKEXCF-jojAJjw8DFLcbsVuqJAGZG28Pj4KY1gmru3A>
+ <xmx:YzYnYjqeq-ayVI5ovkJWRwx8N5naON99eNrrMyYYfOB0uxXyfb5cxg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Mar 2022 05:56:34 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ wens@csie.org
+Subject: Re: (subset) [PATCH] drm/sun4i: mixer: Fix P010 and P210 format
+ numbers
+Date: Tue,  8 Mar 2022 11:56:32 +0100
+Message-Id: <164673698776.2315788.17487106194036352050.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220228181436.1424550-1-jernej.skrabec@gmail.com>
+References: <20220228181436.1424550-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,55 +83,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 04 Mar 2022, John Harrison <john.c.harrison@intel.com> wrote:
-> On 3/4/2022 03:59, Jani Nikula wrote:
->> On Thu, 24 Feb 2022, John.C.Harrison@Intel.com wrote:
->> There are a plethora of static inlines in the guc .c files, and this
->> adds more. How about just letting the compiler decide what's the best
->> course of action, inline or not? I think hand rolling the inline is a
->> micro optimization that you'd need to justify i.e. show that you're
->> doing a better job than the compiler.
->>
->> The main downsides to using inlines are that you'll miss compiler
->> warnings for unused functions, and it sets an example for people to
->> start using inline more, while they should be an exception.
->>
->> BR,
->> Jani.
->>
->>
->> PS. I also don't much like the likely/unlikely annotations, but that's
->> another can of worms.
-> Technically, this patch isn't adding any new ones. It is just reworking 
-> existing functions in their existing style. So it basically comes under 
-> your last point of people just following the prevailing style because 
-> it's already there.
->
-> I can add a task to the clean-up backlog to remove all mention of 
-> inline. Not sure why you think the (un)likely tags are bad? Again, I 
-> have no particular view either way.
+On Mon, 28 Feb 2022 19:14:36 +0100, Jernej Skrabec wrote:
+> It turns out that DE3 manual has inverted YUV and YVU format numbers for
+> P010 and P210. Invert them.
+> 
+> This was tested by playing video decoded to P010 and additionally
+> confirmed by looking at BSP driver source.
+> 
+> 
+> [...]
 
-The (un)likely annotations are similar to static inlines in that they're
-often unjustified micro optimizations. Having plenty of them gives
-people the false impression using them should be the rule rather than
-the exception. And getting them wrong could have a high performance
-penalty. They're certainly not meant for regular error handling.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Similar to static inlines, (un)likely have their uses, but they need to
-be used sparingly and the use needs to be justified. For static inlines,
-especially within .c files, just let the compiler do its job. For
-(un)likely, just let the CPU branch predictor do its job.
-
-The link's pretty old, but see also: https://lwn.net/Articles/420019/
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Thanks!
+Maxime
