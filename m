@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999D04D3B08
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 21:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A234D3B75
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 21:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E2D10E427;
-	Wed,  9 Mar 2022 20:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860A410E386;
+	Wed,  9 Mar 2022 20:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B254510E41A;
- Wed,  9 Mar 2022 20:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646857582; x=1678393582;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XYGYiiHogmpFuHGy6AO1d/vfoZSLV1I1q11IeeQJ4DE=;
- b=X6OskWMKJz3ZqhP4DdeMXGxlhw38nU0vTLxdjgt7zriy3RsaoM0Puof5
- yGGWe1YPmienjLnZ6MGeMpVzS9SghBys3V2AIVApOjeZ2AAiOeC/c0Djp
- ebxagnpwb7gpP719Y8slTgqnvvDBuUoNny2S4QnJUgzDkA2MH1LM6iiJ/
- adiziyfBl+Xz2iEEl5MpoN4/Lvboo443I8X+fm0P9fs7umVndEu9T78sS
- LfdIxT9T4Wv9pMKPL7aTNLXP3pUoIlmJLao8hxUR9NmSSh3l4cG1WGvTF
- FCWWHOHiOMqp7b9J7/wijQFRjTjFyNQah9Hf9TUMwAjqWRLMtyjvSXPqM w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="235691560"
-X-IronPort-AV: E=Sophos;i="5.90,168,1643702400"; d="scan'208";a="235691560"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 12:26:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,168,1643702400"; d="scan'208";a="596404224"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 09 Mar 2022 12:26:18 -0800
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nS2sz-0003nJ-UM; Wed, 09 Mar 2022 20:26:17 +0000
-Date: Thu, 10 Mar 2022 04:25:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, harry.wentland@amd.com,
- alexdeucher@gmail.com
-Subject: Re: [PATCH v2] drm/amdgpu: Add support for drm_privacy_screen
-Message-ID: <202203100441.aipzrKHU-lkp@intel.com>
-References: <20220309150606.1877288-1-sean@poorly.run>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5723E10E3F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 20:56:15 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id g20so4447084edw.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 12:56:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DfY+Mxn7NkrB5fGdyvJbTh9f17PHMGqPxvl1oolx27I=;
+ b=YMM12oofeP4ZisQc0o+00fngPoa67Wunfv87yQhMrELImGrxMcggFfqVweYBVhKRMr
+ Mnl06j/k3qCyTUI6y2d7WnZ2PyosLmB/unuVm3yoUMgvFJdOY3/Y4SQaoenp5/l9xQ/N
+ NWy5YJh/3RmmlA2XNHI8wotSIPZ9le79KIVXA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DfY+Mxn7NkrB5fGdyvJbTh9f17PHMGqPxvl1oolx27I=;
+ b=4YCDJceD0h4DML0sMmyWL10Q3/xWG+oK0kdtycMhSdhSRUIPLLbzawrCpUmMOYiZZy
+ Y4WgquZXvuij16/Gon17aqO3kJbEHVKtVXEO8rOHBAGzt91GSxmXACqXQNtYiPKcViKZ
+ JkmyEnbLG89qLvi6AdgkP+0So3Xv8ffH0NSh1FrZhqCokD2iJOs1y33aIIV68EHoYb6h
+ qT5mx19Xy5hJ+R2y0PCZmtoI2guty/0aVjEp+bh/xst3/K+sqpRlA4cvipkJAroyj6Mv
+ s2K2i2/DBY7Tra5y2DnDoANhdjG1hvR2iDuyOQRGIfI+ym651dXRGvhXcVChxNwMB/bS
+ XaIA==
+X-Gm-Message-State: AOAM533sg/QhKZc9Slby/OATysAA9Idb/8rBElQlvxaz0z23UiCxy38R
+ 2HXWjo8foxs7k2xVFCQJzO9ESnOqk1keGRib
+X-Google-Smtp-Source: ABdhPJwqiZwNF1qihHMKciuZ0IHN5mk0fLtARwsyTBzXfGj+LBNJgiZSgswMVuXvqCs4/G7uzXw+Fw==
+X-Received: by 2002:a50:bf0f:0:b0:410:c512:cb6f with SMTP id
+ f15-20020a50bf0f000000b00410c512cb6fmr1337032edk.262.1646859373411; 
+ Wed, 09 Mar 2022 12:56:13 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
+ u3-20020a17090657c300b006d01de78926sm1138063ejr.22.2022.03.09.12.56.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 12:56:12 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id i8so4907163wrr.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 12:56:12 -0800 (PST)
+X-Received: by 2002:a5d:490f:0:b0:1f0:6791:a215 with SMTP id
+ x15-20020a5d490f000000b001f06791a215mr1122625wrq.422.1646859371913; Wed, 09
+ Mar 2022 12:56:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309150606.1877288-1-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
+ <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
+ <164684549417.11309.167290259626544349@Monstersaurus>
+In-Reply-To: <164684549417.11309.167290259626544349@Monstersaurus>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 9 Mar 2022 12:55:59 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WyiUijqjvRpw-9ZMvKGdPJJO3UozsX=ROSzzeRQ1bozQ@mail.gmail.com>
+Message-ID: <CAD=FV=WyiUijqjvRpw-9ZMvKGdPJJO3UozsX=ROSzzeRQ1bozQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,96 +75,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- hdegoede@redhat.com, Sean Paul <seanpaul@chromium.org>,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- rajatja@google.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
+Hi,
 
-I love your patch! Perhaps something to improve:
+On Wed, Mar 9, 2022 at 9:05 AM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+>
+> >> I think it was done for DRM purpose, to prevent signals meant for a
+> >> panel to be connected to a device that could capture video from a DP
+> >> source.
+>
+> Is this better:
+>
+>         /*
+>          * Only eDP pannels which support Alternate Scrambler Seed Reset (ASSR)
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next next-20220309]
-[cannot apply to tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+s/pannels/panels
 
-url:    https://github.com/0day-ci/linux/commits/Sean-Paul/drm-amdgpu-Add-support-for-drm_privacy_screen/20220309-230712
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: arc-randconfig-r043-20220309 (https://download.01.org/0day-ci/archive/20220310/202203100441.aipzrKHU-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/6fedd7f8ea75c68634df4fa3cbacb0ee5f2fc984
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Sean-Paul/drm-amdgpu-Add-support-for-drm_privacy_screen/20220309-230712
-        git checkout 6fedd7f8ea75c68634df4fa3cbacb0ee5f2fc984
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/
+>          * are supported by the SN65DSI86. For DisplayPort, disable scrambling
+>          * mode.
+>          */
+>
+> I don't know if it answers your 'why' ... and I don't think adding
+>  "We think it is for DRM protection"
+>
+> really suits the comment.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Yeah, that looks pretty good. ...or even:
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:44:
-   drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h: In function 'dmub_rb_flush_pending':
-   drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h:2961:26: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
-    2961 |                 uint64_t temp;
-         |                          ^~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from include/linux/i2c.h:13,
-                    from include/drm/drm_crtc.h:28,
-                    from include/drm/drm_atomic.h:31,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:26:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c: In function 'amdgpu_dm_initialize_dp_connector':
->> drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:41:22: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
-      41 | #define dev_fmt(fmt) "amdgpu: " fmt
-         |                      ^~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
-     425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-         |         ^~~~
-   include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
-     438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:533:25: note: in expansion of macro 'drm_err'
-     533 |                         drm_err(dev, "Error getting privacy screen, ret=%d\n",
-         |                         ^~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/dc_link_ddc.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:39:
-   At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:128:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     128 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:125:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     125 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5, 0};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:124:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     124 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3, 0};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+eDP panels use an Alternate Scrambler Seed compared to displays hooked
+up via a full DisplayPort connector. SN65DSI86 only supports the
+alternate scrambler seed, not the normal one, so the only way we can
+support full DisplayPort displays is by fully turning off the
+scrambler.
 
 
-vim +41 drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h
-
-539489fc91ea77 Aurabindo Pillai 2020-04-08  40  
-539489fc91ea77 Aurabindo Pillai 2020-04-08 @41  #define dev_fmt(fmt) "amdgpu: " fmt
-539489fc91ea77 Aurabindo Pillai 2020-04-08  42  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-Doug
