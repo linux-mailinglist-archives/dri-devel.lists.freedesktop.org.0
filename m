@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA25E4D2F28
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:39:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BE74D2F29
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3352410E63F;
-	Wed,  9 Mar 2022 12:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B1D10E843;
+	Wed,  9 Mar 2022 12:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E9C10E73D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:39:24 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id q19so1844531pgm.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:39:24 -0800 (PST)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3ABA10E8BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:39:36 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id q19so1844891pgm.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:39:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xWp0dPV+wvFsFNokM//Axl/m5/Ve+dp841Y0a4aT5pY=;
- b=TbKgYZb30Y943UW2OwZGRlM4W4nuxyHs0hGuPF/h9x/UjZwZQaMbiMrO7cQQudH58a
- ZG0puWuQKyZatyV2Hphvya0Cgar6hFHU09Q5YQSLicpZpFsh0F0HfujMnyihwHQj6cEm
- hwE9WBbvEb3Z23Nqx/Gd68mMqm1cXAX1NjtV6GXJ6BMFyUfrNjjTDsgZKSEj6WfIY8fh
- ibwtGmjHsNff+DhgTmhaFVlWHFnCwNB7M85Aw7wMQnwtjNcPtaNzaXx1h468eYBsZkpH
- BJmZu4dF4sSIrCN0DaHR44K2sYdyKwdT4Jz87GyAfHFf8UDstaQaIa3hJq0KGkXpNXLo
- F1dQ==
+ :cc; bh=WESkvE76RvvUixdvsGaxsNSlfocf93aoUlbvnUrP/3w=;
+ b=LCxMYDWgDlEuFKdClsB7iVa0L1wsrGHbTBdtC+BGeFRhY24YokktRg4ls6jiDYLrzW
+ 14YHm7RlmHiRfiTKdBsAbmxHaQJQ2ZEnfK+q7EAqIdERbcisut/d/nATv1WS4OHX9cr8
+ Pq83ihOkp0uiIo0yEE6nijobZGIRuLhtr3pFep2O02z3oyAo6h77cR/7DDDKHRvV37yL
+ iTsnVemGFv7I00c4SHcVa6Ge/Ar+pfKBlPQSQ9w33k9BT3G0NQJIk8Rj2FqQKQybsFLk
+ ah+9zAPvoyexEEZX6XRLV/vIZCAKpfX0JtQiKsmCXYFc2A109tTMlFnEPme1nSyDCsrf
+ grnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xWp0dPV+wvFsFNokM//Axl/m5/Ve+dp841Y0a4aT5pY=;
- b=XZ1hGHXOi6WTaLpyt+hl51GNPV9Il6vXc8mFXGppQgyMhJngz56nrpPGgM9IJGTE95
- SlVHecLAtS3M9luDDmO3KA5Mlj1EE5iFl205IH3Ko9+6wuR73pv6XwtfzQRuVJ1N9/CX
- G51XVWv1hO27oYg24g4V1Di95+dkorGglnQBnQNsffojbH9jLvU6E10qXsgQIji8eUnW
- gdgyiX245kNOcBZCmxvn2hx4sj5/KkBh6RxS7Vqxl3evPJRc+wWBkKsGpODGTu7rZKsG
- UPR09P6qsa2UiiEtKOBVmh1jeR62EHBUuoZB33c9wJJ86VNnzZFcdRhKAk0aQh4FeM8l
- Hx7Q==
-X-Gm-Message-State: AOAM531FLTKAp5+MyyhATyvVxjU2p2RxXVnfiQBkGyFjEcf3f2BHO8bH
- psb7/Gakl0ozDLi2SrhXMS9aK08/YQBppLxUKmIufz8h
-X-Google-Smtp-Source: ABdhPJwz/wXNW4/uZd18h39gLgtW7Dk2UGmWO6ksJr8WqL8fZEes8CXDy3bMDG53qjW03tCAywRwOIOJ/HcaHpJ+y7Y=
-X-Received: by 2002:a63:1662:0:b0:378:8b0b:1c9 with SMTP id
- 34-20020a631662000000b003788b0b01c9mr18702399pgw.537.1646829563957; Wed, 09
- Mar 2022 04:39:23 -0800 (PST)
+ bh=WESkvE76RvvUixdvsGaxsNSlfocf93aoUlbvnUrP/3w=;
+ b=WN4IQejCUQDBXaVYQO86KRZoS76VW1DXRNJnnFA5qr6nUsZOuelYVZUoY6mDMNYD8w
+ /J9n7k4PLsELmMXc+XZ6tmf894xg/j2D5sCDnrvmdy8krQ1wX3vu+UUrWkInjAwVpeBb
+ g+C8mJo8tLO3IiZCbGmmEFFoAKI5HuHBX6JAaokmIwelneCvRBTJyaHjNF5ANsta9mLU
+ uOzSopzAK7NV7zqKqmUq1y6UOCjiFTM3qGG4n1sL1XWREzjeuEShM+8nlL1yaqFDZbnc
+ FFo4GPXHksX3cKUigP3bZ75lSUNPVghH+YbDPTmQ7E9sNb4iU/x7kmVE/7KyVPYpKQwK
+ O5zw==
+X-Gm-Message-State: AOAM533siiyMSmUo/zTEfcmM6K8dqj95wwe1cGDwRC6FWlCaGpST8/fI
+ /BMlCrhsXp5qNSy3CZlE4jagTgHbzv5z/dCeifE=
+X-Google-Smtp-Source: ABdhPJxbT86GAY/Ne4q6cybuhlIHdWYhwaMGdm5kXBNt0v1TksC9BAaKkKp4Lrrk1NYwht/Fs3RSSQMReqjllobR3Xs=
+X-Received: by 2002:aa7:88c4:0:b0:4f6:fed2:a855 with SMTP id
+ k4-20020aa788c4000000b004f6fed2a855mr15896626pff.17.1646829576524; Wed, 09
+ Mar 2022 04:39:36 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308195222.13471-1-tzimmermann@suse.de>
- <20220308195222.13471-13-tzimmermann@suse.de>
-In-Reply-To: <20220308195222.13471-13-tzimmermann@suse.de>
+ <20220308195222.13471-12-tzimmermann@suse.de>
+In-Reply-To: <20220308195222.13471-12-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 9 Mar 2022 13:39:12 +0100
-Message-ID: <CAMeQTsZZ+fYebhiz+Xy-9y2Jsnwc5cJs0JTBf1T0_483HE4Kgw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] drm/gma500: Move GTT memory-range setup into
- helper
+Date: Wed, 9 Mar 2022 13:39:24 +0100
+Message-ID: <CAMeQTsa2Ez0SAkniCehu7Dt8-pAWkyvsKdDYcfT+4Rfq46Gm2g@mail.gmail.com>
+Subject: Re: [PATCH v2 11/12] drm/gma500: Move GTT enable and disable code
+ into helpers
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,228 +71,168 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, Mar 8, 2022 at 8:52 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Move the setup code for GTT/GATT memory ranges into a new helper and
-> call the function from psb_gtt_init() and psb_gtt_resume(). Removes
-> code duplication.
+> Move the code for enabling and disabling the GTT into helpers and call
+> the functions in psb_gtt_init(), psb_gtt_fini() and psb_gtt_resume().
+> Removes code duplication.
 
-LGTM
+That makes it much more readable. Thanks.
+
 Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+
 
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/gma500/gtt.c | 153 +++++++++++++++--------------------
->  1 file changed, 64 insertions(+), 89 deletions(-)
+>  drivers/gpu/drm/gma500/gtt.c | 81 ++++++++++++++++++++----------------
+>  1 file changed, 46 insertions(+), 35 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> index 83d9a9f7c73c..379bc218aa6b 100644
+> index b03feec64f01..83d9a9f7c73c 100644
 > --- a/drivers/gpu/drm/gma500/gtt.c
 > +++ b/drivers/gpu/drm/gma500/gtt.c
-> @@ -182,68 +182,91 @@ static void psb_gtt_clear(struct drm_psb_private *pdev)
->         (void)ioread32(pdev->gtt_map + i - 1);
+> @@ -125,17 +125,44 @@ void psb_gtt_remove_pages(struct drm_psb_private *pdev, const struct resource *r
+>         mutex_unlock(&pdev->gtt_mutex);
 >  }
 >
-> -int psb_gtt_init(struct drm_device *dev)
-> +static void psb_gtt_init_ranges(struct drm_psb_private *dev_priv)
+> -void psb_gtt_fini(struct drm_device *dev)
+> +static int psb_gtt_enable(struct drm_psb_private *dev_priv)
 >  {
 > -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
 > +       struct drm_device *dev = &dev_priv->dev;
 >         struct pci_dev *pdev = to_pci_dev(dev->dev);
->         struct psb_gtt *pg = &dev_priv->gtt;
-> -       unsigned gtt_pages;
-> -       int ret;
-> -
-> -       mutex_init(&dev_priv->gtt_mutex);
-> -
-> -       ret = psb_gtt_enable(dev_priv);
-> -       if (ret)
-> -               goto err_mutex_destroy;
-> +       resource_size_t gtt_phys_start, mmu_gatt_start, gtt_start, gtt_pages,
-> +                       gatt_start, gatt_pages;
-> +       struct resource *gtt_mem;
+> +       int ret;
 >
->         /* The root resource we allocate address space from */
-> -       pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-> +       gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
->
->         /*
-> -        *      The video mmu has a hw bug when accessing 0x0D0000000.
-> -        *      Make gatt start at 0x0e000,0000. This doesn't actually
-> -        *      matter for us but may do if the video acceleration ever
-> -        *      gets opened up.
-> +        * The video MMU has a HW bug when accessing 0x0d0000000. Make
-> +        * GATT start at 0x0e0000000. This doesn't actually matter for
-> +        * us now, but maybe will if the video acceleration ever gets
-> +        * opened up.
->          */
-> -       pg->mmu_gatt_start = 0xE0000000;
-> +       mmu_gatt_start = 0xe0000000;
+> -       iounmap(dev_priv->gtt_map);
+> +       ret = pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
+> +       if (ret)
+> +               return pcibios_err_to_errno(ret);
+> +       ret = pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
+> +       if (ret)
+> +               return pcibios_err_to_errno(ret);
 > +
-> +       gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
-> +       gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE) >> PAGE_SHIFT;
->
-> -       pg->gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
-> -       gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE)
-> -                                                               >> PAGE_SHIFT;
->         /* CDV doesn't report this. In which case the system has 64 gtt pages */
-> -       if (pg->gtt_start == 0 || gtt_pages == 0) {
-> +       if (!gtt_start || !gtt_pages) {
->                 dev_dbg(dev->dev, "GTT PCI BAR not initialized.\n");
->                 gtt_pages = 64;
-> -               pg->gtt_start = dev_priv->pge_ctl;
-> +               gtt_start = dev_priv->pge_ctl;
->         }
->
-> -       pg->gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
-> -       pg->gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE)
-> -                                                               >> PAGE_SHIFT;
-> -       dev_priv->gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
-> +       gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
-> +       gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE) >> PAGE_SHIFT;
->
-> -       if (pg->gatt_pages == 0 || pg->gatt_start == 0) {
-> +       if (!gatt_pages || !gatt_start) {
->                 static struct resource fudge;   /* Preferably peppermint */
-> -               /* This can occur on CDV systems. Fudge it in this case.
-> -                  We really don't care what imaginary space is being allocated
-> -                  at this point */
+> +       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
+> +       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
 > +
-> +               /*
-> +                * This can occur on CDV systems. Fudge it in this case. We
-> +                * really don't care what imaginary space is being allocated
-> +                * at this point.
-> +                */
->                 dev_dbg(dev->dev, "GATT PCI BAR not initialized.\n");
-> -               pg->gatt_start = 0x40000000;
-> -               pg->gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
-> -               /* This is a little confusing but in fact the GTT is providing
-> -                  a view from the GPU into memory and not vice versa. As such
-> -                  this is really allocating space that is not the same as the
-> -                  CPU address space on CDV */
-> +               gatt_start = 0x40000000;
-> +               gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
+> +       (void)PSB_RVDC32(PSB_PGETBL_CTL);
 > +
-> +               /*
-> +                * This is a little confusing but in fact the GTT is providing
-> +                * a view from the GPU into memory and not vice versa. As such
-> +                * this is really allocating space that is not the same as the
-> +                * CPU address space on CDV.
-> +                */
->                 fudge.start = 0x40000000;
->                 fudge.end = 0x40000000 + 128 * 1024 * 1024 - 1;
->                 fudge.name = "fudge";
->                 fudge.flags = IORESOURCE_MEM;
-> -               dev_priv->gtt_mem = &fudge;
-> +
-> +               gtt_mem = &fudge;
-> +       } else {
-> +               gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
->         }
->
-> +       pg->gtt_phys_start = gtt_phys_start;
-> +       pg->mmu_gatt_start = mmu_gatt_start;
-> +       pg->gtt_start = gtt_start;
->         pg->gtt_pages = gtt_pages;
-> +       pg->gatt_start = gatt_start;
-> +       pg->gatt_pages = gatt_pages;
-> +       dev_priv->gtt_mem = gtt_mem;
+> +       return 0;
 > +}
 > +
-> +int psb_gtt_init(struct drm_device *dev)
+> +static void psb_gtt_disable(struct drm_psb_private *dev_priv)
+> +{
+> +       struct drm_device *dev = &dev_priv->dev;
+> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>
+>         pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
+>         PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
+> +
+>         (void)PSB_RVDC32(PSB_PGETBL_CTL);
+> +}
+>
+> +void psb_gtt_fini(struct drm_device *dev)
 > +{
 > +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +
+> +       iounmap(dev_priv->gtt_map);
+> +       psb_gtt_disable(dev_priv);
+>         mutex_destroy(&dev_priv->gtt_mutex);
+>  }
+>
+> @@ -159,22 +186,15 @@ int psb_gtt_init(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>         struct pci_dev *pdev = to_pci_dev(dev->dev);
 > +       struct psb_gtt *pg = &dev_priv->gtt;
+>         unsigned gtt_pages;
+> -       struct psb_gtt *pg;
+> -       int ret = 0;
 > +       int ret;
-> +
-> +       mutex_init(&dev_priv->gtt_mutex);
-> +
+>
+>         mutex_init(&dev_priv->gtt_mutex);
+>
+> -       pg = &dev_priv->gtt;
+> -
+> -       /* Enable the GTT */
+> -       pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
+> -       pci_write_config_word(pdev, PSB_GMCH_CTRL,
+> -                             dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
+> -
+> -       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
+> -       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
+> -       (void) PSB_RVDC32(PSB_PGETBL_CTL);
 > +       ret = psb_gtt_enable(dev_priv);
 > +       if (ret)
 > +               goto err_mutex_destroy;
 >
-> -       dev_priv->gtt_map = ioremap(pg->gtt_phys_start, gtt_pages << PAGE_SHIFT);
-> +       psb_gtt_init_ranges(dev_priv);
-> +
-> +       dev_priv->gtt_map = ioremap(pg->gtt_phys_start, pg->gtt_pages << PAGE_SHIFT);
+>         /* The root resource we allocate address space from */
+>         pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
+> @@ -227,17 +247,16 @@ int psb_gtt_init(struct drm_device *dev)
 >         if (!dev_priv->gtt_map) {
 >                 dev_err(dev->dev, "Failure to map gtt.\n");
 >                 ret = -ENOMEM;
-> @@ -264,9 +287,8 @@ int psb_gtt_init(struct drm_device *dev)
->  int psb_gtt_resume(struct drm_device *dev)
->  {
->         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
->         struct psb_gtt *pg = &dev_priv->gtt;
-> -       unsigned int gtt_pages;
-> +       unsigned int old_gtt_pages = pg->gtt_pages;
->         int ret;
->
->         /* Enable the GTT */
-> @@ -274,61 +296,14 @@ int psb_gtt_resume(struct drm_device *dev)
->         if (ret)
->                 return ret;
->
-> -       /* The root resource we allocate address space from */
-> -       pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-> -
-> -       /*
-> -        *      The video mmu has a hw bug when accessing 0x0D0000000.
-> -        *      Make gatt start at 0x0e000,0000. This doesn't actually
-> -        *      matter for us but may do if the video acceleration ever
-> -        *      gets opened up.
-> -        */
-> -       pg->mmu_gatt_start = 0xE0000000;
-> -
-> -       pg->gtt_start = pci_resource_start(pdev, PSB_GTT_RESOURCE);
-> -       gtt_pages = pci_resource_len(pdev, PSB_GTT_RESOURCE) >> PAGE_SHIFT;
-> -       /* CDV doesn't report this. In which case the system has 64 gtt pages */
-> -       if (pg->gtt_start == 0 || gtt_pages == 0) {
-> -               dev_dbg(dev->dev, "GTT PCI BAR not initialized.\n");
-> -               gtt_pages = 64;
-> -               pg->gtt_start = dev_priv->pge_ctl;
-> -       }
-> -
-> -       pg->gatt_start = pci_resource_start(pdev, PSB_GATT_RESOURCE);
-> -       pg->gatt_pages = pci_resource_len(pdev, PSB_GATT_RESOURCE) >> PAGE_SHIFT;
-> -       dev_priv->gtt_mem = &pdev->resource[PSB_GATT_RESOURCE];
-> +       psb_gtt_init_ranges(dev_priv);
->
-> -       if (pg->gatt_pages == 0 || pg->gatt_start == 0) {
-> -               static struct resource fudge;   /* Preferably peppermint */
-> -               /*
-> -                * This can occur on CDV systems. Fudge it in this case. We
-> -                * really don't care what imaginary space is being allocated
-> -                * at this point.
-> -                */
-> -               dev_dbg(dev->dev, "GATT PCI BAR not initialized.\n");
-> -               pg->gatt_start = 0x40000000;
-> -               pg->gatt_pages = (128 * 1024 * 1024) >> PAGE_SHIFT;
-> -               /*
-> -                * This is a little confusing but in fact the GTT is providing
-> -                * a view from the GPU into memory and not vice versa. As such
-> -                *  this is really allocating space that is not the same as the
-> -                *  CPU address space on CDV.
-> -                */
-> -               fudge.start = 0x40000000;
-> -               fudge.end = 0x40000000 + 128 * 1024 * 1024 - 1;
-> -               fudge.name = "fudge";
-> -               fudge.flags = IORESOURCE_MEM;
-> -               dev_priv->gtt_mem = &fudge;
-> -       }
-> -
-> -       if (gtt_pages != pg->gtt_pages) {
-> +       if (old_gtt_pages != pg->gtt_pages) {
->                 dev_err(dev->dev, "GTT resume error.\n");
-> -               ret = -EINVAL;
-> +               ret = -ENODEV;
->                 goto err_psb_gtt_disable;
+> -               goto err_gtt_disable;
+> +               goto err_psb_gtt_disable;
 >         }
 >
-> -       pg->gtt_pages = gtt_pages;
-> -
 >         psb_gtt_clear(dev_priv);
 >
->  err_psb_gtt_disable:
+>         return 0;
+>
+> -err_gtt_disable:
+> -       pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
+> -       PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
+> -       (void)PSB_RVDC32(PSB_PGETBL_CTL);
+> +err_psb_gtt_disable:
+> +       psb_gtt_disable(dev_priv);
+> +err_mutex_destroy:
+>         mutex_destroy(&dev_priv->gtt_mutex);
+>         return ret;
+>  }
+> @@ -246,20 +265,14 @@ int psb_gtt_resume(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>         struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +       struct psb_gtt *pg = &dev_priv->gtt;
+>         unsigned int gtt_pages;
+> -       struct psb_gtt *pg;
+>         int ret;
+>
+> -       pg = &dev_priv->gtt;
+> -
+>         /* Enable the GTT */
+> -       pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
+> -       pci_write_config_word(pdev, PSB_GMCH_CTRL,
+> -                             dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
+> -
+> -       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
+> -       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
+> -       (void) PSB_RVDC32(PSB_PGETBL_CTL);
+> +       ret = psb_gtt_enable(dev_priv);
+> +       if (ret)
+> +               return ret;
+>
+>         /* The root resource we allocate address space from */
+>         pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
+> @@ -311,16 +324,14 @@ int psb_gtt_resume(struct drm_device *dev)
+>         if (gtt_pages != pg->gtt_pages) {
+>                 dev_err(dev->dev, "GTT resume error.\n");
+>                 ret = -EINVAL;
+> -               goto err_gtt_disable;
+> +               goto err_psb_gtt_disable;
+>         }
+>
+>         pg->gtt_pages = gtt_pages;
+>
+>         psb_gtt_clear(dev_priv);
+>
+> -err_gtt_disable:
+> -       pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
+> -       PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
+> -       (void)PSB_RVDC32(PSB_PGETBL_CTL);
+> +err_psb_gtt_disable:
+> +       psb_gtt_disable(dev_priv);
+>         return ret;
+>  }
 > --
 > 2.35.1
 >
