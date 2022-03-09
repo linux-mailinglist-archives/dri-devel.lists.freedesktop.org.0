@@ -1,62 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103104D2FA3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:03:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CAD4D2FB3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D7810E7A9;
-	Wed,  9 Mar 2022 13:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4343E10E905;
+	Wed,  9 Mar 2022 13:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE63B10E7A9
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:03:24 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id c7so1614937qka.7
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:03:24 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE7010E905
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:10:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646831419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iAU44weXti04FLi2etjzVw+K+va7nBLkmB5FdNWAcI0=;
+ b=Ciuwj6fWM1jqbyzxXo1RPRtJ0/v2aReVAEb140djTOujZbHUmvBy1uJAIkllfzh0GLWEcs
+ PV6aR0BW0fgLGBSs/sjUwSVPw79JF3t5i0WhCWuxwWGON0yrTAUnK3TH1qp5O6nE2Mxsw9
+ 7RjZ44cdsetl7AUqT+yLvxetOpDt28o=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-73-60AjcPTeOiqD-8jeZs4glw-1; Wed, 09 Mar 2022 08:10:18 -0500
+X-MC-Unique: 60AjcPTeOiqD-8jeZs4glw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h131-20020a1c2189000000b003898de01de4so769880wmh.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:10:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=12vkeayAZrB46KbYGTQzYxqSQYZ5jeg6ghfEwNKBKIY=;
- b=r1A9FiwHD9v3aVlA4fNPzO55BwMEmTyVVZaitBmx147xwv8LhsoKMwKticBPPRbhJD
- E/wLpK3NAdQEbxdY8QUQDcDCmbvScNKa6OJ5O0HTo4Y7EwwdCEqGyECwdtgnIsO09Efr
- yefPCksosGRWFHUGECfy5Piso8X0/K297AfYq5wiMk8e9x54nUR31srKDKi/ZDxerXVx
- Jni+Xx8OE6zxDVU3kgOp41IAog1Set9mTm7jHdoCNUo9K867WnwykToHpkxKOlUd3PQu
- 6caFl4sLHu3mrBMK2zqr05gkEzwQYv3S3ocQasCI9j2IqSnhnx59hjYu0pAsZoRV19WK
- SfMQ==
-X-Gm-Message-State: AOAM530ON/mf/7jxdRoXoaa0ULYDnvroY+Fto9K3SqKOYVMV0GqxV/5Y
- YaNxQ1dBWPxRSNeQztI53Pg+ZjhKcNlfhg==
-X-Google-Smtp-Source: ABdhPJyW+QoqBVjX6QuV7H6p1w1ZJ9K8CYY+zq2gxblbiZN40NZF2X4lagdqSxtbmeSHMnmTWRGuDQ==
-X-Received: by 2002:a05:620a:4691:b0:67d:1e53:f46e with SMTP id
- bq17-20020a05620a469100b0067d1e53f46emr4491788qkb.247.1646831003538; 
- Wed, 09 Mar 2022 05:03:23 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
- [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
- p7-20020a05622a13c700b002de9f3894c2sm1273592qtk.50.2022.03.09.05.03.23
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iAU44weXti04FLi2etjzVw+K+va7nBLkmB5FdNWAcI0=;
+ b=iaQlB6+gk2Ihduo+667X21r+R2X+ta5r42iUUY80daah1limbu5mOJThs7PH6pu07e
+ krltX6949urYskos0kKx0fllsMkd3VJYq8ve7E4RXfu6wQAtlvBPnyVLPBQ8OgkNMYJe
+ u6L1xyo8WrNYriMyEtnqX+vZoJ1GW811SNCG3smIN4N4O+QEy5qTw16ZX4OR6suXlnh2
+ N7NdHrJjE0LLReqavLJyKBbUchr8JjF3dkyMfkdehdoua0wswQw048YAxnAaKCwXQZga
+ 8o0cahs4jWpd77qIN2Mb1aomzzaL0YACFIdjRpFyroG9mEvjuLfL4is/qTjInKUg6lei
+ z2tQ==
+X-Gm-Message-State: AOAM533FCqqUyzVWVbGDBMjEd9xTVXSJsm5qC2MFCe28csNzP6TwUeC9
+ 2LUesPqAcUNfTHhfZKVIdNrxwennoFOd+RFiZbaDhYWN1oUS6i49HTBrWDij8EKptRadqRB1O2w
+ HYbUno1bdRj6Qwz9HQIHLBrOvmh0y
+X-Received: by 2002:a5d:4dc5:0:b0:1f0:73e4:2cd9 with SMTP id
+ f5-20020a5d4dc5000000b001f073e42cd9mr15765174wru.212.1646831417442; 
+ Wed, 09 Mar 2022 05:10:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxvX2Au00DweT17gWXJkTfHnd/3tQIRGysI0fVMgShhCARC1khCEjjWT3sGgGyIigEkQZnnNQ==
+X-Received: by 2002:a5d:4dc5:0:b0:1f0:73e4:2cd9 with SMTP id
+ f5-20020a5d4dc5000000b001f073e42cd9mr15765152wru.212.1646831417244; 
+ Wed, 09 Mar 2022 05:10:17 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ 4-20020a056000154400b00203812ca383sm422698wry.78.2022.03.09.05.10.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 05:03:23 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id u10so4151784ybd.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:03:23 -0800 (PST)
-X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
- v133-20020a81618b000000b002dbd9528a39mr16792727ywb.132.1646830616881; Wed, 09
- Mar 2022 04:56:56 -0800 (PST)
+ Wed, 09 Mar 2022 05:10:16 -0800 (PST)
+Message-ID: <355f94c7-fc8a-7d92-5979-5b1b49c1d738@redhat.com>
+Date: Wed, 9 Mar 2022 14:10:15 +0100
 MIME-Version: 1.0
-References: <20220214133710.3278506-1-javierm@redhat.com>
- <20220214133710.3278506-4-javierm@redhat.com>
- <CAMuHMdU+29x4ZHLAiPiReyLKw_VYBCCLw0bCoQmw9s6sQ4Bxcw@mail.gmail.com>
- <fd6ec463-f46d-0813-5d87-a00c07739e01@redhat.com>
-In-Reply-To: <fd6ec463-f46d-0813-5d87-a00c07739e01@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Mar 2022 13:56:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUVWKee+Wm=EP49=5TAgqodPsMjkC2MHUfnyBDF_zt_Zg@mail.gmail.com>
-Message-ID: <CAMuHMdUVWKee+Wm=EP49=5TAgqodPsMjkC2MHUfnyBDF_zt_Zg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 06/10] drm/fb-helper: Add support for DRM_FORMAT_C[124]
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
+References: <cover.1646683502.git.geert@linux-m68k.org>
+ <c665d6ba072f3debb3fa0a139454fefef6a55011.1646683502.git.geert@linux-m68k.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <c665d6ba072f3debb3fa0a139454fefef6a55011.1646683502.git.geert@linux-m68k.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +92,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On 3/7/22 21:52, Geert Uytterhoeven wrote:
+> Add support for color-indexed frame buffer formats with two, four, and
+> sixteen colors to the DRM framebuffer helper functions:
+>   1. Add support for 1, 2, and 4 bits per pixel to the damage helper,
+>   2. For color-indexed modes, the length of the color bitfields must be
+>      set to the color depth, else the logo code may pick a logo with too
+>      many colors.  Drop the incorrect DAC width comment, which
+>      originates from the i915 driver.
+>   3. Accept C[124] modes when validating or filling in struct
+>      fb_var_screeninfo, and use the correct number of bits per pixel.
+>   4. Set the visual to FB_VISUAL_PSEUDOCOLOR for all color-indexed
+>      modes.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-On Wed, Mar 9, 2022 at 1:14 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 3/8/22 17:30, Geert Uytterhoeven wrote:
-> > Unfortunately a regression was introduced since your v3: printed
-> > text is mirrored upside-down. I.e. "E" is rendered correctly, but "L"
-> > turns into "=CE=93" (Greek Gamma).
-> > I suspect something went wrong with the display initialization
-> > sequence.
-> >
->
-> Could you please try Chen-Yu's fix for the COM scan direction mask ?
->
-> https://lists.freedesktop.org/archives/dri-devel/2022-March/345915.html
->
-> I made a mistake when converting to use the GENMASK() and FIELD_PREP()
-> macros in v4 as suggested by Andy. The SSD130X_SET_COM_SCAN_DIR_MASK
-> wasn't correct which would explain the output to be vertically flipped.
+[snip]
 
-Thanks, confirmed fixed.
+>  static void drm_fb_helper_fill_fix(struct fb_info *info, uint32_t pitch,
+> -				   uint32_t depth)
+> +				   bool is_color_indexed)
+>  {
+>  	info->fix.type = FB_TYPE_PACKED_PIXELS;
+> -	info->fix.visual = depth == 8 ? FB_VISUAL_PSEUDOCOLOR :
+> -		FB_VISUAL_TRUECOLOR;
+> +	info->fix.visual = is_color_indexed ? FB_VISUAL_PSEUDOCOLOR
+> +					    : info->fix.visual;
 
-Gr{oetje,eeting}s,
+Shouldn't this be the following instead ?
 
-                        Geert
+  +	info->fix.visual = is_color_indexed ? FB_VISUAL_PSEUDOCOLOR
+  +					    : FB_VISUAL_TRUECOLOR;
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Other than that the patch looks good to me.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
