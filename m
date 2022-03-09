@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499EC4D3A55
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 20:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248AD4D3AC5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 21:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9F310E3DA;
-	Wed,  9 Mar 2022 19:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE88710E3E4;
+	Wed,  9 Mar 2022 20:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A59910E39D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 19:28:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D4C8321117;
- Wed,  9 Mar 2022 19:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646854082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EBgd/kQM55+aKZyAxeZX48FkKVfo/mz5CTR5lRw9eKc=;
- b=b3Z3M399AMh+GTSPcGUbXFhjUT60ZcnZGXo3ZwidAB2Na7GV2lWe7y6CQnjqN9QCUraFtC
- kmMIH2GqDsK/+M4d77UvYJMdMic1Ds/bAscRHv+OmappmAs096Qlr09Exv3pt+gfeVfNL8
- upzReRQE7qX0ExI5JafnRK6j3g2Qwbc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646854082;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EBgd/kQM55+aKZyAxeZX48FkKVfo/mz5CTR5lRw9eKc=;
- b=nOFXmqBfiMmnupNjUk7t+uMDGgMsx/dslFxiJeSG1xw9ddpJVnlNHSzDrlfBRb0b6wL5Sh
- Xia5h41juXNdSRCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8AD0913D7C;
- Wed,  9 Mar 2022 19:28:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bdAuIML/KGINRQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Mar 2022 19:28:02 +0000
-Message-ID: <d1169f34-ccd8-299d-af1f-f45da37556db@suse.de>
-Date: Wed, 9 Mar 2022 20:28:01 +0100
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
+ [209.85.219.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0693110E3E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 20:04:18 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id x3so2887425qvd.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 12:04:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l/Y0orG9IQYI6xXeORs6dX5FqeH3cCXmO8RJhBrMe4c=;
+ b=LNBuoh3W+478dD3Wo66hEE/UF3ueZ+oIQ17T+hWe2xkJpUf5UIumdnYGqH+HEn0lT6
+ dQktsdUtR+8iCJqaBLJcRZrAlDn+AT5YBm+Ujshh19DZx3bAmgvBqp1CZ/mndXGEogkO
+ s9/my7oWaagJd30Zpy0I16yL5+aHRQolhC69MdEIARLPR1HTs1+tkjRgVSQ6sLQWSs43
+ Wcbb3ALbXs50QrCsaSJMkinLNzwogkCB8NqRgHHXAYV0VvNCRmn1woUX8ytpUKHu8j3E
+ trDQrnJqj6E8VCarXs/azxlHppNqCniRUjOCgHJHR7HqiJdHvUa2UbyM1FkwCYQ7igsj
+ A5vg==
+X-Gm-Message-State: AOAM532sTkS4CASxtmi57LD5zX64kgzW5gPMMZj9h69yeX5ZqCMkgF7B
+ d7oPEMjfBi3jtJWDCjrMk8FfPJ7sAf9JJw==
+X-Google-Smtp-Source: ABdhPJwSubPXOR68eH93AJOPJFAL2Byi2Y2ior9UxseW5ARIlRZZVH4WgkL00Np2QjYm9yd0TVGjrA==
+X-Received: by 2002:a0c:edd2:0:b0:432:3a49:79ba with SMTP id
+ i18-20020a0cedd2000000b004323a4979bamr1194569qvr.21.1646856256096; 
+ Wed, 09 Mar 2022 12:04:16 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ 188-20020a3709c5000000b0067b147584c2sm1313345qkj.102.2022.03.09.12.04.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 12:04:15 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so36015317b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 12:04:15 -0800 (PST)
+X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
+ v133-20020a81618b000000b002dbd9528a39mr1323277ywb.132.1646856254887; Wed, 09
+ Mar 2022 12:04:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>
-References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
- <4ce1e172-799c-cba3-0a72-4a6fdf2c6d2f@suse.de>
- <caa9a2ea-d1b4-fa96-0e90-37a89aa0c000@collabora.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <caa9a2ea-d1b4-fa96-0e90-37a89aa0c000@collabora.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0fZuqDyqCnXB5WEZyY7uvbDk"
+References: <20220214133710.3278506-1-javierm@redhat.com>
+ <20220214133710.3278506-4-javierm@redhat.com>
+In-Reply-To: <20220214133710.3278506-4-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Mar 2022 21:04:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUuTAsqpx4=WnosfyjLo-t9ryQPQMaE1OeMBk4Ws9DTpQ@mail.gmail.com>
+Message-ID: <CAMuHMdUuTAsqpx4=WnosfyjLo-t9ryQPQMaE1OeMBk4Ws9DTpQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +67,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0fZuqDyqCnXB5WEZyY7uvbDk
-Content-Type: multipart/mixed; boundary="------------oCd2skkQJSv6EnHzuN8xFK1Z";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d1169f34-ccd8-299d-af1f-f45da37556db@suse.de>
-Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
-References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
- <4ce1e172-799c-cba3-0a72-4a6fdf2c6d2f@suse.de>
- <caa9a2ea-d1b4-fa96-0e90-37a89aa0c000@collabora.com>
-In-Reply-To: <caa9a2ea-d1b4-fa96-0e90-37a89aa0c000@collabora.com>
+Hi Javier,
 
---------------oCd2skkQJSv6EnHzuN8xFK1Z
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Mon, Feb 14, 2022 at 2:37 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> This adds a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon
+> OLED display controllers.
+>
+> It's only the core part of the driver and a bus specific driver is needed
+> for each transport interface supported by the display controllers.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-SGkNCg0KQW0gMDkuMDMuMjIgdW0gMTI6NTUgc2NocmllYiBEbWl0cnkgT3NpcGVua286DQo+
-IEhlbGxvLA0KPiANCj4gT24gMy85LzIyIDExOjU5LCBUaG9tYXMgWmltbWVybWFubiB3cm90
-ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMDguMDMuMjIgdW0gMTQ6MTcgc2NocmllYiBEbWl0cnkg
-T3NpcGVua286DQo+Pj4gSGVsbG8sDQo+Pj4NCj4+PiBUaGlzIHBhdGNoc2V0IGludHJvZHVj
-ZXMgbWVtb3J5IHNocmlua2VyIGZvciB0aGUgVmlydElPLUdQVSBEUk0gZHJpdmVyLg0KPj4+
-IER1cmluZyBPT00sIHRoZSBzaHJpbmtlciB3aWxsIHJlbGVhc2UgQk9zIHRoYXQgYXJlIG1h
-cmtlZCBhcyAibm90IG5lZWRlZCINCj4+PiBieSB1c2Vyc3BhY2UgdXNpbmcgdGhlIG5ldyBt
-YWR2aXNlIElPQ1RMLiBUaGUgdXNlcnNwYWNlIGluIHRoaXMgY2FzZSBpcw0KPj4+IHRoZSBN
-ZXNhIFZpckdMIGRyaXZlciwgaXQgd2lsbCBtYXJrIHRoZSBjYWNoZWQgQk9zIGFzICJub3Qg
-bmVlZGVkIiwNCj4+PiBhbGxvd2luZyBrZXJuZWwgZHJpdmVyIHRvIHJlbGVhc2UgbWVtb3J5
-IG9mIHRoZSBjYWNoZWQgc2htZW0gQk9zIG9uDQo+Pj4gbG93bWVtDQo+Pj4gc2l0dWF0aW9u
-cywgcHJldmVudGluZyBPT00ga2lsbHMuDQo+Pg0KPj4gVmlydGlvLWdwdSBpcyBidWlsZCBv
-biB0b3Agb2YgR0VNIHNobWVtIGhlbHBlcnMuIEkgaGF2ZSBhIHByb3RvdHlwZQ0KPj4gcGF0
-Y2hzZXQgdGhhdCBhZGRzIGEgc2hyaW5rZXIgdG8gdGhlc2UgaGVscGVycy4gSWYgeW91IHdh
-bnQgdG8gZ28NCj4+IGZ1cnRoZXIsIHlvdSBjb3VsZCBpbXBsZW1lbnQgc29tZXRoaW5nIGxp
-a2UgdGhhdCBpbnN0ZWFkLiBQYW5mcm9zdCBhbmQNCj4+IGxpbWEgYWxzbyBoYXZlIHRoZWly
-IG93biBzaHJpbmtlciBhbmQgY291bGQgY2VydGFpbmx5IGJlIGNvbnZlcnRlZCB0bw0KPj4g
-dGhlIGdlbS1zaG1lbSBzaHJpbmtlci4NCj4gDQo+IEkgaGFkIGEgdGhvdWdodCB0aGF0IGl0
-IGNvdWxkIGJlIHBvc3NpYmxlIHRvIHVuaWZ5IHNocmlua2VycyBpbnRvIGENCj4gY29tbW9u
-IERSTSBmcmFtZXdvcmsuIENvdWxkIHlvdSBwbGVhc2UgZ2l2ZSBtZSBhIGxpbmsgdG8geW91
-cnMgcHJvdG90eXBlDQo+IHBhdGNoc2V0Pw0KDQpJIHVwbG9hZGVkIHRoZSBwYXRjaGVzIHRv
-DQoNCiANCmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy90emltbWVybWFubi9saW51
-eC8tL2NvbW1pdHMvZ2VtLXNobWVtLWNhY2hlZC1tYXBwaW5ncw0KDQppdCdzIGluY29tcGxl
-dGUgYW5kIHVuLWRlYnVnZ2VkLCBidXQgaXQgc2hvd3Mgd2hhdCBuZWVkcyB0byBiZSBkb25l
-LiBJdCANCmhhcyB0aGUgaW5mcmFzdHJ1Y3R1cmUsIGJ1dCBsYWNrcyB0aGUgY2hhbmdlcyB0
-byB0aGUgR0VNIHNobWVtIGNvZGUuDQoNClRoZSByZWFzb24gZm9yIHRoaXMgd29yayBpcyB0
-byBrZWVwIEdFTSBzaG1lbSBwYWdlcyBtYXBwZWQgYW5kIGFsbG9jYXRlZCANCmV2ZW4gd2hp
-bGUgdGhlIEJPIGlzIG5laXRoZXIgbWFwcGVkIG5vciBwaW5uZWQuICBBcyBpdCBpcyBub3cs
-IEdFTSBTSE1FTSANCmNyZWF0ZXMgYW5kIHJlbGVhc2VzIHBhZ2VzIG9uIGVhY2ggcGluIGFu
-ZCB1bnBpbiwgYW5kIG1hcHMgYW5kIHVubWFwcyANCm1lbW9yeSByYW5nZXMgb24gZWFjaCB2
-bWFwIGFuZCB2dW5tYXAuICBJdCdzIGFsbCB3YXN0ZWZ1bC4gT25seSB0aGUgDQpmaXJzdCBw
-aW4gYW5kIHZtYXAgY2FsbHMgc2hvdWxkIGVzdGFibGlzaCBwYWdlcyBhbmQgbWFwcGluZ3Mg
-YW5kIG9ubHkgDQp0aGUgcHVyZ2UgYW5kIGZyZWUgZnVuY3Rpb25zIHNob3VsZCByZWxlYXNl
-IHRoZW0uDQoNClRoZSBwYXRjaHNldCBhZGRzIG5ldyBoZWxwZXJzIGZvciBCTyBwdXJnaW5n
-IHRvIHN0cnVjdCANCmRybV9nZW1fb2JqZWN0X2Z1bmNzLiBXaXRoIHRoaXMsIEkgdGhpbmsg
-aXQgbWlnaHQgYmUgcG9zc2libGUgdG8gaGF2ZSANCm9uZSBnbG9iYWwgRFJNIHNocmlua2Vy
-IGFuZCBsZXQgaXQgaGFuZGxlIGFsbCBCT3M7IGluZGVwZW5kZW50IG9mIGVhY2ggDQpCTydz
-IG1lbW9yeSBtYW5hZ2VyLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCi0tIA0KVGhv
-bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
-cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
-ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
-aHJlcjogSXZvIFRvdGV2DQo=
+> --- /dev/null
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
 
---------------oCd2skkQJSv6EnHzuN8xFK1Z--
+> +static int ssd130x_update_rect(struct ssd130x_device *ssd130x, u8 *buf,
+> +                              struct drm_rect *rect)
+> +{
+> +       unsigned int x = rect->x1;
+> +       unsigned int y = rect->y1;
+> +       unsigned int width = drm_rect_width(rect);
+> +       unsigned int height = drm_rect_height(rect);
+> +       unsigned int line_length = DIV_ROUND_UP(width, 8);
+> +       unsigned int pages = DIV_ROUND_UP(y % 8 + height, 8);
+> +       u32 array_idx = 0;
+> +       int ret, i, j, k;
+> +       u8 *data_array = NULL;
+> +
+> +       data_array = kcalloc(width, pages, GFP_KERNEL);
+> +       if (!data_array)
+> +               return -ENOMEM;
+> +
+> +       /*
+> +        * The screen is divided in pages, each having a height of 8
+> +        * pixels, and the width of the screen. When sending a byte of
+> +        * data to the controller, it gives the 8 bits for the current
+> +        * column. I.e, the first byte are the 8 bits of the first
+> +        * column, then the 8 bits for the second column, etc.
+> +        *
+> +        *
+> +        * Representation of the screen, assuming it is 5 bits
+> +        * wide. Each letter-number combination is a bit that controls
+> +        * one pixel.
+> +        *
+> +        * A0 A1 A2 A3 A4
+> +        * B0 B1 B2 B3 B4
+> +        * C0 C1 C2 C3 C4
+> +        * D0 D1 D2 D3 D4
+> +        * E0 E1 E2 E3 E4
+> +        * F0 F1 F2 F3 F4
+> +        * G0 G1 G2 G3 G4
+> +        * H0 H1 H2 H3 H4
+> +        *
+> +        * If you want to update this screen, you need to send 5 bytes:
+> +        *  (1) A0 B0 C0 D0 E0 F0 G0 H0
+> +        *  (2) A1 B1 C1 D1 E1 F1 G1 H1
+> +        *  (3) A2 B2 C2 D2 E2 F2 G2 H2
+> +        *  (4) A3 B3 C3 D3 E3 F3 G3 H3
+> +        *  (5) A4 B4 C4 D4 E4 F4 G4 H4
+> +        */
+> +
+> +       ret = ssd130x_set_col_range(ssd130x, ssd130x->col_offset + x, width);
+> +       if (ret < 0)
+> +               goto out_free;
+> +
+> +       ret = ssd130x_set_page_range(ssd130x, ssd130x->page_offset + y / 8, pages);
+> +       if (ret < 0)
+> +               goto out_free;
+> +
+> +       for (i = y / 8; i < y / 8 + pages; i++) {
+> +               int m = 8;
+> +
+> +               /* Last page may be partial */
+> +               if (8 * (i + 1) > ssd130x->height)
+> +                       m = ssd130x->height % 8;
+> +               for (j = x; j < x + width; j++) {
+> +                       u8 data = 0;
+> +
+> +                       for (k = 0; k < m; k++) {
+> +                               u8 byte = buf[(8 * i + k) * line_length + j / 8];
 
---------------0fZuqDyqCnXB5WEZyY7uvbDk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+As buf does not point to (0, 0), the above is not correct if rect.x1 !=
+0 or rect.y1 != 0.  After fixing that, writing more than one text line
+to the console works, but I still see an issue with updates where the
+rectangle size and/or position are not aligned to 8 pixels horizontally.
+Will do more investigation, and send fixes...
 
------BEGIN PGP SIGNATURE-----
+> +                               u8 bit = (byte >> (j % 8)) & 1;
+> +
+> +                               data |= bit << k;
+> +                       }
+> +                       data_array[array_idx++] = data;
+> +               }
+> +       }
+> +
+> +       ret = ssd130x_write_data(ssd130x, data_array, width * pages);
+> +
+> +out_free:
+> +       kfree(data_array);
+> +       return ret;
+> +}
+> +
+> +static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
+> +{
+> +       u8 *buf = NULL;
+> +       struct drm_rect fullscreen = {
+> +               .x1 = 0,
+> +               .x2 = ssd130x->width,
+> +               .y1 = 0,
+> +               .y2 = ssd130x->height,
+> +       };
+> +
+> +       buf = kcalloc(ssd130x->width, ssd130x->height, GFP_KERNEL);
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIo/8EFAwAAAAAACgkQlh/E3EQov+B5
-Cg/8D7p/w31jtMqJdXvTfREicil4d2w52/vvgXkFNV6+5IoG0WCNVZ4aiTiws28X/ATH31KjS388
-3stbqkYxb1+Zui9tiXi2ciKBNc9ofNxeht/fpuP0vz0Xqigh0bYXPZmzLiDmwns7sXauMNML4cM1
-CqDnnwL+gjV/ZaowppqMgJqcB47k+SPURriV7ryLVb5Wc34MP3Qa3rbbOPm954y6bv1/W6zwIOAJ
-4Kpu5q6n0m4XWYV8rMVloIODbjm5yUcY0v/RolNfNEZICqDa82stzim8Co9JleplaUixuT7S3xX0
-enWNLyjzuzNz1m1AI64qTNXOwj8oa+Uu5H+rTXxA0+sT9kvZNad8NevS+buLiUEeF2pQullvY2Hh
-TVGmElsblRlDHKA6EpZKnCvjfxtXul1WuQHXAa3E+SX5MQAmWD08MaswNqMqSbzL/vE5lt7nR5yY
-ijCJoAylYpJ9esEkYc22++vvdDm5DMJP6Sto4/uCNIotmZmCOUWdDXb501ypJct8pJsgrMma0pKJ
-wAv8W3sCMHpUgpnB/of52Of7U7CPSe2CJrQ/7QUNRrCNSTp9lH8Ef1j9WxafqNlYJS+K850jOK4Y
-OVZWpm8L8iNpkv9mHd5O1qx6Hk2cjWop7BeSgs0o1u8qCi0KBZKfemMiacLpI8yiBaP60JyVFAsa
-rE8=
-=Wf5r
------END PGP SIGNATURE-----
+This buffer is larger than needed. Will send a fix.
 
---------------0fZuqDyqCnXB5WEZyY7uvbDk--
+> +       if (!buf)
+> +               return;
+> +
+> +       ssd130x_update_rect(ssd130x, buf, &fullscreen);
+> +
+> +       kfree(buf);
+> +}
+> +
+> +static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_map *map,
+> +                               struct drm_rect *rect)
+> +{
+> +       struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
+> +       void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
+> +       int ret = 0;
+> +       u8 *buf = NULL;
+> +
+> +       buf = kcalloc(fb->width, fb->height, GFP_KERNEL);
+
+This buffer is much larger than needed. Will send a fix.
+
+> +       if (!buf)
+> +               return -ENOMEM;
+> +
+> +       drm_fb_xrgb8888_to_mono_reversed(buf, 0, vmap, fb, rect);
+> +
+> +       ssd130x_update_rect(ssd130x, buf, rect);
+> +
+> +       kfree(buf);
+> +
+> +       return ret;
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
