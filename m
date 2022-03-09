@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3F94D3C61
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 22:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237024D3CB0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 23:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8595010E4BF;
-	Wed,  9 Mar 2022 21:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F373D10E0A5;
+	Wed,  9 Mar 2022 22:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3726F10E4BF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 21:51:05 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id q14so5108260wrc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 13:51:05 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F54210E0A5;
+ Wed,  9 Mar 2022 22:12:18 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id t1so4439307edc.3;
+ Wed, 09 Mar 2022 14:12:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wB+NOcZPjuBQ7I++42cwqpD+y9hE+iVjMiQbLppxTXQ=;
- b=S5ziUcSwcWcbqql4ryBgFaU9gKpCBE1RLKnQP7DR/A/4pJO6wUAXSOpyOC/PimqW0K
- enPHbFGVz/35MIg78/PK2T2OmkRBZlHkZvRYSg31B27Ojy6Ymwd7fNI8qSHlnt75iSVX
- UzwdOpu2dZf0hwZ4B9nww9hl9WhRfSTUI35DLGd0M9FKMZKdlpVsVn4yPoxhx+DAiqkm
- NSylcRRoIzknJ19apuqe5z+3Z1yNmpa0sIlQBa5ZBFZjdmun0ZFn9enrkE9px7gNyuSR
- 9sEAsMuA2MFx4TFTw0bsjNEJRtihF96nvJDmKiSuS83NE1nUoynqmTX/VcJAh8K/tiTO
- 15mA==
+ :cc:content-transfer-encoding;
+ bh=66YaX71bgcdeApJ0LUkN99wM3HFQP2dosyERtGlnWhA=;
+ b=DXB3APfxc75tngjYrmKOHY70nLbSIS4eU0KhfiEsi1aIPJpmPxZLWzrOn5UEcCWOsH
+ xgh9xBp1lGvDByEN4nzrdwFnmLhgC29tGVPTO1D8slCe8IcBBENEE4Rlo91Uzq/wvUv0
+ Gvx58o/5yHXeqORX/kqodrVuWzGAm6tssebSkHPi6J/+jvx3zJaqSjw5Qt98RNQjo7Tr
+ RpMCTAreV/SOx7rv2Oo2JX5hXiMNMsh+x4sTM2pu2jPLALimRWX655zBEF7MGLFeOOus
+ 8SCajbyS+t+/a9S970QLzbbNqT7pSXMlhuHSIBA5YrdtBdGmXrap6f0Ga0sla4e8lzNJ
+ B8AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wB+NOcZPjuBQ7I++42cwqpD+y9hE+iVjMiQbLppxTXQ=;
- b=dPAx7QPH09YIFzKXnfnKv7+bkAUrqEbDYlgOfcM6TfywK4hSxMt6ZDG8ruyATvcxvG
- 7G497psQq6Z41tIr4bPxVJ0TVo9Fzbp6vI37vACgOTZvKsXvlvglnTWZyrNiaCs+ERSD
- zHpgtcjX1+Z10QJuXeA7AZ8pWsN4HJYeoQESS4Wdjn02T9oP18dEkN+ohwqctmuJBSeE
- X+5H1OkLBz1NNmFgVlMvy1bdHuUmUfOzVoNBcGiYiDs2jWpOR2nL4KHkwEFmVfJNUcOS
- GS1LaR2AB9bPs9En73BU4JW6rsjgvQr1g9jt5QAZotb4wSBlnR49h8O9yjnhYvu+v421
- xtsg==
-X-Gm-Message-State: AOAM531x1UA/XuR3GhRS2g9ngDezB7yyNoB/N7cP/wury57bY1nq3f6R
- VX3eYcD8hcb2x+tLlQoweLg8SdTcL/CdNRkQivE=
-X-Google-Smtp-Source: ABdhPJz2ayymHz8VybPKo5wyBEMKvIoEykqiV82sROIEpsyQSqwGfjcsaesHGo/FmmgPPT5CBmcho8SDwODf8kuYNoU=
-X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
- j73-20020adf914f000000b001edbb92d0ccmr1224465wrj.297.1646862663329; Wed, 09
- Mar 2022 13:51:03 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=66YaX71bgcdeApJ0LUkN99wM3HFQP2dosyERtGlnWhA=;
+ b=TDOh1SSkqQQ/QzptV+CUL1H1MRKAP2jUk7xHtiFD6/BIB8YLhicn7G2tRY1pKfAP9O
+ gTI/9vETppJD3AdheELgru8txjTHMZEBUq31p0Cg5wpwNm80XrlNf2MepByDC785X3uS
+ XLkqRXsWZ97FrirxQFarmCXKln/O5o9V8o2R7FhUMQw87wK0cNXeLN/UgVr8dRF5PQV7
+ t3k+m5YT6IBe0CmBtwdX8VCcT9x6/W2XqA91AQMngeLu1OdsHVrRkZ41/tIjMf6s/KkM
+ uGxmCY/fwrqNpZkLdfrZjY1BahqoC4FR9hn45WVkwIs+/s+3WYV3F47QVk9kMibe/HI2
+ 0yDg==
+X-Gm-Message-State: AOAM531VS68Cge0gny1EMCvoTQdaFUHiJIqwfGrDkgqc48X8cVWiQVrD
+ YZgRfIF7tUAos98CtWM4C2Cqe1VTcR2mYFZvXho=
+X-Google-Smtp-Source: ABdhPJzmzDmXP3nIK/NDh0TSF7CqTGZplWl8u4gSbLxdnrA09DacVrnBqZDobZ3jrb2ZwuifRssevCk9ClgmrxiwO/I=
+X-Received: by 2002:a05:6402:5143:b0:416:1327:4f95 with SMTP id
+ n3-20020a056402514300b0041613274f95mr1553885edd.56.1646863936642; Wed, 09 Mar
+ 2022 14:12:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
- <CAF6AEGt=aVJ9nR+Wv+bJEFZrn-cNOSNXG1TaJr=Cx-FTgutwKA@mail.gmail.com>
- <d2290971-ea22-8203-631e-b896c76a994b@collabora.com>
- <CAF6AEGuR8B6z+z=VFQ6y01wbboYS_qpkghD1GYdLES_RZOW1wA@mail.gmail.com>
- <42facae5-8f2c-9c1f-5144-4ebb99c798bd@collabora.com>
- <CAF6AEGtebAbWhkvrxzi4UBLdv2LJPQVPBzH-sXcACs7cxznQ8A@mail.gmail.com>
- <05e1fe61-1c29-152f-414b-cd6a44525af0@collabora.com>
-In-Reply-To: <05e1fe61-1c29-152f-414b-cd6a44525af0@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 9 Mar 2022 13:51:42 -0800
-Message-ID: <CAF6AEGvf81epGOs7Zh4WK-7mkXRApO2p-h4g8dTuk4xtc1HOeg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20220307200813.77378-1-alexander.deucher@amd.com>
+In-Reply-To: <20220307200813.77378-1-alexander.deucher@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 10 Mar 2022 08:12:05 +1000
+Message-ID: <CAPM=9twEVwqPMdQvJNaiJqrRGBNW4Mp==2cEXP6skPJcczNemA@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd drm-next-5.18
+To: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,111 +64,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gert Wollny <gert.wollny@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 9, 2022 at 12:06 PM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
+On Tue, 8 Mar 2022 at 06:08, Alex Deucher <alexander.deucher@amd.com> wrote=
+:
 >
-> On 3/9/22 03:56, Rob Clark wrote:
-> >> If we really can't track madvise state in the guest for dealing with
-> >> host memory pressure, I think the better option is to introduce
-> >> MADV:WILLNEED_REPLACE, ie. something to tell the host kernel that the
-> >> buffer is needed but the previous contents are not (as long as the GPU
-> >> VA remains the same).  With this the host could allocate new pages if
-> >> needed, and the guest would not need to wait for a reply from host.
-> > If variant with the memory ballooning will work, then it will be
-> > possible to track the state within guest-only. Let's consider the
-> > simplest variant for now.
-> >
-> > I'll try to implement the balloon driver support in the v2 and will get
-> > back to you.
-> >
+> Hi Dave, Daniel,
 >
-> I looked at the generic balloon driver and looks like this not what we
-> want because:
+> Same PR as last week, just fixed up a bad Fixes tag.
 >
-> 1. Memory ballooning is primarily about handling memory overcommit
-> situations. I.e. when there are multiple VMs consuming more memory than
-> available in the system. Ballooning allows host to ask guest to give
-> unused pages back to host and host could give pages to other VMs.
+> The following changes since commit 38a15ad9488e21cad8f42d3befca20f91e5b28=
+74:
 >
-> 2. Memory ballooning operates with guest memory pages only. I.e. each
-> ballooned page is reported to/from host in a form of page's DMA address.
+>   Merge tag 'amd-drm-next-5.18-2022-02-25' of https://gitlab.freedesktop.=
+org/agd5f/linux into drm-next (2022-03-01 16:19:02 +1000)
 >
-> 3. There is no direct connection between host's OOM events and the
-> balloon manager. I guess host could watch system's memory pressure and
-> inflate VMs' balloons on low memory, releasing the guest's memory to the
-> system, but apparently this use-case not supported by anyone today, at
-> least I don't see Qemu supporting it.
+> are available in the Git repository at:
 >
-
-hmm, on CrOS I do see balloon getting used to balance host vs guest
-memory.. but admittedly I've not yet looked closely at how that works,
-and it does seem like we have some things that are not yet upstream
-all over the place (not to mention crosvm vs qemu)
-
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.18-2=
+022-03-07
 >
-> So the virtio-balloon driver isn't very useful for us as-is.
+> for you to fetch changes up to 53b97af4a44abd21344cc9f13986ba53051287bb:
 >
-> One possible solution could be to create something like a new
-> virtio-shrinker device or add shrinker functionality to the virtio-gpu
-> device, allowing host to ask guests to drop shared caches. Host then
-> should become a PSI handler. I think this should be doable in a case of
-> crosvm. In a case of GNU world, it could take a lot of effort to get
-> everything to upstreamable state, at first there is a need to
-> demonstrate real problem being solved by this solution.
+>   drm/amdkfd: Add format attribute to kfd_smi_event_add (2022-03-07 14:59=
+:59 -0500)
 
-I guess with 4GB chromebooks running one or more VMs in addition to
-lots of browser tabs in the host, it shouldn't be too hard to
-demonstrate a problem ;-)
+clang says no.
 
-(but also, however we end up solving that, certainly shouldn't block
-this series)
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd=
+_device_queue_manager.c:508:6:
+error: variable 'vmid' is used uninitialized whenever 'if' condition
+is false [-Werror,-Wsometimes-uninitialized]
+        if (dev->kfd2kgd->get_atc_vmid_pasid_mapping_info) {
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd=
+_device_queue_manager.c:521:6:
+note: uninitialized use occurs here
+        if (vmid > last_vmid_to_scan) {
+            ^~~~
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd=
+_device_queue_manager.c:508:2:
+note: remove the 'if' if its condition is always true
+        if (dev->kfd2kgd->get_atc_vmid_pasid_mapping_info) {
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd=
+_device_queue_manager.c:490:19:
+note: initialize the variable 'vmid' to silence this warning
+        unsigned int vmid;
+                         ^
+                          =3D 0
 
-> The other minor issue is that only integrated GPUs may use system's
-> memory and even then they could use a dedicated memory carveout, i.e.
-> releasing VRAM BOs may not help with host's OOM. In case of virgl
-> context we have no clue about where buffers are physically located. On
-> the other hand, in the worst case dropping host caches just won't help
-> with OOM.
-
-Userspace should know whether the BO has CPU storage, so I don't think
-this should be a problem virtio_gpu needs to worry about
-
-> It's now unclear how we should proceed with the host-side shrinker
-> support. Thoughts?
+Dave.
 >
-> We may start easy and instead of thinking about host-side shrinker, we
-> could make VirtIO-GPU driver to expire cached BOs after a certain
-> timeout. Mesa already uses timeout-based BO caching, but it doesn't have
-> an alarm timer and simply checks expiration when BO is allocated. Should
-> be too much trouble to handle timers within Mesa since it's executed in
-> application context, easier to do it in kernel, like VC4 driver does it
-> for example. This is not good as a proper memory shrinker, but could be
-> good enough in practice.
-
-I think that, given virgl uses host storage, guest shrinker should be
-still useful.. so I think continue with this series.
-
-For host shrinker, I'll have to look more at when crosvm triggers
-balloon inflation.  I could still go the MADV:WILLNEED_REPLACE
-approach instead, which does have the advantage of host kernel not
-relying on host userspace or vm having a chance to run in order to
-release pages.  The downside (perhaps?) is it would be more specific
-to virtgpu-native-context and less so to virgl or venus (but I guess
-there doesn't currently exist a way for madvise to be useful for vk
-drivers).
-
-BR,
--R
+> ----------------------------------------------------------------
+> amd-drm-next-5.18-2022-03-07:
+>
+> amdgpu:
+> - Misc code cleanups
+> - Misc display fixes
+> - PSR display fixes
+> - More RAS cleanup
+> - Hotplug fix
+> - Bump minor version for hotplug tests
+> - SR-IOV fixes
+> - GC 10.3.7 updates
+> - Remove some firmwares which are no longer used
+> - Mode2 reset refactor
+> - Aldebaran fixes
+> - Add VCN fwlog feature for VCN debugging
+> - CS code cleanup
+>
+> amdkfd:
+> - SVM fixes
+> - SMI event fixes and cleanups
+> - vmid_pasid mapping fix for gfx10.3
+>
+> ----------------------------------------------------------------
+> Alex Deucher (4):
+>       drm/amdgpu: Use IP versions in convert_tiling_flags_to_modifier()
+>       drm/amdgpu: remove unused gpu_info firmwares
+>       drm/amdgpu/gfx10: drop unused cyan skillfish firmware
+>       drm/amdgpu/sdma5: drop unused cyan skillfish firmware
+>
+> Andrey Grodzovsky (2):
+>       drm/amdgpu: Fix sigsev when accessing MMIO on hot unplug.
+>       drm/amdgpu: Bump minor version for hot plug tests enabling.
+>
+> Anthony Koo (1):
+>       drm/amd/display: [FW Promotion] Release 0.0.106.0
+>
+> Aric Cyr (1):
+>       drm/amd/display: 3.2.175
+>
+> Charlene Liu (1):
+>       drm/amd/display: add verify_link_cap back for hdmi
+>
+> Chris Park (1):
+>       drm/amd/display: Reset VIC if HDMI_VIC is present
+>
+> Christian K=C3=B6nig (5):
+>       drm/amdgpu: install ctx entities with cmpxchg
+>       drm/amdgpu: header cleanup
+>       drm/amdgpu: use job and ib structures directly in CS parsers
+>       drm/amdgpu: properly embed the IBs into the job
+>       drm/amdgpu: initialize the vmid_wait with the stub fence
+>
+> Danijel Slivka (1):
+>       drm/amd/pm: new v3 SmuMetrics data structure for Sienna Cichlid
+>
+> David Yu (1):
+>       drm/amdgpu: Add DFC CAP support for aldebaran
+>
+> Dillon Varone (2):
+>       drm/amd/display: Add frame alternate 3D & restrict HW packed on don=
+gles
+>       drm/amd/display: Modify plane removal sequence to avoid hangs.
+>
+> George Shen (1):
+>       drm/amd/display: Refactor fixed VS w/a for PHY tests
+>
+> Hansen Dsouza (1):
+>       drm/amd/display: Remove invalid RDPCS Programming in DAL
+>
+> Harish Kasiviswanathan (1):
+>       drm/amdgpu: Set correct DMA mask for aldebaran
+>
+> Jingwen Chen (1):
+>       drm/amd/amdgpu: set disabled vcn to no_schduler
+>
+> Lijo Lazar (1):
+>       drm/amdgpu: Refactor mode2 reset logic for v13.0.2
+>
+> Luben Tuikov (1):
+>       drm/amd/display: Don't fill up the logs
+>
+> Meng Tang (1):
+>       gpu/amd: vega10_hwmgr: fix inappropriate private variable name
+>
+> Michael Strauss (1):
+>       drm/amd/display: Pass HostVM enable flag into DCN3.1 DML
+>
+> Nicholas Kazlauskas (1):
+>       drm/amd/display: Make functional resource functions non-static
+>
+> Philip Yang (4):
+>       Revert "drm/amdkfd: process_info lock not needed for svm"
+>       drm/amdkfd: Correct SMI event read size
+>       drm/amdkfd: Add SMI add event helper
+>       drm/amdkfd: Add format attribute to kfd_smi_event_add
+>
+> Prike Liang (4):
+>       drm/amdgpu: enable gfx clock gating control for GC 10.3.7
+>       drm/amdgpu/nv: enable clock gating for GC 10.3.7 subblock
+>       drm/amdgpu: enable gfx power gating for GC 10.3.7
+>       drm/amdgpu: enable gfxoff routine for GC 10.3.7
+>
+> Qiang Yu (1):
+>       drm/amdgpu: fix suspend/resume hang regression
+>
+> Robin Chen (1):
+>       drm/amd/display: Pass deep sleep disabled allow info to dmub fw
+>
+> Ruijing Dong (2):
+>       drm/amdgpu/vcn: Update fw shared data structure
+>       drm/amdgpu/vcn: Add vcn firmware log
+>
+> Shah Dharati (1):
+>       drm/amd/display: Adding a dc_debug option and dmub setting to use P=
+HY FSM for PSR
+>
+> Tom Rix (1):
+>       drm/amdgpu: Fix realloc of ptr
+>
+> Weiguo Li (1):
+>       drm/amdgpu: remove redundant null check
+>
+> Wesley Chalmers (1):
+>       drm/amd/display: Program OPP before ODM
+>
+> Yifan Zha (1):
+>       drm/amdgpu: Move CAP firmware loading to the beginning of PSP firmw=
+are list
+>
+> Yifan Zhang (4):
+>       drm/amdgpu: move amdgpu_gmc_noretry_set after ip_versions populated
+>       drm/amdgpu: convert code name to ip version for noretry set
+>       drm/amdkfd: judge get_atc_vmid_pasid_mapping_info before call
+>       drm/amdkfd: implement get_atc_vmid_pasid_mapping_info for gfx10.3
+>
+> jinzh (1):
+>       drm/amd/display: refine the EDID override
+>
+> yipechai (12):
+>       drm/amdgpu: Modify .ras_fini function pointer parameter
+>       drm/amdgpu: Optimize xxx_ras_fini function of each ras block
+>       drm/amdgpu: centrally calls the .ras_fini function of all ras block=
+s
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ gfx ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ mmhub ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ nbio ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ umc ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ xgmi ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ hdp ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ sdma ras block
+>       drm/amdgpu: Remove redundant calls of amdgpu_ras_block_late_fini in=
+ mca ras block
+>       drm/amdgpu: Remove redundant .ras_fini initialization in some ras b=
+locks
+>
+>  drivers/gpu/drm/amd/amdgpu/aldebaran.c             |  66 ++++++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  98 +----------
+>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c   |  16 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h             |  80 +++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |  24 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |  19 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  25 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  11 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   7 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  21 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_hdp.c            |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_hdp.h            |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c            |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |   7 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.h            |   9 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c            |   6 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mca.h            |   3 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mmhub.c          |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mmhub.h          |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.c           |   7 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.h           |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  28 +++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c          |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |   1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h           |  58 ++++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c           |   7 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_trace_points.c   |   1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |   4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c            |   7 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c            |  37 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.h            |   4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            | 117 ++++++-------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h            |   7 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            | 134 ++++++++++++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |  30 +++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |   8 -
+>  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  18 +-
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   7 -
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   4 -
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  15 +-
+>  drivers/gpu/drm/amd/amdgpu/hdp_v4_0.c              |   1 -
+>  drivers/gpu/drm/amd/amdgpu/mca_v3_0.c              |  18 --
+>  drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |   1 -
+>  drivers/gpu/drm/amd/amdgpu/nv.c                    |  15 +-
+>  drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |   1 +
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |   8 -
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c             |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/soc15.c                 |   3 -
+>  drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c              |  14 +-
+>  drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c              |   7 +
+>  drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c              |  22 ++-
+>  drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              |  21 ++-
+>  drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  51 +++---
+>  .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  18 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c        |  74 +++------
+>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   9 +
+>  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |   8 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  14 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  16 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |   2 +
+>  drivers/gpu/drm/amd/display/dc/dc.h                |   4 +-
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |   1 +
+>  .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  49 +++---
+>  .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   5 +-
+>  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c  |  21 +--
+>  .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  |   9 -
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   5 +-
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.h  |   5 +
+>  .../drm/amd/display/dc/dcn315/dcn315_resource.c    |   1 +
+>  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |   3 +
+>  drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  12 +-
+>  .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  |  68 ++++----
+>  .../inc/pmfw_if/smu11_driver_if_sienna_cichlid.h   |  58 +++++++
+>  .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 181 ++++++++++++++-=
+------
+>  drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   1 +
+>  include/uapi/linux/kfd_ioctl.h                     |   1 +
+>  84 files changed, 991 insertions(+), 679 deletions(-)
+>  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h
