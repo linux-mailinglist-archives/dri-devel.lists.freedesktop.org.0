@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0784D2FDC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9CA4D2FDF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A6E10EAF7;
-	Wed,  9 Mar 2022 13:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C8010E976;
+	Wed,  9 Mar 2022 13:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741C910EAF3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:24:03 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id n15so1946564plh.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:24:03 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D53D10E988
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:24:34 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id v4so2319912pjh.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:24:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5oRZXC1BJWU5wHBAMKvr18W/wUSl+kSjeSXIhLz/2sU=;
- b=DPR3zH9WhDgp67OFBrXbywIYtj2eZKwfu4g+rxaQCZ1w925pDwdZomMek8ZYOf4IHT
- hyJSoj5YpW2KK/n4/cnYUOh3xKOE64v2u65le43o/E7vtXZS+phCqAKsJyAmAOF9f00z
- 9VSopSF0UdM1BKdhSy+pzPQDR2WQ13NzsnHYfjuF6PV2ibawnnrOOaWmmPAb7Sf2R++Q
- VUZeVGnwEsjwmk7z8SqP3fUnnbQPrqbPFdOu97dI0b0LgBZlP/H81jvy47EZmh+q4KP8
- mSiCeyQHggeLkG1bDpisnGtm0uvUwsXI8XdcB9wzVJ5cRxwgWHHT9VjMd3chIpetf7Mo
- C5Sw==
+ :cc:content-transfer-encoding;
+ bh=rhjOIEJAil5r1VPDQV4Zr+iVbr3FvcR2IWBFJpwONYc=;
+ b=E3bTouXTZ8bPZLFpQO5rMdE9CsBEmzmlnt6Fm4XQWZtgsVI35VabX4l6ZNJ08U/gfJ
+ mrLy40R/DKvIgp/X01aYgoEFFuJ7e+8Jol+71WU/X00NRxnWSO0TduEuS/pzMnfBtizV
+ Z6x0Rauw15BfK/yj/lgCWipsa+QVnn+KAp3x403N/YvBtMq2A72bhEXYTA4DJikWyP5K
+ VZOHvo19GRbrxVBOhXFlhpLDzrYoYlwijUdWqdtBq6oKR4805hf8Lofmv2B8mocT+wKB
+ E68UMbsA7HWXNPaynB6YzZI3rbNDBlMy52wJlieVVlbw2+HYf1Pu0z1wj5+eYFxJSPfh
+ s8Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5oRZXC1BJWU5wHBAMKvr18W/wUSl+kSjeSXIhLz/2sU=;
- b=EgXtZXfIpQlySp5vxvL8MRQPo3uHx85k8H8CSZhd71tL5mQ5mN2YiiOptXcZfpo7wp
- vqkfevoiU0oLEgZIFV5pPTUDmbBfE6n/u33+1TGQOHOvBhKUSEGPAM+O0R2wQ4IZbZml
- TWtz05ZFl8Ckzun5BxlJSu7SNKPIe/9iJGm3KjXJwlZtnFyxO0jxtSsHnNgRK7uyqyiU
- 96CS8mkZMNim+UeS/A1mbS+HbOh1cl2+13u50uLIN3s1+br4u+PFZRWDRLRua5nAzCBz
- Q7s6reBjXhoO/jIEo8K85dvVPzSdPx+sipvvT96NsdwemGt3YIRBfa+uBuotO20x/1dN
- nfog==
-X-Gm-Message-State: AOAM530KLSULsmqd3ZOZi86T/lNoTpZTIuV9I5Z3fg/AyBwYhKNsl402
- 6ylnLVBCRK1vWUvGGSogk8qHdlFrUa6XfAdBWyD/ow==
-X-Google-Smtp-Source: ABdhPJw5MkFq8UxSrUjKLChZQOA3kh2aek7Niglg0YrY5Z592yyqMyuGw5kuIMEZSJNh1lQBO4g/snUreHdp++oeCCQ=
-X-Received: by 2002:a17:902:7044:b0:14e:e1b1:bb0e with SMTP id
- h4-20020a170902704400b0014ee1b1bb0emr22504279plt.65.1646832243062; Wed, 09
- Mar 2022 05:24:03 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rhjOIEJAil5r1VPDQV4Zr+iVbr3FvcR2IWBFJpwONYc=;
+ b=4RGL962NN7KVdn/Ln+PUcxebHZtwz1MF7gBO/GTsC0+aJcjyl/cK2pGpc1i9STeG/O
+ 7wr8KUD9gbJHg/7JHBlUGEO7tlroi98Tk8FH64qrkxMgHxOCWOp4GFmnMkPeQqyaygVb
+ j7QRHXSrJ6noT8He/kdKkFAl9z5Y9bUN4/0jRSTAzD35iJISaJkfosQuFElp9ZRTzBQN
+ jz43C+45a8cVkSM9MCKOFeFS42Syuy4tJMqfUvykmUKADJiVMrwz5W8rXDvSn2lwjQVH
+ hsgfRuhmgNaDy0BQkCoqNsZx3vNJbmRmL70it/psEKX8PulkgS4ft6b05VweyVrZv8WD
+ 3Hog==
+X-Gm-Message-State: AOAM533vczIHafO9Jc8P7YiKeUw7Gw5BnxvtCLVPKzLhLXeEc6A7DrZh
+ qxKhwsj5oLm3siLUPNYVW2dw2S4QTeUV2/KHllYhh9Vpwr4=
+X-Google-Smtp-Source: ABdhPJxwv4E9xh8eX7Ke5zJtcF1Erlu1Pg7Es9C5GP40cqVoU6fXShAFkauux6pBu3y5QnnpUN8GICji++3FrRj8POs=
+X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
+ gx12-20020a17090b124c00b001bc369b7db5mr10406788pjb.179.1646832274117; Wed, 09
+ Mar 2022 05:24:34 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308110615.1.I1f1b10daf7361feb6705f789deb680b8d7720de9@changeid>
- <20220308110615.2.I4485769d5b25a8096508e839b8fea12ce7b836d3@changeid>
-In-Reply-To: <20220308110615.2.I4485769d5b25a8096508e839b8fea12ce7b836d3@changeid>
+ <20220308110615.3.I04f99fbcc14b8c09610b4b18f0696c992a44d2b7@changeid>
+In-Reply-To: <20220308110615.3.I04f99fbcc14b8c09610b4b18f0696c992a44d2b7@changeid>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 9 Mar 2022 14:23:52 +0100
-Message-ID: <CAG3jFytkSsmN0H3N-ARqLJ16+ughHZqdas09Her_ZOkSTvCydw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/bridge: Add myself as a reviewer for the TI
- SN65DSI86 bridge chip
+Date: Wed, 9 Mar 2022 14:24:22 +0100
+Message-ID: <CAG3jFyuf2GLF8xQX+G_wOJ2hng0VWoBMYL9HZoU-NC-tL3m0Rw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/bridge: Add myself as a reviewer for the Parade
+ PS8640 bridge chip
 To: Douglas Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,12 +75,12 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Mar 2022 at 20:07, Douglas Anderson <dianders@chromium.org> wrote:
+On Tue, 8 Mar 2022 at 20:07, Douglas Anderson <dianders@chromium.org> wrote=
+:
 >
-> I've spent quite a bit of time poking at this driver and it's used on
-> several Chromebooks I'm involved with. I'd like to get notified about
-> patches. Add myself as a reviewer. It's expected that changes will
-> still be landed through drm-misc as they always have been.
+> Though the parade bridge chip is a little bit of a black box, I'm at
+> least interested in hearing about changes to the driver since this
+> bridge chip is used on some Chromebooks that I'm involved with.
 >
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
@@ -87,20 +89,21 @@ On Tue, 8 Mar 2022 at 20:07, Douglas Anderson <dianders@chromium.org> wrote:
 >  1 file changed, 5 insertions(+)
 >
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index a73179d55d00..7d25d0b4dccc 100644
+> index 7d25d0b4dccc..db7fe53643c2 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -6284,6 +6284,11 @@ DRM DRIVER FOR TDFX VIDEO CARDS
->  S:     Orphan / Obsolete
->  F:     drivers/gpu/drm/tdfx/
+> @@ -6171,6 +6171,11 @@ S:       Maintained
+>  F:     Documentation/devicetree/bindings/display/panel/olimex,lcd-olinux=
+ino.yaml
+>  F:     drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
 >
-> +DRM DRIVER FOR TI SN65DSI86 BRIDGE CHIP
+> +DRM DRIVER FOR PARADE PS8640 BRIDGE CHIP
 > +R:     Douglas Anderson <dianders@chromium.org>
-> +F:     Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +F:     drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +F:     Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> +F:     drivers/gpu/drm/bridge/parade-ps8640.c
 > +
->  DRM DRIVER FOR TPO TPG110 PANELS
->  M:     Linus Walleij <linus.walleij@linaro.org>
+>  DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
+>  M:     Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 >  S:     Maintained
 > --
 > 2.35.1.616.g0bdcbb4464-goog
