@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734F54D2C2F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 10:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CEC4D2C78
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 10:49:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87D6A10E3DD;
-	Wed,  9 Mar 2022 09:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA6810E11B;
+	Wed,  9 Mar 2022 09:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716ED10E11B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 09:36:17 +0000 (UTC)
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 00A2740338
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 09:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1646818575;
- bh=vgJXPJxV0L+vAaGNHZUa0pyZRilCw3Wji1ihg6t2p5g=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=QSUS619q3xKFpJwumBUy3HradU6cCrB0aSs9kVGprCj1fUf3g9iY/5JirVwtKfETa
- fzisywWCbnKZrN60jWoUyWvUMLzDyeqvrB12k65bV9MOdpp5+3Nto8x5ry6lcbr3lH
- PzOnYzOd++XJGxd8fcD54VEAFTCU6CURgdS9GpX4aE9fiwRa6sfVd/gs3ej4lkv3MH
- 2jTViK5MfpBzAVsMUYjLGC9C9A8bu9zr/0sfk+6htPmKu+jEvQLBVP4BcO2a7tWlpY
- XEjuoQNlU1rAsGCZMPOZCv7ITMHf4xLsIC6joAwzoBIS4CGbMoGLK5Bh+Mmkuh4FTT
- ffzlNIzDzf4dw==
-Received: by mail-ej1-f71.google.com with SMTP id
- ey18-20020a1709070b9200b006da9614af58so988878ejc.10
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 01:36:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vgJXPJxV0L+vAaGNHZUa0pyZRilCw3Wji1ihg6t2p5g=;
- b=zaD67/IxX9lPJfPkLMkR+W98EyLxphpcWQECLiGYx5A6iYNnYjif5pJt1fIUzZABbe
- Rpe24Mkca9Hj79rbysMnRv7yAy4V211M5gsIqj2M9CTpRNWQGYbpDGsrGq5xM6UjG5Ya
- EiCXho8s8GZYwK5t+HKcMaaR5E6ZMezcaCUeIFODWRCeKUH2sg4Zhf+VLAxntiDbZm3V
- FctHiMWrDROIt0zlY0cfhuSRuhglcwgSj9K3NGU7NIw1sYGhAH8IUmBjcT9eE+B/F9NQ
- 0MOcKD9TfIA/OxUmhFstLC/U9Y60LkqIC6ugENx58Kb/v4HpAtD7g3LNeOj/0TF0GdXI
- FiPA==
-X-Gm-Message-State: AOAM532ybCp3BhnddlPvgdEoZVId0+98U/BHRdpYWdBESIRbCtAmX4SO
- 8G9D+fcb5v6DFtO0dt279HVTQY1sk5sw0J7wCXozPdJ2MlvulznmIY4GY7OV2cqMJMdzF/+t3Fu
- RH73eTA2O08LlD2lZ6tu5XLW4s/8+DDVzjFbQ2a1SBFnZnw==
-X-Received: by 2002:a17:906:f41:b0:6d5:c6bc:fbc7 with SMTP id
- h1-20020a1709060f4100b006d5c6bcfbc7mr16234674ejj.541.1646818573803; 
- Wed, 09 Mar 2022 01:36:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxqJfkq2ncyoyHFJqrP5yMmZhK6ZJIwjOk5HnVSwV0BZkhtpkJH5FaPNRu22hHODgSjQwGtxA==
-X-Received: by 2002:a17:906:f41:b0:6d5:c6bc:fbc7 with SMTP id
- h1-20020a1709060f4100b006d5c6bcfbc7mr16234652ejj.541.1646818573591; 
- Wed, 09 Mar 2022 01:36:13 -0800 (PST)
-Received: from [192.168.0.144] (xdsl-188-155-174-239.adslplus.ch.
- [188.155.174.239]) by smtp.gmail.com with ESMTPSA id
- a7-20020a170906468700b006da636fdbe3sm496370ejr.105.2022.03.09.01.36.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 01:36:13 -0800 (PST)
-Message-ID: <a96004cf-155f-22e7-8b1d-7168f3187598@canonical.com>
-Date: Wed, 9 Mar 2022 10:36:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] dt-bindings: gpu: mali-bifrost: Document RZ/V2L SoC
-Content-Language: en-US
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECCC10E349;
+ Wed,  9 Mar 2022 09:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646819338; x=1678355338;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=skqK4ekP+jaJdGJ2Qw2JrG7jPV40g1I3Zcdcj+wxnO4=;
+ b=WNLJXFduBlBzfN66tKCkxZmT+AS+F9jXc8G9RvdOn8Foeed7Zp1+wdKk
+ qLWUxT6zeld6flFNmNtdr1Z6nw6pv3I1DVmf3UniYjWYo4zc/ov9Jbz+M
+ ZRQw6ydvHcLf6gChn30rsPBlZv/5Rda9rB1EggJg3k/5smN4XWEhdOC6+
+ HStcrIJDvQCTwrvLFkm5N8iJaWRrLuHqALAjfRjUZT3QA1YywiIin8Mcj
+ zUJE098pCrx3+q5k2lsc03snW/OCkoIJeJ1AEIwhJpNYuVmikbZD9y4y1
+ 6uyPR4zciQTLTqJM8X753rAWjS8NfZSXLyl/AnzkNzWhVmCo9/t4lmn0P g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="252505566"
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="252505566"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 01:48:57 -0800
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="537942978"
+Received: from byrnec1x-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.29.235])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 01:48:54 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Colin Ian King <colin.i.king@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
  <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/dpll: make read-only array div1_vals static const
+In-Reply-To: <20220307220007.162830-1-colin.i.king@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220307220007.162830-1-colin.i.king@gmail.com>
+Date: Wed, 09 Mar 2022 11:48:52 +0200
+Message-ID: <87sfrrzcaj.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,25 +60,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Prabhakar <prabhakar.csengg@gmail.com>, linux-kernel@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/03/2022 22:15, Lad Prabhakar wrote:
-> The Renesas RZ/V2L SoC (a.k.a R9A07G054) has a Bifrost Mali-G31 GPU,
-> add a compatible string for it.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, 07 Mar 2022, Colin Ian King <colin.i.king@gmail.com> wrote:
+> Don't populate the read-only array div1_vals on the stack but
+> instead make it static const. Also makes the object code a little
+> smaller.
+
+Thanks, but this was just fixed in commit fe70b262e781 ("drm/i915: Move
+a bunch of stuff into rodata from the stack").
+
+BR,
+Jani.
+
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> index 569903d47aea..17668b58b30c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> @@ -2759,7 +2759,7 @@ static bool icl_mg_pll_find_divisors(int clock_khz, bool is_dp, bool use_ssc,
+>  				     bool is_dkl)
+>  {
+>  	u32 dco_min_freq, dco_max_freq;
+> -	int div1_vals[] = {7, 5, 3, 2};
+> +	static const int div1_vals[] = {7, 5, 3, 2};
+>  	unsigned int i;
+>  	int div2;
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
-
-Best regards,
-Krzysztof
+-- 
+Jani Nikula, Intel Open Source Graphics Center
