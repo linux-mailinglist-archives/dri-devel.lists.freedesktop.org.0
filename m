@@ -2,85 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90254D2FCA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:16:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CBF4D2FD8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:22:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 739F410EA61;
-	Wed,  9 Mar 2022 13:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9629B10EADE;
+	Wed,  9 Mar 2022 13:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A524110EA5B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:16:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646831785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9L4wXSzrzpGMIVEQW9rtUhalBtem2aX0icrd1WDGeA0=;
- b=TkP7KNWluANN8eo7El/ggpBqaotJA48FRSHZmko3g6GOdHCgSMV736ezgKTyOnocJ5UOCs
- 5JjCpqvfvPfx57wQ3zYo2w1hgYXNxKXbCKdNcIrsq397ppfHI3fH38/CQv/dQdnnIfx8Qz
- fPdwgZjwK2+1j0o3/sOeA9SpUEx3tFw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-0_jCCRjoPoqJYY4OuQNcRQ-1; Wed, 09 Mar 2022 08:16:24 -0500
-X-MC-Unique: 0_jCCRjoPoqJYY4OuQNcRQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h11-20020a5d430b000000b001f01a35a86fso751355wrq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:16:23 -0800 (PST)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D8010EADE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:22:43 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ fs4-20020a17090af28400b001bf5624c0aaso2332152pjb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nFpUu9dr27noPEr7QirbOcRxKdELB7gGpnSLhYA/8gk=;
+ b=u91UGLmWfLry7Qd6UFWNi+UaDteJUJDXdAl658I7tK+Z9YPKkYp1+M814Yrj8LoQkD
+ fYknxzvizgkRxib8MSrjAxFehpP/x5dgDGjjbFsC39p+PHvkvtA1DolgdBAzPJU6SmyG
+ RaNiTUBSrIFpYc1ynXq1YpI377jkv9iEDe9vE3LFtAUV29xTLMZcnaDY/25dFhcIUC+Y
+ d2+TXjv2ruxUWa7In6j5dHHpL91wtEOPc64pDbVhFVS6XyZha9Kjk6E2rUiN5L0PFPmm
+ cxfuvyhePMtYCF6HnQnwHwZQ6ApfixdNaTxIUggcWjdqRRzZy48cG8Nrv70E0rEbe76+
+ yNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9L4wXSzrzpGMIVEQW9rtUhalBtem2aX0icrd1WDGeA0=;
- b=g4V8k1HGPf19x3D1kWYcFHYmTEsGsFn6NeIYGwKF7AdAl6TBmPtQEH/Fr2/YWaLQBs
- 5XRTskaKkhikOzMD4Z9qce0qJdBvMK+fob7Eh4k7IP8IqfLYSM/9Maw7n0nG9RSxX2iG
- dNt8sYIMVVl6SpR6ypBdRqj6yiBkVHmalfi4KaF3rS/UopzkZNfSFM8CBF5jBUUN6Nzq
- zBrlYX7hzChSiDHPxkzXsKkcaBzV4Op188v/ufWgvjBbphjH7vepqkG06nH+Zzu6FK4E
- 2uj0YiR6Xqj8mtGFWAhKh5WDI7/mhnyqxyRtKa7e0zj4fTv0lIoo+vV63cR9orAiFzvv
- IwCw==
-X-Gm-Message-State: AOAM530/tYqKR00joOl2UJrvkA1dAbISRpEKdAOu1LyrKZFDBwH6ZSU9
- J09CT0WcdnhorzSkJylzEKS2R5FTVS3yZMVJQ37sS9YRSx4HYjRVR2F+jNQGhb0xz3+Cs807Fym
- MCo3AhyW6i2ldmB3UfsnWC2nTPWsj
-X-Received: by 2002:a1c:a4c6:0:b0:389:7269:5044 with SMTP id
- n189-20020a1ca4c6000000b0038972695044mr3162292wme.129.1646831782862; 
- Wed, 09 Mar 2022 05:16:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLVGtK4mTCwqDFDUxuBL3MHtSqW+jHIdMFxcBe9+YpVz8cxRLKpK8ygkT8GVaau+FzvEgBlw==
-X-Received: by 2002:a1c:a4c6:0:b0:389:7269:5044 with SMTP id
- n189-20020a1ca4c6000000b0038972695044mr3162281wme.129.1646831782620; 
- Wed, 09 Mar 2022 05:16:22 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- t184-20020a1c46c1000000b003814de297fcsm4964440wma.16.2022.03.09.05.16.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 05:16:19 -0800 (PST)
-Message-ID: <d9d8b17a-26a2-3c34-7308-539d5b08454f@redhat.com>
-Date: Wed, 9 Mar 2022 14:16:17 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nFpUu9dr27noPEr7QirbOcRxKdELB7gGpnSLhYA/8gk=;
+ b=uEukTnuhZqY2+v7VAhQ4G+8FkijSQnM8hELLbUHfXZ0joYw2HXCJZeIRpaqO6O0lYr
+ +Ag+6m77aV8QoukXgxO4WexigIlvTCyLo20CLFtbnaJ/hNdxoUP7y2fwmHXWOyhIRSz8
+ Cbitc+5EyvIgE+5LjmHBYZiOPoMijwUEA7kbPlWTEl/vSsnaZ32yHu951Nj7BVGsQCfV
+ jvQEfbkrnMDPr1jjhnpx+dWpn8ym7jQ27RA4AcsF5XLWjw7i4msq8pqhhoPVdMNvjcIH
+ TjnlQFDQC8Q6CPhYFouNo4S9bzhjPpSTCvnR9H2M5ZjbgTcrCI6oSWmVUalbq247ecca
+ aoJg==
+X-Gm-Message-State: AOAM5318qaRbjPSdEfA6/SmW9Y0/jziQfavdeHuRjHd86LyVUH0D3jnL
+ GNkG4P/rAk8J8SJOPUKM3AQDZ0wQGAgzt6UF8Zmd7gUZqqQ=
+X-Google-Smtp-Source: ABdhPJxairSjptuZC/cMBulWljGFXF9/fDim8+cVb5GOFlehI0cit3Yq/MqRNr4EydbX1nuYFckLml5X2cTV8HjYvPc=
+X-Received: by 2002:a17:902:7044:b0:14e:e1b1:bb0e with SMTP id
+ h4-20020a170902704400b0014ee1b1bb0emr22498860plt.65.1646832162896; Wed, 09
+ Mar 2022 05:22:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 RFC 07/10] drm/gem-fb-helper: Use actual bpp for size
- calculations
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
-References: <cover.1646683502.git.geert@linux-m68k.org>
- <842ab0a286ff743b625277e655d9bef505b630c1.1646683502.git.geert@linux-m68k.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <842ab0a286ff743b625277e655d9bef505b630c1.1646683502.git.geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220309073637.3591-1-rex-bc.chen@mediatek.com>
+In-Reply-To: <20220309073637.3591-1-rex-bc.chen@mediatek.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 9 Mar 2022 14:22:31 +0100
+Message-ID: <CAG3jFysXP3vs0uWAykQHckE1KBZr6PfE990mOny-6n=AHP2zHA@mail.gmail.com>
+Subject: Re: [RESEND V11 0/3] force hsa hbp hfp packets multiple of lanenum to
+ avoid screen shift
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, narmstrong@baylibre.com,
+ airlied@linux.ie, khilman@baylibre.com, linux-kernel@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, andrzej.hajda@intel.com,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, xji@analogixsemi.com,
+ linux-arm-kernel@lists.infradead.org, xinlei.lee@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/7/22 21:52, Geert Uytterhoeven wrote:
-> The AFBC helpers derive the number of bits per pixel from the deprecated
-> drm_format_info.cpp[] field, which does not take into account block
-> sizes.
-> 
-> Fix this by using the actual number of bits per pixel instead.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> RFC, as this code path was untested.
+On Wed, 9 Mar 2022 at 08:36, Rex-BC Chen <rex-bc.chen@mediatek.com> wrote:
+>
+> Resend v11:
+>  - Resend this series for reviewing.
+>  - Rebase to 5.17-rc7.
+>
+> Changes since v10:
+>  - Rebase to 5.17-rc3.
+>  - Add more maintainers.
+>
+> Changes since v9:
+>  - Change description of "MIPI_DSI_HS_PKT_END_ALIGNED".
+>  - Use mode_flags directly instead of another variable on patch [2/3].
+>  - Add explanation of implementation in mtk_dsi.c on commit message of [2/3].
+>
+> Changes since v8:
+>  - Use mode_flags to control this limitation instead of "hs_packet_end_aligned".
+>  - Add new bit definition "MIPI_DSI_HS_PKT_END_ALIGNED" for mode_flags.
+>
+> Changes since v7:
+>  - Rebase to kernel 5.16
+>  - Add tags of reviewed-by and acked-by.
+>  - Add detailed commit message for flag "hs_packet_end_aligned" in DSI common driver.
+>
+> Changes since v6:
+>  - Add "bool hs_packet_end_aligned" in "struct mipi_dsi_device" to control the dsi aligned.
+>  - Config the "hs_packet_end_aligned" in ANX7725 .attach().
+>
+> Changes since v5:
+>  - Search the anx7625 compatible as flag to control dsi output aligned.
+>
+> Changes since v4:
+>  - Move "dt-bindings: drm/bridge: anx7625: add force_dsi_end_without_null" before
+>    "drm/mediatek: force hsa hbp hfp packets multiple of lanenum to avoid".
+>  - Retitle "dt-bindings: drm/bridge: anx7625: add force_dsi_end_without_null".
+>
+> Rex-BC Chen (3):
+>   drm/dsi: transfer DSI HS packets ending at the same time
+>   drm/mediatek: implement the DSI HS packets aligned
+>   drm/bridge: anx7625: config hs packets end aligned to avoid screen
+>     shift
+>
+>  drivers/gpu/drm/bridge/analogix/anx7625.c |  3 ++-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c        | 12 ++++++++++++
+>  include/drm/drm_mipi_dsi.h                |  2 ++
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+>
+> --
+> 2.18.0
 >
 
-Looks good to me but haven't tested either.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Applied to drm-misc-next
