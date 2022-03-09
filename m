@@ -1,59 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AD44D30D4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 15:10:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F04D30D6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 15:12:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A9BF10EACB;
-	Wed,  9 Mar 2022 14:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6382F10EC72;
+	Wed,  9 Mar 2022 14:12:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37CCD10EAD1
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:10:17 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id 17so1171126lji.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 06:10:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+Smifyrfv9jyEVKFWKzabWjhSqV66oj/syrNkMX3RnQ=;
- b=XAGMDJQcpiWsweioTlr+pTKrcSdKllVXRIrC7VRDLVcT+kMBrFXcocSTau1OfrtUeV
- ioA1aekDdbZQHclCPbC8vyDNbAqTy8EkfpRS1Trj5nyfcZ4wBnd2uP+gFbd6oljQA6Td
- 4yl2eHaYmZETNPGqIPJjiDhz44eGv6DFtJAwFZAww9mYwzwNfLD2jEUbMdftQPmSF4DP
- 46UYssVBAgV/H67NAXwDW3ontoSLLGy54feUbo4FNxuA2jZdNZBkAAGi7uIiCyQAIfqW
- 3RgxgFm6j0yimZ2l7lz3w6/CmH8AkuOkUp5ULE2WNgSXv5U7IsF3wO+39OVFkH+PHuEo
- aptQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+Smifyrfv9jyEVKFWKzabWjhSqV66oj/syrNkMX3RnQ=;
- b=ic8L1D5cLaRI/prbhDczOn/bGjW+l7k3it/ylhPNgP6rF+XFtCZ1cd6eTQlVxDLgQY
- OvfYVOECQVqIBYNn7Ox8DndWDzW+nAdGEm5sDqzHx1cgaMDHf3bxXd7pAI9Y+orRCMbV
- fZy9DqWhtB3V0BicmBuZBuy+4tnI0bDVbuWc7S1xwQYvGOn1vMSPwLP2+y5O39/RWQT6
- niZbVUSky+KjL6c0wbmCdaJaLCYvwJ+GGxyeS5fPhNKOhrCZh5yNmXis30DUIJIja5Xk
- eTQhvpUiZOWeGILInYARwu+Xe7UnBWRtwoU5momAbHTpnL074SKSGNMMFPucb62bV1hD
- HUcQ==
-X-Gm-Message-State: AOAM5309J19b10ktiqmoTITdx5SHo9gb4kQJXoGIW5W1YwUo3+QYmPV/
- A13gzMH7L8p7M7y4Mgxl1/hXkwHWgmdtggmLwChMAA==
-X-Google-Smtp-Source: ABdhPJy7V/OKyyaOwfjAPioqybsnIjE8c/Rj7tRt5tIDZdseT3VO6JNha7WxGFpeTx1rfRb7lhOdL1k3XYVyOCxwq24=
-X-Received: by 2002:a2e:3004:0:b0:246:f56:e62d with SMTP id
- w4-20020a2e3004000000b002460f56e62dmr14102976ljw.6.1646835015337; Wed, 09 Mar
- 2022 06:10:15 -0800 (PST)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7615910EC72
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:11:59 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 478A9FF80A;
+ Wed,  9 Mar 2022 14:11:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1646835115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KBHqvc6uth8b7MiFOb0AYUf7mUKUncnYNQItOPWEFLs=;
+ b=W4aZIxnJGO0j+ihZyF9DjMXHRyEgirf9nBzo5JCRUEtitP8DJ9IKaGXxcfRK9aLi3ZcNVl
+ AT34t9p1ruPTNjv6/yZEAf4OqCPC1kJiC7bnZImyuCNDbCJuR2Vw+jka2OUNpRUq/l8kO/
+ 6OLZauHimT79zw1ykjgmwxfEJI3eDSpIcMmCHshC+AlvpBUKHjxJA8fE+4Cj4dTjV3Cl+G
+ 9zP0fhXMYZRZ3dduXsKdVjVlcvn8W3BG/Mvi/mdCJRn60mrjSyVG2QahibKBO8ngYXMgnJ
+ p/2I0SNsNkZ873Iqi6NNjEu9wP7blZHh/9P6v5b5EtD3ywaJaDXsmHA2QC4G4g==
+Date: Wed, 9 Mar 2022 15:11:51 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4] drm: of: Lookup if child node has panel or bridge
+Message-ID: <Yii1p0X0/78QCBGX@aptenodytes>
+References: <20220202160414.16493-1-jagan@amarulasolutions.com>
+ <YiEkaBO/lz05DkAD@aptenodytes>
+ <20220304085445.avdrxlx5wnytriyk@houat>
+ <YiHxU5GvnRuTeWqc@aptenodytes> <YiHyatlgpmkMY4/T@aptenodytes>
+ <20220304113821.jfu6fxgehohlj5in@houat>
 MIME-Version: 1.0
-References: <20220214093439.2989-1-christian.koenig@amd.com>
- <20220214093439.2989-6-christian.koenig@amd.com>
-In-Reply-To: <20220214093439.2989-6-christian.koenig@amd.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Wed, 9 Mar 2022 14:10:04 +0000
-Message-ID: <CAHbf0-H=VtC3xDnUfNfFDf6c3xrqx3evrQyE0jsbnZ8pQWpCFw@mail.gmail.com>
-Subject: Re: [PATCH 06/11] drm/amdgpu: remove GTT accounting v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ek3yJWzKDlaEghkW"
+Content-Disposition: inline
+In-Reply-To: <20220304113821.jfu6fxgehohlj5in@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,250 +54,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, Felix.Kuehling@amd.com,
- matthew.william.auld@gmail.com, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-amarula@amarulasolutions.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-This patch seems to be causing me problems
+--Ek3yJWzKDlaEghkW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://gitlab.freedesktop.org/drm/amd/-/issues/1927
+Hi Maxime,
 
-There are 3 issues I'm experiencing, two kernel bugs and a mesa bug
+On Fri 04 Mar 22, 12:38, Maxime Ripard wrote:
+> On Fri, Mar 04, 2022 at 12:05:14PM +0100, Paul Kocialkowski wrote:
+> > On Fri 04 Mar 22, 12:00, Paul Kocialkowski wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On Fri 04 Mar 22, 09:54, Maxime Ripard wrote:
+> > > > Hi Paul,
+> > > >=20
+> > > > On Thu, Mar 03, 2022 at 09:26:30PM +0100, Paul Kocialkowski wrote:
+> > > > > On Wed 02 Feb 22, 21:34, Jagan Teki wrote:
+> > > > > > Devices can also be child nodes when we also control that device
+> > > > > > through the upstream device (ie, MIPI-DCS for a MIPI-DSI device=
+).
+> > > > > >=20
+> > > > > > drm_of_find_panel_or_bridge can lookup panel or bridge for a gi=
+ven
+> > > > > > device has port and endpoint and it fails to lookup if the devi=
+ce
+> > > > > > has a child nodes.
+> > > > >=20
+> > > > > This patch breaks the logicvc drm driver that I'm currently devel=
+opping.
+> > > > > The symptom is that drm_of_find_panel_or_bridge now always returns
+> > > > > -EPROBE_DEFER even after the panel has probed and is running well.
+> > > > > It seems that the function can no longer find the panel.
+> > > > >=20
+> > > > > I haven't figured out the details, but reverting your patch makes
+> > > > > it work again. I suspect other drivers might be affected as well,=
+ so
+> > > > > it would probably be a good idea to revert the patch until the ro=
+ot
+> > > > > cause is clearly understood and the patch can be adapted accordin=
+gly.
+> > > > >=20
+> > > > > Here is what the device-tree looks like:
+> > > > >=20
+> > > > > / {
+> > > > > 	panel: panel-lvds {
+> > > > > 		compatible =3D "panel-lvds";
+> > > > >=20
+> > > > > 		[...]
+> > > > >=20
+> > > > > 		port {
+> > > > > 			#address-cells =3D <1>;
+> > > > > 			#size-cells =3D <0>;
+> > > > >=20
+> > > > > 			panel_input: endpoint@0 {
+> > > > > 				reg =3D <0>;
+> > > > > 				remote-endpoint =3D <&logicvc_output>;
+> > > > > 			};
+> > > > > 		};
+> > > > > 	};
+> > > > > };
+> > > > >=20
+> > > > > &amba {
+> > > > > 	logicvc: logicvc@43c00000 {
+> > > > > 		compatible =3D "xylon,logicvc-3.02.a", "syscon", "simple-mfd";
+> > > > > 		reg =3D <0x43c00000 0x6000>;
+> > > > >=20
+> > > > > 		#address-cells =3D <1>;
+> > > > > 		#size-cells =3D <1>;
+> > > > >=20
+> > > > > 		[...]
+> > > > >=20
+> > > > > 		logicvc_display: display-engine@0 {
+> > > > > 			compatible =3D "xylon,logicvc-4.01.a-display";
+> > > > >=20
+> > > > > 			[...]
+> > > >=20
+> > > > I think the issue lies in what you left out here: you have another =
+node
+> > > > aside from the port one, called layers. I *think* the issue is that=
+ the
+> > > > code will now pick up the layers node, and try to use it as a panel,
+> > > > which will never probe.
+> > > >=20
+> > > > I've had a look at all the other bindings though, it seems like this
+> > > > driver is the only one that can be affected: the anx7625 seems to b=
+e the
+> > > > only other driver that has a child node that isn't either a port or=
+ a
+> > > > panel (aux-bus) but it doesn't use drm_of_find_panel_or_bridge eith=
+er.
+> > >=20
+> > > Thanks a lot for looking into this so quickly!
+> > >=20
+> > > After some testing it clearly appears that you're right and the layers
+> > > node is the one conflicting with the patch. Removing it brings the
+> > > behavior back to normal. I'll try to dig-in a bit more to understand
+> > > why this is happening since it's really not obvious when just looking
+> > > at the patch.
+> >=20
+> > Ah wait I do understand it actually. The patch will take the *first* no=
+de
+> > that doesn't have ports/port in it and use that as remote instead of
+> > of_graph_get_remote_node.
+> >=20
+> > So maybe the fix would be to first look via of_graph_get_remote_node and
+> > if nothing is returned then it should try to use the first node as remo=
+te.
+> > tl;dr just inverting the order of the logic.
+> >=20
+> > Do you think that would work?
+>=20
+> We can have multiple strategies here. The one you have in mind does work
+> indeed, but relying on the node order is still fairly fragile.
+>=20
+> I think it would work fine then if:
+>=20
+>   - We first lookup any endpoint, and see if we have a panel or bridge.
+>     If so, we return it.
+>=20
+>   - Then, we look at any available child node, and see if we have a
+>     panel or bridge attached. If so, we return it.
+>=20
+>   - we return -EPROBE_DEFER
+>=20
+> That way, even if we have something like:
+>=20
+> node {
+>      totally-not-a-panel {
+>      }
+>=20
+>      panel {
+>      }
+> }
+>=20
+> It would work fine, without relying on the node name (well, except for
+> port(s)?)
+>=20
+> What do you think?
 
-Cheers
+Yes it would definitely be better to try all possible cases, including when
+one of them fails instead of just selecting one to check and failing if
+the panel/bridge nodes aren't there.
 
-Mike
+I'll have a try at this and send a fixup patch soon!
 
-On Mon, 14 Feb 2022 at 09:34, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> This is provided by TTM now.
->
-> Also switch man->size to bytes instead of pages and fix the double
-> printing of size and usage in debugfs.
->
-> v2: fix size checking as well
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 +++++----------------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  8 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  2 -
->  4 files changed, 16 insertions(+), 45 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_gtt_mgr.c
-> index e0c7fbe01d93..3bcd27ae379d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> @@ -60,7 +60,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct de=
-vice *dev,
->         struct ttm_resource_manager *man;
->
->         man =3D ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-> -       return sysfs_emit(buf, "%llu\n", man->size * PAGE_SIZE);
-> +       return sysfs_emit(buf, "%llu\n", man->size);
->  }
->
->  /**
-> @@ -77,8 +77,9 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct dev=
-ice *dev,
->  {
->         struct drm_device *ddev =3D dev_get_drvdata(dev);
->         struct amdgpu_device *adev =3D drm_to_adev(ddev);
-> +       struct ttm_resource_manager *man =3D &adev->mman.gtt_mgr.manager;
->
-> -       return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(&adev->mman=
-.gtt_mgr));
-> +       return sysfs_emit(buf, "%llu\n", ttm_resource_manager_usage(man))=
-;
->  }
->
->  static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
-> @@ -130,20 +131,17 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_m=
-anager *man,
->         struct amdgpu_gtt_node *node;
->         int r;
->
-> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
-> -           atomic64_add_return(num_pages, &mgr->used) >  man->size) {
-> -               atomic64_sub(num_pages, &mgr->used);
-> -               return -ENOSPC;
-> -       }
-> -
->         node =3D kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL)=
-;
-> -       if (!node) {
-> -               r =3D -ENOMEM;
-> -               goto err_out;
-> -       }
-> +       if (!node)
-> +               return -ENOMEM;
->
->         node->tbo =3D tbo;
->         ttm_resource_init(tbo, place, &node->base.base);
-> +       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
-> +           ttm_resource_manager_usage(man) > man->size) {
-> +               r =3D -ENOSPC;
-> +               goto err_free;
-> +       }
->
->         if (place->lpfn) {
->                 spin_lock(&mgr->lock);
-> @@ -169,11 +167,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_ma=
-nager *man,
->  err_free:
->         ttm_resource_fini(man, &node->base.base);
->         kfree(node);
-> -
-> -err_out:
-> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY))
-> -               atomic64_sub(num_pages, &mgr->used);
-> -
->         return r;
->  }
->
-> @@ -196,25 +189,10 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_=
-manager *man,
->                 drm_mm_remove_node(&node->base.mm_nodes[0]);
->         spin_unlock(&mgr->lock);
->
-> -       if (!(res->placement & TTM_PL_FLAG_TEMPORARY))
-> -               atomic64_sub(res->num_pages, &mgr->used);
-> -
->         ttm_resource_fini(man, res);
->         kfree(node);
->  }
->
-> -/**
-> - * amdgpu_gtt_mgr_usage - return usage of GTT domain
-> - *
-> - * @mgr: amdgpu_gtt_mgr pointer
-> - *
-> - * Return how many bytes are used in the GTT domain
-> - */
-> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr)
-> -{
-> -       return atomic64_read(&mgr->used) * PAGE_SIZE;
-> -}
-> -
->  /**
->   * amdgpu_gtt_mgr_recover - re-init gart
->   *
-> @@ -260,9 +238,6 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_=
-manager *man,
->         spin_lock(&mgr->lock);
->         drm_mm_print(&mgr->mm, printer);
->         spin_unlock(&mgr->lock);
-> -
-> -       drm_printf(printer, "man size:%llu pages,  gtt used:%llu pages\n"=
-,
-> -                  man->size, atomic64_read(&mgr->used));
->  }
->
->  static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func =3D {
-> @@ -288,14 +263,12 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev,=
- uint64_t gtt_size)
->         man->use_tt =3D true;
->         man->func =3D &amdgpu_gtt_mgr_func;
->
-> -       ttm_resource_manager_init(man, &adev->mman.bdev,
-> -                                 gtt_size >> PAGE_SHIFT);
-> +       ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
->
->         start =3D AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_=
-WINDOWS;
->         size =3D (adev->gmc.gart_size >> PAGE_SHIFT) - start;
->         drm_mm_init(&mgr->mm, start, size);
->         spin_lock_init(&mgr->lock);
-> -       atomic64_set(&mgr->used, 0);
->
->         ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager=
-);
->         ttm_resource_manager_set_used(man, true);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_kms.c
-> index 1ebb91db2274..9ff4aced5da7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -684,7 +684,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *d=
-ata, struct drm_file *filp)
->                 ui64 =3D amdgpu_vram_mgr_vis_usage(&adev->mman.vram_mgr);
->                 return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT =
-: 0;
->         case AMDGPU_INFO_GTT_USAGE:
-> -               ui64 =3D amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
-> +               ui64 =3D ttm_resource_manager_usage(&adev->mman.gtt_mgr.m=
-anager);
->                 return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT =
-: 0;
->         case AMDGPU_INFO_GDS_CONFIG: {
->                 struct drm_amdgpu_info_gds gds_info;
-> @@ -716,7 +716,8 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *d=
-ata, struct drm_file *filp)
->         case AMDGPU_INFO_MEMORY: {
->                 struct drm_amdgpu_memory_info mem;
->                 struct ttm_resource_manager *gtt_man =3D
-> -                       ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-> +                       &adev->mman.gtt_mgr.manager;
-> +
->                 memset(&mem, 0, sizeof(mem));
->                 mem.vram.total_heap_size =3D adev->gmc.real_vram_size;
->                 mem.vram.usable_heap_size =3D adev->gmc.real_vram_size -
-> @@ -741,8 +742,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *d=
-ata, struct drm_file *filp)
->                 mem.gtt.total_heap_size *=3D PAGE_SIZE;
->                 mem.gtt.usable_heap_size =3D mem.gtt.total_heap_size -
->                         atomic64_read(&adev->gart_pin_size);
-> -               mem.gtt.heap_usage =3D
-> -                       amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
-> +               mem.gtt.heap_usage =3D ttm_resource_manager_usage(gtt_man=
-);
->                 mem.gtt.max_allocation =3D mem.gtt.usable_heap_size * 3 /=
- 4;
->
->                 return copy_to_user(out, &mem,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_object.c
-> index 5661b82d84d4..514754142f69 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -451,7 +451,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_dev=
-ice *adev,
->         if (domain & AMDGPU_GEM_DOMAIN_GTT) {
->                 man =3D ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
->
-> -               if (size < (man->size << PAGE_SHIFT))
-> +               if (size < man->size)
->                         return true;
->                 else
->                         goto fail;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.h
-> index f8f48be16d80..120b69ec9885 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -52,7 +52,6 @@ struct amdgpu_gtt_mgr {
->         struct ttm_resource_manager manager;
->         struct drm_mm mm;
->         spinlock_t lock;
-> -       atomic64_t used;
->  };
->
->  struct amdgpu_preempt_mgr {
-> @@ -114,7 +113,6 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
->  void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
->
->  bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem);
-> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr);
->  int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr);
->
->  uint64_t amdgpu_preempt_mgr_usage(struct ttm_resource_manager *man);
-> --
-> 2.25.1
->
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Ek3yJWzKDlaEghkW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIotacACgkQ3cLmz3+f
+v9HRbwf/WFvxgg5pEb1ZOO1icNUnrDcaRevkH3YCGoXoxpOD7OdiIGVHoiw8C1Ye
+I/1+nfpWkXuNCCabv37ECjJWM9p8Ndn50nSeizfe3AAgwKTjuePIe5yI82SHh/1G
+GXgA5NnXtNm6LeVeMDg+28H+2Q/+f1EvjpNEkCM93FksBrBRw4a3oEYxS6gY7Q+7
+bhI0p/RrP4r31/nA07WN/ARWez5fk9xrcl2FDi7YWHnZ6NFd7SaGNxdMi92poZhd
+RGiynkgbnBT30L8cTM6Us9jYOUCp8YrhX0jjalC2pmlTohGuo3qzogBUkIc1rXmj
+U6BOKeDBSKh3OSmjkNLyLcXO96en6w==
+=a3L9
+-----END PGP SIGNATURE-----
+
+--Ek3yJWzKDlaEghkW--
