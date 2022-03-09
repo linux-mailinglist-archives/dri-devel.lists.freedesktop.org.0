@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A2D4D314C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 15:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC234D314E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 15:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4849A10E4F6;
-	Wed,  9 Mar 2022 14:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2A6910EF39;
+	Wed,  9 Mar 2022 14:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A38E10E4C3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:54:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 84DFA61092
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:54:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F095C340FC
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:54:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646837655;
- bh=/XawhuWDz59ju6W3heR0tlbnbiiYnvDbez/JPYwBvXY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=iBS4paMndB5HsfX6Ti5CasTEWcc83tkJkM35p5fouQmZZHtsrTxgHscm0pUOH0WZD
- YV4z4BdK1nLOGYuDEkk2rKiWlvTXa/w6inAp35hSk3ErAgPELrWX4HS5Zt3qryZiYd
- pw/wTmVnuIyvnm/mQEODkIuBebilTIJmypbzV/eh1bOe8598AI8f2tqAJvELLgxgot
- CJzPmpbcmHEI6KWwUvvbfy5ckQnNsRGNVEJx1Z9aOv8j3UX0IKtP1QIT18WuuzVQOD
- BSwl105r9itrKluhEkicQAkdAZurcK1uKvfLCDS2rND+XRxWaXf6tiJAPqA1K4eiNV
- g5IOaWyZ+7EVA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6DA75CC13AD; Wed,  9 Mar 2022 14:54:15 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Wed, 09 Mar 2022 14:54:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205089-2300-6yVrcuRLPd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9FD10EF39
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 14:55:36 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id t187so2175785pgb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 06:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dxj4frE2eCuqonVDS5bQZcQRra2ODtuFVo9Dvr2UfAM=;
+ b=Lx64DbIQRSA61d6Xh4UQh+hEzAkwZEmkFFvrSkKyC5q8t/Q5VPDpuUjZRJpI9PhvLH
+ /NV3lFRxEMOeVk9DjRpY1YX2aPqvkmwDcMJHK8b63Xu5WptxcvmCXhJ5RVo/+vv6LoTk
+ jXlChGgEExi3ofGacl2IKyjejnMfj2gTfSHSNCE1k9uXQOacQRQynU6K20iuNYe1k7mJ
+ grZ8CdQL0vNoPtDghRHKJye07qiRQVRmxFGEIljRz4WR1PvSNHi6KjbAQKNczko9P4pM
+ CsjuvNUFf3ZNvwcKeBSzY9mnHT91BzyH2grKbBGkDACc6ar7T37veEu5njOjDzZjaWzk
+ YJrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dxj4frE2eCuqonVDS5bQZcQRra2ODtuFVo9Dvr2UfAM=;
+ b=qq58u2C3314qme5TuqyqU+060g39tkbp4cYzT6skfC5DtKwI2BDJNOZmQd+O3HSnd7
+ BLRYhsw0in4x75y2YJgKG6KrIcjYkhCliBoTEjTeXOGkd4gbjJ2xw1u9XQ10O7DJe8iA
+ YF1oV1SgJdWt5RItocBujt7RI0TIbr4S3XgwwEpMNTLNR6m2y6wMRXSm1jKr21ZkkPcJ
+ Br0bO8MCkDVUTw/0bZkmXne1yCa0Qw8ab4KiRTgU9BUJQa95p7FKkGnWiJFHe8jUKL4W
+ zaeZzndNgatXjpxFYPQKt0I3aapxMiatz5/EAsNBbEc4hqs1RUSNMlen6F7gFKaj4ka2
+ 8MAA==
+X-Gm-Message-State: AOAM530Hd3GTG2ssZNDtuFsjAggLgY+TywOOu3DX1WJxk3FQ1i8cIDa3
+ q3mHPc0xVZzmfy/fs8LLTvAqoBAGW1jDvW/bBUfQkw==
+X-Google-Smtp-Source: ABdhPJzK9dlHuNBGU9ukp9ZvpYdg3LfIvQ/WqY63hqVDNchAfC7PzmtrJJ1LPB1EWTXUUKE7JO7WKWsjNPkMDZm28u4=
+X-Received: by 2002:a05:6a00:889:b0:4e0:dcc3:5e06 with SMTP id
+ q9-20020a056a00088900b004e0dcc35e06mr24123462pfj.29.1646837736094; Wed, 09
+ Mar 2022 06:55:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20220221072835.10032-1-jose.exposito89@gmail.com>
+ <20220221085509.fies6j3hjsiz55rz@houat>
+In-Reply-To: <20220221085509.fies6j3hjsiz55rz@houat>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 9 Mar 2022 15:55:24 +0100
+Message-ID: <CAG3jFyuFH2PX2shWZHS90Dsv-2H1OLdNYnvdN+R-d67T3E4APA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: switch to devm_drm_of_get_bridge
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+On Mon, 21 Feb 2022 at 09:55, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, Feb 21, 2022 at 08:28:35AM +0100, Jos=C3=A9 Exp=C3=B3sito wrote:
+> > The function "drm_of_find_panel_or_bridge" has been deprecated in
+> > favor of "devm_drm_of_get_bridge".
+> >
+> > Switch to the new function and reduce boilerplate.
+> >
+> > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+>
+> Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
---- Comment #33 from Alex Deucher (alexdeucher@gmail.com) ---
-Please try newer or older mesa drivers if you can repro this with a particu=
-lar
-game like dota2.  The kernel driver is just the messenger.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Applied to drm-misc-next
