@@ -1,57 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BE74D2F29
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:39:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8859A4D2F54
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B1D10E843;
-	Wed,  9 Mar 2022 12:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E7A10E9B2;
+	Wed,  9 Mar 2022 12:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3ABA10E8BC
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:39:36 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id q19so1844891pgm.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WESkvE76RvvUixdvsGaxsNSlfocf93aoUlbvnUrP/3w=;
- b=LCxMYDWgDlEuFKdClsB7iVa0L1wsrGHbTBdtC+BGeFRhY24YokktRg4ls6jiDYLrzW
- 14YHm7RlmHiRfiTKdBsAbmxHaQJQ2ZEnfK+q7EAqIdERbcisut/d/nATv1WS4OHX9cr8
- Pq83ihOkp0uiIo0yEE6nijobZGIRuLhtr3pFep2O02z3oyAo6h77cR/7DDDKHRvV37yL
- iTsnVemGFv7I00c4SHcVa6Ge/Ar+pfKBlPQSQ9w33k9BT3G0NQJIk8Rj2FqQKQybsFLk
- ah+9zAPvoyexEEZX6XRLV/vIZCAKpfX0JtQiKsmCXYFc2A109tTMlFnEPme1nSyDCsrf
- grnw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F182510E9B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646830016;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oIOQIxDPG94ZGWbVYq8GHTXPCYDThRtLt2a1oXRhNkM=;
+ b=ieoN68awhyKQDaxggd33Dk89WeYv366Hsx+i9VK3HBUGwWQV5xMG/mvg9VVFFCGgI6SED0
+ PN+soA7eIVmLzKgN/2DigwtFaxwGUnLRoTefOBm2YWVH9MRF+LPp2e3Cowsy9/AwHTfJMv
+ 0Q/zhYHSEHN24EdSpxPeHzk4hg09gWI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-UYdS2cAjNTGItbpPqWzq8g-1; Wed, 09 Mar 2022 07:46:55 -0500
+X-MC-Unique: UYdS2cAjNTGItbpPqWzq8g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z16-20020adff1d0000000b001ef7dc78b23so724516wro.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:46:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WESkvE76RvvUixdvsGaxsNSlfocf93aoUlbvnUrP/3w=;
- b=WN4IQejCUQDBXaVYQO86KRZoS76VW1DXRNJnnFA5qr6nUsZOuelYVZUoY6mDMNYD8w
- /J9n7k4PLsELmMXc+XZ6tmf894xg/j2D5sCDnrvmdy8krQ1wX3vu+UUrWkInjAwVpeBb
- g+C8mJo8tLO3IiZCbGmmEFFoAKI5HuHBX6JAaokmIwelneCvRBTJyaHjNF5ANsta9mLU
- uOzSopzAK7NV7zqKqmUq1y6UOCjiFTM3qGG4n1sL1XWREzjeuEShM+8nlL1yaqFDZbnc
- FFo4GPXHksX3cKUigP3bZ75lSUNPVghH+YbDPTmQ7E9sNb4iU/x7kmVE/7KyVPYpKQwK
- O5zw==
-X-Gm-Message-State: AOAM533siiyMSmUo/zTEfcmM6K8dqj95wwe1cGDwRC6FWlCaGpST8/fI
- /BMlCrhsXp5qNSy3CZlE4jagTgHbzv5z/dCeifE=
-X-Google-Smtp-Source: ABdhPJxbT86GAY/Ne4q6cybuhlIHdWYhwaMGdm5kXBNt0v1TksC9BAaKkKp4Lrrk1NYwht/Fs3RSSQMReqjllobR3Xs=
-X-Received: by 2002:aa7:88c4:0:b0:4f6:fed2:a855 with SMTP id
- k4-20020aa788c4000000b004f6fed2a855mr15896626pff.17.1646829576524; Wed, 09
- Mar 2022 04:39:36 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oIOQIxDPG94ZGWbVYq8GHTXPCYDThRtLt2a1oXRhNkM=;
+ b=VDj5ZF2sEiFU9S+sbRZzOOO5iBhWQE8swFMAe0Og9xZSR7PI8TEvEeChe16LY1qH55
+ K0z1aBRqavjomjhyDbJ+2zCrwatRvFkImkAlLKuffragM1tfn2XbosqHxgt38ZI6BKI4
+ KRWGO9QxJ2nkmQ3FTDdgFIrhl7dFU25qTt01E8EcW1NGbSQkxLmwP/b3ReoQ0OkyOpPZ
+ SHDVm9HAagih3m5J4pxJ2U5gKZLEXJUsKPEaD2Pi++R18UtXHe+8Ygg1M9FBnmtCg+t8
+ bfmN1NI8kbHlfQBBjx3195VzMqDpXJhF4qmg76uRfU10zdXbCFFdzLqWw6id9DyYvEVE
+ 8PPg==
+X-Gm-Message-State: AOAM532c7amoa4p6GCtZElHjKF3wW9NiMGdQ8MjFfN5l7Ku3dyPfpOmH
+ JTrD4a9RjVPAPc2Oul4avR8coFqvBIEVIGglL4mbdV4TZBaEiGJ8nIuTZc1KbPcZx8UD+SQWBT2
+ f6hhlwh5Nbt+GHp3JaXy2xnYfPQ8u
+X-Received: by 2002:a5d:5986:0:b0:1f1:f971:f02 with SMTP id
+ n6-20020a5d5986000000b001f1f9710f02mr10080743wri.578.1646830013675; 
+ Wed, 09 Mar 2022 04:46:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzYK8FPaxzfg7PUDh96l/6CFuHhsdjJQ1VHODD7GNxUOFUkDD6tWylERnxyi/EG6sZs8v7gEQ==
+X-Received: by 2002:a5d:5986:0:b0:1f1:f971:f02 with SMTP id
+ n6-20020a5d5986000000b001f1f9710f02mr10080724wri.578.1646830013470; 
+ Wed, 09 Mar 2022 04:46:53 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020a5d5647000000b0020372c969d9sm1673557wrw.29.2022.03.09.04.46.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 04:46:53 -0800 (PST)
+Message-ID: <f6186885-5bcf-01a8-56f5-b87ad0b53e3e@redhat.com>
+Date: Wed, 9 Mar 2022 13:46:51 +0100
 MIME-Version: 1.0
-References: <20220308195222.13471-1-tzimmermann@suse.de>
- <20220308195222.13471-12-tzimmermann@suse.de>
-In-Reply-To: <20220308195222.13471-12-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 9 Mar 2022 13:39:24 +0100
-Message-ID: <CAMeQTsa2Ez0SAkniCehu7Dt8-pAWkyvsKdDYcfT+4Rfq46Gm2g@mail.gmail.com>
-Subject: Re: [PATCH v2 11/12] drm/gma500: Move GTT enable and disable code
- into helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 01/10] drm/fourcc: Add drm_format_info_bpp() helper
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
+References: <cover.1646683502.git.geert@linux-m68k.org>
+ <eab1fe866c0ffd4ac097e66ff48725dd39893105.1646683502.git.geert@linux-m68k.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <eab1fe866c0ffd4ac097e66ff48725dd39893105.1646683502.git.geert@linux-m68k.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,175 +92,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 8:52 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Move the code for enabling and disabling the GTT into helpers and call
-> the functions in psb_gtt_init(), psb_gtt_fini() and psb_gtt_resume().
-> Removes code duplication.
+Hello Geert,
 
-That makes it much more readable. Thanks.
-
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-
-
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On 3/7/22 21:52, Geert Uytterhoeven wrote:
+> Add a helper to retrieve the actual number of bits per pixel for a
+> plane, taking into account the number of characters and pixels per
+> block for tiled formats.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 > ---
->  drivers/gpu/drm/gma500/gtt.c | 81 ++++++++++++++++++++----------------
->  1 file changed, 46 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> index b03feec64f01..83d9a9f7c73c 100644
-> --- a/drivers/gpu/drm/gma500/gtt.c
-> +++ b/drivers/gpu/drm/gma500/gtt.c
-> @@ -125,17 +125,44 @@ void psb_gtt_remove_pages(struct drm_psb_private *pdev, const struct resource *r
->         mutex_unlock(&pdev->gtt_mutex);
->  }
->
-> -void psb_gtt_fini(struct drm_device *dev)
-> +static int psb_gtt_enable(struct drm_psb_private *dev_priv)
->  {
-> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> +       struct drm_device *dev = &dev_priv->dev;
->         struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +       int ret;
->
-> -       iounmap(dev_priv->gtt_map);
-> +       ret = pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
-> +       if (ret)
-> +               return pcibios_err_to_errno(ret);
-> +       ret = pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
-> +       if (ret)
-> +               return pcibios_err_to_errno(ret);
-> +
-> +       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
-> +       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
-> +
-> +       (void)PSB_RVDC32(PSB_PGETBL_CTL);
-> +
-> +       return 0;
-> +}
-> +
-> +static void psb_gtt_disable(struct drm_psb_private *dev_priv)
-> +{
-> +       struct drm_device *dev = &dev_priv->dev;
-> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
->
->         pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
->         PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
-> +
->         (void)PSB_RVDC32(PSB_PGETBL_CTL);
-> +}
->
-> +void psb_gtt_fini(struct drm_device *dev)
-> +{
-> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> +
-> +       iounmap(dev_priv->gtt_map);
-> +       psb_gtt_disable(dev_priv);
->         mutex_destroy(&dev_priv->gtt_mutex);
->  }
->
-> @@ -159,22 +186,15 @@ int psb_gtt_init(struct drm_device *dev)
->  {
->         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->         struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +       struct psb_gtt *pg = &dev_priv->gtt;
->         unsigned gtt_pages;
-> -       struct psb_gtt *pg;
-> -       int ret = 0;
-> +       int ret;
->
->         mutex_init(&dev_priv->gtt_mutex);
->
-> -       pg = &dev_priv->gtt;
-> -
-> -       /* Enable the GTT */
-> -       pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
-> -       pci_write_config_word(pdev, PSB_GMCH_CTRL,
-> -                             dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
-> -
-> -       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
-> -       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
-> -       (void) PSB_RVDC32(PSB_PGETBL_CTL);
-> +       ret = psb_gtt_enable(dev_priv);
-> +       if (ret)
-> +               goto err_mutex_destroy;
->
->         /* The root resource we allocate address space from */
->         pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-> @@ -227,17 +247,16 @@ int psb_gtt_init(struct drm_device *dev)
->         if (!dev_priv->gtt_map) {
->                 dev_err(dev->dev, "Failure to map gtt.\n");
->                 ret = -ENOMEM;
-> -               goto err_gtt_disable;
-> +               goto err_psb_gtt_disable;
->         }
->
->         psb_gtt_clear(dev_priv);
->
->         return 0;
->
-> -err_gtt_disable:
-> -       pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
-> -       PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
-> -       (void)PSB_RVDC32(PSB_PGETBL_CTL);
-> +err_psb_gtt_disable:
-> +       psb_gtt_disable(dev_priv);
-> +err_mutex_destroy:
->         mutex_destroy(&dev_priv->gtt_mutex);
->         return ret;
->  }
-> @@ -246,20 +265,14 @@ int psb_gtt_resume(struct drm_device *dev)
->  {
->         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->         struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +       struct psb_gtt *pg = &dev_priv->gtt;
->         unsigned int gtt_pages;
-> -       struct psb_gtt *pg;
->         int ret;
->
-> -       pg = &dev_priv->gtt;
-> -
->         /* Enable the GTT */
-> -       pci_read_config_word(pdev, PSB_GMCH_CTRL, &dev_priv->gmch_ctrl);
-> -       pci_write_config_word(pdev, PSB_GMCH_CTRL,
-> -                             dev_priv->gmch_ctrl | _PSB_GMCH_ENABLED);
-> -
-> -       dev_priv->pge_ctl = PSB_RVDC32(PSB_PGETBL_CTL);
-> -       PSB_WVDC32(dev_priv->pge_ctl | _PSB_PGETBL_ENABLED, PSB_PGETBL_CTL);
-> -       (void) PSB_RVDC32(PSB_PGETBL_CTL);
-> +       ret = psb_gtt_enable(dev_priv);
-> +       if (ret)
-> +               return ret;
->
->         /* The root resource we allocate address space from */
->         pg->gtt_phys_start = dev_priv->pge_ctl & PAGE_MASK;
-> @@ -311,16 +324,14 @@ int psb_gtt_resume(struct drm_device *dev)
->         if (gtt_pages != pg->gtt_pages) {
->                 dev_err(dev->dev, "GTT resume error.\n");
->                 ret = -EINVAL;
-> -               goto err_gtt_disable;
-> +               goto err_psb_gtt_disable;
->         }
->
->         pg->gtt_pages = gtt_pages;
->
->         psb_gtt_clear(dev_priv);
->
-> -err_gtt_disable:
-> -       pci_write_config_word(pdev, PSB_GMCH_CTRL, dev_priv->gmch_ctrl);
-> -       PSB_WVDC32(dev_priv->pge_ctl, PSB_PGETBL_CTL);
-> -       (void)PSB_RVDC32(PSB_PGETBL_CTL);
-> +err_psb_gtt_disable:
-> +       psb_gtt_disable(dev_priv);
->         return ret;
->  }
-> --
-> 2.35.1
->
+
+Patch looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
