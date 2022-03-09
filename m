@@ -1,83 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343AE4D31AC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 16:22:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF46C4D323E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 16:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC8C710E6A3;
-	Wed,  9 Mar 2022 15:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A98C10E685;
+	Wed,  9 Mar 2022 15:56:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2611410E6A3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 15:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646839343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mneM/WNFthdHoCaTLUluTMs3GUmvrKmERUkOEBdbV4E=;
- b=hTw0ECc0aB31n+5ZUZjyfp2oD0xbQ8N6pSHkiizxRGalqdQm6YHPGNjuDtbwucyXlKhVPs
- oFdvRgd0IBeQOpRjiG4hQ/U4URcRSdf2YK1uxpe9gAoTpnmSL8nBE511QW5lhw+HuFSgQJ
- KSeP3cl/yB69rWJGMJ6fDsUr4azvxRo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-PdTq9ekxM8yvY-GgnofM8w-1; Wed, 09 Mar 2022 10:22:20 -0500
-X-MC-Unique: PdTq9ekxM8yvY-GgnofM8w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hq34-20020a1709073f2200b006d677c94909so1475339ejc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 07:22:20 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2AC10E685
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 15:56:17 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id dr20so6001108ejc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 07:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l6rzSBg+hycjyAg3vNgFOkzB2r7Wku4uLvqN81LLhjM=;
+ b=oAhEDWHOR+wZdZZD6U5/mkxMVidolVS6sz1LQJ3eelAui4Co0GyuNOPxYNkA+mrbNi
+ 4eBicluFjI+EU0X1bYrUfywV5/WayNK9POkQeKQnRjA202XeqSF8jw2yYZqXmbKj6sEJ
+ 38dJhL/a1cmVFwkEbTy06O8qVbW7kuymRt9oE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mneM/WNFthdHoCaTLUluTMs3GUmvrKmERUkOEBdbV4E=;
- b=uEmU0pdKCPxQunBcm68ZU+Lbd6VLbHWxFLksF+6TSEmHYOneeDlrqXqymj/7s62AWF
- eJweK9XbrFvGYYnPC5wnhZPvsesODLpvHIMFMCRuHDlwDFWWaKHmLKN0nKiqDtJjvRWa
- rOxxGBqR+my7WoEn8rPHhmBmFlDYVhy5EN13gBpGOdwJ5oA3tgOanUrYIaji1Mz4fOWW
- vjREeSLy7R1mwgSsdYyB+olZbkBMreyQjZ+jeSUoqptcGFVWNAaPJVf4CtBOZj16hIW0
- 4QrcdWwkzNoKCJnWOk27WIChQqMKpnWS+VW9G0jeVtDcyd3OoAmR05DCyZIUdllADxzd
- Pzrg==
-X-Gm-Message-State: AOAM5336Ncb8brQtwmGGdNQcXLzzs3y2F5SMG8K+0ucy7UWoxY9vMv5F
- 4R4SMhxQtTrOa0iCSFAFTq37dljnhDsw3nxbI9X8zrH0UltfEdgDH0NCn57SW3ALDANF3HAGO8I
- ck0qOUhF/SBlDVdOcCFZSiubXOMFX
-X-Received: by 2002:a17:906:974e:b0:6bb:4f90:a6ae with SMTP id
- o14-20020a170906974e00b006bb4f90a6aemr247655ejy.452.1646839338284; 
- Wed, 09 Mar 2022 07:22:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJziRMzZOZnW1jEBvyL3LG1iaCafKKjIYlfg05PLKeAXnhU7iSyiTNyEMVVrkawKHW4S7bevlg==
-X-Received: by 2002:a17:906:974e:b0:6bb:4f90:a6ae with SMTP id
- o14-20020a170906974e00b006bb4f90a6aemr247614ejy.452.1646839337773; 
- Wed, 09 Mar 2022 07:22:17 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0?
- (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a056402349000b004162fd77252sm945043edc.95.2022.03.09.07.22.16
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l6rzSBg+hycjyAg3vNgFOkzB2r7Wku4uLvqN81LLhjM=;
+ b=m0MKxImuvbG3lcrBPkKFSlP1uidYLyKE/+u9ibvNV8H94OG8ubgNV9ndhPqXuFSxn4
+ IC/YXpl9kcCnvzArr8Mxu7vCRARTpv2ZYTEsCAuujdupXh+GHCmD6lCZnfGl1FN2BVAH
+ 8QilLhkfiraWczDh0GSWZim9ASdzQqjMiKBC27UtC7SkxdZhn3H6OxOihh5e1SYS5jmW
+ gmK4Sx2sXtCZjuJ29gvH7nfA4hqnjd5js+1889ckVi1Ao+DCb8OU8JVeSorr38LF/vUM
+ ZI7/VFoAkzBegwjc93D4sVPo1vcLbsiyqSEvTCaMCxjuQ7NHfDa1i6Gm8B1iN+z3AHbW
+ Qn1Q==
+X-Gm-Message-State: AOAM532CVdC/TlurY0VZtjvmB/UL50yku2yvb0xohF8RssGb+HHr3eET
+ +G87+WL4xq47NG2qtm7eKyfbIE2Nu9gPAo7X
+X-Google-Smtp-Source: ABdhPJyQeRmMVYy+w+fkhEtvu94jRCrC8vk3Nhetfkx+aQytlgVkwLbPA4fho2zFX1gxpKq7vYlW3Q==
+X-Received: by 2002:a17:907:7fa2:b0:6d8:2397:42 with SMTP id
+ qk34-20020a1709077fa200b006d823970042mr400753ejc.218.1646841375323; 
+ Wed, 09 Mar 2022 07:56:15 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
+ [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
+ w22-20020a05640234d600b004165de83109sm985602edc.48.2022.03.09.07.56.14
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 07:22:17 -0800 (PST)
-Message-ID: <e4baccb2-6c45-4220-f3ba-a72659b17725@redhat.com>
-Date: Wed, 9 Mar 2022 16:22:16 +0100
+ Wed, 09 Mar 2022 07:56:14 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id h15so3739183wrc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 07:56:14 -0800 (PST)
+X-Received: by 2002:a5d:5257:0:b0:1f0:1822:69ad with SMTP id
+ k23-20020a5d5257000000b001f0182269admr229452wrc.342.1646841373661; Wed, 09
+ Mar 2022 07:56:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2] drm/amdgpu: Add support for drm_privacy_screen
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, harry.wentland@amd.com, alexdeucher@gmail.com
-References: <20220309150606.1877288-1-sean@poorly.run>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220309150606.1877288-1-sean@poorly.run>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220308110615.1.I1f1b10daf7361feb6705f789deb680b8d7720de9@changeid>
+In-Reply-To: <20220308110615.1.I1f1b10daf7361feb6705f789deb680b8d7720de9@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 9 Mar 2022 07:56:01 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=V4oicW6ZVVyE3sNYxAdaEiGdjAZC77o-wjn3=fmfL6eg@mail.gmail.com>
+Message-ID: <CAD=FV=V4oicW6ZVVyE3sNYxAdaEiGdjAZC77o-wjn3=fmfL6eg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/bridge: Add MAINTAINERS entry for DRM drivers for
+ bridge chip bindings
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,134 +72,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Sean Paul <seanpaul@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- rajatja@google.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 3/9/22 16:06, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> This patch adds the necessary hooks to make amdgpu aware of privacy
-> screens. On devices with privacy screen drivers (such as thinkpad-acpi),
-> the amdgpu driver will defer probe until it's ready and then sync the sw
-> and hw state on each commit the connector is involved and enabled.
-> 
-> Changes in v2:
-> -Tweaked the drm_privacy_screen_get() error check to avoid logging
->  errors when privacy screen is absent (Hans)
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/477640/ #v1
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
+On Tue, Mar 8, 2022 at 11:07 AM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> The bindings for bridge chips should also get the same maintainers
+> entry so the right people get notified about bindings changes.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          |  9 +++++++++
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  3 +++
->  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 16 +++++++++++++++-
->  3 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 2ab675123ae3..e2cfae56c020 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -26,6 +26,7 @@
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_privacy_screen_consumer.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_managed.h>
->  #include "amdgpu_drv.h"
-> @@ -1988,6 +1989,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  {
->  	struct drm_device *ddev;
->  	struct amdgpu_device *adev;
-> +	struct drm_privacy_screen *privacy_screen;
->  	unsigned long flags = ent->driver_data;
->  	int ret, retry = 0, i;
->  	bool supports_atomic = false;
-> @@ -2063,6 +2065,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  	size = pci_resource_len(pdev, 0);
->  	is_fw_fb = amdgpu_is_fw_framebuffer(base, size);
->  
-> +	/* If the LCD panel has a privacy screen, defer probe until its ready */
-> +	privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-> +	if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-> +		return -EPROBE_DEFER;
-> +
-> +	drm_privacy_screen_put(privacy_screen);
-> +
->  	/* Get rid of things like offb */
->  	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &amdgpu_kms_driver);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index e1d3db3fe8de..9e2bb6523add 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -9781,6 +9781,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->  		if (acrtc) {
->  			new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
->  			old_crtc_state = drm_atomic_get_old_crtc_state(state, &acrtc->base);
-> +
-> +			/* Sync the privacy screen state between hw and sw */
-> +			drm_connector_update_privacy_screen(new_con_state);
->  		}
->  
->  		/* Skip any modesets/resets */
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 740435ae3997..594a8002975a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -27,6 +27,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/dp/drm_dp_mst_helper.h>
->  #include <drm/dp/drm_dp_helper.h>
-> +#include <drm/drm_privacy_screen_consumer.h>
->  #include "dm_services.h"
->  #include "amdgpu.h"
->  #include "amdgpu_dm.h"
-> @@ -506,6 +507,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->  				       struct amdgpu_dm_connector *aconnector,
->  				       int link_index)
->  {
-> +	struct drm_device *dev = dm->ddev;
->  	struct dc_link_settings max_link_enc_cap = {0};
->  
->  	aconnector->dm_dp_aux.aux.name =
-> @@ -519,8 +521,20 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->  	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
->  				      &aconnector->base);
->  
-> -	if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
-> +	if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP) {
-> +		struct drm_privacy_screen *privacy_screen;
-> +
-> +		/* Reference given up in drm_connector_cleanup() */
-> +		privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-> +		if (!IS_ERR(privacy_screen)) {
-> +			drm_connector_attach_privacy_screen_provider(&aconnector->base,
-> +								     privacy_screen);
-> +		} else if (PTR_ERR(privacy_screen) != -ENODEV) {
-> +			drm_err(dev, "Error getting privacy screen, ret=%d\n",
-> +				PTR_ERR(privacy_screen));
-> +		}
->  		return;
-> +	}
->  
->  	dc_link_dp_get_max_link_enc_cap(aconnector->dc_link, &max_link_enc_cap);
->  	aconnector->mst_mgr.cbs = &dm_mst_cbs;
+>
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 
+There didn't seem to be a reason to wait, so I pushed all 3 to
+drm-misc-next w/ collected tags
+
+46db48f25ed1 drm/bridge: Add myself as a reviewer for the Parade
+PS8640 bridge chip
+59c217b3dde5 drm/bridge: Add myself as a reviewer for the TI SN65DSI86
+bridge chip
+73a46da4fa7c drm/bridge: Add MAINTAINERS entry for DRM drivers for
+bridge chip bindings
+
+-Doug
