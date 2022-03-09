@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4B4D3C3E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 22:39:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3F94D3C61
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 22:51:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C218210E379;
-	Wed,  9 Mar 2022 21:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8595010E4BF;
+	Wed,  9 Mar 2022 21:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF13D10E379;
- Wed,  9 Mar 2022 21:39:54 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- k13-20020a4a948d000000b003172f2f6bdfso4543330ooi.1; 
- Wed, 09 Mar 2022 13:39:54 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3726F10E4BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 21:51:05 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id q14so5108260wrc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 13:51:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BtkPADRnTNW1bWoXQJNvhN2Ab+xlM9f0hFBPvwqTW1Q=;
- b=eEh04vQ/0QSeod6rMvqDyiHrBxF4SZOQgNyZKRJnc/1Rznstq3DTzIzR8SsDPQbqGZ
- WeUs+jJdNwAiyu1KeQenWuzbsTGd9j7tXMj9OBof9vDB30eANLHllCRcV6Ao6EyPHo4e
- luRdlmYO/oejsmgbaY4vUG+WZZJLfVeVzeOyK+yEXhg0rZQTIy2JablAftLc0gVhn737
- NT19USzgpIE6p9LNPP/jvhLP2MyQulJSHGRa96CJA/ngTZ/MzDmz5fWGU0/rmYBc8tHU
- XUnu/MWEwGBwDahE+evoMF2aJ1xUgQt8fUKOIPf+dzRZw2EqT01LEqHsb6VvJzIKFwBQ
- Nx7A==
+ :cc; bh=wB+NOcZPjuBQ7I++42cwqpD+y9hE+iVjMiQbLppxTXQ=;
+ b=S5ziUcSwcWcbqql4ryBgFaU9gKpCBE1RLKnQP7DR/A/4pJO6wUAXSOpyOC/PimqW0K
+ enPHbFGVz/35MIg78/PK2T2OmkRBZlHkZvRYSg31B27Ojy6Ymwd7fNI8qSHlnt75iSVX
+ UzwdOpu2dZf0hwZ4B9nww9hl9WhRfSTUI35DLGd0M9FKMZKdlpVsVn4yPoxhx+DAiqkm
+ NSylcRRoIzknJ19apuqe5z+3Z1yNmpa0sIlQBa5ZBFZjdmun0ZFn9enrkE9px7gNyuSR
+ 9sEAsMuA2MFx4TFTw0bsjNEJRtihF96nvJDmKiSuS83NE1nUoynqmTX/VcJAh8K/tiTO
+ 15mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BtkPADRnTNW1bWoXQJNvhN2Ab+xlM9f0hFBPvwqTW1Q=;
- b=6/EDbI7ldM/v1GHWarFsRuNtkbRMjOUg3rMi0hadD6lolmtCLFauiEub+lB+Pge20B
- kcO2xBMIK+5vJwOAIx1yipMN3qrrM/uHaUAm/2QMr8nKQstue9b/GDrLQEhD/rT3eTbp
- Uuc1WP2bgYaqHBExqhU2ysSTlwc/M75eRtpvPEm3rYaPR0B4vaq0tb2VUxl1f+LfRq5+
- g6CtzKP4fjk5v6FlBpWzZrNrRwxVfFPrEHo6wJSz6CJ9EL6/MihyEPvUb5xhao2HZ4n7
- iRbdZAaI0q91Lvvc663VGlPKC/95okw/QvpFVhU4sORDcONVE1SNbeYGicX7TlGZvxIr
- Iy9Q==
-X-Gm-Message-State: AOAM5318UFmyc6/u4u8v7l2617HGSjKTUGuTGSDGxK7HWC4MmEveFUNf
- TgzvCvKcNPH93lYA0otPcZJNjJPvDpmTsU49GmE=
-X-Google-Smtp-Source: ABdhPJwSyds76xJs9YmdvRnWPrRXhRqZnnJBgwsHTYeny744kxPTu9LVEe9CXmIOtfO/2ebWuzQj8mLg2mrE6367C44=
-X-Received: by 2002:a05:6870:d250:b0:da:b3f:2b29 with SMTP id
- h16-20020a056870d25000b000da0b3f2b29mr6270636oac.200.1646861993898; Wed, 09
- Mar 2022 13:39:53 -0800 (PST)
+ bh=wB+NOcZPjuBQ7I++42cwqpD+y9hE+iVjMiQbLppxTXQ=;
+ b=dPAx7QPH09YIFzKXnfnKv7+bkAUrqEbDYlgOfcM6TfywK4hSxMt6ZDG8ruyATvcxvG
+ 7G497psQq6Z41tIr4bPxVJ0TVo9Fzbp6vI37vACgOTZvKsXvlvglnTWZyrNiaCs+ERSD
+ zHpgtcjX1+Z10QJuXeA7AZ8pWsN4HJYeoQESS4Wdjn02T9oP18dEkN+ohwqctmuJBSeE
+ X+5H1OkLBz1NNmFgVlMvy1bdHuUmUfOzVoNBcGiYiDs2jWpOR2nL4KHkwEFmVfJNUcOS
+ GS1LaR2AB9bPs9En73BU4JW6rsjgvQr1g9jt5QAZotb4wSBlnR49h8O9yjnhYvu+v421
+ xtsg==
+X-Gm-Message-State: AOAM531x1UA/XuR3GhRS2g9ngDezB7yyNoB/N7cP/wury57bY1nq3f6R
+ VX3eYcD8hcb2x+tLlQoweLg8SdTcL/CdNRkQivE=
+X-Google-Smtp-Source: ABdhPJz2ayymHz8VybPKo5wyBEMKvIoEykqiV82sROIEpsyQSqwGfjcsaesHGo/FmmgPPT5CBmcho8SDwODf8kuYNoU=
+X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
+ j73-20020adf914f000000b001edbb92d0ccmr1224465wrj.297.1646862663329; Wed, 09
+ Mar 2022 13:51:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20220309212031.3063-1-david.yatsin@amd.com>
- <3e6eb8ab-57f9-8118-4d80-0db0b51e7786@amd.com>
-In-Reply-To: <3e6eb8ab-57f9-8118-4d80-0db0b51e7786@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 9 Mar 2022 16:39:42 -0500
-Message-ID: <CADnq5_NVpN=YH1DDPPqJmyToTYN=-aT1fQvrBhxNubcvHEg5jA@mail.gmail.com>
-Subject: Re: [PATCH] fixup! drm/amdkfd: CRIU export dmabuf handles for GTT BOs
-To: Felix Kuehling <felix.kuehling@amd.com>
+References: <20220308131725.60607-1-dmitry.osipenko@collabora.com>
+ <CAF6AEGt=aVJ9nR+Wv+bJEFZrn-cNOSNXG1TaJr=Cx-FTgutwKA@mail.gmail.com>
+ <d2290971-ea22-8203-631e-b896c76a994b@collabora.com>
+ <CAF6AEGuR8B6z+z=VFQ6y01wbboYS_qpkghD1GYdLES_RZOW1wA@mail.gmail.com>
+ <42facae5-8f2c-9c1f-5144-4ebb99c798bd@collabora.com>
+ <CAF6AEGtebAbWhkvrxzi4UBLdv2LJPQVPBzH-sXcACs7cxznQ8A@mail.gmail.com>
+ <05e1fe61-1c29-152f-414b-cd6a44525af0@collabora.com>
+In-Reply-To: <05e1fe61-1c29-152f-414b-cd6a44525af0@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 9 Mar 2022 13:51:42 -0800
+Message-ID: <CAF6AEGvf81epGOs7Zh4WK-7mkXRApO2p-h4g8dTuk4xtc1HOeg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/5] Add memory shrinker to VirtIO-GPU DRM driver
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,73 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- David Yat Sin <david.yatsin@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No problem.  squashed in:
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/74041e46982cd627e7b52f9c3ed37d23a4973b5f
-
-Alex
-
-
-Alex
-
-On Wed, Mar 9, 2022 at 4:23 PM Felix Kuehling <felix.kuehling@amd.com> wrote:
+On Wed, Mar 9, 2022 at 12:06 PM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
 >
-> On 2022-03-09 16:20, David Yat Sin wrote:
-> > Signed-off-by: David Yat Sin <david.yatsin@amd.com>
->
-> Please add the commit description back. And let's wait for Alex to
-> confirm that the fixup-method is OK. With that fixed, the patch is
->
-> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
->
->
-> > ---
-> >   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 6 ++++++
-> >   include/uapi/linux/kfd_ioctl.h           | 2 ++
-> >   2 files changed, 8 insertions(+)
+> On 3/9/22 03:56, Rob Clark wrote:
+> >> If we really can't track madvise state in the guest for dealing with
+> >> host memory pressure, I think the better option is to introduce
+> >> MADV:WILLNEED_REPLACE, ie. something to tell the host kernel that the
+> >> buffer is needed but the previous contents are not (as long as the GPU
+> >> VA remains the same).  With this the host could allocate new pages if
+> >> needed, and the guest would not need to wait for a reply from host.
+> > If variant with the memory ballooning will work, then it will be
+> > possible to track the state within guest-only. Let's consider the
+> > simplest variant for now.
 > >
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> > index e1e2362841f8..607f65ab39ac 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> > @@ -1767,7 +1767,10 @@ static int criu_checkpoint_bos(struct kfd_process *p,
-> >                                               &bo_bucket->dmabuf_fd);
-> >                               if (ret)
-> >                                       goto exit;
-> > +                     } else {
-> > +                             bo_bucket->dmabuf_fd = KFD_INVALID_FD;
-> >                       }
-> > +
-> >                       if (bo_bucket->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL)
-> >                               bo_bucket->offset = KFD_MMAP_TYPE_DOORBELL |
-> >                                       KFD_MMAP_GPU_ID(pdd->dev->id);
-> > @@ -2219,7 +2222,10 @@ static int criu_restore_bo(struct kfd_process *p,
-> >                                           &bo_bucket->dmabuf_fd);
-> >               if (ret)
-> >                       return ret;
-> > +     } else {
-> > +             bo_bucket->dmabuf_fd = KFD_INVALID_FD;
-> >       }
-> > +
-> >       return 0;
-> >   }
+> > I'll try to implement the balloon driver support in the v2 and will get
+> > back to you.
 > >
-> > diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-> > index eb9ff85f8556..42975e940758 100644
-> > --- a/include/uapi/linux/kfd_ioctl.h
-> > +++ b/include/uapi/linux/kfd_ioctl.h
-> > @@ -196,6 +196,8 @@ struct kfd_ioctl_dbg_wave_control_args {
-> >       __u32 buf_size_in_bytes;        /*including gpu_id and buf_size */
-> >   };
-> >
-> > +#define KFD_INVALID_FD     0xffffffff
-> > +
-> >   /* Matching HSA_EVENTTYPE */
-> >   #define KFD_IOC_EVENT_SIGNAL                        0
-> >   #define KFD_IOC_EVENT_NODECHANGE            1
+>
+> I looked at the generic balloon driver and looks like this not what we
+> want because:
+>
+> 1. Memory ballooning is primarily about handling memory overcommit
+> situations. I.e. when there are multiple VMs consuming more memory than
+> available in the system. Ballooning allows host to ask guest to give
+> unused pages back to host and host could give pages to other VMs.
+>
+> 2. Memory ballooning operates with guest memory pages only. I.e. each
+> ballooned page is reported to/from host in a form of page's DMA address.
+>
+> 3. There is no direct connection between host's OOM events and the
+> balloon manager. I guess host could watch system's memory pressure and
+> inflate VMs' balloons on low memory, releasing the guest's memory to the
+> system, but apparently this use-case not supported by anyone today, at
+> least I don't see Qemu supporting it.
+>
+
+hmm, on CrOS I do see balloon getting used to balance host vs guest
+memory.. but admittedly I've not yet looked closely at how that works,
+and it does seem like we have some things that are not yet upstream
+all over the place (not to mention crosvm vs qemu)
+
+>
+> So the virtio-balloon driver isn't very useful for us as-is.
+>
+> One possible solution could be to create something like a new
+> virtio-shrinker device or add shrinker functionality to the virtio-gpu
+> device, allowing host to ask guests to drop shared caches. Host then
+> should become a PSI handler. I think this should be doable in a case of
+> crosvm. In a case of GNU world, it could take a lot of effort to get
+> everything to upstreamable state, at first there is a need to
+> demonstrate real problem being solved by this solution.
+
+I guess with 4GB chromebooks running one or more VMs in addition to
+lots of browser tabs in the host, it shouldn't be too hard to
+demonstrate a problem ;-)
+
+(but also, however we end up solving that, certainly shouldn't block
+this series)
+
+> The other minor issue is that only integrated GPUs may use system's
+> memory and even then they could use a dedicated memory carveout, i.e.
+> releasing VRAM BOs may not help with host's OOM. In case of virgl
+> context we have no clue about where buffers are physically located. On
+> the other hand, in the worst case dropping host caches just won't help
+> with OOM.
+
+Userspace should know whether the BO has CPU storage, so I don't think
+this should be a problem virtio_gpu needs to worry about
+
+> It's now unclear how we should proceed with the host-side shrinker
+> support. Thoughts?
+>
+> We may start easy and instead of thinking about host-side shrinker, we
+> could make VirtIO-GPU driver to expire cached BOs after a certain
+> timeout. Mesa already uses timeout-based BO caching, but it doesn't have
+> an alarm timer and simply checks expiration when BO is allocated. Should
+> be too much trouble to handle timers within Mesa since it's executed in
+> application context, easier to do it in kernel, like VC4 driver does it
+> for example. This is not good as a proper memory shrinker, but could be
+> good enough in practice.
+
+I think that, given virgl uses host storage, guest shrinker should be
+still useful.. so I think continue with this series.
+
+For host shrinker, I'll have to look more at when crosvm triggers
+balloon inflation.  I could still go the MADV:WILLNEED_REPLACE
+approach instead, which does have the advantage of host kernel not
+relying on host userspace or vm having a chance to run in order to
+release pages.  The downside (perhaps?) is it would be more specific
+to virtgpu-native-context and less so to virgl or venus (but I guess
+there doesn't currently exist a way for madvise to be useful for vk
+drivers).
+
+BR,
+-R
