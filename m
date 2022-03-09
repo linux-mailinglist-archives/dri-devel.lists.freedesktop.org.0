@@ -2,84 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3024D2F8B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103104D2FA3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 14:03:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C1E10E5B6;
-	Wed,  9 Mar 2022 12:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D7810E7A9;
+	Wed,  9 Mar 2022 13:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB4B10E5B6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646830683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dkHeos7H6tsu7tvMZnCFYXnCg8oFI8g7rvfuV0EJ3JA=;
- b=X8/Jri6eTuZ4p8PhUQmgsNFuj5slbm+Z8sKzHEAarUi2ZAdv7s2wGIoIOKwX5CJeWZDm0v
- CfVkBqySMndJ/8o8iAPJorQEHIQLQ5yX7M21Ux9WuKxAPXguuIkZSzWBzszejH9Dd3+0aY
- aXWgL4qGozxCjU0//j5pVM5hfmjuE3o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-wkyjNQlhOlWMLTCx98kfGg-1; Wed, 09 Mar 2022 07:58:02 -0500
-X-MC-Unique: wkyjNQlhOlWMLTCx98kfGg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t8-20020adfa2c8000000b001e8f6889404so739071wra.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:58:01 -0800 (PST)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE63B10E7A9
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 13:03:24 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id c7so1614937qka.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:03:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dkHeos7H6tsu7tvMZnCFYXnCg8oFI8g7rvfuV0EJ3JA=;
- b=aMy8t5Gfk5Ol7arjFIx8GuXAg9gzQtSbIxHmPVGAOxr7jRiLwHqz+iiZd3h4EJuJvO
- MKZtpRg2+Lhb6EaZtu5Wy3ONBeFRw+8GV2ecBPwoqrgbi+WPiYRL1U7BpTHfnWEOnUDg
- nuDCOBKQ8f2HVnukgG3Joe0vyZdqfWS6pQeg1EhnT2UEbhMPkTja0TsvWyKqUceP3O9d
- BY80Rrrof76fNYl9liXysEJVBm35Ps4zZ7emiPzNCZm15P7xV9twGByM+d7zh8I+x4qD
- iN1Nw6r40H+fCinET8be8Cu93L6EoVX3/pCzINawxHCNSw4E7KWAbtH2XFCRPDk0wDNC
- DCaQ==
-X-Gm-Message-State: AOAM533bMHHAgEs9gcvnpOFNOYCKoKioAu//oMH78vt/6ZSRu0Njm75q
- t+KmJ4CJtSJG7y/qOWGwrKRCw7TOCINgtq+tIaI8+5ppOC8yYB2HACtyigwoPuSVUl6tFGp7+dz
- kfLE3HzjVOwtkr/dC2n7Ho+GbBFK+
-X-Received: by 2002:a05:6000:186c:b0:1fa:a8d:28f4 with SMTP id
- d12-20020a056000186c00b001fa0a8d28f4mr9173039wri.518.1646830680808; 
- Wed, 09 Mar 2022 04:58:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQnlg34BxAEh7TU1fkV4DgVunPqC5uWpf/4h/80ydvuzxxGu4LUiZbBIWm+zCntOJ+szdncg==
-X-Received: by 2002:a05:6000:186c:b0:1fa:a8d:28f4 with SMTP id
- d12-20020a056000186c00b001fa0a8d28f4mr9173018wri.518.1646830680553; 
- Wed, 09 Mar 2022 04:58:00 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- u10-20020adfa18a000000b001f04c24afe7sm1641218wru.41.2022.03.09.04.57.59
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=12vkeayAZrB46KbYGTQzYxqSQYZ5jeg6ghfEwNKBKIY=;
+ b=r1A9FiwHD9v3aVlA4fNPzO55BwMEmTyVVZaitBmx147xwv8LhsoKMwKticBPPRbhJD
+ E/wLpK3NAdQEbxdY8QUQDcDCmbvScNKa6OJ5O0HTo4Y7EwwdCEqGyECwdtgnIsO09Efr
+ yefPCksosGRWFHUGECfy5Piso8X0/K297AfYq5wiMk8e9x54nUR31srKDKi/ZDxerXVx
+ Jni+Xx8OE6zxDVU3kgOp41IAog1Set9mTm7jHdoCNUo9K867WnwykToHpkxKOlUd3PQu
+ 6caFl4sLHu3mrBMK2zqr05gkEzwQYv3S3ocQasCI9j2IqSnhnx59hjYu0pAsZoRV19WK
+ SfMQ==
+X-Gm-Message-State: AOAM530ON/mf/7jxdRoXoaa0ULYDnvroY+Fto9K3SqKOYVMV0GqxV/5Y
+ YaNxQ1dBWPxRSNeQztI53Pg+ZjhKcNlfhg==
+X-Google-Smtp-Source: ABdhPJyW+QoqBVjX6QuV7H6p1w1ZJ9K8CYY+zq2gxblbiZN40NZF2X4lagdqSxtbmeSHMnmTWRGuDQ==
+X-Received: by 2002:a05:620a:4691:b0:67d:1e53:f46e with SMTP id
+ bq17-20020a05620a469100b0067d1e53f46emr4491788qkb.247.1646831003538; 
+ Wed, 09 Mar 2022 05:03:23 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ p7-20020a05622a13c700b002de9f3894c2sm1273592qtk.50.2022.03.09.05.03.23
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 04:58:00 -0800 (PST)
-Message-ID: <1de701d9-4de6-4652-d33d-95d82860bed9@redhat.com>
-Date: Wed, 9 Mar 2022 13:57:58 +0100
+ Wed, 09 Mar 2022 05:03:23 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id u10so4151784ybd.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 05:03:23 -0800 (PST)
+X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
+ v133-20020a81618b000000b002dbd9528a39mr16792727ywb.132.1646830616881; Wed, 09
+ Mar 2022 04:56:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 05/10] drm/fourcc: Add DRM_FORMAT_C[124]
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
-References: <cover.1646683502.git.geert@linux-m68k.org>
- <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220214133710.3278506-1-javierm@redhat.com>
+ <20220214133710.3278506-4-javierm@redhat.com>
+ <CAMuHMdU+29x4ZHLAiPiReyLKw_VYBCCLw0bCoQmw9s6sQ4Bxcw@mail.gmail.com>
+ <fd6ec463-f46d-0813-5d87-a00c07739e01@redhat.com>
+In-Reply-To: <fd6ec463-f46d-0813-5d87-a00c07739e01@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Mar 2022 13:56:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUVWKee+Wm=EP49=5TAgqodPsMjkC2MHUfnyBDF_zt_Zg@mail.gmail.com>
+Message-ID: <CAMuHMdUVWKee+Wm=EP49=5TAgqodPsMjkC2MHUfnyBDF_zt_Zg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,28 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/7/22 21:52, Geert Uytterhoeven wrote:
-> Introduce fourcc codes for color-indexed frame buffer formats with two,
-> four, and sixteen colors, and provide a mapping from bit per pixel and
-> depth to fourcc codes.
-> 
-> As the number of bits per pixel is less than eight, these rely on proper
-> block handling for the calculation of bits per pixel and pitch.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
+Hi Javier,
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+On Wed, Mar 9, 2022 at 1:14 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> On 3/8/22 17:30, Geert Uytterhoeven wrote:
+> > Unfortunately a regression was introduced since your v3: printed
+> > text is mirrored upside-down. I.e. "E" is rendered correctly, but "L"
+> > turns into "=CE=93" (Greek Gamma).
+> > I suspect something went wrong with the display initialization
+> > sequence.
+> >
+>
+> Could you please try Chen-Yu's fix for the COM scan direction mask ?
+>
+> https://lists.freedesktop.org/archives/dri-devel/2022-March/345915.html
+>
+> I made a mistake when converting to use the GENMASK() and FIELD_PREP()
+> macros in v4 as suggested by Andy. The SSD130X_SET_COM_SCAN_DIR_MASK
+> wasn't correct which would explain the output to be vertically flipped.
 
--- 
-Best regards,
+Thanks, confirmed fixed.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
