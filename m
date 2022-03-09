@@ -1,83 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845F14D2EA1
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:03:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C2F4D2EAF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:06:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5B310E533;
-	Wed,  9 Mar 2022 12:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9877210E60D;
+	Wed,  9 Mar 2022 12:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6622110E546
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:03:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646827391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tg1o0vf2e/XRSv/u3YehBRlt1pjhs1t2fKcaz6fZZ34=;
- b=fhlYUfiZjwZ8W+9YOQsIvOne9LY+lsq3PJ44BazGQ9AB9EmEJ4qFpYvETa9BRGhLPDhiEx
- SPvvCbCQN4AjH54N10b06SlLVcMQreYYwIRmYLgxbJw/qMwjcYAWvEn9KBB6Y4pTf+rwXn
- AH9XQanLnB4Hj2FvK+IV+rDvSNgK4Qc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-ilfmn9V7MzykQWFsmxwdcg-1; Wed, 09 Mar 2022 07:03:10 -0500
-X-MC-Unique: ilfmn9V7MzykQWFsmxwdcg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x15-20020a5d6b4f000000b001ee6c0aa287so690858wrw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:03:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Tg1o0vf2e/XRSv/u3YehBRlt1pjhs1t2fKcaz6fZZ34=;
- b=MFi70No6J4d1fUnMEHKtkqHdsA+fMha0vbxuFatkU5ziswtXQFQBtwtnB6vmmJVK8N
- s1PhJ1lwiWl5HO8z9WSu3yId0gixOGunKRlc7RgLzI+3n7D3jvzuireTxHcoV2YB/jPL
- QyulFwp4J2gVgKV0tkTQ54/vlCZP84W3HnBJtxUGfdT7oK9fie92aam5KpOGke09tWQw
- YGwcQUlCx+nbNTPXTLqiaLqWHnmaHUsQta6G/9yPFnLxLo3PGQOOc9ZLAZPZhE7Oim7q
- kicE1WNbBfI1fAO3icq6L5fTSQd+O22nOYi8nTSbFKlOEP0JNwrqSJFvJOzRkkhbGwtV
- 6usA==
-X-Gm-Message-State: AOAM530msy0IRRzWW6dM0sSbX74wd2vy6yJeQD3kWQe0Dl9Xz/gNGBLi
- 2vaIBqyDfzEWxxoxlcC8fLrohZGRVCvygDhgOuZNOSnsSVINSytQ9PaOMYlGpsc1IJ6FsK+mvv2
- V4fx5u67E+5Io49zirZucCK3fQ5lu
-X-Received: by 2002:a05:600c:22cd:b0:389:c99a:45a4 with SMTP id
- 13-20020a05600c22cd00b00389c99a45a4mr3087807wmg.38.1646827387294; 
- Wed, 09 Mar 2022 04:03:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxvQMnTjm+Qq5odCLZwgqJ2OfY5/z2HM+SprEExkrP+P+U9HfPpAzWfgeU88YgEHXz8I1b3Nw==
-X-Received: by 2002:a05:600c:22cd:b0:389:c99a:45a4 with SMTP id
- 13-20020a05600c22cd00b00389c99a45a4mr3087777wmg.38.1646827386977; 
- Wed, 09 Mar 2022 04:03:06 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- g17-20020adff411000000b001f03426827csm1551217wro.71.2022.03.09.04.03.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 04:03:06 -0800 (PST)
-Message-ID: <809430bb-4ffb-3bd4-7062-ec8b78245387@redhat.com>
-Date: Wed, 9 Mar 2022 13:03:05 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0682910E60D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:06:41 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C0ED1688;
+ Wed,  9 Mar 2022 04:06:41 -0800 (PST)
+Received: from [10.57.41.254] (unknown [10.57.41.254])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86B123FA4D;
+ Wed,  9 Mar 2022 04:06:38 -0800 (PST)
+Message-ID: <8b902216-fd82-fb2c-1849-d613caa0a763@arm.com>
+Date: Wed, 9 Mar 2022 12:06:33 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 2/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_mono_reversed()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220214133710.3278506-1-javierm@redhat.com>
- <20220214133710.3278506-3-javierm@redhat.com>
- <CAMuHMdWZHBVwaLDi-B=PrVOfcHxGLxwgDBisvexE94x72qvdJg@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdWZHBVwaLDi-B=PrVOfcHxGLxwgDBisvexE94x72qvdJg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v7 10/24] drm/rockchip: dw_hdmi: Add support for hclk
+Content-Language: en-GB
+To: "elaine.zhang" <zhangqing@rock-chips.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+References: <78207d97-b5a1-9792-8ec9-11fcf2e00370@gmail.com>
+ <90c61299-f02c-607b-4734-7134852ef0a6@arm.com>
+ <20220225131154.GE19585@pengutronix.de>
+ <20220228141921.GN19585@pengutronix.de>
+ <5184ecf2-8734-3121-cbbc-5dcfcf0d02f8@arm.com>
+ <20220302112528.GV19585@pengutronix.de>
+ <20220304142235.GL22780@pengutronix.de>
+ <9ea0134e-aac7-60e1-5c58-ae31b4e1c422@collabora.com>
+ <035f2dfd-bf35-abca-32bf-2be85cc88f8a@rock-chips.com>
+ <20220309094139198367142@rock-chips.com>
+ <20220309081810.GH405@pengutronix.de>
+ <206d079d-5591-984d-cccc-dc5baa3db249@rock-chips.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <206d079d-5591-984d-cccc-dc5baa3db249@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,122 +55,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: huangtao <huangtao@rock-chips.com>, devicetree <devicetree@vger.kernel.org>,
+ =?UTF-8?B?5pON55Ge5p2w?= <algea.cao@rock-chips.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ pgwipeout <pgwipeout@gmail.com>, hjc <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?5p2o5Yev?= <Kever.yang@rock-chips.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ =?UTF-8?B?5byg5pm0?= <elaine.zhang@rock-chips.com>,
+ =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel <kernel@pengutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
-
-Thanks a lot for your feedback.
-
-On 3/8/22 17:13, Geert Uytterhoeven wrote:
-
-[snip]
-
->> +
->> +static void drm_fb_gray8_to_mono_reversed_line(u8 *dst, const u8 *src, unsigned int pixels,
+On 2022-03-09 08:37, elaine.zhang wrote:
+> hi,
 > 
-> "pixels" is not the number of pixels to process, but the number of
-> bytes in the monochrome destination buffer.
->
-
-Right, that parameter name is misleading / incorrect indeed. Probably
-should be changed by dst_pitch or dst_stride.
- 
->> +                                              unsigned int start_offset, unsigned int end_len)
->> +{
->> +       unsigned int xb, i;
->> +
->> +       for (xb = 0; xb < pixels; xb++) {
->> +               unsigned int start = 0, end = 8;
->> +               u8 byte = 0x00;
->> +
->> +               if (xb == 0 && start_offset)
->> +                       start = start_offset;
->> +
->> +               if (xb == pixels - 1 && end_len)
->> +                       end = end_len;
->> +
->> +               for (i = start; i < end; i++) {
->> +                       unsigned int x = xb * 8 + i;
->> +
->> +                       byte >>= 1;
->> +                       if (src[x] >> 7)
->> +                               byte |= BIT(7);
->> +               }
->> +               *dst++ = byte;
->> +       }
 > 
-> The above is IMHO very hard to read.
-> I think it can be made simpler by passing the total number of pixels
-> to process instead of "pixels" (which is bytes) and "end_len".
->
-
-Agreed that's hard to read. I think is better if you propose a patch
-with your idea to make it simpler.
- 
-[snip]
-
->> +void drm_fb_xrgb8888_to_mono_reversed(void *dst, unsigned int dst_pitch, const void *vaddr,
->> +                                     const struct drm_framebuffer *fb, const struct drm_rect *clip)
->> +{
->> +       unsigned int linepixels = drm_rect_width(clip);
->> +       unsigned int lines = clip->y2 - clip->y1;
+> 在 2022/3/9 下午4:18, Sascha Hauer 写道:
+>> Hi Elaine,
+>>
+>> On Wed, Mar 09, 2022 at 09:41:39AM +0800, zhangqing@rock-chips.com wrote:
+>>>     hi，all：
+>>>     Let me explain the clock dependency：
+>>>     From the clock tree, pclk_vo0 and hclk_vo0 are completely 
+>>> independent
+>>>     clocks with different parent clocks and different clock 
+>>> frequencies。
+>>>     But the niu path is :
+>>>     pclk_vo is dependent on hclk_vo, and the pclk_vo niu goes 
+>>> through  hclk_vo
+>>>     niu.
+>> Thanks, this is the information we are looking for. What is "NIU" btw?
+>> I think this is even documented in the Reference Manual. With the right
+>> pointer I just found:
 > 
-> drm_rect_height(clip)?
->
-
-Yes, unsure why didn't use it since used drm_rect_width() for the width.
- 
->> +       unsigned int cpp = fb->format->cpp[0];
->> +       unsigned int len_src32 = linepixels * cpp;
->> +       struct drm_device *dev = fb->dev;
->> +       unsigned int start_offset, end_len;
->> +       unsigned int y;
->> +       u8 *mono = dst, *gray8;
->> +       u32 *src32;
->> +
->> +       if (drm_WARN_ON(dev, fb->format->format != DRM_FORMAT_XRGB8888))
->> +               return;
->> +
->> +       /*
->> +        * The reversed mono destination buffer contains 1 bit per pixel
->> +        * and destination scanlines have to be in multiple of 8 pixels.
->> +        */
->> +       if (!dst_pitch)
->> +               dst_pitch = DIV_ROUND_UP(linepixels, 8);
+> The NIU (native interface unit)
 > 
-> This is not correct when clip->x1 is not a multiple of 8 pixels.
-> Should be:
+> You can see 2.8.6(NIU Clock gating reliance) in TRM.
 > 
->     DIV_ROUND_UP(linepixels + clip->x1 % 8, 8);
->
-
-Agreed.
- 
->> +
->> +       drm_WARN_ONCE(dev, dst_pitch % 8 != 0, "dst_pitch is not a multiple of 8\n");
+>>
+>>> A part of niu clocks have a dependence on another niu clock in order to
+>>> sharing the internal bus. When these clocks are in use, another niu
+>>> clock must be opened, and cannot be gated.  These clocks and the special
+>>> clock on which they are relied are as following:
+>>>
+>>> Clocks which have dependency     The clock which can not be gated
+>>> -----------------------------------------------------------------
+>>> ...
+>>> pclk_vo_niu, hclk_vo_s_niu       hclk_vo_niu
+>>> ...
 > 
-> This triggers for me: dst_pitch = 1.
-> Which is perfectly fine, when flashing an 8-pixel wide cursor ;-)
->
+> Yeah, the dependency is this.
+> 
+> It may be not very detailed, I don't have permission to publish detailed 
+> NIU designs.
+> 
+>>
+>>
+>>>     The clock tree and NIU bus paths are designed independently
+>>>     So there are three solutions to this problem:
+>>>     1. DTS adds a reference to Hclk while referencing Pclk.
+>>>     2, The dependent clock is always on, such as HCLK_VO0, but this 
+>>> is not
+>>>     friendly for the system power.
+>>>     3. Create a non-clock-tree reference. Clk-link, for example, we 
+>>> have an
+>>>     implementation in our internal branch, but Upstream is not sure 
+>>> how to
+>>>     push it.
+>> I thought about something similar. That would help us here and on i.MX
+>> we have a similar situation: We have one bit that switches multiple
+>> clocks. That as well cannot be designed properly in the clock framework
+>> currently, but could be modelled with a concept of linked clocks.
+>>
+>> Doing this sounds like quite a bit of work and discussion though, I
+>> don't really like having this as a dependency to mainline the VOP2
+>> driver. I vote for 1. in that case, we could still ignore the hclk in
+>> dts later when we have linked clocks.
 
-Indeed. I think we should just drop that warn.
+OK so just to clarify, the issue is not just that the upstream clock 
+driver doesn't currently model the NIU clocks, but that even if it did, 
+it would still need to implement some new multi-parent clock type to 
+manage the internal dependency? That's fair enough - I do think that 
+improving the clock driver would be the best long-term goal, but for the 
+scope of this series, having an interim workaround does seem more 
+reasonable now that we understand *why* we need it.
 
-Do you want me to post patches for all these or would you do it
-when simplifying the drm_fb_gray8_to_mono_reversed_line() logic ?
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Thanks,
+Robin.
