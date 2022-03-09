@@ -1,43 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E064D3513
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 18:05:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6762D4D3560
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 18:41:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F5F10E57F;
-	Wed,  9 Mar 2022 17:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC3110E47C;
+	Wed,  9 Mar 2022 17:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D219010E57F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 17:04:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5822D8C4;
- Wed,  9 Mar 2022 18:04:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646845496;
- bh=5Fo54rwgvgRJxqVwV2aN1QaPQFVna5hLv/7lAvz14Ks=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=evFB6li6o4vZyLAeiZy28cPS5VPrdOPnh1RVpE3Q7CSQtUFlL+Gbo1f33/9QXYB5L
- fBVoJA/j0E1f1Qytw1wBNxeOwX9C5m+fQ2aY+gPVBimrFcOcGyudGG1BvWrDtOM2P6
- l9BPjqFObjK425H9sjmdGhPGZBr8DWkwdF9oE9ro=
-Content-Type: text/plain; charset="utf-8"
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5EA210E442;
+ Wed,  9 Mar 2022 17:41:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hgP4WDhYvZl0CsiEMB5yC4tT84HJ54DmvOKS0n4G7tM12wUsF7Imadk7OYu7BX/bYbDc355G6+2+Agfa+lZPwMVSsceyrxoeT+Bwc4x6prVTypbIIYXD+CP2qzyslidSpUJNTACcArEtppxNpX/yV8oXI8YHgy7sXawA8KsxEjkZ991LhJHb8Iukq1XQ1cviobqryMEmMGBxyey0NjdWGjsATdxb8Wwlgd6tZJ+Bqp6d9Q6AFUAoxpGZpZl1racJkllAIoIiU08jru8II3yFHohSuDvrMEig3ELCExQWPpJnLLhNl5cX4x5caeRDU8sBWv4Qt/rzns+HMpL24F50YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5p/P779eNcer+g12N09+owMHCs7CQPFS2exyJkoqxNc=;
+ b=gT8RxGxEEPbsgVJjj3SPCDGvECL/Y1GWZOKIUVj42D0IKdmpYCI+C95y5RxLv8oWVEqvYmS/d81s+muDHwiiTMQTEyB80d7YuduirdrEWvFbOATWhcR7LHRd2qacrF9+w/gIqawJVw7leuduY/mhGMC9Op/ZBiGkRs4pIAOnShj4F+UDfDwPxq3h9IuawjmgqgmJ1bG/fjKvXu/pAQqFJtndT7qr1mkHy+JInHJM8aKr/CLTLH+dgZRdT1nn6bowWb5jnr7N8RePaleYTcFSTmZRyli2RypFv7kfHqxq7JhoQErEVxGYkW6A5SASArtplWBCq6DmvjwWlzHt2LDcxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5p/P779eNcer+g12N09+owMHCs7CQPFS2exyJkoqxNc=;
+ b=JgUCQl2Nj3x81aKBZSKJ5eGM4cknOX9k6c4JUxqy9rbz5FZyAPbjr03sHtObct/jxobTDIIMPoY7IzxiFtsKF/6V4kyR4QK/qHigyeDGp6KkFBWoFy37BvjLu4ghR6b2AdkUgCJK4EUa7EdZILauvIH9zeszcikBYSzQtfTUzDs=
+Received: from MW4PR03CA0350.namprd03.prod.outlook.com (2603:10b6:303:dc::25)
+ by DM6PR12MB3081.namprd12.prod.outlook.com (2603:10b6:5:38::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.26; Wed, 9 Mar
+ 2022 17:41:49 +0000
+Received: from CO1NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:dc:cafe::7f) by MW4PR03CA0350.outlook.office365.com
+ (2603:10b6:303:dc::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
+ Transport; Wed, 9 Mar 2022 17:41:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT003.mail.protection.outlook.com (10.13.175.93) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5038.14 via Frontend Transport; Wed, 9 Mar 2022 17:41:48 +0000
+Received: from dayatsin-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 9 Mar
+ 2022 11:41:46 -0600
+From: David Yat Sin <david.yatsin@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/amdkfd: Set handle to invalid for non GTT/VRAM BOs
+Date: Wed, 9 Mar 2022 12:41:33 -0500
+Message-ID: <20220309174133.14454-1-david.yatsin@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com>
- <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
- <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Date: Wed, 09 Mar 2022 17:04:54 +0000
-Message-ID: <164684549417.11309.167290259626544349@Monstersaurus>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 451ee1ca-1676-4fc9-787e-08da01f4167f
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3081:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3081F0E5CE9D8F0C03AFC8C4950A9@DM6PR12MB3081.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OW9FZ9MzmP+WlKWHGjvZdCLakBgSm9Q0Mx8rDzDT/CcuBf9W0aaY8cnsSZS070m6xNXeU/kpJzoInCqTOWlNuOwrq4+yB8GyRPXigswl8yp4gM/b/tYTS2gUygVOk3ifRkgk7j7mCB/IvGB7/6RwPlLxB8kwW0ItNt0Bghw0Q2j5weV1jziUaohSv7M2be4B0GiJ8+wTl/7oiUjx+nLGjvKZyyPXFSJx9YkeTj1XF48nxiFnLxSeGe3ghqGeWDLDNO1wy8cBEQQix9MMI0wLVCPkVJQrOskhVIeIW/nSS4cmcy6Rd9s+o+YXCasDtL9RUQfRgjEOzn1kyOSrEZECJx0roKhQqokbcsM5DtCbWGZwlZiFB3HqeGqPB4T09lXPeYilyW5wg4qD1Un6fB+bJH0SlB2u6nwGMZD7smxUwc/30nEm+dOJue6hxNpfNMKD6/2TdKTFAU6Qv1v/YI5vTTM+S6mllO4RoFHkjOfOrvZcOvqN7Lvdaujdn4Uy1uY4GfB20mceiRgM7YSh9hDG2v5dLiUPUiAT+2bbS2uwC0S4dyCRO/DI+YkkpNjOLlEaDygSp0h2N3+oTl6YaYJCwnFhn1CEscFSBucNFLkB7ITygZjoktHWb6akmEbwB2OUkkK1IszZsY9MI216s8N9xocZlQzXCZQZfGwa9e8k4ovTOVQC80KHQGFnfrzfJS/q5qcZqX9LUtZOuBB34BtNwA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(86362001)(36860700001)(450100002)(110136005)(81166007)(8936002)(508600001)(1076003)(8676002)(70206006)(70586007)(82310400004)(4326008)(356005)(5660300002)(83380400001)(2906002)(47076005)(7696005)(40460700003)(16526019)(336012)(426003)(6666004)(186003)(2616005)(316002)(26005)(36756003)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2022 17:41:48.5572 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 451ee1ca-1676-4fc9-787e-08da01f4167f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,145 +99,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Felix.Kuehling@amd.com, David Yat Sin <david.yatsin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2022-03-07 23:22:00)
-> Hi,
->=20
-> On Mon, Mar 7, 2022 at 10:00 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-> > routed to a DisplayPort connector. Enable DisplayPort mode when the next
-> > component in the display pipeline is detected as a DisplayPort
-> > connector, and disable eDP features in that case.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > Reworked to set bridge type based on the next bridge/connector.
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > --
-> > Changes since v1/RFC:
-> >  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
-> >    devm_drm_of_get_bridge"
-> >  - eDP/DP mode determined from the next bridge connector type.
-> >
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi86.c
-> > index 29f5f7123ed9..461f963faa0b 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -60,6 +60,7 @@
-> >  #define SN_LN_ASSIGN_REG                       0x59
-> >  #define  LN_ASSIGN_WIDTH                       2
-> >  #define SN_ENH_FRAME_REG                       0x5A
-> > +#define  ASSR_CONTROL                          BIT(0)
-> >  #define  VSTREAM_ENABLE                                BIT(3)
-> >  #define  LN_POLRS_OFFSET                       4
-> >  #define  LN_POLRS_MASK                         0xf0
-> > @@ -91,6 +92,8 @@
-> >  #define SN_DATARATE_CONFIG_REG                 0x94
-> >  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
-> >  #define  DP_DATARATE(x)                                ((x) << 5)
-> > +#define SN_TRAINING_SETTING_REG                        0x95
-> > +#define  SCRAMBLE_DISABLE                      BIT(4)
-> >  #define SN_ML_TX_MODE_REG                      0x96
-> >  #define  ML_TX_MAIN_LINK_OFF                   0
-> >  #define  ML_TX_NORMAL_MODE                     BIT(0)
-> > @@ -1005,6 +1008,11 @@ static int ti_sn_link_training(struct ti_sn65dsi=
-86 *pdata, int dp_rate_idx,
-> >         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> >                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
-> >
-> > +       /* For DisplayPort, use the standard DP scrambler seed. */
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
-> > +                                  ASSR_CONTROL, 0);
->=20
-> I thought it was agreed that this hunk wasn't doing anything and
-> should be removed? I did some research previously [1] and the manual
-> said that this bit is "read only" unless "TEST2" is pulled high. In
-> the previous discussion Laurent said that it wasn't. I also pointed
-> out that this conflicts with the bit of code in ti_sn_bridge_enable()
-> which tells the sink to enable the alternate scrambler.
+Set dmabuf handle to invalid for BOs that cannot be accessed using SDMA
+during checkpoint/restore.
 
-Sorry - I had misremembered indeed, and looking back I confirmed that
-this hunk was not required. I had incorrectly remembered that the second
-part was required (below) and assumed that had meant both were.
+Signed-off-by: David Yat Sin <david.yatsin@amd.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 8 ++++++--
+ include/uapi/linux/kfd_ioctl.h           | 2 ++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-Of course if we're disabling the scrambling mode, then it likely doesn't
-matter what the seed is!.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index e1e2362841f8..1ffa976ad318 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1767,7 +1767,9 @@ static int criu_checkpoint_bos(struct kfd_process *p,
+ 						&bo_bucket->dmabuf_fd);
+ 				if (ret)
+ 					goto exit;
+-			}
++			} else
++				bo_bucket->dmabuf_fd = KFD_INVALID_FD;
++
+ 			if (bo_bucket->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL)
+ 				bo_bucket->offset = KFD_MMAP_TYPE_DOORBELL |
+ 					KFD_MMAP_GPU_ID(pdd->dev->id);
+@@ -2219,7 +2221,9 @@ static int criu_restore_bo(struct kfd_process *p,
+ 					    &bo_bucket->dmabuf_fd);
+ 		if (ret)
+ 			return ret;
+-	}
++	} else
++		bo_bucket->dmabuf_fd = KFD_INVALID_FD;
++
+ 	return 0;
+ }
+ 
+diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+index eb9ff85f8556..42975e940758 100644
+--- a/include/uapi/linux/kfd_ioctl.h
++++ b/include/uapi/linux/kfd_ioctl.h
+@@ -196,6 +196,8 @@ struct kfd_ioctl_dbg_wave_control_args {
+ 	__u32 buf_size_in_bytes;	/*including gpu_id and buf_size */
+ };
+ 
++#define KFD_INVALID_FD     0xffffffff
++
+ /* Matching HSA_EVENTTYPE */
+ #define KFD_IOC_EVENT_SIGNAL			0
+ #define KFD_IOC_EVENT_NODECHANGE		1
+-- 
+2.35.1
 
-Looking at the datasheet though, register 0x5a, clearly says the default
-is 01 (ASSR) which we're not using. So the datasheet implies we want the
-DP scrambler seed (if it were enabled?)
-
-Reading the 0x5a register here shows we have 0x05. Indeed, re-reading
-after attempting to write '0' to it still shows 0x05. So it's read-only
-and not relevant regardless.
-
-I've removed this hunk now.
-
-> >         /* enable DP PLL */
-> >         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
-> >
-> > @@ -1016,6 +1024,11 @@ static int ti_sn_link_training(struct ti_sn65dsi=
-86 *pdata, int dp_rate_idx,
-> >                 goto exit;
-> >         }
-> >
-> > +       /* For DisplayPort, disable scrambling mode. */
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_R=
-EG,
-> > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
->=20
-> In my previous review I asked for some comments to include the "why"
-> we disabling scrambling mode for DP. Can you please add that?
->=20
-> I also presume that for DP it's probably a good idea to avoid the code
-> in ti_sn_bridge_enable() that tells the sink to use the alternate
-> scrambler.
-
-looking at it yes. I've added a check to avoid that in my DP connector
-case, and there doesn't seem to be any effect on the output. But I'll
-add it to the patch for the next version.
-
-
-
->> I think it was done for DRM purpose, to prevent signals meant for a
->> panel to be connected to a device that could capture video from a DP
->> source.
-
-Is this better:
-
-	/*
-	 * Only eDP pannels which support Alternate Scrambler Seed Reset (ASSR)
-	 * are supported by the SN65DSI86. For DisplayPort, disable scrambling
-	 * mode.
-	 */
-
-I don't know if it answers your 'why' ... and I don't think adding
- "We think it is for DRM protection"
-
-really suits the comment.
-
-=20
-> [1] https://lore.kernel.org/r/CAD=3DFV=3DWwayx1Y-xv=3DRPuJbG+Q1wHrUWgh4P7=
-wuzy_bAL=3D_FN0g@mail.gmail.com
->=20
-> -Doug
