@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62AE4D2F6B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E514D2F76
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:52:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F43810E8B9;
-	Wed,  9 Mar 2022 12:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D831610E90B;
+	Wed,  9 Mar 2022 12:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5083610E6C6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:50:12 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6560710E90B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646830211;
+ s=mimecast20190719; t=1646830321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qK37FEIB2OXNuraDrBny1GHU3Ir9ESnwpP2fxsHmqQE=;
- b=Drtrofwd1YBHm2APUgeBQ0WWDJkVNwb8K5wFCZ+qZWOcpl+4M03WqSPCjP6ZTGQjKPn+f+
- a3p+6tQFjMxShP8ME9BVX++hkMF5t7iPs2e4/+T0Xp+lbacxLJelaRB/0McRB2Dflrj7Cw
- JTafdgqtLSx0ZkuWLHiiP52YcmaQq2k=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MVrNBje8P4Tjl99yqsqfstxvyHvyJTjfoJ0XzHjnkFs=;
+ b=D/h0QdLTqCltFn4tCI/Y0v+vGfga3W6t8+RXLH/+YO77eUfTJJx9LSGUPhXcsk5oR1d2QY
+ OVeU6TpaMczzKdKksH+PHSoLk0YAuBlja0JdOLx6RG2xQZMvflMBM80n8LVCSi9h4taCxH
+ 2T3jw6h+WQirZ2d6m4nSUirkOO7fjFg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-GBxZF7pcOti89vqc2-fptQ-1; Wed, 09 Mar 2022 07:50:08 -0500
-X-MC-Unique: GBxZF7pcOti89vqc2-fptQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q14-20020adfea0e000000b002036c16c6daso729409wrm.8
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:50:08 -0800 (PST)
+ us-mta-663-kKl1iuJdM0G0XlHLPnGUvA-1; Wed, 09 Mar 2022 07:52:00 -0500
+X-MC-Unique: kKl1iuJdM0G0XlHLPnGUvA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k41-20020a05600c1ca900b00389a2b983efso758368wms.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:51:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=qK37FEIB2OXNuraDrBny1GHU3Ir9ESnwpP2fxsHmqQE=;
- b=6onEasWGFnABnnAgUM/dEG+2Zjs/zZXKj/ZKimCfOXNjAAcyU5MaeZRRo9I9pU0tjA
- Y3mnL7tU6s3qkZ7XplEZ3Y2oQwpD0E59y6HK9H+/6tQyCZvqMt+66LJ7KIMr4RNHm9XC
- YGtjgexLqWwzBJDEOtwl6lvPtw6qBazR3tQJJ/T3wsG2/xiDaJ7NkfS9nXoXQeZUwB2S
- m8HoqxNvvVqcUrSmUfwcqb2Pj2v5bl0a3zDaHEHCv8H9iMMg46rTdJWXtMTeFdA+oAWe
- BrAC2TuvxUGFW4rhUwSNVtGjjcGfBkF6vPtfz2d1KtWF0Ep8g6hPAG6dpiWWAlb7ZkV7
- Nkkw==
-X-Gm-Message-State: AOAM5311CiBfcuzrtme31DToykUH2Es2vfoudJNhQDqdTWp/B7/2B75y
- zV1wcB7udeFUW+hFfazaxQh3One5S7OWkqKZ+KdveLbFQd4BijB00EtsyDlFotYK8okwMRdLaZ+
- vUpoBchfnc2+txFqLcxIgBroBQPt5
-X-Received: by 2002:a05:600c:3391:b0:389:9c6e:c248 with SMTP id
- o17-20020a05600c339100b003899c6ec248mr7533659wmp.97.1646830207220; 
- Wed, 09 Mar 2022 04:50:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeXHfCV/JaoT7fJMQEXpLGuGsq/2+i1HVZtyXeMJ9Df4V6oPcBL176FigUDbOU4N/swo1uMA==
-X-Received: by 2002:a05:600c:3391:b0:389:9c6e:c248 with SMTP id
- o17-20020a05600c339100b003899c6ec248mr7533636wmp.97.1646830206986; 
- Wed, 09 Mar 2022 04:50:06 -0800 (PST)
+ bh=MVrNBje8P4Tjl99yqsqfstxvyHvyJTjfoJ0XzHjnkFs=;
+ b=garMuVLmC0PaKdiAk05/FTi+Hq3MGM5+jdO1PILVZ8lfbMzghxh0x37taivxfTCfmG
+ PyBCasGDwAwQgPNkiNnlQvCnEgGYDhwkmq1ldUlibIGIenQ4QYqc8n1VvgwCxs51w0WH
+ i9y/yeNReDEWNx7EkaOfO6vcUlMmk4nei7hRNhpg2H0cxWVs4+BF4i1+8QrNZj1aLzLl
+ R0Joo4CkoP8A4n4p13tK5lBpvKEI80dVPlvDnPTrEYsgqua8NLb/cAomO3V3s1LhOmAU
+ ajL3LELspif0mfiCHH3emOpnlnOHE2+psv5c7am0RUwuABdO6aLeYLnKpDTdUz1ZYu3d
+ 4ZHg==
+X-Gm-Message-State: AOAM533+zugCKfpbxHP4eJohiSiFnl1cjFrNFUIv028TqwavEqEg8iGc
+ YtwQVg8Y2TrZLtAiylO9rEvG30Gi2hcHaVMGGEJ6G2cg8RXGiwRQtzqj1WJ5tp1/k5SQdtk6m2X
+ cMgxgwJaemY+RYg89OL465WVqlh2Q
+X-Received: by 2002:adf:8b9e:0:b0:1f0:25ca:6d81 with SMTP id
+ o30-20020adf8b9e000000b001f025ca6d81mr15523232wra.247.1646830319032; 
+ Wed, 09 Mar 2022 04:51:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznCED2hDWfMPlEh09LTikM9n8nFo++5o/PkgFE4Sete3s/9brY/cGIrZsveiDmJHMiONU+4Q==
+X-Received: by 2002:adf:8b9e:0:b0:1f0:25ca:6d81 with SMTP id
+ o30-20020adf8b9e000000b001f025ca6d81mr15523208wra.247.1646830318754; 
+ Wed, 09 Mar 2022 04:51:58 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- f18-20020a5d6652000000b001e669ebd528sm1715420wrw.91.2022.03.09.04.50.05
+ n2-20020a056000170200b001f1e16f3c53sm1643997wrc.51.2022.03.09.04.51.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 04:50:06 -0800 (PST)
-Message-ID: <d0c795a7-6379-fa95-7487-982e668df27d@redhat.com>
-Date: Wed, 9 Mar 2022 13:50:05 +0100
+ Wed, 09 Mar 2022 04:51:58 -0800 (PST)
+Message-ID: <d7a8d183-fe2b-99b1-9730-eddb040f6d1e@redhat.com>
+Date: Wed, 9 Mar 2022 13:51:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 02/10] drm/fourcc: Add drm_format_info.is_color_indexed
- flag
+Subject: Re: [PATCH v2 03/10] drm/client: Use actual bpp when allocating frame
+ buffers
 To: Geert Uytterhoeven <geert@linux-m68k.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
 References: <cover.1646683502.git.geert@linux-m68k.org>
- <c0a11d8203d58dbaa5f22479c48504dabdd9b4e1.1646683502.git.geert@linux-m68k.org>
+ <8f29a983d42d9d68bd8cae2f9481d3c139f8750a.1646683502.git.geert@linux-m68k.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <c0a11d8203d58dbaa5f22479c48504dabdd9b4e1.1646683502.git.geert@linux-m68k.org>
+In-Reply-To: <8f29a983d42d9d68bd8cae2f9481d3c139f8750a.1646683502.git.geert@linux-m68k.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,14 +99,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3/7/22 21:52, Geert Uytterhoeven wrote:
-> Add a flag to struct drm_format_info to indicate if a format is
-> color-indexed, similar to the existing .is_yuv flag.
+> When allocating a frame buffer, the number of bits per pixel needed is
+> derived from the deprecated drm_format_info.cpp[] field.  While this
+> works for formats using less than 8 bits per pixel, it does lead to a
+> large overallocation.
 > 
-> This way generic code and drivers can just check this flag, instead of
-> checking against a list of fourcc formats.
+> Reduce memory consumption by using the actual number of bits per pixel
+> instead.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
