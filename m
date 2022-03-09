@@ -1,79 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E514D2F76
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:52:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F224D2F7C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 13:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D831610E90B;
-	Wed,  9 Mar 2022 12:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645AD10E96D;
+	Wed,  9 Mar 2022 12:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6560710E90B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:52:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C11710E96D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 12:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646830321;
+ s=mimecast20190719; t=1646830410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MVrNBje8P4Tjl99yqsqfstxvyHvyJTjfoJ0XzHjnkFs=;
- b=D/h0QdLTqCltFn4tCI/Y0v+vGfga3W6t8+RXLH/+YO77eUfTJJx9LSGUPhXcsk5oR1d2QY
- OVeU6TpaMczzKdKksH+PHSoLk0YAuBlja0JdOLx6RG2xQZMvflMBM80n8LVCSi9h4taCxH
- 2T3jw6h+WQirZ2d6m4nSUirkOO7fjFg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bHT0karyGRRNCWlLhVHNQSuvHWxMwLXpGfkux8ifP78=;
+ b=WoV1SDspwTkuXdIYl4tHkWEr475mZtxZKGxb8Kuh7X7FP7RcA7xcM2s+t8vmT1r78taVHm
+ 3M9C5S5THbE5gMyZ4Ywyia7+0ZrXTKzEXLkVHIoTZAqachuZoNXieDxjWVZSe8HODKKAhK
+ vQWPN2VJe42pqVSjxcBOP2WgTqzaVP4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-kKl1iuJdM0G0XlHLPnGUvA-1; Wed, 09 Mar 2022 07:52:00 -0500
-X-MC-Unique: kKl1iuJdM0G0XlHLPnGUvA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k41-20020a05600c1ca900b00389a2b983efso758368wms.4
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:51:59 -0800 (PST)
+ us-mta-426-aOX7m78zNQeQZ4AVDIcBIA-1; Wed, 09 Mar 2022 07:53:28 -0500
+X-MC-Unique: aOX7m78zNQeQZ4AVDIcBIA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 10-20020a1c020a000000b0037fae68fcc2so2540818wmc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 04:53:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MVrNBje8P4Tjl99yqsqfstxvyHvyJTjfoJ0XzHjnkFs=;
- b=garMuVLmC0PaKdiAk05/FTi+Hq3MGM5+jdO1PILVZ8lfbMzghxh0x37taivxfTCfmG
- PyBCasGDwAwQgPNkiNnlQvCnEgGYDhwkmq1ldUlibIGIenQ4QYqc8n1VvgwCxs51w0WH
- i9y/yeNReDEWNx7EkaOfO6vcUlMmk4nei7hRNhpg2H0cxWVs4+BF4i1+8QrNZj1aLzLl
- R0Joo4CkoP8A4n4p13tK5lBpvKEI80dVPlvDnPTrEYsgqua8NLb/cAomO3V3s1LhOmAU
- ajL3LELspif0mfiCHH3emOpnlnOHE2+psv5c7am0RUwuABdO6aLeYLnKpDTdUz1ZYu3d
- 4ZHg==
-X-Gm-Message-State: AOAM533+zugCKfpbxHP4eJohiSiFnl1cjFrNFUIv028TqwavEqEg8iGc
- YtwQVg8Y2TrZLtAiylO9rEvG30Gi2hcHaVMGGEJ6G2cg8RXGiwRQtzqj1WJ5tp1/k5SQdtk6m2X
- cMgxgwJaemY+RYg89OL465WVqlh2Q
-X-Received: by 2002:adf:8b9e:0:b0:1f0:25ca:6d81 with SMTP id
- o30-20020adf8b9e000000b001f025ca6d81mr15523232wra.247.1646830319032; 
- Wed, 09 Mar 2022 04:51:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJznCED2hDWfMPlEh09LTikM9n8nFo++5o/PkgFE4Sete3s/9brY/cGIrZsveiDmJHMiONU+4Q==
-X-Received: by 2002:adf:8b9e:0:b0:1f0:25ca:6d81 with SMTP id
- o30-20020adf8b9e000000b001f025ca6d81mr15523208wra.247.1646830318754; 
- Wed, 09 Mar 2022 04:51:58 -0800 (PST)
+ bh=bHT0karyGRRNCWlLhVHNQSuvHWxMwLXpGfkux8ifP78=;
+ b=m6SqtRl3GbEwudlL93vygcyXkPZ3ClRfT/UweaQUZ3B34kaiKvJiKA6sJXSqFre6AQ
+ mRq7OkG99PaCKM7A6nyLoyDuxwmmA62Om7rZcZYZLIqhRBA+ADdi0niL9aaL2s7XQyHr
+ NXYywW9oqLYJdFNSnHanmEiElmC0fkbUXumv2roCysNUFjMaEJRNzGMlgvsbW5UWxIr7
+ Nqbk9wpWYUI1kjemnqhsGNyGEuf1qEFnq859GmpVtqo2k5rnvI4jkwKSqg38o4vIzdG7
+ TurQhE5SOuaVDyJ46MMaTFjzKS422N9Nh6yitBSAebv50Iey4gAdq0jtRvhBHTQJkV+F
+ 35Qg==
+X-Gm-Message-State: AOAM531JCJD9N/+U5NhCcKr6VCT54fsvENFrMBTI2caS89FjOZsTIx34
+ sKX+L4YSIUmVkOv/3/qZT3qyD1QhO8mTbisd1y/HrcsU1wCoH08ugXClSQ5GM6jcMRAZTjJAUsW
+ P0xrAkzzE24lKdh8LuKcIzC+Ms01n
+X-Received: by 2002:a05:600c:4f8f:b0:383:d0b:3706 with SMTP id
+ n15-20020a05600c4f8f00b003830d0b3706mr3328423wmq.117.1646830407592; 
+ Wed, 09 Mar 2022 04:53:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwhA94T4hLNZGfPp9ZlHTC1cFNUMD4hfeN8kfLp3ziXcsrKaa2MDMubqSWEOGZcY5C6vhou4g==
+X-Received: by 2002:a05:600c:4f8f:b0:383:d0b:3706 with SMTP id
+ n15-20020a05600c4f8f00b003830d0b3706mr3328411wmq.117.1646830407398; 
+ Wed, 09 Mar 2022 04:53:27 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- n2-20020a056000170200b001f1e16f3c53sm1643997wrc.51.2022.03.09.04.51.57
+ l25-20020a1c7919000000b0038999b380e9sm1663075wme.38.2022.03.09.04.53.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 04:51:58 -0800 (PST)
-Message-ID: <d7a8d183-fe2b-99b1-9730-eddb040f6d1e@redhat.com>
-Date: Wed, 9 Mar 2022 13:51:57 +0100
+ Wed, 09 Mar 2022 04:53:27 -0800 (PST)
+Message-ID: <7d9b2035-13d6-5d58-e21c-52bbb9282796@redhat.com>
+Date: Wed, 9 Mar 2022 13:53:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 03/10] drm/client: Use actual bpp when allocating frame
- buffers
+Subject: Re: [PATCH v2 04/10] drm/framebuffer: Use actual bpp for
+ DRM_IOCTL_MODE_GETFB
 To: Geert Uytterhoeven <geert@linux-m68k.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
 References: <cover.1646683502.git.geert@linux-m68k.org>
- <8f29a983d42d9d68bd8cae2f9481d3c139f8750a.1646683502.git.geert@linux-m68k.org>
+ <d87068fd1e2cc6f772a64ba9306350a31baeae58.1646683502.git.geert@linux-m68k.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <8f29a983d42d9d68bd8cae2f9481d3c139f8750a.1646683502.git.geert@linux-m68k.org>
+In-Reply-To: <d87068fd1e2cc6f772a64ba9306350a31baeae58.1646683502.git.geert@linux-m68k.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,16 +99,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3/7/22 21:52, Geert Uytterhoeven wrote:
-> When allocating a frame buffer, the number of bits per pixel needed is
-> derived from the deprecated drm_format_info.cpp[] field.  While this
-> works for formats using less than 8 bits per pixel, it does lead to a
-> large overallocation.
+> When userspace queries the properties of a frame buffer, the number of
+> bits per pixel is derived from the deprecated drm_format_info.cpp[]
+> field, which does not take into account block sizes.
 > 
-> Reduce memory consumption by using the actual number of bits per pixel
-> instead.
+> Fix this by using the actual number of bits per pixel instead.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
