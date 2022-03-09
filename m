@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2443A4D299A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 08:37:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 842074D29A9
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 08:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EB910E3AA;
-	Wed,  9 Mar 2022 07:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018BC10E69E;
+	Wed,  9 Mar 2022 07:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
- [115.236.121.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F80610E3AA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 07:37:51 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 41C10AC0283;
- Wed,  9 Mar 2022 15:37:49 +0800 (CST)
-Message-ID: <30f195d6-e9d7-3da6-89fa-4a064a1f6bf9@rock-chips.com>
-Date: Wed, 9 Mar 2022 15:37:48 +0800
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4711610E69E
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 07:47:48 +0000 (UTC)
+Date: Wed, 09 Mar 2022 07:47:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1646812065;
+ bh=fRARsxr9zi5NZqjUtX+i1REA45nQJNuwkujw5lkKIOM=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=dX2Juhi4GyR0iKQyL+bAbRF4gr6EB7Z2K1IPyWXHUtsDfP4RDMxFr1mIt7d380yVw
+ EvmAUD0D7PVjmKA90P3pHz4CBrtSQ8UWEX/GiGLlNlLrtaBe2CIQm64TGNpvy8rnBb
+ hkBWY5YPdGDI8b3CnrD0dj55tP/poC98am+IN4HDXptcOsP5IBxlblLJ9t502poFi+
+ G0kUzeBaa9uN4DxCEaIw95iLTcY1Ij+aTKufAxGNvEguZr8+qjRJ3Rc84veabtaVBi
+ 3jfbz1CJw6V/bjgbiR3P1JXYQYcUgv67OdSzwc81XgsNb7pCG+VjQ0xFYFjcQyj8GW
+ 7sGuRUDumG5rg==
+To: Shashank Sharma <contactshashanksharma@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+Message-ID: <Ymb96aes4qNvdggMW_Icw6i6kbswV37jJ6T_8N6JmHlaZazbaHL8gV_LFbvLydLIawvKn1cN01mh6sWORSlLZ3BqzJtjsutf7OmCqBOzGag=@emersion.fr>
+In-Reply-To: <20220308180403.75566-1-contactshashanksharma@gmail.com>
+References: <20220308180403.75566-1-contactshashanksharma@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 22/24] drm: rockchip: Add VOP2 driver
-Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-To: Daniel Stone <daniel@fooishbar.org>
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-23-s.hauer@pengutronix.de>
- <bb077f34-333e-a07a-1fcb-702a6807f941@rock-chips.com>
- <CAPj87rO2sztocJrE-CeSQWry9j_cSe2uv9F1Yf81pGnBXdu2Ag@mail.gmail.com>
- <ae4314db-09c0-049b-ccc9-f6b1c3003dcb@rock-chips.com>
- <CAPj87rOanNE1wca3ijJx1zXYZkKX1ta9F145GCXM15Nv=POicA@mail.gmail.com>
- <f3af0286-fc64-f011-bc90-6797e26e3640@rock-chips.com>
-In-Reply-To: <f3af0286-fc64-f011-bc90-6797e26e3640@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRlDGhpWSk5JSEJOGh
- 1OSRoeVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktITUpVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PjY6Qyo4Cz5IMzAYFSwLUU8N
- PQsKFBhVSlVKTU9NQ0pKT01CQktKVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0hMSTcG
-X-HM-Tid: 0a7f6d9cd74ab039kuuu41c10ac0283
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,70 +46,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Shashank Sharma <shashank.sharma@amd.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alexandar Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel:
+Hi,
 
-On 3/9/22 10:03, Andy Yan wrote:
-> Hi Daniel:
->
-> On 3/8/22 22:04, Daniel Stone wrote:
->> On Tue, 8 Mar 2022 at 08:42, Andy Yan <andy.yan@rock-chips.com> wrote:
->>> On 3/7/22 21:09, Daniel Stone wrote:
->>>> On Mon, 7 Mar 2022 at 12:18, Andy Yan <andy.yan@rock-chips.com> wrote:
->>>>> When run a weston 10.0.0:
->>>>>
->>>>>     # export XDG_RUNTIME_DIR=/tmp
->>>>>     # weston --backend=drm-backend.so --use-pixma --tty=2
->>>>> --continue=without-input
->>>>>
->>>>> I got the following error:
->>>>>
->>>>> drm_atomic_check_only [PLANE:31:Smart0-win0] CRTC set but no FB
->>>> Can you please start Weston with --logger-scopes=log,drm-backend and
->>>> attach the output?
->>> Please see the weston ouput here[0]
->> Are you running with musl perhaps?
-> Do you mean the C library? I chose uClib-ng in buildroot, not use musl.
->> Either way, please make sure your
->> libdrm build includes commit 79fa377c8bdc84fde99c6a6ac17e554971c617be.
->
->
-> The upstream buildroot use libdrm2.4.109, this commit[0] if from 
-> libdrm2.4.110
->
-> I cherry-pick this patch to my local libdrm, but has no effect, still 
-> has "atomic: couldn't commit new state" error.
->
-> I have do a search in libdrm and weston, but find no one call 
-> drmModeAtomicMerge, is that right?
->
-> [0]https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/167
->
+Maybe it would be a good idea to state the intended use-case in the
+commit message? And explain why the current (driver-specific IIRC) APIs
+aren't enough?
 
-With your patch applied from libdrm2.4.110, I do a make clean for 
-buidlroot, than build it again,  That's take effect.
+Since this introduces new uAPI, can you point to a user-space patch
+which uses the new uAPI? See this link for more info on DRM user-space
+requirements:
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspac=
+e-requirements
 
-I can see only the second value (non-zero FB) of plane 31 commit to the 
-kernel. So this is works.
+Please use drm_dbg_* and drm_warn_* helpers instead of DRM_DEBUG and
+DRM_WARN. This allows identifying on which device the uevent happens.
 
-Maybe the buidroot should update libdrm package.
+On Tuesday, March 8th, 2022 at 19:04, Shashank Sharma <contactshashanksharm=
+a@gmail.com> wrote:
 
-Thank you.
+> +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_even=
+t *reset_info)
 
->>
->> Cheers,
->> Daniel
->
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+reset_info can be const.
