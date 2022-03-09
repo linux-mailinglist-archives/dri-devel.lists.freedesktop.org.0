@@ -1,79 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44F74D2DEC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 12:25:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F40634D2DF8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Mar 2022 12:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F76810E4C2;
-	Wed,  9 Mar 2022 11:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6D310E4AC;
+	Wed,  9 Mar 2022 11:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2554410E4C7
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 11:25:38 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 353F310E4F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Mar 2022 11:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646825137;
+ s=mimecast20190719; t=1646825401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wv7i2LTWDtTJ8HHIxm54uV0Jv8Qi32GxQRPuHkearAM=;
- b=f2lR9foSveSpnMTDvocmhDpv0KRjyB6uLirf80wTHMqdsnkofgwxu0rKnRdeOyj4BtAk51
- kDwweRjtC524MFel7MPx0l2R2DfcVl2aB4o1ZnO8uLHgyJ2nrDCNCYprVYJ10it3mNxZ0S
- kIbJRAzOsDk45+/+/PIqeVz8SYQTDuk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HnlUMIzNyqkqH+xHxo42IHozaUvb7gIZp8zyXlaq0wo=;
+ b=Z6RblIDg/7iTsGpP+vTAEg4v6sh275OHZlChLoMDeGh6uwWvT7yOZ229oWxg6QyZosVpw5
+ zLE+oVH9C/LC6dLn4nC2w5Gp51otJo+dH1EX8ofF8HYRR5VLAeUeB9x5wZVtDX8AmsJnee
+ uBTuO7H5Wse8p92dS9G1dmyFTxN+wXc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-9rU4LrVAOEyfYKNzhfNyKA-1; Wed, 09 Mar 2022 06:25:36 -0500
-X-MC-Unique: 9rU4LrVAOEyfYKNzhfNyKA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p18-20020adfba92000000b001e8f7697cc7so653990wrg.20
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 03:25:36 -0800 (PST)
+ us-mta-253-YOnyiDZhPaOZRez_hVflfg-1; Wed, 09 Mar 2022 06:29:58 -0500
+X-MC-Unique: YOnyiDZhPaOZRez_hVflfg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ w17-20020adfec51000000b001f068bc3342so663441wrn.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 03:29:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Wv7i2LTWDtTJ8HHIxm54uV0Jv8Qi32GxQRPuHkearAM=;
- b=hxfJcxETPrmpD8LkyqunF7Y/IRvWhvalphBtDiQSd35gewq2XQLf+iftBbj22XISyv
- sussLChtvbC+BZybUzIPAJQ38dUgDj3o/eFihxVbHoMmuyBelVXkEjk+TeSTbwSswzkT
- Dcsm7lPXm1I0qYfJ4Jm9M0EuetlsK9dQeJSGnQfGBO10WO3b6G1/E0Gh/bZtoKuYWakM
- 3VbNYpsq2wngJ5KR2757dEzM1D72fC0S8pqSBBqvJKTGxyfLiNi6RdE4DYZq7sLVPNCv
- b6vJP7VDtk42f3+BVbi+PcipQnOMgRjHS68wy7zahpjPIhDBlrU7bKXe99+CMdG0OxrX
- 44Ig==
-X-Gm-Message-State: AOAM532lG9ivqznNjpx3drS3knoz5t4zO9hJDUSDZFL8BuydjoZvEe1H
- QX8bNbw9E6OUu2MrRGME+H7vugQ0fsr8vc07pjqweD/mgvjN1m9VFWq4xWotyvyJAp0rKV7/D/b
- OhZxtPQYUPfNVKhYcuxjXXEJfdTbu
-X-Received: by 2002:adf:a302:0:b0:1ed:bf30:40e3 with SMTP id
- c2-20020adfa302000000b001edbf3040e3mr15810536wrb.270.1646825135092; 
- Wed, 09 Mar 2022 03:25:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyoTR3O7+oa02BuvxQ4coJ0ARpskt+/K+SxVoB3j1kHuRf5zct/QHm81A+/YYgNn/NIZBrRHQ==
-X-Received: by 2002:adf:a302:0:b0:1ed:bf30:40e3 with SMTP id
- c2-20020adfa302000000b001edbf3040e3mr15810518wrb.270.1646825134853; 
- Wed, 09 Mar 2022 03:25:34 -0800 (PST)
+ bh=HnlUMIzNyqkqH+xHxo42IHozaUvb7gIZp8zyXlaq0wo=;
+ b=dMBMjt4PMgdGKuHqa+k8p3hp/XD3I47bCBE3plIw189JM8h+oJHyj6f925sxkNa/pm
+ teEU+SqUgA0Z0XQl6tOULG/TkqXMVEI2zaVK3iZe8/IHTdVJ93IKZgfaXlUkHokV7CLn
+ nEzYcO6JY2dErItRvEselZuFVjlnkhUdUmbU1dCe20imHxHkhrPGbwS+8S1XZgAsPA8i
+ 1gsH6JCCKTDyjeuZDe1rOis+R7KNlqdWlfDDEd2+LmiUPUaENNjG/VIDjYNs70aQIOA5
+ d9QscvAAj1wFPhaQgJSf5k3riciudXq6vaDn3lRH3tRYK2FYeVAGYFMo/CgUazhrUUxq
+ bL4w==
+X-Gm-Message-State: AOAM5305mZHaoVVnzJKrp6Br/XHSNsavq7oBm7ITvM3VYkuYU1m4WIzV
+ cemt2YWRtQRtltwC+gOlryde8q1ROaX/3/8S1xoIlZOKWFwVK01Cu1YRpb6mpPRrB3mdsSb6jtl
+ RHyfSONVPgbypYYNVBp51d46WDK2u
+X-Received: by 2002:a05:6000:1a87:b0:203:7089:a985 with SMTP id
+ f7-20020a0560001a8700b002037089a985mr4916350wry.487.1646825396680; 
+ Wed, 09 Mar 2022 03:29:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxBmRvb7LqphR27TvNl9xg2A5igntxMD1AB4+Q0/ZWq2SZv47J3rQA6ziMwODlncZSqtS4y/w==
+X-Received: by 2002:a05:6000:1a87:b0:203:7089:a985 with SMTP id
+ f7-20020a0560001a8700b002037089a985mr4916337wry.487.1646825396478; 
+ Wed, 09 Mar 2022 03:29:56 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- y12-20020adff14c000000b001f04d1959easm1414831wro.13.2022.03.09.03.25.33
+ n20-20020a05600c501400b0038995ede299sm1432746wmr.17.2022.03.09.03.29.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 03:25:34 -0800 (PST)
-Message-ID: <c3513c35-57a3-64e1-b3a6-0878cc61af6a@redhat.com>
-Date: Wed, 9 Mar 2022 12:25:32 +0100
+ Wed, 09 Mar 2022 03:29:55 -0800 (PST)
+Message-ID: <ff826df9-119b-563e-c666-c979dcd97f17@redhat.com>
+Date: Wed, 9 Mar 2022 12:29:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 8/9] drm/gem-shmem: Implement fbdev dumb buffer and mmap
- helpers
+Subject: Re: [PATCH 9/9] drm/virtio: Implement dumb_create_fbdev with GEM
+ SHMEM helpers
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  deller@gmx.de
 References: <20220303205839.28484-1-tzimmermann@suse.de>
- <20220303205839.28484-9-tzimmermann@suse.de>
- <265aba53-ff78-e1ab-8596-e2226dff23f0@redhat.com>
- <22b9e772-8823-0af1-037a-621844e7c810@suse.de>
+ <20220303205839.28484-10-tzimmermann@suse.de>
+ <b1af16e7-a20f-5499-6234-c5090349305f@redhat.com>
+ <971ff2e6-adda-17ee-d002-5b32403d344f@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <22b9e772-8823-0af1-037a-621844e7c810@suse.de>
+In-Reply-To: <971ff2e6-adda-17ee-d002-5b32403d344f@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,38 +97,33 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/9/22 09:47, Thomas Zimmermann wrote:
+On 3/9/22 09:52, Thomas Zimmermann wrote:
 
 [snip]
 
->>>   
->>> +static const struct drm_gem_object_funcs drm_gem_shmem_funcs_fbdev = {
->>> +	.free = drm_gem_shmem_object_free,
->>> +	.print_info = drm_gem_shmem_object_print_info,
->>> +	.pin = drm_gem_shmem_object_pin,
->>> +	.unpin = drm_gem_shmem_object_unpin,
->>> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
->>> +	.vmap = drm_gem_shmem_object_vmap,
->>> +	.vunmap = drm_gem_shmem_object_vunmap,
->>> +	.mmap = drm_gem_shmem_object_mmap_fbdev,
->>> +	.vm_ops = &drm_gem_shmem_vm_ops_fbdev,
+>>> +struct drm_gem_object *virtio_gpu_create_object_fbdev(struct drm_device *dev,
+>>> +						      size_t size)
+>>> +{
+>>> +	return ERR_PTR(-ENOSYS);
+>>> +}
 >>
->> The drm_gem_shmem_funcs_fbdev is the same than drm_gem_shmem_funcs but
->> .mmap and .vm_ops callbacks. Maybe adding a macro to declare these two
->> struct drm_gem_object_funcs could make easier to maintain it long term ?
+>> As mentioned, I believe this should be ERR_PTR(-ENOTSUPP) instead.
 > 
-> I see you point, but I'm undecided about this. Such macros also add some 
-> amount of obfuscation. I'm not sure if it's worth it for an internal 
-> constant. And since the fbdev buffer is never exported, we could remove 
-> some of the callbacks. AFAICT we never call pin, unpin or get_sg_table.
->
-
-Yeah, that's true too. It was just a suggestion, I'm OK with patch as is.
- 
+> I've been wondering about this as well. I finally went with the rules at 
+> [1].  All the variants of ENOTOP/ENOTSUPP seem to be for specific use 
+> cases, such as a certain feature is not implemented be a specific 
+> interface (e.g., sockets for EOPNOTSUPP).  ENOSYS is the only general 
+> error that indicates that an entire interface is missing. Even though 
+> checkpatch.pl warns that it's only for system calls.
+> 
 > Best regards
 > Thomas
 > 
->>
+> [1] https://www.cs.helsinki.fi/linux/linux-kernel/2002-30/1135.html
+>
+
+Thanks for the link. It would be good to have an authoritative guideline
+about this in the kernel documentation (and make checkpatch.pl aware).
 
 -- 
 Best regards,
