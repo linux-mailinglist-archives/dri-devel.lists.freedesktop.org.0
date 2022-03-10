@@ -1,59 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DE94D3E58
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 01:45:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D6F4D3EE7
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 02:46:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525D610E4B7;
-	Thu, 10 Mar 2022 00:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBA310E30D;
+	Thu, 10 Mar 2022 01:46:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5335910E4B7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 00:45:23 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id b24so4959794edu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 16:45:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1g894I2bXOtSnM+ElfphL0qNUPO/Q1+YxNlFPgGlbzM=;
- b=Ev1jyg741+stIoQZm/BGcM4VGPeziRBZjIE7H86rYFjIMVdLfNYytsm+qrPeKbl3Ni
- 6BheDrNr2PZtkRshARhMUi+RnPuIk43jv3x4uzr4Ypm06a6CaZKdejb5lB6Tm9EROptd
- 4LvAWBEcrvnZ/ymo79IBb9QbIARdWCoVfCt4J15r5GirOmKxjl8PrlqOc09o9to/J0y9
- 2REyy258A3wEEch1C+dhItxgp7Lq9L47CehMT6Yylr8BqmdbG1SAbZsbP0EDjnKAfYmM
- qTnUjBXNfyOULBh09cATXXgi0q8CMNnQQH81Rh970Tt7Hfnne/dLtxUgbiHjFOFsmCxv
- BewA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1g894I2bXOtSnM+ElfphL0qNUPO/Q1+YxNlFPgGlbzM=;
- b=fByFYfFdWLrZp7uQs1pKKf5ZYliYSDBpnUOtCUeEMB2iSdGoDYwe++nxkEmjXMOzLI
- QbJmiO3nzFg0ocw3xyFnSpO6QwKcGtQvsEvOl2zZD9tjf4Y1TZxoaJ7k0auMD3PKk4Ha
- EvMY5PSb7Vkcz0BOTyKsnFxMrELIGEWQy0/jn33HHalNoouy18cxDCw/tTwoXPJI/ie1
- sFmMw4cpinltiytZwAEzJYPX3YLMQ1xsLFa3JdXrCFVltfl0XsRQD3NKOAUHNxNHrqFW
- x+cRn8sBA+QNpUMAPnKYPI+x9c4V98oJ2QN8/98gbX5SS/fuCiuGYdS4e5us3qKgReJk
- 2kIA==
-X-Gm-Message-State: AOAM531M61vtkurF+Xsd+q/E3xo/nsuoYUz968wuVowlik/S4Qi9B4pT
- lTLVfQJ8EVsEIQi0lzINu3y4ly9AVKNpuh8IRF4=
-X-Google-Smtp-Source: ABdhPJyG28sP/CHFKcL3V4XkiYDOBcgUO/BD6eVt0kyipHPdZcdytzqHiEJASfZNpCZY5KJw/J7brT69bhyq258cFVk=
-X-Received: by 2002:a05:6402:2142:b0:413:6531:bd9e with SMTP id
- bq2-20020a056402214200b004136531bd9emr1956269edb.5.1646873121461; Wed, 09 Mar
- 2022 16:45:21 -0800 (PST)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C582710E30D
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 01:46:20 +0000 (UTC)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+ by 156.147.23.51 with ESMTP; 10 Mar 2022 10:46:18 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.121 with ESMTP; 10 Mar 2022 10:46:18 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Thu, 10 Mar 2022 10:45:49 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Theodore Ts'o <tytso@mit.edu>
+Subject: Re: Report 2 in ext4 and journal based on v5.17-rc1
+Message-ID: <20220310014549.GA24568@X58A-UD3R>
+References: <YiQq6Ou39uzHC0mu@mit.edu>
+ <1646563902-6671-1-git-send-email-byungchul.park@lge.com>
+ <YiTC3j6Igkw7xvIM@mit.edu>
 MIME-Version: 1.0
-References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
- <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
- <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
- <CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=QpWj44KPw@mail.gmail.com>
- <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
-In-Reply-To: <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 9 Mar 2022 18:45:10 -0600
-Message-ID: <CAHCN7xLgKeRACM0kvC1kGBOd0KxNFYPSLesRvfgXRU5tV-gqFQ@mail.gmail.com>
-Subject: Re: DSI Bridge switching
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YiTC3j6Igkw7xvIM@mit.edu>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,138 +45,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, Neil Armstrong <narmstrong@baylibre.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andrzej Hajda <andrzej.hajda@gmail.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 9, 2022 at 1:11 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
->  or a Hi All,
->
-> On Thu, Oct 14, 2021 at 6:45 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >
-> > Hi Laurent,
-> >
-> > On Fri, Oct 8, 2021 at 7:07 PM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
-> > > > Hi,
-> > > >
-> > > > Removed my invalid email (I will update files next week).
-> > > >
-> > > > On 08.10.2021 13:14, Jagan Teki wrote:
-> > > > > Hi,
-> > > > >
-> > > > > I think this seems to be a known use case for industrial these days with i.mx8m.
-> > > > >
-> > > > > The host DSI would configure with two bridges one for DSI to LVDS
-> > > > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
-> > > > > can use only one bridge at a time as host DSI support single out port.
-> > > > > So we can have two separate device tree files for LVDS and HDMI and
-> > > > > load them static.
-> > > > >
-> > > > > But, one of the use cases is to support both of them in single dts, and
-> > > > > - Turn On LVDS (default)
-> > > > > - Turn Off LVDS then Turn On HDMI when cable plug-in
-> > > >
-> > > > Are you sure it will work from hardware PoV? Do you have some demuxer?
-> > > > isolation of pins?
-> > >
-> > > It may be in the category of "you shouldn't do this, but it actually
-> > > works". I've seen the same being done with two CSI-2 camera sensors
-> > > connected to the same receiver, with one of them being held in reset at
-> > > all times.
-> >
-> > Yes. Here the design has 2 MIPI D-PHY switches. Each switch take 2
-> > input data lanes and 1 clock lane from SoC and produces 4 data lanes
-> > and 2 clock lanes and from switch output 2 lanes and 1 clock are
-> > inputting to HDMI bridge and other 2 lanes and 1 clock is inputting to
-> > LVDS. So 1st pair of 1st switch and 1st pair of 2nd switch goes to
-> > HDMI and 2nd pair of 1st switch and 2nd pair of 2nd switch does to
-> > LVDS.
-> >
-> > However, routing of these lanes are controlled by SEL, OE GPIO pins.
-> > So at a time we can access only single bridge.
-> >
-> > >
-> > > > > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
-> > > > >
-> > > > > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
-> > > > > port 2 in the DSI host node, and trying to attach the respective
-> > > > > bridge based on HDMI-INT like repeating the bridge attachment cycle
-> > > > > based on the HDMI-INT.
-> > > >
-> > > > I think more appropriate would be to share the same port, but provide
-> > > > two endpoints inside this port - we have two hardware sharing the same
-> > > > physical port.
-> > >
-> > > That sounds like the correct DT description to me.
-> > >
-> > > > > Can it be possible to do bridge attachment at runtime? something like
-> > > > > a bridge hotplug event? or any other possible solutions?
-> > > > >
-> > > > > Any suggestions?
-> > > >
-> > > > Practically it is possible, see exynos_dsi + panels, or exynos_dsi +
-> > > > some toshiba bridge - panel and bridge are dynamically 'plugged' and
-> > > > 'unplugged' from exynos_drm, but they do not use bridge chain for this
-> > > > and some other reasons. (un|re|)plugging should be performed of course
-> > > > when pipeline is off (connector disconnected). I am not sure about
-> > > > bridges added to bridge chain - you need to inspect all opses to ensure
-> > > > it can be done safely.
-> > > >
-> > > > And the main issue: Daniel does not like it :)
-> > >
-> > > Neither do I :-) Could it be handled with two DRM connectors that are
-> > > mutually exclusive ?
-> >
-> > How about adding lvds-connector, hdmi-connector on the pipeline and
-> > select them based on the switch SEL GPIO? does it make sense to do
-> > this implementation via display-connector.c
->
-> I have somehow managed to make runtime switching possible between LVDS
-> and HDMI with the help of DRM bridges.
->
->                                                   | => ADV7535    =>
-> HDMI-A Connector
-> DSI Host => display-switch => |
->                                                   |=> SN65DSI83 => Panel-Simple
->
-> display-switch here is a bridge driver that can switch or attach the
-> downstream bridge flow based on HDMI HPD here. One potential problem
-> is that when we switch from LVDS to HDMI Out the HDMI Out is displayed
-> with the resolution that LVDS has and it is unable to display higher
-> HDMI resolutions even though it supports it. Does anyone aware of
-> changing the resolution at runtime, please let me know?
->
-> Technically, the display-switch hardware does available in various forms
-> 1. MIPI Switch PI3WVR626
-> 2. Conventional Mux Switch
-> 3. Converter bridge DSI to LVDS/HDMI (from Lontium).
->
-> Overall I believe this can be a potential possible feature and good to
-> support on Mainline as the hardware is intended to design for it.
->
-> Any thoughts on this please let me know?
+On Sun, Mar 06, 2022 at 09:19:10AM -0500, Theodore Ts'o wrote:
+> On Sun, Mar 06, 2022 at 07:51:42PM +0900, Byungchul Park wrote:
+> > > 
+> > > Users of DEPT must not have to understand how DEPT works in order to
+> > 
+> > Users must not have to understand how Dept works for sure, and haters
+> > must not blame things based on what they guess wrong.
+> 
+> For the record, I don't hate DEPT.  I *fear* that DEPT will result in
+> my getting spammed with a huge number of false posiives once automated
+> testing systems like Syzkaller, zero-day test robot, etcs., get a hold
+> of it once it gets merged and start generating hundreds of automated
+> reports.
 
-I wonder if it would be possible to trigger a hot plug event similar
-to what is done when an HDMI cable is inserted/disconnected.
+Agree. Dept should not be a part of *automated testing system* until it
+finally works as much as Lockdep in terms of false positives. However,
+it's impossible to achieve it by doing it out of the tree.
 
-If one switches, force a disconnect event, then triggle the connection
-event to force the video system to rescan/attach. I am not sure how to
-go about implementing such a thing, but that's my first thought
+Besides automated testing system, Dept works great in the middle of
+developing something that is so complicated in terms of synchronization.
+They don't have to worry about real reports anymore, that should be
+reported, from getting prevented by a false positve.
 
-adam
->
-> Thanks,
-> Jagan.
+I will explicitely describe EXPERIMENTAL and "Dept might false-alarm" in
+Kconfig until it's considered a few-false-alarming tool.
+
+> > Sure, it should be done manually. I should do it on my own when that
+> > kind of issue arises.
+> 
+> The question here is how often will it need to be done, and how easy
+
+I guess it's gonna rarely happens. I want to see too.
+
+> will it be to "do it manually"?  Suppose we mark all of the DEPT false
+
+Very easy. Equal to or easier than the way we do for lockdep. But the
+interest would be wait/event objects rather than locks.
+
+> positives before it gets merged?  How easy will it be able to suppress
+> future false positives in the future, as the kernel evolves?
+
+Same as - or even better than - what we do for Lockdep.
+
+And we'd better consider those activies as a code-documentation. Not
+only making things just work but organizing code and documenting
+in code, are also very meaningful.
+
+> Perhaps one method is to haved a way to take a particular wait queue,
+> or call to schedule(), or at the level of an entire kernel source
+> file, and opt it out from DEPT analysis?  That way, if DEPT gets
+> merged, and a maintainer starts getting spammed by bogus (or
+
+Once Dept gets stable - hoplefully now that Dept is working very
+conservatively, there might not be as many false positives as you're
+concerning. The situation is in control.
+
+> That way we don't necessarily need to have a debate over how close to
+> zero percent false positives is necessary before DEPT can get merged.
+
+Non-sense. I would agree with you if it was so when Lockdep was merged.
+But I'll try to achieve almost zero false positives, again, it's
+impossible to do it out of tree.
+
+> And we avoid needing to force maintainers to prove that a DEPT report
+
+So... It'd be okay if Dept goes not as a part of automated testing
+system. Right?
+
+> is a false positive, which is from my experience hard to do, since
+> they get accused of being DEPT haters and not understanding DEPT.
+
+Honestly, it's not a problem of that they don't understand other
+domians than what they are familiar with, but another issue. I won't
+mention it.
+
+And it sounds like you'd do nothing unless it turns out to be
+problematic 100%. It's definitely the *easiest* way to maintain
+something because it's the same as not checking its correctness at all.
+
+Even if it's so hard to do, checking if the code is safe for real
+repeatedly, is what it surely should be done. Again, I understand it
+would be freaking hard. But it doesn't mean we should avoid it.
+
+Here, there seems to be two points you'd like to say:
+
+1. Fundamental question. Does Dept track wait and event correctly?
+2. Even if so, can Dept consider all the subtle things in the kernel?
+
+For 1, I'm willing to response to whatever it is. And not only me but we
+can make it perfectly work if the concept and direction is *right*.
+For 2, I need to ask things and try my best to fix those if it exists.
+
+Again. Dept won't be a part of *automated testing system* until it
+finally works as much as Lockdep in terms of false positives. Hopefully
+you are okay with it.
+
+---
+Byungchul
