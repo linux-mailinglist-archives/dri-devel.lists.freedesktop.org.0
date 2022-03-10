@@ -1,75 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6C44D4566
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 12:12:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4AC4D457C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 12:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1B710EC17;
-	Thu, 10 Mar 2022 11:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6EB10EE5C;
+	Thu, 10 Mar 2022 11:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D56410EC17
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 11:12:48 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 5D1863201E78;
- Thu, 10 Mar 2022 06:12:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 10 Mar 2022 06:12:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=xxPmsOI/aHi7Eo8c7Dca4Vvq3teOO+/+I/9dWy
- gA/L4=; b=bWHOLywsftcUojvYpl0EcphO8dDvTWX0PKFlTuOXKY1vgZMcLkmE5W
- /TD7FIZ5vSrEQsNEaz8ftlI2eP1/4QiK46BaqTKxx8QY9iGqQzM/5LBIAtQUjKrj
- l9PQS4iYCiFd246gm6YFI+RN+twVwYB7k8y2sD+wHRRqqRp1YpZPbuZNQNFFZwKF
- qrRgeCJs5TXr9z+9cgQV+bexlJxDLhC3/A5K4RxxXO3mlVcfHwqXGCUt/9nwOB51
- gJ4n4d+zzkEua5ETOjmcl1BQkvKCJVGhH2dcbJZYFYjZZt3uPOstA11fzGft6lx7
- 5d8eGVmWL2fYll84j1R88Ae4EXoFfjdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=xxPmsOI/aHi7Eo8c7
- Dca4Vvq3teOO+/+I/9dWygA/L4=; b=m9/a2UdH2qyQRj4bYP0AA5mi9MWRjp7Fz
- vVBIocjJHfPyfU5JEGV3f2LwtSU5G0pg4Gp5NnrZ1PHv0NVilI1GXpEqxI8dqnEi
- XzA5ltJSzF1XLXgNpVFyhHnLCza1/pVgkqi3MSCuliDqUt+RoZeZ8ygfVd3OUOr+
- QzmBztROLMcR0kJibHdnkCeG65P29sRieIs1HtG6KFi7r9olpsDG1WGusjikHP2m
- IVO3+E+ouAVJSgp4uNC0adn/gjLwKMkKGDDxOWHSQHX1nb3ZREP5iXoCzIqfTdgP
- pwCjOTrVCtvQJq4El0nBWzsXgl5tkY9gwJRPcCPKf8u0iu1ZjJZyw==
-X-ME-Sender: <xms:Lt0pYmGUDks62z-UbYn1eAmrtTUJzt-h-z5V7-kYZa4kNo3N7-o4gQ>
- <xme:Lt0pYnVv5j2550GnqiNAP3H3Phu80FbzZ5Ka9xWxFg-PkFKxsuMMIJFcyd_9e6_Jt
- Jz8BiXXgoJfvqjj7WY>
-X-ME-Received: <xmr:Lt0pYgLrfJDCpxs6DWCGiGsAI_rgD8ncGLizneolaY50PbRlT30JScupILNBgXZ4--xWWdnTJwpUtjQjClOCsor_3ZRsk-ta63ChiQ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Lt0pYgFID2fHNwjyhXHDiOt3BDY53TtU3kGjyK3gaAXeOznVWK5qtA>
- <xmx:Lt0pYsVSYhfkw-iEHUMz1VpYGaT03BuOUnWwhrIb8Y2x0oDLeLv_hw>
- <xmx:Lt0pYjPYvO9-opZaCQ-JVp9vvzB1i7-tsdS6CBcFCp51sHPJTqxzIg>
- <xmx:Lt0pYjTxpgNC39xaCWQv0Nd_GsFg3bvdTvN4UqUdLsxq0KSjOSXl2w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Mar 2022 06:12:46 -0500 (EST)
-Date: Thu, 10 Mar 2022 12:12:44 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Melissa Wen <mwen@igalia.com>
-Subject: Re: [PATCH] drm/vc4: add tracepoints for CL submissions
-Message-ID: <20220310111244.fylou5ckcb2ilexm@houat>
-References: <20220201212651.zhltjmaokisffq3x@mail.igalia.com>
- <20220225161126.6n7puj5p7saf57u4@houat>
- <20220301145826.6ofizv226oqzesed@mail.igalia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E77D10EE59
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 11:17:14 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C594D4AB;
+ Thu, 10 Mar 2022 12:17:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646911033;
+ bh=vkX4FP65/1Jl4E3Js5uyjhCWZutVlJeYMw/Xm7WV0IM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Fukventd7vdPoKn9tPdJ0OMdg5cGNJs5tTh57gwh9Q+Nk1CRyANjWoRuM1EDr5BTC
+ d82RTJ534ivyMDfmGJeUmkEHKFvY4DKKoivVKMYU8zQiJo1DgCVYFBn0fSlWxyoEej
+ 44FKnNjXYO+t0L+kMuhpUkjhT0ElA/rwQDYdRkFQ=
+Date: Thu, 10 Mar 2022 13:16:57 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+Message-ID: <YineKfG63AiUxkqu@pendragon.ideasonboard.com>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+ <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+ <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
+ <20220308125140.e7orpvocrerr5xdv@houat>
+ <YinWBFgdw22SlRKt@pendragon.ideasonboard.com>
+ <20220310105738.uz7ul3ycmsbt43po@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iy2oly5ee42fuuud"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220301145826.6ofizv226oqzesed@mail.igalia.com>
+In-Reply-To: <20220310105738.uz7ul3ycmsbt43po@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +55,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---iy2oly5ee42fuuud
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Mar 10, 2022 at 11:57:38AM +0100, Maxime Ripard wrote:
+> On Thu, Mar 10, 2022 at 12:42:12PM +0200, Laurent Pinchart wrote:
+> > On Tue, Mar 08, 2022 at 01:51:40PM +0100, Maxime Ripard wrote:
+> > > On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
+> > > > On 3/8/22 11:07, Jagan Teki wrote:
+> > > > > On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
+> > > > > > 
+> > > > > > On 3/8/22 09:03, Jagan Teki wrote:
+> > > > > > 
+> > > > > > Hi,
+> > > > > > 
+> > > > > > [...]
+> > > > > > 
+> > > > > > > > @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+> > > > > > > >    static int chipone_parse_dt(struct chipone *icn)
+> > > > > > > >    {
+> > > > > > > >           struct device *dev = icn->dev;
+> > > > > > > > +       struct device_node *endpoint;
+> > > > > > > >           struct drm_panel *panel;
+> > > > > > > > +       int dsi_lanes;
+> > > > > > > >           int ret;
+> > > > > > > > 
+> > > > > > > >           icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+> > > > > > > > @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+> > > > > > > >                   return PTR_ERR(icn->enable_gpio);
+> > > > > > > >           }
+> > > > > > > > 
+> > > > > > > > +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> > > > > > > > +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+> > > > > > > > +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+> > > > > > > > +       of_node_put(endpoint);
+> > > > > > > > +
+> > > > > > > > +       if (!icn->host_node)
+> > > > > > > > +               return -ENODEV;
+> > > > > > > 
+> > > > > > > The non-ports-based OF graph returns a -19 example on the Allwinner
+> > > > > > > Display pipeline in R16 [1].
+> > > > > > > 
+> > > > > > > We need to have a helper to return host_node for non-ports as I have
+> > > > > > > done it for drm_of_find_bridge.
+> > > > > > > 
+> > > > > > > [1] https://patchwork.amarulasolutions.com/patch/1805/
+> > > > > > 
+> > > > > > The link points to a patch marked "DO NOT MERGE", maybe that patch is
+> > > > > > missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+> > > > > > required, see:
+> > > > > > 
+> > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+> > > > > > 
+> > > > > > What is "non-ports-based OF graph" ?
+> > > > > > 
+> > > > > > I don't see drm_of_find_bridge() in linux-next , what is that ?
+> > > > > 
+> > > > > port@0 is optional as some of the DSI host OF-graph represent the
+> > > > > bridge or panel as child nodes instead of ports. (i think dt-binding
+> > > > > has to fix it to make port@0 optional)
+> > > > 
+> > > > The current upstream DT binding document says:
+> > > > 
+> > > >     required:
+> > > >       - port@0
+> > > >       - port@1
+> > > > 
+> > > > So port@0 is mandatory.
+> > > 
+> > > In the binding, sure, but fundamentally the DT excerpt Jagan provided is
+> > > correct. If the bridge supports DCS, there's no reason to use the OF
+> > > graph in the first place: the bridge node will be a child node of the
+> > > MIPI-DSI controller (and there's no obligation to use the OF-graph for a
+> > > MIPI-DSI controller).
+> > > 
+> > > I believe port@0 should be made optional (or downright removed if
+> > > MIPI-DCS in the only control bus).
+> > 
+> > I think we should make ports mandatory in all cases actually.
+> > 
+> > The DT parent-child hierarchy is meant to model control relations
+> > between devices, so a DSI device controlled through DCS should be a
+> > child of the DSI controller. No disagreement there.
+> > 
+> > The OF graph is meant to model data connections. While a DSI device
+> > controlled through DCS will use the same DSI link for data transfer, the
+> > two concepts are different. We have taken shortcuts and decided to not
+> > use OF graph for some DSI devices (not necessarily as a well thought
+> > decision, it was sometimes just not considered).
+> 
+> I disagree. Unless the data path is explicitly stated using the OF-graph
+> or some other binding, it's inferred.
 
-On Tue, Mar 01, 2022 at 01:58:26PM -0100, Melissa Wen wrote:
-> On 02/25, Maxime Ripard wrote:
-> > Hi Melissa,
-> >=20
-> > On Tue, Feb 01, 2022 at 08:26:51PM -0100, Melissa Wen wrote:
-> > > Trace submit_cl_ioctl and related IRQs for CL submission and bin/rend=
-er
-> > > jobs execution. It might be helpful to get a rendering timeline and
-> > > track job throttling.
-> > >=20
-> > > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> >=20
-> > I'm not really sure what to do about this patch to be honest.
-> >=20
-> > My understanding is that tracepoints are considered as userspace ABI,
-> > but I can't really judge whether your traces are good enough or if it's
-> > something that will bit us some time down the road.
->
-> Thanks for taking a look at this patch.
->=20
-> So, I followed the same path of tracing CL submissions on v3d. I mean,
-> tracking submit_cl ioctl, points when a job (bin/render) starts it
-> execution, and irqs of completion (bin/render job). We used it to
-> examine job throttling when running Chromium and, therefore, in addition
-> to have the timeline of jobs execution, I show some data submitted in
-> the ioctl to make connections. I think these tracers might be useful for
-> some investigation in the future, but I'm also not sure if all data are
-> necessary to be displayed.
+It is today, and for video data, I think it's showing to be a problem
+:-)
 
-Yeah, I'm sure that it's useful :)
+> We never asked ourselves where the
+> data from an i2c chip, an ethernet controller or an v4l2 output device
+> was coming from. It comes from the parent bus, because it's what makes
+> sense. Making a requirement on the OF-Graph to model this would create a
+> big inconsistency.
 
-I don't see anything wrong with that patch, really. What I meant is that
-I don't really have the experience to judge if there's anything wrong in
-the first place :)
+I'm afraid I disagree, especially when it comes to data transfers from
+device to device. The device tree has never tried to model those until
+OF graph.
 
-If you can get someone with more experience with the v3d driver (Emma,
-Iago maybe?) I'll be definitely be ok merging that patch
+> > This has led to different issues that we're having to deal with today,
+> > making it more difficult to develop generic code. Going forward, I
+> > think new bindings should always use OF graph to model the data
+> > connection.
+> 
+> Either way, that discussion is irrelevant. Not all DSI controllers use
+> OF-Graph, a bridge can be attached to any of them, so we can't require
+> OF-Graph support in any bridge.
 
-Maxime
+Not in any bridge, but we could in new ones, and we could also require
+it in new DT for existing bridge to support new features.
 
---iy2oly5ee42fuuud
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYindLAAKCRDj7w1vZxhR
-xd41AP9E/1VQa2SGz5I1RHmwbPhg6CGMC4rQ0w40UaEdbVY3aAD9GplxGeDLEQvk
-rAk+A/uXyDM2DAuh+hBvonBJwyzYMAU=
-=F2oO
------END PGP SIGNATURE-----
-
---iy2oly5ee42fuuud--
+Laurent Pinchart
