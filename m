@@ -1,35 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031544D4996
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 15:50:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A18554D497E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 15:40:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA9310E80D;
-	Thu, 10 Mar 2022 14:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCE110E3A7;
+	Thu, 10 Mar 2022 14:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E1F10E80D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 14:50:31 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nSK7V-0004bE-W9; Thu, 10 Mar 2022 15:50:26 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Colin Ian King <colin.i.king@gmail.com>,
- Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] drm/rockchip: remove redundant assignment to pointer
- connector
-Date: Thu, 10 Mar 2022 15:50:25 +0100
-Message-ID: <4453075.DPozGzHrQt@diego>
-In-Reply-To: <CAKwvOdkXNGRJkZDd7Cg8jhL9Ex7R+VPYqEEc+VpwDyi9NJKXQQ@mail.gmail.com>
-References: <20220307181704.149076-1-colin.i.king@gmail.com>
- <CAKwvOdkXNGRJkZDd7Cg8jhL9Ex7R+VPYqEEc+VpwDyi9NJKXQQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1648710E382;
+ Thu, 10 Mar 2022 14:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646923247; x=1678459247;
+ h=from:to:cc:subject:date:message-id;
+ bh=eayi+oq15692aYofIN5ji8ojHZ2Jfo5qTz4SqBOCw6U=;
+ b=Kq/oPYx5CuD+8XHmO7PvfIUCfGvgs9EyluIgaw+uRPJ6nbaR8I/NVwx8
+ uheUlWemVTnwP91ljIl3vhsV23m1RSTHa3Gqj8RhSuZdBT17GsImVy0oT
+ xMMkjvS6TXluDhJ3kOnovtQwCQ0NjeYwEbj53Todg3iRwDB0yWwYnE2y7
+ 24Nn95aCZOD8luAPergKljBxAG7j2w/eKHaUWM97O+/kFeZP0gPmwwnob
+ zSA9RE8i+GRnkgQwu95DFiaKjPT0ZgUBXRcy8o42DGj5XpdYcPtbTz65i
+ t+5FGdEfHXjckrtx/8vi3GiRR/ySSVA5BaFuIGTLHvcBQRrcbsKpZFzsN g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="255000894"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="255000894"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 06:40:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="538477302"
+Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.78])
+ by orsmga007.jf.intel.com with ESMTP; 10 Mar 2022 06:40:45 -0800
+From: Lee Shawn C <shawn.c.lee@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [v5 0/5] enhanced edid driver compatibility
+Date: Thu, 10 Mar 2022 22:54:19 +0800
+Message-Id: <20220310145424.32643-1-shawn.c.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,80 +50,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: knaerzche@gmail.com, David Airlie <airlied@linux.ie>, llvm@lists.linux.dev,
- kernel-janitors@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: jani.nikula@intel.com, ankit.k.nautiyal@intel.com,
+ Lee Shawn C <shawn.c.lee@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Support to parse multiple CEA extension blocks and HF-EEODB to
+extend drm edid driver's capability.
 
-looks like I wasn't in the original recipient list, so only got Nick's
-answer.
+v4: add one more patch to support HF-SCDB
+v5: HF-SCDB and HF-VSDBS carry the same SCDS data. Reuse
+    drm_parse_hdmi_forum_vsdb() to parse this packet.
 
-Am Mittwoch, 9. M=E4rz 2022, 00:10:31 CET schrieb Nick Desaulniers:
-> On Mon, Mar 7, 2022 at 10:17 AM Colin Ian King <colin.i.king@gmail.com> w=
-rote:
-> >
-> > The pointer connector is being assigned a value that is never read,
-> > it is being re-assigned in the following statement. The assignment
-> > is redundant and can be removed.
-> >
-> > Cleans up clang scan build warning:
-> > drivers/gpu/drm/rockchip/rockchip_rgb.c:153:2: warning: Value stored
-> > to 'connector' is never read [deadcode.DeadStores]
->=20
-> + Author & reviewer of:
-> Fixes: 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> flag to drm_bridge_attach")
->=20
-> >
-> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> > ---
-> >  drivers/gpu/drm/rockchip/rockchip_rgb.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/=
-rockchip/rockchip_rgb.c
-> > index 2494b079489d..92a727931a49 100644
-> > --- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> > +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> > @@ -150,7 +150,6 @@ struct rockchip_rgb *rockchip_rgb_init(struct devic=
-e *dev,
-> >         if (ret)
-> >                 goto err_free_encoder;
-> >
-> > -       connector =3D &rgb->connector;
-> >         connector =3D drm_bridge_connector_init(rgb->drm_dev, encoder);
+Lee Shawn C (5):
+  drm/edid: seek for available CEA block from specific EDID block index
+  drm/edid: parse multiple CEA extension block
+  drm/edid: read HF-EEODB ext block
+  drm/edid: parse HF-EEODB CEA extension block
+  drm/edid: check for HF-SCDB block
 
-I don't think this will work as expected.
+ drivers/gpu/drm/drm_connector.c |   8 +-
+ drivers/gpu/drm/drm_displayid.c |   5 +-
+ drivers/gpu/drm/drm_edid.c      | 172 ++++++++++++++++++++++++--------
+ include/drm/drm_edid.h          |   4 +-
+ 4 files changed, 142 insertions(+), 47 deletions(-)
 
-Yes, the whole thing looks a bit broken right now, but the connector
-field in the rockchip_rgb struct still exists and rockchip_rgb_fini also
-still uses it when calling drm_connector_cleanup.
-
-Same issue seems to exist in in rockchip_lvds.c with drm_connector_cleanup
-it seems.
-
-I guess drm_bridge_connector_destroy() is responsible for the cleanup so
-the drm_connector_cleanup call both in rockchip_rgb and rockchip_lvds
-as well as the local connector elements can go away as well?
-
-
-Heiko
-
-
-> >         if (IS_ERR(connector)) {
-> >                 DRM_DEV_ERROR(drm_dev->dev,
-> > --
-> > 2.35.1
-> >
-> >
->=20
->=20
->=20
-
-
-
+-- 
+2.31.1
 
