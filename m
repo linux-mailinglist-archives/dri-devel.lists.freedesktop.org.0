@@ -1,94 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63D14D5072
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 18:27:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A52074D50BE
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 18:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC9810E850;
-	Thu, 10 Mar 2022 17:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8FF10E6E0;
+	Thu, 10 Mar 2022 17:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E19010E6F4;
- Thu, 10 Mar 2022 17:26:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OFEBKSQFyqeRHtai7awNAGQ/SGHMOflQITcG1gx7HMlk00BPX/qmMs0LnVSrXh0dFppweNV7/AF9CIh8haJbD9zZONveuFkoPW2kxW69CviKutowrYWHyuGA0xuSeZs6O2ui9gOTl2G1srovSxBWjkmDuuctxdJgbUKmGKvkOoyKS155kOr9RGIQJBY1hT4PZ1nsrkUObQD5M7PaWU3zMNjNrTheX6sVtufFY5zIlHLCFde3dtjWchzWzP/eduNUSW5aXYEs2QSObLsZH93vjDyicQl63JOLDnGNbW5t2BKYm6drBrESypQj8AOuB58dDFEWHWnc2lE6CgUR2LgxfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+v+1UPaPthHsygapXxuY4sqVDC3cvlVfCyGWQ0h08FA=;
- b=n1iy540S9M4XzPyVHItLtr5MFznLBd728lGCGmIiIDjXuI/oo/fT9ua4sHUPIN9WU1Ep34iwI12K+8VAbX4AuSoj7xp9fJvgUb0ATfm+6FlyuKSkpQ+SmRVVgdMt1xtTyN8p6o9ZKxlK9mKAMH+XGELMYs+OLi8BuTu8vv1ne9645GkSnBOIOrJZYYyWaXYSS6scsFSNquvZvt2+HtwCFdpigHWJWHmZ4CAiUdH6im0NpV1GiB5RJumleqhfXEK2lL938L/QvwiNDfaQMxGWt7W0aGcBF5EQN1xy3r7qQmMv+82utCJbIzafe3jBMyJTtEzLZLx5J4R7nIZ2Rz20tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+v+1UPaPthHsygapXxuY4sqVDC3cvlVfCyGWQ0h08FA=;
- b=NNmB470gb/CYX90FK4yEbhGDNmtUDwjqkl72EgETLlLCQ/6xDMUzK5iY8SW6q5Bi2eUl99mubFJbJdNdoM9w+c7Fat/ZG5++cL0h5oCxuz9HbrisKngmZ/i3IPq0DHF+mbwg4j910rEkooHMTDc+vajAFkQuS9sh6sLGWukc6F8=
-Received: from DM3PR11CA0019.namprd11.prod.outlook.com (2603:10b6:0:54::29) by
- BL1PR12MB5141.namprd12.prod.outlook.com (2603:10b6:208:309::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5038.14; Thu, 10 Mar 2022 17:26:47 +0000
-Received: from DM6NAM11FT010.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:54:cafe::da) by DM3PR11CA0019.outlook.office365.com
- (2603:10b6:0:54::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.27 via Frontend
- Transport; Thu, 10 Mar 2022 17:26:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT010.mail.protection.outlook.com (10.13.172.222) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5061.22 via Frontend Transport; Thu, 10 Mar 2022 17:26:47 +0000
-Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 10 Mar
- 2022 11:26:45 -0600
-From: Alex Sierra <alex.sierra@amd.com>
-To: <jgg@nvidia.com>
-Subject: [PATCH v1 3/3] tools: add selftests to hmm for COW in device memory
-Date: Thu, 10 Mar 2022 11:26:33 -0600
-Message-ID: <20220310172633.9151-4-alex.sierra@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220310172633.9151-1-alex.sierra@amd.com>
-References: <20220310172633.9151-1-alex.sierra@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 557E910E17F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 17:39:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59C12491;
+ Thu, 10 Mar 2022 18:39:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646933961;
+ bh=l1kcdLXluMDZhM6bsQo/4827EOJNKubrLs8g65b18ZE=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=QesiaEAAE8AC/BxcAk8qJ3XEq62Y6EXfhBV9zo8KUmnQPaPzvGz/0CFEdqUv0PjGJ
+ UYhPA90M96E//+eJs59JRvCk79KtRRH7fWxdw3Gd/SVVJDzwsZ7OY8Z25xCrpj2vXe
+ jaqBIK+rcFZa7FG+kX0NmwbrLnqFWZtjUpoABvnY=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85354b9d-0445-47ff-a513-08da02bb278d
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5141:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5141E25CAEBBBB5DA3CDA141FD0B9@BL1PR12MB5141.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NCbRBKF8uJrOBI8LouOXjRxOdyXZMhchPVjs8D+xtAq+7pBrN92E8HVOh1idHSDDnASLZlwyrx884SnsUFAVb3I2F/wplQtQx/aIQcAVN6g1dZ0iMGoHxxRt0pMjlB2t3IyYscBrb9QjNmr+POap6/+aKa8kD8RUy1HbtZQZC9lhZfde95b8PCz+Kh+Vk1AnLrN2zDRQad6fH9hys/S1Jus+cRzk3j4QQHCl+VsUFElnzS/DmqKt/SBQYAPgZVybdxX5IVjPEfKo8iXIwZA34pE9xVeAEwpIDp74lodgsrz5zS7JBugcJynpHFtqlYpTIr45aFc9Wsalptbt28LZ9L0+jeY89nKj2Semp2eOIykwi3iPq6qG4vOMz/pXLOsH2dDeL9Zp73+jc+/b5sn2/e+cULzj7Ai1UWHYD53QUjNCsKw2WJ68nI5kdOX1UIdmwLNznB3JpJX/7GBYFTpaNvdqbTXL1vYhAma5RNGb9DR722ER+iodnCdsoWgPRcZTxHkMG5/i8y21rcyfD+hnhoWlYpWihdy399WtuUluqYB+dhVUdoRH+comEnnFEpyp8HE6lybrtG94lrMtbpijjS9O4r4HHRJE9ToFEt//p9lnZxnUmiqkTMH/VGB3AmXxclyjOPkcV3vO6KaYOhUH2E0xykJR1wTmgJnBBTsV9J7yUdel5SWAT0sLj2TI98FSMuDc0I83RWDRP2pfcIBXgw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(5660300002)(47076005)(7416002)(2616005)(6666004)(40460700003)(83380400001)(1076003)(26005)(2906002)(8936002)(82310400004)(44832011)(7696005)(336012)(426003)(16526019)(186003)(70206006)(36756003)(4326008)(81166007)(6916009)(70586007)(54906003)(356005)(316002)(86362001)(8676002)(508600001)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 17:26:47.0830 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85354b9d-0445-47ff-a513-08da02bb278d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT010.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5141
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YioqiGtni8Y7X4M1@pendragon.ideasonboard.com>
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
+ <YioqiGtni8Y7X4M1@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Thu, 10 Mar 2022 17:39:18 +0000
+Message-ID: <164693395853.11309.3618960076956475929@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,116 +49,370 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
- Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The objective is to test device migration mechanism in pages marked
-as COW, for private and coherent device type. In case of writing to
-COW private page(s), a page fault will migrate pages back to system
-memory first. Then, these pages will be duplicated. In case of COW
-device coherent type, pages are duplicated directly from device
-memory.
+Hi Laurent
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- tools/testing/selftests/vm/hmm-tests.c | 80 ++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+Quoting Laurent Pinchart (2022-03-10 16:42:48)
+> Hi Kieran,
+>=20
+> Thank you for the patch.
+>=20
+> On Thu, Mar 10, 2022 at 03:22:27PM +0000, Kieran Bingham wrote:
+> > When the SN65DSI86 is used in DisplayPort mode, its output is likely
+> > routed to a DisplayPort connector, which can benefit from hotplug
+> > detection. Support it in such cases, with polling mode only for now.
+>=20
+> Don't we support IRQ mode too now ?
 
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 65e30ab6494c..d70b780df877 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -1870,4 +1870,84 @@ TEST_F(hmm, hmm_gup_test)
- 	close(gup_fd);
- 	hmm_buffer_free(buffer);
- }
-+
-+/*
-+ * Test copy-on-write in device pages.
-+ * In case of writing to COW private page(s), a page fault will migrate pages
-+ * back to system memory first. Then, these pages will be duplicated. In case
-+ * of COW device coherent type, pages are duplicated directly from device
-+ * memory.
-+ */
-+TEST_F(hmm, hmm_cow_in_device)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+	unsigned char *m;
-+	pid_t pid;
-+	int status;
-+
-+	npages = 4;
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Migrate memory to device. */
-+
-+	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	pid = fork();
-+	if (pid == -1)
-+		ASSERT_EQ(pid, 0);
-+	if (!pid) {
-+		/* Child process waitd for SIGTERM from the parent. */
-+		while (1) {
-+		}
-+		perror("Should not reach this\n");
-+		exit(0);
-+	}
-+	/* Parent process writes to COW pages(s) and gets a
-+	 * new copy in system. In case of device private pages,
-+	 * this write causes a migration to system mem first.
-+	 */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Terminate child and wait */
-+	EXPECT_EQ(0, kill(pid, SIGTERM));
-+	EXPECT_EQ(pid, waitpid(pid, &status, 0));
-+	EXPECT_NE(0, WIFSIGNALED(status));
-+	EXPECT_EQ(SIGTERM, WTERMSIG(status));
-+
-+	/* Take snapshot to CPU pagetables */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	m = buffer->mirror;
-+	for (i = 0; i < npages; i++)
-+		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[i]);
-+
-+	hmm_buffer_free(buffer);
-+}
- TEST_HARNESS_MAIN
--- 
-2.32.0
+Ah yes, I missed this for an update.
 
+> > The implementation is limited to the bridge operations, as the connector
+> > operations are legacy and new users should use
+> > DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+> >=20
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
+com>
+> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> >=20
+> > - Document the no_hpd field
+> > - Rely on the SN_HPD_DISABLE_REG default value in the HPD case
+> > - Add a TODO comment regarding IRQ support
+> > [Kieran]
+> > - Fix spelling s/assrted/asserted/
+> > - Only enable HPD on DisplayPort connector.
+> > - Support IRQ based hotplug detect
+> >=20
+> > Changes since v2: [Kieran]
+> >  - Use unsigned int for values read by regmap
+> >  - Update HPD support warning message
+> >  - Only enable OP_HPD if IRQ support enabled.
+> >  - Only register IRQ handler during ti_sn_bridge_probe()
+> >  - Store IRQ in the struct ti_sn65dsi86
+> >  - Register IRQ only when !no-hpd
+> >  - Refactor DRM_BRIDGE_OP_DETECT and DRM_BRIDGE_OP_HPD handling
+> >=20
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 142 +++++++++++++++++++++++---
+> >  1 file changed, 129 insertions(+), 13 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
+idge/ti-sn65dsi86.c
+> > index d581c820e5d8..328a48f09f97 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -70,6 +70,7 @@
+> >  #define  BPP_18_RGB                          BIT(0)
+> >  #define SN_HPD_DISABLE_REG                   0x5C
+> >  #define  HPD_DISABLE                         BIT(0)
+> > +#define  HPD_DEBOUNCED_STATE                 BIT(4)
+> >  #define SN_GPIO_IO_REG                               0x5E
+> >  #define  SN_GPIO_INPUT_SHIFT                 4
+> >  #define  SN_GPIO_OUTPUT_SHIFT                        0
+> > @@ -106,10 +107,24 @@
+> >  #define SN_PWM_EN_INV_REG                    0xA5
+> >  #define  SN_PWM_INV_MASK                     BIT(0)
+> >  #define  SN_PWM_EN_MASK                              BIT(1)
+> > +#define SN_IRQ_EN_REG                                0xE0
+> > +#define  IRQ_EN                                      BIT(0)
+> > +#define SN_IRQ_HPD_REG                               0xE6
+> > +#define  IRQ_HPD_EN                          BIT(0)
+> > +#define  IRQ_HPD_INSERTION_EN                        BIT(1)
+> > +#define  IRQ_HPD_REMOVAL_EN                  BIT(2)
+> > +#define  IRQ_HPD_REPLUG_EN                   BIT(3)
+> > +#define  IRQ_HPD_PLL_UNLOCK_EN                       BIT(5)
+> >  #define SN_AUX_CMD_STATUS_REG                        0xF4
+> >  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT                BIT(3)
+> >  #define  AUX_IRQ_STATUS_AUX_SHORT            BIT(5)
+> >  #define  AUX_IRQ_STATUS_NAT_I2C_FAIL         BIT(6)
+> > +#define SN_IRQ_HPD_STATUS_REG                        0xF5
+> > +#define  IRQ_HPD_STATUS                              BIT(0)
+> > +#define  IRQ_HPD_INSERTION_STATUS            BIT(1)
+> > +#define  IRQ_HPD_REMOVAL_STATUS                      BIT(2)
+> > +#define  IRQ_HPD_REPLUG_STATUS                       BIT(3)
+> > +#define  IRQ_PLL_UNLOCK                              BIT(5)
+> > =20
+> >  #define MIN_DSI_CLK_FREQ_MHZ 40
+> > =20
+> > @@ -168,6 +183,12 @@
+> >   * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+> >   * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PW=
+M.
+> >   * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+> > + *
+> > + * @no_hpd:       Disable hot-plug detection as instructed by device t=
+ree (used
+> > + *                for instance for eDP panels whose HPD signal won't b=
+e asserted
+> > + *                until the panel is turned on, and is thus not usable=
+ for
+> > + *                downstream device detection).
+> > + * @irq:          IRQ number for the device.
+> >   */
+> >  struct ti_sn65dsi86 {
+> >       struct auxiliary_device         bridge_aux;
+> > @@ -202,6 +223,9 @@ struct ti_sn65dsi86 {
+> >       atomic_t                        pwm_pin_busy;
+> >  #endif
+> >       unsigned int                    pwm_refclk_freq;
+> > +
+> > +     bool                            no_hpd;
+> > +     int                             irq;
+> >  };
+> > =20
+> >  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] =3D {
+> > @@ -316,23 +340,25 @@ static void ti_sn65dsi86_enable_comms(struct ti_s=
+n65dsi86 *pdata)
+> >       ti_sn_bridge_set_refclk_freq(pdata);
+> > =20
+> >       /*
+> > -      * HPD on this bridge chip is a bit useless.  This is an eDP brid=
+ge
+> > -      * so the HPD is an internal signal that's only there to signal t=
+hat
+> > -      * the panel is done powering up.  ...but the bridge chip debounc=
+es
+> > -      * this signal by between 100 ms and 400 ms (depending on process,
+> > -      * voltage, and temperate--I measured it at about 200 ms).  One
+> > +      * As this is an eDP bridge, the output will be connected to a fi=
+xed
+> > +      * panel in most systems. HPD is in that case only an internal si=
+gnal
+> > +      * to signal that the panel is done powering up. The bridge chip
+> > +      * debounces this signal by between 100 ms and 400 ms (depending =
+on
+> > +      * process, voltage, and temperate--I measured it at about 200 ms=
+). One
+> >        * particular panel asserted HPD 84 ms after it was powered on me=
+aning
+> >        * that we saw HPD 284 ms after power on.  ...but the same panel =
+said
+> >        * that instead of looking at HPD you could just hardcode a delay=
+ of
+> > -      * 200 ms.  We'll assume that the panel driver will have the hard=
+coded
+> > -      * delay in its prepare and always disable HPD.
+> > +      * 200 ms. HPD is thus a bit useless. For this type of use cases,=
+ we'll
+> > +      * assume that the panel driver will have the hardcoded delay in =
+its
+> > +      * prepare and always disable HPD.
+> >        *
+> > -      * If HPD somehow makes sense on some future panel we'll have to
+> > -      * change this to be conditional on someone specifying that HPD s=
+hould
+> > -      * be used.
+> > +      * However, on some systems, the output is connected to a Display=
+Port
+> > +      * connector. HPD is needed in such cases. To accommodate both use
+> > +      * cases, enable HPD only when requested.
+> >        */
+> > -     regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> > -                        HPD_DISABLE);
+> > +     if (pdata->no_hpd)
+> > +             regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> > +                                HPD_DISABLE, HPD_DISABLE);
+> > =20
+> >       pdata->comms_enabled =3D true;
+> > =20
+> > @@ -1135,6 +1161,36 @@ static void ti_sn_bridge_atomic_post_disable(str=
+uct drm_bridge *bridge,
+> >       pm_runtime_put_sync(pdata->dev);
+> >  }
+> > =20
+> > +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge=
+ *bridge)
+> > +{
+> > +     struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +     int val;
+> > +
+> > +     regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> > +
+> > +     return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> > +                                      : connector_status_disconnected;
+> > +}
+> > +
+> > +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
+> > +{
+> > +     struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +
+> > +     /* The device must remain active for HPD to function */
+> > +     pm_runtime_get_sync(pdata->dev);
+> > +     regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
+> > +                  IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
+> > +                  IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
+> > +}
+> > +
+> > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
+> > +{
+> > +     struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +
+> > +     regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
+> > +     pm_runtime_put_autosuspend(pdata->dev);
+> > +}
+> > +
+> >  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+> >                                         struct drm_connector *connector)
+> >  {
+> > @@ -1153,6 +1209,9 @@ static const struct drm_bridge_funcs ti_sn_bridge=
+_funcs =3D {
+> >       .detach =3D ti_sn_bridge_detach,
+> >       .mode_valid =3D ti_sn_bridge_mode_valid,
+> >       .get_edid =3D ti_sn_bridge_get_edid,
+> > +     .detect =3D ti_sn_bridge_detect,
+> > +     .hpd_enable =3D ti_sn_bridge_hpd_enable,
+> > +     .hpd_disable =3D ti_sn_bridge_hpd_disable,
+> >       .atomic_pre_enable =3D ti_sn_bridge_atomic_pre_enable,
+> >       .atomic_enable =3D ti_sn_bridge_atomic_enable,
+> >       .atomic_disable =3D ti_sn_bridge_atomic_disable,
+> > @@ -1223,6 +1282,34 @@ static int ti_sn_bridge_parse_dsi_host(struct ti=
+_sn65dsi86 *pdata)
+> >       return 0;
+> >  }
+> > =20
+> > +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
+> > +{
+> > +     struct ti_sn65dsi86 *pdata =3D arg;
+> > +     int ret;
+> > +     unsigned int hpd;
+> > +
+> > +     ret =3D regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
+> > +     if (ret || !hpd)
+> > +             return IRQ_NONE;
+> > +
+> > +     if (hpd & IRQ_HPD_INSERTION_STATUS)
+> > +             drm_bridge_hpd_notify(&pdata->bridge, connector_status_co=
+nnected);
+> > +
+> > +     if (hpd & IRQ_HPD_REMOVAL_STATUS)
+> > +             drm_bridge_hpd_notify(&pdata->bridge, connector_status_di=
+sconnected);
+> > +
+> > +     /* When replugged, ensure we trigger a detect to update the displ=
+ay */
+> > +     if (hpd & IRQ_HPD_REPLUG_STATUS)
+> > +             drm_bridge_hpd_notify(&pdata->bridge, connector_status_di=
+sconnected);
+> > +
+> > +     /* reset the status registers */
+>=20
+> s/registers/register/
+
+Ack.
+
+>=20
+> > +     regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
+> > +                  IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
+> > +                  IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
+> > +
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> >  static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+> >                             const struct auxiliary_device_id *id)
+> >  {
+> > @@ -1236,6 +1323,14 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >               return PTR_ERR(pdata->next_bridge);
+> >       }
+> > =20
+> > +     pdata->no_hpd =3D of_property_read_bool(np, "no-hpd");
+> > +     if (pdata->next_bridge->type !=3D DRM_MODE_CONNECTOR_DisplayPort =
+&&
+> > +         !pdata->no_hpd) {
+> > +             dev_warn(pdata->dev,
+> > +                      "HPD support only implemented for full DP connec=
+tors\n");
+> > +             pdata->no_hpd =3D true;
+> > +     }
+> > +
+> >       ti_sn_bridge_parse_lanes(pdata, np);
+> > =20
+> >       ret =3D ti_sn_bridge_parse_dsi_host(pdata);
+> > @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >       pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE_C=
+ONNECTOR_DisplayPort
+> >                          ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CO=
+NNECTOR_eDP;
+> > =20
+> > -     if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > +     if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
+> >               pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> > =20
+> > +             if (!pdata->no_hpd)
+> > +                     pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
+> > +     }
+> > +
+> > +     if (!pdata->no_hpd && pdata->irq > 0) {
+> > +             dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
+>=20
+> As you've noted, this should be removed.
+
+Already gone in my tree.
+
+>=20
+> > +
+> > +             ret =3D devm_request_threaded_irq(pdata->dev, pdata->irq,=
+ NULL,
+> > +                                             ti_sn65dsi86_irq_handler,
+> > +                                             IRQF_ONESHOT, "sn65dsi86-=
+irq",
+> > +                                             pdata);
+> > +             if (ret)
+> > +                     return dev_err_probe(pdata->dev, ret,
+> > +                                          "Failed to register DP inter=
+rupt\n");
+> > +
+> > +             /* Enable IRQ based HPD */
+> > +             regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
+>=20
+> Do we have a guarantee that the device isn't PM-suspended here ? Should
+> this be done in the PM resume handler ?
+
+
+This is tricky I fear. The ti_sn_bridge_probe() is called after the main
+ti_sn65dsi86_probe(), which is where the pm resume handler would get
+called first.
+
+I moved the handler registration here, because we can't handle the IRQ
+until we have the bridge set up, but if we were to enable interrupts in
+the pm resume handler, it would get enabled during ti_sn65dsi86_probe()
+before the handler is registered.
+
+Now at that point nothing should fire an interrupt, but still - enabling
+interrupts before the handler is registered doesn't sound good to me.
+
+--
+Kieran
+
+
+>=20
+> > +             pdata->bridge.ops |=3D DRM_BRIDGE_OP_HPD;
+> > +     }
+> > +
+> >       drm_bridge_add(&pdata->bridge);
+> > =20
+> >       ret =3D ti_sn_attach_host(pdata);
+> > @@ -1831,6 +1946,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *=
+client,
+> >               return -ENOMEM;
+> >       dev_set_drvdata(dev, pdata);
+> >       pdata->dev =3D dev;
+> > +     pdata->irq =3D client->irq;
+> > =20
+> >       mutex_init(&pdata->comms_mutex);
+> > =20
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
