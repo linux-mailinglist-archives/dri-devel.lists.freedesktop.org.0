@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159434D3FED
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 04:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9D54D3FFB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 04:55:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECAFC10EA4C;
-	Thu, 10 Mar 2022 03:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 063C810E5BE;
+	Thu, 10 Mar 2022 03:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
- [IPv6:2607:f8b0:4864:20::e32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58CBE10EA4C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 03:54:05 +0000 (UTC)
-Received: by mail-vs1-xe32.google.com with SMTP id z85so4608246vsz.5
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 19:54:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=g02VUi9lshGZqdo5/cYz41hUNMH+xzDGxn419kRsSDM=;
- b=AYw+oqeYvhX8+fR3qZ+SBNAQ94dLDTiQJCgtCnnyNYe9OsEd9rQhku9ryCoJ+oQnYu
- wChUwbZ9MI/D1Elro+3Y/6In02ApdqcE0JVL1a2Cx9Y+NiN91Q8w7vp+jol87kzx9Mkz
- L108U0YzcM0PkD4zNPuhqO9LvWwZzeL54U3+o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=g02VUi9lshGZqdo5/cYz41hUNMH+xzDGxn419kRsSDM=;
- b=KQZPSdNrf6B687DxdcXHlIu+2xSa0SSnCITQ4XAmr3tlOwFmOZbasiwXLSuUpGJx9w
- hvsfPqtgPrEqTZ5e8WuVsJlC6LgUCMmUKLimcrPhP30Il+YZec4mHKFCSDR/RyLK31Hh
- n9tpRW9XATlcxyhCyqab4P+xYoPaLfIQkO09NrvxrbXA32VC+qhVrJ7UI1j/rtIuqQlZ
- F/SyJ7whsWiicBQHDX3ynFvaeGF6vSqH0+lsgDodIYfpnBQrNHZJQfa0egItSfxMCV0c
- UFHC/gColKkLtD6fjdaBiubuNQr+9Fffk6uLqjnXxfH1zSO1AnyZs0QVgdhqNkuvq9Al
- 6ixw==
-X-Gm-Message-State: AOAM533Ac4+AckEhDrWTpedvXs7znYLmIwq+UYSIBKTxvmZRCCzyT84S
- 7JUIFjDUliC/wbBtjwE4HNC+rMhRckznWcr+WkVfeg==
-X-Google-Smtp-Source: ABdhPJx1BC9Et7WCgqRCFdi4vzEYXi4wWKs8q5rB+Ji944RNhXlD8m+JZ4yYI5RSJ76rEehH33845dCCumLNCWeLegk=
-X-Received: by 2002:a67:df98:0:b0:320:8446:7c6d with SMTP id
- x24-20020a67df98000000b0032084467c6dmr1276863vsk.16.1646884444142; Wed, 09
- Mar 2022 19:54:04 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AA910E5AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 03:55:25 +0000 (UTC)
+X-UUID: a09d3b9898594de3a4692dc5d700836f-20220310
+X-UUID: a09d3b9898594de3a4692dc5d700836f-20220310
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2062155475; Thu, 10 Mar 2022 11:55:18 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 10 Mar 2022 11:55:16 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Thu, 10 Mar 2022 11:55:16 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v14 00/22] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Thu, 10 Mar 2022 11:54:53 +0800
+Message-ID: <20220310035515.16881-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <1646388956-8033-1-git-send-email-xinlei.lee@mediatek.com>
- <fb73a54a-7e75-2e5d-d78a-cacb5f065b06@collabora.com>
- <CAJMQK-jkmw1iKmy1s6CU5rbngQWNPDS4zT23PnuDf2nGus=X2w@mail.gmail.com>
- <d6f880e1-83c6-7663-2a8a-8541115f5242@collabora.com>
- <90f28179a3cffcaf28640066079391e31783a9f7.camel@mediatek.com>
-In-Reply-To: <90f28179a3cffcaf28640066079391e31783a9f7.camel@mediatek.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 10 Mar 2022 11:53:37 +0800
-Message-ID: <CAJMQK-jp8ZrhPS0h_fcSsc6zdCe3qidr_TQGC8RAiF5c1KM3Vw@mail.gmail.com>
-Subject: Re: [PATCH v2, 0/4] Cooperate with DSI RX devices to modify dsi funcs
- and delay mipi high to cooperate with panel sequence
-To: "xinlei.lee" <xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,253 +48,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC.Chen@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- jitao.shi@mediatek.com, linux-arm-kernel@lists.infradead.org,
- allen-kh.cheng@mediatek.com
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 10, 2022 at 11:33 AM xinlei.lee <xinlei.lee@mediatek.com> wrote=
-:
->
-> On Tue, 2022-03-08 at 11:00 +0100, Benjamin Gaignard wrote:
-> > Le 08/03/2022 =C3=A0 10:12, Hsin-Yi Wang a =C3=A9crit :
-> > > On Fri, Mar 4, 2022 at 7:25 PM Benjamin Gaignard
-> > > <benjamin.gaignard@collabora.com> wrote:
-> > > >
-> > > > Le 04/03/2022 =C3=A0 11:15, xinlei.lee@mediatek.com a =C3=A9crit :
-> > > > > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > > >
-> > > > > In upstream-v5.8, dsi_enable will operate panel_enable, but
-> > > > > this
-> > > > > modification has been moved in v5.9. In order to ensure the
-> > > > > timing of
-> > > > > dsi_power_on/off and the timing of pulling up/down the MIPI
-> > > > > signal,
-> > > > > the modification of v5.9 is synchronized in this series of
-> > > > > patches.
-> > > >
-> > > > Hello,
-> > > >
-> > > > I'm trying to debug an issue on mt8183 kukui krane sku176 device.
-> > > > The problem is that boe-tv101wum-nl6 panel isn't working.
-> > > > At boot time I can see these logs:
-> > > > panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
-> > > > panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init panel: -62
-> > > > and a DSI interrupt time out.
-> > > >
-> > > > Since I believe the problem is link to DSI/panel enabling
-> > > > sequence
-> > > > I have try this series but that doesn't solve the issue.
-> > > > I notice that when going out of deep sleep mode panel is
-> > > > functional.
-> > > >
-> > > > May you have any idea to debug/solve this problem ?
-> > > >
-> > >
-> > > Hi Benjamin,
-> > >
-> > > I think this might not be related to this series. Which kernel are
-> > > you using?
-> > > I tried the krane sku176 with linux-next 5.17-rc6
-> > > (519dd6c19986696f59847ff8bf930436ccffd9a1 (tag: next-20220307,
-> > > linux-next/master) with or without this series, both can get the
-> > > display on.
-> > >
-> > > dsi related message:
-> > > [    0.206330] mediatek-drm mediatek-drm.1.auto: Adding component
-> > > match for /soc/dsi@14014000
-> > > [    4.567577] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
-> > > not found, using dummy regulator
-> > > [    4.567732] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup
-> > > for
-> > > consumer enable
-> > > [    4.567738] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
-> > > tree for GPIO lookup
-> > > [    4.567757] of_get_named_gpiod_flags: parsed 'enable-gpios'
-> > > property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
-> > > [    4.585884] panel-boe-tv101wum-nl6 14014000.dsi.0: supply pp3300
-> > > not found, using dummy regulator
-> > > [    4.586037] panel-boe-tv101wum-nl6 14014000.dsi.0: GPIO lookup
-> > > for
-> > > consumer enable
-> > > [    4.586042] panel-boe-tv101wum-nl6 14014000.dsi.0: using device
-> > > tree for GPIO lookup
-> > > [    4.586059] of_get_named_gpiod_flags: parsed 'enable-gpios'
-> > > property of node '/soc/dsi@14014000/panel@0[0]' - status (0)
-> > > [    4.587430] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi
-> > > (ops 0xffffffd369a752b8)
-> > >
-> > >
-> > > Maybe some config is not enabled?
-> >
-> > I using 5.17.0-rc1-next-20220127 kernel tag.
-> > The configs look similar.
-> >
-> > I have the follow log at boot time:
-> >
-> > [    1.533384] phy phy-11e50000.dsi-phy.2: Looking up phy-supply from
-> > device tree
-> > [    1.533402] phy phy-11e50000.dsi-phy.2: Looking up phy-supply
-> > property in node /soc/dsi-phy@11e50000 failed
-> > [    3.173068] mediatek-drm mediatek-drm.1.auto: Adding component
-> > match for /soc/dsi@14014000
-> > [    4.671806] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > avdd-supply from device tree
-> > [    4.680348] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > avee-supply from device tree
-> > [    4.688784] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > pp3300-supply from device tree
-> > [    4.697816] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > pp1800-supply from device tree
-> > [    4.842346] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > avdd-supply from device tree
-> > [    4.854573] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > avee-supply from device tree
-> > [    4.862976] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > pp3300-supply from device tree
-> > [    4.871568] panel-boe-tv101wum-nl6 14014000.dsi.0: Looking up
-> > pp1800-supply from device tree
-> > [    4.964021] mediatek-drm mediatek-drm.1.auto: bound 14014000.dsi
-> > (ops mtk_dsi_component_ops)
-> > ...
-> > [   38.273437] [drm] Wait DSI IRQ(0x00000002) Timeout
-> > [   38.281584] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write
-> > command 1
-> > [   38.288651] panel-boe-tv101wum-nl6 14014000.dsi.0: failed to init
-> > panel: -62
-> > ...
-> > [   70.113674] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR*
-> > flip_done timed out
-> > [   70.121054] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR*
-> > [CRTC:45:crtc-0] commit wait timed out
-> > [   70.130037] [drm:mtk_drm_crtc_atomic_begin] *ERROR* new event
-> > while there is still a pending event
-> > [   70.241222] ------------[ cut here ]------------
-> > [   70.245898] [CRTC:45:crtc-0] vblank wait timed out
-> > [   70.250729] WARNING: CPU: 7 PID: 397 at
-> > drivers/gpu/drm/drm_atomic_helper.c:1529
-> > drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x24
-> > [   70.262815] Modules linked in: hci_uart btqca btbcm bluetooth
-> > cdc_ether usbnet r8152 mtk_mdp3 hid_multitouch mtk_jpeg panfrost
-> > cros_6
-> > [   70.309348] CPU: 7 PID: 397 Comm: gnome-shell Tainted:
-> > G        W         5.17.0-rc1-next-20220127+ #57
-> > [   70.318731] Hardware name: MediaTek krane sku176 board (DT)
-> > [   70.324293] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS
-> > BTYPE=3D--)
-> > [   70.331244] pc :
-> > drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-> > [   70.337762] lr :
-> > drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-> > [   70.344279] sp : ffff8000092339e0
-> > [   70.347583] x29: ffff8000092339e0 x28: 0000000000000001 x27:
-> > 0000000000000000
-> > [   70.354713] x26: 0000000000000000 x25: ffffc7e8feee4660 x24:
-> > 0000000000000038
-> > [   70.361842] x23: ffff6fe702b0d000 x22: 0000000000000001 x21:
-> > ffff6fe7030d5080
-> > [   70.368970] x20: ffff6fe709d7d700 x19: 0000000000000000 x18:
-> > 0000000000000030
-> > [   70.376099] x17: 000000040044ffff x16: 00400032b5503510 x15:
-> > ffffffffffffffff
-> > [   70.383227] x14: ffffc7e8ffa99220 x13: 000000000000094b x12:
-> > 0000000000000319
-> > [   70.390354] x11: 6e616c6276205d30 x10: ffffc7e8ffb49220 x9 :
-> > 00000000ffffe000
-> > [   70.397483] x8 : ffffc7e8ffa99220 x7 : 0000000000000001 x6 :
-> > 0000000000000000
-> > [   70.404611] x5 : 0000000000000000 x4 : ffff6fe73b5e4cf8 x3 :
-> > ffff6fe73b5f0840
-> > [   70.411738] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
-> > ffff6fe702f20000
-> > [   70.418866] Call trace:
-> > [   70.421301]  drm_atomic_helper_wait_for_vblanks.part.0+0x290/0x2b4
-> > [   70.427472]  drm_atomic_helper_commit_tail_rpm+0x88/0xac
-> > [   70.432775]  commit_tail+0xa0/0x17c
-> > [   70.436254]  drm_atomic_helper_commit+0x190/0x3a0
-> > [   70.440949]  drm_atomic_commit+0x5c/0x6c
-> > [   70.444864]  drm_mode_gamma_set_ioctl+0x45c/0x640
-> > [   70.449560]  drm_ioctl_kernel+0xc4/0x174
-> > [   70.453475]  drm_ioctl+0x238/0x45c
-> > [   70.456868]  __arm64_sys_ioctl+0xac/0xf0
-> > [   70.460786]  invoke_syscall+0x48/0x114
-> > [   70.464529]  el0_svc_common.constprop.0+0x60/0x11c
-> > [   70.469312]  do_el0_svc+0x28/0x90
-> > [   70.472619]  el0_svc+0x4c/0x100
-> > [   70.475754]  el0t_64_sync_handler+0xec/0xf0
-> > [   70.479928]  el0t_64_sync+0x1a0/0x1a4
-> > [   70.483582] irq event stamp: 0
-> > [   70.486625] hardirqs last  enabled at (0): [<0000000000000000>]
-> > 0x0
-> > [   70.492883] hardirqs last disabled at (0): [<ffffc7e8fd49383c>]
-> > copy_process+0x658/0x197c
-> > [   70.501053] softirqs last  enabled at (0): [<ffffc7e8fd49383c>]
-> > copy_process+0x658/0x197c
-> > [   70.509219] softirqs last disabled at (0): [<0000000000000000>]
-> > 0x0
-> > [   70.515475] ---[ end trace 0000000000000000 ]---
-> >
-> > Regards,
-> > Benjamin
-> >
-> > >
-> > >
-> > >
-> > > > Regards,
-> > > > Benjamin
-> > > >
-> > > > > Changes since v1:
-> > > > > 1. Dsi sequence marked with patch adjustment
-> > > > > 2. Fixes: mtk_dsi: Use the drm_panel_bridge
-> > > > >
-> > > > > Jitao Shi (3):
-> > > > >     drm/mediatek: Adjust the timing of mipi signal from LP00 to
-> > > > > LP11
-> > > > >     drm/mediatek: Separate poweron/poweroff from enable/disable
-> > > > > and define
-> > > > >       new funcs
-> > > > >     drm/mediatek: keep dsi as LP00 before dcs cmds transfer
-> > > > >
-> > > > > Xinlei Lee (1):
-> > > > >     drm/mediatek: Add pull-down MIPI operation in
-> > > > > mtk_dsi_poweroff
-> > > > >       function
-> > > > >
-> > > > >    drivers/gpu/drm/mediatek/mtk_dsi.c | 73
-> > > > > ++++++++++++++++++++----------
-> > > > >    1 file changed, 49 insertions(+), 24 deletions(-)
-> > > > >
-> > > >
-> > > > _______________________________________________
-> > > > Linux-mediatek mailing list
-> > > > Linux-mediatek@lists.infradead.org
-> > > > http://lists.infradead.org/mailman/listinfo/linux-mediatek
-> > > >
-> > > > _______________________________________________
-> > > > Linux-mediatek mailing list
-> > > > Linux-mediatek@lists.infradead.org
-> > > > http://lists.infradead.org/mailman/listinfo/linux-mediatek
->
-> Hi Benjamin:
->
-> I confirmed with hsin-yi that if she doesn't add these patches, the
-> screen of tv101 should work normally. My local test can also be
-> displayed.
-> panel-boe-tv101wum-nl6 14014000.dsi.0: failed to write command 1
-> =3D>From this log, it can be seen that the initial code issued by the
-> platform was unsuccessful, and it cannot be ruled out that the panel is
-> no problem.
-> It is recommended to grab the latest kukui kernel on google CPFE or try
-> another platform to test.
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-hi Xinlei,
-Please test with linux-next as well besides testing on downstream kernel.
->
-> Best Regards!
-> xinlei
->
+Add DRM and these modules support by the patches below:
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220112114724.1953-4-tinghan.shen@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] arm64: dts: mt8195: add gce node
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220126090109.32143-1-jason-jh.lin@mediatek.com/
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220225021535.2655-1-jason-jh.lin@mediatek.com/
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=620795
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+
+Nancy.Lin (22):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: change the mutex defines and the mutex_mod type
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../arm/mediatek/mediatek,mdp-rdma.yaml       |  86 ++++
+ .../display/mediatek/mediatek,ethdr.yaml      | 158 +++++++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 223 +++++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  29 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  89 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 443 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  55 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  31 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   9 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 329 +++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 376 +++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  23 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  79 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |  11 +
+ drivers/soc/mediatek/mtk-mutex.c              | 318 +++++++------
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+ 25 files changed, 2596 insertions(+), 255 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
