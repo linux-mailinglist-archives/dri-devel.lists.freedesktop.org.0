@@ -2,57 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085654D4CC6
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 16:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7A44D4E82
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 17:18:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD6F10E7FE;
-	Thu, 10 Mar 2022 15:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F8210E2CD;
+	Thu, 10 Mar 2022 16:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC19B10E7D2;
- Thu, 10 Mar 2022 15:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646926162; x=1678462162;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gVGq9pgG5rukofAoVudOeifHbkS8o202PTexuCQmpzc=;
- b=Mivcyip9bGRrZaQVwkMqCrsjm+XJ2oiak+Nma7ChuIjG7kFBnHrFIa3F
- UM1oULxC6KVZyL6nqwFSLyHgc+6Mbqwpr/5IYQhQtqhL8gOGTENkU490g
- kCBENc1swOFmCH/u+ktlORougpacOxvP6AM3Lg67zV7sLoRkNGrNJ8hBF
- rQD6hMqrAIoQytBgoR4Jg9PxrvKxKIkB3Cpg2UFXF688bAjunjCRRqHGb
- 60S2GQ2ldwvIDzx0Qs8oJHvGMkdbbZQGehuXHxI+I8nvDLcJwxCQpDvVA
- zbRZR8iZ66tUMNexHgAjaMZg493UCcK4yGCV5KZTnny5+GR+/K4h9RqM4 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="318500808"
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="318500808"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 07:29:21 -0800
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="596695223"
-Received: from tcuddihy-mobl.ger.corp.intel.com (HELO [10.252.3.1])
- ([10.252.3.1])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 07:29:19 -0800
-Message-ID: <c3a4f6b5-3f61-4e52-da12-cbbe629fa080@intel.com>
-Date: Thu, 10 Mar 2022 15:29:17 +0000
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADFED10E2CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 16:18:42 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 179FB491;
+ Thu, 10 Mar 2022 17:18:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646929121;
+ bh=IigNmedq/u5cq+uo4SiOOQpiDOP+uOQZNVbqmVyBaLw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=H+Ip+sLggMnFavGSB11bgBBXLtNPbzXIzKaioFZTMeua44tvb+OG4ptOFE/EQ0R3N
+ NY4MlbyFC+mU8T+V8e5Ff/Dy3JNxRUXUmvexwXHREdbWMochDKS+qdv3AQo5jZLmnC
+ Tu26812mZn+lAnBum/+p4CdA/qrEY++dNe+X4Vug=
+Date: Thu, 10 Mar 2022 18:18:25 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 1/3] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
+Message-ID: <Yiok0XZUgDyveWKj@pendragon.ideasonboard.com>
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm: remove min_order BUG_ON check
-Content-Language: en-GB
-To: Arunpravin <arunpravin.paneerselvam@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
- <78232c15-0d0c-3594-ab59-63560e63eb4e@intel.com>
- <1ff8a246-8df9-c098-302c-f73b4425ccbf@amd.com>
- <8909011e-d18b-03cd-aeb5-bae10db41a00@intel.com>
- <02812310-64ed-fc93-beeb-b8ee08ec14b3@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <02812310-64ed-fc93-beeb-b8ee08ec14b3@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,130 +48,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/03/2022 14:47, Arunpravin wrote:
+Hi Kieran,
+
+Thank you for the patch.
+
+On Thu, Mar 10, 2022 at 03:22:25PM +0000, Kieran Bingham wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
+> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
+> routed to a DisplayPort connector. Enable DisplayPort mode when the next
+> component in the display pipeline is detected as a DisplayPort
+> connector, and disable eDP features in that case.
 > 
-> On 08/03/22 10:31 pm, Matthew Auld wrote:
->> On 08/03/2022 13:59, Arunpravin wrote:
->>>
->>>
->>> On 07/03/22 10:11 pm, Matthew Auld wrote:
->>>> On 07/03/2022 14:37, Arunpravin wrote:
->>>>> place BUG_ON(order < min_order) outside do..while
->>>>> loop as it fails Unigine Heaven benchmark.
->>>>>
->>>>> Unigine Heaven has buffer allocation requests for
->>>>> example required pages are 161 and alignment request
->>>>> is 128. To allocate the remaining 33 pages, continues
->>>>> the iteration to find the order value which is 5 and
->>>>> when it compares with min_order = 7, enables the
->>>>> BUG_ON(). To avoid this problem, placed the BUG_ON
->>>>> check outside of do..while loop.
->>>>>
->>>>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
->>>>> ---
->>>>>     drivers/gpu/drm/drm_buddy.c | 3 ++-
->>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>>>> index 72f52f293249..ed94c56b720f 100644
->>>>> --- a/drivers/gpu/drm/drm_buddy.c
->>>>> +++ b/drivers/gpu/drm/drm_buddy.c
->>>>> @@ -669,10 +669,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->>>>>     	order = fls(pages) - 1;
->>>>>     	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
->>>>>     
->>>>> +	BUG_ON(order < min_order);
->>>>
->>>> Isn't the issue that we are allowing a size that is not aligned to the
->>>> requested min_page_size? Should we not fix the caller(and throw a normal
->>>> error here), or perhaps add the round_up() here instead?
->>>>
->>> CASE 1:
->>> when size is not aligned to the requested min_page_size, for instance,
->>> required size = 161 pages, min_page_size = 128 pages, here we have 3
->>> possible options,
->>> a. AFAIK,This kind of situation is common in any workload,the first
->>> allocation (i.e) 128 pages is aligned to min_page_size, Should we just
->>> allocate the left over 33 pages (2 pow 5, 2 pow 0) since the caller does
->>> know the left over pages are not in min_page_size alignment?
->>
->> So IIUC looking at amdgpu_gem_create_ioctl(), userspace can specify some
->> arbitrary physical alignment for an object? Is that not meant to apply
->> to every page/chunk? The above example would only have the correct
->> physical alignment guaranteed for the first chunk, or so, is this the
->> expected ABI behaviour?
->>
-> I gone through the function amdgpu_gem_create_ioctl(), it reads the
-> physical alignment in bytes from userspace, does i915 round up the size
-> value to the alignment or does i915 fails the allocation request if size
-> is not aligned with min_page_size? If not, I think running unigine
-> heaven or similar benchmark triggers BUG_ON() on current version of drm
-> buddy
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reworked to set bridge type based on the next bridge/connector.
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-i915 will always round_up the obj->base.size as per the 
-default_page_size. But in our case the default_page_size is selected by 
-the kernel, which is always either PAGE_SIZE, or 64K on some platforms, 
-due to the HW having some minimum GPU page-size for mapping VRAM pages. 
-We don't currently have anything similar to 
-amdgpu_gem_create_in.alignment, where userspace can request some 
-arbitrary physical alignment.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->> Also looking at this some more, the other related bug here is the
->> order-- == min_order check, since it now won't bail when order == 0,
->> leading to order = -1, if we are unlucky...
-> will add a fix
->>
->> Originally, if asking for min_page_size > chunk_size, then the
->> allocation was meant to fail if it can't fill the resource request with
->> pages of at least that size(and also alignment). Or at least that was
->> the original meaning in i915 IIRC.
-> we can follow the same here too, failing the allocation request if size
-> is not aligned with min_page_size?
+(I know I'm listed as the author, but your changes look good :-))
 
-Yeah, seems reasonable to me.
-
+> --
+> Changes since v1/RFC:
+>  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
+>    devm_drm_of_get_bridge"
+>  - eDP/DP mode determined from the next bridge connector type.
 > 
-> I added a debug print for requested num_pages from userspace and its
-> alignment request and executed unigine heaven, I see many such instances
-> where min_page_size is not aligned to the size, how i915 handles such
-> requests?
->>
->>>
->>> b. There are many such instances in unigine heaven workload (there would
->>> be many such workloads), throwing a normal error would lower the FPS? is
->>> it possible to fix at caller application?
->>>
->>> c. adding the round_up() is possible, but in every such instances we end
->>> up allocating extra unused memory. For example, if required pages = 1028
->>> and min_page_size = 1024 pages, we end up round up of left over 4 pages
->>> to the min_page_size, so the total size would be 2048 pages.
->>>
->>>> i.e if someone does:
->>>>
->>>> alloc_blocks(mm, 0, end, 4096, 1<<16, &blocks, flags);
->>> CASE 2:
->>> I think this case should be detected (i.e) when min_page_size > size,
->>> should we return -EINVAL?
->>>>
->>>> This will still trigger the BUG_ON() even if we move it out of the loop,
->>>> AFAICT.
->>>>
->>>
->>> Should we just allow the CASE 1 proceed for the allocation and return
->>> -EINVAL for the CASE 2?
->>>
->>>>> +
->>>>>     	do {
->>>>>     		order = min(order, (unsigned int)fls(pages) - 1);
->>>>>     		BUG_ON(order > mm->max_order);
->>>>> -		BUG_ON(order < min_order);
->>>>>     
->>>>>     		do {
->>>>>     			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
->>>>>
->>>>> base-commit: 8025c79350b90e5a8029234d433578f12abbae2b
+> Changes since v2:
+>  - Remove setting of Standard DP Scrambler Seed. (It's read-only).
+>  - Prevent setting DP_EDP_CONFIGURATION_SET in
+>    ti_sn_bridge_atomic_enable()
+>  - Use Doug's suggested text for disabling ASSR on DP mode.
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index c892ecba91c7..93b54fcba8ba 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -62,6 +62,7 @@
+>  #define SN_LN_ASSIGN_REG			0x59
+>  #define  LN_ASSIGN_WIDTH			2
+>  #define SN_ENH_FRAME_REG			0x5A
+> +#define  ASSR_CONTROL				BIT(0)
+>  #define  VSTREAM_ENABLE				BIT(3)
+>  #define  LN_POLRS_OFFSET			4
+>  #define  LN_POLRS_MASK				0xf0
+> @@ -93,6 +94,8 @@
+>  #define SN_DATARATE_CONFIG_REG			0x94
+>  #define  DP_DATARATE_MASK			GENMASK(7, 5)
+>  #define  DP_DATARATE(x)				((x) << 5)
+> +#define SN_TRAINING_SETTING_REG			0x95
+> +#define  SCRAMBLE_DISABLE			BIT(4)
+>  #define SN_ML_TX_MODE_REG			0x96
+>  #define  ML_TX_MAIN_LINK_OFF			0
+>  #define  ML_TX_NORMAL_MODE			BIT(0)
+> @@ -982,6 +985,17 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+>  		goto exit;
+>  	}
+>  
+> +	/*
+> +	 * eDP panels use an Alternate Scrambler Seed compared to displays
+> +	 * hooked up via a full DisplayPort connector. SN65DSI86 only supports
+> +	 * the alternate scrambler seed, not the normal one, so the only way we
+> +	 * can support full DisplayPort displays is by fully turning off the
+> +	 * scrambler.
+> +	 */
+> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +		regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
+> +				   SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
+> +
+>  	/*
+>  	 * We'll try to link train several times.  As part of link training
+>  	 * the bridge chip will write DP_SET_POWER_D0 to DP_SET_POWER.  If
+> @@ -1046,12 +1060,13 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+>  
+>  	/*
+>  	 * The SN65DSI86 only supports ASSR Display Authentication method and
+> -	 * this method is enabled by default. An eDP panel must support this
+> +	 * this method is enabled for eDP panels. An eDP panel must support this
+>  	 * authentication method. We need to enable this method in the eDP panel
+>  	 * at DisplayPort address 0x0010A prior to link training.
+>  	 */
+> -	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+> -			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
+> +		drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+> +				   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+>  
+>  	/* Set the DP output format (18 bpp or 24 bpp) */
+>  	val = (ti_sn_bridge_get_bpp(old_bridge_state) == 18) ? BPP_18_RGB : 0;
+> @@ -1215,6 +1230,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>  
+>  	pdata->bridge.funcs = &ti_sn_bridge_funcs;
+>  	pdata->bridge.of_node = np;
+> +	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+> +			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
+>  
+>  	drm_bridge_add(&pdata->bridge);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
