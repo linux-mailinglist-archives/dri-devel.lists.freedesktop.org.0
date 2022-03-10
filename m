@@ -1,82 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C81D4D452F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 11:57:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E187C4D4534
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 11:59:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994E110EC69;
-	Thu, 10 Mar 2022 10:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 989D210E851;
+	Thu, 10 Mar 2022 10:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9E110EC6B
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 10:57:42 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 7D46D3201D7C;
- Thu, 10 Mar 2022 05:57:41 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 10 Mar 2022 05:57:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=J/PltNZzNcw3+q9QZFnCMD2jliHxsh6Ps6G7yx
- ddgSw=; b=eHrp718uVwpmddbmb3zJFxA+v3CCJrNzIMUPkcTAPumUeRfI/pe3sV
- GugGwrhWsz7hwM92ns4tLAibGkPrf5Ix9mErmQHX+u4snzlj2JMsHw1h/GKmYiVe
- 64VEmrDskwlwrom7RgKI6vcdFSitHYYnVePK4zaKoTtFF5MBpxLmjZc8v1m11aG6
- abrMJcd9Qy8kv3yWK/bk3QOjObtEpd/FmCBf3fpeqbxf135U8Rg0SBoLyEz3jMTm
- vVOwn/FPupCI6pu2D4tMWxSzjzlfNDUYJ5lKRtg94RTQgfaiXUkTbNWsOQ6JeeHw
- deDJ3+5cEVg3RQ2ijl86HZgdGFO4FKEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=J/PltNZzNcw3+q9QZ
- FnCMD2jliHxsh6Ps6G7yxddgSw=; b=bJETutIvydDtgp60WKAKnyvqsJv0TJHYe
- g9j7vHzoDrXRDDh6+ZCZVOgQ3Edq8kygA/GWYZHFaOLqTCd6sgSXiD2G6cwE3LRx
- ArneoRwjs8mejvGb88+JDGu9KXOnfDQXgtlW8bkQ9mjEiSF/i1K2TCXV28g4WO2Z
- vpSjMdi7v0bZXmzF1hE1QpCM2NFE1RVNl8Wm0WAvc0/lQxpdZRMjFuMTk/pCMRAJ
- c8ypJ4WB/GqvL3gkZHNIIiXnIfqyBFs7cvgAvaoZ/HV82iQubrTRsk63FgRCtga6
- tvhAfqYwc+PIDcgpymW4FNG54wlWvu3CNJI3dWjNpZvHh8IGvOGWA==
-X-ME-Sender: <xms:pNkpYvJNgBnzKBa5yBCAI5DqwyUvjQBAWcbtDOSiQrHOzWU85GfxnA>
- <xme:pNkpYjK4tiBGwUk7EG_sQHeZdSmuX2qVmpS1TJEf3blCuYfjZ7T9kn2188vHP_bmV
- vS8uwVgIhf_2Bk4zuo>
-X-ME-Received: <xmr:pNkpYnuxwTgTAEx3i1zSZTCbgMzS2tJai8E9IRC5Bi8cBRlcbVJnWGVGRJVoSULjRNDrjB3GhOrjO_rtrFsft3EoQARhPZAsTqMdM6U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepgfdtgfdvhfekffeitefhtdevteegvdehuddvudekgfelgefguefhteefleei
- jeelnecuffhomhgrihhnpegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdpkhgvrh
- hnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
- rhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:pNkpYoZ_NLwS4kPILfGmWEAaRn-f9mrwAlg34a8jN_db-sTx0P3llQ>
- <xmx:pNkpYmZ0uEzrolN-QMec-JSyS-LCc8ZBxJy3cZ80ULaUyBW3kJpYDQ>
- <xmx:pNkpYsDPC6Y57chn2STRSXj4xA3wCOTB0YLHa6n8aP1tsBirrTSLqQ>
- <xmx:pdkpYty5kNxLX5aC5V5Dgae50326qMM0QBVH5sgGqf9lef-nEyV1BQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Mar 2022 05:57:40 -0500 (EST)
-Date: Thu, 10 Mar 2022 11:57:38 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
-Message-ID: <20220310105738.uz7ul3ycmsbt43po@houat>
-References: <20220304002508.75676-1-marex@denx.de>
- <20220304002508.75676-6-marex@denx.de>
- <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
- <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
- <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
- <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
- <20220308125140.e7orpvocrerr5xdv@houat>
- <YinWBFgdw22SlRKt@pendragon.ideasonboard.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B07B310EA35
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 10:59:17 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id qx21so11122158ejb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 02:59:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q3EB6QnaiY21ojRvdTNR/quAlReJ7R/dVpGng7Q2xdw=;
+ b=Mzi0KXrAbjO7m9jMgWEGxiJLxHZK+qKQoNgtZUc5JL/9yxM8UyQgAqZzS2nNd8K8Lt
+ VOdzciA3pi2BWajyC5EvNvXUTymb4Tdq9yqcwg0AwBsp1uYuI6NvIfGqAM0O2dHR+OLv
+ sugJfkzann9Cc9cr8Kxjmi68Fw/KeEPAzIwaA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q3EB6QnaiY21ojRvdTNR/quAlReJ7R/dVpGng7Q2xdw=;
+ b=SKGrdXdUIVVRsQL8CrrDk1Ebs1cpBauSGKex9S/B5VV3jQQgGWt2o6TvY7Gns35jhR
+ CktqQEYktLikTEhqg1bYcGswa5wPZsf9p+1o9Kgti8qFdm7N7KIlResu9DCzmfv9ow2v
+ v6FmgiPykofjwWsZVRdyUVOH79+2K+CpzfHGnpwqHXCiD5UvGyvBLNga1TJes85BrLYX
+ cwrPKg4WOswgb3K6TUfrYVe6bVVSsbecvUrD9VXSPpJNDtkS3FuV2waxgvz23BxFuR5w
+ QHp9vo80XVCnj6qt1u3EHjQlMTIUTbJqlV8DfTvDZdcqs2PPFWKEhaeyQxBS1ePkVYOC
+ Vmow==
+X-Gm-Message-State: AOAM531QJU5ZegcCj4WPnRB5m8Skww2EAWXor448pfLLG2Il3pFfANp5
+ oVrYzA6gssHW38zwU5rPknYj7Ught5FUeKTre9ymMw==
+X-Google-Smtp-Source: ABdhPJyJSVH1Twb8o8XCVNcLw9tCs5fR2Klena7YptKvWVeE9ptfMcLY4BuD5mvV9BCOyAO0UBiE9XguJhi9tGHjonQ=
+X-Received: by 2002:a17:907:6ea1:b0:6d6:f910:5141 with SMTP id
+ sh33-20020a1709076ea100b006d6f9105141mr3646036ejc.123.1646909956082; Thu, 10
+ Mar 2022 02:59:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nfowsmx6fzs2wbal"
-Content-Disposition: inline
-In-Reply-To: <YinWBFgdw22SlRKt@pendragon.ideasonboard.com>
+References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+ <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+ <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
+ <CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=QpWj44KPw@mail.gmail.com>
+ <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
+ <CAHCN7xLgKeRACM0kvC1kGBOd0KxNFYPSLesRvfgXRU5tV-gqFQ@mail.gmail.com>
+In-Reply-To: <CAHCN7xLgKeRACM0kvC1kGBOd0KxNFYPSLesRvfgXRU5tV-gqFQ@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 10 Mar 2022 16:29:04 +0530
+Message-ID: <CAMty3ZAb8q=5D9ChqL+1h0_xONic4nippnh_OxP0+LZ9OUL_VQ@mail.gmail.com>
+Subject: Re: DSI Bridge switching
+To: Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,144 +65,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, Neil Armstrong <narmstrong@baylibre.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---nfowsmx6fzs2wbal
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Mar 10, 2022 at 12:42:12PM +0200, Laurent Pinchart wrote:
-> Hi Maxime,
->=20
-> On Tue, Mar 08, 2022 at 01:51:40PM +0100, Maxime Ripard wrote:
-> > On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
-> > > On 3/8/22 11:07, Jagan Teki wrote:
-> > > > On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
-> > > > >=20
-> > > > > On 3/8/22 09:03, Jagan Teki wrote:
-> > > > >=20
+On Thu, Mar 10, 2022 at 6:15 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> On Wed, Mar 9, 2022 at 1:11 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> >  or a Hi All,
+> >
+> > On Thu, Oct 14, 2021 at 6:45 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >
+> > > Hi Laurent,
+> > >
+> > > On Fri, Oct 8, 2021 at 7:07 PM Laurent Pinchart
+> > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > >
+> > > > Hello,
+> > > >
+> > > > On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
 > > > > > Hi,
-> > > > >=20
-> > > > > [...]
-> > > > >=20
-> > > > > > > @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chip=
-one_bridge_funcs =3D {
-> > > > > > >    static int chipone_parse_dt(struct chipone *icn)
-> > > > > > >    {
-> > > > > > >           struct device *dev =3D icn->dev;
-> > > > > > > +       struct device_node *endpoint;
-> > > > > > >           struct drm_panel *panel;
-> > > > > > > +       int dsi_lanes;
-> > > > > > >           int ret;
-> > > > > > >=20
-> > > > > > >           icn->vdd1 =3D devm_regulator_get_optional(dev, "vdd=
-1");
-> > > > > > > @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chip=
-one *icn)
-> > > > > > >                   return PTR_ERR(icn->enable_gpio);
-> > > > > > >           }
-> > > > > > >=20
-> > > > > > > +       endpoint =3D of_graph_get_endpoint_by_regs(dev->of_no=
-de, 0, 0);
-> > > > > > > +       dsi_lanes =3D of_property_count_u32_elems(endpoint, "=
-data-lanes");
-> > > > > > > +       icn->host_node =3D of_graph_get_remote_port_parent(en=
-dpoint);
-> > > > > > > +       of_node_put(endpoint);
-> > > > > > > +
-> > > > > > > +       if (!icn->host_node)
-> > > > > > > +               return -ENODEV;
-> > > > > >=20
-> > > > > > The non-ports-based OF graph returns a -19 example on the Allwi=
-nner
-> > > > > > Display pipeline in R16 [1].
-> > > > > >=20
-> > > > > > We need to have a helper to return host_node for non-ports as I=
- have
-> > > > > > done it for drm_of_find_bridge.
-> > > > > >=20
-> > > > > > [1] https://patchwork.amarulasolutions.com/patch/1805/
-> > > > >=20
-> > > > > The link points to a patch marked "DO NOT MERGE", maybe that patc=
-h is
-> > > > > missing the DSI host port@0 OF graph link ? Both port@0 and port@=
-1 are
-> > > > > required, see:
-> > > > >=20
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yam=
-l#n53
-> > > > >=20
-> > > > > What is "non-ports-based OF graph" ?
-> > > > >=20
-> > > > > I don't see drm_of_find_bridge() in linux-next , what is that ?
-> > > >=20
-> > > > port@0 is optional as some of the DSI host OF-graph represent the
-> > > > bridge or panel as child nodes instead of ports. (i think dt-binding
-> > > > has to fix it to make port@0 optional)
-> > >=20
-> > > The current upstream DT binding document says:
-> > >=20
-> > >     required:
-> > >       - port@0
-> > >       - port@1
-> > >=20
-> > > So port@0 is mandatory.
-> >=20
-> > In the binding, sure, but fundamentally the DT excerpt Jagan provided is
-> > correct. If the bridge supports DCS, there's no reason to use the OF
-> > graph in the first place: the bridge node will be a child node of the
-> > MIPI-DSI controller (and there's no obligation to use the OF-graph for a
-> > MIPI-DSI controller).
-> >=20
-> > I believe port@0 should be made optional (or downright removed if
-> > MIPI-DCS in the only control bus).
->=20
-> I think we should make ports mandatory in all cases actually.
->=20
-> The DT parent-child hierarchy is meant to model control relations
-> between devices, so a DSI device controlled through DCS should be a
-> child of the DSI controller. No disagreement there.
->=20
-> The OF graph is meant to model data connections. While a DSI device
-> controlled through DCS will use the same DSI link for data transfer, the
-> two concepts are different. We have taken shortcuts and decided to not
-> use OF graph for some DSI devices (not necessarily as a well thought
-> decision, it was sometimes just not considered).
+> > > > >
+> > > > > Removed my invalid email (I will update files next week).
+> > > > >
+> > > > > On 08.10.2021 13:14, Jagan Teki wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > I think this seems to be a known use case for industrial these days with i.mx8m.
+> > > > > >
+> > > > > > The host DSI would configure with two bridges one for DSI to LVDS
+> > > > > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
+> > > > > > can use only one bridge at a time as host DSI support single out port.
+> > > > > > So we can have two separate device tree files for LVDS and HDMI and
+> > > > > > load them static.
+> > > > > >
+> > > > > > But, one of the use cases is to support both of them in single dts, and
+> > > > > > - Turn On LVDS (default)
+> > > > > > - Turn Off LVDS then Turn On HDMI when cable plug-in
+> > > > >
+> > > > > Are you sure it will work from hardware PoV? Do you have some demuxer?
+> > > > > isolation of pins?
+> > > >
+> > > > It may be in the category of "you shouldn't do this, but it actually
+> > > > works". I've seen the same being done with two CSI-2 camera sensors
+> > > > connected to the same receiver, with one of them being held in reset at
+> > > > all times.
+> > >
+> > > Yes. Here the design has 2 MIPI D-PHY switches. Each switch take 2
+> > > input data lanes and 1 clock lane from SoC and produces 4 data lanes
+> > > and 2 clock lanes and from switch output 2 lanes and 1 clock are
+> > > inputting to HDMI bridge and other 2 lanes and 1 clock is inputting to
+> > > LVDS. So 1st pair of 1st switch and 1st pair of 2nd switch goes to
+> > > HDMI and 2nd pair of 1st switch and 2nd pair of 2nd switch does to
+> > > LVDS.
+> > >
+> > > However, routing of these lanes are controlled by SEL, OE GPIO pins.
+> > > So at a time we can access only single bridge.
+> > >
+> > > >
+> > > > > > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
+> > > > > >
+> > > > > > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
+> > > > > > port 2 in the DSI host node, and trying to attach the respective
+> > > > > > bridge based on HDMI-INT like repeating the bridge attachment cycle
+> > > > > > based on the HDMI-INT.
+> > > > >
+> > > > > I think more appropriate would be to share the same port, but provide
+> > > > > two endpoints inside this port - we have two hardware sharing the same
+> > > > > physical port.
+> > > >
+> > > > That sounds like the correct DT description to me.
+> > > >
+> > > > > > Can it be possible to do bridge attachment at runtime? something like
+> > > > > > a bridge hotplug event? or any other possible solutions?
+> > > > > >
+> > > > > > Any suggestions?
+> > > > >
+> > > > > Practically it is possible, see exynos_dsi + panels, or exynos_dsi +
+> > > > > some toshiba bridge - panel and bridge are dynamically 'plugged' and
+> > > > > 'unplugged' from exynos_drm, but they do not use bridge chain for this
+> > > > > and some other reasons. (un|re|)plugging should be performed of course
+> > > > > when pipeline is off (connector disconnected). I am not sure about
+> > > > > bridges added to bridge chain - you need to inspect all opses to ensure
+> > > > > it can be done safely.
+> > > > >
+> > > > > And the main issue: Daniel does not like it :)
+> > > >
+> > > > Neither do I :-) Could it be handled with two DRM connectors that are
+> > > > mutually exclusive ?
+> > >
+> > > How about adding lvds-connector, hdmi-connector on the pipeline and
+> > > select them based on the switch SEL GPIO? does it make sense to do
+> > > this implementation via display-connector.c
+> >
+> > I have somehow managed to make runtime switching possible between LVDS
+> > and HDMI with the help of DRM bridges.
+> >
+> >                                                   | => ADV7535    =>
+> > HDMI-A Connector
+> > DSI Host => display-switch => |
+> >                                                   |=> SN65DSI83 => Panel-Simple
+> >
+> > display-switch here is a bridge driver that can switch or attach the
+> > downstream bridge flow based on HDMI HPD here. One potential problem
+> > is that when we switch from LVDS to HDMI Out the HDMI Out is displayed
+> > with the resolution that LVDS has and it is unable to display higher
+> > HDMI resolutions even though it supports it. Does anyone aware of
+> > changing the resolution at runtime, please let me know?
+> >
+> > Technically, the display-switch hardware does available in various forms
+> > 1. MIPI Switch PI3WVR626
+> > 2. Conventional Mux Switch
+> > 3. Converter bridge DSI to LVDS/HDMI (from Lontium).
+> >
+> > Overall I believe this can be a potential possible feature and good to
+> > support on Mainline as the hardware is intended to design for it.
+> >
+> > Any thoughts on this please let me know?
+>
+> I wonder if it would be possible to trigger a hot plug event similar
+> to what is done when an HDMI cable is inserted/disconnected.
+>
+> If one switches, force a disconnect event, then triggle the connection
+> event to force the video system to rescan/attach. I am not sure how to
+> go about implementing such a thing, but that's my first thought
 
-I disagree. Unless the data path is explicitly stated using the OF-graph
-or some other binding, it's inferred. We never asked ourselves where the
-data from an i2c chip, an ethernet controller or an v4l2 output device
-was coming from. It comes from the parent bus, because it's what makes
-sense. Making a requirement on the OF-Graph to model this would create a
-big inconsistency.
+HDP on the connector can be useful in order to switch the displays
+like 1 and 2 cases listed above. However, that is indeed a difficult
+task for the pipline establishment as switch selection has to be done
+before the output bridge and after the host bridge - This is one of
+the reasons I've tried the implementation in the form via
+display-connector. One more important accept here is the like
+bridge-selection in above case 3 has dedicated interrupt gpio to route
+the video data to LVDS or HDMI which is not related to HDMI-HPD.
 
-> This has led to different issues that we're having to deal with today,
-> making it more difficult to develop generic code. Going forward, I
-> think new bindings should always use OF graph to model the data
-> connection.
-
-Either way, that discussion is irrelevant. Not all DSI controllers use
-OF-Graph, a bridge can be attached to any of them, so we can't require
-OF-Graph support in any bridge.
-
-Maxime
-
---nfowsmx6fzs2wbal
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYinZogAKCRDj7w1vZxhR
-xVm9AP0ax2fz72egmW5BtOsCaqovOj479/GReh6a4g6EbFpNcQEAsfk3cQcHvyiK
-uYlUrUYpAP/lIMLJpNNIJQ8W5/6tTw4=
-=iWYw
------END PGP SIGNATURE-----
-
---nfowsmx6fzs2wbal--
+Thanks,
+Jagan.
