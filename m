@@ -1,127 +1,154 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039154D52FC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 21:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B484D530E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 21:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDF7010ED23;
-	Thu, 10 Mar 2022 20:17:23 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2075.outbound.protection.outlook.com [40.107.102.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AEFB10ED22;
- Thu, 10 Mar 2022 20:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C43E10EA25;
+	Thu, 10 Mar 2022 20:24:47 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D33F710EA12;
+ Thu, 10 Mar 2022 20:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646943885; x=1678479885;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=idkF7O/X2TEIdyw86a2DpLDh/3oUPTSfTJ87STeCa5I=;
+ b=PZuqqYuWnkqR16BSxxIC7bmO2MXnF79AFuqytyEkn+SdDkCc+u1EVw+E
+ 5Eb6bfwMVtyrlQXEM/foRk57qKmeUftS/ySINLFwHkbSenkGqPrm2bKgp
+ oz7qsLgm2DafxV4mjIhqFS9vYpsDWBx8tzsHg5XjW8KUa3GnTMDrAs28i
+ sRFgCYOL6V1YGqgc21j6wa191ICZfnG/w1PpTeVjY+Wct2k6s/ksRgCQy
+ Ukky9aRExfQkSAKf23J3HYo6asK4Gt1nElRkWgFJ4sb0L3ds5qrQ6acII
+ BZFF1gnWB+FZNgHxGBwV6ZY6iCwnoGRsF4L06Sp+pX1OeMIQRbD2asApt Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="252936932"
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="252936932"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 12:24:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="688801793"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2022 12:24:44 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 10 Mar 2022 12:24:44 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Thu, 10 Mar 2022 12:24:44 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Thu, 10 Mar 2022 12:24:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KY4lPwgYMP5P22qkciGVRgillB6a1NaKuUhE7hp39LiaAS+scAWdJhgx1Ji3hWSXS9bKdiDbLJl+0De60BEeYKQQJgNdW/3D6oHswYUZkL/csHEguJ3YKTtG1T4DwPSjYosLifDgYyQ7UM4oppRjLWfPLgc6EMI1bLhRN60CcPoemPe25Khm52P8M58KUGiA6VnmeGV8yzzVoJwFbV6wPgdNFcQeDnWIgPhjG6qImhD46PbQEjvGXXiJ+n5XouJPtAC+pLoHi7bLbH+a7coiDpH/+KggrjcS/XT8Kb8Avsg0FN0FDdygk+Dz1Jns0DkBSbVdhKmEkVE/UXGJWth3Yg==
+ b=I2Ae6XyJ856bq9rwj2PMUVRQlUnEzcRkSg4LoR3D/KECf0zpElBWmOOlp+JRv0/CeBcEtpC/F4RRBxXla3YdUZccPIyJjiiHkZCDgNsHRhoYHdZpsKObyp8kHDTpp78DsRK8igfMrku9oud0W1kEHfnHLgkDgY3/tO3YwHyQu8hI+KGr/DOetWpqnQeZ9kwC6/gCF87Ek6uPjo0YHCo0gzikDwPjdM/IJ0YRHB5wq38yYPWtdlRnfzfa5KKqsVVm9zr28ajGyjnbKy4b5jfISlMt/PlMfDjtGl3sgH31346VzbE0Ey+/13xUE91JSdWeY7Tnqq3x5od0hM1UMZsW/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QZJmiq6d3yoq9sguAlWEqVVwagc8xLikWzmHunA5RLs=;
- b=Gl5LryRDq0BW2vq9lg0AdvaoKKpMnt9Ih+lTh6NrGYCNbgGjq8R5A0oob9wXsRHm05vUowLHn0m0oPYXYdfEUwf5DlDXNEME3B3aIpGBBfE9xsmvifJZsQgxPBi4NFSLeJyxk33LI1DpgWa1vK0t/7plx0qwjVJtamWZtPb3ncFoH6hPvDg7erkUZ/N4z8xgG0/4l+U5B4IhVdwvhLxHElucUK2Lmx59dgPwLxWS88Sk/ssrITeAoFgyVA2NXmzLGB+9ZT5gkdZ1WROjKbSO5uWc3oftUsywItOXdZAv6WdamRBl0LnR36BI7aCFy+lC/5B2Ba97k59Mkrd2/eio+Q==
+ bh=kLuXGOarSEyPFARFgdUD/gDCsjvTJ3iXUX6+T1OHpeI=;
+ b=OEk3FnlvWnWngspbS8ZMWt3r8HhEfrLuNzLHmUgfqThiXazlFpFFiJSxZXEsGNJ+luD4VQr0QrOdyGS/RQCViUk8wJTlZ92Nv69uICxc5UhtCWTF794y+p4AI1BymMY3+O2xQSUAG5+M3rBkHMjwPKWy0u1H/ngI2B9xFgIcG5a3Qil1X5M6nfp5xTjhCVUAc5svV6E6BXkpE4be5HkPqvn34H7KOkFZmDia6fs82iFJtm2sJIHJiJkO4FZlZk2Jr4kxyjM2QCs9RnjTRPgnzJ+veUPMaj87/WUI85F5jvfy6WFbsrfhAlBOPbBOdYWQWiDupz1uP7nZXl/gnrykcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QZJmiq6d3yoq9sguAlWEqVVwagc8xLikWzmHunA5RLs=;
- b=caSH35hDMiSA7CXQWbkR/Pj3IWoTdUtN7B1+jpPJMTah5iYwW+yrkoAbAJnfZ+fUxJBgZvxfA5sN8Y6Rgy9rWfqb0dC9V7EhewzmzQf4yUuRClJEZUAGwzidVL9f6H9epujQAsUjde7NBKrK3YR/clIZwQ3B1zek41d1j48evsQ=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by MN2PR12MB4847.namprd12.prod.outlook.com (2603:10b6:208:1ba::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Thu, 10 Mar
- 2022 20:17:18 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::f037:e2a1:f108:125a]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::f037:e2a1:f108:125a%8]) with mapi id 15.20.5038.029; Thu, 10 Mar 2022
- 20:17:18 +0000
-Message-ID: <15407342-d1ab-6e86-1c29-1114967d9349@amd.com>
-Date: Thu, 10 Mar 2022 21:17:12 +0100
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by BYAPR11MB3608.namprd11.prod.outlook.com (2603:10b6:a03:b1::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.16; Thu, 10 Mar
+ 2022 20:24:36 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::21e6:3fe8:e859:75b5]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::21e6:3fe8:e859:75b5%7]) with mapi id 15.20.5061.022; Thu, 10 Mar 2022
+ 20:24:36 +0000
+Message-ID: <98d7ab11-e47d-e642-96b7-b7643d19611a@intel.com>
+Date: Thu, 10 Mar 2022 12:24:33 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20220308180403.75566-1-contactshashanksharma@gmail.com>
- <CAF6AEGsmectHSmW-Y6rf+AksXTkges7rukeiYd4yDm-xwdb1=Q@mail.gmail.com>
- <55629bd8-9fb4-2ee7-87f0-6c4c77cf06fc@gmail.com>
- <CAF6AEGsgDTphUm7ET+RuMmh2aTn-Ho5gJdUJ4kwJ3iOh7+HGvw@mail.gmail.com>
- <4f2b2329-3c57-3895-6732-875db2f98b5a@amd.com>
- <CAF6AEGvvskobh6YOUx55_4rtXJJjPO0PxWY8+EKiVqntT3k+ug@mail.gmail.com>
- <6b400b8b-1b5c-a339-2345-f317f197b4a6@amd.com>
- <CAF6AEGt0XhqzkyEhbNcNVQO_A_Lo4qcsPRZRL6QqYn+NWAfv9A@mail.gmail.com>
- <bf6922f0-da8e-eef6-8217-26c1f50f3c48@quicinc.com>
- <2980e6a0-624e-2b80-c5d0-c40dfce76fb8@amd.com>
- <CAF6AEGvC=k4xLA-0iTSf660X2o04E+ivjnThZA-=WANKzLSvpA@mail.gmail.com>
- <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
- <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
-From: "Sharma, Shashank" <shashank.sharma@amd.com>
-In-Reply-To: <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Firefox/91.0 Thunderbird/91.6.2
+Subject: Re: [Intel-gfx] [PATCH v3 4/4] drm/i915: Improve long running OCL w/a
+ for GuC submission
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220303223737.708659-1-John.C.Harrison@Intel.com>
+ <20220303223737.708659-5-John.C.Harrison@Intel.com>
+ <71a0f9af-7473-ece9-dae8-bcc1c3b55cf5@linux.intel.com>
+ <991c5d38-7904-dff8-e610-c4030e526e2e@intel.com>
+ <6f61e906-8149-6b39-c1ec-1b44f1bb3ca5@linux.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <6f61e906-8149-6b39-c1ec-1b44f1bb3ca5@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P192CA0105.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:8d::46) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+X-ClientProxiedBy: CO2PR18CA0053.namprd18.prod.outlook.com
+ (2603:10b6:104:2::21) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 297223a3-3658-4903-6783-08da02d2f965
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4847:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB48473F61FEE0F17A860FEBA5F20B9@MN2PR12MB4847.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2d2137fa-0cf3-4dd9-cd68-08da02d3fec2
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3608:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR11MB3608451A046CA961A33CB98ABD0B9@BYAPR11MB3608.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6SeGU1FW+Eh28heToyKIFbHZfH3Q1yF8AUZaqHx/+nblSSSRDOxNxe9bQB06re6y05+oiw2rk04kj5JN7kjcqHQDmfllIdmtQmRYS6eG1kpxpWC/uipMtYBMSxlVpaF/6bOKK6SbfYPStZAgnHYVHkyFIvja/cwnOC/oOaf4r6iU2vuPTCsoMksc60m8z+6bFmt0zbhrsM85QuUE+b0LZL0+rzW3FWHK/rjNyjgGZ0yARXM0UP/FNrHBxXzO69RabJraqWPSwThH0UV4eAQD2CdMIb5ioKpQhVcLOhHZ4a1I1MlrrNxloSjhOHr6eb2ZoBHQKqSi5xaIXJdVg0qcjDLW6ucQJ1wh6itpDvF9IL3YoulNtMMiJ+ZzapFTbj6zmTWNhrLpR3GZc0A48V/VVPw0MgiAOHxJYlGZz6Pm13+WiX25YYBBqK79MxmodJuDSB5nhJi3pb+Gk1y9ZQP6L620vNzf9UlgrkxU97nxfySU7cEfb45XmhlcjCNaq6nV5vhNc+UulNev8cdhROsZRxot0eRscHdO/cSxfr4xsbMZc2mu532LZD+ncjAg63iO15CnxwJIVAuoiTFJgG+/o/7LmMbjYDzRWg0zxzZ0B/WfsmQExOEKU2Hh2Iygf7tRv+RjnQ9gjd8DMMVpf2lPORFBxefOq31kInxQtilR5/1Fg5rcHxJIIfIhSBJzyW9T1UWtLD38pOSJh+/qti6WFSsPoB5+ySjO+MNklDmZkmj4flcezetNq4FqjB7g73RshNkKVJYA+gR8KuP2facwfEU6XZHk7DbW/4AtgA63N4uI27kicYPtwpvW6BdGVDCb
+X-Microsoft-Antispam-Message-Info: NhHdAUG3+MozNoVqDp09wTTX88tqs0kswm0Kmj5jo+8/cQOHQ5/vsWj97Qj7osB4LVvg5hCr2Fvbc/KlbJG65qWoZilo1OMAnivDF79S/fkV/+8gdlCmOKyezQQEmhVySe+Uf5G2H1SWmSCkX5PnmQalrSd+oo4gPpEVu4xgN65seZoTG8rAuuiEId83BQYLr6J7bX0QXaIYy0/CEe4I1k2Eyz0NZwwIRfZbrkkS5xP1L2bVNdFvXAo7uYAEUBEhfr3R1emYqPL/uysWpB5bV2WhTqmUPnwyNiT1bTW/dngI/yEP67aG/d1bbz+5iPhrmp413KHj73s+dfTUnyi/Ziu2MU9JfIYq1j3zLKQgjNZSxXk1mdzP22xoMdrQ5w9V4DtVmIQdkHNKYwAPKbUUharbg3qCdClK1gZAJMmZF/d1DHhkuG63aobqyHUIVg5UzHsjzmSPqVg3GFOqJxybPMM5sCLINxVFg/gzi48JJYl0UV/2GA9ASiMeMJIUMW6lyGU17Ud3jm2X2Z+f+LgY05SpWSVfVBnFLXMg6HGUkst4FFhfB7vbu48/xHZBFxRlbd+9aTCODMBeWj0uJMeUeDPOfy9mAkg9lCvhHG4vTCPFOZd008H4bkvUYWA7CN6Da3a2sTyw7C+Dh03RwnTiwUJnzgvHkzLZ1m2uF6nMI/G3osmTjyV32YLlX40gwo6MxWdEzZiLq+T+rBfwR8PrVKju0WmqdMpYI1Oo1+yC9icJtFbLqZzanD1Kv4hSigbL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5040.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6486002)(86362001)(966005)(2616005)(26005)(186003)(66946007)(66574015)(45080400002)(6506007)(31686004)(83380400001)(36756003)(53546011)(31696002)(54906003)(6916009)(316002)(66476007)(6666004)(66556008)(2906002)(508600001)(38100700002)(5660300002)(8676002)(4326008)(8936002)(6512007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(8676002)(186003)(316002)(83380400001)(31686004)(4326008)(36756003)(31696002)(86362001)(82960400001)(2616005)(5660300002)(66946007)(53546011)(6506007)(6512007)(26005)(38100700002)(6666004)(6486002)(8936002)(508600001)(66476007)(66556008)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RU5xa2I4NlZ4VU5sczlxZm13SzBlQ2doWmNuMzhVMzFxcGl5UVJXZlV4VWpO?=
- =?utf-8?B?WXMycDFRZWErRnoxMzBDZjh6UHNtV3BGNDU5bHNORzUxSGs2NVFlc0QrQ0tH?=
- =?utf-8?B?V2Z5bVpMMnJZV2ozdWw2dHhmVE13V3V1VGhUN21weDQ4Nk1WWGZlc2JETHpw?=
- =?utf-8?B?andVc3l1dFVYeWUrVFpwLytycEowTG95TCtuQjlSTDhleDVmYkhHK3M0Zyta?=
- =?utf-8?B?Z2hweFBUV1JNUk40MEVjS1UvMGxhU2JFZjVrMUhxWXNHaTVSaENmekUxT21j?=
- =?utf-8?B?a2Fma2xPK2ZDUEFOUFc5Y2NYSGIxZkNqR05WWkZqbXdVR0ZZZXpjTzJLZUNT?=
- =?utf-8?B?Vklpb0NrSGltQXM1RVJ0SE1wckE5VGpGQ1RWd3FtbE1HazFBT293MkRIalE3?=
- =?utf-8?B?N1hJUDl4ZzNYYWNlSGk0NzlIV3VYR2hxTE9EMUVXd21QK0NMeE5seWMxejk3?=
- =?utf-8?B?a0RVOUFldENHNHlqWUluSzYvdGx6UDk1UXJyYi93Y1FBWVE0bkZFRG13Ykl5?=
- =?utf-8?B?Um9VNHlJVlF6MXIrWTBSMGladklkM0V4SVJtOHh2UEZOdVZPUGhRUk4ycVBY?=
- =?utf-8?B?VnRlS3pPM0krYmkyOS9nTVljS1lDMHYyelgyQXJhbjhWRG03MVgwbHhHUThq?=
- =?utf-8?B?MVE3R0ZpQnJ2b1dDTmRpcEFlOE15QWJSdkFyckNnVU4ydTJmWFhvVE0yNENM?=
- =?utf-8?B?YXRtZlBEKzNzNlRxejlKN3c4MXRUZTBJa2tCckZyVnVoZmFFVDdZR3dBYUcv?=
- =?utf-8?B?RXJaU01qZmx1RHpkb0h0SUl1Z1Eyb3gvR1NIN1QraXlSNWlzSmh6bklMOEhU?=
- =?utf-8?B?bEEzQ2RVZ1lybndYV0dTWUxmYzJMaTlEamI4VlJEL0NUNk9yeWVCak1aOCta?=
- =?utf-8?B?MmExb2RGa1VYVHRZdzArazFDOXNhVDVtUUhUSTFLYnphTWtISTNDNnE2eHhS?=
- =?utf-8?B?d2tpa0pTRXVNME5VNXhhVDFlSi92Y1JIY0J3ejVFK3BCWVJJUTYrM2YxVVJU?=
- =?utf-8?B?S3dOcE9VZk1JUzYxaW1ZRXVSb3VnaEhYWkhnM0NWMG9vZEx2L2UweDllNGk2?=
- =?utf-8?B?czZsSm9HYnExeGhQRG9BMVR3MTJNeWY4bmVadXlLazlEZFZKNDl6RnVqNnhV?=
- =?utf-8?B?aUxBMDMyanFRUS9FQ2Uxc0Fnem95UGRlMzMxejNlZGNBSEpWZUsrejdpa1Zq?=
- =?utf-8?B?T0FuODhFdWpUM0xhVXlONEJ4dkIrTUVNNEY0alQ5bk5Ca3dJNzNHYlBIUldN?=
- =?utf-8?B?WTN5YVZiNFNlVnNKczE5R2FjbHpZOWpRY1F4R0V2ZG1UZTVLeWIwQ3duWTF2?=
- =?utf-8?B?NDc1dVZNa2d5MG44aVVoRXRlQkxhZXdZQThWZ3RHVTZmOUVMaWxLRXBkUGww?=
- =?utf-8?B?Z3hmSEIwK1N1R0VQdXhhTU5lYmQ0OXczWFM1NDFhUjdQVGdnMkhTMENRRDhz?=
- =?utf-8?B?WkVCcjJZYkJ3d2p3MnlDQ20zNUc3bTR3cjlNdWRGM0g0NWVUZUprNWxyM2Zr?=
- =?utf-8?B?bTlaWGE1Zmp1cnVJNCtyMXE1SzBPRFM0dkxPUFplSmlRVHV2ZnJSMXRQMm9u?=
- =?utf-8?B?V1RQelZ1SE5CdHdhVy90d2xON0c0ck9kNFVCa3Zjd2hWTzhVVHRndHNnK3Nm?=
- =?utf-8?B?dXRwVEFBKytQVGh5cUdBR284Si9ZazU0VmxWLzROOTVTd3pFL2Y5Qzk3aXBP?=
- =?utf-8?B?L1dpZWdYOEROUFF0UWFFTG5vbmxCbWUyZ3pRWVovMmZFYTdUd3kzZ044U3BI?=
- =?utf-8?B?QXQyNlVjbjd3YjA0VEU0RE1FSnFGdEVFQ25keExUaVZPdnVVTDBYcGZsRFFk?=
- =?utf-8?B?dkRMUWlzZGJvOHIyT0R3WGs1MXdaRlhWUFdTMlZ6UDBlLzR1RmxxSDZUT0F4?=
- =?utf-8?B?M2QrZEEyUEovSXRhSWdNOXdhLzl3QS8zY0xRRzljRmxYZ2VxSkhaeWZMNnRM?=
- =?utf-8?Q?jUUXjrjp5SoDtx1JEO9DgGb5ROsdqixq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 297223a3-3658-4903-6783-08da02d2f965
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTNQSDZTeHhHbEJCVXR0dklMRzY4QkJxZVhLZlA5T2xYalQvOEdkaUdDcmJ4?=
+ =?utf-8?B?ZzQ1Q1QwbXE4VnBtd0kycE5KWEM5TmtTdVlXRWxqNlRycy9rN0ExK3MrMDMx?=
+ =?utf-8?B?UFVyb3NMd3I3aThqejFHZ1lGT2pzc3RTYWtKQlQ0eHlwbU9pa2EwOHlrcVZw?=
+ =?utf-8?B?YjdBM0VPUkx2NjNGci9nekZYcllLMFRqVG8xWURaTTNRa2s1Z0VGei9lVDhW?=
+ =?utf-8?B?THVlcWI1VU9PbDMxSmFqWUE1VjZ0ajFGZklMMXZxanlxNnZ1Y1Rvdll0dEJh?=
+ =?utf-8?B?RFRGY0NrSEtYRDVNVnRmVDdRS014VGJCQ3NKV2Q1ZzZFV2UzUVlWcmRDRUI3?=
+ =?utf-8?B?UkdPTE52dXJ5YzlFRVFGQnB1OGRZTEdmaU0wSmplaXhyS1dBQWJWbVJYbkRa?=
+ =?utf-8?B?aFR5amt1M1FwV1g5a3NiRkhGa1lUTXpnVEZMY3hkaTlCSmZnTDVLU1BPbTE0?=
+ =?utf-8?B?RFFDQlpZUlcyeVZ6WDYrVS94d1FoNTBwV0JqdGUwcXpHa2pNV0JoYmgzVlRK?=
+ =?utf-8?B?TnZtSXZ1NmdVM0FiWHAreVhnRXp4alg4ZUpsbHdBTGs2eFBJTjRWV21FQW9U?=
+ =?utf-8?B?SjM0UDVvdjFFVkpBcG13cS9aOFR6eVQ0MkdmOWpocnJ4eWtmak1seTdvKzRL?=
+ =?utf-8?B?VHVSZlcyZ1RUOG1jYW8ya1BLUmNjME1hZmlDRlYzb1FJRkZlekJLOXN4amhC?=
+ =?utf-8?B?UHR1bnRnZHp1UjM3SU43c1dYUWdRaGRVVVZ6bUJCMlR0WE5nbHZIc0pmY3dB?=
+ =?utf-8?B?RHo4cDQxbE5Zb05lRlpWYWU2TXprYmJRbUVaS2lJOTd2SE9CTWNSZm5NQ1FH?=
+ =?utf-8?B?RXd6cTlXSWZXRlN4cWxuZWVjNXNROWxKbGduVHEwcTFZdGoybURxaExONDk2?=
+ =?utf-8?B?WHo0RU1iYkMydFE1aGJ6ZWgxOEltOHltNFNteXZDaW5HaEpSNm1XVHdaS2VV?=
+ =?utf-8?B?R0RmbDJ0M1VPZnh5ZE9oY3lpUTFFYzVMR1dBTmRZd2lleW5IVHAyWmFLTkVr?=
+ =?utf-8?B?djZZMS9uZHNjRUtkM24xdjV0V2VwQnM1S3RuSkVaOUozRXA1aHpiMVZmbTlm?=
+ =?utf-8?B?bFpYN2Y1dGE0TlFXTk9aVnNQWFpoRjcvVXFEbndZdzh5QkhmUytlTGphc0VY?=
+ =?utf-8?B?dExOWm1wWGwyM3JLZFFyWFVUNGtISmFXT0FmMnRyRkd1YUl6U1BDMTNlTUJX?=
+ =?utf-8?B?S3pxUEEzZUpHSmJyVUVBTjYzLzBiT0NIa3A1cWFFUEdHRFZXdnVQbHk4bXVY?=
+ =?utf-8?B?VHc3UTJoMTBpQkRzTHIwbHNmUjFlYnUreFhPbzdPY0ZxZmtOZ1RuY2g2REdN?=
+ =?utf-8?B?cFlpMm94V25CbXVxNWdQVThxa1RwYUtMNGpKMVpuWWg4RWVkNFBSanBrekVZ?=
+ =?utf-8?B?M0k5bFVQVGUyREZoOW5HRmt4aFRRNk0wSkdibjBNMWlIRWZNZjdBMllkVWtS?=
+ =?utf-8?B?cXQyNUV5YVlVcFdGMkxCNFRMSUhVTmg2Nm1qRitGWkhSRkNsckJ2Y3loVlhJ?=
+ =?utf-8?B?Ynk5bUpveG1JMzJ6T3AwSzdSSmd2Yk4zaHA0VTNvNWJadnVTdG9halozT2E0?=
+ =?utf-8?B?RUxFbmxJNHJqWDBIaWdITndwNUVFYnR1RUpBT1d1OG5ZdC81N0FQRk1Sbnc1?=
+ =?utf-8?B?L2ZOQ2RYaVBhcWphNStOemNSN0l2WEZTaXJRTDNRdnJiK05SN0hBaHpKcElk?=
+ =?utf-8?B?YVJpUGhieml2RVBTWlR3S241VXROeE5PaWh3TmpYdWoweExDazZldjQ3VTI2?=
+ =?utf-8?B?c0FIMDAzeTY5RG8xcnBKSnRCeXFpczM0b293ZlJFQVZQUzBiTlFtZkc5aGt3?=
+ =?utf-8?B?aGxIV0xLVkhxVHVrMEJKNGMyRno1TkFPUnJ4SjNDRCtrdHRIbjR2aG1zbVl3?=
+ =?utf-8?B?SGQ4UVNlcmU4aE9CK2IxUGdSK2ZsNmxEVHJOVnppZk55WGg4U0c4R1BYc0cx?=
+ =?utf-8?B?NUNWVkRjRFE3MjFtUTNxU1gxMWQ2Z00rSkx5WE9HNGFFMnlIMzNqQ3YxYjFJ?=
+ =?utf-8?B?amJwNVBFU3BLdXlBd29neHQ5R3FuZjltT2hvMDArNnZiMHc2ZG5iTmZhcEUz?=
+ =?utf-8?B?SmwrT0k1TnM4Rk9mVFBacTFPSG9EOGxiOGVVSWxZZWNwa0JTTTdmVWFVb0F0?=
+ =?utf-8?B?QUw4UnlvcElQYVExVHErWHE1WmF2QTRpNEdtUldGRzZtUW1vNFg3cGtuQjBH?=
+ =?utf-8?B?dTIzT1ZoeHVyS1QxUXZZb0I4dWdOVEYwRk9FUHRYRjA4cms0UVBBbkh5Q1Fi?=
+ =?utf-8?Q?XyxaBIKSGWJ2CnyeDUSq3z+UPpWokVvu2cuuFF3eWE=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d2137fa-0cf3-4dd9-cd68-08da02d3fec2
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 20:17:17.9406 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 20:24:36.3287 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GV82iLj6BCGHFpsNl3xTVoqTNZ6eyuTPcys/PAodDZ6Cqf6rLajftjlWsADDJ2TS84tK8cPjOCLpjjDvf/aFMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4847
+X-MS-Exchange-CrossTenant-UserPrincipalName: y+pEBxgbZIGVLOJaDLZTUJH4dS7SGz0bHfF0J0hwUAjx6YTlfSK26rJU1l1mwxMTkNs+mZ2JHf51mS8J8I1DsMeOjPNTTc/T30cyY3sGn+A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3608
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,168 +161,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/10/2022 8:56 PM, Rob Clark wrote:
-> On Thu, Mar 10, 2022 at 11:44 AM Sharma, Shashank
-> <shashank.sharma@amd.com> wrote:
->>
->>
->>
->> On 3/10/2022 8:35 PM, Rob Clark wrote:
->>> On Thu, Mar 10, 2022 at 11:14 AM Sharma, Shashank
->>> <shashank.sharma@amd.com> wrote:
+On 3/10/2022 01:27, Tvrtko Ursulin wrote:
+> On 09/03/2022 21:16, John Harrison wrote:
+>> On 3/8/2022 01:41, Tvrtko Ursulin wrote:
+>>> On 03/03/2022 22:37, John.C.Harrison@Intel.com wrote:
+>>>> From: John Harrison <John.C.Harrison@Intel.com>
 >>>>
+>>>> A workaround was added to the driver to allow OpenCL workloads to run
+>>>> 'forever' by disabling pre-emption on the RCS engine for Gen12.
+>>>> It is not totally unbound as the heartbeat will kick in eventually
+>>>> and cause a reset of the hung engine.
 >>>>
+>>>> However, this does not work well in GuC submission mode. In GuC mode,
+>>>> the pre-emption timeout is how GuC detects hung contexts and triggers
+>>>> a per engine reset. Thus, disabling the timeout means also losing all
+>>>> per engine reset ability. A full GT reset will still occur when the
+>>>> heartbeat finally expires, but that is a much more destructive and
+>>>> undesirable mechanism.
 >>>>
->>>> On 3/10/2022 7:33 PM, Abhinav Kumar wrote:
->>>>>
->>>>>
->>>>> On 3/10/2022 9:40 AM, Rob Clark wrote:
->>>>>> On Thu, Mar 10, 2022 at 9:19 AM Sharma, Shashank
->>>>>> <shashank.sharma@amd.com> wrote:
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> On 3/10/2022 6:10 PM, Rob Clark wrote:
->>>>>>>> On Thu, Mar 10, 2022 at 8:21 AM Sharma, Shashank
->>>>>>>> <shashank.sharma@amd.com> wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 3/10/2022 4:24 PM, Rob Clark wrote:
->>>>>>>>>> On Thu, Mar 10, 2022 at 1:55 AM Christian König
->>>>>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Am 09.03.22 um 19:12 schrieb Rob Clark:
->>>>>>>>>>>> On Tue, Mar 8, 2022 at 11:40 PM Shashank Sharma
->>>>>>>>>>>> <contactshashanksharma@gmail.com> wrote:
->>>>>>>>>>>>> From: Shashank Sharma <shashank.sharma@amd.com>
->>>>>>>>>>>>>
->>>>>>>>>>>>> This patch adds a new sysfs event, which will indicate
->>>>>>>>>>>>> the userland about a GPU reset, and can also provide
->>>>>>>>>>>>> some information like:
->>>>>>>>>>>>> - process ID of the process involved with the GPU reset
->>>>>>>>>>>>> - process name of the involved process
->>>>>>>>>>>>> - the GPU status info (using flags)
->>>>>>>>>>>>>
->>>>>>>>>>>>> This patch also introduces the first flag of the flags
->>>>>>>>>>>>> bitmap, which can be appended as and when required.
->>>>>>>>>>>> Why invent something new, rather than using the already existing
->>>>>>>>>>>> devcoredump?
->>>>>>>>>>>
->>>>>>>>>>> Yeah, that's a really valid question.
->>>>>>>>>>>
->>>>>>>>>>>> I don't think we need (or should encourage/allow) something drm
->>>>>>>>>>>> specific when there is already an existing solution used by both
->>>>>>>>>>>> drm
->>>>>>>>>>>> and non-drm drivers.  Userspace should not have to learn to support
->>>>>>>>>>>> yet another mechanism to do the same thing.
->>>>>>>>>>>
->>>>>>>>>>> Question is how is userspace notified about new available core
->>>>>>>>>>> dumps?
->>>>>>>>>>
->>>>>>>>>> I haven't looked into it too closely, as the CrOS userspace
->>>>>>>>>> crash-reporter already had support for devcoredump, so it "just
->>>>>>>>>> worked" out of the box[1].  I believe a udev event is what triggers
->>>>>>>>>> the crash-reporter to go read the devcore dump out of sysfs.
->>>>>>>>>
->>>>>>>>> I had a quick look at the devcoredump code, and it doesn't look like
->>>>>>>>> that is sending an event to the user, so we still need an event to
->>>>>>>>> indicate a GPU reset.
->>>>>>>>
->>>>>>>> There definitely is an event to userspace, I suspect somewhere down
->>>>>>>> the device_add() path?
->>>>>>>>
->>>>>>>
->>>>>>> Let me check that out as well, hope that is not due to a driver-private
->>>>>>> event for GPU reset, coz I think I have seen some of those in a few DRM
->>>>>>> drivers.
->>>>>>>
->>>>>>
->>>>>> Definitely no driver private event for drm/msm .. I haven't dug
->>>>>> through it all but this is the collector for devcoredump, triggered
->>>>>> somehow via udev.  Most likely from event triggered by device_add()
->>>>>>
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fchromium.googlesource.com%2Fchromiumos%2Fplatform2%2F%2B%2FHEAD%2Fcrash-reporter%2Fudev_collector.cc&amp;data=04%7C01%7Cshashank.sharma%40amd.com%7C3b5c0e8744234962061d08da02d00248%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637825389694363926%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=mWI1Z%2B8eMJApePc5ajRipbGUG9Cw9wXf2FCw6NQxVaM%3D&amp;reserved=0
->>>>>>
->>>>>
->>>>> Yes, that is correct. the uevent for devcoredump is from device_add()
->>>>>
->>>> Yes, I could confirm in the code that device_add() sends a uevent.
+>>>> The purpose of the workaround is actually to give OpenCL tasks longer
+>>>> to reach a pre-emption point after a pre-emption request has been
+>>>> issued. This is necessary because Gen12 does not support mid-thread
+>>>> pre-emption and OpenCL can have long running threads.
 >>>>
->>>> kobject_uevent(&dev->kobj, KOBJ_ADD);
+>>>> So, rather than disabling the timeout completely, just set it to a
+>>>> 'long' value.
 >>>>
->>>> I was trying to map the ChromiumOs's udev event rules with the event
->>>> being sent from device_add(), what I could see is there is only one udev
->>>> rule for any DRM subsystem events in ChromiumOs's 99-crash-reporter.rules:
+>>>> v2: Review feedback from Tvrtko - must hard code the 'long' value
+>>>> instead of determining it algorithmically. So make it an extra CONFIG
+>>>> definition. Also, remove the execlist centric comment from the
+>>>> existing pre-emption timeout CONFIG option given that it applies to
+>>>> more than just execlists.
 >>>>
->>>> ACTION=="change", SUBSYSTEM=="drm", KERNEL=="card0", ENV{ERROR}=="1", \
->>>>      RUN+="/sbin/crash_reporter
->>>> --udev=KERNEL=card0:SUBSYSTEM=drm:ACTION=change"
+>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>> Reviewed-by: Daniele Ceraolo Spurio 
+>>>> <daniele.ceraolospurio@intel.com> (v1)
+>>>> Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/Kconfig.profile      | 26 
+>>>> +++++++++++++++++++----
+>>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c |  9 ++++++--
+>>>>   2 files changed, 29 insertions(+), 6 deletions(-)
 >>>>
->>>> Can someone confirm that this is the rule which gets triggered when a
->>>> devcoredump is generated ? I could not find an ERROR=1 string in the
->>>> env[] while sending this event from dev_add();
+>>>> diff --git a/drivers/gpu/drm/i915/Kconfig.profile 
+>>>> b/drivers/gpu/drm/i915/Kconfig.profile
+>>>> index 39328567c200..7cc38d25ee5c 100644
+>>>> --- a/drivers/gpu/drm/i915/Kconfig.profile
+>>>> +++ b/drivers/gpu/drm/i915/Kconfig.profile
+>>>> @@ -57,10 +57,28 @@ config DRM_I915_PREEMPT_TIMEOUT
+>>>>       default 640 # milliseconds
+>>>>       help
+>>>>         How long to wait (in milliseconds) for a preemption event 
+>>>> to occur
+>>>> -      when submitting a new context via execlists. If the current 
+>>>> context
+>>>> -      does not hit an arbitration point and yield to HW before the 
+>>>> timer
+>>>> -      expires, the HW will be reset to allow the more important 
+>>>> context
+>>>> -      to execute.
+>>>> +      when submitting a new context. If the current context does 
+>>>> not hit
+>>>> +      an arbitration point and yield to HW before the timer 
+>>>> expires, the
+>>>> +      HW will be reset to allow the more important context to 
+>>>> execute.
+>>>> +
+>>>> +      This is adjustable via
+>>>> +      /sys/class/drm/card?/engine/*/preempt_timeout_ms
+>>>> +
+>>>> +      May be 0 to disable the timeout.
+>>>> +
+>>>> +      The compiled in default may get overridden at driver probe 
+>>>> time on
+>>>> +      certain platforms and certain engines which will be 
+>>>> reflected in the
+>>>> +      sysfs control.
+>>>> +
+>>>> +config DRM_I915_PREEMPT_TIMEOUT_COMPUTE
+>>>> +    int "Preempt timeout for compute engines (ms, jiffy granularity)"
+>>>> +    default 7500 # milliseconds
+>>>> +    help
+>>>> +      How long to wait (in milliseconds) for a preemption event to 
+>>>> occur
+>>>> +      when submitting a new context to a compute capable engine. 
+>>>> If the
+>>>> +      current context does not hit an arbitration point and yield 
+>>>> to HW
+>>>> +      before the timer expires, the HW will be reset to allow the 
+>>>> more
+>>>> +      important context to execute.
+>>>>           This is adjustable via
+>>>>         /sys/class/drm/card?/engine/*/preempt_timeout_ms
+>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>> index 4185c7338581..cc0954ad836a 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>> @@ -438,9 +438,14 @@ static int intel_engine_setup(struct intel_gt 
+>>>> *gt, enum intel_engine_id id,
+>>>>       engine->props.timeslice_duration_ms =
+>>>>           CONFIG_DRM_I915_TIMESLICE_DURATION;
+>>>>   -    /* Override to uninterruptible for OpenCL workloads. */
+>>>> +    /*
+>>>> +     * Mid-thread pre-emption is not available in Gen12. 
+>>>> Unfortunately,
+>>>> +     * some OpenCL workloads run quite long threads. That means 
+>>>> they get
+>>>> +     * reset due to not pre-empting in a timely manner. So, bump the
+>>>> +     * pre-emption timeout value to be much higher for compute 
+>>>> engines.
+>>>> +     */
+>>>>       if (GRAPHICS_VER(i915) == 12 && (engine->flags & 
+>>>> I915_ENGINE_HAS_RCS_REG_STATE))
+>>>> -        engine->props.preempt_timeout_ms = 0;
+>>>> +        engine->props.preempt_timeout_ms = 
+>>>> CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE;
 >>>
->>> I think it is actually this rule:
+>>> I wouldn't go as far as adding a config option since as it is it 
+>>> only applies to Gen12 but Kconfig text says nothing about that. And 
+>>> I am not saying you should add a Gen12 specific config option, that 
+>>> would be weird. So IMO just drop it.
 >>>
->>> ACTION=="add", SUBSYSTEM=="devcoredump", \
->>>     RUN+="/sbin/crash_reporter
->>> --udev=SUBSYSTEM=devcoredump:ACTION=add:KERNEL_NUMBER=%n"
->>>
->>> It is something non-drm specific because it supports devcore dumps
->>> from non drm drivers.  I know at least some of the wifi and remoteproc
->>> drivers use it.
->>>
->>
->> Ah, this seems like a problem for me. I understand it will work for a
->> reset/recovery app well, but if a DRM client (like a compositor), who
->> wants to listen only to DRM events (like a GPU reset), wouldn't this
->> create a lot of noise for it ? Like every time any subsystem produces
->> this coredump, there will be a change in devcoresump subsystem, and the
->> client will have to parse the core file, and then will have to decide if
->> it wants to react to this, or ignore.
->>
->> Wouldn't a GPU reset event, specific to DRM subsystem server better in
->> such case ?
->>
-> 
-> So, I suppose there are two different use-cases.. for something like
-> distro which has generic crash telemetry (ie. when users opt in to
-> automated crash reporting), and in general for debugging gpu crashes,
-> you want devcoredump, preferably with plenty of information about gpu
-> state, etc, so you actually have a chance of debugging problems you
-> can't necessarily reproduce locally.  Note also that mesa CI has some
-> limited support for collecting devcore dumps if a CI run triggers a
-> GPU fault.
-> 
-> For something like just notifying a compositor that a gpu crash
-> happened, perhaps drm_event is more suitable.  See
-> virtio_gpu_fence_event_create() for an example of adding new event
-> types.  Although maybe you want it to be an event which is not device
-> specific.  This isn't so much of a debugging use-case as simply
-> notification.
+>> You were the one arguing that the driver was illegally overriding the 
+>> user's explicitly chosen settings, including the compile time config 
+>
+> This is a bit out of context and illegally don't think used, so 
+> misrepresents the earlier discussion. And I certainly did not suggest 
+> a kconfig option.
+My recollection is that you clearly stated the i915 driver should not be 
+overriding the user's settings. To me, that makes any override an 
+illegal operation.
 
-Exactly, in fact that should have been a part of my cover-letter. May be 
-I will send a V2 with better doc.
+You did not suggest a Kconfig option but the settings in question are 
+all coming from existing Kconfig options. Putting an explicit "timeout = 
+7500;" in the code is the worst of all worlds. It is an override of a 
+user setting and it is an unmodifiable magic number. The first you have 
+stated is not allowed and the second is one of the biggest no-no's of 
+any code review. Magic number randomly splatted in the code? Nack, do it 
+properly.
 
-- Shashank
+So in this case, I don't see that there is much choice except to add a 
+new Kconfig option for the override.
 
-> 
-> BR,
-> -R
+>
+>> options. Just having a hardcoded magic number in the driver is the 
+>> absolute worst kind of override there is.
+> >
+>> And technically, the config option is not Gen12 specific. It is 
+>> actually compute specific, hence the name. It just so happens that 
+>> only Gen12 onwards has compute engines. I can add an extra line to 
+>> the Kconfig description if you want "NB: compute engines only exist 
+>> on Gen12 but do include the RCS engine on Gen12".
+>
+> I am not unconditionally against it but it feels it creates more 
+> problems than gives solutions.
+>
+> In kconfig help you say "compute *capable* engine". Here you say only 
+> Gen12 has compute engines. Well before Gen12 render is compute 
+> capable, but then how implemented it does not apply which is not good.
+Sorry, yes. For some reason I was thinking compute came in with Gen12.
+
+>
+> Given the runtime override has the only purpose of working around 
+> broken hardware then I'd still say to drop it. But if you can come up 
+> with help text which won't be misleading and still not overly 
+> complicated I am not opposing it.
+So "when submitting a new context to a compute capable engine on Gen12 
+and later platforms"? And maybe add a _GEN12 suffix to the config name 
+itself?
+
+John.
+
+
+>
+> Regards,
+>
+> Tvrtko
+
