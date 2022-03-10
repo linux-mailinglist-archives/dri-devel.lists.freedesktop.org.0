@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1990B4D559A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:45:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 641D94D559C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:45:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5271E10E0E4;
-	Thu, 10 Mar 2022 23:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6E010E156;
+	Thu, 10 Mar 2022 23:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D62F10E0E4;
- Thu, 10 Mar 2022 23:45:32 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id o23so5983522pgk.13;
- Thu, 10 Mar 2022 15:45:32 -0800 (PST)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2ACA10E156;
+ Thu, 10 Mar 2022 23:45:36 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ c16-20020a17090aa61000b001befad2bfaaso6658317pjq.1; 
+ Thu, 10 Mar 2022 15:45:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TJVGSw0Gsp0ElMn++CtRLOM3hI6c+NG4/N8yRR58DmQ=;
- b=nFHfOqVeAKi8MeaSk15PZpvyM2vC539pwlaEbTxQd/oePNq3xoZ9IdbxmFGQHzwuzl
- ouayfD2MWaKeAcMYR3kdbw7bQtTMrzN9e/PpPyMng3zpKWktpQC5mPZFeZ5dMnt3zbB+
- VIy5JCjQpWwv5ptUwYpCcXwGaBDvJ5uf6gx1IIf5PAYqbfBPdlPCtqqSnZr+pGKotUZg
- WY6Iw8waLo69on5La8JQFpvVPDH57przII556uWEXQpViIyxgVSiuitQmbx9zAoz9PAC
- hRHAu7lo4UQ/+jFLU1Y1cIiYe3bR9CNBnO3cHBjfQ9whAaAub5TBmx4hU80aNbK7xVth
- 4uAQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OXegA51qD+CyYO9M7fSmY5tcIBfLmUdoHlbWl+RWLYA=;
+ b=Uya5BbF/Dea3p/slOxGOh0T5z35dl1DZwLwD64KB0b7uIeODxa63MztEUsLQQTBK5d
+ D+RjR/B/DCsuUXe5VTqlL/sVZ3iPPAX+wmHNi4zmP0hvbQTRdsGTuBd7ORxEdJMxQFeg
+ f1xCP90/4jcWi0d1L6liTOs8x1pwQLwnFecjcadNtFhxQA3ZKwLSWrUu/BOxU9K6a3IA
+ iIADELN9Zu4tKQm0yfuEuHJKcQTydAKZJJMSbstWPtbiAgwGHFuqDWEF4jWAYDsCX00/
+ F58vxhlnFriX7g9PPn/gcLj609Pg+h+n3ssPGc2FC26qCmURAEBWNMbfrkTooHiy+UVs
+ /neA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TJVGSw0Gsp0ElMn++CtRLOM3hI6c+NG4/N8yRR58DmQ=;
- b=PLM6LrGoaprZJ1AAAonTE/PuVUb/GFfwjxUmUqC1a2fO+xXYc/cJQkf7XBuiALomT5
- H4HPd0vdi/ShxsVAoaOu8MWZ3ASaUFB6ropmGH/jztn3FVNnj4ysD4ZcIxwaxF4I2L6i
- GGgxqro4S5h5tfAOO7EOxerE4AeAHMW8YRHz+jH4f94d5xGED27LqPMX+30/lsWChIBT
- QnfZCO0EUbQiN1bKVXuaB0U3huiEYfgybl9rqprfCMP6UJF0YjrYCtjE9JgDkfz+k496
- yOCXQwCicU7ypZCxSNW0jNXVkDDVNFI7b1PgpBvdQf8g9xLmxNqzQmugVODAKgPOglNt
- NUug==
-X-Gm-Message-State: AOAM532fw6VqXSxbnxAiy6BdfcaacwOJZ9q0ROwNnDXx6+/k0JGIWghN
- 85RZb2imbXpp5+1ycw3pZzVBkrgXlSI=
-X-Google-Smtp-Source: ABdhPJwLCG3YZoyGRoW8VPXvzJyAmxxuYzqRFyADp5+KhU4VByp4OuLPa6ObO/2zjFDSW87z4UMlVw==
-X-Received: by 2002:a63:e817:0:b0:373:8abb:2c51 with SMTP id
- s23-20020a63e817000000b003738abb2c51mr6075407pgh.185.1646955931416; 
- Thu, 10 Mar 2022 15:45:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OXegA51qD+CyYO9M7fSmY5tcIBfLmUdoHlbWl+RWLYA=;
+ b=ePNxXv0TfunS5kNqYH/Y54Bq4oCsecbek4GLFMklYm39be5wHp+Oh5rrxOMI3PPkS7
+ eHAG4BLU0YlKgb8aBSiCXJxvpADioRsqUlZNhKwac+VZsMqNhilS+Xmm/VpRwCO77ZkT
+ JKRW+hEWmRsOl4cMvp+Co0Elg2edEhWScI3dFiw4uH4qiVowqSySB9KRL9/IUStWZ+Jh
+ k4q38NK/FLNUfA6i5SG74H5DmZ7s35SR5g5kE0aoNxtWAmoRFQWdBHNjKFkZLxuFEAAg
+ m2M3gTTrvCXnaUkq16+PU6NFJnYy1MHlOWvY7D7TqVQRi+uMP8eLQ8/2TjxU4Il47TDo
+ pW9g==
+X-Gm-Message-State: AOAM532NuGUyWA8hrKhyhSjP1dA7Xnu9V8b01CBg/b6KSoyC7Qj9gFMZ
+ GQgJyRDtp+m9NhhvkFfUN1qB0nCnn/E=
+X-Google-Smtp-Source: ABdhPJyMokPnWrLeEdPTbchYVoLn7v3pddlxvswdSoMvVNd5x9sSPY6XLBlteAA4HXr/Z8aINByJyA==
+X-Received: by 2002:a17:90b:4b47:b0:1be:fccf:d1a8 with SMTP id
+ mi7-20020a17090b4b4700b001befccfd1a8mr7586614pjb.33.1646955935191; 
+ Thu, 10 Mar 2022 15:45:35 -0800 (PST)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
  by smtp.gmail.com with ESMTPSA id
- f2-20020a056a0022c200b004f7649f78dbsm5915119pfj.139.2022.03.10.15.45.29
+ p125-20020a622983000000b004f6c5d58225sm8252049pfp.90.2022.03.10.15.45.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 15:45:29 -0800 (PST)
+ Thu, 10 Mar 2022 15:45:34 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/3] drm/msm/gpu: More system suspend fixes
-Date: Thu, 10 Mar 2022 15:46:03 -0800
-Message-Id: <20220310234611.424743-1-robdclark@gmail.com>
+Subject: [PATCH 1/3] drm/msm/gpu: Rename runtime suspend/resume functions
+Date: Thu, 10 Mar 2022 15:46:04 -0800
+Message-Id: <20220310234611.424743-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220310234611.424743-1-robdclark@gmail.com>
+References: <20220310234611.424743-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,28 +71,53 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In particular, we want to park the scheduler threads so that suspend
-is not racing with the kthread pushing more jobs to the driver.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Rob Clark (3):
-  drm/msm/gpu: Rename runtime suspend/resume functions
-  drm/msm/gpu: Park scheduler threads for system suspend
-  drm/msm/gpu: Remove mutex from wait_event condition
-
- drivers/gpu/drm/msm/adreno/adreno_device.c | 79 ++++++++++++++++++----
- 1 file changed, 65 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 89cfd84760d7..8859834b51b8 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -600,7 +600,7 @@ static const struct of_device_id dt_match[] = {
+ };
+ 
+ #ifdef CONFIG_PM
+-static int adreno_resume(struct device *dev)
++static int adreno_runtime_resume(struct device *dev)
+ {
+ 	struct msm_gpu *gpu = dev_to_gpu(dev);
+ 
+@@ -616,7 +616,7 @@ static int active_submits(struct msm_gpu *gpu)
+ 	return active_submits;
+ }
+ 
+-static int adreno_suspend(struct device *dev)
++static int adreno_runtime_suspend(struct device *dev)
+ {
+ 	struct msm_gpu *gpu = dev_to_gpu(dev);
+ 	int remaining;
+@@ -635,7 +635,7 @@ static int adreno_suspend(struct device *dev)
+ 
+ static const struct dev_pm_ops adreno_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+-	SET_RUNTIME_PM_OPS(adreno_suspend, adreno_resume, NULL)
++	SET_RUNTIME_PM_OPS(adreno_runtime_suspend, adreno_runtime_resume, NULL)
+ };
+ 
+ static struct platform_driver adreno_driver = {
 -- 
 2.35.1
 
