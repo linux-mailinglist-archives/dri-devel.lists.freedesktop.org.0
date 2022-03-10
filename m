@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981114D4959
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 15:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6537E4D4963
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 15:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF1210E7C6;
-	Thu, 10 Mar 2022 14:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9919B10E3F3;
+	Thu, 10 Mar 2022 14:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A59910E7DE
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 14:18:15 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 60141320112B;
- Thu, 10 Mar 2022 09:18:11 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF37E10E3F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 14:23:24 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id B83363201F01;
+ Thu, 10 Mar 2022 09:23:23 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 10 Mar 2022 09:18:11 -0500
+ by compute4.internal (MEProxy); Thu, 10 Mar 2022 09:23:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=dzdqQEJg6xyLpIjnfmc/LmJDMVT7U0HKl34zkJ
- FZBXM=; b=rWNWroSRuA+pywlQrUmVge5nHQQlO2aei5PZutkbZ29cB48Jx0ZUWk
- jhpJ7OQ1nDW/cqJfL0ZZUzci94bs812zLN9FgtWZxdBt8tqFsjBfLunkejYKMREj
- +VaGYLX8qGUln19IVVYmNp3k4EPAdJJJYu4M5CDCINcfdUnz3LN1JW4o6iyuyfwk
- 3nQm61kcTr36z+ukONf6u95a8Ez7ZKvVFoBCqYuoVf/GGCF+FNoUCS/IwY1+xKqf
- jaBay3wI//ZBN7Ukeu+h9IxokOTIg5ftgGvgfT+It1TUBc9D7uEmtUlE+6W5SjfD
- xtlFjWWa0bIq/YNq766+YePViFozGONQ==
+ :subject:to:to; s=fm2; bh=dUt5MPKcHrST5ROA6vJ+bx/tj0AeJnzE9rGRIi
+ odEpQ=; b=NvPCzjt90ajTHTToG1QmC7lBBGSajpUlLB2nmm0lmnyRaPaW42L2bF
+ zxfcWx1hZcwEvqXknnVfcUbhTiQdc2f5tySE5hQGRr5V4T2szQMoT8jyrRkJ3vH/
+ Dj2tuGoRv9x0XGhnDftE5lEmGf7Wmk6g/9p2dCIk8W1csEI5UPRgAXJ1hpyIh6eX
+ lGa7KBzxO966zBrc26TzmR4EjqUvMUYIk1YQ6SAnTZExYban9ZNeJE22nd3IaBZp
+ kacdeWW1Auy69Qy5429fiklXEF8DWs0ptoYBbGLfQY44rEPVCpjcNDj7Pc2OhrcB
+ oTi2nqdXGW84dHjZ499UwmfwHiXg4xnA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dzdqQEJg6xyLpIjnf
- mc/LmJDMVT7U0HKl34zkJFZBXM=; b=Hyzur/l1Lv5z1iXmf6K75gDYdv52cp1vK
- E4pwpklSNWkkmUi8UN9CGrm8pnwXuk7TDLBtwODRauezSB1UJOm6uvf75ow+kaCM
- SAW19c9lZ02H381q+JI9GAQh87/EkneVKS+bJOkHKZ5oSVwzRjE2ki1+2kan19xO
- WhDRu3uDG2qsdAEtjG/+ye90S/L3kOoOgXQqso/Gi7wRGksaAMRyn0bULH9deo2w
- wD5XcWggDs8Ze6zX9g29vDOHNhI8WR2tD2kuUyIy8aU/8ly1Ep4ZFI+207qErN2H
- STKFpv35jrdflim3QeC0MGeU1INHN2SNxgM8gt9OJIaDwxZayMdjw==
-X-ME-Sender: <xms:oQgqYnAhvoTMftGZ_ig6pMTJq0t2c9lESW76AiD-IQjbGnKUZPJT7w>
- <xme:oQgqYtj4NJJgwDV25rWrDnFsMv4yNFAVbx-5bUsJ51Mclt5xWardANqTfj9Kn0_lW
- kNQxqluaYO1SNQtHmg>
-X-ME-Received: <xmr:oQgqYilcoIasfDpL9MTMVsEOrpfQlLS7vjnmYtjNGYrWqc4TdZtuInLfn5cK4ZRe2J5MGNG0W2Pihiyiss1BTOvKAI1q4EPjmKNkdNk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgiedvucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dUt5MPKcHrST5ROA6
+ vJ+bx/tj0AeJnzE9rGRIiodEpQ=; b=ZK/ZDsUoPPVbh2AbSX6jPIKBcByDzvXhl
+ EsvuGANJJfmE7tlQ4rq+Ob2RyOy+G6w2uNy77XJIJcowlcGwZdVHue/ph10lY6lf
+ KoQjPuhb8Su3R7dDNbnuIpLqEM0nrZUFMDBuddwD7+FIAipsxLGnIJkQTJFMu2x4
+ TlVIm9hf7oQ5e8OAprua6P2AAxoxEpKId8DzMjohLezWAnpvu1XzSM7Q7vJ1yy9K
+ C6A2GJuDtbjsO2e0AtCb67SaeREENkD242nupopdmHtRhLVTXd0icj/OVO0TxKya
+ bmO7gZ3YNAZ0Xkh/A8miAbsCmN6BHO13ga8hIoZHZeuZ1TrZcnGxg==
+X-ME-Sender: <xms:2gkqYhAs-htFTqHuBEkFHKFRvX14ecWf02r6ZPCUYyXmj-OuZNVUaQ>
+ <xme:2gkqYvg-0XNzbaM1VTHPVCYRQy5I7xpMqn_ME6qZoM5wV9wddHYLkFTOIpHtLN8sr
+ IPWaCKbrQHSVjTzhPE>
+X-ME-Received: <xmr:2gkqYsn3qmKSUHT0mZ7mc1u5fCKFlTJA_E76a0AmRUST6NEpeEYbJStoxCwAS9dD3o-Ccfsp8tqp98meWKIBmDcZq1xsy6n1N0Ww1rY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgieefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -52,33 +52,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgiedvucetufdoteggod
  jeelnecuffhomhgrihhnpegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdpkhgvrh
  hnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
  rhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oQgqYpx_wy3qTEW9KSlBavgC3rJVnlwuiaHcdPbhAZhI6b8DqwTx2A>
- <xmx:oQgqYsRB90gMqX5kyvm-olysdUf92xJpbSxd41WUwJxnigAeWdc33A>
- <xmx:oQgqYsa080-P3-omMU_MUY3jGrkZmgDCIBhmEggRc-WLRUxqDXeL1A>
- <xmx:oggqYhKe0Z2g_4XKXgrqwvWzxSkQLoqBJJZXJiI7jpycPX_Zn0OGaQ>
+X-ME-Proxy: <xmx:2gkqYryCmZ37aisxN0cLxeE9TG2DoKgq0pUBafEMXkZ7VxYEpxvsOg>
+ <xmx:2gkqYmRWZc81nwRnaeYAZIlT4NMyidXJJD6rG0EDYcSsezjOZomeBg>
+ <xmx:2gkqYuY82jZPVdsOCrb0HMUSWDZBtLdHfeF5sOjxUTYUOIiLtj49Ag>
+ <xmx:2wkqYjI3UpdCMcc7GZ5Yi8K6hd3YISowzGqMqEVEvEas-3rnxVqIMg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Mar 2022 09:18:09 -0500 (EST)
-Date: Thu, 10 Mar 2022 15:18:07 +0100
+ 10 Mar 2022 09:23:22 -0500 (EST)
+Date: Thu, 10 Mar 2022 15:23:21 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
  property parsing
-Message-ID: <20220310141807.5yqho4gloz4lrdjt@houat>
-References: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+Message-ID: <20220310142321.oftynmxpyzw5jpd5@houat>
+References: <20220304002508.75676-1-marex@denx.de>
+ <20220304002508.75676-6-marex@denx.de>
+ <CAMty3ZATJ56i0BEHh=MH=RHCtDL2bCWUDFniYL0OCf8RpZnaLg@mail.gmail.com>
+ <a660a280-0130-3ca1-d849-db3e49626bfb@denx.de>
+ <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
  <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
  <20220308125140.e7orpvocrerr5xdv@houat>
- <dd68f569-7fe3-dc00-b2f0-536b066ec37a@denx.de>
- <20220308134921.zebs533xeazq46ts@houat>
- <1ac9057e-fb6d-02f8-78df-c6518fb6e897@denx.de>
- <20220308162158.j5czx7krscaeqtsy@houat>
- <423c5f19-7b7c-dbc7-7482-34a0537bec21@denx.de>
- <20220310105352.v7jqjchshaaajsmd@houat>
- <c60112b4-5095-11ad-0da4-c84bb30bf77f@denx.de>
+ <YinWBFgdw22SlRKt@pendragon.ideasonboard.com>
+ <20220310105738.uz7ul3ycmsbt43po@houat>
+ <YineKfG63AiUxkqu@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iqnx3pc3kh2brnmq"
+ protocol="application/pgp-signature"; boundary="ga5qegdt4rsyqezz"
 Content-Disposition: inline
-In-Reply-To: <c60112b4-5095-11ad-0da4-c84bb30bf77f@denx.de>
+In-Reply-To: <YineKfG63AiUxkqu@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,214 +91,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---iqnx3pc3kh2brnmq
+--ga5qegdt4rsyqezz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 10, 2022 at 01:47:13PM +0100, Marek Vasut wrote:
-> On 3/10/22 11:53, Maxime Ripard wrote:
-> > On Tue, Mar 08, 2022 at 10:41:05PM +0100, Marek Vasut wrote:
-> > > On 3/8/22 17:21, Maxime Ripard wrote:
-> > > > On Tue, Mar 08, 2022 at 03:47:22PM +0100, Marek Vasut wrote:
-> > > > > On 3/8/22 14:49, Maxime Ripard wrote:
-> > > > > > On Tue, Mar 08, 2022 at 02:27:40PM +0100, Marek Vasut wrote:
-> > > > > > > On 3/8/22 13:51, Maxime Ripard wrote:
-> > > > > > > > On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
-> > > > > > > > > On 3/8/22 11:07, Jagan Teki wrote:
-> > > > > > > > > > On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.=
-de> wrote:
-> > > > > > > > > > >=20
-> > > > > > > > > > > On 3/8/22 09:03, Jagan Teki wrote:
-> > > > > > > > > > >=20
-> > > > > > > > > > > Hi,
-> > > > > > > > > > >=20
-> > > > > > > > > > > [...]
-> > > > > > > > > > >=20
-> > > > > > > > > > > > > @@ -314,7 +321,9 @@ static const struct drm_bridg=
-e_funcs chipone_bridge_funcs =3D {
-> > > > > > > > > > > > >        static int chipone_parse_dt(struct chipone=
- *icn)
-> > > > > > > > > > > > >        {
-> > > > > > > > > > > > >               struct device *dev =3D icn->dev;
-> > > > > > > > > > > > > +       struct device_node *endpoint;
-> > > > > > > > > > > > >               struct drm_panel *panel;
-> > > > > > > > > > > > > +       int dsi_lanes;
-> > > > > > > > > > > > >               int ret;
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > >               icn->vdd1 =3D devm_regulator_get_op=
-tional(dev, "vdd1");
-> > > > > > > > > > > > > @@ -350,15 +359,42 @@ static int chipone_parse_dt=
-(struct chipone *icn)
-> > > > > > > > > > > > >                       return PTR_ERR(icn->enable_=
-gpio);
-> > > > > > > > > > > > >               }
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > +       endpoint =3D of_graph_get_endpoint_by_reg=
-s(dev->of_node, 0, 0);
-> > > > > > > > > > > > > +       dsi_lanes =3D of_property_count_u32_elems=
-(endpoint, "data-lanes");
-> > > > > > > > > > > > > +       icn->host_node =3D of_graph_get_remote_po=
-rt_parent(endpoint);
-> > > > > > > > > > > > > +       of_node_put(endpoint);
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +       if (!icn->host_node)
-> > > > > > > > > > > > > +               return -ENODEV;
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > The non-ports-based OF graph returns a -19 example =
-on the Allwinner
-> > > > > > > > > > > > Display pipeline in R16 [1].
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > We need to have a helper to return host_node for no=
-n-ports as I have
-> > > > > > > > > > > > done it for drm_of_find_bridge.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > [1] https://patchwork.amarulasolutions.com/patch/18=
-05/
-> > > > > > > > > > >=20
-> > > > > > > > > > > The link points to a patch marked "DO NOT MERGE", may=
-be that patch is
-> > > > > > > > > > > missing the DSI host port@0 OF graph link ? Both port=
-@0 and port@1 are
-> > > > > > > > > > > required, see:
-> > > > > > > > > > >=20
-> > > > > > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torva=
-lds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone=
-,icn6211.yaml#n53
-> > > > > > > > > > >=20
-> > > > > > > > > > > What is "non-ports-based OF graph" ?
-> > > > > > > > > > >=20
-> > > > > > > > > > > I don't see drm_of_find_bridge() in linux-next , what=
- is that ?
-> > > > > > > > > >=20
-> > > > > > > > > > port@0 is optional as some of the DSI host OF-graph rep=
-resent the
-> > > > > > > > > > bridge or panel as child nodes instead of ports. (i thi=
-nk dt-binding
-> > > > > > > > > > has to fix it to make port@0 optional)
-> > > > > > > > >=20
-> > > > > > > > > The current upstream DT binding document says:
-> > > > > > > > >=20
-> > > > > > > > >         required:
-> > > > > > > > >           - port@0
-> > > > > > > > >           - port@1
-> > > > > > > > >=20
-> > > > > > > > > So port@0 is mandatory.
-> > > > > > > >=20
-> > > > > > > > In the binding, sure, but fundamentally the DT excerpt Jaga=
-n provided is
-> > > > > > > > correct. If the bridge supports DCS, there's no reason to u=
-se the OF
-> > > > > > > > graph in the first place: the bridge node will be a child n=
-ode of the
-> > > > > > > > MIPI-DSI controller (and there's no obligation to use the O=
-F-graph for a
-> > > > > > > > MIPI-DSI controller).
-> > > > > > > >=20
-> > > > > > > > I believe port@0 should be made optional (or downright remo=
-ved if
-> > > > > > > > MIPI-DCS in the only control bus).
+On Thu, Mar 10, 2022 at 01:16:57PM +0200, Laurent Pinchart wrote:
+> On Thu, Mar 10, 2022 at 11:57:38AM +0100, Maxime Ripard wrote:
+> > On Thu, Mar 10, 2022 at 12:42:12PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Mar 08, 2022 at 01:51:40PM +0100, Maxime Ripard wrote:
+> > > > On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
+> > > > > On 3/8/22 11:07, Jagan Teki wrote:
+> > > > > > On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrot=
+e:
 > > > > > > >=20
-> > > > > > > That's out of scope of this series anyway, so Jagan can imple=
-ment patches
-> > > > > > > for that mode if needed.
+> > > > > > > On 3/8/22 09:03, Jagan Teki wrote:
+> > > > > > >=20
+> > > > > > > Hi,
+> > > > > > >=20
+> > > > > > > [...]
+> > > > > > >=20
+> > > > > > > > > @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs =
+chipone_bridge_funcs =3D {
+> > > > > > > > >    static int chipone_parse_dt(struct chipone *icn)
+> > > > > > > > >    {
+> > > > > > > > >           struct device *dev =3D icn->dev;
+> > > > > > > > > +       struct device_node *endpoint;
+> > > > > > > > >           struct drm_panel *panel;
+> > > > > > > > > +       int dsi_lanes;
+> > > > > > > > >           int ret;
+> > > > > > > > >=20
+> > > > > > > > >           icn->vdd1 =3D devm_regulator_get_optional(dev, =
+"vdd1");
+> > > > > > > > > @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct =
+chipone *icn)
+> > > > > > > > >                   return PTR_ERR(icn->enable_gpio);
+> > > > > > > > >           }
+> > > > > > > > >=20
+> > > > > > > > > +       endpoint =3D of_graph_get_endpoint_by_regs(dev->o=
+f_node, 0, 0);
+> > > > > > > > > +       dsi_lanes =3D of_property_count_u32_elems(endpoin=
+t, "data-lanes");
+> > > > > > > > > +       icn->host_node =3D of_graph_get_remote_port_paren=
+t(endpoint);
+> > > > > > > > > +       of_node_put(endpoint);
+> > > > > > > > > +
+> > > > > > > > > +       if (!icn->host_node)
+> > > > > > > > > +               return -ENODEV;
+> > > > > > > >=20
+> > > > > > > > The non-ports-based OF graph returns a -19 example on the A=
+llwinner
+> > > > > > > > Display pipeline in R16 [1].
+> > > > > > > >=20
+> > > > > > > > We need to have a helper to return host_node for non-ports =
+as I have
+> > > > > > > > done it for drm_of_find_bridge.
+> > > > > > > >=20
+> > > > > > > > [1] https://patchwork.amarulasolutions.com/patch/1805/
+> > > > > > >=20
+> > > > > > > The link points to a patch marked "DO NOT MERGE", maybe that =
+patch is
+> > > > > > > missing the DSI host port@0 OF graph link ? Both port@0 and p=
+ort@1 are
+> > > > > > > required, see:
+> > > > > > >=20
+> > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211=
+=2Eyaml#n53
+> > > > > > >=20
+> > > > > > > What is "non-ports-based OF graph" ?
+> > > > > > >=20
+> > > > > > > I don't see drm_of_find_bridge() in linux-next , what is that=
+ ?
 > > > > > >=20
-> > > > > > Not really? You can't count on the port@0 being there generally
-> > > > > > speaking, so you can't count on data-lanes being there either, =
-which
-> > > > > > exactly what you're doing in this patch.
+> > > > > > port@0 is optional as some of the DSI host OF-graph represent t=
+he
+> > > > > > bridge or panel as child nodes instead of ports. (i think dt-bi=
+nding
+> > > > > > has to fix it to make port@0 optional)
 > > > > >=20
-> > > > > I can because the upstream DT bindings currently say port@0 must =
-be present,
-> > > > > see above. If that requirement should be relaxed, sure, but that'=
-s a
-> > > > > separate series.
+> > > > > The current upstream DT binding document says:
+> > > > >=20
+> > > > >     required:
+> > > > >       - port@0
+> > > > >       - port@1
+> > > > >=20
+> > > > > So port@0 is mandatory.
 > > > >=20
-> > > > And another upstream DT bindings say that you don't need them at al=
-l.
+> > > > In the binding, sure, but fundamentally the DT excerpt Jagan provid=
+ed is
+> > > > correct. If the bridge supports DCS, there's no reason to use the OF
+> > > > graph in the first place: the bridge node will be a child node of t=
+he
+> > > > MIPI-DSI controller (and there's no obligation to use the OF-graph =
+for a
+> > > > MIPI-DSI controller).
+> > > >=20
+> > > > I believe port@0 should be made optional (or downright removed if
+> > > > MIPI-DCS in the only control bus).
 > > >=20
-> > > Which "another upstream DT bindings" do you refer to ?
-> >=20
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
-> >=20
-> > > > Yes, there's a conflict. Yes, it's unfortunate. But the generic DSI
-> > > > binding is far more relevant than a single bridge driver.
+> > > I think we should make ports mandatory in all cases actually.
 > > >=20
-> > > That seems to be the wrong way around, how can generic subsystem-wide
-> > > binding take precedence over specific driver binding ?
+> > > The DT parent-child hierarchy is meant to model control relations
+> > > between devices, so a DSI device controlled through DCS should be a
+> > > child of the DSI controller. No disagreement there.
+> > >=20
+> > > The OF graph is meant to model data connections. While a DSI device
+> > > controlled through DCS will use the same DSI link for data transfer, =
+the
+> > > two concepts are different. We have taken shortcuts and decided to not
+> > > use OF graph for some DSI devices (not necessarily as a well thought
+> > > decision, it was sometimes just not considered).
 > >=20
-> > This is the binding of the bus. You're part of that bus. You're a child
-> > node of that bus, but nothing ever mandates that your parent node uses
-> > the same convention. And some don't. And since your bridge can be
-> > connected to pretty much any DSI controller, you have to use the lowest
-> > common denominator, not make up some new constraints that not all
-> > controller will be able to comply with.
+> > I disagree. Unless the data path is explicitly stated using the OF-graph
+> > or some other binding, it's inferred.
 >=20
-> It seems to me the ICN6211 DT bindings currently further constraint the
-> generic DSI bus bindings, and that seems OK to me.
+> It is today, and for video data, I think it's showing to be a problem
+> :-)
 >=20
-> Let me reiterate this again -- if someone wants to relax the requirements
-> currently imposed by the ICN6211 DT bindings, fine, but that can be done =
-in
-> a separate patchset AND that needs DT bindings update. Furthermore, there
-> are no users of this ICN6211 bridge in upstream DTs, so there is currently
-> no bridge which would operate without OF graph using this driver.
+> > We never asked ourselves where the
+> > data from an i2c chip, an ethernet controller or an v4l2 output device
+> > was coming from. It comes from the parent bus, because it's what makes
+> > sense. Making a requirement on the OF-Graph to model this would create a
+> > big inconsistency.
+>=20
+> I'm afraid I disagree, especially when it comes to data transfers from
+> device to device. The device tree has never tried to model those until
+> OF graph.
 
-And let me reiterate this again: something that used to work for a user
-doesn't anymore when your series is applied. This is a textbook
-regression. I suggested a way forward, that you don't like for some
-reason, fine. But pushing through a regression is just not acceptable.
+Except the data transfer isn't happening between "siblings" devices like
+a CRTC and an HDMI controller that the OF-Graph describes perfectly
+fine. Here the transfer happens between a parent device and its child.
+So it's a bus to device transfer, just like any DMA transfer, or MDIO
+transfer, or SPI transfer, etc.
 
-> > > > So figuring it out is very much a prerequisite to that series,
-> > > > especially since those patches effectively make the OF-graph mandat=
-ory
-> > > > in some situations, while it was purely aesthetics before.
-> > >=20
-> > > The OF-graph is mandatory per the DT bindings of this driver. If you
-> > > implement invalid DT which does not contain port@0, it will fail DT
-> > > validation.
-> > >=20
-> > > If this requirement should be relaxed, sure, it can and I don't think=
- it
-> > > would be hard to do, but I don't see why that should be part of this =
-series,
-> > > which follows the upstream DT binding document for this driver.
-> > >=20
-> > > If I cannot trust the driver DT bindings to indicate what is and is n=
-ot
-> > > mandatory, what other document can I trust then ...
+> > > This has led to different issues that we're having to deal with today,
+> > > making it more difficult to develop generic code. Going forward, I
+> > > think new bindings should always use OF graph to model the data
+> > > connection.
 > >=20
-> > Oh, come on. Doing that, you also require OF-Graph support for the DSI
-> > controller you attach to, and you can't require that. This is very
-> > different from just requiring a property that doesn't have any impact on
-> > any other device, and you know that very well.
+> > Either way, that discussion is irrelevant. Not all DSI controllers use
+> > OF-Graph, a bridge can be attached to any of them, so we can't require
+> > OF-Graph support in any bridge.
 >=20
-> Currently the ICN6211 DT bindings DO require that kind of bridge.
+> Not in any bridge, but we could in new ones, and we could also require
+> it in new DT for existing bridge to support new features.
 
-And while this wasn't enforced before, you make it a hard requirement
-with this series. This is what changed, and what caused this whole
-discussion.
+Above disagreement aside, since not all controllers are using it, it
+would effectively prevent those new bridges from being used with
+!OF-Graph controllers. I don't see how that can be an option.
 
 Maxime
 
---iqnx3pc3kh2brnmq
+--ga5qegdt4rsyqezz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYioInwAKCRDj7w1vZxhR
-xbAwAP48lggqmmmtRfFRrF2Iol9VwVj05Mtmjl7IP6zVRUcoUgEAibqU5+pkTqUB
-zR6ZG7SCXl0y8nBClWhcopu2H3vdWwc=
-=D22X
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYioJ2QAKCRDj7w1vZxhR
+xX4pAPwKChrF5lUQNNUdbd1mY8KB7ME0ha5I12KeWUjp6xHvrQEAkKaemYDsdxEK
+Ga3E0/KWChRt1c+9i42Isb4cCZGGOQE=
+=Zy25
 -----END PGP SIGNATURE-----
 
---iqnx3pc3kh2brnmq--
+--ga5qegdt4rsyqezz--
