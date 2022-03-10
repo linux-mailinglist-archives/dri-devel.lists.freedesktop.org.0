@@ -1,48 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EB24D4217
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 08:58:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9974D42C8
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 09:44:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C38910F7B2;
-	Thu, 10 Mar 2022 07:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5836310EC65;
+	Thu, 10 Mar 2022 08:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F8F10F7B2;
- Thu, 10 Mar 2022 07:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646899112; x=1678435112;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=iEBoJRUr+PIVj2h+0VZjq67F+6ydOhLcf7l5hBOruw0=;
- b=ATeFsalCQEZYnRGLmVPH7bi0AV6KMXxWdaTsPhzsQlB7kYKzE2/4LD3n
- F849j77eYiInmOaL9+Duqy71vbhnOsudSbXXiiniBXv7/hNZh+ZdiD/Eq
- z1VrexMFz2uGetkVwOa2gSq60Icj8HxR/WARvxpgvglck2S3UmqOULz4f
- 2ikQwohl490BUu9MYg4DjtW+JsluNyWQsAMh+Gp00B898rPeWQ+bps04R
- Wf/GBf/P7GbKBfXXhrjbS+00XbqZH/kInt1wfh20j2p4+ruxvfTREPUaz
- LAPVjDE2UvwGTMH14FyVZerlYQ5/MElX+Xoi0QtyVR2C37ex/PLR6PYRR g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="235137504"
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="235137504"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 23:58:31 -0800
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="538350461"
-Received: from therrane-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.54.177])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 23:58:27 -0800
-Date: Thu, 10 Mar 2022 09:58:24 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <YimvoLOZ8RPKrITv@jlahtine-mobl.ger.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Mar 2022 08:44:41 UTC
+Received: from qq.com (smtpbg414.qq.com [113.96.223.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A80810EC65
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 08:44:40 +0000 (UTC)
+X-QQ-GoodBg: 1
+X-QQ-SSF: 00400000000000F0
+X-QQ-FEAT: X6P9kcitgHyzInR6UH0StcrC89zI8q6q5z29xIHweI9vgz8wl940o2xH7Ub4j
+ ARPNHc553EBk6XaaUvi7avXIwOyxX4Dp/iD26Ud3u1gWQqPpHQnvrGIK8RdmAMBZCOUa+NM
+ IyHXr0PfT3xIf/LsKo785z1Mkw/63JGRjXKalNXYC/8roJZ9Sj/Jb3Ocv++H0aQNzhdCaXb
+ VZiuVrbZyyAmK0SZBwrf/0sT6g3wGIfc+rgxjUyhev5UlCedid1UlPRjwXC2Ie1hyxONDDI
+ LsYUBRB7qhLjA85Oc67hd8bsxd/m/7L95wcYSY2qfAmRolaSdUGAq3Uu4+xcpyUUY6Jiok7
+ lPUPn21x6yxtYO2jCe3al269BO0Wpd5s2erVZ9I3wzaGa7HMJGMCmfm9c3y7lIPYBJzQG3d
+ 94S5X16LnCs=
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 123.114.78.145
+X-QQ-STYLE: 
+X-QQ-mid: logic537t1646901426t5771742
+From: "=?utf-8?B?5p2O5LqR6b6Z?=" <liyunlonga@uniontech.com>
+To: "=?utf-8?B?TmVpbCBBcm1zdHJvbmc=?=" <narmstrong@baylibre.com>,
+ "=?utf-8?B?UGhvbmcgTEU=?=" <ple@baylibre.com>,
+ "=?utf-8?B?QW5kcnplaiBIYWpkYQ==?=" <a.hajda@samsung.com>,
+ "=?utf-8?B?Um9iZXJ0IEZvc3M=?=" <robert.foss@linaro.org>,
+ "=?utf-8?B?RGF2aWQgQWlybGll?=" <airlied@linux.ie>,
+ "=?utf-8?B?RGFuaWVsIFZldHRlcg==?=" <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: bridge: it66121: Added it66121 chip external screen
+ status judgment
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_6229B8B2_1F531808_6F3F6E91"
+Content-Transfer-Encoding: 8Bit
+Date: Thu, 10 Mar 2022 08:37:06 +0000
+X-Priority: 3
+Message-ID: <tencent_69C864C07353057630651273@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20210921075401.24926-1-liyunlonga@uniontech.com>
+ <13a71cec-06ef-d4d1-948e-c62d4c91d80f@baylibre.com>
+In-Reply-To: <13a71cec-06ef-d4d1-948e-c62d4c91d80f@baylibre.com>
+X-QQ-ReplyHash: 2250764124
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
+ id ; Thu, 10 Mar 2022 16:37:07 +0800 (CST)
+Feedback-ID: logic:uniontech.com:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,75 +67,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: =?utf-8?B?bGludXgta2VybmVs?= <linux-kernel@vger.kernel.org>,
+ =?utf-8?B?ZHJpLWRldmVs?= <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?TGF1cmVudC5waW5jaGFydA==?= <Laurent.pinchart@ideasonboard.com>,
+ =?utf-8?B?SmVybmVqIFNrcmFiZWM=?= <jernej.skrabec@gmail.com>,
+ =?utf-8?B?Sm9uYXMgS2FybG1hbg==?= <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+This is a multi-part message in MIME format.
 
-Here's a batch of -next-fixes from drm-intel-next/drm-intel-gt-next.
+------=_NextPart_6229B8B2_1F531808_6F3F6E91
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On GT side just a fix to relax GGTT alignment down 64K from 2M.
-Addition of missing "name" attribute for GVT mdev device.
-On display side async flip fixes and a static checker fix.
+SSB0ZXN0ZWQgaXQgb24gTG9vbmdhcmNoIGFuZCBNSVBTLCBhbmQgdGhlIHJlc3VsdHMgd2Vy
+ZSBmaW5l44CCDQombmJzcDsNCiZuYnNwOw0KLS0tLS0tLS0tLS0tLS0tLS0tJm5ic3A7T3Jp
+Z2luYWwmbmJzcDstLS0tLS0tLS0tLS0tLS0tLS0NCkZyb206ICZuYnNwOyJOZWlsJm5ic3A7
+QXJtc3Ryb25nIjxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbSZndDs7DQpEYXRlOiAmbmJzcDtU
+dWUsIFNlcCAyMSwgMjAyMSAwODoyOCBBTQ0KVG86ICZuYnNwOyJZdW5sb25nbGkiPGxpeXVu
+bG9uZ2FAdW5pb250ZWNoLmNvbSZndDs7ICJQaG9uZyBMRSI8cGxlQGJheWxpYnJlLmNvbSZn
+dDs7ICJBbmRyemVqIEhhamRhIjxhLmhhamRhQHNhbXN1bmcuY29tJmd0OzsgIlJvYmVydCBG
+b3NzIjxyb2JlcnQuZm9zc0BsaW5hcm8ub3JnJmd0OzsgIkRhdmlkIEFpcmxpZSI8YWlybGll
+ZEBsaW51eC5pZSZndDs7ICJEYW5pZWwgVmV0dGVyIjxkYW5pZWxAZmZ3bGwuY2gmZ3Q7OyAN
+CkNjOiAmbmJzcDsiTGF1cmVudC5waW5jaGFydCI8TGF1cmVudC5waW5jaGFydEBpZGVhc29u
+Ym9hcmQuY29tJmd0OzsgIkpvbmFzIEthcmxtYW4iPGpvbmFzQGt3aWJvby5zZSZndDs7ICJK
+ZXJuZWogU2tyYWJlYyI8amVybmVqLnNrcmFiZWNAZ21haWwuY29tJmd0OzsgImRyaS1kZXZl
+bCI8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7ICJsaW51eC1rZXJuZWwi
+PGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcmZ3Q7OyANClN1YmplY3Q6ICZuYnNwO1Jl
+OiBbUEFUQ0hdIGRybTogYnJpZGdlOiBpdDY2MTIxOiBBZGRlZCBpdDY2MTIxIGNoaXAgZXh0
+ZXJuYWwgc2NyZWVuIHN0YXR1cyBqdWRnbWVudA0KDQombmJzcDsNCg0KSGksDQoNCk9uIDIx
+LzA5LzIwMjEgMDk6NTQsIFl1bmxvbmdsaSB3cm90ZToNCiZndDsgSW4gdGhlIGFjdHVhbCB0
+ZXN0cywmbmJzcDsgdGhlIElUNjYxMjEgY2hpcCBzb21ldGltZXMgbWlzanVkZ2VkIHdoZXRo
+ZXINCiZndDsgaXQgaGFkIGFuIGV4dGVybmFsIHNjcmVlbiwgc28sIHJlZmVyZW5jZSB0aGUg
+aXQ2NjEyMV91c2VyX2d1aWQucGRmDQomZ3Q7IGFib3V0IEF1ZGlvL1ZpZGVvIGRhdGEgaXMg
+c3RhYmxlIG9yIG5vdCBBIHR5cGljYWwgaW5pdGlhbGl6YXRpb24NCiZndDsgb2YgSERNSSBs
+aW5rIHNob3VsZCBiZSBiYXNlZCBvbiBpbnRlcnJ1cHQgc2lnbmFsIGFuZCBhcHByb3ByaWF0
+ZQ0KJmd0OyByZWdpc3RlciBwcm9iaW5nLiBSZWNvbW1lbmRlZCBmbG93IGlzIGRldGFpbGVk
+IGluIElUNjYxMjENCiZndDsgUHJvZ3JhbW1pbmcgR3VpZGUuIFNpbXBseSBwdXQsIHRoZSBt
+aWNyb2NvbnRyb2xsZXIgc2hvdWxkIG1vbml0b3INCiZndDsgdGhlIEhQRCBzdGF0dXMgZmly
+c3QuIFVwb24gdmFsaWQgSFBEIGV2ZW50LCBtb3ZlIG9uIHRvIGNoZWNrDQomZ3Q7IFJ4U0VO
+RGV0ZWN0IHJlZ2lzdGVyIHRvIHNlZSBpZiB0aGUgcmVjZWl2ZXIgY2hpcCBpcyByZWFkeSBm
+b3INCiZndDsgZnVydGhlciBoYW5kc2hha2luZy4gV2hlbiBSeFNFTkRldGVjdCBpcyBhc3Nl
+cnRlZCwgc3RhcnQgcmVhZGluZyBFRElEDQomZ3Q7IGRhdGEgdGhyb3VnaCBEREMgY2hhbm5l
+bHMgYW5kIGNhcnJ5IG9uIHRoZSByZXN0IG9mIHRoZSBoYW5kc2hha2luZw0KJmd0OyBzdWJz
+ZXF1ZW50bHkuSWYgdGhlIG1pY3JvLWNvbnRyb2xsZXIgbWFrZXMgbm8gdXNlIG9mIHRoZSBp
+bnRlcnJ1cHQNCiZndDsgc2lnbmFsIGFzIHdlbGwgYXMgdGhlIGFib3ZlLW1lbnRpb25lZCBz
+dGF0dXMmbmJzcDsgcmVnaXN0ZXJzLCB0aGUgbGluaw0KJmd0OyBlc3RhYmxpc2htZW50IG1p
+Z2h0IGZhaWwuIFBsZWFzZSBkbyBmb2xsb3cgdGhlIHN1Z2dlc3RlZA0KJmd0OyBpbml0aWFs
+aXphdGlvbiBmbG93IHJlY29tbWVuZGVkIGluIElUNjYxMjEgUHJvZ3JhbW1pbmcgR3VpZGUu
+DQomZ3Q7IFNvLCBJIGFkZCB0aGUgSVQ2NjEyMV9TWVNfU1RBVFVTX1NFTkRFQ1RFQ1QgcmVn
+aXN0ZXIgc3RhdHVzIGRldGVjdGlvbi4NCg0KT2ssIHRoZSBSeFNFTkRldGVjdCBpcyB0aGUg
+InJ4LXNlbnNlIiBkZXRlY3Rpb24gYml0IGFzIGRlc2NyaWJlZCBpbiB0aGUgc2FtZSBkb2M6
+DQoNClJlY2VpdmVyIGRldGVjdGlvbiBjaXJjdWl0IHJlcG9ydHMgdGhlIHByZXNlbmNlIG9y
+IGFic2VuY2Ugb2YgYW4gYWN0aXZlIHRlcm1pbmF0aW9uIGF0IHRoZSBUTURTIENsb2NrIENo
+YW5uZWwgKFJ4U0VORGV0ZWN0KQ0KDQpUaGUgdXNhZ2Ugb2YgdGhlIHJ4LXNlbnNlIHNpZ25h
+bCBpbiBocGRfZGV0ZWN0KCkgaXMgbm90IGNsZWFyIGJlY2F1c2UgdGhpcyB3b3VsZCBicmVh
+ayBkZXRlY3Rpb24gb2YgIkZha2UiIEVESUQgZG9uZ2xlcyBvciBpZGxlIG1vbml0b3JzLg0K
+DQpUaGUgZHctaGRtaSBoYW5kbGVzIHRoZSByeC1zZW5zZSwgYnV0IG9ubHkgdG8gcG93ZXIt
+b24vb2ZmIHRoZSBIRE1JIFRYLCBidXQgb25seSByZXR1cm5zIHRoZSBIUEQgc3RhdHVzIHRv
+IERSTSB3aXRob3V0IHRoZSBSWCBTRU5TRSBzdGF0ZSwNCnNvIGl0IG9ubHkgc2F2ZXMgcG93
+ZXIgYW5kIGRvZXNuJ3QgY2hhbmdlIGFueXRoaW5nIG9uIERSTSBIUEQgZGV0ZWN0aW9uLg0K
+DQpTbyBub3Qgc3VyZSBpZiB3ZSBzaG91bGQgbWVyZ2UgdGhpcyBhcy1pcy4NCg0KTmVpbA0K
+DQomZ3Q7IA0KJmd0OyBTaWduZWQtb2ZmLWJ5OiBZdW5sb25nbGkgPGxpeXVubG9uZ2FAdW5p
+b250ZWNoLmNvbSZndDsNCiZndDsgLS0tDQomZ3Q7Jm5ic3A7IGRyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvaXRlLWl0NjYxMjEuYyB8IDIgKy0NCiZndDsmbmJzcDsgMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQomZ3Q7IA0KJmd0OyBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2NjEyMS5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9pdGUtaXQ2NjEyMS5jDQomZ3Q7IGluZGV4IDJmMmEwOWFkYjRiYy4uOWVk
+NGZhMjk4ZDExIDEwMDY0NA0KJmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0
+ZS1pdDY2MTIxLmMNCiZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2
+NjEyMS5jDQomZ3Q7IEBAIC01MjMsNyArNTIzLDcgQEAgc3RhdGljIGJvb2wgaXQ2NjEyMV9p
+c19ocGRfZGV0ZWN0KHN0cnVjdCBpdDY2MTIxX2N0eCAqY3R4KQ0KJmd0OyZuYnNwOyAJaWYg
+KHJlZ21hcF9yZWFkKGN0eC0mZ3Q7cmVnbWFwLCBJVDY2MTIxX1NZU19TVEFUVVNfUkVHLCAm
+YW1wO3ZhbCkpDQomZ3Q7Jm5ic3A7IAkJcmV0dXJuIGZhbHNlOw0KJmd0OyZuYnNwOyANCiZn
+dDsgLQlyZXR1cm4gdmFsICZhbXA7IElUNjYxMjFfU1lTX1NUQVRVU19IUERFVEVDVDsNCiZn
+dDsgKwlyZXR1cm4gKCh2YWwgJmFtcDsgSVQ2NjEyMV9TWVNfU1RBVFVTX0hQREVURUNUKSAm
+YW1wOyZhbXA7ICh2YWwgJmFtcDsgSVQ2NjEyMV9TWVNfU1RBVFVTX1NFTkRFQ1RFQ1QpKTsN
+CiZndDsmbmJzcDsgfQ0KJmd0OyZuYnNwOyANCiZndDsmbmJzcDsgc3RhdGljIGludCBpdDY2
+MTIxX2JyaWRnZV9hdHRhY2goc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwNCiZndDs=
 
-CI results had some display errors on TGL, the display has been
-rebooted to fix those so should cause no worries.
+------=_NextPart_6229B8B2_1F531808_6F3F6E91
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Regards, Joonas
+PGRpdj48Zm9udD5JIHRlc3RlZCBpdCBvbiBMb29uZ2FyY2ggYW5kIE1JUFMsIGFuZCB0aGUg
+cmVzdWx0cyB3ZXJlIGZpbmXjgII8L2ZvbnQ+PC9kaXY+PGRpdj48aW5jbHVkZXRhaWw+PGRp
+dj4mbmJzcDs8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9ImZvbnQ6VmVyZGFu
+YSBub3JtYWwgMTRweDtjb2xvcjojMDAwOyI+PGRpdiBzdHlsZT0iRk9OVC1TSVpFOiAxMnB4
+O0ZPTlQtRkFNSUxZOiBBcmlhbCBOYXJyb3c7cGFkZGluZzoycHggMCAycHggMDsiPi0tLS0t
+LS0tLS0tLS0tLS0tLSZuYnNwO09yaWdpbmFsJm5ic3A7LS0tLS0tLS0tLS0tLS0tLS0tPC9k
+aXY+PGRpdiBzdHlsZT0iRk9OVC1TSVpFOiAxMnB4O2JhY2tncm91bmQ6I2VmZWZlZjtwYWRk
+aW5nOjhweDsiPjxkaXYgaWQ9Im1lbnVfc2VuZGVyIj48Yj5Gcm9tOiA8L2I+Jm5ic3A7Ik5l
+aWwmbmJzcDtBcm1zdHJvbmciJmx0O25hcm1zdHJvbmdAYmF5bGlicmUuY29tJmd0Ozs8L2Rp
+dj48ZGl2PjxiPkRhdGU6IDwvYj4mbmJzcDtUdWUsIFNlcCAyMSwgMjAyMSAwODoyOCBBTTwv
+ZGl2PjxkaXY+PGI+VG86IDwvYj4mbmJzcDsiWXVubG9uZ2xpIiZsdDtsaXl1bmxvbmdhQHVu
+aW9udGVjaC5jb20mZ3Q7OyAiUGhvbmcgTEUiJmx0O3BsZUBiYXlsaWJyZS5jb20mZ3Q7OyAi
+QW5kcnplaiBIYWpkYSImbHQ7YS5oYWpkYUBzYW1zdW5nLmNvbSZndDs7ICJSb2JlcnQgRm9z
+cyImbHQ7cm9iZXJ0LmZvc3NAbGluYXJvLm9yZyZndDs7ICJEYXZpZCBBaXJsaWUiJmx0O2Fp
+cmxpZWRAbGludXguaWUmZ3Q7OyAiRGFuaWVsIFZldHRlciImbHQ7ZGFuaWVsQGZmd2xsLmNo
+Jmd0OzsgPHdicj48L2Rpdj48ZGl2PjxiPkNjOiA8L2I+Jm5ic3A7IkxhdXJlbnQucGluY2hh
+cnQiJmx0O0xhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbSZndDs7ICJKb25hcyBL
+YXJsbWFuIiZsdDtqb25hc0Brd2lib28uc2UmZ3Q7OyAiSmVybmVqIFNrcmFiZWMiJmx0O2pl
+cm5lai5za3JhYmVjQGdtYWlsLmNvbSZndDs7ICJkcmktZGV2ZWwiJmx0O2RyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7OyAibGludXgta2VybmVsIiZsdDtsaW51eC1rZXJu
+ZWxAdmdlci5rZXJuZWwub3JnJmd0OzsgPHdicj48L2Rpdj48ZGl2PjxiPlN1YmplY3Q6IDwv
+Yj4mbmJzcDtSZTogW1BBVENIXSBkcm06IGJyaWRnZTogaXQ2NjEyMTogQWRkZWQgaXQ2NjEy
+MSBjaGlwIGV4dGVybmFsIHNjcmVlbiBzdGF0dXMganVkZ21lbnQ8L2Rpdj48L2Rpdj48ZGl2
+PiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9InBvc2l0aW9uOnJlbGF0aXZlOyI+PGRpdiBpZD0i
+dG1wY29udGVudF9yZXMiPjwvZGl2PkhpLDxicj48YnI+T24gMjEvMDkvMjAyMSAwOTo1NCwg
+WXVubG9uZ2xpIHdyb3RlOjxicj4mZ3Q7IEluIHRoZSBhY3R1YWwgdGVzdHMsJm5ic3A7IHRo
+ZSBJVDY2MTIxIGNoaXAgc29tZXRpbWVzIG1pc2p1ZGdlZCB3aGV0aGVyPGJyPiZndDsgaXQg
+aGFkIGFuIGV4dGVybmFsIHNjcmVlbiwgc28sIHJlZmVyZW5jZSB0aGUgaXQ2NjEyMV91c2Vy
+X2d1aWQucGRmPGJyPiZndDsgYWJvdXQgQXVkaW8vVmlkZW8gZGF0YSBpcyBzdGFibGUgb3Ig
+bm90IEEgdHlwaWNhbCBpbml0aWFsaXphdGlvbjxicj4mZ3Q7IG9mIEhETUkgbGluayBzaG91
+bGQgYmUgYmFzZWQgb24gaW50ZXJydXB0IHNpZ25hbCBhbmQgYXBwcm9wcmlhdGU8YnI+Jmd0
+OyByZWdpc3RlciBwcm9iaW5nLiBSZWNvbW1lbmRlZCBmbG93IGlzIGRldGFpbGVkIGluIElU
+NjYxMjE8YnI+Jmd0OyBQcm9ncmFtbWluZyBHdWlkZS4gU2ltcGx5IHB1dCwgdGhlIG1pY3Jv
+Y29udHJvbGxlciBzaG91bGQgbW9uaXRvcjxicj4mZ3Q7IHRoZSBIUEQgc3RhdHVzIGZpcnN0
+LiBVcG9uIHZhbGlkIEhQRCBldmVudCwgbW92ZSBvbiB0byBjaGVjazxicj4mZ3Q7IFJ4U0VO
+RGV0ZWN0IHJlZ2lzdGVyIHRvIHNlZSBpZiB0aGUgcmVjZWl2ZXIgY2hpcCBpcyByZWFkeSBm
+b3I8YnI+Jmd0OyBmdXJ0aGVyIGhhbmRzaGFraW5nLiBXaGVuIFJ4U0VORGV0ZWN0IGlzIGFz
+c2VydGVkLCBzdGFydCByZWFkaW5nIEVESUQ8YnI+Jmd0OyBkYXRhIHRocm91Z2ggRERDIGNo
+YW5uZWxzIGFuZCBjYXJyeSBvbiB0aGUgcmVzdCBvZiB0aGUgaGFuZHNoYWtpbmc8YnI+Jmd0
+OyBzdWJzZXF1ZW50bHkuSWYgdGhlIG1pY3JvLWNvbnRyb2xsZXIgbWFrZXMgbm8gdXNlIG9m
+IHRoZSBpbnRlcnJ1cHQ8YnI+Jmd0OyBzaWduYWwgYXMgd2VsbCBhcyB0aGUgYWJvdmUtbWVu
+dGlvbmVkIHN0YXR1cyZuYnNwOyByZWdpc3RlcnMsIHRoZSBsaW5rPGJyPiZndDsgZXN0YWJs
+aXNobWVudCBtaWdodCBmYWlsLiBQbGVhc2UgZG8gZm9sbG93IHRoZSBzdWdnZXN0ZWQ8YnI+
+Jmd0OyBpbml0aWFsaXphdGlvbiBmbG93IHJlY29tbWVuZGVkIGluIElUNjYxMjEgUHJvZ3Jh
+bW1pbmcgR3VpZGUuPGJyPiZndDsgU28sIEkgYWRkIHRoZSBJVDY2MTIxX1NZU19TVEFUVVNf
+U0VOREVDVEVDVCByZWdpc3RlciBzdGF0dXMgZGV0ZWN0aW9uLjxicj48YnI+T2ssIHRoZSBS
+eFNFTkRldGVjdCBpcyB0aGUgInJ4LXNlbnNlIiBkZXRlY3Rpb24gYml0IGFzIGRlc2NyaWJl
+ZCBpbiB0aGUgc2FtZSBkb2M6PGJyPjxicj5SZWNlaXZlciBkZXRlY3Rpb24gY2lyY3VpdCBy
+ZXBvcnRzIHRoZSBwcmVzZW5jZSBvciBhYnNlbmNlIG9mIGFuIGFjdGl2ZSB0ZXJtaW5hdGlv
+biBhdCB0aGUgVE1EUyBDbG9jayBDaGFubmVsIChSeFNFTkRldGVjdCk8YnI+PGJyPlRoZSB1
+c2FnZSBvZiB0aGUgcngtc2Vuc2Ugc2lnbmFsIGluIGhwZF9kZXRlY3QoKSBpcyBub3QgY2xl
+YXIgYmVjYXVzZSB0aGlzIHdvdWxkIGJyZWFrIGRldGVjdGlvbiBvZiAiRmFrZSIgRURJRCBk
+b25nbGVzIG9yIGlkbGUgbW9uaXRvcnMuPGJyPjxicj5UaGUgZHctaGRtaSBoYW5kbGVzIHRo
+ZSByeC1zZW5zZSwgYnV0IG9ubHkgdG8gcG93ZXItb24vb2ZmIHRoZSBIRE1JIFRYLCBidXQg
+b25seSByZXR1cm5zIHRoZSBIUEQgc3RhdHVzIHRvIERSTSB3aXRob3V0IHRoZSBSWCBTRU5T
+RSBzdGF0ZSw8YnI+c28gaXQgb25seSBzYXZlcyBwb3dlciBhbmQgZG9lc24ndCBjaGFuZ2Ug
+YW55dGhpbmcgb24gRFJNIEhQRCBkZXRlY3Rpb24uPGJyPjxicj5TbyBub3Qgc3VyZSBpZiB3
+ZSBzaG91bGQgbWVyZ2UgdGhpcyBhcy1pcy48YnI+PGJyPk5laWw8YnI+PGJyPiZndDsgPGJy
+PiZndDsgU2lnbmVkLW9mZi1ieTogWXVubG9uZ2xpICZsdDtsaXl1bmxvbmdhQHVuaW9udGVj
+aC5jb20mZ3Q7PGJyPiZndDsgLS0tPGJyPiZndDsmbmJzcDsgZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9pdGUtaXQ2NjEyMS5jIHwgMiArLTxicj4mZ3Q7Jm5ic3A7IDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKTxicj4mZ3Q7IDxicj4mZ3Q7IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY2MTIxLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY2MTIxLmM8YnI+Jmd0OyBpbmRleCAyZjJhMDlhZGI0
+YmMuLjllZDRmYTI5OGQxMSAxMDA2NDQ8YnI+Jmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YnJpZGdlL2l0ZS1pdDY2MTIxLmM8YnI+Jmd0OyArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL2l0ZS1pdDY2MTIxLmM8YnI+Jmd0OyBAQCAtNTIzLDcgKzUyMyw3IEBAIHN0YXRpYyBi
+b29sIGl0NjYxMjFfaXNfaHBkX2RldGVjdChzdHJ1Y3QgaXQ2NjEyMV9jdHggKmN0eCk8YnI+
+Jmd0OyZuYnNwOyAJaWYgKHJlZ21hcF9yZWFkKGN0eC0mZ3Q7cmVnbWFwLCBJVDY2MTIxX1NZ
+U19TVEFUVVNfUkVHLCAmYW1wO3ZhbCkpPGJyPiZndDsmbmJzcDsgCQlyZXR1cm4gZmFsc2U7
+PGJyPiZndDsmbmJzcDsgPGJyPiZndDsgLQlyZXR1cm4gdmFsICZhbXA7IElUNjYxMjFfU1lT
+X1NUQVRVU19IUERFVEVDVDs8YnI+Jmd0OyArCXJldHVybiAoKHZhbCAmYW1wOyBJVDY2MTIx
+X1NZU19TVEFUVVNfSFBERVRFQ1QpICZhbXA7JmFtcDsgKHZhbCAmYW1wOyBJVDY2MTIxX1NZ
+U19TVEFUVVNfU0VOREVDVEVDVCkpOzxicj4mZ3Q7Jm5ic3A7IH08YnI+Jmd0OyZuYnNwOyA8
+YnI+Jmd0OyZuYnNwOyBzdGF0aWMgaW50IGl0NjYxMjFfYnJpZGdlX2F0dGFjaChzdHJ1Y3Qg
+ZHJtX2JyaWRnZSAqYnJpZGdlLDxicj4mZ3Q7IDxicj48YnI+PC9kaXY+PC9kaXY+PCEtLTwh
+W2VuZGlmXS0tPjwvaW5jbHVkZXRhaWw+PC9kaXY+
 
-***
+------=_NextPart_6229B8B2_1F531808_6F3F6E91--
 
-drm-intel-next-fixes-2022-03-10:
 
-- Reduce overzealous alignment constraints for GGTT
-- Add missing mdev attribute "name" for GVT
-- Async flip fixes (Ville)
-- Static checker fix (Ville)
 
-The following changes since commit 6de7e4f02640fba2ffa6ac04e2be13785d614175:
-
-  Merge tag 'drm-msm-next-2022-03-01' of https://gitlab.freedesktop.org/drm/msm into drm-next (2022-03-04 14:39:00 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-03-10
-
-for you to fetch changes up to 5e7f44b5c2c035fe2e5458193c2bbee56db6a090:
-
-  drm/i915/gtt: reduce overzealous alignment constraints for GGTT (2022-03-09 08:34:55 +0200)
-
-----------------------------------------------------------------
-- Reduce overzealous alignment constraints for GGTT
-- Add missing mdev attribute "name" for GVT
-- Async flip fixes (Ville)
-- Static checker fix (Ville)
-
-----------------------------------------------------------------
-Joonas Lahtinen (1):
-      Merge tag 'gvt-next-2022-03-07' of https://github.com/intel/gvt-linux into drm-intel-next-fixes
-
-Matthew Auld (1):
-      drm/i915/gtt: reduce overzealous alignment constraints for GGTT
-
-Ville Syrjälä (4):
-      drm/i915: Avoid negative shift due to bigjoiner_pipes==0
-      drm/i915: Don't skip ddb allocation if data_rate==0
-      drm/i915: Check async flip capability early on
-      drm/i915: Fix the async flip wm0/ddb optimization
-
-Zhi Wang (1):
-      drm/i915/gvt: add the missing mdev attribute "name"
-
- drivers/gpu/drm/i915/display/intel_atomic.c        |   1 +
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  |   7 +-
- drivers/gpu/drm/i915/display/intel_crtc.c          |   4 +-
- drivers/gpu/drm/i915/display/intel_display.c       | 122 +++++++++++++++++----
- drivers/gpu/drm/i915/display/intel_display_types.h |   6 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                |   3 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c                   |  15 +++
- drivers/gpu/drm/i915/intel_pm.c                    |  30 ++---
- 8 files changed, 136 insertions(+), 52 deletions(-)
