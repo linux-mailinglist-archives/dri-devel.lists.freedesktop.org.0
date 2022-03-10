@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD544D5514
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AB44D5515
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22A1E10E1B9;
-	Thu, 10 Mar 2022 23:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFDB110E1E7;
+	Thu, 10 Mar 2022 23:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C641210E1B9
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 23:10:36 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id s10so8959828edd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:36 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7152010E1E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 23:10:51 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id c20so8872095edr.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FdRD7UqyvIUj279CEK1jZhIkgCE+xn41rfRl2yq1BwA=;
- b=T/q56MG2EY5bFCFeahW25OmtAXtMaEF5rZwoAkIuXrQ+H+ausHtpVCkE4IGxGnitV9
- 7wuejt/lAn4WozekwFbX/ISvBi2gQ2dmVE7m0S3Ug4eXsNJ9DfMOqauA+agFNy33+qN1
- xyrawS89u6mWz1ZMfZ9rS/OTtQw2YrBmH8MXY=
+ :cc; bh=rlIR4SYrDHWvWgYAtu+J3wURm7Ipv3I/6B8kSrbq2OQ=;
+ b=bnA6CRJ2glIWfPlZurqkST+p1m84ot07sH8B7u7nQt41FHNRxKdcB9v/3KwAfTtrTe
+ Z/wwid20/a7jSY4S0NjlyFhk4vO1sheV/Pq4+oqC5EElTSI3cH9CaCnz671N7XutTnU/
+ Za3slb/6KLXSCm7mJtfoyWY3LDE2pXA2YtELs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FdRD7UqyvIUj279CEK1jZhIkgCE+xn41rfRl2yq1BwA=;
- b=Ulc9UjjmQWpHHdJnrwOQLMDLBIp1lXIeQ7bq9ltn6eptCb8vixZo6hrCE+8r1QccFF
- LCaFN3fJ9Y64/eVWI4ovugJEC3ChEfI8+r16howxxhEkB0wrLnQKLS2nZMoSszvHs8eq
- JCuTmapNwz0p6bYBFTZ8EBuur+2kCO0ooV/nd0FeBuFH/Q8yG5/amuvAwKlN8FnviIS4
- EpkZQFQmkxiMEcJbBfjj1YdRnus3GiFRS93xaasMqm3t0SevX+AKxXlQAXhECuFcxw9t
- gXu9m9lrzrluxxRgrGeafXexYdJWsxSQTyDMy0ylUKQLxEpzzunLWQW0tOjCPi1w4rVY
- rmsQ==
-X-Gm-Message-State: AOAM530uDjOAHxDFBvgmAmdoE7SElYn0vA/sFPCoYVReQSChU02XiLKs
- 1WpUF2oBArR8kbSspgJM8HvHVa5R9Nb/Pe0o
-X-Google-Smtp-Source: ABdhPJxL5Q8rbmrDU59G4Ue2oNJcC3WbMlK8QtFSmdqNDG4bOPJ/YiKZmE4QgPdFDfr0c74fQqWpAA==
-X-Received: by 2002:a50:cfc4:0:b0:413:b19d:d9c0 with SMTP id
- i4-20020a50cfc4000000b00413b19dd9c0mr6527173edk.384.1646953834975; 
- Thu, 10 Mar 2022 15:10:34 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- bm5-20020a170906c04500b006ce6f8892a5sm2242136ejb.7.2022.03.10.15.10.33
+ bh=rlIR4SYrDHWvWgYAtu+J3wURm7Ipv3I/6B8kSrbq2OQ=;
+ b=6ou6bvgfF7LXsmZK6WsEI9rvKvQWAZOrKMkl2jHnVttiB63IkBJNNPmtswO8NVOxWM
+ wErjBGAW725Yat51JYh4mAET4hxGhyztlS0PeOMe4IZXJOqYD/TQt6pzS1XlfrkvyoTG
+ wZMeFWJMjJk4kPMWvJp8XCGLS7ORkjIo8rcfjOD/anO4y1ai3P5PdppQ+bi/ne0DVYPX
+ YnCPwPoJBVxr4d+/f9znx0L7ycuELAycvSUxLSvchf+vsmWMMUKU65kNbIT5PYzWMgps
+ Vr66eGWoS3RpsuTid7cnspnQJOceOrm/Bjq4CAwcL1jQVLd4KGzMQWX3FHAJ6LiPTzea
+ OWAA==
+X-Gm-Message-State: AOAM532CZ2vfkt7Fg923gKApY7KoM6XFpUiaVrrO8ZewL4FiQt5xqImF
+ pyWVHaWY8gmvGAMlLT7aZXVvnxNz8hW/P2Lw
+X-Google-Smtp-Source: ABdhPJzfgf/SI4fw02GEutRKZiOK91UbhOWqRHVatirx7+bOkNjXOwHGAT9blLNRu4KEXm3fsxbdRQ==
+X-Received: by 2002:aa7:dbd6:0:b0:408:4a31:97a5 with SMTP id
+ v22-20020aa7dbd6000000b004084a3197a5mr6705107edt.186.1646953849671; 
+ Thu, 10 Mar 2022 15:10:49 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
+ [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
+ da19-20020a056402177300b00413583e0996sm2525926edb.14.2022.03.10.15.10.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 15:10:34 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id t11so10389409wrm.5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:33 -0800 (PST)
-X-Received: by 2002:adf:e983:0:b0:1f1:f52b:8328 with SMTP id
- h3-20020adfe983000000b001f1f52b8328mr5208098wrm.513.1646953833413; Thu, 10
- Mar 2022 15:10:33 -0800 (PST)
+ Thu, 10 Mar 2022 15:10:48 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id j17so10488347wrc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:47 -0800 (PST)
+X-Received: by 2002:adf:eb45:0:b0:1ef:6070:7641 with SMTP id
+ u5-20020adfeb45000000b001ef60707641mr5371549wrn.301.1646953847020; Thu, 10
+ Mar 2022 15:10:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
- <20220310152227.2122960-3-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220310152227.2122960-3-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 10 Mar 2022 15:10:20 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UcfrWLQdCOx5dCfjvjrLzkdLDeoAROmMtqFWB_X90rwQ@mail.gmail.com>
-Message-ID: <CAD=FV=UcfrWLQdCOx5dCfjvjrLzkdLDeoAROmMtqFWB_X90rwQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
+Date: Thu, 10 Mar 2022 15:10:34 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XU5VGdKZ77UNb14Ah=LYKvSqbtBpzobMJYyMNDOXH2qg@mail.gmail.com>
+Message-ID: <CAD=FV=XU5VGdKZ77UNb14Ah=LYKvSqbtBpzobMJYyMNDOXH2qg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
 To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,44 +92,41 @@ On Thu, Mar 10, 2022 at 7:22 AM Kieran Bingham
 >
 > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >
-> Implement the bridge connector-related .get_edid() operation, and report
-> the related bridge capabilities and type.
+> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
+> routed to a DisplayPort connector. Enable DisplayPort mode when the next
+> component in the display pipeline is detected as a DisplayPort
+> connector, and disable eDP features in that case.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reworked to set bridge type based on the next bridge/connector.
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> Changes since v1:
+> --
+> Changes since v1/RFC:
+>  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
+>    devm_drm_of_get_bridge"
+>  - eDP/DP mode determined from the next bridge connector type.
 >
-> - The connector .get_modes() operation doesn't rely on EDID anymore,
->   __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
->   together
->  - Fix on top of Sam Ravnborg's DRM_BRIDGE_STATE_OPS
+> Changes since v2:
+>  - Remove setting of Standard DP Scrambler Seed. (It's read-only).
+>  - Prevent setting DP_EDP_CONFIGURATION_SET in
+>    ti_sn_bridge_atomic_enable()
+>  - Use Doug's suggested text for disabling ASSR on DP mode.
 >
-> Changes since v2: [Kieran]
->  - Only support EDID on DRM_MODE_CONNECTOR_DisplayPort modes.
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 93b54fcba8ba..d581c820e5d8 100644
+> index c892ecba91c7..93b54fcba8ba 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -1135,10 +1135,24 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
->         pm_runtime_put_sync(pdata->dev);
->  }
->
-> +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-> +                                         struct drm_connector *connector)
-> +{
-> +       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +       struct edid *edid;
-> +
-> +       pm_runtime_get_sync(pdata->dev);
-> +       edid = drm_get_edid(connector, &pdata->aux.ddc);
-> +       pm_runtime_put_autosuspend(pdata->dev);
+> @@ -62,6 +62,7 @@
+>  #define SN_LN_ASSIGN_REG                       0x59
+>  #define  LN_ASSIGN_WIDTH                       2
+>  #define SN_ENH_FRAME_REG                       0x5A
+> +#define  ASSR_CONTROL                          BIT(0)
 
-I'm 99% sure that the pm_runtime calls here are not needed and can be
-removed.. The AUX transfer function handles the pm_runtime_get_sync()
-and it also does the "put" with autosuspend so that the whole EDID can
-be read without constantly powering the bridge up and down again.
+nit that the ASSR_CONTROL define is no longer used.
+
+Other than that, this patch looks fine to me.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
