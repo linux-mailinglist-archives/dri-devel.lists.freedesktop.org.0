@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AB44D5515
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:10:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B914D5538
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 00:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFDB110E1E7;
-	Thu, 10 Mar 2022 23:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 061A710E1EA;
+	Thu, 10 Mar 2022 23:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7152010E1E7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 23:10:51 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id c20so8872095edr.8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:51 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C33A10E1EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 23:21:54 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id bi12so15552866ejb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:21:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rlIR4SYrDHWvWgYAtu+J3wURm7Ipv3I/6B8kSrbq2OQ=;
- b=bnA6CRJ2glIWfPlZurqkST+p1m84ot07sH8B7u7nQt41FHNRxKdcB9v/3KwAfTtrTe
- Z/wwid20/a7jSY4S0NjlyFhk4vO1sheV/Pq4+oqC5EElTSI3cH9CaCnz671N7XutTnU/
- Za3slb/6KLXSCm7mJtfoyWY3LDE2pXA2YtELs=
+ :cc; bh=PRoRNGVXeBqETfXyFZpgopVazVuZfI/uR73/ovgOFQY=;
+ b=L+XUhuaJEipGfKdRYP0YvnmyWyW5lJGOgrzwPa/o+u54QQq4AWVLuHZIvZC0accbpV
+ /aSkWVCNDX5cWh2Oc/bP8q8fVsVfvhNyxEAA0ntZB5Npfw7O7eGWb8juxgdRF+bhNvrz
+ 4Qyf1P6BcBPB2zHBxj/u0XbE8pSOhuWI0rq/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rlIR4SYrDHWvWgYAtu+J3wURm7Ipv3I/6B8kSrbq2OQ=;
- b=6ou6bvgfF7LXsmZK6WsEI9rvKvQWAZOrKMkl2jHnVttiB63IkBJNNPmtswO8NVOxWM
- wErjBGAW725Yat51JYh4mAET4hxGhyztlS0PeOMe4IZXJOqYD/TQt6pzS1XlfrkvyoTG
- wZMeFWJMjJk4kPMWvJp8XCGLS7ORkjIo8rcfjOD/anO4y1ai3P5PdppQ+bi/ne0DVYPX
- YnCPwPoJBVxr4d+/f9znx0L7ycuELAycvSUxLSvchf+vsmWMMUKU65kNbIT5PYzWMgps
- Vr66eGWoS3RpsuTid7cnspnQJOceOrm/Bjq4CAwcL1jQVLd4KGzMQWX3FHAJ6LiPTzea
- OWAA==
-X-Gm-Message-State: AOAM532CZ2vfkt7Fg923gKApY7KoM6XFpUiaVrrO8ZewL4FiQt5xqImF
- pyWVHaWY8gmvGAMlLT7aZXVvnxNz8hW/P2Lw
-X-Google-Smtp-Source: ABdhPJzfgf/SI4fw02GEutRKZiOK91UbhOWqRHVatirx7+bOkNjXOwHGAT9blLNRu4KEXm3fsxbdRQ==
-X-Received: by 2002:aa7:dbd6:0:b0:408:4a31:97a5 with SMTP id
- v22-20020aa7dbd6000000b004084a3197a5mr6705107edt.186.1646953849671; 
- Thu, 10 Mar 2022 15:10:49 -0800 (PST)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
- [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
- da19-20020a056402177300b00413583e0996sm2525926edb.14.2022.03.10.15.10.47
+ bh=PRoRNGVXeBqETfXyFZpgopVazVuZfI/uR73/ovgOFQY=;
+ b=YZOiKyh4nXRhTyBTM1bfOBvglfg31F9wB60gprZ4UEHI4gg/Ckk/pJ7NnKHRNUojgJ
+ V36Ch/8XUBAum2pWPneYdcqt4uZKXghog8TtiZc44808Ew3hT80uYwGPzNWgPSoVEzQ3
+ p4dWfjqaexiEwCAC0JUuiuShF31BnkeSoUebAFeyZimDosJCi6jkethRMVhH5rIpkYhY
+ qj4OQlJjvEoncjxJ981hhnnXhBlMlTFl8y/LewvZkzxQHCepEg+Sa5BhfVf/LxxUH1td
+ FzzT1ub8VMqRWA7Cx6Lw7DzLns1lA81BIRrTEeJ77KEQJtvoZbHT5abT/dpC1SVAHKF4
+ e4/w==
+X-Gm-Message-State: AOAM530NIxYuyu65sNXOWFtEcXTzENL6i+c0TydXgf5hwzbKoEBDFo1D
+ xl7+rz4jMTl91PnO6/NSaTeI1wgqY6N6cRfdiEk=
+X-Google-Smtp-Source: ABdhPJzCrAyJI8aXvCGlHLsiQwph7yQgPAvpgQWyzA7rsvdOufpuzA+NqJsBA0BuYywZoikaGiti+w==
+X-Received: by 2002:a17:906:7746:b0:6ce:a12e:489f with SMTP id
+ o6-20020a170906774600b006cea12e489fmr5990586ejn.551.1646954512709; 
+ Thu, 10 Mar 2022 15:21:52 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ w19-20020a05640234d300b00416baf4cdcasm1124523edc.48.2022.03.10.15.21.51
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 15:10:48 -0800 (PST)
-Received: by mail-wr1-f47.google.com with SMTP id j17so10488347wrc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:10:47 -0800 (PST)
-X-Received: by 2002:adf:eb45:0:b0:1ef:6070:7641 with SMTP id
- u5-20020adfeb45000000b001ef60707641mr5371549wrn.301.1646953847020; Thu, 10
- Mar 2022 15:10:47 -0800 (PST)
+ Thu, 10 Mar 2022 15:21:52 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id
+ l1-20020a05600c4f0100b00389645443d2so4407678wmq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 15:21:51 -0800 (PST)
+X-Received: by 2002:a7b:c042:0:b0:389:7336:158b with SMTP id
+ u2-20020a7bc042000000b003897336158bmr5478597wmc.15.1646954511190; Thu, 10 Mar
+ 2022 15:21:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
- <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 10 Mar 2022 15:10:34 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XU5VGdKZ77UNb14Ah=LYKvSqbtBpzobMJYyMNDOXH2qg@mail.gmail.com>
-Message-ID: <CAD=FV=XU5VGdKZ77UNb14Ah=LYKvSqbtBpzobMJYyMNDOXH2qg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
+Date: Thu, 10 Mar 2022 15:21:38 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U3fLvixpJfGxzmJd89+yVEDgbNYPsfJtq92QObUxw=3A@mail.gmail.com>
+Message-ID: <CAD=FV=U3fLvixpJfGxzmJd89+yVEDgbNYPsfJtq92QObUxw=3A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm/bridge: ti-sn65dsi86: Support non-eDP
+ DisplayPort connectors
 To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,7 +78,6 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Jonas Karlman <jonas@kwiboo.se>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
@@ -90,43 +89,30 @@ Hi,
 On Thu, Mar 10, 2022 at 7:22 AM Kieran Bingham
 <kieran.bingham+renesas@ideasonboard.com> wrote:
 >
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Implement support for non eDP connectors on the TI-SN65DSI86 bridge, and
+> provide IRQ based hotplug detect to identify when the connector is
+> present.
 >
-> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-> routed to a DisplayPort connector. Enable DisplayPort mode when the next
-> component in the display pipeline is detected as a DisplayPort
-> connector, and disable eDP features in that case.
+> no-hpd is extended to be the default behaviour for non DisplayPort
+> connectors.
 >
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reworked to set bridge type based on the next bridge/connector.
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> --
-> Changes since v1/RFC:
->  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
->    devm_drm_of_get_bridge"
->  - eDP/DP mode determined from the next bridge connector type.
->
-> Changes since v2:
->  - Remove setting of Standard DP Scrambler Seed. (It's read-only).
->  - Prevent setting DP_EDP_CONFIGURATION_SET in
->    ti_sn_bridge_atomic_enable()
->  - Use Doug's suggested text for disabling ASSR on DP mode.
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 ++++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index c892ecba91c7..93b54fcba8ba 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -62,6 +62,7 @@
->  #define SN_LN_ASSIGN_REG                       0x59
->  #define  LN_ASSIGN_WIDTH                       2
->  #define SN_ENH_FRAME_REG                       0x5A
-> +#define  ASSR_CONTROL                          BIT(0)
+> This series is based upon Sam Ravnborgs and Rob Clarks series [0] to
+> support DRM_BRIDGE_STATE_OPS and NO_CONNECTOR support on the SN65DSI86,
+> however some extra modifications have been made on the top of Sam's
+> series to fix compile breakage and the NO_CONNECTOR support.
 
-nit that the ASSR_CONTROL define is no longer used.
+This confused me a little bit. As far as I know Rob's series is
+abandoned and he's not working on it. I assume that Sam will
+eventually re-post his series, but it had unsolved problems and the
+bpp solution he had totally didn't work because nobody was setting
+"output_bus_cfg.format" [1]. Did you solve that? ...or you're just
+going to let your patches sit there and hope that Sam will solve the
+problem and re-post his series?
 
-Other than that, this patch looks fine to me.
+I'll admit I didn't go through your git tree to figure out if you
+solved it some way. If you did, I would have assumed you'd have
+re-posted his patches in your series w/ the solution...
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+[1] https://lore.kernel.org/r/CAD=FV=WW6HWLOD9AzTpjwva9UHY=AR+LABEWqJQznz6Nbb4sOw@mail.gmail.com/
+
+-Doug
