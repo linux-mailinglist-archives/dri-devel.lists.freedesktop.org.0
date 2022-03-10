@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802C24D3E30
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 01:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F034A4D3E38
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 01:34:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1A7310E627;
-	Thu, 10 Mar 2022 00:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3AA10E58C;
+	Thu, 10 Mar 2022 00:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9A7D10E627
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 00:33:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 23E6C1F40657
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1646872390;
- bh=xt2ZwYSUhTIQueoIK4YLX4GNXMdlK2nXmSvFnrsHQ28=;
- h=Date:To:Cc:From:Subject:From;
- b=PIOtBXnkL6MclmXRldTDCvVX4lJU+lmGR28MIPjDYvpZzLw5C53JHMvdxEgCjII7b
- 5KFr6ZsJV7dIrHgFAaTalRl8Itf2EddcjsFivsjrRbYFgiZ6zIodhod9t5eCa4YjGt
- 9X01UhcjKWxG7EMDqH6fai7bBVFr/RKSfYxeAXuZeHzP7QmJ8niFDmlRPPCgZzIpcm
- GYwU7gsUO7YDLKoT5eEMBR0YJ/X79tXtRwfZMBw3E7W199VRlwDjOy6G3FDm2eL/FE
- 5JY/Fld44JiCNs8+H2BfLyT70W6XC26XmEB0bJeo80c/T3keooZSDKynZgXYhXH8Ir
- EKN/zTlyOc6fw==
-Message-ID: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
-Date: Thu, 10 Mar 2022 03:33:07 +0300
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FED110E1DC;
+ Thu, 10 Mar 2022 00:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646872467; x=1678408467;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sQDEtC45tv0bqxqFrd928tIIioygMY7+fgvYolKBUfA=;
+ b=M9x0rO8dWerrtn3zxNEwMs1PA6ehI/+JtsmcNO5Gju6ubkYboJGZBmuQ
+ 7NmagYcrnttSHWF6DffFMStOvxYVS22gCvvbJol8XWSaSUJVlI7YnZWA4
+ DV8DPgTxvw3d9vIjhlZ6qLg753mfQsN+BqOT20x51bYZJSrq4PyuNF9xv
+ hIOf30BLhhn1en/TM7xkLsPRhQRlilWPpcjX3kRDYLH6XtQLN4Jg0BU4w
+ QZHkafykZ6/m+1ZAme+9n88SWJaaVmeGLKvSPuB6uKo19l3kb7ePbM4U1
+ RPiOkDw6RLbzF5BYqOUsfaG+vXy+oI11/NNc1Gx7MQpPizBjodrLu2YsX w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="252693330"
+X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="252693330"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 16:34:08 -0800
+X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="712156878"
+Received: from slsmith2-mobl.amr.corp.intel.com (HELO msatwood-mobl.intel.com)
+ ([10.209.13.34])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 16:34:07 -0800
+From: Matt Atwood <matthew.s.atwood@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/uapi: Add DRM_I915_QUERY_GEOMETRY_SUBSLICES
+Date: Wed,  9 Mar 2022 16:34:04 -0800
+Message-Id: <20220310003404.27499-1-matthew.s.atwood@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-X-Mozilla-News-Host: news://nntp.lore.kernel.org:119
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: BUG: KASAN: use-after-free in drm_atomic_helper_wait_for_vblanks()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,121 +55,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Matt Atwood <matthew.s.atwood@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Newer platforms have DSS that aren't necessarily available for both
+geometry and compute, two queries will need to exist. This introduces
+the first, when passing a valid engine class and engine instance in the
+flags returns a topology describing geometry.
 
-Hi,
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14143
+Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
+---
+ drivers/gpu/drm/i915/i915_query.c | 68 ++++++++++++++++++++++---------
+ include/uapi/drm/i915_drm.h       | 24 +++++++----
+ 2 files changed, 65 insertions(+), 27 deletions(-)
 
-I was playing/testing SuperTuxKart using VirtIO-GPU driver and spotted a
-UAF bug in drm_atomic_helper_wait_for_vblanks().
+diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+index 2dfbc22857a3..0cc2670ae09c 100644
+--- a/drivers/gpu/drm/i915/i915_query.c
++++ b/drivers/gpu/drm/i915/i915_query.c
+@@ -9,6 +9,7 @@
+ #include "i915_drv.h"
+ #include "i915_perf.h"
+ #include "i915_query.h"
++#include "gt/intel_engine_user.h"
+ #include <uapi/drm/i915_drm.h>
+ 
+ static int copy_query_item(void *query_hdr, size_t query_sz,
+@@ -28,36 +29,30 @@ static int copy_query_item(void *query_hdr, size_t query_sz,
+ 	return 0;
+ }
+ 
+-static int query_topology_info(struct drm_i915_private *dev_priv,
+-			       struct drm_i915_query_item *query_item)
++static int fill_topology_info(const struct sseu_dev_info *sseu,
++			      struct drm_i915_query_item *query_item,
++			      const u8 *subslice_mask)
+ {
+-	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
+ 	struct drm_i915_query_topology_info topo;
+ 	u32 slice_length, subslice_length, eu_length, total_length;
+ 	int ret;
+ 
+-	if (query_item->flags != 0)
+-		return -EINVAL;
++	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
+ 
+ 	if (sseu->max_slices == 0)
+ 		return -ENODEV;
+ 
+-	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
+-
+ 	slice_length = sizeof(sseu->slice_mask);
+ 	subslice_length = sseu->max_slices * sseu->ss_stride;
+ 	eu_length = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
+ 	total_length = sizeof(topo) + slice_length + subslice_length +
+ 		       eu_length;
+ 
+-	ret = copy_query_item(&topo, sizeof(topo), total_length,
+-			      query_item);
++	ret = copy_query_item(&topo, sizeof(topo), total_length, query_item);
++
+ 	if (ret != 0)
+ 		return ret;
+ 
+-	if (topo.flags != 0)
+-		return -EINVAL;
+-
+ 	memset(&topo, 0, sizeof(topo));
+ 	topo.max_slices = sseu->max_slices;
+ 	topo.max_subslices = sseu->max_subslices;
+@@ -69,27 +64,61 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
+ 	topo.eu_stride = sseu->eu_stride;
+ 
+ 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
+-			   &topo, sizeof(topo)))
++			 &topo, sizeof(topo)))
+ 		return -EFAULT;
+ 
+ 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr + sizeof(topo)),
+-			   &sseu->slice_mask, slice_length))
++			 &sseu->slice_mask, slice_length))
+ 		return -EFAULT;
+ 
+ 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
+-					   sizeof(topo) + slice_length),
+-			   sseu->subslice_mask, subslice_length))
++					 sizeof(topo) + slice_length),
++			 subslice_mask, subslice_length))
+ 		return -EFAULT;
+ 
+ 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
+-					   sizeof(topo) +
+-					   slice_length + subslice_length),
+-			   sseu->eu_mask, eu_length))
++					 sizeof(topo) +
++					 slice_length + subslice_length),
++			 sseu->eu_mask, eu_length))
+ 		return -EFAULT;
+ 
+ 	return total_length;
+ }
+ 
++static int query_topology_info(struct drm_i915_private *dev_priv,
++			       struct drm_i915_query_item *query_item)
++{
++	const struct sseu_dev_info *sseu = &to_gt(dev_priv )->info.sseu;
++
++	if (query_item->flags != 0)
++		return -EINVAL;
++
++	return fill_topology_info(sseu, query_item, sseu->subslice_mask);
++}
++
++static int query_geometry_subslices(struct drm_i915_private *i915,
++				    struct drm_i915_query_item *query_item)
++{
++	const struct sseu_dev_info *sseu;
++	struct intel_engine_cs *engine;
++	u8 engine_class, engine_instance;
++
++	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
++		return -ENODEV;
++
++	engine_class = query_item->flags & 0xFF;
++	engine_instance = (query_item->flags >>8) & 0xFF;
++
++	engine = intel_engine_lookup_user(i915, engine_class, engine_instance);
++
++	if(!engine)
++		return -EINVAL;
++
++	sseu = &engine->gt->info.sseu;
++
++	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
++}
++
+ static int
+ query_engine_info(struct drm_i915_private *i915,
+ 		  struct drm_i915_query_item *query_item)
+@@ -485,6 +514,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+ 	query_engine_info,
+ 	query_perf_config,
+ 	query_memregion_info,
++	query_geometry_subslices,
+ };
+ 
+ int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 05c3642aaece..ac75d8b85803 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -2687,10 +2687,11 @@ struct drm_i915_perf_oa_config {
+ struct drm_i915_query_item {
+ 	/** @query_id: The id for this query */
+ 	__u64 query_id;
+-#define DRM_I915_QUERY_TOPOLOGY_INFO    1
+-#define DRM_I915_QUERY_ENGINE_INFO	2
+-#define DRM_I915_QUERY_PERF_CONFIG      3
+-#define DRM_I915_QUERY_MEMORY_REGIONS   4
++#define DRM_I915_QUERY_TOPOLOGY_INFO    	1
++#define DRM_I915_QUERY_ENGINE_INFO		2
++#define DRM_I915_QUERY_PERF_CONFIG      	3
++#define DRM_I915_QUERY_MEMORY_REGIONS   	4
++#define DRM_I915_QUERY_GEOMETRY_SUBSLICES	5
+ /* Must be kept compact -- no holes and well documented */
+ 
+ 	/**
+@@ -2714,6 +2715,9 @@ struct drm_i915_query_item {
+ 	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
+ 	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
+ 	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
++	 *
++	 * When query_id == DRM_I915_QUERY_GEOMETRY_SUBSLICES must have bits 0:7 set
++	 * as a valid engine class, and bits 8:15 must have a valid engine instance.
+ 	 */
+ 	__u32 flags;
+ #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
+@@ -2772,16 +2776,20 @@ struct drm_i915_query {
+ };
+ 
+ /*
+- * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO :
++ * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO,
++ * DRM_I915_QUERY_GEOMETRY_SUBSLICE:
+  *
+  * data: contains the 3 pieces of information :
+  *
+- * - the slice mask with one bit per slice telling whether a slice is
+- *   available. The availability of slice X can be queried with the following
+- *   formula :
++ * - For DRM_I915_QUERY_TOPOLOGY_INFO the slice mask with one bit per slice
++ *   telling whether a slice is available. The availability of slice X can be
++ *   queried with the following formula :
+  *
+  *           (data[X / 8] >> (X % 8)) & 1
+  *
++ * - For DRM_I915_QUERY_GEOMETRY_SUBSLICES Slices are equal to 1 and this field
++ *   is not used.
++ *
+  * - the subslice mask for each slice with one bit per subslice telling
+  *   whether a subslice is available. Gen12 has dual-subslices, which are
+  *   similar to two gen11 subslices. For gen12, this array represents dual-
+-- 
+2.21.3
 
-SuperTuxKart can use DRM directly, i.e. you can run game in VT without
-Xorg or Wayland, this is where bugs happens. SuperTuxKart uses a
-non-blocking atomic page flips and UAF happens when a new atomic state
-is committed while there is a previous page flip still in-fly.
-
-What happens is that the new and old atomic states refer to the same
-CRTC state somehow. Once the older atomic state is destroyed, the CRTC
-state is freed and the newer atomic state continues to use the freed
-CRTC state.
-
-The bug is easily reproducible (at least by me) by playing SuperTuxKart
-for a minute. It presents on latest -next and 5.17-rc7, I haven't
-checked older kernel versions.
-
-I'm not an expert of the non-blocking code paths in DRM, so asking for
-suggestions about where the root of the problem could be.
-
-Here is the KASAN report:
-
- ==================================================================
- BUG: KASAN: use-after-free in
-drm_atomic_helper_wait_for_vblanks.part.0+0x10b/0x4b0
- Read of size 1 at addr ffff888110354809 by task kworker/u8:5/97
-
- CPU: 1 PID: 97 Comm: kworker/u8:5 Not tainted 5.17.0-rc7-next-20220309+
-#158
- Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
- Workqueue: events_unbound commit_work
- Call Trace:
-  <TASK>
-  dump_stack_lvl+0x49/0x5e
-  print_report.cold+0x9c/0x562
-  ? drm_atomic_helper_wait_for_vblanks.part.0+0x10b/0x4b0
-  kasan_report+0xb9/0xf0
-  ? drm_atomic_helper_wait_for_vblanks.part.0+0x10b/0x4b0
-  __asan_load1+0x4d/0x50
-  drm_atomic_helper_wait_for_vblanks.part.0+0x10b/0x4b0
-  ? page_flip_common+0x150/0x150
-  ? complete_all+0x41/0x50
-  ? drm_atomic_helper_commit_hw_done+0x1a2/0x220
-  drm_atomic_helper_commit_tail+0x8c/0xa0
-  commit_tail+0x15c/0x1d0
-  commit_work+0x12/0x20
-  process_one_work+0x50e/0x9d0
-  ? pwq_dec_nr_in_flight+0x120/0x120
-  ? do_raw_spin_lock+0x10a/0x190
-  worker_thread+0x2ba/0x630
-  ? process_one_work+0x9d0/0x9d0
-  kthread+0x15d/0x190
-  ? kthread_complete_and_exit+0x30/0x30
-  ret_from_fork+0x1f/0x30
-  </TASK>
-
- Allocated by task 325:
-  kasan_save_stack+0x26/0x50
-  __kasan_kmalloc+0x88/0xa0
-  kmem_cache_alloc_trace+0x1fa/0x380
-  drm_atomic_helper_crtc_duplicate_state+0x4a/0x80
-  drm_atomic_get_crtc_state+0xbf/0x1d0
-  page_flip_common+0x46/0x150
-  drm_atomic_helper_page_flip+0x7a/0xe0
-  drm_mode_page_flip_ioctl+0x9c6/0xa20
-  drm_ioctl_kernel+0x145/0x220
-  drm_ioctl+0x34e/0x5f0
-  __x64_sys_ioctl+0xbe/0xf0
-  do_syscall_64+0x35/0x80
-  entry_SYSCALL_64_after_hwframe+0x44/0xae
-
- Freed by task 230:
-  kasan_save_stack+0x26/0x50
-  kasan_set_track+0x25/0x30
-  kasan_set_free_info+0x24/0x40
-  __kasan_slab_free+0x100/0x140
-  kfree+0xaf/0x310
-  drm_atomic_helper_crtc_destroy_state+0x1e/0x30
-  drm_atomic_state_default_clear+0x20e/0x5d0
-  __drm_atomic_state_free+0xbf/0x130
-  commit_tail+0x166/0x1d0
-  commit_work+0x12/0x20
-  process_one_work+0x50e/0x9d0
-  worker_thread+0x2ba/0x630
-  kthread+0x15d/0x190
-  ret_from_fork+0x1f/0x30
-
- The buggy address belongs to the object at ffff888110354800
-  which belongs to the cache kmalloc-512 of size 512
- The buggy address is located 9 bytes inside of
-  512-byte region [ffff888110354800, ffff888110354a00)
-
- The buggy address belongs to the physical page:
- page:0000000010a164bd refcount:1 mapcount:0 mapping:0000000000000000
-index:0x0 pfn:0x110354
- head:0000000010a164bd order:2 compound_mapcount:0 compound_pincount:0
- flags: 0x8000000000010200(slab|head|zone=2)
- raw: 8000000000010200 0000000000000000 dead000000000001 ffff888100042c80
- raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
- page dumped because: kasan: bad access detected
-
- Memory state around the buggy address:
-  ffff888110354700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-  ffff888110354780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- >ffff888110354800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                       ^
-  ffff888110354880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff888110354900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ==================================================================
- ------------[ cut here ]------------
