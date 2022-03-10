@@ -2,39 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55344D4F85
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 17:43:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BF04D4FCF
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 17:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7296D10E31D;
-	Thu, 10 Mar 2022 16:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A338B10E5B8;
+	Thu, 10 Mar 2022 16:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6C010E31D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 16:43:06 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FFB2491;
- Thu, 10 Mar 2022 17:43:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646930584;
- bh=JobkSz9PjzQCB+BdMbkG0Fu1XaJc8qVBZmb6CvwuwxQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wdnWPcU5EsqVjam8ty9NNALBQvBXc7F5kDRyYy6w9siK6lOblLY0k9zdZfAk2D087
- fnyHP7mJTbZhG7bAz4EwtccHgC9HKfkKoq1dq6fTnXRqZ+Jaq4lC3ZK8lcsMtifS0a
- uvUC1EW55jPMM512PwxOBcX4eUvhL19Xi+Ue/vM4=
-Date: Thu, 10 Mar 2022 18:42:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
-Message-ID: <YioqiGtni8Y7X4M1@pendragon.ideasonboard.com>
-References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
- <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2493A10E5A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 16:56:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rzu/PKoROrqtGOBz0od4LY+BJzdioTPWKxGCOU7DRh90Ly9Tq8nRCOLAMDaJSpoY2PeKBB8yZRWriSxf9c+t7j6nUrFkRiFUweBaR3ua5IoRFQI5eMEEB1rjFVPnsUZjJSl0EnsmtpHKtCx4hEkt7gha37NhQj/Kw+6X4/KqieZ9Cg200/79cJe1SfXyOS5G/DiRlIyo9Yr/ElTrCBH2aF2D76T/pcJ/tLgbzJrR2jN30yMsmKHCHws5FsI4f073CG6Zyy6YoFUKNX94bOkPCEjMNvibL1shxYvQdXm6JsDMfy7g9ynbnTKfF/2/ZvUJg1Pb+49ql0JbLqkNhNRTLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4dXyY4HKriuiT+be/UcEgHVCT6GtBcnPJuzMajJffMs=;
+ b=nz7edcFvdhSVPq1gUfjP5pFptt9O0ZnyEsYJFcqMPWS7Bqk/85KVL29lhzHJ1vvpjJ+n8HLbOgAFPR2byJJ3kQ2YY7drMv8YZvGgVORQiCQs6grxEWRerflCSIwFuwkjyIRWDEDyqYycFNgggCGtpgrwtXOAAZO1Ll83qjjxCoPxTKgH2aaVsYkqUfxYQqyPA15p3ZV1+TSl6sLCmKwgtaUSQqZ0o0eMBG9kTE+6rG6UDDvC3HAuU4crHBusd5TQasnrm3UnvQU2XNKV5AyjpmxC9FjGjZn6m3z+dNxV6Zg2Sr8QRrQ31XmgOQD6X4/2FCh5jelCT2vIk9wN7gznog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4dXyY4HKriuiT+be/UcEgHVCT6GtBcnPJuzMajJffMs=;
+ b=nCE+BJeJBU6hWZ0XRhEINIk8wj/H84TXNgo7TH0cqpS59k0qvuGRtf49xgNB7z/FfVHrJ7EeVfk+EOAVOUPehJFHKXH4W2oh+oZ+ACZxTBULXXxhvaRs5CcHIlwVX5psCj2LA4JywegbWiATXdmuSPbNiFRwiTZA60/5tg+G5kM=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY2PR01MB4297.jpnprd01.prod.outlook.com (2603:1096:404:111::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.17; Thu, 10 Mar
+ 2022 16:56:03 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::58d9:6a15:cebd:5500]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::58d9:6a15:cebd:5500%4]) with mapi id 15.20.5038.023; Thu, 10 Mar 2022
+ 16:56:03 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
+ adi,disable-lanes-override property
+Thread-Topic: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
+ adi,disable-lanes-override property
+Thread-Index: AQHYM8fvckkeEfT5Y0ipcPVDIHWbCay40imAgAAAWmA=
+Date: Thu, 10 Mar 2022 16:56:03 +0000
+Message-ID: <OS0PR01MB5922625472A180B7E3165008860B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
+ <Yioo1Wgo1eC6IIvf@pendragon.ideasonboard.com>
+In-Reply-To: <Yioo1Wgo1eC6IIvf@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 44c3c39c-94a9-4162-31a6-08da02b6dc79
+x-ms-traffictypediagnostic: TY2PR01MB4297:EE_
+x-microsoft-antispam-prvs: <TY2PR01MB4297BD951E1A662B99A74B00860B9@TY2PR01MB4297.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BVdH9jB3F9bIjzPCH/NbH8ODJMW50zchSUgm+ishqW45u45NWrknPTuOFEjt20L8VMxcS3Ok7bFGD2kr66usrjJlf4VX8r4SH3f8XyjfNrARwjLGjbMgfjmpsSk7DhHUWcQODOQxxfXl32O8HxmktYGpJjnhbXMxfTgEmrF6+42A5vkBfK6ykWEmAaffc8bqaQ3dwN6ejJjCB9NyPFJeBUwr5fL1CGgq8vAo8r164BvZO6fdDthDgK6dhocISBVFF84BsyD+XINJuV5iftTcaY7N3UzkToMA4Xo5QQlOByLc2D1dV5tl7rh1SApYN4M+MBL6qsXaVdexo2bA3kTtluQCXePbtBvD0/vQ54I0oh3cF77m+NrkYcKeuRgLoHLnzA30xwTDRT8fNUSXhr5Z448Tt5k0f3rj6/4OA+UX4oyBCloptP33bt5yUEjC9fMWoHhgMcj/HchiSX5GnCL984te1WUNSEshbmhL006DR0kpBvopnHvqIBgLX5tH8J4xpEdKKEaGo7d6X9MjKLLwGpPttkgS1wK2GVFpASBZDNW4yKG2RVm6r3fcGFlEgT8TCJ7VNUc3XNJUmlx/iL33QvfqfOv/9BC1Pa/ePbmT2Gf7BGyN12hEJcpu7VOkvJN3fwO0T0EaTcSN2jsreWmuKI6dS0fpE7E4WcuokOa8/4J3mxAkR0fURGjeWszqi5bRY2btXP6qR/bayNS7TKCCCQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(86362001)(4326008)(66556008)(122000001)(508600001)(316002)(38070700005)(76116006)(66946007)(64756008)(7696005)(6506007)(9686003)(52536014)(38100700002)(54906003)(83380400001)(8936002)(66476007)(5660300002)(71200400001)(55016003)(2906002)(33656002)(186003)(26005)(66446008)(6916009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NGFJT3RQNENPZ2ptbGRzQjNud2szb2VVOC9zT0hnQU9jSDZkd2I5dzBocjZM?=
+ =?utf-8?B?Qjg2RFQzUzg2NVpUL2lXbWl1VGhwQ3VmbCszcHJjQSs1Zm02YjNIa05kVzBI?=
+ =?utf-8?B?TEgrWmdpeWRRMHFOcjhNa2VvbktUM2VUSDJhQkZ3VGRDSGFOWTlLbHl3TzlV?=
+ =?utf-8?B?S3pHZG5NbWFDK2lOZ3JmYTM1S21GVmlQcHNPL09Uc2JqYnU0eUtrVjRjWXY1?=
+ =?utf-8?B?OVJhWGwzRlloM0Z2L2Y3emh0dnlob1U3ak1XdXBqQkZqYzY5VGwzZHkxT3N0?=
+ =?utf-8?B?WHBJa1VnUU5UUVNXeTVkN0lLREIvdStHc3NJOC9iU3Iwa2dvRHdIbmF4NCtz?=
+ =?utf-8?B?R2ordjlXYysrNHEyaThIUWR6OXRIZ051ckQySDZnb1hMSExRRHpTcHZNK28z?=
+ =?utf-8?B?eTZrYk9aTmFjQnJDYU1JQ0NxajFzZUowYUxHZjlRa2lzTXREaTMzRFVVdE03?=
+ =?utf-8?B?TDRMS0lPaVY3NnI2UEovdUlQZ01qZ25nQWJzZWo4bkVIOVJaSENFNWVZYk5U?=
+ =?utf-8?B?R2RSOXpiU0RVRmlvdCt5THgySkJjaVl5UXF5UXBFd0hRT1ZrSVkyaURXQktM?=
+ =?utf-8?B?cC8wTGNiL3luRWpjSlBoeHBWN01IdHRVcDQya0ZnWlllU3pORTFEbDdwZlR6?=
+ =?utf-8?B?YzZnZVFIRzVqMWljQ2R0MlF3aEF0b1hVLyszall5SXE0OWpKWnBVaHNNRzRv?=
+ =?utf-8?B?bFcvRVFPWmQ0M3RhbjNLbC9DVVRwY0NxKzFmWmhoWGRFZ0lYa1l3VGlTcXRj?=
+ =?utf-8?B?YWt6R2x3c200OEgzOStQV1g5L0gxRlJTN1VVWHlzeTJyc1g3TkZPMko4OGU4?=
+ =?utf-8?B?UUlGZUs2dlloWVVTaklDTHgrODZiWVRRL1pDTElRNVNYckZuVFNvTEFDUGxS?=
+ =?utf-8?B?b2RqR0c3dUkvakd1WDlpOTZPaFdQY3pHQzdVdkRPbFZvZUFlcXJqWis4NEUr?=
+ =?utf-8?B?K3hPMk9mcXQzSm1BYmp4ZHVrVGVjNHVnMUVYNFJGQ3RGNTJBQy9ZSUlmSTBk?=
+ =?utf-8?B?VDhXNjRrdlVlc3FSTGxVU1Y2TnVzZkRKTXdSTVhXOHc3dy8rUFNLZDJDc2hG?=
+ =?utf-8?B?eklKZFZic3FEUkFkSnRPT3FkY2pTdnp2ekxNU0tMQURqS2J0WTU0bmRIZG40?=
+ =?utf-8?B?WktXWkNtejg0bS92NUQ0RGZxamtwVWtjeGJvYlY3dzR2RlFpTHFKQU1yZ2I4?=
+ =?utf-8?B?b3NPSVRCc1dVb2JmZ2RWR2JrbzJZMEJkUGtkYzZ5RGsrY0pTTkNmSGkydWIz?=
+ =?utf-8?B?emJ3bXlUSkxHSzRGYllsYmVPWm9ZbWgvY3UxRFJJT0pYR0pCUXlobUREcFVS?=
+ =?utf-8?B?aitmbFlEK25ncGd5RFlQby9SS1h1SHpNdDdmNEhyY1ZaTG9JN3pjbnFpZG5S?=
+ =?utf-8?B?d2oyR3Rtek9TRDUzYmdHRDc4UUFmNVZjYkkzQUhiOHNaRFl3cTlGY05ES01R?=
+ =?utf-8?B?QnpiZEpIb1k2d0tIQ1NDSmkvSTJTOTlQL2dTd0hwUGh3a0IzaFNRcWVXdzA2?=
+ =?utf-8?B?QkNyUnpZUmNUT3o0a2RodERKQ0x0Z0J1QkVHMWJNRjd1WDNNbWI0bEthT3Ir?=
+ =?utf-8?B?M2tWVncwUURtU1AyOHV2NXFLcllCSVlHYjBta3ora0dUTWRCN0JUWmMvaEp1?=
+ =?utf-8?B?YXIwa1ZkRERQcW8yQkZiczVScVNMSXFxUFN2T1M1U1ZxTjllS21qTkNwRkJu?=
+ =?utf-8?B?MUs3ZkU2STZBNUN1SUdOeTVxdkdPUmE1bWxQd0tmN0ZUd0JxUUlLZzYrV1Fa?=
+ =?utf-8?B?UEFjNk9Ub1hvTXBKYnpKSi9aRE95S3N0aElSVFp3elRTMVFaaWtUUHIxVUJZ?=
+ =?utf-8?B?OHUyTVVtTE0vU29pc0F6UDF2am1SM2tMZVFmOWNWdlJwN3dWemZTVWducXZa?=
+ =?utf-8?B?VTY4OW1PWTYvK09ISUNrREc0eVBCNHZJVzVYWkJKMWFlQXlpZUdiTmZjOWth?=
+ =?utf-8?B?OWZkSlM1aS9LSWJnczZTbGtpUmhJZ2hnQ1BVS2FFcVgwdDFXeHFQNzUrTmJN?=
+ =?utf-8?B?amFqR0NITEVDd0d3U1ZiNlN2YXEvczdXSkRGS0lESHRxZ0ErTlplS2YrQ1U0?=
+ =?utf-8?B?R0pnSWFDSG5YcHoyNmlCZVloZkRPNWErNlJJR2pMeVd6OFRLRTgzS3hPL2s4?=
+ =?utf-8?B?bCtmelhRTnIyMUdRQjV1UkRPRWMwRk4wdUlWTTJXdllxWThtYkNxWnFZT3V4?=
+ =?utf-8?B?QTAxdndPOFNYbU9HZFZrMjdFS3VJMFdXWGNZRmk4TUtTc25MSFljcndEcFc5?=
+ =?utf-8?B?SUMrZTR1YlJ1RlI5QlV1dXB3NXdnPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44c3c39c-94a9-4162-31a6-08da02b6dc79
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 16:56:03.1955 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +rjjeXC8tjidixkWyLqJ4usGyHCpFiMHMpTIZUV/kS/Jv4TqTZXWELeLhCAAO9ROL/ZLDp+NLHhKycpZ3Ooj6A3rfJXDAW/BbcOZVBglHL4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4297
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,301 +131,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?utf-8?B?UmljYXJkbyBDYcOxdWVsbw==?= <ricardo.canuelo@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
-
-Thank you for the patch.
-
-On Thu, Mar 10, 2022 at 03:22:27PM +0000, Kieran Bingham wrote:
-> When the SN65DSI86 is used in DisplayPort mode, its output is likely
-> routed to a DisplayPort connector, which can benefit from hotplug
-> detection. Support it in such cases, with polling mode only for now.
-
-Don't we support IRQ mode too now ?
-
-> The implementation is limited to the bridge operations, as the connector
-> operations are legacy and new users should use
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> Changes since v1:
-> 
-> - Document the no_hpd field
-> - Rely on the SN_HPD_DISABLE_REG default value in the HPD case
-> - Add a TODO comment regarding IRQ support
-> [Kieran]
-> - Fix spelling s/assrted/asserted/
-> - Only enable HPD on DisplayPort connector.
-> - Support IRQ based hotplug detect
-> 
-> Changes since v2: [Kieran]
->  - Use unsigned int for values read by regmap
->  - Update HPD support warning message
->  - Only enable OP_HPD if IRQ support enabled.
->  - Only register IRQ handler during ti_sn_bridge_probe()
->  - Store IRQ in the struct ti_sn65dsi86
->  - Register IRQ only when !no-hpd
->  - Refactor DRM_BRIDGE_OP_DETECT and DRM_BRIDGE_OP_HPD handling
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 142 +++++++++++++++++++++++---
->  1 file changed, 129 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index d581c820e5d8..328a48f09f97 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -70,6 +70,7 @@
->  #define  BPP_18_RGB				BIT(0)
->  #define SN_HPD_DISABLE_REG			0x5C
->  #define  HPD_DISABLE				BIT(0)
-> +#define  HPD_DEBOUNCED_STATE			BIT(4)
->  #define SN_GPIO_IO_REG				0x5E
->  #define  SN_GPIO_INPUT_SHIFT			4
->  #define  SN_GPIO_OUTPUT_SHIFT			0
-> @@ -106,10 +107,24 @@
->  #define SN_PWM_EN_INV_REG			0xA5
->  #define  SN_PWM_INV_MASK			BIT(0)
->  #define  SN_PWM_EN_MASK				BIT(1)
-> +#define SN_IRQ_EN_REG				0xE0
-> +#define  IRQ_EN					BIT(0)
-> +#define SN_IRQ_HPD_REG				0xE6
-> +#define  IRQ_HPD_EN				BIT(0)
-> +#define  IRQ_HPD_INSERTION_EN			BIT(1)
-> +#define  IRQ_HPD_REMOVAL_EN			BIT(2)
-> +#define  IRQ_HPD_REPLUG_EN			BIT(3)
-> +#define  IRQ_HPD_PLL_UNLOCK_EN			BIT(5)
->  #define SN_AUX_CMD_STATUS_REG			0xF4
->  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
->  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
->  #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
-> +#define SN_IRQ_HPD_STATUS_REG			0xF5
-> +#define  IRQ_HPD_STATUS				BIT(0)
-> +#define  IRQ_HPD_INSERTION_STATUS		BIT(1)
-> +#define  IRQ_HPD_REMOVAL_STATUS			BIT(2)
-> +#define  IRQ_HPD_REPLUG_STATUS			BIT(3)
-> +#define  IRQ_PLL_UNLOCK				BIT(5)
->  
->  #define MIN_DSI_CLK_FREQ_MHZ	40
->  
-> @@ -168,6 +183,12 @@
->   * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
->   * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
->   * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-> + *
-> + * @no_hpd:       Disable hot-plug detection as instructed by device tree (used
-> + *                for instance for eDP panels whose HPD signal won't be asserted
-> + *                until the panel is turned on, and is thus not usable for
-> + *                downstream device detection).
-> + * @irq:          IRQ number for the device.
->   */
->  struct ti_sn65dsi86 {
->  	struct auxiliary_device		bridge_aux;
-> @@ -202,6 +223,9 @@ struct ti_sn65dsi86 {
->  	atomic_t			pwm_pin_busy;
->  #endif
->  	unsigned int			pwm_refclk_freq;
-> +
-> +	bool				no_hpd;
-> +	int				irq;
->  };
->  
->  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
-> @@ -316,23 +340,25 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
->  	ti_sn_bridge_set_refclk_freq(pdata);
->  
->  	/*
-> -	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
-> -	 * so the HPD is an internal signal that's only there to signal that
-> -	 * the panel is done powering up.  ...but the bridge chip debounces
-> -	 * this signal by between 100 ms and 400 ms (depending on process,
-> -	 * voltage, and temperate--I measured it at about 200 ms).  One
-> +	 * As this is an eDP bridge, the output will be connected to a fixed
-> +	 * panel in most systems. HPD is in that case only an internal signal
-> +	 * to signal that the panel is done powering up. The bridge chip
-> +	 * debounces this signal by between 100 ms and 400 ms (depending on
-> +	 * process, voltage, and temperate--I measured it at about 200 ms). One
->  	 * particular panel asserted HPD 84 ms after it was powered on meaning
->  	 * that we saw HPD 284 ms after power on.  ...but the same panel said
->  	 * that instead of looking at HPD you could just hardcode a delay of
-> -	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
-> -	 * delay in its prepare and always disable HPD.
-> +	 * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
-> +	 * assume that the panel driver will have the hardcoded delay in its
-> +	 * prepare and always disable HPD.
->  	 *
-> -	 * If HPD somehow makes sense on some future panel we'll have to
-> -	 * change this to be conditional on someone specifying that HPD should
-> -	 * be used.
-> +	 * However, on some systems, the output is connected to a DisplayPort
-> +	 * connector. HPD is needed in such cases. To accommodate both use
-> +	 * cases, enable HPD only when requested.
->  	 */
-> -	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> -			   HPD_DISABLE);
-> +	if (pdata->no_hpd)
-> +		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-> +				   HPD_DISABLE, HPD_DISABLE);
->  
->  	pdata->comms_enabled = true;
->  
-> @@ -1135,6 +1161,36 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
->  	pm_runtime_put_sync(pdata->dev);
->  }
->  
-> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +	int val;
-> +
-> +	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> +
-> +	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-> +					 : connector_status_disconnected;
-> +}
-> +
-> +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	/* The device must remain active for HPD to function */
-> +	pm_runtime_get_sync(pdata->dev);
-> +	regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
-> +		     IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
-> +		     IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
-> +}
-> +
-> +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-> +{
-> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-> +
-> +	regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
-> +	pm_runtime_put_autosuspend(pdata->dev);
-> +}
-> +
->  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
->  					  struct drm_connector *connector)
->  {
-> @@ -1153,6 +1209,9 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->  	.detach = ti_sn_bridge_detach,
->  	.mode_valid = ti_sn_bridge_mode_valid,
->  	.get_edid = ti_sn_bridge_get_edid,
-> +	.detect = ti_sn_bridge_detect,
-> +	.hpd_enable = ti_sn_bridge_hpd_enable,
-> +	.hpd_disable = ti_sn_bridge_hpd_disable,
->  	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
->  	.atomic_enable = ti_sn_bridge_atomic_enable,
->  	.atomic_disable = ti_sn_bridge_atomic_disable,
-> @@ -1223,6 +1282,34 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
->  	return 0;
->  }
->  
-> +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
-> +{
-> +	struct ti_sn65dsi86 *pdata = arg;
-> +	int ret;
-> +	unsigned int hpd;
-> +
-> +	ret = regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
-> +	if (ret || !hpd)
-> +		return IRQ_NONE;
-> +
-> +	if (hpd & IRQ_HPD_INSERTION_STATUS)
-> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_connected);
-> +
-> +	if (hpd & IRQ_HPD_REMOVAL_STATUS)
-> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-> +
-> +	/* When replugged, ensure we trigger a detect to update the display */
-> +	if (hpd & IRQ_HPD_REPLUG_STATUS)
-> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-> +
-> +	/* reset the status registers */
-
-s/registers/register/
-
-> +	regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
-> +		     IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
-> +		     IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->  			      const struct auxiliary_device_id *id)
->  {
-> @@ -1236,6 +1323,14 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->  		return PTR_ERR(pdata->next_bridge);
->  	}
->  
-> +	pdata->no_hpd = of_property_read_bool(np, "no-hpd");
-> +	if (pdata->next_bridge->type != DRM_MODE_CONNECTOR_DisplayPort &&
-> +	    !pdata->no_hpd) {
-> +		dev_warn(pdata->dev,
-> +			 "HPD support only implemented for full DP connectors\n");
-> +		pdata->no_hpd = true;
-> +	}
-> +
->  	ti_sn_bridge_parse_lanes(pdata, np);
->  
->  	ret = ti_sn_bridge_parse_dsi_host(pdata);
-> @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
->  	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
->  			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
->  
-> -	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
->  		pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
->  
-> +		if (!pdata->no_hpd)
-> +			pdata->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-> +	}
-> +
-> +	if (!pdata->no_hpd && pdata->irq > 0) {
-> +		dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
-
-As you've noted, this should be removed.
-
-> +
-> +		ret = devm_request_threaded_irq(pdata->dev, pdata->irq, NULL,
-> +						ti_sn65dsi86_irq_handler,
-> +						IRQF_ONESHOT, "sn65dsi86-irq",
-> +						pdata);
-> +		if (ret)
-> +			return dev_err_probe(pdata->dev, ret,
-> +					     "Failed to register DP interrupt\n");
-> +
-> +		/* Enable IRQ based HPD */
-> +		regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
-
-Do we have a guarantee that the device isn't PM-suspended here ? Should
-this be done in the PM resume handler ?
-
-> +		pdata->bridge.ops |= DRM_BRIDGE_OP_HPD;
-> +	}
-> +
->  	drm_bridge_add(&pdata->bridge);
->  
->  	ret = ti_sn_attach_host(pdata);
-> @@ -1831,6 +1946,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
->  		return -ENOMEM;
->  	dev_set_drvdata(dev, pdata);
->  	pdata->dev = dev;
-> +	pdata->irq = client->irq;
->  
->  	mutex_init(&pdata->comms_mutex);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
+IFtQQVRDSCAxLzJdIGR0LWJpbmRpbmdzOiBkcm06IGJyaWRnZTogYWRpLGFkdjc1MzM6IERvY3Vt
+ZW50DQo+IGFkaSxkaXNhYmxlLWxhbmVzLW92ZXJyaWRlIHByb3BlcnR5DQo+IA0KPiBIaSBCaWp1
+LA0KPiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBXZWQsIE1hciAwOSwg
+MjAyMiBhdCAwMzoxMTowOFBNICswMDAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiBPbiBSZW5lc2Fz
+IFJaL3tHMkwsVjJMfSBwbGF0Zm9ybXMgY2hhbmdpbmcgdGhlIGxhbmVzIGZyb20gNCB0byAzIGF0
+DQo+ID4gbG93ZXIgZnJlcXVlbmNpZXMgY2F1c2VzIGRpc3BsYXkgaW5zdGFiaWxpdHkuIE9uIHN1
+Y2ggcGxhdGZvcm1zLCBpdCBpcw0KPiA+IGJldHRlciB0byBhdm9pZCBzd2l0Y2hpbmcgbGFuZXMg
+ZnJvbSA0IHRvIDMgYXMgaXQgbmVlZHMgZGlmZmVyZW50IHNldA0KPiA+IG9mIFBMTCBwYXJhbWV0
+ZXIgY29uc3RyYWludHMgdG8gbWFrZSB0aGUgZGlzcGxheSBzdGFibGUgd2l0aCAzIGxhbmVzLg0K
+PiANCj4gSXMgdGhpcyBiZWNhdXNlIHRoZSBQTEwgY2FsY3VsYXRpb24gY29kZSBkb2Vzbid0IHdv
+cmsgcHJvcGVybHksIG9yIGJlY2F1c2UNCj4gdGhlIGhhcmR3YXJlIGNhbid0IHN1cHBvcnQgdGhp
+cyA/DQoNClBMTCBDYWxjdWxhdGlvbiBpcyBjb3JyZWN0LCB0aGF0IGlzIHRoZSByZWFzb24gaXQg
+d29ya3MgZm9yIGFsbCByZXNvbHV0aW9uDQp3aXRoIDQgbGFuZXMuIFRoZXJlIGFyZSAyIGNsb2Nr
+cyBnZW5lcmF0ZWQgYnkgUExMNSB3aGljaCBpcyBjb25uZWN0ZWQgdG8gYSBtdXgNCndpdGggY2xv
+Y2sgc291cmNlcywgbmFtZWx5ICdGT1VUUE9TVERJVicgYW5kICdGT1VUMVBIMCcNCg0KVGhpcyBN
+dXggaXMgY29ubmVjdGVkIHRvIERTSSBkaXZpZGVycy4gDQoNCidGT1VUUE9TVERJVicgc2hvdWxk
+IGJlIHNlbGVjdGVkIGlmIChQTExfSU5QVVRfRlJFUS9WQ0xLKSBpcyBvZGQgYW5kICdGT1VUMVBI
+MCcgc2hvdWxkDQpiZSBzZWxlY3RlZCBpZiBpdCBpcyBldmVuLg0KDQpUaGUgUExMIGNhbGN1bGF0
+aW9uIG1ha2VzIHVzZSBvZiBldmVuIHNlbGVjdGlvbignRk9VVDFQSDAnKSBhbmQgdmlkZW8gd29y
+a3MgZm9yIGFsbCBmcmVxdWVuY2llcw0Kd2l0aCA0IGxhbmVzLg0KDQpXaXRoICdGT1VUMVBIMCcg
+YXMgY2xvY2sgc291cmNlLCBpZiBJIHN3aXRjaCB0byAzIGxhbmVzIGZvciBsYW5lcyBpdCBkb2Vz
+bid0IHdvcmsuIA0KQnV0IGl0IHdvcmsgd2l0aCA0bGFuZXMgb24gYWxsIGZyZXF1ZW5jaWVzLg0K
+DQpIVyBjYW4gc3VwcG9ydCAzIGxhbmVzLCBpZiBJIHNldCBwYXJhbWV0ZXIgdG8gbWFrZSAoUExM
+X0lOUFVUX0ZSRVEvVkNMSykgb2RkIGFuZCBzZWxlY3QNCidGT1VUUE9TVERJVicgYXMgY2xrIHNv
+dXJjZSB0byBEU0kgZGl2aWRlci4NCg0KSSBhbSBub3Qgc3VyZSBhYm91dCB0aGUgcmF0aW9uYWwg
+YmVoaW5kIHRoZSBjb25zdHJhaW50IHRvIFN3aXRjaCB0byAzIGxhbmVzIGZvcg0KbG93ZXIgZnJl
+cXVlbmN5IGZvciB0aGlzIEFEVjc1MzUgY2hpcCwgYXMgb24gb3VyIHBsYXRmb3JtIGl0IGNhbiB3
+b3JrIHdpdGggNGxhbmVzDQpvbiBhbGwgZnJlcXVlbmNpZXMuDQoNCkNoZWVycywNCkJpanUNCg0K
+PiANCj4gPiBUaGlzIHBhdGNoIGludHJvZHVjZXMgJ2FkaSxkaXNhYmxlLWxhbmVzLW92ZXJyaWRl
+JyBwcm9wZXJ0eSB0byBkaXNhYmxlDQo+ID4gbGFuZSBzd2l0Y2hpbmcgYXQgbG93ZXIgZnJlcXVl
+bmNpZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAu
+cmVuZXNhcy5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IExhZCBQcmFiaGFrYXIgPHByYWJoYWthci5t
+YWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYWRpLGFkdjc1MzMueWFtbCAgICAgIHwgNSArKysr
+Kw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0t
+Z2l0DQo+ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlk
+Z2UvYWRpLGFkdjc1MzMueWFtbA0KPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvYnJpZGdlL2FkaSxhZHY3NTMzLnlhbWwNCj4gPiBpbmRleCBmMzYyMDkxMzdj
+OGEuLjJkYzM3ODAzOWQyMSAxMDA2NDQNCj4gPiAtLS0NCj4gPiBhL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hZGksYWR2NzUzMy55YW1sDQo+ID4gKysr
+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FkaSxh
+ZHY3NTMzLnlhbQ0KPiA+ICsrKyBsDQo+ID4gQEAgLTg0LDYgKzg0LDExIEBAIHByb3BlcnRpZXM6
+DQo+ID4gICAgICAgIHRpbWluZ3MgZm9yIEhETUkgb3V0cHV0Lg0KPiA+ICAgICAgdHlwZTogYm9v
+bGVhbg0KPiA+DQo+ID4gKyAgYWRpLGRpc2FibGUtbGFuZXMtb3ZlcnJpZGU6DQo+ID4gKyAgICBk
+ZXNjcmlwdGlvbjoNCj4gPiArICAgICAgRGlzYWJsZXMgdGhlIG92ZXJyaWRpbmcgbGFuZXMgYXQg
+bG93ZXIgZnJlcXVlbmNpZXMuDQo+ID4gKyAgICB0eXBlOiBib29sZWFuDQo+ID4gKw0KPiA+ICAg
+IGFkaSxkc2ktbGFuZXM6DQo+ID4gICAgICBkZXNjcmlwdGlvbjogTnVtYmVyIG9mIERTSSBkYXRh
+IGxhbmVzIGNvbm5lY3RlZCB0byB0aGUgRFNJIGhvc3QuDQo+ID4gICAgICAkcmVmOiAvc2NoZW1h
+cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+
+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQo=
