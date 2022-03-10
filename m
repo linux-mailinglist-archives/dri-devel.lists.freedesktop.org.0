@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F034A4D3E38
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 01:34:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DE94D3E58
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 01:45:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3AA10E58C;
-	Thu, 10 Mar 2022 00:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525D610E4B7;
+	Thu, 10 Mar 2022 00:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FED110E1DC;
- Thu, 10 Mar 2022 00:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646872467; x=1678408467;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=sQDEtC45tv0bqxqFrd928tIIioygMY7+fgvYolKBUfA=;
- b=M9x0rO8dWerrtn3zxNEwMs1PA6ehI/+JtsmcNO5Gju6ubkYboJGZBmuQ
- 7NmagYcrnttSHWF6DffFMStOvxYVS22gCvvbJol8XWSaSUJVlI7YnZWA4
- DV8DPgTxvw3d9vIjhlZ6qLg753mfQsN+BqOT20x51bYZJSrq4PyuNF9xv
- hIOf30BLhhn1en/TM7xkLsPRhQRlilWPpcjX3kRDYLH6XtQLN4Jg0BU4w
- QZHkafykZ6/m+1ZAme+9n88SWJaaVmeGLKvSPuB6uKo19l3kb7ePbM4U1
- RPiOkDw6RLbzF5BYqOUsfaG+vXy+oI11/NNc1Gx7MQpPizBjodrLu2YsX w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="252693330"
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="252693330"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 16:34:08 -0800
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="712156878"
-Received: from slsmith2-mobl.amr.corp.intel.com (HELO msatwood-mobl.intel.com)
- ([10.209.13.34])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 16:34:07 -0800
-From: Matt Atwood <matthew.s.atwood@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/uapi: Add DRM_I915_QUERY_GEOMETRY_SUBSLICES
-Date: Wed,  9 Mar 2022 16:34:04 -0800
-Message-Id: <20220310003404.27499-1-matthew.s.atwood@intel.com>
-X-Mailer: git-send-email 2.21.3
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5335910E4B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 00:45:23 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id b24so4959794edu.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Mar 2022 16:45:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1g894I2bXOtSnM+ElfphL0qNUPO/Q1+YxNlFPgGlbzM=;
+ b=Ev1jyg741+stIoQZm/BGcM4VGPeziRBZjIE7H86rYFjIMVdLfNYytsm+qrPeKbl3Ni
+ 6BheDrNr2PZtkRshARhMUi+RnPuIk43jv3x4uzr4Ypm06a6CaZKdejb5lB6Tm9EROptd
+ 4LvAWBEcrvnZ/ymo79IBb9QbIARdWCoVfCt4J15r5GirOmKxjl8PrlqOc09o9to/J0y9
+ 2REyy258A3wEEch1C+dhItxgp7Lq9L47CehMT6Yylr8BqmdbG1SAbZsbP0EDjnKAfYmM
+ qTnUjBXNfyOULBh09cATXXgi0q8CMNnQQH81Rh970Tt7Hfnne/dLtxUgbiHjFOFsmCxv
+ BewA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1g894I2bXOtSnM+ElfphL0qNUPO/Q1+YxNlFPgGlbzM=;
+ b=fByFYfFdWLrZp7uQs1pKKf5ZYliYSDBpnUOtCUeEMB2iSdGoDYwe++nxkEmjXMOzLI
+ QbJmiO3nzFg0ocw3xyFnSpO6QwKcGtQvsEvOl2zZD9tjf4Y1TZxoaJ7k0auMD3PKk4Ha
+ EvMY5PSb7Vkcz0BOTyKsnFxMrELIGEWQy0/jn33HHalNoouy18cxDCw/tTwoXPJI/ie1
+ sFmMw4cpinltiytZwAEzJYPX3YLMQ1xsLFa3JdXrCFVltfl0XsRQD3NKOAUHNxNHrqFW
+ x+cRn8sBA+QNpUMAPnKYPI+x9c4V98oJ2QN8/98gbX5SS/fuCiuGYdS4e5us3qKgReJk
+ 2kIA==
+X-Gm-Message-State: AOAM531M61vtkurF+Xsd+q/E3xo/nsuoYUz968wuVowlik/S4Qi9B4pT
+ lTLVfQJ8EVsEIQi0lzINu3y4ly9AVKNpuh8IRF4=
+X-Google-Smtp-Source: ABdhPJyG28sP/CHFKcL3V4XkiYDOBcgUO/BD6eVt0kyipHPdZcdytzqHiEJASfZNpCZY5KJw/J7brT69bhyq258cFVk=
+X-Received: by 2002:a05:6402:2142:b0:413:6531:bd9e with SMTP id
+ bq2-20020a056402214200b004136531bd9emr1956269edb.5.1646873121461; Wed, 09 Mar
+ 2022 16:45:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+ <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+ <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
+ <CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=QpWj44KPw@mail.gmail.com>
+ <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
+In-Reply-To: <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 9 Mar 2022 18:45:10 -0600
+Message-ID: <CAHCN7xLgKeRACM0kvC1kGBOd0KxNFYPSLesRvfgXRU5tV-gqFQ@mail.gmail.com>
+Subject: Re: DSI Bridge switching
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,212 +66,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, Neil Armstrong <narmstrong@baylibre.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Newer platforms have DSS that aren't necessarily available for both
-geometry and compute, two queries will need to exist. This introduces
-the first, when passing a valid engine class and engine instance in the
-flags returns a topology describing geometry.
+On Wed, Mar 9, 2022 at 1:11 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+>  or a Hi All,
+>
+> On Thu, Oct 14, 2021 at 6:45 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > Hi Laurent,
+> >
+> > On Fri, Oct 8, 2021 at 7:07 PM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
+> > > > Hi,
+> > > >
+> > > > Removed my invalid email (I will update files next week).
+> > > >
+> > > > On 08.10.2021 13:14, Jagan Teki wrote:
+> > > > > Hi,
+> > > > >
+> > > > > I think this seems to be a known use case for industrial these days with i.mx8m.
+> > > > >
+> > > > > The host DSI would configure with two bridges one for DSI to LVDS
+> > > > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
+> > > > > can use only one bridge at a time as host DSI support single out port.
+> > > > > So we can have two separate device tree files for LVDS and HDMI and
+> > > > > load them static.
+> > > > >
+> > > > > But, one of the use cases is to support both of them in single dts, and
+> > > > > - Turn On LVDS (default)
+> > > > > - Turn Off LVDS then Turn On HDMI when cable plug-in
+> > > >
+> > > > Are you sure it will work from hardware PoV? Do you have some demuxer?
+> > > > isolation of pins?
+> > >
+> > > It may be in the category of "you shouldn't do this, but it actually
+> > > works". I've seen the same being done with two CSI-2 camera sensors
+> > > connected to the same receiver, with one of them being held in reset at
+> > > all times.
+> >
+> > Yes. Here the design has 2 MIPI D-PHY switches. Each switch take 2
+> > input data lanes and 1 clock lane from SoC and produces 4 data lanes
+> > and 2 clock lanes and from switch output 2 lanes and 1 clock are
+> > inputting to HDMI bridge and other 2 lanes and 1 clock is inputting to
+> > LVDS. So 1st pair of 1st switch and 1st pair of 2nd switch goes to
+> > HDMI and 2nd pair of 1st switch and 2nd pair of 2nd switch does to
+> > LVDS.
+> >
+> > However, routing of these lanes are controlled by SEL, OE GPIO pins.
+> > So at a time we can access only single bridge.
+> >
+> > >
+> > > > > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
+> > > > >
+> > > > > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
+> > > > > port 2 in the DSI host node, and trying to attach the respective
+> > > > > bridge based on HDMI-INT like repeating the bridge attachment cycle
+> > > > > based on the HDMI-INT.
+> > > >
+> > > > I think more appropriate would be to share the same port, but provide
+> > > > two endpoints inside this port - we have two hardware sharing the same
+> > > > physical port.
+> > >
+> > > That sounds like the correct DT description to me.
+> > >
+> > > > > Can it be possible to do bridge attachment at runtime? something like
+> > > > > a bridge hotplug event? or any other possible solutions?
+> > > > >
+> > > > > Any suggestions?
+> > > >
+> > > > Practically it is possible, see exynos_dsi + panels, or exynos_dsi +
+> > > > some toshiba bridge - panel and bridge are dynamically 'plugged' and
+> > > > 'unplugged' from exynos_drm, but they do not use bridge chain for this
+> > > > and some other reasons. (un|re|)plugging should be performed of course
+> > > > when pipeline is off (connector disconnected). I am not sure about
+> > > > bridges added to bridge chain - you need to inspect all opses to ensure
+> > > > it can be done safely.
+> > > >
+> > > > And the main issue: Daniel does not like it :)
+> > >
+> > > Neither do I :-) Could it be handled with two DRM connectors that are
+> > > mutually exclusive ?
+> >
+> > How about adding lvds-connector, hdmi-connector on the pipeline and
+> > select them based on the switch SEL GPIO? does it make sense to do
+> > this implementation via display-connector.c
+>
+> I have somehow managed to make runtime switching possible between LVDS
+> and HDMI with the help of DRM bridges.
+>
+>                                                   | => ADV7535    =>
+> HDMI-A Connector
+> DSI Host => display-switch => |
+>                                                   |=> SN65DSI83 => Panel-Simple
+>
+> display-switch here is a bridge driver that can switch or attach the
+> downstream bridge flow based on HDMI HPD here. One potential problem
+> is that when we switch from LVDS to HDMI Out the HDMI Out is displayed
+> with the resolution that LVDS has and it is unable to display higher
+> HDMI resolutions even though it supports it. Does anyone aware of
+> changing the resolution at runtime, please let me know?
+>
+> Technically, the display-switch hardware does available in various forms
+> 1. MIPI Switch PI3WVR626
+> 2. Conventional Mux Switch
+> 3. Converter bridge DSI to LVDS/HDMI (from Lontium).
+>
+> Overall I believe this can be a potential possible feature and good to
+> support on Mainline as the hardware is intended to design for it.
+>
+> Any thoughts on this please let me know?
 
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14143
-Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
----
- drivers/gpu/drm/i915/i915_query.c | 68 ++++++++++++++++++++++---------
- include/uapi/drm/i915_drm.h       | 24 +++++++----
- 2 files changed, 65 insertions(+), 27 deletions(-)
+I wonder if it would be possible to trigger a hot plug event similar
+to what is done when an HDMI cable is inserted/disconnected.
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 2dfbc22857a3..0cc2670ae09c 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -9,6 +9,7 @@
- #include "i915_drv.h"
- #include "i915_perf.h"
- #include "i915_query.h"
-+#include "gt/intel_engine_user.h"
- #include <uapi/drm/i915_drm.h>
- 
- static int copy_query_item(void *query_hdr, size_t query_sz,
-@@ -28,36 +29,30 @@ static int copy_query_item(void *query_hdr, size_t query_sz,
- 	return 0;
- }
- 
--static int query_topology_info(struct drm_i915_private *dev_priv,
--			       struct drm_i915_query_item *query_item)
-+static int fill_topology_info(const struct sseu_dev_info *sseu,
-+			      struct drm_i915_query_item *query_item,
-+			      const u8 *subslice_mask)
- {
--	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
- 	struct drm_i915_query_topology_info topo;
- 	u32 slice_length, subslice_length, eu_length, total_length;
- 	int ret;
- 
--	if (query_item->flags != 0)
--		return -EINVAL;
-+	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
- 
- 	if (sseu->max_slices == 0)
- 		return -ENODEV;
- 
--	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
--
- 	slice_length = sizeof(sseu->slice_mask);
- 	subslice_length = sseu->max_slices * sseu->ss_stride;
- 	eu_length = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
- 	total_length = sizeof(topo) + slice_length + subslice_length +
- 		       eu_length;
- 
--	ret = copy_query_item(&topo, sizeof(topo), total_length,
--			      query_item);
-+	ret = copy_query_item(&topo, sizeof(topo), total_length, query_item);
-+
- 	if (ret != 0)
- 		return ret;
- 
--	if (topo.flags != 0)
--		return -EINVAL;
--
- 	memset(&topo, 0, sizeof(topo));
- 	topo.max_slices = sseu->max_slices;
- 	topo.max_subslices = sseu->max_subslices;
-@@ -69,27 +64,61 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
- 	topo.eu_stride = sseu->eu_stride;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
--			   &topo, sizeof(topo)))
-+			 &topo, sizeof(topo)))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr + sizeof(topo)),
--			   &sseu->slice_mask, slice_length))
-+			 &sseu->slice_mask, slice_length))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
--					   sizeof(topo) + slice_length),
--			   sseu->subslice_mask, subslice_length))
-+					 sizeof(topo) + slice_length),
-+			 subslice_mask, subslice_length))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
--					   sizeof(topo) +
--					   slice_length + subslice_length),
--			   sseu->eu_mask, eu_length))
-+					 sizeof(topo) +
-+					 slice_length + subslice_length),
-+			 sseu->eu_mask, eu_length))
- 		return -EFAULT;
- 
- 	return total_length;
- }
- 
-+static int query_topology_info(struct drm_i915_private *dev_priv,
-+			       struct drm_i915_query_item *query_item)
-+{
-+	const struct sseu_dev_info *sseu = &to_gt(dev_priv )->info.sseu;
-+
-+	if (query_item->flags != 0)
-+		return -EINVAL;
-+
-+	return fill_topology_info(sseu, query_item, sseu->subslice_mask);
-+}
-+
-+static int query_geometry_subslices(struct drm_i915_private *i915,
-+				    struct drm_i915_query_item *query_item)
-+{
-+	const struct sseu_dev_info *sseu;
-+	struct intel_engine_cs *engine;
-+	u8 engine_class, engine_instance;
-+
-+	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
-+		return -ENODEV;
-+
-+	engine_class = query_item->flags & 0xFF;
-+	engine_instance = (query_item->flags >>8) & 0xFF;
-+
-+	engine = intel_engine_lookup_user(i915, engine_class, engine_instance);
-+
-+	if(!engine)
-+		return -EINVAL;
-+
-+	sseu = &engine->gt->info.sseu;
-+
-+	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
-+}
-+
- static int
- query_engine_info(struct drm_i915_private *i915,
- 		  struct drm_i915_query_item *query_item)
-@@ -485,6 +514,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 	query_engine_info,
- 	query_perf_config,
- 	query_memregion_info,
-+	query_geometry_subslices,
- };
- 
- int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 05c3642aaece..ac75d8b85803 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -2687,10 +2687,11 @@ struct drm_i915_perf_oa_config {
- struct drm_i915_query_item {
- 	/** @query_id: The id for this query */
- 	__u64 query_id;
--#define DRM_I915_QUERY_TOPOLOGY_INFO    1
--#define DRM_I915_QUERY_ENGINE_INFO	2
--#define DRM_I915_QUERY_PERF_CONFIG      3
--#define DRM_I915_QUERY_MEMORY_REGIONS   4
-+#define DRM_I915_QUERY_TOPOLOGY_INFO    	1
-+#define DRM_I915_QUERY_ENGINE_INFO		2
-+#define DRM_I915_QUERY_PERF_CONFIG      	3
-+#define DRM_I915_QUERY_MEMORY_REGIONS   	4
-+#define DRM_I915_QUERY_GEOMETRY_SUBSLICES	5
- /* Must be kept compact -- no holes and well documented */
- 
- 	/**
-@@ -2714,6 +2715,9 @@ struct drm_i915_query_item {
- 	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
- 	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
- 	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
-+	 *
-+	 * When query_id == DRM_I915_QUERY_GEOMETRY_SUBSLICES must have bits 0:7 set
-+	 * as a valid engine class, and bits 8:15 must have a valid engine instance.
- 	 */
- 	__u32 flags;
- #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
-@@ -2772,16 +2776,20 @@ struct drm_i915_query {
- };
- 
- /*
-- * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO :
-+ * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO,
-+ * DRM_I915_QUERY_GEOMETRY_SUBSLICE:
-  *
-  * data: contains the 3 pieces of information :
-  *
-- * - the slice mask with one bit per slice telling whether a slice is
-- *   available. The availability of slice X can be queried with the following
-- *   formula :
-+ * - For DRM_I915_QUERY_TOPOLOGY_INFO the slice mask with one bit per slice
-+ *   telling whether a slice is available. The availability of slice X can be
-+ *   queried with the following formula :
-  *
-  *           (data[X / 8] >> (X % 8)) & 1
-  *
-+ * - For DRM_I915_QUERY_GEOMETRY_SUBSLICES Slices are equal to 1 and this field
-+ *   is not used.
-+ *
-  * - the subslice mask for each slice with one bit per subslice telling
-  *   whether a subslice is available. Gen12 has dual-subslices, which are
-  *   similar to two gen11 subslices. For gen12, this array represents dual-
--- 
-2.21.3
+If one switches, force a disconnect event, then triggle the connection
+event to force the video system to rescan/attach. I am not sure how to
+go about implementing such a thing, but that's my first thought
 
+adam
+>
+> Thanks,
+> Jagan.
