@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D454D4F6D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 17:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55344D4F85
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Mar 2022 17:43:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4351810E285;
-	Thu, 10 Mar 2022 16:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7296D10E31D;
+	Thu, 10 Mar 2022 16:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCF410E285
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 16:35:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6C010E31D
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 16:43:06 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4045491;
- Thu, 10 Mar 2022 17:35:48 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FFB2491;
+ Thu, 10 Mar 2022 17:43:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646930149;
- bh=H/rScwjhv6h4uAEVs0m6qTExsU33rCuexQYAnXBvt/k=;
+ s=mail; t=1646930584;
+ bh=JobkSz9PjzQCB+BdMbkG0Fu1XaJc8qVBZmb6CvwuwxQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A0q2CNfvbL9OZM/GMoGCtTsu4c0wPkWgBXb7U0F4V7JhU+5WxJAE1X6LqEs2outIm
- 9j3REsnvTfLYtC6N7P4xgW9XskNfG+WboemKYOY0FEaLwm4z3qPMU23uJ2aHC7RLzn
- hbBgY5PGYlTqt7dDar2Ru3kGT7V9Jnu6pA9myyGs=
-Date: Thu, 10 Mar 2022 18:35:33 +0200
+ b=wdnWPcU5EsqVjam8ty9NNALBQvBXc7F5kDRyYy6w9siK6lOblLY0k9zdZfAk2D087
+ fnyHP7mJTbZhG7bAz4EwtccHgC9HKfkKoq1dq6fTnXRqZ+Jaq4lC3ZK8lcsMtifS0a
+ uvUC1EW55jPMM512PwxOBcX4eUvhL19Xi+Ue/vM4=
+Date: Thu, 10 Mar 2022 18:42:48 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
- adi,disable-lanes-override property
-Message-ID: <Yioo1Wgo1eC6IIvf@pendragon.ideasonboard.com>
-References: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+Message-ID: <YioqiGtni8Y7X4M1@pendragon.ideasonboard.com>
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,54 +47,299 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi Kieran,
 
 Thank you for the patch.
 
-On Wed, Mar 09, 2022 at 03:11:08PM +0000, Biju Das wrote:
-> On Renesas RZ/{G2L,V2L} platforms changing the lanes from 4 to 3 at
-> lower frequencies causes display instability. On such platforms, it
-> is better to avoid switching lanes from 4 to 3 as it needs different
-> set of PLL parameter constraints to make the display stable with 3
-> lanes.
+On Thu, Mar 10, 2022 at 03:22:27PM +0000, Kieran Bingham wrote:
+> When the SN65DSI86 is used in DisplayPort mode, its output is likely
+> routed to a DisplayPort connector, which can benefit from hotplug
+> detection. Support it in such cases, with polling mode only for now.
 
-Is this because the PLL calculation code doesn't work properly, or
-because the hardware can't support this ?
+Don't we support IRQ mode too now ?
 
-> This patch introduces 'adi,disable-lanes-override' property to disable
-> lane switching at lower frequencies.
+> The implementation is limited to the bridge operations, as the connector
+> operations are legacy and new users should use
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
->  .../devicetree/bindings/display/bridge/adi,adv7533.yaml      | 5 +++++
->  1 file changed, 5 insertions(+)
+> Changes since v1:
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> index f36209137c8a..2dc378039d21 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> @@ -84,6 +84,11 @@ properties:
->        timings for HDMI output.
->      type: boolean
+> - Document the no_hpd field
+> - Rely on the SN_HPD_DISABLE_REG default value in the HPD case
+> - Add a TODO comment regarding IRQ support
+> [Kieran]
+> - Fix spelling s/assrted/asserted/
+> - Only enable HPD on DisplayPort connector.
+> - Support IRQ based hotplug detect
+> 
+> Changes since v2: [Kieran]
+>  - Use unsigned int for values read by regmap
+>  - Update HPD support warning message
+>  - Only enable OP_HPD if IRQ support enabled.
+>  - Only register IRQ handler during ti_sn_bridge_probe()
+>  - Store IRQ in the struct ti_sn65dsi86
+>  - Register IRQ only when !no-hpd
+>  - Refactor DRM_BRIDGE_OP_DETECT and DRM_BRIDGE_OP_HPD handling
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 142 +++++++++++++++++++++++---
+>  1 file changed, 129 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index d581c820e5d8..328a48f09f97 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -70,6 +70,7 @@
+>  #define  BPP_18_RGB				BIT(0)
+>  #define SN_HPD_DISABLE_REG			0x5C
+>  #define  HPD_DISABLE				BIT(0)
+> +#define  HPD_DEBOUNCED_STATE			BIT(4)
+>  #define SN_GPIO_IO_REG				0x5E
+>  #define  SN_GPIO_INPUT_SHIFT			4
+>  #define  SN_GPIO_OUTPUT_SHIFT			0
+> @@ -106,10 +107,24 @@
+>  #define SN_PWM_EN_INV_REG			0xA5
+>  #define  SN_PWM_INV_MASK			BIT(0)
+>  #define  SN_PWM_EN_MASK				BIT(1)
+> +#define SN_IRQ_EN_REG				0xE0
+> +#define  IRQ_EN					BIT(0)
+> +#define SN_IRQ_HPD_REG				0xE6
+> +#define  IRQ_HPD_EN				BIT(0)
+> +#define  IRQ_HPD_INSERTION_EN			BIT(1)
+> +#define  IRQ_HPD_REMOVAL_EN			BIT(2)
+> +#define  IRQ_HPD_REPLUG_EN			BIT(3)
+> +#define  IRQ_HPD_PLL_UNLOCK_EN			BIT(5)
+>  #define SN_AUX_CMD_STATUS_REG			0xF4
+>  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
+>  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
+>  #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
+> +#define SN_IRQ_HPD_STATUS_REG			0xF5
+> +#define  IRQ_HPD_STATUS				BIT(0)
+> +#define  IRQ_HPD_INSERTION_STATUS		BIT(1)
+> +#define  IRQ_HPD_REMOVAL_STATUS			BIT(2)
+> +#define  IRQ_HPD_REPLUG_STATUS			BIT(3)
+> +#define  IRQ_PLL_UNLOCK				BIT(5)
 >  
-> +  adi,disable-lanes-override:
-> +    description:
-> +      Disables the overriding lanes at lower frequencies.
-> +    type: boolean
+>  #define MIN_DSI_CLK_FREQ_MHZ	40
+>  
+> @@ -168,6 +183,12 @@
+>   * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+>   * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
+>   * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+> + *
+> + * @no_hpd:       Disable hot-plug detection as instructed by device tree (used
+> + *                for instance for eDP panels whose HPD signal won't be asserted
+> + *                until the panel is turned on, and is thus not usable for
+> + *                downstream device detection).
+> + * @irq:          IRQ number for the device.
+>   */
+>  struct ti_sn65dsi86 {
+>  	struct auxiliary_device		bridge_aux;
+> @@ -202,6 +223,9 @@ struct ti_sn65dsi86 {
+>  	atomic_t			pwm_pin_busy;
+>  #endif
+>  	unsigned int			pwm_refclk_freq;
 > +
->    adi,dsi-lanes:
->      description: Number of DSI data lanes connected to the DSI host.
->      $ref: /schemas/types.yaml#/definitions/uint32
+> +	bool				no_hpd;
+> +	int				irq;
+>  };
+>  
+>  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
+> @@ -316,23 +340,25 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
+>  	ti_sn_bridge_set_refclk_freq(pdata);
+>  
+>  	/*
+> -	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
+> -	 * so the HPD is an internal signal that's only there to signal that
+> -	 * the panel is done powering up.  ...but the bridge chip debounces
+> -	 * this signal by between 100 ms and 400 ms (depending on process,
+> -	 * voltage, and temperate--I measured it at about 200 ms).  One
+> +	 * As this is an eDP bridge, the output will be connected to a fixed
+> +	 * panel in most systems. HPD is in that case only an internal signal
+> +	 * to signal that the panel is done powering up. The bridge chip
+> +	 * debounces this signal by between 100 ms and 400 ms (depending on
+> +	 * process, voltage, and temperate--I measured it at about 200 ms). One
+>  	 * particular panel asserted HPD 84 ms after it was powered on meaning
+>  	 * that we saw HPD 284 ms after power on.  ...but the same panel said
+>  	 * that instead of looking at HPD you could just hardcode a delay of
+> -	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
+> -	 * delay in its prepare and always disable HPD.
+> +	 * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
+> +	 * assume that the panel driver will have the hardcoded delay in its
+> +	 * prepare and always disable HPD.
+>  	 *
+> -	 * If HPD somehow makes sense on some future panel we'll have to
+> -	 * change this to be conditional on someone specifying that HPD should
+> -	 * be used.
+> +	 * However, on some systems, the output is connected to a DisplayPort
+> +	 * connector. HPD is needed in such cases. To accommodate both use
+> +	 * cases, enable HPD only when requested.
+>  	 */
+> -	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> -			   HPD_DISABLE);
+> +	if (pdata->no_hpd)
+> +		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> +				   HPD_DISABLE, HPD_DISABLE);
+>  
+>  	pdata->comms_enabled = true;
+>  
+> @@ -1135,6 +1161,36 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
+>  	pm_runtime_put_sync(pdata->dev);
+>  }
+>  
+> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
+> +{
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> +	int val;
+> +
+> +	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> +
+> +	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> +					 : connector_status_disconnected;
+> +}
+> +
+> +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
+> +{
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> +
+> +	/* The device must remain active for HPD to function */
+> +	pm_runtime_get_sync(pdata->dev);
+> +	regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
+> +		     IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
+> +		     IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
+> +}
+> +
+> +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
+> +{
+> +	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> +
+> +	regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
+> +	pm_runtime_put_autosuspend(pdata->dev);
+> +}
+> +
+>  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+>  					  struct drm_connector *connector)
+>  {
+> @@ -1153,6 +1209,9 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+>  	.detach = ti_sn_bridge_detach,
+>  	.mode_valid = ti_sn_bridge_mode_valid,
+>  	.get_edid = ti_sn_bridge_get_edid,
+> +	.detect = ti_sn_bridge_detect,
+> +	.hpd_enable = ti_sn_bridge_hpd_enable,
+> +	.hpd_disable = ti_sn_bridge_hpd_disable,
+>  	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
+>  	.atomic_enable = ti_sn_bridge_atomic_enable,
+>  	.atomic_disable = ti_sn_bridge_atomic_disable,
+> @@ -1223,6 +1282,34 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
+>  	return 0;
+>  }
+>  
+> +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
+> +{
+> +	struct ti_sn65dsi86 *pdata = arg;
+> +	int ret;
+> +	unsigned int hpd;
+> +
+> +	ret = regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
+> +	if (ret || !hpd)
+> +		return IRQ_NONE;
+> +
+> +	if (hpd & IRQ_HPD_INSERTION_STATUS)
+> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_connected);
+> +
+> +	if (hpd & IRQ_HPD_REMOVAL_STATUS)
+> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
+> +
+> +	/* When replugged, ensure we trigger a detect to update the display */
+> +	if (hpd & IRQ_HPD_REPLUG_STATUS)
+> +		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
+> +
+> +	/* reset the status registers */
+
+s/registers/register/
+
+> +	regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
+> +		     IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
+> +		     IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>  			      const struct auxiliary_device_id *id)
+>  {
+> @@ -1236,6 +1323,14 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>  		return PTR_ERR(pdata->next_bridge);
+>  	}
+>  
+> +	pdata->no_hpd = of_property_read_bool(np, "no-hpd");
+> +	if (pdata->next_bridge->type != DRM_MODE_CONNECTOR_DisplayPort &&
+> +	    !pdata->no_hpd) {
+> +		dev_warn(pdata->dev,
+> +			 "HPD support only implemented for full DP connectors\n");
+> +		pdata->no_hpd = true;
+> +	}
+> +
+>  	ti_sn_bridge_parse_lanes(pdata, np);
+>  
+>  	ret = ti_sn_bridge_parse_dsi_host(pdata);
+> @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>  	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+>  			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
+>  
+> -	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
+>  		pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+>  
+> +		if (!pdata->no_hpd)
+> +			pdata->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+> +	}
+> +
+> +	if (!pdata->no_hpd && pdata->irq > 0) {
+> +		dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
+
+As you've noted, this should be removed.
+
+> +
+> +		ret = devm_request_threaded_irq(pdata->dev, pdata->irq, NULL,
+> +						ti_sn65dsi86_irq_handler,
+> +						IRQF_ONESHOT, "sn65dsi86-irq",
+> +						pdata);
+> +		if (ret)
+> +			return dev_err_probe(pdata->dev, ret,
+> +					     "Failed to register DP interrupt\n");
+> +
+> +		/* Enable IRQ based HPD */
+> +		regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
+
+Do we have a guarantee that the device isn't PM-suspended here ? Should
+this be done in the PM resume handler ?
+
+> +		pdata->bridge.ops |= DRM_BRIDGE_OP_HPD;
+> +	}
+> +
+>  	drm_bridge_add(&pdata->bridge);
+>  
+>  	ret = ti_sn_attach_host(pdata);
+> @@ -1831,6 +1946,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
+>  		return -ENOMEM;
+>  	dev_set_drvdata(dev, pdata);
+>  	pdata->dev = dev;
+> +	pdata->irq = client->irq;
+>  
+>  	mutex_init(&pdata->comms_mutex);
+>  
 
 -- 
 Regards,
