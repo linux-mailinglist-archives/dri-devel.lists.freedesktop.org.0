@@ -1,30 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA14D56E5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 01:42:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7255E4D56F9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 01:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6219810E07F;
-	Fri, 11 Mar 2022 00:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C02710E434;
+	Fri, 11 Mar 2022 00:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-42.freemail.mail.aliyun.com
- (out30-42.freemail.mail.aliyun.com [115.124.30.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A341810E07F;
- Fri, 11 Mar 2022 00:42:44 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R561e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0V6qUi.A_1646959359; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0V6qUi.A_1646959359) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 11 Mar 2022 08:42:40 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: christian.koenig@amd.com
-Subject: [PATCH -next] drm/amd/pm: clean up some inconsistent indenting
-Date: Fri, 11 Mar 2022 08:42:38 +0800
-Message-Id: <20220311004238.112196-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E08610E432;
+ Fri, 11 Mar 2022 00:50:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646959852; x=1678495852;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XAbDrIJodItZRpJMxgYW3cOsZVANQDZdrvdMOkrlXM0=;
+ b=Bbu5v3/jF5/vuKFPEjjn8sZKVmyL+mIUzlmdiX6iS6ClMaWrOQEeRDgO
+ wf1cWkgE7qEuv4yS3rp01LQgafm+a4e2CpL2QGQRwu4R8KiTsnEgAdrcB
+ XN3w9VUsfr4rz1YZ4vajxby7tAYwzs90gbts1UWzb86FEyQYJURX6JBqE
+ 8Tk0wJSjDPGoeIy0imhx9sNZ0EdjZcR3WN0jlLH8z0ChFJvgFzRVKC/6E
+ yY4N0Y/uVGAVBwab9K79Y5+zBwRrHW6DE3dRU2rSIWNHI4yg24SW6INVM
+ 405w5GXPzBwospL8U7jxpU/kswc4190sT0guXcXdK6hCEOfbv6xg0/dFX Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="237626447"
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="237626447"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 16:40:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="633213669"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by FMSMGA003.fm.intel.com with ESMTP; 10 Mar 2022 16:40:47 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/1] Fix i915 error_state_read ptr use
+Date: Thu, 10 Mar 2022 16:43:10 -0800
+Message-Id: <20220311004311.514198-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -39,56 +53,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yang Li <yang.lee@linux.alibaba.com>, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com
+Cc: Stuart Summers <stuart.summers@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eliminate the follow smatch warning:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:174
-__smu_cmn_reg_print_error() warn: inconsistent indenting
+Fix pointer offset usage in error_state_read
+when there is no i915_gpu_coredump but buf offset
+is non-zero.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+This is the 2nd rev of this series.
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-index ae64d1980f10..5ed11624f144 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-@@ -164,17 +164,17 @@ static void __smu_cmn_reg_print_error(struct smu_context *smu,
- 
- 	switch (reg_c2pmsg_90) {
- 	case SMU_RESP_NONE: {
--	if (adev->ip_versions[MP1_HWIP][0] == IP_VERSION(13, 0, 5)) {
--		msg_idx = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_2);
--		prm     = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_34);
--	} else {
--		msg_idx = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_66);
--		prm     = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82);
--	}
--		dev_err_ratelimited(adev->dev,
--				    "SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x%08X SMN_C2PMSG_82:0x%08X",
--				    msg_idx, prm);
--	}
-+		if (adev->ip_versions[MP1_HWIP][0] == IP_VERSION(13, 0, 5)) {
-+			msg_idx = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_2);
-+			prm     = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_34);
-+		} else {
-+			msg_idx = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_66);
-+			prm     = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82);
-+		}
-+			dev_err_ratelimited(adev->dev,
-+				"SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x%08X SMN_C2PMSG_82:0x%08X",
-+				msg_idx, prm);
-+		}
- 		break;
- 	case SMU_RESP_OK:
- 		/* The SMU executed the command. It completed with a
+Changes from prior revs:
+  v4: - Mistake on v3, really added the missing fixme this time.
+  v3: - Add a fixme comment about handling partial inconsistent
+        sysfs reads as per review comment from John Harrison.
+      - Add the "fixes" tag referencing the previous patch
+        of the same function.
+  v2: - Fix build issue: uninitialized var
+        Reported-by: kernel test robot <lkp@intel.com>
+
+Alan Previn (1):
+  drm/i915/reset: Fix error_state_read ptr + offset use
+
+ drivers/gpu/drm/i915/i915_sysfs.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
 -- 
-2.20.1.7.g153144c
+2.25.1
 
