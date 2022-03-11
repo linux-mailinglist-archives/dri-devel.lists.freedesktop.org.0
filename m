@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7F84D6853
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 19:12:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE0C4D686D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 19:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A521510E8A3;
-	Fri, 11 Mar 2022 18:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3481010EA0C;
+	Fri, 11 Mar 2022 18:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E118310E8A6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 18:11:57 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id r127so7603523qke.13
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 10:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LDRMAQJD2IJFR2ryO9QaxnNNTgDC1VqmVGPIk4f9PME=;
- b=h/wp1UJQYk84BXJJKzehPzS5kuPAHg3No1RZK16s3MH7kGjUenwE9lMOlCCBDI48WV
- eYsLslKHIFNjjBPIXpcndk5/rLgMGLWggTTn4MhuVuzZrojarHGZdIIX9+IOjkenQkMv
- 5T7xGeRSiQsKO/34ZuMPcC39H/tcQuT50R8bX5st6XT39QT4dC7xIclR9OwZdpmi/3zR
- b+N2jO0rQdFhAkO7kRVr6Gy6nDhqGaIlE+SSNsytHgFfFhbR9k9H/NNMlDCuzx2FumOV
- 535J34b8vIroZxKu/Kldm6DJ+CqyhPIH/H+F+tu0lnEQOJP76U8zGcSSm6+VIcHYL41z
- mKhA==
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
+ [IPv6:2607:f8b0:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F38210EA0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 18:28:12 +0000 (UTC)
+Received: by mail-il1-x136.google.com with SMTP id b9so5168782ila.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 10:28:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3h6kRnzC7goLGEPmVBWo4cUiV7yAsagl+8hP4OJRt60=;
+ b=Yysm327o5/GzYIVke4LAYz/7eSWLDIM7SQoR1fxon9K3967gGvGTsPyBKOdl6WsoUs
+ lxMBbrpmgjl2+fdxYqM30DKensGi/owlaCLMJtL3ldflz8+HF9HcsODaxgYYL0J79FEj
+ 0ZJqXnBsDrNyosZT8oIqcVD8Q+UJUxpjOZP7I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LDRMAQJD2IJFR2ryO9QaxnNNTgDC1VqmVGPIk4f9PME=;
- b=hyQwvbQzePheUCdr2Usrfy9VBcPI6sjErGdUxzkecwCFGYB9PsYovRVkwG9P4lNHEM
- 7p7OkNeHMyF2udZ/tek/+8dUx0G/4CyxwzSe6P2d+Yk4/cv+HIjm3023xxEXJ2vfE1sU
- k09DzAZFlBkuct0vcOOe68YGpLJbKqSm5VXncP8uVDUro8itjRwKSdvISDGw12E0mv/A
- 41xQ24ZtsaCJrsgkARXTskVt/6HD8I6XoMK2On1gnqAt3IMTR06j9zqElONXIdmboVpl
- 2BJgiqQfCzHekeiUD9tzEkfHsRRjtDpRWdOziRMNMI747p1E+qcEGV6CYrOTyMF69FeR
- xreQ==
-X-Gm-Message-State: AOAM530BY3p/xZvtmt8bJXfDZ2t2dI0rSdjju+f2fw0n9OyXMbRes5+J
- /v3d++zZTt+CBE0rp1g5egvTEVtOSzXrX3T4GYu/gQ==
-X-Google-Smtp-Source: ABdhPJyFUfSzlfaptMreszxB59RlqCG8svcSAqvnRzhoQH+4Ac1YmteeNbwVKV9tcg31qS8fGhi5UcQNtxmlzKvcb5E=
-X-Received: by 2002:a05:620a:2449:b0:67d:16cc:8505 with SMTP id
- h9-20020a05620a244900b0067d16cc8505mr7665959qkn.203.1647022316770; Fri, 11
- Mar 2022 10:11:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3h6kRnzC7goLGEPmVBWo4cUiV7yAsagl+8hP4OJRt60=;
+ b=A5ZsSoRo/7w84bNEKNrWoTzM2juVXNVCcZmp05JJ/APnSj6O3u6sR6Gl6egC4zW1t3
+ NsibEP+Noryo3OzvsFLItwhfdt3zYmOz1vj1m3BEP3u3XOVqBsYItPLvdrFEN7fbNs/+
+ v2tw/KH2ObHe0uzhYpSz5CNWRlIIvKYh5F/WCyxOSIVqOn0F7AT4HxK9FyxFRFB23ecV
+ rEx0LcE4//xiTWkil5Bk7kk1FnL2xQFXM+ftIiFOiL+JWc9XNPqaTSkBOBu8e89FwcaC
+ vR2fhu0jOGzKYjaQ27n/qF8MaFnan0z/3vr+CQ5HVceqiJ5LYgmZO/iG0GMjBclVdl83
+ yP1w==
+X-Gm-Message-State: AOAM532KX+9Na1tKiTd7G2bIUdCRNXthNmEdr0u1H/XG/mfbBgTG05lM
+ q+B/7ZbwQqqjVgFtZwUl3GgHKSF8Mc6Bvg==
+X-Google-Smtp-Source: ABdhPJyXBcq64bTK5sj2ZWDtA1swRGQqBBlqtFMBcZKFPte5wO3bMxTNbICLQeV75OSaWmb1MkEzMA==
+X-Received: by 2002:a05:6e02:1285:b0:2c6:123f:48b8 with SMTP id
+ y5-20020a056e02128500b002c6123f48b8mr8342898ilq.250.1647023291166; 
+ Fri, 11 Mar 2022 10:28:11 -0800 (PST)
+Received: from ddavenport4.bld.corp.google.com
+ ([2620:15c:183:200:5a3:e166:1d11:e36c])
+ by smtp.gmail.com with ESMTPSA id
+ u15-20020a056e021a4f00b002c665afb993sm5031715ilv.11.2022.03.11.10.28.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Mar 2022 10:28:10 -0800 (PST)
+From: Drew Davenport <ddavenport@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: Update comments for drm_find_edid_extension
+Date: Fri, 11 Mar 2022 11:28:07 -0700
+Message-Id: <20220311112801.1.I8dff39863e3d7a30f13512d9ff50b38ce6743373@changeid>
+X-Mailer: git-send-email 2.35.1.723.g4982287a31-goog
 MIME-Version: 1.0
-References: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
- <1646963400-25606-2-git-send-email-quic_abhinavk@quicinc.com>
- <CAA8EJpqnC=crWaSrXLNLBX5WsZ6LDzG0aNUu7RmqhDPTvP8tFQ@mail.gmail.com>
- <YisC4cY8EZADarG6@pendragon.ideasonboard.com>
- <24e7cdbc-f615-1ba2-d1a9-474b60c87590@quicinc.com>
-In-Reply-To: <24e7cdbc-f615-1ba2-d1a9-474b60c87590@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 11 Mar 2022 21:11:45 +0300
-Message-ID: <CAA8EJpqNSWFR-qCW8EHJrV4fRR-qwU3W6tv1Q0Z=-C-zXMvSxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm: allow real encoder to be passed for
- drm_writeback_connector
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,159 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
- nganji@codeaurora.org, seanpaul@chromium.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, james.qian.wang@arm.com,
- quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Drew Davenport <ddavenport@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Mar 2022 at 20:09, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Hi Dmitry and Laurent
->
-> On 3/11/2022 12:05 AM, Laurent Pinchart wrote:
-> > On Fri, Mar 11, 2022 at 10:46:13AM +0300, Dmitry Baryshkov wrote:
-> >> On Fri, 11 Mar 2022 at 04:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>
-> >>> For some vendor driver implementations, display hardware can
-> >>> be shared between the encoder used for writeback and the physical
-> >>> display.
-> >>>
-> >>> In addition resources such as clocks and interrupts can
-> >>> also be shared between writeback and the real encoder.
-> >>>
-> >>> To accommodate such vendor drivers and hardware, allow
-> >>> real encoder to be passed for drm_writeback_connector.
-> >>>
-> >>> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> >>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >>> ---
-> >>>   drivers/gpu/drm/drm_writeback.c |  8 ++++----
-> >>>   include/drm/drm_writeback.h     | 13 +++++++++++--
-> >>>   2 files changed, 15 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> >>> index dccf4504..4dad687 100644
-> >>> --- a/drivers/gpu/drm/drm_writeback.c
-> >>> +++ b/drivers/gpu/drm/drm_writeback.c
-> >>> @@ -189,8 +189,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
-> >>>          if (IS_ERR(blob))
-> >>>                  return PTR_ERR(blob);
-> >>>
-> >>> -       drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> >>> -       ret = drm_encoder_init(dev, &wb_connector->encoder,
-> >>> +       drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
-> >>> +       ret = drm_encoder_init(dev, wb_connector->encoder,
-> >>>                                 &drm_writeback_encoder_funcs,
-> >>>                                 DRM_MODE_ENCODER_VIRTUAL, NULL);
-> >>
-> >> If the encoder is provided by a separate driver, it might use a
-> >> different set of encoder funcs.
-> >
-> > More than that, if the encoder is provided externally but doesn't have
-> > custom operations, I don't really see the point of having an external
-> > encoder in the first place.
-> >
-> > Has this series been tested with a driver that needs to provide an
-> > encoder, to make sure it fits the purpose ?
-> >
->
-> Yes, I have tested this with the MSM driver which provides an encoder
-> and yes it absolutely fits the purpose.
->
->
-> >> I'd suggest checking whether the wb_connector->encoder is NULL here.
-> >> If it is, allocate one using drmm_kzalloc and init it.
-> >> If it is not NULL, assume that it has been initialized already, so
-> >> skip the drm_encoder_init() and just call the drm_encoder_helper_add()
->
-> You are both right. We can skip the drm_encoder_init for drivers which
-> have already provided an encoder.
->
-> The only issue I was facing with that is some of the drivers for example
-> the below one, access the "wb_conn->encoder.possible_crtcs" before the
-> call to drm_writeback_connector_init().
+In (40d9b043a89e drm/connector: store tile information from displayid (v3))
+this function was changed to find EDID extensions by id, but the comments
+still are specific to the CEA extension.
 
-Yes. please do.
+Signed-off-by: Drew Davenport <ddavenport@chromium.org>
 
->
-> 198 int rcar_du_writeback_init(struct rcar_du_device *rcdu,
-> 199                        struct rcar_du_crtc *rcrtc)
-> 200 {
-> 201     struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
-> 202
-> 203     wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
-> 204     drm_connector_helper_add(&wb_conn->base,
-> 205                              &rcar_du_wb_conn_helper_funcs);
-> 206
-> 207     return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
-> 208                                         &rcar_du_wb_conn_funcs,
-> 209                                         &rcar_du_wb_enc_helper_funcs,
-> 210                                         writeback_formats,
-> 211                                         ARRAY_SIZE(writeback_formats));
->
-> If we allocate the encoder within drm_writeback_connector_init(), do you
-> suggest I modify the drivers to move the usage of possible_crtcs after
-> the drm_writeback_connector_init() call to avoid NULL ptr crash?
->
->
-> >>
-> >>>          if (ret)
-> >>> @@ -204,7 +204,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
-> >>>                  goto connector_fail;
-> >>>
-> >>>          ret = drm_connector_attach_encoder(connector,
-> >>> -                                               &wb_connector->encoder);
-> >>> +                                               wb_connector->encoder);
-> >>>          if (ret)
-> >>>                  goto attach_fail;
-> >>>
-> >>> @@ -233,7 +233,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
-> >>>   attach_fail:
-> >>>          drm_connector_cleanup(connector);
-> >>>   connector_fail:
-> >>> -       drm_encoder_cleanup(&wb_connector->encoder);
-> >>> +       drm_encoder_cleanup(wb_connector->encoder);
-> >>>   fail:
-> >>>          drm_property_blob_put(blob);
-> >>>          return ret;
-> >>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> >>> index 9697d27..0ba266e 100644
-> >>> --- a/include/drm/drm_writeback.h
-> >>> +++ b/include/drm/drm_writeback.h
-> >>> @@ -25,13 +25,22 @@ struct drm_writeback_connector {
-> >>>          struct drm_connector base;
-> >>>
-> >>>          /**
-> >>> -        * @encoder: Internal encoder used by the connector to fulfill
-> >>> +        * @encoder: handle to drm_encoder used by the connector to fulfill
-> >>>           * the DRM framework requirements. The users of the
-> >>>           * @drm_writeback_connector control the behaviour of the @encoder
-> >>>           * by passing the @enc_funcs parameter to drm_writeback_connector_init()
-> >>>           * function.
-> >>> +        *
-> >>> +        * For some vendor drivers, the hardware resources are shared between
-> >>> +        * writeback encoder and rest of the display pipeline.
-> >>> +        * To accommodate such cases, encoder is a handle to the real encoder
-> >>> +        * hardware.
-> >>> +        *
-> >>> +        * For current existing writeback users, this shall continue to be the
-> >>> +        * embedded encoder for the writeback connector.
-> >>> +        *
-> >>>           */
-> >>> -       struct drm_encoder encoder;
-> >>> +       struct drm_encoder *encoder;
-> >>>
-> >>>          /**
-> >>>           * @pixel_formats_blob_ptr:
-> >
+---
 
+ drivers/gpu/drm/drm_edid.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 561f53831e29..1afe73fbf3e0 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3326,7 +3326,7 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
+ #define EDID_CEA_VCDB_QS	(1 << 6)
+ 
+ /*
+- * Search EDID for CEA extension block.
++ * Search EDID for the extension block with id @ext_id.
+  */
+ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 				  int ext_id, int *ext_index)
+@@ -3338,7 +3338,7 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 	if (edid == NULL || edid->extensions == 0)
+ 		return NULL;
+ 
+-	/* Find CEA extension */
++	/* Find extension that matches @ext_id */
+ 	for (i = *ext_index; i < edid->extensions; i++) {
+ 		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
+ 		if (edid_ext[0] == ext_id)
 -- 
-With best wishes
-Dmitry
+2.35.1.723.g4982287a31-goog
+
