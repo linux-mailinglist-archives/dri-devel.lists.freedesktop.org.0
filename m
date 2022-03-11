@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E65D4D5AC5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 06:47:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CF44D5B77
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 07:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C993210E3A9;
-	Fri, 11 Mar 2022 05:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E2310E1E2;
+	Fri, 11 Mar 2022 06:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7E1410E3A9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 05:47:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FE6F488;
- Fri, 11 Mar 2022 06:47:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1646977645;
- bh=oockvR1LA+v9n302HI7aC2gMooUZaYtMOy6sArIIR2I=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=DHFCOygtdIWYDOa312BgpS/tKmOtVfjrUwPBlAjBDNa8Dku1KLiq4c2nL217+FDpI
- asDffEq0T0LvXow4y7D/ESM6SMGACt2+ghp5a59VfUYhFyPu0MUiTka6sY5IdhzjfT
- ttCRAF4JC0ihIbgIoE9i9m/u0UI+icDdw5BB2YaY=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24F210E1E2;
+ Fri, 11 Mar 2022 06:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646979354; x=1678515354;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XMx3oD4MZseJb8Q0bnpaY26JZjvlTcZENslKx3g3uNk=;
+ b=FSB99rV1Cf69lvq7xXPPnfLYX/FZ8pUJYn8bK5heCSBP+OHkyd999Xqj
+ 0eFCiZMbFGC5UJbx0ehJZzCUtOjBsmxbNAT3rr4fmKh9iw+FnxUtk0TSj
+ qxX0/T3gOP98ftSPTK/KxCQuD4LDmGvthAQ6haAyl94SzeSM1EnsHlLFR
+ OXtxdjic5CKYPNV93qAUYnKmYrJcTH+RFlpi8Ms/+LG11O8DrA0NhGPKt
+ IKkGEXBk2CNO5kBnxdlv88/PvsYt1PAWyf7EiibFV15sESd7Bg7+4X424
+ PdE+xeCz6+viQsLbHYCuTDYaDDLF/W5+LKeK7natvf6H2WyQYqZuDGKgB A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="316231245"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="316231245"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 22:15:53 -0800
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="538885116"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 22:15:53 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915/sseu: Don't overallocate subslice storage
+Date: Thu, 10 Mar 2022 22:15:42 -0800
+Message-Id: <20220311061543.153611-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=UqTh-FLDyXvH=ED-4cbJ6ggDLsTGqhTeqNMsKDphbzYA@mail.gmail.com>
-References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
- <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
- <CAD=FV=UqTh-FLDyXvH=ED-4cbJ6ggDLsTGqhTeqNMsKDphbzYA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Date: Fri, 11 Mar 2022 05:47:22 +0000
-Message-ID: <164697764297.2392702.10094603553189733655@Monstersaurus>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,202 +53,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+Xe_HP removed "slice" as a first-class unit in the hardware design.
+Instead we now have a single pool of subslices (which are now referred
+to as "DSS") that different hardware units have different ways of
+grouping ("compute slices," "geometry slices," etc.).  For the purposes
+of topology representation, we treat Xe_HP-based platforms as having a
+single slice that contains all of the platform's DSS.  There's no need
+to allocate storage space for (max legacy slices * max dss); let's
+update some of our macros to minimize the storage requirement for sseu
+topology.  We'll also document some of the constants to make it a little
+bit more clear what they represent.
 
-Quoting Doug Anderson (2022-03-10 23:10:12)
-> Hi,
->=20
-> On Thu, Mar 10, 2022 at 7:22 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >
-> > @@ -1135,6 +1161,36 @@ static void ti_sn_bridge_atomic_post_disable(str=
-uct drm_bridge *bridge,
-> >         pm_runtime_put_sync(pdata->dev);
-> >  }
-> >
-> > +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge=
- *bridge)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +       int val;
-> > +
-> > +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
->=20
-> Don't you need a pm_runtime_get_sync() before this and a
-> put_autosuspend() after? The "detect" will be used in the yes-HPD but
-> no-IRQ case, right? In that case there's nobody holding the pm_runtime
-> reference.
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_types.h |  2 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.h         | 47 +++++++++++++++-----
+ 2 files changed, 36 insertions(+), 13 deletions(-)
 
-Hrm ... I'll have to dig on this a bit. The polling is done by the DRM
-core, so indeed I suspect it could be done outside of a context that
-holds the pm runtime reference.
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 4fbf45a74ec0..f9e246004bc0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -645,7 +645,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
+ 
+ #define for_each_instdone_gslice_dss_xehp(dev_priv_, sseu_, iter_, gslice_, dss_) \
+ 	for ((iter_) = 0, (gslice_) = 0, (dss_) = 0; \
+-	     (iter_) < GEN_MAX_SUBSLICES; \
++	     (iter_) < GEN_SS_MASK_SIZE; \
+ 	     (iter_)++, (gslice_) = (iter_) / GEN_DSS_PER_GSLICE, \
+ 	     (dss_) = (iter_) % GEN_DSS_PER_GSLICE) \
+ 		for_each_if(intel_sseu_has_subslice((sseu_), 0, (iter_)))
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+index 8a79cd8eaab4..4f59eadbb61a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.h
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+@@ -15,26 +15,49 @@ struct drm_i915_private;
+ struct intel_gt;
+ struct drm_printer;
+ 
+-#define GEN_MAX_SLICES		(3) /* SKL upper bound */
+-#define GEN_MAX_SUBSLICES	(32) /* XEHPSDV upper bound */
+-#define GEN_SSEU_STRIDE(max_entries) DIV_ROUND_UP(max_entries, BITS_PER_BYTE)
+-#define GEN_MAX_SUBSLICE_STRIDE GEN_SSEU_STRIDE(GEN_MAX_SUBSLICES)
+-#define GEN_MAX_EUS		(16) /* TGL upper bound */
+-#define GEN_MAX_EU_STRIDE GEN_SSEU_STRIDE(GEN_MAX_EUS)
++/*
++ * Maximum number of legacy slices.  Legacy slices no longer exist starting on
++ * Xe_HP ("gslices," "cslices," etc. on Xe_HP and beyond are a different
++ * concept and are not expressed through fusing).
++ */
++#define GEN_MAX_LEGACY_SLICES		3
++
++/*
++ * Maximum number of subslices that can exist within a legacy slice.  This is
++ * only relevant to pre-Xe_HP platforms (Xe_HP and beyond use the GEN_MAX_DSS
++ * value below).
++ */
++#define GEN_MAX_LEGACY_SUBSLICES	6
++
++/* Maximum number of DSS on newer platforms (Xe_HP and beyond). */
++#define GEN_MAX_DSS			32
++
++/* Maximum number of EUs that can exist within a subslice or DSS. */
++#define GEN_MAX_EUS_PER_SS		16
++
++#define MAX(a, b)			((a) > (b) ? (a) : (b))
++
++/* The maximum number of bits needed to express each subslice/DSS independently */
++#define GEN_SS_MASK_SIZE		MAX(GEN_MAX_DSS, \
++					    GEN_MAX_LEGACY_SLICES * GEN_MAX_LEGACY_SUBSLICES)
++
++#define GEN_SSEU_STRIDE(max_entries)	DIV_ROUND_UP(max_entries, BITS_PER_BYTE)
++#define GEN_MAX_SUBSLICE_STRIDE		GEN_SSEU_STRIDE(GEN_SS_MASK_SIZE)
++#define GEN_MAX_EU_STRIDE		GEN_SSEU_STRIDE(GEN_MAX_EUS_PER_SS)
+ 
+ #define GEN_DSS_PER_GSLICE	4
+ #define GEN_DSS_PER_CSLICE	8
+ #define GEN_DSS_PER_MSLICE	8
+ 
+-#define GEN_MAX_GSLICES		(GEN_MAX_SUBSLICES / GEN_DSS_PER_GSLICE)
+-#define GEN_MAX_CSLICES		(GEN_MAX_SUBSLICES / GEN_DSS_PER_CSLICE)
++#define GEN_MAX_GSLICES		(GEN_MAX_DSS / GEN_DSS_PER_GSLICE)
++#define GEN_MAX_CSLICES		(GEN_MAX_DSS / GEN_DSS_PER_CSLICE)
+ 
+ struct sseu_dev_info {
+ 	u8 slice_mask;
+-	u8 subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+-	u8 geometry_subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+-	u8 compute_subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+-	u8 eu_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICES * GEN_MAX_EU_STRIDE];
++	u8 subslice_mask[GEN_SS_MASK_SIZE];
++	u8 geometry_subslice_mask[GEN_SS_MASK_SIZE];
++	u8 compute_subslice_mask[GEN_SS_MASK_SIZE];
++	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE];
+ 	u16 eu_total;
+ 	u8 eu_per_subslice;
+ 	u8 min_eu_in_pool;
+-- 
+2.34.1
 
-Equally a get and put on the reference doesn't hurt even if it's already
-taken, so perhaps it's best to add it, but I'll try to confirm it's
-requirement first.
-
-
-> Also, a nit that it'd be great if you error checked the regmap_read().
-> I know this driver isn't very good about it, but it's probably
-> something to get better. i2c transactions can fail. I guess another
-> alternative would be to init "val" to 0...
-
-It's a good point indeed. If we can't read the device we should return
-disconnected.
-
->=20
->=20
-> > +       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-> > +                                        : connector_status_disconnecte=
-d;
-> > +}
-> > +
-> > +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +       /* The device must remain active for HPD to function */
-> > +       pm_runtime_get_sync(pdata->dev);
-> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
-> > +                    IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
-> > +                    IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
-> > +}
-> > +
-> > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
-> > +       pm_runtime_put_autosuspend(pdata->dev);
->=20
-> Before doing the pm_runtime_put_autosuspend() it feels like you should
-> ensure that the interrupt has finished. Otherwise we could be midway
-> through processing an interrupt and the pm_runtime reference could go
-> away, right? Maybe we just disable the irq which I think will wait for
-> anything outstanding to finish?
-
-Should the IRQ handler also call pm_runtime_get/put then?
-
-> > @@ -1223,6 +1282,34 @@ static int ti_sn_bridge_parse_dsi_host(struct ti=
-_sn65dsi86 *pdata)
-> >         return 0;
-> >  }
-> >
-> > +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D arg;
-> > +       int ret;
-> > +       unsigned int hpd;
-> > +
-> > +       ret =3D regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
-> > +       if (ret || !hpd)
-> > +               return IRQ_NONE;
-> > +
-> > +       if (hpd & IRQ_HPD_INSERTION_STATUS)
-> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
-connected);
-> > +
-> > +       if (hpd & IRQ_HPD_REMOVAL_STATUS)
-> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
-disconnected);
-> > +
-> > +       /* When replugged, ensure we trigger a detect to update the dis=
-play */
-> > +       if (hpd & IRQ_HPD_REPLUG_STATUS)
-> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
-disconnected);
->=20
-> How does the ordering work here if _both_ insertion and removal are
-> asserted? Is that somehow not possible? Should this be "else if" type
-> statements then, or give a warn if more than one bit is set, or ... ?
-
-As I understand it, that would trigger a REPLUG IRQ. However this is one
-part I quite disliked about the drm_bridge_hpd_notify. The values here
-are not taken as the hardware state anyway. A call to drm_bridge_hpd_notify=
- will=20
-trigger a call on the detect function so a further read will occur to
-determine the current state using the same function as is used with
-polling.
-
-The IRQ handler only cuts out the polling as far as I see.
-
-
-> > +       /* reset the status registers */
-> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
-> > +                    IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
-> > +                    IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
->=20
-> IMO this regmap_write() belongs right after the read and should be
-> based on what you read--you shouldn't just clear all of them. AKA:
->=20
-> a) Read to see what interrupt are asserted.
-> b) Ack the interrupts that you saw asserted.
-> c) Process the interrupts that you saw asserted.
->=20
-> If you process before acking then you can miss interrupts (in other
-> words if you do "a" then "c" then "b" then you can miss interrupts
-> that come in after "b" but before "c".
-
-Agreed, I'll respin.
-
-> > @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
-evice *adev,
-> >         pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE=
-_CONNECTOR_DisplayPort
-> >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_=
-CONNECTOR_eDP;
-> >
-> > -       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
-> >                 pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
-> >
-> > +               if (!pdata->no_hpd)
-> > +                       pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
-> > +       }
-> > +
-> > +       if (!pdata->no_hpd && pdata->irq > 0) {
-> > +               dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
-> > +
-> > +               ret =3D devm_request_threaded_irq(pdata->dev, pdata->ir=
-q, NULL,
-> > +                                               ti_sn65dsi86_irq_handle=
-r,
-> > +                                               IRQF_ONESHOT, "sn65dsi8=
-6-irq",
-> > +                                               pdata);
-> > +               if (ret)
-> > +                       return dev_err_probe(pdata->dev, ret,
-> > +                                            "Failed to register DP int=
-errupt\n");
-> > +
-> > +               /* Enable IRQ based HPD */
-> > +               regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
->=20
-> Why not put the above regmap_write() in the ti_sn_bridge_hpd_enable() cal=
-l?
-
-I assumed the IRQ handler may get used by other non-HPD events. Which is
-also why it was originally registered in the main probe(). HPD is just
-one feature of the interrupts. Of course it's only used for HPD now
-though. I guess I could have solved the bridge dependency by splitting
-the IRQ handler to have a dedicated HPD handler function which would
-return if the bridge wasn't initialised, but went with the deferred
-registration of the handler.
-
-I can move this and then leave it to anyone else implementing further
-IRQ features to refactor if needed.
-
->=20
-> -Doug
