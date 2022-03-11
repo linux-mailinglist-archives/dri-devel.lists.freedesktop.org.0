@@ -2,41 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E04D5D78
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 09:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFB14D5E1F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 10:16:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB49310E525;
-	Fri, 11 Mar 2022 08:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B210E67F;
+	Fri, 11 Mar 2022 09:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE8B10E525
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 08:33:35 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nSaiL-0000ae-AS; Fri, 11 Mar 2022 09:33:33 +0100
-Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1nSaiE-0040iF-Sd; Fri, 11 Mar 2022 09:33:26 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 24/24] dt-bindings: display: rockchip: dw-hdmi: fix ports
- description
-Date: Fri, 11 Mar 2022 09:33:23 +0100
-Message-Id: <20220311083323.887372-25-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220311083323.887372-1-s.hauer@pengutronix.de>
-References: <20220311083323.887372-1-s.hauer@pengutronix.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C466410E68A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 09:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646990172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EIGdPHjLg1hmetspOZdQaeJznczctW/NKNGy6+DAXDs=;
+ b=UcdtxkZ0nU42xs84wkXeSqg5hsVAQXU72Gq9cdh0/yPjEKwptiEYktQ7KzWtuM1O+8JB6/
+ 4NHIYaQVafr0A675JjCIO7KYOLp4Rct/gdNoKg3u5xmjBoAr5Cee7OVQ/TNkbJYXkG4v/M
+ MJwrXiljYtN1upzhsYAWme594iKu8UY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-298-yWt1kxizN8qGmaegpZ5DIQ-1; Fri, 11 Mar 2022 04:16:11 -0500
+X-MC-Unique: yWt1kxizN8qGmaegpZ5DIQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z1-20020adfec81000000b001f1f7e7ec99so2596310wrn.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 01:16:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=EIGdPHjLg1hmetspOZdQaeJznczctW/NKNGy6+DAXDs=;
+ b=6iyhxY7EEYv3CkmYNMfaTAxSsFgEtCnK9VYuFGPsNphiOR4Cs7GfF+IlDuoCI5s3v6
+ odswrLvT7tYolxzCyvbb8qUKOfyOvHU6cGgi12UvaMy953GomiMGSiTbgfudeESDFciW
+ D4my1j1Wv0fTmO/wcXzG7QF4DAlcGYl9Lq0RJQIFOetdyMGFGNUxUiJB4omsqaHF/LjW
+ AfHzgnSJgk8xNdmXysi0c7Eg2yE3lSKIGphN59klAoevDlWTAhgvaay1FHj5QtTrmxA+
+ BCqQRMe4rdSF4tdPGlewuKf2+UAycPsIe/SgqnHVZ2s/f/Td+EqFoC5BhiO7igK/thrt
+ uviQ==
+X-Gm-Message-State: AOAM532LkmXSS/3HywVBUoKvuo+oBPWDWqV5TMWIImIbPVI2bCdP3Cgg
+ A2MSV2REDYMSZ3Ff/Xf+VHZSW3R1NdQEZhwk6wVXZ6P62YG0mYOWw+W5JJT1vQKGFPcG2W/H+im
+ Akw2AbQkgs2lDARH85aEY0hB1mjqx
+X-Received: by 2002:a05:600c:4f0e:b0:389:eb27:581f with SMTP id
+ l14-20020a05600c4f0e00b00389eb27581fmr2193333wmq.132.1646990169866; 
+ Fri, 11 Mar 2022 01:16:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz66GE36RKglM3amxTnbF4SO/2NAriOwP++GkZh2LKs8fqberByaO4MYMTDcE67f9+yx5ejJw==
+X-Received: by 2002:a05:600c:4f0e:b0:389:eb27:581f with SMTP id
+ l14-20020a05600c4f0e00b00389eb27581fmr2193321wmq.132.1646990169610; 
+ Fri, 11 Mar 2022 01:16:09 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:8200:163d:7a08:6e61:87a5?
+ (p200300cbc7078200163d7a086e6187a5.dip0.t-ipconnect.de.
+ [2003:cb:c707:8200:163d:7a08:6e61:87a5])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020a05600c068800b00389bdc8c8c2sm6270654wmn.12.2022.03.11.01.16.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Mar 2022 01:16:09 -0800 (PST)
+Message-ID: <07401a0a-6878-6af2-f663-9f0c3c1d88e5@redhat.com>
+Date: Fri, 11 Mar 2022 10:16:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+To: Alex Sierra <alex.sierra@amd.com>, jgg@nvidia.com
+References: <20220310172633.9151-1-alex.sierra@amd.com>
+ <20220310172633.9151-2-alex.sierra@amd.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 1/3] mm: split vm_normal_pages for LRU and non-LRU
+ handling
+In-Reply-To: <20220310172633.9151-2-alex.sierra@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,90 +92,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: rcampbell@nvidia.com, willy@infradead.org, Felix.Kuehling@amd.com,
+ apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current port description doesn't cover all possible cases. It currently
-expects one single port with two endpoints.
+On 10.03.22 18:26, Alex Sierra wrote:
+> DEVICE_COHERENT pages introduce a subtle distinction in the way
+> "normal" pages can be used by various callers throughout the kernel.
+> They behave like normal pages for purposes of mapping in CPU page
+> tables, and for COW. But they do not support LRU lists, NUMA
+> migration or THP. Therefore we split vm_normal_page into two
+> functions vm_normal_any_page and vm_normal_lru_page. The latter will
+> only return pages that can be put on an LRU list and that support
+> NUMA migration, KSM and THP.
+> 
+> We also introduced a FOLL_LRU flag that adds the same behaviour to
+> follow_page and related APIs, to allow callers to specify that they
+> expect to put pages on an LRU list.
+> 
 
-When the HDMI connector is described in the device tree there can be two
-ports, first one going to the VOP and the second one going to the connector.
+I still don't see the need for s/vm_normal_page/vm_normal_any_page/. And
+as this patch is dominated by that change, I'd suggest (again) to just
+drop it as I don't see any value of that renaming. No specifier implies any.
 
-Also on SoCs which only have a single VOP there will be only one
-endpoint instead of two.
+The general idea of this change LGTM.
 
-This patch addresses both issues. With this there can either be a single
-port ("port") , or two of them ("port@0", "port@1") when the connector
-is also in the device tree. Also the first or only port can either have
-one endpoint ("endpoint") for single VOP SoCs or two ("endpoint@0",
-"endpoint@1") for dual VOP SoCs.
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
+I wonder how this interacts with the actual DEVICE_COHERENT coherent
+series. Is this a preparation? Should it be part of the DEVICE_COHERENT
+series?
 
-Notes:
-    Changes since v6:
-    - Add Reviewed-by: Rob Herring <robh@kernel.org>
-    Changes since v5:
-    - new patch
-    
-    Changes since v7:
-    - Drop unnecessary hclk
-    
-    Changes since v5:
-    - Drop unnecessary #size-cells/#address-cells from nodes with only single endpoint
+IOW, should this patch start with
 
- .../display/rockchip/rockchip,dw-hdmi.yaml    | 24 +++++++------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+"With DEVICE_COHERENT, we'll soon have vm_normal_pages() return
+device-managed anonymous pages that are not LRU pages. Although they
+behave like normal pages for purposes of mapping in CPU page, and for
+COW, they do not support LRU lists, NUMA migration or THP. [...]"
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index ff5cf9fe20904..1f2fd579c510e 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -102,27 +102,21 @@ properties:
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
- 
--    properties:
--      port:
--        $ref: /schemas/graph.yaml#/$defs/port-base
--        unevaluatedProperties: false
-+    patternProperties:
-+      "^port(@0)?$":
-+        $ref: /schemas/graph.yaml#/properties/port
-         description: Input of the DWC HDMI TX
--
-         properties:
-+          endpoint:
-+            description: Connection to the VOP
-           endpoint@0:
--            $ref: /schemas/graph.yaml#/properties/endpoint
-             description: Connection to the VOPB
--
-           endpoint@1:
--            $ref: /schemas/graph.yaml#/properties/endpoint
-             description: Connection to the VOPL
--
--        required:
--          - endpoint@0
--          - endpoint@1
--
--    required:
--      - port
-+    properties:
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output of the DWC HDMI TX
- 
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
+But then, I'm confused by patch 2 and 3, because it feels more like we'd
+already have DEVICE_COHERENT then ("hmm_is_coherent_type").
+
+
 -- 
-2.30.2
+Thanks,
+
+David / dhildenb
 
