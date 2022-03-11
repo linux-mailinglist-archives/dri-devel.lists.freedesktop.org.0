@@ -2,72 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F554D6356
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 15:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C943D4D6404
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 15:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2E3710E1E3;
-	Fri, 11 Mar 2022 14:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D613C10E3B9;
+	Fri, 11 Mar 2022 14:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A976610E1E3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 14:22:12 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id DC1E05C0287;
- Fri, 11 Mar 2022 09:22:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 11 Mar 2022 09:22:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=KnXu0sFaFNChZ7GnTfgDWTVUPg22k0EHWVGTQp
- m57ss=; b=p/FOfvboHbnVhWmB6UKA3eVDme/6I39p1C5Qq+0ZBi1kqHsdOHmLoM
- a6lORpVJmfg+VNTRUKlbKxk/SFRyZkSaA4gCCnuyUEn57tjZhMmCyYRdest/ZS7r
- PmVM3y3IK4i6shhley1rjR6Bozp2JXEgAh28aV58iBpuElRw5D31rLuRbkHla3D1
- 1Z+n/dbskVq/o0Fystp0AQ+MaCQPcgZZdETGPPk0PSpxSYnkQuUKXEXagKpmhy2i
- ZnXlFuKQBNiqJfh03qddxXG5AmPYTUyi1+f/UAxvA4zmfgzeK4ML4IOLFfc1P1M8
- qqYAp94iOB2acfE6ORSDwtfptDlFiR+w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KnXu0sFaFNChZ7GnT
- fgDWTVUPg22k0EHWVGTQpm57ss=; b=SIMbtgS201VLqwC9ejoUK4VUmJZZJsXb+
- Min4Fxrdf9QW5ATl2g1np64cUrtd7XaouN9xty86H1ZzpeffteFiJGYbm9s5++1t
- f7a/IjIyEEbadco+vUVIbxnGt3Iia5Y82KegO+nlhKGIriAWLX8RnplX8vKoQRg0
- o+TVANwKE+UfEbgxToNbGD9PxQjv84EbKi5LlgQVCV1BEYUEZ4Cro1GHLGNc0AJd
- ZTBz/tTkZZgZrl0pjlCTNmHwEMElXIYOSsc7TvEHqKMKJ9eB0/9Odsvza0CmT/uC
- qR02oPho6JoIfIk+x2LX5LWALnaXO+v31yvcmlt/8jWDNg8pzkA+w==
-X-ME-Sender: <xms:EFsrYjv3alfNY5e2f2APnMO3j--rDxMST6NSqNw2t67Iiy9OirbKkA>
- <xme:EFsrYkdiBK-OTMfVIZ6s-R1iah9lJ35UgOo70VofrB8rWarTlj7CIk0Vg_9lfmEib
- n0ht4EGXo9sCpDAgBI>
-X-ME-Received: <xmr:EFsrYmz6_ZeayhDI1zbL1JwATHYQn-7k2Mk_Nh2ifOaIKHK4nFyXejvzi6Z7cLCaWbVY7vEzZZz2M1o_DxUcuEcjtkkIOE0rpWGQ1Fw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvvddgieduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:EFsrYiMUlK7XdO4_kO54q86mq8jIb0LHR8f1HYrNQtQvOdlT_Hq-3g>
- <xmx:EFsrYj_Jq4WH6IpDs_6FEDcJ1stY1P5ExrRyU1-GDKIeqQv49g5dwA>
- <xmx:EFsrYiXm7emYonzFI5nhN89-Sdwf0TYti7CgbiA4nwaiPdR_WK8x7w>
- <xmx:EVsrYvYdt7KT-J6ylPdbfPcx5tsANv1dfGdruv_o7p3XXzEqkklhdg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Mar 2022 09:22:08 -0500 (EST)
-Date: Fri, 11 Mar 2022 15:22:05 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: BUG: KASAN: use-after-free in drm_atomic_helper_wait_for_vblanks()
-Message-ID: <20220311142205.ztg6njrubmnjud7c@houat>
-References: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9441F10E3B9;
+ Fri, 11 Mar 2022 14:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647009913; x=1678545913;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0TnQ0wVC+3ShDjxmbQjTE8dgBeJFmf2s40bJqPvF9E8=;
+ b=H/lmkz8y7rHONeTB0lpYFIFYQAdCDKK2k9FpHLSDFi9vmV0tlp8ztruh
+ MyoyNQgIg5Uzaq+sRYjCsQobmUse7u/Js4EL43PwYXXHwpAZcmuA8916o
+ MuzxDhE+MQAL8LCoPXdOWEZ5iV0AfBQWFVXiwawsao0MA0Q4H1AOxkOk2
+ LjAaiAFgMl/hwRgEfKwktQKjJS+Axm1FNwvH0o/5P/sgU7+2N0mUIANT8
+ 50nPeU60t6zQkASi3BcgPQvOFg4t2tJZc1/QVn8vjPeSfCdpPra8bIqkI
+ ui3cOKhMXlvcxzCMEjwgSM8QzhNgCQWShyTLrWlHgUGjApx2lnZjYtGFL w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="236186164"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="236186164"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 06:45:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="514521899"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 11 Mar 2022 06:45:11 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nSgVy-0006ZX-MP; Fri, 11 Mar 2022 14:45:10 +0000
+Date: Fri, 11 Mar 2022 22:44:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/xehp: Update topology dumps for
+ Xe_HP
+Message-ID: <202203112245.eDvNTHyE-lkp@intel.com>
+References: <20220311061543.153611-2-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aouhuqpej7vtvymi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
+In-Reply-To: <20220311061543.153611-2-matthew.d.roper@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +60,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matt,
 
---aouhuqpej7vtvymi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Perhaps something to improve:
 
-Hi Dmitry,
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on drm-exynos/exynos-drm-next drm/drm-next next-20220310]
+[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-On Thu, Mar 10, 2022 at 03:33:07AM +0300, Dmitry Osipenko wrote:
-> I was playing/testing SuperTuxKart using VirtIO-GPU driver and spotted a
-> UAF bug in drm_atomic_helper_wait_for_vblanks().
->=20
-> SuperTuxKart can use DRM directly, i.e. you can run game in VT without
-> Xorg or Wayland, this is where bugs happens. SuperTuxKart uses a
-> non-blocking atomic page flips and UAF happens when a new atomic state
-> is committed while there is a previous page flip still in-fly.
->=20
-> What happens is that the new and old atomic states refer to the same
-> CRTC state somehow. Once the older atomic state is destroyed, the CRTC
-> state is freed and the newer atomic state continues to use the freed
-> CRTC state.
+url:    https://github.com/0day-ci/linux/commits/Matt-Roper/drm-i915-sseu-Don-t-overallocate-subslice-storage/20220311-141705
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20220311/202203112245.eDvNTHyE-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/38985b2e6acdbe67dedb5de8a8aeef917b746453
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Matt-Roper/drm-i915-sseu-Don-t-overallocate-subslice-storage/20220311-141705
+        git checkout 38985b2e6acdbe67dedb5de8a8aeef917b746453
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-I'm not sure what you mean by "the new and old atomic states refer to
-the same CRTC state", are those the same pointers?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> The bug is easily reproducible (at least by me) by playing SuperTuxKart
-> for a minute. It presents on latest -next and 5.17-rc7, I haven't
-> checked older kernel versions.
->=20
-> I'm not an expert of the non-blocking code paths in DRM, so asking for
-> suggestions about where the root of the problem could be.
+All warnings (new ones prefixed by >>):
 
-Does it occur with other platforms? Can you easily test on something else?
+>> drivers/gpu/drm/i915/gt/intel_sseu.c:59:5: warning: no previous prototype for 'intel_sseu_get_geometry_subslices' [-Wmissing-prototypes]
+      59 | u32 intel_sseu_get_geometry_subslices(const struct sseu_dev_info *sseu)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Thanks,
-Maxime
 
---aouhuqpej7vtvymi
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/intel_sseu_get_geometry_subslices +59 drivers/gpu/drm/i915/gt/intel_sseu.c
 
------BEGIN PGP SIGNATURE-----
+    58	
+  > 59	u32 intel_sseu_get_geometry_subslices(const struct sseu_dev_info *sseu)
+    60	{
+    61		return _intel_sseu_get_subslices(sseu, sseu->geometry_subslice_mask, 0);
+    62	}
+    63	
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYitbDQAKCRDj7w1vZxhR
-xX6WAQCqRxBEMdkx7TcRxQDKWFsigVtbUDJjVElXPRutVOrdugD/WCvym62uiYy5
-lK2FegpJNXH3eTqn3L1yuVeC1dGkpAw=
-=805p
------END PGP SIGNATURE-----
-
---aouhuqpej7vtvymi--
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
