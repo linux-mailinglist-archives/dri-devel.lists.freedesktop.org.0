@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45264D5FC5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 11:37:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 922FE4D5FE1
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 11:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D2E10E8DF;
-	Fri, 11 Mar 2022 10:37:03 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B218F10E8DF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 10:37:01 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B3D7D8306E;
- Fri, 11 Mar 2022 11:36:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1646995019;
- bh=xPvGLiS5hx6T4kqE/G8onmHNjUoemvjTYRV6dWQU8Ls=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IHWboSsj1kv6DbcNofOH2sCoSrWemEcvW1+AApRDlZdX3LyttlzZfnRRj4GZQr+aj
- q437YxDoYw2O8ddr7C2siyUC9KqPqEZxbcWwYM/zT9Y2QPsDrxvHDk9MEVdzFiZLyd
- vxt4KWplHmzq/w1bv4v6DvyF1XBKCvOS4XSSM7zA8HQOj/36Dq7sH2fMKv4JFZAENR
- 2eHei5/MUXcmnwUo0WLJFRd64K+qsfrc4XLaifKriXCuA5J52rfhcb/JowD6Lh2GSB
- bjaz8sPqjUuvccffyuTKUiXkz4YP4sSfVl1eqeMN/6O2GVb/BKDCnHsAsC873t1XB1
- B24wHSO4ApyTQ==
-Message-ID: <17281de1-1299-19ee-ece3-767ef7e8a32b@denx.de>
-Date: Fri, 11 Mar 2022 11:36:58 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86DF410E8E5;
+	Fri, 11 Mar 2022 10:40:16 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE5910E8E3;
+ Fri, 11 Mar 2022 10:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646995214; x=1678531214;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=ahoMELmiybAmi8wGMYc4ITeOeHJPEyFEQtxQWLUheMs=;
+ b=EYaJhgiJTujeQl6uh7wPlqy9/3EtbE2cBkRaNMB0yizspPE1aIQQ2gJt
+ T23iDtgCyUSGvhkab1IwDn0yHLgB5tYvUlO9OClpZO7Ltfs1dzI/MieaA
+ g9WpZqzPX/+0eY8j2IveGEEj4tqm/m9MBHr1wFzVOVohit7P3C+NfEvg6
+ c6+lvr9+ZHMoXZs7JZN1upYbIoGY/SYyzPIzRDI0dIoPL/BHTAENVv3Lg
+ uGtkoqaInOYnsA6pJNcSFZcDO0NiDJR6KFHfrl9b+sf3427WmrDNEg8BD
+ VwOgxBcpF9zzhykdfgJxOLeyx9lTKrwdhYP6jZwLLlRrQzYt574mU777w Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="237721962"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="237721962"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 02:40:03 -0800
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="555255503"
+Received: from bmeaney-mobl.ger.corp.intel.com (HELO [10.213.199.126])
+ ([10.213.199.126])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 02:40:02 -0800
+Message-ID: <1acd134e-c7b1-8334-54d0-48ce41810a36@linux.intel.com>
+Date: Fri, 11 Mar 2022 10:39:59 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH v3 4/4] drm/i915: Improve long running OCL w/a
+ for GuC submission
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
- <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
- <20220308125140.e7orpvocrerr5xdv@houat>
- <dd68f569-7fe3-dc00-b2f0-536b066ec37a@denx.de>
- <20220308134921.zebs533xeazq46ts@houat>
- <1ac9057e-fb6d-02f8-78df-c6518fb6e897@denx.de>
- <20220308162158.j5czx7krscaeqtsy@houat>
- <423c5f19-7b7c-dbc7-7482-34a0537bec21@denx.de>
- <20220310105352.v7jqjchshaaajsmd@houat>
- <c60112b4-5095-11ad-0da4-c84bb30bf77f@denx.de>
- <20220310141807.5yqho4gloz4lrdjt@houat>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220310141807.5yqho4gloz4lrdjt@houat>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20220303223737.708659-1-John.C.Harrison@Intel.com>
+ <20220303223737.708659-5-John.C.Harrison@Intel.com>
+ <71a0f9af-7473-ece9-dae8-bcc1c3b55cf5@linux.intel.com>
+ <991c5d38-7904-dff8-e610-c4030e526e2e@intel.com>
+ <6f61e906-8149-6b39-c1ec-1b44f1bb3ca5@linux.intel.com>
+ <98d7ab11-e47d-e642-96b7-b7643d19611a@intel.com>
+ <7b1ca52b-3881-d1fc-a64b-6e85271954a7@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <7b1ca52b-3881-d1fc-a64b-6e85271954a7@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,175 +67,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/10/22 15:18, Maxime Ripard wrote:
-> On Thu, Mar 10, 2022 at 01:47:13PM +0100, Marek Vasut wrote:
->> On 3/10/22 11:53, Maxime Ripard wrote:
->>> On Tue, Mar 08, 2022 at 10:41:05PM +0100, Marek Vasut wrote:
->>>> On 3/8/22 17:21, Maxime Ripard wrote:
->>>>> On Tue, Mar 08, 2022 at 03:47:22PM +0100, Marek Vasut wrote:
->>>>>> On 3/8/22 14:49, Maxime Ripard wrote:
->>>>>>> On Tue, Mar 08, 2022 at 02:27:40PM +0100, Marek Vasut wrote:
->>>>>>>> On 3/8/22 13:51, Maxime Ripard wrote:
->>>>>>>>> On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
->>>>>>>>>> On 3/8/22 11:07, Jagan Teki wrote:
->>>>>>>>>>> On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
->>>>>>>>>>>>
->>>>>>>>>>>> On 3/8/22 09:03, Jagan Teki wrote:
->>>>>>>>>>>>
->>>>>>>>>>>> Hi,
->>>>>>>>>>>>
->>>>>>>>>>>> [...]
->>>>>>>>>>>>
->>>>>>>>>>>>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
->>>>>>>>>>>>>>         static int chipone_parse_dt(struct chipone *icn)
->>>>>>>>>>>>>>         {
->>>>>>>>>>>>>>                struct device *dev = icn->dev;
->>>>>>>>>>>>>> +       struct device_node *endpoint;
->>>>>>>>>>>>>>                struct drm_panel *panel;
->>>>>>>>>>>>>> +       int dsi_lanes;
->>>>>>>>>>>>>>                int ret;
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>                icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
->>>>>>>>>>>>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
->>>>>>>>>>>>>>                        return PTR_ERR(icn->enable_gpio);
->>>>>>>>>>>>>>                }
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
->>>>>>>>>>>>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
->>>>>>>>>>>>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
->>>>>>>>>>>>>> +       of_node_put(endpoint);
->>>>>>>>>>>>>> +
->>>>>>>>>>>>>> +       if (!icn->host_node)
->>>>>>>>>>>>>> +               return -ENODEV;
->>>>>>>>>>>>>
->>>>>>>>>>>>> The non-ports-based OF graph returns a -19 example on the Allwinner
->>>>>>>>>>>>> Display pipeline in R16 [1].
->>>>>>>>>>>>>
->>>>>>>>>>>>> We need to have a helper to return host_node for non-ports as I have
->>>>>>>>>>>>> done it for drm_of_find_bridge.
->>>>>>>>>>>>>
->>>>>>>>>>>>> [1] https://patchwork.amarulasolutions.com/patch/1805/
->>>>>>>>>>>>
->>>>>>>>>>>> The link points to a patch marked "DO NOT MERGE", maybe that patch is
->>>>>>>>>>>> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
->>>>>>>>>>>> required, see:
->>>>>>>>>>>>
->>>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
->>>>>>>>>>>>
->>>>>>>>>>>> What is "non-ports-based OF graph" ?
->>>>>>>>>>>>
->>>>>>>>>>>> I don't see drm_of_find_bridge() in linux-next , what is that ?
->>>>>>>>>>>
->>>>>>>>>>> port@0 is optional as some of the DSI host OF-graph represent the
->>>>>>>>>>> bridge or panel as child nodes instead of ports. (i think dt-binding
->>>>>>>>>>> has to fix it to make port@0 optional)
->>>>>>>>>>
->>>>>>>>>> The current upstream DT binding document says:
->>>>>>>>>>
->>>>>>>>>>          required:
->>>>>>>>>>            - port@0
->>>>>>>>>>            - port@1
->>>>>>>>>>
->>>>>>>>>> So port@0 is mandatory.
->>>>>>>>>
->>>>>>>>> In the binding, sure, but fundamentally the DT excerpt Jagan provided is
->>>>>>>>> correct. If the bridge supports DCS, there's no reason to use the OF
->>>>>>>>> graph in the first place: the bridge node will be a child node of the
->>>>>>>>> MIPI-DSI controller (and there's no obligation to use the OF-graph for a
->>>>>>>>> MIPI-DSI controller).
->>>>>>>>>
->>>>>>>>> I believe port@0 should be made optional (or downright removed if
->>>>>>>>> MIPI-DCS in the only control bus).
->>>>>>>>
->>>>>>>> That's out of scope of this series anyway, so Jagan can implement patches
->>>>>>>> for that mode if needed.
->>>>>>>
->>>>>>> Not really? You can't count on the port@0 being there generally
->>>>>>> speaking, so you can't count on data-lanes being there either, which
->>>>>>> exactly what you're doing in this patch.
+
+On 11/03/2022 10:07, Tvrtko Ursulin wrote:
+> 
+> On 10/03/2022 20:24, John Harrison wrote:
+>> On 3/10/2022 01:27, Tvrtko Ursulin wrote:
+>>> On 09/03/2022 21:16, John Harrison wrote:
+>>>> On 3/8/2022 01:41, Tvrtko Ursulin wrote:
+>>>>> On 03/03/2022 22:37, John.C.Harrison@Intel.com wrote:
+>>>>>> From: John Harrison <John.C.Harrison@Intel.com>
 >>>>>>
->>>>>> I can because the upstream DT bindings currently say port@0 must be present,
->>>>>> see above. If that requirement should be relaxed, sure, but that's a
->>>>>> separate series.
+>>>>>> A workaround was added to the driver to allow OpenCL workloads to run
+>>>>>> 'forever' by disabling pre-emption on the RCS engine for Gen12.
+>>>>>> It is not totally unbound as the heartbeat will kick in eventually
+>>>>>> and cause a reset of the hung engine.
+>>>>>>
+>>>>>> However, this does not work well in GuC submission mode. In GuC mode,
+>>>>>> the pre-emption timeout is how GuC detects hung contexts and triggers
+>>>>>> a per engine reset. Thus, disabling the timeout means also losing all
+>>>>>> per engine reset ability. A full GT reset will still occur when the
+>>>>>> heartbeat finally expires, but that is a much more destructive and
+>>>>>> undesirable mechanism.
+>>>>>>
+>>>>>> The purpose of the workaround is actually to give OpenCL tasks longer
+>>>>>> to reach a pre-emption point after a pre-emption request has been
+>>>>>> issued. This is necessary because Gen12 does not support mid-thread
+>>>>>> pre-emption and OpenCL can have long running threads.
+>>>>>>
+>>>>>> So, rather than disabling the timeout completely, just set it to a
+>>>>>> 'long' value.
+>>>>>>
+>>>>>> v2: Review feedback from Tvrtko - must hard code the 'long' value
+>>>>>> instead of determining it algorithmically. So make it an extra CONFIG
+>>>>>> definition. Also, remove the execlist centric comment from the
+>>>>>> existing pre-emption timeout CONFIG option given that it applies to
+>>>>>> more than just execlists.
+>>>>>>
+>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>>>>> Reviewed-by: Daniele Ceraolo Spurio 
+>>>>>> <daniele.ceraolospurio@intel.com> (v1)
+>>>>>> Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/i915/Kconfig.profile      | 26 
+>>>>>> +++++++++++++++++++----
+>>>>>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c |  9 ++++++--
+>>>>>>   2 files changed, 29 insertions(+), 6 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/i915/Kconfig.profile 
+>>>>>> b/drivers/gpu/drm/i915/Kconfig.profile
+>>>>>> index 39328567c200..7cc38d25ee5c 100644
+>>>>>> --- a/drivers/gpu/drm/i915/Kconfig.profile
+>>>>>> +++ b/drivers/gpu/drm/i915/Kconfig.profile
+>>>>>> @@ -57,10 +57,28 @@ config DRM_I915_PREEMPT_TIMEOUT
+>>>>>>       default 640 # milliseconds
+>>>>>>       help
+>>>>>>         How long to wait (in milliseconds) for a preemption event 
+>>>>>> to occur
+>>>>>> -      when submitting a new context via execlists. If the current 
+>>>>>> context
+>>>>>> -      does not hit an arbitration point and yield to HW before 
+>>>>>> the timer
+>>>>>> -      expires, the HW will be reset to allow the more important 
+>>>>>> context
+>>>>>> -      to execute.
+>>>>>> +      when submitting a new context. If the current context does 
+>>>>>> not hit
+>>>>>> +      an arbitration point and yield to HW before the timer 
+>>>>>> expires, the
+>>>>>> +      HW will be reset to allow the more important context to 
+>>>>>> execute.
+>>>>>> +
+>>>>>> +      This is adjustable via
+>>>>>> +      /sys/class/drm/card?/engine/*/preempt_timeout_ms
+>>>>>> +
+>>>>>> +      May be 0 to disable the timeout.
+>>>>>> +
+>>>>>> +      The compiled in default may get overridden at driver probe 
+>>>>>> time on
+>>>>>> +      certain platforms and certain engines which will be 
+>>>>>> reflected in the
+>>>>>> +      sysfs control.
+>>>>>> +
+>>>>>> +config DRM_I915_PREEMPT_TIMEOUT_COMPUTE
+>>>>>> +    int "Preempt timeout for compute engines (ms, jiffy 
+>>>>>> granularity)"
+>>>>>> +    default 7500 # milliseconds
+>>>>>> +    help
+>>>>>> +      How long to wait (in milliseconds) for a preemption event 
+>>>>>> to occur
+>>>>>> +      when submitting a new context to a compute capable engine. 
+>>>>>> If the
+>>>>>> +      current context does not hit an arbitration point and yield 
+>>>>>> to HW
+>>>>>> +      before the timer expires, the HW will be reset to allow the 
+>>>>>> more
+>>>>>> +      important context to execute.
+>>>>>>           This is adjustable via
+>>>>>>         /sys/class/drm/card?/engine/*/preempt_timeout_ms
+>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>> index 4185c7338581..cc0954ad836a 100644
+>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>>>>> @@ -438,9 +438,14 @@ static int intel_engine_setup(struct intel_gt 
+>>>>>> *gt, enum intel_engine_id id,
+>>>>>>       engine->props.timeslice_duration_ms =
+>>>>>>           CONFIG_DRM_I915_TIMESLICE_DURATION;
+>>>>>>   -    /* Override to uninterruptible for OpenCL workloads. */
+>>>>>> +    /*
+>>>>>> +     * Mid-thread pre-emption is not available in Gen12. 
+>>>>>> Unfortunately,
+>>>>>> +     * some OpenCL workloads run quite long threads. That means 
+>>>>>> they get
+>>>>>> +     * reset due to not pre-empting in a timely manner. So, bump the
+>>>>>> +     * pre-emption timeout value to be much higher for compute 
+>>>>>> engines.
+>>>>>> +     */
+>>>>>>       if (GRAPHICS_VER(i915) == 12 && (engine->flags & 
+>>>>>> I915_ENGINE_HAS_RCS_REG_STATE))
+>>>>>> -        engine->props.preempt_timeout_ms = 0;
+>>>>>> +        engine->props.preempt_timeout_ms = 
+>>>>>> CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE;
 >>>>>
->>>>> And another upstream DT bindings say that you don't need them at all.
->>>>
->>>> Which "another upstream DT bindings" do you refer to ?
+>>>>> I wouldn't go as far as adding a config option since as it is it 
+>>>>> only applies to Gen12 but Kconfig text says nothing about that. And 
+>>>>> I am not saying you should add a Gen12 specific config option, that 
+>>>>> would be weird. So IMO just drop it.
+>>>>>
+>>>> You were the one arguing that the driver was illegally overriding 
+>>>> the user's explicitly chosen settings, including the compile time 
+>>>> config 
 >>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
->>>
->>>>> Yes, there's a conflict. Yes, it's unfortunate. But the generic DSI
->>>>> binding is far more relevant than a single bridge driver.
->>>>
->>>> That seems to be the wrong way around, how can generic subsystem-wide
->>>> binding take precedence over specific driver binding ?
->>>
->>> This is the binding of the bus. You're part of that bus. You're a child
->>> node of that bus, but nothing ever mandates that your parent node uses
->>> the same convention. And some don't. And since your bridge can be
->>> connected to pretty much any DSI controller, you have to use the lowest
->>> common denominator, not make up some new constraints that not all
->>> controller will be able to comply with.
+>>> This is a bit out of context and illegally don't think used, so 
+>>> misrepresents the earlier discussion. And I certainly did not suggest 
+>>> a kconfig option.
+>> My recollection is that you clearly stated the i915 driver should not 
+>> be overriding the user's settings. To me, that makes any override an 
+>> illegal operation.
 >>
->> It seems to me the ICN6211 DT bindings currently further constraint the
->> generic DSI bus bindings, and that seems OK to me.
+>> You did not suggest a Kconfig option but the settings in question are 
+>> all coming from existing Kconfig options. Putting an explicit "timeout 
+>> = 7500;" in the code is the worst of all worlds. It is an override of 
+>> a user setting and it is an unmodifiable magic number. The first you 
+>> have stated is not allowed and the second is one of the biggest 
+>> no-no's of any code review. Magic number randomly splatted in the 
+>> code? Nack, do it properly.
 >>
->> Let me reiterate this again -- if someone wants to relax the requirements
->> currently imposed by the ICN6211 DT bindings, fine, but that can be done in
->> a separate patchset AND that needs DT bindings update. Furthermore, there
->> are no users of this ICN6211 bridge in upstream DTs, so there is currently
->> no bridge which would operate without OF graph using this driver.
+>> So in this case, I don't see that there is much choice except to add a 
+>> new Kconfig option for the override.
 > 
-> And let me reiterate this again: something that used to work for a user
-> doesn't anymore when your series is applied. This is a textbook
-> regression. I suggested a way forward, that you don't like for some
-> reason, fine. But pushing through a regression is just not acceptable.
-
-How can this be a regression if this mode of operation could not have 
-ever been supported with valid upstream DT bindings in the first place ?
-
-Should we now require that kernel drivers somehow magically support all 
-kinds of random broken DT bindings in addition to ones which pass YAML 
-DT validation ?
-
->>>>> So figuring it out is very much a prerequisite to that series,
->>>>> especially since those patches effectively make the OF-graph mandatory
->>>>> in some situations, while it was purely aesthetics before.
->>>>
->>>> The OF-graph is mandatory per the DT bindings of this driver. If you
->>>> implement invalid DT which does not contain port@0, it will fail DT
->>>> validation.
->>>>
->>>> If this requirement should be relaxed, sure, it can and I don't think it
->>>> would be hard to do, but I don't see why that should be part of this series,
->>>> which follows the upstream DT binding document for this driver.
->>>>
->>>> If I cannot trust the driver DT bindings to indicate what is and is not
->>>> mandatory, what other document can I trust then ...
->>>
->>> Oh, come on. Doing that, you also require OF-Graph support for the DSI
->>> controller you attach to, and you can't require that. This is very
->>> different from just requiring a property that doesn't have any impact on
->>> any other device, and you know that very well.
->>
->> Currently the ICN6211 DT bindings DO require that kind of bridge.
+>  From memory, I don't think I said override is not allowed. I used the 
+> override argument in a different context. But honestly I don't feel like 
+> digging that up at this point since this is just going on for too long.
 > 
-> And while this wasn't enforced before, you make it a hard requirement
-> with this series. This is what changed, and what caused this whole
-> discussion.
+> In principle adding kconfig options should be avoided and in this case 
+> question is cost vs benefit. What is the benefit? Who will tune it, why, 
+> and using what knowledge?
+> 
+> I have asked if we can get compute UMD to give us some numbers relating 
+> to typical desktop workloads but did not get anything.
+> 
+> Currently we override to zero, which is what they wanted. Now we are 
+> thinking of overriding to 7.5s, which they acked, but it's not very 
+> transparent what is the thinking behind it.
+> 
+> It simply looks we said 7.5s because that's what gives similar worst 
+> case before reset compared to existing out of the box setup, while 
+> allowing GuC engine resets to actually work.
+> 
+> I'd personally go for 2.5s, for the same weak reasons of it being 
+> similar to existing timeout, and extension of every heartbeat interval. 
+> But you thought 2.5s was too short, I guess, or preferred to view 
+> heartbeat as decoupled timeline (barring the last one which *has* to 
+> couple). Which is fine by me. So we agreed to compromise on that and 
+> moved on.
+> 
+> So meh. What we end up with is not worse than it was and not having a 
+> kconfig saves you a complication...
+> 
+>>>> options. Just having a hardcoded magic number in the driver is the 
+>>>> absolute worst kind of override there is.
+>>> >
+>>>> And technically, the config option is not Gen12 specific. It is 
+>>>> actually compute specific, hence the name. It just so happens that 
+>>>> only Gen12 onwards has compute engines. I can add an extra line to 
+>>>> the Kconfig description if you want "NB: compute engines only exist 
+>>>> on Gen12 but do include the RCS engine on Gen12".
+>>>
+>>> I am not unconditionally against it but it feels it creates more 
+>>> problems than gives solutions.
+>>>
+>>> In kconfig help you say "compute *capable* engine". Here you say only 
+>>> Gen12 has compute engines. Well before Gen12 render is compute 
+>>> capable, but then how implemented it does not apply which is not good.
+>> Sorry, yes. For some reason I was thinking compute came in with Gen12.
+>>
+>>>
+>>> Given the runtime override has the only purpose of working around 
+>>> broken hardware then I'd still say to drop it. But if you can come up 
+>>> with help text which won't be misleading and still not overly 
+>>> complicated I am not opposing it.
+>> So "when submitting a new context to a compute capable engine on Gen12 
+>> and later platforms"? And maybe add a _GEN12 suffix to the config name 
+>> itself?
+> 
+> ..."and later" would be wrong, you'd have to change it at some point. 
+> Not least that the patch as proposed does "== 12", not ">= 12". And we 
+> can't use the term Gen right? List all the affected platform names? Keep 
+> patching up the help text as platforms are added? Or do we know the end 
+> point already?
+> 
+> In summary, I will not oppose it if we can have a kconfig text which is 
+> accurate, useful and not a maintenance burden.
 
-The current DT bindings already make it a hard requirement, so no, 
-nothing changed here.
+Maybe avoid listing specifics and provide some guidance:
 
-Unless what you are trying to ask for is support for broken DT bindings 
-which do not pass YAML DT validation by this driver, but that is very 
-dangerous, because then the question is, how far should we support such 
-broken bindings. What kind of broken is still OK and what kind of broken 
-is no longer OK ?
+"""
+config DRM_I915_OVERRIDE_PREEMPT_TIMEOUT
+         int "Override preempt timeout (ms, jiffy granularity)"
+         default 7500 # milliseconds
+         help
+           On certain platforms and engines where supported preemption
+           granularity is reduced due hardware limitations, a longer timeout
+           than DRM_I915_PREEMPT_TIMEOUT (see respective help text) is
+           required.
+
+           Shorter timeouts will have more chance of terminating legitimate
+           workloads, while longer can have detrimental effect on desktop
+           interactivity and ability to terminate hanging workloads in
+           reasonable time.
+
+           Usage of the override timeout will be logged during driver probe
+           for each affected engine.
+"""
+
+If approach is acceptable also feel free to reword and improve my English.
+
+Not sure whether to have compute in the name of kconfig. But I do like override in the name, so if you add compute I think also keeping override is good since it works well with not having to mention platform specifics in kconfig and it signifies it is special case. Or maybe "workaround"?
+
+Regards,
+
+Tvrtko
