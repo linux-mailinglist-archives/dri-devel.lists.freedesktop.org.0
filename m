@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406224D69CD
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 22:03:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 276844D69CE
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 22:03:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE8D010E655;
-	Fri, 11 Mar 2022 21:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D7A10E658;
+	Fri, 11 Mar 2022 21:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B77AB10E651
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 21:02:57 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA38B10E651
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 21:02:58 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D9F7782F70;
- Fri, 11 Mar 2022 22:02:54 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id EE6398367D;
+ Fri, 11 Mar 2022 22:02:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1647032575;
- bh=1E3DvlaiOLhj6GO1xvjJI3Fha4s0Zd7F3HDREwJXgUE=;
- h=From:To:Cc:Subject:Date:From;
- b=CDx5L7oVyxXSEy8KKX7XcjR48ZwpPPnB/sgWJvdJsEpnnHHQwJrVoUwllhY/szkmM
- F+VbkRiMewoZAPhF25eL3C5FowwZ+y9grZfsbZJMlQ+BZRDOqv/wOU87mV/4V1SRTZ
- c0Rhs8M4JkakYbMwMIszJdG2igwGlAgEsTYsuN3bxfbOVPERertUTJs0PPCAnh4Z9e
- Q+uzF6+Cbs7JzTj7zhJhmbqVfXdI0cRuldzsvUIFCD64p+m9pL/l91SzZJe4SSuR+K
- Q3kdd6CMcnldX4s0AwS9cihfFBCQYnsVRxX6BZJYo24HFaIHQwHcbCxCzNblPpDE6T
- v2fQmZAxX3B6w==
+ s=phobos-20191101; t=1647032577;
+ bh=Y1U7QRYBdS5RkQq2iC3dbB4OCA9hcyerv+QzjmWBeSA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MSdxjwf4pm8VQL4KfWVTH3obshAcaQuIerX+RSkZT/9dzSmukaMEHp05L1LaeFBrF
+ p1BlnvMa9nkCdabU/IeLgUeggtr3cq8eq4nNBGP0WT1/s0Vyw445fyyJmRFUJYkuLr
+ HRHIZKawsIPmtXLb8Fr9qDJ35SWznJVoTdrEwSgFulfBHq3tFchXv/ChJbe9aBujVR
+ LI1kK44gPwU8wNRinrCAfOqr2hBV/U1waxw1Ad/HCDFsHlkiOPYaRamSjCHnZNBQKD
+ EhYZ6ISSt6oG/DxRzYl1hnP4NNU976TUj9Kvow4FUMDaSMroxjXnX07Gwn166qBilV
+ YL7M+6kTHLWWw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 00/13] drm: bridge: icn6211: Fix hard-coded panel settings
- and add I2C support
-Date: Fri, 11 Mar 2022 22:02:14 +0100
-Message-Id: <20220311210227.124331-1-marex@denx.de>
+Subject: [PATCH v4 01/13] dt-bindings: display: bridge: icn6211: Document DSI
+ data-lanes property
+Date: Fri, 11 Mar 2022 22:02:15 +0100
+Message-Id: <20220311210227.124331-2-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220311210227.124331-1-marex@denx.de>
+References: <20220311210227.124331-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
@@ -51,68 +54,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series fixes multiple problems with the ICN6211 driver and adds
-support for configuration of the chip via I2C bus.
+It is necessary to specify the number of connected/used DSI data lanes when
+using the DSI input port of this bridge. Document the 'data-lanes' property
+of the DSI input port.
 
-First, in the current state, the ICN6211 driver hard-codes DPI timing
-and clock settings specific to some unknown panel. The settings provided
-by panel driver are ignored. Using any other panel than the one for which
-this driver is currently hard-coded can lead to permanent damage of the
-panel (per display supplier warning, and it sure did in my case. The
-damage looks like multiple rows of dead pixels at the bottom of the
-panel, and this is not going away even after long power off time).
-
-Much of this series thus fixes incorrect register layout, DPI timing
-programming, clock generation by adding actual PLL configuration code.
-This series also adds lane count decoding instead of using hard-coded
-value, and fills in a couple of registers with likely correct default
-values.
-
-Second, this series adds support for I2C configuration of the ICN6211.
-The device can be configured either via DSI command mode or via I2C,
-the register layout is the same in both cases.
-
-Since the datasheet for this device is very hard to come by, a lot of
-information has been salvaged from [1] and [2].
-
-[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
-[2] https://github.com/tdjastrzebski/ICN6211-Configurator
-
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
 To: dri-devel@lists.freedesktop.org
+---
+V3: New patch
+V4: Add RB from Rob, AB from Maxime
+---
+ .../display/bridge/chipone,icn6211.yaml        | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-Marek Vasut (13):
-  dt-bindings: display: bridge: icn6211: Document DSI data-lanes
-    property
-  drm: bridge: icn6211: Fix register layout
-  drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and HFP_MIN handling
-  drm: bridge: icn6211: Add HS/VS/DE polarity handling
-  drm: bridge: icn6211: Add DSI lane count DT property parsing
-  drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration
-  drm: bridge: icn6211: Use DSI burst mode without EoT and with LP
-    command mode
-  drm: bridge: icn6211: Disable DPI color swap
-  drm: bridge: icn6211: Set SYS_CTRL_1 to value used in examples
-  drm: bridge: icn6211: Implement atomic_get_input_bus_fmts
-  drm: bridge: icn6211: Add I2C configuration support
-  drm: bridge: icn6211: Rework ICN6211_DSI to chipone_writeb()
-  drm: bridge: icn6211: Read and validate chip IDs before configuration
-
- .../display/bridge/chipone,icn6211.yaml       |  18 +-
- drivers/gpu/drm/bridge/chipone-icn6211.c      | 507 ++++++++++++++++--
- 2 files changed, 472 insertions(+), 53 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+index 62c3bd4cb28d8..f8cac721a7330 100644
+--- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
+@@ -41,10 +41,26 @@ properties:
+ 
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description:
+           Video port for MIPI DSI input
+ 
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
 -- 
 2.34.1
 
