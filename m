@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E5E4D5EA1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 10:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68814D5ED1
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 10:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD8010E876;
-	Fri, 11 Mar 2022 09:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2974310E863;
+	Fri, 11 Mar 2022 09:51:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E7210E86A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 09:39:23 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- k25-20020a056830151900b005b25d8588dbso5906320otp.4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 01:39:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4FBLwMKmszPbYjXQcUZBpuAbv1agjV57O3fEZxzzmLE=;
- b=F1tA7rewVQOH8YnIJeeL2TjSBfftZu9HiMPrpidnwaFjOkwy5k0z1IExomOiNAmN1A
- m5AFlY/7mSo0Stn1CD7L0WVJXid19LjDaEKPyypfA85ZzZd5MXthifA+IYTpBpWy62ZY
- qOy0YcFM+xvO66gUeTMEdkL+rcGseimB3lBpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4FBLwMKmszPbYjXQcUZBpuAbv1agjV57O3fEZxzzmLE=;
- b=twkXHuPeZ3Fcci/E4TVvbaSHb9Abc+TQDXrULboja4BhoOlE1EsYStMFMGOCXAkpQH
- bTUDnGo9d09T5Pz1Sx9OkyJevHSA8fbEBEbmCPdIP2/ZScMTPNaU5ARFSxhQGrHFvHYl
- hTcVcxKB7uWCkj2fbdhRmz7fs8/goexhcBQpUkUAuH6WI583nf6nHuzBAnfLjPaJijjd
- +yzJcrbp2VMlX9RGdl/+XsXENlfTMh4rU4+hclp8KaDs28ov8HB/jXrs41HMMtSiS1i6
- 0Sdfguv9gKFuJ6QJx9Kudrs3L7+XDDazLWwZXPHbuw0AugT6DkzJ9k2DuRwngykGk9l4
- J6wA==
-X-Gm-Message-State: AOAM5321HoaRD41iGA3F3uoklJZ3GmI20o0gMfyfYmqcknMR9YKm+eaR
- cYGQjOcKgVmY3Q3S1iyCv6q1HO6/H7qyi+T8zkU+Sw==
-X-Google-Smtp-Source: ABdhPJz3aHk/jKnfP90HSGQGF/OVAu1PNWbHd8eTP12xcleqjkeIVG2vIFkJSe0cZr/yDnq9sUGnFCQJvcUAhFh4O9E=
-X-Received: by 2002:a9d:57c7:0:b0:5b2:3d6d:6469 with SMTP id
- q7-20020a9d57c7000000b005b23d6d6469mr4463349oti.301.1646991562633; Fri, 11
- Mar 2022 01:39:22 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E93110E863
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 09:51:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id DB1A01F464A7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1646992315;
+ bh=XYlPfMnG3552vPBh7tbShbIhYT9WuL/8qXG4yzJ+K/A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=X7Ng/TM9R21WVEboKTJzkCNWYqAcfNJuS8ZDqKZ0gMXnYR36OA495SNyx0CLaU71s
+ FizynJi8uJlzJ0Jka+zDHdcZOzgUf8cBKh6LNXgkRTFfsgOZf5N3feO3Co3nEOkl65
+ lsZ29ue4mmwW6YpG75X9+MbL1jKAuf9XsVooZAcDfROpO5Jjv9OFnEThwrSkBDCc9Y
+ jY7wWYjx4jwa1EvLbLXaZRoR3JCNGeHWusW0zkxD5Fk7VRzq1/ZsIPvONhIxS5O+4Y
+ dBIiBtmChKw+45YWBGYmpbVl021fLvUu/+6EOqgXdcgywUWH6A7IgnPRNqs0Hj/EwG
+ o481Wqn08V3MA==
+Message-ID: <2f30b300-34a9-936b-2970-d9607c65f42f@collabora.com>
+Date: Fri, 11 Mar 2022 10:51:51 +0100
 MIME-Version: 1.0
-References: <20220307202121.389550-1-vivek.kasireddy@intel.com>
- <20220307202121.389550-3-vivek.kasireddy@intel.com>
-In-Reply-To: <20220307202121.389550-3-vivek.kasireddy@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 11 Mar 2022 10:39:11 +0100
-Message-ID: <CAKMK7uGxvC+mzmH7EPcqggZ05u--D6N29Ati0YuuEc-Tgd-0Gw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v6 2/2] drm/i915/gem: Don't try to map and
- fence large scanout buffers (v9)
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v15 00/22] Add MediaTek SoC DRM (vdosys1) support for
+ mt8195
+Content-Language: en-US
+To: "Nancy.Lin" <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, wim@linux-watchdog.org,
+ linux@roeck-us.net
+References: <20220311015506.11232-1-nancy.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220311015506.11232-1-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,322 +54,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Mar 2022 at 21:38, Vivek Kasireddy <vivek.kasireddy@intel.com> wr=
-ote:
->
-> On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
-> more framebuffers/scanout buffers results in only one that is mappable/
-> fenceable. Therefore, pageflipping between these 2 FBs where only one
-> is mappable/fenceable creates latencies large enough to miss alternate
-> vblanks thereby producing less optimal framerate.
->
-> This mainly happens because when i915_gem_object_pin_to_display_plane()
-> is called to pin one of the FB objs, the associated vma is identified
-> as misplaced and therefore i915_vma_unbind() is called which unbinds and
-> evicts it. This misplaced vma gets subseqently pinned only when
-> i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
-> results in a latency of ~10ms and happens every other vblank/repaint cycl=
-e.
-> Therefore, to fix this issue, we try to see if there is space to map
-> at-least two objects of a given size and return early if there isn't. Thi=
-s
-> would ensure that we do not try with PIN_MAPPABLE for any objects that
-> are too big to map thereby preventing unncessary unbind.
->
-> Testcase:
-> Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
-> with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
-> a frame ~7ms before the next vblank, the latencies seen between atomic
-> commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
-> it misses the vblank every other frame.
->
-> Here is the ftrace snippet that shows the source of the ~10ms latency:
->               i915_gem_object_pin_to_display_plane() {
-> 0.102 us   |    i915_gem_object_set_cache_level();
->                 i915_gem_object_ggtt_pin_ww() {
-> 0.390 us   |      i915_vma_instance();
-> 0.178 us   |      i915_vma_misplaced();
->                   i915_vma_unbind() {
->                   __i915_active_wait() {
-> 0.082 us   |        i915_active_acquire_if_busy();
-> 0.475 us   |      }
->                   intel_runtime_pm_get() {
-> 0.087 us   |        intel_runtime_pm_acquire();
-> 0.259 us   |      }
->                   __i915_active_wait() {
-> 0.085 us   |        i915_active_acquire_if_busy();
-> 0.240 us   |      }
->                   __i915_vma_evict() {
->                     ggtt_unbind_vma() {
->                       gen8_ggtt_clear_range() {
-> 10507.255 us |        }
-> 10507.689 us |      }
-> 10508.516 us |   }
->
-> v2: Instead of using bigjoiner checks, determine whether a scanout
->     buffer is too big by checking to see if it is possible to map
->     two of them into the ggtt.
->
-> v3 (Ville):
-> - Count how many fb objects can be fit into the available holes
->   instead of checking for a hole twice the object size.
-> - Take alignment constraints into account.
-> - Limit this large scanout buffer check to >=3D Gen 11 platforms.
->
-> v4:
-> - Remove existing heuristic that checks just for size. (Ville)
-> - Return early if we find space to map at-least two objects. (Tvrtko)
-> - Slightly update the commit message.
->
-> v5: (Tvrtko)
-> - Rename the function to indicate that the object may be too big to
->   map into the aperture.
-> - Account for guard pages while calculating the total size required
->   for the object.
-> - Do not subject all objects to the heuristic check and instead
->   consider objects only of a certain size.
-> - Do the hole walk using the rbtree.
-> - Preserve the existing PIN_NONBLOCK logic.
-> - Drop the PIN_MAPPABLE check while pinning the VMA.
->
-> v6: (Tvrtko)
-> - Return 0 on success and the specific error code on failure to
->   preserve the existing behavior.
->
-> v7: (Ville)
-> - Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
->   size < ggtt->mappable_end / 4 checks.
-> - Drop the redundant check that is based on previous heuristic.
->
-> v8:
-> - Make sure that we are holding the mutex associated with ggtt vm
->   as we traverse the hole nodes.
->
-> v9: (Tvrtko)
-> - Use mutex_lock_interruptible_nested() instead of mutex_lock().
->
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Manasi Navare <manasi.d.navare@intel.com>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_gem.c | 128 +++++++++++++++++++++++---------
->  1 file changed, 94 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_=
-gem.c
-> index 9747924cc57b..e0d731b3f215 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -49,6 +49,7 @@
->  #include "gem/i915_gem_pm.h"
->  #include "gem/i915_gem_region.h"
->  #include "gem/i915_gem_userptr.h"
-> +#include "gem/i915_gem_tiling.h"
->  #include "gt/intel_engine_user.h"
->  #include "gt/intel_gt.h"
->  #include "gt/intel_gt_pm.h"
-> @@ -882,6 +883,96 @@ static void discard_ggtt_vma(struct i915_vma *vma)
->         spin_unlock(&obj->vma.lock);
->  }
->
-> +static int
-> +i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
-> +                                u64 alignment, u64 flags)
-
-Tvrtko asked me to ack the first patch, but then I looked at this and
-started wondering.
-
-Conceptually this doesn't pass the smell test. What if we have
-multiple per-crtc buffers? Multiple planes on the same crtc? What if
-the app does triple buffer? You'll be forever busy tuning this
-heuristics, which can't fundamentally be fixed I think. The old "half
-of mappable" heuristic isn't really better, but at least it was dead
-simple.
-
-Imo what we need here is a change in approach:
-1. Check whether the useable view for scanout exists already. If yes,
-use that. This should avoid the constant unbinding stalls.
-2. Try to in buffer to mappabley, but without evicting anything (so
-not the non-blocking thing)
-3. Pin the buffer with the most lenient approach
-
-Even the non-blocking interim stage is dangerous, since it'll just
-result in other buffers (e.g. when triple-buffering) getting unbound
-and we're back to the same stall. Note that this could have an impact
-on cpu rendering compositors, where we might end up relying a lot more
-partial views. But as long as we are a tad more aggressive (i.e. the
-non-blocking binding) in the mmap path that should work out to keep
-everything balanced, since usually you render first before you display
-anything. And so the buffer should end up in the ideal place.
-
-I'd try to first skip the 2. step since I think it'll require a bit of
-work, and frankly I don't think we care about the potential fallout.
--Daniel
-
-> +{
-> +       struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-> +       struct i915_ggtt *ggtt =3D to_gt(i915)->ggtt;
-> +       struct drm_mm_node *hole;
-> +       u64 hole_start, hole_end, start, end;
-> +       u64 fence_size, fence_alignment;
-> +       unsigned int count =3D 0;
-> +       int err =3D 0;
-> +
-> +       /*
-> +        * If the required space is larger than the available
-> +        * aperture, we will not able to find a slot for the
-> +        * object and unbinding the object now will be in
-> +        * vain. Worse, doing so may cause us to ping-pong
-> +        * the object in and out of the Global GTT and
-> +        * waste a lot of cycles under the mutex.
-> +        */
-> +       if (obj->base.size > ggtt->mappable_end)
-> +               return -E2BIG;
-> +
-> +       /*
-> +        * If NONBLOCK is set the caller is optimistically
-> +        * trying to cache the full object within the mappable
-> +        * aperture, and *must* have a fallback in place for
-> +        * situations where we cannot bind the object. We
-> +        * can be a little more lax here and use the fallback
-> +        * more often to avoid costly migrations of ourselves
-> +        * and other objects within the aperture.
-> +        */
-> +       if (!(flags & PIN_NONBLOCK))
-> +               return 0;
-> +
-> +       /*
-> +        * Other objects such as batchbuffers are fairly small compared
-> +        * to FBs and are unlikely to exahust the aperture space.
-> +        * Therefore, return early if this obj is not an FB.
-> +        */
-> +       if (!i915_gem_object_is_framebuffer(obj))
-> +               return 0;
-> +
-> +       fence_size =3D i915_gem_fence_size(i915, obj->base.size,
-> +                                        i915_gem_object_get_tiling(obj),
-> +                                        i915_gem_object_get_stride(obj))=
-;
-> +
-> +       if (i915_vm_has_cache_coloring(&ggtt->vm))
-> +               fence_size +=3D 2 * I915_GTT_PAGE_SIZE;
-> +
-> +       fence_alignment =3D i915_gem_fence_alignment(i915, obj->base.size=
-,
-> +                                                  i915_gem_object_get_ti=
-ling(obj),
-> +                                                  i915_gem_object_get_st=
-ride(obj));
-> +       alignment =3D max_t(u64, alignment, fence_alignment);
-> +
-> +       err =3D mutex_lock_interruptible_nested(&ggtt->vm.mutex, 0);
-> +       if (err)
-> +               return err;
-> +
-> +       /*
-> +        * Assuming this object is a large scanout buffer, we try to find
-> +        * out if there is room to map at-least two of them. There could
-> +        * be space available to map one but to be consistent, we try to
-> +        * avoid mapping/fencing any of them.
-> +        */
-> +       drm_mm_for_each_suitable_hole(hole, &ggtt->vm.mm, 0, ggtt->mappab=
-le_end,
-> +                                     fence_size, DRM_MM_INSERT_LOW) {
-> +               hole_start =3D drm_mm_hole_node_start(hole);
-> +               hole_end =3D hole_start + hole->hole_size;
-> +
-> +               do {
-> +                       start =3D round_up(hole_start, alignment);
-> +                       end =3D min_t(u64, hole_end, ggtt->mappable_end);
-> +
-> +                       if (range_overflows(start, fence_size, end))
-> +                               break;
-> +
-> +                       if (++count >=3D 2) {
-> +                               mutex_unlock(&ggtt->vm.mutex);
-> +                               return 0;
-> +                       }
-> +
-> +                       hole_start =3D start + fence_size;
-> +               } while (1);
-> +       }
-> +
-> +       mutex_unlock(&ggtt->vm.mutex);
-> +       return -ENOSPC;
-> +}
-> +
->  struct i915_vma *
->  i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
->                             struct i915_gem_ww_ctx *ww,
-> @@ -897,36 +988,9 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_obje=
-ct *obj,
->
->         if (flags & PIN_MAPPABLE &&
->             (!view || view->type =3D=3D I915_GGTT_VIEW_NORMAL)) {
-> -               /*
-> -                * If the required space is larger than the available
-> -                * aperture, we will not able to find a slot for the
-> -                * object and unbinding the object now will be in
-> -                * vain. Worse, doing so may cause us to ping-pong
-> -                * the object in and out of the Global GTT and
-> -                * waste a lot of cycles under the mutex.
-> -                */
-> -               if (obj->base.size > ggtt->mappable_end)
-> -                       return ERR_PTR(-E2BIG);
-> -
-> -               /*
-> -                * If NONBLOCK is set the caller is optimistically
-> -                * trying to cache the full object within the mappable
-> -                * aperture, and *must* have a fallback in place for
-> -                * situations where we cannot bind the object. We
-> -                * can be a little more lax here and use the fallback
-> -                * more often to avoid costly migrations of ourselves
-> -                * and other objects within the aperture.
-> -                *
-> -                * Half-the-aperture is used as a simple heuristic.
-> -                * More interesting would to do search for a free
-> -                * block prior to making the commitment to unbind.
-> -                * That caters for the self-harm case, and with a
-> -                * little more heuristics (e.g. NOFAULT, NOEVICT)
-> -                * we could try to minimise harm to others.
-> -                */
-> -               if (flags & PIN_NONBLOCK &&
-> -                   obj->base.size > ggtt->mappable_end / 2)
-> -                       return ERR_PTR(-ENOSPC);
-> +               ret =3D i915_gem_object_fits_in_aperture(obj, alignment, =
-flags);
-> +               if (ret)
-> +                       return ERR_PTR(ret);
->         }
->
->  new_vma:
-> @@ -938,10 +1002,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_obj=
-ect *obj,
->                 if (flags & PIN_NONBLOCK) {
->                         if (i915_vma_is_pinned(vma) || i915_vma_is_active=
-(vma))
->                                 return ERR_PTR(-ENOSPC);
-> -
-> -                       if (flags & PIN_MAPPABLE &&
-> -                           vma->fence_size > ggtt->mappable_end / 2)
-> -                               return ERR_PTR(-ENOSPC);
->                 }
->
->                 if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma)) {
-> --
-> 2.35.1
->
+Il 11/03/22 02:54, Nancy.Lin ha scritto:
+> The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
+> 
+> Add DRM and these modules support by the patches below:
 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hello maintainers,
+
+I have tested this series (and its dependencies - where [1] is needed to even
+be able to apply this one) on multiple machines featuring different MediaTek
+SoCs and everything works as expected on both oldies and new ones.
+
+I want to make sure you know that series [1] is also fine and has R-b tags,
+apart from the first commit (1/8) that in my opinion should be removed (or
+simply ignored while applying, as it's not impacting on any other change in
+that series, nor in this one).
+
+In my opinion, the two (vdosys0 and 1) series are ready to be picked.
+
+[1]: https://patchwork.kernel.org/project/linux-mediatek/list/?series=620795
+
+Thank you all,
+Angelo
+
+> 
+> Changes in v15:
+> - fix ethdr uppercase hex number in dts
+> 
+> Changes in v14:
+> - remove MTK_MMSYS 64 bit dependency
+> - add ethdr.yaml back and fix dt_schema check fail
+> 
+> Resend v13
+> - add related maintainer in maillist
+> 
+> Changes in v13:
+> - fix reviewer comment in v12
+>    - fix rdma dt-binding format
+>    - fix dts node naming
+> - fix 32 bit build error
+>    - modify 64bit dependency for mtk-mmsys
+> - rebase to vdosys0 series v16. (ref [5])
+> 
+> Changes in v12:
+> - fix reviewer comment in v11
+>    - modify mbox index
+>    - refine dma dev for ovl_adaptor sub driver
+> 
+> Changes in v11:
+> - remove ethdr vblank spin lock
+> - refine ovl_adaptor print message
+> 
+> Changes in v10:
+> - refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+> - fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+> 
+> Changes in v9:
+> - rebase on kernel-5.16-rc1
+> - rebase on vdosys0 series v13. (ref [5])
+> - fix ovl_adaptor sub driver is brought up unintentionally
+> - fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue
+> 
+> Changes in v8:
+> - separate merge async reset to new patch.
+> - separate drm ovl_adaptor sub driver to new patch.
+> - fix reviewer comment in v7.
+> 
+> Changes in v7:
+> - rebase on vdosys0 series v12 (ref[5])
+> - add dma description in ethdr binding document.
+> - refine vdosys1 bit definition of mmsys routing table.
+> - separate merge modification into 3 pathces.
+> - separate mutex modification into 2 patches.
+> - add plane color coding for mdp_rdma csc.
+> - move mdp_rdma pm control to ovl_adaptor.
+> - fix reviewer comment in v6.
+> 
+> Changes in v6:
+> - rebase on kernel-5.15-rc1.
+> - change mbox label to gce0 for dts node of vdosys1.
+> - modify mmsys reset num for mt8195.
+> - rebase on vdosys0 series v10. (ref [5])
+> - use drm to bring up ovl_adaptor driver.
+> - move drm iommu/mutex check from kms init to drm bind.
+> - modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+> - modify for reviewer's comment in v5.
+> 
+> Changes in v5:
+> - add mmsys reset controller reference.
+> 
+> Changes in v4:
+> - use merge common driver for merge1~4.
+> - refine ovl_adaptor rdma driver.
+> - use ovl_adaptor ddp_comp function instead of ethdr.
+> - modify for reviewer's comment in v3.
+> 
+> Changes in v3:
+> - modify for reviewer's comment in v2.
+> - add vdosys1 2 pixels align limit.
+> - add mixer odd offset support.
+> 
+> Changes in v2:
+> - Merge PSEUDO_OVL and ETHDR into one DRM component.
+> - Add mmsys config API for vdosys1 hardware setting.
+> - Add mmsys reset control using linux reset framework.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> 
+> This series are based on the following patch:
+> [1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+>      https://patchwork.kernel.org/project/linux-mediatek/patch/20220112114724.1953-4-tinghan.shen@mediatek.com/
+> [2] arm64: dts: mt8195: add IOMMU and smi nodes
+>      https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+> [3] arm64: dts: mt8195: add gce node
+>      https://patchwork.kernel.org/project/linux-mediatek/patch/20220126090109.32143-1-jason-jh.lin@mediatek.com/
+> [4] [v2] arm64: dts: mt8195: add display node for vdosys0
+>      https://patchwork.kernel.org/project/linux-mediatek/patch/20220225021535.2655-1-jason-jh.lin@mediatek.com/
+> [5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+>      https://patchwork.kernel.org/project/linux-mediatek/list/?series=620795
+> [6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+>      https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+> 
+> Nancy.Lin (22):
+>    dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+>    dt-bindings: reset: mt8195: add vdosys1 reset control bit
+>    dt-bindings: mediatek: add ethdr definition for mt8195
+>    soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+>    soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+>    soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+>      vdosys1
+>    soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+>    soc: mediatek: change the mutex defines and the mutex_mod type
+>    soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+>    drm/mediatek: add display MDP RDMA support for MT8195
+>    drm/mediatek: add display merge advance config API for MT8195
+>    drm/mediatek: add display merge start/stop API for cmdq support
+>    drm/mediatek: add display merge mute/unmute support for MT8195
+>    drm/mediatek: add display merge async reset control
+>    drm/mediatek: add ETHDR support for MT8195
+>    drm/mediatek: add mediatek-drm plane color encoding info
+>    drm/mediatek: add ovl_adaptor support for MT8195
+>    drm/mediatek: add dma dev get function
+>    drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+>    drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+>    drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+>    arm64: dts: mt8195: add display node for vdosys1
+> 
+>   .../arm/mediatek/mediatek,mdp-rdma.yaml       |  86 ++++
+>   .../display/mediatek/mediatek,ethdr.yaml      | 158 +++++++
+>   arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 223 +++++++++
+>   drivers/gpu/drm/mediatek/Makefile             |   5 +-
+>   drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  29 ++
+>   drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  89 +++-
+>   .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 443 ++++++++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  55 ++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   4 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  31 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   9 +
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 329 +++++++++----
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+>   drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+>   drivers/gpu/drm/mediatek/mtk_ethdr.c          | 376 +++++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_ethdr.h          |  23 +
+>   drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+>   drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+>   drivers/soc/mediatek/mtk-mmsys.c              |  79 +++-
+>   drivers/soc/mediatek/mtk-mmsys.h              |  11 +
+>   drivers/soc/mediatek/mtk-mutex.c              | 318 +++++++------
+>   include/dt-bindings/reset/mt8195-resets.h     |  12 +
+>   include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+>   25 files changed, 2596 insertions(+), 255 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+> 
+
