@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9844D4D610A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 12:54:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 112D44D6125
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 13:05:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B5C10E930;
-	Fri, 11 Mar 2022 11:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD56210E266;
+	Fri, 11 Mar 2022 12:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF1B10E930;
- Fri, 11 Mar 2022 11:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=QKQNUb8gG1815bo0+LJAzephXsrFMrZXGrmPtBwOo6c=; 
- t=1646999652; x=1648209252; b=H7PFbeGMO8u8/BOw2SLNFUUa+tG+BTqiyVEfu1hHBopvf4g
- rk8obx0wULTDkiiOXjJvT+SvT1EWlKdkz1Rx2dtzFHIOr+wx+zp7Q80/1y43iHWhQqct3k195u8cd
- dicUSLPQ28Gmu8z4ibNUYOsLO/DHOgX425o3nanJZG1xVPW9Vi1Q8z+qbdfJRGvWrUI+en3x3kxXH
- MNBqiN3t8rT1r5lVXLAsvd/nWrM2+96Ao6hD7/aS/YNQHzYxZqWmcwTvQ0ZP7OBSq5vJdvtrhEHcD
- wuW0p9r7LsOKC/ZoqLtJRnBSaU7aq8wuXHi4GT/xs7tK05vNX9qPs/rg9RK7K8+w==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.95) (envelope-from <johannes@sipsolutions.net>)
- id 1nSdqI-00BtPi-Dc; Fri, 11 Mar 2022 12:53:58 +0100
-Message-ID: <564672530e489da8872bdf1d8cdee7ce071d6a19.camel@sipsolutions.net>
-Subject: Re: [PATCH] devcoredump: increase the device delete timeout to 10 mins
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Rob Clark <robdclark@gmail.com>, David Laight <David.Laight@aculab.com>
-Date: Fri, 11 Mar 2022 12:53:57 +0100
-In-Reply-To: <CAF6AEGtNGJanJ9f2pkjst50yPSWGJPo5nDkcZZgq=BkRWMq4yg@mail.gmail.com>
-References: <1644349472-31077-1-git-send-email-quic_abhinavk@quicinc.com>
- <YgZD8vPqB7ISpRpZ@kroah.com>
- <654d620b-9e14-c47f-b48c-762dc0bd32a1@quicinc.com>
- <Ygdb63FrorUsX/Hg@kroah.com>
- <b9156bde-137c-2fac-19e0-b205ab4d6016@quicinc.com>
- <7db7d01fcf5a3edce61161769c0e6eb1541237bf.camel@sipsolutions.net>
- <2add9ba7-7bc8-bd1d-1963-61e8154b0e3c@quicinc.com>
- <989efb15-cc5e-8f6d-c313-118f01498e33@quicinc.com>
- <8fa2f879e33e4e42b76e21c6fbdcb023@AcuMS.aculab.com>
- <CAF6AEGtNGJanJ9f2pkjst50yPSWGJPo5nDkcZZgq=BkRWMq4yg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE5210E266
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 12:05:00 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id x15so12560074wru.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 04:05:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CluZnJvaFq+gv5SsBEdks07J31iiWkZ5fHpUB0bqBcM=;
+ b=qw+ajJ3bas5PbBQI9GqAWDJtr1KHk5lF7RWDvKeZSUWN09yo6r3mVvLnJt7yrUnGGW
+ gsvPxknVOA7c9SgZrcdZQk/3ro/18kya2vr/H64cqmcHGXQxwOO4zMEPhYObRUfdsU+B
+ BHF2jjdpfoYCSQx+Y5G5ae/u1KXY38+LZrSmg00Q1P9Bhp1G2Fv5zTxiLOTs8MV1fkQf
+ tzMlShgQCn6RUx1pGONYHEq+GJV35waRSt1OKKqg69RAF76pyKUdhkHcQFWeNm5ZDGpG
+ lW3UVnxzzisq8e4IUJqjB6M3XKZfiAyg0y5Ad1BEA9nbtytriaHHdFj7HFv5BN/nN+yU
+ Eqyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CluZnJvaFq+gv5SsBEdks07J31iiWkZ5fHpUB0bqBcM=;
+ b=VZYxV5X5BP0CxuuGoPkTQzQj6un2v07wxmXOn35PGajJPkgGMd46J7GNJINhZVHuyn
+ PtAIW/VUOLJ0ryLqjCDcNRgedgTFVTboUNPa25db7a53cJ8SP3+VymRKyRv1Fr1zYvIe
+ sYWfkoyaOC9snAZKXROjJoNpa3hFBALsYKXDWltsxAt3rMaBPE/llmzKsj+o5YHHFv/v
+ Vb0KHoDHVxdn5GOz1kqNXFGtDxLWyAfuZGxtXk/Vc+KrhWiNpC22Oy/lzT1/zgW5zqlY
+ +P0QCE7QMFp0BUkyoopnP6z2P/c9DBizSEL9O/U/sVfsGVh/7OJnOGK3GcpLYf0F8wJK
+ SUBQ==
+X-Gm-Message-State: AOAM5311PY9DN5RPThl6G8BvRcVsNRSCJlqDGIljKBcY96nZTkWTQ/q8
+ cj5VknRBXNiwSAEh7OfA+74=
+X-Google-Smtp-Source: ABdhPJw60L/wNBZRfT4SbS1AbolE9XQ7lQrIbYwPi4ZXCq4AAqHgcxz8c6qE8LDV5dRnQfyrKPmEMg==
+X-Received: by 2002:a05:6000:184e:b0:1f0:3569:ccac with SMTP id
+ c14-20020a056000184e00b001f03569ccacmr7235289wri.680.1647000299064; 
+ Fri, 11 Mar 2022 04:04:59 -0800 (PST)
+Received: from monk.home ([2a01:cb10:430:ec00:4737:d56e:186b:af1])
+ by smtp.gmail.com with ESMTPSA id
+ r20-20020adfa154000000b001f0326a23e1sm6595223wrr.88.2022.03.11.04.04.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Mar 2022 04:04:58 -0800 (PST)
+From: Christophe Branchereau <cbranchereau@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v3 0/4] Ingenic DRM bridge_atomic_enable proposal
+Date: Fri, 11 Mar 2022 13:04:49 +0100
+Message-Id: <20220311120453.163297-1-cbranchereau@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "aravindh@codeaurora.org" <aravindh@codeaurora.org>,
- "rafael@kernel.org" <rafael@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "khsieh@codeaurora.org" <khsieh@codeaurora.org>,
- "nganji@codeaurora.org" <nganji@codeaurora.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-03-01 at 09:45 -0800, Rob Clark wrote:
-> On Mon, Feb 28, 2022 at 10:49 PM David Laight <David.Laight@aculab.com> wrote:
-> > 
-> > From: Abhinav Kumar
-> > > Sent: 28 February 2022 21:38
-> > ...
-> > > We also did some profiling around how much increasing the block size
-> > > helps and here is the data:
-> > > 
-> > > Block size    cost
-> > > 
-> > > 4KB           229s
-> > > 8KB            86s
-> > 
-> > You must have an O(n^2) operation in there - find it.
-> 
-> The problem is how the devcoredump/sysfs interface works, which
-> results in "re-rendering" the output for each block.. it's fine for
-> moderate size sysfs files, but scales quite badly once you get into
-> couple MB size sysfs files.
-> 
-> It could be fixed by having some way to keep state across successive
-> read callbacks.
+Hello, v3 :
 
-I'm not sure that's true? Perhaps for dev_coredumpm(), but only if you
-implemented read() badly.
+Drop -spi in the compatible string, adjust bindings doc accordingly 
 
-If you have e.g. dev_coredumpsg() or dev_coredumpv() that's just a
-simple read from the existing buffer.
+KR
+Christophe
 
-johannes
+------------------------
+
+Hello, this is the v2 for my set of patches :
+
+- use dev_err_probe() instead of dev_err() in the newvision panel
+driver probe function
+
+- add bindings documentation for the Leadtek ltk035c5444t
+
+Cheers - Christophe
+
+------------------------
+
+Hello, this is a set of patches to allow the upstreaming of the
+NV3052C panel found in the Anbernic RG350M mips gaming handheld.
+
+It was never upstreamed so far due to a longstanding graphical
+bug, which I propose to solve by introducing ingenic_drm_bridge_atomic_enable
+in the drm driver so the CRTC can be enabled after the panel itself slept
+out, and not before as it used to.
+
+After the drm change, 2 of the existing panels have to be modified accordingly
+to introduce missing .enable and .disable in their code.
+
+Christophe Branchereau (4):
+  drm/ingenic : add ingenic_drm_bridge_atomic_enable
+  drm/panel: Add panel driver for NewVision NV3052C based LCDs
+  drm/panel : innolux-ej030na and abt-y030xx067a : add .enable and
+    .disable
+  dt-bindings: display/panel: Add Leadtek ltk035c5444t
+
+ .../display/panel/leadtek,ltk035c5444t.yaml   |  59 +++
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  19 +-
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  23 +-
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c |  31 +-
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   | 497 ++++++++++++++++++
+ 7 files changed, 627 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+
+-- 
+2.35.1
+
