@@ -2,43 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C95E4D56E3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 01:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA14D56E5
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 01:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBDA210E028;
-	Fri, 11 Mar 2022 00:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6219810E07F;
+	Fri, 11 Mar 2022 00:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1183F10E00D;
- Fri, 11 Mar 2022 00:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646959299; x=1678495299;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=o9DipBBCSxtOCK6jQnqoVd4fFshA4gbttOlB0153F/I=;
- b=W7rcZVpxAVl9xlE40jQ/auQEXC6NHqRWJ1BVcdW2XEiHL6A/unMdOJOA
- /LJc9nvvRMMBNo3F29ct0biZMbExVg4bYpS0EPSNH43aqFuZwKlrlT9hj
- 2UOEm7XhUzsBTOKGE58tZItN22P2NSz4Uh7sy3vmMgxoqLwe9ukdjUtuQ
- 2WSMykdkP6iN/DYi01fYuBLNx/1JQWLSXy+ZB4Wz5qHuKnS+h250x4QLv
- IlRend3VLuxNWNx8dcM6mgQVF+wh4eEJYLtAbsiZr5i8gOfu8PKuYh1eW
- 2/+Up4S0fIjZztXlHqi6UTczfMZGHAeWitGC4aS06zzyIgU6mm/KDq3hK A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="254272294"
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="254272294"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 16:29:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="596892282"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2022 16:29:16 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 0/1] Fix i915 error_state_read ptr use
-Date: Thu, 10 Mar 2022 16:31:39 -0800
-Message-Id: <20220311003140.508371-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from out30-42.freemail.mail.aliyun.com
+ (out30-42.freemail.mail.aliyun.com [115.124.30.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A341810E07F;
+ Fri, 11 Mar 2022 00:42:44 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R561e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0V6qUi.A_1646959359; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0V6qUi.A_1646959359) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 11 Mar 2022 08:42:40 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: christian.koenig@amd.com
+Subject: [PATCH -next] drm/amd/pm: clean up some inconsistent indenting
+Date: Fri, 11 Mar 2022 08:42:38 +0800
+Message-Id: <20220311004238.112196-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,30 +39,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yang Li <yang.lee@linux.alibaba.com>, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix pointer offset usage in error_state_read
-when there is no i915_gpu_coredump but buf offset
-is non-zero.
+Eliminate the follow smatch warning:
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:174
+__smu_cmn_reg_print_error() warn: inconsistent indenting
 
-This is the 2nd rev of this series.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Changes from prior revs:
-  v3: - Add a fixme comment about handling partial inconsistent
-        sysfs reads as per review comment from John Harrison.
-  v2: - Fix build issue: uninitialized var
-        Reported-by: kernel test robot <lkp@intel.com>
-
-Alan Previn (1):
-  drm/i915/reset: Fix error_state_read ptr + offset use
-
- drivers/gpu/drm/i915/i915_sysfs.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+index ae64d1980f10..5ed11624f144 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+@@ -164,17 +164,17 @@ static void __smu_cmn_reg_print_error(struct smu_context *smu,
+ 
+ 	switch (reg_c2pmsg_90) {
+ 	case SMU_RESP_NONE: {
+-	if (adev->ip_versions[MP1_HWIP][0] == IP_VERSION(13, 0, 5)) {
+-		msg_idx = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_2);
+-		prm     = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_34);
+-	} else {
+-		msg_idx = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_66);
+-		prm     = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82);
+-	}
+-		dev_err_ratelimited(adev->dev,
+-				    "SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x%08X SMN_C2PMSG_82:0x%08X",
+-				    msg_idx, prm);
+-	}
++		if (adev->ip_versions[MP1_HWIP][0] == IP_VERSION(13, 0, 5)) {
++			msg_idx = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_2);
++			prm     = RREG32_SOC15(MP1, 0, mmMP1_C2PMSG_34);
++		} else {
++			msg_idx = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_66);
++			prm     = RREG32_SOC15(MP1, 0, mmMP1_SMN_C2PMSG_82);
++		}
++			dev_err_ratelimited(adev->dev,
++				"SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x%08X SMN_C2PMSG_82:0x%08X",
++				msg_idx, prm);
++		}
+ 		break;
+ 	case SMU_RESP_OK:
+ 		/* The SMU executed the command. It completed with a
 -- 
-2.25.1
+2.20.1.7.g153144c
 
