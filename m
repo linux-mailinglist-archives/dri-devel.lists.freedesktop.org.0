@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9954D6949
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 21:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E344D6942
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 21:00:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5A910EA5E;
-	Fri, 11 Mar 2022 20:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B3410E0D3;
+	Fri, 11 Mar 2022 19:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDF410EA5E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 20:02:59 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 259D781F9A;
- Fri, 11 Mar 2022 21:02:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1647028977;
- bh=cYa5/72OzMeMhWDeZt8GSTyGPqyB0P8u63f2lEWFG78=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ufqxOi2qm6S+mDCykf5FxQz1sAOxn1AlgmcR5f0LN+3s/Gka0btZjkC2KWQwqKy/F
- wZ1kclsvocXPncsIp6iRuv1JzLUFtjQlcF0RQx0BFrOi7IHq3Q8VifBsug5F2DLoRw
- 7YCVUaoFu9W7WcL7vczveycuePEhR7PCuGFPjnljlydj0uM01W7zo7JyKfG0wbGlW+
- m7migyXXi0Uai9F7OBnI5nIQdQwUgP4yUbXSIXAAW2c8fwJy0vhWyjgyX2JVufVqhT
- CRP06KgLMK6OFDz0ksHmjIk0PVnRr9zc57SNxxRMYHmMBPFbCU6BlAXR4NMeMQ1WqK
- +KJv4uw9cMFdQ==
-Message-ID: <f232a522-88d5-8bee-1f68-193c3960c5c5@denx.de>
-Date: Fri, 11 Mar 2022 20:56:38 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35BA910E0D3;
+ Fri, 11 Mar 2022 19:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647028797; x=1678564797;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cmL0IXAiid100nFm5k85vgMa2w10gMENkGZBcAgsTL8=;
+ b=PCBaNxOsby2zkW9xWDpUX0rnmkoYpUPYwhw/iz28ntlLi8+mSNn8q9Kj
+ wpdq9nb1MZd8ooHnHVxH1vl2z2NzULgp392s3llSMZWKKb1Vpzfygl2xe
+ 6CX7hfTBi+m/fi/tEtIO+FpyUrta0VSh7vT1nOS8UH52gzWjC7nACoIta
+ uoB9DpQ3NSJ+z9osRp8bwE45MVyoAsctu2VhyvbPJ6hHNB8KO44acUzzj
+ gGlzKHgZcKCzbDAg9zu3VcOkZ2R1GhkJDWb1HAZ/AxfoOO6o+U7p53rEg
+ 1ycD/PxGHOy2L5gqS2EdJl8nhUvHzMvq0+0pIrBLG2W6wf0NkAlf+d0F3 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="235596703"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="235596703"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 11:59:56 -0800
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="496866381"
+Received: from rbgreen-mobl3.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.239.245])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 11:59:56 -0800
+Date: Fri, 11 Mar 2022 11:59:56 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/xehp: Update topology dumps for
+ Xe_HP
+Message-ID: <20220311195956.yphhgogafoetln6k@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220311061543.153611-1-matthew.d.roper@intel.com>
+ <20220311061543.153611-2-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220308125140.e7orpvocrerr5xdv@houat>
- <dd68f569-7fe3-dc00-b2f0-536b066ec37a@denx.de>
- <20220308134921.zebs533xeazq46ts@houat>
- <1ac9057e-fb6d-02f8-78df-c6518fb6e897@denx.de>
- <20220308162158.j5czx7krscaeqtsy@houat>
- <423c5f19-7b7c-dbc7-7482-34a0537bec21@denx.de>
- <20220310105352.v7jqjchshaaajsmd@houat>
- <c60112b4-5095-11ad-0da4-c84bb30bf77f@denx.de>
- <20220310141807.5yqho4gloz4lrdjt@houat>
- <17281de1-1299-19ee-ece3-767ef7e8a32b@denx.de>
- <20220311162956.vm7qsrzauw7asosv@houat>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220311162956.vm7qsrzauw7asosv@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220311061543.153611-2-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,236 +59,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/11/22 17:29, Maxime Ripard wrote:
-> On Fri, Mar 11, 2022 at 11:36:58AM +0100, Marek Vasut wrote:
->> On 3/10/22 15:18, Maxime Ripard wrote:
->>> On Thu, Mar 10, 2022 at 01:47:13PM +0100, Marek Vasut wrote:
->>>> On 3/10/22 11:53, Maxime Ripard wrote:
->>>>> On Tue, Mar 08, 2022 at 10:41:05PM +0100, Marek Vasut wrote:
->>>>>> On 3/8/22 17:21, Maxime Ripard wrote:
->>>>>>> On Tue, Mar 08, 2022 at 03:47:22PM +0100, Marek Vasut wrote:
->>>>>>>> On 3/8/22 14:49, Maxime Ripard wrote:
->>>>>>>>> On Tue, Mar 08, 2022 at 02:27:40PM +0100, Marek Vasut wrote:
->>>>>>>>>> On 3/8/22 13:51, Maxime Ripard wrote:
->>>>>>>>>>> On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
->>>>>>>>>>>> On 3/8/22 11:07, Jagan Teki wrote:
->>>>>>>>>>>>> On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> On 3/8/22 09:03, Jagan Teki wrote:
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Hi,
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> [...]
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
->>>>>>>>>>>>>>>>          static int chipone_parse_dt(struct chipone *icn)
->>>>>>>>>>>>>>>>          {
->>>>>>>>>>>>>>>>                 struct device *dev = icn->dev;
->>>>>>>>>>>>>>>> +       struct device_node *endpoint;
->>>>>>>>>>>>>>>>                 struct drm_panel *panel;
->>>>>>>>>>>>>>>> +       int dsi_lanes;
->>>>>>>>>>>>>>>>                 int ret;
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>                 icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
->>>>>>>>>>>>>>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
->>>>>>>>>>>>>>>>                         return PTR_ERR(icn->enable_gpio);
->>>>>>>>>>>>>>>>                 }
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
->>>>>>>>>>>>>>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
->>>>>>>>>>>>>>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
->>>>>>>>>>>>>>>> +       of_node_put(endpoint);
->>>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>> +       if (!icn->host_node)
->>>>>>>>>>>>>>>> +               return -ENODEV;
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> The non-ports-based OF graph returns a -19 example on the Allwinner
->>>>>>>>>>>>>>> Display pipeline in R16 [1].
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> We need to have a helper to return host_node for non-ports as I have
->>>>>>>>>>>>>>> done it for drm_of_find_bridge.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> [1] https://patchwork.amarulasolutions.com/patch/1805/
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> The link points to a patch marked "DO NOT MERGE", maybe that patch is
->>>>>>>>>>>>>> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
->>>>>>>>>>>>>> required, see:
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> What is "non-ports-based OF graph" ?
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> I don't see drm_of_find_bridge() in linux-next , what is that ?
->>>>>>>>>>>>>
->>>>>>>>>>>>> port@0 is optional as some of the DSI host OF-graph represent the
->>>>>>>>>>>>> bridge or panel as child nodes instead of ports. (i think dt-binding
->>>>>>>>>>>>> has to fix it to make port@0 optional)
->>>>>>>>>>>>
->>>>>>>>>>>> The current upstream DT binding document says:
->>>>>>>>>>>>
->>>>>>>>>>>>           required:
->>>>>>>>>>>>             - port@0
->>>>>>>>>>>>             - port@1
->>>>>>>>>>>>
->>>>>>>>>>>> So port@0 is mandatory.
->>>>>>>>>>>
->>>>>>>>>>> In the binding, sure, but fundamentally the DT excerpt Jagan provided is
->>>>>>>>>>> correct. If the bridge supports DCS, there's no reason to use the OF
->>>>>>>>>>> graph in the first place: the bridge node will be a child node of the
->>>>>>>>>>> MIPI-DSI controller (and there's no obligation to use the OF-graph for a
->>>>>>>>>>> MIPI-DSI controller).
->>>>>>>>>>>
->>>>>>>>>>> I believe port@0 should be made optional (or downright removed if
->>>>>>>>>>> MIPI-DCS in the only control bus).
->>>>>>>>>>
->>>>>>>>>> That's out of scope of this series anyway, so Jagan can implement patches
->>>>>>>>>> for that mode if needed.
->>>>>>>>>
->>>>>>>>> Not really? You can't count on the port@0 being there generally
->>>>>>>>> speaking, so you can't count on data-lanes being there either, which
->>>>>>>>> exactly what you're doing in this patch.
->>>>>>>>
->>>>>>>> I can because the upstream DT bindings currently say port@0 must be present,
->>>>>>>> see above. If that requirement should be relaxed, sure, but that's a
->>>>>>>> separate series.
->>>>>>>
->>>>>>> And another upstream DT bindings say that you don't need them at all.
->>>>>>
->>>>>> Which "another upstream DT bindings" do you refer to ?
->>>>>
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
->>>>>
->>>>>>> Yes, there's a conflict. Yes, it's unfortunate. But the generic DSI
->>>>>>> binding is far more relevant than a single bridge driver.
->>>>>>
->>>>>> That seems to be the wrong way around, how can generic subsystem-wide
->>>>>> binding take precedence over specific driver binding ?
->>>>>
->>>>> This is the binding of the bus. You're part of that bus. You're a child
->>>>> node of that bus, but nothing ever mandates that your parent node uses
->>>>> the same convention. And some don't. And since your bridge can be
->>>>> connected to pretty much any DSI controller, you have to use the lowest
->>>>> common denominator, not make up some new constraints that not all
->>>>> controller will be able to comply with.
->>>>
->>>> It seems to me the ICN6211 DT bindings currently further constraint the
->>>> generic DSI bus bindings, and that seems OK to me.
->>>>
->>>> Let me reiterate this again -- if someone wants to relax the requirements
->>>> currently imposed by the ICN6211 DT bindings, fine, but that can be done in
->>>> a separate patchset AND that needs DT bindings update. Furthermore, there
->>>> are no users of this ICN6211 bridge in upstream DTs, so there is currently
->>>> no bridge which would operate without OF graph using this driver.
->>>
->>> And let me reiterate this again: something that used to work for a user
->>> doesn't anymore when your series is applied. This is a textbook
->>> regression. I suggested a way forward, that you don't like for some
->>> reason, fine. But pushing through a regression is just not acceptable.
->>
->> How can this be a regression if this mode of operation could not have ever
->> been supported with valid upstream DT bindings in the first place ?
->>
->> Should we now require that kernel drivers somehow magically support all
->> kinds of random broken DT bindings in addition to ones which pass YAML DT
->> validation ?
-> 
-> The thing is, as I told you multiple times already, it was broken from
-> the bridge standpoint, but not from the controller's. If it had been
-> correct for the bridge, it wouldn't have been for the controller. So,
-> same story.
-> 
-> The only difference is that it wouldn't affect you, but I don't see how
-> it's relevant.
+On Thu, Mar 10, 2022 at 10:15:43PM -0800, Matt Roper wrote:
+>When running on Xe_HP or beyond, let's use an updated format for
+>describing topology in our error state dumps and debugfs to give a
+>more accurate view of the hardware:
+>
+> - Just report DSS directly without the legacy "slice0" output that's no
+>   longer meaningful.
+> - Indicate whether each DSS is accessible for geometry and/or compute.
+> - Rename "rcs_topology" to "sseu_topology" since the information
+>   reported is common to both RCS and CCS engines now.
+>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/intel_sseu.c         | 48 +++++++++++++++++---
+> drivers/gpu/drm/i915/gt/intel_sseu.h         |  3 +-
+> drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c |  8 ++--
+> drivers/gpu/drm/i915/i915_gpu_error.c        |  2 +-
+> 4 files changed, 48 insertions(+), 13 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
+>index 614915ffbd37..4d28458ab768 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_sseu.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+>@@ -10,6 +10,8 @@
+> #include "intel_gt_regs.h"
+> #include "intel_sseu.h"
+>
+>+#include "linux/string_helpers.h"
+>+
+> void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
+> 			 u8 max_subslices, u8 max_eus_per_subslice)
+> {
+>@@ -54,6 +56,11 @@ u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
+> 	return _intel_sseu_get_subslices(sseu, sseu->subslice_mask, slice);
 
-I'm sorry, I do not understand this answer.
+this func with a single underscore is the one inconsistent with the rest of the file.
+Just rename it while touching this part of the code?
 
->>>>>>> So figuring it out is very much a prerequisite to that series,
->>>>>>> especially since those patches effectively make the OF-graph mandatory
->>>>>>> in some situations, while it was purely aesthetics before.
->>>>>>
->>>>>> The OF-graph is mandatory per the DT bindings of this driver. If you
->>>>>> implement invalid DT which does not contain port@0, it will fail DT
->>>>>> validation.
->>>>>>
->>>>>> If this requirement should be relaxed, sure, it can and I don't think it
->>>>>> would be hard to do, but I don't see why that should be part of this series,
->>>>>> which follows the upstream DT binding document for this driver.
->>>>>>
->>>>>> If I cannot trust the driver DT bindings to indicate what is and is not
->>>>>> mandatory, what other document can I trust then ...
->>>>>
->>>>> Oh, come on. Doing that, you also require OF-Graph support for the DSI
->>>>> controller you attach to, and you can't require that. This is very
->>>>> different from just requiring a property that doesn't have any impact on
->>>>> any other device, and you know that very well.
->>>>
->>>> Currently the ICN6211 DT bindings DO require that kind of bridge.
->>>
->>> And while this wasn't enforced before, you make it a hard requirement
->>> with this series. This is what changed, and what caused this whole
->>> discussion.
->>
->> The current DT bindings already make it a hard requirement, so no, nothing
->> changed here.
->>
->> Unless what you are trying to ask for is support for broken DT bindings
->> which do not pass YAML DT validation by this driver, but that is very
->> dangerous, because then the question is, how far should we support such
->> broken bindings. What kind of broken is still OK and what kind of broken is
->> no longer OK ?
-> 
-> If it ever worked in a mainline release, it must always work. See:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/ABI.html
+> }
+>
+>+u32 intel_sseu_get_geometry_subslices(const struct sseu_dev_info *sseu)
 
-> As far as I'm concerned, it's the sole criteria. So to answer your
-> question, if it was broken but worked at some point, yes, we need to
-> keep supporting it. If it never worked, no, we don't.
+since it's only local to this compilation unit, make it static and
+remove the intel_ prefix?
 
-There are no users of this driver in any mainline release.
+>+{
+>+	return _intel_sseu_get_subslices(sseu, sseu->geometry_subslice_mask, 0);
+>+}
+>+
+> u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu)
+> {
+> 	return _intel_sseu_get_subslices(sseu, sseu->compute_subslice_mask, 0);
+>@@ -720,16 +727,11 @@ void intel_sseu_dump(const struct sseu_dev_info *sseu, struct drm_printer *p)
+> 		   str_yes_no(sseu->has_eu_pg));
+> }
+>
+>-void intel_sseu_print_topology(const struct sseu_dev_info *sseu,
+>-			       struct drm_printer *p)
+>+static void intel_sseu_print_legacy_topology(const struct sseu_dev_info *sseu,
 
-DT is ABI, and ICN6211 DT bindings says port@0 is mandatory. If this 
-driver worked with some broken downstream DT without port@0, then that 
-downstream depended on undefined behavior which I cannot fathom how it 
-can be considered part of kernel ABI. That downstream should fix its DT 
-instead.
+removing the intel_ prefix would make it consistent with the rest of the file too
 
-> Honestly, I don't get the push-back.
+>+					     struct drm_printer *p)
+> {
+> 	int s, ss;
+>
+>-	if (sseu->max_slices == 0) {
+>-		drm_printf(p, "Unavailable\n");
+>-		return;
+>-	}
+>-
+> 	for (s = 0; s < sseu->max_slices; s++) {
+> 		drm_printf(p, "slice%d: %u subslice(s) (0x%08x):\n",
+> 			   s, intel_sseu_subslices_per_slice(sseu, s),
+>@@ -744,6 +746,38 @@ void intel_sseu_print_topology(const struct sseu_dev_info *sseu,
+> 	}
+> }
+>
+>+static void intel_sseu_print_xehp_topology(const struct sseu_dev_info *sseu,
+>+					   struct drm_printer *p)
 
-Because what I am being asked to do here is implement some sort of 
-undefined behavior backward compatibility. For behavior which has no 
-users. Worse, for behavior which can only be triggered if your DT is 
-broken and does not even pass the YAML DT validation.
+ditto
 
-That kind of new requirement seems bonkers to me.
+>+{
+>+	u32 g_dss_mask = intel_sseu_get_geometry_subslices(sseu);
+>+	u32 c_dss_mask = intel_sseu_get_compute_subslices(sseu);
+>+	int dss;
+>+
+>+	for (dss = 0; dss < sseu->max_subslices; dss++) {
+>+		u16 enabled_eus = sseu_get_eus(sseu, 0, dss);
+>+
+>+		drm_printf(p, "DSS%02d: G:%3s C:%3s, %2u EUs (0x%04hx)\n", dss,
+>+			   str_yes_no(g_dss_mask & BIT(dss)),
+>+			   str_yes_no(c_dss_mask & BIT(dss)),
+>+			   hweight16(enabled_eus), enabled_eus);
+>+	}
+>+}
+>+
+>+
+>+void intel_sseu_print_topology(struct drm_i915_private *i915,
+>+			       const struct sseu_dev_info *sseu,
+>+			       struct drm_printer *p)
+>+{
+>+	if (sseu->max_slices == 0) {
+>+		drm_printf(p, "Unavailable\n");
+>+		return;
 
-> To fix this properly would require:
->    - to remove port@0 being mandatory
->    - to move the data-lanes property to the bridge node itself.
+either make this an early return, or remove the return
 
-That does not work, data-lanes is port property.
+other than coding style nits metioned above,
 
-> That's it. It takes 5 minutes, 30 minutes with the test and the commit
-> log. We've spent more time arguing about it already.
 
-How can I test this bug compatibility requirement ?
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-I don't have a broken DT, my DT does pass the YAML DT validation, so 
-should I explicitly break my DT to perform the test ?
-
-Are we going to start asking people to implement support for randomly 
-broken DTs in their drivers during code review too ?
-
-> So if you want to continue debating on whether it's a regression or not,
-> or whether DT ABI stability is a good thing or not, go ahead. But as far
-> as I'm concerned, this isn't really up for debate.
-
-As far as I can tell, undefined behavior can hardly be part of stable ABI.
-
-[...]
+Lucas De Marchi
