@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335094D59CB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 05:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03B04D59D9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 05:48:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036B710E2A8;
-	Fri, 11 Mar 2022 04:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D631D10E630;
+	Fri, 11 Mar 2022 04:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
- [IPv6:2607:f8b0:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D292410E1A4;
- Fri, 11 Mar 2022 04:48:15 +0000 (UTC)
-Received: by mail-il1-x12a.google.com with SMTP id i1so5231975ila.7;
- Thu, 10 Mar 2022 20:48:15 -0800 (PST)
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
+ [IPv6:2607:f8b0:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BB410E29C;
+ Fri, 11 Mar 2022 04:48:16 +0000 (UTC)
+Received: by mail-il1-x129.google.com with SMTP id b14so5242932ilf.6;
+ Thu, 10 Mar 2022 20:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WLJUfv+vtv2Xowd95rnmv6x57XGkiZ9Q0usZnZ/h/Fg=;
- b=BAdskuKI9VfM7g6MdIyYCX2934INAcfFZM/kOhzMVypR3K8e7NmjKtCM7hl7IYj5Kl
- EHeCr8unRoU01MBlC5kYDefRks2BQ1aUfmU96GgZYsl9bHnBJwvPZmXBF0TSKsqRBUpg
- C4RbYO3+IpyxYfjmmUpkMN4YzXG/4ZMp/8mTykqbL2hKdGvPsAFQTZZ6V6eOu0CnKrTg
- m3iT7oNE6t8/bpSlo7but+KoXGCgNFHgRkWb4tFZq2X73fyP88KLOV1ZUsTWe1dC41tO
- nsisO146qbke7GYP3PlH0YI7cu27QAqAGGVTyUj1jaemxEZNJTJCVP/ccw+syqddgWq0
- ef/w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oAf0LosuiaLpXGtYs0EMjapukN/Wz4GaZEg3vD6y6ak=;
+ b=FGomt3SpUqyItDxQTS6QatofCRhiZIi82c83FcZW5lAA7Hia4dUP0QS/5UI8s6V1iG
+ p9ewH/E8qTORsPj4+OnlwfDOXUVrf8HA+fTwEUNyHVWnEW32jyMqS0HEMeua00mED9fG
+ Jt5WhOje3GPSyOyvOMadpj6kIzq9ffhFw1is+8tPx5sOzNgcO1DanXFs7auqvAQR2OBg
+ O5UhHrzIh8D2tX1MtSnEyQ5Xl0wYsAOwDwWqf53yNtM1nYFJb6c8e8muyyQDgIBl6Ddw
+ xd1IC+TTQp3rkOr7C1IvU2aLj6DFtJpHblfIL1P1+F7+iR/oDHQO/VvQ8mZgMhLKEvdi
+ yJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WLJUfv+vtv2Xowd95rnmv6x57XGkiZ9Q0usZnZ/h/Fg=;
- b=spID9xhLzyAhS9itjzdaS2qE4QwZpCvEehJqSSXrHeg65k6ymPF5/zmgzDsjcqVodv
- tXpYmGEYDH7zcDv/vBuQkyqe3H5IW9TGXjj42r4NtCu8WCSg8kFLt7AHgg+gnVyiMi2V
- 4/iWPiTIZhDZhuZGE5E3CAUx4BOZy3L8M4yjSeXRxLbW+7zgRzhV5IOss72VcQHtDb1n
- GvjfL/xN9tlhiMFTV1BPi2aE2lqP96fD5yKV9t+nVgJOFrv5ka+589sRmPoczFaruP/T
- xhld2B5oAXywcJRp9LYjuE5ry2PH8kFzw6uPMccGnkUhNSIs+Fc4skozMlDiZsvmXWut
- TLmA==
-X-Gm-Message-State: AOAM53370aE0nNKMrsedX0Sm1qLsHFfwol4HeOn3sWR2umLpXbSQSm6s
- bJEPcW/sU7PXx+F21XKZsIc=
-X-Google-Smtp-Source: ABdhPJwLiyGCqptiiJ1W3yzIkkwWcID1+2qC+xRSz8O8HMrMBSJYhB88CICNm7rvIqvtvkU+lUdlog==
-X-Received: by 2002:a05:6e02:1e02:b0:2c6:65a7:55fe with SMTP id
- g2-20020a056e021e0200b002c665a755femr6529739ila.269.1646974095002; 
- Thu, 10 Mar 2022 20:48:15 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oAf0LosuiaLpXGtYs0EMjapukN/Wz4GaZEg3vD6y6ak=;
+ b=bOhRfXS92SYcm0rjfiwngIGaGvoFnJwDbM8ag3Kv/YDXcgFHiQwcCKl7t6BjO62aXF
+ 0z/+rE48Hxs780OdDPWfRdNP2EZrN5+d/HtMXmhxmaxki8xsWw/iTe1KIjXAZZcc32i9
+ KsGHR1XFzic/t/8+4T5Bz3B6UNy/KOMtwkW0Vh1Awv5z+9+G+hBY2oL+ro0oRlinjUwy
+ dvy4a7Kds8hqjrsSGg1DW9YbArqFgJqdcpY9p4PgBCgHl58xj0ctD+F/69oXUxwLO2oM
+ XjVglbT7nhMB1WAwUL/WndqbjY56ElR4N5+jb3sWEPy73jupQ6u4kvLyBgKcO5kVQYEY
+ MOcw==
+X-Gm-Message-State: AOAM532Sc4oC+LauYGULIKx44/2cnt0GFRS5rqg/ylk3fDlK1cprf+gQ
+ gpGbzM/6CLgLTkmH6Em50kwZKVZ+Dd2Ltw==
+X-Google-Smtp-Source: ABdhPJwFZHg/BgFkwfNAHNLyEDOYNqmvUk/C+4ceSxeoTbqDRVietvJzifHbTMNcdfYqz0MT1Xo4PA==
+X-Received: by 2002:a05:6e02:1946:b0:2c7:730d:3e35 with SMTP id
+ x6-20020a056e02194600b002c7730d3e35mr2075171ilu.179.1646974096273; 
+ Thu, 10 Mar 2022 20:48:16 -0800 (PST)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::f10e])
  by smtp.googlemail.com with ESMTPSA id
- q9-20020a5edb09000000b00645c7a00cbbsm3529834iop.20.2022.03.10.20.48.14
+ q9-20020a5edb09000000b00645c7a00cbbsm3529834iop.20.2022.03.10.20.48.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 20:48:14 -0800 (PST)
+ Thu, 10 Mar 2022 20:48:15 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] dyndbg add exclusive class support
-Date: Thu, 10 Mar 2022 21:47:51 -0700
-Message-Id: <20220311044756.425777-1-jim.cromie@gmail.com>
+Subject: [PATCH 1/5] dyndbg: fix static_branch manipulation
+Date: Thu, 10 Mar 2022 21:47:52 -0700
+Message-Id: <20220311044756.425777-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220311044756.425777-1-jim.cromie@gmail.com>
+References: <20220311044756.425777-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,91 +70,73 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- linux@rasmusvillemoes.dk, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, amd-gfx@lists.freedesktop.org, joe@perches.com,
+ vincent.whitchurch@axis.com, linux@rasmusvillemoes.dk,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ amd-gfx@lists.freedesktop.org, joe@perches.com,
  intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg, Jason,
+In https://lore.kernel.org/lkml/20211209150910.GA23668@axis.com/
 
-Please consider these for char/misc or linux-next/soon/mumble.
+Vincent's patch commented on, and worked around, a bug toggling
+static_branch's, when a 2nd PRINTK-ish flag was added.  The bug
+results in a premature static_branch_disable when the 1st of 2 flags
+was disabled.
 
-This patchset adds exclusive class support to dyndbg, allowing it to
-directly represent drm's debug_category.
+The cited commit computed newflags, but then in the JUMP_LABEL block,
+failed to use that result, instead using just one of the terms in it.
+Using newflags instead made the code work properly.
 
-It is the dyndbg half of:
-https://lore.kernel.org/lkml/20220217034829.64395-1-jim.cromie@gmail.com/
+This is Vincents test-case, reduced.  It needs the 2nd flag to work
+properly, but it's explanatory here.
 
-The DRM half of that patchset uses this support to reimplement
-drm.debug on dyndbg, and uses its callsite patching to avoid the
-runtime checking done by drm_debug_enabled().
+pt_test() {
+    echo 5 > /sys/module/dynamic_debug/verbose
 
-Background:
+    site="module tcp" # just one callsite
+    echo " $site =_ " > /proc/dynamic_debug/control # clear it
 
-In the past, various extensions to dyndbg/pr_debug have been proposed,
-none seemed to gain any consensus.  This list is certainly incomplete.
+    # A B ~A ~B
+    for flg in +T +p "-T #broke here" -p; do
+	echo " $site $flg " > /proc/dynamic_debug/control
+    done;
 
-https://lore.kernel.org/lkml/20200609104604.1594-1-stanimir.varbanov@linaro.org/
+    # A B ~B ~A
+    for flg in +T +p "-p #broke here" -T; do
+	echo " $site $flg " > /proc/dynamic_debug/control
+    done
+}
+pt_test
 
-pr_levels was discussed around this patchset, in revs 3,4,5
-This search helps:
-	s:venus: s:dynamic f:stanimir.varbanov@linaro.org
+Fixes: 84da83a6ffc0 dyndbg: combine flags & mask into a struct, simplify with it
+CC: vincent.whitchurch@axis.com
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 
-IMO, pr_levels suffers from implied meaning between the levels: 2 > 1.
-In contrast, DRM has logically disjoint categories, and is implemented
-in an enum (despite its flag/mask values, a micro-optimization).
+--
+.drop @stable, no exposed bug.
+---
+ lib/dynamic_debug.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-https://lore.kernel.org/lkml/20210813151734.1236324-1-jim.cromie@gmail.com/
-
-That patchset used pr_debug in DRM, and prepended "drm:kms:" etc to
-the format strings so each category was selectable; "format drm:kms:"
-in the query.  This worked, but it made the format config-dependent,
-and was hard to explain without undue "artifact".
-
-
-So this patchset adds .class_id field (4-bits) to dynamic-debug
-callsites, and 'class N' query/command support to select upon it.
-Existing callsites and queries get .class_id=15, so 0-14 are available
-for use by the client (DRM wants 0-10).
-
-The DRM patchset then:
-. renumbers drm_debug_category to fit into the 4-bit .class_id
-  the new enumerations *are* the bit-positions in drm/parameters/debug.
-. adapts the category-macro layer to use _CLS macros, mapping categories.
-. adds macro layer under the category-macro layer
-  which wraps drm_*dbg inside a dyndbg Factory macro
-. uses DEFINE_DYNAMIC_DEBUG_CLASSBITS to tie to __drm_debug
-  callbacks ref the var, so drm_debug_enabled(cat) just works.
-
-Jim Cromie (5):
-
-dyndbg: fix static_branch manipulation
-  fixes a latent bug, before a 2nd "enable" flag exposes it.
-
-dyndbg: add class_id field and query support
-  will allow (with that drm patchset):
-  #> # turn on DRM_ATOMIC in amdgpu
-  #> echo module amdgpu class 4 +p > /proc/dynamic_debug/control
-  #> # turn on DRM_CORE in drm
-  #> echo module drm class 0 +p > /proc/dynamic_debug/control
-
-dyndbg: add DEFINE_DYNAMIC_DEBUG_CLASSBITS macro
-  adds macro & callbacks to support drm.debug bitmap
-  #> echo 4 > /sys/module/drm/parameters/debug
-
-dyndbg: drop EXPORTed dynamic_debug_exec_queries
-  unused yet, obsoleted by 2,3
-
-dyndbg: show both old and new in change-info
-  minor debug improvement
-
-
- .../admin-guide/dynamic-debug-howto.rst       |   7 +
- include/linux/dynamic_debug.h                 | 111 ++++++++++---
- lib/dynamic_debug.c                           | 150 ++++++++++++++----
- 3 files changed, 213 insertions(+), 55 deletions(-)
-
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index dd7f56af9aed..a56c1286ffa4 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -211,10 +211,11 @@ static int ddebug_change(const struct ddebug_query *query,
+ 				continue;
+ #ifdef CONFIG_JUMP_LABEL
+ 			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
+-				if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
++				if (!(newflags & _DPRINTK_FLAGS_PRINT))
+ 					static_branch_disable(&dp->key.dd_key_true);
+-			} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
++			} else if (newflags & _DPRINTK_FLAGS_PRINT) {
+ 				static_branch_enable(&dp->key.dd_key_true);
++			}
+ #endif
+ 			dp->flags = newflags;
+ 			v4pr_info("changed %s:%d [%s]%s =%s\n",
 -- 
 2.35.1
 
