@@ -2,112 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322244D5FB7
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 11:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45264D5FC5
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 11:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 378DD10E8D1;
-	Fri, 11 Mar 2022 10:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D2E10E8DF;
+	Fri, 11 Mar 2022 10:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2111.outbound.protection.outlook.com [40.107.92.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 852C410E8DF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 10:36:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KTHS+eVoRTgc4LfECD9M/Lgr5vrztPsAwiZmis+4Uv/mrlhqj6DmduyvqU2o2Wv8/k3mncQ/hymb+zOnqpTT9RTm8STPoDNgg9ifj/siq7znS0VwN+q3lp7NbAfd9k4RzSfskBcXnzkjArYhY2753p3M8u+3jCwzQ+p6zbY40JA6Qv4UVDH1Z8b0v8uy5pQIShzXZw0E0JuFD1kAL62kHg/cxtfpHR3tX36oOqdXpDu61iqG/fV46DQ6Csv5h+kwHa5attN+VUvhxQF30fU/AQOnu2lq9DBmte4YrtvFDhHVwqb4xno/LcvQWuFq5g1k0SaiDQgWt/a7m24rxp1J3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CdWpaL++G+qbrTuS099Pq5TV6p1Lq5innZSWHVrKhd8=;
- b=H13lQaKD6Ou0qkkyzcNuPTnfvsWe6Ljjw2GEGB/vegnCd7NXIBUlYfn0/y/60RS5Wks4JU0YAz5Mr9MUfyTpdKXtDmVKFdMmki2p1uiF73y/K5Qku1lvtFnRO5ks0xJNTEnEesOeDePQI+hi7daXb+lUVzH5xu8tcWwgPd9/HBSEJPrLglQFkUojZJZi3G+Cy7GuRyPSI0mXkrspkQrTPfaiNrXdfkEgHsQe2htd9ojvpPFtwva879zaNleMmX1W9ooZNw4p9P1v7rrLcIGx5Okuih09YmRgGc31Y5cJGk+juycKL2MjpHnDnHWj5cAOh1u+2PXIgXeYRH+3L4GWgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CdWpaL++G+qbrTuS099Pq5TV6p1Lq5innZSWHVrKhd8=;
- b=gmBSvX8rhcsjKHKGqOA8I5zaNAmNWpsjLXJCZyK+1T3xPlE8bwlOiEAOmQ4UQ/ucFreJuIqRkq5ygrJumEEIXsH8n+u52zXBJ+MG/9HvMQ7R/Ipk1IlEvsTOn6WlEoedJMcYwtLunV3dPkJTcilQh3Fm2Cot+0g6u9XE17Owr6o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by MN2PR04MB7021.namprd04.prod.outlook.com (2603:10b6:208:1e6::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 11 Mar
- 2022 10:35:59 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142%9]) with mapi id 15.20.5061.022; Fri, 11 Mar 2022
- 10:35:59 +0000
-From: Xin Ji <xji@analogixsemi.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH v2] drm/bridge: anx7625: Fix not correct get property counts
-Date: Fri, 11 Mar 2022 18:35:25 +0800
-Message-Id: <20220311103525.1431890-1-xji@analogixsemi.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0195.apcprd02.prod.outlook.com
- (2603:1096:201:21::31) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B218F10E8DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 10:37:01 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id B3D7D8306E;
+ Fri, 11 Mar 2022 11:36:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1646995019;
+ bh=xPvGLiS5hx6T4kqE/G8onmHNjUoemvjTYRV6dWQU8Ls=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IHWboSsj1kv6DbcNofOH2sCoSrWemEcvW1+AApRDlZdX3LyttlzZfnRRj4GZQr+aj
+ q437YxDoYw2O8ddr7C2siyUC9KqPqEZxbcWwYM/zT9Y2QPsDrxvHDk9MEVdzFiZLyd
+ vxt4KWplHmzq/w1bv4v6DvyF1XBKCvOS4XSSM7zA8HQOj/36Dq7sH2fMKv4JFZAENR
+ 2eHei5/MUXcmnwUo0WLJFRd64K+qsfrc4XLaifKriXCuA5J52rfhcb/JowD6Lh2GSB
+ bjaz8sPqjUuvccffyuTKUiXkz4YP4sSfVl1eqeMN/6O2GVb/BKDCnHsAsC873t1XB1
+ B24wHSO4ApyTQ==
+Message-ID: <17281de1-1299-19ee-ece3-767ef7e8a32b@denx.de>
+Date: Fri, 11 Mar 2022 11:36:58 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40e6b493-3d9c-4a56-4524-08da034aeea1
-X-MS-TrafficTypeDiagnostic: MN2PR04MB7021:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR04MB70218D98657D4EEC9B454F2DC70C9@MN2PR04MB7021.namprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JzaWMgETYdvSPM6dq0KTtIZyDWVJMcn566kMEILlZ+4LWPg1VKSGCFicTJDYEBcawv9+KT4yN/inNiSSacKHaSvsqsRyO3r7mrHNWuH7HVU+fCVZSHscERNeQc1TEGexsMGjjbCSTjA5ta0f5SdY/8Qg+xeIE6Grkag0G96uBgw8elKDHbgA9/kDi0P7PujZM0vPtvvHJCnfoGh/FILI1hdnwjfjJgckjPwl+m5pi3oJcpK42X+/cD/1pxHxFPb4LKl9XlQ49Q6FUuNcQWwAnuFW1HOw4q0GBUEE5WNWc55Zkp/VUMG5EiPfBVcosKMJpd+sd2j2SDjr1wvETcCXprTOSzB74/1/x95DiH4nmqPBtF6YE0rvt5w5IXvhcL7NPenUyt/Md70n7As+uNmHF9Pk0RABs4dI14vl16f/ZibsT7zi//RCDzxqVdcseVtLmuKgiLDyHBBMKO/qXs5xpb6IuA/HvEto5NuGrDapKT54mASc1x1nXiTi8R3fTzd/5PpQl7AiW3zNLXwiTXFpyhcqLM+O+bImkEsOebo+bcoXG91FgSXw7gl6Ul5LoTxNtRTQ9C3dRdGgXHSq/MbGURUClCaw9FA9hPwSautTrAvDTfFYcg5GXo1f+L4EMZFTKMhagQqbMiVRT5aerUA9b4/G455YkWByt4Wy4edMwF26YB60nXTa1d43GavcFvZQ1Zt5e6nhAz/4oZr5xU6t/w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(8936002)(7049001)(52116002)(6666004)(36756003)(6506007)(55236004)(110136005)(83380400001)(26005)(1076003)(38100700002)(38350700002)(2616005)(186003)(5660300002)(7416002)(4326008)(8676002)(6512007)(66946007)(66556008)(6486002)(66476007)(498600001)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5LXWKM+pbpOzKdTiTRqGOC4WEQ6gRiKTwb/+FTT9sy0mpJqVGZ020VOu6szB?=
- =?us-ascii?Q?pNTdgJhSKfg54tAFy0diwlN1QCxArRDAVVNnC9G0u80RoXBZwxDZNLhLph7M?=
- =?us-ascii?Q?V0xeEn1Ilabvbi5y3YdJhpfCWvuprCchsa4LSz3zngZ9tgV9Qa604ab9iX5K?=
- =?us-ascii?Q?T89sjdRBGJ/XlkTNW7irHw0BGS8eCbNxZm5/VaOgKtE5wUIK83yNtroPwGsi?=
- =?us-ascii?Q?Lx3f3dwwZmfj8jKwIn1ecrX5i2sgwFhIjK/RYFu+9ZAF++yuz6L8n161YKjr?=
- =?us-ascii?Q?QqFZEKFInJXjqCkS+CDl96dTQ1ewbqkjchCE7kNIMfLTDT9Ds+9PNbAZSHHr?=
- =?us-ascii?Q?h2SUv5EvgjMNKlXhhXdJP1qvdh24/5hoXfOAH8FhCWfgOSwPw4MozUp9eWzg?=
- =?us-ascii?Q?2GPZbKlUnYv2SkxUQLXImp6hGKgIlaNWgTLnxWw67xFWIAm1lEYPgKDhUsVN?=
- =?us-ascii?Q?PlyAaGVLsvLk2g4Bfl95QVvDb40MLFc7jS0JCsqiMBwrTvD496HowwnyCuT7?=
- =?us-ascii?Q?CjNje0kaLh3rcQTxWJhT8woA241oeVvfJr1X9dPQI8IBUllyIvR3aozbjLP5?=
- =?us-ascii?Q?cBn5+SNB8CFmAGaiq1rxUXD71SLQXE0wyw8pxv4dNqOEywfkCNkcNMdLZbxY?=
- =?us-ascii?Q?6M0r5qapLHyKfnbivdFOQJ+/xDTrEtW02tRed9sYyH8aeHV+dV1x4+T17RRl?=
- =?us-ascii?Q?2PiOhbrSk+/UaNjCGn6PYszbIP3IXZymWKuQDeShV3ufRbpexDUyFM0xfk9C?=
- =?us-ascii?Q?e1WKcgUTtMy9jM8YimUxKQAOf6PM1mBKbxIGFpBm1q4TjaJlglqoSX0xfnoi?=
- =?us-ascii?Q?xPp5JqIzHxIYnvpCQPqqIEcHSTR3wH1twtgjgZNQsGJZbt5ULuZigHKMLdHE?=
- =?us-ascii?Q?bgWRwG3SJB+R6FL6Y0ec48yO+WbGfmp26IFvf0U6hlq+7Wdlq77Typ/aEe7L?=
- =?us-ascii?Q?G0sJV88bfqPJ7x0vDMp8i7vTuS7fDNha4abaZ+5PZGGezWv7d2R6BSbRnyr5?=
- =?us-ascii?Q?OyetJoKTueC6WnOB4v8OgHYbR1NvkegxyXxtrRDPKkVNu+1r9dia2pm9msbg?=
- =?us-ascii?Q?qIEJo5r/Y8qxGt7NC67hYUk4FhL8JVkAgelZQ1WXTxlrnYHm98YtSjjVIXTU?=
- =?us-ascii?Q?sNfLZJkZRo98ItCyNNmkgL46wm3WW5RufMcmur7Ek/gaUlDpDJ+zaRhqjQXJ?=
- =?us-ascii?Q?q3aQyf89rDau3Xmd8oSjaGrMagnNSn1OmJNz1gN9OmYQczUMhXwdfIF/qtnh?=
- =?us-ascii?Q?g8+Sea32IEr7uqPaZ+6oq54xmvdfKgPAXpVHnq+M4J+uPv5TX3FXUCHHRfqq?=
- =?us-ascii?Q?94S3ZFVYKJj7GpNgiF3+kLFknpk/+JDIeGOg0kZ0ZwVeAvFfeL0QJQs1tGhd?=
- =?us-ascii?Q?QK0jd2rqou6Ek1hsHPAoQ4nKEW++QLnF9+g/WUFgjr7GgO5t8xM13iv7Y3u3?=
- =?us-ascii?Q?UlzCz5Ud40/cn+BMVhd6eKgTW2jQGMC/yweARcJztlq+LpE/B54rxOg/1Tdd?=
- =?us-ascii?Q?r+LvuydRk4ciIJfo86U6mylvwPoPfKhQJ4fM+yuOWzwh82IKHTD+XT4Suoyr?=
- =?us-ascii?Q?qBoD53euLi3cM6IetCMb6A/jj6pA8tXMd5K9zKEgh9zvt0drusHgv9xhy+wk?=
- =?us-ascii?Q?+QtmOPGgf8gexk8Nt7lpNVU=3D?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40e6b493-3d9c-4a56-4524-08da034aeea1
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2022 10:35:59.5011 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lr/RdxyzyKMIe16/BN8NakpfLPa2RlzztRV7HjsDwYPOaGuFWs+unpdT45TGqDW/z/GJ+XDxl6gTjxPxTutydg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7021
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH V3 05/13] drm: bridge: icn6211: Add DSI lane count DT
+ property parsing
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <CAMty3ZAog47EsU4L15zytgWSpU6DgBBX4wBhzKDOGRL2qgpqiw@mail.gmail.com>
+ <8dfabfae-1722-4c88-1318-fd90630313f4@denx.de>
+ <20220308125140.e7orpvocrerr5xdv@houat>
+ <dd68f569-7fe3-dc00-b2f0-536b066ec37a@denx.de>
+ <20220308134921.zebs533xeazq46ts@houat>
+ <1ac9057e-fb6d-02f8-78df-c6518fb6e897@denx.de>
+ <20220308162158.j5czx7krscaeqtsy@houat>
+ <423c5f19-7b7c-dbc7-7482-34a0537bec21@denx.de>
+ <20220310105352.v7jqjchshaaajsmd@houat>
+ <c60112b4-5095-11ad-0da4-c84bb30bf77f@denx.de>
+ <20220310141807.5yqho4gloz4lrdjt@houat>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220310141807.5yqho4gloz4lrdjt@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,69 +66,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: qwen@analogixsemi.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mliu@analogixsemi.com, hsinyi@chromium.org,
- bliang@analogixsemi.com
+Cc: dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The property length which returns from "of_get_property", it means array
-bytes count if the property has prefix as "/bits/ 8". The driver should
-call function "of_property_read_u8_array" to get correct array value.
+On 3/10/22 15:18, Maxime Ripard wrote:
+> On Thu, Mar 10, 2022 at 01:47:13PM +0100, Marek Vasut wrote:
+>> On 3/10/22 11:53, Maxime Ripard wrote:
+>>> On Tue, Mar 08, 2022 at 10:41:05PM +0100, Marek Vasut wrote:
+>>>> On 3/8/22 17:21, Maxime Ripard wrote:
+>>>>> On Tue, Mar 08, 2022 at 03:47:22PM +0100, Marek Vasut wrote:
+>>>>>> On 3/8/22 14:49, Maxime Ripard wrote:
+>>>>>>> On Tue, Mar 08, 2022 at 02:27:40PM +0100, Marek Vasut wrote:
+>>>>>>>> On 3/8/22 13:51, Maxime Ripard wrote:
+>>>>>>>>> On Tue, Mar 08, 2022 at 11:29:59AM +0100, Marek Vasut wrote:
+>>>>>>>>>> On 3/8/22 11:07, Jagan Teki wrote:
+>>>>>>>>>>> On Tue, Mar 8, 2022 at 3:19 PM Marek Vasut <marex@denx.de> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 3/8/22 09:03, Jagan Teki wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>
+>>>>>>>>>>>> [...]
+>>>>>>>>>>>>
+>>>>>>>>>>>>>> @@ -314,7 +321,9 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+>>>>>>>>>>>>>>         static int chipone_parse_dt(struct chipone *icn)
+>>>>>>>>>>>>>>         {
+>>>>>>>>>>>>>>                struct device *dev = icn->dev;
+>>>>>>>>>>>>>> +       struct device_node *endpoint;
+>>>>>>>>>>>>>>                struct drm_panel *panel;
+>>>>>>>>>>>>>> +       int dsi_lanes;
+>>>>>>>>>>>>>>                int ret;
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>                icn->vdd1 = devm_regulator_get_optional(dev, "vdd1");
+>>>>>>>>>>>>>> @@ -350,15 +359,42 @@ static int chipone_parse_dt(struct chipone *icn)
+>>>>>>>>>>>>>>                        return PTR_ERR(icn->enable_gpio);
+>>>>>>>>>>>>>>                }
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+>>>>>>>>>>>>>> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+>>>>>>>>>>>>>> +       icn->host_node = of_graph_get_remote_port_parent(endpoint);
+>>>>>>>>>>>>>> +       of_node_put(endpoint);
+>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>> +       if (!icn->host_node)
+>>>>>>>>>>>>>> +               return -ENODEV;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> The non-ports-based OF graph returns a -19 example on the Allwinner
+>>>>>>>>>>>>> Display pipeline in R16 [1].
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> We need to have a helper to return host_node for non-ports as I have
+>>>>>>>>>>>>> done it for drm_of_find_bridge.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> [1] https://patchwork.amarulasolutions.com/patch/1805/
+>>>>>>>>>>>>
+>>>>>>>>>>>> The link points to a patch marked "DO NOT MERGE", maybe that patch is
+>>>>>>>>>>>> missing the DSI host port@0 OF graph link ? Both port@0 and port@1 are
+>>>>>>>>>>>> required, see:
+>>>>>>>>>>>>
+>>>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml#n53
+>>>>>>>>>>>>
+>>>>>>>>>>>> What is "non-ports-based OF graph" ?
+>>>>>>>>>>>>
+>>>>>>>>>>>> I don't see drm_of_find_bridge() in linux-next , what is that ?
+>>>>>>>>>>>
+>>>>>>>>>>> port@0 is optional as some of the DSI host OF-graph represent the
+>>>>>>>>>>> bridge or panel as child nodes instead of ports. (i think dt-binding
+>>>>>>>>>>> has to fix it to make port@0 optional)
+>>>>>>>>>>
+>>>>>>>>>> The current upstream DT binding document says:
+>>>>>>>>>>
+>>>>>>>>>>          required:
+>>>>>>>>>>            - port@0
+>>>>>>>>>>            - port@1
+>>>>>>>>>>
+>>>>>>>>>> So port@0 is mandatory.
+>>>>>>>>>
+>>>>>>>>> In the binding, sure, but fundamentally the DT excerpt Jagan provided is
+>>>>>>>>> correct. If the bridge supports DCS, there's no reason to use the OF
+>>>>>>>>> graph in the first place: the bridge node will be a child node of the
+>>>>>>>>> MIPI-DSI controller (and there's no obligation to use the OF-graph for a
+>>>>>>>>> MIPI-DSI controller).
+>>>>>>>>>
+>>>>>>>>> I believe port@0 should be made optional (or downright removed if
+>>>>>>>>> MIPI-DCS in the only control bus).
+>>>>>>>>
+>>>>>>>> That's out of scope of this series anyway, so Jagan can implement patches
+>>>>>>>> for that mode if needed.
+>>>>>>>
+>>>>>>> Not really? You can't count on the port@0 being there generally
+>>>>>>> speaking, so you can't count on data-lanes being there either, which
+>>>>>>> exactly what you're doing in this patch.
+>>>>>>
+>>>>>> I can because the upstream DT bindings currently say port@0 must be present,
+>>>>>> see above. If that requirement should be relaxed, sure, but that's a
+>>>>>> separate series.
+>>>>>
+>>>>> And another upstream DT bindings say that you don't need them at all.
+>>>>
+>>>> Which "another upstream DT bindings" do you refer to ?
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
+>>>
+>>>>> Yes, there's a conflict. Yes, it's unfortunate. But the generic DSI
+>>>>> binding is far more relevant than a single bridge driver.
+>>>>
+>>>> That seems to be the wrong way around, how can generic subsystem-wide
+>>>> binding take precedence over specific driver binding ?
+>>>
+>>> This is the binding of the bus. You're part of that bus. You're a child
+>>> node of that bus, but nothing ever mandates that your parent node uses
+>>> the same convention. And some don't. And since your bridge can be
+>>> connected to pretty much any DSI controller, you have to use the lowest
+>>> common denominator, not make up some new constraints that not all
+>>> controller will be able to comply with.
+>>
+>> It seems to me the ICN6211 DT bindings currently further constraint the
+>> generic DSI bus bindings, and that seems OK to me.
+>>
+>> Let me reiterate this again -- if someone wants to relax the requirements
+>> currently imposed by the ICN6211 DT bindings, fine, but that can be done in
+>> a separate patchset AND that needs DT bindings update. Furthermore, there
+>> are no users of this ICN6211 bridge in upstream DTs, so there is currently
+>> no bridge which would operate without OF graph using this driver.
+> 
+> And let me reiterate this again: something that used to work for a user
+> doesn't anymore when your series is applied. This is a textbook
+> regression. I suggested a way forward, that you don't like for some
+> reason, fine. But pushing through a regression is just not acceptable.
 
-Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
+How can this be a regression if this mode of operation could not have 
+ever been supported with valid upstream DT bindings in the first place ?
 
----
-V1 -> V2: Fix Sam comment, use of_property_read_u8_array to get array
-value
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
- drivers/gpu/drm/bridge/analogix/anx7625.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+Should we now require that kernel drivers somehow magically support all 
+kinds of random broken DT bindings in addition to ones which pass YAML 
+DT validation ?
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index c6a9a02ed762..628cbf769141 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1598,8 +1598,8 @@ static int anx7625_get_swing_setting(struct device *dev,
- 			num_regs = DP_TX_SWING_REG_CNT;
- 
- 		pdata->dp_lane0_swing_reg_cnt = num_regs;
--		of_property_read_u32_array(dev->of_node, "analogix,lane0-swing",
--					   pdata->lane0_reg_data, num_regs);
-+		of_property_read_u8_array(dev->of_node, "analogix,lane0-swing",
-+					  pdata->lane0_reg_data, num_regs);
- 	}
- 
- 	if (of_get_property(dev->of_node,
-@@ -1608,8 +1608,8 @@ static int anx7625_get_swing_setting(struct device *dev,
- 			num_regs = DP_TX_SWING_REG_CNT;
- 
- 		pdata->dp_lane1_swing_reg_cnt = num_regs;
--		of_property_read_u32_array(dev->of_node, "analogix,lane1-swing",
--					   pdata->lane1_reg_data, num_regs);
-+		of_property_read_u8_array(dev->of_node, "analogix,lane1-swing",
-+					  pdata->lane1_reg_data, num_regs);
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index edbbfe410a56..2c340f16f2c3 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -426,9 +426,9 @@ struct anx7625_platform_data {
- 	int mipi_lanes;
- 	int audio_en;
- 	int dp_lane0_swing_reg_cnt;
--	int lane0_reg_data[DP_TX_SWING_REG_CNT];
- 	int dp_lane1_swing_reg_cnt;
--	int lane1_reg_data[DP_TX_SWING_REG_CNT];
-+	u8 lane0_reg_data[DP_TX_SWING_REG_CNT];
-+	u8 lane1_reg_data[DP_TX_SWING_REG_CNT];
- 	u32 low_power_mode;
- 	struct device_node *mipi_host_node;
- };
--- 
-2.25.1
+>>>>> So figuring it out is very much a prerequisite to that series,
+>>>>> especially since those patches effectively make the OF-graph mandatory
+>>>>> in some situations, while it was purely aesthetics before.
+>>>>
+>>>> The OF-graph is mandatory per the DT bindings of this driver. If you
+>>>> implement invalid DT which does not contain port@0, it will fail DT
+>>>> validation.
+>>>>
+>>>> If this requirement should be relaxed, sure, it can and I don't think it
+>>>> would be hard to do, but I don't see why that should be part of this series,
+>>>> which follows the upstream DT binding document for this driver.
+>>>>
+>>>> If I cannot trust the driver DT bindings to indicate what is and is not
+>>>> mandatory, what other document can I trust then ...
+>>>
+>>> Oh, come on. Doing that, you also require OF-Graph support for the DSI
+>>> controller you attach to, and you can't require that. This is very
+>>> different from just requiring a property that doesn't have any impact on
+>>> any other device, and you know that very well.
+>>
+>> Currently the ICN6211 DT bindings DO require that kind of bridge.
+> 
+> And while this wasn't enforced before, you make it a hard requirement
+> with this series. This is what changed, and what caused this whole
+> discussion.
 
+The current DT bindings already make it a hard requirement, so no, 
+nothing changed here.
+
+Unless what you are trying to ask for is support for broken DT bindings 
+which do not pass YAML DT validation by this driver, but that is very 
+dangerous, because then the question is, how far should we support such 
+broken bindings. What kind of broken is still OK and what kind of broken 
+is no longer OK ?
