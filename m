@@ -2,62 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6D64D5C47
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 08:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E5B4D5C50
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 08:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1058610E220;
-	Fri, 11 Mar 2022 07:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAA110E263;
+	Fri, 11 Mar 2022 07:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D8710E220
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 07:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1646983552;
- bh=tb9da2vliY1QQTm6kyIGSzjr3e4h0kXK9SeRdQvrfr8=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=i4fEm40CgZn7fcVYKtJObjuy0qSJvvuy/1qk4V3wue+LK7pgYyHmS5jFqBD3FlLzf
- EWv4O/J6+VOBsnJhWJzAg5CzeWKKmj36pda7c+o+BeyEjsjWuSLubcxrdc/frPE1m5
- jwp8pTUaTmoS/Lz8+inXBBLC+1OIT17mO+0lZxSQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.134.231]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmfi-1nYVy62kiQ-00TFb0; Fri, 11
- Mar 2022 08:25:52 +0100
-Message-ID: <648cd020-a275-ea0b-e0bf-ff064dde16b0@gmx.de>
-Date: Fri, 11 Mar 2022 08:24:24 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C57210E263;
+ Fri, 11 Mar 2022 07:29:09 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D0A0488;
+ Fri, 11 Mar 2022 08:29:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1646983747;
+ bh=6E4Gx+J7TWG/HZVRe5zppLC4MQtGDXQHc4H6Xxxx09c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FLAr4wXtcA9EeXylHnDG+FBjvvNQ4Wz0lneo+2tPdkC8gjfR+ALwDIEqeEvb32zNm
+ e++bZYRvWkQKxtkLqTsnTcfFECnhFdShgsqD/Gq0cvJryXFDIpEMfxW5bo4xfRD7D2
+ JoQ0gMom+u9gfPJEIVhFoZpi7SMPYcOfhq7pRkjE=
+Date: Fri, 11 Mar 2022 09:28:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 5/6] drm/rcar_du: use drm_encoder pointer for
+ drm_writeback_connector
+Message-ID: <Yir6M150BkXPyH2b@pendragon.ideasonboard.com>
+References: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1646963400-25606-6-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] video: fbdev: fix warning comparing pointer to 0
-Content-Language: en-US
-To: Haowen Bai <baihaowen@meizu.com>
-References: <1646967409-27868-1-git-send-email-baihaowen@meizu.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <1646967409-27868-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9oHRzazegTYr+s16w14CND5n3RyXpeXOh+Y9VrQJYT7QBCkwN7D
- NXyPXPpNvAipyCienSK4HucCXNaM6vB4+ngkxx/fHFap4JmUgs7JA5nm5pWbuOg2anoccpi
- YUJV570vjxqDLFehKcewTagQsjQLTB+cRq0Q7s3G/WD2cLEWrGNzYHD0bzauyPs8+Ydg2C0
- /cy+rcNy+7FaUjqcR1TaQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VNOq6dyrtT8=:EmOPAaPuupqWtIOfvgapHL
- FqBCLVShH5WDoTQn04cj+c+TeFajMbtN90vC0d4wce4jfNSqLjywCk9B5l7U9/vkb8arMudRh
- 0H/AnBAGYdCugjfK6UqA+YMXNlgP6TLJYHDMI40yi0eruc+gIsEU7RPI+KfjW0EQU4Wg8uZRJ
- B6ap2liCYZUnOFRhrrlRMkzU5uO+Wvu/t23i62aKWZcaG1eaUQVixNagNacpug8RPVJkWCFvo
- 3GXVtlOXEEK1XzEVuWCMSJW5RZdRUPpIzPHm6g5aIcrNL618pWH+kZ7ZwUPfrS7skeLn6odYe
- gy/prYGr/N44VB0srG9pp46fXKV4EAd4TxisMEeIFrpwoJ3KjWGvOakn6NgnY8xJwhhCLoPrA
- mSy9ItlZVg7ec/X0oZJYqKHrZYakfrK5orYpIKVVLUp17TG9UvVtX3wiuAm7HRQmCbhvmqPD3
- C4xgG1PQjTEIaZd4j9eXLHeuy9RGcaLS/rWkIB1X8zvbFLcuod50w5auiTS3jDY0XEaCkS/uJ
- wu0t9ViOjR3ekFK4/J7SaHEAgS0bv1EPN9qMtUqlAsUIjXti+++jSSuM2n3sK9RWaEtjhL0a+
- 8duHdsY49mUqKtcs5Jffg55+3JPXkQQ4EdN9SGTimFZ8DYJJq+TORiWmPDvJbwDlCLHy85myD
- zUwc22WPgk6DMNDVyldX7lT4Q8Xn0rDaRhufXf3MkG2AwS0nE8UTZLVFkzO2N3oJIC+kxN14K
- aXFeMHQAOr/3kEExH+LUdimaKJJGbu2EZycFfVSvx0q2DKE5w/tW2mGQE7HJJkYxrcHx+liIF
- qlShWQ5nDYK7d+ceoogi3QxekzzS1Ukjo6T8AN9dqcAYmlfaTFlW/6Te4fHXVV97dCn70qX5N
- xwQe7ew61b02tp4+WWyOsF7+k32O/dqmRCgYwcqB07kGIq5DtCKqpMZqpfVREpkj/iuM9N2oA
- G1ba1aXAMhlXIYTNDY5INSEFHTiwNEtl4g7JvjB/DkP3tr1S8PYZw+JLzAspJR1VK7jD8pDDP
- qahOC37lGt/V/VbCTeBdrQZpL/W68qx44U+PshgtFFZISUlFx+0sDLEBOtMCxK6Ta4mIwXexT
- TR0Hejbcadi0pY=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1646963400-25606-6-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
+ nganji@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/11/22 03:56, Haowen Bai wrote:
-> Fix the following coccicheck warning:
-> drivers/video/fbdev/offb.c:415:13-14: WARNING comparing pointer to 0
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+Hi Abhinav
 
-applied.
+Thank you for the patch.
 
-Thanks!
-Helge
-
+On Thu, Mar 10, 2022 at 05:49:59PM -0800, Abhinav Kumar wrote:
+> Make changes to rcar_du driver to start using drm_encoder pointer
+> for drm_writeback_connector.
+> 
+> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/video/fbdev/offb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-> index 4501e84..afdb6aa 100644
-> --- a/drivers/video/fbdev/offb.c
-> +++ b/drivers/video/fbdev/offb.c
-> @@ -412,7 +412,7 @@ static void __init offb_init_fb(const char *name,
->
->  	info =3D framebuffer_alloc(sizeof(u32) * 16, NULL);
->
-> -	if (info =3D=3D 0) {
-> +	if (!info) {
->  		release_mem_region(res_start, res_size);
->  		return;
->  	}
+>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> index c79d125..03930ad 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> @@ -200,7 +200,8 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>  {
+>  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+>  
+> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+> +	wb_conn->encoder = kzalloc(sizeof(struct drm_encoder), GFP_KERNEL);
 
+Where is this freed ?
+
+> +	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+>  	drm_connector_helper_add(&wb_conn->base,
+>  				 &rcar_du_wb_conn_helper_funcs);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
