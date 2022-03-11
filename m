@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A863F4D5798
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 02:50:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9AA4D5794
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 02:50:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1ED10E683;
-	Fri, 11 Mar 2022 01:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8152E10E673;
+	Fri, 11 Mar 2022 01:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD2010E666;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E319210E11E;
  Fri, 11 Mar 2022 01:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1646963431; x=1678499431;
+ t=1646963432; x=1678499432;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=YvTO3qFnIUwFCrf0DmUbI0J9kHRaerMuWT6XQIjKJWM=;
- b=u80H6CQpfC5cbhtnGw64brQlGN/vjNRtHwMNMfR6HUBDRFh0jZxMn4qd
- PkSHamTO2qk1XIEjbp8lKat43EnOhDfjx4t7ucY9roOwO84jUVuPVNWks
- GU0i57/mfeWo5+otWm0TwPU7TOpqcEsK7p+NO44NbAhP7Rae7FrnIwWJ0 Q=;
+ bh=4LzeWDTTjwTx15Uly6p3Oa3+3y8gTh/yZDbkjwwdyGY=;
+ b=lDpVDMdyTuzQRi6N9+tXfGKr2uFxUHGf/UFbp3DDL3fzF3f8P7EPPqRk
+ ayAyg/VNr1Gf9grhn2L0SbyMXE9Ca7iXKEoXEeCakxDr6P+JyClpB60zc
+ rG92STyDhKswUK0nY+ElzIq9aEspWXWXNyYA6w/TqKxGArBALL8nUVqtA 8=;
 Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Mar 2022 17:50:31 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 17:50:29 -0800
+ 10 Mar 2022 17:50:31 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 10 Mar 2022 17:50:29 -0800
+ 15.2.986.15; Thu, 10 Mar 2022 17:50:31 -0800
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 10 Mar 2022 17:50:28 -0800
+ 15.2.986.15; Thu, 10 Mar 2022 17:50:30 -0800
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/6] drm/vkms: use drm_encoder pointer for
+Subject: [PATCH 4/6] drm/vc4: use drm_encoder pointer for
  drm_writeback_connector
-Date: Thu, 10 Mar 2022 17:49:57 -0800
-Message-ID: <1646963400-25606-4-git-send-email-quic_abhinavk@quicinc.com>
+Date: Thu, 10 Mar 2022 17:49:58 -0800
+Message-ID: <1646963400-25606-5-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -72,31 +72,69 @@ Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make changes to vkms driver to start using drm_encoder pointer
+Make changes to vc4 driver to start using drm_encoder pointer
 for drm_writeback_connector.
 
 Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/vkms/vkms_writeback.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 8694227..adf6961 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -139,8 +139,10 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 9809ca3..7b76968 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -151,6 +151,8 @@ struct vc4_txp {
+ 
+ 	struct platform_device *pdev;
+ 
++	struct drm_encoder drm_enc;
++
+ 	struct drm_writeback_connector connector;
+ 
+ 	void __iomem *regs;
+@@ -159,7 +161,7 @@ struct vc4_txp {
+ 
+ static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
  {
- 	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-+	struct vkms_output *output = &vkmsdev->output;
+-	return container_of(encoder, struct vc4_txp, connector.encoder);
++	return container_of(encoder, struct vc4_txp, drm_enc);
+ }
  
--	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
-+	wb->encoder = &output->encoder;
-+	output.wb_connector.encoder->possible_crtcs = 1;
- 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+ static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+@@ -467,6 +469,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	struct vc4_txp *txp;
+ 	struct drm_crtc *crtc;
+ 	struct drm_encoder *encoder;
++	struct drm_writeback_connector *wb_conn;
+ 	int ret, irq;
  
- 	return drm_writeback_connector_init(&vkmsdev->drm, wb,
+ 	irq = platform_get_irq(pdev, 0);
+@@ -492,9 +495,12 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	txp->regset.regs = txp_regs;
+ 	txp->regset.nregs = ARRAY_SIZE(txp_regs);
+ 
+-	drm_connector_helper_add(&txp->connector.base,
++	wb_conn = &txp->connector;
++	wb_conn->encoder = &txp->drm_enc;
++
++	drm_connector_helper_add(&wb_conn->base,
+ 				 &vc4_txp_connector_helper_funcs);
+-	ret = drm_writeback_connector_init(drm, &txp->connector,
++	ret = drm_writeback_connector_init(drm, wb_conn,
+ 					   &vc4_txp_connector_funcs,
+ 					   &vc4_txp_encoder_helper_funcs,
+ 					   drm_fmts, ARRAY_SIZE(drm_fmts));
+@@ -506,7 +512,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
+-	encoder = &txp->connector.encoder;
++	encoder = txp->connector.encoder;
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+ 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
 -- 
 2.7.4
 
