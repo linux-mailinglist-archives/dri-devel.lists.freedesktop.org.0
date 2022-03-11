@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF5D4D5C2D
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 08:23:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6D64D5C47
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 08:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA7A10E033;
-	Fri, 11 Mar 2022 07:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1058610E220;
+	Fri, 11 Mar 2022 07:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3900B10E033
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 07:23:14 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- mm23-20020a17090b359700b001bfceefd8c6so4121474pjb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Mar 2022 23:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=2UiXXrEjdOpBieCoiCd3aIQdcB5Bw07/UD0oa+EI5Cs=;
- b=VGw2sJf7ZC5hIzk26XFnKPx84Hs7TL3fu43vK4vihxZ1OU6Ow8coT6SRzjKUqCLP3W
- PuReiL/3OaezeQYUIpCI4Vj0eb8gMnOf7OTcHr0lHQN5iI+t73DSIB3Y/i2zNeFILLBu
- WJix6q602iGFXeE54Ld7N85ac2s73RMCN+j3lWM9mlszRqX0x0uqDfXS2nOxaaKrwf6r
- xys/HsaSzzU9fHfhithhTXUhcwj+Z8lWSuP7uzhW+SbhJMejhkEN0XFKkx/4sVXp6+d9
- FOg5V/ZYfyGc9WwJ+Oh7qpuuVT4uptvUmZ33JokW370SW4qsxGLI5l184okvrha56Rce
- D48Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=2UiXXrEjdOpBieCoiCd3aIQdcB5Bw07/UD0oa+EI5Cs=;
- b=WPnaeRAFBSHEIOrxA8qC8Rtzs4bpCZvUXCahK/5zguZX8xSmDNxiS5sDRwx8c0jhbh
- YfKWhOVXCICMOkOBSQNyIQiMvzyaWeC8MUaH1/cVynacULV7GM1h2Ku1nEHPL1GaheoQ
- +jiM+lZxEapjMZW9DqcMSyeybvFaObfEhEdgvJFvEt1TQz4mRvwNORky3qekcssl5ovq
- r9gmxqLSJW9q4Dc5JVTE3IxhaCzx4JZAT12uHnEQJJQloxoGM6ZiFZAPbi4/dzc1P7RT
- AOox47eB+EGsVd6K3uxDB0KF8y66zBgbT3PnwLdrnLd/bDYnRXAwQ2HDGGd0tyNmAbf7
- LDZA==
-X-Gm-Message-State: AOAM530d4QbdDMyc6CGgo5/HXtnNTPgk4RUZKy+txNE3aRKtiRZ9eJC0
- TVTeQ5R/k0BaWRvqyfwXcA==
-X-Google-Smtp-Source: ABdhPJwK5t4CfKDqHjqDyY3n+hI+DNnXEM4ILZ3cGz9W2U5alypJtzbJ+Q0FEvrFPgMYq4olE7DrRA==
-X-Received: by 2002:a17:902:b204:b0:14d:a8c8:af37 with SMTP id
- t4-20020a170902b20400b0014da8c8af37mr9119476plr.108.1646983393619; 
- Thu, 10 Mar 2022 23:23:13 -0800 (PST)
-Received: from vultr.guest ([107.191.53.97]) by smtp.gmail.com with ESMTPSA id
- w23-20020a627b17000000b004f6cf170070sm8967270pfc.186.2022.03.10.23.23.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 10 Mar 2022 23:23:13 -0800 (PST)
-From: Zheyu Ma <zheyuma97@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm: drm_bufs: Error out if 'dev->agp' is a null pointer
-Date: Fri, 11 Mar 2022 07:23:02 +0000
-Message-Id: <1646983382-30036-1-git-send-email-zheyuma97@gmail.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1D8710E220
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 07:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1646983552;
+ bh=tb9da2vliY1QQTm6kyIGSzjr3e4h0kXK9SeRdQvrfr8=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=i4fEm40CgZn7fcVYKtJObjuy0qSJvvuy/1qk4V3wue+LK7pgYyHmS5jFqBD3FlLzf
+ EWv4O/J6+VOBsnJhWJzAg5CzeWKKmj36pda7c+o+BeyEjsjWuSLubcxrdc/frPE1m5
+ jwp8pTUaTmoS/Lz8+inXBBLC+1OIT17mO+0lZxSQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.134.231]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmfi-1nYVy62kiQ-00TFb0; Fri, 11
+ Mar 2022 08:25:52 +0100
+Message-ID: <648cd020-a275-ea0b-e0bf-ff064dde16b0@gmx.de>
+Date: Fri, 11 Mar 2022 08:24:24 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] video: fbdev: fix warning comparing pointer to 0
+Content-Language: en-US
+To: Haowen Bai <baihaowen@meizu.com>
+References: <1646967409-27868-1-git-send-email-baihaowen@meizu.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <1646967409-27868-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:9oHRzazegTYr+s16w14CND5n3RyXpeXOh+Y9VrQJYT7QBCkwN7D
+ NXyPXPpNvAipyCienSK4HucCXNaM6vB4+ngkxx/fHFap4JmUgs7JA5nm5pWbuOg2anoccpi
+ YUJV570vjxqDLFehKcewTagQsjQLTB+cRq0Q7s3G/WD2cLEWrGNzYHD0bzauyPs8+Ydg2C0
+ /cy+rcNy+7FaUjqcR1TaQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VNOq6dyrtT8=:EmOPAaPuupqWtIOfvgapHL
+ FqBCLVShH5WDoTQn04cj+c+TeFajMbtN90vC0d4wce4jfNSqLjywCk9B5l7U9/vkb8arMudRh
+ 0H/AnBAGYdCugjfK6UqA+YMXNlgP6TLJYHDMI40yi0eruc+gIsEU7RPI+KfjW0EQU4Wg8uZRJ
+ B6ap2liCYZUnOFRhrrlRMkzU5uO+Wvu/t23i62aKWZcaG1eaUQVixNagNacpug8RPVJkWCFvo
+ 3GXVtlOXEEK1XzEVuWCMSJW5RZdRUPpIzPHm6g5aIcrNL618pWH+kZ7ZwUPfrS7skeLn6odYe
+ gy/prYGr/N44VB0srG9pp46fXKV4EAd4TxisMEeIFrpwoJ3KjWGvOakn6NgnY8xJwhhCLoPrA
+ mSy9ItlZVg7ec/X0oZJYqKHrZYakfrK5orYpIKVVLUp17TG9UvVtX3wiuAm7HRQmCbhvmqPD3
+ C4xgG1PQjTEIaZd4j9eXLHeuy9RGcaLS/rWkIB1X8zvbFLcuod50w5auiTS3jDY0XEaCkS/uJ
+ wu0t9ViOjR3ekFK4/J7SaHEAgS0bv1EPN9qMtUqlAsUIjXti+++jSSuM2n3sK9RWaEtjhL0a+
+ 8duHdsY49mUqKtcs5Jffg55+3JPXkQQ4EdN9SGTimFZ8DYJJq+TORiWmPDvJbwDlCLHy85myD
+ zUwc22WPgk6DMNDVyldX7lT4Q8Xn0rDaRhufXf3MkG2AwS0nE8UTZLVFkzO2N3oJIC+kxN14K
+ aXFeMHQAOr/3kEExH+LUdimaKJJGbu2EZycFfVSvx0q2DKE5w/tW2mGQE7HJJkYxrcHx+liIF
+ qlShWQ5nDYK7d+ceoogi3QxekzzS1Ukjo6T8AN9dqcAYmlfaTFlW/6Te4fHXVV97dCn70qX5N
+ xwQe7ew61b02tp4+WWyOsF7+k32O/dqmRCgYwcqB07kGIq5DtCKqpMZqpfVREpkj/iuM9N2oA
+ G1ba1aXAMhlXIYTNDY5INSEFHTiwNEtl4g7JvjB/DkP3tr1S8PYZw+JLzAspJR1VK7jD8pDDP
+ qahOC37lGt/V/VbCTeBdrQZpL/W68qx44U+PshgtFFZISUlFx+0sDLEBOtMCxK6Ta4mIwXexT
+ TR0Hejbcadi0pY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +70,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The user program can control the 'drm_buf_desc::flags' via ioctl system
-call and enter the function drm_legacy_addbufs_agp(). If the driver
-doesn't initialize the agp resources, the driver will cause a null
-pointer dereference.
+On 3/11/22 03:56, Haowen Bai wrote:
+> Fix the following coccicheck warning:
+> drivers/video/fbdev/offb.c:415:13-14: WARNING comparing pointer to 0
+>
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 
-The following log reveals it:
-    general protection fault, probably for non-canonical address
-    0xdffffc000000000f: 0000 [#1] PREEMPT SMP KASAN PTI
-    KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
-    Call Trace:
-     <TASK>
-     drm_ioctl_kernel+0x342/0x450 drivers/gpu/drm/drm_ioctl.c:785
-     drm_ioctl+0x592/0x940 drivers/gpu/drm/drm_ioctl.c:885
-     vfs_ioctl fs/ioctl.c:51 [inline]
-     __do_sys_ioctl fs/ioctl.c:874 [inline]
-     __se_sys_ioctl+0xaa/0xf0 fs/ioctl.c:860
-     do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-     do_syscall_64+0x43/0x90 arch/x86/entry/common.c:80
-     entry_SYSCALL_64_after_hwframe+0x44/0xae
+applied.
 
-Fix this bug by adding a check.
+Thanks!
+Helge
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
----
- drivers/gpu/drm/drm_bufs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index fcca21e8efac..4fe2363b1e34 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -734,7 +734,7 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
- 	int i, valid;
- 	struct drm_buf **temp_buflist;
- 
--	if (!dma)
-+	if (!dma || !dev->agp)
- 		return -EINVAL;
- 
- 	count = request->count;
--- 
-2.25.1
+> ---
+>  drivers/video/fbdev/offb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+> index 4501e84..afdb6aa 100644
+> --- a/drivers/video/fbdev/offb.c
+> +++ b/drivers/video/fbdev/offb.c
+> @@ -412,7 +412,7 @@ static void __init offb_init_fb(const char *name,
+>
+>  	info =3D framebuffer_alloc(sizeof(u32) * 16, NULL);
+>
+> -	if (info =3D=3D 0) {
+> +	if (!info) {
+>  		release_mem_region(res_start, res_size);
+>  		return;
+>  	}
 
