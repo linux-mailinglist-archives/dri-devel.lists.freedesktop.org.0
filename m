@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276844D69CE
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 22:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C94B4D69CF
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 22:03:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D7A10E658;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B59610E651;
 	Fri, 11 Mar 2022 21:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA38B10E651
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 21:02:58 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 952F110E658
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 21:02:59 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id EE6398367D;
- Fri, 11 Mar 2022 22:02:55 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6CB72837F6;
+ Fri, 11 Mar 2022 22:02:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1647032577;
- bh=Y1U7QRYBdS5RkQq2iC3dbB4OCA9hcyerv+QzjmWBeSA=;
+ s=phobos-20191101; t=1647032578;
+ bh=iPjuZUuTGCGK41lHehzPP9mKrlBFmOXNN36szd9+ejE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MSdxjwf4pm8VQL4KfWVTH3obshAcaQuIerX+RSkZT/9dzSmukaMEHp05L1LaeFBrF
- p1BlnvMa9nkCdabU/IeLgUeggtr3cq8eq4nNBGP0WT1/s0Vyw445fyyJmRFUJYkuLr
- HRHIZKawsIPmtXLb8Fr9qDJ35SWznJVoTdrEwSgFulfBHq3tFchXv/ChJbe9aBujVR
- LI1kK44gPwU8wNRinrCAfOqr2hBV/U1waxw1Ad/HCDFsHlkiOPYaRamSjCHnZNBQKD
- EhYZ6ISSt6oG/DxRzYl1hnP4NNU976TUj9Kvow4FUMDaSMroxjXnX07Gwn166qBilV
- YL7M+6kTHLWWw==
+ b=ggIgOeJzkteGKmjsdORniAAzhMFYtb7gH3FSFoCQTYKHH8p2khRhE7JzVaRN/gDLC
+ JCRxTJusWB5w2nM7dQBXkJLO67Zcwwq51bjQjPHbkfSi0FnZljj+76x1LII0vbHGvk
+ q+zbTxfr1I2QM8ef86y6Vp+VFSEGuNJ18HKSEaTzTgdvzFPx8gUfg0+1YVaZKD6uix
+ LLqEhW/qmJM24D3boBTbxxCdLyRZFLrAvgsyEbvyXyFBpP5QEhH4GqDuTL6VdLiv4O
+ JCaQVeDLM6LV8ZRX0mYe78ZL3ouiNIgoeEItt+yI5sxFf38yC0ljBkUdt/+p86i5nK
+ KUV1sYW0K1RpQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 01/13] dt-bindings: display: bridge: icn6211: Document DSI
- data-lanes property
-Date: Fri, 11 Mar 2022 22:02:15 +0100
-Message-Id: <20220311210227.124331-2-marex@denx.de>
+Subject: [PATCH v4 02/13] drm: bridge: icn6211: Fix register layout
+Date: Fri, 11 Mar 2022 22:02:16 +0100
+Message-Id: <20220311210227.124331-3-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220311210227.124331-1-marex@denx.de>
 References: <20220311210227.124331-1-marex@denx.de>
@@ -54,67 +52,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
  Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
  Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is necessary to specify the number of connected/used DSI data lanes when
-using the DSI input port of this bridge. Document the 'data-lanes' property
-of the DSI input port.
+The chip register layout has nothing to do with MIPI DCS, the registers
+incorrectly marked as MIPI DCS in the driver are regular chip registers
+often with completely different function.
+
+Fill in the actual register names and bits from [1] and [2] and add the
+entire register layout, since the documentation for this chip is hard to
+come by.
+
+[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+[2] https://github.com/tdjastrzebski/ICN6211-Configurator
 
 Acked-by: Maxime Ripard <maxime@cerno.tech>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Fixes: ce517f18944e3 ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
 To: dri-devel@lists.freedesktop.org
 ---
-V3: New patch
-V4: Add RB from Rob, AB from Maxime
+V2: Rebase on next-20220214
+V3: Add AB from Maxime
+V4: No change
 ---
- .../display/bridge/chipone,icn6211.yaml        | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 134 ++++++++++++++++++++---
+ 1 file changed, 117 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-index 62c3bd4cb28d8..f8cac721a7330 100644
---- a/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/chipone,icn6211.yaml
-@@ -41,10 +41,26 @@ properties:
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index d9b7f48b99fbf..376e0f80da5ca 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -15,8 +15,19 @@
+ #include <linux/of_device.h>
+ #include <linux/regulator/consumer.h>
  
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-         description:
-           Video port for MIPI DSI input
+-#include <video/mipi_display.h>
+-
++#define VENDOR_ID		0x00
++#define DEVICE_ID_H		0x01
++#define DEVICE_ID_L		0x02
++#define VERSION_ID		0x03
++#define FIRMWARE_VERSION	0x08
++#define CONFIG_FINISH		0x09
++#define PD_CTRL(n)		(0x0a + ((n) & 0x3)) /* 0..3 */
++#define RST_CTRL(n)		(0x0e + ((n) & 0x1)) /* 0..1 */
++#define SYS_CTRL(n)		(0x10 + ((n) & 0x7)) /* 0..4 */
++#define RGB_DRV(n)		(0x18 + ((n) & 0x3)) /* 0..3 */
++#define RGB_DLY(n)		(0x1c + ((n) & 0x1)) /* 0..1 */
++#define RGB_TEST_CTRL		0x1e
++#define ATE_PLL_EN		0x1f
+ #define HACTIVE_LI		0x20
+ #define VACTIVE_LI		0x21
+ #define VACTIVE_HACTIVE_HI	0x22
+@@ -27,6 +38,95 @@
+ #define VFP			0x27
+ #define VSYNC			0x28
+ #define VBP			0x29
++#define BIST_POL		0x2a
++#define BIST_POL_BIST_MODE(n)		(((n) & 0xf) << 4)
++#define BIST_POL_BIST_GEN		BIT(3)
++#define BIST_POL_HSYNC_POL		BIT(2)
++#define BIST_POL_VSYNC_POL		BIT(1)
++#define BIST_POL_DE_POL			BIT(0)
++#define BIST_RED		0x2b
++#define BIST_GREEN		0x2c
++#define BIST_BLUE		0x2d
++#define BIST_CHESS_X		0x2e
++#define BIST_CHESS_Y		0x2f
++#define BIST_CHESS_XY_H		0x30
++#define BIST_FRAME_TIME_L	0x31
++#define BIST_FRAME_TIME_H	0x32
++#define FIFO_MAX_ADDR_LOW	0x33
++#define SYNC_EVENT_DLY		0x34
++#define HSW_MIN			0x35
++#define HFP_MIN			0x36
++#define LOGIC_RST_NUM		0x37
++#define OSC_CTRL(n)		(0x48 + ((n) & 0x7)) /* 0..5 */
++#define BG_CTRL			0x4e
++#define LDO_PLL			0x4f
++#define PLL_CTRL(n)		(0x50 + ((n) & 0xf)) /* 0..15 */
++#define PLL_CTRL_6_EXTERNAL		0x90
++#define PLL_CTRL_6_MIPI_CLK		0x92
++#define PLL_CTRL_6_INTERNAL		0x93
++#define PLL_REM(n)		(0x60 + ((n) & 0x3)) /* 0..2 */
++#define PLL_DIV(n)		(0x63 + ((n) & 0x3)) /* 0..2 */
++#define PLL_FRAC(n)		(0x66 + ((n) & 0x3)) /* 0..2 */
++#define PLL_INT(n)		(0x69 + ((n) & 0x1)) /* 0..1 */
++#define PLL_REF_DIV		0x6b
++#define PLL_REF_DIV_P(n)		((n) & 0xf)
++#define PLL_REF_DIV_Pe			BIT(4)
++#define PLL_REF_DIV_S(n)		(((n) & 0x7) << 5)
++#define PLL_SSC_P(n)		(0x6c + ((n) & 0x3)) /* 0..2 */
++#define PLL_SSC_STEP(n)		(0x6f + ((n) & 0x3)) /* 0..2 */
++#define PLL_SSC_OFFSET(n)	(0x72 + ((n) & 0x3)) /* 0..3 */
++#define GPIO_OEN		0x79
++#define MIPI_CFG_PW		0x7a
++#define MIPI_CFG_PW_CONFIG_DSI		0xc1
++#define MIPI_CFG_PW_CONFIG_I2C		0x3e
++#define GPIO_SEL(n)		(0x7b + ((n) & 0x1)) /* 0..1 */
++#define IRQ_SEL			0x7d
++#define DBG_SEL			0x7e
++#define DBG_SIGNAL		0x7f
++#define MIPI_ERR_VECTOR_L	0x80
++#define MIPI_ERR_VECTOR_H	0x81
++#define MIPI_ERR_VECTOR_EN_L	0x82
++#define MIPI_ERR_VECTOR_EN_H	0x83
++#define MIPI_MAX_SIZE_L		0x84
++#define MIPI_MAX_SIZE_H		0x85
++#define DSI_CTRL		0x86
++#define DSI_CTRL_UNKNOWN		0x28
++#define DSI_CTRL_DSI_LANES(n)		((n) & 0x3)
++#define MIPI_PN_SWAP		0x87
++#define MIPI_PN_SWAP_CLK		BIT(4)
++#define MIPI_PN_SWAP_D(n)		BIT((n) & 0x3)
++#define MIPI_SOT_SYNC_BIT_(n)	(0x88 + ((n) & 0x1)) /* 0..1 */
++#define MIPI_ULPS_CTRL		0x8a
++#define MIPI_CLK_CHK_VAR	0x8e
++#define MIPI_CLK_CHK_INI	0x8f
++#define MIPI_T_TERM_EN		0x90
++#define MIPI_T_HS_SETTLE	0x91
++#define MIPI_T_TA_SURE_PRE	0x92
++#define MIPI_T_LPX_SET		0x94
++#define MIPI_T_CLK_MISS		0x95
++#define MIPI_INIT_TIME_L	0x96
++#define MIPI_INIT_TIME_H	0x97
++#define MIPI_T_CLK_TERM_EN	0x99
++#define MIPI_T_CLK_SETTLE	0x9a
++#define MIPI_TO_HS_RX_L		0x9e
++#define MIPI_TO_HS_RX_H		0x9f
++#define MIPI_PHY_(n)		(0xa0 + ((n) & 0x7)) /* 0..5 */
++#define MIPI_PD_RX		0xb0
++#define MIPI_PD_TERM		0xb1
++#define MIPI_PD_HSRX		0xb2
++#define MIPI_PD_LPTX		0xb3
++#define MIPI_PD_LPRX		0xb4
++#define MIPI_PD_CK_LANE		0xb5
++#define MIPI_FORCE_0		0xb6
++#define MIPI_RST_CTRL		0xb7
++#define MIPI_RST_NUM		0xb8
++#define MIPI_DBG_SET_(n)	(0xc0 + ((n) & 0xf)) /* 0..9 */
++#define MIPI_DBG_SEL		0xe0
++#define MIPI_DBG_DATA		0xe1
++#define MIPI_ATE_TEST_SEL	0xe2
++#define MIPI_ATE_STATUS_(n)	(0xe3 + ((n) & 0x1)) /* 0..1 */
++#define MIPI_ATE_STATUS_1	0xe4
++#define ICN6211_MAX_REGISTER	MIPI_ATE_STATUS(1)
  
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                description: array of physical DSI data lane indexes.
-+                minItems: 1
-+                items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
+ struct chipone {
+ 	struct device *dev;
+@@ -64,13 +164,13 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 	struct chipone *icn = bridge_to_chipone(bridge);
+ 	struct drm_display_mode *mode = &icn->mode;
+ 
+-	ICN6211_DSI(icn, 0x7a, 0xc1);
++	ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
+ 
+ 	ICN6211_DSI(icn, HACTIVE_LI, mode->hdisplay & 0xff);
+ 
+ 	ICN6211_DSI(icn, VACTIVE_LI, mode->vdisplay & 0xff);
+ 
+-	/**
++	/*
+ 	 * lsb nibble: 2nd nibble of hdisplay
+ 	 * msb nibble: 2nd nibble of vdisplay
+ 	 */
+@@ -93,21 +193,21 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 	ICN6211_DSI(icn, VBP, mode->vtotal - mode->vsync_end);
+ 
+ 	/* dsi specific sequence */
+-	ICN6211_DSI(icn, MIPI_DCS_SET_TEAR_OFF, 0x80);
+-	ICN6211_DSI(icn, MIPI_DCS_SET_ADDRESS_MODE, 0x28);
+-	ICN6211_DSI(icn, 0xb5, 0xa0);
+-	ICN6211_DSI(icn, 0x5c, 0xff);
+-	ICN6211_DSI(icn, MIPI_DCS_SET_COLUMN_ADDRESS, 0x01);
+-	ICN6211_DSI(icn, MIPI_DCS_GET_POWER_SAVE, 0x92);
+-	ICN6211_DSI(icn, 0x6b, 0x71);
+-	ICN6211_DSI(icn, 0x69, 0x2b);
+-	ICN6211_DSI(icn, MIPI_DCS_ENTER_SLEEP_MODE, 0x40);
+-	ICN6211_DSI(icn, MIPI_DCS_EXIT_SLEEP_MODE, 0x98);
++	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
++	ICN6211_DSI(icn, HFP_MIN, 0x28);
++	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
++	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
++	ICN6211_DSI(icn, BIST_POL, BIST_POL_DE_POL);
++	ICN6211_DSI(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
++	ICN6211_DSI(icn, PLL_REF_DIV, 0x71);
++	ICN6211_DSI(icn, PLL_INT(0), 0x2b);
++	ICN6211_DSI(icn, SYS_CTRL(0), 0x40);
++	ICN6211_DSI(icn, SYS_CTRL(1), 0x98);
+ 
+ 	/* icn6211 specific sequence */
+-	ICN6211_DSI(icn, 0xb6, 0x20);
+-	ICN6211_DSI(icn, 0x51, 0x20);
+-	ICN6211_DSI(icn, 0x09, 0x10);
++	ICN6211_DSI(icn, MIPI_FORCE_0, 0x20);
++	ICN6211_DSI(icn, PLL_CTRL(1), 0x20);
++	ICN6211_DSI(icn, CONFIG_FINISH, 0x10);
+ 
+ 	usleep_range(10000, 11000);
+ }
 -- 
 2.34.1
 
