@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F41A4D64DF
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 16:46:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A974D65E0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 17:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FDB10E955;
-	Fri, 11 Mar 2022 15:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FEA810E664;
+	Fri, 11 Mar 2022 16:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2281910E953
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 15:46:20 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046F010E567
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 16:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647013580; x=1678549580;
+ t=1647015444; x=1678551444;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=doA5l29ivmzlmpmnci4uIm0OjpcHK8laVi1C3PIPIXs=;
- b=JvUnylJ9VYSBk8/c0GozAz4WFIsEEjhHdAFsSy4A5kk+sWNUm0QXzKZc
- LfkkWM/HzTmfy1SZ0MDTxgnu+BfcI/TMioSq/V723cl+hNKUbJjCiyss8
- wwy5wc5zPaRCrUPRV/y96muv20BiY9PBLSdKPZ3o+kkQQSIdOj7AEQkJM
- g0aq2IrM1C2bPYp3zaN8zrJUApCkTPrZ6/vKQiAXnpZs5JIW1IsnJm6ET
- HKSsSKVWC3mCNgGDg27SBOMnVJt0mPZuFPvbPa4d8d9vIvYLOXH77Jh8S
- Av50nx+Zq37zrMuHGnH5UqdzTRP63npXS51KQSjHu8m26h8UNR64xGrm6 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="253157943"
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="253157943"
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yyPVRfcwQMWAUXo2WqNU02KTdzN0qNIuvJopM4W7I4k=;
+ b=R5PMMhutPI5mH63Uh1FyV8L+2MrZTeJym9WI50TKIbsIvMUieYI1IvTm
+ My7wF7iY5R+7KsrTN9d5dt0f+VDTiHTast4hUuF0R087DMUK/6V/x7+HH
+ No43iqSUtTaMMgD+sdg7u1dubLgA7D86ZIKR8qcvEA6gKwAtApRFRB9yv
+ CzrCJUBNyRc8hq37VeXJe4Oklv5b4dNCC1wWpYwzNrNU5pA8yxSNTcszh
+ xkmiobNf89smiecpgKB6GcsGroQxaR5gvek7I1ydB/v/ndJ+GrMPRhtYh
+ FuprZ1+yBikVmO322+9jw8iO9mOvxNQVq4K5onGd/OCqWC5KzkirJ3Agj g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="280346586"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="280346586"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2022 07:46:19 -0800
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 08:17:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="597144417"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="597154526"
 Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 11 Mar 2022 07:46:17 -0800
+ by fmsmga008.fm.intel.com with ESMTP; 11 Mar 2022 08:17:22 -0800
 Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nShT6-0006fB-Ks; Fri, 11 Mar 2022 15:46:16 +0000
-Date: Fri, 11 Mar 2022 23:45:37 +0800
+ id 1nShxB-0006if-9W; Fri, 11 Mar 2022 16:17:21 +0000
+Date: Sat, 12 Mar 2022 00:16:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
  sumit.semwal@linaro.org, gustavo@padovan.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 1/2] dma-buf: add dma_fence_unwrap
-Message-ID: <202203112305.WcEordi2-lkp@intel.com>
-References: <20220311110244.1245-1-christian.koenig@amd.com>
+Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
+Message-ID: <202203120047.SyXpIs6H-lkp@intel.com>
+References: <20220311110244.1245-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220311110244.1245-1-christian.koenig@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220311110244.1245-2-christian.koenig@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +80,67 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 79b00034e9dcd2b065c1665c8b42f62b6b80a9be
-config: microblaze-randconfig-r011-20220310 (https://download.01.org/0day-ci/archive/20220311/202203112305.WcEordi2-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20220312/202203120047.SyXpIs6H-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/088aa14c0f5cad378854823fa661ee145dd2c01b
+        # https://github.com/0day-ci/linux/commit/ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
-        git checkout 088aa14c0f5cad378854823fa661ee145dd2c01b
+        git checkout ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/dma-buf/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma-buf/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/dma-buf/st-dma-fence-unwrap.c:7:
+   In file included from drivers/dma-buf/sync_file.c:8:
    include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_array':
-   include/linux/dma-fence-unwrap.h:44:25: error: implicit declaration of function 'dma_fence_chain_contained'; did you mean 'dma_fence_chain_init'? [-Werror=implicit-function-declaration]
-      44 |         cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         dma_fence_chain_init
-   include/linux/dma-fence-unwrap.h:44:23: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      44 |         cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                       ^
-   include/linux/dma-fence-unwrap.h:46:16: error: implicit declaration of function 'dma_fence_array_first'; did you mean 'dma_fence_array_create'? [-Werror=implicit-function-declaration]
-      46 |         return dma_fence_array_first(cursor->array);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-         |                dma_fence_array_create
-   include/linux/dma-fence-unwrap.h:46:16: warning: returning 'int' from a function with return type 'struct dma_fence *' makes pointer from integer without a cast [-Wint-conversion]
-      46 |         return dma_fence_array_first(cursor->array);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-fence-unwrap.h:44:18: error: implicit declaration of function 'dma_fence_chain_contained'; did you mean 'dma_fence_chain_init'? [-Werror=implicit-function-declaration]
+      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                  dma_fence_chain_init
+>> include/linux/dma-fence-unwrap.h:44:16: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
+         |                ^
+   include/linux/dma-fence-unwrap.h:46:9: error: implicit declaration of function 'dma_fence_array_first'; did you mean 'dma_fence_array_create'? [-Werror=implicit-function-declaration]
+      46 |  return dma_fence_array_first(cursor->array);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         dma_fence_array_create
+>> include/linux/dma-fence-unwrap.h:46:9: warning: returning 'int' from a function with return type 'struct dma_fence *' makes pointer from integer without a cast [-Wint-conversion]
+      46 |  return dma_fence_array_first(cursor->array);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_next':
-   include/linux/dma-fence-unwrap.h:77:15: error: implicit declaration of function 'dma_fence_array_next'; did you mean 'dma_fence_unwrap_next'? [-Werror=implicit-function-declaration]
-      77 |         tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |               ^~~~~~~~~~~~~~~~~~~~
-         |               dma_fence_unwrap_next
-   include/linux/dma-fence-unwrap.h:77:13: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      77 |         tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |             ^
-   drivers/dma-buf/st-dma-fence-unwrap.c: In function 'unwrap_array':
->> drivers/dma-buf/st-dma-fence-unwrap.c:133:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     133 |         int err = 0;
-         |             ^~~
-   drivers/dma-buf/st-dma-fence-unwrap.c: In function 'unwrap_chain':
-   drivers/dma-buf/st-dma-fence-unwrap.c:175:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     175 |         int err = 0;
-         |             ^~~
-   drivers/dma-buf/st-dma-fence-unwrap.c: In function 'unwrap_chain_array':
-   drivers/dma-buf/st-dma-fence-unwrap.c:217:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     217 |         int err = 0;
-         |             ^~~
+   include/linux/dma-fence-unwrap.h:77:8: error: implicit declaration of function 'dma_fence_array_next'; did you mean 'dma_fence_unwrap_next'? [-Werror=implicit-function-declaration]
+      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
+         |        ^~~~~~~~~~~~~~~~~~~~
+         |        dma_fence_unwrap_next
+   include/linux/dma-fence-unwrap.h:77:6: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
+         |      ^
    cc1: some warnings being treated as errors
 
 
-vim +/err +133 drivers/dma-buf/st-dma-fence-unwrap.c
+vim +44 include/linux/dma-fence-unwrap.h
 
-   128	
-   129	static int unwrap_array(void *arg)
-   130	{
-   131		struct dma_fence *fence, *f1, *f2, *array;
-   132		struct dma_fence_unwrap iter;
- > 133		int err = 0;
-   134	
-   135		f1 = mock_fence();
-   136		if (!f1)
-   137			return -ENOMEM;
-   138	
-   139		f2 = mock_fence();
-   140		if (!f2) {
-   141			dma_fence_put(f1);
-   142			return -ENOMEM;
-   143		}
-   144	
-   145		array = mock_array(2, f1, f2);
-   146		if (!array)
-   147			return -ENOMEM;
-   148	
-   149		dma_fence_unwrap_for_each(fence, &iter, array) {
-   150			if (fence == f1) {
-   151				f1 = NULL;
-   152			} else if (fence == f2) {
-   153				f2 = NULL;
-   154			} else {
-   155				pr_err("Unexpected fence!\n");
-   156				err = -EINVAL;
-   157			}
-   158		}
-   159	
-   160		if (f1 || f2) {
-   161			pr_err("Not all fences seen!\n");
-   162			err = -EINVAL;
-   163		}
-   164	
-   165		dma_fence_signal(f1);
-   166		dma_fence_signal(f2);
-   167		dma_fence_put(array);
-   168		return 0;
-   169	}
-   170	
+088aa14c0f5cad Christian König 2022-03-11  33  
+088aa14c0f5cad Christian König 2022-03-11  34  /**
+088aa14c0f5cad Christian König 2022-03-11  35   * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
+088aa14c0f5cad Christian König 2022-03-11  36   * @cursor: cursor to initialize
+088aa14c0f5cad Christian König 2022-03-11  37   *
+088aa14c0f5cad Christian König 2022-03-11  38   * Helper function to unwrap dma_fence_array containers, don't touch directly.
+088aa14c0f5cad Christian König 2022-03-11  39   * Use dma_fence_unwrap_first/next instead.
+088aa14c0f5cad Christian König 2022-03-11  40   */
+088aa14c0f5cad Christian König 2022-03-11  41  static inline struct dma_fence *
+088aa14c0f5cad Christian König 2022-03-11  42  dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
+088aa14c0f5cad Christian König 2022-03-11  43  {
+088aa14c0f5cad Christian König 2022-03-11 @44  	cursor->array = dma_fence_chain_contained(cursor->chain);
+088aa14c0f5cad Christian König 2022-03-11  45  	cursor->index = 0;
+088aa14c0f5cad Christian König 2022-03-11 @46  	return dma_fence_array_first(cursor->array);
+088aa14c0f5cad Christian König 2022-03-11  47  }
+088aa14c0f5cad Christian König 2022-03-11  48  
 
 ---
 0-DAY CI Kernel Test Service
