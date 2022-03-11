@@ -1,56 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED644D68C5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 19:52:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF704D68D9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 20:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891B210EA1F;
-	Fri, 11 Mar 2022 18:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45BAF10E0B5;
+	Fri, 11 Mar 2022 19:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF3810EA1F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 18:52:49 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFE510E094;
+ Fri, 11 Mar 2022 19:00:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647024769; x=1678560769;
+ t=1647025210; x=1678561210;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HPBPOXoL/N182wEXUNP+tY5sANWLFLzGilUZ02/k/WI=;
- b=ZV5zFnndHWplKYRC8lEoU/ow2bFQppXD+uiMN8fO49y6I479tj5TpcWs
- lqLaSd/SkOqMqMvLE49HX9Do+5vVikmEdeTPM5cexcx0PgsTgNztmBVxt
- gN08j1QoGqQ/xjpzHDbhDEqnl7amZI3YUxJ1N7fSSidWDSTpj6/4a70ln
- Drq65adM5q8WhT5Tx/0IPmFyYvr4NN0Ytl6pXNGxTnlEbQ2qOBW1zfUB+
- kZsFBuBRHchqs0d5Nas+fOsaYACsXOkM8enE8OK2hJqOoPtX6znq4dQiN
- /xk66o/Ixz+m7g7laKJNdHfBEiqLhiXcWZw8DA6ollgCLagMjqqzsVRXs g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="342060280"
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="342060280"
+ mime-version:in-reply-to;
+ bh=s57acNNDagpUrNfKkhdXclwTDGBU6zX04kUZB+TJB9Y=;
+ b=LXHrL/mmDfA2X9o8Cj61rfkq9THXJVfackB8BOtU37AVaX30OlVq9Qr0
+ UejX6wYE9E2IJHqS2py+89AI+coQI0mcZSNPPZc+GXylT4RhpCC3oFKQE
+ 9GDVSv3k9383q9EF0RyagYT/BpqeLlKSHHxQBCW/e2cA9YsKoXgl/4y+h
+ ccyiFlZzDVVe9l+aQed4DsjWsDwl1zZiK6AypkSsAC+lHUBd/AjaTyRDL
+ w/GDL985WZS6K3d2oWs3Uq4C3EezSTPH6xGiUC7BwJ89+O1AEVhDOGnGq
+ dMPbnMmN2Qc/7cFIT+9EYfuhF/CkfxZLdIeCM6ADQK6fsi+uathvEIm4w g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="318856251"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="318856251"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2022 10:52:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="645019154"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 11 Mar 2022 10:52:45 -0800
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nSkNZ-0006xC-1h; Fri, 11 Mar 2022 18:52:45 +0000
-Date: Sat, 12 Mar 2022 02:51:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org, gustavo@padovan.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
-Message-ID: <202203120217.BFa438j9-lkp@intel.com>
-References: <20220311110244.1245-2-christian.koenig@amd.com>
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 11:00:10 -0800
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="645020901"
+Received: from rbgreen-mobl3.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.239.245])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 11:00:10 -0800
+Date: Fri, 11 Mar 2022 11:00:09 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/sseu: Don't overallocate
+ subslice storage
+Message-ID: <20220311190009.t54vclg3ywp3de6x@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220311061543.153611-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220311110244.1245-2-christian.koenig@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220311061543.153611-1-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,121 +58,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "Christian,
+On Thu, Mar 10, 2022 at 10:15:42PM -0800, Matt Roper wrote:
+>Xe_HP removed "slice" as a first-class unit in the hardware design.
+>Instead we now have a single pool of subslices (which are now referred
+>to as "DSS") that different hardware units have different ways of
+>grouping ("compute slices," "geometry slices," etc.).  For the purposes
+>of topology representation, we treat Xe_HP-based platforms as having a
+>single slice that contains all of the platform's DSS.  There's no need
+>to allocate storage space for (max legacy slices * max dss); let's
+>update some of our macros to minimize the storage requirement for sseu
+>topology.  We'll also document some of the constants to make it a little
+>bit more clear what they represent.
+>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/intel_engine_types.h |  2 +-
+> drivers/gpu/drm/i915/gt/intel_sseu.h         | 47 +++++++++++++++-----
+> 2 files changed, 36 insertions(+), 13 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>index 4fbf45a74ec0..f9e246004bc0 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>@@ -645,7 +645,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
+>
+> #define for_each_instdone_gslice_dss_xehp(dev_priv_, sseu_, iter_, gslice_, dss_) \
+> 	for ((iter_) = 0, (gslice_) = 0, (dss_) = 0; \
+>-	     (iter_) < GEN_MAX_SUBSLICES; \
+>+	     (iter_) < GEN_SS_MASK_SIZE; \
+> 	     (iter_)++, (gslice_) = (iter_) / GEN_DSS_PER_GSLICE, \
+> 	     (dss_) = (iter_) % GEN_DSS_PER_GSLICE) \
+> 		for_each_if(intel_sseu_has_subslice((sseu_), 0, (iter_)))
+>diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+>index 8a79cd8eaab4..4f59eadbb61a 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_sseu.h
+>+++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+>@@ -15,26 +15,49 @@ struct drm_i915_private;
+> struct intel_gt;
+> struct drm_printer;
+>
+>-#define GEN_MAX_SLICES		(3) /* SKL upper bound */
+>-#define GEN_MAX_SUBSLICES	(32) /* XEHPSDV upper bound */
+>-#define GEN_SSEU_STRIDE(max_entries) DIV_ROUND_UP(max_entries, BITS_PER_BYTE)
+>-#define GEN_MAX_SUBSLICE_STRIDE GEN_SSEU_STRIDE(GEN_MAX_SUBSLICES)
+>-#define GEN_MAX_EUS		(16) /* TGL upper bound */
+>-#define GEN_MAX_EU_STRIDE GEN_SSEU_STRIDE(GEN_MAX_EUS)
+>+/*
+>+ * Maximum number of legacy slices.  Legacy slices no longer exist starting on
+>+ * Xe_HP ("gslices," "cslices," etc. on Xe_HP and beyond are a different
+>+ * concept and are not expressed through fusing).
+>+ */
+>+#define GEN_MAX_LEGACY_SLICES		3
+>+
+>+/*
+>+ * Maximum number of subslices that can exist within a legacy slice.  This is
+>+ * only relevant to pre-Xe_HP platforms (Xe_HP and beyond use the GEN_MAX_DSS
+>+ * value below).
+>+ */
+>+#define GEN_MAX_LEGACY_SUBSLICES	6
 
-I love your patch! Yet something to improve:
+instead of calling the old legacy, maybe just add the XEHP_ prefix to
+the new ones?
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.17-rc7 next-20220310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+>+
+>+/* Maximum number of DSS on newer platforms (Xe_HP and beyond). */
+>+#define GEN_MAX_DSS			32
+>+
+>+/* Maximum number of EUs that can exist within a subslice or DSS. */
+>+#define GEN_MAX_EUS_PER_SS		16
+>+
+>+#define MAX(a, b)			((a) > (b) ? (a) : (b))
 
-url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 79b00034e9dcd2b065c1665c8b42f62b6b80a9be
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20220312/202203120217.BFa438j9-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
-        git checkout ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/dma-buf/sync_file.c:8:
-   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_array':
->> include/linux/dma-fence-unwrap.h:44:18: error: implicit declaration of function 'dma_fence_chain_contained'; did you mean 'dma_fence_chain_init'? [-Werror=implicit-function-declaration]
-      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  dma_fence_chain_init
-   include/linux/dma-fence-unwrap.h:44:16: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                ^
->> include/linux/dma-fence-unwrap.h:46:9: error: implicit declaration of function 'dma_fence_array_first'; did you mean 'dma_fence_array_create'? [-Werror=implicit-function-declaration]
-      46 |  return dma_fence_array_first(cursor->array);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         dma_fence_array_create
-   include/linux/dma-fence-unwrap.h:46:9: warning: returning 'int' from a function with return type 'struct dma_fence *' makes pointer from integer without a cast [-Wint-conversion]
-      46 |  return dma_fence_array_first(cursor->array);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_next':
->> include/linux/dma-fence-unwrap.h:77:8: error: implicit declaration of function 'dma_fence_array_next'; did you mean 'dma_fence_unwrap_next'? [-Werror=implicit-function-declaration]
-      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |        ^~~~~~~~~~~~~~~~~~~~
-         |        dma_fence_unwrap_next
-   include/linux/dma-fence-unwrap.h:77:6: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |      ^
-   cc1: some warnings being treated as errors
+what's worse, include kernel.h in another header file or redefine MAX
+everywhere? Re-defining it in headers we risk situations in which the
+include order may create warnings about defining it in multiple places.
 
 
-vim +44 include/linux/dma-fence-unwrap.h
+>+
+>+/* The maximum number of bits needed to express each subslice/DSS independently */
+>+#define GEN_SS_MASK_SIZE		MAX(GEN_MAX_DSS, \
+>+					    GEN_MAX_LEGACY_SLICES * GEN_MAX_LEGACY_SUBSLICES)
+>+
+>+#define GEN_SSEU_STRIDE(max_entries)	DIV_ROUND_UP(max_entries, BITS_PER_BYTE)
+>+#define GEN_MAX_SUBSLICE_STRIDE		GEN_SSEU_STRIDE(GEN_SS_MASK_SIZE)
+>+#define GEN_MAX_EU_STRIDE		GEN_SSEU_STRIDE(GEN_MAX_EUS_PER_SS)
+>
+> #define GEN_DSS_PER_GSLICE	4
+> #define GEN_DSS_PER_CSLICE	8
+> #define GEN_DSS_PER_MSLICE	8
+>
+>-#define GEN_MAX_GSLICES		(GEN_MAX_SUBSLICES / GEN_DSS_PER_GSLICE)
+>-#define GEN_MAX_CSLICES		(GEN_MAX_SUBSLICES / GEN_DSS_PER_CSLICE)
+>+#define GEN_MAX_GSLICES		(GEN_MAX_DSS / GEN_DSS_PER_GSLICE)
+>+#define GEN_MAX_CSLICES		(GEN_MAX_DSS / GEN_DSS_PER_CSLICE)
+>
+> struct sseu_dev_info {
+> 	u8 slice_mask;
+>-	u8 subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+>-	u8 geometry_subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+>-	u8 compute_subslice_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICE_STRIDE];
+>-	u8 eu_mask[GEN_MAX_SLICES * GEN_MAX_SUBSLICES * GEN_MAX_EU_STRIDE];
+>+	u8 subslice_mask[GEN_SS_MASK_SIZE];
+>+	u8 geometry_subslice_mask[GEN_SS_MASK_SIZE];
+>+	u8 compute_subslice_mask[GEN_SS_MASK_SIZE];
+>+	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE];
 
-088aa14c0f5cad Christian König 2022-03-11  33  
-088aa14c0f5cad Christian König 2022-03-11  34  /**
-088aa14c0f5cad Christian König 2022-03-11  35   * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
-088aa14c0f5cad Christian König 2022-03-11  36   * @cursor: cursor to initialize
-088aa14c0f5cad Christian König 2022-03-11  37   *
-088aa14c0f5cad Christian König 2022-03-11  38   * Helper function to unwrap dma_fence_array containers, don't touch directly.
-088aa14c0f5cad Christian König 2022-03-11  39   * Use dma_fence_unwrap_first/next instead.
-088aa14c0f5cad Christian König 2022-03-11  40   */
-088aa14c0f5cad Christian König 2022-03-11  41  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  42  dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
-088aa14c0f5cad Christian König 2022-03-11  43  {
-088aa14c0f5cad Christian König 2022-03-11 @44  	cursor->array = dma_fence_chain_contained(cursor->chain);
-088aa14c0f5cad Christian König 2022-03-11  45  	cursor->index = 0;
-088aa14c0f5cad Christian König 2022-03-11 @46  	return dma_fence_array_first(cursor->array);
-088aa14c0f5cad Christian König 2022-03-11  47  }
-088aa14c0f5cad Christian König 2022-03-11  48  
-088aa14c0f5cad Christian König 2022-03-11  49  /**
-088aa14c0f5cad Christian König 2022-03-11  50   * dma_fence_unwrap_first - return the first fence from fence containers
-088aa14c0f5cad Christian König 2022-03-11  51   * @head: the entrypoint into the containers
-088aa14c0f5cad Christian König 2022-03-11  52   * @cursor: current position inside the containers
-088aa14c0f5cad Christian König 2022-03-11  53   *
-088aa14c0f5cad Christian König 2022-03-11  54   * Unwraps potential dma_fence_chain/dma_fence_array containers and return the
-088aa14c0f5cad Christian König 2022-03-11  55   * first fence.
-088aa14c0f5cad Christian König 2022-03-11  56   */
-088aa14c0f5cad Christian König 2022-03-11  57  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  58  dma_fence_unwrap_first(struct dma_fence *head, struct dma_fence_unwrap *cursor)
-088aa14c0f5cad Christian König 2022-03-11  59  {
-088aa14c0f5cad Christian König 2022-03-11  60  	cursor->chain = dma_fence_get(head);
-088aa14c0f5cad Christian König 2022-03-11  61  	return dma_fence_unwrap_array(cursor);
-088aa14c0f5cad Christian König 2022-03-11  62  }
-088aa14c0f5cad Christian König 2022-03-11  63  
-088aa14c0f5cad Christian König 2022-03-11  64  /**
-088aa14c0f5cad Christian König 2022-03-11  65   * dma_fence_unwrap_next - return the next fence from a fence containers
-088aa14c0f5cad Christian König 2022-03-11  66   * @cursor: current position inside the containers
-088aa14c0f5cad Christian König 2022-03-11  67   *
-088aa14c0f5cad Christian König 2022-03-11  68   * Continue unwrapping the dma_fence_chain/dma_fence_array containers and return
-088aa14c0f5cad Christian König 2022-03-11  69   * the next fence from them.
-088aa14c0f5cad Christian König 2022-03-11  70   */
-088aa14c0f5cad Christian König 2022-03-11  71  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  72  dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
-088aa14c0f5cad Christian König 2022-03-11  73  {
-088aa14c0f5cad Christian König 2022-03-11  74  	struct dma_fence *tmp;
-088aa14c0f5cad Christian König 2022-03-11  75  
-088aa14c0f5cad Christian König 2022-03-11  76  	++cursor->index;
-088aa14c0f5cad Christian König 2022-03-11 @77  	tmp = dma_fence_array_next(cursor->array, cursor->index);
-088aa14c0f5cad Christian König 2022-03-11  78  	if (tmp)
-088aa14c0f5cad Christian König 2022-03-11  79  		return tmp;
-088aa14c0f5cad Christian König 2022-03-11  80  
-088aa14c0f5cad Christian König 2022-03-11  81  	cursor->chain = dma_fence_chain_walk(cursor->chain);
-088aa14c0f5cad Christian König 2022-03-11  82  	return dma_fence_unwrap_array(cursor);
-088aa14c0f5cad Christian König 2022-03-11  83  }
-088aa14c0f5cad Christian König 2022-03-11  84  
 
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Aside the minor things above, everything look correct.
+
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+thanks
+Lucas De Marchi
+
+> 	u16 eu_total;
+> 	u8 eu_per_subslice;
+> 	u8 min_eu_in_pool;
+>-- 
+>2.34.1
+>
