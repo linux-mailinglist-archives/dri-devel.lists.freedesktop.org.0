@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221D44D5D85
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 09:34:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E04D5D78
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 09:33:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A72F10E63D;
-	Fri, 11 Mar 2022 08:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB49310E525;
+	Fri, 11 Mar 2022 08:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8AF10E5F6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 08:33:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE8B10E525
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 08:33:35 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nSaiL-0000ad-CD; Fri, 11 Mar 2022 09:33:33 +0100
+ id 1nSaiL-0000ae-AS; Fri, 11 Mar 2022 09:33:33 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nSaiE-0040iC-S3; Fri, 11 Mar 2022 09:33:26 +0100
+ id 1nSaiE-0040iF-Sd; Fri, 11 Mar 2022 09:33:26 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 23/24] dt-bindings: display: rockchip: Add binding for VOP2
-Date: Fri, 11 Mar 2022 09:33:22 +0100
-Message-Id: <20220311083323.887372-24-s.hauer@pengutronix.de>
+Subject: [PATCH v8 24/24] dt-bindings: display: rockchip: dw-hdmi: fix ports
+ description
+Date: Fri, 11 Mar 2022 09:33:23 +0100
+Message-Id: <20220311083323.887372-25-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220311083323.887372-1-s.hauer@pengutronix.de>
 References: <20220311083323.887372-1-s.hauer@pengutronix.de>
@@ -57,178 +58,81 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VOP2 is found on newer Rockchip SoCs like the rk3568 or the rk3566.
-The binding differs slightly from the existing VOP binding, so add a new
-binding file for it.
+Current port description doesn't cover all possible cases. It currently
+expects one single port with two endpoints.
+
+When the HDMI connector is described in the device tree there can be two
+ports, first one going to the VOP and the second one going to the connector.
+
+Also on SoCs which only have a single VOP there will be only one
+endpoint instead of two.
+
+This patch addresses both issues. With this there can either be a single
+port ("port") , or two of them ("port@0", "port@1") when the connector
+is also in the device tree. Also the first or only port can either have
+one endpoint ("endpoint") for single VOP SoCs or two ("endpoint@0",
+"endpoint@1") for dual VOP SoCs.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Notes:
+    Changes since v6:
+    - Add Reviewed-by: Rob Herring <robh@kernel.org>
     Changes since v5:
-    - Add Robs Reviewed-by:
-    
-    Changes since v4:
-    - Fix clk names in example
-    - Drop unnecessary assigned-clocks, assigned-clock-rates and assigned-clock-parents
-    
-    Changes since v3:
-    - drop redundant _vop suffix from clock names
-    
-    Changes since v3:
     - new patch
+    
+    Changes since v7:
+    - Drop unnecessary hclk
+    
+    Changes since v5:
+    - Drop unnecessary #size-cells/#address-cells from nodes with only single endpoint
 
- .../display/rockchip/rockchip-vop2.yaml       | 140 ++++++++++++++++++
- 1 file changed, 140 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+ .../display/rockchip/rockchip,dw-hdmi.yaml    | 24 +++++++------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-new file mode 100644
-index 0000000000000..655d9b327f7d3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-@@ -0,0 +1,140 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip SoC display controller (VOP2)
-+
-+description:
-+  VOP2 (Video Output Processor v2) is the display controller for the Rockchip
-+  series of SoCs which transfers the image data from a video memory
-+  buffer to an external LCD interface.
-+
-+maintainers:
-+  - Sandy Huang <hjc@rock-chips.com>
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - rockchip,rk3566-vop
-+      - rockchip,rk3568-vop
-+
-+  reg:
-+    minItems: 1
-+    items:
-+      - description:
-+          Must contain one entry corresponding to the base address and length
-+          of the register space.
-+      - description:
-+          Can optionally contain a second entry corresponding to
-+          the CRTC gamma LUT address.
-+
-+  interrupts:
-+    maxItems: 1
-+    description:
-+      The VOP interrupt is shared by several interrupt sources, such as
-+      frame start (VSYNC), line flag and other status interrupts.
-+
-+  clocks:
-+    items:
-+      - description: Clock for ddr buffer transfer.
-+      - description: Clock for the ahb bus to R/W the phy regs.
-+      - description: Pixel clock for video port 0.
-+      - description: Pixel clock for video port 1.
-+      - description: Pixel clock for video port 2.
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: hclk
-+      - const: dclk_vp0
-+      - const: dclk_vp1
-+      - const: dclk_vp2
-+
-+  rockchip,grf:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to GRF regs used for misc control
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+index ff5cf9fe20904..1f2fd579c510e 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+@@ -102,27 +102,21 @@ properties:
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
+-    properties:
+-      port:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
+-        unevaluatedProperties: false
++    patternProperties:
++      "^port(@0)?$":
 +        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output endpoint of VP0
-+
+         description: Input of the DWC HDMI TX
+-
+         properties:
++          endpoint:
++            description: Connection to the VOP
+           endpoint@0:
+-            $ref: /schemas/graph.yaml#/properties/endpoint
+             description: Connection to the VOPB
+-
+           endpoint@1:
+-            $ref: /schemas/graph.yaml#/properties/endpoint
+             description: Connection to the VOPL
+-
+-        required:
+-          - endpoint@0
+-          - endpoint@1
+-
+-    required:
+-      - port
++    properties:
 +      port@1:
 +        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output endpoint of VP1
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output endpoint of VP2
-+
-+  iommus:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+        #include <dt-bindings/clock/rk3568-cru.h>
-+        #include <dt-bindings/interrupt-controller/arm-gic.h>
-+        #include <dt-bindings/power/rk3568-power.h>
-+        bus {
-+            #address-cells = <2>;
-+            #size-cells = <2>;
-+            vop: vop@fe040000 {
-+                compatible = "rockchip,rk3568-vop";
-+                reg = <0x0 0xfe040000 0x0 0x3000>, <0x0 0xfe044000 0x0 0x1000>;
-+                interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-+                clocks = <&cru ACLK_VOP>,
-+                         <&cru HCLK_VOP>,
-+                         <&cru DCLK_VOP0>,
-+                         <&cru DCLK_VOP1>,
-+                         <&cru DCLK_VOP2>;
-+                clock-names = "aclk",
-+                              "hclk",
-+                              "dclk_vp0",
-+                              "dclk_vp1",
-+                              "dclk_vp2";
-+                power-domains = <&power RK3568_PD_VO>;
-+                iommus = <&vop_mmu>;
-+                vop_out: ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+                    vp0: port@0 {
-+                        reg = <0>;
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                    };
-+                    vp1: port@1 {
-+                        reg = <1>;
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                    };
-+                    vp2: port@2 {
-+                        reg = <2>;
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+                    };
-+                };
-+            };
-+        };
++        description: Output of the DWC HDMI TX
+ 
+   rockchip,grf:
+     $ref: /schemas/types.yaml#/definitions/phandle
 -- 
 2.30.2
 
