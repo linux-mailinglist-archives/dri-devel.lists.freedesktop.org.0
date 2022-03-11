@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F6A4D67FD
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 18:47:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF804D6836
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Mar 2022 18:59:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F117810E528;
-	Fri, 11 Mar 2022 17:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 502AD10E1A0;
+	Fri, 11 Mar 2022 17:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B134E10E528;
- Fri, 11 Mar 2022 17:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1647020840; x=1678556840;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Xzr5qFIIK7mv606I+ozkjRJEu1889W/9M5o9QZ/2yJ8=;
- b=fgqLQvju63i0uqvMq18cWnPquRJ1jUkwJBEN2DxfTm8neKqHLWWQGW6f
- wNRCwhfIOWqIYIOZlKQCN1Ea6K+2IXEU1eDM6/HsoQqgWVzlu30OGW4sU
- vzcT6N0aqtwhFuK4MR/18Qm/YOhky8kyWrjAqIL1hdPt+W/3Lvlk7DQli g=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 11 Mar 2022 09:47:20 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2022 09:47:19 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Fri, 11 Mar 2022 09:47:19 -0800
-Received: from [10.110.35.206] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 11 Mar
- 2022 09:47:18 -0800
-Message-ID: <e31334cf-7e3b-e330-98af-545a07ebff33@quicinc.com>
-Date: Fri, 11 Mar 2022 09:47:17 -0800
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2924A10E1A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 17:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647021584; x=1678557584;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=k7e2g/eNySvoazSg+XH+0bqDjbRKCveB0kCgSux2C6Q=;
+ b=N8uonHOZlstzhQ0D6/vy+7VMxsNOTIV/Jea7BMkzHlMIZAzMfajCPaYk
+ 1RuAphmAWT/jRIAkcB6Q1KyRcNkLh++yZWKrAA0Pm8ReLoKUR+JNf3xhR
+ TOW/KfZ8PWFwI7eo6ItwUaQiHH48y/T8lOqPZqylQNed3TgPacnijC73o
+ F5G1yqvOA/7GtetXBCoahACYv4xNA46/wCEBgW8rKnq0Ca75FJ8bnesgI
+ +wp050ixnXBvKMYoHez931X4jmW4a3S7Wm0A/G/avXc8ARdIcaKS4nH1X
+ FSkWrEVuqsQ0Re6RFcUycxMovsVQOYstoLxhfhzW4RKJKCY4jk6Jwxa16 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="254449562"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="254449562"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 09:59:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; d="scan'208";a="633488411"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 11 Mar 2022 09:59:41 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nSjYC-0006tr-Fo; Fri, 11 Mar 2022 17:59:40 +0000
+Date: Sat, 12 Mar 2022 01:59:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, gustavo@padovan.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
+Message-ID: <202203120115.Qe4GABIV-lkp@intel.com>
+References: <20220311110244.1245-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH 5/6] drm/rcar_du: use drm_encoder pointer for
- drm_writeback_connector
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
- <1646963400-25606-6-git-send-email-quic_abhinavk@quicinc.com>
- <Yir6M150BkXPyH2b@pendragon.ideasonboard.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <Yir6M150BkXPyH2b@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220311110244.1245-2-christian.koenig@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +63,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
- nganji@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
+Hi "Christian,
 
-On 3/10/2022 11:28 PM, Laurent Pinchart wrote:
-> Hi Abhinav
-> 
-> Thank you for the patch.
-> 
-> On Thu, Mar 10, 2022 at 05:49:59PM -0800, Abhinav Kumar wrote:
->> Make changes to rcar_du driver to start using drm_encoder pointer
->> for drm_writeback_connector.
->>
->> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> index c79d125..03930ad 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> @@ -200,7 +200,8 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
->>   {
->>   	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
->>   
->> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
->> +	wb_conn->encoder = kzalloc(sizeof(struct drm_encoder), GFP_KERNEL);
-> 
-> Where is this freed ?
+I love your patch! Perhaps something to improve:
 
-You are right, this isnt. Looking more into this, it seems like moving 
-the allocation of encoder to drm_writeback.c for cases which dont pass a 
-real encoder is much better so that I will not have to add alloc() / 
-free() code for all the vendor driver changes which is what I originally 
-thought in my RFC but changed my mind because of below.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.17-rc7 next-20220310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> 
->> +	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 79b00034e9dcd2b065c1665c8b42f62b6b80a9be
+config: arm64-randconfig-r014-20220310 (https://download.01.org/0day-ci/archive/20220312/202203120115.Qe4GABIV-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca87382b8f16a65bddac700202924228982f6)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
+        git checkout ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/dma-buf/
 
-Do you think we can just move usage of wb_conn->encoder->possible_crtcs 
-just right after drm_writeback_connector_init() so that it wont crash?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-198 int rcar_du_writeback_init(struct rcar_du_device *rcdu,
-199 			   struct rcar_du_crtc *rcrtc)
-200 {
-201 	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
-202
-203 	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
-204 	drm_connector_helper_add(&wb_conn->base,
-205 				 &rcar_du_wb_conn_helper_funcs);
-206
-207 	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
-208 					    &rcar_du_wb_conn_funcs,
-209 					    &rcar_du_wb_enc_helper_funcs,
-210 					    writeback_formats,
-211 					    ARRAY_SIZE(writeback_formats));
-212 }
+All warnings (new ones prefixed by >>):
 
->>   	drm_connector_helper_add(&wb_conn->base,
->>   				 &rcar_du_wb_conn_helper_funcs);
->>   
-> 
+   In file included from drivers/dma-buf/sync_file.c:8:
+   include/linux/dma-fence-unwrap.h:44:18: error: implicit declaration of function 'dma_fence_chain_contained' [-Werror,-Wimplicit-function-declaration]
+           cursor->array = dma_fence_chain_contained(cursor->chain);
+                           ^
+   include/linux/dma-fence-unwrap.h:44:18: note: did you mean 'dma_fence_chain_init'?
+   include/linux/dma-fence-chain.h:108:6: note: 'dma_fence_chain_init' declared here
+   void dma_fence_chain_init(struct dma_fence_chain *chain,
+        ^
+   In file included from drivers/dma-buf/sync_file.c:8:
+>> include/linux/dma-fence-unwrap.h:44:16: warning: incompatible integer to pointer conversion assigning to 'struct dma_fence *' from 'int' [-Wint-conversion]
+           cursor->array = dma_fence_chain_contained(cursor->chain);
+                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-fence-unwrap.h:46:9: error: implicit declaration of function 'dma_fence_array_first' [-Werror,-Wimplicit-function-declaration]
+           return dma_fence_array_first(cursor->array);
+                  ^
+   include/linux/dma-fence-unwrap.h:46:9: note: did you mean 'dma_fence_array_create'?
+   include/linux/dma-fence-array.h:77:25: note: 'dma_fence_array_create' declared here
+   struct dma_fence_array *dma_fence_array_create(int num_fences,
+                           ^
+   In file included from drivers/dma-buf/sync_file.c:8:
+>> include/linux/dma-fence-unwrap.h:46:9: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct dma_fence *' [-Wint-conversion]
+           return dma_fence_array_first(cursor->array);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-fence-unwrap.h:77:8: error: implicit declaration of function 'dma_fence_array_next' [-Werror,-Wimplicit-function-declaration]
+           tmp = dma_fence_array_next(cursor->array, cursor->index);
+                 ^
+   include/linux/dma-fence-unwrap.h:77:6: warning: incompatible integer to pointer conversion assigning to 'struct dma_fence *' from 'int' [-Wint-conversion]
+           tmp = dma_fence_array_next(cursor->array, cursor->index);
+               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 warnings and 3 errors generated.
+
+
+vim +44 include/linux/dma-fence-unwrap.h
+
+088aa14c0f5cad Christian König 2022-03-11  33  
+088aa14c0f5cad Christian König 2022-03-11  34  /**
+088aa14c0f5cad Christian König 2022-03-11  35   * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
+088aa14c0f5cad Christian König 2022-03-11  36   * @cursor: cursor to initialize
+088aa14c0f5cad Christian König 2022-03-11  37   *
+088aa14c0f5cad Christian König 2022-03-11  38   * Helper function to unwrap dma_fence_array containers, don't touch directly.
+088aa14c0f5cad Christian König 2022-03-11  39   * Use dma_fence_unwrap_first/next instead.
+088aa14c0f5cad Christian König 2022-03-11  40   */
+088aa14c0f5cad Christian König 2022-03-11  41  static inline struct dma_fence *
+088aa14c0f5cad Christian König 2022-03-11  42  dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
+088aa14c0f5cad Christian König 2022-03-11  43  {
+088aa14c0f5cad Christian König 2022-03-11 @44  	cursor->array = dma_fence_chain_contained(cursor->chain);
+088aa14c0f5cad Christian König 2022-03-11  45  	cursor->index = 0;
+088aa14c0f5cad Christian König 2022-03-11 @46  	return dma_fence_array_first(cursor->array);
+088aa14c0f5cad Christian König 2022-03-11  47  }
+088aa14c0f5cad Christian König 2022-03-11  48  
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
