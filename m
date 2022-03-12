@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2CA4D712B
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 22:54:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8816C4D712D
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 22:54:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C20D10E093;
-	Sat, 12 Mar 2022 21:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAA310E098;
+	Sat, 12 Mar 2022 21:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E72610E092
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 21:54:30 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.90,177,1643641200"; d="scan'208";a="113308973"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 84F2510E098
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 21:54:33 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.90,177,1643641200"; d="scan'208";a="113308979"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 13 Mar 2022 06:54:30 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 13 Mar 2022 06:54:33 +0900
 Received: from localhost.localdomain (unknown [10.226.92.30])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id CEC8D4007521;
- Sun, 13 Mar 2022 06:54:27 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id C90764005E2B;
+ Sun, 13 Mar 2022 06:54:30 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/7] drm: rcar-du: Add num_rpf to struct rcar_du_device_info
-Date: Sat, 12 Mar 2022 21:54:12 +0000
-Message-Id: <20220312215417.8023-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/7] drm: rcar-du: Add max_width and max_height to struct
+ rcar_du_device_info
+Date: Sat, 12 Mar 2022 21:54:13 +0000
+Message-Id: <20220312215417.8023-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220312215417.8023-1-biju.das.jz@bp.renesas.com>
 References: <20220312215417.8023-1-biju.das.jz@bp.renesas.com>
@@ -51,203 +52,244 @@ Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Number of RPF's VSP is different on R-Car and RZ/G2L
- R-Car Gen3 -> 5 RPFs
- R-Car Gen2 -> 4 RPFs
- RZ/G2L -> 2 RPFs
+There are some differences related to max frame size supported by different
+R-Car/RZ-G family of SoC's
 
-Add num_rpf to struct rcar_du_device_info to support later
+Max frame size supported by R-Car Gen1 & R-Car Gen2 is 4095x2047
+Max frame size supported by R-Car Gen3 is 8190x8190
+Max frame size supported by RZ/G2L is 1920x1080
+
+Add max_width and max_height to struct rcar_du_device_info to support later
 SoC without any code changes.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-RFC->v1:
- * Fixed the comment for num_rpf s/rpf's/RPFs/ and s/vsp/VSP/
+RFC->V1:
+ * No Change
 RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-12-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-13-biju.das.jz@bp.renesas.com/
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 17 +++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_drv.h |  2 ++
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c |  6 +-----
- 3 files changed, 20 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 36 +++++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h |  4 +++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 17 +++++--------
+ 3 files changed, 46 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 957ea97541d5..1bc7325aa356 100644
+index 1bc7325aa356..4640c356a532 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -55,6 +55,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
- 		},
+@@ -56,6 +56,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
-@@ -77,6 +78,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
- 			.port = 1,
+@@ -79,6 +81,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
  		},
  	},
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
-@@ -104,6 +106,7 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
- 			.port = 2,
+@@ -107,6 +111,8 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
  		},
  	},
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
-@@ -133,6 +136,7 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
- 		},
+@@ -137,6 +143,8 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(1),
  };
  
-@@ -163,6 +167,7 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
- 		},
+@@ -168,6 +176,8 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(1),
  };
  
-@@ -190,6 +195,7 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
- 		},
+@@ -196,6 +206,8 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
  	},
  	.num_lvds = 2,
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 8190,
++	.max_height = 8190,
  	.lvds_clk_mask =  BIT(1) | BIT(0),
  };
  
-@@ -220,6 +226,7 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
- 		},
+@@ -227,6 +239,8 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(1),
  };
  
-@@ -272,6 +279,7 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+@@ -249,6 +263,8 @@ static const struct rcar_du_device_info rcar_du_r8a7779_info = {
+ 			.port = 1,
  		},
  	},
++	.max_width = 4095,
++	.max_height = 2047,
+ };
+ 
+ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+@@ -280,6 +296,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+ 	},
  	.num_lvds = 2,
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  /* M2-W (r8a7791) and M2-N (r8a7793) are identical */
-@@ -297,6 +305,7 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
- 		},
+@@ -306,6 +324,8 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rcar_du_r8a7792_info = {
-@@ -317,6 +326,7 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
- 			.port = 1,
+@@ -327,6 +347,8 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
  		},
  	},
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rcar_du_r8a7794_info = {
-@@ -340,6 +350,7 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
- 			.port = 1,
+@@ -351,6 +373,8 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
  		},
  	},
-+	.num_rpf = 4,
+ 	.num_rpf = 4,
++	.max_width = 4095,
++	.max_height = 2047,
  };
  
  static const struct rcar_du_device_info rcar_du_r8a7795_info = {
-@@ -373,6 +384,7 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
- 		},
+@@ -385,6 +409,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(2) | BIT(1),
  };
  
-@@ -403,6 +415,7 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
- 		},
+@@ -416,6 +442,8 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(1),
  };
  
-@@ -433,6 +446,7 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
- 		},
+@@ -447,6 +475,8 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dpll_mask =  BIT(1),
  };
  
-@@ -459,6 +473,7 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
- 		},
+@@ -474,6 +504,8 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
  	},
  	.num_lvds = 1,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  };
  
  static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
-@@ -486,6 +501,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
- 		},
+@@ -502,6 +534,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
  	},
  	.num_lvds = 2,
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.lvds_clk_mask =  BIT(1) | BIT(0),
  };
  
-@@ -505,6 +521,7 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
- 			.port = 1,
+@@ -522,6 +556,8 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
  		},
  	},
-+	.num_rpf = 5,
+ 	.num_rpf = 5,
++	.max_width = 8190,
++	.max_height = 8190,
  	.dsi_clk_mask =  BIT(1) | BIT(0),
  };
  
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 101f42df86ea..68c5de59d18d 100644
+index 68c5de59d18d..b0553b43363b 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -69,6 +69,7 @@ struct rcar_du_output_routing {
-  * @channels_mask: bit mask of available DU channels
+@@ -70,6 +70,8 @@ struct rcar_du_output_routing {
   * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
   * @num_lvds: number of internal LVDS encoders
-+ * @num_rpf: max number of RPFs in VSP
+  * @num_rpf: max number of RPFs in VSP
++ * @max_width: max frame width
++ * @max_height: max frame height
   * @dpll_mask: bit mask of DU channels equipped with a DPLL
   * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
-@@ -80,6 +81,7 @@ struct rcar_du_device_info {
- 	unsigned int channels_mask;
+@@ -82,6 +84,8 @@ struct rcar_du_device_info {
  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
  	unsigned int num_lvds;
-+	unsigned int num_rpf;
+ 	unsigned int num_rpf;
++	unsigned int max_width;
++	unsigned int max_height;
  	unsigned int dpll_mask;
  	unsigned int dsi_clk_mask;
  	unsigned int lvds_clk_mask;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index b7fc5b069cbc..cf045a203aa5 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -415,11 +415,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index 190dbb7f15dd..5857705aac20 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -834,17 +834,12 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
+ 	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
  
--	 /*
--	  * The VSP2D (Gen3) has 5 RPFs, but the VSP1D (Gen2) is limited to
--	  * 4 RPFs.
--	  */
--	num_planes = rcdu->info->gen >= 3 ? 5 : 4;
-+	num_planes = rcdu->info->num_rpf;
+-	if (rcdu->info->gen < 3) {
+-		dev->mode_config.max_width = 4095;
+-		dev->mode_config.max_height = 2047;
+-	} else {
+-		/*
+-		 * The Gen3 DU uses the VSP1 for memory access, and is limited
+-		 * to frame sizes of 8190x8190.
+-		 */
+-		dev->mode_config.max_width = 8190;
+-		dev->mode_config.max_height = 8190;
+-	}
++	/*
++	 * The Gen3 DU uses the VSP1 for memory access, and is limited
++	 * to frame sizes of 8190x8190.
++	 */
++	dev->mode_config.max_width = rcdu->info->max_width;
++	dev->mode_config.max_height = rcdu->info->max_height;
  
- 	vsp->planes = kcalloc(num_planes, sizeof(*vsp->planes), GFP_KERNEL);
- 	if (!vsp->planes)
+ 	rcdu->num_crtcs = hweight8(rcdu->info->channels_mask);
+ 
 -- 
 2.17.1
 
