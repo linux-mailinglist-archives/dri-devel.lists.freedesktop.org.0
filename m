@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20204D708C
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 20:30:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FED4D7093
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 20:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50B8410E0CC;
-	Sat, 12 Mar 2022 19:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFC410E0EC;
+	Sat, 12 Mar 2022 19:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 334 seconds by postgrey-1.36 at gabe;
- Sat, 12 Mar 2022 19:29:59 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC0810E0CC
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 19:29:59 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECAA110E0EE
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 19:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1647113397;
- bh=BiQBm2UCZmXDRmTqod0u4Z76MdsDly3+2N9yHM33E/4=;
+ s=badeba3b8450; t=1647114122;
+ bh=gmHjb3GM7NBI5PlcZhbgVcZM3tG+NqIz10+ZQFuyclk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=I8z90xCbiwzW4wAL3vOEF5jk5tYLpl0/AQhCffP/ncAk+o1S4v/ZsWYILxdicO4g5
- 34E1r6Jimf1F9UFWZwAoVJy4EQEI7IqsUXFgIuzT4KhwjNENN/56k4PcvK4+U9wmtH
- CIve19NNdWix7ZzdVD5FxMoy93A7/YokFBOc2ucg=
+ b=Y5ZMg1hw7oFoPr+CFrrvDC+BxdBMDFXWEwaWVzC3693ZoXaEmrDRy1NYOCaN+9ZXZ
+ VG6JynJFzjSsrGl2f8Idp6H3l556r2u6lud1XBWmVimr1OfrCVsv7KU/7M4Gexcuqe
+ 8GWQNbPYpYupuNt0m+IvEqdSBmaabV25D3jKhjIE=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([185.66.193.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MEV3I-1nN1Tf3Ini-00FzMx; Sat, 12
- Mar 2022 20:24:01 +0100
-Date: Sat, 12 Mar 2022 20:23:48 +0100
+Received: from longitude ([185.66.193.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mz9Yv-1oOusc37v1-00wDxs; Sat, 12
+ Mar 2022 20:42:01 +0100
+Date: Sat, 12 Mar 2022 20:41:59 +0100
 From: Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display: imx: Add EPDC
-Message-ID: <YizzRKSDvHon83ks@latitude>
+Subject: Re: [RFC PATCH 2/6] drm: Add skeleton for EPDC driver
+Message-ID: <Yiz3h0GYcyD/hgX3@latitude>
 References: <20220206080016.796556-1-andreas@kemnade.info>
- <20220206080016.796556-2-andreas@kemnade.info>
+ <20220206080016.796556-3-andreas@kemnade.info>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4dGDc1ulGkdHTd51"
+ protocol="application/pgp-signature"; boundary="uMoMbLT3WzEqMEI6"
 Content-Disposition: inline
-In-Reply-To: <20220206080016.796556-2-andreas@kemnade.info>
-X-Provags-ID: V03:K1:O/HCc+HDKnwFzBvV8D7YKaDp+2sxe1jqC9CVwWViznBPNN7xWNG
- 5G2h8HSNsT9FWHB+AtmX6EfpTuqRFDPXTehKmY4uCiu0hV334h2VcLXBUyFiqk41ROadDV7
- g1IvldVtoNvTTXbFhPfWSaPZYRsCyvZXHZBI66eAAWDmw8395cI7zelEuULsQ5AYBiJWGO/
- WiTVWTluht/pjXQ4RgGTA==
+In-Reply-To: <20220206080016.796556-3-andreas@kemnade.info>
+X-Provags-ID: V03:K1:6RMJz1gIrCwfqHTO27MOtOn8HQvVJNHPrD278kDlI88ZiS+B9m3
+ UF2lmuXG+bYI//TpkzX7JnwQKFvghalzTmPLdXNU2fY/oM5ggNuf8zL8xe/RaXAi6qvVAuv
+ YuYJ3SE0ehiEdkofwWCTEaTv5U8295/BQ8ukf2DihcYM1ipPxx5jTFHnqeDlDV7p0nlRfK/
+ sti09F5JQikBhdv+uzjAg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:prbK3F4RZ70=:3r+2cXhOkjhTzP4X/s6te/
- DZgqQ7J9M/6Ztf2sVYydQFqqnJKdZlJTQO19EzPa1QLmg8cdC54gCMzOD/b7OHjdyu83GMpDo
- B2p5sqzSsWw2kjFHtnAKHBwgTgwGhv2DL3FJIOU4JT1O6Q3TFqulk8PNxDpocZLHNzPcjm5KO
- /rXWnJh9Nh7Lx+a7/CUYq0LbXMfFX1HADoj39So/lUMRv6xa3BHylUaZVrdOrXMVso9yfx5bF
- OJ7GSrMQbzUeGaTWpIFxCdOQp0HZOCB6zFG1pzaW5RxSWRCG55tlvQyXUjz23GkW9Y4UYvqfa
- SX2caHf73EFyMbFPekQVMJsYCNpiuq0fGA632jw8z37ASuDxm8gcUp3bSoYuJ27KWBgc3BuW/
- g1N+Qk4T/JzazYebIXGHcDsiJP2XWgitysZMmS+arQ35ZLnz2XPJZYTpYjwSKNwEkbQlWpZ1A
- 4NErdaJkmGJyqDgS8Lrra83i2j4Y9SlU9rQlsKRD9xJOqgYk/oexaMg6xbQFNHUl03sVEplUv
- QnDLMmKiTLMhFZZemg+QqbvK0DiF2rEa42ZlapL8jGRocn5AVgp/z99ua0aJZjgtv+xXAAUvO
- DxntoVvJ1+75OXHm958b4jawmSaiIRoQuweT7wmKJEsMvLaeyF6CfPOkZ+lzIHlJIjZktZBjk
- oR4ovpLIy7asdj6V8pc/giYQOiVmpp8WxNiYpxPHhYc4y3IKFuORE4EDfBMkEMHSObpMwxmMP
- AftfD9/mjIzIhGL5REzSLu5YfodY7amn9QjLJAs75Yf8zbqrhAWv9+DhZ0EJiuNrq3XulnzWz
- c8e/o8WeLgBIHd8eK8mhinpBSjOuYrenBTNFtK3KJV9Y2ZWwxH4+gq3xCDyQiZ5HHbDszkLiN
- 88EOGoB47MOBaqJQKx/4d/6FKVfH+hBZAD/atDTE9iABwKz7Xyqh+UUarfDVwDDs6HTp4rLYD
- K2552pC4MXsC8jz9l6AJxbbcX90QNhd64r1Ne2uGh0PHN3amKMn4xDu3wDqXDzKLjLPhxgwqI
- +KTo2e/jSGitIm0QVeJOXE8L28K9Ye78G3VgfWuwDKuoKmlIMy3+27qsP6Om+RWl35wvyaHWD
- AxDzfE4Bba10Ak=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rYTTcnp4vEc=:ev7zb8eTPJRCa5hLFhmiLc
+ R1Wyq8I8jy10R5gez+xLFqYBZjlyq7zVTczqIJuCJnXbA8YOgo56dUzUsLBJ74z2E4cqqaNT6
+ x7dih/7/vW0/Om83aTsAVfC2wBM9GljkrWlbkYblpx5hALROMTRG93Pbf7mnvabc+cDJlFBqd
+ RzuLu4+ovWwivKLMXuhY8pjYgNLSrs38DGJCbnNDM0tDtJrouRM799ufrBBWqvwYzyyxqVFDe
+ UwrEyVcvjTbf12FzJo4qXKlOLDBA3sNZpH5mQPoHlCD7xReERbwiawBjndg3qZu/gRh5gDevV
+ ZUe2cOhWXDBwFSiEkyeO8F7XNIdZ5Cy5Xj2V+Bv1MxRtfpjRD1gpeSVXb519lReyDN9pW3ciO
+ EE2WDNVvBfucquf9g8Yc/CBekHIUSu1cZPRGq9aukZkz+WLB373W71Bel6pyR09TZx/9xsqbC
+ +WjbZzHFjUu8x0BsHY12K+4ph1Yk02MrUzmMFmUyivz6jW3Bp2R8t1TkK5MYqhw8E5NqF2xIL
+ DDX2Wmr9fbHFxwiZSdS/w6KhLj68W/pXp1uiijP05nbTpjAklK0nZjnVrh3zdAUjeXEEKmMXu
+ Nbz3FBYlU/ANdTu+AgxuZQvya/sWxLRNsd7Xf3kxTVQnFnuj1vJDJvdL/8WKDyLfMtuHS2EdD
+ 9Af0slaGunpRLBQo/8Tq29RVxViCP3OH9DnFNA6BIoaeey3kHU+RAqezExZKMqWEVrJQpRc/N
+ Hq/Ug02w1rObaGbrrxLLFqnIM6383qMMwBOzUYmfglChgUoxxNxJLfszwAmJ0j4Epu2j45wmx
+ jsvrQzaMcOb6np0t2frENzDfd0g1OjEw+0SU7H4NHWGO9jUKBMH0C5wCnrw/9X/6bAZMUU0JY
+ sI9q7Xvh8I7PPZns+3CzV1CRFOXMt7OHeF0mhyB/em9bOFg90nEvqDBxDNi5GnhB6L1nWOxfy
+ IHrBH0N8cgh1l7fHblC8WqX659NvScokjXCqiB4LyMejl1XU3q4VN7ErAnXctiIHwc7h/y6SD
+ j3kFUP0QYo4Mi4lP9Y+wUcKpbNeVCzjOrca79xLmanRrlp5i327S8DQHYL+gcdGohiGUMwIX+
+ 5p1WF97sGUGfkc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,116 +79,90 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4dGDc1ulGkdHTd51
+--uMoMbLT3WzEqMEI6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Andreas,
-
-Sorry for the delay, I finally got around to having a look at the
-patchset.
-
-Some comments from skimming the patches below, and in my other replies.
-
-
-On Sun, Feb 06, 2022 at 09:00:11AM +0100, Andreas Kemnade wrote:
-> Add a binding for the Electrophoretic Display Controller found at least
-> in the i.MX6.
-> The timing subnode is directly here to avoid having display parameters
-> spread all over the plate.
->=20
-> Supplies are organized the same way as in the fbdev driver in the
-> NXP/Freescale kernel forks. The regulators used for that purpose,
-> like the TPS65185, the SY7636A and MAX17135 have typically a single bit to
-> start a bunch of regulators of higher or negative voltage with a
-> well-defined timing. VCOM can be handled separately, but can also be
-> incorporated into that single bit.
+On Sun, Feb 06, 2022 at 09:00:12AM +0100, Andreas Kemnade wrote:
+> This driver is for the EPD controller in the i.MX SoCs. Add a skeleton
+> and basic things for the driver
 >=20
 > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 > ---
->  .../bindings/display/imx/fsl,mxc-epdc.yaml    | 159 ++++++++++++++++++
->  1 file changed, 159 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mxc=
--epdc.yaml
+>  drivers/gpu/drm/Kconfig                 |   2 +
+>  drivers/gpu/drm/Makefile                |   1 +
+>  drivers/gpu/drm/mxc-epdc/Kconfig        |  15 +
+>  drivers/gpu/drm/mxc-epdc/Makefile       |   5 +
+>  drivers/gpu/drm/mxc-epdc/epdc_regs.h    | 442 ++++++++++++++++++++++++
+>  drivers/gpu/drm/mxc-epdc/mxc_epdc.h     |  20 ++
+>  drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c | 248 +++++++++++++
+>  7 files changed, 733 insertions(+)
+>  create mode 100644 drivers/gpu/drm/mxc-epdc/Kconfig
+>  create mode 100644 drivers/gpu/drm/mxc-epdc/Makefile
+>  create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_regs.h
+>  create mode 100644 drivers/gpu/drm/mxc-epdc/mxc_epdc.h
+>  create mode 100644 drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
 >=20
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.y=
-aml b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> new file mode 100644
-> index 000000000000..7e0795cc3f70
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> @@ -0,0 +1,159 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-[...]
-> +  - vscan-holdoff
-> +  - sdoed-width
-> +  - sdoed-delay
-> +  - sdoez-width
-> +  - sdoez-delay
-> +  - gdclk-hp-offs
-> +  - gdsp-offs
-> +  - gdoe-offs
-> +  - gdclk-offs
-> +  - num-ce
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index b1f22e457fd0..6b6b44ff7556 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -390,6 +390,8 @@ source "drivers/gpu/drm/gud/Kconfig"
+> =20
+>  source "drivers/gpu/drm/sprd/Kconfig"
+> =20
+> +source "drivers/gpu/drm/mxc-epdc/Kconfig"
 
-These parameters should perhaps have sane defaults in the driver, and be
-optional in the DT.
+I'd put it under gpu/drm/imx/epdc, perhaps.
 
+> +int mxc_epdc_output(struct drm_device *drm)
+> +{
+> +	struct mxc_epdc *priv =3D to_mxc_epdc(drm);
+> +	int ret;
+> +
+> +	priv->connector.dpms =3D DRM_MODE_DPMS_OFF;
+> +	priv->connector.polled =3D 0;
+> +	drm_connector_helper_add(&priv->connector,
+> +				 &mxc_epdc_connector_helper_funcs);
+> +	ret =3D drm_connector_init(drm, &priv->connector,
+> +				 &mxc_epdc_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_Unknown);
+> +	if (ret)
+> +		return ret;
+> +	ret =3D of_get_display_timing(drm->dev->of_node, "timing", &priv->timin=
+g);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx6sl-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    epdc: epdc@20f4000 {
-[...]
-> +
-> +        timing {
-> +                clock-frequency =3D <80000000>;
-> +                hactive =3D <1448>;
-> +                hback-porch =3D <16>;
-> +                hfront-porch =3D <102>;
-> +                hsync-len =3D <28>;
-> +                vactive =3D <1072>;
-> +                vback-porch =3D <4>;
-> +                vfront-porch =3D <4>;
-> +                vsync-len =3D <2>;
-> +        };
-> +    };
+Possible to simplify to:
 
-The way you did it here, the timing parameters are directly under the
-EPDC node in the DT, but I wonder if it would be better to have a
-separate node for the display panel, which can then provide the timing
-parameters either in the DT or in the panel driver (selected by compatible
-string of the panel).
+	return of_get_display_timing(drm->dev->of_node, "timing", &priv->timing);
+
 
 
 Jonathan
 
---4dGDc1ulGkdHTd51
+--uMoMbLT3WzEqMEI6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmIs8yAACgkQCDBEmo7z
-X9tJ5hAAxertxtsQerEUdypFRk6tF6GZ7tpwhND2/arfmp7+/DAZ8Uq52gl8tHNN
-gBfg99ukZ4HftCbcoPMLaqNi5K1nB6+igACg6tIuXj9GoTyniynnZjrcDT/0Hzhu
-zEQQxUDcDIZc1JuqVmaE5nMyE+Tgpz4bHxZNqfSnYcvcqxaE1UHczrPZxblz80X0
-ZDFBPYmgFKXKHbmQYaaODTpgDVMQ74EEuTSuWcPLqUEL68kQsYkrOnULAr5A5AhZ
-ppFSj2C5AfAGRN3Qe08P7FEEi7SyhGC+iARK/wnLHkSNamYXgz8SVpKsgMnoZeal
-QUnOft+ZkAyPIKBo3aDVpRfodPJ48s0gj1NhCarYr8cEuNsyZXfysoeRCGOiRlzp
-8+B5zLoyh1FDrJVBL5ptNDlYWyqew6MnXgVnmt6rcgMKKVrJvZ8hTbMBEkV3ZsY1
-vs/Se9Jyhhasow734cG2+2zt0IPhrO4m7/Zoeci2zNPmvj4ZtPYc8aTdXQx7RUl8
-CLfX59/st5hWgVV2O/CY8tQUrjdLCXp0jHYYWIxoKprFh7ekNYdw/D8BqwNI5c+S
-RUO5yw8Tu6Y/wVAsrHtn+E8m6mTI6B9yAxM7ltwY2/9svVsLcPO0UCLUSnDtFvlg
-X5MGbxTMdPI4Kbz2rixXEIp3en0OobFSJctn9SLZWqXhXTzyQjs=
-=lMbE
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmIs91QACgkQCDBEmo7z
+X9su8hAApRBwjE74IrtIOWKR416R4XLl1lYHwoeDX5IkWqkKKXQF8nCYB64nSxMf
+WVEwd9tp38bm+xZ5Yex8OMlTFtwNzcMcnYAWv8gHSN2dQGOEnGXQfxIOsmoiEaS2
+1Oiz8c3rxkw5JUlGXANOeDVgvkiTGaSiXvBze4bAKYU5kpeovfGH8Vd7NlsW+6B4
+oudpLG4Cc9VaO8wrN0ch85njP32ctCCphWwR8gfZW76y/1a7lIlZevb+2aIaotPt
+BGwk6qOUzArVroHvkdKXmCJg3K1luPA0q3c68GVydewfAR5TBENsLBWjIaQUcTSi
+y4Run6OpF7AKOBi8JxpRjSoPDe3MitKMtA9vlL9nlo2CW7DE4ScYb7yxgzLwcOAx
+Oz8Ul0qI4e60AKhfEDs1Ugf0FCVF7SK1Kna5sjxOTqL9aeau96H9E44xaKbY+X5a
+azx54txrPBQHQxY4h8OS8EOrUNhq/JQzJCMbHZxPSVqcHYruKjQ4poYuRiWlrhaB
+RBrkwpfnA77IjjRSjKXEgChVxopS6vYHA+YvFX8QS1u3z7jYvdPx+hIK2WgWGQ9A
+D/wsjEjtvBHezCgABsas7pDJJULig5pp89CF9tjIIJWMOHP1bZckzvY+WB7p1gCs
+XWfS+v4ZrV/lwVYoKTE160ztJTqyuRLxDvGUfsX5lGS/Pig092s=
+=dV4g
 -----END PGP SIGNATURE-----
 
---4dGDc1ulGkdHTd51--
+--uMoMbLT3WzEqMEI6--
