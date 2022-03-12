@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A8A4D702C
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 18:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD974D7057
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 19:12:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B9010E009;
-	Sat, 12 Mar 2022 17:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3859410E072;
+	Sat, 12 Mar 2022 18:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8098710E00F
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 17:36:29 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- g5-20020a4ae885000000b003240bc9b2afso2024408ooe.10
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 09:36:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iRAZJoZoZh3qRV/UYKwJwKogthRoGQB0qt95Y42xJ0o=;
- b=oKm0ZN3ZKvIZN/GefFAARdns9WrE3x4XoBJ1uXZNjdXYJBaoCaTRVBtd93sMGwI+wb
- p8+Rmdi0ffArNKC5tXIP3YZaSq6/DeK62G9RbnTr32gMAG+JgcMDg+JdNv++AmYUV1Df
- O/HZTYKLa5nkt0j7LQvGtgOghhLEbfRLRX/FE9l+m8hY+tB0hxUqoUtufFnw1e6szCRd
- JAfZbCuLpYAvWUxWJlNGHYM84N582JIcLYdIYqJWPblubxZzIUmM93j3yCcHmtdVpNJX
- ZzlMrZWr4rSZLALOPDVB2B3L7jmmV2Ran9m0xNL+HRRM0xboeJumYwhCKmr7ZVJI1CyN
- gxgA==
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A120210E072
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 18:12:35 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id u7so16288874ljk.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 10:12:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=k2rzdAvd062YWQZphahXNpHBoTUA0G/kUu5FJsmYidI=;
+ b=cLIch6UNGEWBwpXkAfGnrMnkGP8hmmnuf7HiuH+uAu625SU0QmoGlc2SVrOSwdtHHB
+ Ow2OyVUaeaCPY96YSOm8M/19K6KTez6AWn/3d/zmgIar9rkof3FPKnm87lO8kwKM2+1b
+ 3dX/gghLidF9HFV9HA0dXTkHfSUl/emasVYkGBa1cGvsdyxcncX44/2QpeLKqMLtYM/n
+ XVvI3R378Ml+kG+Udza0rBX+dQPpqIuyderqiQEZniZbeF54vps152YPilKfdRClGtCi
+ +cDeXVjFwu8Q7m3gLbXHxzTrBZXLNfwWgOyNtQU1Fpf00ssSL7uReonjyQonkmPSXM34
+ Y7Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iRAZJoZoZh3qRV/UYKwJwKogthRoGQB0qt95Y42xJ0o=;
- b=ttuWSYYOgFxiX54YH9PRtXDYlSyzDIPHzSHtA/O9Filu40hOrp54WvMIVsdWR665TI
- O11cfIgBpv9sTbvgYtN2r7D6p9m7y27LKMtnJilRaYt0JDFJWOJy1z8YS/uaQ88+M1mC
- kIlGBWwg8Q3Xek6rMPUK+1UQcIOyR7C9vydBmscPR8WX/lRRUnxTMEVGwjwFkj+HYw/L
- QipXGclH90DZyGcY4aGkNcJPDCC9cJro2yTe56WhIgqjouefAfDYY+KiBmvt/q/M1v93
- 2+WG3bkSaABYTzAj7Ftsc6n3SbA0oY8gNH0b472NMa+bQxSUZMHPGhI1nOYaifRZ4M1f
- T0hQ==
-X-Gm-Message-State: AOAM533erzXblWOmbWBh81U3YTB39gyrZVVZVoAthqUaPryh+PY4cs61
- F9EFUd0U9wokMW9YEHtQwQ4MPhe7yGifLw==
-X-Google-Smtp-Source: ABdhPJyn9jljunqjT976KNT5QT5bTu3YoYxtUp/Qci2+b4frJrNNW1FUWyYNGk3vpCQ8IWOrnRf9uA==
-X-Received: by 2002:a4a:6b5d:0:b0:321:493c:edcb with SMTP id
- h29-20020a4a6b5d000000b00321493cedcbmr7108644oof.81.1647106588714; 
- Sat, 12 Mar 2022 09:36:28 -0800 (PST)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id
- q16-20020a9d4b10000000b005b22b93d468sm5105250otf.74.2022.03.12.09.36.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Mar 2022 09:36:28 -0800 (PST)
-Date: Sat, 12 Mar 2022 11:36:26 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Vinod Polimera <quic_vpolimer@quicinc.com>
-Subject: Re: [PATCH v5 1/5] arm64/dts/qcom/sc7280: remove assigned-clock-rate
- property for mdp clk
-Message-ID: <YizaGgCLxH0D9MRF@builder.lan>
-References: <1646758500-3776-1-git-send-email-quic_vpolimer@quicinc.com>
- <1646758500-3776-2-git-send-email-quic_vpolimer@quicinc.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=k2rzdAvd062YWQZphahXNpHBoTUA0G/kUu5FJsmYidI=;
+ b=T8fe9zjKTK8Wwv+YS7+GFOwzZPQDSGJgWq8xiL+4szjYe99qEqqivHb+/RU+VFNgKM
+ 8Yk6JbTn8kTNAspx+ke67fZ2V1yK7m0tPLMxPaLDCeA4I9Dhm6hSML14hdkkpTzbhd/R
+ FE+9Oban92E56v2NwcIP8gFS82I2vJCm2R7WQadq63M4gdfld+mHyvXWKCpl814FA0Gz
+ RlinsMsGR2mZ6aQ6qtyVGuDhIJuyvRhCkQy+EcmlUBJLM/CnYKv+IweTUmpfKKo3SabV
+ WGBbIbxfiAn8gfJpJWcaN2AnaoHrZuQJHwNlTqvOBvKtb6939eyQYA/sofp+sC6oO+zz
+ /nnA==
+X-Gm-Message-State: AOAM530Iquc94s6XrIpHMwdeeRkDRrk+1HjjBEcxZ8mSPxW3QkJXpDW6
+ ZcuRag74hjUegjSHW8FkDBI=
+X-Google-Smtp-Source: ABdhPJxKzGvN1o8WcEOhsd6BTrlU/Lny5O/iTIWdGCHtEoNj9ujCnMKIsvOKhUi0uhP9YsrKpfM9og==
+X-Received: by 2002:a2e:2d0a:0:b0:248:7c35:28b4 with SMTP id
+ t10-20020a2e2d0a000000b002487c3528b4mr8155470ljt.175.1647108753844; 
+ Sat, 12 Mar 2022 10:12:33 -0800 (PST)
+Received: from [192.168.2.145] (109-252-136-171.dynamic.spd-mgts.ru.
+ [109.252.136.171]) by smtp.googlemail.com with ESMTPSA id
+ g19-20020a2e3913000000b00247dea5b468sm2571838lja.115.2022.03.12.10.12.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 12 Mar 2022 10:12:33 -0800 (PST)
+Message-ID: <45e5f833-b492-30df-a1ed-108e05a2b465@gmail.com>
+Date: Sat, 12 Mar 2022 21:12:31 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1646758500-3776-2-git-send-email-quic_vpolimer@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 3/9] gpu: host1x: Add context device management code
+Content-Language: en-US
+To: cyndis@kapsi.fi, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
+ krzysztof.kozlowski@canonical.com
+References: <20220301161455.4037062-1-cyndis@kapsi.fi>
+ <20220301161455.4037062-4-cyndis@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20220301161455.4037062-4-cyndis@kapsi.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,78 +76,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 08 Mar 10:54 CST 2022, Vinod Polimera wrote:
+01.03.2022 19:14, cyndis@kapsi.fi пишет:
+> +/* host1x context devices */
+> +
+> +struct host1x_context {
+> +	struct host1x *host;
+> +
+> +	refcount_t ref;
+> +	struct pid *owner;
+> +
+> +	struct device dev;
+> +	u64 dma_mask;
+> +	u32 stream_id;
+> +};
 
-Please run:
+I'm still not very happy about the "context" names. For example here
+it's only about the "memory context", then why not to name struct as
+host1x_memory_context or host1x_memctx?
 
-  git log --oneline --no-decorate -- arch/arm64/boot/dts/qcom/sc7280.dtsi
-
-and make sure your $subject is prefixed according to all other
-sc7280-specific changes.
-
-> Kernel clock driver assumes that initial rate is the
-> max rate for that clock and was not allowing it to scale
-> beyond the assigned clock value.
-> 
-> Drop the assigned clock rate property and vote on the mdp clock as per
-> calculated value during the usecase.
-> 
-> Changes in v2:
-> - Remove assigned-clock-rate property and set mdp clk during resume sequence.
-> - Add fixes tag.
-> 
-> Changes in v3:
-> - Remove extra line after fixes tag.(Stephen Boyd)
-
-It's only in drivers/drm that the changelog goes in the commit message,
-so please move this below the ---.
-
-Thanks,
-Bjorn
-
-> 
-> Fixes: 62fbdce91("arm64: dts: qcom: sc7280: add display dt nodes")
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index baf1653..408cf6c 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -2856,9 +2856,6 @@
->  				      "ahb",
->  				      "core";
->  
-> -			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> -			assigned-clock-rates = <300000000>;
-> -
->  			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
->  			interrupt-controller;
->  			#interrupt-cells = <1>;
-> @@ -2892,11 +2889,9 @@
->  					      "lut",
->  					      "core",
->  					      "vsync";
-> -				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
-> -						<&dispcc DISP_CC_MDSS_VSYNC_CLK>,
-> +				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>,
->  						<&dispcc DISP_CC_MDSS_AHB_CLK>;
-> -				assigned-clock-rates = <300000000>,
-> -							<19200000>,
-> +				assigned-clock-rates = <19200000>,
->  							<19200000>;
->  				operating-points-v2 = <&mdp_opp_table>;
->  				power-domains = <&rpmhpd SC7280_CX>;
-> -- 
-> 2.7.4
-> 
+It's not good to use generic names for a special things, it hurts
+readability of the code. It's important to choose good names.
