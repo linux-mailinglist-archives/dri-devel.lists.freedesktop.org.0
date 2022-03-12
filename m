@@ -2,44 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D744D70F5
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 22:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBB54D7127
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 22:54:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D75110E112;
-	Sat, 12 Mar 2022 21:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C12910E08F;
+	Sat, 12 Mar 2022 21:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CB810E112
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 21:08:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id AE00E1F4595D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647119280;
- bh=wLExJO5a7BmNAEjWa2vEXI65hZUlcnfDKIQubmXYQnc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QYeUEH+ikY/Ro0+JeLJULZFKaxxIFkAzMFLOhDP83klBIXSO/dTzyh02Ta91Msvkz
- Co7Da98R4PxLxTf2su/UBioVU1YgOlfOenhHw9yjbvlMiP8/WA1Qld7GSG3cGG4J7x
- EZUrFmknuwGh3ws+Cq61njszuQwOgN+ztZthFrmQDfnJpw6xvxp6h9urLbStLUAE94
- sby0sevwi1CxegYfipUaMpooeK8yJl7rIW2Pfy90HqIgLTzifmmpOgC03xlNdjseFg
- UorG2by37kNYSuDTChgTvPzoOxNyzudZ62M5A8MCmVbQqawTlFPPQSLjS4XE456Bl4
- FAnhceRnDkSWg==
-Message-ID: <4712e128-8a14-e361-0819-911dc3453372@collabora.com>
-Date: Sun, 13 Mar 2022 00:07:56 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v8 09/24] drm/rockchip: dw_hdmi: Add support for niu clk
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>,
- "elaine.zhang" <zhangqing@rock-chips.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20220311083323.887372-1-s.hauer@pengutronix.de>
- <20220311083323.887372-10-s.hauer@pengutronix.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220311083323.887372-10-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8B6C110E08F
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 21:54:26 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.90,177,1643641200"; d="scan'208";a="113308965"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie5.idc.renesas.com with ESMTP; 13 Mar 2022 06:54:24 +0900
+Received: from localhost.localdomain (unknown [10.226.92.30])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 997354005E2B;
+ Sun, 13 Mar 2022 06:54:21 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 0/7] Add RZ/G2L Display support
+Date: Sat, 12 Mar 2022 21:54:10 +0000
+Message-Id: <20220312215417.8023-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +38,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/11/22 11:33, Sascha Hauer wrote:
-> The rk3568 HDMI has an additional clock that needs to be enabled for the
-> HDMI controller to work. This clock is not needed for the HDMI
-> controller itself, but to make the SoC internal bus logic work. From the
-> reference manual:
-> 
->> 2.8.6 NIU Clock gating reliance
->>
->> A part of niu clocks have a dependence on another niu clock in order to
->> sharing the internal bus. When these clocks are in use, another niu
->> clock must be opened, and cannot be gated.  These clocks and the special
->> clock on which they are relied are as following:
->>
->> Clocks which have dependency     The clock which can not be gated
->> -----------------------------------------------------------------
->> ...
->> pclk_vo_niu, hclk_vo_s_niu       hclk_vo_niu
->> ...
-> The clock framework does not support turning on a clock whenever another
-> clock is turned on, so this patch adds support for the dependent clock
-> to the HDMI driver. We call it "NIU", which is for "Native Interface
-> Unit"
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
 
-This still doesn't make sense to me. You're saying that "pclk_vo_niu,
-hclk_vo_s_niu" depend on "hclk_vo_niu", but HDMI doesn't use pclk_vo, it
-uses pclk_hdmi. I don't see how these "niu" clocks are related to HDMI
-from your description. The pclk_vo should remain being disabled for HDMI.
+This patch series aims to add basic display support on RZ/G2L SMARC EVK
+platform. The output from DSI is connected to ADV7535.
 
-I already said before that the datasheet suggests that hclk_vo needs to
-be enabled in order to ungate the AHB part of the VO module, which is
-needed for CPU accesses. Elain, could you please confirm this or clarify
-more about why hclk_vo needs to be enabled for HDMI?
+The DU controller is similar to R-Car as it is connected to VSPD,
+so reusing most of R-Car code with new CRTC driver specific to
+RZ/G2L
+
+RFC->v1:
+ * Changed  minItems->maxItems for renesas,vsps.
+ * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+   most of RCar DU code
+ * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+RFC:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-18-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-12-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-13-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-19-biju.das.jz@bp.renesas.com/
+
+Biju Das (7):
+  dt-bindings: display: renesas,du: Document r9a07g044l bindings
+  drm: rcar-du: Add num_rpf to struct rcar_du_device_info
+  drm: rcar-du: Add max_width and max_height to struct
+    rcar_du_device_info
+  drm: rcar-du: Move rcar_du_output_name() to rcar_du_common.c
+  drm: rcar-du: Factorise rcar_du_{atomic_check,modeset_init}
+  drm: rcar-du: Factorise
+    rcar_du_vsp{complete,enable,plane_atomic_check}
+  drm: rcar-du: Add RZ/G2L LCDC Support
+
+ .../bindings/display/renesas,du.yaml          |  54 ++
+ drivers/gpu/drm/rcar-du/Kconfig               |  18 +-
+ drivers/gpu/drm/rcar-du/Makefile              |  14 +
+ drivers/gpu/drm/rcar-du/rcar_du_common.c      |  30 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   7 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 100 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |  31 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  23 +-
+ drivers/gpu/drm/rcar-du/rcar_du_plane.h       |  12 +
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  18 +-
+ drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c     | 722 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c      | 221 ++++++
+ drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c    |  82 ++
+ drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h     |  64 ++
+ 14 files changed, 1351 insertions(+), 45 deletions(-)
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_common.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h
+
+-- 
+2.17.1
+
