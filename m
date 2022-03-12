@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA3A4D6AED
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 00:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10304D6B50
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Mar 2022 01:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE8410E07E;
-	Fri, 11 Mar 2022 23:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 898E910E065;
+	Sat, 12 Mar 2022 00:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDB910E0D5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 23:41:07 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id x4so11899984iom.12
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Mar 2022 15:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pkKvMSf6MnXfcd6l7RVxSUjFZ/GpOEgb14khwcuVLyI=;
- b=bcvYuIy0VKS4Whc/lcCCn9efxkvbgWHlNDg3YHYXl90T9IydvKepBMFk92K3gWq1IK
- 5seIgtCVAbi1Cm2iiWUbD3+m8qL3df/ihRY9OwTp/a+oPpRCUvu5WyJ5G+qmaVsyiVuR
- 1Ig+VLYPDtkpJXitJ7i1gL3GEZg1cTf/peRLM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pkKvMSf6MnXfcd6l7RVxSUjFZ/GpOEgb14khwcuVLyI=;
- b=7wOLmDwVrvhUQSq68jurY6SyPyDkYy5iY5SW+B98KX8FMHBeGLAFAjDcnAJnCxIwQ7
- BTx8+CflK6kOUjczUXDJFEE7Ilb741K3QPXGVj3mOnAWvi3hLazliVuybtiJNElf6CYr
- idCJJ7i3VaQEog7FHV/Lc72CQNURntPXIZOpEPTIhVAfr6+SJD/zVSuHBL3cSa6Uufez
- 3HpSOv+mwQaEpKp1I8ahIyM5T8j43S1IdIIOOARvProbUtakuHVX8WdYd8S+6qnT6n6O
- 8uIJ2xHRiv+8UcZk1+4pADXYjJb7Ne2LxnfKBEX9114sEbgv7dWppjs+xCwxNOev5LOx
- UByw==
-X-Gm-Message-State: AOAM533SrCO74kzpYHB9Jgd/U+xvCf/hE0pZ+29FV8BozBBw4yTCYVdL
- HCBpSxAAfWxpFunG03jERGUbeQ==
-X-Google-Smtp-Source: ABdhPJzPth2ng8dqIm2wgxEux81DGTJpQdJMwOfPRoKijd5/6a+92pH5n6oXCbsQae2ZFlhtlyBkdA==
-X-Received: by 2002:a05:6638:a9b:b0:317:12d1:5a46 with SMTP id
- 27-20020a0566380a9b00b0031712d15a46mr9743151jas.306.1647042066350; 
- Fri, 11 Mar 2022 15:41:06 -0800 (PST)
-Received: from chromium.org ([2620:15c:183:200:5a3:e166:1d11:e36c])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a0566022e8400b006463059bf2fsm4734095iow.49.2022.03.11.15.41.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Mar 2022 15:41:05 -0800 (PST)
-Date: Fri, 11 Mar 2022 16:41:03 -0700
-From: Drew Davenport <ddavenport@chromium.org>
-To: Lee Shawn C <shawn.c.lee@intel.com>
-Subject: Re: [v6 1/5] drm/edid: seek for available CEA block from specific
- EDID block index
-Message-ID: <YivcB+lv/BMdhoEO@chromium.org>
-References: <20220311012218.19025-1-shawn.c.lee@intel.com>
- <20220311012218.19025-2-shawn.c.lee@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2488B10E039;
+ Sat, 12 Mar 2022 00:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647043880; x=1678579880;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oW15jltedF1TtUY7t++2RvCdMfwgY48AMpNSpUFSPzE=;
+ b=KjCHHS47Lp1NRkxGtxpRdrKo10nqB2QYNKYP1xVdESkEtQTX0xOVOlri
+ mKkPzj8ZEkVD9KhTQT1jy5vYT56W8mjWlrb8A1DtDwHZOty7scw5g+m59
+ Fj7Njzo0J0c7EXNvcC+AghapF3/sE1dwMUHMHZKCEavKXOI8OChhJy8O3
+ JewPp1vtnbsBjuIXPYxauEoTb6WX+/h0i7/kXmUMRBHint/1DAIjB/i6y
+ bBKsFCR/c8QmISv4NsahY1YWAQi0cHINGql+W9yJYrWEkp524R9/uTAtF
+ 8c/qDR6NqFqv5wHumxazCKmMKEktG7A6Nd0gM51Tz8+LPDBJDXu5W6jtw A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="316399845"
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; d="scan'208";a="316399845"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 16:11:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; d="scan'208";a="514681537"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga006.jf.intel.com with ESMTP; 11 Mar 2022 16:11:19 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v8 00/13] Add GuC Error Capture Support
+Date: Fri, 11 Mar 2022 16:13:30 -0800
+Message-Id: <20220312001344.1314090-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220311012218.19025-2-shawn.c.lee@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,195 +53,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cooper.chiou@intel.com, william.tseng@intel.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- ankit.k.nautiyal@intel.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 11, 2022 at 09:22:14AM +0800, Lee Shawn C wrote:
-> drm_find_cea_extension() always look for a top level CEA block. Pass
-> ext_index from caller then this function to search next available
-> CEA ext block from a specific EDID block pointer.
-> 
-> v2: save proper extension block index if CTA data information
->     was found in DispalyID block.
-> 
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
-> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 43 +++++++++++++++++++-------------------
->  1 file changed, 21 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 561f53831e29..e267d31d5c87 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3353,16 +3353,14 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
->  	return edid_ext;
->  }
->  
-> -static const u8 *drm_find_cea_extension(const struct edid *edid)
-> +static const u8 *drm_find_cea_extension(const struct edid *edid, int *ext_index)
->  {
->  	const struct displayid_block *block;
->  	struct displayid_iter iter;
->  	const u8 *cea;
-> -	int ext_index = 0;
->  
-> -	/* Look for a top level CEA extension block */
-> -	/* FIXME: make callers iterate through multiple CEA ext blocks? */
-> -	cea = drm_find_edid_extension(edid, CEA_EXT, &ext_index);
-> +	/* Look for a CEA extension block from ext_index */
-> +	cea = drm_find_edid_extension(edid, CEA_EXT, ext_index);
->  	if (cea)
->  		return cea;
->  
-> @@ -3370,6 +3368,7 @@ static const u8 *drm_find_cea_extension(const struct edid *edid)
->  	displayid_iter_edid_begin(edid, &iter);
->  	displayid_iter_for_each(block, &iter) {
->  		if (block->tag == DATA_BLOCK_CTA) {
-> +			*ext_index = iter.ext_index;
-This could still end up in an infinite loop in patch 2 in the case that
-there is no CEA_EXT block in the edid, but there is a CEA block in the
-DisplayId block.
+This series:
+  1. Enables support of GuC to report error-state-capture
+     using a list of MMIO registers the driver registers
+     and GuC will dump, log and notify right before a GuC
+     triggered engine-reset event.
+  2. Updates the ADS blob creation to register said lists
+     of global, engine class and engine instance registers
+     with GuC.
+  3. Defines tables of register lists that are global or
+     engine class or engine instance in scope.
+  4. Updates usage and buffer-state data for the regions
+     of the shared GuC log-buffer to accomdate both
+     the existing relay logging of general debug logs
+     along with the new error state capture usage.
+  5. Using a pool of preallocated memory, provide ability
+     to extract and format the GuC reported register-capture
+     data into chunks consistent with existing i915 error-
+     state collection flows and structures.
+  6. Connects the i915_gpu_coredump reporting function
+     to the GuC error capture module to print all GuC
+     error state capture dumps that is reported.
 
-Repeating my review comment from elsewhere, consider the case:
-- If there are no cea extension blocks in the EDID,
-  drm_find_edid_extension returns NULL
-- drm_find_cea_extension will then return the first DisplayId block
-  with tag DATA_BLOCK_CTA
+This is the 8th rev of this series with the first 3 revs
+labelled as RFC.
 
-If the version of the cea data from DisplayId block is less than 3, the
-loop will restart and call drm_find_cea_extension the same way, returning
-the same DisplayID block every time.
+Prior receipts of rvb's:
+  - Patch #2, #3, #4, #5, #10, #11, #12, #13 have received
+    R-v-b's from Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+  - Patch #6, #7, #8, #9 has received an R-v-b from Matthew Brost
+    <matthew.brost@intel.com>. NOTE: some of these came in on the
+    trybot series. https://patchwork.freedesktop.org/series/100831/
 
-Setting *ext_index inside the display_iter_for_each block doesn't change this,
-since we're not checking it.
+Changes from prior revs:
+  v8: - Fix a bug found by CI in rev7: Create a cached ADS
+        capture list for null-header like the other lists.
+      - Fixed a bug on the ggtt offset calculation in the
+        ADS population loop. Thanks to Matt Brost.
+      - Change the storage uses for initial allocation and
+        caching of the ADS register lists so we only store
+        a regular pointer instead of file handle.
+      - Multiple improvements on code styling, variable names,
+        comments and code reduction from Umesh suggestions
+        across multiple patches.
 
-But I don't think we want to use the same *ext_index both to pass into
-drm_find_edid_extension and for tracking the next DisplayId block to check.
-This might end up in similar infinite loops or skipping DisplayId blocks.
+  v7: - Rebased on lastest drm_tip that has the ADS now using
+        shmem based ads_blob_write utilities. Stress test
+        was performed with this patch included to fix a
+        legacy bug:
+        https://patchwork.freedesktop.org/series/100768/
 
-Maybe you'll need to pass in two indexes to drm_find_cea_extension, one which
-is passed to drm_find_edid_extension, and the other to keep track of the next
-DisplayId block to check.
->  			cea = (const u8 *)block;
->  			break;
->  		}
-> @@ -3643,10 +3642,10 @@ add_alternate_cea_modes(struct drm_connector *connector, struct edid *edid)
->  	struct drm_device *dev = connector->dev;
->  	struct drm_display_mode *mode, *tmp;
->  	LIST_HEAD(list);
-> -	int modes = 0;
-> +	int modes = 0, ext_index = 0;
->  
->  	/* Don't add CEA modes if the CEA extension block is missing */
-> -	if (!drm_find_cea_extension(edid))
-> +	if (!drm_find_cea_extension(edid, &ext_index))
->  		return 0;
->  
->  	/*
-> @@ -4321,11 +4320,11 @@ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
->  static int
->  add_cea_modes(struct drm_connector *connector, struct edid *edid)
->  {
-> -	const u8 *cea = drm_find_cea_extension(edid);
-> -	const u8 *db, *hdmi = NULL, *video = NULL;
-> +	const u8 *cea, *db, *hdmi = NULL, *video = NULL;
->  	u8 dbl, hdmi_len, video_len = 0;
-> -	int modes = 0;
-> +	int modes = 0, ext_index = 0;
->  
-> +	cea = drm_find_cea_extension(edid, &ext_index);
->  	if (cea && cea_revision(cea) >= 3) {
->  		int i, start, end;
->  
-> @@ -4562,7 +4561,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
->  	uint8_t *eld = connector->eld;
->  	const u8 *cea;
->  	const u8 *db;
-> -	int total_sad_count = 0;
-> +	int total_sad_count = 0, ext_index = 0;
->  	int mnl;
->  	int dbl;
->  
-> @@ -4571,7 +4570,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
->  	if (!edid)
->  		return;
->  
-> -	cea = drm_find_cea_extension(edid);
-> +	cea = drm_find_cea_extension(edid, &ext_index);
->  	if (!cea) {
->  		DRM_DEBUG_KMS("ELD: no CEA Extension found\n");
->  		return;
-> @@ -4655,11 +4654,11 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
->   */
->  int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
->  {
-> -	int count = 0;
-> +	int count = 0, ext_index = 0;
->  	int i, start, end, dbl;
->  	const u8 *cea;
->  
-> -	cea = drm_find_cea_extension(edid);
-> +	cea = drm_find_cea_extension(edid, &ext_index);
->  	if (!cea) {
->  		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
->  		return 0;
-> @@ -4717,11 +4716,11 @@ EXPORT_SYMBOL(drm_edid_to_sad);
->   */
->  int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
->  {
-> -	int count = 0;
-> +	int count = 0, ext_index = 0;
->  	int i, start, end, dbl;
->  	const u8 *cea;
->  
-> -	cea = drm_find_cea_extension(edid);
-> +	cea = drm_find_cea_extension(edid, &ext_index);
->  	if (!cea) {
->  		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
->  		return 0;
-> @@ -4814,9 +4813,9 @@ bool drm_detect_hdmi_monitor(struct edid *edid)
->  {
->  	const u8 *edid_ext;
->  	int i;
-> -	int start_offset, end_offset;
-> +	int start_offset, end_offset, ext_index = 0;
->  
-> -	edid_ext = drm_find_cea_extension(edid);
-> +	edid_ext = drm_find_cea_extension(edid, &ext_index);
->  	if (!edid_ext)
->  		return false;
->  
-> @@ -4853,9 +4852,9 @@ bool drm_detect_monitor_audio(struct edid *edid)
->  	const u8 *edid_ext;
->  	int i, j;
->  	bool has_audio = false;
-> -	int start_offset, end_offset;
-> +	int start_offset, end_offset, ext_index = 0;
->  
-> -	edid_ext = drm_find_cea_extension(edid);
-> +	edid_ext = drm_find_cea_extension(edid, &ext_index);
->  	if (!edid_ext)
->  		goto end;
->  
-> @@ -5177,9 +5176,9 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
->  {
->  	struct drm_display_info *info = &connector->display_info;
->  	const u8 *edid_ext;
-> -	int i, start, end;
-> +	int i, start, end, ext_index = 0;
->  
-> -	edid_ext = drm_find_cea_extension(edid);
-> +	edid_ext = drm_find_cea_extension(edid, &ext_index);
->  	if (!edid_ext)
->  		return;
->  
-> -- 
-> 2.17.1
-> 
+  v6: - In patch #1, ADS reg-list population, we now alloc
+        regular memory to create the lists and cache them for
+        simpler and faster use by GuC ADS module at init, 
+        suspend-resume and reset cycles. This was in response
+        to review comments from Lucas De Marchi that also
+        wanted to ensure the GuC ADS module owns the final
+        copying into the ADS phyical memory.
+      - Thanks to Jani Nikula for pointing out that patch #2
+        and #3 should ensure static tables as constant and
+        dynamic lists should be allocated and cached but
+        attached to the GT level for the case of multiple
+        cards with different fusings for steered registers.
+        These are addressed now along with multiple code
+        style fixups (thanks to review comment from Umesh)
+        and splitting the steered register list generation
+        as a seperate patch.
+      - The extraction functionality, Patch #10 and #11 (was
+        patch #7), has fixed all of Umesh's review comments
+        related to the code styling. Additionally, it was
+        discovered during stress tests that the extraction
+        function could be called by the ct processing thread
+        at the same time as the start of a GT reset event.
+        Thus, a redesign was done whereby the linked list of
+        processed capture-output-nodes are allocated up
+        front and reused throughout the driver's life to
+        ensure no memory locks are taken during extraction.
+      - For patch #6 (now 7, 8 and 9), updates to
+        intel_guc_log was split into smaller chunks and the
+        log_state structure was returned back to inside of
+        the intel_guc_log struct as opposed to the
+        intel_guc struct in prior rev. This is in response
+        to review comments by Matt Brost.
+      - #Patch 13 (previously #10) is mostly identical but
+        addresses all of the code styling comments reviews
+        from Umesh.
+        
+  v5: - Added Gen9->Gen11 register list for CI coverage that
+        included Gen9 with GuC submission.
+      - Redesigned the extraction of the GuC error-capture
+        dumps by grouping them into complete per-engine-reset
+        nodes. Complete here means each node includes the
+        global, engine-class and engine-instance register
+        lists in a single structure.
+      - Extraction is decoupled from the print-out. We now
+        do the extraction immediately when receiving the
+        G2H for error-capture notification. A link list of
+        nodes is maintained with a FIFO based threshold
+        while awaiting retrieval from i915_gpu_coredump's
+        capture_engine function.
+      - Added new plumbing through the i915_gpu_coredump
+        allocation and capture functions to include a flag
+        that is used indicate that GuC had triggered the
+        reset. This new plumbing guarantees an exact match
+        from i915_gpu_coredump's per-engine vma recording
+        and node-retrieval from the guc-error-capture.
+      - Broke the coredump gt_global capture and recording
+        functions into smaller subsets so we can reuse as
+        much of the existing legacy register reading + printing
+        functions and only rely on GuC error-capture for
+        the smaller subset of registers that are tied to
+        engine workload execution.
+      - Updated the register list to follow the legacy execlist
+        format of printout.
+  v4:
+      - Rebased on latest drm-tip that has been merged with the
+        support of GuC firmware version 69.0.3 that is required
+        for GuC error-state-catpure to work.
+      - Added register list for DG2 which is the same as XE_LP
+        except an additional steering register set.
+      - Fixed a bug in the end of capture parsing loop in
+        intel_guc_capture_out_print_next_group that was not
+        properly comparing the engine-instance and engine-
+        class being parsed against the one that triggered
+        the i915_gpu_coredump.
+  v3:
+      - Fixed all review comments from rev2 except the following:
+          - Michal Wajdeczko proposed adding a seperate function
+            to lookup register string nameslookup (based on offset)
+            but decided against it because of offset conflicts
+            and the current table layout is easier to maintain.
+          - Last set of checkpatch errors pertaining to "COMPLEX
+            MACROS" should be fixed on next rev.
+      - Abstracted internal-to-guc-capture information into a new
+        __guc_state_capture_priv structure that allows the exclusion
+        of intel_guc.h and intel_guc_fwif.h from intel_guc_capture.h.
+        Now, only the first 2 patches have a wider build time
+        impact because of the changes to intel_guc_fwif.h but
+        subsequent changes to guc-capture internal structures
+        or firmware interfaces used solely by guc-capture module
+        shoudn't impact the rest of the driver build.
+      - Added missing Gen12LP registers and added slice+subslice
+        indices when reporting extended steered registers.
+      - Add additional checks to ensure that the GuC reported
+        error capture information matches the i915_gpu_coredump
+        that is being printed before we print out the corresponding
+        VMA dumps such as the batch buffer.
+   v2:
+      - Ignore - failed CI retest.
+
+Alan Previn (13):
+  drm/i915/guc: Update GuC ADS size for error capture lists
+  drm/i915/guc: Add XE_LP static registers for GuC error capture.
+  drm/i915/guc: Add XE_LP steered register lists support
+  drm/i915/guc: Add DG2 registers for GuC error state capture.
+  drm/i915/guc: Add Gen9 registers for GuC error state capture.
+  drm/i915/guc: Add GuC's error state capture output structures.
+  drm/i915/guc: Update GuC-log relay function names
+  drm/i915/guc: Add capture region into intel_guc_log
+  drm/i915/guc: Check sizing of guc_capture output
+  drm/i915/guc: Extract GuC error capture lists on G2H notification.
+  drm/i915/guc: Pre-allocate output nodes for extraction
+  drm/i915/guc: Plumb GuC-capture into gpu_coredump
+  drm/i915/guc: Print the GuC error capture output register list.
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |    4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |    2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    7 +
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  218 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  125 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 1655 +++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.h    |   33 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  126 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |    7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   18 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |    3 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  282 ++-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   35 +-
+ 18 files changed, 2376 insertions(+), 181 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
+
+-- 
+2.25.1
+
