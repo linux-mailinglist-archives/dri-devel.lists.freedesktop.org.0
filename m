@@ -2,44 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B644D757D
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 14:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B889A4D75B8
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 15:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059EB10E210;
-	Sun, 13 Mar 2022 13:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B798951E;
+	Sun, 13 Mar 2022 14:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D53510E1B7;
- Sun, 13 Mar 2022 13:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647178400; x=1678714400;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=KvMI83gqySb7VlbWAXFc/Dxw353ibpKGtC6Vg3lxMew=;
- b=SxH461XJQSp2PuBZimX4eIlQS7KyxAvvLcoaK/n41giLgZdDfrVQOxL/
- l7jOCqE3AfMmC6s1F7SiOTjUui93Ol5YvCFvcsaaPvhymSWyB2GeGnMrA
- ToYzTYVe6BS0/AbDEqk3SrTFXVFnPySKrE0COsgmAk1XoTN4/IhmXQnCf
- kJ88uDy4D1Y901C80x6W+DRYWw3mpXVuRDZBmi7FNP/HbHeW6mgKFtqfw
- C9IE+jL5PKhLKku8j/1RecEpxrX22Oe/RtWAtgJFM35zCAV387uTGE2oj
- LZ8YWJqDNDIQpVKoHzsxfUYEhac2Ixmqvv9za49AvTP4zV0KR95bmLz4M w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10284"; a="255600702"
-X-IronPort-AV: E=Sophos;i="5.90,178,1643702400"; d="scan'208";a="255600702"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 06:33:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,178,1643702400"; d="scan'208";a="515101490"
-Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.78])
- by orsmga006.jf.intel.com with ESMTP; 13 Mar 2022 06:33:18 -0700
-From: Lee Shawn C <shawn.c.lee@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [v7 5/5] drm/edid: check for HF-SCDB block
-Date: Sun, 13 Mar 2022 21:47:02 +0800
-Message-Id: <20220313134702.24175-6-shawn.c.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220313134702.24175-1-shawn.c.lee@intel.com>
-References: <20220313134702.24175-1-shawn.c.lee@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 182CA8951E
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 14:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647180622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MMcgGN1d46ct1NbvGOl+Qm+VZTfIF+7Jk+6dqdt2QoE=;
+ b=OjyRbxIYbOKRVKiXZg3sjKWX50tl4xJMDk9wvzcmg7w9tmcJ4sKQMDf0O3zyQeDW9YC1C/
+ A4nE3SSDhNtC2b9/8IMu6JGooq1W86KRxzhtyzgz2ZQwjqu9HT+ZUelsZRb/OtoWl4ktP8
+ DH/GXe1DDTCnLi4MPlRmthIR37Px03I=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-5RYapSn3MheBF8NRwkLCOQ-1; Sun, 13 Mar 2022 10:10:21 -0400
+X-MC-Unique: 5RYapSn3MheBF8NRwkLCOQ-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ g2-20020a9d6b02000000b005b26d8c50a5so8909913otp.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 07:10:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MMcgGN1d46ct1NbvGOl+Qm+VZTfIF+7Jk+6dqdt2QoE=;
+ b=RkP4pMZl8W7i/ESVsvt7vB885IlB/GmOg9RwTPrWZjw3UuKfl2+MkskTTCYkRaVsyg
+ 3SesDEd3l1zx9dYcBU6REQ520cewFfOHphxVg4LwpMYYlxC9bYwGYt4uDthxr8m0Iqg5
+ VjRAqZJLxndaEuGq2Vum5aJ36qT0zvtlvveyPR9fz3IUX2f4/uNQXMo/mRTOo8QfrPA5
+ fnVTqZVMOoegyHdmRBfd0/0HJCNSFTcRz7NTn3cu6lCtm2k9mwVj67Koze7eNOLmwH5T
+ Maky52uy6gAsuIid3eyuvJqTHH0FioXOFGOCvHRtDKriVsFRWvDopqPgsjVdgRUm0LzP
+ sZOA==
+X-Gm-Message-State: AOAM533aTge3a7ygWz4ZexfTPYs6ZyrwFAWptil2gxsJXxY8iCICoOZi
+ CxFfOAUcpXVHEdYM4dlMxtmrz6/M4Z0Cowe6/fB1tlMSKRWTDHDNKC+UwCn2nNUv9xXlRnZ3H62
+ pLE666oWV7psYQC2LaPqOK0gCYhOn
+X-Received: by 2002:a05:6870:4210:b0:da:196d:a1fd with SMTP id
+ u16-20020a056870421000b000da196da1fdmr14983878oac.224.1647180620316; 
+ Sun, 13 Mar 2022 07:10:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuAJNKiCUf9C/raP//IDNlp0tLxNgl5XjfJIqdIEs+cMF9S5wL9AzvDa1j2HVcO5dQD0AMpA==
+X-Received: by 2002:a05:6870:4210:b0:da:196d:a1fd with SMTP id
+ u16-20020a056870421000b000da196da1fdmr14983867oac.224.1647180620019; 
+ Sun, 13 Mar 2022 07:10:20 -0700 (PDT)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
+ p4-20020a056870a54400b000da07609a6dsm5503105oal.22.2022.03.13.07.10.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Mar 2022 07:10:19 -0700 (PDT)
+From: trix@redhat.com
+To: noralf@tronnes.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/repaper: combine allocs in repaper_spi_transfer()
+Date: Sun, 13 Mar 2022 07:10:08 -0700
+Message-Id: <20220313141008.1503638-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,71 +83,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Drew Davenport <ddavenport@chromium.org>, ankit.k.nautiyal@intel.com,
- Lee Shawn C <shawn.c.lee@intel.com>
+Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Find HF-SCDB information in CEA extensions block. And retrieve
-Max_TMDS_Character_Rate that support by sink device.
+From: Tom Rix <trix@redhat.com>
 
-v2: HF-SCDB and HF-VSDBS carry the same SCDS data. Reuse
-    drm_parse_hdmi_forum_vsdb() to parse this packet.
+repaper_spi_transfer() allocates a single byte
+for the spi header and then another buffer for
+the payload.  Combine the allocs into a single
+buffer with offsets.  To simplify the offsets
+put the header after the payload.
 
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Cc: Drew Davenport <ddavenport@chromium.org>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
-Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/drm_edid.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tiny/repaper.c | 40 ++++++++++------------------------
+ 1 file changed, 12 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 5de85ba20bdf..351a729bddb6 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3350,6 +3350,7 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
- #define EXT_VIDEO_DATA_BLOCK_420	0x0E
- #define EXT_VIDEO_CAP_BLOCK_Y420CMDB	0x0F
- #define EXT_VIDEO_HF_EEODB_DATA_BLOCK	0x78
-+#define EXT_VIDEO_HF_SCDB_DATA_BLOCK	0x79
- #define EDID_BASIC_AUDIO	(1 << 6)
- #define EDID_CEA_YCRCB444	(1 << 5)
- #define EDID_CEA_YCRCB422	(1 << 4)
-@@ -4287,6 +4288,20 @@ static bool cea_db_is_vcdb(const u8 *db)
- 	return true;
+diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+index 37b6bb90e46e1..22a6732f35a01 100644
+--- a/drivers/gpu/drm/tiny/repaper.c
++++ b/drivers/gpu/drm/tiny/repaper.c
+@@ -100,50 +100,34 @@ static inline struct repaper_epd *drm_to_epd(struct drm_device *drm)
+ static int repaper_spi_transfer(struct spi_device *spi, u8 header,
+ 				const void *tx, void *rx, size_t len)
+ {
+-	void *txbuf = NULL, *rxbuf = NULL;
+ 	struct spi_transfer tr[2] = {};
+-	u8 *headerbuf;
++	u8 *buf;
+ 	int ret;
+ 
+-	headerbuf = kmalloc(1, GFP_KERNEL);
+-	if (!headerbuf)
++	buf = kmalloc(1 + len, GFP_KERNEL);
++	if (!buf)
+ 		return -ENOMEM;
+ 
+-	headerbuf[0] = header;
+-	tr[0].tx_buf = headerbuf;
++	buf[len] = header;
++	tr[0].tx_buf = &buf[len];
+ 	tr[0].len = 1;
+ 
+-	/* Stack allocated tx? */
+-	if (tx && len <= 32) {
+-		txbuf = kmemdup(tx, len, GFP_KERNEL);
+-		if (!txbuf) {
+-			ret = -ENOMEM;
+-			goto out_free;
+-		}
++	if (tx) {
++		memcpy(buf, tx, len);
++		tr[1].tx_buf = buf;
+ 	}
+ 
+-	if (rx) {
+-		rxbuf = kmalloc(len, GFP_KERNEL);
+-		if (!rxbuf) {
+-			ret = -ENOMEM;
+-			goto out_free;
+-		}
+-	}
++	if (rx)
++		tr[1].rx_buf = buf;
+ 
+-	tr[1].tx_buf = txbuf ? txbuf : tx;
+-	tr[1].rx_buf = rxbuf;
+ 	tr[1].len = len;
+ 
+ 	ndelay(80);
+ 	ret = spi_sync_transfer(spi, tr, 2);
+ 	if (rx && !ret)
+-		memcpy(rx, rxbuf, len);
+-
+-out_free:
+-	kfree(headerbuf);
+-	kfree(txbuf);
+-	kfree(rxbuf);
++		memcpy(rx, buf, len);
+ 
++	kfree(buf);
+ 	return ret;
  }
  
-+static bool cea_db_is_hdmi_forum_scdb(const u8 *db)
-+{
-+	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-+		return false;
-+
-+	if (cea_db_payload_len(db) < 7)
-+		return false;
-+
-+	if (cea_db_extended_tag(db) != EXT_VIDEO_HF_SCDB_DATA_BLOCK)
-+		return false;
-+
-+	return true;
-+}
-+
- static bool cea_db_is_y420cmdb(const u8 *db)
- {
- 	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-@@ -5312,7 +5327,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 
- 		if (cea_db_is_hdmi_vsdb(db))
- 			drm_parse_hdmi_vsdb_video(connector, db);
--		if (cea_db_is_hdmi_forum_vsdb(db))
-+		if (cea_db_is_hdmi_forum_vsdb(db) ||
-+		    cea_db_is_hdmi_forum_scdb(db))
- 			drm_parse_hdmi_forum_vsdb(connector, db);
- 		if (cea_db_is_microsoft_vsdb(db))
- 			drm_parse_microsoft_vsdb(connector, db);
 -- 
-2.17.1
+2.26.3
 
