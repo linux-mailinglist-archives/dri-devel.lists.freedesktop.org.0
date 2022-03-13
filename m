@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A1D4D77FB
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 20:30:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C709E4D7801
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 20:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0624D10E2AD;
-	Sun, 13 Mar 2022 19:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B619E10E30F;
+	Sun, 13 Mar 2022 19:39:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 137AF10E293
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 19:29:56 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8DA110E30F
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 19:39:32 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 977201F452;
- Sun, 13 Mar 2022 19:29:54 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7458721102;
+ Sun, 13 Mar 2022 19:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647199794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ t=1647200371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bM2qp3okxbiiyPi7OeWNunpQsircOdKGfAhpG/om7SI=;
- b=MiPCDNItg92JH04Dm7zzD+c3Ep/noumuBEk2hSsYjDLTIw80XbeusGZZSYec+i8kSE+2mY
- itpoW2X7XKvh3A72FvVNqm3JsIUOvOq0UsHwcbD6Iqdwl6Km8oapcp0RErb78dEDxIlPci
- wGMcTqWwITxzYYSJyipQXHyyt6BGvBs=
+ bh=BWLSHvP+d7/kXMgllficUSa89KHzCsAeZvIpwsAJ+G0=;
+ b=bosR4FvqHwTHEolOMuOv090JjsYcV9/LhfXT7o6kw84TT9iAg0Mw00zXncOdlfHE/yrCbM
+ qVbX4E9YJxXesOEWBqTVXGDNccTuV2FD8tFJ7Gyar6XBb8fintvf1UGM4jYMs0FmLgjnR+
+ k+MWMdGVsdjMoDQlOOSrAMmt22J+pnc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647199794;
+ s=susede2_ed25519; t=1647200371;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bM2qp3okxbiiyPi7OeWNunpQsircOdKGfAhpG/om7SI=;
- b=AIJHKReoz7v1ziFHZRyvZt3JA7yCiYcTHXxLp2uIoeyE0svIQ092PLBl3CN0JTUovvP0wS
- hMQwBa8gsQvMcwAQ==
+ bh=BWLSHvP+d7/kXMgllficUSa89KHzCsAeZvIpwsAJ+G0=;
+ b=yx8VQOGrQHimZcw5zA12JpYCovNma2wHvfEi1rDsl88jsd+7CJBMyXcedrKOCZ5U4x/k92
+ 8FBhu1TsAyYfMJBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 64BF313AFE;
- Sun, 13 Mar 2022 19:29:54 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56DE713B0C;
+ Sun, 13 Mar 2022 19:39:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KPiLFzJGLmIiFQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sun, 13 Mar 2022 19:29:54 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, deller@gmx.de, m.szyprowski@samsung.com,
- geert@linux-m68k.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH 2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
-Date: Sun, 13 Mar 2022 20:29:52 +0100
-Message-Id: <20220313192952.12058-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220313192952.12058-1-tzimmermann@suse.de>
-References: <20220313192952.12058-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id VvwwFHNILmJRFwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sun, 13 Mar 2022 19:39:31 +0000
+Message-ID: <50a09e18-34f6-2f74-66eb-f632591f5ff6@suse.de>
+Date: Sun, 13 Mar 2022 20:39:30 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v2] drm/mgag200: Fix PLL setup for g200wb and g200ew
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20220308171111.220557-1-jfalempe@redhat.com>
+ <20220308174321.225606-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220308174321.225606-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------UvFwc5VT08mj31tNp80gSf34"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,96 +70,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: michel@daenzer.net, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
-broke cfb_imageblit() for image widths that are not aligned to 8-bit
-boundaries. Fix this by handling the trailing pixels on each line
-separately. The performance improvements in the original commit do not
-regress by this change.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------UvFwc5VT08mj31tNp80gSf34
+Content-Type: multipart/mixed; boundary="------------G0Mrm0yQ3ya8tMYz6vsv0cwd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, michel@daenzer.net
+Message-ID: <50a09e18-34f6-2f74-66eb-f632591f5ff6@suse.de>
+Subject: Re: [PATCH v2] drm/mgag200: Fix PLL setup for g200wb and g200ew
+References: <20220308171111.220557-1-jfalempe@redhat.com>
+ <20220308174321.225606-1-jfalempe@redhat.com>
+In-Reply-To: <20220308174321.225606-1-jfalempe@redhat.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/video/fbdev/core/cfbimgblt.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+--------------G0Mrm0yQ3ya8tMYz6vsv0cwd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/video/fbdev/core/cfbimgblt.c b/drivers/video/fbdev/core/cfbimgblt.c
-index 7361cfabdd85..9ebda4e0dc7a 100644
---- a/drivers/video/fbdev/core/cfbimgblt.c
-+++ b/drivers/video/fbdev/core/cfbimgblt.c
-@@ -218,7 +218,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
- {
- 	u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
- 	u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
--	u32 bit_mask, eorx;
-+	u32 bit_mask, eorx, shift;
- 	const char *s = image->data, *src;
- 	u32 __iomem *dst;
- 	const u32 *tab = NULL;
-@@ -259,17 +259,23 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
- 
- 	for (i = image->height; i--; ) {
- 		dst = (u32 __iomem *)dst1;
-+		shift = 8;
- 		src = s;
- 
-+		/*
-+		 * Manually unroll the per-line copying loop for better
-+		 * performance. This works until we processed the last
-+		 * completely filled source byte (inclusive).
-+		 */
- 		switch (ppw) {
- 		case 4: /* 8 bpp */
--			for (j = k; j; j -= 2, ++src) {
-+			for (j = k; j >= 2; j -= 2, ++src) {
- 				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
- 				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
- 			}
- 			break;
- 		case 2: /* 16 bpp */
--			for (j = k; j; j -= 4, ++src) {
-+			for (j = k; j >= 4; j -= 4, ++src) {
- 				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
- 				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
- 				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
-@@ -277,7 +283,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
- 			}
- 			break;
- 		case 1: /* 32 bpp */
--			for (j = k; j; j -= 8, ++src) {
-+			for (j = k; j >= 8; j -= 8, ++src) {
- 				FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
- 				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
- 				FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
-@@ -290,6 +296,20 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
- 			break;
- 		}
- 
-+		/*
-+		 * For image widths that are not a multiple of 8, there
-+		 * are trailing pixels left on the current line. Print
-+		 * them as well.
-+		 */
-+		for (; j--; ) {
-+			shift -= ppw;
-+			FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
-+			if (!shift) {
-+				shift = 8;
-+				++src;
-+			}
-+		}
-+
- 		dst1 += p->fix.line_length;
- 		s += spitch;
- 	}
--- 
-2.35.1
+SGkNCg0KQW0gMDguMDMuMjIgdW0gMTg6NDMgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IGNvbW1pdCBmODZjM2VkNTU5MjAgKCJkcm0vbWdhZzIwMDogU3BsaXQgUExMIHNldHVwIGlu
+dG8gY29tcHV0ZSBhbmQNCj4gICB1cGRhdGUgZnVuY3Rpb25zIikgaW50cm9kdWNlZCBhIHJl
+Z3Jlc3Npb24gZm9yIGcyMDB3YiBhbmQgZzIwMGV3Lg0KPiBUaGUgUExMcyBhcmUgbm90IHNl
+dCB1cCBwcm9wZXJseSwgYW5kIFZHQSBzY3JlZW4gc3RheXMNCj4gYmxhY2ssIG9yIGRpc3Bs
+YXlzICJvdXQgb2YgcmFuZ2UiIG1lc3NhZ2UuDQo+IA0KPiBNR0ExMDY0X1dCX1BJWF9QTExD
+X04vTS9QIHdhcyBtaXN0YWtlbmx5IHJlcGxhY2VkIHdpdGgNCj4gTUdBMTA2NF9QSVhfUExM
+Q19OL00vUCB3aGljaCBoYXZlIGRpZmZlcmVudCBhZGRyZXNzZXMuDQo+IA0KPiBQYXRjaCB0
+ZXN0ZWQgb24gYSBEZWxsIFQzMTAgd2l0aCBnMjAwd2INCj4gDQo+IEZpeGVzOiBmODZjM2Vk
+NTU5MjAgKCJkcm0vbWdhZzIwMDogU3BsaXQgUExMIHNldHVwIGludG8gY29tcHV0ZSBhbmQg
+dXBkYXRlIGZ1bmN0aW9ucyIpDQo+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+IFNp
+Z25lZC1vZmYtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCg0K
+VGhhbmsgeW91IHNvIG11Y2guIEkndmUgYWRkZWQgdGhlIHBhdGNoIHRvIGRybS1taXNjLWZp
+eGVzLiBPbmUgc21hbGwgDQpuaXQ6IG5leHQgdGltZSwgcGxlYXNlIGluY2x1ZGUgYSBsaXR0
+bGUgY2hhbmdlIGxvZyB0aGF0IHNheXMgd2hhdCBlYWNoIA0KdmVyc2lvbiBvZiB0aGUgcGF0
+Y2ggY2hhbmdlczsgZXZlbiBpZiBpdCdzIG9ubHkgdGhlIHN0eWxlIG9mIHRoZSBjb21taXQg
+DQptZXNzYWdlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0tLQ0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfcGxsLmMgfCA2ICsrKy0tLQ0KPiAgIDEgZmls
+ZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9wbGwuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfcGxsLmMNCj4gaW5kZXggZTlhZTIyYjRmODEz
+Li41MmJlMDhiNzQ0YWQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAw
+L21nYWcyMDBfcGxsLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
+MF9wbGwuYw0KPiBAQCAtNDA0LDkgKzQwNCw5IEBAIG1nYWcyMDBfcGl4cGxsX3VwZGF0ZV9n
+MjAwd2Ioc3RydWN0IG1nYWcyMDBfcGxsICpwaXhwbGwsIGNvbnN0IHN0cnVjdCBtZ2FnMjAw
+X3BsDQo+ICAgCQl1ZGVsYXkoNTApOw0KPiAgIA0KPiAgIAkJLyogcHJvZ3JhbSBwaXhlbCBw
+bGwgcmVnaXN0ZXIgKi8NCj4gLQkJV1JFR19EQUMoTUdBMTA2NF9QSVhfUExMQ19OLCB4cGl4
+cGxsY24pOw0KPiAtCQlXUkVHX0RBQyhNR0ExMDY0X1BJWF9QTExDX00sIHhwaXhwbGxjbSk7
+DQo+IC0JCVdSRUdfREFDKE1HQTEwNjRfUElYX1BMTENfUCwgeHBpeHBsbGNwKTsNCj4gKwkJ
+V1JFR19EQUMoTUdBMTA2NF9XQl9QSVhfUExMQ19OLCB4cGl4cGxsY24pOw0KPiArCQlXUkVH
+X0RBQyhNR0ExMDY0X1dCX1BJWF9QTExDX00sIHhwaXhwbGxjbSk7DQo+ICsJCVdSRUdfREFD
+KE1HQTEwNjRfV0JfUElYX1BMTENfUCwgeHBpeHBsbGNwKTsNCj4gICANCj4gICAJCXVkZWxh
+eSg1MCk7DQo+ICAgDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
+ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
+w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------G0Mrm0yQ3ya8tMYz6vsv0cwd--
+
+--------------UvFwc5VT08mj31tNp80gSf34
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIuSHIFAwAAAAAACgkQlh/E3EQov+Bw
+qQ//WN6uMbSJKxSHpxNSH0k19PcjZtD6LF8tDyc2PbttE+8wwsihxtQdGI29V8wNXj8qQsC2Gpr8
+QgqDJ+ZD/M/zpq6KHHkThVMT8ugn+BRNDDvO8zAgpaMVYeiz+ZyBF646wMyISEK6aR/7W1PjYUTF
+sPdSvRKVONeNnVVzZEWQktjOz2S3UsZMP9r7WnNkkD7wflrfdwGaIsT6hQ/SP/KJ57W3EKLFhUc6
+Z+DeWwtzWqfOZMVYIh1BoW5/eI7HpCRMORX1KUFp97rNXflWFM1Nb9hPnkWDissCn1kPOCExkzeV
+muT4LtST4xRe+RPKN3PhFWGxFD+DYAi487rIKvr+tQTnN4tMP14rm0y8N/WA+d6P0+prX+jMmJEm
+FfenAysktl/vHU4AMUfaB+e3ftpSuafGsdYVMqfPHIM1PXic1npioylGS2u/rIlrWxdjVBDbMFh1
+I6mjyWDOEbfaFAFmBFTmunnMX7ijdAy0vvp4BwGfNBRBPhfaifLl2sNDybFA2eZLzoJlh2vmEpyl
+YiO6Ga84cIEHaEYER9lGdFdbcQBvaUYLAqLHlaciPVrd3uL2GUoGJXgm9gMp/MLACahjQnuz5wMn
+n8dvK1yv8AhLBKoslf95ewVqoMfIMHmor7YCRNb6jJTvocyy8d/N8T6P5sDh7k282wUAttSbzCJU
+MFA=
+=6g6E
+-----END PGP SIGNATURE-----
+
+--------------UvFwc5VT08mj31tNp80gSf34--
