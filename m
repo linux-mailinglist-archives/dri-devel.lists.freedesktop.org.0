@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6E84D784C
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 22:02:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B245B4D7871
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 22:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E036610E509;
-	Sun, 13 Mar 2022 21:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2ED10E2F5;
+	Sun, 13 Mar 2022 21:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3F4410E509
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 21:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=36t4lSZYEjksqRQj48h4XUvzBGkfiIIMwPuRKua96P0=; b=rut1essUtcLuqpbMOJ2ptbk3VB
- go+2GYHG5SA3M4ZeQid7WkfXjOKSDIBslHzPcmNdQZ00Akt9YIHU9lPjsZH7aHKLJpZa8TzrUTbYi
- liBCrJw70INaJNsRdaIeSf+RLOzmJ5OjPeNjXB9dYuBlQaxHKyx5VbPr0SDmIqdTK9/X91EdP+ldJ
- GGis0Wrh9JygNyXI9Pmh4vECfQJHLqWjArgitgRhmLt7bVgR6pUYR7a2uoChHSl5Y7PwktVwC9qOg
- 8DDp3BEd727hEhxd8sppJ1F4mPmjlbBUT7HUdJyVxVJKfxrCVU5BfDEWb5k7HpsjmBB5EbGG2Wvpp
- oKZe9NbA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51607
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nTVLs-0004dx-9H; Sun, 13 Mar 2022 22:02:08 +0100
-Message-ID: <e9be8d81-786f-4b13-468e-d910a16e2e61@tronnes.org>
-Date: Sun, 13 Mar 2022 22:02:05 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F01D310E2C3;
+ Sun, 13 Mar 2022 21:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647207010; x=1678743010;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tQv+Ez4YrjbTaUvYfDsiyZbFqEH5+CjrVJ0MrPZoKhw=;
+ b=VbTDqSQtG02K6+YSTCco49vBWtkTdBmg7R0h0cn7qNh/VCMhxYcYuE8G
+ 0gVcM9gNVLzCdeg8AQvttH1iRr9ni4qWV4cOP5n5GjpEawdt1HEgNeuIj
+ GzqSyVZYX9+fcwOaFi0fgSrMjQJCSEfDkF1W1AoWSLY4m/QExQMmQDUhD
+ Wp/3trnHyy9TfUgHiUrM719S1OKHD+E6AepUqH6/8Fu0rPH3QlrdH9HGZ
+ d134KtvMwE9MbXOW+fKdgnuN3imxwBKWbVcT44d0tD3TgVE2xnurmhQju
+ jNVp15pTpwklIJthpEHPluu0ozDMAEF4LjnRcbCZqCa4F3FWBjr1ZqOTN g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="255629979"
+X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="255629979"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2022 14:30:09 -0700
+X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="556122158"
+Received: from gionascu-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.251.220.31])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2022 14:30:04 -0700
+Date: Sun, 13 Mar 2022 23:30:02 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v5 4/7] drm/i915/gt: create per-tile sysfs interface
+Message-ID: <Yi5iWtOzyMLFZWo/@intel.intel>
+References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
+ <20220217144158.21555-5-andi.shyti@linux.intel.com>
+ <e096ed88-ec87-b45c-22ba-80d48f480808@intel.com>
+ <YiU9+uRCzJAZlcRh@intel.intel>
+ <70f07f08-36d8-0af8-adce-a3a4c780527c@intel.com>
+ <Yi5J1HB5uypRUIW+@intel.intel>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/repaper: combine allocs in repaper_spi_transfer()
-To: Tom Rix <trix@redhat.com>, airlied@linux.ie, daniel@ffwll.ch
-References: <20220313141008.1503638-1-trix@redhat.com>
- <569b42fb-5d85-645a-2947-77216c44696a@tronnes.org>
- <52a1c253-0206-182e-5e41-03f94e7e7275@redhat.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <52a1c253-0206-182e-5e41-03f94e7e7275@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yi5J1HB5uypRUIW+@intel.intel>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,132 +61,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
+ Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Den 13.03.2022 17.07, skrev Tom Rix:
+> > > > > +struct intel_gt *intel_gt_sysfs_get_drvdata(struct device *dev,
+> > > > > +					    const char *name)
+> > > > > +{
+> > > > > +	struct kobject *kobj = &dev->kobj;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * We are interested at knowing from where the interface
+> > > > > +	 * has been called, whether it's called from gt/ or from
+> > > > > +	 * the parent directory.
+> > > > > +	 * From the interface position it depends also the value of
+> > > > > +	 * the private data.
+> > > > > +	 * If the interface is called from gt/ then private data is
+> > > > > +	 * of the "struct intel_gt *" type, otherwise it's * a
+> > > > > +	 * "struct drm_i915_private *" type.
+> > > > > +	 */
+> > > > > +	if (!is_object_gt(kobj)) {
+> > > > > +		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
+> > > > > +
+> > > > > +		pr_devel_ratelimited(DEPRECATED
+> > > > > +			"%s (pid %d) is accessing deprecated %s "
+> > > > > +			"sysfs control, please use gt/gt<n>/%s instead\n",
+> > > > > +			current->comm, task_pid_nr(current), name, name);
+> > > > > +		return to_gt(i915);
+> > > > > +	}
+> > > > > +
+> > > > > +	return kobj_to_gt(kobj);
+> > > > It took some time for me to understand what is going on here.
+> > > > We have dev argument which sometimes can point to "struct device", sometimes
+> > > > to "struct kobj_gt", but it's type suggests differently, quite ugly.
+> > > > I wonder if wouldn't be better to use __ATTR instead of DEVICE_ATTR* as in
+> > > > case of intel_engines_add_sysfs. This way abstractions would look better,
+> > > > hopefully.
+> > > How would it help?
+> > > 
+> > > The difference is that I'm adding twice different interfaces with
+> > > the same name and different location (i.e. different object). The
+> > > legacy intrefaces inherit the object from drm and I'm preserving
+> > > that reference.
+> > > 
+> > > While the new objects would derive from the previous and they are
+> > > pretty much like intel_engines_add_sysfs().
+> > 
+> > I was not clear on the issue. Here in case of 'id' attribute it is defined
+> > as device_attribute, but in kobj_type.sysfs_ops you assign formally
+> > incompatible &kobj_sysfs_ops.
 > 
-> On 3/13/22 8:41 AM, Noralf Trønnes wrote:
->>
->> Den 13.03.2022 15.10, skrev trix@redhat.com:
->>> From: Tom Rix <trix@redhat.com>
->>>
->>> repaper_spi_transfer() allocates a single byte
->>> for the spi header and then another buffer for
->>> the payload.  Combine the allocs into a single
->>> buffer with offsets.  To simplify the offsets
->>> put the header after the payload.
->>>
->>> Signed-off-by: Tom Rix <trix@redhat.com>
->>> ---
->>>   drivers/gpu/drm/tiny/repaper.c | 40 ++++++++++------------------------
->>>   1 file changed, 12 insertions(+), 28 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/tiny/repaper.c
->>> b/drivers/gpu/drm/tiny/repaper.c
->>> index 37b6bb90e46e1..22a6732f35a01 100644
->>> --- a/drivers/gpu/drm/tiny/repaper.c
->>> +++ b/drivers/gpu/drm/tiny/repaper.c
->>> @@ -100,50 +100,34 @@ static inline struct repaper_epd
->>> *drm_to_epd(struct drm_device *drm)
->>>   static int repaper_spi_transfer(struct spi_device *spi, u8 header,
->>>                   const void *tx, void *rx, size_t len)
->>>   {
->>> -    void *txbuf = NULL, *rxbuf = NULL;
->>>       struct spi_transfer tr[2] = {};
->>> -    u8 *headerbuf;
->>> +    u8 *buf;
->>>       int ret;
->>>   -    headerbuf = kmalloc(1, GFP_KERNEL);
->>> -    if (!headerbuf)
->>> +    buf = kmalloc(1 + len, GFP_KERNEL);
->>> +    if (!buf)
->>>           return -ENOMEM;
->>>   -    headerbuf[0] = header;
->>> -    tr[0].tx_buf = headerbuf;
->>> +    buf[len] = header;
->>> +    tr[0].tx_buf = &buf[len];
->> I don't think this will work since the buffer is used directly for DMA
->> on some platforms[1] so the buffers need to be at the correct alignment
->> for that to work. For this reason I think it's better to leave this
->> as-is since we know the kmalloc buffers will always be useable for DMA
->> and the code is also easy to read and understand instead of calculating
->> offsets.
->>
->> [1] tinydrm/mipi-dbi: Use dma-safe buffers for all SPI transfers
->> (a89bfc5d9a07)
->>
->> Noralf.
->>
->>>       tr[0].len = 1;
->>>   -    /* Stack allocated tx? */
->>> -    if (tx && len <= 32) {
+> 'kobj_sysfs_ops' is of the type 'kobj_type'.
 > 
-> How about a change to remove this ?
+> > kobj_sysfs_ops expects kobj_attribute! Fortunately kobj_attribute is 'binary
+> > compatible' with device_attribute and kobj is at beginning of struct device
+> > as well, so it does not blow up, but I wouldn't say it is clean solution :)
+> > If you look at intel_engines_add_sysfs you can see that all attributes are
+> > defined as kobj_attribute.
 > 
-> It seems like you are getting lucky.
+> That's exactly the approach I use in the next patches for the
+> power management files, I use "struct kobj_gt" wrapped around
+> "struct kobject". But I'm using that only for the GT files.
 > 
+> Are you, btw, suggesting to use this same approache also for the
+> legacy files that for now have a pointer to the drm kobject? This
+> way I would need to add more information, like the pointer to
+> i915 and gt_id. This way I wouldn't need the files above that
+> look hacky to you. Is this what you mean?
 
-Lucky how?
+Still this wouldn't solve it because I am merging the legacy
+interfaces to an existing kobject and creating new kobjects for
+the new interfaces that go under gt. I would need some other
+ugly hack to have things coming around.
 
-If tx len is 32 bytes or less it's config data which lives on the stack
-so it's put in a kmalloc buffer, if it's more it's pixel data which
-already comes in a kmalloc buffer.
+Unless I misunderstood you.
 
-Ideally we should have had a spi_sync_transfer_safe() that would check
-if the buffer comes from the stack and allocates buffers for us so the
-driver didn't have to do this. Alternatively the spi core could have
-done this, maybe spi_map_buf() could have done it since it already has
-special handling for vmalloc buffers.
-
-> reduce the to single txrx_buf
-> 
-
-I see that repaper_spi_transfer() is written so tx and rx can be both
-set, but the driver never does tx and rx in the same transfer so it's
-possible to use one txrx buffer. I'm not entirely convinced that it will
-be more readable.
-
-Noralf.
-
-> Tom
-> 
->>> -        txbuf = kmemdup(tx, len, GFP_KERNEL);
->>> -        if (!txbuf) {
->>> -            ret = -ENOMEM;
->>> -            goto out_free;
->>> -        }
->>> +    if (tx) {
->>> +        memcpy(buf, tx, len);
->>> +        tr[1].tx_buf = buf;
->>>       }
->>>   -    if (rx) {
->>> -        rxbuf = kmalloc(len, GFP_KERNEL);
->>> -        if (!rxbuf) {
->>> -            ret = -ENOMEM;
->>> -            goto out_free;
->>> -        }
->>> -    }
->>> +    if (rx)
->>> +        tr[1].rx_buf = buf;
->>>   -    tr[1].tx_buf = txbuf ? txbuf : tx;
->>> -    tr[1].rx_buf = rxbuf;
->>>       tr[1].len = len;
->>>         ndelay(80);
->>>       ret = spi_sync_transfer(spi, tr, 2);
->>>       if (rx && !ret)
->>> -        memcpy(rx, rxbuf, len);
->>> -
->>> -out_free:
->>> -    kfree(headerbuf);
->>> -    kfree(txbuf);
->>> -    kfree(rxbuf);
->>> +        memcpy(rx, buf, len);
->>>   +    kfree(buf);
->>>       return ret;
->>>   }
->>>   
-> 
+Andi
