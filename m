@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4290B4D7B71
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 08:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E734D7B72
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 08:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BA610E1C4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC02810E20B;
 	Mon, 14 Mar 2022 07:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2DB10E1D1
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 10:13:03 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id h14so22246030lfk.11
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 03:13:03 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B109893A3
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 16:14:55 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id h11so18644731ljb.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 09:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=m2Ai362wiP1vbbI9s63xOoA0fn/s0S5gwcjrtQUOdC0=;
- b=Xb2KG/qzbCzKWRqqkFkNLDfgZbNIdJq0K48cH98toOKzlr++cToOqHLTfu6dONqa9n
- E4l0UR2UGi2dW6U+ARQf6VscmLDjBYT3A6EBOGd34QBivuhQ9RVHylgsSjxO/MvlUgdt
- CkidXajy0njCyepY4aBdXlDLMRXsIf+1ufVPdpqE4qiu6v9tkMMfyW8I9CM1D0bUDg9A
- aXq1TrhMc8QyQSkfuf9tSJE5U4fJQanWybZm1Y8VW3ZDIilhUPWz2ho+TYbdl9cEDdVj
- gfW3YiVi62q8A8osD/oTlUEZVcwCH0A0RJuIqiH6blQyygQsyjDbr/zvU0m2Zjjngrow
- S/wA==
+ bh=MdfBfkBUpL2bSvoudLMFBEa9b6pECpCEDNH8K1hwrao=;
+ b=L2N2StlxKHhQG9J2PUUQ8BMT81Woo2WARfqwCCCaRsZCgYrB8qKZW7nYAVcxEV0MvG
+ tAmI14/Fy2JGdqKqs3PVqlGuqRQ8BpIEoEsS7WIDwUntQH4fhtauk18n+SdaBbTbknEg
+ T43aEH7UMyT7VepC/Q6G9X121xGeTZWPVzIIumRjSQd+j/Vsp8I3qJKLKqIHRBdZT7HA
+ IFOc9cqMtBzSi/mt6pNoqCZZ9zAy3mGmED4YPsP4Q4Bi1DVExMV9Xnghx4G6cvj1mZcn
+ G+f98Oe6HB9hQIR/VdLOmejfPMCiVKHSSa//IqLdDWqFJHs/Hn1z4ifHEnaaCzJ5VGYV
+ oyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=m2Ai362wiP1vbbI9s63xOoA0fn/s0S5gwcjrtQUOdC0=;
- b=2CKKdgAHcYmmZdmSLOALRLVM6Du2bmYBEH3rRbHtEBm1jSzB3BLrUoCwGo/XiIqN0D
- y5DHWk9uVSwbNxPRZYxjsuVJJfDZIkXLCa2TigwaDCwOaxZnPYmk/57hD6oL75PqoRTO
- BWVFsG7hvzMzZ3BKQ8YtJle3omhp7ZlkvTbwUmNSK4L3r73G1yoocCslIsV7rX4BmwhM
- FnA/9wJbMieteCvd/QQ7wp3X313NLZVGk/afxTkMwIl9kgVqlz9oetLqggLEjQN7CGKn
- JWvak9GFslmPXMyeT0hK2uW69qcUkD1+7VZVdr34cJWtpQqSrGLIi4IUao3OP99/BOSD
- tVbA==
-X-Gm-Message-State: AOAM533BvpELhKMdwqyAnrBvm8Gr2rOefMaS+of6XNGHSFSUsqVOpRxo
- pM6TBlL4p6RsZTGKzY46KS8=
-X-Google-Smtp-Source: ABdhPJyCp5AaYs+cO005a0E86TOpIdIPyD2467a87+CRiH9PN/jRXTTSeStgacBI42adrU6kiqdj6g==
-X-Received: by 2002:a05:6512:e90:b0:448:6d41:c736 with SMTP id
- bi16-20020a0565120e9000b004486d41c736mr7125972lfb.453.1647166381462; 
- Sun, 13 Mar 2022 03:13:01 -0700 (PDT)
+ bh=MdfBfkBUpL2bSvoudLMFBEa9b6pECpCEDNH8K1hwrao=;
+ b=E5JKSI0bFAiOLrEuoCAF0ZBJmboQhTYMCccc4t75Pwi5/tB3/tNTHPuagj67WFo1HK
+ dVDdDB6EFs8Ue2Tnce8UuaqLwySl/xHIMpwrA+2eqOxICqyRMu8hVEpPo18hSJ13y3AX
+ cZk8OLWiIsR9ILVOgDnBOAK4ucGYUGMxwV15BLJ38RgzkjIyt4dGNiCIT2UsQIpSP/1P
+ Fo7V4vE2Gjs7MGYBxZFlTA5KtwEbCZeVnfQnEEvFJa57/QWgP6DMArSI7v83XoCfnUEe
+ zs2j6UX2GS+mkoUVrPm5GeQcyQtrPI/MQkBy+j7wRZ58IgdRIfDvhStal+/eK2iilXEV
+ kScQ==
+X-Gm-Message-State: AOAM533Ei6a0UQ2LY6usAMo0VOVEJ0fDGJju9g4xtGtpxngTKm7LKtRf
+ 4R4Ji+ULxe2wu2ununsU2wQ=
+X-Google-Smtp-Source: ABdhPJywSUqzwjhi8sTT2bXMPlpeMIA9hr6XzmiR9VlakP+DJzJlrecpRXrO/NRoaY3lGt7mgYEN8Q==
+X-Received: by 2002:a2e:320c:0:b0:247:ec95:fdea with SMTP id
+ y12-20020a2e320c000000b00247ec95fdeamr11940110ljy.288.1647188093586; 
+ Sun, 13 Mar 2022 09:14:53 -0700 (PDT)
 Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
  [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
- bp4-20020a056512158400b0044332792f30sm2649522lfb.175.2022.03.13.03.13.00
+ f17-20020a2e1f11000000b00247f8eb86a7sm3158089ljf.108.2022.03.13.09.14.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 13 Mar 2022 03:13:01 -0700 (PDT)
+ Sun, 13 Mar 2022 09:14:53 -0700 (PDT)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
 Subject: Re: [PATCH] drm/bridge: synopsys/dw-hdmi: set cec clock rate
 From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <20220126202427.3047814-1-pgwipeout@gmail.com>
-Date: Sun, 13 Mar 2022 11:12:59 +0100
+In-Reply-To: <CAMdYzYq06QSmFAwCuTmBYy4LfQAQDxzx2PGc8HOB1iEjxXHGyg@mail.gmail.com>
+Date: Sun, 13 Mar 2022 17:14:49 +0100
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <3AFD1DD4-AF0A-4ECC-B4F5-E6BD6B9F1BB7@gmail.com>
+Message-Id: <E86F11A4-011B-43ED-90D2-BB6BA9353A3F@gmail.com>
 References: <20220126202427.3047814-1-pgwipeout@gmail.com>
+ <3AFD1DD4-AF0A-4ECC-B4F5-E6BD6B9F1BB7@gmail.com>
+ <CAMdYzYq06QSmFAwCuTmBYy4LfQAQDxzx2PGc8HOB1iEjxXHGyg@mail.gmail.com>
 To: Peter Geis <pgwipeout@gmail.com>
 X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-Mailman-Approved-At: Mon, 14 Mar 2022 07:20:36 +0000
@@ -88,67 +90,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 > Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w =
-dniu 26.01.2022, o godz. 21:24:
+dniu 13.03.2022, o godz. 13:56:
 >=20
-> The hdmi-cec clock must be 32khz in order for cec to work correctly.
-> Ensure after enabling the clock we set it in order for the hardware to
-> work as expected.
-> Warn on failure, in case this is a static clock that is slighty off.
-> Fixes hdmi-cec support on Rockchip devices.
+>>=20
 >=20
-> Fixes: ebe32c3e282a ("drm/bridge: synopsys/dw-hdmi: Enable cec clock")
+> I was worried about that, thanks for testing it.
+> Can you send me the cec_clk rate before and after this patch?
 >=20
-> Signed-off-by: Peter Geis <pgwipeout@gmail.com>
-> ---
-> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++++++
-> 1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
-b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 54d8fdad395f..1a96da60e357 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -48,6 +48,9 @@
->=20
-> #define HDMI14_MAX_TMDSCLK	340000000
->=20
-> +/* HDMI CEC needs a clock rate of 32khz */
-> +#define HDMI_CEC_CLK_RATE	32768
-> +
-> enum hdmi_datamap {
-> 	RGB444_8B =3D 0x01,
-> 	RGB444_10B =3D 0x03,
-> @@ -3347,6 +3350,10 @@ struct dw_hdmi *dw_hdmi_probe(struct =
-platform_device *pdev,
-> 				ret);
-> 			goto err_iahb;
-> 		}
-> +
-> +		ret =3D clk_set_rate(hdmi->cec_clk, HDMI_CEC_CLK_RATE);
-> +		if (ret)
-> +			dev_warn(hdmi->dev, "Cannot set HDMI cec clock =
-rate: %d\n", ret);
-> 	}
->=20
-> 	/* Product and revision IDs */
-> --=20
-> 2.25.1
->=20
->=20
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
-Peter,
+Here it is:
 
-On my 5.17-rc7 with applied rk356x VOP2 v8 series - this patch makes CEC =
-working on rk3566.
-Unfortunately it breaks working ok CEC on rk3399 rockpi-4b.
+working:
+                                 enable  prepare  protect                =
+                duty  hardware
+   clock                          count    count    count        rate   =
+accuracy phase  cycle    enable
+=
+--------------------------------------------------------------------------=
+-----------------------------
+clk_hdmi_cec                      1        2        0       32743        =
+  0     0  50000         Y
 
-Reverting this patch brings back CEC on rk3399 - but rk3366 becomes with =
-non working CEC
-=20
-I'm not sure how to move forward with this....
-=20
-br=
+
+
+non-working:
+                                 enable  prepare  protect                =
+                duty  hardware
+   clock                          count    count    count        rate   =
+accuracy phase  cycle    enable
+=
+--------------------------------------------------------------------------=
+-----------------------------
+clk_hdmi_cec                      1        2        0       32768        =
+  0     0  50000         Y
+
+
+
+dmesg
+[   52.745988] cec-dw_hdmi: message 44 timed out
+[   54.879307] cec-dw_hdmi: message 44 timed out
+[   57.012654] cec-dw_hdmi: message 88 timed out
+[   59.145973] cec-dw_hdmi: message 88 timed out
+
+
+
+player:
+2022-03-13 11:04:40.938355 E CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-03-13 11:04:40.938366 E CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+
