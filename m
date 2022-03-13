@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF894D739E
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 08:34:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0734D73A1
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 08:35:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838B910E087;
-	Sun, 13 Mar 2022 07:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5123610E4A9;
+	Sun, 13 Mar 2022 07:34:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095F710EA5F
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Mar 2022 15:27:18 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22CCRU4i017947; 
- Sat, 12 Mar 2022 15:27:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2021-07-09; bh=jfbNLTl7GzjDZERVcok4JsMqfBnV6PsTYk/IMnAwoaE=;
- b=cDuPwsZXCiSCo/lxxHmSbRF6Dp6/d7V8odsbTEZhzXkXO6e+NW/gTE7aZsyIq2s8rN9w
- pFNJgvmmr/zovWdsRrFPmTVBJF+EI9WncUDyb3GSUAkhhT42LpOcaoDCIWgof4Frbo4u
- wpuXxmqG6iLVIjrfS+jh8YjPASxrgGQ1L11ZaaDDq3gTOogYr45xaNfLM2T9sRGXIozX
- j9xpJXhS9krgnU47KB8IfJLyC7O+Ed+B7OwZzYDHeBjAXTOUv3ixhIdt8Z2knZjWzMFR
- FlQoNHc6RzOCYro24ZopSfynRR0+1JpYztNgvssPZQJKOj8D8l7RmVFj7bNvgODFzqB5 6g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3erm2t8msv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 12 Mar 2022 15:27:15 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22CFGgGF134208;
- Sat, 12 Mar 2022 15:27:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by userp3020.oracle.com with ESMTP id 3ermyg0vvv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 12 Mar 2022 15:27:13 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 22CFMxlK142703;
- Sat, 12 Mar 2022 15:27:13 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
- by userp3020.oracle.com with ESMTP id 3ermyg0vvt-1;
- Sat, 12 Mar 2022 15:27:13 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: 
-Subject: [PATCH] drm/v3d: Use kvcalloc
-Date: Sat, 12 Mar 2022 07:26:55 -0800
-Message-Id: <20220312152656.51625-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.31.1
+X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
+ Sun, 13 Mar 2022 04:16:54 UTC
+Received: from steinadler.informatik.uni-kiel.de
+ (steinadler.informatik.uni-kiel.de [134.245.248.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA7C10E587
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 04:16:54 +0000 (UTC)
+Received: from turmfalke.informatik.uni-kiel.de
+ (turmfalke.informatik.uni-kiel.de [134.245.248.192])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by steinadler.informatik.uni-kiel.de (Postfix) with ESMTPS id 1BA294F21D;
+ Sun, 13 Mar 2022 05:10:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=informatik.uni-kiel.de; s=ifi-20210612; t=1647144647;
+ bh=W9HDHcEzEpFvzza8dvi7X2bCCyAQ1Mva7vq2q/p8tMU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=TAraovuX8thxFemrbJf6cPKTdEqEatREk3waIgh8dW1mC+VEtQZkdZ0iLoPstof/P
+ k8Ywk4dX0OEtO7eOvlDuo0i016ykaMkxw1DfO6dHJaXP4eHe4h2Fxyp4pxKo0/vV42
+ vVE5YliJQChck0fy255rcRJXP7tduf1sf99KHRo/2/6OBInnV5AWBRvih/MyIPqZYJ
+ o9hahjfCWO+WRpnE5BPBexHHN+jI26mbnDvjEb3LBlT4U+3XncdJgcd+CgodU4LD2g
+ bmcD9l7u3Lnx4JRV1Gi3kY2nGDn7gQiN9peCym5sVh0xkrS6d1cvgC+VhozEJZFRKJ
+ wYj7CkZ3riYtA==
+Received: from localhost (p54ad5b1d.dip0.t-ipconnect.de [84.173.91.29])
+ (authenticated bits=0)
+ by turmfalke.informatik.uni-kiel.de (8.17.1/8.16.1) with ESMTPSA id
+ 22D4AiLO057300
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+ Sun, 13 Mar 2022 05:10:46 +0100 (CET)
+ (envelope-from psi@informatik.uni-kiel.de)
+X-Authentication-Warning: turmfalke.informatik.uni-kiel.de: Host
+ p54ad5b1d.dip0.t-ipconnect.de [84.173.91.29] claimed to be localhost
+From: Philipp Sieweck <psi@informatik.uni-kiel.de>
+To: linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Propagate error on failed ioctl
+Date: Sun, 13 Mar 2022 06:06:55 +0100
+Message-Id: <20220313050655.52199-1-psi@informatik.uni-kiel.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: fyYtQ-N5xE1S2b_SZs_EiEHN1pTNQlkW
-X-Proofpoint-ORIG-GUID: fyYtQ-N5xE1S2b_SZs_EiEHN1pTNQlkW
 X-Mailman-Approved-At: Sun, 13 Mar 2022 07:34:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,35 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dan.carpenter@oracle.com
+Cc: Philipp Sieweck <psi@informatik.uni-kiel.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kvcalloc is same as kvmalloc_array + __GFP_ZERO.
+The cases of vmw_user_bo_synccpu_grab failing with -ERESTARTSYS or -EBUSY
+are handled in vmw_user_bo_synccpu_ioctl by not printing an error message.
+However, the error value gets discarded, indicating success. This leads
+to rendering glitches and a reported drm error on the next ioctl call to
+release the handle.
 
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+This patch propagates the error value from vmw_user_synccpu_grab.
+
+Signed-off-by: Philipp Sieweck <psi@informatik.uni-kiel.de>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index c7ed2e1cbab6..f7d37228461e 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -308,9 +308,8 @@ v3d_lookup_bos(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
--	job->bo = kvmalloc_array(job->bo_count,
--				 sizeof(struct drm_gem_cma_object *),
--				 GFP_KERNEL | __GFP_ZERO);
-+	job->bo = kvcalloc(job->bo_count, sizeof(struct drm_gem_cma_object *),
-+			   GFP_KERNEL);
- 	if (!job->bo) {
- 		DRM_DEBUG("Failed to allocate validated BO pointers\n");
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 31aecc46624b..81fe4dc5e6ab 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -621,6 +621,8 @@ int vmw_user_bo_synccpu_ioctl(struct drm_device *dev, void *data,
+ 				  (unsigned int) arg->handle);
+ 			return ret;
+ 		}
++		if (unlikely(ret != 0))
++			return ret;
+ 		break;
+ 	case drm_vmw_synccpu_release:
+ 		ret = vmw_user_bo_synccpu_release(file_priv,
 -- 
-2.31.1
+2.35.1
 
