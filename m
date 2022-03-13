@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F389B4D7805
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 20:45:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 443524D7823
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Mar 2022 21:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF4B10E3B1;
-	Sun, 13 Mar 2022 19:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C84810E57B;
+	Sun, 13 Mar 2022 20:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAB4A10E3B1;
- Sun, 13 Mar 2022 19:45:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647200732; x=1678736732;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bPIFLssgx++OS/4WZPUancrMQ1rcvGvcJDA0dQ7kXEA=;
- b=l4pE2rBgxsQbJWKS/ZGrs4W2037odXZ/gykERwwk0N1BJZgCdn3g/Tnc
- gVcU4aHvj2s/aMt85lVigFm/Q//mgQYnmRq0PRzQfrHjwiliqjq+obiJs
- 9GJzPwzFLMZecB48qXHFCorvWP1jOxQEWE/mIaLYYDIubPx8DVI/uGp0n
- P91MPBJy3aOhYLpAsvP6Jk04NISjleY9in2gfz1CB8sn+Hi4UY+94J2pU
- nFZQJy2yOOc6feslO/IYD+kJgxXYdlExtAYbcDCBvspRmBARv70JDzR8F
- QcxAglXc/uwT+Ux2EYmKXk0d7ij1E3dLOmPokxuqCXTuOB2T/xXhf20/L g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="342320453"
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="342320453"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 12:45:32 -0700
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="556101602"
-Received: from gionascu-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.251.220.31])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 12:45:27 -0700
-Date: Sun, 13 Mar 2022 21:45:24 +0200
-From: Andi Shyti <andi.shyti@intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v5 4/7] drm/i915/gt: create per-tile sysfs interface
-Message-ID: <Yi5J1HB5uypRUIW+@intel.intel>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-5-andi.shyti@linux.intel.com>
- <e096ed88-ec87-b45c-22ba-80d48f480808@intel.com>
- <YiU9+uRCzJAZlcRh@intel.intel>
- <70f07f08-36d8-0af8-adce-a3a4c780527c@intel.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE0C10E57B
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Mar 2022 20:08:36 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 17416837E2;
+ Sun, 13 Mar 2022 21:08:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1647202113;
+ bh=w1jJZh9+R3ULASRh7kNzwXoMEt0pT3/PTMAk2m6tr3g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DqhrbbQj4RyjUZjlsz6ZzgDc5mmJ4jJKJkUS3NVHbUMwbQAgl1i+N9GCljHvZG4MC
+ AHlUht/m9Z4zs5+rKiiKQavk1MGrHmh/bK1DS9hnNHHZwCgcAhlX4CtrHN2sph/dMN
+ xPOzFWiCAngAzv4jDo2qeTGo+j/10RJrPCbn6S+K50F2bL+/nGENQCW9tLiHTCKaWh
+ x0QJ5Rahh1gJuOSb1SXBlhDMpH/nb7h+xa4/kw6jD0PY7z8UIFpDT/rGBxtHsKbSrQ
+ zwyEBoOANmRgvW7Mwvce9ibAGLIX0/wfa5jcwMwsD9Zu3JVxL92Mewjs9dtX+zmRNM
+ 7yceJfyMwY0uQ==
+Message-ID: <9bd6ba77-6cf0-2101-ae40-8f1f76a942cb@denx.de>
+Date: Sun, 13 Mar 2022 21:08:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <70f07f08-36d8-0af8-adce-a3a4c780527c@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: ldb: Implement simple
+ NXP i.MX8M LDB bridge
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20220313123852.207257-1-marex@denx.de>
+ <9bda9a09-ec0a-0b6f-56b1-dff18821aa5d@kernel.org>
+ <a8a0278c-92f0-bd9c-927f-b8ee729251af@denx.de>
+ <9a5938fa-3783-9e5a-74f0-639372480e4a@kernel.org>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <9a5938fa-3783-9e5a-74f0-639372480e4a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +60,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Maxime Ripard <maxime@cerno.tech>, Robert Foss <robert.foss@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
-
-I'm sorry, but I'm not fully understanding,
-
-> > > > +struct intel_gt *intel_gt_sysfs_get_drvdata(struct device *dev,
-> > > > +					    const char *name)
-> > > > +{
-> > > > +	struct kobject *kobj = &dev->kobj;
-> > > > +
-> > > > +	/*
-> > > > +	 * We are interested at knowing from where the interface
-> > > > +	 * has been called, whether it's called from gt/ or from
-> > > > +	 * the parent directory.
-> > > > +	 * From the interface position it depends also the value of
-> > > > +	 * the private data.
-> > > > +	 * If the interface is called from gt/ then private data is
-> > > > +	 * of the "struct intel_gt *" type, otherwise it's * a
-> > > > +	 * "struct drm_i915_private *" type.
-> > > > +	 */
-> > > > +	if (!is_object_gt(kobj)) {
-> > > > +		struct drm_i915_private *i915 = kdev_minor_to_i915(dev);
-> > > > +
-> > > > +		pr_devel_ratelimited(DEPRECATED
-> > > > +			"%s (pid %d) is accessing deprecated %s "
-> > > > +			"sysfs control, please use gt/gt<n>/%s instead\n",
-> > > > +			current->comm, task_pid_nr(current), name, name);
-> > > > +		return to_gt(i915);
-> > > > +	}
-> > > > +
-> > > > +	return kobj_to_gt(kobj);
-> > > It took some time for me to understand what is going on here.
-> > > We have dev argument which sometimes can point to "struct device", sometimes
-> > > to "struct kobj_gt", but it's type suggests differently, quite ugly.
-> > > I wonder if wouldn't be better to use __ATTR instead of DEVICE_ATTR* as in
-> > > case of intel_engines_add_sysfs. This way abstractions would look better,
-> > > hopefully.
-> > How would it help?
-> > 
-> > The difference is that I'm adding twice different interfaces with
-> > the same name and different location (i.e. different object). The
-> > legacy intrefaces inherit the object from drm and I'm preserving
-> > that reference.
-> > 
-> > While the new objects would derive from the previous and they are
-> > pretty much like intel_engines_add_sysfs().
+On 3/13/22 18:50, Krzysztof Kozlowski wrote:
+> On 13/03/2022 18:09, Marek Vasut wrote:
+>> On 3/13/22 16:47, Krzysztof Kozlowski wrote:
+>>
+>> Hi,
+>>
+>> [...]
+>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+>>>> new file mode 100644
+>>>> index 0000000000000..a05dd05547836
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+>>>> @@ -0,0 +1,99 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/display/bridge/nxp,ldb.yaml#
+>>>
+>>> In title, description and commit msg you point this is specific to
+>>> i.MX8M, so maybe reflect it in the file name as well.
+>>
+>> That's how it is so far, however NXP does recycle their IPs quite a bit
+>> so I don't want to encode the SoC type into the bindings file name. I do
+>> expect them to re-use this bridge somewhere else sooner rather than later.
+>>
+>> [...]
+>>
+>> The rest is fixed.
+>>
+>> [...]
+>>
+>>>> +examples:
+>>>> +  - |
+>>>> +    #include <dt-bindings/clock/imx8mp-clock.h>
+>>>> +
+>>>> +    lvds-ldb {
+>>>
+>>> Generic node name, so "bridge" or "display-bridge"
+>>>
+>>>> +        #address-cells = <0>;
+>>>> +        #size-cells = <0>;
+>>>
+>>> Why do you need address and size cells? This will complain if you test
+>>> your bindings with proper compatible.
+>>
+>> Because the subnodes of this bridge have no dimension, so address/size
+>> cells = 0.
+>>
+>> I don't understand the second part about "proper compatible", can you
+>> elaborate ?
 > 
-> I was not clear on the issue. Here in case of 'id' attribute it is defined
-> as device_attribute, but in kobj_type.sysfs_ops you assign formally
-> incompatible &kobj_sysfs_ops.
+> You have wrong compatible in example and in bindings, so you do not see
+> the error of address/size cells.
+> 
+> They are also not required in your example, since you do not have unit
+> address. Otherwise your lvds-ldb node would be wrong (see its
+> address/size cells).
+> 
+> If you supply address-cells you should see a W=1 warning:
+> #address-cells/#size-cells without "ranges" or child "reg" property
 
-'kobj_sysfs_ops' is of the type 'kobj_type'.
-
-> kobj_sysfs_ops expects kobj_attribute! Fortunately kobj_attribute is 'binary
-> compatible' with device_attribute and kobj is at beginning of struct device
-> as well, so it does not blow up, but I wouldn't say it is clean solution :)
-> If you look at intel_engines_add_sysfs you can see that all attributes are
-> defined as kobj_attribute.
-
-That's exactly the approach I use in the next patches for the
-power management files, I use "struct kobj_gt" wrapped around
-"struct kobject". But I'm using that only for the GT files.
-
-Are you, btw, suggesting to use this same approache also for the
-legacy files that for now have a pointer to the drm kobject? This
-way I would need to add more information, like the pointer to
-i915 and gt_id. This way I wouldn't need the files above that
-look hacky to you. Is this what you mean?
-
-Andi
+Ah, right, both are fixed now. I'll wait a bit for more feedback esp. on 
+the bridge driver and send a V2.
