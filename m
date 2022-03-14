@@ -2,40 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078FB4D8E7D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 21:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CC74D8E80
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 21:57:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9760710E195;
-	Mon, 14 Mar 2022 20:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E17C10E1B6;
+	Mon, 14 Mar 2022 20:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED08710E195
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 20:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1647291298; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uz2k5nUu1Gg2qptwTocuJgcWPtTBxTEHiT3pqQ3nMhg=;
- b=1VrvD6lxUP9r1QEUUnDIj9wF1x/SY8hEdzy2a5HAbjQAkp4cqYUKTFNd7jMIIEK+YEuz1j
- y4QxQ7SCaCwzBY0qs8boPPrkDGmJfxKSbnf627nIyRLqwpB2835bEEzLN0BAxeZqPOZiWH
- ibkOqHMFy0gytAs+ZpPZPVEaU+L6QNM=
-Date: Mon, 14 Mar 2022 20:54:43 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v1 3/3] drm/panel : innolux-ej030na and abt-y030xx067a :
- add .enable and .disable
-To: Christophe Branchereau <cbranchereau@gmail.com>
-Message-Id: <736R8R.46MVQ2VHV6IY1@crapouillou.net>
-In-Reply-To: <CAFsFa85Wb7HcxCqGCYQoSOHOTLJY9xtUHc85PoxO3XTbr=HN4g@mail.gmail.com>
-References: <20220301153122.20660-1-cbranchereau@gmail.com>
- <20220301153122.20660-4-cbranchereau@gmail.com>
- <VM548R.0I9BAN681OS83@crapouillou.net>
- <CAFsFa85Wb7HcxCqGCYQoSOHOTLJY9xtUHc85PoxO3XTbr=HN4g@mail.gmail.com>
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C524D10E1B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 20:56:59 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id a14so14278740qtx.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:56:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BmG2yYfE0o7/L9fLZmp2P49FR3lsd0GCX3VrEQxdEUg=;
+ b=RHb92V8cw2EevhOWlJ/YaSkvRlFXFfpi3S41PtCpux6svUpky/OCuv5zm+Jn8Z6Kpv
+ DAKmiYdoDV2jKZUqU6J4cehK5VD3UfJjZ0TgTtfkzu4aN/aYxkiG0WuprFiY8Un3SQSn
+ c4YNyVIcqn+RPQ6U5ZgStNWcY0cb6VRNC9xt2GXfrkZ2/asArteJ5AHgkyTiWcIWJ7mK
+ 1JPY2GjgaX80FI6wGD/XFZZZyFRUPrd/XI96GqxyBZomk9qE+jzi/cRj3gQC7FT/Guso
+ zhrx9uHz0/q60URGXkQQPGJIwXh6QWyrXloLgatkv2V40tfpp6dWzB0q+enZgvLTn50Y
+ wGEA==
+X-Gm-Message-State: AOAM532Mr02ukprmJiIzW4ANomT5WWAoyCSPtJ0XfNHd4MXccAvU1z3Q
+ ybKqVrB1mxjeDMN1mRwNUyTu10KoKPURQA==
+X-Google-Smtp-Source: ABdhPJymmxRUBhfodbUJ7nD7W4iRvcmn3hC9NtX7QurSU9wIoy8aDRjE50s+Z8wBrtosaqvumilm5g==
+X-Received: by 2002:ac8:5b15:0:b0:2e1:d84f:1151 with SMTP id
+ m21-20020ac85b15000000b002e1d84f1151mr3044825qtw.364.1647291418728; 
+ Mon, 14 Mar 2022 13:56:58 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a05622a148e00b002e0657e20basm11560148qtx.1.2022.03.14.13.56.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 13:56:57 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id o5so4441774ybe.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:56:57 -0700 (PDT)
+X-Received: by 2002:a25:dc4:0:b0:629:2337:f9ea with SMTP id
+ 187-20020a250dc4000000b006292337f9eamr19641831ybn.6.1647291417430; Mon, 14
+ Mar 2022 13:56:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20220313192952.12058-1-tzimmermann@suse.de>
+ <20220313192952.12058-2-tzimmermann@suse.de>
+In-Reply-To: <20220313192952.12058-2-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 14 Mar 2022 21:56:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWqZ3HgUe1b3bpjWmFLKm4dTrfAioD2Hk8H5iDaY4C-yw@mail.gmail.com>
+Message-ID: <CAMuHMdWqZ3HgUe1b3bpjWmFLKm4dTrfAioD2Hk8H5iDaY4C-yw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fbdev: Fix sys_imageblit() for arbitrary image widths
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,194 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
+Hi Thomas,
 
-Le lun., mars 7 2022 at 19:12:49 +0100, Christophe Branchereau=20
-<cbranchereau@gmail.com> a =E9crit :
-> Hi Paul, it should in theory, but doesn't work in practice, the
-> display doesn't like having that bit set outside of the init sequence.
->=20
-> Feel free to experiment if you think you can make it work though, you
-> should have that panel on 1 or 2 devices I think.
+On Sun, Mar 13, 2022 at 8:29 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Commit 6f29e04938bf ("fbdev: Improve performance of sys_imageblit()")
+> broke sys_imageblit() for image width that are not aligned to 8-bit
+> boundaries. Fix this by handling the trailing pixels on each line
+> separately. The performance improvements in the original commit do not
+> regress by this change.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-It does actually work in practice; what probably fails for you is the=20
-regmap_set_bits(), which causes a spi-read-then-write. Since AFAIK it=20
-is not possible to read registers from this panel (only write), then=20
-this does not work.
+Thanks for fixing! This was very valuable for hammering the bugs
+out of ssd130xdrm and the xrgb888-to-mono conversion...
 
-An easy fix would be to just use REGCACHE_FLAT as the cache type in the=20
-regmap_config. Then regmap_set_bits() can be used.
+Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Cheers,
--Paul
+Gr{oetje,eeting}s,
 
->=20
-> KR
-> CB
->=20
-> On Wed, Mar 2, 2022 at 12:22 PM Paul Cercueil <paul@crapouillou.net>=20
-> wrote:
->>=20
->>  Hi Christophe,
->>=20
->>  Le mar., mars 1 2022 at 16:31:22 +0100, Christophe Branchereau
->>  <cbranchereau@gmail.com> a =E9crit :
->>  > Following the introduction of bridge_atomic_enable in the ingenic
->>  > drm driver, the crtc is enabled between .prepare and .enable, if
->>  > it exists.
->>  >
->>  > Add it so the backlight is only enabled after the crtc is, to=20
->> avoid
->>  > graphical issues.
->>  >
->>  > Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
->>  > ---
->>  >  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 23 ++++++++++++--
->>  >  drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31
->>  > ++++++++++++++++---
->>  >  2 files changed, 48 insertions(+), 6 deletions(-)
->>  >
->>  > diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
->>  > b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
->>  > index f043b484055b..b5736344e3ec 100644
->>  > --- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
->>  > +++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
->>  > @@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel
->>  > *panel)
->>  >               goto err_disable_regulator;
->>  >       }
->>  >
->>  > -     msleep(120);
->>  > -
->>  >       return 0;
->>  >
->>  >  err_disable_regulator:
->>  > @@ -202,6 +200,25 @@ static int y030xx067a_unprepare(struct=20
->> drm_panel
->>  > *panel)
->>  >       return 0;
->>  >  }
->>  >
->>  > +static int y030xx067a_enable(struct drm_panel *panel)
->>  > +{
->>  > +     if (panel->backlight) {
->>  > +             /* Wait for the picture to be ready before enabling=20
->> backlight */
->>  > +             msleep(120);
->>  > +     }
->>  > +
->>  > +     return 0;
->>  > +}
->>  > +
->>  > +static int y030xx067a_disable(struct drm_panel *panel)
->>  > +{
->>  > +     struct y030xx067a *priv =3D to_y030xx067a(panel);
->>  > +
->>  > +     regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
->>=20
->>  Shouldn't that be balanced by a regmap_set_bits() in the .enable()
->>  function?
->>=20
->>  Cheers,
->>  -Paul
->>=20
->>  > +
->>  > +     return 0;
->>  > +}
->>  > +
->>  >  static int y030xx067a_get_modes(struct drm_panel *panel,
->>  >                               struct drm_connector *connector)
->>  >  {
->>  > @@ -239,6 +256,8 @@ static int y030xx067a_get_modes(struct=20
->> drm_panel
->>  > *panel,
->>  >  static const struct drm_panel_funcs y030xx067a_funcs =3D {
->>  >       .prepare        =3D y030xx067a_prepare,
->>  >       .unprepare      =3D y030xx067a_unprepare,
->>  > +     .enable         =3D y030xx067a_enable,
->>  > +     .disable        =3D y030xx067a_disable,
->>  >       .get_modes      =3D y030xx067a_get_modes,
->>  >  };
->>  >
->>  > diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
->>  > b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
->>  > index c558de3f99be..6de7370185cd 100644
->>  > --- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
->>  > +++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
->>  > @@ -80,8 +80,6 @@ static const struct reg_sequence
->>  > ej030na_init_sequence[] =3D {
->>  >       { 0x47, 0x08 },
->>  >       { 0x48, 0x0f },
->>  >       { 0x49, 0x0f },
->>  > -
->>  > -     { 0x2b, 0x01 },
->>  >  };
->>  >
->>  >  static int ej030na_prepare(struct drm_panel *panel)
->>  > @@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel
->>  > *panel)
->>  >               goto err_disable_regulator;
->>  >       }
->>  >
->>  > -     msleep(120);
->>  > -
->>  >       return 0;
->>  >
->>  >  err_disable_regulator:
->>  > @@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel
->>  > *panel)
->>  >       return 0;
->>  >  }
->>  >
->>  > +static int ej030na_enable(struct drm_panel *panel)
->>  > +{
->>  > +     struct ej030na *priv =3D to_ej030na(panel);
->>  > +
->>  > +     /* standby off */
->>  > +     regmap_write(priv->map, 0x2b, 0x01);
->>  > +
->>  > +     if (panel->backlight) {
->>  > +             /* Wait for the picture to be ready before enabling=20
->> backlight */
->>  > +             msleep(120);
->>  > +     }
->>  > +
->>  > +     return 0;
->>  > +}
->>  > +
->>  > +static int ej030na_disable(struct drm_panel *panel)
->>  > +{
->>  > +     struct ej030na *priv =3D to_ej030na(panel);
->>  > +
->>  > +     /* standby on */
->>  > +     regmap_write(priv->map, 0x2b, 0x00);
->>  > +
->>  > +     return 0;
->>  > +}
->>  > +
->>  >  static int ej030na_get_modes(struct drm_panel *panel,
->>  >                            struct drm_connector *connector)
->>  >  {
->>  > @@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel
->>  > *panel,
->>  >  static const struct drm_panel_funcs ej030na_funcs =3D {
->>  >       .prepare        =3D ej030na_prepare,
->>  >       .unprepare      =3D ej030na_unprepare,
->>  > +     .enable         =3D ej030na_enable,
->>  > +     .disable        =3D ej030na_disable,
->>  >       .get_modes      =3D ej030na_get_modes,
->>  >  };
->>  >
->>  > --
->>  > 2.34.1
->>  >
->>=20
->>=20
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
