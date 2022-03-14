@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D84E4D85B2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 14:07:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 698D44D85ED
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 14:30:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6957510E641;
-	Mon, 14 Mar 2022 13:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB77D10EBBA;
+	Mon, 14 Mar 2022 13:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C987510E641
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:07:04 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id eq14so12435348qvb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:07:04 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 100B410EBBE
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:30:34 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id kk16so12479622qvb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:30:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NYteRwSae/wJ7882hcALEO6X99QTJhfde3GnJEVnXW0=;
- b=ZAQZ1dKpPc828CPxb8aHP1b6+DTJsSW4mXMZ4S1njxYBUuNp5eSmITSK80iKoEW1Tu
- IPitIgq20I6GYoDSVKZ6OER/7N3FolMSsfAGJfNNAQ2Qgb6f0+W2pgRm2wzpO9JNNi87
- pgShTsgU6hguTtUCGmwrlqgqz17Fg96/br24Pe0dvacCYFiTdl2UXigoUrkJVb6vCJbI
- 46SFKtPc79bc8aQlj15xq+PewNtV5cT45QvZW7yvqVQm79OfZ6e2qW6VWBGyf2gBEJa6
- +/J4r6cpqgZn1JCFB9MWsujPeHzYRGjmNYOFAwPHWkSMsv/TRG4jzxGgsK58iJLrCQCc
- uiRQ==
-X-Gm-Message-State: AOAM531vju4ykgTD2GFi3bIttOFSmLSfV4QHu/W4E1PL5oWsGQbm4904
- 6eM/EzmegJdeBN9wBfkatm+yIl6rPHn5Nw==
-X-Google-Smtp-Source: ABdhPJxgSih4t9MYgGJhRK7nNHxZJuXtdrLA+eZZYpBWRl1QqBVxZj9AAURJxmiH3My8c0f/uHmC/g==
-X-Received: by 2002:a05:6214:23c8:b0:432:e69f:5d77 with SMTP id
- hr8-20020a05621423c800b00432e69f5d77mr16966181qvb.7.1647263223317; 
- Mon, 14 Mar 2022 06:07:03 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
- [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
- n131-20020a372789000000b0067bce1ac001sm8019317qkn.71.2022.03.14.06.07.03
+ bh=7ESmoGYKvForOfgnFNNl3bul8J0TvzMfyrdSY3ncE6E=;
+ b=ShuWJ+ZsQ+xgL9itjg9s2b6IF9Iq7xT0Ve6lJAF3LUTakRTA75y4HwiUnr2LTQUGEx
+ BrpBmLZxYAMb3VGL8UimrYBIrbdVsTP9TbeHMwDYKvZnc+B21yiTN07kE4XzLSIKKpF2
+ CVjxqkwFcpgrhXJq09JP8YFBhnwFSXpnXvSZFk+fzhmrrqxfNAH9kmOgUd5CPOOetqJM
+ KwLj0+hQW8VIu2U/WHRCIbaMmLUN63ZteqBdhtmLdCrU5/x2ZSXsamVa0Znc23FlBy2s
+ f+6ggSjyWc+C77zGruCtj03Gc7P0WE8wUgWoDzTKkc0XRlrTOluticX+3/cPEAPRfUEX
+ omfw==
+X-Gm-Message-State: AOAM530izMBrF2JMO9jr+LwCmu0to2SkA60VhksNj8uGqG1YXbf0FTP0
+ ZqAguxOs9ZgQ4FqQ2tpKC4WG+ty7rMAlkg==
+X-Google-Smtp-Source: ABdhPJzQn9h68V6T5NjpLM6mkRsI4V0c2skTV4IWoOv6xm0cLAsBCQCVvhxi409HfFUCbMCtDzR0eA==
+X-Received: by 2002:a05:6214:1cc2:b0:435:7195:784f with SMTP id
+ g2-20020a0562141cc200b004357195784fmr17290240qvd.59.1647264632275; 
+ Mon, 14 Mar 2022 06:30:32 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ p7-20020a05622a13c700b002de9f3894c2sm11558901qtk.50.2022.03.14.06.30.30
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 06:07:03 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-2e51609648cso70166017b3.10
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:07:03 -0700 (PDT)
-X-Received: by 2002:a81:5a08:0:b0:2db:d8c6:7e4f with SMTP id
- o8-20020a815a08000000b002dbd8c67e4fmr18671807ywb.256.1647263222744; Mon, 14
- Mar 2022 06:07:02 -0700 (PDT)
+ Mon, 14 Mar 2022 06:30:31 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-2e5757b57caso7314227b3.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:30:30 -0700 (PDT)
+X-Received: by 2002:a0d:f1c7:0:b0:2db:d2bc:be11 with SMTP id
+ a190-20020a0df1c7000000b002dbd2bcbe11mr18928111ywf.62.1647264630398; Mon, 14
+ Mar 2022 06:30:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1646683737.git.geert@linux-m68k.org>
- <cc84f1fcd0901ba58a2e4fd34c43846c622fd157.1646683737.git.geert@linux-m68k.org>
- <CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com>
- <CAMuHMdWbss2TY0J44PitLGCmCOBKcF0QrPv6CKe1r=2qD0+YLA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWbss2TY0J44PitLGCmCOBKcF0QrPv6CKe1r=2qD0+YLA@mail.gmail.com>
+References: <cover.1646683502.git.geert@linux-m68k.org>
+ <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
+In-Reply-To: <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 14 Mar 2022 14:06:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUFfe5sekY9vDNRL0AP5_9_h4wiyPcsYywdNsKaTFsHmA@mail.gmail.com>
-Message-ID: <CAMuHMdUFfe5sekY9vDNRL0AP5_9_h4wiyPcsYywdNsKaTFsHmA@mail.gmail.com>
-Subject: Re: [PATCH libdrm 3/3] util: Add SMPTE pattern support for C4 format
-To: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Mon, 14 Mar 2022 14:30:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVq19wpA_7nKKTm-G2EmK3cMxxP6nbR_u=vkazqCZ=KhQ@mail.gmail.com>
+Message-ID: <CAMuHMdVq19wpA_7nKKTm-G2EmK3cMxxP6nbR_u=vkazqCZ=KhQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] drm/fourcc: Add DRM_FORMAT_C[124]
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,60 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ilia,
+On Mon, Mar 7, 2022 at 9:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> Introduce fourcc codes for color-indexed frame buffer formats with two,
+> four, and sixteen colors, and provide a mapping from bit per pixel and
+> depth to fourcc codes.
+>
+> As the number of bits per pixel is less than eight, these rely on proper
+> block handling for the calculation of bits per pixel and pitch.
+>
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-On Tue, Mar 8, 2022 at 8:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Mar 7, 2022 at 10:23 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> > On Mon, Mar 7, 2022 at 3:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-> > > index 953bf95492ee150c..42d75d700700dc3d 100644
-> > > --- a/tests/util/pattern.c
-> > > +++ b/tests/util/pattern.c
-> > > @@ -608,6 +608,46 @@ static void fill_smpte_rgb16fp(const struct util_rgb_info *rgb, void *mem,
-> > >  static unsigned int smpte_middle[7] = { 6, 7, 4, 7, 2, 7, 0 };
-> > >  static unsigned int smpte_bottom[8] = { 8, 9, 10, 7, 11, 7, 12, 7 };
-> > >
-> > > +static void write_pixel_4(uint8_t *mem, unsigned int x, unsigned int pixel)
-> > > +{
-> > > +       if (x & 1)
-> > > +               mem[x / 2] = (mem[x / 2] & 0xf0) | (pixel & 0x0f);
-> > > +       else
-> > > +               mem[x / 2] = (mem[x / 2] & 0x0f) | (pixel << 4);
-> > > +}
-> >
-> > The standard layout is MSB? i.e. first pixel goes in the upper bits of
-> > the first byte? It's been ages since I've dealt with C4 (or perhaps I
-> > never even touched it), but this seems a bit surprising.
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -99,7 +99,10 @@ extern "C" {
+>  #define DRM_FORMAT_INVALID     0
 >
-> Exactly. All register documentation I've ever seen shows the MSB on
-> the left, i.e. for bytes:
+>  /* color index */
+> -#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
+> +#define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /* [7:0] C0:C1:C2:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte */
+> +#define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /* [7:0] C0:C1:C2:C3 2:2:2:2 four pixels/byte */
+> +#define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:4 two pixels/byte */
+> +#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C 8 one pixel/byte */
 >
->      MSB                         LSB
->     +---+---+---+---+---+---+---+---+
->     | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
->     +---+---+---+---+---+---+---+---+
->
-> IBM used to count bits in the reverse order, but still had MSB left:
->
->      MSB                         LSB
->     +---+---+---+---+---+---+---+---+
->     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
->     +---+---+---+---+---+---+---+---+
->
-> If the reverse ordering of pixels is ever needed, a new fourcc code can
-> be introduced.  Note that the fbdev API has support for both orderings
-> (see fb_bitfield.msb_right), but no driver ever sets msb_right = 1,
-> hence the fbdev core doesn't support it yet.
+>  /* 8 bpp Red */
+>  #define DRM_FORMAT_R8          fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
 
-Turns out I was wrong: fbdev ordering follows native ordering, and
-there's also FBINFO_FOREIGN_ENDIAN  :-(
+After replying to Ilia's comment[1], I realized the CFB drawing
+operations use native byte and bit ordering, unless
+FBINFO_FOREIGN_ENDIAN is set.
+While Amiga, Atari, and Sun-3 use big-endian bit ordering,
+e.g. Acorn VIDC[2] uses little endian, and SH7760[3] is configurable
+(sh7760fb configures ordering to match host order).
+BTW, ssd130{7fb,x}_update_rect() both assume little-endian, so I
+guess they are broken on big-endian.
+Fbtest uses big-endian bit ordering, so < 8 bpp is probably broken
+on little-endian.
 
-I'll reply to the thread that introduced the format.
-https://lore.kernel.org/all/8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org/
+Hence the above should become:
+
+    #define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /*
+[7:0] C7:C6:C5:C4:C3:C2:C1:C0 1:1:1:1:1:1:1:1 eight pixels/byte */
+    #define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /*
+[7:0] C3:C2:C1:C0 2:2:2:2 four pixels/byte */
+    #define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /*
+[7:0] C1:C0 4:4 two pixels/byte */
+
+The same changes should be made for DRM_FORMAT_[RD][124].
+
+The fbdev emulation code should gain support for these with and without
+DRM_FORMAT_BIG_ENDIAN, the latter perhaps only on big-endian platforms?
+
+[1] https://lore.kernel.org/r/CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com/
+[2] See p.30 of the VIDC datasheet
+    http://chrisacorns.computinghistory.org.uk/docs/Acorn/Misc/Acorn_VIDC_Datasheet.pdf
+[3] See p.1178 of the SH7660 datasheet
+    https://datasheet.octopart.com/HD6417760BL200AV-Renesas-datasheet-14105759.pdf
 
 Gr{oetje,eeting}s,
 
