@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5A34D8FC2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AEC4D8FC3
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60376896B0;
-	Mon, 14 Mar 2022 22:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB0388DA5;
+	Mon, 14 Mar 2022 22:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DC910E1D1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A472B10E19B
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 92C0E1F42F1F
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 330571F42F20
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647297852;
- bh=chUCxgrXxxLP18r48yk/BRUcyw0NU6neGfKRFCcPg+8=;
+ s=mail; t=1647297853;
+ bh=0Mvk1IbY4ynFDHSPlmHlslCnsE7WaqbmgIPWG1EbnKE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n6u+BcOSzxReYDlBivMmtSD9VeErrWx/vStT244llJdalsWwkCCjcHbUKX/OWlSZ/
- Oy+Spx20aH8mxRwbVhoGqAA83CZL6gOxePHBo3ps2BLM9nVRw3X1jDRrH82b7kymXd
- 4900Hrkbjjq5AmbyEFHcnvITzvB7+5aNt0nt9VlPuuxX3B4izwDUUIWWuiLhOlHKNu
- 1amkAhvCnmWy8E7FycZEFLksO28KJlH0XDlfueTOQIoBM1LIDLUz1J3I+LxYqokeo0
- w42+kmqxRLUMU7kqqJpPq3e8y93LufREAgD6X1QjMZZkqpFUsZoIKWh+oRUfwaM0Tx
- ux6kyxH/obUAA==
+ b=jRkI5E1DyY9KXCE78PpCasXL8mbecLlXZwciHB76LH/L+9sFWxSwXvAcxMhJC2W7r
+ m/DgGS4nVqrA6Vfmikvgrbt/ih3049H115L0SP/1W5tByLBrrsT2rPJToUnafuLONd
+ 700bSC/ekaprBQBNfexRiQDB0BG0uoGNa4h17L0bk0r2Msem/X7+s4mH2u1ZUE3soy
+ mxd9W8OJ8euMaKDShIsXE+AZkgMJ0IBBEiodNJ/bD0ZNx2IciljG2skMxKZ8IcIkGE
+ LPoM9fTLyZnmDA9vnGYhBtsQodKZzEOfU4hYm04gWoEw/feAkmv85OBFVhhMIIaJIO
+ 4fQUwcWafZ3XA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -36,9 +36,9 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v2 2/8] drm/virtio: Check whether transferred 2D BO is shmem
-Date: Tue, 15 Mar 2022 01:42:47 +0300
-Message-Id: <20220314224253.236359-3-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 3/8] drm/virtio: Unlock GEM reservations in error code path
+Date: Tue, 15 Mar 2022 01:42:48 +0300
+Message-Id: <20220314224253.236359-4-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
 References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
@@ -64,27 +64,28 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Transferred 2D BO always must be a shmem BO. Add check for that to prevent
-NULL dereference if userspace passes a VRAM BO.
+Unlock reservations in the error code path of virtio_gpu_object_create()
+to silence debug warning splat produced by ww_mutex_destroy(&obj->lock)
+when GEM is released with the held lock.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 7c052efe8836..2edf31806b74 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -595,7 +595,7 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
- 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index bea7806a3ae3..0b8cbb87f8d8 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -250,6 +250,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
  
--	if (use_dma_api)
-+	if (virtio_gpu_is_shmem(bo) && use_dma_api)
- 		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
- 					    shmem->pages, DMA_TO_DEVICE);
- 
+ 	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+ 	if (ret != 0) {
++		if (fence)
++			virtio_gpu_array_unlock_resv(objs);
+ 		virtio_gpu_array_put_free(objs);
+ 		virtio_gpu_free_object(&shmem_obj->base);
+ 		return ret;
 -- 
 2.35.1
 
