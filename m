@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5859B4D7D72
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960834D7D77
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C15CA10E8A7;
-	Mon, 14 Mar 2022 08:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09FB710E8A9;
+	Mon, 14 Mar 2022 08:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05BBB10E8A7
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:16:28 +0000 (UTC)
-X-UUID: 6a5bb6c471d04ddf9b8f9838f4c1c4fc-20220314
-X-UUID: 6a5bb6c471d04ddf9b8f9838f4c1c4fc-20220314
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 995635809; Mon, 14 Mar 2022 16:16:24 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 14 Mar 2022 16:16:23 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 14 Mar 2022 16:16:23 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Mar 2022 16:16:22 +0800
-Message-ID: <9671f38a0e22d70fba77d1e35520c2a16c93d119.camel@mediatek.com>
-Subject: Re: [RESEND V6 0/5] add display support for MediaTek SoC MT8186
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
-Date: Mon, 14 Mar 2022 16:16:17 +0800
-In-Reply-To: <bf6c9d9270f54fe7baff62998498c1a75a69f723.camel@mediatek.com>
-References: <20220303065725.23384-1-rex-bc.chen@mediatek.com>
- <bf6c9d9270f54fe7baff62998498c1a75a69f723.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A4410E8A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:18:53 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nTfuY-0006Cj-85; Mon, 14 Mar 2022 09:18:38 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nTfuV-0003SL-13; Mon, 14 Mar 2022 09:18:35 +0100
+Date: Mon, 14 Mar 2022 09:18:35 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v8 09/24] drm/rockchip: dw_hdmi: Add support for niu clk
+Message-ID: <20220314081834.GK405@pengutronix.de>
+References: <20220311083323.887372-1-s.hauer@pengutronix.de>
+ <20220311083323.887372-10-s.hauer@pengutronix.de>
+ <4712e128-8a14-e361-0819-911dc3453372@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4712e128-8a14-e361-0819-911dc3453372@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:38:20 up 93 days, 16:23, 80 users,  load average: 0.80, 0.40, 0.19
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,92 +57,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
+ "elaine.zhang" <zhangqing@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Rex:
-
-On Mon, 2022-03-14 at 14:30 +0800, Rex-BC Chen wrote:
-> Hello Chun-Kuang,
+On Sun, Mar 13, 2022 at 12:07:56AM +0300, Dmitry Osipenko wrote:
+> On 3/11/22 11:33, Sascha Hauer wrote:
+> > The rk3568 HDMI has an additional clock that needs to be enabled for the
+> > HDMI controller to work. This clock is not needed for the HDMI
+> > controller itself, but to make the SoC internal bus logic work. From the
+> > reference manual:
+> > 
+> >> 2.8.6 NIU Clock gating reliance
+> >>
+> >> A part of niu clocks have a dependence on another niu clock in order to
+> >> sharing the internal bus. When these clocks are in use, another niu
+> >> clock must be opened, and cannot be gated.  These clocks and the special
+> >> clock on which they are relied are as following:
+> >>
+> >> Clocks which have dependency     The clock which can not be gated
+> >> -----------------------------------------------------------------
+> >> ...
+> >> pclk_vo_niu, hclk_vo_s_niu       hclk_vo_niu
+> >> ...
+> > The clock framework does not support turning on a clock whenever another
+> > clock is turned on, so this patch adds support for the dependent clock
+> > to the HDMI driver. We call it "NIU", which is for "Native Interface
+> > Unit"
 > 
-> Do I need to rebase this series to your branch mediatek-drm-fixes and
-> send next version?
+> This still doesn't make sense to me. You're saying that "pclk_vo_niu,
+> hclk_vo_s_niu" depend on "hclk_vo_niu", but HDMI doesn't use pclk_vo, it
+> uses pclk_hdmi.
 
-That's good.
+pclk_hdmi_host is a child clock of pclk_vo:
 
-Regards,
-CK
+     aclk_vo                  2        2        0   300000000          0     0  50000         Y
+        aclk_hdcp             0        0        0   300000000          0     0  50000         N
+        pclk_vo               2        3        0    75000000          0     0  50000         Y
+           pclk_edp_ctrl      0        0        0    75000000          0     0  50000         N
+           pclk_dsitx_1       0        0        0    75000000          0     0  50000         N
+           pclk_dsitx_0       1        2        0    75000000          0     0  50000         Y
+           pclk_hdmi_host     1        2        0    75000000          0     0  50000         Y
+           pclk_hdcp          0        0        0    75000000          0     0  50000         N
+        hclk_vo               2        5        0   150000000          0     0  50000         Y
+           hclk_hdcp          0        0        0   150000000          0     0  50000         N
+           hclk_vop           0        2        0   150000000          0     0  50000         N
 
+Sascha
+
+> I don't see how these "niu" clocks are related to HDMI
+> from your description. The pclk_vo should remain being disabled for HDMI.
 > 
-> BRs,
-> Rex
-> 
-> On Thu, 2022-03-03 at 14:57 +0800, Rex-BC Chen wrote:
-> > v6:
-> > 1. Remove mmsys patches which are accepted.
-> > 2. Fix error of dt-binding.
-> > 
-> > v5:
-> > 1. Add binding patch of aal for MT8183.
-> > 2. Revise enum to const.
-> > 3. Change to use enum for mutex.
-> > 4. Remove patches which are accepted by maintainers. (mmsys and
-> > mutex)
-> > 
-> > v4:
-> > 1. Remove binding of dsi and dpi.
-> > 2. Revise aal binding.
-> > 3. Fix indention in [4/5].
-> > 
-> > v3:
-> > 1. Modify display binding based on mtk display binding patch. ([1])
-> > 2. Remove patch: drm/mediatek: separate postmask component from
-> > mtk_disp_drv.c
-> > 3. Remove compatible of 8186 ovl because we can re-use compatible
-> > of
-> > 8192 for 8186.
-> > 4. Fix issue of space before tab on mutex patch.
-> > 
-> > [1]: 
-> > 
-https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-drm-next&id=4ed545e7d10049b5492afc184e61a67e478a2cfd__;!!CTRNKA9wMg0ARbw!wkqxkeKHyS9CpOeGc9hmbilFWKk7g6fyeckortZrr_qhtb7VTP8zMYcuaYjw_w$
-> >  
-> > 
-> > v2:
-> > 1. Add binding documentation for mmsys, mutex and mtk_display.
-> > 2. Remove duplicated definition of postmask registers on
-> > mtk_drm_drv.
-> > 3. Add disp_ovl support for MT8186.
-> > 4. Add detailed commit messages.
-> > 
-> > Rex-BC Chen (4):
-> >   dt-bindings: display: mediatek: add aal binding for MT8183
-> >   dt-bindings: display: mediatek: revise enum to const
-> >   dt-bindings: display: mediatek: change to use enum for mutex
-> >   dt-bindings: display: mediatek: add MT8186 SoC binding
-> > 
-> > Yongqiang Niu (1):
-> >   drm/mediatek: add display support for MT8186
-> > 
-> >  .../display/mediatek/mediatek,aal.yaml        |  7 +++-
-> >  .../display/mediatek/mediatek,ccorr.yaml      |  5 ++-
-> >  .../display/mediatek/mediatek,color.yaml      |  7 ++--
-> >  .../display/mediatek/mediatek,dither.yaml     |  4 +--
-> >  .../display/mediatek/mediatek,gamma.yaml      |  4 +--
-> >  .../display/mediatek/mediatek,mutex.yaml      | 25 ++++++--------
-> >  .../display/mediatek/mediatek,ovl-2l.yaml     |  4 +++
-> >  .../display/mediatek/mediatek,ovl.yaml        |  8 +++--
-> >  .../display/mediatek/mediatek,postmask.yaml   |  4 +++
-> >  .../display/mediatek/mediatek,rdma.yaml       |  7 ++--
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 33
-> > +++++++++++++++++++
-> >  11 files changed, 76 insertions(+), 32 deletions(-)
-> > 
-> 
+> I already said before that the datasheet suggests that hclk_vo needs to
+> be enabled in order to ungate the AHB part of the VO module, which is
+> needed for CPU accesses. Elain, could you please confirm this or clarify
+> more about why hclk_vo needs to be enabled for HDMI?
 > 
 
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
