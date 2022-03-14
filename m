@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20214D8FC8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96E74D8FC9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8F910E1D1;
-	Mon, 14 Mar 2022 22:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6FE10E2AB;
+	Mon, 14 Mar 2022 22:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1814B89951
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D8189DFD
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id A87E11F42F1F
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 2A6E51F42F1D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647297858;
- bh=lqIPNgHcK+R8RUthJvDL/DlyQjBceMvg3jqjByDDlWI=;
+ s=mail; t=1647297859;
+ bh=X2CbEKyvbT/dkl1bAr69mkzlqvlSL4rVXzcbvs5f6es=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P5spa+LjZqn9fP03vZ5eSHU2Uovd6b5RaczYBbB9jNsqXbfD1idsVRL0ztXzeohKR
- dMFlE59CSdzrWvD1nGboZMBFrF/+l6gxjELczROOMciJLE16rYKLrgK2Vj9blHBZ7O
- h8SHNQQDVOmTBx1RXqO/ldKy4TffeSkqsqUoNrbUx2r0GxsLU+6oaJU1AYsrBiuGLz
- 7XBLXVZDkyuZub8oMLHVXCbAaCube74CyCFHSxaNfjOt8gqtjM2Ryt7yzAJ21Gt/y3
- CUBFPi2G+hQ/h1ypJAqhpsRFPbqsRVf63/sdk66iDgBHREkQAHUgskxpaaeW6adWD4
- TA7nz39Pck+4w==
+ b=RHO5OaemcraKv0losbbfZ+2vEZZCG0uacPmbR6sK7pdaPfsXsv0Pw/hNXpqatB7ES
+ r3p13owNyRlT6cTzxLU8f2BIb15iEy8F1eZYpxWi9x0zmvyqEh9Nfd1+VGx28Kx8eq
+ DTf9GAkHS0wel6B9c8eDzvYwPwVjrXDcAcgCvf4V/rjQbPlFfSghbyJY9mVg096c4u
+ Nf+5WCqmrKCsK5cJeFMgawgQrnQAW/QWqnOkpyX6DlDOy/fq5iPexDnxA75Gq7NZ5J
+ 9iqNWiUqvzNeiSbXbSWvOc0CicAXkuso2U20RSkTGyAMKJPmiAMyY9n88DmtHt795e
+ wXFRwH003WYeA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -37,9 +37,9 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v2 6/8] drm/shmem-helper: Add generic memory shrinker
-Date: Tue, 15 Mar 2022 01:42:51 +0300
-Message-Id: <20220314224253.236359-7-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 7/8] drm/virtio: Support memory shrinking
+Date: Tue, 15 Mar 2022 01:42:52 +0300
+Message-Id: <20220314224253.236359-8-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
 References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
@@ -65,360 +65,473 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a common DRM SHMEM shrinker. It allows to reduce code
-duplication among DRM drivers, it also handles complicated lockings
-for the drivers. This is initial version of the shrinker that covers
-basic needs of GPU drivers.
+Add memory shrinker support and new madvise IOCTL to the VirtIO-GPU
+driver. Userspace (BO cache manager of Mesa driver) will mark BOs as
+"don't need" using the new IOCTL to let shrinker purge the marked BOs
+on OOM, thus shrinker will lower memory pressure and prevent OOM kills.
 
-This patch is based on a couple ideas borrowed from Rob's Clark MSM
-shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
-
-GPU drivers that want to use generic DRM memory shrinker must support
-generic GEM reservations.
+For the starter only support of handling guest-side memory pressure is
+implemented.
 
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 194 +++++++++++++++++++++++++
- include/drm/drm_device.h               |   4 +
- include/drm/drm_gem.h                  |  11 ++
- include/drm/drm_gem_shmem_helper.h     |  25 ++++
- 4 files changed, 234 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 21 +++++-
+ drivers/gpu/drm/virtio/virtgpu_gem.c    | 96 +++++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 37 ++++++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c    | 10 +++
+ drivers/gpu/drm/virtio/virtgpu_object.c | 22 ++++++
+ drivers/gpu/drm/virtio/virtgpu_plane.c  | 17 ++++-
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 15 ++++
+ include/uapi/drm/virtgpu_drm.h          | 14 ++++
+ 8 files changed, 229 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 37009418cd28..35be2ee98f11 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -139,6 +139,9 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index b2d93cb12ebf..86e5c7b83ec5 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -94,6 +94,9 @@ struct virtio_gpu_object {
  
-+	/* take out shmem GEM object from the memory shrinker */
-+	drm_gem_shmem_madvise(shmem, 0);
+ 	int uuid_state;
+ 	uuid_t uuid;
 +
- 	WARN_ON(shmem->vmap_use_count);
++	/* object's backing memory will stay pinned while count > 0 */
++	unsigned int mem_pin_count;
+ };
+ #define gem_to_virtio_gpu_obj(gobj) \
+ 	container_of((gobj), struct virtio_gpu_object, base.base)
+@@ -261,6 +264,9 @@ struct virtio_gpu_device {
+ 	spinlock_t resource_export_lock;
+ 	/* protects map state and host_visible_mm */
+ 	spinlock_t host_visible_lock;
++
++	/* protects all memory management operations */
++	struct mutex mm_lock;
+ };
  
- 	if (obj->import_attach) {
-@@ -163,6 +166,42 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+ struct virtio_gpu_fpriv {
+@@ -274,7 +280,7 @@ struct virtio_gpu_fpriv {
+ };
+ 
+ /* virtgpu_ioctl.c */
+-#define DRM_VIRTIO_NUM_IOCTLS 12
++#define DRM_VIRTIO_NUM_IOCTLS 13
+ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+ void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
+ 
+@@ -310,6 +316,13 @@ void virtio_gpu_array_put_free(struct virtio_gpu_object_array *objs);
+ void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
+ 				       struct virtio_gpu_object_array *objs);
+ void virtio_gpu_array_put_free_work(struct work_struct *work);
++int virtio_gpu_array_validate(struct virtio_gpu_device *vgdev,
++			      struct virtio_gpu_object_array *objs);
++int virtio_gpu_gem_host_mem_release(struct virtio_gpu_object *bo);
++bool virtio_gpu_gem_madvise(struct virtio_gpu_object *obj, int madv);
++int virtio_gpu_gem_pin(struct virtio_gpu_object *bo);
++void virtio_gpu_gem_unpin(struct virtio_gpu_object *bo);
++bool virtio_gpu_gem_is_pinned(struct virtio_gpu_object *bo);
+ 
+ /* virtgpu_vq.c */
+ int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
+@@ -321,6 +334,8 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+ 				    struct virtio_gpu_fence *fence);
+ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 				   struct virtio_gpu_object *bo);
++int virtio_gpu_cmd_release_resource(struct virtio_gpu_device *vgdev,
++				    struct virtio_gpu_object *bo);
+ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 					uint64_t offset,
+ 					uint32_t width, uint32_t height,
+@@ -483,4 +498,8 @@ void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
+ 				   struct sg_table *sgt,
+ 				   enum dma_data_direction dir);
+ 
++/* virtgpu_gem_shrinker.c */
++int virtio_gpu_gem_shrinker_init(struct virtio_gpu_device *vgdev);
++void virtio_gpu_gem_shrinker_fini(struct virtio_gpu_device *vgdev);
++
+ #endif
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 48d3c9955f0d..62cdc00f3009 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -282,3 +282,99 @@ void virtio_gpu_array_put_free_work(struct work_struct *work)
+ 	}
+ 	spin_unlock(&vgdev->obj_free_lock);
  }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
-+static void drm_gem_shmem_update_purgeable_status(struct drm_gem_shmem_object *shmem)
++
++int virtio_gpu_array_validate(struct virtio_gpu_device *vgdev,
++			      struct virtio_gpu_object_array *objs)
 +{
-+	struct drm_gem_object *obj = &shmem->base;
-+	struct drm_gem_shmem_shrinker *gem_shrinker = obj->dev->shmem_shrinker;
-+	size_t page_count = obj->size >> PAGE_SHIFT;
-+
-+	if (!gem_shrinker || obj->import_attach || !obj->funcs->purge)
-+		return;
-+
-+	mutex_lock(&shmem->vmap_lock);
-+	mutex_lock(&shmem->pages_lock);
-+	mutex_lock(&gem_shrinker->lock);
-+
-+	if (shmem->madv < 0) {
-+		list_del_init(&shmem->madv_list);
-+		goto unlock;
-+	} else if (shmem->madv > 0) {
-+		if (!list_empty(&shmem->madv_list))
-+			goto unlock;
-+
-+		WARN_ON(gem_shrinker->shrinkable_count + page_count < page_count);
-+		gem_shrinker->shrinkable_count += page_count;
-+
-+		list_add_tail(&shmem->madv_list, &gem_shrinker->lru);
-+	} else if (!list_empty(&shmem->madv_list)) {
-+		list_del_init(&shmem->madv_list);
-+
-+		WARN_ON(gem_shrinker->shrinkable_count < page_count);
-+		gem_shrinker->shrinkable_count -= page_count;
-+	}
-+unlock:
-+	mutex_unlock(&gem_shrinker->lock);
-+	mutex_unlock(&shmem->pages_lock);
-+	mutex_unlock(&shmem->vmap_lock);
-+}
-+
- static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-@@ -366,6 +405,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
- 	ret = drm_gem_shmem_vmap_locked(shmem, map);
- 	mutex_unlock(&shmem->vmap_lock);
- 
-+	drm_gem_shmem_update_purgeable_status(shmem);
-+
- 	return ret;
- }
- EXPORT_SYMBOL(drm_gem_shmem_vmap);
-@@ -409,6 +450,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
- 	mutex_lock(&shmem->vmap_lock);
- 	drm_gem_shmem_vunmap_locked(shmem, map);
- 	mutex_unlock(&shmem->vmap_lock);
-+
-+	drm_gem_shmem_update_purgeable_status(shmem);
- }
- EXPORT_SYMBOL(drm_gem_shmem_vunmap);
- 
-@@ -451,6 +494,8 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- 
- 	mutex_unlock(&shmem->pages_lock);
- 
-+	drm_gem_shmem_update_purgeable_status(shmem);
-+
- 	return (madv >= 0);
- }
- EXPORT_SYMBOL(drm_gem_shmem_madvise);
-@@ -763,6 +808,155 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
- 
-+static struct drm_gem_shmem_shrinker *
-+to_drm_shrinker(struct shrinker *shrinker)
-+{
-+	return container_of(shrinker, struct drm_gem_shmem_shrinker, base);
-+}
-+
-+static unsigned long
-+drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
-+				     struct shrink_control *sc)
-+{
-+	struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
-+	u64 count = gem_shrinker->shrinkable_count;
-+
-+	if (count >= SHRINK_EMPTY)
-+		return SHRINK_EMPTY - 1;
-+
-+	return count ?: SHRINK_EMPTY;
-+}
-+
-+static unsigned long
-+drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
-+				    struct shrink_control *sc)
-+{
-+	struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
 +	struct drm_gem_shmem_object *shmem;
-+	struct list_head still_in_list;
-+	bool lock_contention = true;
-+	struct drm_gem_object *obj;
-+	unsigned long freed = 0;
++	int ret = 0;
++	u32 i;
 +
-+	INIT_LIST_HEAD(&still_in_list);
++	mutex_lock(&vgdev->mm_lock);
 +
-+	mutex_lock(&gem_shrinker->lock);
-+
-+	while (freed < sc->nr_to_scan) {
-+		shmem = list_first_entry_or_null(&gem_shrinker->lru,
-+						 typeof(*shmem), madv_list);
-+		if (!shmem)
++	for (i = 0; i < objs->nents; i++) {
++		shmem = to_drm_gem_shmem_obj(objs->objs[i]);
++		if (shmem->madv) {
++			ret = -ENOMEM;
 +			break;
-+
-+		obj = &shmem->base;
-+		list_move_tail(&shmem->madv_list, &still_in_list);
-+
-+		/*
-+		 * If it's in the process of being freed, gem_object->free()
-+		 * may be blocked on lock waiting to remove it.  So just
-+		 * skip it.
-+		 */
-+		if (!kref_get_unless_zero(&obj->refcount))
-+			continue;
-+
-+		mutex_unlock(&gem_shrinker->lock);
-+
-+		/* prevent racing with job submission code paths */
-+		if (!dma_resv_trylock(obj->resv))
-+			goto shrinker_lock;
-+
-+		/* prevent racing with the dma-buf exporting */
-+		if (!mutex_trylock(&gem_shrinker->dev->object_name_lock))
-+			goto resv_unlock;
-+
-+		if (!mutex_trylock(&shmem->vmap_lock))
-+			goto object_name_unlock;
-+
-+		if (!mutex_trylock(&shmem->pages_lock))
-+			goto vmap_unlock;
-+
-+		lock_contention = false;
-+
-+		/* check whether h/w uses this object */
-+		if (!dma_resv_test_signaled(obj->resv, true))
-+			goto pages_unlock;
-+
-+		/* GEM may've become unpurgeable while shrinker was unlocked */
-+		if (!drm_gem_shmem_is_purgeable(shmem))
-+			goto pages_unlock;
-+
-+		freed += obj->funcs->purge(obj);
-+pages_unlock:
-+		mutex_unlock(&shmem->pages_lock);
-+vmap_unlock:
-+		mutex_unlock(&shmem->vmap_lock);
-+object_name_unlock:
-+		mutex_unlock(&gem_shrinker->dev->object_name_lock);
-+resv_unlock:
-+		dma_resv_unlock(obj->resv);
-+shrinker_lock:
-+		drm_gem_object_put(&shmem->base);
-+		mutex_lock(&gem_shrinker->lock);
++		}
 +	}
 +
-+	list_splice_tail(&still_in_list, &gem_shrinker->lru);
-+	WARN_ON(gem_shrinker->shrinkable_count < freed);
-+	gem_shrinker->shrinkable_count -= freed;
++	mutex_unlock(&vgdev->mm_lock);
 +
-+	mutex_unlock(&gem_shrinker->lock);
-+
-+	if (!freed && !lock_contention)
-+		return SHRINK_STOP;
-+
-+	return freed;
++	return ret;
 +}
 +
-+int drm_gem_shmem_shrinker_register(struct drm_device *dev)
++bool virtio_gpu_gem_madvise(struct virtio_gpu_object *bo, int madv)
 +{
-+	struct drm_gem_shmem_shrinker *gem_shrinker;
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	bool retained;
++
++	/*
++	 * For now we support only purging BOs that are backed by guest's
++	 * memory.
++	 */
++	if (!virtio_gpu_is_shmem(bo))
++		return true;
++
++	mutex_lock(&vgdev->mm_lock);
++	retained = drm_gem_shmem_madvise(&bo->base, madv);
++	mutex_unlock(&vgdev->mm_lock);
++
++	return retained;
++}
++
++int virtio_gpu_gem_host_mem_release(struct virtio_gpu_object *bo)
++{
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
 +	int err;
 +
-+	if (WARN_ON(dev->shmem_shrinker))
-+		return -EBUSY;
++	if (bo->created) {
++		err = virtio_gpu_cmd_release_resource(vgdev, bo);
++		if (err)
++			return err;
 +
-+	gem_shrinker = kzalloc(sizeof(*gem_shrinker), GFP_KERNEL);
-+	if (!gem_shrinker)
-+		return -ENOMEM;
-+
-+	gem_shrinker->base.count_objects = drm_gem_shmem_shrinker_count_objects;
-+	gem_shrinker->base.scan_objects = drm_gem_shmem_shrinker_scan_objects;
-+	gem_shrinker->base.seeks = DEFAULT_SEEKS;
-+	gem_shrinker->dev = dev;
-+
-+	INIT_LIST_HEAD(&gem_shrinker->lru);
-+	mutex_init(&gem_shrinker->lock);
-+
-+	dev->shmem_shrinker = gem_shrinker;
-+
-+	err = register_shrinker(&gem_shrinker->base);
-+	if (err) {
-+		dev->shmem_shrinker = NULL;
-+		kfree(gem_shrinker);
-+		return err;
++		virtio_gpu_notify(vgdev);
++		bo->created = false;
 +	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_shrinker_register);
 +
-+void drm_gem_shmem_shrinker_unregister(struct drm_device *dev)
++int virtio_gpu_gem_pin(struct virtio_gpu_object *bo)
 +{
-+	struct drm_gem_shmem_shrinker *gem_shrinker = dev->shmem_shrinker;
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	int ret = 0;
 +
-+	if (gem_shrinker) {
-+		unregister_shrinker(&gem_shrinker->base);
-+		mutex_destroy(&gem_shrinker->lock);
-+		dev->shmem_shrinker = NULL;
-+		kfree(gem_shrinker);
-+	}
++	mutex_lock(&vgdev->mm_lock);
++
++	if (bo->base.madv == VIRTGPU_MADV_WILLNEED)
++		bo->mem_pin_count++;
++	else
++		ret = -ENOMEM;
++
++	mutex_unlock(&vgdev->mm_lock);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_shrinker_unregister);
 +
- MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
- MODULE_IMPORT_NS(DMA_BUF);
- MODULE_LICENSE("GPL v2");
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 9923c7a6885e..929546cad894 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -16,6 +16,7 @@ struct drm_vblank_crtc;
- struct drm_vma_offset_manager;
- struct drm_vram_mm;
- struct drm_fb_helper;
-+struct drm_gem_shmem_shrinker;
- 
- struct inode;
- 
-@@ -277,6 +278,9 @@ struct drm_device {
- 	/** @vram_mm: VRAM MM memory manager */
- 	struct drm_vram_mm *vram_mm;
- 
-+	/** @shmem_shrinker: SHMEM GEM memory shrinker */
-+	struct drm_gem_shmem_shrinker *shmem_shrinker;
++void virtio_gpu_gem_unpin(struct virtio_gpu_object *bo)
++{
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
 +
- 	/**
- 	 * @switch_power_state:
- 	 *
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index e2941cee14b6..cdb99cfbf0bc 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -172,6 +172,17 @@ struct drm_gem_object_funcs {
- 	 * This is optional but necessary for mmap support.
- 	 */
- 	const struct vm_operations_struct *vm_ops;
++	mutex_lock(&vgdev->mm_lock);
++	WARN_ON(!bo->mem_pin_count--);
++	mutex_unlock(&vgdev->mm_lock);
++}
 +
-+	/**
-+	 * @purge:
-+	 *
-+	 * Releases the GEM object's allocated backing storage to the system.
-+	 *
-+	 * Returns the number of pages that have been freed by purging the GEM object.
-+	 *
-+	 * This callback is used by the GEM shrinker.
-+	 */
-+	unsigned long (*purge)(struct drm_gem_object *obj);
- };
++bool virtio_gpu_gem_is_pinned(struct virtio_gpu_object *bo)
++{
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	bool ret;
++
++	mutex_lock(&vgdev->mm_lock);
++	ret = bo->mem_pin_count > 0;
++	mutex_unlock(&vgdev->mm_lock);
++
++	return ret;
++}
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index c708bab555c6..bb5369eee425 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -217,6 +217,10 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 		ret = virtio_gpu_array_lock_resv(buflist);
+ 		if (ret)
+ 			goto out_memdup;
++
++		ret = virtio_gpu_array_validate(vgdev, buflist);
++		if (ret)
++			goto out_unresv;
+ 	}
  
- /**
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index d0a57853c188..455254f131f6 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -6,6 +6,7 @@
- #include <linux/fs.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
-+#include <linux/shrinker.h>
+ 	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
+@@ -423,6 +427,10 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+ 	if (ret != 0)
+ 		goto err_put_free;
  
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
-@@ -15,6 +16,7 @@
- struct dma_buf_attachment;
- struct drm_mode_create_dumb;
- struct drm_printer;
-+struct drm_device;
- struct sg_table;
++	ret = virtio_gpu_array_validate(vgdev, objs);
++	if (ret)
++		goto err_unlock;
++
+ 	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+ 	if (!fence) {
+ 		ret = -ENOMEM;
+@@ -482,6 +490,10 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 		if (ret != 0)
+ 			goto err_put_free;
  
- /**
-@@ -272,6 +274,29 @@ static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct v
- 	return drm_gem_shmem_mmap(shmem, vma);
++		ret = virtio_gpu_array_validate(vgdev, objs);
++		if (ret)
++			goto err_unlock;
++
+ 		ret = -ENOMEM;
+ 		fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
+ 					       0);
+@@ -836,6 +848,28 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
+ 	return ret;
  }
  
-+/**
-+ * struct drm_gem_shmem_shrinker - Generic memory shrinker for shmem GEMs
-+ */
-+struct drm_gem_shmem_shrinker {
-+	/** @base: Shrinker for purging shmem GEM objects */
-+	struct shrinker base;
++static int virtio_gpu_madvise_ioctl(struct drm_device *dev,
++				    void *data,
++				    struct drm_file *file)
++{
++	struct drm_virtgpu_madvise *args = data;
++	struct virtio_gpu_object *bo;
++	struct drm_gem_object *obj;
 +
-+	/** @lock: Protects @lru */
-+	struct mutex lock;
++	if (args->madv > VIRTGPU_MADV_DONTNEED)
++		return -EOPNOTSUPP;
 +
-+	/** @lru: List of shmem GEM objects available for purging */
-+	struct list_head lru;
++	obj = drm_gem_object_lookup(file, args->bo_handle);
++	if (!obj)
++		return -ENOENT;
 +
-+	/** @dev: DRM device that uses this shrinker */
-+	struct drm_device *dev;
++	bo = gem_to_virtio_gpu_obj(obj);
++	args->retained = virtio_gpu_gem_madvise(bo, args->madv);
++	drm_gem_object_put(obj);
 +
-+	/** @shrinkable_count: Count of shmem GEM pages to be purged */
-+	u64 shrinkable_count;
++	return 0;
++}
++
+ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
+ 	DRM_IOCTL_DEF_DRV(VIRTGPU_MAP, virtio_gpu_map_ioctl,
+ 			  DRM_RENDER_ALLOW),
+@@ -875,4 +909,7 @@ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
+ 
+ 	DRM_IOCTL_DEF_DRV(VIRTGPU_CONTEXT_INIT, virtio_gpu_context_init_ioctl,
+ 			  DRM_RENDER_ALLOW),
++
++	DRM_IOCTL_DEF_DRV(VIRTGPU_MADVISE, virtio_gpu_madvise_ioctl,
++			  DRM_RENDER_ALLOW),
+ };
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 0d1e3eb61bee..3a94d5d5fbed 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -134,6 +134,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	dev->dev_private = vgdev;
+ 	vgdev->vdev = vdev;
+ 
++	mutex_init(&vgdev->mm_lock);
+ 	spin_lock_init(&vgdev->display_info_lock);
+ 	spin_lock_init(&vgdev->resource_export_lock);
+ 	spin_lock_init(&vgdev->host_visible_lock);
+@@ -238,6 +239,12 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 		goto err_scanouts;
+ 	}
+ 
++	ret = drm_gem_shmem_shrinker_register(dev);
++	if (ret) {
++		DRM_ERROR("shrinker init failed\n");
++		goto err_modeset;
++	}
++
+ 	virtio_device_ready(vgdev->vdev);
+ 
+ 	if (num_capsets)
+@@ -250,6 +257,8 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 			   5 * HZ);
+ 	return 0;
+ 
++err_modeset:
++	virtio_gpu_modeset_fini(vgdev);
+ err_scanouts:
+ 	virtio_gpu_free_vbufs(vgdev);
+ err_vbufs:
+@@ -289,6 +298,7 @@ void virtio_gpu_release(struct drm_device *dev)
+ 	if (!vgdev)
+ 		return;
+ 
++	drm_gem_shmem_shrinker_unregister(dev);
+ 	virtio_gpu_modeset_fini(vgdev);
+ 	virtio_gpu_free_vbufs(vgdev);
+ 	virtio_gpu_cleanup_cap_cache(vgdev);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 1964c0d8b51f..4133c8a71bd6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -97,6 +97,27 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+ 	virtio_gpu_cleanup_object(bo);
+ }
+ 
++static unsigned long virtio_gpu_purge_object(struct drm_gem_object *obj)
++{
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++	int err;
++
++	if (virtio_gpu_gem_is_pinned(bo))
++		return 0;
++
++	/*
++	 * Release host's memory before guest's memory is gone to ensure that
++	 * host won't touch released memory of the guest.
++	 */
++	err = virtio_gpu_gem_host_mem_release(bo);
++	if (err)
++		return 0;
++
++	drm_gem_shmem_purge_locked(&bo->base);
++
++	return obj->size >> PAGE_SHIFT;
++}
++
+ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
+ 	.free = virtio_gpu_free_object,
+ 	.open = virtio_gpu_gem_object_open,
+@@ -110,6 +131,7 @@ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
+ 	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = drm_gem_shmem_object_mmap,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
++	.purge = &virtio_gpu_purge_object,
+ };
+ 
+ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 6d3cc9e238a4..597ef1645bf2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -246,20 +246,28 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
+ 	struct virtio_gpu_object *bo;
++	int err;
+ 
+ 	if (!new_state->fb)
+ 		return 0;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+-	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
++
++	err = virtio_gpu_gem_pin(bo);
++	if (err)
++		return err;
++
++	if (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob)
+ 		return 0;
+ 
+ 	if (bo->dumb && (plane->state->fb != new_state->fb)) {
+ 		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
+ 						     0);
+-		if (!vgfb->fence)
++		if (!vgfb->fence) {
++			virtio_gpu_gem_unpin(bo);
+ 			return -ENOMEM;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -269,15 +277,20 @@ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+ 					struct drm_plane_state *old_state)
+ {
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_object *bo;
+ 
+ 	if (!plane->state->fb)
+ 		return;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
++
+ 	if (vgfb->fence) {
+ 		dma_fence_put(&vgfb->fence->f);
+ 		vgfb->fence = NULL;
+ 	}
++
++	virtio_gpu_gem_unpin(bo);
+ }
+ 
+ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 06566e44307d..c55c2fc8ecc0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -536,6 +536,21 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 		virtio_gpu_cleanup_object(bo);
+ }
+ 
++int virtio_gpu_cmd_release_resource(struct virtio_gpu_device *vgdev,
++				    struct virtio_gpu_object *bo)
++{
++	struct virtio_gpu_resource_unref *cmd_p;
++	struct virtio_gpu_vbuffer *vbuf;
++
++	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++	memset(cmd_p, 0, sizeof(*cmd_p));
++
++	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNREF);
++	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
++
++	return virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
++}
++
+ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 				uint32_t scanout_id, uint32_t resource_id,
+ 				uint32_t width, uint32_t height,
+diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
+index 0512fde5e697..12197d8e9759 100644
+--- a/include/uapi/drm/virtgpu_drm.h
++++ b/include/uapi/drm/virtgpu_drm.h
+@@ -48,6 +48,7 @@ extern "C" {
+ #define DRM_VIRTGPU_GET_CAPS  0x09
+ #define DRM_VIRTGPU_RESOURCE_CREATE_BLOB 0x0a
+ #define DRM_VIRTGPU_CONTEXT_INIT 0x0b
++#define DRM_VIRTGPU_MADVISE 0x0c
+ 
+ #define VIRTGPU_EXECBUF_FENCE_FD_IN	0x01
+ #define VIRTGPU_EXECBUF_FENCE_FD_OUT	0x02
+@@ -196,6 +197,15 @@ struct drm_virtgpu_context_init {
+ 	__u64 ctx_set_params;
+ };
+ 
++#define VIRTGPU_MADV_WILLNEED 0
++#define VIRTGPU_MADV_DONTNEED 1
++struct drm_virtgpu_madvise {
++	__u32 bo_handle;
++	__u32 retained; /* out, non-zero if BO can be used */
++	__u32 madv;
++	__u32 pad;
 +};
 +
-+int drm_gem_shmem_shrinker_register(struct drm_device *dev);
-+void drm_gem_shmem_shrinker_unregister(struct drm_device *dev);
-+
  /*
-  * Driver ops
-  */
+  * Event code that's given when VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK is in
+  * effect.  The event size is sizeof(drm_event), since there is no additional
+@@ -246,6 +256,10 @@ struct drm_virtgpu_context_init {
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_CONTEXT_INIT,		\
+ 		struct drm_virtgpu_context_init)
+ 
++#define DRM_IOCTL_VIRTGPU_MADVISE \
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_MADVISE, \
++		 struct drm_virtgpu_madvise)
++
+ #if defined(__cplusplus)
+ }
+ #endif
 -- 
 2.35.1
 
