@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629D44D8C5A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 20:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C7A4D8C75
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 20:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4658610E2A3;
-	Mon, 14 Mar 2022 19:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1FA110E1FB;
+	Mon, 14 Mar 2022 19:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C09B10E1FB
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 19:25:56 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id b67so13686341qkc.6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 12:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ghXEBznY5vyHF7+fdWoY5v3OsItcalBlY/KG9K7yOhU=;
- b=e2Ud08S0Q7pZF215eRKz7vixHUKMgQNfUK9aOMWNfqStkSdZvWC5Mszd1gEoj/cIZz
- IrZAiRKPJytuFVu+isbnZ5e2rAWsyFV79zcMh9/gmlkX6+VS8y5uGJTay/iSQjW/XKar
- ayFug9ECos7jYnvjtc0aR6Qmtns5qgU5i4/dof+t3R4fwNzT32kHj5wHd1lmFVGOpo3c
- VzjLN9YEOS+PZOQ5vDnQHZ+wSvqk5QfEgoYhbfvKDBo0BAVVKdSnMYOyilpqGop0zHsL
- 5HjdxNO1dsVE598rdiHBPM9joHRTxK2XG7aFr29FLlMOR3LRz/PPhkSKnpJmFSQHlnr4
- N8sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ghXEBznY5vyHF7+fdWoY5v3OsItcalBlY/KG9K7yOhU=;
- b=cDnPlhyc5TKtNeFT9KEpDP/I104WNNpHz6pFVotuwXVpf5j06fQJxsb8FFENZ40RZ2
- YA4GKlVPZjWbzbHPqNsp5FV1/I2Pkmy4hmvJKZyFj2OfAJl49JikgMy3M0uspEcp+ZFP
- MqPjn7b2FaS2aFM4ifPOOCQ2el4Wxx/BXiHAXH2lxmbze2ugaI2/uUdi10ZLYcP3dqyO
- JSY8VQpSXVmRilHjlXnv7Fs6dAjI8jCWK2HQ7DSP/DOpZVTl7uk3XCzYFKS1NCnj4gjt
- 0IAOlikitsH0tPbnrtLkUiS16nIvRUx/uV7pbMJwLuVgY3U7khNgBIVTBkfkQ83tsk2E
- oUoQ==
-X-Gm-Message-State: AOAM533D8dEfZHJFFYC/QT6UV0joOd2AZOP7MG0Q/US+B7aMeEraf455
- cubWDako4nPpZtZyk3x0ZlxLn88F/qj2myGFe3c9BYZjW1bAPQ==
-X-Google-Smtp-Source: ABdhPJyQEYq/aa0gjJEO9Tga4REDnt5I6yrfTmBRW4eRCznjlBUHHMh0lYM73RO7oxgtpMzyqDMXDoNaOp6yMHVijEk=
-X-Received: by 2002:a05:620a:170a:b0:67d:be5c:204a with SMTP id
- az10-20020a05620a170a00b0067dbe5c204amr5211992qkb.593.1647285955193; Mon, 14
- Mar 2022 12:25:55 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2056.outbound.protection.outlook.com [40.107.220.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD6C10E1D3;
+ Mon, 14 Mar 2022 19:32:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FxdYPEao6/ePpZ/pN43JGmar968kYwVB9UTyx3PB6pb9skXPo9MaZRRwyZJ54dcuGeVQxJmnc/9fjh+Klk9Crq1yAQbI09/QF+GdMYHslbYP/ZDXaUsMigCC82oRzuYf5EOJiBm97IFb7/IAAIQFtyOoKotdfO9uOwfsVmM4vOP1xgxr0hGqfJ3Ao28Pz9hgAa6SfuzMKoccO/77yLehaXPacXMg2cKuzDn19OSr+776XPOFdQdrdVAlin1Vl4OWHtKIcErf0FS5ZpqCyCPI75T7yUI9XtTKPTdwqaPvNT0QA7AjLrt/MDtOp7V2K8WHNmZtTO7FSDowHcFPuBC3EA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RPEuEhCgC7liPyu+YPnFdOD0V7Ya1381j5SwCQ0SDXw=;
+ b=bYg/Dtycbs4kPUO6srggs5PAVqEzI2I4z5cnMOUDpz5+9SZgcr7etYbNXrCbLMcLz0FRncio1JQY4Vyw4CBUO+WcRt6A20xNN40FDuwbUDeuaa9ygxNwYxSspTRPTiNqi31xkUaKjatEM21CrxPTCBiset7AqIr7rxuaQXy71zjwYcmM7uAe7AeIqTe59H/dAq5LrKeptRrXryK5ZR/F/gB+VkRUzPByJJ4Z7rJZB8iN7VdZ3vGGt6AoWvsdHhTVx8VYqlzHTMjVHZnXKqL9Jj38flDKBj0ecBagTsrQCOHqwXrgEKJ4CfKCgukLvuoEVadD+Ditt4RhdCAxKBoGgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RPEuEhCgC7liPyu+YPnFdOD0V7Ya1381j5SwCQ0SDXw=;
+ b=vSyGaR3C3mFzywr7nz3Vb5avJrNk2mCM/1//HlHet/jdhUMane/6qeg8MObaP29hrQg8pNgFUP6jc2XXQJMNEyo++cPca+a29He5V8i913IAyhUbzj+jT7OzIqYfZpzOnDrOcnsrX5uijn8nJ+0fcVf0j0Yabk1AdRkPFXR+oV4=
+Received: from BN9P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::18)
+ by DM6PR12MB4700.namprd12.prod.outlook.com (2603:10b6:5:35::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Mon, 14 Mar
+ 2022 19:32:25 +0000
+Received: from BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10a:cafe::aa) by BN9P221CA0016.outlook.office365.com
+ (2603:10b6:408:10a::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21 via Frontend
+ Transport; Mon, 14 Mar 2022 19:32:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT043.mail.protection.outlook.com (10.13.177.218) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5061.22 via Frontend Transport; Mon, 14 Mar 2022 19:32:25 +0000
+Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 14 Mar
+ 2022 14:32:22 -0500
+From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: round_up the size to the alignment value
+Date: Tue, 15 Mar 2022 01:02:06 +0530
+Message-ID: <20220314193206.534257-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
- <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 14 Mar 2022 22:25:44 +0300
-Message-ID: <CAA8EJpr2rw4eSA+PViW7UZ2rVLLDS+ipcuo-1dzOargTcbE2hA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
- frequency in opp table during probe
-To: Vinod Polimera <quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89810c64-a243-46b1-d3a9-08da05f15e37
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4700:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4700DA13EF0F0BAA0BD49D01E40F9@DM6PR12MB4700.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 97hHAS32W54Bdo8FQsW22mJ6s8w9wihq+gX0oUOz4mX98Pyxmfpxk3s3cJN03OiQ4URapQZj7xXO3kFAYkvPKWuXao35urFx68ab9t8viprNeo0GQ3jNHnw1RXzVUumR+yEIhRnT8V6gJaoE9qcK1haN5UpjnT3ZTVXoBlIDrlQ5isw9hyx647HMnRarOiJYmqpKH0YMnj6dYWwiveLZY55UzbiMRNHvACxTkK4NiDYwsNIgJuB2DByWcVulYsRGFcjrlrN7XN4cF20ASZgkmaGfLedXLa81Jvdgu+5ZunJ1+9IvKghyBgqjOVBv0IgU4eSaQWiZnDIemiXRFuU9zdS+jtZCg26UU/nPjUnbq/ydf0KlQrsHqHXVYNcju0y+YuPMKf+nPyJvUP6oJu5c0N6ltRnO1Xjt6fVRlPq4LWl/RX4bAtJQsQoKM9jiJ18kTivX3x0h2CsxW7gg0p2lgrWKcS38Ximm7g//LafqK2PNqCb9Cn+6yLM2fw+bKcSPwQv8MyBV5CiNvGV/FIgq5joVo9KkWhsFX8cqvhgTCUngmMMdz0t77ICBy3EaytaWMmh6xkeMcTfjmu4nr4aqTL1/j1glG7weSFrGlwQJYKrzgfp2FuzvLOy5cge4qQVfgCj+EFrLdVZRwtiV3ew9ssgpB78s5RxNFvFWkjqIvyBOLZsakLxaox4Iqey2H+FGiyV+eN82N5m/SD5gG/KZEw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(7696005)(110136005)(356005)(81166007)(47076005)(6666004)(54906003)(316002)(2906002)(336012)(426003)(36756003)(36860700001)(83380400001)(40460700003)(5660300002)(4326008)(82310400004)(2616005)(8676002)(16526019)(70586007)(86362001)(8936002)(70206006)(508600001)(1076003)(186003)(26005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 19:32:25.1695 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89810c64-a243-46b1-d3a9-08da05f15e37
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4700
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +100,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
+ matthew.auld@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Mar 2022 at 17:47, Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
->
-> use max clock during probe/bind sequence from the opp table.
-> The clock will be scaled down when framework sends an update.
->
-> Fixes: 25fdd5933("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+handle instances when size is not aligned with the min_page_size.
+Unigine Heaven has allocation requests for example required pages
+are 161 and alignment request is 128. To allocate the left over
+33 pages, continues the iteration to find the order value which
+is 5 and 0 and when it compares with min_order = 7, triggers the
+BUG_ON((order < min_order). To avoid this problem, round_up the
+size to the alignment and enable the is_contiguous variable and
+the block trimmed to the original size.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+---
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index e29796c..9c346ce 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1202,7 +1202,9 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->         struct platform_device *pdev = to_platform_device(dev);
->         struct drm_device *ddev = priv->dev;
->         struct dpu_kms *dpu_kms;
-> +       struct dev_pm_opp *opp;
->         int ret = 0;
-> +       unsigned long max_freq = ULONG_MAX;
->
->         dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
->         if (!dpu_kms)
-> @@ -1225,6 +1227,12 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->         }
->         dpu_kms->num_clocks = ret;
->
-> +       opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
-> +       if (!IS_ERR(opp))
-> +               dev_pm_opp_put(opp);
-> +
-> +       dev_pm_opp_set_rate(dev, max_freq);
-> +
->         platform_set_drvdata(pdev, dpu_kms);
->
->         ret = msm_kms_init(&dpu_kms->base, &kms_funcs);
-> --
-> 2.7.4
->
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index 129f668f21ff..318aa731de5b 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -40,6 +40,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	struct i915_ttm_buddy_resource *bman_res;
+ 	struct drm_buddy *mm = &bman->mm;
+ 	unsigned long n_pages, lpfn;
++	bool is_contiguous = 0;
+ 	u64 min_page_size;
+ 	u64 size;
+ 	int err;
+@@ -48,6 +49,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	if (!lpfn)
+ 		lpfn = man->size;
+ 
++	if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
++		is_contiguous = 1;
++
+ 	bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
+ 	if (!bman_res)
+ 		return -ENOMEM;
+@@ -71,7 +75,12 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 
+ 	GEM_BUG_ON(min_page_size < mm->chunk_size);
+ 
+-	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
++	if (!is_contiguous && !IS_ALIGNED(size, min_page_size)) {
++		size = round_up(size, min_page_size);
++		is_contiguous = 1;
++	}
++
++	if (is_contiguous) {
+ 		unsigned long pages;
+ 
+ 		size = roundup_pow_of_two(size);
+@@ -106,7 +115,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	if (unlikely(err))
+ 		goto err_free_blocks;
+ 
+-	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
++	if (is_contiguous) {
+ 		u64 original_size = (u64)bman_res->base.num_pages << PAGE_SHIFT;
+ 
+ 		mutex_lock(&bman->lock);
 
-
+base-commit: b37605de46fef48555bf0cf463cccf355c51fac0
 -- 
-With best wishes
-Dmitry
+2.25.1
+
