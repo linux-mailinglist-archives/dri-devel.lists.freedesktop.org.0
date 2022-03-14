@@ -1,52 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153444D8F5B
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:12:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD8F4D8F65
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AFD410E436;
-	Mon, 14 Mar 2022 22:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4742510E2D7;
+	Mon, 14 Mar 2022 22:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B20B10E435;
- Mon, 14 Mar 2022 22:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647295916; x=1678831916;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=TmF4FvJhy8r4L46VPu1Ph2AwpXhixIyOHXK6V+ZN30g=;
- b=PJDtXRu/WIGZOCihMXF/ypBGKmv6O5O6I4gLXq/3BB4NsXiwgCvG0Yh2
- mDSo4nAiEmI4ncJnjXKz9/m5KXTBad7iXGw8t6Ak/b6sdBaz6dxR/F/pF
- EDyrHrL6ikBu3vcICNQM1x1jcNxpNEJ6wVTL2eXK8fZ0RFyxfXUYfHued
- DAgT5Pn53yNY7TwuCLyM2X1eV9xKnMP4GRcVRJUcyXH6tG8P5snjx3xdW
- 5swA5UfLsivskCzI1BBdbd947h3RohwemlIhcOBkCtjiS70ACtynJuF5U
- N2RdqVkiyPFD/IVdvC2MpujLY1afivGvcgmZ8vNonjsQ41QzQxQK60YZc w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="316877952"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="316877952"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 15:11:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="556641142"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga008.jf.intel.com with SMTP; 14 Mar 2022 15:11:44 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 15 Mar 2022 00:11:43 +0200
-Date: Tue, 15 Mar 2022 00:11:43 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 00/22] drm: Review of mode copies
-Message-ID: <Yi+9n0eGn3rNKb4X@intel.com>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569DA10E2D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647296205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mZEGeLo0wjvGmlLJzlT4x9Gp9DQ81yCzD6AJ2J48U+A=;
+ b=L8SG2pFqFvDSskn369509nXmSM8e+Gb2mzViqTuEzILvsToi1Pbm5Wv1dJxLdfFv29Vbx1
+ 1cyVCuaN1w5wRYjOvRvQ6qL99hofBIAhm+kNj//FE/xeFJVDoDC7fTQxFouPHik6Q8jx01
+ 44aAagXgfDoy9zANtXvCI/VN62uup0o=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-82-4He5uiAHO9qyIZtNHw0XkQ-1; Mon, 14 Mar 2022 18:16:39 -0400
+X-MC-Unique: 4He5uiAHO9qyIZtNHw0XkQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ k11-20020ac8604b000000b002e1a4109edeso11847589qtm.15
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 15:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=mZEGeLo0wjvGmlLJzlT4x9Gp9DQ81yCzD6AJ2J48U+A=;
+ b=DKiVRJZLMRMPg2yJzyGZs4uYFt5naSOkaNbyzsuqFsAt5XJvNlHnODRtw/W59ZotZd
+ o4xi6PoX75llgwVf2X3y/GhC+saJaXddrmxBZWCWsHm9OY1WrNy3uoz8U5WenTK94O3c
+ UO9K+dvFvU54Ms5oAtw6ubxzSE7BqMCyAvYyTyyqJjT8kgtWRztKHb56/UM9ruRDTDT1
+ i6ezH+lhMI1shCqR5P9PIEuMxx6hv+mr4xGFC+O7eVUKm08EFYmMVYx8VrHyMla3PXEQ
+ y1G2aQsuT9AM3Cg29xWl7313iKL+pBpufsQhC59EpmWuSY14+abotGXYrHM+sSlzsVZ6
+ uCpQ==
+X-Gm-Message-State: AOAM533rciU0a7q1okchbAOOo38VfR1+vOLq0Z8pTbMXJV6ZtJ3pg65I
+ HENYKGFRoEOSw948Zrqob2RDLwbdv+1VxnrWvqbP1l2SLaA/weAw7AbrHcle34FvN4nLecM82c0
+ cfkwCo/ZnO+XNM2ygqfP1TOVgOBVY
+X-Received: by 2002:a05:620a:1724:b0:67d:a9db:f38a with SMTP id
+ az36-20020a05620a172400b0067da9dbf38amr7711091qkb.411.1647296199139; 
+ Mon, 14 Mar 2022 15:16:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0x1UqgT7yGPY3o/AzS0iq6iCGCxi76DszN+0W5u10J56NEHjw+Rbk7lPAh6wOsWRta0UzPg==
+X-Received: by 2002:a05:620a:1724:b0:67d:a9db:f38a with SMTP id
+ az36-20020a05620a172400b0067da9dbf38amr7711072qkb.411.1647296198775; 
+ Mon, 14 Mar 2022 15:16:38 -0700 (PDT)
+Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
+ [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
+ e14-20020ac85dce000000b002e1ce48c189sm3612192qtx.76.2022.03.14.15.16.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Mar 2022 15:16:38 -0700 (PDT)
+Message-ID: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
+Subject: Parallel modesets and private state objects broken, where to go
+ with MST?
+From: Lyude Paul <lyude@redhat.com>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>
+Date: Mon, 14 Mar 2022 18:16:36 -0400
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
-X-Patchwork-Hint: comment
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +83,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Chen Feng <puck.chen@hisilicon.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Li <sunpeng.li@amd.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Nikola Cornij <nikola.cornij@amd.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Sandy Huang <hjc@rock-chips.com>,
- Robert Foss <robert.foss@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
- Tian Tao <tiantao6@hisilicon.com>, freedreno@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 18, 2022 at 12:03:41PM +0200, Ville Syrjala wrote:
->   drm: Add drm_mode_init()
->   drm/bridge: Use drm_mode_copy()
->   drm/imx: Use drm_mode_duplicate()
->   drm/panel: Use drm_mode_duplicate()
->   drm/vc4: Use drm_mode_copy()
-These have been pushed to drm-misc-next.
+Hi! First a little bit of background: I've recently been trying to get rid of
+all of the non-atomic payload bandwidth management code in the MST helpers in
+order to make it easier to implement DSC and fallback link rate retraining
+support down the line. Currently bandwidth information is stored in two
+places, partially in the MST atomic state and partially in the mst manager's
+payload table (which exists outside of the atomic state and has its own
+locking). The portions in the atomic state are used to try to determine if a
+given display configuration can fit within the given bandwidth limitations
+during the atomic check phase, and are implemented through the use of private
+state objects.
 
->   drm/amdgpu: Remove pointless on stack mode copies
->   drm/amdgpu: Use drm_mode_init() for on-stack modes
->   drm/amdgpu: Use drm_mode_copy()
-amdgpu ones are reviewed, but I'll leave them for the
-AMD folks to push to whichever tree they prefer.
+My current goal has been to move as much of this as possible over to the
+atomic state and entirely get rid of the payload table along with it's locks.
+My main reason for doing this is that it both decomplicates things quite a
+bit, and I'm really also hoping that getting rid of that payload code will
+make it clearer to others how it works - and stop the influx of bandaid
+patches (e.g. adding more and more special cases to MST to fix poorly
+understood issues being hit in one specific driver and nowhere else) that I've
+had to spend way more time then I'd like trying to investigate and review.
 
+So, the actual problem: following a conversation with Daniel Vetter today I've
+gotten the impression that private modesetting objects are basically just
+broken with parallel modesets? I'm still wrapping my head around all of this
+honestly, but from what I've gathered: CRTC atomic infra knows how to do waits
+in the proper places for when other CRTCs need to be waited on to continue a
+modeset, but there's no such tracking with private objects. If I understand
+this correctly, that means that even if two CRTC modesets require pulling in
+the same private object state for the MST mgr: we're only provided a guarantee
+that the atomic checks pulling in that private object state won't
+concurrently. But when it comes to commits, it doesn't sound like there's any
+actual tracking for this and as such - two CRTC modesets which have both
+pulled in the MST private state object are not prevented from running
+concurrently.
 
-The rest are still in need of review:
->   drm/radeon: Use drm_mode_copy()
->   drm/gma500: Use drm_mode_copy()
->   drm/hisilicon: Use drm_mode_init() for on-stack modes
->   drm/msm: Nuke weird on stack mode copy
->   drm/msm: Use drm_mode_init() for on-stack modes
->   drm/msm: Use drm_mode_copy()
->   drm/mtk: Use drm_mode_init() for on-stack modes
->   drm/rockchip: Use drm_mode_copy()
->   drm/sti: Use drm_mode_copy()
->   drm/tilcdc: Use drm_mode_copy()
->   drm/i915: Use drm_mode_init() for on-stack modes
->   drm/i915: Use drm_mode_copy()
->   drm: Use drm_mode_init() for on-stack modes
->   drm: Use drm_mode_copy()
+This unfortunately throws an enormous wrench into the MST atomic conversion
+I've been working on - as I was under the understanding while writing the code
+for this that all objects in an atomic state are blocked from being used in
+any new atomic commits (not checks, as parallel checks should be fine in my
+case) until there's no commits active with said object pulled into the atomic
+state. I certainly am not aware of any way parallel modesetting could actually
+be supported on MST, so it's not really a feature we want to deal with at all
+besides stopping it from happening. This also unfortunately means that the
+current atomic modesetting code we have for MST is potentially broken,
+although I assume we've never hit any real world issues with it because of the
+non-atomic locking we currently have for the payload table.
 
+So, Daniel had mentioned that supposedly you've been dealing with similar
+issues with VC4 and might have already made progress on coming up with ways to
+deal with it. If this is all correct, I'd definitely appreciate being able to
+take a look at your work on this to see how I can help move things forward.
+I've got a WIP of my atomic only MST branch as well:
+
+https://gitlab.freedesktop.org/lyudess/linux/-/commits/wip/mst-atomic-only-v1
+
+However it's very certainly broken right now (it compiles and I had thought it
+worked already, but I realized I totally forgot to come up with a way of doing
+bookkeeping for VC start slots atomically - which is what led me down this
+current rabbit hole), but it should at least give a general idea of what I'm
+trying to do.
+
+Anyway, let me know what you think.
 -- 
-Ville Syrjälä
-Intel
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
