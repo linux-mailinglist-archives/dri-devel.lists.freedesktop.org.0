@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113824D82FF
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 13:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6184D83A2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 13:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E30410E2DB;
-	Mon, 14 Mar 2022 12:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF8810E7F3;
+	Mon, 14 Mar 2022 12:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29CF310E328
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 12:11:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C56310E859
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 12:18:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2887461314;
- Mon, 14 Mar 2022 12:11:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F517C340E9;
- Mon, 14 Mar 2022 12:10:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2366C60DBB;
+ Mon, 14 Mar 2022 12:18:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704ADC340E9;
+ Mon, 14 Mar 2022 12:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647259858;
- bh=MCanwxxSbotRv9mh+b1RN09ulz21n+ZgM4BgmlgR4HE=;
+ s=korg; t=1647260333;
+ bh=GHcjVNVFmexWPprva3YoZ+5Onj0yOw5uwvJRTbQR+mQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cxhDsPeZZkcdCZ8E6AJSn/XhIXuaB0HAWhEWDgutGUY6JZTWaf5wJXUpYnPobhHy6
- XuvqJlyiKIX88d+vuIva9r1YUoGs2VXpGjH8dMUxxik9njabeYy2+Ira5BbY0w0BSs
- 0uLKQ5+ivfuEQcUld0fl6rF8e3W+QUZIQUXRZxak=
+ b=OXKRYkl5ejURaVosBp08IKiEnQ7NcsOrUcSpivWicz7eRPkap7ZHKOruOYBer6BsB
+ v+T7jfHrlJn3/e/ZkdPVCy74s9nzQvtNE5uJVc4qPYcFUwceEB47VNgn2f2o4qXdv7
+ 7aKYUMCbh9D6SJqenfWUKR04aaR/wbou5O4zSSD8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 105/110] drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
-Date: Mon, 14 Mar 2022 12:54:47 +0100
-Message-Id: <20220314112745.956467304@linuxfoundation.org>
+Subject: [PATCH 5.16 118/121] drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
+Date: Mon, 14 Mar 2022 12:55:01 +0100
+Message-Id: <20220314112747.405722135@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220314112743.029192918@linuxfoundation.org>
-References: <20220314112743.029192918@linuxfoundation.org>
+In-Reply-To: <20220314112744.120491875@linuxfoundation.org>
+References: <20220314112744.120491875@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -102,13 +101,13 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/panel/Kconfig
 +++ b/drivers/gpu/drm/panel/Kconfig
-@@ -83,6 +83,7 @@ config DRM_PANEL_SIMPLE
+@@ -95,6 +95,7 @@ config DRM_PANEL_EDP
  	depends on PM
  	select VIDEOMODE_HELPERS
  	select DRM_DP_AUX_BUS
 +	select DRM_DP_HELPER
  	help
- 	  DRM panel driver for dumb panels that need at most a regulator and
+ 	  DRM panel driver for dumb eDP panels that need at most a regulator and
  	  a GPIO to be powered up. Optionally a backlight can be attached so
 
 
