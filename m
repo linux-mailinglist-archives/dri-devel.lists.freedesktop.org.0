@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707574D7D63
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC09D4D7D64
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:12:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0FF310E97B;
-	Mon, 14 Mar 2022 08:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5132A10E97D;
+	Mon, 14 Mar 2022 08:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E313C10E97B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:12:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9646C10E97C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:12:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AEDB0B80D26;
- Mon, 14 Mar 2022 08:12:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94E4BC340E9;
- Mon, 14 Mar 2022 08:12:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 673E261236;
+ Mon, 14 Mar 2022 08:12:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C92C340EE;
+ Mon, 14 Mar 2022 08:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647245532;
- bh=L7AcIZU5JxT/Szs10vuxf1DRbsgGGv1OHiaXKKbOxok=;
+ s=korg; t=1647245542;
+ bh=GkGAVMXi8bcR8Bg1eScTPyHOlJeUQ/Bt5ulSfp/y+JU=;
  h=Subject:To:Cc:From:Date:From;
- b=XYFrVQduVhJBv3FA+hbNPTs/uKWb8JSPD3NnO0bWCeTPugn/eH/zpCCNivTFjZmPC
- LO9GUcqvz2poMeuQKw49vmu+vWHWNzd6A6+NavXS9dF3DC4QLtySOmnemm2IE7QKgD
- 1a8NqC0pSnyx3QBjRuiag44FKTmDJW0RQGP+qvIQ=
+ b=NcYKCJc3k/wowCVzB0HXmobV/x55I/gkjPWnOMAh+Jv5aRDd4GtnR0IRFiKwFWlP5
+ RxvrWAaJ5XjOkmUPGHsiOA9L4IlaijU5kb1LdKP1tcjfoz8oxhscRKfYiPjG8qDlIh
+ 01mqkeTptKhQ3n3exJybkpm2O5NBej5wYCqu68LE=
 Subject: Patch "drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP" has been
- added to the 5.15-stable tree
+ added to the 5.16-stable tree
 To: airlied@redhat.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, lkft@linaro.org, lyude@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  naresh.kamboju@linaro.org, sam@ravnborg.org, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 14 Mar 2022 09:12:09 +0100
-Message-ID: <1647245529179246@kroah.com>
+Date: Mon, 14 Mar 2022 09:12:19 +0100
+Message-ID: <164724553910296@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
 
-to the 5.15-stable tree which can be found at:
+to the 5.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-panel-select-drm_dp_helper-for-drm_panel_edp.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-5.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -119,16 +120,16 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/panel/Kconfig
 +++ b/drivers/gpu/drm/panel/Kconfig
-@@ -83,6 +83,7 @@ config DRM_PANEL_SIMPLE
+@@ -95,6 +95,7 @@ config DRM_PANEL_EDP
  	depends on PM
  	select VIDEOMODE_HELPERS
  	select DRM_DP_AUX_BUS
 +	select DRM_DP_HELPER
  	help
- 	  DRM panel driver for dumb panels that need at most a regulator and
+ 	  DRM panel driver for dumb eDP panels that need at most a regulator and
  	  a GPIO to be powered up. Optionally a backlight can be attached so
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/drm-panel-select-drm_dp_helper-for-drm_panel_edp.patch
+queue-5.16/drm-panel-select-drm_dp_helper-for-drm_panel_edp.patch
