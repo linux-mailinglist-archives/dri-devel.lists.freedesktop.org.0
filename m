@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392EB4D8619
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 14:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4C44D861E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 14:40:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA9710EB71;
-	Mon, 14 Mar 2022 13:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D7910EB6F;
+	Mon, 14 Mar 2022 13:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5182A10EB6F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:38:47 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2dc348dab52so163540927b3.6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xC+lJiodR+sWpzqzm91V+sLXEyA0MqIpnbN3l1bqwWU=;
- b=OexWQ2h693u4lZOOUvJTKtfnBVn43v7FMeeMk5qC6Frv256FwjHDfU7eMS1+8nFYmb
- i3A7P9HN5ayJTyk/xe33mK8GVleqWqW85fUg5rWNLWZ+xDhV/KwCvpDsQeuLdBQR8+Xo
- czjRV4c3d/fwjqVQ2XYLj8s+A9wfHndMUpwBA/k6f9n+l06tQSRE+rJchhDCTpb9lFqQ
- 4znbk3UIOaTqHlj/AP5CvXd4dAKjjvxE6ZsXyF//gBc3BEmA+n79YsjU8RlWUca2oKok
- vlzRCH1tajRmDhoakSGDMBw8avYHd3MLbA6mlM0shYCsLfgTuTfM3MyfwgTVrcMLGkb1
- fIrg==
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8B110EB73
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 13:40:17 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id im7so12529311qvb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:40:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xC+lJiodR+sWpzqzm91V+sLXEyA0MqIpnbN3l1bqwWU=;
- b=6Lwe93ursRCCoxQ4jYg8FjtIPH0Itu+jRCo04jae8+UGNAOFab+2chlyNrO9M723wO
- 2mrorYPJP/tRdhxWxzImA4N+AVkbd3Ekk9p9RwzMNT2JuI7jZQ/sy3dQGKdSE2EsTjAn
- IawvTQ5ic6Z/xFVLNDB/exv/HQK0V5oppb23zjuuz/7gIopCRvivsVLrhThtyqEfUbyY
- CuAV6VGM9uavM27b4fd4LnfvG3mCruke5WfN5qM45UDWmgt2Kcbr8rrA9a1KOoZ9ibxa
- I1R+YJ6hzpNCU/O/uNw946QJJ5H9saSNpik/d+wV3vbLRzJ1fKz5weKZFpI2Hg6V284+
- kjuw==
-X-Gm-Message-State: AOAM531F23aCkkvpFe1NdcW14YvEBcFD8hJCBtxripyTQM8juI1Zo3sE
- 9wY2xEBpgYT8DHGH8JjdlgC0fHzHzFXeenr+YPWn1g==
-X-Google-Smtp-Source: ABdhPJxR5tRZorPtoK9M8ocNQ9ikdDUGdQA0+NLPUHYqvLKOH7htQyeEib4lFHIQySUWWYAOFtzU3UegfAPAeVz5eBs=
-X-Received: by 2002:a81:1182:0:b0:2dc:4e58:da41 with SMTP id
- 124-20020a811182000000b002dc4e58da41mr18944386ywr.268.1647265126402; Mon, 14
- Mar 2022 06:38:46 -0700 (PDT)
+ bh=RWUj/v7KabELU72fthxfijtXtCwC8AT21SzbTAGRY78=;
+ b=MD6ORgUKxUA91QACKqKbzNm0nWDeLakh5pfAdQaUxYfxXjLEUqCGOQdSukvR8a5ul+
+ JFixdd6buuaVjrx2+0YhkVJN3ejyrw7Nxm3QWAVghf3sko9fy9uEbtoR9EiM1xlQQIqk
+ fVm/er2/vembiJaNpuhT7PLXolPlYfDA9ppI50Go3mG4D9ZtV9KEWD/1CAcMdr6rNfIO
+ 8yBVjE5zfboCGtqYEYScis+Ve6EX93FqysWGrOhOSFqjtGRfVhNt0o0VMmePHyHBA3M3
+ EF6EQ8T8YA97UVYkvGq9tLXjjIF0T1Yz8E2hT85aKNNd9zDQF0G25lMQbcJW2Ks5aadx
+ l/LQ==
+X-Gm-Message-State: AOAM53028SK5gMd8tuqMjmwgHxyXYMhC7kC20jB0Q8e3AWFp/uyosyUy
+ A5qM3kB2canxOouO2jgYvwqCn5XzL+nIgw==
+X-Google-Smtp-Source: ABdhPJyl3lvwAKV7qYDdGY4F6P2anxBzDYHoaiP8CqOuVmSS5As5qPIH4+edzh9aCoWlkDNstYz3lQ==
+X-Received: by 2002:a05:6214:5297:b0:435:7a09:1eb9 with SMTP id
+ kj23-20020a056214529700b004357a091eb9mr17270266qvb.127.1647265216128; 
+ Mon, 14 Mar 2022 06:40:16 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ f2-20020ac87f02000000b002e1de387882sm108595qtk.53.2022.03.14.06.40.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 06:40:14 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id x200so30812735ybe.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:40:14 -0700 (PDT)
+X-Received: by 2002:a25:dfd3:0:b0:629:24ff:eab0 with SMTP id
+ w202-20020a25dfd3000000b0062924ffeab0mr17526653ybg.613.1647265213864; Mon, 14
+ Mar 2022 06:40:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220225075150.2729401-1-s.hauer@pengutronix.de>
- <20220225075150.2729401-23-s.hauer@pengutronix.de>
- <bb077f34-333e-a07a-1fcb-702a6807f941@rock-chips.com>
- <CAPj87rO2sztocJrE-CeSQWry9j_cSe2uv9F1Yf81pGnBXdu2Ag@mail.gmail.com>
- <ae4314db-09c0-049b-ccc9-f6b1c3003dcb@rock-chips.com>
- <CAPj87rOanNE1wca3ijJx1zXYZkKX1ta9F145GCXM15Nv=POicA@mail.gmail.com>
- <f3af0286-fc64-f011-bc90-6797e26e3640@rock-chips.com>
- <30f195d6-e9d7-3da6-89fa-4a064a1f6bf9@rock-chips.com>
- <d98782df-43c8-475b-375d-ad6aff4fae44@rock-chips.com>
-In-Reply-To: <d98782df-43c8-475b-375d-ad6aff4fae44@rock-chips.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 14 Mar 2022 13:38:35 +0000
-Message-ID: <CAPj87rNXuJ6MQMb7dJHWZcqxaH9cyu1f2_NWidT_zsm44STmaw@mail.gmail.com>
-Subject: Re: [PATCH v7 22/24] drm: rockchip: Add VOP2 driver
-To: Andy Yan <andy.yan@rock-chips.com>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <20220131201225.2324984-3-javierm@redhat.com>
+In-Reply-To: <20220131201225.2324984-3-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 14 Mar 2022 14:40:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
+Message-ID: <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/format-helper: Add drm_fb_gray8_to_mono_reversed()
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,29 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Hi Javier,
 
-On Mon, 14 Mar 2022 at 11:02, Andy Yan <andy.yan@rock-chips.com> wrote:
->    Remember you said our downstream vop2 driver is very slow on weston.
+On Mon, Jan 31, 2022 at 9:12 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Add support to convert 8-bit grayscale to reversed monochrome for drivers
+> that control monochromatic displays, that only have 1 bit per pixel depth.
 >
-> Would you please share the case you run ? or how can i test frame rate
-> on weston?
+> This helper function was based on repaper_gray8_to_mono_reversed() from
+> the drivers/gpu/drm/tiny/repaper.c driver.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-We were able to observe this by just using either waylandsink (using
-dmabuf from the V4L2 rkvdec/rkvpu drivers), or even weston-simple-egl.
-I have not been able to do a full review of Sascha's submission, but
-from what I've seen of it, it should have fixed those issues. (I don't
-have RK3568 hardware to hand anymore.)
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -584,3 +584,38 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
+>         return -EINVAL;
+>  }
+>  EXPORT_SYMBOL(drm_fb_blit_toio);
+> +
+> +/**
+> + * drm_fb_gray8_to_mono_reversed - Convert grayscale to reversed monochrome
+> + * @dst: reversed monochrome destination buffer
 
-Cheers,
-Daniel
+What's the meaning of "reversed"?
+During the last few days, I've been balancing between (a) "reverse
+video" and (b) "reverse bit order", but none of them seems to be true.
+
+(a) The code maps 0-127 to 0 and 8-255 to 1, which just reduces from
+    256 to 2 grayscale levels, without inversion. The result is also
+    white-on-black on my ssd130x OLED.
+(b) On little-endian, the CFB drawops use little-endian bit order,
+    which is what ends up in "byte" in the code below.
+
+> + * @src: 8-bit grayscale source buffer
+> + * @clip: Clip rectangle area to copy
+> + *
+> + * DRM doesn't have native monochrome or grayscale support.
+> + * Such drivers can announce the commonly supported XR24 format to userspace
+> + * and use drm_fb_xrgb8888_to_gray8() to convert to grayscale and then this
+> + * helper function to convert to the native format.
+> + */
+> +void drm_fb_gray8_to_mono_reversed(void *dst, void *src, const struct drm_rect *clip)
+> +{
+> +       size_t width = drm_rect_width(clip);
+> +       size_t height = drm_rect_width(clip);
+> +
+> +       u8 *mono = dst, *gray8 = src;
+> +       unsigned int y, xb, i;
+> +
+> +       for (y = 0; y < height; y++)
+> +               for (xb = 0; xb < width / 8; xb++) {
+> +                       u8 byte = 0x00;
+> +
+> +                       for (i = 0; i < 8; i++) {
+> +                               int x = xb * 8 + i;
+> +
+> +                               byte >>= 1;
+> +                               if (gray8[y * width + x] >> 7)
+> +                                       byte |= BIT(7);
+> +                       }
+> +                       *mono++ = byte;
+> +               }
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
