@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83DA4D8744
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:47:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F44B4D8746
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4282B10E7A9;
-	Mon, 14 Mar 2022 14:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B348010E783;
+	Mon, 14 Mar 2022 14:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B6810E6F0;
- Mon, 14 Mar 2022 14:47:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F86D10E7A3;
+ Mon, 14 Mar 2022 14:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1647269238; x=1678805238;
+ t=1647269242; x=1678805242;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=IhsfA4MbLU1xdZeUDgNxUNg67muwdhcXp/lRtayTpWs=;
- b=stUiehx0pwaVL9SmNDDau33sRI8pUxgo7gqqTdMxykhSnmPJ3Qyb6JnZ
- hh05mEIFfOOjAtzZebxTUNnrtd47udyS2R06JE8h19aPLwaw4lfPZ0OhO
- evXY/dtH3dRZbsoPlxz/ayvuHhn0fbY3ttqw+5DEM+cAe5Sq37gpFpFjA k=;
+ bh=sChNKk2KoDqTOI3ztI0EXamVeO06gVoeCV2xokRSlZ0=;
+ b=N21AFEOBPVonr2y+89RCdgWmcGuryQUq6AZOzL2dxt8ar3GK/OTjdIvW
+ BImTpbTt+ZsFpCFur1KxzHQezFJU9qYuC5CDXfR9nvrDCeixkDgdywpzq
+ mX/xj+irym+AV/ob+mjwsK8A1CiviHUoXr5SJhJscZBMq/1Rc75rR7m1H 8=;
 Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 14 Mar 2022 07:47:18 -0700
+ by alexa-out.qualcomm.com with ESMTP; 14 Mar 2022 07:47:21 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 14 Mar 2022 07:47:17 -0700
+ 14 Mar 2022 07:47:20 -0700
 X-QCInternal: smtphost
 Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
  by ironmsg02-blr.qualcomm.com with ESMTP; 14 Mar 2022 20:17:02 +0530
 Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 4225E2BC9; Mon, 14 Mar 2022 20:17:01 +0530 (IST)
+ id 56E644E32; Mon, 14 Mar 2022 20:17:01 +0530 (IST)
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
- frequency in opp table during probe
-Date: Mon, 14 Mar 2022 20:16:53 +0530
-Message-Id: <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH v6 2/5] arm64: dts: qcom: sm7280: remove assigned-clock-rate
+ property for mdp clk
+Date: Mon, 14 Mar 2022 20:16:54 +0530
+Message-Id: <1647269217-14064-3-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
 References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
@@ -59,42 +59,46 @@ Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-use max clock during probe/bind sequence from the opp table.
-The clock will be scaled down when framework sends an update.
+Drop the assigned clock rate property and vote on the mdp clock as per
+calculated value during the usecase.
 
-Fixes: 25fdd5933("drm/msm: Add SDM845 DPU support")
+This patch is dependent on below patch
+https://patchwork.kernel.org/patch/12774067/ 
+
 Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index e29796c..9c346ce 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1202,7 +1202,9 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct drm_device *ddev = priv->dev;
- 	struct dpu_kms *dpu_kms;
-+	struct dev_pm_opp *opp;
- 	int ret = 0;
-+	unsigned long max_freq = ULONG_MAX;
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index c07765d..a3c768c 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3086,9 +3086,6 @@
+ 				      "ahb",
+ 				      "core";
  
- 	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
- 	if (!dpu_kms)
-@@ -1225,6 +1227,12 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 	}
- 	dpu_kms->num_clocks = ret;
- 
-+	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
-+	if (!IS_ERR(opp))
-+		dev_pm_opp_put(opp);
-+
-+	dev_pm_opp_set_rate(dev, max_freq);
-+
- 	platform_set_drvdata(pdev, dpu_kms);
- 
- 	ret = msm_kms_init(&dpu_kms->base, &kms_funcs);
+-			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
+-			assigned-clock-rates = <300000000>;
+-
+ 			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <1>;
+@@ -3122,11 +3119,9 @@
+ 					      "lut",
+ 					      "core",
+ 					      "vsync";
+-				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
+-						<&dispcc DISP_CC_MDSS_VSYNC_CLK>,
++				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>,
+ 						<&dispcc DISP_CC_MDSS_AHB_CLK>;
+-				assigned-clock-rates = <300000000>,
+-							<19200000>,
++				assigned-clock-rates = <19200000>,
+ 							<19200000>;
+ 				operating-points-v2 = <&mdp_opp_table>;
+ 				power-domains = <&rpmhpd SC7280_CX>;
 -- 
 2.7.4
 
