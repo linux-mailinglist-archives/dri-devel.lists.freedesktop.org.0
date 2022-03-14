@@ -1,56 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3894A4D8C87
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 20:35:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E1B4D8C64
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 20:27:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B7D10E2BD;
-	Mon, 14 Mar 2022 19:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3370C10E20F;
+	Mon, 14 Mar 2022 19:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB8C10E26F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 19:35:23 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id r1so220464qvr.12
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 12:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vDbKdm+9Gq8y2h4+5UWlBvnbRk5t+H+cJMEqLrAE1aY=;
- b=M1vgtUseKCOfeEJG05cmNBWXnjNVH7c5wsr0c3GuqMoqkhntIfmIeDUnFAmIJGjdKj
- hW2J4uUmPMTN9hsL/IhL1Pj5E4JSohNZBHkiudfw4t0i/VP+yE0Qi2VZY8fsfJ8WpQiF
- /2a7V9UKf7SD4j2zrCh9BhqopihI3iqXCCP/0uvSz7lYgSjyy889qrEhw2A/hZy9OE7K
- azY0EEWmTmuoLdHyTORZEZPQUcf9Uy9E73VqOPw+YXC82MFhwmllhvAvYbN1KpmXqwKK
- Q/tES0GJmp5A8OUPBCy0C948rXQA0+QvrfXh6FGOFIZmSCXkhUj2wifPe4gNciyUJkri
- ho9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vDbKdm+9Gq8y2h4+5UWlBvnbRk5t+H+cJMEqLrAE1aY=;
- b=x6YqbMsSRA7ZUB6XjODs0NHDrBwxwA1gL11nNt833hmgKPiqobi7zaG4hPJZCediyi
- igzS4yCvB4FFBlQxHOmV85Y2OHu4mrRS/as1e9/pSb70w7z4e3AbbWdM+BtKst8qvJNO
- CFnGLgtrx6gB5yLnjBzDAAHVOJeQTehFAmiTFucbdC5QcAPClfMmuOrwLDjfolOeg7/8
- a+UKI5GvEvhRRrl/ylMWnlIS5zszOTlqwLBjDI96aasXP6xU0yXi3tuU3Si5W+BZGuLu
- uBbXgHZJM4GG6w2O1l9dPk3fHXpqAnVoZzsJPnz4tU23OybM4vrgeqEuDn1/FumKFjW+
- mTKA==
-X-Gm-Message-State: AOAM530O+gb/LWuCXg9MgNfkQ+JPUzdKOsxrjMk1dDlfwqBDA1ypaPac
- U2OxF3lfM5aFz/BwBjQv/DSXFumaOq1XOk8OuTb+qg==
-X-Google-Smtp-Source: ABdhPJw3Rfe6z8JS+vyIxM3JATkJerBr0Wz/f7FMG/8CWnypCnemwcZhSelMdHNHiBHMdIOyydD0euweqqhS56K0i8U=
-X-Received: by 2002:a05:6214:c24:b0:440:a01f:c77b with SMTP id
- a4-20020a0562140c2400b00440a01fc77bmr7974544qvd.55.1647286522297; Mon, 14 Mar
- 2022 12:35:22 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82D9410E11B;
+ Mon, 14 Mar 2022 19:27:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gLJ39eckV0TCNznhJ+PJmbU9CWJ1IZuBmCQqRz7EiP1XgHbouCLLubrFBEM5Jj/0byZE3Wo3Fxs5PVCFlXRYXFtleOAVOJ/roXlkgfXK9YrCJliq/8FrfhvqGZmNIs3PrT1FYPYWR4yWDgoREvHuZuLLxnAoMH4ACEMzMxueym+tXcFDO5rehop6mKezrd8Ho+cEWGYdDheXq0svoSdrVqiE2vDB5Z6qQzra+BMmUFLQvq2MOSR1ZkAA92Hgpzg4z0JT0x/IlgVXazbneT1i2D87ha5HCra3ifUbxBVhQadc/m1RovgKwVYow1ePe2rFqCVflHf6cW/Di3dv7H1wyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RngFWZgz5utUA4SxsCfYEhrzfpyxEA9LnfMJzJvOLo4=;
+ b=WxKUks0kFG/HEVEV9mW4XWmEFCrv9ojz99tsEBKgL9J7SfkNADX3eYLaakqKReN+N46svXDHsITiT3p6f3C8DJCLyrekDewjVohMPd6D/TiP5prkyciJDdoW+c6BNWgKe/WNfpKn8q8ai57fZBREApc8Tc+0os0ld3gYksqQW5+rsAjVm+TtASe8qTfrVO4qKQ9QAx3PQ8xJwwKIWGZY8C5gb/mPw0sNaiMsBMIcPfr7CCV9C6vwkzslG75Xnh9Q6ieMFVjk5TZO8O+gjeoLca4IfNQWD9uZtD5Io94fdprjrak7jnAjRTvO5KD+jqbXll9BThb5pJ7yver2XUqLgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RngFWZgz5utUA4SxsCfYEhrzfpyxEA9LnfMJzJvOLo4=;
+ b=SUnItFr+SIReGN08YPDu0l+4oTtxk03CEYDnbLR4XelRjS/zTgKgjsopBQOiJq97DGxAZ1C6rET7LzYluKUCmYjhOf9QUmDKBMH1YuRqEIIIMu8UWXDIWQVm6dAzdTBmz0xpgMIcxJ5uF8FLvflmmzqZa5jIk2/qSy1ZYYR22B8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by BN7PR12MB2802.namprd12.prod.outlook.com (2603:10b6:408:25::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.24; Mon, 14 Mar
+ 2022 19:27:37 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::48e2:1306:25a3:5f14]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::48e2:1306:25a3:5f14%6]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
+ 19:27:36 +0000
+Message-ID: <6291e000-73aa-cf18-1674-7ca76e39fdfa@amd.com>
+Date: Tue, 15 Mar 2022 01:08:19 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] drm: remove min_order BUG_ON check
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20220307143707.3687-1-Arunpravin.PaneerSelvam@amd.com>
+ <78232c15-0d0c-3594-ab59-63560e63eb4e@intel.com>
+ <1ff8a246-8df9-c098-302c-f73b4425ccbf@amd.com>
+ <8909011e-d18b-03cd-aeb5-bae10db41a00@intel.com>
+ <02812310-64ed-fc93-beeb-b8ee08ec14b3@amd.com>
+ <c3a4f6b5-3f61-4e52-da12-cbbe629fa080@intel.com>
+From: Arunpravin <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <c3a4f6b5-3f61-4e52-da12-cbbe629fa080@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1PR01CA0096.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00::12)
+ To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
 MIME-Version: 1.0
-References: <1647278803-24611-1-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1647278803-24611-1-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 14 Mar 2022 22:35:11 +0300
-Message-ID: <CAA8EJppA2K_8wMXOcvLS2sAcO72KnSBQS8hph4oc_9EN6pwyxA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/msm/disp/dpu1: add inline rotation support for
- sc7280 target
-To: Vinod Polimera <quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e49dcbe-802c-4217-1b4e-08da05f0b1e3
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2802:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR12MB28024A0D79D714D7ED37BF08E40F9@BN7PR12MB2802.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1APEyrZXxDtMeDKL1p2ld3HpRzkFF+Ju98RjUhhDJ30dp0FpdF2d1p0rP02cXhseqrZDlZeYKaqs6pHh6F+rddS3vSfP7aC9/blz+vYvNuugUAFDMlaJvU8rV/cSNUqqulBVpuNQ2irtUkJ9zE06Lss1VQj5MJeMFAY/+tkBXDbi2/BuEHMcOUofox7zm3GM+mLaIDzyQ2AJsZx1lnGxXl9go2bhT1e3Nyj1eeiAWFqmTZGtmU7YdYPG24TAkNbqDXUtPlcrE05RfmTywAbXICJ93C1YG6R55jJgqiwVa8oUfnFTiT4B4fUeOy08fj0Kxem0b/JWg2HYoHEtUNaFxdUTgomidryeDd5OpSlvUOqkUi/aKd6mEUWYIUTis4nuEsRt1oRNPIS7aA0B+oy/OI6I2kbTaBnEd/Fm5BkQwGSPG1iKRq6PUFbe5H1znPtEzFm8PWIdaakXosl21yMeu8EeNAAA+L/ISBambF2AKPuyZ8nzSlNeHZPhKo6cWQwdkE2eYDEbBJoDFV3NPMuyhCljWp1Ua0yeTzRYywj2YvMR2BgduEygVoUBiXm9puxpQJkT95qcO9xAExM6yrYzJtqItP0FZ6xNGQZPoy8VFpt5f4HnhmqtrTsJqdGN95ukwZzCZ1U2IIJfhNt3W6cDjr2+411LQysxWuElJzh5TELG97E+68ehi1AQY+MGWjKv6X+YEr3cPsdX3eG7DIwKXlFLlH11ogCgHiFHrLs4eLs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(316002)(2906002)(31696002)(86362001)(4326008)(8676002)(66476007)(66556008)(6506007)(508600001)(53546011)(8936002)(6666004)(38100700002)(2616005)(6512007)(36756003)(6486002)(5660300002)(26005)(31686004)(186003)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MlVqTEJSeFRiT05nWHdCUU5memRMVEtINkNuZEU3Y0VBVFc3Mm1rbnYvVkE2?=
+ =?utf-8?B?UkhKaVoyQlllVGFVcnRGcU1admhTYlRXTjFKSE9VTHdkQ3F5emZpUmJiUGtS?=
+ =?utf-8?B?cVh4RytBSVZUTnhLQkFiZHkzQ0ljWmVxRlZOVmZMbnlILzgvNGVJTVVXdGY2?=
+ =?utf-8?B?b2NBcE9DNGk1STNJTnVnKzRqK3l1azlGM1VyazdZaGhMTk1DOWZ5TmVwVmhI?=
+ =?utf-8?B?OEN0cGluOGZwZjg1dCtJUXZOWU1IbVVDanFqM2ZxMElIUFNoTjloeDZuUFVH?=
+ =?utf-8?B?aEV0dVZLZzZqeG9XWmx5eHlCNWZ1bHM1b25JZ2lqaWlFT1RNK3RwZVhDSHl2?=
+ =?utf-8?B?OVBVb1BybVRnZzl6THRPQTJqN0hLSGcxUjJYU0lFa1JrL2xsTTlRbEhUdnFG?=
+ =?utf-8?B?ek1VRUs5QUxZTGxpdC9RQU53Y3BoYlBjbURyT0YxZm9ITHlXd0pmRE5kaENU?=
+ =?utf-8?B?ZFE3Z1M2a3pTY291TFJlbFI0OEdWTDZVZFBNSERwWWpZb0psVDcxWVI2QzRT?=
+ =?utf-8?B?aWlvYjFSSlB5YXBoL0k5aFp4elViRFJvbmpYSGlYd2ZWTGt0bmlYVnJnU21V?=
+ =?utf-8?B?OGJBdXVtbXp6ZzZQWEpaQ3huRkhrZ2hDeURJWTMzMk1WRlRsdmcxU3hCR3Vv?=
+ =?utf-8?B?VnpCOGYwczM3bmt0UnUxVSs3N3NiZmRNQTY4ZDVkODB0VTRUaEtXQnZaVnJ3?=
+ =?utf-8?B?aXluVEd4SkVCWTFKSTg3dDFHNEhlV1Y3eHB4ZzdCd3dyQ1MxWmk3TmkyMGI3?=
+ =?utf-8?B?Uml5WGswakFPaFNGanlydTJOd0craDZmZ0pVM3lENDJjRzZaTTdsbjR1dGt1?=
+ =?utf-8?B?eHdhVnROVnlBdzlQVXJaMWQxNzZWN2tETitsSTFiRjhWZzRKMWg4NDJYaHg2?=
+ =?utf-8?B?TEM1UU40ZjJwSWRhWXlja2tKWTNYQWpCV1M1MEsvMHlMditwdzNOcGVZSkVa?=
+ =?utf-8?B?ZE9SanNlZEcvV0xoY0hoeXJKTWkrellrdUR0NENUb1FYcHhFZENzSldTOFo3?=
+ =?utf-8?B?eVhHWEt4V0xqM1c3OFFtZFN1Y1o2cCtxRWNJU3VyMkNxd3RUU2g0ZW9BMVdN?=
+ =?utf-8?B?YWx0YUdOU3R2cE5PWlQ2RU5yd21rM2ZxZGRxdkRnVWY0aEtCMnpsMjlnMVNF?=
+ =?utf-8?B?dk9sVGRSSFkraGo3Z0NHQUQrRDJBUUo2T3JWVzFEQ21nRDVKbmc1VGdlZ3dE?=
+ =?utf-8?B?YVA0ZW56WTFxSG9GTFBGM0l6SFdoTGhRNTR0L3FkLzF3TXc5czNnMFFySzNm?=
+ =?utf-8?B?MTlpQ1h0S01XWGtYeG9Zb0tPSnpJRzMwVXZLd041N0taZEhNalkzR2FIZUxM?=
+ =?utf-8?B?TzZ3dFd5UGUxWXUwWUVVUC9CYnBjS3hsdlhUWUhWQUk5VmI3ay92ZC9OSjNE?=
+ =?utf-8?B?SHhVeHY5UTV0YU1nRVZRWUsyOGFvY2xjb2RrYktVZ0pFdnh6K0paYkEvVnZV?=
+ =?utf-8?B?UEtObVhyd21rRFdyQ2c2RUxRQ21Rb1hlWWwwSWd6RnMwS0JnNEJ0bHUvQWNK?=
+ =?utf-8?B?UHpybHJkR1ZUTEFVVmxCVXNualpCcStsMXdXNk52RWx1bzkrL28wZ21JUkZ1?=
+ =?utf-8?B?ZTR5MS9uL0hDWVBmb3NFY2hCc05JY1FTSVA5V0J2QmxrL3RSU0oxaU53eHQ1?=
+ =?utf-8?B?TnRRZ1FJME5TVVVPVjcrRDFFbHRPaDhTWk1aajF1bHI3MDFEaWtjbnd0ajlv?=
+ =?utf-8?B?SnZqREx1bDZoblFQU0RySmpvZEU4Zkk3UmdueVFBcHdQU0Fhb1UzeGdoT1o5?=
+ =?utf-8?B?bTA3WlQ5N0JVREZjdnZMZmJsQk83SFBXc2VEalhScUVlT0IxTU05VmwvcW5k?=
+ =?utf-8?B?aDVjUHh4S0l1VHVjU2ZtaGVIQ3Eyd3cvdmh2Z0docmRTaGlLV01qZjgrVmhj?=
+ =?utf-8?B?OVU3QkhzZ3c4dFJ3THl2N1JJWTd4ZGErNkZaZnlzQUF2TmpuYTFsMzdoUHJW?=
+ =?utf-8?Q?2GPw5JfeuStKvfF4IkGZU+LQol6m+oxL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e49dcbe-802c-4217-1b4e-08da05f0b1e3
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 19:27:36.4368 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KF700ggfUaQUL1t7wSkTn/o4uOqipUy9nT4Y9bODVkvmIpK/GLxBTDQ/vKnr/bBF3ihO9EtaRRAlFAQEwqfL7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2802
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,722 +128,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Mar 2022 at 20:27, Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
->
-> - Some DPU versions support inline rot90. It is supported only for
-> limited amount of UBWC formats.
-> - There are two versions of inline rotators, v1 (present on sm8250 and
-> sm7250) and v2 (sc7280). These versions differ in the list of supported
-> formats and in the scaler possibilities.
->
-> Changes in RFC:
-> - Rebase changes to the latest code base.
-> - Append rotation config variables with v2 and
-> remove unused variables.(Dmitry)
-> - Move pixel_ext setup separately from scaler3 config.(Dmitry)
-> - Add 270 degree rotation to supported rotation list.(Dmitry)
->
-> Changes in V2:
-> - Remove unused macros and fix indentation.
-> - Add check if 90 rotation is supported and
-> add supported rotations to rot_cfg.
->
-> Changes in V3:
-> - Fix indentation.
-> - Move rot_supported to sspp capabilities. (Dmitry)
-> - Config pixel_ext based on src_h/src_w directly. (Dmitry)
-> - Misc changes.
->
-> Co-developed-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> ---
->  arch/arm64/configs/defconfig                   |   4 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 218 +++++++++++++++----------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  18 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 119 +++++++++++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   2 +
->  5 files changed, 253 insertions(+), 108 deletions(-)
->
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 040420b..3bd91f7 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-
-Unrelated. Please drop.
-
-> @@ -696,7 +696,7 @@ CONFIG_VIDEO_RCAR_DRIF=m
->  CONFIG_VIDEO_IMX219=m
->  CONFIG_VIDEO_OV5640=m
->  CONFIG_VIDEO_OV5645=m
-> -CONFIG_DRM=m
-> +CONFIG_DRM=y
->  CONFIG_DRM_I2C_NXP_TDA998X=m
->  CONFIG_DRM_MALI_DISPLAY=m
->  CONFIG_DRM_NOUVEAU=m
-> @@ -721,7 +721,7 @@ CONFIG_DRM_SUN4I=m
->  CONFIG_DRM_SUN6I_DSI=m
->  CONFIG_DRM_SUN8I_DW_HDMI=m
->  CONFIG_DRM_SUN8I_MIXER=m
-> -CONFIG_DRM_MSM=m
-> +CONFIG_DRM_MSM=y
->  CONFIG_DRM_TEGRA=m
->  CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=m
->  CONFIG_DRM_PANEL_LVDS=m
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index a4fe77c..f591e63 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -35,6 +35,9 @@
->         BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
->         BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
->
-> +#define VIG_SC7280_MASK \
-> +       (VIG_SC7180_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
-> +
->  #define DMA_SDM845_MASK \
->         (BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
->         BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
-> @@ -203,6 +206,11 @@ static const uint32_t plane_formats_yuv[] = {
->         DRM_FORMAT_YVU420,
->  };
->
-> +static const u32 rotation_v2_formats[] = {
-> +       DRM_FORMAT_NV12,
-> +       /* TODO add formats after validation */
-> +};
-> +
->  /*************************************************************
->   * DPU sub blocks config
->   *************************************************************/
-> @@ -642,8 +650,7 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
->   *************************************************************/
->
->  /* SSPP common configuration */
-> -
-> -#define _VIG_SBLK(num, sdma_pri, qseed_ver) \
-> +#define _VIG_SBLK(num, sdma_pri, qseed_ver, rot_cfg) \
->         { \
->         .maxdwnscale = MAX_DOWNSCALE_RATIO, \
->         .maxupscale = MAX_UPSCALE_RATIO, \
-> @@ -660,6 +667,7 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
->         .num_formats = ARRAY_SIZE(plane_formats_yuv), \
->         .virt_format_list = plane_formats, \
->         .virt_num_formats = ARRAY_SIZE(plane_formats), \
-> +       .rotation_cfg = rot_cfg, \
->         }
->
->  #define _DMA_SBLK(num, sdma_pri) \
-> @@ -676,22 +684,28 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
->         }
->
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_0 =
-> -                               _VIG_SBLK("0", 0, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("0", 0, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_1 =
-> -                               _VIG_SBLK("1", 0, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("1", 0, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_2 =
-> -                               _VIG_SBLK("2", 0, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("2", 0, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_3 =
-> -                               _VIG_SBLK("3", 0, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("3", 0, DPU_SSPP_SCALER_QSEED3, NULL);
-> +
-> +static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
-> +       .rot_maxheight = 1088,
-> +       .rot_num_formats = ARRAY_SIZE(rotation_v2_formats),
-> +       .rot_format_list = rotation_v2_formats,
-> +};
->
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
-> -                               _VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
-> -                               _VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
-> -                               _VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3, NULL);
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
-> -                               _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3);
-> +                               _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3, NULL);
->
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK("8", 1);
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
-> @@ -699,7 +713,7 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK("10", 3);
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
->
->  #define SSPP_BLK(_name, _id, _base, _features, \
-> -               _sblk, _xinid, _type, _clkctrl) \
-> +               _sblk, _xinid, _type, _clkctrl, _rotsupported) \
->         { \
->         .name = _name, .id = _id, \
->         .base = _base, .len = 0x1c8, \
-> @@ -707,98 +721,134 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
->         .sblk = &_sblk, \
->         .xin_id = _xinid, \
->         .type = _type, \
-> -       .clk_ctrl = _clkctrl \
-> +       .clk_ctrl = _clkctrl, \
-> +       .rot_supported = _rotsupported \
-
-I'd suggest changing to:
- .rot_supported = _rotsupported ?
-    DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_180 |
-DRM_MODE_REFLECT_MASK :
-    DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK;
-
-Then you can pass boolean to SSPP_BLK rather than a repeating set of
-DRM_MODE_ROTATE constants.
-
-Or you can add & use two defines: one for the SSPPs supporting
-rotation, another one for SSPPs not supporting inline rotation.
-
->         }
->
->  static const struct dpu_sspp_cfg msm8998_sspp[] = {
-> -       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_MSM8998_MASK,
-> -               msm8998_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> -       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_MSM8998_MASK,
-> -               msm8998_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-> -       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_MSM8998_MASK,
-> -               msm8998_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
-> -       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_MSM8998_MASK,
-> -               msm8998_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
-> -       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_MSM8998_MASK,
-> -               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> -       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
-> -               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> -       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
-> -               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> -       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
-> -               sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> +       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK, sdm845_vig_sblk_0,
-> +               0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK, sdm845_vig_sblk_1,
-> +               4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK, sdm845_vig_sblk_2,
-> +               8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK, sdm845_vig_sblk_3,
-> +               12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
-> +               1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
-> +               5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
-> +               9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
-> +               13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->  static const struct dpu_sspp_cfg sdm845_sspp[] = {
-> -       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK,
-> -               sdm845_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> -       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK,
-> -               sdm845_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-> -       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK,
-> -               sdm845_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
-> -       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK,
-> -               sdm845_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
-> -       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> -       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> -       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> -       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> +       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK, sdm845_vig_sblk_0,
-> +               0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK, sdm845_vig_sblk_1,
-> +               4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK, sdm845_vig_sblk_2,
-> +               8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK, sdm845_vig_sblk_3,
-> +               12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
-> +               1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
-> +               5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
-> +               9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
-> +               13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->  static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
-> -                               _VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4);
-> +                               _VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, NULL);
-> +
-> +static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
-> +                               _VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, &dpu_rot_sc7280_cfg_v2);
->
->  static const struct dpu_sspp_cfg sc7180_sspp[] = {
-> -       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
-> -               sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> -       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> -       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> -       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> +       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK, sc7180_vig_sblk_0,
-> +               0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
-> +               1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_1,
-> +               5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
-> +               9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
-> -                               _VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
-> +                               _VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE, NULL);
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
-> -                               _VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
-> +                               _VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE, NULL);
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
-> -                               _VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
-> +                               _VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE, NULL);
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
-> -                               _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
-> +                               _VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE, NULL);
->
->  static const struct dpu_sspp_cfg sm8250_sspp[] = {
-> -       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
-> -               sm8250_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> -       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
-> -               sm8250_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-> -       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
-> -               sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
-> -       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
-> -               sm8250_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
-> -       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> -       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> -       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> -       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> +       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK, sm8250_vig_sblk_0,
-> +               0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK, sm8250_vig_sblk_1,
-> +               4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK, sm8250_vig_sblk_2,
-> +               8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK, sm8250_vig_sblk_3,
-> +               12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
-> +               1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
-> +               5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
-> +               9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
-> +               13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->  static const struct dpu_sspp_cfg sc7280_sspp[] = {
-> -       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
-> -               sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> -       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> -               sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> -       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> -       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-> -               sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> +       SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7280_MASK, sc7280_vig_sblk_0,
-> +               0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_MASK |
-> +               DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
-> +               1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_1,
-> +               5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
-> +       SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
-> +               9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->
-> @@ -820,9 +870,11 @@ static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK("8", 1);
->
->  static const struct dpu_sspp_cfg qcm2290_sspp[] = {
->         SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_QCM2290_MASK,
-> -                qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> +               qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->         SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> -                qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> +               qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
-> +               DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
->  };
->
->  /*************************************************************
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index b85b24b..d009d83 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -112,6 +112,7 @@ enum {
->   * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
->   * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
->   * @DPU_SSPP_CDP             Supports client driven prefetch
-> + * @DPU_SSPP_INLINE_ROTATION Support inline rotation
->   * @DPU_SSPP_MAX             maximum value
->   */
->  enum {
-> @@ -132,6 +133,7 @@ enum {
->         DPU_SSPP_TS_PREFILL,
->         DPU_SSPP_TS_PREFILL_REC1,
->         DPU_SSPP_CDP,
-> +       DPU_SSPP_INLINE_ROTATION,
->         DPU_SSPP_MAX
->  };
->
-> @@ -315,6 +317,18 @@ struct dpu_qos_lut_tbl {
->  };
->
->  /**
-> + * struct dpu_rotation_cfg - define inline rotation config
-> + * @rot_maxheight: max pre rotated height allowed for rotation
-> + * @rot_num_formats: number of elements in @rot_format_list
-> + * @rot_format_list: list of supported rotator formats
-> + */
-> +struct dpu_rotation_cfg {
-> +       u32 rot_maxheight;
-> +       size_t rot_num_formats;
-> +       const u32 *rot_format_list;
-> +};
-> +
-> +/**
->   * struct dpu_caps - define DPU capabilities
->   * @max_mixer_width    max layer mixer line width support.
->   * @max_mixer_blendstages max layer mixer blend stages or
-> @@ -369,6 +383,7 @@ struct dpu_caps {
->   * @num_formats: Number of supported formats
->   * @virt_format_list: Pointer to list of supported formats for virtual planes
->   * @virt_num_formats: Number of supported formats for virtual planes
-> + * @dpu_rotation_cfg: inline rotation configuration
->   */
->  struct dpu_sspp_sub_blks {
->         u32 creq_vblank;
-> @@ -390,6 +405,7 @@ struct dpu_sspp_sub_blks {
->         u32 num_formats;
->         const u32 *virt_format_list;
->         u32 virt_num_formats;
-> +       const struct dpu_rotation_cfg *rotation_cfg;
->  };
->
->  /**
-> @@ -492,6 +508,7 @@ struct dpu_ctl_cfg {
->   * @xin_id:            bus client identifier
->   * @clk_ctrl           clock control identifier
->   * @type               sspp type identifier
-> + * @rot_supported      allowed rotations
->   */
->  struct dpu_sspp_cfg {
->         DPU_HW_BLK_INFO;
-> @@ -499,6 +516,7 @@ struct dpu_sspp_cfg {
->         u32 xin_id;
->         enum dpu_clk_ctrl_type clk_ctrl;
->         u32 type;
-> +       u32 rot_supported;
->  };
->
->  /**
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 6565682..ab959b2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -528,11 +528,19 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
->                 struct dpu_plane_state *pstate,
->                 uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
->                 struct dpu_hw_scaler3_cfg *scale_cfg,
-> -               struct dpu_hw_pixel_ext *pixel_ext,
->                 const struct dpu_format *fmt,
->                 uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
->  {
->         uint32_t i;
-> +       bool inline_rotation = pstate->rotation & DRM_MODE_ROTATE_90;
-> +
-> +       /*
-> +        * For inline rotation cases, scaler config is post-rotation,
-> +        * so swap the dimensions here. However, pixel extension will
-> +        * need pre-rotation settings.
-> +        */
-> +       if (inline_rotation)
-> +               swap(src_w, src_h);
->
->         scale_cfg->phase_step_x[DPU_SSPP_COMP_0] =
->                 mult_frac((1 << PHASE_STEP_SHIFT), src_w, dst_w);
-> @@ -571,11 +579,6 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
->                         scale_cfg->preload_x[i] = DPU_QSEED3_DEFAULT_PRELOAD_H;
->                         scale_cfg->preload_y[i] = DPU_QSEED3_DEFAULT_PRELOAD_V;
->                 }
-> -
-> -               pixel_ext->num_ext_pxls_top[i] =
-> -                       scale_cfg->src_height[i];
-> -               pixel_ext->num_ext_pxls_left[i] =
-> -                       scale_cfg->src_width[i];
->         }
->         if (!(DPU_FORMAT_IS_YUV(fmt)) && (src_h == dst_h)
->                 && (src_w == dst_w))
-> @@ -591,6 +594,24 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
->         scale_cfg->enable = 1;
->  }
->
-> +static void _dpu_plane_setup_pixel_ext(struct dpu_hw_scaler3_cfg *scale_cfg,
-> +                               struct dpu_hw_pixel_ext *pixel_ext,
-> +                               uint32_t src_w, uint32_t src_h,
-> +                               uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
-> +{
-> +       int i;
-> +
-> +       for (i = 0; i < DPU_MAX_PLANES; i++) {
-> +               if (i == DPU_SSPP_COMP_1_2 || i == DPU_SSPP_COMP_2) {
-> +                       src_w /= chroma_subsmpl_h;
-> +                       src_h /= chroma_subsmpl_v;
-> +               }
-> +
-> +               pixel_ext->num_ext_pxls_top[i] = src_h;
-> +               pixel_ext->num_ext_pxls_left[i] = src_w;
-> +       }
-> +}
-> +
->  static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
->         {
->                 /* S15.16 format */
-> @@ -665,7 +686,12 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
->                         drm_rect_height(&pipe_cfg->src_rect),
->                         drm_rect_width(&pipe_cfg->dst_rect),
->                         drm_rect_height(&pipe_cfg->dst_rect),
-> -                       &scaler3_cfg, &pixel_ext, fmt,
-> +                       &scaler3_cfg, fmt,
-> +                       info->hsub, info->vsub);
-> +
-> +       /* configure pixel extension based on scalar config */
-> +       _dpu_plane_setup_pixel_ext(&scaler3_cfg, &pixel_ext,
-> +                       drm_rect_width(&pipe_cfg->src_rect), drm_rect_height(&pipe_cfg->src_rect),
->                         info->hsub, info->vsub);
->
->         if (pdpu->pipe_hw->ops.setup_pe)
-> @@ -956,6 +982,41 @@ static bool dpu_plane_validate_src(struct drm_rect *src,
->                 drm_rect_equals(fb_rect, src);
->  }
->
-> +static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
-> +                                               const struct dpu_sspp_sub_blks *sblk,
-> +                                               struct drm_rect src, const struct dpu_format *fmt)
-> +{
-> +       bool found = false;
-> +       size_t i, num_formats;
-> +       const u32 *supported_formats;
-> +
-> +       if (drm_rect_width(&src) > sblk->rotation_cfg->rot_maxheight) {
-> +               DPU_DEBUG_PLANE(pdpu, "invalid height for inline rot:%d max:%d\n",
-> +                               src.y2, sblk->rotation_cfg->rot_maxheight);
-> +               return -EINVAL;
-> +       }
-> +
-> +       supported_formats = sblk->rotation_cfg->rot_format_list;
-> +       num_formats = sblk->rotation_cfg->rot_num_formats;
-> +
-> +       for (i = 0; i < num_formats; i++) {
-> +               /* check for valid formats supported by inline rotation */
-> +               if (fmt->base.pixel_format == supported_formats[i] &&
-> +                       DPU_FORMAT_IS_UBWC(fmt)) {
-> +                       found = true;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       if (!found || !num_formats) {
-> +               DPU_DEBUG_PLANE(pdpu, "supported_format not found num: %zu\n",
-> +                               num_formats);
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int dpu_plane_atomic_check(struct drm_plane *plane,
->                                   struct drm_atomic_state *state)
->  {
-> @@ -968,15 +1029,18 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->         const struct dpu_format *fmt;
->         struct drm_rect src, dst, fb_rect = { 0 };
->         uint32_t min_src_size, max_linewidth;
-> +       unsigned int rotation = 0;
-> +       const struct dpu_sspp_cfg *pipe_hw_caps = pdpu->pipe_hw->cap;
-> +       const struct dpu_sspp_sub_blks *sblk = pdpu->pipe_hw->cap->sblk;
->
->         if (new_plane_state->crtc)
->                 crtc_state = drm_atomic_get_new_crtc_state(state,
->                                                            new_plane_state->crtc);
->
-> -       min_scale = FRAC_16_16(1, pdpu->pipe_hw->cap->sblk->maxupscale);
-> +       min_scale = FRAC_16_16(1, sblk->maxupscale);
->         ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->                                                   min_scale,
-> -                                                 pdpu->pipe_hw->cap->sblk->maxdwnscale << 16,
-> +                                                 sblk->maxdwnscale << 16,
->                                                   true, true);
->         if (ret) {
->                 DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
-> @@ -1002,8 +1066,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->         min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
->
->         if (DPU_FORMAT_IS_YUV(fmt) &&
-> -               (!(pdpu->pipe_hw->cap->features & DPU_SSPP_SCALER) ||
-> -                !(pdpu->pipe_hw->cap->features & DPU_SSPP_CSC_ANY))) {
-> +               (!(pipe_hw_caps->features & DPU_SSPP_SCALER) ||
-> +                !(pipe_hw_caps->features & DPU_SSPP_CSC_ANY))) {
->                 DPU_DEBUG_PLANE(pdpu,
->                                 "plane doesn't have scaler/csc for yuv\n");
->                 return -EINVAL;
-> @@ -1036,6 +1100,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->                 return -E2BIG;
->         }
->
-> +       rotation = drm_rotation_simplify(new_plane_state->rotation,
-> +                                       pipe_hw_caps->rot_supported);
-> +
-> +       if ((pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
-> +               rotation & DRM_MODE_ROTATE_90) {
-
-Please put the (rotation & DRM_MODE_ROTATE_90 into the parentheses.
-
-> +               ret = dpu_plane_check_inline_rotation(pdpu, sblk, src, fmt);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       pstate->rotation = rotation;
->         pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
->
->         return 0;
-> @@ -1151,21 +1226,18 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->                                 pstate->multirect_mode);
->
->         if (pdpu->pipe_hw->ops.setup_format) {
-> -               unsigned int rotation;
-> -
-> +               unsigned int rotation = pstate->rotation;
-
-Please restore the empty line.
-
->                 src_flags = 0x0;
->
-> -               rotation = drm_rotation_simplify(state->rotation,
-> -                                                DRM_MODE_ROTATE_0 |
-> -                                                DRM_MODE_REFLECT_X |
-> -                                                DRM_MODE_REFLECT_Y);
-> -
->                 if (rotation & DRM_MODE_REFLECT_X)
->                         src_flags |= DPU_SSPP_FLIP_LR;
->
->                 if (rotation & DRM_MODE_REFLECT_Y)
->                         src_flags |= DPU_SSPP_FLIP_UD;
->
-> +               if (rotation & DRM_MODE_ROTATE_90)
-> +                       src_flags |= DPU_SSPP_ROT_90;
-> +
->                 /* update format */
->                 pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw, fmt, src_flags,
->                                 pstate->multirect_index);
-> @@ -1463,6 +1535,8 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->         int zpos_max = DPU_ZPOS_MAX;
->         uint32_t num_formats;
->         int ret = -EINVAL;
-> +       unsigned int supported_rotations = DRM_MODE_ROTATE_0 |
-> +                       DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
->
->         /* create and zero local structure */
->         pdpu = kzalloc(sizeof(*pdpu), GFP_KERNEL);
-> @@ -1530,12 +1604,11 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->                         BIT(DRM_MODE_BLEND_PREMULTI) |
->                         BIT(DRM_MODE_BLEND_COVERAGE));
->
-> +       if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
-> +               supported_rotations |= DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270;
-
-Can we use pdpu->pipe_hw->cap->rot_supported here instead?
-
-> +
->         drm_plane_create_rotation_property(plane,
-> -                       DRM_MODE_ROTATE_0,
-> -                       DRM_MODE_ROTATE_0 |
-> -                       DRM_MODE_ROTATE_180 |
-> -                       DRM_MODE_REFLECT_X |
-> -                       DRM_MODE_REFLECT_Y);
-> +                   DRM_MODE_ROTATE_0, supported_rotations);
->
->         drm_plane_enable_fb_damage_clips(plane);
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> index 50781e2..e146310 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> @@ -26,6 +26,7 @@
->   * @plane_fetch_bw: calculated BW per plane
->   * @plane_clk: calculated clk per plane
->   * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
-> + * @rotation: simplified drm rotation hint
->   */
->  struct dpu_plane_state {
->         struct drm_plane_state base;
-> @@ -40,6 +41,7 @@ struct dpu_plane_state {
->         u64 plane_clk;
->
->         bool needs_dirtyfb;
-> +       unsigned int rotation;
->  };
->
->  /**
-> --
-> 2.7.4
->
 
 
--- 
-With best wishes
-Dmitry
+On 10/03/22 8:59 pm, Matthew Auld wrote:
+> On 10/03/2022 14:47, Arunpravin wrote:
+>>
+>>
+>> On 08/03/22 10:31 pm, Matthew Auld wrote:
+>>> On 08/03/2022 13:59, Arunpravin wrote:
+>>>>
+>>>>
+>>>> On 07/03/22 10:11 pm, Matthew Auld wrote:
+>>>>> On 07/03/2022 14:37, Arunpravin wrote:
+>>>>>> place BUG_ON(order < min_order) outside do..while
+>>>>>> loop as it fails Unigine Heaven benchmark.
+>>>>>>
+>>>>>> Unigine Heaven has buffer allocation requests for
+>>>>>> example required pages are 161 and alignment request
+>>>>>> is 128. To allocate the remaining 33 pages, continues
+>>>>>> the iteration to find the order value which is 5 and
+>>>>>> when it compares with min_order = 7, enables the
+>>>>>> BUG_ON(). To avoid this problem, placed the BUG_ON
+>>>>>> check outside of do..while loop.
+>>>>>>
+>>>>>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/drm_buddy.c | 3 ++-
+>>>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>>>>>> index 72f52f293249..ed94c56b720f 100644
+>>>>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>>>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>>>>> @@ -669,10 +669,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>>>>>     	order = fls(pages) - 1;
+>>>>>>     	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
+>>>>>>     
+>>>>>> +	BUG_ON(order < min_order);
+>>>>>
+>>>>> Isn't the issue that we are allowing a size that is not aligned to the
+>>>>> requested min_page_size? Should we not fix the caller(and throw a normal
+>>>>> error here), or perhaps add the round_up() here instead?
+>>>>>
+>>>> CASE 1:
+>>>> when size is not aligned to the requested min_page_size, for instance,
+>>>> required size = 161 pages, min_page_size = 128 pages, here we have 3
+>>>> possible options,
+>>>> a. AFAIK,This kind of situation is common in any workload,the first
+>>>> allocation (i.e) 128 pages is aligned to min_page_size, Should we just
+>>>> allocate the left over 33 pages (2 pow 5, 2 pow 0) since the caller does
+>>>> know the left over pages are not in min_page_size alignment?
+>>>
+>>> So IIUC looking at amdgpu_gem_create_ioctl(), userspace can specify some
+>>> arbitrary physical alignment for an object? Is that not meant to apply
+>>> to every page/chunk? The above example would only have the correct
+>>> physical alignment guaranteed for the first chunk, or so, is this the
+>>> expected ABI behaviour?
+>>>
+>> I gone through the function amdgpu_gem_create_ioctl(), it reads the
+>> physical alignment in bytes from userspace, does i915 round up the size
+>> value to the alignment or does i915 fails the allocation request if size
+>> is not aligned with min_page_size? If not, I think running unigine
+>> heaven or similar benchmark triggers BUG_ON() on current version of drm
+>> buddy
+> 
+> i915 will always round_up the obj->base.size as per the 
+> default_page_size. But in our case the default_page_size is selected by 
+> the kernel, which is always either PAGE_SIZE, or 64K on some platforms, 
+> due to the HW having some minimum GPU page-size for mapping VRAM pages. 
+> We don't currently have anything similar to 
+> amdgpu_gem_create_in.alignment, where userspace can request some 
+> arbitrary physical alignment.
+> 
+>>> Also looking at this some more, the other related bug here is the
+>>> order-- == min_order check, since it now won't bail when order == 0,
+>>> leading to order = -1, if we are unlucky...
+>> will add a fix
+>>>
+>>> Originally, if asking for min_page_size > chunk_size, then the
+>>> allocation was meant to fail if it can't fill the resource request with
+>>> pages of at least that size(and also alignment). Or at least that was
+>>> the original meaning in i915 IIRC.
+>> we can follow the same here too, failing the allocation request if size
+>> is not aligned with min_page_size?
+> 
+> Yeah, seems reasonable to me.
+I had internal discussion with Christian and he suggested to round_up
+the size to the alignment and trim the block to the required original
+size. I have sent the patch, please review.
+
+Thanks,
+Arun
+> 
+>>
+>> I added a debug print for requested num_pages from userspace and its
+>> alignment request and executed unigine heaven, I see many such instances
+>> where min_page_size is not aligned to the size, how i915 handles such
+>> requests?
+>>>
+>>>>
+>>>> b. There are many such instances in unigine heaven workload (there would
+>>>> be many such workloads), throwing a normal error would lower the FPS? is
+>>>> it possible to fix at caller application?
+>>>>
+>>>> c. adding the round_up() is possible, but in every such instances we end
+>>>> up allocating extra unused memory. For example, if required pages = 1028
+>>>> and min_page_size = 1024 pages, we end up round up of left over 4 pages
+>>>> to the min_page_size, so the total size would be 2048 pages.
+>>>>
+>>>>> i.e if someone does:
+>>>>>
+>>>>> alloc_blocks(mm, 0, end, 4096, 1<<16, &blocks, flags);
+>>>> CASE 2:
+>>>> I think this case should be detected (i.e) when min_page_size > size,
+>>>> should we return -EINVAL?
+>>>>>
+>>>>> This will still trigger the BUG_ON() even if we move it out of the loop,
+>>>>> AFAICT.
+>>>>>
+>>>>
+>>>> Should we just allow the CASE 1 proceed for the allocation and return
+>>>> -EINVAL for the CASE 2?
+>>>>
+>>>>>> +
+>>>>>>     	do {
+>>>>>>     		order = min(order, (unsigned int)fls(pages) - 1);
+>>>>>>     		BUG_ON(order > mm->max_order);
+>>>>>> -		BUG_ON(order < min_order);
+>>>>>>     
+>>>>>>     		do {
+>>>>>>     			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
+>>>>>>
+>>>>>> base-commit: 8025c79350b90e5a8029234d433578f12abbae2b
