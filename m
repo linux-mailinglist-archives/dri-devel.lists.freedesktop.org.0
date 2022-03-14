@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A184D9084
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 00:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063094D9092
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 00:45:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A7210E1D7;
-	Mon, 14 Mar 2022 23:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F019E10E311;
+	Mon, 14 Mar 2022 23:45:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8142789F8B;
- Mon, 14 Mar 2022 23:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647301330; x=1678837330;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OizfX+XKo6M/lAi36LbJP+jiDe/BkdnpLNiwldVZxEs=;
- b=FEGQjle5o46PlnQ5l6HS4oSoAl3FBTYJB+zCC3susvI24NpVjTK0WtdN
- zq1I9SL7/ybFHDcEzqBkU3UTzB6ZR4FBOssLeWf1Bjrx/PEqKwUHR36rT
- MNaeCtN4oXqmistxCx+wZJBd3EomU5UGHiENoPurfTL5DBOxIreamFsgV
- uyzxBzVtKP/7NPCdBM4jyvianzevWa5d9c9kzdMihfSQ5PdlEuCkC6pqM
- ZGmFpccBLYJcR9XZ9kinyT2aBdfLjzTDURKJzRbDTPXad0V2HkZ6R1mbj
- Cb1eCUJVRcazppJaDh1hFtv8u1sQMiRLpVD5XX0TJygT1ncsNP2qOCT9y w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256359969"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="256359969"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 16:42:09 -0700
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="549403066"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 16:42:09 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915: Add support for steered register writes
-Date: Mon, 14 Mar 2022 16:42:03 -0700
-Message-Id: <20220314234203.799268-4-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220314234203.799268-1-matthew.d.roper@intel.com>
-References: <20220314234203.799268-1-matthew.d.roper@intel.com>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E57010E311
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 23:45:41 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id qx21so37528130ejb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 16:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mMcKlcLkl25csYGtmWB99GmowZ54MQeoPUbWxxcyFU0=;
+ b=bp+YoIVGfFN/43D3vqHErY1NhIRJApUAhtw6o/hQeIyaDBqIfE66EIhFuNlzouKqsM
+ ICMTNUqtiRAq88ITvYxr1uiF5OmdPGah32szvxsrVE8+TbWCoOGxOG6L25aPWaho7kdy
+ 3FU/jNh6QDkaRKObZiMMOkBlD8Aqv99swKSc8YZ9bFy6T0F/mbML6sVVYqbR6qCMVE6H
+ bYhE/ZUbxEYhn6H6a+/VharXFDIBFPo45r3fdwvvEZ51SgbTUi25vilSjvica56rkM6I
+ xTjLcOE3UXJzEYpLAj8t0ISFMLBTpHiYS87O0Yj4+2ZJb/rKhYVFzvJMGee+en585/rw
+ GBaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mMcKlcLkl25csYGtmWB99GmowZ54MQeoPUbWxxcyFU0=;
+ b=39GyRPGJ1bgOwIQ9I1KjNA4RnavR8EjZ94Z6ocgYvWKx0eKU65xixcAZbomtodmt7S
+ b7fRnLwCnDffaxmqTYXzRUQWQ+V2g39oXdiyG/EVQ/mx8TVlExwSOQL14Ksr5DoS3/5h
+ HsD5wFbFc+eONAKpBmtsv54az3fMD2NifKDoPmPX17hwDmoGo4xo+NMVirU4VglOkME1
+ Jgd2+fHABo3oPNAVsmQg79Bxar5sBKTKwZofnY+u68bQPQ4f3xM2hEHEj0KaddlNpvNp
+ K46Pq7Db/bbC7BtSOJQ724CxRr/qBBsASg5tp8Eq5xFLCs9lyXGyzTgrwgty+SsORNd8
+ ONww==
+X-Gm-Message-State: AOAM531nIZ2J1GjUm0fWa2ccqvRYDmzZ/aKONYf9vYl2zk2ejoR/kMYM
+ xOeqvcNOJ9rmLY3nkDMGbus39pbbZpLx2GyYIKc/fA==
+X-Google-Smtp-Source: ABdhPJzivdKSx3a2ptS01jjlhP74llQ2PdFx6OA83cn+BAtPtg6OtNsv++AhnKe1mUMAW8amvG7lkgIAO9oTvOh6yGc=
+X-Received: by 2002:a17:906:5d08:b0:6da:b4ea:937 with SMTP id
+ g8-20020a1709065d0800b006dab4ea0937mr20516098ejt.446.1647301539672; Mon, 14
+ Mar 2022 16:45:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-8-tjmercier@google.com>
+ <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
+In-Reply-To: <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 14 Mar 2022 16:45:28 -0700
+Message-ID: <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com>
+Subject: Re: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for
+ userspace
+To: Todd Kjos <tkjos@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,181 +67,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harish Chegondi <harish.chegondi@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Upcoming patches will need to steer writes to multicast registers as
-well as reading them.
+On Thu, Mar 10, 2022 at 11:33 AM Todd Kjos <tkjos@google.com> wrote:
+>
+> On Wed, Mar 9, 2022 at 8:52 AM T.J. Mercier <tjmercier@google.com> wrote:
+> >
+> > The kernel interface should use types that the kernel defines instead o=
+f
+> > pid_t and uid_t, whose definiton is owned by libc. This fixes the heade=
+r
+> > so that it can be included without first including sys/types.h.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> >  include/uapi/linux/android/binder.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 169fd5069a1a..aa28454dbca3 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -289,8 +289,8 @@ struct binder_transaction_data {
+> >
+> >         /* General information about the transaction. */
+> >         __u32           flags;
+> > -       pid_t           sender_pid;
+> > -       uid_t           sender_euid;
+> > +       __kernel_pid_t  sender_pid;
+> > +       __kernel_uid_t  sender_euid;
+>
+> Are we guaranteed that this does not affect the UAPI at all? Userspace
+> code using this definition will have to run with kernels using the old
+> definition and visa-versa.
 
-Although the setting of the 'multicast' bit should only really matter
-for write operations (reads always operate in a unicast manner and give
-us the result from one specific instance), Wa_22013088509 suggests that
-we leave the multicast bit enabled when performing read operations, so
-we follow suit here.
+A standards compliant userspace should be expecting a signed integer
+type here. So the only way I can think userspace would be affected is
+if:
+1) pid_t is a long AND
+2) sizeof(long) > sizeof(int) AND
+3) Consumers of the pid_t definition actually attempt to mutate the
+result to make use of extra bits in the variable (which are not there)
 
-Cc: Harish Chegondi <harish.chegondi@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
- drivers/gpu/drm/i915/intel_uncore.c     | 75 ++++++++++++++++++++++---
- drivers/gpu/drm/i915/intel_uncore.h     |  4 +-
- 3 files changed, 70 insertions(+), 10 deletions(-)
+This seems extremely unlikely. For instance just on the topic of the
+first item, all of the C library implementations with pid_t
+definitions linked here use an int, except for Bionic which typdefs
+pid_t to __kernel_pid_t and Sortix which uses long.
+https://wiki.osdev.org/C_Library
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 19cd34f24263..62e0f075b1de 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -46,6 +46,7 @@
- #define   GEN8_MCR_SLICE_MASK			GEN8_MCR_SLICE(3)
- #define   GEN8_MCR_SUBSLICE(subslice)		(((subslice) & 3) << 24)
- #define   GEN8_MCR_SUBSLICE_MASK		GEN8_MCR_SUBSLICE(3)
-+#define   GEN11_MCR_MULTICAST			REG_BIT(31)
- #define   GEN11_MCR_SLICE(slice)		(((slice) & 0xf) << 27)
- #define   GEN11_MCR_SLICE_MASK			GEN11_MCR_SLICE(0xf)
- #define   GEN11_MCR_SUBSLICE(subslice)		(((subslice) & 0x7) << 24)
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index dd8fdd5863de..ef8ffc01ad19 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -2464,17 +2464,46 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
- 	return fw_domains;
- }
- 
--u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
--					   i915_reg_t reg,
--					   int slice, int subslice)
-+/**
-+ * uncore_rw_with_mcr_steering_fw - Access a register after programming
-+ *				    the MCR selector register.
-+ * @uncore: pointer to struct intel_uncore
-+ * @reg: register being accessed
-+ * @rw_flag: FW_REG_READ for read access or FW_REG_WRITE for write access
-+ * @slice: slice number (ignored for multi-cast write)
-+ * @subslice: sub-slice number (ignored for multi-cast write)
-+ * @value: register value to be written (ignored for read)
-+ *
-+ * Return: 0 for write access. register value for read access.
-+ *
-+ * Caller needs to make sure the relevant forcewake wells are up.
-+ */
-+static u32 uncore_rw_with_mcr_steering_fw(struct intel_uncore *uncore,
-+					  i915_reg_t reg, u8 rw_flag,
-+					  int slice, int subslice, u32 value)
- {
--	u32 mcr_mask, mcr_ss, mcr, old_mcr, val;
-+	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
- 
- 	lockdep_assert_held(&uncore->lock);
- 
- 	if (GRAPHICS_VER(uncore->i915) >= 11) {
- 		mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
- 		mcr_ss = GEN11_MCR_SLICE(slice) | GEN11_MCR_SUBSLICE(subslice);
-+
-+		/*
-+		 * Wa_22013088509
-+		 *
-+		 * The setting of the multicast/unicast bit usually wouldn't
-+		 * matter for read operations (which always return the value
-+		 * from a single register instance regardless of how that bit
-+		 * is set), but some platforms have a workaround requiring us
-+		 * to remain in multicast mode for reads.  There's no real
-+		 * downside to this, so we'll just go ahead and do so on all
-+		 * platforms; we'll only clear the multicast bit from the mask
-+		 * when exlicitly doing a write operation.
-+		 */
-+		if (rw_flag == FW_REG_WRITE)
-+			mcr_mask |= GEN11_MCR_MULTICAST;
- 	} else {
- 		mcr_mask = GEN8_MCR_SLICE_MASK | GEN8_MCR_SUBSLICE_MASK;
- 		mcr_ss = GEN8_MCR_SLICE(slice) | GEN8_MCR_SUBSLICE(subslice);
-@@ -2486,7 +2515,10 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
- 	mcr |= mcr_ss;
- 	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
- 
--	val = intel_uncore_read_fw(uncore, reg);
-+	if (rw_flag == FW_REG_READ)
-+		val = intel_uncore_read_fw(uncore, reg);
-+	else
-+		intel_uncore_write_fw(uncore, reg, value);
- 
- 	mcr &= ~mcr_mask;
- 	mcr |= old_mcr & mcr_mask;
-@@ -2496,14 +2528,16 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
- 	return val;
- }
- 
--u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
--					i915_reg_t reg, int slice, int subslice)
-+static u32 uncore_rw_with_mcr_steering(struct intel_uncore *uncore,
-+				       i915_reg_t reg, u8 rw_flag,
-+				       int slice, int subslice,
-+				       u32 value)
- {
- 	enum forcewake_domains fw_domains;
- 	u32 val;
- 
- 	fw_domains = intel_uncore_forcewake_for_reg(uncore, reg,
--						    FW_REG_READ);
-+						    rw_flag);
- 	fw_domains |= intel_uncore_forcewake_for_reg(uncore,
- 						     GEN8_MCR_SELECTOR,
- 						     FW_REG_READ | FW_REG_WRITE);
-@@ -2511,7 +2545,8 @@ u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
- 	spin_lock_irq(&uncore->lock);
- 	intel_uncore_forcewake_get__locked(uncore, fw_domains);
- 
--	val = intel_uncore_read_with_mcr_steering_fw(uncore, reg, slice, subslice);
-+	val = uncore_rw_with_mcr_steering_fw(uncore, reg, rw_flag,
-+					     slice, subslice, value);
- 
- 	intel_uncore_forcewake_put__locked(uncore, fw_domains);
- 	spin_unlock_irq(&uncore->lock);
-@@ -2519,6 +2554,28 @@ u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
- 	return val;
- }
- 
-+u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
-+					   i915_reg_t reg, int slice, int subslice)
-+{
-+	return uncore_rw_with_mcr_steering_fw(uncore, reg, FW_REG_READ,
-+					      slice, subslice, 0);
-+}
-+
-+u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
-+					i915_reg_t reg, int slice, int subslice)
-+{
-+	return uncore_rw_with_mcr_steering(uncore, reg, FW_REG_READ,
-+					   slice, subslice, 0);
-+}
-+
-+void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
-+					  i915_reg_t reg, u32 value,
-+					  int slice, int subslice)
-+{
-+	uncore_rw_with_mcr_steering(uncore, reg, FW_REG_WRITE,
-+				    slice, subslice, value);
-+}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/mock_uncore.c"
- #include "selftests/intel_uncore.c"
-diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-index 6ff56d673e2b..9a760952d46a 100644
---- a/drivers/gpu/drm/i915/intel_uncore.h
-+++ b/drivers/gpu/drm/i915/intel_uncore.h
-@@ -214,7 +214,9 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
- 					   int slice, int subslice);
- u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
- 					i915_reg_t reg,	int slice, int subslice);
--
-+void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
-+					  i915_reg_t reg, u32 value,
-+					  int slice, int subslice);
- void
- intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
- void intel_uncore_init_early(struct intel_uncore *uncore,
--- 
-2.34.1
+However I would argue this is already broken and should count as a bug
+fix since I can't do this:
 
+$ cat binder_include.c ; gcc binder_include.c
+#include <linux/android/binder.h>
+int main() {}
+In file included from binder_include.c:1:
+/usr/include/linux/android/binder.h:291:9: error: unknown type name =E2=80=
+=98pid_t=E2=80=99
+  291 |         pid_t           sender_pid;
+      |         ^~~~~
+/usr/include/linux/android/binder.h:292:9: error: unknown type name =E2=80=
+=98uid_t=E2=80=99
+  292 |         uid_t           sender_euid;
+      |         ^~~~~
+
+This is also the only occurrence of pid_t in all of
+include/uapi/linux. All 40+ other uses are __kernel_pid_t, and I don't
+see why the binder header should be different.
+
+
+>
+> >         binder_size_t   data_size;      /* number of bytes of data */
+> >         binder_size_t   offsets_size;   /* number of bytes of offsets *=
+/
+> >
+> > --
+> > 2.35.1.616.g0bdcbb4464-goog
+> >
