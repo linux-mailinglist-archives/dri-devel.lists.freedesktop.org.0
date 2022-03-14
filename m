@@ -2,81 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67BF4D8675
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F584D86AE
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:17:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA8110E2BF;
-	Mon, 14 Mar 2022 14:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 184E510E3B7;
+	Mon, 14 Mar 2022 14:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E4410E2BF
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:07:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647266868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1n9imp/roVGFW+MJg7Js2iXDtKYDylDPOOBQLufwOMo=;
- b=Ib7Pdsjf9S4oNapcCrEYDvb9D+sgnXAUpoPBex98vP0pq+qX/rUUst20SGJKrSmL+SBYnh
- 6/A3zMb9MSxgkmNe8+N1yO9TZhX9ABkLiAtNdcAfZL2rpOJdaOrmFv9jjgG6wnliAJmLET
- yhcikAupQIvbLDXRtM06kaTDOJPwsGM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-rozsBg4PMq-gfNp5cOY_xg-1; Mon, 14 Mar 2022 10:07:47 -0400
-X-MC-Unique: rozsBg4PMq-gfNp5cOY_xg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l10-20020a05600012ca00b001f1e4669c98so4380959wrx.23
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:07:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1n9imp/roVGFW+MJg7Js2iXDtKYDylDPOOBQLufwOMo=;
- b=oaXJ250Q3RcfmM8A7kOqIRmvsyBwPhvpO/I5EC4lRwXb9i61QmJxgcRGRDet5qTqgu
- Kpu6sjWvbY1WhcVafSeFwR6ewlLwBbDCGVvQ8m57IT6UBX40MUlP95SS1Ulgp4cm0yKs
- ACrXtGAiLiG8vbTTueLH62vBNQLn3O0idi2AHsdlyIKfrPw9tmCR5uREMGdUUhjzjIGr
- 99EDavIYts6C5E0auSl6QVmK34GVqI0F2+4A78woqT3tbteis8aRiV099OnYSY3uuq8f
- YQ4JFmkB+xBcJF8kqMYACBZ34xuUrPcn3dLBnM+mWieas+i3fnoowHiW1fZZmnz8XC/b
- 0PaA==
-X-Gm-Message-State: AOAM530XDkeOXozCPSyuKkf6w8ACQmbqniW8iNA4aiGkGUT2CD4XLmCH
- a6FLOny4Dqr4EfHkToTamJQyo0OjeuZYeTP9MoDK6r2H4sR1QYsbh4FYul1bJYQwr7BISibpMlS
- g2HCnXfAAu8ecaBQL3PyNNm8JNTHa
-X-Received: by 2002:a5d:6daf:0:b0:203:8214:ae65 with SMTP id
- u15-20020a5d6daf000000b002038214ae65mr16784123wrs.145.1647266866162; 
- Mon, 14 Mar 2022 07:07:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUmZKMWpb2vbN6Fu8O0zteEWAjmmY/DHvyxw4A1qQVFF+i6VWRfQ9qS5Kjt/nNczT10/+Vzw==
-X-Received: by 2002:a5d:6daf:0:b0:203:8214:ae65 with SMTP id
- u15-20020a5d6daf000000b002038214ae65mr16784102wrs.145.1647266865920; 
- Mon, 14 Mar 2022 07:07:45 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- v10-20020a05600c214a00b00389bcc75559sm15441665wml.27.2022.03.14.07.07.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 07:07:45 -0700 (PDT)
-Message-ID: <9b8bbc6a-e499-99c7-8fe6-95c4256ef61d@redhat.com>
-Date: Mon, 14 Mar 2022 15:07:43 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E66E710E393
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:17:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nTlVQ-0004zI-Ju; Mon, 14 Mar 2022 15:17:04 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nTlVH-000f2a-PX; Mon, 14 Mar 2022 15:16:54 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nTlVF-0097aV-Ov; Mon, 14 Mar 2022 15:16:53 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Lars Povlsen <lars.povlsen@microchip.com>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ UNGLinuxDriver@microchip.com, linux-hwmon@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Matt Mackall <mpm@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Oleksij Rempel <linux@rempel-privat.de>, Shawn Guo <shawnguo@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Mark Brown <broonie@kernel.org>, Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v8 00/16] clk: provide new devm helpers for prepared and
+ enabled clocks
+Date: Mon, 14 Mar 2022 15:16:27 +0100
+Message-Id: <20220314141643.22184-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/4] drm/format-helper: Add drm_fb_gray8_to_mono_reversed()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <20220131201225.2324984-3-javierm@redhat.com>
- <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5140; i=uwe@kleine-koenig.org;
+ h=from:subject; bh=UyYZYiS1jsIjibZ2MrufsJ1VrXFVRIfOx2nxS5wK9sc=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiL03mRL8wE3boX5TsxdQb7A/4ALVpT93/3rzycIlB
+ hFpTWs+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYi9N5gAKCRDB/BR4rcrsCc4ZB/
+ 9EDZG3qguuMeWbZAfXaH9prZGcSynBDBtwqLtmnGRt28ZTaarFw88YmZERvpaHjVQ0WPcNKCMjBphZ
+ C/YPMpezXK2TikRkYqr2gsFaWKLwJ5+rqhGqxNSg4wZqzBgxjEgMa4BRbXRgQZvFOb/8ucyk4f/y3U
+ oXCTg8ZOWQwebvd7JJsMztn6aZl6uW9im2ZqZji8vnmZt0yG28aNRWS33RDwWlQzrat//LG5Pb7S41
+ 7uVOkFnphQjm5eRjOvblGRbYIxlM0SEETKun6FycjvR4gk1OvqrePSrWZY01rN3iXQF/v/C3RrHXL6
+ fzr+e9MLjqZjR6qpuN+DvujbCtKzRp
+X-Developer-Key: i=uwe@kleine-koenig.org; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,69 +91,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tomislav Denis <tomislav.denis@avl.com>, linux-iio@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-i2c@vger.kernel.org,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-clk@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Michal Simek <michal.simek@xilinx.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Andy Gross <agross@kernel.org>,
+ Keguang Zhang <keguang.zhang@gmail.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>, linux-pwm@vger.kernel.org,
+ kernel@pengutronix.de, linux-arm-msm@vger.kernel.org,
+ Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, linux-gpio@vger.kernel.org,
+ =?utf-8?q?Andr=C3=A9_Gustavo_Nakagomi_Lopez?= <andregnl@usp.br>,
+ linux-amlogic@lists.infradead.org,
+ Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+ linux-mips@vger.kernel.org, linux-spi@vger.kernel.org,
+ Cai Huoqing <caihuoqing@baidu.com>, linux-crypto@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, dmaengine@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+Hello,
 
-On 3/14/22 14:40, Geert Uytterhoeven wrote:
-> Hi Javier,
-> 
-> On Mon, Jan 31, 2022 at 9:12 PM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Add support to convert 8-bit grayscale to reversed monochrome for drivers
->> that control monochromatic displays, that only have 1 bit per pixel depth.
->>
->> This helper function was based on repaper_gray8_to_mono_reversed() from
->> the drivers/gpu/drm/tiny/repaper.c driver.
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
->> --- a/drivers/gpu/drm/drm_format_helper.c
->> +++ b/drivers/gpu/drm/drm_format_helper.c
->> @@ -584,3 +584,38 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
->>         return -EINVAL;
->>  }
->>  EXPORT_SYMBOL(drm_fb_blit_toio);
->> +
->> +/**
->> + * drm_fb_gray8_to_mono_reversed - Convert grayscale to reversed monochrome
->> + * @dst: reversed monochrome destination buffer
-> 
-> What's the meaning of "reversed"?
+this is another try to convince the relevant people that
+devm_clk_get_enabled() is a nice idea. Compared to v7 (back in May 2021) this
+series is rebased to v5.17-rc8 and converts quite some drivers that open code
+devm_clk_get_enabled() up to now (patches #3 - #11).
 
-Originally I took this helper from the repaper driver and it was called
-repaper_gray8_to_mono_reversed(), so the naming just got carried over.
+A concern about devm_clk_get_enabled() in v7 was that it helps people to be
+lazy and I agree that in some situations when devm_clk_get_enabled() is used it
+would be more efficient and sensible to care to only enable the clk when really
+needed.
 
-> During the last few days, I've been balancing between (a) "reverse
-> video" and (b) "reverse bit order", but none of them seems to be true.
->
-> (a) The code maps 0-127 to 0 and 8-255 to 1, which just reduces from
->     256 to 2 grayscale levels, without inversion. The result is also
->     white-on-black on my ssd130x OLED.
-> (b) On little-endian, the CFB drawops use little-endian bit order,
->     which is what ends up in "byte" in the code below.
->
+On the other hand, the function is right for some users, e.g. the watchdog
+drivers. For the others it's not so simple to judge. Given that there are a
+lot of drivers that are lazy even if doing so is some effort (i.e. calling
+clk_prepare_enable() and devm_add_action()) convinces me, that introducing the
+function family is sensible. (And if you want to work on these drivers,
+grepping for devm_clk_get_enabled gives you a few candidates once the
+series is in :-)
 
-As far as I understand is (a) from the options since the repaper display
-uses black-on-white. But as you pointed out the ssd130x OLEDs instead do
-white-on-black.
+Otherwise looking at the diffstat of this series:
 
-I should had probably just name the helper drm_fb_gray8_to_monochrome()
-or maybe drm_fb_gray8_to_gray1() ?
+ 48 files changed, 257 insertions(+), 851 deletions(-)
 
+is quite convincing. Just the first two patches (which introduce the new
+functions) account for
+
+ 2 files changed, 169 insertions(+), 17 deletions(-)
+
+. A rough third of the added lines is documentation. The rest is driver
+updates which then has:
+
+ 46 files changed, 88 insertions(+), 834 deletions(-)
+
+which makes a really nice cleanup.
+
+The series is build-tested on arm64, m68k, powerpc, riscv, s390, sparc64
+and x86_64 using an allmodconfig.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (16):
+  clk: generalize devm_clk_get() a bit
+  clk: Provide new devm_clk helpers for prepared and enabled clocks
+  hwmon: Make use of devm_clk_get_enabled()
+  iio: Make use of devm_clk_get_enabled()
+  hwrng: meson - Don't open-code devm_clk_get_optional_enabled()
+  bus: bt1: Don't open code devm_clk_get_enabled()
+  gpio: vf610: Simplify error handling in probe
+  drm/meson: dw-hdmi: Don't open code devm_clk_get_enabled()
+  rtc: ingenic: Simplify using devm_clk_get_enabled()
+  clk: meson: axg-audio: Don't duplicate devm_clk_get_enabled()
+  watchdog: Make use of devm_clk_get_enabled()
+  pwm: atmel: Simplify using devm_clk_get_prepared()
+  rtc: at91sam9: Simplify using devm_clk_get_enabled()
+  i2c: imx: Simplify using devm_clk_get_enabled()
+  spi: davinci: Simplify using devm_clk_get_enabled()
+  dmaengine: lgm: Fix error handling
+
+ drivers/bus/bt1-apb.c                 | 23 +------
+ drivers/bus/bt1-axi.c                 | 23 +------
+ drivers/char/hw_random/meson-rng.c    | 20 +-----
+ drivers/clk/clk-devres.c              | 96 ++++++++++++++++++++++-----
+ drivers/clk/meson/axg-audio.c         | 36 ++--------
+ drivers/dma/lgm/lgm-dma.c             |  8 +--
+ drivers/gpio/gpio-vf610.c             | 45 +++----------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 48 +++++---------
+ drivers/hwmon/axi-fan-control.c       | 15 +----
+ drivers/hwmon/ltc2947-core.c          | 17 +----
+ drivers/hwmon/mr75203.c               | 26 +-------
+ drivers/hwmon/sparx5-temp.c           | 19 +-----
+ drivers/i2c/busses/i2c-imx.c          | 12 +---
+ drivers/iio/adc/ad7124.c              | 15 +----
+ drivers/iio/adc/ad7768-1.c            | 17 +----
+ drivers/iio/adc/ad9467.c              | 17 +----
+ drivers/iio/adc/ingenic-adc.c         | 15 +----
+ drivers/iio/adc/lpc18xx_adc.c         | 18 +----
+ drivers/iio/adc/rockchip_saradc.c     | 44 +-----------
+ drivers/iio/adc/ti-ads131e08.c        | 19 +-----
+ drivers/iio/adc/xilinx-ams.c          | 15 +----
+ drivers/iio/adc/xilinx-xadc-core.c    | 18 +----
+ drivers/iio/frequency/adf4371.c       | 17 +----
+ drivers/iio/frequency/admv1013.c      | 15 +----
+ drivers/iio/frequency/adrf6780.c      | 16 +----
+ drivers/iio/imu/adis16475.c           | 15 +----
+ drivers/pwm/pwm-atmel.c               | 16 +----
+ drivers/rtc/rtc-at91sam9.c            | 22 ++----
+ drivers/rtc/rtc-jz4740.c              | 21 +-----
+ drivers/spi/spi-davinci.c             | 11 +--
+ drivers/watchdog/cadence_wdt.c        | 17 +----
+ drivers/watchdog/davinci_wdt.c        | 18 +----
+ drivers/watchdog/imgpdc_wdt.c         | 31 +--------
+ drivers/watchdog/imx2_wdt.c           | 15 +----
+ drivers/watchdog/imx7ulp_wdt.c        | 15 +----
+ drivers/watchdog/loongson1_wdt.c      | 17 +----
+ drivers/watchdog/lpc18xx_wdt.c        | 30 +--------
+ drivers/watchdog/meson_gxbb_wdt.c     | 16 +----
+ drivers/watchdog/of_xilinx_wdt.c      | 16 +----
+ drivers/watchdog/pic32-dmt.c          | 15 +----
+ drivers/watchdog/pic32-wdt.c          | 17 +----
+ drivers/watchdog/pnx4008_wdt.c        | 15 +----
+ drivers/watchdog/qcom-wdt.c           | 16 +----
+ drivers/watchdog/rtd119x_wdt.c        | 16 +----
+ drivers/watchdog/st_lpc_wdt.c         | 16 +----
+ drivers/watchdog/stm32_iwdg.c         | 31 +--------
+ drivers/watchdog/visconti_wdt.c       | 18 +----
+ include/linux/clk.h                   | 90 ++++++++++++++++++++++++-
+ 48 files changed, 257 insertions(+), 851 deletions(-)
+
+
+base-commit: 09688c0166e76ce2fb85e86b9d99be8b0084cdf9
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.35.1
 
