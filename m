@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358BE4D7D4A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707574D7D63
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 09:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A22710E403;
-	Mon, 14 Mar 2022 08:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0FF310E97B;
+	Mon, 14 Mar 2022 08:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37EA910E4A2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:08:19 +0000 (UTC)
-X-UUID: 7f5c77c72f5049c9846b53e5a005e2ea-20220314
-X-UUID: 7f5c77c72f5049c9846b53e5a005e2ea-20220314
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1021397348; Mon, 14 Mar 2022 16:08:13 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 14 Mar 2022 16:08:11 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Mar 2022 16:08:10 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v1,
- 1/1] drm/mediatek: fixup ovl vblank callback data null pointer issue
-Date: Mon, 14 Mar 2022 16:08:08 +0800
-Message-ID: <20220314080808.29370-2-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220314080808.29370-1-yongqiang.niu@mediatek.com>
-References: <20220314080808.29370-1-yongqiang.niu@mediatek.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E313C10E97B
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 08:12:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AEDB0B80D26;
+ Mon, 14 Mar 2022 08:12:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94E4BC340E9;
+ Mon, 14 Mar 2022 08:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1647245532;
+ bh=L7AcIZU5JxT/Szs10vuxf1DRbsgGGv1OHiaXKKbOxok=;
+ h=Subject:To:Cc:From:Date:From;
+ b=XYFrVQduVhJBv3FA+hbNPTs/uKWb8JSPD3NnO0bWCeTPugn/eH/zpCCNivTFjZmPC
+ LO9GUcqvz2poMeuQKw49vmu+vWHWNzd6A6+NavXS9dF3DC4QLtySOmnemm2IE7QKgD
+ 1a8NqC0pSnyx3QBjRuiag44FKTmDJW0RQGP+qvIQ=
+Subject: Patch "drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP" has been
+ added to the 5.15-stable tree
+To: airlied@redhat.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, lkft@linaro.org, lyude@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ naresh.kamboju@linaro.org, sam@ravnborg.org, tzimmermann@suse.de
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 14 Mar 2022 09:12:09 +0100
+Message-ID: <1647245529179246@kroah.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,39 +52,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ovl vblank_cb_data will be null pointer when disable ovl
-vblank
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+This is a note to let you know that I've just added the patch titled
+
+    drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
+
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-panel-select-drm_dp_helper-for-drm_panel_edp.patch
+and it can be found in the queue-5.15 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 3755d35ee1d2454b20b8a1e20d790e56201678a4 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Thu, 3 Feb 2022 10:39:22 +0100
+Subject: drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 3755d35ee1d2454b20b8a1e20d790e56201678a4 upstream.
+
+As reported in [1], DRM_PANEL_EDP depends on DRM_DP_HELPER. Select
+the option to fix the build failure. The error message is shown
+below.
+
+  arm-linux-gnueabihf-ld: drivers/gpu/drm/panel/panel-edp.o: in function
+    `panel_edp_probe': panel-edp.c:(.text+0xb74): undefined reference to
+    `drm_panel_dp_aux_backlight'
+  make[1]: *** [/builds/linux/Makefile:1222: vmlinux] Error 1
+
+The issue has been reported before, when DisplayPort helpers were
+hidden behind the option CONFIG_DRM_KMS_HELPER. [2]
+
+v2:
+	* fix and expand commit description (Arnd)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 9d6366e743f3 ("drm: fb_helper: improve CONFIG_FB dependency")
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://lore.kernel.org/dri-devel/CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com/ # [1]
+Link: https://lore.kernel.org/all/20211117062704.14671-1-rdunlap@infradead.org/ # [2]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20220203093922.20754-1-tzimmermann@suse.de
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/panel/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 2146299e5f52..f3a450c0ef2d 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -113,7 +113,6 @@ void mtk_ovl_disable_vblank(struct device *dev)
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
- 
- 	ovl->vblank_cb = NULL;
--	ovl->vblank_cb_data = NULL;
- 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
- }
- 
--- 
-2.25.1
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -83,6 +83,7 @@ config DRM_PANEL_SIMPLE
+ 	depends on PM
+ 	select VIDEOMODE_HELPERS
+ 	select DRM_DP_AUX_BUS
++	select DRM_DP_HELPER
+ 	help
+ 	  DRM panel driver for dumb panels that need at most a regulator and
+ 	  a GPIO to be powered up. Optionally a backlight can be attached so
 
+
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
+
+queue-5.15/drm-panel-select-drm_dp_helper-for-drm_panel_edp.patch
