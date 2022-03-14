@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECC64D8247
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 13:01:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811464D8242
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 13:01:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7FF210E5CB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C62D810E607;
 	Mon, 14 Mar 2022 12:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail2-relais-roc.national.inria.fr
  (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66BF610E38C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B54110E5A3
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 12:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hx/o3sUmjfaB0QS0sBoTV1A1xLaFjk7pvkOF4evSYgo=;
- b=Qic/F0v68Rvktz0feHj/1yYFO5ESBbuh8nZm6Nh+x/En/If3rnHwB+Z+
- 1+dxponU+nxApNDnXdclRlBijjpqoQg4YJGi2xXE3TkdBI2jMTfFzqRzJ
- +rmRmb1beAj6GEYKfMj7jPxlY9M7MDZ50aBzziV3zdRNEv3jsscw4lB6K g=;
+ bh=9yQ3TkxdbMfzj0KRf+Ejeu/demnXALjsxfUZEOsVoDY=;
+ b=oue4TCeVmgheVUvR5b48TopWOq6zF4D3HjeTeYv3Rz8WZGgT0bNCB6yQ
+ wNJW7QcrOOMSlD09+lTi9Wo6E/k1EBtEPBgLX9n0uKhA9Ho0Ma1atXviS
+ ZcU991XyqYISPvUR0ZlzY1huTvhYpSIx0hSJm/mEvmbKPwM2K8KkFag+z k=;
 Authentication-Results: mail2-relais-roc.national.inria.fr;
  dkim=none (message not signed) header.i=none;
  spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
  dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; d="scan'208";a="25997338"
+X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; d="scan'208";a="25997349"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
  by mail2-relais-roc.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:54:00 +0100
 From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: [PATCH 06/30] drm/bridge: analogix_dp: fix typos in comments
-Date: Mon, 14 Mar 2022 12:53:30 +0100
-Message-Id: <20220314115354.144023-7-Julia.Lawall@inria.fr>
+To: Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH 16/30] drm/sti: fix typos in comments
+Date: Mon, 14 Mar 2022 12:53:40 +0100
+Message-Id: <20220314115354.144023-17-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
 References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
@@ -50,11 +50,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -64,29 +61,20 @@ Detected with the help of Coccinelle.
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sti/sti_gdp.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index eb590fb8e8d0..c719cd5fba77 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -567,7 +567,7 @@ static int analogix_dp_process_equalizer_training(struct analogix_dp_device *dp)
- 	analogix_dp_get_adjust_training_lane(dp, adjust_request);
+diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
+index 3db3768a3241..b58415f2e4d8 100644
+--- a/drivers/gpu/drm/sti/sti_gdp.c
++++ b/drivers/gpu/drm/sti/sti_gdp.c
+@@ -406,7 +406,7 @@ static struct sti_gdp_node_list *sti_gdp_get_free_nodes(struct sti_gdp *gdp)
+ 		    (hw_nvn != gdp->node_list[i].top_field_paddr))
+ 			return &gdp->node_list[i];
  
- 	if (!analogix_dp_channel_eq_ok(link_status, link_align, lane_count)) {
--		/* traing pattern Set to Normal */
-+		/* training pattern Set to Normal */
- 		retval = analogix_dp_training_pattern_dis(dp);
- 		if (retval < 0)
- 			return retval;
-@@ -1254,7 +1254,7 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
- 	/*
- 	 * NOTE: the connector registration is implemented in analogix
- 	 * platform driver, that to say connector would be exist after
--	 * plat_data->attch return, that's why we record the connector
-+	 * plat_data->attach return, that's why we record the connector
- 	 * point after plat attached.
- 	 */
- 	if (dp->plat_data->attach) {
+-	/* in hazardious cases restart with the first node */
++	/* in hazardous cases restart with the first node */
+ 	DRM_ERROR("inconsistent NVN for %s: 0x%08X\n",
+ 			sti_plane_to_str(&gdp->plane), hw_nvn);
+ 
 
