@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440EA4D8FC1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5A34D8FC2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00E1410E19B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60376896B0;
 	Mon, 14 Mar 2022 22:44:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89FE210E19B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:11 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54DC910E1D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 1860E1F42F1E
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 92C0E1F42F1F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647297850;
- bh=x9ELuT5l87DnnSxAfWp7rgapLQDyu7nCQiypyxue8IM=;
+ s=mail; t=1647297852;
+ bh=chUCxgrXxxLP18r48yk/BRUcyw0NU6neGfKRFCcPg+8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C6N++5nfqRD0boSbFJxQcOnXA9/pCYptAUc8bZa2zby8TB7CKKiTR3X+qp+B3yfDk
- 9zgtO/1mqB05Zua/kKRTOJ460ClV0HwLDLKvn6jIf+njMGkZiWUq8GZsKsLDjAI9L6
- Lzswb9elaeqRVq6zrt9nx2D0F1nqI60oNfBygabp9P0HH3nZffZgiECPGDlitz3lVk
- 3nJOj0Rg1RVHiekjvmrYPJ/BFtu+H3EeKe3BEWPljIn/PnLD/xTRiKQE/8i74rwoEy
- KTNqxJpN9NgwwSg2zl+tOttLTd25iYCkbephf90vr2I+77nqtXJqGvumSbFa86dsNC
- YBW381Vt+wgUg==
+ b=n6u+BcOSzxReYDlBivMmtSD9VeErrWx/vStT244llJdalsWwkCCjcHbUKX/OWlSZ/
+ Oy+Spx20aH8mxRwbVhoGqAA83CZL6gOxePHBo3ps2BLM9nVRw3X1jDRrH82b7kymXd
+ 4900Hrkbjjq5AmbyEFHcnvITzvB7+5aNt0nt9VlPuuxX3B4izwDUUIWWuiLhOlHKNu
+ 1amkAhvCnmWy8E7FycZEFLksO28KJlH0XDlfueTOQIoBM1LIDLUz1J3I+LxYqokeo0
+ w42+kmqxRLUMU7kqqJpPq3e8y93LufREAgD6X1QjMZZkqpFUsZoIKWh+oRUfwaM0Tx
+ ux6kyxH/obUAA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -37,10 +36,9 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v2 1/8] drm/virtio: Correct drm_gem_shmem_get_sg_table() error
- handling
-Date: Tue, 15 Mar 2022 01:42:46 +0300
-Message-Id: <20220314224253.236359-2-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 2/8] drm/virtio: Check whether transferred 2D BO is shmem
+Date: Tue, 15 Mar 2022 01:42:47 +0300
+Message-Id: <20220314224253.236359-3-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
 References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
@@ -66,33 +64,27 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_shmem_get_sg_table() never ever returned NULL on error. Correct
-the error handling to avoid crash on OOM.
+Transferred 2D BO always must be a shmem BO. Add check for that to prevent
+NULL dereference if userspace passes a VRAM BO.
 
-Cc: stable@vger.kernel.org
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_object.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index f293e6ad52da..bea7806a3ae3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -168,9 +168,11 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	 * since virtio_gpu doesn't support dma-buf import from other devices.
- 	 */
- 	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
--	if (!shmem->pages) {
-+	ret = PTR_ERR(shmem->pages);
-+	if (ret) {
- 		drm_gem_shmem_unpin(&bo->base);
--		return -EINVAL;
-+		shmem->pages = NULL;
-+		return ret;
- 	}
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 7c052efe8836..2edf31806b74 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -595,7 +595,7 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
  
- 	if (use_dma_api) {
+-	if (use_dma_api)
++	if (virtio_gpu_is_shmem(bo) && use_dma_api)
+ 		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
+ 					    shmem->pages, DMA_TO_DEVICE);
+ 
 -- 
 2.35.1
 
