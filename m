@@ -1,149 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E214D7917
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 02:32:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D33704D7AA3
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 07:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D9B10E36C;
-	Mon, 14 Mar 2022 01:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B08B10E1BE;
+	Mon, 14 Mar 2022 06:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89C110E36C;
- Mon, 14 Mar 2022 01:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647221527; x=1678757527;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=DzPe5pgwpsa2cOGn/x+94NgU1EGfqDd2Cenl1y0gP1o=;
- b=g+nd+U/H+XywovymgKZcO3YaiqdnuFKcQhFFVXRPj3W3ArityUVoHD9R
- pyvjj2fnY5RD8NNJqgSFeA2gvb8zICKpUCaCPWQod/whmiv8pnXMyaOPQ
- Ah2Q7CFr0GWsD//LElh5yeJoW0arI1iS3mizZHMV0wCUC5xh3KNOH9Cyz
- 2VIPjD4sXMjClgrUvfzgGnl4jZGvYNKxng5slyqwUOLCThokEbuhvn6TF
- +sl+TOn/mKStakIz6g1CHE5aSjpZizRF3HhVt/LepcgzJt6+Sn06zcF/+
- eROWzHg09VUQ2Hu86NtDAmwdx9PpOI/S1hQ/w1zZAKoksWU1XH3M3ZEV3 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="236517654"
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="236517654"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 18:32:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400"; d="scan'208";a="634021494"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2022 18:32:07 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sun, 13 Mar 2022 18:32:06 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Sun, 13 Mar 2022 18:32:06 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Sun, 13 Mar 2022 18:32:06 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2113.outbound.protection.outlook.com [40.107.92.113])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF71F10E1BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 06:04:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xgy3x6IIonoj1O/qGFNcAAoLi57wGknkUDdKUL8Drff9DJD2qpmQtNOjhxoopls5XQPKbegZP27uC3Boguclx4CzsjJeQFZj+e3qlFs1QUZ5sZ5NR8B7589kxupvWgwjhivkisLy5OP369M7ccZzfwTVlz0zcDH5v4AJ2/I20pFnq1g3hFiRwzmpmZGwwJyru7413wSljlhjJmIWhB7kxh9Iw4XGJzBKM/YDiTa2yrUCqh8d0VQUeKYEMGq0upts7IqflzHwC2C3wFtg5N+mhV3piJgzpr1bQuHWszEYOuf2y3cCVTTaHZXdRA/BwnkOO8PJrL/EVBInqh2QXqFOQA==
+ b=XFm+2dJRQsLEOf3mjTuusYttKWlBvq+ar3jBpkt8yW9VnY5lXXeSsKh2kfpsl3+DVJICCAEuQ8T7/mWz287wE8pC/8oWyNNAEI/5CzZ6tlnpNskKGh/umXQA8mAqcL+LwxivG4X0QpHQEs5st03kUb54iSm07gb4Xb0fB/twOQU1wEhZX9bA6YmYdgc6XgZYMX1BgnBRRis45z9GwEVMiGRcO3mEw1ew2Om4KaAILroSWI/JW6tGygu+iwvyaPN5aiokxw1ohahR14Q752kU4tHM5OxffzgCtPvDBRDR3YoYbTJE0a/khJOdWsptb8Z5fPn6lshDcCE5cNCtlJ+QWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9SuWnFncqHwtWkZXyBN/yvVwuElCIfV8Nncozr8opPA=;
- b=WHx4Hv/KGYfE15xntlD1B6yGA7RFU6hNmJ2/FQ/qiSGGfoQPgKBWiCSGRoGnMYU2RP3QYwzXzMvCSUrWNDrUS6DXyxr/Bkz5rWqo6+/2qQvAQxVI8388XWLBKBNOb+0SFxcvkphat8BHJAPSdYRC9C9z5v0jpDRCx40xCUB7vdqTj9J9aqwA7j46bFu9hZnJO8ds9Dqb2509JIqBeeeAgbRW9898ckT9grbj0NYHsR2P3d9t9/DJimzZFw4zsPGzDbutrarbPrMwy8g/vFqHu5xgcnSeRpXYBvErUS1T9FtPBmpS5c2bglzK0Hoa2wRIzwDIkCLe0uztB5kyJ4FjlQ==
+ bh=/1EWuJCYgkEn7BWZMXXvwk512lxER99LoaJFjH5Vsp0=;
+ b=VT7h2QiVI4iFxWzqcJEQFKG4vChK8hlIYQGXo+RvWkPtyyrHC868SNWdDgsZuHuMaX9T9yaZPTEJeFG5/9Ae/4ytz0m1upttFxxk6BQTqOd+VVpLwTUz8RqUQ2rsZR+hEc2g5nyv13jkMgWV4dn/SV0c8Ty9joQH+ubOrPQUg6tmT/+h8+ySQZCXG83TMWIvzd3t41vyW9D0Pn8yOWZJB77SQFL4Y/m/SGsOMK+NZVLiT8/4k4s0i1VbldIm7ED86UXqg3Hy2oV/NSDBXY+EFQBMarxu2csnO+aoXEZyQO52Jzw8CDVUPqWJ3Tm9WtjV5/HW8AOJD+88C38XWAI2Xg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/1EWuJCYgkEn7BWZMXXvwk512lxER99LoaJFjH5Vsp0=;
+ b=F0i4C7mUdKgjvu6+7tDG4OYTLiQ0m7Yk23H3nEM9+DxJu0idzfZqxhnDYBMUTu4BDLroaMC7mxN4CNhvsYWbzibqHjK6CyIqPC918uIDZUkInCWhu1JSJi2m/yJqMEnhO4TfDjv2YWeiFOlGVmfSs9ddYReWlS3+WI3Ruc3dEZo=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
- MWHPR1101MB2254.namprd11.prod.outlook.com (2603:10b6:301:58::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.24; Mon, 14 Mar
- 2022 01:32:04 +0000
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::7de1:f70:bc59:97ff]) by DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::7de1:f70:bc59:97ff%4]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
- 01:32:04 +0000
-Message-ID: <ae25fae3-100d-2dc7-512a-c18f479b432c@intel.com>
-Date: Sun, 13 Mar 2022 18:32:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [PATCH v5 7/7] drm/i915/gt: Adding new sysfs frequency attributes
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-8-andi.shyti@linux.intel.com>
- <28e2363a-38aa-9d68-ac59-b78c9168a814@intel.com>
- <Yi6ObL00OJ8gB+V8@intel.intel>
-From: "Sundaresan, Sujaritha" <sujaritha.sundaresan@intel.com>
-In-Reply-To: <Yi6ObL00OJ8gB+V8@intel.intel>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0123.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::8) To DM8PR11MB5653.namprd11.prod.outlook.com
- (2603:10b6:8:25::8)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BN8PR04MB5651.namprd04.prod.outlook.com (2603:10b6:408:73::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Mon, 14 Mar
+ 2022 06:04:19 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::a865:6d10:c4a9:1142]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::a865:6d10:c4a9:1142%9]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
+ 06:04:19 +0000
+Date: Mon, 14 Mar 2022 14:04:11 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2] drm/bridge: anx7625: Fix not correct get property
+ counts
+Message-ID: <20220314060411.GA1456403@anxtwsw-Precision-3640-Tower>
+References: <20220311103525.1431890-1-xji@analogixsemi.com>
+ <Yis0KXVqZokrkoP7@ravnborg.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yis0KXVqZokrkoP7@ravnborg.org>
+X-ClientProxiedBy: HK2PR02CA0218.apcprd02.prod.outlook.com
+ (2603:1096:201:20::30) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5aeb19da-5acd-44ee-e135-08da055a71c9
-X-MS-TrafficTypeDiagnostic: MWHPR1101MB2254:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <MWHPR1101MB2254FB309AD6AB8E422FADAA8C0F9@MWHPR1101MB2254.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: efa4340b-464d-43be-9e23-08da05807a38
+X-MS-TrafficTypeDiagnostic: BN8PR04MB5651:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR04MB5651E5E032F128CF97F33195C70F9@BN8PR04MB5651.namprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JDUausV7nLMNBoqbPnmk5YiWPJEqNDWCPMJs/S5kbDxHoU1969Q/HeKPhDxockBYn4V6Hvb3Z7vXty+xC/0o5aYV1pRHIi4dA8+ghL3PcE3lqWwhX1X4K0mbeSnpYSLBNOGS9XX0H4ScByacwa1BcACunIOjwBUbMlFX+lzVQ5eceE5hkY8WIXcQMbp28qJsZo9yQueUj/aXn3BHn2yJE0Izqaf7uBh2f4kuSgUEh6lyjbLy5ncRfc2dRr8gQvnUXWhMzcbnKUEx24a94rIwRNZT26h6+lWh/+AtVvW20yRwCvC/wxogcnxxO7wZWG/pW1YYmcjClGGo5DKYvNCZP9nnJHu9YYELkJh49l1nBkugnUpZ6G9oN+EFlvQjtWCPuf0EYsi/Rh2u41fvHzKlXD7SYfAY1eIZHAJ+ngYXwKQdbo4v/V8SIViwzNr4crYulZAqghSX1seN7Zv64cHcwe7PADdHWwgsM0xDlJzEhBfi1+fBprdl7ldU6j3DXq8BD3FhLQkjEWNEAZ+OUH5rdAAFJwMTNuJtxBubYV/UduZL2/rm0EZugEXq5v6WVQ8kMrT1N3gwzzuvLuV+FTsV+LBxUrBNUOhUFelji+8DXSzCz6gKaU3zmkZi3ofqkf72DFjHURtiqGN3/k/ySLvSQkICKWkL4V2RFBk0k20v705WVX3Agsc4hXHnG++3VKLp85gDaNXBmS3BYS7/OtCAet1cd3oTWG0/ogvozJhXTVg=
+X-Microsoft-Antispam-Message-Info: Gni6gJJJDQHK9VnipZLR8t1PUY5a22KnPih1psIuSjFL2PerUCMjUOhNkHhsL7DmihvL3n5Mm2Ujr3h5xvFD2mTSaNA7LZnJxq1OyC+w6ThiwLP3Xwl3UM7JJRoSMQ1yNEmq7zTXg1/7fySy0d8qdL+y33ylwM6I3dE69ECqCVoQSNxhQlsU7USwzVWoEe1Qppqe5D3IwbQQsbf6upu+tjiiorEpI95FZW+wTFGTfYUcDf+ZyDw2NW8z+1SuOp+zHDnZRH9eH4ZwbNTBkq7FrouUd2/0Yf5yKxcYZw7u7fmIdqNhfoJIBV4KF5fxe3Zf6wrzYXUiFRzD1qsUBO666lpc1Al5YDq1vaH8Pwv98YHUNHJv5W8NA+gCxFOJLG8X9Q0JsENoFjwJ9LHNJqN607yHD8OdcI6/WRat4MSphCoEgq52WYNxW2Ll7qWkbeWjEo7sjTv+R7gF8utR1B3g9ZAkNlc5qHTGpyz8m+nvKxP1vMHMJ76NAhEqHbjS7EufSCG4CaOjxyohEGGQZMU8NUKt/fPzOUHswBIWhvyIQUkIhW3+lSH282WFTQXhv9b+SPRC/lyRM5TH8fbW563vKsNWvUdYVyDn9wS45elACAlPmp9+b0KBCOTtCqBbKEQNdGQwg26ov52+Lt4VwbgSz2qIIx8rRkAHqIgMDFEv9MagED2ovgEpMcL4VFX+Ya5P6drZ1ZZ2VKoY7sUPO72oSQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5653.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6636002)(6666004)(110136005)(6506007)(54906003)(316002)(6512007)(53546011)(38100700002)(8676002)(6486002)(31696002)(66476007)(4326008)(66946007)(66556008)(86362001)(508600001)(31686004)(5660300002)(8936002)(36756003)(83380400001)(82960400001)(26005)(2616005)(2906002)(186003)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(26005)(186003)(8676002)(66476007)(66556008)(4326008)(38100700002)(38350700002)(52116002)(55236004)(66946007)(8936002)(6666004)(6486002)(54906003)(1076003)(6916009)(508600001)(6506007)(86362001)(316002)(6512007)(9686003)(5660300002)(7416002)(33716001)(107886003)(33656002)(83380400001)(2906002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnloRWFDNFRlUXlWLzd6UURJU25XcEdTUDFqSTNzWDNCTVQxL0NtSG5OR3Vz?=
- =?utf-8?B?N1pWVkdTWlUvdTRGdGY1am55czZtR24rTGpZMTVZSDU1b2tIbkJlWFIybzhZ?=
- =?utf-8?B?THhQb2J0ZU1XQ1VhNHBsd3FQN3dwK2p1bEtaVkkvOUwya25pNHZJaFMrYW5w?=
- =?utf-8?B?RDc5dFV2d3FzendvaWd6eFVsTmUvbXpDV3BNeHdVY05IOElUQXROeGYrWC9L?=
- =?utf-8?B?UjhtMC9uL0tmU2MvVEpjREdxU3lRYWJLSHVESFNHTHNjSTZTTzlJcWFoVmNU?=
- =?utf-8?B?aWtyb3QvQTlWS3MzZTMyaitDRHh3U3NMZjVjaWJqQU9Uc2lnKzZodE5BbnFx?=
- =?utf-8?B?UTlLS1paaWN2V0pJUWZxbkloZC9veng0NkxCTVl2SUVzRUlXbzkrWGJZeWhw?=
- =?utf-8?B?OVcxbGhXRjdnYmhaRGJmdFQ2L09BMm5sLyttL0JyV2dUWUtieE5oLzh3QVlI?=
- =?utf-8?B?MENlWnZzRlhTeTQwMERpR2dheHhxNFBYRTJ0SFhpQ0FOdmlqWDFnM0M4RVc2?=
- =?utf-8?B?aTVnblZyUUFQTEx5WjRxdTA5QTQvVWUrUVhXNDMrSUh1VGdxRmN5YTZ4c3NO?=
- =?utf-8?B?SWdwNUVCd3BpS0N4MWJwdy9DTjlZbW1sVlJZTXBWQmNvNHpkOFR5VVcvSWR3?=
- =?utf-8?B?Z29uT2lPbmFNWjlQSys4TWc2TUdaY1VLNW1TZHR5K1JxTDhBOW5XdlpYcVV6?=
- =?utf-8?B?K3Nwa2hBWnMxVzMzR3hXeGRQeHlBdzkxUFJNdTYzU2N2Q2Q1Ky9rY21aRXZN?=
- =?utf-8?B?cWw2TE93eEQwUzNFK3J6Q0MxdXk1bU5iREJNWU5peXBGVVF4dDd5eXJSelRR?=
- =?utf-8?B?VU5LamFxdTZhZmN6TG9mcVhvZmhmRkNaZElQNmIzYjNmSndLc2RBNHc2dU4w?=
- =?utf-8?B?bmswVzZEcGtrcGcrZzVOK1YyU3JkMW80V3BMck5pMHBaLzIzbXNucm5kVHBD?=
- =?utf-8?B?SC9tZGtneHpmMTdYSVp1Y0JkSXBzblRRRlFQdFgzQndhR1QwV1hkSTZDaTF4?=
- =?utf-8?B?dWpnRGdtbDdWQVpta1I2OEJWQ29JOW1sbzZzbS9ZUVU4Vk9tZVZtR1ZvVnZC?=
- =?utf-8?B?WHBNcDhhN1JJVm1oQ29BOWRYTzhNZmx1Wnd4b3d6N3lJR2JDMDd4dUZLK1Y3?=
- =?utf-8?B?VG0zc21tZ2ErNklYa3F3VnpTNUx0MDdpclNEYmRlNXFwNzdudDRJMlVtamhr?=
- =?utf-8?B?NFFzK29Tb1ZRb3dTWUptR1F5cUhqS21zNGFRQnQxMWVDZWhFVFoydWFHRlFo?=
- =?utf-8?B?TC9qSmJ5aGhkMTZvSmxNdFRQZkN4cXBmU1I1bWxoaUtuMXVpeEc1UE9mS1dP?=
- =?utf-8?B?MmhqZDlkcE14eC9hcVd6djdUaFBkV3MxZnlSNWZEUExVQ0ExdXFwQjQ3YmZ0?=
- =?utf-8?B?T0M5UldhTU9OMDhVVFU2MFJtSWkvUWpyd2grSzBzRFFRVFFkUTZmbHZnaXRZ?=
- =?utf-8?B?RkViMnptU1NoVGF6ZjF5TGY2Yk01TWdTNDJYQkxkRDJmNXVoQ0RFOWhJQmVB?=
- =?utf-8?B?ek1KaFlreVdMaXg1STA0cFdDNUErRzVKQ2dyVG1zOGZJZXFPKzE5Z2V0cDd1?=
- =?utf-8?B?THduZ0xOTWQ4bVlpYzdvcThuYlBzZmYwWUVnWk5UMGI2VlJBdGhsVTBwMkRX?=
- =?utf-8?B?dUZKYWxQdk1aRUJXSFU3TURJbFB3dUVnWkNrcklmQWdNSW5GeUhmcGRNQldm?=
- =?utf-8?B?YXI0ZllqdGRTWld3dTN0WXdqYXU1UGpvdUlLcHM1YkJ2YUtUc1YvMkNrSlZ5?=
- =?utf-8?B?WXFraWdyZDBZeG9WazV4TkFCb1BOaDZLTEdIaWpaRHRIM0VMVE1pQ2M1dnkx?=
- =?utf-8?B?ZnhIZktva2NLSXByYlRCN01TV0RDaXRsYWQvYWdkc2oyd3FPZnhJcDNJN29s?=
- =?utf-8?B?SzhtaFlpUk83TmpaWjRQY3dwREQrbVJxeGdadlZOcDVWcG1iS2xOL2g5VEtW?=
- =?utf-8?B?dlpycE5LSkJPY0w5WjZkWWFvam5XdE1SYlJhYWZtcXF2UnpjemY2R1ZiREtq?=
- =?utf-8?Q?Q9H2lgs+kGtwk6mfCu3XuOGnPCqo9E=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5aeb19da-5acd-44ee-e135-08da055a71c9
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+dBXQ3uRzmG+QYRdtpBdPeAoGWmelgqwe4twqZD8Yr56kmEIR46mD3TMp2T1?=
+ =?us-ascii?Q?Slx7C7fvdKEFTccRZPXeR01olvWJQtU8fpn6iEfOqZXyPaZuwPFNGWKPVWtr?=
+ =?us-ascii?Q?pk3rKbqlZhtIbUf3hKCD3rgEJnZz1kVoPqti1GSJQgyA+E2dcViRfNclXzvw?=
+ =?us-ascii?Q?Y0ILnINYjQprBfIovwJg5v4YLnzqJY7sQirC7jejfp/VexKOLQyX/YUAZXIQ?=
+ =?us-ascii?Q?B/55nqowFMMuS9CHaFrvCZxecjPTxqYJIkb4qHmQ2pZ/8UD6e5iDhEd/t7JB?=
+ =?us-ascii?Q?2MtP+04SyCXsyrz5qPZq0hTsSzV3XNj4myfd4ESjxK6zNsJfKr+6XlFgs7fL?=
+ =?us-ascii?Q?uw+0EA3/eF3RIeMWlpcnd48qARof0NxEnmwBmACStvU4A/ivdLm/wHIjpsx4?=
+ =?us-ascii?Q?MkSXEhQwkVEDRwMZpMNAlBPPM3a4MndM2uKlj4zEQoQ+j8c9ogoR4IJ5dpsm?=
+ =?us-ascii?Q?jyZj9xKg5sj8XBpvJ0q6VdO7tGL7LWvHmMPutXrJpADzOmXpjkBij6YekYNc?=
+ =?us-ascii?Q?Nctudu8hrLll7tvojE0QRvpNGdA/dMZA5qMWkcgSE0ZRrz7WJXEz8pWiBjJA?=
+ =?us-ascii?Q?PRyEzYcUMi0YOzEdQONrHdLUV4Vzlo2u2bvUl/By0+zG7MknFuaTRbup91oM?=
+ =?us-ascii?Q?kFyGpnl/emVHuzxiMWhvCz+9/xDS8P7Px3uHVMBBrCFoCOtfSGN08gUEwqho?=
+ =?us-ascii?Q?ZuZoUGNQixFvCWkdYB5pmxi7P3HtmH+YBzfloSt5rQMG28ZDEu98UvFxK8HF?=
+ =?us-ascii?Q?vvvWkPhY15VYiSYoUaD1eXjQa1aP5DVPBb9AClUNk70f+E5OlhKYmB8omvHH?=
+ =?us-ascii?Q?HCLkDZxivAZhnXCXj6IC0LP+tkRiq6mXQfMEy3g3hTt9OY2uMyCpnupDBtFL?=
+ =?us-ascii?Q?UKdA4d9taW6sekzOR4fM4w9GOK44+NZzQfUiSWqA0Ihhp0s5uRlq+vKQ4Ctn?=
+ =?us-ascii?Q?tdCs+TgJRC6ygKL5wK3ornfIuD8obUK7o6L3ZN5Z097jIrZb5fgAHO1EupXX?=
+ =?us-ascii?Q?hk7/nj9lJ+r3y9uHuhb6als2K2Zlky2Z1nT8OqrZsOrbkYhBjPwC406pKIyO?=
+ =?us-ascii?Q?b6ytAbomtyQNru72wvP2VS2W1WKS385WMQdG/LV6gRLvwfhybjGErvllnYo0?=
+ =?us-ascii?Q?9e9+J93A3h7FRJtSeNPEK6/y8LINB3BXAnAukpUMp29m7BbvdeX3ms8ihk2I?=
+ =?us-ascii?Q?8MsSMsNUR4VoYVaK7Q0tknoye8OPjadi9AlcXHCeIYYBSiMKFVMbxJMFx6ce?=
+ =?us-ascii?Q?aOZsXzOxJZpIxPLfRxlMvTktjfzUxCaEm5kiUfBSyhMQAnzoQU4SAPwC90/m?=
+ =?us-ascii?Q?oYY2SzvF1cMFiee4tPmTyG3DixampCsKamCSnGiLRQhUyWdkr1eFjCn29rfQ?=
+ =?us-ascii?Q?Xw3KTBeBenEJjc/+DCmfKUIcNTGQlzb1P1XbaqF8WTINGyG2rorOdbjyHtMZ?=
+ =?us-ascii?Q?n61eHM5YZZrJcWFpzqfd8Km2VAgiHIrq?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efa4340b-464d-43be-9e23-08da05807a38
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 01:32:04.2929 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 06:04:19.3329 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8m7Ulwk3XNEp+aEbGDPAor2FHf/97LJ/YXSRvU3m0eR5zivi1h7h1MhHmU19uDPnVtc5IXCA15x9IJXZ9wSkttht2e9zNJoZ+FVI1kuwWjM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2254
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: R4PZSTeDL5sOuUGUIGtJwMmJtzr8cXQBeOn+epnAOVrecMofrvaN8AH3oDpydipOmsn8wNCFmEeyUHmTo5ZJCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR04MB5651
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,119 +114,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>
+Cc: dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ qwen@analogixsemi.com, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ mliu@analogixsemi.com, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, hsinyi@chromium.org,
+ bliang@analogixsemi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 11, 2022 at 12:36:09PM +0100, Sam Ravnborg wrote:
+> Hi Xin.
+> 
+> On Fri, Mar 11, 2022 at 06:35:25PM +0800, Xin Ji wrote:
+> > The property length which returns from "of_get_property", it means array
+> > bytes count if the property has prefix as "/bits/ 8". The driver should
+> > call function "of_property_read_u8_array" to get correct array value.
+> > 
+> > Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
+> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > 
+> > ---
+> > V1 -> V2: Fix Sam comment, use of_property_read_u8_array to get array
+> > value
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h | 4 ++--
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > index c6a9a02ed762..628cbf769141 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -1598,8 +1598,8 @@ static int anx7625_get_swing_setting(struct device *dev,
+> >  			num_regs = DP_TX_SWING_REG_CNT;
+> >  
+> >  		pdata->dp_lane0_swing_reg_cnt = num_regs;
+> > -		of_property_read_u32_array(dev->of_node, "analogix,lane0-swing",
+> > -					   pdata->lane0_reg_data, num_regs);
+> > +		of_property_read_u8_array(dev->of_node, "analogix,lane0-swing",
+> > +					  pdata->lane0_reg_data, num_regs);
+> 
+> The current implementation do a two step approach. First is find the
+> number of elements and then read the elements.
+> The number of elements is only used to limit what is read.
+> 
+> I suggest to use:
+> 
+> of_property_read_u8_array(dev->of_node, "analogix,lane0-swing",
+> 			  pdata->lane0_reg_data, DP_TX_SWING_REG_CNT);
+> 
+> Then you a guaranteed to read at maximum DP_TX_SWING_REG_CNT entries.
+> And as the number of elements is not stored anywhere that should be fine.
+> 
+> This looks simpler and matches what we for example do in
+> drivers/gpu/drm/arm/malidp_drv.c - the only user in gpu/ of
+> of_property_read_u8_array().
+Hi Sam, the property is variable, so need two steps to approach, first
+to get the property length, then to read the elements (the property
+length may between 1 to DP_TX_SWING_REG_CNT). If directly to read the
+element, I cannot exactly know how many registers need by configred.
 
-On 3/13/2022 5:38 PM, Andi Shyti wrote:
-> Hi Michal,
->
-> [...]
->
->>> +static ssize_t punit_req_freq_mhz_show(struct device *dev,
->>> +				       struct device_attribute *attr,
->>> +				       char *buff)
->>> +{
->>> +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
->>> +	struct intel_rps *rps = &gt->rps;
->>> +	u32 preq = intel_rps_read_punit_req_frequency(rps);
->>> +
->>> +	return scnprintf(buff, PAGE_SIZE, "%d\n", preq);
->> %u since preq is u32
->>
->> and use sysfs_emit (also in below show functions)
-> sure! I'll change them.
->
-> [...]
->
->>>   static int intel_sysfs_rps_init(struct intel_gt *gt, struct kobject *kobj,
->>>   				const struct attribute * const *attrs)
->>>   {
->>> @@ -493,4 +628,11 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
->>>   	if (ret)
->>>   		drm_warn(&gt->i915->drm,
->>>   			 "failed to create gt%u RPS sysfs files", gt->info.id);
->>> +
->>> +	ret = sysfs_create_files(kobj, freq_attrs);
->>> +	if (ret)
->>> +		drm_warn(&gt->i915->drm,
->>> +			 "failed to create gt%u throttle sysfs files",
->>> +			 gt->info.id);
->> nit: would be nice to see %pe why it failed
-> [...]
->
-> I will add it to the other cases as well.
->
->>> +static u32 __rps_read_mmio(struct intel_gt *gt, i915_reg_t reg32)
->> this doesn't look like "rps" helper, rather like "gt" so it should have
->> different prefix and maybe even be exported by the gt or uncore ?
->>
->> unless you wanted:
->>
->> static u32 __rps_read_mmio(struct intel_rps *rps, i915_reg_t reg32)
->> {
->> 	struct intel_gt *gt = rps_to_gt(rps);
->>
->>> +{
->>> +	intel_wakeref_t wakeref;
->>> +	u32 val;
->>> +
->>> +	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
->>> +		val = intel_uncore_read(gt->uncore, reg32);
->>> +
->>> +	return val;
->>> +}
-> Yes, you are right!
->
-> @Sujaritha: shall I move "__rps_read_mmio()" in intel_gt.c and
-> call it intel_gt_read_mmio()?
->
-> [...]
-Sure since it is kind of a gt helper, makes sense to have gt prefix.
->
->>> +u32 intel_rps_read_throttle_reason_vr_thermalert(struct intel_rps *rps)
->>> +{
->>> +	struct intel_gt *gt = rps_to_gt(rps);
->>> +	u32 thermalert = __rps_read_mmio(gt, GT0_PERF_LIMIT_REASONS) & VR_THERMALERT_MASK;
->>> +
->>> +	return thermalert;
->>> +}
->> shouldn't we return bool by all of these functions as used/expected in
->> show() counterparts ?
-> Suja?
->
-> [...]
-Yes we can make this bool as well.
->
->>> +#define GT0_PERF_LIMIT_REASONS		_MMIO(0x1381A8)
->>> +#define   GT0_PERF_LIMIT_REASONS_MASK	0x00000de3
->> this mask is different that other (FIELD_PREP/GET wont work) so maybe we
->> should name it in special way ?
-> As far as I understood this is still a mask and used as such.
-> This mask is actually telling that there is some throttling going
-> on.
->
-> It looks weird because there are some unwanted bits in between
-> the interesting bits.
->
->>> +#define   PROCHOT_MASK			BIT(1)
->>> +#define   THERMAL_LIMIT_MASK		BIT(2)
->>> +#define   RATL_MASK			BIT(6)
->>> +#define   VR_THERMALERT_MASK		BIT(7)
->>> +#define   VR_TDC_MASK			BIT(8)
->>> +#define   POWER_LIMIT_4_MASK		BIT(9)
->>> +#define   POWER_LIMIT_1_MASK		BIT(11)
->>> +#define   POWER_LIMIT_2_MASK		BIT(12)
->> REG_BIT ?
-> yes!
->
-> Thanks, Michal!
-> Andi
+Thanks,
+Xin
+> 
+> 
+> 	Sam
