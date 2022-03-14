@@ -1,63 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF74D866E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:06:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A67BF4D8675
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:07:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D3210E257;
-	Mon, 14 Mar 2022 14:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFA8110E2BF;
+	Mon, 14 Mar 2022 14:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5CBD10E257
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:06:16 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id s16so12795569qks.4
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:06:16 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E4410E2BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647266868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1n9imp/roVGFW+MJg7Js2iXDtKYDylDPOOBQLufwOMo=;
+ b=Ib7Pdsjf9S4oNapcCrEYDvb9D+sgnXAUpoPBex98vP0pq+qX/rUUst20SGJKrSmL+SBYnh
+ 6/A3zMb9MSxgkmNe8+N1yO9TZhX9ABkLiAtNdcAfZL2rpOJdaOrmFv9jjgG6wnliAJmLET
+ yhcikAupQIvbLDXRtM06kaTDOJPwsGM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-491-rozsBg4PMq-gfNp5cOY_xg-1; Mon, 14 Mar 2022 10:07:47 -0400
+X-MC-Unique: rozsBg4PMq-gfNp5cOY_xg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l10-20020a05600012ca00b001f1e4669c98so4380959wrx.23
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:07:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3uOgYqhY1EvXY8jA39r2XJq9ZyYNg5/RWB1bxjJJ5no=;
- b=Q2H/GursyuY+rG66JpSb77sSGITypz4GkUDv7shZF1nsf2ke4AIYwt1dl4LnOLVzLq
- l9d8/WDeoOZGs/I12u6lCqb4CYcmQFDlGgSTqwdohZyqof0enob+YRdqwbyAQhpst+T9
- mbrPacv/vtQEHnO7hiKvG4nahY41cWcLrdzgkJUsHjltFr489WI6yPdFF1OO3abgCO4r
- P4NSOMOuMXDXO3Wf6zlOdLog79THsEzL2GAbUh+BraUqgfXoPpnEpFpe5fkcUJ156URv
- /SXyi6LOVomvsPd/pYPxDHZalMuxcTbII3RXK9We+0LcxNddwwcw2VwfYZQTbMvUiiAw
- VSgw==
-X-Gm-Message-State: AOAM533LOZpxbiDycnvcHBiT1cD8ao4l8YyNqfa4kaC6axTtXdW0DXf2
- oW8eKgPuxzVZ/85LysWzjT3GEmkuMYLEhA==
-X-Google-Smtp-Source: ABdhPJxsUCbcmxRyntOjgD4C0kf3+hdpqvgO6vizJQCG2YgyZ2GCNpz3ayh6Uf8GzKQ7hutmYQIO1A==
-X-Received: by 2002:a37:9d13:0:b0:49b:66ac:1729 with SMTP id
- g19-20020a379d13000000b0049b66ac1729mr14405757qke.592.1647266775481; 
- Mon, 14 Mar 2022 07:06:15 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
- [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
- g9-20020a05620a108900b0067b13036bd5sm7880417qkk.52.2022.03.14.07.06.14
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1n9imp/roVGFW+MJg7Js2iXDtKYDylDPOOBQLufwOMo=;
+ b=oaXJ250Q3RcfmM8A7kOqIRmvsyBwPhvpO/I5EC4lRwXb9i61QmJxgcRGRDet5qTqgu
+ Kpu6sjWvbY1WhcVafSeFwR6ewlLwBbDCGVvQ8m57IT6UBX40MUlP95SS1Ulgp4cm0yKs
+ ACrXtGAiLiG8vbTTueLH62vBNQLn3O0idi2AHsdlyIKfrPw9tmCR5uREMGdUUhjzjIGr
+ 99EDavIYts6C5E0auSl6QVmK34GVqI0F2+4A78woqT3tbteis8aRiV099OnYSY3uuq8f
+ YQ4JFmkB+xBcJF8kqMYACBZ34xuUrPcn3dLBnM+mWieas+i3fnoowHiW1fZZmnz8XC/b
+ 0PaA==
+X-Gm-Message-State: AOAM530XDkeOXozCPSyuKkf6w8ACQmbqniW8iNA4aiGkGUT2CD4XLmCH
+ a6FLOny4Dqr4EfHkToTamJQyo0OjeuZYeTP9MoDK6r2H4sR1QYsbh4FYul1bJYQwr7BISibpMlS
+ g2HCnXfAAu8ecaBQL3PyNNm8JNTHa
+X-Received: by 2002:a5d:6daf:0:b0:203:8214:ae65 with SMTP id
+ u15-20020a5d6daf000000b002038214ae65mr16784123wrs.145.1647266866162; 
+ Mon, 14 Mar 2022 07:07:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUmZKMWpb2vbN6Fu8O0zteEWAjmmY/DHvyxw4A1qQVFF+i6VWRfQ9qS5Kjt/nNczT10/+Vzw==
+X-Received: by 2002:a5d:6daf:0:b0:203:8214:ae65 with SMTP id
+ u15-20020a5d6daf000000b002038214ae65mr16784102wrs.145.1647266865920; 
+ Mon, 14 Mar 2022 07:07:45 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ v10-20020a05600c214a00b00389bcc75559sm15441665wml.27.2022.03.14.07.07.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 07:06:15 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id u3so30995096ybh.5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:06:14 -0700 (PDT)
-X-Received: by 2002:a25:dfd3:0:b0:629:24ff:eab0 with SMTP id
- w202-20020a25dfd3000000b0062924ffeab0mr17628564ybg.613.1647266774463; Mon, 14
- Mar 2022 07:06:14 -0700 (PDT)
+ Mon, 14 Mar 2022 07:07:45 -0700 (PDT)
+Message-ID: <9b8bbc6a-e499-99c7-8fe6-95c4256ef61d@redhat.com>
+Date: Mon, 14 Mar 2022 15:07:43 +0100
 MIME-Version: 1.0
-References: <cover.1646683737.git.geert@linux-m68k.org>
- <cc84f1fcd0901ba58a2e4fd34c43846c622fd157.1646683737.git.geert@linux-m68k.org>
- <CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com>
- <CAMuHMdWbss2TY0J44PitLGCmCOBKcF0QrPv6CKe1r=2qD0+YLA@mail.gmail.com>
- <CAMuHMdUFfe5sekY9vDNRL0AP5_9_h4wiyPcsYywdNsKaTFsHmA@mail.gmail.com>
- <CAKb7UviCU38H_v3HVB5pKJvOFHdQqaAn9s7c8rwUPxhf3bq+5g@mail.gmail.com>
-In-Reply-To: <CAKb7UviCU38H_v3HVB5pKJvOFHdQqaAn9s7c8rwUPxhf3bq+5g@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 14 Mar 2022 15:06:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV6rEnB-8KQP2=2aUKPzqAH=EpX0Vpt6x=rAxa1hqTv1g@mail.gmail.com>
-Message-ID: <CAMuHMdV6rEnB-8KQP2=2aUKPzqAH=EpX0Vpt6x=rAxa1hqTv1g@mail.gmail.com>
-Subject: Re: [PATCH libdrm 3/3] util: Add SMPTE pattern support for C4 format
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/4] drm/format-helper: Add drm_fb_gray8_to_mono_reversed()
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <20220131201225.2324984-3-javierm@redhat.com>
+ <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <CAMuHMdWPQrErbMZ4wJPgROY7XOnKGvimNFg8JpiyuWqz2a3Gzw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,89 +89,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ilia,
+Hello Geert,
 
-On Mon, Mar 14, 2022 at 2:44 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> On Mon, Mar 14, 2022 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Mar 8, 2022 at 8:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Mon, Mar 7, 2022 at 10:23 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> > > > On Mon, Mar 7, 2022 at 3:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-> > > > > index 953bf95492ee150c..42d75d700700dc3d 100644
-> > > > > --- a/tests/util/pattern.c
-> > > > > +++ b/tests/util/pattern.c
-> > > > > @@ -608,6 +608,46 @@ static void fill_smpte_rgb16fp(const struct util_rgb_info *rgb, void *mem,
-> > > > >  static unsigned int smpte_middle[7] = { 6, 7, 4, 7, 2, 7, 0 };
-> > > > >  static unsigned int smpte_bottom[8] = { 8, 9, 10, 7, 11, 7, 12, 7 };
-> > > > >
-> > > > > +static void write_pixel_4(uint8_t *mem, unsigned int x, unsigned int pixel)
-> > > > > +{
-> > > > > +       if (x & 1)
-> > > > > +               mem[x / 2] = (mem[x / 2] & 0xf0) | (pixel & 0x0f);
-> > > > > +       else
-> > > > > +               mem[x / 2] = (mem[x / 2] & 0x0f) | (pixel << 4);
-> > > > > +}
-> > > >
-> > > > The standard layout is MSB? i.e. first pixel goes in the upper bits of
-> > > > the first byte? It's been ages since I've dealt with C4 (or perhaps I
-> > > > never even touched it), but this seems a bit surprising.
-> > >
-> > > Exactly. All register documentation I've ever seen shows the MSB on
-> > > the left, i.e. for bytes:
-> > >
-> > >      MSB                         LSB
-> > >     +---+---+---+---+---+---+---+---+
-> > >     | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
-> > >     +---+---+---+---+---+---+---+---+
-> > >
-> > > IBM used to count bits in the reverse order, but still had MSB left:
-> > >
-> > >      MSB                         LSB
-> > >     +---+---+---+---+---+---+---+---+
-> > >     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-> > >     +---+---+---+---+---+---+---+---+
-> > >
-> > > If the reverse ordering of pixels is ever needed, a new fourcc code can
-> > > be introduced.  Note that the fbdev API has support for both orderings
-> > > (see fb_bitfield.msb_right), but no driver ever sets msb_right = 1,
-> > > hence the fbdev core doesn't support it yet.
-> >
-> > Turns out I was wrong: fbdev ordering follows native ordering, and
-> > there's also FBINFO_FOREIGN_ENDIAN  :-(
+On 3/14/22 14:40, Geert Uytterhoeven wrote:
+> Hi Javier,
+> 
+> On Mon, Jan 31, 2022 at 9:12 PM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>> Add support to convert 8-bit grayscale to reversed monochrome for drivers
+>> that control monochromatic displays, that only have 1 bit per pixel depth.
+>>
+>> This helper function was based on repaper_gray8_to_mono_reversed() from
+>> the drivers/gpu/drm/tiny/repaper.c driver.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+>> --- a/drivers/gpu/drm/drm_format_helper.c
+>> +++ b/drivers/gpu/drm/drm_format_helper.c
+>> @@ -584,3 +584,38 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
+>>         return -EINVAL;
+>>  }
+>>  EXPORT_SYMBOL(drm_fb_blit_toio);
+>> +
+>> +/**
+>> + * drm_fb_gray8_to_mono_reversed - Convert grayscale to reversed monochrome
+>> + * @dst: reversed monochrome destination buffer
+> 
+> What's the meaning of "reversed"?
+
+Originally I took this helper from the repaper driver and it was called
+repaper_gray8_to_mono_reversed(), so the naming just got carried over.
+
+> During the last few days, I've been balancing between (a) "reverse
+> video" and (b) "reverse bit order", but none of them seems to be true.
 >
-> I haven't double-checked the meaning in fbdev, but ENDIAN-ness
-> generally refers to the layout of *bytes*, not *bits*. Although one
-> could also argue that it's the layout of "elements", and so in that
-> way, upper/lower values could be considered flipped. I've never gone
-> that far though.
+> (a) The code maps 0-127 to 0 and 8-255 to 1, which just reduces from
+>     256 to 2 grayscale levels, without inversion. The result is also
+>     white-on-black on my ssd130x OLED.
+> (b) On little-endian, the CFB drawops use little-endian bit order,
+>     which is what ends up in "byte" in the code below.
+>
 
-Yes, usually it refers to the ordering of bytes in a word.
-Here, it's about the ordering of sub-byte pixels in a byte.
-Note that with C2 and C4, there's a third ordering that comes into
-play.
-So we have:
-  1. Ordering of bytes in a word, for bpp > 8,
-  2. Ordering of pixels in a byte, for bpp < 8,
-  3. Ordering of bits in a pixel, for bpp > 1.
+As far as I understand is (a) from the options since the repaper display
+uses black-on-white. But as you pointed out the ssd130x OLEDs instead do
+white-on-black.
 
-1. Is handled by DRM_FORMAT_BIG_ENDIAN.
-2. Is what we need to handle here.
-   As bpp cannot be both < 8 and > 8, I think reusing
-   DRM_FORMAT_BIG_ENDIAN is OK.
-3. Is handled by fb_bitfield.msb_right, and always false
-    (i.e. no driver ever set it).
+I should had probably just name the helper drm_fb_gray8_to_monochrome()
+or maybe drm_fb_gray8_to_gray1() ?
 
-Gr{oetje,eeting}s,
+-- 
+Best regards,
 
-                        Geert
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
