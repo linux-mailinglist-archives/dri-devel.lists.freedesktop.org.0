@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0004D7F7F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 11:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8194D7F83
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 11:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F92D10E133;
-	Mon, 14 Mar 2022 10:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 595E510E245;
+	Mon, 14 Mar 2022 10:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7788510E133
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 10:10:57 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02BC710E245
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 10:10:59 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 461EA1F43E0C
+ (Authenticated sender: kholk11) with ESMTPSA id CB5731F43E0E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647252656;
- bh=yA8iPc1qudE0RmbWKTE0OXypq9/1bFl/sCJMi3gV1Sw=;
+ s=mail; t=1647252657;
+ bh=l2qnNe5aHUhWfu86E5/2cq68eWfeDDGpLfM9uDUPrGU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gjrp0g5MeHLNDySyFqs5JRUzilUbUpmVggL+Y3GbxW77VoCvdsRZlx/VqBGFboED6
- yfnkByKHj6qvp+6voxCecxYBybDBxSZAfpqqUia6Gy4T9Mk7K3XbkHJP8NRzAuT5nT
- ocWtki6jabAOjuBYMO5NKNZ35Id2JZ6Vg29//qinOyrYTDPxh1jO9W3kE5wN9dxid/
- gOmOoZOWp2VOfLUEMmv3aV5VW2xVUtbGJ4d6o3CNkjm1Y2J4V7gAyDbhXHhc2dh/al
- 3jSz7ci2EWDlHjyeyDnNmMHCGkplQLBZX66U2rXLdSORd8KC8BXRMCwNZmDY+HG13M
- ZYCmjz00HgYoQ==
-Message-ID: <2ec34f38-a26a-92c0-0185-cf9cd09c202d@collabora.com>
-Date: Mon, 14 Mar 2022 11:10:52 +0100
+ b=K9iHtFO3YwWip0ZOT4aKOEyG2RVTdYwUWSwIItK6WMSyI5hgYceO52cM/KbJLhPE1
+ EVDll5oMpCznI01fQFRcsHcqX6xmcHLWAez7iMTmcria2/KMEUoRxG1/ClsxOUjE5O
+ pA5BGfXJYV654DOoS+GNf88F8WKb/x1cnCm7+O02VAowVJD3cktOzfBPk6k2KyUTDg
+ 83bDBhEd+5KF32IW4s/h6IMlsoL7wWovQa+lhUHaNag2YTKhxK7qsMvHP7aRJcFKec
+ 39mlUmfpfAJYD/o9Ot2LSFmKoYzseM80gpvv/HgTUZlrwLTAqTksh9p+W5IwX67Kim
+ a8KCiZdHh06ZA==
+Message-ID: <242e2897-03bb-78f5-9616-58790cce740e@collabora.com>
+Date: Mon, 14 Mar 2022 11:10:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH V7 5/5] drm/mediatek: add display support for MT8186
+Subject: Re: [PATCH V7 4/5] dt-bindings: display: mediatek: add MT8186 SoC
+ binding
 Content-Language: en-US
 To: Rex-BC Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
  matthias.bgg@gmail.com, robh+dt@kernel.org
 References: <20220314090033.25773-1-rex-bc.chen@mediatek.com>
- <20220314090033.25773-6-rex-bc.chen@mediatek.com>
+ <20220314090033.25773-5-rex-bc.chen@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220314090033.25773-6-rex-bc.chen@mediatek.com>
+In-Reply-To: <20220314090033.25773-5-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,97 +62,162 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 14/03/22 10:00, Rex-BC Chen ha scritto:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> Add MT8186 SoC binding to AAL, CCORR, COLOR, DITHER, GAMMA, MUTEX,
+> OVL, POSTMASK and RDMA.
 > 
-> Add mmsys driver data and compatible for MT8186 in mtk_drm_drv.c.
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 > ---
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 33 ++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
+>   .../devicetree/bindings/display/mediatek/mediatek,aal.yaml    | 4 ++++
+>   .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml  | 4 ++++
+>   .../devicetree/bindings/display/mediatek/mediatek,color.yaml  | 1 +
+>   .../devicetree/bindings/display/mediatek/mediatek,dither.yaml | 1 +
+>   .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml  | 1 +
+>   .../devicetree/bindings/display/mediatek/mediatek,mutex.yaml  | 1 +
+>   .../devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml | 4 ++++
+>   .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml    | 4 ++++
+>   .../bindings/display/mediatek/mediatek,postmask.yaml          | 4 ++++
+>   .../devicetree/bindings/display/mediatek/mediatek,rdma.yaml   | 1 +
+>   10 files changed, 25 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 247c6ff277ef..c5f88295b434 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -158,6 +158,24 @@ static const enum mtk_ddp_comp_id mt8183_mtk_ddp_ext[] = {
->   	DDP_COMPONENT_DPI0,
->   };
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+> index eaf23428b30d..c5562482e787 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+> @@ -32,6 +32,10 @@ properties:
+>                 - mediatek,mt8192-disp-aal
+>                 - mediatek,mt8195-disp-aal
+>             - const: mediatek,mt8173-disp-aal
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-disp-aal
+> +          - const: mediatek,mt8183-disp-aal
 >   
-> +static const enum mtk_ddp_comp_id mt8186_mtk_ddp_main[] = {
-> +	DDP_COMPONENT_OVL0,
-> +	DDP_COMPONENT_RDMA0,
-> +	DDP_COMPONENT_COLOR0,
-> +	DDP_COMPONENT_CCORR,
-> +	DDP_COMPONENT_AAL0,
-> +	DDP_COMPONENT_GAMMA,
-> +	DDP_COMPONENT_POSTMASK0,
-> +	DDP_COMPONENT_DITHER,
-> +	DDP_COMPONENT_DSI0,
-> +};
-> +
-> +static const enum mtk_ddp_comp_id mt8186_mtk_ddp_ext[] = {
-> +	DDP_COMPONENT_OVL_2L0,
-> +	DDP_COMPONENT_RDMA1,
-> +	DDP_COMPONENT_DPI0,
-> +};
-> +
->   static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
->   	DDP_COMPONENT_OVL0,
->   	DDP_COMPONENT_OVL_2L0,
-> @@ -221,6 +239,13 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
->   	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
->   };
+>     reg:
+>       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> index 7766c806c102..63fb02014a56 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> @@ -29,6 +29,10 @@ properties:
+>             - enum:
+>                 - mediatek,mt8195-disp-ccorr
+>             - const: mediatek,mt8192-disp-ccorr
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-disp-ccorr
+> +          - const: mediatek,mt8183-disp-ccorr
 >   
-> +static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
-> +	.main_path = mt8186_mtk_ddp_main,
-> +	.main_len = ARRAY_SIZE(mt8186_mtk_ddp_main),
-> +	.ext_path = mt8186_mtk_ddp_ext,
-> +	.ext_len = ARRAY_SIZE(mt8186_mtk_ddp_ext),
-> +};
-> +
->   static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
->   	.main_path = mt8192_mtk_ddp_main,
->   	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-> @@ -461,6 +486,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->   	  .data = (void *)MTK_DISP_MUTEX },
->   	{ .compatible = "mediatek,mt8183-disp-mutex",
->   	  .data = (void *)MTK_DISP_MUTEX },
-> +	{ .compatible = "mediatek,mt8186-disp-mutex",
-> +	  .data = (void *)MTK_DISP_MUTEX },
->   	{ .compatible = "mediatek,mt8192-disp-mutex",
->   	  .data = (void *)MTK_DISP_MUTEX },
->   	{ .compatible = "mediatek,mt8173-disp-od",
-> @@ -509,12 +536,16 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->   	  .data = (void *)MTK_DPI },
->   	{ .compatible = "mediatek,mt8183-dpi",
->   	  .data = (void *)MTK_DPI },
-> +	{ .compatible = "mediatek,mt8186-dpi",
-> +	  .data = (void *)MTK_DPI },
->   	{ .compatible = "mediatek,mt2701-dsi",
->   	  .data = (void *)MTK_DSI },
->   	{ .compatible = "mediatek,mt8173-dsi",
->   	  .data = (void *)MTK_DSI },
->   	{ .compatible = "mediatek,mt8183-dsi",
->   	  .data = (void *)MTK_DSI },
-> +	{ .compatible = "mediatek,mt8186-dsi",
-> +	  .data = (void *)MTK_DSI },
->   	{ }
->   };
+>     reg:
+>       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+> index 0c9095b0411e..d2f89ee7996f 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+> @@ -36,6 +36,7 @@ properties:
+>         - items:
+>             - enum:
+>                 - mediatek,mt8183-disp-color
+> +              - mediatek,mt8186-disp-color
+>                 - mediatek,mt8192-disp-color
+>                 - mediatek,mt8195-disp-color
+>             - const: mediatek,mt8173-disp-color
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+> index 8180ed0a89ff..8ad8187c02d1 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+> @@ -26,6 +26,7 @@ properties:
+>             - const: mediatek,mt8183-disp-dither
+>         - items:
+>             - enum:
+> +              - mediatek,mt8186-disp-dither
+>                 - mediatek,mt8192-disp-dither
+>                 - mediatek,mt8195-disp-dither
+>             - const: mediatek,mt8183-disp-dither
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
+> index 5f1825b4512b..a89ea0ea7542 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
+> @@ -27,6 +27,7 @@ properties:
+>             - const: mediatek,mt8183-disp-gamma
+>         - items:
+>             - enum:
+> +              - mediatek,mt8186-disp-gamma
+>                 - mediatek,mt8192-disp-gamma
+>                 - mediatek,mt8195-disp-gamma
+>             - const: mediatek,mt8183-disp-gamma
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
+> index b470fbb1b40a..3fdad71210b4 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
+> @@ -29,6 +29,7 @@ properties:
+>         - mediatek,mt8167-disp-mutex
+>         - mediatek,mt8173-disp-mutex
+>         - mediatek,mt8183-disp-mutex
+> +      - mediatek,mt8186-disp-mutex
+>         - mediatek,mt8192-disp-mutex
+>         - mediatek,mt8195-disp-mutex
 >   
-> @@ -531,6 +562,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
->   	  .data = &mt8173_mmsys_driver_data},
->   	{ .compatible = "mediatek,mt8183-mmsys",
->   	  .data = &mt8183_mmsys_driver_data},
-> +	{ .compatible = "mediatek,mt8186-mmsys",
-> +	  .data = &mt8186_mmsys_driver_data},
->   	{ .compatible = "mediatek,mt8192-mmsys",
->   	  .data = &mt8192_mmsys_driver_data},
->   	{ }
-> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
+> index da999ba53b7c..4e94f4e947ad 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
+> @@ -25,6 +25,10 @@ properties:
+>             - const: mediatek,mt8183-disp-ovl-2l
+>         - items:
+>             - const: mediatek,mt8192-disp-ovl-2l
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-disp-ovl-2l
+> +          - const: mediatek,mt8192-disp-ovl-2l
+>   
+>     reg:
+>       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> index 51f8235f1b1b..a2a27d0ca038 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> @@ -38,6 +38,10 @@ properties:
+>             - enum:
+>                 - mediatek,mt8195-disp-ovl
+>             - const: mediatek,mt8183-disp-ovl
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-disp-ovl
+> +          - const: mediatek,mt8192-disp-ovl
+>   
+>     reg:
+>       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
+> index 2d769422e29f..654080bfbdfb 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
+> @@ -23,6 +23,10 @@ properties:
+>       oneOf:
+>         - items:
+>             - const: mediatek,mt8192-disp-postmask
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-disp-postmask
+> +          - const: mediatek,mt8192-disp-postmask
+>   
+>     reg:
+>       maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
+> index 9a6756f185ee..0882ae86e6c4 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
+> @@ -38,6 +38,7 @@ properties:
+>             - const: mediatek,mt2701-disp-rdma
+>         - items:
+>             - enum:
+> +              - mediatek,mt8186-disp-rdma
+>                 - mediatek,mt8192-disp-rdma
+>             - const: mediatek,mt8183-disp-rdma
+>   
+
+
 
