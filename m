@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979AA4D8F3C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:05:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 153444D8F5B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC58110E114;
-	Mon, 14 Mar 2022 22:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AFD410E436;
+	Mon, 14 Mar 2022 22:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc
- [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9F510E114
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=bpBj1jLPuNXD2bHuGOl7hPinc2wD6kM0zd7V33MycNU=; b=RSyobZrklHqOZU4UMuimLrJIj3
- t/V9q7Bcww+Anrbeb6sQe5Ano87Y/KjVNON9OzlfNmgFb+bhCUAAt+bKTby0nhyY7LqvpFTwASEM3
- r/a1cjUYVp2mgNhdl8bMX6cY4Vx/Yo1ZSrnRVoVV6zTvbFZC1JGIbxA2x1B9HwtFLyaM=;
-Received: from p200300ccff0ce9001a3da2fffebfd33a.dip0.t-ipconnect.de
- ([2003:cc:ff0c:e900:1a3d:a2ff:febf:d33a] helo=aktux)
- by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <andreas@kemnade.info>)
- id 1nTso4-00043u-01; Mon, 14 Mar 2022 23:04:48 +0100
-Date: Mon, 14 Mar 2022 23:04:46 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display: imx: Add EPDC
-Message-ID: <20220314230446.5cc52121@aktux>
-In-Reply-To: <YizzRKSDvHon83ks@latitude>
-References: <20220206080016.796556-1-andreas@kemnade.info>
- <20220206080016.796556-2-andreas@kemnade.info>
- <YizzRKSDvHon83ks@latitude>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B20B10E435;
+ Mon, 14 Mar 2022 22:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647295916; x=1678831916;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=TmF4FvJhy8r4L46VPu1Ph2AwpXhixIyOHXK6V+ZN30g=;
+ b=PJDtXRu/WIGZOCihMXF/ypBGKmv6O5O6I4gLXq/3BB4NsXiwgCvG0Yh2
+ mDSo4nAiEmI4ncJnjXKz9/m5KXTBad7iXGw8t6Ak/b6sdBaz6dxR/F/pF
+ EDyrHrL6ikBu3vcICNQM1x1jcNxpNEJ6wVTL2eXK8fZ0RFyxfXUYfHued
+ DAgT5Pn53yNY7TwuCLyM2X1eV9xKnMP4GRcVRJUcyXH6tG8P5snjx3xdW
+ 5swA5UfLsivskCzI1BBdbd947h3RohwemlIhcOBkCtjiS70ACtynJuF5U
+ N2RdqVkiyPFD/IVdvC2MpujLY1afivGvcgmZ8vNonjsQ41QzQxQK60YZc w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="316877952"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="316877952"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2022 15:11:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="556641142"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga008.jf.intel.com with SMTP; 14 Mar 2022 15:11:44 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 15 Mar 2022 00:11:43 +0200
+Date: Tue, 15 Mar 2022 00:11:43 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 00/22] drm: Review of mode copies
+Message-ID: <Yi+9n0eGn3rNKb4X@intel.com>
+References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -1.0 (-)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,130 +59,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- letux-kernel@openphoenux.org, tzimmermann@suse.de, samuel@sholland.org,
- airlied@linux.ie, s.hauer@pengutronix.de, alistair@alistair23.me,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-imx@nxp.com,
- josua.mayer@jm0.eu, shawnguo@kernel.org, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Leo Li <sunpeng.li@amd.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Nikola Cornij <nikola.cornij@amd.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Sandy Huang <hjc@rock-chips.com>,
+ Robert Foss <robert.foss@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>, freedreno@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 12 Mar 2022 20:23:48 +0100
-Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
+On Fri, Feb 18, 2022 at 12:03:41PM +0200, Ville Syrjala wrote:
+>   drm: Add drm_mode_init()
+>   drm/bridge: Use drm_mode_copy()
+>   drm/imx: Use drm_mode_duplicate()
+>   drm/panel: Use drm_mode_duplicate()
+>   drm/vc4: Use drm_mode_copy()
+These have been pushed to drm-misc-next.
 
-> Hello Andreas,
->=20
-> Sorry for the delay, I finally got around to having a look at the
-> patchset.
->=20
-> Some comments from skimming the patches below, and in my other replies.
->=20
->=20
-> On Sun, Feb 06, 2022 at 09:00:11AM +0100, Andreas Kemnade wrote:
-> > Add a binding for the Electrophoretic Display Controller found at least
-> > in the i.MX6.
-> > The timing subnode is directly here to avoid having display parameters
-> > spread all over the plate.
-> >=20
-> > Supplies are organized the same way as in the fbdev driver in the
-> > NXP/Freescale kernel forks. The regulators used for that purpose,
-> > like the TPS65185, the SY7636A and MAX17135 have typically a single bit=
- to
-> > start a bunch of regulators of higher or negative voltage with a
-> > well-defined timing. VCOM can be handled separately, but can also be
-> > incorporated into that single bit.
-> >=20
-> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> > ---
-> >  .../bindings/display/imx/fsl,mxc-epdc.yaml    | 159 ++++++++++++++++++
-> >  1 file changed, 159 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,m=
-xc-epdc.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc=
-.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> > new file mode 100644
-> > index 000000000000..7e0795cc3f70
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> > @@ -0,0 +1,159 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +--- =20
-> [...]
-> > +  - vscan-holdoff
-> > +  - sdoed-width
-> > +  - sdoed-delay
-> > +  - sdoez-width
-> > +  - sdoez-delay
-> > +  - gdclk-hp-offs
-> > +  - gdsp-offs
-> > +  - gdoe-offs
-> > +  - gdclk-offs
-> > +  - num-ce =20
->=20
-> These parameters should perhaps have sane defaults in the driver, and be
-> optional in the DT.
->=20
-First of all I think I should document them better (as said in an
-earlier review mail)
+>   drm/amdgpu: Remove pointless on stack mode copies
+>   drm/amdgpu: Use drm_mode_init() for on-stack modes
+>   drm/amdgpu: Use drm_mode_copy()
+amdgpu ones are reviewed, but I'll leave them for the
+AMD folks to push to whichever tree they prefer.
 
-I doubt there are sane defaults, in vendor kernels, there is typically a
-definition of these parameters and a video mode per display.
 
->=20
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/imx6sl-clock.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    epdc: epdc@20f4000 { =20
-> [...]
-> > +
-> > +        timing {
-> > +                clock-frequency =3D <80000000>;
-> > +                hactive =3D <1448>;
-> > +                hback-porch =3D <16>;
-> > +                hfront-porch =3D <102>;
-> > +                hsync-len =3D <28>;
-> > +                vactive =3D <1072>;
-> > +                vback-porch =3D <4>;
-> > +                vfront-porch =3D <4>;
-> > +                vsync-len =3D <2>;
-> > +        };
-> > +    }; =20
->=20
-> The way you did it here, the timing parameters are directly under the
-> EPDC node in the DT, but I wonder if it would be better to have a
-> separate node for the display panel, which can then provide the timing
-> parameters either in the DT or in the panel driver (selected by compatible
-> string of the panel).
->=20
-IMHO it makes sense to store these timing parameters together with the
-timing parameters from above. If that all somehow comes from a panel
-driver, we need to design an interface for it. So for simplicity I
-added the stuff just to the EPDC node.
+The rest are still in need of review:
+>   drm/radeon: Use drm_mode_copy()
+>   drm/gma500: Use drm_mode_copy()
+>   drm/hisilicon: Use drm_mode_init() for on-stack modes
+>   drm/msm: Nuke weird on stack mode copy
+>   drm/msm: Use drm_mode_init() for on-stack modes
+>   drm/msm: Use drm_mode_copy()
+>   drm/mtk: Use drm_mode_init() for on-stack modes
+>   drm/rockchip: Use drm_mode_copy()
+>   drm/sti: Use drm_mode_copy()
+>   drm/tilcdc: Use drm_mode_copy()
+>   drm/i915: Use drm_mode_init() for on-stack modes
+>   drm/i915: Use drm_mode_copy()
+>   drm: Use drm_mode_init() for on-stack modes
+>   drm: Use drm_mode_copy()
 
-Vendor kernel has this:
-struct imx_epdc_fb_mode {
-    struct fb_videomode *vmode;
-    int vscan_holdoff;
-    int sdoed_width;
-    int sdoed_delay;
-    int sdoez_width;
-    int sdoez_delay;
-    int gdclk_hp_offs;
-    int gdsp_offs;
-    int gdoe_offs;
-    int gdclk_offs;
-    int num_ce;
-};
-
-So things are basically combined here.
-
-Regards,
-Andreas
+-- 
+Ville Syrjälä
+Intel
