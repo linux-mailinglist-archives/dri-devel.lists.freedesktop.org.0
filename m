@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789E54D9083
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 00:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A184D9084
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 00:42:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C68810E1D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A7210E1D7;
 	Mon, 14 Mar 2022 23:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F218D89F8B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8142789F8B;
  Mon, 14 Mar 2022 23:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647301331; x=1678837331;
+ t=1647301330; x=1678837330;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/Zp8B8+TaLEPpOa0oHQVYQD2QeWBQeiPjlEPTyJnKXc=;
- b=LzGIaEGVLDg4wACYbILULlZidbjulUyXr4Ow9gvhbLFhZ8Iw/8tnpBbo
- nZrxYIip4ZaWyv75h+h1H9Aph2zZ7KgthT6K+xxCM1QnGhFCFWob++1xf
- fLvHv84O87ILor94cK2YoxJR6NGCB2X3p1suq77O2YgK2UYrjALfXDshH
- fjLz6HoY5iJJbKE/RUB6k6f3tEWv+XyStT2BqzANyYuqRfXvZj+jVTqYU
- N9GEMSDilh/qLMg4QT+rIzIgRRKBuaQOcwut3a1iF2osER/WgYdQJYZKM
- AOlc29pNGGhMBIgt8aKknUxVkbjTqMQ0ld2/hVlbRoLX78dMTz4RoHvc8 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256359975"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="256359975"
+ bh=OizfX+XKo6M/lAi36LbJP+jiDe/BkdnpLNiwldVZxEs=;
+ b=FEGQjle5o46PlnQ5l6HS4oSoAl3FBTYJB+zCC3susvI24NpVjTK0WtdN
+ zq1I9SL7/ybFHDcEzqBkU3UTzB6ZR4FBOssLeWf1Bjrx/PEqKwUHR36rT
+ MNaeCtN4oXqmistxCx+wZJBd3EomU5UGHiENoPurfTL5DBOxIreamFsgV
+ uyzxBzVtKP/7NPCdBM4jyvianzevWa5d9c9kzdMihfSQ5PdlEuCkC6pqM
+ ZGmFpccBLYJcR9XZ9kinyT2aBdfLjzTDURKJzRbDTPXad0V2HkZ6R1mbj
+ Cb1eCUJVRcazppJaDh1hFtv8u1sQMiRLpVD5XX0TJygT1ncsNP2qOCT9y w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256359969"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="256359969"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Mar 2022 16:42:09 -0700
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="549403064"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="549403066"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Mar 2022 16:42:09 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/i915/guc: add steering info to GuC register
- save/restore list
-Date: Mon, 14 Mar 2022 16:42:02 -0700
-Message-Id: <20220314234203.799268-3-matthew.d.roper@intel.com>
+Subject: [PATCH 3/3] drm/i915: Add support for steered register writes
+Date: Mon, 14 Mar 2022 16:42:03 -0700
+Message-Id: <20220314234203.799268-4-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220314234203.799268-1-matthew.d.roper@intel.com>
 References: <20220314234203.799268-1-matthew.d.roper@intel.com>
@@ -56,219 +55,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Cc: Harish Chegondi <harish.chegondi@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Upcoming patches will need to steer writes to multicast registers as
+well as reading them.
 
-GuC has its own steering mechanism and can't use the default set by i915,
-so we need to provide the steering information that the FW will need to
-save/restore registers while processing an engine reset. The GUC
-interface allows us to do so as part of the register save/restore list
-and it requires us to specify the steering for all multicast register, even
-those that would be covered by the default setting for cpu access. Given
-that we do not distinguish between registers that do not need steering and
-registers that are guaranteed to work the default steering, we set the
-steering for all entries in the guc list that do not require a special
-steering (e.g. mslice) to the default settings; this will cost us a few
-extra writes during engine reset but allows us to keep the steering
-logic simple.
+Although the setting of the 'multicast' bit should only really matter
+for write operations (reads always operate in a unicast manner and give
+us the result from one specific instance), Wa_22013088509 suggests that
+we leave the multicast bit enabled when performing read operations, so
+we follow suit here.
 
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Harish Chegondi <harish.chegondi@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c          | 29 +++++++++++
- drivers/gpu/drm/i915/gt/intel_gt.h          |  3 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  | 54 +++++++++++++++------
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  3 ++
- 4 files changed, 73 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
+ drivers/gpu/drm/i915/intel_uncore.c     | 75 ++++++++++++++++++++++---
+ drivers/gpu/drm/i915/intel_uncore.h     |  4 +-
+ 3 files changed, 70 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 041add4019fc..a5f01a8601e1 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -919,6 +919,35 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
- 	return intel_uncore_read_fw(gt->uncore, reg);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 19cd34f24263..62e0f075b1de 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -46,6 +46,7 @@
+ #define   GEN8_MCR_SLICE_MASK			GEN8_MCR_SLICE(3)
+ #define   GEN8_MCR_SUBSLICE(subslice)		(((subslice) & 3) << 24)
+ #define   GEN8_MCR_SUBSLICE_MASK		GEN8_MCR_SUBSLICE(3)
++#define   GEN11_MCR_MULTICAST			REG_BIT(31)
+ #define   GEN11_MCR_SLICE(slice)		(((slice) & 0xf) << 27)
+ #define   GEN11_MCR_SLICE_MASK			GEN11_MCR_SLICE(0xf)
+ #define   GEN11_MCR_SUBSLICE(subslice)		(((subslice) & 0x7) << 24)
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index dd8fdd5863de..ef8ffc01ad19 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -2464,17 +2464,46 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+ 	return fw_domains;
  }
  
+-u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+-					   i915_reg_t reg,
+-					   int slice, int subslice)
 +/**
-+ * intel_gt_get_valid_steering_for_reg - get a valid steering for a register
-+ * @gt: GT structure
-+ * @reg: register for which the steering is required
-+ * @sliceid: return variable for slice steering
-+ * @subsliceid: return variable for subslice steering
++ * uncore_rw_with_mcr_steering_fw - Access a register after programming
++ *				    the MCR selector register.
++ * @uncore: pointer to struct intel_uncore
++ * @reg: register being accessed
++ * @rw_flag: FW_REG_READ for read access or FW_REG_WRITE for write access
++ * @slice: slice number (ignored for multi-cast write)
++ * @subslice: sub-slice number (ignored for multi-cast write)
++ * @value: register value to be written (ignored for read)
 + *
-+ * This function returns a slice/subslice pair that is guaranteed to work for
-+ * read steering of the given register. Note that a value will be returned even
-+ * if the register is not replicated and therefore does not actually require
-+ * steering.
++ * Return: 0 for write access. register value for read access.
++ *
++ * Caller needs to make sure the relevant forcewake wells are up.
 + */
-+void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
-+					 u8 *sliceid, u8 *subsliceid)
++static u32 uncore_rw_with_mcr_steering_fw(struct intel_uncore *uncore,
++					  i915_reg_t reg, u8 rw_flag,
++					  int slice, int subslice, u32 value)
+ {
+-	u32 mcr_mask, mcr_ss, mcr, old_mcr, val;
++	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
+ 
+ 	lockdep_assert_held(&uncore->lock);
+ 
+ 	if (GRAPHICS_VER(uncore->i915) >= 11) {
+ 		mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
+ 		mcr_ss = GEN11_MCR_SLICE(slice) | GEN11_MCR_SUBSLICE(subslice);
++
++		/*
++		 * Wa_22013088509
++		 *
++		 * The setting of the multicast/unicast bit usually wouldn't
++		 * matter for read operations (which always return the value
++		 * from a single register instance regardless of how that bit
++		 * is set), but some platforms have a workaround requiring us
++		 * to remain in multicast mode for reads.  There's no real
++		 * downside to this, so we'll just go ahead and do so on all
++		 * platforms; we'll only clear the multicast bit from the mask
++		 * when exlicitly doing a write operation.
++		 */
++		if (rw_flag == FW_REG_WRITE)
++			mcr_mask |= GEN11_MCR_MULTICAST;
+ 	} else {
+ 		mcr_mask = GEN8_MCR_SLICE_MASK | GEN8_MCR_SUBSLICE_MASK;
+ 		mcr_ss = GEN8_MCR_SLICE(slice) | GEN8_MCR_SUBSLICE(subslice);
+@@ -2486,7 +2515,10 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+ 	mcr |= mcr_ss;
+ 	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+ 
+-	val = intel_uncore_read_fw(uncore, reg);
++	if (rw_flag == FW_REG_READ)
++		val = intel_uncore_read_fw(uncore, reg);
++	else
++		intel_uncore_write_fw(uncore, reg, value);
+ 
+ 	mcr &= ~mcr_mask;
+ 	mcr |= old_mcr & mcr_mask;
+@@ -2496,14 +2528,16 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+ 	return val;
+ }
+ 
+-u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+-					i915_reg_t reg, int slice, int subslice)
++static u32 uncore_rw_with_mcr_steering(struct intel_uncore *uncore,
++				       i915_reg_t reg, u8 rw_flag,
++				       int slice, int subslice,
++				       u32 value)
+ {
+ 	enum forcewake_domains fw_domains;
+ 	u32 val;
+ 
+ 	fw_domains = intel_uncore_forcewake_for_reg(uncore, reg,
+-						    FW_REG_READ);
++						    rw_flag);
+ 	fw_domains |= intel_uncore_forcewake_for_reg(uncore,
+ 						     GEN8_MCR_SELECTOR,
+ 						     FW_REG_READ | FW_REG_WRITE);
+@@ -2511,7 +2545,8 @@ u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+ 	spin_lock_irq(&uncore->lock);
+ 	intel_uncore_forcewake_get__locked(uncore, fw_domains);
+ 
+-	val = intel_uncore_read_with_mcr_steering_fw(uncore, reg, slice, subslice);
++	val = uncore_rw_with_mcr_steering_fw(uncore, reg, rw_flag,
++					     slice, subslice, value);
+ 
+ 	intel_uncore_forcewake_put__locked(uncore, fw_domains);
+ 	spin_unlock_irq(&uncore->lock);
+@@ -2519,6 +2554,28 @@ u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+ 	return val;
+ }
+ 
++u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
++					   i915_reg_t reg, int slice, int subslice)
 +{
-+	int type;
-+
-+	for (type = 0; type < NUM_STEERING_TYPES; type++) {
-+		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
-+			intel_gt_get_valid_steering(gt, type, sliceid,
-+						    subsliceid);
-+			return;
-+		}
-+	}
-+
-+	*sliceid = gt->default_steering.groupid;
-+	*subsliceid = gt->default_steering.instanceid;
++	return uncore_rw_with_mcr_steering_fw(uncore, reg, FW_REG_READ,
++					      slice, subslice, 0);
 +}
 +
- u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
- {
- 	int type;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index 3edece1865e4..996f8f3c17b9 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -84,6 +84,9 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
- 	return gt->steering_table[type];
- }
- 
-+void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
-+					 u8 *sliceid, u8 *subsliceid);
++u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
++					i915_reg_t reg, int slice, int subslice)
++{
++	return uncore_rw_with_mcr_steering(uncore, reg, FW_REG_READ,
++					   slice, subslice, 0);
++}
 +
- u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
- u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index acc4a3766dc1..feb372fc0b48 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -276,15 +276,24 @@ __mmio_reg_add(struct temp_regset *regset, struct guc_mmio_reg *reg)
- 	return slot;
- }
- 
--static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
--					  u32 offset, u32 flags)
-+#define GUC_REGSET_STEERING(group, instance) ( \
-+	FIELD_PREP(GUC_REGSET_STEERING_GROUP, (group)) | \
-+	FIELD_PREP(GUC_REGSET_STEERING_INSTANCE, (instance)) | \
-+	GUC_REGSET_NEEDS_STEERING \
-+)
++void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
++					  i915_reg_t reg, u32 value,
++					  int slice, int subslice)
++{
++	uncore_rw_with_mcr_steering(uncore, reg, FW_REG_WRITE,
++				    slice, subslice, value);
++}
 +
-+static long __must_check guc_mmio_reg_add(struct intel_gt *gt,
-+					  struct temp_regset *regset,
-+					  i915_reg_t reg, u32 flags)
- {
- 	u32 count = regset->storage_used - (regset->registers - regset->storage);
--	struct guc_mmio_reg reg = {
-+	u32 offset = i915_mmio_reg_offset(reg);
-+	struct guc_mmio_reg entry = {
- 		.offset = offset,
- 		.flags = flags,
- 	};
- 	struct guc_mmio_reg *slot;
-+	u8 group, inst;
- 
- 	/*
- 	 * The mmio list is built using separate lists within the driver.
-@@ -292,11 +301,22 @@ static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
- 	 * register more than once. Do not consider this an error; silently
- 	 * move on if the register is already in the list.
- 	 */
--	if (bsearch(&reg, regset->registers, count,
--		    sizeof(reg), guc_mmio_reg_cmp))
-+	if (bsearch(&entry, regset->registers, count,
-+		    sizeof(entry), guc_mmio_reg_cmp))
- 		return 0;
- 
--	slot = __mmio_reg_add(regset, &reg);
-+	/*
-+	 * The GuC doesn't have a default steering, so we need to explicitly
-+	 * steer all registers that need steering. However, we do not keep track
-+	 * of all the steering ranges, only of those that have a chance of using
-+	 * a non-default steering from the i915 pov. Instead of adding such
-+	 * tracking, it is easier to just program the default steering for all
-+	 * regs that don't need a non-default one.
-+	 */
-+	intel_gt_get_valid_steering_for_reg(gt, reg, &group, &inst);
-+	entry.flags |= GUC_REGSET_STEERING(group, inst);
-+
-+	slot = __mmio_reg_add(regset, &entry);
- 	if (IS_ERR(slot))
- 		return PTR_ERR(slot);
- 
-@@ -311,14 +331,16 @@ static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
- 	return 0;
- }
- 
--#define GUC_MMIO_REG_ADD(regset, reg, masked) \
--	guc_mmio_reg_add(regset, \
--			 i915_mmio_reg_offset((reg)), \
-+#define GUC_MMIO_REG_ADD(gt, regset, reg, masked) \
-+	guc_mmio_reg_add(gt, \
-+			 regset, \
-+			 (reg), \
- 			 (masked) ? GUC_REGSET_MASKED : 0)
- 
- static int guc_mmio_regset_init(struct temp_regset *regset,
- 				struct intel_engine_cs *engine)
- {
-+	struct intel_gt *gt = engine->gt;
- 	const u32 base = engine->mmio_base;
- 	struct i915_wa_list *wal = &engine->wa_list;
- 	struct i915_wa *wa;
-@@ -331,26 +353,26 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
- 	 */
- 	regset->registers = regset->storage + regset->storage_used;
- 
--	ret |= GUC_MMIO_REG_ADD(regset, RING_MODE_GEN7(base), true);
--	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
--	ret |= GUC_MMIO_REG_ADD(regset, RING_IMR(base), false);
-+	ret |= GUC_MMIO_REG_ADD(gt, regset, RING_MODE_GEN7(base), true);
-+	ret |= GUC_MMIO_REG_ADD(gt, regset, RING_HWS_PGA(base), false);
-+	ret |= GUC_MMIO_REG_ADD(gt, regset, RING_IMR(base), false);
- 
- 	if ((engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE) &&
- 	    CCS_MASK(engine->gt))
--		ret |= GUC_MMIO_REG_ADD(regset, GEN12_RCU_MODE, true);
-+		ret |= GUC_MMIO_REG_ADD(gt, regset, GEN12_RCU_MODE, true);
- 
- 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++)
--		ret |= GUC_MMIO_REG_ADD(regset, wa->reg, wa->masked_reg);
-+		ret |= GUC_MMIO_REG_ADD(gt, regset, wa->reg, wa->masked_reg);
- 
- 	/* Be extra paranoid and include all whitelist registers. */
- 	for (i = 0; i < RING_MAX_NONPRIV_SLOTS; i++)
--		ret |= GUC_MMIO_REG_ADD(regset,
-+		ret |= GUC_MMIO_REG_ADD(gt, regset,
- 					RING_FORCE_TO_NONPRIV(base, i),
- 					false);
- 
- 	/* add in local MOCS registers */
- 	for (i = 0; i < GEN9_LNCFCMOCS_REG_COUNT; i++)
--		ret |= GUC_MMIO_REG_ADD(regset, GEN9_LNCFCMOCS(i), false);
-+		ret |= GUC_MMIO_REG_ADD(gt, regset, GEN9_LNCFCMOCS(i), false);
- 
- 	return ret ? -1 : 0;
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index a4a6136b3616..78590372b85f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -287,8 +287,11 @@ struct guc_mmio_reg {
- 	u32 flags;
- 	u32 mask;
- #define GUC_REGSET_MASKED		BIT(0)
-+#define GUC_REGSET_NEEDS_STEERING	BIT(1)
- #define GUC_REGSET_MASKED_WITH_VALUE	BIT(2)
- #define GUC_REGSET_RESTORE_ONLY		BIT(3)
-+#define GUC_REGSET_STEERING_GROUP	GENMASK(15, 12)
-+#define GUC_REGSET_STEERING_INSTANCE	GENMASK(23, 20)
- } __packed;
- 
- /* GuC register sets */
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/mock_uncore.c"
+ #include "selftests/intel_uncore.c"
+diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
+index 6ff56d673e2b..9a760952d46a 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.h
++++ b/drivers/gpu/drm/i915/intel_uncore.h
+@@ -214,7 +214,9 @@ u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+ 					   int slice, int subslice);
+ u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+ 					i915_reg_t reg,	int slice, int subslice);
+-
++void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
++					  i915_reg_t reg, u32 value,
++					  int slice, int subslice);
+ void
+ intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
+ void intel_uncore_init_early(struct intel_uncore *uncore,
 -- 
 2.34.1
 
