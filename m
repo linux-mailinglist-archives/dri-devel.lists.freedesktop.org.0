@@ -1,42 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7024D94CB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 07:46:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5A64D9569
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 08:36:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 562BE10E4C3;
-	Tue, 15 Mar 2022 06:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9734010E430;
+	Tue, 15 Mar 2022 07:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
- [115.236.121.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32FAD10E4C3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 06:46:41 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 713ECAC023E;
- Tue, 15 Mar 2022 14:46:36 +0800 (CST)
-Message-ID: <9ec29d9b-8197-98fb-c612-5c842e4212c4@rock-chips.com>
-Date: Tue, 15 Mar 2022 14:46:35 +0800
+X-Greylist: delayed 769 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Mar 2022 11:50:49 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FC710E71F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 11:50:49 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 22EBbfEg003547;
+ Mon, 14 Mar 2022 06:37:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1647257861;
+ bh=uAviE+ICta+te1V5taBxEX1+rY5ad3ad40dXTkQLikA=;
+ h=From:To:CC:Subject:Date;
+ b=oxNqZQJreYWTK8hOZTnf15j+RElxwl1L4cU79BJcCcDPRIdAWkdErk6EJ2Z6YbD2S
+ JcHN6rWxbYZW+WF73+OZ1pD7zn/s5ph6WtuJPrIMepRmE6q2mbfVHnNEhcHHTr57uk
+ LwVemee5OSDEex1b+J+z6ZncSKSGNWYz3xvwFFFU=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 22EBbfAS084991
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 14 Mar 2022 06:37:41 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 14
+ Mar 2022 06:37:41 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Mon, 14 Mar 2022 06:37:41 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 22EBbdZW020066;
+ Mon, 14 Mar 2022 06:37:40 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <linux-kernel@vger.kernel.org>, <jyri.sarha@iki.fi>, <tomba@kernel.org>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/tidss: Soft Reset DISPC on startup
+Date: Mon, 14 Mar 2022 17:07:39 +0530
+Message-ID: <20220314113739.18000-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v8 22/24] drm: rockchip: Add VOP2 driver
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220311083323.887372-1-s.hauer@pengutronix.de>
- <20220311083323.887372-23-s.hauer@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20220311083323.887372-23-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWUIaGh1WH0IfSE5OHx
- 1PQk5CVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PUk6Ezo*DD5NES9PCBQvEVYT
- AxJPCxBVSlVKTU9MSElNTEJMS09DVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElJTTcG
-X-HM-Tid: 0a7f8c541bd1b039kuuu713ecac023e
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Tue, 15 Mar 2022 07:36:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,49 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: nm@ti.com, r-ravikumar@ti.com, devarsht@ti.com,
+ tomi.valkeinen@ideasonboard.com, a-bhatia1@ti.com,
+ laurent.pinchart@ideasonboard.com, nikhil.nd@ti.com,
+ linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha:
+Soft reset the display subsystem controller on startup and wait for
+the reset to complete. This helps the scenario where display was
+already in use by some other core before the linux was booted.
 
-On 3/11/22 16:33, Sascha Hauer wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->
-> The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
-> It replaces the VOP unit found in the older Rockchip SoCs.
->
-> This driver has been derived from the downstream Rockchip Kernel and
-> heavily modified:
->
-> - All nonstandard DRM properties have been removed
-> - dropped struct vop2_plane_state and pass around less data between
->    functions
-> - Dropped all DRM_FORMAT_* not known on upstream
-> - rework register access to get rid of excessively used macros
-> - Drop all waiting for framesyncs
->
-> The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
-> board. Overlay support is tested with the modetest utility. AFBC support
-> on the cluster windows is tested with weston-simple-dmabuf-egl on
-> weston using the (yet to be upstreamed) panfrost driver support.
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+ drivers/gpu/drm/tidss/tidss_dispc.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Do we need some modification to test AFBC by weston-simple-dma-egl ?
-
-I have a buildroot system with weston-10.0.9 and mesa 21.3.5.
-
-After launch weston, I run weston-simple-dmabuf-egl, but from the output
-
-of sys/kernel/debug/dri/0/state, the weston is still use Smart0-win0, 
-which is
-
-a non-AFBC window.
-
-Do i need to modify the vop2 driver to set one Cluster window as primary 
-plane?
-
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 60b92df615aa..dae47853b728 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -2650,6 +2650,20 @@ static void dispc_init_errata(struct dispc_device *dispc)
+ 	}
+ }
+ 
++static void dispc_softreset(struct dispc_device *dispc)
++{
++	u32 val;
++	int ret = 0;
++
++	/* Soft reset */
++	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, 1, 1);
++	/* Wait for reset to complete */
++	ret = readl_poll_timeout(dispc->base_common + DSS_SYSSTATUS,
++				 val, val & 1, 100, 5000);
++	if (ret)
++		dev_warn(dispc->dev, "failed to reset dispc\n");
++}
++
+ int dispc_init(struct tidss_device *tidss)
+ {
+ 	struct device *dev = tidss->dev;
+@@ -2709,6 +2723,10 @@ int dispc_init(struct tidss_device *tidss)
+ 			return r;
+ 	}
+ 
++	/* K2G display controller does not support soft reset */
++	if (feat->subrev != DISPC_K2G)
++		dispc_softreset(dispc);
++
+ 	for (i = 0; i < dispc->feat->num_vps; i++) {
+ 		u32 gamma_size = dispc->feat->vp_feat.color.gamma_size;
+ 		u32 *gamma_table;
+-- 
+2.17.1
 
