@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C6F4D8FCB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087604D8FC7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 23:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1276E10E386;
-	Mon, 14 Mar 2022 22:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A578B10E18C;
+	Mon, 14 Mar 2022 22:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291E789817
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:16 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 986BD8989C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:44:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id AACC01F42F1D
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 304691F42F21
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647297855;
- bh=oSi9v7ajniKiToL5O41HEJxaXp7RQ+cQdmsq43JCtWU=;
+ s=mail; t=1647297856;
+ bh=57pPVtXqzpBgM3B5l+YWQvFoI9KdE36x/Nrz3vurqCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RKJbR/l11KAA8ZwlbRenRfCrBmPg1In/WNs8Ge5bPDiMygLYP3Ix10FQwU6UmIoEB
- fhW/M/e84DohHzGaLiv7OeBZedu8xkQGGMAdgkP9Ivy0cX86XQnXx+0qRJfDq4IQQ5
- /g3x3rEtUSa0/uW0HM8rOpfoxwkY7uJtB9hxx3+mGSKsdLZjH0fLGTy0/yPwxgSXoR
- RjUIO0BiJ7sIGMIUMSZFEAEamH2Sk+VLHQHc9tygYMe7LKMUYpHyvzX0wiYRDrelux
- 7MIMMnbEu0vgb3WMvrQT6WUfVNig7AMmbtvWtLuGFApJt7lrisAv/R4BzHGv8Pyj4t
- mdeM4Mw9AsdlA==
+ b=ijfGNKMBGGVL8SrmZwiIxvgWHi3Nn9d/25jNvJIQpKRdy5OACfnfMcfdmfyCswwOQ
+ UuZI5mRApIXUhY+5G53OfD6OSp7TqkJq3WCd3cF/dVoTckbdA8Y95JYAgfc3yF0k1O
+ X5+j/3g0xh8DOG7VPrWfhHy6WsMotIXnD8z1sZsWPaJ3SeLPz0iD/GWRwHpMa4pg2s
+ X0u2DuaVTkAyYy2kaUZdib+wCQ53zLzcy+hpe3bLwy04ZZt1v1JVM142275ZIMoEed
+ rpQO197BlFOyeRL9AhWOyCaiAPSy1LEcsWVvOQ46i3P/eMl+yMajwmLxmjW9t6WNnZ
+ t7A9e2zhVeqIQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -36,9 +37,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Subject: [PATCH v2 4/8] drm/virtio: Improve DMA API usage for shmem BOs
-Date: Tue, 15 Mar 2022 01:42:49 +0300
-Message-Id: <20220314224253.236359-5-dmitry.osipenko@collabora.com>
+Subject: [PATCH v2 5/8] drm/shmem-helper: Correct doc-comment of
+ drm_gem_shmem_get_sg_table()
+Date: Tue, 15 Mar 2022 01:42:50 +0300
+Message-Id: <20220314224253.236359-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
 References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
@@ -64,263 +66,27 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM API requires the DRM's driver to be backed with the device that can
-be used for generic DMA operations. The VirtIO-GPU device can't perform
-DMA operations if it uses PCI transport because PCI device driver creates
-a virtual VirtIO-GPU device that isn't associated with the PCI. Use PCI's
-GPU device for the DRM's device instead of the VirtIO-GPU device and drop
-DMA-related hacks from the VirtIO-GPU driver.
+drm_gem_shmem_get_sg_table() never returns NULL on error, but a ERR_PTR.
+Correct the doc comment which says that it returns NULL on error.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c    | 22 +++++++---
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  5 +--
- drivers/gpu/drm/virtio/virtgpu_kms.c    |  7 ++--
- drivers/gpu/drm/virtio/virtgpu_object.c | 56 +++++--------------------
- drivers/gpu/drm/virtio/virtgpu_vq.c     | 13 +++---
- 5 files changed, 37 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 5f25a8d15464..8449dad3e65c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -46,9 +46,9 @@ static int virtio_gpu_modeset = -1;
- MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
- module_param_named(modeset, virtio_gpu_modeset, int, 0400);
- 
--static int virtio_gpu_pci_quirk(struct drm_device *dev, struct virtio_device *vdev)
-+static int virtio_gpu_pci_quirk(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ad0e02991ca..37009418cd28 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -662,7 +662,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+  * drm_gem_shmem_get_pages_sgt() instead.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
++ * A pointer to the scatter/gather table of pinned pages or errno on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
  {
--	struct pci_dev *pdev = to_pci_dev(vdev->dev.parent);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	const char *pname = dev_name(&pdev->dev);
- 	bool vga = (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
- 	char unique[20];
-@@ -101,6 +101,7 @@ static int virtio_gpu_pci_quirk(struct drm_device *dev, struct virtio_device *vd
- static int virtio_gpu_probe(struct virtio_device *vdev)
- {
- 	struct drm_device *dev;
-+	struct device *dma_dev;
- 	int ret;
- 
- 	if (drm_firmware_drivers_only() && virtio_gpu_modeset == -1)
-@@ -109,18 +110,29 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
- 	if (virtio_gpu_modeset == 0)
- 		return -EINVAL;
- 
--	dev = drm_dev_alloc(&driver, &vdev->dev);
-+	/*
-+	 * If GPU's parent is a PCI device, then we will use this PCI device
-+	 * for the DRM's driver device because GPU won't have PCI's IOMMU DMA
-+	 * ops in this case since GPU device is sitting on a separate (from PCI)
-+	 * virtio-bus.
-+	 */
-+	if (!strcmp(vdev->dev.parent->bus->name, "pci"))
-+		dma_dev = vdev->dev.parent;
-+	else
-+		dma_dev = &vdev->dev;
-+
-+	dev = drm_dev_alloc(&driver, dma_dev);
- 	if (IS_ERR(dev))
- 		return PTR_ERR(dev);
- 	vdev->priv = dev;
- 
- 	if (!strcmp(vdev->dev.parent->bus->name, "pci")) {
--		ret = virtio_gpu_pci_quirk(dev, vdev);
-+		ret = virtio_gpu_pci_quirk(dev);
- 		if (ret)
- 			goto err_free;
- 	}
- 
--	ret = virtio_gpu_init(dev);
-+	ret = virtio_gpu_init(vdev, dev);
- 	if (ret)
- 		goto err_free;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 0a194aaad419..b2d93cb12ebf 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -100,8 +100,6 @@ struct virtio_gpu_object {
- 
- struct virtio_gpu_object_shmem {
- 	struct virtio_gpu_object base;
--	struct sg_table *pages;
--	uint32_t mapped;
- };
- 
- struct virtio_gpu_object_vram {
-@@ -214,7 +212,6 @@ struct virtio_gpu_drv_cap_cache {
- };
- 
- struct virtio_gpu_device {
--	struct device *dev;
- 	struct drm_device *ddev;
- 
- 	struct virtio_device *vdev;
-@@ -282,7 +279,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
- 
- /* virtgpu_kms.c */
--int virtio_gpu_init(struct drm_device *dev);
-+int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev);
- void virtio_gpu_deinit(struct drm_device *dev);
- void virtio_gpu_release(struct drm_device *dev);
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 3313b92db531..0d1e3eb61bee 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -110,7 +110,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 	vgdev->num_capsets = num_capsets;
- }
- 
--int virtio_gpu_init(struct drm_device *dev)
-+int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- {
- 	static vq_callback_t *callbacks[] = {
- 		virtio_gpu_ctrl_ack, virtio_gpu_cursor_ack
-@@ -123,7 +123,7 @@ int virtio_gpu_init(struct drm_device *dev)
- 	u32 num_scanouts, num_capsets;
- 	int ret = 0;
- 
--	if (!virtio_has_feature(dev_to_virtio(dev->dev), VIRTIO_F_VERSION_1))
-+	if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
- 		return -ENODEV;
- 
- 	vgdev = kzalloc(sizeof(struct virtio_gpu_device), GFP_KERNEL);
-@@ -132,8 +132,7 @@ int virtio_gpu_init(struct drm_device *dev)
- 
- 	vgdev->ddev = dev;
- 	dev->dev_private = vgdev;
--	vgdev->vdev = dev_to_virtio(dev->dev);
--	vgdev->dev = dev->dev;
-+	vgdev->vdev = vdev;
- 
- 	spin_lock_init(&vgdev->display_info_lock);
- 	spin_lock_init(&vgdev->resource_export_lock);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 0b8cbb87f8d8..1964c0d8b51f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -67,21 +67,6 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 
- 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
- 	if (virtio_gpu_is_shmem(bo)) {
--		struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
--
--		if (shmem->pages) {
--			if (shmem->mapped) {
--				dma_unmap_sgtable(vgdev->vdev->dev.parent,
--					     shmem->pages, DMA_TO_DEVICE, 0);
--				shmem->mapped = 0;
--			}
--
--			sg_free_table(shmem->pages);
--			kfree(shmem->pages);
--			shmem->pages = NULL;
--			drm_gem_shmem_unpin(&bo->base);
--		}
--
- 		drm_gem_shmem_free(&bo->base);
- 	} else if (virtio_gpu_is_vram(bo)) {
- 		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
-@@ -153,37 +138,18 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 					unsigned int *nents)
- {
- 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
--	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
- 	struct scatterlist *sg;
--	int si, ret;
-+	struct sg_table *pages;
-+	int si;
- 
--	ret = drm_gem_shmem_pin(&bo->base);
--	if (ret < 0)
--		return -EINVAL;
--
--	/*
--	 * virtio_gpu uses drm_gem_shmem_get_sg_table instead of
--	 * drm_gem_shmem_get_pages_sgt because virtio has it's own set of
--	 * dma-ops. This is discouraged for other drivers, but should be fine
--	 * since virtio_gpu doesn't support dma-buf import from other devices.
--	 */
--	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
--	ret = PTR_ERR(shmem->pages);
--	if (ret) {
--		drm_gem_shmem_unpin(&bo->base);
--		shmem->pages = NULL;
--		return ret;
--	}
-+	pages = drm_gem_shmem_get_pages_sgt(&bo->base);
-+	if (IS_ERR(pages))
-+		return PTR_ERR(pages);
- 
--	if (use_dma_api) {
--		ret = dma_map_sgtable(vgdev->vdev->dev.parent,
--				      shmem->pages, DMA_TO_DEVICE, 0);
--		if (ret)
--			return ret;
--		*nents = shmem->mapped = shmem->pages->nents;
--	} else {
--		*nents = shmem->pages->orig_nents;
--	}
-+	if (use_dma_api)
-+		*nents = pages->nents;
-+	else
-+		*nents = pages->orig_nents;
- 
- 	*ents = kvmalloc_array(*nents,
- 			       sizeof(struct virtio_gpu_mem_entry),
-@@ -194,13 +160,13 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	}
- 
- 	if (use_dma_api) {
--		for_each_sgtable_dma_sg(shmem->pages, sg, si) {
-+		for_each_sgtable_dma_sg(pages, sg, si) {
- 			(*ents)[si].addr = cpu_to_le64(sg_dma_address(sg));
- 			(*ents)[si].length = cpu_to_le32(sg_dma_len(sg));
- 			(*ents)[si].padding = 0;
- 		}
- 	} else {
--		for_each_sgtable_sg(shmem->pages, sg, si) {
-+		for_each_sgtable_sg(pages, sg, si) {
- 			(*ents)[si].addr = cpu_to_le64(sg_phys(sg));
- 			(*ents)[si].length = cpu_to_le32(sg->length);
- 			(*ents)[si].padding = 0;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 2edf31806b74..06566e44307d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -593,11 +593,10 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_transfer_to_host_2d *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
- 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
--	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
- 
- 	if (virtio_gpu_is_shmem(bo) && use_dma_api)
--		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
--					    shmem->pages, DMA_TO_DEVICE);
-+		dma_sync_sgtable_for_device(&vgdev->vdev->dev,
-+					    bo->base.sgt, DMA_TO_DEVICE);
- 
- 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
- 	memset(cmd_p, 0, sizeof(*cmd_p));
-@@ -1017,11 +1016,9 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_vbuffer *vbuf;
- 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
- 
--	if (virtio_gpu_is_shmem(bo) && use_dma_api) {
--		struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
--		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
--					    shmem->pages, DMA_TO_DEVICE);
--	}
-+	if (virtio_gpu_is_shmem(bo) && use_dma_api)
-+		dma_sync_sgtable_for_device(&vgdev->vdev->dev,
-+					    bo->base.sgt, DMA_TO_DEVICE);
- 
- 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
- 	memset(cmd_p, 0, sizeof(*cmd_p));
 -- 
 2.35.1
 
