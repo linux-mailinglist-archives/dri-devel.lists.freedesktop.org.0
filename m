@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79144D8713
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:39:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8344D871F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Mar 2022 15:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC1A10E317;
-	Mon, 14 Mar 2022 14:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70ABD10E618;
+	Mon, 14 Mar 2022 14:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 632C010E317
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:39:53 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id 195so18538481iou.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:39:53 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85FC10E617
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 14:43:04 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id d62so18407224iog.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 07:43:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=maKP7OGKbJexFkAiggLB06p7A04p57g/+KrVwPSIydQ=;
- b=1/rzFBeDM4E2yTJupsbKlbhrQcI6I6A3TvLLTre/SA8OAybxwxuiqTOvPN0RFTni8X
- 7KvJI8mOMt17iu/2zp/aZsB+rkKMXEfnI37GpPuiP2r694wd08TohsPNzjI5XwTeBjmF
- Be5OUdmZVfOOkUdIZlsY/2CCEVXSz0w7/2CNYJXV/b8zVtZTOOUa1eJBnXnqUlQebpy2
- oLbFZd1ymvNuZH88vmltT1Ol4WUkMNnQKuGya6UXNUXUQJ1+KP4wJ7uvy3FbCdXFTh0c
- dweQCYJLpKVoffpyaLYerij2SnnYgfJSZvsZgS59kqw8Bkta4rhXvuEJmLR0ZRPl01v3
- 5qgg==
-X-Gm-Message-State: AOAM530DKTWda9HhdO1ETBQJcCbkeqdDWww8ZslUFRtQpyRVwCm8iWS8
- mZkuGB+XdVJaZiIDFoLayi9Ni7YWA36q+MUhcSU=
-X-Google-Smtp-Source: ABdhPJySsA16ckfM+uP2LPiws5r6TOe1DgFFgSO3FAiD5wE07DSx7jVjtLjySz+UAIp9r4Gy7JEd8dQAQ7LPBE9R9jg=
-X-Received: by 2002:a6b:fd0c:0:b0:645:d261:ba25 with SMTP id
- c12-20020a6bfd0c000000b00645d261ba25mr19814121ioi.124.1647268792707; Mon, 14
- Mar 2022 07:39:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1646683737.git.geert@linux-m68k.org>
- <cc84f1fcd0901ba58a2e4fd34c43846c622fd157.1646683737.git.geert@linux-m68k.org>
- <CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com>
- <CAMuHMdWbss2TY0J44PitLGCmCOBKcF0QrPv6CKe1r=2qD0+YLA@mail.gmail.com>
- <CAMuHMdUFfe5sekY9vDNRL0AP5_9_h4wiyPcsYywdNsKaTFsHmA@mail.gmail.com>
- <CAKb7UviCU38H_v3HVB5pKJvOFHdQqaAn9s7c8rwUPxhf3bq+5g@mail.gmail.com>
- <CAMuHMdV6rEnB-8KQP2=2aUKPzqAH=EpX0Vpt6x=rAxa1hqTv1g@mail.gmail.com>
-In-Reply-To: <CAMuHMdV6rEnB-8KQP2=2aUKPzqAH=EpX0Vpt6x=rAxa1hqTv1g@mail.gmail.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Mon, 14 Mar 2022 10:39:41 -0400
-Message-ID: <CAKb7Uvjk3xzabe_bSFSXPhSdtgR=ZUTNcNXx_jeP5=AujO7N3A@mail.gmail.com>
-Subject: Re: [PATCH libdrm 3/3] util: Add SMPTE pattern support for C4 format
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=hGkgQaSJozIUZNI68rSI5QT1a7TzoZpCAUHSpxilDZg=;
+ b=atREk7KG1KIhOBT5xI5IifvdHIJ9FlXGrI5iM9Dk6NZKCGrNO8Vgl6H0WKcfEadAyu
+ sjoxqfx+A+yv7v9NMEwHyp7UlTz54BxlJWYIT0oDdC6PTG4OamSWk5BQTNC2pVvueObS
+ JLEgyvMDhfTrlOgNKRcXSU7lsjK7z6mSuhooHu5bvmGe7feWQuA53KyJQPgA+9G5DTQ0
+ 2B7n4upkbf0TP2NPzI8fr1seWKfLnyvDHLgU50ksZlfbktiDFkMEjOHHHegM9dzvNTju
+ y9RIi6e+0CciDOpR+K34zryAjZOPzF3unn2v8Wx+LfZRDjKOMLyNNnRGXtfZvjukQvng
+ VMiw==
+X-Gm-Message-State: AOAM531IksSqHTTQufBh85oAKUb3nPD5fmZDpCRjOSo4WN1IC9PlX5Vm
+ JeOX9z3Lc2WBRkP9UCwUcB7K9reZ0A==
+X-Google-Smtp-Source: ABdhPJxYhgivZ4xYvnFQ019i20pFcHvRbZpwKauyaJmeNR7dgy2QvIq6NWVSt8MIOHsZAl6J8M5kPA==
+X-Received: by 2002:a02:604f:0:b0:30f:e6f1:3883 with SMTP id
+ d15-20020a02604f000000b0030fe6f13883mr20955024jaf.266.1647268982613; 
+ Mon, 14 Mar 2022 07:43:02 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id
+ c12-20020a056e02058c00b002c63f71c7dbsm8665092ils.56.2022.03.14.07.43.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Mar 2022 07:43:01 -0700 (PDT)
+Received: (nullmailer pid 12509 invoked by uid 1000);
+ Mon, 14 Mar 2022 14:42:49 -0000
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220313123852.207257-1-marex@denx.de>
+References: <20220313123852.207257-1-marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: ldb: Implement simple
+ NXP i.MX8M LDB bridge
+Date: Mon, 14 Mar 2022 08:42:49 -0600
+Message-Id: <1647268969.328444.12508.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,95 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robby Cai <robby.cai@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 14, 2022 at 10:06 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Ilia,
->
-> On Mon, Mar 14, 2022 at 2:44 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> > On Mon, Mar 14, 2022 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Tue, Mar 8, 2022 at 8:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Mon, Mar 7, 2022 at 10:23 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> > > > > On Mon, Mar 7, 2022 at 3:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-> > > > > > index 953bf95492ee150c..42d75d700700dc3d 100644
-> > > > > > --- a/tests/util/pattern.c
-> > > > > > +++ b/tests/util/pattern.c
-> > > > > > @@ -608,6 +608,46 @@ static void fill_smpte_rgb16fp(const struct util_rgb_info *rgb, void *mem,
-> > > > > >  static unsigned int smpte_middle[7] = { 6, 7, 4, 7, 2, 7, 0 };
-> > > > > >  static unsigned int smpte_bottom[8] = { 8, 9, 10, 7, 11, 7, 12, 7 };
-> > > > > >
-> > > > > > +static void write_pixel_4(uint8_t *mem, unsigned int x, unsigned int pixel)
-> > > > > > +{
-> > > > > > +       if (x & 1)
-> > > > > > +               mem[x / 2] = (mem[x / 2] & 0xf0) | (pixel & 0x0f);
-> > > > > > +       else
-> > > > > > +               mem[x / 2] = (mem[x / 2] & 0x0f) | (pixel << 4);
-> > > > > > +}
-> > > > >
-> > > > > The standard layout is MSB? i.e. first pixel goes in the upper bits of
-> > > > > the first byte? It's been ages since I've dealt with C4 (or perhaps I
-> > > > > never even touched it), but this seems a bit surprising.
-> > > >
-> > > > Exactly. All register documentation I've ever seen shows the MSB on
-> > > > the left, i.e. for bytes:
-> > > >
-> > > >      MSB                         LSB
-> > > >     +---+---+---+---+---+---+---+---+
-> > > >     | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
-> > > >     +---+---+---+---+---+---+---+---+
-> > > >
-> > > > IBM used to count bits in the reverse order, but still had MSB left:
-> > > >
-> > > >      MSB                         LSB
-> > > >     +---+---+---+---+---+---+---+---+
-> > > >     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-> > > >     +---+---+---+---+---+---+---+---+
-> > > >
-> > > > If the reverse ordering of pixels is ever needed, a new fourcc code can
-> > > > be introduced.  Note that the fbdev API has support for both orderings
-> > > > (see fb_bitfield.msb_right), but no driver ever sets msb_right = 1,
-> > > > hence the fbdev core doesn't support it yet.
-> > >
-> > > Turns out I was wrong: fbdev ordering follows native ordering, and
-> > > there's also FBINFO_FOREIGN_ENDIAN  :-(
-> >
-> > I haven't double-checked the meaning in fbdev, but ENDIAN-ness
-> > generally refers to the layout of *bytes*, not *bits*. Although one
-> > could also argue that it's the layout of "elements", and so in that
-> > way, upper/lower values could be considered flipped. I've never gone
-> > that far though.
->
-> Yes, usually it refers to the ordering of bytes in a word.
-> Here, it's about the ordering of sub-byte pixels in a byte.
-> Note that with C2 and C4, there's a third ordering that comes into
-> play.
-> So we have:
->   1. Ordering of bytes in a word, for bpp > 8,
->   2. Ordering of pixels in a byte, for bpp < 8,
->   3. Ordering of bits in a pixel, for bpp > 1.
->
-> 1. Is handled by DRM_FORMAT_BIG_ENDIAN.
+On Sun, 13 Mar 2022 13:38:51 +0100, Marek Vasut wrote:
+> The i.MX8MP contains two syscon registers which are responsible
+> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+> which represents this serializer as a bridge.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  .../bindings/display/bridge/nxp,ldb.yaml      | 99 +++++++++++++++++++
+>  1 file changed, 99 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> 
 
-OK. Note that DRM_FORMAT_BIG_ENDIAN flag for formats other than
-RGBX8888 and very similar formats is basically broken in drm. So ...
-watch out. There are two setups supported for big-endian currently:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-1. Legacy: radeon/nouveau, ignore the "little endian" comment about
-formats and only supports AddFB, not AddFB2. The former only has
-depth/bpp, not the actual format, anyways. This matches what current
-user-space expects too. (quirk_addfb_prefer_host_byte_order = 1)
-2. AddFB2 support with proper formats. Only used for vmwgfx and virgl
-in practice for BE, IIRC. Only supports 32-bit 8bpc formats, and uses
-some helpers to just flip around DRM_FORMAT_BIG_ENDIAN bit to an
-equivalent format in the frontend api handling. This obviously won't
-work for other formats, but none of the helpers are ready to receive
-the BIG_ENDIAN bit.
+yamllint warnings/errors:
 
-Cheers,
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/bridge/nxp,ldb.example.dt.yaml:0:0: /example-0/lvds-ldb: failed to match any schema with compatible: ['fsl,imx8mp-ldb']
 
-  -ilia
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1604767
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
