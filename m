@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6FA4D9EFB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 16:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973AF4D9F1A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 16:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0135D10E52D;
-	Tue, 15 Mar 2022 15:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58F3210E534;
+	Tue, 15 Mar 2022 15:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB4010E51F;
- Tue, 15 Mar 2022 15:44:57 +0000 (UTC)
-Received: from [192.168.0.3] (ip5f5ae8f9.dynamic.kabel-deutschland.de
- [95.90.232.249])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 1EA7A61EA1927;
- Tue, 15 Mar 2022 16:44:55 +0100 (CET)
-Message-ID: <a19344ef-748c-7692-8089-d39dc562d0b3@molgen.mpg.de>
-Date: Tue, 15 Mar 2022 16:44:54 +0100
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 238B110E534;
+ Tue, 15 Mar 2022 15:48:47 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ q1-20020a4a7d41000000b003211b63eb7bso24723533ooe.6; 
+ Tue, 15 Mar 2022 08:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0oBLK/WFMknYvKURGJIli6IvZDSQNi3zYIXFNVj9K60=;
+ b=nYXBpvzGCEAvTjaVlPXhhHMWazEYvb5pBevKdKZrjbGvbas2C9XkIkGgKnPSBJx/OF
+ ujaLhVNXscYH6hsNZWsciYzPdDO19U+K3SxeC0+Uqu+Jfr/qH9xiKYGckvY/7cXtP5lf
+ RCA/RZfA0X8TdmrbV3KdffCBCpo/II30WreXLAhARRalIdmIed+r1m3QitVwpy2IwCMs
+ 62SDjBWk17V+nXt4xMdulGtjv16tb6M8G7nGa9xeZz3/hszDY/5SZpuIF7RnPuTy11BY
+ KCRX/TRy7f0oVaCFoDOTllgiJoJBhSP5ihb0GLutPg4qtuU6eqSGqPKLGO6jYdF+t/KH
+ HIMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0oBLK/WFMknYvKURGJIli6IvZDSQNi3zYIXFNVj9K60=;
+ b=p8rspFqhynAsqiFa4oGs2Sp98LZ3JnSyY2nKPtdNBXycNA12scH8QCSHq0E/lj9JrH
+ cS+xyKI3idBYshkkqq+jebBLHXZrbH/BkJx6meZCZ5MhKpTq+m32oHOBBG+p9tRaMy7p
+ hZ5xBSExSKuy6uqpLG1i4mCY5S+eZFV2zDhSeK9q9PTxIoVCHoy3pU0x2/IFeT/vTiG6
+ aVNCR3omxLON6msxHZ6V0Y7mWeg7CNMR61bAV6DEo3hcp1p9sKOtiWk2ErC4Jtlx7NcC
+ qPP8Wgk14BLQiHaAnLW8yMeArq/oEAvVOHIoUWF438LOFzvEdw2ylbK30GhjiygxgfXG
+ +75A==
+X-Gm-Message-State: AOAM531maFOlRQQEaBirX0Jw0Ey+GFOY3xjjBlsLxjFh3mO45uwoKWE0
+ HqUv45sdnBLgy02XOm7M2VIGYJ3NOzhMr4fifWY=
+X-Google-Smtp-Source: ABdhPJwpXOt0Mp8zlogrF70BHsQMg5Vyj96T9pKbpTFbnXrM3doKh9nhd30RmJatM32y9hkuDtFUuCQXArbWCE8AUXE=
+X-Received: by 2002:a05:6870:630c:b0:da:b3f:324d with SMTP id
+ s12-20020a056870630c00b000da0b3f324dmr1816757oao.253.1647359326455; Tue, 15
+ Mar 2022 08:48:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm: Fix a infinite loop condition when order becomes 0
-Content-Language: en-US
-To: Arunpravin.PaneerSelvam@amd.com
-References: <20220314194049.534471-1-Arunpravin.PaneerSelvam@amd.com>
- <0b9a8cc2-2f34-48c9-7960-727615eb2edb@molgen.mpg.de>
- <1e410ba3-60d9-6a09-6a5d-625145c1c80a@amd.com>
- <cd074d23-ee36-dd5f-bde5-1f5dd41a76be@molgen.mpg.de>
- <3601c42f-0787-e21d-460b-44a5a100b710@amd.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <3601c42f-0787-e21d-460b-44a5a100b710@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+ <20220314115354.144023-2-Julia.Lawall@inria.fr>
+In-Reply-To: <20220314115354.144023-2-Julia.Lawall@inria.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 15 Mar 2022 11:48:34 -0400
+Message-ID: <CADnq5_OveiyS80yF=COha1iuAmm7NBay1q0JogkqcxqJ7ie=JQ@mail.gmail.com>
+Subject: Re: [PATCH 01/30] drm/amd/pm: fix typos in comments
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,118 +64,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, matthew.auld@intel.com
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Arunpravin,
+Applied.  Thanks!
 
-
-Am 15.03.22 um 16:42 schrieb Arunpravin:
-
-> On 15/03/22 2:35 pm, Paul Menzel wrote:
-
->> Am 15.03.22 um 10:01 schrieb Arunpravin:
->>
->>> On 15/03/22 1:49 pm, Paul Menzel wrote:
->>
->>>> Am 14.03.22 um 20:40 schrieb Arunpravin:
->>>>> handle a situation in the condition order-- == min_order,
->>>>> when order = 0, leading to order = -1, it now won't exit
->>>>> the loop. To avoid this problem, added a order check in
->>>>> the same condition, (i.e) when order is 0, we return
->>>>> -ENOSPC
->>>>>
->>>>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
->>>>
->>>> Please use your full name.
->>> okay
->>
->> You might also configure that in your email program.
-> yes
-
-Not done yet though. ;-)
-
->>>>> ---
->>>>>     drivers/gpu/drm/drm_buddy.c | 2 +-
->>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>>>> index 72f52f293249..5ab66aaf2bbd 100644
->>>>> --- a/drivers/gpu/drm/drm_buddy.c
->>>>> +++ b/drivers/gpu/drm/drm_buddy.c
->>>>
->>>> In what tree is that file?
->>>>
->>> drm-tip - https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm-tip%2Ftree%2F&amp;data=04%7C01%7CArunpravin.PaneerSelvam%40amd.com%7Cc456573102c04191cf9708da0662f798%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637829319396954551%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=5Bspe5QGjQ0KHfVI8%2F%2BXqxR45q6tOL4FE2fVD3uwL%2FM%3D&amp;reserved=0
->>> drm-misc-next - https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm%2Fdrm-misc%2Ftree%2F&amp;data=04%7C01%7CArunpravin.PaneerSelvam%40amd.com%7Cc456573102c04191cf9708da0662f798%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637829319396954551%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=g2S14TfsHF5ORo9jTZ3uA0l1BH8mnAxk2OWYJeF5i8k%3D&amp;reserved=0
-
-Thank Outlook. Now everybody feels safe.
-
->>>>> @@ -685,7 +685,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->>>>>     			if (!IS_ERR(block))
->>>>>     				break;
->>>>>     
->>>>> -			if (order-- == min_order) {
->>>>> +			if (!order || order-- == min_order) {
->>>>>     				err = -ENOSPC;
->>>>>     				goto err_free;
->>>>>     			}
->>
->> Thank you for the hint. So the whole function is:
->>
->> 	do {
->> 		order = min(order, (unsigned int)fls(pages) - 1);
->> 		BUG_ON(order > mm->max_order);
->> 		BUG_ON(order < min_order);
->>
->> 		do {
->> 			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
->> 				/* Allocate traversing within the range */
->> 				block = alloc_range_bias(mm, start, end, order);
->> 			else
->> 				/* Allocate from freelist */
->> 				block = alloc_from_freelist(mm, order, flags);
->>
->> 			if (!IS_ERR(block))
->> 				break;
->>
->> 			if (order-- == min_order) {
->> 				err = -ENOSPC;
->> 				goto err_free;
->> 			}
->> 		} while (1);
->>
->> 		mark_allocated(block);
->> 		mm->avail -= drm_buddy_block_size(mm, block);
->> 		kmemleak_update_trace(block);
->> 		list_add_tail(&block->link, &allocated);
->>
->> 		pages -= BIT(order);
->>
->> 		if (!pages)
->> 			break;
->> 	} while (1);
->>
->> Was the BUG_ON triggered for your case?
->>
->> 	BUG_ON(order < min_order);
-> no, this BUG_ON is not triggered for this bug
->>
->> Please give more details.
-> 
-> there is a chance when there is no space to allocate, order value
-> decrements and reaches to 0 at one point, here we should exit the loop,
-> otherwise, further order value decrements to -1 and do..while loop
-> doesn't exit. Hence added a check to exit the loop if order value becomes 0.
-
-Sorry, I do not see it. How can that be with order ≥ min_order and the 
-check `order-- == min_order`? Is min_order 0? Please explain that in the 
-next commit message.
-
-
-Kind regards,
-
-Paul
+On Mon, Mar 14, 2022 at 8:01 AM Julia Lawall <Julia.Lawall@inria.fr> wrote:
+>
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
+>
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+>
+> ---
+>  drivers/gpu/drm/amd/pm/amdgpu_pm.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index cbbbd4079249..5cd67ddf8495 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -1870,7 +1870,7 @@ static ssize_t amdgpu_set_smartshift_bias(struct device *dev,
+>         amdgpu_smartshift_bias = bias;
+>         r = count;
+>
+> -       /* TODO: upadte bias level with SMU message */
+> +       /* TODO: update bias level with SMU message */
+>
+>  out:
+>         pm_runtime_mark_last_busy(ddev->dev);
+>
