@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFED4D96A4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 09:46:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F27B4D96A9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 09:47:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B7C10E7BB;
-	Tue, 15 Mar 2022 08:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06EB910E825;
+	Tue, 15 Mar 2022 08:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1D710E7BA
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 08:46:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8993E2190B;
- Tue, 15 Mar 2022 08:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647333962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=yvPN6roiO4z3frFQDCW98CaeGK9o4a+xs3+m3hDjxmQ=;
- b=oF5TPl0+p0Bh2Qht15jdn+wLYmUXKoocS4z2/okf5Dsh5MtXijxWI/k4Zq2ZLOGln9C9Eb
- /uoYxIS1BMhO9jrcx8s+z+/IMEIcHChqbNKDyC9VdiJ5PjWfyBeNdz0k36yA140jebQxEs
- fgVXkj+4JFvnsmF6W9o4ZAu3h/NdzOI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647333962;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=yvPN6roiO4z3frFQDCW98CaeGK9o4a+xs3+m3hDjxmQ=;
- b=ZATfUsn/fcUJwwBuHjfRIASpeEdXBZDqdrOkvEViWxhpuD5owFQ3M2XUChyQ/1OsiIvMT0
- sjt3VZfMT8KN20BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2988813B4E;
- Tue, 15 Mar 2022 08:46:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YjDtCEpSMGK8bAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 15 Mar 2022 08:46:02 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, lyude@redhat.com, airlied@redhat.com,
- sam@ravnborg.org, thierry.reding@gmail.com, jernej.skrabec@gmail.com,
- andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se
-Subject: [PATCH] drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HELPERS
-Date: Tue, 15 Mar 2022 09:45:59 +0100
-Message-Id: <20220315084559.23510-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.35.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3CFB10E825;
+ Tue, 15 Mar 2022 08:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647334021; x=1678870021;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=kakqjQCanOuw2LyERSzNKINczvU+7ul6+uHm8qhPuHs=;
+ b=ZjoO+dMl0nAB1NurPjlTX/kHK0tz0I84saHrWyUrdNbZiPInQh1DMRhJ
+ JzxyJdpvxa9/ozr5zxjw9c/3A3FImmGtT3JWsw+AsXumyXGB00IGiGBDr
+ ukO2VIl4o/ounUrmKd4IXBEPydA+yTVbWFllFxEQfFh4eK8Q8CYy9Xo4E
+ wfL3s1uPL0e/L8MmPuAbldFgIIuhzPoQFc4R2gjNoFTqpsv0z65za4IdO
+ ueZatZIQ90FL+PY1CmwyxYuSwIFYzcJC9liFshMUTzuV8pajBh+gR+nK+
+ 24EBnJtOyvM3BMv/CAvVeN88+ltoI05q7u6hr0FpfzOG+lW9jvoav6vl3 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="236853211"
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="236853211"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 01:46:59 -0700
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="556827480"
+Received: from cgrilli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.234])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 01:46:55 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Christoph Hellwig <hch@lst.de>, "Wang, Zhi A" <zhi.a.wang@intel.com>
+Subject: Re: [PATCH v6 1/3] i915/gvt: Introduce the mmio table to support
+ VFIO new mdev API
+In-Reply-To: <20220315075217.GA2830@lst.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220208111151.13115-1-zhi.a.wang@intel.com>
+ <871r0dqtjf.fsf@intel.com> <20220209072805.GA9050@lst.de>
+ <4e2faf7b-383e-58b3-8ae9-8f8d25c64420@intel.com>
+ <20220315075217.GA2830@lst.de>
+Date: Tue, 15 Mar 2022 10:46:53 +0200
+Message-ID: <87a6drvc02.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,92 +60,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linux Kernel Functional Testing <lkft@linaro.org>
+Cc: Zhi Wang <zhi.wang.linux@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "jgg@nvidia.com" <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a number of undefined references to drm_kms_helper.ko in
-drm_dp_helper.ko:
+On Tue, 15 Mar 2022, Christoph Hellwig <hch@lst.de> wrote:
+> Just curious, what is the state of this seris?  It would be good to
+> have it ready early on for the next merge window as there is quite
+> a backlog that depends on it.
 
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_duplicate_state':
-  drm_dp_mst_topology.c:(.text+0x2df0): undefined reference to `__drm_atomic_helper_private_obj_duplicate_state'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_delayed_destroy_work':
-  drm_dp_mst_topology.c:(.text+0x370c): undefined reference to `drm_kms_helper_hotplug_event'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_up_req_work':
-  drm_dp_mst_topology.c:(.text+0x7938): undefined reference to `drm_kms_helper_hotplug_event'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_link_probe_work':
-  drm_dp_mst_topology.c:(.text+0x82e0): undefined reference to `drm_kms_helper_hotplug_event'
+Can't speak for the status of the series, but for drm the deadline for
+changes headed for the merge window is around -rc5/-rc6 timeframe
+i.e. this has already missed the upcoming merge window.
 
-This happens if panel-edp.ko has been configured with
+BR,
+Jani.
 
-  DRM_PANEL_EDP=y
-  DRM_DP_HELPER=y
-  DRM_KMS_HELPER=m
-
-which builds DP helpers into the kernel and KMS helpers sa a module.
-Making DRM_PANEL_EDP select DRM_KMS_HELPER resolves this problem.
-
-To avoid a resulting cyclic dependency with DRM_PANEL_BRIDGE, don't
-make the latter depend on DRM_KMS_HELPER and fix the one DRM bridge
-drivers that doesn't already select DRM_KMS_HELPER. As KMS helpers
-cannot be selected directly by the user, config symbols should avoid
-depending on it anyway.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 3755d35ee1d2 ("drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP")
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc: Linux Kernel Functional Testing <lkft@linaro.org>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
----
- drivers/gpu/drm/bridge/Kconfig | 3 +--
- drivers/gpu/drm/panel/Kconfig  | 1 +
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index c86f5be4dfe0..007e5a282f67 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -8,7 +8,6 @@ config DRM_BRIDGE
- config DRM_PANEL_BRIDGE
- 	def_bool y
- 	depends on DRM_BRIDGE
--	depends on DRM_KMS_HELPER
- 	select DRM_PANEL
- 	help
- 	  DRM bridge wrapper of DRM panels
-@@ -30,7 +29,7 @@ config DRM_CDNS_DSI
- config DRM_CHIPONE_ICN6211
- 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
- 	depends on OF
--	depends on DRM_KMS_HELPER
-+	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL_BRIDGE
- 	help
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index bb2e47229c68..ddf5f38e8731 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -107,6 +107,7 @@ config DRM_PANEL_EDP
- 	select VIDEOMODE_HELPERS
- 	select DRM_DP_AUX_BUS
- 	select DRM_DP_HELPER
-+	select DRM_KMS_HELPER
- 	help
- 	  DRM panel driver for dumb eDP panels that need at most a regulator and
- 	  a GPIO to be powered up. Optionally a backlight can be attached so
 -- 
-2.35.1
-
+Jani Nikula, Intel Open Source Graphics Center
