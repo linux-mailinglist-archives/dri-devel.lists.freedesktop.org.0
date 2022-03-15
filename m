@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9F54DA1F5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:05:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F714DA2A5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:49:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A786710E0D5;
-	Tue, 15 Mar 2022 18:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A31F89E14;
+	Tue, 15 Mar 2022 18:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED1110E0D5;
- Tue, 15 Mar 2022 18:05:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 2BDFE1F4304E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647367511;
- bh=RKwbPfrUW2qjlvc4CHjlXd82fd97XR2D3/aFyOO8Xrw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XY3lKRkFtSaZHthLOjN22pfqLkKMy0lZu/zGu6zHMJEwd2hpO8/X4c4u00M/WbXnH
- hdNapswV9iaQ7czu/bz53i5jAfCZyVJRMqj7lq7wrY9xSASG38UPqP6Vc9gWroLKK3
- sgOFZoTOBoPFdEoXmBhLBslqF9dAOBBt//BWhfRtxNygLFjCkEczKYYguP/K3MZNGC
- AT6uDgQcMzvKagetM4S5gt4MYC6s45J9yRrkIpY5XYf8GhzR7spwX3noh7+UFmxU4D
- 3H0ztlxwBPe1JytmaJViyO4EditSUTlTUx1wttMkGe43ha27PmNFXB7p6a3n0yZmY2
- TW9vpHUq/5RIQ==
-From: Robert Beckett <bob.beckett@collabora.com>
-To: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC PATCH 7/7] drm/i915: cleanup old stolen state
-Date: Tue, 15 Mar 2022 18:04:44 +0000
-Message-Id: <20220315180444.3327283-8-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220315180444.3327283-1-bob.beckett@collabora.com>
-References: <20220315180444.3327283-1-bob.beckett@collabora.com>
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05AA989C9B;
+ Tue, 15 Mar 2022 18:49:19 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ s203-20020a4a3bd4000000b003191c2dcbe8so25446oos.9; 
+ Tue, 15 Mar 2022 11:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u6ABoHWUhBA9p1aT2jJKMlO3TZD/I48FdccngvJUa/U=;
+ b=kNNvrpnW37jeGp/Duy9S/WQKjfL4j2NZaMRkVXf1pNKPldYgUhIwjcCK9zwsOX3GvY
+ sksD5SkXtOIq9TbGSHhBpBUW2eLtDjsa2rgOlf0zZBFXpjIQL3FW57r2Kcme3q0Ni+x2
+ gQThixQUHtgSYQGvFIwIFcoHZR6XTcgezuHQW1yo7oiOKcc8FCvD15sMRJ0XfIeoirEp
+ bj75uf2gz94qWbs/39nLX5aUFuEjg71zjcgaijdz9gzpUpyv4KQMwNmRl1DidLWrAPIg
+ OFWFjgyLJi3qiBPAeSJ4g5UM18oluyLJZKZlqFNK47mw2PqHOLcviu8UwBRrSmJuvGKt
+ KFuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u6ABoHWUhBA9p1aT2jJKMlO3TZD/I48FdccngvJUa/U=;
+ b=oYuGBZhfITnvK9njGjsheGzbosm7vJniNoab5WBgddIP2d1pU4h707r8JN8M11YDML
+ 8BxTomLj+9xpRVWKDb2sBwjuw7XPoRifDZKz9Kqz25csy4iAXG36E9tCLQOCvlaeTUjF
+ /5UxdjoqU0QOT4XjW+EwtnMO+fCdMMAIOgvKfBdHRjvUfMHJMpGicusoxmt2gYESshnX
+ NkyePfDYHSKPL1+D8zWjNFPVOAvSZOx3INeM1Sp9cr1LQtKV3RB9IjIZJP6tKuI81FDf
+ Ia/ZR6L8OweiIHO3o2WLIrxcAp5Y0U/0k+EuC1KiXMr8QsdM9OJ7OiNtXTuRLZAF07mp
+ ckaA==
+X-Gm-Message-State: AOAM530S/SI6b9n7Q1v9hEp2BAiv1IOaCRvevW3MKxmOKARijc3TyWX0
+ V2Gk5ixM6s6tIvELcwUA4gr9JjsI87DxR2xYFME=
+X-Google-Smtp-Source: ABdhPJz+58m6m7nisD0zYaxae9ecI8FZlNo42Hu6U45q5rMnVMKaMskszHvuKiWmeHriIROvPS1UDLJRSLXP/Alew+c=
+X-Received: by 2002:a4a:db64:0:b0:2ea:37f4:d798 with SMTP id
+ o4-20020a4adb64000000b002ea37f4d798mr11705761ood.23.1647370158307; Tue, 15
+ Mar 2022 11:49:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
+ <20220218100403.7028-6-ville.syrjala@linux.intel.com>
+In-Reply-To: <20220218100403.7028-6-ville.syrjala@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 15 Mar 2022 14:49:07 -0400
+Message-ID: <CADnq5_P7-FsB4uLUdWhvrx3T_+2UYThnkTiPot0XXL6+fBhfCg@mail.gmail.com>
+Subject: Re: [PATCH 05/22] drm/radeon: Use drm_mode_copy()
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,130 +66,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-remove i915->mm.stolen
-remove i915->mm.stolen_lock
+Applied.  Thanks!
 
-they are no longer needed.
+Alex
 
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
----
- drivers/gpu/drm/i915/display/intel_fbc.c   |  4 ++--
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c |  2 --
- drivers/gpu/drm/i915/gt/selftest_reset.c   | 16 +++++++++-------
- drivers/gpu/drm/i915/i915_drv.h            |  5 -----
- 4 files changed, 11 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 9df64ecab70e..644bb599eee6 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -805,7 +805,7 @@ static int intel_fbc_alloc_cfb(struct intel_fbc *fbc,
- err_llb:
- 	i915_gem_object_put(fetch_and_zero(&fbc->compressed_llb));
- err:
--	if (drm_mm_initialized(&i915->mm.stolen))
-+	if (IS_ERR(obj) && (PTR_ERR(obj) == -ENOMEM || PTR_ERR(obj) == -ENXIO))
- 		drm_info_once(&i915->drm, "not enough stolen space for compressed buffer (need %d more bytes), disabling. Hint: you may be able to increase stolen memory size in the BIOS to avoid this.\n", size);
- 	return -ENOSPC;
- }
-@@ -1708,7 +1708,7 @@ void intel_fbc_init(struct drm_i915_private *i915)
- {
- 	enum intel_fbc_id fbc_id;
- 
--	if (!drm_mm_initialized(&i915->mm.stolen))
-+	if (!i915->mm.stolen_region)
- 		mkwrite_device_info(i915)->display.fbc_mask = 0;
- 
- 	if (need_fbc_vtd_wa(i915))
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index e58f9902ef47..930521a84607 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -347,8 +347,6 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 	resource_size_t reserved_base, stolen_top;
- 	resource_size_t reserved_total, reserved_size;
- 
--	mutex_init(&i915->mm.stolen_lock);
--
- 	if (intel_vgpu_active(i915)) {
- 		drm_notice(&i915->drm,
- 			   "%s, disabling use of stolen memory\n",
-diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-index 37c38bdd5f47..ad2ecc582be2 100644
---- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-@@ -6,6 +6,7 @@
- #include <linux/crc32.h>
- 
- #include "gem/i915_gem_stolen.h"
-+#include "intel_region_ttm.h"
- 
- #include "i915_memcpy.h"
- #include "i915_selftest.h"
-@@ -83,6 +84,7 @@ __igt_reset_stolen(struct intel_gt *gt,
- 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
- 		void __iomem *s;
- 		void *in;
-+		bool busy;
- 
- 		ggtt->vm.insert_page(&ggtt->vm, dma,
- 				     ggtt->error_capture.start,
-@@ -93,9 +95,9 @@ __igt_reset_stolen(struct intel_gt *gt,
- 				      ggtt->error_capture.start,
- 				      PAGE_SIZE);
- 
--		if (!__drm_mm_interval_first(&gt->i915->mm.stolen,
--					     page << PAGE_SHIFT,
--					     ((page + 1) << PAGE_SHIFT) - 1))
-+		busy = intel_region_ttm_range_busy(gt->i915->mm.stolen_region,
-+						   PFN_PHYS(page), PFN_PHYS(page + 1) - 1);
-+		if (!busy)
- 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
- 
- 		in = (void __force *)s;
-@@ -124,6 +126,7 @@ __igt_reset_stolen(struct intel_gt *gt,
- 		void __iomem *s;
- 		void *in;
- 		u32 x;
-+		bool busy;
- 
- 		ggtt->vm.insert_page(&ggtt->vm, dma,
- 				     ggtt->error_capture.start,
-@@ -139,10 +142,9 @@ __igt_reset_stolen(struct intel_gt *gt,
- 			in = tmp;
- 		x = crc32_le(0, in, PAGE_SIZE);
- 
--		if (x != crc[page] &&
--		    !__drm_mm_interval_first(&gt->i915->mm.stolen,
--					     page << PAGE_SHIFT,
--					     ((page + 1) << PAGE_SHIFT) - 1)) {
-+		busy = intel_region_ttm_range_busy(gt->i915->mm.stolen_region,
-+						   PFN_PHYS(page), PFN_PHYS(page + 1) - 1);
-+		if (x != crc[page] && !busy) {
- 			pr_debug("unused stolen page %pa modified by GPU reset\n",
- 				 &page);
- 			if (count++ == 0)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 7d622d1afe93..1f9fa2d6d198 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -247,11 +247,6 @@ struct i915_gem_mm {
- 	 * support stolen.
- 	 */
- 	struct intel_memory_region *stolen_region;
--	/** Memory allocator for GTT stolen memory */
--	struct drm_mm stolen;
--	/** Protects the usage of the GTT stolen memory allocator. This is
--	 * always the inner lock when overlapping with struct_mutex. */
--	struct mutex stolen_lock;
- 
- 	/* Protects bound_list/unbound_list and #drm_i915_gem_object.mm.link */
- 	spinlock_t obj_lock;
--- 
-2.25.1
-
+On Fri, Feb 18, 2022 at 5:04 AM Ville Syrjala
+<ville.syrjala@linux.intel.com> wrote:
+>
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> struct drm_display_mode embeds a list head, so overwriting
+> the full struct with another one will corrupt the list
+> (if the destination mode is on a list). Use drm_mode_copy()
+> instead which explicitly preserves the list head of
+> the destination mode.
+>
+> Even if we know the destination mode is not on any list
+> using drm_mode_copy() seems decent as it sets a good
+> example. Bad examples of not using it might eventually
+> get copied into code where preserving the list head
+> actually matters.
+>
+> Obviously one case not covered here is when the mode
+> itself is embedded in a larger structure and the whole
+> structure is copied. But if we are careful when copying
+> into modes embedded in structures I think we can be a
+> little more reassured that bogus list heads haven't been
+> propagated in.
+>
+> @is_mode_copy@
+> @@
+> drm_mode_copy(...)
+> {
+> ...
+> }
+>
+> @depends on !is_mode_copy@
+> struct drm_display_mode *mode;
+> expression E, S;
+> @@
+> (
+> - *mode =3D E
+> + drm_mode_copy(mode, &E)
+> |
+> - memcpy(mode, E, S)
+> + drm_mode_copy(mode, E)
+> )
+>
+> @depends on !is_mode_copy@
+> struct drm_display_mode mode;
+> expression E;
+> @@
+> (
+> - mode =3D E
+> + drm_mode_copy(&mode, &E)
+> |
+> - memcpy(&mode, E, S)
+> + drm_mode_copy(&mode, E)
+> )
+>
+> @@
+> struct drm_display_mode *mode;
+> @@
+> - &*mode
+> + mode
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
+/radeon/radeon_connectors.c
+> index a7925a8290b2..0cb1345c6ba4 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -777,7 +777,7 @@ static void radeon_fixup_lvds_native_mode(struct drm_=
+encoder *encoder,
+>                 if (mode->type & DRM_MODE_TYPE_PREFERRED) {
+>                         if (mode->hdisplay !=3D native_mode->hdisplay ||
+>                             mode->vdisplay !=3D native_mode->vdisplay)
+> -                               memcpy(native_mode, mode, sizeof(*mode));
+> +                               drm_mode_copy(native_mode, mode);
+>                 }
+>         }
+>
+> @@ -786,7 +786,7 @@ static void radeon_fixup_lvds_native_mode(struct drm_=
+encoder *encoder,
+>                 list_for_each_entry_safe(mode, t, &connector->probed_mode=
+s, head) {
+>                         if (mode->hdisplay =3D=3D native_mode->hdisplay &=
+&
+>                             mode->vdisplay =3D=3D native_mode->vdisplay) =
+{
+> -                               *native_mode =3D *mode;
+> +                               drm_mode_copy(native_mode, mode);
+>                                 drm_mode_set_crtcinfo(native_mode, CRTC_I=
+NTERLACE_HALVE_V);
+>                                 DRM_DEBUG_KMS("Determined LVDS native mod=
+e details from EDID\n");
+>                                 break;
+> --
+> 2.34.1
+>
