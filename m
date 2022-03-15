@@ -2,40 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2034DA3EE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 21:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EED4DA3F2
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 21:24:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F64D10E357;
-	Tue, 15 Mar 2022 20:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86FF010E3F3;
+	Tue, 15 Mar 2022 20:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40EA510E357
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 20:24:37 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id ed0f5d83-a49d-11ec-9faa-0050568c148b;
- Tue, 15 Mar 2022 20:24:33 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id C84D8194B3C;
- Tue, 15 Mar 2022 21:24:34 +0100 (CET)
-Date: Tue, 15 Mar 2022 21:24:32 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm: Don't make DRM_PANEL_BRIDGE dependent on
- DRM_KMS_HELPERS
-Message-ID: <YjD2ACc5DRos8Efc@ravnborg.org>
-References: <20220315084559.23510-1-tzimmermann@suse.de>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 442E710E3E6;
+ Tue, 15 Mar 2022 20:24:52 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id h15so185476wrc.6;
+ Tue, 15 Mar 2022 13:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SLLTqIhVx97asbYPr4Ba30RhGW0/k9gGUJ6yMqUQca8=;
+ b=HGVwT2u8w1di/2Ba6Mr3uF7wANvgMQhwksp2VCgHGD+YHZd2YNQFvthoW0aL1i+eUW
+ Ut+47rb5iS6ZjVGYKl2VEeLBQBkEs0iwXXdh6PwbjyICixDvwj0+2y6GSgtdUAIsve/K
+ Y1u/+x3hCOFHzjtISdWRQnfcaRJHy1R3n3I8jaNS8pqfX+EFIpDL3ZyF/dR8mnWyTSFa
+ 9gwxCf5RcGXqMHGEWNpB1V1Eb1DvqizTGVwm9nggVh2QjXqGLhyWVkGBzGLAJ7W79MB+
+ d8Z7AKgHVKJ/vLT0PSkxbR/zwLHNXat10jflfoOOXA2Ppjcb3X0gT2rqdevVVOXxRDt6
+ 0ihA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SLLTqIhVx97asbYPr4Ba30RhGW0/k9gGUJ6yMqUQca8=;
+ b=eLuWbXhRN8xzW5NlE0gtRHAURJkRrEGKJM1S7ciu5DRyaNd7Qek50BHbpOaeHmXrAd
+ OkZ/Vr0XvLKXxCzi1bF5E4Px1k1LY0FsyALRE83Q0pE0WfnXj5FTsx6iU47PQ+jmF44/
+ vNiPCW/Sa1UrHqt44iizSeCiElvn0gWwmx7pHKWZJILReE7+ZRnF8PCADBy5ul4KwgR0
+ Gf1rXWerZxvORTQ9nMWTGl0ysPchhKM42j83wNpoyI0HoP16r4oxoa4/uoq9oKJ8t8MU
+ sHuAF+onE82D1CS85DSYCtaat5N4ocEk67wYilkh0GLxciRFcle6aUndWK9FOodMvk+y
+ 2SxA==
+X-Gm-Message-State: AOAM530bLHLaG8YXZVCdEH9mvyEZC+lkE0Z3NzTHX0w9vwzECCl9U5SY
+ UC2Bi1ytKkNb+vqXqVWwtss=
+X-Google-Smtp-Source: ABdhPJxhdTXqW/kPnVuI531rJ1j83VzktKMWxWPNmL/em2OL4k0Zaihe+NRG+blq1ChVnZ991OdzQA==
+X-Received: by 2002:a5d:6d86:0:b0:1f1:f938:6626 with SMTP id
+ l6-20020a5d6d86000000b001f1f9386626mr21184356wrs.701.1647375890836; 
+ Tue, 15 Mar 2022 13:24:50 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ k18-20020adfe8d2000000b0020294da2b42sm24801116wrn.117.2022.03.15.13.24.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 13:24:50 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/reg: Fix spelling mistake "Unsupport" ->
+ "Unsupported"
+Date: Tue, 15 Mar 2022 20:24:49 +0000
+Message-Id: <20220315202449.2952845-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220315084559.23510-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,55 +76,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- kernel test robot <lkp@intel.com>, thierry.reding@gmail.com,
- robert.foss@linaro.org, airlied@redhat.com,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, Laurent.pinchart@ideasonboard.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 15, 2022 at 09:45:59AM +0100, Thomas Zimmermann wrote:
-> Fix a number of undefined references to drm_kms_helper.ko in
-> drm_dp_helper.ko:
-> 
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_duplicate_state':
->   drm_dp_mst_topology.c:(.text+0x2df0): undefined reference to `__drm_atomic_helper_private_obj_duplicate_state'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_delayed_destroy_work':
->   drm_dp_mst_topology.c:(.text+0x370c): undefined reference to `drm_kms_helper_hotplug_event'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_up_req_work':
->   drm_dp_mst_topology.c:(.text+0x7938): undefined reference to `drm_kms_helper_hotplug_event'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_link_probe_work':
->   drm_dp_mst_topology.c:(.text+0x82e0): undefined reference to `drm_kms_helper_hotplug_event'
-> 
-> This happens if panel-edp.ko has been configured with
-> 
->   DRM_PANEL_EDP=y
->   DRM_DP_HELPER=y
->   DRM_KMS_HELPER=m
-> 
-> which builds DP helpers into the kernel and KMS helpers sa a module.
-> Making DRM_PANEL_EDP select DRM_KMS_HELPER resolves this problem.
-> 
-> To avoid a resulting cyclic dependency with DRM_PANEL_BRIDGE, don't
-> make the latter depend on DRM_KMS_HELPER and fix the one DRM bridge
-> drivers that doesn't already select DRM_KMS_HELPER. As KMS helpers
-> cannot be selected directly by the user, config symbols should avoid
-> depending on it anyway.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 3755d35ee1d2 ("drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Cc: Linux Kernel Functional Testing <lkft@linaro.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+There is a spelling mistake in a gvt_vgpu_err error message. Fix it.
+
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/i915/gvt/handlers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
+index 520a7e1942f3..a01e3a893e24 100644
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@ -914,7 +914,7 @@ static int update_fdi_rx_iir_status(struct intel_vgpu *vgpu,
+ 	else if (FDI_RX_IMR_TO_PIPE(offset) != INVALID_INDEX)
+ 		index = FDI_RX_IMR_TO_PIPE(offset);
+ 	else {
+-		gvt_vgpu_err("Unsupport registers %x\n", offset);
++		gvt_vgpu_err("Unsupported registers %x\n", offset);
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.35.1
+
