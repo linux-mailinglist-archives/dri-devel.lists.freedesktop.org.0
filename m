@@ -2,116 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF894D9E8A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 16:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73234D9EBE
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 16:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 946AC10E3F8;
-	Tue, 15 Mar 2022 15:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1B010E279;
+	Tue, 15 Mar 2022 15:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7304210E3F8;
- Tue, 15 Mar 2022 15:20:38 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2046.outbound.protection.outlook.com [40.107.100.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B71310E279;
+ Tue, 15 Mar 2022 15:31:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PMQXYr+AH4wIjHWk0iMDqkl7TTMJETA7F3Mvh9qLeZn5HrzePOFYj9EjVW7uKZxiTAiCjouio9q5twkP3VLEcB4fBzwWpGlRbwcpLu0FlwZF4JT7bRJKpNZPL7PFKWMHO4RHPc63Xvuffp81FCvimpkx+2svXExEZq/NBOfKv9CPx7ItStS64EhhR59+nYiM3AnUjbrNQUDdyCW5gSaX7oQ2EFj/jT8MOIzFDWM+ukA1vbbPX7e54NRK5CmHZYqdF3p+RyJxYy6OGj4+8+d5Pq61G+/oCp1UsEPtwV510EWFcLPIKmkzzGELac3CuXq4vXPi3cGzSKdMiXrPhRkd6g==
+ b=WE2QqITt/JtqwNFFnv3NBt7hv/cQ2+UC/uPr/f5jwk8YE5Xjs3V4CGWabQwHvkSixRhJA0oovf/yUzU97aYH4zT199atGCU3n/A+n9vFc641r5BKOsj6z+EAkhZvHjH4ICLaJpYWUC357BWe2eF7yb3wQrrtpb+WhpngFIaEEzSd37iP0bTH/L0F6PafroqOFauPOqLHTe24LKDqQKDe62XBOVm4jorTl9L5CvGiZZofjVJjUW//i6Ida0vTpPRqQt1/bxakS5lgAUdYz/s6xmHZCRL2bZLYveoI3SaBnLmPYdBkzwM9pnDrbrAJGTveG72gF6jDCJLQrz41u675hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dsUc/K8E++MRe4QHLyIlFd3EunzTxiI5O7N4KGtwiec=;
- b=jzG4uJIOXYIRWup/Bk84htekbjPSRMPGk0wqy5wJnEQeChtmwNgN/gYpmFEb7aRvRvH6iWaMuMNhgTNqCiUom0FaATuxHojXuAmc6LZlpLV5vEfxClhg2rKFPgnVohL9mvBTWjcUmw89fusNkEAL5/CejV1b5ME4ltaY3TDNSzuo5cUeT4mc0I7RvmeC0VvLQOoMARgA+rb1k4hxKSln1m87aXl/t8v6/zer4jdQqergVbmBMfXB/Ux4DDiDTBxEAI7/D/lN4Xnk2mvfnjjkAeJARwtymg8ugEgTKahRZF2OS65sOrc141XdiTchok5p/u68x0maxvsqP3G5Mk8wXQ==
+ bh=GI/Pgf47zWQuWKwcfnJy5nXOqjGSb6Waq0C69ITBASc=;
+ b=Kp5EQjsNsaz9PUcTdLutdTIa6vzygFfi1KcaLKbg2S4QXhbqQU7OyVH/lRcppugKXP+XxUd0eQzGxNBGhq/hI7ze9qP6bWTH4M6fIo2AD4zJiX/XCWO2Aoryosv667cgwwhzEmOZgo9kbaCuUNIvr9GXmhWvZ3IgkVwCRAlejEDlkwvtg/5AJ94GCKsMcJfl9AnFBFNIMaP2FpwLywX/ywSVzshp1iUhU5x/gk3g7nZjU39LCD0vUi3wrimOhvLlAqlHjgscJM3xgy+F78Vla4BIZnyFa0zZkvo/Ew676ipmeRm1ZRz3gnwI7oN86j/GBMuCzaczvYLI/2Z22tIGcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dsUc/K8E++MRe4QHLyIlFd3EunzTxiI5O7N4KGtwiec=;
- b=PxDd5FmlTu2CKOq0hNirB04T3GUEYJk2vlFQLHijrSCrTGNK7igK4by7S4eYbngRJVjhz9aR6kNM581SWhFZL/amyc7zajH0nddLWruHvbyY7wHaDd0WgE5YZ6YqNtJpsYb/Iv6L7UxWJ297Yus9Dg2E425z3P/zIKtkwmWTMpE=
+ bh=GI/Pgf47zWQuWKwcfnJy5nXOqjGSb6Waq0C69ITBASc=;
+ b=NqAReoZnZDHWY3JZu/laNIRjkpU6f4rh5HUc6r6N/tRYfa6ArRBx8u8TKxuSrhnVNqP1FpOKSQ38PN+BpLOMuWkRQ5yk7ttwJUWOmHuLGyF6c7bKB9AhT2SjAF2dcv7PUoflg/0MIaBAAOD70UAn6JR2eN6Z0W8gArADhg97osE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by BYAPR12MB3159.namprd12.prod.outlook.com (2603:10b6:a03:134::15)
+ by BYAPR12MB3222.namprd12.prod.outlook.com (2603:10b6:a03:12c::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Tue, 15 Mar
- 2022 15:20:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21; Tue, 15 Mar
+ 2022 15:31:56 +0000
 Received: from MN2PR12MB4342.namprd12.prod.outlook.com
  ([fe80::48e2:1306:25a3:5f14]) by MN2PR12MB4342.namprd12.prod.outlook.com
  ([fe80::48e2:1306:25a3:5f14%5]) with mapi id 15.20.5081.014; Tue, 15 Mar 2022
- 15:20:35 +0000
-Message-ID: <904ae9ed-8994-0b03-8904-02925e5b00dc@amd.com>
-Date: Tue, 15 Mar 2022 21:01:16 +0530
+ 15:31:56 +0000
+Message-ID: <3601c42f-0787-e21d-460b-44a5a100b710@amd.com>
+Date: Tue, 15 Mar 2022 21:12:36 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: round_up the size to the alignment
- value
+Subject: Re: [PATCH] drm: Fix a infinite loop condition when order becomes 0
 Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220314193206.534257-1-Arunpravin.PaneerSelvam@amd.com>
- <CAM0jSHPeRaykGwF-V+--cXE9wgoDbttbTH=EkP+=xHu7rkB4Qg@mail.gmail.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+References: <20220314194049.534471-1-Arunpravin.PaneerSelvam@amd.com>
+ <0b9a8cc2-2f34-48c9-7960-727615eb2edb@molgen.mpg.de>
+ <1e410ba3-60d9-6a09-6a5d-625145c1c80a@amd.com>
+ <cd074d23-ee36-dd5f-bde5-1f5dd41a76be@molgen.mpg.de>
 From: Arunpravin <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <CAM0jSHPeRaykGwF-V+--cXE9wgoDbttbTH=EkP+=xHu7rkB4Qg@mail.gmail.com>
+In-Reply-To: <cd074d23-ee36-dd5f-bde5-1f5dd41a76be@molgen.mpg.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BM1PR0101CA0036.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:1a::22) To MN2PR12MB4342.namprd12.prod.outlook.com
+X-ClientProxiedBy: BM1PR0101CA0051.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:19::13) To MN2PR12MB4342.namprd12.prod.outlook.com
  (2603:10b6:208:264::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 41e2d1ec-194e-41fc-5e65-08da06975a82
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3159:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3159438B286416C2648D83D9E4109@BYAPR12MB3159.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: ce2a31f5-dbdc-41f9-9112-08da0698f025
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3222:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB32228702522A44EEC055D9CAE4109@BYAPR12MB3222.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xZyl4U/dBnTpDBfxjVEwCD3vGQsvrTIWYcKLPhrF8fXIIgs870n9s0pDC0v59rkTUkBxrYXmaHrupe3AUXXAQM0XhPSOvl3WzR3IEn/wRFboKSoxyCDnE/OZNyuANaiZtNaiBmyo6u2mV+OFEPGxHfYcImIoisfXI+MRfFyBD5DIXtG12xs7D/yQrItzBjWL7g1DT49NJIKlTskesHSwXZgxpefO/x10wV7lrwBiPwIIMNL1o9bfBKBKsxf/dzyCAdBieeY/aIo0QABY1pwnxnF/iDVyGeawn6dIaSTyC64geXGnyt5OXiEsqlAXTUhgP5Or0a4cNhX2MNa1y9gWqmpjI8sYfB4kPftlhZXK2BYH1FH+P2cQKQCnBw9cCRdk3G6f8hjR9BqhDqR6eMHt38ldKdWUiAZE4tRx6l6PAYIwiiVSisBfxJHGscptEaFfQi2DbW7iMGph9TPOo7RNxgnWS5bAWFjkWC8c+5VEn5v4oA5xFGAmg8Ge6eNFpUzI6DKWxdimbx6JaRjaVKAKTlLxnPgAqxd+r1dSZmBr05othEcEThkn7lBBWGpERVSdZ6jP2ZQri4u4216QDseCSl0ECFsjPWpM0ylyF7pqgLABnI4m52hnF1oZkfYbKnusw0can5EGAO66meDf55VeUG0WA25542EoMYzBymoxOCWWiAjGXiMoT8gtLzCmb4BHc5647ihhwnhkBdDqmS53H9FRT7XNUEyQXGa7S9GbHgY=
+X-Microsoft-Antispam-Message-Info: yLwzktrYDrGgt4zi/3kKyP8IYJJOVjl3d72yJrn7PiMIuubBZFHzFnA5d/6ZkTPlTCQaWx1lydlD5LNNLe7TR6UoWvvM3FaFgVTB9NkK7tKYEQpX15ZKFQaGLaUf6yV4GBxBDSYRY+4jrB/occNluAuuHVMGMBUWuf25LUBoD8SKXmxx1gEYBFCVj7CcbBZe6Ibhshydn4LOQAz0gIsm+nGzB70cWmb5ugX6QnqpYfg7RnUJU1xRW7RuF8sabg1Wsb9AjuPurzTZrBPhpA28gUd22n2pqOQxkB0MP0xUPFV4JdM/lAqLxTJLYFevEPJ0u1dg4zV/OeegYpnTjAfXGa0FgkEtoJCGnR9UsdGLzoewbaRmJsLMiKwe4uHSPgXuPLVM6e5LjlmsOO6DZUWwvTW4q5ITWrgOmQfcZwwu2VFvHIKoI6Hax7QK0tKPhgTBIIhyUAXKs6HOETnqvCNqV+0zlJSP2Td0duoduHT4PF328dKvuC3dzOAHEs5mK0dbTI1Tzx8WdQzARqS1ZEtL5W81ZZ9hqSlibJfr8xQxEdkfHjE1pIgYgeBHkLLOHFft0YTWshkDGa3tHtDaBXCzxVHc8q06zbU0Us51OWU/Adb+qoWiBDfT7u08NSgWoHYsb4Xqc0JMi6hD95og+iDC9uQSR0Pf3CxGapBEo7dIHvkp3v4Bt7Dfv3clwWZDadcy+R3YT1K9tS8XNba389Yn1al0kxzRwEp/iYUYLSzFW5E=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6916009)(54906003)(316002)(2906002)(508600001)(66946007)(36756003)(8936002)(6486002)(66476007)(5660300002)(31696002)(38100700002)(8676002)(4326008)(66556008)(186003)(86362001)(6512007)(31686004)(6506007)(26005)(6666004)(2616005)(83380400001)(53546011)(45980500001)(43740500002);
+ SFS:(13230001)(4636009)(366004)(8676002)(66556008)(66476007)(6916009)(66946007)(4326008)(316002)(508600001)(966005)(6486002)(38100700002)(86362001)(36756003)(31696002)(31686004)(45080400002)(53546011)(186003)(2616005)(26005)(6512007)(6506007)(6666004)(2906002)(5660300002)(8936002)(83380400001)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEFEaVNRT3UvSEdlcEdrYjJndzdUMmpOeUpvU1F5QmUvNGlsd1VHQ2dZWUVn?=
- =?utf-8?B?azlsa1VmRis3NlhjenZ4UDM0Mkxoa0lUSTUrNjNxV1ovMmdpc0lYc0N4ekVV?=
- =?utf-8?B?Z0pCeldCWnUxQ0d4UmpDTFhXcjg5RlgwM0VYMTNjZnFpczAweGo2TEtFUENu?=
- =?utf-8?B?VEo2N1JPaVdGVGhVSzRTUEt0T3R6Zk8rQTlRYUFOaWZ1QmorOTQ2OWhJL1pN?=
- =?utf-8?B?a2xvWFBMNUZCc3p6cGY4ZGtQMk5hbnQ4UEk4M1hvUEVXZE51dDZWbWhDOHd3?=
- =?utf-8?B?U09iOU51Yk0vdkpnWlJpc200azRMNmJYR0NzYVppdFRRMTgrQVdZRUVVWnRs?=
- =?utf-8?B?NEdrNEVQY0tWZU5IZG0zWk1VRmJmUGhTc21qMUE0NUV3ODFoQ0FwMmdPNElv?=
- =?utf-8?B?czk4ZXhQTTVmZlY5RkJjZ2JQME96WVo4TzRILzBNa1RhTkRIYzdVR1NDOUEr?=
- =?utf-8?B?L3lNUEZQQVA3ZC9UM1JWaXRzY2dycytOUU5IblB3UUFyZDJLVFRleHpYdUh1?=
- =?utf-8?B?N2hFVTZvRXd4b0JOS1VSMkVKczJta2dCUURGdEd5cmlKdVNyU3lGdUMxdEF0?=
- =?utf-8?B?K29EUVlweU0wOExaSGJlMkF0VDFsNXF2OG1zd29pc01MQVc2Nm1GVUdmd0hq?=
- =?utf-8?B?dTArak54aVdUN1RGbTNlNFpBV0w0ajZ6TC8yNkxJTElSZ0sxYVNYeElnNFkz?=
- =?utf-8?B?bS9QM2NYc1Yva08wcGpvSGZRQkcvdUhGQ1pFS1dWdy9XS2xxeCtZaUlqS2ZJ?=
- =?utf-8?B?OS9xUUhLV1dpdkdtc3d4eVFKM056cGI1UG56a1I4dkRCMDZRUlZTbE4wSE1p?=
- =?utf-8?B?YXp3cFcxSWdzSHZ4Q3l4QWt2WGVmS2ovRHBIaUJyRUZRUTBuNEg0WlA2NzRs?=
- =?utf-8?B?N0cwT3AvclJIemxyN2hGaWhXREZ2NVdZNzBpT2NrcG10MGZMaEdMREY2WW9v?=
- =?utf-8?B?a2pSNHNPdFJxN2FwTWllSHpyVWtEa1NrYUd5cDJzd3JlRGdxY2o2NVZMUUZW?=
- =?utf-8?B?N3BPcDY1TzhUSEc2TndvTk40cXo5K29WMWc5YlF6SVBaZWJnSlUxVU5XWDFJ?=
- =?utf-8?B?WWhHc1J4M0xMRStLdVFEYW9jSEZXaUhTUldGWmE2MFFYdFhiSkYrUFplaC9z?=
- =?utf-8?B?NHl3dnFVMkJicGs4c0NmVjU5bEZOWHN5QkU3Z2E3elN4UjQxQ01iaDU3MXkx?=
- =?utf-8?B?TnZCQkRzeFZZRGZGRnJoLzJqSTFselhJbXg5VlM0TDArTkpPWU1UZC9rV0dF?=
- =?utf-8?B?K1drRnY0Y0VXQUtGUHNFMXhvTnFNaWhFWlZ6QjRZSmJRdWFtVG9uQngvRm9W?=
- =?utf-8?B?NEp1dFpkZm13UXJOWXFWOXpURTRFcHkvYmVMYjZTVmdHZHpDK2xzZ25TQ0Rq?=
- =?utf-8?B?T1AvcHBRL2pFWkNiN1UyOTZKRVB6SnNYU0FVMjFOaE43TjErU2g0NEY5V0hm?=
- =?utf-8?B?ZzVVdFZYY0NMNmVJL2JrSUlCeXZHRGE2NEZObCtXRnZjTUpaR3dMQ1ZnYisv?=
- =?utf-8?B?UkxsNkhjV3owRU5mOGlHWHhaVkJDNTgwS3IwSWdnakY3OVZSSm5EVG56Ui9S?=
- =?utf-8?B?Sk5YUmtGbmRGTzdNZ0hESStlakcrbERNYnpDRnJ0VGdoNEkzZjhSS3FTTVVz?=
- =?utf-8?B?Q3N3N3UyRTI0TmZkaEFLTmhuS256eU1SVHZhTzJ1VlI5VngzV0FJamZNWUlZ?=
- =?utf-8?B?YkZtcmZDLzc1UncxbkJkelNOVUd0YkVnRVZYMW5RdmdpSEVWNmtmRHJlZFRE?=
- =?utf-8?B?anMra0hSeXBoVGN0NURKSnoxSERwQ1FEUWJlUTRsVlQremtLT0ZuNWgvckRr?=
- =?utf-8?B?VThVWUJGRGN6S29FMENUTTU5TWFpOVVYWUtXTE5JUDBDWlI2cVlJaVBKK2Ux?=
- =?utf-8?B?eTBSc0p2eHJTUEpBUkRXV2JnTUJod1ZndU03VWlGaER6aU4rL3lzV3ZoUzJP?=
- =?utf-8?Q?DYxVXR6EnaZ1/xeE4dBgsXyWkNbUC59i?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWNlVkNMbVNmNmhxdkx3VGwyK1ZDaDhNSmk1cktoQ2ZXMDB1TE1EVDNJSXRU?=
+ =?utf-8?B?WmhCb2xvMGcvQkU2QXZVaFYreW5OdTBlNkpiTEJZT0ZzcTdiRUw2UEtQYXQv?=
+ =?utf-8?B?d3FGaER5ZlBxRDFiYy95MU1OTWt0Mm40aDVmY09JTHJHNEppd2c2S0MyZFAy?=
+ =?utf-8?B?VllHbU9Fa1VXZFkzaGxuQnE0dzBEUHhpTUQvazk1OUpQRDFJUGtwc2V5dVdG?=
+ =?utf-8?B?eTN0S2xGVmNQRkh3K0lwZEdaOHB5eWdlakU2L2NkV2xUbll1cDllMnhTNnc1?=
+ =?utf-8?B?Q2R2MUo5N1FaaVZsQ3M1VzNwUlRzd1dqa28rRDM0UkNLTHFYa3U4bmN2dXgw?=
+ =?utf-8?B?S2t6akE2Y2Z6MnI2QXE0eUVRdGVMOGpLejRrVUdLQ3h3aldFbVlJZVUzdFA3?=
+ =?utf-8?B?TmtMN1lnTStyL3paZEFoQ0JkRE1rSWhFaU9ZSEs1RmlraUllN2hDYkM4UTBq?=
+ =?utf-8?B?cWtCcC9uYkQ3dkZWWGJZTDdxaEwraEgxcTVaREhicEN6N05vNlhkbWQwQTZH?=
+ =?utf-8?B?S3VjZ0dsZWlmUkMvZkJWOWZXdEhxa0V6dVJsMzZ3eVhWVUlMcWRQeU8raFZT?=
+ =?utf-8?B?cStVZCtzais2S0VxaHlRU0tHU2djRWNmSjkwRk9CclZHUGgyRjBQdDR0R2Jv?=
+ =?utf-8?B?RVo5VCsvamZrQjh1WWhsSktiZ1JSeWxxWEhKdCs2c3BibHRxM204ZDhPRzZK?=
+ =?utf-8?B?dmt3cTJBZmU1YUFsanJwa2FMQjhtTGxxSVVORUVtWTBNZ2NQNllKR3ZNMGQ0?=
+ =?utf-8?B?ZHYvS2pYYzF6d1d2aWJpQWg2ODNET1Y0K0JPcFV4cW1HRDZjRTAreGJ6bjhx?=
+ =?utf-8?B?OXpSNFdIUC9HWmlnMCtPZ21GMXFnZzZpamN4cHUyS0FpalBRK3V1VjY5MFRH?=
+ =?utf-8?B?ZFRveVBMcGtLVW8vL09yQjJqUkcvaitYZi8vaXlHOTFkaGRmZ3VCc0JVM3Ni?=
+ =?utf-8?B?UnpiYWgycm80UGFSdEFGQ1hrdG1DOEdXRnVaUGxuWGtMTDk5MVZtdTZoTnZa?=
+ =?utf-8?B?aytGTWFaamRSRUVMWGRSdHh2V3o4WWwzTmhSa3I0OGMwWUd5WWlTTjRSbjhs?=
+ =?utf-8?B?aUdHTUdtQklKM2JpUXBTYzN6Z2k4Y25YUTBGalBlblJOTVNUb3U1bVFiS2gw?=
+ =?utf-8?B?dktaN2h4NUo0azhxc3h5b3FyTFJOT0QySzB1UHBVSE03ZVQxcFRYNlRFS2Zr?=
+ =?utf-8?B?eUExSWVTMk90a2NtMFdwNnR0TXE0RUQ5MklVNURlUFhYNTQ3WFQ5bW96MWk0?=
+ =?utf-8?B?Z0FPRTgrVUVSOFNCaFpLdHpRMDI4TmsvOGpkSzVraUdEQ3pDd2MwZU5mSEls?=
+ =?utf-8?B?MmFoT2xQdzMxMFdFa1pTMlFXNCtPTStxbDVZZjBBMlluTzMwakdKRkdKTHBS?=
+ =?utf-8?B?ajk5Q2tqOWhDNG82aGFYZ25kUktMZU8yd3BNdTlsbTNiTkZKNWxFdHpZMlcz?=
+ =?utf-8?B?RWVwUlVkNW1zQ2ZEL3pHZ2pYaXlIVWhvdDBISGxkUTZOOEFIOW40N1AvTHBG?=
+ =?utf-8?B?aXVWRmxNQjIvTXJ4OWFBdG0rdHpKeUkwZkVYaHJBWVpTTjhNYW1NcWdheDBN?=
+ =?utf-8?B?aHBzZFRmTCtEQzlDVHB1Nkp1MzRrUzRoVE0yUFhtWGIvZk5JYnU4TEZlQlhN?=
+ =?utf-8?B?Ni9vTmJmck1DeXU1UmVjczIxbGV1c2s2YXBiYnhObGNVUWkzd2ovNmFuTHR1?=
+ =?utf-8?B?Y3ZNRzl6ZGRXdnFvRW9BSmhpTUhuVmFYUm15bjRvZ0FobGt6WW9CVytQWFRs?=
+ =?utf-8?B?bDFyeUZRSnVQbEo0Zld1VDE2M2Q0b3JtY2JFTFhNYWFCTGJiaDdyNEJzN1N5?=
+ =?utf-8?B?Y2xLZkk1MnFudWQwb0wvSTRZakZ2SjlETFRMNkY0Z0VHTkdDOTVJTVNBL0Z6?=
+ =?utf-8?B?SE9FMmNiUzRBRjlLcGg4bnpLUi92UGoyNGJDRVJGZEhVUlpBcWVvTGY4VHQ0?=
+ =?utf-8?Q?OZpZTcUpHssH5f/YunX8GW9GTkiUyJsN?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41e2d1ec-194e-41fc-5e65-08da06975a82
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce2a31f5-dbdc-41f9-9112-08da0698f025
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2022 15:20:35.7948 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2022 15:31:56.5447 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZVoaIG34EbY2fdC4tXjWbszVdNtmSoQ+WKr9l73iTCyBkbu7IzIHGi/3LFJZVftgImn/5XPmpUVf3ldDV0Fqbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3159
+X-MS-Exchange-CrossTenant-UserPrincipalName: W9F5upNtRYfILl2htWazPB5yV4iLcJfojwTHrMGKLrDLMa99v7SEJrecG1v6/M5xtLhC8LKANHWxxBaTmoOBbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3222
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,95 +125,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 15/03/22 4:56 pm, Matthew Auld wrote:
-> On Mon, 14 Mar 2022 at 19:32, Arunpravin
-> <Arunpravin.PaneerSelvam@amd.com> wrote:
->>
->> handle instances when size is not aligned with the min_page_size.
->> Unigine Heaven has allocation requests for example required pages
->> are 161 and alignment request is 128. To allocate the left over
->> 33 pages, continues the iteration to find the order value which
->> is 5 and 0 and when it compares with min_order = 7, triggers the
->> BUG_ON((order < min_order). To avoid this problem, round_up the
->> size to the alignment and enable the is_contiguous variable and
->> the block trimmed to the original size.
->>
->> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
->> ---
->>  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 13 +++++++++++--
->>  1 file changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> index 129f668f21ff..318aa731de5b 100644
->> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> @@ -40,6 +40,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->>         struct i915_ttm_buddy_resource *bman_res;
->>         struct drm_buddy *mm = &bman->mm;
->>         unsigned long n_pages, lpfn;
->> +       bool is_contiguous = 0;
->>         u64 min_page_size;
->>         u64 size;
->>         int err;
->> @@ -48,6 +49,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->>         if (!lpfn)
->>                 lpfn = man->size;
->>
->> +       if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
->> +               is_contiguous = 1;
->> +
->>         bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
->>         if (!bman_res)
->>                 return -ENOMEM;
->> @@ -71,7 +75,12 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->>
->>         GEM_BUG_ON(min_page_size < mm->chunk_size);
->>
->> -       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->> +       if (!is_contiguous && !IS_ALIGNED(size, min_page_size)) {
->> +               size = round_up(size, min_page_size);
->> +               is_contiguous = 1;
->> +       }
->> +
->> +       if (is_contiguous) {
+On 15/03/22 2:35 pm, Paul Menzel wrote:
+> Dear Arunpravin,
 > 
-> This looks like it will also do roundup_power_of_two()? I assume we
-> instead just want to feed the list_last_entry() block for trimming?
 > 
-> Anway, we should be able to just make this:
+> Am 15.03.22 um 10:01 schrieb Arunpravin:
 > 
-> if (WARN_ON(!IS_ALIGNED(size, min_page_size))
->     return -EINVAL;
+>> On 15/03/22 1:49 pm, Paul Menzel wrote:
 > 
-> That's at least the currently expected behaviour in i915, just that we
-> were previously not verifying it here.
+>>> Am 14.03.22 um 20:40 schrieb Arunpravin:
+>>>> handle a situation in the condition order-- == min_order,
+>>>> when order = 0, leading to order = -1, it now won't exit
+>>>> the loop. To avoid this problem, added a order check in
+>>>> the same condition, (i.e) when order is 0, we return
+>>>> -ENOSPC
+>>>>
+>>>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+>>>
+>>> Please use your full name.
+>> okay
+> 
+> You might also configure that in your email program.
+yes
+> 
+>>>> ---
+>>>>    drivers/gpu/drm/drm_buddy.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>>>> index 72f52f293249..5ab66aaf2bbd 100644
+>>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>>
+>>> In what tree is that file?
+>>>
+>> drm-tip - https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm-tip%2Ftree%2F&amp;data=04%7C01%7CArunpravin.PaneerSelvam%40amd.com%7Cc456573102c04191cf9708da0662f798%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637829319396954551%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=5Bspe5QGjQ0KHfVI8%2F%2BXqxR45q6tOL4FE2fVD3uwL%2FM%3D&amp;reserved=0
+>> drm-misc-next - https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm%2Fdrm-misc%2Ftree%2F&amp;data=04%7C01%7CArunpravin.PaneerSelvam%40amd.com%7Cc456573102c04191cf9708da0662f798%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637829319396954551%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=g2S14TfsHF5ORo9jTZ3uA0l1BH8mnAxk2OWYJeF5i8k%3D&amp;reserved=0
+>>
+>>>> @@ -685,7 +685,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>>>    			if (!IS_ERR(block))
+>>>>    				break;
+>>>>    
+>>>> -			if (order-- == min_order) {
+>>>> +			if (!order || order-- == min_order) {
+>>>>    				err = -ENOSPC;
+>>>>    				goto err_free;
+>>>>    			}
+> 
+> Thank you for the hint. So the whole function is:
+> 
+> 	do {
+> 		order = min(order, (unsigned int)fls(pages) - 1);
+> 		BUG_ON(order > mm->max_order);
+> 		BUG_ON(order < min_order);
+> 
+> 		do {
+> 			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
+> 				/* Allocate traversing within the range */
+> 				block = alloc_range_bias(mm, start, end, order);
+> 			else
+> 				/* Allocate from freelist */
+> 				block = alloc_from_freelist(mm, order, flags);
+> 
+> 			if (!IS_ERR(block))
+> 				break;
+> 
+> 			if (order-- == min_order) {
+> 				err = -ENOSPC;
+> 				goto err_free;
+> 			}
+> 		} while (1);
+> 
+> 		mark_allocated(block);
+> 		mm->avail -= drm_buddy_block_size(mm, block);
+> 		kmemleak_update_trace(block);
+> 		list_add_tail(&block->link, &allocated);
+> 
+> 		pages -= BIT(order);
+> 
+> 		if (!pages)
+> 			break;
+> 	} while (1);
+> 
+> Was the BUG_ON triggered for your case?
+> 
+> 	BUG_ON(order < min_order);
+no, this BUG_ON is not triggered for this bug
+> 
+> Please give more details.
 
-ok sure, then I make changes in amdgpu
+there is a chance when there is no space to allocate, order value
+decrements and reaches to 0 at one point, here we should exit the loop,
+otherwise, further order value decrements to -1 and do..while loop
+doesn't exit. Hence added a check to exit the loop if order value becomes 0.
+
+Thanks,
+Arun
+
 > 
->>                 unsigned long pages;
->>
->>                 size = roundup_pow_of_two(size);
->> @@ -106,7 +115,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->>         if (unlikely(err))
->>                 goto err_free_blocks;
->>
->> -       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->> +       if (is_contiguous) {
->>                 u64 original_size = (u64)bman_res->base.num_pages << PAGE_SHIFT;
->>
->>                 mutex_lock(&bman->lock);
->>
->> base-commit: b37605de46fef48555bf0cf463cccf355c51fac0
->> --
->> 2.25.1
->>
+> 
+> Kind regards,
+> 
+> Paul
+> 
