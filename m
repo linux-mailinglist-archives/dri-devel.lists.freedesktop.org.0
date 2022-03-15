@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D924DA1EA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:05:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F36614DA1F0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:05:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7632E10E43C;
-	Tue, 15 Mar 2022 18:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F3010E3D9;
+	Tue, 15 Mar 2022 18:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3FB10E43C;
- Tue, 15 Mar 2022 18:05:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C177C10E43E;
+ Tue, 15 Mar 2022 18:05:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 4FEB01F43052
+ (Authenticated sender: bbeckett) with ESMTPSA id 2E8931F43067
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647367506;
- bh=li5yvJTQb+uuRirbQROVb1o4GxJGvJ65W8dX02ajYJw=;
+ s=mail; t=1647367507;
+ bh=F4G57USBr70RpsEaKXSQnIcfZKnwvbJG4URh3fSOgAY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TR0nj7nScUIBbszSh1mu7bfxJOH4h5as3e6Qc5h7NMbt+0dnqa+HWqSGd1FCHSRR6
- VfsTs3A5ArrTmaw3Lp5EUBnqRh9e/f96py045supEnNw3B3ilZ1yR3MPWxtQws42fc
- GHizsPbyJArTR13ptzaLN7WR4zPM4FE7wy2gB1HWZvk38xBS+616rnemHdE7H/e34D
- 3xv0bfQ5Cm74D+m9iu/tDsy4dRGQBpoA19gFNgdxVcgXYv6G6zcwHFzO75NJTC8Ds1
- d+PE/Ja/pUnoCXYMFnWW9PPayp9RxXXa3btaQfCDqxptQBVGJ/DtFxT0WvRvggwj+4
- Je9ys51gpb1HQ==
+ b=elzaoSYwoovr/4JIhuF+f6pR44zwhIZ6wMoZpCDCAgkOeOitdxDXBE9XhLxh6V+rD
+ cmrIzxp/4mBQQtrzeI2vPAKfOExZDmI/g2nvDgszTAN5fvtdQuFBDFtlr5Tjd4/Oj9
+ JIY4SQZSa4tpdr6JBUu9hSIqSAw91zWdhKzjIiL529HT9pTZMhpj3v8mQ4dHhd55Vf
+ owi3sHhlptfkCN4Xt1fJmsYO7OEfkjrCou3Qa664Ofcu0O5APsn8lL+e/i4ptGZeaH
+ 28oTvsKvdIL/qLu3LFdAls6/yuv6Ufz8DeAPn8JP2DREdWmjzK/HTeIgYooU4pVn8h
+ VbgFh7Mrkwy/A==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC PATCH 1/7] drm/i915: instantiate ttm ranger manager for stolen
- memory
-Date: Tue, 15 Mar 2022 18:04:38 +0000
-Message-Id: <20220315180444.3327283-2-bob.beckett@collabora.com>
+Subject: [RFC PATCH 2/7] drm/i915: add ability to create memory region object
+ in place
+Date: Tue, 15 Mar 2022 18:04:39 +0000
+Message-Id: <20220315180444.3327283-3-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220315180444.3327283-1-bob.beckett@collabora.com>
 References: <20220315180444.3327283-1-bob.beckett@collabora.com>
@@ -58,74 +58,223 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 ---
- drivers/gpu/drm/i915/intel_region_ttm.c | 29 +++++++++++++++++++------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_region.c | 55 ++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_region.h |  6 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 84 ++++++++++++++++++----
+ drivers/gpu/drm/i915/intel_memory_region.h |  6 ++
+ 4 files changed, 136 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 737ef3f4ab54..bb564b830c96 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -57,11 +57,17 @@ int intel_region_to_ttm_type(const struct intel_memory_region *mem)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+index c9b2e8b91053..e25ad0b9b636 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+@@ -98,6 +98,61 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 	return ERR_PTR(err);
+ }
  
- 	GEM_BUG_ON(mem->type != INTEL_MEMORY_LOCAL &&
- 		   mem->type != INTEL_MEMORY_MOCK &&
--		   mem->type != INTEL_MEMORY_SYSTEM);
-+		   mem->type != INTEL_MEMORY_SYSTEM &&
-+		   mem->type != INTEL_MEMORY_STOLEN_SYSTEM &&
-+		   mem->type != INTEL_MEMORY_STOLEN_LOCAL);
- 
- 	if (mem->type == INTEL_MEMORY_SYSTEM)
- 		return TTM_PL_SYSTEM;
- 
-+	if (mem->type == INTEL_MEMORY_STOLEN_SYSTEM ||
-+	    mem->type == INTEL_MEMORY_STOLEN_LOCAL)
-+		return TTM_PL_VRAM;
++struct drm_i915_gem_object *
++i915_gem_object_create_region_in_place(struct intel_memory_region *mem,
++				       resource_size_t size,
++				       resource_size_t page_size,
++				       unsigned int flags,
++				       u64 start, u64 end)
++{
++	struct drm_i915_gem_object *obj;
++	resource_size_t default_page_size;
++	int err;
 +
- 	type = mem->instance + TTM_PL_PRIV;
- 	GEM_BUG_ON(type >= TTM_NUM_MEM_TYPES);
++	/*
++	 * NB: Our use of resource_size_t for the size stems from using struct
++	 * resource for the mem->region. We might need to revisit this in the
++	 * future.
++	 */
++
++	GEM_BUG_ON(flags & ~I915_BO_ALLOC_FLAGS);
++
++	if (!mem)
++		return ERR_PTR(-ENODEV);
++	if (!mem->ops->init_object_in_place)
++		return ERR_PTR(-EINVAL);
++
++	default_page_size = mem->min_page_size;
++	if (page_size)
++		default_page_size = page_size;
++
++	GEM_BUG_ON(!is_power_of_2_u64(default_page_size));
++	GEM_BUG_ON(default_page_size < PAGE_SIZE);
++
++	size = round_up(size, default_page_size);
++
++	GEM_BUG_ON(!size);
++	GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_MIN_ALIGNMENT));
++
++	if (i915_gem_object_size_2big(size))
++		return ERR_PTR(-E2BIG);
++
++	obj = i915_gem_object_alloc();
++	if (!obj)
++		return ERR_PTR(-ENOMEM);
++
++	err = mem->ops->init_object_in_place(mem, obj, size, page_size, flags, start, end);
++	if (err)
++		goto err_object_free;
++
++	trace_i915_gem_object_create(obj);
++	return obj;
++
++err_object_free:
++	i915_gem_object_free(obj);
++	return ERR_PTR(err);
++}
++
+ /**
+  * i915_gem_process_region - Iterate over all objects of a region using ops
+  * to process and optionally skip objects
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+index fcaa12d657d4..0cad90ac4a92 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+@@ -56,6 +56,12 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 			      resource_size_t size,
+ 			      resource_size_t page_size,
+ 			      unsigned int flags);
++struct drm_i915_gem_object *
++i915_gem_object_create_region_in_place(struct intel_memory_region *mem,
++				       resource_size_t size,
++				       resource_size_t page_size,
++				       unsigned int flags,
++				       u64 start, u64 end);
  
-@@ -85,10 +91,16 @@ int intel_region_ttm_init(struct intel_memory_region *mem)
- 	int mem_type = intel_region_to_ttm_type(mem);
- 	int ret;
+ int i915_gem_process_region(struct intel_memory_region *mr,
+ 			    struct i915_gem_apply_to_region *apply);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 45cc5837ce00..35d1bde19267 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1131,20 +1131,12 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+ 	}
+ }
  
--	ret = i915_ttm_buddy_man_init(bdev, mem_type, false,
--				      resource_size(&mem->region),
--				      mem->io_size,
--				      mem->min_page_size, PAGE_SIZE);
-+	if (mem_type == TTM_PL_VRAM) {
-+		ret = ttm_range_man_init(bdev, mem_type, false,
-+					 resource_size(&mem->region) >> PAGE_SHIFT);
-+		mem->is_range_manager = true;
-+	} else {
-+		ret = i915_ttm_buddy_man_init(bdev, mem_type, false,
-+					      resource_size(&mem->region),
-+					      mem->io_size,
-+					      mem->min_page_size, PAGE_SIZE);
-+	}
- 	if (ret)
- 		return ret;
- 
-@@ -108,6 +120,7 @@ int intel_region_ttm_init(struct intel_memory_region *mem)
- int intel_region_ttm_fini(struct intel_memory_region *mem)
+-/**
+- * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem object
+- * @mem: The initial memory region for the object.
+- * @obj: The gem object.
+- * @size: Object size in bytes.
+- * @flags: gem object flags.
+- *
+- * Return: 0 on success, negative error code on failure.
+- */
+-int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+-			       struct drm_i915_gem_object *obj,
+-			       resource_size_t size,
+-			       resource_size_t page_size,
+-			       unsigned int flags)
++static int __i915_gem_ttm_object_init_with_placement(struct intel_memory_region *mem,
++						     struct drm_i915_gem_object *obj,
++						     resource_size_t size,
++						     resource_size_t page_size,
++						     unsigned int flags,
++						     struct ttm_placement *placement)
  {
- 	struct ttm_resource_manager *man = mem->region_private;
-+	int mem_type = intel_region_to_ttm_type(mem);
- 	int ret = -EBUSY;
- 	int count;
+ 	static struct lock_class_key lock_class;
+ 	struct drm_i915_private *i915 = mem->i915;
+@@ -1188,7 +1180,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 * until successful initialization.
+ 	 */
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
+-				   bo_type, &i915_sys_placement,
++				   bo_type, placement,
+ 				   page_size >> PAGE_SHIFT,
+ 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
+ 	if (ret)
+@@ -1204,8 +1196,70 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	return 0;
+ }
  
-@@ -138,8 +151,10 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
- 	if (ret || !man)
- 		return ret;
++/**
++ * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem object
++ * @mem: The initial memory region for the object.
++ * @obj: The gem object.
++ * @size: Object size in bytes.
++ * @flags: gem object flags.
++ *
++ * Return: 0 on success, negative error code on failure.
++ */
++int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
++			       struct drm_i915_gem_object *obj,
++			       resource_size_t size,
++			       resource_size_t page_size,
++			       unsigned int flags)
++{
++	return __i915_gem_ttm_object_init_with_placement(mem, obj, size,
++							 page_size, flags,
++							 &i915_sys_placement);
++}
++
++/**
++ * i915_gem_ttm_object_init_in_place - Initialize a ttm-backed i915 gem object in place
++ * @mem: The initial memory region for the object.
++ * @obj: The gem object.
++ * @size: Object size in bytes.
++ * @page_size: Required page size.
++ * @flags: gem object flags.
++ * @start: start of range to insert in to.
++ * @end: end of range to insert in to.
++ *
++ * Initializes a ttm-backed i915 gem object with a predefined
++ * placement and range.
++ * Can be used to create an object around a pre-reserved area.
++ *
++ * Return: 0 on success, negative error code on failure.
++ */
++static int i915_gem_ttm_object_init_in_place(struct intel_memory_region *mem,
++					     struct drm_i915_gem_object *obj,
++					     resource_size_t size,
++					     resource_size_t page_size,
++					     unsigned int flags,
++					     u64 start,
++					     u64 end)
++{
++	struct ttm_place place;
++	struct ttm_placement placement = {
++		.num_placement = 1,
++		.placement = &place,
++		.num_busy_placement = 1,
++		.busy_placement = &place,
++	};
++
++	i915_ttm_place_from_region(mem, &place, flags);
++	place.fpfn = PFN_DOWN(start);
++	place.lpfn = PFN_UP(end);
++
++	return __i915_gem_ttm_object_init_with_placement(mem, obj, size,
++							 page_size, flags,
++							 &placement);
++}
++
+ static const struct intel_memory_region_ops ttm_system_region_ops = {
+ 	.init_object = __i915_gem_ttm_object_init,
++	.init_object_in_place = i915_gem_ttm_object_init_in_place,
+ 	.release = intel_region_ttm_fini,
+ };
  
--	ret = i915_ttm_buddy_man_fini(&mem->i915->bdev,
--				      intel_region_to_ttm_type(mem));
-+	if (mem_type == TTM_PL_VRAM)
-+		ret = ttm_range_man_fini(&mem->i915->bdev, mem_type);
-+	else
-+		ret = i915_ttm_buddy_man_fini(&mem->i915->bdev, mem_type);
- 	GEM_WARN_ON(ret);
- 	mem->region_private = NULL;
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+index 21dcbd620758..eb72997df8f7 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -57,6 +57,12 @@ struct intel_memory_region_ops {
+ 			   resource_size_t size,
+ 			   resource_size_t page_size,
+ 			   unsigned int flags);
++	int (*init_object_in_place)(struct intel_memory_region *mem,
++				    struct drm_i915_gem_object *obj,
++				    resource_size_t size,
++				    resource_size_t page_size,
++				    unsigned int flags,
++				    u64 start, u64 end);
+ };
  
+ struct intel_memory_region {
 -- 
 2.25.1
 
