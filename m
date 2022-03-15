@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6104D956C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 08:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB90B4D9510
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 08:13:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43AA110E50D;
-	Tue, 15 Mar 2022 07:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3550210E481;
+	Tue, 15 Mar 2022 07:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057668914E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Mar 2022 22:23:05 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 9FAC85C0227;
- Mon, 14 Mar 2022 18:23:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 14 Mar 2022 18:23:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KlJ4W3E/DZOai3ong
- DezQFkkKLCDtgk7PVp0U2t4V50=; b=SC2huqwNWLs+eBuNLQbAIEIxtLVpN+1YP
- /XrG0bt9WkKq+OdXmTWQLBxchn8ukNIOBn1YMPUJ2SUBH8kpXcReVS+5GjfImh4s
- oYpLDD6nFRpQvEU9DS5WMzBpx3YLkg+mGsKR2I/nNq3ubXr6ImCriLAXGxH/z4uJ
- R9jJWbbNje+gkrPTd53cBZ/5zzV6OllMIi+JXEcnQ0aEI0klmuurW3jE+0jNRuF7
- C9LXI1+1ncc18GHKm/gn4TZoA0iyoAC9H0T/e+yjqYVmqIRoFqF0UWTLVYjyZ+9n
- 8HOQ70zHZWmXbtbtI62Wy6nGJe37iBAsmhWMBgwc+fgrdbpmem6EQ==
-X-ME-Sender: <xms:RcAvYqOnntmGsLDHkTJBITBQ8g1rKc8S27w6Z1IyG00OVVl3DIseOg>
- <xme:RcAvYo_uY1-23_86C9ckEdPdmrsqB9K13Go3l63qlrF_NJ-tvbuwAV78OnyMBk4Vc
- ZmTDS3oUtJcnNX1K9w>
-X-ME-Received: <xmr:RcAvYhRlFUt9Ey2Rn5yMZm_aEEf7zq6fIJjkOIzp3dm3DxV5_-JcUjPaStVfy8OC06A-49yRFhvqd9aVhyT9M2SPHW_xZUgmL2c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvkedgudehkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
- vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
- htthgvrhhnpefftdejfeejudejvdeuveffvdeuieegiefhudfhffejueeuvedvvdevvdeu
- hedtueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgtohhmphhuthhinhhghhhish
- htohhrhidrohhrghdruhhkpdhotghtohhprghrthdrtghomhenucevlhhushhtvghrufhi
- iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmh
- eikehkrdhorhhg
-X-ME-Proxy: <xmx:RcAvYqttP_zBb3tKznwJLsmHpM_KxwlN7CowEepi02Eva_E8eyfvcA>
- <xmx:RcAvYicYcQPSbvd2lmhBz3eFY-_sJBrtVUlW_Nj5Y7rk5H0cTaVtQg>
- <xmx:RcAvYu3utKmSl1wpY7eM53HOmJKhM7hf9spkEUlG2lwDz7TA5aWbYQ>
- <xmx:RsAvYu2WyOKV1exmia410TrkEb1HBifzJDC-BLwaF54rGU9GxF_w7Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Mar 2022 18:22:59 -0400 (EDT)
-Date: Tue, 15 Mar 2022 09:15:08 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 05/10] drm/fourcc: Add DRM_FORMAT_C[124]
-In-Reply-To: <CAMuHMdVj8wxAVbcov1wFsgt_knMkcySBH8nMoKjyr=G+mLQmjQ@mail.gmail.com>
-Message-ID: <1f915fcc-1d95-99d1-c7b7-dc4e3b49e09f@linux-m68k.org>
-References: <cover.1646683502.git.geert@linux-m68k.org>
- <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
- <CAMuHMdVq19wpA_7nKKTm-G2EmK3cMxxP6nbR_u=vkazqCZ=KhQ@mail.gmail.com>
- <20220314170539.17400f93@eldfell>
- <CAMuHMdVj8wxAVbcov1wFsgt_knMkcySBH8nMoKjyr=G+mLQmjQ@mail.gmail.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08A410E46C;
+ Tue, 15 Mar 2022 07:13:47 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id e22so260476edc.13;
+ Tue, 15 Mar 2022 00:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r/yfiEGzkudqIlvWvZC4CSWjo3FqjVQV528We4dp5UI=;
+ b=Hgriat48tuZZTIWqRmbMtEIclffPzCPN4juBnBQtQIfm1ZPW7X0WSi83H5OHvOfUqV
+ 3+mU38I9ATp2t8Ycy9E5whwXEynfHij7He7x/SjbXIVep5YB8xEpZQNenBzKitrPKr4C
+ I3I9TY5ss8wJZOM+RYhV2naosrWANOqt125NKabUw97X7vp11/SvpZV8AQoRVTTTHfMv
+ XM6BFM9WbDW+OiBZJEAm80mtdymcm0d2fBsHnKLK3IFmRg+SC5sJnbEG1h6ZlNmJ2GSt
+ CTTam1UDAjXQfv6Y/Z288wq3Zj79A2cBycnVs0lHUwJSUAnCBazoNB0OkBIPQ0FwXrX3
+ Db8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r/yfiEGzkudqIlvWvZC4CSWjo3FqjVQV528We4dp5UI=;
+ b=75TKPzD7zC9J4VtfygI1DRuZkXlb76ovwy75AJnFhMzBsRFgEIs+JW+gLWjZ0w6gml
+ tHGMNzuBgDKHoOPeEgdoYJA7MUeEF4ZLrHhL3sdfI/oJYOarqtuEdpBjZEb9UE79sG7t
+ R/93ZZJamEBbq6wW2NedTO5y6GDsxUnMdMBSE+mpz6YYS8bueUh94NePNq71glLpm0vI
+ ugoQoJBPXsWAYSCZbovd29rFRbLv1+kBoG0RKr1EBgKXJ1lC5vTNP8y+4+Xq0jyNevw2
+ RD2sLIM6Inudym2RQtsAUprQ1NIugGOthPH9q/uk37nB3mHbwRQuospuIRSJ/YLmareW
+ GJ9g==
+X-Gm-Message-State: AOAM533fsGwFIRx0rWCIWiD+OrBiOFDzHNhP3HDCpj6gQijAzkkQrUq2
+ qROrucUnwzjyXBr58Z4IDYf4kCARzy+T1hGhmK8=
+X-Google-Smtp-Source: ABdhPJwClBPp4BGltciN/pTILhvAOlS0IaRaEOYsM6YiO7iga/qQZrgUSd8T0SjDEdWLXY88zhAWfKTg8/3o9KngVS8=
+X-Received: by 2002:a50:da89:0:b0:413:adb1:cf83 with SMTP id
+ q9-20020a50da89000000b00413adb1cf83mr23516968edj.158.1647328426368; Tue, 15
+ Mar 2022 00:13:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Mailman-Approved-At: Tue, 15 Mar 2022 07:36:11 +0000
+References: <20220308180403.75566-1-contactshashanksharma@gmail.com>
+ <CAF6AEGsmectHSmW-Y6rf+AksXTkges7rukeiYd4yDm-xwdb1=Q@mail.gmail.com>
+ <55629bd8-9fb4-2ee7-87f0-6c4c77cf06fc@gmail.com>
+ <CAF6AEGsgDTphUm7ET+RuMmh2aTn-Ho5gJdUJ4kwJ3iOh7+HGvw@mail.gmail.com>
+ <4f2b2329-3c57-3895-6732-875db2f98b5a@amd.com>
+ <CAF6AEGvvskobh6YOUx55_4rtXJJjPO0PxWY8+EKiVqntT3k+ug@mail.gmail.com>
+ <6b400b8b-1b5c-a339-2345-f317f197b4a6@amd.com>
+ <CAF6AEGt0XhqzkyEhbNcNVQO_A_Lo4qcsPRZRL6QqYn+NWAfv9A@mail.gmail.com>
+ <bf6922f0-da8e-eef6-8217-26c1f50f3c48@quicinc.com>
+ <2980e6a0-624e-2b80-c5d0-c40dfce76fb8@amd.com>
+ <CAF6AEGvC=k4xLA-0iTSf660X2o04E+ivjnThZA-=WANKzLSvpA@mail.gmail.com>
+ <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
+ <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
+ <20220311102709.225616cf@eldfell>
+ <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
+In-Reply-To: <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 15 Mar 2022 17:13:34 +1000
+Message-ID: <CAPM=9tybizHtKQBHmur8Lh7+pu5CiswZtgcY6SW04y=g0a=YJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,103 +76,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
+ Shashank" <shashank.sharma@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alexandar Deucher <alexander.deucher@amd.com>,
+ Shashank Sharma <contactshashanksharma@gmail.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-On Mon, 14 Mar 2022, Geert Uytterhoeven wrote:
-
-> On Mon, Mar 14, 2022 at 4:05 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > On Mon, 14 Mar 2022 14:30:18 +0100
-> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Mon, Mar 7, 2022 at 9:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > Introduce fourcc codes for color-indexed frame buffer formats with 
-> > > > two, four, and sixteen colors, and provide a mapping from bit per 
-> > > > pixel and depth to fourcc codes.
-> > > >
-> > > > As the number of bits per pixel is less than eight, these rely on 
-> > > > proper block handling for the calculation of bits per pixel and 
-> > > > pitch.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > >
-> > > > --- a/include/uapi/drm/drm_fourcc.h
-> > > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > > @@ -99,7 +99,10 @@ extern "C" {
-> > > >  #define DRM_FORMAT_INVALID     0
-> > > >
-> > > >  /* color index */
-> > > > -#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
-> > > > +#define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /* [7:0] C0:C1:C2:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte */
-> > > > +#define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /* [7:0] C0:C1:C2:C3 2:2:2:2 four pixels/byte */
-> > > > +#define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:4 two pixels/byte */
-> > > > +#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C 8 one pixel/byte */
-> > > >
-> > > >  /* 8 bpp Red */
-> > > >  #define DRM_FORMAT_R8          fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
-> > >
-> > > After replying to Ilia's comment[1], I realized the CFB drawing
-> > > operations use native byte and bit ordering, unless
-> > > FBINFO_FOREIGN_ENDIAN is set.
-> > > While Amiga, Atari, and Sun-3 use big-endian bit ordering,
-> > > e.g. Acorn VIDC[2] uses little endian, and SH7760[3] is configurable
-> > > (sh7760fb configures ordering to match host order).
-> > > BTW, ssd130{7fb,x}_update_rect() both assume little-endian, so I
-> > > guess they are broken on big-endian.
-> > > Fbtest uses big-endian bit ordering, so < 8 bpp is probably broken
-> > > on little-endian.
-> > >
-> > > Hence the above should become:
-> > >
-> > >     #define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /*
-> > > [7:0] C7:C6:C5:C4:C3:C2:C1:C0 1:1:1:1:1:1:1:1 eight pixels/byte */
-> > >     #define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /*
-> > > [7:0] C3:C2:C1:C0 2:2:2:2 four pixels/byte */
-> > >     #define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /*
-> > > [7:0] C1:C0 4:4 two pixels/byte */
-> > >
-> > > The same changes should be made for DRM_FORMAT_[RD][124].
-> > >
-> > > The fbdev emulation code should gain support for these with and without
-> > > DRM_FORMAT_BIG_ENDIAN, the latter perhaps only on big-endian platforms?
-> > >
-> > > [1] https://lore.kernel.org/r/CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com/
-> > > [2] See p.30 of the VIDC datasheet
-> > >     http://chrisacorns.computinghistory.org.uk/docs/Acorn/Misc/Acorn_VIDC_Datasheet.pdf
-> > > [3] See p.1178 of the SH7660 datasheet
-> > >     https://datasheet.octopart.com/HD6417760BL200AV-Renesas-datasheet-14105759.pdf
+On Tue, 15 Mar 2022 at 00:23, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Fri, Mar 11, 2022 at 3:30 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
 > >
-> > why would CPU endianess affect the order of bits in a byte?
-> 
-> It doesn't, but see below.
-> 
-> > Do you mean that bit 0 one machine is (1 << 0), and on another machine
-> > bit 0 is (1 << 7)?
-> 
-> No, I mean that in case of multiple pixels per byte, the display
-> hardware pumps out pixels to the CRTC starting from either the MSB
-> or the LSB of the first display byte.  Which order depends on the
-> display hardware, not on the CPU.
-> 
-> > In C, we have only one way to address bits of a byte and that is with
-> > arithmetic. You cannot take the address of a bit any other way, can you?
+> > On Thu, 10 Mar 2022 11:56:41 -0800
+> > Rob Clark <robdclark@gmail.com> wrote:
 > >
-> > Can we standardise on "bit n of a byte is addressed as (1 << n)"?
-> 
-> BIT(n) in Linux works the same for little- and big-endian CPUs.
-> But display hardware may use a different bit order.
-> 
+> > > For something like just notifying a compositor that a gpu crash
+> > > happened, perhaps drm_event is more suitable.  See
+> > > virtio_gpu_fence_event_create() for an example of adding new event
+> > > types.  Although maybe you want it to be an event which is not device
+> > > specific.  This isn't so much of a debugging use-case as simply
+> > > notification.
+> >
+> > Hi,
+> >
+> > for this particular use case, are we now talking about the display
+> > device (KMS) crashing or the rendering device (OpenGL/Vulkan) crashing?
+> >
+> > If the former, I wasn't aware that display device crashes are a thing.
+> > How should a userspace display server react to those?
+> >
+> > If the latter, don't we have EGL extensions or Vulkan API already to
+> > deliver that?
+> >
+> > The above would be about device crashes that directly affect the
+> > display server. Is that the use case in mind here, or is it instead
+> > about notifying the display server that some application has caused a
+> > driver/hardware crash? If the latter, how should a display server react
+> > to that? Disconnect the application?
+> >
+> > Shashank, what is the actual use case you are developing this for?
+> >
+> > I've read all the emails here so far, and I don't recall seeing it
+> > explained.
+> >
+>
+> The idea is that a support daemon or compositor would listen for GPU
+> reset notifications and do something useful with them (kill the guilty
+> app, restart the desktop environment, etc.).  Today when the GPU
+> resets, most applications just continue assuming nothing is wrong,
+> meanwhile the GPU has stopped accepting work until the apps re-init
+> their context so all of their command submissions just get rejected.
 
-Perhaps some of this confusion could be avoided if you describe the 
-problem in terms of the sequence of scan-out of pixels, rather than in 
-terms of the serialization of bits. The significance of bits within each 
-pixel and the ordering of pixels within each memory word are independent, 
-right?
+Just one thing comes to mind reading this, racy PID reuse.
+
+process 1234 does something bad to GPU.
+process 1234 dies in parallel to sysfs notification being sent.
+other process 1234 reuses the pid
+new process 1234 gets destroyed by receiver of sysfs notification.
+
+Dave.
