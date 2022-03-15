@@ -1,67 +1,147 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B524D96E2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 09:57:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2075D4D96EF
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 09:59:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0CF510E922;
-	Tue, 15 Mar 2022 08:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD5710E461;
+	Tue, 15 Mar 2022 08:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A2210E91F
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 08:57:37 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id jq9so14542552qvb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 01:57:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KjOC8Zibv/SRA6kDsfG5ElzdjTjKZX71C0L03h7ZueQ=;
- b=3GZ4jcDEtVvmWPSqNvIVGSpW1yBdTsauFWfTVIJ1yqhPCwkfhPeuFth7RLvJ81/pha
- gpMjPcUPlMsBQCgMSNxsu85ebvVv1VmrABdFuZpxAMd9miijwIReY0WcXrjZDakhUGeF
- 6laALsrcwsbOwkz7ffV+lBUR22DfpoiLzolV/lo/qTMjXSMCMuhhhXbnxrgylEMCoOEF
- 0ZmqlkiNEWsY5q04GyKFpQPNh3aGwDb61uvOO2rS6yKuFTSs58fOWI1tuFkLtz8N+m3v
- d3cDmbe8GevnQW1gUhbxHvDcRpcXA3Gc16WGK+44iWQQgrYK5SLIdyi3QVmcdqC31Xy+
- wSQw==
-X-Gm-Message-State: AOAM532oX2QesU8DJ9r2oMK/OTt/kQjekw9Jccgz3D6Wf5XPDVdx0ypl
- c8cQAiN0AqEFST12B5k3WTlfR4b7HalYBw==
-X-Google-Smtp-Source: ABdhPJzKQ0t3+9J5PZbLO+qhb1s/wU1bOrZeAZylFtdotsNQC7OfcTfhnTnwwVsU70+9k2kCEdOxWg==
-X-Received: by 2002:a0c:8e0b:0:b0:435:1779:7b22 with SMTP id
- v11-20020a0c8e0b000000b0043517797b22mr20833261qvb.63.1647334655850; 
- Tue, 15 Mar 2022 01:57:35 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- h17-20020ac85e11000000b002ddd5fab777sm13281265qtx.41.2022.03.15.01.57.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 01:57:35 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-2dc242a79beso192920927b3.8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 01:57:34 -0700 (PDT)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr22671079ywi.449.1647334654603; Tue, 15
- Mar 2022 01:57:34 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A846410E461;
+ Tue, 15 Mar 2022 08:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647334785; x=1678870785;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=4hF4jAv/ttMJ4/IxPDzeDkGaYuzX9SBMlAC6e2NiY5U=;
+ b=QA+7rTSX+7e5S4ZXLRr+OqQtv/aMq0YRH88xwWfyK4J9KANHzSQnul3E
+ tbjja5WP3wxpLy32otq3y/XmaCxJkNKj3W6bWuR+xbBmbCB7M7HzDuj4o
+ 0pYTsizFru8/2+dguLk5aQU9HDtdANrDalH+m9tVbyHpKD4q5Es2ukVp4
+ 0Enj3mEIXwejL4LooB9x8LjXVHndi/2qT8RsW9201CDU+yRBcxG8epHYM
+ qLEq+UsIOKjFSaN23NC9Euy+PYB2+oQVHOSQcnTTOu6TLJXGFYBF0ecFI
+ NWCUbWNxgpfPH0YC+u8jcKVhcJssYv2V9qzyC9LcUOH8CZc9Soj4kRT5T Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256440555"
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="256440555"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 01:59:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="613196341"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 15 Mar 2022 01:59:45 -0700
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 15 Mar 2022 01:59:44 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Tue, 15 Mar 2022 01:59:44 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.170)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Tue, 15 Mar 2022 01:59:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=htJWbQALk27MrQ4x3xO52oCqdpxr1ZFgePc3dUNQVlql5V/W91wYcjnsmLwuUbOfisXi+2GXnzclljyB96OSkijDW36FqleQeX/4QDOoei7HhwEhGieig6mpZ3Zdvd24oOZbF6lcx+9ivpAnEyLX2To4xekpWgxTas+2FERwxJzXBFGq6a6YiuIm2RVsdsAtfoOZs8Bm1aUmwtyCK3Wgz1xkkoXN+9LGOECep6yaOKfHpMbMGlFfPX6iL8NIcU9avupazr7bpH6aRep/1ouY463AfC1kIctAvJW8FFRoonWcf96A5ervE3Qxa39fiV8U7kpX/BRq0oNGqC96WXjaEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mLza6Dbm2oRR/Ub9zBL+1wWfif1d62I2uMXB4bG1z6s=;
+ b=fgU5sJz0BcuM55COQXHQFx2/69t4L142xHxHcjyQlBbfnEfuIGYpWfN0m/3ARf7CbERNQH6Pn2GJzozhhuyGqKCo28Ii08Faief5iJtjTLnme71q8kDNWqed5nRTNCoU3DRfxRG0ujiKQIXtg2XELeMD0yUbItAYvqb0TZU9SCsVqoqo2lktsJC5iijJRN7RLzu6xeKmqlfGBmBkATZ77/9DNvp+jbJqlSwEZ4dDAHo4brTk/L27ABHuWf/uEBdN98YFDeW5e3V7VNGF5xCMxjtIGGZ5ZUSA/FG2UiBBWx1aElBvj2hZ+9nMVVDQf4V1JfwEeCgvOUAFcb1b2eVVgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
+ MWHPR11MB1741.namprd11.prod.outlook.com (2603:10b6:300:10d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Tue, 15 Mar
+ 2022 08:59:41 +0000
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::d4c9:5841:3761:6945]) by DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::d4c9:5841:3761:6945%4]) with mapi id 15.20.5061.028; Tue, 15 Mar 2022
+ 08:59:41 +0000
+From: "Wang, Zhi A" <zhi.a.wang@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v6 1/3] i915/gvt: Introduce the mmio table to support VFIO
+ new mdev API
+Thread-Topic: [PATCH v6 1/3] i915/gvt: Introduce the mmio table to support
+ VFIO new mdev API
+Thread-Index: AQHYHNy+WB6hSk3In0CMw3y1iZvDnKyJw40AgAEP4YCAANFZAIA0pK6AgAAPQYCAAABkgIAAAywA
+Date: Tue, 15 Mar 2022 08:59:40 +0000
+Message-ID: <b114ad4d-3cb8-2bf8-bb09-8559c7616939@intel.com>
+References: <20220208111151.13115-1-zhi.a.wang@intel.com>
+ <871r0dqtjf.fsf@intel.com> <20220209072805.GA9050@lst.de>
+ <4e2faf7b-383e-58b3-8ae9-8f8d25c64420@intel.com>
+ <20220315075217.GA2830@lst.de> <87a6drvc02.fsf@intel.com>
+ <20220315084817.GA4105@lst.de>
+In-Reply-To: <20220315084817.GA4105@lst.de>
+Accept-Language: en-FI, en-US
+Content-Language: aa
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7482fb68-d921-4a5f-383c-08da06622449
+x-ms-traffictypediagnostic: MWHPR11MB1741:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <MWHPR11MB17412AF71A3E0BA4B07B6A6BCA109@MWHPR11MB1741.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DsWOzv+MnjU1zpsQzgdWzR60VMjXrgcVr+DOx+KwUdzk/yBysQI1WhKzc4Y8khqguJo345sBIt3KwfuKYFeY0l8IuwbpqAFTIoFcG1P18Pb/m9I0qoxg9M2ugeXSSLOpP72NqXLIdZ3uzTZM7u3DuU0Vb0dTrHSZNzoWKmSgpVvbQi6xpA7aJ6F6hJU80z22HBE4wBKF/O2IytzTV0UPHoAaEkH0dLfyHvHzP2xoJFfdiAqsqdnJ3OcP25FISqOP9aQlsv0ta11DQv/nlXbFzs1/Nya/t9GWtTqs39aT57un45BtScvaQtxNWCGh4UMEvxnVpN2gdirfAXXexrqiWpf8VhuaxecQzjpjCz95qAjGd4buGxMy0v4KdNrNDpmHtHYaC0exmalP4q+Gfb+6EXYS4I7qzKDpznThYZ6Lx5fTAWmWEbfpBuAzgHU3yUN2D8iD8OqhasbrBgsIUKpMC/49yH5jn6Bjn2sKrN15ILzmsGMp6NCSE3xIu3o8M5y4lQcmSA1gm+x1fuTe++6KC6qSRglqto1Cn3kYL2v6Mi7KBkZ3ffuyHmqUBSlj3I0rMZm3XcrmjtvKTAGI9M36agBMJ7/0rXuwFlXejoezGWtPpMsFlnkyLgq6LF2b5cawrVYEN5qG6MCIxVvnDob/vesaFmuATGwnL9POoduAvxe295NPif5wLr9OxtINWYVkVbxlaB7rSJc7D9R6nVx6yrrzLtL4+IakUh51Z0xDGksZzdmzOjJfjbbtkRfpAFYyNr9AZddOJ8adknllZGdxyw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(31686004)(4744005)(7416002)(36756003)(66476007)(66946007)(66446008)(76116006)(64756008)(4326008)(8676002)(91956017)(5660300002)(66556008)(54906003)(110136005)(316002)(8936002)(2616005)(6512007)(86362001)(71200400001)(186003)(26005)(122000001)(82960400001)(38070700005)(508600001)(6486002)(6506007)(53546011)(31696002)(2906002)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?w8qdRf6PzHRtLY6XOmRX1GVKAMUEEdC0l7WiRVGnftvqBN8G3W+9m8Q8?=
+ =?Windows-1252?Q?aLFKKjdSyhMdtekllYPMNd+dLD1nSfXYVLLkjNMSKwlXryjAcbg83GZb?=
+ =?Windows-1252?Q?UsmJx1v8TTo56G9C3gObTHJFzEaBCsGC2IhGrie37oc7vQ+WGmGzuhLe?=
+ =?Windows-1252?Q?eOl7S/ez5BMb20eyG3lfkJMk9mUGwBGXWLs8riEmYhqLUUQamoPBlVzr?=
+ =?Windows-1252?Q?r1J9/4ilkZ6sCiVczuDKYRa9I46hwgIRCTbZQuE2o57sStz6NnJdTbJG?=
+ =?Windows-1252?Q?z3LzmWtnxhsRMqcacm45Tub29b+Dx//1mB4bc/yGT0TT5eOtoRjT5IDd?=
+ =?Windows-1252?Q?TKSOZJcsT38N0GHdNUlfkRJeP+c6CKhbjyz7zXCm3qypgL5TJS2TdYsM?=
+ =?Windows-1252?Q?r/ZnNk+e/qh29BCByA3Nse63isr7if5VtbvONtxYsgiz82/X0t2kB71j?=
+ =?Windows-1252?Q?GL0wrO2EBLsqQ6wUFWFdyZkRezVmgh0Va+7MDYDnzTrB0H4DW7eIbtAD?=
+ =?Windows-1252?Q?qHNGoeiK4GxaEypsD6kN2xZKeCguXEsgnby6KGuuyMTc7JOplOnHiNMF?=
+ =?Windows-1252?Q?PwlR6Wfb2FzEVyZydxHBjKiWIH4xxqBIXUMs1xBa81zzsKen1aRRJQxF?=
+ =?Windows-1252?Q?CUrM5kRAnaTcBjrn5heyJCjbbG8A+ZZtuJVQEnbfojitihnz9dHn1lkD?=
+ =?Windows-1252?Q?erBVBXVi1MG4A5JVgwX0Pr9KQKFp0W3cj5g55G9+WfQ/4QzE5rh1r9u9?=
+ =?Windows-1252?Q?jtJ25/1d3nERqai41CcHgPe3vKyH37QnsWoHVEBmV7Grm0zg7PGGPvPN?=
+ =?Windows-1252?Q?miLG4Uxunzkwzq1wt95OnoNbt3NxX3R9VaRrJne1Ay9WAkET4goeNTLe?=
+ =?Windows-1252?Q?rN9rVkcrV0qtU1GHPMqmaxW1evYbMqcPK9DKeSBZO8P9CP7Snq+NAAEG?=
+ =?Windows-1252?Q?XE8lVS1zWaLYb/XfpoT1QBCdqCfN63zC0QlC97PNI1y9bx3QjlhFEKbI?=
+ =?Windows-1252?Q?G+oAUea9zKWUkfGaIU2foNbJZi4ZgRaXFf3MhBGacEIezMOLEiOtpsLr?=
+ =?Windows-1252?Q?zJj89IyHdq/K0eofsx6k6++oBKknejkkkdvG2Jmcr2zp60iVD7DeZ0dn?=
+ =?Windows-1252?Q?VMkdeeBVTGH3OWiYARuUWiNyYpdG1+/bkPDvnpayCtgz+u/g3AHdZ8rC?=
+ =?Windows-1252?Q?rsU5JeM66cz3IYtT665g2AybTYM1KNuNN5ekrjfRoR3UjHgtKse08S4h?=
+ =?Windows-1252?Q?P2EZQ8HQAtRDeXpbAjNypNimy+uWTEJrXwLIMmwWmaKscQeQTVVXN7TP?=
+ =?Windows-1252?Q?mro4ipVLFvt/tsTHSzFApfxoC33R7WJXgq7ZQFLpwYnFQ66MYi3QGKvc?=
+ =?Windows-1252?Q?6ohX3DF/Wx2RlX85cl4AXK2Rd3o1FGm8NaGmgXRSdaAwkr0EpLq6/3UZ?=
+ =?Windows-1252?Q?gCVCr+UqY9w0YoLeN/baXjUlw6bZTrOBOxCdW9plcooIA6YYuL0R6/hE?=
+ =?Windows-1252?Q?UnJ4oQR25YzLo7v14HXQ2BLeEfPzwRLiQcJqisgIjszOo9zQEBphQEQd?=
+ =?Windows-1252?Q?IsUHn+dtihb0iGAQ?=
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <2CBDCE2BF7905A469C92A16729E476E2@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <cover.1646683502.git.geert@linux-m68k.org>
- <8d3c0cc370b0214244b01a64c588e5e506531716.1646683502.git.geert@linux-m68k.org>
- <CAMuHMdVq19wpA_7nKKTm-G2EmK3cMxxP6nbR_u=vkazqCZ=KhQ@mail.gmail.com>
- <20220314170539.17400f93@eldfell>
- <CAMuHMdVj8wxAVbcov1wFsgt_knMkcySBH8nMoKjyr=G+mLQmjQ@mail.gmail.com>
- <1f915fcc-1d95-99d1-c7b7-dc4e3b49e09f@linux-m68k.org>
- <20220315093250.71352a56@eldfell>
- <CAMuHMdVU=JKwEn-=Wf3CYObtaLt2T7NmWrXUwdPHdvNsbgge=g@mail.gmail.com>
- <20220315104554.1961d62d@eldfell>
-In-Reply-To: <20220315104554.1961d62d@eldfell>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Mar 2022 09:57:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUK2T4HzN6+ShVgbBUjh6S6oTFD_G79k-QMUwo32COJjQ@mail.gmail.com>
-Message-ID: <CAMuHMdUK2T4HzN6+ShVgbBUjh6S6oTFD_G79k-QMUwo32COJjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] drm/fourcc: Add DRM_FORMAT_C[124]
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7482fb68-d921-4a5f-383c-08da06622449
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2022 08:59:41.0124 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oFXya3zV5QgoAIVVOBIH7FgSvaNDjB7bAmHUlON63Q5D2vbMSVWt3GZiPfUBt8sPRqASc2Na3c0KewECfQEGpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1741
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,236 +154,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Finn Thain <fthain@linux-m68k.org>, David Airlie <airlied@linux.ie>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Zhi Wang <zhi.wang.linux@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "jgg@nvidia.com" <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+I was actually testing it for almost two weeks, but still I met some hang a=
+nd I was trying to figure where the problem is as this is quite a big chang=
+e. Let's see if I can figure it out this week.
 
-On Tue, Mar 15, 2022 at 9:46 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> On Tue, 15 Mar 2022 08:51:31 +0100
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Mar 15, 2022 at 8:33 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > On Tue, 15 Mar 2022 09:15:08 +1100 (AEDT)
-> > > Finn Thain <fthain@linux-m68k.org> wrote:
-> > > > On Mon, 14 Mar 2022, Geert Uytterhoeven wrote:
-> > > > > On Mon, Mar 14, 2022 at 4:05 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > > > > On Mon, 14 Mar 2022 14:30:18 +0100
-> > > > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > > On Mon, Mar 7, 2022 at 9:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > > > Introduce fourcc codes for color-indexed frame buffer formats with
-> > > > > > > > two, four, and sixteen colors, and provide a mapping from bit per
-> > > > > > > > pixel and depth to fourcc codes.
-> > > > > > > >
-> > > > > > > > As the number of bits per pixel is less than eight, these rely on
-> > > > > > > > proper block handling for the calculation of bits per pixel and
-> > > > > > > > pitch.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > > >
-> > > > > > > > --- a/include/uapi/drm/drm_fourcc.h
-> > > > > > > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > > > > > > @@ -99,7 +99,10 @@ extern "C" {
-> > > > > > > >  #define DRM_FORMAT_INVALID     0
-> > > > > > > >
-> > > > > > > >  /* color index */
-> > > > > > > > -#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
-> > > > > > > > +#define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /* [7:0] C0:C1:C2:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte */
-> > > > > > > > +#define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /* [7:0] C0:C1:C2:C3 2:2:2:2 four pixels/byte */
-> > > > > > > > +#define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /* [7:0] C0:C1 4:4 two pixels/byte */
-> > > > > > > > +#define DRM_FORMAT_C8          fourcc_code('C', '8', ' ', ' ') /* [7:0] C 8 one pixel/byte */
-> > > > > > > >
-> > > > > > > >  /* 8 bpp Red */
-> > > > > > > >  #define DRM_FORMAT_R8          fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
-> > > > > > >
-> > > > > > > After replying to Ilia's comment[1], I realized the CFB drawing
-> > > > > > > operations use native byte and bit ordering, unless
-> > > > > > > FBINFO_FOREIGN_ENDIAN is set.
-> > > > > > > While Amiga, Atari, and Sun-3 use big-endian bit ordering,
-> > > > > > > e.g. Acorn VIDC[2] uses little endian, and SH7760[3] is configurable
-> > > > > > > (sh7760fb configures ordering to match host order).
-> > > > > > > BTW, ssd130{7fb,x}_update_rect() both assume little-endian, so I
-> > > > > > > guess they are broken on big-endian.
-> > > > > > > Fbtest uses big-endian bit ordering, so < 8 bpp is probably broken
-> > > > > > > on little-endian.
-> > > > > > >
-> > > > > > > Hence the above should become:
-> > > > > > >
-> > > > > > >     #define DRM_FORMAT_C1          fourcc_code('C', '1', ' ', ' ') /*
-> > > > > > > [7:0] C7:C6:C5:C4:C3:C2:C1:C0 1:1:1:1:1:1:1:1 eight pixels/byte */
-> > > > > > >     #define DRM_FORMAT_C2          fourcc_code('C', '2', ' ', ' ') /*
-> > > > > > > [7:0] C3:C2:C1:C0 2:2:2:2 four pixels/byte */
-> > > > > > >     #define DRM_FORMAT_C4          fourcc_code('C', '4', ' ', ' ') /*
-> > > > > > > [7:0] C1:C0 4:4 two pixels/byte */
-> > > > > > >
-> > > > > > > The same changes should be made for DRM_FORMAT_[RD][124].
-> > > > > > >
-> > > > > > > The fbdev emulation code should gain support for these with and without
-> > > > > > > DRM_FORMAT_BIG_ENDIAN, the latter perhaps only on big-endian platforms?
-> > > > > > >
-> > > > > > > [1] https://lore.kernel.org/r/CAKb7UvgEdm9U=+RyRwL0TGRfA_Qc7NbhCWoZOft2DKdXggtKYw@mail.gmail.com/
-> > > > > > > [2] See p.30 of the VIDC datasheet
-> > > > > > >     http://chrisacorns.computinghistory.org.uk/docs/Acorn/Misc/Acorn_VIDC_Datasheet.pdf
-> > > > > > > [3] See p.1178 of the SH7660 datasheet
-> > > > > > >     https://datasheet.octopart.com/HD6417760BL200AV-Renesas-datasheet-14105759.pdf
-> > > > > >
-> > > > > > why would CPU endianess affect the order of bits in a byte?
-> > > > >
-> > > > > It doesn't, but see below.
-> > > > >
-> > > > > > Do you mean that bit 0 one machine is (1 << 0), and on another machine
-> > > > > > bit 0 is (1 << 7)?
-> > > > >
-> > > > > No, I mean that in case of multiple pixels per byte, the display
-> > > > > hardware pumps out pixels to the CRTC starting from either the MSB
-> > > > > or the LSB of the first display byte.  Which order depends on the
-> > > > > display hardware, not on the CPU.
-> > > > >
-> > > > > > In C, we have only one way to address bits of a byte and that is with
-> > > > > > arithmetic. You cannot take the address of a bit any other way, can you?
-> > > > > >
-> > > > > > Can we standardise on "bit n of a byte is addressed as (1 << n)"?
-> > > > >
-> > > > > BIT(n) in Linux works the same for little- and big-endian CPUs.
-> > > > > But display hardware may use a different bit order.
-> > > >
-> > > > Perhaps some of this confusion could be avoided if you describe the
-> > > > problem in terms of the sequence of scan-out of pixels, rather than in
-> > > > terms of the serialization of bits. The significance of bits within each
-> > > > pixel and the ordering of pixels within each memory word are independent,
-> > > > right?
-> > >
-> > > Yes, that might help.
-> >
-> > Display:
-> >
-> >      P0  P1  P2  P3  P4  P5  P6  P7  P8  P9 P10 P11 P12 P13 P14 P15
-> >
-> >     P15 P14 P13 P12 P11 P10  P9  P8  P7  P6  P5  P4  P3  P2  P1  P0
->
-> Hi Geert,
->
-> does this mean the display hardware emits even rows from left to right
-> and odd rows from right to left?
+Thanks,
+Zhi.
 
-No, it means I should have my morning coffee first, and remove all
-temporary cruft before pressing send :-(
+On 3/15/22 8:48 AM, Christoph Hellwig wrote:
+> On Tue, Mar 15, 2022 at 10:46:53AM +0200, Jani Nikula wrote:
+>> On Tue, 15 Mar 2022, Christoph Hellwig <hch@lst.de> wrote:
+>>> Just curious, what is the state of this seris?  It would be good to
+>>> have it ready early on for the next merge window as there is quite
+>>> a backlog that depends on it.
+>>
+>> Can't speak for the status of the series, but for drm the deadline for
+>> changes headed for the merge window is around -rc5/-rc6 timeframe
+>> i.e. this has already missed the upcoming merge window.
+>=20
+> I know.  I meant the next one, not the one ending now.  And I don't
+> want to miss another one.
+>=20
 
-The above paragraph should have read:
-
-    Display (16 pixels):
-
-        P0  P1  P2  P3  P4  P5  P6  P7  P8  P9 P10 P11 P12 P13 P14 P15
-
-> I'm guessing P stands for "pixel".
-
-Exactly.
-
-> > Memory:
-> >
-> >   1 bpp (MSB first):
-> >
-> >               bit7 bit6 bit5 bit4 bit3 bit2 bit1 bit0
-> >               ---- ---- ---- ---- ---- ---- ---- ----
-> >       byte 0:   P0   P1   P2   P3   P4   P5   P6   P7
-> >       byte 1:   P8   P9  P10  P11  P12  P13  P14  P15
-> >
-> >   1 bpp (LSB first):
-> >
-> >               bit7 bit6 bit5 bit4 bit3 bit2 bit1 bit0
-> >               ---- ---- ---- ---- ---- ---- ---- ----
-> >       byte 0:   P7   P6   P5   P4   P3   P2   P1   P0
-> >       byte 1:  P15  P14  P13  P12  P11  P10   P9   P8
-> >
-> >   2 bpp (MSB first):
-> >
-> >               bits7-6 bits5-4 bits3-2 bits1-0
-> >               ------- ------- ------- -------
-> >       byte 0:    P0      P1      P2      P3
-> >       byte 1:    P4      P5      P6      P7
-> >       byte 2:    P8      P9     P10     P11
-> >       byte 3:   P12     P13     P14     P15
-> >
-> >   2 bpp (LSB first):
-> >
-> >               bits7-6 bits5-4 bits3-2 bits1-0
-> >               ------- ------- ------- -------
-> >       byte 0:    P3      P2      P1      P0
-> >       byte 1:    P7      P6      P5      P4
-> >       byte 2:   P11     P10      P9      P8
-> >       byte 3:   P15     P14     P13     P12
-> >
-> >   4 bpp (MSB first):
-> >
-> >               bits7-4 bits3-0
-> >               ------- -------
-> >       byte 0:    P0      P1
-> >       byte 1:    P2      P3
-> >       byte 2:    P4      P5
-> >       byte 3:    P6      P7
-> >       byte 4:    P8      P9
-> >       byte 5:   P10     P11
-> >       byte 6:   P12     P13
-> >       byte 7:   P14     P15
-> >
-> >   4 bpp (LSB first):
-> >
-> >               bits7-4 bits3-0
-> >               ------- -------
-> >       byte 0:    P1      P0
-> >       byte 1:    P3      P2
-> >       byte 2:    P5      P4
-> >       byte 3:    P7      P6
-> >       byte 4:    P9      P8
-> >       byte 5:   P11     P10
-> >       byte 6:   P13     P12
-> >       byte 7:   P15     P14
->
-> I think I can guess what you meant there, and it looks understandable
-> to me. These tables are actually very clear, and leave only one thing
-> undefined: when multiple bits form a pixel, in which order do the bits
-> form the value. I recall you said fbdev allows for both orderings but
-> only one order is ever used if I understood right.
-
-Indeed.  The third ordering is the ordering of the bits in a pixel.
-As fb_bitfield.msb_right is always false, no hardware ever supported by
-fbdev used the other ordering, so we only have to care about:
-
-   1 bpp: P = [ bitN ]
-   2 bpp: P = [ bitN bitN-1 ]
-   4 bpp: P = [ bitN bitN-1 bitN-2 bitN-3 ]
-
-> > > Also, when drm_fourcc.h is describing pixel formats, it needs to
-> > > consider only how a little-endian CPU accesses them. That's how pixel
-> > > data in memory is described. Display hardware plays no part in that.
-> > > It is the driver's job to expose the pixel formats that match display
-> > > hardware behaviour.
-> >
-> > But if the "CPU format" does not match the "display support",
-> > all pixel data must be converted?
->
-> Of course. If the driver author does not want to convert pixel data in
-> flight, then the author should not let the driver expose a format that
-> needs conversion.
-
-... in which case we need a DRM fourcc code for the format?
-
-BTW, Atari and Amiga use bitplanes for bpp <= 8, so they need
-conversion anyway.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
