@@ -1,59 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57F44D97F6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 10:45:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD504D985E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 11:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C8D10E975;
-	Tue, 15 Mar 2022 09:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D0210E3C1;
+	Tue, 15 Mar 2022 10:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A07310E975;
- Tue, 15 Mar 2022 09:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647337525; x=1678873525;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=eyfZyUrDHyhMxReq/zn0CQTHs/y5Xwqz/T+Ytfth6R8=;
- b=N9710aZ8SWQxXdM0GucbvHIBv/8eq7WT9vlJtmWhH/8q8RdQaOI7oLE+
- oqvorsNWvrWl9IFpi0v2plBYOI7R5/SxDTyPUFITBD/ACuks/mVQqz3Um
- iF/KPKbQNdDKR0UAQyQbjUtI8NrVX3rOhkP/j+h5psOIgGRs4yC55YP+F
- r4nP15qDRxe2qRn7djfx3Jxn1LWeg17Mr5FXh2qZ1qxS+LRIoYvu05sf3
- jNAqL0N7AvmtYxfQfxepPyPCNkyTPQEe/CpsNBhQ7FiNzqevJvPa6ZX6D
- i2usFcr+NMWLG/aWsMH44SA/1vGbzgLWQ/cFNFhZ0tzm0kuwOpzkgdYJn w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="316979709"
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="316979709"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 02:45:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="549539526"
-Received: from rdoostne-mobl.amr.corp.intel.com (HELO [10.212.38.21])
- ([10.212.38.21])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 02:45:23 -0700
-Message-ID: <a072da3c-5267-07cd-7710-7cd0ad840cb8@linux.intel.com>
-Date: Tue, 15 Mar 2022 09:45:20 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v6 2/2] drm/i915/gem: Don't try to map and
- fence large scanout buffers (v9)
-Content-Language: en-US
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220307202121.389550-1-vivek.kasireddy@intel.com>
- <20220307202121.389550-3-vivek.kasireddy@intel.com>
- <CAKMK7uGxvC+mzmH7EPcqggZ05u--D6N29Ati0YuuEc-Tgd-0Gw@mail.gmail.com>
- <1f9db89a-0d31-d9f5-2b4d-7856aa9ffa01@linux.intel.com>
- <db9ecbf6e27f4a7d8e3d2aa24c13c9c0@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <db9ecbf6e27f4a7d8e3d2aa24c13c9c0@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 936C110E3C1;
+ Tue, 15 Mar 2022 10:07:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1647338861; x=1678874861;
+ h=from:to:cc:subject:date:message-id;
+ bh=JvFjEQvlWEijWhkZ68jlLbMqVHYwtBT8WqpmTfwxYqc=;
+ b=Wxn+ozqk2hyi0xInVnwQ3XsDdo8a/0WKUz8C+K26rKT8eAZR5gUm374V
+ iK86JHLeBCRzMBlSAh/eLbowiZgKG0H6EOctS40Xa7PghVhI+NUvWT+bz
+ IDOYd4lPfNtngrwOdoFXasLXMw0fRiYtyqnLX44/IJCH2MpLYcEkTkI/c k=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 15 Mar 2022 03:07:40 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 15 Mar 2022 03:07:38 -0700
+X-QCInternal: smtphost
+Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 15 Mar 2022 15:37:24 +0530
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id 8952D2117; Tue, 15 Mar 2022 15:37:23 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v5] drm/msm/disp/dpu1: add inline rotation support for sc7280
+ target
+Date: Tue, 15 Mar 2022 15:37:21 +0530
+Message-Id: <1647338841-24485-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,248 +51,628 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+- Some DPU versions support inline rot90. It is supported only for
+limited amount of UBWC formats.
+- There are two versions of inline rotators, v1 (present on sm8250 and
+sm7250) and v2 (sc7280). These versions differ in the list of supported
+formats and in the scaler possibilities.
 
-On 15/03/2022 07:28, Kasireddy, Vivek wrote:
-> Hi Tvrtko, Daniel,
-> 
->>
->> On 11/03/2022 09:39, Daniel Vetter wrote:
->>> On Mon, 7 Mar 2022 at 21:38, Vivek Kasireddy <vivek.kasireddy@intel.com> wrote:
->>>>
->>>> On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
->>>> more framebuffers/scanout buffers results in only one that is mappable/
->>>> fenceable. Therefore, pageflipping between these 2 FBs where only one
->>>> is mappable/fenceable creates latencies large enough to miss alternate
->>>> vblanks thereby producing less optimal framerate.
->>>>
->>>> This mainly happens because when i915_gem_object_pin_to_display_plane()
->>>> is called to pin one of the FB objs, the associated vma is identified
->>>> as misplaced and therefore i915_vma_unbind() is called which unbinds and
->>>> evicts it. This misplaced vma gets subseqently pinned only when
->>>> i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
->>>> results in a latency of ~10ms and happens every other vblank/repaint cycle.
->>>> Therefore, to fix this issue, we try to see if there is space to map
->>>> at-least two objects of a given size and return early if there isn't. This
->>>> would ensure that we do not try with PIN_MAPPABLE for any objects that
->>>> are too big to map thereby preventing unncessary unbind.
->>>>
->>>> Testcase:
->>>> Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
->>>> with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
->>>> a frame ~7ms before the next vblank, the latencies seen between atomic
->>>> commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
->>>> it misses the vblank every other frame.
->>>>
->>>> Here is the ftrace snippet that shows the source of the ~10ms latency:
->>>>                 i915_gem_object_pin_to_display_plane() {
->>>> 0.102 us   |    i915_gem_object_set_cache_level();
->>>>                   i915_gem_object_ggtt_pin_ww() {
->>>> 0.390 us   |      i915_vma_instance();
->>>> 0.178 us   |      i915_vma_misplaced();
->>>>                     i915_vma_unbind() {
->>>>                     __i915_active_wait() {
->>>> 0.082 us   |        i915_active_acquire_if_busy();
->>>> 0.475 us   |      }
->>>>                     intel_runtime_pm_get() {
->>>> 0.087 us   |        intel_runtime_pm_acquire();
->>>> 0.259 us   |      }
->>>>                     __i915_active_wait() {
->>>> 0.085 us   |        i915_active_acquire_if_busy();
->>>> 0.240 us   |      }
->>>>                     __i915_vma_evict() {
->>>>                       ggtt_unbind_vma() {
->>>>                         gen8_ggtt_clear_range() {
->>>> 10507.255 us |        }
->>>> 10507.689 us |      }
->>>> 10508.516 us |   }
->>>>
->>>> v2: Instead of using bigjoiner checks, determine whether a scanout
->>>>       buffer is too big by checking to see if it is possible to map
->>>>       two of them into the ggtt.
->>>>
->>>> v3 (Ville):
->>>> - Count how many fb objects can be fit into the available holes
->>>>     instead of checking for a hole twice the object size.
->>>> - Take alignment constraints into account.
->>>> - Limit this large scanout buffer check to >= Gen 11 platforms.
->>>>
->>>> v4:
->>>> - Remove existing heuristic that checks just for size. (Ville)
->>>> - Return early if we find space to map at-least two objects. (Tvrtko)
->>>> - Slightly update the commit message.
->>>>
->>>> v5: (Tvrtko)
->>>> - Rename the function to indicate that the object may be too big to
->>>>     map into the aperture.
->>>> - Account for guard pages while calculating the total size required
->>>>     for the object.
->>>> - Do not subject all objects to the heuristic check and instead
->>>>     consider objects only of a certain size.
->>>> - Do the hole walk using the rbtree.
->>>> - Preserve the existing PIN_NONBLOCK logic.
->>>> - Drop the PIN_MAPPABLE check while pinning the VMA.
->>>>
->>>> v6: (Tvrtko)
->>>> - Return 0 on success and the specific error code on failure to
->>>>     preserve the existing behavior.
->>>>
->>>> v7: (Ville)
->>>> - Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
->>>>     size < ggtt->mappable_end / 4 checks.
->>>> - Drop the redundant check that is based on previous heuristic.
->>>>
->>>> v8:
->>>> - Make sure that we are holding the mutex associated with ggtt vm
->>>>     as we traverse the hole nodes.
->>>>
->>>> v9: (Tvrtko)
->>>> - Use mutex_lock_interruptible_nested() instead of mutex_lock().
->>>>
->>>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Manasi Navare <manasi.d.navare@intel.com>
->>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/i915/i915_gem.c | 128 +++++++++++++++++++++++---------
->>>>    1 file changed, 94 insertions(+), 34 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
->>>> index 9747924cc57b..e0d731b3f215 100644
->>>> --- a/drivers/gpu/drm/i915/i915_gem.c
->>>> +++ b/drivers/gpu/drm/i915/i915_gem.c
->>>> @@ -49,6 +49,7 @@
->>>>    #include "gem/i915_gem_pm.h"
->>>>    #include "gem/i915_gem_region.h"
->>>>    #include "gem/i915_gem_userptr.h"
->>>> +#include "gem/i915_gem_tiling.h"
->>>>    #include "gt/intel_engine_user.h"
->>>>    #include "gt/intel_gt.h"
->>>>    #include "gt/intel_gt_pm.h"
->>>> @@ -882,6 +883,96 @@ static void discard_ggtt_vma(struct i915_vma *vma)
->>>>           spin_unlock(&obj->vma.lock);
->>>>    }
->>>>
->>>> +static int
->>>> +i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
->>>> +                                u64 alignment, u64 flags)
->>>
->>> Tvrtko asked me to ack the first patch, but then I looked at this and
->>> started wondering.
->>>
->>> Conceptually this doesn't pass the smell test. What if we have
->>> multiple per-crtc buffers? Multiple planes on the same crtc? What if
->>> the app does triple buffer? You'll be forever busy tuning this
->>> heuristics, which can't fundamentally be fixed I think. The old "half
->>> of mappable" heuristic isn't really better, but at least it was dead
->>> simple.
->>>
->>> Imo what we need here is a change in approach:
->>> 1. Check whether the useable view for scanout exists already. If yes,
->>> use that. This should avoid the constant unbinding stalls.
->>> 2. Try to in buffer to mappabley, but without evicting anything (so
->>> not the non-blocking thing)
->>> 3. Pin the buffer with the most lenient approach
->>>
->>> Even the non-blocking interim stage is dangerous, since it'll just
->>> result in other buffers (e.g. when triple-buffering) getting unbound
->>> and we're back to the same stall. Note that this could have an impact
->>> on cpu rendering compositors, where we might end up relying a lot more
->>> partial views. But as long as we are a tad more aggressive (i.e. the
->>> non-blocking binding) in the mmap path that should work out to keep
->>> everything balanced, since usually you render first before you display
->>> anything. And so the buffer should end up in the ideal place.
->>>
->>> I'd try to first skip the 2. step since I think it'll require a bit of
->>> work, and frankly I don't think we care about the potential fallout.
->>
->> To be sure I understand, you propose to stop trying to pin mappable by default. Ie. stop
->> respecting this comment from i915_gem_object_pin_to_display_plane:
->>
->> 	/*
->> 	 * As the user may map the buffer once pinned in the display plane
->> 	 * (e.g. libkms for the bootup splash), we have to ensure that we
->> 	 * always use map_and_fenceable for all scanout buffers. However,
->> 	 * it may simply be too big to fit into mappable, in which case
->> 	 * put it anyway and hope that userspace can cope (but always first
->> 	 * try to preserve the existing ABI).
->> 	 */
-> [Kasireddy, Vivek] Digging further, this is what the commit message that added
-> the above comment says:
-> commit 2efb813d5388e18255c54afac77bd91acd586908
-> Author: Chris Wilson <chris@chris-wilson.co.uk>
-> Date:   Thu Aug 18 17:17:06 2016 +0100
-> 
->      drm/i915: Fallback to using unmappable memory for scanout
-> 
->      The existing ABI says that scanouts are pinned into the mappable region
->      so that legacy clients (e.g. old Xorg or plymouthd) can write directly
->      into the scanout through a GTT mapping. However if the surface does not
->      fit into the mappable region, we are better off just trying to fit it
->      anywhere and hoping for the best. (Any userspace that is capable of
->      using ginormous scanouts is also likely not to rely on pure GTT
->      updates.) With the partial vma fault support, we are no longer
->      restricted to only using scanouts that we can pin (though it is still
->      preferred for performance reasons and for powersaving features like
->      FBC).
-> 
->>
->> By a quick look, for this case it appears we would end up creating partial views for CPU
->> access (since the normal mapping would be busy/unpinnable). Worst case for this is to
->> create a bunch of 1MiB VMAs so something to check would be how long those persist in
->> memory before they get released. Or perhaps the bootup splash use case is not common
->> these days?
-> [Kasireddy, Vivek] AFAIK, Plymouth is still the default bootup splash service on Fedora,
-> Ubuntu and most other distributions. And, I took a quick look at it and IIUC, it (Plymouth's
-> drm plugin) seems to create a dumb FB, mmap and update it via the dirty_fb ioctl. This
-> would not to be a problem on ADL-S where there is space in mappable for one 8K FB.
-> 
+Changes in RFC:
+- Rebase changes to the latest code base.
+- Append rotation config variables with v2 and
+remove unused variables.(Dmitry)
+- Move pixel_ext setup separately from scaler3 config.(Dmitry)
+- Add 270 degree rotation to supported rotation list.(Dmitry)
 
-FBC is a good point - correct me if I am wrong, but if we dropped trying 
-to map in aperture by default it looks like we would lose it and that 
-would be a significant power regression. In which case it doesn't seem 
-like that would be an option.
+Changes in V2:
+- Remove unused macros and fix indentation.
+- Add check if 90 rotation is supported and
+add supported rotations to rot_cfg.
 
-Which I think leaves us with _some_ heuristics in any case.
+Changes in V3:
+- Fix indentation.
+- Move rot_supported to sspp capabilities. (Dmitry)
+- Config pixel_ext based on src_h/src_w directly. (Dmitry)
+- Misc changes.
 
-1) N-holes heuristics.
+Changes in V4:
+- Pass boolean value to sspp blk based on supported rotations for each hw.
 
-2) Don't ever try PIN_MAPPABLE for framebuffers larger than some 
-percentage of aperture.
+Changes in V5:
+- update boolean value to true/false and add it for qcm2290.
 
-Could this solve the 8k issue, most of the time, maybe? Could the 
-current "aperture / 2" test be expressed generically in some terms? Like 
-"(aperture - 10% (or some absolute value)) / 2" to account for non-fb 
-objects? I forgot what you said the relationship between aperture size 
-and 8k fb size was.
+Co-developed-by: Kalyan Thota <quic_kalyant@quicinc.com>
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 187 ++++++++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  18 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 113 ++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   2 +
+ 4 files changed, 215 insertions(+), 105 deletions(-)
 
-3) Don't evict for PIN_MAPPABLE mismatches when 
-i915_gem_object_ggtt_pin_ww->i915_vma_misplaced is called on behalf of 
-i915_gem_object_pin_to_display_plane. Assumption being if we ended up 
-with a non-mappable fb to start with, we must not try to re-bind it or 
-we risk ping-pong latencies.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index a4fe77c..060bf53 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -35,6 +35,9 @@
+ 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+ 	BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+ 
++#define VIG_SC7280_MASK \
++	(VIG_SC7180_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
++
+ #define DMA_SDM845_MASK \
+ 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+ 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+@@ -203,6 +206,11 @@ static const uint32_t plane_formats_yuv[] = {
+ 	DRM_FORMAT_YVU420,
+ };
+ 
++static const u32 rotation_v2_formats[] = {
++	DRM_FORMAT_NV12,
++	/* TODO add formats after validation */
++};
++
+ /*************************************************************
+  * DPU sub blocks config
+  *************************************************************/
+@@ -642,8 +650,7 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
+  *************************************************************/
+ 
+ /* SSPP common configuration */
+-
+-#define _VIG_SBLK(num, sdma_pri, qseed_ver) \
++#define _VIG_SBLK(num, sdma_pri, qseed_ver, rot_cfg) \
+ 	{ \
+ 	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
+ 	.maxupscale = MAX_UPSCALE_RATIO, \
+@@ -660,6 +667,7 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
+ 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
+ 	.virt_format_list = plane_formats, \
+ 	.virt_num_formats = ARRAY_SIZE(plane_formats), \
++	.rotation_cfg = rot_cfg, \
+ 	}
+ 
+ #define _DMA_SBLK(num, sdma_pri) \
+@@ -676,22 +684,28 @@ static const struct dpu_ctl_cfg qcm2290_ctl[] = {
+ 	}
+ 
+ static const struct dpu_sspp_sub_blks msm8998_vig_sblk_0 =
+-				_VIG_SBLK("0", 0, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("0", 0, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks msm8998_vig_sblk_1 =
+-				_VIG_SBLK("1", 0, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("1", 0, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks msm8998_vig_sblk_2 =
+-				_VIG_SBLK("2", 0, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("2", 0, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks msm8998_vig_sblk_3 =
+-				_VIG_SBLK("3", 0, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("3", 0, DPU_SSPP_SCALER_QSEED3, NULL);
++
++static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
++	.rot_maxheight = 1088,
++	.rot_num_formats = ARRAY_SIZE(rotation_v2_formats),
++	.rot_format_list = rotation_v2_formats,
++};
+ 
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
+-				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
+-				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
+-				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
+-				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3, NULL);
+ 
+ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK("8", 1);
+ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
+@@ -699,7 +713,7 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK("10", 3);
+ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
+ 
+ #define SSPP_BLK(_name, _id, _base, _features, \
+-		_sblk, _xinid, _type, _clkctrl) \
++		_sblk, _xinid, _type, _clkctrl, _rotsupported) \
+ 	{ \
+ 	.name = _name, .id = _id, \
+ 	.base = _base, .len = 0x1c8, \
+@@ -707,98 +721,103 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK("11", 4);
+ 	.sblk = &_sblk, \
+ 	.xin_id = _xinid, \
+ 	.type = _type, \
+-	.clk_ctrl = _clkctrl \
++	.clk_ctrl = _clkctrl, \
++	.rot_supported = _rotsupported ? DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK : \
++			DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK, \
+ 	}
+ 
+ static const struct dpu_sspp_cfg msm8998_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_MSM8998_MASK,
+-		msm8998_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_MSM8998_MASK,
+-		msm8998_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+-	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_MSM8998_MASK,
+-		msm8998_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+-	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_MSM8998_MASK,
+-		msm8998_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_MSM8998_MASK,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+-	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
+-		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK, sdm845_vig_sblk_0,
++		0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, 0),
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK, sdm845_vig_sblk_1,
++		4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, 0),
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK, sdm845_vig_sblk_2,
++		8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, 0),
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK, sdm845_vig_sblk_3,
++		12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, 0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
++		1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, 0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
++		5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, 0),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
++		9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, 0),
++	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
++		13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, 0),
+ };
+ 
+ static const struct dpu_sspp_cfg sdm845_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK,
+-		sdm845_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK,
+-		sdm845_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+-	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK,
+-		sdm845_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+-	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK,
+-		sdm845_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+-	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SDM845_MASK, sdm845_vig_sblk_0,
++		0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, 0),
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SDM845_MASK, sdm845_vig_sblk_1,
++		4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, 0),
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SDM845_MASK, sdm845_vig_sblk_2,
++		8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, 0),
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SDM845_MASK, sdm845_vig_sblk_3,
++		12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, 0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
++		1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, 0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
++		5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, 0),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
++		9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, 0),
++	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
++		13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, 0),
+ };
+ 
+ static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
+-				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4);
++				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, NULL);
++
++static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
++				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, &dpu_rot_sc7280_cfg_v2);
+ 
+ static const struct dpu_sspp_cfg sc7180_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+-		sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK, sc7180_vig_sblk_0,
++		0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, 0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
++		1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, 0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,	sdm845_dma_sblk_1,
++		5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, 0),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
++		9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, 0),
+ };
+ 
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
+-				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
+-				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
+-				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
+-				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ 
+ static const struct dpu_sspp_cfg sm8250_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
+-		sm8250_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
+-		sm8250_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+-	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
+-		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+-	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
+-		sm8250_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+-	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK, sm8250_vig_sblk_0,
++		0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, 0),
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK, sm8250_vig_sblk_1,
++		4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1, 0),
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK, sm8250_vig_sblk_2,
++		8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2, 0),
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK, sm8250_vig_sblk_3,
++		12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3, 0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
++		1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, 0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK, sdm845_dma_sblk_1,
++		5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1, 0),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
++		9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, 0),
++	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_3,
++		13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, 0),
+ };
+ 
+ static const struct dpu_sspp_cfg sc7280_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+-		sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+-		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+-	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+-	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
+-		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7280_MASK, sc7280_vig_sblk_0,
++		0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, 1),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK, sdm845_dma_sblk_0,
++		1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, 0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,	sdm845_dma_sblk_1,
++		5, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0, 0),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK, sdm845_dma_sblk_2,
++		9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1, 0),
+ };
+ 
+ 
+@@ -820,9 +839,11 @@ static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK("8", 1);
+ 
+ static const struct dpu_sspp_cfg qcm2290_sspp[] = {
+ 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_QCM2290_MASK,
+-		 qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++		qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0, DRM_MODE_ROTATE_0 |
++		DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
+ 	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+-		 qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
++		qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0, DRM_MODE_ROTATE_0 |
++		DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_MASK),
+ };
+ 
+ /*************************************************************
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index b85b24b..d009d83 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -112,6 +112,7 @@ enum {
+  * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
+  * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
+  * @DPU_SSPP_CDP             Supports client driven prefetch
++ * @DPU_SSPP_INLINE_ROTATION Support inline rotation
+  * @DPU_SSPP_MAX             maximum value
+  */
+ enum {
+@@ -132,6 +133,7 @@ enum {
+ 	DPU_SSPP_TS_PREFILL,
+ 	DPU_SSPP_TS_PREFILL_REC1,
+ 	DPU_SSPP_CDP,
++	DPU_SSPP_INLINE_ROTATION,
+ 	DPU_SSPP_MAX
+ };
+ 
+@@ -315,6 +317,18 @@ struct dpu_qos_lut_tbl {
+ };
+ 
+ /**
++ * struct dpu_rotation_cfg - define inline rotation config
++ * @rot_maxheight: max pre rotated height allowed for rotation
++ * @rot_num_formats: number of elements in @rot_format_list
++ * @rot_format_list: list of supported rotator formats
++ */
++struct dpu_rotation_cfg {
++	u32 rot_maxheight;
++	size_t rot_num_formats;
++	const u32 *rot_format_list;
++};
++
++/**
+  * struct dpu_caps - define DPU capabilities
+  * @max_mixer_width    max layer mixer line width support.
+  * @max_mixer_blendstages max layer mixer blend stages or
+@@ -369,6 +383,7 @@ struct dpu_caps {
+  * @num_formats: Number of supported formats
+  * @virt_format_list: Pointer to list of supported formats for virtual planes
+  * @virt_num_formats: Number of supported formats for virtual planes
++ * @dpu_rotation_cfg: inline rotation configuration
+  */
+ struct dpu_sspp_sub_blks {
+ 	u32 creq_vblank;
+@@ -390,6 +405,7 @@ struct dpu_sspp_sub_blks {
+ 	u32 num_formats;
+ 	const u32 *virt_format_list;
+ 	u32 virt_num_formats;
++	const struct dpu_rotation_cfg *rotation_cfg;
+ };
+ 
+ /**
+@@ -492,6 +508,7 @@ struct dpu_ctl_cfg {
+  * @xin_id:            bus client identifier
+  * @clk_ctrl           clock control identifier
+  * @type               sspp type identifier
++ * @rot_supported      allowed rotations
+  */
+ struct dpu_sspp_cfg {
+ 	DPU_HW_BLK_INFO;
+@@ -499,6 +516,7 @@ struct dpu_sspp_cfg {
+ 	u32 xin_id;
+ 	enum dpu_clk_ctrl_type clk_ctrl;
+ 	u32 type;
++	u32 rot_supported;
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 6565682..7017fc7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -528,11 +528,19 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 		struct dpu_plane_state *pstate,
+ 		uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
+ 		struct dpu_hw_scaler3_cfg *scale_cfg,
+-		struct dpu_hw_pixel_ext *pixel_ext,
+ 		const struct dpu_format *fmt,
+ 		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
+ {
+ 	uint32_t i;
++	bool inline_rotation = pstate->rotation & DRM_MODE_ROTATE_90;
++
++	/*
++	 * For inline rotation cases, scaler config is post-rotation,
++	 * so swap the dimensions here. However, pixel extension will
++	 * need pre-rotation settings.
++	 */
++	if (inline_rotation)
++		swap(src_w, src_h);
+ 
+ 	scale_cfg->phase_step_x[DPU_SSPP_COMP_0] =
+ 		mult_frac((1 << PHASE_STEP_SHIFT), src_w, dst_w);
+@@ -571,11 +579,6 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 			scale_cfg->preload_x[i] = DPU_QSEED3_DEFAULT_PRELOAD_H;
+ 			scale_cfg->preload_y[i] = DPU_QSEED3_DEFAULT_PRELOAD_V;
+ 		}
+-
+-		pixel_ext->num_ext_pxls_top[i] =
+-			scale_cfg->src_height[i];
+-		pixel_ext->num_ext_pxls_left[i] =
+-			scale_cfg->src_width[i];
+ 	}
+ 	if (!(DPU_FORMAT_IS_YUV(fmt)) && (src_h == dst_h)
+ 		&& (src_w == dst_w))
+@@ -591,6 +594,24 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 	scale_cfg->enable = 1;
+ }
+ 
++static void _dpu_plane_setup_pixel_ext(struct dpu_hw_scaler3_cfg *scale_cfg,
++				struct dpu_hw_pixel_ext *pixel_ext,
++				uint32_t src_w, uint32_t src_h,
++				uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
++{
++	int i;
++
++	for (i = 0; i < DPU_MAX_PLANES; i++) {
++		if (i == DPU_SSPP_COMP_1_2 || i == DPU_SSPP_COMP_2) {
++			src_w /= chroma_subsmpl_h;
++			src_h /= chroma_subsmpl_v;
++		}
++
++		pixel_ext->num_ext_pxls_top[i] = src_h;
++		pixel_ext->num_ext_pxls_left[i] = src_w;
++	}
++}
++
+ static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
+ 	{
+ 		/* S15.16 format */
+@@ -665,7 +686,12 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+ 			drm_rect_height(&pipe_cfg->src_rect),
+ 			drm_rect_width(&pipe_cfg->dst_rect),
+ 			drm_rect_height(&pipe_cfg->dst_rect),
+-			&scaler3_cfg, &pixel_ext, fmt,
++			&scaler3_cfg, fmt,
++			info->hsub, info->vsub);
++
++	/* configure pixel extension based on scalar config */
++	_dpu_plane_setup_pixel_ext(&scaler3_cfg, &pixel_ext,
++			drm_rect_width(&pipe_cfg->src_rect), drm_rect_height(&pipe_cfg->src_rect),
+ 			info->hsub, info->vsub);
+ 
+ 	if (pdpu->pipe_hw->ops.setup_pe)
+@@ -956,6 +982,41 @@ static bool dpu_plane_validate_src(struct drm_rect *src,
+ 		drm_rect_equals(fb_rect, src);
+ }
+ 
++static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
++						const struct dpu_sspp_sub_blks *sblk,
++						struct drm_rect src, const struct dpu_format *fmt)
++{
++	bool found = false;
++	size_t i, num_formats;
++	const u32 *supported_formats;
++
++	if (drm_rect_width(&src) > sblk->rotation_cfg->rot_maxheight) {
++		DPU_DEBUG_PLANE(pdpu, "invalid height for inline rot:%d max:%d\n",
++				src.y2, sblk->rotation_cfg->rot_maxheight);
++		return -EINVAL;
++	}
++
++	supported_formats = sblk->rotation_cfg->rot_format_list;
++	num_formats = sblk->rotation_cfg->rot_num_formats;
++
++	for (i = 0; i < num_formats; i++) {
++		/* check for valid formats supported by inline rotation */
++		if (fmt->base.pixel_format == supported_formats[i] &&
++			DPU_FORMAT_IS_UBWC(fmt)) {
++			found = true;
++			break;
++		}
++	}
++
++	if (!found || !num_formats) {
++		DPU_DEBUG_PLANE(pdpu, "supported_format not found num: %zu\n",
++				num_formats);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 				  struct drm_atomic_state *state)
+ {
+@@ -968,15 +1029,18 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	const struct dpu_format *fmt;
+ 	struct drm_rect src, dst, fb_rect = { 0 };
+ 	uint32_t min_src_size, max_linewidth;
++	unsigned int rotation = 0;
++	const struct dpu_sspp_cfg *pipe_hw_caps = pdpu->pipe_hw->cap;
++	const struct dpu_sspp_sub_blks *sblk = pdpu->pipe_hw->cap->sblk;
+ 
+ 	if (new_plane_state->crtc)
+ 		crtc_state = drm_atomic_get_new_crtc_state(state,
+ 							   new_plane_state->crtc);
+ 
+-	min_scale = FRAC_16_16(1, pdpu->pipe_hw->cap->sblk->maxupscale);
++	min_scale = FRAC_16_16(1, sblk->maxupscale);
+ 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+ 						  min_scale,
+-						  pdpu->pipe_hw->cap->sblk->maxdwnscale << 16,
++						  sblk->maxdwnscale << 16,
+ 						  true, true);
+ 	if (ret) {
+ 		DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
+@@ -1002,8 +1066,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
+ 
+ 	if (DPU_FORMAT_IS_YUV(fmt) &&
+-		(!(pdpu->pipe_hw->cap->features & DPU_SSPP_SCALER) ||
+-		 !(pdpu->pipe_hw->cap->features & DPU_SSPP_CSC_ANY))) {
++		(!(pipe_hw_caps->features & DPU_SSPP_SCALER) ||
++		 !(pipe_hw_caps->features & DPU_SSPP_CSC_ANY))) {
+ 		DPU_DEBUG_PLANE(pdpu,
+ 				"plane doesn't have scaler/csc for yuv\n");
+ 		return -EINVAL;
+@@ -1036,6 +1100,17 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -E2BIG;
+ 	}
+ 
++	rotation = drm_rotation_simplify(new_plane_state->rotation,
++					pipe_hw_caps->rot_supported);
++
++	if ((pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
++		(rotation & DRM_MODE_ROTATE_90)) {
++		ret = dpu_plane_check_inline_rotation(pdpu, sblk, src, fmt);
++		if (ret)
++			return ret;
++	}
++
++	pstate->rotation = rotation;
+ 	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
+ 
+ 	return 0;
+@@ -1151,21 +1226,19 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 				pstate->multirect_mode);
+ 
+ 	if (pdpu->pipe_hw->ops.setup_format) {
+-		unsigned int rotation;
++		unsigned int rotation = pstate->rotation;
+ 
+ 		src_flags = 0x0;
+ 
+-		rotation = drm_rotation_simplify(state->rotation,
+-						 DRM_MODE_ROTATE_0 |
+-						 DRM_MODE_REFLECT_X |
+-						 DRM_MODE_REFLECT_Y);
+-
+ 		if (rotation & DRM_MODE_REFLECT_X)
+ 			src_flags |= DPU_SSPP_FLIP_LR;
+ 
+ 		if (rotation & DRM_MODE_REFLECT_Y)
+ 			src_flags |= DPU_SSPP_FLIP_UD;
+ 
++		if (rotation & DRM_MODE_ROTATE_90)
++			src_flags |= DPU_SSPP_ROT_90;
++
+ 		/* update format */
+ 		pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw, fmt, src_flags,
+ 				pstate->multirect_index);
+@@ -1531,11 +1604,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 			BIT(DRM_MODE_BLEND_COVERAGE));
+ 
+ 	drm_plane_create_rotation_property(plane,
+-			DRM_MODE_ROTATE_0,
+-			DRM_MODE_ROTATE_0 |
+-			DRM_MODE_ROTATE_180 |
+-			DRM_MODE_REFLECT_X |
+-			DRM_MODE_REFLECT_Y);
++		    DRM_MODE_ROTATE_0, pdpu->pipe_hw->cap->rot_supported);
+ 
+ 	drm_plane_enable_fb_damage_clips(plane);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+index 50781e2..e146310 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+@@ -26,6 +26,7 @@
+  * @plane_fetch_bw: calculated BW per plane
+  * @plane_clk: calculated clk per plane
+  * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
++ * @rotation: simplified drm rotation hint
+  */
+ struct dpu_plane_state {
+ 	struct drm_plane_state base;
+@@ -40,6 +41,7 @@ struct dpu_plane_state {
+ 	u64 plane_clk;
+ 
+ 	bool needs_dirtyfb;
++	unsigned int rotation;
+ };
+ 
+ /**
+-- 
+2.7.4
 
-The last would I guess need to distinguish between PIN_MAPPABLE passed 
-in versus opportunistically added by i915_gem_object_pin_to_display_plane.
-
-How intrusive would it be to implement this option I am not sure without 
-trying myself.
-
-> Given this, do you think it would work if we just preserve the existing behavior and
-> tweak the heuristic introduced in this patch to look for space in aperture for only
-> one FB instead of two? Or, is there no good option for solving this issue other than
-> to create 1MB VMAs?
-
-I did not get how having one hole would solve the issue. Wouldn't it 
-still hit the re-bind ping-pong? Or there isn't even a single hole for 
-8k fb typically?
-
-Regards,
-
-Tvrtko
