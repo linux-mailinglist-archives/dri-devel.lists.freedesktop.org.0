@@ -2,51 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA10E4D93AE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 06:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7024D94CB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 07:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208A710E230;
-	Tue, 15 Mar 2022 05:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562BE10E4C3;
+	Tue, 15 Mar 2022 06:46:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFC110E0A9;
- Tue, 15 Mar 2022 05:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647321654; x=1678857654;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=d1EduR8kKDQ0j/1RYK/utaIVjFqqOdOwpZdN9tiQQEo=;
- b=PdnWQs7Wc3UiYyrTfAQNzndMKhDKts201Sy4gCcWV0c/hbprdwnyTgj0
- nooCuUJLG2KN2+yD+BNHhMlAq77blOQbZDOEAAHhsI2FmqksSdEPK86Bg
- v3bnuc3cTRrqQOh5bfSD5jX87p6lYFA5qz6sezXnxrmTLTVdN6rEnnikH
- l1tqQu5hPwmCcT8OEvM5wD79oyrSQX1DuNOpr7+zsopvTPEbieAunho9/
- otKHqyNPY3m/pmbcfQeFJ7BBs4hahBsH9y73xPnQoM8y3Gs3yaXoSYnoC
- qjrDGm/AMO8kMLPe3Sk8pR7OzV/Lrc5lrdqTXQv0/9geJ3E2164MR0HVP g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="236161858"
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="236161858"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 22:20:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; d="scan'208";a="497886001"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 14 Mar 2022 22:20:51 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nTzc3-000Aah-8J; Tue, 15 Mar 2022 05:20:51 +0000
-Date: Tue, 15 Mar 2022 13:20:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/i915: Report steering details in debugfs
-Message-ID: <202203151352.zdgy8H4M-lkp@intel.com>
-References: <20220314234203.799268-2-matthew.d.roper@intel.com>
+Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
+ [115.236.121.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32FAD10E4C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 06:46:41 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 713ECAC023E;
+ Tue, 15 Mar 2022 14:46:36 +0800 (CST)
+Message-ID: <9ec29d9b-8197-98fb-c612-5c842e4212c4@rock-chips.com>
+Date: Tue, 15 Mar 2022 14:46:35 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220314234203.799268-2-matthew.d.roper@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v8 22/24] drm: rockchip: Add VOP2 driver
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20220311083323.887372-1-s.hauer@pengutronix.de>
+ <20220311083323.887372-23-s.hauer@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20220311083323.887372-23-s.hauer@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWUIaGh1WH0IfSE5OHx
+ 1PQk5CVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PUk6Ezo*DD5NES9PCBQvEVYT
+ AxJPCxBVSlVKTU9MSElNTEJMS09DVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElJTTcG
+X-HM-Tid: 0a7f8c541bd1b039kuuu713ecac023e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,54 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi Sascha:
 
-Thank you for the patch! Perhaps something to improve:
+On 3/11/22 16:33, Sascha Hauer wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+>
+> The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
+> It replaces the VOP unit found in the older Rockchip SoCs.
+>
+> This driver has been derived from the downstream Rockchip Kernel and
+> heavily modified:
+>
+> - All nonstandard DRM properties have been removed
+> - dropped struct vop2_plane_state and pass around less data between
+>    functions
+> - Dropped all DRM_FORMAT_* not known on upstream
+> - rework register access to get rid of excessively used macros
+> - Drop all waiting for framesyncs
+>
+> The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+> board. Overlay support is tested with the modetest utility. AFBC support
+> on the cluster windows is tested with weston-simple-dmabuf-egl on
+> weston using the (yet to be upstreamed) panfrost driver support.
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on drm-exynos/exynos-drm-next drm/drm-next next-20220310]
-[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Do we need some modification to test AFBC by weston-simple-dma-egl ?
 
-url:    https://github.com/0day-ci/linux/commits/Matt-Roper/i915-General-multicast-steering-updates/20220315-074349
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20220315/202203151352.zdgy8H4M-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/cd773701a65fdee649b70395d226ba9b5f7d5d30
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Matt-Roper/i915-General-multicast-steering-updates/20220315-074349
-        git checkout cd773701a65fdee649b70395d226ba9b5f7d5d30
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+I have a buildroot system with weston-10.0.9 and mesa 21.3.5.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+After launch weston, I run weston-simple-dmabuf-egl, but from the output
+
+of sys/kernel/debug/dri/0/state, the weston is still use Smart0-win0, 
+which is
+
+a non-AFBC window.
+
+Do i need to modify the vop2 driver to set one Cluster window as primary 
+plane?
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gt/intel_gt.c:99:12: sparse: sparse: symbol 'intel_steering_types' was not declared. Should it be static?
-
-vim +/intel_steering_types +99 drivers/gpu/drm/i915/gt/intel_gt.c
-
-    98	
-  > 99	const char *intel_steering_types[] = {
-   100		"L3BANK",
-   101		"MSLICE",
-   102		"LNCF",
-   103	};
-   104	
-
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
