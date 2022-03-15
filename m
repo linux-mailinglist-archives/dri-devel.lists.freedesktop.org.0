@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BFF4D9BAF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 13:57:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3CB4D9BC7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 14:05:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6973910E43B;
-	Tue, 15 Mar 2022 12:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA8D10E460;
+	Tue, 15 Mar 2022 13:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
- [209.85.219.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30DF10E43B
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 12:57:38 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id e22so14876212qvf.9
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 05:57:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1NcySFWs72+ekNVQe/iSrb9ADVfTngo3pJTXSZ1gdhw=;
- b=aD0+RK1f+djjXaYyUeiZmUW010D3ddcJo40HDZCjDVulVilNW6UyozCm5q6B7yYNPF
- PxJRn3Nhw6h/nRjo34Z6uEXug0mmuRelZRylOzAhUXRPdMMiP1bLpJJ71cZ6MMo0w2K8
- 4RFmJaze+lkUcivc+pyg6YyTfefwp/0VMt++SxV6boYZr2u4uX2AKUHCVJBx0quM+L0t
- tIGzUDrVf8CAAVoKpT9VlEb/WF3ulBMVzUWK1cIAzDykYp8OGg9sUy3oXB7WGuReURqd
- cjlhmGF5RVe89NjWwr03WeIj754hovFp2UjCaVKNNljj/qPlf96Vu/Z4hSiTmtFpzbil
- 1+Ng==
-X-Gm-Message-State: AOAM5311AvGDs3mHPTPmO9YzuNjkmFBI4ToQwbfl2oMZS3bc5ZUY8k+U
- Ds2kkDhQTAM8Fv+pZtYBNJRrBZk/0dAlug==
-X-Google-Smtp-Source: ABdhPJzBuDT8NyxlGSdudfYpvCY+fyMU55+EDjfemiTIlH45UWQhSC28E0FvHpUfQXCecjmfgU+s4A==
-X-Received: by 2002:ad4:5942:0:b0:435:cff5:ebe6 with SMTP id
- eo2-20020ad45942000000b00435cff5ebe6mr21146214qvb.34.1647349057072; 
- Tue, 15 Mar 2022 05:57:37 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
- [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- bm21-20020a05620a199500b0067d5e6c7bd8sm7473304qkb.56.2022.03.15.05.57.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 05:57:36 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-2dbd8777564so200843207b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 05:57:36 -0700 (PDT)
-X-Received: by 2002:a81:5a08:0:b0:2db:d8c6:7e4f with SMTP id
- o8-20020a815a08000000b002dbd8c67e4fmr24074505ywb.256.1647349056232; Tue, 15
- Mar 2022 05:57:36 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBD510E462
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 13:05:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id EE84C1F415A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647349504;
+ bh=b7ZAtAzK1nmdrxrEfagaapYt3BcO4V9nmCc81ZlA8+s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UpTmq7KjH1lO5fZ8TVawUj8c5D3flmcQqfy+Xh2LeKvmX/PNoL4xP3Q07QB90NfV4
+ /d6U6S51BoASb6nVFrBSD4EYOowNwhPAbeS1FjMy129p5rNF+5kNFafpKBF3F+5zwM
+ cVbgSR240nMYYtje9zeZ5dCfHaCuPkAsOOtXkiSA6ztnB8df9B2/5yij1kR/h359hq
+ ABBQuqjl0uvpPptAHOHG3v9vBcabi/EPKN20FWf5/33FyhKJKPZQM3KEz6Li5b9PsS
+ JVJbB+tzccrIxRs0/0Z+YIB9RsFJS0xhKPvQWYyuyC9/WWWUmRrWqH6y0RyxYw87HZ
+ Jn1AayjVUOU6A==
+Message-ID: <1b6f21ce-1677-9d6e-f036-973a7f98a298@collabora.com>
+Date: Tue, 15 Mar 2022 16:05:00 +0300
 MIME-Version: 1.0
-References: <20220315110707.628166-1-geert@linux-m68k.org>
- <20220315110707.628166-5-geert@linux-m68k.org>
- <43b88d77-bcba-e6d5-b51f-56c5c8c0318c@redhat.com>
-In-Reply-To: <43b88d77-bcba-e6d5-b51f-56c5c8c0318c@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Mar 2022 13:57:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUAY2QOLAXG9cH_ZMRFrRjoGmxxV97q8=Pm5bd_kXtzxg@mail.gmail.com>
-Message-ID: <CAMuHMdUAY2QOLAXG9cH_ZMRFrRjoGmxxV97q8=Pm5bd_kXtzxg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm: ssd130x: Reduce temporary buffer sizes
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 1/8] drm/virtio: Correct drm_gem_shmem_get_sg_table()
+ error handling
+Content-Language: en-US
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
+ <20220314224253.236359-2-dmitry.osipenko@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220314224253.236359-2-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,51 +62,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
 
-On Tue, Mar 15, 2022 at 1:32 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 3/15/22 12:07, Geert Uytterhoeven wrote:
-> > ssd130x_clear_screen() allocates a temporary buffer sized to hold one
-> > byte per pixel, while it only needs to hold one bit per pixel.
-> >
-> > ssd130x_fb_blit_rect() allocates a temporary buffer sized to hold one
-> > byte per pixel for the whole frame buffer, while it only needs to hold
-> > one bit per pixel for the part that is to be updated.
-> > Pass dst_pitch to drm_fb_xrgb8888_to_mono_reversed(), as we have already
->
-> Just drm_fb_xrgb8888_to_mono() since you already fixed the name in patch 1/5.
+On 3/15/22 01:42, Dmitry Osipenko wrote:
+> drm_gem_shmem_get_sg_table() never ever returned NULL on error. Correct
+> the error handling to avoid crash on OOM.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index f293e6ad52da..bea7806a3ae3 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -168,9 +168,11 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+>  	 * since virtio_gpu doesn't support dma-buf import from other devices.
+>  	 */
+>  	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
+> -	if (!shmem->pages) {
+> +	ret = PTR_ERR(shmem->pages);
 
-Bummer, that happens when reshuffling patches :-(
-Fixed for v2.
-
-> > calculated it anyway.
-> >
-> > Fixes: a61732e808672cfa ("drm: Add driver for Solomon SSD130x OLED displays")
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > ---
->
-> Indeed. I haven't noticed that got the calculation wrong until you pointed out.
->
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This actually needs to be PTR_ERR_OR_ZERO. This code is changed to use
+drm_gem_shmem_get_pages_sgt()+IS_ERR() by the further patch, so I just
+missed the typo previously. I'll correct it in v3.
