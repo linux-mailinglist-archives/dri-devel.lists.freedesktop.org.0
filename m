@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EED4DA3F2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 21:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A56B4DA531
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 23:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86FF010E3F3;
-	Tue, 15 Mar 2022 20:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE6389EA3;
+	Tue, 15 Mar 2022 22:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 442E710E3E6;
- Tue, 15 Mar 2022 20:24:52 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id h15so185476wrc.6;
- Tue, 15 Mar 2022 13:24:52 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1C6889EA3;
+ Tue, 15 Mar 2022 22:19:31 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id x13so508197wrg.4;
+ Tue, 15 Mar 2022 15:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SLLTqIhVx97asbYPr4Ba30RhGW0/k9gGUJ6yMqUQca8=;
- b=HGVwT2u8w1di/2Ba6Mr3uF7wANvgMQhwksp2VCgHGD+YHZd2YNQFvthoW0aL1i+eUW
- Ut+47rb5iS6ZjVGYKl2VEeLBQBkEs0iwXXdh6PwbjyICixDvwj0+2y6GSgtdUAIsve/K
- Y1u/+x3hCOFHzjtISdWRQnfcaRJHy1R3n3I8jaNS8pqfX+EFIpDL3ZyF/dR8mnWyTSFa
- 9gwxCf5RcGXqMHGEWNpB1V1Eb1DvqizTGVwm9nggVh2QjXqGLhyWVkGBzGLAJ7W79MB+
- d8Z7AKgHVKJ/vLT0PSkxbR/zwLHNXat10jflfoOOXA2Ppjcb3X0gT2rqdevVVOXxRDt6
- 0ihA==
+ bh=8T8z6iflW4XiGgdmUlJWREss0zwpqrW7ArvyzTkY4zM=;
+ b=lxEl0y0ShtAvyYuhvNC8Q/4+oXxFjSyp28eUVJDpMW6CQEjUnM6BMGVmpYW3th8nkd
+ euW34T+fWPWl284pgF6SHEkSvIGa4Hbb0QhBRT/qPaUvE5l0HwSkfbAPUnjiV4Ir/uzD
+ NGrLammWYvTAXL3fCpJLmXqqCELSnRwjI+wauZiAp5GexK4nrqLKfSPwakEC9azelsta
+ mVN6gTlo3j3fS+kGTEx1suFgJ3kvKl2jsj55HiMPSqfUm2ZjAUmnN9H8wt3/0xsMM8Cb
+ uedz/YRd7rRlnsOY+ROrjiV6OFypkesLWvJhNaLbx3L3hip8k3oVsjR4y+808zdcRwPe
+ AdDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SLLTqIhVx97asbYPr4Ba30RhGW0/k9gGUJ6yMqUQca8=;
- b=eLuWbXhRN8xzW5NlE0gtRHAURJkRrEGKJM1S7ciu5DRyaNd7Qek50BHbpOaeHmXrAd
- OkZ/Vr0XvLKXxCzi1bF5E4Px1k1LY0FsyALRE83Q0pE0WfnXj5FTsx6iU47PQ+jmF44/
- vNiPCW/Sa1UrHqt44iizSeCiElvn0gWwmx7pHKWZJILReE7+ZRnF8PCADBy5ul4KwgR0
- Gf1rXWerZxvORTQ9nMWTGl0ysPchhKM42j83wNpoyI0HoP16r4oxoa4/uoq9oKJ8t8MU
- sHuAF+onE82D1CS85DSYCtaat5N4ocEk67wYilkh0GLxciRFcle6aUndWK9FOodMvk+y
- 2SxA==
-X-Gm-Message-State: AOAM530bLHLaG8YXZVCdEH9mvyEZC+lkE0Z3NzTHX0w9vwzECCl9U5SY
- UC2Bi1ytKkNb+vqXqVWwtss=
-X-Google-Smtp-Source: ABdhPJxhdTXqW/kPnVuI531rJ1j83VzktKMWxWPNmL/em2OL4k0Zaihe+NRG+blq1ChVnZ991OdzQA==
-X-Received: by 2002:a5d:6d86:0:b0:1f1:f938:6626 with SMTP id
- l6-20020a5d6d86000000b001f1f9386626mr21184356wrs.701.1647375890836; 
- Tue, 15 Mar 2022 13:24:50 -0700 (PDT)
+ bh=8T8z6iflW4XiGgdmUlJWREss0zwpqrW7ArvyzTkY4zM=;
+ b=mYC0ndCYabSe3fBZowK0+ecr0m8PDFbxZlBihfXVHzURfe348z7XYflcYV8YRbULGt
+ n1H7h8F9vg25TOl9oqBl6RwLhNm1gGpasGTBiDyrlUB0ViaEkPiwakkmmMAbuNCeJw/c
+ mrClgrdK0su3QhqoxTn2APpqdVhOlNcKN2qvypLl5SyyPcUHaf7PbDF97RijGxMQ/Ldn
+ frrkUXUFwnJmcRXXyKbgLIYQItArZyIoCCFZx01i4/+LV4ZSEbLT7qqxqwpKsWhPhicz
+ h34CApHt1j8CZrq0QXNF+46cBprr8GbBwrwjAu9q3YoCo0Kx3K0KDWwOw2oQ08YRXhFC
+ siMQ==
+X-Gm-Message-State: AOAM533PyMfVV5a8/pTqF+Lq4FRh+alf6x9HWzYiz7I86Oa7QXcIpvNU
+ KcoRIQJFPkGZbNLoen8BumA=
+X-Google-Smtp-Source: ABdhPJyXK/m628DIv4EB8bxcG/ulR9do+Vkrf7eORkrGXSrrF/fzSZiewYbv/kCVjR8iw1vQkAVUvg==
+X-Received: by 2002:a5d:4e51:0:b0:203:dc47:24c2 with SMTP id
+ r17-20020a5d4e51000000b00203dc4724c2mr1236474wrt.628.1647382770264; 
+ Tue, 15 Mar 2022 15:19:30 -0700 (PDT)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
  [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- k18-20020adfe8d2000000b0020294da2b42sm24801116wrn.117.2022.03.15.13.24.50
+ i15-20020a05600011cf00b001edc2966dd4sm159780wrx.47.2022.03.15.15.19.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 13:24:50 -0700 (PDT)
+ Tue, 15 Mar 2022 15:19:29 -0700 (PDT)
 From: Colin Ian King <colin.i.king@gmail.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/reg: Fix spelling mistake "Unsupport" ->
- "Unsupported"
-Date: Tue, 15 Mar 2022 20:24:49 +0000
-Message-Id: <20220315202449.2952845-1-colin.i.king@gmail.com>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau: Fix spelling mistake "endianess" -> "endianness"
+Date: Tue, 15 Mar 2022 22:19:29 +0000
+Message-Id: <20220315221929.2959700-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -80,26 +75,26 @@ Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a gvt_vgpu_err error message. Fix it.
+There is a spelling mistake in a nvdev_error error message. Fix it.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/gpu/drm/i915/gvt/handlers.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
-index 520a7e1942f3..a01e3a893e24 100644
---- a/drivers/gpu/drm/i915/gvt/handlers.c
-+++ b/drivers/gpu/drm/i915/gvt/handlers.c
-@@ -914,7 +914,7 @@ static int update_fdi_rx_iir_status(struct intel_vgpu *vgpu,
- 	else if (FDI_RX_IMR_TO_PIPE(offset) != INVALID_INDEX)
- 		index = FDI_RX_IMR_TO_PIPE(offset);
- 	else {
--		gvt_vgpu_err("Unsupport registers %x\n", offset);
-+		gvt_vgpu_err("Unsupported registers %x\n", offset);
- 		return -EINVAL;
- 	}
- 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
+index 88d262ba648c..62efbd0f3846 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
+@@ -2935,7 +2935,7 @@ nvkm_device_ctor(const struct nvkm_device_func *func,
+ 		/* switch mmio to cpu's native endianness */
+ 		if (!nvkm_device_endianness(device)) {
+ 			nvdev_error(device,
+-				    "Couldn't switch GPU to CPUs endianess\n");
++				    "Couldn't switch GPU to CPUs endianness\n");
+ 			ret = -ENOSYS;
+ 			goto done;
+ 		}
 -- 
 2.35.1
 
