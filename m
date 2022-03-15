@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B74DA2AE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:50:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC394DA2B9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:52:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D0189CB9;
-	Tue, 15 Mar 2022 18:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0450210E1BD;
+	Tue, 15 Mar 2022 18:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A4589CB9;
- Tue, 15 Mar 2022 18:50:34 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id v75so294546oie.1;
- Tue, 15 Mar 2022 11:50:34 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E162B10E141;
+ Tue, 15 Mar 2022 18:52:49 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ k25-20020a056830151900b005b25d8588dbso14588174otp.4; 
+ Tue, 15 Mar 2022 11:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=5EpZyHvK/9ZxjXCKi6CiCtxau1q0Ts04ssDumse25PQ=;
- b=BLJJ42Ex1mFe88c2MCUq4Y0lbYrXnB9HfIAkjkfpsS8Mx4Mthk7lRsRxf+x/cj5b3D
- 6LCNF8jlK1bLdPsNuZJcWmEM+JPKxfmRq7KOUzo87kH4hg7KAFe3E5GapvDYYsf/6CKq
- 4xIS9+NoZXeDFyQt+s+z5zABt/c+LZQzPLfGbDcSUBab6oX9ro4rOpQjK2eblKumnTII
- G0NVM0ir95qwYTafEg+Ice4kW5h2gUq76Np3BmHXxTiwA0fP8TJxvOzXzTO7PbSsYsAX
- 4hEwwVfGR/Xi1tnOOlncCmvk5ZYVCn8Q1T1K7C0ycF5E/+suFPjpxpOd74cwkWhr4B75
- c8lA==
+ bh=zNTJopoLGltecGhSY1J4R8lxzUea0zgkojqKJ4ephYk=;
+ b=QKqrXEraFO3Q3uNBiyoVf+76YiOzMhP9FHgSq5y/4jPXEHcYc3eyCOAjQg6UCpL4OQ
+ Qf9+d3Uo2az+gLFI1IyvbHSH5ZV1ysaDuDFj0/qNCK9moMY7s8Gs9YFgbndXfkrVyUUx
+ LQyl9nSQ0peCvu1hpg91TKQWHAt/3dkBPOLcX0NgebyxbORQyqK+3W6dxjnxGHIE8Xhd
+ CTz8OSJhD9stugfUoZ8mPXpKMCRH1HOkp0cRsOstlyL7j8RirvS3d+MTNd7tR8HfmlLk
+ iNxLnCVWd7/fV7L0LaXkpC7HRsH6dWSpW6SspqpszrTSx4ODFCNv8fk16O4pru+WhBVH
+ zVZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5EpZyHvK/9ZxjXCKi6CiCtxau1q0Ts04ssDumse25PQ=;
- b=7LjNx6eAas2gltPzAz4lzsABKN/j+hlee6GgqWvxDG0CChDKQ/XMphZnsv0thyIYzw
- bKrlZXDBplKsJ58+Vuc4RoJ8OgLKWlpWz0PvpWqJ199BdizHiBQ4VJ9tsmDFLGPRW0nB
- xuJkK1ljzJKMS0Hqmo8zp46UqG6Y6Z39WeJ6Wz4gCzo9zwuTPL8bzrxrhwV1ePVb0+P5
- +y/A6Rb57x3xHAtIlqHi2iERurxfM+1Uxcva3pEgW5xaqru1ORBS+xc29+Oo1gasyCaS
- pIn0oof4sj3F3E7uQMY0qrA8z2/nmBx/cm2d6UnPyo9y7IhfvZM3teRMYb3BIPzN6o/4
- NQkQ==
-X-Gm-Message-State: AOAM532qHHbQZJZvYhGVO3GtlzJN5ojDjLN93ew7/sNmPNM9sBAtwgH0
- tN0FhO8W41wmJdKlLbu/dHLk2Jqsm9l3wsGS3lk=
-X-Google-Smtp-Source: ABdhPJw4xZoctJq8r8I/9JaVKTPIAkv27veVysiq+Mt1npo2UrORBPz8DR4FqggY8pQsmgKcgaEn1186r2WOhe4p+lc=
-X-Received: by 2002:aca:d07:0:b0:2ec:eaaf:a036 with SMTP id
- 7-20020aca0d07000000b002eceaafa036mr2373290oin.253.1647370234282; Tue, 15 Mar
- 2022 11:50:34 -0700 (PDT)
+ bh=zNTJopoLGltecGhSY1J4R8lxzUea0zgkojqKJ4ephYk=;
+ b=CCpbyEaCMwpcU6Nz8E9CDK806fYyLVWPWTBnEn4PKu97XIPM9ZNxREMMIbeXUvQ5aT
+ iQ0jmTjmTAHrtmacEUz1dHc0FOl36OoXpxTB2264KrEpCPswsxEEgsWUAS+qL+C+ywf7
+ 2y5qiKSBURpStyuA5WT/Cg6pruQl97QOPDpgDaZsx5+DOAWRMEFPedvLaZ571TiBy840
+ F98/64zZpGrqOjPuLOFM6v9A1Gmyr3ZGZ5ZUzQ7PtqbgiXdk9uYvsHnWXjGrCZVy8xxA
+ vgxnq+utSktmzYS6EWJ5qxX4BtcLFI8/ObLhX9LiZpKYoQ9dEQwRhFjWUbfHnF9zIOfI
+ D2tw==
+X-Gm-Message-State: AOAM532zUo7PRH1CHezxyR+hq7tJ/ZcoTXK6hZCQ5uAJeo/siQdf5vjJ
+ cVfRPhD2Kj1cXIlfnoArhiX7DjbF9Rajq+mRedM=
+X-Google-Smtp-Source: ABdhPJzPCJIJm2LwauK3uaMNRrspjb+0HPgBwT8LZe/bTDIdcPf8RkEU23DNd13AaKZGCPpi0IDa/fHQYab6R7PD2VI=
+X-Received: by 2002:a05:6830:2709:b0:5b0:196:dcf with SMTP id
+ j9-20020a056830270900b005b001960dcfmr13485823otu.357.1647370369237; Tue, 15
+ Mar 2022 11:52:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-5-ville.syrjala@linux.intel.com>
- <b3f6777d-7a0d-3109-9312-8059e6ba8e3a@amd.com>
-In-Reply-To: <b3f6777d-7a0d-3109-9312-8059e6ba8e3a@amd.com>
+ <Yi+9n0eGn3rNKb4X@intel.com>
+In-Reply-To: <Yi+9n0eGn3rNKb4X@intel.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 15 Mar 2022 14:50:23 -0400
-Message-ID: <CADnq5_PSnPO4ifjw5QmUNsvNpWA3gwUva7c5Pi5hzA7zMUjjEw@mail.gmail.com>
-Subject: Re: [PATCH 04/22] drm/amdgpu: Use drm_mode_copy()
-To: Harry Wentland <harry.wentland@amd.com>
+Date: Tue, 15 Mar 2022 14:52:38 -0400
+Message-ID: <CADnq5_NS07TPBWSnETRhjzqtX_oUuCu86ewurFT3MJO=PcLAuQ@mail.gmail.com>
+Subject: Re: [PATCH 00/22] drm: Review of mode copies
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,156 +66,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
+ linux-rockchip@lists.infradead.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Leo Li <sunpeng.li@amd.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Nikola Cornij <nikola.cornij@amd.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Tomi Valkeinen <tomba@kernel.org>, freedreno <freedreno@lists.freedesktop.org>,
+ Sandy Huang <hjc@rock-chips.com>, Robert Foss <robert.foss@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Mar 14, 2022 at 6:12 PM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Fri, Feb 18, 2022 at 12:03:41PM +0200, Ville Syrjala wrote:
+> >   drm: Add drm_mode_init()
+> >   drm/bridge: Use drm_mode_copy()
+> >   drm/imx: Use drm_mode_duplicate()
+> >   drm/panel: Use drm_mode_duplicate()
+> >   drm/vc4: Use drm_mode_copy()
+> These have been pushed to drm-misc-next.
+>
+> >   drm/amdgpu: Remove pointless on stack mode copies
+> >   drm/amdgpu: Use drm_mode_init() for on-stack modes
+> >   drm/amdgpu: Use drm_mode_copy()
+> amdgpu ones are reviewed, but I'll leave them for the
+> AMD folks to push to whichever tree they prefer.
+
+I pulled patches 2, 4, 5 into my tree.  For 3, I'm happy to have it
+land via drm-misc with the rest of the mode_init changes if you'd
+prefer.
 
 Alex
 
-On Fri, Feb 18, 2022 at 11:32 AM Harry Wentland <harry.wentland@amd.com> wr=
-ote:
+
+Alex
+
 >
 >
+> The rest are still in need of review:
+> >   drm/radeon: Use drm_mode_copy()
+> >   drm/gma500: Use drm_mode_copy()
+> >   drm/hisilicon: Use drm_mode_init() for on-stack modes
+> >   drm/msm: Nuke weird on stack mode copy
+> >   drm/msm: Use drm_mode_init() for on-stack modes
+> >   drm/msm: Use drm_mode_copy()
+> >   drm/mtk: Use drm_mode_init() for on-stack modes
+> >   drm/rockchip: Use drm_mode_copy()
+> >   drm/sti: Use drm_mode_copy()
+> >   drm/tilcdc: Use drm_mode_copy()
+> >   drm/i915: Use drm_mode_init() for on-stack modes
+> >   drm/i915: Use drm_mode_copy()
+> >   drm: Use drm_mode_init() for on-stack modes
+> >   drm: Use drm_mode_copy()
 >
-> On 2022-02-18 05:03, Ville Syrjala wrote:
-> > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> >
-> > struct drm_display_mode embeds a list head, so overwriting
-> > the full struct with another one will corrupt the list
-> > (if the destination mode is on a list). Use drm_mode_copy()
-> > instead which explicitly preserves the list head of
-> > the destination mode.
-> >
-> > Even if we know the destination mode is not on any list
-> > using drm_mode_copy() seems decent as it sets a good
-> > example. Bad examples of not using it might eventually
-> > get copied into code where preserving the list head
-> > actually matters.
-> >
-> > Obviously one case not covered here is when the mode
-> > itself is embedded in a larger structure and the whole
-> > structure is copied. But if we are careful when copying
-> > into modes embedded in structures I think we can be a
-> > little more reassured that bogus list heads haven't been
-> > propagated in.
-> >
-> > @is_mode_copy@
-> > @@
-> > drm_mode_copy(...)
-> > {
-> > ...
-> > }
-> >
-> > @depends on !is_mode_copy@
-> > struct drm_display_mode *mode;
-> > expression E, S;
-> > @@
-> > (
-> > - *mode =3D E
-> > + drm_mode_copy(mode, &E)
-> > |
-> > - memcpy(mode, E, S)
-> > + drm_mode_copy(mode, E)
-> > )
-> >
-> > @depends on !is_mode_copy@
-> > struct drm_display_mode mode;
-> > expression E;
-> > @@
-> > (
-> > - mode =3D E
-> > + drm_mode_copy(&mode, &E)
-> > |
-> > - memcpy(&mode, E, S)
-> > + drm_mode_copy(&mode, E)
-> > )
-> >
-> > @@
-> > struct drm_display_mode *mode;
-> > @@
-> > - &*mode
-> > + mode
-> >
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 4 ++--
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 +++---
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_connectors.c
-> > index fa20261aa928..673078faa27a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> > @@ -626,7 +626,7 @@ amdgpu_connector_fixup_lcd_native_mode(struct drm_e=
-ncoder *encoder,
-> >               if (mode->type & DRM_MODE_TYPE_PREFERRED) {
-> >                       if (mode->hdisplay !=3D native_mode->hdisplay ||
-> >                           mode->vdisplay !=3D native_mode->vdisplay)
-> > -                             memcpy(native_mode, mode, sizeof(*mode));
-> > +                             drm_mode_copy(native_mode, mode);
-> >               }
-> >       }
-> >
-> > @@ -635,7 +635,7 @@ amdgpu_connector_fixup_lcd_native_mode(struct drm_e=
-ncoder *encoder,
-> >               list_for_each_entry_safe(mode, t, &connector->probed_mode=
-s, head) {
-> >                       if (mode->hdisplay =3D=3D native_mode->hdisplay &=
-&
-> >                           mode->vdisplay =3D=3D native_mode->vdisplay) =
-{
-> > -                             *native_mode =3D *mode;
-> > +                             drm_mode_copy(native_mode, mode);
-> >                               drm_mode_set_crtcinfo(native_mode, CRTC_I=
-NTERLACE_HALVE_V);
-> >                               DRM_DEBUG_KMS("Determined LVDS native mod=
-e details from EDID\n");
-> >                               break;
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/driver=
-s/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index bd23c9e481eb..514280699ad5 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -6318,7 +6318,7 @@ get_highest_refresh_rate_mode(struct amdgpu_dm_co=
-nnector *aconnector,
-> >               }
-> >       }
-> >
-> > -     aconnector->freesync_vid_base =3D *m_pref;
-> > +     drm_mode_copy(&aconnector->freesync_vid_base, m_pref);
-> >       return m_pref;
-> >  }
-> >
-> > @@ -6432,8 +6432,8 @@ create_stream_for_sink(struct amdgpu_dm_connector=
- *aconnector,
-> >               recalculate_timing =3D is_freesync_video_mode(&mode, acon=
-nector);
-> >               if (recalculate_timing) {
-> >                       freesync_mode =3D get_highest_refresh_rate_mode(a=
-connector, false);
-> > -                     saved_mode =3D mode;
-> > -                     mode =3D *freesync_mode;
-> > +                     drm_mode_copy(&saved_mode, &mode);
-> > +                     drm_mode_copy(&mode, freesync_mode);
-> >               } else {
-> >                       decide_crtc_timing_for_drm_display_mode(
-> >                               &mode, preferred_mode, scale);
->
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
