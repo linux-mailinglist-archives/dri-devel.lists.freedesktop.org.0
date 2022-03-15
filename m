@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1298F4DA1F6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:05:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9F54DA1F5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 19:05:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA5E10E455;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A786710E0D5;
 	Tue, 15 Mar 2022 18:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C775710E455;
- Tue, 15 Mar 2022 18:05:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED1110E0D5;
+ Tue, 15 Mar 2022 18:05:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 529E31F43052
+ (Authenticated sender: bbeckett) with ESMTPSA id 2BDFE1F4304E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647367510;
- bh=ToS8lMBol1VOlB+6o7QPgccbMJbV2qQuGt1LNM0xKzU=;
+ s=mail; t=1647367511;
+ bh=RKwbPfrUW2qjlvc4CHjlXd82fd97XR2D3/aFyOO8Xrw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Mgkg5vPTu4489UhKxp8356PXehcPFvkKbjF4txpVFKtgjZcdn/BNH7T2RjOfcjs1x
- xAIph6X0fJLkVMe66iZV8BqufuSMIsd+7jeNY4dqCHVQFHqSvB/RvQ2l8Iz2Lu0Ra+
- JM1CxniNI6V+X3CHmiOTM9J18gmykw6nbqT3MEkhSyp7d/GyuWVdAQUFFpJJeZdY50
- IadRUhuf7ASVgfyWCLSOvg8cwvgw0VXhKdMXfqSTDTKkUq+GvxbO4/rSZXc2W46s1D
- M7QvkaLWvHwRBT4XU3ma1Rhf17am85K2T6T1kJPcezv5iauWB44jUt6nd5D18K1VK0
- klN+6aJcrNrtw==
+ b=XY3lKRkFtSaZHthLOjN22pfqLkKMy0lZu/zGu6zHMJEwd2hpO8/X4c4u00M/WbXnH
+ hdNapswV9iaQ7czu/bz53i5jAfCZyVJRMqj7lq7wrY9xSASG38UPqP6Vc9gWroLKK3
+ sgOFZoTOBoPFdEoXmBhLBslqF9dAOBBt//BWhfRtxNygLFjCkEczKYYguP/K3MZNGC
+ AT6uDgQcMzvKagetM4S5gt4MYC6s45J9yRrkIpY5XYf8GhzR7spwX3noh7+UFmxU4D
+ 3H0ztlxwBPe1JytmaJViyO4EditSUTlTUx1wttMkGe43ha27PmNFXB7p6a3n0yZmY2
+ TW9vpHUq/5RIQ==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC PATCH 6/7] drm/i915: add range busy check for ttm region
-Date: Tue, 15 Mar 2022 18:04:43 +0000
-Message-Id: <20220315180444.3327283-7-bob.beckett@collabora.com>
+Subject: [RFC PATCH 7/7] drm/i915: cleanup old stolen state
+Date: Tue, 15 Mar 2022 18:04:44 +0000
+Message-Id: <20220315180444.3327283-8-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220315180444.3327283-1-bob.beckett@collabora.com>
 References: <20220315180444.3327283-1-bob.beckett@collabora.com>
@@ -55,57 +55,125 @@ Cc: Robert Beckett <bob.beckett@collabora.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RFC: should this become a generic interface in intel_memory_region_ops?
+remove i915->mm.stolen
+remove i915->mm.stolen_lock
 
-RFC: would we prefer an different interface? e.g. for_each_obj_in_range
+they are no longer needed.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 ---
- drivers/gpu/drm/i915/intel_region_ttm.c | 19 +++++++++++++++++++
- drivers/gpu/drm/i915/intel_region_ttm.h |  3 +++
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/i915/display/intel_fbc.c   |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c |  2 --
+ drivers/gpu/drm/i915/gt/selftest_reset.c   | 16 +++++++++-------
+ drivers/gpu/drm/i915/i915_drv.h            |  5 -----
+ 4 files changed, 11 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index bb564b830c96..2ccefa76348f 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -256,3 +256,22 @@ void intel_region_ttm_resource_free(struct intel_memory_region *mem,
- 
- 	man->func->free(man, res);
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index 9df64ecab70e..644bb599eee6 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -805,7 +805,7 @@ static int intel_fbc_alloc_cfb(struct intel_fbc *fbc,
+ err_llb:
+ 	i915_gem_object_put(fetch_and_zero(&fbc->compressed_llb));
+ err:
+-	if (drm_mm_initialized(&i915->mm.stolen))
++	if (IS_ERR(obj) && (PTR_ERR(obj) == -ENOMEM || PTR_ERR(obj) == -ENXIO))
+ 		drm_info_once(&i915->drm, "not enough stolen space for compressed buffer (need %d more bytes), disabling. Hint: you may be able to increase stolen memory size in the BIOS to avoid this.\n", size);
+ 	return -ENOSPC;
  }
-+
-+/**
-+ * intel_region_ttm_range_busy - check whether range has any allocations
-+ * @mem: The region to check
-+ * @start: the start of the range to check
-+ * @end: the end of the range to check
-+ *
-+ * Return: true if something is alloceted within the region, false otherwise.
-+ */
-+bool intel_region_ttm_range_busy(struct intel_memory_region *mem,
-+				 u64 start, u64 end)
-+{
-+	struct ttm_resource_manager *man = mem->region_private;
-+
-+	/* currently only supported for range allocator */
-+	GEM_BUG_ON(!mem->is_range_manager);
-+
-+	return ttm_range_man_range_busy(man, PFN_DOWN(start), PFN_UP(end));
-+}
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
-index fdee5e7bd46c..670ba9b618f7 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.h
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.h
-@@ -29,6 +29,9 @@ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
- void intel_region_ttm_resource_free(struct intel_memory_region *mem,
- 				    struct ttm_resource *res);
+@@ -1708,7 +1708,7 @@ void intel_fbc_init(struct drm_i915_private *i915)
+ {
+ 	enum intel_fbc_id fbc_id;
  
-+bool intel_region_ttm_range_busy(struct intel_memory_region *mem,
-+				 u64 start, u64 end);
-+
- int intel_region_to_ttm_type(const struct intel_memory_region *mem);
+-	if (!drm_mm_initialized(&i915->mm.stolen))
++	if (!i915->mm.stolen_region)
+ 		mkwrite_device_info(i915)->display.fbc_mask = 0;
  
- struct ttm_device_funcs *i915_ttm_driver(void);
+ 	if (need_fbc_vtd_wa(i915))
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index e58f9902ef47..930521a84607 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -347,8 +347,6 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+ 	resource_size_t reserved_base, stolen_top;
+ 	resource_size_t reserved_total, reserved_size;
+ 
+-	mutex_init(&i915->mm.stolen_lock);
+-
+ 	if (intel_vgpu_active(i915)) {
+ 		drm_notice(&i915->drm,
+ 			   "%s, disabling use of stolen memory\n",
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 37c38bdd5f47..ad2ecc582be2 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -6,6 +6,7 @@
+ #include <linux/crc32.h>
+ 
+ #include "gem/i915_gem_stolen.h"
++#include "intel_region_ttm.h"
+ 
+ #include "i915_memcpy.h"
+ #include "i915_selftest.h"
+@@ -83,6 +84,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
+ 		void __iomem *s;
+ 		void *in;
++		bool busy;
+ 
+ 		ggtt->vm.insert_page(&ggtt->vm, dma,
+ 				     ggtt->error_capture.start,
+@@ -93,9 +95,9 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 				      ggtt->error_capture.start,
+ 				      PAGE_SIZE);
+ 
+-		if (!__drm_mm_interval_first(&gt->i915->mm.stolen,
+-					     page << PAGE_SHIFT,
+-					     ((page + 1) << PAGE_SHIFT) - 1))
++		busy = intel_region_ttm_range_busy(gt->i915->mm.stolen_region,
++						   PFN_PHYS(page), PFN_PHYS(page + 1) - 1);
++		if (!busy)
+ 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
+ 
+ 		in = (void __force *)s;
+@@ -124,6 +126,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 		void __iomem *s;
+ 		void *in;
+ 		u32 x;
++		bool busy;
+ 
+ 		ggtt->vm.insert_page(&ggtt->vm, dma,
+ 				     ggtt->error_capture.start,
+@@ -139,10 +142,9 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 			in = tmp;
+ 		x = crc32_le(0, in, PAGE_SIZE);
+ 
+-		if (x != crc[page] &&
+-		    !__drm_mm_interval_first(&gt->i915->mm.stolen,
+-					     page << PAGE_SHIFT,
+-					     ((page + 1) << PAGE_SHIFT) - 1)) {
++		busy = intel_region_ttm_range_busy(gt->i915->mm.stolen_region,
++						   PFN_PHYS(page), PFN_PHYS(page + 1) - 1);
++		if (x != crc[page] && !busy) {
+ 			pr_debug("unused stolen page %pa modified by GPU reset\n",
+ 				 &page);
+ 			if (count++ == 0)
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 7d622d1afe93..1f9fa2d6d198 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -247,11 +247,6 @@ struct i915_gem_mm {
+ 	 * support stolen.
+ 	 */
+ 	struct intel_memory_region *stolen_region;
+-	/** Memory allocator for GTT stolen memory */
+-	struct drm_mm stolen;
+-	/** Protects the usage of the GTT stolen memory allocator. This is
+-	 * always the inner lock when overlapping with struct_mutex. */
+-	struct mutex stolen_lock;
+ 
+ 	/* Protects bound_list/unbound_list and #drm_i915_gem_object.mm.link */
+ 	spinlock_t obj_lock;
 -- 
 2.25.1
 
