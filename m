@@ -1,86 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246F24D9B59
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 13:36:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B864D9B6E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 13:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137A610E41A;
-	Tue, 15 Mar 2022 12:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF2610E3F1;
+	Tue, 15 Mar 2022 12:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B9310E443
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 12:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647347793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=meH+qCfj6lH9OjS/cwuXTPPvOKgAu1/eJ1NA4WtkLWw=;
- b=XhNkYtxDs/rmrIQunN/OjYQDceUHOKaqqboWz6KTZh0ESrW2l0qqXr4WC9siLa6QwH8cxt
- Rozx3CW0JdNmaFKaQjnvo7+VGs9ml/xeIwdyEN4vyPqU1oMXUnm2IRArf36z0X2Btv1Pqh
- l2Ofs1GxhMnKLVMjG7BwnIAyCAFBPX4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-jnesOGlhOOaNIjLv_VazSg-1; Tue, 15 Mar 2022 08:36:32 -0400
-X-MC-Unique: jnesOGlhOOaNIjLv_VazSg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- t2-20020a7bc3c2000000b003528fe59cb9so1110326wmj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 05:36:32 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EB410E3F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 12:43:30 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2db2add4516so200382277b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 05:43:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zM7PG/RdRHw9f6iBibZ0hDNw+hF+S/2aL5rwx9V5Hc4=;
+ b=nR1qrXaPmooiwTywf1pOo2XV8jI1aj+ALhV1WYrZn8Bzit9fW9AkhOG0+z7MOxAjh1
+ iqTMLE8f8HzEoR35CgDLZzU0x1YPDlaLtonEqs9Iy91kn52Z/+eCH6IkbFQPKpsL45/t
+ ihJl/3hcliojHC4Bba1/Y7IsjIJX9NCsJ/zUG5GKDT/Wcn7YD0Uwgq2a0kK4ye807Bc5
+ 78oVtw5/voG4BakSHOOLW+RH2YpWTZMd21BFkVgioDCwuQq/aj2Wu9gsTzuO67FFaNIu
+ VT9DNke3Hl0zWtAQr554hmchGXyzYveuj+5IJd0+2DUzQ8gqm4qCnQ4KtLqSAJuenwaI
+ eFvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=meH+qCfj6lH9OjS/cwuXTPPvOKgAu1/eJ1NA4WtkLWw=;
- b=mnXcKb1ur5zShy5ScNEm5mTTGCZQzdVR1xEyJxgjLIx09Nc9iSK1pxEKYv7H3NpfG+
- lCfLl+RoZAnkF8WBt9upj1pnJGG2h73vZ6P7BEgLucdH1ZXTn6SvgeytC1FnkapnNU78
- 2RLSgRk5kxJdhDKLbfYNCfl8ovK4tOgumTAaxX6un/MknRY9xNLIeYOmCyv6cXwApX7D
- nnqmF+3g1qYu0wOhs9WUccsWp0jytQyOlELy6XxYdORIMTUywA3aBD2LgsrNO7k/4Cp5
- WXlzsm11OqGPCZZFCdJ2+BganFpFhP4tJboAWPro+dyKmGPNJLiowyq2KMoN4e9dgtmw
- pBeg==
-X-Gm-Message-State: AOAM533i29WVLjJEVKzocJu49hjmu69ARUrDz4z2tr/h/nK+jIXF1tcd
- 5NtnmvFdinFBCT4vRJsfcRHFkbulroQtCNCIPgEqsXIIRY1OKqhMQyNgUSFFBGtw/RpMIL4IWt+
- UFIgbUAmsz9qPTFv/xxONlmdUOsm8
-X-Received: by 2002:a5d:5848:0:b0:203:a65d:1f49 with SMTP id
- i8-20020a5d5848000000b00203a65d1f49mr9962620wrf.397.1647347791478; 
- Tue, 15 Mar 2022 05:36:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxs66bOxh/TumvNSO4GmYvVoUpKAXWPE2kOcJ3ObbpEpN4Okx+fZPk6CJYHBO98nKh9ymjiA==
-X-Received: by 2002:a5d:5848:0:b0:203:a65d:1f49 with SMTP id
- i8-20020a5d5848000000b00203a65d1f49mr9962610wrf.397.1647347791249; 
- Tue, 15 Mar 2022 05:36:31 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- g7-20020a5d5407000000b001f0be7a7578sm15371811wrv.5.2022.03.15.05.36.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 05:36:30 -0700 (PDT)
-Message-ID: <fcdcd046-63f5-495d-b5ad-f407592f2160@redhat.com>
-Date: Tue, 15 Mar 2022 13:36:29 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zM7PG/RdRHw9f6iBibZ0hDNw+hF+S/2aL5rwx9V5Hc4=;
+ b=R5g+k/QgQBYkDshP5ZVlPVJda+nhlNZXr8SInzM2w6ij+Xo5aqAqyIBSIP4NaF2rkT
+ 5KBftGURMma4AjFfZtSvDSwXoAUyBpVvattCvkKtPDteLzxelSn0DA7EnwHTY21uyTJX
+ oGaeL3x6SsXTaypqTCOfhONtFRJYBE4ppw7IQ1YsSrc7y1Gg5pRmEEj/kGVAgIK1WNZX
+ ozdpbDd6PyAW+mCg2nUeLXO0PeQRYxBFNtVErTk7ROFpchXMTYSah0KeCOvU6eJsoNKO
+ eNvOhvi6jBRZX+1f6ih7xxVbX4zeVjd3Th3kGTWlmCXbOdDJSFcdyfLJQuLj5m8V/2D1
+ oWLw==
+X-Gm-Message-State: AOAM533NAd/Ch0WuUD4XW6um/8xkW+ttUZ1Oktg+WZwRQp6693HTL5tF
+ xudS6UQGLtKAYjZyWS55prnXdvLYG/4avDKKEFnSTg==
+X-Google-Smtp-Source: ABdhPJyazqAxW0/G7WqBT80tfyS+1LBtCC3BjhRKfI/GlPsN1UNW//Fy3MNB2ipKA2wpPQtmC2JXOlJLZOMZ75di+uk=
+X-Received: by 2002:a81:1182:0:b0:2dc:4e58:da41 with SMTP id
+ 124-20020a811182000000b002dc4e58da41mr24091863ywr.268.1647348209540; Tue, 15
+ Mar 2022 05:43:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/5] drm/repaper: Reduce temporary buffer size in
- repaper_fb_dirty()
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220315110707.628166-1-geert@linux-m68k.org>
- <20220315110707.628166-6-geert@linux-m68k.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220315110707.628166-6-geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220311083323.887372-1-s.hauer@pengutronix.de>
+ <20220311083323.887372-23-s.hauer@pengutronix.de>
+ <9ec29d9b-8197-98fb-c612-5c842e4212c4@rock-chips.com>
+In-Reply-To: <9ec29d9b-8197-98fb-c612-5c842e4212c4@rock-chips.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 15 Mar 2022 12:43:18 +0000
+Message-ID: <CAPj87rM4StzGMqPfK=j5p0-mY2=ENZnZWx9QDL_jo8SzNTXWTQ@mail.gmail.com>
+Subject: Re: [PATCH v8 22/24] drm: rockchip: Add VOP2 driver
+To: Andy Yan <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,30 +66,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/15/22 12:07, Geert Uytterhoeven wrote:
-> As the temporary buffer is no longer used to store 8-bit grayscale data,
-> its size can be reduced to the size needed to store the monochrome
-> bitmap data.
-> 
-> Fixes: 24c6bedefbe71de9 ("drm/repaper: Use format helper for xrgb8888 to monochrome conversion")
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> Untested due to lack of hardware.
-> 
+Hi Andy,
 
-Patch looks good to me but I also don't have this hardware.
+On Tue, 15 Mar 2022 at 06:46, Andy Yan <andy.yan@rock-chips.com> wrote:
+> On 3/11/22 16:33, Sascha Hauer wrote:
+> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+> > board. Overlay support is tested with the modetest utility. AFBC support
+> > on the cluster windows is tested with weston-simple-dmabuf-egl on
+> > weston using the (yet to be upstreamed) panfrost driver support.
+>
+> Do we need some modification to test AFBC by weston-simple-dma-egl ?
+>
+> I have a buildroot system with weston-10.0.9 and mesa 21.3.5.
+>
+> After launch weston, I run weston-simple-dmabuf-egl, but from the output
+>
+> of sys/kernel/debug/dri/0/state, the weston is still use Smart0-win0,
+> which is
+>
+> a non-AFBC window.
+>
+> Do i need to modify the vop2 driver to set one Cluster window as primary
+> plane?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Are you using the open-source Panfrost driver, or the proprietary Arm
+DDK? The DDK was previously using some non-standard modifier tokens
+which have since been corrected upstream.
 
---
-Best regards,
+You can see from running `weston-debug drm-backend` (if you start
+Weston with `--debug`) the output as it tries to put client surfaces
+on to overlay planes, and why it can or cannot.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+For Weston's own composited output (used when it cannot place client
+surfaces on to planes), it will just use whatever the KMS driver
+declares as the primary plane. Weston does not have any logic to say
+'oh, this plane is AFBC and AFBC is better, so I will use this as my
+primary plane': we just follow what the kernel tells us.
 
+Cheers,
+Daniel
