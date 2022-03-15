@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1714D9A02
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 12:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A6B4D9A59
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 12:26:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A34310E390;
-	Tue, 15 Mar 2022 11:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E80710E3AE;
+	Tue, 15 Mar 2022 11:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE81C10E38B;
- Tue, 15 Mar 2022 11:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647342537; x=1678878537;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=YDKntoKDtJsPvUhWRVQc77Q2Fz4Q4Hp38TkXHid8174=;
- b=MsfkB8bEmVRKNmkCD//iaRRk5dqREq9bhPnsaLZad6MCW9cAYj9g7+Zw
- NMnewfxfOBtqtJJRsQmZ+fdJBU/mD4u/ZfOdcIgRPJ55OwZwOVAs3MMM2
- 27gvrgPektPP673ACSLKotJvrEmMUyUiVZj5MZWiLc2jDm03CO+4BynMs
- 2ofOMoSb6tZMdImdTzSJ0FaIamtZejsDw66Np5QUljG/HnilC8QTdByRd
- xDQeQ8OEYreVCeZS8jIRxh/Eh2+COBkHboI7RjjtjCHVxDbq7frS/qOlB
- 8cBUU1sKiFI3OtfmTLukuQVKaeccJpjgIMC5UsVVngzk7VT0BAKEeJa9K A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="243723355"
-X-IronPort-AV: E=Sophos;i="5.90,183,1643702400"; 
- d="scan'208,217";a="243723355"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 04:08:56 -0700
-X-IronPort-AV: E=Sophos;i="5.90,183,1643702400"; 
- d="scan'208,217";a="556876250"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.35.121])
- ([10.252.35.121])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 04:08:55 -0700
-Content-Type: multipart/alternative;
- boundary="------------zTVpaDF8espvwk7rIYNBt26B"
-Message-ID: <99160b7b-130b-efe7-e9d5-1decc36017b8@linux.intel.com>
-Date: Tue, 15 Mar 2022 12:08:53 +0100
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99D710E2BE;
+ Tue, 15 Mar 2022 11:26:37 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id g7so8857422qtg.7;
+ Tue, 15 Mar 2022 04:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1M0GcUGPS3BH99mWqswo4l2D80eS6n61yfC5Zanq+VA=;
+ b=M6o6LI6N6RxGnIWdlxrCsf/LnQR5e0txgSMCU1nOU+Sh7zGeNGV7SuTbGHqJWkyCsN
+ A21AsRK9Tp4KF9vdoWWgoZZT18mv2FLseKYamDrB16iHnd4HydnmFbuev4Wgo8M/1G8l
+ dInUklRIdhWWj/c4/qngU+D0tbHw8aUqobgrWMZZWnNQXaI97AOwwEZqcPE7fgxZEtMM
+ pP1OSYTwqunOUhsDFLKKZ01ciKXD4WWrfS7socrJlZziZDj/DMHbNnCM73PrL1t6Jtri
+ fr3d58qTJ5bFvFdzzBTxieOGSMgmGFcNa/UTyxW7bR9Jstwu4IYDejyxnhfkkh2AZRAI
+ 9vgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1M0GcUGPS3BH99mWqswo4l2D80eS6n61yfC5Zanq+VA=;
+ b=Ruy1jcoBbWwAsnbW9nILa9CfXmglZU1PL5dm8pN6tSGCAPnhwafIft292sBJyxDNiZ
+ P691WTV7JQSc4BHOubvhPz9Vj6x55A5bQLYqY3H3kGMoGy7iOTILfnUtm1hnjSd+Gt/y
+ 9owxmu41yOjf2+KkdaSH3a++hq1zU2/Zzty1A1Td6oIMXyF08ks3zZ/wuks8D4iCXY6p
+ RXzWF0HIjNKiBobbQZE5iFItBtH8yGp727wQd1g7gZmX7DkuvT/RG6fzB76eB91vi/Ac
+ uGo5Cpk5Js5Bt0x4IdKDcVhmltsHMHmvnJubVwzvE8wLUOvCUIOZuPs6+wOvySDZnRXa
+ FyBA==
+X-Gm-Message-State: AOAM5302rF44D7b96c11ZrUIaDDc1zZER5aAzelLrmuAOwoJK3VN35/f
+ jLNu1Kqo+f5sUGuIvlOujsqRBHrbUXZ96pSBRAlArcJ47P4=
+X-Google-Smtp-Source: ABdhPJxzhIP8zGisqKviqE2uFuCI3jWlvMqEIFHQKlhs2fDERl2qxN0mF++hJS6Sh4iUtu5k5oO18z3eccICZcfDvxo=
+X-Received: by 2002:a05:622a:1312:b0:2e1:aab3:4644 with SMTP id
+ v18-20020a05622a131200b002e1aab34644mr20492943qtk.455.1647343596874; Tue, 15
+ Mar 2022 04:26:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 7/7] drm/i915: fixup the initial fb base on DGFX
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220314112837.352931-1-matthew.auld@intel.com>
- <20220314112837.352931-8-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220314112837.352931-8-matthew.auld@intel.com>
+References: <20220314193206.534257-1-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <20220314193206.534257-1-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 15 Mar 2022 11:26:10 +0000
+Message-ID: <CAM0jSHPeRaykGwF-V+--cXE9wgoDbttbTH=EkP+=xHu7rkB4Qg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: round_up the size to the alignment
+ value
+To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,252 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------zTVpaDF8espvwk7rIYNBt26B
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-|This seems more natural to me than the previous version. Acked-by: 
-Nirmoy Das <nirmoy.das@linux.intel.com> |
-
-Nirmoy
-
-On 14/03/2022 12:28, Matthew Auld wrote:
-> On integrated it looks like the GGTT base should always 1:1 maps to
-> somewhere within DSM. On discrete the base seems to be pre-programmed with
-> a normal lmem address, and is not 1:1 mapped with the base address. On
-> such devices probe the lmem address directly from the PTE.
+On Mon, 14 Mar 2022 at 19:32, Arunpravin
+<Arunpravin.PaneerSelvam@amd.com> wrote:
 >
-> v2(Ville):
->    - The base is actually the pre-programmed GGTT address, which is then
->      meant to 1:1 map to somewhere inside dsm. In the case of dgpu the
->      base looks to just be some offset within lmem, but this also happens
->      to be the exact dsm start, on dg1. Therefore we should only need to
->      fudge the physical address, before allocating from stolen.
->    - Bail if it's not located in dsm.
-> v3:
->    - Scratch that. There doesn't seem to be any relationship with the
->      base and PTE address, on at least DG1. Let's instead just grab the
->      lmem address from the PTE itself.
+> handle instances when size is not aligned with the min_page_size.
+> Unigine Heaven has allocation requests for example required pages
+> are 161 and alignment request is 128. To allocate the left over
+> 33 pages, continues the iteration to find the order value which
+> is 5 and 0 and when it compares with min_order = 7, triggers the
+> BUG_ON((order < min_order). To avoid this problem, round_up the
+> size to the alignment and enable the is_contiguous variable and
+> the block trimmed to the original size.
 >
-> Signed-off-by: Matthew Auld<matthew.auld@intel.com>
-> Cc: Thomas Hellström<thomas.hellstrom@linux.intel.com>
-> Cc: Ville Syrjälä<ville.syrjala@linux.intel.com>
-> Cc: Nirmoy Das<nirmoy.das@linux.intel.com>
+> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 > ---
->   .../drm/i915/display/intel_plane_initial.c    | 50 ++++++++++++++++---
->   1 file changed, 44 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> index f797fcef18fc..7979929bb632 100644
-> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> @@ -47,17 +47,55 @@ static struct i915_vma *
->   initial_plane_vma(struct drm_i915_private *i915,
->   		  struct intel_initial_plane_config *plane_config)
->   {
-> -	struct intel_memory_region *mem = i915->mm.stolen_region;
-> +	struct intel_memory_region *mem;
->   	struct drm_i915_gem_object *obj;
->   	struct i915_vma *vma;
-> +	resource_size_t phys_base;
->   	u32 base, size;
->   	u64 pinctl;
->   
-> -	if (!mem || plane_config->size == 0)
-> +	if (plane_config->size == 0)
-> +		return NULL;
+> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> index 129f668f21ff..318aa731de5b 100644
+> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+> @@ -40,6 +40,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+>         struct i915_ttm_buddy_resource *bman_res;
+>         struct drm_buddy *mm = &bman->mm;
+>         unsigned long n_pages, lpfn;
+> +       bool is_contiguous = 0;
+>         u64 min_page_size;
+>         u64 size;
+>         int err;
+> @@ -48,6 +49,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+>         if (!lpfn)
+>                 lpfn = man->size;
+>
+> +       if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
+> +               is_contiguous = 1;
 > +
-> +	base = round_down(plane_config->base, I915_GTT_MIN_ALIGNMENT);
-> +	if (IS_DGFX(i915)) {
-> +		gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
-> +		gen8_pte_t pte;
+>         bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
+>         if (!bman_res)
+>                 return -ENOMEM;
+> @@ -71,7 +75,12 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+>
+>         GEM_BUG_ON(min_page_size < mm->chunk_size);
+>
+> -       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
+> +       if (!is_contiguous && !IS_ALIGNED(size, min_page_size)) {
+> +               size = round_up(size, min_page_size);
+> +               is_contiguous = 1;
+> +       }
 > +
-> +		gte += base / I915_GTT_PAGE_SIZE;
-> +
-> +		pte = ioread64(gte);
-> +		if (!(pte & GEN12_GGTT_PTE_LM)) {
-> +			drm_err(&i915->drm,
-> +				"Initial plane programming missing PTE_LM bit\n");
-> +			return NULL;
-> +		}
-> +
-> +		phys_base = pte & I915_GTT_PAGE_MASK;
-> +		mem = i915->mm.regions[INTEL_REGION_LMEM];
-> +
-> +		/*
-> +		 * We don't currently expect this to ever be placed in the
-> +		 * stolen portion.
-> +		 */
-> +		if (phys_base >= resource_size(&mem->region)) {
-> +			drm_err(&i915->drm,
-> +				"Initial plane programming using invalid range, phys_base=%pa\n",
-> +				&phys_base);
-> +			return NULL;
-> +		}
-> +
-> +		drm_dbg(&i915->drm,
-> +			"Using phys_base=%pa, based on initial plane programming\n",
-> +			&phys_base);
-> +	} else {
-> +		phys_base = base;
-> +		mem = i915->mm.stolen_region;
-> +	}
-> +
-> +	if (!mem)
->   		return NULL;
->   
-> -	base = round_down(plane_config->base,
-> -			  I915_GTT_MIN_ALIGNMENT);
->   	size = round_up(plane_config->base + plane_config->size,
->   			mem->min_page_size);
->   	size -= base;
-> @@ -68,11 +106,11 @@ initial_plane_vma(struct drm_i915_private *i915,
->   	 * features.
->   	 */
->   	if (IS_ENABLED(CONFIG_FRAMEBUFFER_CONSOLE) &&
-> +	    mem == i915->mm.stolen_region &&
->   	    size * 2 > i915->stolen_usable_size)
->   		return NULL;
->   
-> -	obj = i915_gem_object_create_region_at(i915->mm.stolen_region,
-> -					       base, size, 0);
-> +	obj = i915_gem_object_create_region_at(mem, phys_base, size, 0);
->   	if (IS_ERR(obj))
->   		return NULL;
->   
---------------zTVpaDF8espvwk7rIYNBt26B
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> +       if (is_contiguous) {
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">This seems more natural to me than the previous version.
+This looks like it will also do roundup_power_of_two()? I assume we
+instead just want to feed the list_last_entry() block for trimming?
 
-Acked-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@linux.intel.com">&lt;nirmoy.das@linux.intel.com&gt;</a>
+Anway, we should be able to just make this:
 
-</code></pre>
-    <p>Nirmoy<br>
-    </p>
-    <div class="moz-cite-prefix">On 14/03/2022 12:28, Matthew Auld
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220314112837.352931-8-matthew.auld@intel.com">
-      <pre class="moz-quote-pre" wrap="">On integrated it looks like the GGTT base should always 1:1 maps to
-somewhere within DSM. On discrete the base seems to be pre-programmed with
-a normal lmem address, and is not 1:1 mapped with the base address. On
-such devices probe the lmem address directly from the PTE.
+if (WARN_ON(!IS_ALIGNED(size, min_page_size))
+    return -EINVAL;
 
-v2(Ville):
-  - The base is actually the pre-programmed GGTT address, which is then
-    meant to 1:1 map to somewhere inside dsm. In the case of dgpu the
-    base looks to just be some offset within lmem, but this also happens
-    to be the exact dsm start, on dg1. Therefore we should only need to
-    fudge the physical address, before allocating from stolen.
-  - Bail if it's not located in dsm.
-v3:
-  - Scratch that. There doesn't seem to be any relationship with the
-    base and PTE address, on at least DG1. Let's instead just grab the
-    lmem address from the PTE itself.
+That's at least the currently expected behaviour in i915, just that we
+were previously not verifying it here.
 
-Signed-off-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Cc: Thomas Hellström <a class="moz-txt-link-rfc2396E" href="mailto:thomas.hellstrom@linux.intel.com">&lt;thomas.hellstrom@linux.intel.com&gt;</a>
-Cc: Ville Syrjälä <a class="moz-txt-link-rfc2396E" href="mailto:ville.syrjala@linux.intel.com">&lt;ville.syrjala@linux.intel.com&gt;</a>
-Cc: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@linux.intel.com">&lt;nirmoy.das@linux.intel.com&gt;</a>
----
- .../drm/i915/display/intel_plane_initial.c    | 50 ++++++++++++++++---
- 1 file changed, 44 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-index f797fcef18fc..7979929bb632 100644
---- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-+++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-@@ -47,17 +47,55 @@ static struct i915_vma *
- initial_plane_vma(struct drm_i915_private *i915,
- 		  struct intel_initial_plane_config *plane_config)
- {
--	struct intel_memory_region *mem = i915-&gt;mm.stolen_region;
-+	struct intel_memory_region *mem;
- 	struct drm_i915_gem_object *obj;
- 	struct i915_vma *vma;
-+	resource_size_t phys_base;
- 	u32 base, size;
- 	u64 pinctl;
- 
--	if (!mem || plane_config-&gt;size == 0)
-+	if (plane_config-&gt;size == 0)
-+		return NULL;
-+
-+	base = round_down(plane_config-&gt;base, I915_GTT_MIN_ALIGNMENT);
-+	if (IS_DGFX(i915)) {
-+		gen8_pte_t __iomem *gte = to_gt(i915)-&gt;ggtt-&gt;gsm;
-+		gen8_pte_t pte;
-+
-+		gte += base / I915_GTT_PAGE_SIZE;
-+
-+		pte = ioread64(gte);
-+		if (!(pte &amp; GEN12_GGTT_PTE_LM)) {
-+			drm_err(&amp;i915-&gt;drm,
-+				"Initial plane programming missing PTE_LM bit\n");
-+			return NULL;
-+		}
-+
-+		phys_base = pte &amp; I915_GTT_PAGE_MASK;
-+		mem = i915-&gt;mm.regions[INTEL_REGION_LMEM];
-+
-+		/*
-+		 * We don't currently expect this to ever be placed in the
-+		 * stolen portion.
-+		 */
-+		if (phys_base &gt;= resource_size(&amp;mem-&gt;region)) {
-+			drm_err(&amp;i915-&gt;drm,
-+				"Initial plane programming using invalid range, phys_base=%pa\n",
-+				&amp;phys_base);
-+			return NULL;
-+		}
-+
-+		drm_dbg(&amp;i915-&gt;drm,
-+			"Using phys_base=%pa, based on initial plane programming\n",
-+			&amp;phys_base);
-+	} else {
-+		phys_base = base;
-+		mem = i915-&gt;mm.stolen_region;
-+	}
-+
-+	if (!mem)
- 		return NULL;
- 
--	base = round_down(plane_config-&gt;base,
--			  I915_GTT_MIN_ALIGNMENT);
- 	size = round_up(plane_config-&gt;base + plane_config-&gt;size,
- 			mem-&gt;min_page_size);
- 	size -= base;
-@@ -68,11 +106,11 @@ initial_plane_vma(struct drm_i915_private *i915,
- 	 * features.
- 	 */
- 	if (IS_ENABLED(CONFIG_FRAMEBUFFER_CONSOLE) &amp;&amp;
-+	    mem == i915-&gt;mm.stolen_region &amp;&amp;
- 	    size * 2 &gt; i915-&gt;stolen_usable_size)
- 		return NULL;
- 
--	obj = i915_gem_object_create_region_at(i915-&gt;mm.stolen_region,
--					       base, size, 0);
-+	obj = i915_gem_object_create_region_at(mem, phys_base, size, 0);
- 	if (IS_ERR(obj))
- 		return NULL;
- 
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------zTVpaDF8espvwk7rIYNBt26B--
+>                 unsigned long pages;
+>
+>                 size = roundup_pow_of_two(size);
+> @@ -106,7 +115,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+>         if (unlikely(err))
+>                 goto err_free_blocks;
+>
+> -       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
+> +       if (is_contiguous) {
+>                 u64 original_size = (u64)bman_res->base.num_pages << PAGE_SHIFT;
+>
+>                 mutex_lock(&bman->lock);
+>
+> base-commit: b37605de46fef48555bf0cf463cccf355c51fac0
+> --
+> 2.25.1
+>
