@@ -1,53 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3CB4D9BC7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 14:05:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A194D9BD8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Mar 2022 14:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA8D10E460;
-	Tue, 15 Mar 2022 13:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8895210E47C;
+	Tue, 15 Mar 2022 13:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEBD510E462
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 13:05:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08B6310E4B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Mar 2022 13:10:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id EE84C1F415A0
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 777951F42E0A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647349504;
- bh=b7ZAtAzK1nmdrxrEfagaapYt3BcO4V9nmCc81ZlA8+s=;
+ s=mail; t=1647349851;
+ bh=33AAkH9s29H6uygjWgaoSJbflOjcm0qgg2dEz6pYJB4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UpTmq7KjH1lO5fZ8TVawUj8c5D3flmcQqfy+Xh2LeKvmX/PNoL4xP3Q07QB90NfV4
- /d6U6S51BoASb6nVFrBSD4EYOowNwhPAbeS1FjMy129p5rNF+5kNFafpKBF3F+5zwM
- cVbgSR240nMYYtje9zeZ5dCfHaCuPkAsOOtXkiSA6ztnB8df9B2/5yij1kR/h359hq
- ABBQuqjl0uvpPptAHOHG3v9vBcabi/EPKN20FWf5/33FyhKJKPZQM3KEz6Li5b9PsS
- JVJbB+tzccrIxRs0/0Z+YIB9RsFJS0xhKPvQWYyuyC9/WWWUmRrWqH6y0RyxYw87HZ
- Jn1AayjVUOU6A==
-Message-ID: <1b6f21ce-1677-9d6e-f036-973a7f98a298@collabora.com>
-Date: Tue, 15 Mar 2022 16:05:00 +0300
+ b=VJHjRw8IfW1HVBKHMW9GLkJCc7xHIhrvzaI+s1rr8QXFUxZmpuOMjzZbz9Ar/B4mY
+ yM1moo7Iz5YiWmbnIF/lA3altQ9chKwiHviyDO6XuunEiI+oCBeCjFJ88xKwMgCvYy
+ TxTAya+AdyNA2M1qrqFnktGLxR9ca/xEZu9qZ5LKWz56b6Rb0wT6qm8gqdx17BRfX8
+ x5sTIWIvj0Um6TYNjAabDQSAYfn61lokAA43yFBGg34U0gN5HWydRJMEFo1Ly+0A3h
+ HfL9iqdcDbl0i4S6dhtMGCvtVw4e88fL2VseP0XqK03pg/TsNHrL+wPeH5kZ11yVN6
+ SWsGIWYsGN/og==
+Message-ID: <fa7b0191-b9e0-de3a-22c1-8513195af426@collabora.com>
+Date: Tue, 15 Mar 2022 16:10:47 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH v2 1/8] drm/virtio: Correct drm_gem_shmem_get_sg_table()
- error handling
+Subject: Re: [PATCH v2 0/8] Add memory shrinker to VirtIO-GPU DRM driver
 Content-Language: en-US
-To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
 References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
- <20220314224253.236359-2-dmitry.osipenko@collabora.com>
+ <CACvgo50Fxn6D1d2_20etnL1TWfNkzJFydyDgr6DwGKFoxzg0_A@mail.gmail.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220314224253.236359-2-dmitry.osipenko@collabora.com>
+In-Reply-To: <CACvgo50Fxn6D1d2_20etnL1TWfNkzJFydyDgr6DwGKFoxzg0_A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,34 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+Cc: Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Gustavo Padovan <gustavo.padovan@collabora.com>,
- dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Steven Price <steven.price@arm.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 3/15/22 01:42, Dmitry Osipenko wrote:
-> drm_gem_shmem_get_sg_table() never ever returned NULL on error. Correct
-> the error handling to avoid crash on OOM.
+On 3/15/22 15:47, Emil Velikov wrote:
+> On Mon, 14 Mar 2022 at 22:44, Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_object.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>> Dmitry Osipenko (8):
+>>   drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+>>   drm/virtio: Check whether transferred 2D BO is shmem
+>>   drm/virtio: Unlock GEM reservations in error code path
 > 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index f293e6ad52da..bea7806a3ae3 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -168,9 +168,11 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
->  	 * since virtio_gpu doesn't support dma-buf import from other devices.
->  	 */
->  	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
-> -	if (!shmem->pages) {
-> +	ret = PTR_ERR(shmem->pages);
+> These three are legitimate fixes that we want regardless of the shrinker.
+> 
+> Please add the respective "Fixes" tag, so they find their way in the
+> stable trees. With that, them 3 are:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
-This actually needs to be PTR_ERR_OR_ZERO. This code is changed to use
-drm_gem_shmem_get_pages_sgt()+IS_ERR() by the further patch, so I just
-missed the typo previously. I'll correct it in v3.
+Thank you, I already added stable tag to the first patch. The other
+patches aren't critical for the stable kernels, IMO, but we can tag them
+too for completeness. I'll do in v3.
