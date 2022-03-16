@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5533A4DA9E6
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 06:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38E94DA9E7
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 06:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51AF10E229;
-	Wed, 16 Mar 2022 05:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6BD10E564;
+	Wed, 16 Mar 2022 05:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B04210E229
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C487810E562
  for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 05:36:03 +0000 (UTC)
-X-UUID: 4d0029a046c149b1bae22762eb2b904c-20220316
-X-UUID: 4d0029a046c149b1bae22762eb2b904c-20220316
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 754532393; Wed, 16 Mar 2022 13:35:45 +0800
+X-UUID: ccf289353cb84186a586b449c5200e88-20220316
+X-UUID: ccf289353cb84186a586b449c5200e88-20220316
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 407159702; Wed, 16 Mar 2022 13:35:48 +0800
 Received: from MTKMBS34N1.mediatek.inc (172.27.4.172) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 16 Mar 2022 13:35:44 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 16 Mar 2022 13:35:46 +0800
 Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS34N1.mediatek.inc
  (172.27.4.172) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 16 Mar 2022 13:35:43 +0800
+ Wed, 16 Mar 2022 13:35:46 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 16 Mar 2022 13:35:42 +0800
+ 15.0.1497.2 via Frontend Transport; Wed, 16 Mar 2022 13:35:44 +0800
 From: <xinlei.lee@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v3,
- 2/3] dt-bindings: display: mediatek: dsi: Add compatible for MediaTek
- MT8186
-Date: Wed, 16 Mar 2022 13:35:33 +0800
-Message-ID: <1647408934-15775-3-git-send-email-xinlei.lee@mediatek.com>
+Subject: [PATCH v3,3/3] drm/mediatek: Add mt8186 dsi compatible to mtk_dsi.c
+Date: Wed, 16 Mar 2022 13:35:34 +0800
+Message-ID: <1647408934-15775-4-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <1647408934-15775-1-git-send-email-xinlei.lee@mediatek.com>
 References: <1647408934-15775-1-git-send-email-xinlei.lee@mediatek.com>
@@ -64,26 +62,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Add dt-binding documentation of dsi for MediaTek MT8186 SoC.
+Add the compatible because use different cmdq addresses in mt8186.
 
 Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,dsi.yaml       | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-index eb49a7bb6a74..f6d8c2695dd0 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-@@ -17,6 +17,7 @@ properties:
-       - mediatek,mt2701-dsi
-       - mediatek,mt8173-dsi
-       - mediatek,mt8183-dsi
-+      - mediatek,mt8186-dsi
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index bced4c7d668e..8c61c4f412bc 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -1140,6 +1140,12 @@ static const struct mtk_dsi_driver_data mt8183_dsi_driver_data = {
+ 	.has_size_ctl = true,
+ };
  
-   reg:
-     maxItems: 1
++static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
++	.reg_cmdq_off = 0xd00,
++	.has_shadow_ctl = true,
++	.has_size_ctl = true,
++};
++
+ static const struct of_device_id mtk_dsi_of_match[] = {
+ 	{ .compatible = "mediatek,mt2701-dsi",
+ 	  .data = &mt2701_dsi_driver_data },
+@@ -1147,6 +1153,8 @@ static const struct of_device_id mtk_dsi_of_match[] = {
+ 	  .data = &mt8173_dsi_driver_data },
+ 	{ .compatible = "mediatek,mt8183-dsi",
+ 	  .data = &mt8183_dsi_driver_data },
++	{ .compatible = "mediatek,mt8186-dsi",
++	  .data = &mt8186_dsi_driver_data },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
 -- 
 2.18.0
 
