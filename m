@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C344DAEEB
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 12:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C535C4DAF30
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 12:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EA310E63E;
-	Wed, 16 Mar 2022 11:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C541210E55C;
+	Wed, 16 Mar 2022 11:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F0410E63E;
- Wed, 16 Mar 2022 11:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647430292; x=1678966292;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5ulDPJh4He2dr0MKS4KyL5wIdLimF0wHrLul+ZUoWlE=;
- b=TPOV4m4GvqIcgtKEtqKdrtr1sIUgSiAKDFT0rqosbLeGWzrz92/J8yv5
- JqUXMjWNQjjSi0UWCCHh0IPx+RDjnh3xH32gaILq9Sho82/Z66O6u5ZRp
- iqGUeaiSmBM79/by+J5qkOCgUrf/0tia2UUplx3Qw0IP2fw5FK+MjmEca
- 4k7ad3yxuxF6UwEZDhxjpkGbVppa3ApIP+9FoiPosowfnB57hPKv9IR0r
- PJZr66wmty5cUSkmZyhwvwoSqrteRP7DYJ8tmuE6Ex5G772IB4cBwkznC
- 7+O3SnYPuxd7TGTDX4ncgdMu3VsYzeaT76CemanHD+maHUW6gdWGaoKR9 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256281435"
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="256281435"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 04:31:32 -0700
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="498398533"
-Received: from ckrammel-mobl.ger.corp.intel.com (HELO [10.252.7.167])
- ([10.252.7.167])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 04:31:30 -0700
-Message-ID: <7545037d-a60e-7935-67c7-f25a1b00b501@intel.com>
-Date: Wed, 16 Mar 2022 11:31:27 +0000
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0F810E554
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 11:52:07 +0000 (UTC)
+X-UUID: 270f4637bb834eacb126e69dd293a4f2-20220316
+X-UUID: 270f4637bb834eacb126e69dd293a4f2-20220316
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 402798456; Wed, 16 Mar 2022 19:51:58 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 16 Mar 2022 19:51:57 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 16 Mar 2022 19:51:56 +0800
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
+Subject: [PATCH V8 0/5] add display support for MediaTek SoC MT8186
+Date: Wed, 16 Mar 2022 19:51:50 +0800
+Message-ID: <20220316115155.17834-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] drm: Fix a infinite loop condition when order becomes 0
-Content-Language: en-GB
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20220316063416.3051-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220316063416.3051-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +46,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, pmenzel@molgen.mpg.de, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski@canonical.com,
+ airlied@linux.ie, jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yongqiang.niu@mediatek.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/03/2022 06:34, Arunpravin Paneer Selvam wrote:
-> handle a situation in the condition order-- == min_order,
-> when order = 0 and min_order = 0, leading to order = -1,
-> it now won't exit the loop. To avoid this problem,
-> added a order check in the same condition, (i.e)
-> when order is 0, we return -ENOSPC
-> 
-> v2: use full name in email program and in Signed-off tag
-> 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> ---
->   drivers/gpu/drm/drm_buddy.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 72f52f293249..5ab66aaf2bbd 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -685,7 +685,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   			if (!IS_ERR(block))
->   				break;
->   
-> -			if (order-- == min_order) {
-> +			if (!order || order-- == min_order) {
+v8:
+1. Revise [1/5] dt-bindings: display: mediatek: add aal binding for MT8183.
 
-It shouldn't be possible to enter an infinite loop here, without first 
-tripping up the BUG_ON(order < min_order) further up, and for that, as 
-we discussed here[1], it sounded like the conclusion was to rather add a 
-simple check somewhere in drm_buddy_alloc_blocks() to reject any size 
-not aligned to the min_page_size?
+v7:
+1. Rebase to chunkuang.hu/linux.git mediatek-drm-fixes
 
-[1] https://patchwork.freedesktop.org/patch/477414/?series=101108&rev=1
+v6:
+1. Remove mmsys patches which are accepted.
+2. Fix error of dt-binding.
 
->   				err = -ENOSPC;
->   				goto err_free;
->   			}
-> 
-> base-commit: 3bd60c0259406c5ca3ce5cdc958fb910ad4b8175
+v5:
+1. Add binding patch of aal for MT8183.
+2. Revise enum to const.
+3. Change to use enum for mutex.
+4. Remove patches which are accepted by maintainers. (mmsys and mutex)
+
+v4:
+1. Remove binding of dsi and dpi.
+2. Revise aal binding.
+3. Fix indention in [4/5].
+
+v3:
+1. Modify display binding based on mtk display binding patch. ([1])
+2. Remove patch: drm/mediatek: separate postmask component from mtk_disp_drv.c
+3. Remove compatible of 8186 ovl because we can re-use compatible of 8192 for 8186.
+4. Fix issue of space before tab on mutex patch.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-drm-next&id=4ed545e7d10049b5492afc184e61a67e478a2cfd
+
+v2:
+1. Add binding documentation for mmsys, mutex and mtk_display.
+2. Remove duplicated definition of postmask registers on mtk_drm_drv.
+3. Add disp_ovl support for MT8186.
+4. Add detailed commit messages.
+
+Rex-BC Chen (4):
+  dt-bindings: display: mediatek: add aal binding for MT8183
+  dt-bindings: display: mediatek: revise enum to const
+  dt-bindings: display: mediatek: change to use enum for mutex
+  dt-bindings: display: mediatek: add MT8186 SoC binding
+
+Yongqiang Niu (1):
+  drm/mediatek: add display support for MT8186
+
+ .../display/mediatek/mediatek,aal.yaml        |  9 +++--
+ .../display/mediatek/mediatek,ccorr.yaml      |  5 ++-
+ .../display/mediatek/mediatek,color.yaml      |  7 ++--
+ .../display/mediatek/mediatek,dither.yaml     |  4 +--
+ .../display/mediatek/mediatek,gamma.yaml      |  4 +--
+ .../display/mediatek/mediatek,mutex.yaml      | 25 ++++++--------
+ .../display/mediatek/mediatek,ovl-2l.yaml     |  4 +++
+ .../display/mediatek/mediatek,ovl.yaml        |  8 +++--
+ .../display/mediatek/mediatek,postmask.yaml   |  4 +++
+ .../display/mediatek/mediatek,rdma.yaml       |  7 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 33 +++++++++++++++++++
+ 11 files changed, 77 insertions(+), 33 deletions(-)
+
+-- 
+2.18.0
+
