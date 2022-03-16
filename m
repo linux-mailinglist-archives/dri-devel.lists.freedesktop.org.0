@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADCC4DB332
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 15:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6E34DB34D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 15:31:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064FD10E5E5;
-	Wed, 16 Mar 2022 14:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CAF910E5E8;
+	Wed, 16 Mar 2022 14:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFDFB10E5E5;
- Wed, 16 Mar 2022 14:26:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id A3CDC1F446E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647440771;
- bh=LpT8vdOafwaEvQsTIQkR8RzSgD9eGWuZHVAyKh2RonQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VyeQtAoG1t/B1sDJ6RPpXnAwrgc6llpM1pdEtKHDRK3c2YogBiKCHAHFD176JrZxB
- gI7rsPrupgbTsM3aOuT1B2y8aqVw/YbSvVXf2+sxQbaqIx2jPBQNe6rrdo0QW4a8Aa
- xBl/R+SRpj027Rmx6Wvsdq9feT0dtlPBQCC9eECGmjVsjUvDYZ+QwbBQnTCI3VnMo5
- EwR0fW//76swis0fcgMyaqcBOBojwV94PX4z92Tdjw4Kbj++NZKZoLavcLqDnn1ALm
- grR64IJQEXIX2x9RhXPAWgGwRP4qvau39JLJYdoZX3NdTlbO4zux8feB9mJpw8yrP9
- cBELPOqMVFmIg==
-Message-ID: <2a364c03-d6d9-1ccd-2ecb-9ebf893f0860@collabora.com>
-Date: Wed, 16 Mar 2022 14:26:08 +0000
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DEE210E5E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 14:31:09 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nUUg7-0003gP-0G; Wed, 16 Mar 2022 15:31:07 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nUUg5-0000Uv-6F; Wed, 16 Mar 2022 15:31:05 +0100
+Date: Wed, 16 Mar 2022 15:31:05 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v8 09/24] drm/rockchip: dw_hdmi: Add support for niu clk
+Message-ID: <20220316143105.GS405@pengutronix.de>
+References: <20220311083323.887372-1-s.hauer@pengutronix.de>
+ <20220311083323.887372-10-s.hauer@pengutronix.de>
+ <4712e128-8a14-e361-0819-911dc3453372@collabora.com>
+ <20220314081834.GK405@pengutronix.de>
+ <96e3682c-51ff-6af2-ca07-6ea1b952dd70@collabora.com>
+ <20220316091253.GQ405@pengutronix.de>
+ <4c04da9c-f9c9-7375-df1a-4661807549dd@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 5/7] drm/ttm: add range busy check for range manager
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220315180444.3327283-1-bob.beckett@collabora.com>
- <20220315180444.3327283-6-bob.beckett@collabora.com>
- <2918e4a2-3bb8-23e0-3b8c-90c620b82328@amd.com>
- <1eef3b71-ef7c-24d1-b0d7-695fc1d2d353@collabora.com>
- <2b5816aa-c082-b03a-c7a0-e4351e8e4e5a@amd.com>
-From: Robert Beckett <bob.beckett@collabora.com>
-In-Reply-To: <2b5816aa-c082-b03a-c7a0-e4351e8e4e5a@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4c04da9c-f9c9-7375-df1a-4661807549dd@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:27:04 up 95 days, 23:12, 91 users,  load average: 0.07, 0.10, 0.14
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,139 +61,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, "elaine.zhang" <zhangqing@rock-chips.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 16/03/2022 13:43, Christian König wrote:
-> Am 16.03.22 um 14:19 schrieb Robert Beckett:
->>
->>
->> On 16/03/2022 09:54, Christian König wrote:
->>> Am 15.03.22 um 19:04 schrieb Robert Beckett:
->>>> RFC: do we want this to become a generic interface in
->>>> ttm_resource_manager_func?
->>>>
->>>> RFC: would we prefer a different interface? e.g.
->>>> for_each_resource_in_range or for_each_bo_in_range
->>>
->>> Well completely NAK to that. Why do you need that?
->>>
->>> The long term goal is to completely remove the range checks from TTM 
->>> instead.
->>
->> ah, I did not know that.
->> I wanted it just to enable parity with a selftest that checks whether 
->> a range is allocated before initializing a given range with test data 
->> behind the allocator's back. It needs to check the range so that it 
->> doesn't destroy in use data.
+On Wed, Mar 16, 2022 at 04:01:49PM +0300, Dmitry Osipenko wrote:
+> On 3/16/22 12:12, Sascha Hauer wrote:
+> > On Mon, Mar 14, 2022 at 08:54:27PM +0300, Dmitry Osipenko wrote:
+> >> On 3/14/22 11:18, Sascha Hauer wrote:
+> >>> On Sun, Mar 13, 2022 at 12:07:56AM +0300, Dmitry Osipenko wrote:
+> >>>> On 3/11/22 11:33, Sascha Hauer wrote:
+> >>>>> The rk3568 HDMI has an additional clock that needs to be enabled for the
+> >>>>> HDMI controller to work. This clock is not needed for the HDMI
+> >>>>> controller itself, but to make the SoC internal bus logic work. From the
+> >>>>> reference manual:
+> >>>>>
+> >>>>>> 2.8.6 NIU Clock gating reliance
+> >>>>>>
+> >>>>>> A part of niu clocks have a dependence on another niu clock in order to
+> >>>>>> sharing the internal bus. When these clocks are in use, another niu
+> >>>>>> clock must be opened, and cannot be gated.  These clocks and the special
+> >>>>>> clock on which they are relied are as following:
+> >>>>>>
+> >>>>>> Clocks which have dependency     The clock which can not be gated
+> >>>>>> -----------------------------------------------------------------
+> >>>>>> ...
+> >>>>>> pclk_vo_niu, hclk_vo_s_niu       hclk_vo_niu
+> >>>>>> ...
+> >>>>> The clock framework does not support turning on a clock whenever another
+> >>>>> clock is turned on, so this patch adds support for the dependent clock
+> >>>>> to the HDMI driver. We call it "NIU", which is for "Native Interface
+> >>>>> Unit"
+> >>>>
+> >>>> This still doesn't make sense to me. You're saying that "pclk_vo_niu,
+> >>>> hclk_vo_s_niu" depend on "hclk_vo_niu", but HDMI doesn't use pclk_vo, it
+> >>>> uses pclk_hdmi.
+> >>>
+> >>> pclk_hdmi_host is a child clock of pclk_vo:
+> >>>
+> >>>      aclk_vo                  2        2        0   300000000          0     0  50000         Y
+> >>>         aclk_hdcp             0        0        0   300000000          0     0  50000         N
+> >>>         pclk_vo               2        3        0    75000000          0     0  50000         Y
+> >>>            pclk_edp_ctrl      0        0        0    75000000          0     0  50000         N
+> >>>            pclk_dsitx_1       0        0        0    75000000          0     0  50000         N
+> >>>            pclk_dsitx_0       1        2        0    75000000          0     0  50000         Y
+> >>>            pclk_hdmi_host     1        2        0    75000000          0     0  50000         Y
+> >>>            pclk_hdcp          0        0        0    75000000          0     0  50000         N
+> >>>         hclk_vo               2        5        0   150000000          0     0  50000         Y
+> >>>            hclk_hdcp          0        0        0   150000000          0     0  50000         N
+> >>>            hclk_vop           0        2        0   150000000          0     0  50000         N
+> >>
+> >> It was unclear that the pclk_hdmi is the child of pclk_vo by looking at
+> >> the clk driver's code, thank you!
+> >>
+> >> Won't be better if the implicit clk dependency would be handled
+> >> internally by the RK clk driver?
+> > 
+> > I have considered handling something like coupled clocks in the clock
+> > framework, but I have not yet considered handling this internally in the
+> > Rockchip clock driver.
+> > 
+> > I just had a quick look at the driver. While it sounds like an easy task
+> > to enable gate A whenever gate B is enabled I haven't found a good way to
+> > integrate that into the clk driver. It seems to me that it's not easier
+> > to implement in the clk driver than it is to implement it in the clk
+> > framework where it could be used by others as well.
+> > 
+> >> For example, by making the common gate
+> >> shared/refcounted. Have you considered this variant? Then we won't need
+> >> to change the DT bindings.
+> > 
+> > For the DT bindings it is just an additional clock. Should we have a
+> > better way to handle that case in the future we could simply ignore the
+> > additional clock. I wouldn't bother too much about this.
 > 
-> Mhm, of hand that doesn't sounds like a valid test case. Do you have the 
-> code at hand?
-
-https://patchwork.freedesktop.org/patch/478347/?series=101396&rev=1
-this is where I replace an existing range check via drm_mm with the 
-range check I added in this patch.
-
+> To me that NIU quirk should be internal to the clk h/w module, so it
+> doesn't feel nice to mix the clk h/w description with the HDMI h/w
+> description.
 > 
->>
->> I suppose we could add another drm_mm range tracker just for testing 
->> and shadow track each allocation in the range, but that seemed like a 
->> lot of extra infrastructure for no general runtime use.
+> On the other hand, making clk driver to handle this case indeed will
+> take some effort as I see now. For example, clk driver of NVIDIA Tegra
+> has concept of shared gates, but bringing it to the RK clk driver will
+> be quite messy.
 > 
-> I have no idea what you mean with that.
-
-I meant as a potential solution to tracking allocations without a range 
-check, we would need to add something external. e.g. adding a shadow 
-drm_mm range tracker, or a bitmask across the range, or stick objects in 
-a list etc.
-
+> Alright, let's work around the clk limitation like you're suggesting. I
+> agree that it shouldn't really be a problem to deprecate the extra clock
+> later on.
 > 
->>
->> would you mind explaining the rationale for removing range checks? It 
->> seems to me like a natural fit for a memory manager
+> I have last questions..
 > 
-> TTM manages buffer objects and resources, not address space. The 
-> lpfn/fpfn parameter for the resource allocators are actually used as 
-> just two independent parameters and not define any range. We just keep 
-> the names for historical reasons.
-> 
-> The only places we still use and compare them as ranges are 
-> ttm_resource_compat() and ttm_bo_eviction_valuable() and I already have 
-> patches to clean up those and move them into the backend resource handling.
+> 1. Previously you said that the PD driver takes care of enabling all the
+> clocks it can find in the device by itself on RPM-resume, then why HDMI
+> driver needs to enable the clock explicitly?
 
-except the ttm_range_manager seems to still use them as a range specifier.
-
-If the general design going forward is to not consider ranges, how would 
-you recommend constructing buffers around pre-allocated regions e.g. 
-uefi frame buffers who's range is dictated externally?
+The PD driver only does so when the device has pm_runtime enabled.
+Currently that's not the case for the hdmi driver. That could be changed
+of course, but I am not convinced that it's a good idea that the PD
+driver messes with the consumers clocks. It would also make the PD
+driver mandatory which it currently not is.
 
 > 
-> Regards,
-> Christian.
-> 
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>>> ---
->>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 21 +++++++++++++++++++++
->>>>   include/drm/ttm/ttm_range_manager.h     |  3 +++
->>>>   2 files changed, 24 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>> index 8cd4f3fb9f79..5662627bb933 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>> @@ -206,3 +206,24 @@ int ttm_range_man_fini_nocheck(struct 
->>>> ttm_device *bdev,
->>>>       return 0;
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_range_man_fini_nocheck);
->>>> +
->>>> +/**
->>>> + * ttm_range_man_range_busy - Check whether anything is allocated 
->>>> with a range
->>>> + *
->>>> + * @man: memory manager to check
->>>> + * @fpfn: first page number to check
->>>> + * @lpfn: last page number to check
->>>> + *
->>>> + * Return: true if anything allocated within the range, false 
->>>> otherwise.
->>>> + */
->>>> +bool ttm_range_man_range_busy(struct ttm_resource_manager *man,
->>>> +                  unsigned fpfn, unsigned lpfn)
->>>> +{
->>>> +    struct ttm_range_manager *rman = to_range_manager(man);
->>>> +    struct drm_mm *mm = &rman->mm;
->>>> +
->>>> +    if (__drm_mm_interval_first(mm, PFN_PHYS(fpfn), PFN_PHYS(lpfn + 
->>>> 1) - 1))
->>>> +        return true;
->>>> +    return false;
->>>> +}
->>>> +EXPORT_SYMBOL(ttm_range_man_range_busy);
->>>> diff --git a/include/drm/ttm/ttm_range_manager.h 
->>>> b/include/drm/ttm/ttm_range_manager.h
->>>> index 7963b957e9ef..86794a3f9101 100644
->>>> --- a/include/drm/ttm/ttm_range_manager.h
->>>> +++ b/include/drm/ttm/ttm_range_manager.h
->>>> @@ -53,4 +53,7 @@ static __always_inline int 
->>>> ttm_range_man_fini(struct ttm_device *bdev,
->>>>       BUILD_BUG_ON(__builtin_constant_p(type) && type >= 
->>>> TTM_NUM_MEM_TYPES);
->>>>       return ttm_range_man_fini_nocheck(bdev, type);
->>>>   }
->>>> +
->>>> +bool ttm_range_man_range_busy(struct ttm_resource_manager *man,
->>>> +                  unsigned fpfn, unsigned lpfn);
->>>>   #endif
->>>
-> 
+> 2. You added clk_prepare_enable(), but there is no corresponding
+> clk_disable_unprepare(), AFAICS. Why?
+
+Because I missed it ;)
+
+Sascha
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
