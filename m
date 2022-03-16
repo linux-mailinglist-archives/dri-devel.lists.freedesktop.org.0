@@ -2,80 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63E14DB90E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 20:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0D24DB90F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 20:50:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00EB810EA47;
-	Wed, 16 Mar 2022 19:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9AF410EA43;
+	Wed, 16 Mar 2022 19:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FA310EA43
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 19:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647460233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IULt7o04qvCwavoveFrjEv+6PMDAGbABDhR83fNGGMs=;
- b=UxJRYjThLLuOG1U58bwHlMDsEi/9LoamwLs3H5jM0Ljak2iQZ+DuLkEtHepfHxIlef2TVK
- vT6wwao2As8W3py+8GLC+KrdCXFvsuD7cTp/QAcl9ui2i11SWycZ7Sl+lSECOU3Ml+cUBr
- YNhcz7REC9geRyWntCocSJRG5mQUZzc=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-kBWFqRreP3KuLw4ac4YvYQ-1; Wed, 16 Mar 2022 15:50:32 -0400
-X-MC-Unique: kBWFqRreP3KuLw4ac4YvYQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- x16-20020a0ce250000000b00432ec6eaf85so2426173qvl.15
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 12:50:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=IULt7o04qvCwavoveFrjEv+6PMDAGbABDhR83fNGGMs=;
- b=eUrG1jwCnpVhEsz7OK0YroiRyA/8krQNNOG1NHUZnfxTV39TVDU4voYX1TLHw1KlFv
- 9PrFPg9HZS0nny9xtxEp6BhSOV6V+zZuYL5g0yIALPuyXcsAtl7VJj6n+iR+POGozXWV
- zqBz3XYkBxJkBKHAtc93M+zx3nrD6lJ5f46XBoX4UWKniT7w5arN11wxAKeaBuTBIcgg
- ANgjTYqsP3gr5NNTWeNDKT+OuKwdtdhP/KWYR5lWcXAnbCoEWpqAqLfFlfl/vbXBumB9
- s3kP3AXn/TAcjPtUM+liuP/EJiX29b6/yW1l8lSlciNt9sUTl2FwCkjRlYpwAbh2NkTq
- UUvw==
-X-Gm-Message-State: AOAM533ylQvBdoyqKaCjCd8uciP503lxcbRi47gIh4cd7Xu/CjABdBZW
- mGUz+8dvOL2LZJ/5kWpeAfFOYMNfNI0XCVKF7Iy7L5Vtgsfxp4WSrZsngjMQGKWIzOdfFxiUBMq
- qN32vCeWfEVNk+FbfXQ9oVO55lLt3
-X-Received: by 2002:a05:622a:15d1:b0:2e1:e43a:5d8f with SMTP id
- d17-20020a05622a15d100b002e1e43a5d8fmr1272100qty.140.1647460231605; 
- Wed, 16 Mar 2022 12:50:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxh4lpEBRc4yxekchAYCkuCPJHbF3ageo0B4XggIr5OARMmH3VDkNNZctHxN64Hf6q3V4ltsw==
-X-Received: by 2002:a05:622a:15d1:b0:2e1:e43a:5d8f with SMTP id
- d17-20020a05622a15d100b002e1e43a5d8fmr1272083qty.140.1647460231386; 
- Wed, 16 Mar 2022 12:50:31 -0700 (PDT)
-Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
- [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
- v129-20020a379387000000b0064936bab2fcsm1320346qkd.48.2022.03.16.12.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 12:50:30 -0700 (PDT)
-Message-ID: <2cbea441243bce09ec11bfe19b5bc2a727b94690.camel@redhat.com>
-Subject: 2022 X.Org Foundation Membership deadline for voting in the election
-From: Lyude Paul <lyude@redhat.com>
-To: xorg@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org
-Date: Wed, 16 Mar 2022 15:50:29 -0400
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFEE710EA43
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 19:50:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 237E61F42B7C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647460250;
+ bh=2X9h3nK80lcnPb4NphKM5EwYM/7VFhDpWrcrESua5VM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZC6yeoP0u5YljDKXBUmjhxMwqmEBdz/dwjVonSXoti8So2CArj1FC7/edEN2RaPaB
+ 3hl8lpKvTdcwzHyfr+eQaMcXIl2vtxsVuMBG9WKHUY/gyiapr9QjEpphtS+yiRPX8W
+ nQri+T0ePsWuGCh3B1/2HX9zL8RzdqAQ1rYYF8TPWHcAujwhBHMj2V7wlOYxd2LuwN
+ 6wvLb+TjFm3QZNMwXliu+c8izhMjGjL9KZcZozlyxOY/5rhSHroylr+pOachUguNfh
+ HRmwRjpzENPc9JDKc31k2ozTID8brXVm2HkA0dYA0jDQhTD7LHen5xs8CcfSZewgtt
+ n3l0FfYyb+N1w==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: dri-devel@lists.freedesktop.org,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/ttm: fix uninit ptr deref in range manager alloc error
+ path
+Date: Wed, 16 Mar 2022 19:50:34 +0000
+Message-Id: <20220316195034.3821108-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,20 +47,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 2022 X.Org Foundation elections are rapidly approaching. We will be
-forwarding the election schedule and nominating process to the
-membership shortly.
+ttm_range_man_alloc would try to ttm_resource_fini the res pointer
+before it is allocated.
 
-Please note that only current members can vote in the upcoming election,
-and that the deadline for new memberships or renewals to vote in the
-upcoming election is 31 March 2022 at 23:59 UTC.
+Fixes: de3688e469b0 (drm/ttm: add ttm_resource_fini v2)
 
-If you are interested in joining the X.Org Foundation or in renewing
-your membership, please visit the membership system site at:
-https://members.x.org/
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/gpu/drm/ttm/ttm_range_manager.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Lyude Paul, on behalf of the X.Org elections committee
+diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+index 5662627bb933..1b4d8ca52f68 100644
+--- a/drivers/gpu/drm/ttm/ttm_range_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+@@ -89,7 +89,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 	spin_unlock(&rman->lock);
+ 
+ 	if (unlikely(ret)) {
+-		ttm_resource_fini(man, *res);
++		ttm_resource_fini(man, &node->base);
+ 		kfree(node);
+ 		return ret;
+ 	}
+-- 
+2.25.1
 
