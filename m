@@ -1,77 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4344DBA2F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 22:33:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917E94DBA53
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 22:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6365410E526;
-	Wed, 16 Mar 2022 21:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91AAE10E05D;
+	Wed, 16 Mar 2022 21:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A830A10E526
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 21:33:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647466402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Cjf+sePUKjFVbs2/xMP28GG8F7q6IR/iIhSkVA49Mzo=;
- b=FxidzDfC+YWMKDhTRGJo4eTs02dgf9wSS0Z/AbKOYer+IuTuRlpt1wu9MWPJ8I/U3L/ikg
- UGuEwL7ffOSwSH8K0oSClbcJJHngNwqlAzL2K8E6AQ81/g29+luts3OY19u6kDvAn61xaN
- Kn/1G2Fwh57Ni/YOzuTH9/KlVc2XuGA=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-39ZVh411MyOaeuyiLcnhpw-1; Wed, 16 Mar 2022 17:33:21 -0400
-X-MC-Unique: 39ZVh411MyOaeuyiLcnhpw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- c19-20020a05620a0cf300b005f17891c015so2188160qkj.18
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 14:33:21 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD6AC10E04F;
+ Wed, 16 Mar 2022 21:49:47 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ k8-20020a05600c1c8800b003899c7ac55dso2797059wms.1; 
+ Wed, 16 Mar 2022 14:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CtD+Q8xYCQwOTsJk6RUepbB/BPj2KkJaY9i4ORpgAR0=;
+ b=gsmqqsgBuSkvKJmUS2edlitkP1gbyVjhR+mi0GPUwWS/3wgu2ox+3R/3oQOS6i5DdC
+ hiB9OuKf56GyreJsgyKKWIqVwo8DbnFf39/EONKEml9ozNdDEpXTPQ5q7yQHu6VGA0Jw
+ k+hDq25t+uOGPS6NhWAVzkr/foTQdXyuIttXvAXXB1yMth5o5L/TCz0nV3KLhP33FK2z
+ vHlJJRUqlHzsGezhe8jg6+JWrywhfj3P7f3IEURx6CZTZ0R91tU0KjmfEC6o9o4CbEY2
+ rvDGxXWAwXPcwml1CtoXaha6P4g5vncJlMiYXb/Ef7+cQmVVg7fr8y37N18+P194dTuL
+ 9x6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Cjf+sePUKjFVbs2/xMP28GG8F7q6IR/iIhSkVA49Mzo=;
- b=nwXmv58Ok2se4M4Xuove4iVf5IaTj3PSZ/O1XXvE4E+Jf4eyqGkP11xZ53R69Fc0x2
- vAgD6t71LpGiGqmjIx8fv3d7Y1DRxiFtPuOXbYm0lcCiI0DqRgeN8wM5NacpUTf6gpKe
- ZP+vnNiqWj2xUyFe7HNzqpz+dCl88K5QzmJ0U565bk3CEH+yL5V8k+S2I/PWapYSkLZ2
- YANmntw2g13wPBo1+6Lzv8+Sw/NJeKv6EVv8pzviQ2j6HAi542ojFoPQVtTcFbVopdNS
- BC9ZZ2oZpoRLeu7W2LmeHLhPLqqNn6kZiQC1G3yXn7QWWqPQGIWruLDdbWCr2wva+Vcb
- iYDA==
-X-Gm-Message-State: AOAM531nP/W4XqfMrChn4JIGEk/BfoKYOoX3DN7DlP4Cph+EpICI7ezJ
- CKP0vd5bKbxF7G3pxFNElY6ANFhCcoUI+FTC/9QdVRmpTBe0CcZWH6rllYBx+nEH5Ua4DrxcWbu
- ZUXPkdyZ5nYtN5Qr0/u5r1cG6mfW+
-X-Received: by 2002:a05:620a:1434:b0:67d:40a2:da33 with SMTP id
- k20-20020a05620a143400b0067d40a2da33mr1108784qkj.93.1647466400912; 
- Wed, 16 Mar 2022 14:33:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMBj382llJcGhNjgXypk2KMl+brcsR3ru94ivUi6qdYSL0nMy2ik1LLlUpxmOj9dtjU/pdPw==
-X-Received: by 2002:a05:620a:1434:b0:67d:40a2:da33 with SMTP id
- k20-20020a05620a143400b0067d40a2da33mr1108760qkj.93.1647466400559; 
- Wed, 16 Mar 2022 14:33:20 -0700 (PDT)
-Received: from xps13 (c-98-239-145-235.hsd1.wv.comcast.net. [98.239.145.235])
- by smtp.gmail.com with ESMTPSA id
- a129-20020a376687000000b0067d186d953bsm1380576qkc.121.2022.03.16.14.33.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 14:33:20 -0700 (PDT)
-Date: Wed, 16 Mar 2022 17:33:19 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm: Don't make DRM_PANEL_BRIDGE dependent on
- DRM_KMS_HELPERS
-Message-ID: <YjJXnzJmDGsrZAXj@xps13>
-References: <20220315084559.23510-1-tzimmermann@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CtD+Q8xYCQwOTsJk6RUepbB/BPj2KkJaY9i4ORpgAR0=;
+ b=AymyHIy9TYy34EYBpIu6wYtcuvrBK8sDXz3FSa6P6fL9M6Oo2QvJ0Faw0Jdc8QugIx
+ k330TUzfCdfT+iILAVa7Kxq0UD8qicOrq44uObbxB+pB9C3eNDhMhmRgpIoaROydaDxS
+ vA+G7X7A4JZNhEdSFpx1lofkB2KTj/zDqqC8cxT7lM0SlMQPn0WCkMBDANi6WuB8NMG2
+ 1/aIOcUVptAmvYFqjS6Ah+1+a1RdFC2WdsOH2TXxkVlRQkqoTRDj6EFLWdnUClQ9DM6I
+ veXKtJ8fyUA3I7oCA4JBf75IZIyqGl2ZmwaB1cFxhfqa6gAeWTMe4PnINQmLFbapua/t
+ eloQ==
+X-Gm-Message-State: AOAM5310F+nXSRG6OG3DKfcGoun3OAvanlT1bjj7Qvlc1IUWMWMPVCdX
+ RNtaihtPdQY0c+8JPKNkXCx8j6E6Y4GjcXuRgSY=
+X-Google-Smtp-Source: ABdhPJw5D+eLsYaC94e1YZFTrQ6mywJt26HC4TbPmTKiH1uWmwyutSKpsz2PbasF8ljgne96lYtY9G+tjpwRLSQVVPo=
+X-Received: by 2002:a1c:f616:0:b0:37d:1e1c:f90a with SMTP id
+ w22-20020a1cf616000000b0037d1e1cf90amr9190749wmc.148.1647467386069; Wed, 16
+ Mar 2022 14:49:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220315084559.23510-1-tzimmermann@suse.de>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bmasney@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220308180403.75566-1-contactshashanksharma@gmail.com>
+In-Reply-To: <20220308180403.75566-1-contactshashanksharma@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 16 Mar 2022 14:50:28 -0700
+Message-ID: <CAF6AEGtnXvo=-fKbgSRtAtZ80igqJM2bTKefiLPUsSohU9idNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+To: Shashank Sharma <contactshashanksharma@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +63,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- narmstrong@baylibre.com, airlied@linux.ie,
- Naresh Kamboju <naresh.kamboju@linaro.org>, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kernel test robot <lkp@intel.com>,
- thierry.reding@gmail.com, robert.foss@linaro.org, airlied@redhat.com,
- Linux Kernel Functional Testing <lkft@linaro.org>, sam@ravnborg.org,
- Laurent.pinchart@ideasonboard.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alexandar Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 15, 2022 at 09:45:59AM +0100, Thomas Zimmermann wrote:
-> Fix a number of undefined references to drm_kms_helper.ko in
-> drm_dp_helper.ko:
-> 
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_duplicate_state':
->   drm_dp_mst_topology.c:(.text+0x2df0): undefined reference to `__drm_atomic_helper_private_obj_duplicate_state'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_delayed_destroy_work':
->   drm_dp_mst_topology.c:(.text+0x370c): undefined reference to `drm_kms_helper_hotplug_event'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_up_req_work':
->   drm_dp_mst_topology.c:(.text+0x7938): undefined reference to `drm_kms_helper_hotplug_event'
->   arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_link_probe_work':
->   drm_dp_mst_topology.c:(.text+0x82e0): undefined reference to `drm_kms_helper_hotplug_event'
-> 
-> This happens if panel-edp.ko has been configured with
-> 
->   DRM_PANEL_EDP=y
->   DRM_DP_HELPER=y
->   DRM_KMS_HELPER=m
-> 
-> which builds DP helpers into the kernel and KMS helpers sa a module.
-> Making DRM_PANEL_EDP select DRM_KMS_HELPER resolves this problem.
-> 
-> To avoid a resulting cyclic dependency with DRM_PANEL_BRIDGE, don't
-> make the latter depend on DRM_KMS_HELPER and fix the one DRM bridge
-> drivers that doesn't already select DRM_KMS_HELPER. As KMS helpers
-> cannot be selected directly by the user, config symbols should avoid
-> depending on it anyway.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 3755d35ee1d2 ("drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Cc: Linux Kernel Functional Testing <lkft@linaro.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
+On Tue, Mar 8, 2022 at 11:40 PM Shashank Sharma
+<contactshashanksharma@gmail.com> wrote:
+>
+> From: Shashank Sharma <shashank.sharma@amd.com>
+>
+> This patch adds a new sysfs event, which will indicate
+> the userland about a GPU reset, and can also provide
+> some information like:
+> - process ID of the process involved with the GPU reset
+> - process name of the involved process
+> - the GPU status info (using flags)
+>
+> This patch also introduces the first flag of the flags
+> bitmap, which can be appended as and when required.
+>
+> V2: Addressed review comments from Christian and Amar
+>    - move the reset information structure to DRM layer
+>    - drop _ctx from struct name
+>    - make pid 32 bit(than 64)
+>    - set flag when VRAM invalid (than valid)
+>    - add process name as well (Amar)
+>
+> Cc: Alexandar Deucher <alexander.deucher@amd.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Amaranath Somalapuram <amaranath.somalapuram@amd.com>
+> Signed-off-by: Shashank Sharma <shashank.sharma@amd.com>
+> ---
+>  drivers/gpu/drm/drm_sysfs.c | 31 +++++++++++++++++++++++++++++++
+>  include/drm/drm_sysfs.h     | 10 ++++++++++
+>  2 files changed, 41 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index 430e00b16eec..840994810910 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -409,6 +409,37 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_sysfs_hotplug_event);
+>
+> +/**
+> + * drm_sysfs_reset_event - generate a DRM uevent to indicate GPU reset
+> + * @dev: DRM device
+> + * @reset_info: The contextual information about the reset (like PID, flags)
+> + *
+> + * Send a uevent for the DRM device specified by @dev. This informs
+> + * user that a GPU reset has occurred, so that an interested client
+> + * can take any recovery or profiling measure.
+> + */
+> +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_event *reset_info)
+> +{
+> +       unsigned char pid_str[13];
+> +       unsigned char flags_str[15];
+> +       unsigned char pname_str[TASK_COMM_LEN + 6];
+> +       unsigned char reset_str[] = "RESET=1";
+> +       char *envp[] = { reset_str, pid_str, pname_str, flags_str, NULL };
+> +
+> +       if (!reset_info) {
+> +               DRM_WARN("No reset info, not sending the event\n");
+> +               return;
+> +       }
+> +
+> +       DRM_DEBUG("generating reset event\n");
+> +
+> +       snprintf(pid_str, ARRAY_SIZE(pid_str), "PID=%u", reset_info->pid);
+> +       snprintf(pname_str, ARRAY_SIZE(pname_str), "NAME=%s", reset_info->pname);
+> +       snprintf(flags_str, ARRAY_SIZE(flags_str), "FLAGS=%u", reset_info->flags);
+> +       kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_sysfs_reset_event);
+> +
+>  /**
+>   * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any connector
+>   * change
+> diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+> index 6273cac44e47..5ba11c760619 100644
+> --- a/include/drm/drm_sysfs.h
+> +++ b/include/drm/drm_sysfs.h
+> @@ -1,16 +1,26 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  #ifndef _DRM_SYSFS_H_
+>  #define _DRM_SYSFS_H_
+> +#include <linux/sched.h>
+> +
+> +#define DRM_GPU_RESET_FLAG_VRAM_INVALID (1 << 0)
+>
+>  struct drm_device;
+>  struct device;
+>  struct drm_connector;
+>  struct drm_property;
+>
+> +struct drm_reset_event {
+> +       uint32_t pid;
 
-This patch fixes the build error that I see with qcom_defconfig in
-linux-next.
+One side note, unrelated to devcoredump vs this..
 
-Tested-by: Brian Masney <bmasney@redhat.com>
+AFAIU you probably want to be passing around a `struct pid *`, and
+then somehow use pid_vnr() in the context of the process reading the
+event to get the numeric pid.  Otherwise things will not do what you
+expect if the process triggering the crash is in a different pid
+namespace from the compositor.
 
+BR,
+-R
+
+> +       uint32_t flags;
+> +       char pname[TASK_COMM_LEN];
+> +};
+> +
+>  int drm_class_device_register(struct device *dev);
+>  void drm_class_device_unregister(struct device *dev);
+>
+>  void drm_sysfs_hotplug_event(struct drm_device *dev);
+> +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_event *reset_info);
+>  void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+>  void drm_sysfs_connector_status_event(struct drm_connector *connector,
+>                                       struct drm_property *property);
+> --
+> 2.32.0
+>
