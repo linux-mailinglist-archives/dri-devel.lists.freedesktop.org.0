@@ -1,70 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A9B4DACD2
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 09:48:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 974B54DAD3C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 10:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC50810E54E;
-	Wed, 16 Mar 2022 08:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F1710E580;
+	Wed, 16 Mar 2022 09:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7838A10E54E;
- Wed, 16 Mar 2022 08:48:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 120A440483;
- Wed, 16 Mar 2022 09:48:39 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.11
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5aE44g7miLuw; Wed, 16 Mar 2022 09:48:37 +0100 (CET)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 0A1E640562;
- Wed, 16 Mar 2022 09:48:35 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="V2n1xXGD";
- dkim-atps=neutral
-Received: from [192.168.0.209] (unknown [192.198.151.54])
- by mail1.shipmail.org (Postfix) with ESMTPSA id EE9F23602B5;
- Wed, 16 Mar 2022 09:48:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1647420515; bh=w5XsVXMynxQn5jUZ2UcMkp4Loz51WEge2Pck3icha8g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=V2n1xXGDHSRJRXVhLN1uFmYza0n1Ju6xAmdgjnwzmTcZ/FovuySyFFlYHg7xIEtUd
- dMrOMEj5S28qKen9Py0RdGoi5YsN7RCrREcWfYiC1jCRKv+R58AZGkev/Bvjze29OZ
- luZVds2PnJ5WEh0GEoELx/P/pHeeiJee/Ki6vVzI=
-Message-ID: <ac2fe3b5-915b-1e16-58f8-702c8fb3d1e4@shipmail.org>
-Date: Wed, 16 Mar 2022 09:48:33 +0100
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9838010E580
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 09:10:12 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id w12so2627026lfr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 02:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=VZ6ofM8ou68e7YnPjx4KJBxVWRlqaqdrmiLEpd1Voks=;
+ b=YaesKL+/o2VEB71FT3zW1A8LD0eg9MLdYwEcn5ZY/IgV4/SA5W+tZ97C85aS2aaAyN
+ XpNVYyierU+yGWaWyY79K+dQXH9w94T7tZtO9xWjOCLYf7raoIvAVP6sFRxu1eccOSPY
+ e9wP1CI7Y7pZ3Pzmi3DvdHp3sDbyCRHbHv+qSVHw4jUpkvo2T68FBTnjfWteEB294lr1
+ G/TLcSLayrmnV+2GE5hix73rOmaPGD+97YeDYZRwp1IRIBFoxaI8V2M34PX4yGMENCaC
+ iaCq9MdOvKjdG7cXsFfxgeZ4XhxX9i7RE0kaEPnSJ5/BnCpQWdh/C54K7s8EBKddKjj6
+ 1Zlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=VZ6ofM8ou68e7YnPjx4KJBxVWRlqaqdrmiLEpd1Voks=;
+ b=A2bCknyeIfrvo+iu4ltvVkUb4hw9UyiZZoLwKeCyJqyfTcshA9vTtDmshXbNRBmwnV
+ H3/LRrqYtzL94g2KDmSRP9N1cD80i63RG0t/d0vM8RJAWzRXhFfHl7qQLghAYxLQrsGS
+ Di2KoZdiCyVa1BWyYYf7oTnhm+OieJBISRNYIXxyagU9u+h6hvV5te6MNwOwd4YLMsMV
+ e07bD3BxWC0gdBru03R/1Ly8NE6IFqS9vUuDvlRlp/3Ln1ZbEft0zHYoXVdbrk2PGnkI
+ y/yMSm1ZdB+7z3gWxZp/iSX+oU8rOOzWh6orqszS4/gi3fF0HlwcHFzf9RICGfWxQdve
+ QVtA==
+X-Gm-Message-State: AOAM533z570pPJ50Fi4s2j8LrXfIriuzooxHaIfYo6s/2Z4fgxeLtsP7
+ GSyi4Zdj/05IwVTo1dsyJVI=
+X-Google-Smtp-Source: ABdhPJz/9igdyPinL7/DBxWJRbZqvRfkGcjd/kZIOukC/xU+/ftar0Yvr4H920gb+Bni8ttWmLYEUg==
+X-Received: by 2002:ac2:5933:0:b0:448:3821:571f with SMTP id
+ v19-20020ac25933000000b004483821571fmr18992642lfi.375.1647421810706; 
+ Wed, 16 Mar 2022 02:10:10 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ br37-20020a056512402500b00448b91c5653sm102321lfb.131.2022.03.16.02.10.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 02:10:10 -0700 (PDT)
+Date: Wed, 16 Mar 2022 11:10:07 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: Parallel modesets and private state objects broken, where to go
+ with MST?
+Message-ID: <20220316111007.6c194fd9@eldfell>
+In-Reply-To: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
+References: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [PATCH v3 2/3] drm/i915/gem: Remove logic for
- wbinvd_on_all_cpus
-Content-Language: en-US
-To: Michael Cheng <michael.cheng@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@gmail.com>
-References: <20220222172649.331661-1-michael.cheng@intel.com>
- <20220222172649.331661-3-michael.cheng@intel.com>
- <40f820e6-6b28-fd8a-b058-13f0bbbf71fc@shipmail.org>
- <20220308175803.pszuli2ms3e7tah3@ldmartin-desk2>
- <109ec27b-3957-f13f-aec7-18fda2819ee0@intel.com>
- <d2efdd6a-3cf1-be31-2e47-55a2bdac2b3d@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <d2efdd6a-3cf1-be31-2e47-55a2bdac2b3d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/F9jJzATOa8+UxwilOYImmz/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,122 +69,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Michael, others.
+--Sig_/F9jJzATOa8+UxwilOYImmz/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This is the response from Linus last time we copied that already 
-pre-existing wbinvd_on_all_cpus() macro to another place in the driver:
+On Mon, 14 Mar 2022 18:16:36 -0400
+Lyude Paul <lyude@redhat.com> wrote:
 
-https://lists.freedesktop.org/archives/dri-devel/2021-November/330928.html
+> So, the actual problem: following a conversation with Daniel Vetter today=
+ I've
+> gotten the impression that private modesetting objects are basically just
+> broken with parallel modesets? I'm still wrapping my head around all of t=
+his
+> honestly, but from what I've gathered: CRTC atomic infra knows how to do =
+waits
+> in the proper places for when other CRTCs need to be waited on to continu=
+e a
+> modeset, but there's no such tracking with private objects. If I understa=
+nd
+> this correctly, that means that even if two CRTC modesets require pulling=
+ in
+> the same private object state for the MST mgr: we're only provided a guar=
+antee
+> that the atomic checks pulling in that private object state won't
+> concurrently. But when it comes to commits, it doesn't sound like there's=
+ any
+> actual tracking for this and as such - two CRTC modesets which have both
+> pulled in the MST private state object are not prevented from running
+> concurrently.
+>=20
+> This unfortunately throws an enormous wrench into the MST atomic conversi=
+on
+> I've been working on - as I was under the understanding while writing the=
+ code
+> for this that all objects in an atomic state are blocked from being used =
+in
+> any new atomic commits (not checks, as parallel checks should be fine in =
+my
+> case) until there's no commits active with said object pulled into the at=
+omic
+> state. I certainly am not aware of any way parallel modesetting could act=
+ually
+> be supported on MST, so it's not really a feature we want to deal with at=
+ all
+> besides stopping it from happening. This also unfortunately means that the
+> current atomic modesetting code we have for MST is potentially broken,
+> although I assume we've never hit any real world issues with it because o=
+f the
+> non-atomic locking we currently have for the payload table.
+>=20
+> So, Daniel had mentioned that supposedly you've been dealing with similar
+> issues with VC4 and might have already made progress on coming up with wa=
+ys to
+> deal with it. If this is all correct, I'd definitely appreciate being abl=
+e to
+> take a look at your work on this to see how I can help move things forwar=
+d.
+> I've got a WIP of my atomic only MST branch as well:
+>=20
+> https://gitlab.freedesktop.org/lyudess/linux/-/commits/wip/mst-atomic-onl=
+y-v1
+>=20
+> However it's very certainly broken right now (it compiles and I had thoug=
+ht it
+> worked already, but I realized I totally forgot to come up with a way of =
+doing
+> bookkeeping for VC start slots atomically - which is what led me down this
+> current rabbit hole), but it should at least give a general idea of what =
+I'm
+> trying to do.
+>=20
+> Anyway, let me know what you think.
 
-My first interpretation of this is that even if there currently are 
-similar patterns in drm_cache.c, we shouldn't introduce more, 
-encouraging other drivers to use incoherent IO.
+Hi Lyude,
 
-Other than that I think we should move whatever wbinvds we can over to 
-the ranged versions, unless that is proven to be a performance drop.
+as mentioned in IRC, I believe parallel atomic modesets on separate
+CRTCs have very limited use, so serialising them in the kernel is good.
+Any userspace that wants to reliably program more than one CRTC will
+collect all CRTCs into the same atomic commit.
 
-Finally for any wbinvds left in our driver, ensure that they are never 
-executed for any gpu where we provide full coherency. That is all 
-discrete gpus (and to be discussed integrated gpus moving forward).
+The reason is that userspace does TEST_ONLY commits first to see if
+things will work, and then do the real commit. If some other commit
+lands in between, then the test results are invalid and would need to
+be re-done. So parallel modesets are a gamble at best.
 
-Might be that drm maintainers want to chime in here with other views.
+However, parallel modesets are not just an attack vector, they can
+happen accidentally through DRM leasing. With DRM leasing, the DRM
+master gives access to some CRTC to another process, which will be
+doing modesets of its own. These two processes will race each other,
+not having any idea what the other one is doing or when.
+
 
 Thanks,
+pq
 
-Thomas
+--Sig_/F9jJzATOa8+UxwilOYImmz/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIxqW8ACgkQI1/ltBGq
+qqcnEQ//ZncwyvLKDqBYWJBGuWKt3zKnluZGlQoMGUt8+gqXhFHhAz92gdIAdjRp
+Ik30BLkkS5bng+1gT7vOCEOleH/h0T3opon2Zfp4JnnWunQaBpAuPS4VNsYi5VYP
+Ex3RGv+4HWYWKOrS5o/U2VmZOXvD2zQC4KIR9+w/s/2DV6xKF/xlaf+4lpauHnn5
+q+/QYokNwUCeNC1twNfUh9OcxgP90ikP5YNAk0C+Xhd7YFKS7Awg4YmBiFbC5lCE
+DUw1hBjyMk/8gEZ9X4RJKcjci8GyXckQojMIWP7xGTxx+LDATD7IhK7zot6q1Cur
+KBlawTWLil5/KrvtH11RWfNs3o5uxENdZk6/BOWUpJpznhG1L0kSfSKwabZxpmTx
+90kLKR5f5yqG2dzx8T6kqzaQbF0mDGy+NpU3PCyYOHmFnyR+o//KzNBXMbvO1Cqy
+GflfRARWmCi5pN2njR0FiLeRdDLlf4CGco5VkPBlsSm1FGzYWhZhmXFu/pJD6H8w
+qF7YFPx3CNMQyLqXgAT9gtyFIFNdPYdCuxbIbnSqfpVkI8VJnpWYIXRQt+ZP/1J1
++1KVoH7aV0A9yi9EQz/3BWJHXTwvSRulC/cl+clJzB7aSGngoPaaXh+X7CvveaZh
+yDbiVL0WX8Ns8DwPokLOBl2CiM/zHiTW8bFkCG/qp1jVllfSzOo=
+=7XGN
+-----END PGP SIGNATURE-----
 
-On 3/15/22 17:59, Michael Cheng wrote:
-> +Daniel for additional feedback!
->
-> On 2022-03-14 4:06 p.m., Michael Cheng wrote:
->
->> On 2022-03-08 10:58 a.m., Lucas De Marchi wrote:
->>
->>> On Tue, Feb 22, 2022 at 08:24:31PM +0100, Thomas Hellström (Intel) 
->>> wrote:
->>>> Hi, Michael,
->>>>
->>>> On 2/22/22 18:26, Michael Cheng wrote:
->>>>> This patch removes logic for wbinvd_on_all_cpus and brings in
->>>>> drm_cache.h. This header has the logic that outputs a warning
->>>>> when wbinvd_on_all_cpus when its being used on a non-x86 platform.
->>>>>
->>>>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
->>>>
->>>> Linus has been pretty clear that he won't accept patches that add 
->>>> macros that works on one arch and warns on others anymore in i915 
->>>> and I figure even less so in drm code.
->>>>
->>>> So we shouldn't try to move this out to drm. Instead we should 
->>>> restrict the wbinvd() inside our driver to integrated and X86 only. 
->>>> For discrete on all architectures we should be coherent and hence 
->>>> not be needing wbinvd().
->>>
->>> the warn is there to guarantee we don't forget a code path. However
->>> simply adding the warning is the real issue: we should rather guarantee
->>> we can't take that code path. I.e., as you said refactor the code to
->>> guarantee it works on discrete without that logic.
->>>
->>>     $ git grep wbinvd_on_all_cpus -- drivers/gpu/drm/
->>>     drivers/gpu/drm/drm_cache.c:    if (wbinvd_on_all_cpus())
->>>     drivers/gpu/drm/drm_cache.c:    if (wbinvd_on_all_cpus())
->>>     drivers/gpu/drm/drm_cache.c:    if (wbinvd_on_all_cpus())
->>>
->>>     drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c:      * Currently we 
->>> just do a heavy handed wbinvd_on_all_cpus() here since
->>>     drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c: wbinvd_on_all_cpus();
->>>
->>> It looks like we actually go through this on other discrete 
->>> graphics. Is
->>> this missing an update like s/IS_DG1/IS_DGFX/? Or should we be doing
->>> something else?
->>>
->>>     drivers/gpu/drm/i915/gem/i915_gem_pm.c:#define 
->>> wbinvd_on_all_cpus() \
->>>     drivers/gpu/drm/i915/gem/i915_gem_pm.c: wbinvd_on_all_cpus();
->>>
->>> Those are for suspend. Revert ac05a22cd07a ("drm/i915/gem: 
->>> Almagamate clflushes on suspend")
->>> or extract that part to a helper function and implement it differently
->>> for arches != x86?
->>>
->>>     drivers/gpu/drm/i915/gem/i915_gem_pm.c: wbinvd_on_all_cpus();
->>>
->>> Probably take a similar approach to the suspend case?
->>>
->>>     drivers/gpu/drm/i915/gt/intel_ggtt.c: wbinvd_on_all_cpus();
->>
->> For a helper function, I have a #define for all non x86 architecture 
->> that gives a warn on [1] within drm_cache.h Or would it be better to 
->> implement a helper function instead?
->>
->> [1]. https://patchwork.freedesktop.org/patch/475750/?series=99991&rev=5
->>
->>>
->>> This one comes from 64b95df91f44 ("drm/i915: Assume exclusive access 
->>> to objects inside resume")
->>> Shouldn't that be doing the invalidate if the write domain is 
->>> I915_GEM_DOMAIN_CPU
->>>
->>> In the end I think the warning would be ok if it was the cherry on top,
->>> to guarantee we don't take those paths. We should probably have a
->>> warn_once() to avoid spamming the console. But we  also have to rework
->>> the code to guarantee we are the only ones who may eventually get that
->>> warning, and not the end user.
->> Could we first add the helper function/#define for now, and rework 
->> the code in a different patch series?
->>>
->>> Lucas De Marchi
->>>
->>>>
->>>> Thanks,
->>>>
->>>> /Thomas
->>>>
->>>>
+--Sig_/F9jJzATOa8+UxwilOYImmz/--
