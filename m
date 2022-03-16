@@ -2,123 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425B04DB372
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 15:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FDA4DB3E1
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 16:04:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7EB10E5EC;
-	Wed, 16 Mar 2022 14:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C00898AF;
+	Wed, 16 Mar 2022 15:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD5610E5EC;
- Wed, 16 Mar 2022 14:39:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hAsPhhKYqXsDLLLw83+lD2GAQoYvDZJdhz5ziz7VB2a7e3/B7YPlEkwO7z2inhUy3dC1GIwtaV91pNQGy+WmLD4p0Gjs6srvypN/8tCClDPK1zGOWtN5mFn68umUeqxJqZFP2UL/Gr+XwexRhihMdL8cwtvrNP84aZfck8HGoXjRW+dOpLohORpNNoXOhUCWx/EmwDkSnLGZ2g2Bce/rlpKqSw+6vuKY23OjyZzOexSWYJEAHEi+Zjg3vx+7P1rXOhwRcA9r9lCUCBKoHlE469TjTaJIYQnubddoPo5M5bQF6YAzlHbscsutR8/6wJxSw+hKu//dzukXeYgJr6J5Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DVgpYaZ/ZiMZkfbylLTmqOCrXxoggQSQH5/M64+B6Q4=;
- b=E9P9CgIh9tJE+vsHXnBMvv4URKscvAA/5pU/qESjdMMFJaOKy6R6EoDxxqWXF8f04ZUT37onpHREbzRAPa/Fy/CDFEOhW1uICID5i176WgCGcxM4VvXAE0hAdGrtuU2kPAEkRNPXQrcMU18BJ/jnWms389e+be9heQtrgKHCR4Vr4ICEp4HOZchcjARyaV5gHziHuL4jxnASMEno5a4jh3uIU8HSMYMngz27efLQK5fd6CXWdf93FvpGpnxXgFZNXyeOrV7ULl5b4jJOhTC1XdMAlWhaXuZ7aAuzlxKWhPGYTxtNhK6TVVs5Nas3qqQxbGhs409SRodWmu4OYHy3TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DVgpYaZ/ZiMZkfbylLTmqOCrXxoggQSQH5/M64+B6Q4=;
- b=PyFQzAN7N7yJRSSLzr3N2kcQP5oovna2CtPc/ywddWZjtDfiAQCqib0unEYuuuBz0CotwMnYT0y0iDzg84of6TpQCrrUeC5xNyJY2Q8r/XhDxbi06AIP5GJaCaRUiVpEMJD7ej7hNftyoxFzEzVdd9mFgox1/0quxNU/zzhAF/8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY4PR1201MB2549.namprd12.prod.outlook.com (2603:10b6:903:da::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Wed, 16 Mar
- 2022 14:39:29 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
- 14:39:29 +0000
-Message-ID: <aedda268-8859-ab42-c276-d3b7cb0533fd@amd.com>
-Date: Wed, 16 Mar 2022 15:39:24 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ECB1210E603
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 15:04:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DFA71476;
+ Wed, 16 Mar 2022 08:04:13 -0700 (PDT)
+Received: from [10.57.43.235] (unknown [10.57.43.235])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AABB63F7D7;
+ Wed, 16 Mar 2022 08:04:10 -0700 (PDT)
+Message-ID: <d9b39fc0-f8dd-9569-833d-7fe12a0dc859@arm.com>
+Date: Wed, 16 Mar 2022 15:04:09 +0000
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 5/7] drm/ttm: add range busy check for range manager
-Content-Language: en-US
-To: Robert Beckett <bob.beckett@collabora.com>,
- intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220315180444.3327283-1-bob.beckett@collabora.com>
- <20220315180444.3327283-6-bob.beckett@collabora.com>
- <2918e4a2-3bb8-23e0-3b8c-90c620b82328@amd.com>
- <1eef3b71-ef7c-24d1-b0d7-695fc1d2d353@collabora.com>
- <2b5816aa-c082-b03a-c7a0-e4351e8e4e5a@amd.com>
- <2a364c03-d6d9-1ccd-2ecb-9ebf893f0860@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2a364c03-d6d9-1ccd-2ecb-9ebf893f0860@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR0202CA0066.eurprd02.prod.outlook.com
- (2603:10a6:20b:3a::43) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a0f04571-3b3b-4319-8965-08da075ac6cd
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB2549:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB2549469963782E81C0FE355983119@CY4PR1201MB2549.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ui48xTSYm+iJOPXPw0DDagwVl3BQQ2RURZDmE5i3d8TTMxU9j4OBGRgFWdxCVEZWj8UQjHUNkqzEGLcMud6urlKz+iHp+ZDpUL3OJwd8Y5sac1F2VlwfV+plmTZjstQlpxxtykyKS/F1ShPx+sfVm7kdViuLUddA6LlP6UjlLJW4QZozvUQeBnhFfD+vGRlLL5Euu3cY15hehPXGT/FhP5wdU7rKT4S6L8Jpt790YYwhYIvpTLTuI4jBXXPW55WrbJ/n3By4YCaVZr9yJVHhgR4r+Re3mzHJnrnAdzb3Qih8I1zXTQZTZVTx6JdjagEnwC6p7apbpDbH0fImNuyAPM+RMnLD64keQPwG5J7mGC896RMTxzyFLhtdHY5NwnKC3xaZY8ZyayLWvGVUe0s51yalED3AHEPDpLDSafKwIC+KBJlcY98Rlq4Ex0BbKtKI9wFOh2B7rchfIwmR2r/0Fr1Ww+0ka0QaE7+Hxhv2RjIqsgzeZcEDGLioN0ZAXpog09aqZonuKGbR61OvMCliBxKU8cqCKq3QLScezY/c9eEjX5q0Ms45G9AcKcP428DGJiO9b2t1IG9RcNc88MnXlcYKLcGU9IhvBLUsHEkqOUd4OJHSCs5qPMz0EQ6XTwFoikXmt+ZcMhHRJGSevZiN8lpKByikMiUOCiKNxfyea5UeAUq036qKbo90B30+TnWHBl9LBESt/pQ5TjP1b1gQlMzmxIo2P9Cca3Lrr5CLdj/mhlD2XAsFg9O4aqWhIPSw
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6506007)(66946007)(31686004)(31696002)(5660300002)(2906002)(508600001)(36756003)(8936002)(66476007)(66556008)(2616005)(38100700002)(316002)(83380400001)(186003)(8676002)(86362001)(6486002)(6666004)(4326008)(110136005)(6512007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnVNMGZNSUVUZWlpTEZsOStrTW1FSmlobkdMSEl0ZjgvRGNJTm9kYjZRaldp?=
- =?utf-8?B?T0pKaUVTVlVCSko0amp4djB1ZDFxTkhrUWgyazc4K29xUFZiTWh4bUZDWFd1?=
- =?utf-8?B?QUg5VFJhUU5nd1poeDhXR2hwV2FuZGkxUkxra216LzhqRmd4bzlwOUU4MDNh?=
- =?utf-8?B?dzNwd2tNUlR2WWd3S0N2V0M1S09wcjhjSVhidEZ1anVpQVYvWWt0SkZUUWZq?=
- =?utf-8?B?ZlVRY1pNbzhmY2pobWtJNXlhazJGbFYyUEN2T3ZZSUJNa1RiTW8vNFhmL0NH?=
- =?utf-8?B?cnN1UnlZeGJxSGlUMzUzdGlUNUF4T2RXVjVnVjBCTCtMWmt0WWxack95SEdH?=
- =?utf-8?B?d0FXMXZIYnl1cEw1eGIzSHMrbE1xUXdsQWZrT1VrdlJtSE9QV3ZZcmh1NEVG?=
- =?utf-8?B?WVZxcVN6NXFzM2R3RXM3NytreXdxWHdrSlhpVWlyMW1SZ0VZYkxuOFFTWWJK?=
- =?utf-8?B?VnV0S2VIRTBQdUFqNXdKUXJXRGVIME10T0VoMFRtS3BDODM4ZFhUZUZtUU15?=
- =?utf-8?B?Y2JpTG5OVUxoQzFERnBlMVJJNnBEUW9nRTlJaysrU2t0SEpnOVRpMktqSW9V?=
- =?utf-8?B?eGY4dFdYQ0NIMzlwTXlnZThXY2dVb2dDbmRJeFBjT2Q2UXR5TmNPQm9rZk4y?=
- =?utf-8?B?bEl3WFRZRU9SN2VNdFN0M0djWHhaaGR1ZGs1UTBhU2pvSWhaWnBYVHZSM0dT?=
- =?utf-8?B?NFZpM0NTNTNaOVdTREk0bSt2SWpRZzJYRGwzV09EcHU3Umc0dmlob0ErVEl6?=
- =?utf-8?B?VGRvV2VVUldDaGY3Y0lCbkVJWmx1Wjl4TDhJQVVEREJuYnRKWDJLa1FnaDIw?=
- =?utf-8?B?aGUwa0FlUDJUcGlOQklVNGwyNEZDT1FCSTdXdmk5dXJzbVhjTDJwbnpFdHRx?=
- =?utf-8?B?dC8xMHVWNkwwUWZldnRBcTVZWGtUUU52MjgzK1Y2ZmFDMzN2UmkrZVRZMElF?=
- =?utf-8?B?OWhIUGtrUnlYeTRnMGM0U01sNkNtQmp0bnVEelIyY3g3amQxQTN0WkhXZ3oy?=
- =?utf-8?B?bDNqRWRnVG9VdVpwZHBTdi8zQkhhYlB0amhsRld0bXdNZ0FZVC9mTGhkb3Nk?=
- =?utf-8?B?Q2t0M1p3dmVtR0xxbm4zKzZmbFJHUzJoVzErZVdJN1BpNFFydFZMb3hHRi9T?=
- =?utf-8?B?SDcyTUV6OFozS2kzOFdjL0owcjJZNzBKK0ZkMDlaZ1Z1eVNLcGlydVVLL0FO?=
- =?utf-8?B?MWFKWG9oYVFkNWxXSnY1TThEMHhvY1lkZXY2MjFiL0ZpdUJXNjNqYkR1MnBz?=
- =?utf-8?B?dXAyYjZTWGV1eHR3MnBsMCtIWnNtNTRtdUtkdFYvTll2VHVNQnEzdG56bTNS?=
- =?utf-8?B?ZlVFaFpITStkaE9TSW9ZaWFzdk02dE5rN0NpQkc3REtxeUVUVnNJYzUzY0o2?=
- =?utf-8?B?NGQyTjY2cm9vVzBFbDJoamI5aHhBaHN2bE0wL21KT28vMmpXckhxSFNLK0ZY?=
- =?utf-8?B?STFDSTdsU2wxZVB5NXY3dDJZbXZRMWtZdWVUNGNvZGZLU2hWTTZwZnZPRmlE?=
- =?utf-8?B?aEJaNU5wclZmMUVoQithY3ZzMy93aW9xNWx5enRIaG1iYXBlK0RuMkY5SkFq?=
- =?utf-8?B?d2kvOUlkN1lZNUczRVlrNzhSVEZDOS9uZTUydEs2MGdBbjdjc1hrcC9RcEZN?=
- =?utf-8?B?Y3NwY01hN3VGNE1BZUluKysvc3hVQlkxVzNEQU80SmNuVG9nUVhLV0hXakVX?=
- =?utf-8?B?VG4wbk5FRlhYbG9Jb0l3MWlCdFU4clRiSmFhYmJSbm5kNmtSVHhmcGM5empI?=
- =?utf-8?B?QWIwcXdFRk1OdGw3dHlwaGRKckk4dUJMelNIcEVmWHNFNm5WaldWZjB5UnUx?=
- =?utf-8?B?OFlzUEZPVTc3c2NKNW5hNllDaEdUcXFGWW5PS0x4NlJJbUQxcnk0OWpYa3V3?=
- =?utf-8?B?SnBnQmZ1V21odkY5N3ZpaUR1d0EzTkdFS2VHc0Zpa2R3YTVYMlhKREl3VEFE?=
- =?utf-8?B?TTcyUzJSdkIrOFVTUnpoVlY5eFllZjFDT3krTnJrN1lkTU1ESjZ0TzRzblAy?=
- =?utf-8?B?Q1BJOExLakRFSndrb3ROZkdaWjdyNzZVS1kveWhiSHU4UXVJenl2bGVrNy9k?=
- =?utf-8?Q?FNvVc3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0f04571-3b3b-4319-8965-08da075ac6cd
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 14:39:29.2656 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CC6lfnIWuqp8DulmzPXjHJgtAd3xNgiCTDJmQ24zYDRnBNPe56/nRUTyDEYy0ss2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2549
+Subject: Re: [PATCH v2 6/8] drm/shmem-helper: Add generic memory shrinker
+Content-Language: en-GB
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
+ <20220314224253.236359-7-dmitry.osipenko@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220314224253.236359-7-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,128 +54,382 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.03.22 um 15:26 schrieb Robert Beckett:
->
-> [SNIP]
-> this is where I replace an existing range check via drm_mm with the 
-> range check I added in this patch.
+On 14/03/2022 22:42, Dmitry Osipenko wrote:
+> Introduce a common DRM SHMEM shrinker. It allows to reduce code
+> duplication among DRM drivers, it also handles complicated lockings
+> for the drivers. This is initial version of the shrinker that covers
+> basic needs of GPU drivers.
+> 
+> This patch is based on a couple ideas borrowed from Rob's Clark MSM
+> shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
+> 
+> GPU drivers that want to use generic DRM memory shrinker must support
+> generic GEM reservations.
+> 
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Mhm, I still don't get the use case from the code, but I don't think it 
-matters any more.
+This looks fine to me, but one nitpick: you should update the comment in
+struct drm_gem_shmem_object:
 
->>> I suppose we could add another drm_mm range tracker just for testing 
->>> and shadow track each allocation in the range, but that seemed like 
->>> a lot of extra infrastructure for no general runtime use.
->>
->> I have no idea what you mean with that.
->
-> I meant as a potential solution to tracking allocations without a 
-> range check, we would need to add something external. e.g. adding a 
-> shadow drm_mm range tracker, or a bitmask across the range, or stick 
-> objects in a list etc.
+> 	/**
+> 	 * @madv: State for madvise
+> 	 *
+> 	 * 0 is active/inuse.
+> 	 * A negative value is the object is purged.
+> 	 * Positive values are driver specific and not used by the helpers.
+> 	 */
+> 	int madv;
 
-Ah! So you are trying to get access to the drm_mm inside the 
-ttm_range_manager and not add some additional range check function! Now 
-I got your use case.
+This is adding a helper which cares about the positive values.
 
->>> would you mind explaining the rationale for removing range checks? 
->>> It seems to me like a natural fit for a memory manager
->>
->> TTM manages buffer objects and resources, not address space. The 
->> lpfn/fpfn parameter for the resource allocators are actually used as 
->> just two independent parameters and not define any range. We just 
->> keep the names for historical reasons.
->>
->> The only places we still use and compare them as ranges are 
->> ttm_resource_compat() and ttm_bo_eviction_valuable() and I already 
->> have patches to clean up those and move them into the backend 
->> resource handling.
->
-> except the ttm_range_manager seems to still use them as a range specifier.
+Steve
 
-Yeah, because the range manager is the backend which handles ranges 
-using the drm_mm :)
-
-> If the general design going forward is to not consider ranges, how 
-> would you recommend constructing buffers around pre-allocated regions 
-> e.g. uefi frame buffers who's range is dictated externally?
-
-Call ttm_bo_mem_space() with the fpfn/lpfn filled in as required. See 
-function amdgpu_bo_create_kernel_at() for an example.
-
-Regards,
-Christian.
-
->
->>
->> Regards,
->> Christian.
->>
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>>>> ---
->>>>>   drivers/gpu/drm/ttm/ttm_range_manager.c | 21 +++++++++++++++++++++
->>>>>   include/drm/ttm/ttm_range_manager.h     |  3 +++
->>>>>   2 files changed, 24 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c 
->>>>> b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>> index 8cd4f3fb9f79..5662627bb933 100644
->>>>> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
->>>>> @@ -206,3 +206,24 @@ int ttm_range_man_fini_nocheck(struct 
->>>>> ttm_device *bdev,
->>>>>       return 0;
->>>>>   }
->>>>>   EXPORT_SYMBOL(ttm_range_man_fini_nocheck);
->>>>> +
->>>>> +/**
->>>>> + * ttm_range_man_range_busy - Check whether anything is allocated 
->>>>> with a range
->>>>> + *
->>>>> + * @man: memory manager to check
->>>>> + * @fpfn: first page number to check
->>>>> + * @lpfn: last page number to check
->>>>> + *
->>>>> + * Return: true if anything allocated within the range, false 
->>>>> otherwise.
->>>>> + */
->>>>> +bool ttm_range_man_range_busy(struct ttm_resource_manager *man,
->>>>> +                  unsigned fpfn, unsigned lpfn)
->>>>> +{
->>>>> +    struct ttm_range_manager *rman = to_range_manager(man);
->>>>> +    struct drm_mm *mm = &rman->mm;
->>>>> +
->>>>> +    if (__drm_mm_interval_first(mm, PFN_PHYS(fpfn), PFN_PHYS(lpfn 
->>>>> + 1) - 1))
->>>>> +        return true;
->>>>> +    return false;
->>>>> +}
->>>>> +EXPORT_SYMBOL(ttm_range_man_range_busy);
->>>>> diff --git a/include/drm/ttm/ttm_range_manager.h 
->>>>> b/include/drm/ttm/ttm_range_manager.h
->>>>> index 7963b957e9ef..86794a3f9101 100644
->>>>> --- a/include/drm/ttm/ttm_range_manager.h
->>>>> +++ b/include/drm/ttm/ttm_range_manager.h
->>>>> @@ -53,4 +53,7 @@ static __always_inline int 
->>>>> ttm_range_man_fini(struct ttm_device *bdev,
->>>>>       BUILD_BUG_ON(__builtin_constant_p(type) && type >= 
->>>>> TTM_NUM_MEM_TYPES);
->>>>>       return ttm_range_man_fini_nocheck(bdev, type);
->>>>>   }
->>>>> +
->>>>> +bool ttm_range_man_range_busy(struct ttm_resource_manager *man,
->>>>> +                  unsigned fpfn, unsigned lpfn);
->>>>>   #endif
->>>>
->>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 194 +++++++++++++++++++++++++
+>  include/drm/drm_device.h               |   4 +
+>  include/drm/drm_gem.h                  |  11 ++
+>  include/drm/drm_gem_shmem_helper.h     |  25 ++++
+>  4 files changed, 234 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 37009418cd28..35be2ee98f11 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -139,6 +139,9 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> +	/* take out shmem GEM object from the memory shrinker */
+> +	drm_gem_shmem_madvise(shmem, 0);
+> +
+>  	WARN_ON(shmem->vmap_use_count);
+>  
+>  	if (obj->import_attach) {
+> @@ -163,6 +166,42 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
+>  
+> +static void drm_gem_shmem_update_purgeable_status(struct drm_gem_shmem_object *shmem)
+> +{
+> +	struct drm_gem_object *obj = &shmem->base;
+> +	struct drm_gem_shmem_shrinker *gem_shrinker = obj->dev->shmem_shrinker;
+> +	size_t page_count = obj->size >> PAGE_SHIFT;
+> +
+> +	if (!gem_shrinker || obj->import_attach || !obj->funcs->purge)
+> +		return;
+> +
+> +	mutex_lock(&shmem->vmap_lock);
+> +	mutex_lock(&shmem->pages_lock);
+> +	mutex_lock(&gem_shrinker->lock);
+> +
+> +	if (shmem->madv < 0) {
+> +		list_del_init(&shmem->madv_list);
+> +		goto unlock;
+> +	} else if (shmem->madv > 0) {
+> +		if (!list_empty(&shmem->madv_list))
+> +			goto unlock;
+> +
+> +		WARN_ON(gem_shrinker->shrinkable_count + page_count < page_count);
+> +		gem_shrinker->shrinkable_count += page_count;
+> +
+> +		list_add_tail(&shmem->madv_list, &gem_shrinker->lru);
+> +	} else if (!list_empty(&shmem->madv_list)) {
+> +		list_del_init(&shmem->madv_list);
+> +
+> +		WARN_ON(gem_shrinker->shrinkable_count < page_count);
+> +		gem_shrinker->shrinkable_count -= page_count;
+> +	}
+> +unlock:
+> +	mutex_unlock(&gem_shrinker->lock);
+> +	mutex_unlock(&shmem->pages_lock);
+> +	mutex_unlock(&shmem->vmap_lock);
+> +}
+> +
+>  static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+> @@ -366,6 +405,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>  	ret = drm_gem_shmem_vmap_locked(shmem, map);
+>  	mutex_unlock(&shmem->vmap_lock);
+>  
+> +	drm_gem_shmem_update_purgeable_status(shmem);
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vmap);
+> @@ -409,6 +450,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+>  	mutex_lock(&shmem->vmap_lock);
+>  	drm_gem_shmem_vunmap_locked(shmem, map);
+>  	mutex_unlock(&shmem->vmap_lock);
+> +
+> +	drm_gem_shmem_update_purgeable_status(shmem);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+>  
+> @@ -451,6 +494,8 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+>  
+>  	mutex_unlock(&shmem->pages_lock);
+>  
+> +	drm_gem_shmem_update_purgeable_status(shmem);
+> +
+>  	return (madv >= 0);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_madvise);
+> @@ -763,6 +808,155 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>  
+> +static struct drm_gem_shmem_shrinker *
+> +to_drm_shrinker(struct shrinker *shrinker)
+> +{
+> +	return container_of(shrinker, struct drm_gem_shmem_shrinker, base);
+> +}
+> +
+> +static unsigned long
+> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
+> +				     struct shrink_control *sc)
+> +{
+> +	struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+> +	u64 count = gem_shrinker->shrinkable_count;
+> +
+> +	if (count >= SHRINK_EMPTY)
+> +		return SHRINK_EMPTY - 1;
+> +
+> +	return count ?: SHRINK_EMPTY;
+> +}
+> +
+> +static unsigned long
+> +drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
+> +				    struct shrink_control *sc)
+> +{
+> +	struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+> +	struct drm_gem_shmem_object *shmem;
+> +	struct list_head still_in_list;
+> +	bool lock_contention = true;
+> +	struct drm_gem_object *obj;
+> +	unsigned long freed = 0;
+> +
+> +	INIT_LIST_HEAD(&still_in_list);
+> +
+> +	mutex_lock(&gem_shrinker->lock);
+> +
+> +	while (freed < sc->nr_to_scan) {
+> +		shmem = list_first_entry_or_null(&gem_shrinker->lru,
+> +						 typeof(*shmem), madv_list);
+> +		if (!shmem)
+> +			break;
+> +
+> +		obj = &shmem->base;
+> +		list_move_tail(&shmem->madv_list, &still_in_list);
+> +
+> +		/*
+> +		 * If it's in the process of being freed, gem_object->free()
+> +		 * may be blocked on lock waiting to remove it.  So just
+> +		 * skip it.
+> +		 */
+> +		if (!kref_get_unless_zero(&obj->refcount))
+> +			continue;
+> +
+> +		mutex_unlock(&gem_shrinker->lock);
+> +
+> +		/* prevent racing with job submission code paths */
+> +		if (!dma_resv_trylock(obj->resv))
+> +			goto shrinker_lock;
+> +
+> +		/* prevent racing with the dma-buf exporting */
+> +		if (!mutex_trylock(&gem_shrinker->dev->object_name_lock))
+> +			goto resv_unlock;
+> +
+> +		if (!mutex_trylock(&shmem->vmap_lock))
+> +			goto object_name_unlock;
+> +
+> +		if (!mutex_trylock(&shmem->pages_lock))
+> +			goto vmap_unlock;
+> +
+> +		lock_contention = false;
+> +
+> +		/* check whether h/w uses this object */
+> +		if (!dma_resv_test_signaled(obj->resv, true))
+> +			goto pages_unlock;
+> +
+> +		/* GEM may've become unpurgeable while shrinker was unlocked */
+> +		if (!drm_gem_shmem_is_purgeable(shmem))
+> +			goto pages_unlock;
+> +
+> +		freed += obj->funcs->purge(obj);
+> +pages_unlock:
+> +		mutex_unlock(&shmem->pages_lock);
+> +vmap_unlock:
+> +		mutex_unlock(&shmem->vmap_lock);
+> +object_name_unlock:
+> +		mutex_unlock(&gem_shrinker->dev->object_name_lock);
+> +resv_unlock:
+> +		dma_resv_unlock(obj->resv);
+> +shrinker_lock:
+> +		drm_gem_object_put(&shmem->base);
+> +		mutex_lock(&gem_shrinker->lock);
+> +	}
+> +
+> +	list_splice_tail(&still_in_list, &gem_shrinker->lru);
+> +	WARN_ON(gem_shrinker->shrinkable_count < freed);
+> +	gem_shrinker->shrinkable_count -= freed;
+> +
+> +	mutex_unlock(&gem_shrinker->lock);
+> +
+> +	if (!freed && !lock_contention)
+> +		return SHRINK_STOP;
+> +
+> +	return freed;
+> +}
+> +
+> +int drm_gem_shmem_shrinker_register(struct drm_device *dev)
+> +{
+> +	struct drm_gem_shmem_shrinker *gem_shrinker;
+> +	int err;
+> +
+> +	if (WARN_ON(dev->shmem_shrinker))
+> +		return -EBUSY;
+> +
+> +	gem_shrinker = kzalloc(sizeof(*gem_shrinker), GFP_KERNEL);
+> +	if (!gem_shrinker)
+> +		return -ENOMEM;
+> +
+> +	gem_shrinker->base.count_objects = drm_gem_shmem_shrinker_count_objects;
+> +	gem_shrinker->base.scan_objects = drm_gem_shmem_shrinker_scan_objects;
+> +	gem_shrinker->base.seeks = DEFAULT_SEEKS;
+> +	gem_shrinker->dev = dev;
+> +
+> +	INIT_LIST_HEAD(&gem_shrinker->lru);
+> +	mutex_init(&gem_shrinker->lock);
+> +
+> +	dev->shmem_shrinker = gem_shrinker;
+> +
+> +	err = register_shrinker(&gem_shrinker->base);
+> +	if (err) {
+> +		dev->shmem_shrinker = NULL;
+> +		kfree(gem_shrinker);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_shrinker_register);
+> +
+> +void drm_gem_shmem_shrinker_unregister(struct drm_device *dev)
+> +{
+> +	struct drm_gem_shmem_shrinker *gem_shrinker = dev->shmem_shrinker;
+> +
+> +	if (gem_shrinker) {
+> +		unregister_shrinker(&gem_shrinker->base);
+> +		mutex_destroy(&gem_shrinker->lock);
+> +		dev->shmem_shrinker = NULL;
+> +		kfree(gem_shrinker);
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_shrinker_unregister);
+> +
+>  MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>  MODULE_IMPORT_NS(DMA_BUF);
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 9923c7a6885e..929546cad894 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -16,6 +16,7 @@ struct drm_vblank_crtc;
+>  struct drm_vma_offset_manager;
+>  struct drm_vram_mm;
+>  struct drm_fb_helper;
+> +struct drm_gem_shmem_shrinker;
+>  
+>  struct inode;
+>  
+> @@ -277,6 +278,9 @@ struct drm_device {
+>  	/** @vram_mm: VRAM MM memory manager */
+>  	struct drm_vram_mm *vram_mm;
+>  
+> +	/** @shmem_shrinker: SHMEM GEM memory shrinker */
+> +	struct drm_gem_shmem_shrinker *shmem_shrinker;
+> +
+>  	/**
+>  	 * @switch_power_state:
+>  	 *
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index e2941cee14b6..cdb99cfbf0bc 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -172,6 +172,17 @@ struct drm_gem_object_funcs {
+>  	 * This is optional but necessary for mmap support.
+>  	 */
+>  	const struct vm_operations_struct *vm_ops;
+> +
+> +	/**
+> +	 * @purge:
+> +	 *
+> +	 * Releases the GEM object's allocated backing storage to the system.
+> +	 *
+> +	 * Returns the number of pages that have been freed by purging the GEM object.
+> +	 *
+> +	 * This callback is used by the GEM shrinker.
+> +	 */
+> +	unsigned long (*purge)(struct drm_gem_object *obj);
+>  };
+>  
+>  /**
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index d0a57853c188..455254f131f6 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/mm.h>
+>  #include <linux/mutex.h>
+> +#include <linux/shrinker.h>
+>  
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_gem.h>
+> @@ -15,6 +16,7 @@
+>  struct dma_buf_attachment;
+>  struct drm_mode_create_dumb;
+>  struct drm_printer;
+> +struct drm_device;
+>  struct sg_table;
+>  
+>  /**
+> @@ -272,6 +274,29 @@ static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct v
+>  	return drm_gem_shmem_mmap(shmem, vma);
+>  }
+>  
+> +/**
+> + * struct drm_gem_shmem_shrinker - Generic memory shrinker for shmem GEMs
+> + */
+> +struct drm_gem_shmem_shrinker {
+> +	/** @base: Shrinker for purging shmem GEM objects */
+> +	struct shrinker base;
+> +
+> +	/** @lock: Protects @lru */
+> +	struct mutex lock;
+> +
+> +	/** @lru: List of shmem GEM objects available for purging */
+> +	struct list_head lru;
+> +
+> +	/** @dev: DRM device that uses this shrinker */
+> +	struct drm_device *dev;
+> +
+> +	/** @shrinkable_count: Count of shmem GEM pages to be purged */
+> +	u64 shrinkable_count;
+> +};
+> +
+> +int drm_gem_shmem_shrinker_register(struct drm_device *dev);
+> +void drm_gem_shmem_shrinker_unregister(struct drm_device *dev);
+> +
+>  /*
+>   * Driver ops
+>   */
 
