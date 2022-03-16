@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C194DB691
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 17:46:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013CF4DB6B6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 17:52:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE0810E855;
-	Wed, 16 Mar 2022 16:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8D2010E8AC;
+	Wed, 16 Mar 2022 16:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91ECF10E855
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 16:46:02 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id g19so4460177pfc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 09:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q3ohNli6ucU6PfwcYf9qsmSVyAcD8SKpTy1bggnb9qw=;
- b=UVEXCpKa7MtCQR0Tm9cthe0ZzW8igf/oPIOZdbDxd/SlxvP9zHc0A0AZba3iPW2/7r
- BtwEWN9Zt+spXoudA8qLyC1JrTrmTxTe5nqpZKJ+o9ce/vxNs5kpHts/PAZGGq0OHSbP
- 0wy8DtyKddqidM3vgsdn+klqr357Ah1zVfZpBgFXuBxBmTtGyyRpMptcm5KBZy13UUge
- +eZ8BTltxXRVwgAWunFo6iTUVP55KfNDxGRMV35MQkH/98/Wv297DfqW0EELeI5FA9jr
- TqiY5mCetDBFGkzz/B2PrAC/NMs1sGHcJ5wwsj24qSPbpyZydbT7+RR2yrhF6VTcUMvr
- 8/SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q3ohNli6ucU6PfwcYf9qsmSVyAcD8SKpTy1bggnb9qw=;
- b=mNU0OqW5HE0fN3z7JEjdiYYhS7xmRjzTfEWx1L4+PAUxH2ffWHPlqIZLgrY+4QFAsc
- qhWn5CT3RZVIp+uxKmigMI89sLTXFk4+kxCosLnYUvSz6w4V9hcdS8kS0z8eF2wnjieB
- /+YsekpOCnzXqEfp8EGhhaKmO1V3WgXGriMSLWSYrz3Ot9CcG1s4Lz2T7h23usxYHH7W
- CxCGhv9kiHlPBDVlahGYBWcLJepldVjEFFQ/Uci/OdDJe4R4jhG2ZTgZG9k4fVIW5WzV
- zHLUFkItZi5YrwrjX5MV8t+rpzsEyaCD5a/LvUEVJUb2plGcstMulHxZw60QYu4mpREP
- zssA==
-X-Gm-Message-State: AOAM531G6arbVaDWwx/nEvJ4VPASZQBZbv/omP22aKEZyGBMWMiOCwbz
- EdVGPTOXTv38Dd50LlHpC4huXC2oQGWy1EY/Qj0=
-X-Google-Smtp-Source: ABdhPJwrMcLRyNMpVlLtW71I4r0zOihpC6izpar7SqPzaN8/nrdfiw4JvgLFPUgeBV1fFJ0fxJkNs7Wdts7HoLK65V8=
-X-Received: by 2002:a05:6a00:1991:b0:4f7:1322:ca04 with SMTP id
- d17-20020a056a00199100b004f71322ca04mr495949pfl.85.1647449161935; Wed, 16 Mar
- 2022 09:46:01 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50D6C10E8AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 16:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647449525; x=1678985525;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=M6xWvkasIs+4Huuwh1wbLinzgQqked41NLVqaR8etdQ=;
+ b=WXI3C3oK1+UVGU4366hiEXv0IGljrTu1oircfPTZXxytoIYyerpVcAAc
+ /GH+zXjmh5vtUqnQuXkIuL5h9v3uEjmdNsFylCymOwvGsKLdfvb4ennd4
+ M0zwn2FUR+GjEbWh3V4XVBHQhFbeXYFeti7xYt0+UrWmHC/1xZddQ8hf3
+ tXuqeO+sE626TarukYIABIu3sUO0QIMBWmYX4KrLamDRlQ7J/1iyrNLVX
+ L3Enpr8SKK+POZ0+21opqdPP/T+aPXUwmxSaUoWwSLLKd8MuapNsaHgj2
+ MAJPhtia4AAlb4OKRues8q0pUqndaIWOJA9LaNvecD+Hj9EVAhtVHcOCa g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="244114468"
+X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="244114468"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 09:52:02 -0700
+X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="635058087"
+Received: from smile.fi.intel.com ([10.237.72.59])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 09:52:00 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nUWro-0010gf-UM; Wed, 16 Mar 2022 18:51:20 +0200
+Date: Wed, 16 Mar 2022 18:51:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] staging: fbtft: Consider type of init sequence
+ values in fbtft_init_display()
+Message-ID: <YjIViC4U3ZwfiXlU@smile.fi.intel.com>
+References: <20220304193414.88006-1-andriy.shevchenko@linux.intel.com>
+ <Yi97SaQdudVfKV9W@kroah.com>
 MIME-Version: 1.0
-References: <20220308195222.13471-1-tzimmermann@suse.de>
-In-Reply-To: <20220308195222.13471-1-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 16 Mar 2022 17:45:50 +0100
-Message-ID: <CAMeQTsY0sYP6wXCGrw+ruqKAEB1U82r6gwNfY1ebp9a1ejbe=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] drm/gma500: Various cleanups to GEM code
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yi97SaQdudVfKV9W@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 8, 2022 at 8:52 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Refactor and simplify various parts of the memory management. This
-> includes locking, initialization and finalizer functions, and code
-> organization.
->
-> Tested on Atom N2800 hardware.
->
-> v2:
->         * put common code in psb_gtt_{init,fini,resume}() into
->           helpers (Sam, Patrik)
->
+On Mon, Mar 14, 2022 at 06:28:41PM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Mar 04, 2022 at 09:34:14PM +0200, Andy Shevchenko wrote:
 
-The series is pushed to drm-misc-next
+...
 
-Thanks
-Patrik
+> Any reason you didn't test build this?
 
-> Thomas Zimmermann (12):
->   drm/gma500: Remove struct psb_gem_object.npage
->   drm/gma500: Acquire reservation lock for GEM objects
->   drm/gma500: Move GTT locking into GTT helpers
->   drm/gma500: Remove struct psb_gtt.sem sempahore
->   drm/gma500: Move GTT setup and restoration into helper funtions
->   drm/gma500: Move GTT resume logic out of psb_gtt_init()
->   drm/gma500: Cleanup GTT uninit and error handling
->   drm/gma500: Split GTT init/resume/fini into GTT and GEM functions
->   drm/gma500: Inline psb_gtt_restore()
->   drm/gma500: Move GEM memory management functions to gem.c
->   drm/gma500: Move GTT enable and disable code into helpers
->   drm/gma500: Move GTT memory-range setup into helper
->
->  drivers/gpu/drm/gma500/gem.c         | 161 ++++++++++++++-
->  drivers/gpu/drm/gma500/gem.h         |  13 +-
->  drivers/gpu/drm/gma500/gma_display.c |   8 +-
->  drivers/gpu/drm/gma500/gtt.c         | 295 +++++++++++++--------------
->  drivers/gpu/drm/gma500/gtt.h         |   8 +-
->  drivers/gpu/drm/gma500/power.c       |   5 +-
->  drivers/gpu/drm/gma500/psb_drv.c     |  13 +-
->  drivers/gpu/drm/gma500/psb_drv.h     |   1 -
->  8 files changed, 317 insertions(+), 187 deletions(-)
->
->
-> base-commit: 710a019ad85e96e66f7d75ee7f4733cdd8a2b0d0
-> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
-> --
-> 2.35.1
->
+My test build doesn't include the WERROR for this driver, so I missed the
+warning. Sorry for that. Now fixed.
+
+> drivers/staging/fbtft/fbtft-core.c: In function ‘fbtft_init_display’:
+> drivers/staging/fbtft/fbtft-core.c:1038:48: error: passing argument 3 of ‘fbtft_dbg_hex’ discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>  1038 |                                           s16, &par->init_sequence[i + 1], j,
+>       |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/staging/fbtft/fbtft.h:441:50: note: in definition of macro ‘fbtft_par_dbg_hex’
+>   441 |                 fbtft_dbg_hex(dev, sizeof(type), buf,\
+>       |                                                  ^~~
+> drivers/staging/fbtft/fbtft-core.c:52:26: note: expected ‘void *’ but argument is of type ‘const s16 *’ {aka ‘const short int *’}
+>    52 |                    void *buf, size_t len, const char *fmt, ...)
+>       |                    ~~~~~~^~~
+>   LD [M]  drivers/staging/gdm724x/gdmulte.o
+> cc1: all warnings being treated as errors
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
