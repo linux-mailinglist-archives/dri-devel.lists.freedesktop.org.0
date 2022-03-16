@@ -1,75 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F774DB546
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 16:48:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A111B4DB61A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 17:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E00E10E7C8;
-	Wed, 16 Mar 2022 15:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3441410E611;
+	Wed, 16 Mar 2022 16:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797B810E7C8;
- Wed, 16 Mar 2022 15:48:24 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- z9-20020a05683020c900b005b22bf41872so1664030otq.13; 
- Wed, 16 Mar 2022 08:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cEPpT5g3jd4SGwraYV61mwD+efqqEI+0jr3lnpKYy2I=;
- b=SugF9I5FDpjrl+n+VjdAd2eyTcQGIseSgPrbDGqHRzNeNo8B6j4INKmmMh7uTdoXpj
- 2iv8b7jN1n7Clm73hmPEd+jYlctFKB3QuKnyZ7rVApyVnREfOnEXLi+9o/Fs3aQU9Zu5
- SDtH0XhTIu+mflbZw/EDmMIMSXPlF1H2LEPia83C3JaMqjkSH8tbpGPYXaxiigs7yrDs
- hhiC0KRn57hBp14a9hP62tvCPyAlBhTHPQfUY/IykKQzN6+mBDttKy8dHxtZaJdDQoXx
- JX9Ow31dNs03XCPRkvaKdMJkk9adlJLiusbV2j1QS4yea0EcstgkRTvd5EbR5fyCX6ZT
- nigQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cEPpT5g3jd4SGwraYV61mwD+efqqEI+0jr3lnpKYy2I=;
- b=SofpBagkWM23bjmK1tT6vjibfjkWGQoodOirax+g6OW1/mUMprUW3/5BQ96EO0LQbq
- PErKw8R7BxiWei2r7zWp9hAmK6I4vl5hK5a1aKxMGZt5NuGSNKvkGfizJgCVnzPJ7IGy
- HHv39G21EY09ocft8SfQcrieaI3yFL5NrcN2Eo/x6nd4z4rYKgSzJc6fZvkeNPLGgjR6
- 7LaZrrDpfwHPypQ3FEvu0h0MalrrWEPPSadOPzraq62oRenZ3RxkNu6jhQR6a1443/4S
- HVtbT6kP5wSK7l3HVf1KofjYJEgGY77j5gJZYXFe2Jw3vbPOGlUDEhEoHpJAy7LXcbT9
- DaqQ==
-X-Gm-Message-State: AOAM530frYRgZvQniBURwvL79IBsVWQ2HbJn5nmFGvjmToOpSYzwIfL6
- jwyWRWxIn1xgVrENiASSF/I+M6OwoMLSMMSDcr8=
-X-Google-Smtp-Source: ABdhPJzxN94wrdcTabQPUtfGWZeX5wyEWDKOecoH28wPndMpZtVDz8nj/wTyuJiE5BjEnmU13CyVNBPcIzxrRNeRav4=
-X-Received: by 2002:a05:6830:2709:b0:5b0:196:dcf with SMTP id
- j9-20020a056830270900b005b001960dcfmr212008otu.357.1647445703751; Wed, 16 Mar
- 2022 08:48:23 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1792E10E60C;
+ Wed, 16 Mar 2022 16:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1647447984; x=1678983984;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PNSu56m4SLbujvjO0zWAXzAbkkcKFRH6a/f1wjZtyq0=;
+ b=WYJIIxgXp2XsLsqaZEDzN3SE99Z1kLF5mJj53IPJ+3KQVskKW7uCAoOi
+ qQQqFAFliOqIXCyHXGTY4inzDd/NaQEoDgY9sX+jgJeaOu/cy7AejK5zO
+ JKhXUb9uVjGdojlpVXec0S6t7YUCa6BzlL9BTkwKfHyT4cqOMoe+nMyai A=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 16 Mar 2022 09:26:23 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 09:26:22 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 16 Mar 2022 09:26:21 -0700
+Received: from [10.110.116.22] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 16 Mar
+ 2022 09:26:20 -0700
+Message-ID: <d65631a3-7875-a853-a655-e9d91693c550@quicinc.com>
+Date: Wed, 16 Mar 2022 09:26:19 -0700
 MIME-Version: 1.0
-References: <20220308180403.75566-1-contactshashanksharma@gmail.com>
- <CAF6AEGsmectHSmW-Y6rf+AksXTkges7rukeiYd4yDm-xwdb1=Q@mail.gmail.com>
- <55629bd8-9fb4-2ee7-87f0-6c4c77cf06fc@gmail.com>
- <CAF6AEGsgDTphUm7ET+RuMmh2aTn-Ho5gJdUJ4kwJ3iOh7+HGvw@mail.gmail.com>
- <4f2b2329-3c57-3895-6732-875db2f98b5a@amd.com>
- <CAF6AEGvvskobh6YOUx55_4rtXJJjPO0PxWY8+EKiVqntT3k+ug@mail.gmail.com>
- <6b400b8b-1b5c-a339-2345-f317f197b4a6@amd.com>
- <CAF6AEGt0XhqzkyEhbNcNVQO_A_Lo4qcsPRZRL6QqYn+NWAfv9A@mail.gmail.com>
- <bf6922f0-da8e-eef6-8217-26c1f50f3c48@quicinc.com>
- <2980e6a0-624e-2b80-c5d0-c40dfce76fb8@amd.com>
- <CAF6AEGvC=k4xLA-0iTSf660X2o04E+ivjnThZA-=WANKzLSvpA@mail.gmail.com>
- <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
- <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
- <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
-In-Reply-To: <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 16 Mar 2022 11:48:12 -0400
-Message-ID: <CADnq5_O2CVSLxShPFCzMxiXmnHXYbW1vFLJ5K=oigtXshULvqw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 0/6] Allow drm_writeback_connector to accept pointer to
+ drm_encoder
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <1647385922-31539-1-git-send-email-quic_abhinavk@quicinc.com>
+ <61577b5e-9bae-9924-a195-5aa851e8453b@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <61577b5e-9bae-9924-a195-5aa851e8453b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,67 +67,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ swboyd@chromium.org, melissa.srw@gmail.com, nganji@codeaurora.org,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 16, 2022 at 11:35 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Wed, Mar 16, 2022 at 7:12 AM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > On Wed, Mar 16, 2022 at 4:48 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > >
-> [snip]
-> > > With new UAPI comes the demand of userspace proof, not hand-waving. You
-> > > would not be proposing this new interface if you didn't have use cases
-> > > in mind, even just one. You have to document what you imagine the new
-> > > thing to be used for, so that the appropriateness can be evaluated. If
-> > > the use case is deemed inappropriate for the proposed UAPI, you need to
-> > > find another use case to justify adding the new UAPI. If there is no
-> > > use for the UAPI, it shouldn't be added, right? Adding UAPI and hoping
-> > > someone finds use for it seems backwards to me.
-> >
-> > We do have a use case.  It's what I described originally.  There is a
-> > user space daemon (could be a compositor, could be something else)
-> > that runs and listens for GPU reset notifications.  When it receives a
-> > notification, it takes action and kills the guilty app and restarts
-> > the compositer and gathers any relevant data related to the GPU hang
-> > (if possible).  We can revisit this discussion once we have the whole
-> > implementation complete.  Other drivers seem to do similar things
-> > already today via different means (msm using devcoredump, i915 seems
-> > to have its own GPU reset notification mechanism, etc.).  It just
-> > seemed like there was value in having a generic drm GPU reset
-> > notification, but maybe not yet.
->
-> just one point of clarification.. in the msm and i915 case it is
-> purely for debugging and telemetry (ie. sending crash logs back to
-> distro for analysis if user has crash reporting enabled).. it isn't
-> used for triggering any action like killing app or compositor.
+Hi Dmitry
 
-Sure.  you could use this proposed event for telemetry gathering as
-well.  The important part is the event.  What you do with it is up to
-the user.
+On 3/16/2022 12:40 AM, Dmitry Baryshkov wrote:
+> Hi Abhinav,
+> 
+> On 16/03/2022 02:11, Abhinav Kumar wrote:
+>> There are some vendor drivers for which the writeback encoder shares
+>> hardware resources such as clocks and interrupts with the rest of the
+>> display pipeline. In addition, there can be use-cases where the
+>> writeback encoder could be a shared encoder between the physical display
+>> path and the writeback path.
+>>
+>> To accommodate for such cases, change the drm_writeback_connector to
+>> accept a pointer to drm_encoder.
+>>
+>> For existing users of drm_writeback_connector there will not be any
+>> change in functionality due to this change.
+>>
+>> This approach was first posted by Suraj Kandpal here [1] for both
+>> encoder and connector. But after discussions [2], the consensus was
+>> reached to split this change for the drm_encoder first and the
+>> drm_connector part can be reworked in a subsequent change later.
+>>
+>> Validation of this change was done using igt_writeback tests on
+>> MSM based RB5 board using the changes posted here [3].
+>>
+>> For all other chipsets, these changes were compile-tested.
+>>
+>> [1] 
+>> https://patchwork.kernel.org/project/dri-devel/patch/20220202081702.22119-1-suraj.kandpal@intel.com/ 
+>>
+>> [2] 
+>> https://patchwork.kernel.org/project/dri-devel/patch/20220202085429.22261-6-suraj.kandpal@intel.com/ 
+>>
+>> [3] https://patchwork.freedesktop.org/series/99724/
+>>
+>> changes in v2:
+>>      - introduce a new API drm_writeback_connector_init_with_encoder()
+>>      - allow passing possible_crtcs for existing users of
+>>        drm_writeback_connector_init()
+>>
+>> Abhinav Kumar (6):
+>>    drm: allow real encoder to be passed for drm_writeback_connector
+>>    drm/komeda: pass possible_crtcs as parameter for
+>>      drm_writeback_connector
+>>    drm/vkms: pass possible_crtcs as parameter for drm_writeback_connector
+>>    drm/vc4: change vc4 driver to use
+>>      drm_writeback_connector_init_with_encoder()
+>>    drm/rcar_du: pass possible_crtcs as parameter for
+>>      drm_writeback_connector
+>>    drm/malidp: pass possible_crtcs as parameter for
+>>      drm_writeback_connector
+> 
+> I think we expect that at each commit point the kernel should be 
+> compilable. Could you please squash patches accordingly?
+> 
+> I'd suggest the following patch sequence:
+> 
+> - Add possible_crtcs to the drm_writeback_connector_init() including all 
+> the driver changes (all drivers must be compilable, including vc4)
+> - Add drm_writeback_connector_init_with_encoder()
+> - Modify vc4 to use new API
+> 
+> WDYT?
 
->
-> I would however *strongly* recommend devcoredump support in other GPU
-> drivers (i915's thing pre-dates devcoredump by a lot).. I've used it
-> to debug and fix a couple obscure issues that I was not able to
-> reproduce by myself.
+Yes I also thought if each commit point should be compilable.
+The way this started out was that in the original series 
+https://patchwork.kernel.org/project/dri-devel/patch/20220202081702.22119-1-suraj.kandpal@intel.com/ 
+every commit was separated vendor-wise even though it will not compile 
+individually.
 
-Agreed.  I think devcoredump makes sense and we'll ultimately enable
-support for that in amdgpu.  I think there is value in a GPU specific
-reset event as well for the use case I outlined, but maybe the
-devcoredump one is enough.  We'd just need to rely on the userspace
-side to filter as appropriate for events it cares about.  I'm not sure
-how many other devcore dump events are commonly seen.
+So I thought that, for ease of code-review perhaps it was alright to 
+separate it that way so that individual vendors can review separately.
 
-Alex
+But if we need to make each of the commits compilable we will have to 
+squash the way you have mentioned.
+
+> 
+>>
+>>   .../drm/arm/display/komeda/komeda_wb_connector.c   |   3 +-
+>>   drivers/gpu/drm/arm/malidp_mw.c                    |   5 +-
+>>   drivers/gpu/drm/drm_writeback.c                    | 144 
+>> +++++++++++++++------
+>>   drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |   5 +-
+>>   drivers/gpu/drm/vc4/vc4_txp.c                      |  30 ++++-
+>>   drivers/gpu/drm/vkms/vkms_writeback.c              |   3 +-
+>>   include/drm/drm_writeback.h                        |  27 +++-
+>>   7 files changed, 161 insertions(+), 56 deletions(-)
+>>
+> 
+> 
