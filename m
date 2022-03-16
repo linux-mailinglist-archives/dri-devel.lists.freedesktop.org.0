@@ -2,154 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57EA4DABBA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 08:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEDF4DABDB
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 08:31:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495A310E52F;
-	Wed, 16 Mar 2022 07:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F5910E73B;
+	Wed, 16 Mar 2022 07:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C25C10E52F;
- Wed, 16 Mar 2022 07:19:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647415145; x=1678951145;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=MWUlTUWz3GAGr/zpidRgPrtPQNomQ5GzNfvDXr/rjLc=;
- b=Xe+iM2rcaY1+zLgLeIjsx+8Bdtfs2aaSxFavlLkTiJIlat0sYaSz85EL
- 0YWBdQ6qkiqsynptotCF8ztSRpO3qFMdSiNTR3KnNRcrbsiw/pdT7Dwlu
- THXz8wlaHm3ZCWgQSu/UXKcvYy5YcBSRnvuMoCIh3N49qJWPbqQfJnyne
- WvDtue9z9tzcRUXp3MZ7f6RPOIWPQioXDe6XhezKsTwHV0kzWJ50gjkra
- diz8KSK7ftQ7taD8WxAUWVmTl04FN7fWj1K+WbDPpJZ9j+9/1ny3RpljD
- 7FFYDiVu5ID5DMWzLAeD15r8FD1+C/Ssv7PZQD9MGXr7GGRpuW+uHE4pE A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="342942226"
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="342942226"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 00:19:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="516215571"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga006.jf.intel.com with ESMTP; 16 Mar 2022 00:19:04 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:19:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:19:03 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Wed, 16 Mar 2022 00:19:03 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:19:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KPH3OnlH5/MgdZ5cJ8qCOPp6TQlyyjBlc1pWIIXFDzjYNrc4NwACLgoeF/YGKq88hXJbCgYcWqWOUVgq0JLgzx2mWSwkTHT6gBv3A9zIXKWu/NC9wXAMCm2d4VR4xAxOYRFYnPGFk/ThvRGSuJ3HgspC4VlE+oLYSKbr/iwfyghK3o0jDGWLfFLI21RjbBh52Ui2m14PgzYgy6R7HMTPDYfSG7k5UVva4wQrnl+589YbtpEuuU8lNmIqCJSJhc5zuemR+bQpIKEBw1JbS/lWPcDY7bCv8AHklXjsl0sDKbNmEO32p8QKacUMcHLPghDmz8XYYqsLrjTzWJfWnqDIgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MWUlTUWz3GAGr/zpidRgPrtPQNomQ5GzNfvDXr/rjLc=;
- b=AvwsuL/Lnps1Nn7mvxUb5oOOfaIPDNEdWLulA8zgK8sPIRvE/QFSKfw9wa5JvO6Q5GBdnBgkUCzbmBbB0n5gPGdnJHyvMLYiygz+nqZBSWpGn5vD83Yf9M7k22tFYev70CfSuEEdzneLoTUh06gLOg7zlx4KoJHaPxOHqn+qZ1orSSvUglgmBxamFfdM9azVyjieH9nCdIryHu3hQFt6HYxCU/P12ZerCuidCJt9cdrL5p47GhpcgaThOg+9PZFAuNbpQGGC+SJwMYc2rHedtF5p80FXxvG0IXHnvpo6v7q76H7tAwcSpFjD8t7qr0YSwHqYhqmfOnsJNfXzirPqEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
- by BN8PR11MB3826.namprd11.prod.outlook.com (2603:10b6:408:84::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Wed, 16 Mar
- 2022 07:19:02 +0000
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::f1ed:9074:5f82:150d]) by BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::f1ed:9074:5f82:150d%7]) with mapi id 15.20.5061.028; Wed, 16 Mar 2022
- 07:19:01 +0000
-From: "Yang, Fei" <fei.yang@intel.com>
-To: "Summers, Stuart" <stuart.summers@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/i915: avoid concurrent writes to aux_inv
-Thread-Topic: [PATCH] drm/i915: avoid concurrent writes to aux_inv
-Thread-Index: AQHYMBX99rVLU26gUU6Ga1xGmtOKgKzBgJ8AgAABUKCAACghcA==
-Date: Wed, 16 Mar 2022 07:19:01 +0000
-Message-ID: <BYAPR11MB25676F9BEBF6FD452BFCCD709A119@BYAPR11MB2567.namprd11.prod.outlook.com>
-References: <20220304221407.2416898-1-fei.yang@intel.com>
- <4e16174fd51a0701004b477a825a584dccf667fb.camel@intel.com>
- <BYAPR11MB2567590EC2088F973025329D9A119@BYAPR11MB2567.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB2567590EC2088F973025329D9A119@BYAPR11MB2567.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 544660dc-b843-4255-585b-08da071d3ef7
-x-ms-traffictypediagnostic: BN8PR11MB3826:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BN8PR11MB38262B39E41FABC212B9795E9A119@BN8PR11MB3826.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gk6Rfyxik4q8U933ZN8R63x8ZMLUzwwuJRaAqhCAh05kFCGegD7vHHZ6CdeqRRtlsYYCImWLfSjTnEEWhgaA3tlbTA+nWKFF7JYj81cVyH+tEEl0LRRVhG9XB2+yS/WmJvxDhpYEPa62EVR0T4nZaEvSItHg/HaJBMzzTSSFnyrXctE1djxZb9UUFfKJ1nq/G5qY9nY/Lyu3GET7DebSLjTE6gVYpAVfHWex+ZNh8X628hA14VBqKwZIzZsGcGSGeV11QkftKBbntRo/lr1qK1lVv2B772+5B4DT2sOVCqpLnfzfP1KdQqgGFDZ3MQtlLDEGAJ59IryaXeIjFzfqqR4bPHVqLKNciR6DkrxnWkAzt17h7733HbpkYG41Q4kwj4IC/Vr+wTEbJCQg0rrp6CdkTSCm0kz7dHSw2sRF2CxNl97Reiu76U0jgFFI/bdXuDS9TxA0HzVVrdipqGB4YNd+FRTb798lLKigbt4MXLJIbgmJubRHSSe+Lb9Sf7OhF+UTLW4LwIB2Fo6VIqr20sMnPEgCeZ4AmfcVVMCPendFw8oQGNKdzCiKqrjBKzB9FTo+AfhIKaJcYIdV2rbaYdaJcFmCyaoJq+GZjGPsUi3C571us8HNBVtSdB0OP0nCK0/1iPO3TvH08UkqpzejJ8x3cGeY1xVeCkP2d2ZDCSBgfEZqxG3UKCPOhPoczpZR2YUUrbso9GjLhAGjYfipyg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(107886003)(38070700005)(186003)(26005)(82960400001)(38100700002)(122000001)(54906003)(8936002)(5660300002)(52536014)(83380400001)(66446008)(66476007)(66556008)(66946007)(64756008)(8676002)(4326008)(55016003)(2906002)(76116006)(508600001)(7696005)(2940100002)(316002)(9686003)(450100002)(71200400001)(110136005)(6506007)(86362001)(33656002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MFpreUltMHBJNXpXOEJwN0tKbTFFVnpwTjB6d0dlTGdoTzZuNW16WUF4ejY2?=
- =?utf-8?B?NExuNTRKV3NFM1I3UnI0UTduY3RIOVArNmZrMHJjS092SWkvcjN6ZG1EcnV2?=
- =?utf-8?B?QUloNUhkcHZ4ZmdDUkhYalBWRVpzbTg2RFNjekYwU1BtaThFTUM0L1poeFRz?=
- =?utf-8?B?b21VRkZwN3JuMVJqQi9ycllRUWRsUDNnQUJHUUlvaUNvenk1QXpjVHNPbDVr?=
- =?utf-8?B?RmJQK0tYSDdrMldPa2gyNWhKMXpPdXJrTG11RjdyVGc3ZnV0aUhOUVl4Rm5x?=
- =?utf-8?B?ZHZwV0VlNXpRbFhla2cwamkzdWM3YmQ1elcxNXhvcEYrNGl4NGNRQThKTFQr?=
- =?utf-8?B?cjhKK25BUkpsUnk2VllkOGplWVlmVjBOQUQvNjYzejNrNEFQb2djZTdWdkcz?=
- =?utf-8?B?WFhyYjRNdDFiT2RYWW1VNTIxeUJsendNUWhlRjREaVZwRkgrWm5MZElDWUFx?=
- =?utf-8?B?VVJaWlJNMm9sOGZZUitLc21ydlRUMldCUlM0WGlKKy83eGs3cmpDUW1jZ091?=
- =?utf-8?B?RktYOVAyL1QwS2JlS1F5ZHdXS3Vsd1BDakFlTUluOHJVem05RXpWQXdaWmVQ?=
- =?utf-8?B?OEx3Z1N0ZW8zY3JaRFY0b1FqNlJxYmdSZ3NkTS9IS0s4U1JQbjVzQWsvVGw4?=
- =?utf-8?B?SG1LbXFXSDlBbTdJclBTaHBPcmNFbU95RlhrSWh0SytDOWxpU3JyN3FVTHN2?=
- =?utf-8?B?NEpZQ0FYYzZwc0tGUWdVeWpIb0xzQ01rWmd6RGlFdDVGUHBoN21MRks0R1pu?=
- =?utf-8?B?dlEwNWhNVnByTHN1QzVwSGhFVmlROHRPVXNabTJZaWlXcTRaeHVpei9UWU1B?=
- =?utf-8?B?a01DR2dQcVFHby9HUzhPSUpOM2hrOGJMaHBkNGFZcTVBM1JualZFVEVEYXly?=
- =?utf-8?B?VU52OWNIdXdxamxtWWx3S0QxQXl4R2ZFRUFhRnJQZWkwYmsyWW0zSWZtK01h?=
- =?utf-8?B?cjFYZXVGR1FVZlYwQkVQL1k3cUM2cU50WGlVK08wcGNWa1dpby9DOHN5TzBY?=
- =?utf-8?B?a1JrQmFKdmxTOEF2Q09QNDBmM2lKR0ZBa2oxNjVWOHUvYUg0T0NlcFFMUDd0?=
- =?utf-8?B?VW4rM3hLSFhaWnJtRGt6N2dyWE5yVlpXODEzR2FBZ3ZTUFRFby9mbjl0MzdJ?=
- =?utf-8?B?a2VFdStCVlVQYmUyZmVlY1Ywa3FMV2ZoQ3dPQ0RsUHNBQjFiTFhrcXpYRUpM?=
- =?utf-8?B?VEVkRnpiczRBUG1XUW0zZ0hKS3YxcWNGOG1XaEoxQjJmZkR0MzlUdFgyVkhB?=
- =?utf-8?B?Nkw5cDhvV1BpNm9ibE4wR1BSL21mSlVvWVNyamRrbTQ4eVFycXpBRzlXZWNV?=
- =?utf-8?B?SWFkOW9pN1h5VkhNOEdRWENiemRRZWswQzhvSXZOcWIwa2tUV0RocjRhNVZQ?=
- =?utf-8?B?SU9pT1RoOUVYMUx5TWgxK3hsYndKK1FXMmcybm9icCs0aVVub0ovL2xXSzdZ?=
- =?utf-8?B?V0pmeTduNlVkT3VvSGVzZVRHRFNDQXVMT1p0emdwdUd2SDhsUldZaXBnSGFC?=
- =?utf-8?B?Y0o3K0h0ZUhaamRCOXlsQnllVTNma3VndnQzeUdOS2ZhcXVQeU9SNjVnNThs?=
- =?utf-8?B?Q0RUZTRhWTNGRGdlbE1iT2Z6WWlGYkFNOVl2QW9uN1BjdTNPbmdpWFpOcnJQ?=
- =?utf-8?B?TWc5UnR0UmR4aVBkS0I0K0J0NXgwbStzL0VlVE5EVzROemJiTkcwZnkrdTN1?=
- =?utf-8?B?a0R4aFpBakRpMlgvazBvL2JscnR5bU5ybUo5dXRXT2E3aEhOdnI5WVZRRzJD?=
- =?utf-8?B?THdRdHRzNW9mNGY5bG1QRWlHTU5ZVzRVbmxtVHJ1cXFIejFaRXBQZkp5REZ4?=
- =?utf-8?B?aC8wemNYeFYyQzV5SWNkRkQ3Ukh2blVzODZudlhqeGJTL3pRUXBCNEM2NU1T?=
- =?utf-8?B?STdCWG1VdHJxZEZya1lGMlNTMjA2ZUR6bEdDRG1razVHeWZYSDRrRkF2N3U3?=
- =?utf-8?Q?gO0Pui/nS+ftrhe5umj1FF+eVfekPh0O?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70FDB10E738
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 07:31:17 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id h14so2261299lfk.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 00:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=GmTHvqCrS386fDIWw57GkKXCMyG7EzbNQjkEyeWGQTY=;
+ b=Zf1ZXcQkYKUd50ZZ/3Oa7G+DAZjXsF6t/wu3QUh3ydSDNnkj/ASz5BgOzCMgvSfwin
+ JuP0o2BH/HLWidXF2Xfur2/N8Bfc1JNKybUUb96IEfDcbRlHIBono4yhrHxoiOMg12tF
+ 0UZqlN5ys1YoDWUmSrykMdVRTwaAOMsPa9nyZGHSnK1zqMcI4sQfADDhth0RiHm3BZK5
+ jgFJ/OHLlqyILkLeYDyUVCjSJg+wXOrBxMtkSO5PF8KmX4wnMAwiuFTd0fEGvaye9or7
+ AlnSikWwkvixuIJULD3hFrLWeDYsc2hMbnn2GGNYXNffQSeONc1f6XjKkuTt0JcRyq12
+ hG0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GmTHvqCrS386fDIWw57GkKXCMyG7EzbNQjkEyeWGQTY=;
+ b=33389lApx+jDqNY0cLpbWzHiVUygkxArnQbhBw1lLmovT857uGpfc+TACm+2mToYgL
+ Dyi6U4jmGZ4TnHyvCACls+EpWcXTDXwUGFzDoojQOP6Cu8ztf7hX3ryLidkG+n91wQ9I
+ /XYfegkNuX/bhKkrLxOr+a2b7Y1prClRlnl3WYE2hxWF7wZtdNm2mAn3yplz5OCzyW2u
+ 4npAmLQaVaszNDN5/CC216gpVNx9HAW5WeMknzw48rKyawUFMPJJlta0YHtpNUoOxlVg
+ VDJlKnwoUb+Ah0iVXBONwqBfYFc6Uca4NpMh2hmJKeACP2AlHk/uiPdOJApQoX+vItNs
+ UxZw==
+X-Gm-Message-State: AOAM530WR23aKf3j8XB4ULMnNVxdg8e5i/hYYhUntmSkUNQsDQDputjp
+ aiaooshbvri+H97ylVdF1N2LKw==
+X-Google-Smtp-Source: ABdhPJy50liVPG58YrDePATkasEUSCwDPauyy+d8JhcNsI3eUvJ7bHues4snnUYv938XofY8MQ99mA==
+X-Received: by 2002:a05:6512:2249:b0:448:38e7:c4d9 with SMTP id
+ i9-20020a056512224900b0044838e7c4d9mr18703081lfu.540.1647415875451; 
+ Wed, 16 Mar 2022 00:31:15 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ f26-20020ac251ba000000b004484764f56bsm107223lfk.150.2022.03.16.00.31.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 00:31:14 -0700 (PDT)
+Message-ID: <4d3a3fe9-43bb-e796-c5a5-a8e1bdcd4805@linaro.org>
+Date: Wed, 16 Mar 2022 10:31:14 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 544660dc-b843-4255-585b-08da071d3ef7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2022 07:19:01.6940 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WJrxVcGx0ex4OIULIAtplA2BSIftDV2bxw81swJpBLASX8agyrHSKQcfZUdhyhBVwWE1llv9Xj/Znfef9WhJ/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR11MB3826
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3 5/5] drm/msm: allow compile time selection of driver
+ components
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220304032106.2866043-1-dmitry.baryshkov@linaro.org>
+ <20220304032106.2866043-6-dmitry.baryshkov@linaro.org>
+ <237c6a57-26c7-bbb9-da51-b098233c390e@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <237c6a57-26c7-bbb9-da51-b098233c390e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,47 +78,280 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Abodunrin, Akeem G" <akeem.g.abodunrin@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9leGVjbGlzdHNf
-c3VibWlzc2lvbi5jDQo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9leGVjbGlz
-dHNfc3VibWlzc2lvbi5jDQo+Pj4gaW5kZXggZTE0NzBiYjYwZjM0Li43ZTg1NTI0MTQyNzUgMTAw
-NjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZXhlY2xpc3RzX3N1
-Ym1pc3Npb24uYw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2V4ZWNs
-aXN0c19zdWJtaXNzaW9uLmMNCj4+PiBAQCAtMTI1OCw2ICsxMjU4LDM0IEBAIHN0YXRpYyBib29s
-IGNvbXBsZXRlZChjb25zdCBzdHJ1Y3QgaTkxNV9yZXF1ZXN0IA0KPj4+ICpycSkNCj4+PiAgCXJl
-dHVybiBfX2k5MTVfcmVxdWVzdF9pc19jb21wbGV0ZShycSk7ICB9DQo+Pj4gIA0KPj4+ICtzdGF0
-aWMgaTkxNV9yZWdfdCBhdXhfaW52X3JlZyhjb25zdCBzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzICpl
-bmdpbmUpIHsNCj4+PiArCXN0YXRpYyBjb25zdCBpOTE1X3JlZ190IHZkW10gPSB7DQo+Pj4gKwkJ
-R0VOMTJfVkQwX0FVWF9OViwNCj4+PiArCQlHRU4xMl9WRDFfQVVYX05WLA0KPj4+ICsJCUdFTjEy
-X1ZEMl9BVVhfTlYsDQo+Pj4gKwkJR0VOMTJfVkQzX0FVWF9OViwNCj4+PiArCX07DQo+Pj4gKw0K
-Pj4+ICsJc3RhdGljIGNvbnN0IGk5MTVfcmVnX3QgdmVbXSA9IHsNCj4+PiArCQlHRU4xMl9WRTBf
-QVVYX05WLA0KPj4+ICsJCUdFTjEyX1ZFMV9BVVhfTlYsDQo+Pj4gKwl9Ow0KPj4+ICsNCj4+PiAr
-CWlmIChlbmdpbmUtPmNsYXNzID09IFZJREVPX0RFQ09ERV9DTEFTUykgew0KPj4+ICsJCUdFTV9C
-VUdfT04oZW5naW5lLT5pbnN0YW5jZSA+PSBBUlJBWV9TSVpFKHZkKSk7DQo+Pj4gKwkJcmV0dXJu
-IHZkW2VuZ2luZS0+aW5zdGFuY2VdOw0KPj4+ICsJfQ0KPj4+ICsNCj4+PiArCWlmIChlbmdpbmUt
-PmNsYXNzID09IFZJREVPX0VOSEFOQ0VNRU5UX0NMQVNTKSB7DQo+Pj4gKwkJR0VNX0JVR19PTihl
-bmdpbmUtPmluc3RhbmNlID49IEFSUkFZX1NJWkUodmUpKTsNCj4+PiArCQlyZXR1cm4gdmVbZW5n
-aW5lLT5pbnN0YW5jZV07DQo+Pj4gKwl9DQo+Pj4gKw0KPj4+ICsJR0VNX0JVR19PTigidW5rbm93
-biBhdXhfaW52IHJlZ1xuIik7DQo+Pj4gKwlyZXR1cm4gSU5WQUxJRF9NTUlPX1JFRzsNCj4+PiAr
-fQ0KPj4+ICsNCj4+PiAgc3RhdGljIHZvaWQgZXhlY2xpc3RzX2RlcXVldWUoc3RydWN0IGludGVs
-X2VuZ2luZV9jcyAqZW5naW5lKQ0KPj4gDQo+PiBTbyBpbiB0aGUgcHJldmlvdXMgaW1wbGVtZW50
-YXRpb24sIHRoaXMgIndvcmtlZCIgZm9yIGJvdGggZXhlY2xpc3RzIGFuZCBndWMgc3VibWlzc2lv
-bi4gQnV0IGhvdyB3aWxsIHRoaXMgd29yayBub3cgZm9yIEd1QyBiYXNlZCBzdWJtaXNzaW9uPw0K
-Pj4gVGhpcyBmbG93IGFuZCB0aGUgYWRkcmVzcyBvZiB0aGUgZW5naW5lIGlzIG93bmVkIGJ5IHRo
-ZSBHdUMuDQo+Pg0KPj4gSWYgd2UgYXJlIGdvaW5nIHRvIHNheSB0aGlzIGlzIGFuIGV4ZWNsaXN0
-IG9ubHkgcmVxdWlyZW1lbnQgKGUuZy4NCj4+IHBsYXRmb3JtcyB1c2luZyBHdUMgc3VibWlzc2lv
-biBkb24ndCBuZWVkIHRoaXMgd29ya2Fyb3VuZCksIHlvdSBzaG91bGQgYWRkIGFuIGlmICghdXNp
-bmcgZ3VjIHN1Ym1pc3Npb24pIGluIHRoZSBzZXF1ZW5jZSB5b3UgYWRkZWQgdG8gdGhlIHZhcmlv
-dXMgZW1pdF9mbHVzaCgpIHJvdXRpbmVzIGFib3ZlLg0KPg0KPiBHb29kIHBvaW50Lg0KPiBJIGRp
-ZG4ndCBjb25zaWRlciBHdUMgc3VibWlzc2lvbiBiZWNhdXNlIENocm9tZSBkb2Vzbid0IGVuYWJs
-ZSBHdUMgZm9yIFRHTC4gQnV0IGl0IGlzIHRydWUgdGhhdCB0aGUgaW1wbGVtZW50YXRpb24gd2ls
-bCBoYXZlIHByb2JsZW0gd2l0aCBHdUMgc3VibWlzc2lvbi4NCj4gSSdtIG5vdCBzdXJlIGlmIGl0
-J3MgcG9zc2libGUgZm9yIGk5MTUgdG8ga25vdyB3aGljaCBlbmdpbmUgd2lsbCBldmVudHVhbGx5
-IGNhcnJ5IG91dCB0aGUgcmVxdWVzdCBiZWNhdXNlIGl0IG1pZ2h0IGJlIHNjaGVkdWxlZCBieSBH
-dUMuIEkgd2lsbCBuZWVkIHRvIGludmVzdGlnYXRlLg0KDQpJIHRoaW5rIHRoZSBzYW1lIGNhbiBi
-ZSBkb25lIGluIGludGVsX2d1Y19zdWJtaXNzaW9uLmMgYWZ0ZXIgX19pOTE1X3JlcXVlc3Rfc3Vi
-bWl0KHJxKSBjYWxscy4NCg0KPj4gVGhhbmtzLA0KPj4gU3R1YXJ0DQoNCg==
+On 16/03/2022 03:28, Abhinav Kumar wrote:
+> 
+> 
+> On 3/3/2022 7:21 PM, Dmitry Baryshkov wrote:
+>> MSM DRM driver already allows one to compile out the DP or DSI support.
+>> Add support for disabling other features like MDP4/MDP5/DPU drivers or
+>> direct HDMI output support.
+>>
+>> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/Kconfig    | 50 ++++++++++++++++++++++++++++++++--
+>>   drivers/gpu/drm/msm/Makefile   | 18 ++++++++++--
+>>   drivers/gpu/drm/msm/msm_drv.h  | 33 ++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/msm_mdss.c | 13 +++++++--
+>>   4 files changed, 106 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+>> index 9b019598e042..3735fd41eb3b 100644
+>> --- a/drivers/gpu/drm/msm/Kconfig
+>> +++ b/drivers/gpu/drm/msm/Kconfig
+>> @@ -46,12 +46,39 @@ config DRM_MSM_GPU_SUDO
+>>         Only use this if you are a driver developer.  This should *not*
+>>         be enabled for production kernels.  If unsure, say N.
+>> -config DRM_MSM_HDMI_HDCP
+>> -    bool "Enable HDMI HDCP support in MSM DRM driver"
+>> +config DRM_MSM_MDSS
+>> +    bool
+>> +    depends on DRM_MSM
+>> +    default n
+> shouldnt DRM_MSM_MDSS be defaulted to y?
+
+No, it will be selected either by MDP5 or by DPU1. It is not used if 
+DRM_MSM is compiled with just MDP4 or headless support in mind.
+
+> 
+> Another question is the compilation validation of the combinations of 
+> these.
+> 
+> So we need to try:
+> 
+> 1) DRM_MSM_MDSS + DRM_MSM_MDP4
+> 2) DRM_MSM_MDSS + DRM_MSM_MDP5
+> 3) DRM_MSM_MDSS + DRM_MSM_DPU
+> 
+> Earlier since all of them were compiled together any inter-dependencies 
+> will not show up. Now since we are separating it out, just wanted to 
+> make sure each of the combos compile?
+
+I think you meant:
+- headless
+- MDP4
+- MDP5
+- DPU1
+- MDP4 + MDP5
+- MDP4 + DPU1
+- MDP5 + DPU1
+- all three drivers
+
+> 
+>> +
+>> +config DRM_MSM_MDP4
+>> +    bool "Enable MDP4 support in MSM DRM driver"
+>>       depends on DRM_MSM
+>>       default y
+>>       help
+>> -      Choose this option to enable HDCP state machine
+>> +      Compile in support for the Mobile Display Processor v4 (MDP4) in
+>> +      the MSM DRM driver. It is the older display controller found in
+>> +      devices using APQ8064/MSM8960/MSM8x60 platforms.
+>> +
+>> +config DRM_MSM_MDP5
+>> +    bool "Enable MDP5 support in MSM DRM driver"
+>> +    depends on DRM_MSM
+>> +    select DRM_MSM_MDSS
+>> +    default y
+>> +    help
+>> +      Compile in support for the Mobile Display Processor v5 (MDP4) in
+>> +      the MSM DRM driver. It is the display controller found in devices
+>> +      using e.g. APQ8016/MSM8916/APQ8096/MSM8996/MSM8974/SDM6x0 
+>> platforms.
+>> +
+>> +config DRM_MSM_DPU
+>> +    bool "Enable DPU support in MSM DRM driver"
+>> +    depends on DRM_MSM
+>> +    select DRM_MSM_MDSS
+>> +    default y
+>> +    help
+>> +      Compile in support for the Display Processing Unit in
+>> +      the MSM DRM driver. It is the display controller found in devices
+>> +      using e.g. SDM845 and newer platforms.
+>>   config DRM_MSM_DP
+>>       bool "Enable DisplayPort support in MSM DRM driver"
+>> @@ -116,3 +143,20 @@ config DRM_MSM_DSI_7NM_PHY
+>>       help
+>>         Choose this option if DSI PHY on SM8150/SM8250/SC7280 is used on
+>>         the platform.
+>> +
+>> +config DRM_MSM_HDMI
+>> +    bool "Enable HDMI support in MSM DRM driver"
+>> +    depends on DRM_MSM
+>> +    default y
+>> +    help
+>> +      Compile in support for the HDMI output MSM DRM driver. It can
+>> +      be a primary or a secondary display on device. Note that this 
+>> is used
+>> +      only for the direct HDMI output. If the device outputs HDMI data
+>> +      throught some kind of DSI-to-HDMI bridge, this option can be 
+>> disabled.
+>> +
+>> +config DRM_MSM_HDMI_HDCP
+>> +    bool "Enable HDMI HDCP support in MSM DRM driver"
+>> +    depends on DRM_MSM && DRM_MSM_HDMI
+>> +    default y
+>> +    help
+>> +      Choose this option to enable HDCP state machine
+>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>> index e76927b42033..5fe9c20ab9ee 100644
+>> --- a/drivers/gpu/drm/msm/Makefile
+>> +++ b/drivers/gpu/drm/msm/Makefile
+>> @@ -16,6 +16,8 @@ msm-y := \
+>>       adreno/a6xx_gpu.o \
+>>       adreno/a6xx_gmu.o \
+>>       adreno/a6xx_hfi.o \
+>> +
+>> +msm-$(CONFIG_DRM_MSM_HDMI) += \
+>>       hdmi/hdmi.o \
+>>       hdmi/hdmi_audio.o \
+>>       hdmi/hdmi_bridge.o \
+>> @@ -27,8 +29,8 @@ msm-y := \
+>>       hdmi/hdmi_phy_8x60.o \
+>>       hdmi/hdmi_phy_8x74.o \
+>>       hdmi/hdmi_pll_8960.o \
+>> -    disp/mdp_format.o \
+>> -    disp/mdp_kms.o \
+>> +
+>> +msm-$(CONFIG_DRM_MSM_MDP4) += \
+>>       disp/mdp4/mdp4_crtc.o \
+>>       disp/mdp4/mdp4_dtv_encoder.o \
+>>       disp/mdp4/mdp4_lcdc_encoder.o \
+>> @@ -37,6 +39,8 @@ msm-y := \
+>>       disp/mdp4/mdp4_irq.o \
+>>       disp/mdp4/mdp4_kms.o \
+>>       disp/mdp4/mdp4_plane.o \
+>> +
+>> +msm-$(CONFIG_DRM_MSM_MDP5) += \
+>>       disp/mdp5/mdp5_cfg.o \
+>>       disp/mdp5/mdp5_ctl.o \
+>>       disp/mdp5/mdp5_crtc.o \
+>> @@ -47,6 +51,8 @@ msm-y := \
+>>       disp/mdp5/mdp5_mixer.o \
+>>       disp/mdp5/mdp5_plane.o \
+>>       disp/mdp5/mdp5_smp.o \
+>> +
+>> +msm-$(CONFIG_DRM_MSM_DPU) += \
+>>       disp/dpu1/dpu_core_perf.o \
+>>       disp/dpu1/dpu_crtc.o \
+>>       disp/dpu1/dpu_encoder.o \
+>> @@ -69,6 +75,13 @@ msm-y := \
+>>       disp/dpu1/dpu_plane.o \
+>>       disp/dpu1/dpu_rm.o \
+>>       disp/dpu1/dpu_vbif.o \
+>> +
+>> +msm-$(CONFIG_DRM_MSM_MDSS) += \
+>> +    msm_mdss.o \
+>> +
+>> +msm-y += \
+>> +    disp/mdp_format.o \
+>> +    disp/mdp_kms.o \
+>>       disp/msm_disp_snapshot.o \
+>>       disp/msm_disp_snapshot_util.o \
+>>       msm_atomic.o \
+>> @@ -86,7 +99,6 @@ msm-y := \
+>>       msm_gpu_devfreq.o \
+>>       msm_io_utils.o \
+>>       msm_iommu.o \
+>> -    msm_mdss.o \
+>>       msm_perf.o \
+>>       msm_rd.o \
+>>       msm_ringbuffer.o \
+>> diff --git a/drivers/gpu/drm/msm/msm_drv.h 
+>> b/drivers/gpu/drm/msm/msm_drv.h
+>> index c1aaadfbea34..6bad7e7b479d 100644
+>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>> @@ -314,10 +314,20 @@ struct drm_fb_helper *msm_fbdev_init(struct 
+>> drm_device *dev);
+>>   void msm_fbdev_free(struct drm_device *dev);
+>>   struct hdmi;
+>> +#ifdef CONFIG_DRM_MSM_HDMI
+>>   int msm_hdmi_modeset_init(struct hdmi *hdmi, struct drm_device *dev,
+>>           struct drm_encoder *encoder);
+>>   void __init msm_hdmi_register(void);
+>>   void __exit msm_hdmi_unregister(void);
+>> +#else
+>> +static inline int msm_hdmi_modeset_init(struct hdmi *hdmi, struct 
+>> drm_device *dev,
+>> +        struct drm_encoder *encoder)
+>> +{
+>> +    return -EINVAL;
+>> +}
+>> +static inline void __init msm_hdmi_register(void) {}
+>> +static inline void __exit msm_hdmi_unregister(void) {}
+>> +#endif
+>>   struct msm_dsi;
+>>   #ifdef CONFIG_DRM_MSM_DSI
+>> @@ -432,14 +442,37 @@ static inline void msm_dp_debugfs_init(struct 
+>> msm_dp *dp_display,
+>>   #endif
+>> +#ifdef CONFIG_DRM_MSM_MDP4
+>>   void msm_mdp4_register(void);
+>>   void msm_mdp4_unregister(void);
+>> +#else
+>> +static inline void msm_mdp4_register(void) {}
+>> +static inline void msm_mdp4_unregister(void) {}
+>> +#endif
+>> +
+>> +#ifdef CONFIG_DRM_MSM_MDP5
+>>   void msm_mdp_register(void);
+>>   void msm_mdp_unregister(void);
+>> +#else
+>> +static inline void msm_mdp_register(void) {}
+>> +static inline void msm_mdp_unregister(void) {}
+>> +#endif
+>> +
+>> +#ifdef CONFIG_DRM_MSM_DPU
+>>   void msm_dpu_register(void);
+>>   void msm_dpu_unregister(void);
+>> +#else
+>> +static inline void msm_dpu_register(void) {}
+>> +static inline void msm_dpu_unregister(void) {}
+>> +#endif
+>> +
+>> +#ifdef CONFIG_DRM_MSM_MDSS
+>>   void msm_mdss_register(void);
+>>   void msm_mdss_unregister(void);
+>> +#else
+>> +static inline void msm_mdss_register(void) {}
+>> +static inline void msm_mdss_unregister(void) {}
+>> +#endif
+>>   #ifdef CONFIG_DEBUG_FS
+>>   void msm_framebuffer_describe(struct drm_framebuffer *fb, struct 
+>> seq_file *m);
+>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c 
+>> b/drivers/gpu/drm/msm/msm_mdss.c
+>> index 4d25d8955301..66714b356762 100644
+>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>> @@ -303,8 +303,17 @@ static const struct dev_pm_ops mdss_pm_ops = {
+>>   static int find_mdp_node(struct device *dev, void *data)
+>>   {
+>> -    return of_match_node(dpu_dt_match, dev->of_node) ||
+>> -        of_match_node(mdp5_dt_match, dev->of_node);
+>> +#ifdef CONFIG_DRM_MSM_DPU
+>> +    if (of_match_node(dpu_dt_match, dev->of_node))
+>> +        return true;
+>> +#endif
+>> +
+>> +#ifdef CONFIG_DRM_MSM_MDP5
+>> +    if (of_match_node(mdp5_dt_match, dev->of_node))
+>> +        return true;
+>> +#endif
+>> +
+>> +    return false;
+>>   }
+>>   static int mdss_probe(struct platform_device *pdev)
+
+
+-- 
+With best wishes
+Dmitry
