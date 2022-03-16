@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4374DA747
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 02:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A42284DA778
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 02:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8CD89F6B;
-	Wed, 16 Mar 2022 01:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB2B10E4DD;
+	Wed, 16 Mar 2022 01:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com
- [115.236.121.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4449D89FD4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 01:14:38 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m121144.qiye.163.com (Hmail) with ESMTPA id 20987AC02AF;
- Wed, 16 Mar 2022 09:14:35 +0800 (CST)
-Message-ID: <baaf0a2e-72ee-1e6a-a99f-a68e8371d844@rock-chips.com>
-Date: Wed, 16 Mar 2022 09:14:34 +0800
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0AD10E4AA;
+ Wed, 16 Mar 2022 01:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647395278; x=1678931278;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nFc4okpSOfDSXH9Jg9jQLq17GzIBANFEs60pAGx8IOw=;
+ b=CYcY6R91CrlvHN/FzwDd9qet68ssgg+dqTOQL1/nnnaDeBlkEcgvTC4y
+ hwZIpgVvEB6ESTRtinFrOUFYqiq91i5OKpbbTAw8qyYlF1qKhDlXDoYgz
+ dVX7KBzxWjPD5XK1a7+RkuztG8vgJXrDjWrKYPYjWq3RVsLs13l+4qErz
+ fPSMWV+uoAf2EjBm1T3GWVGg2SDyXZi2V1MbQOe3pM9JkmNgjC+3sztkt
+ +8jguvkEjI5crlCEiZhgdjmdo6vXMoe6yS1D2Ovom7sYOOa7tE0zKIATy
+ pdhkemIrXKWtRwYkA6Yk0fSYSH69/15oboIjryBEZAn5NyLrVcT36gmnP A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255294141"
+X-IronPort-AV: E=Sophos;i="5.90,185,1643702400"; d="scan'208";a="255294141"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 18:47:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,185,1643702400"; d="scan'208";a="634804793"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2022 18:47:57 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v10 00/13] Add GuC Error Capture Support
+Date: Tue, 15 Mar 2022 18:50:12 -0700
+Message-Id: <20220316015025.1664860-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v8 22/24] drm: rockchip: Add VOP2 driver
-Content-Language: en-US
-To: Daniel Stone <daniel@fooishbar.org>
-References: <20220311083323.887372-1-s.hauer@pengutronix.de>
- <20220311083323.887372-23-s.hauer@pengutronix.de>
- <9ec29d9b-8197-98fb-c612-5c842e4212c4@rock-chips.com>
- <CAPj87rM4StzGMqPfK=j5p0-mY2=ENZnZWx9QDL_jo8SzNTXWTQ@mail.gmail.com>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <CAPj87rM4StzGMqPfK=j5p0-mY2=ENZnZWx9QDL_jo8SzNTXWTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWUJOHxpWGR4eGkMZGU
- waQh5CVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktDSUNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NyI6Lio5Nj5RTi41DRhNNBM3
- OhVPCjpVSlVKTU9MSEJISUxOTEtLVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT05ISDcG
-X-HM-Tid: 0a7f904a7e25b039kuuu20987ac02af
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,77 +53,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel:
+This series:
+  1. Enables support of GuC to report error-state-capture
+     using a list of MMIO registers the driver registers
+     and GuC will dump, log and notify right before a GuC
+     triggered engine-reset event.
+  2. Updates the ADS blob creation to register said lists
+     of global, engine class and engine instance registers
+     with GuC.
+  3. Defines tables of register lists that are global or
+     engine class or engine instance in scope.
+  4. Updates usage and buffer-state data for the regions
+     of the shared GuC log-buffer to accomdate both
+     the existing relay logging of general debug logs
+     along with the new error state capture usage.
+  5. Using a pool of preallocated memory, provide ability
+     to extract and format the GuC reported register-capture
+     data into chunks consistent with existing i915 error-
+     state collection flows and structures.
+  6. Connects the i915_gpu_coredump reporting function
+     to the GuC error capture module to print all GuC
+     error state capture dumps that is reported.
 
-On 3/15/22 20:43, Daniel Stone wrote:
-> Hi Andy,
->
-> On Tue, 15 Mar 2022 at 06:46, Andy Yan <andy.yan@rock-chips.com> wrote:
->> On 3/11/22 16:33, Sascha Hauer wrote:
->>> The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
->>> board. Overlay support is tested with the modetest utility. AFBC support
->>> on the cluster windows is tested with weston-simple-dmabuf-egl on
->>> weston using the (yet to be upstreamed) panfrost driver support.
->> Do we need some modification to test AFBC by weston-simple-dma-egl ?
->>
->> I have a buildroot system with weston-10.0.9 and mesa 21.3.5.
->>
->> After launch weston, I run weston-simple-dmabuf-egl, but from the output
->>
->> of sys/kernel/debug/dri/0/state, the weston is still use Smart0-win0,
->> which is
->>
->> a non-AFBC window.
->>
->> Do i need to modify the vop2 driver to set one Cluster window as primary
->> plane?
-> Are you using the open-source Panfrost driver, or the proprietary Arm
-> DDK? The DDK was previously using some non-standard modifier tokens
-> which have since been corrected upstream.
+This is the 8th rev of this series with the first 3 revs
+labelled as RFC.
 
+Prior receipts of rvb's:
+  - Patch #2, #3, #4, #5, #10, #11, #12, #13 have received
+    R-v-b's from Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+  - Patch #6, #7, #8, #9 has received an R-v-b from Matthew Brost
+    <matthew.brost@intel.com>. NOTE: some of these came in on the
+    trybot series. https://patchwork.freedesktop.org/series/100831/
 
-I use mesa 21.3.5 with open-source Panfrost driver enabled.
+Changes from prior revs:
+  v10:- Rebase on latest drm-tip again. Fix a number of checkpatch
+        warnings and an error Reported-by: kernel test robot <lkp@intel.com>.
+  v9: - Rebase on latest drm-tip to solve CI merge-build error.
+  v8: - Fix a bug found by CI in rev7: Create a cached ADS
+        capture list for null-header like the other lists.
+      - Fixed a bug on the ggtt offset calculation in the
+        ADS population loop. Thanks to Matt Brost.
+      - Change the storage uses for initial allocation and
+        caching of the ADS register lists so we only store
+        a regular pointer instead of file handle.
+      - Multiple improvements on code styling, variable names,
+        comments and code reduction from Umesh suggestions
+        across multiple patches.
 
-When I modify Sascha's vop2 driver, set a Cluster windows as primary plane,
+  v7: - Rebased on lastest drm_tip that has the ADS now using
+        shmem based ads_blob_write utilities. Stress test
+        was performed with this patch included to fix a
+        legacy bug:
+        https://patchwork.freedesktop.org/series/100768/
 
-Then launch weston,  vop2 report POST_BUF_EMPTY irq err.
+  v6: - In patch #1, ADS reg-list population, we now alloc
+        regular memory to create the lists and cache them for
+        simpler and faster use by GuC ADS module at init, 
+        suspend-resume and reset cycles. This was in response
+        to review comments from Lucas De Marchi that also
+        wanted to ensure the GuC ADS module owns the final
+        copying into the ADS phyical memory.
+      - Thanks to Jani Nikula for pointing out that patch #2
+        and #3 should ensure static tables as constant and
+        dynamic lists should be allocated and cached but
+        attached to the GT level for the case of multiple
+        cards with different fusings for steered registers.
+        These are addressed now along with multiple code
+        style fixups (thanks to review comment from Umesh)
+        and splitting the steered register list generation
+        as a seperate patch.
+      - The extraction functionality, Patch #10 and #11 (was
+        patch #7), has fixed all of Umesh's review comments
+        related to the code styling. Additionally, it was
+        discovered during stress tests that the extraction
+        function could be called by the ct processing thread
+        at the same time as the start of a GT reset event.
+        Thus, a redesign was done whereby the linked list of
+        processed capture-output-nodes are allocated up
+        front and reused throughout the driver's life to
+        ensure no memory locks are taken during extraction.
+      - For patch #6 (now 7, 8 and 9), updates to
+        intel_guc_log was split into smaller chunks and the
+        log_state structure was returned back to inside of
+        the intel_guc_log struct as opposed to the
+        intel_guc struct in prior rev. This is in response
+        to review comments by Matt Brost.
+      - #Patch 13 (previously #10) is mostly identical but
+        addresses all of the code styling comments reviews
+        from Umesh.
+        
+  v5: - Added Gen9->Gen11 register list for CI coverage that
+        included Gen9 with GuC submission.
+      - Redesigned the extraction of the GuC error-capture
+        dumps by grouping them into complete per-engine-reset
+        nodes. Complete here means each node includes the
+        global, engine-class and engine-instance register
+        lists in a single structure.
+      - Extraction is decoupled from the print-out. We now
+        do the extraction immediately when receiving the
+        G2H for error-capture notification. A link list of
+        nodes is maintained with a FIFO based threshold
+        while awaiting retrieval from i915_gpu_coredump's
+        capture_engine function.
+      - Added new plumbing through the i915_gpu_coredump
+        allocation and capture functions to include a flag
+        that is used indicate that GuC had triggered the
+        reset. This new plumbing guarantees an exact match
+        from i915_gpu_coredump's per-engine vma recording
+        and node-retrieval from the guc-error-capture.
+      - Broke the coredump gt_global capture and recording
+        functions into smaller subsets so we can reuse as
+        much of the existing legacy register reading + printing
+        functions and only rely on GuC error-capture for
+        the smaller subset of registers that are tied to
+        engine workload execution.
+      - Updated the register list to follow the legacy execlist
+        format of printout.
+  v4:
+      - Rebased on latest drm-tip that has been merged with the
+        support of GuC firmware version 69.0.3 that is required
+        for GuC error-state-catpure to work.
+      - Added register list for DG2 which is the same as XE_LP
+        except an additional steering register set.
+      - Fixed a bug in the end of capture parsing loop in
+        intel_guc_capture_out_print_next_group that was not
+        properly comparing the engine-instance and engine-
+        class being parsed against the one that triggered
+        the i915_gpu_coredump.
+  v3:
+      - Fixed all review comments from rev2 except the following:
+          - Michal Wajdeczko proposed adding a seperate function
+            to lookup register string nameslookup (based on offset)
+            but decided against it because of offset conflicts
+            and the current table layout is easier to maintain.
+          - Last set of checkpatch errors pertaining to "COMPLEX
+            MACROS" should be fixed on next rev.
+      - Abstracted internal-to-guc-capture information into a new
+        __guc_state_capture_priv structure that allows the exclusion
+        of intel_guc.h and intel_guc_fwif.h from intel_guc_capture.h.
+        Now, only the first 2 patches have a wider build time
+        impact because of the changes to intel_guc_fwif.h but
+        subsequent changes to guc-capture internal structures
+        or firmware interfaces used solely by guc-capture module
+        shoudn't impact the rest of the driver build.
+      - Added missing Gen12LP registers and added slice+subslice
+        indices when reporting extended steered registers.
+      - Add additional checks to ensure that the GuC reported
+        error capture information matches the i915_gpu_coredump
+        that is being printed before we print out the corresponding
+        VMA dumps such as the batch buffer.
+   v2:
+      - Ignore - failed CI retest.
 
- From the log I can see many "panfrost fde60000.gpu: js fault, js=0, 
-status=DATA_INVALID_FAULT" [0]
+Alan Previn (13):
+  drm/i915/guc: Update GuC ADS size for error capture lists
+  drm/i915/guc: Add XE_LP static registers for GuC error capture.
+  drm/i915/guc: Add XE_LP steered register lists support
+  drm/i915/guc: Add DG2 registers for GuC error state capture.
+  drm/i915/guc: Add Gen9 registers for GuC error state capture.
+  drm/i915/guc: Add GuC's error state capture output structures.
+  drm/i915/guc: Update GuC-log relay function names
+  drm/i915/guc: Add capture region into intel_guc_log
+  drm/i915/guc: Check sizing of guc_capture output
+  drm/i915/guc: Extract GuC error capture lists on G2H notification.
+  drm/i915/guc: Pre-allocate output nodes for extraction
+  drm/i915/guc: Plumb GuC-capture into gpu_coredump
+  drm/i915/guc: Print the GuC error capture output register list.
 
-I check the register configuration of Cluster window, there is no 
-obvious error.
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |    4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |    2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    7 +
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  218 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  127 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 1655 +++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.h    |   33 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  127 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |    7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   18 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |    3 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  282 ++-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   35 +-
+ 18 files changed, 2379 insertions(+), 181 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
 
-I event run a ovltest[1] written by myself feed a AFBC RGB data to 
-Cluster0.  it can display ok.
+-- 
+2.25.1
 
-It seems that the basic afbc configuration of vop2 is right, but 
-something is wrong with Panfrost?
-
-[0]https://pastebin.com/ydZkSz1f
-
-[1]https://gitee.com/andyshrk/drm/tree/master/tests/ovltest
-
->
-> You can see from running `weston-debug drm-backend` (if you start
-> Weston with `--debug`) the output as it tries to put client surfaces
-> on to overlay planes, and why it can or cannot.
->
-> For Weston's own composited output (used when it cannot place client
-> surfaces on to planes), it will just use whatever the KMS driver
-> declares as the primary plane. Weston does not have any logic to say
-> 'oh, this plane is AFBC and AFBC is better, so I will use this as my
-> primary plane': we just follow what the kernel tells us.
->
-> Cheers,
-> Daniel
