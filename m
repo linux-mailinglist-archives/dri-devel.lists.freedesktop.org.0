@@ -1,93 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621C44DAAC3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 07:34:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF2A4DAAD6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Mar 2022 07:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D21410E6C8;
-	Wed, 16 Mar 2022 06:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA8B10E678;
+	Wed, 16 Mar 2022 06:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63D110E6C7;
- Wed, 16 Mar 2022 06:34:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RAHwiOHtXmxvtkOvfxU+P15AS/ffL2BgYjvnm1mPCrEdYmeT+Om40wrdfbIYsuRI99JBfBP1dM1LjZdUbBsfhD/c8LtdJnnmITbbhYUKJ91rmqHpJIqQTHSVCmAGW2LqovU9GqyAWYUKIW4WMCpJQ1UyXQ4t9TXMUsEY2Ptz1bglY6h1qBgwZs3c2hvr69NbdeiKXQYjb2KKqenEIQd3fHFM2Ocsq76N8qZ5QMaZYIVcW5i7eMv6NJB2wN04DAKJ0kZS5Rs3b0V7w5ES6FRs5kRn0HunyyaTafeFWa3Mc5kycgFQk4vRccIrKx6xJMzLXcpwmmyc+L66BFIu8Qlp/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=epSWYVPbNnNmsKPhpkOr4DThsDGKzfOOA2hdBC5VVM0=;
- b=QHvwt7ES3GTdL1Cn0noa3R/meE5v6n2tRVmO2j4PVmnX+qS2EwHIyUZpkDfbxlKEs3oxwkP94pUrTSAoglx+kBLYUKqSmVO/ikKAxj/DNQQMiEPLLJaHvrERevjUhTxCOGuGlYq1pbO6KubxfFFkTPKIAO/vTsOPxh3VA7CGB32jAshZjdH568PjAHQatM3Z21FiNYEv4LpL+GmTnI+AhBuGaRPYw05us6NL81VXVcK/BJD+yQatMZ5nxiIZtTocrHLDaZVW1AQ5rXeWd23lqciyOhvXThAtYQXAy5VrTKxlTjfLuuFmV8k65fkN4vMcFT8rmKMDHpepNIbeiOIbIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=epSWYVPbNnNmsKPhpkOr4DThsDGKzfOOA2hdBC5VVM0=;
- b=2B9msL/oSdd4M9uWEomcWW6260+7AF8kIhoxR4kmQFaYcJQzF3dwRN7GVOSvEPDyyV3Tdu35/nJAFJ2kA6RA2C0HJEkO/+HTO3D8BRz4WOvjRxjKMDzLabZX1D4zWEBuuZ4rdnxDH2ZiWRJ4QyI6QvAq8Y0xNivZX84u7QNIb6Y=
-Received: from MW4PR04CA0241.namprd04.prod.outlook.com (2603:10b6:303:88::6)
- by DM5PR12MB4662.namprd12.prod.outlook.com (2603:10b6:4:a6::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
- 2022 06:34:41 +0000
-Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:88:cafe::67) by MW4PR04CA0241.outlook.office365.com
- (2603:10b6:303:88::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.20 via Frontend
- Transport; Wed, 16 Mar 2022 06:34:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5081.14 via Frontend Transport; Wed, 16 Mar 2022 06:34:40 +0000
-Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 16 Mar
- 2022 01:34:36 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v2] drm: Fix a infinite loop condition when order becomes 0
-Date: Wed, 16 Mar 2022 12:04:16 +0530
-Message-ID: <20220316063416.3051-1-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CEA10E678
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Mar 2022 06:48:33 +0000 (UTC)
+X-UUID: 775435b4fdf54be98e65a091eb42944a-20220316
+X-UUID: 775435b4fdf54be98e65a091eb42944a-20220316
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 606893099; Wed, 16 Mar 2022 14:48:25 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 16 Mar 2022 14:48:24 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 16 Mar 2022 14:48:24 +0800
+Message-ID: <75015615bbd69d68e42c1fff70872ebc4bd48be5.camel@mediatek.com>
+Subject: Re: [PATCH v8 17/19] drm/mediatek: add hpd debounce
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Guillaume Ranquet <granquet@baylibre.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <chunfeng.yun@mediatek.com>, <kishon@ti.com>, <vkoul@kernel.org>,
+ <deller@gmx.de>, <ck.hu@mediatek.com>, <jitao.shi@mediatek.com>,
+ <angelogioacchino.delregno@collabora.com>
+Date: Wed, 16 Mar 2022 14:48:24 +0800
+In-Reply-To: <20220218145437.18563-18-granquet@baylibre.com>
+References: <20220218145437.18563-1-granquet@baylibre.com>
+ <20220218145437.18563-18-granquet@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e772009-c3ab-45f6-8693-08da07170cb5
-X-MS-TrafficTypeDiagnostic: DM5PR12MB4662:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB4662820D41589349B46341D6E4119@DM5PR12MB4662.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4L31hTWkNSUzG61eAi2IcIwMrnoY/0oZ6CjDQtZ3NBXnodrTWsaGoH7okkyh0MYkel/bxZo6yU9ziHllpzZzWB8JiJ0hx1JYfKgm/+lanqgTmtrqu1Cf1bGIUD8MI4qHXikQO+mx30Kgk1ymAGWRZaMjgH0wX8ymuW7pexsM+jB5FNj5dVMVrKWW7NzkKKRs1iNuB2P0a3k4Dy/EiH1709J7wwOU7CK4sq/V/qNpTGg4lj1w3A8LPfIFK+pmb45lX5VfcbgkzbAZ5h5Yz7yaz5xgBfHFwlfJ7cfc7xgkZHKv/cPo1Bn4E+C73bx7cndZt5OIfl+ojt25A8etmH/XvfjTgyIDUD/cogc1snq4BDkxRLCtGM+EcI95JJaTWnbG6YQ2oqLEVQs4rO5r1TeXkthno9BsnIeeWlUJiuF/9UknUqGvzUMNifwpZFKbTzmG9H1W94Bg2txbFqY4/6TLNCL1LOR08cpqLx5bXO7u+ppTwJPHqWhPd37yU7wvkgRrWFngK3ShWHuOuDijT7+IUmIbwDTEMSh3Apl5k9G2vFDHXYHx9iJfSVc2UHC2eErh2rndNisUlKY3r+vjCmXks/BpS13PszfZ/8flAhINfZBmbNshJaKJbbqN+FMHiAJD1n5DKGCn9yjp1WIlXISgkedXw2OKmGHpIHvSr0IkcPDIBIIZ9lNqsXTAZcd82F/MZZlFCt6ko9W8xHIPohnvNA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(6666004)(7696005)(40460700003)(5660300002)(26005)(70206006)(70586007)(356005)(426003)(1076003)(2616005)(336012)(16526019)(186003)(86362001)(83380400001)(81166007)(508600001)(47076005)(36756003)(316002)(82310400004)(36860700001)(54906003)(110136005)(4744005)(4326008)(2906002)(8676002)(8936002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 06:34:40.3493 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e772009-c3ab-45f6-8693-08da07170cb5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB4662
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,40 +55,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmenzel@molgen.mpg.de, Arunpravin Paneer
- Selvam <Arunpravin.PaneerSelvam@amd.com>, matthew.auld@intel.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-handle a situation in the condition order-- == min_order,
-when order = 0 and min_order = 0, leading to order = -1,
-it now won't exit the loop. To avoid this problem,
-added a order check in the same condition, (i.e)
-when order is 0, we return -ENOSPC
+On Fri, 2022-02-18 at 15:54 +0100, Guillaume Ranquet wrote:
+> From: Jitao Shi <jitao.shi@mediatek.com>
+> 
+> Implement the DP HDP debounce described in DP 1.4a 3.3.
 
-v2: use full name in email program and in Signed-off tag
+Hello Guillaume,
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/drm_buddy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your patch, and here is some tests we do and I will explain
+the HPD deboucing. Maybe you can put these in commit message next time:
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 72f52f293249..5ab66aaf2bbd 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -685,7 +685,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 			if (!IS_ERR(block))
- 				break;
- 
--			if (order-- == min_order) {
-+			if (!order || order-- == min_order) {
- 				err = -ENOSPC;
- 				goto err_free;
- 			}
+From the DP spec 1.4a chapter 3.3, upstream devices should implement
+HPD signal de-bouncing on an external connection.
+A period of 100ms should be used for detecting an HPD connect event.
+To cover these cases, HPD de-bounce should be implemented only after
+HPD low has been detected for 100ms.
 
-base-commit: 3bd60c0259406c5ca3ce5cdc958fb910ad4b8175
--- 
-2.25.1
+Therefore,
+1. If HPD low (which means plugging out) is more than 100ms,
+   we need to do de-bouncing (which means we need to wait for 100ms).
+2. If HPD low is less than 100ms,
+   we don't need to care about the de-bouncing.
+
+In this patch, we can see the timer start to count 100ms and clear the
+need_debounce to false.
+
+There will be two situation when HPD high:
+1. If the timer is expired (which means it's more than 100ms):
+   - need_debounce will be set as true.
+   - When HPD high (plugging event comes), need_debounce will be true
+     and then we need to do de-bouncing (wait for 100ms).
+2. If the timer is not expired (which means it's less than 100ms):
+   - need_debounce keeps as false.
+   - When HPD high (plugging event comes), need_debounce will be false
+     and no need to do de-bouncing.
+
+HPD_______             __________________
+          |            |<-  100ms   ->
+          |____________|
+          <-  100ms   ->
+
+Original issue is that we do not implement the HPD de-bouncing and the
+device (Dell Adapter - USB-C to HDMI) will not be detected.
+After applying this patch, we can detect the device
+(Dell Adapter - USB-C to HDMI) successfully.
+
+We test the following devices and they can be detected successfully:
+- Dell Adapter - USB-C to HDMI
+- Acer 1in1 HDMI dongle
+- Ugreen 1in1 HDMI dongle
+- innowatt HDMI + USB3 hub
+- Acer 2in1 HDMI dongle
+- Apple 3in1 HDMI dongle (A2119)
+- J5Create 3in1 HDMI dongle (JAC379)
+
+Tested-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+
+BRs,
+Rex
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dp.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c
+> b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index 2a3d5f15b651b..fe91ab8b2fd89 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -178,6 +178,8 @@ struct mtk_dp {
+>  	struct device *codec_dev;
+>  	u8 connector_eld[MAX_ELD_BYTES];
+>  	struct drm_connector *conn;
+> +	bool need_debounce;
+> +	struct timer_list debounce_timer;
+>  };
+>  
+>  static struct regmap_config mtk_dp_regmap_config = {
+> @@ -1698,6 +1700,9 @@ static irqreturn_t mtk_dp_hpd_event_thread(int
+> hpd, void *dev)
+>  	if (event < 0)
+>  		return IRQ_HANDLED;
+>  
+> +	if (mtk_dp->need_debounce && mtk_dp-
+> >train_info.cable_plugged_in)
+> +		msleep(100);
+> +
+>  	if (mtk_dp->drm_dev) {
+>  		dev_info(mtk_dp->dev, "drm_helper_hpd_irq_event\n");
+>  		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
+> @@ -1776,6 +1781,13 @@ static irqreturn_t
+> mtk_dp_hpd_isr_handler(struct mtk_dp *mtk_dp)
+>  	}
+>  	train_info->cable_state_change = true;
+>  
+> +	if (train_info->cable_state_change) {
+> +		if (!train_info->cable_plugged_in) {
+> +			mod_timer(&mtk_dp->debounce_timer, jiffies +
+> msecs_to_jiffies(100) - 1);
+> +			mtk_dp->need_debounce = false;
+> +		}
+> +	}
+> +
+>  	return IRQ_WAKE_THREAD;
+>  }
+>  
+> @@ -2239,6 +2251,13 @@ static const struct drm_bridge_funcs
+> mtk_dp_bridge_funcs = {
+>  	.detect = mtk_dp_bdg_detect,
+>  };
+>  
+> +static void mtk_dp_debounce_timer(struct timer_list *t)
+> +{
+> +	struct mtk_dp *mtk_dp = from_timer(mtk_dp, t, debounce_timer);
+> +
+> +	mtk_dp->need_debounce = true;
+> +}
+> +
+>  static int mtk_dp_probe(struct platform_device *pdev)
+>  {
+>  	struct mtk_dp *mtk_dp;
+> @@ -2319,6 +2338,9 @@ static int mtk_dp_probe(struct platform_device
+> *pdev)
+>  	else
+>  		mtk_dp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+>  
+> +	mtk_dp->need_debounce = true;
+> +	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
+> +
+>  	pm_runtime_enable(dev);
+>  	pm_runtime_get_sync(dev);
+>  
+> @@ -2332,6 +2354,7 @@ static int mtk_dp_remove(struct platform_device
+> *pdev)
+>  	platform_device_unregister(mtk_dp->phy_dev);
+>  
+>  	mtk_dp_video_mute(mtk_dp, true);
+> +	del_timer_sync(&mtk_dp->debounce_timer);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
 
