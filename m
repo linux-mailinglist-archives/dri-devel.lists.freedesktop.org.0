@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA25F4DC676
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 13:51:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFCB4DC679
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 13:53:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC83210EB91;
-	Thu, 17 Mar 2022 12:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF61D10EB92;
+	Thu, 17 Mar 2022 12:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF29610EB91
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 12:51:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D70910EB92
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 12:53:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8825EB81DA1;
- Thu, 17 Mar 2022 12:51:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D021EC340E9;
- Thu, 17 Mar 2022 12:51:19 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C4762B81E5C;
+ Thu, 17 Mar 2022 12:53:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75EDC340E9;
+ Thu, 17 Mar 2022 12:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647521480;
- bh=uupnt2lHilMC53ou54V1UvD3QXZW+C7+LxzkOSFd6Zo=;
+ s=korg; t=1647521606;
+ bh=pnnLmjgrFj3YqWEw384JKVp/R+b1txHwuHbbSAYmroM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jFKXzkHw+M7eFYAld6Zc4HuDGj5OS2RJI1E/CtDx5g8u7yV6gZTT0ArQvhQJqMnj3
- 0PmMzHQWETYIZTDJ+a0yu8F73vVZj/t7qkKJFInbJqIbV7Ov8Ya01qKk6LFfNhPlbS
- wUjs3OATjpvRW01bYtwTfqQWxXFdlZYejZ+a1JFw=
+ b=LbU6c0Cytrvfq9O9yyOsjUbGb0m4345e/GN8/XbJM/DSkm91k0rCJM/6Oi0B9rLz/
+ hhQVpmFdkyIKmpVyFU8uklrKtLA+P8wO41pvZBRMMnf1OmtZ7eznEFx/ITNyrUf5jQ
+ vpHc0NHu/CJzusZH+V+xle41xtYcTLYG9qFvu7GU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 18/25] drm/vrr: Set VRR capable prop only if it is
+Subject: [PATCH 5.16 22/28] drm/vrr: Set VRR capable prop only if it is
  attached to connector
-Date: Thu, 17 Mar 2022 13:46:05 +0100
-Message-Id: <20220317124526.828551088@linuxfoundation.org>
+Date: Thu, 17 Mar 2022 13:46:13 +0100
+Message-Id: <20220317124527.396397346@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220317124526.308079100@linuxfoundation.org>
-References: <20220317124526.308079100@linuxfoundation.org>
+In-Reply-To: <20220317124526.768423926@linuxfoundation.org>
+References: <20220317124526.768423926@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 2ba257b1ae20..e9b7926d9b66 100644
+index 52e20c68813b..6ae26e7d3dec 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -2233,6 +2233,9 @@ EXPORT_SYMBOL(drm_connector_atomic_hdr_metadata_equal);
+@@ -2275,6 +2275,9 @@ EXPORT_SYMBOL(drm_connector_atomic_hdr_metadata_equal);
  void drm_connector_set_vrr_capable_property(
  		struct drm_connector *connector, bool capable)
  {
