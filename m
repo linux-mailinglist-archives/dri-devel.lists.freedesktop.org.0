@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5BA4DD064
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 22:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC6C4DD09A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 23:17:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7518710E0EB;
-	Thu, 17 Mar 2022 21:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C29CD10E12C;
+	Thu, 17 Mar 2022 22:16:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E886D10E0EB
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 21:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647553805; x=1679089805;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qBEZF6yRa+414/RM17VzJuin5ptD1M2x8Pk22hpDAUY=;
- b=FN1/ov1PfOSDj1UV3AIhzMva+y7W+F9mhx/oNi7xPxzLzAickF9cmaQO
- O0T5//f9CJCqszTKeu6NVMViqmxWA0qMq1T/u9c7XTXFtk1wj9EUWsOu7
- RiDAAC87ybWeI0XV47dI50CmKbdSJFp9jd4W9UmCah1PiTbPuV5kI/oEQ
- uXfPUKG4CWTLQOnc0tC4+K3A7C5yybZUVHL963lBGuxuhrOZUScD4JMt/
- 1H8acxbWF3oEBvGLy7pM4RrFovnmUkTWul1//fV5LUCV5tkrsZpj14r8Q
- 49lFEaHz0K33uuMZrdopdvK5OyhBijjRTGtS3t0ifoJ6g13Uyyjkvk/I5 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="256716832"
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="256716832"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 14:50:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="647211282"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 17 Mar 2022 14:50:02 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nUy0Q-000E8I-5Z; Thu, 17 Mar 2022 21:50:02 +0000
-Date: Fri, 18 Mar 2022 05:49:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/gma500: Remove unused declarations and other cruft
-Message-ID: <202203180538.gWcM5ABA-lkp@intel.com>
-References: <20220317092555.17882-1-patrik.r.jakobsson@gmail.com>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E80EF10E12C;
+ Thu, 17 Mar 2022 22:16:55 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ bx24-20020a17090af49800b001c6872a9e4eso2646607pjb.5; 
+ Thu, 17 Mar 2022 15:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RtWitl79lgCs7HDZsX/B/PPKM0tEM+ZKMdXbsHiBJZo=;
+ b=Ech4xQMoXfKpgERat3wvFZGhaAg5dtFwnIbOcH71ipOMCxrvp0yPFCQdDh4P1f5Son
+ Sc3NjimpIcFK6/UHTsB5mjlnDjoZMQQJyxm1K7qJFhV9u0Ef3Eo/vnDg4Pj2Efszxnjs
+ 2bHfo4Nd808pBodG1FYt8wGTd3psPud/MoFw/7M44sZxXi73Vc/3FwAdxjtYo8kbhoBe
+ bU+UQgVDu4Cw0nx2aTlVNShR8gx2s8tvD64qrk0972c20MwqYVqgyn9ncbH5YBqijDD5
+ vtmXLK3wz8ARBN2mGB9fTvEbJ3YaONTWqRAzd7uURz8nEANoc2RYMet2NeDxv/Bo6Oao
+ gXoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RtWitl79lgCs7HDZsX/B/PPKM0tEM+ZKMdXbsHiBJZo=;
+ b=VXN5nswO8Tt44T2oLiVkDqHEBDB2TLBJdHG/NkFVBNK/0481F+YrN0n7jTd6Hy6K3a
+ l3RPQc6RTyFAkMszRnxMLIJ0t+VbS2g37htBiX+MI7LrWHYRceE89YT87fW/NzmRapPr
+ 3kgWtsk1A2OqBKwZ2mkD3bBh2xC0VRCg/1m7I9jHJGfev1zBVR2RXLpftCe0DgnKgEnb
+ IySgc31hfdg8U9QXPZNpMfT6FFx8yW1WXPgLUbfdRk3W+E+0zW2qKc/i03Nm8f8P1nnR
+ w3evrKrxbD4TjLib84asK1igzb64nqLnppSMm9vQawMALXGKOAx5LVPbVBM1uRrjk0Zs
+ xvIg==
+X-Gm-Message-State: AOAM531KXQTYkH/c5hoHa7h5IVb9fOXJGvOZLCmnG8rwMsZOE6wYA5nz
+ js5+7RP1axo2SQkM5ISgFuGokjVyn8E=
+X-Google-Smtp-Source: ABdhPJxSNY+wd8cOCFKVvqYX3NVor18dZh3gHfdJqnqaRm04JhZ0qekm5Jykk6q4ELrUoUAhvMY/fQ==
+X-Received: by 2002:a17:902:ab01:b0:153:2dec:6761 with SMTP id
+ ik1-20020a170902ab0100b001532dec6761mr7032370plb.71.1647555414778; 
+ Thu, 17 Mar 2022 15:16:54 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a17090a190300b001c61add3386sm6357822pjg.35.2022.03.17.15.16.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 15:16:53 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC] drm/msm: Add a way for userspace to allocate GPU iova
+Date: Thu, 17 Mar 2022 15:17:42 -0700
+Message-Id: <20220317221742.258537-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317092555.17882-1-patrik.r.jakobsson@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,89 +68,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, llvm@lists.linux.dev, kbuild-all@lists.01.org,
- tzimmermann@suse.de, sam@ravnborg.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrik,
+From: Rob Clark <robdclark@chromium.org>
 
-I love your patch! Perhaps something to improve:
+The motivation at this point is mainly native userspace mesa driver in a
+VM guest.  The one remaining synchronous "hotpath" is buffer allocation,
+because guest needs to wait to know the bo's iova before it can start
+emitting cmdstream/state that references the new bo.  By allocating the
+iova in the guest userspace, we no longer need to wait for a response
+from the host, but can just rely on the allocation request being
+processed before the cmdstream submission.  Allocation faulures (OoM,
+etc) would just be treated as context-lost (ie. GL_GUILTY_CONTEXT_RESET)
+or subsequent allocations (or readpix, etc) can raise GL_OUT_OF_MEMORY.
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc8 next-20220317]
-[cannot apply to airlied/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+TODO bump uapi version, or combine w/ other changes that bump uapi
+version
 
-url:    https://github.com/0day-ci/linux/commits/Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20220318/202203180538.gWcM5ABA-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e3d798f8eab43fb3a91028c6ab04e115fcb)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/0d50efabcb4ad52bd7a036e2542dbf51bbcf93b4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-        git checkout 0d50efabcb4ad52bd7a036e2542dbf51bbcf93b4
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/gma500/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/gma500/psb_drv.c:102:6: warning: no previous prototype for function 'psb_spank' [-Wmissing-prototypes]
-   void psb_spank(struct drm_psb_private *dev_priv)
-        ^
-   drivers/gpu/drm/gma500/psb_drv.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void psb_spank(struct drm_psb_private *dev_priv)
-   ^
-   static 
-   drivers/gpu/drm/gma500/psb_drv.c:419:20: warning: unused function 'get_brightness' [-Wunused-function]
-   static inline void get_brightness(struct backlight_device *bd)
-                      ^
-   2 warnings generated.
-
-
-vim +/psb_spank +102 drivers/gpu/drm/gma500/psb_drv.c
-
-5c49fd3aa0ab02 Alan Cox         2011-11-03   95  
-5c209d8056b976 Patrik Jakobsson 2021-02-01   96  /**
-5c209d8056b976 Patrik Jakobsson 2021-02-01   97   *	psb_spank		-	reset the 2D engine
-5c209d8056b976 Patrik Jakobsson 2021-02-01   98   *	@dev_priv: our PSB DRM device
-5c209d8056b976 Patrik Jakobsson 2021-02-01   99   *
-5c209d8056b976 Patrik Jakobsson 2021-02-01  100   *	Soft reset the graphics engine and then reload the necessary registers.
-5c209d8056b976 Patrik Jakobsson 2021-02-01  101   */
-5c209d8056b976 Patrik Jakobsson 2021-02-01 @102  void psb_spank(struct drm_psb_private *dev_priv)
-5c209d8056b976 Patrik Jakobsson 2021-02-01  103  {
-5c209d8056b976 Patrik Jakobsson 2021-02-01  104  	PSB_WSGX32(_PSB_CS_RESET_BIF_RESET | _PSB_CS_RESET_DPM_RESET |
-5c209d8056b976 Patrik Jakobsson 2021-02-01  105  		_PSB_CS_RESET_TA_RESET | _PSB_CS_RESET_USE_RESET |
-5c209d8056b976 Patrik Jakobsson 2021-02-01  106  		_PSB_CS_RESET_ISP_RESET | _PSB_CS_RESET_TSP_RESET |
-5c209d8056b976 Patrik Jakobsson 2021-02-01  107  		_PSB_CS_RESET_TWOD_RESET, PSB_CR_SOFT_RESET);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  108  	PSB_RSGX32(PSB_CR_SOFT_RESET);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  109  
-5c209d8056b976 Patrik Jakobsson 2021-02-01  110  	msleep(1);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  111  
-5c209d8056b976 Patrik Jakobsson 2021-02-01  112  	PSB_WSGX32(0, PSB_CR_SOFT_RESET);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  113  	wmb();
-5c209d8056b976 Patrik Jakobsson 2021-02-01  114  	PSB_WSGX32(PSB_RSGX32(PSB_CR_BIF_CTRL) | _PSB_CB_CTRL_CLEAR_FAULT,
-5c209d8056b976 Patrik Jakobsson 2021-02-01  115  		   PSB_CR_BIF_CTRL);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  116  	wmb();
-5c209d8056b976 Patrik Jakobsson 2021-02-01  117  	(void) PSB_RSGX32(PSB_CR_BIF_CTRL);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  118  
-5c209d8056b976 Patrik Jakobsson 2021-02-01  119  	msleep(1);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  120  	PSB_WSGX32(PSB_RSGX32(PSB_CR_BIF_CTRL) & ~_PSB_CB_CTRL_CLEAR_FAULT,
-5c209d8056b976 Patrik Jakobsson 2021-02-01  121  		   PSB_CR_BIF_CTRL);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  122  	(void) PSB_RSGX32(PSB_CR_BIF_CTRL);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  123  	PSB_WSGX32(dev_priv->gtt.gatt_start, PSB_CR_BIF_TWOD_REQ_BASE);
-5c209d8056b976 Patrik Jakobsson 2021-02-01  124  }
-5c209d8056b976 Patrik Jakobsson 2021-02-01  125  
-
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+So, I was initially planning on adding some extra guard-rails, ie.
+some userspace opt-in and preventing mixing of kernel and userspace
+allocated iova.  Because in general mixing and matching userspace and
+kernel allocated iova is not going to go over too well.
+
+But the address-space is per drm_file, and I couldn't come up with
+any scenario where, on a given drm device fd, we would be trying to
+mix/match userspace doing kernel iova allocation vs userspace iova
+allocation.
+
+Ofc, now is a good time to prove me wrong ;-)
+
+ drivers/gpu/drm/msm/msm_drv.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gem.c | 20 ++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gem.h |  2 ++
+ include/uapi/drm/msm_drm.h    |  1 +
+ 4 files changed, 44 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index a5eed5738ac8..7394312cf075 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -719,6 +719,23 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
+ 	return msm_gem_get_iova(obj, ctx->aspace, iova);
+ }
+ 
++static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
++		struct drm_file *file, struct drm_gem_object *obj,
++		uint64_t iova)
++{
++	struct msm_drm_private *priv = dev->dev_private;
++	struct msm_file_private *ctx = file->driver_priv;
++
++	if (!priv->gpu)
++		return -EINVAL;
++
++	/* Only supported if per-process address space is supported: */
++	if (priv->gpu->aspace == ctx->aspace)
++		return -EINVAL;
++
++	return msm_gem_set_iova(obj, ctx->aspace, iova);
++}
++
+ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 		struct drm_file *file)
+ {
+@@ -733,6 +750,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 	switch (args->info) {
+ 	case MSM_INFO_GET_OFFSET:
+ 	case MSM_INFO_GET_IOVA:
++	case MSM_INFO_SET_IOVA:
+ 		/* value returned as immediate, not pointer, so len==0: */
+ 		if (args->len)
+ 			return -EINVAL;
+@@ -757,6 +775,9 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 	case MSM_INFO_GET_IOVA:
+ 		ret = msm_ioctl_gem_info_iova(dev, file, obj, &args->value);
+ 		break;
++	case MSM_INFO_SET_IOVA:
++		ret = msm_ioctl_gem_info_set_iova(dev, file, obj, args->value);
++		break;
+ 	case MSM_INFO_SET_NAME:
+ 		/* length check should leave room for terminating null: */
+ 		if (args->len >= sizeof(msm_obj->name)) {
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index a4f61972667b..41ae8d9c8b3c 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -510,6 +510,26 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
+ 	return ret;
+ }
+ 
++/*
++ * Get the requested iova but don't pin it.  Fails if the requested iova is
++ * not available.  Doesn't need a put because iovas are currently valid for
++ * the life of the object
++ */
++int msm_gem_set_iova(struct drm_gem_object *obj,
++		struct msm_gem_address_space *aspace, uint64_t iova)
++{
++	int ret;
++	uint64_t assigned_iova;
++
++	msm_gem_lock(obj);
++	ret = get_iova_locked(obj, aspace, &assigned_iova,
++			      iova >> PAGE_SHIFT,
++			      (iova + obj->size) >> PAGE_SHIFT);
++	msm_gem_unlock(obj);
++
++	return ret;
++}
++
+ /* get iova without taking a reference, used in places where you have
+  * already done a 'msm_gem_get_and_pin_iova' or 'msm_gem_get_iova'
+  */
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 58e11c282928..40d839f61d15 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -112,6 +112,8 @@ struct msm_gem_object {
+ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+ int msm_gem_get_iova(struct drm_gem_object *obj,
+ 		struct msm_gem_address_space *aspace, uint64_t *iova);
++int msm_gem_set_iova(struct drm_gem_object *obj,
++		struct msm_gem_address_space *aspace, uint64_t iova);
+ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
+ 		struct msm_gem_address_space *aspace, uint64_t *iova,
+ 		u64 range_start, u64 range_end);
+diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+index 794ad1948497..4fe9cac05981 100644
+--- a/include/uapi/drm/msm_drm.h
++++ b/include/uapi/drm/msm_drm.h
+@@ -135,6 +135,7 @@ struct drm_msm_gem_new {
+ #define MSM_INFO_GET_IOVA	0x01   /* get iova, returned by value */
+ #define MSM_INFO_SET_NAME	0x02   /* set the debug name (by pointer) */
+ #define MSM_INFO_GET_NAME	0x03   /* get debug name, returned by pointer */
++#define MSM_INFO_SET_IOVA	0x04   /* set the iova, passed by value */
+ 
+ struct drm_msm_gem_info {
+ 	__u32 handle;         /* in */
+-- 
+2.35.1
+
