@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6364DC9AA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFE74DCA0A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:33:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43DF10E7E0;
-	Thu, 17 Mar 2022 15:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13D810E6B4;
+	Thu, 17 Mar 2022 15:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDB010E7CD
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 15:13:11 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id p26so2143210wma.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 08:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=nQqbWtH5pfKnl7ntBQnMna6KGgKeLVbC9temYzdbrVk=;
- b=jmPQuC0gcd7cVIo3rSP/TX3nT+TeQj+v9JPsb3+HNkEXYNGVZawetow5Z2hnZIlwz1
- enueRIfh+3xPAy+wyBjmg6HTmAnGRTS3UNFVvjEzNOFZlbbcZIWJYIMWNfrAAiV18x1u
- B04ZhhSUezK2Y6L6opNRDOzvXt3b8Zrp+G/nVdxhrldjtCvUcdT43gXRxBKtJSR6Fe2i
- 0GcLQmp/1a55cGSKTLClpOwxBvyHtdXqe31s0Zpm0GmUCGQejjSJnsXl49RplKJN086R
- l0NlPTW8n9kOxKEUG5tBfu09d3hlUdyDsWjb/QEQPNEZVY+TBbECzQplDjsvwgPZ2Zam
- APNw==
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B38710E6B4;
+ Thu, 17 Mar 2022 15:33:41 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b19so7850872wrh.11;
+ Thu, 17 Mar 2022 08:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OQkc0YMh+nMgxi8NDmTj17IuIDLM1KrE7Bd2SJj2rZQ=;
+ b=DNMyzRshNmkh1/56AFTra1verKI6xzo7BHyOqPdbB0pbo3dj5vN39nl5bShv7PFbWE
+ YJomdLGkX587EukNwGZBGgqCM7EflzUm2ksG0n0BeOFmwLjkwedsumv8/I1AFe27t5xQ
+ 9YfXgCOyaJ+QG0L0VHrjfoQR7TzpJVpAk9VhZkOmBRPEkWj3IOv8R7SQ8gauAjsRRELd
+ /q6/IqeWF8urUUPB8epsg5VFfvEKo9VMFvt3+QpLwbmVoCrrmqh+vbbddcO3QViwdgJz
+ PQbNFNrXBiN658wLSJ6g/H8skBIMCSEJGm0nTXv/zzA0xGTXz1uPbdyenLv6+jNP5qgS
+ 18dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=nQqbWtH5pfKnl7ntBQnMna6KGgKeLVbC9temYzdbrVk=;
- b=pofxYpg1YMSZn/BAc5PQcNpFsya6raNxJFnlpuMaJ8kD7zWilE69jq210msaQfObWb
- gImEzkQN7xvlpDPB6yNkaNxxSiY830UrB200dBfGUSqDiGTLvrLuXY5UbheM6VrpwaOf
- oWdgeCCa3WudLieD71aG+HzSHAzBzQpcxAu1noER9dEB6aoC80bJdV3zFNwihLyfuyxv
- N7RnyyD3R/L+mozvKBh9Pgsz6HY2cGjxqUDd+i0W7AjnQxooeEkr3D7t6L6UOpsCkFPN
- yl6FWAEqSkwAyFR2Pgq9df2AxImC56nli+Y1zwrt/1O14tojM7sZEZHikg/s/jBFvMVS
- VWGQ==
-X-Gm-Message-State: AOAM5300oglKHJu37CGod+iCmRi0cFJCoDMe1JLGZ9LdW5ByM/GTiJrL
- uOutWYGJV86oJy4YYJn+fY5FTg==
-X-Google-Smtp-Source: ABdhPJzqUVa6RciYrP1Fyl38aF2HC6O1bKNmreDFYFmrsonBxUtm8n/rju3WMT43L8SJZFzSztNf3Q==
-X-Received: by 2002:a05:600c:27d0:b0:38c:6c01:9668 with SMTP id
- l16-20020a05600c27d000b0038c6c019668mr8492847wmb.59.1647529989621; 
- Thu, 17 Mar 2022 08:13:09 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
- f7-20020a0560001a8700b00203c23e55e0sm4405777wry.78.2022.03.17.08.13.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 08:13:09 -0700 (PDT)
-Date: Thu, 17 Mar 2022 15:13:07 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH 1/1] drm/amdkfd: Protect the Client whilst it is being
- operated on
-Message-ID: <YjNQA80wkWpy+AmA@google.com>
-References: <20220317131610.554347-1-lee.jones@linaro.org>
- <8702f8a5-62a1-c07e-c7b7-e9378be069b6@amd.com>
- <YjNNCXc8harOvwqe@google.com>
- <1f003356-3cf9-7237-501e-950d0aa124d1@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OQkc0YMh+nMgxi8NDmTj17IuIDLM1KrE7Bd2SJj2rZQ=;
+ b=DopvfbGOZBmt7LPBFmD10mbrjYH770ZMi/QEwYOX31kD7YcPdJN5NR/Hwer7nRPK41
+ f3m0waVgZxpgi4y+Njp1olDms8STTPndRei5irBfTDhm7czV8eOgVnEt5dlhc5JYecnA
+ D3zLaJQ0uFSyYMdiH2FcL8vfIaJvfB0x+eM4m+e4Gpp095G7MhC30yY5gtSIfKIJS05k
+ ktw6N1WT7Y1v+Xn5jOzxfc2IIFhlZYkxFRDeMHcfZieUTOYki79Z2zr3jX6ic3gCg0yl
+ 6ZFPMyrESnVjcT+I3VgTW8HCXGrMAMFEyrNxaR36OOttfrlSsEuU55pSVlrngeGYrXKZ
+ WJIw==
+X-Gm-Message-State: AOAM532bZObJDu16pLsL2Azctr0gneXqtQaHEatsEAYPzd01mqBo9xVK
+ U+OdZCz4TDjZZ9bnQwFc0v5dkafXMtF4GIB2Bq8=
+X-Google-Smtp-Source: ABdhPJxrIp/LBKIsbdcMKp9s/Ou2rQTsD1PwWnOaf3brQeKx2sNVfLMigj4ZLP4QGGDebOqdconlr1eXIvFUCXUGHuw=
+X-Received: by 2002:a5d:64c1:0:b0:203:7aa5:9390 with SMTP id
+ f1-20020a5d64c1000000b002037aa59390mr4576045wri.328.1647531220030; Thu, 17
+ Mar 2022 08:33:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1f003356-3cf9-7237-501e-950d0aa124d1@amd.com>
+References: <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
+ <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
+ <20220311102709.225616cf@eldfell>
+ <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
+ <20220314172647.223658d2@eldfell>
+ <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
+ <20220316104815.11ec2e6c@eldfell>
+ <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
+ <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
+ <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
+ <YjL/k6kh+5RihGIV@phenom.ffwll.local>
+In-Reply-To: <YjL/k6kh+5RihGIV@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 17 Mar 2022 08:34:21 -0700
+Message-ID: <CAF6AEGtUasyC1e0Fz2cFhSMEtUJCJTsFQs7+4mg_FP45LwX=4A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,79 +74,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
+ Shashank" <shashank.sharma@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alexandar Deucher <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Shashank Sharma <contactshashanksharma@gmail.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Mar 2022, Felix Kuehling wrote:
+On Thu, Mar 17, 2022 at 2:29 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Mar 17, 2022 at 08:03:27AM +0100, Christian K=C3=B6nig wrote:
+> > Am 16.03.22 um 16:36 schrieb Rob Clark:
+> > > [SNIP]
+> > > just one point of clarification.. in the msm and i915 case it is
+> > > purely for debugging and telemetry (ie. sending crash logs back to
+> > > distro for analysis if user has crash reporting enabled).. it isn't
+> > > used for triggering any action like killing app or compositor.
+> >
+> > By the way, how does msm it's memory management for the devcoredumps?
+>
+> GFP_NORECLAIM all the way. It's purely best effort.
 
-> 
-> Am 2022-03-17 um 11:00 schrieb Lee Jones:
-> > Good afternoon Felix,
-> > 
-> > Thanks for your review.
-> > 
-> > > Am 2022-03-17 um 09:16 schrieb Lee Jones:
-> > > > Presently the Client can be freed whilst still in use.
-> > > > 
-> > > > Use the already provided lock to prevent this.
-> > > > 
-> > > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: amd-gfx@lists.freedesktop.org
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > > > ---
-> > > >    drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 6 ++++++
-> > > >    1 file changed, 6 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > > > index e4beebb1c80a2..3b9ac1e87231f 100644
-> > > > --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > > > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > > > @@ -145,8 +145,11 @@ static int kfd_smi_ev_release(struct inode *inode, struct file *filep)
-> > > >    	spin_unlock(&dev->smi_lock);
-> > > >    	synchronize_rcu();
-> > > > +
-> > > > +	spin_lock(&client->lock);
-> > > >    	kfifo_free(&client->fifo);
-> > > >    	kfree(client);
-> > > > +	spin_unlock(&client->lock);
-> > > The spin_unlock is after the spinlock data structure has been freed.
-> > Good point.
-> > 
-> > If we go forward with this approach the unlock should perhaps be moved
-> > to just before the kfree().
-> > 
-> > > There
-> > > should be no concurrent users here, since we are freeing the data structure.
-> > > If there still are concurrent users at this point, they will crash anyway.
-> > > So the locking is unnecessary.
-> > The users may well crash, as does the kernel unfortunately.
-> We only get to kfd_smi_ev_release when the file descriptor is closed. User
-> mode has no way to use the client any more at this point. This function also
-> removes the client from the dev->smi_cllients list. So no more events will
-> be added to the client. Therefore it is safe to free the client.
-> 
-> If any of the above were not true, it would not be safe to kfree(client).
-> 
-> But if it is safe to kfree(client), then there is no need for the locking.
+We do one GEM obj allocation in the snapshot path (the hw has a
+mechanism to snapshot it's own state into a gpu buffer.. not sure if
+nice debugging functionality like that is a commentary on the blob
+driver quality, but I'm not complaining)
 
-I'm not keen to go into too much detail until it's been patched.
+I suppose we could pre-allocate this buffer up-front.. but it doesn't
+seem like a problem, ie. if allocation fails we just skip snapshotting
+stuff that needs the hw crashdumper.  I guess since vram is not
+involved, perhaps that makes the situation a bit more straightforward.
 
-However, there is a way to free the client while it is still in use.
+> Note that the fancy new plan for i915 discrete gpu is to only support gpu
+> crash dumps on non-recoverable gpu contexts, i.e. those that do not
+> continue to the next batch when something bad happens. This is what vk
+> wants and also what iris now uses (we do context recovery in userspace in
+> all cases), and non-recoverable contexts greatly simplify the crash dump
+> gather: Only thing you need to gather is the register state from hw
+> (before you reset it), all the batchbuffer bo and indirect state bo (in
+> i915 you can mark which bo to capture in the CS ioctl) can be captured in
+> a worker later on. Which for non-recoverable context is no issue, since
+> subsequent batchbuffers won't trample over any of these things.
+>
+> And that way you can record the crashdump (or at least the big pieces lik=
+e
+> all the indirect state stuff) with GFP_KERNEL.
+>
+> msm probably gets it wrong since embedded drivers have much less shrinker
+> and generally no mmu notifiers going on :-)
 
-Remember we are multi-threaded.
+Note that the bo's associated with the batch are still pinned at this
+point, from the bo lifecycle the batch is still active.  So from the
+point of view of shrinker, there should be no interaction.  We aren't
+doing anything with mmu notifiers (yet), so not entirely sure offhand
+the concern there.
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Currently we just use GFP_KERNEL and bail if allocation fails.
+
+BR,
+-R
+
+> > I mean it is strictly forbidden to allocate any memory in the GPU reset
+> > path.
+> >
+> > > I would however *strongly* recommend devcoredump support in other GPU
+> > > drivers (i915's thing pre-dates devcoredump by a lot).. I've used it
+> > > to debug and fix a couple obscure issues that I was not able to
+> > > reproduce by myself.
+> >
+> > Yes, completely agree as well.
+>
+> +1
+>
+> Cheers, Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
