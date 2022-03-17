@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FA84DBBC5
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 01:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A6B4DBC0E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 02:09:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0747010EAC4;
-	Thu, 17 Mar 2022 00:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE1C10E036;
+	Thu, 17 Mar 2022 01:09:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE22310EAC7;
- Thu, 17 Mar 2022 00:29:15 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- rm8-20020a17090b3ec800b001c55791fdb1so4054107pjb.1; 
- Wed, 16 Mar 2022 17:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZWZ7JEAL1DE1LvgRX3uWuLKQwPRiB58gmhQLlKG1GL0=;
- b=hQEZ3z2zvW6LDZb1FOtcB/Z5Ml8F/MMBihCYO7JC4NqXWVdgMI4YYRWpGo4MuOcEkT
- 5wBBk9O0n/yPi8OCM5GrZ1YE3w/bSaxI7CJDYVUnOaoSt0+HUa0ftK/pvhJ1TkIJMDGa
- s5lZ68P5qzgHJ7KsAPP6+BHHKJzIkZu00nu6sYsx9esjYnQ9mOTEz8umK2g6GDgA2Mgx
- NlLS642gdGy9ih9gf/sG9rwk/HeLSyexsqLUqUycz3mQDjUtKeE6sFJq35cEvsknuj5a
- QO+BBHVyPUuI4lUS6DsH9rFY+vENdP7uSK6JOFbpTxDXH/8z0ODAl/RF7plJtyQTVFKp
- b7KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZWZ7JEAL1DE1LvgRX3uWuLKQwPRiB58gmhQLlKG1GL0=;
- b=U6fgeyUHbgv+bFjTirpaIX9KK4f2u57Jl63as6Z/ZpVhr9SSF3OGms0kXKwtlV0Pk1
- hjt6SgLVWA9Pl/fVN2mA72inBCl96S5ZfaJPHReSCjF6GCxUFRw8ND+rT3q5Mfz4jrja
- dGnkJmtQYE1uf4s8ZttVQNNCmOTic8YgINh9gPo/7bIcGzUipgSew3CefrGhrpUPK5fm
- 0yQJ6ajervmFnMW1dFDoTXN5n5eMJzk69ogtgXjRNh3tSS2F5UUR6JqW1j98FNQ9gtYG
- vLnP/p2WupVz+f5eZxQpkwBziB2/q5PKbFztBwJzHfmdZ6gZbQNHuVDkYhdHTN+iH2J8
- mJmg==
-X-Gm-Message-State: AOAM532IgD02GQ41SUmz7IyaHCfbZKExzshhkmGOV9PLt5mIm5xVBBud
- GlLAh96hzAID357rgNbaE6CGqc8FYao=
-X-Google-Smtp-Source: ABdhPJyqVMjKPtyWbcZMNiGxIdqe6xlBdoDkqLHl3sBZooawf6OQo1w2RitJWq1Br+5vDBkCvEo2gw==
-X-Received: by 2002:a17:90b:4b8a:b0:1c6:33b2:9d6a with SMTP id
- lr10-20020a17090b4b8a00b001c633b29d6amr2363205pjb.225.1647476954684; 
- Wed, 16 Mar 2022 17:29:14 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id
- bh6-20020a056a00308600b004f6aa0367f6sm3744636pfb.118.2022.03.16.17.29.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 17:29:13 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/msm: Add a way to override processes comm/cmdline
-Date: Wed, 16 Mar 2022 17:29:45 -0700
-Message-Id: <20220317002950.193449-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220317002950.193449-1-robdclark@gmail.com>
-References: <20220317002950.193449-1-robdclark@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7B1F10E036
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 01:09:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id D9F171F448D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647479348;
+ bh=FxghuLF6sBTGTVTBe9x2sblWdZvZVCLqJRlt5cOFOLY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FzGGcxvitUUwRBDmQRUySL1ki5h49AEbAWoQeF8EBdVKTFmU/g8MT9DYqFvo90q3g
+ ml8DhY6v+Gg/TCAwIuuvHpk3xT3zqoi8X657n7O0eGIUX2p+kPIlm5F0YwTKUNpS3o
+ GDO9azTbZ2DRcrSBVnOVgWvWN6Y2EFFjsYIGW3rWfgRWLPv87Gp4LRSqnpzt8wj7dH
+ 8G0dzuxanND32r7emgrJzMQEqrQfenK+DcT6DhcZdfWBQ8k2MIbEMOBSc/xlYDumGX
+ +G9Kmxb1LtNs3c1hrbHa7mRJur+oijanmbUOe0bKlKwNTY1aWAuQx6jqx1qOk27hLS
+ jI+FqxFZv1q0g==
+Message-ID: <eb421bd0-0ff8-1ca6-b14a-2a9bde21c4d8@collabora.com>
+Date: Thu, 17 Mar 2022 04:09:03 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 4/8] drm/virtio: Improve DMA API usage for shmem BOs
+Content-Language: en-US
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
+ <20220314224253.236359-5-dmitry.osipenko@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220314224253.236359-5-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,156 +59,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Emma Anholt <emma@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ dri-devel@lists.freedesktop.org, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 3/15/22 01:42, Dmitry Osipenko wrote:
+> DRM API requires the DRM's driver to be backed with the device that can
+> be used for generic DMA operations. The VirtIO-GPU device can't perform
+> DMA operations if it uses PCI transport because PCI device driver creates
+> a virtual VirtIO-GPU device that isn't associated with the PCI. Use PCI's
+> GPU device for the DRM's device instead of the VirtIO-GPU device and drop
+> DMA-related hacks from the VirtIO-GPU driver.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c    | 22 +++++++---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    |  5 +--
+>  drivers/gpu/drm/virtio/virtgpu_kms.c    |  7 ++--
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 56 +++++--------------------
+>  drivers/gpu/drm/virtio/virtgpu_vq.c     | 13 +++---
+>  5 files changed, 37 insertions(+), 66 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> index 5f25a8d15464..8449dad3e65c 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -46,9 +46,9 @@ static int virtio_gpu_modeset = -1;
+>  MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+>  module_param_named(modeset, virtio_gpu_modeset, int, 0400);
+>  
+> -static int virtio_gpu_pci_quirk(struct drm_device *dev, struct virtio_device *vdev)
+> +static int virtio_gpu_pci_quirk(struct drm_device *dev)
 
-In the cause of using the GPU via virtgpu, the host side process is
-really a sort of proxy, and not terribly interesting from the PoV of
-crash/fault logging.  Add a way to override these per process so that
-we can see the guest process's name.
+Somehow I missed that virtio_gpu_pci_quirk() contains comment telling
+about why dev.parent isn't used for the DRM's device.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 40 +++++++++++++++++++++++--
- drivers/gpu/drm/msm/msm_gpu.c           | 11 +++++--
- drivers/gpu/drm/msm/msm_gpu.h           |  6 ++++
- drivers/gpu/drm/msm/msm_submitqueue.c   |  2 ++
- include/uapi/drm/msm_drm.h              |  2 ++
- 5 files changed, 56 insertions(+), 5 deletions(-)
+	/*
+	 * Normally the drm_dev_set_unique() call is done by core DRM.
+	 * The following comment covers, why virtio cannot rely on it.
+	 *
+	 * Unlike the other virtual GPU drivers, virtio abstracts the
+	 * underlying bus type by using struct virtio_device.
+	 *
+	 * Hence the dev_is_pci() check, used in core DRM, will fail
+	 * and the unique returned will be the virtio_device "virtio0",
+	 * while a "pci:..." one is required.
+	 *
+	 * A few other ideas were considered:
+	 * - Extend the dev_is_pci() check [in drm_set_busid] to
+	 *   consider virtio.
+	 *   Seems like a bigger hack than what we have already.
+	 *
+	 * - Point drm_device::dev to the parent of the virtio_device
+	 *   Semantic changes:
+	 *   * Using the wrong device for i2c, framebuffer_alloc and
+	 *     prime import.
+	 *   Visual changes:
+	 *   * Helpers such as DRM_DEV_ERROR, dev_info, drm_printer,
+	 *     will print the wrong information.
+	 *
+	 * We could address the latter issues, by introducing
+	 * drm_device::bus_dev, ... which would be used solely for this.
+	 *
+	 * So for the moment keep things as-is, with a bulky comment
+	 * for the next person who feels like removing this
+	 * drm_dev_set_unique() quirk.
+	 */
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 3d307b34854d..c68dc9c722c7 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -290,11 +290,45 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 		     uint32_t param, uint64_t value, uint32_t len)
- {
--	/* No pointer params yet */
--	if (len != 0)
--		return -EINVAL;
-+	switch (param) {
-+	case MSM_PARAM_COMM:
-+	case MSM_PARAM_CMDLINE:
-+		/* kstrdup_quotable_cmdline() limits to PAGE_SIZE, so
-+		 * that should be a reasonable upper bound
-+		 */
-+		if (len > PAGE_SIZE)
-+			return -EINVAL;
-+		break;
-+	default:
-+		if (len != 0)
-+			return -EINVAL;
-+	}
- 
- 	switch (param) {
-+	case MSM_PARAM_COMM:
-+	case MSM_PARAM_CMDLINE: {
-+		char *str, **paramp;
-+
-+		str = kmalloc(len + 1, GFP_KERNEL);
-+		if (copy_from_user(str, u64_to_user_ptr(value), len)) {
-+			kfree(str);
-+			return -EFAULT;
-+		}
-+
-+		/* Ensure string is null terminated: */
-+		str[len] = '\0';
-+
-+		if (param == MSM_PARAM_COMM) {
-+			paramp = &ctx->comm;
-+		} else {
-+			paramp = &ctx->cmdline;
-+		}
-+
-+		kfree(*paramp);
-+		*paramp = str;
-+
-+		return 0;
-+	}
- 	case MSM_PARAM_SYSPROF:
- 		if (!capable(CAP_SYS_ADMIN))
- 			return -EPERM;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 4ec62b601adc..68f3f8ade76d 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -364,14 +364,21 @@ static void retire_submits(struct msm_gpu *gpu);
- 
- static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
- {
-+	struct msm_file_private *ctx = submit->queue->ctx;
- 	struct task_struct *task;
- 
-+	*comm = kstrdup(ctx->comm, GFP_KERNEL);
-+	*cmd  = kstrdup(ctx->cmdline, GFP_KERNEL);
-+
- 	task = get_pid_task(submit->pid, PIDTYPE_PID);
- 	if (!task)
- 		return;
- 
--	*comm = kstrdup(task->comm, GFP_KERNEL);
--	*cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-+	if (!*comm)
-+		*comm = kstrdup(task->comm, GFP_KERNEL);
-+
-+	if (!*cmd)
-+		*cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
- 
- 	put_task_struct(task);
- }
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index c28c2ad9f52e..2c0203fd6ce3 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -355,6 +355,12 @@ struct msm_file_private {
- 	 */
- 	int sysprof;
- 
-+	/** comm: Overridden task comm, see MSM_PARAM_COMM */
-+	char *comm;
-+
-+	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
-+	char *cmdline;
-+
- 	/**
- 	 * elapsed:
- 	 *
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 79b6ccd6ce64..f486a3cd4e55 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -61,6 +61,8 @@ void __msm_file_private_destroy(struct kref *kref)
- 	}
- 
- 	msm_gem_address_space_put(ctx->aspace);
-+	kfree(ctx->comm);
-+	kfree(ctx->cmdline);
- 	kfree(ctx);
- }
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 0aa1a8cb4e0d..794ad1948497 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -82,6 +82,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_FAULTS     0x09  /* RO */
- #define MSM_PARAM_SUSPENDS   0x0a  /* RO */
- #define MSM_PARAM_SYSPROF    0x0b  /* WO: 1 preserves perfcntrs, 2 also disables suspend */
-+#define MSM_PARAM_COMM       0x0c  /* WO: override for task->comm */
-+#define MSM_PARAM_CMDLINE    0x0d  /* WO: override for task cmdline */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
--- 
-2.35.1
+There is no I2C, nor prime import support and framebuffer_alloc hasn't
+been used for years now. I guess prime import actually will want the
+real device and not the virtio_device if GEM importing will be ever
+supported by VirtIO-GPU driver. Apparently this comment was outdated a
+long time ago and the "visual changes" aren't too important, the
+messages now says "virtio-pci 0000:00:02.0" instead of "virtio_gpu virtio0".
 
+I'll remove the comment and drm_dev_set_unique() quirk in v3.
