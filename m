@@ -1,67 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498484DCA2B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:40:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728034DCA3C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:43:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A1F10E1AC;
-	Thu, 17 Mar 2022 15:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527EF10EB4B;
+	Thu, 17 Mar 2022 15:43:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFEE10E8C3;
- Thu, 17 Mar 2022 15:40:12 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t11so7923122wrm.5;
- Thu, 17 Mar 2022 08:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LyjSbbb305zhYUVT4Pzcpge6Tmxz2u/zA+17cYKA22k=;
- b=YDWgGa+uqEZXRkXdzZtABUw7vBhdNLKz+tPf9ZpzEdBYEi2ROAPDZ/aM5ez2q4TR3e
- DI729mB5EAhUK3mLX7ivXOt8lfmpjdw4MHbYk0p0c9mnQofFtxFtKmm1j3Q416dqgN/P
- bswngS009fg0wY0+SccdHlQgCN2zMiGR962oDdup+ERkWo83y3gVDxcotYsjyfJI/0DY
- RIcgCsS4c39G9PR/DaHnwr+itc0OLU+Rp0pxvurAmnTx5Nj3wdcePq05goKjBOKwUHBt
- pp+oMTuLM8TzVywvFAy/0DUKDS7mgyNd3J26gRl5d6P/k9o8K0CGpXx1nlT0vi5wZ52s
- F5sg==
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31E710EB43
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 15:43:18 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id bn33so7754919ljb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 08:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=lCpqAlRaI4P8B9UKX7hIuglb6Z9rSVji533HAj9CHeU=;
+ b=P28XkeWjYFlwXz4ViOvczSeLhs7tAJ2V92qkmXQPyCgH0lqyvOg6phWcEIzwKU8gyk
+ LnxKTYiVSVaziIdJt3Nt1kZo8SsC8IT0+Tdoc+UrYQM7ElWX7d1vSj4SxaThN09iJYg4
+ HsfN5imPpddShwSgAMd43Xg+vW+stiAVsh5ps4BF49OjcOaQ0cW/gBkmgw2fV+BJGWts
+ PVrv1KcVE29NmzEFG/ttQG15F/LTqQ0j7HE5JzcCFeeq+AazGvrGG8SG/fflv6bdoe/N
+ /VotF5VH6lLgSg6GcfJ+7gx1hw7lQI62xf1+oF7xwRUjDuj4HYO5Qoo/4qHSuo13F7Y0
+ Rwuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LyjSbbb305zhYUVT4Pzcpge6Tmxz2u/zA+17cYKA22k=;
- b=Q5UNugfuincT79hGjcp51y5UUlvRWnB4dYZi+HRm4axW7QWDZTKJyRfW/yU6/fZyw9
- dz1Gygq42t/IFbvTBLkIVesRIkkFzK1aLjHGp3LMbkANEKZd2VHtWVN7iMr6OTp4+DVa
- q6Wm0X5ZcAw70NTxSwJrcLHb4G7NDrp1G3cLzDGfFsZYV8h3R8Y+NyM0bE27kBk5GpjJ
- c0tevD1aEy155qRzk/I3D83LxTPs4/ea5KmSU35DCv5vsqFptgzyfjAqsjvxHV3ofVHw
- pAaizBCSGrwdUd9Sdgjf0N1IjGh7omGSTU7LFzjzYaXUQIeg/xdJYPICZmfkmEnntM0W
- 3Wpw==
-X-Gm-Message-State: AOAM531F8vH52PUyCsfXIC4BeUMnVpL8XHIyTVYZCWrFpvQMg9mT+LwF
- QolewD4Vl6CnN6GF+iDTEsknHX/mjPsFSf8TOS8=
-X-Google-Smtp-Source: ABdhPJyRBSs1pyE4Ix+v8Mcy8F1Qe++n8EBde9tXJiuALezxulVSfYvnZukaRwpGrlonSfmtu3Wn3YkTrzgYUkqHe7s=
-X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
- j73-20020adf914f000000b001edbb92d0ccmr4534132wrj.297.1647531610559; Thu, 17
- Mar 2022 08:40:10 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=lCpqAlRaI4P8B9UKX7hIuglb6Z9rSVji533HAj9CHeU=;
+ b=tdYAfkD2cEU7HODh+ia3ccGy27xfUnBTpnjhE1GFe5cN4LXVfG2pRrxw5wMozZ2uUi
+ 1VftcN4XZSpe8jVQK5ptqA7JgsZaFwU6J/qIG/kFGkxF6oZ+6zkJKeFLKAyRdKroj7Ao
+ KKo7Dn9Fhv1UJwX7IR8o0ZpfdpzNWZN3l2Ns17rtaQ246YDIGHf+Dxs8Gh44hINakfQG
+ 4snp9id5r1AOaqYPi5hjcIfOeG5dnQwDPilcaP3MtblQ05EWMyzsH2nLsyELDztwpKpV
+ WbY8b/Ydj4e5iPNedGNC3iNHnZamMabqmmoba7DDdCFrzCoNyNiHc7p9By6MPReqAjdF
+ +Jdw==
+X-Gm-Message-State: AOAM532OM3NidKyq7PVx+BJbslA5hFZHmiNT1Ez0JQB6d32i/mUoBh7P
+ Js3BgmuWXvMF3+iBdQ/f99ZPwg==
+X-Google-Smtp-Source: ABdhPJyGl8UPtNq8SAQIrOv8tEjhVwJepRBH0TqYD7EqaIrrhjccNSlyeNpX6m0d1++BQ88HgRl4lQ==
+X-Received: by 2002:a2e:8547:0:b0:248:b0a:bc45 with SMTP id
+ u7-20020a2e8547000000b002480b0abc45mr3286785ljj.271.1647531797031; 
+ Thu, 17 Mar 2022 08:43:17 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ f26-20020ac251ba000000b004484764f56bsm475705lfk.150.2022.03.17.08.43.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 08:43:16 -0700 (PDT)
+Message-ID: <7f47bcbb-72e9-6aed-02dc-a302befe792a@linaro.org>
+Date: Thu, 17 Mar 2022 18:43:15 +0300
 MIME-Version: 1.0
-References: <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
- <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
- <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
- <YjL/k6kh+5RihGIV@phenom.ffwll.local>
-In-Reply-To: <YjL/k6kh+5RihGIV@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 17 Mar 2022 08:40:51 -0700
-Message-ID: <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v3 5/5] drm/msm: allow compile time selection
+ of driver components
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220304032106.2866043-1-dmitry.baryshkov@linaro.org>
+ <20220304032106.2866043-6-dmitry.baryshkov@linaro.org>
+ <237c6a57-26c7-bbb9-da51-b098233c390e@quicinc.com>
+ <4d3a3fe9-43bb-e796-c5a5-a8e1bdcd4805@linaro.org>
+ <063a761c-0591-79e4-dcfc-1587a60d605a@quicinc.com>
+ <c5a5cec0-5143-1511-a66d-674dd23e83a8@linaro.org>
+In-Reply-To: <c5a5cec0-5143-1511-a66d-674dd23e83a8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,81 +81,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 17, 2022 at 2:29 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, Mar 17, 2022 at 08:03:27AM +0100, Christian K=C3=B6nig wrote:
-> > Am 16.03.22 um 16:36 schrieb Rob Clark:
-> > > [SNIP]
-> > > just one point of clarification.. in the msm and i915 case it is
-> > > purely for debugging and telemetry (ie. sending crash logs back to
-> > > distro for analysis if user has crash reporting enabled).. it isn't
-> > > used for triggering any action like killing app or compositor.
-> >
-> > By the way, how does msm it's memory management for the devcoredumps?
->
-> GFP_NORECLAIM all the way. It's purely best effort.
->
-> Note that the fancy new plan for i915 discrete gpu is to only support gpu
-> crash dumps on non-recoverable gpu contexts, i.e. those that do not
-> continue to the next batch when something bad happens. This is what vk
-> wants and also what iris now uses (we do context recovery in userspace in
-> all cases), and non-recoverable contexts greatly simplify the crash dump
-> gather: Only thing you need to gather is the register state from hw
-> (before you reset it), all the batchbuffer bo and indirect state bo (in
-> i915 you can mark which bo to capture in the CS ioctl) can be captured in
-> a worker later on. Which for non-recoverable context is no issue, since
-> subsequent batchbuffers won't trample over any of these things.
+On 17/03/2022 15:44, Dmitry Baryshkov wrote:
+> On 16/03/2022 20:26, Abhinav Kumar wrote:
+>>
+>>
+>> On 3/16/2022 12:31 AM, Dmitry Baryshkov wrote:
+>>> On 16/03/2022 03:28, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 3/3/2022 7:21 PM, Dmitry Baryshkov wrote:
+>>>>> MSM DRM driver already allows one to compile out the DP or DSI 
+>>>>> support.
+>>>>> Add support for disabling other features like MDP4/MDP5/DPU drivers or
+>>>>> direct HDMI output support.
+>>>>>
+>>>>> Suggested-by: Stephen Boyd <swboyd@chromium.org>
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>>   drivers/gpu/drm/msm/Kconfig    | 50 
+>>>>> ++++++++++++++++++++++++++++++++--
+>>>>>   drivers/gpu/drm/msm/Makefile   | 18 ++++++++++--
+>>>>>   drivers/gpu/drm/msm/msm_drv.h  | 33 ++++++++++++++++++++++
+>>>>>   drivers/gpu/drm/msm/msm_mdss.c | 13 +++++++--
+>>>>>   4 files changed, 106 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+>>>>> index 9b019598e042..3735fd41eb3b 100644
+>>>>> --- a/drivers/gpu/drm/msm/Kconfig
+>>>>> +++ b/drivers/gpu/drm/msm/Kconfig
+>>>>> @@ -46,12 +46,39 @@ config DRM_MSM_GPU_SUDO
+>>>>>         Only use this if you are a driver developer.  This should 
+>>>>> *not*
+>>>>>         be enabled for production kernels.  If unsure, say N.
+>>>>> -config DRM_MSM_HDMI_HDCP
+>>>>> -    bool "Enable HDMI HDCP support in MSM DRM driver"
+>>>>> +config DRM_MSM_MDSS
+>>>>> +    bool
+>>>>> +    depends on DRM_MSM
+>>>>> +    default n
+>>>> shouldnt DRM_MSM_MDSS be defaulted to y?
+>>>
+>>> No, it will be selected either by MDP5 or by DPU1. It is not used if 
+>>> DRM_MSM is compiled with just MDP4 or headless support in mind.
+>> Ok got it.
+>>>
+>>>>
+>>>> Another question is the compilation validation of the combinations 
+>>>> of these.
+>>>>
+>>>> So we need to try:
+>>>>
+>>>> 1) DRM_MSM_MDSS + DRM_MSM_MDP4
+>>>> 2) DRM_MSM_MDSS + DRM_MSM_MDP5
+>>>> 3) DRM_MSM_MDSS + DRM_MSM_DPU
+>>>>
+>>>> Earlier since all of them were compiled together any 
+>>>> inter-dependencies will not show up. Now since we are separating it 
+>>>> out, just wanted to make sure each of the combos compile?
+>>>
+>>> I think you meant:
+>>> - headless
+>>> - MDP4
+>>> - MDP5
+>>> - DPU1
+>>> - MDP4 + MDP5
+>>> - MDP4 + DPU1
+>>> - MDP5 + DPU1
+>>> - all three drivers
+>>>
+>> Yes, each of these combinations.
+> 
+> Each of them was tested.
 
-fwiw, we snapshot everything (cmdstream and bo's marked with dump
-flag, in addition to hw state) before resuming the GPU, so there is no
-danger of things being trampled.  After state is captured and GPU
-reset, we "replay" the submits that were written into the ringbuffer
-after the faulting submit.  GPU crashes should be a thing you don't
-need to try to optimize.
+Hmm. It looks like I had DSI disabled during the tests. Will fix it up.
 
-(At some point, I'd like to use scheduler for the replay, and actually
-use drm_sched_stop()/etc.. but last time I looked there were still
-some sched bugs in that area which prevented me from deleting a bunch
-of code ;-))
+> 
+>>>>
+>>>>> +
+>>>>> +config DRM_MSM_MDP4
+>>>>> +    bool "Enable MDP4 support in MSM DRM driver"
+>>>>>       depends on DRM_MSM
+>>>>>       default y
+>>>>>       help
+>>>>> -      Choose this option to enable HDCP state machine
+>>>>> +      Compile in support for the Mobile Display Processor v4 
+>>>>> (MDP4) in
+>>>>> +      the MSM DRM driver. It is the older display controller found in
+>>>>> +      devices using APQ8064/MSM8960/MSM8x60 platforms.
+>>>>> +
+>>>>> +config DRM_MSM_MDP5
+>>>>> +    bool "Enable MDP5 support in MSM DRM driver"
+>>>>> +    depends on DRM_MSM
+>>>>> +    select DRM_MSM_MDSS
+>>>>> +    default y
+>>>>> +    help
+>>>>> +      Compile in support for the Mobile Display Processor v5 
+>>>>> (MDP4) in
+>>>>> +      the MSM DRM driver. It is the display controller found in 
+>>>>> devices
+>>>>> +      using e.g. APQ8016/MSM8916/APQ8096/MSM8996/MSM8974/SDM6x0 
+>>>>> platforms.
+>>>>> +
+>>>>> +config DRM_MSM_DPU
+>>>>> +    bool "Enable DPU support in MSM DRM driver"
+>>>>> +    depends on DRM_MSM
+>>>>> +    select DRM_MSM_MDSS
+>>>>> +    default y
+>>>>> +    help
+>>>>> +      Compile in support for the Display Processing Unit in
+>>>>> +      the MSM DRM driver. It is the display controller found in 
+>>>>> devices
+>>>>> +      using e.g. SDM845 and newer platforms.
+>>>>>   config DRM_MSM_DP
+>>>>>       bool "Enable DisplayPort support in MSM DRM driver"
+>>>>> @@ -116,3 +143,20 @@ config DRM_MSM_DSI_7NM_PHY
+>>>>>       help
+>>>>>         Choose this option if DSI PHY on SM8150/SM8250/SC7280 is 
+>>>>> used on
+>>>>>         the platform.
+>>>>> +
+>>>>> +config DRM_MSM_HDMI
+>>>>> +    bool "Enable HDMI support in MSM DRM driver"
+>>>>> +    depends on DRM_MSM
+>>>>> +    default y
+>>>>> +    help
+>>>>> +      Compile in support for the HDMI output MSM DRM driver. It can
+>>>>> +      be a primary or a secondary display on device. Note that 
+>>>>> this is used
+>>>>> +      only for the direct HDMI output. If the device outputs HDMI 
+>>>>> data
+>>>>> +      throught some kind of DSI-to-HDMI bridge, this option can be 
+>>>>> disabled.
+>>>>> +
+>>>>> +config DRM_MSM_HDMI_HDCP
+>>>>> +    bool "Enable HDMI HDCP support in MSM DRM driver"
+>>>>> +    depends on DRM_MSM && DRM_MSM_HDMI
+>>>>> +    default y
+>>>>> +    help
+>>>>> +      Choose this option to enable HDCP state machine
+>>>>> diff --git a/drivers/gpu/drm/msm/Makefile 
+>>>>> b/drivers/gpu/drm/msm/Makefile
+>>>>> index e76927b42033..5fe9c20ab9ee 100644
+>>>>> --- a/drivers/gpu/drm/msm/Makefile
+>>>>> +++ b/drivers/gpu/drm/msm/Makefile
+>>>>> @@ -16,6 +16,8 @@ msm-y := \
+>>>>>       adreno/a6xx_gpu.o \
+>>>>>       adreno/a6xx_gmu.o \
+>>>>>       adreno/a6xx_hfi.o \
+>>>>> +
+>>>>> +msm-$(CONFIG_DRM_MSM_HDMI) += \
+>>>>>       hdmi/hdmi.o \
+>>>>>       hdmi/hdmi_audio.o \
+>>>>>       hdmi/hdmi_bridge.o \
+>>>>> @@ -27,8 +29,8 @@ msm-y := \
+>>>>>       hdmi/hdmi_phy_8x60.o \
+>>>>>       hdmi/hdmi_phy_8x74.o \
+>>>>>       hdmi/hdmi_pll_8960.o \
+>>>>> -    disp/mdp_format.o \
+>>>>> -    disp/mdp_kms.o \
+>>>>> +
+>>>>> +msm-$(CONFIG_DRM_MSM_MDP4) += \
+>>>>>       disp/mdp4/mdp4_crtc.o \
+>>>>>       disp/mdp4/mdp4_dtv_encoder.o \
+>>>>>       disp/mdp4/mdp4_lcdc_encoder.o \
+>>>>> @@ -37,6 +39,8 @@ msm-y := \
+>>>>>       disp/mdp4/mdp4_irq.o \
+>>>>>       disp/mdp4/mdp4_kms.o \
+>>>>>       disp/mdp4/mdp4_plane.o \
+>>>>> +
+>>>>> +msm-$(CONFIG_DRM_MSM_MDP5) += \
+>>>>>       disp/mdp5/mdp5_cfg.o \
+>>>>>       disp/mdp5/mdp5_ctl.o \
+>>>>>       disp/mdp5/mdp5_crtc.o \
+>>>>> @@ -47,6 +51,8 @@ msm-y := \
+>>>>>       disp/mdp5/mdp5_mixer.o \
+>>>>>       disp/mdp5/mdp5_plane.o \
+>>>>>       disp/mdp5/mdp5_smp.o \
+>>>>> +
+>>>>> +msm-$(CONFIG_DRM_MSM_DPU) += \
+>>>>>       disp/dpu1/dpu_core_perf.o \
+>>>>>       disp/dpu1/dpu_crtc.o \
+>>>>>       disp/dpu1/dpu_encoder.o \
+>>>>> @@ -69,6 +75,13 @@ msm-y := \
+>>>>>       disp/dpu1/dpu_plane.o \
+>>>>>       disp/dpu1/dpu_rm.o \
+>>>>>       disp/dpu1/dpu_vbif.o \
+>>>>> +
+>>>>> +msm-$(CONFIG_DRM_MSM_MDSS) += \
+>>>>> +    msm_mdss.o \
+>>>>> +
+>>>>> +msm-y += \
+>>>>> +    disp/mdp_format.o \
+>>>>> +    disp/mdp_kms.o \
+>>>>>       disp/msm_disp_snapshot.o \
+>>>>>       disp/msm_disp_snapshot_util.o \
+>>>>>       msm_atomic.o \
+>>>>> @@ -86,7 +99,6 @@ msm-y := \
+>>>>>       msm_gpu_devfreq.o \
+>>>>>       msm_io_utils.o \
+>>>>>       msm_iommu.o \
+>>>>> -    msm_mdss.o \
+>>>>>       msm_perf.o \
+>>>>>       msm_rd.o \
+>>>>>       msm_ringbuffer.o \
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_drv.h 
+>>>>> b/drivers/gpu/drm/msm/msm_drv.h
+>>>>> index c1aaadfbea34..6bad7e7b479d 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>>>>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>>>>> @@ -314,10 +314,20 @@ struct drm_fb_helper *msm_fbdev_init(struct 
+>>>>> drm_device *dev);
+>>>>>   void msm_fbdev_free(struct drm_device *dev);
+>>>>>   struct hdmi;
+>>>>> +#ifdef CONFIG_DRM_MSM_HDMI
+>>>>>   int msm_hdmi_modeset_init(struct hdmi *hdmi, struct drm_device *dev,
+>>>>>           struct drm_encoder *encoder);
+>>>>>   void __init msm_hdmi_register(void);
+>>>>>   void __exit msm_hdmi_unregister(void);
+>>>>> +#else
+>>>>> +static inline int msm_hdmi_modeset_init(struct hdmi *hdmi, struct 
+>>>>> drm_device *dev,
+>>>>> +        struct drm_encoder *encoder)
+>>>>> +{
+>>>>> +    return -EINVAL;
+>>>>> +}
+>>>>> +static inline void __init msm_hdmi_register(void) {}
+>>>>> +static inline void __exit msm_hdmi_unregister(void) {}
+>>>>> +#endif
+>>>>>   struct msm_dsi;
+>>>>>   #ifdef CONFIG_DRM_MSM_DSI
+>>>>> @@ -432,14 +442,37 @@ static inline void msm_dp_debugfs_init(struct 
+>>>>> msm_dp *dp_display,
+>>>>>   #endif
+>>>>> +#ifdef CONFIG_DRM_MSM_MDP4
+>>>>>   void msm_mdp4_register(void);
+>>>>>   void msm_mdp4_unregister(void);
+>>>>> +#else
+>>>>> +static inline void msm_mdp4_register(void) {}
+>>>>> +static inline void msm_mdp4_unregister(void) {}
+>>>>> +#endif
+>>>>> +
+>>>>> +#ifdef CONFIG_DRM_MSM_MDP5
+>>>>>   void msm_mdp_register(void);
+>>>>>   void msm_mdp_unregister(void);
+>>>>> +#else
+>>>>> +static inline void msm_mdp_register(void) {}
+>>>>> +static inline void msm_mdp_unregister(void) {}
+>>>>> +#endif
+>>>>> +
+>>>>> +#ifdef CONFIG_DRM_MSM_DPU
+>>>>>   void msm_dpu_register(void);
+>>>>>   void msm_dpu_unregister(void);
+>>>>> +#else
+>>>>> +static inline void msm_dpu_register(void) {}
+>>>>> +static inline void msm_dpu_unregister(void) {}
+>>>>> +#endif
+>>>>> +
+>>>>> +#ifdef CONFIG_DRM_MSM_MDSS
+>>>>>   void msm_mdss_register(void);
+>>>>>   void msm_mdss_unregister(void);
+>>>>> +#else
+>>>>> +static inline void msm_mdss_register(void) {}
+>>>>> +static inline void msm_mdss_unregister(void) {}
+>>>>> +#endif
+>>>>>   #ifdef CONFIG_DEBUG_FS
+>>>>>   void msm_framebuffer_describe(struct drm_framebuffer *fb, struct 
+>>>>> seq_file *m);
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c 
+>>>>> b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> index 4d25d8955301..66714b356762 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> @@ -303,8 +303,17 @@ static const struct dev_pm_ops mdss_pm_ops = {
+>>>>>   static int find_mdp_node(struct device *dev, void *data)
+>>>>>   {
+>>>>> -    return of_match_node(dpu_dt_match, dev->of_node) ||
+>>>>> -        of_match_node(mdp5_dt_match, dev->of_node);
+>>>>> +#ifdef CONFIG_DRM_MSM_DPU
+>>>>> +    if (of_match_node(dpu_dt_match, dev->of_node))
+>>>>> +        return true;
+>>>>> +#endif
+>>>>> +
+>>>>> +#ifdef CONFIG_DRM_MSM_MDP5
+>>>>> +    if (of_match_node(mdp5_dt_match, dev->of_node))
+>>>>> +        return true;
+>>>>> +#endif
+>>>>> +
+>>>>> +    return false;
+>>>>>   }
+>>>>>   static int mdss_probe(struct platform_device *pdev)
+>>>
+>>>
+> 
+> 
 
-BR,
--R
 
->
-> And that way you can record the crashdump (or at least the big pieces lik=
-e
-> all the indirect state stuff) with GFP_KERNEL.
->
-> msm probably gets it wrong since embedded drivers have much less shrinker
-> and generally no mmu notifiers going on :-)
->
-> > I mean it is strictly forbidden to allocate any memory in the GPU reset
-> > path.
-> >
-> > > I would however *strongly* recommend devcoredump support in other GPU
-> > > drivers (i915's thing pre-dates devcoredump by a lot).. I've used it
-> > > to debug and fix a couple obscure issues that I was not able to
-> > > reproduce by myself.
-> >
-> > Yes, completely agree as well.
->
-> +1
->
-> Cheers, Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+-- 
+With best wishes
+Dmitry
