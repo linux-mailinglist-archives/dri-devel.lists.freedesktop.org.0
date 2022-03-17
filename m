@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C964DCBBE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 17:51:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C59A34DCBC9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 17:52:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08A8910E03B;
-	Thu, 17 Mar 2022 16:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E2710E03D;
+	Thu, 17 Mar 2022 16:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF9E010E094;
- Thu, 17 Mar 2022 16:51:21 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- kx13-20020a17090b228d00b001c6715c9847so3736787pjb.1; 
- Thu, 17 Mar 2022 09:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=morR5sm8z9pnyy1KkY8kjo/wAR7FEyx0daIfh3/D6sA=;
- b=EWtjmT7pTP3SeoDp8sW+ozfYHAhBX3Xl/GnFDItw2NZ3ePFqDrotlayFQQ450LMKB6
- 18A33bR4cvBUfbh1V+k+feW8v4sEYGNeiLMzB3YBoMMYAD1Z4cYnZ2chowE79Hfq7BLz
- 9aCaWCELis141P5ObHZXraaizkT7m7zHbIYf7bcltai0wbpwm3QfIbYlfMZ4yM0HzTo+
- vF3HcN7No3PIX5WxPiEufmiFVbcnx5oiJn+qLZGF0pllxHdKbZzxcV37fOP+DOqhynY4
- NqSfa5tlM2/EOw4vi2KHp25KR902/YDT7yuHwpeoZDDcSAAmLI3JdwhJ6is561aDRHUm
- SWBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=morR5sm8z9pnyy1KkY8kjo/wAR7FEyx0daIfh3/D6sA=;
- b=gQ5kPRMStgw3iaZ7t5ORZOUviyIPPKKy2gny09pOf7Pofw6ol7Fgf4ZZPpSYnUGG90
- BkXLSBTpRzUGWyNd63FrgLm2Mc0+OuR2uhNWKqpmFR2KnDrKcUkQtZYmpT7qU3SoA4SH
- mBgkyiw2xj5r9BvrHTP1Vcr0dRVkHj/14qFYKFSG20mTQXMv5LbSZhgx69/NfDiFpCdA
- 5TvxtBo4wJHrHq5chia/YDweKd9sPkAzZl39OP/kihP1w0x7NK6CMI0olPFAqYaBOj20
- e21vjtvq77SqiWghnR2em30KOwy0Fmm3M7ZxeFkiDwv3VDDy1phnTHqJDw7vuEppZ4SW
- WTFw==
-X-Gm-Message-State: AOAM5310BCBRo0pmG6AWHHWNjBvywk/pORBNBBSqD1Ns0OvA9wGicBtH
- 3DEXfS6eQ0kdWGEZsJhV2f+1VzXb/lk=
-X-Google-Smtp-Source: ABdhPJzXmOILB5Wbq0oNnzGhvgVCeJQ6JjR+4t8h3dPCLhxhvTcVLX/EpMuPNGjCYSH3cADf6U/anQ==
-X-Received: by 2002:a17:902:c94e:b0:151:a988:f3dd with SMTP id
- i14-20020a170902c94e00b00151a988f3ddmr6143070pla.142.1647535879288; 
- Thu, 17 Mar 2022 09:51:19 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id
- o12-20020a056a001bcc00b004fa2830a03esm3134711pfw.200.2022.03.17.09.51.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 09:51:18 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/msm: Add a way to override processes comm/cmdline
-Date: Thu, 17 Mar 2022 09:51:40 -0700
-Message-Id: <20220317165144.222101-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220317165144.222101-1-robdclark@gmail.com>
-References: <20220317165144.222101-1-robdclark@gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56CE010E03D;
+ Thu, 17 Mar 2022 16:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647535974; x=1679071974;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=UCoHvuVfYMVCEmuQVZlPPvOB2RcrqP3xrQ1izxN+NN8=;
+ b=gU7pib+OaMD1WOUM0CACwvPBP03y/wGoMU6jh966bI2au1ABgSinvNz6
+ XHgIWDF3MhJSFcE0GkbN3eq+ZWU+uGJP/aJLxWqXjrJQ5wbrJxG0gDovQ
+ GWeYHRff/TchZu/KYPbPFzURez/OeAg5TFxE8f24121yMM0pBr41BkSZr
+ yh3mLZaenH8iuFvor+q3Wm8xECm5uiTTd1Bzc+2p+d4APMD9aqWLVHp+U
+ iiq4zPQAbIzSB1P6LOJlNI4iWcKAyMm1mWnuqO5Cbd0OwHFU+5w1FiRbR
+ /Xc4gqFMfDQx0uwbVKQ52Y+1CHq/winedgcjwtIPhJ51K5egv6QNgMJ5f g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="254471134"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="254471134"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 09:52:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="513488633"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga002.jf.intel.com with SMTP; 17 Mar 2022 09:52:29 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 17 Mar 2022 18:52:28 +0200
+Date: Thu, 17 Mar 2022 18:52:28 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Add DSC support to MST path
+Message-ID: <YjNnTGO3AQE5lPRL@intel.com>
+References: <20220317163353.4152-1-stanislav.lisovskiy@intel.com>
+ <20220317163353.4152-3-stanislav.lisovskiy@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220317163353.4152-3-stanislav.lisovskiy@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,163 +60,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Emma Anholt <emma@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Thu, Mar 17, 2022 at 06:33:53PM +0200, Stanislav Lisovskiy wrote:
+> Whenever we are not able to get enough timeslots
+> for required PBN, let's try to allocate those
+> using DSC, just same way as we do for SST.
+> 
+> Those patches are experimental yet, i.e not
+> for merging, still need to be tested with
+> proper DSC display, submitting those to check
+> ig nothing else blows up at least.
+> 
+> v2: Add DSC checks to intel_dp_mst_mode_valid_ctx, similar
+>     to ones we have in intel_dp_mode_valid(Manasi Navare)
+> 
+> v3: Removed redundant edp condition logic from MST DSC
+>     handling(Manasi Navare)
+> 
+> v4:  - Fixed forgotten force_dsc_en condition which was
+>        always enabled for testing purposes(Manasi Navare)
+>      - Properly process ret == EDEADLK, thus fixing the
+>        regression caused by WARN triggered with modeset_lock.
+> 
+> v5:  - Removed redundant check(Imre Deak)
+> 
+> Acked-by: Imre Deak <imre.deak@intel.com>
+> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c     | 138 ++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_dp.h     |  17 +++
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 146 +++++++++++++++++++-
+>  3 files changed, 285 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 9e19165fd175..b04771e495cc 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -115,7 +115,6 @@ bool intel_dp_is_edp(struct intel_dp *intel_dp)
+>  }
+>  
+>  static void intel_dp_unset_edid(struct intel_dp *intel_dp);
+> -static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
+>  
+>  /* Is link rate UHBR and thus 128b/132b? */
+>  bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state)
+> @@ -667,11 +666,12 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
+>  		return 6144 * 8;
+>  }
+>  
+> -static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+> -				       u32 link_clock, u32 lane_count,
+> -				       u32 mode_clock, u32 mode_hdisplay,
+> -				       bool bigjoiner,
+> -				       u32 pipe_bpp)
+> +u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+> +				u32 link_clock, u32 lane_count,
+> +				u32 mode_clock, u32 mode_hdisplay,
+> +				bool bigjoiner,
+> +				u32 pipe_bpp,
+> +				u32 timeslots)
+>  {
+>  	u32 bits_per_pixel, max_bpp_small_joiner_ram;
+>  	int i;
+> @@ -683,7 +683,7 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  	 * for MST -> TimeSlotsPerMTP has to be calculated
+>  	 */
+>  	bits_per_pixel = (link_clock * lane_count * 8) /
+> -			 intel_dp_mode_to_fec_clock(mode_clock);
+> +			 (intel_dp_mode_to_fec_clock(mode_clock) * timeslots);
+>  	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
+>  
+>  	/* Small Joiner Check: output bpp <= joiner RAM (bits) / Horiz. width */
+> @@ -737,9 +737,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  	return bits_per_pixel << 4;
+>  }
+>  
+> -static u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
+> -				       int mode_clock, int mode_hdisplay,
+> -				       bool bigjoiner)
+> +u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
+> +				int mode_clock, int mode_hdisplay,
+> +				bool bigjoiner)
+>  {
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	u8 min_slice_count, i;
+> @@ -902,8 +902,8 @@ intel_dp_mode_valid_downstream(struct intel_connector *connector,
+>  	return MODE_OK;
+>  }
+>  
+> -static bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
+> -				    int hdisplay, int clock)
+> +bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
+> +			     int hdisplay, int clock)
+>  {
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  
+> @@ -990,7 +990,7 @@ intel_dp_mode_valid(struct drm_connector *connector,
+>  							    target_clock,
+>  							    mode->hdisplay,
+>  							    bigjoiner,
+> -							    pipe_bpp) >> 4;
+> +							    pipe_bpp, 1) >> 4;
+>  			dsc_slice_count =
+>  				intel_dp_dsc_get_slice_count(intel_dp,
+>  							     target_clock,
+> @@ -1285,7 +1285,7 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
+>  	return -EINVAL;
+>  }
+>  
+> -static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
+> +int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
+>  {
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	int i, num_bpc;
+> @@ -1429,7 +1429,8 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  						    adjusted_mode->crtc_clock,
+>  						    adjusted_mode->crtc_hdisplay,
+>  						    pipe_config->bigjoiner_pipes,
+> -						    pipe_bpp);
+> +						    pipe_bpp,
+> +						    1);
+>  		dsc_dp_slice_count =
+>  			intel_dp_dsc_get_slice_count(intel_dp,
+>  						     adjusted_mode->crtc_clock,
+> @@ -1444,7 +1445,114 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  							       dsc_max_output_bpp >> 4,
+>  							       pipe_config->pipe_bpp);
+>  		pipe_config->dsc.slice_count = dsc_dp_slice_count;
+> +		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
+> +			    pipe_config->dsc.compressed_bpp,
+> +			    pipe_config->dsc.slice_count);
+>  	}
+> +	/*
+> +	 * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
+> +	 * is greater than the maximum Cdclock and if slice count is even
+> +	 * then we need to use 2 VDSC instances.
+> +	 */
+> +	if (adjusted_mode->crtc_clock > dev_priv->max_cdclk_freq) {
+> +		if (pipe_config->dsc.slice_count > 1) {
+> +			pipe_config->dsc.dsc_split = true;
+> +		} else {
+> +			drm_dbg_kms(&dev_priv->drm,
+> +				    "Cannot split stream to use 2 VDSC instances\n");
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	ret = intel_dp_dsc_compute_params(&dig_port->base, pipe_config);
+> +	if (ret < 0) {
+> +		drm_dbg_kms(&dev_priv->drm,
+> +			    "Cannot compute valid DSC parameters for Input Bpp = %d "
+> +			    "Compressed BPP = %d\n",
+> +			    pipe_config->pipe_bpp,
+> +			    pipe_config->dsc.compressed_bpp);
+> +		return ret;
+> +	}
+> +
+> +	pipe_config->dsc.compression_enable = true;
+> +	drm_dbg_kms(&dev_priv->drm, "DP DSC computed with Input Bpp = %d "
+> +		    "Compressed Bpp = %d Slice Count = %d\n",
+> +		    pipe_config->pipe_bpp,
+> +		    pipe_config->dsc.compressed_bpp,
+> +		    pipe_config->dsc.slice_count);
+> +
+> +	return 0;
+> +}
+> +
+> +int intel_dp_mst_dsc_compute_config(struct intel_dp *intel_dp,
+> +				    struct intel_crtc_state *pipe_config,
+> +				    struct drm_connector_state *conn_state,
+> +				    struct link_config_limits *limits,
+> +				    int timeslots)
+> +{
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> +	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
+> +	const struct drm_display_mode *adjusted_mode =
+> +		&pipe_config->hw.adjusted_mode;
+> +	int pipe_bpp;
+> +	int ret;
+> +	u16 dsc_max_output_bpp;
+> +	u8 dsc_dp_slice_count;
+> +
+> +	pipe_config->fec_enable = !intel_dp_is_edp(intel_dp) &&
+> +		intel_dp_supports_fec(intel_dp, pipe_config);
+> +
+> +	if (!intel_dp_supports_dsc(intel_dp, pipe_config))
+> +		return -EINVAL;
+> +
+> +	pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requested_bpc);
+> +
+> +	/* Min Input BPC for ICL+ is 8 */
+> +	if (pipe_bpp < 8 * 3) {
+> +		drm_dbg_kms(&dev_priv->drm,
+> +			    "No DSC support for less than 8bpc\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * For now enable DSC for max bpp, max link rate, max lane count.
+> +	 * Optimize this later for the minimum possible link rate/lane count
+> +	 * with DSC enabled for the requested mode.
+> +	 */
+> +	pipe_config->pipe_bpp = pipe_bpp;
+> +	pipe_config->port_clock = limits->max_rate;
+> +	pipe_config->lane_count = limits->max_lane_count;
+> +
+> +	dsc_max_output_bpp =
+> +		intel_dp_dsc_get_output_bpp(dev_priv,
+> +					    pipe_config->port_clock,
+> +					    pipe_config->lane_count,
+> +					    adjusted_mode->crtc_clock,
+> +					    adjusted_mode->crtc_hdisplay,
+> +					    pipe_config->bigjoiner_pipes,
+> +					    pipe_bpp,
+> +					    timeslots);
+> +
+> +	dsc_dp_slice_count =
+> +		intel_dp_dsc_get_slice_count(intel_dp,
+> +					     adjusted_mode->crtc_clock,
+> +					     adjusted_mode->crtc_hdisplay,
+> +					     pipe_config->bigjoiner_pipes);
+> +
+> +	if (!dsc_max_output_bpp || !dsc_dp_slice_count) {
+> +		drm_dbg_kms(&dev_priv->drm,
+> +			    "Compressed BPP/Slice Count not supported\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pipe_config->dsc.compressed_bpp = min_t(u16,
+> +					       dsc_max_output_bpp >> 4,
+> +					       pipe_config->pipe_bpp);
+> +
+> +	pipe_config->dsc.slice_count = dsc_dp_slice_count;
+> +	drm_dbg_kms(&dev_priv->drm, "MST DSC: compressed bpp %d slice count %d\n",
+> +		    pipe_config->dsc.compressed_bpp,
+> +		    pipe_config->dsc.slice_count);
+>  
 
-In the cause of using the GPU via virtgpu, the host side process is
-really a sort of proxy, and not terribly interesting from the PoV of
-crash/fault logging.  Add a way to override these per process so that
-we can see the guest process's name.
+That looks like 100% copy-pasta from the existing function. 
+Please refactor if you can't just call the existing function
+directly for some reason.
 
-v2: Handle kmalloc failure, add comment to explain kstrdup returns
-    NULL if passed NULL [Dan Carpenter]
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 43 +++++++++++++++++++++++--
- drivers/gpu/drm/msm/msm_gpu.c           | 12 +++++--
- drivers/gpu/drm/msm/msm_gpu.h           |  6 ++++
- drivers/gpu/drm/msm/msm_submitqueue.c   |  2 ++
- include/uapi/drm/msm_drm.h              |  2 ++
- 5 files changed, 60 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 3d307b34854d..45f2c6084aa7 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -290,11 +290,48 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 		     uint32_t param, uint64_t value, uint32_t len)
- {
--	/* No pointer params yet */
--	if (len != 0)
--		return -EINVAL;
-+	switch (param) {
-+	case MSM_PARAM_COMM:
-+	case MSM_PARAM_CMDLINE:
-+		/* kstrdup_quotable_cmdline() limits to PAGE_SIZE, so
-+		 * that should be a reasonable upper bound
-+		 */
-+		if (len > PAGE_SIZE)
-+			return -EINVAL;
-+		break;
-+	default:
-+		if (len != 0)
-+			return -EINVAL;
-+	}
- 
- 	switch (param) {
-+	case MSM_PARAM_COMM:
-+	case MSM_PARAM_CMDLINE: {
-+		char *str, **paramp;
-+
-+		str = kmalloc(len + 1, GFP_KERNEL);
-+		if (!str)
-+			return -ENOMEM;
-+
-+		if (copy_from_user(str, u64_to_user_ptr(value), len)) {
-+			kfree(str);
-+			return -EFAULT;
-+		}
-+
-+		/* Ensure string is null terminated: */
-+		str[len] = '\0';
-+
-+		if (param == MSM_PARAM_COMM) {
-+			paramp = &ctx->comm;
-+		} else {
-+			paramp = &ctx->cmdline;
-+		}
-+
-+		kfree(*paramp);
-+		*paramp = str;
-+
-+		return 0;
-+	}
- 	case MSM_PARAM_SYSPROF:
- 		if (!capable(CAP_SYS_ADMIN))
- 			return -EPERM;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 4ec62b601adc..747b89aa9d13 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -364,14 +364,22 @@ static void retire_submits(struct msm_gpu *gpu);
- 
- static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
- {
-+	struct msm_file_private *ctx = submit->queue->ctx;
- 	struct task_struct *task;
- 
-+	/* Note that kstrdup will return NULL if argument is NULL: */
-+	*comm = kstrdup(ctx->comm, GFP_KERNEL);
-+	*cmd  = kstrdup(ctx->cmdline, GFP_KERNEL);
-+
- 	task = get_pid_task(submit->pid, PIDTYPE_PID);
- 	if (!task)
- 		return;
- 
--	*comm = kstrdup(task->comm, GFP_KERNEL);
--	*cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-+	if (!*comm)
-+		*comm = kstrdup(task->comm, GFP_KERNEL);
-+
-+	if (!*cmd)
-+		*cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
- 
- 	put_task_struct(task);
- }
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index c28c2ad9f52e..2c0203fd6ce3 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -355,6 +355,12 @@ struct msm_file_private {
- 	 */
- 	int sysprof;
- 
-+	/** comm: Overridden task comm, see MSM_PARAM_COMM */
-+	char *comm;
-+
-+	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
-+	char *cmdline;
-+
- 	/**
- 	 * elapsed:
- 	 *
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 79b6ccd6ce64..f486a3cd4e55 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -61,6 +61,8 @@ void __msm_file_private_destroy(struct kref *kref)
- 	}
- 
- 	msm_gem_address_space_put(ctx->aspace);
-+	kfree(ctx->comm);
-+	kfree(ctx->cmdline);
- 	kfree(ctx);
- }
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 0aa1a8cb4e0d..794ad1948497 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -82,6 +82,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_FAULTS     0x09  /* RO */
- #define MSM_PARAM_SUSPENDS   0x0a  /* RO */
- #define MSM_PARAM_SYSPROF    0x0b  /* WO: 1 preserves perfcntrs, 2 also disables suspend */
-+#define MSM_PARAM_COMM       0x0c  /* WO: override for task->comm */
-+#define MSM_PARAM_CMDLINE    0x0d  /* WO: override for task cmdline */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
 -- 
-2.35.1
-
+Ville Syrjälä
+Intel
