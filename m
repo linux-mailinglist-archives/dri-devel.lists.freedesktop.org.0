@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD194DC43E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 11:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32604DC451
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 11:53:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080E310E215;
-	Thu, 17 Mar 2022 10:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C69910E27B;
+	Thu, 17 Mar 2022 10:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0C710E02C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 10:49:23 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id n35so1246767wms.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 03:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=u68S3XKSCZAMP62m3aNQ/j4jRRcnjMgWixQrjLmtpDw=;
- b=YlAQwBJxPiG/VXPkVpppT1k9Odb0GLO5SH77/VCll+er9qw7gLViZ882/nb39B/ltK
- oIOu+0XFogHAx3EcDK3qXjo0N/CgackhvDEbJnZ3Q3BPdF8TAjFJRO0Bzg6S58desIIq
- E3NXPvzU4QIFqbIqGE4bE5+VXbA9j8HRMuhws=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=u68S3XKSCZAMP62m3aNQ/j4jRRcnjMgWixQrjLmtpDw=;
- b=jVGv0w2G62GZNaLBzaZlWvQ73fiPgQzKM8N+OPaH22+dsDqzGg6r37J8uFTk5UYn6w
- gzK4umOV2s1oNxCl/3K7QnGw2k482SGE1VvVH9/f3LPQJUNG2T0rW4VlCQxQZJdJxHyk
- GHileANdntz/Mq354pnqm+Z1FcFu8F1EGUVm4ztFljF4DPkKFyj9KXEoibYQ3QqULyac
- UylgOAYj6uRW7XLHnEkWSkJYC3FrQF6FqyiHzzoLFigW2AEc0gJVP6OFzUyicCJ3q+5G
- Er7TrfUJBNt1FzwO2koEcT8XrS1CC+VM8GB0EtnvEci2V6UPyLoq42BjjZGhH2kazWRV
- 5fFg==
-X-Gm-Message-State: AOAM531nazKJ0mjVBSKoHcyXWUwwpGooweJOpSlNjGkV5nFCIoiOruSv
- +WB+hiqoPliu+4ApU+yaRok8QA==
-X-Google-Smtp-Source: ABdhPJzhQ1kqm4iylqrPFAuFVextJ5iiugEB6SMDkQIya6R32kfH/2J59AU4VzEDcOHoG6pKAfV8cA==
-X-Received: by 2002:a1c:1941:0:b0:38b:4af1:49f8 with SMTP id
- 62-20020a1c1941000000b0038b4af149f8mr10937295wmz.156.1647514162494; 
- Thu, 17 Mar 2022 03:49:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- l13-20020a5d4bcd000000b001f0620ecb3csm3827570wrt.40.2022.03.17.03.49.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 03:49:21 -0700 (PDT)
-Date: Thu, 17 Mar 2022 11:49:20 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Zheyu Ma <zheyuma97@gmail.com>
-Subject: Re: [PATCH] drm: drm_bufs: Error out if 'dev->agp' is a null pointer
-Message-ID: <YjMSMIrbsVZjEw8W@phenom.ffwll.local>
-Mail-Followup-To: Zheyu Ma <zheyuma97@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1646983382-30036-1-git-send-email-zheyuma97@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4DD610E27B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 10:53:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id DE2991F451E8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647514401;
+ bh=/G4cTqNCoQeslzG4iD/0pDjg5QHfuMTjhmg3lv9lhTo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jYYTBY/2vSwJpOalQnVD1UyhELNkC0kezEv3mkgmvHoDKX1e8+HIC065El7hshqtG
+ 9L42enzL6xrZ/3RvNMD2MgiqgKUnXh/VDmSclEsybS6e/u1mqspvaMXqG00btxvfLU
+ sSswi/evHinuotRnIgVGOjQ8vrAftn6XyTJqjEFAsM0YaG8gfgGoSJI5Oq5JZpMKOu
+ V7ug8YCcdtzPlaODKjpjbgn1giYUwekN+IdUTn9oEhSRBKuYgAk5f/+qbJIY5y/yGe
+ JphXMu9UAI6c0QNrusBdpJKvqUuM4Hux94Xpb32VDpIAJoHsH72WoZlkx/dapZBqG+
+ q6XgjKSTPFXww==
+Message-ID: <7984f270-99e3-e629-3162-ed31ac7c6eea@collabora.com>
+Date: Thu, 17 Mar 2022 13:53:18 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1646983382-30036-1-git-send-email-zheyuma97@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1] drm/shmem-helper: Correct doc-comment of
+ drm_gem_shmem_get_sg_table()
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220308133401.62340-1-dmitry.osipenko@collabora.com>
+ <YjMExI9ONMa1AF7v@phenom.ffwll.local>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <YjMExI9ONMa1AF7v@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,62 +51,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 11, 2022 at 07:23:02AM +0000, Zheyu Ma wrote:
-> The user program can control the 'drm_buf_desc::flags' via ioctl system
-> call and enter the function drm_legacy_addbufs_agp(). If the driver
-> doesn't initialize the agp resources, the driver will cause a null
-> pointer dereference.
-> 
-> The following log reveals it:
->     general protection fault, probably for non-canonical address
->     0xdffffc000000000f: 0000 [#1] PREEMPT SMP KASAN PTI
->     KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
->     Call Trace:
->      <TASK>
->      drm_ioctl_kernel+0x342/0x450 drivers/gpu/drm/drm_ioctl.c:785
->      drm_ioctl+0x592/0x940 drivers/gpu/drm/drm_ioctl.c:885
->      vfs_ioctl fs/ioctl.c:51 [inline]
->      __do_sys_ioctl fs/ioctl.c:874 [inline]
->      __se_sys_ioctl+0xaa/0xf0 fs/ioctl.c:860
->      do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->      do_syscall_64+0x43/0x90 arch/x86/entry/common.c:80
->      entry_SYSCALL_64_after_hwframe+0x44/0xae
-> 
-> Fix this bug by adding a check.
-> 
-> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 
-You can only hit this if you enabled a DRIVER_LEGACY drm driver, which
-opens you up to tons of other CVEs and issues. What's your .config?
--Daniel
-
-> ---
->  drivers/gpu/drm/drm_bufs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/17/22 12:52, Daniel Vetter wrote:
+> On Tue, Mar 08, 2022 at 04:34:01PM +0300, Dmitry Osipenko wrote:
+>> drm_gem_shmem_get_sg_table() never returns NULL on error, but a ERR_PTR.
+>> Correct the doc comment which says that it returns NULL on error.
+>>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index 8ad0e02991ca..37009418cd28 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -662,7 +662,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+>>   * drm_gem_shmem_get_pages_sgt() instead.
+>>   *
+>>   * Returns:
+>> - * A pointer to the scatter/gather table of pinned pages or NULL on failure.
+>> + * A pointer to the scatter/gather table of pinned pages or errno on failure.
 > 
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index fcca21e8efac..4fe2363b1e34 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -734,7 +734,7 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
->  	int i, valid;
->  	struct drm_buf **temp_buflist;
->  
-> -	if (!dma)
-> +	if (!dma || !dev->agp)
->  		return -EINVAL;
->  
->  	count = request->count;
-> -- 
-> 2.25.1
-> 
+> Hm usually we write "negative errno" for these, since the error numbers
+> are defined as positive numbers. Care to respin?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It's actually ERR_PTR that is returned here, "errno" was borrowed from
+some other similar DRM comment. I added this patch to v2 of virtio
+patchset [1] and will improve the comment in v3, thanks.
+
+[1]
+https://lore.kernel.org/dri-devel/20220314224253.236359-1-dmitry.osipenko@collabora.com/T/#t
