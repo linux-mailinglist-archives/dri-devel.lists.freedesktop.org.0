@@ -1,117 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC95E4DBD45
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 03:53:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 841FA4DBD76
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 04:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18A7C10EAD3;
-	Thu, 17 Mar 2022 02:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C238984F;
+	Thu, 17 Mar 2022 03:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD4810E039;
- Thu, 17 Mar 2022 02:53:51 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0B4F8984F;
+ Thu, 17 Mar 2022 03:20:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dLDDBMfwn9Ly3GpwhdtwQANa3eKAEtSX0SEBcxGNvAxagUFU0//drNJEjX6KxYXorjtBB/DV0ZYL5izrEeQWXCZ99zI5dcV/bLXlci8U5Zri7i89s+I0GfuBWufTVjX2DwEk+plhe6dXOrMOoAHEgdGIlJ1vpqJaU7YNHl/YVeeJ72mDqIXyqNuH7J2HBRZJ8fd9IpbYcEwir+trx//XRhLecUId+VyWssP5gNCwhjlozxIPtuE+wrYAcv5pUKZs9IIQRJOjednAYSC1C+ClJZICLKltGdj/YeOrKYYL6QnitgnFZh8P7ilZ0I1l/U/1g5TWFKKca0n8zwgx/oGcjQ==
+ b=VD8ChS86ql8I3EHi6a2cD1bMNKBzKSsFoHvNwy1KYR5YN+nzleYEAQn3vf/3Q69vfqGj4ZcHrYpDRyBTejn/Fg8BYyphIf8JZSYYGfMBizmXkdGFWEA5pJMBmMGgBSKIuQU5AiclqjhVa/vt+iguO8SxVPgQJ9O8ukkg5+WgUSD+zaXe1FDSwFCSB+dT6wKooa+YNwUkIAWDUv4kSMSW9qz/bbubCdtkEBu7l3AuA5/KXgV8JQ1yQBdcILvEcJF9FFOC3rmr364XKCHfohi+QmFWH5a5G1TDsVpLhejjuA0R6Mkh1jO7Fx6sDs+41BlSVOAQIZK/DtsG1TS3C0n42Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P2IUc6sSBHfAyfWR3EcfnQYIN7/iwGjIjbECCQIkknk=;
- b=GHBNNDaThIYMeMkK6IO85liCTKMCng8mjWTt6QlCydfQ2SBIkYk0fy26YDNDTAddFuUfHq9/F3TrnzJH5/VOwJJvO81ik5fkRCAedPmHJBAGK7Xo+ouRg9Rl9JX1b7Uj9zydQxGRfeVMuYSysUfMZTUJoqx2EBJBkh5ETa5l6/X+PX4KjG2qLYXuSUTewp4Afs3bx3lg7SPr4YhSTsMA1TwdYRZgenvmYGIRwZ3EmbFiMstdnQXc9Mq86pbf2XpiXnBwyx3pnhyrfF5WsLXE6qV+LlHwNodFk+FRixKBYjF0f7yd/CRcEtgedp5LXNtkx1qK9loqVedhlv3MKFg0hQ==
+ bh=2hZXs5614Ry23AFr3tQIw/LDAHUOvFd4D9TAbEVNAl0=;
+ b=n6Ay1j9//1uv9ytHJ/yLXCRSuE+zyZ+x2mBETyM2NW9qzCrHJBGSGY2AVGRhKCO3fnMHRtFOUrHv1wtvO2a7PRFxsigmRR5vojlR+KLhj8PEt1iZzJRrDtEh7Vfhl32Uzuv6JbkRUpM5h+eQJS+H1+sXp4fVbDFEEHDbZ3UuQa/4c2UTU6TH86PXdztYBUopSfEQc/mroZEIvB+sayvt0eWduXTWZ2WL17qMzPZisCt7VaUp+EMp+gBe/XVXv+eB2wEVGIN0ONAebsHAdfGrz5JVZwVE0zITNNGy0F0a1eYaFCMxudMSXvPSXdq8M7i02AaXXo/HQ2b4u78yzlNVpg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P2IUc6sSBHfAyfWR3EcfnQYIN7/iwGjIjbECCQIkknk=;
- b=CVfc6HpE4cKFyPzlEtsJSLWHXj1Ir17mFo6//o3TAWQdKQmLn+4id2Wq8mvHOqCCItUgBNxkAF4xhg+AwYoQ7fdXwyq4fdlDWmYSsw0fS1nfBUJzUkJNAN91EqRFKHyNUAE2D0TnY9o9/fS8wNMpX9hpLaGWc2O28PjESNiv/Uzo19Ygju/56Vhz2oVD5yokLxHB4HILymM13MOJci6NPfmaTKNxHHaicIskgI/E3OzlkD32eBtrwnxXeCNdem5ZWBnx020Dg7SdqHbT8KukpsFJnLLrYwCkFPIgKqDHGBrnvFgBn7oM0sG2OFs4L3o8bwomwfJ9JAFYrzpHlhLZ6w==
+ bh=2hZXs5614Ry23AFr3tQIw/LDAHUOvFd4D9TAbEVNAl0=;
+ b=MuEDe15Q8bkZSxlfW6Ek8ftvvS23YlgypiuOhIBVXm122+ge7Yy6GqHsOl60Bgt/+BD9ZEfu4aQXo3PO3so6I1TT8Buo7e5stYH9IyOHRhUAN337FuIjqmxYmxecjeZ00uRqfSUIay/7rlIfe3B43lPEKkAoZvAI4Nh4MT+lwGd2djA5+3qMOZL9XwXBekltKHBf1qVYSKcORa3KW7h+PnD7/tVFRPfzFrmcI+Il4JxUEuZwoprCiY+zBaMQo6EjSqXTXATvUipe9JBXeWp/6Czpqtv+DmZUXRCF8oONN9nUSb6Z24vmJYH4et3nCr88legVF9ggZPwZFeHQdYGDDQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
- by CY4PR12MB1607.namprd12.prod.outlook.com (2603:10b6:910:b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Thu, 17 Mar
- 2022 02:53:47 +0000
+ by CY4PR12MB1750.namprd12.prod.outlook.com (2603:10b6:903:11c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Thu, 17 Mar
+ 2022 03:20:48 +0000
 Received: from BYAPR12MB3176.namprd12.prod.outlook.com
  ([fe80::152f:613b:7041:68d6]) by BYAPR12MB3176.namprd12.prod.outlook.com
  ([fe80::152f:613b:7041:68d6%7]) with mapi id 15.20.5061.030; Thu, 17 Mar 2022
- 02:53:47 +0000
+ 03:20:48 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: Felix Kuehling <felix.kuehling@amd.com>
 Subject: Re: [PATCH v1 1/3] mm: split vm_normal_pages for LRU and non-LRU
  handling
-Date: Thu, 17 Mar 2022 13:50:37 +1100
+Date: Thu, 17 Mar 2022 13:54:32 +1100
 References: <20220310172633.9151-1-alex.sierra@amd.com>
  <20220310172633.9151-2-alex.sierra@amd.com>
- <YipQqqpTz8hZAbLZ@casper.infradead.org>
- <651099d6-21ae-16a6-e500-a87002468cda@amd.com>
+ <07401a0a-6878-6af2-f663-9f0c3c1d88e5@redhat.com>
+ <1747447c-202d-9195-9d44-57f299be48c4@amd.com>
 User-agent: mu4e 1.6.9; emacs 27.1
-In-reply-to: <651099d6-21ae-16a6-e500-a87002468cda@amd.com>
-Message-ID: <87mthp8f2g.fsf@nvdebian.thelocal>
+In-reply-to: <1747447c-202d-9195-9d44-57f299be48c4@amd.com>
+Message-ID: <87lex98dtg.fsf@nvdebian.thelocal>
 Content-Type: multipart/mixed; boundary="=-=-="
-X-ClientProxiedBy: BYAPR01CA0053.prod.exchangelabs.com (2603:10b6:a03:94::30)
- To BYAPR12MB3176.namprd12.prod.outlook.com
+X-ClientProxiedBy: BY5PR20CA0004.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::17) To BYAPR12MB3176.namprd12.prod.outlook.com
  (2603:10b6:a03:134::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 19b376ff-c325-4f39-e142-08da07c15b7d
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1607:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB16071B8EBB8013DEF13FB152DF129@CY4PR12MB1607.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 792d664f-dca3-4051-ca5f-08da07c52196
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1750:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB17508FC1392C4CCA02FE65B3DF129@CY4PR12MB1750.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jEheHv+5GLJoX3k2dqtm2lIejj/x0D9IKpLtUmNEZ4iBTz29vGgAWtC0yPAGbOsPXsh1JbYeDV9bjjjPpm03n1iN87sxODXzecBeExUZGlFcVUOPRxUR3sv6Y3yHFV61HhhFoRkVgmB+hrJCiQXwgCymFKUJUmSQ7fbTyntuch6VjBjzLJg6zWGi2HiPJzfvj25LbbhBMHPKbbHgtlc7YNc5n51NWAmDq+cShMQ69m/MvnaD45KNiRIMKjVzSb3h5921LKyvT56aaQPr0Rh5rhAuyzGvQrraoHLOBrY70hG2NB8sorZ0AA3ZCA23lIA1GYKCFXdYGGvrupQLB+c8VgEh2+/9RmNgWIIMz9asSuYQ+PvIVVzscmGH9xVgoc1Pu9BLw82w0BmUNjP9ARyC/qPo/yCsvMkbkN0QdOQ+qHQa9pfNNBdRKjd1UOMf1OzW/nOfMpGgrzj9vF87cq3mlVXDX5lR4SnkXFOjNFqRIlJ2rlNSnvXu448HJMiuNTqyltnGHhuJjxVK58VFXSKKMVZMMXSbe6kPqGOA4onjed2Vo5m9F6Nf5SaEQm3AVal3ikAGWrW2hooRQR5Rswh4Y7tIz7VYLtw3rMRrM0oR0wrx6Fzi+oYhooJ2cI+JHj9CQPtwXWJSlbyjD9TDP6NHMw==
+X-Microsoft-Antispam-Message-Info: ObGGRxDpTibUGN0gK4MzABNcJ/qiRhdOUe0ZdMOg5KwsVGf2KZC5E06Q/tSFeYNVl9FNh1R50SB47jVs05p2nCpVr+C3Eh4sr0AV2yUXJJjFX26UaVehVtrIOdqLd+R4uencBUX5UCpoFUYGlCIrtiULECikuEKKu8k49muulmFJ3s0xLIeneMU3z8XfLDRFhgUhZC27Em053hhpymIzaVeDD0IDUtr8K5nlI83pD1xxgQSGLgwmSfGze2ECEnNjgU+ReLUZCv+g3bjSP1Ae2P/iDPhpWpCa2im1A4NFdY8MDjGQoLWVH22HWGJaO25hEm7MV4hT9G3Sk74cA84jk3AmQ3RV0I6lbuS5VgQEubWeF+oy8ERbxncbCSNZSq1UxR09s6Wzkt6sInCGiM/bZmOwqBgCKWB/6TpHYNm0ZLPa4+XOLUNLMaCHRicSVADY54df9YMeCAEpnC93RZ4Eg63o07EXckKKkE9wKygzyUK4gPxqvlgJqUPOnX1zp2yaVRdGqogG6dMTHAS2HFNpT6S+fJQ977NT56dS+ml/HdJXbCv3/Kv4ZwZ6DWci3QnN+yYvGkkLIhKKbDg/9IrfPesoiwBw4HyfQWxPHTUE+id4Oh+NTXYgKAfxeX17ttoK7HUlX7Y9Z2olrgZQa9O+4Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6506007)(66946007)(33964004)(2906002)(508600001)(7416002)(8936002)(5660300002)(66476007)(66556008)(8676002)(38100700002)(186003)(316002)(26005)(83380400001)(86362001)(54906003)(6486002)(44144004)(6666004)(6512007)(4326008)(9686003)(6916009);
+ SFS:(13230001)(4636009)(366004)(6666004)(6486002)(508600001)(7416002)(5660300002)(316002)(26005)(186003)(6916009)(66946007)(54906003)(66556008)(2906002)(8676002)(4326008)(66476007)(9686003)(6512007)(8936002)(6506007)(44144004)(53546011)(33964004)(86362001)(38100700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TE9ZVGE1bUk2SVpxaUcxQXNBU1o2RUtycG5FMkFXUUpuRDVsQ1hXaXR2TEFQ?=
- =?utf-8?B?eFpaZnRldTFTYjF1MGhGYVE4L2FnaHVpZXNVVFVTSUN5WjUrdkxka2dsTnBi?=
- =?utf-8?B?UEVXOGJ5MkxpRHlmWWNRZ3pTQTBITkJlaGVMeDkvbXQyUzNzZ3dFTjV2bUFO?=
- =?utf-8?B?Q215dTBnODUvN3ZENjNGdWs1U0FiYyt1RzFFTWZra1dGNHF2UTRqbGcyOTI5?=
- =?utf-8?B?bjBZVXNlMXh2L2hLNldDQUMxdzRsa2trWWpZZEpTTzduYTE4RFNKUzRYNitY?=
- =?utf-8?B?ZUtrdWRjWk1TTFJDMS9NT3EvaGVPRXhVcTVNZnUyK2ZUM1RNWDFzMUR1Y1VB?=
- =?utf-8?B?RzhrQ2JxRGJnQ0JnbThuNk41SzJXM2JUN25lU2prWHQvMHJCQXQ3ZUgzYmxE?=
- =?utf-8?B?Tzgxa2hRRHppM0s2L00zVlRxZVlTL1VOVmg2VWQyUlZXVVNMM2I3LzdudVBY?=
- =?utf-8?B?Rm1OUnB5Q2F6bWQ5bUpVcTAxY1E4a2IyKzNic09weW9YY1pBMFd0VFd4THE1?=
- =?utf-8?B?aVFhK2tkeW9aODFjcG1xdVdDcTYxVmtxeCt3WjJjS09COVpxMHVlMEp3eENw?=
- =?utf-8?B?a0FmaytvbkdaWVhCRGk0c215enR5WmhVUDBGSjNvdVhDNWpnTWNDQlQzVU9m?=
- =?utf-8?B?aVlzTWdiWVkrbXhnTU13dGUwVHFxbWZ6SUJjem9VbUpOeDFXYU8vTnZadjI0?=
- =?utf-8?B?Q3hULzNWb080d005NEVaUGROUzlyNnhQYU1lZXMyckpsK2FyYUJ0V1BaT3ha?=
- =?utf-8?B?bjdzZ1BsZStnR1pOaUxmMkFwdSt2SW5aT2Zzek1ucXF0YTUzNkVvZU82dllS?=
- =?utf-8?B?YTRUbW1Odnk3OVZiRUEwYTU4NFBoNzBzMlV1ZUJXWHVIVXlrWDMzL3E4Z1A1?=
- =?utf-8?B?ZXlQQ2JvMUllWk9JU1BOOU1kQUpUVDFCNUZuZGZrT1ByQ2ROcnNoRFJpTWlm?=
- =?utf-8?B?VzlXSVpFLzBreUdpeEh5Y0FPTnAzREVpZDBxZTFkRFhSajIyYkV3YTZ0ek1I?=
- =?utf-8?B?Um1ma1hUeS8xZEpvektLSS9rMmVneGN6UWluc212aEhtbngyamxsR0orb1oz?=
- =?utf-8?B?MFdISVRObExvaXBtNFAzQWhtTTRtR1diVmJ4bVhoMzJyVWhtd2QycVp4QWw5?=
- =?utf-8?B?MTllQ2xudm1LTUVBUTczNXIwbmNmR0VLUlBZb1k2K0ZqTkwyaCt6YlpYWjBz?=
- =?utf-8?B?QktJNlE5eXZxUEZhRCtzWHV2eVd6b2RaTGI1Y01wNHhQZDR3NlhqclZ1bE9w?=
- =?utf-8?B?Zk5BOVJNRmtGcUFrVVRueFlDNThCYkh5RmFYYUNueXJkcUxmYmRhY0xJNXJ5?=
- =?utf-8?B?MnpmL01rUmdUSmJIVEVwT2pDZktmK0FHVnBnT2VsWlNoQ2xQUnVqVWxpdFhH?=
- =?utf-8?B?T1FuL29Wa0IxNXByN3JPS05RV0RMcisyWXVBTXN2SlhlclFjTFhBUDdHNCs4?=
- =?utf-8?B?cmhJSytUZFJaZm9abE05bmJudk5MdExvSk9xRkkzQ1lITmZNWGhmSVZ0OEIv?=
- =?utf-8?B?M285SUhNZ3U2cHRIV2RJQVR4eCtuMzB1Vy9Va2VNcmp5dmsvdTJDZzdNWnRR?=
- =?utf-8?B?T1pvK05hWHVHQTlIdThJYmZDaXQvZFFpTmFoN0FDMHRLQjNzbVNIRVdjUjlP?=
- =?utf-8?B?Y0FDcmZOZ2psc1BFMlRhZlNDbC85eDl4RjFUR280VkYxeUdLRFpGWmI3ZEV0?=
- =?utf-8?B?cEw2R3c5ZVlndmxJbHdDQ2tOVXpEMkRTcmpPY1FaNko2akZQOEdZb05CajNM?=
- =?utf-8?B?WUxELzFnYi9UeGdjTXZuRjQzYVFpMWJHV3gyaHluVXVneXFvbCtzSE4vMlFl?=
- =?utf-8?B?TXF1Y3d1bUVPUllOY3BGOHR2S1V1YkIxYmxENzNTNGN2NzNsdlVuZWpzWnJF?=
- =?utf-8?B?NXJDSktNMUtzdVJGZTkwMFlvQUpEdVluM0RNZTd6Uis5TE9pVUZ4akV6dU1O?=
- =?utf-8?Q?GVhZGIzbrAF7PoSfAuE0luZF7sF4I3PK?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bU1HL1I3dzRzSCtJQkpIU1F6Q3pDRWJ0Q0ttZDZ2em0ya20wM2R5MU41bzNS?=
+ =?utf-8?B?TTUrNnZvS3BFSjNuTFF2STNnL1hkZ2ZuOXB1eVppckxTN3lDWGY5VCttQ1BW?=
+ =?utf-8?B?Z3dBMVVRRWdqRzRPeUIzOElISUc4QU5SVUpLOTdxRkltRDlndmQvcVB0OURM?=
+ =?utf-8?B?Y0lCeS9jU2NEYXNZQm5LaHNMZnVGQmQ5QTkzMHhTZnNhNk8vSzdyUHhXNjZZ?=
+ =?utf-8?B?Wi9OdFd5QVdTZ3RaWXk1dVVWRVlSVEN3SzJBemNmMVhNWDlCbk9hWjg5QS81?=
+ =?utf-8?B?WGhYM04yR2tOK2o4RUxwZTBFVFdQakVnTWtsMmZUTyt1R3pzNlVvUmJSdEsx?=
+ =?utf-8?B?WkYyeDlVTU82a2tDWVM2Q2NDN1pvbGlxVkZxaXpkYzRvY2MwazFjd2hseHNq?=
+ =?utf-8?B?QjF3V2g5ZGNUTkRmMm1FcGM4V25DQjhpaUxXcTgzd3ViVTUxaE82bVlvRmRO?=
+ =?utf-8?B?Z2Y5K1d3bE9pRGJlam9sMDFKcUEvdHNscjN1WVlCdFpoM0FQVEljMEx2RkVW?=
+ =?utf-8?B?SXcxaXVPUVRUSE1hQlZPM0tvTkQ3VUtrN2FQT1BGS3VEc0Fwc1BET2dsQkRm?=
+ =?utf-8?B?ZXN0eVJNTFNnWDRWL0xxVmVqY25QQlM4Z0hCS01XOTNnNzV6dkVUdUlwOFhL?=
+ =?utf-8?B?TlM3bUtLWlZwR0o5WlpmSmZsU0FSNUYyenBoMDRVTytCZC9kR0FGc2pJU0sy?=
+ =?utf-8?B?N21WOExhMVJVWWNQYjVmZDFJSkJGQWdZbWFXSjBxb0hydmZ5L0plMDRGZVN2?=
+ =?utf-8?B?OEw5dWN0dUVBNWUraHlmZ1hQcGxlRVNMUTVnRnlJcnhpamNMMkhWS1NaVytJ?=
+ =?utf-8?B?QTZUbEp1UnlYbVNEZldIMytBdi9mVG45WVhVQ3pieW9UUTZEejNqSk5ha3ZJ?=
+ =?utf-8?B?K3pFa1pGQm9rbnkzbGJYMzViOHBXdUhZYVR3ekxFc0JSK0ZCY0lyS1hoNS9a?=
+ =?utf-8?B?cjBsM1ZzWmw4ekJCL3BXUGMvZ3hCK1R0MWxSR3JZTzBEalg4WmNXWUEzSHB2?=
+ =?utf-8?B?a09UVnBXbjlpVGVrcEhnQ0k4dTdSdEJTeGkxQ0preDRtaU04WUNMbmUrcWFh?=
+ =?utf-8?B?Z3RCUkhyNk8wWGVJTnVJeVRXSE9ZVUp0cHVOSnNuditxYnBzNVZhWUNZTm11?=
+ =?utf-8?B?cS9JeW95ZVRSTERhNWowWCs3Zi94SmtGNVg5bUZYZmUwc3hnUGpUMVBDY05h?=
+ =?utf-8?B?SEVOUThvanZoU3VIZVFmNTY0bXBmZDBjWkZRR2gvQUpSekt1VXYvOFQ0N253?=
+ =?utf-8?B?ckwrZ1JTb3prWmtValN4MnRYcERZYXJMRXIvQThGWEFvNDhDUkxvUk52a3NB?=
+ =?utf-8?B?dWZydWt1N0FkWnU0VVM4WTFITE1FdzlqbjJGOFI2ck1oZWcvcmZuZXA5T3dB?=
+ =?utf-8?B?Wjl2TlRzeGtaM0xzN21ULzdhNTJRSG9IUTJ4bEJJRVZZWWRac3lUMmZ6bzJW?=
+ =?utf-8?B?S095REk1OXVVd20rN3BXc3RWTUtGbTlqMFkzM3dlTVNkMjhrbFR6ZTVGb1FC?=
+ =?utf-8?B?N2pTYkFKVFJQM0dOenBMUm9wRERwL2dJZzFkZ3daY0dKWXJGeTZXQUZWRnFp?=
+ =?utf-8?B?T2dRamFCQnJQMG5CMFRmOTV6Y1A5aTJYa0N3KzhGK0VTbGMrREx5dkJzVUpx?=
+ =?utf-8?B?WEpPbmFJaitjUVl6bE1kcWJVZHpQMkliZEJycWZua2tlNlVKQmg5QjdlWUdD?=
+ =?utf-8?B?anVIeWF3a1Z2cW1BMjJKTktQUDJ5bTV2TFdCWUo1cmtoOGFzKzBxYm1lK2h2?=
+ =?utf-8?B?bEpkak8zcnBlNUhnb0prMnk5bE5oeHZaQkxMM0xMa0lQanFuU0xsdW5TaFR5?=
+ =?utf-8?B?OUlxemdVMTBZSzk5NmV2aTFrVEJzeHJaYmFZczRHemljWVlNY3l5azBWUUVG?=
+ =?utf-8?B?MHJ1UjJselNOUE4vN2pXNTdpNy84N2hYdUkyZDhxK2VvRit2WGUzdG9LZmFB?=
+ =?utf-8?Q?XTlAofVH35o3jxAcI42aUAceoHbvAuGR?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19b376ff-c325-4f39-e142-08da07c15b7d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 792d664f-dca3-4051-ca5f-08da07c52196
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 02:53:47.4842 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 03:20:48.1234 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Njvebd9FEeupqJel0mMFzNMP8IsU4YZjVqaer1R5AOakRYQQAOtR6Hca85D4biXVkdcBfU+4PwCfDetAHcU4Tw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1607
+X-MS-Exchange-CrossTenant-UserPrincipalName: dqU/RXm16+RQUo3Xt06yKA5nAmBiBb3CrcZCjOk/Sjz79bMK5C2XjjQCl0Q/00JU7WG5VrZZ2iFO3hjRDF86Tw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1750
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,11 +124,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com, david@redhat.com,
- dri-devel@lists.freedesktop.org, Matthew Wilcox <willy@infradead.org>,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- amd-gfx@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, David Hildenbrand <david@redhat.com>,
+ amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, dri-devel@lists.freedesktop.org, jgg@nvidia.com,
+ akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -139,96 +139,98 @@ Content-Transfer-Encoding: quoted-printable
 
 Felix Kuehling <felix.kuehling@amd.com> writes:
 
-> Am 2022-03-10 um 14:25 schrieb Matthew Wilcox:
->> On Thu, Mar 10, 2022 at 11:26:31AM -0600, Alex Sierra wrote:
->>> @@ -606,7 +606,7 @@ static void print_bad_pte(struct vm_area_struct *vm=
-a, unsigned long addr,
->>>    * PFNMAP mappings in order to support COWable mappings.
->>>    *
->>>    */
->>> -struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long =
-addr,
->>> +struct page *vm_normal_any_page(struct vm_area_struct *vma, unsigned l=
-ong addr,
->>>   			    pte_t pte)
->>>   {
->>>   	unsigned long pfn =3D pte_pfn(pte);
->>> @@ -620,8 +620,6 @@ struct page *vm_normal_page(struct vm_area_struct *=
-vma, unsigned long addr,
->>>   			return NULL;
->>>   		if (is_zero_pfn(pfn))
->>>   			return NULL;
->>> -		if (pte_devmap(pte))
->>> -			return NULL;
->>>     		print_bad_pte(vma, addr, pte, NULL);
->>>   		return NULL;
->> ... what?
->>
->> Haven't you just made it so that a devmap page always prints a bad PTE
->> message, and then returns NULL anyway?
+> On 2022-03-11 04:16, David Hildenbrand wrote:
+>> On 10.03.22 18:26, Alex Sierra wrote:
+>>> DEVICE_COHERENT pages introduce a subtle distinction in the way
+>>> "normal" pages can be used by various callers throughout the kernel.
+>>> They behave like normal pages for purposes of mapping in CPU page
+>>> tables, and for COW. But they do not support LRU lists, NUMA
+>>> migration or THP. Therefore we split vm_normal_page into two
+>>> functions vm_normal_any_page and vm_normal_lru_page. The latter will
+>>> only return pages that can be put on an LRU list and that support
+>>> NUMA migration, KSM and THP.
+>>>
+>>> We also introduced a FOLL_LRU flag that adds the same behaviour to
+>>> follow_page and related APIs, to allow callers to specify that they
+>>> expect to put pages on an LRU list.
+>>>
+>> I still don't see the need for s/vm_normal_page/vm_normal_any_page/. And
+>> as this patch is dominated by that change, I'd suggest (again) to just
+>> drop it as I don't see any value of that renaming. No specifier implies =
+any.
 >
-> Yeah, that was stupid. :/=C2=A0 I think the long-term goal was to get rid=
- of
-> pte_devmap. But for now, as long as we have pte_special with pte_devmap,
-> we'll need a special case to handle that like a normal page.
->
-> I only see the PFN_DEV|PFN_MAP flags set in a few places: drivers/dax/dev=
-ice.c,
-> drivers/nvdimm/pmem.c, fs/fuse/virtio_fs.c. I guess we need to test at le=
-ast one
-> of them for this patch series to make sure we're not breaking them.
->
->
->>
->> Surely this should be:
->>
->> 		if (pte_devmap(pte))
->> -			return NULL;
->> +			return pfn_to_page(pfn);
->>
->> or maybe
->>
->> +			goto check_pfn;
->>
->> But I don't know about that highest_memmap_pfn check.
->
-> Looks to me like it should work. highest_memmap_pfn gets updated in
-> memremap_pages -> pagemap_range -> move_pfn_range_to_zone ->
-> memmap_init_range.
+> OK. If nobody objects, we can adopts that naming convention.
 
-FWIW the previous version of this feature which was removed in 25b2995a35b6
-("mm: remove MEMORY_DEVICE_PUBLIC support") had a similar comparison with
-highest_memmap_pfn:
+I'd prefer we avoid the churn too, but I don't think we should make
+vm_normal_page() the equivalent of vm_normal_any_page(). It would mean
+vm_normal_page() would return non-LRU device coherent pages, but to me at l=
+east
+device coherent pages seem special and not what I'd expect from a function =
+with
+"normal" in the name.
 
-if (likely(pfn <=3D highest_memmap_pfn)) {
-        struct page *page =3D pfn_to_page(pfn);
+So I think it would be better to s/vm_normal_lru_page/vm_normal_page/ and k=
+eep
+vm_normal_any_page() (or perhaps call it vm_any_page?). This is basically w=
+hat
+the previous incarnation of this feature did:
 
-        if (is_device_public_page(page)) {
-                if (with_public_device)
-                        return page;
-                return NULL;
-        }
-}
+struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr=
+,
+                            pte_t pte, bool with_public_device);
+#define vm_normal_page(vma, addr, pte) _vm_normal_page(vma, addr, pte, fals=
+e)
 
+Except we should add:
+
+#define vm_normal_any_page(vma, addr, pte) _vm_normal_page(vma, addr, pte, =
+true)
+
+>> The general idea of this change LGTM.
+>>
+>>
+>> I wonder how this interacts with the actual DEVICE_COHERENT coherent
+>> series. Is this a preparation? Should it be part of the DEVICE_COHERENT
+>> series?
+>
+> Yes, it should be part of that series. Alex developed it on top of the se=
+ries
+> for now. But I think eventually it would need to be spliced into it.
+
+Agreed, this needs to go at the start of the DEVICE_COHERENT series.
+
+Thanks.
+
+Alistair
+
+> Patch1 would need to go somewhere before the other DEVICE_COHERENT patche=
+s (with
+> minor modifications). Patch 2 could be squashed into "tools: add hmm gup =
+test
+> for long term pinned device pages" or go next to it. Patch 3 doesn't have=
+ a
+> direct dependency on device-coherent pages. It only mentions them in comm=
+ents.
+>
+>
+>>
+>> IOW, should this patch start with
+>>
+>> "With DEVICE_COHERENT, we'll soon have vm_normal_pages() return
+>> device-managed anonymous pages that are not LRU pages. Although they
+>> behave like normal pages for purposes of mapping in CPU page, and for
+>> COW, they do not support LRU lists, NUMA migration or THP. [...]"
+>
+> Yes, that makes sense.
+>
 > Regards,
 > =C2=A0 Felix
 >
 >
 >>
->>> @@ -661,6 +659,22 @@ struct page *vm_normal_page(struct vm_area_struct =
-*vma, unsigned long addr,
->>>   	return pfn_to_page(pfn);
->>>   }
->>>   +/*
->>> + * vm_normal_lru_page -- This function gets the "struct page" associat=
-ed
->>> + * with a pte only for page cache and anon page. These pages are LRU h=
-andled.
->>> + */
->>> +struct page *vm_normal_lru_page(struct vm_area_struct *vma, unsigned l=
-ong addr,
->>> +			    pte_t pte)
->> It seems a shame to add a new function without proper kernel-doc.
+>> But then, I'm confused by patch 2 and 3, because it feels more like we'd
+>> already have DEVICE_COHERENT then ("hmm_is_coherent_type").
+>>
 >>
 
 --=-=-=--
