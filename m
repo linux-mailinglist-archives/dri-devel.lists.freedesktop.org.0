@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B344DC61F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 13:48:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2617D4DC64E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 13:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7F110EB8B;
-	Thu, 17 Mar 2022 12:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29B110EB8E;
+	Thu, 17 Mar 2022 12:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1F210EB8B
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 12:48:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E0610EB8D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 12:49:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 86FC3614AF;
- Thu, 17 Mar 2022 12:48:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46EDC340E9;
- Thu, 17 Mar 2022 12:48:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5DC8A612AC;
+ Thu, 17 Mar 2022 12:49:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F535C36AE3;
+ Thu, 17 Mar 2022 12:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647521305;
- bh=gkiHubqFkAkhD2fB+BeQdrYXBCDfNv/tJCePJLxs6SY=;
+ s=korg; t=1647521383;
+ bh=74fUNjecR8fdqL28kcqYW3B5dHuRd/wXLz1YjF6Q8wE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=zJgXa/+lfW6CgLXPgIcQI+8eWduZ8lSzzzP1S7QLxVULETNRMANV3Q7qrKbHXpUf5
- XTb1YR05QmLSaflKWOpaS45ys9rqUvN4j1uRVg2KWBPX9UzUPdfXY8RwolsJ7zSFjY
- jJoTrJjR7bP/HQI96hISU4zYy1Dv4aBpbUXIS06k=
+ b=rVF4CJMcPcoNiIGN1S/gYfvgZL+GdUaWSH3m6HPPQIr2fbwInFOPV1jP9aln+PsJR
+ qSGOpmc5EOiRvwpcMarRS5M6wFXQTIKEF9DRbZlTkRGeqjcI4Lw7WEVHdqhKx/WxVt
+ uaioBMVw0UoFCYD+VV5V8pDfEHoiOP7x0An0Swkg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 38/43] drm/vrr: Set VRR capable prop only if it is
+Subject: [PATCH 5.10 16/23] drm/vrr: Set VRR capable prop only if it is
  attached to connector
-Date: Thu, 17 Mar 2022 13:45:49 +0100
-Message-Id: <20220317124528.727485130@linuxfoundation.org>
+Date: Thu, 17 Mar 2022 13:45:57 +0100
+Message-Id: <20220317124526.431057119@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220317124527.672236844@linuxfoundation.org>
-References: <20220317124527.672236844@linuxfoundation.org>
+In-Reply-To: <20220317124525.955110315@linuxfoundation.org>
+References: <20220317124525.955110315@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -79,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 2337b3827e6a..11a81e8ba963 100644
+index 717c4e7271b0..5163433ac561 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -1984,6 +1984,9 @@ EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+@@ -2155,6 +2155,9 @@ EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
  void drm_connector_set_vrr_capable_property(
  		struct drm_connector *connector, bool capable)
  {
