@@ -2,59 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FC24DC390
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 11:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB724DC39B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 11:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF3810E7AC;
-	Thu, 17 Mar 2022 10:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D741610E7BE;
+	Thu, 17 Mar 2022 10:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 613FF10E79A;
- Thu, 17 Mar 2022 10:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647511481; x=1679047481;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=1qTcxirZlthThcPtvHDZ1u4AB5XJSxJPJJUMd08tTEU=;
- b=CwCZcQmnGIPgK/KKULJw2DKJXpXmBjYo9rVrPHKJHqEZbMQOp8PML2sE
- HsP+m1zNMJnt+j0hmHkwg/dbM9Gw70GNJ81nH5xaCBy10Gh5CJI/mQp4q
- JOCjDN2AiyMByQ/XqbqoP3+6kM+BMojkdDNhYzYebTWwoev9fFBt3JGS/
- ez8clxARE2JF82fPdCppbcC0BaWAzdnxH/xxqQvOblwlM/aS502GrBm9K
- FPnJk05rPpva+T2UhXU+cQ0L7ZMoSLXXdUsp6o4c8vvzmelZqwKNHOumh
- eQFtW8sNFWHHp4ebvqMSw3Kkr1Z7hj0t2LpVK9V88xW+BALNo9ljlQ/Vg A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="256781214"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="256781214"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 03:04:40 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="516704649"
-Received: from liujoann-mobl.amr.corp.intel.com (HELO [10.209.162.134])
- ([10.209.162.134])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 03:04:39 -0700
-Message-ID: <6b0fdece-7436-4970-f5fe-4bf831cc8e20@linux.intel.com>
-Date: Thu, 17 Mar 2022 10:04:36 +0000
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5386810E789;
+ Thu, 17 Mar 2022 10:06:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JYF/f61uWdTDihnMLy8NzYLywcmrqrAJuNIKdhthpOE3bzkpfIZJHBPemrsgRscfaQ8DRbUbSIEvfJZNRoZiIeDxxod+oLzHoj3Upzj0GyRkqL4rR9RJMW4PtLyocVPQG6n3s6b2sEJ9dtvRE+qx/17MkvO13/vPygkmPBXyL2/YsJaS/8qI3i7+urviNVzbS7LZ7utyHmtvUUgkGZ57M6/nzEAk4vq5y8lxW1sCWQ86WDZNEhndO0en65ThHP/W6SmEwLNwASJKZCzD1A9zD7bdsHWban75bN4Qytf5ljtbO4+k9NiCFimM+5RXfMgglDwvhwHiRxvzi1E0slAD2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c/eDdtq4jGFhZibd89xFemd/P+diQMoXSKkl0f/fgKA=;
+ b=WpmvDHTAGDw/Fyo0EhCcy/YGNOzkfsfXy+YcIT7SVjQ+eyOlqEIu+NrmbI/GzlfBUqCRB6sshZqD8KGQcSRe7854SADMOFmVRHpdep/5eBq3tVGa51NBZdF1fOXfDs3m3o8AcGIaywhmYSvxzvcNqpN5lOkdJUSh5NpVkgBivaSlqjXZLUp0VgMYYB3pq4ms/YUwUCKnl6PaxyQnMvP6MwyRMKwhxmyQNMMN3Hq+5R8ssrL6eJUD3xOPQ4iFaXFp4vQK3JosYuCtrvhnSIWLgpjgvw6SkyUffFSyGSJDLYpJcNqQAi+9Dg1zrl9GdniU1q3sb6RHURKfvHfhOTV3sA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c/eDdtq4jGFhZibd89xFemd/P+diQMoXSKkl0f/fgKA=;
+ b=EBi/D9MloocTLwUdgiS16nrSZ4kj7KPfk9kysIO/FN9G30gT3iZjOkI8E3e++0yJYJbzOYA9Cyan210sCwBwchEdYovZq/x8lN4pMrRpFQjHH2eO4M8FFZCdcmayJJnf/WyzY6bXCPZG+kCzezaDEIAlv153MIefFpjBlcbpb8I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BYAPR12MB3608.namprd12.prod.outlook.com (2603:10b6:a03:de::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Thu, 17 Mar
+ 2022 10:06:25 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5081.015; Thu, 17 Mar 2022
+ 10:06:25 +0000
+Message-ID: <3945551d-47d2-1974-f637-1dbc61e14702@amd.com>
+Date: Thu, 17 Mar 2022 11:06:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v6 2/2] drm/i915/gem: Don't try to map and
- fence large scanout buffers (v9)
+Subject: Re: [PATCH 2/3] drm/msm/gpu: Park scheduler threads for system suspend
 Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20220307202121.389550-1-vivek.kasireddy@intel.com>
- <20220307202121.389550-3-vivek.kasireddy@intel.com>
- <CAKMK7uGxvC+mzmH7EPcqggZ05u--D6N29Ati0YuuEc-Tgd-0Gw@mail.gmail.com>
- <1f9db89a-0d31-d9f5-2b4d-7856aa9ffa01@linux.intel.com>
- <db9ecbf6e27f4a7d8e3d2aa24c13c9c0@intel.com>
- <a072da3c-5267-07cd-7710-7cd0ad840cb8@linux.intel.com>
- <YjMDoJ7ownASO/by@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <YjMDoJ7ownASO/by@phenom.ffwll.local>
+To: Rob Clark <robdclark@gmail.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20220310234611.424743-1-robdclark@gmail.com>
+ <20220310234611.424743-3-robdclark@gmail.com>
+ <YjMGac4Hnjmg1wE8@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <YjMGac4Hnjmg1wE8@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8P189CA0013.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:31f::22) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a8982b78-4e0a-43ea-ed85-08da07fdcbcc
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3608:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB36080ED1823323196AD77D2083129@BYAPR12MB3608.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5GNUoU4NzLAFgZT5eiuE8x6SuQA3HE7r9bHyF3G6HgF9ZGbN2W9rVUQ9P00fm37B2emHemxkbDvNdzyAKjmyx6T9LDZINDaqVAw3nnHHXIEcCjya36wQsDJq9sqnmml205PWQKztiLfOYGwfqN1vEc9Wb3S5XrQy5sR0gYrQ8j69ktHxKsiT2shjJ+OLE7QiYQhWMJB7qGZBViBYfuowd9k926hQiGK410YEFoUhutX9QCpuWdSzEZZxZZ7TrS4J+Oh+8EiCS+Hkt30wGPMxJJiTlH5KRixHNUwAkqyvTwausIvWs2dZkH/STZZUHP0CBRxRmRhtBdyL/wlPOA8hGnQPNyA2+sL/J7YOhRwWEVRgrt4rgkVvu65AoPdsFyCl2C37I3Wqb1LmZnRB8LcH6efSPnc9qrrYIXsbIgt9nay7khhAlp1edWJFv9tBIyGAUsq6ETAOeI8sZ2YYMr/Hp3/fTmkgrgNdqTTPDSkxzGsa08zJ3J/Qj3x2YPZ+gUpCJdCQ85jiTevShysdqLeP5tqtjmI7XHYsWeWnKBHKU2LqiUqN+qMlyHFptuymIWCwWi7ZKRyfu4ovBlkqK1OGVy472EXZ7SkBgB1td8pL4J8HOpvCoo7IlTT85+dO5Zzycn3MHkQKaL0/XSckhoLJcd09o8QEc/CxveNMoJPzTszdSxFsmytgtOBCtmPLAoCHizJXhsEFwEI7bOC+sqKXRa3BTMRLCiA7ZvXYLF9KHWopuTIqQ/7Tfg8xJB0YI3sKmtrOqexFUSiZC4eAMHWxLA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6512007)(6506007)(38100700002)(508600001)(2616005)(6486002)(31686004)(2906002)(83380400001)(7416002)(8936002)(31696002)(86362001)(316002)(15650500001)(110136005)(8676002)(66556008)(26005)(66476007)(36756003)(66946007)(6666004)(921005)(5660300002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekpCdDV5ajVjb00wMU9sblhNT2xHVEhKdm5FRUU2RlZxVlZ5bUpTdzhLanFi?=
+ =?utf-8?B?ckp4QUN6d3UxTVZ5dXhlSERIbS8vWE5zUENzUU51RTZLRjY5YTBqYWdTRXhj?=
+ =?utf-8?B?WFdXWWVmN0Q3WEk2d3ZXNFlWMXJraTVkWkl3VThpSHlRWDRLNlprN0oxa1VG?=
+ =?utf-8?B?ZmwvMjl5OGxMWlRINitLWlZXcGNCY2IyeFlQQ041K3d3Zy9DSUdTbjZQNGZr?=
+ =?utf-8?B?c254ZncwdkNGdml6TUhPUktXaXlDbVgyMmtFWVQyYTRZWEU1S2FTWnBuTzNB?=
+ =?utf-8?B?TGFDbTJ0MjB3Z0w3VGFrZTRmSStIaWpPNVpSRzdxcEw1OVl5bWdYbG96WnNT?=
+ =?utf-8?B?ZmgrNDVYS3l4eW5VUlRqNUVnK203SHBFVHJSTklVcGZkdUY5c3BDZ3Ewdk5R?=
+ =?utf-8?B?UFBTL1RKUmxxMEpGMFpHM0c5RFVhNEtwTTRmUS90MGtrU1BOR2lNMXl0eFhn?=
+ =?utf-8?B?eVAwMk9DQzV1TXNXeTRsMmRiL1lyMGlqRFU5MTlXcUVycm92ZDQ5cHZNc2tT?=
+ =?utf-8?B?cFNHK1h6UjFibU1zZE5kbXlKbXVHOXhJRis1dGluemR5Ly95WEExMVp6djJD?=
+ =?utf-8?B?VGJMSFVxcjFGak90andCZ2JGMUp0R0o1N04rQmVLSEFubWk1S2QwdG5MNCtM?=
+ =?utf-8?B?Z0Uxdy9ranE5TGNxakdmcFZGU0NuSnJGbVZWOTMyUERkQmM2cmx3NmkvQzVt?=
+ =?utf-8?B?WHN1MDZ1QTdUdHVWeEcvVUR3a1ZlcEZEMkJBTjhpYjBGOElaRTNaOGh2cVBD?=
+ =?utf-8?B?azJsVTh0eTViaTBjWUJhZUsyV0F3VHFNaDZrMzRmU3JDelJGUGR1dmdRUWFr?=
+ =?utf-8?B?YXltdUJTOXR6eTl1WC9GOWxtT2VlRXZIU01Sb0ZtWGl1UHlQY01NdXlHRkt2?=
+ =?utf-8?B?eXpQT01nYVRqdkZRY2RMbWFkZzZzbUN6RlY4RTc0ZmY4UG8yMmFsblhBUlNv?=
+ =?utf-8?B?TGFoT2FWSXA3VkFzWk5rdnlIOTFqSTcyMkJlekVRNUJjaFJDWTdoTm0zbVlG?=
+ =?utf-8?B?VlEwazhGWlNKZU1leGpFbFltZy9RcUNFdU5xZm9sVElkbzZObHBBQXJTTlN3?=
+ =?utf-8?B?RXFnTytBTDVRc0R3VHEyRk1pTkdkdVFta1dnTlpVR3dYUWNobSszZlJDZVdD?=
+ =?utf-8?B?YTU3K0xQSEh5RDJETnN4VEZtbW5YV2dNbEdvNTN5QVhpMFVOcG84bXNFWEZK?=
+ =?utf-8?B?NGk0UEFRcjZ0cXBVWUdISWlQQ3J4ZUFzd3hqWWQ1aXQvUDc4NUVRUndOVXk5?=
+ =?utf-8?B?NG9yRTFMNXJwb1NSQldkSUk4TTBXQ3h0YzFpT0ljQjFzUDR1M051YWNRczI1?=
+ =?utf-8?B?QWJMRGhHbVlOamFtaFovTmhVTE1lcVVUa3BTNzZsZllpWmc4bG4wZnBOb3R4?=
+ =?utf-8?B?dDIxV2FPWW82bHcrZy84Y3JmTVhPQlR3QnBwVGNpMm81MFF2ajZYQWUvdGow?=
+ =?utf-8?B?ZmpkUjhiRS9WR0labWIyakVJRE5aeWJPa2lOUmQyS1lGZ0Q3TWh6Qkd5RmJu?=
+ =?utf-8?B?V1U0YmFVMmFnZmUvamN4M3JDN1B5bEZYSDRMTFQ1MEt3ak1zaEtVeTRUY2ZN?=
+ =?utf-8?B?YWtXcGs5RmlhVGJGTE1zRUlQdVhSM3dkOWdPbVFqTXFzTHRKUy9hMXYvZlpZ?=
+ =?utf-8?B?emxBanBxVTNvT3dDeVAzZ0xkM0w0ditsSk9qQUV6N3Z6bHBsR0hHcnBrK2p0?=
+ =?utf-8?B?eTRKd2d1WFdpV3lCaFBLWGJQNlFhRmVoMkRFRjRTS1hrWm8wSnFVMjVJZFBR?=
+ =?utf-8?B?cVlKWFJmYWQxVWZ5Y2VwVHRJQ29BdmhwMXA0L0ExUk5Yd3FoWjVIaFcvazZS?=
+ =?utf-8?B?dWVrdDE1cmpxOHkrU3JvSjVlcTEzUlY1aE13VG5XY0duOUFheXkxQzZ2eWJY?=
+ =?utf-8?B?OWxjalVWSEhXZHIxdFh2VHNBMExYaVZGNjRBeVhRZFlmR0VqU3JhcnB2bVh2?=
+ =?utf-8?Q?ZA2dxs8J5B7WAVbmhTdSRigSLoaQypPO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8982b78-4e0a-43ea-ed85-08da07fdcbcc
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 10:06:25.5702 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YC6Cdpb5HY9IRvqjBXaWl/RCLedIB1DTXhwT9VwkfXpDbTGobkiWZzKH11ktyOxJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3608
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,288 +134,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 17/03/2022 09:47, Daniel Vetter wrote:
-> On Tue, Mar 15, 2022 at 09:45:20AM +0000, Tvrtko Ursulin wrote:
+Am 17.03.22 um 10:59 schrieb Daniel Vetter:
+> On Thu, Mar 10, 2022 at 03:46:05PM -0800, Rob Clark wrote:
+>> From: Rob Clark <robdclark@chromium.org>
 >>
->> On 15/03/2022 07:28, Kasireddy, Vivek wrote:
->>> Hi Tvrtko, Daniel,
->>>
->>>>
->>>> On 11/03/2022 09:39, Daniel Vetter wrote:
->>>>> On Mon, 7 Mar 2022 at 21:38, Vivek Kasireddy <vivek.kasireddy@intel.com> wrote:
->>>>>>
->>>>>> On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
->>>>>> more framebuffers/scanout buffers results in only one that is mappable/
->>>>>> fenceable. Therefore, pageflipping between these 2 FBs where only one
->>>>>> is mappable/fenceable creates latencies large enough to miss alternate
->>>>>> vblanks thereby producing less optimal framerate.
->>>>>>
->>>>>> This mainly happens because when i915_gem_object_pin_to_display_plane()
->>>>>> is called to pin one of the FB objs, the associated vma is identified
->>>>>> as misplaced and therefore i915_vma_unbind() is called which unbinds and
->>>>>> evicts it. This misplaced vma gets subseqently pinned only when
->>>>>> i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
->>>>>> results in a latency of ~10ms and happens every other vblank/repaint cycle.
->>>>>> Therefore, to fix this issue, we try to see if there is space to map
->>>>>> at-least two objects of a given size and return early if there isn't. This
->>>>>> would ensure that we do not try with PIN_MAPPABLE for any objects that
->>>>>> are too big to map thereby preventing unncessary unbind.
->>>>>>
->>>>>> Testcase:
->>>>>> Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
->>>>>> with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
->>>>>> a frame ~7ms before the next vblank, the latencies seen between atomic
->>>>>> commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
->>>>>> it misses the vblank every other frame.
->>>>>>
->>>>>> Here is the ftrace snippet that shows the source of the ~10ms latency:
->>>>>>                  i915_gem_object_pin_to_display_plane() {
->>>>>> 0.102 us   |    i915_gem_object_set_cache_level();
->>>>>>                    i915_gem_object_ggtt_pin_ww() {
->>>>>> 0.390 us   |      i915_vma_instance();
->>>>>> 0.178 us   |      i915_vma_misplaced();
->>>>>>                      i915_vma_unbind() {
->>>>>>                      __i915_active_wait() {
->>>>>> 0.082 us   |        i915_active_acquire_if_busy();
->>>>>> 0.475 us   |      }
->>>>>>                      intel_runtime_pm_get() {
->>>>>> 0.087 us   |        intel_runtime_pm_acquire();
->>>>>> 0.259 us   |      }
->>>>>>                      __i915_active_wait() {
->>>>>> 0.085 us   |        i915_active_acquire_if_busy();
->>>>>> 0.240 us   |      }
->>>>>>                      __i915_vma_evict() {
->>>>>>                        ggtt_unbind_vma() {
->>>>>>                          gen8_ggtt_clear_range() {
->>>>>> 10507.255 us |        }
->>>>>> 10507.689 us |      }
->>>>>> 10508.516 us |   }
->>>>>>
->>>>>> v2: Instead of using bigjoiner checks, determine whether a scanout
->>>>>>        buffer is too big by checking to see if it is possible to map
->>>>>>        two of them into the ggtt.
->>>>>>
->>>>>> v3 (Ville):
->>>>>> - Count how many fb objects can be fit into the available holes
->>>>>>      instead of checking for a hole twice the object size.
->>>>>> - Take alignment constraints into account.
->>>>>> - Limit this large scanout buffer check to >= Gen 11 platforms.
->>>>>>
->>>>>> v4:
->>>>>> - Remove existing heuristic that checks just for size. (Ville)
->>>>>> - Return early if we find space to map at-least two objects. (Tvrtko)
->>>>>> - Slightly update the commit message.
->>>>>>
->>>>>> v5: (Tvrtko)
->>>>>> - Rename the function to indicate that the object may be too big to
->>>>>>      map into the aperture.
->>>>>> - Account for guard pages while calculating the total size required
->>>>>>      for the object.
->>>>>> - Do not subject all objects to the heuristic check and instead
->>>>>>      consider objects only of a certain size.
->>>>>> - Do the hole walk using the rbtree.
->>>>>> - Preserve the existing PIN_NONBLOCK logic.
->>>>>> - Drop the PIN_MAPPABLE check while pinning the VMA.
->>>>>>
->>>>>> v6: (Tvrtko)
->>>>>> - Return 0 on success and the specific error code on failure to
->>>>>>      preserve the existing behavior.
->>>>>>
->>>>>> v7: (Ville)
->>>>>> - Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
->>>>>>      size < ggtt->mappable_end / 4 checks.
->>>>>> - Drop the redundant check that is based on previous heuristic.
->>>>>>
->>>>>> v8:
->>>>>> - Make sure that we are holding the mutex associated with ggtt vm
->>>>>>      as we traverse the hole nodes.
->>>>>>
->>>>>> v9: (Tvrtko)
->>>>>> - Use mutex_lock_interruptible_nested() instead of mutex_lock().
->>>>>>
->>>>>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>>>> Cc: Manasi Navare <manasi.d.navare@intel.com>
->>>>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/i915/i915_gem.c | 128 +++++++++++++++++++++++---------
->>>>>>     1 file changed, 94 insertions(+), 34 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
->>>>>> index 9747924cc57b..e0d731b3f215 100644
->>>>>> --- a/drivers/gpu/drm/i915/i915_gem.c
->>>>>> +++ b/drivers/gpu/drm/i915/i915_gem.c
->>>>>> @@ -49,6 +49,7 @@
->>>>>>     #include "gem/i915_gem_pm.h"
->>>>>>     #include "gem/i915_gem_region.h"
->>>>>>     #include "gem/i915_gem_userptr.h"
->>>>>> +#include "gem/i915_gem_tiling.h"
->>>>>>     #include "gt/intel_engine_user.h"
->>>>>>     #include "gt/intel_gt.h"
->>>>>>     #include "gt/intel_gt_pm.h"
->>>>>> @@ -882,6 +883,96 @@ static void discard_ggtt_vma(struct i915_vma *vma)
->>>>>>            spin_unlock(&obj->vma.lock);
->>>>>>     }
->>>>>>
->>>>>> +static int
->>>>>> +i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
->>>>>> +                                u64 alignment, u64 flags)
->>>>>
->>>>> Tvrtko asked me to ack the first patch, but then I looked at this and
->>>>> started wondering.
->>>>>
->>>>> Conceptually this doesn't pass the smell test. What if we have
->>>>> multiple per-crtc buffers? Multiple planes on the same crtc? What if
->>>>> the app does triple buffer? You'll be forever busy tuning this
->>>>> heuristics, which can't fundamentally be fixed I think. The old "half
->>>>> of mappable" heuristic isn't really better, but at least it was dead
->>>>> simple.
->>>>>
->>>>> Imo what we need here is a change in approach:
->>>>> 1. Check whether the useable view for scanout exists already. If yes,
->>>>> use that. This should avoid the constant unbinding stalls.
->>>>> 2. Try to in buffer to mappabley, but without evicting anything (so
->>>>> not the non-blocking thing)
->>>>> 3. Pin the buffer with the most lenient approach
->>>>>
->>>>> Even the non-blocking interim stage is dangerous, since it'll just
->>>>> result in other buffers (e.g. when triple-buffering) getting unbound
->>>>> and we're back to the same stall. Note that this could have an impact
->>>>> on cpu rendering compositors, where we might end up relying a lot more
->>>>> partial views. But as long as we are a tad more aggressive (i.e. the
->>>>> non-blocking binding) in the mmap path that should work out to keep
->>>>> everything balanced, since usually you render first before you display
->>>>> anything. And so the buffer should end up in the ideal place.
->>>>>
->>>>> I'd try to first skip the 2. step since I think it'll require a bit of
->>>>> work, and frankly I don't think we care about the potential fallout.
->>>>
->>>> To be sure I understand, you propose to stop trying to pin mappable by default. Ie. stop
->>>> respecting this comment from i915_gem_object_pin_to_display_plane:
->>>>
->>>> 	/*
->>>> 	 * As the user may map the buffer once pinned in the display plane
->>>> 	 * (e.g. libkms for the bootup splash), we have to ensure that we
->>>> 	 * always use map_and_fenceable for all scanout buffers. However,
->>>> 	 * it may simply be too big to fit into mappable, in which case
->>>> 	 * put it anyway and hope that userspace can cope (but always first
->>>> 	 * try to preserve the existing ABI).
->>>> 	 */
->>> [Kasireddy, Vivek] Digging further, this is what the commit message that added
->>> the above comment says:
->>> commit 2efb813d5388e18255c54afac77bd91acd586908
->>> Author: Chris Wilson <chris@chris-wilson.co.uk>
->>> Date:   Thu Aug 18 17:17:06 2016 +0100
->>>
->>>       drm/i915: Fallback to using unmappable memory for scanout
->>>
->>>       The existing ABI says that scanouts are pinned into the mappable region
->>>       so that legacy clients (e.g. old Xorg or plymouthd) can write directly
->>>       into the scanout through a GTT mapping. However if the surface does not
->>>       fit into the mappable region, we are better off just trying to fit it
->>>       anywhere and hoping for the best. (Any userspace that is capable of
->>>       using ginormous scanouts is also likely not to rely on pure GTT
->>>       updates.) With the partial vma fault support, we are no longer
->>>       restricted to only using scanouts that we can pin (though it is still
->>>       preferred for performance reasons and for powersaving features like
->>>       FBC).
->>>
->>>>
->>>> By a quick look, for this case it appears we would end up creating partial views for CPU
->>>> access (since the normal mapping would be busy/unpinnable). Worst case for this is to
->>>> create a bunch of 1MiB VMAs so something to check would be how long those persist in
->>>> memory before they get released. Or perhaps the bootup splash use case is not common
->>>> these days?
->>> [Kasireddy, Vivek] AFAIK, Plymouth is still the default bootup splash service on Fedora,
->>> Ubuntu and most other distributions. And, I took a quick look at it and IIUC, it (Plymouth's
->>> drm plugin) seems to create a dumb FB, mmap and update it via the dirty_fb ioctl. This
->>> would not to be a problem on ADL-S where there is space in mappable for one 8K FB.
->>>
+>> In the system suspend path, we don't want to be racing with the
+>> scheduler kthreads pushing additional queued up jobs to the hw
+>> queue (ringbuffer).  So park them first.  While we are at it,
+>> move the wait for active jobs to complete into the new system-
+>> suspend path.
 >>
->> FBC is a good point - correct me if I am wrong, but if we dropped trying to
->> map in aperture by default it looks like we would lose it and that would be
->> a significant power regression. In which case it doesn't seem like that
->> would be an option.
-> 
-> FBC fence is only required for frontbuffer hw tracking, which is another
-> thing that's somewhere between "meh" and "we should just sunset set it
-> right away". I think that work has even been done.
-> 
-> So I wouldn't worry about this.
-> 
-> If you are worried, then I'd check with display folks whether we need
-> a platform based cut-off for this heuristics.
-> 
->> Which I think leaves us with _some_ heuristics in any case.
+>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> ---
+>>   drivers/gpu/drm/msm/adreno/adreno_device.c | 68 ++++++++++++++++++++--
+>>   1 file changed, 64 insertions(+), 4 deletions(-)
 >>
->> 1) N-holes heuristics.
->>
->> 2) Don't ever try PIN_MAPPABLE for framebuffers larger than some percentage
->> of aperture.
->>
->> Could this solve the 8k issue, most of the time, maybe? Could the current
->> "aperture / 2" test be expressed generically in some terms? Like "(aperture
->> - 10% (or some absolute value)) / 2" to account for non-fb objects? I forgot
->> what you said the relationship between aperture size and 8k fb size was.
->>
->> 3) Don't evict for PIN_MAPPABLE mismatches when
->> i915_gem_object_ggtt_pin_ww->i915_vma_misplaced is called on behalf of
->> i915_gem_object_pin_to_display_plane. Assumption being if we ended up with a
->> non-mappable fb to start with, we must not try to re-bind it or we risk
->> ping-pong latencies.
->>
->> The last would I guess need to distinguish between PIN_MAPPABLE passed in
->> versus opportunistically added by i915_gem_object_pin_to_display_plane.
->>
->> How intrusive would it be to implement this option I am not sure without
->> trying myself.
-> 
-> This won't work, see my initial mail. All you need is triple buffering (or
-> multiple per-crtc buffers that flip)
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> index 8859834b51b8..0440a98988fc 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> @@ -619,22 +619,82 @@ static int active_submits(struct msm_gpu *gpu)
+>>   static int adreno_runtime_suspend(struct device *dev)
+>>   {
+>>   	struct msm_gpu *gpu = dev_to_gpu(dev);
+>> -	int remaining;
+>> +
+>> +	/*
+>> +	 * We should be holding a runpm ref, which will prevent
+>> +	 * runtime suspend.  In the system suspend path, we've
+>> +	 * already waited for active jobs to complete.
+>> +	 */
+>> +	WARN_ON_ONCE(gpu->active_submits);
+>> +
+>> +	return gpu->funcs->pm_suspend(gpu);
+>> +}
+>> +
+>> +static void suspend_scheduler(struct msm_gpu *gpu)
+>> +{
+>> +	int i;
+>> +
+>> +	/*
+>> +	 * Shut down the scheduler before we force suspend, so that
+>> +	 * suspend isn't racing with scheduler kthread feeding us
+>> +	 * more work.
+>> +	 *
+>> +	 * Note, we just want to park the thread, and let any jobs
+>> +	 * that are already on the hw queue complete normally, as
+>> +	 * opposed to the drm_sched_stop() path used for handling
+>> +	 * faulting/timed-out jobs.  We can't really cancel any jobs
+>> +	 * already on the hw queue without racing with the GPU.
+>> +	 */
+>> +	for (i = 0; i < gpu->nr_rings; i++) {
+>> +		struct drm_gpu_scheduler *sched = &gpu->rb[i]->sched;
+>> +		kthread_park(sched->thread);
+> Shouldn't we have some proper interfaces for this?
 
-I asked for clarifications on your initial email but you went a bit 
-quiet on us, which is why I tried to drive this forward.
+If I'm not completely mistaken we already should have one, yes.
 
-> 
-> 1. fb A gets pinned as mappable
-> 2. fb B gets pinned as mappable, fb A is unpinned
-> 3. fb C gets pinned as mappable, we don't have space and end up evicting
-> fb A
-> 
-> Repeat, and you have exactly the same old eviction loop as with two
-> buffers. Not good.
+> Also I'm kinda wondering how other drivers do this, feels like we should have a standard
+> way.
+>
+> Finally not flushing out all in-flight requests sounds a bit like a bad
+> idea for system suspend/resume since that's also the hibernation path, and
+> that would mean your shrinker/page reclaim stops working. At least in full
+> generality. Which ain't good for hibernation.
 
-Maybe a misunderstanding of what I wrote above? Idea was specifically 
-not to evict for "opportunistic" PIN_MAPPABLE. Anyway, with the current 
-solution to implement that, this is what would happen (see latest patch):
+Completely agree, that looks like an incorrect workaround to me.
 
-1. fb A get pinned as mappable
-2. fb B gets pinned as mappable, assuming there is space, fb A unpinned
-3. fb C, assuming there is no space, does not get pinned as mappable so 
-nothing is evicted
+During suspend all userspace applications should be frozen and all f 
+their hardware activity flushed out and waited for completion.
 
-> Therefore for this to work we don't just need to make sure that we don't
-> move our own buffer, but also that we don't move any other buffer.
-
-I think we achieved it by failing the "opportunistic" PIN_MAPPABLE 
-attempts for all vmas which weren't already bound mappable in the past.
-
-> The downside of that is that if a buffer is ever misplaced as mappable, we
-> never fix up that mistake (at least not until the application entirely
-> destroys all the involved fb and bo). I think that's acceptable, but
-> definitely deserves a comment.
-
-This is true yes.
+I do remember that our internal guys came up with pretty much the same 
+idea and it sounded broken to me back then as well.
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Adding Christian and Andrey.
+> -Daniel
+>
+>> +	}
+>> +}
+>> +
+>> +static void resume_scheduler(struct msm_gpu *gpu)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < gpu->nr_rings; i++) {
+>> +		struct drm_gpu_scheduler *sched = &gpu->rb[i]->sched;
+>> +		kthread_unpark(sched->thread);
+>> +	}
+>> +}
+>> +
+>> +static int adreno_system_suspend(struct device *dev)
+>> +{
+>> +	struct msm_gpu *gpu = dev_to_gpu(dev);
+>> +	int remaining, ret;
+>> +
+>> +	suspend_scheduler(gpu);
+>>   
+>>   	remaining = wait_event_timeout(gpu->retire_event,
+>>   				       active_submits(gpu) == 0,
+>>   				       msecs_to_jiffies(1000));
+>>   	if (remaining == 0) {
+>>   		dev_err(dev, "Timeout waiting for GPU to suspend\n");
+>> -		return -EBUSY;
+>> +		ret = -EBUSY;
+>> +		goto out;
+>>   	}
+>>   
+>> -	return gpu->funcs->pm_suspend(gpu);
+>> +	ret = pm_runtime_force_suspend(dev);
+>> +out:
+>> +	if (ret)
+>> +		resume_scheduler(gpu);
+>> +
+>> +	return ret;
+>>   }
+>> +
+>> +static int adreno_system_resume(struct device *dev)
+>> +{
+>> +	resume_scheduler(dev_to_gpu(dev));
+>> +	return pm_runtime_force_resume(dev);
+>> +}
+>> +
+>>   #endif
+>>   
+>>   static const struct dev_pm_ops adreno_pm_ops = {
+>> -	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+>> +	SET_SYSTEM_SLEEP_PM_OPS(adreno_system_suspend, adreno_system_resume)
+>>   	SET_RUNTIME_PM_OPS(adreno_runtime_suspend, adreno_runtime_resume, NULL)
+>>   };
+>>   
+>> -- 
+>> 2.35.1
+>>
+
