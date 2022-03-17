@@ -2,68 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECA74DC091
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 08:59:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B174DC0C1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 09:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D66AD10E21C;
-	Thu, 17 Mar 2022 07:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D373B10EFF4;
+	Thu, 17 Mar 2022 08:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343E910EBAF
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 07:59:27 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id y17so6125003ljd.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 00:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OtyZ97/DtC02CCXZi3B8H4fv744GdMX0wPf5ZhQfoGw=;
- b=ASh8N6BgDUXCvOh8AN4wyKRfTFW04iW4U3OSVJMOEUjJyMPGFkI98g8j16AoI9M9nM
- iWfLeoT+I/vslJgVGwuMOKyY8oiq6AV/IHaU5/4icJoflilxJCVkcXB4Ky8+3BbS4xYq
- HOiGv9ms03QVgqReZnxp7I6SyY5gwkbUh2QH6UOzposPYUO2ZnHj101WiPexFm2g3H89
- nujY8Usz1R6ZJVeAXeTizg7qYjfI759cl2EJNVSO5hTK0HMKBemjH1R/LLwYlYKSYnC8
- +NJGh16yw+pLaiEf+jOp1VGAdN9bAVlIrPtgwb36AUdMy6F/gDzwUVaeYCCFFXt0Jx9b
- 1r5Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15EC10EFEF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 08:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647504836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xxA0Pce6UnOZWW6gsq8il76yFsehAiTQ6twP7i/3/GQ=;
+ b=EhmOsdEdpAowyzL2NM8FZwnP/IZKpjeIU8idwBakox2YLIjXmVkOP507KK1QXZIEL10sOr
+ KDRZoHls4NVOLNeRibz9jqP9KFKaH8+ANL1zELZIQkWaY2fTkWLk97Ww3dLiN3/RtEZZ+Z
+ K/S/fxKnjWFMroDTW+UDm23VC37qCsY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-224-7gLd8RypN3y1nAjU5xPEww-1; Thu, 17 Mar 2022 04:13:53 -0400
+X-MC-Unique: 7gLd8RypN3y1nAjU5xPEww-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o19-20020a05600c379300b0038c7117460dso1296989wmr.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 01:13:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=OtyZ97/DtC02CCXZi3B8H4fv744GdMX0wPf5ZhQfoGw=;
- b=D40k2tfELqxtvM79XVwLrevxsf/MNEygSPYfgrJtJYeJfe7pU8dNqKE2TA3xqB4nUp
- ZdNr0BEnrzjQHo2FhZtfDiuo2dUsFYNsv8hnG9Nn1PBeMlBMr/NASxqoB2MKVxgWkk+G
- U7BkLH/iwRpU1MA7BINvYMNhvQ9PVp5s+QpckFcfkZuUyMLCeHTsekS0sm0SzTuVf4yA
- jATA00W7evd/LrQXjnmvYX5kmILB/Aus+N6K0bkCdeb81fXj+zURJHl/JJ4wIgWUWz0+
- EwmhfUgpVjAxihaksK9t2rb2IT8TxYpNCK+SrLv5W+k+PhmIonSLY3ViYZZ5TYnEDW49
- 1qTg==
-X-Gm-Message-State: AOAM530yM9nCjEfVHpHfBIhC52BMxGLtljtvlXTHPfReuS6UBrz7EjRb
- 1M/NFpwIA6Qt9LRf4Eji33m18Q==
-X-Google-Smtp-Source: ABdhPJxzuw0bC2ZnoSNV4sgesLiyJsLwE3cTtundL6ls6xWzn00PawGeLjUIj45+0jjam83e0Jd6GA==
-X-Received: by 2002:a2e:6e0d:0:b0:248:cd0:e154 with SMTP id
- j13-20020a2e6e0d000000b002480cd0e154mr2127040ljc.342.1647503965443; 
- Thu, 17 Mar 2022 00:59:25 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
+ bh=xxA0Pce6UnOZWW6gsq8il76yFsehAiTQ6twP7i/3/GQ=;
+ b=ecrJKom6UGcS7shcZVk5oiHrre574r6PPOVCjys5beEbtgTbii8fj0TgI4ikDFim1x
+ nyUzBIUsZl1cd1cvwREZ/6b/TepqQYlyPkPUi/hLAX2aeiV0jq3Cq9M9y7tWa/tizx/2
+ QTOmk3OXEhaKYa/XIvz+/i+1jtaBJVZ5SjWZzy6gV4gzUB4XhXsMZ+G20RggNpD6ykRi
+ wsk02MMN7289FMv4PbJpm52Z5qpUCvwHnoUB25IYMWeSbejocZetB0ncDwHiPC1ylxhf
+ yzkUBc35ee4RpsYC0TkJ2l0p8t1b4IxIXV/9rDYiMR3ZqfK7baaOuzb70WtakV4Okt/e
+ gbZw==
+X-Gm-Message-State: AOAM533t2TgIWtxNJ6TXrogfZLL87d5D5SP9IwS1PsS1/FFMRFL4zT6O
+ G6XLGKS9U90JjEuCFH7X84v+oasG5YcWBLZueZj5w4cv54rHmYTCdPYyV0gV7TJHuUpp6BNYiRF
+ BNmrUmyS7DS5DyVWu2L0o4GYhdL0C
+X-Received: by 2002:a05:6000:144a:b0:203:8688:35d with SMTP id
+ v10-20020a056000144a00b002038688035dmr2896888wrx.399.1647504832457; 
+ Thu, 17 Mar 2022 01:13:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkIygRnwahr8xhyLvIiK8lTpLSYuqqmv1avWZ31V4hbmg8hvmgWPIvr5DZvtTFDGtJ3e2QVw==
+X-Received: by 2002:a05:6000:144a:b0:203:8688:35d with SMTP id
+ v10-20020a056000144a00b002038688035dmr2896866wrx.399.1647504832168; 
+ Thu, 17 Mar 2022 01:13:52 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:d000:22e9:afb1:c890:7468?
+ (p200300cbc707d00022e9afb1c8907468.dip0.t-ipconnect.de.
+ [2003:cb:c707:d000:22e9:afb1:c890:7468])
  by smtp.gmail.com with ESMTPSA id
- u12-20020a056512128c00b00446499f855dsm381195lfs.78.2022.03.17.00.59.24
+ j7-20020a05600c410700b0038c72ef3f15sm2542317wmi.38.2022.03.17.01.13.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 00:59:24 -0700 (PDT)
-Message-ID: <e5aeab49-ab9d-682e-52e5-614a6aeba6de@linaro.org>
-Date: Thu, 17 Mar 2022 10:59:24 +0300
+ Thu, 17 Mar 2022 01:13:51 -0700 (PDT)
+Message-ID: <ab26f7a0-728e-9627-796b-e8e850402aae@redhat.com>
+Date: Thu, 17 Mar 2022 09:13:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH 00/25] drm/msm/dpu: wide planes support
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
- <9476aa45-1d41-20ed-7f2f-79719f246b50@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9476aa45-1d41-20ed-7f2f-79719f246b50@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1 1/3] mm: split vm_normal_pages for LRU and non-LRU
+ handling
+To: Alistair Popple <apopple@nvidia.com>,
+ Felix Kuehling <felix.kuehling@amd.com>
+References: <20220310172633.9151-1-alex.sierra@amd.com>
+ <20220310172633.9151-2-alex.sierra@amd.com>
+ <07401a0a-6878-6af2-f663-9f0c3c1d88e5@redhat.com>
+ <1747447c-202d-9195-9d44-57f299be48c4@amd.com>
+ <87lex98dtg.fsf@nvdebian.thelocal>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <87lex98dtg.fsf@nvdebian.thelocal>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,91 +96,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ jgg@nvidia.com, akpm@linux-foundation.org, linux-ext4@vger.kernel.org,
+ hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2022 04:10, Abhinav Kumar wrote:
-> Hi Dmitry
+On 17.03.22 03:54, Alistair Popple wrote:
+> Felix Kuehling <felix.kuehling@amd.com> writes:
 > 
-> I have reviewed the series , some patches completely , some of them 
-> especially the plane to sspp mapping is something i still need to check.
+>> On 2022-03-11 04:16, David Hildenbrand wrote:
+>>> On 10.03.22 18:26, Alex Sierra wrote:
+>>>> DEVICE_COHERENT pages introduce a subtle distinction in the way
+>>>> "normal" pages can be used by various callers throughout the kernel.
+>>>> They behave like normal pages for purposes of mapping in CPU page
+>>>> tables, and for COW. But they do not support LRU lists, NUMA
+>>>> migration or THP. Therefore we split vm_normal_page into two
+>>>> functions vm_normal_any_page and vm_normal_lru_page. The latter will
+>>>> only return pages that can be put on an LRU list and that support
+>>>> NUMA migration, KSM and THP.
+>>>>
+>>>> We also introduced a FOLL_LRU flag that adds the same behaviour to
+>>>> follow_page and related APIs, to allow callers to specify that they
+>>>> expect to put pages on an LRU list.
+>>>>
+>>> I still don't see the need for s/vm_normal_page/vm_normal_any_page/. And
+>>> as this patch is dominated by that change, I'd suggest (again) to just
+>>> drop it as I don't see any value of that renaming. No specifier implies any.
+>>
+>> OK. If nobody objects, we can adopts that naming convention.
 > 
-> But I had one question on the design.
+> I'd prefer we avoid the churn too, but I don't think we should make
+> vm_normal_page() the equivalent of vm_normal_any_page(). It would mean
+> vm_normal_page() would return non-LRU device coherent pages, but to me at least
+> device coherent pages seem special and not what I'd expect from a function with
+> "normal" in the name.
 > 
-> I thought we were going to have a boot param to control whether driver 
-> will internally use both rectangles for the layer so that in the future 
-> if compositors can do this splitting, we can use that instead of driver 
-> doing it ( keep boot param disabled ? ).
+> So I think it would be better to s/vm_normal_lru_page/vm_normal_page/ and keep
+> vm_normal_any_page() (or perhaps call it vm_any_page?). This is basically what
+> the previous incarnation of this feature did:
+> 
+> struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>                             pte_t pte, bool with_public_device);
+> #define vm_normal_page(vma, addr, pte) _vm_normal_page(vma, addr, pte, false)
+> 
+> Except we should add:
+> 
+> #define vm_normal_any_page(vma, addr, pte) _vm_normal_page(vma, addr, pte, true)
+> 
 
-No need to for this patch series. If your composer allocates smaller 
-planes, then the driver won't do a thing. For the proper multirect there 
-will be a boot param (at least initially) and then you can work on the 
-custom properties, etc.
+"normal" simply tells us that this is not a special mapping -- IOW, we
+want the VM to take a look at the memmap and not treat it like a PFN
+map. What we're changing is that we're now also returning non-lru pages.
+Fair enough, that's why we introduce vm_normal_lru_page() as a
+replacement where we really can only deal with lru pages.
 
-> 
-> Thanks
-> 
-> Abhinav
-> 
-> On 2/9/2022 9:24 AM, Dmitry Baryshkov wrote:
->> It took me a way longer to finish than I expected. And more patches that
->> I initially hoped. This patchset brings in multirect usage to support
->> using two SSPP rectangles for a single plane. Virtual planes support is
->> omitted from this pull request, it will come later.
->>
->> Dmitry Baryshkov (25):
->>    drm/msm/dpu: rip out master planes support
->>    drm/msm/dpu: do not limit the zpos property
->>    drm/msm/dpu: add support for SSPP allocation to RM
->>    drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
->>    drm/msm/dpu: move pipe_hw to dpu_plane_state
->>    drm/msm/dpu: inline dpu_plane_get_ctl_flush
->>    drm/msm/dpu: drop dpu_plane_pipe function
->>    drm/msm/dpu: get rid of cached flush_mask
->>    drm/msm/dpu: dpu_crtc_blend_setup: split mixer and ctl logic
->>    drm/msm/dpu: introduce struct dpu_sw_pipe
->>    drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp callbacks
->>    drm/msm/dpu: inline _dpu_plane_set_scanout
->>    drm/msm/dpu: pass dpu_format to _dpu_hw_sspp_setup_scaler3()
->>    drm/msm/dpu: move stride programming to
->>      dpu_hw_sspp_setup_sourceaddress
->>    drm/msm/dpu: remove dpu_hw_fmt_layout from struct dpu_hw_pipe_cfg
->>    drm/msm/dpu: drop EAGAIN check from dpu_format_populate_layout
->>    drm/msm/dpu: drop src_split and multirect check from
->>      dpu_crtc_atomic_check
->>    drm/msm/dpu: move the rest of plane checks to dpu_plane_atomic_check()
->>    drm/msm/dpu: don't use unsupported blend stages
->>    drm/msm/dpu: add dpu_hw_pipe_cfg to dpu_plane_state
->>    drm/msm/dpu: simplify dpu_plane_validate_src()
->>    drm/msm/dpu: rewrite plane's QoS-related functions to take dpu_sw_pipe
->>      and dpu_format
->>    drm/msm/dpu: rework dpu_plane_atomic_check() and
->>      dpu_plane_sspp_atomic_update()
->>    drm/msm/dpu: populate SmartDMA features in hw catalog
->>    drm/msm/dpu: add support for wide planes
->>
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 355 +++-----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h      |   1 -
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   4 -
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  10 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  78 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  35 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 136 +--
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  88 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  21 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 813 +++++++++---------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |  42 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  81 ++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   6 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |  19 +-
->>   15 files changed, 827 insertions(+), 863 deletions(-)
->>
+vm_normal_page vs vm_normal_lru_page is good enough. "lru" further
+limits what we get via vm_normal_page, that's even how it's implemented.
+
+vm_normal_page vs vm_normal_any_page is confusing IMHO.
 
 
 -- 
-With best wishes
-Dmitry
+Thanks,
+
+David / dhildenb
+
