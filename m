@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2ACE4DCC90
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 18:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCE94DCC97
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 18:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086D710E6F3;
-	Thu, 17 Mar 2022 17:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A6410E805;
+	Thu, 17 Mar 2022 17:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B68C10E6F3;
- Thu, 17 Mar 2022 17:34:44 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id r64so3525199wmr.4;
- Thu, 17 Mar 2022 10:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IELfzsVU/wZ7ht4rR86rM2gpBonGJDThNUGcKLGVsXM=;
- b=mS/mF26z2g6jRvaXO3oivJOR6aL0QS0imKt7OV668jL7lKlXy2pyb3R3n1Yd+tpN3M
- xJt00Lsh8EKat+SNZK5Z+bn7G+NKO3oFxtTPEFf3Uw+6EfDe1X+u9ArEH/6VN6icLWY3
- 7fKqbiNSDNZVPJvo41IRx33V70LSzHAhiIIChZqTseukFZb/vEu3iYb6gv9HWkr6Aa41
- UXx88aOhL8Yis1PUCDFNTONVKZFRKl8JMEmKFX9YY9Vl264JMS1C6I4zYfqX0cSBHoLg
- ogeF5zeWlzHmpPY3NmQ68t2j+S+Nqei/fPw3e1/oG6gvKbjrJlJae/It6pWYl0RKNsji
- A1Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IELfzsVU/wZ7ht4rR86rM2gpBonGJDThNUGcKLGVsXM=;
- b=VCTdTARnq0ku2vi14pi9ypnQR213Id9GJ8tluCAut5eio7vEZ8Mc+r3dS8TZjXMJI8
- nPzQn/RFi7EpUh8r6Xux27DmTysvpzc7JEe2/c3EXhAfe3jxHOcNV7wS8PFNB6GnOc0s
- 8o9pk+oLDJcc8WaAbN5CorC6sB2PycAOzbi7f5sN162Ej9OraAxqgt4na6bLj70/CrTY
- n2QdHGftxNvf3BMg6Rx7uYDnI0/cAE1M82kgr7KgFVILqcMyy8m4mEUEBBgNCiSKbPJa
- RPFANOz0yhWjuFCjzbbxtUcCFdzFlWITdmdiOJ7PDIRgZv5ZfaX9oBA4Fite0rz4CLS6
- VZug==
-X-Gm-Message-State: AOAM532Tf8Uq992JCIDCgkITYEbvKfBb9Aij9Qb4QrNhBsLzM1GeIYEa
- SyVP/576lGh9rJwYRpk8D5ApcIDVKJIu+4DbhAHcM4cQ
-X-Google-Smtp-Source: ABdhPJzTfpFd8M5Xt44uoKu43Gt3h63iam3/mvcGzOYZWKbsOVzgolMeZrOa6ovX+WlSUY5RUDd0mD691DuXN+RfuvQ=
-X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
- f13-20020a7bcc0d000000b00381220ea3a0mr5003576wmh.59.1647538482957; Thu, 17
- Mar 2022 10:34:42 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2D410E805;
+ Thu, 17 Mar 2022 17:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1647538580; x=1679074580;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jiW5EE6owFliZXobW5Ihk7DmGnoY8atQYbqw4uFtVA4=;
+ b=EhNgTGrrYXDyGcTTgz9ajcuQuKae8Jb8B44i+9O66aelpbxT6rtubPB7
+ iKFQarcdFzJ4IKUJ3sIWQjeyoJcP+5qOhZxo1pmqMjKsmOdpJ2o0J9jwG
+ jTxq0jMY6qS8WWEKfWxdRUOnGzanS7rIwaNpBR74qBfJp6u6fXBPORXu7 k=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Mar 2022 10:36:19 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 10:36:18 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 17 Mar 2022 10:36:18 -0700
+Received: from [10.110.116.22] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 17 Mar
+ 2022 10:36:17 -0700
+Message-ID: <876f707b-5d52-fd1c-9e58-d3ff8e1bb7fd@quicinc.com>
+Date: Thu, 17 Mar 2022 10:36:16 -0700
 MIME-Version: 1.0
-References: <20220310234611.424743-1-robdclark@gmail.com>
- <20220310234611.424743-3-robdclark@gmail.com>
- <YjMGac4Hnjmg1wE8@phenom.ffwll.local>
- <3945551d-47d2-1974-f637-1dbc61e14702@amd.com>
- <CAF6AEGv36V8bLoDn5O1SW3iTUtzd3O1XeuT5gJxyLMxd1E-o3Q@mail.gmail.com>
- <865abcff-9f52-dca4-df38-b11189c739ff@amd.com>
- <CAF6AEGuoBeYoMTR6-KM9xGZ05XSSnSJWMDciawczi7qtiLN9Vw@mail.gmail.com>
- <915537e2-ac5b-ab0e-3697-2b16a9ec8f91@amd.com>
-In-Reply-To: <915537e2-ac5b-ab0e-3697-2b16a9ec8f91@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 17 Mar 2022 10:35:24 -0700
-Message-ID: <CAF6AEGsyFAOPmHqT7YX1wsukP4-gYAstCukr89r9w28V0YSCUw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/msm/gpu: Park scheduler threads for system suspend
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 1/6] drm: allow real encoder to be passed for
+ drm_writeback_connector
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+References: <1646963400-25606-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1646963400-25606-2-git-send-email-quic_abhinavk@quicinc.com>
+ <CAA8EJpqnC=crWaSrXLNLBX5WsZ6LDzG0aNUu7RmqhDPTvP8tFQ@mail.gmail.com>
+ <YisC4cY8EZADarG6@pendragon.ideasonboard.com>
+ <YjMHAI8zlxey/WNl@phenom.ffwll.local>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YjMHAI8zlxey/WNl@phenom.ffwll.local>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,82 +70,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
+ nganji@codeaurora.org, seanpaul@chromium.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, james.qian.wang@arm.com,
+ quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 17, 2022 at 9:45 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 17.03.22 um 17:18 schrieb Rob Clark:
-> > On Thu, Mar 17, 2022 at 9:04 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 17.03.22 um 16:10 schrieb Rob Clark:
-> >>> [SNIP]
-> >>> userspace frozen !=3D kthread frozen .. that is what this patch is
-> >>> trying to address, so we aren't racing between shutting down the hw
-> >>> and the scheduler shoveling more jobs at us.
-> >> Well exactly that's the problem. The scheduler is supposed to shovelin=
-g
-> >> more jobs at us until it is empty.
-> >>
-> >> Thinking more about it we will then keep some dma_fence instance
-> >> unsignaled and that is and extremely bad idea since it can lead to
-> >> deadlocks during suspend.
-> > Hmm, perhaps that is true if you need to migrate things out of vram?
-> > It is at least not a problem when vram is not involved.
->
-> No, it's much wider than that.
->
-> See what can happen is that the memory management shrinkers want to wait
-> for a dma_fence during suspend.
+Hi Daniel
 
-we don't wait on fences in shrinker, only purging or evicting things
-that are already ready.  Actually, waiting on fences in shrinker path
-sounds like a pretty bad idea.
-
-> And if you stop the scheduler they will just wait forever.
->
-> What you need to do instead is to drain the scheduler, e.g. call
-> drm_sched_entity_flush() with a proper timeout for each entity you have
-> created.
-
-yeah, it would work to drain the scheduler.. I guess that might be the
-more portable approach as far as generic solution for suspend.
-
-BR,
--R
-
-> Regards,
-> Christian.
->
-> >
-> >> So this patch here is an absolute clear NAK from my side. If amdgpu is
-> >> doing something similar that is a severe bug and needs to be addressed
-> >> somehow.
-> > I think amdgpu's use of kthread_park is not related to suspend, but
-> > didn't look too closely.
-> >
-> > And perhaps the solution for this problem is more complex in the case
-> > of amdgpu, I'm not super familiar with the constraints there.  But I
-> > think it is a fine solution for integrated GPUs.
-> >
-> > BR,
-> > -R
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> BR,
-> >>> -R
-> >>>
->
+On 3/17/2022 3:01 AM, Daniel Vetter wrote:
+> On Fri, Mar 11, 2022 at 10:05:53AM +0200, Laurent Pinchart wrote:
+>> On Fri, Mar 11, 2022 at 10:46:13AM +0300, Dmitry Baryshkov wrote:
+>>> On Fri, 11 Mar 2022 at 04:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>
+>>>> For some vendor driver implementations, display hardware can
+>>>> be shared between the encoder used for writeback and the physical
+>>>> display.
+>>>>
+>>>> In addition resources such as clocks and interrupts can
+>>>> also be shared between writeback and the real encoder.
+>>>>
+>>>> To accommodate such vendor drivers and hardware, allow
+>>>> real encoder to be passed for drm_writeback_connector.
+>>>>
+>>>> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_writeback.c |  8 ++++----
+>>>>   include/drm/drm_writeback.h     | 13 +++++++++++--
+>>>>   2 files changed, 15 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+>>>> index dccf4504..4dad687 100644
+>>>> --- a/drivers/gpu/drm/drm_writeback.c
+>>>> +++ b/drivers/gpu/drm/drm_writeback.c
+>>>> @@ -189,8 +189,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>>>          if (IS_ERR(blob))
+>>>>                  return PTR_ERR(blob);
+>>>>
+>>>> -       drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+>>>> -       ret = drm_encoder_init(dev, &wb_connector->encoder,
+>>>> +       drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
+>>>> +       ret = drm_encoder_init(dev, wb_connector->encoder,
+>>>>                                 &drm_writeback_encoder_funcs,
+>>>>                                 DRM_MODE_ENCODER_VIRTUAL, NULL);
+>>>
+>>> If the encoder is provided by a separate driver, it might use a
+>>> different set of encoder funcs.
+>>
+>> More than that, if the encoder is provided externally but doesn't have
+>> custom operations, I don't really see the point of having an external
+>> encoder in the first place.
+>>
+>> Has this series been tested with a driver that needs to provide an
+>> encoder, to make sure it fits the purpose ?
+> 
+> Also, can we not force all drivers to do this setup that don't need it? We
+> have a ton of kms drivers, forcing unnecessary busiwork on drivers is
+> really not good.
+> -Daniel
+No, there will not be any requirement forced for existing drivers.
+A new API will be exposed for new clients which setup the encoder.
+> 
+>>
+>>> I'd suggest checking whether the wb_connector->encoder is NULL here.
+>>> If it is, allocate one using drmm_kzalloc and init it.
+>>> If it is not NULL, assume that it has been initialized already, so
+>>> skip the drm_encoder_init() and just call the drm_encoder_helper_add()
+>>>
+>>>>          if (ret)
+>>>> @@ -204,7 +204,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>>>                  goto connector_fail;
+>>>>
+>>>>          ret = drm_connector_attach_encoder(connector,
+>>>> -                                               &wb_connector->encoder);
+>>>> +                                               wb_connector->encoder);
+>>>>          if (ret)
+>>>>                  goto attach_fail;
+>>>>
+>>>> @@ -233,7 +233,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>>>   attach_fail:
+>>>>          drm_connector_cleanup(connector);
+>>>>   connector_fail:
+>>>> -       drm_encoder_cleanup(&wb_connector->encoder);
+>>>> +       drm_encoder_cleanup(wb_connector->encoder);
+>>>>   fail:
+>>>>          drm_property_blob_put(blob);
+>>>>          return ret;
+>>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+>>>> index 9697d27..0ba266e 100644
+>>>> --- a/include/drm/drm_writeback.h
+>>>> +++ b/include/drm/drm_writeback.h
+>>>> @@ -25,13 +25,22 @@ struct drm_writeback_connector {
+>>>>          struct drm_connector base;
+>>>>
+>>>>          /**
+>>>> -        * @encoder: Internal encoder used by the connector to fulfill
+>>>> +        * @encoder: handle to drm_encoder used by the connector to fulfill
+>>>>           * the DRM framework requirements. The users of the
+>>>>           * @drm_writeback_connector control the behaviour of the @encoder
+>>>>           * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>>>>           * function.
+>>>> +        *
+>>>> +        * For some vendor drivers, the hardware resources are shared between
+>>>> +        * writeback encoder and rest of the display pipeline.
+>>>> +        * To accommodate such cases, encoder is a handle to the real encoder
+>>>> +        * hardware.
+>>>> +        *
+>>>> +        * For current existing writeback users, this shall continue to be the
+>>>> +        * embedded encoder for the writeback connector.
+>>>> +        *
+>>>>           */
+>>>> -       struct drm_encoder encoder;
+>>>> +       struct drm_encoder *encoder;
+>>>>
+>>>>          /**
+>>>>           * @pixel_formats_blob_ptr:
+>>
+>> -- 
+>> Regards,
+>>
+>> Laurent Pinchart
+> 
