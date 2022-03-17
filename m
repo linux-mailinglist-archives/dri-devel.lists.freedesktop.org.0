@@ -1,75 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EA44DC4B2
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 12:20:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D92714DC4BD
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 12:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A46910E178;
-	Thu, 17 Mar 2022 11:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F010910EA82;
+	Thu, 17 Mar 2022 11:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D7610E178
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 11:20:55 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44CAB10EA82
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 11:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647516054;
+ s=mimecast20190719; t=1647516141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ooJ9GuDR1zDRA6wa1d+2YqoS6wsKS/sfV2gTAnIiGxs=;
- b=K/y3wYE5Kf+i+hJNcVhNUros1+pJaD+krNyBixqk0HX9mei6E0IL95Rn1g/dwMFrx8g1JB
- BWUqmlYP1/Siw6XIMaYxAYcWc46Pqgnr4H7Nr9nNJfMZGeF3kc33I/Vf8hPHaVhs59tKFf
- GNUo6Qs4Qr/A2wJKW4EHjh/z5D6IQbo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QEoSz7AAiKghjz9qVXr4NOtovhAAAhgUZtpSN8iw34Y=;
+ b=RlUslJd/KUKwxPYiifSxAj/o5STzvYLOV+EIkfbBJQqa3RaB0rZjIvO/FxoYyNrE8UIUv8
+ QhqR8wtHd99ck6467nqN/R5aZElUt9OD2lsDKac1Bwsolw48+MqBs+b6Opwb9Fuikuvb2t
+ Z1GnqQdwky6I1Kdmm2s8jomT/bMc88s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-TjrfDY66MBiFhCORL11Ndg-1; Thu, 17 Mar 2022 07:20:53 -0400
-X-MC-Unique: TjrfDY66MBiFhCORL11Ndg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o19-20020a05600c379300b0038c7117460dso1439925wmr.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 04:20:52 -0700 (PDT)
+ us-mta-278-bs3QQW9gPGmD2ZSWvhpP0A-1; Thu, 17 Mar 2022 07:22:20 -0400
+X-MC-Unique: bs3QQW9gPGmD2ZSWvhpP0A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q4-20020adfc504000000b00203e15159e8so1325300wrf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 04:22:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ooJ9GuDR1zDRA6wa1d+2YqoS6wsKS/sfV2gTAnIiGxs=;
- b=mLAPbZNeSBl+yl1TY72xkd2wGnURZGLImdSAxbwww6n51lcYZfb/93kVW+9pzbSEDJ
- tFe8MzMA+b/CpVfuMz+ab++Ih9jwYNGu03wseGvrOdxQMKkIspZkqyHrbQ+wtrugKyZF
- II+ONBjhc024sHn3V44DvYAaSz4PmJw45aQ0eC7MQ66vwiiXPP3CFCj/7MzqXEkz7J8W
- BjnJbTkxcZZVApPJ42Op2GJuuGoAEyh88ZK7l0dalBHnetT3/L8CGBv02ITjdLQuNzps
- wCJ4RG6Dv16XFJpJqHOFcrYl9dw0JbiJR8fE0dvia+9/afg4bnUCGQSyNm8Fa4TBAQwG
- KSrQ==
-X-Gm-Message-State: AOAM531aNLkv1bqjC2NrEQTd+RdikOdus0bltgTGFp52ZVp0DpvlXHxc
- 7lvGNRhVlJces4ItkFb8p8teTtKQUeASIi6s80JaaI9/Ss+4GSoPOqGCLailZwhL2ogLkg3p4ul
- 3kUoexc71HlSH5At2CTxC1AN+7MRY
-X-Received: by 2002:a5d:52c7:0:b0:1ed:a12e:bbed with SMTP id
- r7-20020a5d52c7000000b001eda12ebbedmr3565756wrv.97.1647516051886; 
- Thu, 17 Mar 2022 04:20:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+noMHruT1Sne6ijibg7bHIXzxkZckSPpwOnAtzNb9wfj3uDW78GC2bclNntk+Vo7eA39oSA==
-X-Received: by 2002:a5d:52c7:0:b0:1ed:a12e:bbed with SMTP id
- r7-20020a5d52c7000000b001eda12ebbedmr3565744wrv.97.1647516051687; 
- Thu, 17 Mar 2022 04:20:51 -0700 (PDT)
+ bh=QEoSz7AAiKghjz9qVXr4NOtovhAAAhgUZtpSN8iw34Y=;
+ b=fVU4xknGXGZKbu0wqvC6xRyDSwEn9Hr7TcixFq7xLVycNeanoAu7yYeUDqH31b10Nj
+ Jvvm8+OcJjdKN8w6HoJCihQXhdMghDWmzdadAb5A99VjtsT43KUecjlvMvEDR1K1lswb
+ fRoawW1rVstDAz9FnFY4vHP2w8j5UHXqx7PATfnA0ZMGDBK9/HZqsXGACUn8rGMauy98
+ UHblZoVVCh/9N9fj0H3+QpDv/D4exLtSmXj/Ez+nB+AacyCsOJMcqPp6rPl4mgknlb+f
+ fYn05yI4dusiCRrE/rdHccRIJVa/y6fcWhiqJ1tR6NE7hl122hWexwc/FNi3uUCnEqXE
+ UIXQ==
+X-Gm-Message-State: AOAM530NNiK8/6VMHjnqFU1QK7q2YOxt1u560eis8OK/ZYBkgg++btRw
+ z9LmaYZhnLOJmnlONaHgyBCjx/6Uv/bqRY7r1kSEocUzojLnZN624vQVzRQ9U/1HyYGQEqBAwLV
+ lNcy594IMIBYo5VlTfdxydJTeOq0X
+X-Received: by 2002:adf:e605:0:b0:203:d5f6:86f1 with SMTP id
+ p5-20020adfe605000000b00203d5f686f1mr3310055wrm.689.1647516139107; 
+ Thu, 17 Mar 2022 04:22:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxW/NSLjkVDqNHoNB6Qk8HNunBT0QXw4v4wJ9GqJWC4CW8lzSq73gga5dYuo+CGC1TrzNeJ7g==
+X-Received: by 2002:adf:e605:0:b0:203:d5f6:86f1 with SMTP id
+ p5-20020adfe605000000b00203d5f686f1mr3310044wrm.689.1647516138891; 
+ Thu, 17 Mar 2022 04:22:18 -0700 (PDT)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a7bcb4e000000b0034492fa24c6sm4002044wmj.34.2022.03.17.04.20.50
+ l13-20020a5d4bcd000000b001f0620ecb3csm3897610wrt.40.2022.03.17.04.22.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 04:20:51 -0700 (PDT)
-Message-ID: <f867cce1-04dd-a87a-700d-343cc28f188f@redhat.com>
-Date: Thu, 17 Mar 2022 12:20:50 +0100
+ Thu, 17 Mar 2022 04:22:18 -0700 (PDT)
+Message-ID: <95d70bc0-491c-f208-5536-e1242a2d7d30@redhat.com>
+Date: Thu, 17 Mar 2022 12:22:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] fbdev: Fix sys_imageblit() for arbitrary image widths
+Subject: Re: [PATCH 2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, deller@gmx.de,
  m.szyprowski@samsung.com, geert@linux-m68k.org, sam@ravnborg.org
 References: <20220313192952.12058-1-tzimmermann@suse.de>
- <20220313192952.12058-2-tzimmermann@suse.de>
+ <20220313192952.12058-3-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220313192952.12058-2-tzimmermann@suse.de>
+In-Reply-To: <20220313192952.12058-3-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,24 +93,20 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
 On 3/13/22 20:29, Thomas Zimmermann wrote:
-> Commit 6f29e04938bf ("fbdev: Improve performance of sys_imageblit()")
-> broke sys_imageblit() for image width that are not aligned to 8-bit
+> Commit 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
+> broke cfb_imageblit() for image widths that are not aligned to 8-bit
 > boundaries. Fix this by handling the trailing pixels on each line
 > separately. The performance improvements in the original commit do not
 > regress by this change.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 6f29e04938bf ("fbdev: Improve performance of sys_imageblit()")
+> Fixes: 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Javier Martinez Canillas <javierm@redhat.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
-
-Looks good to me. Also Marek and Geert mentioned that fixes the issue
-they were seeing.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
