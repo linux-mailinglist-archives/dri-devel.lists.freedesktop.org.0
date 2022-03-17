@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFE74DCA0A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:33:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498484DCA2B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E13D810E6B4;
-	Thu, 17 Mar 2022 15:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A1F10E1AC;
+	Thu, 17 Mar 2022 15:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B38710E6B4;
- Thu, 17 Mar 2022 15:33:41 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id b19so7850872wrh.11;
- Thu, 17 Mar 2022 08:33:41 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFEE10E8C3;
+ Thu, 17 Mar 2022 15:40:12 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id t11so7923122wrm.5;
+ Thu, 17 Mar 2022 08:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=OQkc0YMh+nMgxi8NDmTj17IuIDLM1KrE7Bd2SJj2rZQ=;
- b=DNMyzRshNmkh1/56AFTra1verKI6xzo7BHyOqPdbB0pbo3dj5vN39nl5bShv7PFbWE
- YJomdLGkX587EukNwGZBGgqCM7EflzUm2ksG0n0BeOFmwLjkwedsumv8/I1AFe27t5xQ
- 9YfXgCOyaJ+QG0L0VHrjfoQR7TzpJVpAk9VhZkOmBRPEkWj3IOv8R7SQ8gauAjsRRELd
- /q6/IqeWF8urUUPB8epsg5VFfvEKo9VMFvt3+QpLwbmVoCrrmqh+vbbddcO3QViwdgJz
- PQbNFNrXBiN658wLSJ6g/H8skBIMCSEJGm0nTXv/zzA0xGTXz1uPbdyenLv6+jNP5qgS
- 18dQ==
+ bh=LyjSbbb305zhYUVT4Pzcpge6Tmxz2u/zA+17cYKA22k=;
+ b=YDWgGa+uqEZXRkXdzZtABUw7vBhdNLKz+tPf9ZpzEdBYEi2ROAPDZ/aM5ez2q4TR3e
+ DI729mB5EAhUK3mLX7ivXOt8lfmpjdw4MHbYk0p0c9mnQofFtxFtKmm1j3Q416dqgN/P
+ bswngS009fg0wY0+SccdHlQgCN2zMiGR962oDdup+ERkWo83y3gVDxcotYsjyfJI/0DY
+ RIcgCsS4c39G9PR/DaHnwr+itc0OLU+Rp0pxvurAmnTx5Nj3wdcePq05goKjBOKwUHBt
+ pp+oMTuLM8TzVywvFAy/0DUKDS7mgyNd3J26gRl5d6P/k9o8K0CGpXx1nlT0vi5wZ52s
+ F5sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=OQkc0YMh+nMgxi8NDmTj17IuIDLM1KrE7Bd2SJj2rZQ=;
- b=DopvfbGOZBmt7LPBFmD10mbrjYH770ZMi/QEwYOX31kD7YcPdJN5NR/Hwer7nRPK41
- f3m0waVgZxpgi4y+Njp1olDms8STTPndRei5irBfTDhm7czV8eOgVnEt5dlhc5JYecnA
- D3zLaJQ0uFSyYMdiH2FcL8vfIaJvfB0x+eM4m+e4Gpp095G7MhC30yY5gtSIfKIJS05k
- ktw6N1WT7Y1v+Xn5jOzxfc2IIFhlZYkxFRDeMHcfZieUTOYki79Z2zr3jX6ic3gCg0yl
- 6ZFPMyrESnVjcT+I3VgTW8HCXGrMAMFEyrNxaR36OOttfrlSsEuU55pSVlrngeGYrXKZ
- WJIw==
-X-Gm-Message-State: AOAM532bZObJDu16pLsL2Azctr0gneXqtQaHEatsEAYPzd01mqBo9xVK
- U+OdZCz4TDjZZ9bnQwFc0v5dkafXMtF4GIB2Bq8=
-X-Google-Smtp-Source: ABdhPJxrIp/LBKIsbdcMKp9s/Ou2rQTsD1PwWnOaf3brQeKx2sNVfLMigj4ZLP4QGGDebOqdconlr1eXIvFUCXUGHuw=
-X-Received: by 2002:a5d:64c1:0:b0:203:7aa5:9390 with SMTP id
- f1-20020a5d64c1000000b002037aa59390mr4576045wri.328.1647531220030; Thu, 17
- Mar 2022 08:33:40 -0700 (PDT)
+ bh=LyjSbbb305zhYUVT4Pzcpge6Tmxz2u/zA+17cYKA22k=;
+ b=Q5UNugfuincT79hGjcp51y5UUlvRWnB4dYZi+HRm4axW7QWDZTKJyRfW/yU6/fZyw9
+ dz1Gygq42t/IFbvTBLkIVesRIkkFzK1aLjHGp3LMbkANEKZd2VHtWVN7iMr6OTp4+DVa
+ q6Wm0X5ZcAw70NTxSwJrcLHb4G7NDrp1G3cLzDGfFsZYV8h3R8Y+NyM0bE27kBk5GpjJ
+ c0tevD1aEy155qRzk/I3D83LxTPs4/ea5KmSU35DCv5vsqFptgzyfjAqsjvxHV3ofVHw
+ pAaizBCSGrwdUd9Sdgjf0N1IjGh7omGSTU7LFzjzYaXUQIeg/xdJYPICZmfkmEnntM0W
+ 3Wpw==
+X-Gm-Message-State: AOAM531F8vH52PUyCsfXIC4BeUMnVpL8XHIyTVYZCWrFpvQMg9mT+LwF
+ QolewD4Vl6CnN6GF+iDTEsknHX/mjPsFSf8TOS8=
+X-Google-Smtp-Source: ABdhPJyRBSs1pyE4Ix+v8Mcy8F1Qe++n8EBde9tXJiuALezxulVSfYvnZukaRwpGrlonSfmtu3Wn3YkTrzgYUkqHe7s=
+X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
+ j73-20020adf914f000000b001edbb92d0ccmr4534132wrj.297.1647531610559; Thu, 17
+ Mar 2022 08:40:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
  <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
@@ -56,8 +56,8 @@ References: <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
  <YjL/k6kh+5RihGIV@phenom.ffwll.local>
 In-Reply-To: <YjL/k6kh+5RihGIV@phenom.ffwll.local>
 From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 17 Mar 2022 08:34:21 -0700
-Message-ID: <CAF6AEGtUasyC1e0Fz2cFhSMEtUJCJTsFQs7+4mg_FP45LwX=4A@mail.gmail.com>
+Date: Thu, 17 Mar 2022 08:40:51 -0700
+Message-ID: <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
 To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
@@ -100,17 +100,7 @@ On Thu, Mar 17, 2022 at 2:29 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > > By the way, how does msm it's memory management for the devcoredumps?
 >
 > GFP_NORECLAIM all the way. It's purely best effort.
-
-We do one GEM obj allocation in the snapshot path (the hw has a
-mechanism to snapshot it's own state into a gpu buffer.. not sure if
-nice debugging functionality like that is a commentary on the blob
-driver quality, but I'm not complaining)
-
-I suppose we could pre-allocate this buffer up-front.. but it doesn't
-seem like a problem, ie. if allocation fails we just skip snapshotting
-stuff that needs the hw crashdumper.  I guess since vram is not
-involved, perhaps that makes the situation a bit more straightforward.
-
+>
 > Note that the fancy new plan for i915 discrete gpu is to only support gpu
 > crash dumps on non-recoverable gpu contexts, i.e. those that do not
 > continue to the next batch when something bad happens. This is what vk
@@ -121,6 +111,22 @@ involved, perhaps that makes the situation a bit more straightforward.
 > i915 you can mark which bo to capture in the CS ioctl) can be captured in
 > a worker later on. Which for non-recoverable context is no issue, since
 > subsequent batchbuffers won't trample over any of these things.
+
+fwiw, we snapshot everything (cmdstream and bo's marked with dump
+flag, in addition to hw state) before resuming the GPU, so there is no
+danger of things being trampled.  After state is captured and GPU
+reset, we "replay" the submits that were written into the ringbuffer
+after the faulting submit.  GPU crashes should be a thing you don't
+need to try to optimize.
+
+(At some point, I'd like to use scheduler for the replay, and actually
+use drm_sched_stop()/etc.. but last time I looked there were still
+some sched bugs in that area which prevented me from deleting a bunch
+of code ;-))
+
+BR,
+-R
+
 >
 > And that way you can record the crashdump (or at least the big pieces lik=
 e
@@ -128,18 +134,7 @@ e
 >
 > msm probably gets it wrong since embedded drivers have much less shrinker
 > and generally no mmu notifiers going on :-)
-
-Note that the bo's associated with the batch are still pinned at this
-point, from the bo lifecycle the batch is still active.  So from the
-point of view of shrinker, there should be no interaction.  We aren't
-doing anything with mmu notifiers (yet), so not entirely sure offhand
-the concern there.
-
-Currently we just use GFP_KERNEL and bail if allocation fails.
-
-BR,
--R
-
+>
 > > I mean it is strictly forbidden to allocate any memory in the GPU reset
 > > path.
 > >
