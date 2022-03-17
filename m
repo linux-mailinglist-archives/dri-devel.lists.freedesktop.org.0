@@ -1,106 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD50F4DCDFB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 19:51:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC3E4DCE19
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 19:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEC3610E5A2;
-	Thu, 17 Mar 2022 18:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7241910E0ED;
+	Thu, 17 Mar 2022 18:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7992D10E0ED
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 18:51:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L4cK2RrveqjSenU1lLYOaT0LV6gnvgmih1+wbAjd0UJoiZHpb0+nPaAdrP1jyEpbjU1/49vKpuT2Zr7AxQV7ZL2cU8btqY2Wd86wbsSd5YIdxyvQloiVQBqJQEk2JzH5qr85NTuTVWaQR51z6pWIoUQxfh99YaOKqxwLVGtoHUTe248fV7wWjcrvbNGQkQ8kXwGQUQBDzkYdyQOUPYBfeTuBb+uvbTqBuHL4OVLQ3iiY/v5mm9ADjQ8MmhgOr4/X2zTGkGSTcQdIAxfh3z+Gom89e7TxIEySJKIIOLLDJjL7rCOr9sO+l8SVnjLc2lUK7qh+9J1Ckuyf1AvssE939w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HHO8cyg/STkfY0iTaST2RxqksiDPGiIciCpFdntgzeA=;
- b=DLsi6QHTNZTUp8UJEXhUtFnnZq/srM2FoQTP2OIhsiwPUVhhJJ3YGyJ9jO8qmS0fVOvHhgdVH9+5zRVEYPhH5I1ehSIocf2NZ55tc3TlhXCDB8Hs4rO3eDUC0S5EEXsup8noxfg/R+MEu34nZX8JZGSIcMMeE+39fabz1tLd0fU564J7W2+tPepYpe2c5i2QVpZA0Ab7AQICUXGJ3frM4woVpw4dmcg9RUD5/AQG0BF6YungWRw+d1e1PrmW6W+I7ab1Br5bwTf/bF4obNMSZ4rkJDI7/HIUHQJsucS+zKxZIfKvCyRM8i0vjdF9Ti2KxG7AXrbSZ5qVaoc/7tuONQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=protonmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HHO8cyg/STkfY0iTaST2RxqksiDPGiIciCpFdntgzeA=;
- b=tHtKmfKpzuFP4ELtjFxLOeS2sxWfBmrPhdMX+msg53xA/R83CxQqx2l7Q7ynUNKsLywtHVHmoNs6w3E384mYDudAQNi7vNcztm21JYX2siRc6RAhOEfx/r+n9pubi5VoROKc3VyFd7kl0g/QXk+J5+bFtE1xmuLNACnwdKpxJ/0PkHltU8/tW5jDhb8H4IzYUqIoED9Qdf5CR41qX7kM7zVyONJ+EtumPNcWLzZ+tGV5ps16wZcUWz+ff8pCTNHjXs+lzEx8PHdmvHE4SAPFfe1vpeHUI0ul3EWTf70l59BtHgcbwRh5vnjUJ1+5WmB4NmK8IXTfwQCsVqyk0nb54A==
-Received: from DM3PR08CA0022.namprd08.prod.outlook.com (2603:10b6:0:52::32) by
- MWHPR1201MB0221.namprd12.prod.outlook.com (2603:10b6:301:56::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Thu, 17 Mar
- 2022 18:51:14 +0000
-Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:52:cafe::ff) by DM3PR08CA0022.outlook.office365.com
- (2603:10b6:0:52::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.13 via Frontend
- Transport; Thu, 17 Mar 2022 18:51:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.235) by
- DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5081.14 via Frontend Transport; Thu, 17 Mar 2022 18:51:14 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Thu, 17 Mar 2022 18:50:31 +0000
-Received: from [10.20.113.98] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 17 Mar
- 2022 11:50:28 -0700
-Message-ID: <4bbde905-e89d-d8ba-01bb-f478fee2e417@nvidia.com>
-Date: Thu, 17 Mar 2022 13:50:20 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41E810E00F;
+ Thu, 17 Mar 2022 18:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647543266; x=1679079266;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Mj1IebK2HeqcoSIzai7DiEFWb1fUYRbfAvFwdcHRP1w=;
+ b=E42H5XEBh0nzH3aDy6ASy28ONlKP5a/Y4r/4jzzUffUtGtl3ktx1WSK2
+ itobmTRejhqk0MHql/3IfzCIiWiXqfUSWzzA6kCCRxchcoXyWo2VoOXnh
+ sjYeBk4ZG0s4309fAinQ/hOYsms4ydA3DzQvOf5gGlpcqgaBeca1oZ3CA
+ +SVL1qZctlMRiubAxJGeAzEzBLL2vTwTLGZTWKiOsQQOJSS90bzQ4BJZK
+ aQ3/qSJfaEElzOrg8fXKevX0zOVSFBFoU75VPRDF5hL0sMNzDWCVWwxH/
+ lErQsvfOPeDjte8YgY34VBxJxsLmjgmIc5N5K56uqeC8mRi92DCZQ1E52 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="281749719"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="281749719"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 11:54:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="581405039"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga001.jf.intel.com with ESMTP; 17 Mar 2022 11:54:25 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v11 00/13] Add GuC Error Capture Support
+Date: Thu, 17 Mar 2022 11:56:42 -0700
+Message-Id: <20220317185655.1786958-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2] nvidia-wmi-ec-backlight: Add workarounds for confused
- firmware
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Hans de Goede <hdegoede@redhat.com>
-References: <0fbfd32e-904d-1e04-8508-e863c357a2ff@nvidia.com>
- <20220316203325.2242536-1-ddadap@nvidia.com>
- <100e0cb5-98c4-cdd9-cfc7-4b76edef8950@redhat.com>
- <D7458E1F-6F4F-48E6-B100-B4B9B1226BCF@nvidia.com>
- <5cbec4f6-4f77-0381-4f19-bb4af273db6f@redhat.com>
- <CADnq5_M3620a5tqqOMARZMG+zJYWKu_dN_F5g-KR0H=t2_qoSQ@mail.gmail.com>
-From: Daniel Dadap <ddadap@nvidia.com>
-In-Reply-To: <CADnq5_M3620a5tqqOMARZMG+zJYWKu_dN_F5g-KR0H=t2_qoSQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85d6a0c8-96e1-4bfe-06a7-08da08471cf8
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0221:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB0221A3986F81F2A45E4EC29EBC129@MWHPR1201MB0221.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HZv8+cZn3FRBP1cvMANTaARNOr6HgdbeRZQEJelRJsJ5j0jQMhdHDwdYfgww/r5nnVShutB3y2IuRaf+hLj+lk26dWGm+2k5ZTum3X6wzF7Nof5xTE5gzdyy6yVbuL50HRtOkoTXBEpnwVZtzknuvtLr5euZlZ3fsCmrTgyJ2Te3s2F5vFuzzLBJeyNjs/34oWn+SK0hiWX+QOzneWjbwxMqVM6PO1WC9JU6KspVnzTRZ4fms8vbTZHdZ3EkUf3XIVdjsDubaHBt2Mxi72JzOzQu9f48w1yCkEJjJnY6kE26JZ1Yh7vcg7MEzr7gb2auVOCZF2OYA8IUMh8EmSsRtLsEvzu3S8/fmAvmneKLNV7atl2qdYZd+dFSw5GNpGciFxzq6XIP47/JAZ1hTF068uugdWCob5+I/nfJnrAuV0y/vCXe89GVH0TvpcDJ6mkCLCbKJkCvxBvxHizZ9qdvq5PDjzlcqh8oUFsJQXPowN8PfwqMdV6r5uaeyshUP2qwesSlq4oQqjYAp3VRkPP6F65apo9DmfVXMhXx1hj+sLmGsYmoLLp8hPalf+l2qcdhVrHQ/4VvfRQY3HGKZtR2Pe8wePrAc0WaYlGGKL/xHK8fMxv8XBT1TzMelG2JKqrI4vvOgoiHcDgg4UvhjF1Cv345k+gJXsg9QBMKmqVUlhTGUTGlRMv72flAwKP8G1eZdpUT7GnajPsQSGsXYMBDGNjFDU8dZaubRVydWhJ6lsqooSuBtru/1oXwTAfXrVU0
-X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(70206006)(70586007)(110136005)(8676002)(4326008)(47076005)(54906003)(316002)(16576012)(36860700001)(81166007)(356005)(508600001)(31686004)(82310400004)(2616005)(16526019)(26005)(53546011)(83380400001)(336012)(426003)(36756003)(40460700003)(186003)(8936002)(5660300002)(2906002)(4744005)(6666004)(86362001)(31696002)(36900700001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 18:51:14.6501 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85d6a0c8-96e1-4bfe-06a7-08da08471cf8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0221
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,28 +53,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "platform-driver-x86@vger.kernel.org"
- <platform-driver-x86@vger.kernel.org>,
- "markgross@kernel.org" <markgross@kernel.org>,
- "pobrn@protonmail.com" <pobrn@protonmail.com>,
- "Mario.Limonciello@amd.com" <Mario.Limonciello@amd.com>,
- Alexandru Dinu <alex.dinu07@gmail.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/17/22 12:35, Alex Deucher wrote:
-> Sorry for jumping in here, but I can't seem to find the original
-> thread with this comment.  amdgpu_atombios_encoder_init_backlight() is
-> not applicable to these systems.  That is the old pre-DC code path.
-> You want amdgpu_dm_register_backlight_device() for modern hardware.
+This series:
+  1. Enables support of GuC to report error-state-capture
+     using a list of MMIO registers the driver registers
+     and GuC will dump, log and notify right before a GuC
+     triggered engine-reset event.
+  2. Updates the ADS blob creation to register said lists
+     of global, engine class and engine instance registers
+     with GuC.
+  3. Defines tables of register lists that are global or
+     engine class or engine instance in scope.
+  4. Updates usage and buffer-state data for the regions
+     of the shared GuC log-buffer to accomdate both
+     the existing relay logging of general debug logs
+     along with the new error state capture usage.
+  5. Using a pool of preallocated memory, provide ability
+     to extract and format the GuC reported register-capture
+     data into chunks consistent with existing i915 error-
+     state collection flows and structures.
+  6. Connects the i915_gpu_coredump reporting function
+     to the GuC error capture module to print all GuC
+     error state capture dumps that is reported.
 
+This is the 8th rev of this series with the first 3 revs
+labelled as RFC.
 
-Oops, thanks for the correction. Alex Dinu: see the above for the 
-correct code path to disable to test whether not registering the amdgpu 
-backlight device helps. I have some other things to attend to, so it 
-will be a little while before I can get you the instrumented driver I 
-mentioned in one of my replies to Hans, but hopefully we'll be able to 
-figure something out to actually switch the backlight control to EC 
-without having to do a suspend/resume cycle.
+Prior receipts of rvb's:
+  - Patch #2, #3, #4, #5, #10, #11, #12, #13 have received
+    R-v-b's from Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+  - Patch #6, #7, #8, #9 has received an R-v-b from Matthew Brost
+    <matthew.brost@intel.com>. NOTE: some of these came in on the
+    trybot series. https://patchwork.freedesktop.org/series/100831/
+
+Changes from prior revs:
+  v11:- Rebase again on latest drm-tip to fix merge error.
+  v10:- Rebase on latest drm-tip again. Fix a number of checkpatch
+        warnings and an error Reported-by: kernel test robot <lkp@intel.com>.
+  v9: - Rebase on latest drm-tip to solve CI merge-build error.
+  v8: - Fix a bug found by CI in rev7: Create a cached ADS
+        capture list for null-header like the other lists.
+      - Fixed a bug on the ggtt offset calculation in the
+        ADS population loop. Thanks to Matt Brost.
+      - Change the storage uses for initial allocation and
+        caching of the ADS register lists so we only store
+        a regular pointer instead of file handle.
+      - Multiple improvements on code styling, variable names,
+        comments and code reduction from Umesh suggestions
+        across multiple patches.
+
+  v7: - Rebased on lastest drm_tip that has the ADS now using
+        shmem based ads_blob_write utilities. Stress test
+        was performed with this patch included to fix a
+        legacy bug:
+        https://patchwork.freedesktop.org/series/100768/
+
+  v6: - In patch #1, ADS reg-list population, we now alloc
+        regular memory to create the lists and cache them for
+        simpler and faster use by GuC ADS module at init, 
+        suspend-resume and reset cycles. This was in response
+        to review comments from Lucas De Marchi that also
+        wanted to ensure the GuC ADS module owns the final
+        copying into the ADS phyical memory.
+      - Thanks to Jani Nikula for pointing out that patch #2
+        and #3 should ensure static tables as constant and
+        dynamic lists should be allocated and cached but
+        attached to the GT level for the case of multiple
+        cards with different fusings for steered registers.
+        These are addressed now along with multiple code
+        style fixups (thanks to review comment from Umesh)
+        and splitting the steered register list generation
+        as a seperate patch.
+      - The extraction functionality, Patch #10 and #11 (was
+        patch #7), has fixed all of Umesh's review comments
+        related to the code styling. Additionally, it was
+        discovered during stress tests that the extraction
+        function could be called by the ct processing thread
+        at the same time as the start of a GT reset event.
+        Thus, a redesign was done whereby the linked list of
+        processed capture-output-nodes are allocated up
+        front and reused throughout the driver's life to
+        ensure no memory locks are taken during extraction.
+      - For patch #6 (now 7, 8 and 9), updates to
+        intel_guc_log was split into smaller chunks and the
+        log_state structure was returned back to inside of
+        the intel_guc_log struct as opposed to the
+        intel_guc struct in prior rev. This is in response
+        to review comments by Matt Brost.
+      - #Patch 13 (previously #10) is mostly identical but
+        addresses all of the code styling comments reviews
+        from Umesh.
+        
+  v5: - Added Gen9->Gen11 register list for CI coverage that
+        included Gen9 with GuC submission.
+      - Redesigned the extraction of the GuC error-capture
+        dumps by grouping them into complete per-engine-reset
+        nodes. Complete here means each node includes the
+        global, engine-class and engine-instance register
+        lists in a single structure.
+      - Extraction is decoupled from the print-out. We now
+        do the extraction immediately when receiving the
+        G2H for error-capture notification. A link list of
+        nodes is maintained with a FIFO based threshold
+        while awaiting retrieval from i915_gpu_coredump's
+        capture_engine function.
+      - Added new plumbing through the i915_gpu_coredump
+        allocation and capture functions to include a flag
+        that is used indicate that GuC had triggered the
+        reset. This new plumbing guarantees an exact match
+        from i915_gpu_coredump's per-engine vma recording
+        and node-retrieval from the guc-error-capture.
+      - Broke the coredump gt_global capture and recording
+        functions into smaller subsets so we can reuse as
+        much of the existing legacy register reading + printing
+        functions and only rely on GuC error-capture for
+        the smaller subset of registers that are tied to
+        engine workload execution.
+      - Updated the register list to follow the legacy execlist
+        format of printout.
+  v4:
+      - Rebased on latest drm-tip that has been merged with the
+        support of GuC firmware version 69.0.3 that is required
+        for GuC error-state-catpure to work.
+      - Added register list for DG2 which is the same as XE_LP
+        except an additional steering register set.
+      - Fixed a bug in the end of capture parsing loop in
+        intel_guc_capture_out_print_next_group that was not
+        properly comparing the engine-instance and engine-
+        class being parsed against the one that triggered
+        the i915_gpu_coredump.
+  v3:
+      - Fixed all review comments from rev2 except the following:
+          - Michal Wajdeczko proposed adding a seperate function
+            to lookup register string nameslookup (based on offset)
+            but decided against it because of offset conflicts
+            and the current table layout is easier to maintain.
+          - Last set of checkpatch errors pertaining to "COMPLEX
+            MACROS" should be fixed on next rev.
+      - Abstracted internal-to-guc-capture information into a new
+        __guc_state_capture_priv structure that allows the exclusion
+        of intel_guc.h and intel_guc_fwif.h from intel_guc_capture.h.
+        Now, only the first 2 patches have a wider build time
+        impact because of the changes to intel_guc_fwif.h but
+        subsequent changes to guc-capture internal structures
+        or firmware interfaces used solely by guc-capture module
+        shoudn't impact the rest of the driver build.
+      - Added missing Gen12LP registers and added slice+subslice
+        indices when reporting extended steered registers.
+      - Add additional checks to ensure that the GuC reported
+        error capture information matches the i915_gpu_coredump
+        that is being printed before we print out the corresponding
+        VMA dumps such as the batch buffer.
+   v2:
+      - Ignore - failed CI retest.
+
+Alan Previn (13):
+  drm/i915/guc: Update GuC ADS size for error capture lists
+  drm/i915/guc: Add XE_LP static registers for GuC error capture.
+  drm/i915/guc: Add XE_LP steered register lists support
+  drm/i915/guc: Add DG2 registers for GuC error state capture.
+  drm/i915/guc: Add Gen9 registers for GuC error state capture.
+  drm/i915/guc: Add GuC's error state capture output structures.
+  drm/i915/guc: Update GuC-log relay function names
+  drm/i915/guc: Add capture region into intel_guc_log
+  drm/i915/guc: Check sizing of guc_capture output
+  drm/i915/guc: Extract GuC error capture lists on G2H notification.
+  drm/i915/guc: Pre-allocate output nodes for extraction
+  drm/i915/guc: Plumb GuC-capture into gpu_coredump
+  drm/i915/guc: Print the GuC error capture output register list.
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    4 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |    4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |    2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    7 +
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  218 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  127 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 1655 +++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.h    |   33 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   14 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  127 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |    7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   18 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |    3 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  282 ++-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   35 +-
+ 18 files changed, 2379 insertions(+), 183 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
+
+-- 
+2.25.1
 
