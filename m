@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9E04DCF23
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 21:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8644DCF5C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 21:31:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C9F10E768;
-	Thu, 17 Mar 2022 20:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C252D10E7AD;
+	Thu, 17 Mar 2022 20:31:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B01B710E75C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 20:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1647547824; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TBhB5mnj+yU5UQCD6yhog64770XneXJJnfqfginvPmo=;
- b=eIHZgUYBBumSPI4xw5meu79N9cSbfki0qgEzFAf/RVYUvpkeFP4EkLreDOAlI+5YSidDqX
- c6BqiOViZLrayAJTMhSeN9IYJXETgI0f5ZqnktWoBauBv7mzqNwgrAi3uS8UFmwXzi/aWc
- TMl+T5IsLybiEqIOSn6YeyoWf2HzXAo=
-Date: Thu, 17 Mar 2022 20:10:14 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v4 4/4] dt-bindings: display/panel: Add Leadtek
- ltk035c5444t
-To: Christophe Branchereau <cbranchereau@gmail.com>
-Message-Id: <21OW8R.3JWZ0IT11MIP2@crapouillou.net>
-In-Reply-To: <20220311170240.173846-5-cbranchereau@gmail.com>
-References: <20220311170240.173846-1-cbranchereau@gmail.com>
- <20220311170240.173846-5-cbranchereau@gmail.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EDE10E7AD;
+ Thu, 17 Mar 2022 20:31:34 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id z8so6851824oix.3;
+ Thu, 17 Mar 2022 13:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V4LhBNYnhdygc0CZZHH2ej2UF+qrm4ulwWEIxzmxAaw=;
+ b=dar6Vs3kjGkCthhBYvhfxSifJx9V/Ldg9ALQfn/DAwU7An1VoKquqdZhbmS/6Yzub9
+ QbqN6HXQaSgE3UTOC0oN+gejpLxQxIFQkHjs8hplnYWwKhvOvUAvtID/1WYMBW9s+t5h
+ dTBX6BdaXctfugE6/4qMa0PCgBsKKIMaBFLkf334qEAK3CI2SunnI+cHHTIiE366YE7U
+ taG1Hr1vOdFfqhube0rpis+ncHTP3XYWtFQIVMEcqqd4vGE0gXF8mOngvwLnnTHCxDFj
+ mjihcCmduqABv7XB10XJxA/Sp8ahuxiqPMTgjGm81S3JHjZhWiNjjWLPcxXiV6NpukQY
+ h3hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V4LhBNYnhdygc0CZZHH2ej2UF+qrm4ulwWEIxzmxAaw=;
+ b=OLhy3u1Uj9/rleUa30HIl4CtxjkHqyrLNp2ZdvVbQHk9Ptq8trcjURVRW3qjeOpJvM
+ zZsRZfrjith73aAetmv7tcTdWLDHTqtXASbPx5OrwJRTYgnY6j+YxC787VkGUqZY4Uxa
+ SmUXKNumhuTMAiJvLJcd/ndQak/f2UPoyDgAZjhWuFJt/TVCskriRGSHbOOAMuzBpr0b
+ znXjDvH+37zqQEYQgAuKC1Akc0SHfaUQfka24ivCw8i4o+hulesG97I/3cIKrMqsX7b9
+ bFpUjAejVQxh3y/oNfVYwsPP09oApI68sJrHSOtojG6YNufFD7pHk5JK8qOJuDTQUT7Y
+ XLrQ==
+X-Gm-Message-State: AOAM533kNCyz9AN0BMgyjlKoBJngMwKjGoTb8o/YxFrHoFI9c7VsaNJC
+ bguJbSFIPzaIHu1zakayRdkNN4j9rQXLRopb2hc=
+X-Google-Smtp-Source: ABdhPJzfXLl6CjRpcz/xsIrozszoM9Zxzo1ZghzalC9LjaTSEVZBWPtjOkaOWTRLElQXRVjGKWPWZU4nF/4n3UlgxUM=
+X-Received: by 2002:aca:d07:0:b0:2ec:eaaf:a036 with SMTP id
+ 7-20020aca0d07000000b002eceaafa036mr2865348oin.253.1647549094217; Thu, 17 Mar
+ 2022 13:31:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20220315201959.2952327-1-colin.i.king@gmail.com>
+In-Reply-To: <20220315201959.2952327-1-colin.i.king@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 17 Mar 2022 16:31:23 -0400
+Message-ID: <CADnq5_PE-zWB9Cjw05Pby44G-uNG4t8i09Z92-f9O_QiPo+HfQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix spelling mistake "regiser" -> "register"
+To: Colin Ian King <colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,112 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Applied.  Thanks!
 
-Le ven., mars 11 2022 at 18:02:40 +0100, Christophe Branchereau=20
-<cbranchereau@gmail.com> a =E9crit :
-> Add binding for the leadtek ltk035c5444t, which is a 640x480
-> mipi-dbi over spi / 24-bit RGB panel based on the newvision
-> NV03052C chipset.
->=20
-> It is found in the Anbernic RG350M mips handheld.
->=20
-> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+Alex
 
-Applied to drm-misc-next.
-
-Thanks,
--Paul
-
+On Tue, Mar 15, 2022 at 4:20 PM Colin Ian King <colin.i.king@gmail.com> wrote:
+>
+> There is a spelling mistake in a dev_error error message. Fix it.
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
->  .../display/panel/leadtek,ltk035c5444t.yaml   | 59=20
-> +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644=20
-> Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.yaml
->=20
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.ya=
-ml=20
-> b/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.ya=
-ml
-> new file mode 100644
-> index 000000000000..817a9bed7d5a
-> --- /dev/null
-> +++=20
-> b/Documentation/devicetree/bindings/display/panel/leadtek,ltk035c5444t.ya=
-ml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id:=20
-> http://devicetree.org/schemas/display/panel/leadtek,ltk035c5444t.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Leadtek ltk035c5444t 3.5" (640x480 pixels) 24-bit IPS LCD=20
-> panel
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +  - Christophe Branchereau <cbranchereau@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: leadtek,ltk035c5444t
-> +
-> +  backlight: true
-> +  port: true
-> +  power-supply: true
-> +  reg: true
-> +  reset-gpios: true
-> +
-> +required:
-> +  - compatible
-> +  - power-supply
-> +  - reset-gpios
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        panel@0 {
-> +            compatible =3D "leadtek,ltk035c5444t";
-> +            reg =3D <0>;
-> +
-> +            spi-3wire;
-> +            spi-max-frequency =3D <3125000>;
-> +
-> +            reset-gpios =3D <&gpe 2 GPIO_ACTIVE_LOW>;
-> +
-> +            backlight =3D <&backlight>;
-> +            power-supply =3D <&vcc>;
-> +
-> +            port {
-> +                panel_input: endpoint {
-> +                    remote-endpoint =3D <&panel_output>;
-> +                };
-> +            };
-> +        };
-> +    };
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> index a025f080aa6a..9aa355a5ac3c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> @@ -919,7 +919,7 @@ static u32 amdgpu_virt_rlcg_reg_rw(struct amdgpu_device *adev, u32 offset, u32 v
+>                                                 "wrong operation type, rlcg failed to program reg: 0x%05x\n", offset);
+>                                 } else if (tmp & AMDGPU_RLCG_REG_NOT_IN_RANGE) {
+>                                         dev_err(adev->dev,
+> -                                               "regiser is not in range, rlcg failed to program reg: 0x%05x\n", offset);
+> +                                               "register is not in range, rlcg failed to program reg: 0x%05x\n", offset);
+>                                 } else {
+>                                         dev_err(adev->dev,
+>                                                 "unknown error type, rlcg failed to program reg: 0x%05x\n", offset);
 > --
 > 2.35.1
->=20
-
-
+>
