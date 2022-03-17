@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5F54DCFE6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 22:07:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 052914DCFEF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 22:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC3310E798;
-	Thu, 17 Mar 2022 21:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82AD10E79C;
+	Thu, 17 Mar 2022 21:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DF110E107;
- Thu, 17 Mar 2022 21:07:05 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id h16so3263221wmd.0;
- Thu, 17 Mar 2022 14:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a2ti8g/ld+9idqGBypq+3jGDET4QNV1EIOi7rZI8SYg=;
- b=pUelORlA+hm0f6QAqGhfMd+zAAK4W9I/TgVm7PB9Md7nIvrbt3PcHoNvZUCXiD/Of4
- IzZGDAe8mOXsZrX/H4Ga4rd05sI1XXryJZUIDZYZTf+M2lQLEABbwXjwzlGwb888J744
- WwFMOQt6RN/TSkhfA+C8zoeBPLM4s7U9WynBrp5kSeKfvZ1Xnt/ktBSn0BZM4sd9u/Tg
- YdBOTPRMNsbe5tBoAk3Pru5qV1EGo10C5my5vr/baLjU21gOA1FBLyIJDxnAL4bn+HD6
- 7ZQfrMOc8YGRPXnb7Wb8xm2H61WjsJ/uxsEtJZfUUzm7UgdqHS6r6a0Z+cXVZ89njTiU
- Itvg==
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5171710E7AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 21:11:02 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id w127so6925579oig.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 14:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=RDGPwozN+LQmHwPOGm8zL9xPqdfxPVJfVvPr3LEIR84=;
+ b=ohgOnRsTHNsHzn4tKFhXj0CqnCXzox1Cdt3qCVI5G7pxE2w8oUcWQ2XY+g/7HDIjum
+ 5kLmEu5WFc/STfCzRxgNoLeCM5fs8exy+hvMzzZxkCDirnRZEWaJ2HcVw0qdMaWXJrE8
+ T84XuIWK1JMGyXIM+hMKfwXOo1gTIVpL/BQ6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a2ti8g/ld+9idqGBypq+3jGDET4QNV1EIOi7rZI8SYg=;
- b=b8uZLIyQvlGi4Z7D4vfC/5UxPV3wtQuCiVKXPOKHSEbhsP+9l0X5+YtoDd6M6tJeGj
- vml+pGaAzbWmZenw6Xr1HdqNooRcb+OnE7CtrE4sX0wn0PvTTtVtnmf3LWtVyvotOtvm
- g0YIHCzXuaDzLtk3dTnS3KIkL5aRIBPfFpbS4FCC0qlxbmBD+HmwFx9lKKluLnOHbZZr
- lfLkR2IM6S7wEnJKm/f8Fxzabe1WJTLoZLsS1YKkJbjl/Nh+DXZG+7QVSb4DNY/S9xmB
- 3w+c7gfsyxrRRHybTjRH9Xj80ZAPsBx+orjPG4LdJPyTZKVY+0rDLvOM2Px+Hh39OjpY
- h+Lg==
-X-Gm-Message-State: AOAM5339QaAmGHvrzJwgxvE5c4ihwLQ1nVW5IuY53Y7SIOUm0xNjBYGl
- reW6V7BaCScAQ0TAZmrYlVtGd/K9jOQGZs4d3MM=
-X-Google-Smtp-Source: ABdhPJxOIk1wL4Vo+j9cGqh9IoH3jz1NeAYIk35hsGWG/uAcKPsisCn2g9s4mStQ0P3jsnqMJhiPuaRMurP+IHPAqi8=
-X-Received: by 2002:a05:600c:600a:b0:38c:6c9e:f9c7 with SMTP id
- az10-20020a05600c600a00b0038c6c9ef9c7mr9210334wmb.26.1647551224066; Thu, 17
- Mar 2022 14:07:04 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=RDGPwozN+LQmHwPOGm8zL9xPqdfxPVJfVvPr3LEIR84=;
+ b=mAeBcFON8aohb3L39BbRct54/amwt/YqsWJHrrgCePejP3w75H7ure1c8zkU/lDOoI
+ trEkS73WA5YbnrXHwMh3JA+K/dBuPS+PRZABCJQezueZPxe5ncjJNDWeCS1ME+gDThYk
+ +KbTq39LmDoTR9v2O6cO0g3zcijyBJPapMtE3xpRquO5H6Qop3oHU70E4UQQVQEY8TxL
+ +jKd736dlus/B7XWt5Q5KAFIT+TTLn/RYD0WWl2WthLINjtowre0mWMoidm/Osa0f76U
+ 3blKvwb0TXT21Hk1UikIi+O44L1ZWiWMMvM4WRwThEmCV1mXH5tDFDwcB7+uEcSnajS+
+ JEIg==
+X-Gm-Message-State: AOAM530bC+bYluntGkXAHCJ12rv54fKXRgxd6fBpOm0YwibnIkaeh9MC
+ tL+ok25Z7ODdUl+rvDDytfgJp3dfdHQbk+hfEwk13Q==
+X-Google-Smtp-Source: ABdhPJwxqH7a3bQvRdSLIQBod5CkCbz7k99FXmolKOyZUVcv+RbpXkv78qjENrJA6MeD+xN0XeA0bpgBgINxE6TF4Ng=
+X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
+ n62-20020acabd41000000b002ecff42814fmr3000622oif.63.1647551461460; Thu, 17
+ Mar 2022 14:11:01 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Mar 2022 17:11:00 -0400
 MIME-Version: 1.0
-References: <20220310234611.424743-1-robdclark@gmail.com>
- <20220310234611.424743-4-robdclark@gmail.com>
- <3b066b63-c180-09c6-e39f-b408464b5bc1@quicinc.com>
-In-Reply-To: <3b066b63-c180-09c6-e39f-b408464b5bc1@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 17 Mar 2022 14:07:45 -0700
-Message-ID: <CAF6AEGvF7rJ2iK+roGTA1BEthwCLMguMHrG-45dyxfk=b-acug@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/gpu: Remove mutex from wait_event
- condition
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 17 Mar 2022 17:11:00 -0400
+Message-ID: <CAE-0n51vfoOK_6B0yAvws32MtLQ1SvBPoQPHBFE14TLzZFUZaw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
+ frequency in opp table during probe
+To: Vinod Polimera <quic_vpolimer@quicinc.com>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,72 +67,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dmitry.baryshkov@linaro.org, quic_kalyant@quicinc.com,
+ linux-kernel@vger.kernel.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 17, 2022 at 1:45 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->
-> On 3/11/2022 5:16 AM, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > The mutex wasn't really protecting anything before.  Before the previous
-> > patch we could still be racing with the scheduler's kthread, as that is
-> > not necessarily frozen yet.  Now that we've parked the sched threads,
-> > the only race is with jobs retiring, and that is harmless, ie.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +----------
-> >   1 file changed, 1 insertion(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > index 0440a98988fc..661dfa7681fb 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -607,15 +607,6 @@ static int adreno_runtime_resume(struct device *dev)
-> >       return gpu->funcs->pm_resume(gpu);
-> >   }
-> >
-> > -static int active_submits(struct msm_gpu *gpu)
-> > -{
-> > -     int active_submits;
-> > -     mutex_lock(&gpu->active_lock);
-> > -     active_submits = gpu->active_submits;
-> > -     mutex_unlock(&gpu->active_lock);
-> I assumed that this lock here was to ensure proper barriers while
-> reading active_submits. Is that not required?
+Quoting Vinod Polimera (2022-03-14 07:46:53)
+> use max clock during probe/bind sequence from the opp table.
+> The clock will be scaled down when framework sends an update.
 
-There is a spinlock in prepare_to_wait_event() ahead of checking the
-condition, which AFAIU is a sufficient barrier
+Capitalize 'use'.
 
-BR,
--R
-
->
-> -Akhil.
-> > -     return active_submits;
-> > -}
-> > -
-> >   static int adreno_runtime_suspend(struct device *dev)
-> >   {
-> >       struct msm_gpu *gpu = dev_to_gpu(dev);
-> > @@ -669,7 +660,7 @@ static int adreno_system_suspend(struct device *dev)
-> >       suspend_scheduler(gpu);
-> >
-> >       remaining = wait_event_timeout(gpu->retire_event,
-> > -                                    active_submits(gpu) == 0,
-> > +                                    gpu->active_submits == 0,
-> >                                      msecs_to_jiffies(1000));
-> >       if (remaining == 0) {
-> >               dev_err(dev, "Timeout waiting for GPU to suspend\n");
->
+Why is it important to use max frequency during probe/bind? Does not
+setting the clk rate during probe mean that we'll never use the max
+rate? Does it speed things up during probe?
