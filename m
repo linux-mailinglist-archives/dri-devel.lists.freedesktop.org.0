@@ -1,77 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C724DC875
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 15:13:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 488CD4DC89B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 15:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A953F10E126;
-	Thu, 17 Mar 2022 14:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBED10E11C;
+	Thu, 17 Mar 2022 14:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6F610E126
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 14:13:16 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 045635C013E;
- Thu, 17 Mar 2022 10:13:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 17 Mar 2022 10:13:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=nXzmy6uSkmV5D/seGpyltMUgspZ8EOpqvWiCsL
- KsI/w=; b=h6GjZ0YaViUV3TRssJQYaA27K7Zke0ebEpWNL1kvoCiQuZLKVFPyAm
- wEasHYxhhIKKIN85e1kWhtVXaZrT4zfQ7FAlAudJTylxHpaL8Ia2/GPY+n9HaB03
- L95YR8ZXYeiTig31lgTjC6ZzESDtx8zTJIf3ayq94aA1MfJmqXhXEbHUGKLNctpk
- M8PKuYych/puaLGvUK7NQadtuN2UHyiP+lQSKaLYUhHxJ4pFuLmcjxA04xM+CMWt
- 91pji/o8Eol4QX2xaVtVr/cOImzjak89nQthedl+ZM/4SAVm33DMnKC77KFQE/dp
- 9ajUSEoYlOZxVdfdqpt1biRz9ez/GyFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=nXzmy6uSkmV5D/seG
- pyltMUgspZ8EOpqvWiCsLKsI/w=; b=ehSwYhC0ErKMT/2NQGnHxxX0CmPRSQbIJ
- Y/aOwih0g2SYHtLXitivTSuq2vyH2G6JWZyDvprFXCtWafCTM+swAxOXK+/jRaVy
- c6nTToUGGmLG8PX5lBBwWlCJFt7yK0WyaBnac4tTwUw1OFZQSb3AdZZnN576zFUP
- Li55V8QfOi24kfOjGZ0v/bRaoCO9oPV7A8CQ0fP+LxBp91G+cOaZJIlG2UUGMZ68
- i7iqDJjRul+BV+tP2PYCk3bkzUo7RPsb/WZAbnX/Ik0jMtNLoAcNBcOQMah0W34b
- aUyeboMS5wro+rmqE9LoVXdyv1g8eei6robsrzy6Przw/2DY1rXaA==
-X-ME-Sender: <xms:-0EzYgH1miIFHbxgcWFUf5h4PWCBynywOjoE61ciAZ_yrJEcoiIcuQ>
- <xme:-0EzYpVT-_aNe0mCs9b7YxKMGm5hzACiy4bGUmKyWKWm8RapbHL-x3C-3gEqpvDld
- TFgs3xlJn3UjE4V8jY>
-X-ME-Received: <xmr:-0EzYqLM1jCrn92Ho2nRqxz2edOPrtI0X6MwRKnQncjIsra2ZJJpSI2hX3XxEyGfn04vwLeceG13I0UAyIFJflEFCx26G3RCkoMoP8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudefgedgieduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
- gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-0EzYiEZii3wWCKqI3W6pSVgAbQH_sC3O8B60nagwgJgfgXiuUBVlw>
- <xmx:-0EzYmUdEHuotU02gcKUi4gQs9ZlbBus2cB0q1C3AJ1I_lDwEHS_Aw>
- <xmx:-0EzYlPeRxCwrCqGbfEcPep88RUOLbuk88uTUhWJvovIpVNFvNbYjw>
- <xmx:-0EzYlSbAFEg_b3NDq0W5HCaRz4_Q7VlWw3MxzXLMRGnDH_BgVyYTw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Mar 2022 10:13:14 -0400 (EDT)
-Date: Thu, 17 Mar 2022 15:13:13 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chema Casanova <jmcasanova@igalia.com>
-Subject: Re: [PATCH] drm/vc4: add tracepoints for CL submissions
-Message-ID: <20220317141313.ygkpydmqyw634dhe@houat>
-References: <20220201212651.zhltjmaokisffq3x@mail.igalia.com>
- <20220225161126.6n7puj5p7saf57u4@houat>
- <20220301145826.6ofizv226oqzesed@mail.igalia.com>
- <20220310111244.fylou5ckcb2ilexm@houat>
- <8e709425-b79e-0255-9b5c-3a4e75ade7dc@igalia.com>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3390610E11C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 14:19:38 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id q20so3202793wmq.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 07:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=vOnzxJlH628gKK791oOxGy9dmx+tXiUp5rK1D8p/Qyc=;
+ b=kDa19YjHt8tRsYBiCBRfz6pxQ6UQoy4iCEQZlW16D9UkkNnJ5lJWdzG5326YcKXBbe
+ wXqwKuhekffzEpU/DSQxmw8BngtaGdfZqJb+dcnZFsBEvsulNkyI+Ewh6bkGRNbnsNL3
+ iTsuRvUa5JouyV37vWooKUnnwgTmoilWrVXbPZqGYIkHky8DmZ7n4SzCUBsggTqvfvRK
+ 5JwbkPO2e5PRQCviaoDuQaaHS8QpAIMPmrOTTm6DFGb55TOkSyDDwA6xan0PlhGk4R26
+ FPZPX7kc3a+Taa39eA1Ls/isLKM7mMxkqlekhijkOVXc2WWIowYHwAPx9xa+rzaDIC3u
+ 7YSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vOnzxJlH628gKK791oOxGy9dmx+tXiUp5rK1D8p/Qyc=;
+ b=xlUuYK6mR3dZIydAWT2Ex4+xfhP5/cM0vgSDeL5C4lvA5o0EVnkWD627tz78flSnCq
+ 6yohLUAnllT0zIb2A0sGcfUp0lDEVsogIc15M2Wzene5MVwddOmep+sRibC6mtjSSiFM
+ Qx2YeqJmuya2YOUrWBwa7Zp00eZhOZCgrK79VPVHF4gyqzjSPBL3gozR5PsDahn/dSJc
+ 2N3xBwA4UqqvxSGdaJytnK1EyOKkW0wBFJrqSp2pHwl4rVbx6IrelAdGgVbxr7lTnEJK
+ gZWD1QVXILRUH/UXxq+f4FxMdpJLi0zYN0I2sK/ewlnL7Ww/+tOiuwRLL7Lo4kpYTDJF
+ V4/g==
+X-Gm-Message-State: AOAM5312+/Uxh+5h7p0h7kg0q+uwkk88ZRJytUcWfuxF9GsRw3sV1yUJ
+ 5m48kKByQxQDMefK3v+cJMocwg==
+X-Google-Smtp-Source: ABdhPJxHZZo33eVHgCXtOwWiAcwRItKQpqcB0Hn2WCbkLjhRmwjh4xDZTHa0HI9wyEJ/oy2JZF1G3w==
+X-Received: by 2002:a05:600c:3c9f:b0:38c:6dc6:6de2 with SMTP id
+ bg31-20020a05600c3c9f00b0038c6dc66de2mr6739347wmb.132.1647526776607; 
+ Thu, 17 Mar 2022 07:19:36 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
+ [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
+ v20-20020a7bcb54000000b0037fa63db8aasm7975546wmj.5.2022.03.17.07.19.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 07:19:35 -0700 (PDT)
+Date: Thu, 17 Mar 2022 14:19:33 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: linux-kernel@vger.kernel.org, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/1] drm/amdkfd: Protect the Client whilst it is being
+ operated on
+Message-ID: <YjNDdXXOMYNuHJcV@google.com>
+References: <20220317131610.554347-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dk6d3iwgrc25pnjf"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8e709425-b79e-0255-9b5c-3a4e75ade7dc@igalia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220317131610.554347-1-lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,78 +77,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 17 Mar 2022, Lee Jones wrote:
 
---dk6d3iwgrc25pnjf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Presently the Client can be freed whilst still in use.
+> 
+> Use the already provided lock to prevent this.
+> 
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
 
-On Thu, Mar 10, 2022 at 12:54:32PM +0100, Chema Casanova wrote:
-> El 10/3/22 a las 12:12, Maxime Ripard escribi=F3:
-> > On Tue, Mar 01, 2022 at 01:58:26PM -0100, Melissa Wen wrote:
-> > > On 02/25, Maxime Ripard wrote:
-> > > > Hi Melissa,
-> > > >=20
-> > > > On Tue, Feb 01, 2022 at 08:26:51PM -0100, Melissa Wen wrote:
-> > > > > Trace submit_cl_ioctl and related IRQs for CL submission and bin/=
-render
-> > > > > jobs execution. It might be helpful to get a rendering timeline a=
-nd
-> > > > > track job throttling.
-> > > > >=20
-> > > > > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > > > I'm not really sure what to do about this patch to be honest.
-> > > >=20
-> > > > My understanding is that tracepoints are considered as userspace AB=
-I,
-> > > > but I can't really judge whether your traces are good enough or if =
-it's
-> > > > something that will bit us some time down the road.
-> > > Thanks for taking a look at this patch.
-> > >=20
-> > > So, I followed the same path of tracing CL submissions on v3d. I mean,
-> > > tracking submit_cl ioctl, points when a job (bin/render) starts it
-> > > execution, and irqs of completion (bin/render job). We used it to
-> > > examine job throttling when running Chromium and, therefore, in addit=
-ion
-> > > to have the timeline of jobs execution, I show some data submitted in
-> > > the ioctl to make connections. I think these tracers might be useful =
-for
-> > > some investigation in the future, but I'm also not sure if all data a=
-re
-> > > necessary to be displayed.
-> > Yeah, I'm sure that it's useful :)
-> >=20
-> > I don't see anything wrong with that patch, really. What I meant is that
-> > I don't really have the experience to judge if there's anything wrong in
-> > the first place :)
-> >=20
-> > If you can get someone with more experience with the v3d driver (Emma,
-> > Iago maybe?) I'll be definitely be ok merging that patch
->=20
-> I've checked this patch and I've been using these tracepoints.
-> They have been working properly.
->=20
-> Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+I should have clarified here, that:
 
-Thanks for your feedback, I just merged the patch
+This patch has only been *build* tested.
 
-Maxime
+Since I have no way to run this on real H/W.
 
---dk6d3iwgrc25pnjf
-Content-Type: application/pgp-signature; name="signature.asc"
+Please ensure this is tested on real H/W before it gets applied, since
+it *may* have some undesired side-effects.  For instance, I have no
+idea if client->lock plays nicely with dev->smi_lock or whether this
+may well end up in deadlock.
 
------BEGIN PGP SIGNATURE-----
+TIA.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjNB+QAKCRDj7w1vZxhR
-xeA0APwIaAuQaucGjJJR7LE4XGLRaqIr9plCLc5lXdFkpG9J/QEAt0mXvrt3zz0B
-yFi2c2yHvlbjQryC+Rd5QI35L7OLdwU=
-=rDKU
------END PGP SIGNATURE-----
+>  drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> index e4beebb1c80a2..3b9ac1e87231f 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> @@ -145,8 +145,11 @@ static int kfd_smi_ev_release(struct inode *inode, struct file *filep)
+>  	spin_unlock(&dev->smi_lock);
+>  
+>  	synchronize_rcu();
+> +
+> +	spin_lock(&client->lock);
+>  	kfifo_free(&client->fifo);
+>  	kfree(client);
+> +	spin_unlock(&client->lock);
+>  
+>  	return 0;
+>  }
+> @@ -247,11 +250,13 @@ int kfd_smi_event_open(struct kfd_dev *dev, uint32_t *fd)
+>  		return ret;
+>  	}
+>  
+> +	spin_lock(&client->lock);
+>  	ret = anon_inode_getfd(kfd_smi_name, &kfd_smi_ev_fops, (void *)client,
+>  			       O_RDWR);
+>  	if (ret < 0) {
+>  		kfifo_free(&client->fifo);
+>  		kfree(client);
+> +		spin_unlock(&client->lock);
+>  		return ret;
+>  	}
+>  	*fd = ret;
+> @@ -264,6 +269,7 @@ int kfd_smi_event_open(struct kfd_dev *dev, uint32_t *fd)
+>  	spin_lock(&dev->smi_lock);
+>  	list_add_rcu(&client->list, &dev->smi_clients);
+>  	spin_unlock(&dev->smi_lock);
+> +	spin_unlock(&client->lock);
+>  
+>  	return 0;
+>  }
 
---dk6d3iwgrc25pnjf--
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
