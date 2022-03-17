@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683724DC974
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445234DC997
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 16:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20A710E0C9;
-	Thu, 17 Mar 2022 15:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68CC10E74C;
+	Thu, 17 Mar 2022 15:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 706BB10E0C9
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 15:00:30 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id r10so7770180wrp.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 08:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=mpFvwfJ8r7mWj+dQzeS1Ko5nqxYOE3cL38S10CPksII=;
- b=XJCgx6LcQEMvn4y144eWzm616B31j3LhXv3YVPLDtncBdhFDMGHb6IdRciS01qoO8w
- EzRFbR36x4RiHc1iN1gaU6mzYBxAMmzGk9fBCccQRNyIj4esIOnFiHY5ZtZoELO9h4Bp
- rlc61XZKAIdVRBuj9/l8UpjyvziqhICCMc+je8XH2pAtl5tyd+/U6j2XPM0H8kQ2kWx0
- /upgNjAT/SCxhngehW+VAQB8skH550WyrN83Xsb6WirejteaiSrl4f1F41IdrjpT1eS8
- DxBahdWDdMMrkqKlnmAOkcQOD9cJA3skIrIDIje8Fvm/JGW0QSg1iya2liLpVCVLCZiQ
- oy4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=mpFvwfJ8r7mWj+dQzeS1Ko5nqxYOE3cL38S10CPksII=;
- b=HuH7l3u0LoFM4uHMkTT28ipNp33EMowMIbThxqnqRwT/kcsTnAMKXxhkcc9gpYKhK2
- WULwkNHOv18ojIfiQko+THDxqZDiReN6awea+WZqprXmf02U9SSc8etPBerQoZsgya42
- SNwDHnLkiZVJ1sDJZjxPfR1wauPikOvMst3Z2Uw7aua9/ZXP5a2+1XI8inLotyPSULk5
- UVlL4hA3uJs/Nh8xV5EZHljSIu0NyrPaC2ljQiRg+o36kmGiPKqxQMCIC3iQtSRt0iKz
- hUV3Hk2mTji1ASdyIDrhT0nYYFuqgzQj+H9r1sc0/yqQzB83DsRlkRKx53o5U1Z6rERZ
- Zi/Q==
-X-Gm-Message-State: AOAM531smlAAdE94Wvuy6tBJbRLd7uF+48tTYkHsJp2eeU6is61TGP8w
- RQSc4jgUx4PwgZIhyLRl9fH/Iw==
-X-Google-Smtp-Source: ABdhPJyTIEEopTwTo5wDmIQ/veXAigP05FDsUwMF53Y2w3XzFFiSf+9RPuGMNoeXf4um9LC9CA71Lw==
-X-Received: by 2002:a5d:6785:0:b0:203:723c:6b08 with SMTP id
- v5-20020a5d6785000000b00203723c6b08mr4181698wru.643.1647529228708; 
- Thu, 17 Mar 2022 08:00:28 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b00389865c646dsm5888347wmf.14.2022.03.17.08.00.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 08:00:27 -0700 (PDT)
-Date: Thu, 17 Mar 2022 15:00:25 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH 1/1] drm/amdkfd: Protect the Client whilst it is being
- operated on
-Message-ID: <YjNNCXc8harOvwqe@google.com>
-References: <20220317131610.554347-1-lee.jones@linaro.org>
- <8702f8a5-62a1-c07e-c7b7-e9378be069b6@amd.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34EDA10E6E9;
+ Thu, 17 Mar 2022 15:08:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647529719; x=1679065719;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=q2+TipMuP6Eri4UIx+/IiRxHb0cv1DVcASwAJEbrBzs=;
+ b=Q56g/b709nLhED+8sx/fmEj9HEw+zlyBAtLi7e8DYSF/rS+7AKQ3oHYz
+ lQv5BxZ+ZH8NU+P0lHaHEOSyMvwiOsz2Be6EFnQodFqBktWZJNnvH8+LI
+ m5X9VpjqByVpEMSTAKQRri/6ErNxUePFyAn4vi3nPBiedQwoWGqLvZvSL
+ GvuJSExHadIXIgPY3LTIFP7KmFHf/8LW1ghJ53Eb4j5u1hWPwLJzcN+re
+ V1DITmNgBItGflVxn5qrpVt3hsBYsIHdQfQCpeivLYyEFEbI1AjPmsMzx
+ YR2cho514Vy2lsU9b6OWYk1/24blpILzeXB2w/f+eSuYwtFQTVoT/iNX5 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="257073430"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="257073430"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 08:04:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="498855940"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 08:04:26 -0700
+Date: Thu, 17 Mar 2022 07:58:21 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 2/3] drm/msm/gpu: Park scheduler threads for system suspend
+Message-ID: <20220317145821.GA331@jons-linux-dev-box>
+References: <20220310234611.424743-1-robdclark@gmail.com>
+ <20220310234611.424743-3-robdclark@gmail.com>
+ <YjMGac4Hnjmg1wE8@phenom.ffwll.local>
+ <3945551d-47d2-1974-f637-1dbc61e14702@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8702f8a5-62a1-c07e-c7b7-e9378be069b6@amd.com>
+In-Reply-To: <3945551d-47d2-1974-f637-1dbc61e14702@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +61,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Good afternoon Felix,
-
-Thanks for your review.
-
-> Am 2022-03-17 um 09:16 schrieb Lee Jones:
-> > Presently the Client can be freed whilst still in use.
-> > 
-> > Use the already provided lock to prevent this.
-> > 
-> > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >   drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > index e4beebb1c80a2..3b9ac1e87231f 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > @@ -145,8 +145,11 @@ static int kfd_smi_ev_release(struct inode *inode, struct file *filep)
-> >   	spin_unlock(&dev->smi_lock);
-> >   	synchronize_rcu();
-> > +
-> > +	spin_lock(&client->lock);
-> >   	kfifo_free(&client->fifo);
-> >   	kfree(client);
-> > +	spin_unlock(&client->lock);
+On Thu, Mar 17, 2022 at 03:06:18AM -0700, Christian K�nig wrote:
+> Am 17.03.22 um 10:59 schrieb Daniel Vetter:
+> > On Thu, Mar 10, 2022 at 03:46:05PM -0800, Rob Clark wrote:
+> >> From: Rob Clark <robdclark@chromium.org>
+> >>
+> >> In the system suspend path, we don't want to be racing with the
+> >> scheduler kthreads pushing additional queued up jobs to the hw
+> >> queue (ringbuffer).  So park them first.  While we are at it,
+> >> move the wait for active jobs to complete into the new system-
+> >> suspend path.
+> >>
+> >> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >> ---
+> >>   drivers/gpu/drm/msm/adreno/adreno_device.c | 68 ++++++++++++++++++++--
+> >>   1 file changed, 64 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >> index 8859834b51b8..0440a98988fc 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >> @@ -619,22 +619,82 @@ static int active_submits(struct msm_gpu *gpu)
+> >>   static int adreno_runtime_suspend(struct device *dev)
+> >>   {
+> >>   	struct msm_gpu *gpu = dev_to_gpu(dev);
+> >> -	int remaining;
+> >> +
+> >> +	/*
+> >> +	 * We should be holding a runpm ref, which will prevent
+> >> +	 * runtime suspend.  In the system suspend path, we've
+> >> +	 * already waited for active jobs to complete.
+> >> +	 */
+> >> +	WARN_ON_ONCE(gpu->active_submits);
+> >> +
+> >> +	return gpu->funcs->pm_suspend(gpu);
+> >> +}
+> >> +
+> >> +static void suspend_scheduler(struct msm_gpu *gpu)
+> >> +{
+> >> +	int i;
+> >> +
+> >> +	/*
+> >> +	 * Shut down the scheduler before we force suspend, so that
+> >> +	 * suspend isn't racing with scheduler kthread feeding us
+> >> +	 * more work.
+> >> +	 *
+> >> +	 * Note, we just want to park the thread, and let any jobs
+> >> +	 * that are already on the hw queue complete normally, as
+> >> +	 * opposed to the drm_sched_stop() path used for handling
+> >> +	 * faulting/timed-out jobs.  We can't really cancel any jobs
+> >> +	 * already on the hw queue without racing with the GPU.
+> >> +	 */
+> >> +	for (i = 0; i < gpu->nr_rings; i++) {
+> >> +		struct drm_gpu_scheduler *sched = &gpu->rb[i]->sched;
+> >> +		kthread_park(sched->thread);
+> > Shouldn't we have some proper interfaces for this?
 > 
-> The spin_unlock is after the spinlock data structure has been freed.
-
-Good point.
-
-If we go forward with this approach the unlock should perhaps be moved
-to just before the kfree().
-
-> There
-> should be no concurrent users here, since we are freeing the data structure.
-> If there still are concurrent users at this point, they will crash anyway.
-> So the locking is unnecessary.
-
-The users may well crash, as does the kernel unfortunately.
-
-> >   	return 0;
-> >   }
-> > @@ -247,11 +250,13 @@ int kfd_smi_event_open(struct kfd_dev *dev, uint32_t *fd)
-> >   		return ret;
-> >   	}
-> > +	spin_lock(&client->lock);
+> If I'm not completely mistaken we already should have one, yes.
 > 
-> The client was just allocated, and it wasn't added to the client list or
-> given to user mode yet. So there can be no concurrent users at this point.
-> The locking is unnecessary.
+> > Also I'm kinda wondering how other drivers do this, feels like we should have a standard
+> > way.
+> >
+> > Finally not flushing out all in-flight requests sounds a bit like a bad
+> > idea for system suspend/resume since that's also the hibernation path, and
+> > that would mean your shrinker/page reclaim stops working. At least in full
+> > generality. Which ain't good for hibernation.
 > 
-> There could be potential issues if someone uses the file descriptor by dumb
-> luck before this function returns. So maybe we need to move the
-> anon_inode_getfd to the end of the function (just before list_add_rcu) so
-> that we only create the file descriptor after the client structure is fully
-> initialized.
+> Completely agree, that looks like an incorrect workaround to me.
+> 
+> During suspend all userspace applications should be frozen and all f 
+> their hardware activity flushed out and waited for completion.
+>
 
-Bingo.  Well done. :)
+Isn't that what Rob is doing?
 
-I can move the function as suggested if that is the best route forward?
+He kills the scheduler preventing any new job from being submitted then
+waits for an outstanding jobs to complete naturally complete (see the
+wait_event_timeout below). If the jobs don't naturally complete the
+suspend seems to be aborted? That flow makes sense to me and seems like
+a novel way to avoid races.
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Matt 
+ 
+> I do remember that our internal guys came up with pretty much the same 
+> idea and it sounded broken to me back then as well.
+> 
+> Regards,
+> Christian.
+> 
+> >
+> > Adding Christian and Andrey.
+> > -Daniel
+> >
+> >> +	}
+> >> +}
+> >> +
+> >> +static void resume_scheduler(struct msm_gpu *gpu)
+> >> +{
+> >> +	int i;
+> >> +
+> >> +	for (i = 0; i < gpu->nr_rings; i++) {
+> >> +		struct drm_gpu_scheduler *sched = &gpu->rb[i]->sched;
+> >> +		kthread_unpark(sched->thread);
+> >> +	}
+> >> +}
+> >> +
+> >> +static int adreno_system_suspend(struct device *dev)
+> >> +{
+> >> +	struct msm_gpu *gpu = dev_to_gpu(dev);
+> >> +	int remaining, ret;
+> >> +
+> >> +	suspend_scheduler(gpu);
+> >>   
+> >>   	remaining = wait_event_timeout(gpu->retire_event,
+> >>   				       active_submits(gpu) == 0,
+> >>   				       msecs_to_jiffies(1000));
+> >>   	if (remaining == 0) {
+> >>   		dev_err(dev, "Timeout waiting for GPU to suspend\n");
+> >> -		return -EBUSY;
+> >> +		ret = -EBUSY;
+> >> +		goto out;
+> >>   	}
+> >>   
+> >> -	return gpu->funcs->pm_suspend(gpu);
+> >> +	ret = pm_runtime_force_suspend(dev);
+> >> +out:
+> >> +	if (ret)
+> >> +		resume_scheduler(gpu);
+> >> +
+> >> +	return ret;
+> >>   }
+> >> +
+> >> +static int adreno_system_resume(struct device *dev)
+> >> +{
+> >> +	resume_scheduler(dev_to_gpu(dev));
+> >> +	return pm_runtime_force_resume(dev);
+> >> +}
+> >> +
+> >>   #endif
+> >>   
+> >>   static const struct dev_pm_ops adreno_pm_ops = {
+> >> -	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+> >> +	SET_SYSTEM_SLEEP_PM_OPS(adreno_system_suspend, adreno_system_resume)
+> >>   	SET_RUNTIME_PM_OPS(adreno_runtime_suspend, adreno_runtime_resume, NULL)
+> >>   };
+> >>   
+> >> -- 
+> >> 2.35.1
+> >>
+> 
