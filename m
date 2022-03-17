@@ -1,46 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC3E4DCE19
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 19:54:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F384DCE82
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 20:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7241910E0ED;
-	Thu, 17 Mar 2022 18:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F93310E6D2;
+	Thu, 17 Mar 2022 19:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E41E810E00F;
- Thu, 17 Mar 2022 18:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647543266; x=1679079266;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Mj1IebK2HeqcoSIzai7DiEFWb1fUYRbfAvFwdcHRP1w=;
- b=E42H5XEBh0nzH3aDy6ASy28ONlKP5a/Y4r/4jzzUffUtGtl3ktx1WSK2
- itobmTRejhqk0MHql/3IfzCIiWiXqfUSWzzA6kCCRxchcoXyWo2VoOXnh
- sjYeBk4ZG0s4309fAinQ/hOYsms4ydA3DzQvOf5gGlpcqgaBeca1oZ3CA
- +SVL1qZctlMRiubAxJGeAzEzBLL2vTwTLGZTWKiOsQQOJSS90bzQ4BJZK
- aQ3/qSJfaEElzOrg8fXKevX0zOVSFBFoU75VPRDF5hL0sMNzDWCVWwxH/
- lErQsvfOPeDjte8YgY34VBxJxsLmjgmIc5N5K56uqeC8mRi92DCZQ1E52 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="281749719"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="281749719"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 11:54:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="581405039"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga001.jf.intel.com with ESMTP; 17 Mar 2022 11:54:25 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v11 00/13] Add GuC Error Capture Support
-Date: Thu, 17 Mar 2022 11:56:42 -0700
-Message-Id: <20220317185655.1786958-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2062.outbound.protection.outlook.com [40.107.93.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDD2B10E6D2;
+ Thu, 17 Mar 2022 19:11:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bwKSoL5bdYJ7cxwUpRmhdgUBepAwfqtmiQmjEhhkic5GaIKFH3JAssqtwUVlj5aKBDRUQpG8BAQrt4lgdYsqtVZn5XPXkXaTzFteNOdV2B1qf+lMk3Gb9SEAznFfWeAuyg9MgFdBj/D3hXJQB2msy4mkrIZ1ZszPoVp7LquDJYkLzL5NvOikv61dgmnS4exoz4wU9x37uEiCT8fWlo/YTj25+I6tvi8b936FPF9g5UZJVrzOw8ykMBnGZ5RKXUPu+wsNJVwgSmwGr9s8WGJx8sv2zm0q6J6391Me8Y2QrJiQ7wlenZmHWm6A9+vQJFVDkwZzUNzzKqAEfbobWMp5bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vW3XCLQd4simJm4VWv3fLHQWQdX6Px0vplvjV1f+s1Y=;
+ b=NUsYVQ9bLLSjs94qVvMC1HO4jOuRe7RtduZ+elwok9WQ49KHKpzubvBGP/drmwgMP4Utgh+P1SNAIkRi3nzzOciDfF9dyBDeCKzGIgC9zMZA6orVVOkcCxIFa5DqSzbdj9bP8Vl5sa2z6qV8uOXuLo3zYEpkqzDgWZCdoTcgrby44fyjv3+4X7BfVwNFw+ON0tL2L+DnPcWX+7FWs+0ump+TtCzefT4w7Cr9NbqE+GOffib+Lsrxg4E39wyzfOyDtRCz6IN9b7LxcScpAiVZU9oDLuzaA5upd+skjK3zxT+zTsUDRfU1V6ARSDYDBz2ZqmB7S6w54kxbNxTTmouPTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vW3XCLQd4simJm4VWv3fLHQWQdX6Px0vplvjV1f+s1Y=;
+ b=NcWNAAFsaGLy2zEItS52PML4ImIBFvekSnDjToJm/5GVeojqchxiuJO0vFB2S+LtE0fQaSKTeV6Kuu8Ukv2wItfJdeVTVavyBWnFRU9Uwx6D8BhafKd2yTz8dlrcMBdrW1rfKc/a5fOCuTJ1I9inXfslXfQxXHYUa9tcGQpNJuw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by PH7PR12MB5687.namprd12.prod.outlook.com (2603:10b6:510:13e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Thu, 17 Mar
+ 2022 19:11:38 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::4839:9431:1040:5cd5]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::4839:9431:1040:5cd5%4]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
+ 19:11:38 +0000
+Message-ID: <f9f2bbdb-74bc-e286-07d6-4f1972f0e743@amd.com>
+Date: Thu, 17 Mar 2022 15:11:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 1/4] drm/amdkfd: Improve amdgpu_vm_handle_moved
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
+References: <20220317002006.342457-1-Felix.Kuehling@amd.com>
+ <20220317002006.342457-2-Felix.Kuehling@amd.com>
+ <5054ada1-9f2d-1297-5f37-0b05ec2ae37f@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <5054ada1-9f2d-1297-5f37-0b05ec2ae37f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0078.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::9) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7779fcd1-002b-464c-c322-08da0849f61f
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5687:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB56873FA3CC4FA626A99AE6D892129@PH7PR12MB5687.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ecjwkMSSa9q0rkCS/YiOUcTONKZOTq0AOhs25of/dYRqY78cb0YhdyMrH6sa9gTsauVv2jNVFd++lGJunsnff3/UlUDAwAm+09UrbmiRb6oP9H0lWbQNjiSQWUK0qUq3fBAE6tlXu92hWS3/p1zOht1fLh5+1s83x2cZq/zNUV2wNCxHPgjLsJpnNvWoqoJMwE6WeYm6VG8YqX0SvspQjXATh1VDNF2MEUiRjKmUQQgZE95ufj3Rl9BkAjkCJwNyfUU8lE9A4onxGoukXc3bIh9oGS7G1PhHG6VREyxE5nB86ATk3untv8CvHALbsuqqJswS0Rs/8WI/I4kjqJ37h3yauVS1yVhtMZqQimbyJxwmp6Vwks9GKVOfz8fRsdzk55EgdUjz9RW/GnL9H2g3dMGKVhuxVkVzk+I3RQaGwPhx26q0QRR/64PptaV1N8eXnD/o16o1RNi865BcbGC3im9tRmhd/ZWYcXiAtsxWMngOkCg0b+ATHgso1XSN7BHaC9QL6D5NSNgXzJDKmawAB3HLZcSq0aiCAT8bjscVcDw2kY41aHDsPmuCxhx4spXg+QqCteEg/E0yFapPQzyHd7Bf8qgwCceNg14cygYFt08e9zmcOOkwZIVbHQG8aw9UI9WPNL51sFc2DT5jEpFjxu0o8Ziu8yekmkyggznRUW2+um8l37kXb2K6gxZ/GQjz+3bi7wO0mITilv/mgdyBFpUnVhb5I2k3DZCDr7w+wmWCF5mjOWPL5BQsB3TAuM09
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(38100700002)(508600001)(86362001)(66476007)(31696002)(450100002)(6486002)(8936002)(316002)(4326008)(36756003)(66946007)(31686004)(8676002)(66556008)(2906002)(44832011)(2616005)(26005)(186003)(66574015)(5660300002)(6512007)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azU0T0JiQmtsd1RYZGhwQTlKRFlUTGNpUnNpTG9OclhOZmlGSmI1dW9URGJN?=
+ =?utf-8?B?eVFKcXg1dEV5cTFwbHdGWjVQUnVldmpORmtoQk9OYTVrU094WWkzbXdWdU5z?=
+ =?utf-8?B?VXNnd3RHNnFBMkFPU1ZMTUJOazBMZTM2aVQ4T25rcVNJYmI1YlBxOXkrZ0gw?=
+ =?utf-8?B?dkpmWlpZR3BhaGQ2RUVkWFNwalcvL21kRi9UL09ucWFLbmtnVGp5WEowV1Jn?=
+ =?utf-8?B?UkU5NjlRY1lFZ1NLeEwzbnNGN2UzSTdITVhIU1JaS29CeWx4bTZTMkp6OTRF?=
+ =?utf-8?B?UnZSMVJtUlJXWHczNkpPUmt6RkRSM0JFL0U1VU1JaXVlYkQzZmxvMElvcmxH?=
+ =?utf-8?B?U3QyRlpCWWdWOHhIcFczaFE3em5SVEtZd3hvdkhoSXgwZzVibDJmQjJmbkxH?=
+ =?utf-8?B?SFkvQnpEeG10Q0lGVk5XTk9hQnVBc1JDMysvWFE2L3VFb3BNbXd6Ly9LSUZP?=
+ =?utf-8?B?WTJ6endmS21Zb0EvVm5VTnc0a1Nlblc1WUxRN0wwb1pjQzNiakdXR3FrZnBU?=
+ =?utf-8?B?YUI1QjEyWGZwcTBLeFdQMXFuOVg5OFJQOE9TZHUrclJZVXhRenVueVgvM1BK?=
+ =?utf-8?B?WXZIc2FUR0RiQjZ2SXVxVEx2MjZzWVpieHJzKzVOdHBSZTdMZDhjSlMvMXBP?=
+ =?utf-8?B?am9FQTEwRXJLOU8yd09VSjdCalBYTTVxcUovSHA0MzFvWTQ1bmpXbkVHcDdz?=
+ =?utf-8?B?dU1mQ0ZvYk80bU96aEtycVlkRm1tbW5FY0VmdHg1SXM2cGFneEw3U3J4cTJa?=
+ =?utf-8?B?RWJXWGpQR3h0eTNubmxsL0lTRG9WdzJrK3VCdnBqYUw0R2VSbVA3c1hhUWlv?=
+ =?utf-8?B?VXdvZXFhcmJ4TTZqUE9JYnI1R0JVdGJMazdRU0tEZDEyN1Y5N0tRZ2M3bmNK?=
+ =?utf-8?B?S2xVTHc3NXhTQTFYUjBmc0k3dUZmQUpUOERJY2RwNlZmcTVsblQ4ek9YdFkz?=
+ =?utf-8?B?dU9TbkE3MTh4MjVwVmx5N1psVUJnQURZSjJQaXpYYWtSOEdpYVdjdE5zUHAz?=
+ =?utf-8?B?ejI1dXFwemxnU3ZLQVF5anpyclhqRi9qZkdMUnc4Z3I3Q2xKRmJoaG84eHdk?=
+ =?utf-8?B?akNVVldMb3RFZ0Zld3lqWWNLMWZzYkozdDRmbWIwUXlNVjBQMmJiYldURWJj?=
+ =?utf-8?B?TXdldmNkeGt6TEM3anZMWmVzUGF6cUVZNU56UVo0K256M1VYRmVzTW91eEF6?=
+ =?utf-8?B?ekhRVVFCSEM2clZMVm5hN0hmZlRrUFNCek5VVWtKMzBRdG5VM1R4UHpTbHRl?=
+ =?utf-8?B?L0xzSEEreTFuTlV4bG41MXNYQWxoaEdYY1BxZnNvUDhleGpVWGNTOThWb21Y?=
+ =?utf-8?B?SXU2dGpxMEM3aGMvSXlxT0JtRE02anErTFl1clI1dVFDOEJ4cTNBeE9Ra24r?=
+ =?utf-8?B?aS9sdlU3VzFJUGo4QTcyaXVRNlpHbFJ6S0RXMmRxUzQ3M2RMdFhkT0dyZG9D?=
+ =?utf-8?B?YXROaDRHQUZNTzVZRDBaZjUzTmVpSi9pU1p2OEQwazhwc040Z25UQ1NiMkU5?=
+ =?utf-8?B?SDZOeVM1WnJmalJCZFcwdFJPRWZqRDRlc3g4Y24zRUE3M0NYUzlGZXZ5eVBS?=
+ =?utf-8?B?ZFl0MkZpMFo2QkFQTm9ROFBHS2V1ZUhIYU9WcGt4cmU5aHZpOW5JZEM0ODRF?=
+ =?utf-8?B?RE45dFZVc0VPVFp2dTdyalMrbEVxNldjQ2ZpVTVCR0VpREJZVG5OV2Vyemli?=
+ =?utf-8?B?WkFldG9USFVITlUrYlMrTXRvZERwR0RVTDdobUNkNHRjdk9UUzV0ZlpKKzBo?=
+ =?utf-8?B?K1oya2RzM2ZkWXZkR1hocmRlY2tvblZJcTV1SGpadUcvbnliS3JqTWw2Uloz?=
+ =?utf-8?B?WDNJcnlZQkZvb1B3RngrK3NNbktWZmtnSElsSzhHUlhXTGIyWC9KNGlsUzlW?=
+ =?utf-8?B?WEtvUUo5TDZPaE1LNkRDMlc2THdsTzluY1pFWExXNGZWT0FjRkNTVWtTeUNF?=
+ =?utf-8?Q?oSWMmIXOcodFLBpLOcJfgK+s55iO6InG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7779fcd1-002b-464c-c322-08da0849f61f
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 19:11:38.3913 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lz8tsD6OOopJ/y/O0wZC78QUqmA0SVZhYrBWO6D/bT6uwNKnYSVXkHsFOIvxj7V7ajsA+2AY2dPKy0/xW+sA4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5687
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,207 +125,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <john.c.harrison@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series:
-  1. Enables support of GuC to report error-state-capture
-     using a list of MMIO registers the driver registers
-     and GuC will dump, log and notify right before a GuC
-     triggered engine-reset event.
-  2. Updates the ADS blob creation to register said lists
-     of global, engine class and engine instance registers
-     with GuC.
-  3. Defines tables of register lists that are global or
-     engine class or engine instance in scope.
-  4. Updates usage and buffer-state data for the regions
-     of the shared GuC log-buffer to accomdate both
-     the existing relay logging of general debug logs
-     along with the new error state capture usage.
-  5. Using a pool of preallocated memory, provide ability
-     to extract and format the GuC reported register-capture
-     data into chunks consistent with existing i915 error-
-     state collection flows and structures.
-  6. Connects the i915_gpu_coredump reporting function
-     to the GuC error capture module to print all GuC
-     error state capture dumps that is reported.
 
-This is the 8th rev of this series with the first 3 revs
-labelled as RFC.
+Am 2022-03-17 um 04:21 schrieb Christian König:
+> Am 17.03.22 um 01:20 schrieb Felix Kuehling:
+>> Let amdgpu_vm_handle_moved update all BO VA mappings of BOs reserved by
+>> the caller. This will be useful for handling extra BO VA mappings in
+>> KFD VMs that are managed through the render node API.
+>
+> Yes, that change is on my TODO list for quite a while as well.
+>
+>> TODO: This may also allow simplification of amdgpu_cs_vm_handling. See
+>> the TODO comment in the code.
+>
+> No, that won't work just yet.
+>
+> We need to change the TLB flush detection for that, but I'm already 
+> working on those as well.
 
-Prior receipts of rvb's:
-  - Patch #2, #3, #4, #5, #10, #11, #12, #13 have received
-    R-v-b's from Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-  - Patch #6, #7, #8, #9 has received an R-v-b from Matthew Brost
-    <matthew.brost@intel.com>. NOTE: some of these came in on the
-    trybot series. https://patchwork.freedesktop.org/series/100831/
+Your TLB flushing patch series looks good to me.
 
-Changes from prior revs:
-  v11:- Rebase again on latest drm-tip to fix merge error.
-  v10:- Rebase on latest drm-tip again. Fix a number of checkpatch
-        warnings and an error Reported-by: kernel test robot <lkp@intel.com>.
-  v9: - Rebase on latest drm-tip to solve CI merge-build error.
-  v8: - Fix a bug found by CI in rev7: Create a cached ADS
-        capture list for null-header like the other lists.
-      - Fixed a bug on the ggtt offset calculation in the
-        ADS population loop. Thanks to Matt Brost.
-      - Change the storage uses for initial allocation and
-        caching of the ADS register lists so we only store
-        a regular pointer instead of file handle.
-      - Multiple improvements on code styling, variable names,
-        comments and code reduction from Umesh suggestions
-        across multiple patches.
+There is one other issue, though. amdgpu_vm_handle_moved doesn't update 
+the sync object, so I couldn't figure out I can wait for all the page 
+table updates to finish.
 
-  v7: - Rebased on lastest drm_tip that has the ADS now using
-        shmem based ads_blob_write utilities. Stress test
-        was performed with this patch included to fix a
-        legacy bug:
-        https://patchwork.freedesktop.org/series/100768/
+Regards,
+   Felix
 
-  v6: - In patch #1, ADS reg-list population, we now alloc
-        regular memory to create the lists and cache them for
-        simpler and faster use by GuC ADS module at init, 
-        suspend-resume and reset cycles. This was in response
-        to review comments from Lucas De Marchi that also
-        wanted to ensure the GuC ADS module owns the final
-        copying into the ADS phyical memory.
-      - Thanks to Jani Nikula for pointing out that patch #2
-        and #3 should ensure static tables as constant and
-        dynamic lists should be allocated and cached but
-        attached to the GT level for the case of multiple
-        cards with different fusings for steered registers.
-        These are addressed now along with multiple code
-        style fixups (thanks to review comment from Umesh)
-        and splitting the steered register list generation
-        as a seperate patch.
-      - The extraction functionality, Patch #10 and #11 (was
-        patch #7), has fixed all of Umesh's review comments
-        related to the code styling. Additionally, it was
-        discovered during stress tests that the extraction
-        function could be called by the ct processing thread
-        at the same time as the start of a GT reset event.
-        Thus, a redesign was done whereby the linked list of
-        processed capture-output-nodes are allocated up
-        front and reused throughout the driver's life to
-        ensure no memory locks are taken during extraction.
-      - For patch #6 (now 7, 8 and 9), updates to
-        intel_guc_log was split into smaller chunks and the
-        log_state structure was returned back to inside of
-        the intel_guc_log struct as opposed to the
-        intel_guc struct in prior rev. This is in response
-        to review comments by Matt Brost.
-      - #Patch 13 (previously #10) is mostly identical but
-        addresses all of the code styling comments reviews
-        from Umesh.
-        
-  v5: - Added Gen9->Gen11 register list for CI coverage that
-        included Gen9 with GuC submission.
-      - Redesigned the extraction of the GuC error-capture
-        dumps by grouping them into complete per-engine-reset
-        nodes. Complete here means each node includes the
-        global, engine-class and engine-instance register
-        lists in a single structure.
-      - Extraction is decoupled from the print-out. We now
-        do the extraction immediately when receiving the
-        G2H for error-capture notification. A link list of
-        nodes is maintained with a FIFO based threshold
-        while awaiting retrieval from i915_gpu_coredump's
-        capture_engine function.
-      - Added new plumbing through the i915_gpu_coredump
-        allocation and capture functions to include a flag
-        that is used indicate that GuC had triggered the
-        reset. This new plumbing guarantees an exact match
-        from i915_gpu_coredump's per-engine vma recording
-        and node-retrieval from the guc-error-capture.
-      - Broke the coredump gt_global capture and recording
-        functions into smaller subsets so we can reuse as
-        much of the existing legacy register reading + printing
-        functions and only rely on GuC error-capture for
-        the smaller subset of registers that are tied to
-        engine workload execution.
-      - Updated the register list to follow the legacy execlist
-        format of printout.
-  v4:
-      - Rebased on latest drm-tip that has been merged with the
-        support of GuC firmware version 69.0.3 that is required
-        for GuC error-state-catpure to work.
-      - Added register list for DG2 which is the same as XE_LP
-        except an additional steering register set.
-      - Fixed a bug in the end of capture parsing loop in
-        intel_guc_capture_out_print_next_group that was not
-        properly comparing the engine-instance and engine-
-        class being parsed against the one that triggered
-        the i915_gpu_coredump.
-  v3:
-      - Fixed all review comments from rev2 except the following:
-          - Michal Wajdeczko proposed adding a seperate function
-            to lookup register string nameslookup (based on offset)
-            but decided against it because of offset conflicts
-            and the current table layout is easier to maintain.
-          - Last set of checkpatch errors pertaining to "COMPLEX
-            MACROS" should be fixed on next rev.
-      - Abstracted internal-to-guc-capture information into a new
-        __guc_state_capture_priv structure that allows the exclusion
-        of intel_guc.h and intel_guc_fwif.h from intel_guc_capture.h.
-        Now, only the first 2 patches have a wider build time
-        impact because of the changes to intel_guc_fwif.h but
-        subsequent changes to guc-capture internal structures
-        or firmware interfaces used solely by guc-capture module
-        shoudn't impact the rest of the driver build.
-      - Added missing Gen12LP registers and added slice+subslice
-        indices when reporting extended steered registers.
-      - Add additional checks to ensure that the GuC reported
-        error capture information matches the i915_gpu_coredump
-        that is being printed before we print out the corresponding
-        VMA dumps such as the batch buffer.
-   v2:
-      - Ignore - failed CI retest.
 
-Alan Previn (13):
-  drm/i915/guc: Update GuC ADS size for error capture lists
-  drm/i915/guc: Add XE_LP static registers for GuC error capture.
-  drm/i915/guc: Add XE_LP steered register lists support
-  drm/i915/guc: Add DG2 registers for GuC error state capture.
-  drm/i915/guc: Add Gen9 registers for GuC error state capture.
-  drm/i915/guc: Add GuC's error state capture output structures.
-  drm/i915/guc: Update GuC-log relay function names
-  drm/i915/guc: Add capture region into intel_guc_log
-  drm/i915/guc: Check sizing of guc_capture output
-  drm/i915/guc: Extract GuC error capture lists on G2H notification.
-  drm/i915/guc: Pre-allocate output nodes for extraction
-  drm/i915/guc: Plumb GuC-capture into gpu_coredump
-  drm/i915/guc: Print the GuC error capture output register list.
-
- drivers/gpu/drm/i915/Makefile                 |    1 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    4 +-
- .../drm/i915/gt/intel_execlists_submission.c  |    4 +-
- drivers/gpu/drm/i915/gt/intel_reset.c         |    2 +-
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    7 +
- drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  218 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   13 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   12 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  127 +-
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 1655 +++++++++++++++++
- .../gpu/drm/i915/gt/uc/intel_guc_capture.h    |   33 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   14 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  127 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |    7 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   18 +-
- drivers/gpu/drm/i915/i915_debugfs.c           |    3 +-
- drivers/gpu/drm/i915/i915_gpu_error.c         |  282 ++-
- drivers/gpu/drm/i915/i915_gpu_error.h         |   35 +-
- 18 files changed, 2379 insertions(+), 183 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
-
--- 
-2.25.1
-
+>
+>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>
+> Please update the TODO, with that done: Reviewed-by: Christian König 
+> <christian.koenig@amd.com>
+>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |  6 +++++-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 18 +++++++++++++-----
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h      |  3 ++-
+>>   4 files changed, 21 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> index d162243d8e78..10941f0d8dde 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> @@ -826,6 +826,10 @@ static int amdgpu_cs_vm_handling(struct 
+>> amdgpu_cs_parser *p)
+>>               return r;
+>>       }
+>>   +    /* TODO: Is this loop still needed, or could this be handled by
+>> +     * amdgpu_vm_handle_moved, now that it can handle all BOs that are
+>> +     * reserved under p->ticket?
+>> +     */
+>>       amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+>>           /* ignore duplicates */
+>>           bo = ttm_to_amdgpu_bo(e->tv.bo);
+>> @@ -845,7 +849,7 @@ static int amdgpu_cs_vm_handling(struct 
+>> amdgpu_cs_parser *p)
+>>               return r;
+>>       }
+>>   -    r = amdgpu_vm_handle_moved(adev, vm);
+>> +    r = amdgpu_vm_handle_moved(adev, vm, &p->ticket);
+>>       if (r)
+>>           return r;
+>>   diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> index 579adfafe4d0..50805613c38c 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> @@ -414,7 +414,7 @@ amdgpu_dma_buf_move_notify(struct 
+>> dma_buf_attachment *attach)
+>>             r = amdgpu_vm_clear_freed(adev, vm, NULL);
+>>           if (!r)
+>> -            r = amdgpu_vm_handle_moved(adev, vm);
+>> +            r = amdgpu_vm_handle_moved(adev, vm, ticket);
+>>             if (r && r != -EBUSY)
+>>               DRM_ERROR("Failed to invalidate VM page tables (%d))\n",
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> index fc4563cf2828..726b42c6d606 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> @@ -2190,11 +2190,12 @@ int amdgpu_vm_clear_freed(struct 
+>> amdgpu_device *adev,
+>>    * PTs have to be reserved!
+>>    */
+>>   int amdgpu_vm_handle_moved(struct amdgpu_device *adev,
+>> -               struct amdgpu_vm *vm)
+>> +               struct amdgpu_vm *vm,
+>> +               struct ww_acquire_ctx *ticket)
+>>   {
+>>       struct amdgpu_bo_va *bo_va, *tmp;
+>>       struct dma_resv *resv;
+>> -    bool clear;
+>> +    bool clear, unlock;
+>>       int r;
+>>         list_for_each_entry_safe(bo_va, tmp, &vm->moved, 
+>> base.vm_status) {
+>> @@ -2212,17 +2213,24 @@ int amdgpu_vm_handle_moved(struct 
+>> amdgpu_device *adev,
+>>           spin_unlock(&vm->invalidated_lock);
+>>             /* Try to reserve the BO to avoid clearing its ptes */
+>> -        if (!amdgpu_vm_debug && dma_resv_trylock(resv))
+>> +        if (!amdgpu_vm_debug && dma_resv_trylock(resv)) {
+>>               clear = false;
+>> +            unlock = true;
+>> +        /* The caller is already holding the reservation lock */
+>> +        } else if (ticket && dma_resv_locking_ctx(resv) == ticket) {
+>> +            clear = false;
+>> +            unlock = false;
+>>           /* Somebody else is using the BO right now */
+>> -        else
+>> +        } else {
+>>               clear = true;
+>> +            unlock = false;
+>> +        }
+>>             r = amdgpu_vm_bo_update(adev, bo_va, clear, NULL);
+>>           if (r)
+>>               return r;
+>>   -        if (!clear)
+>> +        if (unlock)
+>>               dma_resv_unlock(resv);
+>>           spin_lock(&vm->invalidated_lock);
+>>       }
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> index a40a6a993bb0..120a76aaae75 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>> @@ -396,7 +396,8 @@ int amdgpu_vm_clear_freed(struct amdgpu_device 
+>> *adev,
+>>                 struct amdgpu_vm *vm,
+>>                 struct dma_fence **fence);
+>>   int amdgpu_vm_handle_moved(struct amdgpu_device *adev,
+>> -               struct amdgpu_vm *vm);
+>> +               struct amdgpu_vm *vm,
+>> +               struct ww_acquire_ctx *ticket);
+>>   int amdgpu_vm_bo_update_mapping(struct amdgpu_device *adev,
+>>                   struct amdgpu_device *bo_adev,
+>>                   struct amdgpu_vm *vm, bool immediate,
+>
