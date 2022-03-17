@@ -1,94 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A257A4DBB9D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 01:20:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 689344DBBA8
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 01:26:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7350810EABC;
-	Thu, 17 Mar 2022 00:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F8010EABA;
+	Thu, 17 Mar 2022 00:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7897710EABA;
- Thu, 17 Mar 2022 00:20:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gtJm04GtcTgYA4zFphwXKqN+bDBQG2Jvdh9Y6gYfka89CpPog/OFnBMJiCbkArrqV1P+OBskfjLuQRwvk4IM4Ll5AM+ELlY7kefaduTuLG2z7L/hC2WeIVZ4W8+/tvBeCNI2TBpxNO7X6SYdDS4PFFnBfIXhvSVkW4PuDIbHBbyLRVQPvAVj583Ys17TiTMy8J9rzYeqcEYWiesE2t74fzxeXMTfnsLdom3coG/Lh7v6BiTeedHnJU2dK+WmXVLpRT5WRLidLZuW2gJtDbvfYE3f3oAeiFfr1nxCKWc1bMdPbcduYNsHFHPRlCl7VjeI0jVZyS4ksKcbMGT3sJQphw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y6Ei4IO43jKEUrpU5Q75ITNG3B3tpUZb9RwKIxJcSN0=;
- b=oDNOrk1JbXAtocu29nU4WTGUyPIgFbFxItv8uzcMotiYCu07h+LtZnB2TZN7O8SCsliMp86dR5sIKiYQVe0C8JSqnPSKTHQg6mwK3bFEdaHNe/QhdNcxIgoJ/bxJkagIjW8oleBD5oyRX0nH/q5+VY7Uin1zW9XrU0FLx4uLe/mt0gPdi3uSnFpxhtWrgoJPFlfk8AA8Pedh36PRYLZ2p6tPmol6T1/BASzWRU/4LSV6g50k/Z83eJHtD2uHrW7QhrdmA2BfWjHKlEb8nMQR9A+FZFPk5LhhbYT8+7/t426kDinJ6YkGuqywS9n6X9IZVItncgkm9gLydN86pOU6dA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y6Ei4IO43jKEUrpU5Q75ITNG3B3tpUZb9RwKIxJcSN0=;
- b=5c/b8Ey/jJHwYbsrTuP3uvCKHuExHWkemCrnrBje1FVOUjeP0Op9P5BNLI2KXQMFKCp+YS7ABZi0CWhppDnAplTpL7+Aplmy3YZOPeWZTQLaHQFpZI5DNDrISYyGu1B0DFphNyCBqTIGEP6YPtgIdG5P0MWLJsIP/Xocea7sF5g=
-Received: from BN9PR03CA0045.namprd03.prod.outlook.com (2603:10b6:408:fb::20)
- by BN9PR12MB5308.namprd12.prod.outlook.com (2603:10b6:408:105::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Thu, 17 Mar
- 2022 00:20:44 +0000
-Received: from BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fb:cafe::99) by BN9PR03CA0045.outlook.office365.com
- (2603:10b6:408:fb::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17 via Frontend
- Transport; Thu, 17 Mar 2022 00:20:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT045.mail.protection.outlook.com (10.13.177.47) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5081.14 via Frontend Transport; Thu, 17 Mar 2022 00:20:43 +0000
-Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 16 Mar
- 2022 19:20:42 -0500
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [RFC PATCH 4/4] drm/amdgpu: Do bo_va ref counting for KFD BOs
-Date: Wed, 16 Mar 2022 20:20:06 -0400
-Message-ID: <20220317002006.342457-5-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220317002006.342457-1-Felix.Kuehling@amd.com>
-References: <20220317002006.342457-1-Felix.Kuehling@amd.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27A410EABA;
+ Thu, 17 Mar 2022 00:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647476810; x=1679012810;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mu+/zQqsXTdOSblF1nO8MHIoGvuEvZTJASHiyEa2wU4=;
+ b=E9KVNgwqnqCHnLHSXHsqVYd4OgCREJ7CoDdwQ9IDlOux6ctsfWKU+ttq
+ WtP6XBN5X8AZkoyjRgCeX6v688l/MC0Lj0iJ6x8pdt3E4TvqUSBJoPVFH
+ QmyLOFilQttVvb8C7v9/rvDofY15e5CR+Lh+8gktH5bAnkpZpjJAudac7
+ k3LvMgfWm+imlS+AOp0qhxu26KzefMj6/Q4xrURU7vXwD0m+L1GYokfw2
+ fIHnf6+cH+uhr3DRUAPcyDs7veWuUMO1aURkSsq0fhl5Xmcm0zEcNb8Q+
+ 06u2WiI2MDN+Gwi+JvXV0hj4HUFjLoX11XpkymfpJ5UjFpNhaBJQAuuiF w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="244199883"
+X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="244199883"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 17:26:50 -0700
+X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="557694628"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 17:26:50 -0700
+Date: Wed, 16 Mar 2022 17:20:44 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915: Add logical mapping for video decode engines
+Message-ID: <20220317002044.GA13917@jons-linux-dev-box>
+References: <20220316234538.434357-1-lucas.demarchi@intel.com>
+ <20220316234538.434357-2-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bf255dcc-45c3-498a-db6f-08da07abf9d0
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5308:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5308404B5CC7F9DD3FE051B492129@BN9PR12MB5308.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1rDzJrZFg6qOhXPBp6ZwGZeCjPlJMqgBsB8bx+1SNYq90V5y+oh7fOIEtrGqD2KWOa37O8HcJIAoeeoAFVAKGrPUiHlVthweHPAjW1ZAORDEVgpTVVPvgMpMo4C2kCxkTcX+a2ZtCFj8Y95FbbAr+75+6jmWVpwhLmiCh2JMCKhDyUsP26Wk5kRdKTgXU++D1dInYvd/uallPvbu+F9hW+1uG5wkXTfor5HeLzFQPcLJ1w17z8VjPQgOhDZ3dvWqSDdcVWaxZOAHfOfS0Uubo3yHxEAAuEOjsTU7S5onvMcvIthCGZyaKtgQd06LQabjK+OtFtKYLDYdbmaHdyXqFnRB82GZ7nmnyv/pTtlNtWxHpwHSYIKOt5XivvpE/3xbekA61VP3Q57joJJUH28lJ1dQyy5LAZLZ9iKo41y8TebwTCoRLWOyCGV/5zVqJSKTVN3j1tqrEGiJWg5vhlWcZ4NGxTEKiVwsb9IM0ho32q4ResI9xiKmWuxJ8LvGFfcXYofFbV6rPahATjSIeMewX061YtkQAdRT2VC0q/HNMeoF2Q0OwCMuOUYY8oKsibFD/+T51wR5xAs9eA3eYMvffxrxPw1OIN+X1UwII3KaU1Ugbwe0rfUbWdVWyn6Ej/jp/fgXVF0Gw5JCf+SCFwqSJIHiohi9bG9j7oSx68zvIVFnaV2bo7RO4e6jzsX4qoMMknO+MNuOKVNcBagnEjCqCw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(4326008)(86362001)(82310400004)(8676002)(83380400001)(450100002)(70206006)(47076005)(70586007)(16526019)(36860700001)(426003)(336012)(2616005)(1076003)(186003)(26005)(356005)(81166007)(40460700003)(508600001)(8936002)(2906002)(54906003)(316002)(7696005)(6916009)(5660300002)(36756003)(6666004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 00:20:43.6644 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf255dcc-45c3-498a-db6f-08da07abf9d0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5308
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220316234538.434357-2-lucas.demarchi@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,83 +58,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is needed to correctly handle BOs imported into the GEM API, which
-would otherwise get added twice to the same VM.
+On Wed, Mar 16, 2022 at 04:45:38PM -0700, Lucas De Marchi wrote:
+> From: Matthew Brost <matthew.brost@intel.com>
+> 
+> Add logical mapping for VDBOXs. This mapping is required for
+> split-frame workloads, which otherwise fail with
+> 
+> 	00000000-F8C53528: [GUC] 0441-INVALID_ENGINE_SUBMIT_MASK
+> 
+> ... if the application is using the logical id to reorder the engines and
+> then using it for the batch buffer submission. It's not a big problem on
+> media version 11 and 12 as they have only 2 instances of VCS and the
+> logical to physical mapping is monotonically increasing - if the
+> application is not using the logical id.
+> 
+> Changing it for the previous platforms allows the media driver
+> implementation for the next ones (12.50 and above) to be the same,
+> checking the logical id. It should also not introduce any bug for the
+> old versions of userspace not checking the id.
+> 
+> The mapping added here is the complete map needed by XEHPSDV. Previous
+> platforms with only 2 instances will just use a partial map and should
+> still work.
+> 
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> [ Extend the mapping to media versions 11 and 12 and give proper
+>   justification in the commit message why ]
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 26 +++++++++++++++----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+For the changes to the patch / commit message:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 6f90ff4b485d..bf90b2fa2738 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -371,8 +371,16 @@ static int amdgpu_amdkfd_bo_validate_and_fence(struct amdgpu_bo *bo,
- 		return ret;
- 
- 	ret = amdgpu_amdkfd_bo_validate(bo, domain, true);
--	if (!ret)
--		amdgpu_bo_fence(bo, fence, true);
-+	if (ret)
-+		goto unreserve_out;
-+
-+	ret = dma_resv_reserve_shared(bo->tbo.base.resv, 1);
-+	if (ret)
-+		goto unreserve_out;
-+
-+	amdgpu_bo_fence(bo, fence, true);
-+
-+unreserve_out:
- 	amdgpu_bo_unreserve(bo);
- 
- 	return ret;
-@@ -716,6 +724,7 @@ static int kfd_mem_attach(struct amdgpu_device *adev, struct kgd_mem *mem,
- 	uint64_t va = mem->va;
- 	struct kfd_mem_attachment *attachment[2] = {NULL, NULL};
- 	struct amdgpu_bo *bo[2] = {NULL, NULL};
-+	struct amdgpu_bo_va *bo_va;
- 	int i, ret;
- 
- 	if (!va) {
-@@ -779,7 +788,12 @@ static int kfd_mem_attach(struct amdgpu_device *adev, struct kgd_mem *mem,
- 			pr_debug("Unable to reserve BO during memory attach");
- 			goto unwind;
- 		}
--		attachment[i]->bo_va = amdgpu_vm_bo_add(adev, vm, bo[i]);
-+		bo_va = amdgpu_vm_bo_find(vm, bo[i]);
-+		if (!bo_va)
-+			bo_va = amdgpu_vm_bo_add(adev, vm, bo[i]);
-+		else
-+			++bo_va->ref_count;
-+		attachment[i]->bo_va = bo_va;
- 		amdgpu_bo_unreserve(bo[i]);
- 		if (unlikely(!attachment[i]->bo_va)) {
- 			ret = -ENOMEM;
-@@ -803,7 +817,8 @@ static int kfd_mem_attach(struct amdgpu_device *adev, struct kgd_mem *mem,
- 			continue;
- 		if (attachment[i]->bo_va) {
- 			amdgpu_bo_reserve(bo[i], true);
--			amdgpu_vm_bo_del(adev, attachment[i]->bo_va);
-+			if (--attachment[i]->bo_va->ref_count == 0)
-+				amdgpu_vm_bo_del(adev, attachment[i]->bo_va);
- 			amdgpu_bo_unreserve(bo[i]);
- 			list_del(&attachment[i]->list);
- 		}
-@@ -820,7 +835,8 @@ static void kfd_mem_detach(struct kfd_mem_attachment *attachment)
- 
- 	pr_debug("\t remove VA 0x%llx in entry %p\n",
- 			attachment->va, attachment);
--	amdgpu_vm_bo_del(attachment->adev, attachment->bo_va);
-+	if (--attachment->bo_va->ref_count == 0)
-+		amdgpu_vm_bo_del(attachment->adev, attachment->bo_va);
- 	drm_gem_object_put(&bo->tbo.base);
- 	list_del(&attachment->list);
- 	kfree(attachment);
--- 
-2.32.0
+Acked-by: Matthew Brost <matthew.brost@intel.com>
 
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 8080479f27aa..afa2e61cf729 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -731,12 +731,24 @@ static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
+>  
+>  static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
+>  {
+> -	int i;
+> -	u8 map[MAX_ENGINE_INSTANCE + 1];
+> +	/*
+> +	 * Logical to physical mapping is needed for proper support
+> +	 * to split-frame feature.
+> +	 */
+> +	if (MEDIA_VER(gt->i915) >= 11 && class == VIDEO_DECODE_CLASS) {
+> +		static const u8 map[] = { 0, 2, 4, 6, 1, 3, 5, 7 };
+>  
+> -	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
+> -		map[i] = i;
+> -	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
+> +		populate_logical_ids(gt, logical_ids, class,
+> +				     map, ARRAY_SIZE(map));
+> +	} else {
+> +		int i;
+> +		u8 map[MAX_ENGINE_INSTANCE + 1];
+> +
+> +		for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
+> +			map[i] = i;
+> +		populate_logical_ids(gt, logical_ids, class,
+> +				     map, ARRAY_SIZE(map));
+> +	}
+>  }
+>  
+>  /**
+> -- 
+> 2.35.1
+> 
