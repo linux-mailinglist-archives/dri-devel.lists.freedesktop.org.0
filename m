@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41D44DCFA1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 21:45:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BE54DCFAF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 21:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E51010E7E9;
-	Thu, 17 Mar 2022 20:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4E010E0D7;
+	Thu, 17 Mar 2022 20:55:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD6BE10E103;
- Thu, 17 Mar 2022 20:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1647549944; x=1679085944;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=hl8P+qRLRH8B9uYa1kVh8yuL9rMFyQViq9H9Yb65PJM=;
- b=vE5TOZz1Gk0i3j52GTzgvr0DXUksiyaTynqh4zMNIn2x7iUQqk8rjOvu
- dlcbNnSjNg5duqEApe10Ny1h5BosQa4ipCbxAFsxfcyTHBTcgT6YR9XES
- EwqDy6BZoNgc3plVpljsxsvkD2XZkFhbe8WP6fTJxifkP2YIc26LeaBBX k=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Mar 2022 13:45:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 13:45:42 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 17 Mar 2022 13:45:42 -0700
-Received: from [10.216.15.137] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 17 Mar
- 2022 13:45:37 -0700
-Message-ID: <3b066b63-c180-09c6-e39f-b408464b5bc1@quicinc.com>
-Date: Fri, 18 Mar 2022 02:15:34 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8826710E0D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 20:55:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6294761998
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 20:55:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E2BC340FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 20:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647550516;
+ bh=pze1z1BdbXGkFdCxOha8uoXDciJVurg0YhEMJq3runk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Ktz2HPv5Pvoq5YlkjrG5Lt14WuOZ1WqdctrngtoEUA0ULYWXkp85ADx8csL0NspFW
+ qWT9JuRKq+q7fVk55t731YG5jhwGDnVVB5RRkAj0iOa/aeoBE2L+0tNJSBhDc0AhaV
+ S7DAyRb7NHc/vaG1O9OHjH3iDYwi4ma07WIYMFWJrJ8wsngV72DRHo+wMP2gG4H6eo
+ W78OeQWk+aFMciXG4f0HrQ/HM5/FeVpHHdQICSksdbDQ/S/Dts7T06WvmODpVNSht9
+ fFFwsc13ghT+2dKVV2Wjt3E6HSxjchuy5ExbeczRSSwoxMuWnzMAKV42AEO0Qzn789
+ RimGbzj7YTOtg==
+Received: by mail-wm1-f54.google.com with SMTP id
+ m42-20020a05600c3b2a00b00382ab337e14so5607478wms.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 13:55:15 -0700 (PDT)
+X-Gm-Message-State: AOAM530c683iJyl0XSPi0jFzHJLhzaBPnMWq1gV/4moBg4aeDqnXVNnb
+ 9broTVxX9NGdKw8G6lSGU734k5rGzih/QLhr9Og=
+X-Google-Smtp-Source: ABdhPJyZSHw1ltlznEHKpdgeeoKyl8jbWM+Dk2G5VG9wHw91b7cvT5lTxqYcy7l9pCd4B5lxaWL6odka8LdVjGdJIyo=
+X-Received: by 2002:a7b:cd13:0:b0:38b:f39c:1181 with SMTP id
+ f19-20020a7bcd13000000b0038bf39c1181mr5645518wmj.20.1647550514226; Thu, 17
+ Mar 2022 13:55:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/gpu: Remove mutex from wait_event
- condition
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20220310234611.424743-1-robdclark@gmail.com>
- <20220310234611.424743-4-robdclark@gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20220310234611.424743-4-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220316183708.1505846-1-arnd@kernel.org>
+ <aaf204b2-e876-d271-3d4e-51cbcc70d690@suse.de>
+ <1f6c4559-ee48-ca67-8ff1-f7f9d330bc12@suse.de>
+ <CAK8P3a3ogV8sJshQJrzHe7hc2k1Opq-2hvXf6DU+HfhREk-DhQ@mail.gmail.com>
+ <7082c67a-a336-54fc-dd32-81b9b8c0a64b@suse.de>
+In-Reply-To: <7082c67a-a336-54fc-dd32-81b9b8c0a64b@suse.de>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Thu, 17 Mar 2022 21:54:58 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0Tfnza=OSR=-A_2u5QYNx8ZPm+FrFUtncVZMQYVNsATQ@mail.gmail.com>
+Message-ID: <CAK8P3a0Tfnza=OSR=-A_2u5QYNx8ZPm+FrFUtncVZMQYVNsATQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: add CONFIG_DRM_KMS_HELPER dependencies
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +65,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Vladimir
- Lypak <vladimir.lypak@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@linux.ie>,
+ Dillon Min <dillon.minfei@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Douglas Anderson <dianders@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/11/2022 5:16 AM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Thu, Mar 17, 2022 at 8:15 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Am 16.03.22 um 21:59 schrieb Arnd Bergmann:
+> > On Wed, Mar 16, 2022 at 8:31 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > I was going for 'depends on' in the panel drivers because I saw the same being
+> > done for other panel drivers, and mixing the two methods causes dependency
+> > loops. I looked again now, and find that 'select DRM_KMS_HELPER' is more
+> > common for other drivers, and makes sense here because it is generally
+> > not user-selectable.
+> >
+> > The easiest replacement for my patch would then be to just use 'select
+> > DRM_KMS_HELPER' from CONFIG_DRM_MIPI_DBI, which makes it
+> > safer and more consistent with your change. If you like, I'll send an updated
+> > version.
 >
-> The mutex wasn't really protecting anything before.  Before the previous
-> patch we could still be racing with the scheduler's kthread, as that is
-> not necessarily frozen yet.  Now that we've parked the sched threads,
-> the only race is with jobs retiring, and that is harmless, ie.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +----------
->   1 file changed, 1 insertion(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 0440a98988fc..661dfa7681fb 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -607,15 +607,6 @@ static int adreno_runtime_resume(struct device *dev)
->   	return gpu->funcs->pm_resume(gpu);
->   }
->   
-> -static int active_submits(struct msm_gpu *gpu)
-> -{
-> -	int active_submits;
-> -	mutex_lock(&gpu->active_lock);
-> -	active_submits = gpu->active_submits;
-> -	mutex_unlock(&gpu->active_lock);
-I assumed that this lock here was to ensure proper barriers while 
-reading active_submits. Is that not required?
+> MIPI DBI is another helper and select is not transitive IIRC. So drivers
+> would still have to select KMS helpers as well. (?)
 
--Akhil.
-> -	return active_submits;
-> -}
-> -
->   static int adreno_runtime_suspend(struct device *dev)
->   {
->   	struct msm_gpu *gpu = dev_to_gpu(dev);
-> @@ -669,7 +660,7 @@ static int adreno_system_suspend(struct device *dev)
->   	suspend_scheduler(gpu);
->   
->   	remaining = wait_event_timeout(gpu->retire_event,
-> -				       active_submits(gpu) == 0,
-> +				       gpu->active_submits == 0,
->   				       msecs_to_jiffies(1000));
->   	if (remaining == 0) {
->   		dev_err(dev, "Timeout waiting for GPU to suspend\n");
+Not sure what you mean here: if a driver selects DRM_MIPI_DBI,
+and DRM_MIPI_DBI selects DRM_KMS_HELPER, the leaf driver
+does not need to select DRM_KMS_HELPER because it is already
+selected. This is one of the major problems of overusing 'select' because
+you end up unable to turn things off.
 
+Maybe you are thinking of the case where DRM_MIPI_DBI depends
+on DRM_KMS_HELPER, and something selects DRM_MIPI_DBI.
+In this case, the dependency does /not/ get inherited by the leaf
+driver, it needs a copy of the dependency or it triggers a warning,
+which is what my patch intended.
+
+> More generally, I think you're right about making DRM helper libraries
+> using 'depends on' to link to other libraries. Drivers would at least
+> know which config symbols to select. A number of config rules would have
+> to be adapted to make that happen, I guess.
+
+Generally speaking, a problem with DRM is that it uses way too
+much 'select' to enforce other subsystems to be enabled, this is
+what causes DRM to have more problems with incorrect or circular
+dependencies, and the only way to avoid that is to be consistent
+about the dependencies: each symbol should only be referenced
+with either 'select' or 'depends on' but not both, and 'select' should
+ideally only be used on hidden symbols.
+
+> > One thing I'm not sure about is whether there is still use for ever having
+> > CONFIG_DRM without CONFIG_DRM_KMS_HELPER if it gets selected
+> > by almost every driver anyway. Is this actually a configuration that
+> > users rely on, or should we just remove the symbol completely and
+> > build the KMS helpers unconditionally?
+>
+> Best leave it as it is. i915 doesn't use it. And since it's a helper, it
+> should not be lumped together with core DRM code simply for reasons of
+> design.
+
+Ok
+
+> For DRM_KMS_HELPER itself, the mid-term plan is to move some of the code
+> into other modules. KMS helpers used to contain all kind of helpers, but
+> recently there's interest in reducing the minimum size of a built-in DRM
+> with minimal driver support. So the non-essential stuff needs to go into
+> modules for the more-sophisticated DRM drivers.
+
+Right, that makes sense.
+
+       Arnd
