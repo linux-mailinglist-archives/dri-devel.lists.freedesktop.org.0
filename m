@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7B74DC2B1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 10:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0B54DC2FA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 10:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2610410E5E1;
-	Thu, 17 Mar 2022 09:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3854410E0CD;
+	Thu, 17 Mar 2022 09:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E302110E5E1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 09:29:59 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q20so2754415wmq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 02:29:59 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E32C410E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 09:36:58 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id h23so5877269wrb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 02:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=PPV/3yekNxP1EceqjJGpxw/gKPSHQInEWHupNJLTBAk=;
- b=ZaBsMr07JDXPa67dzAwVceU/0XWQ7VpYQsLwMcBf/Vz6W01miH3I1FJHBB7wtNBezI
- sodGoGW9TYwAEZF+SB1xNiWpQWoX6WctRmYX9zWNomJqoyrmn6Zc425p3qc3G/JYKsqg
- oQ/2jcQhcKJ6I/gwo7+3NlRxWXiEWCfRv8dvA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=O1i7cT2ko1hGy64hM+B681n9QzyGnrB/xnsaByZUNh8=;
+ b=bT3V2iREkpKRmBDY+g7eALtr2ZrQzwNd3hRJ8VsYaZQdh4QtwfMbuvSO2LYeQck2+m
+ blb5DQOnSiZn9qqTx7mM3L6osuzQv91f7qSuuELZYtAgFdShTDmlAlhAO+/4/qeqIahJ
+ w2bbZqr2KyIMqNh+SX3GTt0IaCKm1NIHnbjNs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=PPV/3yekNxP1EceqjJGpxw/gKPSHQInEWHupNJLTBAk=;
- b=gIDvcLaUZ+el/kR+KfMviho8SO46PFZgzNgnRs2QIR6aL1JXFZbg+ywZel9+qKx90D
- 4GDRLg94WIgSmgs4+5W0vPyY+TNBb0gaGAjhvnacEJUicFANgUWZf78L5Ra+Rws4S0K1
- vWmI0Mm4yTIHNAStlLjZqOtmViWcro75Xm3FdpGRKVEKkLBESyEFQcc/3D6BCaPc1hsi
- ZLh2zQ6ouWv+5WgxAiuChYeXEdcun3lRlVqFSKcLTpDNoenM7kaNlBsUBKPlOS6cknDo
- /y8EvrI3z/Gtte/hd9ZsVywnZqdQu/f8QBnGUN42kNhclHvNVKT7z3qWbPQeEM+rs/Vr
- oAww==
-X-Gm-Message-State: AOAM531zwuxDuYAxp4ExPs+3fXjMxGIe9yfLMFH4QfvPHwHOwfT/v57F
- jjjdG+wUpOEjYLJPbsUQateluw==
-X-Google-Smtp-Source: ABdhPJxoRvRG+o/gOKpQUASU/0daU/fVdPz1QW8lZ31zZ9KKfEPD/2l8jKzGdNB0WKSsMhjcMezgeA==
-X-Received: by 2002:a05:600c:4e07:b0:38c:8187:13c3 with SMTP id
- b7-20020a05600c4e0700b0038c818713c3mr508203wmq.11.1647509398135; 
- Thu, 17 Mar 2022 02:29:58 -0700 (PDT)
+ bh=O1i7cT2ko1hGy64hM+B681n9QzyGnrB/xnsaByZUNh8=;
+ b=YOHIplqX1cX7Vq+4bKkjVHBuQL8LJOBAwXlcGPYm/MbTpUogbpp5i3R49+YnBtSHVW
+ eRC5opAIIxDqlgCF0r2egQW0R2S5IUIx4gS+NeIzWDgZIpuJ1ZVcpL3ilIi6FIOaSPAu
+ sbfW2/CQj0cNhpVbf6hejoHt4pzirOxZT40OnkQOm3suGpoIt5UF219yOBqgGCot2Y08
+ zg2P1UH5R81KGAqjMl3PqTgua1fAqkMwQBr9PWxShuiUmcnUVUprPkap+pSjpzbWLgKL
+ ofjC3GDE30wyTkvUIrYgeoxUbQVFy++YmMj5gO8VRo/nkHoR9KsMCLG5jHc4UoqyrKuo
+ 7hOQ==
+X-Gm-Message-State: AOAM533jmw0VDlO7TiCqmVUqqBelM+uvFnSHjsH0q/CvfNGa/Cj0f7cn
+ NpPhK/jK2PAI+AF9p0W3Q4QLTg==
+X-Google-Smtp-Source: ABdhPJyBrD7lqlP9xmnBLxk8QITal87n7bvpbobiyjAncbEh+KRG7YowAhGzRkaFfT/qWpV6bR+A+w==
+X-Received: by 2002:a5d:47c8:0:b0:1ef:8e97:2b8c with SMTP id
+ o8-20020a5d47c8000000b001ef8e972b8cmr3264671wrc.545.1647509817467; 
+ Thu, 17 Mar 2022 02:36:57 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a05600c410700b0038c72ef3f15sm2702750wmi.38.2022.03.17.02.29.57
+ k9-20020adfd849000000b00203d18bf389sm3442926wrl.17.2022.03.17.02.36.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 02:29:57 -0700 (PDT)
-Date: Thu, 17 Mar 2022 10:29:55 +0100
+ Thu, 17 Mar 2022 02:36:56 -0700 (PDT)
+Date: Thu, 17 Mar 2022 10:36:55 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-Message-ID: <YjL/k6kh+5RihGIV@phenom.ffwll.local>
-References: <cda15a47-f469-2a7e-87b6-adf00e631ef0@amd.com>
- <CAF6AEGv3Wv+p1j2B-t22eeK+8rx-qrQHCGoXeV1-XPYp2Om7zg@mail.gmail.com>
- <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [RESEND PATCH] drm/doc: Clarify what ioctls can be used on
+ render nodes
+Message-ID: <YjMBN8XcQLmQJuWc@phenom.ffwll.local>
+Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, corbet@lwn.net,
+ pekka.paalanen@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1646667156-16366-1-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
+In-Reply-To: <1646667156-16366-1-git-send-email-quic_jhugo@quicinc.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +74,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: pekka.paalanen@collabora.com, tzimmermann@suse.de, corbet@lwn.net,
+ airlied@linux.ie, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 17, 2022 at 08:03:27AM +0100, Christian König wrote:
-> Am 16.03.22 um 16:36 schrieb Rob Clark:
-> > [SNIP]
-> > just one point of clarification.. in the msm and i915 case it is
-> > purely for debugging and telemetry (ie. sending crash logs back to
-> > distro for analysis if user has crash reporting enabled).. it isn't
-> > used for triggering any action like killing app or compositor.
+On Mon, Mar 07, 2022 at 08:32:36AM -0700, Jeffrey Hugo wrote:
+> The documentation for render nodes indicates that only "PRIME-related"
+> ioctls are valid on render nodes, but the documentation does not clarify
+> what that means.  If the reader is not familiar with PRIME, they may
+> beleive this to be only the ioctls with "PRIME" in the name and not other
+> ioctls such as set of syncobj ioctls.  Clarify the situation for the
+> reader by referencing where the reader will find a current list of valid
+> ioctls.
 > 
-> By the way, how does msm it's memory management for the devcoredumps?
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-GFP_NORECLAIM all the way. It's purely best effort.
+Applied to drm-misc-next, thanks for the patch.
+-Daniel
 
-Note that the fancy new plan for i915 discrete gpu is to only support gpu
-crash dumps on non-recoverable gpu contexts, i.e. those that do not
-continue to the next batch when something bad happens. This is what vk
-wants and also what iris now uses (we do context recovery in userspace in
-all cases), and non-recoverable contexts greatly simplify the crash dump
-gather: Only thing you need to gather is the register state from hw
-(before you reset it), all the batchbuffer bo and indirect state bo (in
-i915 you can mark which bo to capture in the CS ioctl) can be captured in
-a worker later on. Which for non-recoverable context is no issue, since
-subsequent batchbuffers won't trample over any of these things.
-
-And that way you can record the crashdump (or at least the big pieces like
-all the indirect state stuff) with GFP_KERNEL.
-
-msm probably gets it wrong since embedded drivers have much less shrinker
-and generally no mmu notifiers going on :-)
-
-> I mean it is strictly forbidden to allocate any memory in the GPU reset
-> path.
+> ---
 > 
-> > I would however *strongly* recommend devcoredump support in other GPU
-> > drivers (i915's thing pre-dates devcoredump by a lot).. I've used it
-> > to debug and fix a couple obscure issues that I was not able to
-> > reproduce by myself.
+> I was confused by this when reading the documentation.  Now that I have
+> figured out what the documentation means, I would like to add a clarification
+> for the next reader which would have helped me.
 > 
-> Yes, completely agree as well.
+>  Documentation/gpu/drm-uapi.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 199afb5..ce47b42 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -148,7 +148,9 @@ clients together with the legacy drmAuth authentication procedure.
+>  If a driver advertises render node support, DRM core will create a
+>  separate render node called renderD<num>. There will be one render node
+>  per device. No ioctls except PRIME-related ioctls will be allowed on
+> -this node. Especially GEM_OPEN will be explicitly prohibited. Render
+> +this node. Especially GEM_OPEN will be explicitly prohibited. For a
+> +complete list of driver-independent ioctls that can be used on render
+> +nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
+>  nodes are designed to avoid the buffer-leaks, which occur if clients
+>  guess the flink names or mmap offsets on the legacy interface.
+>  Additionally to this basic interface, drivers must mark their
+> -- 
+> 2.7.4
+> 
 
-+1
-
-Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
