@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DAF4DC06E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 08:47:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F6C4DC07C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 08:53:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 654E710EE57;
-	Thu, 17 Mar 2022 07:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC81410EED7;
+	Thu, 17 Mar 2022 07:53:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99B110EE57;
- Thu, 17 Mar 2022 07:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647503273; x=1679039273;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=+n8NXWIe0jCqItnph5NMnymFrmcWNbD40tr138F262M=;
- b=XOYjk5fX+NfDkP5JPDqkb2v1PNLNxwuzZfFPGxlc77yV67/rVhCkVK98
- SX/aDfUE+NGbXVjPJQB0L77XCJTA4VjQmffjrBUtKbQJHhvqyyS7wA05W
- jJvEb1UQeH/Wcm7MearjwWFPSPJJki2m3fDuLDxkABOZkMuVyfqiTfAqb
- vm5Odiai/sfia8luDKT8SQd6D0x36xWLWX5ax9uKF/qQWtI8orxrxzEox
- loFJltaXVnLDu/1wAuF38TN9KowQCFG8DzU7icMrP0pw2YAMW0TWkrThn
- jXlwUEuSrNwqbpabshbaH1KpywVkHOxpeHBKT5cHcxVYFNqaHxXEVItOt A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="256996290"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="256996290"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 00:47:53 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="557821582"
-Received: from emalinow-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.32.227])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 00:47:48 -0700
-Date: Thu, 17 Mar 2022 09:47:45 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <YjLnofpe5sMHX7Pt@jlahtine-mobl.ger.corp.intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360E810EED6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 07:53:43 +0000 (UTC)
+X-UUID: 1d6f4d3f9e8148a1a68db79f841384b3-20220317
+X-UUID: 1d6f4d3f9e8148a1a68db79f841384b3-20220317
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1653036096; Thu, 17 Mar 2022 15:53:37 +0800
+Received: from MTKMBS34N1.mediatek.inc (172.27.4.172) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Mar 2022 15:53:36 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS34N1.mediatek.inc
+ (172.27.4.172) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Mar 2022 15:53:34 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 17 Mar 2022 15:53:33 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
+Subject: [PATCH v3,
+ 0/4] Cooperate with DSI RX devices to modify dsi funcs and delay mipi
+ high to cooperate with panel sequence
+Date: Thu, 17 Mar 2022 15:53:27 +0800
+Message-ID: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Fix for vm_access() out-of-bounds access and PSR not staying disabled
-during fastset once determined not reliable.
+In upstream-v5.8, dsi_enable will operate panel_enable, but this
+modification has been moved in v5.9. In order to ensure the timing of
+dsi_power_on/off and the timing of pulling up/down the MIPI signal,
+the modification of v5.9 is synchronized in this series of patches.
 
-Then a naming fix to avoid conflicts for potential future fixes.
+Changes since v2:
+1. Rebase linux-next
 
-Regards, Joonas
+Changes since v1:
+1. Dsi sequence marked with patch adjustment
+2. Fixes: mtk_dsi: Use the drm_panel_bridge
 
-***
+Jitao Shi (3):
+  drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
+  drm/mediatek: Separate poweron/poweroff from enable/disable and define
+    new funcs
+  drm/mediatek: keep dsi as LP00 before dcs cmds transfer
 
-drm-intel-next-fixes-2022-03-17:
+Xinlei Lee (1):
+  drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
+    function
 
-- Do not re-enable PSR after it was marked as not reliable (Jose)
-- Add missing boundary check in vm_access to avoid out-of-bounds access (Mastan)
-- Naming fix for HPD short pulse handling for eDP (Jose)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 74 ++++++++++++++++++++----------
+ 1 file changed, 50 insertions(+), 24 deletions(-)
 
-The following changes since commit 5e7f44b5c2c035fe2e5458193c2bbee56db6a090:
+-- 
+2.18.0
 
-  drm/i915/gtt: reduce overzealous alignment constraints for GGTT (2022-03-09 08:34:55 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-03-17
-
-for you to fetch changes up to 278da06c03655c2bb9bc36ebdf45b90a079b3bfd:
-
-  drm/i915/display: Do not re-enable PSR after it was marked as not reliable (2022-03-16 08:17:40 +0200)
-
-----------------------------------------------------------------
-- Do not re-enable PSR after it was marked as not reliable (Jose)
-- Add missing boundary check in vm_access to avoid out-of-bounds access (Mastan)
-- Naming fix for HPD short pulse handling for eDP (Jose)
-
-----------------------------------------------------------------
-José Roberto de Souza (2):
-      drm/i915/display: Fix HPD short pulse handling for eDP
-      drm/i915/display: Do not re-enable PSR after it was marked as not reliable
-
-Mastan Katragadda (1):
-      drm/i915/gem: add missing boundary check in vm_access
-
- drivers/gpu/drm/i915/display/intel_dp.c  | 2 +-
- drivers/gpu/drm/i915/display/intel_pps.c | 6 +++---
- drivers/gpu/drm/i915/display/intel_pps.h | 2 +-
- drivers/gpu/drm/i915/display/intel_psr.c | 4 ++++
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
- 5 files changed, 10 insertions(+), 6 deletions(-)
