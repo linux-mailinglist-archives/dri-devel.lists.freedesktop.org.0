@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8054DBB4A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 00:46:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B194DBB87
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 01:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7629B10EAAC;
-	Wed, 16 Mar 2022 23:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049D410E9AD;
+	Thu, 17 Mar 2022 00:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C8410EAAE;
- Wed, 16 Mar 2022 23:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647474371; x=1679010371;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dDHNidMA0Vac0wlN4mnDQJ8h975e9wTOouqaESuKBqs=;
- b=E52nwFHUuwOxlrTBjLQSTNW3IluK08YZsKiE9Lho+2my1KfHJsQ2lS2Q
- coisxZ5aEAkechTqL5Zomi8dSv3AEQGlV9FgqKfhN1EbBCLUxv6KnVnde
- MBtOpJHcuHeOgVZi5Hpfp+MW3ZnQ3CF9Qovk6CILC27n6r59OD2m9Kbeh
- 5C4WJ64QHvTkA/lcDQzw17rk5sylk+JyoHowzIhJxoUFlegm0f580W//H
- f7OaL4rMQUXRAEXvmWLDO+kdzjA2G1VfHROc1dffeKsh2biPLR9ke+NFY
- PR9V9PRu3dxr0FweVCchM7Q5sarC0JtqKN8dRh32GfE69ES4FFSCBslsv g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="256468488"
-X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="256468488"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 16:46:10 -0700
-X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; d="scan'208";a="821038539"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 16:46:09 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Add logical mapping for video decode engines
-Date: Wed, 16 Mar 2022 16:45:38 -0700
-Message-Id: <20220316234538.434357-2-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220316234538.434357-1-lucas.demarchi@intel.com>
-References: <20220316234538.434357-1-lucas.demarchi@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43CD910E9AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 00:13:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 8A4AF1F44B1D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647476012;
+ bh=qqb77EVC3B9JYyS1YKV7QIqu1+OqFjfwTijVUTotVoc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=I3Fk24cBg52mAc1VzRMFsOvIzJfXd1RYbdfxuozKWvCb0cAZuu2HRNIp6ilUC0RiW
+ UDN5I7CzwmsnAcCuCfrNvHVvJExU81SVHT8xXcDEGI2LV9QyDeKEXNFLnkNVkIH2KD
+ YWoYPMENCId3ituT8GFVwGAqai9xHYuejzOQpsroaN5fAyRR8ufZfp3snIDmvCleBd
+ DNPHmLpawjgTQn6MM5r+UPymmeDYiLjZazqBv/P0ZpVCIHqcrBYTuG94TaygsWl5QN
+ 5M3BaoDFgqrPRQXLkOfRxwX0gUlsiAfDjdDiKX/0WfFKVYKiHNk5twDreM6fHrfMG4
+ ypkFf9rRNqi+Q==
+Message-ID: <be3b09ff-08ea-3e13-7d8c-06af6fffbd8f@collabora.com>
+Date: Thu, 17 Mar 2022 03:13:28 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 6/8] drm/shmem-helper: Add generic memory shrinker
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20220314224253.236359-1-dmitry.osipenko@collabora.com>
+ <20220314224253.236359-7-dmitry.osipenko@collabora.com>
+ <CAF6AEGsmtM6rTJtOJwTA49cwW7wCjF53Devzodd_PzLO0EOkVw@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGsmtM6rTJtOJwTA49cwW7wCjF53Devzodd_PzLO0EOkVw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,76 +51,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Steven Price <steven.price@arm.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+On 3/16/22 23:00, Rob Clark wrote:
+> On Mon, Mar 14, 2022 at 3:44 PM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>>
+>> Introduce a common DRM SHMEM shrinker. It allows to reduce code
+>> duplication among DRM drivers, it also handles complicated lockings
+>> for the drivers. This is initial version of the shrinker that covers
+>> basic needs of GPU drivers.
+>>
+>> This patch is based on a couple ideas borrowed from Rob's Clark MSM
+>> shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
+>>
+>> GPU drivers that want to use generic DRM memory shrinker must support
+>> generic GEM reservations.
+>>
+>> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 194 +++++++++++++++++++++++++
+>>  include/drm/drm_device.h               |   4 +
+>>  include/drm/drm_gem.h                  |  11 ++
+>>  include/drm/drm_gem_shmem_helper.h     |  25 ++++
+>>  4 files changed, 234 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index 37009418cd28..35be2ee98f11 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -139,6 +139,9 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  {
+>>         struct drm_gem_object *obj = &shmem->base;
+>>
+>> +       /* take out shmem GEM object from the memory shrinker */
+>> +       drm_gem_shmem_madvise(shmem, 0);
+>> +
+>>         WARN_ON(shmem->vmap_use_count);
+>>
+>>         if (obj->import_attach) {
+>> @@ -163,6 +166,42 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  }
+>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
+>>
+>> +static void drm_gem_shmem_update_purgeable_status(struct drm_gem_shmem_object *shmem)
+>> +{
+>> +       struct drm_gem_object *obj = &shmem->base;
+>> +       struct drm_gem_shmem_shrinker *gem_shrinker = obj->dev->shmem_shrinker;
+>> +       size_t page_count = obj->size >> PAGE_SHIFT;
+>> +
+>> +       if (!gem_shrinker || obj->import_attach || !obj->funcs->purge)
+>> +               return;
+>> +
+>> +       mutex_lock(&shmem->vmap_lock);
+>> +       mutex_lock(&shmem->pages_lock);
+>> +       mutex_lock(&gem_shrinker->lock);
+>> +
+>> +       if (shmem->madv < 0) {
+>> +               list_del_init(&shmem->madv_list);
+>> +               goto unlock;
+>> +       } else if (shmem->madv > 0) {
+>> +               if (!list_empty(&shmem->madv_list))
+>> +                       goto unlock;
+>> +
+>> +               WARN_ON(gem_shrinker->shrinkable_count + page_count < page_count);
+>> +               gem_shrinker->shrinkable_count += page_count;
+>> +
+>> +               list_add_tail(&shmem->madv_list, &gem_shrinker->lru);
+>> +       } else if (!list_empty(&shmem->madv_list)) {
+>> +               list_del_init(&shmem->madv_list);
+>> +
+>> +               WARN_ON(gem_shrinker->shrinkable_count < page_count);
+>> +               gem_shrinker->shrinkable_count -= page_count;
+>> +       }
+>> +unlock:
+>> +       mutex_unlock(&gem_shrinker->lock);
+>> +       mutex_unlock(&shmem->pages_lock);
+>> +       mutex_unlock(&shmem->vmap_lock);
+>> +}
+>> +
+>>  static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>>  {
+>>         struct drm_gem_object *obj = &shmem->base;
+>> @@ -366,6 +405,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>>         ret = drm_gem_shmem_vmap_locked(shmem, map);
+>>         mutex_unlock(&shmem->vmap_lock);
+>>
+>> +       drm_gem_shmem_update_purgeable_status(shmem);
+>> +
+>>         return ret;
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_shmem_vmap);
+>> @@ -409,6 +450,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+>>         mutex_lock(&shmem->vmap_lock);
+>>         drm_gem_shmem_vunmap_locked(shmem, map);
+>>         mutex_unlock(&shmem->vmap_lock);
+>> +
+>> +       drm_gem_shmem_update_purgeable_status(shmem);
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+>>
+>> @@ -451,6 +494,8 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+>>
+>>         mutex_unlock(&shmem->pages_lock);
+>>
+>> +       drm_gem_shmem_update_purgeable_status(shmem);
+>> +
+>>         return (madv >= 0);
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_shmem_madvise);
+>> @@ -763,6 +808,155 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>  }
+>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>>
+>> +static struct drm_gem_shmem_shrinker *
+>> +to_drm_shrinker(struct shrinker *shrinker)
+>> +{
+>> +       return container_of(shrinker, struct drm_gem_shmem_shrinker, base);
+>> +}
+>> +
+>> +static unsigned long
+>> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
+>> +                                    struct shrink_control *sc)
+>> +{
+>> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+>> +       u64 count = gem_shrinker->shrinkable_count;
+>> +
+>> +       if (count >= SHRINK_EMPTY)
+>> +               return SHRINK_EMPTY - 1;
+>> +
+>> +       return count ?: SHRINK_EMPTY;
+>> +}
+>> +
+>> +static unsigned long
+>> +drm_gem_shmem_shrinker_scan_objects(struct shrinker *shrinker,
+>> +                                   struct shrink_control *sc)
+>> +{
+>> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+>> +       struct drm_gem_shmem_object *shmem;
+>> +       struct list_head still_in_list;
+>> +       bool lock_contention = true;
+>> +       struct drm_gem_object *obj;
+>> +       unsigned long freed = 0;
+>> +
+>> +       INIT_LIST_HEAD(&still_in_list);
+>> +
+>> +       mutex_lock(&gem_shrinker->lock);
+>> +
+>> +       while (freed < sc->nr_to_scan) {
+>> +               shmem = list_first_entry_or_null(&gem_shrinker->lru,
+>> +                                                typeof(*shmem), madv_list);
+>> +               if (!shmem)
+>> +                       break;
+>> +
+>> +               obj = &shmem->base;
+>> +               list_move_tail(&shmem->madv_list, &still_in_list);
+>> +
+>> +               /*
+>> +                * If it's in the process of being freed, gem_object->free()
+>> +                * may be blocked on lock waiting to remove it.  So just
+>> +                * skip it.
+>> +                */
+>> +               if (!kref_get_unless_zero(&obj->refcount))
+>> +                       continue;
+>> +
+>> +               mutex_unlock(&gem_shrinker->lock);
+>> +
+>> +               /* prevent racing with job submission code paths */
+>> +               if (!dma_resv_trylock(obj->resv))
+>> +                       goto shrinker_lock;
+> 
+> jfwiw, the trylock here is in the msm code isn't so much for madvise
+> (it is an error to submit jobs that reference DONTNEED objects), but
+> instead for the case of evicting WILLNEED but inactive objects to
+> swap.  Ie. in the case that we need to move bo's back in to memory, we
+> don't want to unpin/evict a buffer that is later on the list for the
+> same job.. msm shrinker re-uses the same scan loop for both
+> inactive_dontneed (purge) and inactive_willneed (evict)
 
-Add logical mapping for VDBOXs. This mapping is required for
-split-frame workloads, which otherwise fail with
+I don't see connection between the objects on the shrinker's list and
+the job's BOs. Jobs indeed must not have any objects marked as DONTNEED,
+this case should never happen in practice, but we still need to protect
+from it.
 
-	00000000-F8C53528: [GUC] 0441-INVALID_ENGINE_SUBMIT_MASK
+> I suppose using trylock is not technically wrong, and it would be a
+> good idea if the shmem helpers supported eviction as well.  But I
+> think in the madvise/purge case if you lose the trylock then there is
+> something else bad going on.
 
-... if the application is using the logical id to reorder the engines and
-then using it for the batch buffer submission. It's not a big problem on
-media version 11 and 12 as they have only 2 instances of VCS and the
-logical to physical mapping is monotonically increasing - if the
-application is not using the logical id.
+This trylock is intended for protecting job's submission path from
+racing with madvise ioctl invocation followed by immediate purging of
+BOs while job is in a process of submission, i.e. it protects from a
+use-after-free.
 
-Changing it for the previous platforms allows the media driver
-implementation for the next ones (12.50 and above) to be the same,
-checking the logical id. It should also not introduce any bug for the
-old versions of userspace not checking the id.
+If you'll lose this trylock, then shrinker can't use
+dma_resv_test_signaled() reliably anymore and shrinker may purge BO
+before job had a chance to add fence to the BO's reservation.
 
-The mapping added here is the complete map needed by XEHPSDV. Previous
-platforms with only 2 instances will just use a partial map and should
-still work.
+> Anyways, from the PoV of minimizing lock contention when under memory
+> pressure, this all looks good to me.
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-[ Extend the mapping to media versions 11 and 12 and give proper
-  justification in the commit message why ]
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 8080479f27aa..afa2e61cf729 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -731,12 +731,24 @@ static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
- 
- static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
- {
--	int i;
--	u8 map[MAX_ENGINE_INSTANCE + 1];
-+	/*
-+	 * Logical to physical mapping is needed for proper support
-+	 * to split-frame feature.
-+	 */
-+	if (MEDIA_VER(gt->i915) >= 11 && class == VIDEO_DECODE_CLASS) {
-+		static const u8 map[] = { 0, 2, 4, 6, 1, 3, 5, 7 };
- 
--	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
--		map[i] = i;
--	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
-+		populate_logical_ids(gt, logical_ids, class,
-+				     map, ARRAY_SIZE(map));
-+	} else {
-+		int i;
-+		u8 map[MAX_ENGINE_INSTANCE + 1];
-+
-+		for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
-+			map[i] = i;
-+		populate_logical_ids(gt, logical_ids, class,
-+				     map, ARRAY_SIZE(map));
-+	}
- }
- 
- /**
--- 
-2.35.1
-
+Thank you. I may try to add generic eviction support to the v3.
