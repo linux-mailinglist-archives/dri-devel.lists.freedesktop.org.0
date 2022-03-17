@@ -1,84 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931F34DC4F4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 12:40:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0A74DC56B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Mar 2022 13:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08A910E598;
-	Thu, 17 Mar 2022 11:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670A610E7F2;
+	Thu, 17 Mar 2022 12:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1813110E598
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 11:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647517203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S0GPDzZRGu9yOKrwYapaocFp6V53jwtR479N3pP5zYg=;
- b=aEp6kF7gUuY4/XTLeDGBcVzZ4kzM9jlV4UEPWP7LfZwmQ6XeL/H7TT5CPWsFaFbDRlABB6
- TtOVUJ1gZ4E3d07UG/5sq0A8uMHADm6N0Akavr22zXzGIOYlE2qvPawnsYGjJhEQp4/dej
- 1JMFZigvbpYRobT61VrVpRZ3dW77BW0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-Tijvdq2CM_CktLT6BISUPw-1; Thu, 17 Mar 2022 07:40:00 -0400
-X-MC-Unique: Tijvdq2CM_CktLT6BISUPw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s8-20020adfc548000000b00203eba1052eso343583wrf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 04:40:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=S0GPDzZRGu9yOKrwYapaocFp6V53jwtR479N3pP5zYg=;
- b=i/FEHd5AH7MFbf2phoiFBGWBdBFrKY3h7TFC8NyFgQ+TwSo+gIFhQJ2a5qkCsP+FVU
- O31qpW6/VRX+C4nNT0szd5UPGLqGS1KOYIgKwUM/JFkMtL5KfvMTw8ntInnuiWYPuxgv
- gf53MZmvFoyK6PdIXA1dKkClYD7ORkhv/iIaNhUdV1htdPtn8fqJpHzL4WbndKUzHXbx
- Y6jbLPnT+iWPDa18UfC6I0kZpzizoxrHISgvf5Xxu7Gh8xaXEfrTr4THeZg2UA94YWeR
- 5y/IBilnlgLXb31wXmlEBlij6DfNAkWtWFp8aQa3kjseZp5xwor90BJgOQBLjFP47V51
- 5Xtw==
-X-Gm-Message-State: AOAM532G65A9ShICK/pWjDQ4gsARvpvT5TNT+B277dmUsySXs4vxI2vL
- SF8qquBWVM3mmACbMvMSIBglXIUC6tsuoSsZWeZxSboxkpFSGieVTTkAjcSPUReM2Ww4fihIpdt
- oIZ1f9GViszBHvkpbyVqDoQSWqQmt
-X-Received: by 2002:a5d:4f12:0:b0:203:f0cc:da04 with SMTP id
- c18-20020a5d4f12000000b00203f0ccda04mr563358wru.248.1647517199312; 
- Thu, 17 Mar 2022 04:39:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJQe+TzlCkwrcKAsgJu9Uxvo9kmJPknXmxL33nxErHnUYSKMO7U0NlsOT7yuGusesX59ASrA==
-X-Received: by 2002:a5d:4f12:0:b0:203:f0cc:da04 with SMTP id
- c18-20020a5d4f12000000b00203f0ccda04mr563342wru.248.1647517199097; 
- Thu, 17 Mar 2022 04:39:59 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- m185-20020a1ca3c2000000b0038c836a5c13sm224338wme.20.2022.03.17.04.39.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 04:39:58 -0700 (PDT)
-Message-ID: <f94c0f44-36f1-e1a9-5963-5da0bafb8c90@redhat.com>
-Date: Thu, 17 Mar 2022 12:39:57 +0100
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB6D710E7F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 12:02:36 +0000 (UTC)
+X-UUID: 12aae9d8271b44f9a67eb1fcfa2ce2e1-20220317
+X-UUID: 12aae9d8271b44f9a67eb1fcfa2ce2e1-20220317
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 195931757; Thu, 17 Mar 2022 20:02:22 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Mar 2022 20:02:21 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Mar 2022 20:02:21 +0800
+Message-ID: <390025b57d3345c34071231c68350e9311af64c9.camel@mediatek.com>
+Subject: Re: [PATCH v3,2/4] drm/mediatek: Separate poweron/poweroff from
+ enable/disable and define new funcs
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Thu, 17 Mar 2022 20:02:21 +0800
+In-Reply-To: <1647503611-13144-3-git-send-email-xinlei.lee@mediatek.com>
+References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
+ <1647503611-13144-3-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/5] drm: Fix monochrome conversion for sdd130x
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220317081830.1211400-1-geert@linux-m68k.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220317081830.1211400-1-geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +52,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+Hello Xinlei,
 
-On 3/17/22 09:18, Geert Uytterhoeven wrote:
->         Hi all,
+On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
+> From: Jitao Shi <jitao.shi@mediatek.com>
 > 
-> This patch series contains fixes and improvements for the XRGB888 to
-> monochrome conversion in the DRM core, and for its users.
+> In order to match the changes of "Use the drm_panel_bridge API",
+> the poweron/poweroff of dsi is extracted from enable/disable and
+> defined as new funcs (pre_enable/post_disable).
 > 
-> This has been tested on an Adafruit FeatherWing 128x32 OLED, connected
-> to an OrangeCrab ECP5 FPGA board running a 64 MHz VexRiscv RISC-V
-> softcore, using a text console with 4x6, 7x14 and 8x8 fonts.
+> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
+> API")
 > 
-> Thanks!
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++++-----------
+> --
+>  1 file changed, 26 insertions(+), 19 deletions(-)
 > 
-> Geert Uytterhoeven (5):
->   drm/format-helper: Rename drm_fb_xrgb8888_to_mono_reversed()
->   drm/format-helper: Fix XRGB888 to monochrome conversion
->   drm/ssd130x: Fix rectangle updates
->   drm/ssd130x: Reduce temporary buffer sizes
->   drm/repaper: Reduce temporary buffer size in repaper_fb_dirty()
->
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 262c027d8c2f..e33caaca11a7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -679,16 +679,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> *dsi)
+>  	if (--dsi->refcount != 0)
+>  		return;
+>  
+> -	/*
+> -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> -	 * mtk_dsi_stop() should be called after
+> mtk_drm_crtc_atomic_disable(),
+> -	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> irq.
+> -	 * mtk_dsi_start() needs to be called in
+> mtk_output_dsi_enable(),
+> -	 * after dsi is fully set.
+> -	 */
+> -	mtk_dsi_stop(dsi);
+> -
+> -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>  	mtk_dsi_reset_engine(dsi);
+>  	mtk_dsi_lane0_ulp_mode_enter(dsi);
+>  	mtk_dsi_clk_ulp_mode_enter(dsi);
+> @@ -703,17 +693,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> *dsi)
+>  
+>  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+>  {
+> -	int ret;
+> -
+>  	if (dsi->enabled)
+>  		return;
+>  
+> -	ret = mtk_dsi_poweron(dsi);
+> -	if (ret < 0) {
+> -		DRM_ERROR("failed to power on dsi\n");
+> -		return;
+> -	}
+> -
+>  	mtk_dsi_set_mode(dsi);
+>  	mtk_dsi_clk_hs_mode(dsi, 1);
+>  
+> @@ -727,7 +709,16 @@ static void mtk_output_dsi_disable(struct
+> mtk_dsi *dsi)
+>  	if (!dsi->enabled)
+>  		return;
+>  
+> -	mtk_dsi_poweroff(dsi);
+> +	/*
+> +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
 
-Thanks for re-spinning this series and again for fixing my bugs!
+Why they are asymmetric?
 
-I pushed patches 1-4 to drm-misc (drm-misc-next) but left patch 5 since
-would like to give Noralf the opportunity to review/test before pushing.
+> +	 * mtk_dsi_stop() should be called after
+> mtk_drm_crtc_atomic_disable(),
+> +	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> irq.
+> +	 * mtk_dsi_start() needs to be called in
+> mtk_output_dsi_enable(),
+> +	 * after dsi is fully set.
+> +	 */
+> +	mtk_dsi_stop(dsi);
+> +
+> +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>  
+>  	dsi->enabled = false;
+>  }
+> @@ -765,10 +756,26 @@ static void mtk_dsi_bridge_enable(struct
+> drm_bridge *bridge)
+>  	mtk_output_dsi_enable(dsi);
+>  }
+>  
+> +static void mtk_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	mtk_dsi_poweron(dsi);
 
-By the way, you should probably request commit access to the drm-misc tree:
+Should you handle the error of mtk_dsi_poweron?
+If you failed to mtk_dsi_bridge_pre_enable and do
+mtk_dsi_bridge_enable,
+what will happend?
 
-https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
+> +}
+> +
+> +static void mtk_dsi_bridge_post_disable(struct drm_bridge *bridge)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	mtk_dsi_poweroff(dsi);
 
--- 
-Best regards,
+If you failed to mtk_dsi_bridge_disable and you do
+mtk_dsi_bridge_post_disable,
+what will happend?
+Do you need to handle this?
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+BRs,
+Rex
+
+> +}
+> +
+>  static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+>  	.attach = mtk_dsi_bridge_attach,
+>  	.disable = mtk_dsi_bridge_disable,
+>  	.enable = mtk_dsi_bridge_enable,
+> +	.pre_enable = mtk_dsi_bridge_pre_enable,
+> +	.post_disable = mtk_dsi_bridge_post_disable,
+>  	.mode_set = mtk_dsi_bridge_mode_set,
+>  };
+>  
 
