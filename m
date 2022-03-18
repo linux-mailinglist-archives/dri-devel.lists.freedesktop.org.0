@@ -1,46 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7CF4DE0DA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:14:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D545A4DE0CA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2965A10E1F7;
-	Fri, 18 Mar 2022 18:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 634A810E150;
+	Fri, 18 Mar 2022 18:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6F4710E281;
- Fri, 18 Mar 2022 18:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647627260; x=1679163260;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QK7NF1CJIbW0JrWoVOPG7UuNSCT74IWBynC5WQ0oTxw=;
- b=l6ZMNBDNKPTjHqIQHUiC7wrJCboW17jCMBAR97mQLlQ176izXiOGEI0Z
- 3KI3KFtwlpQq2JiwsfWu0MvEFLmT8wNRiHqBsVljI+kP6LcuDzE3YyFBk
- dkPlpGTB6v+gbXPz3HgPIVaGrtoj/b/7fDXF3EBDfuzAfpWNNBe5qcX7L
- hYHfAKeNNE0ApPjTM41BYajmlAAB4SabCX4/C7pHRerGB6brePuPYor/F
- RUyPwboz6Qyt7eNEF7Z0Gmc18xIp0jBz20Zg6irOCsB2zGswaQ81C7bAY
- Wt4RT/wdiPrUsKhgC/wmhJFLj/6gvyEGTeDliXb3IuYOfc1/+JeM09spP A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="237138996"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="237138996"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:14:19 -0700
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499342829"
-Received: from fphy-dev.jf.intel.com (HELO fyang16-desk.jf.intel.com)
- ([134.134.244.167])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:14:19 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: avoid concurrent writes to aux_inv
-Date: Fri, 18 Mar 2022 11:08:25 -0700
-Message-Id: <20220318180825.3524125-1-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B635E10E150
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 18:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647627058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kc+pmtHfxIpRTamp8EGNmCLlGgRlmecF3rxkTdAqUlY=;
+ b=S8ubzMa75a4C7EiWbrDhxzrlosh4sBOfG+HOykkI83t5t1CFI4MoiOFDR+8LZXp9nBtQXN
+ 3RXrkQwzYGaWyFgDh0A7/KRzdOroa/P3YA6DvdJEYQpCojlTHgAMvgh0yKhDG5/4x01qhj
+ pH6KWlzlqYwQV/goBbxD4dv0I1y5hlw=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-_DXk1UTSPEOAffPfHn30_Q-1; Fri, 18 Mar 2022 14:10:56 -0400
+X-MC-Unique: _DXk1UTSPEOAffPfHn30_Q-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ o15-20020ac8698f000000b002e1db0c88d0so6112835qtq.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 11:10:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=kc+pmtHfxIpRTamp8EGNmCLlGgRlmecF3rxkTdAqUlY=;
+ b=CZ0l/ry6vySk1sh+N/opTN37X8yITQ7mAuq15WCdXaXra/luUCYSW9mtdlwzcxHV38
+ fAR0j+fsEWTdRzRDerZDBLHq8gh8zV5jpjvVGnnCzluiU9Szc0LfzXKeUzUPebhIz/p9
+ c7sG+a9/BKC6VxEB18DGfxW/pKhHmc8V2vN3NDjUeCQfcLhQdjdRmD4xoBWcvbSxTQSV
+ F/zN2wL7MQD0smUaUqZZSfWnDQbyTwkzIvOnC691qu8G53TeMuTQ1clnm9gzbDntm4SE
+ auMqE4IMslU7Manty0zfZVzeqIn3IQarakjZsXAXYCtPUnEnVtANt1YpRD836Ps71GNV
+ QClQ==
+X-Gm-Message-State: AOAM533NdQEXBERpcJYB6ZiJhmFn8TlNRScF1H3+bztnzVzW1mXLye1c
+ KsZ4NN3HlSx489woUkqTcKzXfUoijtyW5l8qbMo0RyjUU1Gx+noYJ7G0uhJN0y5QulfAqe2QGyd
+ qv3m33WcrrqBMG3p6lrzwHAP+MhAV
+X-Received: by 2002:a37:9fd3:0:b0:67b:126d:df0 with SMTP id
+ i202-20020a379fd3000000b0067b126d0df0mr6766761qke.784.1647627055799; 
+ Fri, 18 Mar 2022 11:10:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzydYXtEHBUS6lsWzvgP7SJvGqnoFV/FidiOKPv4KYQyt102wQaiSPRTJbjFy4LGZSduMs8mg==
+X-Received: by 2002:a37:9fd3:0:b0:67b:126d:df0 with SMTP id
+ i202-20020a379fd3000000b0067b126d0df0mr6766693qke.784.1647627054549; 
+ Fri, 18 Mar 2022 11:10:54 -0700 (PDT)
+Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
+ [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
+ d13-20020a05622a15cd00b002e1df990d01sm6200193qty.71.2022.03.18.11.10.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Mar 2022 11:10:53 -0700 (PDT)
+Message-ID: <b3e5914f649a9cdc35fbbe9f399d3806f13c3a6f.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/bios: Rename prom_init() and friends functions
+From: Lyude Paul <lyude@redhat.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, Ben Skeggs
+ <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 18 Mar 2022 14:10:52 -0400
+In-Reply-To: <9aebcbbf-aaba-f7e8-7397-18284e74ab0d@csgroup.eu>
+References: <2d97ae92b9c06214be0e088a72cf303eb591bf01.1646414295.git.christophe.leroy@csgroup.eu>
+ <47e09d6010852db928c0de29b89450ea7eee74d8.camel@redhat.com>
+ <edb9aabd-09af-ae0c-348d-f0500e3405d7@csgroup.eu>
+ <672043db-5290-293c-fde4-440989c78d09@csgroup.eu>
+ <9aebcbbf-aaba-f7e8-7397-18284e74ab0d@csgroup.eu>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,119 +92,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+Whoops, sorry! I was unsure of the preference in name we should go with so I
+poked Ben on the side to ask them, but I can see they haven't yet responded.
+I'll poke thme again and see if I can get a response.
 
-GPU hangs have been observed when multiple engines write to the
-same aux_inv register at the same time. To avoid this each engine
-should only invalidate its own auxiliary table. The function
-gen12_emit_flush_xcs() currently invalidate the auxiliary table for
-all engines because the rq->engine is not necessarily the engine
-eventually carrying out the request, and potentially the engine
-could even be a virtual one (with engine->instance being -1).
-With the MMIO remap feature, we can actually set bit 17 of MI_LRI
-instruction and let the hardware to figure out the local aux_inv
-register at runtime to avoid invalidating auxiliary table for all
-engines.
+On Fri, 2022-03-18 at 10:55 +0100, Christophe Leroy wrote:
+> Hi Paul,
+> 
+> Le 05/03/2022 à 10:51, Christophe Leroy a écrit :
+> > 
+> > 
+> > Le 05/03/2022 à 08:38, Christophe Leroy a écrit :
+> > > 
+> > > 
+> > > Le 04/03/2022 à 21:24, Lyude Paul a écrit :
+> > > > This mostly looks good to me. Just one question (and one comment down 
+> > > > below
+> > > > that needs addressing). Is this with ppc32? (I ask because ppc64le 
+> > > > doesn't
+> > > > seem to hit this compilation error).
+> > > 
+> > > That's with PPC64, see 
+> > > http://kisskb.ellerman.id.au/kisskb/branch/chleroy/head/252ba609bea83234d2e35841c19ae84c67b43ec7/
+> > >  
+> > > 
+> > > 
+> > > But that's not (yet) with the mainline tree. That's work I'm doing to 
+> > > cleanup our asm/asm-protoypes.h header.
+> > > 
+> > > Since commit 4efca4ed05cb ("kbuild: modversions for EXPORT_SYMBOL() 
+> > > for asm") that file is dedicated to prototypes of functions defined in 
+> > > assembly. Therefore I'm trying to dispatch C functions prototypes in 
+> > > other headers. I wanted to move prom_init() prototype into asm/prom.h 
+> > > and then I hit the problem.
+> > > 
+> > > In the beginning I was thinking about just changing the name of the 
+> > > function in powerpc, but as I see that M68K, MIPS and SPARC also have 
+> > > a prom_init() function, I thought it would be better to change the 
+> > > name in shadowrom.c to avoid any future conflict like the one I got 
+> > > while reworking the headers.
+> > > 
+> > > 
+> > > > > @@ -57,8 +57,8 @@ prom_init(struct nvkm_bios *bios, const char
+> > > > > *name)
+> > > > >   const struct nvbios_source
+> > > > >   nvbios_rom = {
+> > > > >          .name = "PROM",
+> > > > > -       .init = prom_init,
+> > > > > -       .fini = prom_fini,
+> > > > > -       .read = prom_read,
+> > > > > +       .init = nvbios_rom_init,
+> > > > > +       .fini = nvbios_rom_fini,
+> > > > > +       .read = nvbios_rom_read,
+> > > > 
+> > > > Seeing as the source name is prom, I think using the naming convention
+> > > > nvbios_prom_* would be better then nvbios_rom_*.
+> > > > 
+> > > 
+> > > Yes I wasn't sure about the best naming as the file name is 
+> > > shadowrom.c and not shadowprom.c.
+> > > 
+> > > I will send v2 using nvbios_prom_* as a name.
+> > 
+> > While preparing v2 I remembered that in fact, I called the functions 
+> > nvbios_rom_* because the name of the nvbios_source struct is nvbios_rom, 
+> > so for me it made sense to use the name of the struct as a prefix for 
+> > the functions.
+> > 
+> > So I'm OK to change it to nvbios_prom_* but it looks less logical to me.
+> > 
+> > Please confirm you still prefer nvbios_prom as prefix to the function 
+> > names.
+> > 
+> 
+> Are you still expecting a v2 for this patch ?
+> 
+> As the name of the structure is nvbios_rom, do you really prefer the 
+> functions to be called nvbios_prom_* as you mentionned in your comment ?
+> 
+> In that case, do you also expect the structure name to be changed to 
+> nvbios_prom ?
+> 
+> Thanks
+> Christophe
+> 
 
-Bspec: 45728
-
-Cc: Stuart Summers <stuart.summers@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 44 +++++---------------
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
- 2 files changed, 11 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 36148887c699..6e83ac06aaf6 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -165,30 +165,6 @@ static u32 preparser_disable(bool state)
- 	return MI_ARB_CHECK | 1 << 8 | state;
- }
- 
--static i915_reg_t aux_inv_reg(const struct intel_engine_cs *engine)
--{
--	static const i915_reg_t vd[] = {
--		GEN12_VD0_AUX_NV,
--		GEN12_VD1_AUX_NV,
--		GEN12_VD2_AUX_NV,
--		GEN12_VD3_AUX_NV,
--	};
--
--	static const i915_reg_t ve[] = {
--		GEN12_VE0_AUX_NV,
--		GEN12_VE1_AUX_NV,
--	};
--
--	if (engine->class == VIDEO_DECODE_CLASS)
--		return vd[engine->instance];
--
--	if (engine->class == VIDEO_ENHANCEMENT_CLASS)
--		return ve[engine->instance];
--
--	GEM_BUG_ON("unknown aux_inv reg\n");
--	return INVALID_MMIO_REG;
--}
--
- static u32 *gen12_emit_aux_table_inv(const i915_reg_t inv_reg, u32 *cs)
- {
- 	*cs++ = MI_LOAD_REGISTER_IMM(1);
-@@ -293,10 +269,12 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
- 	if (mode & EMIT_INVALIDATE) {
- 		cmd += 2;
- 
--		if (!HAS_FLAT_CCS(rq->engine->i915)) {
-+		if (!HAS_FLAT_CCS(rq->engine->i915) &&
-+		    (rq->engine->class == VIDEO_DECODE_CLASS ||
-+		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
- 			aux_inv = rq->engine->mask & ~BIT(BCS0);
- 			if (aux_inv)
--				cmd += 2 * hweight32(aux_inv) + 2;
-+				cmd += 4;
- 		}
- 	}
- 
-@@ -329,14 +307,12 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
- 	*cs++ = 0; /* value */
- 
- 	if (aux_inv) { /* hsdes: 1809175790 */
--		struct intel_engine_cs *engine;
--		unsigned int tmp;
--
--		*cs++ = MI_LOAD_REGISTER_IMM(hweight32(aux_inv));
--		for_each_engine_masked(engine, rq->engine->gt, aux_inv, tmp) {
--			*cs++ = i915_mmio_reg_offset(aux_inv_reg(engine));
--			*cs++ = AUX_INV;
--		}
-+		*cs++ = MI_LOAD_REGISTER_IMM(1) | MI_LRI_MMIO_REMAP_EN;
-+		if (rq->engine->class == VIDEO_DECODE_CLASS)
-+			*cs++ = i915_mmio_reg_offset(GEN12_VD0_AUX_NV);
-+		else
-+			*cs++ = i915_mmio_reg_offset(GEN12_VE0_AUX_NV);
-+		*cs++ = AUX_INV;
- 		*cs++ = MI_NOOP;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index d112ffd56418..4243be030bc1 100644
---- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -144,6 +144,7 @@
- #define MI_LOAD_REGISTER_IMM(x)	MI_INSTR(0x22, 2*(x)-1)
- /* Gen11+. addr = base + (ctx_restore ? offset & GENMASK(12,2) : offset) */
- #define   MI_LRI_LRM_CS_MMIO		REG_BIT(19)
-+#define   MI_LRI_MMIO_REMAP_EN		REG_BIT(17)
- #define   MI_LRI_FORCE_POSTED		(1<<12)
- #define MI_LOAD_REGISTER_IMM_MAX_REGS (126)
- #define MI_STORE_REGISTER_MEM        MI_INSTR(0x24, 1)
 -- 
-2.25.1
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
