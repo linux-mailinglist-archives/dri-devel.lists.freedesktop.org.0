@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0194DE157
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:48:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAE84DE15C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E54810E769;
-	Fri, 18 Mar 2022 18:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C859910E79F;
+	Fri, 18 Mar 2022 18:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D67510E33A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0FE010E341
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 18:48:18 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id CE22D83689;
- Fri, 18 Mar 2022 19:48:16 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3BB4381DE5;
+ Fri, 18 Mar 2022 19:48:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1647629297;
- bh=HNEN2zc2L/nEmhE0ZPrNd8lEMXpEaI/MG7jDpjEwa14=;
+ bh=Lsr/0PhLPUJSqjTrEHUYySOZs1MZY+3AANxFcieUAXY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YvFejS/Rh/tLrGbU8S1pk7pHIxYLwJEHEFgdkYGeW4GPauObOYlkkGpmpIG5v45jU
- db1aLZEty+Q4m0dixm3+r7cnIsyj8jVaaWFpnGbmY8ngPPGBWE/ZFEOdkY9Ui9/o9L
- YbgDUY4gT+Pfp4eiGJZUNd9JEl+4g4ULJIkpIQ2vTKL25ojxWuYN2N0UHycBI/YdCu
- N7kbudGJzURDfxt00hhI7gymyyFmYcJRwjzJXmeqbLCx17k5Je3QE9Ds7vxM7jbtEg
- +2C0hIXx9OR6hxK99Y5x1ZenA9e8BvA3aer5/pIi98LEuUX1b4OYwtx4len4k3H/tK
- fYvTmj4glPX5Q==
+ b=z40B3oaXKferMnMZb5+dqPWsY3CsQCc0FWVesbIo4bWuaIYwstxeO01Btq+l3K2Ne
+ a6hRQKrtr2aI/54QzihTaQbSzh19eojKEya46S4zttxwa5OJnO+DBh3lwzFOSxH0IA
+ WYjHZ6MzyfJINiOwiYI3WtE2dis6XBB8U2XSKD6N7Hj2byhSOZch94YRkILN1aKM5R
+ Qbg3iFQ9mrswCof3umwop50KY06nCEukrSfnDneVVn94Ku1a93vVHIzhMLeaG3jhpr
+ fKF6Gl/nsA8XL53zTAyLMkf3/RkctH2fuZgrJvS8bNCk9B3tFf8XwB9J5dPP/jc8Pw
+ nNdULOEGq9PIg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 10/11] drm: bridge: icn6211: Rework ICN6211_DSI to
- chipone_writeb()
-Date: Fri, 18 Mar 2022 19:47:54 +0100
-Message-Id: <20220318184755.113152-11-marex@denx.de>
+Subject: [PATCH v5 11/11] drm: bridge: icn6211: Read and validate chip IDs
+ before configuration
+Date: Fri, 18 Mar 2022 19:47:55 +0100
+Message-Id: <20220318184755.113152-12-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220318184755.113152-1-marex@denx.de>
 References: <20220318184755.113152-1-marex@denx.de>
@@ -60,8 +60,10 @@ Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename and inline macro ICN6211_DSI() into function chipone_writeb()
-to keep all function names lower-case. No functional change.
+Read out the Vendor/Chip/Version ID registers from the chip before
+performing any configuration, and validate that the registers have
+correct values. This is mostly a simple test whether DSI register
+access does work, since that tends to be broken on various bridges.
 
 Acked-by: Maxime Ripard <maxime@cerno.tech>
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -77,145 +79,51 @@ V3: Add AB from Maxime
 V4: No change
 V5: No change
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 71 +++++++++++-------------
- 1 file changed, 31 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 9fdc0307266d3..7c6dc25082964 100644
+index 7c6dc25082964..0cd2c32dbdb32 100644
 --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -151,23 +151,14 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
+@@ -151,6 +151,14 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
  	return container_of(bridge, struct chipone, bridge);
  }
  
--static inline int chipone_dsi_write(struct chipone *icn, const u8 *seq,
--				    size_t len)
-+static int chipone_writeb(struct chipone *icn, u8 reg, u8 val)
- {
--	if (icn->interface_i2c) {
--		return i2c_smbus_write_byte_data(icn->client, seq[0], seq[1]);
--	} else {
--		return mipi_dsi_generic_write(icn->dsi,
--					      (u8[]){seq[0], seq[1]}, 2);
--	}
++static void chipone_readb(struct chipone *icn, u8 reg, u8 *val)
++{
 +	if (icn->interface_i2c)
-+		return i2c_smbus_write_byte_data(icn->client, reg, val);
++		*val = i2c_smbus_read_byte_data(icn->client, reg);
 +	else
-+		return mipi_dsi_generic_write(icn->dsi, (u8[]){reg, val}, 2);
- }
- 
--#define ICN6211_DSI(icn, seq...)				\
--	{							\
--		const u8 d[] = { seq };				\
--		chipone_dsi_write(icn, d, ARRAY_SIZE(d));	\
--	}
--
- static void chipone_configure_pll(struct chipone *icn,
- 				  const struct drm_display_mode *mode)
++		mipi_dsi_generic_read(icn->dsi, (u8[]){reg, 1}, 2, val, 1);
++}
++
+ static int chipone_writeb(struct chipone *icn, u8 reg, u8 val)
  {
-@@ -242,11 +233,11 @@ static void chipone_configure_pll(struct chipone *icn,
- 		(fin * best_m) / BIT(best_p + best_s + 2));
- 
- 	/* Clock source selection fixed to MIPI DSI clock lane */
--	ICN6211_DSI(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
--	ICN6211_DSI(icn, PLL_REF_DIV,
-+	chipone_writeb(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
-+	chipone_writeb(icn, PLL_REF_DIV,
- 		    (best_p ? PLL_REF_DIV_Pe : 0) | /* Prefer /2 pre-divider */
- 		    PLL_REF_DIV_P(best_p) | PLL_REF_DIV_S(best_s));
--	ICN6211_DSI(icn, PLL_INT(0), best_m);
-+	chipone_writeb(icn, PLL_INT(0), best_m);
- }
- 
- static void chipone_atomic_enable(struct drm_bridge *bridge,
-@@ -265,19 +256,19 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 	bus_flags = bridge_state->output_bus_cfg.flags;
- 
  	if (icn->interface_i2c)
--		ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_I2C)
-+		chipone_writeb(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_I2C);
- 	else
--		ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI)
-+		chipone_writeb(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
+@@ -249,7 +257,21 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 	const struct drm_bridge_state *bridge_state;
+ 	u16 hfp, hbp, hsync;
+ 	u32 bus_flags;
+-	u8 pol;
++	u8 pol, id[4];
++
++	chipone_readb(icn, VENDOR_ID, id);
++	chipone_readb(icn, DEVICE_ID_H, id + 1);
++	chipone_readb(icn, DEVICE_ID_L, id + 2);
++	chipone_readb(icn, VERSION_ID, id + 3);
++
++	dev_dbg(icn->dev,
++		"Chip IDs: Vendor=0x%02x Device=0x%02x:0x%02x Version=0x%02x\n",
++		id[0], id[1], id[2], id[3]);
++
++	if (id[0] != 0xc1 || id[1] != 0x62 || id[2] != 0x11) {
++		dev_dbg(icn->dev, "Invalid Chip IDs, aborting configuration\n");
++		return;
++	}
  
--	ICN6211_DSI(icn, HACTIVE_LI, mode->hdisplay & 0xff);
-+	chipone_writeb(icn, HACTIVE_LI, mode->hdisplay & 0xff);
- 
--	ICN6211_DSI(icn, VACTIVE_LI, mode->vdisplay & 0xff);
-+	chipone_writeb(icn, VACTIVE_LI, mode->vdisplay & 0xff);
- 
- 	/*
- 	 * lsb nibble: 2nd nibble of hdisplay
- 	 * msb nibble: 2nd nibble of vdisplay
- 	 */
--	ICN6211_DSI(icn, VACTIVE_HACTIVE_HI,
-+	chipone_writeb(icn, VACTIVE_HACTIVE_HI,
- 		    ((mode->hdisplay >> 8) & 0xf) |
- 		    (((mode->vdisplay >> 8) & 0xf) << 4));
- 
-@@ -285,44 +276,44 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 	hsync = mode->hsync_end - mode->hsync_start;
- 	hbp = mode->htotal - mode->hsync_end;
- 
--	ICN6211_DSI(icn, HFP_LI, hfp & 0xff);
--	ICN6211_DSI(icn, HSYNC_LI, hsync & 0xff);
--	ICN6211_DSI(icn, HBP_LI, hbp & 0xff);
-+	chipone_writeb(icn, HFP_LI, hfp & 0xff);
-+	chipone_writeb(icn, HSYNC_LI, hsync & 0xff);
-+	chipone_writeb(icn, HBP_LI, hbp & 0xff);
- 	/* Top two bits of Horizontal Front porch/Sync/Back porch */
--	ICN6211_DSI(icn, HFP_HSW_HBP_HI,
-+	chipone_writeb(icn, HFP_HSW_HBP_HI,
- 		    HFP_HSW_HBP_HI_HFP(hfp) |
- 		    HFP_HSW_HBP_HI_HS(hsync) |
- 		    HFP_HSW_HBP_HI_HBP(hbp));
- 
--	ICN6211_DSI(icn, VFP, mode->vsync_start - mode->vdisplay);
-+	chipone_writeb(icn, VFP, mode->vsync_start - mode->vdisplay);
- 
--	ICN6211_DSI(icn, VSYNC, mode->vsync_end - mode->vsync_start);
-+	chipone_writeb(icn, VSYNC, mode->vsync_end - mode->vsync_start);
- 
--	ICN6211_DSI(icn, VBP, mode->vtotal - mode->vsync_end);
-+	chipone_writeb(icn, VBP, mode->vtotal - mode->vsync_end);
- 
- 	/* dsi specific sequence */
--	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
--	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
--	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
--	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
--	ICN6211_DSI(icn, MIPI_PN_SWAP, 0x00);
-+	chipone_writeb(icn, SYNC_EVENT_DLY, 0x80);
-+	chipone_writeb(icn, HFP_MIN, hfp & 0xff);
-+	chipone_writeb(icn, MIPI_PD_CK_LANE, 0xa0);
-+	chipone_writeb(icn, PLL_CTRL(12), 0xff);
-+	chipone_writeb(icn, MIPI_PN_SWAP, 0x00);
- 
- 	/* DPI HS/VS/DE polarity */
- 	pol = ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIST_POL_HSYNC_POL : 0) |
- 	      ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIST_POL_VSYNC_POL : 0) |
- 	      ((bus_flags & DRM_BUS_FLAG_DE_HIGH) ? BIST_POL_DE_POL : 0);
--	ICN6211_DSI(icn, BIST_POL, pol);
-+	chipone_writeb(icn, BIST_POL, pol);
- 
- 	/* Configure PLL settings */
- 	chipone_configure_pll(icn, mode);
- 
--	ICN6211_DSI(icn, SYS_CTRL(0), 0x40);
--	ICN6211_DSI(icn, SYS_CTRL(1), 0x88);
-+	chipone_writeb(icn, SYS_CTRL(0), 0x40);
-+	chipone_writeb(icn, SYS_CTRL(1), 0x88);
- 
- 	/* icn6211 specific sequence */
--	ICN6211_DSI(icn, MIPI_FORCE_0, 0x20);
--	ICN6211_DSI(icn, PLL_CTRL(1), 0x20);
--	ICN6211_DSI(icn, CONFIG_FINISH, 0x10);
-+	chipone_writeb(icn, MIPI_FORCE_0, 0x20);
-+	chipone_writeb(icn, PLL_CTRL(1), 0x20);
-+	chipone_writeb(icn, CONFIG_FINISH, 0x10);
- 
- 	usleep_range(10000, 11000);
- }
+ 	/* Get the DPI flags from the bridge state. */
+ 	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
 -- 
 2.35.1
 
