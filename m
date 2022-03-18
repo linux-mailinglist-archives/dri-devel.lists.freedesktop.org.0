@@ -1,74 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41464DDE8B
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 17:18:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE444DDE90
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 17:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E2C10E604;
-	Fri, 18 Mar 2022 16:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7012810E716;
+	Fri, 18 Mar 2022 16:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 321AB10E604
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 16:18:53 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 2C2463201E3E;
- Fri, 18 Mar 2022 12:18:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 18 Mar 2022 12:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=W0RtaiVVoWuDJFHs12YiGTwXGd5lX99ofXkpvP
- buN/M=; b=ZGHO3Vd7IFoj1GyK1l6273ryTg0I/eVkqSUzVtrCkje71GM+kcqIkd
- G8YfOBYH2poC/2y8VKHPqdbw6OWYqgVXR+pZ7/OcKnUsGFnYfqpz9n+NSpLzcxg3
- Bbt7TDEoHMRwZkk5utXbvLcmGHJyYU1Sir+TiWwrBqcLtQBLdx6oKMqullp42bq3
- kLlbttwB+yVtSwe8j6goGK8bhp2qir4iTqlMMOmuJPcLL4JjcYMuILxWFsGgAOzz
- d53KQHekoMPR0NJdMDFObhPnrju0a7CCPWvyU8T4x/H2ObVUZCkkdcxQyjmOlUS9
- uRuelEAHaD1qZrt2s/g4fl5eija+yf8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=W0RtaiVVoWuDJFHs1
- 2YiGTwXGd5lX99ofXkpvPbuN/M=; b=Sg1aNxuhbeKW3dADtgBAJKe9zO6uT+Lhm
- 2QLxdFnWCmakrgRE8iDlBRd50QTnawTBL+FTxsmjRb/xGI3ojjHeq/bMIm5bBpRi
- wO70npk24n5P/aVhscq4AmbkqS7UrMPgKBhP+R5BjWviAe0rETmF7+NBTXxrrOxz
- hSHliveO/GXyb9pyMFGOvrkUsBNEap7qwv63p+xEO810lMhx51b7vB6l/hXSyEdj
- LF3jWZ6Q/4Knhd9ENv3n1SsNL9tthJjuMynrpuR06DDfaDM57plwPKPW2cirEBBG
- tCQaQuRLev2IBjokWNCKAjE82mbaWo8gpex01FbpaKAgcWdIOcfyQ==
-X-ME-Sender: <xms:6bA0YlhAq0ndjOUBe9dODegdLLP2_WZUpwdF8EHNQyGxyV6BqSETDQ>
- <xme:6bA0YqCRzyJkn65lATBpfjpN_XK4TjgAQfpSoQ7a_RXODu3Mv8QWRnOthggiQ7fcJ
- Y19_IDdA0YhWo2Vfbs>
-X-ME-Received: <xmr:6bA0YlEZF0YPAy6qHJeb9KUnj3w1bzBiewHsARksMyLxpAzmHI_NKQPQnWDfdrv9chL-Ae0Q-0DcT2iWq3cb7WNkcFqklY6ZpQksfqc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudefiedgkeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucdnkfhovfculdeitddmnecujfgurhepfffhvffukf
- hfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceo
- mhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhf
- dutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
- hordhtvggthh
-X-ME-Proxy: <xmx:6bA0YqT5I3Linvec27AhQoNLHvXEPJIAl-M7oAzJI3Rlr12Gt4-JqA>
- <xmx:6bA0YixnDoN4eWnaX1rxQ24R2CN51-Cg-zCazC3v_qHX_FNh5zIQUQ>
- <xmx:6bA0Yg4SSoM5k8zSEW0jZlPUKpmalXbOW3rwKE8a1OOruyh6Z9xMBjB1ow>
- <xmx:6bA0Yhn4cgo-d-CVOT_LU2mrZhwv4VWbYimR4-xdt92W8UJA3HCyIQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Mar 2022 12:18:48 -0400 (EDT)
-Date: Fri, 18 Mar 2022 17:18:47 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v2] drm: of: Properly try all possible cases for
- bridge/panel detection
-Message-ID: <20220318161847.ezi6yat4on7rvfdf@houat>
-References: <20220318160249.126431-1-paul.kocialkowski@bootlin.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA5810E579;
+ Fri, 18 Mar 2022 16:20:00 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id x15so12359480wru.13;
+ Fri, 18 Mar 2022 09:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u0HCPymtXblIB+cZc09PIw1aKsO6ejAhOpetsA4QzYg=;
+ b=HsS8bf4hFr1h53r1GWW5J7P80c2rigF1ZXd1iqF5XPOsMXq6p4ok6Sn2H3x7cUexPv
+ YABq8nJvMpMu/YHEMd143F6Qp5fA4nP7ubMhCEOPXswql4pg7XkYAMKHiv7rl+pDoZWx
+ H0bO0FDj3TAj6uKTbqplAHlMjsd1f+IEw2ZN38QxEypKSTFEkQEJ53OjC6bu5nL7r56L
+ Q1pPMFjEB8OhRlo6aBuSvQ2ffSBXMm5ZskqqZUxpIbkn/hYc62OjFPO0+xXgPsEu/sf8
+ Jbf18oIGb/IAdnQdYoeDEK01G6VXumHILoRrEZuQIhV6NkpZvGur8FIbJwWyBxMxx94s
+ MNlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u0HCPymtXblIB+cZc09PIw1aKsO6ejAhOpetsA4QzYg=;
+ b=cZS9CAxIDmJEDGDjowTEQ/QiBSTc9vSw9p2DVcsRch6a5Sv+ABrWJvpr6Mt0Ynloib
+ 81mto/b1tR2+rx9Af98P4pP6AMJ5xqAh45aP2lbdVgK/JSnODe06qdYLcIW8YQ4+s3YA
+ oky1Ubv1N8FVlLyYp1pmz+8YerJH5Xy9hLmhTp7Q4CkH7xBdWTlFrTgS/RKrJkEYJQes
+ ekq9XLa2RfQv7ibpV1tsVc2u0VMpb6AMRPFcdfD9nmgZBMFKkxX2EIBiXrBC9GSx/5cI
+ Gr1LDPhDIEA0nIdiS3tu+fYhVayzy+KOqqLauwI4uoVmWNhUit+M59UY2Z5Zb8Nltuzw
+ 1sYw==
+X-Gm-Message-State: AOAM531FfY14WWvnNUTgMLG+HRi3BkM9cnQUSKyK+LLhEzNW8UpXA2n3
+ /jxdD9BZdMzAGux73s/RW+dTSyw3fxJ5/7lFJkQ=
+X-Google-Smtp-Source: ABdhPJxNnjhQkWgGh3BiZCURGeabRTHOG3URIEu48sVr5c+bgDz9d6ZlaTpPV7k9bDjxcXo9LX1ybNqvt19BuaGSvdU=
+X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
+ j73-20020adf914f000000b001edbb92d0ccmr8615326wrj.297.1647620398559; Fri, 18
+ Mar 2022 09:19:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="z4cu6dac2674z2wt"
-Content-Disposition: inline
-In-Reply-To: <20220318160249.126431-1-paul.kocialkowski@bootlin.com>
+References: <20220310234611.424743-1-robdclark@gmail.com>
+ <20220310234611.424743-3-robdclark@gmail.com>
+ <YjMGac4Hnjmg1wE8@phenom.ffwll.local>
+ <3945551d-47d2-1974-f637-1dbc61e14702@amd.com>
+ <CAF6AEGv36V8bLoDn5O1SW3iTUtzd3O1XeuT5gJxyLMxd1E-o3Q@mail.gmail.com>
+ <865abcff-9f52-dca4-df38-b11189c739ff@amd.com>
+ <CAF6AEGuoBeYoMTR6-KM9xGZ05XSSnSJWMDciawczi7qtiLN9Vw@mail.gmail.com>
+ <915537e2-ac5b-ab0e-3697-2b16a9ec8f91@amd.com>
+ <CAF6AEGsyFAOPmHqT7YX1wsukP4-gYAstCukr89r9w28V0YSCUw@mail.gmail.com>
+ <3a475e5a-1090-e2f4-779c-6915fc8524b1@amd.com>
+ <CAF6AEGtPrSdj=7AP1_puR+OgmL-qro0mWZDNngtaVPxpaCM76A@mail.gmail.com>
+ <1c847474-8ee1-cc7e-3d4d-261a4e92fb2d@amd.com>
+ <CAF6AEGuw45gi4f+mVs7cVyjCHY9O4N1O8OfuGHv-wAkzP3UpMA@mail.gmail.com>
+ <dd7d3f20-8288-3a7c-a368-a08282746ff1@amd.com>
+In-Reply-To: <dd7d3f20-8288-3a7c-a368-a08282746ff1@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 18 Mar 2022 09:20:37 -0700
+Message-ID: <CAF6AEGvp+f4=EjQ9tWwcEafBEOAy6nCd8bOTqLXopiFhjx_Y_w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/msm/gpu: Park scheduler threads for system suspend
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,83 +77,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ "Alexander.Deucher@amd.com" <Alexander.Deucher@amd.com>,
+ Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 18, 2022 at 9:04 AM Andrey Grodzovsky
+<andrey.grodzovsky@amd.com> wrote:
+>
+>
+> On 2022-03-17 16:35, Rob Clark wrote:
+> > On Thu, Mar 17, 2022 at 12:50 PM Andrey Grodzovsky
+> > <andrey.grodzovsky@amd.com> wrote:
+> >>
+> >> On 2022-03-17 14:25, Rob Clark wrote:
+> >>> On Thu, Mar 17, 2022 at 11:10 AM Andrey Grodzovsky
+> >>> <andrey.grodzovsky@amd.com> wrote:
+> >>>> On 2022-03-17 13:35, Rob Clark wrote:
+> >>>>> On Thu, Mar 17, 2022 at 9:45 AM Christian K=C3=B6nig
+> >>>>> <christian.koenig@amd.com> wrote:
+> >>>>>> Am 17.03.22 um 17:18 schrieb Rob Clark:
+> >>>>>>> On Thu, Mar 17, 2022 at 9:04 AM Christian K=C3=B6nig
+> >>>>>>> <christian.koenig@amd.com> wrote:
+> >>>>>>>> Am 17.03.22 um 16:10 schrieb Rob Clark:
+> >>>>>>>>> [SNIP]
+> >>>>>>>>> userspace frozen !=3D kthread frozen .. that is what this patch=
+ is
+> >>>>>>>>> trying to address, so we aren't racing between shutting down th=
+e hw
+> >>>>>>>>> and the scheduler shoveling more jobs at us.
+> >>>>>>>> Well exactly that's the problem. The scheduler is supposed to sh=
+oveling
+> >>>>>>>> more jobs at us until it is empty.
+> >>>>>>>>
+> >>>>>>>> Thinking more about it we will then keep some dma_fence instance
+> >>>>>>>> unsignaled and that is and extremely bad idea since it can lead =
+to
+> >>>>>>>> deadlocks during suspend.
+> >>>>>>> Hmm, perhaps that is true if you need to migrate things out of vr=
+am?
+> >>>>>>> It is at least not a problem when vram is not involved.
+> >>>>>> No, it's much wider than that.
+> >>>>>>
+> >>>>>> See what can happen is that the memory management shrinkers want t=
+o wait
+> >>>>>> for a dma_fence during suspend.
+> >>>>> we don't wait on fences in shrinker, only purging or evicting thing=
+s
+> >>>>> that are already ready.  Actually, waiting on fences in shrinker pa=
+th
+> >>>>> sounds like a pretty bad idea.
+> >>>>>
+> >>>>>> And if you stop the scheduler they will just wait forever.
+> >>>>>>
+> >>>>>> What you need to do instead is to drain the scheduler, e.g. call
+> >>>>>> drm_sched_entity_flush() with a proper timeout for each entity you=
+ have
+> >>>>>> created.
+> >>>>> yeah, it would work to drain the scheduler.. I guess that might be =
+the
+> >>>>> more portable approach as far as generic solution for suspend.
+> >>>>>
+> >>>>> BR,
+> >>>>> -R
+> >>>> I am not sure how this drains the scheduler ? Suppose we done the
+> >>>> waiting in drm_sched_entity_flush,
+> >>>> what prevents someone to push right away another job into the same
+> >>>> entity's queue  right after that ?
+> >>>> Shouldn't we first disable further pushing of jobs into entity befor=
+e we
+> >>>> wait for  sched->job_scheduled ?
+> >>>>
+> >>> In the system suspend path, userspace processes will have already bee=
+n
+> >>> frozen, so there should be no way to push more jobs to the scheduler,
+> >>> unless they are pushed from the kernel itself.
+> >>> amdgpu_device_suspend
+> >>
+> >> It was my suspicion but I wasn't sure about it.
+> >>
+> >>
+> >>> We don't do that in
+> >>> drm/msm, but maybe you need to to move things btwn vram and system
+> >>> memory?
+> >>
+> >> Exactly, that was my main concern - if we use this method we have to u=
+se
+> >> it in a point in
+> >> suspend sequence when all the in kernel job submissions activity alrea=
+dy
+> >> suspended
+> >>
+> >>> But even in that case, if the # of jobs you push is bounded I
+> >>> guess that is ok?
+> >> Submissions to scheduler entities are using unbounded queue, the bound=
+ed
+> >> part is when
+> >> you extract next job from entity to submit to HW ring and it rejects i=
+f
+> >> submission limit reached (drm_sched_ready)
+> >>
+> >> In general - It looks to me at least that what we what we want her is
+> >> more of a drain operation then flush (i.e.
+> >> we first want to disable any further job submission to entity's queue
+> >> and then flush all in flight ones). As example
+> >> for this i was looking at  flush_workqueue vs. drain_workqueue
+> > Would it be possible for amdgpu to, in the system suspend task,
+> >
+> > 1) first queue up all the jobs needed to migrate bos out of vram, and
+> > whatever other housekeeping jobs are needed
+> > 2) then drain gpu scheduler's queues
+> > 3) and then finally wait for jobs executing on GPU to complete
+>
+>
+> We already do most of it in amdgpu_device_suspend,
+> amdgpu_device_ip_suspend_phase1
+> followed by amdgpu_device_evict_resources followed by
+> amdgpu_fence_driver_hw_fini is
+> exactly steps 1 + 3. What we are missing is step 2). For this step I
+> suggest adding a function
+> called drm_sched_entity_drain which basically sets entity->stopped =3D
+> true and then calls drm_sched_entity_flush.
+> This will both reject any new insertions into entity's job queue and
+> will flush all pending job submissions to HW from that entity.
+> One point is we need to make make drm_sched_entity_push_job return value
+> so the caller knows about job enqueue
+> rejection.
 
---z4cu6dac2674z2wt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm, seems like job enqueue that is rejected because we are in the
+process of suspending should be more of a WARN_ON() sort of thing?
+Not sure if there is something sensible to do for the caller at that
+point?
 
-On Fri, Mar 18, 2022 at 05:02:49PM +0100, Paul Kocialkowski wrote:
-> While bridge/panel detection was initially relying on the usual
-> port/ports-based of graph detection, it was recently changed to
-> perform the lookup on any child node that is not port/ports
-> instead when such a node is available, with no fallback on the
-> usual way.
->=20
-> This results in breaking detection when a child node is present
-> but does not contain any panel or bridge node, even when the
-> usual port/ports-based of graph is there.
->=20
-> In order to support both situations properly, this commit reworks
-> the logic to try both options and not just one of the two: it will
-> only return -EPROBE_DEFER when both have failed.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Fixes: 80253168dbfd ("drm: of: Lookup if child node has panel or bridge")
-> ---
->=20
-> Changes since v1:
-> - Renamed remote to node;
-> - Renamed helper to find_panel_or_bridge;
-> - Cleared bridge pointer early;
-> - Returned early to make the code more concise;
->=20
-> ---
->  drivers/gpu/drm/drm_of.c | 98 ++++++++++++++++++++--------------------
->  1 file changed, 49 insertions(+), 49 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 9d90cd75c457..63137c833b7a 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -219,6 +219,28 @@ int drm_of_encoder_active_endpoint(struct device_nod=
-e *node,
->  }
->  EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
-> =20
-> +static int find_panel_or_bridge(struct device_node *node,
-> +				struct drm_panel **panel,
-> +				struct drm_bridge **bridge)
-> +{
-> +	if (panel) {
-> +		*panel =3D of_drm_find_panel(node);
-> +		if (!IS_ERR(*panel))
-> +			return 0;
-> +		else
-> +			*panel =3D NULL;
+>
+> What about runtime suspend ? I guess same issue with scheduler racing
+> against HW susppend is relevant there ?
 
-You don't need the else branch here, we already cleared panel in
-drm_of_find_panel_or_bridge
+Runtime suspend should be ok, as long as the driver holds a runpm
+reference whenever the hw needs to be awake.  The problem with system
+suspend (at least if you are using pm_runtime_force_suspend() or doing
+something equivalent) is that it bypasses the runpm reference.
+(Which, IMO, seems like a bad design..)
 
-Looks good otherwise, thanks!
-Maxime
+> Also, could you point to a particular buggy scenario where the race
+> between SW shceduler and suspend is causing a problem ?
 
---z4cu6dac2674z2wt
-Content-Type: application/pgp-signature; name="signature.asc"
+I wrote a piglit test[1] to try to trigger this scenario.. it isn't
+really that easy to hit
 
------BEGIN PGP SIGNATURE-----
+BR,
+-R
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjSw5gAKCRDj7w1vZxhR
-xWMYAP9UxgWQ44wOKvarITHty4nCGtH+DXxERccY8JZh+3tr0wD/eIa4rSSsOg12
-DUrsZb8HDRBGNTMwSgMSFnfdBo2+2Qo=
-=mFT4
------END PGP SIGNATURE-----
+[1] https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/643
 
---z4cu6dac2674z2wt--
+> Andrey
+>
+>
+> >
+> > BR,
+> > -R
+> >
+> >> Andrey
+> >>
+> >>
+> >>> BR,
+> >>> -R
