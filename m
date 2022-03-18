@@ -1,54 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576264DE1E5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 20:39:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6EF4DE1F3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 20:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2271910E151;
-	Fri, 18 Mar 2022 19:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050F810E28B;
+	Fri, 18 Mar 2022 19:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 254D810E151
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 19:39:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 50530CE2BEE;
- Fri, 18 Mar 2022 19:39:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F27DC340E8;
- Fri, 18 Mar 2022 19:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647632339;
- bh=uh4hShwgimRuZULyyXwWuyWdR1TFqdAV7+3Gl594/s0=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=MH9Ww7rnpeyohJeF0KLdTD9iUM1SNVIy1FmHcVObFdFW/w6HU1p+pV9QzhSGM1Uyf
- k6cNgocBGLeSJoVL7kfmNOzpDzkTvJ9b76uFKlLzK0haEhNjiOd2gRae+QfvQlob3o
- +6xaFHElfWVY0cFxSD8ckjFbfYmfGyueXBmWSv3Ox6Ir2RVMuYjYIKFxtteoHHiLbu
- Qu6Z92n6orJzsSdb39dLiZL/VucpAfPtKEEyrkKS3DZl66UiIFYilLF2Q1Z3hcpUH8
- fBren1V6+CNWR4i7NTjpkSm3ac1eVY9TpRhK/KUhxh7HGSFX3vvAkUU91QHlXuS6C+
- uwnjUs7twtcMg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 6DDA1E6D402; Fri, 18 Mar 2022 19:38:59 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.17-final
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twzN9ybw1N=n6JWNQgUd9UNXBxis+PguKagt8DSbW=y6Q@mail.gmail.com>
-References: <CAPM=9twzN9ybw1N=n6JWNQgUd9UNXBxis+PguKagt8DSbW=y6Q@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9twzN9ybw1N=n6JWNQgUd9UNXBxis+PguKagt8DSbW=y6Q@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-03-18
-X-PR-Tracked-Commit-Id: ca5a5761ac542691a6b3520b6c5c047cf63b4b8d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cced5148a1303a2ec57d04a7745a560821b45280
-Message-Id: <164763233944.31275.5322423816376845710.pr-tracker-bot@kernel.org>
-Date: Fri, 18 Mar 2022 19:38:59 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5419110E297
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 19:50:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 9A2AE1F45B08
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647633030;
+ bh=9bigV/sYB4FUqshAYJdxs+cHARVqE00dOiOAg3Egs9Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gDqPOrSjJ86k3/PKnd8PPM1RMLwNcZ91aYkmOXXsSFBIn8gTvQ/FZXK08Katx/ZiZ
+ I8O3uG04Kq3RwGkO2127RrkM5BKVP+aiLSBRF1dneFE5QTaZi7yoOEkkviTJ9vLrSz
+ 7qHjX7+sDOKZz7JLeqodv+QtFd/kTxMQ3s9aHnOv4xJoH7/FdA0qzwmlf0CipF3zcB
+ uv64JtT1fhiJUGvraQaRCDlgfhio7TD2iX6Zg1jrd3TqVQZKxJQuMwibHnvQC3CWlC
+ DE0qHvObvxA1dcS4sL96zUgi6JgoKE1EUEwjhDFT6+TomJpFjbd0L0kdTXNO3L46df
+ edaJbSf6GkoHg==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: dri-devel@lists.freedesktop.org,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthew Auld <matthew.auld@intel.com>
+Subject: [PATCH] drm/ttm: fix potential null ptr deref in when mem space alloc
+ fails
+Date: Fri, 18 Mar 2022 19:50:04 +0000
+Message-Id: <20220318195004.416539-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +48,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Robert Beckett <bob.beckett@collabora.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 18 Mar 2022 13:50:16 +1000:
+when allocating a resource in place it is common to free the buffer's
+resource, then allocate a new resource in a different placement.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-03-18
+e.g. amdgpu_bo_create_kernel_at calls ttm_resource_free, then calls
+ttm_bo_mem_space.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cced5148a1303a2ec57d04a7745a560821b45280
+In this situation, bo->resource will be null as it is cleared during
+the initial freeing of the previous resource.
+This leads to a null deref.
 
-Thank you!
+Fixes: d3116756a710 (drm/ttm: rename bo->mem and make it a pointer)
 
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index db3dc7ef5382..62b29ee7d040 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -875,7 +875,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 	}
+ 
+ error:
+-	if (bo->resource->mem_type == TTM_PL_SYSTEM && !bo->pin_count)
++	if (bo->resource && bo->resource->mem_type == TTM_PL_SYSTEM && !bo->pin_count)
+ 		ttm_bo_move_to_lru_tail_unlocked(bo);
+ 
+ 	return ret;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
