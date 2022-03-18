@@ -1,152 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AA14DE0D7
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:13:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099604DE0D1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:12:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3D810E22E;
-	Fri, 18 Mar 2022 18:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8437410E221;
+	Fri, 18 Mar 2022 18:12:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D91B10E22E;
- Fri, 18 Mar 2022 18:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647627223; x=1679163223;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=OVGf/ml3to+KiIgkLaZvtCb9SGYF7/4AXPRrh5XQ2mo=;
- b=ii8VOuhwukBId47rjNztOjutUrigFn6ej/+67y+i/AYuABTHcXq6YcuK
- 41alvrb25ECDt9mPRQpZA7vZOpPg5kekbZFtH+50+Vx1NqQTwAO0fUsMV
- KB5bF4Md+bF28zqhBtyQCQbIh1ZU6qR+ZcBmI1cKNTMbIed5grKOA7KWM
- 4CRzostBXN4RBT4EMAnwsLpCrNq4dyad5iL1YAe7bhDoetSHeK7C3pGdr
- 8uPLQ62hP8x3XtNgzlSw1wubeWidL0Erbrl7IQQlZCw8SEzB1zV3kB9m8
- u8e92IlFRp1op5EPafvvQaL7ET0IvuxJaQd9ldwq9DKcsPxHdYboDn5VH A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="239355904"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="239355904"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:12:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="691402975"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2022 11:12:14 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 11:12:14 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 11:12:13 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Fri, 18 Mar 2022 11:12:13 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Fri, 18 Mar 2022 11:12:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VnRFIF/0jMpT6wjdPEg3NS6XRN1g/OX2vVB3N6GsAo96/B8imtvSuT6Gaq0Z0Rt2xexseo2FTavRONWbaM33iMvztWXC53YY3QQIG+DqDmrRFEo+L1DkS3KYqPEmRa6ipU+rBYmnwrvN4hnuDKLfOXK+LXJoQ6hdC2EY2bZmF4LMUkVEAL1otZoHqV6xEfNeY05jQA439rP6ZZD8jbCTWUyZCrbbaZH+1CKCMl1dGdQqwjhL9lm+yeqAQEPmV33xYChvyoHbBbV99Ud3iBv0WLNbGKJgYVAJyMZiTKKuiw08i5X6Oz1NB9JOHx7O/L5VroFORvsf3wVmPtekegDU8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OVGf/ml3to+KiIgkLaZvtCb9SGYF7/4AXPRrh5XQ2mo=;
- b=kMDsceU2Fp+Mp5BaXpyQbhtU/matCi1Mk3ZQFwnIEAPGZ19U1jzoR/X2i8l7hK6Zeo4jKN468j4FFCySTWi2eITa05Hzko6Mi7tQgKmC8Z7SHWgYSUF9lQMnTJmnI+Tr0vFcmQtI+wlRg1f8xmh+SIXMBjq9DAWJiJgZcWCApIFw69RRn3L64z578Ut6j3SolijZmO3XT2tjiY5zL/aq/xjZcu8+t7pVyVbxiOO1vOfjrPeazFxhybJdGxG57mnlH+3RgG4uIo2nOatBImC3CnYz6vFfar3FJpCBppsW6MwUlioZ3klcX6cDxuetdST4lBlTrbaBN813BGrpnLGWLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
- by DM6PR11MB2697.namprd11.prod.outlook.com (2603:10b6:5:c3::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.18; Fri, 18 Mar
- 2022 18:12:11 +0000
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::f1ed:9074:5f82:150d]) by BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::f1ed:9074:5f82:150d%7]) with mapi id 15.20.5081.018; Fri, 18 Mar 2022
- 18:12:11 +0000
-From: "Yang, Fei" <fei.yang@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [Intel-gfx] [PATCH] drm/i915: avoid concurrent writes to aux_inv
-Thread-Topic: [Intel-gfx] [PATCH] drm/i915: avoid concurrent writes to aux_inv
-Thread-Index: AQHYOomImJgbr2W/ukeYl6I1AeepdKzFNqkAgAAikcA=
-Date: Fri, 18 Mar 2022 18:12:11 +0000
-Message-ID: <BYAPR11MB25678F24A1093AB70032745A9A139@BYAPR11MB2567.namprd11.prod.outlook.com>
-References: <20220318052619.3429370-1-fei.yang@intel.com>
- <8d283c4b-6f16-a235-7c57-ad8a67252ca9@linux.intel.com>
-In-Reply-To: <8d283c4b-6f16-a235-7c57-ad8a67252ca9@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0560e3bc-a165-4d54-45c1-08da090ad271
-x-ms-traffictypediagnostic: DM6PR11MB2697:EE_
-x-microsoft-antispam-prvs: <DM6PR11MB26976BAA86F8A17A341081309A139@DM6PR11MB2697.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2+rjMWvcGIs6+OzDn8kDMMkYUdiTlWvpvoD80aPNxiDTkv+OffkijZMpTgsmoZLP8AqB+aPkz18KqMguJ8g1Q+pV6srnIry2/80WsEz0dsombV4eqF5sCdxj93fV0HY1lD3lKR2xvikAXpRp5hUlldWlh3qLbNSDVLJbgL1/7BZjY/jZ0XmL9F8rcGoGL6Vc+pzfGQ4tacxAmXCK8/CsIDEqvDqYmvlVn1clXLJcnTh7YmSj/P8nDTEZ5mUTkZkhRuK+wqYnu6NSM9Kr34u9jSqYQlx39Ic2BrncdHx4KMXPjHZ9baI1JuewulS3eJxXEhr6rlyR6Cwsw7eGGso3mkirj//xPzdU1gsbs6VidxTSAqQYipxM8EiZOYdX05VQq6LSGykw299dUj8AniR9qDmjXhP+/cJEZwC1bPm0d6b52L98sxPl2Du3zZ9gh8Wl12UijK9WCZD9a6hyQ6KU81++67VO+Y4CVWhde5DHQ2KAfcqe3TVa6ExzERrBuxu4AfvX4aEWnmxX/BYNI2Rp9rDkbNM2RQ37OOAgy6cX97g9zmm4WOvgmk8cGJeBWAipjnW/+FphryRrGgt9NU4Exv1VWTSFneTXoAomp7m3Z6CENFCBvydqvCHZhEYX14STHsVHwxNz+8GX9elJVi49o6ihnrIGgl3tDQy7bzJ6YJaMWSYyPu1N58010aorBmOVvCzF5oxGDMpTHx8nkM4I+A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(7696005)(110136005)(83380400001)(71200400001)(33656002)(5660300002)(6506007)(316002)(9686003)(38070700005)(186003)(8936002)(64756008)(66946007)(66476007)(66446008)(82960400001)(66556008)(26005)(76116006)(122000001)(52536014)(508600001)(2906002)(38100700002)(4326008)(86362001)(55016003)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3FNT1p6cEs0TkZnTWJuTGVVV0xnTldJVFJJaytjSFVoeGdvb3NjRVJCYkJm?=
- =?utf-8?B?QVZZTkk1V3pUNERIWHlkWVlmZ2RHUmsrdWRKSmxmbGJZU3NBRVdmQ0RWSlRC?=
- =?utf-8?B?Mzg1NnJrWExwb1hCeWo4OGEyZ3ZnVnBpQ3JSU3JqY2pqZU5FR1BXKythZ0dt?=
- =?utf-8?B?YXN5QVJpTG9jK2RXam5sbFQ2SnFKU1hMbTBTTUlHUzZiS3lubW5KZ2NXSEJj?=
- =?utf-8?B?R1VEYy9XUWQrU0M3K09ua0laMlhSb2k0T25NMkc3MnZxbGVkdjI5NGNNcE1U?=
- =?utf-8?B?MXV0MW5ObFVEYTdFK3lid3dzSkpFb0wwbmt2aVZaOERHbjUrTU9QV0pQZmFh?=
- =?utf-8?B?VXlzTlNDWUhHaGd1NkpZSG04WG1ITDZBeEFzSkxxbGpJbkxhaDNyRVdKL3Nm?=
- =?utf-8?B?VnpVZ0RKRnViOG1HQW0vazRZU0Via05vT3c2dFlKdTlGTGRZenNVTmpoaDM4?=
- =?utf-8?B?MGJoQ1ZIUitEU25JM0RRMFdEb1ZxaE5rbWhiNTVQTmpweTBtSTd3aXkydnJk?=
- =?utf-8?B?cE1TY1JuZFB3Ny9BRnVBbCt1U0tGUHZrSXZOOGhFYTJISEFtejFJazVQVSt5?=
- =?utf-8?B?eEI2UitxeEVzbU5CSnJGNlc2S0tTcExiTDBDY3duR2hVTGFRSmQ2QzdXcFBG?=
- =?utf-8?B?bzhaYkRJYkltamc4MnhheU1HV2grVXp6ZUlzL0x6Mml5elI5TmJXdWFmKzNO?=
- =?utf-8?B?MkRhcnNxMHRUT3k2Rm9oTEYrWUhOWkNYUlZqYnRzMHZRN2ZUdWh2cGJ1SkNy?=
- =?utf-8?B?VjJYcUVGTzdjTXFLQ0ExaVJna0s0NjAvNm50ZVZ4c1RNc3pHNWovKzBaTXZH?=
- =?utf-8?B?OFdkTjgwcE0rOXN0VTdxVWZCMTE3M09OZ2NMRDB4NHJtb1Job0NDRFZuUnJn?=
- =?utf-8?B?SVVxTWZsQmUrZGphWVJscS9NdHVtZUZtUUI4b1VrOUZqdEpmR2Z1Y1l2dCt0?=
- =?utf-8?B?WDFaNDdUSEN3bEFWemp4VmpNcWNXZzB2UUlER2xnWnRqSzZHaEJZd3VoWTA0?=
- =?utf-8?B?VG9jbTZFTjVaOEM4Ly9jWXdtdkdSR2ovU1NPbGtNc0dHR1pNOTF6SWtNWHpP?=
- =?utf-8?B?THY5b0RPRDhmZTkvQjI5RnZWaWxyV2lZK2kzS3h6dHdRcTEzakloTnNXK3Zz?=
- =?utf-8?B?UVVPR3NkVDM5RzRIYjNPUkZ6ZzRuRGE2Q1d0NHk3a09PK1hIQ1QveEkxYkZG?=
- =?utf-8?B?QWlQNjFpU0VLR2padGIyOTdnS2MvMzVkdmUxL3ZURkRiZmhqbGR3WmpVZmZ2?=
- =?utf-8?B?c1JDZE9KMjBWbnVncGVkZkRvV0tLclZ5MnlXaFFTdmg0YXo1OVhNYXIyN3RT?=
- =?utf-8?B?RVpNOCtyd2poRVVWWVQyZTVDSUpUbWQwcmxyYVAzbm5EbWNHV3Fjc2VTUzhu?=
- =?utf-8?B?MjB0T05HOVk4VjZuTGpsTzk1R3VjTk5tN1NtWXpCQ2lKdFNNTlpVVXh1NGZL?=
- =?utf-8?B?Mk55WWlZSnNjcTBhVlpHY0NSdTdHQkg2SkxvYW5XSmppVFVmazhNZFNFekhY?=
- =?utf-8?B?RTYycWZXa3BoSnBLRU5pTkNoZkJVWnZWVXpkQVdSdnQzOGtReE9pRFRvd0tH?=
- =?utf-8?B?WlNIU25HWVNUeGQ0Z1EydEp4U3FEWUF4YlhNRzNnUjk5TW85eVIyd3BmWUFH?=
- =?utf-8?B?SFowa011RUc3Smd2eVJLS3RjUkxNT3lEY2RnWFFOQWhjMkNwYmhLWjF5cklN?=
- =?utf-8?B?UXpjbWIzQk14U3pOTnZEb1o2aVFGbjJVdGczcWRhdEJMVFVrSnp0U2I2L2Rq?=
- =?utf-8?B?UUhvT3oyR0plNkl3aTRtelBIa0o4bXRVSy9oZ0dVM2hGR2w4VW5nL2xRZnp2?=
- =?utf-8?B?VTBkamVlQm9iaUlwb1BVcUQ5enFLMTVNNk1ZNmhtQWRsNXBpZlpZUWZEVmNo?=
- =?utf-8?B?a2wxdmhFL0JJSHZDU0src0RWQ0xaMWR5UjBCMm9XNnBrTXdFMTE3NWdlYnhl?=
- =?utf-8?Q?I2Xp4P+9KPuizolXrPStXKoZSz7zKD0J?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D47910E172
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 18:12:24 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id o83so9639254oif.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 11:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NuUvMOcmVhOy9t3C5CpEov7/quTtIQ6IiXfXDllkM74=;
+ b=NVQV6+mm2IMDgwE3eOUdwXfbG0w072duUtTGE5sY3d+WMHiyFquab8Bb6WMkxQjsAJ
+ n91bg0CSdBfXb1eERxOwhbQvv0Se6s/WuXurF5GFADUHN8q2VcICSjc2P3Tll1G82hJn
+ 1dryNyWxiwRBwrjJPRSPN887Hs9mtvyIvBgVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NuUvMOcmVhOy9t3C5CpEov7/quTtIQ6IiXfXDllkM74=;
+ b=FnH2AOUPxW2hiPTSkIZpNthhLHi9+vvDpsqaiz/jJ9gY+njHuYlg6EexqRXExMBFfe
+ LNL5Xx/CyRkh+inI6E5ZcgEi19wba482FhSmvMt3jMAqM/hjMNe8JhB0tbGQaNu/2wDE
+ VIszeF0fCaetylmAWsOrpIr4lARKPhre/wsW9vVpzSL3VMqMxB9E+2TBczr6NSs2hmNp
+ OEFx3LDa6wdBkAhwZkHyqaoRYOPZKQ4SlGcB+y0q4/1r3vV2/UZOAaL/DiK/VVqL+5wQ
+ nnDqhJzoM64yL+1UtJr8T/LY+Bmi6oX8F7wXstVTvG0ULpWvUSyeY/HX73hO0rF6p9pR
+ kkBg==
+X-Gm-Message-State: AOAM532KwkmWWKZkQBViPm0iOVh5CZV3+60rgdQ1TY33Kcs8dbONf32I
+ W1CJ69WlYIXy4ad8EH8OgTqIjVz50kvrFEC1HpjqFA==
+X-Google-Smtp-Source: ABdhPJzXcqv5gwxEkLVOplOdMD8vR3HAapsJab/n4UdEXNlf98bfnG3yF6j9wIYVTpZy8KGSDt9i9AIdh7LKuKZSbOc=
+X-Received: by 2002:a54:4099:0:b0:2ec:d31c:481d with SMTP id
+ i25-20020a544099000000b002ecd31c481dmr4823864oii.7.1647627143492; Fri, 18 Mar
+ 2022 11:12:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0560e3bc-a165-4d54-45c1-08da090ad271
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2022 18:12:11.0839 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CsvftcL8zFm2zJvBvOVuwoO2TU3qJBrlJWV6KaEIejMAum7SDS7c6uZldpe4MYkZd1qyZcC0wehRXIOTP2CVbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2697
-X-OriginatorOrg: intel.com
+References: <162c1566-87c6-072f-d340-1693f6a71aea@linux.intel.com>
+ <164750662822.7267.9355161518284202141@jlahtine-mobl.ger.corp.intel.com>
+ <9eb06b576948707f9a0527b07b58b9640821bf19.camel@linux.intel.com>
+ <d874ba08a65e4468baae737d826a85a5@intel.com>
+ <ddd7af8f57320a7e2a84b3fdb94e3050eae81857.camel@linux.intel.com>
+ <f80dc6ccf38343beb819e1584a9017f7@intel.com>
+In-Reply-To: <f80dc6ccf38343beb819e1584a9017f7@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 18 Mar 2022 19:12:12 +0100
+Message-ID: <CAKMK7uGsCFJR2d-m0TsVjEy36bN1Z38fuoME6gezA9xY_MkSeA@mail.gmail.com>
+Subject: Re: [Intel-gfx] Small bar recovery vs compressed content on DG2
+To: "Bloomfield, Jon" <jon.bloomfield@intel.com>, 
+ Kenneth W Graunke <kenneth.w.graunke@intel.com>, 
+ Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,58 +68,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pj4gICBzdGF0aWMgdTMyICpnZW4xMl9lbWl0X2F1eF90YWJsZV9pbnYoY29uc3QgaTkxNV9yZWdf
-dCBpbnZfcmVnLCB1MzIgKmNzKQ0KPj4gICB7DQo+PiAgIAkqY3MrKyA9IE1JX0xPQURfUkVHSVNU
-RVJfSU1NKDEpOw0KPj4gQEAgLTI5Niw3ICsyNzIsNyBAQCBpbnQgZ2VuMTJfZW1pdF9mbHVzaF94
-Y3Moc3RydWN0IGk5MTVfcmVxdWVzdCAqcnEsIHUzMiBtb2RlKQ0KPj4gICAJCWlmICghSEFTX0ZM
-QVRfQ0NTKHJxLT5lbmdpbmUtPmk5MTUpKSB7DQo+PiAgIAkJCWF1eF9pbnYgPSBycS0+ZW5naW5l
-LT5tYXNrICYgfkJJVChCQ1MwKTsNCj4+ICAgCQkJaWYgKGF1eF9pbnYpDQo+PiAtCQkJCWNtZCAr
-PSAyICogaHdlaWdodDMyKGF1eF9pbnYpICsgMjsNCj4+ICsJCQkJY21kICs9IDQ7DQo+PiAgIAkJ
-fQ0KPj4gICAJfQ0KPj4gICANCj4+IEBAIC0zMjksMTQgKzMwNSwxNiBAQCBpbnQgZ2VuMTJfZW1p
-dF9mbHVzaF94Y3Moc3RydWN0IGk5MTVfcmVxdWVzdCAqcnEsIHUzMiBtb2RlKQ0KPj4gICAJKmNz
-KysgPSAwOyAvKiB2YWx1ZSAqLw0KPj4gICANCj4+ICAgCWlmIChhdXhfaW52KSB7IC8qIGhzZGVz
-OiAxODA5MTc1NzkwICovDQo+PiAtCQlzdHJ1Y3QgaW50ZWxfZW5naW5lX2NzICplbmdpbmU7DQo+
-PiAtCQl1bnNpZ25lZCBpbnQgdG1wOw0KPj4gLQ0KPj4gLQkJKmNzKysgPSBNSV9MT0FEX1JFR0lT
-VEVSX0lNTShod2VpZ2h0MzIoYXV4X2ludikpOw0KPj4gLQkJZm9yX2VhY2hfZW5naW5lX21hc2tl
-ZChlbmdpbmUsIHJxLT5lbmdpbmUtPmd0LCBhdXhfaW52LCB0bXApIHsNCj4+IC0JCQkqY3MrKyA9
-IGk5MTVfbW1pb19yZWdfb2Zmc2V0KGF1eF9pbnZfcmVnKGVuZ2luZSkpOw0KPj4gLQkJCSpjcysr
-ID0gQVVYX0lOVjsNCj4+ICsJCSpjcysrID0gTUlfTE9BRF9SRUdJU1RFUl9JTU0oMSkgfCBNSV9M
-UklfTU1JT19SRU1BUF9FTjsNCj4gDQo+IENvb2wsIEkgZGlkbid0IGtub3cgdGhpcyBleGlzdHMu
-IEZpcnN0IEJzcGVjIGxpbmsgSSBmb3VuZCBkaWQgbm90IG1lbnRpb24gdGhlc2UgcmVnaXN0ZXIs
-IGJ1dCBzZWNvbmQgZGlkLg0KPiBUaGF0IG9uZSBob3dldmVyICgyOTU0NSkgaGFzIGEgd29ycnlp
-bmcgInJlbW92ZWQgYnkiIHRhZyB3aGljaCBzZWVtcyB0byBwb2ludCB0byBhIHN0b3J5IHN1Z2dl
-c3RpbmcgdGhlDQo+IHJlbWFwcGluZyB0YWJsZSBtaWdodCBiZSBnb25lIG9uIG1hY2hpbmVzIHdp
-dGggZmxhdCBjY3M/ISBDb3VsZCB5b3UgZG91YmxlIGNoZWNrIHBsZWFzZT8NCg0KVGhlIHZhcmlh
-YmxlIGF1eF9pbnYgaXMgc2V0IG9ubHkgaWYgKCFIQVNfRkxBVF9DQ1MocnEtPmVuZ2luZS0+aTkx
-NSkpLg0KDQo+PiArCQlpZiAocnEtPmVuZ2luZS0+Y2xhc3MgPT0gVklERU9fREVDT0RFX0NMQVNT
-KSB7DQo+PiArCQkJKmNzKysgPSBpOTE1X21taW9fcmVnX29mZnNldChHRU4xMl9WRDBfQVVYX05W
-KTsNCj4+ICsJCX0gZWxzZSBpZiAocnEtPmVuZ2luZS0+Y2xhc3MgPT0gVklERU9fRU5IQU5DRU1F
-TlRfQ0xBU1MpIHsNCj4+ICsJCQkqY3MrKyA9IGk5MTVfbW1pb19yZWdfb2Zmc2V0KEdFTjEyX1ZF
-MF9BVVhfTlYpOw0KPj4gKwkJfSBlbHNlIHsNCj4+ICsJCQlHRU1fQlVHX09OKCJ1bmtub3duIGF1
-eF9pbnYgcmVnXG4iKTsNCj4+ICsJCQkqY3MrKyA9IGk5MTVfbW1pb19yZWdfb2Zmc2V0KElOVkFM
-SURfTU1JT19SRUcpOw0KPg0KPiBJJ2QgY29uc2lkZXIgbm90IGVtaXR0aW5nIHRoZSBMUkkgaWYg
-d2UgZG9uJ3Qga25vdyB3aGF0IHRvIHB1dCBpbiB1bmxlc3MgdGhlcmUgaXMgc29tZSBoaWRkZW4g
-cG9pbnQgdG8gZG8gaXQ/DQoNClRoYXQncyB0cnVlLiBJIHdhcyBmb2xsb3dpbmcgdGhlIG9yaWdp
-bmFsIGxvZ2ljIGZsb3cgaGVyZS4gSSB0aGluayBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8gY2hlY2sg
-Zm9yIGVuZ2luZSBjbGFzcyBiZWZvcmUgc2V0dGluZyB0aGUgdmFyaWFibGUgYXV4X2ludi4NCg0K
-Pg0KPj4gICAJCX0NCj4+ICsJCSpjcysrID0gQVVYX0lOVjsNCj4+ICAgCQkqY3MrKyA9IE1JX05P
-T1A7DQo+PiAgIAl9DQo+PiAgIA0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2d0L2ludGVsX2dwdV9jb21tYW5kcy5oIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9p
-bnRlbF9ncHVfY29tbWFuZHMuaA0KPj4gaW5kZXggZDExMmZmZDU2NDE4Li4yZDE1MGVlYzVjNjUg
-MTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9ncHVfY29tbWFu
-ZHMuaA0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3B1X2NvbW1hbmRz
-LmgNCj4+IEBAIC0xNDQsNiArMTQ0LDcgQEANCj4+ICAgI2RlZmluZSBNSV9MT0FEX1JFR0lTVEVS
-X0lNTSh4KQlNSV9JTlNUUigweDIyLCAyKih4KS0xKQ0KPj4gICAvKiBHZW4xMSsuIGFkZHIgPSBi
-YXNlICsgKGN0eF9yZXN0b3JlID8gb2Zmc2V0ICYgR0VOTUFTSygxMiwyKSA6IG9mZnNldCkgKi8N
-Cj4+ICAgI2RlZmluZSAgIE1JX0xSSV9MUk1fQ1NfTU1JTwkJUkVHX0JJVCgxOSkNCj4+ICsjZGVm
-aW5lICAgTUlfTFJJX01NSU9fUkVNQVBfRU4JCSgxIDw8IDE3KQ0KPj4gICAjZGVmaW5lICAgTUlf
-TFJJX0ZPUkNFX1BPU1RFRAkJKDE8PDEyKQ0KPg0KPiBQYXNzaW5nIG9ic2VydmF0aW9uIC0gdGhy
-ZWUgYml0cywgdGhyZWUgZmxhdm91cnMgb2YgZXhwcmVzc2luZyB0aGVtLCBzaWdoLi4uDQpIYWhh
-LCBSRUdfQklUKDE3KSBpdCBpcy4gVGhlIG90aGVyIG9uZSBjYXVzZXMgYSBDSEVDSzpTUEFDSU5H
-LCBidXQgZG9uJ3Qgd2FudCB0byB0b3VjaCB0aGF0IGluIHRoaXMgcGF0Y2guDQoNCj4+ICAgI2Rl
-ZmluZSBNSV9MT0FEX1JFR0lTVEVSX0lNTV9NQVhfUkVHUyAoMTI2KQ0KPj4gICAjZGVmaW5lIE1J
-X1NUT1JFX1JFR0lTVEVSX01FTSAgICAgICAgTUlfSU5TVFIoMHgyNCwgMSkNCg==
+Maybe also good to add dri-devel to these discussions.
+
+I'm not sure where exactly we landed with dgpu error capture (maybe I
+should check the code but it's really w/e here), but I think we can
+also toss in "you need a non-recoverable context for error capture to
+work on dgpu". Since that simplifies things even more. Maybe Thomas
+forgot to add that to the list of restrictions.
+
+Anyway on the "we can't capture lmem-only compressed buffers", I think
+that's totally fine. Those are for render targets, and we don't
+capture those. Adding Lionel and Ken to confirm.
+-Daniel
+
+On Fri, 18 Mar 2022 at 17:26, Bloomfield, Jon <jon.bloomfield@intel.com> wr=
+ote:
+>
+> @Thomas Hellstr=C3=B6m - I agree :-)
+>
+> My question was really to @Joonas Lahtinen, who was saying we could alway=
+s migrate in the CPU fault handler. I am pushing back on that unless we hav=
+e no choice. It's the very complication we were trying to avoid with the cu=
+rrent SAS. If that's what's needed, then so be it. But I'm asking whether w=
+e can instead handle this specially, instead of adding generic complexity t=
+o the primary code paths.
+>
+> Jon
+>
+> > -----Original Message-----
+> > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > Sent: Friday, March 18, 2022 2:48 AM
+> > To: Bloomfield, Jon <jon.bloomfield@intel.com>; Joonas Lahtinen
+> > <joonas.lahtinen@linux.intel.com>; Intel Graphics Development <intel-
+> > gfx@lists.freedesktop.org>; Auld, Matthew <matthew.auld@intel.com>; C,
+> > Ramalingam <ramalingam.c@intel.com>; Vetter, Daniel
+> > <daniel.vetter@intel.com>
+> > Subject: Re: Small bar recovery vs compressed content on DG2
+> >
+> > Hi,
+> >
+> > On Thu, 2022-03-17 at 18:21 +0000, Bloomfield, Jon wrote:
+> > > +@Vetter, Daniel
+> > >
+> > > Let's not start re-inventing this on the fly again. That's how we got
+> > > into trouble in the past. The SAS/Whitepaper does currently require
+> > > the SMEM+LMEM placement for mappable, for good reasons.
+> >
+> > Just to avoid any misunderstandings here:
+> >
+> > We have two hard requirements from Arch that clash, main problem is
+> > compressed bos can't be captured on error with current designs.
+> >
+> > From an engineering point of view we can do little more than list
+> > options available to resolve this and whether they are hard or not so
+> > hard to implemement. But IMHO Arch needs to agree on what's got to
+> > give.
+> >
+> > Thanks,
+> > Thomas
+> >
+> >
+> > >
+> > > We cannot 'always migrate to mappable in the fault handler'. Or at
+> > > least, this is not as trivial as it is to write in a sentence due to
+> > > the need to spill out other active objects, and all the usual
+> > > challenges with context synchronization etc. It is possible, perhaps
+> > > with a lot of care, but it is challenging to guarantee, easy to
+> > > break, and not needed for 99.9% of software. We are trying to
+> > > simplify our driver stack.
+> > >
+> > > If we need a special mechanism for debug, we should devise a special
+> > > mechanism, not throw out the general LMEM+SMEM requirement. Are
+> > there
+> > > any identified first-class clients that require such access, or is it
+> > > only debugging tools?
+> > >
+> > > If only debug, then why can't the tool use a copy engine submission
+> > > to access the data in place? Or perhaps a bespoke ioctl to access
+> > > this via the KMD (and kmd submitted copy-engine BB)?
+> > >
+> > > Thanks,
+> > >
+> > > Jon
+> > >
+> > > > -----Original Message-----
+> > > > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > > > Sent: Thursday, March 17, 2022 2:35 AM
+> > > > To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Bloomfield,
+> > > > Jon
+> > > > <jon.bloomfield@intel.com>; Intel Graphics Development <intel-
+> > > > gfx@lists.freedesktop.org>; Auld, Matthew <matthew.auld@intel.com>;
+> > > > C,
+> > > > Ramalingam <ramalingam.c@intel.com>
+> > > > Subject: Re: Small bar recovery vs compressed content on DG2
+> > > >
+> > > > On Thu, 2022-03-17 at 10:43 +0200, Joonas Lahtinen wrote:
+> > > > > Quoting Thomas Hellstr=C3=B6m (2022-03-16 09:25:16)
+> > > > > > Hi!
+> > > > > >
+> > > > > > Do we somehow need to clarify in the headers the semantics for
+> > > > > > this?
+> > > > > >
+> > > > > >  From my understanding when discussing the CCS migration series
+> > > > > > with
+> > > > > > Ram, the kernel will never do any resolving (compressing /
+> > > > > > decompressing) migrations or evictions which basically implies
+> > > > > > the
+> > > > > > following:
+> > > > > >
+> > > > > > *) Compressed data must have LMEM only placement, otherwise the
+> > > > GPU
+> > > > > > would read garbage if accessing from SMEM.
+> > > > >
+> > > > > This has always been the case, so it should be documented in the
+> > > > > uAPI
+> > > > > headers and kerneldocs.
+> > > > >
+> > > > > > *) Compressed data can't be assumed to be mappable by the CPU,
+> > > > > > because
+> > > > > > in order to ensure that on small BAR, the placement needs to be
+> > > > > > LMEM+SMEM.
+> > > > >
+> > > > > Not strictly true, as we could always migrate to the mappable
+> > > > > region
+> > > > > in
+> > > > > the CPU fault handler. Will need the same set of tricks as with
+> > > > > limited
+> > > > > mappable GGTT in past.
+> > > >
+> > > > In addition to Matt's reply:
+> > > >
+> > > > Yes, if there is sufficient space. I'm not sure we want to
+> > > > complicate
+> > > > this to migrate only part of the buffer to mappable on a fault
+> > > > basis?
+> > > > Otherwise this is likely to fail.
+> > > >
+> > > > One option is to allow cpu-mapping from SYSTEM like TTM is doing
+> > > > for
+> > > > evicted buffers, even if SYSTEM is not in the placement list, and
+> > > > then
+> > > > migrate back to LMEM for gpu access.
+> > > >
+> > > > But can user-space even interpret the compressed data when CPU-
+> > > > mapping?
+> > > > without access to the CCS metadata?
+> > > >
+> > > > >
+> > > > > > *) Neither can compressed data be part of a CAPTURE buffer,
+> > > > > > because
+> > > > > > that
+> > > > > > requires the data to be CPU-mappable.
+> > > > >
+> > > > > Especially this will be too big of a limitation which we can't
+> > > > > really
+> > > > > afford
+> > > > > when it comes to debugging.
+> > > >
+> > > > Same here WRT user-space interpretation.
+> > > >
+> > > > This will become especially tricky on small BAR, because either we
+> > > > need
+> > > > to fit all compressed buffers in the mappable portion, or be able
+> > > > to
+> > > > blit the contents of the capture buffers from within the fence
+> > > > signalling critical section, which will require a lot of work I
+> > > > guess.
+> > > >
+> > > > /Thomas
+> > > >
+> > > >
+> > > > >
+> > > > > Regards, Joonas
+> > > > >
+> > > > > > Are we (and user-mode drivers) OK with these restrictions, or
+> > > > > > do we
+> > > > > > need
+> > > > > > to rethink?
+> > > > > >
+> > > > > > Thanks,
+> > > > > >
+> > > > > > Thomas
+> > > > > >
+> > > > > >
+> > > >
+> > >
+> >
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
