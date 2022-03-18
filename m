@@ -1,41 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070D74DE031
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 18:44:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6C64DE090
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 18:54:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C537C10E1F6;
-	Fri, 18 Mar 2022 17:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A3B10E02F;
+	Fri, 18 Mar 2022 17:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A32C10E1F6
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 17:43:57 +0000 (UTC)
-Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
- [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id A1CDD289343;
- Fri, 18 Mar 2022 17:43:55 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1647625436; bh=k49dft/RIM15L37VzMx4R3RaizhKfy3rr5/8GnkwFT8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ypj2pEVR2X8g68mnTWAXGniEKYItAdi6ksmRjTpALxw58EQ9XA6rVqXdoAs6PK3Oj
- S3/PgFoonJ7INncl00bkfijtEISeE55umf3trj8XZk9IB9zfYG6cc0jK0gfU4ykptZ
- Knvo7hCFNw4mC8xBZxzHarosMAUChdst8syokwwgAzxFYy0V4vTQ0gOaeYV/wRBuLb
- eXxrvfThIW7aihZrsmVjFsisKAl8uGSKhEAOgnzhEgk/DJ3gAOSuytKzH2xUEq1yr7
- WtSfhJIe1MkpZc4lovcIGUkkn0fONE42Z8S7rvJ/eMQkZAA9Wi7lUJkdQM3lL/7+Sz
- pV65Johsb+uFA==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/ttm: Fix a kernel oops due to an invalid read
-Date: Fri, 18 Mar 2022 13:43:32 -0400
-Message-Id: <20220318174332.440068-6-zack@kde.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220318174332.440068-1-zack@kde.org>
-References: <20220318174332.440068-1-zack@kde.org>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6FA10E02F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 17:54:03 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id w4so11118323edc.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 10:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UT8PNCzA3IItBoYnttpNx5idM0QeCX4IpB+/K2rBDO0=;
+ b=KKmC4lEFDfhYC3imlGFoNNxJoclbkT+mVaqH8eitHCCzI1uIHjlrSBZpzq+BQm7hlJ
+ Eb0viOGMtrShIUfsJeX1ZWRLOr0OD3CNXwugt6nXYa4CRM8ry7Y+pwsPVW8nBJym0XzJ
+ r30exQSNS503BsYHXzVXJcpUhuMrxxw3e7pa+hwAB8tXPvH1AlQlXuOoKQ9EFx+Cf1Iv
+ dh5u4Xk6wwR8PoGrgMR93Gp+NMxLXMPPNNAKJYxbr/xK7SPHYrM7LDdltZt3QC3uPlpj
+ bvs/S67YkpROUjvRfgmgWwXOv4IvNZsRLEMxeSYTfjetz0cnmnfhl2cPeUt41SEuklZk
+ Hekg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UT8PNCzA3IItBoYnttpNx5idM0QeCX4IpB+/K2rBDO0=;
+ b=ypGt+zuihH7kcrdJrE4XJS+xeDfBVV1Fr5Ln6355G4rpFKKcc48AGipP+0zZsQsfWj
+ kIEdqmoidz3XMxQWqdhFT8ocier+cjrlABlQBnZ58nUy2IG3aIuA19hlsD46vm/sn5+k
+ iBAK89tLN65ACVuEhs9qI7bK8MjKwSfTHF5f857z2Otkpiqe50ZXMg+PorkdUhypWg7x
+ c2LLJEU9TBSwAvYqjkd3QLl7qltmzr4Sa2lRb/+WvkKiltTInia1DbSPxCX9KAzTVlRw
+ VMV+u2WXKbNQnFNHhhBDzgyVVRpEWR6lcsfkskYKAw8mXDxsWsA0MAa0Nl+pFE4u9XXp
+ mKrg==
+X-Gm-Message-State: AOAM5319nFE6vMmvXoaIg6H8rbHxEpePq2XbzL4MysCHhFfpI9ykHGz3
+ +pRpTbMzHOLimLZdhq80Sfib04mN4KQbzPSj8QNAXg==
+X-Google-Smtp-Source: ABdhPJzzfuMMmNYAIvLsb2PtA86IccICE/l9TE1VcseaMAO0nRXeiDcSTFMkAxWQEfNWGMlmk5CppHt3p/eKDUv88kA=
+X-Received: by 2002:aa7:c683:0:b0:418:f5f3:9684 with SMTP id
+ n3-20020aa7c683000000b00418f5f39684mr10371293edq.184.1647626041528; Fri, 18
+ Mar 2022 10:54:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220222084723.14310-1-max.krummenacher@toradex.com>
+ <20220223134154.oo7xhf37bgtvm3ai@houat>
+ <b5f471f4-0712-b798-efb8-b5b481cdb898@denx.de>
+ <CAEHkU3Womyq09Lz62SJohix5JywfKvBRvuWedqF1D7gvb+T2tQ@mail.gmail.com>
+ <20220302142142.zroy464l5etide2g@houat>
+ <9c9a10ca-e6a1-c310-c0a5-37d4fed6efd6@denx.de>
+ <CAEHkU3We_odwtWBXHdcwu+_9yEUo0mudC5sVjr0or0C6nbw+vw@mail.gmail.com>
+ <20220318163549.5a5v3lex4btnnvgb@houat>
+ <CAPY8ntDgWwXyWXDWVouzhdC2wsyjbRgfrvWGU=MRG_2sAquHyQ@mail.gmail.com>
+ <20220318171642.y72eqf5qbmuu2ln2@houat>
+In-Reply-To: <20220318171642.y72eqf5qbmuu2ln2@houat>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 18 Mar 2022 17:53:45 +0000
+Message-ID: <CAPY8ntAjnmAyr=6sdAJWbmiEODHM3=Q3c5UnBCTNgyZqBsWBzQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
+ bpc and bus_format
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,105 +73,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, krastevm@vmware.com,
- mombasawalam@vmware.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Max Krummenacher <max.krummenacher@toradex.com>,
+ Max Krummenacher <max.oss.09@gmail.com>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ DenysDrozdov <denys.drozdov@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+On Fri, 18 Mar 2022 at 17:16, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Fri, Mar 18, 2022 at 05:05:11PM +0000, Dave Stevenson wrote:
+> > Hi Maxime
+> >
+> > On Fri, 18 Mar 2022 at 16:35, Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > On Mon, Mar 07, 2022 at 04:26:56PM +0100, Max Krummenacher wrote:
+> > > > On Wed, Mar 2, 2022 at 5:22 PM Marek Vasut <marex@denx.de> wrote:
+> > > > >
+> > > > > On 3/2/22 15:21, Maxime Ripard wrote:
+> > > > > > Hi,
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > > Please try to avoid top posting
+> > > > Sorry.
+> > > >
+> > > > > >
+> > > > > > On Wed, Feb 23, 2022 at 04:25:19PM +0100, Max Krummenacher wrote:
+> > > > > >> The goal here is to set the element bus_format in the struct
+> > > > > >> panel_desc. This is an enum with the possible values defined in
+> > > > > >> include/uapi/linux/media-bus-format.h.
+> > > > > >>
+> > > > > >> The enum values are not constructed in a way that you could calculate
+> > > > > >> the value from color channel width/shift/mapping/whatever. You rather
+> > > > > >> would have to check if the combination of color channel
+> > > > > >> width/shift/mapping/whatever maps to an existing value and otherwise
+> > > > > >> EINVAL out.
+> > > > > >>
+> > > > > >> I don't see the value in having yet another way of how this
+> > > > > >> information can be specified and then having to write a more
+> > > > > >> complicated parser which maps the dt data to bus_format.
+> > > > > >
+> > > > > > Generally speaking, sending an RFC without explicitly stating what you
+> > > > > > want a comment on isn't very efficient.
+> > > > >
+> > > > > Isn't that what RFC stands for -- Request For Comment ?
+> > > >
+> > > > I hoped that the link to the original discussion was enough.
+> > > >
+> > > > panel-simple used to have a finite number of hardcoded panels selected
+> > > > by their compatible.
+> > > > The following patchsets added a compatible 'panel-dpi' which should
+> > > > allow to specify the panel in the device tree with timing etc.
+> > > >   https://patchwork.kernel.org/project/dri-devel/patch/20200216181513.28109-6-sam@ravnborg.org/
+> > > > In the same release cycle part of it got reverted:
+> > > >   https://patchwork.kernel.org/project/dri-devel/patch/20200314153047.2486-3-sam@ravnborg.org/
+> > > > With this it is no longer possible to set bus_format.
+> > > >
+> > > > The explanation what makes the use of a property "data-mapping" not a
+> > > > suitable way in that revert
+> > > > is a bit vague.
+> > >
+> > > Indeed, but I can only guess. BGR666 in itself doesn't mean much for
+> > > example. Chances are the DPI interface will use a 24 bit bus, so where
+> > > is the padding?
+> > >
+> > > I think that's what Sam and Laurent were talking about: there wasn't
+> > > enough information encoded in that property to properly describe the
+> > > format, hence the revert.
+> >
+> > MEDIA_BUS_FMT_RGB666_1X18 defines an 18bit bus, therefore there is no
+> > padding. "bgr666" was selecting that media bus code (I won't ask about
+> > the rgb/bgr swap).
+> >
+> > If there is padding on a 24 bit bus, then you'd use (for example)
+> > MEDIA_BUS_FMT_RGB666_1X24_CPADHI to denote that the top 2 bits of each
+> > colour are the padding. Define and use a PADLO variant if the padding
+> > is the low bits.
+>
+> Yeah, that's kind of my point actually :)
 
-The res is initialized here only if there's no errors so passing it to
-ttm_resource_fini in the error paths results in a kernel oops. In the
-error paths, instead of the unitialized res, we have to use to use
-node->base on which ttm_resource_init was called.
+Ah, OK :)
 
-Sample affected backtrace:
-Unable to handle kernel NULL pointer dereference at virtual address 00000000000000d8
- Mem abort info:
-   ESR = 0x96000004
-   EC = 0x25: DABT (current EL), IL = 32 bits
-   SET = 0, FnV = 0
-   EA = 0, S1PTW = 0
-   FSC = 0x04: level 0 translation fault
- Data abort info:
-   ISV = 0, ISS = 0x00000004
-   CM = 0, WnR = 0
- user pgtable: 4k pages, 48-bit VAs, pgdp=0000000106ac0000
- [00000000000000d8] pgd=0000000000000000, p4d=0000000000000000
- Internal error: Oops: 96000004 [#1] SMP
- Modules linked in: bnep vsock_loopback vmw_vsock_virtio_transport_common
- vsock snd_hda_codec_generic snd_hda_intel snd_intel_dspcfg snd_hda_codec
- snd_hwdep >
- CPU: 0 PID: 1197 Comm: gnome-shell Tainted: G    U  5.17.0-rc2-vmwgfx #2
- Hardware name: VMware, Inc. VBSA/VBSA, BIOS VEFI 12/31/2020
- pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- pc : ttm_resource_fini+0x5c/0xac [ttm]
- lr : ttm_range_man_alloc+0x128/0x1e0 [ttm]
- sp : ffff80000d783510
- x29: ffff80000d783510 x28: 0000000000000000 x27: ffff000086514400
- x26: 0000000000000300 x25: ffff0000809f9e78 x24: 0000000000000000
- x23: ffff80000d783680 x22: ffff000086514400 x21: 00000000ffffffe4
- x20: ffff80000d7836a0 x19: ffff0000809f9e00 x18: 0000000000000000
- x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
- x14: 0000000000000000 x13: 0000000000000800 x12: ffff0000f2600a00
- x11: 000000000000fc96 x10: 0000000000000000 x9 : ffff800001295c18
- x8 : 0000000000000000 x7 : 0000000000000300 x6 : 0000000000000000
- x5 : 0000000000000000 x4 : ffff0000f1034e20 x3 : ffff0000f1034600
- x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000600000
- Call trace:
-  ttm_resource_fini+0x5c/0xac [ttm]
-  ttm_range_man_alloc+0x128/0x1e0 [ttm]
-  ttm_resource_alloc+0x58/0x90 [ttm]
-  ttm_bo_mem_space+0xc8/0x3e4 [ttm]
-  ttm_bo_validate+0xb4/0x134 [ttm]
-  vmw_bo_pin_in_start_of_vram+0xbc/0x200 [vmwgfx]
-  vmw_framebuffer_pin+0xc0/0x154 [vmwgfx]
-  vmw_ldu_primary_plane_atomic_update+0x8c/0x6e0 [vmwgfx]
-  drm_atomic_helper_commit_planes+0x11c/0x2e0
-  drm_atomic_helper_commit_tail+0x60/0xb0
-  commit_tail+0x1b0/0x210
-  drm_atomic_helper_commit+0x168/0x400
-  drm_atomic_commit+0x64/0x74
-  drm_atomic_helper_set_config+0xdc/0x11c
-  drm_mode_setcrtc+0x1c4/0x780
-  drm_ioctl_kernel+0xd0/0x1a0
-  drm_ioctl+0x2c4/0x690
-  vmw_generic_ioctl+0xe0/0x174 [vmwgfx]
-  vmw_unlocked_ioctl+0x24/0x30 [vmwgfx]
-  __arm64_sys_ioctl+0xb4/0x100
-  invoke_syscall+0x78/0x100
-  el0_svc_common.constprop.0+0x54/0x184
-  do_el0_svc+0x34/0x9c
-  el0_svc+0x48/0x1b0
-  el0t_64_sync_handler+0xa4/0x130
-  el0t_64_sync+0x1a4/0x1a8
- Code: 35000260 f9401a81 52800002 f9403a60 (f9406c23)
- ---[ end trace 0000000000000000 ]---
+> Just having a rgb666 string won't allow to differentiate between
+> MEDIA_BUS_FMT_RGB666_1X18 and MEDIA_BUS_FMT_RGB666_1X24_CPADHI: both are
+> RGB666 formats. Or we could say that it's MEDIA_BUS_FMT_RGB666_1X18 and
+> then when we'll need MEDIA_BUS_FMT_RGB666_1X24_CPADHI we'll add a new
+> string but that usually leads to inconsistent or weird names, so this
+> isn't ideal.
+>
+> > The string matching would need to be extended to have some string to
+> > select those codes ("lvds666" is a weird choice from the original
+> > patch).
+> >
+> > Taking those media bus codes and handling them appropriately is
+> > already done in vc4_dpi [1], and the vendor tree has gained
+> > BGR666_1X18 and BGR666_1X24_CPADHI [2] as they aren't defined in
+> > mainline.
+> >
+> > Now this does potentially balloon out the number of MEDIA_BUS_FMT_xxx
+> > defines needed, but that's the downside of having defines for all
+> > formats.
+> >
+> > (I will admit to having a similar change in the Pi vendor tree that
+> > allows the media bus code to be selected explicitly by hex value).
+>
+> I think having an integer value is indeed better: it doesn't change much
+> in the device tree if we're using a header, it makes the driver simpler
+> since we don't have to parse a string, and we can easily extend it or
+> rename the define, it won't change the ABI.
+>
+> I'm not sure using the raw media bus format value is ideal though, since
+> that value could then be used by any OS, and it would effectively force
+> the mbus stuff down their throat.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Fixes: de3688e469b0 ("drm/ttm: add ttm_resource_fini v2")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
----
- drivers/gpu/drm/ttm/ttm_range_manager.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'll agree that the media bus format isn't the nicest, but I was
+looking for a quick fix that could be configured from an overlay.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index 8cd4f3fb9f79..d91666721dc6 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -89,7 +89,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 	spin_unlock(&rman->lock);
- 
- 	if (unlikely(ret)) {
--		ttm_resource_fini(man, *res);
-+		ttm_resource_fini(man, &node->base);
- 		kfree(node);
- 		return ret;
- 	}
--- 
-2.32.0
+If using defines, then possibly go for a partial bitmask?
+3 bits for RGB order can be defined across the board. An encoding of
+the bus width. And then the packing within that bus width would have
+to be a lookup table, with no padding, padhi, and padlo being defined
+as 0, 1, and 2 respectively. >=3 are extensions per bus width.
+MEDIA_BUS_FMT_RGB666_1X24_CPADHI might then be described as ORDER_RGB
+| BUS_24 | PAD_HI.
+And MEDIA_BUS_FMT_BGR666 as ORDER_BGR | BUS_18 | NO_PAD.
 
+Hmm, a bit more thought needed for RGB565, as a bus width of 16
+wouldn't guarantee that.
+
+  Dave
