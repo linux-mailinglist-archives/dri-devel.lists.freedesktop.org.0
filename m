@@ -1,35 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764834DE02F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 18:43:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C814DE02E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 18:43:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE3B10E1F5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9112710E189;
 	Fri, 18 Mar 2022 17:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8101D10E1F5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 17:43:51 +0000 (UTC)
+Received: from letterbox.kde.org (letterbox.kde.org
+ [IPv6:2001:41c9:1:41e::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E2F10E1F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 17:43:53 +0000 (UTC)
 Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id E615F289344;
- Fri, 18 Mar 2022 17:43:49 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 8959428909B;
+ Fri, 18 Mar 2022 17:43:51 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1647625430; bh=Pj299ta2wmflvfPvlfu5pBREL/RIxWWbmri8BQnX19c=;
+ t=1647625432; bh=Pq3m+BVAc4QHE9tP+/Vw24SFr8lOiJbCJYcCL0sQyGw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A5GmOnALZTF86Em65+PNelq0BdxBKTX4h2Dqbs1cNQSBV9xr7veSdgwsOXS4YYBCU
- 5Jh6usmL8OHmqQ2XwxJeLWL9cT7WLR4v9Q7f3UREwcYftPbTvfHzXqZ7v5yBjqasQx
- DHX7NrGC2PLXJL994btbk3OgKGFeQeD7vPRuRhdPD6O7S0YyWSkrCBpq3N9m8mn96z
- e4GUDdFjesZc1F6i90Bfkl8E/kOu8w8VWXVa5fCSKttLsGLH8GuGmOl/i+CpHvC5rq
- Z2hDQsQbkovaaGh/A7yVNXAS2wFWuo5sW2mXc6WsDB6Affef1eABEHxn1pW1JKRTKN
- b2rM0cIqEGgjg==
+ b=XPGcKNX/p/6Nz7SUrgz317LYuM1TPHWmvGpXR5ge1jF7ZHic/B5bE4PHpl/wj1NoH
+ D1mVTjdi2tW7O5TZwZ8QTR8i0Mmn/k20ySelQSGs9Xf4yQIX5vbenP2HT2qwpXOxtb
+ 57HA/V5wmXE3+lgh9ZjNZ2WwAYCHNrRJH6v70IrtixnArXBy14BvbN9yMGyu/jfiKD
+ hGk1/stKO9lW9X3mlOwO7ThuVt0UYCN3eIvWDvdDuUC87+ASUmAhEcjRxevMTmPOs6
+ E//PgsUYtKQdWrjSx/+R24LXjDhk8WAEXQC/FomZTUbl9dYuWYunCiTx3G0JsFJKl7
+ hG92Zlp6s7vrw==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/vmwgfx: validate the screen formats
-Date: Fri, 18 Mar 2022 13:43:30 -0400
-Message-Id: <20220318174332.440068-4-zack@kde.org>
+Subject: [PATCH 4/5] drm/vmwgfx: Disable command buffers on svga3 without
+ gbobjects
+Date: Fri, 18 Mar 2022 13:43:31 -0400
+Message-Id: <20220318174332.440068-5-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220318174332.440068-1-zack@kde.org>
 References: <20220318174332.440068-1-zack@kde.org>
@@ -48,84 +50,54 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com
+Cc: krastevm@vmware.com, stable@vger.kernel.org, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-The kms code wasn't validating the modifiers and was letting through
-unsupported formats. rgb8 was never properly supported and has no
-matching svga screen target format so remove it.
-This fixes format/modifier failures in kms_addfb_basic from IGT.
+With very limited vram on svga3 it's difficult to handle all the surface
+migrations. Without gbobjects, i.e. the ability to store surfaces in
+guest mobs, there's no reason to support intermediate svga2 features,
+especially because we can fall back to fb traces and svga3 will never
+support those in-between features.
+
+On svga3 we wither want to use fb traces or screen targets
+(i.e. gbobjects), nothing in between. This fixes presentation on a lot
+of fusion/esxi tech previews where the exposed svga3 caps haven't been
+finalized yet.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 2cd80dbd3551 ("drm/vmwgfx: Add basic support for SVGA3")
+Cc: <stable@vger.kernel.org> # v5.14+
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 30 +++++++++++++++--------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  1 -
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 7a23f252d212..693028c31b6b 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1171,6 +1171,15 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
- 	 * Sanity checks.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index bf1b394753da..162dfeb1cc5a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -675,11 +675,14 @@ int vmw_cmd_emit_dummy_query(struct vmw_private *dev_priv,
+  */
+ bool vmw_cmd_supported(struct vmw_private *vmw)
+ {
+-	if ((vmw->capabilities & (SVGA_CAP_COMMAND_BUFFERS |
+-				  SVGA_CAP_CMD_BUFFERS_2)) != 0)
+-		return true;
++	bool has_cmdbufs =
++		(vmw->capabilities & (SVGA_CAP_COMMAND_BUFFERS |
++				      SVGA_CAP_CMD_BUFFERS_2)) != 0;
++	if (vmw_is_svga_v3(vmw))
++		return (has_cmdbufs &&
++			(vmw->capabilities & SVGA_CAP_GBOBJECTS) != 0);
+ 	/*
+ 	 * We have FIFO cmd's
  	 */
- 
-+	if (!drm_any_plane_has_format(&dev_priv->drm,
-+				      mode_cmd->pixel_format,
-+				      mode_cmd->modifier[0])) {
-+		drm_dbg(&dev_priv->drm,
-+			"unsupported pixel format %p4cc / modifier 0x%llx\n",
-+			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-+		return -EINVAL;
-+	}
-+
- 	/* Surface must be marked as a scanout. */
- 	if (unlikely(!surface->metadata.scanout))
- 		return -EINVAL;
-@@ -1493,20 +1502,13 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 	}
- 
--	/* Limited framebuffer color depth support for screen objects */
--	if (dev_priv->active_display_unit == vmw_du_screen_object) {
--		switch (mode_cmd->pixel_format) {
--		case DRM_FORMAT_XRGB8888:
--		case DRM_FORMAT_ARGB8888:
--			break;
--		case DRM_FORMAT_XRGB1555:
--		case DRM_FORMAT_RGB565:
--			break;
--		default:
--			DRM_ERROR("Invalid pixel format: %p4cc\n",
--				  &mode_cmd->pixel_format);
--			return -EINVAL;
--		}
-+	if (!drm_any_plane_has_format(&dev_priv->drm,
-+				      mode_cmd->pixel_format,
-+				      mode_cmd->modifier[0])) {
-+		drm_dbg(&dev_priv->drm,
-+			"unsupported pixel format %p4cc / modifier 0x%llx\n",
-+			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-+		return -EINVAL;
- 	}
- 
- 	vfbd = kzalloc(sizeof(*vfbd), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index c95be95deb8d..1d1c8b82c898 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -247,7 +247,6 @@ struct vmw_framebuffer_bo {
- static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
- 	DRM_FORMAT_XRGB1555,
- 	DRM_FORMAT_RGB565,
--	DRM_FORMAT_RGB888,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
- };
+-	return vmw->fifo_mem != NULL;
++	return has_cmdbufs || vmw->fifo_mem != NULL;
+ }
 -- 
 2.32.0
 
