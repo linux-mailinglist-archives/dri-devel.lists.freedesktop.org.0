@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7E44DD23B
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 02:06:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E044DD23D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 02:06:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07DD10E04B;
-	Fri, 18 Mar 2022 01:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACF2E10E04C;
+	Fri, 18 Mar 2022 01:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69CE10E04B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 01:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647565579; x=1679101579;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VWC6HUH11zHEaXwf+ALnIMxVDNWIX7ILw0OIDe/QfRw=;
- b=CY76ZgazjiIpS+QD8Iu2pA2ufAdBC3vmwgVAqp5EeUnf/5djiWV3H3YO
- mGeAwm93MYMjPirJKLqkg/AyGLt/YEirD2zYweDbrfx6grOZrxRJcsH4L
- uJgTkrs4PnEDUj8pLyLG76JhxW1IJDQgyyCzHlL1rj2I9EKc4wiWBKfsX
- L7QrlSA2LWyWeGtq4RTBrtMwLkL+zQIjWs/wKGKsX+hfyT6jZRmWDe1yu
- hGXvXecocfw37RHG5OKauadKb863KFhHWtfMwvTXXZkqbvFCwSmaRhY5I
- ltvMMZLdKKcUyIClO1vbpo5Q9bMqR9/h/AIJ3wAUHDvZYmLuSPAyiVOiJ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="320233717"
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="320233717"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 18:06:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="647259586"
-Received: from cliu38-mobl3.sh.intel.com ([10.239.147.106])
- by orsmga004.jf.intel.com with ESMTP; 17 Mar 2022 18:06:16 -0700
-From: Chuansheng Liu <chuansheng.liu@intel.com>
-To: jayalk@intworks.biz,
-	daniel@ffwll.ch,
-	deller@gmx.de
-Subject: [PATCH v2] fbdev: defio: fix the pagelist corruption
-Date: Fri, 18 Mar 2022 08:50:03 +0800
-Message-Id: <20220318005003.51810-1-chuansheng.liu@intel.com>
-X-Mailer: git-send-email 2.25.0.rc2
+X-Greylist: delayed 655 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Mar 2022 01:06:50 UTC
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC6D10E04C;
+ Fri, 18 Mar 2022 01:06:50 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KKQp007nCz4xL3;
+ Fri, 18 Mar 2022 12:06:47 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1647565608;
+ bh=jwCusHMaKLzSx+fT/PqroC11hLNZXj+hbjCzMuHR6Ls=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=d61mUW8Zhegt3VhoKSxr6QQd3ryKM24Xdsh+yZ/kPAluEJSLrb9o39iABBijT7Pv/
+ quH7+h/lEY+8LXz94AF3sGsii1yL5HnV3yHZh14oB5sBl+8liqgAJa2pjEfVf9LSFB
+ 6upkUbzuYUHoXwfrUX+6eqRfZGmz+Ryq+wN8sUMU6Nzo9l2TI8ioVE/HOUrrI2ffvR
+ f9oxVt88wayfbNf3BHpeEf/Ouu/fH/7BvXG0/giKCea8ClNkT1N7m3a0pS3sW5FYEk
+ ClbtIeg5GbDNdspCY0YXTgUh8n1P9KD70bXXRGZg8IUownWN+qWVqAY6N82XbLDtRb
+ eJaU8Is31M8oA==
+Date: Fri, 18 Mar 2022 12:06:47 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>
+Subject: Re: linux-next: manual merge of the drm tree with the
+ drm-misc-fixes tree
+Message-ID: <20220318120647.2c89bf05@canb.auug.org.au>
+In-Reply-To: <20220318115544.0c977415@canb.auug.org.au>
+References: <20220318115544.0c977415@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/G5twN28LIUIxKmeSldmhCtB";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,90 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, chuansheng.liu@intel.com
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Julian Braha <julianbraha@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Easily hit the below list corruption:
-==
-list_add corruption. prev->next should be next (ffffffffc0ceb090), but
-was ffffec604507edc8. (prev=ffffec604507edc8).
-WARNING: CPU: 65 PID: 3959 at lib/list_debug.c:26
-__list_add_valid+0x53/0x80
-CPU: 65 PID: 3959 Comm: fbdev Tainted: G     U
-RIP: 0010:__list_add_valid+0x53/0x80
-Call Trace:
- <TASK>
- fb_deferred_io_mkwrite+0xea/0x150
- do_page_mkwrite+0x57/0xc0
- do_wp_page+0x278/0x2f0
- __handle_mm_fault+0xdc2/0x1590
- handle_mm_fault+0xdd/0x2c0
- do_user_addr_fault+0x1d3/0x650
- exc_page_fault+0x77/0x180
- ? asm_exc_page_fault+0x8/0x30
- asm_exc_page_fault+0x1e/0x30
-RIP: 0033:0x7fd98fc8fad1
-==
+--Sig_/G5twN28LIUIxKmeSldmhCtB
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Figure out the race happens when one process is adding &page->lru into
-the pagelist tail in fb_deferred_io_mkwrite(), another process is
-re-initializing the same &page->lru in fb_deferred_io_fault(), which is
-not protected by the lock.
+Hi all,
 
-This fix is to init all the page lists one time during initialization,
-it not only fixes the list corruption, but also avoids INIT_LIST_HEAD()
-redundantly.
+On Fri, 18 Mar 2022 11:55:44 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> Today's linux-next merge of the drm tree got a conflict in:
+>=20
+>   drivers/gpu/drm/bridge/Kconfig
+>=20
+> between commit:
+>=20
+>   3c3384050d68 ("drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HE=
+LPERS")
+>=20
+> from the drm-misc-fixes tree and commit:
+>=20
+>   803abfd8dda5 ("drm: bridge: fix unmet dependency on DRM_KMS_HELPER for =
+DRM_PANEL_BRIDGE")
+>=20
+> from the drm tree.
+>=20
+> I fixed it up (I just used the latter) and can carry the fix as
 
-V2: change "int i" to "unsigned int i" (Geert Uytterhoeven)
+But that failed during configuration, so I went back and used the
+former change.
 
-Fixes: 105a940416fc ("fbdev/defio: Early-out if page is already
-enlisted")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Chuansheng Liu <chuansheng.liu@intel.com>
----
- drivers/video/fbdev/core/fb_defio.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> necessary. This is now fixed as far as linux-next is concerned, but any
+> non trivial conflicts should be mentioned to your upstream maintainer
+> when your tree is submitted for merging.  You may also want to consider
+> cooperating with the maintainer of the conflicting tree to minimise any
+> particularly complex conflicts.
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-index 98b0f23bf5e2..a1da54016c88 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -59,7 +59,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
- 		printk(KERN_ERR "no mapping available\n");
- 
- 	BUG_ON(!page->mapping);
--	INIT_LIST_HEAD(&page->lru);
- 	page->index = vmf->pgoff;
- 
- 	vmf->page = page;
-@@ -220,6 +219,8 @@ static void fb_deferred_io_work(struct work_struct *work)
- void fb_deferred_io_init(struct fb_info *info)
- {
- 	struct fb_deferred_io *fbdefio = info->fbdefio;
-+	struct page *page;
-+	unsigned int i;
- 
- 	BUG_ON(!fbdefio);
- 	mutex_init(&fbdefio->lock);
-@@ -227,6 +228,12 @@ void fb_deferred_io_init(struct fb_info *info)
- 	INIT_LIST_HEAD(&fbdefio->pagelist);
- 	if (fbdefio->delay == 0) /* set a default of 1 s */
- 		fbdefio->delay = HZ;
-+
-+	/* initialize all the page lists one time */
-+	for (i = 0; i < info->fix.smem_len; i += PAGE_SIZE) {
-+		page = fb_deferred_io_page(info, i);
-+		INIT_LIST_HEAD(&page->lru);
-+	}
- }
- EXPORT_SYMBOL_GPL(fb_deferred_io_init);
- 
--- 
-2.25.0.rc2
+--=20
+Cheers,
+Stephen Rothwell
 
+--Sig_/G5twN28LIUIxKmeSldmhCtB
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIz2ycACgkQAVBC80lX
+0Gym7wf/e0IClI1oa2+eJ1eh3mGlRDgv2g9E2o7QjtJm69qjQlnTkU9VojX1l1UC
+hlTU/Dy7Ftkp9R9fjx7xSRC+ZJCCApSAx635tdY/dHm8MeufPflRXT4t2Eu/d8R7
+rlm9cCluUDib36ayR7mdLyGg3pYScTA5ilKS+ai43afsj9zPDHsWWmduGNFbIdbd
+oib20XtTvdZJhz9a9QD/z9wIwfAUP3YAOvI+hyG4fhJcY5aZYvmwnbYHt2VCgqWL
+hcp6a0GCZuAUZG4+aaWDJGBeVxzE0djG/XemYp90qBUNYd6U1Xmu+oXu0h5Ql2sD
+oDF0LUMiVQYeV7GgGIJGrB0ui3jEqw==
+=mpys
+-----END PGP SIGNATURE-----
+
+--Sig_/G5twN28LIUIxKmeSldmhCtB--
