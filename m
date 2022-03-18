@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7154C4DD558
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 08:43:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CF94DD61E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 09:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB1410E733;
-	Fri, 18 Mar 2022 07:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C8910E161;
+	Fri, 18 Mar 2022 08:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAAB10E733
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 07:43:49 +0000 (UTC)
-X-UUID: eb709ff3221549a5b1fbd3fa548fd7a8-20220318
-X-UUID: eb709ff3221549a5b1fbd3fa548fd7a8-20220318
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 145076729; Fri, 18 Mar 2022 15:43:20 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 18 Mar 2022 15:43:18 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Mar 2022 15:43:18 +0800
-Message-ID: <9bd729a6e2d8a23f25c55c3aec81cb5b64eb0057.camel@mediatek.com>
-Subject: Re: [PATCH v14 01/22] dt-bindings: mediatek: add vdosys1 RDMA
- definition for mt8195
-From: CK Hu <ck.hu@mediatek.com>
-To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Fri, 18 Mar 2022 15:43:18 +0800
-In-Reply-To: <20220310035515.16881-2-nancy.lin@mediatek.com>
-References: <20220310035515.16881-1-nancy.lin@mediatek.com>
- <20220310035515.16881-2-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5922910E161
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 08:29:12 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ mp6-20020a17090b190600b001c6841b8a52so3891595pjb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 01:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZerwMZnU5WRGenUWw/mrV6k1v4q9EhMydhshaosUPPY=;
+ b=T2JR3/lfNpGKK7qASyH6+wW97BBOWNrh7oRmcfnmWSqfgDCBAwtyhw6+z45yNahIVS
+ eT7DsjSjEvXTznTI7qXdOGBWQS7eFEssrIgW0IBCHbilYllZhz4kW2weUObdWIu+O4X8
+ KFf9ujVOZylaa3ymqWZq66ufRx7SrPJ6hbHD4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZerwMZnU5WRGenUWw/mrV6k1v4q9EhMydhshaosUPPY=;
+ b=lSr5zhnUWiPc6r1szoJCVgXygSvihsxL9Mant7wqDEb+Gi+SitTie3k/1YG1ea5v03
+ skvlVnN5XwBgQzSkSx5+ZLIYovSdrw+yhIiwJXDj20fFz7BrIgG1nV4F9w1wMB+EI1MX
+ yVh3Te8qVDYrHPlVEluZzbFMjM4EFQCAxqWeQWOx6ynSvogO+LvZ5DGJKYk7glaVfQRt
+ 0Oyx2ofddZWqEpiB3IKveHRUmcQ6+J9kwVZcLl9t5nlcsIHpfUStgGs6dBF2DXKH9kMi
+ em2qsmwzCnH0r/o1qb1WWmzBpM+MMxUY+D0oly50slbiogoFKtt8DghkTFbBEDBQj2F0
+ LI/Q==
+X-Gm-Message-State: AOAM533VHQ50lUjtoAvszZudde1xKPlSIh3OAUldL/CJrwJ2n5GIGNhB
+ WfieHfj3ru56qtxBGCAPTdd2pjiOvbRE8g==
+X-Google-Smtp-Source: ABdhPJxSlFaBTNqCJx14g1bDgmJ+YaO+Pg4LlRrGaMoIJ9J2tXiqSbojTVGwkQAUer85nUyOr+wzKQ==
+X-Received: by 2002:a17:90a:ba10:b0:1bf:6900:2c5d with SMTP id
+ s16-20020a17090aba1000b001bf69002c5dmr20601000pjr.36.1647592151148; 
+ Fri, 18 Mar 2022 01:29:11 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:435a:ce78:7223:1e88])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020a056a00084200b004f761a7287dsm9404044pfk.131.2022.03.18.01.29.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Mar 2022 01:29:10 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v9 0/4] Separate panel orientation property creating and value
+ setting
+Date: Fri, 18 Mar 2022 15:48:21 +0800
+Message-Id: <20220318074825.3359978-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,157 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
+Some drivers, eg. mtk_drm and msm_drm, rely on the panel to set the
+orientation. Panel calls drm_connector_set_panel_orientation() to create
+orientation property and sets the value. However, connector properties
+can't be created after drm_dev_register() is called. The goal is to
+separate the orientation property creation, so drm drivers can create it
+earlier before drm_dev_register().
 
-On Thu, 2022-03-10 at 11:54 +0800, Nancy.Lin wrote:
-> Add vdosys1 RDMA definition.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  .../arm/mediatek/mediatek,mdp-rdma.yaml       | 86
-> +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+After this series, drm_connector_set_panel_orientation() works like
+before, so it won't affect other drm drivers. The only difference is that
+some drm drivers can call drm_connector_init_panel_orientation_property()
+earlier.
 
-The better path:
-Documentation/devicetree/bindings/soc/mediatek/mediatek,mdp-rdma.yaml
+Hsin-Yi Wang (4):
+  gpu: drm: separate panel orientation property creating and value
+    setting
+  drm/mediatek: init panel orientation property
+  drm/msm: init panel orientation property
+  arm64: dts: mt8183: Add panel rotation
 
-Does this mdp-rdma has relation with mdp3-rdma [1]? If the hardware are
-compatible, I think the binding document could be squashed. If no
-relation, I think mdp-rdma could be placed in display folder.
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
+ drivers/gpu/drm/drm_connector.c               | 58 ++++++++++++++-----
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  7 +++
+ drivers/gpu/drm/msm/dsi/dsi_manager.c         |  4 ++
+ include/drm/drm_connector.h                   |  2 +
+ 5 files changed, 59 insertions(+), 13 deletions(-)
 
-[1] 
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220117055254.9777-15-roy-cw.yeh@mediatek.com/
-
-Regards,
-CK
-
-> 
-> diff --git
-> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> rdma.yaml
-> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> rdma.yaml
-> new file mode 100644
-> index 000000000000..6ab773569462
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
-> rdma.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: 
-> https://urldefense.com/v3/__http://devicetree.org/schemas/arm/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!0sVM-qGMUv6LrYRyg_gOLC9Em4NHxZhbtdmygv32phBHBUyLUzixXPduIIqCKA$
->  
-> +$schema: 
-> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!0sVM-qGMUv6LrYRyg_gOLC9Em4NHxZhbtdmygv32phBHBUyLUzixXPfYY-0O3A$
->  
-> +
-> +title: Mediatek MDP RDMA
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +
-> +description: |
-> +  The mediatek MDP RDMA stands for Read Direct Memory Access.
-> +  It provides real time data to the back-end panel driver, such as
-> DSI,
-> +  DPI and DP_INTF.
-> +  It contains one line buffer to store the sufficient pixel data.
-> +  RDMA device node must be siblings to the central MMSYS_CONFIG
-> node.
-> +  For a description of the MMSYS_CONFIG binding, see
-> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> for details.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - const: mediatek,mt8195-vdo1-rdma
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    description: A phandle and PM domain specifier as defined by
-> bindings of
-> +      the power controller specified by phandle. See
-> +      Documentation/devicetree/bindings/power/power-domain.yaml for
-> details.
-> +
-> +  clocks:
-> +    items:
-> +      - description: RDMA Clock
-> +
-> +  iommus:
-> +    description:
-> +      This property should point to the respective IOMMU block with
-> master port as argument,
-> +      see
-> Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-> details.
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of display function block to be set by gce. There
-> are 4 arguments,
-> +      such as gce node, subsys id, offset and register size. The
-> subsys id that is
-> +      mapping to the register of display function blocks is defined
-> in the gce header
-> +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - power-domains
-> +  - clocks
-> +  - iommus
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/power/mt8195-power.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        vdo1_rdma0: mdp-rdma@1c104000 {
-> +            compatible = "mediatek,mt8195-vdo1-rdma";
-> +            reg = <0 0x1c104000 0 0x1000>;
-> +            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> +            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000
-> 0x1000>;
-> +        };
-> +    };
+-- 
+2.35.1.894.gb6a874cedc-goog
 
