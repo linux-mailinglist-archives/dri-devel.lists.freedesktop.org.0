@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F061E4DD3BC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 04:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BBD4DD427
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 06:18:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEF910E15F;
-	Fri, 18 Mar 2022 03:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD3E10E97E;
+	Fri, 18 Mar 2022 05:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D429F10E15F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 03:50:28 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id ja24so9251456ejc.11
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 20:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=iq+O3k/FfZ9UjG3SjmgeqRh1gwUPMU+eljMxxt7oEZc=;
- b=lg/VIzE4D9ivFVJ6/5/ProrD5xm9TSTHCbetBabNFK2ZUxvKluPViuE7YIolFCu+cU
- 53CnC+s5nvqJJY1bqJPMYjP5qwb7mMHqs5CwKWyJFVTjVbLCEOuxuHGpiiG+9y8hAqW+
- +O+h3D71vvf5RfC0XyuSRrx504uHYHMLJJnwEd0SmYOik8SCTHRSAdsL2/zdhTviZ7GN
- PzxOZO+jEWRx7pYTOyhWTuIuDIYgi4XbKyzopF5Dj6kqO2Alh3vfqgJzAgZGpZkO37rS
- 67zOWOUgZCjNxBPuzb7dBjwjqCRUEQrFBB6DFLum8EgP47Ox8R3HEujO0wAmAZbH0vt6
- q+Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=iq+O3k/FfZ9UjG3SjmgeqRh1gwUPMU+eljMxxt7oEZc=;
- b=XKBed8nXBFmS+bN6KO904rEXTaHk46vSNsHd1hagik/pAc1WS2WrySihQI/iNh3X5E
- F8qIKH25MRsCdkJfc1b4h1/z2cDorgkAR6JijdtcVHOYgDRqy4EgB9Tz6pIEooVVTBvn
- MlOmYLWU/2dEn+thVbExM5SNlmQCiKZMFH+nrM68zhaxyRNkhQPBMpoZXFFOYV4hemrS
- sNhPIGYBljs1PrQCVJ1H4BM0jmdXFwpGYjiDD5hV9VfsX9FLLY5KCtPFxPviNboOQgJt
- QYNZgNbIKh6RcBfhicAN7ftNu9Q69h4uotztRVznAARUVAgwFq/C2I/sboJSANp+vi3Z
- k10g==
-X-Gm-Message-State: AOAM533+UmxnP5MqDbe4QEjptMIE7GUnl9ZgLk7q2W+7cPXmyrvjQsrs
- NKp49Uvuw+HxsHzadz0iWP99QlFW7veFF8XPkrw=
-X-Google-Smtp-Source: ABdhPJyzSsgDLUKXejs58647B/wPIb1icHFEKcguhtQ/C8QSl1mJIvEUuxp4YgtZNOQIEiLWhBuMmf7FAshGWQc9/68=
-X-Received: by 2002:a17:906:3109:b0:6cc:7a1:8db0 with SMTP id
- 9-20020a170906310900b006cc07a18db0mr7303848ejx.266.1647575427207; Thu, 17 Mar
- 2022 20:50:27 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E16EE10E06D;
+ Fri, 18 Mar 2022 05:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647580697; x=1679116697;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CkVV+qSacqZ9tlIiosWgDYlfA96yXkatIGIFP/52VyQ=;
+ b=Zt+3/cg9daSSznG3OLSDeohGiEcf82pc2xOrt47zRQNeVIZMCYqkxZdu
+ 5sXSQSTFxsgQYVr9NJQ+YGGxGJ3CliJHMx/7RLlOTfI8heOWgGbpHoLeS
+ H8h3ifJw09RWCMe3YdraiGrhVIeHDyYuzlTaIzLULTQqvYkABgboDgmlD
+ uAOw9q9UHkXPVU3GfLNZGVG0uiQVEt74pHN9mLyLsH+qoh7FgW+icn7xO
+ L4rOEk+zO4mU5GwbpsgbryrvILzZqnyRRYUNRKrD+6b1ZG2KpeaWlTAS+
+ oFZ6v0vwnA93OBxVx8Mhtr6YMqX1H0i2ejZRGl0aLHpeffHxu2zurqUYr w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="343486105"
+X-IronPort-AV: E=Sophos;i="5.90,191,1643702400"; d="scan'208";a="343486105"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 22:18:17 -0700
+X-IronPort-AV: E=Sophos;i="5.90,191,1643702400"; d="scan'208";a="541674675"
+Received: from fphy-dev.jf.intel.com (HELO fyang16-desk.jf.intel.com)
+ ([134.134.244.167])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 22:18:17 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: avoid concurrent writes to aux_inv
+Date: Thu, 17 Mar 2022 22:12:24 -0700
+Message-Id: <20220318051224.3428962-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 18 Mar 2022 13:50:16 +1000
-Message-ID: <CAPM=9twzN9ybw1N=n6JWNQgUd9UNXBxis+PguKagt8DSbW=y6Q@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.17-final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,80 +54,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Stuart Summers <stuart.summers@intel.com>, Fei Yang <fei.yang@intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+From: Fei Yang <fei.yang@intel.com>
 
-A few minor changes to finish things off, one mgag200 regression, imx
-fix and couple of panel changes.
+GPU hangs have been observed when multiple engines write to the
+same aux_inv register at the same time. To avoid this each engine
+should only invalidate its own auxiliary table. The function
+gen12_emit_flush_xcs() currently invalidate the auxiliary table for
+all engines because the rq->engine is not necessarily the engine
+eventually carrying out the request, and potentially the engine
+could even be a virtual one (with engine->instance being -1).
+With the MMIO remap feature, we can actually set bit 17 of MI_LRI
+instruction and let the hardware to figure out the local aux_inv
+register at runtime to avoid invalidating auxiliary table for all
+engines.
 
-Regards,
-Dave.
+Bspec: 45728
 
-drm-fixes-2022-03-18:
-drm fixes for 5.17-rc9/final
+Cc: Stuart Summers <stuart.summers@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+Signed-off-by: Fei Yang <fei.yang@intel.com>
+---
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 42 +++++---------------
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
+ 2 files changed, 11 insertions(+), 32 deletions(-)
 
-imx:
-- Don't test bus flags in atomic check
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 36148887c699..af5daaf934b5 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -165,30 +165,6 @@ static u32 preparser_disable(bool state)
+ 	return MI_ARB_CHECK | 1 << 8 | state;
+ }
+ 
+-static i915_reg_t aux_inv_reg(const struct intel_engine_cs *engine)
+-{
+-	static const i915_reg_t vd[] = {
+-		GEN12_VD0_AUX_NV,
+-		GEN12_VD1_AUX_NV,
+-		GEN12_VD2_AUX_NV,
+-		GEN12_VD3_AUX_NV,
+-	};
+-
+-	static const i915_reg_t ve[] = {
+-		GEN12_VE0_AUX_NV,
+-		GEN12_VE1_AUX_NV,
+-	};
+-
+-	if (engine->class == VIDEO_DECODE_CLASS)
+-		return vd[engine->instance];
+-
+-	if (engine->class == VIDEO_ENHANCEMENT_CLASS)
+-		return ve[engine->instance];
+-
+-	GEM_BUG_ON("unknown aux_inv reg\n");
+-	return INVALID_MMIO_REG;
+-}
+-
+ static u32 *gen12_emit_aux_table_inv(const i915_reg_t inv_reg, u32 *cs)
+ {
+ 	*cs++ = MI_LOAD_REGISTER_IMM(1);
+@@ -296,7 +272,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 		if (!HAS_FLAT_CCS(rq->engine->i915)) {
+ 			aux_inv = rq->engine->mask & ~BIT(BCS0);
+ 			if (aux_inv)
+-				cmd += 2 * hweight32(aux_inv) + 2;
++				cmd += 4;
+ 		}
+ 	}
+ 
+@@ -329,14 +305,16 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 	*cs++ = 0; /* value */
+ 
+ 	if (aux_inv) { /* hsdes: 1809175790 */
+-		struct intel_engine_cs *engine;
+-		unsigned int tmp;
+-
+-		*cs++ = MI_LOAD_REGISTER_IMM(hweight32(aux_inv));
+-		for_each_engine_masked(engine, rq->engine->gt, aux_inv, tmp) {
+-			*cs++ = i915_mmio_reg_offset(aux_inv_reg(engine));
+-			*cs++ = AUX_INV;
++		*cs++ = MI_LOAD_REGISTER_IMM(1) | MI_LRI_MMIO_REMAP_EN;
++		if (rq->engine->class == VIDEO_DECODE_CLASS)
++			*cs++ = i915_mmio_reg_offset(GEN12_VD0_AUX_NV);
++		else if (rq->engine->class == VIDEO_ENHANCEMENT_CLASS)
++			*cs++ = i915_mmio_reg_offset(GEN12_VE0_AUX_NV);
++		else {
++			GEM_BUG_ON("unknown aux_inv reg\n");
++			*cs++ = i915_mmio_reg_offset(INVALID_MMIO_REG);
+ 		}
++		*cs++ = AUX_INV;
+ 		*cs++ = MI_NOOP;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index d112ffd56418..54fdf1882cae 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -144,6 +144,7 @@
+ #define MI_LOAD_REGISTER_IMM(x)	MI_INSTR(0x22, 2*(x)-1)
+ /* Gen11+. addr = base + (ctx_restore ? offset & GENMASK(12,2) : offset) */
+ #define   MI_LRI_LRM_CS_MMIO		REG_BIT(19)
++#define   MI_LRI_MMIO_REMAP_EN		(1<<17)
+ #define   MI_LRI_FORCE_POSTED		(1<<12)
+ #define MI_LOAD_REGISTER_IMM_MAX_REGS (126)
+ #define MI_STORE_REGISTER_MEM        MI_INSTR(0x24, 1)
+-- 
+2.25.1
 
-mgag200:
-- Fix PLL setup on some models
-
-panel:
-- Fix bpp settings on Innolux G070Y2-L01
-- Fix DRM_PANEL_EDP Kconfig dependencies
-The following changes since commit 09688c0166e76ce2fb85e86b9d99be8b0084cdf9:
-
-  Linux 5.17-rc8 (2022-03-13 13:23:37 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-03-18
-
-for you to fetch changes up to ca5a5761ac542691a6b3520b6c5c047cf63b4b8d:
-
-  Merge tag 'drm-misc-fixes-2022-03-17' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-03-18
-13:32:54 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.17-rc9/final
-
-imx:
-- Don't test bus flags in atomic check
-
-mgag200:
-- Fix PLL setup on some models
-
-panel:
-- Fix bpp settings on Innolux G070Y2-L01
-- Fix DRM_PANEL_EDP Kconfig dependencies
-
-----------------------------------------------------------------
-Christoph Niedermaier (1):
-      drm/imx: parallel-display: Remove bus flags check in
-imx_pd_bridge_atomic_check()
-
-Dave Airlie (1):
-      Merge tag 'drm-misc-fixes-2022-03-17' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Jocelyn Falempe (1):
-      drm/mgag200: Fix PLL setup for g200wb and g200ew
-
-Marek Vasut (1):
-      drm/panel: simple: Fix Innolux G070Y2-L01 BPP settings
-
-Thomas Zimmermann (2):
-      Merge drm/drm-fixes into drm-misc-fixes
-      drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HELPERS
-
- drivers/gpu/drm/bridge/Kconfig         | 2 +-
- drivers/gpu/drm/imx/parallel-display.c | 8 --------
- drivers/gpu/drm/mgag200/mgag200_pll.c  | 6 +++---
- drivers/gpu/drm/panel/Kconfig          | 1 +
- drivers/gpu/drm/panel/panel-simple.c   | 2 +-
- 5 files changed, 6 insertions(+), 13 deletions(-)
