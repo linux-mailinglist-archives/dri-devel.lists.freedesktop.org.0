@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FE34DD1BA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD144DD1BC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455DD10E8E8;
-	Fri, 18 Mar 2022 00:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44B210E8EF;
+	Fri, 18 Mar 2022 00:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 674A910E8E8
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:12:42 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id dr20so13680606ejc.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:42 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49A610E13A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:12:55 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id bi12so14040910ejb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2Zw9lPFduJ2icojxhfJ3aRjvx7VBmO2urvyYDaLJ4d0=;
- b=QMhgbox8xCb6ZSHg6qb0nNgah3j0TTlKYxHwcoQrl/cBMnwf4ZupJHJTrgJFw1csLO
- g1QvwAy3Ivjs5kB+3lKnBlk25Xek9CCmKA1EGxMrbFc4YNYz+bwCOl0GB+vbKkHq5OuM
- 64BLXfm8aEmJXYfZZ7n6OAY4gaM6+1LKmPmSU=
+ :cc; bh=0JxEaW4VXWR40cLYJjku9wMK0TYnJdxwPBMKsUQN5x4=;
+ b=WmrOuRLIO0Ac2yhoWChAS3mMdEymf9q2gT1itHWGIVZGaH+oPlHGJc4Ee3mLhpjJyz
+ /KOPyenA4596wt5yxVjvtdxfN8GH4bugNcacafDRuP5vH1xVx88HWnxUWlfstXDyW9iQ
+ j77Pr/D/gx7SNRYOy03j2fM7u66ODTiwxMI7w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2Zw9lPFduJ2icojxhfJ3aRjvx7VBmO2urvyYDaLJ4d0=;
- b=q6UFNsZvxsosVmeYHspthH8fTD5K/FBQ2X8n2kiquqHW/cuAN7Cz9W8VwdwOka2ACc
- ycoLTyy9aafCt5RD9UORfs6r1Xw6nxKGIxKr8vFzWXbOBFlI2LhUYnX5i3uaMRPyJCHM
- ZFdak/C9jJJKOdmHSYGGYS8DS9TipbW2K8Vixxc/RUYAeZJSa7GmL0uAsmB/2mtbE8Ee
- JPHskcK1ZCi9LW+7f6QCqhEdJwMXLeJ6sEzjSNi45Wb/1a/CsKqhAvlkgH2v6FvZXZiE
- cDO96iegtUvvqphktlf+4YDQYt9o1awYRYUYTXxjK2qRV6PDf1gnfSbMaGBwfwJiGfnV
- CvNg==
-X-Gm-Message-State: AOAM5334utrajH2LMbM82h11J4cqnFPWrEZT3liHa26+DUkkFZOIXS53
- DBGvyAKRJz518MLbO48AUUXLIo6r7Kba8670AnY=
-X-Google-Smtp-Source: ABdhPJyX2Ct8zVg422YYdO1h75dhNx/OlhDsMIVU/PaHmX+5Xqxf/hnSl0HEIeo5KfV3/nNX3YvxLw==
-X-Received: by 2002:a17:906:5245:b0:6b8:78e0:5649 with SMTP id
- y5-20020a170906524500b006b878e05649mr7112342ejm.520.1647562359870; 
- Thu, 17 Mar 2022 17:12:39 -0700 (PDT)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
- [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
- b7-20020a170906490700b006b2512921b2sm2975330ejq.48.2022.03.17.17.12.38
+ bh=0JxEaW4VXWR40cLYJjku9wMK0TYnJdxwPBMKsUQN5x4=;
+ b=TqRF9nAfxrXb9HSnad64O1YBInWLWJEwqhL+/feoZV9Oz8P1y2zANwGnUgF+KQloLa
+ eIFakG+JfNpVobtaXT/pwzUbdcLLNS4WAmLU4AWY3ynBjOFMK8Gz3xqjDeEeW5WgRs9X
+ 6wMJE4MQS7XgMz2X12Tl6na0BmzGppkxrQ2d/B5nWPFTWj/1fzsjA+7cdCgjxZAeYxbl
+ FGAS8Ck0fUuKWvm46kLTPkGsbF5I429nZTE6fImMh+WOSdd2KjEbhLR8l619hWpU574K
+ McHH+GwEvENwfEsck6xcjhRQCSdhiwt6Gyaao5ZJ8fudyNcB/qcTyS4HT+Pn3AVYsmBK
+ Y7Dg==
+X-Gm-Message-State: AOAM530CMYcy1wPyvRWM9P1a3srhnUcxUUAEuEczXL2zimcKdHKQq7u6
+ 9qEAMVr851lPV3FhMivL4wgOpCwU+LO+NzlexFs=
+X-Google-Smtp-Source: ABdhPJxKVXOtk3SxiGqQyFSSAhF2PkNI/FYnPjOP4jt1WohtDS6PDdrLZUfTj7jqZnXikUqmpnExtA==
+X-Received: by 2002:a17:906:3cb1:b0:6ce:2a97:5ade with SMTP id
+ b17-20020a1709063cb100b006ce2a975ademr6584382ejh.728.1647562374049; 
+ Thu, 17 Mar 2022 17:12:54 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ s15-20020a170906778f00b006df84c19995sm2485278ejm.224.2022.03.17.17.12.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 17:12:39 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id r6so9654259wrr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:38 -0700 (PDT)
-X-Received: by 2002:a5d:6f04:0:b0:203:ed96:8212 with SMTP id
- ay4-20020a5d6f04000000b00203ed968212mr3631950wrb.679.1647562358403; Thu, 17
- Mar 2022 17:12:38 -0700 (PDT)
+ Thu, 17 Mar 2022 17:12:53 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id
+ v2-20020a7bcb42000000b0037b9d960079so5926805wmj.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:53 -0700 (PDT)
+X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
+ o24-20020a1c7518000000b0037c07ebf255mr13488223wmc.29.1647562372833; Thu, 17
+ Mar 2022 17:12:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
- <1647269217-14064-3-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1647269217-14064-3-git-send-email-quic_vpolimer@quicinc.com>
+ <1647269217-14064-4-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1647269217-14064-4-git-send-email-quic_vpolimer@quicinc.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 17 Mar 2022 17:12:25 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U5O8aZqQxtx2MGz791SiQtSwMBx2ww3J5qFaG=W9skjA@mail.gmail.com>
-Message-ID: <CAD=FV=U5O8aZqQxtx2MGz791SiQtSwMBx2ww3J5qFaG=W9skjA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] arm64: dts: qcom: sm7280: remove
+Date: Thu, 17 Mar 2022 17:12:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VXJJYUhDYau1HEG4M7aKA4vVzN7xh_LAJXf_r=Tj0XZA@mail.gmail.com>
+Message-ID: <CAD=FV=VXJJYUhDYau1HEG4M7aKA4vVzN7xh_LAJXf_r=Tj0XZA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/5] arm64: dts: qcom: sm7180: remove
  assigned-clock-rate property for mdp clk
 To: Vinod Polimera <quic_vpolimer@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -93,28 +94,13 @@ On Mon, Mar 14, 2022 at 7:47 AM Vinod Polimera
 >
 > This patch is dependent on below patch
 > https://patchwork.kernel.org/patch/12774067/
-
-Some nits on how you're referring to the dependent patch:
-
-1. In the commit message it's really nice to also include the subject
-line of the patch so someone looking at the commit after it lands can
-more easily identify the patch you depend on.
-
-2. It's better to use links that have the message ID in them. In the
-past patchwork's magic IDs have been list.
-
-So I'd write:
-
-This patch is dependent on the patch ("drm/msm/disp/dpu1: set mdp clk
-to the maximum frequency in opp table during probe") [1].
-
-[1] https://lore.kernel.org/r/1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com/
-
-
+>
 > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 ++-------
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 9 ++-------
 >  1 file changed, 2 insertions(+), 7 deletions(-)
+
+Similar comments to patch #2 about the commit message, but otherwise:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
