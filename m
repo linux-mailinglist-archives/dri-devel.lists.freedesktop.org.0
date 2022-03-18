@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F904DDB81
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 15:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C3F4DDB88
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 15:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B9910E9D5;
-	Fri, 18 Mar 2022 14:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F26010E9E8;
+	Fri, 18 Mar 2022 14:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64BE10E940
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8449E10E93A
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 14:20:22 +0000 (UTC)
-X-UUID: c10626884ec74e5fb95a6b1667e58386-20220318
-X-UUID: c10626884ec74e5fb95a6b1667e58386-20220318
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 436371917; Fri, 18 Mar 2022 22:20:15 +0800
+X-UUID: b88c5292d5084f64b1fe21280740c752-20220318
+X-UUID: b88c5292d5084f64b1fe21280740c752-20220318
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1270620213; Fri, 18 Mar 2022 22:20:16 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 18 Mar 2022 22:20:14 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 18 Mar 2022 22:20:14 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Fri, 18 Mar 2022 22:20:14 +0800
@@ -30,10 +30,10 @@ To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
  Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
  Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Subject: [PATCH v16 12/22] drm/mediatek: add display merge start/stop API for
- cmdq support
-Date: Fri, 18 Mar 2022 22:19:59 +0800
-Message-ID: <20220318142009.2796-13-nancy.lin@mediatek.com>
+Subject: [PATCH v16 13/22] drm/mediatek: add display merge mute/unmute support
+ for MT8195
+Date: Fri, 18 Mar 2022 22:20:00 +0800
+Message-ID: <20220318142009.2796-14-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220318142009.2796-1-nancy.lin@mediatek.com>
 References: <20220318142009.2796-1-nancy.lin@mediatek.com>
@@ -64,71 +64,67 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add merge start/stop API for cmdq support. The ovl_adaptor merges
-are configured with each drm plane update. Need to enable/disable
-merge with cmdq making sure all the settings taken effect in the
-same vblank.
+Add merge mute/unmute setting for MT8195.
+MT8195 Vdosys1 merge1~merge4 support HW mute function.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 ++
- drivers/gpu/drm/mediatek/mtk_disp_merge.c | 20 +++++++++++++++++---
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index c2de53a5892e..224a710bb537 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -66,6 +66,8 @@ void mtk_merge_stop(struct device *dev);
- void mtk_merge_advance_config(struct device *dev, unsigned int l_w, unsigned int r_w,
- 			      unsigned int h, unsigned int vrefresh, unsigned int bpc,
- 			      struct cmdq_pkt *cmdq_pkt);
-+void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt);
-+void mtk_merge_stop_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt);
- 
- void mtk_ovl_bgclr_in_on(struct device *dev);
- void mtk_ovl_bgclr_in_off(struct device *dev);
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index 40da0555416d..c0d9b43b2a66 100644
+index c0d9b43b2a66..9dca145cfb71 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -67,17 +67,31 @@ struct mtk_disp_merge {
+@@ -58,12 +58,15 @@
+ #define FLD_PREULTRA_TH_LOW			GENMASK(15, 0)
+ #define FLD_PREULTRA_TH_HIGH			GENMASK(31, 16)
+ 
++#define DISP_REG_MERGE_MUTE_0		0xf00
++
+ struct mtk_disp_merge {
+ 	void __iomem			*regs;
+ 	struct clk			*clk;
+ 	struct clk			*async_clk;
+ 	struct cmdq_client_reg		cmdq_reg;
+ 	bool				fifo_en;
++	bool				mute_support;
  };
  
  void mtk_merge_start(struct device *dev)
-+{
-+	mtk_merge_start_cmdq(dev, NULL);
-+}
-+
-+void mtk_merge_stop(struct device *dev)
+@@ -82,6 +85,10 @@ void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
  {
  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
  
--	writel(MERGE_EN, priv->regs + DISP_REG_MERGE_CTRL);
-+	mtk_merge_stop_cmdq(dev, NULL);
++	if (priv->mute_support)
++		mtk_ddp_write(cmdq_pkt, 0x0, &priv->cmdq_reg, priv->regs,
++			      DISP_REG_MERGE_MUTE_0);
++
+ 	mtk_ddp_write(cmdq_pkt, 1, &priv->cmdq_reg, priv->regs,
+ 		      DISP_REG_MERGE_CTRL);
  }
- 
--void mtk_merge_stop(struct device *dev)
-+void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
-+{
-+	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
-+
-+	mtk_ddp_write(cmdq_pkt, 1, &priv->cmdq_reg, priv->regs,
-+		      DISP_REG_MERGE_CTRL);
-+}
-+
-+void mtk_merge_stop_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
+@@ -90,6 +97,10 @@ void mtk_merge_stop_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
  {
  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
  
--	writel(0x0, priv->regs + DISP_REG_MERGE_CTRL);
-+	mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs,
-+		      DISP_REG_MERGE_CTRL);
++	if (priv->mute_support)
++		mtk_ddp_write(cmdq_pkt, 0x1, &priv->cmdq_reg, priv->regs,
++			      DISP_REG_MERGE_MUTE_0);
++
+ 	mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs,
+ 		      DISP_REG_MERGE_CTRL);
  }
+@@ -264,6 +275,8 @@ static int mtk_disp_merge_probe(struct platform_device *pdev)
+ 	priv->fifo_en = of_property_read_bool(dev->of_node,
+ 					      "mediatek,merge-fifo-en");
  
- static void mtk_merge_fifo_setting(struct mtk_disp_merge *priv,
++	priv->mute_support = of_property_read_bool(dev->of_node,
++						   "mediatek,merge-mute");
+ 	platform_set_drvdata(pdev, priv);
+ 
+ 	ret = component_add(dev, &mtk_disp_merge_component_ops);
 -- 
 2.18.0
 
