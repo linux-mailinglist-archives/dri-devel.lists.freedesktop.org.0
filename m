@@ -1,65 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AD74DD198
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:04:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02664DD19F
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0994289FD1;
-	Fri, 18 Mar 2022 00:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF7110E8D4;
+	Fri, 18 Mar 2022 00:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5E289CF6
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:04:20 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id r23so8533095edb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:04:20 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9DED10E8DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:07:33 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id t187so3870677pgb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0UsWfL2d3buCfR66QbOAjKWSr57IypHJxBiVAhmGi4M=;
- b=EFcmlZxQVZdmxurMBWghVQOI5rZtJ0CxcvzDKkyvCNRIWyFwEOG91za76YnKwGchla
- Xi1Ive9X2CNoEOSbIUFvrIcLnuG6Q+OgBvCxMMKcrkX44zbHB52V5RMw7092LSlqV/aZ
- uYlseCKaHPm8mppiKMXEDwWCFGJNFOGF5bHgo=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1i8tHBCz0yGUnXTP63evaW8shC/1FTv22ymAKssO43g=;
+ b=Ur+HSlhkoIDLHekqpPNSXAVLlxD5+T81ff6OBaHTxdXzokDkA8qnnVLDj9q0QAArhQ
+ 8B28qd/JYP4jKNuPGjkNF8Z9JI3moyBARf9Nk/nhV0r4cLAzMLmI/7ti/9uugVGYGR/J
+ 4cAJHw+XO9GiplYxM7ZZn9UlMuvIuvwPzTl/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0UsWfL2d3buCfR66QbOAjKWSr57IypHJxBiVAhmGi4M=;
- b=AAzooB5MsVcG/Cq5EToaJjymksKyWEfXqLPYVptL7YI3il+LjBaP3Q1MlIVljj6SGv
- uTY3hI78g5Hkt8ZAC2p52LLcY4fhSJh1igMWdCsP66LCPVgPff06dayel9p8QtZX5DYd
- jDWhWD0F/+SXVoTGVrlZotUvq8GC+3NCgCZaMzUZHMOOMayFZ/Wj8d8nv1Jf4P/5bfPV
- pvpqea8UONUIH34V+r0W3nhgaz4Bn6/7a6xd/1kqtzUHGEHfMYl8tkEdsSI51fgHk+0Y
- vGzAPcD8xMXFScQcqzYM4dlmsIIBqZgwbXurlT9HQ54EfXk3GqALiwy3WI2FAnPChy7Q
- Ktaw==
-X-Gm-Message-State: AOAM5325eeNZTVeDo+Nu66m21X0wkMiMFQNmmiG8VhfY/Dw93Qqp8t2c
- 3SEfKmznV234wi3SpM9eUW7lJGrvdPnenQ==
-X-Google-Smtp-Source: ABdhPJxbHrSkSFPES0+LQM+0y9dS+hhc6HOY+9WRTVKJHwzZZumdXSOMAzl88QDQGdE1Ryz3c4TZvw==
-X-Received: by 2002:a50:c00f:0:b0:418:d6b8:7f9a with SMTP id
- r15-20020a50c00f000000b00418d6b87f9amr7096830edb.141.1647561858353; 
- Thu, 17 Mar 2022 17:04:18 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com.
- [209.85.221.50]) by smtp.gmail.com with ESMTPSA id
- c4-20020a170906340400b006d077e850b5sm3011993ejb.23.2022.03.17.17.04.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 17:04:17 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id p9so9580603wra.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:04:17 -0700 (PDT)
-X-Received: by 2002:a5d:53c6:0:b0:203:ee27:12ff with SMTP id
- a6-20020a5d53c6000000b00203ee2712ffmr3705265wrw.422.1647561857230; Thu, 17
- Mar 2022 17:04:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1i8tHBCz0yGUnXTP63evaW8shC/1FTv22ymAKssO43g=;
+ b=ThdbrHBcezDFlfpicoyl1D/lBxYnOqyV14iyHKyNroUQZukO/N49WyWhaWHWkbGIaq
+ +SKbzKIG1flAaZxtSiylCVqOoryU67FOYOxUJEX1mh814B28M6wTqfyO5caN6e/zFmXB
+ JTMGnFV3BBiyoUMiWV6hrt2lERzrfKD4yEGzyTChB1GPfWPT0qgA2256u24t+dSHOXfV
+ qnbz/xMW4KWYoHDQg+uZb+nZ+P12xBgxbCe6Y/svCOxLdHIDNd53WCRaV/qApcmEqdvE
+ Y7tvzXmQUHy7ZtWocYcSykWp+WPosn03ALl8viHsG8Lbq5YZgshM6TfZMdiUzxbo/Wzb
+ qpwA==
+X-Gm-Message-State: AOAM532zoafvW3o51EkSm4It/z1CHYTuLt2JVsNehBrmEY7PjsPGsHVg
+ KejlXiMdVDew9JYNOKhqF7/jEQ==
+X-Google-Smtp-Source: ABdhPJxx5b5fjDNUn/yUMHMvPSEd5Y6joMRanwaFw9+NHRmy92bdTzHYRpjmt7wsM7IX3PrGoD3Btw==
+X-Received: by 2002:a05:6a00:815:b0:4f6:ee04:30af with SMTP id
+ m21-20020a056a00081500b004f6ee0430afmr7183021pfk.15.1647562053324; 
+ Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:49cf:7701:359e:b28f])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a056a0015c500b004f76735be68sm8280640pfu.216.2022.03.17.17.07.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>,
+	Sean Paul <sean@poorly.run>
+Subject: [PATCH] drm/msm/dsi: Use connector directly in
+ msm_dsi_manager_connector_init()
+Date: Thu, 17 Mar 2022 17:07:31 -0700
+Message-Id: <20220318000731.2823718-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
 MIME-Version: 1.0
-References: <1647452154-16361-1-git-send-email-quic_sbillaka@quicinc.com>
- <1647452154-16361-5-git-send-email-quic_sbillaka@quicinc.com>
-In-Reply-To: <1647452154-16361-5-git-send-email-quic_sbillaka@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 17 Mar 2022 17:04:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XUfQoYO-=BPvH4o3EWReCVckfCThYxf==T2Ff_C8TrQQ@mail.gmail.com>
-Message-ID: <CAD=FV=XUfQoYO-=BPvH4o3EWReCVckfCThYxf==T2Ff_C8TrQQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/9] drm/panel-edp: add LQ140M1JW46 edp panel entry
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- quic_khsieh@quicinc.com, Andy Gross <agross@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, quic_vproddut@quicinc.com,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, quic_abhinavk@quicinc.com,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Sean Paul <sean@poorly.run>,
- quic_kalyant <quic_kalyant@quicinc.com>, LKML <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, krzk+dt@kernel.org,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The member 'msm_dsi->connector' isn't assigned until
+msm_dsi_manager_connector_init() returns (see msm_dsi_modeset_init() and
+how it assigns the return value). Therefore this pointer is going to be
+NULL here. Let's use 'connector' which is what was intended.
 
-On Wed, Mar 16, 2022 at 10:37 AM Sankeerth Billakanti
-<quic_sbillaka@quicinc.com> wrote:
->
-> Add panel identification entry for the sharp LQ140M1JW46 eDP panel
-> with power sequencing delay information.
->
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <seanpaul@chromium.org>
+Fixes: 6d5e78406991 ("drm/msm/dsi: Move dsi panel init into modeset init path")
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+I don't know if this is superseeded by something else but I found this
+while trying to use the connector from msm_dsi in this function.
 
-This is trivial and going through a different tree than everything
-else, so I'm just pushing it to drm-misc-next (which is setup to land
-things without regard to the merge window) without sitting on it.
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You can leave it out of future spins of this series.
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 0c1b7dde377c..9f6af0f0fe00 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -638,7 +638,7 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
+ 	return connector;
+ 
+ fail:
+-	connector->funcs->destroy(msm_dsi->connector);
++	connector->funcs->destroy(connector);
+ 	return ERR_PTR(ret);
+ }
+ 
 
-9f493fd71d4b drm/panel-edp: add LQ140M1JW46 edp panel entry
+base-commit: 05afd57f4d34602a652fdaf58e0a2756b3c20fd4
+-- 
+https://chromeos.dev
+
