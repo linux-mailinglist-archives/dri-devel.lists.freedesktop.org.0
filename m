@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA334DD28A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 02:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15D34DD2DA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 03:11:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BFA410E92B;
-	Fri, 18 Mar 2022 01:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB94F10E937;
+	Fri, 18 Mar 2022 02:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5368110E90E;
- Fri, 18 Mar 2022 01:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1647567959; x=1679103959;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=drgfOlbV1tTwxhpdOrf5OdjebHoFT0Bes414dEGx940=;
- b=MFhgszSmQmSzW6jN/6kNWjvdyVc3enPBgj+31E2DfivP+27vlTCSeEU5
- eRvIngMByJGeRM8uWzITmuN2uRpEMvAOLjCh9jGw4lSG+8yjDJhpPNLBi
- QRJP5vWxez35MYEZ3uT01x286H3alZz77FkkKZ0bwfMD20Eme+rluqHK0 0=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 17 Mar 2022 18:45:59 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 18:45:58 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 17 Mar 2022 18:45:58 -0700
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 17 Mar 2022 18:45:57 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 4/4] drm/vc4: change vc4 driver to use
- drm_writeback_connector_init_with_encoder()
-Date: Thu, 17 Mar 2022 18:45:36 -0700
-Message-ID: <1647567936-11971-5-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1647567936-11971-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1647567936-11971-1-git-send-email-quic_abhinavk@quicinc.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD9810E937;
+ Fri, 18 Mar 2022 02:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647569478; x=1679105478;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+sOD+62jhtek17XZ0/dlyRkx8BhH24o4T5jP0sqFbxg=;
+ b=E2H4EeRErynCJqGS0uve0bYKTh61HVQozq0nMKfznUy9moygYqEYEzry
+ hd2U6P2ST2k4W+ulbyBd6BoGjXREXhYCqzT37FH35+U82jrBAVGgKDtAn
+ DgShw3VR6SBKVFxVYVlzZmjRoN5OzaURim4UVfXG5578uyuTJiUCP93EX
+ v6P6SUhyrRRt6k9pLbYKkm4gYGwFykLs7RP+wcifiEfBydbV1KGI1+QwH
+ L6zP/xBZ4wzofTeJq1HfgSz+ys+BC86ocgm59lakfggpD8Y2o3wRm1JPW
+ vvyW4psXR+rfB15Ny58Tu1Y+TamjC54gemq5LXvaaonkvT8bZOptz8YMv g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="256977034"
+X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="256977034"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 19:11:18 -0700
+X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="558203161"
+Received: from akramak-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.251.222.144])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 19:11:13 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v6 0/7] Introduce multitile support
+Date: Fri, 18 Mar 2022 04:10:39 +0200
+Message-Id: <20220318021046.40348-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +56,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, swboyd@chromium.org,
- melissa.srw@gmail.com, nganji@codeaurora.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>, Andi Shyti <andi@etezian.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-vc4 driver currently embeds the drm_encoder into struct vc4_txp
-and later on uses container_of to retrieve the vc4_txp from
-the drm_encoder.
+Hi,
 
-Since drm_encoder has now been made a pointer inside
-drm_writeback_connector, make vc4 driver use the new API
-so that the embedded encoder model can be retained in the
-driver and there is no change in functionality.
+This is the second series that prepares i915 to host multitile
+platforms. It introduces the for_each_gt() macro that loops over
+the tiles to perform per gt actions.
 
-changes in v4:
-    - none
+This patch is a combination of two patches developed originally
+by Abdiel, who introduced some refactoring during probe, and then
+Tvrtko has added the necessary tools to start using the various
+tiles.
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/vc4/vc4_txp.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+The second patch re-organises the sysfs interface to expose the
+API for each of the GTs. I decided to prioritise this patch
+over others to unblock Sujaritha for further development.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 341a9be5..3d24ef5 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -370,6 +370,10 @@ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
- 	.disable = vc4_txp_encoder_disable,
- };
- 
-+static const struct drm_encoder_funcs vc4_txp_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
- {
- 	return 0;
-@@ -498,15 +502,24 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	wb_conn = &txp->connector;
- 	wb_conn->encoder = &txp->drm_enc;
- 
-+	drm_encoder_helper_add(wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
-+
-+	ret = drm_encoder_init(drm, wb_conn->encoder,
-+			&vc4_txp_encoder_funcs,
-+			DRM_MODE_ENCODER_VIRTUAL, NULL);
-+
-+	if (ret)
-+		return ret;
-+
- 	drm_connector_helper_add(&wb_conn->base,
- 				 &vc4_txp_connector_helper_funcs);
--	ret = drm_writeback_connector_init(drm, wb_conn,
--					   &vc4_txp_connector_funcs,
--					   &vc4_txp_encoder_helper_funcs,
--					   drm_fmts, ARRAY_SIZE(drm_fmts),
--					   0);
--	if (ret)
-+
-+	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn,
-+			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
-+	if (ret) {
-+		drm_encoder_cleanup(wb_conn->encoder);
- 		return ret;
-+	}
- 
- 	ret = vc4_crtc_init(drm, vc4_crtc,
- 			    &vc4_txp_crtc_funcs, &vc4_txp_crtc_helper_funcs);
+A third series will still follow this.
+
+Thanks Michal and Andrzej for the reviews and support!
+
+Thanks,
+Andi
+
+Patchwork: https://patchwork.freedesktop.org/series/98741/
+
+Changelog
+=========
+v5 -> v6
+ - address all Michal and Andrzej's reviews that consist mainly
+   in code refactoring.
+
+v4 -> v5
+ - fixed Michal's reviews.
+ - the sysfs patches have been split in 3 parts to make reviews
+   easier.
+ - Sujaritha's patch on pm throttle has been queued.
+ - INTEL_REGION_LMEM has been renamed to INTEL_REGION_LMEM_0
+ - added the gt_is_root() helper
+ - the sysfs files will be called intel_gt_sysfs_* instead of
+   sysfs_gt_*
+
+v3 -> v4
+ - fixed Tvrtko's review:
+    - remove the SYSFS_DEPRECATED_V2 mention from the commit log
+    - reworded the error message when accessing deprecated files
+    - errors in sysfs are printed as warnings as they are not
+      fatal
+    - the inline functions are moved to be out of line.
+   and some other minor refactoring.
+
+v2 -> v3
+ - Added Matt and Sujaritha's r-b for patch 1 and 2.
+ - Reworded the commit of patch 2 to underline the fact that the
+   interface is useful also when used manually.
+
+v1 -> v2
+ - fixed a couple of coding style issues in patch 2.
+
+Andi Shyti (5):
+  drm/i915: Rename INTEL_REGION_LMEM with INTEL_REGION_LMEM_0
+  drm/i915/gt: add gt_is_root() helper
+  drm/i915/gt: create per-tile sysfs interface
+  drm/i915/gt: Create per-tile RC6 sysfs interface
+  drm/i915/gt: Create per-tile RPS sysfs interfaces
+
+Sujaritha Sundaresan (1):
+  drm/i915/gt: Adding new sysfs frequency attributes
+
+Tvrtko Ursulin (1):
+  drm/i915: Prepare for multiple GTs
+
+ drivers/gpu/drm/i915/Makefile                 |   2 +
+ drivers/gpu/drm/i915/display/intel_fb.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |   2 +-
+ .../drm/i915/display/intel_plane_initial.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |   4 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |   8 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 135 +++-
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   9 +-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c      | 122 ++++
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.h      |  34 +
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 601 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h   |  15 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   7 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  18 +
+ drivers/gpu/drm/i915/gt/intel_rps.h           |   4 +
+ drivers/gpu/drm/i915/i915_driver.c            |  28 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   8 +
+ drivers/gpu/drm/i915/i915_reg.h               |  11 +
+ drivers/gpu/drm/i915/i915_sysfs.c             | 310 +--------
+ drivers/gpu/drm/i915/i915_sysfs.h             |   3 +
+ drivers/gpu/drm/i915/intel_memory_region.c    |   2 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   7 +-
+ drivers/gpu/drm/i915/intel_uncore.c           |  11 +-
+ drivers/gpu/drm/i915/intel_uncore.h           |   3 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |   7 +-
+ scripts/extract-cert                          | Bin 0 -> 17952 bytes
+ 28 files changed, 1017 insertions(+), 366 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h
+ create mode 100755 scripts/extract-cert
+
 -- 
-2.7.4
+2.35.1
 
