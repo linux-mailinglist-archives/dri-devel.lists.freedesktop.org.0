@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2C94DDB8D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 15:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5114DDBBA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 15:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AB110E9EB;
-	Fri, 18 Mar 2022 14:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5263710E9B2;
+	Fri, 18 Mar 2022 14:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2E510E9EB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 14:21:54 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 393323201DFB;
- Fri, 18 Mar 2022 10:21:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 18 Mar 2022 10:21:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=JdbdOBlKB49jb2nrphcKT44xOINnms5GB3sKzc
- O2L1k=; b=iEk7z0Zuxe+6HVX82QUUaCPSjmVdSopv7dIdwLb3x5Xky+97A91Y7A
- hn1ywKTebamGBnLcPwG9dw5ivA1F6SXrpf+6ZaAtOKjGX2O9xxlsYNvyxMtbOF/0
- bKoe+xGXMpmOsakZvSNS7Qmgf4P4VVMKsDyaF+t1QMd29fAg7/comaKs91nZIjud
- AtUEnUJ0Hy9mzBvqJ2QD4zXH4tDsJXjTteQxTPxcI7175dPrfyrA7LXsOo2S2VgC
- yEZuCClLRsK9vfU9MS2XxuDUhkc963V9c73oPqyUOGEDODNuev1vpwvm0WWG/5ut
- RIKzDzNb3nKLTtdz+lr/yar+OHjlsTQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=JdbdOBlKB49jb2nrp
- hcKT44xOINnms5GB3sKzcO2L1k=; b=VbVHzMOA+5WVjK/pCHB5HSM2CjFkOuO9q
- 9kS8Q0SvuyyHRr7z7T4M43CERjgqxZdS4nua0axLoQvX2mnbqrGxtpQeH0e+eNeW
- uyYdf5KgyFam2fSiI/AgL1qbEBDHEH0OQ8Cil8WY46TYo6Vap8i48Hck2gUitGSV
- 1OhRk0AdiJghYrFcFOcgGfZbZ944dz591Z1XPeslEk+TMrmf3KKvcwYrty29/xU3
- WIO8l+Gubu2luOg+NdjVhiTuvJF1544hM9juVzgQWLdQOifEu838gGunDrLZdxzO
- CsYLu/Y4PoGroNm5v9GqcHAHpohD5N316SRixKnajdK7fwxSzZ3ow==
-X-ME-Sender: <xms:fZU0YkXxZenZ5MGhE-eB77o9eVkIWOkuUr9dawIhlXbuu8sSqJkRZw>
- <xme:fZU0YonUvYDfuFOJXgTQzUG76IcFqfHzwlCCIAyx_5DiXf4ROrxH77eWL5QWLDohE
- il5hOFIyS6yIu5b9zk>
-X-ME-Received: <xmr:fZU0YobschH9IBpb2fZZyLmtDh41wQHD1Iu__Gn4SnWeqqBn2bywYg-GQGSZTMImORt6MNfXQDi5hsr7dc3zS0JSuX3ANL14TO7wSGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudefiedgieefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeduvdfhkeekhfdtgeeihfeluddtvedthfektdelfeejgfeludfhteduveej
- hefhnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
- rdhtvggthh
-X-ME-Proxy: <xmx:fZU0YjWF2jIgYsBFbkbfCwpna-T17k3bLBAvWCrFd3mU8ahSAoHiCQ>
- <xmx:fZU0YukZ2PkOMIvXl78dPO_OiZbkfjGe3Eh4ecs5UWz6gG1wUDHYjw>
- <xmx:fZU0Yof6_PnqujkBGD5dWKaucN2hX-tevpARc93zwMXS1VFoF_JHrQ>
- <xmx:fZU0Yo4CbvhAoEvYRBaFCbZZKfOsqZapYoK93I4eipQBIGPQeLwA1Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Mar 2022 10:21:48 -0400 (EDT)
-Date: Fri, 18 Mar 2022 15:21:45 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C44210E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 14:34:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647614042; x=1679150042;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OwmAYTkFkdcVZvm7QSe/7bEg6oDYfOaHQySbw9Qn9NE=;
+ b=AG3tgAhhX0EdrFYy8ointmSEb3mpmD7Cto0tCjpH8zvtzoxqhkuRypgW
+ RLXfBATj5WzIKMhwcHc0Gt6g4/VaeaQ+dYb98q+b9lzQDuvGtSCu1WavZ
+ puWsi0EMqI4fGYnT0uCBXFgPXtK3cuUD+cCwLnaWfzIsnBNtPuCiJT0mn
+ haivi/0QPdUjApbHSdNmWmS8S14HUQyExNJMcHM032/0kQnqefcuHDOJ5
+ yr1iQrRtOiUPhzG+YOfzEs/rUR3028JLvmsXxqWfFJ7mRF+f5SHx1ZnDB
+ IKfclW77B9ycrruc60KLc7y8EpbenNVmlgLygbcefGO3v9bP9ys4IU542 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="343580740"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="343580740"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 07:34:02 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="645537258"
+Received: from smile.fi.intel.com ([10.237.72.59])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 07:33:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nVDfM-002HB6-3c; Fri, 18 Mar 2022 16:33:20 +0200
+Date: Fri, 18 Mar 2022 16:33:19 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
 Subject: Re: [PATCH v2 0/5] drm: Fix monochrome conversion for sdd130x
-Message-ID: <20220318142145.kwq46bf6exgce6wu@houat>
+Message-ID: <YjSYL5oPaDuCXOJQ@smile.fi.intel.com>
 References: <20220317081830.1211400-1-geert@linux-m68k.org>
  <f94c0f44-36f1-e1a9-5963-5da0bafb8c90@redhat.com>
  <YjSMWDFxTeJZZ/CB@smile.fi.intel.com>
+ <20220318142145.kwq46bf6exgce6wu@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4yi27rkk2xdb5y6l"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YjSMWDFxTeJZZ/CB@smile.fi.intel.com>
+In-Reply-To: <20220318142145.kwq46bf6exgce6wu@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,45 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 18, 2022 at 03:21:45PM +0100, Maxime Ripard wrote:
+> On Fri, Mar 18, 2022 at 03:42:48PM +0200, Andy Shevchenko wrote:
+> > On Thu, Mar 17, 2022 at 12:39:57PM +0100, Javier Martinez Canillas wrote:
+> > > On 3/17/22 09:18, Geert Uytterhoeven wrote:
+> > 
+> > > By the way, you should probably request commit access to the drm-misc tree:
+> > > 
+> > > https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
+> > 
+> > Does it really work? I tried and no one replied to request.
+> > Keeping silent is a bad service. If people don't want a person
+> > to have such access it should be well communicated.
+> 
+> I don't see any issue on Gitlab to request commit access, so I'm not
+> sure what you did exactly but it's not surprising you didn't get any
+> answer.
 
---4yi27rkk2xdb5y6l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/311
 
-On Fri, Mar 18, 2022 at 03:42:48PM +0200, Andy Shevchenko wrote:
-> On Thu, Mar 17, 2022 at 12:39:57PM +0100, Javier Martinez Canillas wrote:
-> > On 3/17/22 09:18, Geert Uytterhoeven wrote:
->=20
-> > By the way, you should probably request commit access to the drm-misc t=
-ree:
-> >=20
-> > https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
->=20
-> Does it really work? I tried and no one replied to request.
-> Keeping silent is a bad service. If people don't want a person
-> to have such access it should be well communicated.
 
-I don't see any issue on Gitlab to request commit access, so I'm not
-sure what you did exactly but it's not surprising you didn't get any
-answer.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Maxime
 
---4yi27rkk2xdb5y6l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjSVeQAKCRDj7w1vZxhR
-xdn2AQCSuox1BSswX/dLm7nf6lTTrTUpEBZ4xfuzRQ/oH6MulQEAwBzsEAQemfKE
-hwdglbnvcWh/TFhjzCLDLVjZ5mpHigQ=
-=M2cQ
------END PGP SIGNATURE-----
-
---4yi27rkk2xdb5y6l--
