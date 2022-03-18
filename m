@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D614DD1B7
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FE34DD1BA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59B810E8DD;
-	Fri, 18 Mar 2022 00:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 455DD10E8E8;
+	Fri, 18 Mar 2022 00:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A3A10E13A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:12:15 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id g20so8480460edw.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:15 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 674A910E8E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:12:42 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id dr20so13680606ejc.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GlfqT3gCisJBMTAg9owO2Ux8q0knKebgrHQt0YZbpxI=;
- b=nBDhznL6GSZim3PdexrPGQqpwQ4fFBAapWTmPPNrAt0uN427dmLC1mJrI8HXE1C1kx
- upaggKMpoTVkewUUN8f4G2ccK2tUnREtzjnOO9fkjvE2aXhO73VuvMgL2JxHG1mUNou7
- E4BgOMO9zLLV6AZpoxwm0FAG5//90kHjahP1c=
+ :cc; bh=2Zw9lPFduJ2icojxhfJ3aRjvx7VBmO2urvyYDaLJ4d0=;
+ b=QMhgbox8xCb6ZSHg6qb0nNgah3j0TTlKYxHwcoQrl/cBMnwf4ZupJHJTrgJFw1csLO
+ g1QvwAy3Ivjs5kB+3lKnBlk25Xek9CCmKA1EGxMrbFc4YNYz+bwCOl0GB+vbKkHq5OuM
+ 64BLXfm8aEmJXYfZZ7n6OAY4gaM6+1LKmPmSU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GlfqT3gCisJBMTAg9owO2Ux8q0knKebgrHQt0YZbpxI=;
- b=muaZi44XGjhU2koHJ9k25STFAc8bo57+aWgxanx/nttUn3DmAlrwyEzWImjUJ2CbIK
- RZpEBNDfYfqDjg4vZykuwyUNUSF+nj2kvxbQuR+5nqs6/IXb9hkKPicxw2Y8/+hS4wJh
- Xeb9QHaAARC9rCNFyEbDhyB7V1AHzjMzrv/PookhCO8vjBvMBIT+/rEgODqdauGsGvzL
- q29CEbINAEy4+fzubDJm7GoxH7UnD52g5IUtdMO6naExvMU0s5AtzWH0UBMwPONqNgoo
- oJdyHvtn2sflq+tcrKUzKMd9nQqjFunEYQzUUFEIfBxMOPGFBkEWr/AvNwHsPlyOcnJg
- UJsQ==
-X-Gm-Message-State: AOAM530aH4W/FO16YIjfF+8JjpMqkIR4jii3RqEPCY2lZwvUck0SgQIR
- 0j7g10gMxmWoEB9AhM6qbqePRoC3Gdu7ADsJ92M=
-X-Google-Smtp-Source: ABdhPJy6dclYhTh/m95Xv7EPqkb0JFMYAbmaUbxnv9DVyEhc/pC2muGb9im38qmf/kyiBRIHjuHCZA==
-X-Received: by 2002:aa7:c4cd:0:b0:418:7c2b:e1c8 with SMTP id
- p13-20020aa7c4cd000000b004187c2be1c8mr7116563edr.4.1647562333625; 
- Thu, 17 Mar 2022 17:12:13 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
- [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
- z3-20020a056402274300b004169771bd91sm3617256edd.39.2022.03.17.17.12.12
+ bh=2Zw9lPFduJ2icojxhfJ3aRjvx7VBmO2urvyYDaLJ4d0=;
+ b=q6UFNsZvxsosVmeYHspthH8fTD5K/FBQ2X8n2kiquqHW/cuAN7Cz9W8VwdwOka2ACc
+ ycoLTyy9aafCt5RD9UORfs6r1Xw6nxKGIxKr8vFzWXbOBFlI2LhUYnX5i3uaMRPyJCHM
+ ZFdak/C9jJJKOdmHSYGGYS8DS9TipbW2K8Vixxc/RUYAeZJSa7GmL0uAsmB/2mtbE8Ee
+ JPHskcK1ZCi9LW+7f6QCqhEdJwMXLeJ6sEzjSNi45Wb/1a/CsKqhAvlkgH2v6FvZXZiE
+ cDO96iegtUvvqphktlf+4YDQYt9o1awYRYUYTXxjK2qRV6PDf1gnfSbMaGBwfwJiGfnV
+ CvNg==
+X-Gm-Message-State: AOAM5334utrajH2LMbM82h11J4cqnFPWrEZT3liHa26+DUkkFZOIXS53
+ DBGvyAKRJz518MLbO48AUUXLIo6r7Kba8670AnY=
+X-Google-Smtp-Source: ABdhPJyX2Ct8zVg422YYdO1h75dhNx/OlhDsMIVU/PaHmX+5Xqxf/hnSl0HEIeo5KfV3/nNX3YvxLw==
+X-Received: by 2002:a17:906:5245:b0:6b8:78e0:5649 with SMTP id
+ y5-20020a170906524500b006b878e05649mr7112342ejm.520.1647562359870; 
+ Thu, 17 Mar 2022 17:12:39 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
+ b7-20020a170906490700b006b2512921b2sm2975330ejq.48.2022.03.17.17.12.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 17:12:12 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id u16so8632902wru.4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:12 -0700 (PDT)
-X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
- e7-20020adffc47000000b00203dda14311mr6191933wrs.301.1647562331786; Thu, 17
- Mar 2022 17:12:11 -0700 (PDT)
+ Thu, 17 Mar 2022 17:12:39 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id r6so9654259wrr.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:38 -0700 (PDT)
+X-Received: by 2002:a5d:6f04:0:b0:203:ed96:8212 with SMTP id
+ ay4-20020a5d6f04000000b00203ed968212mr3631950wrb.679.1647562358403; Thu, 17
+ Mar 2022 17:12:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
- <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
-In-Reply-To: <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+ <1647269217-14064-3-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1647269217-14064-3-git-send-email-quic_vpolimer@quicinc.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 17 Mar 2022 17:11:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V4SWtyz4fFEmvKD_N-2ioS4R65UDZRU7utQm=0CSzp=g@mail.gmail.com>
-Message-ID: <CAD=FV=V4SWtyz4fFEmvKD_N-2ioS4R65UDZRU7utQm=0CSzp=g@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
- frequency in opp table during probe
+Date: Thu, 17 Mar 2022 17:12:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U5O8aZqQxtx2MGz791SiQtSwMBx2ww3J5qFaG=W9skjA@mail.gmail.com>
+Message-ID: <CAD=FV=U5O8aZqQxtx2MGz791SiQtSwMBx2ww3J5qFaG=W9skjA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/5] arm64: dts: qcom: sm7280: remove
+ assigned-clock-rate property for mdp clk
 To: Vinod Polimera <quic_vpolimer@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,23 +88,33 @@ Hi,
 On Mon, Mar 14, 2022 at 7:47 AM Vinod Polimera
 <quic_vpolimer@quicinc.com> wrote:
 >
-> use max clock during probe/bind sequence from the opp table.
-> The clock will be scaled down when framework sends an update.
+> Drop the assigned clock rate property and vote on the mdp clock as per
+> calculated value during the usecase.
 >
-> Fixes: 25fdd5933("drm/msm: Add SDM845 DPU support")
+> This patch is dependent on below patch
+> https://patchwork.kernel.org/patch/12774067/
 
-The "Fixes:" format is a little wrong. Should have more digits and a
-space before the parenthesis. AKA:
+Some nits on how you're referring to the dependent patch:
 
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+1. In the commit message it's really nice to also include the subject
+line of the patch so someone looking at the commit after it lands can
+more easily identify the patch you depend on.
+
+2. It's better to use links that have the message ID in them. In the
+past patchwork's magic IDs have been list.
+
+So I'd write:
+
+This patch is dependent on the patch ("drm/msm/disp/dpu1: set mdp clk
+to the maximum frequency in opp table during probe") [1].
+
+[1] https://lore.kernel.org/r/1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com/
+
 
 > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-
-This looks good to me now other than the bad Fixes tag. I presume
-you'll want to spin with the extra verbosity in the CL description
-that Stephen asked for, though.
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
