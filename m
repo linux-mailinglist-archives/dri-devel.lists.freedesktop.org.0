@@ -2,53 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9094DD311
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 03:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3044DD363
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 04:00:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE5E10E18E;
-	Fri, 18 Mar 2022 02:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2D910E250;
+	Fri, 18 Mar 2022 03:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A423110E1DE
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 02:26:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647570387; x=1679106387;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6BtreIqdM6t1Lqd3PDjlCcPfWohouuLMLA0X/DuYhUE=;
- b=YPZvEWpPMk/PqyXoqabdb1iv1Wkq9gJS14qdLRw5KNpvN1447GdGpClb
- 16ZKt7yURXzKhpoG3EfoJfdMM4HQ/m6SD/llx4tjKM7ABaT0+b6P4adX4
- jiUmlT/3vuGTiZAo5bTx3FmlWbFNatMx2n0eI8yeYPMb/cDlXnCLY6MgX
- KeU8+/EZ1FYnZs9iemc4aejWqdaMdz56nOSXpy/7MUyoCekmGOw2+Pgyz
- c1bvqQL1r0wKo345zknb93rAZN3ixc0J6n/FsC7yfH99mFjy+xo+vMNM4
- BCvtefp7E5ThfRcAVMXdHHbpsg3RQvuluZ+Ihl/Rp9ezsN2CyIMIKyEJL A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="236976206"
-X-IronPort-AV: E=Sophos;i="5.90,191,1643702400"; d="scan'208";a="236976206"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 19:26:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,191,1643702400"; d="scan'208";a="635582672"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 17 Mar 2022 19:26:25 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nV2Js-000EM7-V2; Fri, 18 Mar 2022 02:26:24 +0000
-Date: Fri, 18 Mar 2022 10:25:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/4] drm/gma500: Move gma_intel_crtc_funcs into
- gma_display.c
-Message-ID: <202203181032.rQkGG9w3-lkp@intel.com>
-References: <20220317092555.17882-2-patrik.r.jakobsson@gmail.com>
+X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Mar 2022 03:00:48 UTC
+Received: from r3-25.sinamail.sina.com.cn (r3-25.sinamail.sina.com.cn
+ [202.108.3.25])
+ by gabe.freedesktop.org (Postfix) with SMTP id 5712210E24E
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 03:00:47 +0000 (UTC)
+Received: from unknown (HELO localhost.localdomain)([114.249.61.131])
+ by sina.com (172.16.97.23) with ESMTP
+ id 6233F4900002CE3E; Fri, 18 Mar 2022 10:55:14 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 53681054919322
+From: Hillf Danton <hdanton@sina.com>
+To: Rob Clark <robdclark@gmail.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/gpu: Remove mutex from wait_event
+ condition
+Date: Fri, 18 Mar 2022 10:55:12 +0800
+Message-Id: <20220318025512.2199-1-hdanton@sina.com>
+In-Reply-To: <CAF6AEGvF7rJ2iK+roGTA1BEthwCLMguMHrG-45dyxfk=b-acug@mail.gmail.com>
+References: <20220310234611.424743-1-robdclark@gmail.com>
+ <20220310234611.424743-4-robdclark@gmail.com>
+ <3b066b63-c180-09c6-e39f-b408464b5bc1@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317092555.17882-2-patrik.r.jakobsson@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +45,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, kbuild-all@lists.01.org, tzimmermann@suse.de,
- sam@ravnborg.org
+Cc: open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrik,
+On Thu, 17 Mar 2022 14:07:45 -0700 Rob Clark wrote:
+> On Thu, Mar 17, 2022 at 1:45 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> >
+> > On 3/11/2022 5:16 AM, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > The mutex wasn't really protecting anything before.  Before the previous
+> > > patch we could still be racing with the scheduler's kthread, as that is
+> > > not necessarily frozen yet.  Now that we've parked the sched threads,
+> > > the only race is with jobs retiring, and that is harmless, ie.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +----------
+> > >   1 file changed, 1 insertion(+), 10 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > index 0440a98988fc..661dfa7681fb 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > @@ -607,15 +607,6 @@ static int adreno_runtime_resume(struct device *dev)
+> > >       return gpu->funcs->pm_resume(gpu);
+> > >   }
+> > >
+> > > -static int active_submits(struct msm_gpu *gpu)
+> > > -{
+> > > -     int active_submits;
+> > > -     mutex_lock(&gpu->active_lock);
+> > > -     active_submits = gpu->active_submits;
+> > > -     mutex_unlock(&gpu->active_lock);
+> > I assumed that this lock here was to ensure proper barriers while
+> > reading active_submits. Is that not required?
+> 
+> There is a spinlock in prepare_to_wait_event() ahead of checking the
+> condition, which AFAIU is a sufficient barrier
 
-I love your patch! Perhaps something to improve:
+set_current_state() is instead - feel free to grep it in <linux/wait.h>
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc8 next-20220317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20220318/202203181032.rQkGG9w3-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/cdcc3ba62afbe456eb16b00d5df129abf8db5ca1
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-        git checkout cdcc3ba62afbe456eb16b00d5df129abf8db5ca1
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/gma500/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/gma500/gma_display.c:175:5: sparse: sparse: symbol 'gma_crtc_gamma_set' was not declared. Should it be static?
-   drivers/gpu/drm/gma500/gma_display.c:401:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *tmp_dst @@     got unsigned char [noderef] [usertype] __iomem * @@
-   drivers/gpu/drm/gma500/gma_display.c:401:25: sparse:     expected void *tmp_dst
-   drivers/gpu/drm/gma500/gma_display.c:401:25: sparse:     got unsigned char [noderef] [usertype] __iomem *
->> drivers/gpu/drm/gma500/gma_display.c:322:5: sparse: sparse: symbol 'gma_crtc_cursor_set' was not declared. Should it be static?
->> drivers/gpu/drm/gma500/gma_display.c:440:5: sparse: sparse: symbol 'gma_crtc_cursor_move' was not declared. Should it be static?
-
-Please review and possibly fold the followup patch.
-
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Hillf
+> 
+> BR,
+> -R
+> 
+> >
+> > -Akhil.
+> > > -     return active_submits;
+> > > -}
+> > > -
+> > >   static int adreno_runtime_suspend(struct device *dev)
+> > >   {
+> > >       struct msm_gpu *gpu = dev_to_gpu(dev);
+> > > @@ -669,7 +660,7 @@ static int adreno_system_suspend(struct device *dev)
+> > >       suspend_scheduler(gpu);
+> > >
+> > >       remaining = wait_event_timeout(gpu->retire_event,
+> > > -                                    active_submits(gpu) == 0,
+> > > +                                    gpu->active_submits == 0,
+> > >                                      msecs_to_jiffies(1000));
+> > >       if (remaining == 0) {
+> > >               dev_err(dev, "Timeout waiting for GPU to suspend\n");
+> >
