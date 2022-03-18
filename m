@@ -1,53 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554F14DD1FA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:34:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 181F44DD220
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:56:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA2E10E0F5;
-	Fri, 18 Mar 2022 00:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B91610E02D;
+	Fri, 18 Mar 2022 00:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD4510E0F5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647563635; x=1679099635;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=12AzeHrTnM6nCMbeOFusXjBmoW1AmV2OlCp6VVtsjWI=;
- b=RkdnODAKQRVpocfjN/QH/xPqJF6nVWSn6I37ZZxjvefT8PgRxBUW24q8
- X7v1QNLEqp3US7fN0PcfRzx3mEzQw9RgaQdrj4Lo5ms3F/XIR0gTT0kkc
- 0Nn7LtKcmhNXpuFrllEzE5DpQYGcWodJOkMfs7WCplB1PMo483mlaxKl6
- K/ZhmhX6ESXL8l54YBHDt00k6lFch6RL0DtId9UDDFwzfvYlceff7s9Yz
- bnHrjqTDzuLirRkiLVnvo6zmduuz68PGacyvQm5ZAwNpFx4Ek+UncPe9z
- 0jkqF6tPvyzEr1gUklGnNgBIIhU3F9OZs16ZkfWksqRm7AFzVkzgA3FA6 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="281816456"
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="281816456"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 17:33:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,190,1643702400"; d="scan'208";a="513635355"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 17 Mar 2022 17:33:52 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nV0Yx-000EGr-Vp; Fri, 18 Mar 2022 00:33:51 +0000
-Date: Fri, 18 Mar 2022 08:33:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/gma500: Remove unused declarations and other cruft
-Message-ID: <202203180839.vNEFesvz-lkp@intel.com>
-References: <20220317092555.17882-1-patrik.r.jakobsson@gmail.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7AA10E02D
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:55:55 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KKQYK01lsz4xw9;
+ Fri, 18 Mar 2022 11:55:48 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1647564950;
+ bh=dLiSWckYYtCyaQxnZS0EI/Fqn7krxPz0DTfM9jp/tCQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Shs3v3BozHrVRzw0s2N7WjkWfMma0keeLaMClMZYInrv42EXvb9BicZhFj90cLePZ
+ vUHLtX2Ry/Ic8oHeqINJBj85Ge9yxFCSRqVlQFP5UOmBjR+L9wJRSUGfs4WHavm3OM
+ 1wXbXhFwmhjFzPkIhmdjfNastSY+OsE9GALor2I1iYLEze2Eb0Kt+CV3owe41nD2WA
+ hJRc9vAmk6YlTSjh4XKqr74LaNsD+2AEr5fAQeLVAm74N+5q9Wcw4COor5Mjv7/n5Q
+ iwO2hjEX4PtGcEiVI+eyNYAVpxs/cVCMLW72JHKn1vB4DLn342TRn1HmybaPwuxWcy
+ djKtQ61L5TWng==
+Date: Fri, 18 Mar 2022 11:55:44 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
+Message-ID: <20220318115544.0c977415@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317092555.17882-1-patrik.r.jakobsson@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; boundary="Sig_/vG/0mWiiww1HR.wIUTPt1mc";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,45 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, kbuild-all@lists.01.org, tzimmermann@suse.de,
- sam@ravnborg.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Julian Braha <julianbraha@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrik,
+--Sig_/vG/0mWiiww1HR.wIUTPt1mc
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I love your patch! Perhaps something to improve:
+Hi all,
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc8 next-20220317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Today's linux-next merge of the drm tree got a conflict in:
 
-url:    https://github.com/0day-ci/linux/commits/Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20220318/202203180839.vNEFesvz-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/0d50efabcb4ad52bd7a036e2542dbf51bbcf93b4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Patrik-Jakobsson/drm-gma500-Remove-unused-declarations-and-other-cruft/20220317-172741
-        git checkout 0d50efabcb4ad52bd7a036e2542dbf51bbcf93b4
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/gma500/
+  drivers/gpu/drm/bridge/Kconfig
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+between commit:
 
+  3c3384050d68 ("drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HELP=
+ERS")
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/gma500/psb_drv.c:102:6: sparse: sparse: symbol 'psb_spank' was not declared. Should it be static?
+from the drm-misc-fixes tree and commit:
 
-Please review and possibly fold the followup patch.
+  803abfd8dda5 ("drm: bridge: fix unmet dependency on DRM_KMS_HELPER for DR=
+M_PANEL_BRIDGE")
 
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+from the drm tree.
+
+I fixed it up (I just used the latter) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/vG/0mWiiww1HR.wIUTPt1mc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIz2JAACgkQAVBC80lX
+0GzqGwf+JdNbV8TunrhuNZ+HguT1OG1W5wAGXpTFB4TEhHGczJML2kuo3/3Z8ata
+N+bicMVbWsdsYDdWRxB0i5LkQ3R4D58BVuDLPo7D0/tqhT0PiSRmtCjox5GBUx6a
+cVQY/F7iAjKkvbe5Y1HkVO6luHLutiGZhRPM4HU3Y/CA8cj7AJEGglxYchQkUSOl
+vyLMN/C2lVEHAeg0ue3OMYCGFdGs3n/shu//0dmW+3uAVpzzE4dTsd0aRbFivfxV
+yKi9mOeFT5eciBhdfXgbsDMfRdluaH4FBt2HPROobFf4f841vghuJn24AzZJ1zn9
+6SqqlWKJu5r1OX69XZv00wFSCPMtbA==
+=Bo5s
+-----END PGP SIGNATURE-----
+
+--Sig_/vG/0mWiiww1HR.wIUTPt1mc--
