@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766C34DE154
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0147A4DE15D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 19:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D1110E70B;
-	Fri, 18 Mar 2022 18:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F094E10E7CD;
+	Fri, 18 Mar 2022 18:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B26DD10E33A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C861B10E341
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 18:48:16 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BA8A183025;
- Fri, 18 Mar 2022 19:48:14 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 29A4F830F6;
+ Fri, 18 Mar 2022 19:48:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1647629295;
- bh=MO7rpDjZb8qRc5LO6tC8BH89Xjf6A0Je3/5I7DRpxOI=;
+ bh=07aCsgx5U9yxFTNr8gpWEC/+PMHC8Mc9BWME9eIkF7Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nZojhpVSAUW8tfqEs3R1j+Sa3xJ5oJ6QruTUeGvReFeNv4NPBAoZUYRoh32wYeI0P
- gxz/SSg30i0mmnrNJiiaxETKKbFLsAwex6wi6Zon6uoTGbSoTLXMEAqoN/nv3ALtx/
- dopSQzmyNLSxoOvCQ36DiaFvC8L/KWMWShXdUwok+wmJBEkwXVXQkxTuiLG0jnnPT/
- w0YMsVrh1ITNHo3upogbXr1g1KrUV2cyRGiB4KywCVyA8lGOcJWTODKA86uo/1PEgB
- pOCk2jnoXbpXKV91LVRZzjN1K01VSVuhkgEOwJC+ucIPaqs0XEer5LzVuxD5hxfcbl
- PylFIITWiqA8g==
+ b=zBCjU/+qwvFtPxh+HdXcnjDprhbcGbSkd5uIOUAutiPP0EBGtU1y4j7kcJ0Lxrb9N
+ 7YL9HNLhZsRCeMGl8xHHT49odXDCJKeHsWWvWOuvLHBLk3KAegXXNkJnodfpRg8MQD
+ UXVZ0Y6CBpsWUPDyDKy1Wlp9POhNg8VyAQrHbpx+r+XAhoFUP3tcowj7tZeZaNQEn9
+ O9RLxxrCYDJCNtS1LgA6Va8ZOjQAKj5LVussBAOzUJDko2eG3UVoqdg86NwgCoNHP5
+ 50+o5D8Ji+quAgNfisg1O9wST2VQgofQErXAPybifVvgh/uQnOWi7tk300IydDrg7t
+ W3MdCcskQrtkA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 05/11] drm: bridge: icn6211: Use DSI burst mode without EoT
- and with LP command mode
-Date: Fri, 18 Mar 2022 19:47:49 +0100
-Message-Id: <20220318184755.113152-6-marex@denx.de>
+Subject: [PATCH v5 06/11] drm: bridge: icn6211: Disable DPI color swap
+Date: Fri, 18 Mar 2022 19:47:50 +0100
+Message-Id: <20220318184755.113152-7-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220318184755.113152-1-marex@denx.de>
 References: <20220318184755.113152-1-marex@denx.de>
@@ -59,11 +58,9 @@ Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI burst mode is more energy efficient than the DSI sync pulse mode,
-make use of the burst mode since the chip supports it as well. Disable the
-generation of EoT packet, the chip ignores it, so no point in emitting it.
-Enable transmission of data in LP mode, otherwise register read via DSI
-does not work with this chip.
+The chip is capable of swapping DPI RGB channels. The driver currently
+does not implement support for this functionality. Write the MIPI_PN_SWAP
+register to 0 to assure the color swap is disabled.
 
 Acked-by: Maxime Ripard <maxime@cerno.tech>
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -79,23 +76,21 @@ V3: Add AB from Maxime
 V4: No change
 V5: No change
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index d4a52176814ce..e3a7b945a0ef5 100644
+index e3a7b945a0ef5..4d6baef7ce16c 100644
 --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -464,7 +464,8 @@ static int chipone_probe(struct mipi_dsi_device *dsi)
+@@ -296,6 +296,7 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
+ 	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
+ 	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
++	ICN6211_DSI(icn, MIPI_PN_SWAP, 0x00);
  
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
- 
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
+ 	/* DPI HS/VS/DE polarity */
+ 	pol = ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIST_POL_HSYNC_POL : 0) |
 -- 
 2.35.1
 
