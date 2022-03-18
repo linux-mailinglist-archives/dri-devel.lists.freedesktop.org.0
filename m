@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E044DD23D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 02:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2414DD242
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 02:08:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF2E10E04C;
-	Fri, 18 Mar 2022 01:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88D310E8FB;
+	Fri, 18 Mar 2022 01:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 655 seconds by postgrey-1.36 at gabe;
- Fri, 18 Mar 2022 01:06:50 UTC
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC6D10E04C;
- Fri, 18 Mar 2022 01:06:50 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KKQp007nCz4xL3;
- Fri, 18 Mar 2022 12:06:47 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1647565608;
- bh=jwCusHMaKLzSx+fT/PqroC11hLNZXj+hbjCzMuHR6Ls=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=d61mUW8Zhegt3VhoKSxr6QQd3ryKM24Xdsh+yZ/kPAluEJSLrb9o39iABBijT7Pv/
- quH7+h/lEY+8LXz94AF3sGsii1yL5HnV3yHZh14oB5sBl+8liqgAJa2pjEfVf9LSFB
- 6upkUbzuYUHoXwfrUX+6eqRfZGmz+Ryq+wN8sUMU6Nzo9l2TI8ioVE/HOUrrI2ffvR
- f9oxVt88wayfbNf3BHpeEf/Ouu/fH/7BvXG0/giKCea8ClNkT1N7m3a0pS3sW5FYEk
- ClbtIeg5GbDNdspCY0YXTgUh8n1P9KD70bXXRGZg8IUownWN+qWVqAY6N82XbLDtRb
- eJaU8Is31M8oA==
-Date: Fri, 18 Mar 2022 12:06:47 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the drm tree with the
- drm-misc-fixes tree
-Message-ID: <20220318120647.2c89bf05@canb.auug.org.au>
-In-Reply-To: <20220318115544.0c977415@canb.auug.org.au>
-References: <20220318115544.0c977415@canb.auug.org.au>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49FB110E8FB
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 01:08:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2A7A1615E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 01:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1F43FC340F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 01:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647565716;
+ bh=DD2TSTvRHdD/MXdgO9pgSzT8oZKJXD5R7IbzwkwvA14=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=s537Nk9OCJTt0gZgmbmSUBFUI+0IUuygNu3MBecPcMp6gGeH1fXORIyuLjqmCKYur
+ stXaPBmTZMOh3j+kd5cvyKS2e/ufin2AldDRjUm99F7v79njSTbLQ05ls0duuyYIaK
+ CGRgM56NmgCH+dy5jxPCv1p0mIvkhtidH1lz7N3sStzJrLCZpWkn9+Bi8tOD/90ifg
+ E1o5iGvmq9DBdOnhAl6ByZJq4vPBVYVg6KgGp+nnwpBdf9Q9EagTrheGJvGYursxRG
+ zqZUp+9Ky6lujTbbYfwMjKwal4iLQfrP8kdySYaXzgr4wjsVQG4UOG33g1SNfmsQoc
+ 8yXtJKnuwC7kQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 01457C05FD6; Fri, 18 Mar 2022 01:08:36 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215652] kernel 5.17-rc fail to load radeon DRM "modprobe:
+ ERROR: could not insert 'radeon': Unknown symbol in module, or unknown
+ parameter (see dmesg)"
+Date: Fri, 18 Mar 2022 01:08:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-215652-2300-h98HV5Qrko@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215652-2300@https.bugzilla.kernel.org/>
+References: <bug-215652-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/G5twN28LIUIxKmeSldmhCtB";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,68 +72,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Julian Braha <julianbraha@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/G5twN28LIUIxKmeSldmhCtB
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215652
 
-Hi all,
+Erhard F. (erhard_f@mailbox.org) changed:
 
-On Fri, 18 Mar 2022 11:55:44 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> Today's linux-next merge of the drm tree got a conflict in:
->=20
->   drivers/gpu/drm/bridge/Kconfig
->=20
-> between commit:
->=20
->   3c3384050d68 ("drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HE=
-LPERS")
->=20
-> from the drm-misc-fixes tree and commit:
->=20
->   803abfd8dda5 ("drm: bridge: fix unmet dependency on DRM_KMS_HELPER for =
-DRM_PANEL_BRIDGE")
->=20
-> from the drm tree.
->=20
-> I fixed it up (I just used the latter) and can carry the fix as
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
-But that failed during configuration, so I went back and used the
-former change.
+--- Comment #10 from Erhard F. (erhard_f@mailbox.org) ---
+I did not get out a meaningful result out of my reverse bisect... But
+v5.17.0-rc7 abd v5.17.0-rc8 do not show this issue.
 
-> necessary. This is now fixed as far as linux-next is concerned, but any
-> non trivial conflicts should be mentioned to your upstream maintainer
-> when your tree is submitted for merging.  You may also want to consider
-> cooperating with the maintainer of the conflicting tree to minimise any
-> particularly complex conflicts.
+So closing here.
 
 --=20
-Cheers,
-Stephen Rothwell
+You may reply to this email to add a comment.
 
---Sig_/G5twN28LIUIxKmeSldmhCtB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIz2ycACgkQAVBC80lX
-0Gym7wf/e0IClI1oa2+eJ1eh3mGlRDgv2g9E2o7QjtJm69qjQlnTkU9VojX1l1UC
-hlTU/Dy7Ftkp9R9fjx7xSRC+ZJCCApSAx635tdY/dHm8MeufPflRXT4t2Eu/d8R7
-rlm9cCluUDib36ayR7mdLyGg3pYScTA5ilKS+ai43afsj9zPDHsWWmduGNFbIdbd
-oib20XtTvdZJhz9a9QD/z9wIwfAUP3YAOvI+hyG4fhJcY5aZYvmwnbYHt2VCgqWL
-hcp6a0GCZuAUZG4+aaWDJGBeVxzE0djG/XemYp90qBUNYd6U1Xmu+oXu0h5Ql2sD
-oDF0LUMiVQYeV7GgGIJGrB0ui3jEqw==
-=mpys
------END PGP SIGNATURE-----
-
---Sig_/G5twN28LIUIxKmeSldmhCtB--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
