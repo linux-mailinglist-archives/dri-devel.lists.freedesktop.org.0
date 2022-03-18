@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02664DD19F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:07:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D614DD1B7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF7110E8D4;
-	Fri, 18 Mar 2022 00:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59B810E8DD;
+	Fri, 18 Mar 2022 00:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9DED10E8DB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:07:33 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id t187so3870677pgb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A3A10E13A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 00:12:15 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id g20so8480460edw.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1i8tHBCz0yGUnXTP63evaW8shC/1FTv22ymAKssO43g=;
- b=Ur+HSlhkoIDLHekqpPNSXAVLlxD5+T81ff6OBaHTxdXzokDkA8qnnVLDj9q0QAArhQ
- 8B28qd/JYP4jKNuPGjkNF8Z9JI3moyBARf9Nk/nhV0r4cLAzMLmI/7ti/9uugVGYGR/J
- 4cAJHw+XO9GiplYxM7ZZn9UlMuvIuvwPzTl/g=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GlfqT3gCisJBMTAg9owO2Ux8q0knKebgrHQt0YZbpxI=;
+ b=nBDhznL6GSZim3PdexrPGQqpwQ4fFBAapWTmPPNrAt0uN427dmLC1mJrI8HXE1C1kx
+ upaggKMpoTVkewUUN8f4G2ccK2tUnREtzjnOO9fkjvE2aXhO73VuvMgL2JxHG1mUNou7
+ E4BgOMO9zLLV6AZpoxwm0FAG5//90kHjahP1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1i8tHBCz0yGUnXTP63evaW8shC/1FTv22ymAKssO43g=;
- b=ThdbrHBcezDFlfpicoyl1D/lBxYnOqyV14iyHKyNroUQZukO/N49WyWhaWHWkbGIaq
- +SKbzKIG1flAaZxtSiylCVqOoryU67FOYOxUJEX1mh814B28M6wTqfyO5caN6e/zFmXB
- JTMGnFV3BBiyoUMiWV6hrt2lERzrfKD4yEGzyTChB1GPfWPT0qgA2256u24t+dSHOXfV
- qnbz/xMW4KWYoHDQg+uZb+nZ+P12xBgxbCe6Y/svCOxLdHIDNd53WCRaV/qApcmEqdvE
- Y7tvzXmQUHy7ZtWocYcSykWp+WPosn03ALl8viHsG8Lbq5YZgshM6TfZMdiUzxbo/Wzb
- qpwA==
-X-Gm-Message-State: AOAM532zoafvW3o51EkSm4It/z1CHYTuLt2JVsNehBrmEY7PjsPGsHVg
- KejlXiMdVDew9JYNOKhqF7/jEQ==
-X-Google-Smtp-Source: ABdhPJxx5b5fjDNUn/yUMHMvPSEd5Y6joMRanwaFw9+NHRmy92bdTzHYRpjmt7wsM7IX3PrGoD3Btw==
-X-Received: by 2002:a05:6a00:815:b0:4f6:ee04:30af with SMTP id
- m21-20020a056a00081500b004f6ee0430afmr7183021pfk.15.1647562053324; 
- Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:49cf:7701:359e:b28f])
- by smtp.gmail.com with ESMTPSA id
- o5-20020a056a0015c500b004f76735be68sm8280640pfu.216.2022.03.17.17.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Mar 2022 17:07:33 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Rob Clark <robdclark@gmail.com>,
-	Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/msm/dsi: Use connector directly in
- msm_dsi_manager_connector_init()
-Date: Thu, 17 Mar 2022 17:07:31 -0700
-Message-Id: <20220318000731.2823718-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GlfqT3gCisJBMTAg9owO2Ux8q0knKebgrHQt0YZbpxI=;
+ b=muaZi44XGjhU2koHJ9k25STFAc8bo57+aWgxanx/nttUn3DmAlrwyEzWImjUJ2CbIK
+ RZpEBNDfYfqDjg4vZykuwyUNUSF+nj2kvxbQuR+5nqs6/IXb9hkKPicxw2Y8/+hS4wJh
+ Xeb9QHaAARC9rCNFyEbDhyB7V1AHzjMzrv/PookhCO8vjBvMBIT+/rEgODqdauGsGvzL
+ q29CEbINAEy4+fzubDJm7GoxH7UnD52g5IUtdMO6naExvMU0s5AtzWH0UBMwPONqNgoo
+ oJdyHvtn2sflq+tcrKUzKMd9nQqjFunEYQzUUFEIfBxMOPGFBkEWr/AvNwHsPlyOcnJg
+ UJsQ==
+X-Gm-Message-State: AOAM530aH4W/FO16YIjfF+8JjpMqkIR4jii3RqEPCY2lZwvUck0SgQIR
+ 0j7g10gMxmWoEB9AhM6qbqePRoC3Gdu7ADsJ92M=
+X-Google-Smtp-Source: ABdhPJy6dclYhTh/m95Xv7EPqkb0JFMYAbmaUbxnv9DVyEhc/pC2muGb9im38qmf/kyiBRIHjuHCZA==
+X-Received: by 2002:aa7:c4cd:0:b0:418:7c2b:e1c8 with SMTP id
+ p13-20020aa7c4cd000000b004187c2be1c8mr7116563edr.4.1647562333625; 
+ Thu, 17 Mar 2022 17:12:13 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
+ z3-20020a056402274300b004169771bd91sm3617256edd.39.2022.03.17.17.12.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 17:12:12 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id u16so8632902wru.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Mar 2022 17:12:12 -0700 (PDT)
+X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
+ e7-20020adffc47000000b00203dda14311mr6191933wrs.301.1647562331786; Thu, 17
+ Mar 2022 17:12:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 17 Mar 2022 17:11:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V4SWtyz4fFEmvKD_N-2ioS4R65UDZRU7utQm=0CSzp=g@mail.gmail.com>
+Message-ID: <CAD=FV=V4SWtyz4fFEmvKD_N-2ioS4R65UDZRU7utQm=0CSzp=g@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
+ frequency in opp table during probe
+To: Vinod Polimera <quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <seanpaul@chromium.org>,
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The member 'msm_dsi->connector' isn't assigned until
-msm_dsi_manager_connector_init() returns (see msm_dsi_modeset_init() and
-how it assigns the return value). Therefore this pointer is going to be
-NULL here. Let's use 'connector' which is what was intended.
+Hi,
 
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sean Paul <seanpaul@chromium.org>
-Fixes: 6d5e78406991 ("drm/msm/dsi: Move dsi panel init into modeset init path")
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
+On Mon, Mar 14, 2022 at 7:47 AM Vinod Polimera
+<quic_vpolimer@quicinc.com> wrote:
+>
+> use max clock during probe/bind sequence from the opp table.
+> The clock will be scaled down when framework sends an update.
+>
+> Fixes: 25fdd5933("drm/msm: Add SDM845 DPU support")
 
-I don't know if this is superseeded by something else but I found this
-while trying to use the connector from msm_dsi in this function.
+The "Fixes:" format is a little wrong. Should have more digits and a
+space before the parenthesis. AKA:
 
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 0c1b7dde377c..9f6af0f0fe00 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -638,7 +638,7 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
- 	return connector;
- 
- fail:
--	connector->funcs->destroy(msm_dsi->connector);
-+	connector->funcs->destroy(connector);
- 	return ERR_PTR(ret);
- }
- 
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-base-commit: 05afd57f4d34602a652fdaf58e0a2756b3c20fd4
--- 
-https://chromeos.dev
+This looks good to me now other than the bad Fixes tag. I presume
+you'll want to spin with the extra verbosity in the CL description
+that Stephen asked for, though.
 
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
