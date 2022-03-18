@@ -2,68 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1624DDC86
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 16:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72834DDC8D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Mar 2022 16:14:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3096E10E080;
-	Fri, 18 Mar 2022 15:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4D310E941;
+	Fri, 18 Mar 2022 15:14:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 163DC10E080;
- Fri, 18 Mar 2022 15:12:14 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id r7so5020605wmq.2;
- Fri, 18 Mar 2022 08:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EApymkxonyMtaB/xcoZsAQd/qFJu/0+QS9XvmkXwrxI=;
- b=mD8YQO3ZV8roQM5EsHfmMfA1Gz2a2NBjUOhCUF+AJo3j7om7Z7tFlgUiNcLCmwOhHV
- obrKsizkMrUXHa+pdv3usz2JGsSiG1XUsUFMVnHN/04eXs3OhCfF/ZsNmC2L8EQC8nzb
- re6GyCBiNHEfdcZBPdvg8j8Hfaq20C2J6M6i4/RUdMcdWTijd22evbT/9PgavseY+hL1
- EVX9Yi4tO88YTMekGt38ImuQS/bcr1sXgcfk/36qIqgQ+R372KTRjlCenzofSAdC+VHl
- fxNFQDOzh//McBwJlbVTkgvueyg0/f7w+VA/bXKVOifm1BndiyPNw4OkTgUPO+7T3cHD
- leHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EApymkxonyMtaB/xcoZsAQd/qFJu/0+QS9XvmkXwrxI=;
- b=ngV9g5EVAwt5aqG4PraQtX40wXMq98uaLA+1znDjfLCj8pApjidEVLAtNsVudbOqvg
- scRfKbzCwPrswfW5pS1dF+36H8y3tpsINfbKpY4IEi12/jbzY/BemMLTEogAEXQggWyq
- Hxse8tejf7y5x+KmCQKDw2sc3SJQHUmoKB29F6kNK4TZFd+5k0i6SBKOkmCPGQGk2GYJ
- M4rR74U1ASnInhkaGmRP13Hi1X8CG9FofnarEx/m3mQq3GHJrvP73Rbi5NC0oOjl9ovW
- oO0xgkRwRlRDnCG9WdNm0oMvZB/RO7JATb0zoBA1/CiUN6sNsxZtlMOa+UkyTdbVvDUy
- ad9Q==
-X-Gm-Message-State: AOAM531Ink391lFwUMcvLAhPum+4qXXt27xseM/nLzonMzHXk7AedMhx
- F95KbTPfDuZirF1NACSrQORf0NFZ/5V3jYtLDw8=
-X-Google-Smtp-Source: ABdhPJyUdovwC2bAMCPewzU2+LqSE4i8NObaTjPjPGwsguJJgblEd21J1aEH0msjpFfkgwUEs0td+2xWUGnatECUv0I=
-X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
- f13-20020a7bcc0d000000b00381220ea3a0mr8554596wmh.59.1647616332576; Fri, 18
- Mar 2022 08:12:12 -0700 (PDT)
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F8110E941
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Mar 2022 15:14:19 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 004573200FA9;
+ Fri, 18 Mar 2022 11:14:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 18 Mar 2022 11:14:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=1HdyI7LG9qznT8yjtXFxPBo2TxxXkPEftGXqce
+ +D3Xk=; b=Epwuw+DZ/yrrGGqmomOfiRUvgAhA+Tfj8QUktFC88+Hfnf+H8vDZNh
+ bwAPGL428aML/B1ZG56zz5NFN6WsgQLm6fmMW+DdJGVGCOoyKXdxiuOue7MbVcBb
+ VHnLvxcuxd4t7Sn810a+qIeNWnowNANaPUWkTFo2NmG6a4BA5a64VP2JBUlHJqDa
+ qLEWEOJmn9PyawZyiDvqJ0WWdL7Od3WDY0vGcuo9/jowO3had1U+Qdj5VukcfnqS
+ OGMqVqVddn6f0GH5CzppeDLGMu0tSfOUITisG+j3VtKGk6a1TFhPqtcf5CDnOsJK
+ gGLy3h/36aXNHQZSJfLNxj2ZPDIUPA0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1HdyI7LG9qznT8yjt
+ XFxPBo2TxxXkPEftGXqce+D3Xk=; b=jropfC5rDyX9t02DwuXI1sElkhp4/6Vqb
+ uIbShiiI/TbuVTFcN4pAB3YWl0ubaJ3McCz+7XwIR61XCKYqxskkL0wq2WSd6tDf
+ Aj5fb1VlhqZlf/gkxrrUFz5oA/fF4wBaxRX18yf2Sgc/px7apOORd3NFgEoSNaTG
+ wxy4w5x3JHgQcopmgPPnXPE6MrueKlbmMKJx9KWU+/FiP/38FdWjqyt1OG3aXhjY
+ Z4qJRxIRKg6plQc0HT3ODlQAigQUfmZr4qCUIcglld2om1gH7J59ZeLG1z8+1KlJ
+ zxZgvRuOjfU7me+fH68dk/iPwpvxcck7zuvywGsKH1009xABUa/Yw==
+X-ME-Sender: <xms:yaE0YvbN8onFX0p7id5TzBjt1MWaCOVEbYY1tpefEvWr20FTjMRy3Q>
+ <xme:yaE0YubRKlw-yj1WcwKMKey_RMY9r8rFUv8Ic7NqpphzbQX4MNkebm8dKFKchsXDt
+ tA78jQAnLZw_3UErO0>
+X-ME-Received: <xmr:yaE0Yh9bOKIVSBwQuCNgxMf242XncalEd0N2lGaWiiZiaytM_ucOG1mi7ckHPY25wua69hyLSUcwF8l5bX2Tav-6PQky1Gfh6zfqaB8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudefiedgjeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucdnkfhovfculdeitddmnecujfgurhepfffhvffukf
+ hfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceo
+ mhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhf
+ dutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgv
+ rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
+ hordhtvggthh
+X-ME-Proxy: <xmx:yaE0YloSVNsEGBLordkXlMUWT4QWS1TIPQWUkPZ9xCACJQEJrnDozQ>
+ <xmx:yaE0YqpwhB6KZYSaEsNbgqBPumDRjabisxGBqlurXFlp_0aS21VneQ>
+ <xmx:yaE0YrRQO8WvPop1_v9dIqIPwp6nusmTmyiLj8jfN63b5cvUU1PkKLzsew>
+ <xmx:yaE0YqKhJAsjtwXNsnL3GfNp87lTMEitdu7-0__8ubezohgLLjgRRA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Mar 2022 11:14:16 -0400 (EDT)
+Date: Fri, 18 Mar 2022 16:14:14 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH] drm: of: Properly try all possible cases for
+ bridge/panel detection
+Message-ID: <20220318151414.vxormel2vfgzss6t@houat>
+References: <20220309143200.111292-1-paul.kocialkowski@bootlin.com>
+ <20220310145423.but7r7ul4j7h3wxw@houat>
+ <YjIFAR2NSfjXdJGe@aptenodytes>
 MIME-Version: 1.0
-References: <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
- <YjL/k6kh+5RihGIV@phenom.ffwll.local>
- <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
- <YjNvYmcuDKiIneDx@phenom.ffwll.local>
- <CAF6AEGvuMfKtf_aweai6y4oHghArE95uhR2X0f9h_9w4Bk_6VQ@mail.gmail.com>
- <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
-In-Reply-To: <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 18 Mar 2022 08:12:54 -0700
-Message-ID: <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wh3wounixr5n56qp"
+Content-Disposition: inline
+In-Reply-To: <YjIFAR2NSfjXdJGe@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +83,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Shashank Sharma <contactshashanksharma@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 18, 2022 at 12:42 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 17.03.22 um 18:31 schrieb Rob Clark:
-> > On Thu, Mar 17, 2022 at 10:27 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >> [SNIP]
-> >>> (At some point, I'd like to use scheduler for the replay, and actuall=
-y
-> >>> use drm_sched_stop()/etc.. but last time I looked there were still
-> >>> some sched bugs in that area which prevented me from deleting a bunch
-> >>> of code ;-))
-> >> Not sure about your hw, but at least on intel replaying tends to just
-> >> result in follow-on fun. And that holds even more so the more complex =
-a
-> >> workload is. This is why vk just dies immediately and does not try to
-> >> replay anything, offloading it to the app. Same with arb robusteness.
-> >> Afaik it's really only media and classic gl which insist that the driv=
-er
-> >> stack somehow recover.
-> > At least for us, each submit must be self-contained (ie. not rely on
-> > previous GPU hw state), so in practice replay works out pretty well.
-> > The worst case is subsequent submits from same process fail as well
-> > (if they depended on something that crashing submit failed to write
-> > back to memory.. but in that case they just crash as well and we move
-> > on to the next one.. the recent gens (a5xx+ at least) are pretty good
-> > about quickly detecting problems and giving us an error irq.
->
-> Well I absolutely agree with Daniel.
->
-> The whole replay thing AMD did in the scheduler is an absolutely mess
-> and should probably be killed with fire.
->
-> I strongly recommend not to do the same mistake in other drivers.
->
-> If you want to have some replay feature then please make it driver
-> specific and don't use anything from the infrastructure in the DRM
-> scheduler.
 
-hmm, perhaps I was not clear, but I'm only talking about re-emitting
-jobs *following* the faulting one (which could be from other contexts,
-etc).. not trying to restart the faulting job.
+--wh3wounixr5n56qp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You *absolutely* need to replay jobs following the faulting one, they
-could be from unrelated contexts/processes.  You can't just drop them
-on the floor.
+On Wed, Mar 16, 2022 at 04:40:49PM +0100, Paul Kocialkowski wrote:
+> Hi Maxime,
+>=20
+> Thanks for the review!
+>=20
+> On Thu 10 Mar 22, 15:54, Maxime Ripard wrote:
+> > Hi Paul,
+> >=20
+> > On Wed, Mar 09, 2022 at 03:32:00PM +0100, Paul Kocialkowski wrote:
+> > > While bridge/panel detection was initially relying on the usual
+> > > port/ports-based of graph detection, it was recently changed to
+> > > perform the lookup on any child node that is not port/ports
+> > > instead when such a node is available, with no fallback on the
+> > > usual way.
+> > >=20
+> > > This results in breaking detection when a child node is present
+> > > but does not contain any panel or bridge node, even when the
+> > > usual port/ports-based of graph is there.
+> > >=20
+> > > In order to support both situations properly, this commit reworks
+> > > the logic to try both options and not just one of the two: it will
+> > > only return -EPROBE_DEFER when both have failed.
+> > >=20
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > Fixes: 80253168dbfd ("drm: of: Lookup if child node has panel or brid=
+ge")
+> >=20
+> > Thanks, it's in pretty good shape now, but I have a few bike sheds to p=
+aint :)
+> >=20
+> > > ---
+> > >  drivers/gpu/drm/drm_of.c | 93 +++++++++++++++++++++-----------------=
+--
+> > >  1 file changed, 49 insertions(+), 44 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> > > index 9d90cd75c457..67f1b7dfc892 100644
+> > > --- a/drivers/gpu/drm/drm_of.c
+> > > +++ b/drivers/gpu/drm/drm_of.c
+> > > @@ -219,6 +219,35 @@ int drm_of_encoder_active_endpoint(struct device=
+_node *node,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
+> > > =20
+> > > +static int drm_of_find_remote_panel_or_bridge(struct device_node *re=
+mote,
+> > > +					      struct drm_panel **panel,
+> > > +					      struct drm_bridge **bridge)
+> >=20
+> > This function performs its look up directly on the struct device_node
+> > passed as argument, so I don't think the "remote" in the name is great.
+> > Since it's static, we can just call it find_panel_or_bridge, what do you
+> > think?
+>=20
+> From a quick look at other DRM code I got the impression that static func=
+tions
+> also usually carry the drm prefix but I might be wrong.
 
-Currently it is all driver specific, but I wanted to delete a lot of
-code and move to using scheduler to handle faults/timeouts (but
-blocked on that until [1] is resolved)
+Not necessarily, see handle_conflicting_encoders, commit_tail, commit_work,
+convert_clip_rect_to_rect, edid_load, etc.
 
-[1] https://patchwork.kernel.org/project/dri-devel/patch/1630457207-13107-2=
--git-send-email-Monk.Liu@amd.com/
+Most functions do, but it's not a rule or a convention.
 
-BR,
--R
+> > > +{
+> > > +	int ret =3D -EPROBE_DEFER;
+> > > +
+> > > +	if (panel) {
+> > > +		*panel =3D of_drm_find_panel(remote);
+> > > +		if (!IS_ERR(*panel))
+> > > +			ret =3D 0;
+> >=20
+> > return 0?
+>=20
+> The idea was to still go through the "*bridge =3D NULL;" path if a bridge
+> pointer is provided, to preserve the original behavior of the function.
+> There may or may not not be any hard expectation on that, in any case
+> I feel like it would be good to avoid out-of-scope functional changes her=
+e.
 
-> Thanks,
-> Christian.
->
-> >
-> > BR,
-> > -R
-> >
-> >> And recovering from a mess in userspace is a lot simpler than trying t=
-o
-> >> pull of the same magic in the kernel. Plus it also helps with a few of=
- the
-> >> dma_fence rules, which is a nice bonus.
-> >> -Daniel
-> >>
->
+Then we could just clear it just like we clear the panel pointer in
+drm_of_find_panel_or_bridge. It would be more consistent.
+
+> > > +		else
+> > > +			*panel =3D NULL;
+> > > +
+> > > +	}
+> > > +
+> > > +	/* No panel found yet, check for a bridge next. */
+> > > +	if (bridge) {
+> > > +		if (ret) {
+> >=20
+> > And the return above allows to remove that test
+> >=20
+> > > +			*bridge =3D of_drm_find_bridge(remote);
+> > > +			if (*bridge)
+> > > +				ret =3D 0;
+> >=20
+> > return 0?
+> >=20
+> > > +		} else {
+> > > +			*bridge =3D NULL;
+> > > +		}
+> > > +
+> > > +	}
+> > > +
+> > > +	return ret;
+> >=20
+> > And here we can just return -EPROBE_DEFER
+> >=20
+> > > +}
+> > > +
+> >=20
+> > >  /**
+> > >   * drm_of_find_panel_or_bridge - return connected panel or bridge de=
+vice
+> > >   * @np: device tree node containing encoder output ports
+> > > @@ -249,57 +278,33 @@ int drm_of_find_panel_or_bridge(const struct de=
+vice_node *np,
+> > >  	if (panel)
+> > >  		*panel =3D NULL;
+> > > =20
+> > > -	/**
+> > > -	 * Devices can also be child nodes when we also control that device
+> > > -	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+> > > -	 *
+> > > -	 * Lookup for a child node of the given parent that isn't either po=
+rt
+> > > -	 * or ports.
+> > > -	 */
+> > > -	for_each_available_child_of_node(np, remote) {
+> > > -		if (of_node_name_eq(remote, "port") ||
+> > > -		    of_node_name_eq(remote, "ports"))
+> > > -			continue;
+> > > -
+> > > -		goto of_find_panel_or_bridge;
+> > > +	/* Check for a graph on the device node first. */
+> > > +	if (of_graph_is_present(np)) {
+> > > +		remote =3D of_graph_get_remote_node(np, port, endpoint);
+> > > +		if (remote) {
+> > > +			ret =3D drm_of_find_remote_panel_or_bridge(remote, panel,
+> > > +								 bridge);
+> > > +			of_node_put(remote);
+> > > +		}
+> > >  	}
+> > > =20
+> > > -	/*
+> > > -	 * of_graph_get_remote_node() produces a noisy error message if port
+> > > -	 * node isn't found and the absence of the port is a legit case her=
+e,
+> > > -	 * so at first we silently check whether graph presents in the
+> > > -	 * device-tree node.
+> > > -	 */
+> > > -	if (!of_graph_is_present(np))
+> > > -		return -ENODEV;
+> > > -
+> > > -	remote =3D of_graph_get_remote_node(np, port, endpoint);
+> > > -
+> > > -of_find_panel_or_bridge:
+> > > -	if (!remote)
+> > > -		return -ENODEV;
+> > > +	/* Otherwise check for any child node other than port/ports. */
+> > > +	if (ret) {
+> > > +		for_each_available_child_of_node(np, remote) {
+> > > +			if (of_node_name_eq(remote, "port") ||
+> > > +			    of_node_name_eq(remote, "ports"))
+> > > +				continue;
+> > > =20
+> > > -	if (panel) {
+> > > -		*panel =3D of_drm_find_panel(remote);
+> > > -		if (!IS_ERR(*panel))
+> > > -			ret =3D 0;
+> > > -		else
+> > > -			*panel =3D NULL;
+> > > -	}
+> > > +			ret =3D drm_of_find_remote_panel_or_bridge(remote, panel,
+> > > +								 bridge);
+> > > +			of_node_put(remote);
+> > > =20
+> > > -	/* No panel found yet, check for a bridge next. */
+> > > -	if (bridge) {
+> > > -		if (ret) {
+> > > -			*bridge =3D of_drm_find_bridge(remote);
+> > > -			if (*bridge)
+> > > -				ret =3D 0;
+> > > -		} else {
+> > > -			*bridge =3D NULL;
+> > > +			/* Stop at the first found occurrence. */
+> > > +			if (!ret)
+> > > +				break;
+> > >  		}
+> > > -
+> > >  	}
+> > > =20
+> > > -	of_node_put(remote);
+> > >  	return ret;
+> > >  }
+> >=20
+> > So the diff is fairly hard to read, but it ends up as:
+>=20
+> Yeah I agree, not sure what I can do about that.
+
+Nothing, really. I don't expect any change there, it just happens sometimes=
+ :)
+
+Maxime
+
+--wh3wounixr5n56qp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjShxgAKCRDj7w1vZxhR
+xf5JAQDmxxQlwOLr+WoU55rb+kKgTqjN81stleRWwvtNPvHL/QD/b96Wr8MjlVF0
+8r//DEe2OL2d9vGdB5FxsoQbIiUCjg8=
+=SsVH
+-----END PGP SIGNATURE-----
+
+--wh3wounixr5n56qp--
