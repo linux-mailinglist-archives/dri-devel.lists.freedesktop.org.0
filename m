@@ -1,68 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D586B4DEA54
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 20:15:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1514DEA4F
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 20:14:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DEF10E2C6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B437E10E268;
 	Sat, 19 Mar 2022 19:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF4910E618
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Mar 2022 14:59:48 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id yy13so22102927ejb.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Mar 2022 07:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fg/FC7rTkSBrpQLeEoI/22vMYZ74Ut8FqExEBGhMe9Y=;
- b=jNHQwy6T1MJqw1pnEKQGKmThOQZ60DjOWNlyf2lzM1k3ATrWmoJqUZbCUu7PWTfMLP
- Qk6RnFpKf0XnUKm8EQcW9WvgSYsMmYPv8/V07Ao9hAUIESJF0IazhDQ08Pn9OQayr0+h
- /wfBlhRjZ6Ft8eydGPCG19LCQSBRqf/m76b1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fg/FC7rTkSBrpQLeEoI/22vMYZ74Ut8FqExEBGhMe9Y=;
- b=5pedYwz1Atb2zvJJ8Hl6jGIVbLTmVoDQih9Sa0y2QNQkskzuUmVHjOFkY0mIScrfIy
- 1nbWQzExqT7Axcoyw/Qp0xO6CoHFyW+5xjAXMAB7k98Yy4kNlfcpAQoSQufewAPoleBA
- yuGe4G2oiGK89oWWr89mnzdkdmZsfscZ9777PkFWhQUtN7M4V/SR4TAWk1gmBV7ERds0
- Ie7o8OtT1h3kNQ5g7YpRcR3LsNz/es+pV2uEjF3aJ1dyAoy5VM79pDYAKeLSXpMEqdT8
- aceyJ0mWAcIuiIdLpVWNUr+p8Nu0dFNlXwwDebO7ts7raOgEPKB1rqh9xAYnL2evZKiu
- 7lkw==
-X-Gm-Message-State: AOAM531+TjnnhcHkuap7SlD3oiCaWv24d6tsXoL9Q/LysHxP1cHWgHcV
- r5L+Ir22P4A5gc+sEV8Wou1CYA==
-X-Google-Smtp-Source: ABdhPJw1OKd8XArVKjZ70vpOivrILPfucl/uc2q1zTPldcqHTPSgvBV2RBifAceRfRUp0Y2kO2kQ8w==
-X-Received: by 2002:a17:906:c04d:b0:6b9:252:c51c with SMTP id
- bm13-20020a170906c04d00b006b90252c51cmr13431644ejb.470.1647701987008; 
- Sat, 19 Mar 2022 07:59:47 -0700 (PDT)
-Received: from capella.. (80.71.142.18.ipv4.parknet.dk. [80.71.142.18])
- by smtp.gmail.com with ESMTPSA id
- m25-20020a170906161900b006d43be5b95fsm4923329ejd.118.2022.03.19.07.59.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Mar 2022 07:59:46 -0700 (PDT)
-From: =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hans Verkuil <hans.verkuil@cisco.com>,
- Archit Taneja <architt@codeaurora.org>
-Subject: [PATCH 2/2] drm: bridge: adv7511: unregister cec i2c device after cec
- adapter
-Date: Sat, 19 Mar 2022 15:59:39 +0100
-Message-Id: <20220319145939.978087-3-alvin@pqrs.dk>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220319145939.978087-1-alvin@pqrs.dk>
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2137.outbound.protection.outlook.com [40.107.22.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C944710FDF2
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Mar 2022 15:05:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WiBZtblGvWQIErhQq7D7Uk+J0EvKMPNDKDe6j0tCbv/Gbg1UUXKy28CLCT38dlK0qCLwIBKigdQXQu9UD+JdxI76DXDkOWySx6OoBvTzSRJv3YZwAh4CxbcX5WmBLzHL9Y7hxW6d7Oxf4h52KIQZCBHJTjKC/SKssOZdIPvW+ZcWKeFHWaS5isb6MkiLJngDnnTx9w2ki8XVdfZFGHSM7lIZpnGV3UaBtCRgRmx9AMoZm3RxF4by8m5ZNcTTRnkZQBpaLTVfUaSCnqAifXzxog81f6CpV0c+T6IWcgibzwapcpMlaWiskfLQAnuSZTMz88RW+byFU32KtnGRGbniWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tAF1ExWvkrhPOhMDmE6NdFF2rNWmZF/I3TWoUiA154U=;
+ b=QCV78gBhfdxCh0S87sM3SIRuo3g3g4dLvdaQss+XP10fJA0wrBgBFm8vt+pwoK6HNyqrrfEN6pSZbhn2Y2lgULyp2oE2OalGMo6KSmUAHEGNJzDip9IPB463VyN7z76WAKHfQMpzHngeZSw5ruh3gLJ8b2nSGGltKPZIWNkXZ30f5oaHcmFxGcHi0q+yU7HuZQHHwPM1kWRNrY1SBEf3AuBqRON9l2Q9IqSYRe4axhVmEPnKmSabqHNWma+OX7xRQDRTj3wgBgiMktvLYdEHtcvBhNOYubp8hUAerLj8akJzzjeefOt2q5W/B2f+QZH0jUZQPPnKmFZofSrDEF5r/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bang-olufsen.dk; dmarc=pass action=none
+ header.from=bang-olufsen.dk; dkim=pass header.d=bang-olufsen.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bang-olufsen.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAF1ExWvkrhPOhMDmE6NdFF2rNWmZF/I3TWoUiA154U=;
+ b=XzqIfczTheJDfff1VD03T0qlde6pnHhOWAOOWj4XpSqvs7WMpdQOC72iw8Fx0WLHdyEcNxF9X6eV6akVZrjCH9pRyZq7ns2pjnb86cM/zfpHN2xV1Q+RqXMnJzv6XxJ7vee385Apd6+ERw3f/t4/Va0LhMTDavDS7nKTTp2ggvk=
+Received: from AM6PR03MB3943.eurprd03.prod.outlook.com (2603:10a6:20b:26::24)
+ by PA4PR03MB6895.eurprd03.prod.outlook.com (2603:10a6:102:e7::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.19; Sat, 19 Mar
+ 2022 15:05:09 +0000
+Received: from AM6PR03MB3943.eurprd03.prod.outlook.com
+ ([fe80::6123:22f6:a2a7:5c1e]) by AM6PR03MB3943.eurprd03.prod.outlook.com
+ ([fe80::6123:22f6:a2a7:5c1e%5]) with mapi id 15.20.5081.019; Sat, 19 Mar 2022
+ 15:05:09 +0000
+From: =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <ALSI@bang-olufsen.dk>
+To: =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <alvin@pqrs.dk>
+Subject: Re: [PATCH 0/2] drm: bridge: adv7511: two fixes for CEC
+Thread-Topic: [PATCH 0/2] drm: bridge: adv7511: two fixes for CEC
+Thread-Index: AQHYO6H5g+mOB3NTQEipoMml5TIbJw==
+Date: Sat, 19 Mar 2022 15:05:09 +0000
+Message-ID: <87r16y56fu.fsf@bang-olufsen.dk>
 References: <20220319145939.978087-1-alvin@pqrs.dk>
+In-Reply-To: <20220319145939.978087-1-alvin@pqrs.dk> ("Alvin
+ =?utf-8?Q?=C5=A0ipraga=22's?=	message of "Sat, 19 Mar 2022 15:59:37 +0100")
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bang-olufsen.dk;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fab82d32-a299-4f19-b28e-08da09b9dc5e
+x-ms-traffictypediagnostic: PA4PR03MB6895:EE_
+x-microsoft-antispam-prvs: <PA4PR03MB68955B4D9F85F19DFBE9E4F983149@PA4PR03MB6895.eurprd03.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4Jn+vvffqCl84a+71MOQi3QQKzROD1bZr7KRyDY8/JpwcTUa12zmq6yEhpVdx+UAd7SeuTocJtvjd4oDIoUsr7aib7vXYOZx1dJLMEeWJRzgO/u+f+OvjnvK/7RD6V2Zd+C3GujhQkx5wq1qjSuEiMTzOnvjO4ieBrlwE4VVsDMKZcLQz5PNZ0HwbIH1dnCKQTKnl8MSEpIzxt8PX61qL/o4H507A0inXFcHe7kFrD+4uGlYBe6iXfQopJczdDrv6VK/DDzixOWtQ0fo5S6zMN4f+2u5QDUQC9ynilHKMhAgLr/5o55Dv3XUoOJlHdrP3Nabjw5+XdV1yJck4s8zLfB3QnQADnV7x/OpQasajyGs0B3838b8h32zAFpr/K1k6Rt+XT6fveY6KD96SQg2OSdoOzOEhFnWsjrmOVyQ7b964W/MhPYLNUDXGNeWQnvE1noE7Kc5GGY4aFDM2mtBvEzfq2F28eV7nSh29oPSqqF6B4tFf7/yLGPCyLWVKld3AWTtp6VYXLmjuVllE+/v0ZDm4bXaU7axofUXWE0xi/Wr+igbIlggN6RoI0NYj+c2Pgk5w76CpPWRTzS8Bjtwh5mZYWXlh0Ipmo0SLViCYxiCInJmLM8WmIL7s3R75YYnIxOE6X0Br7HxsCbAhhgRlGCStmvGCoCw0eUHKKhV/lTMuj+Njhya/VsCdEFgHSf6E+vAW5/zh4dYRXo3t8vhAw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB3943.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(38070700005)(186003)(122000001)(38100700002)(83380400001)(26005)(86362001)(4326008)(54906003)(2906002)(91956017)(76116006)(316002)(8676002)(66946007)(66476007)(66446008)(64756008)(66556008)(85202003)(7416002)(8936002)(8976002)(36756003)(5660300002)(85182001)(4744005)(508600001)(6506007)(2616005)(6512007)(71200400001)(6916009)(6486002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TERidlpob1dTSFVMWDg1di9ZZ1lxS09PYlN6RzV5MXBLc2pWZGhJQjVxd254?=
+ =?utf-8?B?R1RySDdTM1pXUW5CclZqUHBHTnlRMFp0cnFDNUhVajlmc1RrU2pBa0tIOFVt?=
+ =?utf-8?B?QTlWelNxaTZwdDFWL0hVUU1tQ0YvQ3RVcW0zTzQ2eVkvYzRMTUZVQ2c4SFgx?=
+ =?utf-8?B?R1RSaHl6L3kreU1rYVhZYWNQQkxyWmZScEpZcDJsVXJlOXJ2K00rR0RpWld3?=
+ =?utf-8?B?NWptWEVXT1NSR0E4dFh2aUtWTHM5cElpa201V2xNZllMT1N2VHp4L1U0Ynpz?=
+ =?utf-8?B?YlU4ZFV0dFBPdzZrNFJHOUpxeEpiU1E2bFpGSHU1TVdkQ3A4elJxUzRRN1B5?=
+ =?utf-8?B?dkV3ZnBUUWp4UGMzdUE2bWdCODZIc3FIaW83R3FhaWJUTVNSRjB0M3lXeXh0?=
+ =?utf-8?B?L2dYd2ExdkRxc1VvQmg2cWdLVzE5VGNFU3lnRzBrK1Y0anRHZjZxcStzS2V0?=
+ =?utf-8?B?ejB5b0xvbU5hMURNWG1odkRGMUh4NlZKdldFd2JPby9MZi9rQ24rSmlxSXgx?=
+ =?utf-8?B?VkNDMkNCYTZIK3lBa0lpM1VCa3VmVDExVUY5ZjZ4cXB2U0RIdXhUNytDSmRC?=
+ =?utf-8?B?TGdBd0tJSlJYQXNsRkJtcENUT1lVZGhEQnNaTTZOeVRLdG1LY2RHc29haUc2?=
+ =?utf-8?B?R3JnMmVaeFczWXhIelZENzVCWTZHT2xlWHI2Z1hkaDN0THFvMjl2STRVeEJq?=
+ =?utf-8?B?RCtjamFCbkV5ekw0dVZQMks1TjRqRzZ1emJiNm92MzBSeHY5S1krZWdGMU5l?=
+ =?utf-8?B?TDVUNGF6QTJrUks4VFdPVXlzay8ycDJra3hRVlRTS3JrVzk0dWoxTzEwakla?=
+ =?utf-8?B?Um5nRmVDNzVnSm50clZaRVBSTGRXc0RDdXQvaTl4dHcxYndOMHY4azNYeWRJ?=
+ =?utf-8?B?UTdQaVFNWE1kay9IK3h5aTRhMmRUeDh3WkdFbm1KdTNQL0J2MzZTc2NFb05F?=
+ =?utf-8?B?SGNHS2dJU3UwZjh6QTg2VDY2Z3c0RlFzQjBMTHl4aXVabUdVbkh0VUV0VGZ2?=
+ =?utf-8?B?U2tWMTJNUHpCekNPU3pnVUh2eDZTY2NVaWEzWklrS2FEclA4VzBMZzMybmox?=
+ =?utf-8?B?emFmSXZlZTFReHd6NWNkRWk4ODlwY0hnMHN1ckVvbW14NVdjV2ZWV0c3SWww?=
+ =?utf-8?B?dHBub2lsRjZ2a0xUZzNZQWFvVERiUzNLVEp3bWs3WjVIbWtlNGtyU1NFL1p1?=
+ =?utf-8?B?TSt5ZHhvQm9VNEFmVHRvSXQ1OC9HS3VLd3RDTW9jbmErN2Y2QWdtV2FQT09T?=
+ =?utf-8?B?LzNubzQrN3NGOCtCNlIrdExlMXVDMkszV2I4YU1ZTDdYbm5IVXZQbXV1a0d4?=
+ =?utf-8?B?S1F3QWJsckg5WWFDMmdxTDNzOHFIV1p6T2ZZbUtycWsvUWZZYTBYNG9tS1lp?=
+ =?utf-8?B?a3h6OFJxeGNmQmh1UGVRUE1TOGRtTHJnc241SWxVZ2lwT1c1UUhRdktNeDB0?=
+ =?utf-8?B?WVB6TGs3MFNlNktQYkY1WTdvZm5sVVFXRnVMdjV2eWtzNU41dDU4MWROSmhR?=
+ =?utf-8?B?OWg0N3dzZWV3cXVYdVBPZW1YbGhuMU1ESWNGTERnVmNISEJ3OXFNdVRJRkdQ?=
+ =?utf-8?B?WDNuU29QMHNvazRsSGpwN2lBQm5zY3pnZkUxeWNVc2hrMi9SbHNlaDhlT1pD?=
+ =?utf-8?B?RkI2c0VQY04xK3F3QUtQOWFkd3cyZG93SzlaeVA0b0cxdmtWaDIxYjQxV3hx?=
+ =?utf-8?B?c0RGcSs5WHNMbDdid0dKbE1WOUVKUk40Zm13cGthSVJBOXkydndkNGhIajEz?=
+ =?utf-8?B?QzVFSkoxUDY0bHdOc2pCTnY4Uk14VVFucmxndVJxb3ZxWGMrNk5hMW1hbm1T?=
+ =?utf-8?B?b0xXZzV1ZGEyUk9paGluTGVaSVQ1TFBkd1B5Rk10N1dxK3ZiTjlWeU0rQ0tS?=
+ =?utf-8?B?VWczRHRCQTN5Rkc4MWI5RHdNblhWSWlvRDkrR2MwSUw0bU9weHpoL3lrVFor?=
+ =?utf-8?Q?JOBrCwTvxYjdWFivqklmLchOsfmiG+Tw?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <82FA79C35FA5224F8446E344E53459DC@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bang-olufsen.dk
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB3943.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fab82d32-a299-4f19-b28e-08da09b9dc5e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2022 15:05:09.6202 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 210d08b8-83f7-470a-bc96-381193ca14a1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xCDtFG0v1AfAXDsO1OdoRepOG+PPBueHQIXulwUlYlNHg50IHtQKxivDaUno3oiOtF5O8HEB1Fd6ZGPoP9p16Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR03MB6895
 X-Mailman-Approved-At: Sat, 19 Mar 2022 19:14:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,79 +127,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+Cc: Archit Taneja <architt@codeaurora.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alvin Šipraga <alsi@bang-olufsen.dk>
-
-cec_unregister_adapter() assumes that the underlying adapter ops are
-callable. For example, if the CEC adapter currently has a valid physical
-address, then the unregistration procedure will invalidate the physical
-address by setting it to f.f.f.f. Whence the following kernel oops
-observed after removing the adv7511 module:
-
-    Unable to handle kernel execution of user memory at virtual address 0000000000000000
-    Internal error: Oops: 86000004 [#1] PREEMPT_RT SMP
-    Call trace:
-     0x0
-     adv7511_cec_adap_log_addr+0x1ac/0x1c8 [adv7511]
-     cec_adap_unconfigure+0x44/0x90 [cec]
-     __cec_s_phys_addr.part.0+0x68/0x230 [cec]
-     __cec_s_phys_addr+0x40/0x50 [cec]
-     cec_unregister_adapter+0xb4/0x118 [cec]
-     adv7511_remove+0x60/0x90 [adv7511]
-     i2c_device_remove+0x34/0xe0
-     device_release_driver_internal+0x114/0x1f0
-     driver_detach+0x54/0xe0
-     bus_remove_driver+0x60/0xd8
-     driver_unregister+0x34/0x60
-     i2c_del_driver+0x2c/0x68
-     adv7511_exit+0x1c/0x67c [adv7511]
-     __arm64_sys_delete_module+0x154/0x288
-     invoke_syscall+0x48/0x100
-     el0_svc_common.constprop.0+0x48/0xe8
-     do_el0_svc+0x28/0x88
-     el0_svc+0x1c/0x50
-     el0t_64_sync_handler+0xa8/0xb0
-     el0t_64_sync+0x15c/0x160
-    Code: bad PC value
-    ---[ end trace 0000000000000000 ]---
-
-Protect against this scenario by unregistering i2c_cec after
-unregistering the CEC adapter. Duly disable the CEC clock afterwards
-too.
-
-Fixes: 3b1b975003e4 ("drm: adv7511/33: add HDMI CEC support")
-Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index f8e5da148599..2628f1abe413 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1314,9 +1314,6 @@ static int adv7511_remove(struct i2c_client *i2c)
- {
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
- 
--	i2c_unregister_device(adv7511->i2c_cec);
--	clk_disable_unprepare(adv7511->cec_clk);
--
- 	adv7511_uninit_regulators(adv7511);
- 
- 	drm_bridge_remove(&adv7511->bridge);
-@@ -1324,6 +1321,8 @@ static int adv7511_remove(struct i2c_client *i2c)
- 	adv7511_audio_exit(adv7511);
- 
- 	cec_unregister_adapter(adv7511->cec_adap);
-+	i2c_unregister_device(adv7511->i2c_cec);
-+	clk_disable_unprepare(adv7511->cec_clk);
- 
- 	i2c_unregister_device(adv7511->i2c_packet);
- 	i2c_unregister_device(adv7511->i2c_edid);
--- 
-2.35.1
-
+QWx2aW4gxaBpcHJhZ2EgPGFsdmluQHBxcnMuZGs+IHdyaXRlczoNCg0KPiBGcm9tOiBBbHZpbiDF
+oGlwcmFnYSA8YWxzaUBiYW5nLW9sdWZzZW4uZGs+DQo+DQo+IFRoZSBwYXRjaGVzIGFyZSBzZW50
+IGFnYWluc3QgZHJtLW1pc2MtbmV4dC4gVGhhbmtzIQ0KDQpXaG9vcHMsIEkgbWVhbnQgZHJtLW1p
+c2MtZml4ZXMsIHNpbmNlIHRoZXNlIGFyZSBmaXhlcy4gOi0pDQoNClNlcGFyYXRlIHBhdGNoZXMg
+YWltZWQgYXQgZHJtLW1pc2MtbmV4dCBpbmNvbWluZy4NCg0KPg0KPiBBbHZpbiDFoGlwcmFnYSAo
+Mik6DQo+ICAgZHJtOiBicmlkZ2U6IGFkdjc1MTE6IGZpeCBDRUMgcG93ZXIgZG93biBjb250cm9s
+IHJlZ2lzdGVyIG9mZnNldA0KPiAgIGRybTogYnJpZGdlOiBhZHY3NTExOiB1bnJlZ2lzdGVyIGNl
+YyBpMmMgZGV2aWNlIGFmdGVyIGNlYyBhZGFwdGVyDQo+DQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL2Fkdjc1MTEvYWR2NzUxMS5oICAgICB8IDUgKy0tLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvYWR2NzUxMS9hZHY3NTExX2NlYy5jIHwgNCArKy0tDQo+ICBkcml2ZXJzL2dwdS9kcm0v
+YnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9kcnYuYyB8IDUgKystLS0NCj4gIDMgZmlsZXMgY2hhbmdl
+ZCwgNSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ==
