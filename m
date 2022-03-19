@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7888A4DEA7B
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 20:42:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D4A4DEAB5
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 21:42:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E9910EE66;
-	Sat, 19 Mar 2022 19:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465EA10E63B;
+	Sat, 19 Mar 2022 20:41:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA1E10EB71;
- Sat, 19 Mar 2022 19:42:34 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEDBD10E22C;
+ Sat, 19 Mar 2022 20:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647718954; x=1679254954;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OTxUHmQQY7cQoxWryXWv/oqAfUW2bcJG5Qgzx8iJkAo=;
- b=U/9BLl0U40ymNlw39NplLv/UgloEfN+uSPKLfFtFYuN5LDQnx7+6rlNL
- zU+pr7znbrAQQUmNFuKtRP4gpVdxlqyUfD1kAPxaA9kiJxartCgqL8I5b
- U+75yD+luXT+GqEaxCQE4XXc+Im0kHU+Xzkuk1W6FGRqi7TnHZHnitNcS
- /YZvKpgPLy/ToAJojzCTXvxfK+RZH+u87qjPEqbACcXTuzaF+eqLKUeZU
- E+ErNB7mBT200Ea5QTQcMlRptNo6hguS0AwE6VperG0dSuveieI7JnWTv
- +FwjjjMpTN0OA6TUknYgItscur1L4kAv00H/V+u6p3s2piJOYlngd6q5U g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="282145186"
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="282145186"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 12:42:34 -0700
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="600019696"
-Received: from jpulito-mobl2.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
- ([10.255.231.61])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 12:42:33 -0700
-From: Michael Cheng <michael.cheng@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915/gt: Revert ggtt_resume to previous logic
-Date: Sat, 19 Mar 2022 12:42:27 -0700
-Message-Id: <20220319194227.297639-5-michael.cheng@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220319194227.297639-1-michael.cheng@intel.com>
-References: <20220319194227.297639-1-michael.cheng@intel.com>
+ t=1647722516; x=1679258516;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=t4c+yRgaotKssQlq7/FbcHF2Dfpe2A/FHgvMK1C0nD8=;
+ b=nokno3IAjgyyJR+heY7FrOLM1D/E7fVJ+D7S2mss948ppW2oKmnq34BB
+ QzSSN1m+9xRTXKsQAbr7UK6LBHaeMcSxII11Y8pdB8J/sGCglPwnHpszs
+ P/mgwh40yJ7guIj6ScHheYyxwVm4qTXvWAglpqGJA6fYkIpZTBx/1cM20
+ wQKRuqjz04XB1NxrBWol0pZJPKSevkByfXXvQa9ehW9Y2/s+ds7G+US4j
+ N5TlLENk5Z3aTCgfLjJLqeyDug2ZefGUCKyRd+lQbBmZxIZXvzVtL6ugg
+ acm9VjXPG9nkHl6fP8PhtnPVQeienD2pXa7RR+9oewOz5iZzvFjPBhDT2 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="237270082"
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="237270082"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2022 13:41:56 -0700
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="559244950"
+Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2022 13:41:54 -0700
+From: Ramalingam C <ramalingam.c@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v4 0/8] drm/i915/ttm: Evict and restore of compressed object
+Date: Sun, 20 Mar 2022 02:12:21 +0530
+Message-Id: <20220319204229.9846-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,88 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, thomas.hellstrom@linux.intel.com,
- michael.cheng@intel.com, wayne.boyer@intel.com, daniel.vetter@ffwll.ch,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To avoid having to call wbinvd_on_all_cpus, revert i915_ggtt_resume and
-i915_ggtt_resume_vm to previous logic [1].
+On Xe-HP and later devices, we use dedicated compression control
+state (CCS) stored in local memory for each surface, to support
+the 3D and media compression formats.
 
-[1]. 64b95df91f44 drm/i915: Assume exclusive access to objects inside resume
+The memory required for the CCS of the entire local memory is
+1/256 of the local memory size. So before the kernel
+boot, the required memory is reserved for the CCS data and a
+secure register will be programmed with the CCS base address
 
-Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Michael Cheng <michael.cheng@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 17 ++++++-----------
- drivers/gpu/drm/i915/gt/intel_gtt.h  |  2 +-
- 2 files changed, 7 insertions(+), 12 deletions(-)
+So when we allocate a object in local memory we dont need to explicitly
+allocate the space for ccs data. But when we evict the obj into the smem
+to hold the compression related data along with the obj we need smem
+space of obj_size + (obj_size/256).
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 04191fe2ee34..811bfd9d8d80 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -1305,10 +1305,9 @@ void i915_ggtt_disable_guc(struct i915_ggtt *ggtt)
-  * Returns %true if restoring the mapping for any object that was in a write
-  * domain before suspend.
-  */
--bool i915_ggtt_resume_vm(struct i915_address_space *vm)
-+void i915_ggtt_resume_vm(struct i915_address_space *vm)
- {
- 	struct i915_vma *vma;
--	bool write_domain_objs = false;
- 
- 	drm_WARN_ON(&vm->i915->drm, !vm->is_ggtt && !vm->is_dpt);
- 
-@@ -1325,28 +1324,24 @@ bool i915_ggtt_resume_vm(struct i915_address_space *vm)
- 		vma->ops->bind_vma(vm, NULL, vma->resource,
- 				   obj ? obj->cache_level : 0,
- 				   was_bound);
--		if (obj) { /* only used during resume => exclusive access */
--			write_domain_objs |= fetch_and_zero(&obj->write_domain);
--			obj->read_domains |= I915_GEM_DOMAIN_GTT;
-+		if (obj) {
-+			i915_gem_object_lock(obj, NULL);
-+			WARN_ON(i915_gem_object_set_to_gtt_domain(obj, false));
-+			i915_gem_object_unlock(obj);
- 		}
- 	}
- 
--	return write_domain_objs;
- }
- 
- void i915_ggtt_resume(struct i915_ggtt *ggtt)
- {
--	bool flush;
- 
- 	intel_gt_check_and_clear_faults(ggtt->vm.gt);
- 
--	flush = i915_ggtt_resume_vm(&ggtt->vm);
-+	i915_ggtt_resume_vm(&ggtt->vm);
- 
- 	ggtt->invalidate(ggtt);
- 
--	if (flush)
--		wbinvd_on_all_cpus();
--
- 	if (GRAPHICS_VER(ggtt->vm.i915) >= 8)
- 		setup_private_pat(ggtt->vm.gt->uncore);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 4529b5e9f6e6..c86092054988 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -567,7 +567,7 @@ struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt,
- 				     unsigned long lmem_pt_obj_flags);
- 
- void i915_ggtt_suspend_vm(struct i915_address_space *vm);
--bool i915_ggtt_resume_vm(struct i915_address_space *vm);
-+void i915_ggtt_resume_vm(struct i915_address_space *vm);
- void i915_ggtt_suspend(struct i915_ggtt *gtt);
- void i915_ggtt_resume(struct i915_ggtt *ggtt);
- 
+Hence when we create smem for an obj with lmem placement possibility we
+create with the extra space.
+
+When we are swapping out the local memory obj on flat-ccs capable platform,
+we need to capture the ccs data too along with main meory and we need to
+restore it when we are swapping in the content.
+
+When lmem object is swapped into a smem obj, smem obj will
+have the extra pages required to hold the ccs data corresponding to the
+lmem main memory. So main memory of lmem will be copied into the initial
+pages of the smem and then ccs data corresponding to the main memory
+will be copied to the subsequent pages of smem.
+
+Swapin happens exactly in reverse order. First main memory of lmem is
+restored from the smem's initial pages and the ccs data will be restored
+from the subsequent pages of smem.
+
+Extracting and restoring the CCS data is done through a special cmd called
+XY_CTRL_SURF_COPY_BLT
+
+v4:
+  Inflate the ttm_tt only when the obj is lmem only.
+  Back to XY_CTRL_SURF_COPY_BLT to clear the ccs, as FAST_CLEAR_0
+							failed.
+  Add a selftest for testing the ccs clearing.
+
+Test-with: 20220314051432.15785-1-ramalingam.c@intel.com
+
+Ramalingam C (8):
+  drm/i915/gt: Use XY_FASR_COLOR_BLT to clear obj on graphics ver 12+
+  drm/i915/gt: Clear compress metadata for Flat-ccs objects
+  drm/i915/selftest_migrate: Consider the possible roundup of size
+  drm/i915/selftest_migrate: Check CCS meta data clear
+  drm/i915/gt: Optimize the migration loop
+  drm/ttm: Add a parameter to add extra pages into ttm_tt
+  drm/i915/gem: Add extra pages in ttm_tt for ccs data
+  drm/i915/migrate: Evict and restore the flatccs capable lmem obj
+
+ drivers/gpu/drm/drm_gem_vram_helper.c        |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  29 +-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  20 +
+ drivers/gpu/drm/i915/gt/intel_migrate.c      | 404 +++++++++++++++++--
+ drivers/gpu/drm/i915/gt/selftest_migrate.c   | 277 +++++++++++--
+ drivers/gpu/drm/qxl/qxl_ttm.c                |   2 +-
+ drivers/gpu/drm/ttm/ttm_agp_backend.c        |   2 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                 |  12 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c   |   2 +-
+ include/drm/ttm/ttm_tt.h                     |   4 +-
+ 10 files changed, 688 insertions(+), 66 deletions(-)
+
 -- 
-2.25.1
+2.20.1
 
