@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01BFF4DEABE
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 21:42:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569CA4DEAC0
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 21:42:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76FB010EE1D;
-	Sat, 19 Mar 2022 20:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A372510EEA7;
+	Sat, 19 Mar 2022 20:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16C5210EE1D;
- Sat, 19 Mar 2022 20:42:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE70310EE1D;
+ Sat, 19 Mar 2022 20:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647722527; x=1679258527;
+ t=1647722529; x=1679258529;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yjj9H77xep5HpSSD2njPHe+M+yyXGg0O//ef+7+NtNs=;
- b=HM4JP4f5yirVUVTPhC/ZzTyKiZk0xoRyDzu14yUfusrARhhBZVhH3mQn
- C9WGBFIU2fJFBxYzTS+JDsC1aNKKlmzF/b1FuQrTi2AbO7tGgKTb38TEx
- ZhLaAgHPYq4fDoojmnjHlKigH7THolopHEdR5+hcidm8z868NmiuDn8qv
- RXwoGzkJuY1Ue84K8DdutmxgazfWz3K3zMt7NWkFGIwZtsynPNGPinGsc
- a/34jOFa5a4uE3/QQjdx2mKUKkQwfnaWGmF8RmPwbmENbRfVnxWHN4Al0
- iC4N3c3q9g1BauDp0i4x6fs1+VzZMWY4/yu0LxfperRSWe/3GVqjRz50+ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="237270097"
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="237270097"
+ bh=Ia1RLEcLi4M6HlOtdw3nwCdPHysOMehgnLcJCKW9ZXU=;
+ b=ZquHqW/bC4YmpwizS7vQ/+X3PrN8lylEEiRkMkZopuSTDEvvTJLqdJ2D
+ XC+VzFdraJ5RdX9Pqz0vw6Xc5e9IEaalU7ZdjNWGxbvHgQs3EY0Ca+B3B
+ e4Ut72MLPXndvT9NENUoQDdRBFaIzzHutNjEV6ZGdll313AjnCgnyqwjo
+ 2rE0MDyC1S70iU3JtzXGBrqqNVYi0e7hS3Um3Pk9ikUL+vnlez8AqKLQS
+ 9NEsEph4nv1YlP36+ff/fgLOKmx+VRiXUvwr5JEYt2xi8SwH0Bfxq4vD1
+ iYkmlvx/QsOtaUDk+Od/g1twSGWWRgLCnb4BTNycffODPeaOQH0KqoJRa Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="237270101"
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="237270101"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 13:42:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="559245069"
+ 19 Mar 2022 13:42:09 -0700
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="559245096"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 13:42:05 -0700
+ 19 Mar 2022 13:42:07 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 5/8] drm/i915/gt: Optimize the migration loop
-Date: Sun, 20 Mar 2022 02:12:26 +0530
-Message-Id: <20220319204229.9846-6-ramalingam.c@intel.com>
+Subject: [PATCH v4 6/8] drm/ttm: Add a parameter to add extra pages into ttm_tt
+Date: Sun, 20 Mar 2022 02:12:27 +0530
+Message-Id: <20220319204229.9846-7-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220319204229.9846-1-ramalingam.c@intel.com>
 References: <20220319204229.9846-1-ramalingam.c@intel.com>
@@ -56,87 +56,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the static calculations out of the loop.
+Add a parameter called "extra_pages" for ttm_tt_init, to indicate that
+driver needs extra pages in ttm_tt.
+
+v2:
+  Used imperative wording [Thomas and Christian]
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+cc: Christian Koenig <christian.koenig@amd.com>
+cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
+Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian Konig <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 34 ++++++++++++-------------
- 1 file changed, 16 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  2 +-
+ drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
+ drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
+ drivers/gpu/drm/ttm/ttm_tt.c               | 12 +++++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
+ include/drm/ttm/ttm_tt.h                   |  4 +++-
+ 7 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index bbfea570c239..b6c5a0102bc2 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -663,6 +663,7 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			   struct i915_request **out)
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index dc7f938bfff2..123045b58fec 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -867,7 +867,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	if (!tt)
+ 		return NULL;
+ 
+-	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
++	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
+ 	if (ret < 0)
+ 		goto err_ttm_tt_init;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index e4a06fcf741a..3b9f99c765c4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -290,7 +290,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+ 		i915_tt->is_shmem = true;
+ 	}
+ 
+-	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
++	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, 0);
+ 	if (ret)
+ 		goto err_free;
+ 
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index b2e33d5ba5d0..52156b54498f 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
+ 	if (ttm == NULL)
+ 		return NULL;
+-	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
++	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
+ 		kfree(ttm);
+ 		return NULL;
+ 	}
+diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+index 6ddc16f0fe2b..d27691f2e451 100644
+--- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
++++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+@@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
+ 	agp_be->mem = NULL;
+ 	agp_be->bridge = bridge;
+ 
+-	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
++	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
+ 		kfree(agp_be);
+ 		return NULL;
+ 	}
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index d234aab800a0..1a66d9fc589a 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ 			       struct ttm_buffer_object *bo,
+ 			       uint32_t page_flags,
+-			       enum ttm_caching caching)
++			       enum ttm_caching caching,
++			       unsigned long extra_pages)
  {
- 	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-+	u32 src_offset, dst_offset;
- 	struct i915_request *rq;
- 	int err;
+-	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
++	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
+ 	ttm->caching = ttm_cached;
+ 	ttm->page_flags = page_flags;
+ 	ttm->dma_address = NULL;
+@@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ }
  
-@@ -671,8 +672,20 @@ intel_context_migrate_copy(struct intel_context *ce,
+ int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+-		uint32_t page_flags, enum ttm_caching caching)
++		uint32_t page_flags, enum ttm_caching caching,
++		unsigned long extra_pages)
+ {
+-	ttm_tt_init_fields(ttm, bo, page_flags, caching);
++	ttm_tt_init_fields(ttm, bo, page_flags, caching, extra_pages);
  
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
+ 	if (ttm_tt_alloc_page_directory(ttm)) {
+ 		pr_err("Failed allocating page table\n");
+@@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+ {
+ 	int ret;
  
-+	src_offset = 0;
-+	dst_offset = CHUNK_SZ;
-+	if (HAS_64K_PAGES(ce->engine->i915)) {
-+		GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
-+
-+		src_offset = 0;
-+		dst_offset = 0;
-+		if (src_is_lmem)
-+			src_offset = CHUNK_SZ;
-+		if (dst_is_lmem)
-+			dst_offset = 2 * CHUNK_SZ;
-+	}
-+
- 	do {
--		u32 src_offset, dst_offset;
- 		int len;
+-	ttm_tt_init_fields(ttm, bo, page_flags, caching);
++	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
  
- 		rq = i915_request_create(ce);
-@@ -700,19 +713,6 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
+ 	if (page_flags & TTM_TT_FLAG_EXTERNAL)
+ 		ret = ttm_sg_tt_alloc_page_directory(ttm);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index b84ecc6d6611..4e3938e62c08 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
+ 				     ttm_cached);
+ 	else
+ 		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
+-				  ttm_cached);
++				  ttm_cached, 0);
+ 	if (unlikely(ret != 0))
+ 		goto out_no_init;
  
--		src_offset = 0;
--		dst_offset = CHUNK_SZ;
--		if (HAS_64K_PAGES(ce->engine->i915)) {
--			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
--
--			src_offset = 0;
--			dst_offset = 0;
--			if (src_is_lmem)
--				src_offset = CHUNK_SZ;
--			if (dst_is_lmem)
--				dst_offset = 2 * CHUNK_SZ;
--		}
--
- 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
- 			       src_offset, CHUNK_SZ);
- 		if (len <= 0) {
-@@ -722,12 +722,10 @@ intel_context_migrate_copy(struct intel_context *ce,
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index f20832139815..17a0310e8aaa 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
+  * @bo: The buffer object we create the ttm for.
+  * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
+  * @caching: the desired caching state of the pages
++ * @extra_pages: Extra pages needed for the driver.
+  *
+  * Create a struct ttm_tt to back data with system memory pages.
+  * No pages are actually allocated.
+@@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
+  * NULL: Out of memory.
+  */
+ int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+-		uint32_t page_flags, enum ttm_caching caching);
++		uint32_t page_flags, enum ttm_caching caching,
++		unsigned long extra_pages);
+ int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
+ 		   uint32_t page_flags, enum ttm_caching caching);
  
- 		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
- 			       dst_offset, len);
--		if (err < 0)
--			goto out_rq;
--		if (err < len) {
-+		if (err < len)
- 			err = -EINVAL;
-+		if (err < 0)
- 			goto out_rq;
--		}
- 
- 		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
- 		if (err)
 -- 
 2.20.1
 
