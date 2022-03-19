@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E941B4DE6C1
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 08:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607454DE76F
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 11:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0989110EE17;
-	Sat, 19 Mar 2022 07:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865E710F3C3;
+	Sat, 19 Mar 2022 10:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B4210EE17
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Mar 2022 07:31:53 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id l8so11426460pfu.1
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Mar 2022 00:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=QzDLV0cCeAb+rv+fxj0RGmela1ApQSWzei1cauVEwFA=;
- b=LEVXNTeZJJ80nn6qVqrPjCAcSkk/56tEmue/nPO2/9UaeSJgvFWzXfIFRecH5iE4E3
- WNUnWW2FcXS6nhGW7Qz0yr19v5QN36AmkPB/xP0YyNJFTL/LNX9OXsZHHzfjtXozSPHu
- 2rmlM7OOZD0bzRcGj+d0TSmQ9xZAMJyPvXgVmivjyNWZARh1l9uca/IA+QVR6Pr21xMw
- cr/rVjdkDM0PIP5m4rtUTDFQKYWxfqR5424AiBoIC5fmpk0Vw9KJkP0KIV92HQNhSzqI
- wfuEjNXXHmFnn1SHyvhh+zHf5Mzw3Yvb7j32ptAEfGJbB64TVCqp0RkQFFpJW9yutlW5
- 66Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=QzDLV0cCeAb+rv+fxj0RGmela1ApQSWzei1cauVEwFA=;
- b=Ub54JvCN1njzBMGhkFz5Y97W0IRQPpLjq74YL3ruEOSISAzoFUXAXKTN4Zb4r8bjxt
- AWHUbis/gkQs7UhNNLwXi5ravqqKROOt8xDVqG74s9oLNqRSSpCoMuiv2/ljkpy8CUYf
- VQPEPKa7v41dLAFUF09uS5vMlZuj7QIiXi7XONZdTb9cRoQiFU44zA3H3NUYk/elO396
- jNmw2omZJJbMzUuNUq2VGj6kC1/9+t1aWw0l9qohG/SxX8Z2tMFIOv+UR6HccVNBfL6/
- zDuJ3cj8yrk8C8daibrx+vL+xMVMRIJw2COIwUkPsgTuJLcqLXEfq6qoV7eTTAxMBA5T
- +T/g==
-X-Gm-Message-State: AOAM532Zx6spZA2ThcnwYQSpFsqfxaoJ31FhW5Zdo7+pkAzDkyaTPlYE
- 3gdsWnTk1zqT4vtJslTgz7c=
-X-Google-Smtp-Source: ABdhPJzdkru/fjwamVbwAzLqdlW6FlPJy3EfUcUF/R5TE/jyds0+NPhvAtL1tF5jNkXNCDVjjzP/2g==
-X-Received: by 2002:a05:6a00:24cd:b0:4f7:2340:a6cf with SMTP id
- d13-20020a056a0024cd00b004f72340a6cfmr13894631pfv.36.1647675112656; 
- Sat, 19 Mar 2022 00:31:52 -0700 (PDT)
-Received: from ubuntu.huawei.com ([119.3.119.18])
- by smtp.googlemail.com with ESMTPSA id
- s30-20020a056a001c5e00b004f73f27aa40sm11358882pfw.161.2022.03.19.00.31.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Mar 2022 00:31:52 -0700 (PDT)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: christian.koenig@amd.com, ray.huang@amd.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] ttm: remove check of list iterator against head outside the
- loop
-Date: Sat, 19 Mar 2022 15:31:43 +0800
-Message-Id: <20220319073143.30184-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8569210F3C3;
+ Sat, 19 Mar 2022 10:28:12 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4KLHCG2thjz9sSW;
+ Sat, 19 Mar 2022 11:28:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mm8j_WRInuZR; Sat, 19 Mar 2022 11:28:10 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4KLHCG1bXGz9sSP;
+ Sat, 19 Mar 2022 11:28:10 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 18F288B76C;
+ Sat, 19 Mar 2022 11:28:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id a17gy9YEoaHD; Sat, 19 Mar 2022 11:28:09 +0100 (CET)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.202.222])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id C04188B765;
+ Sat, 19 Mar 2022 11:28:09 +0100 (CET)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+ by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 22JARwNd456602
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Sat, 19 Mar 2022 11:27:58 +0100
+Received: (from chleroy@localhost)
+ by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 22JARuTD456594;
+ Sat, 19 Mar 2022 11:27:56 +0100
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to
+ christophe.leroy@csgroup.eu using -f
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/nouveau/bios: Rename prom_init() and friends functions
+Date: Sat, 19 Mar 2022 11:27:51 +0100
+Message-Id: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1647685669; l=3722; s=20211009;
+ h=from:subject:message-id; bh=y5DQYDGAWf+okMg9sN/L7lksMPfKpXX0wlcMvN+TCx8=;
+ b=BT0h00TI+fMGlEX6pCDLyjtx88LkgtnMe1L7kFbayDTiEZXd6XQy/COY5UB6n29i40apuruO6pqn
+ hs/Pbx4tCwp2V2DyWFRrCMSLctLldhri/vsSKggV7Xx2XGdvLBsE
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519;
+ pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,80 +69,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaomeng Tong <xiam0nd.tong@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When list_for_each_entry() completes the iteration over the whole list
-without breaking the loop, the iterator value will be a bogus pointer
-computed based on the head element.
+While working at fixing powerpc headers, I ended up with the
+following error.
 
-While it is safe to use the pointer to determine if it was computed
-based on the head element with &pos->member == head, using the iterator
-variable after the loop should be avoided.
+	drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c:48:1: error: conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *, const char *)'
+	make[5]: *** [scripts/Makefile.build:288: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
 
-In preparation to limiting the scope of a list iterator to the list
-traversal loop, use a dedicated pointer to point to the found element [1].
+powerpc and a few other architectures have a prom_init() global function.
+One day or another it will conflict with the one in shadowrom.c
 
-Link: https://lore.kernel.org/all/YhdfEIwI4EdtHdym@kroah.com/
+Those being static, they can easily be renamed. Do it.
 
-Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+While at it, also rename the ops structure as 'nvbios_prom' instead of
+'nvbios_rom' in order to make it clear that it refers to the
+NV_PROM device.
+
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+v2: using nvbios_prom prefix instead of nvbios_rom. Changed structure name to keep things consistant.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index db3dc7ef5382..413b5bbf2414 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -673,36 +673,36 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
- 			struct ww_acquire_ctx *ticket)
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h    |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c  |  2 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c   | 14 +++++++-------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+index fac1bff1311b..cfa8a0c356dd 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+@@ -19,7 +19,7 @@ struct nvbios_source {
+ int nvbios_extend(struct nvkm_bios *, u32 length);
+ int nvbios_shadow(struct nvkm_bios *);
+ 
+-extern const struct nvbios_source nvbios_rom;
++extern const struct nvbios_source nvbios_prom;
+ extern const struct nvbios_source nvbios_ramin;
+ extern const struct nvbios_source nvbios_acpi_fast;
+ extern const struct nvbios_source nvbios_acpi_slow;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+index 4b571cc6bc70..19188683c8fc 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+@@ -171,7 +171,7 @@ nvbios_shadow(struct nvkm_bios *bios)
+ 	struct shadow mthds[] = {
+ 		{ 0, &nvbios_of },
+ 		{ 0, &nvbios_ramin },
+-		{ 0, &nvbios_rom },
++		{ 0, &nvbios_prom },
+ 		{ 0, &nvbios_acpi_fast },
+ 		{ 4, &nvbios_acpi_slow },
+ 		{ 1, &nvbios_pcirom },
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+index ffa4b395220a..39144ceb117b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+@@ -25,7 +25,7 @@
+ #include <subdev/pci.h>
+ 
+ static u32
+-prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
++nvbios_prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
  {
- 	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
-+	struct ttm_buffer_object *iter;
- 	bool locked = false;
- 	unsigned i;
- 	int ret;
+ 	struct nvkm_device *device = data;
+ 	u32 i;
+@@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
+ }
  
- 	spin_lock(&bdev->lru_lock);
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
--		list_for_each_entry(bo, &man->lru[i], lru) {
-+		list_for_each_entry(iter, &man->lru[i], lru) {
- 			bool busy;
+ static void
+-prom_fini(void *data)
++nvbios_prom_fini(void *data)
+ {
+ 	struct nvkm_device *device = data;
+ 	nvkm_pci_rom_shadow(device->pci, true);
+ }
  
--			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
-+			if (!ttm_bo_evict_swapout_allowable(iter, ctx, place,
- 							    &locked, &busy)) {
- 				if (busy && !busy_bo && ticket !=
--				    dma_resv_locking_ctx(bo->base.resv))
--					busy_bo = bo;
-+				    dma_resv_locking_ctx(iter->base.resv))
-+					busy_bo = iter;
- 				continue;
- 			}
+ static void *
+-prom_init(struct nvkm_bios *bios, const char *name)
++nvbios_prom_init(struct nvkm_bios *bios, const char *name)
+ {
+ 	struct nvkm_device *device = bios->subdev.device;
+ 	if (device->card_type == NV_40 && device->chipset >= 0x4c)
+@@ -55,10 +55,10 @@ prom_init(struct nvkm_bios *bios, const char *name)
+ }
  
--			if (!ttm_bo_get_unless_zero(bo)) {
-+			if (!ttm_bo_get_unless_zero(iter)) {
- 				if (locked)
--					dma_resv_unlock(bo->base.resv);
-+					dma_resv_unlock(iter->base.resv);
- 				continue;
- 			}
-+
-+			bo = iter;
- 			break;
- 		}
- 
--		/* If the inner loop terminated early, we have our candidate */
--		if (&bo->lru != &man->lru[i])
-+		if (bo)
- 			break;
--
--		bo = NULL;
- 	}
- 
- 	if (!bo) {
+ const struct nvbios_source
+-nvbios_rom = {
++nvbios_prom = {
+ 	.name = "PROM",
+-	.init = prom_init,
+-	.fini = prom_fini,
+-	.read = prom_read,
++	.init = nvbios_prom_init,
++	.fini = nvbios_prom_fini,
++	.read = nvbios_prom_read,
+ 	.rw = false,
+ };
 -- 
-2.17.1
+2.35.1
 
