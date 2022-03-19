@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D4A4DEAB5
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 21:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487084DEAB6
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Mar 2022 21:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465EA10E63B;
-	Sat, 19 Mar 2022 20:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE9E10EC97;
+	Sat, 19 Mar 2022 20:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEDBD10E22C;
- Sat, 19 Mar 2022 20:41:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C1210E6DB;
+ Sat, 19 Mar 2022 20:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647722516; x=1679258516;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=t4c+yRgaotKssQlq7/FbcHF2Dfpe2A/FHgvMK1C0nD8=;
- b=nokno3IAjgyyJR+heY7FrOLM1D/E7fVJ+D7S2mss948ppW2oKmnq34BB
- QzSSN1m+9xRTXKsQAbr7UK6LBHaeMcSxII11Y8pdB8J/sGCglPwnHpszs
- P/mgwh40yJ7guIj6ScHheYyxwVm4qTXvWAglpqGJA6fYkIpZTBx/1cM20
- wQKRuqjz04XB1NxrBWol0pZJPKSevkByfXXvQa9ehW9Y2/s+ds7G+US4j
- N5TlLENk5Z3aTCgfLjJLqeyDug2ZefGUCKyRd+lQbBmZxIZXvzVtL6ugg
- acm9VjXPG9nkHl6fP8PhtnPVQeienD2pXa7RR+9oewOz5iZzvFjPBhDT2 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="237270082"
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="237270082"
+ t=1647722518; x=1679258518;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ov6Q1jWOlPThZlteD+DiyvAo7u/Yhrn7Oso3y7vEB08=;
+ b=khGT+xoOqnXUrehqKWWeBbtrgn7yCgYlzMs8MtlLk3eHcUVDLoYGlam0
+ KgUSWiKnFP5zBxrcbKg7gfRU7jvVh0VPyRgWx9pO6o97cjZ6Xv6Co3vV6
+ 5SE9evjWIJnBlGO2Vis/OXQdaooqajiCrq+AphPKSdlYfkmXw06tfJxSa
+ SMcCSDiHXNZhadGIEafC/jF/scVZlqHpYLEdMFsbJq48P+se/v0dsowWM
+ fKjmAUV4UUlkqsFhdfpdKZDuMR2W8NSrxnZYuFaKyBtMo3GW/vBUtwtq6
+ zBumtYA7qZ7QItZydlL44LfrHInoi3afC4cm098tilQbxTiRuevnBv6Ur w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="237270086"
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="237270086"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 13:41:56 -0700
-X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="559244950"
+ 19 Mar 2022 13:41:58 -0700
+X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; d="scan'208";a="559244969"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2022 13:41:54 -0700
+ 19 Mar 2022 13:41:56 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 0/8] drm/i915/ttm: Evict and restore of compressed object
-Date: Sun, 20 Mar 2022 02:12:21 +0530
-Message-Id: <20220319204229.9846-1-ramalingam.c@intel.com>
+Subject: [PATCH v4 1/8] drm/i915/gt: Use XY_FASR_COLOR_BLT to clear obj on
+ graphics ver 12+
+Date: Sun, 20 Mar 2022 02:12:22 +0530
+Message-Id: <20220319204229.9846-2-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220319204229.9846-1-ramalingam.c@intel.com>
+References: <20220319204229.9846-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,70 +62,104 @@ Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Xe-HP and later devices, we use dedicated compression control
-state (CCS) stored in local memory for each surface, to support
-the 3D and media compression formats.
+XY_FAST_COLOR_BLT cmd is faster than the older XY_COLOR_BLT. Hence for
+clearing (Zero out) the pages of the newly allocated object, faster cmd
+is used.
 
-The memory required for the CCS of the entire local memory is
-1/256 of the local memory size. So before the kernel
-boot, the required memory is reserved for the CCS data and a
-secure register will be programmed with the CCS base address
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  5 +++
+ drivers/gpu/drm/i915/gt/intel_migrate.c      | 43 +++++++++++++++++---
+ 2 files changed, 43 insertions(+), 5 deletions(-)
 
-So when we allocate a object in local memory we dont need to explicitly
-allocate the space for ccs data. But when we evict the obj into the smem
-to hold the compression related data along with the obj we need smem
-space of obj_size + (obj_size/256).
-
-Hence when we create smem for an obj with lmem placement possibility we
-create with the extra space.
-
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
-
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem.
-
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
-
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
-
-v4:
-  Inflate the ttm_tt only when the obj is lmem only.
-  Back to XY_CTRL_SURF_COPY_BLT to clear the ccs, as FAST_CLEAR_0
-							failed.
-  Add a selftest for testing the ccs clearing.
-
-Test-with: 20220314051432.15785-1-ramalingam.c@intel.com
-
-Ramalingam C (8):
-  drm/i915/gt: Use XY_FASR_COLOR_BLT to clear obj on graphics ver 12+
-  drm/i915/gt: Clear compress metadata for Flat-ccs objects
-  drm/i915/selftest_migrate: Consider the possible roundup of size
-  drm/i915/selftest_migrate: Check CCS meta data clear
-  drm/i915/gt: Optimize the migration loop
-  drm/ttm: Add a parameter to add extra pages into ttm_tt
-  drm/i915/gem: Add extra pages in ttm_tt for ccs data
-  drm/i915/migrate: Evict and restore the flatccs capable lmem obj
-
- drivers/gpu/drm/drm_gem_vram_helper.c        |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  29 +-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  20 +
- drivers/gpu/drm/i915/gt/intel_migrate.c      | 404 +++++++++++++++++--
- drivers/gpu/drm/i915/gt/selftest_migrate.c   | 277 +++++++++++--
- drivers/gpu/drm/qxl/qxl_ttm.c                |   2 +-
- drivers/gpu/drm/ttm/ttm_agp_backend.c        |   2 +-
- drivers/gpu/drm/ttm/ttm_tt.c                 |  12 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c   |   2 +-
- include/drm/ttm/ttm_tt.h                     |   4 +-
- 10 files changed, 688 insertions(+), 66 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index d112ffd56418..925e55b6a94f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -205,6 +205,11 @@
+ 
+ #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
+ #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
++#define XY_FAST_COLOR_BLT_CMD		(2 << 29 | 0x44 << 22)
++#define   XY_FAST_COLOR_BLT_DEPTH_32	(2 << 19)
++#define   XY_FAST_COLOR_BLT_DW		16
++#define   XY_FAST_COLOR_BLT_MOCS_MASK	GENMASK(27, 21)
++#define   XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT 31
+ #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
+ #define GEN9_XY_FAST_COPY_BLT_CMD	(2 << 29 | 0x42 << 22)
+ #define XY_SRC_COPY_BLT_CMD		(2 << 29 | 0x53 << 22)
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 20444d6ceb3c..73199ebf0671 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -614,20 +614,53 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	return err;
+ }
+ 
+-static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
++static int emit_clear(struct i915_request *rq, u64 offset, int size,
++		      u32 value, bool is_lmem)
+ {
+-	const int ver = GRAPHICS_VER(rq->engine->i915);
++	struct drm_i915_private *i915 = rq->engine->i915;
++	int mocs = rq->engine->gt->mocs.uc_index << 1;
++	const int ver = GRAPHICS_VER(i915);
++	int ring_sz;
+ 	u32 *cs;
+ 
+ 	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+ 
+ 	offset += (u64)rq->engine->instance << 32;
+ 
+-	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
++	if (ver >= 12)
++		ring_sz = 16;
++	else if (ver >= 8)
++		ring_sz = 8;
++	else
++		ring_sz = 6;
++
++	cs = intel_ring_begin(rq, ring_sz);
+ 	if (IS_ERR(cs))
+ 		return PTR_ERR(cs);
+ 
+-	if (ver >= 8) {
++	if (ver >= 12) {
++		*cs++ = XY_FAST_COLOR_BLT_CMD | XY_FAST_COLOR_BLT_DEPTH_32 |
++			(XY_FAST_COLOR_BLT_DW - 2);
++		*cs++ = FIELD_PREP(XY_FAST_COLOR_BLT_MOCS_MASK, mocs) |
++			(PAGE_SIZE - 1);
++		*cs++ = 0;
++		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
++		*cs++ = lower_32_bits(offset);
++		*cs++ = upper_32_bits(offset);
++		*cs++ = !is_lmem << XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT;
++		/* BG7 */
++		*cs++ = value;
++		*cs++ = 0;
++		*cs++ = 0;
++		*cs++ = 0;
++		/* BG11 */
++		*cs++ = 0;
++		*cs++ = 0;
++		/* BG13 */
++		*cs++ = 0;
++		*cs++ = 0;
++		*cs++ = 0;
++	} else if (ver >= 8) {
+ 		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
+ 		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+ 		*cs++ = 0;
+@@ -711,7 +744,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
+ 
+-		err = emit_clear(rq, offset, len, value);
++		err = emit_clear(rq, offset, len, value, is_lmem);
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
 -- 
 2.20.1
 
