@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41474E2746
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:12:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD154E2754
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80CE010E277;
-	Mon, 21 Mar 2022 13:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 636AE10E29B;
+	Mon, 21 Mar 2022 13:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D59D10E277
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 13:12:23 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id d76so966233pga.8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 06:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mEohOEa4Z3YAP5XexYCCbZz+gLzcw6SRQ1GP+Rej68Q=;
- b=MzB/0uANJBEzKT8Jth8tKtlNHY6ErC3WAqCY4nic7AOcrIarxPW3B/FVaYLwM7AJAx
- 0daY0el8h98WxxSC2GwjQZiBP/pafbjJKOSLUxBa/ICHoNKAfCFqGr+uPvXPNq0erid2
- KmvBkXYJF7LLigcU4Tbq+isEYa2X8qExugiHx68fZSCZHR07+dyLKqLeskza+4PmOsCo
- MEPTy8UnNdpZtNt1Jvc2KNzOOBZEbDmjBrWQ8ee42J1s8y6ADeh/nY3CoJOQ4IDRk35K
- nmZGu4IEloLqCTzZaGAYtg0+Mebv5dkm+TvchRN9rdKGg0CKagO42SFEeBApblNE4cO5
- 178w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mEohOEa4Z3YAP5XexYCCbZz+gLzcw6SRQ1GP+Rej68Q=;
- b=zWvhpMCuILBoFNJ79AyXgk6qgxpcQmcF7+Enz6T+sKewpr64Kq2Dd/LhNNpENC9Oer
- bb8lsD99H8DlxNtrHF4q8ltnENFvrzZOc4Xz4urPukol7/7+bu0phIRqiSKgOs6nVliV
- RY3osFNT+3bQKflXLBHu8XK8wR24qMEc1+7tA8X5SoIFoXSG/Ceo8M7q1cpXWnrN5L4y
- zk9MK3xNw8zQ8bMCsGFynet9fufTUH/adgLcScCZwo1IEZyagqAe5c0AU9uREWhEPKH2
- n/7292NPrI0Q+IyMA3hDorHhd+EBdQyYehgUZmDZD3LLMlvMmdf045FDxYl0+b1zexbB
- ehLA==
-X-Gm-Message-State: AOAM532m22EXnmcxhEN2ifJXFxttOudIaw/brPz88/yb6XB2F/iUQ1Ys
- 15pSpaMQH1UKB5WsyW6YaUduWJcutVSfkV9HmYA=
-X-Google-Smtp-Source: ABdhPJwl8G9oRmj3N217o3SVJs7VpI4fVP6vZmjtJfii7jsKzpcDrZ+TUHrJHmClEgK6jTrHv6jwZwMlKwwfvAVdCog=
-X-Received: by 2002:a05:6a00:23d1:b0:4f7:109d:a1c1 with SMTP id
- g17-20020a056a0023d100b004f7109da1c1mr24145314pfc.2.1647868342518; Mon, 21
- Mar 2022 06:12:22 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5685410E29B;
+ Mon, 21 Mar 2022 13:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647868604; x=1679404604;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PdgFb3ljsiYixh1Ge3PiEXAMmaOtjDjNLFoIzdeUCfE=;
+ b=gui2txTTsLNLz7GpEMhOIJX08Asl7uasRTo6KnHwn3MOy2XK4C8SIrB/
+ 0stOw8vj+msqXgqKP++mqv7+mcCyhQe23HXCOXfmFiQ5BqrsQgm+pqBys
+ JlZV1F3l8mKXRTKCSJHcOMh0HBpQOZA6uBb80IH8Np5LhIkhtiHEHJ8Ks
+ j72H093s7UKmgXFUcgxx4/eA8SF1E79dR9Q3DTMQMBt/tiGfHK85aQsTg
+ qaFORKzinH2hhi+a0kpNEBXFywhz9swnq9PucfkDonIsXb6NX2hFy/3Kn
+ oI0JVJpv7LzHnXGYgiKJseM79oZNvRQEbwi6ZeGqPzrouL/Of/ZwPaV7H A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="238153031"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="238153031"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 06:12:53 -0700
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="559864553"
+Received: from atnordon-mobl1.ger.corp.intel.com (HELO [10.213.230.67])
+ ([10.213.230.67])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 06:12:50 -0700
+Message-ID: <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
+Date: Mon, 21 Mar 2022 13:12:47 +0000
 MIME-Version: 1.0
-References: <20220301153122.20660-1-cbranchereau@gmail.com>
- <20220301153122.20660-4-cbranchereau@gmail.com>
- <VM548R.0I9BAN681OS83@crapouillou.net>
- <CAFsFa85Wb7HcxCqGCYQoSOHOTLJY9xtUHc85PoxO3XTbr=HN4g@mail.gmail.com>
- <736R8R.46MVQ2VHV6IY1@crapouillou.net>
-In-Reply-To: <736R8R.46MVQ2VHV6IY1@crapouillou.net>
-From: Christophe Branchereau <cbranchereau@gmail.com>
-Date: Mon, 21 Mar 2022 14:12:10 +0100
-Message-ID: <CAFsFa87U2REBB=W6c4yy5Y3u1nmPHoKY3_vn31tkM+7PZt1Omw@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] drm/panel : innolux-ej030na and abt-y030xx067a :
- add .enable and .disable
-To: Paul Cercueil <paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
+ <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
+ <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
+ <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,198 +65,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
+ lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul, yes that works fine, thanks for checking it out
 
-On Mon, Mar 14, 2022 at 9:54 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Hi Christophe,
->
-> Le lun., mars 7 2022 at 19:12:49 +0100, Christophe Branchereau
-> <cbranchereau@gmail.com> a =C3=A9crit :
-> > Hi Paul, it should in theory, but doesn't work in practice, the
-> > display doesn't like having that bit set outside of the init sequence.
-> >
-> > Feel free to experiment if you think you can make it work though, you
-> > should have that panel on 1 or 2 devices I think.
->
-> It does actually work in practice; what probably fails for you is the
-> regmap_set_bits(), which causes a spi-read-then-write. Since AFAIK it
-> is not possible to read registers from this panel (only write), then
-> this does not work.
->
-> An easy fix would be to just use REGCACHE_FLAT as the cache type in the
-> regmap_config. Then regmap_set_bits() can be used.
->
-> Cheers,
-> -Paul
->
-> >
-> > KR
-> > CB
-> >
-> > On Wed, Mar 2, 2022 at 12:22 PM Paul Cercueil <paul@crapouillou.net>
-> > wrote:
-> >>
-> >>  Hi Christophe,
-> >>
-> >>  Le mar., mars 1 2022 at 16:31:22 +0100, Christophe Branchereau
-> >>  <cbranchereau@gmail.com> a =C3=A9crit :
-> >>  > Following the introduction of bridge_atomic_enable in the ingenic
-> >>  > drm driver, the crtc is enabled between .prepare and .enable, if
-> >>  > it exists.
-> >>  >
-> >>  > Add it so the backlight is only enabled after the crtc is, to
-> >> avoid
-> >>  > graphical issues.
-> >>  >
-> >>  > Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-> >>  > ---
-> >>  >  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 23 ++++++++++++--
-> >>  >  drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31
-> >>  > ++++++++++++++++---
-> >>  >  2 files changed, 48 insertions(+), 6 deletions(-)
-> >>  >
-> >>  > diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> >>  > b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> >>  > index f043b484055b..b5736344e3ec 100644
-> >>  > --- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> >>  > +++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> >>  > @@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel
-> >>  > *panel)
-> >>  >               goto err_disable_regulator;
-> >>  >       }
-> >>  >
-> >>  > -     msleep(120);
-> >>  > -
-> >>  >       return 0;
-> >>  >
-> >>  >  err_disable_regulator:
-> >>  > @@ -202,6 +200,25 @@ static int y030xx067a_unprepare(struct
-> >> drm_panel
-> >>  > *panel)
-> >>  >       return 0;
-> >>  >  }
-> >>  >
-> >>  > +static int y030xx067a_enable(struct drm_panel *panel)
-> >>  > +{
-> >>  > +     if (panel->backlight) {
-> >>  > +             /* Wait for the picture to be ready before enabling
-> >> backlight */
-> >>  > +             msleep(120);
-> >>  > +     }
-> >>  > +
-> >>  > +     return 0;
-> >>  > +}
-> >>  > +
-> >>  > +static int y030xx067a_disable(struct drm_panel *panel)
-> >>  > +{
-> >>  > +     struct y030xx067a *priv =3D to_y030xx067a(panel);
-> >>  > +
-> >>  > +     regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
-> >>
-> >>  Shouldn't that be balanced by a regmap_set_bits() in the .enable()
-> >>  function?
-> >>
-> >>  Cheers,
-> >>  -Paul
-> >>
-> >>  > +
-> >>  > +     return 0;
-> >>  > +}
-> >>  > +
-> >>  >  static int y030xx067a_get_modes(struct drm_panel *panel,
-> >>  >                               struct drm_connector *connector)
-> >>  >  {
-> >>  > @@ -239,6 +256,8 @@ static int y030xx067a_get_modes(struct
-> >> drm_panel
-> >>  > *panel,
-> >>  >  static const struct drm_panel_funcs y030xx067a_funcs =3D {
-> >>  >       .prepare        =3D y030xx067a_prepare,
-> >>  >       .unprepare      =3D y030xx067a_unprepare,
-> >>  > +     .enable         =3D y030xx067a_enable,
-> >>  > +     .disable        =3D y030xx067a_disable,
-> >>  >       .get_modes      =3D y030xx067a_get_modes,
-> >>  >  };
-> >>  >
-> >>  > diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> >>  > b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> >>  > index c558de3f99be..6de7370185cd 100644
-> >>  > --- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> >>  > +++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> >>  > @@ -80,8 +80,6 @@ static const struct reg_sequence
-> >>  > ej030na_init_sequence[] =3D {
-> >>  >       { 0x47, 0x08 },
-> >>  >       { 0x48, 0x0f },
-> >>  >       { 0x49, 0x0f },
-> >>  > -
-> >>  > -     { 0x2b, 0x01 },
-> >>  >  };
-> >>  >
-> >>  >  static int ej030na_prepare(struct drm_panel *panel)
-> >>  > @@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel
-> >>  > *panel)
-> >>  >               goto err_disable_regulator;
-> >>  >       }
-> >>  >
-> >>  > -     msleep(120);
-> >>  > -
-> >>  >       return 0;
-> >>  >
-> >>  >  err_disable_regulator:
-> >>  > @@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel
-> >>  > *panel)
-> >>  >       return 0;
-> >>  >  }
-> >>  >
-> >>  > +static int ej030na_enable(struct drm_panel *panel)
-> >>  > +{
-> >>  > +     struct ej030na *priv =3D to_ej030na(panel);
-> >>  > +
-> >>  > +     /* standby off */
-> >>  > +     regmap_write(priv->map, 0x2b, 0x01);
-> >>  > +
-> >>  > +     if (panel->backlight) {
-> >>  > +             /* Wait for the picture to be ready before enabling
-> >> backlight */
-> >>  > +             msleep(120);
-> >>  > +     }
-> >>  > +
-> >>  > +     return 0;
-> >>  > +}
-> >>  > +
-> >>  > +static int ej030na_disable(struct drm_panel *panel)
-> >>  > +{
-> >>  > +     struct ej030na *priv =3D to_ej030na(panel);
-> >>  > +
-> >>  > +     /* standby on */
-> >>  > +     regmap_write(priv->map, 0x2b, 0x00);
-> >>  > +
-> >>  > +     return 0;
-> >>  > +}
-> >>  > +
-> >>  >  static int ej030na_get_modes(struct drm_panel *panel,
-> >>  >                            struct drm_connector *connector)
-> >>  >  {
-> >>  > @@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel
-> >>  > *panel,
-> >>  >  static const struct drm_panel_funcs ej030na_funcs =3D {
-> >>  >       .prepare        =3D ej030na_prepare,
-> >>  >       .unprepare      =3D ej030na_unprepare,
-> >>  > +     .enable         =3D ej030na_enable,
-> >>  > +     .disable        =3D ej030na_disable,
-> >>  >       .get_modes      =3D ej030na_get_modes,
-> >>  >  };
-> >>  >
-> >>  > --
-> >>  > 2.34.1
-> >>  >
-> >>
-> >>
->
->
+On 21/03/2022 12:33, Thomas Hellström wrote:
+> On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin wrote:
+>>
+>> On 21/03/2022 11:03, Thomas Hellström wrote:
+>>> Hi, Tvrtko.
+>>>
+>>> On 3/21/22 11:27, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 19/03/2022 19:42, Michael Cheng wrote:
+>>>>> To align with the discussion in [1][2], this patch series drops
+>>>>> all
+>>>>> usage of
+>>>>> wbvind_on_all_cpus within i915 by either replacing the call
+>>>>> with certain
+>>>>> drm clflush helpers, or reverting to a previous logic.
+>>>>
+>>>> AFAIU, complaint from [1] was that it is wrong to provide non x86
+>>>> implementations under the wbinvd_on_all_cpus name. Instead an
+>>>> arch
+>>>> agnostic helper which achieves the same effect could be created.
+>>>> Does
+>>>> Arm have such concept?
+>>>
+>>> I also understand Linus' email like we shouldn't leak incoherent IO
+>>> to
+>>> other architectures, meaning any remaining wbinvd()s should be X86
+>>> only.
+>>
+>> The last part is completely obvious since it is a x86 instruction
+>> name.
+> 
+> Yeah, I meant the function implementing wbinvd() semantics.
+> 
+>>
+>> But I think we can't pick a solution until we know how the concept
+>> maps
+>> to Arm and that will also include seeing how the drm_clflush_sg for
+>> Arm
+>> would look. Is there a range based solution, or just a big hammer
+>> there.
+>> If the latter, then it is no good to churn all these reverts but
+>> instead
+>> an arch agnostic wrapper, with a generic name, would be the way to
+>> go.
+> 
+> But my impression was that ARM would not need the range-based interface
+> either, because ARM is only for discrete and with discrete we're always
+> coherent.
+
+Not sure what you mean here - what about flushing system memory objects 
+on discrete? Those still need flushing on paths like suspend which this 
+series touches. Am I missing something?
+
+If I am not, then that means we either keep the current, presumably 
+optimised (wasn't personally involved so I don't know), flush once code 
+paths and add a wrapper i915_flush_caches/whatever, or convert all those 
+back into piece-meal flushes so range flushing can be done. Assuming Arm 
+does range flushing. That's why I asked what does Arm have here.
+
+> So in essence it all would become:
+> 
+> 1) Any cache flushing intended for incoherent IO is x86 only.
+> 2) Prefer range-based flushing if possible and any implications sorted
+> out.
+
+Yes, the question is how to do it.
+
+Regards,
+
+Tvrtko
