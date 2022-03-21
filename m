@@ -1,71 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400444E2A44
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:15:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5FB4E2A5A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04DFA10E337;
-	Mon, 21 Mar 2022 14:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D4510E2CF;
+	Mon, 21 Mar 2022 14:21:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00ACB10E361
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:15:29 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id q8so9529162wrc.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 07:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3LGCCJx6wAjQY2VttL5q4VtJQ3mq5u0TMgNggjX0a1g=;
- b=GHzhEIPbeZiX9JufZAlC0WrQxeA7yPxZG9Z05ioMPOtVUdWhhcYcCSXxTNX0vtkFX9
- llgW0swP3cht3EeVaODCxO1SKOAPT5sAM9xuPbdZ6EjYJ5R4IdxVmYfy1gZkJ4IKtZTy
- yVMxbZuTwfM7i9wrArqDPmf5t5/LkAEbg5OW4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3LGCCJx6wAjQY2VttL5q4VtJQ3mq5u0TMgNggjX0a1g=;
- b=XFoSI5IDTV4fPYKsUxx0eotl+dPHJ+ijd1KYO2Mme9vtyipOlJf8kMNCQQViWm/q7v
- 3jpkghyTRHB1dTYK88Qp3IXzEAIUz03BZdRLWH1NRHCLopEYXqauQQnuAEeFxUuhPY2h
- iJCU/83tRY1rYlzgDQajDih+8HC9G2Ty1qlS3umrxW4yJ9VeMa4sxBUzVrIN8HHmzGUA
- kGCFz0JfNMTsgJDxafbfOAFCE9wffO8se1a3mFa461v/C6P8ZPP5Tl7JH5LqJehIxgkg
- fZEicDvpME59ejcRDVJvywDQ8hghze0xXaxrthfvq8Kt2hxNFdvemqvu329ItIBTwH0U
- xvZg==
-X-Gm-Message-State: AOAM5304p1X0tD+1qfs56WWitNQQIeLFNWXU/OIFVY5xXLxiBpYiDEJd
- hOyF7br6P6u4SgJYYRZ+yc1YblG6jI40/biP
-X-Google-Smtp-Source: ABdhPJwfS5a0DvVbMY2xlo3RDr89udt1Kv5Op6mlPpfyf+TzQI1P5aO1ryS7sJOJkPr3S4UfOHopzQ==
-X-Received: by 2002:adf:f343:0:b0:203:ee8e:7585 with SMTP id
- e3-20020adff343000000b00203ee8e7585mr15658680wrp.107.1647872128324; 
- Mon, 21 Mar 2022 07:15:28 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a7bcb84000000b00389efb7a5b4sm13768934wmi.17.2022.03.21.07.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 07:15:27 -0700 (PDT)
-Date: Mon, 21 Mar 2022 15:15:25 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-Message-ID: <YjiIfVuzMeOiUVtU@phenom.ffwll.local>
-References: <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
- <YjL/k6kh+5RihGIV@phenom.ffwll.local>
- <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
- <YjNvYmcuDKiIneDx@phenom.ffwll.local>
- <CAF6AEGvuMfKtf_aweai6y4oHghArE95uhR2X0f9h_9w4Bk_6VQ@mail.gmail.com>
- <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
- <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B68B10E2CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1647872486; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OrL7JO2qfltrw/AE5sARmYQoFlwPHN9MKzIkP6MbteQ=;
+ b=FiO5IEc4KUCJur80gcUWfmv9JtIlEXAhMwSjf7MpfcFBkIeW11dfIFh8/QAASUWOYaWH/H
+ dJljtTifWLI/szjjcBPbBgjgZOrUhotfeROesy0QAuAZNHargCrwPPDtNr8u7CdNEd1YHl
+ bFU2t86NDxH/Zr3wddrLz1pLt3Se/Rw=
+Date: Mon, 21 Mar 2022 14:21:16 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v5 3/3] drm/panel : innolux-ej030na and abt-y030xx067a :
+ add .enable and .disable
+To: Christophe Branchereau <cbranchereau@gmail.com>
+Message-Id: <GJM39R.I3L8ZIKHOJ252@crapouillou.net>
+In-Reply-To: <20220321133651.291592-4-cbranchereau@gmail.com>
+References: <20220321133651.291592-1-cbranchereau@gmail.com>
+ <20220321133651.291592-4-cbranchereau@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,114 +46,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 18, 2022 at 08:12:54AM -0700, Rob Clark wrote:
-> On Fri, Mar 18, 2022 at 12:42 AM Christian König
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 17.03.22 um 18:31 schrieb Rob Clark:
-> > > On Thu, Mar 17, 2022 at 10:27 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >> [SNIP]
-> > >>> (At some point, I'd like to use scheduler for the replay, and actually
-> > >>> use drm_sched_stop()/etc.. but last time I looked there were still
-> > >>> some sched bugs in that area which prevented me from deleting a bunch
-> > >>> of code ;-))
-> > >> Not sure about your hw, but at least on intel replaying tends to just
-> > >> result in follow-on fun. And that holds even more so the more complex a
-> > >> workload is. This is why vk just dies immediately and does not try to
-> > >> replay anything, offloading it to the app. Same with arb robusteness.
-> > >> Afaik it's really only media and classic gl which insist that the driver
-> > >> stack somehow recover.
-> > > At least for us, each submit must be self-contained (ie. not rely on
-> > > previous GPU hw state), so in practice replay works out pretty well.
-> > > The worst case is subsequent submits from same process fail as well
-> > > (if they depended on something that crashing submit failed to write
-> > > back to memory.. but in that case they just crash as well and we move
-> > > on to the next one.. the recent gens (a5xx+ at least) are pretty good
-> > > about quickly detecting problems and giving us an error irq.
-> >
-> > Well I absolutely agree with Daniel.
-> >
-> > The whole replay thing AMD did in the scheduler is an absolutely mess
-> > and should probably be killed with fire.
-> >
-> > I strongly recommend not to do the same mistake in other drivers.
-> >
-> > If you want to have some replay feature then please make it driver
-> > specific and don't use anything from the infrastructure in the DRM
-> > scheduler.
-> 
-> hmm, perhaps I was not clear, but I'm only talking about re-emitting
-> jobs *following* the faulting one (which could be from other contexts,
-> etc).. not trying to restart the faulting job.
+Hi Christophe,
 
-You absolutely can drop jobs on the floor, this is what both anv and iris
-expect. They use what we call non-recoverable context, meaning when any
-gpu hang happens and the context is affect (whether as the guilty on, or
-because it was a multi-engine reset and it was victimized) we kill it
-entirely. No replaying, and any further execbuf ioctl fails with -EIO.
+Le lun., mars 21 2022 at 14:36:51 +0100, Christophe Branchereau=20
+<cbranchereau@gmail.com> a =E9crit :
+> Following the introduction of bridge_atomic_enable in the ingenic
+> drm driver, the crtc is enabled between .prepare and .enable, if
+> it exists.
+>=20
+> Add it so the backlight is only enabled after the crtc is, to avoid
+> graphical issues.
+>=20
+> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
 
-Userspace then gets to sort out the mess, which for vk is
-VK_ERROR_DEVICE_LOST, for robust gl it's the same, and for non-robust gl
-iris re-creates a pile of things.
+Didn't Sam acked it?
 
-Anything in-between _is_ dropped on the floor completely.
+> ---
+>  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 31=20
+> +++++++++++++++++--
+>  drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31=20
+> ++++++++++++++++---
+>  2 files changed, 55 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c=20
+> b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> index f043b484055b..ddfacaeac1d4 100644
+> --- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> +++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+> @@ -140,7 +140,7 @@ static const struct reg_sequence=20
+> y030xx067a_init_sequence[] =3D {
+>  	{ 0x03, REG03_VPOSITION(0x0a) },
+>  	{ 0x04, REG04_HPOSITION1(0xd2) },
+>  	{ 0x05, REG05_CLIP | REG05_NVM_VREFRESH | REG05_SLBRCHARGE(0x2) },
+> -	{ 0x06, REG06_XPSAVE | REG06_NT },
+> +	{ 0x06, REG06_NT },
+>  	{ 0x07, 0 },
+>  	{ 0x08, REG08_PANEL(0x1) | REG08_CLOCK_DIV(0x2) },
+>  	{ 0x09, REG09_SUB_BRIGHT_R(0x20) },
+> @@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel=20
+> *panel)
+>  		goto err_disable_regulator;
+>  	}
+>=20
+> -	msleep(120);
+> -
+>  	return 0;
+>=20
+>  err_disable_regulator:
+> @@ -202,6 +200,30 @@ static int y030xx067a_unprepare(struct drm_panel=20
+> *panel)
+>  	return 0;
+>  }
+>=20
+> +static int y030xx067a_enable(struct drm_panel *panel)
+> +{
+> +
+> +	struct y030xx067a *priv =3D to_y030xx067a(panel);
+> +
+> +	regmap_set_bits(priv->map, 0x06, REG06_XPSAVE);
+> +
+> +	if (panel->backlight) {
+> +		/* Wait for the picture to be ready before enabling backlight */
+> +		msleep(120);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int y030xx067a_disable(struct drm_panel *panel)
+> +{
+> +	struct y030xx067a *priv =3D to_y030xx067a(panel);
+> +
+> +	regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
+> +
+> +	return 0;
+> +}
+> +
+>  static int y030xx067a_get_modes(struct drm_panel *panel,
+>  				struct drm_connector *connector)
+>  {
+> @@ -239,6 +261,8 @@ static int y030xx067a_get_modes(struct drm_panel=20
+> *panel,
+>  static const struct drm_panel_funcs y030xx067a_funcs =3D {
+>  	.prepare	=3D y030xx067a_prepare,
+>  	.unprepare	=3D y030xx067a_unprepare,
+> +	.enable		=3D y030xx067a_enable,
+> +	.disable	=3D y030xx067a_disable,
+>  	.get_modes	=3D y030xx067a_get_modes,
+>  };
+>=20
+> @@ -246,6 +270,7 @@ static const struct regmap_config=20
+> y030xx067a_regmap_config =3D {
+>  	.reg_bits =3D 8,
+>  	.val_bits =3D 8,
+>  	.max_register =3D 0x15,
+> +	.cache_type =3D REGCACHE_FLAT,
 
-Also note that this is obviously uapi, if you have an userspace which
-expect contexts to survive, then replaying makes some sense.
+I understand that this is added because the panel registers are=20
+write-only and read as zero, and it is needed for=20
+regmap_{clear,set}_bits to work.
 
-> You *absolutely* need to replay jobs following the faulting one, they
-> could be from unrelated contexts/processes.  You can't just drop them
-> on the floor.
-> 
-> Currently it is all driver specific, but I wanted to delete a lot of
-> code and move to using scheduler to handle faults/timeouts (but
-> blocked on that until [1] is resolved)
+This information should definitely be added to the commit message.
 
-Yeah for the drivers where the uapi is "you can safely replay after a
-hang, and you're supposed to", then sharing the code is ofc a good idea.
+If you can add it inline here, and I'll update the commit message when=20
+applying the patch.
 
-Just wanted to make it clear that this is only one of many uapi flavours
-you can pick from, dropping it all on the floor is a perfectly legit
-approach :-) And imo it's the more robust one, and also better fits with
-latest apis like gl_arb_robustness or vk.
+Cheers,
+-Paul
 
-Cheers, Daniel
+>  };
+>=20
+>  static int y030xx067a_probe(struct spi_device *spi)
+> diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c=20
+> b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> index c558de3f99be..6de7370185cd 100644
+> --- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> +++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+> @@ -80,8 +80,6 @@ static const struct reg_sequence=20
+> ej030na_init_sequence[] =3D {
+>  	{ 0x47, 0x08 },
+>  	{ 0x48, 0x0f },
+>  	{ 0x49, 0x0f },
+> -
+> -	{ 0x2b, 0x01 },
+>  };
+>=20
+>  static int ej030na_prepare(struct drm_panel *panel)
+> @@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel=20
+> *panel)
+>  		goto err_disable_regulator;
+>  	}
+>=20
+> -	msleep(120);
+> -
+>  	return 0;
+>=20
+>  err_disable_regulator:
+> @@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel=20
+> *panel)
+>  	return 0;
+>  }
+>=20
+> +static int ej030na_enable(struct drm_panel *panel)
+> +{
+> +	struct ej030na *priv =3D to_ej030na(panel);
+> +
+> +	/* standby off */
+> +	regmap_write(priv->map, 0x2b, 0x01);
+> +
+> +	if (panel->backlight) {
+> +		/* Wait for the picture to be ready before enabling backlight */
+> +		msleep(120);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ej030na_disable(struct drm_panel *panel)
+> +{
+> +	struct ej030na *priv =3D to_ej030na(panel);
+> +
+> +	/* standby on */
+> +	regmap_write(priv->map, 0x2b, 0x00);
+> +
+> +	return 0;
+> +}
+> +
+>  static int ej030na_get_modes(struct drm_panel *panel,
+>  			     struct drm_connector *connector)
+>  {
+> @@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel=20
+> *panel,
+>  static const struct drm_panel_funcs ej030na_funcs =3D {
+>  	.prepare	=3D ej030na_prepare,
+>  	.unprepare	=3D ej030na_unprepare,
+> +	.enable		=3D ej030na_enable,
+> +	.disable	=3D ej030na_disable,
+>  	.get_modes	=3D ej030na_get_modes,
+>  };
+>=20
+> --
+> 2.35.1
+>=20
 
 
-> 
-> [1] https://patchwork.kernel.org/project/dri-devel/patch/1630457207-13107-2-git-send-email-Monk.Liu@amd.com/
-> 
-> BR,
-> -R
-> 
-> > Thanks,
-> > Christian.
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > >> And recovering from a mess in userspace is a lot simpler than trying to
-> > >> pull of the same magic in the kernel. Plus it also helps with a few of the
-> > >> dma_fence rules, which is a nice bonus.
-> > >> -Daniel
-> > >>
-> >
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
