@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA1C4E2752
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE32F4E2764
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C1B10E216;
-	Mon, 21 Mar 2022 13:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF9010E031;
+	Mon, 21 Mar 2022 13:20:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E48410E216
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 13:15:03 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id z16so15416316pfh.3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 06:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bc65kRQUeJDLmBvhWIilY/jRe75BaYv0Q7RRiLNjU/Q=;
- b=oo63Sa3RN6agCaactq1AB9oM9aVtYpTNevXI8E0XdErCqyiJjZipIp3A5O9Ci0zewB
- H7t+8m5fR5ost4IHh+sneMRkssi700iDzp/Tv2ANGrYNp3ttXnWtB9EQRJeYIBsBN6yk
- Qs5ZLwxWMz+xc8lc46tf2xw1aOMuC1KVAfhVRA0wyLr9Xl0tc76WWtipnx2PYENkW1mV
- TqNoqcx3fUFOxW94mkE6ItT15kfIJjAB799CN83i+gQS9GC+wHd2dQ2q2vgcMhkO7znY
- cMryeoxkqq8VAQu9T6DU3ScyGXoiu4UTFkC8hz4nP8yLGgKpfwWz4yH/n+mL5xHSQJWQ
- vvHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bc65kRQUeJDLmBvhWIilY/jRe75BaYv0Q7RRiLNjU/Q=;
- b=UQEaJwx6hUQz1gZA3c0sff5pLMqIVuOoQK5taALciX+6JY0KUEwwtLN/Su4UShESNl
- 2GcVObdTvpmn1CucRxBxE041G2B4xw8S00p61Xkkfb6kVmLZJGa4t0Bv58FzV918Z8eW
- mngYeqN/WSTAi1EXrUGGnvFITM4By3n5YSUOeSSf3O7ZCv+P7X8zWOLyjIgP3MfC4juY
- YuweQPchF2Ain8KrornFKFF7ZvKcgf/QgD/PZIVs2gosnCp+2ywtJo/xLSJzXVq16GhT
- 0F+XDalcnBn4wIVxRGraOZGyzRXkz0lSP0MSj12M4vkyvmg5o+29BlyeCvu56CkEI14U
- l4oQ==
-X-Gm-Message-State: AOAM5308Vf9DF93nddJyrDBc580vloD4DKyh+vaonvjAHMWAiEmCrSoz
- C2YZQHFgtjzGu1gSWlAYr8cDffw/u9DKSZqeYoE=
-X-Google-Smtp-Source: ABdhPJzthElm6vYZJ5jwu52JKHtJzy+ZAxCazgmoJQD2gjINuic1cq43EvYVjyyECCs0YqHSCG6uw5nyBfpEHKaBtDw=
-X-Received: by 2002:a05:6a00:1248:b0:4f7:db0:4204 with SMTP id
- u8-20020a056a00124800b004f70db04204mr23486960pfi.27.1647868502680; Mon, 21
- Mar 2022 06:15:02 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E081310E031;
+ Mon, 21 Mar 2022 13:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647868815; x=1679404815;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GRTmvHe33sEXipvOJ3ZXsH3q8f3IUJx4O39PlJh6kp4=;
+ b=GsnRzl2kEa19e0K4JpnsQM26x0cuTJOhl8pI4uK8GIqcuForsapXbju+
+ tBZzlIeSXwGkJSgpwTrj1a2SoCVjXOzHFhCCvCnptGGjq4WKQ0Yz5Zb1n
+ Ux8fO575iqXmKK+zXGNOmX4dohqHeTnF6ntl1OeheCWB8vpvHDAKX2Pis
+ 0zCk+n2a93tv5GAZsGHSdfUOrZ8Inngjb6G3yhFfRdrU7BJPKTCioWyDp
+ raITFeX39fh90NGKVguHhWnoKt7LTFHup1SmLShNMi3JsMawG8fhxVHHI
+ kPYIdV/EbmZEGO0BYUb3YhmoZo8bmwB3gZ1F5OJYjVc6v0I2aenKfZz+I w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257499152"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="257499152"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 06:20:15 -0700
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="543220778"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 06:20:13 -0700
+Date: Mon, 21 Mar 2022 15:20:09 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Nanley G Chery <nanley.g.chery@intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+ modifier for DG2 clear color
+Message-ID: <20220321132009.GB5666@ideak-desk.fi.intel.com>
+References: <20220201104132.3050-1-ramalingam.c@intel.com>
+ <20220201104132.3050-17-ramalingam.c@intel.com>
+ <CAJDL4u+hX2Dbu7q5P48t44XLSOr7vA9mf_jiC607oA1Y6+2k6Q@mail.gmail.com>
+ <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
+ <dc66535e7a5d4a9dae25a9548f333385@intel.com>
+ <3e514431-ab0d-a455-871d-b7c9b183a98b@gmail.com>
+ <3ff28a866f494a7ebec5b09eddd894c4@intel.com>
+ <07650a50-6de5-7508-5602-4eaeba9d6cbb@gmail.com>
+ <0d24d1ba37644f0fbd587dda983e5e00@intel.com>
+ <1c7ebd63-aef0-accf-16ce-857b8352c3ba@gmail.com>
 MIME-Version: 1.0
-References: <20220311170240.173846-1-cbranchereau@gmail.com>
- <20220311170240.173846-3-cbranchereau@gmail.com>
- <CB3R8R.NYF43F2I8GKO2@crapouillou.net>
-In-Reply-To: <CB3R8R.NYF43F2I8GKO2@crapouillou.net>
-From: Christophe Branchereau <cbranchereau@gmail.com>
-Date: Mon, 21 Mar 2022 14:14:51 +0100
-Message-ID: <CAFsFa87LtPw=57b1Ws-e142XXeEuRd4qc6r0AmjX+2bfmQdG6w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: Add panel driver for NewVision NV3052C
- based LCDs
-To: Paul Cercueil <paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c7ebd63-aef0-accf-16ce-857b8352c3ba@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,616 +66,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, Nanley Chery <nanleychery@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul
+Hi Nanley, JP,
 
-On Mon, Mar 14, 2022 at 8:54 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Hi Christophe,
->
-> Le ven., mars 11 2022 at 18:02:38 +0100, Christophe Branchereau
-> <cbranchereau@gmail.com> a =C3=A9crit :
-> > This driver supports the NewVision NV3052C based LCDs. Right now, it
-> > only supports the LeadTek LTK035C5444T 2.4" 640x480 TFT LCD panel,
-> > which
-> > can be found in the Anbernic RG-350M handheld console.
-> >
-> > Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-> > ---
-> >  drivers/gpu/drm/panel/Kconfig                 |   9 +
-> >  drivers/gpu/drm/panel/Makefile                |   1 +
-> >  .../gpu/drm/panel/panel-newvision-nv3052c.c   | 497
-> > ++++++++++++++++++
-> >  3 files changed, 507 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> >
-> > diff --git a/drivers/gpu/drm/panel/Kconfig
-> > b/drivers/gpu/drm/panel/Kconfig
-> > index bb2e47229c68..40084f709789 100644
-> > --- a/drivers/gpu/drm/panel/Kconfig
-> > +++ b/drivers/gpu/drm/panel/Kconfig
-> > @@ -283,6 +283,15 @@ config DRM_PANEL_NEC_NL8048HL11
-> >         panel (found on the Zoom2/3/3630 SDP boards). To compile this
-> > driver
-> >         as a module, choose M here.
-> >
-> > +config DRM_PANEL_NEWVISION_NV3052C
-> > +     tristate "NewVision NV3052C RGB/SPI panel"
-> > +     depends on OF && SPI
-> > +     depends on BACKLIGHT_CLASS_DEVICE
-> > +     select DRM_MIPI_DBI
-> > +     help
-> > +       Say Y here if you want to enable support for the panels built
-> > +       around the NewVision NV3052C display controller.
-> > +
-> >  config DRM_PANEL_NOVATEK_NT35510
-> >       tristate "Novatek NT35510 RGB panel driver"
-> >       depends on OF
-> > diff --git a/drivers/gpu/drm/panel/Makefile
-> > b/drivers/gpu/drm/panel/Makefile
-> > index 5740911f637c..42a7ab54234b 100644
-> > --- a/drivers/gpu/drm/panel/Makefile
-> > +++ b/drivers/gpu/drm/panel/Makefile
-> > @@ -26,6 +26,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) +=3D
-> > panel-leadtek-ltk500hd1829.o
-> >  obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) +=3D panel-lg-lb035q02.o
-> >  obj-$(CONFIG_DRM_PANEL_LG_LG4573) +=3D panel-lg-lg4573.o
-> >  obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) +=3D panel-nec-nl8048hl11.o
-> > +obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3052C) +=3D
-> > panel-newvision-nv3052c.o
-> >  obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) +=3D panel-novatek-nt35510.o
-> >  obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35560) +=3D panel-novatek-nt35560.o
-> >  obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35950) +=3D panel-novatek-nt35950.o
-> > diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> > b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> > new file mode 100644
-> > index 000000000000..fc31df0dee12
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> > @@ -0,0 +1,497 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * NevVision NV3052C IPS LCD panel driver
->
-> NewVision*
->
-> > + *
-> > + * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
-> > + * Copyright (C) 2022, Christophe Branchereau
-> > <cbranchereau@gmail.com>
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/device.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/media-bus-format.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/spi/spi.h>
-> > +
-> > +#include <video/mipi_display.h>
-> > +
-> > +#include <drm/drm_mipi_dbi.h>
-> > +#include <drm/drm_modes.h>
-> > +#include <drm/drm_panel.h>
-> > +
-> > +struct nv3052c_panel_info {
-> > +     const struct drm_display_mode *display_modes;
-> > +     unsigned int num_modes;
-> > +     u16 width_mm, height_mm;
-> > +     u32 bus_format, bus_flags;
-> > +};
-> > +
-> > +struct nv3052c {
-> > +     struct device *dev;
-> > +     struct drm_panel panel;
-> > +     struct mipi_dbi dbi;
-> > +
-> > +     const struct nv3052c_panel_info *panel_info;
-> > +
-> > +     struct regulator *supply;
-> > +     struct gpio_desc *reset_gpio;
-> > +};
-> > +
-> > +struct nv3052c_reg {
-> > +     u8 cmd;
-> > +     u8 val;
-> > +};
-> > +
-> > +static const struct nv3052c_reg nv3052c_panel_regs[] =3D {
-> > +     { 0xff, 0x30 },
-> > +     { 0xff, 0x52 },
-> > +     { 0xff, 0x01 },
-> > +     { 0xe3, 0x00 },
-> > +     { 0x40, 0x00 },
-> > +     { 0x03, 0x40 },
-> > +     { 0x04, 0x00 },
-> > +     { 0x05, 0x03 },
-> > +     { 0x08, 0x00 },
-> > +     { 0x09, 0x07 },
-> > +     { 0x0a, 0x01 },
-> > +     { 0x0b, 0x32 },
-> > +     { 0x0c, 0x32 },
-> > +     { 0x0d, 0x0b },
-> > +     { 0x0e, 0x00 },
-> > +     { 0x23, 0xa0 },
-> > +
-> > +     { 0x24, 0x0c },
-> > +     { 0x25, 0x06 },
-> > +     { 0x26, 0x14 },
-> > +     { 0x27, 0x14 },
-> > +
-> > +     { 0x38, 0xcc },
-> > +     { 0x39, 0xd7 },
-> > +     { 0x3a, 0x4a },
-> > +
-> > +     { 0x28, 0x40 },
-> > +     { 0x29, 0x01 },
-> > +     { 0x2a, 0xdf },
-> > +     { 0x49, 0x3c },
-> > +     { 0x91, 0x77 },
-> > +     { 0x92, 0x77 },
-> > +     { 0xa0, 0x55 },
-> > +     { 0xa1, 0x50 },
-> > +     { 0xa4, 0x9c },
-> > +     { 0xa7, 0x02 },
-> > +     { 0xa8, 0x01 },
-> > +     { 0xa9, 0x01 },
-> > +     { 0xaa, 0xfc },
-> > +     { 0xab, 0x28 },
-> > +     { 0xac, 0x06 },
-> > +     { 0xad, 0x06 },
-> > +     { 0xae, 0x06 },
-> > +     { 0xaf, 0x03 },
-> > +     { 0xb0, 0x08 },
-> > +     { 0xb1, 0x26 },
-> > +     { 0xb2, 0x28 },
-> > +     { 0xb3, 0x28 },
-> > +     { 0xb4, 0x33 },
-> > +     { 0xb5, 0x08 },
-> > +     { 0xb6, 0x26 },
-> > +     { 0xb7, 0x08 },
-> > +     { 0xb8, 0x26 },
-> > +     { 0xf0, 0x00 },
-> > +     { 0xf6, 0xc0 },
-> > +
-> > +     { 0xff, 0x30 },
-> > +     { 0xff, 0x52 },
-> > +     { 0xff, 0x02 },
-> > +     { 0xb0, 0x0b },
-> > +     { 0xb1, 0x16 },
-> > +     { 0xb2, 0x17 },
-> > +     { 0xb3, 0x2c },
-> > +     { 0xb4, 0x32 },
-> > +     { 0xb5, 0x3b },
-> > +     { 0xb6, 0x29 },
-> > +     { 0xb7, 0x40 },
-> > +     { 0xb8, 0x0d },
-> > +     { 0xb9, 0x05 },
-> > +     { 0xba, 0x12 },
-> > +     { 0xbb, 0x10 },
-> > +     { 0xbc, 0x12 },
-> > +     { 0xbd, 0x15 },
-> > +     { 0xbe, 0x19 },
-> > +     { 0xbf, 0x0e },
-> > +     { 0xc0, 0x16 },
-> > +     { 0xc1, 0x0a },
-> > +     { 0xd0, 0x0c },
-> > +     { 0xd1, 0x17 },
-> > +     { 0xd2, 0x14 },
-> > +     { 0xd3, 0x2e },
-> > +     { 0xd4, 0x32 },
-> > +     { 0xd5, 0x3c },
-> > +     { 0xd6, 0x22 },
-> > +     { 0xd7, 0x3d },
-> > +     { 0xd8, 0x0d },
-> > +     { 0xd9, 0x07 },
-> > +     { 0xda, 0x13 },
-> > +     { 0xdb, 0x13 },
-> > +     { 0xdc, 0x11 },
-> > +     { 0xdd, 0x15 },
-> > +     { 0xde, 0x19 },
-> > +     { 0xdf, 0x10 },
-> > +     { 0xe0, 0x17 },
-> > +     { 0xe1, 0x0a },
-> > +
-> > +     { 0xff, 0x30 },
-> > +     { 0xff, 0x52 },
-> > +     { 0xff, 0x03 },
-> > +     { 0x00, 0x2a },
-> > +     { 0x01, 0x2a },
-> > +     { 0x02, 0x2a },
-> > +     { 0x03, 0x2a },
-> > +     { 0x04, 0x61 },
-> > +     { 0x05, 0x80 },
-> > +     { 0x06, 0xc7 },
-> > +     { 0x07, 0x01 },
-> > +     { 0x08, 0x03 },
-> > +     { 0x09, 0x04 },
-> > +     { 0x70, 0x22 },
-> > +     { 0x71, 0x80 },
-> > +     { 0x30, 0x2a },
-> > +     { 0x31, 0x2a },
-> > +     { 0x32, 0x2a },
-> > +     { 0x33, 0x2a },
-> > +     { 0x34, 0x61 },
-> > +     { 0x35, 0xc5 },
-> > +     { 0x36, 0x80 },
-> > +     { 0x37, 0x23 },
-> > +     { 0x40, 0x03 },
-> > +     { 0x41, 0x04 },
-> > +     { 0x42, 0x05 },
-> > +     { 0x43, 0x06 },
-> > +     { 0x44, 0x11 },
-> > +     { 0x45, 0xe8 },
-> > +     { 0x46, 0xe9 },
-> > +     { 0x47, 0x11 },
-> > +     { 0x48, 0xea },
-> > +     { 0x49, 0xeb },
-> > +     { 0x50, 0x07 },
-> > +     { 0x51, 0x08 },
-> > +     { 0x52, 0x09 },
-> > +     { 0x53, 0x0a },
-> > +     { 0x54, 0x11 },
-> > +     { 0x55, 0xec },
-> > +     { 0x56, 0xed },
-> > +     { 0x57, 0x11 },
-> > +     { 0x58, 0xef },
-> > +     { 0x59, 0xf0 },
-> > +     { 0xb1, 0x01 },
-> > +     { 0xb4, 0x15 },
-> > +     { 0xb5, 0x16 },
-> > +     { 0xb6, 0x09 },
-> > +     { 0xb7, 0x0f },
-> > +     { 0xb8, 0x0d },
-> > +     { 0xb9, 0x0b },
-> > +     { 0xba, 0x00 },
-> > +     { 0xc7, 0x02 },
-> > +     { 0xca, 0x17 },
-> > +     { 0xcb, 0x18 },
-> > +     { 0xcc, 0x0a },
-> > +     { 0xcd, 0x10 },
-> > +     { 0xce, 0x0e },
-> > +     { 0xcf, 0x0c },
-> > +     { 0xd0, 0x00 },
-> > +     { 0x81, 0x00 },
-> > +     { 0x84, 0x15 },
-> > +     { 0x85, 0x16 },
-> > +     { 0x86, 0x10 },
-> > +     { 0x87, 0x0a },
-> > +     { 0x88, 0x0c },
-> > +     { 0x89, 0x0e },
-> > +     { 0x8a, 0x02 },
-> > +     { 0x97, 0x00 },
-> > +     { 0x9a, 0x17 },
-> > +     { 0x9b, 0x18 },
-> > +     { 0x9c, 0x0f },
-> > +     { 0x9d, 0x09 },
-> > +     { 0x9e, 0x0b },
-> > +     { 0x9f, 0x0d },
-> > +     { 0xa0, 0x01 },
-> > +
-> > +     { 0xff, 0x30 },
-> > +     { 0xff, 0x52 },
-> > +     { 0xff, 0x02 },
-> > +     { 0x01, 0x01 },
-> > +     { 0x02, 0xda },
-> > +     { 0x03, 0xba },
-> > +     { 0x04, 0xa8 },
-> > +     { 0x05, 0x9a },
-> > +     { 0x06, 0x70 },
-> > +     { 0x07, 0xff },
-> > +     { 0x08, 0x91 },
-> > +     { 0x09, 0x90 },
-> > +     { 0x0a, 0xff },
-> > +     { 0x0b, 0x8f },
-> > +     { 0x0c, 0x60 },
-> > +     { 0x0d, 0x58 },
-> > +     { 0x0e, 0x48 },
-> > +     { 0x0f, 0x38 },
-> > +     { 0x10, 0x2b },
-> > +
-> > +     { 0xff, 0x30 },
-> > +     { 0xff, 0x52 },
-> > +     { 0xff, 0x00 },
-> > +     { 0x36, 0x0a },
-> > +};
-> > +
-> > +static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
-> > +{
-> > +     return container_of(panel, struct nv3052c, panel);
-> > +}
-> > +
-> > +static int nv3052c_prepare(struct drm_panel *panel)
-> > +{
-> > +     struct nv3052c *priv =3D to_nv3052c(panel);
-> > +     struct mipi_dbi *dbi =3D &priv->dbi;
-> > +     unsigned int i;
-> > +     int err;
-> > +
-> > +     err =3D regulator_enable(priv->supply);
-> > +     if (err) {
-> > +             dev_err(priv->dev, "Failed to enable power supply: %d\n",=
- err);
-> > +             return err;
-> > +     }
-> > +
-> > +     /* Reset the chip */
-> > +     gpiod_set_value_cansleep(priv->reset_gpio, 1);
-> > +     usleep_range(10, 1000);
-> > +     gpiod_set_value_cansleep(priv->reset_gpio, 0);
-> > +     msleep(5);
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
-> > +             err =3D mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
-> > +                                    nv3052c_panel_regs[i].val);
-> > +
-> > +             if (err) {
-> > +                     dev_err(priv->dev, "Unable to set register: %d\n"=
-, err);
-> > +                     goto err_disable_regulator;
-> > +             }
-> > +     }
-> > +
-> > +     err =3D mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-> > +     if (err) {
-> > +             dev_err(priv->dev, "Unable to exit sleep mode: %d\n", err=
-);
-> > +             goto err_disable_regulator;
-> > +     }
-> > +
-> > +     return 0;
-> > +
-> > +err_disable_regulator:
-> > +     regulator_disable(priv->supply);
-> > +     return err;
-> > +}
-> > +
-> > +static int nv3052c_unprepare(struct drm_panel *panel)
-> > +{
-> > +     struct nv3052c *priv =3D to_nv3052c(panel);
-> > +     struct mipi_dbi *dbi =3D &priv->dbi;
-> > +     int err;
-> > +
-> > +     err =3D mipi_dbi_command(dbi, MIPI_DCS_ENTER_SLEEP_MODE);
-> > +     if (err) {
-> > +             dev_err(priv->dev, "Unable to enter sleep mode: %d\n", er=
-r);
-> > +             return err;
-> > +     }
-> > +
-> > +     gpiod_set_value_cansleep(priv->reset_gpio, 1);
-> > +     regulator_disable(priv->supply);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int nv3052c_enable(struct drm_panel *panel)
-> > +{
-> > +     struct nv3052c *priv =3D to_nv3052c(panel);
-> > +     struct mipi_dbi *dbi =3D &priv->dbi;
-> > +     int err;
-> > +
-> > +     err =3D mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-> > +     if (err) {
-> > +             dev_err(priv->dev, "Unable to enable display: %d\n", err)=
-;
-> > +             return err;
-> > +     }
-> > +
-> > +     if (panel->backlight) {
-> > +             /* Wait for the picture to be ready before enabling backl=
-ight */
-> > +             msleep(120);
->
->  From my own test this msleep can go. Modesets don't seem to cause any
-> graphical glitches.
->
+On Tue, Feb 15, 2022 at 09:34:22PM +0200, Juha-Pekka Heikkila wrote:
+> [...]
+> > > > > > > > > diff --git a/include/uapi/drm/drm_fourcc.h
+> > > > > > > > > b/include/uapi/drm/drm_fourcc.h index b8fb7b44c03c..697614ea4b84 100644
+> > > > > > > > > --- a/include/uapi/drm/drm_fourcc.h
+> > > > > > > > > +++ b/include/uapi/drm/drm_fourcc.h
+> > > > > > > > > @@ -605,6 +605,16 @@ extern "C" {
+> > > > > > > > >       */
+> > > > > > > > >      #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 11)
+> > > > > > > > > 
+> > > > > > > > > +/*
+> > > > > > > > > + * Intel color control surfaces (CCS) for DG2 clear color render compression.
+> > > > > > > > > + *
+> > > > > > > > > + * DG2 uses a unified compression format for clear color render compression.
+> > > > > > > > 
+> > > > > > > > What's unified about DG2's compression format? If this doesn't
+> > > > > > > > affect the layout, maybe we should drop this sentence.
 
-Not in my own testing, maybe some panel variance there? 30ms is not
-enough to get rid of artefacts when starting apps, but 120ms is. So I
-suggest to just leave it there, it's not like such a short delay is
-really noticeable anyway.
+Unified here probably refers to the fact the DG2 render engine is
+capable of generating both a render and a media compressed surface as
+opposed to earlier platforms. The display engine still needs to know
+which compression format the FB uses, hence we need both an RC and MC
+modifier. Based on this I also think we can drop the mention of unified
+compression.
 
-KR
-CB
+> > > > > > > > > + * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
+> > > > > > > > > + *
+> > > > > > > > 
+> > > > > > > > This also needs a pitch aligned to four tiles, right? I think we
+> > > > > > > > can save some effort by referencing the DG2_RC_CCS modifier here.
+> > > > > > > > 
+> > > > > > > > > + * Fast clear color value expected by HW is located in fb at offset 0 of plane#1
+> > > > > > > > 
+> > > > > > > > Why is the expected offset hardcoded to 0 instead of relying on
+> > > > > > > > the offset provided by the modifier API? This looks like a bug.
+> > > > > > > 
+> > > > > > > Hi Nanley,
+> > > > > > > 
+> > > > > > > can you elaborate a bit, which offset from modifier API that
+> > > > > > > applies to cc surface?
+> > > > > > 
+> > > > > > Hi Juha-Pekka,
+> > > > > > 
+> > > > > > On the kernel-side of things, I'm thinking of drm_mode_fb_cmd2::offsets[1].
+> > > > > 
+> > > > > Hi Nanley,
+> > > > > 
+> > > > > this offset is coming from userspace on creation of framebuffer, at
+> > > > > that moment from userspace caller can point to offset of desire.
+> > > > > Normally offset[0] is set at 0 and then offset[n] at plane n start
+> > > > > which is not stated to have to be exactly after plane n-1 end. Or did I
+> > > > > misunderstand what you meant?
+> > > > 
+> > > > Perhaps, at least, I'm not sure what you're meaning to say. This
+> > > > modifier description seems to say that the drm_mode_fb_cmd2::offsets
+> > > > value for the clear color plane must be zero. Are you saying that it's
+> > > > correct? This doesn't match the GEN12_RC_CCS_CC behavior and doesn't
+> > > > match mesa's expectations.
+> > > 
+> > > It doesn't say "drm_mode_fb_cmd2::offsets value for the clear color plane must
+> > > be zero", it says "Fast clear color value expected by HW is located in fb at offset 0
+> > > of plane#1".
+> > 
+> > Yes, it doesn't say that exactly, but that's what it seems to say. With every other
+> > modifier, it's implied that the data for the plane begins at the offset specified
+> > through the modifier API. So, explicitly mentioning it here (and with that wording)
+> > conveys a new requirement.
+> 
+> I don't have objections on changing this description but for reference gen12
+> version of the same says "The main surface is Y-tiled and is at plane index
+> 0 whereas CCS is linear and at index 1. The clear color is stored at index
+> 2, and the pitch should be ignored.", only plane indexes are mentioned. I
+> anyway wrote neither of these descriptions.
+> 
+> > > Plane#1 location is pointed by drm_mode_fb_cmd2::offsets[1] and there's
+> > > nothing stated about that offset.
+> > 
+> > Technically, plane #1's location is specified to be the combination of ::handles[1]
+> > and ::offsets[1]. In practice though, I can imagine that there are areas of the stack
+> > that are implicitly requiring that all ::handles[] entries match.
 
-> The driver looks fine to me overall, I just need somebody else (Sam?)
-> to ack it before I can merge it.
->
-> Cheers,
-> -Paul
->
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int nv3052c_disable(struct drm_panel *panel)
-> > +{
-> > +     struct nv3052c *priv =3D to_nv3052c(panel);
-> > +     struct mipi_dbi *dbi =3D &priv->dbi;
-> > +     int err;
-> > +
-> > +     err =3D mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-> > +     if (err) {
-> > +             dev_err(priv->dev, "Unable to disable display: %d\n", err=
-);
-> > +             return err;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int nv3052c_get_modes(struct drm_panel *panel,
-> > +                          struct drm_connector *connector)
-> > +{
-> > +     struct nv3052c *priv =3D to_nv3052c(panel);
-> > +     const struct nv3052c_panel_info *panel_info =3D priv->panel_info;
-> > +     struct drm_display_mode *mode;
-> > +     unsigned int i;
-> > +
-> > +     for (i =3D 0; i < panel_info->num_modes; i++) {
-> > +             mode =3D drm_mode_duplicate(connector->dev,
-> > +                                       &panel_info->display_modes[i]);
-> > +             if (!mode)
-> > +                     return -ENOMEM;
-> > +
-> > +             drm_mode_set_name(mode);
-> > +
-> > +             mode->type =3D DRM_MODE_TYPE_DRIVER;
-> > +             if (panel_info->num_modes =3D=3D 1)
-> > +                     mode->type |=3D DRM_MODE_TYPE_PREFERRED;
-> > +
-> > +             drm_mode_probed_add(connector, mode);
-> > +     }
-> > +
-> > +     connector->display_info.bpc =3D 8;
-> > +     connector->display_info.width_mm =3D panel_info->width_mm;
-> > +     connector->display_info.height_mm =3D panel_info->height_mm;
-> > +
-> > +     drm_display_info_set_bus_formats(&connector->display_info,
-> > +                                      &panel_info->bus_format, 1);
-> > +     connector->display_info.bus_flags =3D panel_info->bus_flags;
-> > +
-> > +     return panel_info->num_modes;
-> > +}
-> > +
-> > +static const struct drm_panel_funcs nv3052c_funcs =3D {
-> > +     .prepare        =3D nv3052c_prepare,
-> > +     .unprepare      =3D nv3052c_unprepare,
-> > +     .enable         =3D nv3052c_enable,
-> > +     .disable        =3D nv3052c_disable,
-> > +     .get_modes      =3D nv3052c_get_modes,
-> > +};
-> > +
-> > +static int nv3052c_probe(struct spi_device *spi)
-> > +{
-> > +     struct device *dev =3D &spi->dev;
-> > +     struct nv3052c *priv;
-> > +     int err;
-> > +
-> > +     priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > +     if (!priv)
-> > +             return -ENOMEM;
-> > +
-> > +     priv->dev =3D dev;
-> > +
-> > +     priv->panel_info =3D of_device_get_match_data(dev);
-> > +     if (!priv->panel_info)
-> > +             return -EINVAL;
-> > +
-> > +     priv->supply =3D devm_regulator_get(dev, "power");
-> > +     if (IS_ERR(priv->supply))
-> > +             return dev_err_probe(dev, PTR_ERR(priv->supply), "Failed =
-to get
-> > power supply\n");
-> > +
-> > +     priv->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH)=
-;
-> > +     if (IS_ERR(priv->reset_gpio))
-> > +             return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Fai=
-led to
-> > get reset GPIO\n");
-> > +
-> > +     err =3D mipi_dbi_spi_init(spi, &priv->dbi, NULL);
-> > +     if (err)
-> > +             return dev_err_probe(dev, err, "MIPI DBI init failed\n");
-> > +
-> > +     priv->dbi.read_commands =3D NULL;
-> > +
-> > +     spi_set_drvdata(spi, priv);
-> > +
-> > +     drm_panel_init(&priv->panel, dev, &nv3052c_funcs,
-> > +                    DRM_MODE_CONNECTOR_DPI);
-> > +
-> > +     err =3D drm_panel_of_backlight(&priv->panel);
-> > +     if (err)
-> > +             return dev_err_probe(dev, err, "Failed to attach backligh=
-t\n");
-> > +
-> > +     drm_panel_add(&priv->panel);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int nv3052c_remove(struct spi_device *spi)
-> > +{
-> > +     struct nv3052c *priv =3D spi_get_drvdata(spi);
-> > +
-> > +     drm_panel_remove(&priv->panel);
-> > +     drm_panel_disable(&priv->panel);
-> > +     drm_panel_unprepare(&priv->panel);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct drm_display_mode ltk035c5444t_modes[] =3D {
-> > +     { /* 60 Hz */
-> > +             .clock =3D 24000,
-> > +             .hdisplay =3D 640,
-> > +             .hsync_start =3D 640 + 96,
-> > +             .hsync_end =3D 640 + 96 + 16,
-> > +             .htotal =3D 640 + 96 + 16 + 48,
-> > +             .vdisplay =3D 480,
-> > +             .vsync_start =3D 480 + 5,
-> > +             .vsync_end =3D 480 + 5 + 2,
-> > +             .vtotal =3D 480 + 5 + 2 + 13,
-> > +             .flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> > +     },
-> > +     { /* 50 Hz */
-> > +             .clock =3D 18000,
-> > +             .hdisplay =3D 640,
-> > +             .hsync_start =3D 640 + 39,
-> > +             .hsync_end =3D 640 + 39 + 2,
-> > +             .htotal =3D 640 + 39 + 2 + 39,
-> > +             .vdisplay =3D 480,
-> > +             .vsync_start =3D 480 + 5,
-> > +             .vsync_end =3D 480 + 5 + 2,
-> > +             .vtotal =3D 480 + 5 + 2 + 13,
-> > +             .flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> > +     },
-> > +};
-> > +
-> > +static const struct nv3052c_panel_info ltk035c5444t_panel_info =3D {
-> > +     .display_modes =3D ltk035c5444t_modes,
-> > +     .num_modes =3D ARRAY_SIZE(ltk035c5444t_modes),
-> > +     .width_mm =3D 77,
-> > +     .height_mm =3D 64,
-> > +     .bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
-> > +     .bus_flags =3D DRM_BUS_FLAG_DE_HIGH |
-> > DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-> > +};
-> > +
-> > +static const struct of_device_id nv3052c_of_match[] =3D {
-> > +     { .compatible =3D "leadtek,ltk035c5444t", .data =3D
-> > &ltk035c5444t_panel_info },
-> > +     { /* sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, nv3052c_of_match);
-> > +
-> > +static struct spi_driver nv3052c_driver =3D {
-> > +     .driver =3D {
-> > +             .name =3D "nv3052c",
-> > +             .of_match_table =3D nv3052c_of_match,
-> > +     },
-> > +     .probe =3D nv3052c_probe,
-> > +     .remove =3D nv3052c_remove,
-> > +};
-> > +module_spi_driver(nv3052c_driver);
-> > +
-> > +MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
-> > +MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
-> > +MODULE_LICENSE("GPL v2");
-> > --
-> > 2.35.1
-> >
->
->
+The FB modifier API requires all ::handles[] to match, that is all
+planes must be contained in one GEM object.
+
+> I didn't think we needed to go deeper as you started to just talk about how
+> drm_mode_fb_cmd2::offsets[1] not being used. Let's not waste time.
+> 
+> > > These offsets are just offsets to bo which contain the framebuffer information
+> > > hence drm_mode_fb_cmd2::offsets[1] can be changed as one wish and cc
+> > > information is found starting at drm_mode_fb_cmd2::offsets[1][0]
+> > 
+> > If the clear color handling is the same as GEN12_RC_CCS_CC (apart for the plane
+> > index), I propose that we drop this sentence due to avoid any confusion.
+> 
+> But it need to defined as part of the modifier. It's the modifier features
+> which are being described here.
+> 
+> > This offset discussion raises another question. The description says that the value
+> > expected by HW is at offset 0. I'm assuming "HW" is referring to the render engine?
+> > The kernel is still giving the display engine the packed values at ::offsets[1] + 16B right?
+> 
+> Generally answer is yes but these parts you can see in patch "[PATCH v5
+> 17/19] drm/i915/dg2: Flat CCS Support" and should be discussed there. Here
+> "HW" should probably be changed something meaningful though.
+
+The 256 bit clear color format starting at plane index 1 matches the one
+described at I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC . So yes, "HW" refers
+to the render engine and display consumes the 64 bit data at
+::offset[1] + 16 bytes (and DE ignores the 64 bit data starting at
+::offset[1] + 24 bytes.
+
+The following captures all the above, would it be ok?:
+
+Intel Color Control Surface with Clear Color (CCS) for DG2 render compression.
+
+The main surface is Tile 4 and at plane index 0. The CCS data is stored
+outside of the GEM object in a reserved memory area dedicated for the
+storage of the CCS data from all GEM objects. The main surface pitch is
+required to be a multiple of four Tile 4 widths. The clear color is stored
+at plane index 1 and the pitch should be ignored. The format of the 256
+bits clear color data matches the one used for the
+I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC modifier, see its description
+for details.
+
+--Imre
