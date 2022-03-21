@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6B84E3267
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 22:47:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BA94E3233
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 22:14:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF96B10E490;
-	Mon, 21 Mar 2022 21:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E6310E355;
+	Mon, 21 Mar 2022 21:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1989 seconds by postgrey-1.36 at gabe;
- Mon, 21 Mar 2022 21:46:59 UTC
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F0C10E490
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 21:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UxVnGroyv95bnhNLjHCmBweTO25U8rXxdLTQZ0CUFxg=; b=ChedVT+7B/T39CHBClrpYs3jZj
- N02A9+7/GjMG75Zejvyrnmt+eh8ZUAnETnSQyVcHFpJR0Zl9YcstIV8KbZW3SKXYQxDV1bLEBGnWk
- Kqe/YzykXnN3qAxcw/omDYjLyz2nK9wkeywm5weibie9iekj8UAYuRjtz4dGWLBhIdPmvWcBXpvFq
- Lw3CYuojEmkXWxqw3/OZ9fd7xLzZvGMv1eZgUcFyhkgM1YsUbUQnYyKeXfQUCwCXvx99BYnOQpDhH
- t8jWasPtSTgxEy+vI+HD73N/mmyDT/UHDDFcb/gVPU3fhiT8ArrsI8v7IuwA+iep+3+QM0bd+Fvks
- hKJKoLCQ==;
-Received: from [165.90.126.25] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nWPLi-0000ww-Co; Mon, 21 Mar 2022 22:13:58 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: emma@anholt.net,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH 2/2] drm/v3d: replace obj lookup steps with
- drm_gem_objects_lookup
-Date: Mon, 21 Mar 2022 20:13:16 -0100
-Message-Id: <20220321211316.1423294-3-mwen@igalia.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220321211316.1423294-1-mwen@igalia.com>
-References: <20220321211316.1423294-1-mwen@igalia.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE2E489FC9;
+ Mon, 21 Mar 2022 21:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647897260; x=1679433260;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ECq24/OIntQlZspsCb8eJBNHSoGsh/zJIIs6KoGplTs=;
+ b=Mw3hUnhkpSc0OgI7ho3gj1l6F7UBvcleG5eak9pdgLBf5s8ZLe5i9ePU
+ 2x75l31+aUsq1p+OI56XI00hZZRVrIGQpyrlEYzMmSKr5GL0cWEbGS7FZ
+ gMgy0eUD78WZA8gc1BY8buc0DJDdCUclwiSy9+9hX40ba1Ruc7IVoJ73/
+ JC0eEfekXtR69cJ6b6w10cg+tDp1ATpLw7aU5zlrLYXpRTxCSAWx+GZ0a
+ J/h8TEol2mLdiWFLyqkn24fIntK0F0P7x8E2JnWK8aFinqXCMy5QgJAFw
+ BLfhdSx0zBclMk86uTMLv3bQRjTvYhnhND/glCIwTZD9uHbe95w6hBluT Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="344079578"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="344079578"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 14:14:07 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="648709457"
+Received: from eliasbro-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.30.246])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 14:14:07 -0700
+Date: Mon, 21 Mar 2022 14:14:07 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [PATCH v2 4/7] drm/i915/guc: use the memcpy_from_wc call from
+ the drm
+Message-ID: <20220321211407.ujlokc44jx4kbtvo@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220303180013.512219-1-balasubramani.vivekanandan@intel.com>
+ <20220303180013.512219-5-balasubramani.vivekanandan@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220303180013.512219-5-balasubramani.vivekanandan@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,86 +60,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: michael.cheng@intel.com, wayne.boyer@intel.com,
+ intel-gfx@lists.freedesktop.org, casey.g.bowman@intel.com,
+ dri-devel@lists.freedesktop.org, siva.mullati@intel.com,
+ michal.wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As v3d_lookup_bos() performs the same steps as drm_gem_objects_lookup(),
-replace the explicit code in v3d to simply use the DRM function.
+On Thu, Mar 03, 2022 at 11:30:10PM +0530, Balasubramani Vivekanandan wrote:
+>memcpy_from_wc functions in i915_memcpy.c will be removed and replaced
+>by the implementation in drm_cache.c.
+>Updated to use the functions provided by drm_cache.c.
+>
+>v2: Check if the log object allocated from local memory or system memory
+>    and according setup the iosys_map (Lucas)
+>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>
+>Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/uc/intel_guc_log.c | 15 ++++++++++++---
+> 1 file changed, 12 insertions(+), 3 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+>index a24dc6441872..b9db765627ea 100644
+>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+>@@ -3,6 +3,7 @@
+>  * Copyright © 2014-2019 Intel Corporation
+>  */
+>
+>+#include <drm/drm_cache.h>
+> #include <linux/debugfs.h>
+> #include <linux/string_helpers.h>
+>
+>@@ -206,6 +207,7 @@ static void guc_read_update_log_buffer(struct intel_guc_log *log)
+> 	enum guc_log_buffer_type type;
+> 	void *src_data, *dst_data;
+> 	bool new_overflow;
+>+	struct iosys_map src_map;
+>
+> 	mutex_lock(&log->relay.lock);
+>
+>@@ -282,14 +284,21 @@ static void guc_read_update_log_buffer(struct intel_guc_log *log)
+> 		}
+>
+> 		/* Just copy the newly written data */
+>+		if (i915_gem_object_is_lmem(log->vma->obj))
+>+			iosys_map_set_vaddr_iomem(&src_map, (void __iomem *)src_data);
+>+		else
+>+			iosys_map_set_vaddr(&src_map, src_data);
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_gem.c | 49 +++--------------------------------
- 1 file changed, 3 insertions(+), 46 deletions(-)
+It would be better to keep this outside of the loop. So inside the loop
+we can use only iosys_map_incr(&src_map, buffer_size). However you'd
+also have to handle the read_offset. The iosys_map_ API has both a
+src_offset and dst_offset due to situations like that. Maybe this is
+missing in the new drm_memcpy_* function you're adding?
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 926bfc7e07fb..738b1080143d 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -294,10 +294,6 @@ v3d_lookup_bos(struct drm_device *dev,
- 	       u64 bo_handles,
- 	       u32 bo_count)
- {
--	u32 *handles;
--	int ret = 0;
--	int i;
--
- 	job->bo_count = bo_count;
- 
- 	if (!job->bo_count) {
-@@ -308,48 +304,9 @@ v3d_lookup_bos(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
--	job->bo = kvmalloc_array(job->bo_count,
--				 sizeof(struct drm_gem_cma_object *),
--				 GFP_KERNEL | __GFP_ZERO);
--	if (!job->bo) {
--		DRM_DEBUG("Failed to allocate validated BO pointers\n");
--		return -ENOMEM;
--	}
--
--	handles = kvmalloc_array(job->bo_count, sizeof(u32), GFP_KERNEL);
--	if (!handles) {
--		ret = -ENOMEM;
--		DRM_DEBUG("Failed to allocate incoming GEM handles\n");
--		goto fail;
--	}
--
--	if (copy_from_user(handles,
--			   (void __user *)(uintptr_t)bo_handles,
--			   job->bo_count * sizeof(u32))) {
--		ret = -EFAULT;
--		DRM_DEBUG("Failed to copy in GEM handles\n");
--		goto fail;
--	}
--
--	spin_lock(&file_priv->table_lock);
--	for (i = 0; i < job->bo_count; i++) {
--		struct drm_gem_object *bo = idr_find(&file_priv->object_idr,
--						     handles[i]);
--		if (!bo) {
--			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
--				  i, handles[i]);
--			ret = -ENOENT;
--			spin_unlock(&file_priv->table_lock);
--			goto fail;
--		}
--		drm_gem_object_get(bo);
--		job->bo[i] = bo;
--	}
--	spin_unlock(&file_priv->table_lock);
--
--fail:
--	kvfree(handles);
--	return ret;
-+	return drm_gem_objects_lookup(file_priv,
-+				      (void __user *)(uintptr_t)bo_handles,
-+				      job->bo_count, &job->bo);
- }
- 
- static void
--- 
-2.35.1
+This function was not correct wrt to IO memory access with the other
+2 places in this function doing plain memcpy(). Since we are starting to
+use iosys_map here, we probably should handle this commit as "migrate to
+iosys_map", and convert those. In your current final state
+we have 3 variables aliasing the same memory location. IMO it will be
+error prone to keep it like that
 
++Michal, some questions:
+
+- I'm not very familiar with the relayfs API. Is the `dst_data += PAGE_SIZE;`
+really correct?
+
+- Could you double check this patch and ack if ok?
+
+Heads up that since the log buffer is potentially in lmem, we will need
+to convert this function to take that into account. All those accesses
+to log_buf_state need to use the proper kernel abstraction for system vs
+I/O memory.
+
+thanks
+Lucas De Marchi
+
+>+
+> 		if (read_offset > write_offset) {
+>-			i915_memcpy_from_wc(dst_data, src_data, write_offset);
+>+			drm_memcpy_from_wc_vaddr(dst_data, &src_map,
+>+						 write_offset);
+> 			bytes_to_copy = buffer_size - read_offset;
+> 		} else {
+> 			bytes_to_copy = write_offset - read_offset;
+> 		}
+>-		i915_memcpy_from_wc(dst_data + read_offset,
+>-				    src_data + read_offset, bytes_to_copy);
+>+		iosys_map_incr(&src_map, read_offset);
+>+		drm_memcpy_from_wc_vaddr(dst_data + read_offset, &src_map,
+>+					 bytes_to_copy);
+>
+> 		src_data += buffer_size;
+> 		dst_data += buffer_size;
+>-- 
+>2.25.1
+>
