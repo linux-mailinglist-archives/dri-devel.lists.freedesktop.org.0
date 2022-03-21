@@ -2,117 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07ABE4E2083
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 07:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEE94E20B6
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 07:53:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E5110E200;
-	Mon, 21 Mar 2022 06:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F7210E1FD;
+	Mon, 21 Mar 2022 06:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2051.outbound.protection.outlook.com [40.107.100.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4975110E082;
- Mon, 21 Mar 2022 06:13:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U6KwR0paIcz9yQyZGZc3ri50JHV9wxiO9Tuab7iHUiihTXOec0u/A7zdQyJp9JYfAHWL1PH8DxF+OlUsbuajJCBl6dILPLuyubFK0lKo151exLoUxkEwxb2iW4WuL/2Zrfsr8D+Q45ZNyv15GvrOdwYrs2+8+rpbEzDDTCW9hqULSA4UwlGItle0tzl8nXlbmwDikNAUuL1e/wyg3zGR1TZk6TltJhpWZ28cVN8kuUe1IJUgDo+eNJJ41ai1PaMz31GCqEKBRhTsqg+HdvRl7eXCN1eZc2xUZCsm+i1zWO/H0FO3UG8m16RzgT/ON46z0J1LeLc9TQOq5F0dlxNnbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z1/5yosEQ7pUHu/QT6PKKEKF0Xmpcy7iYaU+WLqyUs8=;
- b=k9J5ISuE9ALhl3nLwaVty+RX9kG8XkI7hrU51k+3GFlZQUkWEzFnG4LfaVkQWYmvf7JTI8WRcampMZKxhVoCN8kfcnWr01VLm4MTJy4NWY4TvLm9BJlM1zpDR9Ja2XbG0i+xUnAte3sdsO4dpbENFyUGuIn0doS9iOJ9xPLHI3t7Gd9BMOVbToJ6xxX84Yh/89Z/dIWvkSRlYocJzPjHIAVhpxbzuhkYOxLrXsbnDTVNjjT24o3bnIns2zEDOpVTdxIe+VbRZDomaut6S7Tu9m/nMpi6b3XEWIt0DvtBgUdj2h/dMFCITDrWboACSBhBsX80PZdl2Gq5vddGueUj3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z1/5yosEQ7pUHu/QT6PKKEKF0Xmpcy7iYaU+WLqyUs8=;
- b=NhXL8bVkxvk2k3i7auBcD7ofXir/1hasL+ugMkbigjZh4bxwZzCNd1hY5PYHL2yKIgPQUNecKazRa5vp+3GFxQt1dMii9ZhptX7z9q7fnp7yH2XIltNu0+fedLOjpBam+TkWMFWQw8HE727pg9zdAjDx6396wJVpTpupEzBlu98=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4349.namprd12.prod.outlook.com (20.181.62.21) by
- BN9PR12MB5258.namprd12.prod.outlook.com (13.101.158.52) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5081.14; Mon, 21 Mar 2022 06:13:32 +0000
-Received: from SA0PR12MB4349.namprd12.prod.outlook.com
- ([fe80::e15c:41ca:1c76:2ef]) by SA0PR12MB4349.namprd12.prod.outlook.com
- ([fe80::e15c:41ca:1c76:2ef%3]) with mapi id 15.20.5081.022; Mon, 21 Mar 2022
- 06:13:32 +0000
-Message-ID: <3d1e58bc-0f15-6f8c-1f58-82ef324b6611@amd.com>
-Date: Mon, 21 Mar 2022 11:54:04 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] drm: Fix a infinite loop condition when order becomes 0
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20220316063416.3051-1-Arunpravin.PaneerSelvam@amd.com>
- <7545037d-a60e-7935-67c7-f25a1b00b501@intel.com>
- <6a7a0038-0de9-ada8-aefe-2725d8f0b309@gmail.com>
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <6a7a0038-0de9-ada8-aefe-2725d8f0b309@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0122.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::7) To SA0PR12MB4349.namprd12.prod.outlook.com
- (2603:10b6:806:98::21)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B8010E1FD;
+ Mon, 21 Mar 2022 06:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647845604; x=1679381604;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2Nzu/qZgFO4MPdAb5gqPGgcAwCbJfWVgAUzNwmPir+Y=;
+ b=DhrSf6mf1LsVYK6PCkJYEC3SJH+M6PtjCa8sau5WSVvMMJU49Lhl4GyA
+ 9lLKLFFBFaMJXYlANKdnWznOw9nIiFlZizifsT9QZzbZuDezezn+6mX1p
+ eEcFhrROH0svBfUYpk6atoF9TJNo2RVQMHPRKR+EkNn7sevMf9DHvWYq2
+ pxhwtn2q3fQ/h8r0VuYkHIfIMPPSs+UfPBDHBDGYNIQw9JqgrbOxYDCO/
+ Aa7RbHSbYnT2jDxkRlXb3iQVjy7+aBcg9KMywUYnuGzqgS229M4SEl+ty
+ Y48MH9aA+qBniDQDTKYAHr2RJ4HZ/8p2JI5nW91Z8J3a4JtKvpmW3IYOn g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257430229"
+X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; d="scan'208";a="257430229"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2022 23:53:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; d="scan'208";a="648452501"
+Received: from djustese-mobl.ger.corp.intel.com (HELO [10.249.254.88])
+ ([10.249.254.88])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2022 23:53:20 -0700
+Message-ID: <13e7feb3-4a4b-aaf1-7b34-d8313edd8314@linux.intel.com>
+Date: Mon, 21 Mar 2022 07:53:18 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 632a283b-e6cc-47c6-d404-08da0b01ecea
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5258:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB52586742B7D2D76E0CDA901BE4169@BN9PR12MB5258.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0a4aP0Ptlfz608impb0qvM1f5qTAX4VK7aOk60qNhuRSTtb1CKl1OJEcZPcewsgE9tLxeMfm+RSWYyw9Q1cDYLHgY3v6skIMzSRq7hwKFakM9YRjuGOZfuY4IU1btQ6XlzCB36JBnwLHGZFiFtFBSE3Y0lyv5XnD/n8OmjMg8V7OT9W6stW+LtdX8dM2rM0YQAsZ9Ocbnkl3QcK7MBrHwpGwaisMw3m6JlLt3txLmwNzO/L0SyH39YcsDFk/YvGZoU8m26lh/BfRcZz0DaJhJ7n+8dnBTbhpP4i5pnxaqnxpUZQpZY9upgVkav5ZSsVgblpcEXO7vyDhyDGDtBIEMjL1IHmIT6//7rumMUXtrH0dKGKy7Y64FvqduxiQQgUD5Duizni+nwDQOQ1v/dBdr4vPE6LvXgxqZ9nkfVUauAJlYyAJioX5cFGVYT8isIurPdSSKHqyIvSkXdL+08KdaY4vPJhaS076eF188CdTyc/ge7/+jIEy2Pga4ySdpjoE09FpabJv605tJ2N7FkllLbYhYBo+OTZQ29hZfva5jI4WcNOAMCO2svCvSY3hwtJpmdHcG0d+kMv/9Agiz8os+Li01VhTEGC86APQ4HPdC4/xjKM0JFzM90kodddNdsETrqcGQDvAEf9Zq3pLxVHGVaZZT0pZ5KdrqZ5S9cB708+IG3K5TJE23gx7maJ+6hxULaBd1goeWvnASnOfaa0GuukbpYlc/elocOjlkNAuRVv+JbS4WPE2S0z9OAC+Ud82
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA0PR12MB4349.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(36756003)(83380400001)(186003)(66574015)(26005)(31686004)(2906002)(966005)(6486002)(6506007)(508600001)(110136005)(45080400002)(31696002)(8936002)(6512007)(2616005)(5660300002)(66476007)(8676002)(66946007)(4326008)(66556008)(6666004)(316002)(53546011)(86362001)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2QwS0RzeDM3RmhaYXFXc01SdktCZUhCVjdzSGtRYzhJNzIwcFMxZFg4UmpP?=
- =?utf-8?B?N0p0R0czdkhkNG1USjhRZHU3Mkd6cWVaS0NwaUs1TitoUHVlN3lNMC9ZM2xH?=
- =?utf-8?B?czVjR2NTK0h5STFXRU5vTlRWZUswVEdvS0JsOUV4MTBMOWR3TXJJQ2dNSzdZ?=
- =?utf-8?B?dWtoUnJncUF5aVQ3Nnk1eDJmRUdIb2h2cHJhOW5PZ1JyVnB0SjZ2VFNuckxw?=
- =?utf-8?B?cFE4RTluNTM2bmR4MHBWNkVEbzB2djJGdHNyR2t0K05pbGNFNFM1UVIwQmhh?=
- =?utf-8?B?VFBWM0pJekt1d1FkeGJqdVNTUDdSbTFMYnFid3FwYk9PdmQ5cHFkcVJNblhN?=
- =?utf-8?B?Qk1xQytuUG9DdWVMWU5RVytuQ1BVN2lmeUlJN09LeXE0Y3hQajVhTnl4dHYw?=
- =?utf-8?B?eHEzMXZLNllNVmcvYnNSK3lGTEJlWEZZSXcxR3pjUmZnZ1ZLM3oyMEJjSEkw?=
- =?utf-8?B?ZnBkV3dPWjRsWkYzK1g5NCtWNkZ3aEJXK29aaTl3a1ltUm0wNmg0RjI3R3Qr?=
- =?utf-8?B?dXF2YlVpNHBDTzBRbFNBV3J3U0lqalZkVU0yN1JqVkE4TXMrK3BpV0ZzV0Nz?=
- =?utf-8?B?b2ZieEpJOGZobUdaVk1SNkQ4UE9LVjk0Tks5MzlBRWNFVEo4cE5aRllFa3hQ?=
- =?utf-8?B?dFBKdGlZRzB1eTJObjBEcm5pWTB0YmErdm50Rm10T2NNZUhUMlBudEdzcDg1?=
- =?utf-8?B?UmNmNUZxUUFkcDRBYzFPU1BRVWgvbjliRHNCMndjM0NhR21MdW5DcE43L1BZ?=
- =?utf-8?B?ME4xRnZEUmxJNzFFSnVaWU9zaXpFM1pWTVZDWGZ2TWM1NHFWenFZdzZud25W?=
- =?utf-8?B?NmFMZDdBYkdoeFZrbGhBTmVkWlBBaXo0OFdvY09UWUdpYVdkNktRb2pyYU03?=
- =?utf-8?B?ZVBmQjVJeXBOZUJPZy9OSDAwY3ZNOUEvQ3NHaVB3bUVYNUpKZ2l0bUs1cWxr?=
- =?utf-8?B?ZmRFNkZmWnB3L1Aya1ZZQm1EY2M1YXFPVWRCeDFCSklKVGVKVldISU5IZklv?=
- =?utf-8?B?cWZzaDl5K3A0Y3dTWS9MZ3BrTHZyd0V1ZUYzZVorUXpPV2d6TWloM3hFdTNr?=
- =?utf-8?B?Q2ppcUhjOERON25GV1huc0FYcTdtZXg3NDVIcXBNMWRVWDVKMnBHY1B6NXNv?=
- =?utf-8?B?RTdTZTdRM0RBTjBQN0ZyL3BuRTRmU0NyY2NVRFdBM1d2N2FzYWpMdWJSa2pz?=
- =?utf-8?B?RmRxVng2WkxLbjZZWlZaNVZpc2dTWllyS0dlcnpNSFcxc2dhWXVRQ250Q3JW?=
- =?utf-8?B?WVo3aUhNemhzKzAweUdIWWsvUStYSjdJWVRaTE5Pem4rV1BqMDZmSUw3U3ZM?=
- =?utf-8?B?YjJkcVgycFI1RmNkMS9rYzBzWUR4VmtlUUk4OG9FNGdwV3MwQ2VrNE9raG5i?=
- =?utf-8?B?dVJOV0RleEVXV3BGSGNlS2RBSEluQ0U0STJoNjZjWHNBeldYSVlhb0V2MG55?=
- =?utf-8?B?cVZHRHlFSmhaV0w3SUFuY2IvRG1pZHp1KzZtM01oRU1qdjNiTFVSNWRZM3My?=
- =?utf-8?B?dGZZSjFPeW9yLzlOd3dXN1o1bG1BNk1oNEpEdmdCN2xuR2MzLytHbmpXeHB4?=
- =?utf-8?B?NnlJMUxsVmswQnMyRjZOM0R5TnBEUUFicnkzMnVpNnhHcmZkYm9ySng2TTZV?=
- =?utf-8?B?cVV5S2JiNzNjbmgvMDF2L1NjWFVBY3Bob05FT29pSGZTUXJXOXF2Yi9LUThj?=
- =?utf-8?B?cmpCcEFrTE80NHpvSVRMeVBxbmptUXB0RkdTQ2JISGhPMHU4R3Y5ZnowdzZV?=
- =?utf-8?B?L0xXL1FvbU16aWw5NmRtSEwzZlBsbnhlOHRsUHZ5SzNpaktIWHJEUWViV0p0?=
- =?utf-8?B?K3NRSUpuQTNORmVScUwwY2dCcHBjTVcrOEZFSTRSQUR2UG9CdmxNZmE2OGMv?=
- =?utf-8?B?M2c0QUh0Nmp3WnFadWszZ0x6ZDk4ZUExM1AyYVljT0k2VkFTeDBhZWhiWEpI?=
- =?utf-8?Q?7l2y0m7XnMXhPRffN4DD9lM71rBELB2d?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 632a283b-e6cc-47c6-d404-08da0b01ecea
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4349.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2022 06:13:32.8248 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rppihUaRa0GC4ywfbNzztiHyeKIshC2MCedSJHrfBWSEIFU/1yg5pPheADS4YDuLrH5+ntt6uXwrSaXo7xgqDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5258
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] Small bar recovery vs compressed content on DG2
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>,
+ "Bloomfield, Jon" <jon.bloomfield@intel.com>,
+ Kenneth W Graunke <kenneth.w.graunke@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+References: <162c1566-87c6-072f-d340-1693f6a71aea@linux.intel.com>
+ <164750662822.7267.9355161518284202141@jlahtine-mobl.ger.corp.intel.com>
+ <9eb06b576948707f9a0527b07b58b9640821bf19.camel@linux.intel.com>
+ <d874ba08a65e4468baae737d826a85a5@intel.com>
+ <ddd7af8f57320a7e2a84b3fdb94e3050eae81857.camel@linux.intel.com>
+ <f80dc6ccf38343beb819e1584a9017f7@intel.com>
+ <CAKMK7uGsCFJR2d-m0TsVjEy36bN1Z38fuoME6gezA9xY_MkSeA@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <CAKMK7uGsCFJR2d-m0TsVjEy36bN1Z38fuoME6gezA9xY_MkSeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,73 +68,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, pmenzel@molgen.mpg.de, christian.koenig@amd.com
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 3/18/22 19:12, Daniel Vetter wrote:
+> Maybe also good to add dri-devel to these discussions.
+>
+> I'm not sure where exactly we landed with dgpu error capture (maybe I
+> should check the code but it's really w/e here), but I think we can
+> also toss in "you need a non-recoverable context for error capture to
+> work on dgpu".
 
-On 16/03/22 6:02 pm, Christian König wrote:
-> Am 16.03.22 um 12:31 schrieb Matthew Auld:
->> On 16/03/2022 06:34, Arunpravin Paneer Selvam wrote:
->>> handle a situation in the condition order-- == min_order,
->>> when order = 0 and min_order = 0, leading to order = -1,
->>> it now won't exit the loop. To avoid this problem,
->>> added a order check in the same condition, (i.e)
->>> when order is 0, we return -ENOSPC
->>>
->>> v2: use full name in email program and in Signed-off tag
->>>
->>> Signed-off-by: Arunpravin Paneer Selvam 
->>> <Arunpravin.PaneerSelvam@amd.com>
->>> ---
->>>   drivers/gpu/drm/drm_buddy.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>> index 72f52f293249..5ab66aaf2bbd 100644
->>> --- a/drivers/gpu/drm/drm_buddy.c
->>> +++ b/drivers/gpu/drm/drm_buddy.c
->>> @@ -685,7 +685,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->>>               if (!IS_ERR(block))
->>>                   break;
->>>   -            if (order-- == min_order) {
->>> +            if (!order || order-- == min_order) {
+Error capture now works even with multiple pipelined migrations simply 
+by looking at the vma_resource for the metadata snapshot when the 
+request was queued instead of the vma for metadata, so no additional 
+restrictions. (Also fixed up the gfp mode and completely avoided the 
+contiguous allocations for the page directories).
+
+> Since that simplifies things even more. Maybe Thomas
+> forgot to add that to the list of restrictions.
+>
+> Anyway on the "we can't capture lmem-only compressed buffers", I think
+> that's totally fine. Those are for render targets, and we don't
+> capture those. Adding Lionel and Ken to confirm.
+OK.
+> -Daniel
+>
+> On Fri, 18 Mar 2022 at 17:26, Bloomfield, Jon <jon.bloomfield@intel.com> wrote:
+>> @Thomas Hellström - I agree :-)
 >>
->> It shouldn't be possible to enter an infinite loop here, without first 
->> tripping up the BUG_ON(order < min_order) further up, and for that, as 
->> we discussed here[1], it sounded like the conclusion was to rather add 
->> a simple check somewhere in drm_buddy_alloc_blocks() to reject any 
->> size not aligned to the min_page_size?
-> 
-> Sounds good to me as well.
-> 
-> And just to make it clear: I don't review the functionality here, that's 
-> up to you guys.
-> 
-> Just giving my Ack on things like style and pushing the end result 
-> upstream as necessary.
-> 
-> So let me know when you have settled on a solution.
-
-I sent a drm buddy patch adding a simple check to verify the size
-aligned to the min_page_size.
-
-In amdgpu part patch, I have a check if size is not aligned to the
-min_page_size, we are enabling the is_contiguous flag, therefore the
-size value round up to the power of two and allocated, Later, the
-allocated block trimmed to the original requested size.
-
-> 
-> Regards,
-> Christian.
-> 
+>> My question was really to @Joonas Lahtinen, who was saying we could always migrate in the CPU fault handler. I am pushing back on that unless we have no choice. It's the very complication we were trying to avoid with the current SAS. If that's what's needed, then so be it. But I'm asking whether we can instead handle this specially, instead of adding generic complexity to the primary code paths.
 >>
->> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F477414%2F%3Fseries%3D101108%26rev%3D1&amp;data=04%7C01%7CArunpravin.PaneerSelvam%40amd.com%7Cf03d93b31c7d47b1389c08da074915cf%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637830307722869478%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=i3Pw3Go9Niu20Z4CF0IiWKPgTYTBPyK0SJYVq02fx0A%3D&amp;reserved=0
+>> Jon
 >>
->>>                   err = -ENOSPC;
->>>                   goto err_free;
->>>               }
+>>> -----Original Message-----
+>>> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Sent: Friday, March 18, 2022 2:48 AM
+>>> To: Bloomfield, Jon <jon.bloomfield@intel.com>; Joonas Lahtinen
+>>> <joonas.lahtinen@linux.intel.com>; Intel Graphics Development <intel-
+>>> gfx@lists.freedesktop.org>; Auld, Matthew <matthew.auld@intel.com>; C,
+>>> Ramalingam <ramalingam.c@intel.com>; Vetter, Daniel
+>>> <daniel.vetter@intel.com>
+>>> Subject: Re: Small bar recovery vs compressed content on DG2
 >>>
->>> base-commit: 3bd60c0259406c5ca3ce5cdc958fb910ad4b8175
-> 
+>>> Hi,
+>>>
+>>> On Thu, 2022-03-17 at 18:21 +0000, Bloomfield, Jon wrote:
+>>>> +@Vetter, Daniel
+>>>>
+>>>> Let's not start re-inventing this on the fly again. That's how we got
+>>>> into trouble in the past. The SAS/Whitepaper does currently require
+>>>> the SMEM+LMEM placement for mappable, for good reasons.
+>>> Just to avoid any misunderstandings here:
+>>>
+>>> We have two hard requirements from Arch that clash, main problem is
+>>> compressed bos can't be captured on error with current designs.
+>>>
+>>>  From an engineering point of view we can do little more than list
+>>> options available to resolve this and whether they are hard or not so
+>>> hard to implemement. But IMHO Arch needs to agree on what's got to
+>>> give.
+>>>
+>>> Thanks,
+>>> Thomas
+>>>
+>>>
+>>>> We cannot 'always migrate to mappable in the fault handler'. Or at
+>>>> least, this is not as trivial as it is to write in a sentence due to
+>>>> the need to spill out other active objects, and all the usual
+>>>> challenges with context synchronization etc. It is possible, perhaps
+>>>> with a lot of care, but it is challenging to guarantee, easy to
+>>>> break, and not needed for 99.9% of software. We are trying to
+>>>> simplify our driver stack.
+>>>>
+>>>> If we need a special mechanism for debug, we should devise a special
+>>>> mechanism, not throw out the general LMEM+SMEM requirement. Are
+>>> there
+>>>> any identified first-class clients that require such access, or is it
+>>>> only debugging tools?
+>>>>
+>>>> If only debug, then why can't the tool use a copy engine submission
+>>>> to access the data in place? Or perhaps a bespoke ioctl to access
+>>>> this via the KMD (and kmd submitted copy-engine BB)?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Jon
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>> Sent: Thursday, March 17, 2022 2:35 AM
+>>>>> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Bloomfield,
+>>>>> Jon
+>>>>> <jon.bloomfield@intel.com>; Intel Graphics Development <intel-
+>>>>> gfx@lists.freedesktop.org>; Auld, Matthew <matthew.auld@intel.com>;
+>>>>> C,
+>>>>> Ramalingam <ramalingam.c@intel.com>
+>>>>> Subject: Re: Small bar recovery vs compressed content on DG2
+>>>>>
+>>>>> On Thu, 2022-03-17 at 10:43 +0200, Joonas Lahtinen wrote:
+>>>>>> Quoting Thomas Hellström (2022-03-16 09:25:16)
+>>>>>>> Hi!
+>>>>>>>
+>>>>>>> Do we somehow need to clarify in the headers the semantics for
+>>>>>>> this?
+>>>>>>>
+>>>>>>>   From my understanding when discussing the CCS migration series
+>>>>>>> with
+>>>>>>> Ram, the kernel will never do any resolving (compressing /
+>>>>>>> decompressing) migrations or evictions which basically implies
+>>>>>>> the
+>>>>>>> following:
+>>>>>>>
+>>>>>>> *) Compressed data must have LMEM only placement, otherwise the
+>>>>> GPU
+>>>>>>> would read garbage if accessing from SMEM.
+>>>>>> This has always been the case, so it should be documented in the
+>>>>>> uAPI
+>>>>>> headers and kerneldocs.
+>>>>>>
+>>>>>>> *) Compressed data can't be assumed to be mappable by the CPU,
+>>>>>>> because
+>>>>>>> in order to ensure that on small BAR, the placement needs to be
+>>>>>>> LMEM+SMEM.
+>>>>>> Not strictly true, as we could always migrate to the mappable
+>>>>>> region
+>>>>>> in
+>>>>>> the CPU fault handler. Will need the same set of tricks as with
+>>>>>> limited
+>>>>>> mappable GGTT in past.
+>>>>> In addition to Matt's reply:
+>>>>>
+>>>>> Yes, if there is sufficient space. I'm not sure we want to
+>>>>> complicate
+>>>>> this to migrate only part of the buffer to mappable on a fault
+>>>>> basis?
+>>>>> Otherwise this is likely to fail.
+>>>>>
+>>>>> One option is to allow cpu-mapping from SYSTEM like TTM is doing
+>>>>> for
+>>>>> evicted buffers, even if SYSTEM is not in the placement list, and
+>>>>> then
+>>>>> migrate back to LMEM for gpu access.
+>>>>>
+>>>>> But can user-space even interpret the compressed data when CPU-
+>>>>> mapping?
+>>>>> without access to the CCS metadata?
+>>>>>
+>>>>>>> *) Neither can compressed data be part of a CAPTURE buffer,
+>>>>>>> because
+>>>>>>> that
+>>>>>>> requires the data to be CPU-mappable.
+>>>>>> Especially this will be too big of a limitation which we can't
+>>>>>> really
+>>>>>> afford
+>>>>>> when it comes to debugging.
+>>>>> Same here WRT user-space interpretation.
+>>>>>
+>>>>> This will become especially tricky on small BAR, because either we
+>>>>> need
+>>>>> to fit all compressed buffers in the mappable portion, or be able
+>>>>> to
+>>>>> blit the contents of the capture buffers from within the fence
+>>>>> signalling critical section, which will require a lot of work I
+>>>>> guess.
+>>>>>
+>>>>> /Thomas
+>>>>>
+>>>>>
+>>>>>> Regards, Joonas
+>>>>>>
+>>>>>>> Are we (and user-mode drivers) OK with these restrictions, or
+>>>>>>> do we
+>>>>>>> need
+>>>>>>> to rethink?
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>>
+>>>>>>> Thomas
+>>>>>>>
+>>>>>>>
+>
