@@ -1,37 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BFB4E2F01
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 18:25:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C936E4E2F10
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 18:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D7210E433;
-	Mon, 21 Mar 2022 17:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5896889FF9;
+	Mon, 21 Mar 2022 17:29:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9CB4B10E42A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 17:24:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1213C1042
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 10:24:59 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C58783F66F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 10:24:58 -0700 (PDT)
-Date: Mon, 21 Mar 2022 17:24:56 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v4 2/4] drm: allow real encoder to be passed for
- drm_writeback_connector
-Message-ID: <Yji06AeNokYeiOPq@e110455-lin.cambridge.arm.com>
-References: <1647567936-11971-1-git-send-email-quic_abhinavk@quicinc.com>
- <1647567936-11971-3-git-send-email-quic_abhinavk@quicinc.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5166410E38E;
+ Mon, 21 Mar 2022 17:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647883754; x=1679419754;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4omy2zLjp56BSzPaHL20plTTQCZtBt5X/9EB2seiPmM=;
+ b=mI/jRbIv+ubXtvKnTTPN6v391oZDGJIcQ1RnzhfgO3v1oVQwpVC5BW5f
+ 0i6ocO9fW/eq6qTPPBphRNzPhTgVouB6qvPOI/7hNal1Yv91DiPCZLNIU
+ 4fK73/X4oYfO0lqkqFiAbtNOXbtBQTI7VGeW/fukM8MZnaYhXNaaI3kHA
+ bkeIvfIBvRbj80AgCfBMOxpvSCcf6ZFJeudU4IJDGPjeGsovy9UsS+pPl
+ jCAwLIa5TGuV9vXD1eAcUrp2YAvFmD3cpTJXhQ5KPEV8wXK/HBuoB9L64
+ 37WJJ2Xxu3jhHjMnjUB2WQ1NalfVZYRNr3Py67UJOGjLLw9tQWo0ETfCB w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="237550869"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="237550869"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 10:28:53 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="559966598"
+Received: from atnordon-mobl1.ger.corp.intel.com (HELO [10.213.230.67])
+ ([10.213.230.67])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 10:28:50 -0700
+Message-ID: <9ee954d2-4a5e-ff11-0061-b518e00e952a@linux.intel.com>
+Date: Mon, 21 Mar 2022 17:28:46 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/4] i915/gem: drop wbinvd_on_all_cpus usage
+Content-Language: en-US
+To: Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <20220319194227.297639-2-michael.cheng@intel.com>
+ <fc7c729b-5c87-f046-04dd-7ca8296487dd@linux.intel.com>
+ <05e56e59-81ed-0b99-6c3d-7f9f413ecd4a@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <05e56e59-81ed-0b99-6c3d-7f9f413ecd4a@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1647567936-11971-3-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,206 +63,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
- nganji@codeaurora.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: thomas.hellstrom@linux.intel.com, wayne.boyer@intel.com,
+ daniel.vetter@ffwll.ch, casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 17, 2022 at 06:45:34PM -0700, Abhinav Kumar wrote:
-> For some vendor driver implementations, display hardware can
-> be shared between the encoder used for writeback and the physical
-> display.
+
+On 21/03/2022 16:31, Michael Cheng wrote:
+> On 2022-03-21 3:30 a.m., Tvrtko Ursulin wrote:
 > 
-> In addition resources such as clocks and interrupts can
-> also be shared between writeback and the real encoder.
+>>
+>> On 19/03/2022 19:42, Michael Cheng wrote:
+>>> Previous concern with using drm_clflush_sg was that we don't know 
+>>> what the
+>>> sg_table is pointing to, thus the usage of wbinvd_on_all_cpus to flush
+>>> everything at once to avoid paranoia.
+>>
+>> And now we know, or we know it is not a concern?
+>>
+>>> To make i915 more architecture-neutral and be less paranoid, lets 
+>>> attempt to
+>>
+>> "Lets attempt" as we don't know if this will work and/or what can/will 
+>> break?
 > 
-> To accommodate such vendor drivers and hardware, allow
-> real encoder to be passed for drm_writeback_connector.
+> Yes, but it seems like there's no regression with IGT .
 > 
-> changes in v4:
-> 	- split the possible_crtcs change and the parts which should
-> 	  belong to the addition of new API to the next change
+> If there's a big hit in performance, or if this solution gets accepted 
+> and the bug reports come flying in, we can explore other solutions. But 
+> speaking to Dan Vetter, ideal solution would be to avoid any calls 
+> directly to wbinvd, and use drm helpers in place.
 > 
-> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/drm_writeback.c | 12 +++++++-----
->  drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++++----
->  include/drm/drm_writeback.h     | 18 ++++++++++++++++--
->  3 files changed, 33 insertions(+), 11 deletions(-)
+> +Daniel for any extra input.
 > 
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> index dc2ef12..a4c17d6 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -190,11 +190,13 @@ int drm_writeback_connector_init(struct drm_device *dev,
->  	if (IS_ERR(blob))
->  		return PTR_ERR(blob);
->  
-> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> +	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
->  
-> -	wb_connector->encoder.possible_crtcs = possible_crtcs;
-> +	wb_connector->encoder = &wb_connector->internal_encoder;
+>>> use drm_clflush_sg to flush the pages for when the GPU wants to read
+>>> from main memory.
+>>>
+>>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 9 ++-------
+>>>   1 file changed, 2 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> index f5062d0c6333..b0a5baaebc43 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> @@ -8,6 +8,7 @@
+>>>   #include <linux/highmem.h>
+>>>   #include <linux/dma-resv.h>
+>>>   #include <linux/module.h>
+>>> +#include <drm/drm_cache.h>
+>>>     #include <asm/smp.h>
+>>>   @@ -250,16 +251,10 @@ static int 
+>>> i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+>>>        * DG1 is special here since it still snoops transactions even 
+>>> with
+>>>        * CACHE_NONE. This is not the case with other HAS_SNOOP 
+>>> platforms. We
+>>>        * might need to revisit this as we add new discrete platforms.
+>>> -     *
+>>> -     * XXX: Consider doing a vmap flush or something, where possible.
+>>> -     * Currently we just do a heavy handed wbinvd_on_all_cpus() here 
+>>> since
+>>> -     * the underlying sg_table might not even point to struct pages, 
+>>> so we
+>>> -     * can't just call drm_clflush_sg or similar, like we do 
+>>> elsewhere in
+>>> -     * the driver.
+>>>        */
+>>>       if (i915_gem_object_can_bypass_llc(obj) ||
+>>>           (!HAS_LLC(i915) && !IS_DG1(i915)))
+>>> -        wbinvd_on_all_cpus();
+>>> +        drm_clflush_sg(pages);
+>>
+>> And as noticed before, drm_clfush_sg still can call wbinvd_on_all_cpus 
+>> so are you just punting the issue somewhere else? How will it be 
+>> solved there?
+>>
+> Instead of calling an x86 asm directly, we are using what's available to 
+> use to make the driver more architecture neutral. Agreeing with Thomas, 
+> this solution falls within the "prefer range-aware clflush apis", and 
+> since some other generation platform doesn't support clflushopt, it will 
+> fall back to using wbinvd.
 
-You need to check here that the wb_connector doesn't have already an attached encoder
-before you overwrite the pointer with the internal encoder.
+Right, I was trying to get the information on what will drm_clflush_sg 
+do on Arm. Is it range based or global there, or if the latter exists.
 
->  
-> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
-> +	wb_connector->encoder->possible_crtcs = possible_crtcs;
-> +
-> +	ret = drm_encoder_init(dev, wb_connector->encoder,
->  			       &drm_writeback_encoder_funcs,
->  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+Regards,
 
-Here you have initialised the encoder pointed at by wb_connector->encoder, which is
-always wb_connector->internal_encoder with your code.
-
->  	if (ret)
-> @@ -208,7 +210,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
->  		goto connector_fail;
->  
->  	ret = drm_connector_attach_encoder(connector,
-> -						&wb_connector->encoder);
-> +						wb_connector->encoder);
->  	if (ret)
->  		goto attach_fail;
->  
-> @@ -237,7 +239,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
->  attach_fail:
->  	drm_connector_cleanup(connector);
->  connector_fail:
-> -	drm_encoder_cleanup(&wb_connector->encoder);
-> +	drm_encoder_cleanup(wb_connector->encoder);
->  fail:
->  	drm_property_blob_put(blob);
->  	return ret;
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 3447eb6..341a9be5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -151,6 +151,8 @@ struct vc4_txp {
->  
->  	struct platform_device *pdev;
->  
-> +	struct drm_encoder drm_enc;
-> +
->  	struct drm_writeback_connector connector;
->  
->  	void __iomem *regs;
-> @@ -159,7 +161,7 @@ struct vc4_txp {
->  
->  static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
->  {
-> -	return container_of(encoder, struct vc4_txp, connector.encoder);
-> +	return container_of(encoder, struct vc4_txp, drm_enc);
->  }
->  
->  static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
-> @@ -467,6 +469,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  	struct vc4_txp *txp;
->  	struct drm_crtc *crtc;
->  	struct drm_encoder *encoder;
-> +	struct drm_writeback_connector *wb_conn;
->  	int ret, irq;
->  
->  	irq = platform_get_irq(pdev, 0);
-> @@ -492,9 +495,12 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  	txp->regset.regs = txp_regs;
->  	txp->regset.nregs = ARRAY_SIZE(txp_regs);
->  
-> -	drm_connector_helper_add(&txp->connector.base,
-> +	wb_conn = &txp->connector;
-> +	wb_conn->encoder = &txp->drm_enc;
-> +
-> +	drm_connector_helper_add(&wb_conn->base,
->  				 &vc4_txp_connector_helper_funcs);
-> -	ret = drm_writeback_connector_init(drm, &txp->connector,
-> +	ret = drm_writeback_connector_init(drm, wb_conn,
->  					   &vc4_txp_connector_funcs,
->  					   &vc4_txp_encoder_helper_funcs,
->  					   drm_fmts, ARRAY_SIZE(drm_fmts),
-
-This call will never initialise the txp->drm_enc, as per my comments above. However
-if this was the intent, it's fine, but then you need to add a drm_encoder_init() call
-here for txp->drm_enc. Otherwise, you need to stop overwriting the pointer in
-drm_writeback_connector_init().
-
-> @@ -507,7 +513,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  	if (ret)
->  		return ret;
->  
-> -	encoder = &txp->connector.encoder;
-> +	encoder = txp->connector.encoder;
->  	encoder->possible_crtcs = drm_crtc_mask(crtc);
->  
->  	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> index db6214f..c525b60 100644
-> --- a/include/drm/drm_writeback.h
-> +++ b/include/drm/drm_writeback.h
-> @@ -25,15 +25,29 @@ struct drm_writeback_connector {
->  	struct drm_connector base;
->  
->  	/**
-> -	 * @encoder: Internal encoder used by the connector to fulfill
-> +	 * @encoder: handle to drm_encoder used by the connector to fulfill
->  	 * the DRM framework requirements. The users of the
->  	 * @drm_writeback_connector control the behaviour of the @encoder
->  	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
->  	 * function.
-> +	 *
-> +	 * For some vendor drivers, the hardware resources are shared between
-> +	 * writeback encoder and rest of the display pipeline.
-> +	 * To accommodate such cases, encoder is a handle to the real encoder
-> +	 * hardware.
-> +	 *
-> +	 * For current existing writeback users, this shall continue to be the
-> +	 * embedded encoder for the writeback connector.
->  	 */
-> -	struct drm_encoder encoder;
-> +	struct drm_encoder *encoder;
->  
->  	/**
-> +	 * @internal_encoder: internal encoder used by writeback when
-> +	 * a real encoder is not provided by the vendor drm drivers.
-> +	 * @encoder will be assigned to this for those cases.
-> +	 */
-> +	struct drm_encoder internal_encoder;
-> +	/**
->  	 * @pixel_formats_blob_ptr:
->  	 *
->  	 * DRM blob property data for the pixel formats list on writeback
-> -- 
-> 2.7.4
-> 
-
-You need to come up with a bit more sophisticated algorithm for allowing drivers to
-pass on a connector with a pre-allocated encoder. If the encoder is pre-populated
-then you need to decide if drm_writeback_connector_init() will initialise the encoder
-too or if it's going to assume that it has been already initialised (in which case
-the error path where we call drm_encoder_cleanup() also needs to know if we're using
-the internal encoder or not and act accordingly).
-
-Otherwise the code looks pretty good, thanks for the improvements.
-
-Best regards,
-Liviu
-
-
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Tvrtko
