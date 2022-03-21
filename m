@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370DE4E2B98
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 16:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4B84E2CA0
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 16:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CA210E367;
-	Mon, 21 Mar 2022 15:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6F089EB8;
+	Mon, 21 Mar 2022 15:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEF9B10E357;
- Mon, 21 Mar 2022 15:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647875706; x=1679411706;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=iCXxoMW/NEwbKFJN8r+yz2XewEatvO6raZs5qOz6yGs=;
- b=Cg+UxdHBy705PrOa7QM0hA5ueoDKaIFt9W9zHDgT3wzI0O8flIU6lAQE
- iASw9JsL/T/6LUm+y9+tKKKlt88SI4rG+H9mpcLb5aM0j1u/ZFUepgRIu
- aL/Ovgag1n0JvcdD8TXktSwf1o+UsbcOBpP2xVknTVhYsKosZspHAt2cG
- SBdbSuLRYhgyhVnXhFCIzDPRCrjbxglS3b7OcwnlE3p0R6vawmTJ8cQv8
- uG9r3vm6LlK6Ykh5daEwWp09hOhRFOD7dmdh+MM9iNJyUTs+M5Wm1BSQ+
- tujyKDQcxi2yrSSibX9z2sqjNclCPclDbEhV999qaEUnoVghX7kVpoLjC A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257525029"
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="257525029"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 08:15:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="543262908"
-Received: from evinintel.ger.corp.intel.com (HELO [10.249.254.209])
- ([10.249.254.209])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 08:15:03 -0700
-Message-ID: <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
-Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Michael Cheng
- <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Mon, 21 Mar 2022 16:15:01 +0100
-In-Reply-To: <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
-References: <20220319194227.297639-1-michael.cheng@intel.com>
- <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
- <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
- <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
- <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
- <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
- <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
- <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6600589D77
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 15:44:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id CF1551F42764
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1647877456;
+ bh=Z5EhRCR8SM/OwLmxsF67iIbxxSpDBZ8yq/gYZ2Z4Kss=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kqpWzbAFNsd9ff+MRTD59ZUP6F2XXuxIZK8Y7dS4h07GqIxpZfWrbv3QCUOKmB6EC
+ cdscyqdG0uHJigAgGAAtnDQdpfqsOe2FvoX51SpHbpnD+9/ZmsV0yzO5QQoU3qgac3
+ J/U/Ip1ZlNX/q0DFrDwUIF4wQ543z7scn7YQj910n2DOF/mR1v2dzsqBJnAK+XEXUm
+ FLuZxZYy98DA5mHdIvvBYDB73HPKr9/j84UwgXzdLvT0vnvS0/e0+rIlg6b6Sbnpyh
+ lujNmAwU66FdB7y1ltGk8/grY+g/01BxZz71KJT/ARixDvp1ZP55n7hGEASZov3KNS
+ 9R/ulETJM79FQ==
+Message-ID: <a29021bd-1447-038a-e141-d06b53173d36@collabora.com>
+Date: Mon, 21 Mar 2022 15:44:13 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/ttm: fix potential null ptr deref in when mem space
+ alloc fails
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthew Auld <matthew.auld@intel.com>
+References: <20220318195004.416539-1-bob.beckett@collabora.com>
+ <8688c626-5858-18ba-593b-cdf179ca5201@amd.com>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <8688c626-5858-18ba-593b-cdf179ca5201@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,161 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
- lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
+
+
+On 21/03/2022 09:51, Christian König wrote:
+> Am 18.03.22 um 20:50 schrieb Robert Beckett:
+>> when allocating a resource in place it is common to free the buffer's
+>> resource, then allocate a new resource in a different placement.
+>>
+>> e.g. amdgpu_bo_create_kernel_at calls ttm_resource_free, then calls
+>> ttm_bo_mem_space.
 > 
-> On 21/03/2022 13:40, Thomas Hellström wrote:
-> > Hi,
-> > 
-> > On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
-> > > 
-> > > On 21/03/2022 12:33, Thomas Hellström wrote:
-> > > > On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin wrote:
-> > > > > 
-> > > > > On 21/03/2022 11:03, Thomas Hellström wrote:
-> > > > > > Hi, Tvrtko.
-> > > > > > 
-> > > > > > On 3/21/22 11:27, Tvrtko Ursulin wrote:
-> > > > > > > 
-> > > > > > > On 19/03/2022 19:42, Michael Cheng wrote:
-> > > > > > > > To align with the discussion in [1][2], this patch
-> > > > > > > > series
-> > > > > > > > drops
-> > > > > > > > all
-> > > > > > > > usage of
-> > > > > > > > wbvind_on_all_cpus within i915 by either replacing the
-> > > > > > > > call
-> > > > > > > > with certain
-> > > > > > > > drm clflush helpers, or reverting to a previous logic.
-> > > > > > > 
-> > > > > > > AFAIU, complaint from [1] was that it is wrong to provide
-> > > > > > > non
-> > > > > > > x86
-> > > > > > > implementations under the wbinvd_on_all_cpus name.
-> > > > > > > Instead an
-> > > > > > > arch
-> > > > > > > agnostic helper which achieves the same effect could be
-> > > > > > > created.
-> > > > > > > Does
-> > > > > > > Arm have such concept?
-> > > > > > 
-> > > > > > I also understand Linus' email like we shouldn't leak
-> > > > > > incoherent
-> > > > > > IO
-> > > > > > to
-> > > > > > other architectures, meaning any remaining wbinvd()s should
-> > > > > > be
-> > > > > > X86
-> > > > > > only.
-> > > > > 
-> > > > > The last part is completely obvious since it is a x86
-> > > > > instruction
-> > > > > name.
-> > > > 
-> > > > Yeah, I meant the function implementing wbinvd() semantics.
-> > > > 
-> > > > > 
-> > > > > But I think we can't pick a solution until we know how the
-> > > > > concept
-> > > > > maps
-> > > > > to Arm and that will also include seeing how the
-> > > > > drm_clflush_sg for
-> > > > > Arm
-> > > > > would look. Is there a range based solution, or just a big
-> > > > > hammer
-> > > > > there.
-> > > > > If the latter, then it is no good to churn all these reverts
-> > > > > but
-> > > > > instead
-> > > > > an arch agnostic wrapper, with a generic name, would be the
-> > > > > way to
-> > > > > go.
-> > > > 
-> > > > But my impression was that ARM would not need the range-based
-> > > > interface
-> > > > either, because ARM is only for discrete and with discrete
-> > > > we're
-> > > > always
-> > > > coherent.
-> > > 
-> > > Not sure what you mean here - what about flushing system memory
-> > > objects
-> > > on discrete? Those still need flushing on paths like suspend
-> > > which this
-> > > series touches. Am I missing something?
-> > 
-> > System bos on discrete should always have
-> > 
-> > I915_BO_CACHE_COHERENT_FOR_READ | I915_BO_CACHE_COHERENT_FOR_WRITE
-> > 
-> > either by the gpu being fully cache coherent (or us mapping system
-> > write-combined). Hence no need for cache clflushes or wbinvd() for
-> > incoherent IO.
+> Well yes I'm working the drivers towards this, but NAK at the moment. 
+> Currently bo->resource is never expected to be NULL.
 > 
-> Hmm so you are talking about the shmem ttm backend. It ends up
-> depending on the result of i915_ttm_cache_level, yes? It cannot end
-> up with I915_CACHE_NONE from that function?
+> And yes I'm searching for this bug in amdgpu for quite a while. Where 
+> exactly does that happen?
 
-If the object is allocated with allowable placement in either LMEM or
-SYSTEM, and it ends in system, it gets allocated with I915_CACHE_NONE,
-but then the shmem ttm backend isn't used but TTM's wc pools, and the
-object should *always* be mapped wc. Even in system.
+in my case, I am writing new code for i915 that does this. I will switch 
+it to allocate the new resource first, then free the old one if successful.
 
-> 
-> I also found in i915_drm.h:
-> 
->          * As caching mode when specifying `I915_MMAP_OFFSET_FIXED`,
-> WC or WB will
->          * be used, depending on the object placement on creation. WB
-> will be used
->          * when the object can only exist in system memory, WC
-> otherwise.
-> 
-> If what you say is true, that on discrete it is _always_ WC, then
-> that needs updating as well.
+For the existing amd case, see 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c?h=v5.17#n384
 
-If an object is allocated as system only, then it is mapped WB, and
-we're relying on the gpu being cache coherent to avoid clflushes. Same
-is actually currently true if the object happens to be accessed by the
-cpu while evicted. Might need an update for that.
 
-> 
-> > 
-> > That's adhering to Linus'
-> > 
-> > "And I sincerely hope to the gods that no cache-incoherent i915
-> > mess
-> > ever makes it out of the x86 world. Incoherent IO was always a
-> > historical mistake and should never ever happen again, so we should
-> > not spread that horrific pattern around."
-> 
-> Sure, but I was not talking about IO - just the CPU side access to
-> CPU side objects.
+amdgpu_bo_create_kernel_at calls ttm_resource_free, then calls 
+ttm_bo_mem_space. If the ttm_bo_mem_space call fails (e.g. due to memory 
+pressure), then the error path will try to deref bo->resource, which 
+will be null at that point.
 
-OK, I was under the impression that clflushes() and wbinvd()s in i915
-was only ever used to make data visible to non-snooping GPUs. 
 
-Do you mean that there are other uses as well? Agreed the wb cache
-flush on on suspend only if gpu is !I915_BO_CACHE_COHERENT_FOR_READ?
-looks to not fit this pattern completely.
+to fix this, I honestly don't see a reason to not also have the safety 
+check for null there. It could check early and return an error if it is 
+null. I think that defensive programming here makes sense, better than a 
+null deref if someone programs it wrong.
 
-Otherwise, for architectures where memory isn't always fully coherent
-with the cpu cache, I'd expect them to use the apis in
-asm/cacheflush.h, like flush_cache_range() and similar, which are nops
-on x86.
-
-Thanks,
-Thomas
 
 
 > 
-> Regards,
+> Amdgpu is supposed to allocate a new resource first, then do a swap and 
+> the free the old one.
 > 
-> Tvrtko
-
-
+> Thanks,
+> Christian.
+> 
+>>
+>> In this situation, bo->resource will be null as it is cleared during
+>> the initial freeing of the previous resource.
+>> This leads to a null deref.
+>>
+>> Fixes: d3116756a710 (drm/ttm: rename bo->mem and make it a pointer)
+>>
+>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+>> index db3dc7ef5382..62b29ee7d040 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>> @@ -875,7 +875,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+>>       }
+>>   error:
+>> -    if (bo->resource->mem_type == TTM_PL_SYSTEM && !bo->pin_count)
+>> +    if (bo->resource && bo->resource->mem_type == TTM_PL_SYSTEM && 
+>> !bo->pin_count)
+>>           ttm_bo_move_to_lru_tail_unlocked(bo);
+>>       return ret;
+> 
