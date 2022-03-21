@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC5A4E33A8
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 00:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E794E33AD
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 00:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 569BA10E4A1;
-	Mon, 21 Mar 2022 23:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0CE10E4BF;
+	Mon, 21 Mar 2022 23:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F36210E4BF;
- Mon, 21 Mar 2022 23:05:58 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8250010E4BF;
+ Mon, 21 Mar 2022 23:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647903958; x=1679439958;
+ t=1647904035; x=1679440035;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=7mb+7LOxADD/P9KW1yvKKamtfI2JCBSWx9CNrUxbauA=;
- b=ePcka/iofuXci9zTeV/XdvQxtqS97TFFGo7qf847DujXgEuwF5xnrO1A
- 9icpLgjzQESAb0SUgXQzk+fqjk3NpKHRhwBkeGKhyGxtR9HtRwaowz01D
- uiVcx2TPfknu3jgJ/hO6iiuyPt6yU5DzNEwlVKNkvRS5liJJNmOx0gUZY
- LXu5lj6buVnSxc7n2bgnpi5eGwv2lP8HhnL4Mblu4B28r6tzOE4zDdAbW
- /QHYxZ0wJEM9eFg/jAtpgOnDqqUg1exHYsCp/5YjV/4uTXPr3hsoTlWs9
- Z0vIJ5JjAikV93jSUmtiryW5FFLVpkItygQ/93SBmglosIialc2EhjRD9 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="318378256"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="318378256"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 16:05:57 -0700
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="692334364"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by fmsmga001-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 16:05:55 -0700
-Date: Tue, 22 Mar 2022 04:36:30 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v4 6/8] drm/ttm: Add a parameter to add extra
- pages into ttm_tt
-Message-ID: <20220321230630.GC12356@intel.com>
-References: <20220319204229.9846-1-ramalingam.c@intel.com>
- <20220319204229.9846-7-ramalingam.c@intel.com>
- <f461eb40-2ae9-72f0-56a2-b06acc20f5c9@linux.intel.com>
+ bh=FNNqvMM3qR3tMkg0z2sCx0g+QWKdEkWteJv86wfD/ro=;
+ b=I4SrN9+iIVRORjK+GD5KjUn9KvYHUB8cDc+/eO4YBYMqETNm4wCymDvf
+ HeS9IKF6CsyvBS2FQxbb/AwjLPH0iM3m9nQAX/b+Rmdqmy9Rvg/NTSNcb
+ EZGX1wdFcVvIRjVpYncTSwhIB+5woQJh4FKD2NoCmBc7ykHEGCQiKQNyC
+ 1MXi7CiI8p0b+qlHqFMmC/YyEVh3F3/kn8oHgwxP9Kf4+A8Fw0X99ZyUL
+ HTyubNUaUu34HPDKsWwRQ9zxruD7n+FWbUNcmAuFOSgSQolczGSdk6r4a
+ jtg3WmHy+mEB4joBZbm8Q4L1a73j94s/xxMAs7N98g/1vv8gq+BlZ5L+q g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="237611349"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="237611349"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 16:07:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="636816234"
+Received: from eliasbro-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.30.246])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 16:07:13 -0700
+Date: Mon, 21 Mar 2022 16:07:12 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 5/7] drm/i915/selftests: use the
+ memcpy_from_wc call from the drm
+Message-ID: <20220321230712.jkltx5nvrjenjcnl@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220303180013.512219-1-balasubramani.vivekanandan@intel.com>
+ <20220303180013.512219-6-balasubramani.vivekanandan@intel.com>
+ <20220321230056.6wtj5om5stg6p6eu@ldmartin-desk2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <f461eb40-2ae9-72f0-56a2-b06acc20f5c9@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220321230056.6wtj5om5stg6p6eu@ldmartin-desk2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,159 +60,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
+ michael.cheng@intel.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ siva.mullati@intel.com, Matthew Auld <matthew.auld@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-03-21 at 11:11:33 +0100, Das, Nirmoy wrote:
-> In the previous version I replied only to the mailing list email so probably
-> my email slipped through.
+Now Cc'ing Daniel properly
 
-Sorry for the miss. Thank so much for the review.
+Lucas De Marchi
 
-Ram
-> 
-> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> for patch 6-7
-> 
-> On 3/19/2022 9:42 PM, Ramalingam C wrote:
-> > Add a parameter called "extra_pages" for ttm_tt_init, to indicate that
-> > driver needs extra pages in ttm_tt.
-> > 
-> > v2:
-> >    Used imperative wording [Thomas and Christian]
-> > 
-> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > cc: Christian Koenig <christian.koenig@amd.com>
-> > cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
-> > Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-> > Reviewed-by: Christian Konig <christian.koenig@amd.com>
-> > ---
-> >   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  2 +-
-> >   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
-> >   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
-> >   drivers/gpu/drm/ttm/ttm_tt.c               | 12 +++++++-----
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
-> >   include/drm/ttm/ttm_tt.h                   |  4 +++-
-> >   7 files changed, 15 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > index dc7f938bfff2..123045b58fec 100644
-> > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > @@ -867,7 +867,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
-> >   	if (!tt)
-> >   		return NULL;
-> > -	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
-> > +	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
-> >   	if (ret < 0)
-> >   		goto err_ttm_tt_init;
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > index e4a06fcf741a..3b9f99c765c4 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -290,7 +290,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
-> >   		i915_tt->is_shmem = true;
-> >   	}
-> > -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-> > +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, 0);
-> >   	if (ret)
-> >   		goto err_free;
-> > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > index b2e33d5ba5d0..52156b54498f 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
-> >   	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
-> >   	if (ttm == NULL)
-> >   		return NULL;
-> > -	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
-> > +	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
-> >   		kfree(ttm);
-> >   		return NULL;
-> >   	}
-> > diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > index 6ddc16f0fe2b..d27691f2e451 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
-> >   	agp_be->mem = NULL;
-> >   	agp_be->bridge = bridge;
-> > -	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
-> > +	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
-> >   		kfree(agp_be);
-> >   		return NULL;
-> >   	}
-> > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> > index d234aab800a0..1a66d9fc589a 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> > @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
-> >   static void ttm_tt_init_fields(struct ttm_tt *ttm,
-> >   			       struct ttm_buffer_object *bo,
-> >   			       uint32_t page_flags,
-> > -			       enum ttm_caching caching)
-> > +			       enum ttm_caching caching,
-> > +			       unsigned long extra_pages)
-> >   {
-> > -	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
-> > +	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
-> >   	ttm->caching = ttm_cached;
-> >   	ttm->page_flags = page_flags;
-> >   	ttm->dma_address = NULL;
-> > @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
-> >   }
-> >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> > -		uint32_t page_flags, enum ttm_caching caching)
-> > +		uint32_t page_flags, enum ttm_caching caching,
-> > +		unsigned long extra_pages)
-> >   {
-> > -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> > +	ttm_tt_init_fields(ttm, bo, page_flags, caching, extra_pages);
-> >   	if (ttm_tt_alloc_page_directory(ttm)) {
-> >   		pr_err("Failed allocating page table\n");
-> > @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> >   {
-> >   	int ret;
-> > -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> > +	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
-> >   	if (page_flags & TTM_TT_FLAG_EXTERNAL)
-> >   		ret = ttm_sg_tt_alloc_page_directory(ttm);
-> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > index b84ecc6d6611..4e3938e62c08 100644
-> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
-> >   				     ttm_cached);
-> >   	else
-> >   		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
-> > -				  ttm_cached);
-> > +				  ttm_cached, 0);
-> >   	if (unlikely(ret != 0))
-> >   		goto out_no_init;
-> > diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> > index f20832139815..17a0310e8aaa 100644
-> > --- a/include/drm/ttm/ttm_tt.h
-> > +++ b/include/drm/ttm/ttm_tt.h
-> > @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-> >    * @bo: The buffer object we create the ttm for.
-> >    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
-> >    * @caching: the desired caching state of the pages
-> > + * @extra_pages: Extra pages needed for the driver.
-> >    *
-> >    * Create a struct ttm_tt to back data with system memory pages.
-> >    * No pages are actually allocated.
-> > @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-> >    * NULL: Out of memory.
-> >    */
-> >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> > -		uint32_t page_flags, enum ttm_caching caching);
-> > +		uint32_t page_flags, enum ttm_caching caching,
-> > +		unsigned long extra_pages);
-> >   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
-> >   		   uint32_t page_flags, enum ttm_caching caching);
+On Mon, Mar 21, 2022 at 04:00:56PM -0700, Lucas De Marchi wrote:
+>+Thomas Zimmermann and +Daniel Vetter
+>
+>Could you take a look below regarding the I/O to I/O memory access?
+>
+>On Thu, Mar 03, 2022 at 11:30:11PM +0530, Balasubramani Vivekanandan wrote:
+>>memcpy_from_wc functions in i915_memcpy.c will be removed and replaced
+>>by the implementation in drm_cache.c.
+>>Updated to use the functions provided by drm_cache.c.
+>>
+>>v2: check if the source and destination memory address is from local
+>>   memory or system memory and initialize the iosys_map accordingly
+>>   (Lucas)
+>>
+>>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>Cc: Matthew Auld <matthew.auld@intel.com>
+>>Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+>>
+>>Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+>>---
+>>.../drm/i915/selftests/intel_memory_region.c  | 41 +++++++++++++------
+>>1 file changed, 28 insertions(+), 13 deletions(-)
+>>
+>>diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>>index ba32893e0873..d16ecb905f3b 100644
+>>--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>>+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>>@@ -7,6 +7,7 @@
+>>#include <linux/sort.h>
+>>
+>>#include <drm/drm_buddy.h>
+>>+#include <drm/drm_cache.h>
+>>
+>>#include "../i915_selftest.h"
+>>
+>>@@ -1133,7 +1134,7 @@ static const char *repr_type(u32 type)
+>>
+>>static struct drm_i915_gem_object *
+>>create_region_for_mapping(struct intel_memory_region *mr, u64 size, u32 type,
+>>-			  void **out_addr)
+>>+			  struct iosys_map *out_addr)
+>>{
+>>	struct drm_i915_gem_object *obj;
+>>	void *addr;
+>>@@ -1153,7 +1154,11 @@ create_region_for_mapping(struct intel_memory_region *mr, u64 size, u32 type,
+>>		return addr;
+>>	}
+>>
+>>-	*out_addr = addr;
+>>+	if (i915_gem_object_is_lmem(obj))
+>>+		iosys_map_set_vaddr_iomem(out_addr, (void __iomem *)addr);
+>>+	else
+>>+		iosys_map_set_vaddr(out_addr, addr);
+>>+
+>>	return obj;
+>>}
+>>
+>>@@ -1164,24 +1169,33 @@ static int wrap_ktime_compare(const void *A, const void *B)
+>>	return ktime_compare(*a, *b);
+>>}
+>>
+>>-static void igt_memcpy_long(void *dst, const void *src, size_t size)
+>>+static void igt_memcpy_long(struct iosys_map *dst, struct iosys_map *src,
+>>+			    size_t size)
+>>{
+>>-	unsigned long *tmp = dst;
+>>-	const unsigned long *s = src;
+>>+	unsigned long *tmp = dst->is_iomem ?
+>>+				(unsigned long __force *)dst->vaddr_iomem :
+>>+				dst->vaddr;
+>
+>if we access vaddr_iomem/vaddr we basically break the promise of
+>abstracting system and I/O memory. There is no point in receiving
+>struct iosys_map as argument and then break the abstraction.
+>
+>>+	const unsigned long *s = src->is_iomem ?
+>>+				(unsigned long __force *)src->vaddr_iomem :
+>>+				src->vaddr;
+>>
+>>	size = size / sizeof(unsigned long);
+>>	while (size--)
+>>		*tmp++ = *s++;
+>
+>
+>so we basically want to copy from one place to the other on a word
+>boundary. And it may be
+>
+>	a) I/O -> I/O or
+>	b) system -> I/O or
+>	c) I/O -> system
+>
+>(b) and (c) should work, but AFAICS (a) is not possible with the current
+>iosys-map API. Not even the underlying APIs have that abstracted. Both
+>memcpy_fromio() and memcpy_toio() expect one of them to be RAM (system
+>memory)
+>
+>I remember seeing people using a temporary in buffer in system memory
+>for proxying the copy. But maybe we need an abstraction for that?
+>Also adding Thomas Zimmermann here for that question.
+>
+>and since this is a selftest testing the performance of the memcpy from
+>one memory region to the other, it would be good to have this test
+>executed to a) make sure it still works and b) record in the commit
+>message any possible slow down we are incurring.
+>
+>thanks
+>Lucas De Marchi
+>
+>
+>>}
+>>
+>>-static inline void igt_memcpy(void *dst, const void *src, size_t size)
+>>+static inline void igt_memcpy(struct iosys_map *dst, struct iosys_map *src,
+>>+			      size_t size)
+>>{
+>>-	memcpy(dst, src, size);
+>>+	memcpy(dst->is_iomem ? (void __force *)dst->vaddr_iomem : dst->vaddr,
+>>+	       src->is_iomem ? (void __force *)src->vaddr_iomem : src->vaddr,
+>>+	       size);
+>>}
+>>
+>>-static inline void igt_memcpy_from_wc(void *dst, const void *src, size_t size)
+>>+static inline void igt_memcpy_from_wc(struct iosys_map *dst, struct iosys_map *src,
+>>+				      size_t size)
+>>{
+>>-	i915_memcpy_from_wc(dst, src, size);
+>>+	drm_memcpy_from_wc(dst, src, size);
+>>}
+>>
+>>static int _perf_memcpy(struct intel_memory_region *src_mr,
+>>@@ -1191,7 +1205,8 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
+>>	struct drm_i915_private *i915 = src_mr->i915;
+>>	const struct {
+>>		const char *name;
+>>-		void (*copy)(void *dst, const void *src, size_t size);
+>>+		void (*copy)(struct iosys_map *dst, struct iosys_map *src,
+>>+			     size_t size);
+>>		bool skip;
+>>	} tests[] = {
+>>		{
+>>@@ -1205,11 +1220,11 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
+>>		{
+>>			"memcpy_from_wc",
+>>			igt_memcpy_from_wc,
+>>-			!i915_has_memcpy_from_wc(),
+>>+			!drm_memcpy_fastcopy_supported(),
+>>		},
+>>	};
+>>	struct drm_i915_gem_object *src, *dst;
+>>-	void *src_addr, *dst_addr;
+>>+	struct iosys_map src_addr, dst_addr;
+>>	int ret = 0;
+>>	int i;
+>>
+>>@@ -1237,7 +1252,7 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
+>>
+>>			t0 = ktime_get();
+>>
+>>-			tests[i].copy(dst_addr, src_addr, size);
+>>+			tests[i].copy(&dst_addr, &src_addr, size);
+>>
+>>			t1 = ktime_get();
+>>			t[pass] = ktime_sub(t1, t0);
+>>-- 
+>>2.25.1
+>>
