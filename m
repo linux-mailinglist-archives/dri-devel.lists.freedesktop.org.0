@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4724E2E53
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:43:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4D24E2E55
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5536710E4B5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C0C10E4B6;
 	Mon, 21 Mar 2022 16:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3738D10E3E3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69CA410E414;
  Mon, 21 Mar 2022 16:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1647880975; x=1679416975;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=blnTwDang1QeeTPWGU+lH6VdvyEjHmoHcZY98rcvaUs=;
- b=JchoEFIO0Mvd5lPsM3XKOPy8aJH/VH14f/KldyySKoghtrJnyMo5RrV3
- THA++jVj1QgfJrYoy34QoUvb+esU13K20Pu3amChIQ2K3BknPCI7PlenW
- 8R8YBz77gO5OY5YeFPcV74FovSuqVNkBu6QBX2Nzh6PtNXTMhDyvmIjLT
- cQ40lGTeU0CMAakBUIhA7T2XRBRR6lzADA8+KUSI+JtMI0xHjli/1fyNK
- /sjFiWWf2i0g9c9UM7/cqSeAjwIZxYJWj+xltpGy1IPB+zY+gkfylhyeR
- KZzhm4FrGPouAHGozsCDfp+URxqM/2DQhjq72e079hkMR+3aCyANIRxrc g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="239752668"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="239752668"
+ bh=VtqYh+XpQxfLFNYfs0AfgnvvVWrd37Cl2/Cf4GI+F00=;
+ b=nF8ndPXQ3deGyWx+QZMvKUtCIpSROPLiwVFughUT+kjGnF4X3z0xC8Yn
+ bDNKqC3HjLuA5GWfH09Ieqz69NHBw1TvLmJNl8FAd7k5Mn8iuF4CYd9BB
+ U+l/Quv9iUUOFcqyohbxfkKAyung7kEabSXgdE4P3XIUImKc3eIKhkRrl
+ 95CgP2MA/QbvDaeDImfkRZK7Qc6Kb3gYQjJpcsDfduHz9qMd2hiwLIWk7
+ 2MMgLZlrf6ojmYcSwFNyCXuQ1ajfCr9zjVxFsKvExPcf4TcUCgb4/nTZz
+ L2XAJnOn4CyaohdJw6LRjEer+BfF+9uAGCDA2buCBIRcvXxBk+Ph1rHmY A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="239752669"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="239752669"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 09:42:54 -0700
+ 21 Mar 2022 09:42:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="716563755"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="716563760"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga005.jf.intel.com with ESMTP; 21 Mar 2022 09:42:54 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v13 02/13] drm/i915/guc: Add XE_LP static registers for GuC
- error capture.
-Date: Mon, 21 Mar 2022 09:45:16 -0700
-Message-Id: <20220321164527.2500062-3-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v13 03/13] drm/i915/guc: Add XE_LP steered register lists
+ support
+Date: Mon, 21 Mar 2022 09:45:17 -0700
+Message-Id: <20220321164527.2500062-4-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220321164527.2500062-1-alan.previn.teres.alexis@intel.com>
 References: <20220321164527.2500062-1-alan.previn.teres.alexis@intel.com>
@@ -66,206 +66,294 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device specific tables and register lists to cover different engines
-class types for GuC error state capture for XE_LP products.
+Add the ability for runtime allocation and freeing of
+steered register list extentions that depend on the
+detected HW config fuses.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 112 ++++++++++++++----
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   6 +-
- 2 files changed, 95 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |   9 +
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 176 ++++++++++++++++--
+ 2 files changed, 174 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+index 919ed985f09a..6c199433945d 100644
+--- a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+@@ -52,6 +52,7 @@ struct __guc_mmio_reg_descr_group {
+ 	u32 owner; /* see enum guc_capture_owner */
+ 	u32 type; /* see enum guc_capture_type */
+ 	u32 engine; /* as per MAX_ENGINE_CLASS */
++	struct __guc_mmio_reg_descr *extlist; /* only used for steered registers */
+ };
+ 
+ /**
+@@ -79,6 +80,14 @@ struct intel_guc_state_capture {
+ 	 */
+ 	const struct __guc_mmio_reg_descr_group *reglists;
+ 
++	/**
++	 * @extlists: allocated table of steered register lists used for error-capture state.
++	 *
++	 * NOTE: steered registers have multiple instances depending on the HW configuration
++	 * (slices or dual-sub-slices) and thus depends on HW fuses discovered at startup
++	 */
++	struct __guc_mmio_reg_descr_group *extlists;
++
+ 	/**
+ 	 * @ads_cache: cached register lists that is ADS format ready
+ 	 */
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index 4adfa14699d4..478308f33d34 100644
+index 478308f33d34..45ed09f3453d 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -22,40 +22,106 @@
-  * NOTE: For engine-registers, GuC only needs the register offsets
-  *       from the engine-mmio-base
-  */
-+#define COMMON_GEN12BASE_GLOBAL \
-+	{ GEN12_FAULT_TLB_DATA0,    0,      0, "GEN12_FAULT_TLB_DATA0" }, \
-+	{ GEN12_FAULT_TLB_DATA1,    0,      0, "GEN12_FAULT_TLB_DATA1" }, \
-+	{ FORCEWAKE_MT,             0,      0, "FORCEWAKE" }, \
-+	{ GEN12_AUX_ERR_DBG,        0,      0, "AUX_ERR_DBG" }, \
-+	{ GEN12_GAM_DONE,           0,      0, "GAM_DONE" }, \
-+	{ GEN12_RING_FAULT_REG,     0,      0, "FAULT_REG" }
-+
-+#define COMMON_GEN12BASE_ENGINE_INSTANCE \
-+	{ RING_PSMI_CTL(0),         0,      0, "RC PSMI" }, \
-+	{ RING_ESR(0),              0,      0, "ESR" }, \
-+	{ RING_DMA_FADD(0),         0,      0, "RING_DMA_FADD_LDW" }, \
-+	{ RING_DMA_FADD_UDW(0),     0,      0, "RING_DMA_FADD_UDW" }, \
-+	{ RING_IPEIR(0),            0,      0, "IPEIR" }, \
-+	{ RING_IPEHR(0),            0,      0, "IPEHR" }, \
-+	{ RING_INSTPS(0),           0,      0, "INSTPS" }, \
-+	{ RING_BBADDR(0),           0,      0, "RING_BBADDR_LOW32" }, \
-+	{ RING_BBADDR_UDW(0),       0,      0, "RING_BBADDR_UP32" }, \
-+	{ RING_BBSTATE(0),          0,      0, "BB_STATE" }, \
-+	{ CCID(0),                  0,      0, "CCID" }, \
-+	{ RING_ACTHD(0),            0,      0, "ACTHD_LDW" }, \
-+	{ RING_ACTHD_UDW(0),        0,      0, "ACTHD_UDW" }, \
-+	{ RING_INSTPM(0),           0,      0, "INSTPM" }, \
-+	{ RING_INSTDONE(0),         0,      0, "INSTDONE" }, \
-+	{ RING_NOPID(0),            0,      0, "RING_NOPID" }, \
-+	{ RING_START(0),            0,      0, "START" }, \
-+	{ RING_HEAD(0),             0,      0, "HEAD" }, \
-+	{ RING_TAIL(0),             0,      0, "TAIL" }, \
-+	{ RING_CTL(0),              0,      0, "CTL" }, \
-+	{ RING_MI_MODE(0),          0,      0, "MODE" }, \
-+	{ RING_CONTEXT_CONTROL(0),  0,      0, "RING_CONTEXT_CONTROL" }, \
-+	{ RING_HWS_PGA(0),          0,      0, "HWS" }, \
-+	{ RING_MODE_GEN7(0),        0,      0, "GFX_MODE" }, \
-+	{ GEN8_RING_PDP_LDW(0, 0),  0,      0, "PDP0_LDW" }, \
-+	{ GEN8_RING_PDP_UDW(0, 0),  0,      0, "PDP0_UDW" }, \
-+	{ GEN8_RING_PDP_LDW(0, 1),  0,      0, "PDP1_LDW" }, \
-+	{ GEN8_RING_PDP_UDW(0, 1),  0,      0, "PDP1_UDW" }, \
-+	{ GEN8_RING_PDP_LDW(0, 2),  0,      0, "PDP2_LDW" }, \
-+	{ GEN8_RING_PDP_UDW(0, 2),  0,      0, "PDP2_UDW" }, \
-+	{ GEN8_RING_PDP_LDW(0, 3),  0,      0, "PDP3_LDW" }, \
-+	{ GEN8_RING_PDP_UDW(0, 3),  0,      0, "PDP3_UDW" }
-+
-+#define COMMON_GEN12BASE_HAS_EU \
-+	{ EIR,                      0,      0, "EIR" }
-+
-+#define COMMON_GEN12BASE_RENDER \
-+	{ GEN7_SC_INSTDONE,         0,      0, "GEN7_SC_INSTDONE" }, \
-+	{ GEN12_SC_INSTDONE_EXTRA,  0,      0, "GEN12_SC_INSTDONE_EXTRA" }, \
-+	{ GEN12_SC_INSTDONE_EXTRA2, 0,      0, "GEN12_SC_INSTDONE_EXTRA2" }
-+
-+#define COMMON_GEN12BASE_VEC \
-+	{ GEN12_SFC_DONE(0),        0,      0, "SFC_DONE[0]" }, \
-+	{ GEN12_SFC_DONE(1),        0,      0, "SFC_DONE[1]" }, \
-+	{ GEN12_SFC_DONE(2),        0,      0, "SFC_DONE[2]" }, \
-+	{ GEN12_SFC_DONE(3),        0,      0, "SFC_DONE[3]" }
-+
- /* XE_LPD - Global */
- static const struct __guc_mmio_reg_descr xe_lpd_global_regs[] = {
--	{ GEN12_RING_FAULT_REG,     0,      0, "GEN12_RING_FAULT_REG" }
-+	COMMON_GEN12BASE_GLOBAL,
- };
- 
- /* XE_LPD - Render / Compute Per-Class */
- static const struct __guc_mmio_reg_descr xe_lpd_rc_class_regs[] = {
--	{ EIR,                      0,      0, "EIR" }
-+	COMMON_GEN12BASE_HAS_EU,
-+	COMMON_GEN12BASE_RENDER,
- };
- 
- /* XE_LPD - Render / Compute Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_rc_inst_regs[] = {
--	{ RING_HEAD(0),             0,      0, "RING_HEAD" },
--	{ RING_TAIL(0),             0,      0, "RING_TAIL" },
-+	COMMON_GEN12BASE_ENGINE_INSTANCE,
- };
- 
- /* XE_LPD - Media Decode/Encode Per-Class */
- static const struct __guc_mmio_reg_descr xe_lpd_vd_class_regs[] = {
-+	COMMON_GEN12BASE_ENGINE_INSTANCE,
- };
- 
- /* XE_LPD - Media Decode/Encode Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_vd_inst_regs[] = {
--	{ RING_HEAD(0),             0,      0, "RING_HEAD" },
--	{ RING_TAIL(0),             0,      0, "RING_TAIL" },
-+	COMMON_GEN12BASE_ENGINE_INSTANCE,
- };
- 
- /* XE_LPD - Video Enhancement Per-Class */
- static const struct __guc_mmio_reg_descr xe_lpd_vec_class_regs[] = {
-+	COMMON_GEN12BASE_VEC,
- };
- 
- /* XE_LPD - Video Enhancement Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_vec_inst_regs[] = {
--	{ RING_HEAD(0),             0,      0, "RING_HEAD" },
--	{ RING_TAIL(0),             0,      0, "RING_TAIL" },
-+	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+};
-+
-+/* XE_LPD - Blitter Per-Engine-Instance */
-+static const struct __guc_mmio_reg_descr xe_lpd_blt_inst_regs[] = {
-+	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+};
-+
-+/* XE_LPD - Blitter Per-Class */
-+/* XE_LPD - Media Decode/Encode Per-Class */
-+static const struct __guc_mmio_reg_descr empty_regs_list[] = {
- };
- 
- #define TO_GCAP_DEF_OWNER(x) (GUC_CAPTURE_LIST_INDEX_##x)
-@@ -74,10 +140,12 @@ static const struct __guc_mmio_reg_descr_group xe_lpd_lists[] = {
- 	MAKE_REGLIST(xe_lpd_global_regs, PF, GLOBAL, 0),
- 	MAKE_REGLIST(xe_lpd_rc_class_regs, PF, ENGINE_CLASS, GUC_RENDER_CLASS),
- 	MAKE_REGLIST(xe_lpd_rc_inst_regs, PF, ENGINE_INSTANCE, GUC_RENDER_CLASS),
--	MAKE_REGLIST(xe_lpd_vd_class_regs, PF, ENGINE_CLASS, GUC_VIDEO_CLASS),
-+	MAKE_REGLIST(empty_regs_list, PF, ENGINE_CLASS, GUC_VIDEO_CLASS),
- 	MAKE_REGLIST(xe_lpd_vd_inst_regs, PF, ENGINE_INSTANCE, GUC_VIDEO_CLASS),
- 	MAKE_REGLIST(xe_lpd_vec_class_regs, PF, ENGINE_CLASS, GUC_VIDEOENHANCE_CLASS),
- 	MAKE_REGLIST(xe_lpd_vec_inst_regs, PF, ENGINE_INSTANCE, GUC_VIDEOENHANCE_CLASS),
-+	MAKE_REGLIST(empty_regs_list, PF, ENGINE_CLASS, GUC_BLITTER_CLASS),
-+	MAKE_REGLIST(xe_lpd_blt_inst_regs, PF, ENGINE_INSTANCE, GUC_BLITTER_CLASS),
- 	{}
- };
- 
-@@ -191,20 +259,24 @@ guc_capture_list_init(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
- 		return -ENODEV;
- 
- 	match = guc_capture_get_one_list(reglists, owner, type, classid);
--	if (match) {
--		for (i = 0; i < num_entries && i < match->num_regs; ++i) {
--			ptr[i].offset = match->list[i].reg.reg;
--			ptr[i].value = 0xDEADF00D;
--			ptr[i].flags = match->list[i].flags;
--			ptr[i].mask = match->list[i].mask;
--		}
--		return 0;
-+	if (!match) {
-+		guc_capture_warn_with_list_info(i915, "Missing register list init", owner, type,
-+						classid);
-+		return -ENODATA;
-+	}
-+
-+	for (i = 0; i < num_entries && i < match->num_regs; ++i) {
-+		ptr[i].offset = match->list[i].reg.reg;
-+		ptr[i].value = 0xDEADF00D;
-+		ptr[i].flags = match->list[i].flags;
-+		ptr[i].mask = match->list[i].mask;
+@@ -133,6 +133,7 @@ static const struct __guc_mmio_reg_descr empty_regs_list[] = {
+ 		TO_GCAP_DEF_OWNER(regsowner), \
+ 		TO_GCAP_DEF_TYPE(regstype), \
+ 		class, \
++		NULL, \
  	}
  
--	guc_capture_warn_with_list_info(i915, "Missing register list init", owner, type,
--					classid);
-+	if (i < num_entries)
-+		drm_dbg(&i915->drm, "GuC-capture: Init reglist short %d out %d.\n",
-+			(int)i, (int)num_entries);
+ /* List of lists */
+@@ -150,28 +151,33 @@ static const struct __guc_mmio_reg_descr_group xe_lpd_lists[] = {
+ };
  
--	return -ENODATA;
-+	return 0;
+ static const struct __guc_mmio_reg_descr_group *
+-guc_capture_get_device_reglist(struct intel_guc *guc)
++guc_capture_get_one_list(const struct __guc_mmio_reg_descr_group *reglists,
++			 u32 owner, u32 type, u32 id)
+ {
+-	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
++	int i;
+ 
+-	if (IS_TIGERLAKE(i915) || IS_ROCKETLAKE(i915) ||
+-	    IS_ALDERLAKE_S(i915) || IS_ALDERLAKE_P(i915)) {
+-		return xe_lpd_lists;
++	if (!reglists)
++		return NULL;
++
++	for (i = 0; reglists[i].list; ++i) {
++		if (reglists[i].owner == owner && reglists[i].type == type &&
++		    (reglists[i].engine == id || reglists[i].type == GUC_CAPTURE_LIST_TYPE_GLOBAL))
++			return &reglists[i];
+ 	}
+ 
+ 	return NULL;
  }
  
- static int
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index d18037493953..f21b6de46a99 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -285,13 +285,13 @@ struct guc_mmio_reg {
- 	u32 offset;
- 	u32 value;
- 	u32 flags;
--	u32 mask;
- #define GUC_REGSET_MASKED		BIT(0)
- #define GUC_REGSET_NEEDS_STEERING	BIT(1)
- #define GUC_REGSET_MASKED_WITH_VALUE	BIT(2)
- #define GUC_REGSET_RESTORE_ONLY		BIT(3)
--#define GUC_REGSET_STEERING_GROUP	GENMASK(15, 12)
--#define GUC_REGSET_STEERING_INSTANCE	GENMASK(23, 20)
-+#define GUC_REGSET_STEERING_GROUP       GENMASK(15, 12)
-+#define GUC_REGSET_STEERING_INSTANCE    GENMASK(23, 20)
-+	u32 mask;
- } __packed;
+-static const struct __guc_mmio_reg_descr_group *
+-guc_capture_get_one_list(const struct __guc_mmio_reg_descr_group *reglists,
+-			 u32 owner, u32 type, u32 id)
++static struct __guc_mmio_reg_descr_group *
++guc_capture_get_one_ext_list(struct __guc_mmio_reg_descr_group *reglists,
++			     u32 owner, u32 type, u32 id)
+ {
+ 	int i;
  
- /* GuC register sets */
+ 	if (!reglists)
+ 		return NULL;
+ 
+-	for (i = 0; reglists[i].list; ++i) {
++	for (i = 0; reglists[i].extlist; ++i) {
+ 		if (reglists[i].owner == owner && reglists[i].type == type &&
+ 		    (reglists[i].engine == id || reglists[i].type == GUC_CAPTURE_LIST_TYPE_GLOBAL))
+ 			return &reglists[i];
+@@ -180,6 +186,127 @@ guc_capture_get_one_list(const struct __guc_mmio_reg_descr_group *reglists,
+ 	return NULL;
+ }
+ 
++static void guc_capture_free_extlists(struct __guc_mmio_reg_descr_group *reglists)
++{
++	int i = 0;
++
++	if (!reglists)
++		return;
++
++	while (reglists[i].extlist)
++		kfree(reglists[i++].extlist);
++}
++
++struct __ext_steer_reg {
++	const char *name;
++	i915_reg_t reg;
++};
++
++static const struct __ext_steer_reg xe_extregs[] = {
++	{"GEN7_SAMPLER_INSTDONE", GEN7_SAMPLER_INSTDONE},
++	{"GEN7_ROW_INSTDONE", GEN7_ROW_INSTDONE}
++};
++
++static void __fill_ext_reg(struct __guc_mmio_reg_descr *ext,
++			   const struct __ext_steer_reg *extlist,
++			   int slice_id, int subslice_id)
++{
++	ext->reg = extlist->reg;
++	ext->flags = FIELD_PREP(GUC_REGSET_STEERING_GROUP, slice_id);
++	ext->flags |= FIELD_PREP(GUC_REGSET_STEERING_INSTANCE, subslice_id);
++	ext->regname = extlist->name;
++}
++
++static int
++__alloc_ext_regs(struct __guc_mmio_reg_descr_group *newlist,
++		 const struct __guc_mmio_reg_descr_group *rootlist, int num_regs)
++{
++	struct __guc_mmio_reg_descr *list;
++
++	list = kcalloc(num_regs, sizeof(struct __guc_mmio_reg_descr), GFP_KERNEL);
++	if (!list)
++		return -ENOMEM;
++
++	newlist->extlist = list;
++	newlist->num_regs = num_regs;
++	newlist->owner = rootlist->owner;
++	newlist->engine = rootlist->engine;
++	newlist->type = rootlist->type;
++
++	return 0;
++}
++
++static void
++guc_capture_alloc_steered_lists_xe_lpd(struct intel_guc *guc,
++				       const struct __guc_mmio_reg_descr_group *lists)
++{
++	struct intel_gt *gt = guc_to_gt(guc);
++	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
++	int slice, subslice, i, num_steer_regs, num_tot_regs = 0;
++	const struct __guc_mmio_reg_descr_group *list;
++	struct __guc_mmio_reg_descr_group *extlists;
++	struct __guc_mmio_reg_descr *extarray;
++	struct sseu_dev_info *sseu;
++
++	/* In XE_LPD we only have steered registers for the render-class */
++	list = guc_capture_get_one_list(lists, GUC_CAPTURE_LIST_INDEX_PF,
++					GUC_CAPTURE_LIST_TYPE_ENGINE_CLASS, GUC_RENDER_CLASS);
++	/* skip if extlists was previously allocated */
++	if (!list || guc->capture->extlists)
++		return;
++
++	num_steer_regs = ARRAY_SIZE(xe_extregs);
++
++	sseu = &gt->info.sseu;
++	for_each_instdone_slice_subslice(i915, sseu, slice, subslice)
++		num_tot_regs += num_steer_regs;
++
++	if (!num_tot_regs)
++		return;
++
++	/* allocate an extra for an end marker */
++	extlists = kcalloc(2, sizeof(struct __guc_mmio_reg_descr_group), GFP_KERNEL);
++	if (!extlists)
++		return;
++
++	if (__alloc_ext_regs(&extlists[0], list, num_tot_regs)) {
++		kfree(extlists);
++		return;
++	}
++
++	extarray = extlists[0].extlist;
++	for_each_instdone_slice_subslice(i915, sseu, slice, subslice) {
++		for (i = 0; i < num_steer_regs; ++i) {
++			__fill_ext_reg(extarray, &xe_extregs[i], slice, subslice);
++			++extarray;
++		}
++	}
++
++	guc->capture->extlists = extlists;
++}
++
++static const struct __guc_mmio_reg_descr_group *
++guc_capture_get_device_reglist(struct intel_guc *guc)
++{
++	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
++
++	if (IS_TIGERLAKE(i915) || IS_ROCKETLAKE(i915) ||
++	    IS_ALDERLAKE_S(i915) || IS_ALDERLAKE_P(i915)) {
++		/*
++		 * For certain engine classes, there are slice and subslice
++		 * level registers requiring steering. We allocate and populate
++		 * these at init time based on hw config add it as an extension
++		 * list at the end of the pre-populated render list.
++		 */
++		guc_capture_alloc_steered_lists_xe_lpd(guc, xe_lpd_lists);
++		return xe_lpd_lists;
++	}
++
++	drm_warn(&i915->drm, "No GuC-capture register lists\n");
++
++	return NULL;
++}
++
+ static const char *
+ __stringify_owner(u32 owner)
+ {
+@@ -250,10 +377,12 @@ static int
+ guc_capture_list_init(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
+ 		      struct guc_mmio_reg *ptr, u16 num_entries)
+ {
+-	u32 i = 0;
++	u32 i = 0, j = 0;
+ 	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+ 	const struct __guc_mmio_reg_descr_group *reglists = guc->capture->reglists;
++	struct __guc_mmio_reg_descr_group *extlists = guc->capture->extlists;
+ 	const struct __guc_mmio_reg_descr_group *match;
++	struct __guc_mmio_reg_descr_group *matchext;
+ 
+ 	if (!reglists)
+ 		return -ENODEV;
+@@ -272,6 +401,17 @@ guc_capture_list_init(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
+ 		ptr[i].mask = match->list[i].mask;
+ 	}
+ 
++	matchext = guc_capture_get_one_ext_list(extlists, owner, type, classid);
++	if (matchext) {
++		for (i = match->num_regs, j = 0; i < num_entries &&
++		     i < (match->num_regs + matchext->num_regs) &&
++			j < matchext->num_regs; ++i, ++j) {
++			ptr[i].offset = matchext->extlist[j].reg.reg;
++			ptr[i].value = 0xDEADF00D;
++			ptr[i].flags = matchext->extlist[j].flags;
++			ptr[i].mask = matchext->extlist[j].mask;
++		}
++	}
+ 	if (i < num_entries)
+ 		drm_dbg(&i915->drm, "GuC-capture: Init reglist short %d out %d.\n",
+ 			(int)i, (int)num_entries);
+@@ -283,12 +423,20 @@ static int
+ guc_cap_list_num_regs(struct intel_guc_state_capture *gc, u32 owner, u32 type, u32 classid)
+ {
+ 	const struct __guc_mmio_reg_descr_group *match;
++	struct __guc_mmio_reg_descr_group *matchext;
++	int num_regs;
+ 
+ 	match = guc_capture_get_one_list(gc->reglists, owner, type, classid);
+ 	if (!match)
+ 		return 0;
+ 
+-	return match->num_regs;
++	num_regs = match->num_regs;
++
++	matchext = guc_capture_get_one_ext_list(gc->extlists, owner, type, classid);
++	if (matchext)
++		num_regs += matchext->num_regs;
++
++	return num_regs;
+ }
+ 
+ int
+@@ -432,6 +580,12 @@ void intel_guc_capture_destroy(struct intel_guc *guc)
+ 
+ 	kfree(guc->capture);
+ 	guc->capture = NULL;
++
++	guc_capture_free_extlists(guc->capture->extlists);
++	kfree(guc->capture->extlists);
++
++	kfree(guc->capture);
++	guc->capture = NULL;
+ }
+ 
+ int intel_guc_capture_init(struct intel_guc *guc)
 -- 
 2.25.1
 
