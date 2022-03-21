@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC014E3053
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 19:57:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508CE4E305C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 20:00:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4D310E3D4;
-	Mon, 21 Mar 2022 18:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC30210E3A0;
+	Mon, 21 Mar 2022 19:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9351210E3A0;
- Mon, 21 Mar 2022 18:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647889057; x=1679425057;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Ckrgnk3SgL+THhKR8whyX6XMslOeejmcUKdmRZ08zW8=;
- b=UCvdO/wPHh+MTnaZ3VF5w1KGevvB1mqDbO1vz7IXgFdDr8ud/UsTJtzJ
- 5xlGSdlvL/iPtetk8AoDc9NcSAvVGCpnFjVP3ft7Wjx9N3l1B1nfhrf16
- LPhUAI4T/n17zhBkGVbxhzTCPZrQIMn916d7TccywnjFr+N5ChTVU7Qc0
- KkKBHnqugEj5j23XLohvxYa/m54T4EnRHQKaRIAZ5+ZnNlvFR/h5dm9/c
- Eet/Zc9i/jWU2WkVLCODXDg42qrNKCGqyX3233gWlD5wJ426bANU1v8hf
- G1aWqKz8kBhA/FhHuLHp317roEK/uBfOBFgn8q57fdG3vYefrDNCnFSFz g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="344056673"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="344056673"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 11:57:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="551824699"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by fmsmga007.fm.intel.com with SMTP; 21 Mar 2022 11:57:34 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 21 Mar 2022 20:57:33 +0200
-Date: Mon, 21 Mar 2022 20:57:33 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 18/22] drm/i915: Use drm_mode_init() for
- on-stack modes
-Message-ID: <YjjKnUbcJRpcoxoI@intel.com>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-19-ville.syrjala@linux.intel.com>
- <877d8upbsp.fsf@intel.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6805710E3A0;
+ Mon, 21 Mar 2022 19:00:36 +0000 (UTC)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149]
+ helo=[192.168.66.200]); authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1nWNGY-0001D5-7r; Mon, 21 Mar 2022 20:00:31 +0100
+Message-ID: <b3c39447-c02a-a021-8a4f-499aa962980c@leemhuis.info>
+Date: Mon, 21 Mar 2022 20:00:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <877d8upbsp.fsf@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic
+ in suspend (v2)") on suspend?
+Content-Language: en-US
+To: dod@debian.org, Eric Valette <eric.valette@free.fr>,
+ Salvatore Bonaccorso <carnil@debian.org>
+References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
+ <CADnq5_MWqz7-XhOS4zfuzi3=_nKa72iYaO0BcKNcVDwEvZ+YHw@mail.gmail.com>
+ <61c2b2ce-d749-3723-ad27-f40e1c49d967@leemhuis.info>
+ <3873010.MHq7AAxBmi@ylum>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <3873010.MHq7AAxBmi@ylum>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1647889236;
+ 03ad7ec8; 
+X-HE-SMSGID: 1nWNGY-0001D5-7r
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +51,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Julia Lawall <Julia.Lawall@inria.fr>, intel-gfx@lists.freedesktop.org,
- Nicolas Palix <nicolas.palix@imag.fr>, cocci@inria.fr,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 16, 2022 at 10:00:06AM +0200, Jani Nikula wrote:
-> On Fri, 18 Feb 2022, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > Initialize on-stack modes with drm_mode_init() to guarantee
-> > no stack garbage in the list head, or that we aren't copying
-> > over another mode's list head.
-> >
-> > Based on the following cocci script, with manual fixups:
-> > @decl@
-> > identifier M;
-> > expression E;
-> > @@
-> > - struct drm_display_mode M = E;
-> > + struct drm_display_mode M;
-> >
-> > @@
-> > identifier decl.M;
-> > expression decl.E;
-> > statement S, S1;
-> > @@
-> > struct drm_display_mode M;
-> > ... when != S
-> > + drm_mode_init(&M, &E);
-> > +
-> > S1
-> >
-> > @@
-> > expression decl.E;
-> > @@
-> > - &*E
-> > + E
-> >
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On 21.03.22 19:49, Dominique Dumont wrote:
+> On Monday, 21 March 2022 09:57:59 CET Thorsten Leemhuis wrote:
+>> Dominique/Salvatore/Eric, what's the status of this regression?
+>> According to the debian bug tracker the problem is solved with 5.16 and
+>> 5.17, but was 5.15 ever fixed?
 > 
-> I wonder if that cocci could be added to scripts/coccinelle or something
-> to detect anyone adding new ones?
+> I don't think so.
+> 
+> On kernel side, the commit fixing this issue is
+> e55a3aea418269266d84f426b3bd70794d3389c8 . 
+> 
+> According to the logs of [1] , this commit landed in v5.17-rc3
+> 
+> HTH
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 
-Maybe.
+And from there it among others got backported to 5.15.22:
 
-Julia & co, would you be open to having drm subsystem specific
-coccinelle scripts? If so where should we put the?
-scripts/coccinelle/drm perhaps?
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-5.15.y&id=8a15ac1786c92dce6ecbeb4e4c237f5f80c2c703
 
--- 
-Ville Syrjälä
-Intel
+https://lwn.net/Articles/884107/
+
+Another indicator that Eric's problem is something else.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I'm getting a lot of
+reports on my table. I can only look briefly into most of them and lack
+knowledge about most of the areas they concern. I thus unfortunately
+will sometimes get things wrong or miss something important. I hope
+that's not the case here; if you think it is, don't hesitate to tell me
+in a public reply, it's in everyone's interest to set the public record
+straight.
+
+
