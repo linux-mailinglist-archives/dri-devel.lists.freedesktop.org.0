@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5FB4E2A5A
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:21:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB224E2ACC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:30:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D4510E2CF;
-	Mon, 21 Mar 2022 14:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1709610E334;
+	Mon, 21 Mar 2022 14:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B68B10E2CF
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:21:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1647872486; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OrL7JO2qfltrw/AE5sARmYQoFlwPHN9MKzIkP6MbteQ=;
- b=FiO5IEc4KUCJur80gcUWfmv9JtIlEXAhMwSjf7MpfcFBkIeW11dfIFh8/QAASUWOYaWH/H
- dJljtTifWLI/szjjcBPbBgjgZOrUhotfeROesy0QAuAZNHargCrwPPDtNr8u7CdNEd1YHl
- bFU2t86NDxH/Zr3wddrLz1pLt3Se/Rw=
-Date: Mon, 21 Mar 2022 14:21:16 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 3/3] drm/panel : innolux-ej030na and abt-y030xx067a :
- add .enable and .disable
-To: Christophe Branchereau <cbranchereau@gmail.com>
-Message-Id: <GJM39R.I3L8ZIKHOJ252@crapouillou.net>
-In-Reply-To: <20220321133651.291592-4-cbranchereau@gmail.com>
-References: <20220321133651.291592-1-cbranchereau@gmail.com>
- <20220321133651.291592-4-cbranchereau@gmail.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76CD610E334;
+ Mon, 21 Mar 2022 14:30:09 +0000 (UTC)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149]
+ helo=[192.168.66.200]); authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1nWJ2p-00029J-Ve; Mon, 21 Mar 2022 15:30:04 +0100
+Message-ID: <41eaaf17-1456-5971-e7d9-e5ccc65bcf01@leemhuis.info>
+Date: Mon, 21 Mar 2022 15:30:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic
+ in suspend (v2)") on suspend?
+Content-Language: en-US
+To: =?UTF-8?Q?=c3=89ric_Valette?= <eric.valette@free.fr>
+References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
+ <CADnq5_MfR99OhjumQESCO7Oq+JVOHOVgyVQHX4FpGFDnPu6CyQ@mail.gmail.com>
+ <5164225.DI6hChFYCN@ylum> <c62d4ba9-2214-ca7d-ee78-ee19a9bf51e6@free.fr>
+ <CADnq5_MWqz7-XhOS4zfuzi3=_nKa72iYaO0BcKNcVDwEvZ+YHw@mail.gmail.com>
+ <61c2b2ce-d749-3723-ad27-f40e1c49d967@leemhuis.info>
+ <ba7faa48-68a5-41f9-9192-f843e17c5a07@free.fr>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <ba7faa48-68a5-41f9-9192-f843e17c5a07@free.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1647873009;
+ 3c72b866; 
+X-HE-SMSGID: 1nWJ2p-00029J-Ve
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,194 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Dominique Dumont <dod@debian.org>, Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
+On 21.03.22 13:07, Éric Valette wrote:
+> My problem has never been fixed.
+>
+> The proposed patch has been applied to 5.15. I do not remerber which version 28 maybe.
+> 
+> I still have à RIP in pm_suspend. Did not test the Last two 15 versions.
+> 
+> I can leave with 5.10 est using own compiled kernels.
+> 
+> Thanks for asking.
 
-Le lun., mars 21 2022 at 14:36:51 +0100, Christophe Branchereau=20
-<cbranchereau@gmail.com> a =E9crit :
-> Following the introduction of bridge_atomic_enable in the ingenic
-> drm driver, the crtc is enabled between .prepare and .enable, if
-> it exists.
->=20
-> Add it so the backlight is only enabled after the crtc is, to avoid
-> graphical issues.
->=20
-> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+This thread/the debian bug report
+(https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1005005 ) is getting
+long which makes things hard to grasp. But to me it looks a lot like the
+problem you are facing is different from the problem that others ran
+into and bisected -- but I might be totally wrong there. Have you ever
+tried reverting 3c196f056666 to seem if it helps (sorry if that's
+mentioned in the bug report somewhere, as I said, it became long)? I
+guess a bisection from your side really would help a lot; but before you
+go down that route you might want to give 5.17 and the latest 5.15.y
+kernel a try.
 
-Didn't Sam acked it?
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
-> ---
->  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  | 31=20
-> +++++++++++++++++--
->  drivers/gpu/drm/panel/panel-innolux-ej030na.c | 31=20
-> ++++++++++++++++---
->  2 files changed, 55 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c=20
-> b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> index f043b484055b..ddfacaeac1d4 100644
-> --- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> +++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-> @@ -140,7 +140,7 @@ static const struct reg_sequence=20
-> y030xx067a_init_sequence[] =3D {
->  	{ 0x03, REG03_VPOSITION(0x0a) },
->  	{ 0x04, REG04_HPOSITION1(0xd2) },
->  	{ 0x05, REG05_CLIP | REG05_NVM_VREFRESH | REG05_SLBRCHARGE(0x2) },
-> -	{ 0x06, REG06_XPSAVE | REG06_NT },
-> +	{ 0x06, REG06_NT },
->  	{ 0x07, 0 },
->  	{ 0x08, REG08_PANEL(0x1) | REG08_CLOCK_DIV(0x2) },
->  	{ 0x09, REG09_SUB_BRIGHT_R(0x20) },
-> @@ -183,8 +183,6 @@ static int y030xx067a_prepare(struct drm_panel=20
-> *panel)
->  		goto err_disable_regulator;
->  	}
->=20
-> -	msleep(120);
-> -
->  	return 0;
->=20
->  err_disable_regulator:
-> @@ -202,6 +200,30 @@ static int y030xx067a_unprepare(struct drm_panel=20
-> *panel)
->  	return 0;
->  }
->=20
-> +static int y030xx067a_enable(struct drm_panel *panel)
-> +{
-> +
-> +	struct y030xx067a *priv =3D to_y030xx067a(panel);
-> +
-> +	regmap_set_bits(priv->map, 0x06, REG06_XPSAVE);
-> +
-> +	if (panel->backlight) {
-> +		/* Wait for the picture to be ready before enabling backlight */
-> +		msleep(120);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int y030xx067a_disable(struct drm_panel *panel)
-> +{
-> +	struct y030xx067a *priv =3D to_y030xx067a(panel);
-> +
-> +	regmap_clear_bits(priv->map, 0x06, REG06_XPSAVE);
-> +
-> +	return 0;
-> +}
-> +
->  static int y030xx067a_get_modes(struct drm_panel *panel,
->  				struct drm_connector *connector)
->  {
-> @@ -239,6 +261,8 @@ static int y030xx067a_get_modes(struct drm_panel=20
-> *panel,
->  static const struct drm_panel_funcs y030xx067a_funcs =3D {
->  	.prepare	=3D y030xx067a_prepare,
->  	.unprepare	=3D y030xx067a_unprepare,
-> +	.enable		=3D y030xx067a_enable,
-> +	.disable	=3D y030xx067a_disable,
->  	.get_modes	=3D y030xx067a_get_modes,
->  };
->=20
-> @@ -246,6 +270,7 @@ static const struct regmap_config=20
-> y030xx067a_regmap_config =3D {
->  	.reg_bits =3D 8,
->  	.val_bits =3D 8,
->  	.max_register =3D 0x15,
-> +	.cache_type =3D REGCACHE_FLAT,
-
-I understand that this is added because the panel registers are=20
-write-only and read as zero, and it is needed for=20
-regmap_{clear,set}_bits to work.
-
-This information should definitely be added to the commit message.
-
-If you can add it inline here, and I'll update the commit message when=20
-applying the patch.
-
-Cheers,
--Paul
-
->  };
->=20
->  static int y030xx067a_probe(struct spi_device *spi)
-> diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c=20
-> b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> index c558de3f99be..6de7370185cd 100644
-> --- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> +++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-> @@ -80,8 +80,6 @@ static const struct reg_sequence=20
-> ej030na_init_sequence[] =3D {
->  	{ 0x47, 0x08 },
->  	{ 0x48, 0x0f },
->  	{ 0x49, 0x0f },
-> -
-> -	{ 0x2b, 0x01 },
->  };
->=20
->  static int ej030na_prepare(struct drm_panel *panel)
-> @@ -109,8 +107,6 @@ static int ej030na_prepare(struct drm_panel=20
-> *panel)
->  		goto err_disable_regulator;
->  	}
->=20
-> -	msleep(120);
-> -
->  	return 0;
->=20
->  err_disable_regulator:
-> @@ -128,6 +124,31 @@ static int ej030na_unprepare(struct drm_panel=20
-> *panel)
->  	return 0;
->  }
->=20
-> +static int ej030na_enable(struct drm_panel *panel)
-> +{
-> +	struct ej030na *priv =3D to_ej030na(panel);
-> +
-> +	/* standby off */
-> +	regmap_write(priv->map, 0x2b, 0x01);
-> +
-> +	if (panel->backlight) {
-> +		/* Wait for the picture to be ready before enabling backlight */
-> +		msleep(120);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ej030na_disable(struct drm_panel *panel)
-> +{
-> +	struct ej030na *priv =3D to_ej030na(panel);
-> +
-> +	/* standby on */
-> +	regmap_write(priv->map, 0x2b, 0x00);
-> +
-> +	return 0;
-> +}
-> +
->  static int ej030na_get_modes(struct drm_panel *panel,
->  			     struct drm_connector *connector)
->  {
-> @@ -165,6 +186,8 @@ static int ej030na_get_modes(struct drm_panel=20
-> *panel,
->  static const struct drm_panel_funcs ej030na_funcs =3D {
->  	.prepare	=3D ej030na_prepare,
->  	.unprepare	=3D ej030na_unprepare,
-> +	.enable		=3D ej030na_enable,
-> +	.disable	=3D ej030na_disable,
->  	.get_modes	=3D ej030na_get_modes,
->  };
->=20
-> --
-> 2.35.1
->=20
-
+P.S.: As the Linux kernel's regression tracker I'm getting a lot of
+reports on my table. I can only look briefly into most of them and lack
+knowledge about most of the areas they concern. I thus unfortunately
+will sometimes get things wrong or miss something important. I hope
+that's not the case here; if you think it is, don't hesitate to tell me
+in a public reply, it's in everyone's interest to set the public record
+straight.
 
