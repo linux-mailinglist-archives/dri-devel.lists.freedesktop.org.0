@@ -1,76 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FEC4E2306
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 10:12:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E3F4E2351
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 10:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2350310E2C2;
-	Mon, 21 Mar 2022 09:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590A810E34D;
+	Mon, 21 Mar 2022 09:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413F210E2E9
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 09:12:44 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id D37CF5C0127;
- Mon, 21 Mar 2022 05:12:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 21 Mar 2022 05:12:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=yk+nKpl1q7kSZQ0Ga4s6cX3UW3mqfycxEk/hbr
- UrqjA=; b=tmBZLNYeUIr+1OS4X+l580Np02SDwdmZAkLq7BaZTqKx4CYSflht2Y
- 2vY9O0hLhund1WtFWicyL9AlUouCJpEzF0our6MgPUHGfbEfzN8Sw+Jvp4Llqv8J
- hrLdnY/Zl3qsZ9ZNJpeDhXPjGHuZ5kN8xYrR669a8Qz6taSdx2LpNlCqpLP5h+h1
- 3FXEb4nVL/KkNXO+0F2X5aA1OEsyTTOetLs9M5NGmB+crUMZVUljwzp1u+bd5Un4
- QSsTmthEOedQU0IuVjeX7u9IB198nUeLnjJ+c3CUKeyWl6i6di9voSRZ4QlNe95n
- /FgUwVZhj1sPg+zL81esajn3L4mxD/jg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yk+nKpl1q7kSZQ0Ga
- 4s6cX3UW3mqfycxEk/hbrUrqjA=; b=OHwE84h3b8iy5JgHvWJCL+WbZIVXUDo5p
- Anl4bP0H2v0DZFIRFCb4UjK8LI9OoMRaYsfiFQGIgi/nUk7QRP5jf5CCjLtzVZJ8
- 9W3cKb85OuGyinPF1py1So0c+m3yK14VEj0JcrS8/jUA6RpQ6PjgBctGBQkbQ7Nv
- fwIUmtkeGeFIDrAIg7dp348ARfpzBOAAuSDcSsgC8yQIJifBj7Qw22kitxMikyb4
- K1k1For9j++/mX/3J218iyzqsKEstfRQAR4DCQ7rp4cP0BOzR77wo9E5bEEamJtE
- qc6G1Hf0pwfBrd4j6BZ2kShe857mjWNAfcPzI3kG36+iy1kMejl/g==
-X-ME-Sender: <xms:iEE4YmDBLTBHDUhclVJviokp7ntaV0DOqxWy1XZxFH0Rk5fiQ2IWhQ>
- <xme:iEE4YgiyrWuDdnbZkrx4_38UQyXf5v9zatDbEEWfeLK3GoDYfz-GkAYnbnG8JDeVD
- sN0C4CSx_z8EdxhPjU>
-X-ME-Received: <xmr:iEE4YplVqO1OJDLaRbBXMOMbcPYeBlg35gGv5cDDwx9eky3BgQbDhpDpfAr5YyvYdHXVjiDYakIeCs8lBB2Ma7ijKafuNHzwHzJChPQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegfedgtddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucdnkfhovfculdeitddmnecujfgurhepfffhvffukf
- hfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceo
- mhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhf
- dutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
- hordhtvggthh
-X-ME-Proxy: <xmx:iEE4YkxUg0lVNp7aLgkfPhqEG4DM1O0K6MYNOZ1Y87HkY_pbsV7DvQ>
- <xmx:iEE4YrTw-iSqQW1t4_VCiw-S6o6zmagB9aRq2XLBrk8bP4aoEIOeMA>
- <xmx:iEE4YvbQ8LHvZk0KpIhyuMOQJSwZBHlvUrwWWEE1_h4mAMw4mwnShDJuog>
- <xmx:iEE4YmHWawlOkLPlgyb0B27BR7bjfVAZG4U_L4151FITfp1BOIbbqg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Mar 2022 05:12:39 -0400 (EDT)
-Date: Mon, 21 Mar 2022 10:12:36 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v2] drm: of: Properly try all possible cases for
- bridge/panel detection
-Message-ID: <20220321091236.5rcottkhtztvijpl@houat>
-References: <20220318160249.126431-1-paul.kocialkowski@bootlin.com>
- <20220318161847.ezi6yat4on7rvfdf@houat>
- <YjSx1rNLTh/L3MQQ@aptenodytes>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10D410E34D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 09:28:03 +0000 (UTC)
+X-UUID: 507c02d50e794f4899599f5f9203032e-20220321
+X-UUID: 507c02d50e794f4899599f5f9203032e-20220321
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1098954532; Mon, 21 Mar 2022 17:27:57 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 21 Mar 2022 17:27:56 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 21 Mar 2022 17:27:55 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 21 Mar 2022 17:27:55 +0800
+Message-ID: <1f3d797103d7634160d327a1dd8982dd7a32eebc.camel@mediatek.com>
+Subject: Re: [PATCH v16 05/22] soc: mediatek: add mtk-mmsys config API for
+ mt8195 vdosys1
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Mon, 21 Mar 2022 17:27:55 +0800
+In-Reply-To: <20220318142009.2796-6-nancy.lin@mediatek.com>
+References: <20220318142009.2796-1-nancy.lin@mediatek.com>
+ <20220318142009.2796-6-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5mrpx3bhcyhfcg74"
-Content-Disposition: inline
-In-Reply-To: <YjSx1rNLTh/L3MQQ@aptenodytes>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,92 +57,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 2022-03-18 at 22:19 +0800, Nancy.Lin wrote:
+> Add mmsys config API. The config API is used for config mmsys reg.
+> Some mmsys regs need to be setting according to the HW engine binding
+> to the mmsys simultaneously.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
 
---5mrpx3bhcyhfcg74
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 
-On Fri, Mar 18, 2022 at 05:22:46PM +0100, Paul Kocialkowski wrote:
-> On Fri 18 Mar 22, 17:18, Maxime Ripard wrote:
-> > On Fri, Mar 18, 2022 at 05:02:49PM +0100, Paul Kocialkowski wrote:
-> > > While bridge/panel detection was initially relying on the usual
-> > > port/ports-based of graph detection, it was recently changed to
-> > > perform the lookup on any child node that is not port/ports
-> > > instead when such a node is available, with no fallback on the
-> > > usual way.
-> > >=20
-> > > This results in breaking detection when a child node is present
-> > > but does not contain any panel or bridge node, even when the
-> > > usual port/ports-based of graph is there.
-> > >=20
-> > > In order to support both situations properly, this commit reworks
-> > > the logic to try both options and not just one of the two: it will
-> > > only return -EPROBE_DEFER when both have failed.
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > Fixes: 80253168dbfd ("drm: of: Lookup if child node has panel or brid=
-ge")
-> > > ---
-> > >=20
-> > > Changes since v1:
-> > > - Renamed remote to node;
-> > > - Renamed helper to find_panel_or_bridge;
-> > > - Cleared bridge pointer early;
-> > > - Returned early to make the code more concise;
-> > >=20
-> > > ---
-> > >  drivers/gpu/drm/drm_of.c | 98 ++++++++++++++++++++------------------=
---
-> > >  1 file changed, 49 insertions(+), 49 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> > > index 9d90cd75c457..63137c833b7a 100644
-> > > --- a/drivers/gpu/drm/drm_of.c
-> > > +++ b/drivers/gpu/drm/drm_of.c
-> > > @@ -219,6 +219,28 @@ int drm_of_encoder_active_endpoint(struct device=
-_node *node,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
-> > > =20
-> > > +static int find_panel_or_bridge(struct device_node *node,
-> > > +				struct drm_panel **panel,
-> > > +				struct drm_bridge **bridge)
-> > > +{
-> > > +	if (panel) {
-> > > +		*panel =3D of_drm_find_panel(node);
-> > > +		if (!IS_ERR(*panel))
-> > > +			return 0;
-> > > +		else
-> > > +			*panel =3D NULL;
-> >=20
-> > You don't need the else branch here, we already cleared panel in
-> > drm_of_find_panel_or_bridge
->=20
-> I think we do, because of_drm_find_panel doesn't return NULL when an error
-> happens but PTR_ERR(), so we need to clear it to keep up with previous
-> expectations.
+> ---
+>  drivers/soc/mediatek/mt8195-mmsys.h    | 62
+> ++++++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c       | 34 ++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.h       | 10 +++++
+>  include/linux/soc/mediatek/mtk-mmsys.h | 16 +++++++
+>  4 files changed, 122 insertions(+)
+> 
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
+> b/drivers/soc/mediatek/mt8195-mmsys.h
+> index 369fb0aab56d..8b7adbd22919 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -139,6 +139,21 @@
+>  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				
+> 0xf68
+>  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
+> 0
+>  
+> +#define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
+> +#define MT8195_VDO1_MERGE1_ASYNC_CFG_WD	0xe40
+> +#define MT8195_VDO1_MERGE2_ASYNC_CFG_WD	0xe50
+> +#define MT8195_VDO1_MERGE3_ASYNC_CFG_WD	0xe60
+> +#define MT8195_VDO1_HDRBE_ASYNC_CFG_WD	0xe70
+> +#define MT8195_VDO1_HDR_TOP_CFG		0xd00
+> +#define MT8195_VDO1_MIXER_IN1_ALPHA	0xd30
+> +#define MT8195_VDO1_MIXER_IN2_ALPHA	0xd34
+> +#define MT8195_VDO1_MIXER_IN3_ALPHA	0xd38
+> +#define MT8195_VDO1_MIXER_IN4_ALPHA	0xd3c
+> +#define MT8195_VDO1_MIXER_IN1_PAD	0xd40
+> +#define MT8195_VDO1_MIXER_IN2_PAD	0xd44
+> +#define MT8195_VDO1_MIXER_IN3_PAD	0xd48
+> +#define MT8195_VDO1_MIXER_IN4_PAD	0xd4c
+> +
+>  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] =
+> {
+>  	{
+>  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> @@ -263,4 +278,51 @@ static const struct mtk_mmsys_routes
+> mmsys_mt8195_routing_table[] = {
+>  	}
+>  };
+>  
+> +/*
+> + * mtk_mmsys_config table is used for config mmsys reg in runtime.
+> + * MMSYS_CONFIG_MERGE_ASYNC_WIDTH: config merge async width
+> + * MMSYS_CONFIG_MERGE_ASYNC_HEIGHT: config merge async height
+> + * MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH: config hdr_be async width
+> + * MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT: config hdr_be async height
+> + * MMSYS_CONFIG_MIXER_IN_ALPHA_ODD: config mixer odd channel 9bit
+> alpha value
+> + * MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN: config mixer even channel 9bit
+> alpha value
+> + * MMSYS_CONFIG_MIXER_IN_CH_SWAP: config mixer input RGB channel
+> swap
+> + * MMSYS_CONFIG_HDR_ALPHA_SEL: config alpha source
+> + * MMSYS_CONFIG_MIXER_IN_MODE: config mixer pad mode(bypass/even
+> extend mode)
+> + * MMSYS_CONFIG_MIXER_IN_BIWIDTH: config mixer pad width. formula:
+> width / 2 - 1
+> + */
+> +static const struct mtk_mmsys_config mmsys_mt8195_config_table[] = {
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 0,
+> MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 0,
+> MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 1,
+> MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 1,
+> MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 2,
+> MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 2,
+> MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 3,
+> MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 3,
+> MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH, 0,
+> MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT, 0,
+> MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 1,
+> MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 1,
+> MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 2,
+> MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 2,
+> MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 3,
+> MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 3,
+> MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 4,
+> MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 4,
+> MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_CH_SWAP, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(4, 4), 4},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 1, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(20, 20), 20},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 2, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(21, 21), 21},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 3, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(22, 22), 22},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 4, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(23, 23), 23},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(31, 16), 16},
+> +};
+> +
+>  #endif /* __SOC_MEDIATEK_MT8195_MMSYS_H */
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> b/drivers/soc/mediatek/mtk-mmsys.c
+> index 0b77624cf6ca..6dd68483012c 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -83,6 +83,8 @@ static const struct mtk_mmsys_driver_data
+> mt8195_vdosys1_driver_data = {
+>  	.clk_driver = "clk-mt8195-vdo1",
+>  	.routes = mmsys_mt8195_routing_table,
+>  	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+> +	.config = mmsys_mt8195_config_table,
+> +	.num_configs = ARRAY_SIZE(mmsys_mt8195_config_table),
+>  };
+>  
+>  static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data =
+> {
+> @@ -187,6 +189,38 @@ static const struct reset_control_ops
+> mtk_mmsys_reset_ops = {
+>  	.reset = mtk_mmsys_reset,
+>  };
+>  
+> +void mtk_mmsys_ddp_config(struct device *dev, enum
+> mtk_mmsys_config_type config,
+> +			  u32 id, u32 val)
+> +{
+> +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> +	const struct mtk_mmsys_config *mmsys_config = mmsys->data-
+> >config;
+> +	u32 reg_val;
+> +	u32 mask;
+> +	u32 offset;
+> +	int i;
+> +	u32 tmp;
+> +
+> +	if (!mmsys->data->num_configs)
+> +		return;
+> +
+> +	for (i = 0; i < mmsys->data->num_configs; i++)
+> +		if (config == mmsys_config[i].config && id ==
+> mmsys_config[i].id)
+> +			break;
+> +
+> +	if (i == mmsys->data->num_configs)
+> +		return;
+> +
+> +	offset = mmsys_config[i].addr;
+> +	mask = mmsys_config[i].mask;
+> +	reg_val = val << mmsys_config[i].shift;
+> +
+> +	tmp = readl(mmsys->regs + offset);
+> +
+> +	tmp = (tmp & ~mask) | reg_val;
+> +	writel(tmp, mmsys->regs + offset);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+> +
+>  static int mtk_mmsys_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.h
+> b/drivers/soc/mediatek/mtk-mmsys.h
+> index 77f37f8c715b..78c7069bac0e 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.h
+> +++ b/drivers/soc/mediatek/mtk-mmsys.h
+> @@ -86,11 +86,21 @@ struct mtk_mmsys_routes {
+>  	u32 val;
+>  };
+>  
+> +struct mtk_mmsys_config {
+> +	enum mtk_mmsys_config_type config;
+> +	u32 id;
+> +	u32 addr;
+> +	u32 mask;
+> +	u32 shift;
+> +};
+> +
+>  struct mtk_mmsys_driver_data {
+>  	const char *clk_driver;
+>  	const struct mtk_mmsys_routes *routes;
+>  	const unsigned int num_routes;
+>  	const u16 sw0_rst_offset;
+> +	const struct mtk_mmsys_config *config;
+> +	const unsigned int num_configs;
+>  };
+>  
+>  /*
+> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> b/include/linux/soc/mediatek/mtk-mmsys.h
+> index eaf7f7345519..b2d2310d7e7a 100644
+> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> @@ -56,6 +56,19 @@ enum mtk_ddp_comp_id {
+>  	DDP_COMPONENT_ID_MAX,
+>  };
+>  
+> +enum mtk_mmsys_config_type {
+> +	MMSYS_CONFIG_MERGE_ASYNC_WIDTH,
+> +	MMSYS_CONFIG_MERGE_ASYNC_HEIGHT,
+> +	MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH,
+> +	MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT,
+> +	MMSYS_CONFIG_HDR_ALPHA_SEL,
+> +	MMSYS_CONFIG_MIXER_IN_ALPHA_ODD,
+> +	MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN,
+> +	MMSYS_CONFIG_MIXER_IN_CH_SWAP,
+> +	MMSYS_CONFIG_MIXER_IN_MODE,
+> +	MMSYS_CONFIG_MIXER_IN_BIWIDTH,
+> +};
+> +
+>  void mtk_mmsys_ddp_connect(struct device *dev,
+>  			   enum mtk_ddp_comp_id cur,
+>  			   enum mtk_ddp_comp_id next);
+> @@ -64,4 +77,7 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+>  			      enum mtk_ddp_comp_id cur,
+>  			      enum mtk_ddp_comp_id next);
+>  
+> +void mtk_mmsys_ddp_config(struct device *dev, enum
+> mtk_mmsys_config_type config,
+> +			  u32 id, u32 val);
+> +
+>  #endif /* __MTK_MMSYS_H */
 
-Ah, right. We should remove the else then, checkpatch complains about it.
-
-Maxime
-
---5mrpx3bhcyhfcg74
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjhBhAAKCRDj7w1vZxhR
-xY30AP48CB5lqRqbdnOS6zvsuJf8aSBYpBIhroE2fAQCOUmvtwD+LPaP2ISCRzgk
-ZZKzRmLYAorwUG84gEHQLYeajML57AI=
-=J2Z3
------END PGP SIGNATURE-----
-
---5mrpx3bhcyhfcg74--
