@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508CE4E305C
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 20:00:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BFB4E30CA
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 20:29:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC30210E3A0;
-	Mon, 21 Mar 2022 19:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFC210E484;
+	Mon, 21 Mar 2022 19:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6805710E3A0;
- Mon, 21 Mar 2022 19:00:36 +0000 (UTC)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149]
- helo=[192.168.66.200]); authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1nWNGY-0001D5-7r; Mon, 21 Mar 2022 20:00:31 +0100
-Message-ID: <b3c39447-c02a-a021-8a4f-499aa962980c@leemhuis.info>
-Date: Mon, 21 Mar 2022 20:00:28 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7422210E483;
+ Mon, 21 Mar 2022 19:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647890972; x=1679426972;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vLCkvPLBCbbD0ZqmzCAnsFG4/v3EOkIQoMoagb/MATo=;
+ b=Zg+7zeCXcDC4GkfQiI+YTBZfYc8SzUlOMpRg7HDNy5+/CFjregL9QtGA
+ k4UB9wcRgcUOs2wdreBj1cxzAsNxdiDMurV/fExA17OTnNiHdK4ioJeyI
+ K0Z423WSSKuYDGJp/vlB0z7CcoWHpp8YZS1jin+qPhichDW+HILAlLHLt
+ VqmAXY/tAzuhwc+8aHCh+iklCXnSaS3P/BIV1/H83S/C+Pl1FmtGFzwEF
+ flQcuOADAY/+L/UDP9bQ43uqJJdpOwKkwpRVVkj1aFg7iNaUoWYtm0yzo
+ 0HidV+fRP5/rOCl38EK09ao4HIt1GBEl5Oq3y56jfZs8X4shL8aFsv89T g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="282461640"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="282461640"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 12:29:31 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="646718151"
+Received: from eliasbro-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.30.246])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 12:29:30 -0700
+Date: Mon, 21 Mar 2022 12:29:29 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 2/7] drm: Add drm_memcpy_from_wc() variant
+ which accepts destination address
+Message-ID: <20220321192929.5tn67cqjqwqazlxh@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220303180013.512219-1-balasubramani.vivekanandan@intel.com>
+ <20220303180013.512219-3-balasubramani.vivekanandan@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic
- in suspend (v2)") on suspend?
-Content-Language: en-US
-To: dod@debian.org, Eric Valette <eric.valette@free.fr>,
- Salvatore Bonaccorso <carnil@debian.org>
-References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
- <CADnq5_MWqz7-XhOS4zfuzi3=_nKa72iYaO0BcKNcVDwEvZ+YHw@mail.gmail.com>
- <61c2b2ce-d749-3723-ad27-f40e1c49d967@leemhuis.info>
- <3873010.MHq7AAxBmi@ylum>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <3873010.MHq7AAxBmi@ylum>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1647889236;
- 03ad7ec8; 
-X-HE-SMSGID: 1nWNGY-0001D5-7r
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220303180013.512219-3-balasubramani.vivekanandan@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,50 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
- Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
+ michael.cheng@intel.com, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, siva.mullati@intel.com,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.03.22 19:49, Dominique Dumont wrote:
-> On Monday, 21 March 2022 09:57:59 CET Thorsten Leemhuis wrote:
->> Dominique/Salvatore/Eric, what's the status of this regression?
->> According to the debian bug tracker the problem is solved with 5.16 and
->> 5.17, but was 5.15 ever fixed?
-> 
-> I don't think so.
-> 
-> On kernel side, the commit fixing this issue is
-> e55a3aea418269266d84f426b3bd70794d3389c8 . 
-> 
-> According to the logs of [1] , this commit landed in v5.17-rc3
-> 
-> HTH
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+On Thu, Mar 03, 2022 at 11:30:08PM +0530, Balasubramani Vivekanandan wrote:
+>Fast copy using non-temporal instructions for x86 currently exists at two
+>locations. One is implemented in i915 driver at i915/i915_memcpy.c and
+>another copy at drm_cache.c. The plan is to remove the duplicate
+>implementation in i915 driver and use the functions from drm_cache.c.
+>
+>A variant of drm_memcpy_from_wc() is added in drm_cache.c which accepts
+>address as argument instead of iosys_map for destination. It is a very
+>common scenario in i915 to copy from a WC memory type, which may be an
+>io memory or a system memory to a destination address pointing to system
+>memory. To avoid the overhead of creating iosys_map type for the
+>destination, new variant is created to accept the address directly.
+>
+>Also a new function is exported in drm_cache.c to find if the fast copy
+>is supported by the platform or not. It is required for i915.
+>
+>Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>Cc: Maxime Ripard <mripard@kernel.org>
+>Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>Cc: David Airlie <airlied@linux.ie>
+>Cc: Daniel Vetter <daniel@ffwll.ch>
+>Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>
+>Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+>---
+> drivers/gpu/drm/drm_cache.c | 54 +++++++++++++++++++++++++++++++++++++
+> include/drm/drm_cache.h     |  3 +++
+> 2 files changed, 57 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+>index a21c1350eb09..97959eecc300 100644
+>--- a/drivers/gpu/drm/drm_cache.c
+>+++ b/drivers/gpu/drm/drm_cache.c
+>@@ -358,6 +358,54 @@ void drm_memcpy_from_wc(struct iosys_map *dst,
+> }
+> EXPORT_SYMBOL(drm_memcpy_from_wc);
+>
+>+/**
+>+ * drm_memcpy_from_wc_vaddr - Perform the fastest available memcpy from a source
+>+ * that may be WC to a destination in system memory.
+>+ * @dst: The destination pointer
+>+ * @src: The source pointer
+>+ * @len: The size of the area to transfer in bytes
+>+ *
+>+ * Same as drm_memcpy_from_wc except destination is accepted as system memory
 
-And from there it among others got backported to 5.15.22:
+drm_memcpy_from_wc() for kernel doc
 
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-5.15.y&id=8a15ac1786c92dce6ecbeb4e4c237f5f80c2c703
+>+ * address. Useful in situations where passing destination address as iosys_map
+>+ * is simply an overhead and can be avoided.
+>+ */
+>+void drm_memcpy_from_wc_vaddr(void *dst, const struct iosys_map *src,
 
-https://lwn.net/Articles/884107/
-
-Another indicator that Eric's problem is something else.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-reports on my table. I can only look briefly into most of them and lack
-knowledge about most of the areas they concern. I thus unfortunately
-will sometimes get things wrong or miss something important. I hope
-that's not the case here; if you think it is, don't hesitate to tell me
-in a public reply, it's in everyone's interest to set the public record
-straight.
+As in the first version, still don't like the name, but ok.
 
 
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+
+Lucas De Marchi
