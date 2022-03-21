@@ -1,43 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588F94E50DF
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:01:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E304E50E6
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:02:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECCB10E691;
-	Wed, 23 Mar 2022 11:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F31B710E68E;
+	Wed, 23 Mar 2022 11:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06BD510E127
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 01:24:45 +0000 (UTC)
-Received: from fsav314.sakura.ne.jp (fsav314.sakura.ne.jp [153.120.85.145])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 22L1OQ9W020821;
- Mon, 21 Mar 2022 10:24:26 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav314.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp);
- Mon, 21 Mar 2022 10:24:26 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 22L1OOpR020816
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 21 Mar 2022 10:24:25 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <49925af7-78a8-a3dd-bce6-cfc02e1a9236@I-love.SAKURA.ne.jp>
-Date: Mon, 21 Mar 2022 10:24:23 +0900
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [IPv6:2a01:e0c:1:1599::12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9400B10E25D;
+ Mon, 21 Mar 2022 12:08:12 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [90.59.133.218])
+ (Authenticated sender: eric.valette@free.fr)
+ by smtp3-g21.free.fr (Postfix) with ESMTPSA id 589AF13F8A7;
+ Mon, 21 Mar 2022 13:07:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+ s=smtp-20201208; t=1647864490;
+ bh=xXEkKhP21j6z3maIS8t4Sjhtp6NJrateRL7U0XZ9/V8=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=Xaw0Xqk+UU939Tv2bOs7/Hca8R7E5RZtlT3zPkxnGDBqBN4y8m6IMwQ8c8kWSaEPX
+ DqwgRGIIDvwYsN8XxC3tlong7FPxyVk9x/j16ADm4Jf3MccTgFFCVRlrckl5yiUiod
+ 7c0EpRy+4wR8jFsMKFbVFgzlcD9HDATJjlaI8qd4sapoyXC21kWC+VY19n61+p9WBq
+ +34ld9Wtw7uuE84DIZoSAaNa7yBUQFPT37j3b0KaZ1kprb59Y3FLEC5S/WE49Z16Dx
+ EUwR9W/d2v3oSGdbIVc+SYxwHFryUm0ZQZQnIXYgyQZq0/8ke+t6ZWU8DKcHCZm4aB
+ EvLEZ2cdHsDWg==
+Date: Mon, 21 Mar 2022 12:07:51 +0000 (UTC)
+From: =?UTF-8?Q?=C3=89ric_Valette?= <eric.valette@free.fr>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Message-ID: <ba7faa48-68a5-41f9-9192-f843e17c5a07@free.fr>
+In-Reply-To: <61c2b2ce-d749-3723-ad27-f40e1c49d967@leemhuis.info>
+References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
+ <CADnq5_MfR99OhjumQESCO7Oq+JVOHOVgyVQHX4FpGFDnPu6CyQ@mail.gmail.com>
+ <5164225.DI6hChFYCN@ylum> <c62d4ba9-2214-ca7d-ee78-ee19a9bf51e6@free.fr>
+ <CADnq5_MWqz7-XhOS4zfuzi3=_nKa72iYaO0BcKNcVDwEvZ+YHw@mail.gmail.com>
+ <61c2b2ce-d749-3723-ad27-f40e1c49d967@leemhuis.info>
+Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the
+ asic in suspend (v2)") on suspend?
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To: LKML <linux-kernel@vger.kernel.org>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: An announcement for kernel-global workqueue users.
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:42 +0000
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <ba7faa48-68a5-41f9-9192-f843e17c5a07@free.fr>
+X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,114 +55,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dominique Dumont <dod@debian.org>, Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello.
+My problem has never been fixed. The proposed patch has been applied to 5.1=
+5. I do not remerber which version 28 maybe.
 
-The Linux kernel provides kernel-global WQs (namely, system_wq, system_highpri_wq,
-system_long_wq, system_unbound_wq, system_freezable_wq, system_power_efficient_wq
-and system_freezable_power_efficient_wq). But since attempt to flush kernel-global
-WQs has possibility of deadlock, Tejun Heo thinks that we should stop calling
-flush_scheduled_work() and flush_workqueue(system_*). Such callers as of Linux 5.17
-are listed below.
+I still have =C3=A0 RIP in pm_suspend. Did not test the Last two 15 version=
+s.
 
-----------
-$ git grep -nF 'flush_scheduled_work()'
-drivers/acpi/osl.c:1182:         * invoke flush_scheduled_work()/acpi_os_wait_events_complete() to flush
-drivers/acpi/osl.c:1575:        flush_scheduled_work();
-drivers/block/aoe/aoedev.c:324: flush_scheduled_work();
-drivers/block/aoe/aoedev.c:523: flush_scheduled_work();
-drivers/crypto/atmel-ecc.c:401: flush_scheduled_work();
-drivers/crypto/atmel-sha204a.c:162:     flush_scheduled_work();
-drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2606:       flush_scheduled_work();
-drivers/gpu/drm/bridge/lontium-lt9611uxc.c:985: flush_scheduled_work();
-drivers/gpu/drm/i915/display/intel_display.c:10790:     flush_scheduled_work();
-drivers/gpu/drm/i915/gt/selftest_execlists.c:87:        flush_scheduled_work();
-drivers/iio/light/tsl2563.c:811:        flush_scheduled_work();
-drivers/infiniband/hw/mlx4/cm.c:511:            flush_scheduled_work();
-drivers/infiniband/hw/mlx4/cm.c:543:            flush_scheduled_work(); /* make sure all timers were flushed */
-drivers/infiniband/ulp/isert/ib_isert.c:2639:   flush_scheduled_work();
-drivers/input/mouse/psmouse-smbus.c:320:        flush_scheduled_work();
-drivers/md/dm.c:229:    flush_scheduled_work();
-drivers/message/fusion/mptscsih.c:1234: flush_scheduled_work();
-drivers/net/phy/phy.c:1060:     /* Cannot call flush_scheduled_work() here as desired because
-drivers/net/usb/lan78xx.c:3240:  * can't flush_scheduled_work() until we drop rtnl (later),
-drivers/net/usb/usbnet.c:853:    * can't flush_scheduled_work() until we drop rtnl (later),
-drivers/net/wireless/ath/ath6kl/usb.c:481:      flush_scheduled_work();
-drivers/net/wwan/wwan_hwsim.c:537:      flush_scheduled_work();         /* Wait deletion works completion */
-drivers/nvme/target/configfs.c:1557:    flush_scheduled_work();
-drivers/nvme/target/rdma.c:1587:                flush_scheduled_work();
-drivers/nvme/target/rdma.c:2056:        flush_scheduled_work();
-drivers/nvme/target/tcp.c:1818:         flush_scheduled_work();
-drivers/nvme/target/tcp.c:1879: flush_scheduled_work();
-drivers/nvme/target/tcp.c:1884: flush_scheduled_work();
-drivers/platform/surface/surface_acpi_notify.c:863:     flush_scheduled_work();
-drivers/power/supply/ab8500_btemp.c:975:        flush_scheduled_work();
-drivers/power/supply/ab8500_chargalg.c:1993:    flush_scheduled_work();
-drivers/power/supply/ab8500_charger.c:3400:     flush_scheduled_work();
-drivers/power/supply/ab8500_fg.c:3021:  flush_scheduled_work();
-drivers/rapidio/devices/tsi721.c:2944:  flush_scheduled_work();
-drivers/rtc/dev.c:99:                   flush_scheduled_work();
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:12409:     flush_scheduled_work();
-drivers/scsi/qla2xxx/qla_target.c:1568:         flush_scheduled_work();
-drivers/staging/olpc_dcon/olpc_dcon.c:386:      flush_scheduled_work();
-sound/soc/intel/atom/sst/sst.c:363:     flush_scheduled_work();
-$ git grep -nF 'flush_workqueue(system_'
-drivers/block/rnbd/rnbd-clt.c:1776:     flush_workqueue(system_long_wq);
-drivers/infiniband/core/device.c:2857:  flush_workqueue(system_unbound_wq);
-include/linux/workqueue.h:592:  flush_workqueue(system_wq);
-----------
+I can leave with 5.10 est using own compiled kernels.
 
-I tried to send a patch that emits a warning when flushing kernel-global WQs is attempted
-( https://lkml.kernel.org/r/2efd5461-fccd-f1d9-7138-0a6767cbf5fe@I-love.SAKURA.ne.jp ).
-But Linus does not want such patch
-( https://lkml.kernel.org/r/CAHk-=whWreGjEQ6yasspzBrNnS7EQiL+SknToWt=SzUh4XomyQ@mail.gmail.com ).
+Thanks for asking.
 
-Steps for converting kernel-global WQs into module's local WQs are shown below.
-But since an oversight in Step 4 results in breakage, I think that this conversion
-should be carefully handled by maintainers/developers of each module who are
-familiar with that module. (This is why I'm sending this mail than sending patches,
-in order to ask for your cooperation.)
+21 mars 2022 09:58:01 Thorsten Leemhuis <regressions@leemhuis.info>:
 
-----------
-Step 0: Consider if flushing kernel-global WQs is unavoidable.
-
-    For example, commit 081bdc9fe05bb232 ("RDMA/ib_srp: Fix a deadlock")
-    simply removed flush_workqueue(system_long_wq) call.
-
-    For another example, schedule_on_each_cpu() does not need to call
-    flush_scheduled_work() because schedule_on_each_cpu() knows the list
-    of all "struct work_struct" instances which need to be flushed using
-    flush_work() call.
-
-    If flushing kernel-global WQs is still unavoidable, please proceed to
-    the following steps.
-
-Step 1: Declare a variable for your module.
-
-    struct workqueue_struct *my_wq;
-
-Step 2: Create a WQ for your module from __init function. The same flags
-        used by corresponding kernel-global WQ can be used when creating
-        the WQ for your module.
-
-    my_wq = alloc_workqueue("my_wq_name", 0, 0);
-
-Step 3: Destroy the WQ created in Step 2 from __exit function (and the error
-        handling path of __init function if __init function may fail after
-        creating the WQ).
-
-    destroy_workqueue(my_wq);
-
-Step 4: Replace e.g. schedule_work() call with corresponding queue_work() call
-        throughout your module which should be handled by the WQ for your module.
-
-Step 5: Replace flush_scheduled_work() and flush_workqueue(system_*) calls
-        with flush_workqueue() of the WQ for your module.
-
-    flush_workqueue(my_wq);
-----------
-
-Regards.
+> Hi, this is your Linux kernel regression tracker. Top-posting for once,
+> to make this easily accessible to everyone.
+>=20
+> Dominique/Salvatore/Eric, what's the status of this regression?
+> According to the debian bug tracker the problem is solved with 5.16 and
+> 5.17, but was 5.15 ever fixed?
+>=20
+> Ciao, Thorsten
+>=20
+> On 21.02.22 15:16, Alex Deucher wrote:
+>> On Mon, Feb 21, 2022 at 3:29 AM Eric Valette <eric.valette@free.fr> wrot=
+e:
+>>>=20
+>>> On 20/02/2022 16:48, Dominique Dumont wrote:
+>>>> On Monday, 14 February 2022 22:52:27 CET Alex Deucher wrote:
+>>>>> Does the system actually suspend?
+>>>>=20
+>>>> Not really. The screens looks like it's going to suspend, but it does =
+come
+>>>> back after 10s or so. The light mounted in the middle of the power but=
+ton does
+>>>> not switch off.
+>>>=20
+>>>=20
+>>> As I have a very similar problem and also commented on the original
+>>> debian bug report
+>>> (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1005005), I will a=
+dd
+>>> some information here on another amd only laptop (renoir AMD Ryzen 7
+>>> 4800H with Radeon Graphics + Radeon RX 5500/5500M / Pro 5500M).
+>>>=20
+>>> For me the suspend works once, but after the first resume (I do know
+>>> know if it is in the suspend path or the resume path I see a RIP in the
+>>> dmesg (see aditional info in debian bug))=C2=A0 and later suspend do no=
+t
+>>> work: It only go to the kde login screen.
+>>>=20
+>>> I was unable due to network connectivity to do a full bisect but tested
+>>> with the patch I had on my laptop:
+>>>=20
+>>> 5.10.101 works, 5.10 from debian works
+>>> 5.11 works
+>>> 5.12 works
+>>> 5.13 suspend works but when resuming the PC is dead I have to reboot
+>>> 5.14 seems to work but looking at dmesg it is full of RIP messages at
+>>> various places.
+>>> 5.15.24 is a described 5.15 from debian is behaving identically
+>>> 5.16 from debian is behaving identically.
+>>>=20
+>>>>> Is this system S0i3 or regular S3?
+>>>=20
+>>> For me it is real S3.
+>>>=20
+>>> The proposed patch is intended for INTEl + intel gpu + amdgpu but I hav=
+e
+>>> dual amd GPU.
+>>=20
+>> It doesn't really matter what the platform is, it could still
+>> potentially help on your system, it depends on the bios implementation
+>> for your platform and how it handles suspend. You can try the patch,
+>> but I don't think you are hitting the same issue.=C2=A0 I bisect would b=
+e
+>> helpful in your case.
+>>=20
+>> Alex
