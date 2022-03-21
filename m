@@ -1,71 +1,134 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5095A4E2D10
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:02:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9914E2DBF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:21:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9B510E385;
-	Mon, 21 Mar 2022 16:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2C910E3D8;
+	Mon, 21 Mar 2022 16:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68CA010E37B;
- Mon, 21 Mar 2022 16:02:43 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id r64so8829580wmr.4;
- Mon, 21 Mar 2022 09:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=phSyJ04IKQyqb6lOTPZt51MuA+UF9gOAUc4oGq3gGJs=;
- b=e5OhRrHG7n0dBP1WaBcFUv55M1nkdc1DWwL/+3geI07PF0g2ijliVH5xsJTmjac+tW
- B9t31o7Kzs3dWTvLG0KFc+QseQI3/6V2LxJ2eNShaRU8J1RvRKr8lX5u6eOGajPVCvKA
- eYxGrXySVbbgA7rw2bNkLfPJj4ODrsi8qUVEgWTJckFlr0GGK4/+87t5KaIehdO/tC+a
- cm3HxPu/lsrOwvnlHHO578DZ3fgsab69U2kH2wQY2VwIAgh1a1ARXg77GdgpZaXgrFiI
- zql0PFBJF8ENxwdBSb+EyXROiHZsgFu1EAVVN8joPUQZp+ggzoS92T+WDwJ0PoIgxIZm
- BV0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=phSyJ04IKQyqb6lOTPZt51MuA+UF9gOAUc4oGq3gGJs=;
- b=4IrwCuO0lSq4TkxZ6kX8LDQfUNghQA/5oRoFIQODijfl9GM4Q8mvG/BOp+pqOa8F9x
- xNXl+v54wla2JSWymzg+WZ+UJt7ig/blApD4Zt862teU7B5495IGId/l+pmtzGh1Cdfw
- h2pQu7KIAvUcfsMI9Qo9PZRbK8b31QY7vyYI+oF6YpSMduZgEpkU8UlikcLNyqEITvNE
- kJrRlKKwpjSnDS3KS+ESZx3yHbfxZNA+wU0Rledoc+gmZDHyzWD4bXSHtwIIDiaohFF2
- 4n3qrOtBCTx8r+6dOWg6DcecRdxVDcx4Q4y13Tpxo5nhDCgPvmXh0JIPb93WOij1feFn
- u2LA==
-X-Gm-Message-State: AOAM530prhG0FzKEvpobq+UPh2YxrN7PSykR18qV4ou6LYfmwRpgUJsV
- 2h3A1FhY1OPs46S0kB6rNTT96MUDxE+spOhNx++tSf3c
-X-Google-Smtp-Source: ABdhPJyD3hcgnNJGgR/1qyQz7N78hwNB1+38prfiLQMVV1vqg2tQR9eRO7k+vgJq+1aEu+ZL/9tY1oCtJ+WB5yZAclY=
-X-Received: by 2002:a05:600c:22c4:b0:38c:70f5:25a9 with SMTP id
- 4-20020a05600c22c400b0038c70f525a9mr20215731wmg.119.1647878561841; Mon, 21
- Mar 2022 09:02:41 -0700 (PDT)
+Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com
+ [216.71.142.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B9510E3D8;
+ Mon, 21 Mar 2022 16:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qti.qualcomm.com; i=@qti.qualcomm.com; q=dns/txt;
+ s=qccesdkim1; t=1647879701; x=1648484501;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=DQljcbJhRnMX/NnxrAp+hABj2GlYAfRVVTrS7+aby0U=;
+ b=kHq8y9kw5zeottQVV8irKo5djhOfgSRGwyCX2lkpaTsB+/E6gE+XAsk3
+ KtcSwm2hGarqzdsbLdq/YmvSo+fCXSkAOlJ7EaQSJyQHMrSlEHNUX7DUG
+ 95lKsK2u7LbxjNCgEwHJDXjyfBIflI7nzFBX1wk5asqkG2ObfJnIebxi0 0=;
+Received: from mail-co1nam11lp2175.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.175])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 16:21:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jnUBNb31pvBxSDSTBy2Y8ylc2It4ssWmR7cQaiduBRo4RHGEWIkgMkEBNEa2d830H9yi6bGYKThfsnRSl+1fKbFyj+iJv7wqi1O5O/sxq5PWuCnkbmHJBrpCZeRT0ulpmWyqP7lnoDZoNlTfQIwzo0j+L6Q0KYbxPeNO/lBCtoU31bp8q0He30YR7eCSQZ8G/yWhreOac4vVBpGN7U8eKpk7lPUeBvkyPTfKAm6bfZ6JJk56PIqZ8gMheuDr+J3hZonJdLLbLNCOPzT1vc5KDe8TYEHRKv7UWZinAqkaWl+nsAt6EtNLyGUQlxquLV6/+ZYeUlnaxK7GnWyYWDPp9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DQljcbJhRnMX/NnxrAp+hABj2GlYAfRVVTrS7+aby0U=;
+ b=jv9lBAYKXfSwTzKWf+tRZtv+2cYLnMNK3XzE5lXqBR7c73sPQPlfXUiRy4NO6AmQbAkEHyi7JmfpfNEJ4KLLQpZ1Fca7lrtxJDGS2plWLoozoDuqyPI66iIh4I75+L7AMn/DIW1i9dvetg5jO3Ie+KIXjFChOvYLT4C2Lz4ajoIbCFTh/HzM4kk19VxuSlkxSuha+R+DLkmb9zy499UNfdlmbJ2DdSeLLwRVGrnEaGfjFbLLJ7zZhcdYJXOY9Mw6WoyQG0pCTUmfJ1DqytRFMUz/60fQtPhVSdu2ogMucwyA3uziW3w5wbbAwrOCIsSK8wRvIG72sQpyl3bQHbrp4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from BN0PR02MB8173.namprd02.prod.outlook.com (2603:10b6:408:163::15)
+ by SN6PR02MB4415.namprd02.prod.outlook.com (2603:10b6:805:a7::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Mon, 21 Mar
+ 2022 16:21:36 +0000
+Received: from BN0PR02MB8173.namprd02.prod.outlook.com
+ ([fe80::8135:e90b:883:4853]) by BN0PR02MB8173.namprd02.prod.outlook.com
+ ([fe80::8135:e90b:883:4853%5]) with mapi id 15.20.5081.023; Mon, 21 Mar 2022
+ 16:21:36 +0000
+From: Vinod Polimera <vpolimer@qti.qualcomm.com>
+To: Stephen Boyd <swboyd@chromium.org>, quic_vpolimer
+ <quic_vpolimer@quicinc.com>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>
+Subject: RE: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
+ frequency in opp table during probe
+Thread-Topic: [PATCH v6 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
+ frequency in opp table during probe
+Thread-Index: AQHYN7JpyaIUkUBnYkOtfqwew+UyfazEF5wAgAX3NtA=
+Date: Mon, 21 Mar 2022 16:21:35 +0000
+Message-ID: <BN0PR02MB8173BBD2C02F5DFBEBE94E40E4169@BN0PR02MB8173.namprd02.prod.outlook.com>
+References: <1647269217-14064-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1647269217-14064-2-git-send-email-quic_vpolimer@quicinc.com>
+ <CAE-0n51vfoOK_6B0yAvws32MtLQ1SvBPoQPHBFE14TLzZFUZaw@mail.gmail.com>
+In-Reply-To: <CAE-0n51vfoOK_6B0yAvws32MtLQ1SvBPoQPHBFE14TLzZFUZaw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=qti.qualcomm.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b73241c4-5651-4355-f15f-08da0b56dedf
+x-ms-traffictypediagnostic: SN6PR02MB4415:EE_
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-microsoft-antispam-prvs: <SN6PR02MB4415AA0AACF80A61A6AE80B3E4169@SN6PR02MB4415.namprd02.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6Vld2Lk5llwVeeqhCdZfrjKX+hllqGIs9wvHIJjLJFaeUaTLdCzWHKz8KCPG44ZiGzYkptkfCTtWLD9GGc2HNnpAl82SPEmBt/WKC5ue7BTm0Vpm+7DYiUlnvE/0t+vLRMgAYTwn5QWDJFRdtGGCslal4PiPLXL3hcHr9ON/ioUpr0h252ZM2RTEbwhpXAuonYvfDqxpxI99xdcCAuTKHyhY5Sko7I/1uIh9nrtrtVVbZA0iFjXaaFo9Jgx4uVIPOV9IyPKCnE9SSQVnX64F8Q5xC8MHPBfrq9OfJ36tOzNIYqHUTaI/TAhWwEJRdXCtYaWRxSSFG7veYta8nq2xb+DfBMDuMFJzpNYVgGPSM/HYw+BNoAdu8uKzRE0jpeoehHDoZ8+Fi2C6kA7N1ihjGghBiBIRJstkW3P9aGYuJEuNDu0MNP80UdKzfQYywgsfx5hbDaxEdc5ly3HMIVYi72iSDhiw9G1c3IgDKl3pb/Jihqu5zWnw0yhHvz0PYRRhkvJg+afCSw9u/PlvtrtRLN4kNFITNhtEvX8joHJyOgwwuad/C54Omnd0i1BgCuDWK+PJaIFrfNJmEZtXjwgS+SDvwbXnmKV7silNyaNussBg/n8dQwT8o0237eywwLPjYilEVdrGzHpg/+That9nvMTJfpZ35qsu+QUCbpVa04ilmn0VEsHCuNVAnqjw3ND7p5W0kEJS9ymbeERDHHTbrQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR02MB8173.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(83380400001)(9686003)(53546011)(4326008)(64756008)(66946007)(66556008)(66476007)(66446008)(8676002)(76116006)(26005)(110136005)(54906003)(186003)(86362001)(55016003)(38100700002)(52536014)(8936002)(122000001)(71200400001)(38070700005)(33656002)(6506007)(7696005)(2906002)(5660300002)(316002)(107886003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SllUSlRLTk8rMURkaVBJazI4ME16ekhwQlhJNnAvSzNETUk2K0hZVytXUHFE?=
+ =?utf-8?B?NmtVUHF3K3o4U2ZNMVFSQ2U5aFFPaTI4Q3dpbW5iWW5JQ25EVlVjcmtZa0di?=
+ =?utf-8?B?Wm16Z3AxdTJFaVZ6dHk5dWROelRuMFJyM2lxN1hTdkJZeTdBS1YzM1ZldXV4?=
+ =?utf-8?B?WFUzY0JmOVBTZFJiT1NkQmUvcnBTa0NOcG1OWGpnQ3hvUkJQZ2xyTlhiM3Zr?=
+ =?utf-8?B?cytidDFSMnZyNmFCdjRUeEZiazRQOVZTWHFPbUUwQUlXMkNxVVBoRExEcjZJ?=
+ =?utf-8?B?WHlHdTE0V1Z2VFVxcVhJNURGNTFwL0p1Zncxby9pcytHdVkyVkhObDcrSTdh?=
+ =?utf-8?B?VnVjYk94VHpwL1NOWG5KUVJ1MGVicnBQc0pYRnVlSWFJRnRUbmx1SU1jVHhs?=
+ =?utf-8?B?aCtlcklOYWd5TFBzT1NqazBPUzg1NTh2aWNSbkJzeXcwUitvY3B1T0NEWTRX?=
+ =?utf-8?B?cS84TEJPSUk0VElJSVY0Y0tWL21oYWFNUk5LMmlobGdQZUtKMWNTQVkzTWFG?=
+ =?utf-8?B?MCttdE1LYzU5dU5QQzA1aUN2bjVrN1RmYktHOGpGbjFuMXVYa25JVUJpY0Yw?=
+ =?utf-8?B?c0ZDS2tyNDhVUmR0Z2RQZGdsUDhmWEFzalh2akhXVlZCSDExV0xrRnhWTDBB?=
+ =?utf-8?B?ZWlRbTdnVnpiU2l4K09QbjJXZFZ3ZDF0WUlKRVpZbFRnVElvOUNtY3JjWkIr?=
+ =?utf-8?B?ZExHZEpHblExTXNCa0FSSmx0b1RnUnMvQnBSSGxzY2t0SFdPQTdWQ3NKc3Ey?=
+ =?utf-8?B?S3dkbDFvY0Rhc1ZGZFZlbm53UzJydWozTStHOUpMemZnQ2ZSVGk5SGlnOGc5?=
+ =?utf-8?B?OFJpMWhhMmdySG05eThuTE83dERkNlVScmRZWjBQVCtmVVhSRjNETVRGM3Zk?=
+ =?utf-8?B?ZUFQT3prai9lcTdkTTJ6YnNiQ3d0L3RmT2sxcDNXWFR5V1JYVGtkMjlObmM5?=
+ =?utf-8?B?clVDUlJzR3dtNVQ2dTdUdnJSN05haSswMlFEUVFDdW1JYi9KMWttZTZWNmJ1?=
+ =?utf-8?B?bzRDd0liME1yL0lHYWJOVGNuejZ6NVRPTWlrWWF1emN0OGRDYXdhQWNtanQz?=
+ =?utf-8?B?UGdWZ2xRVWp1V0RqNDZVbkVyL2grb2N2MEFCUmRJT2sxamcveUQwZmRza3VS?=
+ =?utf-8?B?NWJraGltVmc3VVBsZk1ScTNtWFRNc0dML25TVzdncDlEcUdQZTBOQXMxVnNO?=
+ =?utf-8?B?b2FUZ2hnNng2MERXVlVWK2xsMVo0VmFsdHRCYWNUZkZ2OXZNVXRNejN5SEcr?=
+ =?utf-8?B?YTBUSW5lYWRKMURvajZqOFNQK1hEWHcrbmJMcDcwUzNUeHJsamVaS2M4Q1p2?=
+ =?utf-8?B?UWpURkJOczZ6N09RWlg4RVBrZ1B6c2M0cmJLUkRabElSeXduZjY4R3Q5b3hU?=
+ =?utf-8?B?WDdJeUN3MVZncWxISklaYUFPLzhXeWMzbS8wc0EySHJ0cFlxdkt2WU81cWx0?=
+ =?utf-8?B?aHI5OFZyb1EyQ0UxUEw4NnhCTlFkMEt1QUs3ZG9UVEdZMWlHbFJRaWd6M1FC?=
+ =?utf-8?B?QnkwaDE0V1duTXRVT1hCN0RDY0dQaEgxc1pocGVabHg1dTdINy9SdlUrUWx0?=
+ =?utf-8?B?aTJqWGhsYkFJUlRBWTFtWTlFVTJRT29iZVlMU1BxTTBxbVRyQ2tEYzJNZGRD?=
+ =?utf-8?B?Sm5LbUt4bnFnMjI5TFd0OERyd3lGQkFSSUFlM0N3Rit6NEtXMThwazdTRmNr?=
+ =?utf-8?B?bjBocmVjQ0xxdUVvNy96VGxlMHo4VVRhQ2N1aVFnYVhTN3o1d2xUNm84UFNu?=
+ =?utf-8?B?RjJOWTlJRzNHckowazNKSFJlTEdYZjVZYmRaanpWbEtvekdVZkc0b3hpZldm?=
+ =?utf-8?B?eE56REVjdUtGOVJYSUc3NkUrOHpENWp0Qyt4b0VFdUJEMjVtblU4elV2dngz?=
+ =?utf-8?B?cGdHM1RPc1B3Nm9UVXV2azNSb3JQb0EzNnBmRGVWdXJMTXJWQ1QzUHJiUVZ6?=
+ =?utf-8?Q?JP416N3K+ep0XIdIS832YetXlqaU8wzF?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
- <YjL/k6kh+5RihGIV@phenom.ffwll.local>
- <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
- <YjNvYmcuDKiIneDx@phenom.ffwll.local>
- <CAF6AEGvuMfKtf_aweai6y4oHghArE95uhR2X0f9h_9w4Bk_6VQ@mail.gmail.com>
- <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
- <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
- <3f0b7273-4562-7a55-e52a-bd64334886fd@amd.com>
-In-Reply-To: <3f0b7273-4562-7a55-e52a-bd64334886fd@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 21 Mar 2022 09:03:26 -0700
-Message-ID: <CAF6AEGu6FabmcWE+NsPgnPU0=MpbA6bmO1KkJ2hrVDBLFY92xA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR02MB8173.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b73241c4-5651-4355-f15f-08da0b56dedf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 16:21:35.9564 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iavX5ws6SILA3VehhZOCNS/AXrcSdn4BiqYoyoH7TBknzKMVKTwnHOkflB5AxQQrdxghAAA4phS58XuyBG2EhG3nqSqprkDv1HKeZhiMhkk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,144 +141,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
- Shashank" <shashank.sharma@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Shashank Sharma <contactshashanksharma@gmail.com>
+Cc: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ quic_kalyant <quic_kalyant@quicinc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dianders@chromium.org" <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 21, 2022 at 2:30 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 18.03.22 um 16:12 schrieb Rob Clark:
-> > On Fri, Mar 18, 2022 at 12:42 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 17.03.22 um 18:31 schrieb Rob Clark:
-> >>> On Thu, Mar 17, 2022 at 10:27 AM Daniel Vetter <daniel@ffwll.ch> wrot=
-e:
-> >>>> [SNIP]
-> >>>>> (At some point, I'd like to use scheduler for the replay, and actua=
-lly
-> >>>>> use drm_sched_stop()/etc.. but last time I looked there were still
-> >>>>> some sched bugs in that area which prevented me from deleting a bun=
-ch
-> >>>>> of code ;-))
-> >>>> Not sure about your hw, but at least on intel replaying tends to jus=
-t
-> >>>> result in follow-on fun. And that holds even more so the more comple=
-x a
-> >>>> workload is. This is why vk just dies immediately and does not try t=
-o
-> >>>> replay anything, offloading it to the app. Same with arb robusteness=
-.
-> >>>> Afaik it's really only media and classic gl which insist that the dr=
-iver
-> >>>> stack somehow recover.
-> >>> At least for us, each submit must be self-contained (ie. not rely on
-> >>> previous GPU hw state), so in practice replay works out pretty well.
-> >>> The worst case is subsequent submits from same process fail as well
-> >>> (if they depended on something that crashing submit failed to write
-> >>> back to memory.. but in that case they just crash as well and we move
-> >>> on to the next one.. the recent gens (a5xx+ at least) are pretty good
-> >>> about quickly detecting problems and giving us an error irq.
-> >> Well I absolutely agree with Daniel.
-> >>
-> >> The whole replay thing AMD did in the scheduler is an absolutely mess
-> >> and should probably be killed with fire.
-> >>
-> >> I strongly recommend not to do the same mistake in other drivers.
-> >>
-> >> If you want to have some replay feature then please make it driver
-> >> specific and don't use anything from the infrastructure in the DRM
-> >> scheduler.
-> > hmm, perhaps I was not clear, but I'm only talking about re-emitting
-> > jobs *following* the faulting one (which could be from other contexts,
-> > etc).. not trying to restart the faulting job.
-> >
-> > You *absolutely* need to replay jobs following the faulting one, they
-> > could be from unrelated contexts/processes.  You can't just drop them
-> > on the floor.
->
-> Well you can, it just means that their contexts are lost as well.
-
-Which is rather inconvenient when deqp-egl reset tests, for example,
-take down your compositor ;-)
-
-(Which for even more lolz, in CrOS restarts the android container or
-vm.. which makes running android-cts deqp kinda funny)
-
-> If you re-submit jobs which were already pushed to the hardware you
-> absolutely need to make a couple of things sure:
->
-> 1. Don't race with your hardware. E.g. you need a way to stop processing
-> in case of a timeout and then double check once more if things haven't
-> finished in the meantime.
->
-> 2. Make absolutely sure you never re-submit an operation when it's
-> dma-fence is already signaled. Otherwise you run into memory corruption.
->
-> 3. When you have multiple engines it becomes really tricky because then
-> even innocent jobs might have already been started on different queues
-> which now hang.
-
-We force power-off/on the GPU to reset it which is a pretty good way
-to make sure we aren't racing with the GPU.
-
-It's worked like this since pretty much the beginning, and in the
-early days of bringing up mesa support for a new gen we tend to
-exercise the gpu hang/recovery path quite a lot.. so it at least seems
-pretty robust ;-)
-
-BR,
--R
-
->
-> > Currently it is all driver specific, but I wanted to delete a lot of
-> > code and move to using scheduler to handle faults/timeouts (but
-> > blocked on that until [1] is resolved)
->
-> Please don't.
->
-> Especially don't use the pending_list or any of the scheduler
-> infrastructure for GPU reset. We need to get rid of that again sooner or
-> later.
->
-> This is extremely hardware dependent and pushing the amdgpu specific
-> handling into the GPU scheduler was a mistake we shouldn't repeat for
-> other drivers.
->
-> Regards,
-> Christian.
->
-> >
-> > [1] https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Fpatchwork.kernel.org%2Fproject%2Fdri-devel%2Fpatch%2F1630457207-13107-2-gi=
-t-send-email-Monk.Liu%40amd.com%2F&amp;data=3D04%7C01%7Cchristian.koenig%40=
-amd.com%7C1f6ddc253f9341231fa108da08f1afa9%7C3dd8961fe4884e608e11a82d994e18=
-3d%7C0%7C0%7C637832131381866493%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA=
-iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3De%2F1tOh=
-3nxH3QfzKQKiJKjCU7Z5S6haX07F8rzwZhRVY%3D&amp;reserved=3D0
-> >
-> > BR,
-> > -R
-> >
-> >> Thanks,
-> >> Christian.
-> >>
-> >>> BR,
-> >>> -R
-> >>>
-> >>>> And recovering from a mess in userspace is a lot simpler than trying=
- to
-> >>>> pull of the same magic in the kernel. Plus it also helps with a few =
-of the
-> >>>> dma_fence rules, which is a nice bonus.
-> >>>> -Daniel
-> >>>>
->
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlcGhlbiBCb3lkIDxz
+d2JveWRAY2hyb21pdW0ub3JnPg0KPiBTZW50OiBGcmlkYXksIE1hcmNoIDE4LCAyMDIyIDI6NDEg
+QU0NCj4gVG86IHF1aWNfdnBvbGltZXIgPHF1aWNfdnBvbGltZXJAcXVpY2luYy5jb20+Ow0KPiBk
+ZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZzsNCj4gZnJlZWRyZW5vQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGludXgtYXJtLW1zbUB2Z2Vy
+Lmtlcm5lbC5vcmcNCj4gQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHJvYmRjbGFy
+a0BnbWFpbC5jb207DQo+IGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZzsgZGlhbmRlcnNAY2hy
+b21pdW0ub3JnOyBxdWljX2thbHlhbnQNCj4gPHF1aWNfa2FseWFudEBxdWljaW5jLmNvbT4NCj4g
+U3ViamVjdDogUmU6IFtQQVRDSCB2NiAxLzVdIGRybS9tc20vZGlzcC9kcHUxOiBzZXQgbWRwIGNs
+ayB0byB0aGUNCj4gbWF4aW11bSBmcmVxdWVuY3kgaW4gb3BwIHRhYmxlIGR1cmluZyBwcm9iZQ0K
+PiANCj4gV0FSTklORzogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiBRdWFs
+Y29tbS4gUGxlYXNlIGJlIHdhcnkNCj4gb2YgYW55IGxpbmtzIG9yIGF0dGFjaG1lbnRzLCBhbmQg
+ZG8gbm90IGVuYWJsZSBtYWNyb3MuDQo+IA0KPiBRdW90aW5nIFZpbm9kIFBvbGltZXJhICgyMDIy
+LTAzLTE0IDA3OjQ2OjUzKQ0KPiA+IHVzZSBtYXggY2xvY2sgZHVyaW5nIHByb2JlL2JpbmQgc2Vx
+dWVuY2UgZnJvbSB0aGUgb3BwIHRhYmxlLg0KPiA+IFRoZSBjbG9jayB3aWxsIGJlIHNjYWxlZCBk
+b3duIHdoZW4gZnJhbWV3b3JrIHNlbmRzIGFuIHVwZGF0ZS4NCj4gDQo+IENhcGl0YWxpemUgJ3Vz
+ZScuDQo+IA0KPiBXaHkgaXMgaXQgaW1wb3J0YW50IHRvIHVzZSBtYXggZnJlcXVlbmN5IGR1cmlu
+ZyBwcm9iZS9iaW5kPyBEb2VzIG5vdA0KPiBzZXR0aW5nIHRoZSBjbGsgcmF0ZSBkdXJpbmcgcHJv
+YmUgbWVhbiB0aGF0IHdlJ2xsIG5ldmVyIHVzZSB0aGUgbWF4DQo+IHJhdGU/IERvZXMgaXQgc3Bl
+ZWQgdGhpbmdzIHVwIGR1cmluZyBwcm9iZT8NCg0KV2UgbmVlZCB0byB2b3RlIG1kcCBjbG9jayBk
+dXJpbmcgcHJvYmUvYmluZCBzbyB0aGF0IHJhaWxzIGFyZSBub3Qgc2V0IGF0IHVuZGV0ZXJtaW5l
+ZCBzdGF0ZSBhcyBwb2ludGVkIG91dCBieSBEbWl0cnkuDQpTaW5jZSB3ZSBkb250IGtub3cgd2hh
+dCB3aWxsIGJlIHRoZSByYXRlIHNldCBpbiBib290IGxvYWRlciwgaXQgd291bGQgYmUgaWRlYWwg
+dG8gdm90ZSBhdCBtYXggZnJlcXVlbmN5LiANClRoZXJlIGNvdWxkIGJlIGEgZmlybXdhcmUgZGlz
+cGxheSBwcm9ncmFtbWVkIGluIGJvb3Rsb2FkZXIgYW5kIHdlIHdhbnQgdG8gdHJhbnNpdGlvbiBp
+dCB0byBrZXJuZWwgd2l0aG91dCB1bmRlcmZsb3dpbmcuDQoNClRoYW5rcywNClZpbm9kIFAuDQo=
