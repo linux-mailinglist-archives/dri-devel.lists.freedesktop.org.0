@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8754E2E51
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283944E2E57
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 17:43:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F89310E43A;
-	Mon, 21 Mar 2022 16:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E49E10E4AB;
+	Mon, 21 Mar 2022 16:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 102A010E417;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A3810E417;
  Mon, 21 Mar 2022 16:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1647880976; x=1679416976;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vtHYYwAisW2mw6jK9Prf7Ib0njT1dEEd3B0OWO/TFDE=;
- b=Sz0eWuGu0NEAEzLlnjOG3CgjH1kU0UsVSOKnQC1mPNg2b9D1jrWKjmYM
- 3jLr4V9xFBRngSspyjvSmiMA1uFp4jBdNzCnNoJY6caCMQLlLnzY/CGNe
- lYwB8XOOV+X8t/yncZPAh35vqh9l4gD4DGCJuwzF7Zgd7idU3IeV1cmIf
- KxwGZCKks7aXQQ0J3mnxPKYOIks9pW9IzCO5lu/B/k0LI0jeeslqF1iXH
- 8C+B9rFktrhO4hApwinv4OLMFaVpdMeSVBSei4EMGXdrAYqBly3q98LDW
- +y7k4e0/nRB5sgiLMsd860QzbkVLm0Wan0KevqBuDIKl6+0t/JJpP1dIr g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="239752673"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="239752673"
+ bh=xtGsIP2AVkeVC+UFlSeblIBntNN/RkvdMvgrW9vtVKw=;
+ b=QqUY0aigiZd1FnQnkFisPveeymZGX2G/2IfR7s2I4hFn7gliel7gDVg7
+ 2T8/hlVDhyhsDSFj/AgbDKPN5nSUqfTjo/IObrsKbzW27k+o88RDeZGFU
+ iadw+LpUATD+esIhG+BXx7NLCypoV8wvsPiOIN5d4OEASC8979rO5+an5
+ lSIBswocCGKFe9CtmoTpZrz9IBJieWhf5xjBqIFElGBCd6i10llkhXG8S
+ wozVn+RDCSrki3tsE0NsS3+nq6Vzg9hlTt9ITw9K4y5Mjm1XrEEs6Lcog
+ 4u0+jxT99LgzvgnPq6tytGHyHKdDr/61GCcDoH6oS7S30eyxKCbxj32Sq g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="239752675"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="239752675"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 09:42:55 -0700
+ 21 Mar 2022 09:42:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="716563766"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="716563771"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga005.jf.intel.com with ESMTP; 21 Mar 2022 09:42:55 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v13 05/13] drm/i915/guc: Add Gen9 registers for GuC error
- state capture.
-Date: Mon, 21 Mar 2022 09:45:19 -0700
-Message-Id: <20220321164527.2500062-6-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v13 06/13] drm/i915/guc: Add GuC's error state capture output
+ structures.
+Date: Mon, 21 Mar 2022 09:45:20 -0700
+Message-Id: <20220321164527.2500062-7-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220321164527.2500062-1-alan.previn.teres.alexis@intel.com>
 References: <20220321164527.2500062-1-alan.previn.teres.alexis@intel.com>
@@ -66,171 +66,74 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abstract out a Gen9 register list as the default for all other
-platforms we don't yet formally support GuC submission on.
+Add GuC's error capture output structures and definitions as how
+they would appear in GuC log buffer's error capture subregion after
+an error state capture G2H event notification.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 82 +++++++++++++------
- 1 file changed, 59 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index 7c3d9943ecdd..63ef407a2fd0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -22,15 +22,24 @@
-  * NOTE: For engine-registers, GuC only needs the register offsets
-  *       from the engine-mmio-base
-  */
-+#define COMMON_BASE_GLOBAL \
-+	{ FORCEWAKE_MT,             0,      0, "FORCEWAKE" }
-+
-+#define COMMON_GEN9BASE_GLOBAL \
-+	{ GEN8_FAULT_TLB_DATA0,     0,      0, "GEN8_FAULT_TLB_DATA0" }, \
-+	{ GEN8_FAULT_TLB_DATA1,     0,      0, "GEN8_FAULT_TLB_DATA1" }, \
-+	{ ERROR_GEN6,               0,      0, "ERROR_GEN6" }, \
-+	{ DONE_REG,                 0,      0, "DONE_REG" }, \
-+	{ HSW_GTT_CACHE_EN,         0,      0, "HSW_GTT_CACHE_EN" }
-+
- #define COMMON_GEN12BASE_GLOBAL \
- 	{ GEN12_FAULT_TLB_DATA0,    0,      0, "GEN12_FAULT_TLB_DATA0" }, \
- 	{ GEN12_FAULT_TLB_DATA1,    0,      0, "GEN12_FAULT_TLB_DATA1" }, \
--	{ FORCEWAKE_MT,             0,      0, "FORCEWAKE" }, \
- 	{ GEN12_AUX_ERR_DBG,        0,      0, "AUX_ERR_DBG" }, \
- 	{ GEN12_GAM_DONE,           0,      0, "GAM_DONE" }, \
- 	{ GEN12_RING_FAULT_REG,     0,      0, "FAULT_REG" }
- 
--#define COMMON_GEN12BASE_ENGINE_INSTANCE \
-+#define COMMON_BASE_ENGINE_INSTANCE \
- 	{ RING_PSMI_CTL(0),         0,      0, "RC PSMI" }, \
- 	{ RING_ESR(0),              0,      0, "ESR" }, \
- 	{ RING_DMA_FADD(0),         0,      0, "RING_DMA_FADD_LDW" }, \
-@@ -64,11 +73,13 @@
- 	{ GEN8_RING_PDP_LDW(0, 3),  0,      0, "PDP3_LDW" }, \
- 	{ GEN8_RING_PDP_UDW(0, 3),  0,      0, "PDP3_UDW" }
- 
--#define COMMON_GEN12BASE_HAS_EU \
-+#define COMMON_BASE_HAS_EU \
- 	{ EIR,                      0,      0, "EIR" }
- 
-+#define COMMON_BASE_RENDER \
-+	{ GEN7_SC_INSTDONE,         0,      0, "GEN7_SC_INSTDONE" }
-+
- #define COMMON_GEN12BASE_RENDER \
--	{ GEN7_SC_INSTDONE,         0,      0, "GEN7_SC_INSTDONE" }, \
- 	{ GEN12_SC_INSTDONE_EXTRA,  0,      0, "GEN12_SC_INSTDONE_EXTRA" }, \
- 	{ GEN12_SC_INSTDONE_EXTRA2, 0,      0, "GEN12_SC_INSTDONE_EXTRA2" }
- 
-@@ -80,28 +91,26 @@
- 
- /* XE_LPD - Global */
- static const struct __guc_mmio_reg_descr xe_lpd_global_regs[] = {
-+	COMMON_BASE_GLOBAL,
-+	COMMON_GEN9BASE_GLOBAL,
- 	COMMON_GEN12BASE_GLOBAL,
+diff --git a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+index 6c199433945d..8824c5eba355 100644
+--- a/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+@@ -55,6 +55,53 @@ struct __guc_mmio_reg_descr_group {
+ 	struct __guc_mmio_reg_descr *extlist; /* only used for steered registers */
  };
  
- /* XE_LPD - Render / Compute Per-Class */
- static const struct __guc_mmio_reg_descr xe_lpd_rc_class_regs[] = {
--	COMMON_GEN12BASE_HAS_EU,
-+	COMMON_BASE_HAS_EU,
-+	COMMON_BASE_RENDER,
- 	COMMON_GEN12BASE_RENDER,
- };
- 
--/* XE_LPD - Render / Compute Per-Engine-Instance */
-+/* GEN9/XE_LPD - Render / Compute Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_rc_inst_regs[] = {
--	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+	COMMON_BASE_ENGINE_INSTANCE,
- };
- 
--/* XE_LPD - Media Decode/Encode Per-Class */
--static const struct __guc_mmio_reg_descr xe_lpd_vd_class_regs[] = {
--	COMMON_GEN12BASE_ENGINE_INSTANCE,
--};
--
--/* XE_LPD - Media Decode/Encode Per-Engine-Instance */
-+/* GEN9/XE_LPD - Media Decode/Encode Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_vd_inst_regs[] = {
--	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+	COMMON_BASE_ENGINE_INSTANCE,
- };
- 
- /* XE_LPD - Video Enhancement Per-Class */
-@@ -109,18 +118,33 @@ static const struct __guc_mmio_reg_descr xe_lpd_vec_class_regs[] = {
- 	COMMON_GEN12BASE_VEC,
- };
- 
--/* XE_LPD - Video Enhancement Per-Engine-Instance */
-+/* GEN9/XE_LPD - Video Enhancement Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_vec_inst_regs[] = {
--	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+	COMMON_BASE_ENGINE_INSTANCE,
- };
- 
--/* XE_LPD - Blitter Per-Engine-Instance */
-+/* GEN9/XE_LPD - Blitter Per-Engine-Instance */
- static const struct __guc_mmio_reg_descr xe_lpd_blt_inst_regs[] = {
--	COMMON_GEN12BASE_ENGINE_INSTANCE,
-+	COMMON_BASE_ENGINE_INSTANCE,
- };
- 
--/* XE_LPD - Blitter Per-Class */
--/* XE_LPD - Media Decode/Encode Per-Class */
-+/* GEN9 - Global */
-+static const struct __guc_mmio_reg_descr default_global_regs[] = {
-+	COMMON_BASE_GLOBAL,
-+	COMMON_GEN9BASE_GLOBAL,
-+};
-+
-+static const struct __guc_mmio_reg_descr default_rc_class_regs[] = {
-+	COMMON_BASE_HAS_EU,
-+	COMMON_BASE_RENDER,
-+};
-+
-+/*
-+ * Empty lists:
-+ * GEN9/XE_LPD - Blitter Per-Class
-+ * GEN9/XE_LPD - Media Decode/Encode Per-Class
-+ * GEN9 - VEC Class
++/**
++ * struct guc_state_capture_header_t / struct guc_state_capture_t /
++ * guc_state_capture_group_header_t / guc_state_capture_group_t
++ *
++ * Prior to resetting engines that have hung or faulted, GuC microkernel
++ * reports the engine error-state (register values that was read) by
++ * logging them into the shared GuC log buffer using these hierarchy
++ * of structures.
 + */
- static const struct __guc_mmio_reg_descr empty_regs_list[] = {
- };
- 
-@@ -137,6 +161,19 @@ static const struct __guc_mmio_reg_descr empty_regs_list[] = {
- 	}
- 
- /* List of lists */
-+static struct __guc_mmio_reg_descr_group default_lists[] = {
-+	MAKE_REGLIST(default_global_regs, PF, GLOBAL, 0),
-+	MAKE_REGLIST(default_rc_class_regs, PF, ENGINE_CLASS, GUC_RENDER_CLASS),
-+	MAKE_REGLIST(xe_lpd_rc_inst_regs, PF, ENGINE_INSTANCE, GUC_RENDER_CLASS),
-+	MAKE_REGLIST(empty_regs_list, PF, ENGINE_CLASS, GUC_VIDEO_CLASS),
-+	MAKE_REGLIST(xe_lpd_vd_inst_regs, PF, ENGINE_INSTANCE, GUC_VIDEO_CLASS),
-+	MAKE_REGLIST(empty_regs_list, PF, ENGINE_CLASS, GUC_VIDEOENHANCE_CLASS),
-+	MAKE_REGLIST(xe_lpd_vec_inst_regs, PF, ENGINE_INSTANCE, GUC_VIDEOENHANCE_CLASS),
-+	MAKE_REGLIST(empty_regs_list, PF, ENGINE_CLASS, GUC_BLITTER_CLASS),
-+	MAKE_REGLIST(xe_lpd_blt_inst_regs, PF, ENGINE_INSTANCE, GUC_BLITTER_CLASS),
-+	{}
++struct guc_state_capture_header_t {
++	u32 owner;
++#define CAP_HDR_CAPTURE_VFID GENMASK(7, 0)
++	u32 info;
++#define CAP_HDR_CAPTURE_TYPE GENMASK(3, 0) /* see enum guc_capture_type */
++#define CAP_HDR_ENGINE_CLASS GENMASK(7, 4) /* see GUC_MAX_ENGINE_CLASSES */
++#define CAP_HDR_ENGINE_INSTANCE GENMASK(11, 8)
++	u32 lrca; /* if type-instance, LRCA (address) that hung, else set to ~0 */
++	u32 guc_id; /* if type-instance, context index of hung context, else set to ~0 */
++	u32 num_mmios;
++#define CAP_HDR_NUM_MMIOS GENMASK(9, 0)
++} __packed;
++
++struct guc_state_capture_t {
++	struct guc_state_capture_header_t header;
++	struct guc_mmio_reg mmio_entries[0];
++} __packed;
++
++enum guc_capture_group_types {
++	GUC_STATE_CAPTURE_GROUP_TYPE_FULL,
++	GUC_STATE_CAPTURE_GROUP_TYPE_PARTIAL,
++	GUC_STATE_CAPTURE_GROUP_TYPE_MAX,
 +};
 +
- static const struct __guc_mmio_reg_descr_group xe_lpd_lists[] = {
- 	MAKE_REGLIST(xe_lpd_global_regs, PF, GLOBAL, 0),
- 	MAKE_REGLIST(xe_lpd_rc_class_regs, PF, ENGINE_CLASS, GUC_RENDER_CLASS),
-@@ -376,9 +413,8 @@ guc_capture_get_device_reglist(struct intel_guc *guc)
- 		return xe_lpd_lists;
- 	}
- 
--	drm_warn(&i915->drm, "No GuC-capture register lists\n");
--
--	return NULL;
-+	/* if GuC submission is enabled on a non-POR platform, just use a common baseline */
-+	return default_lists;
- }
- 
- static const char *
++struct guc_state_capture_group_header_t {
++	u32 owner;
++#define CAP_GRP_HDR_CAPTURE_VFID GENMASK(7, 0)
++	u32 info;
++#define CAP_GRP_HDR_NUM_CAPTURES GENMASK(7, 0)
++#define CAP_GRP_HDR_CAPTURE_TYPE GENMASK(15, 8) /* guc_capture_group_types */
++} __packed;
++
++/* this is the top level structure where an error-capture dump starts */
++struct guc_state_capture_group_t {
++	struct guc_state_capture_group_header_t grp_header;
++	struct guc_state_capture_t capture_entries[0];
++} __packed;
++
+ /**
+  * struct __guc_capture_ads_cache
+  *
 -- 
 2.25.1
 
