@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3744E2931
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65794E2891
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:59:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0250C10E480;
-	Mon, 21 Mar 2022 14:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DFD10E42F;
+	Mon, 21 Mar 2022 13:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7D310E47F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:02:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6643861291;
- Mon, 21 Mar 2022 14:02:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC08C340E8;
- Mon, 21 Mar 2022 14:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647871319;
- bh=1xDrE3o8l2iuNQei3iR6/FZfOOxhe6xPKBab17hrugo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vcRlPr/ny3SMGeZyl460pxz1ZaUkwMYgyTst4om8pY7wwT3IYsyluUmKxG9FURhIx
- uOqO60bBvY9QcqcIBLL3Lzvf3C2YfHBt1P2dC5rDsJz3UiDIPmrECN0aM6mQ/HX5/f
- WpYRatSYuJktWN737KVwzCoI3A2gtdAI0omzH0Ks=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.16 20/37] drm: Dont make DRM_PANEL_BRIDGE dependent on
- DRM_KMS_HELPERS
-Date: Mon, 21 Mar 2022 14:53:02 +0100
-Message-Id: <20220321133221.881441290@linuxfoundation.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220321133221.290173884@linuxfoundation.org>
-References: <20220321133221.290173884@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3588B10E42F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 13:58:59 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id n35so6976581wms.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 06:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l4xlwsl8U5gDz9vpl2+ZyzmUGnyErqboIt3KOk2V3m4=;
+ b=hf9/3/QzkN9/IfRKPRHO9wzaI4QbrQ1HLITDxRYTGxmw+co9263PjR3hJv4hIBCUD4
+ 6rkYmGGvbLjxKdSuVuinSzcjTD1xLJWVzx3uf18O4IvqvvLtaet4+opRGds3Ck0DVD+Y
+ ImR92qp9v87i6jaDZ+YAPsID1/6Y58+O8Zgh+hPxXnwO3A207/UgMvw7bVa+mrNqQ+Or
+ JNj2yllUJ4Hl5IwnN+VXBVIqGDIj7eb1a8qaMM4XDKCk3E8N2Tstx0gDw9CwW1uskh6h
+ Bd9YtT1WadbwUkWV1e0k/0cb+J5sMBkjzSkZKBfyce2rdzJGEQgN3aPhHjGm1KWJ24dG
+ j4Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l4xlwsl8U5gDz9vpl2+ZyzmUGnyErqboIt3KOk2V3m4=;
+ b=O/FBXQyPA+ZIeg11QEWmtSqPUDWBfAUsQfWOBp6O6XvKGawNZOYmjYcyPfhcZtL9G2
+ MPvjhPKY/vREGnd+fvSMvqUxy17pYdOIdpTI2SlPLP2ZwSpyQjPIHSZhg2zVact3aiRk
+ bf1dDyFk5lKdodIGX5UxIQUIBKKdhBLW0Sb6Zpv194z2O9RxyonV5lg+X3qjDw6oL7PW
+ joxHyFMRtTkt4harrBCIzXu90/NlWSeg+K6SAJfynsieJJq50ZwEvhWXSsI06WYCQcy+
+ ZQIlOdQwYMd5ADJlOdR1iXE7OaThYDfCuhbffUo3jO9dOjxuG+gyEkIWCItHTHaqllrq
+ yJ5g==
+X-Gm-Message-State: AOAM533wAdYWGOvTU3tR2oaL+mj4lldCCAcNhSho+MOJ6xqnXMFIR8BH
+ vucN5kiPkghzSYR0+h0+eKw=
+X-Google-Smtp-Source: ABdhPJwQUGJQztResFyfurEfPGWbOiTYCb5Yjxf5XfZuIrd0l0JGKbjbkBx1udxjgV3KScYtWfLPxw==
+X-Received: by 2002:a05:600c:1c20:b0:38c:ae37:c1ae with SMTP id
+ j32-20020a05600c1c2000b0038cae37c1aemr2446642wms.203.1647871137706; 
+ Mon, 21 Mar 2022 06:58:57 -0700 (PDT)
+Received: from able.fritz.box (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
+ by smtp.gmail.com with ESMTPSA id
+ m3-20020a5d6243000000b001e33760776fsm13317640wrv.10.2022.03.21.06.58.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 06:58:57 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel.vetter@ffwll.ch,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/23] dma-buf: add dma_resv_replace_fences v2
+Date: Mon, 21 Mar 2022 14:58:34 +0100
+Message-Id: <20220321135856.1331-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -51,105 +71,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
- kernel test robot <lkp@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, Brian Masney <bmasney@redhat.com>,
- stable@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+This function allows to replace fences from the shared fence list when
+we can gurantee that the operation represented by the original fence has
+finished or no accesses to the resources protected by the dma_resv
+object any more when the new fence finishes.
 
-[ Upstream commit 3c3384050d68570f9de0fec9e58824decfefba7a ]
+Then use this function in the amdkfd code when BOs are unmapped from the
+process.
 
-Fix a number of undefined references to drm_kms_helper.ko in
-drm_dp_helper.ko:
+v2: add an example when this is usefull.
 
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_duplicate_state':
-  drm_dp_mst_topology.c:(.text+0x2df0): undefined reference to `__drm_atomic_helper_private_obj_duplicate_state'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_delayed_destroy_work':
-  drm_dp_mst_topology.c:(.text+0x370c): undefined reference to `drm_kms_helper_hotplug_event'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_up_req_work':
-  drm_dp_mst_topology.c:(.text+0x7938): undefined reference to `drm_kms_helper_hotplug_event'
-  arm-suse-linux-gnueabi-ld: drivers/gpu/drm/dp/drm_dp_mst_topology.o: in function `drm_dp_mst_link_probe_work':
-  drm_dp_mst_topology.c:(.text+0x82e0): undefined reference to `drm_kms_helper_hotplug_event'
-
-This happens if panel-edp.ko has been configured with
-
-  DRM_PANEL_EDP=y
-  DRM_DP_HELPER=y
-  DRM_KMS_HELPER=m
-
-which builds DP helpers into the kernel and KMS helpers sa a module.
-Making DRM_PANEL_EDP select DRM_KMS_HELPER resolves this problem.
-
-To avoid a resulting cyclic dependency with DRM_PANEL_BRIDGE, don't
-make the latter depend on DRM_KMS_HELPER and fix the one DRM bridge
-drivers that doesn't already select DRM_KMS_HELPER. As KMS helpers
-cannot be selected directly by the user, config symbols should avoid
-depending on it anyway.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 3755d35ee1d2 ("drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP")
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Tested-by: Brian Masney <bmasney@redhat.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc: Linux Kernel Functional Testing <lkft@linaro.org>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/478296/
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/bridge/Kconfig | 2 +-
- drivers/gpu/drm/panel/Kconfig  | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/dma-buf/dma-resv.c                    | 45 +++++++++++++++++
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 49 +++----------------
+ include/linux/dma-resv.h                      |  2 +
+ 3 files changed, 54 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 431b6e12a81f..68ec45abc1fb 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -8,7 +8,6 @@ config DRM_BRIDGE
- config DRM_PANEL_BRIDGE
- 	def_bool y
- 	depends on DRM_BRIDGE
--	depends on DRM_KMS_HELPER
- 	select DRM_PANEL
- 	help
- 	  DRM bridge wrapper of DRM panels
-@@ -30,6 +29,7 @@ config DRM_CDNS_DSI
- config DRM_CHIPONE_ICN6211
- 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
- 	depends on OF
-+	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL_BRIDGE
- 	help
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 0d3798354e6a..42011d884202 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -96,6 +96,7 @@ config DRM_PANEL_EDP
- 	select VIDEOMODE_HELPERS
- 	select DRM_DP_AUX_BUS
- 	select DRM_DP_HELPER
-+	select DRM_KMS_HELPER
- 	help
- 	  DRM panel driver for dumb eDP panels that need at most a regulator and
- 	  a GPIO to be powered up. Optionally a backlight can be attached so
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index b51416405e86..509060861cf3 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -289,6 +289,51 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+ }
+ EXPORT_SYMBOL(dma_resv_add_shared_fence);
+ 
++/**
++ * dma_resv_replace_fences - replace fences in the dma_resv obj
++ * @obj: the reservation object
++ * @context: the context of the fences to replace
++ * @replacement: the new fence to use instead
++ *
++ * Replace fences with a specified context with a new fence. Only valid if the
++ * operation represented by the original fence has no longer access to the
++ * resources represented by the dma_resv object when the new fence completes.
++ *
++ * And example for using this is replacing a preemption fence with a page table
++ * update fence which makes the resource inaccessible.
++ */
++void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
++			     struct dma_fence *replacement)
++{
++	struct dma_resv_list *list;
++	struct dma_fence *old;
++	unsigned int i;
++
++	dma_resv_assert_held(obj);
++
++	write_seqcount_begin(&obj->seq);
++
++	old = dma_resv_excl_fence(obj);
++	if (old->context == context) {
++		RCU_INIT_POINTER(obj->fence_excl, dma_fence_get(replacement));
++		dma_fence_put(old);
++	}
++
++	list = dma_resv_shared_list(obj);
++	for (i = 0; list && i < list->shared_count; ++i) {
++		old = rcu_dereference_protected(list->shared[i],
++						dma_resv_held(obj));
++		if (old->context != context)
++			continue;
++
++		rcu_assign_pointer(list->shared[i], dma_fence_get(replacement));
++		dma_fence_put(old);
++	}
++
++	write_seqcount_end(&obj->seq);
++}
++EXPORT_SYMBOL(dma_resv_replace_fences);
++
+ /**
+  * dma_resv_add_excl_fence - Add an exclusive fence.
+  * @obj: the reservation object
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index f9bab963a948..b6f266f612ea 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -253,53 +253,18 @@ void amdgpu_amdkfd_release_notify(struct amdgpu_bo *bo)
+ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
+ 					struct amdgpu_amdkfd_fence *ef)
+ {
+-	struct dma_resv *resv = bo->tbo.base.resv;
+-	struct dma_resv_list *old, *new;
+-	unsigned int i, j, k;
++	struct dma_fence *replacement;
+ 
+ 	if (!ef)
+ 		return -EINVAL;
+ 
+-	old = dma_resv_shared_list(resv);
+-	if (!old)
+-		return 0;
+-
+-	new = kmalloc(struct_size(new, shared, old->shared_max), GFP_KERNEL);
+-	if (!new)
+-		return -ENOMEM;
+-
+-	/* Go through all the shared fences in the resevation object and sort
+-	 * the interesting ones to the end of the list.
++	/* TODO: Instead of block before we should use the fence of the page
++	 * table update and TLB flush here directly.
+ 	 */
+-	for (i = 0, j = old->shared_count, k = 0; i < old->shared_count; ++i) {
+-		struct dma_fence *f;
+-
+-		f = rcu_dereference_protected(old->shared[i],
+-					      dma_resv_held(resv));
+-
+-		if (f->context == ef->base.context)
+-			RCU_INIT_POINTER(new->shared[--j], f);
+-		else
+-			RCU_INIT_POINTER(new->shared[k++], f);
+-	}
+-	new->shared_max = old->shared_max;
+-	new->shared_count = k;
+-
+-	/* Install the new fence list, seqcount provides the barriers */
+-	write_seqcount_begin(&resv->seq);
+-	RCU_INIT_POINTER(resv->fence, new);
+-	write_seqcount_end(&resv->seq);
+-
+-	/* Drop the references to the removed fences or move them to ef_list */
+-	for (i = j; i < old->shared_count; ++i) {
+-		struct dma_fence *f;
+-
+-		f = rcu_dereference_protected(new->shared[i],
+-					      dma_resv_held(resv));
+-		dma_fence_put(f);
+-	}
+-	kfree_rcu(old, rcu);
+-
++	replacement = dma_fence_get_stub();
++	dma_resv_replace_fences(bo->tbo.base.resv, ef->base.context,
++				replacement);
++	dma_fence_put(replacement);
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index afdfdfac729f..3f53177bdb46 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -468,6 +468,8 @@ void dma_resv_init(struct dma_resv *obj);
+ void dma_resv_fini(struct dma_resv *obj);
+ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
++void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
++			     struct dma_fence *fence);
+ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+ 			unsigned int *num_fences, struct dma_fence ***fences);
 -- 
-2.34.1
-
-
+2.25.1
 
