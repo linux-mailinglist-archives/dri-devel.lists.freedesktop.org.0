@@ -2,125 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BBD4E2B84
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 16:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370DE4E2B98
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 16:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C302510E352;
-	Mon, 21 Mar 2022 15:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86CA210E367;
+	Mon, 21 Mar 2022 15:15:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E47710E352
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 15:11:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fobs97SyXRkqfjgt23wcFIdnTGo/w4+9IgNjOSUX+qdufwdrPz60wMKLDHkEnXYr5DnJNhcSqCc/0YSyDFjsCnvQjfLHt/QIEs6zmSgXFFKKYgvAPv86WVw3s+tj7JqS2t72EqKxlFTHLxWiec12IxidZZHuHWvhCSQJD54lDcBfd6ehA89FBnpvKETVc4g5TJqlXKbxT15iw4lsGTYL6729I3d6aqNGRJrqClLu4GxFflE9Ch0Q7iS/bHR8Jb46dLqC2lhlekFhJI80Ii7euYW3fHSPCKYqZHD/mK2h7v0I9ZErGM6IM4hIOwgfm2Wgp8QUkgbpN1xSyV5mF25gQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b1wFJdK6CwkWQnmvGN5vX59aayPuWLb+lPJldX7CfpA=;
- b=bMCAn+XKhY+GVfKAskMgmGsf5qdsCBxGREeM2i7mG2pN1SyHPlbdMTAWi2vi3B3Pe8EgIQvovL8xmWq2GE176bl27MX2l4vYlG8kSEbjj7PiimuIOJZK7AqUueo5LurkrDd2SB+IJEX6Ar/vJXKnj9BZi2w+UB7a2FEBrbRy/L5FE7NoLfvNWOUfVJLfD1dd62bxzUYY9rvQWfDy7ibJW6uJlOssCTAjHTm17JvIpepRhmQHeXu/9ALfSoWjwJkG3YrZ1MYZTniC00vgMFP2gOx7u+OEkOirsL+Er45BLg2tIbRUrTqz9RG1QiuoJn/2ItoupRwPS9MnqIiSh3jeNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b1wFJdK6CwkWQnmvGN5vX59aayPuWLb+lPJldX7CfpA=;
- b=r47MLkgkp26zL37U0zNetwafTKz7KlW1FrMJZfShoy7d103Q3xRfAnc/PC6I6I65Weu06ckiZQAZUAK18+NyCMdxUEHMHHgVdVRApee/6TY5QzKrg40vSgWslpkBebSm25NS5Fciwo6Z4w9p2JiamgpA3bd4x7Lk/AVclJztQyY=
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
- by SN6PR05MB5693.namprd05.prod.outlook.com (2603:10b6:805:f7::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.15; Mon, 21 Mar
- 2022 15:11:53 +0000
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::c029:c5b4:6e3c:e8c]) by MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::c029:c5b4:6e3c:e8c%7]) with mapi id 15.20.5102.015; Mon, 21 Mar 2022
- 15:11:53 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "ckoenig.leichtzumerken@gmail.com" <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 07/23] drm/vmwgfx: stop using dma_resv_excl_fence
-Thread-Topic: [PATCH 07/23] drm/vmwgfx: stop using dma_resv_excl_fence
-Thread-Index: AQHYPSvVm4xK1+FNQUqjAPC0WhA6C6zJ3j8AgAAC5QCAABCBAA==
-Date: Mon, 21 Mar 2022 15:11:52 +0000
-Message-ID: <a4e761e3145685953c2246cd6ac60b1da521b756.camel@vmware.com>
-References: <20220321135856.1331-1-christian.koenig@amd.com>
- <20220321135856.1331-7-christian.koenig@amd.com>
- <91bd73763a87c3311d8cc4878589f80a712c4574.camel@vmware.com>
- <ce7aef7c-01e8-d0d3-ca20-e0682400ecfd@amd.com>
-In-Reply-To: <ce7aef7c-01e8-d0d3-ca20-e0682400ecfd@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4-1ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 883a791a-f608-4191-446f-08da0b4d21af
-x-ms-traffictypediagnostic: SN6PR05MB5693:EE_
-x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-x-ms-exchange-atpmessageproperties: SA|SL
-x-microsoft-antispam-prvs: <SN6PR05MB56938D5D0198AEB4B083FEA3CE169@SN6PR05MB5693.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ae749JRq7Um8jQwieJXiZ4w62QWeXURbmf61Ne9zum4ifDzWPPYGxh6NsBzFN/ku4olnQHg3RuGpHFlSo5fbH+rxK2AHXCJZNvhSUhhwhJcemsPB3kcys/k9TceE8RUPy4H4fcPjcFQsveQ2skVGFUJSWce7UV2T8teRo57a67aqHktfFIx8DuvvcZzvUOPJZz83FIfsgXcLhXIWKfUT70flQ2LIr3XgUFgQlOPwz0j8OHbNmSn+UGW/JWE8/Pb+/CucqwJWNCy1sDYl7z8aHWtYvWkrNbQ13hjNiR079wbrMA96ABPUgmV4GHEAxL77l6qWNAlB6mQvMolhG4LirGkwyoWkl49mD2WiMJj2mzRZMS7gGFMYt0Nso1RF68ricUiSOlAOKJUUhzgzmg3Eu15y0dDSYYuwf77U7bq6woBcj4vEXfiFPLEnQLiODPC0583HLFIAK1NF/ReYwopYpvDdZ5t6doRJvX8eW3Z+72QvGYCJOOEq/e1UXp1Ms/VVgT4quvTGpq392W57UNT7F2ZsiP7usx+2Iwpu20stvo/T/z/g4/bbOezqDtb6Ah7P6npr59D29F0a37XibBQvI1Qjsk3olZcHqOLlr2z3Rtb7eb7IfENEE7IGf5/04HYllaOE2Yvify/E9akl2hUfmHtAFwu/aTf2CnW0wVeUP2jzKHJnJMGTfeisS4n1hKQJz1yPGcnGOn/rySiRZS1DDA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(71200400001)(64756008)(508600001)(6486002)(110136005)(6512007)(36756003)(66446008)(83380400001)(66946007)(66476007)(8936002)(316002)(76116006)(8676002)(4326008)(66556008)(6506007)(5660300002)(38070700005)(2906002)(2616005)(86362001)(186003)(26005)(107886003)(66574015)(122000001)(38100700002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1MySkZEaTFUODM4U1VYRHd2RVowSE13T01GM2dKUEphT2g3dmFOQWpUajdY?=
- =?utf-8?B?cTlINkcyK0xGK2FBQ1IvYTluSmVnYysyUUh4SXhPRVN5alo2N3JZdDZiczdE?=
- =?utf-8?B?cmw3UTVlVkZNazZoc0ZNTWVkc09PdUhNOVo0L1VFT2tMYnVLa0lyV3RTWGdK?=
- =?utf-8?B?SGh0ZmhlNCtOOHNhampqY1NkL0Jua2pVcUVKeXFOdGd4dGE5NnRWcWtoNkZU?=
- =?utf-8?B?U3Z4cGxpNVhhZjBoWnkwdDdTclRNU1BUL3ZkQWtRdXEwNGd1Y2JRTTVkbHNH?=
- =?utf-8?B?OGh0dFdVSHp2SHNRUEo2MGRqOGNkSkFmK2R6U0ZRZnAxa0h3cERGUEN3NkVD?=
- =?utf-8?B?dEFTK3hKLzMrZS9jbHYyeDNvckZNTW8vMkVOaW5kbGFKcnZWNDBrTDZsQldU?=
- =?utf-8?B?MDBsWGo0N0Y5Z3VFdzQ0Ulp3OUo4ZEs0ZHU0TnZjWlkwOWE4aUc1ekt6aXlM?=
- =?utf-8?B?d2JibGZZdW1FQXZnZkovQzY4STRWc2N2UWNvNURxTjVaMXYwOHA3R0ZCcGdl?=
- =?utf-8?B?R3g5UW9WYzNxY0pIUmJFdWpjOUhkZWMzVTErZE9yR1d4NnBWSUZoMGcrT0Rj?=
- =?utf-8?B?cDJ0WnFNbHA0c3BLVU9vZHV2LzBrLzJ4UGZHLy9yS3M1bDk4N0NIa21qM2k1?=
- =?utf-8?B?QTJDZ2NvanN4T2RQMW9NNEdJQTVONUN0b0VkR2xUSXd1cjltemQ2MWEwWmRr?=
- =?utf-8?B?TS9kSjY2ZFJHMnFGMUplWFI0dVBmV0FuTXAvQlpYb25FdUpmb1hFNlIwQUh0?=
- =?utf-8?B?NTBxcGpFQkRVRDgzUE54alhIMjZMR0xDR3puNy9hL2xodDF2d0ViZmM3ZFNw?=
- =?utf-8?B?SkhnVC81M0pFZThFOWJ1Nmd2TGx4TzZ2MDd5U095S2FjY05vbVJRUHBNUWN4?=
- =?utf-8?B?NFVMM29uTGFMbkhQYjJraDlMbWlWWE0xaUdPSUUxK2tDNGptTHdtM2V6U2dW?=
- =?utf-8?B?MlV6ejk1VHc3TTZHaGp4Sk5paktwUTFyTkhGOXBoVk1YY3VZOTRhbER0L2ky?=
- =?utf-8?B?cmphM0N6clpXNVI0NDZXc2hLZ21oL1d1MjFNVjBPQ3FVbVVZdno4bU05eUFM?=
- =?utf-8?B?eWg0VFhWOXgzaVJ6U0J2SEZtdEtpMjZnQzd3V1hVUEVFc1I1SnFjVFZQdG5D?=
- =?utf-8?B?S2ZTWDdSUlBwNmd2OFF1OS90S3E1ZjhEVWdVVUlQQ0t1bUtyREU2cExVWUtU?=
- =?utf-8?B?N3c3VW5jdDd1Nks3Y2g2NkpTRWpzTEpnNldoTjdXdHVxWlVnc3QvZmZiaVpX?=
- =?utf-8?B?ckZLZEJVbXFCMjhhMGdQOHVpblp3bVFKVVBDaHRjYlExclU4bUpUd0MxOGd1?=
- =?utf-8?B?TUptVkt0L01IWXdiNVNvNFJHOGJIMm03V1NVU3JYUG5OdXVDV3VvbWpEaDdi?=
- =?utf-8?B?bmgxYmZjK2ZublJpZVhrZ0Z3ZE1IcS9NdHVlQ3Ftc2NuczNyL3pEZUlIL3My?=
- =?utf-8?B?QzV2M0Exa0NTbDdlRWk0Tkt1UTRrb3pYZ0pOVER1Y0hvd1EwMUhUMm9qQ3pJ?=
- =?utf-8?B?VDQ4djRNbVNEYU4rRTRBWkp2QnFTZElVVlBOT2loYUNCZkJKNHRlL3BJWWtI?=
- =?utf-8?B?K3RnWE9QODZzaG5FZHRJd0xxVEcyc1lsYlBTZU9nL2c1ek4wc3RVN1BSa0Qr?=
- =?utf-8?B?UVhCR1JQd3NRTU84Q3JrcFd0NEZmUHJveGxvMDhXdXVSSEl3NmJMRW41VnRR?=
- =?utf-8?B?TVJnc2k5aStCT0UyeFRYb1c3Q0VsUUV4aU05MHErQm1UTmFwSFNzM043cGYw?=
- =?utf-8?B?bFBnallOT3NWTmdFNU4wcWc4Lzkya1BrckZ3LzQ3NmpWYXV6Y0ZZcDd0L3NK?=
- =?utf-8?B?SGViWklRaWF0Q3hmOS91T1ZVRGVJVkZVeUp4Z2dDeGlyNHM3VStnYTZ2OGk3?=
- =?utf-8?B?TkZ4Mm5LT0gvYldkOTl2OTlROWlEVXA0ekV0TUxodXRpaWhhZUdLVDdQTkVo?=
- =?utf-8?Q?POLJMZW3KLDWnmhpcuB32ZGEDW57cEyw?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <94BC377B2F63E04382AA7965D85D6273@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEF9B10E357;
+ Mon, 21 Mar 2022 15:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647875706; x=1679411706;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=iCXxoMW/NEwbKFJN8r+yz2XewEatvO6raZs5qOz6yGs=;
+ b=Cg+UxdHBy705PrOa7QM0hA5ueoDKaIFt9W9zHDgT3wzI0O8flIU6lAQE
+ iASw9JsL/T/6LUm+y9+tKKKlt88SI4rG+H9mpcLb5aM0j1u/ZFUepgRIu
+ aL/Ovgag1n0JvcdD8TXktSwf1o+UsbcOBpP2xVknTVhYsKosZspHAt2cG
+ SBdbSuLRYhgyhVnXhFCIzDPRCrjbxglS3b7OcwnlE3p0R6vawmTJ8cQv8
+ uG9r3vm6LlK6Ykh5daEwWp09hOhRFOD7dmdh+MM9iNJyUTs+M5Wm1BSQ+
+ tujyKDQcxi2yrSSibX9z2sqjNclCPclDbEhV999qaEUnoVghX7kVpoLjC A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257525029"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="257525029"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 08:15:06 -0700
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="543262908"
+Received: from evinintel.ger.corp.intel.com (HELO [10.249.254.209])
+ ([10.249.254.209])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 08:15:03 -0700
+Message-ID: <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
+Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Michael Cheng
+ <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+Date: Mon, 21 Mar 2022 16:15:01 +0100
+In-Reply-To: <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
+ <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
+ <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
+ <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+ <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
+ <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
+ <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 883a791a-f608-4191-446f-08da0b4d21af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 15:11:53.0774 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gMZLPnK+cUzJG0gmfMCpSoU3d47Gf1dMwc2P2C48IYkO31aqz552jDe5Ha2Dgr8z6Fsq9pSC37LniSJJcjp+Mw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR05MB5693
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,58 +65,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>
+Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
+ lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIyLTAzLTIxIGF0IDE1OjEyICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
-Og0KPiBBbSAyMS4wMy4yMiB1bSAxNTowMiBzY2hyaWViIFphY2sgUnVzaW46DQo+ID4gT24gTW9u
-LCAyMDIyLTAzLTIxIGF0IDE0OjU4ICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KPiA+
-ID4g4pqgIEV4dGVybmFsIEVtYWlsOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBvdXRzaWRl
-IG9mIHRoZQ0KPiA+ID4gb3JnYW5pemF0aW9uLiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBh
-dHRhY2htZW50cyB1bmxlc3MgeW91DQo+ID4gPiByZWNvZ25pemUgdGhlIHNlbmRlci4NCj4gPiA+
-IA0KPiA+ID4gSW5zdGVhZCB1c2UgdGhlIG5ldyBkbWFfcmVzdl9nZXRfc2luZ2xldG9uIGZ1bmN0
-aW9uLg0KPiA+ID4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+DQo+ID4gPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gPiA+IENjOiBWTXdhcmUgR3JhcGhpY3MgPGxpbnV4
-LWdyYXBoaWNzLW1haW50YWluZXJAdm13YXJlLmNvbT4NCj4gPiA+IENjOiBaYWNrIFJ1c2luIDx6
-YWNrckB2bXdhcmUuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiDCoCBkcml2ZXJzL2dwdS9kcm0vdm13
-Z2Z4L3Ztd2dmeF9yZXNvdXJjZS5jIHwgNiArKysrLS0NCj4gPiA+IMKgIDEgZmlsZSBjaGFuZ2Vk
-LCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4gPiANCj4gPiA+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9yZXNvdXJjZS5jDQo+ID4gPiBiL2Ry
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3Jlc291cmNlLmMNCj4gPiA+IGluZGV4IDcwODg5
-OWJhMjEwMi4uMzZjM2I1ZGI3ZTY5IDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3Ztd2dmeC92bXdnZnhfcmVzb3VyY2UuYw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfcmVzb3VyY2UuYw0KPiA+ID4gQEAgLTExNjUsOCArMTE2NSwxMCBAQCBpbnQg
-dm13X3Jlc291cmNlc19jbGVhbihzdHJ1Y3QNCj4gPiA+IHZtd19idWZmZXJfb2JqZWN0ICp2Ym8s
-IHBnb2ZmX3Qgc3RhcnQsDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2
-bXdfYm9fZmVuY2Vfc2luZ2xlKGJvLCBOVUxMKTsNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGlmIChiby0+bW92aW5nKQ0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRtYV9mZW5jZV9wdXQoYm8tPm1vdmluZyk7DQo+
-ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiby0+bW92aW5nID0gZG1hX2ZlbmNl
-X2dldA0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IChkbWFfcmVzdl9leGNsX2ZlbmNlKGJvLT5iYXNlLnJlc3YpKTsNCj4gPiA+ICsNCj4gPiA+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qIFRPRE86IFRoaXMgaXMgYWN0dWFsbHkgYSBt
-ZW1vcnkgbWFuYWdlbWVudA0KPiA+ID4gZGVwZW5kZW5jeSAqLw0KPiA+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGRtYV9yZXN2X2dldF9zaW5nbGV0b24oYm8tPmJhc2Uu
-cmVzdiwNCj4gPiA+IGZhbHNlLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgJmJvLT5tb3ZpbmcpOw0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoCB9DQo+ID4gPiANCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7DQo+ID4gPiAtLQ0KPiA+ID4gMi4yNS4xDQo+ID4g
-PiANCj4gPiBTb3JyeSwgSSBoYXZlbid0IGhhZCB0aGUgdGltZSB0byBnbyBvdmVyIHRoZSBlbnRp
-cmUgc2VyaWVzLCB0aGUNCj4gPiBwYXRjaA0KPiA+IGxvb2tzIGdvb2QsIGJ1dCB3aGF0J3MgdGhl
-IG1lbW9yeSBtYW5hZ2VtZW50IGRlcGVuZGVuY3kgdGhlIHRvZG8NCj4gPiBtZW50aW9ucz8NCj4g
-DQo+IFByZXZpb3VzbHkgdGhlIGZ1bmN0aW9uIGluc3RhbGxlZCBvbmx5IHRoZSBleGNsdXNpdmUg
-ZmVuY2UgYXMgbW92aW5nDQo+IGZlbmNlIGludG8gdGhlIEJPLg0KPiBOb3cgaXQgZ3JhYnMgYWxs
-IGZlbmNlcyBhbmQgaW5zdGFsbHMgdGhlbSBhcyBtb3ZpbmcgZmVuY2UgaW50byB0aGUNCj4gQk8u
-DQo+IA0KPiBCdXQgd2hhdCB3ZSByZWFsbHkgbmVlZCBpcyB0cmFja2luZyBpZiBhIGZlbmNlIGlu
-IHRoZSByZXNlcnZhdGlvbg0KPiBvYmplY3QNCj4gaXMgYSBrZXJuZWwgbWVtb3J5IG1hbmFnZW1l
-bnQgZGVwZW5kZW5jeSBvciBub3QuDQo+IA0KPiBQYXRjaCAjMTkgYWRkcyB0aGF0IGFuZCBwYXRj
-aCAjMjMgdGhlbiBmaW5hbGx5IGdldHMgcmlkIG9mIHRoZSB3aG9sZQ0KPiBiby0+bW92aW5nIGhh
-bmRsaW5nIGhlcmUgYmVjYXVzZSBpdCBiZWNvbWVzIGNvbXBsZXRlbHkgdW5uZWNlc3NhcnkuDQo+
-IA0KPiBJIGNhbiBkcm9wIHRoZSBjb21tZW50IGlmIHlvdSB3YW50IG9yIGp1c3Qgbm90ZSB0aGF0
-IGl0IGlzIG9ubHkNCj4gdGVtcG9yYXJ5IHVudGlsIHRoZSBmb2xsb3cgdXAgcGF0Y2hlcyBhcmUg
-bWVyZ2VkLg0KDQpBaCwgeWVzLCBpZiB5b3UgY291bGQgcmVtb3ZlIGl0IHRoYXQnZCBiZSBncmVh
-dC4gVGhlIHBhdGNoIHdpbGwgbmV2ZXINCmJlIGJhY2twb3J0ZWQgYW55d2hlcmUgd2l0aG91dCB0
-aGUgcmVzdCBvZiB0aGUgc2VyaWVzLCBzbyBpdCBzaG91bGRuJ3QNCmJlIGEgcHJvYmxlbS4gDQoN
-CnoNCg==
+On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
+> 
+> On 21/03/2022 13:40, Thomas Hellström wrote:
+> > Hi,
+> > 
+> > On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
+> > > 
+> > > On 21/03/2022 12:33, Thomas Hellström wrote:
+> > > > On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin wrote:
+> > > > > 
+> > > > > On 21/03/2022 11:03, Thomas Hellström wrote:
+> > > > > > Hi, Tvrtko.
+> > > > > > 
+> > > > > > On 3/21/22 11:27, Tvrtko Ursulin wrote:
+> > > > > > > 
+> > > > > > > On 19/03/2022 19:42, Michael Cheng wrote:
+> > > > > > > > To align with the discussion in [1][2], this patch
+> > > > > > > > series
+> > > > > > > > drops
+> > > > > > > > all
+> > > > > > > > usage of
+> > > > > > > > wbvind_on_all_cpus within i915 by either replacing the
+> > > > > > > > call
+> > > > > > > > with certain
+> > > > > > > > drm clflush helpers, or reverting to a previous logic.
+> > > > > > > 
+> > > > > > > AFAIU, complaint from [1] was that it is wrong to provide
+> > > > > > > non
+> > > > > > > x86
+> > > > > > > implementations under the wbinvd_on_all_cpus name.
+> > > > > > > Instead an
+> > > > > > > arch
+> > > > > > > agnostic helper which achieves the same effect could be
+> > > > > > > created.
+> > > > > > > Does
+> > > > > > > Arm have such concept?
+> > > > > > 
+> > > > > > I also understand Linus' email like we shouldn't leak
+> > > > > > incoherent
+> > > > > > IO
+> > > > > > to
+> > > > > > other architectures, meaning any remaining wbinvd()s should
+> > > > > > be
+> > > > > > X86
+> > > > > > only.
+> > > > > 
+> > > > > The last part is completely obvious since it is a x86
+> > > > > instruction
+> > > > > name.
+> > > > 
+> > > > Yeah, I meant the function implementing wbinvd() semantics.
+> > > > 
+> > > > > 
+> > > > > But I think we can't pick a solution until we know how the
+> > > > > concept
+> > > > > maps
+> > > > > to Arm and that will also include seeing how the
+> > > > > drm_clflush_sg for
+> > > > > Arm
+> > > > > would look. Is there a range based solution, or just a big
+> > > > > hammer
+> > > > > there.
+> > > > > If the latter, then it is no good to churn all these reverts
+> > > > > but
+> > > > > instead
+> > > > > an arch agnostic wrapper, with a generic name, would be the
+> > > > > way to
+> > > > > go.
+> > > > 
+> > > > But my impression was that ARM would not need the range-based
+> > > > interface
+> > > > either, because ARM is only for discrete and with discrete
+> > > > we're
+> > > > always
+> > > > coherent.
+> > > 
+> > > Not sure what you mean here - what about flushing system memory
+> > > objects
+> > > on discrete? Those still need flushing on paths like suspend
+> > > which this
+> > > series touches. Am I missing something?
+> > 
+> > System bos on discrete should always have
+> > 
+> > I915_BO_CACHE_COHERENT_FOR_READ | I915_BO_CACHE_COHERENT_FOR_WRITE
+> > 
+> > either by the gpu being fully cache coherent (or us mapping system
+> > write-combined). Hence no need for cache clflushes or wbinvd() for
+> > incoherent IO.
+> 
+> Hmm so you are talking about the shmem ttm backend. It ends up
+> depending on the result of i915_ttm_cache_level, yes? It cannot end
+> up with I915_CACHE_NONE from that function?
+
+If the object is allocated with allowable placement in either LMEM or
+SYSTEM, and it ends in system, it gets allocated with I915_CACHE_NONE,
+but then the shmem ttm backend isn't used but TTM's wc pools, and the
+object should *always* be mapped wc. Even in system.
+
+> 
+> I also found in i915_drm.h:
+> 
+>          * As caching mode when specifying `I915_MMAP_OFFSET_FIXED`,
+> WC or WB will
+>          * be used, depending on the object placement on creation. WB
+> will be used
+>          * when the object can only exist in system memory, WC
+> otherwise.
+> 
+> If what you say is true, that on discrete it is _always_ WC, then
+> that needs updating as well.
+
+If an object is allocated as system only, then it is mapped WB, and
+we're relying on the gpu being cache coherent to avoid clflushes. Same
+is actually currently true if the object happens to be accessed by the
+cpu while evicted. Might need an update for that.
+
+> 
+> > 
+> > That's adhering to Linus'
+> > 
+> > "And I sincerely hope to the gods that no cache-incoherent i915
+> > mess
+> > ever makes it out of the x86 world. Incoherent IO was always a
+> > historical mistake and should never ever happen again, so we should
+> > not spread that horrific pattern around."
+> 
+> Sure, but I was not talking about IO - just the CPU side access to
+> CPU side objects.
+
+OK, I was under the impression that clflushes() and wbinvd()s in i915
+was only ever used to make data visible to non-snooping GPUs. 
+
+Do you mean that there are other uses as well? Agreed the wb cache
+flush on on suspend only if gpu is !I915_BO_CACHE_COHERENT_FOR_READ?
+looks to not fit this pattern completely.
+
+Otherwise, for architectures where memory isn't always fully coherent
+with the cpu cache, I'd expect them to use the apis in
+asm/cacheflush.h, like flush_cache_range() and similar, which are nops
+on x86.
+
+Thanks,
+Thomas
+
+
+> 
+> Regards,
+> 
+> Tvrtko
+
+
