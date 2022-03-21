@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29244E2884
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180C54E2914
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552D310E424;
-	Mon, 21 Mar 2022 13:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C3910E46F;
+	Mon, 21 Mar 2022 14:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6DC10E420
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 13:58:40 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7DA710E46F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:00:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 47232B816D8;
- Mon, 21 Mar 2022 13:58:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED5DC340E8;
- Mon, 21 Mar 2022 13:58:36 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 54F6DB816EF;
+ Mon, 21 Mar 2022 14:00:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C335CC340F2;
+ Mon, 21 Mar 2022 14:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1647871117;
- bh=wCtlhzyVh7eEx2vCINhC9Y7uEvjVr+GVgYMntv5pJWI=;
+ s=korg; t=1647871215;
+ bh=ZLNrGtC/1yYtaIEPvn2dN37TDlIhPm1AaMyY5zLM+o8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s7RYhEMU13gqWKYuL1r7Fv5wocoxzOW1jthULM6ac8iUJQLxaqer5bc7TyUUmqjk4
- zmtYsP5FdlEc/FQKspf3YlOzyV4TExU12rJc9x5DEbyA+6yvIyw//ec733V3DfKXwN
- QvTWrWL/HEOnX6JRxLoBb7UNjjKucVKSbpQui5yI=
+ b=L7NgKpvKl3q9avqaRcNYT4cF5OVB2Njhg6V/6NFTNzCmV8N6nR5CYGg4zR8tn0oNs
+ 0XzNqdhFeKKiqsaF/PAz/FpIqS9CBgE82la5PICagMZnq4pyhnkb9hIzm7IT/tOxbJ
+ vyFC+1NMT93lI+G79RQCu1fBChobyOyg1ilnteYk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.10 11/30] drm/imx: parallel-display: Remove bus flags check
+Subject: [PATCH 5.15 15/32] drm/imx: parallel-display: Remove bus flags check
  in imx_pd_bridge_atomic_check()
-Date: Mon, 21 Mar 2022 14:52:41 +0100
-Message-Id: <20220321133219.974486080@linuxfoundation.org>
+Date: Mon, 21 Mar 2022 14:52:51 +0100
+Message-Id: <20220321133221.004491467@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220321133219.643490199@linuxfoundation.org>
-References: <20220321133219.643490199@linuxfoundation.org>
+In-Reply-To: <20220321133220.559554263@linuxfoundation.org>
+References: <20220321133220.559554263@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -106,10 +107,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 2eb8df4697df..605ac8825a59 100644
+index a8aba0141ce7..06cb1a59b9bc 100644
 --- a/drivers/gpu/drm/imx/parallel-display.c
 +++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -212,14 +212,6 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+@@ -217,14 +217,6 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
  	if (!imx_pd_format_supported(bus_fmt))
  		return -EINVAL;
  
