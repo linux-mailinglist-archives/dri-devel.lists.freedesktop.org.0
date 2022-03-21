@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E200A4E32C4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 23:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF46C4E32C3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 23:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937D410E49B;
-	Mon, 21 Mar 2022 22:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E055D10E49A;
+	Mon, 21 Mar 2022 22:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F1310E05D;
- Mon, 21 Mar 2022 22:44:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7C6F10E49A;
+ Mon, 21 Mar 2022 22:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647902668; x=1679438668;
+ t=1647902670; x=1679438670;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5KszfNdaZBps+2xX48R/GU+VDsNb0geRNtkAfr71j50=;
- b=QP4yEqRst75eoDVxH5GkMA4dAu7ZsxHR9tfrIYHyaun3DpJXdG4EhfFx
- o50glO+YOuO1ZRtAWCcJPYX/CAU62fH2Tj5nA2imBQJuQs+fmJ6tj7KPt
- 3iuAXAE910La1vnxL2AzbhFFCedn+BBDChyid5Tuxhro6Pkt94pqWeMoq
- EcxNT2HekSqQ/MtIqPeorI/IKyBMeB/O7e3j3jw1EOd2CmF4CrOT2Sl96
- rfTU6eD/YGU4g+Did4/blaD0I38aOp35eEATIbuI+oHP9AA+pGfkw6jf1
- mHkSn2Hv1Qji4yOWZZ1gFSrRnmJI6nd4O7chYUUZ0IWO5gcTWK3DQL1oL w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257613678"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="257613678"
+ bh=HNI4A+hMoumeX/wVU347igJAT8Tf3osK8Mi9jIa5b08=;
+ b=c9LsSe6Qzt7naB87WuCAk1fpUEvwpWX2/1qOEVa2vtHigUQWJ4vyNLb8
+ loMCNQJAKUcYv8YmIXSO/IUAb/UoTMYCipy8UQyP/RzO8UUvMtNQFi/yZ
+ Q/EI6jobSodKMov19AHHivv65QSNc30YjxdPhtt4BLdUgaWCr4ADNoCwJ
+ Xva+JZt/I1s6N6MfQP/gLuNuU9oM4UHvrh/9RtDErmeNCptWR0uq3VzV5
+ vHrzcbD0iK+10ZUh1xZ3h7d0EbJz5oOAH2YFGu49zblHuet25d7xc/tIp
+ Y45JAYUnmOWpp9BSYPl+n/tiUBPPHCWP8fjE/m5B/glnOlPYxLflFsBdL Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257613680"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="257613680"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 15:44:27 -0700
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="543414172"
+ 21 Mar 2022 15:44:29 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="543414190"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 15:44:25 -0700
+ 21 Mar 2022 15:44:27 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v5 1/9] drm/i915/gt: Use XY_FAST_COLOR_BLT to clear obj on
- graphics ver 12+
-Date: Tue, 22 Mar 2022 04:14:51 +0530
-Message-Id: <20220321224459.12223-2-ramalingam.c@intel.com>
+Subject: [PATCH v5 2/9] drm/i915/gt: Optimize the migration and clear loop
+Date: Tue, 22 Mar 2022 04:14:52 +0530
+Message-Id: <20220321224459.12223-3-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220321224459.12223-1-ramalingam.c@intel.com>
 References: <20220321224459.12223-1-ramalingam.c@intel.com>
@@ -58,114 +57,118 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use faster XY_FAST_COLOR_BLT cmd on graphics version of 12 and more,
-for clearing (Zero out) the pages of the newly allocated object.
-
-XY_FAST_COLOR_BLT is faster than the older XY_COLOR_BLT.
-
-v2:
-  Typo fix at title [Thomas]
+Move the static calculations out of the loops for copy and clear.
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  5 +++
- drivers/gpu/drm/i915/gt/intel_migrate.c      | 43 +++++++++++++++++---
- 2 files changed, 43 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 44 ++++++++++++-------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index d112ffd56418..925e55b6a94f 100644
---- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -205,6 +205,11 @@
- 
- #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
- #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
-+#define XY_FAST_COLOR_BLT_CMD		(2 << 29 | 0x44 << 22)
-+#define   XY_FAST_COLOR_BLT_DEPTH_32	(2 << 19)
-+#define   XY_FAST_COLOR_BLT_DW		16
-+#define   XY_FAST_COLOR_BLT_MOCS_MASK	GENMASK(27, 21)
-+#define   XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT 31
- #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
- #define GEN9_XY_FAST_COPY_BLT_CMD	(2 << 29 | 0x42 << 22)
- #define XY_SRC_COPY_BLT_CMD		(2 << 29 | 0x53 << 22)
 diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 20444d6ceb3c..73199ebf0671 100644
+index 73199ebf0671..b656685a486d 100644
 --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
 +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -614,20 +614,53 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	return err;
- }
- 
--static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
-+static int emit_clear(struct i915_request *rq, u64 offset, int size,
-+		      u32 value, bool is_lmem)
+@@ -526,6 +526,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 			   struct i915_request **out)
  {
--	const int ver = GRAPHICS_VER(rq->engine->i915);
-+	struct drm_i915_private *i915 = rq->engine->i915;
-+	int mocs = rq->engine->gt->mocs.uc_index << 1;
-+	const int ver = GRAPHICS_VER(i915);
-+	int ring_sz;
- 	u32 *cs;
+ 	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
++	u32 src_offset, dst_offset;
+ 	struct i915_request *rq;
+ 	int err;
  
- 	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+@@ -534,8 +535,20 @@ intel_context_migrate_copy(struct intel_context *ce,
  
- 	offset += (u64)rq->engine->instance << 32;
+ 	GEM_BUG_ON(ce->ring->size < SZ_64K);
  
--	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
-+	if (ver >= 12)
-+		ring_sz = 16;
-+	else if (ver >= 8)
-+		ring_sz = 8;
-+	else
-+		ring_sz = 6;
++	src_offset = 0;
++	dst_offset = CHUNK_SZ;
++	if (HAS_64K_PAGES(ce->engine->i915)) {
++		GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
 +
-+	cs = intel_ring_begin(rq, ring_sz);
- 	if (IS_ERR(cs))
- 		return PTR_ERR(cs);
++		src_offset = 0;
++		dst_offset = 0;
++		if (src_is_lmem)
++			src_offset = CHUNK_SZ;
++		if (dst_is_lmem)
++			dst_offset = 2 * CHUNK_SZ;
++	}
++
+ 	do {
+-		u32 src_offset, dst_offset;
+ 		int len;
  
--	if (ver >= 8) {
-+	if (ver >= 12) {
-+		*cs++ = XY_FAST_COLOR_BLT_CMD | XY_FAST_COLOR_BLT_DEPTH_32 |
-+			(XY_FAST_COLOR_BLT_DW - 2);
-+		*cs++ = FIELD_PREP(XY_FAST_COLOR_BLT_MOCS_MASK, mocs) |
-+			(PAGE_SIZE - 1);
-+		*cs++ = 0;
-+		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-+		*cs++ = lower_32_bits(offset);
-+		*cs++ = upper_32_bits(offset);
-+		*cs++ = !is_lmem << XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT;
-+		/* BG7 */
-+		*cs++ = value;
-+		*cs++ = 0;
-+		*cs++ = 0;
-+		*cs++ = 0;
-+		/* BG11 */
-+		*cs++ = 0;
-+		*cs++ = 0;
-+		/* BG13 */
-+		*cs++ = 0;
-+		*cs++ = 0;
-+		*cs++ = 0;
-+	} else if (ver >= 8) {
- 		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
- 		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
- 		*cs++ = 0;
-@@ -711,7 +744,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		rq = i915_request_create(ce);
+@@ -563,19 +576,6 @@ intel_context_migrate_copy(struct intel_context *ce,
  		if (err)
  			goto out_rq;
  
--		err = emit_clear(rq, offset, len, value);
-+		err = emit_clear(rq, offset, len, value, is_lmem);
+-		src_offset = 0;
+-		dst_offset = CHUNK_SZ;
+-		if (HAS_64K_PAGES(ce->engine->i915)) {
+-			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
+-
+-			src_offset = 0;
+-			dst_offset = 0;
+-			if (src_is_lmem)
+-				src_offset = CHUNK_SZ;
+-			if (dst_is_lmem)
+-				dst_offset = 2 * CHUNK_SZ;
+-		}
+-
+ 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
+ 			       src_offset, CHUNK_SZ);
+ 		if (len <= 0) {
+@@ -585,12 +585,10 @@ intel_context_migrate_copy(struct intel_context *ce,
  
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
+ 		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
+ 			       dst_offset, len);
+-		if (err < 0)
+-			goto out_rq;
+-		if (err < len) {
++		if (err < len)
+ 			err = -EINVAL;
++		if (err < 0)
+ 			goto out_rq;
+-		}
+ 
+ 		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+ 		if (err)
+@@ -694,6 +692,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ {
+ 	struct sgt_dma it = sg_sgt(sg);
+ 	struct i915_request *rq;
++	u32 offset;
+ 	int err;
+ 
+ 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+@@ -701,8 +700,11 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 
+ 	GEM_BUG_ON(ce->ring->size < SZ_64K);
+ 
++	offset = 0;
++	if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
++		offset = CHUNK_SZ;
++
+ 	do {
+-		u32 offset;
+ 		int len;
+ 
+ 		rq = i915_request_create(ce);
+@@ -730,10 +732,6 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
+ 
+-		offset = 0;
+-		if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
+-			offset = CHUNK_SZ;
+-
+ 		len = emit_pte(rq, &it, cache_level, is_lmem, offset, CHUNK_SZ);
+ 		if (len <= 0) {
+ 			err = len;
 -- 
 2.20.1
 
