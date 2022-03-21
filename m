@@ -1,57 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E163F4E1DB7
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Mar 2022 21:12:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46E64E2049
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 06:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 269D210E1AE;
-	Sun, 20 Mar 2022 20:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD6F10E229;
+	Mon, 21 Mar 2022 05:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F81210E1AE
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Mar 2022 20:12:01 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id p5so7741149pfo.5
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Mar 2022 13:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pFiN4arEpH//MCYjKPAwUN+PAX5I+q7IXZxgc76PxyI=;
- b=LuaLCJzb1ZiWseRP24W26IPRuUD/B2BVOllQN2zAS9eqIcPdDMOmLhaIU1Mh5QRQdY
- orRBQgSVlgmpcQjfdkcjzKGCaGzz4UTV3dDiQ2CjtCGpzxAfXbGLhYXZ/Mkdk/ItEu7y
- ppSE4DkarAzdDjRoiguEOw5bO/fJFzttSmJEAcGxnqP3rN4N5tmMMFTKxwm1Ziadzi02
- 5KzmQ5gUKvUtCH4xw0ubF4enk1WsVbr82sAuaQQYPC8JXLyxSAX2xHWf8Lcj+l9BykmD
- cV6z/OIEn5zZ8EtmeJ2aAih3pHlSGDveHDri1j/7LEyTdKd8vupq2mDKG1pLh1YEik4w
- gtRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pFiN4arEpH//MCYjKPAwUN+PAX5I+q7IXZxgc76PxyI=;
- b=NDOK6x+m28dWTBEalHdMG2o15xNvaK4vbvhE7aBDDIvZ/VjJRxTCHb+vr5FtxzlKfh
- c9mU+u1axWY56ZiRKTgopikvkh89Q5SFd++pH1r/+jMtW8lBu6kExbHZfMnFjR0jEOay
- Hkh0gPKqjdTkJHUnvxbKFUWDJZNJLpfPH9Ugw6HcP4a5BmWPoyFaNaatJzRdlyscV9TX
- VYm/epR1SHkN+B8N0yCGXdWLFLPLWZ/MeweWFGWPQHfFNSaw3NdYrQMZwXDMaV2jHm3D
- C8u4cUlgWHc8vbJhjtgDXO5hZVEPAp6KaPirTbWZfEZ+hB9Ud00UkEYHhTn0jW8JJzp5
- 0AZA==
-X-Gm-Message-State: AOAM533EEbfJf45zCQxqzWnJtAtHshLf0hIuePfGRVoQ/QKFRKie/AO8
- /UUvLVzcdqlNTdtAo8G+0E2nJSDewjLBK9+DxFb3QA==
-X-Google-Smtp-Source: ABdhPJzSOmwYDGpJbONmbQO0hclWMyNKrNjTARmv67y1JViSV+w/TafUaDQ7g2dApzqzJPXYbZetn4b0QIqS0a35UKc=
-X-Received: by 2002:aa7:8296:0:b0:4f6:d248:c059 with SMTP id
- s22-20020aa78296000000b004f6d248c059mr21096705pfm.78.1647807120505; Sun, 20
- Mar 2022 13:12:00 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF5FA10E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 05:54:23 +0000 (UTC)
+X-UUID: 8bf06df480d84b9b9160ebc5db8d4e2c-20220321
+X-UUID: 8bf06df480d84b9b9160ebc5db8d4e2c-20220321
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 970566358; Mon, 21 Mar 2022 13:54:13 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 21 Mar 2022 13:54:12 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 21 Mar 2022 13:54:11 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Mon, 21 Mar 2022 13:54:11 +0800
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>
+Subject: [PATCH V1] drm/mediatek: Fix issue of vblank callback data is NULL
+Date: Mon, 21 Mar 2022 13:53:45 +0800
+Message-ID: <20220321055345.10195-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20220309150606.1877288-1-sean@poorly.run>
- <CACK8Z6GsZd5E74ZB9hRHWVov_cE0AfDNFcEvWeJHmtQAf_vz4A@mail.gmail.com>
- <b71a3775-a7e2-002d-7f2a-9036695eb172@redhat.com>
-In-Reply-To: <b71a3775-a7e2-002d-7f2a-9036695eb172@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Sun, 20 Mar 2022 13:11:24 -0700
-Message-ID: <CACK8Z6E+xuwHHcyG6AFA6_bSEhDH=QkSw0GG1RKvyMUVYkjRYw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Add support for drm_privacy_screen
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,245 +49,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+Cc: airlied@linux.ie, jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
+ hsinyi@google.com, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-() Hello Hans, Sean,
+We encountered a kernel panic issue that callback data will be NULL when
+it's using in ovl irq handler. There is a timing issue between
+mtk_disp_ovl_irq_handler() and mtk_ovl_disable_vblank().
 
+To resolve this issue, we use the flow to register/unregister vblank cb:
+- Register callback function and callback data when crtc creates.
+- Unregister callback function and callback data when crtc destroies.
 
+With this solution, we can assure callback data will not be NULL when
+vblank is disable.
 
-On Fri, Mar 11, 2022 at 4:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> On 3/9/22 18:53, Rajat Jain wrote:
-> > On Wed, Mar 9, 2022 at 7:06 AM Sean Paul <sean@poorly.run> wrote:
-> >>
-> >> From: Sean Paul <seanpaul@chromium.org>
-> >>
-> >> This patch adds the necessary hooks to make amdgpu aware of privacy
-> >> screens. On devices with privacy screen drivers (such as thinkpad-acpi),
-> >> the amdgpu driver will defer probe until it's ready and then sync the sw
-> >> and hw state on each commit the connector is involved and enabled.
-> >>
-> >> Changes in v2:
-> >> -Tweaked the drm_privacy_screen_get() error check to avoid logging
-> >>  errors when privacy screen is absent (Hans)
-> >>
-> >> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> >> Link: https://patchwork.freedesktop.org/patch/477640/ #v1
-> >> ---
-> >>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          |  9 +++++++++
-> >>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  3 +++
-> >>  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 16 +++++++++++++++-
-> >>  3 files changed, 27 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >> index 2ab675123ae3..e2cfae56c020 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >> @@ -26,6 +26,7 @@
-> >>  #include <drm/drm_aperture.h>
-> >>  #include <drm/drm_drv.h>
-> >>  #include <drm/drm_gem.h>
-> >> +#include <drm/drm_privacy_screen_consumer.h>
-> >>  #include <drm/drm_vblank.h>
-> >>  #include <drm/drm_managed.h>
-> >>  #include "amdgpu_drv.h"
-> >> @@ -1988,6 +1989,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
-> >>  {
-> >>         struct drm_device *ddev;
-> >>         struct amdgpu_device *adev;
-> >> +       struct drm_privacy_screen *privacy_screen;
-> >>         unsigned long flags = ent->driver_data;
-> >>         int ret, retry = 0, i;
-> >>         bool supports_atomic = false;
-> >> @@ -2063,6 +2065,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
-> >>         size = pci_resource_len(pdev, 0);
-> >>         is_fw_fb = amdgpu_is_fw_framebuffer(base, size);
-> >>
-> >> +       /* If the LCD panel has a privacy screen, defer probe until its ready */
-> >> +       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-> >> +       if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-> >> +               return -EPROBE_DEFER;
-> >> +
-> >> +       drm_privacy_screen_put(privacy_screen);
-> >> +
-> >>         /* Get rid of things like offb */
-> >>         ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &amdgpu_kms_driver);
-> >>         if (ret)
-> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> index e1d3db3fe8de..9e2bb6523add 100644
-> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> @@ -9781,6 +9781,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
-> >>                 if (acrtc) {
-> >>                         new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
-> >>                         old_crtc_state = drm_atomic_get_old_crtc_state(state, &acrtc->base);
-> >> +
-> >> +                       /* Sync the privacy screen state between hw and sw */
-> >> +                       drm_connector_update_privacy_screen(new_con_state);
-> >>                 }
-> >>
-> >>                 /* Skip any modesets/resets */
-> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> >> index 740435ae3997..594a8002975a 100644
-> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> >> @@ -27,6 +27,7 @@
-> >>  #include <drm/drm_atomic_helper.h>
-> >>  #include <drm/dp/drm_dp_mst_helper.h>
-> >>  #include <drm/dp/drm_dp_helper.h>
-> >> +#include <drm/drm_privacy_screen_consumer.h>
-> >>  #include "dm_services.h"
-> >>  #include "amdgpu.h"
-> >>  #include "amdgpu_dm.h"
-> >> @@ -506,6 +507,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> >>                                        struct amdgpu_dm_connector *aconnector,
-> >>                                        int link_index)
-> >>  {
-> >> +       struct drm_device *dev = dm->ddev;
-> >>         struct dc_link_settings max_link_enc_cap = {0};
-> >>
-> >>         aconnector->dm_dp_aux.aux.name =
-> >> @@ -519,8 +521,20 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
-> >>         drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> >>                                       &aconnector->base);
-> >>
-> >> -       if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
-> >> +       if (aconnector->base.connector_type == DRM_MODE_CONNECTOR_eDP) {
-> >> +               struct drm_privacy_screen *privacy_screen)
-> >> +
-> >> +               /* Reference given up in drm_connector_cleanup() */
-> >> +               privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-> >
-> > Can we try to be more specific when looking up for privacy screen, e.g.:
-> >
-> > privacy_screen = drm_privacy_screen_get(dev->dev,  "eDP-1");
-> > (and then also making the corresponding change in arch_init_data[] in
-> > drm_privacy_screen_x86.c"
->
-> So I just checked and yes I think we can be more specific at least
-> for the thinkpad_acpi supported models. See the attached patch
-> which has been tested on a ThinkPad T14 gen 1 with a builtin privacy-screen.
->
-> Rajat, can you adjust the chrome code in drivers/gpu/drm/drm_privacy_screen_x86.c
-> to match and check that with the chrome code changes, my patch does not break
-> things on chromebooks? (Note your changes will need to be squashed into the
-> patch so that we change all of this in one go) .
+Fixes: 9b0704988b15 ("drm/mediatek: Register vblank callback function")
+Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Reviewed-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     | 16 +++++++-----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 22 ++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 20 +++++++++-----
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 14 +++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 +++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 29 ++++++++++++++++-----
+ 6 files changed, 80 insertions(+), 25 deletions(-)
 
-Thanks, I just confirmed that with a change similar to yours (use
-"eDP-1"), it works fine on the Intel chromebooks at my end, so feel
-free to do it:
-===================================================
-diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c
-b/drivers/gpu/drm/drm_privacy_screen_x86.c
-index 88802cd7a1ee..894beefb6628 100644
---- a/drivers/gpu/drm/drm_privacy_screen_x86.c
-+++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-@@ -69,7 +69,7 @@ static const struct arch_init_data arch_init_data[]
-__initconst = {
-        {
-                .lookup = {
-                        .dev_id = NULL,
--                       .con_id = NULL,
-+                       .con_id = "eDP-1",
-                        .provider = "privacy_screen-GOOG0010:00",
-                },
-                .detect = detect_chromeos_privacy_screen,
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
-b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 1682ace5cd53..2666ba7b5a28 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -4250,7 +4250,7 @@ intel_ddi_init_dp_connector(struct
-intel_digital_port *dig_port)
-                struct drm_device *dev = dig_port->base.base.dev;
-                struct drm_privacy_screen *privacy_screen;
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+index 86c3068894b1..974462831133 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+@@ -76,9 +76,11 @@ void mtk_ovl_layer_off(struct device *dev, unsigned int idx,
+ void mtk_ovl_start(struct device *dev);
+ void mtk_ovl_stop(struct device *dev);
+ unsigned int mtk_ovl_supported_rotations(struct device *dev);
+-void mtk_ovl_enable_vblank(struct device *dev,
+-			   void (*vblank_cb)(void *),
+-			   void *vblank_cb_data);
++void mtk_ovl_register_vblank_cb(struct device *dev,
++				void (*vblank_cb)(void *),
++				void *vblank_cb_data);
++void mtk_ovl_unregister_vblank_cb(struct device *dev);
++void mtk_ovl_enable_vblank(struct device *dev);
+ void mtk_ovl_disable_vblank(struct device *dev);
+ 
+ void mtk_rdma_bypass_shadow(struct device *dev);
+@@ -93,9 +95,11 @@ void mtk_rdma_layer_config(struct device *dev, unsigned int idx,
+ 			   struct cmdq_pkt *cmdq_pkt);
+ void mtk_rdma_start(struct device *dev);
+ void mtk_rdma_stop(struct device *dev);
+-void mtk_rdma_enable_vblank(struct device *dev,
+-			    void (*vblank_cb)(void *),
+-			    void *vblank_cb_data);
++void mtk_rdma_register_vblank_cb(struct device *dev,
++				 void (*vblank_cb)(void *),
++				 void *vblank_cb_data);
++void mtk_rdma_unregister_vblank_cb(struct device *dev);
++void mtk_rdma_enable_vblank(struct device *dev);
+ void mtk_rdma_disable_vblank(struct device *dev);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index 2146299e5f52..1fa1bbac9f9c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -96,14 +96,28 @@ static irqreturn_t mtk_disp_ovl_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-void mtk_ovl_enable_vblank(struct device *dev,
+-			   void (*vblank_cb)(void *),
+-			   void *vblank_cb_data)
++void mtk_ovl_register_vblank_cb(struct device *dev,
++				void (*vblank_cb)(void *),
++				void *vblank_cb_data)
+ {
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
+ 
+ 	ovl->vblank_cb = vblank_cb;
+ 	ovl->vblank_cb_data = vblank_cb_data;
++}
++
++void mtk_ovl_unregister_vblank_cb(struct device *dev)
++{
++	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
++
++	ovl->vblank_cb = NULL;
++	ovl->vblank_cb_data = NULL;
++}
++
++void mtk_ovl_enable_vblank(struct device *dev)
++{
++	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
++
+ 	writel(0x0, ovl->regs + DISP_REG_OVL_INTSTA);
+ 	writel_relaxed(OVL_FME_CPL_INT, ovl->regs + DISP_REG_OVL_INTEN);
+ }
+@@ -112,8 +126,6 @@ void mtk_ovl_disable_vblank(struct device *dev)
+ {
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
+ 
+-	ovl->vblank_cb = NULL;
+-	ovl->vblank_cb_data = NULL;
+ 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
+ }
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+index d41a3970b944..943780fc7bf6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+@@ -94,24 +94,32 @@ static void rdma_update_bits(struct device *dev, unsigned int reg,
+ 	writel(tmp, rdma->regs + reg);
+ }
+ 
+-void mtk_rdma_enable_vblank(struct device *dev,
+-			    void (*vblank_cb)(void *),
+-			    void *vblank_cb_data)
++void mtk_rdma_register_vblank_cb(struct device *dev,
++				 void (*vblank_cb)(void *),
++				 void *vblank_cb_data)
+ {
+ 	struct mtk_disp_rdma *rdma = dev_get_drvdata(dev);
+ 
+ 	rdma->vblank_cb = vblank_cb;
+ 	rdma->vblank_cb_data = vblank_cb_data;
+-	rdma_update_bits(dev, DISP_REG_RDMA_INT_ENABLE, RDMA_FRAME_END_INT,
+-			 RDMA_FRAME_END_INT);
+ }
+ 
+-void mtk_rdma_disable_vblank(struct device *dev)
++void mtk_rdma_unregister_vblank_cb(struct device *dev)
+ {
+ 	struct mtk_disp_rdma *rdma = dev_get_drvdata(dev);
+ 
+ 	rdma->vblank_cb = NULL;
+ 	rdma->vblank_cb_data = NULL;
++}
++
++void mtk_rdma_enable_vblank(struct device *dev)
++{
++	rdma_update_bits(dev, DISP_REG_RDMA_INT_ENABLE, RDMA_FRAME_END_INT,
++			 RDMA_FRAME_END_INT);
++}
++
++void mtk_rdma_disable_vblank(struct device *dev)
++{
+ 	rdma_update_bits(dev, DISP_REG_RDMA_INT_ENABLE, RDMA_FRAME_END_INT, 0);
+ }
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d661edf7e0fe..e42a9bfa0ecb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -152,6 +152,7 @@ static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
++	int i;
+ 
+ 	mtk_mutex_put(mtk_crtc->mutex);
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+@@ -162,6 +163,14 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
+ 		mtk_crtc->cmdq_client.chan = NULL;
+ 	}
+ #endif
++
++	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
++		struct mtk_ddp_comp *comp;
++
++		comp = mtk_crtc->ddp_comp[i];
++		mtk_ddp_comp_unregister_vblank_cb(comp);
++	}
++
+ 	drm_crtc_cleanup(crtc);
+ }
+ 
+@@ -616,7 +625,7 @@ static int mtk_drm_crtc_enable_vblank(struct drm_crtc *crtc)
+ 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+ 	struct mtk_ddp_comp *comp = mtk_crtc->ddp_comp[0];
+ 
+-	mtk_ddp_comp_enable_vblank(comp, mtk_crtc_ddp_irq, &mtk_crtc->base);
++	mtk_ddp_comp_enable_vblank(comp);
+ 
+ 	return 0;
+ }
+@@ -916,6 +925,9 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 			if (comp->funcs->ctm_set)
+ 				has_ctm = true;
+ 		}
++
++		mtk_ddp_comp_register_vblank_cb(comp, mtk_crtc_ddp_irq,
++						&mtk_crtc->base);
+ 	}
+ 
+ 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index b4b682bc1991..028cf76b9531 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -297,6 +297,8 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
+ 	.config = mtk_ovl_config,
+ 	.start = mtk_ovl_start,
+ 	.stop = mtk_ovl_stop,
++	.register_vblank_cb = mtk_ovl_register_vblank_cb,
++	.unregister_vblank_cb = mtk_ovl_unregister_vblank_cb,
+ 	.enable_vblank = mtk_ovl_enable_vblank,
+ 	.disable_vblank = mtk_ovl_disable_vblank,
+ 	.supported_rotations = mtk_ovl_supported_rotations,
+@@ -321,6 +323,8 @@ static const struct mtk_ddp_comp_funcs ddp_rdma = {
+ 	.config = mtk_rdma_config,
+ 	.start = mtk_rdma_start,
+ 	.stop = mtk_rdma_stop,
++	.register_vblank_cb = mtk_rdma_register_vblank_cb,
++	.unregister_vblank_cb = mtk_rdma_unregister_vblank_cb,
+ 	.enable_vblank = mtk_rdma_enable_vblank,
+ 	.disable_vblank = mtk_rdma_disable_vblank,
+ 	.layer_nr = mtk_rdma_layer_nr,
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+index 4c6a98662305..b83f24cb045f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+@@ -48,9 +48,11 @@ struct mtk_ddp_comp_funcs {
+ 		       unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+ 	void (*start)(struct device *dev);
+ 	void (*stop)(struct device *dev);
+-	void (*enable_vblank)(struct device *dev,
+-			      void (*vblank_cb)(void *),
+-			      void *vblank_cb_data);
++	void (*register_vblank_cb)(struct device *dev,
++				   void (*vblank_cb)(void *),
++				   void *vblank_cb_data);
++	void (*unregister_vblank_cb)(struct device *dev);
++	void (*enable_vblank)(struct device *dev);
+ 	void (*disable_vblank)(struct device *dev);
+ 	unsigned int (*supported_rotations)(struct device *dev);
+ 	unsigned int (*layer_nr)(struct device *dev);
+@@ -111,12 +113,25 @@ static inline void mtk_ddp_comp_stop(struct mtk_ddp_comp *comp)
+ 		comp->funcs->stop(comp->dev);
+ }
+ 
+-static inline void mtk_ddp_comp_enable_vblank(struct mtk_ddp_comp *comp,
+-					      void (*vblank_cb)(void *),
+-					      void *vblank_cb_data)
++static inline void mtk_ddp_comp_register_vblank_cb(struct mtk_ddp_comp *comp,
++						   void (*vblank_cb)(void *),
++						   void *vblank_cb_data)
++{
++	if (comp->funcs && comp->funcs->register_vblank_cb)
++		comp->funcs->register_vblank_cb(comp->dev, vblank_cb,
++						vblank_cb_data);
++}
++
++static inline void mtk_ddp_comp_unregister_vblank_cb(struct mtk_ddp_comp *comp)
++{
++	if (comp->funcs && comp->funcs->unregister_vblank_cb)
++		comp->funcs->unregister_vblank_cb(comp->dev);
++}
++
++static inline void mtk_ddp_comp_enable_vblank(struct mtk_ddp_comp *comp)
+ {
+ 	if (comp->funcs && comp->funcs->enable_vblank)
+-		comp->funcs->enable_vblank(comp->dev, vblank_cb, vblank_cb_data);
++		comp->funcs->enable_vblank(comp->dev);
+ }
+ 
+ static inline void mtk_ddp_comp_disable_vblank(struct mtk_ddp_comp *comp)
+-- 
+2.18.0
 
--               privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-+               privacy_screen = drm_privacy_screen_get(dev->dev,
-connector->base.name);
-                if (!IS_ERR(privacy_screen)) {
-
-drm_connector_attach_privacy_screen_provider(&connector->base,
-
-privacy_screen);
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-b/drivers/gpu/drm/i915/display/intel_display.c
-index 89be498127e4..b2903a55f910 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -13360,7 +13360,7 @@ bool intel_modeset_probe_defer(struct pci_dev *pdev)
-                return true;
-
-        /* If the LCD panel has a privacy-screen, wait for it */
--       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-+       privacy_screen = drm_privacy_screen_get(&pdev->dev, "eDP-1");
-        if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-                return true;
- =================================================
-
-I found it a little surprising though. From what I remembered from my
-early venture, was that connector->base.name did not get filled in at
-the time intel_ddi_init_dp_connector() was called, but I guess I was
-remembering it wrong.
-
->
-> Sean, same request to you, can you adjust your amdgpu patch to match
-> the i915 changes in the attached patch and then check if a kernel
-> with both changes still works ?
-
-Defer to Sean since I do not have the AMD chromebook to test.
-
-Thanks & Best Regards,
-
-Rajat
-
->
-> Regards,
->
-> Hans
->
->
->
-> >
-> > My comment applies to this driver as well as to i915. The reason being
-> > today there is only 1 internal display with privacy screen so we can
-> > just assume that there shall be only 1 privacy-screen and that shall
-> > apply to eDP-1/internal display. But dual display systems are not far
-> > enough out, and perhaps external monitors with inbuilt
-> > privacy-screens?
-> >
-> > Essentially the gap today is that today on Chromeos ACPI side, the
-> > device GOOG0010 represents the privacy-screen attached to the internal
-> > display/eDP-1, but there isn't a way to make it clear in the i915 and
-> > now amdgpu code.
-> >
-> > Thanks,
-> >
-> > Rajat
-> >
-> >
-> >> +               if (!IS_ERR(privacy_screen)) {
-> >> +                       drm_connector_attach_privacy_screen_provider(&aconnector->base,
-> >> +                                                                    privacy_screen);
-> >> +               } else if (PTR_ERR(privacy_screen) != -ENODEV) {
-> >> +                       drm_err(dev, "Error getting privacy screen, ret=%d\n",
-> >> +                               PTR_ERR(privacy_screen));
-> >> +               }
-> >>                 return;
-> >> +       }
-> >>
-> >>         dc_link_dp_get_max_link_enc_cap(aconnector->dc_link, &max_link_enc_cap);
-> >>         aconnector->mst_mgr.cbs = &dm_mst_cbs;
-> >> --
-> >> Sean Paul, Software Engineer, Google / Chromium OS
-> >>
-> >
