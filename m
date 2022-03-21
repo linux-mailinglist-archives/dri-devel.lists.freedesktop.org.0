@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFAD4E32CD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 23:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C094E32D3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 23:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1130210E4B7;
-	Mon, 21 Mar 2022 22:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1268710E4CF;
+	Mon, 21 Mar 2022 22:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB89810E4B7;
- Mon, 21 Mar 2022 22:44:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E8810E4B0;
+ Mon, 21 Mar 2022 22:44:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647902684; x=1679438684;
+ t=1647902687; x=1679438687;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=klCbtY3aktDaaVDkgnqz9fAgP5FPypSVdifsuNys2Zk=;
- b=lpMAdoVRZD86Xky2zIbw/RSpgyOxD4vg/ltcGjJH4fVSLd+eG3UVMtS/
- i0g9p9nA0hdIsf23n5VnpqbCceJ3Uu/5+7HaFN42MpQUtMYiDbTb7YFG/
- 0f9NFzWKut5t6QooUw4+zNcrnb5OKfH/SFssrsk9f75OLAaI/tPG94Nov
- tSHyhCBjn8LVlBehZR6kt5sJ9Zy//v20E/8Yd/IffKtCMet0tbx9XIN4w
- Rvo4b3HlOxB2SGZZGibB/4p3J69sroOxdXKB11QzKXNRosQpy6fG4SBpm
- g8ZQuoZxrlmfjyHqSbAbFPam6y7HddaARIc61FwX4EKx5RdfkXE7f0Qxs Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257613716"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="257613716"
+ bh=A7rBB1kD6y+MBVtpEwheCCraisaEFjdf1sPPjwDSxu4=;
+ b=dPdhGIuTPryTJ+RmzAg+BtHkoRo72k7wEw8MV/OJfJZvMt5ZLqeEgtDR
+ O7WwtItXvxsGRkwjF6TMlvjh4zfZfvtD80b8v0GvqJb8VuUm4vL0cmGd5
+ j1zNBGhL51fdcc1dfu1DVSHUlnwNzcBAjWsa3pUqLxpT4DkIflJoSrebD
+ /2DJ+QHu1GOn5M/W7iXG7Jmr4OQ4gGds8MXurtPNnrzWfBZGyibPfvxZp
+ x1FrIfjL/0xGE9YiFnAblDSkIPC61LMaEOP+v7R4ZQ29TDd45n/ykdfRu
+ RObuvF+1JV7yqzILm77TBqTHs/PKC8X3I3gbygH3xOSVsB88SMErDVR4E Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257613719"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="257613719"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 15:44:44 -0700
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="543414242"
+ 21 Mar 2022 15:44:46 -0700
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; d="scan'208";a="543414248"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 15:44:42 -0700
+ 21 Mar 2022 15:44:44 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v5 8/9] drm/i915/gem: Add extra pages in ttm_tt for ccs data
-Date: Tue, 22 Mar 2022 04:14:58 +0530
-Message-Id: <20220321224459.12223-9-ramalingam.c@intel.com>
+Subject: [PATCH v5 9/9] drm/i915/migrate: Evict and restore the flatccs
+ capable lmem obj
+Date: Tue, 22 Mar 2022 04:14:59 +0530
+Message-Id: <20220321224459.12223-10-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220321224459.12223-1-ramalingam.c@intel.com>
 References: <20220321224459.12223-1-ramalingam.c@intel.com>
@@ -56,104 +57,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Christian Koenig <christian.koenig@amd.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Xe-HP and later devices, dedicated compression control state (CCS)
-stored in local memory is used for each surface, to support the
-3D and media compression formats.
+When we are swapping out the local memory obj on flat-ccs capable platform,
+we need to capture the ccs data too along with main meory and we need to
+restore it when we are swapping in the content.
 
-The memory required for the CCS of the entire local memory is 1/256 of
-the local memory size. So before the kernel boot, the required memory
-is reserved for the CCS data and a secure register will be programmed
-with the CCS base address
+When lmem object is swapped into a smem obj, smem obj will
+have the extra pages required to hold the ccs data corresponding to the
+lmem main memory. So main memory of lmem will be copied into the initial
+pages of the smem and then ccs data corresponding to the main memory
+will be copied to the subsequent pages of smem. ccs data is 1/256 of
+lmem size.
 
-So when an object is allocated in local memory, dont need to explicitly
-allocate the space for ccs data. But when the obj is evicted into the
-smem, to hold the compression related data along with the obj extra space
-is needed in smem. i.e obj_size + (obj_size/256).
+Swapin happens exactly in reverse order. First main memory of lmem is
+restored from the smem's initial pages and the ccs data will be restored
+from the subsequent pages of smem.
 
-Hence when a smem pages are allocated for an obj with lmem placement
-possibility we create with the extra pages required for the ccs data for
-the obj size.
+Extracting and restoring the CCS data is done through a special cmd called
+XY_CTRL_SURF_COPY_BLT
 
-v2:
-  Used imperative wording [Thomas]
-v3:
-  Inflate the pages only when obj's placement is lmem only
+v2: Fixing the ccs handling
+v3: Handle the ccs data at same loop as main memory [Thomas]
+v4: changes for emit_copy_ccs
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Christian Koenig <christian.koenig@amd.com>
-cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 29 ++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 163 +++++++++++++++++++++++-
+ 1 file changed, 159 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 3b9f99c765c4..0305a150b9d4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -20,6 +20,7 @@
- #include "gem/i915_gem_ttm.h"
- #include "gem/i915_gem_ttm_move.h"
- #include "gem/i915_gem_ttm_pm.h"
-+#include "gt/intel_gpu_commands.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 5f6341f91622..22e3c079468f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -657,6 +657,65 @@ static int emit_copy(struct i915_request *rq,
+ 	return 0;
+ }
  
- #define I915_TTM_PRIO_PURGE     0
- #define I915_TTM_PRIO_NO_PAGES  1
-@@ -262,12 +263,33 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
- 	.release = i915_ttm_tt_release
- };
- 
-+static inline bool
-+i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj)
++static int scatter_list_length(struct scatterlist *sg)
 +{
-+	bool lmem_placement = false;
-+	int i;
++	int len = 0;
 +
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		/* Compression is not allowed for the objects with smem placement */
-+		if (obj->mm.placements[i]->type == INTEL_MEMORY_SYSTEM)
-+			return false;
-+		if (!lmem_placement &&
-+		    obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
-+			lmem_placement = true;
-+	}
++	while (sg && sg_dma_len(sg)) {
++		len += sg_dma_len(sg);
++		sg = sg_next(sg);
++	};
 +
-+	return lmem_placement;
++	return len;
 +}
 +
- static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 					 uint32_t page_flags)
- {
-+	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-+						     bdev);
- 	struct ttm_resource_manager *man =
- 		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	unsigned long ccs_pages = 0;
- 	enum ttm_caching caching;
- 	struct i915_ttm_tt *i915_tt;
- 	int ret;
-@@ -290,7 +312,12 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 		i915_tt->is_shmem = true;
- 	}
- 
--	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, 0);
-+	if (HAS_FLAT_CCS(i915) && i915_gem_object_needs_ccs_pages(obj))
-+		ccs_pages = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
-+						      NUM_BYTES_PER_CCS_BYTE),
-+					 PAGE_SIZE);
++static void
++calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
++		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
++		   u32 ccs_bytes_to_cpy)
++{
++	if (ccs_bytes_to_cpy) {
++		/*
++		 * We can only copy the ccs data corresponding to
++		 * the CHUNK_SZ of lmem which is
++		 * GET_CCS_BYTES(i915, CHUNK_SZ))
++		 */
++		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
 +
-+	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, ccs_pages);
- 	if (ret)
- 		goto err_free;
++		if (!src_is_lmem)
++			/*
++			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
++			 * will be taken for the blt. in Flat-ccs supported
++			 * platform Smem obj will have more pages than required
++			 * for main meory hence limit it to the required size
++			 * for main memory
++			 */
++			*src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
++	} else { /* ccs handling is not required */
++		*src_sz = CHUNK_SZ;
++	}
++}
++
++static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
++{
++	u32 len;
++
++	do {
++		GEM_BUG_ON(!it->sg || !sg_dma_len(it->sg));
++		len = it->max - it->dma;
++		if (len > bytes_to_cpy) {
++			it->dma += bytes_to_cpy;
++			break;
++		}
++
++		bytes_to_cpy -= len;
++
++		it->sg = __sg_next(it->sg);
++		it->dma = sg_dma_address(it->sg);
++		it->max = it->dma + sg_dma_len(it->sg);
++	} while (bytes_to_cpy);
++}
++
+ int
+ intel_context_migrate_copy(struct intel_context *ce,
+ 			   const struct i915_deps *deps,
+@@ -668,9 +727,15 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 			   bool dst_is_lmem,
+ 			   struct i915_request **out)
+ {
+-	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
++	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst), it_ccs;
++	struct drm_i915_private *i915 = ce->engine->i915;
++	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
++	enum i915_cache_level ccs_cache_level;
++	int src_sz, dst_sz, ccs_sz;
+ 	u32 src_offset, dst_offset;
++	u8 src_access, dst_access;
+ 	struct i915_request *rq;
++	bool ccs_is_src;
+ 	int err;
+ 
+ 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+@@ -678,6 +743,38 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 
+ 	GEM_BUG_ON(ce->ring->size < SZ_64K);
+ 
++	src_sz = scatter_list_length(src);
++	bytes_to_cpy = src_sz;
++
++	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
++		src_access = !src_is_lmem && dst_is_lmem;
++		dst_access = !src_access;
++
++		dst_sz = scatter_list_length(dst);
++		if (src_is_lmem) {
++			it_ccs = it_dst;
++			ccs_cache_level = dst_cache_level;
++			ccs_is_src = false;
++		} else if (dst_is_lmem) {
++			bytes_to_cpy = dst_sz;
++			it_ccs = it_src;
++			ccs_cache_level = src_cache_level;
++			ccs_is_src = true;
++		}
++
++		/*
++		 * When there is a eviction of ccs needed smem will have the
++		 * extra pages for the ccs data
++		 *
++		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
++		 * but still we have some requests of smem->lmem with same size.
++		 * Need to fix it.
++		 */
++		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
++		if (ccs_bytes_to_cpy)
++			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
++	}
++
+ 	src_offset = 0;
+ 	dst_offset = CHUNK_SZ;
+ 	if (HAS_64K_PAGES(ce->engine->i915)) {
+@@ -719,8 +816,11 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
+ 
++		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
++				   bytes_to_cpy, ccs_bytes_to_cpy);
++
+ 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
+-			       src_offset, CHUNK_SZ);
++			       src_offset, src_sz);
+ 		if (len <= 0) {
+ 			err = len;
+ 			goto out_rq;
+@@ -737,7 +837,46 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
+ 
+-		err = emit_copy(rq, dst_offset, src_offset, len);
++		err = emit_copy(rq, dst_offset,	src_offset, len);
++		if (err)
++			goto out_rq;
++
++		bytes_to_cpy -= len;
++
++		if (ccs_bytes_to_cpy) {
++			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
++			if (err)
++				goto out_rq;
++
++			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
++				       ccs_is_src ? src_offset : dst_offset,
++				       ccs_sz);
++
++			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
++			if (err)
++				goto out_rq;
++
++			/*
++			 * Using max of src_sz and dst_sz, as we need to
++			 * pass the lmem size corresponding to the ccs
++			 * blocks we need to handle.
++			 */
++			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
++				       ccs_is_src ? dst_sz : ccs_sz);
++
++			err = emit_copy_ccs(rq, dst_offset, dst_access,
++					    src_offset, src_access, ccs_sz);
++			if (err)
++				goto out_rq;
++
++			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
++			if (err)
++				goto out_rq;
++
++			/* Converting back to ccs bytes */
++			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
++			ccs_bytes_to_cpy -= ccs_sz;
++		}
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+@@ -745,9 +884,25 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 			i915_request_put(*out);
+ 		*out = i915_request_get(rq);
+ 		i915_request_add(rq);
+-		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
++
++		if (err)
+ 			break;
+ 
++		if (!bytes_to_cpy && !ccs_bytes_to_cpy) {
++			if (src_is_lmem)
++				WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
++			else
++				WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
++			break;
++		}
++
++		if (WARN_ON(!it_src.sg || !sg_dma_len(it_src.sg) ||
++			    !it_dst.sg || !sg_dma_len(it_dst.sg) ||
++			    !it_ccs.sg || !sg_dma_len(it_ccs.sg))) {
++			err = -EINVAL;
++			break;
++		}
++
+ 		cond_resched();
+ 	} while (1);
  
 -- 
 2.20.1
