@@ -2,65 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8135A4E28EA
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 14:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DEE4E2935
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Mar 2022 15:02:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E2210E45C;
-	Mon, 21 Mar 2022 13:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD9110E491;
+	Mon, 21 Mar 2022 14:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E6810E452
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 13:59:22 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id a1so19447611wrh.10
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 06:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4gSzssDsag7uq1q+qyFeA2W0dMeA7VxsB1k0L/q5wiM=;
- b=Sh20+hiz2ZMTWlUu/Dc/WAZh3Ylz0s6GmUs8PsdYN5s2dVK23ZreObSTyH8fxfobSu
- yGX5ffNq7l/g7k3dPdqpfxigY86TTR0SOQg+pDpODWvfsaMiMkQPeLa/1049+LQsBzoM
- nfZ2Uf17y0B/8jDE2CfkriE8hAqkYArRs3USov89I0CtAh1vY9IGLQIYIPMhGtY+l13T
- M7uTgx51Z0pkNlbrfJLo1q1KNFjzuITB2hfHeS/2KR6x3sUiGP+zCoflVUVuPOSL0Ctv
- wPykE16S08ZCVXAmbA0DCVs4kHlssay6WL27kMiu5BCGpzZ/Ay81JnHGDTv5x4ym9SB4
- 9SCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4gSzssDsag7uq1q+qyFeA2W0dMeA7VxsB1k0L/q5wiM=;
- b=v2vhIezg9XMKivj9XQtfk+JKnManAZR7ZgaZH7Iddvvy+SgoTGYVLXWHcdx3AugiIg
- LkkAL0QVbTGJ9rCGIwz9wY6ib+fTbIeclLvZUF2vlFSgCmZhhqA6p878FDTZHL02vn1i
- puZwLYYPlgOM/COYCuCqZIzfLYcXykygaLFNI1fcMC7HSrxNwXZvAJyMNxYejTJa06w8
- Ss3QZ9NYhu3W1DDBfihfwZLdJXKfO2RuIyQHf9TgrHoGoYJX7b3WktxThd6vIbMvK2Hl
- XSMrI2xSeBfARdu1+xiI4PGTbkXZbZsCn9kOYJTYNE1zvEhtnZOBx8Zl8YP/tlXTLIAT
- MQ0w==
-X-Gm-Message-State: AOAM532SkqRvFVbr5PIKytuZKqwqxiJU0E7sDdS2kvbWEtAPzhLYNUWK
- WzuoMg3mWpuA2FuBlTK72vBz4ty4JnY=
-X-Google-Smtp-Source: ABdhPJzJA8FNShCUBJlxtTrZHmJ/lruO6peGD3PSRPJJokizKzwiak3rkh0UsyP4BXb8kCpWo/dUpA==
-X-Received: by 2002:a05:6000:50b:b0:203:da9e:596e with SMTP id
- a11-20020a056000050b00b00203da9e596emr18488898wrf.382.1647871160500; 
- Mon, 21 Mar 2022 06:59:20 -0700 (PDT)
-Received: from able.fritz.box (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
- by smtp.gmail.com with ESMTPSA id
- m3-20020a5d6243000000b001e33760776fsm13317640wrv.10.2022.03.21.06.59.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 06:59:20 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel.vetter@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 23/23] drm/ttm: remove bo->moving
-Date: Mon, 21 Mar 2022 14:58:56 +0100
-Message-Id: <20220321135856.1331-23-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220321135856.1331-1-christian.koenig@amd.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140E410E483
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Mar 2022 14:02:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AtwdpiKfj4e9KiRc66tBO73UdH9aTc7mRYsG8dyoSRAlqo+3KMEd2xWQ0P3GYe+mroq+TwJzayrl5ehhLnkS0+SyKpN8LWEJ0+CBxNCc9tghZS9ZcTJhmZjHHn/9SClfBrzwILVzXmOQEMg8tAr9QhJDeINMCT8HynRRC5qIoLywytXukBu1VGXrBzmYJJIKakTshdH4ZCPEJaE/5t3NWROgqFMYmx3+qOrrm/+DQDc3a5Eaq2ivKAXgqzwml9GI+zr4esNHx9FyhhhHnZ7pgpHhm+ufwpbUsZaESBeVu+2n+s9BVNCSAndISRrVPDh9q770/0+6Hg2Bd0OLnHkCOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mC2uk+GtGgeRI4KmFps7p8RyTM2G95bs5nedmVSd5kI=;
+ b=AUAASE87W4COxJ3Ovpa2V/Lja0STlo8CcI1GJivYRlBhqqlobQbvCo6qhnLkgJlYnz8oLhHPaCkI4Vhd/UuYuSlIb7e3GXn3snU620MR1k1AndEFoBR5OGElizQsV7/et5ijfexjFcJR5WosSv51JzioKFzVZpXdELzY9ch6iKrZu4fhP0xVjv7EkTZ8VOwfcplHCIjaEk+Hcr++YL0qsEOyorwpqW71uxBCNP+oKjETjOe3VUGOW/moNlDgF7n47uy0lGYXw8VRbaWI43A6O3Z/4gFUJZOBJyaQirLbqDvzwyibeON/0YE+a4o1Skr/UeeQ+rSIMcsTUvYZNSBHxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mC2uk+GtGgeRI4KmFps7p8RyTM2G95bs5nedmVSd5kI=;
+ b=dBKRx+JW5cb4syL47qUk1tbkJm4xI4Xsat0ObZsBUW127h57MJpHBz0MU8An3JGQ5OgToKpTs2CBbnNarGdWKsdEIbIWzJoAD5IgM3asgqJ2gkG+EQN9+BO/coswrC7ayfsSwBlWT/jja1h9morSUEq6wtmtPPw5HqMURALSLn0=
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
+ by MWHPR05MB3055.namprd05.prod.outlook.com (2603:10b6:300:b9::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.15; Mon, 21 Mar
+ 2022 14:02:27 +0000
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::c029:c5b4:6e3c:e8c]) by MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::c029:c5b4:6e3c:e8c%7]) with mapi id 15.20.5102.015; Mon, 21 Mar 2022
+ 14:02:26 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "ckoenig.leichtzumerken@gmail.com" <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 07/23] drm/vmwgfx: stop using dma_resv_excl_fence
+Thread-Topic: [PATCH 07/23] drm/vmwgfx: stop using dma_resv_excl_fence
+Thread-Index: AQHYPSvVm4xK1+FNQUqjAPC0WhA6C6zJ3j8A
+Date: Mon, 21 Mar 2022 14:02:26 +0000
+Message-ID: <91bd73763a87c3311d8cc4878589f80a712c4574.camel@vmware.com>
 References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-7-christian.koenig@amd.com>
+In-Reply-To: <20220321135856.1331-7-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4-1ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b973c2a2-00d0-41e1-ec7d-08da0b436e6a
+x-ms-traffictypediagnostic: MWHPR05MB3055:EE_
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-atpmessageproperties: SA|SL
+x-microsoft-antispam-prvs: <MWHPR05MB30551D4C7FEBC3B9E7BAA43DCE169@MWHPR05MB3055.namprd05.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: H0pw+FpcBcnXaworL89V3Ec0dKdHO2v7Zgx1CsYoKFSk5yskLt+td6kUHG4Kidug2/cNANgc5pJ6o3wfD4HqToaJVIMZiud3vXAhfB1hfpNWVoRSK+EkGXNh6klyn9oOTKkcd1JPO9pHycnvnCKjm2dlvsoP6uj//dwq2pHDBlkksJsakhzhbnHwwcbvsdp8AtN3QJEuNfnmtezlNeJ9GQxNCMJR2ey+Az6Dq5yxxybGqO7Wc2Wg/KCxEqX79V94X4yI9UXat52WiUgnzGG+AkJRgEwaJzrtdWi3HXRIM9XzygjHaPrzLbfrtEYiYXE7b1OINWgG7CF3hrpqWJj7/naiNKOB9kNJ9pSqFO6xD5CQvMTKD74eV0O0OLg4Qm19tKQ4m934bUlxOCT517V1Y9nAF0gtl1xoA+mZtu8+NhaJFPw+dOwcxeDIs/xtT7qpWlfNUlIQCyr9aB3CjXfl8Q9b/mCeefuGQ8gNsh/yuplk3IgxN2p63svvB9T8p/U452TyafZes2/OUljEJB9NIIHwrxceaVUgTvTk6aF5jEnSQ/aZrvs0ao3M6xieVUGpO7lUZRFY92pM3NswZ2OUUoXJOTbp8q1qQtmBs+fK16KVUKwkEkysDRdR445MyeXfX/Z2jdOvt7WnnF1XhJy+23eFzPjm6yHSd6Z54MBJbPJAlqYgIVsWYuk55F2c3scbcRtY4Lai5pk047/cP1C84MMCcgjky/593Ykx37Fh7PO/insr+7TIJIOjg8afdOIk
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(6506007)(2906002)(76116006)(66946007)(71200400001)(66476007)(66446008)(64756008)(4326008)(66556008)(8676002)(122000001)(6486002)(38070700005)(508600001)(26005)(8936002)(5660300002)(86362001)(38100700002)(107886003)(316002)(186003)(36756003)(6512007)(2616005)(110136005)(54906003)(66574015);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NUhMK1k4MGc2TTg4STNadlJiU01jZFBSc1RkQ0Y0U3p0QkpDNk9OeGYzcmZx?=
+ =?utf-8?B?aWZkeGRKU2toSm4vR0dVU0Q0T3I4YVZrQnNET2RYcnluSGxGQzdFZlU4ZXVX?=
+ =?utf-8?B?QUJ2Rll4eDZpRHd0WSs4bnljS2ZkY1YwdnY2M1ZQamJFdk40YmNYbEk3dTQ4?=
+ =?utf-8?B?RUlEVERiSk9TNFhLTERxczk2T0ZxOElwdDNQSnBlT01LSW1aQTZYSlBKZmVE?=
+ =?utf-8?B?TjAzb1I0bFhzeWtNeEhaTmNHczFXak1QbzNiR2R3cDNNRS9UTEVBQnd5OXZ1?=
+ =?utf-8?B?VFJkTXRmd3lNOEJaeFh1QVEvUnZtYTV2b3NYSFA3WDBLcjNvd1Y3aWlNczJD?=
+ =?utf-8?B?enNMSXQ1UFI4bVVMQ3k2Q3FsZi83V0FqbGRpT2p5K2VXdDg5YTl4dnAwdk1k?=
+ =?utf-8?B?UWtlM0tEWDgxMUtqcThRNk5lUlRaRzNOdjRFbGJmZy9pVk0zK0lKa2JTWDZa?=
+ =?utf-8?B?cFFadmVLVTE5cDVsbDBScUFtQytLU082VXZDZWhjT2VESEpkV0JsaVIwaUx4?=
+ =?utf-8?B?YVpUeWdleEgyTzRmNzhGcWVVQVJmd1RKRjB3K3VEUFlCS1F5V2loWEpqVDYr?=
+ =?utf-8?B?QisxZ2toUGxVcnNWWVc1ZDNrZzlsR3l3Wit6WUNkb1U1cGVOams0NUJIVHdj?=
+ =?utf-8?B?UzJ6SmZucTZPTGVqVzY2VDhqakcydDZodUdjV2tOU2F2YWFUenA4SXlVQk9z?=
+ =?utf-8?B?WXcvdFFjVDV6VXQ4dTRpYlY0enB4SXNkTFdERHhPTS83dzFxcWhGOW5RMmZJ?=
+ =?utf-8?B?QVJacFJudzhncUhUL3o1eURsVjRiQU0wa0wzVnp0ZFdMMEZLSStlWGVxZXp0?=
+ =?utf-8?B?K0I0bzVDMDdPTWNxVEw5UjEwK2g1ZGJ2TmdPTktXQWRZeVNoR3BMeVFHbk1I?=
+ =?utf-8?B?TWlicWovRmxob3hIMFJvSmZTL1Jkc1RZN0xVK2V3L2JJNUdnR01kU3dEblcy?=
+ =?utf-8?B?ZWJBT1NRa1VZbjJHNUloVTY1ekxKeEVmNmx0YzhPUE0vNTlPZXhObEd3OTk1?=
+ =?utf-8?B?VGZON0x3R0h3dmhPSy9rRCtBcEFuZ1NaU24vZ1R2MDIySGtjSUs4YjJId3F4?=
+ =?utf-8?B?YnNpR21GN1BDWFlIUFF0SER5cFNQcnQra29hUUhZdHlBdGx2bmpESlBvc1Z6?=
+ =?utf-8?B?Zm1LOHBWY3hVN3g3UWhvZHFRL2FvQWpWTW14bW5ycEROamg4VXhoY1hnbkNM?=
+ =?utf-8?B?N1BLNzFxWDRUYmJ3ZXBYRDUxbkQ4VkdXSHdBQ3RGTkFnZHdIQmdtN1dDQ0Nn?=
+ =?utf-8?B?QUIySWdZMHpub04zSjBjRklkN2YrNGxmZ0RzbG5KZHVIOTYxOVlEUktDNS9H?=
+ =?utf-8?B?UkQ3N0thV1kxczRqNnVZNzQxeE5RU0JNQVdiNnB6Nm1YcU45N1JCOW41Skw1?=
+ =?utf-8?B?cjQrR1ROUGREblV6UklEWXVzRk5JV3l2NC9FMWYzeWpBT05sL1E1NnpoU1ZN?=
+ =?utf-8?B?OFpyL1ZkTDVBdDh4VmhWQlhCQjZDNS9jam9jSmxpS3UzMFdMR01WK3hRWElx?=
+ =?utf-8?B?M2dwVVVmNy9ZcDJxamwyMWdQU0hXSWVaaitDRDNrYkxkaVcvYndQdjhnOGgr?=
+ =?utf-8?B?dUdRU2NPaERoNEc4Zm5TTE50T3VwU0cyWTVMSG9XSHFiS2V2ZWxGMXVRdnh3?=
+ =?utf-8?B?Wk94TVJ2b2d3N0lhNW9OSFc4aGMwQTJhbXFIZ3VTK1IreWZmWXowU3lML2Jt?=
+ =?utf-8?B?djc1V1RhaTVReGRwb0pvdStFWE5JNTVGQjRUTFZUYUY5bDI2UzlpSUxIcG9N?=
+ =?utf-8?B?ck5MNUtuR2s2ODlZbHU0OVZwQzB5MVBmYTd3WStnS3ZjVEVEVTVQK3dVUFlJ?=
+ =?utf-8?B?b3ZMOG84R3MzSVFOMFBMMWthYUFrRWFwZk9rVDNFeUNkKzR4RElpTE5FY2tZ?=
+ =?utf-8?B?SVJRQjl6dll0SkFJOHN2cnVKS3FMYXdoVkQwTHVicmlDeGhtMEFzRVlXcWNM?=
+ =?utf-8?Q?SC4YZIrPZwRuaLmllJcPUg8jk0Z7/FWW?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <581E1A65BD442D49B5000AD2E41CF710@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b973c2a2-00d0-41e1-ec7d-08da0b436e6a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 14:02:26.8312 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MHQ3LmTpyjfUg418RtnPCoQMN9DV42i7kI2feDJXLcsfuDVjH2iJ7I7sXNvei/eLPISh8Gj/2A+Jp+9uNRxVxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR05MB3055
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,312 +130,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is now handled by the DMA-buf framework in the dma_resv obj.
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 13 ++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  7 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    | 11 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   | 11 ++++--
- drivers/gpu/drm/ttm/ttm_bo.c                  | 10 ++----
- drivers/gpu/drm/ttm/ttm_bo_util.c             |  7 ----
- drivers/gpu/drm/ttm/ttm_bo_vm.c               | 34 +++++++------------
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |  6 ----
- include/drm/ttm/ttm_bo_api.h                  |  2 --
- 9 files changed, 40 insertions(+), 61 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index b461c3aab877..fe168b3cc3f2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -2406,6 +2406,8 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 		struct amdgpu_bo *bo = mem->bo;
- 		uint32_t domain = mem->domain;
- 		struct kfd_mem_attachment *attachment;
-+		struct dma_resv_iter cursor;
-+		struct dma_fence *fence;
- 
- 		total_size += amdgpu_bo_size(bo);
- 
-@@ -2420,10 +2422,13 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 				goto validate_map_fail;
- 			}
- 		}
--		ret = amdgpu_sync_fence(&sync_obj, bo->tbo.moving);
--		if (ret) {
--			pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
--			goto validate_map_fail;
-+		dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
-+					DMA_RESV_USAGE_KERNEL, fence) {
-+			ret = amdgpu_sync_fence(&sync_obj, fence);
-+			if (ret) {
-+				pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
-+				goto validate_map_fail;
-+			}
- 		}
- 		list_for_each_entry(attachment, &mem->attachments, list) {
- 			if (!attachment->is_mapped)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 1618b6847c69..887fa3f4284e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -609,9 +609,8 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
--		amdgpu_bo_fence(bo, fence, false);
--		dma_fence_put(bo->tbo.moving);
--		bo->tbo.moving = dma_fence_get(fence);
-+		dma_resv_add_fence(bo->tbo.base.resv, fence,
-+				   DMA_RESV_USAGE_KERNEL);
- 		dma_fence_put(fence);
- 	}
- 	if (!bp->resv)
-@@ -1307,7 +1306,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 
- 	r = amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, &fence);
- 	if (!WARN_ON(r)) {
--		amdgpu_bo_fence(abo, fence, false);
-+		dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
- 		dma_fence_put(fence);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-index e3fbf0f10add..31913ae86de6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-@@ -74,13 +74,12 @@ static int amdgpu_vm_cpu_update(struct amdgpu_vm_update_params *p,
- {
- 	unsigned int i;
- 	uint64_t value;
--	int r;
-+	long r;
- 
--	if (vmbo->bo.tbo.moving) {
--		r = dma_fence_wait(vmbo->bo.tbo.moving, true);
--		if (r)
--			return r;
--	}
-+	r = dma_resv_wait_timeout(vmbo->bo.tbo.base.resv, DMA_RESV_USAGE_KERNEL,
-+				  true, MAX_SCHEDULE_TIMEOUT);
-+	if (r < 0)
-+		return r;
- 
- 	pe += (unsigned long)amdgpu_bo_kptr(&vmbo->bo);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-index dbb551762805..bdb44cee19d3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-@@ -204,14 +204,19 @@ static int amdgpu_vm_sdma_update(struct amdgpu_vm_update_params *p,
- 	struct amdgpu_bo *bo = &vmbo->bo;
- 	enum amdgpu_ib_pool_type pool = p->immediate ? AMDGPU_IB_POOL_IMMEDIATE
- 		: AMDGPU_IB_POOL_DELAYED;
-+	struct dma_resv_iter cursor;
- 	unsigned int i, ndw, nptes;
-+	struct dma_fence *fence;
- 	uint64_t *pte;
- 	int r;
- 
- 	/* Wait for PD/PT moves to be completed */
--	r = amdgpu_sync_fence(&p->job->sync, bo->tbo.moving);
--	if (r)
--		return r;
-+	dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
-+				DMA_RESV_USAGE_KERNEL, fence) {
-+		r = amdgpu_sync_fence(&p->job->sync, fence);
-+		if (r)
-+			return r;
-+	}
- 
- 	do {
- 		ndw = p->num_dw_left;
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 8fea9f88d118..9bce692075da 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -468,7 +468,6 @@ static void ttm_bo_release(struct kref *kref)
- 	dma_resv_unlock(bo->base.resv);
- 
- 	atomic_dec(&ttm_glob.bo_count);
--	dma_fence_put(bo->moving);
- 	bo->destroy(bo);
- }
- 
-@@ -737,9 +736,8 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
- }
- 
- /*
-- * Add the last move fence to the BO and reserve a new shared slot. We only use
-- * a shared slot to avoid unecessary sync and rely on the subsequent bo move to
-- * either stall or use an exclusive fence respectively set bo->moving.
-+ * Add the last move fence to the BO as kernel dependency and reserve a new
-+ * fence slot.
-  */
- static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 				 struct ttm_resource_manager *man,
-@@ -769,9 +767,6 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 		dma_fence_put(fence);
- 		return ret;
- 	}
--
--	dma_fence_put(bo->moving);
--	bo->moving = fence;
- 	return 0;
- }
- 
-@@ -978,7 +973,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
- 	bo->bdev = bdev;
- 	bo->type = type;
- 	bo->page_alignment = page_alignment;
--	bo->moving = NULL;
- 	bo->pin_count = 0;
- 	bo->sg = sg;
- 	if (resv) {
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 98e1c804519e..a2e3a9626198 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -229,7 +229,6 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
- 	atomic_inc(&ttm_glob.bo_count);
- 	INIT_LIST_HEAD(&fbo->base.ddestroy);
- 	INIT_LIST_HEAD(&fbo->base.lru);
--	fbo->base.moving = NULL;
- 	drm_vma_node_reset(&fbo->base.base.vma_node);
- 
- 	kref_init(&fbo->base.kref);
-@@ -501,9 +500,6 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
- 	 * operation has completed.
- 	 */
- 
--	dma_fence_put(bo->moving);
--	bo->moving = dma_fence_get(fence);
--
- 	ret = ttm_buffer_object_transfer(bo, &ghost_obj);
- 	if (ret)
- 		return ret;
-@@ -547,9 +543,6 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
- 	spin_unlock(&from->move_lock);
- 
- 	ttm_resource_free(bo, &bo->resource);
--
--	dma_fence_put(bo->moving);
--	bo->moving = dma_fence_get(fence);
- }
- 
- int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 08ba083a80d2..5b324f245265 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -46,17 +46,13 @@
- static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
- 				struct vm_fault *vmf)
- {
--	vm_fault_t ret = 0;
--	int err = 0;
--
--	if (likely(!bo->moving))
--		goto out_unlock;
-+	long err = 0;
- 
- 	/*
- 	 * Quick non-stalling check for idle.
- 	 */
--	if (dma_fence_is_signaled(bo->moving))
--		goto out_clear;
-+	if (dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_KERNEL))
-+		return 0;
- 
- 	/*
- 	 * If possible, avoid waiting for GPU with mmap_lock
-@@ -64,34 +60,30 @@ static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
- 	 * is the first attempt.
- 	 */
- 	if (fault_flag_allow_retry_first(vmf->flags)) {
--		ret = VM_FAULT_RETRY;
- 		if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
--			goto out_unlock;
-+			return VM_FAULT_RETRY;
- 
- 		ttm_bo_get(bo);
- 		mmap_read_unlock(vmf->vma->vm_mm);
--		(void) dma_fence_wait(bo->moving, true);
-+		(void)dma_resv_wait_timeout(bo->base.resv,
-+					    DMA_RESV_USAGE_KERNEL, true,
-+					    MAX_SCHEDULE_TIMEOUT);
- 		dma_resv_unlock(bo->base.resv);
- 		ttm_bo_put(bo);
--		goto out_unlock;
-+		return VM_FAULT_RETRY;
- 	}
- 
- 	/*
- 	 * Ordinary wait.
- 	 */
--	err = dma_fence_wait(bo->moving, true);
--	if (unlikely(err != 0)) {
--		ret = (err != -ERESTARTSYS) ? VM_FAULT_SIGBUS :
-+	err = dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_KERNEL, true,
-+				    MAX_SCHEDULE_TIMEOUT);
-+	if (unlikely(err < 0)) {
-+		return (err != -ERESTARTSYS) ? VM_FAULT_SIGBUS :
- 			VM_FAULT_NOPAGE;
--		goto out_unlock;
- 	}
- 
--out_clear:
--	dma_fence_put(bo->moving);
--	bo->moving = NULL;
--
--out_unlock:
--	return ret;
-+	return 0;
- }
- 
- static unsigned long ttm_bo_io_mem_pfn(struct ttm_buffer_object *bo,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index f999fdd927df..c6d02c98a19a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -1163,12 +1163,6 @@ int vmw_resources_clean(struct vmw_buffer_object *vbo, pgoff_t start,
- 		*num_prefault = __KERNEL_DIV_ROUND_UP(last_cleaned - res_start,
- 						      PAGE_SIZE);
- 		vmw_bo_fence_single(bo, NULL);
--		if (bo->moving)
--			dma_fence_put(bo->moving);
--
--		return dma_resv_get_singleton(bo->base.resv,
--					      DMA_RESV_USAGE_KERNEL,
--					      &bo->moving);
- 	}
- 
- 	return 0;
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index c17b2df9178b..4c7134550262 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -97,7 +97,6 @@ struct ttm_tt;
-  * @lru: List head for the lru list.
-  * @ddestroy: List head for the delayed destroy list.
-  * @swap: List head for swap LRU list.
-- * @moving: Fence set when BO is moving
-  * @offset: The current GPU offset, which can have different meanings
-  * depending on the memory type. For SYSTEM type memory, it should be 0.
-  * @cur_placement: Hint of current placement.
-@@ -150,7 +149,6 @@ struct ttm_buffer_object {
- 	 * Members protected by a bo reservation.
- 	 */
- 
--	struct dma_fence *moving;
- 	unsigned priority;
- 	unsigned pin_count;
- 
--- 
-2.25.1
-
+T24gTW9uLCAyMDIyLTAzLTIxIGF0IDE0OjU4ICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
+Ogo+IOKaoCBFeHRlcm5hbCBFbWFpbDogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lk
+ZSBvZiB0aGUKPiBvcmdhbml6YXRpb24uIERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFj
+aG1lbnRzIHVubGVzcyB5b3UKPiByZWNvZ25pemUgdGhlIHNlbmRlci4KPiAKPiBJbnN0ZWFkIHVz
+ZSB0aGUgbmV3IGRtYV9yZXN2X2dldF9zaW5nbGV0b24gZnVuY3Rpb24uCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IFJldmll
+d2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBWTXdh
+cmUgR3JhcGhpY3MgPGxpbnV4LWdyYXBoaWNzLW1haW50YWluZXJAdm13YXJlLmNvbT4KPiBDYzog
+WmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS92
+bXdnZngvdm13Z2Z4X3Jlc291cmNlLmMgfCA2ICsrKystLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDQg
+aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL3Ztd2dmeC92bXdnZnhfcmVzb3VyY2UuYwo+IGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dm
+eC92bXdnZnhfcmVzb3VyY2UuYwo+IGluZGV4IDcwODg5OWJhMjEwMi4uMzZjM2I1ZGI3ZTY5IDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3Jlc291cmNlLmMKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9yZXNvdXJjZS5jCj4gQEAgLTExNjUs
+OCArMTE2NSwxMCBAQCBpbnQgdm13X3Jlc291cmNlc19jbGVhbihzdHJ1Y3QKPiB2bXdfYnVmZmVy
+X29iamVjdCAqdmJvLCBwZ29mZl90IHN0YXJ0LAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCB2bXdfYm9fZmVuY2Vfc2luZ2xlKGJvLCBOVUxMKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgaWYgKGJvLT5tb3ZpbmcpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfZmVuY2VfcHV0KGJvLT5tb3ZpbmcpOwo+IC3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvLT5tb3ZpbmcgPSBkbWFfZmVuY2VfZ2V0Cj4gLcKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChkbWFfcmVzdl9leGNsX2Zl
+bmNlKGJvLT5iYXNlLnJlc3YpKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+LyogVE9ETzogVGhpcyBpcyBhY3R1YWxseSBhIG1lbW9yeSBtYW5hZ2VtZW50Cj4gZGVwZW5kZW5j
+eSAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBkbWFfcmVzdl9nZXRf
+c2luZ2xldG9uKGJvLT5iYXNlLnJlc3YsIGZhbHNlLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgICZiby0+bW92aW5nKTsKPiDCoMKgwqDCoMKgwqDCoCB9Cj4gCj4gwqDCoMKgwqDC
+oMKgwqAgcmV0dXJuIDA7Cj4gLS0KPiAyLjI1LjEKPiAKClNvcnJ5LCBJIGhhdmVuJ3QgaGFkIHRo
+ZSB0aW1lIHRvIGdvIG92ZXIgdGhlIGVudGlyZSBzZXJpZXMsIHRoZSBwYXRjaApsb29rcyBnb29k
+LCBidXQgd2hhdCdzIHRoZSBtZW1vcnkgbWFuYWdlbWVudCBkZXBlbmRlbmN5IHRoZSB0b2RvCm1l
+bnRpb25zPwoKegoK
