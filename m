@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26884E3BAE
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 10:22:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A494E3BE1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 10:46:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E1710E539;
-	Tue, 22 Mar 2022 09:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0880810E10D;
+	Tue, 22 Mar 2022 09:46:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C309410E539
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:22:51 +0000 (UTC)
-X-UUID: af1805b3a6994fea83b64c6f6d3a4e2c-20220322
-X-UUID: af1805b3a6994fea83b64c6f6d3a4e2c-20220322
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 971921047; Tue, 22 Mar 2022 17:22:46 +0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E1A10E10D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:46:19 +0000 (UTC)
+X-UUID: 20733d8fb5c94d6ca60be620a84e7e0d-20220322
+X-UUID: 20733d8fb5c94d6ca60be620a84e7e0d-20220322
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 269974592; Tue, 22 Mar 2022 17:46:13 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 22 Mar 2022 17:22:45 +0800
+ 15.0.1497.2; Tue, 22 Mar 2022 17:46:11 +0800
 Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Mar 2022 17:22:41 +0800
-Message-ID: <4d022881d08ea1d4a222b3439510c6d6d26d7284.camel@mediatek.com>
-Subject: Re: [PATCH v3,2/4] drm/mediatek: Separate poweron/poweroff from
- enable/disable and define new funcs
+ Transport; Tue, 22 Mar 2022 17:46:11 +0800
+Message-ID: <be6c51b69651edf0d9c42c6e1894724ed391fa34.camel@mediatek.com>
+Subject: Re: [PATCH v3,3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
+ transfer
 From: xinlei.lee <xinlei.lee@mediatek.com>
 To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <matthias.bgg@gmail.com>
-Date: Tue, 22 Mar 2022 17:23:02 +0800
-In-Reply-To: <390025b57d3345c34071231c68350e9311af64c9.camel@mediatek.com>
+Date: Tue, 22 Mar 2022 17:46:31 +0800
+In-Reply-To: <8b331befede093265cd9fc0773000c1bf715a2c8.camel@mediatek.com>
 References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
- <1647503611-13144-3-git-send-email-xinlei.lee@mediatek.com>
- <390025b57d3345c34071231c68350e9311af64c9.camel@mediatek.com>
+ <1647503611-13144-4-git-send-email-xinlei.lee@mediatek.com>
+ <8b331befede093265cd9fc0773000c1bf715a2c8.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -60,174 +60,152 @@ Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-03-17 at 20:02 +0800, Rex-BC Chen wrote:
+On Thu, 2022-03-17 at 20:06 +0800, Rex-BC Chen wrote:
 > Hello Xinlei,
 > 
 > On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
 > > From: Jitao Shi <jitao.shi@mediatek.com>
 > > 
-> > In order to match the changes of "Use the drm_panel_bridge API",
-> > the poweron/poweroff of dsi is extracted from enable/disable and
-> > defined as new funcs (pre_enable/post_disable).
+> > To comply with the panel sequence, hold the mipi signal to LP00 
+> 
+> Could you provide a example panel power sequence to let me understand
+> that?
+> Maybe you can put them in commit message.
+> 
+> > before the dcs cmds transmission,
+> > and pull the mipi signal high from LP00 to LP11 until the start of
+> > the dcs cmds transmission.
+> 
+> Maybe you can try to write as:
+> To comply with...
+> - Hold the mipi signal...
+> - Pul the miip signal high....
+> 
+> > If dsi is not in cmd mode, then dsi will pull the mipi signal high
+> > in
+> > the mtk_output_dsi_enable function.
 > > 
 > > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
 > > drm_panel_bridge
 > > API")
 > > 
+> 
+> Can you remove this blank line?
+> 
 > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++++---------
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 31 +++++++++++++++++++++++---
 > > --
 > > --
-> >  1 file changed, 26 insertions(+), 19 deletions(-)
+> >  1 file changed, 24 insertions(+), 7 deletions(-)
 > > 
 > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
 > > b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index 262c027d8c2f..e33caaca11a7 100644
+> > index e33caaca11a7..b509d59235e2 100644
 > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -679,16 +679,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > @@ -203,6 +203,7 @@ struct mtk_dsi {
+> >  	struct mtk_phy_timing phy_timing;
+> >  	int refcount;
+> >  	bool enabled;
+> > +	bool lanes_ready;
+> >  	u32 irq_data;
+> >  	wait_queue_head_t irq_wait_queue;
+> >  	const struct mtk_dsi_driver_data *driver_data;
+> > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
 > > *dsi)
-> >  	if (--dsi->refcount != 0)
-> >  		return;
+> >  	mtk_dsi_config_vdo_timing(dsi);
+> >  	mtk_dsi_set_interrupt_enable(dsi);
 > >  
-> > -	/*
-> > -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> > -	 * mtk_dsi_stop() should be called after
-> > mtk_drm_crtc_atomic_disable(),
-> > -	 * which needs irq for vblank, and mtk_dsi_stop() will disable
-> > irq.
-> > -	 * mtk_dsi_start() needs to be called in
-> > mtk_output_dsi_enable(),
-> > -	 * after dsi is fully set.
-> > -	 */
-> > -	mtk_dsi_stop(dsi);
+> > -	mtk_dsi_rxtx_control(dsi);
+> > -	usleep_range(30, 100);
+> > -	mtk_dsi_reset_dphy(dsi);
+> > -	mtk_dsi_clk_ulp_mode_leave(dsi);
+> > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > -	mtk_dsi_clk_hs_mode(dsi, 0);
 > > -
-> > -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-> >  	mtk_dsi_reset_engine(dsi);
-> >  	mtk_dsi_lane0_ulp_mode_enter(dsi);
-> >  	mtk_dsi_clk_ulp_mode_enter(dsi);
-> > @@ -703,17 +693,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> >  	return 0;
+> >  err_disable_engine_clk:
+> >  	clk_disable_unprepare(dsi->engine_clk);
+> > @@ -689,6 +683,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi
 > > *dsi)
+> >  	clk_disable_unprepare(dsi->digital_clk);
+> >  
+> >  	phy_power_off(dsi->phy);
+> > +
+> > +	dsi->lanes_ready = false;
+> >  }
 > >  
 > >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
-> >  {
-> > -	int ret;
-> > -
+> > @@ -696,6 +692,16 @@ static void mtk_output_dsi_enable(struct
+> > mtk_dsi
+> > *dsi)
 > >  	if (dsi->enabled)
 > >  		return;
 > >  
-> > -	ret = mtk_dsi_poweron(dsi);
-> > -	if (ret < 0) {
-> > -		DRM_ERROR("failed to power on dsi\n");
-> > -		return;
-> > -	}
-> > -
+> > +	if (!dsi->lanes_ready) {
+> > +		dsi->lanes_ready = true;
+> > +		mtk_dsi_rxtx_control(dsi);
+> > +		usleep_range(30, 100);
+> > +		mtk_dsi_reset_dphy(dsi);
+> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +		mtk_dsi_clk_hs_mode(dsi, 0);
+> > +	}
+> > +
 > >  	mtk_dsi_set_mode(dsi);
 > >  	mtk_dsi_clk_hs_mode(dsi, 1);
 > >  
-> > @@ -727,7 +709,16 @@ static void mtk_output_dsi_disable(struct
-> > mtk_dsi *dsi)
-> >  	if (!dsi->enabled)
-> >  		return;
+> > @@ -995,6 +1001,17 @@ static ssize_t mtk_dsi_host_transfer(struct
+> > mipi_dsi_host *host,
+> >  	if (MTK_DSI_HOST_IS_READ(msg->type))
+> >  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
 > >  
-> > -	mtk_dsi_poweroff(dsi);
-> > +	/*
-> > +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> > +	if (!dsi->lanes_ready) {
+> > +		dsi->lanes_ready = true;
+> > +		mtk_dsi_rxtx_control(dsi);
+> > +		usleep_range(30, 100);
+> > +		mtk_dsi_reset_dphy(dsi);
+> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +		mtk_dsi_clk_hs_mode(dsi, 0);
 > 
-> Why they are asymmetric?
+> The drivers are the same with previous modification.
+> I think you can use a funtion for them?
 > 
-> > +	 * mtk_dsi_stop() should be called after
-> > mtk_drm_crtc_atomic_disable(),
-> > +	 * which needs irq for vblank, and mtk_dsi_stop() will disable
-> > irq.
-> > +	 * mtk_dsi_start() needs to be called in
-> > mtk_output_dsi_enable(),
-> > +	 * after dsi is fully set.
-> > +	 */
-> > +	mtk_dsi_stop(dsi);
-> > +
-> > +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-> >  
-> >  	dsi->enabled = false;
-> >  }
-> > @@ -765,10 +756,26 @@ static void mtk_dsi_bridge_enable(struct
-> > drm_bridge *bridge)
-> >  	mtk_output_dsi_enable(dsi);
-> >  }
-> >  
-> > +static void mtk_dsi_bridge_pre_enable(struct drm_bridge *bridge)
-> > +{
-> > +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> > +
-> > +	mtk_dsi_poweron(dsi);
+> > +		msleep(20);
 > 
-> Should you handle the error of mtk_dsi_poweron?
-> If you failed to mtk_dsi_bridge_pre_enable and do
-> mtk_dsi_bridge_enable,
-> what will happend?
-> 
-> > +}
-> > +
-> > +static void mtk_dsi_bridge_post_disable(struct drm_bridge *bridge)
-> > +{
-> > +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> > +
-> > +	mtk_dsi_poweroff(dsi);
-> 
-> If you failed to mtk_dsi_bridge_disable and you do
-> mtk_dsi_bridge_post_disable,
-> what will happend?
-> Do you need to handle this?
+> Why delay 20ms but not in mtk_output_dsi_enable?
 > 
 > BRs,
 > Rex
-> 
-> > +}
+> > +	}
 > > +
-> >  static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
-> >  	.attach = mtk_dsi_bridge_attach,
-> >  	.disable = mtk_dsi_bridge_disable,
-> >  	.enable = mtk_dsi_bridge_enable,
-> > +	.pre_enable = mtk_dsi_bridge_pre_enable,
-> > +	.post_disable = mtk_dsi_bridge_post_disable,
-> >  	.mode_set = mtk_dsi_bridge_mode_set,
-> >  };
-> >  
+> >  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> >  	if (ret)
+> >  		goto restore_dsi_mode;
 > 
 > 
 
-Hi Rex:
+Hi rex:
 
-Thanks for your review!
+Thanks for your review.
 
-1.Why they are asymmetric?
-=>My understanding mtk_dsi_stop() and mtk_dsi_start() is to make dsi
-switch from LP11 and HS mode.DSI has two working modes:
-If it is cmd mode, the data sent is sent by LP11, and dsi_start is just
-a signal. In this mode, dsi_stop is not required after sending cmd.
-If it is video mode, because the data needs to be sent in HS mode,
-dsi_start is required to make dsi enter HS mode from LP11. After
-suspend, drm will call dsi_disable, and call dsi_stop to make dsi
-return from HS mode to LP11 state.
-Therefore mtk_dsi_stop() and mtk_dsi_start() are asymmetric.
-For example, in the dsi_host_transfer function, only dsi_stop has no
-dsi_start operation.
+1.The normal panel timing is as follows (I will add to the commit
+message in the next version):
+(1) pp1800 DC pull up
+(2) avdd & avee AC pull high
+(3) lcm_reset pull high -> pull low -> pull high
+(4) Pull MIPI signal high (LP11) -> initial code -> send video data(HS
+mode)
+The power-off sequence is reversed.
 
 2.
-Because the return type of pre_enable & post_disable in common code is
-void type. If there is an error, it will be processed in
-poweron/poweroff, and the error message will be printed.
-Do you mean that pre_enable & post_disable needs to accept the
-poweron/poweroff error return value and then print the error log?
-
-3.
-If pre_enable fails, there is only a problem with the dsi module, and
-it does not affect the execution of other modules and enable funcs
-under drm. 
-Same goes for post_disable & disable.
-
-Best Regrds!
+The 20ms delay in dsi_host_transfer is because dsi needs to give
+dsi_rx(panel) a reaction time after pulling up the mipi signal.
+If you suggest encapsulating it as a function I will add a delay to
+mtk_output_dsi_enable in the next version as well.
+Best Regards!
 xinlei
 
