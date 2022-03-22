@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288994E4476
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 17:45:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A6D4E4482
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 17:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6353E10E199;
-	Tue, 22 Mar 2022 16:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06EAA10E053;
+	Tue, 22 Mar 2022 16:48:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7124A10E053;
- Tue, 22 Mar 2022 16:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647967498; x=1679503498;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=WavNp6eN4BSFt6+nfF1929oWbZIXrFZ+MpddtJfJlVE=;
- b=Vh0UGplOJ8wEUvnTgQvCGIIUloHKP8E2aQTr+UMDqwL2gF3JsBMO9lzi
- PNRdTO0CvV6TsRsPvjLl83qI2IhNgj+NPPhfMMrBwfccVMvQfxuPgH9VX
- 2lx8pHGPS6IZX4827dV/HpGyjYswqzbho/65/zlMuLNr6rB070fUKlKyS
- 18LVJpUDJJTYTtUE+8OciX0LdbA5buKUm58EM2wTkKhh96cUXtfDxf9VZ
- X9si1stnqibhDmHyiTMk4sspOcCmMlsWBRczMFSAyjXqJzGHz/v5dPjiC
- Lf41tWx1nvO175Q/9AJ4PuMVMh7qqgAk+HHIhqxiOrVgl4B9ZPT5vMPv9 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="255434027"
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="255434027"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 09:44:57 -0700
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="649060988"
-Received: from srobinso-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.230.39])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 09:44:55 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [RFC] drm/i915: Split out intel_vtd_active and run_as_guest to own
- header
-Date: Tue, 22 Mar 2022 16:44:46 +0000
-Message-Id: <20220322164446.2124983-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F1310E053
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 16:48:12 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id h1so22386210edj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AGjZE0nexYYIrgZGc1/sQ9ebvM2IDXrU/8dxpFIfC6Q=;
+ b=no3QyBMN97jJJhzD7cqUG00A6e2MB7KJHQvzy4ZBrorfKhZnY4KLpmH2ijl3hqJAEq
+ w38SA1GGvBFZG7tP/8djpuj0BUbYdHZD9uy+WcRz+GY1qJugW+aRKiIkcr9+/i+/yCpl
+ oDvJjvDBQlBi/23CI8I3sggW1bURzFDHhLeDItamtogT9SNEeMCBJHoKiJqhx70tbNX1
+ Ju5tti5nJ1ezrJNTsClfOUV4Il9mdQ1cxiJnaMVkNSqyhptqkuN9M3Rj6KebwW+655E+
+ EwOjKo25LrOTYBbCto5RaMfNuEZ99/RUyctw5hM2x3wHWiu5Zwfr1NE2y290i/E2Ow60
+ 0gfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AGjZE0nexYYIrgZGc1/sQ9ebvM2IDXrU/8dxpFIfC6Q=;
+ b=s+qE3m29VK8FGjDs+V3vQU1zEujPk2laRX8bjRC7uE3gSrJq7nXIRrpNm698OY8es3
+ 8pCElNfMXH4WlFHSL6vVALJucZ0jczH9L9CXt0MDH5+7McHNcacMbgFHPzh+gC+nEEH4
+ 6KbcnhgNmgPu9PRQT9aJ2mYpHURaCBMrVwMzqnk65droiAW6m7fZsA8szkeOXh5h9T5b
+ I0DHzrQpVXP9db77s1YsD3uCFtfNMgHKfB5vzmGhubBSk242q3cHTyMq1VjVE9XL6ZNu
+ q9VZg7R+0v3Z2GBJDLIja6nDxgvOxPUaPUyiUKQATzZ9mxabcTF8sstEvKTIkCPsm0Bo
+ gU9w==
+X-Gm-Message-State: AOAM531GwkY+SppiBr/4JhqeA0UpBnVQctkno0nXouavsnNFPf548uCv
+ OWdkUlerH5lwYj5EipRZ2ODFBrxwEnN7VUyS7dxCFw==
+X-Google-Smtp-Source: ABdhPJwZRYX6C1CGVh68tu7TSeAiEpJ8wx/fcfVLk5Q+CMQBUqipxTaYyzGYpgmBcf1ERpmMdJvRS+InEGnYxa4P70w=
+X-Received: by 2002:a50:fe81:0:b0:419:16a5:d265 with SMTP id
+ d1-20020a50fe81000000b0041916a5d265mr21254515edt.4.1647967691267; Tue, 22 Mar
+ 2022 09:48:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220322095223.GG8477@blackbody.suse.cz>
+In-Reply-To: <20220322095223.GG8477@blackbody.suse.cz>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 22 Mar 2022 09:47:59 -0700
+Message-ID: <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
+Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,442 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
+ "Subject: Re: \[RFC v3 5/8\] dmabuf: Add gpu cgroup charge transfer function
+ Reply-To: In-Reply-To:"
+ <CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Tue, Mar 22, 2022 at 2:52 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrote=
+:
+>
+> On Mon, Mar 21, 2022 at 04:54:26PM -0700, "T.J. Mercier"
+> <tjmercier@google.com> wrote:
+> > Since the charge is duplicated in two cgroups for a short period
+> > before it is uncharged from the source cgroup I guess the situation
+> > you're thinking about is a global (or common ancestor) limit?
+>
+> The common ancestor was on my mind (after the self-shortcut).
+>
+> > I can see how that would be a problem for transfers done this way and
+> > an alternative would be to swap the order of the charge operations:
+> > first uncharge, then try_charge. To be certain the uncharge is
+> > reversible if the try_charge fails, I think I'd need either a mutex
+> > used at all gpucg_*charge call sites or access to the gpucg_mutex,
+>
+> Yes, that'd provide safe conditions for such operations, although I'm
+> not sure these special types of memory can afford global lock on their
+> fast paths.
 
-...
+I have a benchmark I think is suitable, so let me try this change to
+the transfer implementation and see how it compares.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
----
-Typed up how I see it - bash away.
----
- drivers/gpu/drm/i915/display/intel_bw.c      |  3 +-
- drivers/gpu/drm/i915/display/intel_display.c |  9 ++++-
- drivers/gpu/drm/i915/display/intel_display.h |  2 ++
- drivers/gpu/drm/i915/display/intel_fbc.c     |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  3 +-
- drivers/gpu/drm/i915/gem/i915_gemfs.c        |  3 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c         |  5 +--
- drivers/gpu/drm/i915/gt/intel_gtt.c          | 12 +++++++
- drivers/gpu/drm/i915/gt/intel_gtt.h          |  2 ++
- drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
- drivers/gpu/drm/i915/i915_driver.c           |  3 +-
- drivers/gpu/drm/i915/i915_driver.h           |  4 +++
- drivers/gpu/drm/i915/i915_drv.h              | 37 --------------------
- drivers/gpu/drm/i915/i915_gpu_error.c        |  3 +-
- drivers/gpu/drm/i915/intel_device_info.c     |  4 ++-
- drivers/gpu/drm/i915/intel_pch.c             |  3 +-
- drivers/gpu/drm/i915/intel_vtd.h             | 27 ++++++++++++++
- 17 files changed, 76 insertions(+), 48 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/intel_vtd.h
-
-diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-index ac11ff19e47d..6c9cb4f97218 100644
---- a/drivers/gpu/drm/i915/display/intel_bw.c
-+++ b/drivers/gpu/drm/i915/display/intel_bw.c
-@@ -13,6 +13,7 @@
- #include "intel_mchbar_regs.h"
- #include "intel_pcode.h"
- #include "intel_pm.h"
-+#include "intel_vtd.h"
- 
- /* Parameters for Qclk Geyserville (QGV) */
- struct intel_qgv_point {
-@@ -649,7 +650,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
- 	for_each_pipe(dev_priv, pipe)
- 		data_rate += bw_state->data_rate[pipe];
- 
--	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
-+	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv->drm.dev))
- 		data_rate = DIV_ROUND_UP(data_rate * 105, 100);
- 
- 	return data_rate;
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index dc6e21e4ef0b..e80f3ca3ee4e 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -110,6 +110,7 @@
- #include "intel_quirks.h"
- #include "intel_sprite.h"
- #include "intel_tc.h"
-+#include "intel_vtd.h"
- #include "intel_vga.h"
- #include "i9xx_plane.h"
- #include "skl_scaler.h"
-@@ -1197,7 +1198,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
- {
- 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
- 
--	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
-+	return crtc_state->uapi.async_flip && intel_vtd_active(i915->drm.dev) &&
- 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
- }
- 
-@@ -10699,3 +10700,9 @@ void intel_display_driver_unregister(struct drm_i915_private *i915)
- 	acpi_video_unregister();
- 	intel_opregion_unregister(i915);
- }
-+
-+bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
-+{
-+	return DISPLAY_VER(dev_priv) >= 6 &&
-+	       intel_vtd_active(dev_priv->drm.dev);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
-index 8513703086b7..d69587c76e71 100644
---- a/drivers/gpu/drm/i915/display/intel_display.h
-+++ b/drivers/gpu/drm/i915/display/intel_display.h
-@@ -694,4 +694,6 @@ void assert_transcoder(struct drm_i915_private *dev_priv,
- #define I915_STATE_WARN_ON(x)						\
- 	I915_STATE_WARN((x), "%s", "WARN_ON(" __stringify(x) ")")
- 
-+bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv);
-+
- #endif
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 142280b6ce6d..00a3e30587a5 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -50,6 +50,7 @@
- #include "intel_display_types.h"
- #include "intel_fbc.h"
- #include "intel_frontbuffer.h"
-+#include "intel_vtd.h"
- 
- #define for_each_fbc_id(__dev_priv, __fbc_id) \
- 	for ((__fbc_id) = INTEL_FBC_A; (__fbc_id) < I915_MAX_FBCS; (__fbc_id)++) \
-@@ -1643,7 +1644,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *i915)
- static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
- {
- 	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
--	if (intel_vtd_active(i915) &&
-+	if (intel_vtd_active(i915->drm.dev) &&
- 	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
- 		drm_info(&i915->drm,
- 			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index 143f61aaa867..9b986b1b0b60 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -19,6 +19,7 @@
- #include "i915_reg.h"
- #include "i915_vgpu.h"
- #include "intel_mchbar_regs.h"
-+#include "intel_vtd.h"
- 
- /*
-  * The BIOS typically reserves some of the system's memory for the exclusive
-@@ -403,7 +404,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 		return 0;
- 	}
- 
--	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
-+	if (intel_vtd_active(i915->drm.dev) && GRAPHICS_VER(i915) < 8) {
- 		drm_notice(&i915->drm,
- 			   "%s, disabling use of stolen memory\n",
- 			   "DMAR active");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-index 7271fbf813fa..271826642bd4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-@@ -9,6 +9,7 @@
- 
- #include "i915_drv.h"
- #include "i915_gemfs.h"
-+#include "intel_vtd.h"
- 
- int i915_gemfs_init(struct drm_i915_private *i915)
- {
-@@ -32,7 +33,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
- 	 */
- 
- 	opts = NULL;
--	if (intel_vtd_active(i915)) {
-+	if (intel_vtd_active(i915->drm.dev)) {
- 		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
- 			opts = huge_opt;
- 			drm_info(&i915->drm,
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 04191fe2ee34..386181cec300 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -21,6 +21,7 @@
- #include "i915_vgpu.h"
- 
- #include "intel_gtt.h"
-+#include "intel_vtd.h"
- #include "gen8_ppgtt.h"
- 
- static void i915_ggtt_color_adjust(const struct drm_mm_node *node,
-@@ -104,7 +105,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
- 	 * Query intel_iommu to see if we need the workaround. Presumably that
- 	 * was loaded first.
- 	 */
--	if (!intel_vtd_active(i915))
-+	if (!intel_vtd_active(i915->drm.dev))
- 		return false;
- 
- 	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
-@@ -1258,7 +1259,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
- 	if (ret)
- 		return ret;
- 
--	if (intel_vtd_active(i915))
-+	if (intel_vtd_active(i915->drm.dev))
- 		drm_info(&i915->drm, "VT-d active for gfx access\n");
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index aed6de2d5a79..ee17e987cddc 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -16,6 +16,18 @@
- #include "intel_gt.h"
- #include "intel_gt_regs.h"
- #include "intel_gtt.h"
-+#include "intel_vtd.h"
-+
-+
-+static bool intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
-+{
-+	return IS_BROXTON(i915) && intel_vtd_active(i915->drm.dev);
-+}
-+
-+bool intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915)
-+{
-+	return IS_CHERRYVIEW(i915) || intel_ggtt_update_needs_vtd_wa(i915);
-+}
- 
- struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz)
- {
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 4529b5e9f6e6..5922e2cf4d8d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -382,6 +382,8 @@ struct i915_ppgtt {
- #define i915_is_dpt(vm) ((vm)->is_dpt)
- #define i915_is_ggtt_or_dpt(vm) (i915_is_ggtt(vm) || i915_is_dpt(vm))
- 
-+bool intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915);
-+
- int __must_check
- i915_vm_lock_objects(struct i915_address_space *vm, struct i915_gem_ww_ctx *ww);
- 
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 2cbd1f58e754..cda71457d630 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -48,6 +48,7 @@
- 
- #include "i915_debugfs.h"
- #include "i915_debugfs_params.h"
-+#include "i915_driver.h"
- #include "i915_irq.h"
- #include "i915_scheduler.h"
- #include "intel_mchbar_regs.h"
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 64e6f76861f9..f03a63b57f05 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -96,6 +96,7 @@
- #include "intel_pcode.h"
- #include "intel_pm.h"
- #include "intel_region_ttm.h"
-+#include "intel_vtd.h"
- #include "vlv_suspend.h"
- 
- static const struct drm_driver i915_drm_driver;
-@@ -744,7 +745,7 @@ void
- i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
- {
- 	drm_printf(p, "iommu: %s\n",
--		   str_enabled_disabled(intel_vtd_active(i915)));
-+		   str_enabled_disabled(intel_vtd_active(i915->drm.dev)));
- }
- 
- static void i915_welcome_messages(struct drm_i915_private *dev_priv)
-diff --git a/drivers/gpu/drm/i915/i915_driver.h b/drivers/gpu/drm/i915/i915_driver.h
-index 9d11de65daaf..44ec543d92cb 100644
---- a/drivers/gpu/drm/i915/i915_driver.h
-+++ b/drivers/gpu/drm/i915/i915_driver.h
-@@ -11,6 +11,7 @@
- struct pci_dev;
- struct pci_device_id;
- struct drm_i915_private;
-+struct drm_printer;
- 
- #define DRIVER_NAME		"i915"
- #define DRIVER_DESC		"Intel Graphics"
-@@ -26,4 +27,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915);
- int i915_driver_resume_switcheroo(struct drm_i915_private *i915);
- int i915_driver_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state);
- 
-+void
-+i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
-+
- #endif /* __I915_DRIVER_H__ */
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 217c09422711..799f386a7ef2 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -32,9 +32,6 @@
- 
- #include <uapi/drm/i915_drm.h>
- 
--#include <asm/hypervisor.h>
--
--#include <linux/intel-iommu.h>
- #include <linux/pm_qos.h>
- 
- #include <drm/drm_connector.h>
-@@ -1387,43 +1384,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define HAS_PERCTX_PREEMPT_CTRL(i915) \
- 	((GRAPHICS_VER(i915) >= 9) &&  GRAPHICS_VER_FULL(i915) < IP_VER(12, 55))
- 
--static inline bool run_as_guest(void)
--{
--	return !hypervisor_is_type(X86_HYPER_NATIVE);
--}
--
- #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
- 					      IS_ALDERLAKE_S(dev_priv))
- 
--static inline bool intel_vtd_active(struct drm_i915_private *i915)
--{
--	if (device_iommu_mapped(i915->drm.dev))
--		return true;
--
--	/* Running as a guest, we assume the host is enforcing VT'd */
--	return run_as_guest();
--}
--
--void
--i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
--
--static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
--{
--	return DISPLAY_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
--}
--
--static inline bool
--intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
--{
--	return IS_BROXTON(i915) && intel_vtd_active(i915);
--}
--
--static inline bool
--intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915)
--{
--	return IS_CHERRYVIEW(i915) || intel_ggtt_update_needs_vtd_wa(i915);
--}
--
- /* i915_gem.c */
- void i915_gem_init_early(struct drm_i915_private *dev_priv);
- void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index a8acc6fbb299..a221b19e588c 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -48,6 +48,7 @@
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_pm.h"
- #include "gt/intel_gt_regs.h"
-+#include "intel_vtd.h"
- 
- #include "i915_driver.h"
- #include "i915_drv.h"
-@@ -1814,7 +1815,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
- 	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
- 	error->suspended = i915->runtime_pm.suspended;
- 
--	error->iommu = intel_vtd_active(i915);
-+	error->iommu = intel_vtd_active(i915->drm.dev);
- 	error->reset_count = i915_reset_count(&i915->gpu_error);
- 	error->suspend_count = i915->suspend_count;
- 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 8d458226f478..21423e6eacb3 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -30,6 +30,7 @@
- #include "display/intel_cdclk.h"
- #include "display/intel_de.h"
- #include "intel_device_info.h"
-+#include "intel_vtd.h"
- #include "i915_drv.h"
- 
- #define PLATFORM_NAME(x) [INTEL_##x] = #x
-@@ -389,7 +390,8 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 			info->display.has_dsc = 0;
- 	}
- 
--	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
-+	if (GRAPHICS_VER(dev_priv) == 6 &&
-+	    intel_vtd_active(dev_priv->drm.dev)) {
- 		drm_info(&dev_priv->drm,
- 			 "Disabling ppGTT for VT-d support\n");
- 		info->ppgtt_type = INTEL_PPGTT_NONE;
-diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
-index 4cce044efde2..c232343d5ba7 100644
---- a/drivers/gpu/drm/i915/intel_pch.c
-+++ b/drivers/gpu/drm/i915/intel_pch.c
-@@ -5,6 +5,7 @@
- 
- #include "i915_drv.h"
- #include "intel_pch.h"
-+#include "intel_vtd.h"
- 
- /* Map PCH device id to PCH type, or PCH_NONE if unknown. */
- static enum intel_pch
-@@ -256,7 +257,7 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
- 		dev_priv->pch_type = PCH_NOP;
- 		dev_priv->pch_id = 0;
- 	} else if (!pch) {
--		if (run_as_guest() && HAS_DISPLAY(dev_priv)) {
-+		if (intel_vtd_run_as_guest() && HAS_DISPLAY(dev_priv)) {
- 			intel_virt_detect_pch(dev_priv, &id, &pch_type);
- 			dev_priv->pch_type = pch_type;
- 			dev_priv->pch_id = id;
-diff --git a/drivers/gpu/drm/i915/intel_vtd.h b/drivers/gpu/drm/i915/intel_vtd.h
-new file mode 100644
-index 000000000000..1aa5d813f002
---- /dev/null
-+++ b/drivers/gpu/drm/i915/intel_vtd.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#ifndef __INTEL_VTD_H__
-+#define __INTEL_VTD_H__
-+
-+#include <linux/device.h>
-+#include <linux/types.h>
-+#include <asm/hypervisor.h>
-+
-+static inline bool intel_vtd_run_as_guest(void)
-+{
-+	return !hypervisor_is_type(X86_HYPER_NATIVE);
-+}
-+
-+static inline bool intel_vtd_active(struct device *dev)
-+{
-+	if (device_iommu_mapped(dev))
-+		return true;
-+
-+	/* Running as a guest, we assume the host is enforcing VT'd */
-+	return intel_vtd_run_as_guest();
-+}
-+
-+#endif /* __INTEL_VTD_H__ */
--- 
-2.32.0
-
+>
+> > which implies adding transfer support to gpu.c as part of the gpucg_*
+> > API itself and calling it here. Am I following correctly here?
+>
+> My idea was to provide a special API (apart from
+> gpucp_{try_charge,uncharge}) to facilitate transfers...
+>
+> > This series doesn't actually add limit support just accounting, but
+> > I'd like to get it right here.
+>
+> ...which could be implemented (or changed) depending on how the charging
+> is realized internally.
+>
+>
+> Michal
