@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2476F4E4282
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 16:07:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 551BF4E433E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 16:42:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3133110E1F4;
-	Tue, 22 Mar 2022 15:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBC110E02B;
+	Tue, 22 Mar 2022 15:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E34210E11C;
- Tue, 22 Mar 2022 15:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647961660; x=1679497660;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FJ++z7CYfz9w9tA0NKvyIarybvHktPXyxwMlyGLAKjk=;
- b=aY1r49ba5NnQEnXllOdlWezdHAn6UBVdgur6QAwMAofLEiVuSJQx/AFa
- Or5x0X84nHEDSkzduDtr5+YB9b2uM5LxUBIo9vXSP8IcGPtueAYKkNVLj
- dl5bPdrCY4XFJ/Y15lxSQaRSdD+gtp5AyeQ8fmlb6XLI5O7o1BqXXM4gZ
- zg6083wJ90Ls/tdJf1Lr2Eh7kLZaX/YGe8Al5pNoUSSnOaSw4VeeFdFXI
- nm0CdwvojMUF7GCF3q82GW4kCwIFhGA3pFPgS5XevS7nwgYhAU8D14z7m
- it+iRPl/cbV3ZpGyFkfVsXG4Ng9kCEtkFYp9sTAnhQ1mPUkTtH98AdwI+ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="282679118"
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="282679118"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 08:07:23 -0700
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="500601704"
-Received: from sorenthe-mobl2.ger.corp.intel.com (HELO [10.249.254.95])
- ([10.249.254.95])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 08:07:20 -0700
-Message-ID: <c1fc3b99-5b06-15f4-5a52-5bb38532f8cd@linux.intel.com>
-Date: Tue, 22 Mar 2022 16:07:17 +0100
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF07D10E02B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 15:42:08 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id h1so22142321edj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 08:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nlDmFglz7whj/r0GBRKFJ24ATNTxPzzUgtpMW7485f4=;
+ b=CND1Tv8y6h1wN3nXUQIKzu8LJkbk/862t1GsMuYd+VkdxovrTkb3al98dhDbupbe12
+ QXuRoX6v14abx56NU7QF+9NGYzOFXPjIFilEb5iGh5vpslTno0fzKgvJfg5koKbmHz5d
+ vYj7LoRwC6XkP+3DLboyZVHpk8OUGbhumdqo9fqMS2jco8PbB4d+WrP5GBaK+jgACVjc
+ H3mKuCT2WW6HfHHoK5gzbP10+klCOPRsnAr11BVA7ZEnncpigY41CsoHDPS8S3Dlr0Ns
+ iZHZ/WcuewTT+kVQ6KA2kKz4zO/JxPoHq3uYjMYs2gCqp960E+gWubc8R1ajqLYXIZYY
+ OQZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nlDmFglz7whj/r0GBRKFJ24ATNTxPzzUgtpMW7485f4=;
+ b=yNY0DegojfN2yA9qZFEKSC4o2BcBH40eeXDsInp/dgIySUTVc6KMcyrnlD06rmU2MZ
+ 6FN++m+yYlrkmqewaSZpbqURWvYN0Jj9NJPAB4l0arA3nCQIMWFywlsWNIL0whVXLwTY
+ WjSVGVOB3x+pKKYNw3uJxzi/yWWNdvgnVK9PXhstHskmAijFYGGyZHd970OR+JtoJx4z
+ 3jAtNj0/8SUZ1mWDT3hCaQSCbZRYbV8iN2uz1pqoBB2lr5wvDilxBFlamhoDBqV7OAUB
+ r3jVr8RmyUCfUn9HLP4gh7Ss1Bun5zBzDe7kpJW/LQS9KmAlEscn28rnbYulmjJXpVno
+ vDjA==
+X-Gm-Message-State: AOAM5305b0ZaW0kOAeLcjYfXeTKE/Prvovd9iY/14mgfBbK0eATuan9d
+ gO6jntmZTz5HxMQ/efGrL8mtXfe8qJFvLt/RxjdFtw==
+X-Google-Smtp-Source: ABdhPJyfaNCeAne2eFe8CfwRN/f/oVNmY2Y/pOhZZsuRaOYGVMOQUibxtTc32t6sxxUnC/B69PTQ0uqLWnTvQDvhzLc=
+X-Received: by 2002:a05:6402:1e96:b0:418:ff57:ada2 with SMTP id
+ f22-20020a0564021e9600b00418ff57ada2mr27039663edf.197.1647963727136; Tue, 22
+ Mar 2022 08:42:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220319194227.297639-1-michael.cheng@intel.com>
- <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
- <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
- <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
- <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
- <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
- <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
- <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
- <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
- <31310790-4bc5-b9a7-8d35-c0f542b4d658@linux.intel.com>
- <5931be1a37dbb9ccdce127f6173d42fa4dbee593.camel@linux.intel.com>
- <953a9d2b-1004-ab01-b914-4fa6b191add0@linux.intel.com>
- <badf14e83199a1e87b85dd4fefc7c229d3e806bd.camel@linux.intel.com>
- <fda351f2-b68e-4a75-a96a-6ad1e701a1f5@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <fda351f2-b68e-4a75-a96a-6ad1e701a1f5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-2-tjmercier@google.com>
+ <20220321173726.GA9640@blackbody.suse.cz>
+In-Reply-To: <20220321173726.GA9640@blackbody.suse.cz>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 22 Mar 2022 08:41:55 -0700
+Message-ID: <CABdmKX10jqubJr49JENaHpFnqHV88+Fb7iNZNH4T1Cy7n9y=ag@mail.gmail.com>
+Subject: Re: [RFC v3 1/8] gpu: rfc: Proposal for a GPU cgroup controller
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,341 +66,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
- lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 21, 2022 at 10:37 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrot=
+e:
+>
+> Hello.
+>
+> On Wed, Mar 09, 2022 at 04:52:11PM +0000, "T.J. Mercier" <tjmercier@googl=
+e.com> wrote:
+> > +The new cgroup controller would:
+> > +
+> > +* Allow setting per-cgroup limits on the total size of buffers charged=
+ to it.
+>
+> What is the meaning of the total? (I only have very na=C3=AFve
+> understanding of the device buffers.)
 
-On 3/22/22 13:53, Tvrtko Ursulin wrote:
->
-> On 22/03/2022 11:37, Thomas Hellström wrote:
->> On Tue, 2022-03-22 at 11:20 +0000, Tvrtko Ursulin wrote:
->>>
->>> On 22/03/2022 10:26, Thomas Hellström wrote:
->>>> On Tue, 2022-03-22 at 10:13 +0000, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 21/03/2022 15:15, Thomas Hellström wrote:
->>>>>> On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
->>>>>>>
->>>>>>> On 21/03/2022 13:40, Thomas Hellström wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
->>>>>>>>>
->>>>>>>>> On 21/03/2022 12:33, Thomas Hellström wrote:
->>>>>>>>>> On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin
->>>>>>>>>> wrote:
->>>>>>>>>>>
->>>>>>>>>>> On 21/03/2022 11:03, Thomas Hellström wrote:
->>>>>>>>>>>> Hi, Tvrtko.
->>>>>>>>>>>>
->>>>>>>>>>>> On 3/21/22 11:27, Tvrtko Ursulin wrote:
->>>>>>>>>>>>>
->>>>>>>>>>>>> On 19/03/2022 19:42, Michael Cheng wrote:
->>>>>>>>>>>>>> To align with the discussion in [1][2], this
->>>>>>>>>>>>>> patch
->>>>>>>>>>>>>> series
->>>>>>>>>>>>>> drops
->>>>>>>>>>>>>> all
->>>>>>>>>>>>>> usage of
->>>>>>>>>>>>>> wbvind_on_all_cpus within i915 by either
->>>>>>>>>>>>>> replacing
->>>>>>>>>>>>>> the
->>>>>>>>>>>>>> call
->>>>>>>>>>>>>> with certain
->>>>>>>>>>>>>> drm clflush helpers, or reverting to a previous
->>>>>>>>>>>>>> logic.
->>>>>>>>>>>>>
->>>>>>>>>>>>> AFAIU, complaint from [1] was that it is wrong to
->>>>>>>>>>>>> provide
->>>>>>>>>>>>> non
->>>>>>>>>>>>> x86
->>>>>>>>>>>>> implementations under the wbinvd_on_all_cpus
->>>>>>>>>>>>> name.
->>>>>>>>>>>>> Instead an
->>>>>>>>>>>>> arch
->>>>>>>>>>>>> agnostic helper which achieves the same effect
->>>>>>>>>>>>> could
->>>>>>>>>>>>> be
->>>>>>>>>>>>> created.
->>>>>>>>>>>>> Does
->>>>>>>>>>>>> Arm have such concept?
->>>>>>>>>>>>
->>>>>>>>>>>> I also understand Linus' email like we shouldn't
->>>>>>>>>>>> leak
->>>>>>>>>>>> incoherent
->>>>>>>>>>>> IO
->>>>>>>>>>>> to
->>>>>>>>>>>> other architectures, meaning any remaining
->>>>>>>>>>>> wbinvd()s
->>>>>>>>>>>> should
->>>>>>>>>>>> be
->>>>>>>>>>>> X86
->>>>>>>>>>>> only.
->>>>>>>>>>>
->>>>>>>>>>> The last part is completely obvious since it is a x86
->>>>>>>>>>> instruction
->>>>>>>>>>> name.
->>>>>>>>>>
->>>>>>>>>> Yeah, I meant the function implementing wbinvd()
->>>>>>>>>> semantics.
->>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> But I think we can't pick a solution until we know
->>>>>>>>>>> how
->>>>>>>>>>> the
->>>>>>>>>>> concept
->>>>>>>>>>> maps
->>>>>>>>>>> to Arm and that will also include seeing how the
->>>>>>>>>>> drm_clflush_sg for
->>>>>>>>>>> Arm
->>>>>>>>>>> would look. Is there a range based solution, or just
->>>>>>>>>>> a
->>>>>>>>>>> big
->>>>>>>>>>> hammer
->>>>>>>>>>> there.
->>>>>>>>>>> If the latter, then it is no good to churn all these
->>>>>>>>>>> reverts
->>>>>>>>>>> but
->>>>>>>>>>> instead
->>>>>>>>>>> an arch agnostic wrapper, with a generic name, would
->>>>>>>>>>> be
->>>>>>>>>>> the
->>>>>>>>>>> way to
->>>>>>>>>>> go.
->>>>>>>>>>
->>>>>>>>>> But my impression was that ARM would not need the
->>>>>>>>>> range-
->>>>>>>>>> based
->>>>>>>>>> interface
->>>>>>>>>> either, because ARM is only for discrete and with
->>>>>>>>>> discrete
->>>>>>>>>> we're
->>>>>>>>>> always
->>>>>>>>>> coherent.
->>>>>>>>>
->>>>>>>>> Not sure what you mean here - what about flushing system
->>>>>>>>> memory
->>>>>>>>> objects
->>>>>>>>> on discrete? Those still need flushing on paths like
->>>>>>>>> suspend
->>>>>>>>> which this
->>>>>>>>> series touches. Am I missing something?
->>>>>>>>
->>>>>>>> System bos on discrete should always have
->>>>>>>>
->>>>>>>> I915_BO_CACHE_COHERENT_FOR_READ |
->>>>>>>> I915_BO_CACHE_COHERENT_FOR_WRITE
->>>>>>>>
->>>>>>>> either by the gpu being fully cache coherent (or us mapping
->>>>>>>> system
->>>>>>>> write-combined). Hence no need for cache clflushes or
->>>>>>>> wbinvd()
->>>>>>>> for
->>>>>>>> incoherent IO.
->>>>>>>
->>>>>>> Hmm so you are talking about the shmem ttm backend. It ends
->>>>>>> up
->>>>>>> depending on the result of i915_ttm_cache_level, yes? It
->>>>>>> cannot
->>>>>>> end
->>>>>>> up with I915_CACHE_NONE from that function?
->>>>>>
->>>>>> If the object is allocated with allowable placement in either
->>>>>> LMEM
->>>>>> or
->>>>>> SYSTEM, and it ends in system, it gets allocated with
->>>>>> I915_CACHE_NONE,
->>>>>> but then the shmem ttm backend isn't used but TTM's wc pools,
->>>>>> and
->>>>>> the
->>>>>> object should *always* be mapped wc. Even in system.
->>>>>
->>>>> I am not familiar with neither TTM backend or wc pools so maybe a
->>>>> missed
->>>>> question - if obj->cache_level can be set to none, and
->>>>> obj->cache_coherency to zero, then during object lifetime helpers
->>>>> which
->>>>> consult those fields (like i915_gem_cpu_write_needs_clflush,
->>>>> __start_cpu_write, etc) are giving out incorrect answers? That
->>>>> is, it
->>>>> is
->>>>> irrelevant that they would say flushes are required, since in
->>>>> actuality
->>>>> those objects can never ever and from anywhere be mapped other
->>>>> than
->>>>> WC
->>>>> so flushes aren't actually required?
->>>>
->>>> If we map other than WC somewhere in these situations, that should
->>>> be a
->>>> bug needing a fix. It might be that some of these helpers that you
->>>> mention might still flag that a clflush is needed, and in that case
->>>> that's an oversight that also needs fixing.
->>>>
->>>>>
->>>>>>> I also found in i915_drm.h:
->>>>>>>
->>>>>>>             * As caching mode when specifying
->>>>>>> `I915_MMAP_OFFSET_FIXED`,
->>>>>>> WC or WB will
->>>>>>>             * be used, depending on the object placement on
->>>>>>> creation. WB
->>>>>>> will be used
->>>>>>>             * when the object can only exist in system memory,
->>>>>>> WC
->>>>>>> otherwise.
->>>>>>>
->>>>>>> If what you say is true, that on discrete it is _always_ WC,
->>>>>>> then
->>>>>>> that needs updating as well.
->>>>>>
->>>>>> If an object is allocated as system only, then it is mapped WB,
->>>>>> and
->>>>>> we're relying on the gpu being cache coherent to avoid
->>>>>> clflushes.
->>>>>> Same
->>>>>> is actually currently true if the object happens to be accessed
->>>>>> by
->>>>>> the
->>>>>> cpu while evicted. Might need an update for that.
->>>>>
->>>>> Hmm okay, I think I actually misunderstood something here. I
->>>>> think
->>>>> the
->>>>> reason for difference bbtween smem+lmem object which happens to
->>>>> be in
->>>>> smem and smem only object is eluding me.
->>>>>
->>>>>>>>
->>>>>>>> That's adhering to Linus'
->>>>>>>>
->>>>>>>> "And I sincerely hope to the gods that no cache-incoherent
->>>>>>>> i915
->>>>>>>> mess
->>>>>>>> ever makes it out of the x86 world. Incoherent IO was
->>>>>>>> always a
->>>>>>>> historical mistake and should never ever happen again, so
->>>>>>>> we
->>>>>>>> should
->>>>>>>> not spread that horrific pattern around."
->>>>>>>
->>>>>>> Sure, but I was not talking about IO - just the CPU side
->>>>>>> access
->>>>>>> to
->>>>>>> CPU side objects.
->>>>>>
->>>>>> OK, I was under the impression that clflushes() and wbinvd()s
->>>>>> in
->>>>>> i915
->>>>>> was only ever used to make data visible to non-snooping GPUs.
->>>>>>
->>>>>> Do you mean that there are other uses as well? Agreed the wb
->>>>>> cache
->>>>>> flush on on suspend only if gpu is
->>>>>> !I915_BO_CACHE_COHERENT_FOR_READ?
->>>>>> looks to not fit this pattern completely.
->>>>>
->>>>> Don't know, I was first trying to understand handling of the
->>>>> obj->cache_coherent as discussed in the first quote block. Are
->>>>> the
->>>>> flags
->>>>> consistently set and how the Arm low level code will look.
->>>>>
->>>>>> Otherwise, for architectures where memory isn't always fully
->>>>>> coherent
->>>>>> with the cpu cache, I'd expect them to use the apis in
->>>>>> asm/cacheflush.h, like flush_cache_range() and similar, which
->>>>>> are
->>>>>> nops
->>>>>> on x86.
->>>>>
->>>>> Hm do you know why there are no-ops? Like why wouldn't they map
->>>>> to
->>>>> clflush?
->>>>
->>>> I think it mostly boils down to the PIPT caches on x86. Everything
->>>> is
->>>> assumed to be coherent. Whereas some architextures keep different
->>>> cache
->>>> entries for different virtual addresses even if the physical page
->>>> is
->>>> the same...
->>>>
->>>> clflushes and wbinvds on x86 are for odd arch-specific situations
->>>> where, for example where we change caching attributes of the linear
->>>> kernel map mappings.
->>>
->>> So in summary we have flush_cache_range which is generic, not
->>> implemented on x86 and works with virtual addresses so not directly
->>> usable even if x86 implementation was added.
->>
->> I think for the intended flush_cache_range() semantics: "Make this
->> range visible to all vms on all cpus", I think the x86 implementation
->> is actually a nop, and correctly implemented.
->
-> If that is so then I agree. (I did not spend much time looking for 
-> desired semantics, just noticed there was no kerneldoc next to the 
-> function and stopped there.)
->
->>> There is also x86 specific clflush_cache_range which works with
->>> virtual addresses as well so no good for drm_clflush_sg.
->>>
->>> Question you implicitly raise, correct me if I got it wrong, is
->>> whether we should even be trying to extend drm_clflush_sg for Arm,
->>> given how most (all?) call sites are not needed on discrete, is that
->>> right?
->>
->> Yes exactly. No need to bother figuring this out for ARM, as we don't
->> do any incoherent IO.
->>
->>>
->>> Would that mean we could leave most of the code as is and just
->>> replace wbinvd_on_all_cpus with something like i915_flush_cpu_caches,
->>> which would then legitimately do nothing, at least on Arm if not also
->>> on discrete in general?
->>
->> Yes, with the caveat that we should, at least as a second step, make
->> i915_flush_cpu_caches() range-based if possible from a performance
->> point of view.
->
-> Sounds like a plan, and I am counting on the second step part to be 
-> really second step. Because that one will need to actually figure out 
-> and elaborate sufficiently all three proposed reverts, which was 
-> missing in this posting. So first step unblocks Arm builds very 
-> cheaply and non-controversially, second step tries going the range route.
->
->>> If that would work it would make a small and easy to review series. I
->>> don't think it would collide with what Linus asked since it is not
->>> propagating undesirable things further - given how if there is no
->>> actual need to flush then there is no need to make it range based
->>> either.
->>>
->>> Exception would be the dmabuf get pages patch which needs a proper
->>> implementation of a new drm flush helper.
->>
->> I think the dmabuf get_pages (note that that's also only for integrated
->> I915_CACHE_NONE x86-only situations), can be done with
->>
->> dma_buf_vmap(dma_buf, &virtual);
->> drm_clflush_virt_range(virtual, length);
->> dma_buf_vunmap(&virtual);
->
-> Looks plausible to me. Downside being it vmaps the whole object at 
-> once so may regress, at least on 32-bit (!) builds. Would it work in 
-> theory to fall back to page by page but would it be worth it just for 
-> 32-bit I am not sure.
+So "total" is used twice here in two different contexts.
+The first one is the global "GPU" cgroup context. As in any buffer
+that any exporter claims is a GPU buffer, regardless of where/how it
+is allocated. So this refers to the sum of all gpu buffers of any
+type/source. An exporter contributes to this total by registering a
+corresponding gpucg_device and making charges against that device when
+it exports.
+The second one is in a per device context. This allows us to make a
+distinction between different types of GPU memory based on who
+exported the buffer. A single process can make use of several
+different types of dma buffers (for example cached and uncached
+versions of the same type of memory), and it would be useful to have
+different limits for each. These are distinguished by the device name
+string chosen when the gpucg_device is first registered.
 
-Back in the days IIRC there was a kmap() api also for dma-buf. But 
-nobody used it, and yes, vmap is not ideal but a simple fallback to 
-page-based (or even wbinvd on the rare occasion of vmap error) might be ok.
+>
+> Is it like a) there's global pool of memory that is partitioned among
+> individual devices or b) each device has its own specific type of memory
+> and adding across two devices is adding apples and oranges or c) there
+> can be various devices both of a) and b) type?
 
-/Thomas
+So I guess the most correct answer to this question is c.
 
 
 >
-> Regards,
+> (Apologies not replying to previous versions and possibly missing
+> anything.)
 >
-> Tvrtko
+> Thanks,
+> Michal
+>
