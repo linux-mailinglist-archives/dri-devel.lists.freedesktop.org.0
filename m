@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98E94E4673
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 20:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C604E46A2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 20:27:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DEC10E1AC;
-	Tue, 22 Mar 2022 19:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD8510E22D;
+	Tue, 22 Mar 2022 19:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A0710E1A0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:06:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 8F1C61F4414B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1647975960;
- bh=D6hgpxoxSbhmTxNI08QE3zs+RAds6Z3h0HTtecS2zSY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PTWkCR5eni7rM6R0IZivCAw/HYJ9Cvzt5muTfeNyqm5A+cvOhi9cRFlhWldTkNB2p
- s3yaykh4JmPQM+EZ8WOrufMC4412fuxwt96tTY5vIzGqcSw3/PL/rh1kRxXPQAkBxC
- f4WW0Jy+qn82v5i/ZHWUbQjF8IgIqID4AJfogwYTHaN8AHyuwrpVKLBcdtlbb/aZ8r
- 1lHjjO3mWT5ZRrtcNY2mCBcFESDHiunxkhkdQy9/8bQzIcMZxkmFzNBZbyrIUxuQf2
- drcdzZbGVxUoB435/dXrL+wP0XwMxG81BIj4o4lbyQXwOSkFob6Lw1VhDquQueuEYc
- f0FyOPGE/zSUw==
-Message-ID: <7720158d-10a7-a17b-73a4-a8615c9c6d5c@collabora.com>
-Date: Tue, 22 Mar 2022 22:05:56 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B728A10E1C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:27:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0F127210E3;
+ Tue, 22 Mar 2022 19:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1647977266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UmLhB9wkUS2/+EF+Bn9Vhy3R0w2uphQdDZpIPd4KruI=;
+ b=kvupSYGFgia+PbKoykwsLJnidzuQMHkxPVuMTpFZZSz95T8rpbFp6Ut1sv8Jsgsi55WmGs
+ jfhDDDrs5eJJ1weH8o8I6UvnYDCI1+kevvY+4Eo28PCnsBxiW/pE1Rtt5l3RtLbvCfXQFw
+ mZNWdiD/z9oFH4iNTkz73pmLoOPPqgE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1647977266;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UmLhB9wkUS2/+EF+Bn9Vhy3R0w2uphQdDZpIPd4KruI=;
+ b=N4NNuOOWoUJyqRqvw6iiTEXy2Chw/mWjwsC/rqQ5uhZMIo6Ih/eguauxL70zUBQtlobl+f
+ lflMhwTjD6ZkDqCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C8B2313419;
+ Tue, 22 Mar 2022 19:27:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uXscLzEjOmIZMAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Mar 2022 19:27:45 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, jani.nikula@linux.intel.com, lyude@redhat.com
+Subject: [PATCH 0/8] drm: Introduce display-helper library
+Date: Tue, 22 Mar 2022 20:27:35 +0100
+Message-Id: <20220322192743.14414-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v7 06/12] clk: Always set the rate on clk_set_range_rate
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>,
- Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-References: <20220225143534.405820-1-maxime@cerno.tech>
- <20220225143534.405820-7-maxime@cerno.tech>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220225143534.405820-7-maxime@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,109 +62,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/25/22 17:35, Maxime Ripard wrote:
-> When we change a clock minimum or maximum using clk_set_rate_range(),
-> clk_set_min_rate() or clk_set_max_rate(), the current code will only
-> trigger a new rate change if the rate is outside of the new boundaries.
-> 
-> However, a clock driver might want to always keep the clock rate to
-> one of its boundary, for example the minimum to keep the power
-> consumption as low as possible.
-> 
-> Since they don't always get called though, clock providers don't have the
-> opportunity to implement this behaviour.
-> 
-> Let's trigger a clk_set_rate() on the previous requested rate every time
-> clk_set_rate_range() is called. That way, providers that care about the
-> new boundaries have a chance to adjust the rate, while providers that
-> don't care about those new boundaries will return the same rate than
-> before, which will be ignored by clk_set_rate() and won't result in a
-> new rate change.
-> 
-> Suggested-by: Stephen Boyd <sboyd@kernel.org>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/clk/clk.c      | 45 ++++++++++++++++----------------
->  drivers/clk/clk_test.c | 58 +++++++++++++++++++-----------------------
->  2 files changed, 49 insertions(+), 54 deletions(-)
-> 
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index c15ee5070f52..9bc8bf434b94 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -2373,28 +2373,29 @@ int clk_set_rate_range(struct clk *clk, unsigned long min, unsigned long max)
->  		goto out;
->  	}
->  
-> -	rate = clk_core_get_rate_nolock(clk->core);
-> -	if (rate < min || rate > max) {
-> -		/*
-> -		 * FIXME:
-> -		 * We are in bit of trouble here, current rate is outside the
-> -		 * the requested range. We are going try to request appropriate
-> -		 * range boundary but there is a catch. It may fail for the
-> -		 * usual reason (clock broken, clock protected, etc) but also
-> -		 * because:
-> -		 * - round_rate() was not favorable and fell on the wrong
-> -		 *   side of the boundary
-> -		 * - the determine_rate() callback does not really check for
-> -		 *   this corner case when determining the rate
-> -		 */
-> -
-> -		rate = clamp(clk->core->req_rate, min, max);
-> -		ret = clk_core_set_rate_nolock(clk->core, rate);
-> -		if (ret) {
-> -			/* rollback the changes */
-> -			clk->min_rate = old_min;
-> -			clk->max_rate = old_max;
-> -		}
-> +	/*
-> +	 * Since the boundaries have been changed, let's give the
-> +	 * opportunity to the provider to adjust the clock rate based on
-> +	 * the new boundaries.
-> +	 *
-> +	 * We also need to handle the case where the clock is currently
-> +	 * outside of the boundaries. Clamping the last requested rate
-> +	 * to the current minimum and maximum will also handle this.
-> +	 *
-> +	 * FIXME:
-> +	 * There is a catch. It may fail for the usual reason (clock
-> +	 * broken, clock protected, etc) but also because:
-> +	 * - round_rate() was not favorable and fell on the wrong
-> +	 *   side of the boundary
-> +	 * - the determine_rate() callback does not really check for
-> +	 *   this corner case when determining the rate
-> +	 */
-> +	rate = clamp(clk->core->req_rate, min, max);
-> +	ret = clk_core_set_rate_nolock(clk->core, rate);
-> +	if (ret) {
-> +		/* rollback the changes */
-> +		clk->min_rate = old_min;
-> +		clk->max_rate = old_max;
->  	}
->  
->  out:
+Move DisplayPort, HDMI and various other display helpers from KMS
+helpers into a new module. Adapt all drivers.
 
-Hi,
+This patch is part of an on-going effort to reduce the minimum size
+of DRM when linked into the kernel binary. The helpers for various
+display and video-output standards are not required for minimal
+graphics output and can be moved into a separate module.
 
-NVIDIA Tegra30 no longer boots with this change.
+The DisplayPort code was already part of the DP module, which now
+forms the base of the display-helper module. Moving other helpers
+into the new module reduces KMS helpers by ~14 KiB (from 243 KiB to
+229 KiB). More importantly, restructuring the code allows for a more
+fine-grained selection of helpers and dependencies.
 
-You can't assume that rate was requested by clk_set_rate() before
-clk_set_rate_range() is called, see what [1] does. T30 memory rate now
-drops to min on boot when clk debug range is inited innocuously and CPU
-no longer can make any progress because display controller takes out
-whole memory bandwidth.
+Built on x64-64, i586, aarch64, and arm.
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/memory/tegra/tegra30-emc.c#n1437
+Thomas Zimmermann (8):
+  drm: Put related statements next to each other in Makefile
+  drm: Rename dp/ to display/
+  drm/display: Introduce a DRM display-helper module
+  drm/display: Split DisplayPort header into core and helper
+  drm/display: Move DSC header and helpers into display-helper module
+  drm/display: Move HDCP helpers into display-helper module
+  drm/display: Move HDMI helpers into display-helper module
+  drm/display: Move SCDC helpers into display-helper library
 
-If clk_set_rate() wasn't ever invoked and req_rate=0, then you must not
-change the clk rate if it's within the new range. Please revert this
-patch, thanks.
+ Documentation/gpu/drm-kms-helpers.rst         |  43 +-
+ drivers/gpu/drm/Kconfig                       |  23 +
+ drivers/gpu/drm/Makefile                      |  29 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   4 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |   1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |   1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |   1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |   1 +
+ drivers/gpu/drm/amd/display/Kconfig           |   1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   5 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_hdcp.c    |   2 +-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   4 +-
+ .../drm/amd/display/dc/core/dc_link_dpcd.c    |   2 +-
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c  |   2 +
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_dsc.h  |   2 +-
+ .../drm/amd/display/dc/dml/dsc/rc_calc_fpu.h  |   2 +-
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c   |   4 +-
+ .../gpu/drm/amd/display/dc/dsc/dscc_types.h   |   2 +-
+ .../gpu/drm/amd/display/dc/dsc/rc_calc_dpi.c  |   2 +-
+ drivers/gpu/drm/amd/display/dc/os_types.h     |   2 +-
+ .../gpu/drm/amd/display/include/dpcd_defs.h   |   2 +-
+ .../gpu/drm/amd/display/modules/hdcp/hdcp.h   |   4 +-
+ drivers/gpu/drm/bridge/Kconfig                |   5 +
+ drivers/gpu/drm/bridge/analogix/Kconfig       |   2 +
+ .../drm/bridge/analogix/analogix-anx6345.c    |   2 +-
+ .../drm/bridge/analogix/analogix-anx78xx.c    |   4 +-
+ .../drm/bridge/analogix/analogix-i2c-dptx.c   |   2 +-
+ .../drm/bridge/analogix/analogix_dp_core.h    |   2 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     |   6 +-
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   1 +
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |   4 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   2 +-
+ drivers/gpu/drm/bridge/ite-it6505.c           |   4 +-
+ drivers/gpu/drm/bridge/parade-ps8640.c        |   4 +-
+ drivers/gpu/drm/bridge/sii902x.c              |   2 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |   1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |   4 +-
+ drivers/gpu/drm/bridge/tc358767.c             |   2 +-
+ drivers/gpu/drm/bridge/tc358775.c             |   2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |   4 +-
+ drivers/gpu/drm/display/Makefile              |  13 +
+ .../drm_display_helper_mod.c}                 |  10 +-
+ .../gpu/drm/{dp => display}/drm_dp_aux_bus.c  |   4 +-
+ .../gpu/drm/{dp => display}/drm_dp_aux_dev.c  |   4 +-
+ drivers/gpu/drm/{dp => display}/drm_dp_cec.c  |   2 +-
+ .../{dp => display}/drm_dp_dual_mode_helper.c |   2 +-
+ .../{dp/drm_dp.c => display/drm_dp_helper.c}  |   4 +-
+ .../{dp => display}/drm_dp_helper_internal.h  |   0
+ .../drm/{dp => display}/drm_dp_mst_topology.c |   2 +-
+ .../drm_dp_mst_topology_internal.h            |   2 +-
+ .../{drm_dsc.c => display/drm_dsc_helper.c}   |   5 +-
+ .../{drm_hdcp.c => display/drm_hdcp_helper.c} |   4 +-
+ drivers/gpu/drm/display/drm_hdmi_helper.c     | 463 +++++++++++
+ .../gpu/drm/{ => display}/drm_scdc_helper.c   |   3 +-
+ drivers/gpu/drm/dp/Makefile                   |   9 -
+ drivers/gpu/drm/drm_connector.c               |  34 -
+ drivers/gpu/drm/drm_edid.c                    | 439 +----------
+ drivers/gpu/drm/drm_mipi_dsi.c                |   6 +-
+ drivers/gpu/drm/exynos/Kconfig                |   1 +
+ drivers/gpu/drm/exynos/exynos_hdmi.c          |   2 +-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c         |   2 +-
+ drivers/gpu/drm/gma500/intel_bios.c           |   3 +-
+ drivers/gpu/drm/hdmi/Makefile                 |   4 +
+ drivers/gpu/drm/i2c/Kconfig                   |   1 +
+ drivers/gpu/drm/i2c/tda998x_drv.c             |   2 +-
+ drivers/gpu/drm/i915/Kconfig                  |   2 +
+ drivers/gpu/drm/i915/display/icl_dsi.c        |   1 +
+ drivers/gpu/drm/i915/display/intel_bios.c     |   3 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+ .../drm/i915/display/intel_display_types.h    |   6 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |   5 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |   6 +-
+ .../drm/i915/display/intel_dp_link_training.h |   2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   5 +-
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |   4 +-
+ .../gpu/drm/i915/display/intel_qp_tables.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |   1 +
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |   2 +
+ drivers/gpu/drm/mediatek/Kconfig              |   1 +
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |   2 +-
+ drivers/gpu/drm/msm/Kconfig                   |   1 +
+ drivers/gpu/drm/msm/dp/dp_audio.c             |   2 +-
+ drivers/gpu/drm/msm/dp/dp_aux.h               |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c           |   2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |   3 +-
+ drivers/gpu/drm/msm/edp/edp.h                 |   3 +-
+ drivers/gpu/drm/msm/edp/edp_ctrl.c            |   3 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        |   2 +
+ drivers/gpu/drm/nouveau/Kconfig               |   1 +
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |   5 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h   |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_dp.c          |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h     |   6 +-
+ drivers/gpu/drm/omapdrm/Kconfig               |   2 +
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           |   1 +
+ drivers/gpu/drm/panel/panel-edp.c             |   4 +-
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  |   4 +-
+ drivers/gpu/drm/radeon/atombios_dp.c          |   2 +-
+ drivers/gpu/drm/radeon/radeon_audio.c         |   1 +
+ drivers/gpu/drm/radeon/radeon_connectors.c    |   2 +-
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        |   2 +-
+ drivers/gpu/drm/radeon/radeon_mode.h          |   4 +-
+ drivers/gpu/drm/rockchip/Kconfig              |   2 +
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |   2 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c          |   2 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   1 +
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   2 +-
+ drivers/gpu/drm/rockchip/rockchip_rgb.c       |   2 +-
+ .../drm/selftests/test-drm_dp_mst_helper.c    |   4 +-
+ drivers/gpu/drm/sti/Kconfig                   |   1 +
+ drivers/gpu/drm/sti/sti_hdmi.c                |   2 +-
+ drivers/gpu/drm/sun4i/Kconfig                 |   1 +
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        |   2 +-
+ drivers/gpu/drm/tegra/Kconfig                 |   1 +
+ drivers/gpu/drm/tegra/dp.c                    |   2 +-
+ drivers/gpu/drm/tegra/dpaux.c                 |   4 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |   1 +
+ drivers/gpu/drm/tegra/sor.c                   |   5 +-
+ drivers/gpu/drm/vc4/Kconfig                   |   1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   4 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+ drivers/misc/mei/hdcp/mei_hdcp.h              |   2 +-
+ .../{dp/drm_dp_helper.h => display/drm_dp.h}  | 695 +----------------
+ include/drm/{dp => display}/drm_dp_aux_bus.h  |   0
+ .../{dp => display}/drm_dp_dual_mode_helper.h |   0
+ include/drm/display/drm_dp_helper.h           | 719 ++++++++++++++++++
+ .../drm/{dp => display}/drm_dp_mst_helper.h   |   2 +-
+ include/drm/{ => display}/drm_dsc.h           |   8 +-
+ include/drm/display/drm_dsc_helper.h          |  20 +
+ include/drm/{ => display}/drm_hdcp.h          |  14 +-
+ include/drm/display/drm_hdcp_helper.h         |  22 +
+ include/drm/display/drm_hdmi_helper.h         |  36 +
+ .../{drm_scdc_helper.h => display/drm_scdc.h} |  52 +-
+ include/drm/display/drm_scdc_helper.h         |  79 ++
+ include/drm/drm_connector.h                   |   2 -
+ include/drm/drm_edid.h                        |  31 +-
+ include/drm/i915_mei_hdcp_interface.h         |   2 +-
+ 147 files changed, 1631 insertions(+), 1428 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/Makefile
+ rename drivers/gpu/drm/{dp/drm_dp_helper_mod.c => display/drm_display_helper_mod.c} (51%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_aux_bus.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_aux_dev.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_cec.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_dual_mode_helper.c (99%)
+ rename drivers/gpu/drm/{dp/drm_dp.c => display/drm_dp_helper.c} (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_helper_internal.h (100%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology_internal.h (94%)
+ rename drivers/gpu/drm/{drm_dsc.c => display/drm_dsc_helper.c} (99%)
+ rename drivers/gpu/drm/{drm_hdcp.c => display/drm_hdcp_helper.c} (99%)
+ create mode 100644 drivers/gpu/drm/display/drm_hdmi_helper.c
+ rename drivers/gpu/drm/{ => display}/drm_scdc_helper.c (99%)
+ delete mode 100644 drivers/gpu/drm/dp/Makefile
+ create mode 100644 drivers/gpu/drm/hdmi/Makefile
+ rename include/drm/{dp/drm_dp_helper.h => display/drm_dp.h} (74%)
+ rename include/drm/{dp => display}/drm_dp_aux_bus.h (100%)
+ rename include/drm/{dp => display}/drm_dp_dual_mode_helper.h (100%)
+ create mode 100644 include/drm/display/drm_dp_helper.h
+ rename include/drm/{dp => display}/drm_dp_mst_helper.h (99%)
+ rename include/drm/{ => display}/drm_dsc.h (97%)
+ create mode 100644 include/drm/display/drm_dsc_helper.h
+ rename include/drm/{ => display}/drm_hdcp.h (95%)
+ create mode 100644 include/drm/display/drm_hdcp_helper.h
+ create mode 100644 include/drm/display/drm_hdmi_helper.h
+ rename include/drm/{drm_scdc_helper.h => display/drm_scdc.h} (65%)
+ create mode 100644 include/drm/display/drm_scdc_helper.h
+
+
+base-commit: fe83949cd4316608ea785fc376b6ed444224adad
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
+-- 
+2.35.1
+
