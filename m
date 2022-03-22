@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084A64E3F52
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 14:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596A64E3F54
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 14:18:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E6D10E5B6;
-	Tue, 22 Mar 2022 13:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5392A10E5B9;
+	Tue, 22 Mar 2022 13:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D7210E5B3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 13:17:49 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- m26-20020a05600c3b1a00b0038c8b999f58so2459439wms.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 06:17:49 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8CD10E5B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 13:17:51 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 123-20020a1c1981000000b0038b3616a71aso1685855wmz.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 06:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T4rJHBPoBGvLAFEQkIjKar+4DiOStCBIxZjHiillBs0=;
- b=YqbQIQIw5uyz/ys0z0/UuzKhux7urIpCyDQacAthraAw7LN5hmo9UvFWs81tb2kXY6
- R9jn6MfORBy4VxnB21wDMuA1xOsiccAm8mzjzsKbzyI/q+6idGfo/SwGOcF8qFbCZiPS
- 6zZjqsVY7XlpBEpgNZWyDcl7wfDEPfzQYPwVy7HNbb+EAXKDNY3QwtAexCDacdV1D9pQ
- +dDnuPODhprwhGR3efO0+3pglWDtZVXz49mMAOrRCm5cs8NSNFf4O57Xqu3jDCDU9trb
- J4Ewx4ufnJdMbxUe9dFzsJsgvhPhnSGfp3Y30GONwfoUCKZsg87Nw9XuGa/6M77jSSii
- qv4w==
+ bh=Ed1GA0YMB/v8PN4p/2LJhZo1DqFtrsVWp924T2axfNg=;
+ b=WxOXppmKDkDTY06kzQdEyCw7kxe+ONPAI0K5RfaYsT0bJppCgmWpzAAotT+VZ6kaEb
+ /XlOSOCfj38cKwGv/li/nFeAw/K3Xp0CHxEGZQbg+VFtb0AR7LxhcTMjG16xWYMoyNUn
+ N8mlP9NrId7dzzmEl/ZytX5IiAjPy06b9vl+guoDV/cTtE7o93LVqMUhGbx19O9wW/kp
+ AqcN1M1SF1V5qNeUYlywRMKeaC0gl7sLxU50P/T2Dxte7EtjhfjFtXJ9eiFMLQ0DQoMB
+ 2eKniTFPpBIkAGk+sTu61+HODcE6fc8XxynAiynnw4n08KAYfJvK8co0/pHY0dAbUj8s
+ G17A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T4rJHBPoBGvLAFEQkIjKar+4DiOStCBIxZjHiillBs0=;
- b=Tty3e+PDfg6rluAo+SXIdHTG3MaqImsXGkq6aIa4v3Z7JDEdsAF3Cc8BjAXY81Z4Sk
- doS7TBNor2AMpQUIJDeyn+HenOWMWa65TWgMBFJnXkEh/T7UPpKCukjwqzHjTzEQgMqJ
- UTv49RykDHWY8jJiY/G7Fl+eLe8+N5z+p6IEYLuKidvd0tUvihCkW6C7gzjKn+I+0Rq/
- 8RkLaYg8R5JIkT2Q48nClli4VTiO46fu15TXVStsky95b4ZDfK9PN1wYKiIEAdzvL8zk
- ZWEK/xQodKxM3a/11ieButBTcmM76ziEnyqEd+UIVIFC6pfmay8HIwTPQfkCX0gZF22Z
- ERTA==
-X-Gm-Message-State: AOAM5318Fa5tof+hmzHbokaqqFjWrEiHxv6UsQz8pNuiUkTQWKkUWR5T
- dnRFB8GZYROkDORON0qKmbnS5DtiWTM=
-X-Google-Smtp-Source: ABdhPJz8KdpDOaMXaJ022a3c+njWY5qCY0UTK2SFF2kLjhR+52LO9jBrPcH0BTP8f4JDIvreakxyBQ==
-X-Received: by 2002:a05:6000:384:b0:203:ed51:8ab3 with SMTP id
- u4-20020a056000038400b00203ed518ab3mr19869370wrf.211.1647955068017; 
- Tue, 22 Mar 2022 06:17:48 -0700 (PDT)
+ bh=Ed1GA0YMB/v8PN4p/2LJhZo1DqFtrsVWp924T2axfNg=;
+ b=bCt5w0YPekHRk5NamaX7vbHMlT4lJQkXjSmFnD1aHi8CvbVW6cRS1Nfo/lpZCFbsa6
+ YOhgtSLwIbWteE04oGIUOJpHre6j4LjAhx6Zxd9wVdCk0VSrY9nrYMgJj0CBQikjErxC
+ fKu8uGC1H8qZDKa31jlfeGvI5MT8/elqkMtx4Wa/nKVjDFkksL61O2uoHE7tMcF7Gi+l
+ ZAHydlROnzCcaEaARAeIjiEHAgZpsMeM8DxnOBOrw9HyjsLU+JxLBxITc+wJVQ3Nuyue
+ +O/zbEB7FoQCuxvIvnLmzyMrdCWz7O6tQ0onQzJWN0OAoySnabMBotFxdTTvI5hkG0CT
+ GrHA==
+X-Gm-Message-State: AOAM531oyChw0wZfYA56vRh3rX0aDV4mmf+3JTsXM+Kl0zK3U7hbSPJb
+ lfzu8r6YRgU5BjNS9yUj3ibjw3uUyg8=
+X-Google-Smtp-Source: ABdhPJyYFNiJK8TnZ/X8yv79EI6lO4zyZJ9zl5Mk0TrDmO/i1JJN9cMiFW7eJ7UpwSBUa8dBXuE8rQ==
+X-Received: by 2002:a7b:c347:0:b0:37e:68e6:d85c with SMTP id
+ l7-20020a7bc347000000b0037e68e6d85cmr3889951wmj.176.1647955069196; 
+ Tue, 22 Mar 2022 06:17:49 -0700 (PDT)
 Received: from workstation.suse.de (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- l13-20020a05600002ad00b00203d64c5289sm17978437wry.112.2022.03.22.06.17.46
+ l13-20020a05600002ad00b00203d64c5289sm17978437wry.112.2022.03.22.06.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 06:17:47 -0700 (PDT)
+ Tue, 22 Mar 2022 06:17:48 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/7] drm/gma500: gma500 don't register non-hotpluggable
- connectors
-Date: Tue, 22 Mar 2022 14:17:39 +0100
-Message-Id: <20220322131742.11566-4-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 5/7] drm/gma500: Free the correct connector allocation
+Date: Tue, 22 Mar 2022 14:17:40 +0100
+Message-Id: <20220322131742.11566-5-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
 References: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
@@ -75,167 +74,129 @@ Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to docs we should only register connectors that are
-hotpluggable. No connectors in gma500 are hotpluggable.
+The allocation is made for the gma_connector object so we must use the
+same address when free()ing the object.
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_crt.c  | 3 ---
- drivers/gpu/drm/gma500/cdv_intel_dp.c   | 3 ---
- drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 2 --
- drivers/gpu/drm/gma500/cdv_intel_lvds.c | 2 --
- drivers/gpu/drm/gma500/oaktrail_hdmi.c  | 1 -
- drivers/gpu/drm/gma500/oaktrail_lvds.c  | 1 -
- drivers/gpu/drm/gma500/psb_intel_lvds.c | 2 --
- drivers/gpu/drm/gma500/psb_intel_sdvo.c | 2 --
- 8 files changed, 16 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_crt.c  | 3 ++-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c   | 3 ++-
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 3 ++-
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 3 ++-
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 3 ++-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c | 4 +++-
+ 6 files changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-index 4a9bb4994a26..1ae0fbbda0eb 100644
+index 1ae0fbbda0eb..6bcd18c63c31 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-@@ -194,7 +194,6 @@ static void cdv_intel_crt_destroy(struct drm_connector *connector)
+@@ -191,11 +191,12 @@ static enum drm_connector_status cdv_intel_crt_detect(
+ 
+ static void cdv_intel_crt_destroy(struct drm_connector *connector)
+ {
++	struct gma_connector *gma_connector = to_gma_connector(connector);
  	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
  
  	psb_intel_i2c_destroy(gma_encoder->ddc_bus);
--	drm_connector_unregister(connector);
  	drm_connector_cleanup(connector);
- 	kfree(connector);
+-	kfree(connector);
++	kfree(gma_connector);
  }
-@@ -281,8 +280,6 @@ void cdv_intel_crt_init(struct drm_device *dev,
- 	drm_connector_helper_add(connector,
- 					&cdv_intel_crt_connector_helper_funcs);
  
--	drm_connector_register(connector);
--
- 	return;
- failed_ddc:
- 	drm_encoder_cleanup(&gma_encoder->base);
+ static int cdv_intel_crt_get_modes(struct drm_connector *connector)
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index f562e91337c7..3fba9d4e785d 100644
+index 3fba9d4e785d..72b1b2fc3c27 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -1866,7 +1866,6 @@ cdv_intel_dp_destroy(struct drm_connector *connector)
- 		intel_dp->panel_fixed_mode = NULL;
+@@ -1857,6 +1857,7 @@ cdv_intel_dp_set_property(struct drm_connector *connector,
+ static void
+ cdv_intel_dp_destroy(struct drm_connector *connector)
+ {
++	struct gma_connector *gma_connector = to_gma_connector(connector);
+ 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+ 	struct cdv_intel_dp *intel_dp = gma_encoder->dev_priv;
+ 
+@@ -1867,7 +1868,7 @@ cdv_intel_dp_destroy(struct drm_connector *connector)
  	}
  	i2c_del_adapter(&intel_dp->adapter);
--	drm_connector_unregister(connector);
  	drm_connector_cleanup(connector);
- 	kfree(connector);
+-	kfree(connector);
++	kfree(gma_connector);
  }
-@@ -1990,8 +1989,6 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
- 	connector->interlace_allowed = false;
- 	connector->doublescan_allowed = false;
  
--	drm_connector_register(connector);
--
- 	/* Set up the DDC bus. */
- 	switch (output_reg) {
- 		case DP_B:
+ static const struct drm_encoder_helper_funcs cdv_intel_dp_helper_funcs = {
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-index e525689f84f0..e0d4c49b3c92 100644
+index e0d4c49b3c92..8987e555e113 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-@@ -245,7 +245,6 @@ static void cdv_hdmi_destroy(struct drm_connector *connector)
+@@ -242,11 +242,12 @@ static enum drm_mode_status cdv_hdmi_mode_valid(struct drm_connector *connector,
+ 
+ static void cdv_hdmi_destroy(struct drm_connector *connector)
+ {
++	struct gma_connector *gma_connector = to_gma_connector(connector);
  	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
  
  	psb_intel_i2c_destroy(gma_encoder->i2c_bus);
--	drm_connector_unregister(connector);
  	drm_connector_cleanup(connector);
- 	kfree(connector);
+-	kfree(connector);
++	kfree(gma_connector);
  }
-@@ -352,7 +351,6 @@ void cdv_hdmi_init(struct drm_device *dev,
  
- 	hdmi_priv->hdmi_i2c_adapter = &(gma_encoder->i2c_bus->adapter);
- 	hdmi_priv->dev = dev;
--	drm_connector_register(connector);
- 	return;
- 
- failed_ddc:
+ static const struct drm_encoder_helper_funcs cdv_hdmi_helper_funcs = {
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 9e1cdb11023c..851a3cc4653e 100644
+index 851a3cc4653e..98d9f5483a7c 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -329,7 +329,6 @@ static void cdv_intel_lvds_destroy(struct drm_connector *connector)
+@@ -326,11 +326,12 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
+  */
+ static void cdv_intel_lvds_destroy(struct drm_connector *connector)
+ {
++	struct gma_connector *gma_connector = to_gma_connector(connector);
  	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
  
  	psb_intel_i2c_destroy(gma_encoder->i2c_bus);
--	drm_connector_unregister(connector);
  	drm_connector_cleanup(connector);
- 	kfree(connector);
+-	kfree(connector);
++	kfree(gma_connector);
  }
-@@ -647,7 +646,6 @@ void cdv_intel_lvds_init(struct drm_device *dev,
  
- out:
- 	mutex_unlock(&dev->mode_config.mutex);
--	drm_connector_register(connector);
- 	return;
- 
- failed_find:
-diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-index 6eef60a5ac27..b5946a1cdcd5 100644
---- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-@@ -654,7 +654,6 @@ void oaktrail_hdmi_init(struct drm_device *dev,
- 	connector->display_info.subpixel_order = SubPixelHorizontalRGB;
- 	connector->interlace_allowed = false;
- 	connector->doublescan_allowed = false;
--	drm_connector_register(connector);
- 	dev_info(dev->dev, "HDMI initialised.\n");
- 
- 	return;
-diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-index 04852dbc7fb3..aed5de8f8245 100644
---- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-@@ -401,7 +401,6 @@ void oaktrail_lvds_init(struct drm_device *dev,
- out:
- 	mutex_unlock(&dev->mode_config.mutex);
- 
--	drm_connector_register(connector);
- 	return;
- 
- failed_find:
+ static int cdv_intel_lvds_set_property(struct drm_connector *connector,
 diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index ac97e0d3c7dd..ec8f0b504ccc 100644
+index ec8f0b504ccc..cad00380b386 100644
 --- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -525,7 +525,6 @@ void psb_intel_lvds_destroy(struct drm_connector *connector)
+@@ -521,12 +521,13 @@ static int psb_intel_lvds_get_modes(struct drm_connector *connector)
+  */
+ void psb_intel_lvds_destroy(struct drm_connector *connector)
+ {
++	struct gma_connector *gma_connector = to_gma_connector(connector);
+ 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
  	struct psb_intel_lvds_priv *lvds_priv = gma_encoder->dev_priv;
  
  	psb_intel_i2c_destroy(lvds_priv->ddc_bus);
--	drm_connector_unregister(connector);
  	drm_connector_cleanup(connector);
- 	kfree(connector);
+-	kfree(connector);
++	kfree(gma_connector);
  }
-@@ -782,7 +781,6 @@ void psb_intel_lvds_init(struct drm_device *dev,
- 	 */
- out:
- 	mutex_unlock(&dev->mode_config.mutex);
--	drm_connector_register(connector);
- 	return;
  
- failed_find:
+ int psb_intel_lvds_set_property(struct drm_connector *connector,
 diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-index 042c4392e676..5b72a759a182 100644
+index 5b72a759a182..a85aace25548 100644
 --- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
 +++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-@@ -1542,7 +1542,6 @@ static int psb_intel_sdvo_get_modes(struct drm_connector *connector)
+@@ -1542,8 +1542,10 @@ static int psb_intel_sdvo_get_modes(struct drm_connector *connector)
  
  static void psb_intel_sdvo_destroy(struct drm_connector *connector)
  {
--	drm_connector_unregister(connector);
++	struct gma_connector *gma_connector = to_gma_connector(connector);
++
  	drm_connector_cleanup(connector);
- 	kfree(connector);
- }
-@@ -1932,7 +1931,6 @@ psb_intel_sdvo_connector_init(struct psb_intel_sdvo_connector *connector,
- 	connector->base.restore = psb_intel_sdvo_restore;
- 
- 	gma_connector_attach_encoder(&connector->base, &encoder->base);
--	drm_connector_register(&connector->base.base);
+-	kfree(connector);
++	kfree(gma_connector);
  }
  
- static void
+ static bool psb_intel_sdvo_detect_hdmi_audio(struct drm_connector *connector)
 -- 
 2.35.1
 
