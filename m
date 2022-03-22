@@ -2,81 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9E94E45EC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 19:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34514E4654
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 19:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD8710E094;
-	Tue, 22 Mar 2022 18:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365DE10E0AD;
+	Tue, 22 Mar 2022 18:56:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7A210E094
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647973527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rXgow+Fz8VabLqwfX1YnqBgMgAP8Ti50IVG/j8LoHic=;
- b=IuV/wIVN70hk/ql4WzWrrM11mjj8ZKkgjsRcu+C5TLjWehVyfVZUxLmLapNWpL7yPl4U2b
- WKVODo31YOOTNbypeuWRZO1sOcUteV2wec+SNuvy2o9uVVZ01OZAPuFmiMTGtkLOJc5atN
- uuE1V6tGYbtS/E/uHDyu/A4J2jWwavI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-c5vUP1ZpP7C-KCHCUdC6XA-1; Tue, 22 Mar 2022 14:25:26 -0400
-X-MC-Unique: c5vUP1ZpP7C-KCHCUdC6XA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- z18-20020ac84552000000b002e201c79cd4so8141602qtn.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 11:25:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=rXgow+Fz8VabLqwfX1YnqBgMgAP8Ti50IVG/j8LoHic=;
- b=wkdb/TMQUdVQvDwzizVgrQi/zJDZKDPn5jrC7ggQk6ZC2scsuNXoBvmCTihe23lq2B
- c8hLKEv0jkN5n8wpcC5vz3RwvMJTesyNtiw+xBcmjAOkh2hZ5JJ7FDNjB9+eoWoREWVJ
- NuN6LR52Zigwyk2/TKTmxfP2xw/teCDwXcbODR/gVrZ9vpxABZaSnbvzL2TH0TvjyQQ3
- rScQp5Xov1Uy8O7aszin/8QV85t50k1gGD3pCliExMI8f6fVz+dF8++rMNvO3a9X80Yq
- whOBDLCM01F6Ze96En1KuJyWD/PrcKqm5lHsJ8AqonYz8WPrGWSNPe2ZssWTce2HiAPY
- 7TyQ==
-X-Gm-Message-State: AOAM531UUSaI7pcp7n7rAAMm11N9JoJlGdd1cOX73xUOWu7SJPkbi85z
- O6mqW6N5APbWw8v+i8SB7ttcnYSlWESKVj9Il+gtMAnB1Jk3U2gwMBkUs8yVb6cUbGikzBGnRGA
- V2gk1+fSgfxC9maD+rVvGyJrRm2/y
-X-Received: by 2002:a05:6214:29ef:b0:441:4a7a:4c9e with SMTP id
- jv15-20020a05621429ef00b004414a7a4c9emr2654883qvb.119.1647973525213; 
- Tue, 22 Mar 2022 11:25:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6T8sOKqIqpt6ZuCZug9+YoVTnq3+e/xMkvpjYvSkbwVcTedcsYTtRt1S+tnn4xKVvozA1LQ==
-X-Received: by 2002:a05:6214:29ef:b0:441:4a7a:4c9e with SMTP id
- jv15-20020a05621429ef00b004414a7a4c9emr2654861qvb.119.1647973524924; 
- Tue, 22 Mar 2022 11:25:24 -0700 (PDT)
-Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
- [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
- i7-20020ac85e47000000b002e22bad4717sm525995qtx.1.2022.03.22.11.25.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 11:25:24 -0700 (PDT)
-Message-ID: <f6e72c6e6d9ae9019ad675081493372f745cbbf5.camel@redhat.com>
-Subject: Re: [PATCH v2] drm/nouveau/bios: Rename prom_init() and friends
- functions
-From: Lyude Paul <lyude@redhat.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Ben Skeggs
- <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 22 Mar 2022 14:25:22 -0400
-In-Reply-To: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
-References: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BED10E0AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:56:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AE3496164D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:56:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2209AC340F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647975383;
+ bh=yQu7mD0MqF0QfaaMkkc7HqXQC6NDYfLgVYhsQIhAJMA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=nWsVvBhKN1vu06I1hERIyCJi6q5s5h1MVGYgRQ92KgVTiiWnR7FHzQf9oiInwB1jt
+ ZQC2pgpEFmW8l3ECECtmmBSKsJY0EcDxNvGyZyn6wBuBFkI2In2p/OwaLM2FCWTCzU
+ 8fADR0AH2wsVbguc0l+TtOqcpH5uIpOV8PiKCeabIZHxVPQMstvXGOgPK1lH04se0N
+ T37ieQWgVPMz19tcv2c5cKlimaEOwQnMXFdgzrTNSjqQh/SA+Ws5SiJfFZ6N1Z+9g7
+ YD+9TvPVuIX+CC8AO1wiJew6agC75P2ty+6zLMuuO2WNprYVyd02CSpqJKh2mzOY7P
+ P/MSZD9DtZ6VQ==
+Received: by mail-ed1-f53.google.com with SMTP id b15so22846448edn.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 11:56:23 -0700 (PDT)
+X-Gm-Message-State: AOAM530h8+7kCsoEy2fOlXKhH5uD7dcrul4/j0ckF+WFy6ig1eiPOWly
+ XXwapfW0S2HSgJWwkjTTIRyqh4R1FE1uiSfD0g==
+X-Google-Smtp-Source: ABdhPJzziky+h4S7y1Oapwg6GLoQ4MKwfHE2BgXDz13RMs42HSRszzwB9Fo9/VxTML7QkaiTJ1h9U+piBCwHFpmyypQ=
+X-Received: by 2002:aa7:d309:0:b0:419:128f:7178 with SMTP id
+ p9-20020aa7d309000000b00419128f7178mr22680706edq.109.1647975381192; Tue, 22
+ Mar 2022 11:56:21 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220128105849.368438-1-u.kleine-koenig@pengutronix.de>
+ <20220128105849.368438-2-u.kleine-koenig@pengutronix.de>
+ <CAL_JsqJjTf2zY-n69Ozh+S1gSi5Eoa5T44Qnq9RPNgJWDLmzKQ@mail.gmail.com>
+ <20220128175829.vjm66rs7eu7pk2my@pengutronix.de>
+ <YflvS007gL5mLa9k@robh.at.kernel.org>
+ <b91696142ff5e27afae9ad2125c39a4f937d072f.camel@pengutronix.de>
+In-Reply-To: <b91696142ff5e27afae9ad2125c39a4f937d072f.camel@pengutronix.de>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 22 Mar 2022 13:56:08 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJvfqC79unzmS0Y9yaQt3g7Y8SBVgOt9RjjyRAogvHO2w@mail.gmail.com>
+Message-ID: <CAL_JsqJvfqC79unzmS0Y9yaQt3g7Y8SBVgOt9RjjyRAogvHO2w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: imx: Add fsl,imx21-lcdc docs
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,123 +65,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On Thu, Feb 10, 2022 at 11:54 AM Lucas Stach <l.stach@pengutronix.de> wrote=
+:
+>
+> Hi Rob,
+>
+> Am Dienstag, dem 01.02.2022 um 11:35 -0600 schrieb Rob Herring:
+> > On Fri, Jan 28, 2022 at 06:58:29PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > > Hello Rob,
+> > >
+> > > On Fri, Jan 28, 2022 at 07:04:10AM -0600, Rob Herring wrote:
+> > > > On Fri, Jan 28, 2022 at 4:59 AM Uwe Kleine-K=C3=B6nig
+> > > > <u.kleine-koenig@pengutronix.de> wrote:
+> > > > >
+> > > > > From: Marian Cichy <m.cichy@pengutronix.de>
+> > > > >
+> > > > > This files documents the device tree for the new imx21-lcdc DRM d=
+river.
+> > > >
+> > > > No, bindings document h/w and the h/w has not changed. We already h=
+ave
+> > > > a binding for the LCDC.
+> > >
+> > > Just to be sure we're talking about the same thing: You're refering t=
+o
+> > > Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt, right?
+> >
+> > Looks right...
+> >
+> > > I'm unsure what to do now. Should the two different bindings just be
+> > > described in the same file? Should I stick to fsl,imx21-fb even for t=
+he
+> > > new binding? (The hardware unit is named LCDC, so the name chosen her=
+e
+> > > is the better one.) Please advise.
+> >
+> > Yes, the name is unfortunate, but it should be 1 binding, 1 file, and
+> > unchanged (unless you want to add new optional properties).
+> >
+> The old FB driver binding is pretty insane. Except the reg and
+> interrupt properties it is very confused about things. It exposes
+> internal implementation details (like specifying verbatim register
+> settings in the DT) and other properties are just misplaced, like the
+> lcd-supply property that controls the panel power supply.
 
-Will push to drm-misc-next
+I agree on 'lcd-supply', but that can simply be marked as deprecated
+as can anything else. From what I remember working on these chips, I'm
+not sure you can really avoid some of these register properties. For
+example, the Sharp config is pretty much a use some value with some
+specific Sharp panel. I guess we can have 'if panel A, then register
+value is X' type code in the driver. Maybe the DMA settings can be
+heuristics based on the pixel data rate, but I recall avoiding
+underruns was challenging on some parts.
 
-On Sat, 2022-03-19 at 11:27 +0100, Christophe Leroy wrote:
-> While working at fixing powerpc headers, I ended up with the
-> following error.
-> 
->         drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c:48:1: error:
-> conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *, const
-> char *)'
->         make[5]: *** [scripts/Makefile.build:288:
-> drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
-> 
-> powerpc and a few other architectures have a prom_init() global function.
-> One day or another it will conflict with the one in shadowrom.c
-> 
-> Those being static, they can easily be renamed. Do it.
-> 
-> While at it, also rename the ops structure as 'nvbios_prom' instead of
-> 'nvbios_rom' in order to make it clear that it refers to the
-> NV_PROM device.
-> 
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
-> v2: using nvbios_prom prefix instead of nvbios_rom. Changed structure name
-> to keep things consistant.
-> 
->  drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h    |  2 +-
->  drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c  |  2 +-
->  .../gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c   | 14 +++++++-------
->  3 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> index fac1bff1311b..cfa8a0c356dd 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> @@ -19,7 +19,7 @@ struct nvbios_source {
->  int nvbios_extend(struct nvkm_bios *, u32 length);
->  int nvbios_shadow(struct nvkm_bios *);
->  
-> -extern const struct nvbios_source nvbios_rom;
-> +extern const struct nvbios_source nvbios_prom;
->  extern const struct nvbios_source nvbios_ramin;
->  extern const struct nvbios_source nvbios_acpi_fast;
->  extern const struct nvbios_source nvbios_acpi_slow;
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> index 4b571cc6bc70..19188683c8fc 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> @@ -171,7 +171,7 @@ nvbios_shadow(struct nvkm_bios *bios)
->         struct shadow mthds[] = {
->                 { 0, &nvbios_of },
->                 { 0, &nvbios_ramin },
-> -               { 0, &nvbios_rom },
-> +               { 0, &nvbios_prom },
->                 { 0, &nvbios_acpi_fast },
->                 { 4, &nvbios_acpi_slow },
->                 { 1, &nvbios_pcirom },
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> index ffa4b395220a..39144ceb117b 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> @@ -25,7 +25,7 @@
->  #include <subdev/pci.h>
->  
->  static u32
-> -prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
-> +nvbios_prom_read(void *data, u32 offset, u32 length, struct nvkm_bios
-> *bios)
->  {
->         struct nvkm_device *device = data;
->         u32 i;
-> @@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length, struct
-> nvkm_bios *bios)
->  }
->  
->  static void
-> -prom_fini(void *data)
-> +nvbios_prom_fini(void *data)
->  {
->         struct nvkm_device *device = data;
->         nvkm_pci_rom_shadow(device->pci, true);
->  }
->  
->  static void *
-> -prom_init(struct nvkm_bios *bios, const char *name)
-> +nvbios_prom_init(struct nvkm_bios *bios, const char *name)
->  {
->         struct nvkm_device *device = bios->subdev.device;
->         if (device->card_type == NV_40 && device->chipset >= 0x4c)
-> @@ -55,10 +55,10 @@ prom_init(struct nvkm_bios *bios, const char *name)
->  }
->  
->  const struct nvbios_source
-> -nvbios_rom = {
-> +nvbios_prom = {
->         .name = "PROM",
-> -       .init = prom_init,
-> -       .fini = prom_fini,
-> -       .read = prom_read,
-> +       .init = nvbios_prom_init,
-> +       .fini = nvbios_prom_fini,
-> +       .read = nvbios_prom_read,
->         .rw = false,
->  };
+> I really don't think that trying to stay backwards compatible here is a
+> win for anyone. Anyone willing to switch their systems running on a 15
+> year old SoC to the new DRM driver probably doesn't mind if they have
+> to modify the DTS to make it work. Can we please let the FB driver die
+> in peace and have a clean slate driver/binding for the DRM driver?
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+The existing binding will still need a schema if it appears in dts files.
 
+There's nothing really conflicting between the 2 bindings. Your
+choices are to merge it all into 1 node and it's up to kernel
+configuration (or module load) to select which driver. Or you have 2
+nodes in the DT with one enabled at a time (because 2 enabled nodes at
+the same address is not allowed). Then you need a DT change to switch.
+Either way is fine and the schema should match which one you pick, but
+I would do 1 node.
+
+If you do a new binding, then justify it for the reasons above, not
+the old one is for the FB driver and the new one is for the DRM
+driver.
+
+Rob
