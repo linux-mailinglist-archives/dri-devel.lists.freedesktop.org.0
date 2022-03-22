@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527694E4945
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 23:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F334E4952
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 23:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2517610E581;
-	Tue, 22 Mar 2022 22:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7205110E12D;
+	Tue, 22 Mar 2022 22:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95A010E582
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 22:42:41 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- o68-20020a17090a0a4a00b001c686a48263so2561529pjo.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 15:42:41 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068F310E12D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 22:46:44 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d19so19389969pfv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 15:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=zzdneHxq4SaLJqCgu2nB61PVc+nexA0+nC4/oEmI0gs=;
- b=HoJAhN8F2ZPdzbdrZd252ccLMaWy0BzcJCNUdFExtl3bWE4h47PUt6fMZkod7jajd4
- AcJGlU/R3poSKRFR0BuJQOq5XFXLIflvSvfVB9ge6P/ZboGhvtMFz9rnHQclW7SgYwWW
- vHZ3QskCpxvHiDVAFcGA4Cko1tmbE1ycZE9Cnwer8dRWGvShwslVWeEmGmRRze5ehqH/
- 8Al7BTtLj1rdAKVGkE/22TmrwTzRak3FONirQdDrPoURY3jtjhvDoB2TXXVP80/Wh2RK
- Gr5U525VDsXQN9lAHbQKhudURIE11kQf6n3FLIG73yISMg8a4ClQPNAfrzHnzt4VbOPy
- XZBw==
+ bh=Y3+yW0Y/V0IdtjUi2oJO6+GLRdAvHHve31rrBFDbfNI=;
+ b=NvNV9MHkzhlUu8fHHWI38xoia6dcctyi5CJ5Lu3D0irboqNPPvY47wkV/3MwbS/4zI
+ 3Umv0Y+CSP8+z1yA2K2sHBqj/yLEdMbgckXamhVVRdru8AsQYLRhOj38E1UFnQpqMyt0
+ RSOFAailSEdsArc6+4LE2GJ20D9+Vy7ADzgSFTsS3aW4bSBUtoiPT4FvqrvPKy8UTJYg
+ IMc9+WCteR9CyuZH3TsfEnzR8wwuiTEpzDCgvRD+gRwGPfygGfS91f5d/a3byT3Gvkxy
+ 3+JzRDyM95av2cHABglLJwQoovJs6m+0A6SSoCNavoWlZVHGpnJl2kwRzCrBCvD8pLk8
+ mRGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=zzdneHxq4SaLJqCgu2nB61PVc+nexA0+nC4/oEmI0gs=;
- b=HuQ56P+Ip22xPMNrTqtqWJjpFZ1CHUgTklK6VIPRsgmKho8phQGBweZVYWEvY7FTxr
- 3/tJwWdACBRkIAQaOMOT+M4jNV+fAA4SJjOKxzn/+gI+/6mcQuFHrc9uniZFimEtnfjD
- +6PHWXLP5bCnf8h8iVR0bi+ngmGVna5JEbIdzloymNMdAGdFGMco4Dr+umf1Kr/WJmZ6
- dYTyC5Jw+BCUH9R1i6Vxd6qZx9uIvlgOHyQ6tRAf7uREnVH0ZXnHmyGXqhkKacZSFGKr
- JqLRtUD0xWwPmo/IyAqGiuv9EP/1t8u/XU6P1R7bkGx1ajwf0BmVlZC1zlVozSW6aSdK
- 7PcQ==
-X-Gm-Message-State: AOAM532PMMchrwz+qMY85GBLnw7117DtB9aI6XXmW1oq9iiGb2nxkoP7
- 9exmfEIdgpwtWxKDhI6I3xEDcCnQEx28Fi3oRsUkDW0K
-X-Google-Smtp-Source: ABdhPJy/7wBC7zZ/ckjajgHmzuchX3tlxI0u4Iv42DDHIwzPKzpAvkUmVAtPrQdPhFie4WfrkiKLMf9ecNr/iWu3FpE=
-X-Received: by 2002:a17:902:70c1:b0:154:667f:e361 with SMTP id
- l1-20020a17090270c100b00154667fe361mr10769356plt.148.1647988961123; Tue, 22
- Mar 2022 15:42:41 -0700 (PDT)
+ bh=Y3+yW0Y/V0IdtjUi2oJO6+GLRdAvHHve31rrBFDbfNI=;
+ b=oDF5lJrmdTLMxuS3ry1g4PzPsy5boE0BYsRsZnptHX34JGZP3iKjPynieUUZBJfTLq
+ +QiYqOB78l25uilM+AvIwWjCkRrqH7Fcrds8AK0Inb2vOKj0jw4v4iJGYL7wtrFufcNp
+ Zx1T55wTtel62D9vgHAfez4B3qMsZRxHGAy8IyEP0u58aPyLydDYwbNVUCJxY8nWvvlU
+ Ch3uPSPa+enw577ub7MzJ3TDUrqkfC+dPo03tOjaEDJmIo94wu89jqMuyBU3Dik5lv5F
+ CqwJd2BaMbweLtcE/G6BCggPax1BhhRBVF4WhJYnZUcS33BY/KlnR3V8pAiLEmsK/zKY
+ KtuA==
+X-Gm-Message-State: AOAM532omMODzNI5Pu7/7SKY7PJ+vr47Bx9/EUrw8VPyJS80TEDeA3CH
+ meXZ1DYkZONcl6rcN+0eEdI1m5OJ2kr0ACYBxwUBU7O3
+X-Google-Smtp-Source: ABdhPJwQ1EhTM7T03QYZ6tcjRnMuicKVTMEVBAYKwcBT3hBvxjp9JwEdcpw9PdhXuxm0wXi7q1Z1tzAN3+0CoKVD7ck=
+X-Received: by 2002:a63:e20:0:b0:385:fe08:52f9 with SMTP id
+ d32-20020a630e20000000b00385fe0852f9mr2219734pgl.99.1647989203473; Tue, 22
+ Mar 2022 15:46:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
- <3186b184-fa62-9bc4-7531-8ad4eac139ef@suse.de>
- <c3c00675-cb9b-277f-88a7-0b01455ef0f3@suse.de>
-In-Reply-To: <c3c00675-cb9b-277f-88a7-0b01455ef0f3@suse.de>
+ <20220322131742.11566-7-patrik.r.jakobsson@gmail.com>
+ <66cc3cd8-e737-e032-9135-bed05db2f401@suse.de>
+In-Reply-To: <66cc3cd8-e737-e032-9135-bed05db2f401@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 22 Mar 2022 23:42:29 +0100
-Message-ID: <CAMeQTsbgYRb7cc-A1Mx5FD1FM=AsVG9CKNOZM_D=D2Afr6uYLw@mail.gmail.com>
-Subject: Re: [PATCH 1/7] drm/gma500: Use managed drmm_mode_config_init()
+Date: Tue, 22 Mar 2022 23:46:32 +0100
+Message-ID: <CAMeQTsa5p7iqXk0D5xjUuVm5AjRFe0ULg6KBSTwjTmdU1WeJMA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] drm/gma500: Add crtc prefix to vblank functions
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,59 +71,105 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 8:32 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
+On Tue, Mar 22, 2022 at 8:36 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
 te:
 >
+> Hi
 >
->
-> Am 22.03.22 um 20:30 schrieb Thomas Zimmermann:
-> > Hi Patrik
+> Am 22.03.22 um 14:17 schrieb Patrik Jakobsson:
+> > These functions operate on a crtc and should be prefixed properly.
 > >
-> > Am 22.03.22 um 14:17 schrieb Patrik Jakobsson:
-> >> Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> >> ---
-> >>   drivers/gpu/drm/gma500/framebuffer.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/gma500/framebuffer.c
-> >> b/drivers/gpu/drm/gma500/framebuffer.c
-> >> index 45df9de22007..2b99c996fdc2 100644
-> >> --- a/drivers/gpu/drm/gma500/framebuffer.c
-> >> +++ b/drivers/gpu/drm/gma500/framebuffer.c
-> >> @@ -514,7 +514,8 @@ void psb_modeset_init(struct drm_device *dev)
-> >>       struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-> >>       int i;
-> >> -    drm_mode_config_init(dev);
-> >> +    if (drmm_mode_config_init(dev))
-> >> +        return;
-> >
-> > This will fail without any notice. I suggest to return an error here or
-> > at let psb_driver_load() fail.
+> > Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 >
-> 'and let psb_driver_load() fail'
+> For the whole patchset:
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> If you like, please consider the few comments I had.
 
-Hi Thomas,
-I did consider it but there are more places where psb_driver_load()
-can fail so I think it deserves its own patch.
-
-I'll send a follow-up.
-
--Patrik
+Thanks for the review.
 
 >
+> Best regards
+> Thomas
+>
+>
+> > ---
+> >   drivers/gpu/drm/gma500/gma_display.c | 6 +++---
+> >   drivers/gpu/drm/gma500/psb_irq.c     | 6 +++---
+> >   drivers/gpu/drm/gma500/psb_irq.h     | 6 +++---
+> >   3 files changed, 9 insertions(+), 9 deletions(-)
 > >
-> > Best regards
-> > Thomas
+> > diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma=
+500/gma_display.c
+> > index 369bc1f751cb..34ec3fca09ba 100644
+> > --- a/drivers/gpu/drm/gma500/gma_display.c
+> > +++ b/drivers/gpu/drm/gma500/gma_display.c
+> > @@ -575,9 +575,9 @@ const struct drm_crtc_funcs gma_crtc_funcs =3D {
+> >       .set_config =3D gma_crtc_set_config,
+> >       .destroy =3D gma_crtc_destroy,
+> >       .page_flip =3D gma_crtc_page_flip,
+> > -     .enable_vblank =3D gma_enable_vblank,
+> > -     .disable_vblank =3D gma_disable_vblank,
+> > -     .get_vblank_counter =3D gma_get_vblank_counter,
+> > +     .enable_vblank =3D gma_crtc_enable_vblank,
+> > +     .disable_vblank =3D gma_crtc_disable_vblank,
+> > +     .get_vblank_counter =3D gma_crtc_get_vblank_counter,
+> >   };
 > >
-> >>       dev->mode_config.min_width =3D 0;
-> >>       dev->mode_config.min_height =3D 0;
-> >> @@ -546,6 +547,5 @@ void psb_modeset_cleanup(struct drm_device *dev)
-> >>       if (dev_priv->modeset) {
-> >>           drm_kms_helper_poll_fini(dev);
-> >>           psb_fbdev_fini(dev);
-> >> -        drm_mode_config_cleanup(dev);
-> >>       }
-> >>   }
+> >   /*
+> > diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/=
+psb_irq.c
+> > index 2e8ded532930..e6e6d61bbeab 100644
+> > --- a/drivers/gpu/drm/gma500/psb_irq.c
+> > +++ b/drivers/gpu/drm/gma500/psb_irq.c
+> > @@ -371,7 +371,7 @@ void gma_irq_uninstall(struct drm_device *dev)
+> >       free_irq(pdev->irq, dev);
+> >   }
+> >
+> > -int gma_enable_vblank(struct drm_crtc *crtc)
+> > +int gma_crtc_enable_vblank(struct drm_crtc *crtc)
+> >   {
+> >       struct drm_device *dev =3D crtc->dev;
+> >       unsigned int pipe =3D crtc->index;
+> > @@ -404,7 +404,7 @@ int gma_enable_vblank(struct drm_crtc *crtc)
+> >       return 0;
+> >   }
+> >
+> > -void gma_disable_vblank(struct drm_crtc *crtc)
+> > +void gma_crtc_disable_vblank(struct drm_crtc *crtc)
+> >   {
+> >       struct drm_device *dev =3D crtc->dev;
+> >       unsigned int pipe =3D crtc->index;
+> > @@ -428,7 +428,7 @@ void gma_disable_vblank(struct drm_crtc *crtc)
+> >   /* Called from drm generic code, passed a 'crtc', which
+> >    * we use as a pipe index
+> >    */
+> > -u32 gma_get_vblank_counter(struct drm_crtc *crtc)
+> > +u32 gma_crtc_get_vblank_counter(struct drm_crtc *crtc)
+> >   {
+> >       struct drm_device *dev =3D crtc->dev;
+> >       unsigned int pipe =3D crtc->index;
+> > diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/=
+psb_irq.h
+> > index c22878914f5b..b51e395194ff 100644
+> > --- a/drivers/gpu/drm/gma500/psb_irq.h
+> > +++ b/drivers/gpu/drm/gma500/psb_irq.h
+> > @@ -20,9 +20,9 @@ void gma_irq_postinstall(struct drm_device *dev);
+> >   int  gma_irq_install(struct drm_device *dev, unsigned int irq);
+> >   void gma_irq_uninstall(struct drm_device *dev);
+> >
+> > -int  gma_enable_vblank(struct drm_crtc *crtc);
+> > -void gma_disable_vblank(struct drm_crtc *crtc);
+> > -u32  gma_get_vblank_counter(struct drm_crtc *crtc);
+> > +int  gma_crtc_enable_vblank(struct drm_crtc *crtc);
+> > +void gma_crtc_disable_vblank(struct drm_crtc *crtc);
+> > +u32  gma_crtc_get_vblank_counter(struct drm_crtc *crtc);
+> >   void gma_enable_pipestat(struct drm_psb_private *dev_priv, int pipe, =
+u32 mask);
+> >   void gma_disable_pipestat(struct drm_psb_private *dev_priv, int pipe,=
+ u32 mask);
 > >
 >
 > --
