@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643404E36B3
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 03:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB514E374F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 04:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC81110E036;
-	Tue, 22 Mar 2022 02:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF6610E4FB;
+	Tue, 22 Mar 2022 03:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7118910E07D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 02:33:56 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:48144.976236044
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 784681002BB;
- Tue, 22 Mar 2022 10:33:48 +0800 (CST)
-Received: from  ([172.27.8.53])
- by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- f99435236ca14be49c68a89810849220 for robh@kernel.org; 
- Tue, 22 Mar 2022 10:33:54 CST
-X-Transaction-ID: f99435236ca14be49c68a89810849220
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-Message-ID: <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
-Date: Tue, 22 Mar 2022 10:33:45 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3466F10E4FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 03:13:39 +0000 (UTC)
+X-UUID: 843bd33b12e94a4ca2d13e7dad2390ee-20220322
+X-UUID: 843bd33b12e94a4ca2d13e7dad2390ee-20220322
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 536648539; Tue, 22 Mar 2022 11:13:20 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 22 Mar 2022 11:13:06 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 22 Mar 2022 11:13:06 +0800
+Message-ID: <17ed6c2a5f40cabd8e39097213811a2149c37c90.camel@mediatek.com>
+Subject: Re: [PATCH v16 05/22] soc: mediatek: add mtk-mmsys config API for
+ mt8195 vdosys1
+From: CK Hu <ck.hu@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Tue, 22 Mar 2022 11:13:06 +0800
+In-Reply-To: <20220318142009.2796-6-nancy.lin@mediatek.com>
+References: <20220318142009.2796-1-nancy.lin@mediatek.com>
+ <20220318142009.2796-6-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
- controller
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-6-15330273260@189.cn>
- <YjkITWpbnCmhKaX+@robh.at.kernel.org>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <YjkITWpbnCmhKaX+@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,297 +55,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Nancy:
 
-On 2022/3/22 07:20, Rob Herring wrote:
-> On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
->> From: suijingfeng <suijingfeng@loongson.cn>
->>
-> Needs a commit message.
->
->> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
-> Same person? Don't need both emails.
+On Fri, 2022-03-18 at 22:19 +0800, Nancy.Lin wrote:
+> Add mmsys config API. The config API is used for config mmsys reg.
+> Some mmsys regs need to be setting according to the HW engine binding
+> to the mmsys simultaneously.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/soc/mediatek/mt8195-mmsys.h    | 62
+> ++++++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c       | 34 ++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.h       | 10 +++++
+>  include/linux/soc/mediatek/mtk-mmsys.h | 16 +++++++
+>  4 files changed, 122 insertions(+)
+> 
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
+> b/drivers/soc/mediatek/mt8195-mmsys.h
+> index 369fb0aab56d..8b7adbd22919 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -139,6 +139,21 @@
+>  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				
+> 0xf68
+>  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
+> 0
+>  
+> +#define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
+> +#define MT8195_VDO1_MERGE1_ASYNC_CFG_WD	0xe40
+> +#define MT8195_VDO1_MERGE2_ASYNC_CFG_WD	0xe50
+> +#define MT8195_VDO1_MERGE3_ASYNC_CFG_WD	0xe60
+> +#define MT8195_VDO1_HDRBE_ASYNC_CFG_WD	0xe70
+> +#define MT8195_VDO1_HDR_TOP_CFG		0xd00
+> +#define MT8195_VDO1_MIXER_IN1_ALPHA	0xd30
+> +#define MT8195_VDO1_MIXER_IN2_ALPHA	0xd34
+> +#define MT8195_VDO1_MIXER_IN3_ALPHA	0xd38
+> +#define MT8195_VDO1_MIXER_IN4_ALPHA	0xd3c
+> +#define MT8195_VDO1_MIXER_IN1_PAD	0xd40
+> +#define MT8195_VDO1_MIXER_IN2_PAD	0xd44
+> +#define MT8195_VDO1_MIXER_IN3_PAD	0xd48
+> +#define MT8195_VDO1_MIXER_IN4_PAD	0xd4c
+> +
+>  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] =
+> {
+>  	{
+>  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> @@ -263,4 +278,51 @@ static const struct mtk_mmsys_routes
+> mmsys_mt8195_routing_table[] = {
+>  	}
+>  };
+>  
+> +/*
+> + * mtk_mmsys_config table is used for config mmsys reg in runtime.
+> + * MMSYS_CONFIG_MERGE_ASYNC_WIDTH: config merge async width
+> + * MMSYS_CONFIG_MERGE_ASYNC_HEIGHT: config merge async height
+> + * MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH: config hdr_be async width
+> + * MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT: config hdr_be async height
+> + * MMSYS_CONFIG_MIXER_IN_ALPHA_ODD: config mixer odd channel 9bit
+> alpha value
+> + * MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN: config mixer even channel 9bit
+> alpha value
+> + * MMSYS_CONFIG_MIXER_IN_CH_SWAP: config mixer input RGB channel
+> swap
+> + * MMSYS_CONFIG_HDR_ALPHA_SEL: config alpha source
+> + * MMSYS_CONFIG_MIXER_IN_MODE: config mixer pad mode(bypass/even
+> extend mode)
+> + * MMSYS_CONFIG_MIXER_IN_BIWIDTH: config mixer pad width. formula:
+> width / 2 - 1
+> + */
+> +static const struct mtk_mmsys_config mmsys_mt8195_config_table[] = {
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 0,
+> MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 0,
+> MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 1,
+> MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 1,
+> MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 2,
+> MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 2,
+> MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 3,
+> MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 3,
+> MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(29, 16), 16},
 
-Yes,  suijingfeng@loongson.cn is my company's email. But it can not be 
-used to send patches to dri-devel,
+I would like a function to set these value
 
-when send patches with this email, the patch will not be shown on patch 
-works.
+mtk_mmsys_merge_async_config(int idx, int width, int height)
 
-Emails  are either blocked or got  rejected  by loongson's mail server.  
-It can only receive emails
+and describe what does the term 'async' mean.
 
-from you and other people, but not dri-devel. so have to use my personal 
-email(15330273260@189.cn) to send patches.
+> +	{ MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH, 0,
+> MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> +	{ MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT, 0,
+> MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(29, 16), 16},
 
->> ---
->>   .../loongson/loongson,display-controller.yaml | 230 ++++++++++++++++++
->>   1 file changed, 230 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->> new file mode 100644
->> index 000000000000..7be63346289e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->> @@ -0,0 +1,230 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
->> +
->> +maintainers:
->> +  - Sui Jingfeng <suijingfeng@loongson.cn>
->> +
->> +description: |+
->> +
->> +  Loongson display controllers are simple which require scanout buffers
->> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
->> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
->> +  with a dedicated video RAM which is 64MB or more, precise size can be
->> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
->> +  chip.
->> +
->> +  LSDC has two display pipes, each way has a DVO interface which provide
->> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
->> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
->> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
->> +
->> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
->> +  located at the DC register space. They are used to emulate two way i2c,
->> +  One for DVO0, another for DVO1.
->> +
->> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
->> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
->> +
->> +  LSDC's display pipeline have several components as below description,
->> +
->> +  The display controller in LS7A1000:
->> +     ___________________                                     _________
->> +    |            -------|                                   |         |
->> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->> +    |  _   _     -------|        ^             ^            |_________|
->> +    | | | | |    -------|        |             |
->> +    | |_| |_|    | i2c0 <--------+-------------+
->> +    |            -------|
->> +    |   DC IN LS7A1000  |
->> +    |  _   _     -------|
->> +    | | | | |    | i2c1 <--------+-------------+
->> +    | |_| |_|    -------|        |             |             _________
->> +    |            -------|        |             |            |         |
->> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->> +    |            -------|                                   |_________|
->> +    |___________________|
->> +
->> +  Simple usage of LS7A1000 with LS3A4000 CPU:
->> +
->> +    +------+            +-----------------------------------+
->> +    | DDR4 |            |  +-------------------+            |
->> +    +------+            |  | PCIe Root complex |   LS7A1000 |
->> +       || MC0           |  +--++---------++----+            |
->> +  +----------+  HT 3.0  |     ||         ||                 |
->> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
->> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
->> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
->> +       || MC1           +---------------|--|----------------+
->> +    +------+                            |  |
->> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
->> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
->> +                      +-------+                      +------+
->> +
->> +  The display controller in LS2K1000/LS2K0500:
->> +     ___________________                                     _________
->> +    |            -------|                                   |         |
->> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->> +    |  _   _     -------|        ^              ^           |_________|
->> +    | | | | |           |        |              |
->> +    | |_| |_|           |     +------+          |
->> +    |                   <---->| i2c0 |<---------+
->> +    |   DC IN LS2K1000  |     +------+
->> +    |  _   _            |     +------+
->> +    | | | | |           <---->| i2c1 |----------+
->> +    | |_| |_|           |     +------+          |            _________
->> +    |            -------|        |              |           |         |
->> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->> +    |            -------|                                   |_________|
->> +    |___________________|
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
->> +
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - loongson,ls7a1000-dc
->> +              - loongson,ls2k1000-dc
->> +              - loongson,ls2k0500-dc
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  '#address-cells':
->> +    const: 1
->> +
->> +  '#size-cells':
->> +    const: 0
->> +
->> +  i2c-gpio@0:
->> +    description: |
->> +      Built-in GPIO emulate i2c exported for external display bridge
-> If you have i2c-gpio, that belongs at the DT top-level, not here.
->
->> +      configuration, onitor detection and edid read back etc, for ls7a1000
->> +      only. Its compatible must be lsdc,i2c-gpio-0. The reg property can be
-> No, there's a defined i2c-gpio compatible already.
+mtk_mmsys_hdr_confing(int be_width, int be_height, bool alpha_en)
 
-This is different from the i2c-gpio already defined under drivers/i2c/busses/i2c-gpio.c,
-By design, my i2c-gpio is vendor specific properties, lsdc device driver create the i2c
-adapter at runtime. These are 4 dedicated GPIOs whose control register is located at the
-LSDC register space, not general purpose GPIOs with separate control register resource.
-So i think it is the child node of display-controller@6,1, it belongs to LSDC.
-It seems that put it at the DT top-level break the hierarchy and relationship.
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 1,
+> MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 1,
+> MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 2,
+> MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 2,
+> MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 3,
+> MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 3,
+> MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 4,
+> MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(8, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 4,
+> MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(24, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_CH_SWAP, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(4, 4), 4},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 1, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(20, 20), 20},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 2, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(21, 21), 21},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 3, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(22, 22), 22},
+> +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 4, MT8195_VDO1_HDR_TOP_CFG,
+> GENMASK(23, 23), 23},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_MODE, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(1, 0), 0},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> GENMASK(31, 16), 16},
+> +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> GENMASK(31, 16), 16},
 
->> +      used to specify a I2c adapter bus number, if you don't specify one
->> +      i2c driver core will dynamically assign a bus number. Please specify
-> Bus numbers are a linux detail not relevant to DT binding.
->
->> +      it only when its bus number matters. Bus number greater than 6 is safe
->> +      because ls7a1000 bridge have 6 hardware I2C controller integrated.
->> +
->> +  i2c-gpio@1:
->> +    description: |
->> +      Built-in GPIO emulate i2c exported for external display bridge
->> +      configuration, onitor detection and edid read back etc, for ls7a1000
->> +      only. Its compatible must be lsdc,i2c-gpio-1.
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    bus {
->> +
->> +        #address-cells = <3>;
->> +        #size-cells = <2>;
->> +        #interrupt-cells = <2>;
->> +
->> +        display-controller@6,1 {
->> +            compatible = "loongson,ls7a1000-dc";
->> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
->> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
->> +
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            i2c-gpio@0 {
->> +                compatible = "lsdc,i2c-gpio-0";
->> +                reg = <6>;
->> +                sda = <0>;
->> +                scl = <1>;
->> +            };
->> +
->> +            i2c-gpio@1 {
->> +                compatible = "lsdc,i2c-gpio-1";
->> +                reg = <7>;
->> +                sda = <2>;
->> +                scl = <3>;
->> +            };
->> +
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +                port@0 {
->> +                    reg = <0>;
->> +                    endpoint {
->> +                            remote-endpoint = <&vga_encoder_in>;
->> +                    };
->> +                };
->> +                port@1 {
->> +                    reg = <1>;
->> +                    endpoint {
->> +                            remote-endpoint = <&dvi_encoder_in>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
->> +
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    bus {
->> +
->> +        #address-cells = <3>;
->> +        #size-cells = <2>;
->> +        #interrupt-cells = <2>;
->> +
->> +        display-controller@6,0 {
->> +            compatible = "loongson,ls2k1000-dc";
->> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
->> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
->> +
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +                port@0 {
->> +                    reg = <0>;
->> +                    endpoint {
->> +                            remote-endpoint = <&panel_in>;
->> +                    };
->> +                };
->> +                port@1 {
->> +                    reg = <1>;
->> +                    endpoint {
->> +                            remote-endpoint = <&hdmi_encoder_in>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
->> +...
->> -- 
->> 2.25.1
->>
->>
+mtk_mmsys_mixer_in_config(int idx, u16 alpha, bool channel_swap, u8
+mode, u32 biwidth)
+
+Regards,
+CK
+
+> +};
+> +
+>  #endif /* __SOC_MEDIATEK_MT8195_MMSYS_H */
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> b/drivers/soc/mediatek/mtk-mmsys.c
+> index 0b77624cf6ca..6dd68483012c 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -83,6 +83,8 @@ static const struct mtk_mmsys_driver_data
+> mt8195_vdosys1_driver_data = {
+>  	.clk_driver = "clk-mt8195-vdo1",
+>  	.routes = mmsys_mt8195_routing_table,
+>  	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+> +	.config = mmsys_mt8195_config_table,
+> +	.num_configs = ARRAY_SIZE(mmsys_mt8195_config_table),
+>  };
+>  
+>  static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data =
+> {
+> @@ -187,6 +189,38 @@ static const struct reset_control_ops
+> mtk_mmsys_reset_ops = {
+>  	.reset = mtk_mmsys_reset,
+>  };
+>  
+> +void mtk_mmsys_ddp_config(struct device *dev, enum
+> mtk_mmsys_config_type config,
+> +			  u32 id, u32 val)
+> +{
+> +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> +	const struct mtk_mmsys_config *mmsys_config = mmsys->data-
+> >config;
+> +	u32 reg_val;
+> +	u32 mask;
+> +	u32 offset;
+> +	int i;
+> +	u32 tmp;
+> +
+> +	if (!mmsys->data->num_configs)
+> +		return;
+> +
+> +	for (i = 0; i < mmsys->data->num_configs; i++)
+> +		if (config == mmsys_config[i].config && id ==
+> mmsys_config[i].id)
+> +			break;
+> +
+> +	if (i == mmsys->data->num_configs)
+> +		return;
+> +
+> +	offset = mmsys_config[i].addr;
+> +	mask = mmsys_config[i].mask;
+> +	reg_val = val << mmsys_config[i].shift;
+> +
+> +	tmp = readl(mmsys->regs + offset);
+> +
+> +	tmp = (tmp & ~mask) | reg_val;
+> +	writel(tmp, mmsys->regs + offset);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+> +
+>  static int mtk_mmsys_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.h
+> b/drivers/soc/mediatek/mtk-mmsys.h
+> index 77f37f8c715b..78c7069bac0e 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.h
+> +++ b/drivers/soc/mediatek/mtk-mmsys.h
+> @@ -86,11 +86,21 @@ struct mtk_mmsys_routes {
+>  	u32 val;
+>  };
+>  
+> +struct mtk_mmsys_config {
+> +	enum mtk_mmsys_config_type config;
+> +	u32 id;
+> +	u32 addr;
+> +	u32 mask;
+> +	u32 shift;
+> +};
+> +
+>  struct mtk_mmsys_driver_data {
+>  	const char *clk_driver;
+>  	const struct mtk_mmsys_routes *routes;
+>  	const unsigned int num_routes;
+>  	const u16 sw0_rst_offset;
+> +	const struct mtk_mmsys_config *config;
+> +	const unsigned int num_configs;
+>  };
+>  
+>  /*
+> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> b/include/linux/soc/mediatek/mtk-mmsys.h
+> index eaf7f7345519..b2d2310d7e7a 100644
+> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> @@ -56,6 +56,19 @@ enum mtk_ddp_comp_id {
+>  	DDP_COMPONENT_ID_MAX,
+>  };
+>  
+> +enum mtk_mmsys_config_type {
+> +	MMSYS_CONFIG_MERGE_ASYNC_WIDTH,
+> +	MMSYS_CONFIG_MERGE_ASYNC_HEIGHT,
+> +	MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH,
+> +	MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT,
+> +	MMSYS_CONFIG_HDR_ALPHA_SEL,
+> +	MMSYS_CONFIG_MIXER_IN_ALPHA_ODD,
+> +	MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN,
+> +	MMSYS_CONFIG_MIXER_IN_CH_SWAP,
+> +	MMSYS_CONFIG_MIXER_IN_MODE,
+> +	MMSYS_CONFIG_MIXER_IN_BIWIDTH,
+> +};
+> +
+>  void mtk_mmsys_ddp_connect(struct device *dev,
+>  			   enum mtk_ddp_comp_id cur,
+>  			   enum mtk_ddp_comp_id next);
+> @@ -64,4 +77,7 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+>  			      enum mtk_ddp_comp_id cur,
+>  			      enum mtk_ddp_comp_id next);
+>  
+> +void mtk_mmsys_ddp_config(struct device *dev, enum
+> mtk_mmsys_config_type config,
+> +			  u32 id, u32 val);
+> +
+>  #endif /* __MTK_MMSYS_H */
+
