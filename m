@@ -1,152 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB1B4E3D64
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 12:19:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0716D4E3D6E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 12:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256AC10E1B0;
-	Tue, 22 Mar 2022 11:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D9D10E2B8;
+	Tue, 22 Mar 2022 11:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCF410E14C;
- Tue, 22 Mar 2022 11:19:48 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350FB10E0F9;
+ Tue, 22 Mar 2022 11:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647947988; x=1679483988;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=l7x4N4M3hXE6MNVFl5qMNyaVDxXm3qD+CExASVK4oxk=;
- b=h1i8l08+c1U/E810BYFhRMdaWoqINrXlCI5fVrjPrBhmuGYeYiMtgtvl
- quUgl+WbcSIk6WSFQG0BBeAGH8ObJDsL4uXdHc5ff37levE7JlBXEKuO3
- 2RQvUAP54p2YgbhOvfKCALhaY3JCx+dOWQ3do15uTmxv7lqOHCLLcU0ma
- UZUYrGDZKlPxNPG/tsOdfDBrOnlfXpFeQylVdNMNIUY8BR+PKmYzRWjLF
- xKUg7k0AbtREFXJLZIj1Rrgg3CzL9FPIBXC5LO0Agetlb0/0ErUBVy2H3
- IXSQEAENlhZUtn+x/PUnbEvYa3A8Z7MirJnMWOPtkAQtRmt8kwYsj6guY w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257741716"
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="257741716"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 04:19:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="600844872"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga008.fm.intel.com with ESMTP; 22 Mar 2022 04:19:47 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 22 Mar 2022 04:19:46 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 22 Mar 2022 04:19:46 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Tue, 22 Mar 2022 04:19:46 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.104)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Tue, 22 Mar 2022 04:19:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=niIMvLwqCNWFREw8Ar7/P8RrL9mECwuuuyL4h2WGh4blIKd8NCLixoBrU6QwiBP8sP8TJZdeBlZmnFSPQ6mW/Hlm8G9n3U/IXOB4InZY1NtqIne+9lbbTtXt1fQRxrTsW5cDl5AWuOW9/SIMgHfPLbWUoJ42mPR2uvqHTjKlGjrRBKMOT/dN/pT92Sa9eFQCa6cR8kDPNC1wQ0j8QGoDUsiQwfFx6k3OeBz9ybrFdHknbD4qmhrnuetXwGjVlWZPvQ81qiSO7NwgcVJMP20Yi6VtFL6peFrqFr2jgqhQfhMsA5O//VqAp79fe24fRApm4IALm2GYSRfvAkiR0W/nng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yzqjiK6aNxfnW5OPJc7AHnGBiydWeuXrzR76dsTpd24=;
- b=BopiBuNwufQ1nFziCCQmDuYzvZ01i1n2SPzHRDNMDz0ofzn6CVsCkcw3TwfxO/TKEtv1aw9JWTZQgj6VWr4xOeaiFyS5PYGISNpuTAVVVcxMcx26uA/mfffZArocU4GBsFeqwxMQdc+u01lS7230JX945ybmFSakW8ql1lWPmN9Pw09g5IlWiTkGukFE0nxKyjwTWnq7gTP6XlTFqMOTFWRZr+CkeeRLjVk1HqhPc0r1q23X4HASNpplHZbwN6+60q1a2Fh/NfbgTPDh/G53epH4Bm9WoZEO7rSRIj4QA3J18BPEVCzLZ9VfS7rmuytU5oEEwd1XFfic9VK1MmgDoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- MN2PR11MB4319.namprd11.prod.outlook.com (2603:10b6:208:193::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 22 Mar
- 2022 11:19:44 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1de5:f9fb:2202:dd64]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1de5:f9fb:2202:dd64%3]) with mapi id 15.20.5081.023; Tue, 22 Mar 2022
- 11:19:44 +0000
-Message-ID: <94f5856c-46b6-1203-dd97-3c25667484b5@intel.com>
-Date: Tue, 22 Mar 2022 12:19:37 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.7.0
-Subject: Re: [PATCH 22/22] drm: Use drm_mode_copy()
-Content-Language: en-US
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-23-ville.syrjala@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220218100403.7028-23-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P194CA0028.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:209:90::41) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+ t=1647948040; x=1679484040;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SjIntbb23MFFvTD+Xrz6hFoLH6nnHKIwgX2YLz0liqA=;
+ b=FyczxFBkFtAjsOqw2Kqh7xIvlCuFJFjTwipxDebv315XZrQX2ytFKZw/
+ XtjRLPjGFpErURMix9HouvjPhxPTLr/7c2+z3006otCq0Vi/zxYWLeoQF
+ QqqdNbWwDfRv2OGnCwK5y4U/bgcjtq8y057PD3yoa/w84P6iusi265yfp
+ RMc9bv/abcE4tkVadIvl+RoU/M/FmdTjqoGOKczX/A3IJpSlflARP6b3C
+ 1Cwhqj0v9lMiqHXKxyC4ITQkKLopYA+khWrsMt5umdiUmqazy11kXoEHO
+ ya6qP6gQRi2xu/mbe9PIft1j0Und6AcRF36REceQVwfu6Ch3DTQ1qEJLi A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="256612906"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="256612906"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 04:20:39 -0700
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="560342572"
+Received: from srobinso-mobl.ger.corp.intel.com (HELO [10.213.230.39])
+ ([10.213.230.39])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 04:20:37 -0700
+Message-ID: <953a9d2b-1004-ab01-b914-4fa6b191add0@linux.intel.com>
+Date: Tue, 22 Mar 2022 11:20:33 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 37487ef5-9185-4121-02f8-08da0bf5ddd1
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4319:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR11MB43192A7A7BAA4DC3E78BA1F0EB179@MN2PR11MB4319.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yDNlnI7G1qQ63DzYeHuhii2O8CV1Fq3P4F493Y6OcPp6rUZzDVm4iGfiAUlAkaYvURckXAPqrbYSvoS222uv8sImSVUHGB1zYClYMvOt84E7ROdWNPcCU8XTr84rnhyxkWk0xiHA7lDaEUqukmrmcCt1LSJGF/cSMyVmYbvgGU9CaBWb9XMQWcsXa6os6tnRqBwdS3mTKptP68IvhhDXHb7knSOQ9AlkvwxU57xKIkbLZBcxiDcWZWBJ46csGpcITWAGZrjpY40IxVkCOB0PAufbwJAlJS/wao3whRz1c9gZViBRryFLd+KEMDFXZPFepyfgM3DnvAR6h8lsiupTL9NhpMXWAJtuPNE73V2pVxFRaq674HJqGojsvsEsDMt3gjXA9hAvFt2MP2+r5hTWDfDjX6zfxd3ZP+XXruupar3drO7yxv3pjaMcmpBUMd+eLQbFZ6Z621siLirTEaEbmOcHcPH58/xhn8eysJ0qZhDlc07AuDV+l8reOq0YaeV53b8Gd+EvS1BqyDlpngqDYzLsU7tOCTg6h+MWBsgX9yS9Eq4g6Uq2wZQ/VZ0XLry9y4tRZz9+H4MeiXv+r1zu4zmSliBaVm1RCjRbIUudqQsQUYuaedRM096TFNnuXC7XQzPwWWDsPnvGW4UBZAi+rQQi0ByM6xejXaj+Au/lN7Bm6hyWDYD7+2SiEgzQThmmKGumidUR4lS511ETiE3D29mygiScri7B+qYz6LQrgCZFn0cpZYZPAvQ9xs/JkLZx
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(8936002)(36756003)(6486002)(186003)(38100700002)(5660300002)(44832011)(31686004)(2906002)(6512007)(66556008)(66946007)(8676002)(4326008)(316002)(82960400001)(66476007)(2616005)(26005)(508600001)(6506007)(31696002)(53546011)(6666004)(86362001)(36916002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVdrNDZxMDkvSjNVRGY2WkkvcC9iWktpazcrMGZFdWVjTlpTL1FVUC9nLzV1?=
- =?utf-8?B?Qmp2T0ZiRHBtd1NCQzJMc2RjVlk0YS9Lc2thc0dpSjFndVJrRHlaQVRVakY1?=
- =?utf-8?B?UlluZnlVQ01YY1hsSUtpZlhkRUxsYlZHMnVQNVl1bWVVQllpMmlVWnkzeUlp?=
- =?utf-8?B?QnhjOFNsUjRIWlg1cU4xc1lSSnNFMWN5cUhHNFhweElBTTVKYUYzTkhMcWYv?=
- =?utf-8?B?OUNJWFFPYWt2NWEwVFZqUnJCNFpiRGJkT05IU1hiUXdpOFo3SjBPMTlNRzdk?=
- =?utf-8?B?c3lJYm81ZDRPNUpqZ0FhWWJzankxMzQ0dFhQcmZIQnhnZG14N3E5Z2MvUUox?=
- =?utf-8?B?dWJuVENJSW9sNDd6elJ0c1BtL1NaZVBXbklPQW9YVnl0VWhma3dlc2NyZkM4?=
- =?utf-8?B?emFMM2FISzI5S0J1ckp6OUZvdnEvdGtjMWFFendaUkE3d05BdnhEZDNSMHJD?=
- =?utf-8?B?ZXcxN05ZVVA0UVV0MThSUGhTNGlvb2hCNmpLWVhlOWxZSkNyUjUwM1NhV205?=
- =?utf-8?B?VkhwQ0E2eTBJNE9ZTFUyT1MwSUVjNGV0b05OMkpoQlJjS0w5RVAyMXRJYXJX?=
- =?utf-8?B?Zm9Vbmd6bDIvdHRSbi9FelgvME9Zb3ROS0J4UEpWOTJ4NlBtcHkwMXpnWWFW?=
- =?utf-8?B?VGlHSkZ1N3lnU2ZRSDQxSmdqbkRQVlBOcU9KcThxQm9yVHpFSStySy9WR2g3?=
- =?utf-8?B?clk5WXhhVktBaFhSY1RwcWFWdEc2N2tjT043RkNBVS84MzVHRVF4c1g0V1FG?=
- =?utf-8?B?dXdUOGF2RzhLZGhNcnRzVmFYdWRUUDkrNUgwYXdJeVJWTU9nSklockR5bERh?=
- =?utf-8?B?RUZQM082dzVla1NlLzVMcU1TdURVYzNXNlR1MzllZVM2TmlOMUJrOFlPWlV2?=
- =?utf-8?B?a2NPV09FQWdFSjNLOTNYVUt6S2VzQlBTMjdKaWhTSGVpejZtemtZRUZ4b3RS?=
- =?utf-8?B?MFdnU0N2L0o4YkZvNnFsRm1heGdzeWhqdEcvZDRzYWluMmhqWUxoY1FqZ1lv?=
- =?utf-8?B?b2RTTWoxemVWNXlQSTJSR1JLeE96RUlwNEZQM0VJOVBzQ212UlVSWG82NFZw?=
- =?utf-8?B?a2k3VU9ySHNvcnNJOEw1dDhXMjJnM292a1pkMkRLVjNLWHpQcU9BUzZ2Zmp1?=
- =?utf-8?B?Q0x2OFViRFNoR0FBWUVERkljc3FYSXlBQ1c2am5RMW02TTNIWDhYSDVVeHE5?=
- =?utf-8?B?TUY1bysvb3o3akNQTmdDbGZ4dnBpT3hzRnU2bytsY3ZnN1JRbWEvMTBtZGd6?=
- =?utf-8?B?UkZtRmRtdXFVd284UnRoZWRsWkFLZU9tdnFCV3ptajVma25OOFhLL3BaYmJy?=
- =?utf-8?B?cmpObXJIdDNSUU5SSUhjcXk5MFBVbEc0N3hSSTBoZ0NWWGl1cXpYcTROSGlr?=
- =?utf-8?B?Vm5vRjN1TkJiUjFxNGdadHFoVHNvN3Jmb0wvQzJVL29ycXVnemlmQzllZ0ZL?=
- =?utf-8?B?Ym9Pbk9QRTZqdEhzZFVsQkJ1NFF2elBxbG5SdU5TaVNPVW9NcElhblJsczBz?=
- =?utf-8?B?eXJ5d1Zpak9qR0wyd0l1SXlPeVJOSWhwZG9qS0IvRUd5S1E2NE9KMHQxWGU4?=
- =?utf-8?B?Ulgwd1RpYnRkdVgvVjdmZjhuTkpGaGt2ZFdURi80aWZlbWJ0azRPbkJ1cFM1?=
- =?utf-8?B?K0x2V2had1F1SWhEQlhUU05CNGYxZUdCaDRBbDZvc0RmZ2FYeFJmcDRWbVVS?=
- =?utf-8?B?T2kyQTRheXQ4WVVHUGRMbml5WnZJaUZKMDArVkVRMVc1aWwwQ1pkM0FFWSs3?=
- =?utf-8?B?dHZqQXlKWHIxZXRRTVZMY2hCQTNUVDhiQml4bk92ZVJOWUx5ay9nTExzcHpU?=
- =?utf-8?B?NTlaZWtYWG5OdE5zalZpaFMwUGhUbjZWRDR1RHAvdmN4cDFvYkRLQTVTUkVZ?=
- =?utf-8?B?aWpBeGoybVZ3QzFVSWxEUlBJbUFGOEI0ZDNDNW15cGhpNGZxMUZQNWxyRVUv?=
- =?utf-8?B?cC9wdVVJOHFyV2FmK0w0bXlhQkxGallSeEhNRXZ1V1NrRWhhcHhmcmM5cEh4?=
- =?utf-8?B?NERlQVBhVWlRPT0=?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37487ef5-9185-4121-02f8-08da0bf5ddd1
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 11:19:44.5045 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FQQPxNdNA7oX6OO0jKdWXzG10wHHKvRbBBsp8M21A78p2cafdST/fphdX4FGW040on+q3yltR6F9kj19XoNkxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4319
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
+ <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
+ <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
+ <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+ <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
+ <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
+ <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
+ <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
+ <31310790-4bc5-b9a7-8d35-c0f542b4d658@linux.intel.com>
+ <5931be1a37dbb9ccdce127f6173d42fa4dbee593.camel@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <5931be1a37dbb9ccdce127f6173d42fa4dbee593.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,73 +71,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
+ lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.02.2022 11:04, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> struct drm_display_mode embeds a list head, so overwriting
-> the full struct with another one will corrupt the list
-> (if the destination mode is on a list). Use drm_mode_copy()
-> instead which explicitly preserves the list head of
-> the destination mode.
-> 
-> Even if we know the destination mode is not on any list
-> using drm_mode_copy() seems decent as it sets a good
-> example. Bad examples of not using it might eventually
-> get copied into code where preserving the list head
-> actually matters.
-> 
-> Obviously one case not covered here is when the mode
-> itself is embedded in a larger structure and the whole
-> structure is copied. But if we are careful when copying
-> into modes embedded in structures I think we can be a
-> little more reassured that bogus list heads haven't been
-> propagated in.
-> 
-> @is_mode_copy@
-> @@
-> drm_mode_copy(...)
-> {
-> ...
-> }
-> 
-> @depends on !is_mode_copy@
-> struct drm_display_mode *mode;
-> expression E, S;
-> @@
-> (
-> - *mode = E
-> + drm_mode_copy(mode, &E)
-> |
-> - memcpy(mode, E, S)
-> + drm_mode_copy(mode, E)
-> )
-> 
-> @depends on !is_mode_copy@
-> struct drm_display_mode mode;
-> expression E;
-> @@
-> (
-> - mode = E
-> + drm_mode_copy(&mode, &E)
-> |
-> - memcpy(&mode, E, S)
-> + drm_mode_copy(&mode, E)
-> )
-> 
-> @@
-> struct drm_display_mode *mode;
-> @@
-> - &*mode
-> + mode
-> 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+On 22/03/2022 10:26, Thomas Hellström wrote:
+> On Tue, 2022-03-22 at 10:13 +0000, Tvrtko Ursulin wrote:
+>>
+>> On 21/03/2022 15:15, Thomas Hellström wrote:
+>>> On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 21/03/2022 13:40, Thomas Hellström wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 21/03/2022 12:33, Thomas Hellström wrote:
+>>>>>>> On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin wrote:
+>>>>>>>>
+>>>>>>>> On 21/03/2022 11:03, Thomas Hellström wrote:
+>>>>>>>>> Hi, Tvrtko.
+>>>>>>>>>
+>>>>>>>>> On 3/21/22 11:27, Tvrtko Ursulin wrote:
+>>>>>>>>>>
+>>>>>>>>>> On 19/03/2022 19:42, Michael Cheng wrote:
+>>>>>>>>>>> To align with the discussion in [1][2], this patch
+>>>>>>>>>>> series
+>>>>>>>>>>> drops
+>>>>>>>>>>> all
+>>>>>>>>>>> usage of
+>>>>>>>>>>> wbvind_on_all_cpus within i915 by either replacing
+>>>>>>>>>>> the
+>>>>>>>>>>> call
+>>>>>>>>>>> with certain
+>>>>>>>>>>> drm clflush helpers, or reverting to a previous
+>>>>>>>>>>> logic.
+>>>>>>>>>>
+>>>>>>>>>> AFAIU, complaint from [1] was that it is wrong to
+>>>>>>>>>> provide
+>>>>>>>>>> non
+>>>>>>>>>> x86
+>>>>>>>>>> implementations under the wbinvd_on_all_cpus name.
+>>>>>>>>>> Instead an
+>>>>>>>>>> arch
+>>>>>>>>>> agnostic helper which achieves the same effect could
+>>>>>>>>>> be
+>>>>>>>>>> created.
+>>>>>>>>>> Does
+>>>>>>>>>> Arm have such concept?
+>>>>>>>>>
+>>>>>>>>> I also understand Linus' email like we shouldn't leak
+>>>>>>>>> incoherent
+>>>>>>>>> IO
+>>>>>>>>> to
+>>>>>>>>> other architectures, meaning any remaining wbinvd()s
+>>>>>>>>> should
+>>>>>>>>> be
+>>>>>>>>> X86
+>>>>>>>>> only.
+>>>>>>>>
+>>>>>>>> The last part is completely obvious since it is a x86
+>>>>>>>> instruction
+>>>>>>>> name.
+>>>>>>>
+>>>>>>> Yeah, I meant the function implementing wbinvd() semantics.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> But I think we can't pick a solution until we know how
+>>>>>>>> the
+>>>>>>>> concept
+>>>>>>>> maps
+>>>>>>>> to Arm and that will also include seeing how the
+>>>>>>>> drm_clflush_sg for
+>>>>>>>> Arm
+>>>>>>>> would look. Is there a range based solution, or just a
+>>>>>>>> big
+>>>>>>>> hammer
+>>>>>>>> there.
+>>>>>>>> If the latter, then it is no good to churn all these
+>>>>>>>> reverts
+>>>>>>>> but
+>>>>>>>> instead
+>>>>>>>> an arch agnostic wrapper, with a generic name, would be
+>>>>>>>> the
+>>>>>>>> way to
+>>>>>>>> go.
+>>>>>>>
+>>>>>>> But my impression was that ARM would not need the range-
+>>>>>>> based
+>>>>>>> interface
+>>>>>>> either, because ARM is only for discrete and with discrete
+>>>>>>> we're
+>>>>>>> always
+>>>>>>> coherent.
+>>>>>>
+>>>>>> Not sure what you mean here - what about flushing system
+>>>>>> memory
+>>>>>> objects
+>>>>>> on discrete? Those still need flushing on paths like suspend
+>>>>>> which this
+>>>>>> series touches. Am I missing something?
+>>>>>
+>>>>> System bos on discrete should always have
+>>>>>
+>>>>> I915_BO_CACHE_COHERENT_FOR_READ |
+>>>>> I915_BO_CACHE_COHERENT_FOR_WRITE
+>>>>>
+>>>>> either by the gpu being fully cache coherent (or us mapping
+>>>>> system
+>>>>> write-combined). Hence no need for cache clflushes or wbinvd()
+>>>>> for
+>>>>> incoherent IO.
+>>>>
+>>>> Hmm so you are talking about the shmem ttm backend. It ends up
+>>>> depending on the result of i915_ttm_cache_level, yes? It cannot
+>>>> end
+>>>> up with I915_CACHE_NONE from that function?
+>>>
+>>> If the object is allocated with allowable placement in either LMEM
+>>> or
+>>> SYSTEM, and it ends in system, it gets allocated with
+>>> I915_CACHE_NONE,
+>>> but then the shmem ttm backend isn't used but TTM's wc pools, and
+>>> the
+>>> object should *always* be mapped wc. Even in system.
+>>
+>> I am not familiar with neither TTM backend or wc pools so maybe a
+>> missed
+>> question - if obj->cache_level can be set to none, and
+>> obj->cache_coherency to zero, then during object lifetime helpers
+>> which
+>> consult those fields (like i915_gem_cpu_write_needs_clflush,
+>> __start_cpu_write, etc) are giving out incorrect answers? That is, it
+>> is
+>> irrelevant that they would say flushes are required, since in
+>> actuality
+>> those objects can never ever and from anywhere be mapped other than
+>> WC
+>> so flushes aren't actually required?
+> 
+> If we map other than WC somewhere in these situations, that should be a
+> bug needing a fix. It might be that some of these helpers that you
+> mention might still flag that a clflush is needed, and in that case
+> that's an oversight that also needs fixing.
+> 
+>>
+>>>> I also found in i915_drm.h:
+>>>>
+>>>>            * As caching mode when specifying
+>>>> `I915_MMAP_OFFSET_FIXED`,
+>>>> WC or WB will
+>>>>            * be used, depending on the object placement on
+>>>> creation. WB
+>>>> will be used
+>>>>            * when the object can only exist in system memory, WC
+>>>> otherwise.
+>>>>
+>>>> If what you say is true, that on discrete it is _always_ WC, then
+>>>> that needs updating as well.
+>>>
+>>> If an object is allocated as system only, then it is mapped WB, and
+>>> we're relying on the gpu being cache coherent to avoid clflushes.
+>>> Same
+>>> is actually currently true if the object happens to be accessed by
+>>> the
+>>> cpu while evicted. Might need an update for that.
+>>
+>> Hmm okay, I think I actually misunderstood something here. I think
+>> the
+>> reason for difference bbtween smem+lmem object which happens to be in
+>> smem and smem only object is eluding me.
+>>
+>>>>>
+>>>>> That's adhering to Linus'
+>>>>>
+>>>>> "And I sincerely hope to the gods that no cache-incoherent i915
+>>>>> mess
+>>>>> ever makes it out of the x86 world. Incoherent IO was always a
+>>>>> historical mistake and should never ever happen again, so we
+>>>>> should
+>>>>> not spread that horrific pattern around."
+>>>>
+>>>> Sure, but I was not talking about IO - just the CPU side access
+>>>> to
+>>>> CPU side objects.
+>>>
+>>> OK, I was under the impression that clflushes() and wbinvd()s in
+>>> i915
+>>> was only ever used to make data visible to non-snooping GPUs.
+>>>
+>>> Do you mean that there are other uses as well? Agreed the wb cache
+>>> flush on on suspend only if gpu is
+>>> !I915_BO_CACHE_COHERENT_FOR_READ?
+>>> looks to not fit this pattern completely.
+>>
+>> Don't know, I was first trying to understand handling of the
+>> obj->cache_coherent as discussed in the first quote block. Are the
+>> flags
+>> consistently set and how the Arm low level code will look.
+>>
+>>> Otherwise, for architectures where memory isn't always fully
+>>> coherent
+>>> with the cpu cache, I'd expect them to use the apis in
+>>> asm/cacheflush.h, like flush_cache_range() and similar, which are
+>>> nops
+>>> on x86.
+>>
+>> Hm do you know why there are no-ops? Like why wouldn't they map to
+>> clflush?
+> 
+> I think it mostly boils down to the PIPT caches on x86. Everything is
+> assumed to be coherent. Whereas some architextures keep different cache
+> entries for different virtual addresses even if the physical page is
+> the same...
+> 
+> clflushes and wbinvds on x86 are for odd arch-specific situations
+> where, for example where we change caching attributes of the linear
+> kernel map mappings.
 
-Regards
-Andrzej
+So in summary we have flush_cache_range which is generic, not implemented on x86 and works with virtual addresses so not directly usable even if x86 implementation was added.
+
+There is also x86 specific clflush_cache_range which works with virtual addresses as well so no good for drm_clflush_sg.
+
+Question you implicitly raise, correct me if I got it wrong, is whether we should even be trying to extend drm_clflush_sg for Arm, given how most (all?) call sites are not needed on discrete, is that right?
+
+Would that mean we could leave most of the code as is and just replace wbinvd_on_all_cpus with something like i915_flush_cpu_caches, which would then legitimately do nothing, at least on Arm if not also on discrete in general?
+
+If that would work it would make a small and easy to review series. I don't think it would collide with what Linus asked since it is not propagating undesirable things further - given how if there is no actual need to flush then there is no need to make it range based either.
+
+Exception would be the dmabuf get pages patch which needs a proper implementation of a new drm flush helper.
+
+Regards,
+
+Tvrtko
