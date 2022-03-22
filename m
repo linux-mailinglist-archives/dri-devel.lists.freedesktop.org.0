@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7DF4E486A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A164E486D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C37910E573;
-	Tue, 22 Mar 2022 21:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5391110E57A;
+	Tue, 22 Mar 2022 21:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60D5C10E563;
- Tue, 22 Mar 2022 21:41:10 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A997310E575;
+ Tue, 22 Mar 2022 21:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647985270; x=1679521270;
+ t=1647985275; x=1679521275;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4/4iVLd+uZSWYzVWqys5om5ixEFvS+Vuw0Mo2h4qqW4=;
- b=muLnjuZACYWUKVJOh/ac0dPwv+3qHLSJKk2R1OHrGauY0+M++Smqn1uP
- 8N8+okt1FGTerloxVv6g276P+Go9Cpyt198qzrSbOB9AYgYb29qk7pf9s
- jFnT8bGGw5U1dE+scBprMRbM0rihgMMESc1u/4uVHNgAL4MColdEsvN1q
- tclRxbGOaEUfqc59gmkGEwWgTUeBy7MVmhIlimr8xJqya1TYFKdzEY0VL
- OA5cUMQT8fXy/yh/dZfoa5Y9WTqxktK7BtganiYVKksZp0R5TvoOzXJ2k
- PSk7xYmEqSb+wf9UAQlHwhaQUArRbnLyqqbZMNE7rxqzuFUgQPG7sVzga w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="245428366"
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="245428366"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:09 -0700
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="519082458"
+ bh=Pl0LitKoau9L3rmWeDkWAuolUD50oQZTSw+ksNnhMt8=;
+ b=DCPfQ/HBHImy6QCYk5QLUG08fuyZNKeTbLuoC3kcSHMWLV76bzCiKtMD
+ w3vSiZrasuAAbRRRxX0EaCLzBH50qbVA5aw/+Owh2NCm/3ESa2I+tf9Uu
+ Kk7E7+GTgeYiOawbqTTIis3ww5qDH5WBD/Y+KZFNXQhp483C3jSyt0QLf
+ p7t2b8NTni/BpppJdZ649DPypgZxPB7EoyCwiiw2KJh8pYxugy3klWVHU
+ Zlw6v9kUL1SxRO0QgQ4G8AJD2s7xy2A47KD8aOczZEtEEPKrqlUMeD8KU
+ DXYC+2xcIq5iC30TnDzHIhxqIStdnO/kWpM3oGFQkmo34Ly50cbdUuJBC g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="238559520"
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="238559520"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 14:41:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="717135761"
 Received: from sburacze-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.58.237])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:08 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 14:41:13 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC 02/19] drm: use drm_edid_extension_block_count() and
- drm_edid_size()
-Date: Tue, 22 Mar 2022 23:40:31 +0200
-Message-Id: <1a98752e8f23f4a981feb3471f46c3d2b4b2b93c.1647985054.git.jani.nikula@intel.com>
+Subject: [RFC 03/19] drm/edid: clean up CEA data block tag definitions
+Date: Tue, 22 Mar 2022 23:40:32 +0200
+Message-Id: <657900c5a984a0bd7a830686cb5f919ae16912f8.1647985054.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1647985054.git.jani.nikula@intel.com>
 References: <cover.1647985054.git.jani.nikula@intel.com>
@@ -62,96 +61,195 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the block count and size helpers in all drm core code.
+Add prefixed names, group, sort, add references.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_connector.c |  2 +-
- drivers/gpu/drm/drm_debugfs.c   |  3 +--
- drivers/gpu/drm/drm_edid.c      | 14 +++++++-------
- 3 files changed, 9 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 59 +++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 76a8c707c34b..cfed43e61380 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2138,7 +2138,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
- 		return 0;
- 
- 	if (edid)
--		size = EDID_LENGTH * (1 + edid->extensions);
-+		size = drm_edid_size(edid);
- 
- 	/* Set the display info, using edid if available, otherwise
- 	 * resetting the values to defaults. This duplicates the work
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 7f1b82dbaebb..a832ef6b33fe 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -362,8 +362,7 @@ static ssize_t edid_write(struct file *file, const char __user *ubuf,
- 	if (len == 5 && !strncmp(buf, "reset", 5)) {
- 		connector->override_edid = false;
- 		ret = drm_connector_update_edid_property(connector, NULL);
--	} else if (len < EDID_LENGTH ||
--		   EDID_LENGTH * (1 + edid->extensions) > len)
-+	} else if (len < EDID_LENGTH || drm_edid_size(edid) > len)
- 		ret = -EINVAL;
- 	else {
- 		connector->override_edid = false;
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f4b49693e666..b96906774433 100644
+index b96906774433..6c188539493e 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1643,8 +1643,8 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
- 		return false;
- 
- 	if (edid1) {
--		edid1_len = EDID_LENGTH * (1 + edid1->extensions);
--		edid2_len = EDID_LENGTH * (1 + edid2->extensions);
-+		edid1_len = drm_edid_size(edid1);
-+		edid2_len = drm_edid_size(edid2);
- 
- 		if (edid1_len != edid2_len)
- 			return false;
-@@ -1770,7 +1770,7 @@ bool drm_edid_is_valid(struct edid *edid)
- 	if (!edid)
- 		return false;
- 
--	for (i = 0; i <= edid->extensions; i++)
-+	for (i = 0; i <= drm_edid_extension_block_count(edid); i++)
- 		if (!drm_edid_block_valid(raw + i * EDID_LENGTH, i, true, NULL))
- 			return false;
- 
-@@ -2224,7 +2224,7 @@ EXPORT_SYMBOL(drm_edid_size);
-  */
- struct edid *drm_edid_duplicate(const struct edid *edid)
- {
--	return kmemdup(edid, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
-+	return kmemdup(edid, drm_edid_size(edid), GFP_KERNEL);
+@@ -3329,15 +3329,20 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
+ 	return closure.modes;
  }
- EXPORT_SYMBOL(drm_edid_duplicate);
  
-@@ -3353,17 +3353,17 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
- 	int i;
+-#define AUDIO_BLOCK	0x01
+-#define VIDEO_BLOCK     0x02
+-#define VENDOR_BLOCK    0x03
+-#define SPEAKER_BLOCK	0x04
+-#define HDR_STATIC_METADATA_BLOCK	0x6
+-#define USE_EXTENDED_TAG 0x07
+-#define EXT_VIDEO_CAPABILITY_BLOCK 0x00
+-#define EXT_VIDEO_DATA_BLOCK_420	0x0E
+-#define EXT_VIDEO_CAP_BLOCK_Y420CMDB 0x0F
++/* CEA-861-F Table 44 CEA Data Block Tag Codes */
++#define CEA_DB_AUDIO			1
++#define CEA_DB_VIDEO			2
++#define CEA_DB_VENDOR			3
++#define CEA_DB_SPEAKER			4
++#define CEA_DB_EXTENDED_TAG		7
++
++/* CEA-861-F Table 46 CEA Data Block Tag Codes */
++#define CEA_EXT_DB_VIDEO_CAP		0
++#define CEA_EXT_DB_VENDOR		1
++#define CEA_EXT_DB_HDR_STATIC_METADATA	6 /* CEA-861.3 2005 */
++#define CEA_EXT_DB_420_VIDEO_DATA	14
++#define CEA_EXT_DB_420_VIDEO_CAP_MAP	15
++
+ #define EDID_BASIC_AUDIO	(1 << 6)
+ #define EDID_CEA_YCRCB444	(1 << 5)
+ #define EDID_CEA_YCRCB422	(1 << 4)
+@@ -4220,7 +4225,7 @@ cea_db_offsets(const u8 *cea, int *start, int *end)
  
- 	/* No EDID or EDID extensions */
--	if (edid == NULL || edid->extensions == 0)
-+	if (edid == NULL || drm_edid_extension_block_count(edid) == 0)
- 		return NULL;
+ static bool cea_db_is_hdmi_vsdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != VENDOR_BLOCK)
++	if (cea_db_tag(db) != CEA_DB_VENDOR)
+ 		return false;
  
- 	/* Find CEA extension */
--	for (i = *ext_index; i < edid->extensions; i++) {
-+	for (i = *ext_index; i < drm_edid_extension_block_count(edid); i++) {
- 		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
- 		if (edid_ext[0] == ext_id)
- 			break;
- 	}
+ 	if (cea_db_payload_len(db) < 5)
+@@ -4231,7 +4236,7 @@ static bool cea_db_is_hdmi_vsdb(const u8 *db)
  
--	if (i >= edid->extensions)
-+	if (i >= drm_edid_extension_block_count(edid))
- 		return NULL;
+ static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != VENDOR_BLOCK)
++	if (cea_db_tag(db) != CEA_DB_VENDOR)
+ 		return false;
  
- 	*ext_index = i + 1;
+ 	if (cea_db_payload_len(db) < 7)
+@@ -4242,7 +4247,7 @@ static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)
+ 
+ static bool cea_db_is_microsoft_vsdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != VENDOR_BLOCK)
++	if (cea_db_tag(db) != CEA_DB_VENDOR)
+ 		return false;
+ 
+ 	if (cea_db_payload_len(db) != 21)
+@@ -4253,13 +4258,13 @@ static bool cea_db_is_microsoft_vsdb(const u8 *db)
+ 
+ static bool cea_db_is_vcdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != USE_EXTENDED_TAG)
++	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+ 		return false;
+ 
+ 	if (cea_db_payload_len(db) != 2)
+ 		return false;
+ 
+-	if (cea_db_extended_tag(db) != EXT_VIDEO_CAPABILITY_BLOCK)
++	if (cea_db_extended_tag(db) != CEA_EXT_DB_VIDEO_CAP)
+ 		return false;
+ 
+ 	return true;
+@@ -4267,13 +4272,13 @@ static bool cea_db_is_vcdb(const u8 *db)
+ 
+ static bool cea_db_is_y420cmdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != USE_EXTENDED_TAG)
++	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+ 		return false;
+ 
+ 	if (!cea_db_payload_len(db))
+ 		return false;
+ 
+-	if (cea_db_extended_tag(db) != EXT_VIDEO_CAP_BLOCK_Y420CMDB)
++	if (cea_db_extended_tag(db) != CEA_EXT_DB_420_VIDEO_CAP_MAP)
+ 		return false;
+ 
+ 	return true;
+@@ -4281,13 +4286,13 @@ static bool cea_db_is_y420cmdb(const u8 *db)
+ 
+ static bool cea_db_is_y420vdb(const u8 *db)
+ {
+-	if (cea_db_tag(db) != USE_EXTENDED_TAG)
++	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+ 		return false;
+ 
+ 	if (!cea_db_payload_len(db))
+ 		return false;
+ 
+-	if (cea_db_extended_tag(db) != EXT_VIDEO_DATA_BLOCK_420)
++	if (cea_db_extended_tag(db) != CEA_EXT_DB_420_VIDEO_DATA)
+ 		return false;
+ 
+ 	return true;
+@@ -4354,7 +4359,7 @@ add_cea_modes(struct drm_connector *connector, struct edid *edid)
+ 			db = &cea[i];
+ 			dbl = cea_db_payload_len(db);
+ 
+-			if (cea_db_tag(db) == VIDEO_BLOCK) {
++			if (cea_db_tag(db) == CEA_DB_VIDEO) {
+ 				video = db + 1;
+ 				video_len = dbl;
+ 				modes += do_cea_modes(connector, video, dbl);
+@@ -4428,10 +4433,10 @@ static void fixup_detailed_cea_mode_clock(struct drm_display_mode *mode)
+ 
+ static bool cea_db_is_hdmi_hdr_metadata_block(const u8 *db)
+ {
+-	if (cea_db_tag(db) != USE_EXTENDED_TAG)
++	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+ 		return false;
+ 
+-	if (db[1] != HDR_STATIC_METADATA_BLOCK)
++	if (db[1] != CEA_EXT_DB_HDR_STATIC_METADATA)
+ 		return false;
+ 
+ 	if (cea_db_payload_len(db) < 3)
+@@ -4622,7 +4627,7 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
+ 			dbl = cea_db_payload_len(db);
+ 
+ 			switch (cea_db_tag(db)) {
+-			case AUDIO_BLOCK:
++			case CEA_DB_AUDIO:
+ 				/* Audio Data Block, contains SADs */
+ 				sad_count = min(dbl / 3, 15 - total_sad_count);
+ 				if (sad_count >= 1)
+@@ -4630,12 +4635,12 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
+ 					       &db[1], sad_count * 3);
+ 				total_sad_count += sad_count;
+ 				break;
+-			case SPEAKER_BLOCK:
++			case CEA_DB_SPEAKER:
+ 				/* Speaker Allocation Data Block */
+ 				if (dbl >= 1)
+ 					eld[DRM_ELD_SPEAKER] = db[1];
+ 				break;
+-			case VENDOR_BLOCK:
++			case CEA_DB_VENDOR:
+ 				/* HDMI Vendor-Specific Data Block */
+ 				if (cea_db_is_hdmi_vsdb(db))
+ 					drm_parse_hdmi_vsdb_audio(connector, db);
+@@ -4696,7 +4701,7 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
+ 	for_each_cea_db(cea, i, start, end) {
+ 		const u8 *db = &cea[i];
+ 
+-		if (cea_db_tag(db) == AUDIO_BLOCK) {
++		if (cea_db_tag(db) == CEA_DB_AUDIO) {
+ 			int j;
+ 
+ 			dbl = cea_db_payload_len(db);
+@@ -4758,7 +4763,7 @@ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
+ 	for_each_cea_db(cea, i, start, end) {
+ 		const u8 *db = &cea[i];
+ 
+-		if (cea_db_tag(db) == SPEAKER_BLOCK) {
++		if (cea_db_tag(db) == CEA_DB_SPEAKER) {
+ 			dbl = cea_db_payload_len(db);
+ 
+ 			/* Speaker Allocation Data Block */
+@@ -4888,7 +4893,7 @@ bool drm_detect_monitor_audio(struct edid *edid)
+ 		goto end;
+ 
+ 	for_each_cea_db(edid_ext, i, start_offset, end_offset) {
+-		if (cea_db_tag(&edid_ext[i]) == AUDIO_BLOCK) {
++		if (cea_db_tag(&edid_ext[i]) == CEA_DB_AUDIO) {
+ 			has_audio = true;
+ 			for (j = 1; j < cea_db_payload_len(&edid_ext[i]) + 1; j += 3)
+ 				DRM_DEBUG_KMS("CEA audio format %d\n",
 -- 
 2.30.2
 
