@@ -1,56 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245C74E3B92
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 10:17:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DED4E3B97
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 10:17:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381A910E1A8;
-	Tue, 22 Mar 2022 09:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5199E10E538;
+	Tue, 22 Mar 2022 09:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B6410E1A8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:16:55 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2e5969bdf31so182904097b3.8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 02:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qBo572xYxqKTaI7lpxz6okPw5Dq0guno4lBVKRNZQ/A=;
- b=WWB8emCtss3irAeHLhh34BqngG7N6Em0pESEW5mZSmaLFmMVCjPSTEdYvW0PPGByYQ
- CWymPaVG1aWq+YgWMqMq92aGTNcile6wp/e1UG5RMywSvkHh/zJoT1q1mQObt6KRR1Um
- eMCEEeKoqbE9hyhq07qhHR3fabTcqjWmo1Fs4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qBo572xYxqKTaI7lpxz6okPw5Dq0guno4lBVKRNZQ/A=;
- b=tMMlCWb+qn1hWGgIYZgm8WoXIYtnlrilE13eJ8GhAQ2qfdfBVY3YQ1EbkCi5fp7UdA
- 2sR1VJDJId3EjuWyBkUmsGVc0Wl21DcatAv+jcGSSmfGnlaoy2OpmHsjWNxXFE65JvXt
- erRl9n5Qi2iIbjYZ3T7lSoOqBmPDVgTvq8yfOZuqHWPBe8xrPPB8vYfzK+8ipkW37Rq0
- NILYeSYvJphWmgnJxyg7BKU2kcGgsB8yjphbCIVn6nPcweXqCaGb+Vo6XUpqQQVD0la6
- xZKU3zlXBBuHlqXdGu9pLtVrR4p81Z6hOt3muR3wGrEWkDS3C+4CLXpTt2cvu2U5kcqr
- osWw==
-X-Gm-Message-State: AOAM533T7bhWpvqSuTQPSPDkd9GL6DuiOouymDG0h4ZLQPSqAbH2Eafo
- FvAahEdPAn6RS8/vORvZ+FL2cdX/TzdiL30p33zQbg==
-X-Google-Smtp-Source: ABdhPJwNO0vnyYt7H/o8k79ta7Lhum+mKBkTV9F1PVSuv9BvIwWbWZNFxtmU7SgMq6HBTpTHeeV9x4XEq1Tkvib4VC4=
-X-Received: by 2002:a81:be05:0:b0:2e5:6c26:59fb with SMTP id
- i5-20020a81be05000000b002e56c2659fbmr28941957ywn.94.1647940614769; Tue, 22
- Mar 2022 02:16:54 -0700 (PDT)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9B710E536
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:17:35 +0000 (UTC)
+Received: from kwepemi100005.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KN5VF0wftzcbG3;
+ Tue, 22 Mar 2022 17:17:25 +0800 (CST)
+Received: from kwepemm600010.china.huawei.com (7.193.23.86) by
+ kwepemi100005.china.huawei.com (7.221.188.155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Mar 2022 17:17:32 +0800
+Received: from huawei.com (10.174.179.164) by kwepemm600010.china.huawei.com
+ (7.193.23.86) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 22 Mar
+ 2022 17:17:31 +0800
+From: Liu Zixian <liuzixian4@huawei.com>
+To: <airlied@linux.ie>, <kraxel@redhat.com>, <gurchetansingh@chromium.org>,
+ <olvaffe@gmail.com>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <virtualization@lists.linux-foundation.org>
+Subject: [PATCH] drm/virtio: fix NULL pointer dereference in
+ virtio_gpu_conn_get_modes
+Date: Tue, 22 Mar 2022 17:17:30 +0800
+Message-ID: <20220322091730.1653-1-liuzixian4@huawei.com>
+X-Mailer: git-send-email 2.29.2.windows.3
 MIME-Version: 1.0
-References: <20220322080213.1487134-1-xji@analogixsemi.com>
- <CAJMQK-j+PhB6dZBuKG3NtW94oT0bVkp9G1bXhmyZLgYOmTCgog@mail.gmail.com>
- <20220322085208.GA1487511@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20220322085208.GA1487511@anxtwsw-Precision-3640-Tower>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 22 Mar 2022 17:16:43 +0800
-Message-ID: <CAGXv+5Gddu8VU7xjX-r2=u85i7Ut=_6JpQV6py52OyzEkpezTg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Set downstream sink into normal
- status
-To: Xin Ji <xji@analogixsemi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.164]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600010.china.huawei.com (7.193.23.86)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,78 +51,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, treapking@chromium.org,
- dri-devel@lists.freedesktop.org, pihsun@chromium.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, tzungbi@google.com,
- bliang@analogixsemi.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linfeilong@huawei.com, liuzixian4@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 4:52 PM Xin Ji <xji@analogixsemi.com> wrote:
->
-> On Tue, Mar 22, 2022 at 04:43:20PM +0800, Hsin-Yi Wang wrote:
-> > On Tue, Mar 22, 2022 at 4:02 PM Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > As downstream sink was set into standby mode while bridge disabled,
-> > > this patch used for setting downstream sink into normal status
-> > > while enable bridge.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > Reviewed-by: Pin-Yen Lin <treapking@chromium.org>
-> > >
-> > > ---
-> > > V1 -> V2: use dev_dbg replace of dev_info
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index 9a2a19ad4202..dcf3275a00fe 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > @@ -924,12 +924,20 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
-> > >  {
-> > >         int ret;
-> > >         struct device *dev = &ctx->client->dev;
-> > > +       u8 data;
-> > >
-> > >         if (!ctx->display_timing_valid) {
-> > >                 DRM_DEV_ERROR(dev, "mipi not set display timing yet.\n");
-> > >                 return;
-> > >         }
-> > >
-> > > +       dev_dbg(dev, "set downstream sink into normal\n");
-> > > +       /* Downstream sink enter into normal mode */
-> > > +       data = 1;
-> > > +       ret = anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
-> > > +       if (ret < 0)
-> > > +               dev_err(dev, "IO error : set sink into normal mode fail\n");
-> > > +
-> >
-> > The driver uses DRM_DEV_* for logs. Can we use this?
-> Hi Hsin-Yi, as comment in drm/drm_print.h:
-> "NOTE: this is deprecated in favor of drm_dbg". DRM bridge driver not
-> use DRM_DEV_* any more. I'll send a patch to replace all of DRM_DEV_*
-> later.
+drm_cvt_mode may return NULL and we should check it.
 
-drm_dbg is better than dev_dbg though. With the former, you still get the
-option to control it with the drm.debug module parameter, unlike the latter
-which normally gets compiled out.
+This bug is found by syzkaller:
 
-Please use drm_dbg*.
+FAULT_INJECTION stacktrace:
+[  168.567394] FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+[  168.567403] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567406] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567408] Call trace:
+[  168.567414]  dump_backtrace+0x0/0x310
+[  168.567418]  show_stack+0x28/0x38
+[  168.567423]  dump_stack+0xec/0x15c
+[  168.567427]  should_fail+0x3ac/0x3d0
+[  168.567437]  __should_failslab+0xb8/0x120
+[  168.567441]  should_failslab+0x28/0xc0
+[  168.567445]  kmem_cache_alloc_trace+0x50/0x640
+[  168.567454]  drm_mode_create+0x40/0x90
+[  168.567458]  drm_cvt_mode+0x48/0xc78
+[  168.567477]  virtio_gpu_conn_get_modes+0xa8/0x140 [virtio_gpu]
+[  168.567485]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567492]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567496]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567514]  drm_ioctl+0x558/0x6d0
+[  168.567522]  do_vfs_ioctl+0x160/0xf30
+[  168.567525]  ksys_ioctl+0x98/0xd8
+[  168.567530]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567536]  el0_svc_common+0xc8/0x320
+[  168.567540]  el0_svc_handler+0xf8/0x160
+[  168.567544]  el0_svc+0x10/0x218
 
-ChenYu
+KASAN stacktrace:
+[  168.567561] BUG: KASAN: null-ptr-deref in virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567565] Read of size 4 at addr 0000000000000054 by task syz/6425
+[  168.567566]
+[  168.567571] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567573] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567575] Call trace:
+[  168.567578]  dump_backtrace+0x0/0x310
+[  168.567582]  show_stack+0x28/0x38
+[  168.567586]  dump_stack+0xec/0x15c
+[  168.567591]  kasan_report+0x244/0x2f0
+[  168.567594]  __asan_load4+0x58/0xb0
+[  168.567607]  virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567612]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567617]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567621]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567624]  drm_ioctl+0x558/0x6d0
+[  168.567628]  do_vfs_ioctl+0x160/0xf30
+[  168.567632]  ksys_ioctl+0x98/0xd8
+[  168.567636]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567641]  el0_svc_common+0xc8/0x320
+[  168.567645]  el0_svc_handler+0xf8/0x160
+[  168.567649]  el0_svc+0x10/0x218
 
-> Thanks,
-> Xin
-> >
-> > >         /* Disable HDCP */
-> > >         anx7625_write_and(ctx, ctx->i2c.rx_p1_client, 0xee, 0x9f);
-> > >
-> > > --
-> > > 2.25.1
-> > >
+Signed-off-by: Liu Zixian <liuzixian4@huawei.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 5b00310ac..f73352e7b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -179,6 +179,8 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
+ 		DRM_DEBUG("add mode: %dx%d\n", width, height);
+ 		mode = drm_cvt_mode(connector->dev, width, height, 60,
+ 				    false, false, false);
++		if (!mode)
++			return count;
+ 		mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 		drm_mode_probed_add(connector, mode);
+ 		count++;
+-- 
+2.33.0
+
