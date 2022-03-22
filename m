@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09144E46A1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 20:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2734E46AA
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 20:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D3110E1C3;
-	Tue, 22 Mar 2022 19:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF8410E3C7;
+	Tue, 22 Mar 2022 19:27:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B353C10E012
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:27:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076E910E1F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:27:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 400671F37F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7E7D81F388;
  Tue, 22 Mar 2022 19:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1647977266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G5+6+lyNR9X4j03euGohrzdlWuZ9GQ2phX8v2h7sk0s=;
- b=Zxv2bXnz/gVVLZMr8vtS2s+T/JH93T/9BdcRk/wmhG9u7zcI4cgq9WGGWECJoN4XDSgBn3
- PV2WtBan6122FxXqd8tQnAFWcSe62SL70J138tUqptxYyoIoUybGawt4viQh0gfKntd4WK
- 63HWN7QR77K9bXPqziJHizsvtg29wL0=
+ bh=WbMiJKiHQDA6hiQc5TdXSRrP0WYKyYsyghkHA9Jeifw=;
+ b=fKKEDIUPd4tCUVVF2j87vLCUCFATD5qJtRYvJNR14i5y7gjyC5IRwiC2V2PToEBl/ruBxA
+ dCGGnswqUzcbXvSEfEzs9kezcEx2Z8cIoomurnq5REd7QQcMID6GJVlQy0NunOveVCIVXM
+ 1LwgaqRdacQqHfDF91UQb63S4zkgc8w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1647977266;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G5+6+lyNR9X4j03euGohrzdlWuZ9GQ2phX8v2h7sk0s=;
- b=pt+GqU27I0pf1sLwdBLsQ9+md9QNGS9z/TPBYMC104EBxs/0haqTOoCIGVvh2gBusAH6Nb
- d8riog7G28OmrgCA==
+ bh=WbMiJKiHQDA6hiQc5TdXSRrP0WYKyYsyghkHA9Jeifw=;
+ b=aeTk1KNkApUT/td50l4Q56nElp/7r0LMDPxpMqMlE5T+lH/dpalPL4s61HAB5tQtDz0QZ+
+ W1/g6QBAltIqlhDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D3A313479;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43A6113419;
  Tue, 22 Mar 2022 19:27:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CLo2AjIjOmIZMAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kJCEDzIjOmIZMAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 22 Mar 2022 19:27:46 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, jani.nikula@linux.intel.com, lyude@redhat.com
-Subject: [PATCH 1/8] drm: Put related statements next to each other in Makefile
-Date: Tue, 22 Mar 2022 20:27:36 +0100
-Message-Id: <20220322192743.14414-2-tzimmermann@suse.de>
+Subject: [PATCH 2/8] drm: Rename dp/ to display/
+Date: Tue, 22 Mar 2022 20:27:37 +0100
+Message-Id: <20220322192743.14414-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220322192743.14414-1-tzimmermann@suse.de>
 References: <20220322192743.14414-1-tzimmermann@suse.de>
@@ -72,82 +72,1284 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Give the Makefile a bit more structure by putting rules for core,
-helpers, drivers, etc next to each other.
+Rename dp/ to display/ to account for additional display-related
+helpers, such as HDMI. Update all related include statements. No
+functional changes.
+
+Various drivers, such as i915 and amdgpu, use similar naming scheme
+by putting code for video-output standards into a local display/
+directory. The new directory's name is aligned with that policy.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/Makefile | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst         | 26 +++++++++----------
+ drivers/gpu/drm/Makefile                      |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +--
+ drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |  3 ++-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  4 +--
+ .../drm/amd/display/dc/core/dc_link_dpcd.c    |  2 +-
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c   |  2 +-
+ drivers/gpu/drm/amd/display/dc/os_types.h     |  2 +-
+ .../gpu/drm/amd/display/include/dpcd_defs.h   |  2 +-
+ .../gpu/drm/amd/display/modules/hdcp/hdcp.h   |  2 +-
+ .../drm/bridge/analogix/analogix-anx6345.c    |  2 +-
+ .../drm/bridge/analogix/analogix-anx78xx.c    |  2 +-
+ .../drm/bridge/analogix/analogix-i2c-dptx.c   |  2 +-
+ .../drm/bridge/analogix/analogix_dp_core.h    |  2 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     |  4 +--
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  2 +-
+ drivers/gpu/drm/bridge/ite-it6505.c           |  2 +-
+ drivers/gpu/drm/bridge/parade-ps8640.c        |  4 +--
+ drivers/gpu/drm/bridge/tc358767.c             |  2 +-
+ drivers/gpu/drm/bridge/tc358775.c             |  2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  4 +--
+ drivers/gpu/drm/{dp => display}/Makefile      |  0
+ drivers/gpu/drm/{dp => display}/drm_dp.c      |  4 +--
+ .../gpu/drm/{dp => display}/drm_dp_aux_bus.c  |  4 +--
+ .../gpu/drm/{dp => display}/drm_dp_aux_dev.c  |  4 +--
+ drivers/gpu/drm/{dp => display}/drm_dp_cec.c  |  2 +-
+ .../{dp => display}/drm_dp_dual_mode_helper.c |  2 +-
+ .../{dp => display}/drm_dp_helper_internal.h  |  0
+ .../drm/{dp => display}/drm_dp_helper_mod.c   |  0
+ .../drm/{dp => display}/drm_dp_mst_topology.c |  2 +-
+ .../drm_dp_mst_topology_internal.h            |  2 +-
+ drivers/gpu/drm/drm_dsc.c                     |  3 ++-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c         |  2 +-
+ drivers/gpu/drm/gma500/intel_bios.c           |  3 ++-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+ .../drm/i915/display/intel_display_types.h    |  4 +--
+ drivers/gpu/drm/i915/display/intel_dp.c       |  2 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  4 +--
+ .../drm/i915/display/intel_dp_link_training.h |  2 +-
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |  2 +-
+ drivers/gpu/drm/msm/dp/dp_audio.c             |  2 +-
+ drivers/gpu/drm/msm/dp/dp_aux.h               |  2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c           |  2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |  3 ++-
+ drivers/gpu/drm/msm/edp/edp.h                 |  3 ++-
+ drivers/gpu/drm/msm/edp/edp_ctrl.c            |  3 ++-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h   |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_dp.c          |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h     |  6 +++--
+ drivers/gpu/drm/panel/panel-edp.c             |  4 +--
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  |  4 +--
+ drivers/gpu/drm/radeon/atombios_dp.c          |  2 +-
+ drivers/gpu/drm/radeon/radeon_connectors.c    |  2 +-
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        |  2 +-
+ drivers/gpu/drm/radeon/radeon_mode.h          |  4 +--
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |  2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |  2 +-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |  2 +-
+ drivers/gpu/drm/rockchip/rockchip_rgb.c       |  2 +-
+ .../drm/selftests/test-drm_dp_mst_helper.c    |  4 +--
+ drivers/gpu/drm/tegra/dp.c                    |  2 +-
+ drivers/gpu/drm/tegra/dpaux.c                 |  4 +--
+ drivers/gpu/drm/tegra/sor.c                   |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |  2 +-
+ include/drm/{dp => display}/drm_dp_aux_bus.h  |  0
+ .../{dp => display}/drm_dp_dual_mode_helper.h |  0
+ include/drm/{dp => display}/drm_dp_helper.h   |  0
+ .../drm/{dp => display}/drm_dp_mst_helper.h   |  2 +-
+ include/drm/drm_dsc.h                         |  2 +-
+ 76 files changed, 106 insertions(+), 98 deletions(-)
+ rename drivers/gpu/drm/{dp => display}/Makefile (100%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_aux_bus.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_aux_dev.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_cec.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_dual_mode_helper.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_helper_internal.h (100%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_helper_mod.c (100%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology.c (99%)
+ rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology_internal.h (94%)
+ rename include/drm/{dp => display}/drm_dp_aux_bus.h (100%)
+ rename include/drm/{dp => display}/drm_dp_dual_mode_helper.h (100%)
+ rename include/drm/{dp => display}/drm_dp_helper.h (100%)
+ rename include/drm/{dp => display}/drm_dp_mst_helper.h (99%)
 
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index c3ce91eecbc1..2584f5bff66f 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -232,34 +232,34 @@ HDCP Helper Functions Reference
+ Display Port Helper Functions Reference
+ =======================================
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_helper.c
+    :doc: dp helpers
+ 
+-.. kernel-doc:: include/drm/dp/drm_dp_helper.h
++.. kernel-doc:: include/drm/display/drm_dp_helper.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_helper.c
+    :export:
+ 
+ Display Port CEC Helper Functions Reference
+ ===========================================
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_cec.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_cec.c
+    :doc: dp cec helpers
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_cec.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_cec.c
+    :export:
+ 
+ Display Port Dual Mode Adaptor Helper Functions Reference
+ =========================================================
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+    :doc: dp dual mode helpers
+ 
+-.. kernel-doc:: include/drm/dp/drm_dp_dual_mode_helper.h
++.. kernel-doc:: include/drm/display/drm_dp_dual_mode_helper.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+    :export:
+ 
+ Display Port MST Helpers
+@@ -268,19 +268,19 @@ Display Port MST Helpers
+ Overview
+ --------
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_mst_topology.c
+    :doc: dp mst helper
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_mst_topology.c
+    :doc: Branch device and port refcounting
+ 
+ Functions Reference
+ -------------------
+ 
+-.. kernel-doc:: include/drm/dp/drm_dp_mst_helper.h
++.. kernel-doc:: include/drm/display/drm_dp_mst_helper.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_mst_topology.c
+    :export:
+ 
+ Topology Lifetime Internals
+@@ -289,7 +289,7 @@ Topology Lifetime Internals
+ These functions aren't exported to drivers, but are documented here to help make
+ the MST topology helpers easier to understand
+ 
+-.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
++.. kernel-doc:: drivers/gpu/drm/display/drm_dp_mst_topology.c
+    :functions: drm_dp_mst_topology_try_get_mstb drm_dp_mst_topology_get_mstb
+                drm_dp_mst_topology_put_mstb
+                drm_dp_mst_topology_try_get_port drm_dp_mst_topology_get_port
 diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index c2ef5f9fce54..e5929437e13c 100644
+index e5929437e13c..07f7a70a78ea 100644
 --- a/drivers/gpu/drm/Makefile
 +++ b/drivers/gpu/drm/Makefile
-@@ -18,7 +18,6 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
- 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
- 		drm_client_modeset.o drm_atomic_uapi.o \
- 		drm_managed.o drm_vblank_work.o
--
- drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
- 			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
- 			    drm_memory.o drm_scatter.o drm_vm.o
-@@ -30,8 +29,16 @@ drm-$(CONFIG_PCI) += drm_pci.o
- drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
- drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
-+obj-$(CONFIG_DRM)	+= drm.o
- 
- obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
-+obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
-+
-+#
-+# Memory-management helpers
-+#
-+
-+obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
- 
- drm_cma_helper-y := drm_gem_cma_helper.o
- drm_cma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_cma_helper.o
-@@ -40,14 +47,16 @@ obj-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_cma_helper.o
- drm_shmem_helper-y := drm_gem_shmem_helper.o
- obj-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_shmem_helper.o
- 
--obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
--
- drm_vram_helper-y := drm_gem_vram_helper.o
- obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
- 
- drm_ttm_helper-y := drm_gem_ttm_helper.o
- obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
- 
-+#
-+# Modesetting helpers
-+#
-+
- drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
- 		drm_dsc.o drm_encoder_slave.o drm_flip_work.o drm_hdcp.o \
- 		drm_probe_helper.o \
-@@ -60,14 +69,16 @@ drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
- 		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
- drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
- drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
--
- obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
-+
-+#
-+# Drivers and the rest
-+#
-+
- obj-$(CONFIG_DRM_DEBUG_SELFTEST) += selftests/
- 
--obj-$(CONFIG_DRM)	+= drm.o
+@@ -80,7 +80,7 @@ obj-$(CONFIG_DRM_DEBUG_SELFTEST) += selftests/
  obj-$(CONFIG_DRM_MIPI_DBI) += drm_mipi_dbi.o
  obj-$(CONFIG_DRM_MIPI_DSI) += drm_mipi_dsi.o
--obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
  obj-y			+= arm/
- obj-y			+= dp/
+-obj-y			+= dp/
++obj-y			+= display/
  obj-$(CONFIG_DRM_TTM)	+= ttm/
+ obj-$(CONFIG_DRM_SCHED)	+= scheduler/
+ obj-$(CONFIG_DRM_TDFX)	+= tdfx/
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index fa20261aa928..954f728f8857 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -24,9 +24,9 @@
+  *          Alex Deucher
+  */
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fb_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/amdgpu_drm.h>
+ #include "amdgpu.h"
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index a546cb3cfa18..72c6f6cb7a44 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -30,10 +30,10 @@
+ #ifndef AMDGPU_MODE_H
+ #define AMDGPU_MODE_H
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_fixed.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -44,7 +44,7 @@
+ #include <linux/hrtimer.h>
+ #include "amdgpu_irq.h"
+ 
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include "modules/inc/mod_freesync.h"
+ #include "amdgpu_dm_irq_params.h"
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+index 49a2f594fb2c..87c41e0e9b7c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+@@ -26,6 +26,8 @@
+  */
+ 
+ #include <drm/amdgpu_drm.h>
++#include <drm/display/drm_dp_helper.h>
++
+ #include "amdgpu.h"
+ 
+ #include "atom.h"
+@@ -34,7 +36,6 @@
+ #include "atombios_dp.h"
+ #include "amdgpu_connectors.h"
+ #include "amdgpu_atombios.h"
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ /* move these to drm_dp_helper.c/h */
+ #define DP_LINK_CONFIGURATION_SIZE 9
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index e1d3db3fe8de..4473ac43e5f5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -73,10 +73,10 @@
+ #include <linux/firmware.h>
+ #include <linux/component.h>
+ 
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_edid.h>
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 6a908d736d6a..d6396753e98b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -26,10 +26,10 @@
+ #ifndef __AMDGPU_DM_H__
+ #define __AMDGPU_DM_H__
+ 
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_plane.h>
+ 
+ /*
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 31ac1fce36f8..43efd915ee6f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -23,10 +23,10 @@
+  *
+  */
+ 
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include "dm_services.h"
+ #include "amdgpu.h"
+ #include "amdgpu_dm.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c
+index 48a18766f002..af110bf9470f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpcd.c
+@@ -27,8 +27,8 @@
+ #include <dc_link.h>
+ #include <inc/link_hwss.h>
+ #include <inc/link_dpcd.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <dc_dp_types.h>
++#include <drm/display/drm_dp_helper.h>
+ #include "dm_helpers.h"
+ 
+ #define END_ADDRESS(start, size) (start + size - 1)
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index efc2339f1fa0..411b79979e2e 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -25,7 +25,7 @@
+ #include <drm/drm_dsc.h>
+ #include "dc_hw_types.h"
+ #include "dsc.h"
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include "dc.h"
+ #include "rc_calc.h"
+ #include "fixed31_32.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/os_types.h b/drivers/gpu/drm/amd/display/dc/os_types.h
+index 17d05071b809..981a9ed6fb61 100644
+--- a/drivers/gpu/drm/amd/display/dc/os_types.h
++++ b/drivers/gpu/drm/amd/display/dc/os_types.h
+@@ -35,8 +35,8 @@
+ 
+ #include <asm/byteorder.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ #include "cgs_common.h"
+ 
+diff --git a/drivers/gpu/drm/amd/display/include/dpcd_defs.h b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+index ac822181359c..b2df07f9e91c 100644
+--- a/drivers/gpu/drm/amd/display/include/dpcd_defs.h
++++ b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+@@ -26,7 +26,7 @@
+ #ifndef __DAL_DPCD_DEFS_H__
+ #define __DAL_DPCD_DEFS_H__
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #ifndef DP_SINK_HW_REVISION_START // can remove this once the define gets into linux drm_dp_helper.h
+ #define DP_SINK_HW_REVISION_START 0x409
+ #endif
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
+index 8502263d2968..6e88705e22f7 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
+@@ -29,8 +29,8 @@
+ #include "mod_hdcp.h"
+ #include "hdcp_log.h"
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_hdcp.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ enum mod_hdcp_trans_input_result {
+ 	UNKNOWN = 0,
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index 94e56a2e91f2..ae3d6e9a606c 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -18,11 +18,11 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/types.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 2768b41c48e9..d2fc8676fab6 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -18,10 +18,10 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/types.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c b/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
+index e8297168bfef..b1e482994ffe 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c
+@@ -7,8 +7,8 @@
+  */
+ #include <linux/regmap.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+ 
+ #include "analogix-i2c-dptx.h"
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+index 32665203a6ae..433f2d7efa0c 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.h
+@@ -9,8 +9,8 @@
+ #ifndef _ANALOGIX_DP_CORE_H
+ #define _ANALOGIX_DP_CORE_H
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ #define DP_TIMEOUT_LOOP_COUNT 100
+ #define MAX_CR_LOOP 5
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 9a2a19ad4202..21f16394012f 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -21,11 +21,11 @@
+ #include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ 
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc_helper.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_hdcp.h>
+ #include <drm/drm_mipi_dsi.h>
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index ac18e15aa167..dec93a6d14c7 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -35,13 +35,13 @@
+ #include <linux/slab.h>
+ #include <linux/wait.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_hdcp.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+index fc77f987c835..bedddd510d17 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+@@ -15,9 +15,9 @@
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ struct clk;
+ struct device;
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index f2f101220ade..85cffc108278 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -21,7 +21,7 @@
+ 
+ #include <crypto/hash.h>
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 9766cbbd62ad..edb939b14c04 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -13,9 +13,9 @@
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 7f9574b17caa..0c0295e2ab74 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -25,9 +25,9 @@
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index b987e5ac80f0..62a7ef352daa 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -19,10 +19,10 @@
+ 
+ #include <asm/unaligned.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 28d91ea5f9fd..8cad662de9bb 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -23,12 +23,12 @@
+ 
+ #include <asm/unaligned.h>
+ 
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/dp/Makefile b/drivers/gpu/drm/display/Makefile
+similarity index 100%
+rename from drivers/gpu/drm/dp/Makefile
+rename to drivers/gpu/drm/display/Makefile
+diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/display/drm_dp.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp.c
+rename to drivers/gpu/drm/display/drm_dp.c
+index 703972ae14c6..5249475af904 100644
+--- a/drivers/gpu/drm/dp/drm_dp.c
++++ b/drivers/gpu/drm/display/drm_dp.c
+@@ -30,10 +30,10 @@
+ #include <linux/seq_file.h>
+ #include <linux/string_helpers.h>
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_vblank.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_panel.h>
+ 
+ #include "drm_dp_helper_internal.h"
+diff --git a/drivers/gpu/drm/dp/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp_aux_bus.c
+rename to drivers/gpu/drm/display/drm_dp_aux_bus.c
+index 415afce3cf96..dccf3e2ea323 100644
+--- a/drivers/gpu/drm/dp/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -19,8 +19,8 @@
+ #include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+ 
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ /**
+  * dp_aux_ep_match() - The match function for the dp_aux_bus.
+diff --git a/drivers/gpu/drm/dp/drm_dp_aux_dev.c b/drivers/gpu/drm/display/drm_dp_aux_dev.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp_aux_dev.c
+rename to drivers/gpu/drm/display/drm_dp_aux_dev.c
+index 53ad4e72790b..098e482e65a2 100644
+--- a/drivers/gpu/drm/dp/drm_dp_aux_dev.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_dev.c
+@@ -35,9 +35,9 @@
+ #include <linux/uaccess.h>
+ #include <linux/uio.h>
+ 
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_print.h>
+ 
+ #include "drm_dp_helper_internal.h"
+diff --git a/drivers/gpu/drm/dp/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp_cec.c
+rename to drivers/gpu/drm/display/drm_dp_cec.c
+index f9e927355879..ae39dc794190 100644
+--- a/drivers/gpu/drm/dp/drm_dp_cec.c
++++ b/drivers/gpu/drm/display/drm_dp_cec.c
+@@ -11,9 +11,9 @@
+ 
+ #include <media/cec.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_device.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ /*
+  * Unfortunately it turns out that we have a chicken-and-egg situation
+diff --git a/drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
+rename to drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index 2049cb0f7ed0..3ea53bb67d3b 100644
+--- a/drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -27,8 +27,8 @@
+ #include <linux/slab.h>
+ #include <linux/string.h>
+ 
++#include <drm/display/drm_dp_dual_mode_helper.h>
+ #include <drm/drm_device.h>
+-#include <drm/dp/drm_dp_dual_mode_helper.h>
+ #include <drm/drm_print.h>
+ 
+ /**
+diff --git a/drivers/gpu/drm/dp/drm_dp_helper_internal.h b/drivers/gpu/drm/display/drm_dp_helper_internal.h
+similarity index 100%
+rename from drivers/gpu/drm/dp/drm_dp_helper_internal.h
+rename to drivers/gpu/drm/display/drm_dp_helper_internal.h
+diff --git a/drivers/gpu/drm/dp/drm_dp_helper_mod.c b/drivers/gpu/drm/display/drm_dp_helper_mod.c
+similarity index 100%
+rename from drivers/gpu/drm/dp/drm_dp_helper_mod.c
+rename to drivers/gpu/drm/display/drm_dp_helper_mod.c
+diff --git a/drivers/gpu/drm/dp/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+similarity index 99%
+rename from drivers/gpu/drm/dp/drm_dp_mst_topology.c
+rename to drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 11300b53d24f..8526aae75c6d 100644
+--- a/drivers/gpu/drm/dp/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -38,7 +38,7 @@
+ #include <linux/math64.h>
+ #endif
+ 
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/dp/drm_dp_mst_topology_internal.h b/drivers/gpu/drm/display/drm_dp_mst_topology_internal.h
+similarity index 94%
+rename from drivers/gpu/drm/dp/drm_dp_mst_topology_internal.h
+rename to drivers/gpu/drm/display/drm_dp_mst_topology_internal.h
+index 401953b59d45..a785ccbfdd73 100644
+--- a/drivers/gpu/drm/dp/drm_dp_mst_topology_internal.h
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology_internal.h
+@@ -10,7 +10,7 @@
+ #ifndef _DRM_DP_MST_HELPER_INTERNAL_H_
+ #define _DRM_DP_MST_HELPER_INTERNAL_H_
+ 
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ 
+ void
+ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+diff --git a/drivers/gpu/drm/drm_dsc.c b/drivers/gpu/drm/drm_dsc.c
+index fdd8d5f42622..2428bdfc4c8f 100644
+--- a/drivers/gpu/drm/drm_dsc.c
++++ b/drivers/gpu/drm/drm_dsc.c
+@@ -11,8 +11,9 @@
+ #include <linux/init.h>
+ #include <linux/errno.h>
+ #include <linux/byteorder/generic.h>
++
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_dsc.h>
+ 
+ /**
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+index f562e91337c7..d77115fa68cf 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+@@ -29,9 +29,9 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ 
+ #include "gma_display.h"
+diff --git a/drivers/gpu/drm/gma500/intel_bios.c b/drivers/gpu/drm/gma500/intel_bios.c
+index ea7c16f33a0e..8245b5603d2c 100644
+--- a/drivers/gpu/drm/gma500/intel_bios.c
++++ b/drivers/gpu/drm/gma500/intel_bios.c
+@@ -5,8 +5,9 @@
+  * Authors:
+  *    Eric Anholt <eric@anholt.net>
+  */
++
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm.h>
+-#include <drm/dp/drm_dp_helper.h>
+ 
+ #include "intel_bios.h"
+ #include "psb_drv.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+index c7afe19dd44a..3a990918eab7 100644
+--- a/drivers/gpu/drm/i915/display/intel_bios.c
++++ b/drivers/gpu/drm/i915/display/intel_bios.c
+@@ -25,7 +25,7 @@
+  *
+  */
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ #include "display/intel_display.h"
+ #include "display/intel_display_types.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 6ed976b77b1c..4cec7ef4d50d 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -35,11 +35,11 @@
+ #include <linux/string_helpers.h>
+ #include <linux/vga_switcheroo.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_damage_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_plane_helper.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index c94eb7d5191d..d3b5d1325d49 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -31,8 +31,8 @@
+ #include <linux/pwm.h>
+ #include <linux/sched/clock.h>
+ 
+-#include <drm/dp/drm_dp_dual_mode_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_dual_mode_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_dsc.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 9e19165fd175..9477479d8449 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -35,9 +35,9 @@
+ 
+ #include <asm/byteorder.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+index 82d024dafe7b..598cad09d499 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+@@ -6,8 +6,8 @@
+  * Sean Paul <seanpaul@chromium.org>
+  */
+ 
+-#include <drm/dp/drm_dp_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_hdcp.h>
+ #include <drm/drm_print.h>
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+index dc1556b46b85..7fa1c0833096 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+@@ -6,7 +6,7 @@
+ #ifndef __INTEL_DP_LINK_TRAINING_H__
+ #define __INTEL_DP_LINK_TRAINING_H__
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ struct intel_crtc_state;
+ struct intel_dp;
+diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+index 76357c9b76e4..be0b1010b304 100644
+--- a/drivers/gpu/drm/i915/display/intel_lspcon.c
++++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+@@ -23,8 +23,8 @@
+  *
+  */
+ 
++#include <drm/display/drm_dp_dual_mode_helper.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/dp/drm_dp_dual_mode_helper.h>
+ #include <drm/drm_edid.h>
+ 
+ #include "intel_de.h"
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 4553f4985434..077d3b6507e7 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -8,7 +8,7 @@
+ 
+ #include <linux/of_platform.h>
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ 
+ #include "dp_catalog.h"
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+index 82afc8d5210f..c64951215ab5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.h
++++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+@@ -7,7 +7,7 @@
+ #define _DP_AUX_H_
+ 
+ #include "dp_catalog.h"
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ int dp_aux_register(struct drm_dp_aux *dp_aux);
+ void dp_aux_unregister(struct drm_dp_aux *dp_aux);
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index fac815fb6d91..b5dd0240d1dc 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -10,7 +10,7 @@
+ #include <linux/phy/phy.h>
+ #include <linux/phy/phy-dp.h>
+ #include <linux/rational.h>
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+ 
+ #include "dp_catalog.h"
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 53568567e05b..a96f6a8fa9bd 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -11,8 +11,9 @@
+ #include <linux/phy/phy.h>
+ #include <linux/phy/phy-dp.h>
+ #include <linux/pm_opp.h>
++
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_fixed.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+ 
+ #include "dp_reg.h"
+diff --git a/drivers/gpu/drm/msm/edp/edp.h b/drivers/gpu/drm/msm/edp/edp.h
+index 1a82d7a4af9f..14b0ef02287e 100644
+--- a/drivers/gpu/drm/msm/edp/edp.h
++++ b/drivers/gpu/drm/msm/edp/edp.h
+@@ -10,7 +10,8 @@
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
+-#include <drm/dp/drm_dp_helper.h>
++
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+ 
+diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+index 9f537b1fd849..9ac1963c679e 100644
+--- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
++++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+@@ -6,7 +6,8 @@
+ #include <linux/clk.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+-#include <drm/dp/drm_dp_helper.h>
++
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index df58c6445c51..45db61ac2bfe 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -33,9 +33,9 @@
+ #include <linux/component.h>
+ #include <linux/iopoll.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_plane_helper.h>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+index 1b173191cc41..b0773af5a98f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.h
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+@@ -33,10 +33,10 @@
+ #include <nvhw/class/cl907d.h>
+ #include <nvhw/drf.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_util.h>
+ 
+ #include "nouveau_crtc.h"
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
+index 724d40ddd452..c36f510d5d4c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dp.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
+@@ -22,7 +22,7 @@
+  * Authors: Ben Skeggs
+  */
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ #include "nouveau_drv.h"
+ #include "nouveau_connector.h"
+diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+index 65ed84f88cca..c2f5f0cb70d5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
++++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+@@ -29,10 +29,12 @@
+ 
+ #include <subdev/bios/dcb.h>
+ 
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_encoder_slave.h>
+-#include <drm/dp/drm_dp_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
++
+ #include "dispnv04/disp.h"
++
+ struct nv50_head_atom;
+ struct nouveau_connector;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index e15e62f235d8..0000a752c16f 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -35,10 +35,10 @@
+ #include <video/of_display_timing.h>
+ #include <video/videomode.h>
+ 
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_panel.h>
+ 
+ /**
+diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+index 20666b6217e7..3dd10412d147 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
++++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+@@ -14,8 +14,8 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
+-#include <drm/dp/drm_dp_aux_bus.h>
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_panel.h>
+ 
+diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
+index 4798cf23d251..009333645438 100644
+--- a/drivers/gpu/drm/radeon/atombios_dp.c
++++ b/drivers/gpu/drm/radeon/atombios_dp.c
+@@ -30,7 +30,7 @@
+ 
+ #include "atom.h"
+ #include "atom-bits.h"
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ /* move these to drm_dp_helper.c/h */
+ #define DP_LINK_CONFIGURATION_SIZE 9
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index a7925a8290b2..a4055023ccfb 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -24,10 +24,10 @@
+  *          Alex Deucher
+  */
+ 
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/radeon_drm.h>
+ #include "radeon.h"
+diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
+index 9f26baf7adb0..54ced1f4ff67 100644
+--- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
++++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: MIT
+ 
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
+index 5288dc7a4897..3485e7f142e9 100644
+--- a/drivers/gpu/drm/radeon/radeon_mode.h
++++ b/drivers/gpu/drm/radeon/radeon_mode.h
+@@ -30,11 +30,11 @@
+ #ifndef RADEON_MODE_H
+ #define RADEON_MODE_H
+ 
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+-#include <drm/dp/drm_dp_helper.h>
+-#include <drm/dp/drm_dp_mst_helper.h>
+ #include <drm/drm_fixed.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <linux/i2c.h>
+diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+index c82901d9a9cc..f7e3fb94ed04 100644
+--- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+@@ -19,10 +19,10 @@
+ #include <video/of_videomode.h>
+ #include <video/videomode.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/bridge/analogix_dp.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index 4740cc14beb8..bc1fe30877f4 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -15,8 +15,8 @@
+ 
+ #include <sound/hdmi-codec.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.h b/drivers/gpu/drm/rockchip/cdn-dp-core.h
+index 0d044146f4e9..f46243c6efda 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.h
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.h
+@@ -7,7 +7,7 @@
+ #ifndef _CDN_DP_CORE_H
+ #define _CDN_DP_CORE_H
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index 0b972418067e..997b7d46a2d1 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -17,10 +17,10 @@
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+index 2494b079489d..418eb631d7cd 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+@@ -8,10 +8,10 @@
+ #include <linux/component.h>
+ #include <linux/of_graph.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index fc1deb1231a2..967c52150b67 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -7,10 +7,10 @@
+ 
+ #include <linux/random.h>
+ 
+-#include <drm/dp/drm_dp_mst_helper.h>
++#include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/drm_print.h>
+ 
+-#include "../dp/drm_dp_mst_topology_internal.h"
++#include "../display/drm_dp_mst_topology_internal.h"
+ #include "test-drm_modeset_common.h"
+ 
+ int igt_dp_mst_calc_pbn_mode(void *ignored)
+diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+index 7295975e5733..08fbd8f151a1 100644
+--- a/drivers/gpu/drm/tegra/dp.c
++++ b/drivers/gpu/drm/tegra/dp.c
+@@ -4,8 +4,8 @@
+  * Copyright (C) 2015 Rob Clark
+  */
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+ 
+ #include "dp.h"
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 20e1dd6b3bf0..7dc681e2ee90 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -18,8 +18,8 @@
+ #include <linux/reset.h>
+ #include <linux/workqueue.h>
+ 
+-#include <drm/dp/drm_dp_helper.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_helper.h>
++#include <drm/display/drm_dp_aux_bus.h>
+ #include <drm/drm_panel.h>
+ 
+ #include "dp.h"
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index b125572feb84..47b6c8e190cc 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -16,9 +16,9 @@
+ 
+ #include <soc/tegra/pmc.h>
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_debugfs.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_scdc_helper.h>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index b1bbbb1d0a54..155971c319b2 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -9,11 +9,11 @@
+  * - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  */
+ 
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+-#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_managed.h>
+diff --git a/include/drm/dp/drm_dp_aux_bus.h b/include/drm/display/drm_dp_aux_bus.h
+similarity index 100%
+rename from include/drm/dp/drm_dp_aux_bus.h
+rename to include/drm/display/drm_dp_aux_bus.h
+diff --git a/include/drm/dp/drm_dp_dual_mode_helper.h b/include/drm/display/drm_dp_dual_mode_helper.h
+similarity index 100%
+rename from include/drm/dp/drm_dp_dual_mode_helper.h
+rename to include/drm/display/drm_dp_dual_mode_helper.h
+diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+similarity index 100%
+rename from include/drm/dp/drm_dp_helper.h
+rename to include/drm/display/drm_dp_helper.h
+diff --git a/include/drm/dp/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+similarity index 99%
+rename from include/drm/dp/drm_dp_mst_helper.h
+rename to include/drm/display/drm_dp_mst_helper.h
+index 08276eb8c187..10adec068b7f 100644
+--- a/include/drm/dp/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -23,7 +23,7 @@
+ #define _DRM_DP_MST_HELPER_H_
+ 
+ #include <linux/types.h>
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic.h>
+ 
+ #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
+diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
+index ca022e960dcc..84e3d11cc1bb 100644
+--- a/include/drm/drm_dsc.h
++++ b/include/drm/drm_dsc.h
+@@ -8,7 +8,7 @@
+ #ifndef DRM_DSC_H_
+ #define DRM_DSC_H_
+ 
+-#include <drm/dp/drm_dp_helper.h>
++#include <drm/display/drm_dp_helper.h>
+ 
+ /* VESA Display Stream Compression DSC 1.2 constants */
+ #define DSC_NUM_BUF_RANGES			15
 -- 
 2.35.1
 
