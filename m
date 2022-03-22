@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2274E3BF1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 10:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203374E3C14
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 11:00:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3934E10E10E;
-	Tue, 22 Mar 2022 09:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7664810E0CD;
+	Tue, 22 Mar 2022 10:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21AAD10E10E
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 09:52:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3CCAB210E4;
- Tue, 22 Mar 2022 09:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1647942747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=rjxz6Fi2dZC6nTVXM4+OUBhBa/HkZPtrCHPDKh15Ckg=;
- b=RliCtDZGILuQGBiSZ9HJY8BwnJ3EETCFCcEARcrCjl7iZROeBNxTLHk867NKmWk66mkgqt
- NNK5bhjtwFFJq4Gvh2BgHtaSjhzPfUUCqSaM8rgj2+kdoDR48n+IzL2Tu0MTn0BhDNspeE
- kIpVFhNFS35vl5JXRocWI/Whp9KFu0s=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 37D2E12FC5;
- Tue, 22 Mar 2022 09:52:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Z+9HDFqcOWIuGAAAMHmgww
- (envelope-from <mkoutny@suse.com>); Tue, 22 Mar 2022 09:52:26 +0000
-Date: Tue, 22 Mar 2022 10:52:24 +0100
-From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To: "T.J. Mercier" <tjmercier@google.com>
-Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
-Message-ID: <20220322095223.GG8477@blackbody.suse.cz>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E135310E0CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 10:00:10 +0000 (UTC)
+X-UUID: b5fe3251858a466aa4a657ced4731cfb-20220322
+X-UUID: b5fe3251858a466aa4a657ced4731cfb-20220322
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1537663108; Tue, 22 Mar 2022 18:00:04 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 22 Mar 2022 18:00:04 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 22 Mar 2022 18:00:03 +0800
+Message-ID: <55eba6e4285ee6e4edb436f339b88730cc2c651c.camel@mediatek.com>
+Subject: Re: [PATCH v3,4/4] drm/mediatek: Add pull-down MIPI operation in
+ mtk_dsi_poweroff function
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Tue, 22 Mar 2022 18:00:24 +0800
+In-Reply-To: <ebcf547ab6e4481e6c8e60db88eccf58fe7059ed.camel@mediatek.com>
+References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
+ <1647503611-13144-5-git-send-email-xinlei.lee@mediatek.com>
+ <ebcf547ab6e4481e6c8e60db88eccf58fe7059ed.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
-	David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
-	Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
-	Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
-	Laura Abbott <labbott@redhat.com>, linux-media@vger.kernel.org,
-	Todd Kjos <tkjos@android.com>, linux-kselftest@vger.kernel.orgbcc,
-	linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
-	CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com,
-	cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	RFC@freedesktop.org,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Hridya Valsaraju <hridya@google.com>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 21, 2022 at 04:54:26PM -0700, "T.J. Mercier"
-<tjmercier@google.com> wrote:
-> Since the charge is duplicated in two cgroups for a short period
-> before it is uncharged from the source cgroup I guess the situation
-> you're thinking about is a global (or common ancestor) limit?
+On Thu, 2022-03-17 at 20:20 +0800, Rex-BC Chen wrote:
+> Hello Xinlei,
+> 
+> On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > In the dsi_enable function, mtk_dsi_rxtx_control is to
+> > pull up the MIPI signal operation. Before dsi_disable,
+> > MIPI should also be pulled down by writing a register instead of
+> > disabling dsi.
+> > 
+> 
+> What will happen if you do not pulled down the mipi before disable
+> dsi?
+> What's differnet for this two setting?
+> 
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index b509d59235e2..1c6a75a46b67 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -676,6 +676,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > *dsi)
+> >  	mtk_dsi_reset_engine(dsi);
+> >  	mtk_dsi_lane0_ulp_mode_enter(dsi);
+> >  	mtk_dsi_clk_ulp_mode_enter(dsi);
+> > +	/* set the lane number as 0 */
+> > +	writel(0, dsi->regs + DSI_TXRX_CTRL);
+> 
+> So set lane num to 0 means pull down mipi?
+> 
+> BRs,
+> Rex
+> 
+> >  
+> >  	mtk_dsi_disable(dsi);
+> >  
+> 
+> 
 
-The common ancestor was on my mind (after the self-shortcut).
+Hi rex:
 
-> I can see how that would be a problem for transfers done this way and
-> an alternative would be to swap the order of the charge operations:
-> first uncharge, then try_charge. To be certain the uncharge is
-> reversible if the try_charge fails, I think I'd need either a mutex
-> used at all gpucg_*charge call sites or access to the gpucg_mutex,
+1. 
+If you disable dsi without pulling the mipi signal low, the value of
+the register will still maintain the setting of the mipi signal being
+pulled high. 
+After resume, even if the mipi signal is not pulled high, it will still
+be in the high state.
 
-Yes, that'd provide safe conditions for such operations, although I'm
-not sure these special types of memory can afford global lock on their
-fast paths.
+2.So set lane num to 0 means pull down mipi
+=> yes
 
-> which implies adding transfer support to gpu.c as part of the gpucg_*
-> API itself and calling it here. Am I following correctly here?
+Do you have any suggestions on the next version?
 
-My idea was to provide a special API (apart from
-gpucp_{try_charge,uncharge}) to facilitate transfers...
+Best Regards!
+xinlei
 
-> This series doesn't actually add limit support just accounting, but
-> I'd like to get it right here.
-
-...which could be implemented (or changed) depending on how the charging
-is realized internally.
-
-
-Michal
