@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE62A4E50EA
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:02:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C68F4E50EC
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC5A10E6A2;
-	Wed, 23 Mar 2022 11:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE2B10E6A6;
+	Wed, 23 Mar 2022 11:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1590D10E17E
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:43:23 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id h23so24089312wrb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 11:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PTw1Ngb/5IGZJfySo52s6yL6EQYSBf4xK9vWZzdHvqA=;
- b=OpP1yr+zy1OjfHROi7aD3NDxRfVNU5xYU5sKI6GfLagMM2/XUgbjQyj+ubE8Ph92IB
- 7qarV5iq5TMCXv9UJsTaZavEFNsCReJsVV7g8oEUUYvLaLpIcY1PNEN/N3Kv6lSnUjur
- aVungH7taEPjAY6OZNBJQCkyc3DQai5kSEK8U=
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F8C10E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:01:28 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id r22so18210407ejs.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 12:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=mzQXiS0S4RdieSwMTuDb23Hr413AV3AR/1D7aYWgeF0=;
+ b=Z0bpdIynVZj6ctk1FIMfNBQhV7vVKdsDv3pAkB8aOIU1z1cDSrX9d3oeI/BKyBaR/7
+ +ZarA+Z6bY0QQvarMgjQWKUH0kAjUpfOW//9Bv6LwCuRFXnoPvhEJ3dTr4IlfHtTH3gL
+ rtzzD2M9JthdF3aXtm1JlImqPwjzufji5nmIf55qbA1nsGAWlnsENz5UtBpLNQ5Nmtv9
+ E/LQ7XXNgV7L16thtBFYpNi4Gf8EQQ8uEdkB1zoQfRMj95rhqfos2AnpfDt2/OZcSGjh
+ /6R7ZWxjzAOIRlIp1LLFQq1oxfCTa+uqJEbR3iqIi1m6Jj21O/k4OOQ502gIzbw0rFjN
+ P3TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PTw1Ngb/5IGZJfySo52s6yL6EQYSBf4xK9vWZzdHvqA=;
- b=cvuYIwzwRi3TsaHDMZSJj0EHE12TOCz/vGizgi/mIeQ3HM9j24wn8XR1GuTSoL7CZv
- OGWw58ZoSvUzoePXkiKH/zaxDogkyEzb96cyp0BAibaAnx/hgq7gdbNeIW1em/crdO51
- b4Bv+dLNye1Uud2yjeREbiWQfGWl645wKgtK3IYpZ8vr1YCMdUTrjvn/GCx4o0lag5KE
- xJLY1WWGdcWpmmIoBlIugujqfcMcj8UHAy7RRfukW+ej3ykOSMal0kYSLm/XxJ5I5Oam
- yx+Qvo00X2kgldRWX9vf83WRYLuqbpdbYqiTgs7WZnbbuXADmmmKbBESskSS8/M3xG7f
- ZzOQ==
-X-Gm-Message-State: AOAM532YNcVAd1Cu/NJjuTXMdOtFiFPjHRBxIBJeC7HGPdBZyFByJwRb
- kl1iaDzvPUSeacEntPPDMOX/GQ==
-X-Google-Smtp-Source: ABdhPJxWJhc/mrUfLmxDPc/wDdSNZS4bI61hMpAh3233GY9QkpMhRpVU8f/XIxdk6ptlwsw1crMHLA==
-X-Received: by 2002:adf:fccc:0:b0:203:fe14:e316 with SMTP id
- f12-20020adffccc000000b00203fe14e316mr15173047wrs.42.1647974601600; 
- Tue, 22 Mar 2022 11:43:21 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i
- (net-188-217-56-61.cust.vodafonedsl.it. [188.217.56.61])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a5d64c7000000b0020415e54576sm5136826wri.69.2022.03.22.11.43.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 11:43:21 -0700 (PDT)
-Date: Tue, 22 Mar 2022 19:43:19 +0100
-From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: [PATCH v2] drm/nouveau/bios: Rename prom_init() and friends
- functions
-Message-ID: <20220322184319.GA2353627@tom-ThinkPad-T14s-Gen-2i>
-References: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=mzQXiS0S4RdieSwMTuDb23Hr413AV3AR/1D7aYWgeF0=;
+ b=YYBq8WkZUKcvAxWn3lgo4dcrDcYCrOuaXw8QSbQ/ap08lhJ7Atr+YM3LPYFdoRNBHO
+ rmpSKzKrkORcRTbVaNIpVVuYej1g0c5DfMKS0LiCYwchuu+AH1rE9ekSMzf6sx/vCa4+
+ QjEk3exQmEYsHkAPTQhoxRfN2WV5qNyNt371DeV+HjQ5u37FJE3ewYE/lbbcmFddNP9x
+ UzYlSDpQdlUKnvID1B1bKPENGMYVdvQOKM6FoB6BgFEm+BPahJXElsysiYGb+tbiDqf2
+ jLKENpG4JLNOB2AB9IOAozJiAZNq/Uf6qOiGJqR+VoWcCpMvgBMmOGHLhLBEXdXckAs/
+ TQeg==
+X-Gm-Message-State: AOAM530ODH4DbY19f7EsYEUk+P/BSQ8aXtlLy6xVWhS4pJC43OTzj56G
+ WWjUw0OF2BaqxcOaHD+7/oik770PRe2Xd4GMtNWNGMIF0499Dwg/
+X-Google-Smtp-Source: ABdhPJxTp3kZGcoicAzg2GzNiQuJ38omoEoYZhbzM/I8MMtiJoyIp1t7qt4/7IBXU77NwK71yn+sZ4lZWi1WzLz5iy4=
+X-Received: by 2002:a17:906:5d06:b0:6df:b0ac:59c2 with SMTP id
+ g6-20020a1709065d0600b006dfb0ac59c2mr22888758ejt.758.1647975686314; Tue, 22
+ Mar 2022 12:01:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
+From: Won Chung <wonchung@google.com>
+Date: Tue, 22 Mar 2022 12:01:15 -0700
+Message-ID: <CAOvb9yjqnqGL9s4dDKyBfyybFftFXKKOgTWAxPJ3WRHF6Tv1OQ@mail.gmail.com>
+Subject: Question regarding using Driver Component Framework (crashing kernel)
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="000000000000629f8305dad33d48"
 X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,123 +60,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Benson Leung <bleung@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Prashant Malani <pmalani@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 19, 2022 at 11:27:51AM +0100, Christophe Leroy wrote:
-> While working at fixing powerpc headers, I ended up with the
-> following error.
-> 
-> 	drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c:48:1: error: conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *, const char *)'
-> 	make[5]: *** [scripts/Makefile.build:288: drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
-> 
-> powerpc and a few other architectures have a prom_init() global function.
-> One day or another it will conflict with the one in shadowrom.c
-> 
-> Those being static, they can easily be renamed. Do it.
-> 
-> While at it, also rename the ops structure as 'nvbios_prom' instead of
-> 'nvbios_rom' in order to make it clear that it refers to the
-> NV_PROM device.
-> 
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
-> v2: using nvbios_prom prefix instead of nvbios_rom. Changed structure name to keep things consistant.
-> 
->  drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h    |  2 +-
->  drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c  |  2 +-
->  .../gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c   | 14 +++++++-------
->  3 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> index fac1bff1311b..cfa8a0c356dd 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
-> @@ -19,7 +19,7 @@ struct nvbios_source {
->  int nvbios_extend(struct nvkm_bios *, u32 length);
->  int nvbios_shadow(struct nvkm_bios *);
->  
-> -extern const struct nvbios_source nvbios_rom;
-> +extern const struct nvbios_source nvbios_prom;
->  extern const struct nvbios_source nvbios_ramin;
->  extern const struct nvbios_source nvbios_acpi_fast;
->  extern const struct nvbios_source nvbios_acpi_slow;
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> index 4b571cc6bc70..19188683c8fc 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
-> @@ -171,7 +171,7 @@ nvbios_shadow(struct nvkm_bios *bios)
->  	struct shadow mthds[] = {
->  		{ 0, &nvbios_of },
->  		{ 0, &nvbios_ramin },
-> -		{ 0, &nvbios_rom },
-> +		{ 0, &nvbios_prom },
->  		{ 0, &nvbios_acpi_fast },
->  		{ 4, &nvbios_acpi_slow },
->  		{ 1, &nvbios_pcirom },
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> index ffa4b395220a..39144ceb117b 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
-> @@ -25,7 +25,7 @@
->  #include <subdev/pci.h>
->  
->  static u32
-> -prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
-> +nvbios_prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
->  {
->  	struct nvkm_device *device = data;
->  	u32 i;
-> @@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
->  }
->  
->  static void
-> -prom_fini(void *data)
-> +nvbios_prom_fini(void *data)
->  {
->  	struct nvkm_device *device = data;
->  	nvkm_pci_rom_shadow(device->pci, true);
->  }
->  
->  static void *
-> -prom_init(struct nvkm_bios *bios, const char *name)
-> +nvbios_prom_init(struct nvkm_bios *bios, const char *name)
->  {
->  	struct nvkm_device *device = bios->subdev.device;
->  	if (device->card_type == NV_40 && device->chipset >= 0x4c)
-> @@ -55,10 +55,10 @@ prom_init(struct nvkm_bios *bios, const char *name)
->  }
->  
->  const struct nvbios_source
-> -nvbios_rom = {
-> +nvbios_prom = {
->  	.name = "PROM",
-> -	.init = prom_init,
-> -	.fini = prom_fini,
-> -	.read = prom_read,
-> +	.init = nvbios_prom_init,
-> +	.fini = nvbios_prom_fini,
-> +	.read = nvbios_prom_read,
->  	.rw = false,
->  };
-> -- 
-> 2.35.1
-> 
+--000000000000629f8305dad33d48
+Content-Type: text/plain; charset="UTF-8"
 
-Look's good.
+Hi,
 
-Tommaso
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+I am not sure if this is the correct mailing list to ask about Driver
+Component Framework, so if I am mistaken, I would appreciate it if
+anyone can correct me to the right direction.
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+I have a quick question on using driver component framework and a
+strange crash I am seeing when I use component framework.
+
+There is then component framework currently being used for typec
+connector, as below
+https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/port-mapper.c
+We add component for usb port to link it with typec connector, as below
+https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/port.c#L622
+https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/port.c#L568
+
+We are trying to do something similar for usb4 port, add component to
+link to typec connector.
+I have attached a patch to this email for reference.
+However, this change causes a crash in kernel for some devices.
+The crash is too early in the kernel that it is not giving any logs at all.
+This crash is somehow fixed when we change usb4 config from =y
+(built-in) to =m (loadable module).
+So, I am curious if there are some aspects in the component framework
+that depends on whether the device with a component added is a
+built-in or loadable module.
+
+If anyone has seen a similar issue or have an idea on what is
+happening, can you share your thoughts on what might be the issue and
+how the crash can be avoided?
+Thank you very much!
+
+Won
+
+--000000000000629f8305dad33d48
+Content-Type: application/octet-stream; name="usb4_connectors.diff"
+Content-Disposition: attachment; filename="usb4_connectors.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l12hzqgj0>
+X-Attachment-Id: f_l12hzqgj0
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdGh1bmRlcmJvbHQvcmV0aW1lci5jIGIvZHJpdmVycy90aHVu
+ZGVyYm9sdC9yZXRpbWVyLmMNCmluZGV4IDhjMjliZDU1NmFlMDQuLjhhNDAyODMyNDQ5YTMgMTAw
+NjQ0DQotLS0gYS9kcml2ZXJzL3RodW5kZXJib2x0L3JldGltZXIuYw0KKysrIGIvZHJpdmVycy90
+aHVuZGVyYm9sdC9yZXRpbWVyLmMNCkBAIC0xNiw2ICsxNiwyNyBAQA0KIA0KICNkZWZpbmUgVEJf
+TUFYX1JFVElNRVJfSU5ERVgJNg0KIA0KK3N0YXRpYyBpbnQgY29ubmVjdG9yX2JpbmQoc3RydWN0
+IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICpjb25uZWN0b3IsIHZvaWQgKmRhdGEpDQorew0K
+KwlpbnQgcmV0Ow0KKw0KKwlyZXQgPSBzeXNmc19jcmVhdGVfbGluaygmZGV2LT5rb2JqLCAmY29u
+bmVjdG9yLT5rb2JqLCAiY29ubmVjdG9yIik7DQorCWlmIChyZXQpDQorCQlyZXR1cm4gcmV0Ow0K
+Kw0KKwlyZXQgPSBzeXNmc19jcmVhdGVfbGluaygmY29ubmVjdG9yLT5rb2JqLCAmZGV2LT5rb2Jq
+LCBkZXZfbmFtZShkZXYpKTsNCisJaWYgKHJldCkNCisJCXN5c2ZzX3JlbW92ZV9saW5rKCZkZXYt
+PmtvYmosICJjb25uZWN0b3IiKTsNCisNCisJcmV0dXJuIHJldDsNCit9DQorDQorc3RhdGljIHZv
+aWQgY29ubmVjdG9yX3VuYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKmNv
+bm5lY3Rvciwgdm9pZCAqZGF0YSkNCit7DQorCXN5c2ZzX3JlbW92ZV9saW5rKCZjb25uZWN0b3It
+PmtvYmosIGRldl9uYW1lKGRldikpOw0KKwlzeXNmc19yZW1vdmVfbGluaygmZGV2LT5rb2JqLCAi
+Y29ubmVjdG9yIik7DQorfQ0KKw0KIHN0YXRpYyBpbnQgdGJfcmV0aW1lcl9udm1fcmVhZCh2b2lk
+ICpwcml2LCB1bnNpZ25lZCBpbnQgb2Zmc2V0LCB2b2lkICp2YWwsDQogCQkJICAgICAgIHNpemVf
+dCBieXRlcykNCiB7DQpAQCAtMzg5LDYgKzQxMCwxNyBAQCBzdGF0aWMgaW50IHRiX3JldGltZXJf
+YWRkKHN0cnVjdCB0Yl9wb3J0ICpwb3J0LCB1OCBpbmRleCwgdTMyIGF1dGhfc3RhdHVzKQ0KIAkJ
+cmV0dXJuIHJldDsNCiAJfQ0KIA0KKwlydC0+Y29ubmVjdG9yX29wcy5iaW5kID0gY29ubmVjdG9y
+X2JpbmQ7DQorCXJ0LT5jb25uZWN0b3Jfb3BzLnVuYmluZCA9IGNvbm5lY3Rvcl91bmJpbmQ7DQor
+DQorCXJldCA9IGNvbXBvbmVudF9hZGQoJnJ0LT5kZXYsICZydC0+Y29ubmVjdG9yX29wcyk7DQor
+CWlmIChyZXQpIHsNCisJCWRldl93YXJuKCZydC0+ZGV2LCAiZmFpbGVkIHRvIGFkZCBjb21wb25l
+bnRcbiIpOw0KKwkJdGJfbnZtX2ZyZWUocnQtPm52bSk7DQorCQlkZXZpY2VfdW5yZWdpc3Rlcigm
+cnQtPmRldik7DQorCQlyZXR1cm4gcmV0Ow0KKwl9DQorDQogCWRldl9pbmZvKCZydC0+ZGV2LCAi
+bmV3IHJldGltZXIgZm91bmQsIHZlbmRvcj0lI3ggZGV2aWNlPSUjeFxuIiwNCiAJCSBydC0+dmVu
+ZG9yLCBydC0+ZGV2aWNlKTsNCiANCkBAIC00MDUsNiArNDM3LDcgQEAgc3RhdGljIGludCB0Yl9y
+ZXRpbWVyX2FkZChzdHJ1Y3QgdGJfcG9ydCAqcG9ydCwgdTggaW5kZXgsIHUzMiBhdXRoX3N0YXR1
+cykNCiBzdGF0aWMgdm9pZCB0Yl9yZXRpbWVyX3JlbW92ZShzdHJ1Y3QgdGJfcmV0aW1lciAqcnQp
+DQogew0KIAlkZXZfaW5mbygmcnQtPmRldiwgInJldGltZXIgZGlzY29ubmVjdGVkXG4iKTsNCisJ
+Y29tcG9uZW50X2RlbCgmcnQtPmRldiwgJnJ0LT5jb25uZWN0b3Jfb3BzKTsNCiAJdGJfbnZtX2Zy
+ZWUocnQtPm52bSk7DQogCWRldmljZV91bnJlZ2lzdGVyKCZydC0+ZGV2KTsNCiB9DQpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy90aHVuZGVyYm9sdC90Yi5oIGIvZHJpdmVycy90aHVuZGVyYm9sdC90Yi5o
+DQppbmRleCBiNmZjZDhkNDUzMjQzLi5kZmE1MWJkYmMzZDgzIDEwMDY0NA0KLS0tIGEvZHJpdmVy
+cy90aHVuZGVyYm9sdC90Yi5oDQorKysgYi9kcml2ZXJzL3RodW5kZXJib2x0L3RiLmgNCkBAIC05
+LDYgKzksNyBAQA0KICNpZm5kZWYgVEJfSF8NCiAjZGVmaW5lIFRCX0hfDQogDQorI2luY2x1ZGUg
+PGxpbnV4L2NvbXBvbmVudC5oPg0KICNpbmNsdWRlIDxsaW51eC9udm1lbS1wcm92aWRlci5oPg0K
+ICNpbmNsdWRlIDxsaW51eC9wY2kuaD4NCiAjaW5jbHVkZSA8bGludXgvdGh1bmRlcmJvbHQuaD4N
+CkBAIC0yODQsNiArMjg1LDcgQEAgc3RydWN0IHVzYjRfcG9ydCB7DQogCXN0cnVjdCB0Yl9wb3J0
+ICpwb3J0Ow0KIAlib29sIGNhbl9vZmZsaW5lOw0KIAlib29sIG9mZmxpbmU7DQorCXN0cnVjdCBj
+b21wb25lbnRfb3BzIGNvbm5lY3Rvcl9vcHM7DQogfTsNCiANCiAvKioNCkBAIC0zMDYsNiArMzA4
+LDcgQEAgc3RydWN0IHRiX3JldGltZXIgew0KIAlzdHJ1Y3QgdGJfcG9ydCAqcG9ydDsNCiAJc3Ry
+dWN0IHRiX252bSAqbnZtOw0KIAl1MzIgYXV0aF9zdGF0dXM7DQorCXN0cnVjdCBjb21wb25lbnRf
+b3BzIGNvbm5lY3Rvcl9vcHM7DQogfTsNCiANCiAvKioNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Ro
+dW5kZXJib2x0L3VzYjRfcG9ydC5jIGIvZHJpdmVycy90aHVuZGVyYm9sdC91c2I0X3BvcnQuYw0K
+aW5kZXggMjllMmE0ZjljOWY1ZS4uNmRmNDI0N2M4ZjdhYyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMv
+dGh1bmRlcmJvbHQvdXNiNF9wb3J0LmMNCisrKyBiL2RyaXZlcnMvdGh1bmRlcmJvbHQvdXNiNF9w
+b3J0LmMNCkBAIC0xMCw2ICsxMCwyNyBAQA0KIA0KICNpbmNsdWRlICJ0Yi5oIg0KIA0KK3N0YXRp
+YyBpbnQgY29ubmVjdG9yX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICpj
+b25uZWN0b3IsIHZvaWQgKmRhdGEpDQorew0KKwlpbnQgcmV0Ow0KKw0KKwlyZXQgPSBzeXNmc19j
+cmVhdGVfbGluaygmZGV2LT5rb2JqLCAmY29ubmVjdG9yLT5rb2JqLCAiY29ubmVjdG9yIik7DQor
+CWlmIChyZXQpDQorCQlyZXR1cm4gcmV0Ow0KKw0KKwlyZXQgPSBzeXNmc19jcmVhdGVfbGluaygm
+Y29ubmVjdG9yLT5rb2JqLCAmZGV2LT5rb2JqLCBkZXZfbmFtZShkZXYpKTsNCisJaWYgKHJldCkN
+CisJCXN5c2ZzX3JlbW92ZV9saW5rKCZkZXYtPmtvYmosICJjb25uZWN0b3IiKTsNCisNCisJcmV0
+dXJuIHJldDsNCit9DQorDQorc3RhdGljIHZvaWQgY29ubmVjdG9yX3VuYmluZChzdHJ1Y3QgZGV2
+aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKmNvbm5lY3Rvciwgdm9pZCAqZGF0YSkNCit7DQorCXN5
+c2ZzX3JlbW92ZV9saW5rKCZjb25uZWN0b3ItPmtvYmosIGRldl9uYW1lKGRldikpOw0KKwlzeXNm
+c19yZW1vdmVfbGluaygmZGV2LT5rb2JqLCAiY29ubmVjdG9yIik7DQorfQ0KKw0KIHN0YXRpYyBz
+c2l6ZV90IGxpbmtfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2VfYXR0cmli
+dXRlICphdHRyLA0KIAkJCSBjaGFyICpidWYpDQogew0KQEAgLTI1Myw2ICsyNzQsMTYgQEAgc3Ry
+dWN0IHVzYjRfcG9ydCAqdXNiNF9wb3J0X2RldmljZV9hZGQoc3RydWN0IHRiX3BvcnQgKnBvcnQp
+DQogCXBtX3J1bnRpbWVfbWFya19sYXN0X2J1c3koJnVzYjQtPmRldik7DQogCXBtX3J1bnRpbWVf
+dXNlX2F1dG9zdXNwZW5kKCZ1c2I0LT5kZXYpOw0KIA0KKwl1c2I0LT5jb25uZWN0b3Jfb3BzLmJp
+bmQgPSBjb25uZWN0b3JfYmluZDsNCisJdXNiNC0+Y29ubmVjdG9yX29wcy51bmJpbmQgPSBjb25u
+ZWN0b3JfdW5iaW5kOw0KKw0KKwlyZXQgPSBjb21wb25lbnRfYWRkKCZ1c2I0LT5kZXYsICZ1c2I0
+LT5jb25uZWN0b3Jfb3BzKTsNCisJaWYgKHJldCkgew0KKwkJZGV2X3dhcm4oJnVzYjQtPmRldiwg
+ImZhaWxlZCB0byBhZGQgY29tcG9uZW50XG4iKTsNCisJCWRldmljZV91bnJlZ2lzdGVyKCZ1c2I0
+LT5kZXYpOw0KKwkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCisJfQ0KKw0KIAlyZXR1cm4gdXNiNDsN
+CiB9DQogDQpAQCAtMjY1LDYgKzI5Niw3IEBAIHN0cnVjdCB1c2I0X3BvcnQgKnVzYjRfcG9ydF9k
+ZXZpY2VfYWRkKHN0cnVjdCB0Yl9wb3J0ICpwb3J0KQ0KICAqLw0KIHZvaWQgdXNiNF9wb3J0X2Rl
+dmljZV9yZW1vdmUoc3RydWN0IHVzYjRfcG9ydCAqdXNiNCkNCiB7DQorCWNvbXBvbmVudF9kZWwo
+JnVzYjQtPmRldiwgJnVzYjQtPmNvbm5lY3Rvcl9vcHMpOw0KIAlkZXZpY2VfdW5yZWdpc3Rlcigm
+dXNiNC0+ZGV2KTsNCiB9DQogDQo=
+--000000000000629f8305dad33d48--
