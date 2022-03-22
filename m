@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B691C4E46C4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 20:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582924E472C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 21:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A3B310E479;
-	Tue, 22 Mar 2022 19:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F7610E0ED;
+	Tue, 22 Mar 2022 20:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B6610E479
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 19:36:53 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CBD5E1F388;
- Tue, 22 Mar 2022 19:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647977811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f1UTtzUj49ncRhlrDWMVXWMc6UvNl24FfSgIxI5p+rk=;
- b=hd3lAxjetyoCU3kuKhzdKEb92q87oFt472mASuFwlfdRhMemAGKenK8Br/PxK0kzohmwxM
- qsNJIcgudz7JTWXJyjLIe4qG3nNlGCM/VYtCtVR41dUWy/USUNiQYOnOgXEIijAUjFu7sr
- lI+B6+Z3tEDwyFaV2N6SmwvVBxPXvug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647977811;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f1UTtzUj49ncRhlrDWMVXWMc6UvNl24FfSgIxI5p+rk=;
- b=s1sfy6TCpimIn5Acnb3mWuPNzQr1l1eITlp4c6/b+Pu+WQBuhWnETsE4pUCuoy4gT34vif
- kPWUSdz+IUZQl9DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A629A13419;
- Tue, 22 Mar 2022 19:36:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZujLJlMlOmIbMwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 22 Mar 2022 19:36:51 +0000
-Message-ID: <66cc3cd8-e737-e032-9135-bed05db2f401@suse.de>
-Date: Tue, 22 Mar 2022 20:36:51 +0100
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C220010E0ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:03:19 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so2804969fac.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 13:03:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Fq1z4Ed84ZuWdkW2m9jYI7sM6QJam+q9K1arrVbgWws=;
+ b=2/tCiPUtgFMBiQ/l+Xmo8Fl8wZrWgfiFRn1+Gxug7x53wV4CgWPezFEFkYLxKkca4Q
+ AdXgBlfEdrsjLN0lwJwH9JxplfXnQXK/6rqQklw8064TcvKsdHa8hiv/26V/ulXeWZgI
+ x0iDrai5ecQJ/EtjPPnkk04WpuMV70X88h/IYJ2bOz9oWjhCyMgvSVzmmyTCZ+5e4SmZ
+ R4jmQQvswexCKHKp5bAlKl0fEs4vo8FNX+zOMM1cHXPzBx3mOyH7EHkygtK3qDE0mynV
+ g2cLQrZA/NXdHR87WqIkxaWEBQda1llQeabtpGc2xTF4ESgq8dgpgjFGPrppL5qAR8Rp
+ Vs0g==
+X-Gm-Message-State: AOAM533uXWs7RalM/YdH/u1Qi0C6iBTXRepBIPVe6c88JmdrgtxpCPTT
+ Ki43CUuDu9VUQg+ch6VP4w==
+X-Google-Smtp-Source: ABdhPJy4AIzdw7CM09sm8WiJu7yAMWYZnT7kqu9E09l5bnyx+c0wfi4rPWwDeKMKI6b9WUwXAQwTQQ==
+X-Received: by 2002:a05:6870:b52c:b0:dd:ddfa:3161 with SMTP id
+ v44-20020a056870b52c00b000ddddfa3161mr2430238oap.61.1647979398908; 
+ Tue, 22 Mar 2022 13:03:18 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ 21-20020a056870115500b000dda3a0cb91sm3110524oag.54.2022.03.22.13.03.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 13:03:17 -0700 (PDT)
+Received: (nullmailer pid 2415318 invoked by uid 1000);
+ Tue, 22 Mar 2022 20:03:15 -0000
+Date: Tue, 22 Mar 2022 15:03:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
+ controller
+Message-ID: <Yjorg4taoTVAr8ML@robh.at.kernel.org>
+References: <20220321162916.1116541-1-15330273260@189.cn>
+ <20220321162916.1116541-6-15330273260@189.cn>
+ <YjkITWpbnCmhKaX+@robh.at.kernel.org>
+ <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
+ <66ae2436-aa86-f583-85b4-d652273188e9@flygoat.com>
+ <629311ac-f847-dd57-689e-eaa97aae8480@189.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 7/7] drm/gma500: Add crtc prefix to vblank functions
-Content-Language: en-US
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
- <20220322131742.11566-7-patrik.r.jakobsson@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220322131742.11566-7-patrik.r.jakobsson@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VwTtYzWaTpP6hJGcTxYrCIAS"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <629311ac-f847-dd57-689e-eaa97aae8480@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,118 +70,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ devicetree@vger.kernel.org, suijingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VwTtYzWaTpP6hJGcTxYrCIAS
-Content-Type: multipart/mixed; boundary="------------nBnNtGpoAN7uFwxGS5Dwu5Bw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org
-Message-ID: <66cc3cd8-e737-e032-9135-bed05db2f401@suse.de>
-Subject: Re: [PATCH 7/7] drm/gma500: Add crtc prefix to vblank functions
-References: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
- <20220322131742.11566-7-patrik.r.jakobsson@gmail.com>
-In-Reply-To: <20220322131742.11566-7-patrik.r.jakobsson@gmail.com>
+On Tue, Mar 22, 2022 at 09:54:08PM +0800, Sui Jingfeng wrote:
+> 
+> On 2022/3/22 21:08, Jiaxun Yang wrote:
+> > 
+> > 
+> > 在 2022/3/22 2:33, Sui Jingfeng 写道:
+> > > 
+> > > On 2022/3/22 07:20, Rob Herring wrote:
+> > > > On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
+> > > > > From: suijingfeng <suijingfeng@loongson.cn>
+> > > > > 
+> > > > Needs a commit message.
+> > > > 
+> > > > > Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+> > > > > Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+> > > > Same person? Don't need both emails.
+> > > 
+> > > Yes,  suijingfeng@loongson.cn is my company's email. But it can not
+> > > be used to send patches to dri-devel,
+> > > 
+> > > when send patches with this email, the patch will not be shown on
+> > > patch works.
+> > > 
+> > > Emails  are either blocked or got  rejected  by loongson's mail
+> > > server.  It can only receive emails
+> > > 
+> > > from you and other people, but not dri-devel. so have to use my
+> > > personal email(15330273260@189.cn) to send patches.
+> > In this case you can just use your company's email to sign-off
+> > code and sending with your personal email. It's common practice.
+> > 
+> > If you don't want to receiving kernel email in your company mailbox,
+> > you can add a entry in .mailmap .
+> > 
+> |I'm using `git send-email -7 --cover-letter --annotate -v11` command to
+> send patches, it will automatically sign off patches with the my private
+> emails. |
 
---------------nBnNtGpoAN7uFwxGS5Dwu5Bw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I think that is only if you set your git config author to your private 
+email. Pretty much anything git might automatically do can be turned 
+off.
 
-SGkNCg0KQW0gMjIuMDMuMjIgdW0gMTQ6MTcgc2NocmllYiBQYXRyaWsgSmFrb2Jzc29uOg0K
-PiBUaGVzZSBmdW5jdGlvbnMgb3BlcmF0ZSBvbiBhIGNydGMgYW5kIHNob3VsZCBiZSBwcmVm
-aXhlZCBwcm9wZXJseS4NCj4gDQo+IFN1Z2dlc3RlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4g
-PHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+IFNpZ25lZC1vZmYtYnk6IFBhdHJpayBKYWtvYnNz
-b24gPHBhdHJpay5yLmpha29ic3NvbkBnbWFpbC5jb20+DQoNCkZvciB0aGUgd2hvbGUgcGF0
-Y2hzZXQ6DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4NCg0KSWYgeW91IGxpa2UsIHBsZWFzZSBjb25zaWRlciB0aGUgZmV3IGNvbW1l
-bnRzIEkgaGFkLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCj4gLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jIHwgNiArKystLS0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pcnEuYyAgICAgfCA2ICsrKy0tLQ0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5oICAgICB8IDYgKysrLS0tDQo+ICAgMyBmaWxl
-cyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jDQo+IGluZGV4IDM2OWJjMWY3NTFjYi4u
-MzRlYzNmY2EwOWJhIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dt
-YV9kaXNwbGF5LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxh
-eS5jDQo+IEBAIC01NzUsOSArNTc1LDkgQEAgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNz
-IGdtYV9jcnRjX2Z1bmNzID0gew0KPiAgIAkuc2V0X2NvbmZpZyA9IGdtYV9jcnRjX3NldF9j
-b25maWcsDQo+ICAgCS5kZXN0cm95ID0gZ21hX2NydGNfZGVzdHJveSwNCj4gICAJLnBhZ2Vf
-ZmxpcCA9IGdtYV9jcnRjX3BhZ2VfZmxpcCwNCj4gLQkuZW5hYmxlX3ZibGFuayA9IGdtYV9l
-bmFibGVfdmJsYW5rLA0KPiAtCS5kaXNhYmxlX3ZibGFuayA9IGdtYV9kaXNhYmxlX3ZibGFu
-aywNCj4gLQkuZ2V0X3ZibGFua19jb3VudGVyID0gZ21hX2dldF92YmxhbmtfY291bnRlciwN
-Cj4gKwkuZW5hYmxlX3ZibGFuayA9IGdtYV9jcnRjX2VuYWJsZV92YmxhbmssDQo+ICsJLmRp
-c2FibGVfdmJsYW5rID0gZ21hX2NydGNfZGlzYWJsZV92YmxhbmssDQo+ICsJLmdldF92Ymxh
-bmtfY291bnRlciA9IGdtYV9jcnRjX2dldF92YmxhbmtfY291bnRlciwNCj4gICB9Ow0KPiAg
-IA0KPiAgIC8qDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9p
-cnEuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5jDQo+IGluZGV4IDJlOGRl
-ZDUzMjkzMC4uZTZlNmQ2MWJiZWFiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-Z21hNTAwL3BzYl9pcnEuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9p
-cnEuYw0KPiBAQCAtMzcxLDcgKzM3MSw3IEBAIHZvaWQgZ21hX2lycV91bmluc3RhbGwoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldikNCj4gICAJZnJlZV9pcnEocGRldi0+aXJxLCBkZXYpOw0K
-PiAgIH0NCj4gICANCj4gLWludCBnbWFfZW5hYmxlX3ZibGFuayhzdHJ1Y3QgZHJtX2NydGMg
-KmNydGMpDQo+ICtpbnQgZ21hX2NydGNfZW5hYmxlX3ZibGFuayhzdHJ1Y3QgZHJtX2NydGMg
-KmNydGMpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2
-Ow0KPiAgIAl1bnNpZ25lZCBpbnQgcGlwZSA9IGNydGMtPmluZGV4Ow0KPiBAQCAtNDA0LDcg
-KzQwNCw3IEBAIGludCBnbWFfZW5hYmxlX3ZibGFuayhzdHJ1Y3QgZHJtX2NydGMgKmNydGMp
-DQo+ICAgCXJldHVybiAwOw0KPiAgIH0NCj4gICANCj4gLXZvaWQgZ21hX2Rpc2FibGVfdmJs
-YW5rKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykNCj4gK3ZvaWQgZ21hX2NydGNfZGlzYWJsZV92
-Ymxhbmsoc3RydWN0IGRybV9jcnRjICpjcnRjKQ0KPiAgIHsNCj4gICAJc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiA9IGNydGMtPmRldjsNCj4gICAJdW5zaWduZWQgaW50IHBpcGUgPSBjcnRj
-LT5pbmRleDsNCj4gQEAgLTQyOCw3ICs0MjgsNyBAQCB2b2lkIGdtYV9kaXNhYmxlX3ZibGFu
-ayhzdHJ1Y3QgZHJtX2NydGMgKmNydGMpDQo+ICAgLyogQ2FsbGVkIGZyb20gZHJtIGdlbmVy
-aWMgY29kZSwgcGFzc2VkIGEgJ2NydGMnLCB3aGljaA0KPiAgICAqIHdlIHVzZSBhcyBhIHBp
-cGUgaW5kZXgNCj4gICAgKi8NCj4gLXUzMiBnbWFfZ2V0X3ZibGFua19jb3VudGVyKHN0cnVj
-dCBkcm1fY3J0YyAqY3J0YykNCj4gK3UzMiBnbWFfY3J0Y19nZXRfdmJsYW5rX2NvdW50ZXIo
-c3RydWN0IGRybV9jcnRjICpjcnRjKQ0KPiAgIHsNCj4gICAJc3RydWN0IGRybV9kZXZpY2Ug
-KmRldiA9IGNydGMtPmRldjsNCj4gICAJdW5zaWduZWQgaW50IHBpcGUgPSBjcnRjLT5pbmRl
-eDsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5oIGIv
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaXJxLmgNCj4gaW5kZXggYzIyODc4OTE0ZjVi
-Li5iNTFlMzk1MTk0ZmYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAv
-cHNiX2lycS5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5oDQo+
-IEBAIC0yMCw5ICsyMCw5IEBAIHZvaWQgZ21hX2lycV9wb3N0aW5zdGFsbChzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2KTsNCj4gICBpbnQgIGdtYV9pcnFfaW5zdGFsbChzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgaXJxKTsNCj4gICB2b2lkIGdtYV9pcnFfdW5pbnN0
-YWxsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOw0KPiAgIA0KPiAtaW50ICBnbWFfZW5hYmxl
-X3ZibGFuayhzdHJ1Y3QgZHJtX2NydGMgKmNydGMpOw0KPiAtdm9pZCBnbWFfZGlzYWJsZV92
-Ymxhbmsoc3RydWN0IGRybV9jcnRjICpjcnRjKTsNCj4gLXUzMiAgZ21hX2dldF92Ymxhbmtf
-Y291bnRlcihzdHJ1Y3QgZHJtX2NydGMgKmNydGMpOw0KPiAraW50ICBnbWFfY3J0Y19lbmFi
-bGVfdmJsYW5rKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7DQo+ICt2b2lkIGdtYV9jcnRjX2Rp
-c2FibGVfdmJsYW5rKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7DQo+ICt1MzIgIGdtYV9jcnRj
-X2dldF92YmxhbmtfY291bnRlcihzdHJ1Y3QgZHJtX2NydGMgKmNydGMpOw0KPiAgIHZvaWQg
-Z21hX2VuYWJsZV9waXBlc3RhdChzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlICpkZXZfcHJpdiwg
-aW50IHBpcGUsIHUzMiBtYXNrKTsNCj4gICB2b2lkIGdtYV9kaXNhYmxlX3BpcGVzdGF0KHN0
-cnVjdCBkcm1fcHNiX3ByaXZhdGUgKmRldl9wcml2LCBpbnQgcGlwZSwgdTMyIG1hc2spOw0K
-PiAgIA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxv
-cGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIu
-IDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJn
-KQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Rob
 
---------------nBnNtGpoAN7uFwxGS5Dwu5Bw--
-
---------------VwTtYzWaTpP6hJGcTxYrCIAS
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmI6JVMFAwAAAAAACgkQlh/E3EQov+D5
-9g//Q9UaxF3X1g3cUiDYnJ913PqbeesSNxguMGPKvEsIcSChwaMsyqARxvmsm/bZV9lHWkN7cyfg
-oAgq+4yyUTo6L7xgFWaDJ/HpP7lcAMVbBaVBzTZyNV9DBC77SvI2uPv1vzcY5nKXPwxJXa5yz9I9
-ie46v2W8WHP34y+n3i5BpBA53hDJ917HKb9E9/zDICEmm1Tq5hLYMzjV2CSGJ3t686juKRYRvGmK
-ZGaN/M3zMoeBv+KMezri1QlLGTboCiIsWvCs5OYyt28PHUeY593eX65JU81anOXzs4/PKBieGpbZ
-4/+cxYG6XlgzkEmQBMq6FrYKAuc1BJnwtR/EtTKy+E244Yp2SlcagfcfUZGxQuao6vVEIlDgYhf1
-ZfKjeDt8EysewiH/EkXvKV0W8Z1jANDRfmX6mFHpUTlrhoGXoDKpBWl2Y8d6SQexOEpVm6/S2ntY
-BJpxcP3I9Cis4QvwLZpcZiaQvB4BMIMpye+WvbeDPlaoyuYwN7b+fhx0KjJ3ARxYyA5fFdWPAIbG
-Db0dxcfRnnIQUdloAM8b3DhVqcNuT1Kk2kC7dl3KEs04+bZ6Q1GoKnpMwlwyK3Hea9iXEqySqdw4
-DCLH5QDZUjLmnFTLDYmamgM5BXIg0OytzxaqPhbDEnujYRyAKcPFY2eDlgh3fAAYP9au1mKdvbw9
-6JU=
-=cyoH
------END PGP SIGNATURE-----
-
---------------VwTtYzWaTpP6hJGcTxYrCIAS--
