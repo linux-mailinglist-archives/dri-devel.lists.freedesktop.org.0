@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A744E3F4F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 14:17:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C16004E3F53
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 14:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0DD410E5B5;
-	Tue, 22 Mar 2022 13:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0B710E5B3;
+	Tue, 22 Mar 2022 13:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F85310E5B5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 13:17:46 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- j13-20020a05600c1c0d00b0038c8f94aac2so2440819wms.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 06:17:46 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EAE10E5B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 13:17:47 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ bi13-20020a05600c3d8d00b0038c2c33d8f3so2438223wmb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 06:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jcAdwOq2j8TeBjwzI2tou0LSfgzuwTQMKqdxGJIlwp0=;
- b=TttRMwIfyGxRo3uySO3TfdJcJqv1JwCSHALjOFXVWa5YwAcuamAovg3NYawB0EAdDR
- QDaceYwqAAGIruXnmKP3dTRHgrkaoIGzlZUVr0wM22xY5TiUWlZVD6G9kheRVShT4Fjt
- /rTsSZrh9LVtp8JA+SPlbsJ+6EMF1hSNaGUU3pwpbgag5TAFDitfmEnAPlBSMtBOWRzn
- fVFMcjbAEpiiXVRjryBSHy1jK2wCpTs4GAyrYCwqdNnECuemsLxRMOOxL2EE3itKVluF
- Xs+9R3j7zMrPNW8CQsq0YhRnNWQLnd3//eSq/ojChZEQejx/f7xCFxEr9VI6Iyp7kmM1
- ZutA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mNnJDPwNNgp2uQk+kUZA1dkPne4UNsujlioBhktjpXs=;
+ b=a3BZYCofxkXpl/fN7dZqrz6MBqQh8Ls46WNfHXsAAisvMwKR1GYLwK3WyCpUmPNedq
+ mOZ2IYrraA4rmPmnUzPIyCe17HLcNwNYtlVC0qDa+ZtDGQ6R6EWojM2tAN51HlfvaDBk
+ UsZR6rtmwpg6XC9XesNf8dtKFgic00xtd5jLL36W21dI0iNy2GpfXGmoWcVcz6YNueCQ
+ dBOYxnEGKIFU4wmBFXV3xb4UVaWTiNtZMwHbB0SkxWY5r72K10HskUSqzK0vQ+cKU0lj
+ Q7CQPYp0Rqq43iaRCgSojC64UNXud06kP0izjMqTcGFbT0fQdfDpaEegi5bGvbPd0vRh
+ kiNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jcAdwOq2j8TeBjwzI2tou0LSfgzuwTQMKqdxGJIlwp0=;
- b=PLTWxG07HYnWyirESXalhkorwwp9ouJjuY7c+orB126hZdxqcN5RZ6YSfksuoWtaWV
- Iwb2YzmgPW7TQsnxYIBONB+l0dwotwNUSYUABUwGYmB+u8RuUxBXBptruh1IsRJfTS6l
- 1az+DeNvlVCvTr34TqapBTleTtj0eRffL5b6F5yj+cv4T1o1+O+49kFTKq9M7EOqJV3t
- rhUYqK5fePeTnnkoDWi3Y6c3Qyl+YHjedDoZYObTXXRy8HCDAioaQuGDnJzjjAvyAlDs
- RO+uFtNLJq2BFeXsqfY2OHyShb9fYbUO6mX13Zyy0c1OV5Wls6IRjz59moxqtobJWNbD
- XQVA==
-X-Gm-Message-State: AOAM531nRcZ9j/QJ9oKfVrtgPFrijzRWgFSo1s/OIhgf0wD6fO689KOD
- uLSY9URllsqrnTS8mpzxXZa59BKDJgg=
-X-Google-Smtp-Source: ABdhPJxUnzkGrIxyrBeINocbJwCwlaky72oWAPCd9n8ZqwcnMT0acxEOTGI7qjICMd76lLYCieYACg==
-X-Received: by 2002:a05:600c:1d0f:b0:38c:8ff8:e703 with SMTP id
- l15-20020a05600c1d0f00b0038c8ff8e703mr3807494wms.202.1647955064372; 
- Tue, 22 Mar 2022 06:17:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mNnJDPwNNgp2uQk+kUZA1dkPne4UNsujlioBhktjpXs=;
+ b=cW7JtisZ6c2IDJWmkaDngN7IBwcqhjmLAs4yLldNWWrNuxEBcaFIJykEqnMFDSMHsj
+ c9BbKP3jUyXQqAHLAdXTdtTxVMcPkvKxtF6OrPGCU+J1A+VrVRQ22wFKQb6AuEi92UPP
+ L4beb3PhqlKwh1cAAYZUscsFtqMIeSIzzzCD0jNoqSZq7jW7zDGreky8tlfFTVBjO8AV
+ cjBjI1uEgLrFa6A6ylOnYZhBT9WPgR6rlQcb8KK5AX6VyQ+XQA0EI58E7tE/JBmicWrG
+ nouQEQIDSsN/iQBh6VlR1LFRiMOInrFHd90jM+LEHZrQHxjtDrcr5EDR2+/c++vfnBIO
+ VXig==
+X-Gm-Message-State: AOAM531Bpfi6RcvYTA5hSZPFCybQR/SWcjlQgCN3/epkDKVEyrMUIBtv
+ vFprcWrOa7tfLfgh2RonToCEQ455Yjo=
+X-Google-Smtp-Source: ABdhPJzRXAFA5eFKMXPDfD6sL+5iWx9PdaMFUwuWAzS+mjwLtslBpMYfB29lezem32Xike75x0NAGA==
+X-Received: by 2002:a1c:3b09:0:b0:38c:90b9:257c with SMTP id
+ i9-20020a1c3b09000000b0038c90b9257cmr3739294wma.156.1647955065463; 
+ Tue, 22 Mar 2022 06:17:45 -0700 (PDT)
 Received: from workstation.suse.de (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- l13-20020a05600002ad00b00203d64c5289sm17978437wry.112.2022.03.22.06.17.43
+ l13-20020a05600002ad00b00203d64c5289sm17978437wry.112.2022.03.22.06.17.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 06:17:43 -0700 (PDT)
+ Tue, 22 Mar 2022 06:17:45 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] drm/gma500: Use managed drmm_mode_config_init()
-Date: Tue, 22 Mar 2022 14:17:36 +0100
-Message-Id: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 2/7] drm/gma500: Uninstall interrupts on driver removal
+Date: Tue, 22 Mar 2022 14:17:37 +0100
+Message-Id: <20220322131742.11566-2-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
+References: <20220322131742.11566-1-patrik.r.jakobsson@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,32 +74,27 @@ Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Reloading the driver revealed that the interrupt handler never got
+uninstalled.
+
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/framebuffer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/psb_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 45df9de22007..2b99c996fdc2 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -514,7 +514,8 @@ void psb_modeset_init(struct drm_device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int i;
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 82d51e9821ad..b231fddb8817 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
+@@ -173,6 +173,8 @@ static void psb_driver_unload(struct drm_device *dev)
+ 		gma_backlight_exit(dev);
+ 	psb_modeset_cleanup(dev);
  
--	drm_mode_config_init(dev);
-+	if (drmm_mode_config_init(dev))
-+		return;
++	gma_irq_uninstall(dev);
++
+ 	if (dev_priv->ops->chip_teardown)
+ 		dev_priv->ops->chip_teardown(dev);
  
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
-@@ -546,6 +547,5 @@ void psb_modeset_cleanup(struct drm_device *dev)
- 	if (dev_priv->modeset) {
- 		drm_kms_helper_poll_fini(dev);
- 		psb_fbdev_fini(dev);
--		drm_mode_config_cleanup(dev);
- 	}
- }
 -- 
 2.35.1
 
