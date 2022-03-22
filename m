@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44774E4879
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:41:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04CC4E4878
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97C6010E59D;
-	Tue, 22 Mar 2022 21:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA5810E597;
+	Tue, 22 Mar 2022 21:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE38110E58A;
- Tue, 22 Mar 2022 21:41:37 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3168710E58A;
+ Tue, 22 Mar 2022 21:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647985297; x=1679521297;
+ t=1647985302; x=1679521302;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Gk6HPLqqbZs+uoAjK5hBPiCgjmTuXYH9dBsafHzYmBM=;
- b=jkLBv3nXcvLCdjkqN+bXszqaSqlnAsC5egxkzormnq73/LWW7PA1ysXU
- kUiMDp8B1AtsIxXVlYCbJ2hNmMqEY99LAgrgotWZZ+rTVSBbbv0cH5bzG
- bxny1z7+6PcU/3WZZmNuZ9erbPellVTyJmhO6UY+TPPiyUg0etRejjDcv
- 2DXtVzO3uovb/YDqpYn8e+5JGz5o1wzOAuAH7692nD+XcZKGIQR+8m2iD
- Dnq3r5VI7fcateAdOLGyIcm7Dv4unRSEI8ANmdnbqUOPG+SmYFqCduKRK
- UBsJMalVEsz3Vx1mrUtF1wVs2xTh67GW/G63oYWR7Jvf4sz1mh2QZtBmq A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="282795445"
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="282795445"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:37 -0700
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="637222940"
+ bh=gJYelk8ApsdKGI4k/KI0A/qXtBIXYuJ0C/mccMOITC8=;
+ b=NKzEOXCV3zlDUR82h8vzQsY7SrOxKeryUOE3PO7zRZJI1gFY7AAWKvZ9
+ lTuVYpSDJWtIizHjkLMI1MlM5aI5iuk76LCf8nWu5lzz/wKWdJKMfS9Wn
+ /evU+AL+pxTHkBLAJ/qjsCA8NuC+UBPoz3bsgcCsFE0Nm2XKhrqTgvEiC
+ Rz3ULcUC8vRgey/A5OhVCAqYL2NGR3MGdPDY4VOdrvlYJoLfawiDVpGUz
+ oGwBBVDma5uCSCRBnr5vuIz3ZNIPnT9hZtvFMwZaPWmgReUevq/XaMjjT
+ DtkfoVcbGOpazQ2XMlVTCx2h1tGWT7+iLw+7nslg6GRQzOLBa/cQgehi7 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="237898636"
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="237898636"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 14:41:41 -0700
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="647215679"
 Received: from sburacze-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.58.237])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:35 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 14:41:40 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC 08/19] drm/edid: convert drm_edid_to_speaker_allocation() to use
- cea db iter
-Date: Tue, 22 Mar 2022 23:40:37 +0200
-Message-Id: <5ba02714b6a559fcb56608e41d964830cbb2db23.1647985054.git.jani.nikula@intel.com>
+Subject: [RFC 09/19] drm/edid: convert drm_edid_to_sad() to use cea db iter
+Date: Tue, 22 Mar 2022 23:40:38 +0200
+Message-Id: <fb35ac3c561f6ff98374ebeb2fb3a4fb8a22974e.1647985054.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1647985054.git.jani.nikula@intel.com>
 References: <cover.1647985054.git.jani.nikula@intel.com>
@@ -62,29 +61,29 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the cea db iterator for speaker allocation. We'll still stop at the
-first speaker data block, but not at the first CEA extension if that
+Use the cea db iterator for short audio descriptors. We'll still stop at
+the first audio data block, but not at the first CEA extension if that
 doesn't have the info.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 47 ++++++++++++--------------------------
- 1 file changed, 15 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 34 +++++++++-------------------------
+ 1 file changed, 9 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index d92ce5d540c3..992b3578a73f 100644
+index 992b3578a73f..e341790521d6 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -4916,42 +4916,25 @@ EXPORT_SYMBOL(drm_edid_to_sad);
+@@ -4854,40 +4854,21 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
   */
- int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
+ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
  {
 +	const struct cea_db *db;
 +	struct cea_db_iter iter;
  	int count = 0;
 -	int i, start, end, dbl;
 -	const u8 *cea;
- 
+-
 -	cea = drm_find_cea_extension(edid);
 -	if (!cea) {
 -		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
@@ -103,33 +102,32 @@ index d92ce5d540c3..992b3578a73f 100644
 -
 -	for_each_cea_db(cea, i, start, end) {
 -		const u8 *db = &cea[i];
--
--		if (cea_db_tag(db) == CEA_DB_SPEAKER) {
--			dbl = cea_db_payload_len(db);
--
--			/* Speaker Allocation Data Block */
--			if (dbl == 3) {
--				*sadb = kmemdup(&db[1], dbl, GFP_KERNEL);
--				if (!*sadb)
--					return -ENOMEM;
--				count = dbl;
--				break;
--			}
+ 
 +	cea_db_iter_edid_begin(edid, &iter);
 +	cea_db_iter_for_each(db, &iter) {
-+		if (cea_db_tag(db) == CEA_DB_SPEAKER &&
-+		    cea_db_payload_len(db) == 3) {
-+			*sadb = kmemdup(db->data, cea_db_payload_len(db),
-+					GFP_KERNEL);
-+			if (!*sadb)
-+				return -ENOMEM;
-+			count = cea_db_payload_len(db);
-+			break;
+ 		if (cea_db_tag(db) == CEA_DB_AUDIO) {
+ 			int j;
+ 
+-			dbl = cea_db_payload_len(db);
+-
+-			count = dbl / 3; /* SAD is 3B */
++			count = cea_db_payload_len(db) / 3; /* SAD is 3B */
+ 			*sads = kcalloc(count, sizeof(**sads), GFP_KERNEL);
+ 			if (!*sads)
+ 				return -ENOMEM;
+ 			for (j = 0; j < count; j++) {
+-				const u8 *sad = &db[1 + j * 3];
++				const u8 *sad = &db->data[j * 3];
+ 
+ 				(*sads)[j].format = (sad[0] & 0x78) >> 3;
+ 				(*sads)[j].channels = sad[0] & 0x7;
+@@ -4897,6 +4878,9 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
+ 			break;
  		}
  	}
 +	cea_db_iter_end(&iter);
 +
-+	DRM_DEBUG_KMS("Found %d Speaker Allocation Data Blocks\n", count);
++	DRM_DEBUG_KMS("Found %d Short Audio Descriptors\n", count);
  
  	return count;
  }
