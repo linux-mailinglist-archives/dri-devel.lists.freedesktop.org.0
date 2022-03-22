@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D134E38A5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 06:59:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A14F4E38BF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 07:16:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6599910E60D;
-	Tue, 22 Mar 2022 05:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A12510E80C;
+	Tue, 22 Mar 2022 06:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE08910E60D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 05:59:43 +0000 (UTC)
-X-UUID: 79714d5203f94fcab3afdb250c341423-20220322
-X-UUID: 79714d5203f94fcab3afdb250c341423-20220322
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B3110E801
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 06:16:16 +0000 (UTC)
+X-UUID: e958da4fe17a40d4aa796916fc92d45f-20220322
+X-UUID: e958da4fe17a40d4aa796916fc92d45f-20220322
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 759741181; Tue, 22 Mar 2022 13:59:37 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 22 Mar 2022 13:59:36 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
+ with ESMTP id 8147115; Tue, 22 Mar 2022 14:16:11 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 22 Mar 2022 14:16:09 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Mar 2022 13:59:35 +0800
-Message-ID: <ca8c83e15808b7c6a54ebd28cead59c18f814023.camel@mediatek.com>
-Subject: Re: [PATCH v3,1/4] drm/mediatek: Adjust the timing of mipi signal
+ Transport; Tue, 22 Mar 2022 14:16:09 +0800
+Message-ID: <5318b54772ed03744cd6265d3b65679b86ec0532.camel@mediatek.com>
+Subject: Re: [PATCH v3, 1/4] drm/mediatek: Adjust the timing of mipi signal
  from LP00 to LP11
 From: xinlei.lee <xinlei.lee@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
  <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <matthias.bgg@gmail.com>
-Date: Tue, 22 Mar 2022 13:59:56 +0800
-In-Reply-To: <235c5bca8da7118bad6bb5cb3c8cba6e022e4411.camel@mediatek.com>
+Date: Tue, 22 Mar 2022 14:16:29 +0800
+In-Reply-To: <0e4344e084e3306cd265580883c0093c7cb40d45.camel@mediatek.com>
 References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
  <1647503611-13144-2-git-send-email-xinlei.lee@mediatek.com>
- <235c5bca8da7118bad6bb5cb3c8cba6e022e4411.camel@mediatek.com>
+ <0e4344e084e3306cd265580883c0093c7cb40d45.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -56,14 +57,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-03-17 at 19:13 +0800, Rex-BC Chen wrote:
-> Hello Xinlei,
-> 
-> Thanks for your patch, and there are something I want to know:
+On Mon, 2022-03-21 at 17:36 +0800, CK Hu wrote:
+> Hi, Xinlei:
 > 
 > On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
 > > From: Jitao Shi <jitao.shi@mediatek.com>
@@ -80,18 +80,26 @@ On Thu, 2022-03-17 at 19:13 +0800, Rex-BC Chen wrote:
 > > 3. Delay & Dsi_reset
 > > 4. dsi clk & lanes leave ulp mode and enter hs mode
 > > 
-> 
-> Could you explain why you want to change original power on sequence?
-> From this commit message, I don't know why you want to do this.
-> If the reason is in cover letter, I think you should move them here.
-> 
 > > In the new sequence 2 & 3 & 4 will be moved to dsi_enbale in later
 > > patch.
 > 
-> I think this is no need to describe here.
+> I think there would be one patch in 5.9 make the wrong sequence, so
+> add
+> 'Fixes' tag to indicate which patch make the wrong sequence. Use the
+> term correct/wrong instead old/new sequence.
 > 
-> BRs,
-> Rex
+> I still do not understand what is the sequence after apply this
+> patch?
+> 
+> Does the sequence is this after apply this patch?
+> 1. Set the dsi timing register
+> 2. Pull the MIPI signal high
+> 3. Delay & Dsi_reset
+> 4. dsi clk & lanes leave ulp mode and enter hs mode
+> 
+> Regards,
+> CK
+> 
 > > 
 > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
@@ -125,17 +133,23 @@ On Thu, 2022-03-17 at 19:13 +0800, Rex-BC Chen wrote:
 > >  	mtk_dsi_clk_hs_mode(dsi, 0);
 > 
 > 
-Hi Rex:
+
+Hi CK:
 
 Thanks for your review!
-Explain to you that this change does not actually affect the function
-of dsi. We have verified this.
-After this modification, it is convenient to move them into the if
-(!dsi->lanes_ready) condition, which is just an adjustment action.
-If you still have questions about my later explanation, please give
-another suggestion.
 
-Thanks!
+You are right, the sequence after patching is:
+1. Set the dsi timing register
+2. Pull the MIPI signal high
+3. Delay & Dsi_reset
+4. dsi clk & lanes leave ulp mode and enter hs mode
+
+This modification will not affect the dsi function, just to put the
+operation of pulling up the mipi signal in poweron together to
+facilitate the separation from the poweron function later.
+
+I will add the "Fixes" tag here as well.
+
+BR!
 xinlei
-
 
