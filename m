@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB164E487F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:42:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF96E4E4881
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 22:42:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C146E10E59F;
-	Tue, 22 Mar 2022 21:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8781B10E5A7;
+	Tue, 22 Mar 2022 21:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B47C10E598;
- Tue, 22 Mar 2022 21:41:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E39C10E59E;
+ Tue, 22 Mar 2022 21:41:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647985311; x=1679521311;
+ t=1647985314; x=1679521314;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dV3wM9hymUSGeYqHYh5jNDplGegty0VQ9BhEzNdEyYA=;
- b=c5L6BJiwYc5a6WA3uNriCUHriwV1JuJZfNNz8JN7gt1ntVsKVjRMchsu
- JHSyoBWMiH47jvpaRQqvkfeXXU3y8Fpf3o/v+WbUV1whajlzdhMfQcNjV
- NcrlDwi1VhsFDr9efhNGeVJEmVJGJoSXTFlLyARQ6g7fMNBk9ScABtwhD
- uojadGVl0LtHPNfN8SgjlpIezPSRHMiei9rTjVUCT5/4ah+4p+CIZjbUT
- 8PqTI3Slxr1hqqRPhP/eLgQs02E6/j7b9k2kynKQSYQz2VCuq+loUbhI2
- DDrwIgptE0eTGkAQb42ydjRy56bB+3zHYtZfVfIZS/yBP8sZKrCXFFY6Y w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="258146073"
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="258146073"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ bh=T1XqzJihaBVomW4IBodzCh/VU6Riw/taUvye2GQ9n1Q=;
+ b=g77x6IS6w+qCQbgQI4Yh/ZyqQkyG/orezAObnDu8AcSSB2QP95Q4WYZL
+ 21+WIW2LDUzhF8DR5oja5j7F9ZVsIhPZcpe+21tj+vlXN8qZxqfNm/x5r
+ pdIaNQpcVLV92KJ6oUz4ok6QQI2EfkYo9Qqz7GzE9qFLwE6RJgRD/kgSV
+ B0Kk41GYTC5jJHITGtmrznO2Y0KW5mOomqsjYU+1sNov6m78js5uXxizN
+ XLFRg/XD6Mg/p7EmZPfaqdnPjyDYp/KeobooXTAh0VBVO1rlfB4n7d5v/
+ 5UQCx7HOr4/JbSR2r7BUsCcefmO01xbYei3UVGeuriPllA5KLSLv5MhX3 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="258146092"
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="258146092"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:50 -0700
-X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="552273456"
+ 22 Mar 2022 14:41:54 -0700
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="785556571"
 Received: from sburacze-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.58.237])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 14:41:48 -0700
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 14:41:53 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC 11/19] drm/edid: convert drm_detect_monitor_audio() to use cea
- db iter
-Date: Tue, 22 Mar 2022 23:40:40 +0200
-Message-Id: <e8dd2d0b8faffcab8c83af4c9adbb1e0b9ff8df3.1647985054.git.jani.nikula@intel.com>
+Subject: [RFC 12/19] drm/edid: convert drm_parse_cea_ext() to use cea db iter
+Date: Tue, 22 Mar 2022 23:40:41 +0200
+Message-Id: <ee6a966b92203342e02037543b9e1ca86fbd9142.1647985054.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1647985054.git.jani.nikula@intel.com>
 References: <cover.1647985054.git.jani.nikula@intel.com>
@@ -62,60 +61,66 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Iterate through all CEA data blocks.
+Iterate through all CEA data blocks across all CEA extensions and
+DisplayID data blocks.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 399e69dc1aed..77763d94dd93 100644
+index 77763d94dd93..d4bf9ef09c3c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5013,10 +5013,10 @@ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
-  */
- bool drm_detect_monitor_audio(struct edid *edid)
+@@ -5342,8 +5342,9 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+ 			      const struct edid *edid)
  {
+ 	struct drm_display_info *info = &connector->display_info;
 +	const struct cea_db *db;
 +	struct cea_db_iter iter;
  	const u8 *edid_ext;
--	int i, j;
- 	bool has_audio = false;
--	int start_offset, end_offset;
+-	int i, start, end;
  
  	edid_ext = drm_find_cea_extension(edid);
  	if (!edid_ext)
-@@ -5029,18 +5029,21 @@ bool drm_detect_monitor_audio(struct edid *edid)
- 		goto end;
- 	}
+@@ -5358,25 +5359,25 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+ 	if (edid_ext[3] & EDID_CEA_YCRCB422)
+ 		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
  
--	if (cea_db_offsets(edid_ext, &start_offset, &end_offset))
--		goto end;
+-	if (cea_db_offsets(edid_ext, &start, &end))
+-		return;
+-
+-	for_each_cea_db(edid_ext, i, start, end) {
+-		const u8 *db = &edid_ext[i];
 +	cea_db_iter_edid_begin(edid, &iter);
 +	cea_db_iter_for_each(db, &iter) {
-+		if (cea_db_tag(db) == CEA_DB_AUDIO) {
-+			const u8 *data = cea_db_data(db);
-+			int i;
++		/* FIXME: convert parsers to use struct cea_db */
++		const u8 *data = (const u8 *)db;
  
--	for_each_cea_db(edid_ext, i, start_offset, end_offset) {
--		if (cea_db_tag(&edid_ext[i]) == CEA_DB_AUDIO) {
--			has_audio = true;
--			for (j = 1; j < cea_db_payload_len(&edid_ext[i]) + 1; j += 3)
-+			for (i = 0; i < cea_db_payload_len(db); i += 3)
- 				DRM_DEBUG_KMS("CEA audio format %d\n",
--					      (edid_ext[i + j] >> 3) & 0xf);
--			goto end;
-+					      (data[i] >> 3) & 0xf);
-+			has_audio = true;
-+			break;
- 		}
+ 		if (cea_db_is_hdmi_vsdb(db))
+-			drm_parse_hdmi_vsdb_video(connector, db);
++			drm_parse_hdmi_vsdb_video(connector, data);
+ 		if (cea_db_is_hdmi_forum_vsdb(db))
+-			drm_parse_hdmi_forum_vsdb(connector, db);
++			drm_parse_hdmi_forum_vsdb(connector, data);
+ 		if (cea_db_is_microsoft_vsdb(db))
+-			drm_parse_microsoft_vsdb(connector, db);
++			drm_parse_microsoft_vsdb(connector, data);
+ 		if (cea_db_is_y420cmdb(db))
+-			drm_parse_y420cmdb_bitmap(connector, db);
++			drm_parse_y420cmdb_bitmap(connector, data);
+ 		if (cea_db_is_vcdb(db))
+-			drm_parse_vcdb(connector, db);
++			drm_parse_vcdb(connector, data);
+ 		if (cea_db_is_hdmi_hdr_metadata_block(db))
+-			drm_parse_hdr_metadata_block(connector, db);
++			drm_parse_hdr_metadata_block(connector, data);
  	}
 +	cea_db_iter_end(&iter);
-+
- end:
- 	return has_audio;
  }
+ 
+ static
 -- 
 2.30.2
 
