@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14794E478A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 21:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59B54E4794
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 21:33:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127E910E21D;
-	Tue, 22 Mar 2022 20:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95BF410E548;
+	Tue, 22 Mar 2022 20:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4C3C10E21D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:30:23 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEB910E560
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:33:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A750A616B2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 16F76C340F0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:30:19 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8F6CCB81D07
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59C42C340F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 20:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647981019;
- bh=nELZnAA37KjSHVkgxH+tCumfH5u9YyU3EHY/4c39GKE=;
- h=From:To:Subject:Date:From;
- b=WkD2S9nXyLiyRlKPfYMq99VLLvNP0QW7MZ3hme3s3lDYaCe5NXShXAQiPX5LBNGJK
- yHY+Mq4WXbNjw4mlDJS2GUc7rk0HhkKA5+WY2PqSn4Q3yMo+pLY2cMkiTOMxwdkN7J
- LxFpUDBQCuxQwxQxzW/t7xFmiq7MAvI6xB2wMn8p8/CrMgTWQRVux5jdgnUpG3ilsN
- UsgQp/Sx18hPz895qgFqeHdQKHE8YvIuQg7dvrxco8EHOApOFs0lZEOeCqeC07XbOg
- rLYLFuXsR57l0w8stwwfoUsULW3S58GCeCjEyksVLZha29ByHH5LrFW6W5tXA2SZzX
- TNyR1OX/VWy7w==
+ s=k20201202; t=1647981218;
+ bh=mP8D1VwGLMQCrqbYh9wPc/HMPjdFFpHMu0nGITZGfS0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=aJCG9oSIL2x2POtUeRkfL/hVJyITCb5T0u5E9QOXRge4p6tVMlYR40TZqfdQSMaf5
+ wNK03bcz2s5OAEy+FvBKOnuUxrXz+o6nUjTcOYJuIRiduPFLT42JyIogiAUxJdzUAa
+ qB1iDaQlnFak1L70T97JHx9OgweCdHqIcRhrDdLbtJSgBhfP+gi+aXPSN0YeTbk7jS
+ cPqyFdjxzHGEc7wsW8cpp3IV+0tBsSl6VA+opp+pxDQYHC5GYT4wQY8iMc/JgwMdmQ
+ O7Bh+yLh0LnpbkDLAM5BKUe1tQwk0qO5ntpYOc+sLQb24o0iyLuDmJAay/5CtMEz4v
+ RxrvuhK2WmaYw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id EEE42C05FD6; Tue, 22 Mar 2022 20:30:18 +0000 (UTC)
+ from userid 48) id 39D60C05FD6; Tue, 22 Mar 2022 20:33:38 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215727] New: drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+Subject: [Bug 215727] drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
  gfx_0.0.0 timeout when using firefox, chrome or icaclient
-Date: Tue, 22 Mar 2022 20:30:18 +0000
+Date: Tue, 22 Mar 2022 20:33:37 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -51,10 +51,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-215727-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-215727-2300-lrzAvKznvb@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215727-2300@https.bugzilla.kernel.org/>
+References: <bug-215727-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -77,65 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215727
 
-            Bug ID: 215727
-           Summary: drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
-                    gfx_0.0.0 timeout when using firefox, chrome or
-                    icaclient
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.16.15-arch1-1
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: high
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: scallar@poczta.fm
-        Regression: No
-
-Created attachment 300599
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300599&action=3Dedit
-Dmesg
-
-Hi,
-
-Symptoms:
-I have installed an AMD Radeon RX 6700-XT card and started having following
-random crashes when using a browser or icaclient (Citrix client):
-[   85.861734] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx_0.0.0
-timeout, signaled seq=3D13365, emitted seq=3D13367
-[   85.862162] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process kwin_x11 pid 819 thread kwin_x11:cs0 pid 838
-Display hangs/ becomes glitched.
-
-Steps to reproduce:
-Happens randomly when using a browser (tested firefox and chrome-based) or
-icaclient.
-I get this error several times every day.
-Happens in Xorg, also in Wayland.
-Process mentioned in the error is not always window manager (kwin_x11).
-Sometimes it's Xorg (or Xwayland), sometimes app (i.e. firefox).
-System: Archlinux (linux-firmware 20220309.cd01f85-1)
-DE: KDE 5.24.3 / mesa 21.3.7
-
-Logs:
-In this case of attached dmesg I was using kwin on Xorg and just started
-firefox (hardware acceleration was on). Same thing happens when using icacl=
-ient
-(very frequent crashes, but hard to reproduce on demand).
-Afterwards, i have also tried collecting gfx_0.0.0 data with umr:
-umr -R gfx_0.0.0
-
-This also resulted with crash:
-[  171.047397] BUG: unable to handle page fault for address: ffffb34e820fff=
-fc
-
-(full log at the end of attached dmesg).
-
-If you need additional data I can reproduce this error.
+--- Comment #1 from Wojciech Krol (scallar@poczta.fm) ---
+Created attachment 300600
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300600&action=3Dedit
+Partial umr -R gfx_0.0.0
 
 --=20
 You may reply to this email to add a comment.
