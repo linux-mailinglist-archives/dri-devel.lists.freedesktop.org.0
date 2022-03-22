@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F53B4E44D9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 18:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ECD4E453A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 18:36:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB7410E0D2;
-	Tue, 22 Mar 2022 17:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1910E3B2;
+	Tue, 22 Mar 2022 17:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68AF810E094;
- Tue, 22 Mar 2022 17:17:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A5A44B81D1C;
- Tue, 22 Mar 2022 17:16:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE791C340EC;
- Tue, 22 Mar 2022 17:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647969415;
- bh=R0FjRnlWn0CYefCmkkvFDs/ZDJZEsHt1WDcB2QF+9NU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X+kF6VxLOPpSX1sF2iWKvt6bvtuzEUBnUgWD0T+7PN6sje9YiKOPtnZBvsU4t5h23
- qxB6PKuC9Avk7iE7LPE3TDlwKpJyiJpgsY1MfdudEJ5NXWAgEqmbkWNBvFOOnC9y4M
- eNfSa1vKiHHM+HSBez2pZ2LVtcmBRHXnycbE9jDuA9kcwL9SmEoHZiuP1Z2EJOrGoR
- E75gWGTTcLqOa9ErD+pTRK7sUdClDfa52beKefCKP/u2cv/3qDi5/FXj8pP+XGMhUr
- 9yakwrnx4MJlqMGXarjnGWaZ0i1lxnfMTFub8LVYnXFWK3s2uCYc8i7rPXXdqcdz1a
- TSF90Eh1XYoag==
-Date: Tue, 22 Mar 2022 22:46:50 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [Freedreno] [PATCH v3 12/13] drm/msm/dsi: Add support for DSC
- configuration
-Message-ID: <YjoEgpAZAwM8hWEa@matsya>
-References: <20211116062256.2417186-1-vkoul@kernel.org>
- <20211116062256.2417186-13-vkoul@kernel.org>
- <20211211000315.pavmcc7cc73ilb6l@SoMainline.org>
- <Yg4t/G3tgcmkswHg@matsya>
- <20220217151142.sbp6wslxbxeohsgf@SoMainline.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F2F10E30C;
+ Tue, 22 Mar 2022 17:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647970612; x=1679506612;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=4jrwrLao+DJjYZJpoYht42d7mZ/fgQ1nwcr2x3ise2w=;
+ b=glpnS6GKhBwj5fFFkNRB1UuHhFkZ2P4d1Q1d3HFhnZAAt0QW6bK30T/H
+ uCBhbcbF8ovlIv3Gy5750Cc72aCjJRmzFL2hzmCYf0Ev5NrgMoSnnZkrZ
+ UXN9gj/GVdIVDFv2z+ab5sJWaqxf7lNmFNMu34eN6rbgzR1Mevb84ivbG
+ dl7NXwNnrTCQ4VqzxCuh7ejgv9HATvJAIRFWL/yBbkll5M1pDbcG091o1
+ o4A1FSl+73fxb+nwxvDQwKfKMdIIlUd6Ahc7rldtwJy2cRbHqFfCALzQ6
+ iL3/hEUh2O3S1Bkf6r8SEeaN/luCuYN7uWYQp65vfkP7inYLCJErGAkuR A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="240053463"
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="240053463"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 10:31:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; d="scan'208";a="637133705"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by FMSMGA003.fm.intel.com with SMTP; 22 Mar 2022 10:31:18 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 22 Mar 2022 19:31:17 +0200
+Date: Tue, 22 Mar 2022 19:31:17 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH v2] drm/i915: Add a DP1.2 compatible way to read LTTPR
+ capabilities
+Message-ID: <YjoH5UbXwKmSEeEy@intel.com>
+References: <20220228201234.1448613-1-imre.deak@intel.com>
+ <20220322143844.42616-1-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220217151142.sbp6wslxbxeohsgf@SoMainline.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220322143844.42616-1-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,132 +61,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-02-22, 16:11, Marijn Suijten wrote:
-> Hi Vinod,
+On Tue, Mar 22, 2022 at 04:38:44PM +0200, Imre Deak wrote:
+> At least some DELL monitors (P2715Q) with DPCD_REV 1.2 return corrupted
+> DPCD register values when reading from the 0xF0000- LTTPR range with an
+> AUX transaction block size bigger than 1. The DP standard requires 0 to
+> be returned - as for any other reserved/invalid addresses - but these
+> monitors return the DPCD_REV register value repeated in each byte of the
+> read buffer. This will in turn corrupt the values returned by the LTTPRs
+> between the source and the monitor: LTTPRs must adjust the values they
+> read from the downstream DPRX, for instance left-shift/init the
+> downstream DP_PHY_REPEATER_CNT value. Since the value returned by the
+> monitor's DPRX is non-zero the adjusted values will be corrupt.
 > 
-> Thanks for taking time to go through this review, please find some
-> clarifications below.
+> Reading the LTTPR registers one-by-one instead of reading all of them
+> with a single AUX transfer works around the issue.
 > 
-> On 2022-02-17 16:44:04, Vinod Koul wrote:
-> > Hi Marijn,
-> > 
-> > On 11-12-21, 01:03, Marijn Suijten wrote:
-> > 
-> > > > +static int dsi_dsc_update_pic_dim(struct msm_display_dsc_config *dsc,
-> > > > +				  int pic_width, int pic_height)
-> > > 
-> > > This function - adopted from downstream - does not seem to perform a
-> > > whole lot, especially without the modulo checks against the slice size.
-> > > Perhaps it can be inlined?
-> > 
-> > Most of the code here is :)
-> > 
-> > This was split from downstream code to check and update dimension. We
-> > can inline this, or should we leave that to compiler. I am not a very
-> > big fan of inlining...
+> According to the DP standard's 0xF0000 register description:
+> "LTTPR-related registers at DPCD Addresses F0000h through F02FFh are
+> valid only for DPCD r1.4 (or higher)." While it's unclear if DPCD r1.4
+> refers to the DPCD_REV or to the
+> LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV register (tickets filed
+> at the VESA site to clarify this haven't been addressed), one
+> possibility is that it's a restriction due to non-compliant monitors
+> described above. Disabling the non-transparent LTTPR mode for all such
+> monitors is not a viable solution: the transparent LTTPR mode has its
+> own issue causing link training failures and this would affect a lot of
+> monitors in use with DPCD_REV < 1.4. Instead this patch works around
+> the problem by reading the LTTPR common and PHY cap registers one-by-one
+> for any monitor with a DPCD_REV < 1.4.
 > 
-> It doesn't seem beneficial to code readability to have this function,
-> which is only called just once and also has the same struct members read
-> in a `DBG()` directly, abstracted away to a function.  Not really
-> concerned about generated code/performance FWIW.
+> The standard requires the DPCD capabilites to be read after the LTTPR
+> common capabilities are read, so re-read the DPCD capabilities after
+> the LTTPR common and PHY caps were read out.
 > 
-> Also note that the caller isn't checking the `-EINVAL` result...
-
-I have made this void inline.
-
-> > > 
-> > > > +{
-> > > > +	if (!dsc || !pic_width || !pic_height) {
-> > > > +		pr_err("DSI: invalid input: pic_width: %d pic_height: %d\n", pic_width, pic_height);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	dsc->drm->pic_width = pic_width;
-> > > > +	dsc->drm->pic_height = pic_height;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > >  static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> > > >  {
-> > > >  	struct drm_display_mode *mode = msm_host->mode;
-> > > > @@ -940,7 +954,68 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> > > >  		hdisplay /= 2;
-> > > >  	}
-> > > >  
-> > > > +	if (msm_host->dsc) {
-> > > > +		struct msm_display_dsc_config *dsc = msm_host->dsc;
-> > > > +
-> > > > +		/* update dsc params with timing params */
-> > > > +		dsi_dsc_update_pic_dim(dsc, mode->hdisplay, mode->vdisplay);
+> v2:
+> - Use for instead of a while loop. (Ville)
+> - Add to code comment the monitor model with the problem.
 > 
-> That is, the result code here should be checked (or function inlined).
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4531
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 
-This function return void, so no point in checking
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-> > > > +
-> > > > +		/* we do the calculations for dsc parameters here so that
-> > > > +		 * panel can use these parameters
-> > > > +		 */
-> > > > +		dsi_populate_dsc_params(dsc);
-> > > > +
-> > > > +		/* Divide the display by 3 but keep back/font porch and
-> > > > +		 * pulse width same
-> > > > +		 */
-> > > 
-> > > A more general nit on the comments in this patch series: it is
-> > > appreciated if comments explain the rationale rather than - or in
-> > > addition to - merely paraphrasing the code that follows.
-> > 
-> > Yes it might be the case here, but in this case I wanted to explicitly
-> > point out hat we need to divide display by 3...
+> ---
+>  drivers/gpu/drm/dp/drm_dp.c                   | 57 ++++++++++++-------
+>  .../drm/i915/display/intel_dp_link_training.c | 30 +++++++---
+>  include/drm/dp/drm_dp_helper.h                |  2 +
+>  3 files changed, 58 insertions(+), 31 deletions(-)
 > 
-> The main point here is justifying _why_ there's a division by 3 for the
-> active portion of the signal, I presume that's the compression ratio
-> (having not read into the DSC compression standard yet at all)?
-
-I have updated this comment
-
-> > > > +		if (msm_host->dsc) {
-> > > > +			struct msm_display_dsc_config *dsc = msm_host->dsc;
-> > > > +			u32 reg, reg_ctrl, reg_ctrl2;
-> > > > +			u32 slice_per_intf, bytes_in_slice, total_bytes_per_intf;
-> > > > +
-> > > > +			reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
-> > > > +			reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
-> > > 
-> > > Shouldn't old values be masked out first, before writing new bits or
-> > > values below?  The video-mode variant doesn't read back old register
-> > > values.
-> > 
-> > This follows downstream where the registers are read, modified and
-> > written back
-> 
-> Are you sure about this?  The register values are never cleared, meaning
-> that only bits get added through the `|=` below but never unset - unless
-> downstream clears these registers elsewhere before ending up in (their
-> equivalent of) dsi_timing_setup.
-
-I have modified video mode to write and not read now. For command mode
-all bits are set to some value so no need to mask old values for that
-
-> Thanks.  I forgot to mention: there seem to be a lot of similarities
-> between the video and commandmode computations, can those possibly be
-> factored out of the if-else to save on duplication and accidental
-> mismatches like these?
-
-Thanks, this was a good suggestion and am happy to report that I have
-incorporated this and indeed code looks better
+> diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/dp/drm_dp.c
+> index 703972ae14c64..58744f83931af 100644
+> --- a/drivers/gpu/drm/dp/drm_dp.c
+> +++ b/drivers/gpu/drm/dp/drm_dp.c
+> @@ -2390,9 +2390,35 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+>  }
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+>  
+> +static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
+> +				  u8 *buf, int buf_size)
+> +{
+> +	/*
+> +	 * At least the DELL P2715Q monitor with a DPCD_REV < 0x14 returns
+> +	 * corrupted values when reading from the 0xF0000- range with a block
+> +	 * size bigger than 1.
+> +	 */
+> +	int block_size = dpcd[DP_DPCD_REV] < 0x14 ? 1 : buf_size;
+> +	int offset;
+> +	int ret;
+> +
+> +	for (offset = 0; offset < buf_size; offset += block_size) {
+> +		ret = drm_dp_dpcd_read(aux,
+> +				       address + offset,
+> +				       &buf[offset], block_size);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		WARN_ON(ret != block_size);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
+>   * @aux: DisplayPort AUX channel
+> + * @dpcd: DisplayPort configuration data
+>   * @caps: buffer to return the capability info in
+>   *
+>   * Read capabilities common to all LTTPRs.
+> @@ -2400,25 +2426,19 @@ EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+>   * Returns 0 on success or a negative error code on failure.
+>   */
+>  int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
+> +				  const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+>  {
+> -	int ret;
+> -
+> -	ret = drm_dp_dpcd_read(aux,
+> -			       DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
+> -			       caps, DP_LTTPR_COMMON_CAP_SIZE);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	WARN_ON(ret != DP_LTTPR_COMMON_CAP_SIZE);
+> -
+> -	return 0;
+> +	return drm_dp_read_lttpr_regs(aux, dpcd,
+> +				      DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
+> +				      caps, DP_LTTPR_COMMON_CAP_SIZE);
+>  }
+>  EXPORT_SYMBOL(drm_dp_read_lttpr_common_caps);
+>  
+>  /**
+>   * drm_dp_read_lttpr_phy_caps - read the capabilities for a given LTTPR PHY
+>   * @aux: DisplayPort AUX channel
+> + * @dpcd: DisplayPort configuration data
+>   * @dp_phy: LTTPR PHY to read the capabilities for
+>   * @caps: buffer to return the capability info in
+>   *
+> @@ -2427,20 +2447,13 @@ EXPORT_SYMBOL(drm_dp_read_lttpr_common_caps);
+>   * Returns 0 on success or a negative error code on failure.
+>   */
+>  int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
+> +			       const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  			       enum drm_dp_phy dp_phy,
+>  			       u8 caps[DP_LTTPR_PHY_CAP_SIZE])
+>  {
+> -	int ret;
+> -
+> -	ret = drm_dp_dpcd_read(aux,
+> -			       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy),
+> -			       caps, DP_LTTPR_PHY_CAP_SIZE);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	WARN_ON(ret != DP_LTTPR_PHY_CAP_SIZE);
+> -
+> -	return 0;
+> +	return drm_dp_read_lttpr_regs(aux, dpcd,
+> +				      DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy),
+> +				      caps, DP_LTTPR_PHY_CAP_SIZE);
+>  }
+>  EXPORT_SYMBOL(drm_dp_read_lttpr_phy_caps);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> index 5d98773efd1b3..fbee20a76cf44 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> @@ -55,6 +55,7 @@ static u8 *intel_dp_lttpr_phy_caps(struct intel_dp *intel_dp,
+>  }
+>  
+>  static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
+> +					 const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  					 enum drm_dp_phy dp_phy)
+>  {
+>  	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> @@ -63,7 +64,7 @@ static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
+>  
+>  	intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name));
+>  
+> -	if (drm_dp_read_lttpr_phy_caps(&intel_dp->aux, dp_phy, phy_caps) < 0) {
+> +	if (drm_dp_read_lttpr_phy_caps(&intel_dp->aux, dpcd, dp_phy, phy_caps) < 0) {
+>  		drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
+>  			    "[ENCODER:%d:%s][%s] failed to read the PHY caps\n",
+>  			    encoder->base.base.id, encoder->base.name, phy_name);
+> @@ -77,10 +78,11 @@ static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
+>  		    phy_caps);
+>  }
+>  
+> -static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
+> +static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+>  	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+>  	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+> +	int ret;
+>  
+>  	if (intel_dp_is_edp(intel_dp))
+>  		return false;
+> @@ -92,8 +94,9 @@ static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
+>  	if (DISPLAY_VER(i915) < 10 || IS_GEMINILAKE(i915))
+>  		return false;
+>  
+> -	if (drm_dp_read_lttpr_common_caps(&intel_dp->aux,
+> -					  intel_dp->lttpr_common_caps) < 0)
+> +	ret = drm_dp_read_lttpr_common_caps(&intel_dp->aux, dpcd,
+> +					    intel_dp->lttpr_common_caps);
+> +	if (ret < 0)
+>  		goto reset_caps;
+>  
+>  	drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
+> @@ -122,14 +125,14 @@ intel_dp_set_lttpr_transparent_mode(struct intel_dp *intel_dp, bool enable)
+>  	return drm_dp_dpcd_write(&intel_dp->aux, DP_PHY_REPEATER_MODE, &val, 1) == 1;
+>  }
+>  
+> -static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
+> +static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+>  	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+>  	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+>  	int lttpr_count;
+>  	int i;
+>  
+> -	if (!intel_dp_read_lttpr_common_caps(intel_dp))
+> +	if (!intel_dp_read_lttpr_common_caps(intel_dp, dpcd))
+>  		return 0;
+>  
+>  	lttpr_count = drm_dp_lttpr_count(intel_dp->lttpr_common_caps);
+> @@ -168,7 +171,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
+>  	}
+>  
+>  	for (i = 0; i < lttpr_count; i++)
+> -		intel_dp_read_lttpr_phy_caps(intel_dp, DP_PHY_LTTPR(i));
+> +		intel_dp_read_lttpr_phy_caps(intel_dp, dpcd, DP_PHY_LTTPR(i));
+>  
+>  	return lttpr_count;
+>  }
+> @@ -193,9 +196,18 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
+>   */
+>  int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp)
+>  {
+> -	int lttpr_count = intel_dp_init_lttpr(intel_dp);
+> +	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+> +	int lttpr_count;
+>  
+> -	/* The DPTX shall read the DPRX caps after LTTPR detection. */
+> +	if (drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd))
+> +		return -EIO;
+> +
+> +	lttpr_count = intel_dp_init_lttpr(intel_dp, dpcd);
+> +
+> +	/*
+> +	 * The DPTX shall read the DPRX caps after LTTPR detection, so re-read
+> +	 * it here.
+> +	 */
+>  	if (drm_dp_read_dpcd_caps(&intel_dp->aux, intel_dp->dpcd)) {
+>  		intel_dp_reset_lttpr_common_caps(intel_dp);
+>  		return -EIO;
+> diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
+> index 51e02cf75277e..1eccd97419436 100644
+> --- a/include/drm/dp/drm_dp_helper.h
+> +++ b/include/drm/dp/drm_dp_helper.h
+> @@ -2148,8 +2148,10 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
+>  int drm_dp_read_sink_count(struct drm_dp_aux *aux);
+>  
+>  int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
+> +				  const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+>  int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
+> +			       const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  			       enum drm_dp_phy dp_phy,
+>  			       u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+>  int drm_dp_lttpr_count(const u8 cap[DP_LTTPR_COMMON_CAP_SIZE]);
+> -- 
+> 2.30.2
 
 -- 
-~Vinod
+Ville Syrjälä
+Intel
