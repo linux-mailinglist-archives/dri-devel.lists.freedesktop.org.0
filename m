@@ -2,38 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3334E50E4
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C984E50E0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:01:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A7610E693;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8797110E68F;
 	Wed, 23 Mar 2022 11:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EEE310E477;
- Mon, 21 Mar 2022 19:11:18 +0000 (UTC)
-Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id D983FD2252;
- Mon, 21 Mar 2022 19:09:38 +0000 (UTC)
-Received: (Authenticated sender: didi.debian@cknow.org)
- by mail.gandi.net (Postfix) with ESMTPSA id 78855200004;
- Mon, 21 Mar 2022 19:09:29 +0000 (UTC)
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Eric Valette <eric.valette@free.fr>,
- Salvatore Bonaccorso <carnil@debian.org>,
- Thorsten Leemhuis <regressions@leemhuis.info>, Sasha Levin <sashal@kernel.org>
-Subject: Re: Bug#1005005: Regression from 3c196f056666 ("drm/amdgpu: always
- reset the asic in suspend (v2)") on suspend?
-Date: Mon, 21 Mar 2022 20:09:19 +0100
-Message-ID: <4421935.LvFx2qVVIh@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <3873010.MHq7AAxBmi@ylum>
-References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
- <164405721350.15142.10930772309423612672.reportbug@ylum.maison>
- <3873010.MHq7AAxBmi@ylum>
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA2A310E52B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 08:18:48 +0000 (UTC)
+Received: from kwepemi500006.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KN4BQ58Qsz1GCqP;
+ Tue, 22 Mar 2022 16:18:38 +0800 (CST)
+Received: from kwepemm600010.china.huawei.com (7.193.23.86) by
+ kwepemi500006.china.huawei.com (7.221.188.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Mar 2022 16:18:45 +0800
+Received: from huawei.com (10.174.179.164) by kwepemm600010.china.huawei.com
+ (7.193.23.86) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 22 Mar
+ 2022 16:18:44 +0800
+From: Liu Zixian <liuzixian4@huawei.com>
+To: <dri-devel@lists.freedesktop.org>,
+ <virtualization@lists.linux-foundation.org>
+Subject: [PATCH] drm/virtio: fix NULL pointer dereference in
+ virtio_gpu_conn_get_modes
+Date: Tue, 22 Mar 2022 16:18:44 +0800
+Message-ID: <20220322081844.1602-1-liuzixian4@huawei.com>
+X-Mailer: git-send-email 2.29.2.windows.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2269141.ElGaqSPkdT";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.164]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemm600010.china.huawei.com (7.193.23.86)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,66 +51,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org,
- Evan Quan <evan.quan@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, dod@debian.org
+Cc: linfeilong@huawei.com, liuzixian4@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart2269141.ElGaqSPkdT
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Eric Valette <eric.valette@free.fr>, Salvatore Bonaccorso <carnil@debian.org>, Thorsten Leemhuis <regressions@leemhuis.info>, Sasha Levin <sashal@kernel.org>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>, amd-gfx list <amd-gfx@lists.freedesktop.org>, Luben Tuikov <luben.tuikov@amd.com>, Maling list - DRI developers <dri-devel@lists.freedesktop.org>, Alex Deucher <alexander.deucher@amd.com>, 1005005@bugs.debian.org, Evan Quan <evan.quan@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex Deucher <alexdeucher@gmail.com>, dod@debian.org
-Subject: Re: Bug#1005005: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic in suspend (v2)") on suspend?
-Date: Mon, 21 Mar 2022 20:09:19 +0100
-Message-ID: <4421935.LvFx2qVVIh@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <3873010.MHq7AAxBmi@ylum>
-References: <Ygf7KuWyc0d4HIFu@eldamar.lan> <164405721350.15142.10930772309423612672.reportbug@ylum.maison> <3873010.MHq7AAxBmi@ylum>
+drm_cvt_mode may return NULL and we should check it.
 
-On maandag 21 maart 2022 19:49:56 CET Dominique Dumont wrote:
-> On Monday, 21 March 2022 09:57:59 CET Thorsten Leemhuis wrote:
-> > Dominique/Salvatore/Eric, what's the status of this regression?
-> > According to the debian bug tracker the problem is solved with 5.16 and
-> > 5.17, but was 5.15 ever fixed?
-> 
-> I don't think so.
-> 
-> On kernel side, the commit fixing this issue is
-> e55a3aea418269266d84f426b3bd70794d3389c8 .
-> 
-> According to the logs of [1] , this commit landed in v5.17-rc3
+This bug is found by syzkaller:
 
-It was included in 5.15.22, but the newest 5.15 kernel uploaded to Debian was 
-5.15.15, so their is no fixed 5.15 in Debian.
-It was also included in 5.16.8 and the earlier version in Debian which had 
-that commit was 5.16.10 (uploaded 2022-02-18 to Unstable). Current version in 
-Unstable is 5.16.14. Testing/Bookworm now had 5.16.12.
-In Experimental, on 2022-02-12, 5.17-rc3 was uploaded.
+FAULT_INJECTION stacktrace:
+[  168.567394] FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+[  168.567403] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567406] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567408] Call trace:
+[  168.567414]  dump_backtrace+0x0/0x310
+[  168.567418]  show_stack+0x28/0x38
+[  168.567423]  dump_stack+0xec/0x15c
+[  168.567427]  should_fail+0x3ac/0x3d0
+[  168.567437]  __should_failslab+0xb8/0x120
+[  168.567441]  should_failslab+0x28/0xc0
+[  168.567445]  kmem_cache_alloc_trace+0x50/0x640
+[  168.567454]  drm_mode_create+0x40/0x90
+[  168.567458]  drm_cvt_mode+0x48/0xc78
+[  168.567477]  virtio_gpu_conn_get_modes+0xa8/0x140 [virtio_gpu]
+[  168.567485]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567492]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567496]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567514]  drm_ioctl+0x558/0x6d0
+[  168.567522]  do_vfs_ioctl+0x160/0xf30
+[  168.567525]  ksys_ioctl+0x98/0xd8
+[  168.567530]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567536]  el0_svc_common+0xc8/0x320
+[  168.567540]  el0_svc_handler+0xf8/0x160
+[  168.567544]  el0_svc+0x10/0x218
 
-HTH,
-  Diederik
---nextPart2269141.ElGaqSPkdT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+KASAN stacktrace:
+[  168.567561] BUG: KASAN: null-ptr-deref in virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567565] Read of size 4 at addr 0000000000000054 by task syz/6425
+[  168.567566]
+[  168.567571] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567573] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567575] Call trace:
+[  168.567578]  dump_backtrace+0x0/0x310
+[  168.567582]  show_stack+0x28/0x38
+[  168.567586]  dump_stack+0xec/0x15c
+[  168.567591]  kasan_report+0x244/0x2f0
+[  168.567594]  __asan_load4+0x58/0xb0
+[  168.567607]  virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567612]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567617]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567621]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567624]  drm_ioctl+0x558/0x6d0
+[  168.567628]  do_vfs_ioctl+0x160/0xf30
+[  168.567632]  ksys_ioctl+0x98/0xd8
+[  168.567636]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567641]  el0_svc_common+0xc8/0x320
+[  168.567645]  el0_svc_handler+0xf8/0x160
+[  168.567649]  el0_svc+0x10/0x218
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Liu Zixian <liuzixian4@huawei.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCYjjNXwAKCRDXblvOeH7b
-bmG4APwKJH+NoQnMbqymwjfra7bWQF9in5WYMwgRu3GlvTiYhgD9FLab2MAFTrVL
-ufgQ54YsqRhBZcrwAhR1mtZBNyRlLw0=
-=SPqa
------END PGP SIGNATURE-----
-
---nextPart2269141.ElGaqSPkdT--
-
-
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 5b00310ac..f73352e7b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -179,6 +179,8 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
+ 		DRM_DEBUG("add mode: %dx%d\n", width, height);
+ 		mode = drm_cvt_mode(connector->dev, width, height, 60,
+ 				    false, false, false);
++		if (!mode)
++			return count;
+ 		mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 		drm_mode_probed_add(connector, mode);
+ 		count++;
+-- 
+2.33.0
 
