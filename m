@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203374E3C14
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 11:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3CA4E3C34
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 11:11:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7664810E0CD;
-	Tue, 22 Mar 2022 10:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BE210E5BF;
+	Tue, 22 Mar 2022 10:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E135310E0CD
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 10:00:10 +0000 (UTC)
-X-UUID: b5fe3251858a466aa4a657ced4731cfb-20220322
-X-UUID: b5fe3251858a466aa4a657ced4731cfb-20220322
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1537663108; Tue, 22 Mar 2022 18:00:04 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 22 Mar 2022 18:00:04 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Mar 2022 18:00:03 +0800
-Message-ID: <55eba6e4285ee6e4edb436f339b88730cc2c651c.camel@mediatek.com>
-Subject: Re: [PATCH v3,4/4] drm/mediatek: Add pull-down MIPI operation in
- mtk_dsi_poweroff function
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <matthias.bgg@gmail.com>
-Date: Tue, 22 Mar 2022 18:00:24 +0800
-In-Reply-To: <ebcf547ab6e4481e6c8e60db88eccf58fe7059ed.camel@mediatek.com>
-References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
- <1647503611-13144-5-git-send-email-xinlei.lee@mediatek.com>
- <ebcf547ab6e4481e6c8e60db88eccf58fe7059ed.camel@mediatek.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC74310E5B8;
+ Tue, 22 Mar 2022 10:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647943863; x=1679479863;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=KIE9AGL4zTZmYysZsNxhWt9/p8gsOhkrTOVOyJAvCHo=;
+ b=VGkODopJdLvLcYQCYwbht3ZEAZKCoyRji8P8gPy3mALaqg96Ezn/Z41e
+ VWNB9av/FCje+QS48/F9pf85iDheONbdOYCwhZu+QzfjD9crLK/0GLC63
+ kfhl2+/5VAs/wla1LH6MUhX3adVwaAb/kIvww7OPExHqjnip8SW1NIUhg
+ F/5gJyAIfbqiNn/PRzNZIMSML26qBYrMg4OrMbCHJTczrH8jHLYT6QwsB
+ vN+8scj2IIugalv/c+BhVuH4B42iIQYXP0bd5CDs1Wmgu1O/bZXdR/3db
+ 3dP4sXcEh3IDzgUWX2KmfavEH2HmEPh3fNRSirS9gtKDZfOlVMjLUZUve A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="245253232"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="245253232"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 03:10:50 -0700
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="692495492"
+Received: from sorenthe-mobl2.ger.corp.intel.com (HELO [10.249.254.95])
+ ([10.249.254.95])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 03:10:49 -0700
+Message-ID: <dd95e96f6c9546c5e88cd5334ee000be0b05fa12.camel@linux.intel.com>
+Subject: Re: [PATCH v5 1/9] drm/i915/gt: Use XY_FAST_COLOR_BLT to clear obj
+ on graphics ver 12+
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Date: Tue, 22 Mar 2022 11:10:45 +0100
+In-Reply-To: <20220321224459.12223-2-ramalingam.c@intel.com>
+References: <20220321224459.12223-1-ramalingam.c@intel.com>
+ <20220321224459.12223-2-ramalingam.c@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,73 +61,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-03-17 at 20:20 +0800, Rex-BC Chen wrote:
-> Hello Xinlei,
+On Tue, 2022-03-22 at 04:14 +0530, Ramalingam C wrote:
+> Use faster XY_FAST_COLOR_BLT cmd on graphics version of 12 and more,
+> for clearing (Zero out) the pages of the newly allocated object.
 > 
-> On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > 
-> > In the dsi_enable function, mtk_dsi_rxtx_control is to
-> > pull up the MIPI signal operation. Before dsi_disable,
-> > MIPI should also be pulled down by writing a register instead of
-> > disabling dsi.
-> > 
+> XY_FAST_COLOR_BLT is faster than the older XY_COLOR_BLT.
 > 
-> What will happen if you do not pulled down the mipi before disable
-> dsi?
-> What's differnet for this two setting?
+> v2:
+>   Typo fix at title [Thomas]
 > 
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index b509d59235e2..1c6a75a46b67 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -676,6 +676,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> > *dsi)
-> >  	mtk_dsi_reset_engine(dsi);
-> >  	mtk_dsi_lane0_ulp_mode_enter(dsi);
-> >  	mtk_dsi_clk_ulp_mode_enter(dsi);
-> > +	/* set the lane number as 0 */
-> > +	writel(0, dsi->regs + DSI_TXRX_CTRL);
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  5 +++
+>  drivers/gpu/drm/i915/gt/intel_migrate.c      | 43 +++++++++++++++++-
+> --
+>  2 files changed, 43 insertions(+), 5 deletions(-)
 > 
-> So set lane num to 0 means pull down mipi?
-> 
-> BRs,
-> Rex
-> 
-> >  
-> >  	mtk_dsi_disable(dsi);
-> >  
-> 
-> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> index d112ffd56418..925e55b6a94f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> @@ -205,6 +205,11 @@
+>  
+>  #define COLOR_BLT_CMD                  (2 << 29 | 0x40 << 22 | (5 -
+> 2))
+>  #define XY_COLOR_BLT_CMD               (2 << 29 | 0x50 << 22)
+> +#define XY_FAST_COLOR_BLT_CMD          (2 << 29 | 0x44 << 22)
+> +#define   XY_FAST_COLOR_BLT_DEPTH_32   (2 << 19)
+> +#define   XY_FAST_COLOR_BLT_DW         16
+> +#define   XY_FAST_COLOR_BLT_MOCS_MASK  GENMASK(27, 21)
+> +#define   XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT 31
+>  #define SRC_COPY_BLT_CMD               (2 << 29 | 0x43 << 22)
+>  #define GEN9_XY_FAST_COPY_BLT_CMD      (2 << 29 | 0x42 << 22)
+>  #define XY_SRC_COPY_BLT_CMD            (2 << 29 | 0x53 << 22)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 20444d6ceb3c..73199ebf0671 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -614,20 +614,53 @@ intel_context_migrate_copy(struct intel_context
+> *ce,
+>         return err;
+>  }
+>  
+> -static int emit_clear(struct i915_request *rq, u64 offset, int size,
+> u32 value)
+> +static int emit_clear(struct i915_request *rq, u64 offset, int size,
+> +                     u32 value, bool is_lmem)
+>  {
+> -       const int ver = GRAPHICS_VER(rq->engine->i915);
+> +       struct drm_i915_private *i915 = rq->engine->i915;
+> +       int mocs = rq->engine->gt->mocs.uc_index << 1;
+> +       const int ver = GRAPHICS_VER(i915);
+> +       int ring_sz;
+>         u32 *cs;
+>  
+>         GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+>  
+>         offset += (u64)rq->engine->instance << 32;
+>  
+> -       cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
+> +       if (ver >= 12)
+> +               ring_sz = 16;
 
-Hi rex:
+XY_FAST_COLOR_BLT_DW
 
-1. 
-If you disable dsi without pulling the mipi signal low, the value of
-the register will still maintain the setting of the mipi signal being
-pulled high. 
-After resume, even if the mipi signal is not pulled high, it will still
-be in the high state.
+With that fixed, 
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-2.So set lane num to 0 means pull down mipi
-=> yes
 
-Do you have any suggestions on the next version?
+> +       else if (ver >= 8)
+> +               ring_sz = 8;
+> +       else
+> +               ring_sz = 6;
+> +
+> +       cs = intel_ring_begin(rq, ring_sz);
+>         if (IS_ERR(cs))
+>                 return PTR_ERR(cs);
+>  
+> -       if (ver >= 8) {
+> +       if (ver >= 12) {
+> +               *cs++ = XY_FAST_COLOR_BLT_CMD |
+> XY_FAST_COLOR_BLT_DEPTH_32 |
+> +                       (XY_FAST_COLOR_BLT_DW - 2);
+> +               *cs++ = FIELD_PREP(XY_FAST_COLOR_BLT_MOCS_MASK, mocs)
+> |
+> +                       (PAGE_SIZE - 1);
+> +               *cs++ = 0;
+> +               *cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+> +               *cs++ = lower_32_bits(offset);
+> +               *cs++ = upper_32_bits(offset);
+> +               *cs++ = !is_lmem << XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT;
+> +               /* BG7 */
+> +               *cs++ = value;
+> +               *cs++ = 0;
+> +               *cs++ = 0;
+> +               *cs++ = 0;
+> +               /* BG11 */
+> +               *cs++ = 0;
+> +               *cs++ = 0;
+> +               /* BG13 */
+> +               *cs++ = 0;
+> +               *cs++ = 0;
+> +               *cs++ = 0;
+> +       } else if (ver >= 8) {
+>                 *cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
+>                 *cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY |
+> PAGE_SIZE;
+>                 *cs++ = 0;
+> @@ -711,7 +744,7 @@ intel_context_migrate_clear(struct intel_context
+> *ce,
+>                 if (err)
+>                         goto out_rq;
+>  
+> -               err = emit_clear(rq, offset, len, value);
+> +               err = emit_clear(rq, offset, len, value, is_lmem);
+>  
+>                 /* Arbitration is re-enabled between requests. */
+>  out_rq:
 
-Best Regards!
-xinlei
 
