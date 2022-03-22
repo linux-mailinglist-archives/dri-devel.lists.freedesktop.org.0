@@ -2,108 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F624E3C41
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 11:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F3A4E3C6E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 11:27:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65F0B10E5DC;
-	Tue, 22 Mar 2022 10:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D179A10E10F;
+	Tue, 22 Mar 2022 10:27:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2114.outbound.protection.outlook.com [40.107.236.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EEE610E5DC
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 10:13:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nP2LzsVR5brlH4y3joRhhjcnHHBEvrMr0bpN9yHGd/FidVlml9XHqGrpzjIOGpuwbkdMxwwilRLpSD1D282jISj44TNwCQ2TZ2A+6MCkU1ULcB640O4ps3URAjYn6Dv3h+pHBStPrhiexqXofMF+yCN+zZnc+lmzgI9kntlQWY7JsprCexZUs2IdS6b9ifWcYILoMBbMJWT4FICsV29IpeyehenMWMMN1ZxpEHAD6B0ad8kxWwyMaaSFijiKJXB44qnEmac5lHwjvVaNSh5T21h9iBFoqtvkNAWE/GO104sXYoNWTtch0GAx63Yv0ahU+Wl0eaNsGg/FR8xjyKrGQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oy1hPCargx2mlIzbtYvwXb9j1NXJqsoXBOmKoan6aIM=;
- b=BF2OdS3mlKvBGRYrtCpyhkO4q99SnPu1JdcGPUNlYxeM7h+sSv/ISaFB5rEDn2CS0ojPmtrtwEAlVBsTwYiAQovMhtn/6DynvQB1qNoqdJaKZAJnYNBl5uMPUxGn5o0bYP3131N8I4spGz7TvfX7WWLGKYK68abTtTc9QaxpsS/kSaYjRt0iXXX6gtQf/HVW/eQNuBXx3lcXFUlc8Gpxnsyco/IJq64AzGiJ5DageFwbw5YRQ7Z/gEvy5enT0ollISBuP+oCbm3nFCWqbrr70reuqEW6JUeHrxxiO5ou0giKrBNSjwHztcKSIhTVFCarNTax84K9oHGfQV279sRQRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Oy1hPCargx2mlIzbtYvwXb9j1NXJqsoXBOmKoan6aIM=;
- b=wOcLwCdXp8ANx5/edYU7Svo7dphHmSfCEiF2uN+JfjJ5N40bx/R0oYGeSrcKG8+d+zz5BCG7xtL6GTbR1+I5ahL0nUPBIBn2Pur9qpdCUuhO5jTHQ21lGkLskJZSGNj5nZ68kV+HHwaiK8Zp8br/k+xvW1s6PJVOu49xYuVKHyk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BN7PR04MB4228.namprd04.prod.outlook.com (2603:10b6:406:fc::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 22 Mar
- 2022 10:13:56 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142%9]) with mapi id 15.20.5102.016; Tue, 22 Mar 2022
- 10:13:48 +0000
-Date: Tue, 22 Mar 2022 18:13:42 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Set downstream sink into normal
- status
-Message-ID: <20220322101342.GA1493353@anxtwsw-Precision-3640-Tower>
-References: <20220322080213.1487134-1-xji@analogixsemi.com>
- <CAJMQK-j+PhB6dZBuKG3NtW94oT0bVkp9G1bXhmyZLgYOmTCgog@mail.gmail.com>
- <20220322085208.GA1487511@anxtwsw-Precision-3640-Tower>
- <CAGXv+5Gddu8VU7xjX-r2=u85i7Ut=_6JpQV6py52OyzEkpezTg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGXv+5Gddu8VU7xjX-r2=u85i7Ut=_6JpQV6py52OyzEkpezTg@mail.gmail.com>
-X-ClientProxiedBy: HK2PR0401CA0022.apcprd04.prod.outlook.com
- (2603:1096:202:2::32) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A2510E09E;
+ Tue, 22 Mar 2022 10:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647944835; x=1679480835;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Ew9szkJCXCJroQa3cUhv6SsB0ydqzuuVi3HMDI2Eq4U=;
+ b=XsBHj64NZFQovO5BYzIoS28I1qE1bm1xvayqZ55L6ocLmGdU3B7gpMJD
+ goi3LCpRLKYlqs9VFIPiyxhS62gLT679Ikb/Z/j2iiS9J/wT7JqXTaBwh
+ 15cTB5glPcsmEi9zRjJu/2iFio/mvhf0I5H8F9UfzzsK/y9+RFGFcYxXl
+ u9pDVTFZOVmwMThsEyjvCXlTK7tacH1IctUl7XCoJupO8ZgElUPFj7rWg
+ 6PiGSx412w48gXfSHKqI0wkHef2NwsyS2ApepT2Em24H2pxkwUgtYuCxO
+ 1Tag1T/IAVbTNvKCjvhxkTpxlJM41X0DHILJ/b6+D1PR3ADSpcihaXSpo g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257972435"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="257972435"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 03:27:04 -0700
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="552049791"
+Received: from sorenthe-mobl2.ger.corp.intel.com (HELO [10.249.254.95])
+ ([10.249.254.95])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 03:27:01 -0700
+Message-ID: <5931be1a37dbb9ccdce127f6173d42fa4dbee593.camel@linux.intel.com>
+Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Michael Cheng
+ <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+Date: Tue, 22 Mar 2022 11:26:58 +0100
+In-Reply-To: <31310790-4bc5-b9a7-8d35-c0f542b4d658@linux.intel.com>
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
+ <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
+ <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
+ <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+ <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
+ <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
+ <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
+ <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
+ <31310790-4bc5-b9a7-8d35-c0f542b4d658@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84138553-5f88-4ab1-572b-08da0beca7b5
-X-MS-TrafficTypeDiagnostic: BN7PR04MB4228:EE_
-X-Microsoft-Antispam-PRVS: <BN7PR04MB4228473BD2357609BA870A83C7179@BN7PR04MB4228.namprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CYRACjTHNXeoatFIV4VX3K+RqoafSNlUfB4eNu7EjsjeddUQKXah/YG/RFRvhi7D9BOubK3G6va17h8QKsoymX4rE+iuxDsI4+ggCSO4h6wIfYEoO9V4f+LiefoU5JmK/CKwTjwHZ1NANtncRdS0p5cYlxQQhjRHh7Wgr1hEMYvF2dtGRqMU0j5i+9J+rGdIZeh/DAwgB1WXpH1s9QXXqiQrKfpZLDvneMIgPAtGQA+ciiVPhDo6TNdbePCoVbFk7LbWOVpbQ/z7ZvG4RJcI76LJOY057MDy2/jpJSkcr29gXM6XMwyZDWUiA8mi2Nvgn6kUF8mhFXC+AtTraTpLKU2E0RY8pgUP/UeSHvKzjz05oisX6YWCCaR89ACdek1y8/O58eqG+fuzj1n5TQzQS19U503hNHMBCQ2iqCA9yHHZ2migwv4hz1ZRGoKxOW+Fy0zQErM05RsZHLlDHA+YXQUZ1LUUqgJfVMHxho23OKeS5LmmTM9sILhQmNmWMD6TxUa1suHDwpN1YaNoUb8hZPLiBah594zUiwghzLBfkt9DhR8v4bWV0HgPbGjF46x55ZCy2ckdU5zRPdfcDNXMZJ96p9hEMm6acu0and99/ZN9/LfNmAp5AKr/bPaQi7fEZU7B6q/TJYIZWT4ctd6IlqoppRiBe+cxhrUer1Gus1V506ycTN2rDG5PP1buoz69u2kaNYsTlB5nCh2llMsafw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(8936002)(186003)(1076003)(33656002)(55236004)(6506007)(2906002)(8676002)(6916009)(9686003)(26005)(86362001)(6512007)(5660300002)(107886003)(6666004)(53546011)(52116002)(7416002)(54906003)(6486002)(38100700002)(33716001)(4326008)(38350700002)(66946007)(66556008)(66476007)(316002)(83380400001)(508600001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1G05xl5miLlkoctskU/vaehHztNOUcdzx/q0F7yqRhaAa5sC7SV8zyO9x9zL?=
- =?us-ascii?Q?XbuhJFJ0G91Y+7ryGIJ0+LF85z+2Q9Xlb29EFyI3o/+wdDjmIRoUhcD3HT4M?=
- =?us-ascii?Q?ECGCQyOj2PPaYcVToLOFaYxJT6JtcF5+ljpE1F+KTOeNzlE0bjmv2Llkg2nF?=
- =?us-ascii?Q?PqToBAI4oE7tc+ZkWWNjdJGn5uZzejFsp6Y3xcttkhc0U/ppJX1CYGjoBu1q?=
- =?us-ascii?Q?KL/gX59lhzzqlqSpDtqKW2AJ0SIa7CBdSyahOyMOmMA82sIfMzoIPIGdC0Xk?=
- =?us-ascii?Q?UnwcrqxjfcMGvUZJrgNE4TG04gHh9tUD/zu4XLaOLMzDUpX4G902Ji4f/WTK?=
- =?us-ascii?Q?PG/XRPdGc8zDBMFksj+SuAHctPHuRvG8mTJ2XIGuPisng15kGJc2rGBsbkJg?=
- =?us-ascii?Q?EFnBjrtFDBfRtL3bnGRK6uTzixwExuyag1EttJttElZ+UKQz2hEF5+RBWP9s?=
- =?us-ascii?Q?Fm/9SofKrSSbdsq+WMOFGCUMvSgncAfYX6uflZr7tqt+QD9m53zPqsnUYAfO?=
- =?us-ascii?Q?JNXQ2Z4xfud9eORytZ9GMgUSp0ambKZYo0XSDBypkxu0k/IMIx0e2hQ0a/NA?=
- =?us-ascii?Q?DpWwPxym+3olfzPNNTRRO5gk3XIyEi3i61L+DzTLe5dKeX431L+h3uo6dMc9?=
- =?us-ascii?Q?cj3XzBR3U0tbTIf6nIx7T1QWRqTk9rvLj5rxg6qgI5gq3e9/XbsIow6PTDdv?=
- =?us-ascii?Q?bjWTGZG1bUPnEkcYD3C3ilvKbF87mPvYTG73DO/bn8UUnLAhomgY64DQjJJN?=
- =?us-ascii?Q?97amo7bpQMC4k03W9usHSpaOD4yEdF4qF7ZANvWCPnVTw6G1QA0c9LUFzRSL?=
- =?us-ascii?Q?PTQqQU8zBMb6JnUfvfs9q/9/x3ZobqfyFViUIkEgzt69qvqUCYKdJBStl40v?=
- =?us-ascii?Q?G/I0PR3qYZwnb2yhSCgS+m/Y5r0q/yWFzTkiUAs5zSA2JXlwm2TxODTYvmPn?=
- =?us-ascii?Q?1472eSGG4oAhG63CYZ8NPjK1n4NVUegLuWo+9riwi9KYtfAttYe5CJirmVxL?=
- =?us-ascii?Q?TB8ZArw3+8ztOBeXxaY+vIIXP5hA9QqmX59ZexKxCaJaf4/uTEZmpc9NKte8?=
- =?us-ascii?Q?hkI6UsEbZohYPCL5UWUUYXDfAVNFy1Cax7qWCcEhWl0WSSoHvZ99tNLzUe43?=
- =?us-ascii?Q?TY9NMVI1hPltE4GWgTQsd3WggYHFce0QRDvEe+U7GG/LcYTCsG+eDC1PHtyv?=
- =?us-ascii?Q?6hC6STKLMiogZqiEIkcurHpIQr0UY9W+N1NDLhPF1LH64jjEM59n2iQNpnVl?=
- =?us-ascii?Q?cZtCi7CxHojj6Odmt4MVEvdrN9lZx2a3QYik9Bj1XXhXbcPkjp/1tEy/B1bc?=
- =?us-ascii?Q?6FfGXy2XgQZILtIefOeWjTLSdfwkyER3IcjDEHI2y6oCB8dAUy2T+28BHfSk?=
- =?us-ascii?Q?6Fq9t5CbQgnI8gaQYCT2PoOg21b+cbZmEaRVSZWdUGjR+3Gu8Dvpi1ruL9r4?=
- =?us-ascii?Q?QqJY+h3nwu8kMff9P9FFAP3X9RXlsvLz?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84138553-5f88-4ab1-572b-08da0beca7b5
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 10:13:48.2725 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wgQ5W44xYoHZlPC1AC7f6YMtjHUp0IQgykqzuBm8WyTvBN19TyP4wOG0QAtvCmNr7pXEaflVLo1NwDzZx3DUTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR04MB4228
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,86 +67,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, treapking@chromium.org,
- dri-devel@lists.freedesktop.org, pihsun@chromium.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, tzungbi@google.com,
- bliang@analogixsemi.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
+ lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 05:16:43PM +0800, Chen-Yu Tsai wrote:
-> On Tue, Mar 22, 2022 at 4:52 PM Xin Ji <xji@analogixsemi.com> wrote:
-> >
-> > On Tue, Mar 22, 2022 at 04:43:20PM +0800, Hsin-Yi Wang wrote:
-> > > On Tue, Mar 22, 2022 at 4:02 PM Xin Ji <xji@analogixsemi.com> wrote:
-> > > >
-> > > > As downstream sink was set into standby mode while bridge disabled,
-> > > > this patch used for setting downstream sink into normal status
-> > > > while enable bridge.
-> > > >
-> > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > Reviewed-by: Pin-Yen Lin <treapking@chromium.org>
-> > > >
-> > > > ---
-> > > > V1 -> V2: use dev_dbg replace of dev_info
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++++++
-> > > >  1 file changed, 8 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > index 9a2a19ad4202..dcf3275a00fe 100644
-> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > @@ -924,12 +924,20 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
-> > > >  {
-> > > >         int ret;
-> > > >         struct device *dev = &ctx->client->dev;
-> > > > +       u8 data;
-> > > >
-> > > >         if (!ctx->display_timing_valid) {
-> > > >                 DRM_DEV_ERROR(dev, "mipi not set display timing yet.\n");
-> > > >                 return;
-> > > >         }
-> > > >
-> > > > +       dev_dbg(dev, "set downstream sink into normal\n");
-> > > > +       /* Downstream sink enter into normal mode */
-> > > > +       data = 1;
-> > > > +       ret = anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
-> > > > +       if (ret < 0)
-> > > > +               dev_err(dev, "IO error : set sink into normal mode fail\n");
-> > > > +
-> > >
-> > > The driver uses DRM_DEV_* for logs. Can we use this?
-> > Hi Hsin-Yi, as comment in drm/drm_print.h:
-> > "NOTE: this is deprecated in favor of drm_dbg". DRM bridge driver not
-> > use DRM_DEV_* any more. I'll send a patch to replace all of DRM_DEV_*
-> > later.
+On Tue, 2022-03-22 at 10:13 +0000, Tvrtko Ursulin wrote:
 > 
-> drm_dbg is better than dev_dbg though. With the former, you still get the
-> option to control it with the drm.debug module parameter, unlike the latter
-> which normally gets compiled out.
+> On 21/03/2022 15:15, Thomas Hellström wrote:
+> > On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
+> > > 
+> > > On 21/03/2022 13:40, Thomas Hellström wrote:
+> > > > Hi,
+> > > > 
+> > > > On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
+> > > > > 
+> > > > > On 21/03/2022 12:33, Thomas Hellström wrote:
+> > > > > > On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin wrote:
+> > > > > > > 
+> > > > > > > On 21/03/2022 11:03, Thomas Hellström wrote:
+> > > > > > > > Hi, Tvrtko.
+> > > > > > > > 
+> > > > > > > > On 3/21/22 11:27, Tvrtko Ursulin wrote:
+> > > > > > > > > 
+> > > > > > > > > On 19/03/2022 19:42, Michael Cheng wrote:
+> > > > > > > > > > To align with the discussion in [1][2], this patch
+> > > > > > > > > > series
+> > > > > > > > > > drops
+> > > > > > > > > > all
+> > > > > > > > > > usage of
+> > > > > > > > > > wbvind_on_all_cpus within i915 by either replacing
+> > > > > > > > > > the
+> > > > > > > > > > call
+> > > > > > > > > > with certain
+> > > > > > > > > > drm clflush helpers, or reverting to a previous
+> > > > > > > > > > logic.
+> > > > > > > > > 
+> > > > > > > > > AFAIU, complaint from [1] was that it is wrong to
+> > > > > > > > > provide
+> > > > > > > > > non
+> > > > > > > > > x86
+> > > > > > > > > implementations under the wbinvd_on_all_cpus name.
+> > > > > > > > > Instead an
+> > > > > > > > > arch
+> > > > > > > > > agnostic helper which achieves the same effect could
+> > > > > > > > > be
+> > > > > > > > > created.
+> > > > > > > > > Does
+> > > > > > > > > Arm have such concept?
+> > > > > > > > 
+> > > > > > > > I also understand Linus' email like we shouldn't leak
+> > > > > > > > incoherent
+> > > > > > > > IO
+> > > > > > > > to
+> > > > > > > > other architectures, meaning any remaining wbinvd()s
+> > > > > > > > should
+> > > > > > > > be
+> > > > > > > > X86
+> > > > > > > > only.
+> > > > > > > 
+> > > > > > > The last part is completely obvious since it is a x86
+> > > > > > > instruction
+> > > > > > > name.
+> > > > > > 
+> > > > > > Yeah, I meant the function implementing wbinvd() semantics.
+> > > > > > 
+> > > > > > > 
+> > > > > > > But I think we can't pick a solution until we know how
+> > > > > > > the
+> > > > > > > concept
+> > > > > > > maps
+> > > > > > > to Arm and that will also include seeing how the
+> > > > > > > drm_clflush_sg for
+> > > > > > > Arm
+> > > > > > > would look. Is there a range based solution, or just a
+> > > > > > > big
+> > > > > > > hammer
+> > > > > > > there.
+> > > > > > > If the latter, then it is no good to churn all these
+> > > > > > > reverts
+> > > > > > > but
+> > > > > > > instead
+> > > > > > > an arch agnostic wrapper, with a generic name, would be
+> > > > > > > the
+> > > > > > > way to
+> > > > > > > go.
+> > > > > > 
+> > > > > > But my impression was that ARM would not need the range-
+> > > > > > based
+> > > > > > interface
+> > > > > > either, because ARM is only for discrete and with discrete
+> > > > > > we're
+> > > > > > always
+> > > > > > coherent.
+> > > > > 
+> > > > > Not sure what you mean here - what about flushing system
+> > > > > memory
+> > > > > objects
+> > > > > on discrete? Those still need flushing on paths like suspend
+> > > > > which this
+> > > > > series touches. Am I missing something?
+> > > > 
+> > > > System bos on discrete should always have
+> > > > 
+> > > > I915_BO_CACHE_COHERENT_FOR_READ |
+> > > > I915_BO_CACHE_COHERENT_FOR_WRITE
+> > > > 
+> > > > either by the gpu being fully cache coherent (or us mapping
+> > > > system
+> > > > write-combined). Hence no need for cache clflushes or wbinvd()
+> > > > for
+> > > > incoherent IO.
+> > > 
+> > > Hmm so you are talking about the shmem ttm backend. It ends up
+> > > depending on the result of i915_ttm_cache_level, yes? It cannot
+> > > end
+> > > up with I915_CACHE_NONE from that function?
+> > 
+> > If the object is allocated with allowable placement in either LMEM
+> > or
+> > SYSTEM, and it ends in system, it gets allocated with
+> > I915_CACHE_NONE,
+> > but then the shmem ttm backend isn't used but TTM's wc pools, and
+> > the
+> > object should *always* be mapped wc. Even in system.
 > 
-> Please use drm_dbg*.
-> 
-> ChenYu
+> I am not familiar with neither TTM backend or wc pools so maybe a
+> missed 
+> question - if obj->cache_level can be set to none, and 
+> obj->cache_coherency to zero, then during object lifetime helpers
+> which 
+> consult those fields (like i915_gem_cpu_write_needs_clflush, 
+> __start_cpu_write, etc) are giving out incorrect answers? That is, it
+> is 
+> irrelevant that they would say flushes are required, since in
+> actuality 
+> those objects can never ever and from anywhere be mapped other than
+> WC 
+> so flushes aren't actually required?
 
-Hi ChenYu, the parameter of drm_dbg is "drm", if use drm_dbg, it will
-change more code, I'll consider to upstream new patch to replace all of
-them later.
+If we map other than WC somewhere in these situations, that should be a
+bug needing a fix. It might be that some of these helpers that you
+mention might still flag that a clflush is needed, and in that case
+that's an oversight that also needs fixing.
 
-Thanks,
-Xin
 > 
-> > Thanks,
-> > Xin
-> > >
-> > > >         /* Disable HDCP */
-> > > >         anx7625_write_and(ctx, ctx->i2c.rx_p1_client, 0xee, 0x9f);
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
+> > > I also found in i915_drm.h:
+> > > 
+> > >           * As caching mode when specifying
+> > > `I915_MMAP_OFFSET_FIXED`,
+> > > WC or WB will
+> > >           * be used, depending on the object placement on
+> > > creation. WB
+> > > will be used
+> > >           * when the object can only exist in system memory, WC
+> > > otherwise.
+> > > 
+> > > If what you say is true, that on discrete it is _always_ WC, then
+> > > that needs updating as well.
+> > 
+> > If an object is allocated as system only, then it is mapped WB, and
+> > we're relying on the gpu being cache coherent to avoid clflushes.
+> > Same
+> > is actually currently true if the object happens to be accessed by
+> > the
+> > cpu while evicted. Might need an update for that.
+> 
+> Hmm okay, I think I actually misunderstood something here. I think
+> the 
+> reason for difference bbtween smem+lmem object which happens to be in
+> smem and smem only object is eluding me.
+> 
+> > > > 
+> > > > That's adhering to Linus'
+> > > > 
+> > > > "And I sincerely hope to the gods that no cache-incoherent i915
+> > > > mess
+> > > > ever makes it out of the x86 world. Incoherent IO was always a
+> > > > historical mistake and should never ever happen again, so we
+> > > > should
+> > > > not spread that horrific pattern around."
+> > > 
+> > > Sure, but I was not talking about IO - just the CPU side access
+> > > to
+> > > CPU side objects.
+> > 
+> > OK, I was under the impression that clflushes() and wbinvd()s in
+> > i915
+> > was only ever used to make data visible to non-snooping GPUs.
+> > 
+> > Do you mean that there are other uses as well? Agreed the wb cache
+> > flush on on suspend only if gpu is
+> > !I915_BO_CACHE_COHERENT_FOR_READ?
+> > looks to not fit this pattern completely.
+> 
+> Don't know, I was first trying to understand handling of the 
+> obj->cache_coherent as discussed in the first quote block. Are the
+> flags 
+> consistently set and how the Arm low level code will look.
+> 
+> > Otherwise, for architectures where memory isn't always fully
+> > coherent
+> > with the cpu cache, I'd expect them to use the apis in
+> > asm/cacheflush.h, like flush_cache_range() and similar, which are
+> > nops
+> > on x86.
+> 
+> Hm do you know why there are no-ops? Like why wouldn't they map to
+> clflush?
+
+I think it mostly boils down to the PIPT caches on x86. Everything is
+assumed to be coherent. Whereas some architextures keep different cache
+entries for different virtual addresses even if the physical page is
+the same...
+
+clflushes and wbinvds on x86 are for odd arch-specific situations
+where, for example where we change caching attributes of the linear
+kernel map mappings.
+
+/Thomas
+
+
+> 
+> Regards,
+> 
+> Tvrtko
+
+
