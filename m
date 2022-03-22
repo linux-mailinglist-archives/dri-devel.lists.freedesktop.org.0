@@ -1,48 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674D24E3D6A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 12:20:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93A54E3DB6
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Mar 2022 12:37:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA8310E0F6;
-	Tue, 22 Mar 2022 11:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4273D10E52D;
+	Tue, 22 Mar 2022 11:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06FA10E0A1;
- Tue, 22 Mar 2022 11:20:05 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFA610E406;
+ Tue, 22 Mar 2022 11:37:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647948005; x=1679484005;
- h=from:to:cc:subject:date:message-id:in-reply-to:
+ t=1647949036; x=1679485036;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F30hKmeibTe22ftCyymlZyLekGACr2orYC53XJJR90g=;
- b=Fa6ROtFffYaFygkc4/b1zIGkVlBAq7pLjQ0k3H00wPHsViTn9g/fwnDv
- p+cI+XLLIRw79qzwjtCK3NWc0aO7Ti+avUNcQ1rdf9Jk6el6m/+yi8gAa
- junpP0HdIm9yWiBugrhK+ImSJ7nWob6bp7FhB2XzsFrXn1dTLgFiC1sXf
- u/Xzsu129dPDOubsEIsLuzGI6owrC1kO+zKcbFfE/BgpypYHQVMMTUTbd
- 7gat65djL6dV6enYcUC9vp3/4yPSK1DQh8vGC4vvUJTn3gq8W/SwfwnbD
- OjWkk6yLWeWr3sdF6XNuyk1Xq/YAXBRfaK5Ehmoelnxog87NXhWh//tpZ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="237733333"
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="237733333"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 04:20:04 -0700
-X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="600844957"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2022 04:20:03 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 9/9] drm/i915/migrate: Evict and restore the flatccs
- capable lmem obj
-Date: Tue, 22 Mar 2022 16:50:40 +0530
-Message-Id: <20220322112040.26761-1-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220321224459.12223-10-ramalingam.c@intel.com>
-References: <20220321224459.12223-10-ramalingam.c@intel.com>
+ bh=pieZU1y4EOkM1fcsKc2wCgmeNuLijERzcvFVm2hB8QA=;
+ b=jQPbdYKDlx58/DO6vVjc2a83mSUHrN6WQYcvUcvA+4R8vyUVhyyyx9eb
+ TSSGNFWpirgfSoKHQlaWQFV+7VV/U8i0+Shnpssbp5F9lhFjYilHAFX4f
+ 6Mu/daf6FutGsHWJMb6SBkU3h2dOmrM8NTkJAMmNMsamuM7rDkpdTFlfv
+ S4RsiFFdQRAXnz6FqEB1OxK6+hpHYUdEsZYxVuhRn9Htm3xFeaa5gYyF3
+ 3QammZRjJAeB6y76MiSFbFxD1GcyNJ4W+a0GPuELUj4CtXESxBYLWelJL
+ FWUKYT2EJfh6NQJQnTxo9p3TextL6bvIJdsoKXnJFMsh+aXDDMHfnyHfV Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="255359275"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="255359275"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 04:37:15 -0700
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; d="scan'208";a="716893534"
+Received: from sorenthe-mobl2.ger.corp.intel.com (HELO [10.249.254.95])
+ ([10.249.254.95])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 04:37:12 -0700
+Message-ID: <badf14e83199a1e87b85dd4fefc7c229d3e806bd.camel@linux.intel.com>
+Subject: Re: [PATCH 0/4] Drop wbinvd_on_all_cpus usage
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Michael Cheng
+ <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+Date: Tue, 22 Mar 2022 12:37:09 +0100
+In-Reply-To: <953a9d2b-1004-ab01-b914-4fa6b191add0@linux.intel.com>
+References: <20220319194227.297639-1-michael.cheng@intel.com>
+ <4c86ae70-6f97-7a7c-1fd4-5e73ca29d0ba@linux.intel.com>
+ <5db61477-6064-ada0-82a7-c1dc659dacad@linux.intel.com>
+ <abdc3b07-a05e-f67d-2135-a30421cb9d12@linux.intel.com>
+ <29bde7b0e680e503fbf483a560616e2ce22cdd79.camel@linux.intel.com>
+ <210af2db-37ec-2cff-f6a6-7ea0263e135b@linux.intel.com>
+ <1bd4ac91f24f6b4322811177f786f4867278ab83.camel@linux.intel.com>
+ <b6bb4d03-6229-2419-97dd-f010c9890363@linux.intel.com>
+ <d6bc73c04c4c69d3d9e6cf42bd62340a61a7d4c3.camel@linux.intel.com>
+ <31310790-4bc5-b9a7-8d35-c0f542b4d658@linux.intel.com>
+ <5931be1a37dbb9ccdce127f6173d42fa4dbee593.camel@linux.intel.com>
+ <953a9d2b-1004-ab01-b914-4fa6b191add0@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,252 +69,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: wayne.boyer@intel.com, daniel.vetter@ffwll.ch, casey.g.bowman@intel.com,
+ lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
+On Tue, 2022-03-22 at 11:20 +0000, Tvrtko Ursulin wrote:
+> 
+> On 22/03/2022 10:26, Thomas Hellström wrote:
+> > On Tue, 2022-03-22 at 10:13 +0000, Tvrtko Ursulin wrote:
+> > > 
+> > > On 21/03/2022 15:15, Thomas Hellström wrote:
+> > > > On Mon, 2022-03-21 at 14:43 +0000, Tvrtko Ursulin wrote:
+> > > > > 
+> > > > > On 21/03/2022 13:40, Thomas Hellström wrote:
+> > > > > > Hi,
+> > > > > > 
+> > > > > > On Mon, 2022-03-21 at 13:12 +0000, Tvrtko Ursulin wrote:
+> > > > > > > 
+> > > > > > > On 21/03/2022 12:33, Thomas Hellström wrote:
+> > > > > > > > On Mon, 2022-03-21 at 12:22 +0000, Tvrtko Ursulin
+> > > > > > > > wrote:
+> > > > > > > > > 
+> > > > > > > > > On 21/03/2022 11:03, Thomas Hellström wrote:
+> > > > > > > > > > Hi, Tvrtko.
+> > > > > > > > > > 
+> > > > > > > > > > On 3/21/22 11:27, Tvrtko Ursulin wrote:
+> > > > > > > > > > > 
+> > > > > > > > > > > On 19/03/2022 19:42, Michael Cheng wrote:
+> > > > > > > > > > > > To align with the discussion in [1][2], this
+> > > > > > > > > > > > patch
+> > > > > > > > > > > > series
+> > > > > > > > > > > > drops
+> > > > > > > > > > > > all
+> > > > > > > > > > > > usage of
+> > > > > > > > > > > > wbvind_on_all_cpus within i915 by either
+> > > > > > > > > > > > replacing
+> > > > > > > > > > > > the
+> > > > > > > > > > > > call
+> > > > > > > > > > > > with certain
+> > > > > > > > > > > > drm clflush helpers, or reverting to a previous
+> > > > > > > > > > > > logic.
+> > > > > > > > > > > 
+> > > > > > > > > > > AFAIU, complaint from [1] was that it is wrong to
+> > > > > > > > > > > provide
+> > > > > > > > > > > non
+> > > > > > > > > > > x86
+> > > > > > > > > > > implementations under the wbinvd_on_all_cpus
+> > > > > > > > > > > name.
+> > > > > > > > > > > Instead an
+> > > > > > > > > > > arch
+> > > > > > > > > > > agnostic helper which achieves the same effect
+> > > > > > > > > > > could
+> > > > > > > > > > > be
+> > > > > > > > > > > created.
+> > > > > > > > > > > Does
+> > > > > > > > > > > Arm have such concept?
+> > > > > > > > > > 
+> > > > > > > > > > I also understand Linus' email like we shouldn't
+> > > > > > > > > > leak
+> > > > > > > > > > incoherent
+> > > > > > > > > > IO
+> > > > > > > > > > to
+> > > > > > > > > > other architectures, meaning any remaining
+> > > > > > > > > > wbinvd()s
+> > > > > > > > > > should
+> > > > > > > > > > be
+> > > > > > > > > > X86
+> > > > > > > > > > only.
+> > > > > > > > > 
+> > > > > > > > > The last part is completely obvious since it is a x86
+> > > > > > > > > instruction
+> > > > > > > > > name.
+> > > > > > > > 
+> > > > > > > > Yeah, I meant the function implementing wbinvd()
+> > > > > > > > semantics.
+> > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > But I think we can't pick a solution until we know
+> > > > > > > > > how
+> > > > > > > > > the
+> > > > > > > > > concept
+> > > > > > > > > maps
+> > > > > > > > > to Arm and that will also include seeing how the
+> > > > > > > > > drm_clflush_sg for
+> > > > > > > > > Arm
+> > > > > > > > > would look. Is there a range based solution, or just
+> > > > > > > > > a
+> > > > > > > > > big
+> > > > > > > > > hammer
+> > > > > > > > > there.
+> > > > > > > > > If the latter, then it is no good to churn all these
+> > > > > > > > > reverts
+> > > > > > > > > but
+> > > > > > > > > instead
+> > > > > > > > > an arch agnostic wrapper, with a generic name, would
+> > > > > > > > > be
+> > > > > > > > > the
+> > > > > > > > > way to
+> > > > > > > > > go.
+> > > > > > > > 
+> > > > > > > > But my impression was that ARM would not need the
+> > > > > > > > range-
+> > > > > > > > based
+> > > > > > > > interface
+> > > > > > > > either, because ARM is only for discrete and with
+> > > > > > > > discrete
+> > > > > > > > we're
+> > > > > > > > always
+> > > > > > > > coherent.
+> > > > > > > 
+> > > > > > > Not sure what you mean here - what about flushing system
+> > > > > > > memory
+> > > > > > > objects
+> > > > > > > on discrete? Those still need flushing on paths like
+> > > > > > > suspend
+> > > > > > > which this
+> > > > > > > series touches. Am I missing something?
+> > > > > > 
+> > > > > > System bos on discrete should always have
+> > > > > > 
+> > > > > > I915_BO_CACHE_COHERENT_FOR_READ |
+> > > > > > I915_BO_CACHE_COHERENT_FOR_WRITE
+> > > > > > 
+> > > > > > either by the gpu being fully cache coherent (or us mapping
+> > > > > > system
+> > > > > > write-combined). Hence no need for cache clflushes or
+> > > > > > wbinvd()
+> > > > > > for
+> > > > > > incoherent IO.
+> > > > > 
+> > > > > Hmm so you are talking about the shmem ttm backend. It ends
+> > > > > up
+> > > > > depending on the result of i915_ttm_cache_level, yes? It
+> > > > > cannot
+> > > > > end
+> > > > > up with I915_CACHE_NONE from that function?
+> > > > 
+> > > > If the object is allocated with allowable placement in either
+> > > > LMEM
+> > > > or
+> > > > SYSTEM, and it ends in system, it gets allocated with
+> > > > I915_CACHE_NONE,
+> > > > but then the shmem ttm backend isn't used but TTM's wc pools,
+> > > > and
+> > > > the
+> > > > object should *always* be mapped wc. Even in system.
+> > > 
+> > > I am not familiar with neither TTM backend or wc pools so maybe a
+> > > missed
+> > > question - if obj->cache_level can be set to none, and
+> > > obj->cache_coherency to zero, then during object lifetime helpers
+> > > which
+> > > consult those fields (like i915_gem_cpu_write_needs_clflush,
+> > > __start_cpu_write, etc) are giving out incorrect answers? That
+> > > is, it
+> > > is
+> > > irrelevant that they would say flushes are required, since in
+> > > actuality
+> > > those objects can never ever and from anywhere be mapped other
+> > > than
+> > > WC
+> > > so flushes aren't actually required?
+> > 
+> > If we map other than WC somewhere in these situations, that should
+> > be a
+> > bug needing a fix. It might be that some of these helpers that you
+> > mention might still flag that a clflush is needed, and in that case
+> > that's an oversight that also needs fixing.
+> > 
+> > > 
+> > > > > I also found in i915_drm.h:
+> > > > > 
+> > > > >            * As caching mode when specifying
+> > > > > `I915_MMAP_OFFSET_FIXED`,
+> > > > > WC or WB will
+> > > > >            * be used, depending on the object placement on
+> > > > > creation. WB
+> > > > > will be used
+> > > > >            * when the object can only exist in system memory,
+> > > > > WC
+> > > > > otherwise.
+> > > > > 
+> > > > > If what you say is true, that on discrete it is _always_ WC,
+> > > > > then
+> > > > > that needs updating as well.
+> > > > 
+> > > > If an object is allocated as system only, then it is mapped WB,
+> > > > and
+> > > > we're relying on the gpu being cache coherent to avoid
+> > > > clflushes.
+> > > > Same
+> > > > is actually currently true if the object happens to be accessed
+> > > > by
+> > > > the
+> > > > cpu while evicted. Might need an update for that.
+> > > 
+> > > Hmm okay, I think I actually misunderstood something here. I
+> > > think
+> > > the
+> > > reason for difference bbtween smem+lmem object which happens to
+> > > be in
+> > > smem and smem only object is eluding me.
+> > > 
+> > > > > > 
+> > > > > > That's adhering to Linus'
+> > > > > > 
+> > > > > > "And I sincerely hope to the gods that no cache-incoherent
+> > > > > > i915
+> > > > > > mess
+> > > > > > ever makes it out of the x86 world. Incoherent IO was
+> > > > > > always a
+> > > > > > historical mistake and should never ever happen again, so
+> > > > > > we
+> > > > > > should
+> > > > > > not spread that horrific pattern around."
+> > > > > 
+> > > > > Sure, but I was not talking about IO - just the CPU side
+> > > > > access
+> > > > > to
+> > > > > CPU side objects.
+> > > > 
+> > > > OK, I was under the impression that clflushes() and wbinvd()s
+> > > > in
+> > > > i915
+> > > > was only ever used to make data visible to non-snooping GPUs.
+> > > > 
+> > > > Do you mean that there are other uses as well? Agreed the wb
+> > > > cache
+> > > > flush on on suspend only if gpu is
+> > > > !I915_BO_CACHE_COHERENT_FOR_READ?
+> > > > looks to not fit this pattern completely.
+> > > 
+> > > Don't know, I was first trying to understand handling of the
+> > > obj->cache_coherent as discussed in the first quote block. Are
+> > > the
+> > > flags
+> > > consistently set and how the Arm low level code will look.
+> > > 
+> > > > Otherwise, for architectures where memory isn't always fully
+> > > > coherent
+> > > > with the cpu cache, I'd expect them to use the apis in
+> > > > asm/cacheflush.h, like flush_cache_range() and similar, which
+> > > > are
+> > > > nops
+> > > > on x86.
+> > > 
+> > > Hm do you know why there are no-ops? Like why wouldn't they map
+> > > to
+> > > clflush?
+> > 
+> > I think it mostly boils down to the PIPT caches on x86. Everything
+> > is
+> > assumed to be coherent. Whereas some architextures keep different
+> > cache
+> > entries for different virtual addresses even if the physical page
+> > is
+> > the same...
+> > 
+> > clflushes and wbinvds on x86 are for odd arch-specific situations
+> > where, for example where we change caching attributes of the linear
+> > kernel map mappings.
+> 
+> So in summary we have flush_cache_range which is generic, not
+> implemented on x86 and works with virtual addresses so not directly
+> usable even if x86 implementation was added.
 
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem. ccs data is 1/256 of
-lmem size.
+I think for the intended flush_cache_range() semantics: "Make this
+range visible to all vms on all cpus", I think the x86 implementation
+is actually a nop, and correctly implemented.
 
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
+> 
+> There is also x86 specific clflush_cache_range which works with
+> virtual addresses as well so no good for drm_clflush_sg.
+> 
+> Question you implicitly raise, correct me if I got it wrong, is
+> whether we should even be trying to extend drm_clflush_sg for Arm,
+> given how most (all?) call sites are not needed on discrete, is that
+> right?
 
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
+Yes exactly. No need to bother figuring this out for ARM, as we don't
+do any incoherent IO.
 
-v2: Fixing the ccs handling
-v3: Handle the ccs data at same loop as main memory [Thomas]
-v4: changes for emit_copy_ccs
-v5: handle non-flat-ccs scenario
+> 
+> Would that mean we could leave most of the code as is and just
+> replace wbinvd_on_all_cpus with something like i915_flush_cpu_caches,
+> which would then legitimately do nothing, at least on Arm if not also
+> on discrete in general?
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 164 +++++++++++++++++++++++-
- 1 file changed, 160 insertions(+), 4 deletions(-)
+Yes, with the caveat that we should, at least as a second step, make
+i915_flush_cpu_caches() range-based if possible from a performance
+point of view.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 5f6341f91622..84877ca95ce2 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -657,6 +657,65 @@ static int emit_copy(struct i915_request *rq,
- 	return 0;
- }
- 
-+static int scatter_list_length(struct scatterlist *sg)
-+{
-+	int len = 0;
-+
-+	while (sg && sg_dma_len(sg)) {
-+		len += sg_dma_len(sg);
-+		sg = sg_next(sg);
-+	};
-+
-+	return len;
-+}
-+
-+static void
-+calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
-+		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
-+		   u32 ccs_bytes_to_cpy)
-+{
-+	if (ccs_bytes_to_cpy) {
-+		/*
-+		 * We can only copy the ccs data corresponding to
-+		 * the CHUNK_SZ of lmem which is
-+		 * GET_CCS_BYTES(i915, CHUNK_SZ))
-+		 */
-+		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
-+
-+		if (!src_is_lmem)
-+			/*
-+			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
-+			 * will be taken for the blt. in Flat-ccs supported
-+			 * platform Smem obj will have more pages than required
-+			 * for main meory hence limit it to the required size
-+			 * for main memory
-+			 */
-+			*src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
-+	} else { /* ccs handling is not required */
-+		*src_sz = CHUNK_SZ;
-+	}
-+}
-+
-+static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
-+{
-+	u32 len;
-+
-+	do {
-+		GEM_BUG_ON(!it->sg || !sg_dma_len(it->sg));
-+		len = it->max - it->dma;
-+		if (len > bytes_to_cpy) {
-+			it->dma += bytes_to_cpy;
-+			break;
-+		}
-+
-+		bytes_to_cpy -= len;
-+
-+		it->sg = __sg_next(it->sg);
-+		it->dma = sg_dma_address(it->sg);
-+		it->max = it->dma + sg_dma_len(it->sg);
-+	} while (bytes_to_cpy);
-+}
-+
- int
- intel_context_migrate_copy(struct intel_context *ce,
- 			   const struct i915_deps *deps,
-@@ -668,9 +727,15 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			   bool dst_is_lmem,
- 			   struct i915_request **out)
- {
--	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-+	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst), it_ccs;
-+	struct drm_i915_private *i915 = ce->engine->i915;
-+	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
-+	enum i915_cache_level ccs_cache_level;
-+	int src_sz, dst_sz, ccs_sz;
- 	u32 src_offset, dst_offset;
-+	u8 src_access, dst_access;
- 	struct i915_request *rq;
-+	bool ccs_is_src;
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-@@ -678,6 +743,38 @@ intel_context_migrate_copy(struct intel_context *ce,
- 
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
- 
-+	src_sz = scatter_list_length(src);
-+	bytes_to_cpy = src_sz;
-+
-+	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
-+		src_access = !src_is_lmem && dst_is_lmem;
-+		dst_access = !src_access;
-+
-+		dst_sz = scatter_list_length(dst);
-+		if (src_is_lmem) {
-+			it_ccs = it_dst;
-+			ccs_cache_level = dst_cache_level;
-+			ccs_is_src = false;
-+		} else if (dst_is_lmem) {
-+			bytes_to_cpy = dst_sz;
-+			it_ccs = it_src;
-+			ccs_cache_level = src_cache_level;
-+			ccs_is_src = true;
-+		}
-+
-+		/*
-+		 * When there is a eviction of ccs needed smem will have the
-+		 * extra pages for the ccs data
-+		 *
-+		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
-+		 * but still we have some requests of smem->lmem with same size.
-+		 * Need to fix it.
-+		 */
-+		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
-+		if (ccs_bytes_to_cpy)
-+			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
-+	}
-+
- 	src_offset = 0;
- 	dst_offset = CHUNK_SZ;
- 	if (HAS_64K_PAGES(ce->engine->i915)) {
-@@ -719,8 +816,11 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
-+		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
-+				   bytes_to_cpy, ccs_bytes_to_cpy);
-+
- 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
--			       src_offset, CHUNK_SZ);
-+			       src_offset, src_sz);
- 		if (len <= 0) {
- 			err = len;
- 			goto out_rq;
-@@ -737,7 +837,46 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
--		err = emit_copy(rq, dst_offset, src_offset, len);
-+		err = emit_copy(rq, dst_offset,	src_offset, len);
-+		if (err)
-+			goto out_rq;
-+
-+		bytes_to_cpy -= len;
-+
-+		if (ccs_bytes_to_cpy) {
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
-+				       ccs_is_src ? src_offset : dst_offset,
-+				       ccs_sz);
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/*
-+			 * Using max of src_sz and dst_sz, as we need to
-+			 * pass the lmem size corresponding to the ccs
-+			 * blocks we need to handle.
-+			 */
-+			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
-+				       ccs_is_src ? dst_sz : ccs_sz);
-+
-+			err = emit_copy_ccs(rq, dst_offset, dst_access,
-+					    src_offset, src_access, ccs_sz);
-+			if (err)
-+				goto out_rq;
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/* Converting back to ccs bytes */
-+			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
-+			ccs_bytes_to_cpy -= ccs_sz;
-+		}
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
-@@ -745,9 +884,26 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			i915_request_put(*out);
- 		*out = i915_request_get(rq);
- 		i915_request_add(rq);
--		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
-+
-+		if (err)
- 			break;
- 
-+		if (!bytes_to_cpy && !ccs_bytes_to_cpy) {
-+			if (src_is_lmem)
-+				WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
-+			else
-+				WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
-+			break;
-+		}
-+
-+		if (WARN_ON(!it_src.sg || !sg_dma_len(it_src.sg) ||
-+			    !it_dst.sg || !sg_dma_len(it_dst.sg) ||
-+			    (ccs_bytes_to_cpy && (!it_ccs.sg ||
-+						  !sg_dma_len(it_ccs.sg))))) {
-+			err = -EINVAL;
-+			break;
-+		}
-+
- 		cond_resched();
- 	} while (1);
- 
--- 
-2.20.1
+> 
+> If that would work it would make a small and easy to review series. I
+> don't think it would collide with what Linus asked since it is not
+> propagating undesirable things further - given how if there is no
+> actual need to flush then there is no need to make it range based
+> either.
+> 
+> Exception would be the dmabuf get pages patch which needs a proper
+> implementation of a new drm flush helper.
+
+I think the dmabuf get_pages (note that that's also only for integrated
+I915_CACHE_NONE x86-only situations), can be done with
+
+dma_buf_vmap(dma_buf, &virtual);
+drm_clflush_virt_range(virtual, length);
+dma_buf_vunmap(&virtual);
+
+/Thomas
+
+
+> 
+> Regards,
+> 
+> Tvrtko
+
 
