@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C74E5331
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 14:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178A24E533E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 14:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E730E10E1EA;
-	Wed, 23 Mar 2022 13:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1277910E32D;
+	Wed, 23 Mar 2022 13:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362C610E1EA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 13:36:22 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id z8so1643752oix.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 06:36:22 -0700 (PDT)
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A6610E32D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 13:36:59 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id d10so2865549eje.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 06:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eyqicTsebIRvqd26pBg6QT5sH5EF2uSkS2ERA7uh4wc=;
- b=bpoJtlsoP1DLEgRbXc5ALzOUQqNvDVJSpRt3Bqh87DyatRC1EkcrUiWWvGr6MQN8hH
- XMOb3RnJ1JqcFmNr0WD/rJAxwqg8TWyYn87AvPBrkJpK5Uj6RWnllOAY61HgxLEdEYJF
- L2dcuY4dEm77j4r6aTw2ShcQxiI4PC0nYoYmM=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=ELVqvMcqcAeU3P3xC6L+LpMmpFylloo4jTqkwywXU1M=;
+ b=hkkSvfbXdqPFrdqyQkZhULE+toNREQj2iPGoZatFJBXIyEeCxOUld2z+oCuAzmvqxf
+ eI6xEXts4y2u9Fi45sLsiyKHyp4UkC3JLFqwXI1ai5SECiCgUPjD7jr56hmlwJzrsOef
+ FZxSgdM9/jqbI0mU8U5t7kHyRhLgqjRfrIGtA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eyqicTsebIRvqd26pBg6QT5sH5EF2uSkS2ERA7uh4wc=;
- b=qqFU86JAOj5o97kn87pLHJHy/TGbXTr6uLbb5Qj0DhSY6FWQVSyBU9lP1cpuL97igD
- OJyblULcykxqqAq5PdJ42qWuMlvOiIAhyQbvBOqs7T7Hg6P0b+4h8UXL5dp3w3m2JbVh
- 4jfeXMmcM3Cl0eFt5VKQV/fPY1BElVj3cSS5sPFerY2kCuN4oUDQSPL+nGliQpCsSRks
- TYb9di99Q4Yxzkb3s//Q6e7VUKwyn3NySY7l+lKZYig1dxy/Vus28cq+/Bt94U/nuRHX
- 2eUY0r5WMD3weWd39mvYAuHZMobqfvrrduBy9SGrdzw0dxLTt6Im7DScCiCXEx43MboM
- ANWw==
-X-Gm-Message-State: AOAM530dX6WZ3LLJYooBElZcc9qYN/PUyMHar7hv/IMNRJCrw6KYs/2d
- XJaBY/nuYbDjONY3cQgOuGZrNCjL/pF79D0lZqb87g==
-X-Google-Smtp-Source: ABdhPJyfzsibVr4BtUxoUK6Q5DNl2LdfmvPCpH9y2FvwOO+ODxN+adjFjvqQYhrcajaviE8Qgxq/hLs3gYeWQsC5/uQ=
-X-Received: by 2002:a54:4099:0:b0:2ec:d31c:481d with SMTP id
- i25-20020a544099000000b002ecd31c481dmr24965oii.7.1648042581432; Wed, 23 Mar
- 2022 06:36:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220321132601.2161-1-christian.koenig@amd.com>
- <YjsLkqGEnre4JKkR@phenom.ffwll.local>
- <85c4c3bd-bdc8-83ea-f27e-ce6da141daf2@gmail.com>
-In-Reply-To: <85c4c3bd-bdc8-83ea-f27e-ce6da141daf2@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ELVqvMcqcAeU3P3xC6L+LpMmpFylloo4jTqkwywXU1M=;
+ b=LPLRqkm60YVl9oAHwvNW417sipsRul5i9yTcD/57PTlnnPYXSHvZVnYcs/c6uUPbJD
+ iCNJLQ/PSR0ASXHIzVR7mC7wAIYhmVzClMvUTezMj5sSa//HaEIcAVe5QJf1Ce80d9t2
+ +iRSva5iVVLtPd3YVzsn+gGVP3SnVEcc+/nqwKHgdN72OZ04tK7mvpuylBpPyEH8lA10
+ 7sKe7j/JlrMTFAUmiASUX9gOuHgdCU6/g7B4SwdZ+aoZRy1j3qPEnVxvcVl4PuAi7Co0
+ DymYNVTYB7xjaqMzQrTGbZhykG8S7XOkTvmuuCV/Ki9ocjCIVupxQ0690vakQ6B+/56R
+ 87aw==
+X-Gm-Message-State: AOAM530uwz1Bmlk4Yei1uoX9VqC/vTKR7PKNMsyZGBgXsjVUkgKTH+gn
+ 37qsoFBfbvbh6L9S4xS7wW3Sjg==
+X-Google-Smtp-Source: ABdhPJz1p/a97rvCI6QzdwyeuvWm5IZrHetV5YzoYjPYi3JAQlVB+l9ED19ytqFR0f3mA9VA+0lxFA==
+X-Received: by 2002:a17:906:3cea:b0:6da:ea45:ea9e with SMTP id
+ d10-20020a1709063cea00b006daea45ea9emr31055072ejh.574.1648042617432; 
+ Wed, 23 Mar 2022 06:36:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020a50c90c000000b0041907e62024sm8645949edh.85.2022.03.23.06.36.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 06:36:57 -0700 (PDT)
+Date: Wed, 23 Mar 2022 14:36:55 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 23 Mar 2022 14:36:10 +0100
-Message-ID: <CAKMK7uE9bd2fMgsHLG8k-v=f=5o8CZ2WTHw3coYgdN0mFikXvw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/ttm: move the LRU into resource handling v4
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 10/23] dma-buf: finally make dma_resv_excl_fence private v2
+Message-ID: <YjsidyNMKqhsNY0j@phenom.ffwll.local>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-10-christian.koenig@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220321135856.1331-10-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,89 +70,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix.Kuehling@amd.com, matthew.william.auld@gmail.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: daniel.vetter@ffwll.ch,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Mar 2022 at 13:20, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 23.03.22 um 12:59 schrieb Daniel Vetter:
-> > On Mon, Mar 21, 2022 at 02:25:56PM +0100, Christian K=C3=B6nig wrote:
-> >> This way we finally fix the problem that new resource are
-> >> not immediately evict-able after allocation.
-> >>
-> >> That has caused numerous problems including OOM on GDS handling
-> >> and not being able to use TTM as general resource manager.
-> >>
-> >> v2: stop assuming in ttm_resource_fini that res->bo is still valid.
-> >> v3: cleanup kerneldoc, add more lockdep annotation
-> >> v4: consistently use res->num_pages
-> >>
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> >> +/**
-> >> + * struct ttm_lru_bulk_move
-> >> + *
-> >> + * @tt: first/last lru entry for resources in the TT domain
-> >> + * @vram: first/last lru entry for resources in the VRAM domain
-> >> + *
-> >> + * Helper structure for bulk moves on the LRU list.
-> >> + */
-> >> +struct ttm_lru_bulk_move {
-> >> +    struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
-> >> +    struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
-> > Not really needed, just a thought: Should we track the associated dma_r=
-esv
-> > object here to make sure the locking is all done correctly (and also ch=
-eck
-> > that the bulk move bo have the same dma_resv)? It wouldn't really be an=
-y
-> > overhead for the !CONFIG_LOCKDEP case and we could sprinkle a lot more
-> > dma_resv_held all over the place.
->
-> You made a similar comment on the last revision and I already tried to
-> play around with that idea a bit.
->
-> But I've completely abandoned that idea after realizing that the BOs in
-> the bulk move actually don't need to have the same dma_resv object, nor
-> do they all need to be locked.
+On Mon, Mar 21, 2022 at 02:58:43PM +0100, Christian König wrote:
+> Drivers should never touch this directly.
+> 
+> v2: fix rebase clash
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Uh how does that work? If you evict that bo while someone else is
-doing a bulk move, then at least the result might be rather funny, and
-I have no idea how it could work.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Like even if you then make the rule that you have to lock all bos for
-the bulk move, the bo could still be moved independently, and that
-would again break the bulk lru properties.
-
-And if you do none of the above, there's no reason for that bo to have
-a distinct dma_resv.
-
-Like maybe the data structure wont fall apart, but semantically it
-just doesn't make any sense to me to allow this. What would you want
-to use this for?
-
-> It just happens that amdgpu is currently using it that way, but I can't
-> see any technical necessarily to restrict the bulk move like that.
-
-Yeah we can do that later on in a follow up patch, or I figure out why
-it's not a good idea :-) Just figured this might be good to lock down
-before other drivers start adopting this.
+I guess as soon as we have the rdma ack you can land up to this patch?
 -Daniel
 
->
-> Regards,
-> Christian.
->
->
-> > -Daniel
->
+> ---
+>  drivers/dma-buf/dma-resv.c |  6 ++++++
+>  include/linux/dma-resv.h   | 17 -----------------
+>  2 files changed, 6 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index c09fd8da0c85..1c9af97fe904 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -140,6 +140,12 @@ void dma_resv_fini(struct dma_resv *obj)
+>  }
+>  EXPORT_SYMBOL(dma_resv_fini);
+>  
+> +static inline struct dma_fence *
+> +dma_resv_excl_fence(struct dma_resv *obj)
+> +{
+> +       return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
+> +}
+> +
+>  static inline struct dma_resv_list *dma_resv_shared_list(struct dma_resv *obj)
+>  {
+>  	return rcu_dereference_check(obj->fence, dma_resv_held(obj));
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 08512c1e215d..20e13f36710a 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -423,23 +423,6 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
+>  	ww_mutex_unlock(&obj->lock);
+>  }
+>  
+> -/**
+> - * dma_resv_excl_fence - return the object's exclusive fence
+> - * @obj: the reservation object
+> - *
+> - * Returns the exclusive fence (if any). Caller must either hold the objects
+> - * through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
+> - * or one of the variants of each
+> - *
+> - * RETURNS
+> - * The exclusive fence or NULL
+> - */
+> -static inline struct dma_fence *
+> -dma_resv_excl_fence(struct dma_resv *obj)
+> -{
+> -	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
+> -}
+> -
+>  void dma_resv_init(struct dma_resv *obj);
+>  void dma_resv_fini(struct dma_resv *obj);
+>  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+> -- 
+> 2.25.1
+> 
 
-
---=20
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
