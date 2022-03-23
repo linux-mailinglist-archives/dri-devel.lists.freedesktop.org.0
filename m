@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67AE4E4A92
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 02:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5B74E4AA1
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 02:53:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82BDB10E02D;
-	Wed, 23 Mar 2022 01:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4AC310E04C;
+	Wed, 23 Mar 2022 01:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 080F910E02D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 01:39:26 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- mz9-20020a17090b378900b001c657559290so4990962pjb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Mar 2022 18:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ieZ1YNZMdPMDle0nXlJhObnK0W4J43jf9cWsuNGkhUY=;
- b=iDjGY+J/5JvZcOb7jtGwUMPA86RmY+2Kd08u46Z4q1s0ZgozamxL6GZnVxGe4jiQ9B
- Ror0YmrKSXvrr2/xyj9TCPLtJkG0912nL9Ie7pcefbtt+N+D9r41oMa33PsswaGOxZp8
- rux8O2+CS76kYQHT92Uh9EP/edacCSVf3VpbIHSVcftb00FUq5DbEnC+k2vyEc3Qh3+9
- IDdiy0OzGMngKa9GfKlpTf23aNO5KBf3MVs56/ELlfGOCUc960xE47idnHnTTZRUd2dE
- lYRybJS3nHsAG/4MoztI28+HVklC3EkNVZh0JVVGKx31vedl5klbnmrcqcxntEchTSCa
- LfjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ieZ1YNZMdPMDle0nXlJhObnK0W4J43jf9cWsuNGkhUY=;
- b=hRTqUN9aCnW2QTW3AajyhuOSrju92vyD3OYax1d7MMQKWJT97VZBaqntHaowBnFDVE
- dQbYoMP2NU70x6p4zelxN9yl74WXqmwGD6UCG3UUtbJ+Ebw77/M8rA3I7Mx0GMLVloWv
- 9TI2tMoI02gl+yt1Um2voUAtM1A8gLcGIN2lz7J5Z3+6FQIKU2acgFyyvNkAmrng3VGp
- Xtx+FuTLQ4IYu33FjsCREOrI1tFABedRwT0I+j6HBaG/tpUKq+geGMNn4QyVAFb5BNQO
- C76Esm8lmXpH1xmlP0/+oNJNlQecVwYUx89RZS4YK1ZunUOqUcYCt5H0x7zStHDP8iwH
- e2xw==
-X-Gm-Message-State: AOAM530FIuga4TNvN9zOM9ogx7747hi6uzj5hUSmyzelkqTrwTVCi87R
- oCOG21dN7nJhhCU8itOFSqPPbkfZP1ITOtkBBg==
-X-Google-Smtp-Source: ABdhPJykxCUGEMdCG/iVtspeqcFCatcsR4M7mlCCgk2FUckmO7eqpB1Pl7YNEqGaJ18raP5HtezEbI/KGXBVxP4V/j8=
-X-Received: by 2002:a17:90b:1803:b0:1c7:24c4:ab52 with SMTP id
- lw3-20020a17090b180300b001c724c4ab52mr8404054pjb.240.1647999565452; Tue, 22
- Mar 2022 18:39:25 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 952C310E04C
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 01:53:22 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:44820.495833220
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id EF32B1002A9;
+ Wed, 23 Mar 2022 09:53:15 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 437bde2d691948a680665d3a4e627624 for jiaxun.yang@flygoat.com; 
+ Wed, 23 Mar 2022 09:53:20 CST
+X-Transaction-ID: 437bde2d691948a680665d3a4e627624
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <abe784ce-eb9e-0143-dbc3-d415bbedbb81@189.cn>
+Date: Wed, 23 Mar 2022 09:53:14 +0800
 MIME-Version: 1.0
-References: <1646983382-30036-1-git-send-email-zheyuma97@gmail.com>
- <YjMSMIrbsVZjEw8W@phenom.ffwll.local>
- <CAMhUBjkohp=-4YZ7x6Yyf4tQr_2zCoR+RVmEZPGLoXTEhNoPFA@mail.gmail.com>
- <Yjnc1A2heVopcyXh@phenom.ffwll.local>
-In-Reply-To: <Yjnc1A2heVopcyXh@phenom.ffwll.local>
-From: Zheyu Ma <zheyuma97@gmail.com>
-Date: Wed, 23 Mar 2022 09:39:14 +0800
-Message-ID: <CAMhUBjnRP+Jb8MY9T02hVH=rQ-hdKxb9UDYpN4twHUywiBoVDQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: drm_bufs: Error out if 'dev->agp' is a null pointer
-To: Zheyu Ma <zheyuma97@gmail.com>, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, 
- dri-devel@lists.freedesktop.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 2/7] MIPS: Loongson64: dts: introduce ls3A4000
+ evaluation board
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ suijingfeng <suijingfeng@loongson.cn>
+References: <20220321162916.1116541-1-15330273260@189.cn>
+ <20220321162916.1116541-3-15330273260@189.cn>
+ <2644866a-8db2-923e-4227-2aa6d8e375fe@flygoat.com>
+ <2c671752-6684-f87b-7b2d-90568d36adde@189.cn>
+ <005099b5-33ed-4cb7-f8e4-10e1de780311@flygoat.com>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <005099b5-33ed-4cb7-f8e4-10e1de780311@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 10:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Mar 21, 2022 at 09:02:47PM +0800, Zheyu Ma wrote:
-> > On Thu, Mar 17, 2022 at 6:49 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Fri, Mar 11, 2022 at 07:23:02AM +0000, Zheyu Ma wrote:
-> > > > The user program can control the 'drm_buf_desc::flags' via ioctl system
-> > > > call and enter the function drm_legacy_addbufs_agp(). If the driver
-> > > > doesn't initialize the agp resources, the driver will cause a null
-> > > > pointer dereference.
-> > > >
-> > > > The following log reveals it:
-> > > >     general protection fault, probably for non-canonical address
-> > > >     0xdffffc000000000f: 0000 [#1] PREEMPT SMP KASAN PTI
-> > > >     KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
-> > > >     Call Trace:
-> > > >      <TASK>
-> > > >      drm_ioctl_kernel+0x342/0x450 drivers/gpu/drm/drm_ioctl.c:785
-> > > >      drm_ioctl+0x592/0x940 drivers/gpu/drm/drm_ioctl.c:885
-> > > >      vfs_ioctl fs/ioctl.c:51 [inline]
-> > > >      __do_sys_ioctl fs/ioctl.c:874 [inline]
-> > > >      __se_sys_ioctl+0xaa/0xf0 fs/ioctl.c:860
-> > > >      do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-> > > >      do_syscall_64+0x43/0x90 arch/x86/entry/common.c:80
-> > > >      entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > > >
-> > > > Fix this bug by adding a check.
-> > > >
-> > > > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-> > >
-> > > You can only hit this if you enabled a DRIVER_LEGACY drm driver, which
-> > > opens you up to tons of other CVEs and issues. What's your .config?
-> >
-> > Yes, I enable the DRM_LEGACY option in the config.
-> > I think you mean this is not a normal configuration file? Do you have
-> > a recommended configuration option for when I want to test the GPU
-> > driver?
->
-> Yeah DRM_LEGACY gives you all kinds of horrible and known-broken
-> interfaces. Don't enable that :-)
->
-> You have a bunch of other drivers enable which require DRM_LEGACY, so
-> those will disable too. Anything else I think would be an upstream bug and
-> we'd need to adjust Kconfig (or fix the code).
 
-Thanks for your explanation! I will pay attention next time.
+On 2022/3/23 00:06, Jiaxun Yang wrote:
+>
+>
+> 在 2022/3/22 13:38, Sui Jingfeng 写道:
+>>
+>> On 2022/3/22 21:05, Jiaxun Yang wrote:
+>>>
+>>>
+>>> 在 2022/3/21 16:29, Sui Jingfeng 写道:
+>>>> From: suijingfeng <suijingfeng@loongson.cn>
+>>>>
+>>>> The board name is LS3A4000_7A1000_EVB_BOARD_V1.4, it consist of 1.8Ghz
+>>>> mips64r5 4-core CPU and LS7A1000 bridge chip. It has PCIe GEN2 x8 
+>>>> slot,
+>>>> therefore can play with discrete graphics card.
+>>>
+>>> Hi Jingfeng,
+>>>
+>>> As we've discussed before if you are going to introduce new dts then 
+>>> you *MUST*
+>>> include it in makefile and wire it up in code.
+>>>
+>>> A dts file doing nothing lying in the tree is just suspicious.
+>>>
+>>> Thanks.
+>>> - Jiaxun
+>>>
+>> Hi, Jiaxun,
+>>
+>> I know what you means, but it is the kernel side developer's job.
+>> I am just a naive graphic driver developer,I can not care so much.
+>> Below is my private patch which can be used to built specific dts
+>> into the linux kernel, therefore make the verification easier.
+> Hi Jingfeng,
+>
+> In kernel world we take care all the stuff we touched ourself :-)
+>
+> If you are not confident with them please drop those DTS from the 
+> patchset
+> besides the generic one. I can do the rest for you after getting this 
+> set merged.
+>
+> Thanks.
+> - Jiaxun
+>
+Hi, Jiaxun
 
-Regards,
-Zheyu Ma
+Build all dts into vmlinuz will make the vmlinuz bigger and bigger.
+How does the kernel get the dtb is another big issue, either from built-in
+dtb or pass from the firmware(pmon and uefi etc). This should be
+solved with another patch carefully. Providing board specific dts
+helps to code review, it helps reviewers understand that there are
+variant boards and have to be express with different OF graph.
+
+Now, there are about 6 dts under arch/mips/boot/dts/loongson/,
+Suppose loongson have 1000+ different board, do you want built all
+of them into vmlinuz?
+
+Besides, ls7a1000 and ls2k1000 lack a i2c driver, gpio driver,
+pwm driver, clk driver, can you pay more attention to salve those
+problems, please ?
+
