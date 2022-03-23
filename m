@@ -2,96 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B3F4E5228
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 13:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8D14E5274
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 13:47:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F377710E6C0;
-	Wed, 23 Mar 2022 12:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DCF10E1B9;
+	Wed, 23 Mar 2022 12:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C7E10E6C0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 12:29:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 849145801A3;
- Wed, 23 Mar 2022 08:29:33 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
- by compute1.internal (MEProxy); Wed, 23 Mar 2022 08:29:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=U/ewyp5y3Q5PVO
- u36vKaYrXTr8xm2PIaC+1xyM55hhw=; b=3s/P5v0SrlAsYc4jGnxlP2wGQwyM5P
- C/bx6Yr9RDoinqfZET2ecfTblc3g9ChOBwWx1MezRZWICJ6RFJ9qqA4x9BQfavst
- RpJTlEUHe+vX6CoVwfKPBc4UN3iy8S89xUddafHgfrK7zrkjthZAEzC/Rd9ceGU2
- bScHMtdsDgpOlePe4TCKOzehZVDsQg9Vk2Ma2M+Uq9q8lok4LClYzUJ9xE5zUVo0
- nmVaOdLTVIbKmMVg/5c976Ry0yT/sv3iJzh8Fh11SNNeTiXlAOJGuxKySAhJZJ4F
- 9n6dJiSBhpQw3Cc7e21t9F40SxvUXANwCzBSBDSXSihBnTp8ChY+Za0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=U/ewyp5y3Q5PVOu36vKaYrXTr8xm2PIaC+1xyM55h
- hw=; b=I/flf/tYX0qs0esw7uam9MB+H2H2m56aCRHkq/2W6i6cpPaLWnYG47pzo
- RYHsnB6Uhlw6o7JggLeC2av3/2sKkvkmm/0XyztJkW5HratOgYStMKocduFSyxmy
- 4BhBP5nj8yVsyvRDNAkHKFX/8i+kzJuiTCFLRM32wBI2+oKvqPWlfLN532xaTl3u
- IpFb69ixjB76hJ1VwyP/t8pwa71EgSyEQNB4avAfYYtThnvsbQgw75zG8EHBA3Ie
- rxd9Su1sAec6DH6FgvjVD2SpulzniN7RZlaK5gPhmYhtgqq3nIVUm3cIj+bWy5cS
- xSMtE4nG1XMLXxDqTh8qhB0WXrt1A==
-X-ME-Sender: <xms:rBI7YnMFDEKEpWG0wFCS74gL-3fOJAS4rYtxxj7AZM4fMZDzvVN0Ng>
- <xme:rBI7Yh_A_fN_VkOhudxRj3GQCUtHaeXBO7o4RL_TigCEuVcYQmQOEVZwjvNQt-bhe
- vutDhqCOKk8gE7Ko2M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegjedgfeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnheptedtjedvvddthffgheeujedttddtgfektdeghfeltdek
- leefhffhleelvdejkeffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigr
- nhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:rBI7YmT_mtPvWJfSAR6aH4tH_gTCJlifICGgCDSu-EhFM3Qa-1Rjjw>
- <xmx:rBI7YrsBhsfW1GzZcQQLxNrRFV3Wt3bvUty6hF9CkIS7gugWEcM_fg>
- <xmx:rBI7YveCRFh9Ixt1JCwyCnUXY76XlyczIpTn5o-muqczIMVphxdCsA>
- <xmx:rRI7YotjiVzS8G-JGBwVyP57xQ2EHgi_6DhFrc8G6QZNyJQVd-A2Zg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0E500FA0AA6; Wed, 23 Mar 2022 08:29:31 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4907-g25ce6f34a9-fm-20220311.001-g25ce6f34
-Mime-Version: 1.0
-Message-Id: <01028879-99ee-41bd-9222-c2c2703fbf4b@www.fastmail.com>
-In-Reply-To: <c9357494-6472-e0a0-50a8-e62df56dceb0@189.cn>
-References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-3-15330273260@189.cn>
- <2644866a-8db2-923e-4227-2aa6d8e375fe@flygoat.com>
- <2c671752-6684-f87b-7b2d-90568d36adde@189.cn>
- <005099b5-33ed-4cb7-f8e4-10e1de780311@flygoat.com>
- <abe784ce-eb9e-0143-dbc3-d415bbedbb81@189.cn>
- <87d4f869-2ae8-f8d3-a55f-1a563cb21115@flygoat.com>
- <c9357494-6472-e0a0-50a8-e62df56dceb0@189.cn>
-Date: Wed, 23 Mar 2022 12:29:12 +0000
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Sui Jingfeng" <15330273260@189.cn>, "Maxime Ripard" <mripard@kernel.org>, 
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Roland Scheidegger" <sroland@vmware.com>, "Zack Rusin" <zackr@vmware.com>,
- "Christian Gmeiner" <christian.gmeiner@gmail.com>,
- "David Airlie" <airlied@linux.ie>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Dan Carpenter" <dan.carpenter@oracle.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Andrey Zhizhikin" <andrey.zhizhikin@leica-geosystems.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- "Lucas Stach" <l.stach@pengutronix.de>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Ilia Mirkin" <imirkin@alum.mit.edu>, "Qing Zhang" <zhangqing@loongson.cn>,
- suijingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH v11 2/7] MIPS: Loongson64: dts: introduce ls3A4000
- evaluation board
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D462A10E6C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 12:46:59 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id j18so1962781wrd.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 05:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=QrnKrN1J0be5aGhbUhpBdOm3mgQtzJ3AbarAe1cgyz4=;
+ b=PNp6vqLvvi186d7HmPfAqbvJGTx7NW1Fx8uwCXWK6FDJi8hDa0A4Obyl0BJlO5+1lB
+ vMizD2ozDTrd1SWvW6k6EbB7UdNw60K8M08R7jTHpovxIB7hs0FOgMsE6ChIt7QkfrIk
+ bTGHkOg+xnrkgrIEahmcKVKPCqZRSxCqwzYZUfEPQXRZLytNNrKHkdlH6ytPTaCbezNf
+ 6KqsyEBPIYlSSPXBmqKdIRnKAWl5fyQw0hqv/fail0P9VB0VcVBOKzUv2UrSnseSFA4P
+ 4qliOHKw8/ytu9CL4ol6/j71Mf3nRJBkXmqtRzicETMnTCLQtXImq4sJeK616gwzDtE4
+ tvGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QrnKrN1J0be5aGhbUhpBdOm3mgQtzJ3AbarAe1cgyz4=;
+ b=mrUiLXfEp1sRP/AjHVz3n7A7xUuaGQ+Y/r45PSc4w2NU4msVq3YoLNPfGQqq0qIBiM
+ sxN+9Euv20vgcBTo5TjrbcjObDr6hjKqo8W6/QReqZW3bN1jt0SrvN+08Su9OkmUfN7U
+ Y4VhHiWuBnKTMP5qdHICyaoRB3wdvTz6geMcbZtSxGrWXTOBlvlK/eLlFbV5Cr/Djhjx
+ Ra1a8vse1K2vy3QnUucXBIpcZyAbupDB73ZMuqzYdROhk3A3PkX2cZvw/OhZGwu1Xg70
+ fVo+sLGYSjPu6ku8B3gjILiq7Ls7GbLUWOt4/ajXhnyOLYLyq+hjMXrbsblRNy7aTXp0
+ eKaw==
+X-Gm-Message-State: AOAM532WGRvhLC5ZVfL8dweTuZZY/1FaDBWCZpJAPZZb+eYyvcuyHG0h
+ RyHV1+89XYaPTDeHHJV7b8kPGw==
+X-Google-Smtp-Source: ABdhPJzSkUmPOcaKtIxHaouVgmm319CJF0UXHX2JHBimkzdShZYdJ/tai3elVkeKWEBvyUS26e35pw==
+X-Received: by 2002:a5d:64e7:0:b0:205:8cc7:aa82 with SMTP id
+ g7-20020a5d64e7000000b002058cc7aa82mr1486949wri.247.1648039618247; 
+ Wed, 23 Mar 2022 05:46:58 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
+ [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
+ o8-20020a5d6488000000b002051f1028f6sm4375837wri.111.2022.03.23.05.46.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 05:46:57 -0700 (PDT)
+Date: Wed, 23 Mar 2022 12:46:55 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: philip yang <yangp@amd.com>
+Subject: Re: [PATCH 1/1] drm/amdkfd: Protect the Client whilst it is being
+ operated on
+Message-ID: <YjsWvy8cT2eOw618@google.com>
+References: <20220317131610.554347-1-lee.jones@linaro.org>
+ <8702f8a5-62a1-c07e-c7b7-e9378be069b6@amd.com>
+ <YjNNCXc8harOvwqe@google.com>
+ <1f003356-3cf9-7237-501e-950d0aa124d1@amd.com>
+ <YjNQA80wkWpy+AmA@google.com>
+ <b65db51e-f1ba-3a9b-0ac1-0b8ae51c5eee@amd.com>
+ <YjNh/Ajxgp3mjvWV@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YjNh/Ajxgp3mjvWV@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,44 +78,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, liyi@loongson.cn,
- Huacai Chen <chenhuacai@kernel.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <felix.kuehling@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 17 Mar 2022, Lee Jones wrote:
 
+> On Thu, 17 Mar 2022, philip yang wrote:
+> 
+> >    On 2022-03-17 11:13 a.m., Lee Jones wrote:
+> > 
+> > On Thu, 17 Mar 2022, Felix Kuehling wrote:
+> > 
+> > 
+> > Am 2022-03-17 um 11:00 schrieb Lee Jones:
+> > 
+> > Good afternoon Felix,
+> > 
+> > Thanks for your review.
+> > 
+> > 
+> > Am 2022-03-17 um 09:16 schrieb Lee Jones:
+> > 
+> > Presently the Client can be freed whilst still in use.
+> > 
+> > Use the already provided lock to prevent this.
+> > 
+> > Cc: Felix Kuehling [1]<Felix.Kuehling@amd.com>
+> > Cc: Alex Deucher [2]<alexander.deucher@amd.com>
+> > Cc: "Christian König" [3]<christian.koenig@amd.com>
+> > Cc: "Pan, Xinhui" [4]<Xinhui.Pan@amd.com>
+> > Cc: David Airlie [5]<airlied@linux.ie>
+> > Cc: Daniel Vetter [6]<daniel@ffwll.ch>
+> > Cc: [7]amd-gfx@lists.freedesktop.org
+> > Cc: [8]dri-devel@lists.freedesktop.org
+> > Signed-off-by: Lee Jones [9]<lee.jones@linaro.org>
+> > ---
+> >    drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 6 ++++++
+> >    1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/a
+> > mdkfd/kfd_smi_events.c
+> > index e4beebb1c80a2..3b9ac1e87231f 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> > @@ -145,8 +145,11 @@ static int kfd_smi_ev_release(struct inode *inode, struct f
+> > ile *filep)
+> >         spin_unlock(&dev->smi_lock);
+> >         synchronize_rcu();
+> > +
+> > +       spin_lock(&client->lock);
+> >         kfifo_free(&client->fifo);
+> >         kfree(client);
+> > +       spin_unlock(&client->lock);
+> > 
+> > The spin_unlock is after the spinlock data structure has been freed.
+> > 
+> > Good point.
+> > 
+> > If we go forward with this approach the unlock should perhaps be moved
+> > to just before the kfree().
+> > 
+> > 
+> > There
+> > should be no concurrent users here, since we are freeing the data structure.
+> > If there still are concurrent users at this point, they will crash anyway.
+> > So the locking is unnecessary.
+> > 
+> > The users may well crash, as does the kernel unfortunately.
+> > 
+> > We only get to kfd_smi_ev_release when the file descriptor is closed. User
+> > mode has no way to use the client any more at this point. This function also
+> > removes the client from the dev->smi_cllients list. So no more events will
+> > be added to the client. Therefore it is safe to free the client.
+> > 
+> > If any of the above were not true, it would not be safe to kfree(client).
+> > 
+> > But if it is safe to kfree(client), then there is no need for the locking.
+> > 
+> > I'm not keen to go into too much detail until it's been patched.
+> > 
+> > However, there is a way to free the client while it is still in use.
+> > 
+> > Remember we are multi-threaded.
+> > 
+> >    files_struct->count refcount is used to handle this race, as
+> >    vfs_read/vfs_write takes file refcount and fput calls release only if
+> >    refcount is 1, to guarantee that read/write from user space is finished
+> >    here.
+> > 
+> >    Another race is driver add_event_to_kfifo while closing the handler. We
+> >    use rcu_read_lock in add_event_to_kfifo, and kfd_smi_ev_release calls
+> >    synchronize_rcu to wait for all rcu_read done. So it is safe to call
+> >    kfifo_free(&client->fifo) and kfree(client).
+> 
+> Philip, please reach out to Felix.
 
-=E5=9C=A82022=E5=B9=B43=E6=9C=8823=E6=97=A5=E4=B8=89=E6=9C=88 =E4=B8=8A=E5=
-=8D=887:07=EF=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
-> On 2022/3/23 10:29, Jiaxun Yang wrote:
->> If you want to blame somebody for the problem then please don't
->> blame us. We tried very hard to fit all those stuff into kernel's mod=
-el
->> of devices. You should blame those who did the initial design of
->> Loongson's boot interface that failed to introduce a proper way
->> to describe the platform.=20
->
-> I am not blame anybody, please do not misleading.
-Your language seems to be aggressive from my point of view.
+Philip, Felix, are you receiving my direct messages?
 
-> I am report problem and try to seek a better solution.
->
-> I have my intention and ideas, i just don't want to solve
-> all of the problems in one shot.
-If so please just drop this part from the patch. I've repeated several t=
-imes.
+I have a feeling they're being filtered out by AMD's mail server.
 
->
-> I could provide one more patch wire all board specific dts up.
-> But i don't know what's the opinions of other reviewers, does
-> this is plausible?
-Please carefully read section 6.1 about how should you work with reviewe=
-rs.
-https://www.kernel.org/doc/html/latest/process/6.Followthrough.html
-
-Thanks.
---=20
-- Jiaxun
+-- 
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
