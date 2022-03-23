@@ -1,67 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309DE4E5527
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:24:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDD24E552A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A88210E6FB;
-	Wed, 23 Mar 2022 15:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B33710E6FD;
+	Wed, 23 Mar 2022 15:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 728E110E6F6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 15:24:21 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id z8so3303818ybh.7
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 08:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0vD20m8g5PwvGzKInMp8Kg7Nyn6jhDP8wyiv6EKOnK8=;
- b=xnqYWHc9Rh/KAHAeNxANCstSj/vKV0eDjPvQRGBOBKB9YqALTq7KVdGn2to84O5G7T
- P3mgdIencXN4x7wUQrTzlNrzzV0BRZ0Yx4xovbKXai4SnqzTujKHqbp3iWIbd0xtjZqZ
- LtRKvedmitK/b3Zbr/FiN7PafpUguML/pZ16SrgXWu/ls6CPL9e2cmVeFd5RBFrgQ6ox
- 8MILP2zq+M7RsYPkHsVBhuqJ88ds7F6BtQ3YEAtOsql0tGifEPzBB04BbAExp/vpHtvO
- EPD9j7pnl1cW12KM/PMcIy648Z3jTRKlAS6UAFrXCvkntQCpAebWb9tIP4gzN6TIHFfI
- q7rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0vD20m8g5PwvGzKInMp8Kg7Nyn6jhDP8wyiv6EKOnK8=;
- b=WmcOLNnEef33RE1E0BFaWPv7IkVQKfTXZQGQI7L4OxmCayiVYOsG4+Vq95pthVx1HV
- iLVDlbivCi7Qp17cJj0lJJCUq8Ht1LK21Mf1ZweJC1Vx5/1W/RuGiYbaHJeZmRsuApyo
- pZ93TFqs8mXN8SG8suRAIhw/o33uXZGCDBQONZOEAlqFvp/vTEDCdPdzgzDL3BIP2dyd
- jKDivj6dX+S/UQH2i5zorKPXcjOBdMWVZ4jHvIHPCkoVZwmrwQLnI4bn7Atgftfiw2CC
- W5t+zc9cMzdFv//ZXx0OR9q2H9EDxpqJzrFCOhIOef25lmaCwZbvnWBBM9ZoAhdqJ+2W
- xgXQ==
-X-Gm-Message-State: AOAM530rk48+tMP8F5ZGI6w+lo3b52R1mcScbG6zNvrYJ1Bh10oOONlI
- xIqobOtxJUY5IHTxbK3eXLZq3MfRk4j1uAg4o9D2QMvTY67gWw==
-X-Google-Smtp-Source: ABdhPJxo7ogDtwljQ4TL6S5M9NR8I7rdIXfXJWICIHLgh9As9vgbQ2EsxzjM3DXJI3ugzmS/82ZhN4yjYZAiNmP6F2s=
-X-Received: by 2002:a5b:710:0:b0:633:98f0:47ad with SMTP id
- g16-20020a5b0710000000b0063398f047admr438074ybq.201.1648049060548; Wed, 23
- Mar 2022 08:24:20 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94FCE10E6F5;
+ Wed, 23 Mar 2022 15:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648049099; x=1679585099;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=TRb01S1s/f986ZpNokOsVT5j+DvzC9gNjD+IelhYAC0=;
+ b=mYIbGItN2nwkrjWZYhQr/eDDSjWbKpmhxcIBWXxJ3PtUIGQvnEGACu7V
+ GmubBAXDakFDmqb5zssfZqdess2kZZh8LtJgPEDF4a3SatPEsZp1dFyXv
+ mvYRJzFVjH7oBwaeQ9v0k0VMALnQcxDcKvFgHqVNK9Bz6VSd59HjBklyZ
+ Zx0dhBnhywMfsNaKnq5O4TKtXiNoxTqe7I1LCG3w9TnGA8dGGI3itaqjh
+ wRtMMyK824Cb3Gja1T9K03yMm/vn6WxbEKHRlz+7SZ+0IOcFNbzsClsrr
+ 67uQtuBViM18qcZcIiZedPqd+PHY7DZO177fwXkbOYJ44yvwNIlO2Pagl A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258324508"
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="258324508"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 08:24:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="544233409"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by orsmga007.jf.intel.com with SMTP; 23 Mar 2022 08:24:56 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 23 Mar 2022 17:24:55 +0200
+Date: Wed, 23 Mar 2022 17:24:55 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RFC 02/19] drm: use drm_edid_extension_block_count() and
+ drm_edid_size()
+Message-ID: <Yjs7xws+Eg4danMQ@intel.com>
+References: <cover.1647985054.git.jani.nikula@intel.com>
+ <1a98752e8f23f4a981feb3471f46c3d2b4b2b93c.1647985054.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
- <7addb3e7-d265-c1a7-d449-7d0056f06d63@molgen.mpg.de>
- <fc60c561-c12a-c031-9558-abae3e3474ec@amd.com>
- <6f0888a2-f74d-f41f-d593-a8362e7dc673@molgen.mpg.de>
- <398f8851-d37b-4020-24ce-8f2ab9723e40@amd.com>
- <CAPj87rMETV9UkpbGRYAT3mjVhRtW75m0e9OLON6_+gdcD0Fo2Q@mail.gmail.com>
- <CADnq5_NuaN_ZziNipdqvvTQ41you==VqJg5oxQovowokaJ2K1Q@mail.gmail.com>
- <CAPj87rNyjd1xkEEARMoiaEdjLxy2rvcKa03fnNCnpN91DLhF1A@mail.gmail.com>
- <CADnq5_Mt5sWCC7hLLBH_DJdvXGqSTbNNaxWpY+cWWD9Vpa8KGQ@mail.gmail.com>
-In-Reply-To: <CADnq5_Mt5sWCC7hLLBH_DJdvXGqSTbNNaxWpY+cWWD9Vpa8KGQ@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 23 Mar 2022 15:24:08 +0000
-Message-ID: <CAPj87rPhuVTDJSsY-HsKfvV3xkDhEn7nUd3WLsxNuJD=Mx2Zxg@mail.gmail.com>
-Subject: Re: Commit messages (was: [PATCH v11] drm/amdgpu: add drm buddy
- support to amdgpu)
-To: Alex Deucher <alexdeucher@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1a98752e8f23f4a981feb3471f46c3d2b4b2b93c.1647985054.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,55 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Mar 2022 at 15:14, Alex Deucher <alexdeucher@gmail.com> wrote:
-> On Wed, Mar 23, 2022 at 11:04 AM Daniel Stone <daniel@fooishbar.org> wrot=
-e:
-> > That's not what anyone's saying here ...
-> >
-> > No-one's demanding AMD publish RTL, or internal design docs, or
-> > hardware specs, or URLs to JIRA tickets no-one can access.
-> >
-> > This is a large and invasive commit with pretty big ramifications;
-> > containing exactly two lines of commit message, one of which just
-> > duplicates the subject.
-> >
-> > It cannot be the case that it's completely impossible to provide any
-> > justification, background, or details, about this commit being made.
-> > Unless, of course, it's to fix a non-public security issue, that is
-> > reasonable justification for eliding some of the details. But then
-> > again, 'huge change which is very deliberately opaque' is a really
-> > good way to draw a lot of attention to the commit, and it would be
-> > better to provide more detail about the change to help it slip under
-> > the radar.
-> >
-> > If dri-devel@ isn't allowed to inquire about patches which are posted,
-> > then CCing the list is just a fa=C3=A7ade; might as well just do it all
-> > internally and periodically dump out pull requests.
->
-> I think we are in agreement. I think the withheld information
-> Christian was referring to was on another thread with Christian and
-> Paul discussing a workaround for a hardware bug:
-> https://www.spinics.net/lists/amd-gfx/msg75908.html
+On Tue, Mar 22, 2022 at 11:40:31PM +0200, Jani Nikula wrote:
+> Use the block count and size helpers in all drm core code.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c |  2 +-
+>  drivers/gpu/drm/drm_debugfs.c   |  3 +--
+>  drivers/gpu/drm/drm_edid.c      | 14 +++++++-------
+>  3 files changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 76a8c707c34b..cfed43e61380 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2138,7 +2138,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>  		return 0;
+>  
+>  	if (edid)
+> -		size = EDID_LENGTH * (1 + edid->extensions);
+> +		size = drm_edid_size(edid);
+>  
+>  	/* Set the display info, using edid if available, otherwise
+>  	 * resetting the values to defaults. This duplicates the work
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 7f1b82dbaebb..a832ef6b33fe 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -362,8 +362,7 @@ static ssize_t edid_write(struct file *file, const char __user *ubuf,
+>  	if (len == 5 && !strncmp(buf, "reset", 5)) {
+>  		connector->override_edid = false;
+>  		ret = drm_connector_update_edid_property(connector, NULL);
+> -	} else if (len < EDID_LENGTH ||
+> -		   EDID_LENGTH * (1 + edid->extensions) > len)
+> +	} else if (len < EDID_LENGTH || drm_edid_size(edid) > len)
+>  		ret = -EINVAL;
+>  	else {
+>  		connector->override_edid = false;
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index f4b49693e666..b96906774433 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1643,8 +1643,8 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
+>  		return false;
+>  
+>  	if (edid1) {
+> -		edid1_len = EDID_LENGTH * (1 + edid1->extensions);
+> -		edid2_len = EDID_LENGTH * (1 + edid2->extensions);
+> +		edid1_len = drm_edid_size(edid1);
+> +		edid2_len = drm_edid_size(edid2);
+>  
+>  		if (edid1_len != edid2_len)
+>  			return false;
+> @@ -1770,7 +1770,7 @@ bool drm_edid_is_valid(struct edid *edid)
+>  	if (!edid)
+>  		return false;
+>  
+> -	for (i = 0; i <= edid->extensions; i++)
+> +	for (i = 0; i <= drm_edid_extension_block_count(edid); i++)
+>  		if (!drm_edid_block_valid(raw + i * EDID_LENGTH, i, true, NULL))
 
-Right, that definitely seems like some crossed wires. I don't see
-anything wrong with that commit at all: the commit message and a
-comment notes that there is a hardware issue preventing Raven from
-being able to do TMZ+GTT, and the code does the very straightforward
-and obvious thing to ensure that on VCN 1.0, any TMZ buffer must be
-VRAM-placed.
+Maybe we should also have drm_edid_block_count(), drm_edid_block_data(),
+drm_edid_extension_block_data() etc.?
 
-This one, on the other hand, is much less clear ...
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Cheers,
-Daniel
+>  			return false;
+>  
+> @@ -2224,7 +2224,7 @@ EXPORT_SYMBOL(drm_edid_size);
+>   */
+>  struct edid *drm_edid_duplicate(const struct edid *edid)
+>  {
+> -	return kmemdup(edid, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
+> +	return kmemdup(edid, drm_edid_size(edid), GFP_KERNEL);
+>  }
+>  EXPORT_SYMBOL(drm_edid_duplicate);
+>  
+> @@ -3353,17 +3353,17 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+>  	int i;
+>  
+>  	/* No EDID or EDID extensions */
+> -	if (edid == NULL || edid->extensions == 0)
+> +	if (edid == NULL || drm_edid_extension_block_count(edid) == 0)
+>  		return NULL;
+>  
+>  	/* Find CEA extension */
+> -	for (i = *ext_index; i < edid->extensions; i++) {
+> +	for (i = *ext_index; i < drm_edid_extension_block_count(edid); i++) {
+>  		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
+>  		if (edid_ext[0] == ext_id)
+>  			break;
+>  	}
+>  
+> -	if (i >= edid->extensions)
+> +	if (i >= drm_edid_extension_block_count(edid))
+>  		return NULL;
+>  
+>  	*ext_index = i + 1;
+> -- 
+> 2.30.2
+
+-- 
+Ville Syrjälä
+Intel
