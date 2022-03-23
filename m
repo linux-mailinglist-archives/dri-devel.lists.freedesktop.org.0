@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126ED4E516A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:39:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF324E5190
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:46:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA8710E6AB;
-	Wed, 23 Mar 2022 11:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B55E510E6AE;
+	Wed, 23 Mar 2022 11:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8CD10E6A5;
- Wed, 23 Mar 2022 11:39:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 149F761419;
- Wed, 23 Mar 2022 11:39:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E174BC340E8;
- Wed, 23 Mar 2022 11:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648035553;
- bh=UDCzleIC4xOZOO2WFtLxo96UlvhoU0EICO6OpjUHPUY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bd00Ph0sG5jxSCHtFN3wfyo7D7eOW7UKIg+ObY8tpcfafFg6dkimyLrxH00+1NAwJ
- FtdYY75mcDriYSZbbWBbpYpUz8MZAWRWnviq74ZH2LlzOCyvy/YOdENHoCFcCMdmBE
- hdNEJVXnHz+9XQBSyZR4gVdSxsZ7zH3VFwAfGjwroWuC5uNexfjsyfjmkJlPgcm++z
- Kda/mWNOPdNNtwQnhC7e1u2P0cdhvRe99cNVTB7NA2kqZLtIdrt9T1VxxaesomaBkp
- O6fOm7QuWHGxZ99hywJEfZ3J6GBk1vPdGG9OkXTX0tbIs7pQuTEsCfbpRTMOmdKstl
- vKjguYNIx+m8Q==
-Date: Wed, 23 Mar 2022 17:09:09 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [REPOST PATCH v4 10/13] drm/msm/disp/dpu1: Add support for DSC
- in topology
-Message-ID: <YjsG3epKhFpvdLxw@matsya>
-References: <20220210103423.271016-1-vkoul@kernel.org>
- <20220210103423.271016-11-vkoul@kernel.org>
- <20220217223707.zsqdzu5uqplg33p2@SoMainline.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C200510E6AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 11:46:21 +0000 (UTC)
+X-UUID: 5d9bdde8ff304dd98f82e564718be588-20220323
+X-UUID: 5d9bdde8ff304dd98f82e564718be588-20220323
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1092259092; Wed, 23 Mar 2022 19:46:15 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 23 Mar 2022 19:46:14 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 23 Mar 2022 19:46:14 +0800
+Message-ID: <eca60f45ab518a53b1d281c078f562b8bc610060.camel@mediatek.com>
+Subject: Re: [PATCH v3,2/4] drm/mediatek: Separate poweron/poweroff from
+ enable/disable and define new funcs
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: xinlei.lee <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Wed, 23 Mar 2022 19:46:13 +0800
+In-Reply-To: <4d022881d08ea1d4a222b3439510c6d6d26d7284.camel@mediatek.com>
+References: <1647503611-13144-1-git-send-email-xinlei.lee@mediatek.com>
+ <1647503611-13144-3-git-send-email-xinlei.lee@mediatek.com>
+ <390025b57d3345c34071231c68350e9311af64c9.camel@mediatek.com>
+ <4d022881d08ea1d4a222b3439510c6d6d26d7284.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220217223707.zsqdzu5uqplg33p2@SoMainline.org>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +54,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-02-22, 23:37, Marijn Suijten wrote:
-> On 2022-02-10 16:04:20, Vinod Koul wrote:
-> > For DSC to work we typically need a 2,2,1 configuration. This should
-> > suffice for resolutions up to 4k. For more resolutions like 8k this won't
-> > work.
+On Tue, 2022-03-22 at 17:23 +0800, xinlei.lee wrote:
+> On Thu, 2022-03-17 at 20:02 +0800, Rex-BC Chen wrote:
+> > Hello Xinlei,
 > > 
-> > Also, it is better to use 2 LMs and DSC instances as half width results
-> > in lesser power consumption as compared to single LM, DSC at full width.
+> > On Thu, 2022-03-17 at 15:53 +0800, xinlei.lee@mediatek.com wrote:
+> > > From: Jitao Shi <jitao.shi@mediatek.com>
+> > > 
+> > > In order to match the changes of "Use the drm_panel_bridge API",
+> > > the poweron/poweroff of dsi is extracted from enable/disable and
+> > > defined as new funcs (pre_enable/post_disable).
+> > > 
+> > > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
+> > > drm_panel_bridge
+> > > API")
+> > > 
+> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > ---
+> > >  drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++++-------
+> > > --
+> > > --
+> > > --
+> > >  1 file changed, 26 insertions(+), 19 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > index 262c027d8c2f..e33caaca11a7 100644
+> > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > @@ -679,16 +679,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > > *dsi)
+> > >  	if (--dsi->refcount != 0)
+> > >  		return;
+> > >  
+> > > -	/*
+> > > -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> > > -	 * mtk_dsi_stop() should be called after
+> > > mtk_drm_crtc_atomic_disable(),
+> > > -	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> > > irq.
+> > > -	 * mtk_dsi_start() needs to be called in
+> > > mtk_output_dsi_enable(),
+> > > -	 * after dsi is fully set.
+> > > -	 */
+> > > -	mtk_dsi_stop(dsi);
+> > > -
+> > > -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+> > >  	mtk_dsi_reset_engine(dsi);
+> > >  	mtk_dsi_lane0_ulp_mode_enter(dsi);
+> > >  	mtk_dsi_clk_ulp_mode_enter(dsi);
+> > > @@ -703,17 +693,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > > *dsi)
+> > >  
+> > >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+> > >  {
+> > > -	int ret;
+> > > -
+> > >  	if (dsi->enabled)
+> > >  		return;
+> > >  
+> > > -	ret = mtk_dsi_poweron(dsi);
+> > > -	if (ret < 0) {
+> > > -		DRM_ERROR("failed to power on dsi\n");
+> > > -		return;
+> > > -	}
+> > > -
+> > >  	mtk_dsi_set_mode(dsi);
+> > >  	mtk_dsi_clk_hs_mode(dsi, 1);
+> > >  
+> > > @@ -727,7 +709,16 @@ static void mtk_output_dsi_disable(struct
+> > > mtk_dsi *dsi)
+> > >  	if (!dsi->enabled)
+> > >  		return;
+> > >  
+> > > -	mtk_dsi_poweroff(dsi);
+> > > +	/*
+> > > +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
 > > 
-> > The panel has been tested only with 2,2,1 configuration, so for
-> > now we blindly create 2,2,1 topology when DSC is enabled
+> > Why they are asymmetric?
 > > 
-> > Co-developed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> > Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++++++++++++
-> >  drivers/gpu/drm/msm/msm_drv.h               |  2 ++
-> >  2 files changed, 15 insertions(+)
+> > > +	 * mtk_dsi_stop() should be called after
+> > > mtk_drm_crtc_atomic_disable(),
+> > > +	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> > > irq.
+> > > +	 * mtk_dsi_start() needs to be called in
+> > > mtk_output_dsi_enable(),
+> > > +	 * after dsi is fully set.
+> > > +	 */
+> > > +	mtk_dsi_stop(dsi);
+> > > +
+> > > +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+> > >  
+> > >  	dsi->enabled = false;
+> > >  }
+> > > @@ -765,10 +756,26 @@ static void mtk_dsi_bridge_enable(struct
+> > > drm_bridge *bridge)
+> > >  	mtk_output_dsi_enable(dsi);
+> > >  }
+> > >  
+> > > +static void mtk_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+> > > +{
+> > > +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> > > +
+> > > +	mtk_dsi_poweron(dsi);
 > > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > index 95a7bf362e81..13ccb7b3cce5 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > @@ -574,8 +574,21 @@ static struct msm_display_topology dpu_encoder_get_topology(
-> >  	topology.num_enc = 0;
-> >  	topology.num_intf = intf_count;
-> >  
-> > +	if (dpu_enc->dsc) {
-> > +		/* In case of Display Stream Compression DSC, we would use
+> > Should you handle the error of mtk_dsi_poweron?
+> > If you failed to mtk_dsi_bridge_pre_enable and do
+> > mtk_dsi_bridge_enable,
+> > what will happend?
+> > 
+> > > +}
+> > > +
+> > > +static void mtk_dsi_bridge_post_disable(struct drm_bridge
+> > > *bridge)
+> > > +{
+> > > +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> > > +
+> > > +	mtk_dsi_poweroff(dsi);
+> > 
+> > If you failed to mtk_dsi_bridge_disable and you do
+> > mtk_dsi_bridge_post_disable,
+> > what will happend?
+> > Do you need to handle this?
+> > 
+> > BRs,
+> > Rex
+> > 
+> > > +}
+> > > +
+> > >  static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+> > >  	.attach = mtk_dsi_bridge_attach,
+> > >  	.disable = mtk_dsi_bridge_disable,
+> > >  	.enable = mtk_dsi_bridge_enable,
+> > > +	.pre_enable = mtk_dsi_bridge_pre_enable,
+> > > +	.post_disable = mtk_dsi_bridge_post_disable,
+> > >  	.mode_set = mtk_dsi_bridge_mode_set,
+> > >  };
+> > >  
+> > 
+> > 
 > 
-> Just like elsewhere, since you wrote out Display Stream Compression,
-> write the "DSC" abbreviation between parentheses ()?
+> Hi Rex:
+> 
+> Thanks for your review!
+> 
+> 1.Why they are asymmetric?
+> =>My understanding mtk_dsi_stop() and mtk_dsi_start() is to make dsi
+> switch from LP11 and HS mode.DSI has two working modes:
+> If it is cmd mode, the data sent is sent by LP11, and dsi_start is
+> just
+> a signal. In this mode, dsi_stop is not required after sending cmd.
+> If it is video mode, because the data needs to be sent in HS mode,
+> dsi_start is required to make dsi enter HS mode from LP11. After
+> suspend, drm will call dsi_disable, and call dsi_stop to make dsi
+> return from HS mode to LP11 state.
+> Therefore mtk_dsi_stop() and mtk_dsi_start() are asymmetric.
+> For example, in the dsi_host_transfer function, only dsi_stop has no
+> dsi_start operation.
+> 
+> 2.
+> Because the return type of pre_enable & post_disable in common code
+> is
+> void type. If there is an error, it will be processed in
+> poweron/poweroff, and the error message will be printed.
+> Do you mean that pre_enable & post_disable needs to accept the
+> poweron/poweroff error return value and then print the error log?
+> 
+> 3.
+> If pre_enable fails, there is only a problem with the dsi module, and
+> it does not affect the execution of other modules and enable funcs
+> under drm. 
+> Same goes for post_disable & disable.
+> 
+> Best Regrds!
+> xinlei
+> 
 
-Updated
+Hello Xinlei,
 
--- 
-~Vinod
+about failure for mtk_dsi_poweron(), it is all becuase of error setting
+for clock.
+If we do not set clock correctly and not enable DSI, after set DSI
+start, will it cause any issue? (maybe bus hang or something.)
+
+Because in original drivers, if mtk_dsi_poweron failed, the DSI will
+not start.
+
+IMO, it also needs some error message for mtk_dsi_bridge_pre_enable()
+and mtk_dsi_bridge_post_disable().
+
+BRs,
+Rex
+
