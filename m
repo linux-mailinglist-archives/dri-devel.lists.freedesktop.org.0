@@ -1,73 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506644E5781
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 18:29:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D479D4E5793
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 18:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B1F88AEF;
-	Wed, 23 Mar 2022 17:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFBA810E19E;
+	Wed, 23 Mar 2022 17:34:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5695C10E70D;
- Wed, 23 Mar 2022 17:29:16 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- m26-20020a05600c3b1a00b0038c8b999f58so5820117wms.1; 
- Wed, 23 Mar 2022 10:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BD210E154
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 17:34:15 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id k10so2391070oia.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 10:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=ASDoUJ3zeAVR04Hixyii2s4ZDLZ2ghGAUyq7O6FrkxY=;
- b=TDNYBCw/cCIArki9szXV1FqDpwdvdJNlVucSpP5vCvgvvD92i/pDNKgVvgNKDtu/ee
- y90exrz+rhYj+sYDfouQxL3blpGgeEfUouZe5gWo7v3WKpqFb/XotCm7H9vkgv50/02M
- +P77WvlhSTAW5g8KW38d3SkNBasBYeW7rntT7CFHqer4R8fimvwPiEouofsZw5ZMu7mN
- YD6eqFlUGDl6jbiywa014sESyCZtMd77pIJDXqgy3fkxoA1qSk4YZFsKWlLzOjLTA7RR
- GOarWZ1ikDfL0lb47+7gbH1wIEj6YJDmkFExLVbKhxdBBmf+t3d+tGIyLwMewE1xkWAY
- XUSg==
+ bh=Oc3j7qx+RVq8AEkfbcM8wdtLT4RMF7Jazn9wGYELKYo=;
+ b=lVkaipRA9cbbKsIlTwibO+57SxWnmiqryKv0QNJOucGwuc85AOdLhje9gbxr7u8Rdl
+ VpwYNmHEpSm8s83sTXx0BOm0SGiY2Zyb7uZqmf9JT83N1ufvMp8kqJbrf/JTsFgT0GV8
+ LP+8GyqiNFYGyloG+Q3LWwT01N2gsUJwTKOCI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ASDoUJ3zeAVR04Hixyii2s4ZDLZ2ghGAUyq7O6FrkxY=;
- b=JK43Lcn/mCNQ4iN2oJNDTadpGxX4+mCNHPy2sszIfgb8Ew8dyTRq9Dc5frroXfjTaQ
- p9xMTKkXNSmvgFq07/dkPCDArqP4KZQPt4m8a/zrrcQyIE6mBrzLmo/I+qX8EiWV9R7u
- WHUTx27iL57XIn1B+51UMoVrRvOSu3ukInBT74nyH7+D8Hy9Vp1gB+vU7Zg68wmYBpyd
- WThbUnhDhoq2h1Roy5wPpld2+yQShfR8+X4fumYum9Tc61anvAMMbd4ZZNrjfTsxkX+J
- wWsHKaMpppbRUwQeg5uErsD8WVfZAvrXroDX4/oaK1ycRLDDtT0/H47DP2IbAwGcxW9Z
- jq6g==
-X-Gm-Message-State: AOAM532BMaR3/8nZJAkqur7/wzlRA4jou/qGA0edqoK4aQziHVklA83I
- WUgER83oc520Y1WF8wG2tASTygtxM3QiXKfpf/E=
-X-Google-Smtp-Source: ABdhPJxSbzXfdm/xuHMVTRy75OZau51y/wMSV5nfyZDx/oIMGNMivR8bYhFY/JPoJZ3MlgFcGWvJttQ8HyunTdCsSZ8=
-X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
- f13-20020a7bcc0d000000b00381220ea3a0mr1037472wmh.59.1648056553524; Wed, 23
- Mar 2022 10:29:13 -0700 (PDT)
+ bh=Oc3j7qx+RVq8AEkfbcM8wdtLT4RMF7Jazn9wGYELKYo=;
+ b=OUtJgb/g3LmGyyIxPPnWehtAMqlstFcEWyAH+pBFslhvBdhbns7JVWqSpjOtZHCMOX
+ ruuQPdx9Nfqp1KB780W6rwKveKwT17krMXpAitBQKo0xwHjE3UzzrI8+dQ4aOU3j9AvS
+ ZXLB2J0IT8C/6c96ALyD5VOE3Z36semfTYJVza9yhGjaitE4OS96v5+L9NVfpDw8dYdq
+ dU2B8feLG1lmLLYNcNpaXKDgrYIfyz7s9ROMgNqJnJhQDxGe7kv/lyGa/oJFqggDptw9
+ mnz/tw/egYSDLcI00oZR43RSrPlzhEZIGXatShQMr/oLcv/+Jo9ne6H5vRHuYFT+xwjh
+ mPzQ==
+X-Gm-Message-State: AOAM531ztpqV2v89iYFxl0CMwi3xdMGx+BnepDVQj5DyHz64r1OF9OpQ
+ FqmsPKsgj4fn3SRJA6Drn2lJpUSh4VUeY4GyAXnYXg==
+X-Google-Smtp-Source: ABdhPJwpviu3DKqdy1TzqCT0HJi2lO9O1FtTVne+HEW/NX81Bk5OXD4zGWdVlTPf9979mrjITZUiEU+yyHfhF1gO/r0=
+X-Received: by 2002:a54:4099:0:b0:2ec:d31c:481d with SMTP id
+ i25-20020a544099000000b002ecd31c481dmr634810oii.7.1648056854641; Wed, 23 Mar
+ 2022 10:34:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220311102709.225616cf@eldfell>
- <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
- <20220314172647.223658d2@eldfell>
- <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
- <20220316104815.11ec2e6c@eldfell>
- <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
- <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
- <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
- <YjL/k6kh+5RihGIV@phenom.ffwll.local>
- <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
- <YjNvYmcuDKiIneDx@phenom.ffwll.local>
- <CAF6AEGvuMfKtf_aweai6y4oHghArE95uhR2X0f9h_9w4Bk_6VQ@mail.gmail.com>
- <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
- <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
- <3f0b7273-4562-7a55-e52a-bd64334886fd@amd.com>
- <CAF6AEGu6FabmcWE+NsPgnPU0=MpbA6bmO1KkJ2hrVDBLFY92xA@mail.gmail.com>
- <CAPj87rOx1uogqqKX8XZEnzpcKKY6W9TWHQFr-bgZyEU0-ftjVw@mail.gmail.com>
- <CAKMK7uFMmLLRQeONDOMpOg12p7moyrC-+hxVEqpa4hSFopbGtA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFMmLLRQeONDOMpOg12p7moyrC-+hxVEqpa4hSFopbGtA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 23 Mar 2022 10:30:00 -0700
-Message-ID: <CAF6AEGt79YOVj7p5oupRsCEV+7mNmTqvNgKTa1S2NPnx5zgX1A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-4-christian.koenig@amd.com>
+ <Yjse+S0bf4P6QTfu@phenom.ffwll.local>
+ <20220323163242.GJ64706@ziepe.ca>
+In-Reply-To: <20220323163242.GJ64706@ziepe.ca>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 23 Mar 2022 18:34:03 +0100
+Message-ID: <CAKMK7uHRnYSSrrP_4p2JLBhsXX4TZcPFm44LS9wEwOR1R+fBBA@mail.gmail.com>
+Subject: Re: [PATCH 04/23] RDMA: use dma_resv_wait() instead of extracting the
+ fence
+To: Jason Gunthorpe <jgg@ziepe.ca>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,82 +65,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Sharma,
- Shashank" <Shashank.Sharma@amd.com>,
+Cc: Leon Romanovsky <leon@kernel.org>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alexandar Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <contactshashanksharma@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Gal Pressman <galpress@amazon.com>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Maor Gottlieb <maorg@nvidia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 23, 2022 at 8:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Wed, 23 Mar 2022 at 17:32, Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> On Wed, 23 Mar 2022 at 15:07, Daniel Stone <daniel@fooishbar.org> wrote:
-> >
-> > Hi,
-> >
-> > On Mon, 21 Mar 2022 at 16:02, Rob Clark <robdclark@gmail.com> wrote:
-> > > On Mon, Mar 21, 2022 at 2:30 AM Christian K=C3=B6nig
-> > > <christian.koenig@amd.com> wrote:
-> > > > Well you can, it just means that their contexts are lost as well.
+> On Wed, Mar 23, 2022 at 02:22:01PM +0100, Daniel Vetter wrote:
+> > On Mon, Mar 21, 2022 at 02:58:37PM +0100, Christian K=C3=B6nig wrote:
+> > > Use dma_resv_wait() instead of extracting the exclusive fence and
+> > > waiting on it manually.
 > > >
-> > > Which is rather inconvenient when deqp-egl reset tests, for example,
-> > > take down your compositor ;-)
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
 > >
-> > Yeah. Or anything WebGL.
-> >
-> > System-wide collateral damage is definitely a non-starter. If that
-> > means that the userspace driver has to do what iris does and ensure
-> > everything's recreated and resubmitted, that works too, just as long
-> > as the response to 'my adblocker didn't detect a crypto miner ad'  is
-> > something better than 'shoot the entire user session'.
+> > Jason, can you ack this for merging through drm trees please?
 >
-> Not sure where that idea came from, I thought at least I made it clear
-> that legacy gl _has_ to recover. It's only vk and arb_robustness gl
-> which should die without recovery attempt.
+> Sure, it looks trivial, but I didn't see the whole series:
 >
-> The entire discussion here is who should be responsible for replay and
-> at least if you can decide the uapi, then punting that entirely to
-> userspace is a good approach.
->
-> Ofc it'd be nice if the collateral damage is limited, i.e. requests
-> not currently on the gpu, or on different engines and all that
-> shouldn't be nuked, if possible.
->
-> Also ofc since msm uapi is that the kernel tries to recover there's
-> not much we can do there, contexts cannot be shot. But still trying to
-> replay them as much as possible feels a bit like overkill.
+> Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
-It would perhaps be nice if older gens which don't (yet) have
-per-process pgtables to have gone with the userspace-replays (although
-that would require a lot more tracking in userspace than what is done
-currently).. but fortunately those older gens don't use "state
-objects" which could potentially be corrupted, but instead re-emit
-state in cmdstream, so there is a lot less possibility for bad
-collateral damage.  (On all the gens we also use gpu read-only buffers
-whenever the gpu does not need to be able to write them.)
-
-For newer stuff, the process isolation works pretty well.  In fact we
-recently changed MSM_PARAM_FAULTS to only report faults/hangs in the
-same address space, so the compositor is not even aware (and doesn't
-need to be aware).
-
-BR,
--R
-
-> -Daniel
->
-> > Cheers,
-> > Daniel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+The entire series reworks how dma_resv stores fences (and what exactly
+the mean), which is why we need to get users away from some of these
+low-level accessors and towards functions at a slightly higher level.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
