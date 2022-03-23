@@ -1,54 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D543A4E5149
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:26:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D93484E5165
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86C0110E69B;
-	Wed, 23 Mar 2022 11:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBDD10E6AA;
+	Wed, 23 Mar 2022 11:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A65A10E689;
- Wed, 23 Mar 2022 11:26:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648034790; x=1679570790;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=meqZnbbK7B8BK03iyZi+GqOjfSIM7QAQuJAs9z//UCY=;
- b=jJ2WoaqGww2Op/k0gTgNUXdS5Oip0mLFzyWxgBmYT/xTdH5OrPjQYkzm
- qcEgZDAtzIQ88mVLtsUJDjbzZsrsjhWYVppOUw+w0A7+GWzSfFGIMYokv
- 6B11L1RSU9mUVYzdMA/3x14spzR0LieMZLVOzXCqjXTzfv0JlQ1C5D9yc
- McbEEF8MIFYo1Ijle/rgV+QhDqo2pggTn2Bucb6wL5Y288g6db1STC9Qb
- OmghijSfX5Yt/Af6AQzKjthOtwUXKrshGAmtmzsGsDZ/HdMR00NR2I/Y1
- n9WGjso+rnaAkX9TjWU2DpJsYQwYE9k1Fv/ArYDr39PtPVKJgUOxiB8o1 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="238028784"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="238028784"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 04:26:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="544154191"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga007.jf.intel.com with ESMTP; 23 Mar 2022 04:26:27 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nWz8E-000K0P-HM; Wed, 23 Mar 2022 11:26:26 +0000
-Date: Wed, 23 Mar 2022 19:26:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v11] drm/amdgpu: add drm buddy support to amdgpu
-Message-ID: <202203231911.crbWBIZj-lkp@intel.com>
-References: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B12810E6A8;
+ Wed, 23 Mar 2022 11:38:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E85E9B81E83;
+ Wed, 23 Mar 2022 11:38:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A8D6C340E8;
+ Wed, 23 Mar 2022 11:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648035528;
+ bh=M/Dh2h9fc1xC5xqNZECVZBb5OmuJe1BOnjZx6fepzEY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=htDlw4iENMaAEL5aR/wecoIGkgxFP+l8XV4GuLqREX+XYISEk8wE9XC0qKAfXTN6K
+ avth8lzeYN9rucJXT9euLumKhxrY3jB5vnZKdugdSmzZFoMwy82o1jkENKnFfGASxu
+ qpkJfXlEHsfGDMEburHVKMyrS6r0XLt+eSJc1oqd/EurmaOUp/+l6SNXgMlQAsMPo7
+ +SksKC8lsS8UEmaI4l4gdtXOeOCt66Dm7uHoQ4LlQdHTl2Cpzcm9DLHaYjofZL8qKO
+ YiWOwfrS/Ehe9i87PBkksapIayNnXXbzGwWiUp7r3Xgp5LLr1lbLVdbifi0RXvw7Ip
+ cyyM/L9oY2IkQ==
+Date: Wed, 23 Mar 2022 17:08:44 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [Freedreno] [REPOST PATCH v4 10/13] drm/msm/disp/dpu1: Add
+ support for DSC in topology
+Message-ID: <YjsGxLt3ixy1nHxf@matsya>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-11-vkoul@kernel.org>
+ <20220217214417.hb6sdx53cs36us6j@SoMainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220217214417.hb6sdx53cs36us6j@SoMainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,76 +55,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
- kbuild-all@lists.01.org, matthew.auld@intel.com,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arunpravin,
+On 17-02-22, 22:44, Marijn Suijten wrote:
+> On 2022-02-10 16:04:20, Vinod Koul wrote:
+> > For DSC to work we typically need a 2,2,1 configuration. This should
+> > suffice for resolutions up to 4k. For more resolutions like 8k this won't
+> > work.
+> > 
+> > Also, it is better to use 2 LMs and DSC instances as half width results
+> > in lesser power consumption as compared to single LM, DSC at full width.
+> > 
+> > The panel has been tested only with 2,2,1 configuration, so for
+> > now we blindly create 2,2,1 topology when DSC is enabled
+> > 
+> > Co-developed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> > Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++++++++++++
+> >  drivers/gpu/drm/msm/msm_drv.h               |  2 ++
+> >  2 files changed, 15 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index 95a7bf362e81..13ccb7b3cce5 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -574,8 +574,21 @@ static struct msm_display_topology dpu_encoder_get_topology(
+> >  	topology.num_enc = 0;
+> >  	topology.num_intf = intf_count;
+> >  
+> > +	if (dpu_enc->dsc) {
+> > +		/* In case of Display Stream Compression DSC, we would use
+> > +		 * 2 encoders, 2 line mixers and 1 interface
+> 
+> LM is a layer mixer, not a line mixer, right?
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on a678f97326454b60ffbbde6abf52d23997d71a27]
-
-url:    https://github.com/0day-ci/linux/commits/Arunpravin-Paneer-Selvam/drm-amdgpu-add-drm-buddy-support-to-amdgpu/20220323-142749
-base:   a678f97326454b60ffbbde6abf52d23997d71a27
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220323/202203231911.crbWBIZj-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/5aa85728d353f9bcca7e25e17f800d014d77dee2
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Arunpravin-Paneer-Selvam/drm-amdgpu-add-drm-buddy-support-to-amdgpu/20220323-142749
-        git checkout 5aa85728d353f9bcca7e25e17f800d014d77dee2
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu.h:73,
-                    from drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:29:
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h:29:10: fatal error: amdgpu_vram_mgr.h: No such file or directory
-      29 | #include "amdgpu_vram_mgr.h"
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:73,
-                    from drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arcturus_ppt.c:27:
->> drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ttm.h:29:10: fatal error: amdgpu_vram_mgr.h: No such file or directory
-      29 | #include "amdgpu_vram_mgr.h"
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dmub/dmub_srv.h:67,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:35:
-   drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h: In function 'dmub_rb_flush_pending':
-   drivers/gpu/drm/amd/amdgpu/../display/dmub/inc/dmub_cmd.h:3049:26: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
-    3049 |                 uint64_t temp;
-         |                          ^~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:73,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:44:
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ttm.h: At top level:
->> drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ttm.h:29:10: fatal error: amdgpu_vram_mgr.h: No such file or directory
-      29 | #include "amdgpu_vram_mgr.h"
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +29 drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-
-    26	
-    27	#include <linux/dma-direction.h>
-    28	#include <drm/gpu_scheduler.h>
-  > 29	#include "amdgpu_vram_mgr.h"
-    30	#include "amdgpu.h"
-    31	
+Right, thanks for spotting
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+~Vinod
