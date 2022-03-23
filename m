@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12A24E555C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F314E5588
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:43:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC30210E6FC;
-	Wed, 23 Mar 2022 15:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5660910E736;
+	Wed, 23 Mar 2022 15:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B00510E6FC
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 15:35:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 71FD93201DE8;
- Wed, 23 Mar 2022 11:35:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 23 Mar 2022 11:35:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=4YNPjKCj77tyerqK9caWnIP27WFmmz+a/aytIK
- nfBVk=; b=V7nd4morSEv5GQN9la0HGa6JRZVuS7ERaHl8RYdPDGAe41RZ67cuCH
- 7iya3wPTcqnwRTL2SNlvaJEOIQRqs7bXsOkhY0aOKOWayupLMbqLKWEeXCjko8O7
- 6B+Q8h1djJLGkaJhFVTaqb7YNzUepOdlw+FpqPBpDU3/PgVNRGHotmBnpA2ZvJln
- WpKfkB0zUc5IBcUpohfpFNY3DKbymCn/1CZRPJoEA1qjxMcPKo1RvOg9Ie5MyMYG
- W/Wa/Crx70o/rli2IFzn5Ew0zD0Z2qeSGrruBAQi0meVWsCfc1K/TlaZcl5HpKLb
- w0QUXN4lF8xR2xkxPI5A4N+OoKSPwEXQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=4YNPjKCj77tyerqK9
- caWnIP27WFmmz+a/aytIKnfBVk=; b=gC1b8zyxbixlTapdtnaWIBtzGyv/eJVLo
- Q/mKwoBGhd9Pv8rDQGTp1eKyrgB2zkZ5WEl+YMf4Y8kVvhWRXVx2pSoVkGnF+4m2
- sZQea9nCkOb9BGP1I3fivgwSPGA/8dTK1tzr84MgkGMrC1RxUHsMw1PvKCYo3i3v
- VqLUx+IeJ1lOssCVO3ML7AqD1TAE6Ll92l8y1EP4eUdWMm6lfVh3MoHMKRcqcKTA
- 8eqeltgrrQ23yMuxFxlWYXOyewjPpRnmxSyGqB8bPNaVZEECJJHOV0LOm7L1JrYM
- enF5pDP6c8titgQc0wppQx59atmVImSlMGx7CXh8hZZGFBQ9xPz7g==
-X-ME-Sender: <xms:KD47YpqHfMW6rJy2FB8QdULtPKYQd7reCLLg_JA8bjmqZWljHq6GbA>
- <xme:KD47Yro0yM0ts9M7Wv9fZJvgDwmqbdPTHnZMSf4Iwk8ZTKnkUWIS6PEJX7nSK1YlI
- XZY7bdNkMayecbi3lQ>
-X-ME-Received: <xmr:KD47YmPndVwSlJHF_DjYjKEG_-HANR1PJFqnvllDI-BrC4JR84KQvXPWsAFnmlGcAQw0fivpkyV65dVwUibCIjnuiN2z71YE_ma6dPU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegjedgjeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KD47Yk7jPboIb5qwu6_ZjF-9X-_nll4CMAg-1YVCV5zJ0F2Bkq-6dQ>
- <xmx:KD47Yo6gvVJ29prOsFSn1MaQzYL6wQ4k8zyBV8eymZwaDdyjCbVeXg>
- <xmx:KD47YsiMy0DgpOsrheqRlNoXspm25ybgeB74en3zo4g_oqjrisUZ6Q>
- <xmx:KT47Yj0pPJwxf8ibKxse26kRgYpDXNFlIezbsAQ8Alx11l3hwsM6cw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Mar 2022 11:35:04 -0400 (EDT)
-Date: Wed, 23 Mar 2022 16:35:01 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v5 09/11] drm: bridge: icn6211: Add I2C configuration
- support
-Message-ID: <20220323153501.nmgye6hyo2bkocar@houat>
-References: <20220318184755.113152-1-marex@denx.de>
- <20220318184755.113152-10-marex@denx.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C66110E736;
+ Wed, 23 Mar 2022 15:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648050232; x=1679586232;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=moaXWnEhfol3pD/OuYljTh1bkTU2VPPY60ptbTXn+IA=;
+ b=Gi1j7IKqG3GWw8UWFlNpnIFGEMadiP9NKXw22jYwLqgj/j/GaMxuP/1N
+ ORB8ixUD29R5IA0Wjk1aWKenYxWaR4eAPfo15TfSgVymEagV1qs8dXPI4
+ YvqFEOySDGgVnqiRXCQjpQIfayNZ3MkK+BBVrDFCzzOolx71UscdMy0oa
+ FFf72qXzKGlcVrwVeFP5dsyHMs+q5uOM8vIz1zuVKxJBn7zBbkVLe7U00
+ Exhm4r8iQHdRZz9pcdYAfRgWZfdgUmtS5KzBGLSZpOhI12FRsWnmN1BrX
+ CGOrmRdAIcQIg3KkU/Owrr2whabMF1kddLhcDC8lUxp2BQgiEAdRM8JkL Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258328239"
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="258328239"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 08:43:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="583732588"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by orsmga001.jf.intel.com with SMTP; 23 Mar 2022 08:43:48 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 23 Mar 2022 17:43:48 +0200
+Date: Wed, 23 Mar 2022 17:43:48 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [Intel-gfx] [RFC 06/19] drm/edid: clean up cea_db_is_*() functions
+Message-ID: <YjtANOJjTC4Q4T3m@intel.com>
+References: <cover.1647985054.git.jani.nikula@intel.com>
+ <a9b83af4adfbc10296933958a057dddbb42bf769.1647985054.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eqyt3oazx7d7cmzq"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220318184755.113152-10-marex@denx.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9b83af4adfbc10296933958a057dddbb42bf769.1647985054.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +60,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Mar 22, 2022 at 11:40:35PM +0200, Jani Nikula wrote:
+> Abstract helpers for matching vendor data blocks and extended tags, and
+> use them to simplify all the cea_db_is_*() functions.
+> 
+> Take void pointer as parameter to allow transitional use for both u8 *
+> and struct cea_db *.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 113 ++++++++++++-------------------------
+>  1 file changed, 37 insertions(+), 76 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index c12c3cbab274..a0a5a7271658 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -4196,12 +4196,6 @@ do_hdmi_vsdb_modes(struct drm_connector *connector, const u8 *db, u8 len,
+>  	return modes;
+>  }
+>  
+> -static int
+> -cea_db_extended_tag(const u8 *db)
+> -{
+> -	return db[1];
+> -}
+> -
+>  static int
+>  cea_revision(const u8 *cea)
+>  {
+> @@ -4313,6 +4307,22 @@ static const void *cea_db_data(const struct cea_db *db)
+>  	return db->data;
+>  }
+>  
+> +static bool cea_db_is_extended_tag(const struct cea_db *db, int tag)
+> +{
+> +	return (cea_db_tag(db) == CEA_DB_EXTENDED_TAG &&
+> +		cea_db_payload_len(db) >= 1 &&
+> +		db->data[0] == tag);
+> +}
 
---eqyt3oazx7d7cmzq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+nit: not a huge fan of the redundant parens in all of these
 
-On Fri, Mar 18, 2022 at 07:47:53PM +0100, Marek Vasut wrote:
-> The ICN6211 chip starts in I2C configuration mode after cold boot.
-> Implement support for configuring the chip via I2C in addition to
-> the current DSI LP command mode configuration support. The later
-> seems to be available only on chips which have additional MCU on
-> the panel/bridge board which preconfigures the ICN6211, while the
-> I2C configuration mode added by this patch does not require any
-> such MCU.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> To: dri-devel@lists.freedesktop.org
+> +
+> +static bool cea_db_is_vendor(const struct cea_db *db, int vendor_oui)
 
-I still don't get why removing a line in a binding is too hard, but I
-guess I'll have to do it myself.
+I'd probably make the tag/oui unsigned.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Maxime
+> +{
+> +	const u8 *data = cea_db_data(db);
+> +
+> +	return (cea_db_tag(db) == CEA_DB_VENDOR &&
+> +		cea_db_payload_len(db) >= 3 &&
+> +		oui(data[2], data[1], data[0]) == vendor_oui);
+> +}
+> +
+>  static void cea_db_iter_edid_begin(const struct edid *edid, struct cea_db_iter *iter)
+>  {
+>  	memset(iter, 0, sizeof(*iter));
+> @@ -4443,79 +4453,44 @@ static void cea_db_iter_end(struct cea_db_iter *iter)
+>  	memset(iter, 0, sizeof(*iter));
+>  }
+>  
+> -static bool cea_db_is_hdmi_vsdb(const u8 *db)
+> +static bool cea_db_is_hdmi_vsdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_VENDOR)
+> -		return false;
+> -
+> -	if (cea_db_payload_len(db) < 5)
+> -		return false;
+> -
+> -	return oui(db[3], db[2], db[1]) == HDMI_IEEE_OUI;
+> +	return (cea_db_is_vendor(db, HDMI_IEEE_OUI) &&
+> +		cea_db_payload_len(db) >= 5);
+>  }
+>  
+> -static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)
+> +static bool cea_db_is_hdmi_forum_vsdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_VENDOR)
+> -		return false;
+> -
+> -	if (cea_db_payload_len(db) < 7)
+> -		return false;
+> -
+> -	return oui(db[3], db[2], db[1]) == HDMI_FORUM_IEEE_OUI;
+> +	return (cea_db_is_vendor(db, HDMI_FORUM_IEEE_OUI) &&
+> +		cea_db_payload_len(db) >= 7);
+>  }
+>  
+> -static bool cea_db_is_microsoft_vsdb(const u8 *db)
+> +static bool cea_db_is_microsoft_vsdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_VENDOR)
+> -		return false;
+> -
+> -	if (cea_db_payload_len(db) != 21)
+> -		return false;
+> -
+> -	return oui(db[3], db[2], db[1]) == MICROSOFT_IEEE_OUI;
+> +	return (cea_db_is_vendor(db, MICROSOFT_IEEE_OUI) &&
+> +		cea_db_payload_len(db) == 21);
+>  }
+>  
+> -static bool cea_db_is_vcdb(const u8 *db)
+> +static bool cea_db_is_vcdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+> -		return false;
+> -
+> -	if (cea_db_payload_len(db) != 2)
+> -		return false;
+> -
+> -	if (cea_db_extended_tag(db) != CEA_EXT_DB_VIDEO_CAP)
+> -		return false;
+> -
+> -	return true;
+> +	return (cea_db_is_extended_tag(db, CEA_EXT_DB_VIDEO_CAP) &&
+> +		cea_db_payload_len(db) == 2);
+>  }
+>  
+> -static bool cea_db_is_y420cmdb(const u8 *db)
+> +static bool cea_db_is_y420cmdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+> -		return false;
+> -
+> -	if (!cea_db_payload_len(db))
+> -		return false;
+> -
+> -	if (cea_db_extended_tag(db) != CEA_EXT_DB_420_VIDEO_CAP_MAP)
+> -		return false;
+> -
+> -	return true;
+> +	return cea_db_is_extended_tag(db, CEA_EXT_DB_420_VIDEO_CAP_MAP);
+>  }
+>  
+> -static bool cea_db_is_y420vdb(const u8 *db)
+> +static bool cea_db_is_y420vdb(const void *db)
+>  {
+> -	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+> -		return false;
+> -
+> -	if (!cea_db_payload_len(db))
+> -		return false;
+> -
+> -	if (cea_db_extended_tag(db) != CEA_EXT_DB_420_VIDEO_DATA)
+> -		return false;
+> +	return cea_db_is_extended_tag(db, CEA_EXT_DB_420_VIDEO_DATA);
+> +}
+>  
+> -	return true;
+> +static bool cea_db_is_hdmi_hdr_metadata_block(const void *db)
+> +{
+> +	return (cea_db_is_extended_tag(db, CEA_EXT_DB_HDR_STATIC_METADATA) &&
+> +		cea_db_payload_len(db) >= 3);
+>  }
+>  
+>  #define for_each_cea_db(cea, i, start, end) \
+> @@ -4651,20 +4626,6 @@ static void fixup_detailed_cea_mode_clock(struct drm_display_mode *mode)
+>  	mode->clock = clock;
+>  }
+>  
+> -static bool cea_db_is_hdmi_hdr_metadata_block(const u8 *db)
+> -{
+> -	if (cea_db_tag(db) != CEA_DB_EXTENDED_TAG)
+> -		return false;
+> -
+> -	if (db[1] != CEA_EXT_DB_HDR_STATIC_METADATA)
+> -		return false;
+> -
+> -	if (cea_db_payload_len(db) < 3)
+> -		return false;
+> -
+> -	return true;
+> -}
+> -
+>  static uint8_t eotf_supported(const u8 *edid_ext)
+>  {
+>  	return edid_ext[2] &
+> -- 
+> 2.30.2
 
---eqyt3oazx7d7cmzq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjs+JQAKCRDj7w1vZxhR
-xXhSAP9RZLRoBwZ+HoFyZlFCzwXVWDBw0ZynoUHpeskHmNUvbQD/XP5gXlBM/+bi
-IsLd6/SiQfL/0570SXLUK5Zg3D9aWgk=
-=Jdd0
------END PGP SIGNATURE-----
-
---eqyt3oazx7d7cmzq--
+-- 
+Ville Syrjälä
+Intel
