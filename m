@@ -1,84 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C07B4E5879
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 19:34:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EF44E589C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 19:43:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC9F89D61;
-	Wed, 23 Mar 2022 18:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFEF89AEA;
+	Wed, 23 Mar 2022 18:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DED89C2C
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 18:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648060486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U85CdVHnnfG9eAFYa89BSf7LBr6NOt2WJnasBhqaYB0=;
- b=BieNqnfEnlLyE7U56/D5nGR/coX5YeF6atTWU70O/rWntg+NJh9Utw0CtZPwXZiFNVb3NI
- aLoZVYz16V57DYyzyPmSn4/2bRiMBnk8foHM72n8iuLJcRkM0tYrgtuvuM7x2edXpjdLYK
- v+YyvBySxa1M7A/ONg9x1kwImZXtIKY=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-NcLrsjAWNwKI_AWicmeRrg-1; Wed, 23 Mar 2022 14:34:40 -0400
-X-MC-Unique: NcLrsjAWNwKI_AWicmeRrg-1
-Received: by mail-pg1-f200.google.com with SMTP id
- s188-20020a6377c5000000b003825c503580so1086864pgc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 11:34:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=U85CdVHnnfG9eAFYa89BSf7LBr6NOt2WJnasBhqaYB0=;
- b=c6QmFZBQ0oSW+ItaKkIZGzwKABeCvlo9lrwVYPoaNOH/g53UMdBz5Jd5LxdaaIbqZQ
- oDGRXvOdooE2t6UmvA59i9uBF7Q2atgTYrAlrU18YTKzOJM0yOMeSRgs/L1VubVXqDS2
- 1guNMdzhcuaMU3cL3k6X62rmGhVxTi5i+F26fKnWIM/n8uJJqFCX6iW/xNBw+DwC4aKr
- 7/5MsbrpiMqgfPuyNE1dNJYT7wwqqGJQ3fYLCcgttreOraFVo4BSees3ZEMU1tO/WVjH
- DqifG8I7StY+QNohi+VXYc7vRjIfhlGiniEFgLbbtD3GhDbtHGWuV4cKUStTeFjuHA9g
- k7XQ==
-X-Gm-Message-State: AOAM530Pv8LvNoBjnhCPVc0DSfaRCcxinF30enfebz8NQZOwQjrbbUq8
- NxwFMxOXFjYmny05VckQn3KgZg0P59IAJm5eDSWSMa86Hcfi37rknCIhmbIwAldj1WVJfIja/d6
- UTkZFmN3IsGiIbemMJUSzQB4F1Xs5
-X-Received: by 2002:a17:90a:9412:b0:1bc:f629:43bc with SMTP id
- r18-20020a17090a941200b001bcf62943bcmr13354131pjo.103.1648060479216; 
- Wed, 23 Mar 2022 11:34:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyKatXH+ycC6qdsW1mp8XBx2ICs82/rIL929En9JnekC+dV2oPEspBTF/VVxco9s8jqN0WBQ==
-X-Received: by 2002:a17:90a:9412:b0:1bc:f629:43bc with SMTP id
- r18-20020a17090a941200b001bcf62943bcmr13354087pjo.103.1648060478699; 
- Wed, 23 Mar 2022 11:34:38 -0700 (PDT)
-Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
- [96.230.100.15]) by smtp.gmail.com with ESMTPSA id
- rj13-20020a17090b3e8d00b001c77bc09541sm3942194pjb.51.2022.03.23.11.34.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 11:34:38 -0700 (PDT)
-Message-ID: <caccfb46822702b87947ba0c575db3e3b8e8a4ad.camel@redhat.com>
-Subject: Re: Parallel modesets and private state objects broken, where to go
- with MST?
-From: Lyude Paul <lyude@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 23 Mar 2022 14:34:35 -0400
-In-Reply-To: <Yjr1hCEUPu2Bb7Ax@phenom.ffwll.local>
-References: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
- <YjHDg3WTYgMDOzLF@intel.com>
- <9876d8fe5bdf5f942b06378ae973e18513297539.camel@redhat.com>
- <9a4783ac9eee57c29b584e5a9099a3e1667afa42.camel@redhat.com>
- <Yjr1hCEUPu2Bb7Ax@phenom.ffwll.local>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on2096.outbound.protection.outlook.com [40.107.113.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2F389AEA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 18:43:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cY426Ntsq8mTVuPlGb3o77AfLMajoQRO13ITB0HYTnYlI7URT5jjPMS9zZAgK0LjNlrHW8rXO8T25TxrxBz5FoQ5sAIFVaik9ITqKhmodOanhm2R9UkC69eLdJm2s9788ilRlUYjdfdkWce6BENeaXIRz0TDATb18iaxpC/gf23LQTOQKUxOuTAgButtFIL/vTugOl4xiizjG4YYSACIicAv/M/roX7ckWleMi7bMwz+vS4+A/4ScTbM5HAtVHiYO8YyqacWiWUd8UY/yvrmTwJrGjwX8qDm6OmjCif0yW/ypca5QGf4VmqiwKmoq57I0ZL4ze82mxO7bGNFLsyWQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m4mfu2uIbUQlgoAHD00rEc8eOhrn46lAbO7LB44/W3E=;
+ b=VmUlEE2SBQ6NoiVTF+PcMIPq+uaEQCC+J86w/uMTaq0P+mHaM5PLJw2q4pa8eNt+RlfFX635D1hTns0yOvQ8phPT/8ndVWWavkQtD0ZtGtD/+XZT7EzV7ZElbpbMfBE4r7xf00ckAgDkZVQ9x8Bce8oq5tBvJnH/cEJAHLOikPRS10ds2rWwykV/UKmQj4x0Rkfyrt0BejVFKBGgzLQfUCh11g/gWgbljNDNOa265gG90/3g+gyZS9cYLz4qWwMZS07p1QFkIGzRnx1QbzbhfOayXB7IKEYGm/MHA2s+uFO9lczucaOY15v9dMdLyHfSagIIAYhT+yAjc00FA9mnhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m4mfu2uIbUQlgoAHD00rEc8eOhrn46lAbO7LB44/W3E=;
+ b=Fwpw0PNGP7J868ZWA+LNwwykciRkIxVj7FBhKkKfHvkXsmgaMlMZVm04QrU+A7h918xqaXEkeHmMInNSJ4z6OeOOnf2rnDIRqVKcBFEgWtzqmZYchYDtyZxlnKsaq0F34N3SX0J+3Rga6gV2OzW2lvMnh9DH0PaqMAvj2h3euL4=
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
+ by TYAPR01MB4239.jpnprd01.prod.outlook.com (2603:1096:404:c9::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Wed, 23 Mar
+ 2022 18:43:34 +0000
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::2c9d:7128:8d19:7a24]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::2c9d:7128:8d19:7a24%8]) with mapi id 15.20.5081.023; Wed, 23 Mar 2022
+ 18:43:34 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
+ DSI TX bindings
+Thread-Topic: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
+ DSI TX bindings
+Thread-Index: AQHYN739eKkm02BV80+gG/89zR29V6zNVP+AgAABAfCAAAX58A==
+Date: Wed, 23 Mar 2022 18:43:34 +0000
+Message-ID: <TYCPR01MB5933D6C4D16F5C3454ADD7F386189@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+References: <20220314161004.14765-1-biju.das.jz@bp.renesas.com>
+ <20220314161004.14765-2-biju.das.jz@bp.renesas.com>
+ <YjtkMxC0X7mMvMKX@robh.at.kernel.org>
+ <TYCPR01MB593341D2E966F3C60ADAC8E986189@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB593341D2E966F3C60ADAC8E986189@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a990eabe-73d7-4f85-5dd9-08da0cfd0953
+x-ms-traffictypediagnostic: TYAPR01MB4239:EE_
+x-microsoft-antispam-prvs: <TYAPR01MB4239FFD7E249A84268D45A3B86189@TYAPR01MB4239.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RmvBrrOHtHEYxFU650yryZFEtXT6PuRbyH9NpmX61PsMaE4fHwjYhvkt94Eyk9lUbXdCMGfPEbi/OzHPdZEiU6QBUN2ErCA8d32/intLZhSTm0xPqXjjdUJytP66Q8X/KtHQ2lugG7WRLxjQJq8XNPQNZ2MW+6Pj+KXu1vZ3MUq6aWm/zGyuB6FId4/iwRRyfE1rXF0fuR61Mp7pbf0jkARgvnghXL0dlGZnV6P4c/5/QAyfPP3KAChE9HEKgN31ypdxYgaOJ+aQvB52YzXoJ6iftg7PCzgiPNkYQ77SGMQipT0xYjNdE8zVLPnetvw9i5zjXffYTtjnyLrWyQLq5MsGetwj17Bw6QoiPSRA/bGET8p1dYWUa6LmMREWpCHelbi1TjRo61fKWjfIGAMtTDu9lkY5HkxPv7XeNIzta2SpNipvMnYOqYbZl8lUt2pUOyj5OGpg8quBhmBw22xL0tlMYcaJSlTvJpIlvJW1YUb41ho2gaCQvV0DpbCacOFm2fm3CK0MNkyP1+j/RKKl8ohM/IYmYwuXJZAn+rPNN+BhR969cpeH/sGTVP8t+jVH4itpE3ZW7w9uipO//fGUi/kYIYG1PArSrbYXTOxBiqvw8x9kkVFzoj9sksU9PJjqvFNfSiRHbC3Q+5bT7xfWYVau+lfeQ3nZHJ1oDOLWyabT+LK7HKkUHkQ4+FXoQGEda4SWEJJsmPEugy718zKInQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB5933.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(316002)(9686003)(2906002)(83380400001)(6506007)(7696005)(8676002)(71200400001)(54906003)(110136005)(66446008)(66556008)(66946007)(76116006)(55016003)(64756008)(66476007)(8936002)(122000001)(4326008)(5660300002)(33656002)(52536014)(38100700002)(508600001)(186003)(26005)(2940100002)(86362001)(38070700005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dHEyP3slaOssb9GLmQqP4+75b27K93llvYmVyeluTAv0cKelAecRDnpK/KsU?=
+ =?us-ascii?Q?wEte8bjKKfjirLoQUUUlLmTNiBxiJXLS6lrs3EyJmLRVorGndQ91nVq2z75+?=
+ =?us-ascii?Q?N1YzhMzk7bvUnivcfuAhO2V5NGQShVluqD/RE+SnawLP+5MVcALdcWzmqhmf?=
+ =?us-ascii?Q?DQkpdK11Rl0rZu0kjRcCVXjq7mex3JX+Xyk4qIfF6QPhilpvo648lSOtsd5R?=
+ =?us-ascii?Q?qx5ThCfhLX++lJS1f1fLf870ZgVbxrkHLwSUocXeRPleJyryHU5qwB++p4Ux?=
+ =?us-ascii?Q?j3qpA3TnRfqEEzzqhqX/D++EnACU7itd5lvNPbyewcley2wE4nfJOy9lS5GW?=
+ =?us-ascii?Q?1TjY4PC+neF9tMwTa+ifcFkCRAxltfgAdcBMtS/tsfMjHdOdyCqqP8Mz3lp6?=
+ =?us-ascii?Q?a/eftGUe9vJ6bQ+7crdZIJ73htNxSC8Ta6teORXg1VOF+tBjbmFQVx61EJXn?=
+ =?us-ascii?Q?8VbJBC55Qv0JY0F1l2rcP0n3TYMqUOVHZCSwE5AVnMnI3K9I/F+q5mxXupyj?=
+ =?us-ascii?Q?9uIKWUs2K2pCiHv5885q3PjIAPk6A0voxQk93CMvNxjYckUleu8hdclWz5Mg?=
+ =?us-ascii?Q?5vv8zCrf81+HcmjSYtr5aRfbQYgqV0Nr+G2NwkKH4VtxwvBcPtkQJblXYkSU?=
+ =?us-ascii?Q?b5gbQTOx/UoHSmCZFIRt32XBnJyNFfrI1/THANMSyx6yK0CD0v09kPHWE0rG?=
+ =?us-ascii?Q?yFUf4k6jdETl/FEbNVULeJ1DLReYS88JjVjJhGM2cbTlSsPn7ZhCNzQX4sv2?=
+ =?us-ascii?Q?mjSw2fHqL5GMaxMW4+ce1hQ0HS6oCGfptJ2UinesNorSaXR/3qnVeanGGs4F?=
+ =?us-ascii?Q?5ofy9nciDWbiKTi4SqOWxEFmbpJWGY1QYNrFA3y2yASyJbmXKzqCUK+rUFDL?=
+ =?us-ascii?Q?G0y0R1U44iHyI/e0bwNj3iGZKSNtKr8yvnv+pg6lO6azV2vlSJmZef+ChiUm?=
+ =?us-ascii?Q?e8/cnOr633xh/9rzqd/iwqrGJoGhzGVnUXdJLqmcX5CRBlJIOJDMc8gzZHrW?=
+ =?us-ascii?Q?ugvTnlBqvcB9oVL5xRwX3GoT+KoVr9vtlLJfLhTl2htyLP0iqHHkeT3O5aM4?=
+ =?us-ascii?Q?K+uWKuwkxltGP3WUyQu2s95yOJ8DRfoYPQBykJOcyWbC+QkvQs64LBBEfS27?=
+ =?us-ascii?Q?9JUVT8ypMKfZ8S4IAN1motd8Th15uw8O9QjVxuJvyv/ebJxFSMh7GW6h3s1u?=
+ =?us-ascii?Q?CJJW0p8r5/k7rtqfxv7wyLiNik2ib6H3mcDOjkXH7vOt14omVgCkZdMe9SmS?=
+ =?us-ascii?Q?Rhdt+tfDh/xYdXCKwOHwjILWOj0xJn9OgLG/1pC0a6ZazVUL3bWfjnOQY6R0?=
+ =?us-ascii?Q?YjOzbXa8orcKiMEMGgijVT2D/1ZFqPk8ZMd68mxTHJx5pqceNSWC0AzJnnA3?=
+ =?us-ascii?Q?jKmcei+V92CfMj5JREflr3HrMflqrdTWSjVYeKAYcgsjj7y0r9qKnEerGd4W?=
+ =?us-ascii?Q?AUJDNpT9tizpXM99+i3yuzb8qGBVQ7/PNLs5VuIVeCu6hQrbOk2suA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a990eabe-73d7-4f85-5dd9-08da0cfd0953
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2022 18:43:34.8595 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zVBqeE37zbwsRDJBq/s1t0cFRjaoE/RaTp13DU85TLIMUgy/XND3S2vtsLmdHX0mYLImDHySafRrqGb86fhjRSAdqtDmLoW+GMhnbvPAMd4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4239
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,363 +120,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-03-23 at 11:25 +0100, Daniel Vetter wrote:
-> On Tue, Mar 22, 2022 at 05:37:40PM -0400, Lyude Paul wrote:
-> > OK so - this has become a bit of a larger rabbit hole. I've been putting
-> > quite
-> > a bit of work into this and I think I'm starting to make some progress -
-> > although on a different aspect of this issue. After talking with danvet
-> > they
-> > realized that we're also potentially not handling encoder stealing with
-> > MST
-> > correctly - which we need to do in order to know that we're correctly
-> > pulling
-> > in every related crtc/connector into the state - along with avoiding
-> > encoder
-> > conflicts if something tries to use a GPU's DP encoder in SST mode while
-> > it's
-> > driving other displays in MST mode.
-> > 
-> > So - it seems this will likely need to be solved first before we can deal
-> > with
-> > ensuring that we perform the correct CRTC waits in atomic commits with the
-> > MST
-> > helpers. This has been pretty painful to figure out, but I think I'm
-> > starting
-> > to make some progress - but I'd really appreciate getting some feedback on
-> > this approach I've came up with so I maybe can skip having to rewrite it
-> > later.
-> > 
-> > So: to clarify the problem, it boils down to something like this:
-> > 
-> > State 1:
-> >   * DP-1 (hosts MST topology, so is disconnected + no encoder)
-> >     * MST topology
-> >       * DP-2 (has display)
-> >       * DP-3 (has display)
-> >   (In hardware)
-> >   * drm_encoder A drives:
-> >     * DP-2
-> >     * DP-3
-> >   (In software)
-> >   * drm_encoder A unused
-> >   * Fake MST drm_encoder B -> DP-2
-> >   * Fake MST drm_encoder C -> DP-3
-> > 
-> > Problems:
-> >   * DP-1 gets disconnected, MST topology disappears
-> >   * We disable maybe 1 display
-> >   * DP-1 is disconnected, suddenly replaced with SST display
-> >   * Driver tries to assign drm_encoder A to new DP-1 display
-> >   *** Error! drm_encoder A is still driving fake encoders B and C ***
-> > 
-> > 
-> > I'm not sure if the exact above example would actually happen - you
-> > might need to do some tricks to get it into such a state. But you get
-> > the general idea - there's missing coverage with how we handle encoder
-> > conflicts when it comes to encoders that aren't directly handling CRTCs.
-> > If we can fix this, I think we should be able to reliably figure out
-> > every CRTC involved in modesets like this - and ensure that nonblocking
-> > modesets come up with the right CRTC dependencies.
-> > 
-> > My current idea for handling this is as follows:
-> >   * Add the following fields to drm_connector_state:
-> >     * reserved_encoder → an encoder that is "reserved" by the connector,
-> >       but is not directly attached to a monitor. Note reserved
-> >       connectors cannot have CRTCs attached to them. When a connector
-> >       has no more CRTCs reserved, it should lose it's reserved encoder.
-> >     * dependent_crtcs → a bitmask of CRTCs that depend on this
-> >       connector's state, but are not directly attached to it.
-> >   * Add the following fields to drm_crtc_state:
-> >     * connector_dependency → a connector whose state this CRTC relies
-> >       on, but is not directly attached to. This connector must be pulled
-> >       into the atomic state whenever this CRTC requires a modeset.
-> > 
-> > The reason for adding all of these fields to drm_connector_state and
-> > drm_crtc_state is because I don't think it's possible for us to rely on
-> > a particular private object being in all atomic states - so we need a
-> > way for the DRM core to be able to understand these object relationships
-> > on it's own and reference them from any type of atomic state change so
-> > that we can pull in dependent CRTCs as needed.
-> 
-> Why would tracking the mst private state object not be good enough? In any
-> of the modesets which touch mst state you'd need to grab the mst state to
-> change anything anyway (or there's a quite serious driver bug somewhere),
-> so the private object should always be part of actual modeset changes.
-> 
-> Maybe there's some creative ways for drivers to get this wrong, but then I
-> think it'd be better to think about how to prevent those than work around
-> it. Since doing an mst modeset without having the mst state handy sounds
-> rather broken irrespective of nonblocking atomic commit issues.
-> 
-> > From there, we'd just:
-> >   * Add some functions to handle these new fields, something like:
-> >     * drm_atomic_reserve_crtc_for_connector(crtc, encoder, conn_state)
-> >     * drm_atomic_release_crtc_from_connector(crtc, conn_state)
-> >   * Teach the various DRM core functions how to handle these new fields
-> > 
-> > Does this seem like I'm on the right track so far? JFYI - I've been busy
-> > trying to write up some patches for this, but there's definitely a lot
-> > of code to go through and change.
-> 
-> tbh your entire scheme feels like adding commit tracking for private state
-> objects, except we somehow don't track it on the private state itself, but
-> instead spread it all around to semi-related existing modeset objects. And
-> note that wrt the atomic commit machinery, drm_encoder isn't even a
-> modeset object (it has no state of its own and is fully tracked by the
-> (crtc, connector) combo). So this all feels very backwards.
-> 
-> Plus vc4 shows that there's other cases where tracking on the private
-> state object is needed, mst wouldn't be the only thing. Your scheme would
-> not be useful for vc4 at all, only for mst dependency tracking.
-> 
-> Also the encoder has the additional fun that there's multiple fake
-> encoders for a single real mst port, whereas the mst state is an actual
-> single struct per mst port.
-> 
-> Note that drm_crtc_commit is intentionally a stand-alone refcounted thing,
-> so that it can attached to random other pieces for tracking dependencies,
-> and we do attache them to various pieces all over already (for connector
-> and plane switching). Your proposal is inventing a new way to track
-> cross-crtc dependencies, and I'm confused why that's needed.
-> 
-> I guess in all this I don't get in what way your proposal here is better
-> than just adding dependency tracking to private state structs?
+Hi Rob,
 
+> Subject: RE: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L
+> MIPI DSI TX bindings
+>=20
+> Hi Rob,
+>=20
+> Thanks for the feedback.
+>=20
+> > Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L
+> > MIPI DSI TX bindings
+> >
+> > On Mon, Mar 14, 2022 at 04:10:02PM +0000, Biju Das wrote:
+> > > The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's=
+.
+> > > It can operate in DSI mode, with up to four data lanes.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > RFC->v1:
+> > >  * Added a ref to dsi-controller.yaml.
+> > > RFC:-
+> > >  *
+> > > ---
+> > >  .../bindings/display/bridge/renesas,dsi.yaml  | 146
+> > > ++++++++++++++++++
+> > >  1 file changed, 146 insertions(+)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > > b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > > new file mode 100644
+> > > index 000000000000..74bc3782d230
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.y
+> > > +++ am
+> > > +++ l
+> > > @@ -0,0 +1,146 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > > +---
+> > > +$id:
+> > > +
+> > > +title: Renesas RZ/G2L MIPI DSI Encoder
+> > > +
+> > > +maintainers:
+> > > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > > +
+> > > +description: |
+> > > +  This binding describes the MIPI DSI encoder embedded in the
+> > > +Renesas
+> > > +  RZ/G2L family of SoC's. The encoder can operate in DSI mode with
+> > > +up
+> > > +  to four data lanes.
+> > > +
+> > > +allOf:
+> > > +  - $ref: ../dsi-controller.yaml#
+> >
+> > Full path preferred:
+> >
+> > /schemas/display/dsi-controller.yaml#
+>=20
+> OK. Will fix this.
+>=20
+> >
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - renesas,rzg2l-mipi-dsi # RZ/G2L and RZ/V2L
+> > > +
+> > > +  reg:
+> > > +    items:
+> > > +      - description: Link register
+> > > +      - description: D-PHY register
+> >
+> > D-PHY is not a separate block?
 
-I wonder if I was misunderstanding the issue you were pointing out then. The
-reason I ended up trying to add this to the connector structs is because I
-thought one of the issues that you brought up was the fact that we wouldn't be
-able to handle encoder conflicts with the MST encoder properly because of the
-fake encoder - and that issue would cause us not to be able to properly
-determine which CRTCs we need to block on for commits that try to use the real
-encoder behind the fake encoder later. I had attempted this because in such a
-situation, it doesn't seem like we'd be guaranteed that the MST manager would
-actually be in the state if say - the only thing we're doing is trying to
-enable an SST display on a connector that previously had an MST topology
-(which has since been disabled in a non-blocking commit that hasn't finished
-yet).
+Got it. I will model as a single block.
 
-So I guess I'm not really sure where to go from here then? This whole rabbit
-hole dive started from me trying to move MST over to using private objects for
-state tracking as much as possible - which lead to questions on whether or not
-that would be safe at all with MST because of connectors changing and fake
-encoders. FWIW The issue that started things was me asking whether we could
-fill certain information into a private object's state from the context of an
-atomic commit (since this makes certain aspects of payload table management
-easier). So I'm really just looking for a way to make these things work, and
-ensure that we're not doing anything unsafe by using the private state for the
-topology manager this way.
+Regards,
+Biju
 
-> 
-> Cheers, Daniel
-> 
-> > 
-> > On Wed, 2022-03-16 at 16:28 -0400, Lyude Paul wrote:
-> > > On Wed, 2022-03-16 at 13:01 +0200, Ville Syrjälä wrote:
-> > > > On Mon, Mar 14, 2022 at 06:16:36PM -0400, Lyude Paul wrote:
-> > > > > Hi! First a little bit of background: I've recently been trying to
-> > > > > get
-> > > > > rid
-> > > > > of
-> > > > > all of the non-atomic payload bandwidth management code in the MST
-> > > > > helpers
-> > > > > in
-> > > > > order to make it easier to implement DSC and fallback link rate
-> > > > > retraining
-> > > > > support down the line. Currently bandwidth information is stored in
-> > > > > two
-> > > > > places, partially in the MST atomic state and partially in the mst
-> > > > > manager's
-> > > > > payload table (which exists outside of the atomic state and has its
-> > > > > own
-> > > > > locking). The portions in the atomic state are used to try to
-> > > > > determine
-> > > > > if
-> > > > > a
-> > > > > given display configuration can fit within the given bandwidth
-> > > > > limitations
-> > > > > during the atomic check phase, and are implemented through the use
-> > > > > of
-> > > > > private
-> > > > > state objects.
-> > > > > 
-> > > > > My current goal has been to move as much of this as possible over to
-> > > > > the
-> > > > > atomic state and entirely get rid of the payload table along with
-> > > > > it's
-> > > > > locks.
-> > > > > My main reason for doing this is that it both decomplicates things
-> > > > > quite
-> > > > > a
-> > > > > bit, and I'm really also hoping that getting rid of that payload
-> > > > > code
-> > > > > will
-> > > > > make it clearer to others how it works - and stop the influx of
-> > > > > bandaid
-> > > > > patches (e.g. adding more and more special cases to MST to fix
-> > > > > poorly
-> > > > > understood issues being hit in one specific driver and nowhere else)
-> > > > > that
-> > > > > I've
-> > > > > had to spend way more time then I'd like trying to investigate and
-> > > > > review.
-> > > > > 
-> > > > > So, the actual problem: following a conversation with Daniel Vetter
-> > > > > today
-> > > > > I've
-> > > > > gotten the impression that private modesetting objects are basically
-> > > > > just
-> > > > > broken with parallel modesets? I'm still wrapping my head around all
-> > > > > of
-> > > > > this
-> > > > > honestly, but from what I've gathered: CRTC atomic infra knows how
-> > > > > to do
-> > > > > waits
-> > > > > in the proper places for when other CRTCs need to be waited on to
-> > > > > continue
-> > > > > a
-> > > > > modeset, but there's no such tracking with private objects. If I
-> > > > > understand
-> > > > > this correctly, that means that even if two CRTC modesets require
-> > > > > pulling
-> > > > > in
-> > > > > the same private object state for the MST mgr: we're only provided a
-> > > > > guarantee
-> > > > > that the atomic checks pulling in that private object state won't
-> > > > > concurrently. But when it comes to commits, it doesn't sound like
-> > > > > there's
-> > > > > any
-> > > > > actual tracking for this and as such - two CRTC modesets which have
-> > > > > both
-> > > > > pulled in the MST private state object are not prevented from
-> > > > > running
-> > > > > concurrently.
-> > > > > 
-> > > > > This unfortunately throws an enormous wrench into the MST atomic
-> > > > > conversion
-> > > > > I've been working on - as I was under the understanding while
-> > > > > writing
-> > > > > the
-> > > > > code
-> > > > > for this that all objects in an atomic state are blocked from being
-> > > > > used
-> > > > > in
-> > > > > any new atomic commits (not checks, as parallel checks should be
-> > > > > fine in
-> > > > > my
-> > > > > case) until there's no commits active with said object pulled into
-> > > > > the
-> > > > > atomic
-> > > > > state. I certainly am not aware of any way parallel modesetting
-> > > > > could
-> > > > > actually
-> > > > > be supported on MST, so it's not really a feature we want to deal
-> > > > > with
-> > > > > at
-> > > > > all
-> > > > > besides stopping it from happening. This also unfortunately means
-> > > > > that
-> > > > > the
-> > > > > current atomic modesetting code we have for MST is potentially
-> > > > > broken,
-> > > > > although I assume we've never hit any real world issues with it
-> > > > > because
-> > > > > of
-> > > > > the
-> > > > > non-atomic locking we currently have for the payload table.
-> > > > > 
-> > > > > So, Daniel had mentioned that supposedly you've been dealing with
-> > > > > similar
-> > > > > issues with VC4 and might have already made progress on coming up
-> > > > > with
-> > > > > ways to
-> > > > > deal with it. If this is all correct, I'd definitely appreciate
-> > > > > being
-> > > > > able
-> > > > > to
-> > > > > take a look at your work on this to see how I can help move things
-> > > > > forward.
-> > > > > I've got a WIP of my atomic only MST branch as well:
-> > > > > 
-> > > > > https://gitlab.freedesktop.org/lyudess/linux/-/commits/wip/mst-atomic-only-v1
-> > > > > 
-> > > > > However it's very certainly broken right now (it compiles and I had
-> > > > > thought it
-> > > > > worked already, but I realized I totally forgot to come up with a
-> > > > > way of
-> > > > > doing
-> > > > > bookkeeping for VC start slots atomically - which is what led me
-> > > > > down
-> > > > > this
-> > > > > current rabbit hole), but it should at least give a general idea of
-> > > > > what
-> > > > > I'm
-> > > > > trying to do.
-> > > > > 
-> > > > > Anyway, let me know what you think.
-> > > > 
-> > > > For MST in particular parallel modeset on the same physical link
-> > > > sounds
-> > > > pretty crazy to me. Trying to make sure everything happens in the
-> > > > right
-> > > > order would not be pleasant. I think a simple solution would be just
-> > > > to
-> > > > add all the crtcs on the affected link to the state and call it a day.
-> > > 
-> > > JFYI I definitely don't have any kind of plan to try parallel
-> > > modesetting
-> > > with
-> > > MST, I think it'd be near impossible to actually get working correctly
-> > > for
-> > > pretty little benefit :). I was just not entirely sure of the work that
-> > > would
-> > > be required to get private objects to do the right thing here in
-> > > parallel
-> > > modesets (e.g. make sure we wait on all CRTC commits like you
-> > > mentioned).
-> > > 
-> > > Anyway - I looked at the code for this the other day and a solution that
-> > > seems
-> > > pretty reasonable for this to me would be to add a hook for DRM private
-> > > objects which provides drivers a spot to inform the DRM core what
-> > > drm_crtc_commits need to be waited on before starting a modeset. I
-> > > should
-> > > have
-> > > some patches on the list soon so folks can tell me if what I'm doing
-> > > looks
-> > > sensible or not :).
-> > > 
-> > > > 
-> > > > i915 already does that on modern platforms actually because the
-> > > > hardware architecture kinda needs it. Although we could perhaps
-> > > > optimize it a bit to skip it in some cases, but not sure the
-> > > > extra complexity would really be justified.
-> > > > 
-> > > > In i915 we also serialize *all* modesets by running them on a
-> > > > ordered wq (+ explicit flush_workqueue() to serialize non-blocking
-> > > > vs. blocking modesets). We did semi-accidentally enable parallel
-> > > > modesets once but I undid that because there was just way too much
-> > > > pre-existing code that wasn't even considering the possibility of
-> > > > a parallel modeset, and I didn't really feel like reviewing the
-> > > > entire codebase to find all of it.
-> > > > 
-> > > 
-> > 
-> > -- 
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> > 
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+>=20
+> Basically D-PHY is integrated inside MIPI-DSI Tx module.
+>=20
+> MIPI-DSI Tx module consists of MIPI DSI-2 Host controller (LINK) and MIPI
+> D-PHY Tx(D-PHY).
+>=20
+> That is the reason I have modelled like this.
+>=20
+> Is this model ok or am I missing something here? Please let me know.
+>=20
+> >
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: DSI D-PHY PLL multiplied clock
+> > > +      - description: DSI D-PHY system clock
+> > > +      - description: DSI AXI bus clock
+> > > +      - description: DSI Register access clock
+> > > +      - description: DSI Video clock
+> > > +      - description: DSI D_PHY Escape mode Receive clock
+> >
+> > D-PHY
+> OK, Will fix this.
+>=20
+> Regards,
+> Biju
+> >
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: pllclk
+> > > +      - const: sysclk
+> > > +      - const: aclk
+> > > +      - const: pclk
+> > > +      - const: vclk
+> > > +      - const: lpclk
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  resets:
+> > > +    items:
+> > > +      - description: MIPI_DSI_CMN_RSTB
+> > > +      - description: MIPI_DSI_ARESET_N
+> > > +      - description: MIPI_DSI_PRESET_N
+> > > +
+> > > +  reset-names:
+> > > +    items:
+> > > +      - const: rst
+> > > +      - const: arst
+> > > +      - const: prst
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description: Parallel input port
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description: DSI output port
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: /schemas/media/video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +
+> > > +            properties:
+> > > +              data-lanes:
+> > > +                minItems: 1
+> > > +                maxItems: 4
+> > > +
+> > > +            required:
+> > > +              - data-lanes
+> > > +
+> > > +    required:
+> > > +      - port@0
+> > > +      - port@1
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - power-domains
+> > > +  - resets
+> > > +  - reset-names
+> > > +  - ports
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > > +
+> > > +    dsi0: dsi@10860000 {
+> > > +        compatible =3D "renesas,rzg2l-mipi-dsi";
+> > > +        reg =3D <0x10860000 0x10000>,
+> > > +              <0x10850000 0x10000>;
+> > > +        power-domains =3D <&cpg>;
+> > > +        clocks =3D <&cpg CPG_MOD R9A07G044_MIPI_DSI_PLLCLK>,
+> > > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_SYSCLK>,
+> > > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_ACLK>,
+> > > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_PCLK>,
+> > > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_VCLK>,
+> > > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_LPCLK>;
+> > > +        clock-names =3D "pllclk", "sysclk", "aclk", "pclk", "vclk",
+> > "lpclk";
+> > > +        resets =3D <&cpg R9A07G044_MIPI_DSI_CMN_RSTB>,
+> > > +                 <&cpg R9A07G044_MIPI_DSI_ARESET_N>,
+> > > +                 <&cpg R9A07G044_MIPI_DSI_PRESET_N>;
+> > > +        reset-names =3D "rst", "arst", "prst";
+> > > +
+> > > +        ports {
+> > > +            #address-cells =3D <1>;
+> > > +            #size-cells =3D <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg =3D <0>;
+> > > +                dsi0_in: endpoint {
+> > > +                    remote-endpoint =3D <&du_out_dsi0>;
+> > > +                };
+> > > +            };
+> > > +
+> > > +            port@1 {
+> > > +                reg =3D <1>;
+> > > +                dsi0_out: endpoint {
+> > > +                    data-lanes =3D <1 2 3 4>;
+> > > +                    remote-endpoint =3D <&adv7535_in>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +...
+> > > --
+> > > 2.17.1
+> > >
+> > >
