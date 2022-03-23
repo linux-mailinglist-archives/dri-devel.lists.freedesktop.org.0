@@ -1,54 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E46D4E5652
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 17:27:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240564E5686
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 17:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C947610E6E0;
-	Wed, 23 Mar 2022 16:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F75110E059;
+	Wed, 23 Mar 2022 16:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 601C310E290;
- Wed, 23 Mar 2022 16:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648052858; x=1679588858;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MYuECh6fuUVEGKelEUsTRQJZ1caHRKaD8i26G/qP4og=;
- b=HGN8sPRuKkZ318hS5eZ5GFNNQeRwvOhk4O+qVebysqztjB19bOM/zZEp
- nNvx5aXbOYOQ824PyUhKMnhv9pQl1gos8DeXpZesLhs9JcLPh8BaUnXjt
- m6uN8oNswOnx4ZiWtHws8GVqC7N3pBhxKdr/9kJ3h5J+/kHADfY/32je3
- RAteZge53ZnkbFtjIQYnkNx+LoZGJAYoHU8QTvM4wKheh+JuAbeIKkCOZ
- syfSlkZ8m3TQFsd5slxhWhAaqm4Gkmf1i0qLFHUlsMhnwjcNwtxaU3vo/
- kFzkO7fnJudia5T+0NQBAwx2Oi0A/RUe29yFutRVD8T45M4D2Un7lICdk w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="283006025"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="283006025"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 09:18:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="519420543"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by orsmga006.jf.intel.com with SMTP; 23 Mar 2022 09:18:41 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 23 Mar 2022 18:18:40 +0200
-Date: Wed, 23 Mar 2022 18:18:40 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [RFC 09/19] drm/edid: convert drm_edid_to_sad() to
- use cea db iter
-Message-ID: <YjtIYButRBTVm5rx@intel.com>
-References: <cover.1647985054.git.jani.nikula@intel.com>
- <fb35ac3c561f6ff98374ebeb2fb3a4fb8a22974e.1647985054.git.jani.nikula@intel.com>
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE8910E059
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 16:32:45 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id e22so1604095qvf.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 09:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=7LH/BAJ5JIiAI3E0xe273jWZ+iAloz6/lGJSM6J+7qc=;
+ b=UUg+s18BivN7Ydyj2Ln4yb45sBSGsRz/zT14LWD4Y+rRELLyXCvQHk7hpbcgzcn9ni
+ iy7BZaBsQjGIOpygvNMl82NGgay+S5LVTg5lmNUc78+cJgwEsRZ0B9XrcRyZabJgrvNA
+ cq0g3tEKC3UHqTl2QJGv7BrfJAQRwk3P5WA6WtnGGrBfcEYTK5TWAQjyOD1Prb489rZZ
+ XJ5aS0AX8Q52whoJ//Ckj0x+hXg66HJEC3iA3mAgAtkYr21rDnaxQAKiQ94mV0LftGSU
+ 82uSFpw5H/NuKHm6o6yJA9aFV8Bewpep2O2QYCeJPO5wDvtPvcrUm13o9et24+K65FO0
+ 0Irg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7LH/BAJ5JIiAI3E0xe273jWZ+iAloz6/lGJSM6J+7qc=;
+ b=Q8YQSFhSSG/y+Zu7IiiDcKvXu5IADid9E8Z/PxRgKdmNzNUPt7U6IleTpujZlqtwgN
+ z0TdK5UuY2+SIMri6pE/SGq1Or1RCPT2kfbBk5x4hZwhKtmBNriabyzUa0KtOL14fj4D
+ FE1fNQCfVbE3bOqHwyqPaOHxKOxtFbg6wqFZNumUAPaGhcJem7qqKlSFKCPiOjPFUqPq
+ FB3Tb2xQyhX/e2m3rezvbAUDe1qsakHuaIGdJRxdU86yDSm9paY3jWSvoy2qBG+V5i1S
+ fQTPOKZXpcp7zwtC6p9daaNq8PSU2ayaITHgvA2i3OCIgikmVwEyBpsHXO6k7QWOSoVG
+ /5eA==
+X-Gm-Message-State: AOAM531BMA1w8K8qmQl2vD4BMNLC4f21kq56A1Bbdb2bmnvuk3f15rEo
+ qeFmsbxA4SVxUOTKgZkfVUVeIw==
+X-Google-Smtp-Source: ABdhPJyZieS4yH7sj5HKr466jKN3HJ6IQr0Aix1wpCOMBxPMNqtld1II12OSbI55/DAsq2dmJpfpNg==
+X-Received: by 2002:ad4:5a11:0:b0:441:1485:33ff with SMTP id
+ ei17-20020ad45a11000000b00441148533ffmr340193qvb.127.1648053164217; 
+ Wed, 23 Mar 2022 09:32:44 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
+ h206-20020a379ed7000000b0067b5192da4csm214905qke.12.2022.03.23.09.32.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 09:32:43 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1nX3uc-004xPv-BA; Wed, 23 Mar 2022 13:32:42 -0300
+Date: Wed, 23 Mar 2022 13:32:42 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 04/23] RDMA: use dma_resv_wait() instead of extracting
+ the fence
+Message-ID: <20220323163242.GJ64706@ziepe.ca>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-4-christian.koenig@amd.com>
+ <Yjse+S0bf4P6QTfu@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fb35ac3c561f6ff98374ebeb2fb3a4fb8a22974e.1647985054.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <Yjse+S0bf4P6QTfu@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,91 +77,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Leon Romanovsky <leon@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Gal Pressman <galpress@amazon.com>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
+ Maor Gottlieb <maorg@nvidia.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 11:40:38PM +0200, Jani Nikula wrote:
-> Use the cea db iterator for short audio descriptors. We'll still stop at
-> the first audio data block, but not at the first CEA extension if that
-> doesn't have the info.
-
-This stuff should probably be converted over to the drm_edid_to_eld()
-approach which looks up all the SADs from the whole EDID. But that's
-something for amdgpu/radeon folks to think about since they're the only
-user.
-
+On Wed, Mar 23, 2022 at 02:22:01PM +0100, Daniel Vetter wrote:
+> On Mon, Mar 21, 2022 at 02:58:37PM +0100, Christian KÃ¶nig wrote:
+> > Use dma_resv_wait() instead of extracting the exclusive fence and
+> > waiting on it manually.
+> > 
+> > Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
 > 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 34 +++++++++-------------------------
->  1 file changed, 9 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 992b3578a73f..e341790521d6 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4854,40 +4854,21 @@ static void drm_edid_to_eld(struct drm_connector *connector, struct edid *edid)
->   */
->  int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
->  {
-> +	const struct cea_db *db;
-> +	struct cea_db_iter iter;
->  	int count = 0;
-> -	int i, start, end, dbl;
-> -	const u8 *cea;
-> -
-> -	cea = drm_find_cea_extension(edid);
-> -	if (!cea) {
-> -		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
-> -		return 0;
-> -	}
-> -
-> -	if (cea_revision(cea) < 3) {
-> -		DRM_DEBUG_KMS("SAD: wrong CEA revision\n");
-> -		return 0;
-> -	}
-> -
-> -	if (cea_db_offsets(cea, &start, &end)) {
-> -		DRM_DEBUG_KMS("SAD: invalid data block offsets\n");
-> -		return -EPROTO;
-> -	}
-> -
-> -	for_each_cea_db(cea, i, start, end) {
-> -		const u8 *db = &cea[i];
->  
-> +	cea_db_iter_edid_begin(edid, &iter);
-> +	cea_db_iter_for_each(db, &iter) {
->  		if (cea_db_tag(db) == CEA_DB_AUDIO) {
->  			int j;
->  
-> -			dbl = cea_db_payload_len(db);
-> -
-> -			count = dbl / 3; /* SAD is 3B */
-> +			count = cea_db_payload_len(db) / 3; /* SAD is 3B */
->  			*sads = kcalloc(count, sizeof(**sads), GFP_KERNEL);
->  			if (!*sads)
->  				return -ENOMEM;
->  			for (j = 0; j < count; j++) {
-> -				const u8 *sad = &db[1 + j * 3];
-> +				const u8 *sad = &db->data[j * 3];
->  
->  				(*sads)[j].format = (sad[0] & 0x78) >> 3;
->  				(*sads)[j].channels = sad[0] & 0x7;
-> @@ -4897,6 +4878,9 @@ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads)
->  			break;
->  		}
->  	}
-> +	cea_db_iter_end(&iter);
-> +
-> +	DRM_DEBUG_KMS("Found %d Short Audio Descriptors\n", count);
->  
->  	return count;
->  }
-> -- 
-> 2.30.2
+> Jason, can you ack this for merging through drm trees please?
 
--- 
-Ville Syrjälä
-Intel
+Sure, it looks trivial, but I didn't see the whole series:
+
+Acked-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason
