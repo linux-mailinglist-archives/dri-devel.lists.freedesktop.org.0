@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D05B4E5A1A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 21:47:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9364E5A1F
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 21:47:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77EA710E0EA;
-	Wed, 23 Mar 2022 20:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF4C10E124;
+	Wed, 23 Mar 2022 20:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C2810E06D;
- Wed, 23 Mar 2022 20:46:56 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B5C10E06D;
+ Wed, 23 Mar 2022 20:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648068417; x=1679604417;
+ t=1648068461; x=1679604461;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=AxGelGzu1bTctS6PiTzNznlLWIWY7xFgvOsi7zpXH2o=;
- b=THm3XeQHW9AYP1cJTnKsjBX3VWAAg6jiSygtc+igv3EpvRdJHu8GPnLq
- HUNKI0V4jZsWEpRj7QmnPjWXicIwLRzrL+6ma9HIt/fTUYnm6Mrnfr1Zb
- oAPWrA7R6xE+pIUB69tUK6wXsNNtZYlf/6SP/YSPjJIypUMeu1esTBPx2 M=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Mar 2022 13:46:56 -0700
+ bh=if2AkYTpflURygMrvNBiLZ1rVVRPetQsC8hRMLObOvM=;
+ b=XygSN0gZf/fYxSJlATvAx8YA7uMv2eWePrx7O2iPNBrOLIBRZ6gMAFYt
+ 8eHlaZUVYauNAGxriCvAmy6FnRxD+6cQj361qyvs3AmbJJOYh73JS/6Lo
+ 0HD7TRtiIcvOF2QXwTj8USu3qxMkNnlwBohZK+r5e63BTNwQ8wHQ6oI2u k=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 23 Mar 2022 13:47:41 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 13:46:56 -0700
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 13:47:41 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 23 Mar 2022 13:46:55 -0700
+ 15.2.986.22; Wed, 23 Mar 2022 13:47:20 -0700
 Received: from [10.110.28.235] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 23 Mar
- 2022 13:46:54 -0700
-Message-ID: <813b8db3-dfe5-0a79-f625-2b96fede9385@quicinc.com>
-Date: Wed, 23 Mar 2022 13:46:53 -0700
+ 2022 13:47:19 -0700
+Message-ID: <77d402e7-23ae-430e-0e2b-0c00950917be@quicinc.com>
+Date: Wed, 23 Mar 2022 13:47:18 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/3] drm/msm/dp: simplify dp_connector_get_modes()
+Subject: Re: [PATCH 3/3] drm/msm/dp: remove max_pclk_khz field from
+ dp_panel/dp_display
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
  <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
  <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Sankeerth
  Billakanti" <quic_sbillaka@quicinc.com>
 References: <20220323103546.1772673-1-dmitry.baryshkov@linaro.org>
- <20220323103546.1772673-3-dmitry.baryshkov@linaro.org>
+ <20220323103546.1772673-4-dmitry.baryshkov@linaro.org>
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20220323103546.1772673-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220323103546.1772673-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,111 +76,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 3/23/2022 3:35 AM, Dmitry Baryshkov wrote:
-> Since dp_panel_get_modes() handling for dp_mode was removed,
-> dp_display_get_modes also doesn't change the passed dp_mode, drop the
-> unused dp_mode variable being allocated unused and then freed.
+> Since the last commit, the max_pclk_khz became constant, it's set to
+> DP_MAX_PIXEL_CLK_KHZ and never changed afterwards. Remove it completely
+> and use DP_MAX_PIXEL_CLK_KHZ directly.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->   drivers/gpu/drm/msm/dp/dp_display.c |  8 ++------
->   drivers/gpu/drm/msm/dp/dp_display.h |  3 +--
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 29 +----------------------------
->   3 files changed, 4 insertions(+), 36 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_debug.c   | 2 --
+>   drivers/gpu/drm/msm/dp/dp_display.c | 1 -
+>   drivers/gpu/drm/msm/dp/dp_display.h | 2 --
+>   drivers/gpu/drm/msm/dp/dp_drm.c     | 4 +---
+>   drivers/gpu/drm/msm/dp/dp_panel.h   | 1 -
+>   5 files changed, 1 insertion(+), 9 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+> index 2f9c943f12d5..5e35033ba3e4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_debug.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+> @@ -44,8 +44,6 @@ static int dp_debug_show(struct seq_file *seq, void *p)
+>   	drm_mode = &debug->panel->dp_mode.drm_mode;
+>   
+>   	seq_printf(seq, "\tname = %s\n", DEBUG_NAME);
+> -	seq_printf(seq, "\tdp_panel\n\t\tmax_pclk_khz = %d\n",
+> -			debug->panel->max_pclk_khz);
+>   	seq_printf(seq, "\tdrm_dp_link\n\t\trate = %u\n",
+>   			debug->panel->link_info.rate);
+>   	seq_printf(seq, "\t\tnum_lanes = %u\n",
 > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 3dd790083cf7..be1e9c558fda 100644
+> index be1e9c558fda..aeb08416b309 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -999,8 +999,7 @@ int dp_display_validate_mode(struct msm_dp *dp, u32 mode_pclk_khz)
->   	return MODE_OK;
->   }
+> @@ -370,7 +370,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>   	dp->audio_supported = drm_detect_monitor_audio(edid);
+>   	dp_panel_handle_sink_request(dp->panel);
 >   
-> -int dp_display_get_modes(struct msm_dp *dp,
-> -				struct dp_display_mode *dp_mode)
-> +int dp_display_get_modes(struct msm_dp *dp)
->   {
->   	struct dp_display_private *dp_display;
->   	int ret = 0;
-> @@ -1012,11 +1011,8 @@ int dp_display_get_modes(struct msm_dp *dp,
+> -	dp->dp_display.max_pclk_khz = DP_MAX_PIXEL_CLK_KHZ;
+>   	dp->dp_display.max_dp_lanes = dp->parser->max_dp_lanes;
 >   
->   	dp_display = container_of(dp, struct dp_display_private, dp_display);
->   
-> -	ret = dp_panel_get_modes(dp_display->panel,
-> +	return dp_panel_get_modes(dp_display->panel,
->   		dp->connector);
-> -	if (dp_mode->drm_mode.clock)
-> -		dp->max_pclk_khz = dp_mode->drm_mode.clock;
-> -	return ret;
->   }
->   
->   bool dp_display_check_video_test(struct msm_dp *dp)
+>   	/*
 > diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 7af2b186d2d9..6efb5c853c89 100644
+> index 6efb5c853c89..f3a9d7449a1c 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.h
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -33,8 +33,7 @@ struct msm_dp {
->   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->   		hdmi_codec_plugged_cb fn, struct device *codec_dev);
->   int dp_display_validate_mode(struct msm_dp *dp_display, u32 mode_pclk_khz);
-> -int dp_display_get_modes(struct msm_dp *dp_display,
-> -		struct dp_display_mode *dp_mode);
-> +int dp_display_get_modes(struct msm_dp *dp_display);
->   int dp_display_request_irq(struct msm_dp *dp_display);
->   bool dp_display_check_video_test(struct msm_dp *dp_display);
->   int dp_display_get_test_bpp(struct msm_dp *dp_display);
+> @@ -24,8 +24,6 @@ struct msm_dp {
+>   
+>   	hdmi_codec_plugged_cb plugged_cb;
+>   
+> -	u32 max_pclk_khz;
+> -
+>   	u32 max_dp_lanes;
+>   	struct dp_audio *dp_audio;
+>   };
 > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 80f59cf99089..af5f1b001192 100644
+> index af5f1b001192..a94c9b34f397 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -55,49 +55,22 @@ static int dp_connector_get_modes(struct drm_connector *connector)
->   {
->   	int rc = 0;
->   	struct msm_dp *dp;
-> -	struct dp_display_mode *dp_mode = NULL;
-> -	struct drm_display_mode *m, drm_mode;
+> @@ -88,9 +88,7 @@ static enum drm_mode_status dp_connector_mode_valid(
 >   
->   	if (!connector)
->   		return 0;
+>   	dp_disp = to_dp_connector(connector)->dp_display;
 >   
->   	dp = to_dp_connector(connector)->dp_display;
+> -	if ((dp_disp->max_pclk_khz <= 0) ||
+> -			(dp_disp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
+> -			(mode->clock > dp_disp->max_pclk_khz))
+> +	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
+>   		return MODE_BAD;
 >   
-> -	dp_mode = kzalloc(sizeof(*dp_mode),  GFP_KERNEL);
-> -	if (!dp_mode)
-> -		return 0;
-> -
->   	/* pluggable case assumes EDID is read when HPD */
->   	if (dp->is_connected) {
-> -		/*
-> -		 *The get_modes() function might return one mode that is stored
-> -		 * in dp_mode when compliance test is in progress. If not, the
-> -		 * return value is equal to the total number of modes supported
-> -		 * by the sink
-> -		 */
-> -		rc = dp_display_get_modes(dp, dp_mode);
-> +		rc = dp_display_get_modes(dp);
->   		if (rc <= 0) {
->   			DRM_ERROR("failed to get DP sink modes, rc=%d\n", rc);
-> -			kfree(dp_mode);
->   			return rc;
->   		}
-> -		if (dp_mode->drm_mode.clock) { /* valid DP mode */
-> -			memset(&drm_mode, 0x0, sizeof(drm_mode));
-> -			drm_mode_copy(&drm_mode, &dp_mode->drm_mode);
-> -			m = drm_mode_duplicate(connector->dev, &drm_mode);
-> -			if (!m) {
-> -				DRM_ERROR("failed to add mode %ux%u\n",
-> -				       drm_mode.hdisplay,
-> -				       drm_mode.vdisplay);
-> -				kfree(dp_mode);
-> -				return 0;
-> -			}
-> -			drm_mode_probed_add(connector, m);
-> -		}
->   	} else {
->   		DRM_DEBUG_DP("No sink connected\n");
->   	}
-> -	kfree(dp_mode);
->   	return rc;
->   }
+>   	return dp_display_validate_mode(dp_disp, mode->clock);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+> index 9fa6e524832c..d861197ac1c8 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+> @@ -49,7 +49,6 @@ struct dp_panel {
+>   	bool video_test;
 >   
+>   	u32 vic;
+> -	u32 max_pclk_khz;
+>   	u32 max_dp_lanes;
+>   
+>   	u32 max_bw_code;
