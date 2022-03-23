@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8D14E5274
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 13:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E584E5287
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 13:53:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99DCF10E1B9;
-	Wed, 23 Mar 2022 12:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C269210E6C9;
+	Wed, 23 Mar 2022 12:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D462A10E6C7
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 12:46:59 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id j18so1962781wrd.6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 05:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QrnKrN1J0be5aGhbUhpBdOm3mgQtzJ3AbarAe1cgyz4=;
- b=PNp6vqLvvi186d7HmPfAqbvJGTx7NW1Fx8uwCXWK6FDJi8hDa0A4Obyl0BJlO5+1lB
- vMizD2ozDTrd1SWvW6k6EbB7UdNw60K8M08R7jTHpovxIB7hs0FOgMsE6ChIt7QkfrIk
- bTGHkOg+xnrkgrIEahmcKVKPCqZRSxCqwzYZUfEPQXRZLytNNrKHkdlH6ytPTaCbezNf
- 6KqsyEBPIYlSSPXBmqKdIRnKAWl5fyQw0hqv/fail0P9VB0VcVBOKzUv2UrSnseSFA4P
- 4qliOHKw8/ytu9CL4ol6/j71Mf3nRJBkXmqtRzicETMnTCLQtXImq4sJeK616gwzDtE4
- tvGA==
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2E310E6C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 12:53:10 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ i11-20020a9d4a8b000000b005cda3b9754aso982599otf.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 05:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=QrnKrN1J0be5aGhbUhpBdOm3mgQtzJ3AbarAe1cgyz4=;
- b=mrUiLXfEp1sRP/AjHVz3n7A7xUuaGQ+Y/r45PSc4w2NU4msVq3YoLNPfGQqq0qIBiM
- sxN+9Euv20vgcBTo5TjrbcjObDr6hjKqo8W6/QReqZW3bN1jt0SrvN+08Su9OkmUfN7U
- Y4VhHiWuBnKTMP5qdHICyaoRB3wdvTz6geMcbZtSxGrWXTOBlvlK/eLlFbV5Cr/Djhjx
- Ra1a8vse1K2vy3QnUucXBIpcZyAbupDB73ZMuqzYdROhk3A3PkX2cZvw/OhZGwu1Xg70
- fVo+sLGYSjPu6ku8B3gjILiq7Ls7GbLUWOt4/ajXhnyOLYLyq+hjMXrbsblRNy7aTXp0
- eKaw==
-X-Gm-Message-State: AOAM532WGRvhLC5ZVfL8dweTuZZY/1FaDBWCZpJAPZZb+eYyvcuyHG0h
- RyHV1+89XYaPTDeHHJV7b8kPGw==
-X-Google-Smtp-Source: ABdhPJzSkUmPOcaKtIxHaouVgmm319CJF0UXHX2JHBimkzdShZYdJ/tai3elVkeKWEBvyUS26e35pw==
-X-Received: by 2002:a5d:64e7:0:b0:205:8cc7:aa82 with SMTP id
- g7-20020a5d64e7000000b002058cc7aa82mr1486949wri.247.1648039618247; 
- Wed, 23 Mar 2022 05:46:58 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88]) by smtp.gmail.com with ESMTPSA id
- o8-20020a5d6488000000b002051f1028f6sm4375837wri.111.2022.03.23.05.46.56
+ bh=NuW/5LjLTYnCe1iEVLuiQEgZKBilhYbTzhjTvpjmYV8=;
+ b=mdhEQ/nLKZywRNRp11kmPQuSV1111zj5cJhX4GQT1kCHiD4BpP4qyrjpqc7PQfvg6y
+ dVklsL5XRyeiap7pQtSkw6+t53kJThr1dKQZHcZ4TKp2xIoJUxzuGH6fHsybZreZhxu2
+ JVsi4XN0HYx2/Zsd5XOPDZcjjiv7/HZrWVfP0c/4C4OxQD7G0XGYtQMekwfY7JoSxN+i
+ 1tqP/C3CeOKWeFA1mZqDaFkMlrCddDNCcCJzntaG+6CW/Ibybo83lOjuC7cYR8UHGDwP
+ tyWQadtAKaaixoun/OwXyg/fpT17M7R2kQVwQygUwjR+iX/WOxZSKonUmMwKPHQew7Wa
+ 0bEA==
+X-Gm-Message-State: AOAM531eIrA4LF47dEwAMy1Rkg6R6abnfx3uwZmnQ26s1P9AfSkWJHBK
+ jtbNQMTeKPk2zQfKBrEe8Q==
+X-Google-Smtp-Source: ABdhPJxBqvzQfjrGlAOysJzMPqRkTSzE0/WIGGYcR37p7UXxuOVZQTdDAxfHMh5kUojrSrUi6QncEg==
+X-Received: by 2002:a05:6830:2010:b0:5b2:38da:6c24 with SMTP id
+ e16-20020a056830201000b005b238da6c24mr11651996otp.158.1648039989736; 
+ Wed, 23 Mar 2022 05:53:09 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ p4-20020a056870a54400b000da07609a6dsm8601476oal.22.2022.03.23.05.53.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 05:46:57 -0700 (PDT)
-Date: Wed, 23 Mar 2022 12:46:55 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: philip yang <yangp@amd.com>
-Subject: Re: [PATCH 1/1] drm/amdkfd: Protect the Client whilst it is being
- operated on
-Message-ID: <YjsWvy8cT2eOw618@google.com>
-References: <20220317131610.554347-1-lee.jones@linaro.org>
- <8702f8a5-62a1-c07e-c7b7-e9378be069b6@amd.com>
- <YjNNCXc8harOvwqe@google.com>
- <1f003356-3cf9-7237-501e-950d0aa124d1@amd.com>
- <YjNQA80wkWpy+AmA@google.com>
- <b65db51e-f1ba-3a9b-0ac1-0b8ae51c5eee@amd.com>
- <YjNh/Ajxgp3mjvWV@google.com>
+ Wed, 23 Mar 2022 05:53:08 -0700 (PDT)
+Received: (nullmailer pid 3908190 invoked by uid 1000);
+ Wed, 23 Mar 2022 12:53:07 -0000
+Date: Wed, 23 Mar 2022 07:53:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v11 2/7] MIPS: Loongson64: dts: introduce ls3A4000
+ evaluation board
+Message-ID: <YjsYM0M24VhkCHwG@robh.at.kernel.org>
+References: <20220321162916.1116541-1-15330273260@189.cn>
+ <20220321162916.1116541-3-15330273260@189.cn>
+ <2644866a-8db2-923e-4227-2aa6d8e375fe@flygoat.com>
+ <2c671752-6684-f87b-7b2d-90568d36adde@189.cn>
+ <005099b5-33ed-4cb7-f8e4-10e1de780311@flygoat.com>
+ <abe784ce-eb9e-0143-dbc3-d415bbedbb81@189.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YjNh/Ajxgp3mjvWV@google.com>
+In-Reply-To: <abe784ce-eb9e-0143-dbc3-d415bbedbb81@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,112 +70,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <felix.kuehling@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ devicetree@vger.kernel.org, suijingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Mar 2022, Lee Jones wrote:
-
-> On Thu, 17 Mar 2022, philip yang wrote:
+On Wed, Mar 23, 2022 at 09:53:14AM +0800, Sui Jingfeng wrote:
 > 
-> >    On 2022-03-17 11:13 a.m., Lee Jones wrote:
-> > 
-> > On Thu, 17 Mar 2022, Felix Kuehling wrote:
+> On 2022/3/23 00:06, Jiaxun Yang wrote:
 > > 
 > > 
-> > Am 2022-03-17 um 11:00 schrieb Lee Jones:
+> > 在 2022/3/22 13:38, Sui Jingfeng 写道:
+> > > 
+> > > On 2022/3/22 21:05, Jiaxun Yang wrote:
+> > > > 
+> > > > 
+> > > > 在 2022/3/21 16:29, Sui Jingfeng 写道:
+> > > > > From: suijingfeng <suijingfeng@loongson.cn>
+> > > > > 
+> > > > > The board name is LS3A4000_7A1000_EVB_BOARD_V1.4, it consist of 1.8Ghz
+> > > > > mips64r5 4-core CPU and LS7A1000 bridge chip. It has PCIe
+> > > > > GEN2 x8 slot,
+> > > > > therefore can play with discrete graphics card.
+> > > > 
+> > > > Hi Jingfeng,
+> > > > 
+> > > > As we've discussed before if you are going to introduce new dts
+> > > > then you *MUST*
+> > > > include it in makefile and wire it up in code.
+> > > > 
+> > > > A dts file doing nothing lying in the tree is just suspicious.
+> > > > 
+> > > > Thanks.
+> > > > - Jiaxun
+> > > > 
+> > > Hi, Jiaxun,
+> > > 
+> > > I know what you means, but it is the kernel side developer's job.
+> > > I am just a naive graphic driver developer,I can not care so much.
+> > > Below is my private patch which can be used to built specific dts
+> > > into the linux kernel, therefore make the verification easier.
+> > Hi Jingfeng,
 > > 
-> > Good afternoon Felix,
+> > In kernel world we take care all the stuff we touched ourself :-)
 > > 
-> > Thanks for your review.
+> > If you are not confident with them please drop those DTS from the
+> > patchset
+> > besides the generic one. I can do the rest for you after getting this
+> > set merged.
 > > 
+> > Thanks.
+> > - Jiaxun
 > > 
-> > Am 2022-03-17 um 09:16 schrieb Lee Jones:
-> > 
-> > Presently the Client can be freed whilst still in use.
-> > 
-> > Use the already provided lock to prevent this.
-> > 
-> > Cc: Felix Kuehling [1]<Felix.Kuehling@amd.com>
-> > Cc: Alex Deucher [2]<alexander.deucher@amd.com>
-> > Cc: "Christian König" [3]<christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" [4]<Xinhui.Pan@amd.com>
-> > Cc: David Airlie [5]<airlied@linux.ie>
-> > Cc: Daniel Vetter [6]<daniel@ffwll.ch>
-> > Cc: [7]amd-gfx@lists.freedesktop.org
-> > Cc: [8]dri-devel@lists.freedesktop.org
-> > Signed-off-by: Lee Jones [9]<lee.jones@linaro.org>
-> > ---
-> >    drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 6 ++++++
-> >    1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/a
-> > mdkfd/kfd_smi_events.c
-> > index e4beebb1c80a2..3b9ac1e87231f 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> > @@ -145,8 +145,11 @@ static int kfd_smi_ev_release(struct inode *inode, struct f
-> > ile *filep)
-> >         spin_unlock(&dev->smi_lock);
-> >         synchronize_rcu();
-> > +
-> > +       spin_lock(&client->lock);
-> >         kfifo_free(&client->fifo);
-> >         kfree(client);
-> > +       spin_unlock(&client->lock);
-> > 
-> > The spin_unlock is after the spinlock data structure has been freed.
-> > 
-> > Good point.
-> > 
-> > If we go forward with this approach the unlock should perhaps be moved
-> > to just before the kfree().
-> > 
-> > 
-> > There
-> > should be no concurrent users here, since we are freeing the data structure.
-> > If there still are concurrent users at this point, they will crash anyway.
-> > So the locking is unnecessary.
-> > 
-> > The users may well crash, as does the kernel unfortunately.
-> > 
-> > We only get to kfd_smi_ev_release when the file descriptor is closed. User
-> > mode has no way to use the client any more at this point. This function also
-> > removes the client from the dev->smi_cllients list. So no more events will
-> > be added to the client. Therefore it is safe to free the client.
-> > 
-> > If any of the above were not true, it would not be safe to kfree(client).
-> > 
-> > But if it is safe to kfree(client), then there is no need for the locking.
-> > 
-> > I'm not keen to go into too much detail until it's been patched.
-> > 
-> > However, there is a way to free the client while it is still in use.
-> > 
-> > Remember we are multi-threaded.
-> > 
-> >    files_struct->count refcount is used to handle this race, as
-> >    vfs_read/vfs_write takes file refcount and fput calls release only if
-> >    refcount is 1, to guarantee that read/write from user space is finished
-> >    here.
-> > 
-> >    Another race is driver add_event_to_kfifo while closing the handler. We
-> >    use rcu_read_lock in add_event_to_kfifo, and kfd_smi_ev_release calls
-> >    synchronize_rcu to wait for all rcu_read done. So it is safe to call
-> >    kfifo_free(&client->fifo) and kfree(client).
+> Hi, Jiaxun
 > 
-> Philip, please reach out to Felix.
+> Build all dts into vmlinuz will make the vmlinuz bigger and bigger.
+> How does the kernel get the dtb is another big issue, either from built-in
+> dtb or pass from the firmware(pmon and uefi etc). This should be
+> solved with another patch carefully. Providing board specific dts
+> helps to code review, it helps reviewers understand that there are
+> variant boards and have to be express with different OF graph.
 
-Philip, Felix, are you receiving my direct messages?
+Built-in DTBs are for legacy bootloaders that don't understand DT. I 
+would not expect a new platform to need this.
 
-I have a feeling they're being filtered out by AMD's mail server.
+> 
+> Now, there are about 6 dts under arch/mips/boot/dts/loongson/,
+> Suppose loongson have 1000+ different board, do you want built all
+> of them into vmlinuz?
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+The point was to add the .dts to Makefile so it builds, not so it is 
+built-in. How are you testing those build with dtc and dtschema if not 
+added to kbuild?
+
+Rob
