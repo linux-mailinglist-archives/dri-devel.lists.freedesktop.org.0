@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0794E50DD
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:01:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364734E4F43
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 10:25:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD75610E68A;
-	Wed, 23 Mar 2022 11:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5AE899E7;
+	Wed, 23 Mar 2022 09:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F49A10E132;
- Wed, 23 Mar 2022 01:40:54 +0000 (UTC)
-X-UUID: 960d29f9923b4af39f5484ce89d4bd1e-20220322
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11101
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HNeS6uumcgOimgeWuoeaguA==
-X-Content-Feature: ica/max.line-size 90 audit/email.address 1 meta/cnt.alert 1
-X-UUID: 960d29f9923b4af39f5484ce89d4bd1e-20220322
-Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 1249335721; Tue, 22 Mar 2022 17:35:30 +0800
-X-ns-mid: postfix-6239988C-8900507457
-Received: from localhost.localdomain (unknown [172.20.12.219])
- by cs2c.com.cn (NSMail) with ESMTPA id 9DE5B383C640;
- Tue, 22 Mar 2022 09:36:12 +0000 (UTC)
-From: Cong Liu <liucong2@kylinos.cn>
-To: airlied@redhat.com, kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- christian.koenig@amd.com, ray.huang@amd.com,
- virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 2/2] drm/ttm: enable ioremap buffer according to TTM mem
- caching setting for arm64
-Date: Tue, 22 Mar 2022 17:34:44 +0800
-Message-Id: <20220322093444.1236582-2-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220322093444.1236582-1-liucong2@kylinos.cn>
-References: <20220322093444.1236582-1-liucong2@kylinos.cn>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F0F899BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 09:25:41 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id c15so984806ljr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 02:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fvjRDTA2PHAlGFO2FpdE45QYwvQjOSHNe4XoKh928v0=;
+ b=odabUKNblygvx+Syti9Owoko3d6g7SLDWjHmrot5+hraYUPnROcP6gnYa81bym3pCD
+ oeArRwxeKX5KKkE7bjuaIcr3IzojRwIUDOvOT2pDlzQe855uqmU9jMBVXDhxwSEm+6le
+ b0wptKL7ElZtCWGEvgk6DEA8uMXZ6ekiXx4EKRwwCbPFtxSbgzDnKuXc23zS5klEFCUU
+ A6o6dTk/363HzaVDNNyo//te08wQGKMqJcMFZka0EXnA4jjpPFAxAjVng1licqbvbHsE
+ QzbWHjc2kc+kuQzrdGu02DNIAJcGDjGwicWkUmRc7vJUF2QSCwnvsd1Nvvnv7ssAzxWV
+ rymw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fvjRDTA2PHAlGFO2FpdE45QYwvQjOSHNe4XoKh928v0=;
+ b=2Y9Y+pxF5H9Qvyj+ehAhLzAgiAkj2XV44fNvu2SiCh4hSuA9Vzim9ReFb/+b6u1OFl
+ 8YDskJ8dsT8MosnyPPJgaPg0oLPEGUiuX+W6p7VZ6fKyWb27rw9Jp21fNU1wPf+9fI9e
+ 66ZLoLrm/cPQVonN1j4dRO28kt8xAlt26zU/usN1NY02dkj1oFLgf01DHzXM3ZGy7Ugs
+ tYwk9YRwd6VjF3LNBk2v44lcjFHYcui85VIooHPOI3FG5fKI3WB5TDUwvyslV7CF3evo
+ mBzBfGBpKqeFRZGr53VjkRLnDxpOWoHlnv/9QeDxh3jmJ1VaHws8kb7B+yXnOVAL+kEi
+ 17bg==
+X-Gm-Message-State: AOAM531pxtKZAEe7ELasdsUcEOdrv7odjkL986CtXODkgxEnAMfbeHqn
+ bAI6Ud0hgeC0TxnNomXreluXLA==
+X-Google-Smtp-Source: ABdhPJyCYvUuHklHkrRy2ybKyWKzmlY1S9EFMDIqtaglPZxKvLIyr8wx5fsy2eluw7K8dawNj3ZM4w==
+X-Received: by 2002:a2e:bf01:0:b0:247:dfe7:62dc with SMTP id
+ c1-20020a2ebf01000000b00247dfe762dcmr22281064ljr.365.1648027540016; 
+ Wed, 23 Mar 2022 02:25:40 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ br12-20020a056512400c00b0044a2c454ebcsm986026lfb.27.2022.03.23.02.25.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 02:25:39 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v3 0/6] drm/msm: rework MDSS drivers
+Date: Wed, 23 Mar 2022 12:25:32 +0300
+Message-Id: <20220323092538.1757880-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,86 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cong Liu <liucong2@kylinos.cn>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arm64 also need the function in commit b849bec29a99 ("drm/ttm:
-ioremap buffer according to TTM mem caching setting"), so enable
-it. The following Call Trace captured in arm64 with qxl card.
+These patches coninue work started by AngeloGioacchino Del Regno in the
+previous cycle by further decoupling and dissecting MDSS and MDP drivers
+probe/binding paths.
 
-[    5.609923] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-[    5.610592] pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[    5.611271] pc : __memset+0x90/0x188
-[    5.611641] lr : qxl_create_monitors_object+0xe0/0x180 [qxl]
-[    5.612208] sp : ffff800012cd37a0
-[    5.612533] x29: ffff800012cd37a0 x28: 0000000000000000 x27: 0000000000000001
-[    5.613228] x26: ffff800012cd3d30 x25: ffffb70116ef5f10 x24: ffffb70116ef5ed8
-[    5.613953] x23: ffffb70116ef5000 x22: 0000000000000000 x21: ffff000300020000
-[    5.614645] x20: ffff0003008e4000 x19: 0000000000000074 x18: 0000000000000014
-[    5.615331] x17: 0000000038ca76f1 x16: ffffb70138fd0600 x15: ffffb7013b1a9950
-[    5.616018] x14: ffff800010000000 x13: ffffb7013a8a2d78 x12: ffffb7013a8a2d78
-[    5.616709] x11: ffffb7013a8aa767 x10: 0000000000000000 x9 : ffffb701398fc5bc
-[    5.617409] x8 : ffff8000100ad074 x7 : 0000000000000000 x6 : 0000000000000002
-[    5.618206] x5 : ffff0003008e50b0 x4 : 0000000000000000 x3 : 0000000000000030
-[    5.618933] x2 : 0000000000000004 x1 : 0000000000000000 x0 : ffff8000100ad000
-[    5.619624] Call trace:
-[    5.619872]  __memset+0x90/0x188
-[    5.620188]  qxl_modeset_init+0x4c/0x320 [qxl]
-[    5.620627]  qxl_pci_probe+0x11c/0x1d0 [qxl]
-[    5.621029]  local_pci_probe+0x48/0xb8
-[    5.621390]  pci_device_probe+0x194/0x208
-[    5.621762]  really_probe+0xd0/0x458
-[    5.622122]  __driver_probe_device+0x124/0x1c0
-[    5.622534]  driver_probe_device+0x48/0x130
-[    5.622923]  __driver_attach+0xc4/0x1a8
-[    5.623280]  bus_for_each_dev+0x78/0xd0
-[    5.623636]  driver_attach+0x2c/0x38
-[    5.623969]  bus_add_driver+0x154/0x248
-[    5.624324]  driver_register+0x6c/0x128
-[    5.624678]  __pci_register_driver+0x4c/0x58
-[    5.625072]  qxl_init+0x48/0x1000 [qxl]
-[    5.625439]  do_one_initcall+0x50/0x240
-[    5.625825]  do_init_module+0x60/0x238
-[    5.626189]  load_module+0x2458/0x2900
-[    5.626543]  __do_sys_finit_module+0xbc/0x128
-[    5.626952]  __arm64_sys_finit_module+0x28/0x38
-[    5.627384]  invoke_syscall+0x74/0xf0
-[    5.627732]  el0_svc_common.constprop.0+0x58/0x1a8
-[    5.628190]  do_el0_svc+0x2c/0x90
-[    5.628503]  el0_svc+0x40/0x190
-[    5.628811]  el0t_64_sync_handler+0xb0/0xb8
-[    5.629206]  el0t_64_sync+0x1a4/0x1a8
-[    5.629552] Code: a8811d07 f2400c42 b4000062 8b020108 (a93f1d07)
-[    5.630152] ---[ end trace 35a380fcdcd5b8f7 ]---
+This removes code duplication between MDP5 and DPU1 MDSS drivers, by
+merging them and moving to the top level.
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patchset depends on the patches 1 and 2 from [1]
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 72a94301bc95..3df96e76c424 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -281,7 +281,7 @@ static int ttm_bo_ioremap(struct ttm_buffer_object *bo,
- 		map->bo_kmap_type = ttm_bo_map_iomap;
- 		if (mem->bus.caching == ttm_write_combined)
- 			map->virtual = ioremap_wc(res, size);
--#ifdef CONFIG_X86
-+#if (defined CONFIG_X86) || (defined CONFIG_ARM64)
- 		else if (mem->bus.caching == ttm_cached)
- 			map->virtual = ioremap_cache(res, size);
- #endif
-@@ -402,7 +402,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
- 		else if (mem->bus.caching == ttm_write_combined)
- 			vaddr_iomem = ioremap_wc(mem->bus.offset,
- 						 bo->base.size);
--#ifdef CONFIG_X86
-+#if (defined CONFIG_X86) || (defined CONFIG_ARM64)
- 		else if (mem->bus.caching == ttm_cached)
- 			vaddr_iomem = ioremap_cache(mem->bus.offset,
- 						  bo->base.size);
+Changes since v3:
+ - Rebased on top of current msm/msm-next
+ - Fixed issue with enabling/disabling MDP4/MDP5 vs DSI driver (per
+   Stephen's suggestion)
+ - Reworked mdss_probe to remove extra platform_set_drvdata calls (per
+   Stephen's suggestion)
+ - Fixed a typo in the Kconfig (noted by Rob)
+ - Added a patch to move component mastership from mdss to mdp5/dpu1
+   devices
+
+Changes since v2:
+ - Rebased on top of current msm/msm-next(-staging)
+ - Allow disabling MDP4/MDP5/DPU/HDMI components (like we do for DP and
+   DSI)
+ - Made mdp5_mdss_parse_clock() static
+ - Changed mdp5 to is_mdp5 argument in several functions
+ - Dropped boolean device data from the mdss driver
+ - Reworked error handling in msm_pdev_probe()
+ - Removed unused header inclusion
+ - Dropped __init/__exit from function prototypes
+
+Changes since v1:
+ - Rebased on top of [2] and [1]
+
+[1] https://patchwork.freedesktop.org/series/99066/
+[2] https://patchwork.freedesktop.org/series/98521/
+
+Dmitry Baryshkov (6):
+  drm/msm: unify MDSS drivers
+  drm/msm: remove extra indirection for msm_mdss
+  drm/msm: split the main platform driver
+  drm/msm: stop using device's match data pointer
+  drm/msm: allow compile time selection of driver components
+  drm/msm: make mdp5/dpu devices master components
+
+ drivers/gpu/drm/msm/Kconfig                   |  50 ++-
+ drivers/gpu/drm/msm/Makefile                  |  25 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  78 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      | 260 ------------
+ .../gpu/drm/msm/disp/mdp4/mdp4_dsi_encoder.c  |   3 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  54 ++-
+ .../gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c  |   3 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  54 +--
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c     | 252 ------------
+ drivers/gpu/drm/msm/msm_drv.c                 | 261 +++---------
+ drivers/gpu/drm/msm/msm_drv.h                 |  61 ++-
+ drivers/gpu/drm/msm/msm_kms.h                 |  21 -
+ drivers/gpu/drm/msm/msm_mdss.c                | 379 ++++++++++++++++++
+ 13 files changed, 645 insertions(+), 856 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+ create mode 100644 drivers/gpu/drm/msm/msm_mdss.c
+
 -- 
-2.25.1
+2.35.1
 
