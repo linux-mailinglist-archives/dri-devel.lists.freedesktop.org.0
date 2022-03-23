@@ -1,58 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415934E5BE2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 00:37:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FEA4E5BFA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 00:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD2E10E1D8;
-	Wed, 23 Mar 2022 23:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1CE910E1E3;
+	Wed, 23 Mar 2022 23:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C1510E1D8
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 23:37:20 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id r23so3741532edb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 16:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
- b=lKb4AaK6N9O62KVZSBFpoXMFMKi2DX++d0hcldo7VKltrYvP1ZV+I9dYXZlx13MpxC
- U6xbiC42KS2p1EnoJU/ZpUu2VFNzNn/B5ByWL9Zt/vr5XdA+yDneUYBZIcau3mhQ0muv
- V4ah+EZCicq3OsyPu2g/e6akuJDlkHFQFQdx2jnBGU1XDVC3q67LkJ1lTpu2QD3b10Gm
- //++HMvqfQRnNJ7DQNGYM/1Pf8y6AjoqHMxScOBz3cW/cZXBbkCYsHBTNfYHMC39INi5
- cHWn+JRXaDWTnRSK6VSSXCSqWAo9ASLt+74RRIvM/eLnYs1Iz3CUqvYDSdMrTd/CQ+rq
- 7Uww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
- b=VkzfjjKRXUrZH0WSP/hAEVeHQBjd/KBqc04YUzyGgLyJzps0r17Q9vOusSK9wcah9Z
- L5swjZwaWent+N+cIcqycwgEcquUyETuPmmgsG3Ol5A/vZC8oLMZtIk41eqwBMxKbqjL
- Q42jB/Pf8UFZZGdz1Z5By+1TdFBNEZrEzSstzsDsR/RQ3FSLdaGRhHZAE87XilgxOvEK
- Y1xH8TksuNrrZZIkcsS/xuXkHk5HE5R+utMAtG3y+87y1sqxpAulsImS5GfkteutgEJ6
- u6QrsYsZXNzSaDHaWcl2nRTCJTdC8fC3kXr1lroNs/CpSK/UbXS/oLC3vk0WIOwaUmLo
- 3mnw==
-X-Gm-Message-State: AOAM533TYlj6Ak9nBaKTnzNJ3Ka+ppF6jq0LAJ1pWBg+eQqFQCgxfDtL
- qQhtQYhf1nuUvK/gJTZ1BOsN89dFGkxqw+/3eRxNDw==
-X-Google-Smtp-Source: ABdhPJwADoSTh9axrzXODWW9/zmv/BOuIsIRoK4uginvkl+fxm/Pmh4atOmF02EcDNdhjJn90v29djoFR8TlCQGU8F0=
-X-Received: by 2002:a50:9b4f:0:b0:419:49af:429c with SMTP id
- a15-20020a509b4f000000b0041949af429cmr3390112edj.276.1648078639171; Wed, 23
- Mar 2022 16:37:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220322095223.GG8477@blackbody.suse.cz>
- <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
-In-Reply-To: <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 23 Mar 2022 16:37:08 -0700
-Message-ID: <CABdmKX3Un=k3yU1BuCnEEoZkOqMovVrjcg=GiqDEtLZD_awX3g@mail.gmail.com>
-Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA20A10E1E3;
+ Wed, 23 Mar 2022 23:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648078841; x=1679614841;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=fywA70Vqr2kxnHmlRzHy2xr8P2pLwM3ZwCoVtrDndZ4=;
+ b=V41nGhGZ6Z4Xi9UFgyfD5h4voQhW/WY/pFg5dyMHblxpVZ2nnIZLZLqG
+ mrO63dO0WDQdvn/6K7ggg2TvnhGZl8gMguIyXRO1xIjUEdNzigDcrEG0K
+ fgkggCjx3iPbig2PvAqLtJHZZsocYYNv68/ZK6Ni2YxCyzcptPl5NJRHj
+ eWqrML+Fa2UjHC77qf7+XJ7Tjui3Wch4qcxGIpn7EuxyvBzr5dAEOP9zJ
+ nkmfEhYOMZqIB35Dfj8LYKPx+FCirq1xmYfmIfpGc6fr4G55A0yMO72hw
+ DYkr1yELlQHn7hnxyrnzc1JGcObfIdXS9z4SHvuN3akWHGSkS9wCLe83U g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="240409575"
+X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; d="scan'208";a="240409575"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 16:40:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; d="scan'208";a="583881629"
+Received: from irsmsx602.ger.corp.intel.com ([163.33.146.8])
+ by orsmga001.jf.intel.com with ESMTP; 23 Mar 2022 16:40:40 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 23 Mar 2022 23:40:38 +0000
+Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
+ fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.2308.021;
+ Wed, 23 Mar 2022 16:40:37 -0700
+From: "Chery, Nanley G" <nanley.g.chery@intel.com>
+To: "Deak, Imre" <imre.deak@intel.com>
+Subject: RE: [Intel-gfx] [PATCH v5 15/19] drm/i915/dg2: Add DG2 unified
+ compression
+Thread-Topic: [Intel-gfx] [PATCH v5 15/19] drm/i915/dg2: Add DG2 unified
+ compression
+Thread-Index: AQHYH650V/S35d50d0uBjmgxaJpA86yVPncA//98gXCAMVlRgIAHxbRQ
+Date: Wed, 23 Mar 2022 23:40:37 +0000
+Message-ID: <75a48ad279d449c399693b73ee50bb97@intel.com>
+References: <20220201104132.3050-1-ramalingam.c@intel.com>
+ <20220201104132.3050-16-ramalingam.c@intel.com>
+ <CAJDL4uKokNLKhx1Yd_gnxyqto+bcg+=efLZFLVxqp-D7aQW0oQ@mail.gmail.com>
+ <326a4099-f7d9-8adf-f371-d8ab0532256e@gmail.com>
+ <fd88996f283648f8b4eca3f3844d6e8d@intel.com>
+ <20220318173943.GA2622954@ideak-desk.fi.intel.com>
+In-Reply-To: <20220318173943.GA2622954@ideak-desk.fi.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,81 +79,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
- linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
- linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
- "Subject: Re: \[RFC v3 5/8\] dmabuf: Add gpu cgroup charge transfer function
- Reply-To: In-Reply-To:"
- <CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com>,
- cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Hridya Valsaraju <hridya@google.com>
+Cc: Nanley Chery <nanleychery@gmail.com>,
+ "juhapekka.heikkila@gmail.com" <juhapekka.heikkila@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 22, 2022 at 9:47 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> On Tue, Mar 22, 2022 at 2:52 AM Michal Koutn=C3=BD <mkoutny@suse.com> wro=
-te:
-> >
-> > On Mon, Mar 21, 2022 at 04:54:26PM -0700, "T.J. Mercier"
-> > <tjmercier@google.com> wrote:
-> > > Since the charge is duplicated in two cgroups for a short period
-> > > before it is uncharged from the source cgroup I guess the situation
-> > > you're thinking about is a global (or common ancestor) limit?
-> >
-> > The common ancestor was on my mind (after the self-shortcut).
-> >
-> > > I can see how that would be a problem for transfers done this way and
-> > > an alternative would be to swap the order of the charge operations:
-> > > first uncharge, then try_charge. To be certain the uncharge is
-> > > reversible if the try_charge fails, I think I'd need either a mutex
-> > > used at all gpucg_*charge call sites or access to the gpucg_mutex,
-> >
-> > Yes, that'd provide safe conditions for such operations, although I'm
-> > not sure these special types of memory can afford global lock on their
-> > fast paths.
->
-> I have a benchmark I think is suitable, so let me try this change to
-> the transfer implementation and see how it compares.
 
-I added a mutex to struct gpucg which is locked when charging the
-cgroup initially during allocation, and also only for the source
-cgroup during dma_buf_charge_transfer. Then I used a multithreaded
-benchmark where each thread allocates 4, 8, 16, or 32 DMA buffers and
-then sends them through Binder to another process with charge transfer
-enabled. This was intended to generate contention for the mutex in
-dma_buf_charge_transfer. The results of this benchmark show that the
-difference between a mutex protected charge transfer and an
-unprotected charge transfer is within measurement noise. The worst
-data point shows about 3% overheard for the mutex.
 
-So I'll prep this change for the next revision. Thanks for pointing it out.
->
+> -----Original Message-----
+> From: Deak, Imre <imre.deak@intel.com>
+> Sent: Friday, March 18, 2022 10:40 AM
+> To: Chery, Nanley G <nanley.g.chery@intel.com>
+> Cc: juhapekka.heikkila@gmail.com; Nanley Chery <nanleychery@gmail.com>; C=
+, Ramalingam <ramalingam.c@intel.com>; intel-gfx <intel-
+> gfx@lists.freedesktop.org>; Auld, Matthew <matthew.auld@intel.com>; dri-d=
+evel <dri-devel@lists.freedesktop.org>
+> Subject: Re: [Intel-gfx] [PATCH v5 15/19] drm/i915/dg2: Add DG2 unified c=
+ompression
+>=20
+> On Thu, Feb 17, 2022 at 05:15:15PM +0000, Chery, Nanley G wrote:
+> > > >> [...]
+> > > >> --- a/include/uapi/drm/drm_fourcc.h
+> > > >> +++ b/include/uapi/drm/drm_fourcc.h
+> > > >> @@ -583,6 +583,28 @@ extern "C" {
+> > > >>    */
+> > > >>   #define I915_FORMAT_MOD_4_TILED         fourcc_mod_code(INTEL, 9=
+)
+> > > >>
+> > > >> +/*
+> > > >> + * Intel color control surfaces (CCS) for DG2 render compression.
+> > > >> + *
+> > > >> + * DG2 uses a new compression format for render compression. The =
+general
+> > > >> + * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
+> > > >> + * but a new hashing/compression algorithm is used, so a fresh mo=
+difier must
+> > > >> + * be associated with buffers of this type. Render compression us=
+es 128 byte
+> > > >> + * compression blocks.
+> > > >
+> > > > I think I've seen a way to configure the compression block size on =
+TGL
+> > > > at least. I can't find the spec text for that at the moment though.=
+..
+> > > > Could we omit these mentions?
+> > >
+> > > Not sure why general possibility of changing compression block size i=
+s relevant?
+> > > All hw features can be changed but this defines how this modifier is =
+being
+> > > implemented.
 > >
-> > > which implies adding transfer support to gpu.c as part of the gpucg_*
-> > > API itself and calling it here. Am I following correctly here?
+> > I was concerned about compatibility between the different modes, but I'=
+ve
+> > looked into the restrictions here and don't see any problems with this.
 > >
-> > My idea was to provide a special API (apart from
-> > gpucp_{try_charge,uncharge}) to facilitate transfers...
+> > > Say you take I915_FORMAT_MOD_4_TILED_DG2_RC_CCS framebuffer including
+> > > control surface and copy it out, then come back and restore framebuff=
+er with
+> > > same information. It is expected to be valid?
 > >
-> > > This series doesn't actually add limit support just accounting, but
-> > > I'd like to get it right here.
+> > > /Juha-Pekka
+> > >
+> > > >> + */
+> > > >> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS fourcc_mod_code(INTEL,=
+ 10)
+> > > >> +
+> > > >
+> > > > How about something like:
+> > > >
+> > > > The main surface is Tile 4 and at plane index 0. The CCS plane is
+> > > > hidden from userspace. The main surface pitch is required to be a
+> > > > multiple of four Tile 4 widths. The CCS is configured with the rend=
+er
+> > > > compression format associated with the main surface format.
 > >
-> > ...which could be implemented (or changed) depending on how the chargin=
-g
-> > is realized internally.
+> > Actually, let's omit the last sentence. CCS has always been affected
+> > by the main surface format, so I don't think there's a need to mention =
+it
+> > specifically for the DG2 modifier.
 > >
+> > We do need to mention the 4-tile-wide pitch requirement though.
+>=20
+> Agreed, the DG2 layout of planes and the tile format used - both
+> different wrt. the GEN12_RC_CCS format - should be described here.
+>=20
+> > -Nanley
 > >
-> > Michal
+> > > > ....I think the CCS is technically accessible via the blitter engin=
+e,
+> > > > so the part about the plane being "hidden" may need some tweaking.
+>=20
+> Maybe outside of the GEM object? Capturing all the above would you be ok
+> with the following?:
+>=20
+> Intel color control surfaces (CCS) for DG2 render compression.
+>=20
+> The main surface is Tile 4 and at plane index 0. The CCS data is stored
+> outside of the GEM object in a reserved memory area dedicated for the
+> storage of the CCS data from all GEM objects. The main surface pitch is
+> required to be a multiple of four Tile 4 widths.
+>=20
+>=20
+> Intel color control surfaces (CCS) for DG2 media compression.
+>=20
+> The main surface is Tile 4 and at plane index 0. For semi-planar formats
+> like NV12, the UV plane is Tile 4 at plane index 1. The CCS data both for
+> the main and semi-planar UV planes are stored outside of the GEM object
+
+This kind of implies that the Y plane is the main surface, but it's not mor=
+e
+"main" than the UV plane right? Seems like we should specifically call out =
+the
+Y plane for clarity. Maybe something like:
+
+For semi-planar formats like NV12, the Y and UV planes are Tile 4 and are=20
+located at plane indices 0 and 1, respectively. The CCS for all planes are =
+stored=20
+outside of the GEM object
+
+> in a reserved memory area dedicated for the storage of the CCS data from
+> all GEM objects. The main surface pitch is required to be a multiple of
+> four Tile 4 widths.
+>=20
+
+Looks good to me. Main suggestion I have here is to substitute=20
+"from all GEM objects" with "for all compressible GEM objects".
+Happy to look at further revisions, but with that change at least,
+Acked-by: Nanley Chery <nanley.g.chery@intel.com>
+
+> > > > -Nanley
+> > > >
+> > > >> +/*
+> > > >> + * Intel color control surfaces (CCS) for DG2 media compression.
+> > > >> + *
+> > > >> + * DG2 uses a new compression format for media compression. The
+> > > >> +general
+> > > >> + * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
+> > > >> + * but a new hashing/compression algorithm is used, so a fresh
+> > > >> +modifier must
+> > > >> + * be associated with buffers of this type. Media compression use=
+s
+> > > >> +256 byte
+> > > >> + * compression blocks.
+> > > >> + */
+> > > >> +#define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS
+> > > fourcc_mod_code(INTEL,
+> > > >> +11)
+> > > >> +
+> > > >>   /*
+> > > >>    * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized mac=
+roblocks
+> > > >>    *
+> > > >> --
+> > > >> 2.20.1
+> > > >>
+> >
