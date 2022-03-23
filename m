@@ -2,85 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEA34E50E2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E197E4E50E3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B02D310E699;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15EAB10E696;
 	Wed, 23 Mar 2022 11:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 456 seconds by postgrey-1.36 at gabe;
- Wed, 23 Mar 2022 08:50:13 UTC
-Received: from nx5.node01.servicehoster.ch (nx5.node01.servicehoster.ch
- [194.191.24.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44BE310E62E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 08:50:13 +0000 (UTC)
-Received: from mailcluster2a.servicehoster.ch ([194.191.24.193])
- by node01.servicehoster.ch with esmtps (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <max.krummenacher@active.ch>)
- id 1nWwZO-00AssC-Ts; Wed, 23 Mar 2022 09:42:25 +0100
-X-SecureMailgate-Identity: max.krummenacher@active.ch;
- mailcluster2a.servicehoster.ch
-Received: from Saturn.fritz.box (unknown [194.191.225.82])
- (Authenticated sender: max.krummenacher@active.ch)
- by mailcluster2a.servicehoster.ch (Postfix) with ESMTPSA id CB5F1280B1E;
- Wed, 23 Mar 2022 09:42:11 +0100 (CET)
-Message-ID: <5ae44b7cd1f7577c98f316a7d288aa4cf423da2d.camel@active.ch>
-Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
- bpc and bus_format
-From: Max Krummenacher <max.krummenacher@active.ch>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Maxime Ripard
- <maxime@cerno.tech>
-Date: Wed, 23 Mar 2022 09:42:11 +0100
-In-Reply-To: <CAPY8ntAjnmAyr=6sdAJWbmiEODHM3=Q3c5UnBCTNgyZqBsWBzQ@mail.gmail.com>
-References: <20220222084723.14310-1-max.krummenacher@toradex.com>
- <20220223134154.oo7xhf37bgtvm3ai@houat>
- <b5f471f4-0712-b798-efb8-b5b481cdb898@denx.de>
- <CAEHkU3Womyq09Lz62SJohix5JywfKvBRvuWedqF1D7gvb+T2tQ@mail.gmail.com>
- <20220302142142.zroy464l5etide2g@houat>
- <9c9a10ca-e6a1-c310-c0a5-37d4fed6efd6@denx.de>
- <CAEHkU3We_odwtWBXHdcwu+_9yEUo0mudC5sVjr0or0C6nbw+vw@mail.gmail.com>
- <20220318163549.5a5v3lex4btnnvgb@houat>
- <CAPY8ntDgWwXyWXDWVouzhdC2wsyjbRgfrvWGU=MRG_2sAquHyQ@mail.gmail.com>
- <20220318171642.y72eqf5qbmuu2ln2@houat>
- <CAPY8ntAjnmAyr=6sdAJWbmiEODHM3=Q3c5UnBCTNgyZqBsWBzQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38FB3899BC;
+ Wed, 23 Mar 2022 09:28:22 +0000 (UTC)
+X-UUID: ecf5ef8bac7f43fd98f087590c40f412-20220323
+X-Spam-Fingerprint: 0
+X-GW-Reason: 11101
+X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HNeS6uumcgOimgeWuoeaguA==
+X-Content-Feature: ica/max.line-size 1267 audit/tw.license_plate 2
+ audit/email.address 5
+X-UUID: ecf5ef8bac7f43fd98f087590c40f412-20220323
+Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+ (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
+ with ESMTP id 397719327; Wed, 23 Mar 2022 16:47:41 +0800
+Received: by cs2c.com.cn (NSMail, from userid 10001)
+ id 72053383E604; Wed, 23 Mar 2022 16:48:25 +0800 (CST)
+From: <liucong2@kylinos.cn>
+Subject: =?UTF-8?B?5Zue5aSNOiBSZTogW1BBVENIIHYxIDEvMl0gZHJtL3F4bDogcmVwbGFjZSBpb3JlbWFwIGJ5IGlvcmVtYXBfY2FjaGUgb24gYXJtNjQ=?=
+To: =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+ <airlied@redhat.com>, <kraxel@redhat.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <ray.huang@amd.com>,
+ <virtualization@lists.linux-foundation.org>,
+ <spice-devel@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+Date: Wed, 23 Mar 2022 16:48:25 +0800
+X-Mailer: NSMAIL 6.0
+Message-ID: <18a8ijpwp6j-18a9shjbr0c@nsmail6.0>
+References: e2bc20e4-41e1-7162-257c-f2ad3309f1cb@amd.com
+X-Delaysendtime: Wed, 23 Mar 2022 16:48:25 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: 194.191.24.193
-X-SpamExperts-Domain: mailcluster2.servicehoster.ch
-X-SpamExperts-Username: 194.191.24.193
-Authentication-Results: servicehoster.ch; auth=pass
- smtp.auth=194.191.24.193@mailcluster2.servicehoster.ch
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.08)
-X-Recommended-Action: accept
-X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT+mNrXjdnEdHzLTkSqGI4iIPUtbdvnXkggZ
- 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5yvUezdNljdXyX/cs+SFGk7LkTDNBh6jJJKm8FuXfRJZ2Jz
- p3lNakgf5J47FmsD1TbSPslv0jTgYtIvY8V0I5Br60K1dx2ySzgygIOFCiyffGdzVm+qrMxDYiwp
- dJqAx7DKgW6oETcVUil/rv4MdMWLi8TdX3d2lJKosXCBST5ZTSeEJVW0u0DmCen7lqF9/YgzsHYi
- pclr2BmVn3xAG779rtyy7k4695/fxkzEz8p7DGB07n5NqAnUcKzSfG77X4DDUaAEY27EoqWG+kRY
- CG+EHyxxk8Sjs3o9/k8nLBnptKosbLXBoa11WG2P6orhBuen1axO80gjKDZCw8vGagTsvjw3UMZ3
- mKyIj3bPgNKiKUm00qokcizqGXDlFhJUcxluTIxrk/DLBtkPx3Zw0hQIRnUZlKFSJrdU9cma+kqz
- ezz2IADHvOQ8sNe6K/SDpK477zoTHjmCBkxNiEW+p0MJblEa+IFtb/eqEHmttFfxKw3/6jQbn8ai
- MRn5UxSU9z6QfTinDpIWHKzxFJNvb4GiYMvn+MY8spvEANqgSG9q4Y2jaANDUzyZYtdgftxFqNOi
- /TvkFsMIdEy1NMPLedfEF4k4D7q+0m0dIbLYIPkWU9kZ1vqKv2kkpXyWtsWMH2a89gIZj2SS8FVq
- Owk3UuoEVdNAGwH0pjoKxnSMN4OjhBHyALeV2k6+lXA6hlWIisheBz6Mv0ZDO8nwRrNw9bg/srPU
- JQ8ngT7viZuexmI2viabsfRx4e7LLFIZzYf71k3vg38/N7wk0VJ5ENJeABDG9bq7Q7apcd56Fvex
- 2jwzRh3TepsEfHe3s6WSdDs1rIKW4v2kTVOQz1TnBXE7Vu6mmpHY0PxxMEdwRyQinyMDMLJK5Eyb
- QcxaGdeTstr8Iq0SkKBVDuQczOmmTmE2PhQD7PXdVeylCRYE+XLO6afZYnzcuAP15er95HggPbIX
- t1mVIXEkspas1Qp+43w57d7mCVcV1pRwGFyEirfbRiMcgdezYqxGMqsKjARq8PBC4qgPRpLHXu5q
- zw5Ha1KwMUW9J/aULxz+zIh9/b7lFAi/tw640VD7l4Yggj+qBcHeC/YpOMQJvQ/Ck3iiU+4DQAj3
- Mh0rAdqV2vAZNNU5F2Ewrg7h/fw/bmJkjw2ET2AXTb3e2y+JM5gVKVDsXEqwXdgJWr3TYb+hme2C
- GQvJWs+gytD8VGI2PGyTJN54qIrxbK095Ri/7zKFoA7PoOGdoWEFHQ0M+fCAnF2jY27uRBa9YbzC
- XiZYIXP7uHBqCzR38IVuwgR8m2U7sFDwAM9lylRYVPIjw51VbrQxBwAU6B3t/lSt60m+YgnqP0gC
- Ov3dCcrWfF4r5sRpJwo2H6cJUtQ4+TypG/8aX3QFWuVBLYssBCG7X+t1TW39Ja77LGPpOwDuOZFQ
- ygKfVF1qJcMcfNTFBrEBToD/57/mc/uuT4HgzcC+RZbVccXAyirJ+G8YjRbDl4UujAgzopkKbLjv
- MM2mFL8nSJHBlAy1LZxoJoKpzEwZVUape5IgNZlRl5Qyn7QuJ7Z7bgUj/8mLhg1vFIZJIHzzeuJ1
- hF3evSWOg6WPI+WrjJM1z/XiXExD+4pm0h71RNnc/QBNNrDTLfP4HQ0+Id4Ul8evRvQH4CJHf3bt
- XQ==
-X-Report-Abuse-To: spam@node01.servicehoster.ch
+Content-Type: multipart/mixed; boundary=nsmail-18bjqaydkse-18bjqaydksf
+X-ns-mid: webmail-623aded9-18bfwhi4
 X-Mailman-Approved-At: Wed, 23 Mar 2022 11:01:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,179 +52,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: max.krummenacher@gmx.de
-Cc: Marek Vasut <marex@denx.de>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Max Krummenacher <max.krummenacher@toradex.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- DenysDrozdov <denys.drozdov@toradex.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, den 18.03.2022, 17:53 +0000 schrieb Dave Stevenson:
-> On Fri, 18 Mar 2022 at 17:16, Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Fri, Mar 18, 2022 at 05:05:11PM +0000, Dave Stevenson wrote:
-> > > Hi Maxime
-> > > 
-> > > On Fri, 18 Mar 2022 at 16:35, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > On Mon, Mar 07, 2022 at 04:26:56PM +0100, Max Krummenacher wrote:
-> > > > > On Wed, Mar 2, 2022 at 5:22 PM Marek Vasut <marex@denx.de> wrote:
-> > > > > > On 3/2/22 15:21, Maxime Ripard wrote:
-> > > > > > > Hi,
-> > > > > > 
-> > > > > > Hi,
-> > > > > > 
-> > > > > > > Please try to avoid top posting
-> > > > > Sorry.
-> > > > > 
-> > > > > > > On Wed, Feb 23, 2022 at 04:25:19PM +0100, Max Krummenacher wrote:
-> > > > > > > > The goal here is to set the element bus_format in the struct
-> > > > > > > > panel_desc. This is an enum with the possible values defined in
-> > > > > > > > include/uapi/linux/media-bus-format.h.
-> > > > > > > > 
-> > > > > > > > The enum values are not constructed in a way that you could calculate
-> > > > > > > > the value from color channel width/shift/mapping/whatever. You rather
-> > > > > > > > would have to check if the combination of color channel
-> > > > > > > > width/shift/mapping/whatever maps to an existing value and otherwise
-> > > > > > > > EINVAL out.
-> > > > > > > > 
-> > > > > > > > I don't see the value in having yet another way of how this
-> > > > > > > > information can be specified and then having to write a more
-> > > > > > > > complicated parser which maps the dt data to bus_format.
-> > > > > > > 
-> > > > > > > Generally speaking, sending an RFC without explicitly stating what you
-> > > > > > > want a comment on isn't very efficient.
-> > > > > > 
-> > > > > > Isn't that what RFC stands for -- Request For Comment ?
-> > > > > 
-> > > > > I hoped that the link to the original discussion was enough.
-> > > > > 
-> > > > > panel-simple used to have a finite number of hardcoded panels selected
-> > > > > by their compatible.
-> > > > > The following patchsets added a compatible 'panel-dpi' which should
-> > > > > allow to specify the panel in the device tree with timing etc.
-> > > > >   
-> > > > > https://patchwork.kernel.org/project/dri-devel/patch/20200216181513.28109-6-sam@ravnborg.org/
-> > > > > In the same release cycle part of it got reverted:
-> > > > >   
-> > > > > https://patchwork.kernel.org/project/dri-devel/patch/20200314153047.2486-3-sam@ravnborg.org/
-> > > > > With this it is no longer possible to set bus_format.
-> > > > > 
-> > > > > The explanation what makes the use of a property "data-mapping" not a
-> > > > > suitable way in that revert
-> > > > > is a bit vague.
-> > > > 
-> > > > Indeed, but I can only guess. BGR666 in itself doesn't mean much for
-> > > > example. Chances are the DPI interface will use a 24 bit bus, so where
-> > > > is the padding?
-> > > > 
-> > > > I think that's what Sam and Laurent were talking about: there wasn't
-> > > > enough information encoded in that property to properly describe the
-> > > > format, hence the revert.
+This message is in MIME format.
 
-I agree that the strings used to set "data-mapping" weren't self explaining.
-However, as there was a
-clear 1:1 relation to the bus_format value the meaning
-wasn't ambiguous at all.
+--nsmail-18bjqaydkse-18bjqaydksf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-> > > 
-> > > MEDIA_BUS_FMT_RGB666_1X18 defines an 18bit bus, therefore there is no
-> > > padding. "bgr666" was selecting that media bus code (I won't ask about
-> > > the rgb/bgr swap).
-> > > 
-> > > If there is padding on a 24 bit bus, then you'd use (for example)
-> > > MEDIA_BUS_FMT_RGB666_1X24_CPADHI to denote that the top 2 bits of each
-> > > colour are the padding. Define and use a PADLO variant if the padding
-> > > is the low bits.
-> > 
-> > Yeah, that's kind of my point actually :)
-> 
-> Ah, OK :)
-> 
-> > Just having a rgb666 string won't allow to differentiate between
-> > MEDIA_BUS_FMT_RGB666_1X18 and MEDIA_BUS_FMT_RGB666_1X24_CPADHI: both are
-> > RGB666 formats. Or we could say that it's MEDIA_BUS_FMT_RGB666_1X18 and
-> > then when we'll need MEDIA_BUS_FMT_RGB666_1X24_CPADHI we'll add a new
-> > string but that usually leads to inconsistent or weird names, so this
-> > isn't ideal.
+PHA+SGkgQ2hyaXN0aWFuLDwvcD48cD48YnI+PC9wPjxwPmFjY29yZGluZyB0
+byAnQXJtIEFyY2hpdGVjdHVyZSBSZWZlcmVuY2UgTWFudWFsIEFybXY4LGZv
+ciBBcm12OC1BPC9wPjxwPmFyY2hpdGVjdHVyZSBwcm9maWxlJyBwZGYgRTIu
+Ni41PC9wPjxwPjxicj48L3A+PHA+RTIuNi41IEdlbmVyYXRpb24gb2YgQWxp
+Z25tZW50IGZhdWx0cyBieSBsb2FkL3N0b3JlIG11bHRpcGxlIGFjY2Vzc2Vz
+IHRvPC9wPjxwPiZuYnNwO0RldmljZSBtZW1vcnk8L3A+PHA+PGJyPjwvcD48
+cD48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPldoZW4g
+RkVBVF9MU01BT0MgaXMgaW1wbGVtZW50ZWQgYW5kIHRoZSB2YWx1ZSBvZiB0
+aGUgYXBwbGljYWJsZSBuVExTTUQ8L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRl
+LXNwYWNlOnByZSI+CTwvc3Bhbj5maWVsZCBpcyAwLCBhbnkgbWVtb3J5IGFj
+Y2VzcyBieSBhbiBBQXJjaDMyIExvYWQgTXVsdGlwbGUgb3IgU3RvcmUmbmJz
+cDs8L3A+PHA+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bh
+bj5NdWx0aXBsZSBpbnN0cnVjdGlvbiB0byBhbiBhZGRyZXNzIHRoYXQgdGhl
+IHN0YWdlIDEgdHJhbnNsYXRpb24mbmJzcDs8L3A+PHA+PHNwYW4gc3R5bGU9
+IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5hc3NpZ25zIGFzIERldmljZS1u
+R1JFLCBEZXZpY2UtbkduUkUsIG9yIERldmljZS1uR25SbkUgZ2VuZXJhdGVz
+Jm5ic3A7PC9wPjxwPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlOyI+
+CTwvc3Bhbj5hbiBBbGlnbm1lbnQgZmF1bHQuPC9wPjxicj48cD5zbyBpdCBz
+ZWVtcyBub3QganVzdCZuYnNwO3NvbWUgQVJNIGJvYXJkcyBkb2Vzbid0IGFs
+bG93IHVuYWxpZ25lZCBhY2Nlc3MgdG8gTU1JTyZuYnNwOzwvcD48cD5zcGFj
+ZSwgYWxsIHBjaSBtZW1vcnkgbWFwcGVkIGFzJm5ic3A7RGV2aWNlLW5HblJF
+IGluIGFybTY0IGNhbm5vdCBzdXBwb3J0PC9wPjxwPnVuYWxpZ25lZCBhY2Nl
+c3MuIGFuZCBxeGwgaXMgYSBkZXZpY2UmbmJzcDtzaW11bGF0ZWQgYnkgcWVt
+dSwgaXQgc2hvdWxkIGJlIGFibGUgdG8gYWNjZXNzJm5ic3A7PC9wPjxwPnRv
+IE1NSU8gc3BhY2UgaW4gYSBtb3JlIGZsZXhpYmxlIHdheShQUk9UX05PUk1B
+TCkgdGhhbiB0aGUgcmVhbCBwaHlzaWNhbCZuYnNwOzwvcD48cD5ncmFwaGlj
+cyBjYXJkLjwvcD48cD48YnI+PC9wPjxwPi0tLS08L3A+PHA+PGJyPjwvcD48
+cD48YnI+PC9wPjxwPkNvbmcuPGJyPjwvcD48cD48YnI+PC9wPjxwPjxicj48
+YnI+PGJyPgogJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PC9wPjxwPjxz
+dHJvbmc+5Li744CA6aKY77yaPC9zdHJvbmc+PHNwYW4gaWQ9InN1YmplY3Qi
+PlJlOiBbUEFUQ0ggdjEgMS8yXSBkcm0vcXhsOiByZXBsYWNlIGlvcmVtYXAg
+YnkgaW9yZW1hcF9jYWNoZSBvbiBhcm02NDwvc3Bhbj4KICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PGJyPjxzdHJvbmc+5pel
+44CA5pyf77yaPC9zdHJvbmc+PHNwYW4gaWQ9ImRhdGUiPjIwMjItMDMtMjMg
+MTU6MTU8L3NwYW4+CiAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOzxicj48c3Ryb25nPuWPkeS7tuS6uu+8mjwvc3Ryb25nPjxz
+cGFuIGlkPSJmcm9tIj5DaHJpc3RpYW4gS8O2bmlnPC9zcGFuPgogJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDs8YnI+PHN0cm9u
+Zz7mlLbku7bkurrvvJo8L3N0cm9uZz48c3BhbiBpZD0idG8iPkNvbmcgTGl1
+YWlybGllZEByZWRoYXQuY29ta3JheGVsQHJlZGhhdC5jb21haXJsaWVkQGxp
+bnV4LmllZGFuaWVsQGZmd2xsLmNocmF5Lmh1YW5nQGFtZC5jb212aXJ0dWFs
+aXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZ3NwaWNlLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZ2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmc8L3NwYW4+CiAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOwogJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PC9w
+PjxwPjxicj4KICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOzwvcD48cD5B
+bSAyMi4wMy4yMiB1bSAxMDozNCBzY2hyaWViIENvbmcgTGl1Ojxicj4mZ3Q7
+IHF4bCB1c2UgaW9yZW1hcCB0byBtYXAgcmFtX2hlYWRlciBhbmQgcm9tLCBp
+biB0aGUgYXJtNjQgaW1wbGVtZW50YXRpb24sPGJyPiZndDsgdGhlIGRldmlj
+ZSBpcyBtYXBwZWQgYXMgREVWSUNFX25HblJFLCBpdCBjYW4gbm90IHN1cHBv
+cnQgdW5hbGlnbmVkPGJyPiZndDsgYWNjZXNzLjxicj48YnI+V2VsbCB0aGF0
+IHNvbWUgQVJNIGJvYXJkcyBkb2Vzbid0IGFsbG93IHVuYWxpZ25lZCBhY2Nl
+c3MgdG8gTU1JTyBzcGFjZSA8YnI+aXMgYSB3ZWxsIGtub3duIGJ1ZyBvZiB0
+aG9zZSBBUk0gYm9hcmRzLjxicj48YnI+U28gYXMgZmFyIGFzIEkga25vdyB0
+aGlzIGlzIGEgaGFyZHdhcmUgYnVnIHlvdSBhcmUgdHJ5aW5nIHRvIHdvcmth
+cm91bmQgPGJyPmhlcmUgYW5kIEknbSBub3QgMTAwJSBzdXJlIHRoYXQgdGhp
+cyBpcyBjb3JyZWN0Ljxicj48YnI+Q2hyaXN0aWFuLjxicj48YnI+Jmd0Ozxi
+cj4mZ3Q7ICZuYnNwOyAmbmJzcDs2LjYyMDUxNV0gcGMgOiBzZXR1cF9od19z
+bG90KzB4MjQvMHg2MCBbcXhsXTxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYu
+NjIwOTYxXSBsciA6IHNldHVwX3Nsb3QrMHgzNC8weGYwIFtxeGxdPGJyPiZn
+dDsgWyAmbmJzcDsgJm5ic3A7Ni42MjEzNzZdIHNwIDogZmZmZjgwMDAxMmI3
+Mzc2MDxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjIxNzAxXSB4Mjk6IGZm
+ZmY4MDAwMTJiNzM3NjAgeDI4OiAwMDAwMDAwMDAwMDAwMDAxIHgyNzogMDAw
+MDAwMDAxMDAwMDAwMDxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjIyNDAw
+XSB4MjY6IDAwMDAwMDAwMDAwMDAwMDEgeDI1OiAwMDAwMDAwMDA0MDAwMDAw
+IHgyNDogZmZmZmNmMzc2ODQ4YzAwMDxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNw
+OzYuNjIzMDk5XSB4MjM6IGZmZmYwMDAwYzQwODc0MDAgeDIyOiBmZmZmY2Yz
+NzE4ZTE3MTQwIHgyMTogMDAwMDAwMDAwMDAwMDAwMDxicj4mZ3Q7IFsgJm5i
+c3A7ICZuYnNwOzYuNjIzODIzXSB4MjA6IGZmZmYwMDAwYzQwODYwMDAgeDE5
+OiBmZmZmMDAwMGM0MDg3MGIwIHgxODogMDAwMDAwMDAwMDAwMDAxNDxicj4m
+Z3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI0NTE5XSB4MTc6IDAwMDAwMDAwNGQz
+NjA1YWIgeDE2OiAwMDAwMDAwMGJiM2I2MTI5IHgxNTogMDAwMDAwMDA2ZTc3
+MTgwOTxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI1MjE0XSB4MTQ6IDAw
+MDAwMDAwMDAwMDAwMDEgeDEzOiAwMDc0NzM2OTZjNWY3OTc0IHgxMjogNjk2
+ZTY5NjY2NjYxNWY2NTxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI1OTA5
+XSB4MTE6IDAwMDAwMDAwZDU0MzY1NmEgeDEwOiAwMDAwMDAwMDAwMDAwMDAw
+IHg5IDogZmZmZmNmMzcxOGUwODVhNDxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNw
+OzYuNjI2NjE2XSB4OCA6IDAwMDAwMDAwMDA2Yzc4NzEgeDcgOiAwMDAwMDAw
+MDAwMDAwMDBhIHg2IDogMDAwMDAwMDAwMDAwMDAxNzxicj4mZ3Q7IFsgJm5i
+c3A7ICZuYnNwOzYuNjI3MzQzXSB4NSA6IDAwMDAwMDAwMDAwMDE0MDAgeDQg
+OiBmZmZmODAwMDExZjYzNDAwIHgzIDogMDAwMDAwMDAxNDAwMDAwMDxicj4m
+Z3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI4MDQ3XSB4MiA6IDAwMDAwMDAwMDAw
+MDAwMDAgeDEgOiBmZmZmMDAwMGM0MDg3MGIwIHgwIDogZmZmZjAwMDBjNDA4
+NjAwMDxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI4NzUxXSBDYWxsIHRy
+YWNlOjxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI4OTk0XSAmbmJzcDtz
+ZXR1cF9od19zbG90KzB4MjQvMHg2MCBbcXhsXTxicj4mZ3Q7IFsgJm5ic3A7
+ICZuYnNwOzYuNjI5NDA0XSAmbmJzcDtzZXR1cF9zbG90KzB4MzQvMHhmMCBb
+cXhsXTxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjI5NzkwXSAmbmJzcDtx
+eGxfZGV2aWNlX2luaXQrMHg2ZjAvMHg3ZjAgW3F4bF08YnI+Jmd0OyBbICZu
+YnNwOyAmbmJzcDs2LjYzMDIzNV0gJm5ic3A7cXhsX3BjaV9wcm9iZSsweGRj
+LzB4MWQwIFtxeGxdPGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42MzA2NTRd
+ICZuYnNwO2xvY2FsX3BjaV9wcm9iZSsweDQ4LzB4Yjg8YnI+Jmd0OyBbICZu
+YnNwOyAmbmJzcDs2LjYzMTAyN10gJm5ic3A7cGNpX2RldmljZV9wcm9iZSsw
+eDE5NC8weDIwODxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjMxNDY0XSAm
+bmJzcDtyZWFsbHlfcHJvYmUrMHhkMC8weDQ1ODxicj4mZ3Q7IFsgJm5ic3A7
+ICZuYnNwOzYuNjMxODE4XSAmbmJzcDtfX2RyaXZlcl9wcm9iZV9kZXZpY2Ur
+MHgxMjQvMHgxYzA8YnI+Jmd0OyBbICZuYnNwOyAmbmJzcDs2LjYzMjI1Nl0g
+Jm5ic3A7ZHJpdmVyX3Byb2JlX2RldmljZSsweDQ4LzB4MTMwPGJyPiZndDsg
+WyAmbmJzcDsgJm5ic3A7Ni42MzI2NjldICZuYnNwO19fZHJpdmVyX2F0dGFj
+aCsweGM0LzB4MWE4PGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42MzMwNDld
+ICZuYnNwO2J1c19mb3JfZWFjaF9kZXYrMHg3OC8weGQwPGJyPiZndDsgWyAm
+bmJzcDsgJm5ic3A7Ni42MzM0MzddICZuYnNwO2RyaXZlcl9hdHRhY2grMHgy
+Yy8weDM4PGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42MzM3ODldICZuYnNw
+O2J1c19hZGRfZHJpdmVyKzB4MTU0LzB4MjQ4PGJyPiZndDsgWyAmbmJzcDsg
+Jm5ic3A7Ni42MzQxNjhdICZuYnNwO2RyaXZlcl9yZWdpc3RlcisweDZjLzB4
+MTI4PGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42MzUyMDVdICZuYnNwO19f
+cGNpX3JlZ2lzdGVyX2RyaXZlcisweDRjLzB4NTg8YnI+Jmd0OyBbICZuYnNw
+OyAmbmJzcDs2LjYzNTYyOF0gJm5ic3A7cXhsX2luaXQrMHg0OC8weDEwMDAg
+W3F4bF08YnI+Jmd0OyBbICZuYnNwOyAmbmJzcDs2LjYzNjAxM10gJm5ic3A7
+ZG9fb25lX2luaXRjYWxsKzB4NTAvMHgyNDA8YnI+Jmd0OyBbICZuYnNwOyAm
+bmJzcDs2LjYzNjM5MF0gJm5ic3A7ZG9faW5pdF9tb2R1bGUrMHg2MC8weDIz
+ODxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjM2NzY4XSAmbmJzcDtsb2Fk
+X21vZHVsZSsweDI0NTgvMHgyOTAwPGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7
+Ni42MzcxMzZdICZuYnNwO19fZG9fc3lzX2Zpbml0X21vZHVsZSsweGJjLzB4
+MTI4PGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42Mzc1NjFdICZuYnNwO19f
+YXJtNjRfc3lzX2Zpbml0X21vZHVsZSsweDI4LzB4Mzg8YnI+Jmd0OyBbICZu
+YnNwOyAmbmJzcDs2LjYzODAwNF0gJm5ic3A7aW52b2tlX3N5c2NhbGwrMHg3
+NC8weGYwPGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7Ni42MzgzNjZdICZuYnNw
+O2VsMF9zdmNfY29tbW9uLmNvbnN0cHJvcC4wKzB4NTgvMHgxYTg8YnI+Jmd0
+OyBbICZuYnNwOyAmbmJzcDs2LjYzODgzNl0gJm5ic3A7ZG9fZWwwX3N2Yysw
+eDJjLzB4OTA8YnI+Jmd0OyBbICZuYnNwOyAmbmJzcDs2LjYzOTIxNl0gJm5i
+c3A7ZWwwX3N2YysweDQwLzB4MTkwPGJyPiZndDsgWyAmbmJzcDsgJm5ic3A7
+Ni42Mzk1MjZdICZuYnNwO2VsMHRfNjRfc3luY19oYW5kbGVyKzB4YjAvMHhi
+ODxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjM5OTM0XSAmbmJzcDtlbDB0
+XzY0X3N5bmMrMHgxYTQvMHgxYTg8YnI+Jmd0OyBbICZuYnNwOyAmbmJzcDs2
+LjY0MDI5NF0gQ29kZTogOTEwMDAzZmQgZjk0ODQ4MDQgZjk0MDBjMjMgOGIw
+NTAwODQgKGY4MDljMDgzKTxicj4mZ3Q7IFsgJm5ic3A7ICZuYnNwOzYuNjQw
+ODg5XSAtLS1bIGVuZCB0cmFjZSA5NTYxNWQ4OWI3Yzg3Zjk1IF0tLS08YnI+
+Jmd0Ozxicj4mZ3Q7IFNpZ25lZC1vZmYtYnk6IENvbmcgTGl1PGxpdWNvbmcy
+QGt5bGlub3MuY24+PGJyPiZndDsgLS0tPGJyPiZndDsgJm5ic3A7IGRyaXZl
+cnMvZ3B1L2RybS9xeGwvcXhsX2ttcy5jIHwgMTAgKysrKysrKysrKzxicj4m
+Z3Q7ICZuYnNwOyAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKTxi
+cj4mZ3Q7PGJyPiZndDsgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX2ttcy5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfa21zLmM8
+YnI+Jmd0OyBpbmRleCA0ZGM1YWQxM2YxMmMuLjBlNjFhYzA0ZDhhZCAxMDA2
+NDQ8YnI+Jmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMu
+Yzxicj4mZ3Q7ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2ttcy5j
+PGJyPiZndDsgQEAgLTE2NSw3ICsxNjUsMTEgQEAgaW50IHF4bF9kZXZpY2Vf
+aW5pdChzdHJ1Y3QgcXhsX2RldmljZSAqcWRldiw8YnI+Jmd0OyAmbmJzcDsg
+CQkgKGludClxZGV2LSZndDtzdXJmYWNlcmFtX3NpemUgLyAxMDI0LDxicj4m
+Z3Q7ICZuYnNwOyAJCSAoc2IgPT0gNCkgPyAiNjRiaXQiIDogIjMyYml0Iik7
+PGJyPiZndDsgJm5ic3A7IDxicj4mZ3Q7ICsjaWZkZWYgQ09ORklHX0FSTTY0
+PGJyPiZndDsgKwlxZGV2LSZndDtyb20gPSBpb3JlbWFwX2NhY2hlKHFkZXYt
+Jmd0O3JvbV9iYXNlLCBxZGV2LSZndDtyb21fc2l6ZSk7PGJyPiZndDsgKyNl
+bHNlPGJyPiZndDsgJm5ic3A7IAlxZGV2LSZndDtyb20gPSBpb3JlbWFwKHFk
+ZXYtJmd0O3JvbV9iYXNlLCBxZGV2LSZndDtyb21fc2l6ZSk7PGJyPiZndDsg
+KyNlbmRpZjxicj4mZ3Q7ICZuYnNwOyAJaWYgKCFxZGV2LSZndDtyb20pIHs8
+YnI+Jmd0OyAmbmJzcDsgCQlwcl9lcnIoIlVuYWJsZSB0byBpb3JlbWFwIFJP
+TVxuIik7PGJyPiZndDsgJm5ic3A7IAkJciA9IC1FTk9NRU07PGJyPiZndDsg
+QEAgLTE4Myw5ICsxODcsMTUgQEAgaW50IHF4bF9kZXZpY2VfaW5pdChzdHJ1
+Y3QgcXhsX2RldmljZSAqcWRldiw8YnI+Jmd0OyAmbmJzcDsgCQlnb3RvIHJv
+bV91bm1hcDs8YnI+Jmd0OyAmbmJzcDsgCX08YnI+Jmd0OyAmbmJzcDsgPGJy
+PiZndDsgKyNpZmRlZiBDT05GSUdfQVJNNjQ8YnI+Jmd0OyArCXFkZXYtJmd0
+O3JhbV9oZWFkZXIgPSBpb3JlbWFwX2NhY2hlKHFkZXYtJmd0O3ZyYW1fYmFz
+ZSArPGJyPiZndDsgKwkJCQkgJm5ic3A7IHFkZXYtJmd0O3JvbS0mZ3Q7cmFt
+X2hlYWRlcl9vZmZzZXQsPGJyPiZndDsgKwkJCQkgJm5ic3A7IHNpemVvZigq
+cWRldi0mZ3Q7cmFtX2hlYWRlcikpOzxicj4mZ3Q7ICsjZWxzZTxicj4mZ3Q7
+ICZuYnNwOyAJcWRldi0mZ3Q7cmFtX2hlYWRlciA9IGlvcmVtYXAocWRldi0m
+Z3Q7dnJhbV9iYXNlICs8YnI+Jmd0OyAmbmJzcDsgCQkJCSAmbmJzcDsgcWRl
+di0mZ3Q7cm9tLSZndDtyYW1faGVhZGVyX29mZnNldCw8YnI+Jmd0OyAmbmJz
+cDsgCQkJCSAmbmJzcDsgc2l6ZW9mKCpxZGV2LSZndDtyYW1faGVhZGVyKSk7
+PGJyPiZndDsgKyNlbmRpZjxicj4mZ3Q7ICZuYnNwOyAJaWYgKCFxZGV2LSZn
+dDtyYW1faGVhZGVyKSB7PGJyPiZndDsgJm5ic3A7IAkJRFJNX0VSUk9SKCJV
+bmFibGUgdG8gaW9yZW1hcCBSQU0gaGVhZGVyXG4iKTs8YnI+Jmd0OyAmbmJz
+cDsgCQlyID0gLUVOT01FTTs8YnI+PGJyPjwvbGl1Y29uZzJAa3lsaW5vcy5j
+bj48L3A+
 
-We're on the same page that the strings that were used aren't self
-explaining and do not follow a pattern which would make it easy to
-extend. However that is something I addressed in my RFC proposal, not?
-
-> > 
-> > > The string matching would need to be extended to have some string to
-> > > select those codes ("lvds666" is a weird choice from the original
-> > > patch).
-> > > 
-> > > Taking those media bus codes and handling them appropriately is
-> > > already done in vc4_dpi [1], and the vendor tree has gained
-> > > BGR666_1X18 and BGR666_1X24_CPADHI [2] as they aren't defined in
-> > > mainline.
-> > > 
-> > > Now this does potentially balloon out the number of MEDIA_BUS_FMT_xxx
-> > > defines needed, but that's the downside of having defines for all
-> > > formats.
-> > > 
-> > > (I will admit to having a similar change in the Pi vendor tree that
-> > > allows the media bus code to be selected explicitly by hex value).
-> > 
-> > I think having an integer value is indeed better: it doesn't change much
-> > in the device tree if we're using a header, it makes the driver simpler
-> > since we don't have to parse a string, and we can easily extend it or
-> > rename the define, it won't change the ABI.
-
-Fine with me.
-
-> > 
-> > I'm not sure using the raw media bus format value is ideal though, since
-> > that value could then be used by any OS, and it would effectively force
-> > the mbus stuff down their throat.
-
-I disagree here, this forces us to use code to map the device tree enum
-to the kernel enum for Linux, i.e. adds complexity and maintenance work
-if additional bus_formats are needed.
-Assuming there is another OS which uses the device tree it would not
-make a difference, that OS would still need to map the device tree enum
-to the corresponding representation in their kernel.
-I would copy the definitions of media-bus-format.h into a header in
-include/dt-bindings similarly as it is done for
-include/dt-bindings/display/sdtv-standards.h for TV standards.
-
-> 
-> I'll agree that the media bus format isn't the nicest, but I was
-> looking for a quick fix that could be configured from an overlay.
-> 
-> If using defines, then possibly go for a partial bitmask?
-> 3 bits for RGB order can be defined across the board. An encoding of
-> the bus width. And then the packing within that bus width would have
-> to be a lookup table, with no padding, padhi, and padlo being defined
-> as 0, 1, and 2 respectively. >=3 are extensions per bus width.
-> MEDIA_BUS_FMT_RGB666_1X24_CPADHI might then be described as ORDER_RGB
-> > BUS_24 | PAD_HI.
-> And MEDIA_BUS_FMT_BGR666 as ORDER_BGR | BUS_18 | NO_PAD.
-> 
-> Hmm, a bit more thought needed for RGB565, as a bus width of 16
-> wouldn't guarantee that.
-
-I disagree here, I don't see value in that structuring. It won't
-help us mapping it to the corresponding bus_format enum and it
-might be incomplete for bus_formats added in the future. 
-E.g. besides your RGB565 example consider a Tegra 30 which for RGB666
-outputs them on [23:8] and for RGB888 the 6 most significant bits are
-kept in [23:8], the 2 least significant ones in [7:0]. That wouldn't
-fit in this structured enum you propose, however one could easily add
-a new consecutive number to the enum.
-
-Max
-
-> 
->   Dave
-
+--nsmail-18bjqaydkse-18bjqaydksf--
