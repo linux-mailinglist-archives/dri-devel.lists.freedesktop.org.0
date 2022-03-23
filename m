@@ -1,66 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CC74E5ADB
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 22:47:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B8B4E5B19
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 23:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33F510E172;
-	Wed, 23 Mar 2022 21:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE5D989021;
+	Wed, 23 Mar 2022 22:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E28610E181
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 21:47:54 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id r13so5529166ejd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 14:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFPXmPT7/mwXkkz89BQ6Ja5ArCL0mt2OdL/RGrBAAyM=;
- b=OFCDwRlZ4PBEwBgRJ2fN0hWjPJeC4zcCImAwyCHTlIWxjUu97sa7XaKAMJN7NAkvb5
- D6SKJzYDt9JZr7b+KOER1At1m32cTeKX5DOzzThOMZXnDIWZsi2YCsQ05+hwPXQ6vtC5
- Gl5BfMsmzcGr4ViX9uMIBY4qmJd80xnnpWddw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SFPXmPT7/mwXkkz89BQ6Ja5ArCL0mt2OdL/RGrBAAyM=;
- b=GZ4EDS4kx+8eUmS20ZJ5ZITpAfHN6KYMqykEmCtDq9dE3Y25omV0FbYB55g9s5MaxH
- 1gSR5/zTnfLVvcMbgD+lS7mgxE/YgyLYnv5ZZUyM32tUoxChDMvqfYci4orxvIzim9cI
- XAjXLwzfCtQXdcZHGgPkVylYh3VHB7AOwdN5qOnS08tekMXOfrm8yfMQ8Mf24FdPRC+3
- HFIZFLVj6O8mCfV+43/5Q/2Ak4zO+0SZYqnYsuuiGkYakZ45r4USioz8E5d2BdtR1rrQ
- cxFtJ72eSyeLGBvteHB822Zc6gmoWpDrym97GJl6ngZz/W7e+JGGMowLr9FI4EtVoP2y
- N0dA==
-X-Gm-Message-State: AOAM53078rY+drqf4XH0Vatqff9/cSc3WwP7A03HOZvmUsx32y8K+mVt
- ekYaPlTqtxK1m7LzSXBgLS/2yR5rqgh6+MDg
-X-Google-Smtp-Source: ABdhPJwcrk1Tpc6KyeXhZE2l84sqd8Cb1CdYGecRH30OLsLQJZMCMLpoyM71aezRzPjDwswX7L84gQ==
-X-Received: by 2002:a17:907:1622:b0:6df:d1a2:d4a3 with SMTP id
- hb34-20020a170907162200b006dfd1a2d4a3mr2302436ejc.542.1648072073275; 
- Wed, 23 Mar 2022 14:47:53 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
- [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
- h20-20020a1709060f5400b006d6d54b9203sm392947ejj.38.2022.03.23.14.47.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 14:47:51 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id r13so3999294wrr.9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 14:47:51 -0700 (PDT)
-X-Received: by 2002:a05:6000:1704:b0:203:d857:aa7a with SMTP id
- n4-20020a056000170400b00203d857aa7amr1701592wrc.513.1648072070767; Wed, 23
- Mar 2022 14:47:50 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55F5489021
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 22:11:29 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61EDC9DE;
+ Wed, 23 Mar 2022 23:11:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1648073487;
+ bh=Cu9CS4EcUA66RrE2+hvm21/iwXWcI2SNQFBnwa7VelA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=uduwI57/WGxWM6rcFpc626bfNvb2SR3SMatQIGW1ipk/Y8xEd+K6E01T46HcdhFiM
+ 1V1NJQz2j18mbjdGYmWLd4CBPAWIBsGjLdDjKAC8jLHIad4Gofq9YF6N3aAWdW4Ijp
+ pMC9Lw+frXy8hsuRmAMc5qazgKOdiUiw+xWzziJU=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
 References: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com>
- <20220317131250.1481275-3-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220317131250.1481275-3-kieran.bingham+renesas@ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 23 Mar 2022 14:47:38 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XwThyeZ-LFvxD9RYA=_T7aycbE84QYSjA7crkAwv=2fQ@mail.gmail.com>
-Message-ID: <CAD=FV=XwThyeZ-LFvxD9RYA=_T7aycbE84QYSjA7crkAwv=2fQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] drm/bridge: ti-sn65dsi86: Implement bridge
- connector operations
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com>
+ <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Doug Anderson <dianders@chromium.org>
+Date: Wed, 23 Mar 2022 22:11:25 +0000
+Message-ID: <164807348512.1092274.4092058426102648400@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,36 +61,69 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Quoting Doug Anderson (2022-03-23 21:47:17)
+> Hi,
+>=20
+> On Thu, Mar 17, 2022 at 6:13 AM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+> >
+> > @@ -1241,9 +1350,32 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >         pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE=
+_CONNECTOR_DisplayPort
+> >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_=
+CONNECTOR_eDP;
+> >
+> > -       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
+> >                 pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> >
+> > +               if (!pdata->no_hpd)
+> > +                       pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
+> > +       }
+> > +
+> > +       if (!pdata->no_hpd && pdata->irq > 0) {
+> > +               ret =3D devm_request_threaded_irq(pdata->dev, pdata->ir=
+q, NULL,
+> > +                                               ti_sn65dsi86_irq_handle=
+r,
+> > +                                               IRQF_ONESHOT, "sn65dsi8=
+6-irq",
+> > +                                               pdata);
+> > +               if (ret)
+> > +                       return dev_err_probe(pdata->dev, ret,
+> > +                                            "Failed to register DP int=
+errupt\n");
+> > +
+> > +               /* Enable IRQ based HPD */
+> > +               pdata->bridge.ops |=3D DRM_BRIDGE_OP_HPD;
+> > +
+> > +               /*
+> > +                * Keep the IRQ disabled initially. It will only be ena=
+bled when
+> > +                * requested through ti_sn_bridge_hpd_enable().
+> > +                */
+> > +               disable_irq(pdata->irq);
+>=20
+> Instead, I think you should use `IRQF_NO_AUTOEN` which makes sure that
+> no matter what the state of the hardware is your IRQ won't fire
+> "early". ...and, of course, it saves a line of code. ;-)
+>=20
+> Other than that this looks nice to me now so feel free to add my
 
-On Thu, Mar 17, 2022 at 6:13 AM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
->
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> Implement the bridge connector-related .get_edid() operation, and report
-> the related bridge capabilities and type.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v1:
->
-> - The connector .get_modes() operation doesn't rely on EDID anymore,
->   __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
->   together
->  - Fix on top of Sam Ravnborg's DRM_BRIDGE_STATE_OPS
->
-> Changes since v2: [Kieran]
->  - Only support EDID on DRM_MODE_CONNECTOR_DisplayPort modes.
->
-> Changes since v3: [Kieran]
->  - Remove PM calls in ti_sn_bridge_get_edid() and simplify
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+Aha, thanks, - didn't realise I could do that. I'll remove the
+disable_irq, and move the coment above devm_request_threaded_irq, it
+still makes sense there with the flag.
 
-Looks good to me now.
+I believe I've got the format handling solved on the NO_CONNECTOR patch
+from Rob/Sam, so I'm just waiting for some spare cycles to get back and
+clean up - and repost the whole of this work as a new series,
+incorporating Sam, Rob and Laurent's work with this on top.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+--
+Kieran
+
+
+> Reviewed-by tag after the above is fixed.
+>=20
+> -Doug
