@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78E94E51B6
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 12:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCED24E51CD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 13:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF3B10E6BB;
-	Wed, 23 Mar 2022 11:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A48B710E6B6;
+	Wed, 23 Mar 2022 12:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4600310E6BB
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 11:59:18 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id pv16so2427393ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 04:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=d0eC82WbIqRjKmK7FWSrMn/ejqGJJksvrYY2oTqfj78=;
- b=bf1A3J86oJmjAJkTV6VqO3LRw4xfJSb1KFGB/ssZOg+8i4gJ3kD0omkP9c981hN8RE
- lcqxqJxUbaAPvfOlpy9NuDJQDbE9jfnJaCaQ+h2qygmS/ePxaTBn0Fbs+reYrUKO9GxI
- oHZuS0xesLRSL0cBsEqKka6xdfTybjk+knJEg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=d0eC82WbIqRjKmK7FWSrMn/ejqGJJksvrYY2oTqfj78=;
- b=wKbzNqhpDp3fwVLLsc88uL3cPzNvv7uIO1qWB9camk+/rGwAz2myD1zoqGFRc6ht2h
- j7Z9A+8HZmQEjfFuQMM3XfFwjyU8HDJVuImlkqqYpDoWECvlDus+Fygr7m7HoEV8nP3/
- gmTKd9bu8bPV8QW75BpAGJ2B7Lu/2OzmLTsHp+bP2MoBDYmqsVrNEexCBNmHJzXWXchC
- hT18I1s8KZhfTcXVEPARm6dUq4H0OoyzFpdz+9yPGk1yuaJZXUSg2G2XOr6FFec+4f/T
- vp9WzvR/x173fX/4ariidLyBS+SHseKAZ96BAGE5Y+aFvjkYiCvtO4JPVJwV833Xzc9q
- wR+g==
-X-Gm-Message-State: AOAM533F6XMWX+wtE8jCMoE+TYqH1QxpgXGz86rBi0bHw+W2oT8Gprgr
- 4ue3hCVWpqHCwLHiYqx42QKggA==
-X-Google-Smtp-Source: ABdhPJynJDKyI4tugNFE6GX/sHO5gTGQh7jklyUrEHLFheG6yE+d4FCIyO6CCO7fed7fnp7HmNTbNQ==
-X-Received: by 2002:a17:906:e16:b0:6df:c796:25b5 with SMTP id
- l22-20020a1709060e1600b006dfc79625b5mr23836365eji.302.1648036756818; 
- Wed, 23 Mar 2022 04:59:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- y14-20020a170906518e00b006dfd441fc80sm5891549ejk.52.2022.03.23.04.59.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 04:59:16 -0700 (PDT)
-Date: Wed, 23 Mar 2022 12:59:14 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/6] drm/ttm: move the LRU into resource handling v4
-Message-ID: <YjsLkqGEnre4JKkR@phenom.ffwll.local>
-References: <20220321132601.2161-1-christian.koenig@amd.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678C410E6B6;
+ Wed, 23 Mar 2022 12:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648036933; x=1679572933;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=evxiRUn4TAwBSNziim70mF4e/AvPnuj7deM5C8FvCsY=;
+ b=OxbnO/z33UM9lqv6mzzhiqVPL0zaBtCZGiu4rBBEBvXklxZsuaE8U2mQ
+ DYKFQgFGYnAHqw/zSUn90lz7pK50+pNLGkm9vE1dMSDjC6H3RF2k9hxjZ
+ XDYX2lgcxpdT9pdu1fXvHaId6IUxBZRymzw6E6tfMkYTJILj3+Uvoeixd
+ 0hqfRLN6oQAGks4xckF3LtvMw/hg5fUHLoNSW7TBf925LluSTsNVEhjBV
+ SiZCsedPtIKDObC142VMNtu2qsypiM9rkldiRb26hyE8zkjkodrAl/GwD
+ TRASmwd6C1UAWtAxrBGfU6fSEvccJFiQzkxTNgnjnWtAIrBQ11fsU9aYg w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="344526177"
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="344526177"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 05:02:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="544165390"
+Received: from caliyanx-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.252.57.47])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 05:02:09 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lee Shawn C <shawn.c.lee@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [v8 3/5] drm/edid: read HF-EEODB ext block
+In-Reply-To: <8735j9j7vd.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220317124202.14189-1-shawn.c.lee@intel.com>
+ <20220317124202.14189-4-shawn.c.lee@intel.com> <8735j9j7vd.fsf@intel.com>
+Date: Wed, 23 Mar 2022 14:02:06 +0200
+Message-ID: <87tuboj2rl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220321132601.2161-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,45 +57,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felix.kuehling@amd.com, matthew.william.auld@gmail.com,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: cooper.chiou@intel.com, william.tseng@intel.com,
+ intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
+ Lee Shawn C <shawn.c.lee@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 21, 2022 at 02:25:56PM +0100, Christian König wrote:
-> This way we finally fix the problem that new resource are
-> not immediately evict-able after allocation.
-> 
-> That has caused numerous problems including OOM on GDS handling
-> and not being able to use TTM as general resource manager.
-> 
-> v2: stop assuming in ttm_resource_fini that res->bo is still valid.
-> v3: cleanup kerneldoc, add more lockdep annotation
-> v4: consistently use res->num_pages
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+On Wed, 23 Mar 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Thu, 17 Mar 2022, Lee Shawn C <shawn.c.lee@intel.com> wrote:
+>> According to HDMI 2.1 spec.
+>>
+>> "The HDMI Forum EDID Extension Override Data Block (HF-EEODB)
+>> is utilized by Sink Devices to provide an alternate method to
+>> indicate an EDID Extension Block count larger than 1, while
+>> avoiding the need to present a VESA Block Map in the first
+>> E-EDID Extension Block."
+>>
+>> It is a mandatory for HDMI 2.1 protocol compliance as well.
+>> This patch help to know how many HF_EEODB blocks report by sink
+>> and read allo HF_EEODB blocks back.
+>
+> It still just boggles my mind that they've implemented something like
+> this. They cite avoiding the EDID Block Map as the rationale... but it's
+> been optional since E-EDID structure v1.4, published in 2006. 15+ years
+> ago.
+>
+> Can anyone tell me a sane reason for this? What does it provide that
+> E-EDID 1.4 does not? Do they want to use E-EDID v1.3 with this? Why?
 
-> +/**
-> + * struct ttm_lru_bulk_move
-> + *
-> + * @tt: first/last lru entry for resources in the TT domain
-> + * @vram: first/last lru entry for resources in the VRAM domain
-> + *
-> + * Helper structure for bulk moves on the LRU list.
-> + */
-> +struct ttm_lru_bulk_move {
-> +	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
-> +	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
+Oh, and the main problem with the whole thing, and this implementation?
 
-Not really needed, just a thought: Should we track the associated dma_resv
-object here to make sure the locking is all done correctly (and also check
-that the bulk move bo have the same dma_resv)? It wouldn't really be any
-overhead for the !CONFIG_LOCKDEP case and we could sprinkle a lot more
-dma_resv_held all over the place.
--Daniel
+If you have a struct edid *, there's no way way to tell if whoever
+allocated the memory or copied the block was actually HF-EEODB aware.
+
+Basically we'd have to audit every single piece of EDID handling code
+across all drivers to see if they handle HF-EEODB properly. If we don't,
+it's a question of time a struct edid * with HF-EEODB but no memory
+allocated for the extensions gets passed to a function that understands
+it, and overflows the buffer.
+
+Simon and Daniel also tell me on IRC we can't just modify the base block
+extension count to match HF-EEODB to dodge the problem, because the EDID
+gets exposed to userspace.
+
+
+BR,
+Jani.
+
+
+
+>
+> BR,
+> Jani.
+>
+>
+>>
+>> v2: support to find CEA block, check EEODB block format, and return
+>>     available block number in drm_edid_read_hf_eeodb_blk_count().
+>>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+>> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
+>> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_connector.c |  8 +++-
+>>  drivers/gpu/drm/drm_edid.c      | 71 +++++++++++++++++++++++++++++++--
+>>  include/drm/drm_edid.h          |  2 +-
+>>  3 files changed, 74 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index a50c82bc2b2f..16011023c12e 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -2129,7 +2129,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>>  				       const struct edid *edid)
+>>  {
+>>  	struct drm_device *dev = connector->dev;
+>> -	size_t size = 0;
+>> +	size_t size = 0, hf_eeodb_blk_count;
+>>  	int ret;
+>>  	const struct edid *old_edid;
+>>  
+>> @@ -2137,8 +2137,12 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>>  	if (connector->override_edid)
+>>  		return 0;
+>>  
+>> -	if (edid)
+>> +	if (edid) {
+>>  		size = EDID_LENGTH * (1 + edid->extensions);
+>> +		hf_eeodb_blk_count = drm_edid_read_hf_eeodb_blk_count(edid);
+>> +		if (hf_eeodb_blk_count)
+>> +			size = EDID_LENGTH * (1 + hf_eeodb_blk_count);
+>> +	}
+>>  
+>>  	/* Set the display info, using edid if available, otherwise
+>>  	 * resetting the values to defaults. This duplicates the work
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index ef65dd97d700..890038758660 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -1992,6 +1992,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>>  {
+>>  	int i, j = 0, valid_extensions = 0;
+>>  	u8 *edid, *new;
+>> +	size_t hf_eeodb_blk_count;
+>>  	struct edid *override;
+>>  
+>>  	override = drm_get_override_edid(connector);
+>> @@ -2051,7 +2052,35 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>>  		}
+>>  
+>>  		kfree(edid);
+>> +		return (struct edid *)new;
+>> +	}
+>> +
+>> +	hf_eeodb_blk_count = drm_edid_read_hf_eeodb_blk_count((struct edid *)edid);
+>> +	if (hf_eeodb_blk_count >= 2) {
+>> +		new = krealloc(edid, (hf_eeodb_blk_count + 1) * EDID_LENGTH, GFP_KERNEL);
+>> +		if (!new)
+>> +			goto out;
+>>  		edid = new;
+>> +
+>> +		valid_extensions = hf_eeodb_blk_count - 1;
+>> +		for (j = 2; j <= hf_eeodb_blk_count; j++) {
+>> +			u8 *block = edid + j * EDID_LENGTH;
+>> +
+>> +			for (i = 0; i < 4; i++) {
+>> +				if (get_edid_block(data, block, j, EDID_LENGTH))
+>> +					goto out;
+>> +				if (drm_edid_block_valid(block, j, false, NULL))
+>> +					break;
+>> +			}
+>> +
+>> +			if (i == 4)
+>> +				valid_extensions--;
+>> +		}
+>> +
+>> +		if (valid_extensions != hf_eeodb_blk_count - 1) {
+>> +			DRM_ERROR("Not able to retrieve proper EDID contain HF-EEODB data.\n");
+>> +			goto out;
+>> +		}
+>>  	}
+>>  
+>>  	return (struct edid *)edid;
+>> @@ -3315,15 +3344,17 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
+>>  #define VIDEO_BLOCK     0x02
+>>  #define VENDOR_BLOCK    0x03
+>>  #define SPEAKER_BLOCK	0x04
+>> -#define HDR_STATIC_METADATA_BLOCK	0x6
+>> -#define USE_EXTENDED_TAG 0x07
+>> -#define EXT_VIDEO_CAPABILITY_BLOCK 0x00
+>> +#define EXT_VIDEO_CAPABILITY_BLOCK	0x00
+>> +#define HDR_STATIC_METADATA_BLOCK	0x06
+>> +#define USE_EXTENDED_TAG		0x07
+>>  #define EXT_VIDEO_DATA_BLOCK_420	0x0E
+>> -#define EXT_VIDEO_CAP_BLOCK_Y420CMDB 0x0F
+>> +#define EXT_VIDEO_CAP_BLOCK_Y420CMDB	0x0F
+>> +#define EXT_VIDEO_HF_EEODB_DATA_BLOCK	0x78
+>>  #define EDID_BASIC_AUDIO	(1 << 6)
+>>  #define EDID_CEA_YCRCB444	(1 << 5)
+>>  #define EDID_CEA_YCRCB422	(1 << 4)
+>>  #define EDID_CEA_VCDB_QS	(1 << 6)
+>> +#define HF_EEODB_LENGTH		2
+>>  
+>>  /*
+>>   * Search EDID for CEA extension block.
+>> @@ -4273,9 +4304,41 @@ static bool cea_db_is_y420vdb(const u8 *db)
+>>  	return true;
+>>  }
+>>  
+>> +static bool cea_db_is_hdmi_forum_eeodb(const u8 *db)
+>> +{
+>> +	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+>> +		return false;
+>> +
+>> +	if (cea_db_payload_len(db) != HF_EEODB_LENGTH)
+>> +		return false;
+>> +
+>> +	if (cea_db_extended_tag(db) != EXT_VIDEO_HF_EEODB_DATA_BLOCK)
+>> +		return false;
+>> +
+>> +	return true;
+>> +}
+>> +
+>>  #define for_each_cea_db(cea, i, start, end) \
+>>  	for ((i) = (start); (i) < (end) && (i) + cea_db_payload_len(&(cea)[(i)]) < (end); (i) += cea_db_payload_len(&(cea)[(i)]) + 1)
+>>  
+>> +size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid)
+>> +{
+>> +	const u8 *cea;
+>> +	int i, start, end, ext_index = 0;
+>> +
+>> +	if (edid->extensions) {
+>> +		cea = drm_find_cea_extension(edid, &ext_index);
+>> +
+>> +		if (cea && !cea_db_offsets(cea, &start, &end))
+>> +			for_each_cea_db(cea, i, start, end)
+>> +				if (cea_db_is_hdmi_forum_eeodb(&cea[i]))
+>> +					return cea[i + 2];
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(drm_edid_read_hf_eeodb_blk_count);
+>> +
+>>  static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
+>>  				      const u8 *db)
+>>  {
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 144c495b99c4..5549da7bd7be 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -592,6 +592,6 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+>>  			      u8 video_code);
+>>  const u8 *drm_find_edid_extension(const struct edid *edid,
+>>  				  int ext_id, int *ext_index);
+>> -
+>> +size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid);
+>>  
+>>  #endif /* __DRM_EDID_H__ */
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
