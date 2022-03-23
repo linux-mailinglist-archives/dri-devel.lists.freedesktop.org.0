@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B8B4E5B19
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 23:11:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6824E5BD6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 00:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5D989021;
-	Wed, 23 Mar 2022 22:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02DE410E1B7;
+	Wed, 23 Mar 2022 23:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F5489021
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 22:11:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61EDC9DE;
- Wed, 23 Mar 2022 23:11:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1648073487;
- bh=Cu9CS4EcUA66RrE2+hvm21/iwXWcI2SNQFBnwa7VelA=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=uduwI57/WGxWM6rcFpc626bfNvb2SR3SMatQIGW1ipk/Y8xEd+K6E01T46HcdhFiM
- 1V1NJQz2j18mbjdGYmWLd4CBPAWIBsGjLdDjKAC8jLHIad4Gofq9YF6N3aAWdW4Ijp
- pMC9Lw+frXy8hsuRmAMc5qazgKOdiUiw+xWzziJU=
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5593B10E1B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 23:32:37 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id b130so1025244pga.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 16:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mnsP+tMZLvgKS0fCPnxZExSwywnKa6Ll9vIAaASFPSk=;
+ b=AYHoW4kJ7A6T2evKIXisrXHC6TGRlDRhF+vNsSRxL2VTY/hY8Ug7Fhl+efep6xLlzN
+ ARcN0T26G3ZfG31zwC7ILNrsnZbmVfbRSUTWzVdzzuto2c1ui2vdk6RnZjQ4AH7kcrJ6
+ HC5bgupLyup/RwOY9lvzoMYpgwjahyk19jWX7e4LoLrHr+sDCZuNT5ACQ+yZiQyq5pwZ
+ schnkZUXLgN5B4Vgho8PUx9upiP4KgeVN1Qj2Nfg4k4bilhCej/dWF12yhXBFDaPbUwc
+ RrtOAVnvCIFPIEXZeIYNlaXoQ9FwDxb86EP74peUyyBdoEaGnGdLX1vdk4FlPBCAdpXS
+ 4bUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mnsP+tMZLvgKS0fCPnxZExSwywnKa6Ll9vIAaASFPSk=;
+ b=4LJG260KoLau1bUTpGKAtUEPHauC+q4wtD/9JNpsLqNkLUPQ1OfcTuA4Hs+M8IbLCr
+ AGpf7tFFkbxA1477jaAZppwIhNzup3FaD4G+P2BgCqGz0387jylSmActRx+kHTIDcU2C
+ Zu6JfuTIC4eqxljak85JHRFXpngf6dAqH7EQjGGgwf+getXhSg8i77JHRtKxNRiBI37n
+ 3Eu88MNZY9uWGpZDdaA4BbD7RStNm9EcOejbD8L2VcU8CD4pSkZpy95G4kTUeGtHldax
+ iC015L4m01dStAEj2ia7YepYIrMS2QQPZNc5oDjChEkc6Y9rWFwO83wBzb8+Tgue6GC9
+ mZNg==
+X-Gm-Message-State: AOAM531sW2iUuGDkIHkhi6fyoTNmF2QDhyfIZkLTJmZWveUJPrwAxNLt
+ w8kch5TrlLqX4+CBigzcSTky8GMtwxFllh2ha2V8Pw==
+X-Google-Smtp-Source: ABdhPJx6E7T4CTM2T4k2S79psVZzaBosIjiRt3v1f0YYcZ47a7wZV02fFCTFVCAyPk5n7QE9f8SGCK+DeeJXxLBN1x4=
+X-Received: by 2002:a05:6a00:1307:b0:4b0:b1c:6fd9 with SMTP id
+ j7-20020a056a00130700b004b00b1c6fd9mr2278035pfu.27.1648078356634; Wed, 23 Mar
+ 2022 16:32:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
-References: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com>
- <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com>
- <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Date: Wed, 23 Mar 2022 22:11:25 +0000
-Message-ID: <164807348512.1092274.4092058426102648400@Monstersaurus>
-User-Agent: alot/0.10
+References: <20220303163654.3381470-1-jagan@amarulasolutions.com>
+ <c13b6b1e-04b2-b013-7cdd-dbf960808ea5@kontron.de>
+ <CAMty3ZDwp=H2qasdPxLXNo6XcmbYGcMyf3+KeOus6NDrdth9_Q@mail.gmail.com>
+In-Reply-To: <CAMty3ZDwp=H2qasdPxLXNo6XcmbYGcMyf3+KeOus6NDrdth9_Q@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 23 Mar 2022 16:32:24 -0700
+Message-ID: <CAJ+vNU3VJXp7PL0WDL046f=gU3NMusznuMNqbbmgvnNM8Bq1Mw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] drm: exynos: dsi: Convert drm bridge
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,81 +66,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2022-03-23 21:47:17)
-> Hi,
->=20
-> On Thu, Mar 17, 2022 at 6:13 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
+On Wed, Mar 9, 2022 at 6:01 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Frieder,
+>
+> On Wed, Mar 9, 2022 at 6:54 PM Frieder Schrempf
+> <frieder.schrempf@kontron.de> wrote:
 > >
-> > @@ -1241,9 +1350,32 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
-evice *adev,
-> >         pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE=
-_CONNECTOR_DisplayPort
-> >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_=
-CONNECTOR_eDP;
+> > Hi Jagan,
 > >
-> > -       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
-> >                 pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> > Am 03.03.22 um 17:36 schrieb Jagan Teki:
+> > > Updated series about drm bridge conversion of exynos dsi.
+> > >
+> > > Previous version can be accessible, here [1].
+> > >
+> > > Patch 1: tc358764 panel_bridge API
+> > >
+> > > Patch 2: connector reset
+> > >
+> > > Patch 3: bridge attach in MIC
+> > >
+> > > Patch 4: panel_bridge API
+> > >
+> > > Patch 5: bridge conversion
+> > >
+> > > Patch 6: atomic functions
+> > >
+> > > [1] https://patchwork.amarulasolutions.com/cover/1839
+> > >
+> > > Any inputs?
 > >
-> > +               if (!pdata->no_hpd)
-> > +                       pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
-> > +       }
-> > +
-> > +       if (!pdata->no_hpd && pdata->irq > 0) {
-> > +               ret =3D devm_request_threaded_irq(pdata->dev, pdata->ir=
-q, NULL,
-> > +                                               ti_sn65dsi86_irq_handle=
-r,
-> > +                                               IRQF_ONESHOT, "sn65dsi8=
-6-irq",
-> > +                                               pdata);
-> > +               if (ret)
-> > +                       return dev_err_probe(pdata->dev, ret,
-> > +                                            "Failed to register DP int=
-errupt\n");
-> > +
-> > +               /* Enable IRQ based HPD */
-> > +               pdata->bridge.ops |=3D DRM_BRIDGE_OP_HPD;
-> > +
-> > +               /*
-> > +                * Keep the IRQ disabled initially. It will only be ena=
-bled when
-> > +                * requested through ti_sn_bridge_hpd_enable().
-> > +                */
-> > +               disable_irq(pdata->irq);
->=20
-> Instead, I think you should use `IRQF_NO_AUTOEN` which makes sure that
-> no matter what the state of the hardware is your IRQ won't fire
-> "early". ...and, of course, it saves a line of code. ;-)
->=20
-> Other than that this looks nice to me now so feel free to add my
+> > Thanks for your efforts. I didn't follow the whole history, but I'm
+> > looking forward and hope to see upstream support for the i.MX8MM DSIM in
+> > the not too distant future.
+> >
+> > Can you give me a short update about the state of this patchset? Are
+> > there still any major obstacles?
+> >
+> > I can't help with testing on Exynos, but if you have the matching
+> > follow-up patches for i.MX8MM support somewhere around I could do some
+> > tests with those on i.MX8MM.
+>
+> Unfortunately, it is getting slow due to existing exynos dsi drivers.
+> Idea is to push exynos and then move the bridge as per Mailing-list
+> discussion. I have initial series to support i.MX8MM on linux-next [1]
+> which is working on my setup. However I'm waiting for this series to
+> move further to send those on the mailing list. Indeed I'm solely
+> relaying on Marek testing to move further as I too don't have Exynos
+> hardware to validate.
+>
+> [1] https://github.com/openedev/kernel/tree/imx8mm-dsi
+>
+> Thanks,
+> Jagan.
 
-Aha, thanks, - didn't realise I could do that. I'll remove the
-disable_irq, and move the coment above devm_request_threaded_irq, it
-still makes sense there with the flag.
+Marek,
 
-I believe I've got the format handling solved on the NO_CONNECTOR patch
-from Rob/Sam, so I'm just waiting for some spare cycles to get back and
-clean up - and repost the whole of this work as a new series,
-incorporating Sam, Rob and Laurent's work with this on top.
+Have you had any time to test Jagan's latest series? There are several
+of us waiting for the exynos series so as to gain support for imx8m
+MIPI DSI on top of it.
 
---
-Kieran
+What hardware is required to test this and where can it be found?
 
+Best regards,
 
-> Reviewed-by tag after the above is fixed.
->=20
-> -Doug
+Tim
