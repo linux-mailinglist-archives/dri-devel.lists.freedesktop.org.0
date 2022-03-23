@@ -1,56 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23734E54ED
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:11:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FDD4E54F9
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 16:14:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4100910E71C;
-	Wed, 23 Mar 2022 15:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0843C10E6E5;
+	Wed, 23 Mar 2022 15:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4AC10E750;
- Wed, 23 Mar 2022 15:11:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648048268; x=1679584268;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Ak6vruZ0s0jfULNjhGFGclYiId7Hr9OSzLl3ubjhZxA=;
- b=FzaN92rWg6wJqHjnMWUdpKyw9H+xCBDt4/SgO8JCGbK5jBcKsoZHK1oZ
- mhyfs0QE7zNTBnC5QBXWewiK7rLDcOnWbrmq7614mWrJkY+DcdfEmEfqj
- kdEjlVSmr/7rma/HzVRKYV/ChN3q7AySSUiGGDNRjK6EUMm6jt0Wjk+E2
- vNeX5aIlz/Ik4yULYWRAKn58KL0Itx4DbsDUc/+nqXoTn6r9/C17aWhxE
- zqx+8+aQ7JbREGEGiVLbCzx8D/vPiKiFFVfDQ0b1ErlNYbCIQYw1L6xZV
- Uymx1Cdpxzgqp6lf5SsaJE/Tgpo4BjlSpCNigAgGFwcfd6PF9CjiQHIMo Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="238735960"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="238735960"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 08:11:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="692975118"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by fmsmga001.fm.intel.com with SMTP; 23 Mar 2022 08:10:57 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 23 Mar 2022 17:10:56 +0200
-Date: Wed, 23 Mar 2022 17:10:56 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 00/22] drm: Review of mode copies
-Message-ID: <Yjs4gIBuftRyLElE@intel.com>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <Yi+9n0eGn3rNKb4X@intel.com>
- <CADnq5_NS07TPBWSnETRhjzqtX_oUuCu86ewurFT3MJO=PcLAuQ@mail.gmail.com>
- <Yjj+RSVBWk6UO2C7@intel.com>
- <e9937a37-70c8-cc6f-15f2-1dbbb7f1bfba@linaro.org>
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B543410E6E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 15:14:41 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id e4so1948857oif.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 08:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bNVc0tULAlEL3lq7qM0pi1Z3xhpGC2YP3yK39iR0gdY=;
+ b=hFZnoz5VX/RZIMTngFGU0Zgz3ZXQ6bPmBuiPQrwvkf8JN7njnKvBx9h0wPhWAyUTxA
+ Na0wlJ5SyznY3W9Otys4QGTY1pCUgUhUg1dqJWHGiYZdELKiOlY1tBDjRqC0ww9sSdRt
+ pCeKTJLh3a4Bcv1AlTxeR0Fsiojx9pUzKlruc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bNVc0tULAlEL3lq7qM0pi1Z3xhpGC2YP3yK39iR0gdY=;
+ b=v9joKkwbIv7hq6s0KdFRqePpKXheS1fDHh2w0E98lKLDdBRZxjlS6/6NtTLWbBbWEU
+ xWAvOygXuGpR+cAl16OrgH3zBGVDnAAbAbr8jWonkkFNWh7GBOIOvFJ3Wu0odoMbgLW5
+ nyxZv7AIlvOuZQNv1kS3Y6MmzD7B1wnxCvVILJJTrklmXs0pVBis5olAWaXqeXS9RJoi
+ 8E8eSzbh91G7FTYh82ntHiwqvIUeCXKL2kwonjBLDnQ6nQwbFViIBMTZUlXlhu/jl0Ow
+ 3IkiRI01BwLZUlR9XhF3juxQ1zAkKoKxQWLUut4LzG73JjkjiPVAuOiT7jwRGJ27bvKI
+ UGfQ==
+X-Gm-Message-State: AOAM530ExG+aQSiiR0Plq0yUUn/71lXmDt/2kQLzXWqplcKblY/Rob1l
+ M12ZFNtpktVixo+JbSVe3ThfnrPjYu3H1BZckKVYMw==
+X-Google-Smtp-Source: ABdhPJwH8BAnZ5qNY+vtRKlL6eivNshSjTaNVuOFSKOE84nNFWnp/y6r6r29i06fwArfqg7409JYAqMfCw7xYBrSjUQ=
+X-Received: by 2002:aca:1919:0:b0:2ec:b56e:692d with SMTP id
+ l25-20020aca1919000000b002ecb56e692dmr4910920oii.228.1648048481005; Wed, 23
+ Mar 2022 08:14:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e9937a37-70c8-cc6f-15f2-1dbbb7f1bfba@linaro.org>
-X-Patchwork-Hint: comment
+References: <20220311102709.225616cf@eldfell>
+ <CADnq5_O1Qktec3kC_rcPZUQPbraBYmdhDwmj=jgp_QsaBFGUZw@mail.gmail.com>
+ <20220314172647.223658d2@eldfell>
+ <CADnq5_NsxipfFFXfRSXvVQin3e1gj0Q_p9p-shi3VZ2pSCwwfw@mail.gmail.com>
+ <20220316104815.11ec2e6c@eldfell>
+ <CADnq5_MbOLaZGaQ8fYW_ZL3+gssu3cq7QbzByOWdLuvbdfSAAg@mail.gmail.com>
+ <CAF6AEGvoqJmXs0KxXGN4qKD4U6Yeo4gDq6sVxm=noY-TwFoj4w@mail.gmail.com>
+ <5e246eb8-0256-c40e-40ea-d865bf99c003@gmail.com>
+ <YjL/k6kh+5RihGIV@phenom.ffwll.local>
+ <CAF6AEGu79jDW1xqJOaNCB=jAxhKiCRFJwoCNiC9ye97KvpWEtQ@mail.gmail.com>
+ <YjNvYmcuDKiIneDx@phenom.ffwll.local>
+ <CAF6AEGvuMfKtf_aweai6y4oHghArE95uhR2X0f9h_9w4Bk_6VQ@mail.gmail.com>
+ <19a67000-d1e5-0582-c6de-07d9988b1735@amd.com>
+ <CAF6AEGvDjw6zq3yiorhOc+vp2US+Jso9tF74=8gyJMTm=K5FVQ@mail.gmail.com>
+ <3f0b7273-4562-7a55-e52a-bd64334886fd@amd.com>
+ <CAF6AEGu6FabmcWE+NsPgnPU0=MpbA6bmO1KkJ2hrVDBLFY92xA@mail.gmail.com>
+ <CAPj87rOx1uogqqKX8XZEnzpcKKY6W9TWHQFr-bgZyEU0-ftjVw@mail.gmail.com>
+In-Reply-To: <CAPj87rOx1uogqqKX8XZEnzpcKKY6W9TWHQFr-bgZyEU0-ftjVw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 23 Mar 2022 16:14:29 +0100
+Message-ID: <CAKMK7uFMmLLRQeONDOMpOg12p7moyrC-+hxVEqpa4hSFopbGtA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: Add GPU reset sysfs event
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,102 +77,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-rockchip@lists.infradead.org,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Li <sunpeng.li@amd.com>, Chen Feng <puck.chen@hisilicon.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+Cc: Rob Clark <robdclark@chromium.org>, "Sharma,
+ Shashank" <Shashank.Sharma@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Amaranath Somalapuram <amaranath.somalapuram@amd.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Nikola Cornij <nikola.cornij@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Tomi Valkeinen <tomba@kernel.org>, freedreno <freedreno@lists.freedesktop.org>,
- Sandy Huang <hjc@rock-chips.com>, Robert Foss <robert.foss@linaro.org>,
- Tian Tao <tiantao6@hisilicon.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alexandar Deucher <alexander.deucher@amd.com>,
+ Shashank Sharma <contactshashanksharma@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 23, 2022 at 01:39:44PM +0300, Dmitry Baryshkov wrote:
-> On 22/03/2022 01:37, Ville Syrjälä wrote:
-> > On Tue, Mar 15, 2022 at 02:52:38PM -0400, Alex Deucher wrote:
-> >> On Mon, Mar 14, 2022 at 6:12 PM Ville Syrjälä
-> >> <ville.syrjala@linux.intel.com> wrote:
-> >>>
-> >>> On Fri, Feb 18, 2022 at 12:03:41PM +0200, Ville Syrjala wrote:
-> >>>>    drm: Add drm_mode_init()
-> >>>>    drm/bridge: Use drm_mode_copy()
-> >>>>    drm/imx: Use drm_mode_duplicate()
-> >>>>    drm/panel: Use drm_mode_duplicate()
-> >>>>    drm/vc4: Use drm_mode_copy()
-> >>> These have been pushed to drm-misc-next.
-> >>>
-> >>>>    drm/amdgpu: Remove pointless on stack mode copies
-> >>>>    drm/amdgpu: Use drm_mode_init() for on-stack modes
-> >>>>    drm/amdgpu: Use drm_mode_copy()
-> >>> amdgpu ones are reviewed, but I'll leave them for the
-> >>> AMD folks to push to whichever tree they prefer.
-> >>
-> >> I pulled patches 2, 4, 5 into my tree.
-> > 
-> > Thanks.
-> > 
-> >> For 3, I'm happy to have it
-> >> land via drm-misc with the rest of the mode_init changes if you'd
-> >> prefer.
-> > 
-> > Either way works for me. I don't yet have reviews yet for
-> > the other drivers, so I'll proably hold off for a bit more
-> > at least. And the i915 patch I'll be merging via drm-intel.
-> > 
-> >>>>    drm/radeon: Use drm_mode_copy()
-> >>>>    drm/gma500: Use drm_mode_copy()
-> >>>>    drm/tilcdc: Use drm_mode_copy()
-> >>>>    drm/i915: Use drm_mode_copy()
-> > 
-> > Those are now all in.
-> > 
-> > Which leaves us with these stragglers:
-> >>>>    drm/hisilicon: Use drm_mode_init() for on-stack modes
-> 
-> >>>>    drm/msm: Nuke weird on stack mode copy
-> >>>>    drm/msm: Use drm_mode_init() for on-stack modes
-> >>>>    drm/msm: Use drm_mode_copy()
-> 
-> These three patches went beneath my radar for some reason.
-> 
-> I have just sent a replacement for the first patch ([1]). Other two 
-> patches can be pulled in msm/msm-next (or msm/msm-fixes) during the next 
-> development cycle if that works for you.
+On Wed, 23 Mar 2022 at 15:07, Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Mon, 21 Mar 2022 at 16:02, Rob Clark <robdclark@gmail.com> wrote:
+> > On Mon, Mar 21, 2022 at 2:30 AM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> > > Well you can, it just means that their contexts are lost as well.
+> >
+> > Which is rather inconvenient when deqp-egl reset tests, for example,
+> > take down your compositor ;-)
+>
+> Yeah. Or anything WebGL.
+>
+> System-wide collateral damage is definitely a non-starter. If that
+> means that the userspace driver has to do what iris does and ensure
+> everything's recreated and resubmitted, that works too, just as long
+> as the response to 'my adblocker didn't detect a crypto miner ad'  is
+> something better than 'shoot the entire user session'.
 
-That'll do fine for me. Thanks.
+Not sure where that idea came from, I thought at least I made it clear
+that legacy gl _has_ to recover. It's only vk and arb_robustness gl
+which should die without recovery attempt.
 
-> 
-> [1] https://patchwork.freedesktop.org/series/101682/
-> 
-> >>>>    drm/mtk: Use drm_mode_init() for on-stack modes
-> >>>>    drm/rockchip: Use drm_mode_copy()
-> >>>>    drm/sti: Use drm_mode_copy()
-> >>>>    drm: Use drm_mode_init() for on-stack modes
-> >>>>    drm: Use drm_mode_copy()
-> > 
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
+The entire discussion here is who should be responsible for replay and
+at least if you can decide the uapi, then punting that entirely to
+userspace is a good approach.
 
--- 
-Ville Syrjälä
-Intel
+Ofc it'd be nice if the collateral damage is limited, i.e. requests
+not currently on the gpu, or on different engines and all that
+shouldn't be nuked, if possible.
+
+Also ofc since msm uapi is that the kernel tries to recover there's
+not much we can do there, contexts cannot be shot. But still trying to
+replay them as much as possible feels a bit like overkill.
+-Daniel
+
+> Cheers,
+> Daniel
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
