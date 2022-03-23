@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0274E5350
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 14:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEF04E5353
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 14:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C6E10E4C8;
-	Wed, 23 Mar 2022 13:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACDCA10E336;
+	Wed, 23 Mar 2022 13:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C9710E6E8;
- Wed, 23 Mar 2022 13:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648042773; x=1679578773;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=b67L/NnWXK6zdMJnGoBPKI8l38ipkirGLoJ+NGWOHGo=;
- b=Yq2lWeZ/Bky7h20LsUhtWKpIM85jR/s+rXE0GEU7mMUqbwkH3CplKb4x
- RkIXlyXh9kUB0pDDm62mWJTfdbGAZgZQApfRzICAutcfDtX7vYCM7AXPA
- Lp96ePl4H2i9u9wLL+2O+8Lk335vwfIgTR6sEBmePjAjyk+Uwnbjmj0Tb
- CETXwR/id4VGCQxlmg0EUTU/W8dwZO2Spfq1RzxylNb0u/N4btADn7hek
- TkR3Cugx3n5wUEyAUodZqSFaNR5H51BcRxmGfv/VToXZDdRpaotLem1YN
- R/4ISbrkEzDHbY+9GV+6nVejHqQ7p1WWSDg+fHtHRHGWBcGEXjITL4DqM A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="321308790"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="321308790"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 06:39:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="515780269"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 23 Mar 2022 06:39:30 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nX1D0-000K5o-4u; Wed, 23 Mar 2022 13:39:30 +0000
-Date: Wed, 23 Mar 2022 21:39:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 3/6] drm/msm: split the main platform driver
-Message-ID: <202203232120.4EJF1VFq-lkp@intel.com>
-References: <20220323092538.1757880-4-dmitry.baryshkov@linaro.org>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2601E10E336
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 13:40:20 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id h1so1896689edj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 06:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rMr4FkMh8i++YlyUqr9dMFhM5WbnxiWUCODo4w37S00=;
+ b=Sgk0N73t/u+0G0kFZoTrnmhRMECH6CC0cYKNLmmSnx1Zd7/sp5ipFnV3fMujMZz9E6
+ OH+L17h1ttCPy09jliLQb2SIMC9mH27D9DEkO6d5UK2XhR6vLHcEk1ceqY8Fyyc4/5QD
+ oC6isVYPeEdGXApm0UPJKr+yqWUNPBl3nDwlk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rMr4FkMh8i++YlyUqr9dMFhM5WbnxiWUCODo4w37S00=;
+ b=LgfVHAB+rriw+E3fYYdSY1NeO6lzvZOTJNiKCtQlWPaIGtOT7iBiaK0py/Jh8JnRGp
+ F8mpvIuMY0WPbbnOv14EqWB8OmWm+6mio6qvWSoZEvPG4abCtZUTXotgSERLkWqIDlmU
+ z8av62vaPvYx5XgJ9n+zoLAdpGUJK3ouCHVhuNkRFb/LTUMWKHKNZN5tROTNnmyKc/MJ
+ fxe4igHDOwmEMJmZ744MLiivZCrfkcDMqavuBwKvVFLeuOeDRj5Z48MHmRzTmeM+8WkY
+ 13A4R3X0CEGIYMDmlAcoa3vOqQPHVoxO/Izje27k2ZOenGXgc2IaLdNl8b2smgr71fD0
+ IPQw==
+X-Gm-Message-State: AOAM532hHIEycfi/GMe6KuPRoxQJwUkpeCtZB6SGLKhEvksZZWzNwyCj
+ Evy7ffuVWu7ZUOxukO+x6dlgkQ==
+X-Google-Smtp-Source: ABdhPJzlIU8sMDlhS6X2KQIMH8rkFPqS/tyPjHAQogMPdNNHGymqjCyha9rxXg0whd5L0J3m4BzcDA==
+X-Received: by 2002:a05:6402:1e90:b0:419:4cdc:8b05 with SMTP id
+ f16-20020a0564021e9000b004194cdc8b05mr60581edf.211.1648042818626; 
+ Wed, 23 Mar 2022 06:40:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ hb19-20020a170906b89300b006daa95d178esm9852044ejb.60.2022.03.23.06.40.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 06:40:17 -0700 (PDT)
+Date: Wed, 23 Mar 2022 14:40:16 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 11/23] dma-buf: drop the DAG approach for the dma_resv
+ object v2
+Message-ID: <YjsjQLLrYadsNiOV@phenom.ffwll.local>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-11-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220323092538.1757880-4-dmitry.baryshkov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220321135856.1331-11-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +71,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Mon, Mar 21, 2022 at 02:58:44PM +0100, Christian König wrote:
+> So far we had the approach of using a directed acyclic
+> graph with the dma_resv obj.
+> 
+> This turned out to have many downsides, especially it means
+> that every single driver and user of this interface needs
+> to be aware of this restriction when adding fences. If the
+> rules for the DAG are not followed then we end up with
+> potential hard to debug memory corruption, information
+> leaks or even elephant big security holes because we allow
+> userspace to access freed up memory.
+> 
+> Since we already took a step back from that by always
+> looking at all fences we now go a step further and stop
+> dropping the shared fences when a new exclusive one is
+> added.
+> 
+> v2: Drop some now superflous documentation
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-resv.c | 16 +---------------
+>  include/linux/dma-buf.h    |  7 -------
+>  include/linux/dma-resv.h   | 22 +++++-----------------
+>  3 files changed, 6 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 1c9af97fe904..4b12141579e2 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -358,35 +358,21 @@ EXPORT_SYMBOL(dma_resv_replace_fences);
+>   * @fence: the exclusive fence to add
+>   *
+>   * Add a fence to the exclusive slot. @obj must be locked with dma_resv_lock().
+> - * Note that this function replaces all fences attached to @obj, see also
+> - * &dma_resv.fence_excl for a discussion of the semantics.
+> + * See also &dma_resv.fence_excl for a discussion of the semantics.
+>   */
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  {
+>  	struct dma_fence *old_fence = dma_resv_excl_fence(obj);
+> -	struct dma_resv_list *old;
+> -	u32 i = 0;
+>  
+>  	dma_resv_assert_held(obj);
+>  
+> -	old = dma_resv_shared_list(obj);
+> -	if (old)
+> -		i = old->shared_count;
+> -
+>  	dma_fence_get(fence);
+>  
+>  	write_seqcount_begin(&obj->seq);
+>  	/* write_seqcount_begin provides the necessary memory barrier */
+>  	RCU_INIT_POINTER(obj->fence_excl, fence);
+> -	if (old)
+> -		old->shared_count = 0;
+>  	write_seqcount_end(&obj->seq);
+>  
+> -	/* inplace update, no shared fences */
+> -	while (i--)
+> -		dma_fence_put(rcu_dereference_protected(old->shared[i],
+> -						dma_resv_held(obj)));
+> -
+>  	dma_fence_put(old_fence);
+>  }
+>  EXPORT_SYMBOL(dma_resv_add_excl_fence);
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 7ab50076e7a6..74083e62e19d 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -420,13 +420,6 @@ struct dma_buf {
+>  	 * - Dynamic importers should set fences for any access that they can't
+>  	 *   disable immediately from their &dma_buf_attach_ops.move_notify
+>  	 *   callback.
+> -	 *
+> -	 * IMPORTANT:
+> -	 *
+> -	 * All drivers must obey the struct dma_resv rules, specifically the
+> -	 * rules for updating fences, see &dma_resv.fence_excl and
+> -	 * &dma_resv.fence. If these dependency rules are broken access tracking
+> -	 * can be lost resulting in use after free issues.
 
-Thank you for the patch! Yet something to improve:
+Uh that's a bit much. I do think we should keep this, and update it to
+point at whatever new dma_resv fence slot rules you're adding. Maybe just
+keep the first part like:
 
-[auto build test ERROR on drm/drm-next]
-[cannot apply to v5.17 next-20220323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+	 * All drivers must obey the struct dma_resv rules, specifically the
+	 * rules for updating and obeying fences.
 
-url:    https://github.com/0day-ci/linux/commits/Dmitry-Baryshkov/drm-msm-rework-MDSS-drivers/20220323-172654
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: nios2-randconfig-p002-20220323 (https://download.01.org/0day-ci/archive/20220323/202203232120.4EJF1VFq-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/5484d7bfa709bbe2cd2cbb3b9959190d7a025c16
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-rework-MDSS-drivers/20220323-172654
-        git checkout 5484d7bfa709bbe2cd2cbb3b9959190d7a025c16
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/gpu/drm/msm/
+With that
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/acpi.h:15,
-                    from include/linux/irqchip.h:14,
-                    from drivers/gpu/drm/msm/msm_mdss.c:8:
->> drivers/gpu/drm/msm/msm_mdss.c:403:25: error: 'dt_match' undeclared here (not in a function); did you mean 'dr_match_t'?
-     403 | MODULE_DEVICE_TABLE(of, dt_match);
-         |                         ^~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_of__dt_match_device_table' aliased to undefined symbol 'dt_match'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/gpu/drm/msm/msm_mdss.c:403:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     403 | MODULE_DEVICE_TABLE(of, dt_match);
-         | ^~~~~~~~~~~~~~~~~~~
-
-
-vim +403 drivers/gpu/drm/msm/msm_mdss.c
-
-   390	
-   391	static const struct of_device_id mdss_dt_match[] = {
-   392		{ .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
-   393		{ .compatible = "qcom,msm8998-mdss", .data = (void *)KMS_DPU },
-   394		{ .compatible = "qcom,qcm2290-mdss", .data = (void *)KMS_DPU },
-   395		{ .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
-   396		{ .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
-   397		{ .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
-   398		{ .compatible = "qcom,sc8180x-mdss", .data = (void *)KMS_DPU },
-   399		{ .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
-   400		{ .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
-   401		{}
-   402	};
- > 403	MODULE_DEVICE_TABLE(of, dt_match);
-   404	
+>  	 */
+>  	struct dma_resv *resv;
+>  
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 20e13f36710a..ecb697d4d861 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -93,23 +93,11 @@ struct dma_resv {
+>  	 *
+>  	 * The exclusive fence, if there is one currently.
+>  	 *
+> -	 * There are two ways to update this fence:
+> -	 *
+> -	 * - First by calling dma_resv_add_excl_fence(), which replaces all
+> -	 *   fences attached to the reservation object. To guarantee that no
+> -	 *   fences are lost, this new fence must signal only after all previous
+> -	 *   fences, both shared and exclusive, have signalled. In some cases it
+> -	 *   is convenient to achieve that by attaching a struct dma_fence_array
+> -	 *   with all the new and old fences.
+> -	 *
+> -	 * - Alternatively the fence can be set directly, which leaves the
+> -	 *   shared fences unchanged. To guarantee that no fences are lost, this
+> -	 *   new fence must signal only after the previous exclusive fence has
+> -	 *   signalled. Since the shared fences are staying intact, it is not
+> -	 *   necessary to maintain any ordering against those. If semantically
+> -	 *   only a new access is added without actually treating the previous
+> -	 *   one as a dependency the exclusive fences can be strung together
+> -	 *   using struct dma_fence_chain.
+> +	 * To guarantee that no fences are lost, this new fence must signal
+> +	 * only after the previous exclusive fence has signalled. If
+> +	 * semantically only a new access is added without actually treating the
+> +	 * previous one as a dependency the exclusive fences can be strung
+> +	 * together using struct dma_fence_chain.
+>  	 *
+>  	 * Note that actual semantics of what an exclusive or shared fence mean
+>  	 * is defined by the user, for reservation objects shared across drivers
+> -- 
+> 2.25.1
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
