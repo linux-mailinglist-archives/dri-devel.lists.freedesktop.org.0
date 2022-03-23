@@ -1,67 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B524E5013
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 11:11:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D3D4E5015
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 11:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7CD10E658;
-	Wed, 23 Mar 2022 10:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A25C10E667;
+	Wed, 23 Mar 2022 10:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D192910E663
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 10:11:28 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id 17so1157580lji.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 03:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jwgWA/X0RRXgl0WnFOwsjqRBGwN8mzbJny7zhdufmd0=;
- b=MCGBOFs+rKcllQq9+jpxTmw+Mrwt3rLzBEHOXYTOMpEInm/iW6w9gtrBCzXZTRHsmR
- 5JTSDsm0tSD8QyYINAWMwRGfq4pPbH9P9hGyzeGtxPyBnFGmqltotUK1NfHexgCZeTUg
- kfBv6ila4lDc9DlwXzBep5qIxkUh32iFChC3fdoyhJ3+9bYK+JLyowwWtScMAa8ugjlm
- SqFhlOZnVHKaEcTwijlDLYb9C2g8Qc0zKkkrh/gBlu5Q3kAwhu+lisUggcZZuhjPVB7m
- bXol6KaGDYVR0LVOtjevajppvklgynnZ6L3mj+ibzbnRDxQ+rmLrLVG7+Fev1t0nSHTS
- g8Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jwgWA/X0RRXgl0WnFOwsjqRBGwN8mzbJny7zhdufmd0=;
- b=NvUNZzXCkX8OW2KoaZ979uMBLb8DBTGn5mwuFifUh1kJAoUUTaMKBTx3LAWOqXZej3
- 9wr9PlsbldON2HK31rj5orh8GFoXni6NTXLYRJ4PX5TMXXWwr8sPJojx0zkhvBnvc1ho
- Z+Lv44isXVfXYjp7TQKAvBF6LwLC4o2Gq5TpsjiU00whO37msLBVM7HDbxc1h0NiEEgy
- z3m9yL0fWJUF/5XXSOFLKI8HcYQ+EX2BdzTQ0k5QxkvNTfEJYyyHJKJmvk+pTkgQEJO/
- jJ7S1hnk7cw7qMaAYM8NdXm4oVNTK18DxpKN9o5b2QBi7/Z4v2QXQq9pcXFXiDtzuQr2
- BW8Q==
-X-Gm-Message-State: AOAM533e/7/wv9km5y3FXqw5GvKgVJIF/uYFhhVqpOakQCt5zW5/zgt8
- 2BK4YlBJsI84hp3NafwmirNv2Q==
-X-Google-Smtp-Source: ABdhPJw3/4BmsBQX6KSLouGF3oSZXX6Gpptahf03S0Ln5K4DaU6o4La74k5NDOpjqtmM3ZLH64m+sQ==
-X-Received: by 2002:a2e:914b:0:b0:249:24e7:cee8 with SMTP id
- q11-20020a2e914b000000b0024924e7cee8mr22015154ljg.143.1648030287023; 
- Wed, 23 Mar 2022 03:11:27 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- m24-20020a194358000000b0044a3851f193sm641374lfj.83.2022.03.23.03.11.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 03:11:26 -0700 (PDT)
-Message-ID: <ef35b455-e629-51d4-0aab-e3e37aa14e7b@linaro.org>
-Date: Wed, 23 Mar 2022 13:11:25 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED29510E667
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 10:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648030305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xRlbgUKoboQvtHs0uy2s00DW+qHr4F9Xa1tGZLniJ+c=;
+ b=DQT+J8pb+IUCKsGtUFttUTx/lVdxv+F2oCR+z8kdxcfGkA3qSJwkt2/mD1s3j+FyFuCrzc
+ gCOQOToC07cos9XDzZYQhETcFDSuMUowyXREPe9lDTqOaDQ81/jEoW8hxOtWaa8CoI4dL0
+ aiCuECBfGICCfvo4q3f5nUFx/naa1xE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-S7ju9NHeNSOyvYmLS0mV9Q-1; Wed, 23 Mar 2022 06:11:41 -0400
+X-MC-Unique: S7ju9NHeNSOyvYmLS0mV9Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC474811E80;
+ Wed, 23 Mar 2022 10:11:40 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29B4C1427AF5;
+ Wed, 23 Mar 2022 10:11:40 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 96F3A180063D; Wed, 23 Mar 2022 11:11:38 +0100 (CET)
+Date: Wed, 23 Mar 2022 11:11:38 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v1 1/2] drm/qxl: replace ioremap by ioremap_cache on arm64
+Message-ID: <20220323101138.7oiwefh7ofcxojgq@sirius.home.kraxel.org>
+References: <20220322093444.1236582-1-liucong2@kylinos.cn>
+ <e2bc20e4-41e1-7162-257c-f2ad3309f1cb@amd.com>
+ <a6acb2ce-2465-6619-e3fd-ac34ddf07d35@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 11/22] drm/msm: Use drm_mode_init() for on-stack modes
-Content-Language: en-GB
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-12-ville.syrjala@linux.intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220218100403.7028-12-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <a6acb2ce-2465-6619-e3fd-ac34ddf07d35@arm.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,55 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- freedreno@lists.freedesktop.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, ray.huang@amd.com,
+ Cong Liu <liucong2@kylinos.cn>, spice-devel@lists.freedesktop.org,
+ airlied@redhat.com, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/02/2022 13:03, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Wed, Mar 23, 2022 at 09:45:13AM +0000, Robin Murphy wrote:
+> On 2022-03-23 07:15, Christian K�nig wrote:
+> > Am 22.03.22 um 10:34 schrieb Cong Liu:
+> > > qxl use ioremap to map ram_header and rom, in the arm64 implementation,
+> > > the device is mapped as DEVICE_nGnRE, it can not support unaligned
+> > > access.
+> > 
+> > Well that some ARM boards doesn't allow unaligned access to MMIO space
+> > is a well known bug of those ARM boards.
+> > 
+> > So as far as I know this is a hardware bug you are trying to workaround
+> > here and I'm not 100% sure that this is correct.
 > 
-> Initialize on-stack modes with drm_mode_init() to guarantee
-> no stack garbage in the list head, or that we aren't copying
-> over another mode's list head.
-> 
-> Based on the following cocci script, with manual fixups:
-> @decl@
-> identifier M;
-> expression E;
-> @@
-> - struct drm_display_mode M = E;
-> + struct drm_display_mode M;
-> 
-> @@
-> identifier decl.M;
-> expression decl.E;
-> statement S, S1;
-> @@
-> struct drm_display_mode M;
-> ... when != S
-> + drm_mode_init(&M, &E);
-> +
-> S1
-> 
-> @@
-> expression decl.E;
-> @@
-> - &*E
-> + E
-> 
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> No, this one's not a bug. The Device memory type used for iomem mappings is
+> *architecturally* defined to enforce properties like aligned accesses, no
+> speculation, no reordering, etc. If something wants to be treated more like
+> RAM than actual MMIO registers, then ioremap_wc() or ioremap_cache() is the
+> appropriate thing to do in general (with the former being a bit more
+> portable according to Documentation/driver-api/device-io.rst).
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Well, qxl is a virtual device, so it *is* ram.
 
-> ---
+I'm wondering whenever qxl actually works on arm?  As far I know all
+virtual display devices with (virtual) pci memory bars for vram do not
+work on arm due to the guest mapping vram as io memory and the host
+mapping vram as normal ram and the mapping attribute mismatch causes
+caching troubles (only noticeable on real arm hardware, not in
+emulation).  Did something change here recently?
 
--- 
-With best wishes
-Dmitry
+take care,
+  Gerd
+
