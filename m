@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D3D4E5015
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 11:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8409F4E501A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Mar 2022 11:12:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A25C10E667;
-	Wed, 23 Mar 2022 10:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3537510E663;
+	Wed, 23 Mar 2022 10:12:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED29510E667
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Mar 2022 10:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648030305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xRlbgUKoboQvtHs0uy2s00DW+qHr4F9Xa1tGZLniJ+c=;
- b=DQT+J8pb+IUCKsGtUFttUTx/lVdxv+F2oCR+z8kdxcfGkA3qSJwkt2/mD1s3j+FyFuCrzc
- gCOQOToC07cos9XDzZYQhETcFDSuMUowyXREPe9lDTqOaDQ81/jEoW8hxOtWaa8CoI4dL0
- aiCuECBfGICCfvo4q3f5nUFx/naa1xE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-S7ju9NHeNSOyvYmLS0mV9Q-1; Wed, 23 Mar 2022 06:11:41 -0400
-X-MC-Unique: S7ju9NHeNSOyvYmLS0mV9Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC474811E80;
- Wed, 23 Mar 2022 10:11:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29B4C1427AF5;
- Wed, 23 Mar 2022 10:11:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 96F3A180063D; Wed, 23 Mar 2022 11:11:38 +0100 (CET)
-Date: Wed, 23 Mar 2022 11:11:38 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v1 1/2] drm/qxl: replace ioremap by ioremap_cache on arm64
-Message-ID: <20220323101138.7oiwefh7ofcxojgq@sirius.home.kraxel.org>
-References: <20220322093444.1236582-1-liucong2@kylinos.cn>
- <e2bc20e4-41e1-7162-257c-f2ad3309f1cb@amd.com>
- <a6acb2ce-2465-6619-e3fd-ac34ddf07d35@arm.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6885510E65C;
+ Wed, 23 Mar 2022 10:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648030338; x=1679566338;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4rSuxwZGT/Ny5zrbukTAmWBnBYxG9X0h5pQiCNwk47c=;
+ b=gIPSatccgl8SPHtsY0Cc+5ZLXFE3jx114Nvqsht2xupqvH5EFe3osUiO
+ 1DQu0INYbDgOnBahnyx5bLbN91Z2MBcAcd4PTlLPUpYVjiARkw3FE0Nb2
+ jXjh4M5wsxsa8ZdoITN/3s1bIedU9ADMPQcPRUvYqRqRPH37uX2MHRRAI
+ wO6APS1q7EPkfBnCNaPVR4T2t9MWuROUzFBKa0lEL5GzdXLo9pGrT5+9B
+ u/2JlF3qrvB+E/N9Ai4/SMHvDq66RW6DtvgfzAhq27oJ9Ojp/rc1Z2/VZ
+ HW7DG9lKECiBAT4Km5ckFHOwUTYf04spf5LzSd6hK/jje7AE3QQssRNnp w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="318783409"
+X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; d="scan'208";a="318783409"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 03:11:55 -0700
+X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; d="scan'208";a="560832954"
+Received: from caliyanx-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.252.57.47])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 03:11:52 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lee Shawn C <shawn.c.lee@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [v8 3/5] drm/edid: read HF-EEODB ext block
+In-Reply-To: <20220317124202.14189-4-shawn.c.lee@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220317124202.14189-1-shawn.c.lee@intel.com>
+ <20220317124202.14189-4-shawn.c.lee@intel.com>
+Date: Wed, 23 Mar 2022 12:11:50 +0200
+Message-ID: <8735j9j7vd.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <a6acb2ce-2465-6619-e3fd-ac34ddf07d35@arm.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +57,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, ray.huang@amd.com,
- Cong Liu <liucong2@kylinos.cn>, spice-devel@lists.freedesktop.org,
- airlied@redhat.com, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: cooper.chiou@intel.com, william.tseng@intel.com,
+ intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
+ Lee Shawn C <shawn.c.lee@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 23, 2022 at 09:45:13AM +0000, Robin Murphy wrote:
-> On 2022-03-23 07:15, Christian König wrote:
-> > Am 22.03.22 um 10:34 schrieb Cong Liu:
-> > > qxl use ioremap to map ram_header and rom, in the arm64 implementation,
-> > > the device is mapped as DEVICE_nGnRE, it can not support unaligned
-> > > access.
-> > 
-> > Well that some ARM boards doesn't allow unaligned access to MMIO space
-> > is a well known bug of those ARM boards.
-> > 
-> > So as far as I know this is a hardware bug you are trying to workaround
-> > here and I'm not 100% sure that this is correct.
-> 
-> No, this one's not a bug. The Device memory type used for iomem mappings is
-> *architecturally* defined to enforce properties like aligned accesses, no
-> speculation, no reordering, etc. If something wants to be treated more like
-> RAM than actual MMIO registers, then ioremap_wc() or ioremap_cache() is the
-> appropriate thing to do in general (with the former being a bit more
-> portable according to Documentation/driver-api/device-io.rst).
+On Thu, 17 Mar 2022, Lee Shawn C <shawn.c.lee@intel.com> wrote:
+> According to HDMI 2.1 spec.
+>
+> "The HDMI Forum EDID Extension Override Data Block (HF-EEODB)
+> is utilized by Sink Devices to provide an alternate method to
+> indicate an EDID Extension Block count larger than 1, while
+> avoiding the need to present a VESA Block Map in the first
+> E-EDID Extension Block."
+>
+> It is a mandatory for HDMI 2.1 protocol compliance as well.
+> This patch help to know how many HF_EEODB blocks report by sink
+> and read allo HF_EEODB blocks back.
 
-Well, qxl is a virtual device, so it *is* ram.
+It still just boggles my mind that they've implemented something like
+this. They cite avoiding the EDID Block Map as the rationale... but it's
+been optional since E-EDID structure v1.4, published in 2006. 15+ years
+ago.
 
-I'm wondering whenever qxl actually works on arm?  As far I know all
-virtual display devices with (virtual) pci memory bars for vram do not
-work on arm due to the guest mapping vram as io memory and the host
-mapping vram as normal ram and the mapping attribute mismatch causes
-caching troubles (only noticeable on real arm hardware, not in
-emulation).  Did something change here recently?
+Can anyone tell me a sane reason for this? What does it provide that
+E-EDID 1.4 does not? Do they want to use E-EDID v1.3 with this? Why?
 
-take care,
-  Gerd
+BR,
+Jani.
 
+
+>
+> v2: support to find CEA block, check EEODB block format, and return
+>     available block number in drm_edid_read_hf_eeodb_blk_count().
+>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
+> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c |  8 +++-
+>  drivers/gpu/drm/drm_edid.c      | 71 +++++++++++++++++++++++++++++++--
+>  include/drm/drm_edid.h          |  2 +-
+>  3 files changed, 74 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index a50c82bc2b2f..16011023c12e 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2129,7 +2129,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>  				       const struct edid *edid)
+>  {
+>  	struct drm_device *dev = connector->dev;
+> -	size_t size = 0;
+> +	size_t size = 0, hf_eeodb_blk_count;
+>  	int ret;
+>  	const struct edid *old_edid;
+>  
+> @@ -2137,8 +2137,12 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>  	if (connector->override_edid)
+>  		return 0;
+>  
+> -	if (edid)
+> +	if (edid) {
+>  		size = EDID_LENGTH * (1 + edid->extensions);
+> +		hf_eeodb_blk_count = drm_edid_read_hf_eeodb_blk_count(edid);
+> +		if (hf_eeodb_blk_count)
+> +			size = EDID_LENGTH * (1 + hf_eeodb_blk_count);
+> +	}
+>  
+>  	/* Set the display info, using edid if available, otherwise
+>  	 * resetting the values to defaults. This duplicates the work
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index ef65dd97d700..890038758660 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1992,6 +1992,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  {
+>  	int i, j = 0, valid_extensions = 0;
+>  	u8 *edid, *new;
+> +	size_t hf_eeodb_blk_count;
+>  	struct edid *override;
+>  
+>  	override = drm_get_override_edid(connector);
+> @@ -2051,7 +2052,35 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  		}
+>  
+>  		kfree(edid);
+> +		return (struct edid *)new;
+> +	}
+> +
+> +	hf_eeodb_blk_count = drm_edid_read_hf_eeodb_blk_count((struct edid *)edid);
+> +	if (hf_eeodb_blk_count >= 2) {
+> +		new = krealloc(edid, (hf_eeodb_blk_count + 1) * EDID_LENGTH, GFP_KERNEL);
+> +		if (!new)
+> +			goto out;
+>  		edid = new;
+> +
+> +		valid_extensions = hf_eeodb_blk_count - 1;
+> +		for (j = 2; j <= hf_eeodb_blk_count; j++) {
+> +			u8 *block = edid + j * EDID_LENGTH;
+> +
+> +			for (i = 0; i < 4; i++) {
+> +				if (get_edid_block(data, block, j, EDID_LENGTH))
+> +					goto out;
+> +				if (drm_edid_block_valid(block, j, false, NULL))
+> +					break;
+> +			}
+> +
+> +			if (i == 4)
+> +				valid_extensions--;
+> +		}
+> +
+> +		if (valid_extensions != hf_eeodb_blk_count - 1) {
+> +			DRM_ERROR("Not able to retrieve proper EDID contain HF-EEODB data.\n");
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	return (struct edid *)edid;
+> @@ -3315,15 +3344,17 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
+>  #define VIDEO_BLOCK     0x02
+>  #define VENDOR_BLOCK    0x03
+>  #define SPEAKER_BLOCK	0x04
+> -#define HDR_STATIC_METADATA_BLOCK	0x6
+> -#define USE_EXTENDED_TAG 0x07
+> -#define EXT_VIDEO_CAPABILITY_BLOCK 0x00
+> +#define EXT_VIDEO_CAPABILITY_BLOCK	0x00
+> +#define HDR_STATIC_METADATA_BLOCK	0x06
+> +#define USE_EXTENDED_TAG		0x07
+>  #define EXT_VIDEO_DATA_BLOCK_420	0x0E
+> -#define EXT_VIDEO_CAP_BLOCK_Y420CMDB 0x0F
+> +#define EXT_VIDEO_CAP_BLOCK_Y420CMDB	0x0F
+> +#define EXT_VIDEO_HF_EEODB_DATA_BLOCK	0x78
+>  #define EDID_BASIC_AUDIO	(1 << 6)
+>  #define EDID_CEA_YCRCB444	(1 << 5)
+>  #define EDID_CEA_YCRCB422	(1 << 4)
+>  #define EDID_CEA_VCDB_QS	(1 << 6)
+> +#define HF_EEODB_LENGTH		2
+>  
+>  /*
+>   * Search EDID for CEA extension block.
+> @@ -4273,9 +4304,41 @@ static bool cea_db_is_y420vdb(const u8 *db)
+>  	return true;
+>  }
+>  
+> +static bool cea_db_is_hdmi_forum_eeodb(const u8 *db)
+> +{
+> +	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+> +		return false;
+> +
+> +	if (cea_db_payload_len(db) != HF_EEODB_LENGTH)
+> +		return false;
+> +
+> +	if (cea_db_extended_tag(db) != EXT_VIDEO_HF_EEODB_DATA_BLOCK)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  #define for_each_cea_db(cea, i, start, end) \
+>  	for ((i) = (start); (i) < (end) && (i) + cea_db_payload_len(&(cea)[(i)]) < (end); (i) += cea_db_payload_len(&(cea)[(i)]) + 1)
+>  
+> +size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid)
+> +{
+> +	const u8 *cea;
+> +	int i, start, end, ext_index = 0;
+> +
+> +	if (edid->extensions) {
+> +		cea = drm_find_cea_extension(edid, &ext_index);
+> +
+> +		if (cea && !cea_db_offsets(cea, &start, &end))
+> +			for_each_cea_db(cea, i, start, end)
+> +				if (cea_db_is_hdmi_forum_eeodb(&cea[i]))
+> +					return cea[i + 2];
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_edid_read_hf_eeodb_blk_count);
+> +
+>  static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
+>  				      const u8 *db)
+>  {
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 144c495b99c4..5549da7bd7be 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -592,6 +592,6 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+>  			      u8 video_code);
+>  const u8 *drm_find_edid_extension(const struct edid *edid,
+>  				  int ext_id, int *ext_index);
+> -
+> +size_t drm_edid_read_hf_eeodb_blk_count(const struct edid *edid);
+>  
+>  #endif /* __DRM_EDID_H__ */
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
