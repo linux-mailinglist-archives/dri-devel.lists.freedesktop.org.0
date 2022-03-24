@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8224E6A4E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 22:37:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 685314E6A99
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:20:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8EE910E3AB;
-	Thu, 24 Mar 2022 21:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA7F10E195;
+	Thu, 24 Mar 2022 22:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E5B10E3AB
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 21:37:26 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-dacc470e03so6257429fac.5
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=HdoEr39nJ8XLLzmRv7t9DcJ2NEuZdicrQhgJMIplMGA=;
- b=nr+pJcEfaxKZFWLOyHW123YG2KCr26yDBn3v81ePVZIch5SOqrWM7iZ2qRgTr9MPJ9
- 4QGiQuknNnMf2Ia7etw4ZOe7V0kAgdOwH2oMhCsFqlQzqH+PzBz7Az+vKoN2TP4LUBa/
- bU6WLPj9gh6W4J2h3BvVBrRJuBBsztFzMx75U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=HdoEr39nJ8XLLzmRv7t9DcJ2NEuZdicrQhgJMIplMGA=;
- b=zEDI7YVMabb13oXdBJMCGBWmK4u6gFBOwYRGvAdZZ6SDMzdX8pJBwwg3fYpDshJJNu
- 4zpQ72uiaAoQFfIJXCzmGw9GEhGiAYWzQL+uP/VXvqpcdfZ1DAMAzMvpJ4Vio3safF1C
- 9gfQu9cuJ7qHqPwRSWdEzb8Pd2Ms7v/yzkN0WnWxl1EX/9IfIawJl61B3Rit3ILLNPU2
- ysoqkJz3DkxzuvdGTXZfJxmFw02BDOF8BdVRd1v5Ig7G1BZWxbl6IA+5sNv4HveKwRVg
- 4kESsfjeBLiJI5L3wq3l0hDP3WkHfFcfNwqVDqk1spogVnqF4JSSKKxn1nRgZ/wv1Em6
- zSmA==
-X-Gm-Message-State: AOAM533YKIJqfqkEtDhs8cQAz/vWIovXsQvX4Gj7J2ysPJubEeIlTji1
- hKG6NF3TsskwhNRy4TnJr1J4KcL7gHJc2K+eq7syDg==
-X-Google-Smtp-Source: ABdhPJzO4fhdphXFf/keg/5TBfNUkepirTBLzE8Zcx2CsDXOfdqgNwltvB1Zzof+7t6gNMJcMiaLnjkt8A/oTp6SjGw=
-X-Received: by 2002:a05:6870:b69c:b0:dd:b74b:4099 with SMTP id
- cy28-20020a056870b69c00b000ddb74b4099mr3250679oab.193.1648157845385; Thu, 24
- Mar 2022 14:37:25 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 24 Mar 2022 16:37:24 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 278FE10E195
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:20:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DA6FF61599
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:20:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475C0C340EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648160415;
+ bh=yckN+MdsKZxNF8aOhJMOgBhFmt6WG9OpxVOqNrPyzqE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Ey4FiSSKjRMZ+8SrrZ+VAvpYQeonmWi6DZbMFmyfKzefayuqQ5+Mso6YEsY7VDGz0
+ ei94QYctelUOVAgC3uIrSbbMMXMUvowkoTfHflF2m2DX6cKU4qXJubxl1VtpgdLmgT
+ qLUI4iCRDMbuVX55ZkjmJ3ulA3JvogfwXxGPfu1XBdV7uqP6cKgdgHYwiSb6LPZH7F
+ xUAVm8w39EyRsCiNBnDrUUugemnB6O1xUV2AOziOkTYQjiv8CFT//AT3pn3NBm98qz
+ Z5PCXELUCbdNXdpfEDXnR54Y6WJCFV5iVziHY+9B8itCLGn8nH0MPxdB5XKNvaeNEY
+ qzz8BadUAXPJA==
+Received: by mail-ej1-f47.google.com with SMTP id lr4so3510461ejb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 15:20:15 -0700 (PDT)
+X-Gm-Message-State: AOAM5324aE40A3fixlxoZ9ZXcT7l9JtAWc5WaVb7arbfeSWsRRSbHqQn
+ leACcrJ7grGb7+tjFuqJAf2wV6tCve+x7K95dQ==
+X-Google-Smtp-Source: ABdhPJxHVFFf7b6MkecoVe5kNuoMPvBab+rmSG9rTkwHitqqDwBRgcvY2X7bD2iP8YTLDR/KQM8MuV+Voe9Yyjz4/2E=
+X-Received: by 2002:a17:907:2ce6:b0:6df:a489:d2e1 with SMTP id
+ hz6-20020a1709072ce600b006dfa489d2e1mr8366419ejc.264.1648160413423; Thu, 24
+ Mar 2022 15:20:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220323092538.1757880-7-dmitry.baryshkov@linaro.org>
-References: <20220323092538.1757880-1-dmitry.baryshkov@linaro.org>
- <20220323092538.1757880-7-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 24 Mar 2022 16:37:24 -0500
-Message-ID: <CAE-0n51VvGu5w9dSUKUt4GywYbSpOaqxfWypB7ObJZg1pM5BAQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] drm/msm: make mdp5/dpu devices master components
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
+References: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+In-Reply-To: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 24 Mar 2022 17:20:02 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJqb6HYN5cw7GsyFobZxFmhU-ci8w4HKQEdFsx=bC_F3w@mail.gmail.com>
+Message-ID: <CAL_JsqJqb6HYN5cw7GsyFobZxFmhU-ci8w4HKQEdFsx=bC_F3w@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.18-rc1
+To: Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,208 +59,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-03-23 02:25:38)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 38627ccf3068..ab8a35e09bc9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -381,8 +381,8 @@ static int dpu_kms_parse_data_bus_icc_path(struct dpu_kms *dpu_kms)
->         struct icc_path *path1;
->         struct drm_device *dev = dpu_kms->dev;
+On Thu, Mar 24, 2022 at 3:32 AM Dave Airlie <airlied@gmail.com> wrote:
 >
-> -       path0 = of_icc_get(dev->dev, "mdp0-mem");
-> -       path1 = of_icc_get(dev->dev, "mdp1-mem");
-> +       path0 = of_icc_get(dev->dev->parent, "mdp0-mem");
+> Hi Linus,
+>
+> This is the main drm pull request for 5.18.
+>
+> The summary changelog is below, lots of work all over,
+> Intel improving DG2 support, amdkfd CRIU support, msm
+> new hw support, and faster fbdev support.
+>
+> Conflicts:
+> I did a merge into your tree this morning, couple of Kconfig
+> clashes, drm_cache.c needs an ioport.h include to avoid a build
+> fail due to other header refactoring. I think you should be able
+> to handle it.
+>
+> External interactions:
+> - dma-buf-map gets renamed to iosys-map
+> - this adds a yes/no helper to the strings helpers, and it's used
+>   in some other code.
+> - platform driver for chromeos privacy screen
+>
+> Let me know if there are any issues.
+>
+> Regards,
+> Dave.
+>
+> drm-next-2022-03-24:
+> drm for 5.18-rc1
+>
+> dma-buf:
+> - rename dma-buf-map to iosys-map
+>
+> core:
+> - move buddy allocator to core
+> - add pci/platform init macros
+> - improve EDID parser deep color handling
+> - EDID timing type 7 support
+> - add GPD Win Max quirk
+> - add yes/no helpers to string_helpers
+> - flatten syncobj chains
+> - add nomodeset support to lots of drivers
+> - improve fb-helper clipping support
+> - add default property value interface
+>
+> fbdev:
+> - improve fbdev ops speed
+>
+> ttm:
+> - add a backpointer from ttm bo->ttm resource
+>
+> dp:
+> - move displayport headers
+> - add a dp helper module
+>
+> bridge:
+> - anx7625 atomic support, HDCP support
+>
+> panel:
+> - split out panel-lvds and lvds bindings
+> - find panels in OF subnodes
+>
+> privacy:
+> - add chromeos privacy screen support
+>
+> fb:
+> - hot unplug fw fb on forced removal
+>
+> simpledrm:
+> - request region instead of marking ioresource busy
+> - add panel oreintation property
+>
+> udmabuf:
+> - fix oops with 0 pages
+>
+> amdgpu:
+> - power management code cleanup
+> - Enable freesync video mode by default
+> - RAS code cleanup
+> - Improve VRAM access for debug using SDMA
+> - SR-IOV rework special register access and fixes
+> - profiling power state request ioctl
+> - expose IP discovery via sysfs
+> - Cyan skillfish updates
+> - GC 10.3.7, SDMA 5.2.7, DCN 3.1.6 updates
+> - expose benchmark tests via debugfs
+> - add module param to disable XGMI for testing
+> - GPU reset debugfs register dumping support
+>
+> amdkfd:
+> - CRIU support
+> - SDMA queue fixes
+>
+> radeon:
+> - UVD suspend fix
+> - iMac backlight fix
+>
+> i915:
+> - minimal parallel submission for execlists
+> - DG2-G12 subplatform added
+> - DG2 programming workarounds
+> - DG2 accelerated migration support
+> - flat CCS and CCS engine support for XeHP
+> - initial small BAR support
+> - drop fake LMEM support
+> - ADL-N PCH support
+> - bigjoiner updates
+> - introduce VMA resources and async unbinding
+> - register definitions cleanups
+> - multi-FBC refactoring
+> - DG1 OPROM over SPI support
+> - ADL-N platform enabling
+> - opregion mailbox #5 support
+> - DP MST ESI improvements
+> - drm device based logging
+> - async flip optimisation for DG2
+> - CPU arch abstraction fixes
+> - improve GuC ADS init to work on aarch64
+> - tweak TTM LRU priority hint
+> - GuC 69.0.3 support
+> - remove short term execbuf pins
+>
+> nouveau:
+> - higher DP/eDP bitrates
+> - backlight fixes
+>
+> msm:
+> - dpu + dp support for sc8180x
+> - dp support for sm8350
+> - dpu + dsi support for qcm2290
+> - 10nm dsi phy tuning support
+> - bridge support for dp encoder
+> - gpu support for additional 7c3 SKUs
+>
+> ingenic:
+> - HDMI support for JZ4780
+> - aux channel EDID support
+>
+> ast:
+> - AST2600 support
+> - add wide screen support
+> - create DP/DVI connectors
+>
+> omapdrm:
+> - fix implicit dma_buf fencing
+>
+> vc4:
+> - add CSC + full range support
+> - better display firmware handoff
+>
+> panfrost:
+> - add initial dual-core GPU support
+>
+> stm:
+> - new revision support
+> - fb handover support
+>
+> mediatek:
+> - transfer display binding document to yaml format.
+> - add mt8195 display device binding.
 
-dev->dev->parent is long
+FYI, this breaks the DT bindings. The relevant patches didn't get
+reviewed nor run thru automated testing because their encoding was
+'charset=y'[1]. (While email clients seem to just ignore that
+encoding, patchwork and b4 do not.) linux-next is still broken and has
+been since Mar 2[2]. v2 of the fixes[3] have been posted since Mar 9,
+and still aren't in linux-next.
 
-> +       path1 = of_icc_get(dev->dev->parent, "mdp1-mem");
->
->         if (IS_ERR_OR_NULL(path0))
->                 return PTR_ERR_OR_ZERO(path0);
-> @@ -837,6 +837,9 @@ static void dpu_kms_destroy(struct msm_kms *kms)
->         _dpu_kms_hw_destroy(dpu_kms);
->
->         msm_kms_destroy(&dpu_kms->base);
-> +
-> +       if (dpu_kms->rpm_enabled)
-> +               pm_runtime_disable(&dpu_kms->pdev->dev);
->  }
->
->  static irqreturn_t dpu_irq(struct msm_kms *kms)
-> @@ -978,7 +981,7 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
->         if (!domain)
->                 return 0;
->
-> -       mmu = msm_iommu_new(dpu_kms->dev->dev, domain);
-> +       mmu = msm_iommu_new(dpu_kms->dev->dev->parent, domain);
+It doesn't have to be fixed in this PR, but it needs to be fixed
+before rc1. Otherwise, no one can test their bindings using rc1. In
+general, there's no reason fixes need to wait until after rc1 as
+Chun-Kuang suggests[4].
 
-And dpu_kms->dev->dev->parent is longer. Can we get some local variable
-or something that is more descriptive? I guess it is an 'mdss_dev'?
+Rob
 
->         if (IS_ERR(mmu)) {
->                 iommu_domain_free(domain);
->                 return PTR_ERR(mmu);
-> @@ -1172,40 +1175,15 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->         return rc;
->  }
->
-> -static int dpu_kms_init(struct drm_device *dev)
-> -{
-> -       struct msm_drm_private *priv;
-> -       struct dpu_kms *dpu_kms;
-> -       int irq;
-> -
-> -       if (!dev) {
-> -               DPU_ERROR("drm device node invalid\n");
-> -               return -EINVAL;
-> -       }
-> -
-> -       priv = dev->dev_private;
-> -       dpu_kms = to_dpu_kms(priv->kms);
-> -
-> -       irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
-> -       if (irq < 0) {
-> -               DPU_ERROR("failed to get irq: %d\n", irq);
-> -               return irq;
-> -       }
-> -       dpu_kms->base.irq = irq;
-> -
-> -       return 0;
-> -}
-> -
-> -static int dpu_bind(struct device *dev, struct device *master, void *data)
-> +static int dpu_kms_init(struct drm_device *ddev)
->  {
-> -       struct msm_drm_private *priv = dev_get_drvdata(master);
-> +       struct msm_drm_private *priv = ddev->dev_private;
-> +       struct device *dev = ddev->dev;
->         struct platform_device *pdev = to_platform_device(dev);
-> -       struct drm_device *ddev = priv->dev;
->         struct dpu_kms *dpu_kms;
-> +       int irq;
->         int ret = 0;
->
-> -       priv->kms_init = dpu_kms_init;
-> -
->         dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
->         if (!dpu_kms)
->                 return -ENOMEM;
-> @@ -1227,8 +1205,6 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->         }
->         dpu_kms->num_clocks = ret;
->
-> -       platform_set_drvdata(pdev, dpu_kms);
-> -
->         ret = msm_kms_init(&dpu_kms->base, &kms_funcs);
->         if (ret) {
->                 DPU_ERROR("failed to init kms, ret=%d\n", ret);
-> @@ -1242,31 +1218,25 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->
->         priv->kms = &dpu_kms->base;
->
-> -       return ret;
-> -}
-> -
-> -static void dpu_unbind(struct device *dev, struct device *master, void *data)
-> -{
-> -       struct platform_device *pdev = to_platform_device(dev);
-> -       struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-> +       irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
-
-Why doesn't platform_get_irq() work? This is code movement but I'm
-trying to understand why OF APIs are required.
-
-> +       if (irq < 0) {
-> +               DPU_ERROR("failed to get irq: %d\n", irq);
-> +               return irq;
-> +       }
-> +       dpu_kms->base.irq = irq;
->
-> -       if (dpu_kms->rpm_enabled)
-> -               pm_runtime_disable(&pdev->dev);
-> +       return 0;
->  }
->
-> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-> index 1f571372e928..ab25fff271f9 100644
-> --- a/drivers/gpu/drm/msm/msm_kms.h
-> +++ b/drivers/gpu/drm/msm/msm_kms.h
-> @@ -194,9 +194,6 @@ static inline void msm_kms_destroy(struct msm_kms *kms)
->                 msm_atomic_destroy_pending_timer(&kms->pending_timers[i]);
->  }
->
-> -extern const struct of_device_id dpu_dt_match[];
-> -extern const struct of_device_id mdp5_dt_match[];
-> -
->  #define for_each_crtc_mask(dev, crtc, crtc_mask) \
->         drm_for_each_crtc(crtc, dev) \
->                 for_each_if (drm_crtc_mask(crtc) & (crtc_mask))
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index 7451105cbf01..9ecae833037d 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -329,14 +310,7 @@ static int mdss_probe(struct platform_device *pdev)
->         if (IS_ERR(mdss))
->                 return PTR_ERR(mdss);
->
-> -       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> -       if (!priv) {
-> -               ret = -ENOMEM;
-> -               goto fail;
-> -       }
-> -
-> -       priv->mdss = mdss;
-> -       platform_set_drvdata(pdev, priv);
-> +       platform_set_drvdata(pdev, mdss);
->
->         /*
->          * MDP5/DPU based devices don't have a flat hierarchy. There is a top
-> @@ -350,39 +324,18 @@ static int mdss_probe(struct platform_device *pdev)
->                 goto fail;
-
-Can the goto fail be removed? And replaced with
-
-	if (ret)
-		msm_mdss_destroy(mdss)
-
-	return ret;
-
->         }
->
-> -       mdp_dev = device_find_child(dev, NULL, find_mdp_node);
-> -       if (!mdp_dev) {
-> -               DRM_DEV_ERROR(dev, "failed to find MDSS MDP node\n");
-> -               of_platform_depopulate(dev);
-> -               ret = -ENODEV;
-> -               goto fail;
-> -       }
-> -
-> -       /*
-> -        * on MDP5 based platforms, the MDSS platform device is the component
-> -        * that adds MDP5 and other display interface components to
-> -        * itself.
-> -        */
-> -       ret = msm_drv_probe(dev, mdp_dev);
-> -       put_device(mdp_dev);
-> -       if (ret)
-> -               goto fail;
-> -
-
-I see a lot of removal of 'goto fail'.
-
->         return 0;
->
->  fail:
-> -       of_platform_depopulate(dev);
-> -       msm_mdss_destroy(priv->mdss);
-> +       msm_mdss_destroy(mdss);
->
->         return ret;
->  }
->
+[1] https://lore.kernel.org/all/CAL_JsqLU0m9C1OPdiBPTkofB4sfiAeUPbFHp0w8caWyP4XPOEw@mail.gmail.com/
+[2] https://lore.kernel.org/all/CAL_Jsq+6k5EqouAO2Xm=GpBz3Pi-wfB-ixGwfyC+Y+qOrjUFTg@mail.gmail.com/
+[3] https://lore.kernel.org/all/Yjzgf10zAhrkpYde@robh.at.kernel.org/
+[4] https://lore.kernel.org/all/CAAOTY__kzL8YuGo-oKct4c_bL-Ch5rW8wBpkhOXkK+a10gNXVg@mail.gmail.com/
