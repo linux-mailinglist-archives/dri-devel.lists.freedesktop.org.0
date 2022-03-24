@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57044E6164
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 10:57:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35524E6168
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 10:58:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 866F510E776;
-	Thu, 24 Mar 2022 09:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED86710E793;
+	Thu, 24 Mar 2022 09:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2AAB10E2FB;
- Thu, 24 Mar 2022 09:57:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6834610E78D;
+ Thu, 24 Mar 2022 09:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648115866; x=1679651866;
+ t=1648115902; x=1679651902;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=5pWMXm6/ad8t/vDpGlpaj1ZWbgKQkZ1B50zfHdF/XQw=;
- b=D6ZevL3UCnEjN14TC2Hchmb+M0x1di3BUubY1JSY7LBQMDogmtdWZSDq
- susKe7B4n2UdArt8uVKQDThfC95CMucT1g7owfk4ZkVUzDMa3V+f2FkO0
- XdXlynsLwWug9KOaJgryNdHfMiqD5nIGT2zOUud8ZyH3VcRyfbvsebWy0
- SCZTNI93gTzNtk8HDPmjI+SdRM4IGgkG49sQfNQDw95Ongywen2cjBSbU
- 1nhyXgRwWwrjnUVn6J7pclG9B24GVOOUF90nYI/Pp9uQunTMUE66W8l8h
- iP6gt9u7yAGWS7tEXCDx5F7TVZM1T/+hFLjuocVOSSBf+hqAvz7inF50B g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="283192392"
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="283192392"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ message-id:mime-version:content-transfer-encoding;
+ bh=GpKEE2QTesoO89Aioo+z0+/n7ZOxg8pX8kUhvD7a9S0=;
+ b=T8M6skPWAbWOGGz3ICa9w8C1qYPj8v/QYu1xuxHKT7PRJQpp2w1HIbc1
+ A1P0ehsQKs2rKspvwxhSWiXf6yojMgylT5Tq2sHGDvDVNl1fD2AerXUby
+ Q/PTWLN+a3KpltB34wLUxee7rB9850BcNlYMXJShAJeKiCsvhnCoApVsV
+ 3oUMdL6XQo4QMAShJfSCUZe66IQTIAXJ2+BLN3c6ecvOxSohXiie8K8Do
+ 94fk8pd9UrcTvhh3OxkWJ/tORvByK64iw9uI/8xKceB2nzPfdScMia7Je
+ nk6lfwKZgvckBd19UwybjaUqt+7WStSg/QQZKZIjU6wyhItQbbisbSHmN Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="283192592"
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="283192592"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 02:57:39 -0700
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="544577026"
+ 24 Mar 2022 02:58:21 -0700
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="519719819"
 Received: from cnalawad-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.37.131])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 02:57:37 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 02:58:19 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Lee Shawn C <shawn.c.lee@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [v3] drm/edid: check basic audio support on CEA extension block
-In-Reply-To: <20220324061635.328-1-shawn.c.lee@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm/edid: fix CEA extension byte #3 parsing
+In-Reply-To: <Yjs4E5gl3KZoUOBR@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220321044330.27723-1-cooper.chiou@intel.com>
- <20220324061635.328-1-shawn.c.lee@intel.com>
-Date: Thu, 24 Mar 2022 11:57:35 +0200
-Message-ID: <87y20zhdv4.fsf@intel.com>
+References: <20220323100438.1757295-1-jani.nikula@intel.com>
+ <Yjs4E5gl3KZoUOBR@intel.com>
+Date: Thu, 24 Mar 2022 11:58:17 +0200
+Message-ID: <87tubnhdty.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +58,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cooper Chiou <cooper.chiou@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Shawn C Lee <shawn.c.lee@intel.com>, stable@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Shawn C Lee <shawn.c.lee@intel.com>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Mar 2022, Lee Shawn C <shawn.c.lee@intel.com> wrote:
-> From: Cooper Chiou <cooper.chiou@intel.com>
+On Wed, 23 Mar 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Wed, Mar 23, 2022 at 12:04:38PM +0200, Jani Nikula wrote:
+>> Only an EDID CEA extension has byte #3, while the CTA DisplayID Data
+>> Block does not. Don't interpret bogus data for color formats.
 >
-> Tag code stored in bit7:5 for CTA block byte[3] is not the same as
-> CEA extension block definition. Only check CEA block has
-> basic audio support.
+> I think what we might want eventually is a cleaner split between
+> the CTA data blocks vs. the rest of the EDID CTA ext block. Only
+> the former is relevant for DisplayID.
 >
-> v3: update commit message.
+> But for a bugfix we want to keep it simple.
 >
-> Cc: stable@vger.kernel.org
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Shawn C Lee <shawn.c.lee@intel.com>
-> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
-> Signed-off-by: Cooper Chiou <cooper.chiou@intel.com>
-> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
-> Fixes: e28ad544f462 ("drm/edid: parse CEA blocks embedded in DisplayID")
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-Thanks for the patch, pushed to drm-misc-next-fixes.
+Thanks, pushed to drm-misc-next-fixes.
 
 BR,
 Jani.
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 561f53831e29..f07af6786cec 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4859,7 +4859,8 @@ bool drm_detect_monitor_audio(struct edid *edid)
->  	if (!edid_ext)
->  		goto end;
->  
-> -	has_audio = ((edid_ext[3] & EDID_BASIC_AUDIO) != 0);
-> +	has_audio = (edid_ext[0] == CEA_EXT &&
-> +		    (edid_ext[3] & EDID_BASIC_AUDIO) != 0);
->  
->  	if (has_audio) {
->  		DRM_DEBUG_KMS("Monitor has basic audio support\n");
+>>=20
+>> For most displays it's probably an unlikely scenario you'd have a CTA
+>> DisplayID Data Block without a CEA extension, but they do exist.
+>>=20
+>> Fixes: e28ad544f462 ("drm/edid: parse CEA blocks embedded in DisplayID")
+>> Cc: <stable@vger.kernel.org> # v4.15
+>> Cc: Shawn C Lee <shawn.c.lee@intel.com>
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>=20
+>> ---
+>>=20
+>> commit e28ad544f462 was merged in v5.3, but it has Cc: stable for v4.15.
+>>=20
+>> This is also fixed in my CEA data block iteration series [1], but we'll
+>> want the simple fix for stable first.
+>>=20
+>> Hum, CTA is formerly CEA, I and the code seem to use both, should we use
+>> only one or the other?
+>
+> And before CEA it was called EIA (IIRC). Dunno if we also use that name
+> somewhere.
+>
+> If someone cares enough I guess we could rename everything to "cta".
+>
+>>=20
+>> [1] https://patchwork.freedesktop.org/series/101659/
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 12 ++++++++----
+>>  1 file changed, 8 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 561f53831e29..ccf7031a6797 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -5187,10 +5187,14 @@ static void drm_parse_cea_ext(struct drm_connect=
+or *connector,
+>>=20=20
+>>  	/* The existence of a CEA block should imply RGB support */
+>>  	info->color_formats =3D DRM_COLOR_FORMAT_RGB444;
+>> -	if (edid_ext[3] & EDID_CEA_YCRCB444)
+>> -		info->color_formats |=3D DRM_COLOR_FORMAT_YCBCR444;
+>> -	if (edid_ext[3] & EDID_CEA_YCRCB422)
+>> -		info->color_formats |=3D DRM_COLOR_FORMAT_YCBCR422;
+>> +
+>> +	/* CTA DisplayID Data Block does not have byte #3 */
+>> +	if (edid_ext[0] =3D=3D CEA_EXT) {
+>> +		if (edid_ext[3] & EDID_CEA_YCRCB444)
+>> +			info->color_formats |=3D DRM_COLOR_FORMAT_YCBCR444;
+>> +		if (edid_ext[3] & EDID_CEA_YCRCB422)
+>> +			info->color_formats |=3D DRM_COLOR_FORMAT_YCBCR422;
+>> +	}
+>>=20=20
+>>  	if (cea_db_offsets(edid_ext, &start, &end))
+>>  		return;
+>> --=20
+>> 2.30.2
 
--- 
+--=20
 Jani Nikula, Intel Open Source Graphics Center
