@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8B54E63F7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 14:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2ACF4E6402
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 14:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0DE410E8FA;
-	Thu, 24 Mar 2022 13:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B998710E912;
+	Thu, 24 Mar 2022 13:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7FC10E8EE;
- Thu, 24 Mar 2022 13:18:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648127902; x=1679663902;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=/Ge5qoAYL0DMnInyAQpE16P3Fi3SRbqklwnBLGm8RtY=;
- b=nxzGHNBgr18PUkRCFtU7YzHjzLaYO4WceESpWAJpQaAA7Rq5UYeQDFHq
- 2cDDABzIgYilSS9s9phHJBLC71lT8s2NO1zY7h3PBHLEnioBlyDPjlRzL
- HKHYPNMYr1b1KZbyXxOsuR0P54aWpf/jzYDchcwXr1MoSSvIbTG4E++6/
- VT0lD5ZEE2IeRci1ZG3aL9hRA7ly+3Aau8DYPn0Q+vezLbD8GKZXDbBc5
- cFBAtQFY2YD0lmjcXCGLj0MOjboIS+wVZKOnpFKDFWoPS0oj0gau+qGqX
- bWyf94DSkvdafnc14Y68m5WOPvNHQ5SSwdC3ksruWvCupTl6aXmu6wVU7 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="321572487"
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="321572487"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 06:18:18 -0700
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="544641253"
-Received: from agalan1-mobl1.ger.corp.intel.com (HELO [10.252.61.111])
- ([10.252.61.111])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 06:18:14 -0700
-Message-ID: <fafe7517-fb98-4992-e059-88429ac488bc@linux.intel.com>
-Date: Thu, 24 Mar 2022 14:18:11 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7657510E8CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:21:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648128075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KbUfq5Ttn9TLVrkbv/r2vzp1qmLsYDSRFfW64UUbX/Y=;
+ b=XE8C8Ri8f8MiKwbv2KTfJ7h+t1GiWX7jaWVmBZc4DccGqgMeJJBcJCe+vR5hmwcS5Ij+bL
+ XLl54BIev8RQNtdDtlLrvBZFuhvelSlFYKrhwkXLTFMSZkRV2n+LOrIiAxE2fHI7TxWx7a
+ DyKUhP1yx31zxpeFfanHaqrpUXb6hdo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-75--3M2yY4qM3Gzbj6tGKQFfA-1; Thu, 24 Mar 2022 09:21:12 -0400
+X-MC-Unique: -3M2yY4qM3Gzbj6tGKQFfA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D83182A682;
+ Thu, 24 Mar 2022 13:21:11 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD4C5142B94F;
+ Thu, 24 Mar 2022 13:21:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 62C5318003B8; Thu, 24 Mar 2022 14:21:09 +0100 (CET)
+Date: Thu, 24 Mar 2022 14:21:09 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: liucong2@kylinos.cn
+Subject: Re: =?utf-8?B?5Zue5aSNOiBSZTog5Zue5aSNOiBSZTog5Zue5aSNOiBSZTog?=
+ =?utf-8?B?5Zue5aSNOiBSZTogW1BBVEM=?= =?utf-8?Q?H?= v1 1/2] drm/qxl: replace
+ ioremap by ioremap_cache on arm64
+Message-ID: <20220324132109.3ox6k2wif6tkp47n@sirius.home.kraxel.org>
+References: <olr8fzd5ad-olr8fzd5ae@nsmail6.0>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.7.0
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <olr8fzd5ad-olr8fzd5ae@nsmail6.0>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,54 +67,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, ray.huang@amd.com,
+ spice-devel@lists.freedesktop.org, airlied@redhat.com,
+ Robin Murphy <robin.murphy@arm.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous pull request tag was botched due to my key expiring, updated!
+On Thu, Mar 24, 2022 at 06:34:02PM +0800, liucong2@kylinos.cn wrote:
+>    ok, thanks, a lot of our customer use qxl on x86 before, so it still need
+>    to supoort qxl on arm64.
 
-drm-misc-next-fixes-2022-03-24-1:
-drm-misc-next-fixes for v5.18-rc1:
-- Make audio and color plane support checking only happen
-  when a CEA extension block is found.
-- Fix a small regression from ttm_resource_fini()
-- Small selftest fix.
-The following changes since commit f6d790e5a7fe42706756c7fa1686d08d230610fc:
+Well, qxl isn't the best choice even on x86.  The main advantage it
+offers (2d acceleration) is basically useless today because pretty much
+everything moved on to use 3d acceleration instead.  So qxl ends up
+being used as dumb framebuffer with software 3d rendering.
 
-  Merge tag 'drm-intel-next-fixes-2022-03-10' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-03-11 13:27:00 +1000)
+So, I'm still recommending to just use virtio-gpu ...
 
-are available in the Git repository at:
+take care,
+  Gerd
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-03-24-1
-
-for you to fetch changes up to 7344bad7fb6daa4877a1c064b52c7d5f9182c41b:
-
-  drm/edid: fix CEA extension byte #3 parsing (2022-03-24 11:41:14 +0200)
-
-----------------------------------------------------------------
-drm-misc-next-fixes for v5.18-rc1:
-- Make audio and color plane support checking only happen
-  when a CEA extension block is found.
-- Fix a small regression from ttm_resource_fini()
-- Small selftest fix.
-
-----------------------------------------------------------------
-Cooper Chiou (1):
-      drm/edid: check basic audio support on CEA extension block
-
-Jani Nikula (1):
-      drm/edid: fix CEA extension byte #3 parsing
-
-Nathan Chancellor (1):
-      drm/selftest: plane_helper: Put test structures in static storage
-
-Zack Rusin (1):
-      drm/ttm: Fix a kernel oops due to an invalid read
-
- drivers/gpu/drm/drm_edid.c                        | 15 ++++++++++-----
- drivers/gpu/drm/selftests/test-drm_plane_helper.c |  8 ++++----
- drivers/gpu/drm/ttm/ttm_range_manager.c           |  2 +-
- 3 files changed, 15 insertions(+), 10 deletions(-)
