@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F2B4E6F99
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 09:49:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B15E4E6F9B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 09:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CCC10E1F8;
-	Fri, 25 Mar 2022 08:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0915F10E248;
+	Fri, 25 Mar 2022 08:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 166C010E0A5;
- Fri, 25 Mar 2022 01:20:33 +0000 (UTC)
-X-UUID: f2e9e587d0b344779316483ce14ebf00-20220324
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11101
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HNeS6uumcgOimgeWuoeaguA==
-X-Content-Feature: ica/max.line-size 74 audit/email.address 1 meta/cnt.alert 1
-X-UUID: f2e9e587d0b344779316483ce14ebf00-20220324
-Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 1781606887; Thu, 24 Mar 2022 18:49:12 +0800
-X-ns-mid: postfix-623C4CD5-4726359750
-Received: from localhost.localdomain (unknown [172.20.12.219])
- by cs2c.com.cn (NSMail) with ESMTPA id 2B333383C640;
- Thu, 24 Mar 2022 10:49:57 +0000 (UTC)
-From: Cong Liu <liucong2@kylinos.cn>
-To: airlied@linux.ie, airlied@redhat.com, christian.koenig@amd.com,
- kraxel@redhat.com, robin.murphy@arm.com
-Subject: [PATCH v2] drm/qxl: fix qxl can't use in arm64
-Date: Thu, 24 Mar 2022 18:49:28 +0800
-Message-Id: <20220324104928.2959545-1-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <12eba824-ee80-0aac-56ed-e13084c9cae7@amd.com>
-References: <12eba824-ee80-0aac-56ed-e13084c9cae7@amd.com>
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755FA10E893
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 11:37:26 +0000 (UTC)
+Received: from kwepemi500015.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KPNQF6qnszBrb3;
+ Thu, 24 Mar 2022 19:33:25 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by kwepemi500015.china.huawei.com
+ (7.221.188.92) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 24 Mar
+ 2022 19:37:22 +0800
+From: Zheng Bin <zhengbin13@huawei.com>
+To: <andrzej.hajda@intel.com>, <narmstrong@baylibre.com>,
+ <robert.foss@linaro.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] drm/bridge: it6505: Fix build error without
+ DRM_DP_HELPER
+Date: Thu, 24 Mar 2022 19:52:21 +0800
+Message-ID: <20220324115221.1676625-1-zhengbin13@huawei.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500015.china.huawei.com (7.221.188.92)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 25 Mar 2022 08:49:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,65 +50,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, ray.huang@amd.com,
- Cong Liu <liucong2@kylinos.cn>, spice-devel@lists.freedesktop.org
+Cc: zhengbin13@huawei.com, tangyizhou@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-qxl use ioremap to map ram_header and rom, in the arm64 implementation,
-the device is mapped as DEVICE_nGnRE, it can not support unaligned
-access. and qxl is a virtual device, it can be treated more like RAM
-than actual MMIO registers. use ioremap_wc() replace it.
+If DRM_DP_HELPER is not set, bulding fails:
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
+ld: drivers/gpu/drm/bridge/ite-it6505.o: in function `it6505_link_training_work':
+ite-it6505.c:(.text+0x50d8): undefined reference to `drm_dp_dpcd_write'
+ld: ite-it6505.c:(.text+0x51c4): undefined reference to `drm_dp_link_train_clock_recovery_delay'
+ld: ite-it6505.c:(.text+0x51d7): undefined reference to `drm_dp_dpcd_read_link_status'
+ld: ite-it6505.c:(.text+0x51ec): undefined reference to `drm_dp_clock_recovery_ok'
+ld: ite-it6505.c:(.text+0x5387): undefined reference to `drm_dp_get_adjust_request_voltage'
+ld: ite-it6505.c:(.text+0x539d): undefined reference to `drm_dp_get_adjust_request_pre_emphasis'
+ld: ite-it6505.c:(.text+0x5548): undefined reference to `drm_dp_link_train_channel_eq_delay'
+ld: ite-it6505.c:(.text+0x555b): undefined reference to `drm_dp_dpcd_read_link_status'
+ld: ite-it6505.c:(.text+0x5570): undefined reference to `drm_dp_clock_recovery_ok'
+ld: ite-it6505.c:(.text+0x558d): undefined reference to `drm_dp_channel_eq_ok'
+ld: ite-it6505.c:(.text+0x55da): undefined reference to `drm_dp_get_adjust_request_voltage'
+ld: ite-it6505.c:(.text+0x55f2): undefined reference to `drm_dp_get_adjust_request_pre_emphasis'
+ld: drivers/gpu/drm/bridge/ite-it6505.o: in function `it6505_bridge_detect':
+ite-it6505.c:(.text+0x59f1): undefined reference to `drm_dp_dpcd_read'
+ld: ite-it6505.c:(.text+0x5a16): undefined reference to `drm_dp_bw_code_to_link_rate'
+ld: ite-it6505.c:(.text+0x5a87): undefined reference to `drm_dp_dpcd_read'
+ld: ite-it6505.c:(.text+0x5ac1): undefined reference to `drm_dp_dpcd_write'
+ld: ite-it6505.c:(.text+0x5d43): undefined reference to `drm_dp_link_rate_to_bw_code'
+
+Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
 ---
- drivers/gpu/drm/qxl/qxl_kms.c | 4 ++--
- drivers/gpu/drm/qxl/qxl_ttm.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-index 4dc5ad13f12c..a054e4a00fe8 100644
---- a/drivers/gpu/drm/qxl/qxl_kms.c
-+++ b/drivers/gpu/drm/qxl/qxl_kms.c
-@@ -165,7 +165,7 @@ int qxl_device_init(struct qxl_device *qdev,
- 		 (int)qdev->surfaceram_size / 1024,
- 		 (sb == 4) ? "64bit" : "32bit");
- 
--	qdev->rom = ioremap(qdev->rom_base, qdev->rom_size);
-+	qdev->rom = ioremap_wc(qdev->rom_base, qdev->rom_size);
- 	if (!qdev->rom) {
- 		pr_err("Unable to ioremap ROM\n");
- 		r = -ENOMEM;
-@@ -183,7 +183,7 @@ int qxl_device_init(struct qxl_device *qdev,
- 		goto rom_unmap;
- 	}
- 
--	qdev->ram_header = ioremap(qdev->vram_base +
-+	qdev->ram_header = ioremap_wc(qdev->vram_base +
- 				   qdev->rom->ram_header_offset,
- 				   sizeof(*qdev->ram_header));
- 	if (!qdev->ram_header) {
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index b2e33d5ba5d0..95df5750f47f 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -82,13 +82,13 @@ int qxl_ttm_io_mem_reserve(struct ttm_device *bdev,
- 	case TTM_PL_VRAM:
- 		mem->bus.is_iomem = true;
- 		mem->bus.offset = (mem->start << PAGE_SHIFT) + qdev->vram_base;
--		mem->bus.caching = ttm_cached;
-+		mem->bus.caching = ttm_write_combined;
- 		break;
- 	case TTM_PL_PRIV:
- 		mem->bus.is_iomem = true;
- 		mem->bus.offset = (mem->start << PAGE_SHIFT) +
- 			qdev->surfaceram_base;
--		mem->bus.caching = ttm_cached;
-+		mem->bus.caching = ttm_write_combined;
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.25.1
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 007e5a282f67..2145b08f9534 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -78,6 +78,7 @@ config DRM_ITE_IT6505
+         tristate "ITE IT6505 DisplayPort bridge"
+         depends on OF
+         select DRM_KMS_HELPER
++        select DRM_DP_HELPER
+         select EXTCON
+         help
+           ITE IT6505 DisplayPort bridge chip driver.
+--
+2.31.1
 
