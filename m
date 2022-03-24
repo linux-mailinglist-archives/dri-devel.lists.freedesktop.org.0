@@ -2,35 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C456A4E6FA3
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 09:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD894E6FA2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 09:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18C810E1F1;
-	Fri, 25 Mar 2022 08:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D35F10EB48;
+	Fri, 25 Mar 2022 08:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id EE3D110E868
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 09:07:38 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 24 Mar
- 2022 17:07:29 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 24 Mar
- 2022 17:07:29 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: <patrik.r.jakobsson@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm: gma500: clean up some style problems reported by
- checkpatch.pl
-Date: Thu, 24 Mar 2022 17:07:28 +0800
-Message-ID: <1648112848-29052-1-git-send-email-baihaowen@meizu.com>
+X-Greylist: delayed 922 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Mar 2022 09:27:43 UTC
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 022B510E792
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 09:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=Y63xt4boxyExZq6hhV
+ N4HB4jAAAEHQlGefrZDnFYgGg=; b=A9epg5pGbMDc3HSK9XABSIllTpHrUkBJsS
+ FXVkVLZ4uTM2wB+GzQtLn4uVvXdZrSd3Cwnog29OycmaHCY0HWDgKppeD39hlHmX
+ SNGqilINnEfPkkQwb+7jYjfL2Dnv2utnOwVTe51kEOZwzbPUQLVvAcuCiTnY4IkV
+ mMJfpcDEU=
+Received: from localhost (unknown [159.226.95.33])
+ by smtp7 (Coremail) with SMTP id C8CowADXcrjqNTxieYAGEA--.7423S2;
+ Thu, 24 Mar 2022 17:12:10 +0800 (CST)
+From: QintaoShen <unSimple1993@163.com>
+To: tomba@kernel.org
+Subject: [PATCH v1] drm: omapdrm: Check for NULL return of kzalloc()
+Date: Thu, 24 Mar 2022 17:12:07 +0800
+Message-Id: <1648113127-8020-1-git-send-email-unSimple1993@163.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-125.meizu.com (172.16.1.125) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+X-CM-TRANSID: C8CowADXcrjqNTxieYAGEA--.7423S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kry3JFy5urWxtw47Zw43KFg_yoW8GFy8pF
+ WDta4jkr18AF42grnrA3WqyFy5Ga13CF1Sgr9ruwna9w4rArW7Xwn8JFy3Arykuws3Ar42
+ gF4kt3WfGrn8Cr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUO18gUUUUU=
+X-Originating-IP: [159.226.95.33]
+X-CM-SenderInfo: 5xqvxz5sohimizt6il2tof0z/xtbCbgrNH2BbCZwkzwAAsz
 X-Mailman-Approved-At: Fri, 25 Mar 2022 08:49:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,43 +49,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haowen Bai <baihaowen@meizu.com>, linux-kernel@vger.kernel.org,
+Cc: QintaoShen <unSimple1993@163.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WARNING: Statements should start on a tabstop
+kzalloc() is a memory allocation function which may return NULL.
+It is better to check the return value of it to catch the error in time.
 
-WARNING: Missing a blank line after declarations
-
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+Signed-off-by: QintaoShen <unSimple1993@163.com>
 ---
- drivers/gpu/drm/gma500/mid_bios.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 3 +++
+ drivers/gpu/drm/omapdrm/omap_irq.c  | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/mid_bios.c b/drivers/gpu/drm/gma500/mid_bios.c
-index 7e76790..71942c2 100644
---- a/drivers/gpu/drm/gma500/mid_bios.c
-+++ b/drivers/gpu/drm/gma500/mid_bios.c
-@@ -50,8 +50,8 @@ static void mid_get_fuse_settings(struct drm_device *dev)
- 	DRM_INFO("internal display is %s\n",
- 		 dev_priv->iLVDS_enable ? "LVDS display" : "MIPI display");
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 06a719c..fcd76ea 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -166,6 +166,9 @@ void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable)
+ 	dispc_mgr_enable(priv->dispc, channel, enable);
+ 	omap_crtc->enabled = enable;
  
--	 /* Prevent runtime suspend at start*/
--	 if (dev_priv->iLVDS_enable) {
-+	/* Prevent runtime suspend at start*/
-+	if (dev_priv->iLVDS_enable) {
- 		dev_priv->is_lvds_on = true;
- 		dev_priv->is_mipi_on = false;
- 	} else {
-@@ -325,6 +325,7 @@ static void mid_get_vbt_data(struct drm_psb_private *dev_priv)
- int mid_chip_setup(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
++	if (!wait)
++		return ;
 +
- 	mid_get_fuse_settings(dev);
- 	mid_get_vbt_data(dev_priv);
- 	mid_get_pci_revID(dev_priv);
+ 	ret = omap_irq_wait(dev, wait, msecs_to_jiffies(100));
+ 	if (ret) {
+ 		dev_err(dev->dev, "%s: timeout waiting for %s\n",
+diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
+index 4aca14d..a234462 100644
+--- a/drivers/gpu/drm/omapdrm/omap_irq.c
++++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+@@ -45,6 +45,9 @@ struct omap_irq_wait * omap_irq_wait_init(struct drm_device *dev,
+ 	struct omap_irq_wait *wait = kzalloc(sizeof(*wait), GFP_KERNEL);
+ 	unsigned long flags;
+ 
++	if (!wait)
++		return NULL;
++
+ 	init_waitqueue_head(&wait->wq);
+ 	wait->irqmask = irqmask;
+ 	wait->count = count;
 -- 
 2.7.4
 
