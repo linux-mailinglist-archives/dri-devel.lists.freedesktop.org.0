@@ -2,79 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0A54E6A8A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE764E6A33
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 22:23:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01F9A10E17A;
-	Thu, 24 Mar 2022 22:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37F810E169;
+	Thu, 24 Mar 2022 21:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1749 seconds by postgrey-1.36 at gabe;
- Thu, 24 Mar 2022 22:13:48 UTC
-Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com
- [192.185.193.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D6510E17A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:13:48 +0000 (UTC)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
- by gateway30.websitewelcome.com (Postfix) with ESMTP id 9A7401B7C8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 16:18:10 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
- by cmsmtp with SMTP
- id XUqQnIhJTRnrrXUqQnb0wz; Thu, 24 Mar 2022 16:18:10 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uYIalswLom+ceKwMGJo6mQG4+4OkZPeJDwH7fRE+ZPk=; b=cMxNZZ92vrPsegNwniVsIiJu6H
- cjg0z0Aq0AcDBpxN2VsWvG9wDTT34MReKb1oO5UGRnZcwNJG1f9Eo2uM8Naq2VkW6x7XwbmQAfXHr
- JRf0KsW/pTJcxLSqrCMQAeqPnwqhxfoq8whse9R2+mxnQuUxiRsHU0wvZvzM4D9LQEimEOudZyKRN
- 0OQ4O6f2mVCShIIEnnJVdSHl/D2eJc/Fctnfq0YAJoTLwVPQIGBEtboCNaPZ89EgVBCNdZwEvetjP
- 3/KFA5PV1K09QNsDE9HnEkNKxCFok3ntDVoKIc1bV7MPs2TQDER2STwyF4iPJzJ7a+G8q/URFCqB5
- DxVxXxdg==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
- ([108.223.40.66]:54452)
- by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@roeck-us.net>)
- id 1nXUqP-004IOY-Ss; Thu, 24 Mar 2022 21:18:09 +0000
-Message-ID: <05be3d3b-16a7-2a65-fa58-606f22bfeeb8@roeck-us.net>
-Date: Thu, 24 Mar 2022 14:18:08 -0700
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277CC10E28F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 21:23:39 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so6207738fac.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=u4jj/zOQzuXEovzke6K3cPdIWt6nW+CnDZ3+Of9Qdrw=;
+ b=GogDieupr7LC079twCniLBZogLbYvk6MLpQzWbfxcPvpgRFa4/yCgsLpfmK7/AQsW6
+ +nle0KfwUOxCwExyGe2tBuzsFHpI4rD4d85GD9NXAyelB1QygVh9bsgJlizXRbTBZjWV
+ 6fJTljnStNk5KsFtArSMzSjfFSLjJKq9iTSUo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=u4jj/zOQzuXEovzke6K3cPdIWt6nW+CnDZ3+Of9Qdrw=;
+ b=bzhp3R2KTOIWwYgLwkkC/DVRan/QfqwzFC1h1Fsy2XkCHwvcbhLh+Mo39OEupOXOqX
+ yuBFNAXg4LaFp7NepjS3242rQie4zALd1yeFWbFOHVfEeTYrJ9QWIdSw/ocoJquPj3sA
+ YJuLdg5EO4qVHZgNkhUHeBZZyHIaZ2gUd9Zue9SRS7ZVuwKFWlQiz+v0fFxkK+bh+x6V
+ 9uHN+2UNzoqXXQp+zZCjRMzHiQVsuSHqwzoIFAoU+oMRJqBRk9OmuUKalPX7vwO4Q4Hs
+ ygkXL0oOfXXC6pMBK4iZd+XuVKVcEjXow44PPyclv5hectULXtt5ua3lBC8UXTHocBcP
+ WNzg==
+X-Gm-Message-State: AOAM532bLCR0HSfatGn3GhQ7Pjjaj0qrMXAk6GHrE0yJupRHPyx1Ywum
+ QoxtmVwo8KUWzmwraXPFIKU2ymUdmev2BeZbvzT3Sg==
+X-Google-Smtp-Source: ABdhPJyI4PlixBpMhpnkyqffokmmzaLmt4gtL9Qh8dX1otTTqY9VnE3Fm3AZyU5uMLAnZbxSES/qRj0yEKRGwRbt+2I=
+X-Received: by 2002:a05:6870:46ac:b0:de:5d48:9d27 with SMTP id
+ a44-20020a05687046ac00b000de5d489d27mr3497500oap.63.1648157018070; Thu, 24
+ Mar 2022 14:23:38 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 24 Mar 2022 16:23:37 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 4/5] fbdev: Improve performance of cfb_imageblit()
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220223193804.18636-1-tzimmermann@suse.de>
- <20220223193804.18636-5-tzimmermann@suse.de>
- <20220324191116.GA1045463@roeck-us.net>
- <db7e3568-5dc2-eb84-8ee4-191442da85e9@suse.de>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <db7e3568-5dc2-eb84-8ee4-191442da85e9@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nXUqP-004IOY-Ss
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net
- [108.223.40.66]:54452
-X-Source-Auth: linux@roeck-us.net
-X-Email-Count: 11
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+In-Reply-To: <20220323092538.1757880-4-dmitry.baryshkov@linaro.org>
+References: <20220323092538.1757880-1-dmitry.baryshkov@linaro.org>
+ <20220323092538.1757880-4-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 24 Mar 2022 16:23:37 -0500
+Message-ID: <CAE-0n52rraD2tDvEPn4gG0KzArm5e1cx=Z66vCwTvcY3hCwiAg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] drm/msm: split the main platform driver
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,51 +68,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, ppaalanen@gmail.com, geert@linux-m68k.org,
- kraxel@redhat.com, sam@ravnborg.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/24/22 12:18, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 24.03.22 um 20:11 schrieb Guenter Roeck:
->> Hi,
->>
->> On Wed, Feb 23, 2022 at 08:38:03PM +0100, Thomas Zimmermann wrote:
->>> Improve the performance of cfb_imageblit() by manually unrolling
->>> the inner blitting loop and moving some invariants out. The compiler
->>> failed to do this automatically. This change keeps cfb_imageblit()
->>> in sync with sys_imagebit().
->>>
->>> A microbenchmark measures the average number of CPU cycles
->>> for cfb_imageblit() after a stabilizing period of a few minutes
->>> (i7-4790, FullHD, simpledrm, kernel with debugging).
->>>
->>> cfb_imageblit(), new: 15724 cycles
->>> cfb_imageblit(): old: 30566 cycles
->>>
->>> In the optimized case, cfb_imageblit() is now ~2x faster than before.
->>>
->>> v3:
->>>     * fix commit description (Pekka)
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> This patch causes crashes with arm mainstone, z2, and collie emulations.
->> Reverting it fixes the problem.
->>
->> collie crash log and bisect log attached.
-> 
-> Does it work if you apply the fixes at
-> 
-> https://patchwork.freedesktop.org/series/101321/
-> 
-> ?
-> 
+Quoting Dmitry Baryshkov (2022-03-23 02:25:35)
+> Currently the msm platform driver is a multiplex handling several cases:
+> - headless GPU-only driver,
+> - MDP4 with flat device nodes,
+> - MDP5/DPU MDSS with all the nodes being children of MDSS node.
+>
+> This results in not-so-perfect code, checking the hardware version
+> (MDP4/MDP5/DPU) in several places, checking for mdss even when it can
+> not exist, etc. Split the code into three handling subdrivers (mdp4,
+> mdss and headless msm).
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Yes, it does, specifically the cfb related patch. I sent a Tested-by:.
+With the match table fixed and the nit below
 
-Thanks,
-Guenter
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+
+> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> index 3cf476c55158..c5c0650414c5 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> @@ -569,3 +569,59 @@ static struct mdp4_platform_config *mdp4_get_config(struct platform_device *dev)
+>
+>         return &config;
+>  }
+> +
+> +static const struct dev_pm_ops mdp4_pm_ops = {
+> +       .prepare = msm_pm_prepare,
+> +       .complete = msm_pm_complete,
+> +};
+> +
+> +static int mdp4_probe(struct platform_device *pdev)
+> +{
+> +       struct msm_drm_private *priv;
+> +
+> +       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       /*
+> +        * on MDP4 based platforms, the MDP platform device is the component
+> +        * master that adds other display interface components to itself.
+
+Just delete master. It provides no value in this sentence.
+
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 62007a4f29a2..512708101931 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -255,3 +258,167 @@ struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5)
+[...]
+> +               DRM_DEV_ERROR(dev, "failed to populate children devices\n");
+> +               goto fail;
+> +       }
+> +
+> +       mdp_dev = device_find_child(dev, NULL, find_mdp_node);
+> +       if (!mdp_dev) {
+> +               DRM_DEV_ERROR(dev, "failed to find MDSS MDP node\n");
+> +               of_platform_depopulate(dev);
+> +               ret = -ENODEV;
+> +               goto fail;
+> +       }
+> +
+> +       /*
+> +        * on MDP5 based platforms, the MDSS platform device is the component
+> +        * that adds MDP5 and other display interface components to
+
+Like here.
