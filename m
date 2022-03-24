@@ -2,73 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0044E63A8
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 13:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA974E63EF
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 14:16:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73F710E977;
-	Thu, 24 Mar 2022 12:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1F1610E8D1;
+	Thu, 24 Mar 2022 13:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B0C10E977
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 12:51:30 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 0DDD23200F72;
- Thu, 24 Mar 2022 08:51:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 24 Mar 2022 08:51:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=aWC+KLJ/QqIPERdjUhA4LBP2Tm/D1WXxZnjiQ0
- EPcew=; b=ieUTR1YmqzB4Pemnlmi0V/QXqIRYmRNHze63/oK623/C+HLpzDE2lt
- dtesLI3M3dFYurnDIe0VX1b/Rwmoe1j5oGJXRQdsx5QpCrXmYaf7S+NDa0dS42RG
- 4qOB923KRyvNoq3+hr2ztvID1LTbRvH4MZfPFklKJpDSpJs8hcORFb0g9Aqv0YsN
- B4OskrAy3/dMht4SSAN81wCaZqP3TH96FKrfde65Um/kMVidxYIQvPXMH6KxpX6u
- l9LYANF4ularOBwSftZ2J1JEUXuFIxlJXJavfAvrid/JckHeb2D0+ZjVLg83UHL5
- 8MsdOJkW6ajmeBEHA+YYHQpdMhwUD8Lw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aWC+KLJ/QqIPERdjU
- hA4LBP2Tm/D1WXxZnjiQ0EPcew=; b=YY6Lh1sQlX8ytSrGIPRgnRPDivUFCHfo0
- w9YawLeQZLWNePOuNOxDDmkCoFsK2lu+piRj1YGLszu02aYvzDkr0RdQFZlwEz5u
- sJKcwX2rhhOFSjqfHVdUu2BjV/Ljm4Qn88MHdnbm40jfk4bEtSuP+CZ8gL2gyHdZ
- SdL2hAzxE5YUi8LnDKcUppa1Le7Mm7jKw2TD7+s7Ok/cVBWAykq8xy/cXyTz1eUc
- wkSfizk1rIU+MYO3ZyDeE06YOiG5EZvAW9CmEHMZgSG8NQg87esg1Zv0K08ryLc6
- MJoWFM24K9bZleYOtb9H7NoCIjD+OgDqrKF38wAR2eDhk/SePo72g==
-X-ME-Sender: <xms:UGk8YgZ8tqIA0aVevueCO0fU5PhZiLdNpcVlKdyV3NuLnSPIYMKqtw>
- <xme:UGk8YrZOngzdK3QqFOgPC2DJP112vbUTX-gdlPsrBEZhFLIHJpV6YjYJ2FQtzkTgT
- e7tvJR9OOKpeBzdpsE>
-X-ME-Received: <xmr:UGk8Yq9fR_UbjrEKUVGya8hdYeeIE3bzmruieKX1i173agFgtuQOnMd7Ubu0283Q-m_Vt4ABG8a3w2hkpFWgzQNcsPn8jLmhRmIRCE4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledggeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:UGk8YqpjksuN7xvz5sEIcZCkqvPbStTS3tjT_1lbO8SfLdusoEG0Aw>
- <xmx:UGk8Yrrv2rthS2TTYK82X-5cDo9Nmowi8QBBiSKKRBFC6O5uZy1BDA>
- <xmx:UGk8YoTK93tdydxeqsnbt9u3DLe4s9YurI4vKGMYTDGX3fQane7WHA>
- <xmx:UGk8Ysfuctt2exq-kztrDUoODO2NH8r8GnME39A5zqy4R-DrPNqPMQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Mar 2022 08:51:27 -0400 (EDT)
-Date: Thu, 24 Mar 2022 13:51:26 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Zheng Bin <zhengbin13@huawei.com>
-Subject: Re: [PATCH -next] drm/vc4: Fix build error when CONFIG_DRM_VC4=y &&
- CONFIG_RASPBERRYPI_FIRMWARE=m
-Message-ID: <20220324125126.bycrcx7b2j76xagd@houat>
-References: <20220324072542.1238122-1-zhengbin13@huawei.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84DA410E8CD;
+ Thu, 24 Mar 2022 13:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648127761; x=1679663761;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=4e10eKbgg2UZyf/vEfxUWoBzVNSFO4yPsd/EumH65BI=;
+ b=mcSJFM3pTohOG/n7/FBU3/f9pmbEjQ9OUJmUT/m3Kt3Nbg5GjxjVDTN7
+ vNdCGB6aYPzj4j/3un2mB+Uw23eII7XQAAklzwQl4YaQp9f6ehBw2a8lf
+ /Io6B+XiEDE+9iLfBdRFsbiwl3WvBz0BVg2u9SOg+Z1NxJXwRLvVK5+E9
+ ddzBQ0D4MGKDkGLhJ7tEXRo6fnk+gsJFXTgpXdblkEXtNeCg7vUagWmOE
+ BPSd18bR9Q8BUt+UdPho8289LJ06GCvsyewtuZaUBgZtiIQAcE/Pns+f9
+ s9ZcuSUrsmb+QLGuOPgE+sNHoJZxrtfcQTFmGA+n9oDgaaUiI9EG4RzLA g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258327274"
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="258327274"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 06:16:01 -0700
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="544640506"
+Received: from agalan1-mobl1.ger.corp.intel.com (HELO [10.252.61.111])
+ ([10.252.61.111])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 06:15:58 -0700
+Message-ID: <a914e922-4404-5b56-74e6-2df6458875ec@linux.intel.com>
+Date: Thu, 24 Mar 2022 14:15:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="u4tiddmcamrazvhr"
-Content-Disposition: inline
-In-Reply-To: <20220324072542.1238122-1-zhengbin13@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.7.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,73 +57,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tangyizhou@huawei.com,
- limingming.li@huawei.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+drm-misc-next-fixes-2022-03-24:
+Short summary of fixes pull (less than what git shortlog provides):
+- explain anything non-fixes (e.g. cleanups) and why it's appropriate
+- highlight regressions
+- summarize pull requests contained
+This shouldn't be more than a few lines (or it indicates your fixes pull is a
+bit too big).
+The following changes since commit f6d790e5a7fe42706756c7fa1686d08d230610fc:
 
---u4tiddmcamrazvhr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge tag 'drm-intel-next-fixes-2022-03-10' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-03-11 13:27:00 +1000)
 
-On Thu, Mar 24, 2022 at 03:25:42PM +0800, Zheng Bin wrote:
-> If CONFIG_DRM_VC4=3Dy, CONFIG_RASPBERRYPI_FIRMWARE=3Dm, CONFIG_COMPILE_TE=
-ST=3Dn,
-> bulding fails:
->=20
-> drivers/gpu/drm/vc4/vc4_drv.o: In function `vc4_drm_bind':
-> vc4_drv.c:(.text+0x320): undefined reference to `rpi_firmware_get'
-> vc4_drv.c:(.text+0x320): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_get'
-> vc4_drv.c:(.text+0x34c): undefined reference to `rpi_firmware_property'
-> vc4_drv.c:(.text+0x34c): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_property'
-> vc4_drv.c:(.text+0x354): undefined reference to `rpi_firmware_put'
-> vc4_drv.c:(.text+0x354): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_put'
->=20
-> Make DRM_VC4 depends on RASPBERRYPI_FIRMWARE to fix this.
->=20
-> Fixes: c406ad5e4a85 ("drm/vc4: Notify the firmware when DRM is in charge")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
-> ---
->  drivers/gpu/drm/vc4/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> index de3424fed2fc..640907945b5b 100644
-> --- a/drivers/gpu/drm/vc4/Kconfig
-> +++ b/drivers/gpu/drm/vc4/Kconfig
-> @@ -1,7 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config DRM_VC4
->  	tristate "Broadcom VC4 Graphics"
-> -	depends on ARCH_BCM || ARCH_BCM2835 || COMPILE_TEST
-> +	depends on ((ARCH_BCM || ARCH_BCM2835) && \
-> +		    RASPBERRYPI_FIRMWARE) || COMPILE_TEST
->  	depends on DRM
->  	depends on SND && SND_SOC
->  	depends on COMMON_CLK
+are available in the Git repository at:
 
-Wouldn't it make more sense to add it as an additional depends on there?
-It doesn't look related to the architecture, and we'll still have that
-dependency for COMPILE_TEST.
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-03-24
 
-Maxime
+for you to fetch changes up to 7344bad7fb6daa4877a1c064b52c7d5f9182c41b:
 
---u4tiddmcamrazvhr
-Content-Type: application/pgp-signature; name="signature.asc"
+  drm/edid: fix CEA extension byte #3 parsing (2022-03-24 11:41:14 +0200)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Short summary of fixes pull (less than what git shortlog provides):
+- explain anything non-fixes (e.g. cleanups) and why it's appropriate
+- highlight regressions
+- summarize pull requests contained
+This shouldn't be more than a few lines (or it indicates your fixes pull is a
+bit too big).
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYjxpTgAKCRDj7w1vZxhR
-xZWMAP4trCaIrBddC/7hYw+ymxIe51WRUWaq0AxzoIR5KPrIzQEA+s/qi9bCpsEo
-1D0WWfBORkna8n4LKVscBPQYWUfWOQs=
-=Lko9
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Cooper Chiou (1):
+      drm/edid: check basic audio support on CEA extension block
 
---u4tiddmcamrazvhr--
+Jani Nikula (1):
+      drm/edid: fix CEA extension byte #3 parsing
+
+Nathan Chancellor (1):
+      drm/selftest: plane_helper: Put test structures in static storage
+
+Zack Rusin (1):
+      drm/ttm: Fix a kernel oops due to an invalid read
+
+ drivers/gpu/drm/drm_edid.c                        | 15 ++++++++++-----
+ drivers/gpu/drm/selftests/test-drm_plane_helper.c |  8 ++++----
+ drivers/gpu/drm/ttm/ttm_range_manager.c           |  2 +-
+ 3 files changed, 15 insertions(+), 10 deletions(-)
