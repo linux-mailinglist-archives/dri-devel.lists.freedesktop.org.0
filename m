@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C284E4E69AD
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 21:11:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 261144E69B1
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 21:12:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92C010E2C6;
-	Thu, 24 Mar 2022 20:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D7F10E2E4;
+	Thu, 24 Mar 2022 20:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E4410E268
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 20:11:30 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- o20-20020a9d7194000000b005cb20cf4f1bso4077870otj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:11:30 -0700 (PDT)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF2D10E268
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 20:12:07 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-dd9d3e7901so6038730fac.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Nwl7eXrzEg6HjQ0pYoms0bj2n7ydxw/0219nabhE8y4=;
- b=Wz0LWT+bpc8idvDVCgb6SFc2Qi2G93X+M2YY2fmhP9lnDZhmtWQOdp4XIrYFnWJ+Xu
- 1OjtvVD0C/QQP7xsv+SWY+cmKVJxaXRGRdCXufF7zTSjf3c/r4bHTemM7ZPM68WTenoz
- +jo3wpYPoEeOGQv5SN5A6G6nEfuoLns2S94Bo=
+ bh=fm33v815cGyvRnZSik/3qfh/le6zz0KlP6K6B+y0Ujw=;
+ b=j7BsnOzcEainxu4qHj53ZoSIQjjCWDVI5dpkX6Y3H7F6bGoLg+zwQ1mH1J+hSY+eBC
+ fUnpuDvR1s6e0lQ1cGONY7o0FhHRrOtx65byEMhBahgjGMhkzlr4QtW3ds3UgP7X1ZUC
+ bGMQzgtuDRbwkG8eX+c81M6n5aYkFSU2zHGkc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Nwl7eXrzEg6HjQ0pYoms0bj2n7ydxw/0219nabhE8y4=;
- b=4zrVTvf9zIMV2pc4cUPIm/zR3RwtK5XF9DDrWx1ItKC1uLYg52i382LmQSGuTVR1Nw
- LuKRKtrup1FbBycoBrXhDtDQxrl/+LbMocG52V/hzIZC6oITyD/aOdrf25/WK9xc76wL
- fTW3a5FA3y4+O+VtCLyOqqcsLDmehuG9bb96oao8eqdMooSRza943YPbS439Jls2ku4g
- DeBKNECA8HnSy0+xJEYlfbtYItVjEpCXDoiQqN+2g3R3dGzuvF5kBz9+bG7zDHWJ2yBj
- yZzQ/L7JuglRvXpZQTtCELKzhqw4N6Py/j70/DTzU1X2XG2wiw1FskIEuSz5ZDwDCn5Z
- hkNQ==
-X-Gm-Message-State: AOAM530Ekfya2HKuuob8CG6CI060cbWO7pKa2DegBoYQ0OkG6YkWSHLl
- 92Jsqu5yA09RODmfntLuUy/lnKWnI1lsMzN3E2OTvg==
-X-Google-Smtp-Source: ABdhPJyKdYuuvj+Pf/ReQ7CF0NIUyrpos1BaPLUZKxrc3wD7UER0DcKnAzcQcQ6rpt99A3PFhj4W1tAkEzuQMc1hO74=
-X-Received: by 2002:a05:6830:61b:b0:5cc:e44:7dc3 with SMTP id
- w27-20020a056830061b00b005cc0e447dc3mr2866148oti.159.1648152690112; Thu, 24
- Mar 2022 13:11:30 -0700 (PDT)
+ bh=fm33v815cGyvRnZSik/3qfh/le6zz0KlP6K6B+y0Ujw=;
+ b=7FfieeYxrjiyF2IHKbEs+5TNQiJ+/oiY0lNmk5YnFUQeIpuuoRWhh/8O0uRl93mFcU
+ t20+9nxeozFNntYZEaDjPBTEp6jVJLbhM7ER3HR5M0hmHPB4/k8jFjk1hoSX4KwjAvns
+ 7zuV30+8u+PiBsgZxCHoiujOm69P5ioHDqEGsewYdFjRO+wwH1M7eJfcpOLMaKdf482h
+ h188E8S3HzD7fCdEdZtWdxwXaEX8L0KICb4K553n4nDT3uEnHdRrDMSwxzTizkFaFAZV
+ Y4EXpLMVYe7ET/IEhID5rgBkp3YDQJxU5teGWpp7zCdgE0Pt6az3Yi7siYkl7s/GIBop
+ I/lA==
+X-Gm-Message-State: AOAM532VulE0c9K4CwpTZg+HISp1BUwmPtI/LnF54vL07BJletW9T/O2
+ TBhtjZ+S+vJcnWUzjxcMsjSPpE2eeEwEPjV1ZXph1Q==
+X-Google-Smtp-Source: ABdhPJzKBovD/XnQBM2VJdM2UICBfRNvK7J2MglCmPB4nXDGNIsSoqA1flcavm/5l9LdPtrW0MWyu1WgO4fQQ3UEHWo=
+X-Received: by 2002:a05:6870:b69c:b0:dd:b74b:4099 with SMTP id
+ cy28-20020a056870b69c00b000ddb74b4099mr3107374oab.193.1648152727293; Thu, 24
+ Mar 2022 13:12:07 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 24 Mar 2022 15:11:29 -0500
+ HTTPREST; Thu, 24 Mar 2022 15:12:06 -0500
 MIME-Version: 1.0
-In-Reply-To: <20220323103546.1772673-3-dmitry.baryshkov@linaro.org>
-References: <20220323103546.1772673-1-dmitry.baryshkov@linaro.org>
- <20220323103546.1772673-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
+References: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Thu, 24 Mar 2022 15:11:29 -0500
-Message-ID: <CAE-0n53namcRm+kYBbt+ytF5iQQKNpLDq7u+Nzsf4gyk_e+emg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/msm/dp: simplify dp_connector_get_modes()
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, 
- Sean Paul <sean@poorly.run>
+Date: Thu, 24 Mar 2022 15:12:06 -0500
+Message-ID: <CAE-0n519RudiM+BG722M_BKqb=9Qt1rPFH5eYE1=9Lut6H7o4A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display/msm: another fix for the dpu-qcm2290
+ example
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Rob Clark <robdclark@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,16 +70,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-03-23 03:35:45)
-> Since dp_panel_get_modes() handling for dp_mode was removed,
-> dp_display_get_modes also doesn't change the passed dp_mode, drop the
-> unused dp_mode variable being allocated unused and then freed.
+Quoting Dmitry Baryshkov (2022-03-24 04:55:36)
+> Make dpu-qcm2290 example really follow the defined schema:
+> - Drop qcom,mdss compatible. It's only used for MDP5 devices.
+> - Change display controller name to display-controller as specified in
+>   the yaml
 >
+> Reported-by: Rob Herring <robh@kernel.org>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU bindings")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
