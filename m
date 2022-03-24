@@ -1,65 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F282C4E6A09
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 21:53:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403944E6A79
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D1410E360;
-	Thu, 24 Mar 2022 20:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C85E10E057;
+	Thu, 24 Mar 2022 22:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B83C10E360
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 20:53:31 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id d10so11571607eje.10
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aFSr1woZwQXcWxiIeXMBTdkSmylSGPSvw4l7QhCcJdk=;
- b=UWOwijb6tG4M9q5CzVe8FLlKtNmcdWmo3x+k5WAD0Lt4E7cx8AILpBG8mEMI+DnmqR
- WL38ld57I7KlKmg/69QrQdqARexREhJnmXWz1eZsisBYV0TJxrVX+c7li7f8/tBXOD7O
- y54nz6+M26mmk6N5pwX7PTdnHSVcUN2rsLmQE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aFSr1woZwQXcWxiIeXMBTdkSmylSGPSvw4l7QhCcJdk=;
- b=6mSHqJJ8BeHP5+ZdBmsdujm5rk9iZKoQKePsKpWuRT81bUCfiD0ujcm+9VFfPAjxUn
- uY3TApj5KzCx36+h9lbD9C65VCkMdq5W6ifxJ1uELuN1g3GKdPlTZweohfwRVd7VJZUi
- laCe/6nAmP6ldWkQB9b7e5cRCSVEGtID+uOGYW9TkWpGK2cSD1G8Q2+N+NwMkxMnpNZV
- GI/y0ZltiiAgijZ6bSHyNfbzfRu1y9E9gjqKbqdYLC7xyHYa7atAAFz7xijJftCgLh74
- kxX9Ej5HFUFRRNDZNAkkrWYrLegIsIvQWMaGk7btsYwCzX7+SSerOuJ9caWEs9Twcwq+
- 2C1g==
-X-Gm-Message-State: AOAM531QBFCiHDBD+Goq3Uhbm4+8JJv/lNBxyDNY3XDszb8ZNMj0svp9
- STLBqfWSp0WeZXGFfGx2Akkf5uO06HVrpOdi
-X-Google-Smtp-Source: ABdhPJy0+gwj0MjT3gjSDsjAqkeF1J7iGg36Vapzgsr6RM4eLiWzJsNoiAIZ/t7M/gRd140hpM8pSQ==
-X-Received: by 2002:a17:906:dc8c:b0:6e0:6216:3698 with SMTP id
- cs12-20020a170906dc8c00b006e062163698mr7755099ejc.144.1648155209424; 
- Thu, 24 Mar 2022 13:53:29 -0700 (PDT)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
- [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
- s4-20020a170906a18400b006db0a78bde8sm1547729ejy.87.2022.03.24.13.53.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 13:53:28 -0700 (PDT)
-Received: by mail-wm1-f49.google.com with SMTP id
- p12-20020a05600c430c00b0038cbdf52227so3300502wme.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:53:28 -0700 (PDT)
-X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
- o24-20020a1c7518000000b0037c07ebf255mr15649886wmc.29.1648155208026; Thu, 24
- Mar 2022 13:53:28 -0700 (PDT)
+X-Greylist: delayed 1501 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Mar 2022 22:00:58 UTC
+Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com
+ [192.185.50.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0518110E057
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:00:58 +0000 (UTC)
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+ by gateway23.websitewelcome.com (Postfix) with ESMTP id 54E1E1F5C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 16:15:51 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+ by cmsmtp with SMTP
+ id XUoBnRY0P9AGSXUoBnK8J6; Thu, 24 Mar 2022 16:15:51 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+ :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+ :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oNH0IkBh0WKyV1JhSrDOxEeCgmKqMdr8USyoFPQc2hQ=; b=I21bRrH6+3RN1onGy8mjMGiVMd
+ OyKFzY2wm6A27hVjWGCTWGFEOSOz10N0SxyJwDcOza3LJ2wjeQwLamKZWXMMhiVi7F7lncLvlOxGO
+ qcAvWjiFRHhgXM1dz4Tbe+IUY1GiY6rMAHlP93KXTQ6pUJ+QL8OamImC7CfO170Xqy4LZ/S/VX0FZ
+ 1s5HxqStcR1ud5+WZkw6bx3OsFqXkLZXnwbJcZgrOgArP5NefndL3bXy0M1fMshp7n2q7bLxwU09e
+ EuahCZQODG5M/RqHUMOLsVZqjz/K/U/Q+p7JPXPS8csUKQ6T8Z+ME6hY2A2IOP88kIf1xnwIm5UJ1
+ p87+JTpA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
+ ([108.223.40.66]:57652 helo=localhost)
+ by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@roeck-us.net>)
+ id 1nXUoA-004GiL-HC; Thu, 24 Mar 2022 21:15:50 +0000
+Date: Thu, 24 Mar 2022 14:15:49 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
+Message-ID: <20220324211549.GA1895931@roeck-us.net>
+References: <20220313192952.12058-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20220324111335.1.I1131d63cbefbfa9ff107a284e2e51f880c5bf7c8@changeid>
-In-Reply-To: <20220324111335.1.I1131d63cbefbfa9ff107a284e2e51f880c5bf7c8@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 24 Mar 2022 13:53:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XG-JqqjcoAUoLWHjOyOSQMxD2vyXi9WVJNSaUawtvthg@mail.gmail.com>
-Message-ID: <CAD=FV=XG-JqqjcoAUoLWHjOyOSQMxD2vyXi9WVJNSaUawtvthg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: Add AUO B133UAN01 panel
-To: Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220313192952.12058-3-tzimmermann@suse.de>
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nXUoA-004GiL-HC
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost)
+ [108.223.40.66]:57652
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 1
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,42 +81,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, geert@linux-m68k.org, sam@ravnborg.org,
+ m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sun, Mar 13, 2022 at 08:29:52PM +0100, Thomas Zimmermann wrote:
+> Commit 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
+> broke cfb_imageblit() for image widths that are not aligned to 8-bit
+> boundaries. Fix this by handling the trailing pixels on each line
+> separately. The performance improvements in the original commit do not
+> regress by this change.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-On Thu, Mar 24, 2022 at 11:14 AM Matthias Kaehlcke <mka@chromium.org> wrote:
->
-> Add binding for the AUO B133UAN01 panel. It is 13.3" TFT LCD panel
-> with WUXGA (1920x1200) resolution.
->
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
->
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 1eb9dd4f8f58..e5cd45c81d02 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -49,6 +49,8 @@ properties:
->        - auo,b133han05
->          # AU Optronics Corporation 13.3" FHD (1920x1080) color TFT-LCD panel
->        - auo,b133htn01
-> +        # AU Optronics Corporation 13.3" WUXGA (1920x1200) color TFT-LCD panel
-> +      - auo,b133uan01
-
-Breadcrumbs to save Rob Herring from responding is that we're moving
-to do this using the eDP autodetect feature instead of adding a new
-compatible. v2 is at:
-
-https://lore.kernel.org/r/20220324134819.v2.1.I816014b6c62da5a33af5021f3cc35cea66552c00@changeid/
-
--Doug
+>  drivers/video/fbdev/core/cfbimgblt.c | 28 ++++++++++++++++++++++++----
+>  1 file changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/cfbimgblt.c b/drivers/video/fbdev/core/cfbimgblt.c
+> index 7361cfabdd85..9ebda4e0dc7a 100644
+> --- a/drivers/video/fbdev/core/cfbimgblt.c
+> +++ b/drivers/video/fbdev/core/cfbimgblt.c
+> @@ -218,7 +218,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
+>  {
+>  	u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
+>  	u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
+> -	u32 bit_mask, eorx;
+> +	u32 bit_mask, eorx, shift;
+>  	const char *s = image->data, *src;
+>  	u32 __iomem *dst;
+>  	const u32 *tab = NULL;
+> @@ -259,17 +259,23 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
+>  
+>  	for (i = image->height; i--; ) {
+>  		dst = (u32 __iomem *)dst1;
+> +		shift = 8;
+>  		src = s;
+>  
+> +		/*
+> +		 * Manually unroll the per-line copying loop for better
+> +		 * performance. This works until we processed the last
+> +		 * completely filled source byte (inclusive).
+> +		 */
+>  		switch (ppw) {
+>  		case 4: /* 8 bpp */
+> -			for (j = k; j; j -= 2, ++src) {
+> +			for (j = k; j >= 2; j -= 2, ++src) {
+>  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+>  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+>  			}
+>  			break;
+>  		case 2: /* 16 bpp */
+> -			for (j = k; j; j -= 4, ++src) {
+> +			for (j = k; j >= 4; j -= 4, ++src) {
+>  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+>  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+>  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
+> @@ -277,7 +283,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
+>  			}
+>  			break;
+>  		case 1: /* 32 bpp */
+> -			for (j = k; j; j -= 8, ++src) {
+> +			for (j = k; j >= 8; j -= 8, ++src) {
+>  				FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
+>  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+>  				FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
+> @@ -290,6 +296,20 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
+>  			break;
+>  		}
+>  
+> +		/*
+> +		 * For image widths that are not a multiple of 8, there
+> +		 * are trailing pixels left on the current line. Print
+> +		 * them as well.
+> +		 */
+> +		for (; j--; ) {
+> +			shift -= ppw;
+> +			FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
+> +			if (!shift) {
+> +				shift = 8;
+> +				++src;
+> +			}
+> +		}
+> +
+>  		dst1 += p->fix.line_length;
+>  		s += spitch;
+>  	}
