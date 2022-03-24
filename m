@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E434E65A3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:47:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C234E65A5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:47:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E78010E8C4;
-	Thu, 24 Mar 2022 14:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 898B210E8C6;
+	Thu, 24 Mar 2022 14:47:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEEE510E8C4
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:47:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A4E10E8C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:47:40 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 075893201DD7;
- Thu, 24 Mar 2022 10:47:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 24 Mar 2022 10:47:37 -0400
+ by mailout.west.internal (Postfix) with ESMTP id DF94E3200F9C;
+ Thu, 24 Mar 2022 10:47:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 24 Mar 2022 10:47:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=gvYqQ1GIf4EeaGquGvkV2d0JYPb5V3
- napMbPEyLVYBs=; b=gOYcRNJ9Qsx6DFEUekrrW4zHAPh/qDBfbCVT5KCJiyssJu
- zQ0sM9is4+NMGFHdQfa7jW327ov3Bye+vilst0usZiHiMc9/kTVTGM6jDOdBSUQd
- A7ZlVNdBSo+zFnnGmHboMDzfQWpEX092X43uoJ5pP1vcPdIaTDXsAxXwxwm++33Q
- uUqHnSs33hinr6HrMvxEyD2SN2PT7ilyCCBUL4aD88HrOOW0aOLvfXGLxgCk4EMB
- af3ftmNgpZR+I5TZb+Ori2VV5dasu1PYqxe0t5dbt5vOjhPQ1aknNHxXBGWw21uN
- jUv2TOzM31V0U4gCMfT0g05hUy8B55ZZcK9Fvy3Q==
+ :subject:subject:to:to; s=fm3; bh=cOYEGaUxjwptj+iN+Mx/jJHi4cRBrU
+ /BJIdwHuWq3hc=; b=ajukEUNONUe1qsq5+BnGhchfC0wvYN406f1VwS31WBWzPO
+ Naarad6QhD/EMWwTORQj1p2tHj4Ky2p55xymR3FWufdAqA+pTzvG7iLlRN9nBIRA
+ Whh/civ5NmZKLOPfRiZSqA4OqKkHy1GIdcD5/72PiRlhxUgOHCmVmVV/Xpff8FWC
+ hGU4apMvzhYzjDST20qvHIB4bc60cqrRPMYODQDAK3BWZXqWfhujLfWG/ekRmV9j
+ 0yYUzEh5IYevTSMTw/ikzrpVSD5WOmNl7tSMZd/vwDwrzxmkKCr+0QePyW0KvtgH
+ A+jj3Xx2S6GvpIV8tVxZhjxbUuQn0w3/XWNQ2F3g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=gvYqQ1
- GIf4EeaGquGvkV2d0JYPb5V3napMbPEyLVYBs=; b=gyndsXJhKPJ7BhyFE4sxIS
- JZuCx8wOcLi4HNCgAvwrBM7rsncwa+a9pjIU5HPD7pSd+m8KShxxEBQv2FxtAk8y
- 307WE+bi/q7byf5W4yNMEs/WGbvVqCDqrsimt48asP2JzJPI/qBh2U/zNoibxG7M
- 0L95FffrGpi2yg6su4CElFFNevQa4fPrLvmJEloxnJNmrGbKcwUfqF6T4ursRJRh
- rpTYx5w7tSdpApH2M85pLDUz9rxOcNprxRtEVCX1WGQGCKfdApOL7TbTpegm+e63
- OaZz3l1iJNCiUVRQCG3mz/8pUWOa4O9CPZnbaIn96JIIwShcBsG7OKH4LVm7kroQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=cOYEGa
+ Uxjwptj+iN+Mx/jJHi4cRBrU/BJIdwHuWq3hc=; b=Um0xbMc0P633qx2/fp36fw
+ +pkOl0xB/yCwexc8L1x/Txf1hl1VO+yAfTEM9z9Moqeh+Pis6t5cIqfi6xZBjfTV
+ hoYpkl4MnbYz8DTzKLB0KWBwjg05p7eJvc/bHEXk1Bv3abVzpqj7EmXF7870D2mW
+ ZbupM3zmWWD5XKGGE8WXnlVq8wYPuUgbEO5QIfFtOPeLJQyUW7DUxsK3xGJRHFoD
+ oiuM6agaSh5J6mx8qsAPCjtTXB05+IDP3BqmUnkijnzu+wuj+Z/cAPQRHXHPX65b
+ 3eOMzJcqE4Sj6zqAAprSBlS7GsgS9OvqzPHeUOo9m01jC9mDvz7CSPZk8A7M7aBg
  ==
-X-ME-Sender: <xms:iIQ8YrK63VD6rwajyBOUHWW8Y25HHVh3eI2_H630Sc63EQq4efAT6g>
- <xme:iIQ8YvKFMmRp4Eo2LTNl1zz_t5tENcZIkAyiux7VtPSIPkc_AE5ZM-ecpMvDylGVh
- Gspb-XQ7gzLtHFdchk>
-X-ME-Received: <xmr:iIQ8YjvMUlwqbvfdyESJTz2LVq6mCDqP8bkXqvlgHtzxRmFp6L6UebaGkBgRcOhGFiHy7NQ5dCM85hLWXQvcYKkmTsohRiISZ2TuiCY>
+X-ME-Sender: <xms:i4Q8YhmcymapKRgYf4aRBItrRJb2fF26D4YPXqGSI4wo9bA8dZcraA>
+ <xme:i4Q8Ys0IhamUK9_R3nQ7C0p3WGMS-otmeBxlNjEw-rjCz6tmH27peB8HBTjv4XKPn
+ _deXC-kFnSNbgILvfU>
+X-ME-Received: <xmr:i4Q8YnpF6Y1kikt50Gp7fcC2aD6BWkzzU6-WeVD1Gz1aVIyuiSi-ysXbSnWpWWuKqfQ6BANVkvE6z1oFb1mzqYiUIBkT9zd3j8lExwo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledgieegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,17 +52,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledgieegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:iIQ8YkZjBWjMSmJCnkftjGgTmSuQ35mg0cNdXV7Xt6mOiouddUw3WA>
- <xmx:iIQ8YibtR5ZbEnXFChjJ_i-Yy42FDYa_dzNtws72_k-c3CrTV9wmvA>
- <xmx:iIQ8YoC5nq-sCOM7cPILEdJkNCEljI8rSUGFmMwuH-574XvpP-uHGQ>
- <xmx:iIQ8YpV2s14UeJZaYAOV1y8-uA5pmT1rOSU8FmR82icBjlJ-eBwTpQ>
+X-ME-Proxy: <xmx:i4Q8YhmdGR6A2daGqxn7hgwpfabOIfPqcZWQt--IuS22igxZeFmjDw>
+ <xmx:i4Q8Yv0dXJGw3cx2upKqn2DtjCYICPHLi58S1o2EuXkl6NbBC1FSTw>
+ <xmx:i4Q8YguvTDP0EEkp7cAkHEuwnTAZpuFTcwn9mO0yGyPgh33fIvFW4w>
+ <xmx:i4Q8YqTby2z8gjideW258yYCBwE4C_Vy7biJ9VLEOhN7_Qi39SBhYg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Mar 2022 10:47:36 -0400 (EDT)
+ 24 Mar 2022 10:47:39 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/vc4: Constify private state accessors
-Date: Thu, 24 Mar 2022 15:47:23 +0100
-Message-Id: <20220324144724.1306133-4-maxime@cerno.tech>
+Subject: [PATCH 4/4] drm/vc4: Implement atomic_print_state for HVS channel
+ state
+Date: Thu, 24 Mar 2022 15:47:24 +0100
+Message-Id: <20220324144724.1306133-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324144724.1306133-1-maxime@cerno.tech>
 References: <20220324144724.1306133-1-maxime@cerno.tech>
@@ -85,45 +86,45 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-None of those helpers modify the pointed data, let's make them const.
+The HVS state configuration is useful when debugging what's going on in
+the vc4 hardware pipeline. Add an implementation of .atomic_print_state.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 24de29bc1cda..26b771c919b1 100644
+index 26b771c919b1..bffd81d4bfcf 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -32,7 +32,8 @@ struct vc4_ctm_state {
- 	int fifo;
+@@ -701,9 +701,26 @@ static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj,
+ 	kfree(hvs_state);
+ }
+ 
++static void vc4_hvs_channels_print_state(struct drm_printer *p,
++					 const struct drm_private_state *state)
++{
++	struct vc4_hvs_state *hvs_state = to_vc4_hvs_state(state);
++	unsigned int i;
++
++	drm_printf(p, "HVS State\n");
++	drm_printf(p, "\tCore Clock Rate: %lu\n", hvs_state->core_clock_rate);
++
++	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
++		drm_printf(p, "\tChannel %d\n", i);
++		drm_printf(p, "\t\tin use=%d\n", hvs_state->fifo_state[i].in_use);
++		drm_printf(p, "\t\tload=%lu\n", hvs_state->fifo_state[i].fifo_load);
++	}
++}
++
+ static const struct drm_private_state_funcs vc4_hvs_state_funcs = {
+ 	.atomic_duplicate_state = vc4_hvs_channels_duplicate_state,
+ 	.atomic_destroy_state = vc4_hvs_channels_destroy_state,
++	.atomic_print_state = vc4_hvs_channels_print_state,
  };
  
--static struct vc4_ctm_state *to_vc4_ctm_state(struct drm_private_state *priv)
-+static struct vc4_ctm_state *
-+to_vc4_ctm_state(const struct drm_private_state *priv)
- {
- 	return container_of(priv, struct vc4_ctm_state, base);
- }
-@@ -49,7 +50,7 @@ struct vc4_hvs_state {
- };
- 
- static struct vc4_hvs_state *
--to_vc4_hvs_state(struct drm_private_state *priv)
-+to_vc4_hvs_state(const struct drm_private_state *priv)
- {
- 	return container_of(priv, struct vc4_hvs_state, base);
- }
-@@ -61,7 +62,7 @@ struct vc4_load_tracker_state {
- };
- 
- static struct vc4_load_tracker_state *
--to_vc4_load_tracker_state(struct drm_private_state *priv)
-+to_vc4_load_tracker_state(const struct drm_private_state *priv)
- {
- 	return container_of(priv, struct vc4_load_tracker_state, base);
- }
+ static void vc4_hvs_channels_obj_fini(struct drm_device *dev, void *unused)
 -- 
 2.35.1
 
