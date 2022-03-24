@@ -1,57 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188BC4E6AA2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:27:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6ECD4E6B04
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 00:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4913A10E5FE;
-	Thu, 24 Mar 2022 22:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B806A10E114;
+	Thu, 24 Mar 2022 23:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4BA10E5FE
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:27:28 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id y142so10936945ybe.11
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 15:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BuIx2EfuKCIfA6SZfk0m4A4xmn/XxCz2VsdNSnjLe6A=;
- b=xsJiIbP9s+ofFzxTice7QHI0MJEYU5dlCS54RBfUG2x7ytlH3jCMhH0UIoX6WJXXrd
- o0GggbfRlcbZST72KUa5AlCXV8HrBeeHixpeXd6kY4TZ6u22tAdJ1kW3lKMBxDJdskG0
- yBwPgNOpLmjY2C8ZdJizxMiSmJ6eKaeA2rRP8E8iIwSanfZlWykaUiwRwwjP63Zu5Ekb
- vuenltpeigXG/bTxVAVHn+Jp3QuhIqeC7Q0c9Mc1aJNnzTO+DxNqv5uJMgwJWT/q9dMF
- lk7gQA41OZzhQ3/2UlpnqF/XoP/ld9dJn6FtHWaSB7EN5C/i9v/EErCkdxCPv2atUsE2
- P7iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BuIx2EfuKCIfA6SZfk0m4A4xmn/XxCz2VsdNSnjLe6A=;
- b=u8xnfqkC6rde4Jrg/qFZm/eet+mTTx/QzR4mHCKBu0ku0jWSISflQmqdUB9P0UC5DZ
- zGyGMlhAy6TsoyxTi1KvY6Cl0lQmMZ+0Yhfj+y5oPtxhK5uk4kyQ0CujO1v0FDwyyqm6
- k3pYw5cKJ+zMxRhzbOrLeYwfs/krIgZQwQmTBgUik98rluq769dJ4fqVu4PKiC+80gNl
- kCNhBXOVIQT0tbeDhDYIbNQTXMQ1Xu5Aa0WEx5ihbkdZfNem1QFnI9ooTcR9iX8iMpM+
- MUg+mpEvKvceleX6b3MFy3JzzUzDXB+r+uTExZ4iMB5NUO1td3Edbx8boRdl55mylwhq
- rZIA==
-X-Gm-Message-State: AOAM532HrR2tCWJy/+TEZh3lSnAeZG6uFItc//lqDHF4kCgphvUEDCxY
- NcTQ3go94QLpaInq1qWKbB20fix+G4jwzTs75rzAHryW2tc=
-X-Google-Smtp-Source: ABdhPJyWfCUBXAFZEkA3vRwgVeXOfZfmF91xcRYtOHQUBNNwmYHrQxFGtrci1QUJV4Ny7aBxm0uVNqOrZbc1BWGS/8w=
-X-Received: by 2002:a25:ab64:0:b0:633:6d02:ebc8 with SMTP id
- u91-20020a25ab64000000b006336d02ebc8mr6907030ybi.492.1648160847410; Thu, 24
- Mar 2022 15:27:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220304000311.970267-1-joel@jms.id.au>
- <20220304000311.970267-2-joel@jms.id.au>
-In-Reply-To: <20220304000311.970267-2-joel@jms.id.au>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 24 Mar 2022 23:27:16 +0100
-Message-ID: <CACRpkdZodEjzm84zd-Xh6ZFsvu5eNGT_ErXHApaH3MwGB00pFw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: pinctrl: aspeed: Update gfx node in
- example
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5117610E114
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 23:09:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BBCFA6162D;
+ Thu, 24 Mar 2022 23:09:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE958C340EC;
+ Thu, 24 Mar 2022 23:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648163396;
+ bh=koL0yw/ZGPvfN2cElH8U7dgkhIxPULfTtIaPQ3OmoqQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CTYeZLrYwcwEEFtZIY14kEBvBnhvexZTucDHpM/f8bl9nUVKPtDXa0K+BwRuwonhF
+ SKwxZ1SLUM9YzpmvfPHDNKhbK+3X0BcFKq8aRa2gBfajNJL9YgAkfZrIDv7Oj5rh2t
+ ZSFXmIRsRge/rSBYAnGPGKVMe78TjiYeDeuF4BrvX6tTQsr8lKKoBv+uEocwvxUVHO
+ vnK5/I1wijXnannR3MCvlUvfCixLd6gluaaqKYDJZfanyhJMQ4rmIXfmrCkGcU8LsE
+ Ss/WvbW8dfYgn0V3vH7W7gNGL6p/zNcpRVUeZMV2jgdUF1rkLhvyvjbPyM3I7J/GL/
+ Ra2lpp9fJleIA==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Subject: [GIT PULL] mediatek drm fixes - 20220325
+Date: Fri, 25 Mar 2022 07:10:09 +0800
+Message-Id: <1648163409-18338-1-git-send-email-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,20 +48,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Andrew Jeffery <andrew@aj.id.au>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 4, 2022 at 1:03 AM Joel Stanley <joel@jms.id.au> wrote:
+Hi, Dave & Daniel:
 
-> The example needs updating to match the to be added yaml bindings for
-> the gfx node.
->
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+This includes:
 
-Patch applied.
+1. Fix dt-binding issue.
 
-Yours,
-Linus Walleij
+Regards,
+Chun-Kuang.
+
+The following changes since commit 71941773e143369a73c9c4a3b62fbb60736a1182:
+
+  Add linux-next specific files for 20220310 (2022-03-10 20:04:36 +1100)
+
+are available in the git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-fixes-20220325
+
+for you to fetch changes up to 64884e592d71fd567fef7bdcb0736a5dae71ecb2:
+
+  dt-bindings: display: mediatek: Fix examples on new bindings (2022-03-12 17:32:33 +0800)
+
+----------------------------------------------------------------
+Mediatek DRM Fixes - 20220325
+
+1. Fix dt-binding issue.
+
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (3):
+      dt-bindings: display: mediatek, mutex: Fix mediatek, gce-events type
+      dt-bindings: display: mediatek, ovl: Fix 'iommu' required property typo
+      dt-bindings: display: mediatek: Fix examples on new bindings
+
+jason-jh.lin (1):
+      Revert "dt-bindings: display: mediatek: add ethdr definition for mt8195"
+
+ .../bindings/display/mediatek/mediatek,aal.yaml    |  23 +++-
+ .../bindings/display/mediatek/mediatek,ccorr.yaml  |  23 +++-
+ .../bindings/display/mediatek/mediatek,color.yaml  |  23 +++-
+ .../bindings/display/mediatek/mediatek,dither.yaml |  23 +++-
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |   3 +-
+ .../bindings/display/mediatek/mediatek,dsc.yaml    |  23 +++-
+ .../bindings/display/mediatek/mediatek,ethdr.yaml  | 147 ---------------------
+ .../bindings/display/mediatek/mediatek,gamma.yaml  |  23 +++-
+ .../bindings/display/mediatek/mediatek,merge.yaml  |  49 +++----
+ .../bindings/display/mediatek/mediatek,mutex.yaml  |  27 ++--
+ .../bindings/display/mediatek/mediatek,od.yaml     |  14 +-
+ .../bindings/display/mediatek/mediatek,ovl-2l.yaml |  26 ++--
+ .../bindings/display/mediatek/mediatek,ovl.yaml    |  28 ++--
+ .../display/mediatek/mediatek,postmask.yaml        |  23 +++-
+ .../bindings/display/mediatek/mediatek,rdma.yaml   |  28 ++--
+ .../bindings/display/mediatek/mediatek,split.yaml  |  17 ++-
+ .../bindings/display/mediatek/mediatek,ufoe.yaml   |  19 ++-
+ .../bindings/display/mediatek/mediatek,wdma.yaml   |  26 ++--
+ 18 files changed, 262 insertions(+), 283 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
