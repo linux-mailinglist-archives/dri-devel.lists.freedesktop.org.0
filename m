@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A734E65A1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:47:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB97B4E65A2
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:47:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978B710E8BF;
-	Thu, 24 Mar 2022 14:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D708810E8C1;
+	Thu, 24 Mar 2022 14:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D565710E8C1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:47:27 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id DFD743200F9C;
- Thu, 24 Mar 2022 10:47:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 24 Mar 2022 10:47:27 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7065210E8C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 14:47:31 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 7ED953201DE8;
+ Thu, 24 Mar 2022 10:47:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 24 Mar 2022 10:47:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=KhQaqrg/wmhXmI2EC3IGdhkeXNaB6heX02XEwi
- tkkXY=; b=bbu1/zm1XuI/dAbFTN4tpfeEPnkeM+ZJ9YGRIj9GnlOHqoJT9XLo+5
- T6wI3ySQIVDD+4L/bhrojO7ASKc+/rYfu4G4AIXdjkuJWm25ukUhHkyRBctcqja7
- j0pVIZTru4xyf0mLvysFJVj6fuXwcnJkZRctbbfWl4Gax8LYjHjYIU+N0LJxiFoQ
- 6iALp4S7OFDBZkzbnF031QFg62TvePczLzZlb5vGFmavJYySOCD+2bbpXX/BJGUl
- tCckhsMp/tSJeN0FkWItDbOHiOi261j92c8y51AZKjqlrech1EZxKgoMm90iETN8
- ocGHFczsdzI5lkjYXlxTgwS+BY2Lr89A==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; bh=HaLFbXBn7/ZQlyz3ejKx8AfD+xhVsz
+ ETx1XsExSysQY=; b=uOTXplgMSvdAxE3gfjkXyALQcWVIBAnkVnnS6PpO9zVFFs
+ Q/wMA2YEuJQYlWe4HiS01fZGGkfPdp1U48veKsiBY8OdfqjGYLcBIldBaR7TqXeK
+ 0J7NQluHYgjaSfynPdfLGWGTIh5YPi8Je8CmDLG26H0krpZGDMKNaE6Nh1WdgMXX
+ y5NoLgw+MTIZKMeAvXG3QfHPoYFLj4kH4LAhTJYCVrrhs3t8KWqOdGBdoRI28YD1
+ iQn86NlorxPd9Yw389zZ26OET/8bB7epP7mrWCQBeHo4eBfOfOFGNEwHSFe6giRo
+ q4lHoVO8evAIE3t2c9s0UfYWwAHPXfGUTDY//Zrg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KhQaqr
- g/wmhXmI2EC3IGdhkeXNaB6heX02XEwitkkXY=; b=W8O6zk57tgcnf2wIAOjJFq
- rZgfx+uy4wELNdiSsoihDgXZv3tJqdFAWja7v8MdrWDoZfymH073AbqwZKQYdAwN
- s0P8G5RPq1Wmavbc+yjd4pgl2p9uXdPOwLz8u3/6CegCZGDDR37PQeWvcmd1qXNU
- 8fSORi4AM36fHWxBMNiHJVgzuK7GxBmu2+nWnKDDjMKl9NkqqZUosk7XJtwMkr0E
- zhKKmpQZRMkvoLQv0BWDxw7MHvIorgThpIWyGkR/5RhaIn8zJwMPJPLpf9emuUxI
- OJeLj2N7Z2GTwgB/O7AuU06qnwQ7BzQ2Tw7FM4qjYJ2ffGtMVYEaFJkM8ZdRKoMg
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=HaLFbX
+ Bn7/ZQlyz3ejKx8AfD+xhVszETx1XsExSysQY=; b=RfVOhOZ0MD8ZCDLrVbfh+R
+ NUmSMyCYiKf4i/b95hADqTc9+jSnZxSpTlIqB5YlAVCuHBo5U0pftWXToIClLy1G
+ N/8uW36e6H94Gjy5bmZWoav/kuS+lNvyef/cVXh8FNDAf3IYCDzSeaEIFVgWs40T
+ JilOVu5UBOtMg5HkqYas3NJesDzXuRmDcRiaYyS2VSPqEmRecDvubCnNDFSrRkNd
+ dpA1JuO8NQP3o+60Q179byl8Ywvo3KMJUu/YiM8LBvVOXWD9oQRgvXJpsNqht0rx
+ lsZz+0wzQfcbIunhl86hRHg5cSQTw1V41bL2weyc7Qugg0oLCV9LWNCibjGyfVNg
  ==
-X-ME-Sender: <xms:foQ8YtAqB42NBo9w_SWFQKTjMnoHyuwK_qhJMv1NoaokofjLVeb5mQ>
- <xme:foQ8Yrg2OpzVgmyNN0R1xPs-gTaH4BVcCa8WOLHfkX9fuccsrc6Otw7_X1t3VOtCY
- ZGSXW14OXtee0jq8yA>
-X-ME-Received: <xmr:foQ8Yon08sqeq3h62fqKLx1-pX98y2rJChIEeC5wGTUtr8JjFd2RiHsUygRZUlBDnTFkyklgY1SEPqVNHa-F4M674Du14GeXl-hmqd0>
+X-ME-Sender: <xms:gYQ8YgTAxEVf4iRoNOJZExZQ87Xi7hLU9wAwui2eixlyRL28NENIWA>
+ <xme:gYQ8Ytx17zxobwSVrev5navHjhZYAD_qCfCp847GMMVNhMQi9xuKzAnnnutFOS2pK
+ OxttWxbJkGzM8sG3_c>
+X-ME-Received: <xmr:gYQ8Yt0uCXw6Ebz1BFWwEtbsnB_PGTNSm26paunJx179XqExJQKfZWuqM7vyv_pfgEJImnCH25DXwidVcywxGJ1otwFw2LLDlpCwO2c>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledgieegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
- feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:foQ8YnygVDKfDnlbx4Saqaq5LJWsFyHvYJC5zgB8kj9L51qTtW1okw>
- <xmx:foQ8YiSByywtKyoKkA9Yy4qprELj1fqanCmBp11tusEnDl7z441tOw>
- <xmx:foQ8Yqbwwq7T06x4xyF0H8P3B4LkYvKLsgwvBWXDevCcPKAB3Qq79g>
- <xmx:foQ8YoONKo1ypfdLeBoUfLc412r3kXmmP0Sh-wemLmU0DBigaOABYA>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:gYQ8YkDuoi7bQw3bpHDkr88zc08BRgEW2rjcwpD5dM-SXt9-rAoDnA>
+ <xmx:gYQ8Ypi1sJw_9BAB9MYOfjCc68SKP2HrDjtloGesy_IbnJaovLVSMw>
+ <xmx:gYQ8Ygp-ajOsLoFNFEeaK1BBCgkWwR-HEM2gWYg6rUNE33D2ENP4gw>
+ <xmx:goQ8Ypf3L6TM0O8byMWfzDwMoiYjgyTiE-KtfzKfHZpWbnA9vpnnnw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Mar 2022 10:47:25 -0400 (EDT)
+ 24 Mar 2022 10:47:29 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/4] drm/atomic: Atomic Private State debugging
-Date: Thu, 24 Mar 2022 15:47:20 +0100
-Message-Id: <20220324144724.1306133-1-maxime@cerno.tech>
+Subject: [PATCH 1/4] drm/atomic: Print the state every commit
+Date: Thu, 24 Mar 2022 15:47:21 +0100
+Message-Id: <20220324144724.1306133-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220324144724.1306133-1-maxime@cerno.tech>
+References: <20220324144724.1306133-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,31 +85,80 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This series adds an atomic_print_state hook for drm_private_obj to ease the=
-=0D
-debugging of driver-specific sub-classes, and adds one for vc4.=0D
-=0D
-It also changes the call site of drm_atomic_print_new_state to make it more=
-=0D
-consistent.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Maxime Ripard (4):=0D
-  drm/atomic: Print the state every commit=0D
-  drm/atomic: Add atomic_print_state to private objects=0D
-  drm/vc4: Constify private state accessors=0D
-  drm/vc4: Implement atomic_print_state for HVS channel state=0D
-=0D
- drivers/gpu/drm/drm_atomic.c      | 24 ++++++++++++++++++++++++=0D
- drivers/gpu/drm/drm_atomic_uapi.c |  3 ---=0D
- drivers/gpu/drm/vc4/vc4_kms.c     | 24 +++++++++++++++++++++---=0D
- include/drm/drm_atomic.h          | 13 +++++++++++++=0D
- 4 files changed, 58 insertions(+), 6 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+The DRM_UT_STATE controls whether we're calling
+drm_atomic_print_new_state() whenever a new state is committed. However,
+that call is made in the drm_mode_atomic_ioctl(), whereas we have
+multiple users of the drm_atomic_commit() function in the kernel
+(framebuffer emulation, drm_atomic_helper_dirtyfb, etc.). Similarly,
+it's only called for a blocking atomic commit.
+
+This leads to multiple states being committed but never actually
+displayed even though we asked to have verbose atomic state debugging.
+
+Let's move the call to drm_atomic_print_new_state() to
+drm_atomic_commit() and drm_atomic_nonblocking_commit() to make sure we
+don't miss any.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/drm_atomic.c      | 8 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c | 3 ---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 88cd992df356..ee2496ff3dcc 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1423,6 +1423,7 @@ EXPORT_SYMBOL(drm_atomic_check_only);
+ int drm_atomic_commit(struct drm_atomic_state *state)
+ {
+ 	struct drm_mode_config *config = &state->dev->mode_config;
++	struct drm_printer p = drm_info_printer(state->dev->dev);
+ 	int ret;
+ 
+ 	ret = drm_atomic_check_only(state);
+@@ -1431,6 +1432,9 @@ int drm_atomic_commit(struct drm_atomic_state *state)
+ 
+ 	drm_dbg_atomic(state->dev, "committing %p\n", state);
+ 
++	if (drm_debug_enabled(DRM_UT_STATE))
++		drm_atomic_print_new_state(state, &p);
++
+ 	return config->funcs->atomic_commit(state->dev, state, false);
+ }
+ EXPORT_SYMBOL(drm_atomic_commit);
+@@ -1452,6 +1456,7 @@ EXPORT_SYMBOL(drm_atomic_commit);
+ int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
+ {
+ 	struct drm_mode_config *config = &state->dev->mode_config;
++	struct drm_printer p = drm_info_printer(state->dev->dev);
+ 	int ret;
+ 
+ 	ret = drm_atomic_check_only(state);
+@@ -1460,6 +1465,9 @@ int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
+ 
+ 	drm_dbg_atomic(state->dev, "committing %p nonblocking\n", state);
+ 
++	if (drm_debug_enabled(DRM_UT_STATE))
++		drm_atomic_print_new_state(state, &p);
++
+ 	return config->funcs->atomic_commit(state->dev, state, true);
+ }
+ EXPORT_SYMBOL(drm_atomic_nonblocking_commit);
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 9781722519c3..e9bb136c7a7c 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1458,9 +1458,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 	} else if (arg->flags & DRM_MODE_ATOMIC_NONBLOCK) {
+ 		ret = drm_atomic_nonblocking_commit(state);
+ 	} else {
+-		if (drm_debug_enabled(DRM_UT_STATE))
+-			drm_atomic_print_new_state(state, &p);
+-
+ 		ret = drm_atomic_commit(state);
+ 	}
+ 
+-- 
+2.35.1
+
