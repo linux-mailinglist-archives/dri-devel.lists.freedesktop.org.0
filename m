@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460164E67AF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 18:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E9B4E67B3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 18:23:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6B1010E8E7;
-	Thu, 24 Mar 2022 17:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B98A910E8F3;
+	Thu, 24 Mar 2022 17:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B524510E8D4;
- Thu, 24 Mar 2022 17:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648142529; x=1679678529;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ZEwlbMbyU5BSIhyG6yFv+mG9vNoVsHNGlE4SPcME1vk=;
- b=eMza8W85Cke8OB4l5ZpcNCNfdeMr/BrZWiV/Yb3PjyAjw4ITJG77QYq4
- yIGPkepU4GAuxBpxACW8GQ8c9wZCBqpODSB6lKgXSfjuUF0UNisLIcZZa
- GGmrm1LQzsPHpEYMWuRjkXgz37fXST7Vqkp5YW76TjO4kR6CDyJy0HYN2
- tELAtRcUyeCX4Od0X/xBaHq4nJfcxw1dCzWpr2AbqMXfvDYzPASlQaZ7u
- 3h89nP9hCZ8MfzCUbmRscdG2/iaK87HtM0TFnAZqJn47qUvuytINq4LsL
- BbEuDQlNVLSSUghl2L+zLML742e0pq7ohRoJmjP2TS02oENHmFhDVkb1P g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="239043293"
-X-IronPort-AV: E=Sophos;i="5.90,208,1643702400"; d="scan'208";a="239043293"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 10:22:09 -0700
-X-IronPort-AV: E=Sophos;i="5.90,208,1643702400"; d="scan'208";a="637924730"
-Received: from smurkank-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.19.102])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 10:22:08 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/migrate: move the sanity check
-Date: Thu, 24 Mar 2022 17:21:43 +0000
-Message-Id: <20220324172143.377104-2-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220324172143.377104-1-matthew.auld@intel.com>
-References: <20220324172143.377104-1-matthew.auld@intel.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E7B10E8F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 17:23:12 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id m30so7633018wrb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 10:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=cYZtI5Q4vFzkCLOz8tjm1wyp6V9G6VrWCot4dQuA/7g=;
+ b=NMHOUkYEtbwLLHwFabHgVxVGdrDcd2Ozms9Xv7p407qzfneIlCCVs1QSSukLAhH9oC
+ aYqnuQus8YbcjpS9HNzfrX28+K4S/VbOvb7+paYTQj4L5TkvLvH6QKHBUBXDQDQB3lOL
+ NEFcIyW8lhnhpTiqUaxWz23l7MqKhpN6ut51Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=cYZtI5Q4vFzkCLOz8tjm1wyp6V9G6VrWCot4dQuA/7g=;
+ b=wzFdq9hnPjCcTf23x84tBsGfeud5Dcx3t3hA4R2e+G4+IKplvL7FwJ7ZgIg8DiwlVQ
+ 6EEjSiJGa+xNL1zfV83WmCdZq8kNEElar7KM7fVvmiABqXTVITHqFC0yAyiYQ1s+gxq2
+ yNaO1ZSeFe5q4aSRMxbHBAiV9jaD+uUdnmxMDRLuemgLKRLqYoFQBScIxB5CCD9jpI6Q
+ FS/wQwSJgwmX7RBIpfigw3iI8/kmsVntDpBbVrYqBzLLZncJW/eRR9IW2Z008DTd7FqL
+ q+MueDvPnelT4N7qqemdJPPVZbwLS13+shmwMw7E1A1RikRHABnhJwD9EstcTqjIA88v
+ ZZcw==
+X-Gm-Message-State: AOAM5329N2PJHnAa+L9GyMgGWKP4yGNwsZxL55NxEEosyGiG1gNjh2iD
+ azIlXLyvJd5m5RAqltjZg4YIPw==
+X-Google-Smtp-Source: ABdhPJy/54Yd6GFdXJxr2uHjIOnCMvWqAmx84nwlufYgCnn46oh6/S8d8QxyoBYB7xug1oIchU/R7w==
+X-Received: by 2002:a05:6000:120a:b0:203:d837:be76 with SMTP id
+ e10-20020a056000120a00b00203d837be76mr5436062wrx.511.1648142590308; 
+ Thu, 24 Mar 2022 10:23:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ i15-20020adffdcf000000b00203efad1d89sm4566670wrs.9.2022.03.24.10.23.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 10:23:09 -0700 (PDT)
+Date: Thu, 24 Mar 2022 18:23:07 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: Parallel modesets and private state objects broken, where to go
+ with MST?
+Message-ID: <Yjyo+5GR0MMI8ZSi@phenom.ffwll.local>
+References: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
+ <YjHDg3WTYgMDOzLF@intel.com>
+ <9876d8fe5bdf5f942b06378ae973e18513297539.camel@redhat.com>
+ <9a4783ac9eee57c29b584e5a9099a3e1667afa42.camel@redhat.com>
+ <Yjr1hCEUPu2Bb7Ax@phenom.ffwll.local>
+ <caccfb46822702b87947ba0c575db3e3b8e8a4ad.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <caccfb46822702b87947ba0c575db3e3b8e8a4ad.camel@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,44 +75,407 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the sanity check that both src and dst are never both system
-memory, which should never happen on discrete, and likely means we have
-a bug. The only exception is on integrated where we trigger this path in
-the selftests.
+On Wed, Mar 23, 2022 at 02:34:35PM -0400, Lyude Paul wrote:
+> On Wed, 2022-03-23 at 11:25 +0100, Daniel Vetter wrote:
+> > On Tue, Mar 22, 2022 at 05:37:40PM -0400, Lyude Paul wrote:
+> > > OK so - this has become a bit of a larger rabbit hole. I've been putting
+> > > quite
+> > > a bit of work into this and I think I'm starting to make some progress -
+> > > although on a different aspect of this issue. After talking with danvet
+> > > they
+> > > realized that we're also potentially not handling encoder stealing with
+> > > MST
+> > > correctly - which we need to do in order to know that we're correctly
+> > > pulling
+> > > in every related crtc/connector into the state - along with avoiding
+> > > encoder
+> > > conflicts if something tries to use a GPU's DP encoder in SST mode while
+> > > it's
+> > > driving other displays in MST mode.
+> > > 
+> > > So - it seems this will likely need to be solved first before we can deal
+> > > with
+> > > ensuring that we perform the correct CRTC waits in atomic commits with the
+> > > MST
+> > > helpers. This has been pretty painful to figure out, but I think I'm
+> > > starting
+> > > to make some progress - but I'd really appreciate getting some feedback on
+> > > this approach I've came up with so I maybe can skip having to rewrite it
+> > > later.
+> > > 
+> > > So: to clarify the problem, it boils down to something like this:
+> > > 
+> > > State 1:
+> > >   * DP-1 (hosts MST topology, so is disconnected + no encoder)
+> > >     * MST topology
+> > >       * DP-2 (has display)
+> > >       * DP-3 (has display)
+> > >   (In hardware)
+> > >   * drm_encoder A drives:
+> > >     * DP-2
+> > >     * DP-3
+> > >   (In software)
+> > >   * drm_encoder A unused
+> > >   * Fake MST drm_encoder B -> DP-2
+> > >   * Fake MST drm_encoder C -> DP-3
+> > > 
+> > > Problems:
+> > >   * DP-1 gets disconnected, MST topology disappears
+> > >   * We disable maybe 1 display
+> > >   * DP-1 is disconnected, suddenly replaced with SST display
+> > >   * Driver tries to assign drm_encoder A to new DP-1 display
+> > >   *** Error! drm_encoder A is still driving fake encoders B and C ***
+> > > 
+> > > 
+> > > I'm not sure if the exact above example would actually happen - you
+> > > might need to do some tricks to get it into such a state. But you get
+> > > the general idea - there's missing coverage with how we handle encoder
+> > > conflicts when it comes to encoders that aren't directly handling CRTCs.
+> > > If we can fix this, I think we should be able to reliably figure out
+> > > every CRTC involved in modesets like this - and ensure that nonblocking
+> > > modesets come up with the right CRTC dependencies.
+> > > 
+> > > My current idea for handling this is as follows:
+> > >   * Add the following fields to drm_connector_state:
+> > >     * reserved_encoder → an encoder that is "reserved" by the connector,
+> > >       but is not directly attached to a monitor. Note reserved
+> > >       connectors cannot have CRTCs attached to them. When a connector
+> > >       has no more CRTCs reserved, it should lose it's reserved encoder.
+> > >     * dependent_crtcs → a bitmask of CRTCs that depend on this
+> > >       connector's state, but are not directly attached to it.
+> > >   * Add the following fields to drm_crtc_state:
+> > >     * connector_dependency → a connector whose state this CRTC relies
+> > >       on, but is not directly attached to. This connector must be pulled
+> > >       into the atomic state whenever this CRTC requires a modeset.
+> > > 
+> > > The reason for adding all of these fields to drm_connector_state and
+> > > drm_crtc_state is because I don't think it's possible for us to rely on
+> > > a particular private object being in all atomic states - so we need a
+> > > way for the DRM core to be able to understand these object relationships
+> > > on it's own and reference them from any type of atomic state change so
+> > > that we can pull in dependent CRTCs as needed.
+> > 
+> > Why would tracking the mst private state object not be good enough? In any
+> > of the modesets which touch mst state you'd need to grab the mst state to
+> > change anything anyway (or there's a quite serious driver bug somewhere),
+> > so the private object should always be part of actual modeset changes.
+> > 
+> > Maybe there's some creative ways for drivers to get this wrong, but then I
+> > think it'd be better to think about how to prevent those than work around
+> > it. Since doing an mst modeset without having the mst state handy sounds
+> > rather broken irrespective of nonblocking atomic commit issues.
+> > 
+> > > From there, we'd just:
+> > >   * Add some functions to handle these new fields, something like:
+> > >     * drm_atomic_reserve_crtc_for_connector(crtc, encoder, conn_state)
+> > >     * drm_atomic_release_crtc_from_connector(crtc, conn_state)
+> > >   * Teach the various DRM core functions how to handle these new fields
+> > > 
+> > > Does this seem like I'm on the right track so far? JFYI - I've been busy
+> > > trying to write up some patches for this, but there's definitely a lot
+> > > of code to go through and change.
+> > 
+> > tbh your entire scheme feels like adding commit tracking for private state
+> > objects, except we somehow don't track it on the private state itself, but
+> > instead spread it all around to semi-related existing modeset objects. And
+> > note that wrt the atomic commit machinery, drm_encoder isn't even a
+> > modeset object (it has no state of its own and is fully tracked by the
+> > (crtc, connector) combo). So this all feels very backwards.
+> > 
+> > Plus vc4 shows that there's other cases where tracking on the private
+> > state object is needed, mst wouldn't be the only thing. Your scheme would
+> > not be useful for vc4 at all, only for mst dependency tracking.
+> > 
+> > Also the encoder has the additional fun that there's multiple fake
+> > encoders for a single real mst port, whereas the mst state is an actual
+> > single struct per mst port.
+> > 
+> > Note that drm_crtc_commit is intentionally a stand-alone refcounted thing,
+> > so that it can attached to random other pieces for tracking dependencies,
+> > and we do attache them to various pieces all over already (for connector
+> > and plane switching). Your proposal is inventing a new way to track
+> > cross-crtc dependencies, and I'm confused why that's needed.
+> > 
+> > I guess in all this I don't get in what way your proposal here is better
+> > than just adding dependency tracking to private state structs?
+> 
+> 
+> I wonder if I was misunderstanding the issue you were pointing out then. The
+> reason I ended up trying to add this to the connector structs is because I
+> thought one of the issues that you brought up was the fact that we wouldn't be
+> able to handle encoder conflicts with the MST encoder properly because of the
+> fake encoder - and that issue would cause us not to be able to properly
+> determine which CRTCs we need to block on for commits that try to use the real
+> encoder behind the fake encoder later. I had attempted this because in such a
+> situation, it doesn't seem like we'd be guaranteed that the MST manager would
+> actually be in the state if say - the only thing we're doing is trying to
+> enable an SST display on a connector that previously had an MST topology
+> (which has since been disabled in a non-blocking commit that hasn't finished
+> yet).
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Oh this was all idle musings trying to figure out whether just relying on
+the drm_connector syncing is enough, and realizing that it's not enough by
+far.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 20444d6ceb3c..950fd6da146c 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -530,6 +530,7 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-+	GEM_BUG_ON(IS_DGFX(ce->engine->i915) && (!src_is_lmem && !dst_is_lmem));
- 	*out = NULL;
- 
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
-@@ -566,8 +567,6 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		src_offset = 0;
- 		dst_offset = CHUNK_SZ;
- 		if (HAS_64K_PAGES(ce->engine->i915)) {
--			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
--
- 			src_offset = 0;
- 			dst_offset = 0;
- 			if (src_is_lmem)
+> So I guess I'm not really sure where to go from here then? This whole rabbit
+> hole dive started from me trying to move MST over to using private objects for
+> state tracking as much as possible - which lead to questions on whether or not
+> that would be safe at all with MST because of connectors changing and fake
+> encoders. FWIW The issue that started things was me asking whether we could
+> fill certain information into a private object's state from the context of an
+> atomic commit (since this makes certain aspects of payload table management
+> easier). So I'm really just looking for a way to make these things work, and
+> ensure that we're not doing anything unsafe by using the private state for the
+> topology manager this way.
+
+So what I think we need here is roughly:
+
+- Move the drm_crtc_commit tracking Maxime added to vc4 private state from
+  vc4 to drm atomic helpers. Both the datastructure and the book-keeping
+  handling.
+
+- To make this all easier we might want to allocate the drm_crtc_commit
+  stuff a lot earlier, so that it's available in atomic_check already.
+  Otherwise a lot more hooks are needed. Essentially allocate it as part
+  of crtc state duplication.
+
+- Then in the mst handling, every time you change anything for a sink add
+  the drm_crtc_commit from its connector as a sync point so we order stuff
+  correctly. I'm not sure we have this already.
+
+It is a bit a mess :-(
+
+The other thing I'm pondering is whether we should just give up on
+nonblocking atomic commits, but unfortunately it's not that easy because
+at least in general we do sometimes upgrade page flips to modesets under
+the hood, while lying to userspace. This is done in the self refresh
+helpers, and it might spread.
+
+If we just completely nuke nonblocking modesets then that wouldn't work
+anymore, even though userspace itself does not seem to rely on these.
+
+For details it's probably best to sort them out with Maxime, he's got a
+pile of experience in making this work for at least the specific case of
+vc4.
+-Daniel
+
+
+
+> 
+> > 
+> > Cheers, Daniel
+> > 
+> > > 
+> > > On Wed, 2022-03-16 at 16:28 -0400, Lyude Paul wrote:
+> > > > On Wed, 2022-03-16 at 13:01 +0200, Ville Syrjälä wrote:
+> > > > > On Mon, Mar 14, 2022 at 06:16:36PM -0400, Lyude Paul wrote:
+> > > > > > Hi! First a little bit of background: I've recently been trying to
+> > > > > > get
+> > > > > > rid
+> > > > > > of
+> > > > > > all of the non-atomic payload bandwidth management code in the MST
+> > > > > > helpers
+> > > > > > in
+> > > > > > order to make it easier to implement DSC and fallback link rate
+> > > > > > retraining
+> > > > > > support down the line. Currently bandwidth information is stored in
+> > > > > > two
+> > > > > > places, partially in the MST atomic state and partially in the mst
+> > > > > > manager's
+> > > > > > payload table (which exists outside of the atomic state and has its
+> > > > > > own
+> > > > > > locking). The portions in the atomic state are used to try to
+> > > > > > determine
+> > > > > > if
+> > > > > > a
+> > > > > > given display configuration can fit within the given bandwidth
+> > > > > > limitations
+> > > > > > during the atomic check phase, and are implemented through the use
+> > > > > > of
+> > > > > > private
+> > > > > > state objects.
+> > > > > > 
+> > > > > > My current goal has been to move as much of this as possible over to
+> > > > > > the
+> > > > > > atomic state and entirely get rid of the payload table along with
+> > > > > > it's
+> > > > > > locks.
+> > > > > > My main reason for doing this is that it both decomplicates things
+> > > > > > quite
+> > > > > > a
+> > > > > > bit, and I'm really also hoping that getting rid of that payload
+> > > > > > code
+> > > > > > will
+> > > > > > make it clearer to others how it works - and stop the influx of
+> > > > > > bandaid
+> > > > > > patches (e.g. adding more and more special cases to MST to fix
+> > > > > > poorly
+> > > > > > understood issues being hit in one specific driver and nowhere else)
+> > > > > > that
+> > > > > > I've
+> > > > > > had to spend way more time then I'd like trying to investigate and
+> > > > > > review.
+> > > > > > 
+> > > > > > So, the actual problem: following a conversation with Daniel Vetter
+> > > > > > today
+> > > > > > I've
+> > > > > > gotten the impression that private modesetting objects are basically
+> > > > > > just
+> > > > > > broken with parallel modesets? I'm still wrapping my head around all
+> > > > > > of
+> > > > > > this
+> > > > > > honestly, but from what I've gathered: CRTC atomic infra knows how
+> > > > > > to do
+> > > > > > waits
+> > > > > > in the proper places for when other CRTCs need to be waited on to
+> > > > > > continue
+> > > > > > a
+> > > > > > modeset, but there's no such tracking with private objects. If I
+> > > > > > understand
+> > > > > > this correctly, that means that even if two CRTC modesets require
+> > > > > > pulling
+> > > > > > in
+> > > > > > the same private object state for the MST mgr: we're only provided a
+> > > > > > guarantee
+> > > > > > that the atomic checks pulling in that private object state won't
+> > > > > > concurrently. But when it comes to commits, it doesn't sound like
+> > > > > > there's
+> > > > > > any
+> > > > > > actual tracking for this and as such - two CRTC modesets which have
+> > > > > > both
+> > > > > > pulled in the MST private state object are not prevented from
+> > > > > > running
+> > > > > > concurrently.
+> > > > > > 
+> > > > > > This unfortunately throws an enormous wrench into the MST atomic
+> > > > > > conversion
+> > > > > > I've been working on - as I was under the understanding while
+> > > > > > writing
+> > > > > > the
+> > > > > > code
+> > > > > > for this that all objects in an atomic state are blocked from being
+> > > > > > used
+> > > > > > in
+> > > > > > any new atomic commits (not checks, as parallel checks should be
+> > > > > > fine in
+> > > > > > my
+> > > > > > case) until there's no commits active with said object pulled into
+> > > > > > the
+> > > > > > atomic
+> > > > > > state. I certainly am not aware of any way parallel modesetting
+> > > > > > could
+> > > > > > actually
+> > > > > > be supported on MST, so it's not really a feature we want to deal
+> > > > > > with
+> > > > > > at
+> > > > > > all
+> > > > > > besides stopping it from happening. This also unfortunately means
+> > > > > > that
+> > > > > > the
+> > > > > > current atomic modesetting code we have for MST is potentially
+> > > > > > broken,
+> > > > > > although I assume we've never hit any real world issues with it
+> > > > > > because
+> > > > > > of
+> > > > > > the
+> > > > > > non-atomic locking we currently have for the payload table.
+> > > > > > 
+> > > > > > So, Daniel had mentioned that supposedly you've been dealing with
+> > > > > > similar
+> > > > > > issues with VC4 and might have already made progress on coming up
+> > > > > > with
+> > > > > > ways to
+> > > > > > deal with it. If this is all correct, I'd definitely appreciate
+> > > > > > being
+> > > > > > able
+> > > > > > to
+> > > > > > take a look at your work on this to see how I can help move things
+> > > > > > forward.
+> > > > > > I've got a WIP of my atomic only MST branch as well:
+> > > > > > 
+> > > > > > https://gitlab.freedesktop.org/lyudess/linux/-/commits/wip/mst-atomic-only-v1
+> > > > > > 
+> > > > > > However it's very certainly broken right now (it compiles and I had
+> > > > > > thought it
+> > > > > > worked already, but I realized I totally forgot to come up with a
+> > > > > > way of
+> > > > > > doing
+> > > > > > bookkeeping for VC start slots atomically - which is what led me
+> > > > > > down
+> > > > > > this
+> > > > > > current rabbit hole), but it should at least give a general idea of
+> > > > > > what
+> > > > > > I'm
+> > > > > > trying to do.
+> > > > > > 
+> > > > > > Anyway, let me know what you think.
+> > > > > 
+> > > > > For MST in particular parallel modeset on the same physical link
+> > > > > sounds
+> > > > > pretty crazy to me. Trying to make sure everything happens in the
+> > > > > right
+> > > > > order would not be pleasant. I think a simple solution would be just
+> > > > > to
+> > > > > add all the crtcs on the affected link to the state and call it a day.
+> > > > 
+> > > > JFYI I definitely don't have any kind of plan to try parallel
+> > > > modesetting
+> > > > with
+> > > > MST, I think it'd be near impossible to actually get working correctly
+> > > > for
+> > > > pretty little benefit :). I was just not entirely sure of the work that
+> > > > would
+> > > > be required to get private objects to do the right thing here in
+> > > > parallel
+> > > > modesets (e.g. make sure we wait on all CRTC commits like you
+> > > > mentioned).
+> > > > 
+> > > > Anyway - I looked at the code for this the other day and a solution that
+> > > > seems
+> > > > pretty reasonable for this to me would be to add a hook for DRM private
+> > > > objects which provides drivers a spot to inform the DRM core what
+> > > > drm_crtc_commits need to be waited on before starting a modeset. I
+> > > > should
+> > > > have
+> > > > some patches on the list soon so folks can tell me if what I'm doing
+> > > > looks
+> > > > sensible or not :).
+> > > > 
+> > > > > 
+> > > > > i915 already does that on modern platforms actually because the
+> > > > > hardware architecture kinda needs it. Although we could perhaps
+> > > > > optimize it a bit to skip it in some cases, but not sure the
+> > > > > extra complexity would really be justified.
+> > > > > 
+> > > > > In i915 we also serialize *all* modesets by running them on a
+> > > > > ordered wq (+ explicit flush_workqueue() to serialize non-blocking
+> > > > > vs. blocking modesets). We did semi-accidentally enable parallel
+> > > > > modesets once but I undid that because there was just way too much
+> > > > > pre-existing code that wasn't even considering the possibility of
+> > > > > a parallel modeset, and I didn't really feel like reviewing the
+> > > > > entire codebase to find all of it.
+> > > > > 
+> > > > 
+> > > 
+> > > -- 
+> > > Cheers,
+> > >  Lyude Paul (she/her)
+> > >  Software Engineer at Red Hat
+> > > 
+> > 
+> 
+> -- 
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
+> 
+
 -- 
-2.34.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
