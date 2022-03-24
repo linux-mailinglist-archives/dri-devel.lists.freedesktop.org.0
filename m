@@ -1,61 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32164E62ED
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 13:08:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB184E63A2
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 13:49:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75F5F10E8A9;
-	Thu, 24 Mar 2022 12:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB4210E968;
+	Thu, 24 Mar 2022 12:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0816F10E8A8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 12:08:08 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- n7-20020a17090aab8700b001c6aa871860so4938387pjq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 05:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UVipAa3p2lxfXUCkOUOZLM+IsCeHmSn3C9tonIfy3wI=;
- b=GgZxZElViAtY8nYuSfW1SOAk4RYkWZbCX7r2JTWjp3YVnmRvERdOCjnXy6nso+IyKq
- ovobCqamm+f7nQd8RFGDu2zcwfp2JrhkcVj12wCEqqEDw0RYu4U6O+KmdR726BqEWOay
- kHKLGOpizCB1Oub8L4G7XvTefe9hVgNz+5OG5As/U2YMxDxzK9gyYdFUqx3GXAFVY+mS
- Sz0EF6MYB8YOCDJ5wE9Nu5aefYpaNnXMBb4zoVhR14cauuWV2LqzfbzxuiT+w7p/RqT1
- is9wwjgpSZeS4sYK21Y3QwPmlBNSvm8RWx10ZjuOfLjh0wvStTNew3M3SeG5HuAToX69
- 4jZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UVipAa3p2lxfXUCkOUOZLM+IsCeHmSn3C9tonIfy3wI=;
- b=prxcL759idpSkc0f/FN434kYC2g1jCXaDoXAzAwCAeB6BM34HkPgS5fgyhDW+qNc3J
- L5jqAXl34TkaAPL1PwpvLsv4Qj6zwRtT2drJ5d1uSQoBcxsi67jqHw+lZNoCr+RG1FAZ
- 5E1BPRo0MW+wr/jRg7TTHeLear0Z6sYDn162bTIhOAAA8Uqf0xfI4Fzv+ShGL+ApsNk/
- 5GpkW3rbbL/7ur8Nz53yPqKeBAHqEI22E3+Y4SNmDVaCKAJn2jd6AJKUh3TXDAM0qvOQ
- PMEkCld9Yvi38i7FJlpueG3y3Hr5a8GAmpmcnPCdLLnKnk/kqKOENBv837HyWmCFYhrP
- YH9Q==
-X-Gm-Message-State: AOAM532sISIV4+GX+9Ld9Qsvpk40zIovQt/1I3MvAG15pIpqo3VZN00t
- j+F7Gu5PYQQ6wkPtbdp1KsBjr5IwN02Hpt53zefESQ==
-X-Google-Smtp-Source: ABdhPJxQLKe/VzqvQLCSDNsqOjYe8mtRV67RfXQKdQ8r+AXfmjXkshELz203hQfP9j88QK5Kc44t64UwnLq1b9Yp9hI=
-X-Received: by 2002:a17:903:30c4:b0:153:c102:8b9a with SMTP id
- s4-20020a17090330c400b00153c1028b9amr5459892plc.21.1648123687624; Thu, 24 Mar
- 2022 05:08:07 -0700 (PDT)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC9F10E964
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 12:49:07 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id DE8F032009F3;
+ Thu, 24 Mar 2022 08:49:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 24 Mar 2022 08:49:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; bh=vpgfnZwA9u1I8a
+ +3FjlbRyQBDCa2x3IAHHPysPfq9Vk=; b=sLaJhMSLjCYRReNusBc4js4BHwjVY+
+ /b5AT5FuY4KzsedjbcDnwYdXQ/1ydFZXSVx+HVps3Se895b+MrZ6ga5kYVibHZEO
+ i4K8bb0QcztA00mzg+wB3flFWOa4+l0SIzWXy6yW1O8y6SuCShZ5D57+Rgk6iRDW
+ f0TWJd9zR+xpUJxs13+0NfqO03LCYngSpRXqerliiwLFGbNxKyPaaMV5/ZRnmK0h
+ CxYVCw5RAO7U5lkSpJ3EXkUCv6++W0TVNW7DchOjn23aNaLEaNHhtJi0bQEdEdRa
+ g2YacaZFfuOinHQMwsqpaWPCbZedunrFpFj/XMUUHFh6ComAYYK5mCyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=vpgfnZwA9u1I8a+3FjlbRyQBDCa2x3IAHHPysPfq9
+ Vk=; b=ky/MH9H7w7SV4eO0RNMc477d+81CiabJK4e8Zg9UtLT3M1n/fFRJZaMgi
+ unO0k+LFjRl+ptktp9jC7p29PuUhOK/NotKgSfhT1Uc8fABrAqZ7QuhZiqbpBirw
+ ROb8KpCg+PMg6hlyQBETRj224eMBsvrrif7WgXdS9Rp/Z8zoRrML84JHlQDzxZiu
+ mqwqWsgtJXVPEffy58QKqZ3XCk33d1ecqdHNWm8a1n38mzuWEFs4TxWy8LpjWZKb
+ fMI3XrILEy6ljhA42os5FF9qeIztAyViOnSXlX/jcndKg2/Kq0Q6qNz9yPRTIHgx
+ Rsz1MYwcjmZP3o/rff7G5G+wZJ5fg==
+X-ME-Sender: <xms:v2g8YuPnqytgc5N7rKX50_khGcXdCoekUljrwjk6X24HoAH-V4wvgg>
+ <xme:v2g8Ys_JwfFPTiRO2YON7IVdXulTVn-xkZDG-ojjMjGtufrLgHTMxlT3j6VH0cgi4
+ JnibwlTSpU8WgN7C6M>
+X-ME-Received: <xmr:v2g8YlQ_B48ayXC1nVp3JO4xRl-ZpW1UmZ_aLY9aUbHjaoVGR4oqK7Gby-NIXFS8cmdzeonUll9ljbh_W9xsuGORVjVyQqdwLD67BMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledggeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelteejleefvdejffetjeehfffhtdeugeffleejfeekffelteektefgveet
+ vdekjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:v2g8YuvaTufLTZuhg5PZ7-7tVcdtjEtqyuUP8GwCWiKd5Wa4P1W2wg>
+ <xmx:v2g8YmccKiypswK8LRZolvqoDP7jqfuEwH69iULYhcCqeG0GYGZatw>
+ <xmx:v2g8Yi0-TaWt4VFCWsdanOYnb4j_XGnFbKKEwxrctQViQA6-lc2AYA>
+ <xmx:wGg8Ym6MTMhmQN-te8neAle4RQ5_HkFLbUIV7qoZmsXwFPe1USBxTA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Mar 2022 08:49:02 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH v6 0/7] drm/vc4: hdmi: Yet Another Approach to HDMI YUV
+ output
+Date: Thu, 24 Mar 2022 13:48:59 +0100
+Message-Id: <164812613018.1175549.5443959253858996678.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220222164042.403112-1-maxime@cerno.tech>
+References: <20220222164042.403112-1-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20220322080213.1487134-1-xji@analogixsemi.com>
- <CAJMQK-j+PhB6dZBuKG3NtW94oT0bVkp9G1bXhmyZLgYOmTCgog@mail.gmail.com>
- <20220322085208.GA1487511@anxtwsw-Precision-3640-Tower>
- <CAGXv+5Gddu8VU7xjX-r2=u85i7Ut=_6JpQV6py52OyzEkpezTg@mail.gmail.com>
- <20220322101342.GA1493353@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20220322101342.GA1493353@anxtwsw-Precision-3640-Tower>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 24 Mar 2022 13:07:56 +0100
-Message-ID: <CAG3jFytYcLP_1JJzoTU8YcwXp8==EpPdad5z02ROu8HtuaqfzQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Set downstream sink into normal
- status
-To: Xin Ji <xji@analogixsemi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +86,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
- Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- treapking@chromium.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- pihsun@chromium.org, Hsin-Yi Wang <hsinyi@chromium.org>, tzungbi@google.com,
- bliang@analogixsemi.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > > The driver uses DRM_DEV_* for logs. Can we use this?
-> > > Hi Hsin-Yi, as comment in drm/drm_print.h:
-> > > "NOTE: this is deprecated in favor of drm_dbg". DRM bridge driver not
-> > > use DRM_DEV_* any more. I'll send a patch to replace all of DRM_DEV_*
-> > > later.
-> >
-> > drm_dbg is better than dev_dbg though. With the former, you still get the
-> > option to control it with the drm.debug module parameter, unlike the latter
-> > which normally gets compiled out.
-> >
-> > Please use drm_dbg*.
-> >
-> > ChenYu
->
-> Hi ChenYu, the parameter of drm_dbg is "drm", if use drm_dbg, it will
-> change more code, I'll consider to upstream new patch to replace all of
-> them later.
->
+On Tue, 22 Feb 2022 17:40:35 +0100, Maxime Ripard wrote:
+> This is another attempt at supporting the HDMI YUV output in the vc4 HDMI
+> driver.
+> 
+> This is a follow-up of
+> https://lore.kernel.org/dri-devel/20210317154352.732095-1-maxime@cerno.tech/
+> 
+> And the discussions that occured recently on the mailing lists and IRC about
+> this.
+> 
+> [...]
 
-Alright, since the driver already uses these logging functions, let's
-apply this patch and fix the logging function this driver uses in a
-separate series.
+Applied to drm/drm-misc (drm-misc-next).
 
-Xin: Can you submit a patch/series that converts this driver to use
-drm_dbg* functions instead?
+Thanks!
+Maxime
