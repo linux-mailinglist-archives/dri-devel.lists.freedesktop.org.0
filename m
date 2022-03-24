@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA604E6441
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 14:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A5B4E6445
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 14:43:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF3E10E915;
-	Thu, 24 Mar 2022 13:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D7D610E8D8;
+	Thu, 24 Mar 2022 13:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
- [209.85.167.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57DF10E915
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:42:50 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id r8so4918317oib.5
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 06:42:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=k0XLE9bSSftZDbfLEu3mqCg9VES7NclFvpk1DiwzsCU=;
- b=fSvX8N/AwXtXiKZh3habH1B6yG5N/8DG1QUa0YkVzOxcGTB677jEriUC19394QJn4n
- q28IZTp/6eAMDcW6Z5+2LMrNUxpEnzktKdr0a/W+QwyJWnYOnilpjn5KqjYBz4d+TKQ8
- p/T4HgKbc4DvYtEIDMjHaeaRIGqgfSLHDT6zccGzvJavm3uNQo/tPApfnQ/IEfim8hFR
- IT644/6njFw6Xf68bLRpHn+qvrhHTY0lihRcDQMcOdq08gG/hBtiSJhRufpaQzNxbej7
- nzzO+gYfX/xelX30wWCRpTmv1Ir86FRL3ujPQIE2iGn4f1OFSINTsmGztUCJAxcXudTo
- nNXg==
-X-Gm-Message-State: AOAM531/b0D9R7uvHGZoGYhN4ihmc2aiMDw3x5te7WEtz9Tzqy6NEpmg
- Rxf8HIbABczqzBu5Bb++fA==
-X-Google-Smtp-Source: ABdhPJzqqN+FJJDwdKcMMRgy5goFaR/Q6upsH/doVxugr8UxtoUj4bHD6zeF85BdW4NQ+asO8xTuOw==
-X-Received: by 2002:a05:6808:208b:b0:2d3:a5cc:540 with SMTP id
- s11-20020a056808208b00b002d3a5cc0540mr2700275oiw.41.1648129369806; 
- Thu, 24 Mar 2022 06:42:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- p16-20020a05680811d000b002d72ec3a921sm1463006oiv.21.2022.03.24.06.42.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 06:42:48 -0700 (PDT)
-Received: (nullmailer pid 1940986 invoked by uid 1000);
- Thu, 24 Mar 2022 13:42:47 -0000
-Date: Thu, 24 Mar 2022 08:42:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [PATCH v11 7/7] drm/lsdc: add drm driver for loongson display
- controller
-Message-ID: <Yjx1V1Lx0bAtgsCp@robh.at.kernel.org>
-References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-8-15330273260@189.cn>
- <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
- <33766d08-bd88-2234-0f85-5926e4256dfb@189.cn>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC57810E8D8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:43:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C07341844;
+ Thu, 24 Mar 2022 14:43:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1648129424;
+ bh=yKojlimx3X2qR4ZurdIw6SsvekJenUgptF2ST/1O3YU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n5v11cXDEPG6qh/00PsIcpx3JqMHHzwsLHwnQIYz/aznuoEk/Jtugt0lSoweyGk37
+ j6F9Z+cB2xYm1peSt5xWvS1fTt9gLfoaQqrTW/OpJqimeLyCAPYr6au+DNE80HLv2H
+ yP3TGMdHqLsk+5sspZDipQ6JiytWzlr28mf08U9I=
+Date: Thu, 24 Mar 2022 15:43:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH] dt-bindings: display: bridge: Drop requirement on input
+ port for DSI devices
+Message-ID: <Yjx1jjB2hWqOPGsi@pendragon.ideasonboard.com>
+References: <20220323154823.839469-1-maxime@cerno.tech>
+ <YjuFO45Gr1vmKxWG@pendragon.ideasonboard.com>
+ <20220324081819.niz4pdqu3j7n2ivh@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <33766d08-bd88-2234-0f85-5926e4256dfb@189.cn>
+In-Reply-To: <20220324081819.niz4pdqu3j7n2ivh@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +49,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 24, 2022 at 09:39:49AM +0800, Sui Jingfeng wrote:
-> 
-> On 2022/3/23 04:49, Rob Herring wrote:
-> > On Tue, Mar 22, 2022 at 12:29:16AM +0800, Sui Jingfeng wrote:
-> > > From: suijingfeng <suijingfeng@loongson.cn>
-> > > 
-> > > There is a display controller in loongson's LS2K1000 SoC and LS7A1000
-> > > bridge chip, the display controller is a PCI device in those chips. It
-> > > has two display pipes but with only one hardware cursor. Each way has
-> > > a DVO interface which provide RGB888 signals, vertical & horizontal
-> > > synchronisations, data enable and the pixel clock. Each CRTC is able to
-> > > scanout from 1920x1080 resolution at 60Hz, the maxmium resolution is
-> > > 2048x2048 according to the hardware spec. Loongson display controllers
-> > > are simple which require scanout buffers to be physically contiguous.
+Hi Maxime,
 
-[...]
-
-> > > +			val |= mask;
-> > > +		else
-> > > +			val &= ~mask;
-> > > +		writeb(val, li2c->dat_reg);
-> > Shouldn't you set the data register low first and then change the
-> > direction? Otherwise, you may be driving high for a moment. However, if
-> > high is always done by setting the direction as input, why write the
-> > data register each time? I'm assuming whatever is written to the dat_reg
-> > is maintained regardless of pin state.
+On Thu, Mar 24, 2022 at 09:18:19AM +0100, Maxime Ripard wrote:
+> On Wed, Mar 23, 2022 at 10:38:19PM +0200, Laurent Pinchart wrote:
+> > Hi Maxime,
 > > 
-> When the pin is input, i am not sure value written to it will be preserved.
+> > (CC'ing Sakari)
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Mar 23, 2022 at 04:48:23PM +0100, Maxime Ripard wrote:
+> > > MIPI-DSI devices, if they are controlled through the bus itself, have to
+> > > be described as a child node of the controller they are attached to.
+> > > 
+> > > Thus, there's no requirement on the controller having an OF-Graph output
+> > > port to model the data stream: it's assumed that it would go from the
+> > > parent to the child.
+> > > 
+> > > However, some bridges controlled through the DSI bus still require an
+> > > input OF-Graph port, thus requiring a controller with an OF-Graph output
+> > > port. This prevents those bridges from being used with the controllers
+> > > that do not have one without any particular reason to.
+> > > 
+> > > Let's drop that requirement.
+> > 
+> > I'm sure this won't come as a surprise, I'm very much opposed to this
+> > change, for two reasons.
+> > 
+> > First, ports are part of the hardware, even if they're not connected. It
+> > thus simplifies handling in drivers if they're always present.
+> > 
+> > Then, and that's the most important reason, I think it's a mistake not
+> > to model the DSI data connection using OF graph unconditionally, even
+> > when the DSI sink device is also controlled through the DSI bus (using
+> > DCS) and is in that case a child of the DSI source device in the DT
+> > hierarchy.
 > 
-> I'm worry about it get flushed by the external input value.
+> That's the way we do for any other device though. You never addressed
+> that comment, but it's very much the same that occurs for i2c or spi
+> controllers and their device. They all get their data from the parent
+> bus. I don't see you advocate for using OF-Graph for those devices.
+
+Those are different, there's no data stream independent of the control
+communications.
+
+> > The device tree describes a control hierarchy between devices. OF graph
+> > overlays on top of that a data transfer graph. The two are different
+> > concepts, and the fact that DSI can sometimes be used as a control bus
+> > doesn't change the concept. Using OF graph unconditionally to describe
+> > the data connections for DSI leads to less variation in the device tree
+> > structure, and thus less complexity in the implementation. We're
+> > suffering from the fact we haven't made it a requirement in the first
+> > place, which can't be fixed due to ABI breakage constraints, but let's
+> > not acknowledge it as a good idea.
 > 
-> Because the output data register is same with the input data register(
-> offset is  0x1650).
+> Honestly, it doesn't matter one bit.
 > 
-> The hardware designer do not provided a  separation.
+> We have a huge discrepancy here today, and only a couple of bridges have
+> that arbitrary restriction. The situation you don't want to acknowledge
+> is the de-facto standard, by the generic binding and by what all the
+> bridges and panels are implementing. Even panel-simple-dsi is doing it.
+> So it's very much there already.
 
-Usually for GPIO data registers the read value is current pin state 
-regardless of direction and the written value is what to drive as an 
-output. But your h/w could be different.
+It's here, and I think we should move away from it for new DSI sinks.
+I'd like OF graph to be used consistently for new drivers. We can't
+change existing DT bindings and drivers to drop support for the
+non-OF-graph description due to ABI stability, but we can avoid
+repeating the mistake going forward.
 
-
-> > > +
-> > > +		/* Optional properties which made the driver more flexible */
-> > > +		of_property_read_u32(i2c_np, "udelay", &udelay);
-> > > +		of_property_read_u32(i2c_np, "timeout", &timeout);
-> > These aren't documented. Do you really need them in DT?
+> What I'm trying to address here is that some controllers that do
+> everything right can't be used because that restriction is completely
+> arbitrary and in opposition to the consensus. And they can't be used
+> *today*.
 > 
-> Yes, in very rare case:
+> If we want to change that consensus, fine, but we should still have one.
+> Having some bridges enforcing custom rules for no reason is very much
+> unacceptable.
 > 
-> When debugging, sometimes one way I2C works, another way I2C not on specific
-> board.
+> And changing that consensus won't happen overtime, we'll have to take
+> care of the backward compatibility, etc. So it won't fix the issue that
+> we can't use any bridge with any controller any time soon.
 
-This is not specific to you, so why do you solve it in a way that only 
-works for you? If you want to add tuning parameters to the i2c bit 
-algorithm, why don't you do so in a way that works for all users? I'm 
-sure the I2C maintainer and others have some opinion on this, but 
-they'll never see it hidden away in some display driver.
+I don't think that's the issue at hand here. You can still use a
+non-OF-graph DT event if the nodes for the two bridges affected by this
+patch define a port@0. It can just be left unconnected.
 
+I do agree it will cause some DT bindings for DCS-based DSI sinks to
+have ports will others won't. If your concern is that all DT bindings
+should be coherent, would you be OK with a patch that makes the sink
+port mandatory in all DT bindings for DSI bridges and panels (and fixes
+the mainline DT sources accordingly to make sure they validate) ? The
+port would not be connected of course (at least when used with DSI
+source drivers that don't use OF graph today). That would make DT
+bindings coherent, and would be a first step towards using OF graph
+everywhere.
 
-> and you want to see what will happen if you change it from 5 to 2.
-> 
-> modify device tree is enough, have to recompile the kernel and driver
-> modules every time.
+-- 
+Regards,
 
-Modifying the DT is not the easiest way to debug either.
-
-
-> It is optional through.
-
-Lots of properties are optional, what's your point?
-
-
-> Please do not ask me to document such a easy thing,
-
-Everything must be documented. There's nothing more to discuss.
-
-
-> DT itself is a documention, human readable,  it already speak for itself.
-
-It is machine readable too. Undocumented properties generate warnings 
-now.
-
-Rob
+Laurent Pinchart
