@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403944E6A79
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0A54E6A8A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 23:13:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C85E10E057;
-	Thu, 24 Mar 2022 22:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F9A10E17A;
+	Thu, 24 Mar 2022 22:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1501 seconds by postgrey-1.36 at gabe;
- Thu, 24 Mar 2022 22:00:58 UTC
-Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com
- [192.185.50.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0518110E057
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:00:58 +0000 (UTC)
-Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
- by gateway23.websitewelcome.com (Postfix) with ESMTP id 54E1E1F5C8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 16:15:51 -0500 (CDT)
+X-Greylist: delayed 1749 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Mar 2022 22:13:48 UTC
+Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com
+ [192.185.193.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21D6510E17A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 22:13:48 +0000 (UTC)
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+ by gateway30.websitewelcome.com (Postfix) with ESMTP id 9A7401B7C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 16:18:10 -0500 (CDT)
 Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
  by cmsmtp with SMTP
- id XUoBnRY0P9AGSXUoBnK8J6; Thu, 24 Mar 2022 16:15:51 -0500
+ id XUqQnIhJTRnrrXUqQnb0wz; Thu, 24 Mar 2022 16:18:10 -0500
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
- :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
- :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oNH0IkBh0WKyV1JhSrDOxEeCgmKqMdr8USyoFPQc2hQ=; b=I21bRrH6+3RN1onGy8mjMGiVMd
- OyKFzY2wm6A27hVjWGCTWGFEOSOz10N0SxyJwDcOza3LJ2wjeQwLamKZWXMMhiVi7F7lncLvlOxGO
- qcAvWjiFRHhgXM1dz4Tbe+IUY1GiY6rMAHlP93KXTQ6pUJ+QL8OamImC7CfO170Xqy4LZ/S/VX0FZ
- 1s5HxqStcR1ud5+WZkw6bx3OsFqXkLZXnwbJcZgrOgArP5NefndL3bXy0M1fMshp7n2q7bLxwU09e
- EuahCZQODG5M/RqHUMOLsVZqjz/K/U/Q+p7JPXPS8csUKQ6T8Z+ME6hY2A2IOP88kIf1xnwIm5UJ1
- p87+JTpA==;
+ d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uYIalswLom+ceKwMGJo6mQG4+4OkZPeJDwH7fRE+ZPk=; b=cMxNZZ92vrPsegNwniVsIiJu6H
+ cjg0z0Aq0AcDBpxN2VsWvG9wDTT34MReKb1oO5UGRnZcwNJG1f9Eo2uM8Naq2VkW6x7XwbmQAfXHr
+ JRf0KsW/pTJcxLSqrCMQAeqPnwqhxfoq8whse9R2+mxnQuUxiRsHU0wvZvzM4D9LQEimEOudZyKRN
+ 0OQ4O6f2mVCShIIEnnJVdSHl/D2eJc/Fctnfq0YAJoTLwVPQIGBEtboCNaPZ89EgVBCNdZwEvetjP
+ 3/KFA5PV1K09QNsDE9HnEkNKxCFok3ntDVoKIc1bV7MPs2TQDER2STwyF4iPJzJ7a+G8q/URFCqB5
+ DxVxXxdg==;
 Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
- ([108.223.40.66]:57652 helo=localhost)
+ ([108.223.40.66]:54452)
  by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <linux@roeck-us.net>)
- id 1nXUoA-004GiL-HC; Thu, 24 Mar 2022 21:15:50 +0000
-Date: Thu, 24 Mar 2022 14:15:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
-Message-ID: <20220324211549.GA1895931@roeck-us.net>
-References: <20220313192952.12058-3-tzimmermann@suse.de>
+ id 1nXUqP-004IOY-Ss; Thu, 24 Mar 2022 21:18:09 +0000
+Message-ID: <05be3d3b-16a7-2a65-fa58-606f22bfeeb8@roeck-us.net>
+Date: Thu, 24 Mar 2022 14:18:08 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220313192952.12058-3-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 4/5] fbdev: Improve performance of cfb_imageblit()
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220223193804.18636-1-tzimmermann@suse.de>
+ <20220223193804.18636-5-tzimmermann@suse.de>
+ <20220324191116.GA1045463@roeck-us.net>
+ <db7e3568-5dc2-eb84-8ee4-191442da85e9@suse.de>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <db7e3568-5dc2-eb84-8ee4-191442da85e9@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse,
  please include it with any abuse report
 X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
@@ -59,14 +65,14 @@ X-AntiAbuse: Sender Address Domain - roeck-us.net
 X-BWhitelist: no
 X-Source-IP: 108.223.40.66
 X-Source-L: No
-X-Exim-ID: 1nXUoA-004GiL-HC
+X-Exim-ID: 1nXUqP-004IOY-Ss
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost)
- [108.223.40.66]:57652
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 1
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net
+ [108.223.40.66]:54452
+X-Source-Auth: linux@roeck-us.net
+X-Email-Count: 11
 X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
 X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,100 +88,50 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, geert@linux-m68k.org, sam@ravnborg.org,
- m.szyprowski@samsung.com
+ dri-devel@lists.freedesktop.org, ppaalanen@gmail.com, geert@linux-m68k.org,
+ kraxel@redhat.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 13, 2022 at 08:29:52PM +0100, Thomas Zimmermann wrote:
-> Commit 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
-> broke cfb_imageblit() for image widths that are not aligned to 8-bit
-> boundaries. Fix this by handling the trailing pixels on each line
-> separately. The performance improvements in the original commit do not
-> regress by this change.
+On 3/24/22 12:18, Thomas Zimmermann wrote:
+> Hi
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 0d03011894d2 ("fbdev: Improve performance of cfb_imageblit()")
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
->  drivers/video/fbdev/core/cfbimgblt.c | 28 ++++++++++++++++++++++++----
->  1 file changed, 24 insertions(+), 4 deletions(-)
+> Am 24.03.22 um 20:11 schrieb Guenter Roeck:
+>> Hi,
+>>
+>> On Wed, Feb 23, 2022 at 08:38:03PM +0100, Thomas Zimmermann wrote:
+>>> Improve the performance of cfb_imageblit() by manually unrolling
+>>> the inner blitting loop and moving some invariants out. The compiler
+>>> failed to do this automatically. This change keeps cfb_imageblit()
+>>> in sync with sys_imagebit().
+>>>
+>>> A microbenchmark measures the average number of CPU cycles
+>>> for cfb_imageblit() after a stabilizing period of a few minutes
+>>> (i7-4790, FullHD, simpledrm, kernel with debugging).
+>>>
+>>> cfb_imageblit(), new: 15724 cycles
+>>> cfb_imageblit(): old: 30566 cycles
+>>>
+>>> In the optimized case, cfb_imageblit() is now ~2x faster than before.
+>>>
+>>> v3:
+>>>     * fix commit description (Pekka)
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>> This patch causes crashes with arm mainstone, z2, and collie emulations.
+>> Reverting it fixes the problem.
+>>
+>> collie crash log and bisect log attached.
 > 
-> diff --git a/drivers/video/fbdev/core/cfbimgblt.c b/drivers/video/fbdev/core/cfbimgblt.c
-> index 7361cfabdd85..9ebda4e0dc7a 100644
-> --- a/drivers/video/fbdev/core/cfbimgblt.c
-> +++ b/drivers/video/fbdev/core/cfbimgblt.c
-> @@ -218,7 +218,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
->  {
->  	u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
->  	u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
-> -	u32 bit_mask, eorx;
-> +	u32 bit_mask, eorx, shift;
->  	const char *s = image->data, *src;
->  	u32 __iomem *dst;
->  	const u32 *tab = NULL;
-> @@ -259,17 +259,23 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
->  
->  	for (i = image->height; i--; ) {
->  		dst = (u32 __iomem *)dst1;
-> +		shift = 8;
->  		src = s;
->  
-> +		/*
-> +		 * Manually unroll the per-line copying loop for better
-> +		 * performance. This works until we processed the last
-> +		 * completely filled source byte (inclusive).
-> +		 */
->  		switch (ppw) {
->  		case 4: /* 8 bpp */
-> -			for (j = k; j; j -= 2, ++src) {
-> +			for (j = k; j >= 2; j -= 2, ++src) {
->  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
->  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
->  			}
->  			break;
->  		case 2: /* 16 bpp */
-> -			for (j = k; j; j -= 4, ++src) {
-> +			for (j = k; j >= 4; j -= 4, ++src) {
->  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
->  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
->  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
-> @@ -277,7 +283,7 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
->  			}
->  			break;
->  		case 1: /* 32 bpp */
-> -			for (j = k; j; j -= 8, ++src) {
-> +			for (j = k; j >= 8; j -= 8, ++src) {
->  				FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
->  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
->  				FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
-> @@ -290,6 +296,20 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
->  			break;
->  		}
->  
-> +		/*
-> +		 * For image widths that are not a multiple of 8, there
-> +		 * are trailing pixels left on the current line. Print
-> +		 * them as well.
-> +		 */
-> +		for (; j--; ) {
-> +			shift -= ppw;
-> +			FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
-> +			if (!shift) {
-> +				shift = 8;
-> +				++src;
-> +			}
-> +		}
-> +
->  		dst1 += p->fix.line_length;
->  		s += spitch;
->  	}
+> Does it work if you apply the fixes at
+> 
+> https://patchwork.freedesktop.org/series/101321/
+> 
+> ?
+> 
+
+Yes, it does, specifically the cfb related patch. I sent a Tested-by:.
+
+Thanks,
+Guenter
