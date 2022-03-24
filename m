@@ -2,60 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2152E4E5F13
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 08:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6794E605B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 09:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCB1D10E770;
-	Thu, 24 Mar 2022 07:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0A710E852;
+	Thu, 24 Mar 2022 08:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9BD10E770
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 07:06:32 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id yy13so7271829ejb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 00:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gyjq9zdDhX6RlmCOAFpwWrWqHwqUR/OK0/YrxmP9mpE=;
- b=Nkjpyy9ZyUVLrvtPqSrFBmdZO0gQSf1HZ/lGBJRfGxBuIBZvGttXqZ9Yi3goQh7XwP
- tfW0Aw+eZLOvvUmz/j/Ai7HSKUSx6k+BabRVwHINjfk8kUS2Uw21dwDbKlTNdy8KtMM9
- p/L3+1ko9RSZVa0HmXTnTCIYJjgGNZCLW3T6qf+DSysj0876kU9Eq+/DTF/Lr4o7XEri
- 4TuTn/f6u+YF6CY1ZRbfdZWyq3ruzVaUw/79lzXKHUckh9mj1k+XyDdXCoLwR983TPN5
- /atmeF97PAqqSGvq9PatGilN75mw2mcLsQz0DM5cVYj0HVJBseb8f40KfqE3m/EuD1a1
- GCvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gyjq9zdDhX6RlmCOAFpwWrWqHwqUR/OK0/YrxmP9mpE=;
- b=ZFfSHRdM8E1BMdEyRuWDd7HDdSJ5PZVSCE9NMWffZYAtNCXBnqVl48KZYAU+Gjsn9L
- 8q1ohlVh0KH8wXxp5f97pZRhqILDTwMpPO6f9/Sfd6WKWcoE+lu4fBla2cj1S6A+dCKR
- E/FA+88n/1OoKsaAozbzhu/oKolNmL7kz8RjA2yH+3d1k5PA9l9n6xneEyrOqCZND1gW
- kQZsVyURSyneJOpLCOgnQvpOEP0mOJS7MIutaplYk+zH5XLxzBqt+VQI9NOPpyGpurAc
- ovNzv/P/j7xN3Yz8QViEJkK1UquAT6sHmRK0CzWIvb27fcAb+eLweT1pczGPIeQ5orIp
- WKMA==
-X-Gm-Message-State: AOAM530VTtwxwtAglPz082e5PUQ8KOk6S2Cp8A+HJ+wWc05APe+qqvKC
- 5mKpxeZyjjH/wYbkrKS5O/Q=
-X-Google-Smtp-Source: ABdhPJyUE78skfv/AqLpnp/mVa6k6QKT8XGbJKI2o7hjsYtY7V0495iNlUhXbzcX1tm6egg7oWrh5w==
-X-Received: by 2002:a17:907:60c8:b0:6da:83f0:9eaa with SMTP id
- hv8-20020a17090760c800b006da83f09eaamr4064343ejc.605.1648105591138; 
- Thu, 24 Mar 2022 00:06:31 -0700 (PDT)
-Received: from localhost.localdomain (i130160.upc-i.chello.nl.
- [62.195.130.160]) by smtp.googlemail.com with ESMTPSA id
- o7-20020a17090608c700b006cef23cf158sm763537eje.175.2022.03.24.00.06.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 00:06:30 -0700 (PDT)
-From: Jakob Koschel <jakobkoschel@gmail.com>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH] backlight: replace usage of found with dedicated list
- iterator variable
-Date: Thu, 24 Mar 2022 08:06:08 +0100
-Message-Id: <20220324070608.57057-1-jakobkoschel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 1207 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Mar 2022 07:30:54 UTC
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C609F10E7EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 07:30:54 +0000 (UTC)
+Received: from kwepemi500015.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KPGYJ60bMzfZH9;
+ Thu, 24 Mar 2022 15:09:08 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by kwepemi500015.china.huawei.com
+ (7.221.188.92) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 24 Mar
+ 2022 15:10:41 +0800
+From: Zheng Bin <zhengbin13@huawei.com>
+To: <emma@anholt.net>, <mripard@kernel.org>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] drm/vc4: Fix build error when CONFIG_DRM_VC4=y &&
+ CONFIG_RASPBERRYPI_FIRMWARE=m
+Date: Thu, 24 Mar 2022 15:25:42 +0800
+Message-ID: <20220324072542.1238122-1-zhengbin13@huawei.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi500015.china.huawei.com (7.221.188.92)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Thu, 24 Mar 2022 08:32:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,64 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- linux-fbdev@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
- Jakob Koschel <jakobkoschel@gmail.com>
+Cc: tangyizhou@huawei.com, limingming.li@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To move the list iterator variable into the list_for_each_entry_*()
-macro in the future it should be avoided to use the list iterator
-variable after the loop body.
+If CONFIG_DRM_VC4=y, CONFIG_RASPBERRYPI_FIRMWARE=m, CONFIG_COMPILE_TEST=n,
+bulding fails:
 
-To *never* use the list iterator variable after the loop it was
-concluded to use a separate iterator variable instead of a
-found boolean [1].
+drivers/gpu/drm/vc4/vc4_drv.o: In function `vc4_drm_bind':
+vc4_drv.c:(.text+0x320): undefined reference to `rpi_firmware_get'
+vc4_drv.c:(.text+0x320): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_get'
+vc4_drv.c:(.text+0x34c): undefined reference to `rpi_firmware_property'
+vc4_drv.c:(.text+0x34c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_property'
+vc4_drv.c:(.text+0x354): undefined reference to `rpi_firmware_put'
+vc4_drv.c:(.text+0x354): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_put'
 
-This removes the need to use a found variable and simply checking if
-the variable was set, can determine if the break/goto was hit.
+Make DRM_VC4 depends on RASPBERRYPI_FIRMWARE to fix this.
 
-Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/
-Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+Fixes: c406ad5e4a85 ("drm/vc4: Notify the firmware when DRM is in charge")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
 ---
- drivers/video/backlight/backlight.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 4ae6fae94ac2..c05380d7a09e 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -479,19 +479,18 @@ EXPORT_SYMBOL(backlight_device_register);
-  */
- struct backlight_device *backlight_device_get_by_type(enum backlight_type type)
- {
--	bool found = false;
--	struct backlight_device *bd;
-+	struct backlight_device *bd = NULL, *iter;
- 
- 	mutex_lock(&backlight_dev_list_mutex);
--	list_for_each_entry(bd, &backlight_dev_list, entry) {
--		if (bd->props.type == type) {
--			found = true;
-+	list_for_each_entry(iter, &backlight_dev_list, entry) {
-+		if (iter->props.type == type) {
-+			bd = iter;
- 			break;
- 		}
- 	}
- 	mutex_unlock(&backlight_dev_list_mutex);
- 
--	return found ? bd : NULL;
-+	return bd;
- }
- EXPORT_SYMBOL(backlight_device_get_by_type);
- 
-
-base-commit: f443e374ae131c168a065ea1748feac6b2e76613
--- 
-2.25.1
+diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+index de3424fed2fc..640907945b5b 100644
+--- a/drivers/gpu/drm/vc4/Kconfig
++++ b/drivers/gpu/drm/vc4/Kconfig
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_VC4
+ 	tristate "Broadcom VC4 Graphics"
+-	depends on ARCH_BCM || ARCH_BCM2835 || COMPILE_TEST
++	depends on ((ARCH_BCM || ARCH_BCM2835) && \
++		    RASPBERRYPI_FIRMWARE) || COMPILE_TEST
+ 	depends on DRM
+ 	depends on SND && SND_SOC
+ 	depends on COMMON_CLK
+--
+2.31.1
 
