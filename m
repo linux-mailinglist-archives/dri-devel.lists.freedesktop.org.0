@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114F64E68F2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 19:57:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C03FB4E6912
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 20:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB6D10E5CE;
-	Thu, 24 Mar 2022 18:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD63110E0F8;
+	Thu, 24 Mar 2022 19:09:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC0C10E5CE;
- Thu, 24 Mar 2022 18:57:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648148265; x=1679684265;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=KAuqPCtJbTMyj3jXLu6C4VXyJQsys0tHs49HFanXIxw=;
- b=mipa1V1k6B4vdgOlI5QTINiImdvXbgf9pEh/+HbnCvfl8mM1IcIBK5fg
- 3Uda0WUoo7GlKKr265dmghvbBYx7hb5DO8gkfMqZMsRaTILN8Ct9mLiwA
- Nva+nsjxAjyi16ZeRX7u8Ajs93knjBHplS5T/qdKcbUnoc1xTmo/f4uBU
- i08F24WnA/nINcY363mjgmhEVB2PiHinZRwNpbf9lIP+Mi6bDk/sV8ZT5
- ujxKBfDRvfBgQacU6imk2+G4mYtshiBKI10DQ7l0APBfjWivIM/+1kju4
- LR1aCyZdYp12/7qb/0eDG2TvGlAvH9VYK2vdrUBGsO0qD7n+sICkog96T g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="245938716"
-X-IronPort-AV: E=Sophos;i="5.90,208,1643702400"; d="scan'208";a="245938716"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 11:57:45 -0700
-X-IronPort-AV: E=Sophos;i="5.90,208,1643702400"; d="scan'208";a="561505920"
-Received: from cnalawad-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.37.131])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 11:57:43 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-Subject: Re: [RFC] drm/i915: Split out intel_vtd_active and run_as_guest to
- own header
-In-Reply-To: <2a91ffe1-71a2-98a0-daa3-23aee0b1c29d@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220322164446.2124983-1-tvrtko.ursulin@linux.intel.com>
- <878rszitmi.fsf@intel.com>
- <0078dd11-c958-7a60-19d1-e32446f0d9da@linux.intel.com>
- <87r16rh8b2.fsf@intel.com>
- <2a91ffe1-71a2-98a0-daa3-23aee0b1c29d@linux.intel.com>
-Date: Thu, 24 Mar 2022 20:57:40 +0200
-Message-ID: <87o81vgouz.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07E710E0F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 19:09:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4F9BEB8250D;
+ Thu, 24 Mar 2022 19:09:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E28C340EE;
+ Thu, 24 Mar 2022 19:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648148947;
+ bh=9Zaw4QnaJObocBpW0+nZUqWqUxkYP++HlVIrKQzxWEU=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=qTe1wJ1MlFK/aCHoeArbL74wovZbNPa7WMUUcq9v1Zeclg5Jsg69dBcVZ3m1b1w6k
+ NuzdGSrVyXXAIQKu8Zqd1BcgjWVsz9qV5ctM4qnngyDZDtbHWVclSyodYFCQiTiauZ
+ jaLyBXJEPn+Y+H9fIhLy1OJQhOkJ9OIBfl+cMJgPcjcSsh468HymuDm8ZeY+2t671j
+ VspVYwvLFeVpWHJ4ybu/UF6mOQf9tCLL4nF/JHpi45vfwuSr0vCfO9SzdGJJ+6Y567
+ q6pEJw+q9aftuAwfta0VIvnxJbF35QckWApSq51AOqZQFnl6LOBA35kiqvUPwfrZeQ
+ fcNnpS67S1njA==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220323085140.ifeclmttkrqo55ru@houat>
+References: <20220225143534.405820-1-maxime@cerno.tech>
+ <20220225143534.405820-7-maxime@cerno.tech>
+ <7720158d-10a7-a17b-73a4-a8615c9c6d5c@collabora.com>
+ <20220323085140.ifeclmttkrqo55ru@houat>
+Subject: Re: [PATCH v7 06/12] clk: Always set the rate on clk_set_range_rate
+From: Stephen Boyd <sboyd@kernel.org>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 24 Mar 2022 12:09:05 -0700
+User-Agent: alot/0.10
+Message-Id: <20220324190907.08E28C340EE@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,62 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> On 24/03/2022 11:57, Jani Nikula wrote:
->> On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>> On 24/03/2022 09:31, Jani Nikula wrote:
->>>> On Tue, 22 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>
->>>>> ...
->>>>>
->>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>> Cc: Jani Nikula <jani.nikula@intel.com>
->>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>>>> ---
->>>>> Typed up how I see it - bash away.
->>>>
->>>> So is intel_vtd_active() so performance critical that it needs to be
->>>> inline?
->>>>
->>>> We're passing struct drm_i915_private * everywhere we can, and it just
->>>> feels silly to use struct drm_device * to avoid the include.
->>>>
->>>> Static inlines considered harmful. :p
->>>
->>> Same as it is ;), and gee, who was it that he said he was just trying to
->>> declutter i915_drv.h.. ;p
->> 
->> Not at the cost of clarity elsewhere!
->
-> To be clear now you oppose intel_vtd_active taking struct device? I 
-> thought you expressed general agreement when I presented the idea in the 
-> previous thread.
->
-> I don't mind hugely to go either way, but I also don't see how taking 
-> struct device makes anything unclear. (I only think 
-> intel_vtd_run_as_guest is really wrong in this story but that's old news.)
->
-> And if I make it take i915 then I would want to name it i915_vtd_active 
-> as well. But then you wouldn't like that.
->
-> Should we just stuff all this into i915_utils for now, as I think Lucas 
-> suggested? Static inline or not, I don't care.
+Quoting Maxime Ripard (2022-03-23 01:51:40)
+> Hi,
+>=20
+>=20
+> The whole point of this patch is to give an opportunity to every driver
+> to change the rate whenever the boundaries have changed, so we very much
+> want to have the option to change it if clk_set_rate() has never been
+> called.
+>=20
+> However, I think the issue is why req_rate would be 0 in the first
+> place?
+>=20
+> req_rate is initialized to what recalc_rate returns:
+> https://elixir.bootlin.com/linux/latest/source/drivers/clk/clk.c#L3607
+>=20
+> So the case where req_rate is 0 shouldn't occur unless you had an
+> explicit clk_set_rate to 0, or if your clock was orphaned at some point.
+>=20
+> Judging from the code, it seems like the latter is the most plausible.
+> Indeed, __clk_core_init() will set req_rate to 0 if the clock is
+> orphaned (just like rate and accuracy), and
+> clk_core_reparent_orphans_nolock will be in charge of updating them when
+> the clock is no longer an orphan.
+>=20
+> However, clk_core_reparent_orphans_nolock() will update rate by calling
+> __clk_recalc_rate and accuracy by calling __clk_recalc_accuracies, but
+> it never sets req_rate.
+>=20
+> I'm not sure if this is the right patch, Stephen will tell, but could
+> you test:
 
-Just general grumpiness.
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-
->
-> Regards,
->
-> Tvrtko
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+It looks correct to me. Would be helpful to have some comment of course
+that we're setting a default req_rate because we want a
+clk_set_rate_range() before clk_set_rate() to work properly when this
+clk is initially an orphan. We should be able to code up a test case for
+that too by registering an orphan and then registering the parent and
+then calling clk_set_rate_range().
