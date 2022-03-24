@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE844E5FC0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 08:53:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5E94E5FCE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 08:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48CBA10E857;
-	Thu, 24 Mar 2022 07:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9566210E88A;
+	Thu, 24 Mar 2022 07:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com
- [203.205.221.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0908010E867
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 07:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1648108388;
- bh=4qRt4CTUnFYdz91fm463A4eMLDDhGfe23h62hXzxysA=;
- h=In-Reply-To:References:From:To:Cc:Subject:Date;
- b=tUHNRt1lMZlXuR8fjknENly3lXZ0VQhtl0SlICeCMNP9g+83T1TVYMe8ybWCVbn6T
- iBcmr5+FYCI8KR9M4vR6DsdQpoY4vpNBRrETlTP5t4TieeCesaevG9m34oz94P/wbY
- SBljOTNC2DaLUhjA64Tf7Bnv9wNNtHCfTUiAs284=
-X-QQ-FEAT: oHWrrGTW1dA7H/rBCZjy5XfNuaD0tECu
-X-QQ-SSF: 00000000000000F000000000000000Z
-X-QQ-XMAILINFO: MDPfhejMR4aIPs8Cf+y1mMj67XUkSWBvQJOfP8jngt07e0MRHVoxpW/lKa1yQt
- 55NE9KviXEVi7x7uXkPfaluN3fFG6NKiWCz4L6cHEUqCzEJBXTBlEYxmmwKEweT8EUwjin5YpiygD
- BPnk2hDjka/tGZrXvqnWm7VM0anLtH9jpRGEmJJ9SudcHOKcH3VUtyyjHIhVMjIqMAWRrATJNWIck
- d4N1Ba2lmAKpV/+6iXDUkz1Z8F4CJPTL9xvqa40Aa4O3o8P6wdveQgvSrAnx8Jfr6HYwSpN7WItf/
- ZFlDv+ik5XbQ2WWnbfzUBp4CbIDTnJWXyKimICZP4Cko7NX3wMIFcP3aQxrL4lM2fbeOxLBkyU+lI
- A/BowrLGj0CtWL40UqtdmGXZUM2ekhhpan2R1jI+6c0dJX8IR0HuOTTGXabZPrlSLfwWQ2y+bpmrN
- 0zA+WS58NURFA63d4YkukxaxeVVgdMbZNZZEyTLw8X8ATHL1zBSCZuKJWuGfD3jxJesXI756+G8M2
- qR33NhD1pa0rGsOm954u4ye/ulPy43jabn2oczWRWuNV5h6Cs5LeG/pvU80AKa3XO4h4RtbBGeDYh
- 8BbwP22iwPujkvMXqavamc54TcxKv6i92r64BuTPSfkJrdadYca0VUr9uy4tS9hIpLkWAGNuDrGab
- 4StF5PUi/4duoASWVjgm2O5xoptbX5OrJUFI2LHuEgm0TZAmnlmhxR2HsnS3XLPx5UwqeKoZ+evXU
- 5tQ9fh8MbKMkchmeKzdaCJe/Aa4ot/WkjX89P9rXd12l0VI2pMHv7ps6D5UpkIpXOn+tsr79+u0gt
- z4Kumyl/zggqfkaF7Oga2a3wtWBPTplz/fCfmA8rNj4ZI+9FAcLnwrtRelU7xgqHMf3b6VCu0B9Wt
- 8bxkRpBwyGiXiRJiZ0BNNpPHeXY+zw/N6THPfsKcB1xbnKwZpzoPGtnCADxVeUcHnIgDgnpDVs=
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 111.47.122.156
-In-Reply-To: <tencent_92B89C12C6BF29881C73666E140718054E06@qq.com>
-References: <tencent_92B89C12C6BF29881C73666E140718054E06@qq.com>
-X-QQ-STYLE: 
-X-QQ-mid: webmail813t1648108322t29954
-From: "=?ISO-8859-1?B?WGlhb2tlIFdhbmc=?=" <xkernel.wang@foxmail.com>
-To: "=?ISO-8859-1?B?eGtlcm5lbC53YW5n?=" <xkernel.wang@foxmail.com>
-Subject: Re:[PATCH] drm: mali-dp: check the return value of kzalloc()
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
-Date: Thu, 24 Mar 2022 15:52:02 +0800
-X-Priority: 3
-Message-ID: <tencent_283D88183356EE2B0706054EB8B452C3FF06@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C058310E87A;
+ Thu, 24 Mar 2022 07:59:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 08A711F38D;
+ Thu, 24 Mar 2022 07:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648108739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/49t7WeZD4iv/mpcuL1JkkoQVlR7VSW12oUY/aBHH6c=;
+ b=y2JnhIbB33UtHDxPIVWZXDDK3aCI+q2ueVTu2MJFUqwKffqcm3q4zeq3kyjRgUnWiaY9Ks
+ W/9hdeSg044LJq//aEtelwSlIGm0vcuEP4FmPXmGCAD2pHjribCMLUtmi/9JpvGTfqIeFk
+ 6NRuXO4y92AYetZK6eapa8tAf6rkUNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648108739;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/49t7WeZD4iv/mpcuL1JkkoQVlR7VSW12oUY/aBHH6c=;
+ b=Z6e1y89rRvwWYuLB/NuaBAb1KtzrYUorIbnL5ryWnxNwsWdQfWc5xEqwjCk1UNd6WYyefz
+ NpY31ihMRYAEGSCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B4B8613B98;
+ Thu, 24 Mar 2022 07:58:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GKYKK8IkPGIdCwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Mar 2022 07:58:58 +0000
+Date: Thu, 24 Mar 2022 08:58:52 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <YjwkvPp6UnePy4Q8@linux-uq9g.fritz.box>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,19 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?ISO-8859-1?B?YWlybGllZA==?= <airlied@linux.ie>,
- =?ISO-8859-1?B?bGl2aXUuZHVkYXU=?= <liviu.dudau@arm.com>,
- =?ISO-8859-1?B?bGludXgta2VybmVs?= <linux-kernel@vger.kernel.org>,
- =?ISO-8859-1?B?ZHJpLWRldmVs?= <dri-devel@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGh1LCAyNCBNYXIgMjAyMiAxNDo0MzoxNyArMDgwMCwgeGtlcm5lbC53YW5nQGZveG1haWwu
-Y29tIHdyb3RlOgoKJmd0OyBremFsbG9jKCkgaXMgYSBtZW1vcnkgYWxsb2NhdGlvbiBmdW5j
-dGlvbiB3aGljaCBjYW4gcmV0dXJuIE5VTEwgd2hlbgomZ3Q7IHNvbWUgaW50ZXJuYWwgbWVt
-b3J5IGVycm9ycyBoYXBwZW4uIFNvIGl0IGlzIGJldHRlciB0byBjaGVjayBpdCB0bwomZ3Q7
-IHByZXZlbnQgcG90ZW50aWFsIHdyb25nIG1lbW9yeSBhY2Nlc3MuCgpXaXRoZHJhdyB0aGlz
-LiBUaGUgb3JpZ2luYWwgY29kZSBpcyBhbHNvIGZpbmUgc2luY2UgdGhlcmUgaXMgYSB2YWxp
-ZCBjaGVjawppbnNpZGUgX19kcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfcmVzZXQoKSBi
-dXQgSSBtaXNzZWQgdG8gdHJhY2sgaXQu
+Hi Dave and Daniel,
 
+here's the weekly PR for drm-misc-fixes.
+
+Best regards
+Thomas
+
+drm-misc-fixes-2022-03-24:
+ * drm/panel/ili9341: Fix optional regulator handling
+The following changes since commit 3c3384050d68570f9de0fec9e58824decfefba7a:
+
+  drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HELPERS (2022-03-17 11:07:57 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-03-24
+
+for you to fetch changes up to d14eb80e27795b7b20060f7b151cdfe39722a813:
+
+  drm/panel: ili9341: fix optional regulator handling (2022-03-18 11:08:42 +0100)
+
+----------------------------------------------------------------
+ * drm/panel/ili9341: Fix optional regulator handling
+
+----------------------------------------------------------------
+Daniel Mack (1):
+      drm/panel: ili9341: fix optional regulator handling
+
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
