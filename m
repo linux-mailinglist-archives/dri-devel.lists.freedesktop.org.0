@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261144E69B1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 21:12:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A7A4E69F7
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 21:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D7F10E2E4;
-	Thu, 24 Mar 2022 20:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17AFE10E2E8;
+	Thu, 24 Mar 2022 20:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF2D10E268
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 20:12:07 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-dd9d3e7901so6038730fac.8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:12:07 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE8510E2E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 20:48:29 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ mj15-20020a17090b368f00b001c637aa358eso10538044pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 13:48:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=fm33v815cGyvRnZSik/3qfh/le6zz0KlP6K6B+y0Ujw=;
- b=j7BsnOzcEainxu4qHj53ZoSIQjjCWDVI5dpkX6Y3H7F6bGoLg+zwQ1mH1J+hSY+eBC
- fUnpuDvR1s6e0lQ1cGONY7o0FhHRrOtx65byEMhBahgjGMhkzlr4QtW3ds3UgP7X1ZUC
- bGMQzgtuDRbwkG8eX+c81M6n5aYkFSU2zHGkc=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GG7xcgP8KogrXkBePaXl+4bClRR1k79q93eHVgdUvSk=;
+ b=D3Q8y529PwqyfS5PVX8DwsdCUg0U/LWDSxTMXKN6D0PD01vTbFT6LgGJTZgHaBVYP8
+ uEZrF0KxgnmfRGCjQZ6p3UPGc1YMoV63ECt2oHJSTXejl94bw6Rzu7R+hQrIoiia4rza
+ FiIfuUAlomLatVAKjESElnRw8s3fyDpN9nmCE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=fm33v815cGyvRnZSik/3qfh/le6zz0KlP6K6B+y0Ujw=;
- b=7FfieeYxrjiyF2IHKbEs+5TNQiJ+/oiY0lNmk5YnFUQeIpuuoRWhh/8O0uRl93mFcU
- t20+9nxeozFNntYZEaDjPBTEp6jVJLbhM7ER3HR5M0hmHPB4/k8jFjk1hoSX4KwjAvns
- 7zuV30+8u+PiBsgZxCHoiujOm69P5ioHDqEGsewYdFjRO+wwH1M7eJfcpOLMaKdf482h
- h188E8S3HzD7fCdEdZtWdxwXaEX8L0KICb4K553n4nDT3uEnHdRrDMSwxzTizkFaFAZV
- Y4EXpLMVYe7ET/IEhID5rgBkp3YDQJxU5teGWpp7zCdgE0Pt6az3Yi7siYkl7s/GIBop
- I/lA==
-X-Gm-Message-State: AOAM532VulE0c9K4CwpTZg+HISp1BUwmPtI/LnF54vL07BJletW9T/O2
- TBhtjZ+S+vJcnWUzjxcMsjSPpE2eeEwEPjV1ZXph1Q==
-X-Google-Smtp-Source: ABdhPJzKBovD/XnQBM2VJdM2UICBfRNvK7J2MglCmPB4nXDGNIsSoqA1flcavm/5l9LdPtrW0MWyu1WgO4fQQ3UEHWo=
-X-Received: by 2002:a05:6870:b69c:b0:dd:b74b:4099 with SMTP id
- cy28-20020a056870b69c00b000ddb74b4099mr3107374oab.193.1648152727293; Thu, 24
- Mar 2022 13:12:07 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 24 Mar 2022 15:12:06 -0500
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GG7xcgP8KogrXkBePaXl+4bClRR1k79q93eHVgdUvSk=;
+ b=OtT731NvTDEQjU4+99C0Cv40Ly85lA6AU6M9ltLSJ14/gjS5N+Ukw0S6mvrtRK6NqY
+ wt55h6LDBLeBQZ0Ddmt7NsAn23iA1FKYFxymJVMXGgaOSj3qjyReRh7L7UcxvYvg/K+4
+ /fxXxGWzl0lcQmC5KZvqf+6ywPJblsAtvNuuRVCuuj8l/Unw2AD0lr71ZihcdOnah34y
+ WQQup9R7PoExvH5LdM+NbbW2wvehPtoX3VzJDuxO2zwaP4n58q2oGYzCjbZIGnlmTf3b
+ 7gfxJJDELfbeiZ5ZrGJYcQcWY54W49jrfFqQ41RYlxQjph46TK7ZtqRhugw05UJjzBnk
+ KjEA==
+X-Gm-Message-State: AOAM531ErZP8LnkY+JaiJpUW0PHgbQ79EtEpZFaqt/5UyyohMa4F5Yup
+ r+9vdrCrcNHKJXGtQEBy/nOkzncE+/PnMA==
+X-Google-Smtp-Source: ABdhPJy6Z5zGJlS8f1aZx1sYZGuE4IYgYVKHa+bduhmaJPIor9q/oCOZxzUIkEbIlSy52NtFmexsBQ==
+X-Received: by 2002:a17:902:c40e:b0:154:80a7:95c9 with SMTP id
+ k14-20020a170902c40e00b0015480a795c9mr8184844plk.28.1648154909060; 
+ Thu, 24 Mar 2022 13:48:29 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:690f:642:3ebe:c89d])
+ by smtp.gmail.com with UTF8SMTPSA id
+ nn15-20020a17090b38cf00b001bfceefd8cfsm10249927pjb.48.2022.03.24.13.48.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Mar 2022 13:48:28 -0700 (PDT)
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] panel-edp: drm/panel-edp: Add AUO B133UAN01
+Date: Thu, 24 Mar 2022 13:48:25 -0700
+Message-Id: <20220324134819.v2.1.I816014b6c62da5a33af5021f3cc35cea66552c00@changeid>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
 MIME-Version: 1.0
-In-Reply-To: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
-References: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 24 Mar 2022 15:12:06 -0500
-Message-ID: <CAE-0n519RudiM+BG722M_BKqb=9Qt1rPFH5eYE1=9Lut6H7o4A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display/msm: another fix for the dpu-qcm2290
- example
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Rob Clark <robdclark@gmail.com>, 
- Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,22 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-03-24 04:55:36)
-> Make dpu-qcm2290 example really follow the defined schema:
-> - Drop qcom,mdss compatible. It's only used for MDP5 devices.
-> - Change display controller name to display-controller as specified in
->   the yaml
->
-> Reported-by: Rob Herring <robh@kernel.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU bindings")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+Add support for the AUO B133UAN01 13.3" WUXGA panel.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+---
+
+Changes in v2:
+- autodetect and configure the panel based on the EDID data instead of
+  relying on a compatible string and hardcoded mode settings.
+
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index e15e62f235d8..db4eea1d7f67 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1847,6 +1847,7 @@ static const struct panel_delay delay_100_500_e200 = {
+ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8495, &delay_200_500_e50, "B133UAN01.0"),
+ 
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0786, &delay_200_500_p2e80, "NV116WHM-T01"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d1, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
+-- 
+2.35.1.1021.g381101b075-goog
+
