@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E7C4E64E8
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:17:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CAA4E64FA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 15:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD10210E8CB;
-	Thu, 24 Mar 2022 14:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A2D410E8B8;
+	Thu, 24 Mar 2022 14:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E5410E8C9;
- Thu, 24 Mar 2022 14:17:47 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id dr20so9455915ejc.6;
- Thu, 24 Mar 2022 07:17:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uAr2LmhOnG9njQ3xLzX6xb3TsAHcFF9ng+jWbhHfouU=;
- b=Rx7bw6F2aTfUuibc2EHQdy16IUd4XsjJ7bVb1tF5hl56Wgr7GVmNpCSTse60Yzzqot
- 4wDNA6sbJt+IgMxd/qmKSdYuIiIAis+m+bmW47Y6XUA+O4LQ1z8UesqWiH1TrUWyPaVi
- zVyI/hIi5POsco4lzBZuQVo7x8iOa21K+WaTWrUd14msxVx01pbtqS6WhU2tGXMI6vhV
- dTRkEboqHaE91lTNgayiuKG428PJKxUlgCgOxektDCrwLexma5xiwif4JqJ+0xVn7tDn
- /Xm/6gsAG1J78OgDxSE0a6tQJ8OQyKWD6jd0F5n9+GON2BEIS0/FzYp/eVFbZ1STnDxk
- 2FHQ==
-X-Gm-Message-State: AOAM533V0gP1Jk8HqhIa1YSyoeWmiRbUarpFtge0/sGVVerqg2aysHgj
- mkUIyW79Ywp+PbsaEheEADTKQCnZaJMZ7g==
-X-Google-Smtp-Source: ABdhPJxxIzTIDlCaGLEv2LtBqkMu53tRhx3kR6Bbq/H21Vu7dtcvHnJzVijXpA0abZ88DVONT+kmTQ==
-X-Received: by 2002:a17:907:6d2a:b0:6df:e513:5410 with SMTP id
- sa42-20020a1709076d2a00b006dfe5135410mr5920079ejc.544.1648131465364; 
- Thu, 24 Mar 2022 07:17:45 -0700 (PDT)
-Received: from [192.168.0.157] (xdsl-188-155-201-27.adslplus.ch.
- [188.155.201.27]) by smtp.googlemail.com with ESMTPSA id
- ks20-20020a170906f85400b006e091a0cf8bsm254970ejb.16.2022.03.24.07.17.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 07:17:44 -0700 (PDT)
-Message-ID: <6616ccbe-2836-25f6-97e9-c4b25a0bab62@kernel.org>
-Date: Thu, 24 Mar 2022 15:17:43 +0100
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED1A10E0D3;
+ Thu, 24 Mar 2022 14:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648131571; x=1679667571;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=ThduxQcEHJZKb46KqQQqsMcCHsHJPrv898mD73J2fC8=;
+ b=ljEs0vpttPYdGnYgtQWEPjR18goUkXJ6Fs4/9LorOfTc0Ns9XOMpTYrp
+ Lzaa5gchVnI8GzjTfWd5GqU/aLIh2HIu+GTr71yYU16h15MMjeSiE/GhA
+ oN78tGBqWJC8MIILndwBnMtGchVDRvLC5+Jwnnv95CNStOv+U6tpMOrcT
+ e7TzEOeLrN5s3sTYP08NpiVKM2tgdqQb+WJX0I1l43FEHYUvLhNPuUXzH
+ JmoN+YyLDrOjf9jDicAE4fWgzbQfoAmxrS4fMxBZE6rLhUbSQs6rlA3RR
+ kAJ+s89OcRPYYl7OI1v5ckmitVEcH2me3Z+AYibp++lV6lGPc5tYi/kWP A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258575224"
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="258575224"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 07:19:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; d="scan'208";a="544665036"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 07:19:28 -0700
+Date: Thu, 24 Mar 2022 16:19:24 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: "Chery, Nanley G" <nanley.g.chery@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 15/19] drm/i915/dg2: Add DG2 unified
+ compression
+Message-ID: <Yjx97IKACHS4xGPW@ideak-desk.fi.intel.com>
+References: <20220201104132.3050-1-ramalingam.c@intel.com>
+ <20220201104132.3050-16-ramalingam.c@intel.com>
+ <CAJDL4uKokNLKhx1Yd_gnxyqto+bcg+=efLZFLVxqp-D7aQW0oQ@mail.gmail.com>
+ <326a4099-f7d9-8adf-f371-d8ab0532256e@gmail.com>
+ <fd88996f283648f8b4eca3f3844d6e8d@intel.com>
+ <20220318173943.GA2622954@ideak-desk.fi.intel.com>
+ <75a48ad279d449c399693b73ee50bb97@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] dt-bindings: display/msm: another fix for the dpu-qcm2290
- example
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>
-References: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220324115536.2090818-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75a48ad279d449c399693b73ee50bb97@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Reply-To: imre.deak@intel.com
+Cc: Nanley Chery <nanleychery@gmail.com>,
+ "juhapekka.heikkila@gmail.com" <juhapekka.heikkila@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/03/2022 12:55, Dmitry Baryshkov wrote:
-> Make dpu-qcm2290 example really follow the defined schema:
-> - Drop qcom,mdss compatible. It's only used for MDP5 devices.
-> - Change display controller name to display-controller as specified in
->   the yaml
+On Thu, Mar 24, 2022 at 01:40:37AM +0200, Chery, Nanley G wrote:
+> > [...]
+> > Capturing all the above would you be ok with the following?:
+> > 
+> > Intel color control surfaces (CCS) for DG2 render compression.
+> > 
+> > The main surface is Tile 4 and at plane index 0. The CCS data is stored
+> > outside of the GEM object in a reserved memory area dedicated for the
+> > storage of the CCS data from all GEM objects. The main surface pitch is
+> > required to be a multiple of four Tile 4 widths.
+> > 
+> > 
+> > Intel color control surfaces (CCS) for DG2 media compression.
+> > 
+> > The main surface is Tile 4 and at plane index 0. For semi-planar formats
+> > like NV12, the UV plane is Tile 4 at plane index 1. The CCS data both for
+> > the main and semi-planar UV planes are stored outside of the GEM object
 > 
-> Reported-by: Rob Herring <robh@kernel.org>
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Fixes: 164f69d9d45a ("dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU bindings")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../devicetree/bindings/display/msm/dpu-qcm2290.yaml          | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> This kind of implies that the Y plane is the main surface, but it's not more
+> "main" than the UV plane right? Seems like we should specifically call out the
+> Y plane for clarity. Maybe something like:
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-> index d31483a78eab..6fb7e321f011 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-> @@ -160,7 +160,7 @@ examples:
->      mdss: mdss@5e00000 {
->          #address-cells = <1>;
->          #size-cells = <1>;
-> -        compatible = "qcom,qcm2290-mdss", "qcom,mdss";
-> +        compatible = "qcom,qcm2290-mdss";
+> For semi-planar formats like NV12, the Y and UV planes are Tile 4 and are 
+> located at plane indices 0 and 1, respectively. The CCS for all planes are stored 
+> outside of the GEM object
 
-That's quite unfortunate choice of compatibles. I would assume qcom,mdss
-is a generic fallback compatible but it is used in different way - as a
-specific compatible for MDP v5. The bindings here are for a newer
-device, right?
+Ok, makes sense.
 
-It's already in the bindings, so not much could be fixed now...
+> > in a reserved memory area dedicated for the storage of the CCS data from
+> > all GEM objects. The main surface pitch is required to be a multiple of
+> > four Tile 4 widths.
+> 
+> Looks good to me. Main suggestion I have here is to substitute 
+> "from all GEM objects" with "for all compressible GEM objects".
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+"for all RC/RC_CC/MC CCS compressible GEM objects" would be more
+precise, in case there are other ways to compress data. Either way looks
+ok to me.
 
+> Happy to look at further revisions, but with that change at least,
+> Acked-by: Nanley Chery <nanley.g.chery@intel.com>
 
-Best regards,
-Krzysztof
+Thanks. 
+
+--Imre
