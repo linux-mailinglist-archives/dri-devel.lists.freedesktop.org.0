@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DBB4E6B40
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 00:35:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2574E6B41
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 00:38:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38D4510E1B6;
-	Thu, 24 Mar 2022 23:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C4810E5DF;
+	Thu, 24 Mar 2022 23:38:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0BCD10E1B6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 23:35:50 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id p15so12200088ejc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 16:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0o8oWeOMAEkOTxmLuclyfRnkj3vNYhXxWM1g/i8YYyw=;
- b=PyGnV6IKjC3aOySkg5s9HM2x1RHndWLLDdlwrX01jNIlZJGsrt29r2qugLL1ky7b2X
- rjoJNJF90LPo9254rkevlAXVu0ghfHuHz71lZUnZzYsWYfTyQQKwIRMEMhxdQq+eCpeu
- sa9PF6/EDr92RxDq2nMD/uxEU7ZJdlAGiuRFg2L6eWL1/lgjPi7D69d9yV3PA1uc6q0C
- u3B2coYHb+0WnbqJd0iRw3p0Wrhu54LmW5mRyp5+oFH/9jbzd+k/MoMs0H8vMWOn4ogN
- 3lbUOnJ/Iw4+VHEgYHN0CnZo7lfFofhSxWwB76VvH4yMQEqieTF/pkzeNoHF3vw02o7B
- aOOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0o8oWeOMAEkOTxmLuclyfRnkj3vNYhXxWM1g/i8YYyw=;
- b=2h+61cCYXVf7hsNuWhTetQmHoyuPYV4KD8RGzx5yF7nNG0QPRipFPmfjGKS6B0oGWf
- 8SzPeiAVak8Jm1z+uqEUDzNVdPB5HcKfc2fu9MjiVnfP/InZ5OUVNTrn1tX40T32Zb+X
- HDLAhnQLeskmVR/erk1fzV+Gx1HQpl1E0HYwz4wTvkW/qKGkvr3bZy2dtchrXbcsHGKz
- 1DbuIEeDHaU0pxfjTZxZQ31YdqEGJzE7/mdFEavnCgDWzjw/0akB6coWPbMctmzznxjF
- iZaitxT7Q8GTM3TMugyDU3SQsDgyHFNB7uJ2GPAWqysqIw5iOuTSvrnIM41BUZtfF7Zy
- vWOg==
-X-Gm-Message-State: AOAM5338Dmo/LhyVcwAUX+NqF3vRTE03lew/YflO7Pql9N73Esip+57f
- sm61f1eLE2JNaxP5KlM7njBewXn/jLArJUuFC0Lc7yVM
-X-Google-Smtp-Source: ABdhPJx2XAfqjsmN2+Mv+7/Oc+pDkDeioXPkvZDamVrLp4s9Vxi3/kV4lBnANZ8B6DhawEFcxbUiePZblMhua3prnbE=
-X-Received: by 2002:a17:906:478b:b0:6db:8b6e:d5de with SMTP id
- cw11-20020a170906478b00b006db8b6ed5demr8825286ejc.161.1648164949096; Thu, 24
- Mar 2022 16:35:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <1648163409-18338-1-git-send-email-chunkuang.hu@kernel.org>
-In-Reply-To: <1648163409-18338-1-git-send-email-chunkuang.hu@kernel.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 25 Mar 2022 09:35:37 +1000
-Message-ID: <CAPM=9ty5wwXvtU6W3yZ4Kgk5V3+ZiQFibSGhDXr+a7RxUpOAUA@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm fixes - 20220325
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6630F10E5DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 23:38:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DB0D860B49;
+ Thu, 24 Mar 2022 23:38:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 46039C340EC;
+ Thu, 24 Mar 2022 23:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648165120;
+ bh=mScaLpR8zwsSQHZCdjC3pAla7NlmmDY7f2p4l1ohMS8=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=WyHpfOb6GlEJDpwNGdNAPayYsSdLNPH8GaO16q0Cwpgpw5qKhfeIMHtcPDP+OrXS6
+ ysb0IPbwRyIBrrZmZVhnSxwBRtwXE5JS8rman9hz8v4jLayxWeZPYrqDUZtaOfWE67
+ 1tQSCGpa75OhqNRVSwAZx0kfM+03Qa/q2bsws8To85eZwLTfP6fzn0HbuMkikYr1t1
+ BqWHc22+31RVBwIY8DAAH5wUHkV2ALzdNaGFzek6sGLZDOHIrLa5ytKEKEpUR2SfuS
+ 7V3cdRJRiqpqCwM+5U9vxWByoiG41T1ApH1AlMKc1IE/iHjImtndZVTHbrXgWB03VG
+ 67AQXDnn0zTgg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 32F45E7BB0B; Thu, 24 Mar 2022 23:38:40 +0000 (UTC)
+Subject: Re: [git pull] drm for 5.18-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+References: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2022-03-24
+X-PR-Tracked-Commit-Id: c6e90a1c660874736bd09c1fec6312b4b4c2ff7b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b14ffae378aa1db993e62b01392e70d1e585fb23
+Message-Id: <164816512020.13472.6357726227995995877.pr-tracker-bot@kernel.org>
+Date: Thu, 24 Mar 2022 23:38:40 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,26 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 25 Mar 2022 at 09:09, Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
->
-> Hi, Dave & Daniel:
->
-> This includes:
->
-> 1. Fix dt-binding issue.
->
+The pull request you sent on Thu, 24 Mar 2022 12:30:02 +1000:
 
-This tree is based on a random drm-next tree, which I can't pull.
-Please base it on the latest drm-next tree.
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2022-03-24
 
-I tried cherry-pick these patches over and it failed badly on the last one.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b14ffae378aa1db993e62b01392e70d1e585fb23
 
-Dave.
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
