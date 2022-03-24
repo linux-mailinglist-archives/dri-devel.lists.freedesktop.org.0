@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948774E6836
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 18:58:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0F44E6874
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 19:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6247010E307;
-	Thu, 24 Mar 2022 17:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3351910E204;
+	Thu, 24 Mar 2022 18:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5AD10E193;
- Thu, 24 Mar 2022 17:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648144701; x=1679680701;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mrbgLvlsjdW9rx9HY/2WDm9oF7weTNiBspzAy++1AVA=;
- b=TzTFHEZOy8FoYnN7HPs5eNBpL/c0bgZ38K8K5Fzms63fSVtWRD0YQOu5
- sFTzs5N9tDgDyxeYACb7/FOwXXaIACJQ8FtBmg9Z24x4yUxlAfM+FfPMy
- EKha75HVH9qHXoQdvin2BKXMPiWexH/5k09I8IIPcWxCVJSxhzwe7WwkK c=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Mar 2022 10:58:19 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 10:58:18 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 24 Mar 2022 10:58:18 -0700
-Received: from [10.110.52.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 24 Mar
- 2022 10:58:18 -0700
-Message-ID: <4a23c6a6-737a-c910-588b-8d4827d9560c@quicinc.com>
-Date: Thu, 24 Mar 2022 10:58:17 -0700
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42B710E193
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 18:13:57 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id i11so5616003plr.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 11:13:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HHPqncxkqirx9UajzpUXlOLkpGtduK2UPDvTzwuMyCs=;
+ b=iOtzSX+H9de688dVz/qNPuCWiXSV1D4QI1YkVp7rX5G38Jzz3geU3YB9dCZe/FpLqJ
+ zKEU5m8vdHwXvx+Ns0LzB5WzUJgIHmwybUdgFyB3SM/biVNEYi2xmOUy5x1R3+e5bepU
+ Brk9DElK3dy4e6ZO2mzmOJl3nYzF8D/3yF35M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HHPqncxkqirx9UajzpUXlOLkpGtduK2UPDvTzwuMyCs=;
+ b=kMNBfTyKO24vvSf3+7E4lErpJ2+fZRepe3JBoNIxdeODarI0WY9K4YgMQFErOHYQX2
+ ZZ4AHFUxNZvm+Kxu0VXAkOwE4HOYLFRftmHt3tx0+t5JXjX7ZdJaUW1+JIsOKkCZeeoY
+ fAl9jnv3LxuBfboha9fG8pqmtMcTCy960FXPRDGALDScNCSVc9bHk2Bmjc/RqyQVGMct
+ futVDvHaipHsEUhlkLzV6f5nLu9ZNz8jtFzr3TPb78ItenoDo773RImB1N0eGSD+M3gV
+ uFUKyGN1JTdRG4mytefIX7xiqtPReowiLeLg2buIAFmN1LLUO4SBCVtcztNmWZFvvOBX
+ 3XCQ==
+X-Gm-Message-State: AOAM530lBCG5hHRtPCkI33TCs7BMwodzrxC/SdsuNyGdpKtkdrGq+X9b
+ LH049t34rdBeStdLlTdUbSlB+g==
+X-Google-Smtp-Source: ABdhPJxewwppL8AGwnT6G0Q+WCq1TVWp2U7l0C+hU5Wl0eQUF98UycSVVL480aPn/bAE4kIdTdySnA==
+X-Received: by 2002:a17:90a:9294:b0:1b9:48e9:a030 with SMTP id
+ n20-20020a17090a929400b001b948e9a030mr19671566pjo.200.1648145637432; 
+ Thu, 24 Mar 2022 11:13:57 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:690f:642:3ebe:c89d])
+ by smtp.gmail.com with UTF8SMTPSA id
+ w6-20020a17090a460600b001bf355e964fsm9913554pjg.0.2022.03.24.11.13.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Mar 2022 11:13:57 -0700 (PDT)
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 1/2] dt-bindings: display: simple: Add AUO B133UAN01 panel
+Date: Thu, 24 Mar 2022 11:13:51 -0700
+Message-Id: <20220324111335.1.I1131d63cbefbfa9ff107a284e2e51f880c5bf7c8@changeid>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/mdp5: check the return of kzalloc()
-Content-Language: en-US
-To: <xkernel.wang@foxmail.com>, <robdclark@gmail.com>, <sean@poorly.run>,
- <airlied@linux.ie>, <daniel@ffwll.ch>
-References: <tencent_F71D40EE9851737338A6289EC3A3942EFE09@qq.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <tencent_F71D40EE9851737338A6289EC3A3942EFE09@qq.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +66,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add binding for the AUO B133UAN01 panel. It is 13.3" TFT LCD panel
+with WUXGA (1920x1200) resolution.
 
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+---
 
-On 3/24/2022 1:36 AM, xkernel.wang@foxmail.com wrote:
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
-> 
-> kzalloc() is a memory allocation function which can return NULL when
-> some internal memory errors happen. So it is better to check it to
-> prevent potential wrong memory access.
-> 
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 17 ++++++++++-------
->   1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> index c6b69af..5f914cc 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> @@ -90,15 +90,18 @@ static void mdp5_plane_reset(struct drm_plane *plane)
->   		__drm_atomic_helper_plane_destroy_state(plane->state);
->   
->   	kfree(to_mdp5_plane_state(plane->state));
-> -	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
-> +	plane->state = NULL;
->   
-> -	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
-> -		mdp5_state->base.zpos = STAGE_BASE;
-> -	else
-> -		mdp5_state->base.zpos = STAGE0 + drm_plane_index(plane);
-> -	mdp5_state->base.normalized_zpos = mdp5_state->base.zpos;
-> +	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
-> +	if (mdp5_state) {
-> +		if (plane->type == DRM_PLANE_TYPE_PRIMARY)
-> +			mdp5_state->base.zpos = STAGE_BASE;
-> +		else
-> +			mdp5_state->base.zpos = STAGE0 + drm_plane_index(plane);
-> +		mdp5_state->base.normalized_zpos = mdp5_state->base.zpos;
->   
-> -	__drm_atomic_helper_plane_reset(plane, &mdp5_state->base);
-> +		__drm_atomic_helper_plane_reset(plane, &mdp5_state->base);
-> +	}
->   }
->   
->   static struct drm_plane_state *
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 1eb9dd4f8f58..e5cd45c81d02 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -49,6 +49,8 @@ properties:
+       - auo,b133han05
+         # AU Optronics Corporation 13.3" FHD (1920x1080) color TFT-LCD panel
+       - auo,b133htn01
++        # AU Optronics Corporation 13.3" WUXGA (1920x1200) color TFT-LCD panel
++      - auo,b133uan01
+         # AU Optronics Corporation 13.3" WXGA (1366x768) TFT LCD panel
+       - auo,b133xtn01
+         # AU Optronics Corporation 14.0" FHD (1920x1080) color TFT-LCD panel
+-- 
+2.35.1.1021.g381101b075-goog
+
