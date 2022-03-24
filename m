@@ -1,67 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E9B4E67B3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 18:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 700684E67CD
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 18:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B98A910E8F3;
-	Thu, 24 Mar 2022 17:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8497910E270;
+	Thu, 24 Mar 2022 17:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E7B10E8F3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 17:23:12 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id m30so7633018wrb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 10:23:11 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8193A10E270
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 17:27:32 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id u3so7647746wrg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 10:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cYZtI5Q4vFzkCLOz8tjm1wyp6V9G6VrWCot4dQuA/7g=;
- b=NMHOUkYEtbwLLHwFabHgVxVGdrDcd2Ozms9Xv7p407qzfneIlCCVs1QSSukLAhH9oC
- aYqnuQus8YbcjpS9HNzfrX28+K4S/VbOvb7+paYTQj4L5TkvLvH6QKHBUBXDQDQB3lOL
- NEFcIyW8lhnhpTiqUaxWz23l7MqKhpN6ut51Y=
+ bh=hQpVmaE3VdJwkGDY4HZfxpwaHN9FA4iljlRhUTFsAIM=;
+ b=Skcp19yV6rdDELYfqmP8CUZBh+7t3OuqgwGIxZPtj6R4ciyiS+QXhHS2KDMNB9IrYy
+ lhAUl+EN2nze0RizgkvpRM+I38ILQHErfoWN3CVb1tjsz2e+7+19du3RUrdXwE/qkspn
+ 4No/u00ETHSxquM0AHcVVE1wRaNW2/KFs2xns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=cYZtI5Q4vFzkCLOz8tjm1wyp6V9G6VrWCot4dQuA/7g=;
- b=wzFdq9hnPjCcTf23x84tBsGfeud5Dcx3t3hA4R2e+G4+IKplvL7FwJ7ZgIg8DiwlVQ
- 6EEjSiJGa+xNL1zfV83WmCdZq8kNEElar7KM7fVvmiABqXTVITHqFC0yAyiYQ1s+gxq2
- yNaO1ZSeFe5q4aSRMxbHBAiV9jaD+uUdnmxMDRLuemgLKRLqYoFQBScIxB5CCD9jpI6Q
- FS/wQwSJgwmX7RBIpfigw3iI8/kmsVntDpBbVrYqBzLLZncJW/eRR9IW2Z008DTd7FqL
- q+MueDvPnelT4N7qqemdJPPVZbwLS13+shmwMw7E1A1RikRHABnhJwD9EstcTqjIA88v
- ZZcw==
-X-Gm-Message-State: AOAM5329N2PJHnAa+L9GyMgGWKP4yGNwsZxL55NxEEosyGiG1gNjh2iD
- azIlXLyvJd5m5RAqltjZg4YIPw==
-X-Google-Smtp-Source: ABdhPJy/54Yd6GFdXJxr2uHjIOnCMvWqAmx84nwlufYgCnn46oh6/S8d8QxyoBYB7xug1oIchU/R7w==
-X-Received: by 2002:a05:6000:120a:b0:203:d837:be76 with SMTP id
- e10-20020a056000120a00b00203d837be76mr5436062wrx.511.1648142590308; 
- Thu, 24 Mar 2022 10:23:10 -0700 (PDT)
+ bh=hQpVmaE3VdJwkGDY4HZfxpwaHN9FA4iljlRhUTFsAIM=;
+ b=TlyHO/fF54gzsAlh48VgyJsqQG2LwNJeTwVH/BEdSMKKRkAZlkAXIGLcxJOW3h71C0
+ wqUTOlQEYTypnOmgZWwuOffS01Fz5MhFAROSZojAvf+RUEwQQH/VPfocKbNKRAW4wdq/
+ LEFpxK3RWTDa1q0PrOLEt6kJ3rgHHYVLG17cktgLlbw/G74IObfrCnw4zyYTbiybi4RV
+ mfY+9IFtqRSBs9CFl4jm+hXvgcQQWpwNm3kLtGe6S1ic4FR6eJZ85pmWhwLsn/IfjP9U
+ CSvuDp4IDZ4TTcSs9lUhJHMltnlTJNqnGJuYXFN2thTCB0GmVt0pf7xt/bBs8ctlAPMA
+ sWLw==
+X-Gm-Message-State: AOAM5320YWjCJMNYtopHGUxnri9P1WdfdWXQMA8LSeeAks19pXEQVtBI
+ b2AOaa5iIlUZoiQgSd5LZRsvDA==
+X-Google-Smtp-Source: ABdhPJwybiKKPjJxSLtMOLw1py93KMtKAZudP4yj+LDKTNOeiabVp8cOO7LZmgWTa/AUaBUmkeRZfg==
+X-Received: by 2002:adf:f4ce:0:b0:203:fb72:8709 with SMTP id
+ h14-20020adff4ce000000b00203fb728709mr5663807wrp.28.1648142850780; 
+ Thu, 24 Mar 2022 10:27:30 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- i15-20020adffdcf000000b00203efad1d89sm4566670wrs.9.2022.03.24.10.23.09
+ c8-20020a056000184800b002040e925afasm3940685wri.59.2022.03.24.10.27.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 10:23:09 -0700 (PDT)
-Date: Thu, 24 Mar 2022 18:23:07 +0100
+ Thu, 24 Mar 2022 10:27:29 -0700 (PDT)
+Date: Thu, 24 Mar 2022 18:27:27 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: Parallel modesets and private state objects broken, where to go
- with MST?
-Message-ID: <Yjyo+5GR0MMI8ZSi@phenom.ffwll.local>
-References: <3c8a7bec021ba663cc0a55bdedb7030a555457dd.camel@redhat.com>
- <YjHDg3WTYgMDOzLF@intel.com>
- <9876d8fe5bdf5f942b06378ae973e18513297539.camel@redhat.com>
- <9a4783ac9eee57c29b584e5a9099a3e1667afa42.camel@redhat.com>
- <Yjr1hCEUPu2Bb7Ax@phenom.ffwll.local>
- <caccfb46822702b87947ba0c575db3e3b8e8a4ad.camel@redhat.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/6] drm/ttm: move the LRU into resource handling v4
+Message-ID: <Yjyp/ygjjZiVc5EA@phenom.ffwll.local>
+References: <20220321132601.2161-1-christian.koenig@amd.com>
+ <Yjr31qQyWxaEbkmZ@phenom.ffwll.local>
+ <8b211aca-87ea-faee-c1c8-ab832929fdcf@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <caccfb46822702b87947ba0c575db3e3b8e8a4ad.camel@redhat.com>
+In-Reply-To: <8b211aca-87ea-faee-c1c8-ab832929fdcf@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,404 +71,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ felix.kuehling@amd.com, matthew.william.auld@gmail.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 23, 2022 at 02:34:35PM -0400, Lyude Paul wrote:
-> On Wed, 2022-03-23 at 11:25 +0100, Daniel Vetter wrote:
-> > On Tue, Mar 22, 2022 at 05:37:40PM -0400, Lyude Paul wrote:
-> > > OK so - this has become a bit of a larger rabbit hole. I've been putting
-> > > quite
-> > > a bit of work into this and I think I'm starting to make some progress -
-> > > although on a different aspect of this issue. After talking with danvet
-> > > they
-> > > realized that we're also potentially not handling encoder stealing with
-> > > MST
-> > > correctly - which we need to do in order to know that we're correctly
-> > > pulling
-> > > in every related crtc/connector into the state - along with avoiding
-> > > encoder
-> > > conflicts if something tries to use a GPU's DP encoder in SST mode while
-> > > it's
-> > > driving other displays in MST mode.
-> > > 
-> > > So - it seems this will likely need to be solved first before we can deal
-> > > with
-> > > ensuring that we perform the correct CRTC waits in atomic commits with the
-> > > MST
-> > > helpers. This has been pretty painful to figure out, but I think I'm
-> > > starting
-> > > to make some progress - but I'd really appreciate getting some feedback on
-> > > this approach I've came up with so I maybe can skip having to rewrite it
-> > > later.
-> > > 
-> > > So: to clarify the problem, it boils down to something like this:
-> > > 
-> > > State 1:
-> > >   * DP-1 (hosts MST topology, so is disconnected + no encoder)
-> > >     * MST topology
-> > >       * DP-2 (has display)
-> > >       * DP-3 (has display)
-> > >   (In hardware)
-> > >   * drm_encoder A drives:
-> > >     * DP-2
-> > >     * DP-3
-> > >   (In software)
-> > >   * drm_encoder A unused
-> > >   * Fake MST drm_encoder B -> DP-2
-> > >   * Fake MST drm_encoder C -> DP-3
-> > > 
-> > > Problems:
-> > >   * DP-1 gets disconnected, MST topology disappears
-> > >   * We disable maybe 1 display
-> > >   * DP-1 is disconnected, suddenly replaced with SST display
-> > >   * Driver tries to assign drm_encoder A to new DP-1 display
-> > >   *** Error! drm_encoder A is still driving fake encoders B and C ***
-> > > 
-> > > 
-> > > I'm not sure if the exact above example would actually happen - you
-> > > might need to do some tricks to get it into such a state. But you get
-> > > the general idea - there's missing coverage with how we handle encoder
-> > > conflicts when it comes to encoders that aren't directly handling CRTCs.
-> > > If we can fix this, I think we should be able to reliably figure out
-> > > every CRTC involved in modesets like this - and ensure that nonblocking
-> > > modesets come up with the right CRTC dependencies.
-> > > 
-> > > My current idea for handling this is as follows:
-> > >   * Add the following fields to drm_connector_state:
-> > >     * reserved_encoder → an encoder that is "reserved" by the connector,
-> > >       but is not directly attached to a monitor. Note reserved
-> > >       connectors cannot have CRTCs attached to them. When a connector
-> > >       has no more CRTCs reserved, it should lose it's reserved encoder.
-> > >     * dependent_crtcs → a bitmask of CRTCs that depend on this
-> > >       connector's state, but are not directly attached to it.
-> > >   * Add the following fields to drm_crtc_state:
-> > >     * connector_dependency → a connector whose state this CRTC relies
-> > >       on, but is not directly attached to. This connector must be pulled
-> > >       into the atomic state whenever this CRTC requires a modeset.
-> > > 
-> > > The reason for adding all of these fields to drm_connector_state and
-> > > drm_crtc_state is because I don't think it's possible for us to rely on
-> > > a particular private object being in all atomic states - so we need a
-> > > way for the DRM core to be able to understand these object relationships
-> > > on it's own and reference them from any type of atomic state change so
-> > > that we can pull in dependent CRTCs as needed.
-> > 
-> > Why would tracking the mst private state object not be good enough? In any
-> > of the modesets which touch mst state you'd need to grab the mst state to
-> > change anything anyway (or there's a quite serious driver bug somewhere),
-> > so the private object should always be part of actual modeset changes.
-> > 
-> > Maybe there's some creative ways for drivers to get this wrong, but then I
-> > think it'd be better to think about how to prevent those than work around
-> > it. Since doing an mst modeset without having the mst state handy sounds
-> > rather broken irrespective of nonblocking atomic commit issues.
-> > 
-> > > From there, we'd just:
-> > >   * Add some functions to handle these new fields, something like:
-> > >     * drm_atomic_reserve_crtc_for_connector(crtc, encoder, conn_state)
-> > >     * drm_atomic_release_crtc_from_connector(crtc, conn_state)
-> > >   * Teach the various DRM core functions how to handle these new fields
-> > > 
-> > > Does this seem like I'm on the right track so far? JFYI - I've been busy
-> > > trying to write up some patches for this, but there's definitely a lot
-> > > of code to go through and change.
-> > 
-> > tbh your entire scheme feels like adding commit tracking for private state
-> > objects, except we somehow don't track it on the private state itself, but
-> > instead spread it all around to semi-related existing modeset objects. And
-> > note that wrt the atomic commit machinery, drm_encoder isn't even a
-> > modeset object (it has no state of its own and is fully tracked by the
-> > (crtc, connector) combo). So this all feels very backwards.
-> > 
-> > Plus vc4 shows that there's other cases where tracking on the private
-> > state object is needed, mst wouldn't be the only thing. Your scheme would
-> > not be useful for vc4 at all, only for mst dependency tracking.
-> > 
-> > Also the encoder has the additional fun that there's multiple fake
-> > encoders for a single real mst port, whereas the mst state is an actual
-> > single struct per mst port.
-> > 
-> > Note that drm_crtc_commit is intentionally a stand-alone refcounted thing,
-> > so that it can attached to random other pieces for tracking dependencies,
-> > and we do attache them to various pieces all over already (for connector
-> > and plane switching). Your proposal is inventing a new way to track
-> > cross-crtc dependencies, and I'm confused why that's needed.
-> > 
-> > I guess in all this I don't get in what way your proposal here is better
-> > than just adding dependency tracking to private state structs?
+On Thu, Mar 24, 2022 at 03:25:08PM +0100, Christian K�nig wrote:
+> Am 23.03.22 um 11:35 schrieb Daniel Vetter:
+> > On Mon, Mar 21, 2022 at 02:25:56PM +0100, Christian K�nig wrote:
+> > > [SNIP]
+> > >   EXPORT_SYMBOL(ttm_resource_init);
+> > > @@ -66,15 +172,21 @@ EXPORT_SYMBOL(ttm_resource_init);
+> > >    * @res: the resource to clean up
+> > >    *
+> > >    * Should be used by resource manager backends to clean up the TTM resource
+> > > - * objects before freeing the underlying structure. Counterpart of
+> > > - * &ttm_resource_init
+> > > + * objects before freeing the underlying structure. Makes sure the resource is
+> > > + * removed from the LRU before destruction.
+> > > + * Counterpart of &ttm_resource_init.
+> > ttm_resource_init() or the link wont work correctly. There's a few more
+> > like this. From earlier patches, but please fix.
 > 
+> Hui what? I've just tried it and the current documentation works fine, but
+> when I add the () it doesn't work any more.
+
+&foo is for linking to structs (but struct foo is recommended since it's
+easier on the eyes), foo() is for linking to functions.
+
+So if that doesn't work then something fishy is going on, maybe the
+kerneldoc for ttm_resource_init is using the struct header and not the
+function header?
+
+https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#highlights-and-cross-references
+ 
+> > Also in my earlier review I had a bunch more kerneldoc comments that
+> > arean't addressed here yet:
+> > 
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2FYfAqtI95aewAb10L%40phenom.ffwll.local%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C43a4517eb6bc4ccda10708da0cb8cbd6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637836285385616052%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=%2BqlN6044DRHaXsYub9pCEVKUu5a0Nfod06lOp%2BaXNP0%3D&amp;reserved=0
 > 
-> I wonder if I was misunderstanding the issue you were pointing out then. The
-> reason I ended up trying to add this to the connector structs is because I
-> thought one of the issues that you brought up was the fact that we wouldn't be
-> able to handle encoder conflicts with the MST encoder properly because of the
-> fake encoder - and that issue would cause us not to be able to properly
-> determine which CRTCs we need to block on for commits that try to use the real
-> encoder behind the fake encoder later. I had attempted this because in such a
-> situation, it doesn't seem like we'd be guaranteed that the MST manager would
-> actually be in the state if say - the only thing we're doing is trying to
-> enable an SST display on a connector that previously had an MST topology
-> (which has since been disabled in a non-blocking commit that hasn't finished
-> yet).
+> What comment exactly do you mean? I thought I've addressed everything except
+> for the lockdep checks.
 
-Oh this was all idle musings trying to figure out whether just relying on
-the drm_connector syncing is enough, and realizing that it's not enough by
-far.
+There was a bunch about adding more cross references. The main one is that
+imo struct ttm_lru_bulk_move should link to all the functions you need to
+use this with. I made similar comments in later patches (e.g. for
+set_bulk_move). That struct just seems like the best place to tie this all
+together, and maybe even add a bit of wording why this is a cool idea.
 
-> So I guess I'm not really sure where to go from here then? This whole rabbit
-> hole dive started from me trying to move MST over to using private objects for
-> state tracking as much as possible - which lead to questions on whether or not
-> that would be safe at all with MST because of connectors changing and fake
-> encoders. FWIW The issue that started things was me asking whether we could
-> fill certain information into a private object's state from the context of an
-> atomic commit (since this makes certain aspects of payload table management
-> easier). So I'm really just looking for a way to make these things work, and
-> ensure that we're not doing anything unsafe by using the private state for the
-> topology manager this way.
+I guess you only read the initial review up to the locking comments, since
+that's the stuff we ended up discussing a bit :-)
 
-So what I think we need here is roughly:
-
-- Move the drm_crtc_commit tracking Maxime added to vc4 private state from
-  vc4 to drm atomic helpers. Both the datastructure and the book-keeping
-  handling.
-
-- To make this all easier we might want to allocate the drm_crtc_commit
-  stuff a lot earlier, so that it's available in atomic_check already.
-  Otherwise a lot more hooks are needed. Essentially allocate it as part
-  of crtc state duplication.
-
-- Then in the mst handling, every time you change anything for a sink add
-  the drm_crtc_commit from its connector as a sync point so we order stuff
-  correctly. I'm not sure we have this already.
-
-It is a bit a mess :-(
-
-The other thing I'm pondering is whether we should just give up on
-nonblocking atomic commits, but unfortunately it's not that easy because
-at least in general we do sometimes upgrade page flips to modesets under
-the hood, while lying to userspace. This is done in the self refresh
-helpers, and it might spread.
-
-If we just completely nuke nonblocking modesets then that wouldn't work
-anymore, even though userspace itself does not seem to rely on these.
-
-For details it's probably best to sort them out with Maxime, he's got a
-pile of experience in making this work for at least the specific case of
-vc4.
--Daniel
-
-
+Cheers, Daniel
 
 > 
+> Thanks,
+> Christian.
+> 
 > > 
-> > Cheers, Daniel
+> > With that addressed Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > still holds.
+> > -Daniel
 > > 
-> > > 
-> > > On Wed, 2022-03-16 at 16:28 -0400, Lyude Paul wrote:
-> > > > On Wed, 2022-03-16 at 13:01 +0200, Ville Syrjälä wrote:
-> > > > > On Mon, Mar 14, 2022 at 06:16:36PM -0400, Lyude Paul wrote:
-> > > > > > Hi! First a little bit of background: I've recently been trying to
-> > > > > > get
-> > > > > > rid
-> > > > > > of
-> > > > > > all of the non-atomic payload bandwidth management code in the MST
-> > > > > > helpers
-> > > > > > in
-> > > > > > order to make it easier to implement DSC and fallback link rate
-> > > > > > retraining
-> > > > > > support down the line. Currently bandwidth information is stored in
-> > > > > > two
-> > > > > > places, partially in the MST atomic state and partially in the mst
-> > > > > > manager's
-> > > > > > payload table (which exists outside of the atomic state and has its
-> > > > > > own
-> > > > > > locking). The portions in the atomic state are used to try to
-> > > > > > determine
-> > > > > > if
-> > > > > > a
-> > > > > > given display configuration can fit within the given bandwidth
-> > > > > > limitations
-> > > > > > during the atomic check phase, and are implemented through the use
-> > > > > > of
-> > > > > > private
-> > > > > > state objects.
-> > > > > > 
-> > > > > > My current goal has been to move as much of this as possible over to
-> > > > > > the
-> > > > > > atomic state and entirely get rid of the payload table along with
-> > > > > > it's
-> > > > > > locks.
-> > > > > > My main reason for doing this is that it both decomplicates things
-> > > > > > quite
-> > > > > > a
-> > > > > > bit, and I'm really also hoping that getting rid of that payload
-> > > > > > code
-> > > > > > will
-> > > > > > make it clearer to others how it works - and stop the influx of
-> > > > > > bandaid
-> > > > > > patches (e.g. adding more and more special cases to MST to fix
-> > > > > > poorly
-> > > > > > understood issues being hit in one specific driver and nowhere else)
-> > > > > > that
-> > > > > > I've
-> > > > > > had to spend way more time then I'd like trying to investigate and
-> > > > > > review.
-> > > > > > 
-> > > > > > So, the actual problem: following a conversation with Daniel Vetter
-> > > > > > today
-> > > > > > I've
-> > > > > > gotten the impression that private modesetting objects are basically
-> > > > > > just
-> > > > > > broken with parallel modesets? I'm still wrapping my head around all
-> > > > > > of
-> > > > > > this
-> > > > > > honestly, but from what I've gathered: CRTC atomic infra knows how
-> > > > > > to do
-> > > > > > waits
-> > > > > > in the proper places for when other CRTCs need to be waited on to
-> > > > > > continue
-> > > > > > a
-> > > > > > modeset, but there's no such tracking with private objects. If I
-> > > > > > understand
-> > > > > > this correctly, that means that even if two CRTC modesets require
-> > > > > > pulling
-> > > > > > in
-> > > > > > the same private object state for the MST mgr: we're only provided a
-> > > > > > guarantee
-> > > > > > that the atomic checks pulling in that private object state won't
-> > > > > > concurrently. But when it comes to commits, it doesn't sound like
-> > > > > > there's
-> > > > > > any
-> > > > > > actual tracking for this and as such - two CRTC modesets which have
-> > > > > > both
-> > > > > > pulled in the MST private state object are not prevented from
-> > > > > > running
-> > > > > > concurrently.
-> > > > > > 
-> > > > > > This unfortunately throws an enormous wrench into the MST atomic
-> > > > > > conversion
-> > > > > > I've been working on - as I was under the understanding while
-> > > > > > writing
-> > > > > > the
-> > > > > > code
-> > > > > > for this that all objects in an atomic state are blocked from being
-> > > > > > used
-> > > > > > in
-> > > > > > any new atomic commits (not checks, as parallel checks should be
-> > > > > > fine in
-> > > > > > my
-> > > > > > case) until there's no commits active with said object pulled into
-> > > > > > the
-> > > > > > atomic
-> > > > > > state. I certainly am not aware of any way parallel modesetting
-> > > > > > could
-> > > > > > actually
-> > > > > > be supported on MST, so it's not really a feature we want to deal
-> > > > > > with
-> > > > > > at
-> > > > > > all
-> > > > > > besides stopping it from happening. This also unfortunately means
-> > > > > > that
-> > > > > > the
-> > > > > > current atomic modesetting code we have for MST is potentially
-> > > > > > broken,
-> > > > > > although I assume we've never hit any real world issues with it
-> > > > > > because
-> > > > > > of
-> > > > > > the
-> > > > > > non-atomic locking we currently have for the payload table.
-> > > > > > 
-> > > > > > So, Daniel had mentioned that supposedly you've been dealing with
-> > > > > > similar
-> > > > > > issues with VC4 and might have already made progress on coming up
-> > > > > > with
-> > > > > > ways to
-> > > > > > deal with it. If this is all correct, I'd definitely appreciate
-> > > > > > being
-> > > > > > able
-> > > > > > to
-> > > > > > take a look at your work on this to see how I can help move things
-> > > > > > forward.
-> > > > > > I've got a WIP of my atomic only MST branch as well:
-> > > > > > 
-> > > > > > https://gitlab.freedesktop.org/lyudess/linux/-/commits/wip/mst-atomic-only-v1
-> > > > > > 
-> > > > > > However it's very certainly broken right now (it compiles and I had
-> > > > > > thought it
-> > > > > > worked already, but I realized I totally forgot to come up with a
-> > > > > > way of
-> > > > > > doing
-> > > > > > bookkeeping for VC start slots atomically - which is what led me
-> > > > > > down
-> > > > > > this
-> > > > > > current rabbit hole), but it should at least give a general idea of
-> > > > > > what
-> > > > > > I'm
-> > > > > > trying to do.
-> > > > > > 
-> > > > > > Anyway, let me know what you think.
-> > > > > 
-> > > > > For MST in particular parallel modeset on the same physical link
-> > > > > sounds
-> > > > > pretty crazy to me. Trying to make sure everything happens in the
-> > > > > right
-> > > > > order would not be pleasant. I think a simple solution would be just
-> > > > > to
-> > > > > add all the crtcs on the affected link to the state and call it a day.
-> > > > 
-> > > > JFYI I definitely don't have any kind of plan to try parallel
-> > > > modesetting
-> > > > with
-> > > > MST, I think it'd be near impossible to actually get working correctly
-> > > > for
-> > > > pretty little benefit :). I was just not entirely sure of the work that
-> > > > would
-> > > > be required to get private objects to do the right thing here in
-> > > > parallel
-> > > > modesets (e.g. make sure we wait on all CRTC commits like you
-> > > > mentioned).
-> > > > 
-> > > > Anyway - I looked at the code for this the other day and a solution that
-> > > > seems
-> > > > pretty reasonable for this to me would be to add a hook for DRM private
-> > > > objects which provides drivers a spot to inform the DRM core what
-> > > > drm_crtc_commits need to be waited on before starting a modeset. I
-> > > > should
-> > > > have
-> > > > some patches on the list soon so folks can tell me if what I'm doing
-> > > > looks
-> > > > sensible or not :).
-> > > > 
-> > > > > 
-> > > > > i915 already does that on modern platforms actually because the
-> > > > > hardware architecture kinda needs it. Although we could perhaps
-> > > > > optimize it a bit to skip it in some cases, but not sure the
-> > > > > extra complexity would really be justified.
-> > > > > 
-> > > > > In i915 we also serialize *all* modesets by running them on a
-> > > > > ordered wq (+ explicit flush_workqueue() to serialize non-blocking
-> > > > > vs. blocking modesets). We did semi-accidentally enable parallel
-> > > > > modesets once but I undid that because there was just way too much
-> > > > > pre-existing code that wasn't even considering the possibility of
-> > > > > a parallel modeset, and I didn't really feel like reviewing the
-> > > > > entire codebase to find all of it.
-> > > > > 
-> > > > 
-> > > 
+> > 
+> > >    */
+> > >   void ttm_resource_fini(struct ttm_resource_manager *man,
+> > >   		       struct ttm_resource *res)
+> > >   {
+> > > -	spin_lock(&man->bdev->lru_lock);
+> > > -	man->usage -= res->bo->base.size;
+> > > -	spin_unlock(&man->bdev->lru_lock);
+> > > +	struct ttm_device *bdev = man->bdev;
+> > > +
+> > > +	spin_lock(&bdev->lru_lock);
+> > > +	list_del_init(&res->lru);
+> > > +	if (res->bo && bdev->funcs->del_from_lru_notify)
+> > > +		bdev->funcs->del_from_lru_notify(res->bo);
+> > > +	man->usage -= res->num_pages << PAGE_SHIFT;
+> > > +	spin_unlock(&bdev->lru_lock);
+> > >   }
+> > >   EXPORT_SYMBOL(ttm_resource_fini);
+> > > diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+> > > index c17b2df9178b..3da77fc54552 100644
+> > > --- a/include/drm/ttm/ttm_bo_api.h
+> > > +++ b/include/drm/ttm/ttm_bo_api.h
+> > > @@ -55,8 +55,6 @@ struct ttm_placement;
+> > >   struct ttm_place;
+> > > -struct ttm_lru_bulk_move;
+> > > -
+> > >   /**
+> > >    * enum ttm_bo_type
+> > >    *
+> > > @@ -94,7 +92,6 @@ struct ttm_tt;
+> > >    * @ttm: TTM structure holding system pages.
+> > >    * @evicted: Whether the object was evicted without user-space knowing.
+> > >    * @deleted: True if the object is only a zombie and already deleted.
+> > > - * @lru: List head for the lru list.
+> > >    * @ddestroy: List head for the delayed destroy list.
+> > >    * @swap: List head for swap LRU list.
+> > >    * @moving: Fence set when BO is moving
+> > > @@ -143,7 +140,6 @@ struct ttm_buffer_object {
+> > >   	 * Members protected by the bdev::lru_lock.
+> > >   	 */
+> > > -	struct list_head lru;
+> > >   	struct list_head ddestroy;
+> > >   	/**
+> > > @@ -295,7 +291,6 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
+> > >    * ttm_bo_move_to_lru_tail
+> > >    *
+> > >    * @bo: The buffer object.
+> > > - * @mem: Resource object.
+> > >    * @bulk: optional bulk move structure to remember BO positions
+> > >    *
+> > >    * Move this BO to the tail of all lru lists used to lookup and reserve an
+> > > @@ -303,19 +298,8 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
+> > >    * held, and is used to make a BO less likely to be considered for eviction.
+> > >    */
+> > >   void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
+> > > -			     struct ttm_resource *mem,
+> > >   			     struct ttm_lru_bulk_move *bulk);
+> > > -/**
+> > > - * ttm_bo_bulk_move_lru_tail
+> > > - *
+> > > - * @bulk: bulk move structure
+> > > - *
+> > > - * Bulk move BOs to the LRU tail, only valid to use when driver makes sure that
+> > > - * BO order never changes. Should be called with ttm_global::lru_lock held.
+> > > - */
+> > > -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk);
+> > > -
+> > >   /**
+> > >    * ttm_bo_lock_delayed_workqueue
+> > >    *
+> > > diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> > > index 5f087575194b..6c7352e13708 100644
+> > > --- a/include/drm/ttm/ttm_bo_driver.h
+> > > +++ b/include/drm/ttm/ttm_bo_driver.h
+> > > @@ -45,33 +45,6 @@
+> > >   #include "ttm_tt.h"
+> > >   #include "ttm_pool.h"
+> > > -/**
+> > > - * struct ttm_lru_bulk_move_pos
+> > > - *
+> > > - * @first: first BO in the bulk move range
+> > > - * @last: last BO in the bulk move range
+> > > - *
+> > > - * Positions for a lru bulk move.
+> > > - */
+> > > -struct ttm_lru_bulk_move_pos {
+> > > -	struct ttm_buffer_object *first;
+> > > -	struct ttm_buffer_object *last;
+> > > -};
+> > > -
+> > > -/**
+> > > - * struct ttm_lru_bulk_move
+> > > - *
+> > > - * @tt: first/last lru entry for BOs in the TT domain
+> > > - * @vram: first/last lru entry for BOs in the VRAM domain
+> > > - * @swap: first/last lru entry for BOs on the swap list
+> > > - *
+> > > - * Helper structure for bulk moves on the LRU list.
+> > > - */
+> > > -struct ttm_lru_bulk_move {
+> > > -	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
+> > > -	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
+> > > -};
+> > > -
+> > >   /*
+> > >    * ttm_bo.c
+> > >    */
+> > > @@ -182,7 +155,7 @@ static inline void
+> > >   ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
+> > >   {
+> > >   	spin_lock(&bo->bdev->lru_lock);
+> > > -	ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
+> > > +	ttm_bo_move_to_lru_tail(bo, NULL);
+> > >   	spin_unlock(&bo->bdev->lru_lock);
+> > >   }
+> > > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> > > index 323c14a30c6b..181e82e3d806 100644
+> > > --- a/include/drm/ttm/ttm_resource.h
+> > > +++ b/include/drm/ttm/ttm_resource.h
+> > > @@ -26,10 +26,12 @@
+> > >   #define _TTM_RESOURCE_H_
+> > >   #include <linux/types.h>
+> > > +#include <linux/list.h>
+> > >   #include <linux/mutex.h>
+> > >   #include <linux/atomic.h>
+> > >   #include <linux/dma-buf-map.h>
+> > >   #include <linux/dma-fence.h>
+> > > +
+> > >   #include <drm/drm_print.h>
+> > >   #include <drm/ttm/ttm_caching.h>
+> > >   #include <drm/ttm/ttm_kmap_iter.h>
+> > > @@ -179,6 +181,33 @@ struct ttm_resource {
+> > >   	uint32_t placement;
+> > >   	struct ttm_bus_placement bus;
+> > >   	struct ttm_buffer_object *bo;
+> > > +	struct list_head lru;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct ttm_lru_bulk_move_pos
+> > > + *
+> > > + * @first: first res in the bulk move range
+> > > + * @last: last res in the bulk move range
+> > > + *
+> > > + * Positions for a lru bulk move.
+> > > + */
+> > > +struct ttm_lru_bulk_move_pos {
+> > > +	struct ttm_resource *first;
+> > > +	struct ttm_resource *last;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct ttm_lru_bulk_move
+> > > + *
+> > > + * @tt: first/last lru entry for resources in the TT domain
+> > > + * @vram: first/last lru entry for resources in the VRAM domain
+> > > + *
+> > > + * Helper structure for bulk moves on the LRU list.
+> > > + */
+> > > +struct ttm_lru_bulk_move {
+> > > +	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
+> > > +	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
+> > >   };
+> > >   /**
+> > > @@ -267,6 +296,12 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+> > >   	man->move = NULL;
+> > >   }
+> > > +void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+> > > +void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk);
+> > > +
+> > > +void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
+> > > +				   struct ttm_lru_bulk_move *bulk);
+> > > +
+> > >   void ttm_resource_init(struct ttm_buffer_object *bo,
+> > >                          const struct ttm_place *place,
+> > >                          struct ttm_resource *res);
 > > > -- 
-> > > Cheers,
-> > >  Lyude Paul (she/her)
-> > >  Software Engineer at Red Hat
+> > > 2.25.1
 > > > 
-> > 
-> 
-> -- 
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
 > 
 
 -- 
