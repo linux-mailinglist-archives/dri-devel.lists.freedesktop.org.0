@@ -1,45 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3794E5CDA
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 02:40:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A49B4E5CE5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 02:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3A189D8A;
-	Thu, 24 Mar 2022 01:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A587C10E02E;
+	Thu, 24 Mar 2022 01:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA76189D8A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 01:40:19 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:43856.1204276788
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 27DB610E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 01:48:27 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:53204.1700143801
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id E23441001B4;
- Thu, 24 Mar 2022 09:39:55 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 731511002D6;
+ Thu, 24 Mar 2022 09:48:20 +0800 (CST)
 Received: from  ([114.242.206.180])
  by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
- 0032566250bd47c5a250168a1430eb1a for robh@kernel.org; 
- Thu, 24 Mar 2022 09:40:16 CST
-X-Transaction-ID: 0032566250bd47c5a250168a1430eb1a
+ dda94de79b974e819e1af598c879548f for robh@kernel.org; 
+ Thu, 24 Mar 2022 09:48:26 CST
+X-Transaction-ID: dda94de79b974e819e1af598c879548f
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
-Message-ID: <33766d08-bd88-2234-0f85-5926e4256dfb@189.cn>
-Date: Thu, 24 Mar 2022 09:39:49 +0800
+Message-ID: <ac75aeff-1fca-f46f-1043-8437ef845ff9@189.cn>
+Date: Thu, 24 Mar 2022 09:48:19 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v11 7/7] drm/lsdc: add drm driver for loongson display
+Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
  controller
 Content-Language: en-US
 To: Rob Herring <robh@kernel.org>
 References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-8-15330273260@189.cn>
- <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
+ <20220321162916.1116541-6-15330273260@189.cn>
+ <YjkITWpbnCmhKaX+@robh.at.kernel.org>
+ <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
+ <Yjo3umi9bJ0xb2Gl@robh.at.kernel.org>
+ <199a2869-cd83-d24e-0ad0-25d15d76fc13@189.cn>
+ <YjsamuFslv6qlQMZ@robh.at.kernel.org>
 From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
+In-Reply-To: <YjsamuFslv6qlQMZ@robh.at.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,8 +60,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
  suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
  Roland Scheidegger <sroland@vmware.com>,
@@ -69,478 +72,252 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2022/3/23 04:49, Rob Herring wrote:
-> On Tue, Mar 22, 2022 at 12:29:16AM +0800, Sui Jingfeng wrote:
->> From: suijingfeng <suijingfeng@loongson.cn>
+On 2022/3/23 21:03, Rob Herring wrote:
+> On Wed, Mar 23, 2022 at 11:38:55AM +0800, Sui Jingfeng wrote:
+>> On 2022/3/23 04:55, Rob Herring wrote:
+>>> On Tue, Mar 22, 2022 at 10:33:45AM +0800, Sui Jingfeng wrote:
+>>>> On 2022/3/22 07:20, Rob Herring wrote:
+>>>>> On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
+>>>>>> From: suijingfeng <suijingfeng@loongson.cn>
+>>>>>>
+>>>>> Needs a commit message.
+>>>>>
+>>>>>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>>>>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>>>>> Same person? Don't need both emails.
+>>>> Yes,  suijingfeng@loongson.cn is my company's email. But it can not be used
+>>>> to send patches to dri-devel,
+>>>>
+>>>> when send patches with this email, the patch will not be shown on patch
+>>>> works.
+>>>>
+>>>> Emails  are either blocked or got  rejected  by loongson's mail server.  It
+>>>> can only receive emails
+>>>>
+>>>> from you and other people, but not dri-devel. so have to use my personal
+>>>> email(15330273260@189.cn) to send patches.
+>>>>
+>>>>>> ---
+>>>>>>     .../loongson/loongson,display-controller.yaml | 230 ++++++++++++++++++
+>>>>>>     1 file changed, 230 insertions(+)
+>>>>>>     create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..7be63346289e
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>>>>> @@ -0,0 +1,230 @@
+>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>> +
+>>>>>> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
+>>>>>> +
+>>>>>> +maintainers:
+>>>>>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>> +
+>>>>>> +description: |+
+>>>>>> +
+>>>>>> +  Loongson display controllers are simple which require scanout buffers
+>>>>>> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
+>>>>>> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
+>>>>>> +  with a dedicated video RAM which is 64MB or more, precise size can be
+>>>>>> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
+>>>>>> +  chip.
+>>>>>> +
+>>>>>> +  LSDC has two display pipes, each way has a DVO interface which provide
+>>>>>> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
+>>>>>> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
+>>>>>> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
+>>>>>> +
+>>>>>> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
+>>>>>> +  located at the DC register space. They are used to emulate two way i2c,
+>>>>>> +  One for DVO0, another for DVO1.
+>>>>>> +
+>>>>>> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
+>>>>>> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
+>>>>>> +
+>>>>>> +  LSDC's display pipeline have several components as below description,
+>>>>>> +
+>>>>>> +  The display controller in LS7A1000:
+>>>>>> +     ___________________                                     _________
+>>>>>> +    |            -------|                                   |         |
+>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+>>>>>> +    |  _   _     -------|        ^             ^            |_________|
+>>>>>> +    | | | | |    -------|        |             |
+>>>>>> +    | |_| |_|    | i2c0 <--------+-------------+
+>>>>>> +    |            -------|
+>>>>>> +    |   DC IN LS7A1000  |
+>>>>>> +    |  _   _     -------|
+>>>>>> +    | | | | |    | i2c1 <--------+-------------+
+>>>>>> +    | |_| |_|    -------|        |             |             _________
+>>>>>> +    |            -------|        |             |            |         |
+>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+>>>>>> +    |            -------|                                   |_________|
+>>>>>> +    |___________________|
+>>>>>> +
+>>>>>> +  Simple usage of LS7A1000 with LS3A4000 CPU:
+>>>>>> +
+>>>>>> +    +------+            +-----------------------------------+
+>>>>>> +    | DDR4 |            |  +-------------------+            |
+>>>>>> +    +------+            |  | PCIe Root complex |   LS7A1000 |
+>>>>>> +       || MC0           |  +--++---------++----+            |
+>>>>>> +  +----------+  HT 3.0  |     ||         ||                 |
+>>>>>> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+>>>>>> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+>>>>>> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+>>>>>> +       || MC1           +---------------|--|----------------+
+>>>>>> +    +------+                            |  |
+>>>>>> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+>>>>>> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+>>>>>> +                      +-------+                      +------+
+>>>>>> +
+>>>>>> +  The display controller in LS2K1000/LS2K0500:
+>>>>>> +     ___________________                                     _________
+>>>>>> +    |            -------|                                   |         |
+>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+>>>>>> +    |  _   _     -------|        ^              ^           |_________|
+>>>>>> +    | | | | |           |        |              |
+>>>>>> +    | |_| |_|           |     +------+          |
+>>>>>> +    |                   <---->| i2c0 |<---------+
+>>>>>> +    |   DC IN LS2K1000  |     +------+
+>>>>>> +    |  _   _            |     +------+
+>>>>>> +    | | | | |           <---->| i2c1 |----------+
+>>>>>> +    | |_| |_|           |     +------+          |            _________
+>>>>>> +    |            -------|        |              |           |         |
+>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+>>>>>> +    |            -------|                                   |_________|
+>>>>>> +    |___________________|
+>>>>>> +
+>>>>>> +properties:
+>>>>>> +  $nodename:
+>>>>>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+>>>>>> +
+>>>>>> +  compatible:
+>>>>>> +    oneOf:
+>>>>>> +      - items:
+>>>>>> +          - enum:
+>>>>>> +              - loongson,ls7a1000-dc
+>>>>>> +              - loongson,ls2k1000-dc
+>>>>>> +              - loongson,ls2k0500-dc
+>>>>>> +
+>>>>>> +  reg:
+>>>>>> +    maxItems: 1
+>>>>>> +
+>>>>>> +  interrupts:
+>>>>>> +    maxItems: 1
+>>>>>> +
+>>>>>> +  '#address-cells':
+>>>>>> +    const: 1
+>>>>>> +
+>>>>>> +  '#size-cells':
+>>>>>> +    const: 0
+>>>>>> +
+>>>>>> +  i2c-gpio@0:
+>>>>>> +    description: |
+>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
+>>>>> If you have i2c-gpio, that belongs at the DT top-level, not here.
+>>>>>
+>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
+>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-0. The reg property can be
+>>>>> No, there's a defined i2c-gpio compatible already.
+>>>> This is different from the i2c-gpio already defined under drivers/i2c/busses/i2c-gpio.c,
+>>>> By design, my i2c-gpio is vendor specific properties, lsdc device driver create the i2c
+>>>> adapter at runtime. These are 4 dedicated GPIOs whose control register is located at the
+>>>> LSDC register space, not general purpose GPIOs with separate control register resource.
+>>>> So i think it is the child node of display-controller@6,1, it belongs to LSDC.
+>>>> It seems that put it at the DT top-level break the hierarchy and relationship.
+>>> Okay, I see. Then just 'i2c' for the node names. You need a reference to
+>>> i2c-controller.yaml for these nodes too.
+>>>
+>>> The compatible should not have an index in it.
+>> OK, i will fix this at the next version. thanks.
+>>>>>> +      used to specify a I2c adapter bus number, if you don't specify one
+>>>>>> +      i2c driver core will dynamically assign a bus number. Please specify
+>>>>> Bus numbers are a linux detail not relevant to DT binding.
+>>>>>
+>>>>>> +      it only when its bus number matters. Bus number greater than 6 is safe
+>>>>>> +      because ls7a1000 bridge have 6 hardware I2C controller integrated.
+>>>>>> +
+>>>>>> +  i2c-gpio@1:
+>>>>>> +    description: |
+>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
+>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
+>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-1.
+>>>>>> +
+>>>>>> +  ports:
+>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
+>>>>>> +
+>>>>>> +    properties:
+>>>>>> +      port@0:
+>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
+>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
+>>>>>> +
+>>>>>> +      port@1:
+>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
+>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
+>>>>>> +
+>>>>>> +    required:
+>>>>>> +      - port@0
+>>>>>> +      - port@1
+>>>>>> +
+>>>>>> +required:
+>>>>>> +  - compatible
+>>>>>> +  - reg
+>>>>>> +  - interrupts
+>>>>>> +  - ports
+>>>>>> +
+>>>>>> +additionalProperties: false
+>>>>>> +
+>>>>>> +examples:
+>>>>>> +  - |
+>>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>>>> +    bus {
+>>>>>> +
+>>>>>> +        #address-cells = <3>;
+>>>>>> +        #size-cells = <2>;
+>>>>>> +        #interrupt-cells = <2>;
+>>>>>> +
+>>>>>> +        display-controller@6,1 {
+>>>>>> +            compatible = "loongson,ls7a1000-dc";
+>>>>>> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
+>>>>>> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
+>>>>>> +
+>>>>>> +            #address-cells = <1>;
+>>>>>> +            #size-cells = <0>;
+>>>>>> +
+>>>>>> +            i2c-gpio@0 {
+>>>>>> +                compatible = "lsdc,i2c-gpio-0";
+>>>>>> +                reg = <6>;
+>>> 'reg' needs to be documented with some description of what 6 and 7
+>>> represent. If they are the control register offset, then make the
+>>> address translatable (use 'ranges' and define the size).
+>> By design, the reg property is used to specify a I2c adapter bus number,
+>> if we don't specify one, i2c driver core will dynamically assign a bus number.
+>> then the nr of the i2c adapter will started from 0. I want is start from 6
+>> to avoid potential conflict feature hardware I2C driver.
 >>
->> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
->> bridge chip, the display controller is a PCI device in those chips. It
->> has two display pipes but with only one hardware cursor. Each way has
->> a DVO interface which provide RGB888 signals, vertical & horizontal
->> synchronisations, data enable and the pixel clock. Each CRTC is able to
->> scanout from 1920x1080 resolution at 60Hz, the maxmium resolution is
->> 2048x2048 according to the hardware spec. Loongson display controllers
->> are simple which require scanout buffers to be physically contiguous.
->>
->> For LS7A1000 bridge chip, the DC is equipped with a dedicated video RAM
->> which is typically 64MB or more. In this case, VRAM helper based driver
->> is intend to be used. While LS2K1000 is a SoC, only system memory is
->> available. Therefore CMA helper based driver is intend to be used. It is
->> possible to use VRAM helper based solution by carving out part of system
->> memory as VRAM though.
->>
->> For LS7A1000, there are 4 dedicated GPIOs whose control register is
->> located at the DC register space, They are used to emulate two way i2c.
->> One for DVO0, another for DVO1. LS2K1000 and LS2K0500 SoC don't have such
->> GPIO hardwared, they grab i2c adapter from other module, either general
->> purpose GPIO emulated i2c or hardware i2c adapter.
->>
->>      +------+            +-----------------------------------+
->>      | DDR4 |            |  +-------------------+            |
->>      +------+            |  | PCIe Root complex |   LS7A1000 |
->>         || MC0           |  +--++---------++----+            |
->>    +----------+  HT 3.0  |     ||         ||                 |
->>    | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
->>    |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
->>    +----------+          | +--------+  +-+--+-+    +---------+   +------+
->>         || MC1           +---------------|--|----------------+
->>      +------+                            |  |
->>      | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
->>      +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
->>                        +-------+                      +------+
->>
->> The above picture give a simple usage of LS7A1000, note that the encoder
->> is not necessary adv7125 or tfp410, other candicates can be ch7034b,
->> sil9022, ite66121 and lt8618 etc.
->>
->> v2: Fixup warnings reported by kernel test robot
->>
->> v3: Fix more grammar mistakes in Kconfig reported by Randy Dunlap and give
->>      more details about lsdc.
->>
->> v4:
->>     1) Add dts required and explain why device tree is required.
->>     2) Give more description about lsdc and VRAM helper based driver.
->>     3) Fix warnings reported by kernel test robot.
->>     4) Introduce stride_alignment member into struct lsdc_chip_desc, the
->>        stride alignment is 256 bytes for ls7a1000, ls2k1000 and ls2k0500.
->>
->> v5:
->>     1) Using writel and readl replace writeq and readq, to fix kernel test
->>        robot report build error on other archtecture.
->>     2) Set default fb format to XRGB8888 at crtc reset time.
->>
->> v6:
->>     1) Explain why we are not switch to drm dridge subsystem on ls2k1000.
->>     2) Explain why tiny drm driver is not suitable for us.
->>     3) Give a short description of the trival dirty uppdate implement based
->>        on CMA helper.
->>
->> v7:
->>     1) Remove select I2C_GPIO and I2C_LS2X in Kconfig, it is not ready now
->>     2) Licensing issues are fixed suggested by Krzysztof Kozlowski.
->>     3) Remove lsdc_pixpll_print(), part of it move to debugfs.
->>     4) Set prefer_shadow to true if vram based driver is in using.
->>     5) Replace double blank lines with single line in all files.
->>     6) Verbose cmd line parameter is replaced with drm_dbg()
->>     7) All warnnings reported by ./scripts/checkpatch.pl --strict are fixed
->>     8) Get edid from dtb support is removed as suggested by Maxime Ripard
->>     9) Fix typos and various improvement
->>
->> v8:
->>     1) Drop damage update implement and its command line.
->>     2) Drop DRM_LSDC_VRAM_DRIVER config option as suggested by Maxime.
->>     3) Deduce DC's identification from its compatible property.
->>     4) Drop the board specific dts patch.
->>     5) Add documention about the display controller device node.
->>
->> v9:
->>     1) Fix the warnings reported by checkpatch script and fix typos
->>
->> v10:
->>     1) Pass `make dt_binding_check` validation
->>     2) Fix warnings reported by kernel test robot
->>
->> v11:
->>     1) Convert the driver to use drm bridge and of graph framework.
->>     2) Dump register value support through debugfs.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/Kconfig             |   2 +
->>   drivers/gpu/drm/Makefile            |   1 +
->>   drivers/gpu/drm/lsdc/Kconfig        |  23 ++
->>   drivers/gpu/drm/lsdc/Makefile       |  13 +
->>   drivers/gpu/drm/lsdc/lsdc_crtc.c    | 396 +++++++++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_drv.c     | 547 ++++++++++++++++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_drv.h     | 197 ++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_i2c.c     | 235 ++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_i2c.h     |  42 ++
->>   drivers/gpu/drm/lsdc/lsdc_irq.c     |  58 +++
->>   drivers/gpu/drm/lsdc/lsdc_irq.h     |  18 +
->>   drivers/gpu/drm/lsdc/lsdc_output.c  | 262 +++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_output.h  |  24 ++
->>   drivers/gpu/drm/lsdc/lsdc_pci_drv.c | 328 ++++++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_plane.c   | 470 +++++++++++++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_pll.c     | 574 ++++++++++++++++++++++++++++
->>   drivers/gpu/drm/lsdc/lsdc_pll.h     |  88 +++++
->>   drivers/gpu/drm/lsdc/lsdc_regs.h    | 220 +++++++++++
->>   18 files changed, 3498 insertions(+)
->>   create mode 100644 drivers/gpu/drm/lsdc/Kconfig
->>   create mode 100644 drivers/gpu/drm/lsdc/Makefile
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_crtc.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.h
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.h
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.h
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.h
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pci_drv.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_plane.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.c
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.h
->>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_regs.h
-> [...]
+>> Because LS7A1000 bridge chip have 6 hardware I2C controller integrated,
+>> but its driver is not up-streamed yet. By default these hardware I2C controller's
+>> nr is started from 0.
+> Linux's numbering doesn't belong in DT. So no, you can't use 'reg' in
+> that way.
+Then,  can i use something like lsdc,nr = <6> ?
+>> Even through i2c driver core can dynamically generate a number, i still want it
+>> to be fixed and keep consistent and explicit. That is, i2c6 is for display pipe 0,
+>> i2c7 is for display pipe 1. This follow the convention and flexible enough.
+> You may want that, but that is not how the kernel works. Specific
+> numbers are not guaranteed. I'm sure you've seen this for disks, network
+> interfaces, etc.
 >
->> diff --git a/drivers/gpu/drm/lsdc/lsdc_i2c.c b/drivers/gpu/drm/lsdc/lsdc_i2c.c
->> new file mode 100644
->> index 000000000000..55beed9266fa
->> --- /dev/null
->> +++ b/drivers/gpu/drm/lsdc/lsdc_i2c.c
->> @@ -0,0 +1,235 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * KMS driver for Loongson display controller
-> Not really a useful comment since every file has the same one.
->
->> + * Copyright (C) 2022 Loongson Corporation
->> + */
->> +
->> +/*
->> + * Authors:
->> + *      Sui Jingfeng <suijingfeng@loongson.cn>
->> + */
->> +
->> +#include <linux/i2c.h>
->> +#include <linux/pci.h>
->> +
->> +#include "lsdc_drv.h"
->> +#include "lsdc_regs.h"
->> +#include "lsdc_i2c.h"
->> +
->> +/*
->> + * ls7a_gpio_i2c_set - set the state of a gpio pin indicated by mask
->> + * @mask: gpio pin mask
->> + */
->> +static void ls7a_gpio_i2c_set(struct lsdc_i2c * const li2c, int mask, int state)
->> +{
->> +	unsigned long flags;
->> +	u8 val;
->> +
->> +	spin_lock_irqsave(&li2c->reglock, flags);
-> What are you protecting? Doesn't the caller serialize calls to these
-> functions?
->
->> +
->> +	if (state) {
->> +		val = readb(li2c->dir_reg);
->> +		val |= mask;
->> +		writeb(val, li2c->dir_reg);
->> +	} else {
->> +		val = readb(li2c->dir_reg);
->> +		val &= ~mask;
->> +		writeb(val, li2c->dir_reg);
->> +
->> +		val = readb(li2c->dat_reg);
->> +		if (state)
-> This condition is never true. We're in the 'else' because !state.
->
->> +			val |= mask;
->> +		else
->> +			val &= ~mask;
->> +		writeb(val, li2c->dat_reg);
-> Shouldn't you set the data register low first and then change the
-> direction? Otherwise, you may be driving high for a moment. However, if
-> high is always done by setting the direction as input, why write the
-> data register each time? I'm assuming whatever is written to the dat_reg
-> is maintained regardless of pin state.
->
-When the pin is input, i am not sure value written to it will be preserved.
+> Rob
 
-I'm worry about it get flushed by the external input value.
+2c_bit_add_numbered_bus() will guarantee it for you as long as If no 
+devices have pre-been declared for this bus.
 
-Because the output data register is same with the input data register( 
-offset is  0x1650).
+you can read the comment of 2c_bit_add_numbered_bus() at 
+drivers/i2c/i2c-core-base.c
 
-The hardware designer do not provided a  separation.
-
->> +	}
->> +
->> +	spin_unlock_irqrestore(&li2c->reglock, flags);
->> +}
->> +
->> +/*
->> + * ls7a_gpio_i2c_get - read value back from gpio pin
->> + * @mask: gpio pin mask
->> + */
->> +static int ls7a_gpio_i2c_get(struct lsdc_i2c * const li2c, int mask)
->> +{
->> +	unsigned long flags;
->> +	u8 val;
->> +
->> +	spin_lock_irqsave(&li2c->reglock, flags);
->> +
->> +	/* first set this pin as input */
->> +	val = readb(li2c->dir_reg);
->> +	val |= mask;
->> +	writeb(val, li2c->dir_reg);
->> +
->> +	/* then get level state from this pin */
->> +	val = readb(li2c->dat_reg);
->> +
->> +	spin_unlock_irqrestore(&li2c->reglock, flags);
->> +
->> +	return (val & mask) ? 1 : 0;
->> +}
->> +
->> +/* set the state on the i2c->sda pin */
->> +static void ls7a_i2c_set_sda(void *i2c, int state)
->> +{
->> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
->> +
->> +	return ls7a_gpio_i2c_set(li2c, li2c->sda, state);
->> +}
->> +
->> +/* set the state on the i2c->scl pin */
->> +static void ls7a_i2c_set_scl(void *i2c, int state)
->> +{
->> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
->> +
->> +	return ls7a_gpio_i2c_set(li2c, li2c->scl, state);
->> +}
->> +
->> +/* read the value from the i2c->sda pin */
->> +static int ls7a_i2c_get_sda(void *i2c)
->> +{
->> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
->> +
->> +	return ls7a_gpio_i2c_get(li2c, li2c->sda);
->> +}
->> +
->> +/* read the value from the i2c->scl pin */
->> +static int ls7a_i2c_get_scl(void *i2c)
->> +{
->> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
->> +
->> +	return ls7a_gpio_i2c_get(li2c, li2c->scl);
->> +}
->> +
->> +/*
->> + * mainly for dc in ls7a1000 which have builtin gpio emulated i2c
->> + *
->> + * @index : output channel index, 0 for DVO0, 1 for DVO1
->> + */
->> +struct lsdc_i2c *lsdc_create_i2c_chan(struct device *dev, void *base, unsigned int index)
->> +{
->> +	char compat[32] = {0};
->> +	unsigned int udelay = 5;
->> +	unsigned int timeout = 2200;
->> +	int nr = -1;
->> +	struct i2c_adapter *adapter;
->> +	struct lsdc_i2c *li2c;
->> +	struct device_node *i2c_np;
->> +	int ret;
->> +
->> +	li2c = devm_kzalloc(dev, sizeof(*li2c), GFP_KERNEL);
->> +	if (!li2c)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	li2c->index = index;
->> +	li2c->dev = dev;
->> +
->> +	if (index == 0) {
->> +		li2c->sda = 0x01;
->> +		li2c->scl = 0x02;
->> +	} else if (index == 1) {
->> +		li2c->sda = 0x04;
->> +		li2c->scl = 0x08;
-> Just require this to be in DT rather than having some default.
->
->> +	}
->> +
->> +	spin_lock_init(&li2c->reglock);
->> +
->> +	snprintf(compat, sizeof(compat), "lsdc,i2c-gpio-%d", index);
-> compatible values shouldn't have an index and you shouldn't need a
-> index in DT. You need to iterate over child nodes with matching
-> compatible.
->
->> +	i2c_np = of_find_compatible_node(dev->of_node, NULL, compat);
->> +	if (i2c_np) {
->> +		u32 sda, scl;
->> +
->> +		dev_dbg(dev, "Has %s property in the DT", compat);
->> +
->> +		/*  */
->> +		ret = of_property_read_u32(i2c_np, "sda", &sda);
-> Custom properties need a vendor prefix.
->
->> +		if (ret == 0)
->> +			li2c->sda = 1 << sda;
->> +
->> +		ret = of_property_read_u32(i2c_np, "scl", &scl);
->> +		if (ret == 0)
->> +			li2c->scl = 1 << scl;
->> +
->> +		/* Optional properties which made the driver more flexible */
->> +		of_property_read_u32(i2c_np, "udelay", &udelay);
->> +		of_property_read_u32(i2c_np, "timeout", &timeout);
-> These aren't documented. Do you really need them in DT?
-
-Yes, in very rare case:
-
-When debugging, sometimes one way I2C works, another way I2C not on 
-specific board.
-
-and you want to see what will happen if you change it from 5 to 2.
-
-modify device tree is enough, have to recompile the kernel and driver 
-modules every time.
-
-It is optional through.
-
-Please do not ask me to document such a easy thing,
-DT itself is a documention, human readable,  it already speak for itself.
->> +		of_property_read_u32(i2c_np, "reg", &nr);
->> +	}
->> +
->> +	dev_dbg(dev, "%s: sda=%u, scl=%u, nr=%d, udelay=%u, timeout=%u\n",
->> +		compat, li2c->sda, li2c->scl, nr, udelay, timeout);
->> +
->> +	li2c->reg_base = base;
->> +
->> +	li2c->dir_reg = li2c->reg_base + LS7A_DC_GPIO_DIR_REG;
->> +	li2c->dat_reg = li2c->reg_base + LS7A_DC_GPIO_DAT_REG;
->> +
->> +	li2c->bit.setsda = ls7a_i2c_set_sda;
->> +	li2c->bit.setscl = ls7a_i2c_set_scl;
->> +	li2c->bit.getsda = ls7a_i2c_get_sda;
->> +	li2c->bit.getscl = ls7a_i2c_get_scl;
->> +	li2c->bit.udelay = udelay;
->> +	li2c->bit.timeout = usecs_to_jiffies(timeout);
->> +	li2c->bit.data = li2c;
->> +
->> +	adapter = &li2c->adapter;
->> +	adapter->algo_data = &li2c->bit;
->> +	adapter->owner = THIS_MODULE;
->> +	adapter->class = I2C_CLASS_DDC;
->> +	adapter->dev.parent = dev;
->> +	adapter->nr = nr;
->> +	if (i2c_np) {
->> +		adapter->dev.of_node = i2c_np;
->> +		of_node_put(i2c_np);
->> +	}
->> +
->> +	strscpy(adapter->name, &compat[5], sizeof(adapter->name));
->> +
->> +	i2c_set_adapdata(adapter, li2c);
->> +
->> +	ret = i2c_bit_add_numbered_bus(adapter);
-> Why do you care what the bus number is? You shouldn't need to.
->
->> +	if (ret) {
->> +		if (i2c_np)
->> +			of_node_put(i2c_np);
->> +
->> +		devm_kfree(dev, li2c);
->> +		return ERR_PTR(ret);
->> +	}
->> +
->> +	return li2c;
->> +}
->> +
->> +void lsdc_destroy_i2c(struct drm_device *ddev, struct lsdc_i2c *li2c)
->> +{
->> +	struct i2c_adapter *adapter;
->> +
->> +	if (li2c) {
->> +		adapter = &li2c->adapter;
->> +
->> +		if (adapter && adapter->dev.of_node)
->> +			of_node_put(adapter->dev.of_node);
->> +
->> +		devm_kfree(ddev->dev, li2c);
->> +	}
->> +}
->> +
->> +struct i2c_adapter *lsdc_get_i2c_adapter(struct lsdc_device *ldev,
->> +					 unsigned int index)
->> +{
->> +	const struct lsdc_chip_desc * const descp = ldev->desc;
->> +	struct lsdc_i2c *li2c;
->> +
->> +	if (index >= descp->num_of_crtc) {
->> +		drm_err(ldev->ddev, "I2c adapter is no more than %u, %u\n",
->> +			descp->num_of_crtc, index);
->> +		return NULL;
->> +	}
->> +
->> +	li2c = ldev->li2c[index];
->> +	if (li2c)
->> +		return &li2c->adapter;
->> +
->> +	return NULL;
->> +}
->> diff --git a/drivers/gpu/drm/lsdc/lsdc_i2c.h b/drivers/gpu/drm/lsdc/lsdc_i2c.h
->> new file mode 100644
->> index 000000000000..4ab825143eb4
->> --- /dev/null
->> +++ b/drivers/gpu/drm/lsdc/lsdc_i2c.h
->> @@ -0,0 +1,42 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * KMS driver for Loongson display controller
->> + * Copyright (C) 2022 Loongson Corporation
->> + */
->> +
->> +/*
->> + * Authors:
->> + *      Sui Jingfeng <suijingfeng@loongson.cn>
->> + */
->> +
->> +#ifndef __LSDC_I2C__
->> +#define __LSDC_I2C__
->> +
->> +#include <linux/i2c.h>
->> +#include <linux/i2c-algo-bit.h>
->> +#include <linux/pci.h>
->> +
->> +struct lsdc_i2c {
->> +	struct device *dev;
->> +	struct i2c_adapter adapter;
->> +	struct i2c_algo_bit_data bit;
->> +	/* @reglock: protects concurrent register access */
->> +	spinlock_t reglock;
->> +	void __iomem *reg_base;
->> +	void __iomem *dir_reg;
->> +	void __iomem *dat_reg;
->> +	int index;
->> +	/* pin bit mask */
->> +	u8 sda;
->> +	u8 scl;
->> +};
->> +
->> +void lsdc_destroy_i2c(struct drm_device *ddev, struct lsdc_i2c *li2c);
->> +
->> +struct lsdc_i2c *lsdc_create_i2c_chan(struct device *dev,
->> +				      void *base,
->> +				      unsigned int index);
->> +
->> +struct i2c_adapter *lsdc_get_i2c_adapter(struct lsdc_device *ldev,
->> +					 unsigned int index);
->> +#endif
