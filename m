@@ -2,66 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D66E4E5C29
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 01:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3794E5CDA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Mar 2022 02:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 699A110E358;
-	Thu, 24 Mar 2022 00:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3A189D8A;
+	Thu, 24 Mar 2022 01:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C63E710E358;
- Thu, 24 Mar 2022 00:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648080483; x=1679616483;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=ScW1KifLvIg/rGF7pWVloW5MzZ/vex/fcHB4I2H74jk=;
- b=EQnt78YyV39GVUglTjrxya/tzt8fwKxKm8NCNnYLpr0HDyN1vWp0UhGM
- uIO8XwF6UP7X6B3wYXnNpEdQoWpQqhtHku2BH4JTl7r5gdtN6K0mOKAB7
- GG/o/TUtcqxm5O5KnlsT8aVt33DYyH4/MgQSYz1Twn1xKDsznKtkf5jt7
- d5ToW02CY+A0u+WFo4igCoNQt2KYn4vOTsQiydAwB77osIZ29ZXg//6R6
- opfA5abGktAa6PLUr9rXLabd7KacbckxWj9WZa6+Wq+nvkjJdTGhG0W7P
- CI+zUZC4AbN0OX5ANRmk6L34KUGhR2c2VGQffaRxymgtPCI/iMVEOLb9f g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="257965366"
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
- d="scan'208,217";a="257965366"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 17:08:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
- d="scan'208,217";a="785978024"
-Received: from irsmsx606.ger.corp.intel.com ([163.33.146.139])
- by fmsmga006.fm.intel.com with ESMTP; 23 Mar 2022 17:08:01 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- IRSMSX606.ger.corp.intel.com (163.33.146.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 24 Mar 2022 00:07:59 +0000
-Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
- fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.2308.021;
- Wed, 23 Mar 2022 17:07:58 -0700
-From: "Chery, Nanley G" <nanley.g.chery@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, "C, Ramalingam"
- <ramalingam.c@intel.com>
-Subject: RE: [Intel-gfx] [PATCH v5 13/19] drm/i915: Introduce new Tile 4 format
-Thread-Topic: RE: [Intel-gfx] [PATCH v5 13/19] drm/i915: Introduce new Tile 4
- format
-Thread-Index: Adg/EpoKBUHSMXe8SgOFLlDUEvgGMw==
-Date: Thu, 24 Mar 2022 00:07:58 +0000
-Message-ID: <d3bcbbb51ff346219fabe4f17fba70d3@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.22.254.132]
-Content-Type: multipart/alternative;
- boundary="_000_d3bcbbb51ff346219fabe4f17fba70d3intelcom_"
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EA76189D8A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Mar 2022 01:40:19 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:43856.1204276788
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id E23441001B4;
+ Thu, 24 Mar 2022 09:39:55 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 0032566250bd47c5a250168a1430eb1a for robh@kernel.org; 
+ Thu, 24 Mar 2022 09:40:16 CST
+X-Transaction-ID: 0032566250bd47c5a250168a1430eb1a
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <33766d08-bd88-2234-0f85-5926e4256dfb@189.cn>
+Date: Thu, 24 Mar 2022 09:39:49 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 7/7] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220321162916.1116541-1-15330273260@189.cn>
+ <20220321162916.1116541-8-15330273260@189.cn>
+ <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,202 +54,493 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Auld, Matthew" <matthew.auld@intel.com>
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_d3bcbbb51ff346219fabe4f17fba70d3intelcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-
-Found an error in this description..
-
-> From: Stanislav Lisovskiy stanislav.lisovskiy@intel.com<mailto:stanislav.=
-lisovskiy@intel.com>
+On 2022/3/23 04:49, Rob Herring wrote:
+> On Tue, Mar 22, 2022 at 12:29:16AM +0800, Sui Jingfeng wrote:
+>> From: suijingfeng <suijingfeng@loongson.cn>
+>>
+>> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
+>> bridge chip, the display controller is a PCI device in those chips. It
+>> has two display pipes but with only one hardware cursor. Each way has
+>> a DVO interface which provide RGB888 signals, vertical & horizontal
+>> synchronisations, data enable and the pixel clock. Each CRTC is able to
+>> scanout from 1920x1080 resolution at 60Hz, the maxmium resolution is
+>> 2048x2048 according to the hardware spec. Loongson display controllers
+>> are simple which require scanout buffers to be physically contiguous.
+>>
+>> For LS7A1000 bridge chip, the DC is equipped with a dedicated video RAM
+>> which is typically 64MB or more. In this case, VRAM helper based driver
+>> is intend to be used. While LS2K1000 is a SoC, only system memory is
+>> available. Therefore CMA helper based driver is intend to be used. It is
+>> possible to use VRAM helper based solution by carving out part of system
+>> memory as VRAM though.
+>>
+>> For LS7A1000, there are 4 dedicated GPIOs whose control register is
+>> located at the DC register space, They are used to emulate two way i2c.
+>> One for DVO0, another for DVO1. LS2K1000 and LS2K0500 SoC don't have such
+>> GPIO hardwared, they grab i2c adapter from other module, either general
+>> purpose GPIO emulated i2c or hardware i2c adapter.
+>>
+>>      +------+            +-----------------------------------+
+>>      | DDR4 |            |  +-------------------+            |
+>>      +------+            |  | PCIe Root complex |   LS7A1000 |
+>>         || MC0           |  +--++---------++----+            |
+>>    +----------+  HT 3.0  |     ||         ||                 |
+>>    | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+>>    |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+>>    +----------+          | +--------+  +-+--+-+    +---------+   +------+
+>>         || MC1           +---------------|--|----------------+
+>>      +------+                            |  |
+>>      | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+>>      +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+>>                        +-------+                      +------+
+>>
+>> The above picture give a simple usage of LS7A1000, note that the encoder
+>> is not necessary adv7125 or tfp410, other candicates can be ch7034b,
+>> sil9022, ite66121 and lt8618 etc.
+>>
+>> v2: Fixup warnings reported by kernel test robot
+>>
+>> v3: Fix more grammar mistakes in Kconfig reported by Randy Dunlap and give
+>>      more details about lsdc.
+>>
+>> v4:
+>>     1) Add dts required and explain why device tree is required.
+>>     2) Give more description about lsdc and VRAM helper based driver.
+>>     3) Fix warnings reported by kernel test robot.
+>>     4) Introduce stride_alignment member into struct lsdc_chip_desc, the
+>>        stride alignment is 256 bytes for ls7a1000, ls2k1000 and ls2k0500.
+>>
+>> v5:
+>>     1) Using writel and readl replace writeq and readq, to fix kernel test
+>>        robot report build error on other archtecture.
+>>     2) Set default fb format to XRGB8888 at crtc reset time.
+>>
+>> v6:
+>>     1) Explain why we are not switch to drm dridge subsystem on ls2k1000.
+>>     2) Explain why tiny drm driver is not suitable for us.
+>>     3) Give a short description of the trival dirty uppdate implement based
+>>        on CMA helper.
+>>
+>> v7:
+>>     1) Remove select I2C_GPIO and I2C_LS2X in Kconfig, it is not ready now
+>>     2) Licensing issues are fixed suggested by Krzysztof Kozlowski.
+>>     3) Remove lsdc_pixpll_print(), part of it move to debugfs.
+>>     4) Set prefer_shadow to true if vram based driver is in using.
+>>     5) Replace double blank lines with single line in all files.
+>>     6) Verbose cmd line parameter is replaced with drm_dbg()
+>>     7) All warnnings reported by ./scripts/checkpatch.pl --strict are fixed
+>>     8) Get edid from dtb support is removed as suggested by Maxime Ripard
+>>     9) Fix typos and various improvement
+>>
+>> v8:
+>>     1) Drop damage update implement and its command line.
+>>     2) Drop DRM_LSDC_VRAM_DRIVER config option as suggested by Maxime.
+>>     3) Deduce DC's identification from its compatible property.
+>>     4) Drop the board specific dts patch.
+>>     5) Add documention about the display controller device node.
+>>
+>> v9:
+>>     1) Fix the warnings reported by checkpatch script and fix typos
+>>
+>> v10:
+>>     1) Pass `make dt_binding_check` validation
+>>     2) Fix warnings reported by kernel test robot
+>>
+>> v11:
+>>     1) Convert the driver to use drm bridge and of graph framework.
+>>     2) Dump register value support through debugfs.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/Kconfig             |   2 +
+>>   drivers/gpu/drm/Makefile            |   1 +
+>>   drivers/gpu/drm/lsdc/Kconfig        |  23 ++
+>>   drivers/gpu/drm/lsdc/Makefile       |  13 +
+>>   drivers/gpu/drm/lsdc/lsdc_crtc.c    | 396 +++++++++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_drv.c     | 547 ++++++++++++++++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_drv.h     | 197 ++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_i2c.c     | 235 ++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_i2c.h     |  42 ++
+>>   drivers/gpu/drm/lsdc/lsdc_irq.c     |  58 +++
+>>   drivers/gpu/drm/lsdc/lsdc_irq.h     |  18 +
+>>   drivers/gpu/drm/lsdc/lsdc_output.c  | 262 +++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_output.h  |  24 ++
+>>   drivers/gpu/drm/lsdc/lsdc_pci_drv.c | 328 ++++++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_plane.c   | 470 +++++++++++++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_pll.c     | 574 ++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/lsdc/lsdc_pll.h     |  88 +++++
+>>   drivers/gpu/drm/lsdc/lsdc_regs.h    | 220 +++++++++++
+>>   18 files changed, 3498 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/lsdc/Kconfig
+>>   create mode 100644 drivers/gpu/drm/lsdc/Makefile
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_crtc.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.h
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.h
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.h
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.h
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pci_drv.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_plane.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.c
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.h
+>>   create mode 100644 drivers/gpu/drm/lsdc/lsdc_regs.h
+> [...]
 >
-> This tiling layout uses 4KB tiles in a row-major layout. It has the same
-> shape as Tile Y at two granularities: 4KB (128B x 32) and 64B (16B x 4). =
-It
-> only differs from Tile Y at the 256B granularity in between. At this
-> granularity, Tile Y has a shape of 16B x 32 rows, but this tiling has a s=
-hape
-> of 64B x 8 rows.
+>> diff --git a/drivers/gpu/drm/lsdc/lsdc_i2c.c b/drivers/gpu/drm/lsdc/lsdc_i2c.c
+>> new file mode 100644
+>> index 000000000000..55beed9266fa
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/lsdc/lsdc_i2c.c
+>> @@ -0,0 +1,235 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * KMS driver for Loongson display controller
+> Not really a useful comment since every file has the same one.
 >
-
-256B should be 512B (same feedback for the modifier description).
-
-Regards,
-Nanley
-
-> Reviewed-by: Imre Deak imre.deak@intel.com<mailto:imre.deak@intel.com>
-> Acked-by: Nanley Chery nanley.g.chery@intel.com<mailto:nanley.g.chery@int=
-el.com>
-> Signed-off-by: Stanislav Lisovskiy stanislav.lisovskiy@intel.com<mailto:s=
-tanislav.lisovskiy@intel.com>
-> ---
->  include/uapi/drm/drm_fourcc.h | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>> + * Copyright (C) 2022 Loongson Corporation
+>> + */
+>> +
+>> +/*
+>> + * Authors:
+>> + *      Sui Jingfeng <suijingfeng@loongson.cn>
+>> + */
+>> +
+>> +#include <linux/i2c.h>
+>> +#include <linux/pci.h>
+>> +
+>> +#include "lsdc_drv.h"
+>> +#include "lsdc_regs.h"
+>> +#include "lsdc_i2c.h"
+>> +
+>> +/*
+>> + * ls7a_gpio_i2c_set - set the state of a gpio pin indicated by mask
+>> + * @mask: gpio pin mask
+>> + */
+>> +static void ls7a_gpio_i2c_set(struct lsdc_i2c * const li2c, int mask, int state)
+>> +{
+>> +	unsigned long flags;
+>> +	u8 val;
+>> +
+>> +	spin_lock_irqsave(&li2c->reglock, flags);
+> What are you protecting? Doesn't the caller serialize calls to these
+> functions?
 >
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
-h
-> index fc0c1454d275..b73fe6797fc3 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -572,6 +572,17 @@ extern "C" {
->   */
->  #define I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC fourcc_mod_code(INTEL, 8=
-)
+>> +
+>> +	if (state) {
+>> +		val = readb(li2c->dir_reg);
+>> +		val |= mask;
+>> +		writeb(val, li2c->dir_reg);
+>> +	} else {
+>> +		val = readb(li2c->dir_reg);
+>> +		val &= ~mask;
+>> +		writeb(val, li2c->dir_reg);
+>> +
+>> +		val = readb(li2c->dat_reg);
+>> +		if (state)
+> This condition is never true. We're in the 'else' because !state.
 >
-> +/*
-> + * Intel Tile 4 layout
-> + *
-> + * This is a tiled layout using 4KB tiles in a row-major layout. It has =
-the same
-> + * shape as Tile Y at two granularities: 4KB (128B x 32) and 64B (16B x =
-4). It
-> + * only differs from Tile Y at the 256B granularity in between. At this
-> + * granularity, Tile Y has a shape of 16B x 32 rows, but this tiling has=
- a shape
-> + * of 64B x 8 rows.
-> + */
-> +#define I915_FORMAT_MOD_4_TILED         fourcc_mod_code(INTEL, 9)
-> +
->  /*
->   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
->   *
+>> +			val |= mask;
+>> +		else
+>> +			val &= ~mask;
+>> +		writeb(val, li2c->dat_reg);
+> Shouldn't you set the data register low first and then change the
+> direction? Otherwise, you may be driving high for a moment. However, if
+> high is always done by setting the direction as input, why write the
+> data register each time? I'm assuming whatever is written to the dat_reg
+> is maintained regardless of pin state.
 >
+When the pin is input, i am not sure value written to it will be preserved.
 
---_000_d3bcbbb51ff346219fabe4f17fba70d3intelcom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+I'm worry about it get flushed by the external input value.
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+Because the output data register is same with the input data register( 
+offset is  0x1650).
+
+The hardware designer do not provided a  separation.
+
+>> +	}
+>> +
+>> +	spin_unlock_irqrestore(&li2c->reglock, flags);
+>> +}
+>> +
+>> +/*
+>> + * ls7a_gpio_i2c_get - read value back from gpio pin
+>> + * @mask: gpio pin mask
+>> + */
+>> +static int ls7a_gpio_i2c_get(struct lsdc_i2c * const li2c, int mask)
+>> +{
+>> +	unsigned long flags;
+>> +	u8 val;
+>> +
+>> +	spin_lock_irqsave(&li2c->reglock, flags);
+>> +
+>> +	/* first set this pin as input */
+>> +	val = readb(li2c->dir_reg);
+>> +	val |= mask;
+>> +	writeb(val, li2c->dir_reg);
+>> +
+>> +	/* then get level state from this pin */
+>> +	val = readb(li2c->dat_reg);
+>> +
+>> +	spin_unlock_irqrestore(&li2c->reglock, flags);
+>> +
+>> +	return (val & mask) ? 1 : 0;
+>> +}
+>> +
+>> +/* set the state on the i2c->sda pin */
+>> +static void ls7a_i2c_set_sda(void *i2c, int state)
+>> +{
+>> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
+>> +
+>> +	return ls7a_gpio_i2c_set(li2c, li2c->sda, state);
+>> +}
+>> +
+>> +/* set the state on the i2c->scl pin */
+>> +static void ls7a_i2c_set_scl(void *i2c, int state)
+>> +{
+>> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
+>> +
+>> +	return ls7a_gpio_i2c_set(li2c, li2c->scl, state);
+>> +}
+>> +
+>> +/* read the value from the i2c->sda pin */
+>> +static int ls7a_i2c_get_sda(void *i2c)
+>> +{
+>> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
+>> +
+>> +	return ls7a_gpio_i2c_get(li2c, li2c->sda);
+>> +}
+>> +
+>> +/* read the value from the i2c->scl pin */
+>> +static int ls7a_i2c_get_scl(void *i2c)
+>> +{
+>> +	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
+>> +
+>> +	return ls7a_gpio_i2c_get(li2c, li2c->scl);
+>> +}
+>> +
+>> +/*
+>> + * mainly for dc in ls7a1000 which have builtin gpio emulated i2c
+>> + *
+>> + * @index : output channel index, 0 for DVO0, 1 for DVO1
+>> + */
+>> +struct lsdc_i2c *lsdc_create_i2c_chan(struct device *dev, void *base, unsigned int index)
+>> +{
+>> +	char compat[32] = {0};
+>> +	unsigned int udelay = 5;
+>> +	unsigned int timeout = 2200;
+>> +	int nr = -1;
+>> +	struct i2c_adapter *adapter;
+>> +	struct lsdc_i2c *li2c;
+>> +	struct device_node *i2c_np;
+>> +	int ret;
+>> +
+>> +	li2c = devm_kzalloc(dev, sizeof(*li2c), GFP_KERNEL);
+>> +	if (!li2c)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	li2c->index = index;
+>> +	li2c->dev = dev;
+>> +
+>> +	if (index == 0) {
+>> +		li2c->sda = 0x01;
+>> +		li2c->scl = 0x02;
+>> +	} else if (index == 1) {
+>> +		li2c->sda = 0x04;
+>> +		li2c->scl = 0x08;
+> Just require this to be in DT rather than having some default.
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi all,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Found an error in this description..<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt; From: Stanislav Lisovskiy <a href=3D"mailto:sta=
-nislav.lisovskiy@intel.com">
-stanislav.lisovskiy@intel.com</a><o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; <o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; This tiling layout uses 4KB tiles in a row-majo=
-r layout. It has the same<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; shape as Tile Y at two granularities: 4KB (128B=
- x 32) and 64B (16B x 4). It<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; only differs from Tile Y at the 256B granularit=
-y in between. At this<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; granularity, Tile Y has a shape of 16B x 32 row=
-s, but this tiling has a shape<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; of 64B x 8 rows.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">256B should be 512B (same feedback for the modifier =
-description).<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Regards,<o:p></o:p></p>
-<p class=3D"MsoNormal">Nanley<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt; Reviewed-by: Imre Deak <a href=3D"mailto:imre.d=
-eak@intel.com">
-imre.deak@intel.com</a><o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; Acked-by: Nanley Chery <a href=3D"mailto:nanley=
-.g.chery@intel.com">
-nanley.g.chery@intel.com</a><o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; Signed-off-by: Stanislav Lisovskiy <a href=3D"m=
-ailto:stanislav.lisovskiy@intel.com">
-stanislav.lisovskiy@intel.com</a><o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; ---<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp; include/uapi/drm/drm_fourcc.h | 11 &#43;&=
-#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp; 1 file changed, 11 insertions(&#43;)<o:p>=
-</o:p></p>
-<p class=3D"MsoNormal">&gt; <o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; diff --git a/include/uapi/drm/drm_fourcc.h b/in=
-clude/uapi/drm/drm_fourcc.h<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; index fc0c1454d275..b73fe6797fc3 100644<o:p></o=
-:p></p>
-<p class=3D"MsoNormal">&gt; --- a/include/uapi/drm/drm_fourcc.h<o:p></o:p><=
-/p>
-<p class=3D"MsoNormal">&gt; &#43;&#43;&#43; b/include/uapi/drm/drm_fourcc.h=
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; @@ -572,6 &#43;572,17 @@ extern &quot;C&quot; {=
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp;&nbsp; */<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp; #define I915_FORMAT_MOD_Y_TILED_GEN12_RC_=
-CCS_CC fourcc_mod_code(INTEL, 8)<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp; <o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43;/*<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * Intel Tile 4 layout<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; *<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * This is a tiled layout using 4KB tiles =
-in a row-major layout. It has the same<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * shape as Tile Y at two granularities: 4=
-KB (128B x 32) and 64B (16B x 4). It<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * only differs from Tile Y at the 256B gr=
-anularity in between. At this<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * granularity, Tile Y has a shape of 16B =
-x 32 rows, but this tiling has a shape<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; * of 64B x 8 rows.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43; */<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt; &#43;#define I915_FORMAT_MOD_4_TILED&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fourcc_mod_code(INTEL, 9)<o:p></o:p><=
-/p>
-<p class=3D"MsoNormal">&gt; &#43;<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp; /*<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp;&nbsp; * Tiled, NV12MT, grouped in 64 (pix=
-els) x 32 (lines) -sized macroblocks<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&nbsp;&nbsp; *<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+>> +	}
+>> +
+>> +	spin_lock_init(&li2c->reglock);
+>> +
+>> +	snprintf(compat, sizeof(compat), "lsdc,i2c-gpio-%d", index);
+> compatible values shouldn't have an index and you shouldn't need a
+> index in DT. You need to iterate over child nodes with matching
+> compatible.
+>
+>> +	i2c_np = of_find_compatible_node(dev->of_node, NULL, compat);
+>> +	if (i2c_np) {
+>> +		u32 sda, scl;
+>> +
+>> +		dev_dbg(dev, "Has %s property in the DT", compat);
+>> +
+>> +		/*  */
+>> +		ret = of_property_read_u32(i2c_np, "sda", &sda);
+> Custom properties need a vendor prefix.
+>
+>> +		if (ret == 0)
+>> +			li2c->sda = 1 << sda;
+>> +
+>> +		ret = of_property_read_u32(i2c_np, "scl", &scl);
+>> +		if (ret == 0)
+>> +			li2c->scl = 1 << scl;
+>> +
+>> +		/* Optional properties which made the driver more flexible */
+>> +		of_property_read_u32(i2c_np, "udelay", &udelay);
+>> +		of_property_read_u32(i2c_np, "timeout", &timeout);
+> These aren't documented. Do you really need them in DT?
 
---_000_d3bcbbb51ff346219fabe4f17fba70d3intelcom_--
+Yes, in very rare case:
+
+When debugging, sometimes one way I2C works, another way I2C not on 
+specific board.
+
+and you want to see what will happen if you change it from 5 to 2.
+
+modify device tree is enough, have to recompile the kernel and driver 
+modules every time.
+
+It is optional through.
+
+Please do not ask me to document such a easy thing,
+DT itself is a documention, human readable,  it already speak for itself.
+>> +		of_property_read_u32(i2c_np, "reg", &nr);
+>> +	}
+>> +
+>> +	dev_dbg(dev, "%s: sda=%u, scl=%u, nr=%d, udelay=%u, timeout=%u\n",
+>> +		compat, li2c->sda, li2c->scl, nr, udelay, timeout);
+>> +
+>> +	li2c->reg_base = base;
+>> +
+>> +	li2c->dir_reg = li2c->reg_base + LS7A_DC_GPIO_DIR_REG;
+>> +	li2c->dat_reg = li2c->reg_base + LS7A_DC_GPIO_DAT_REG;
+>> +
+>> +	li2c->bit.setsda = ls7a_i2c_set_sda;
+>> +	li2c->bit.setscl = ls7a_i2c_set_scl;
+>> +	li2c->bit.getsda = ls7a_i2c_get_sda;
+>> +	li2c->bit.getscl = ls7a_i2c_get_scl;
+>> +	li2c->bit.udelay = udelay;
+>> +	li2c->bit.timeout = usecs_to_jiffies(timeout);
+>> +	li2c->bit.data = li2c;
+>> +
+>> +	adapter = &li2c->adapter;
+>> +	adapter->algo_data = &li2c->bit;
+>> +	adapter->owner = THIS_MODULE;
+>> +	adapter->class = I2C_CLASS_DDC;
+>> +	adapter->dev.parent = dev;
+>> +	adapter->nr = nr;
+>> +	if (i2c_np) {
+>> +		adapter->dev.of_node = i2c_np;
+>> +		of_node_put(i2c_np);
+>> +	}
+>> +
+>> +	strscpy(adapter->name, &compat[5], sizeof(adapter->name));
+>> +
+>> +	i2c_set_adapdata(adapter, li2c);
+>> +
+>> +	ret = i2c_bit_add_numbered_bus(adapter);
+> Why do you care what the bus number is? You shouldn't need to.
+>
+>> +	if (ret) {
+>> +		if (i2c_np)
+>> +			of_node_put(i2c_np);
+>> +
+>> +		devm_kfree(dev, li2c);
+>> +		return ERR_PTR(ret);
+>> +	}
+>> +
+>> +	return li2c;
+>> +}
+>> +
+>> +void lsdc_destroy_i2c(struct drm_device *ddev, struct lsdc_i2c *li2c)
+>> +{
+>> +	struct i2c_adapter *adapter;
+>> +
+>> +	if (li2c) {
+>> +		adapter = &li2c->adapter;
+>> +
+>> +		if (adapter && adapter->dev.of_node)
+>> +			of_node_put(adapter->dev.of_node);
+>> +
+>> +		devm_kfree(ddev->dev, li2c);
+>> +	}
+>> +}
+>> +
+>> +struct i2c_adapter *lsdc_get_i2c_adapter(struct lsdc_device *ldev,
+>> +					 unsigned int index)
+>> +{
+>> +	const struct lsdc_chip_desc * const descp = ldev->desc;
+>> +	struct lsdc_i2c *li2c;
+>> +
+>> +	if (index >= descp->num_of_crtc) {
+>> +		drm_err(ldev->ddev, "I2c adapter is no more than %u, %u\n",
+>> +			descp->num_of_crtc, index);
+>> +		return NULL;
+>> +	}
+>> +
+>> +	li2c = ldev->li2c[index];
+>> +	if (li2c)
+>> +		return &li2c->adapter;
+>> +
+>> +	return NULL;
+>> +}
+>> diff --git a/drivers/gpu/drm/lsdc/lsdc_i2c.h b/drivers/gpu/drm/lsdc/lsdc_i2c.h
+>> new file mode 100644
+>> index 000000000000..4ab825143eb4
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/lsdc/lsdc_i2c.h
+>> @@ -0,0 +1,42 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * KMS driver for Loongson display controller
+>> + * Copyright (C) 2022 Loongson Corporation
+>> + */
+>> +
+>> +/*
+>> + * Authors:
+>> + *      Sui Jingfeng <suijingfeng@loongson.cn>
+>> + */
+>> +
+>> +#ifndef __LSDC_I2C__
+>> +#define __LSDC_I2C__
+>> +
+>> +#include <linux/i2c.h>
+>> +#include <linux/i2c-algo-bit.h>
+>> +#include <linux/pci.h>
+>> +
+>> +struct lsdc_i2c {
+>> +	struct device *dev;
+>> +	struct i2c_adapter adapter;
+>> +	struct i2c_algo_bit_data bit;
+>> +	/* @reglock: protects concurrent register access */
+>> +	spinlock_t reglock;
+>> +	void __iomem *reg_base;
+>> +	void __iomem *dir_reg;
+>> +	void __iomem *dat_reg;
+>> +	int index;
+>> +	/* pin bit mask */
+>> +	u8 sda;
+>> +	u8 scl;
+>> +};
+>> +
+>> +void lsdc_destroy_i2c(struct drm_device *ddev, struct lsdc_i2c *li2c);
+>> +
+>> +struct lsdc_i2c *lsdc_create_i2c_chan(struct device *dev,
+>> +				      void *base,
+>> +				      unsigned int index);
+>> +
+>> +struct i2c_adapter *lsdc_get_i2c_adapter(struct lsdc_device *ldev,
+>> +					 unsigned int index);
+>> +#endif
