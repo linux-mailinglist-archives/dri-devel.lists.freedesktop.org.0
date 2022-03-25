@@ -2,122 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392544E754E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 15:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A774E757B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 15:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5A3110E39F;
-	Fri, 25 Mar 2022 14:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4993F10E72A;
+	Fri, 25 Mar 2022 14:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCDFA10E39F;
- Fri, 25 Mar 2022 14:45:42 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC48910E956;
+ Fri, 25 Mar 2022 14:55:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mPF41UO6Vk0ztn6V4GlVsEju3V4Ka1SQpQO2SVuOeWenQnR0/CzCDGD6bShdD8/7X/TwXbQDieHgUXVJQH/mb2O/WZK3PXE792XPdQNgllrCBB2HdFcDqPb9rfIBkLZvtYCiMnptwfSdhgxIJR6nLBl6Mg4kgkeFbtY05vM2odqwR8CXNteDh3NZH1RQbUbHdtaRx94eMSmvtCeEtfAlvi+8Blxwd/VmyYd/WAofKuhBCT2qYCl0N8OTubKRd2bPzBPpj7yQ28gjK15zQ+dwDb9tuX7j8hT+ryFjvtj8MSpCmaSFvMbkKcOYJchsTO3ZEAcIsVTclZRUYXA62hPkfw==
+ b=gxiEMobjHlFr9brkdkIkI8lfpvPI3zCnTfrbnuu+l4X6bHVXFTYIfYICJoKZMksCV/vNZA8l8D7skvVKJXtCN5fI0WUkAzMe89eKgDJIZMDgnwxdCEiYr/pMDxElMjfudAAfj9W2OPCjyH4d4asevuWU8Cij91j9iEk+Y7g7rNSrk9mTVwbMYe1dFFO2xmcY7t2Fft0snLMSUUi5cko6ZyFRVqdk5c4zRFo4KvPgoHM6Cdg9cwbd7eTvwGFxjGHjyfRjjSZLSx8s2yofNq/z/4eBp0xXgSSzwJNk+JbbqFyvza4btis+1mpdIY5BmGsT+MHxhCiPbR7rQ8z34/vxCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=raSjFDf2K0Qc3VqdNqGAGBtk5qYWoEwmkNr102nOk7U=;
- b=ZRx5m78lX1STf/GBUJkRKMkjuvff5PZxyUwhCPWIojbX1wyYSLZnM1h1eNNbsAX7xLdLHWADg0Hro8PKqgbBdYFOmgOZEaXwAQYNvJc4aDBZCcsKpLkVJMO2/9ijg4860lNQvmxb0mT5wQMvE28Q54XiqLSzYju1FONv64zaz7mBSS+VA4Pb8HHhTRTNW6xf7VOxqtMk62/vZov1UTp/xaLePrO3/m8rovx6liSxBlTgXgvhberwnW/E4htpg/g3vvJs8rPHQSAadtqDOoozD+2OOyl+D0kcCtGZq6kHj1ZkPyTBi+FPqH2zBoIAsa9Lavcsg0OZNrMKdFFYzksbrQ==
+ bh=2eis0A2HyhOi4wdZfdW9rexYb7CqzQRvugx+0ef691Y=;
+ b=WqqEdqr4jjAthvbFsmLNiRrmQ2WaAIcD6MvQ2QtjfGWBxAj6XCd/9tWdgvytt+NnRNTf8SD4g56iFm1GVN2XBRX8kfPOnhKLlNSQDtLUeIGDESmaPmaUQ66ENSioU9+qUeSapNk/7cD/DphVQgy0cEWe9bvRXXUVZZDS8YaiH4J66bAHCxf+Bc6aJIUdBJFCpUA4tywg+IJyy4sy+qcGWSw/UaFfsLvimRs0FayrY1tkZVWOcKiyuct/hlOnw6fZiSn0OMOA9NV1bj6P1PiPe7nrEhBth4dENyGttkqgL/p0nopLPVEOANN5Zu1vKQ9rPq9xyOLFrko+IaxXXEcrwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=raSjFDf2K0Qc3VqdNqGAGBtk5qYWoEwmkNr102nOk7U=;
- b=rIXZvgEnPzEpn5vd/oTVEVeEdQhxj8gDeFi55MPMl8KfPm1DKGBnyEfNxfz7w0PqIedm8h+HQ/CcdSgQo+/6oSAVsFVMLkaOgt/RmutafzbH0SCI4TB5srUUvZN4+cxfGAT+DUNzp1HebFS4VuSsD/dNE97atjny4V7WXLgWUDw=
+ bh=2eis0A2HyhOi4wdZfdW9rexYb7CqzQRvugx+0ef691Y=;
+ b=EyBePaV+o7dec1y8BFVXmPrr7n+fBGipSMOd6Vk4HkUc5EwAmDHv2TF6ZZB6Bz4Guq+o564z+2wdgdthfpaRbbAQXrTRmoQ6EQ0cm1dJIsUi4gcjCdo6WdjpQ1bAjJquYpIUWYje11j4jI1wpC17tatWnJbZcMPUgZiXuxcbBjg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by MWHPR12MB1855.namprd12.prod.outlook.com (2603:10b6:300:10e::23) with
+ by DM6PR12MB4218.namprd12.prod.outlook.com (2603:10b6:5:21b::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Fri, 25 Mar
- 2022 14:45:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Fri, 25 Mar
+ 2022 14:55:23 +0000
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::192:5346:4ece:7ca3]) by CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::192:5346:4ece:7ca3%4]) with mapi id 15.20.5102.016; Fri, 25 Mar 2022
- 14:45:38 +0000
-Message-ID: <97823682-77b0-8db9-0ed6-3f86bcc296c2@amd.com>
-Date: Fri, 25 Mar 2022 10:45:33 -0400
+ 14:55:23 +0000
+Message-ID: <da22152b-57e7-5bb4-7330-26edf405bbf8@amd.com>
+Date: Fri, 25 Mar 2022 10:55:19 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/25] drm/amdgpu: Disable ABM when AC mode
+Subject: Re: [PATCH] drm/amd: Re-classify some log messages in commit path
 Content-Language: en-US
-To: Ryan Lin <tsung-hua.lin@amd.com>, sunpeng.li@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, seanpaul@chromium.org,
- bas@basnieuwenhuizen.nl, nicholas.kazlauskas@amd.com, sashal@kernel.org,
- markyacoub@google.com, victorchengchi.lu@amd.com,
- ching-shih.li@amd.corp-partner.google.com, Rodrigo.Siqueira@amd.com,
- ddavenport@chromium.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- leon.li@amd.com
-References: <20220325040515.4073706-1-tsung-hua.lin@amd.com>
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20220325000622.1594343-1-sean@poorly.run>
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220325040515.4073706-1-tsung-hua.lin@amd.com>
+In-Reply-To: <20220325000622.1594343-1-sean@poorly.run>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0055.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2e::24) To CO6PR12MB5427.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT2PR01CA0001.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::6) To CO6PR12MB5427.namprd12.prod.outlook.com
  (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 18d92a50-b7c4-4f7d-bb42-08da0e6e2097
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1855:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB18550002C6AF97AC002B415A8C1A9@MWHPR12MB1855.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 9ea6ee75-aec2-417f-cf55-08da0e6f7d68
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4218:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42189BA2AB9D73B05C250D4D8C1A9@DM6PR12MB4218.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yW22Wz9b8uD3QYg37Md1ze6Ow4+iL93t/IOLIfOm8SMdQe7l0cW6i9yT6o8tnwXraPR+b0i4zKVbVxbLUb/5IgZsyVuGrC0DJa8Ix4aQTIMAYUwklqZKb6arCU4DTv5iAdrr/ADbD1CWH6s7fjmEbk9rOZPrWPxEvOOBIcH99SPmdAuzzBS4IL081dOs8LLq3QnMvMhqph185IllGF8lbXtGpfAXALOXgWE/J2XjMegG4TTKPjFBA9/4cJXKmpOOssfathcLAsskDFxL81vaBshJGqFOiN/F0j3SS9cHQP7kxtwngWTfQU46Ah0bQt8TVpdZDSIDAbVE41VMOa60QMyPtowwQaeWP2Ra93XtjUeBmYf+vwbXu1c6mR+7ITz1m1m+njg1orjqEKKOoYBZL8X5mwtVZ1L1cJr7RPnErfhmBmgqXpiNshWpSOQFi2lxaldJrFpJBolbD50Hz0n1BlDLlHFkEEe5qrb4jMjKw28Tw2uemqbFSEPUBOqbnoGCWuREy2/3RFgYMdrfWzEEzRAigspDiAO2uMR8aEXYSiFVnx9X2lZTk1rzQjD0FsYAUe+ezaIHXdf2DRCgtrDOExTefmlbbBVJBuuqduvQqAWjM4Ve3AE85F52488xHnb9GLH7MamcHFGGwGKAaZAjlc68JTAtJ6Gatob+HvTcf5x4UFJQIkXSwOkg1nR03QpylEB8d5pauOFO6USparnts+GZJ1NSUayWfKNSn6z4SP09S+zyBTvLFokl2J+miYvr
+X-Microsoft-Antispam-Message-Info: caiTCxoUkrgQHK5YASpoKJ0nZaFleo3fg9Q656lQmieYe6Xsm82pJIHlPSBiHu9dKsil0PYWKxKh6Eb310hd9o7v7sHn0GP9vD2gvi8ZNLskvmShVq2hQQoThitvYPsam5Qu2BvIZnzoPC6h8i+ucPP/I5gBjpszVbaE98SUyjS71M9bNbB8irL/G1c/ZTlA6cWnsIPhCpOIFaCAU3HBM48xmAMp2VQlypzFIFsmTJchntDYeOcNBrfOhjV7E/8/ybIqVYIMsbtzlxwKE3exvzBZnWKcj5/wTpxABJ9OZkx+XPG55eX+QEWWXSsC0nFOO3I5n0ACbBBqCOHFzBhkyTLgFzpfHGF/6en2xiBggfIjhLbEtRD+1C21s1zSrc+zxKIqrgWDFdorDD22qizB4F05o/TPme9WMiiYdOhWuuq+t3+UxXDcxNdULuSOUVfgZ/rjf0SzqFJo657CnXjqSTj70BdhOJmewquzgDHjIlyLO5iYyDtPK2yF2xH+bJLwXFrDXiLHtmrwBjnIUNIzGPPmCm6OcQ/tmD6XUjkX/QjAKBjN0oPjeY6UYuU5/rFjvDB4aRmLVU4lRmxYW8gMtScl6/D4qY/Lwfl5odP3kHVStvuFMZT5WUBMaEfHvOmJd0L+N48MQKzF3sGj+S+n9oq0aIhX4aYssq0prw7ZjIUr2pUULQGHopIooDZKor7cM0EeWLB8YqYWIKcRuud7sqdY2xH4/0M07lC3KVjzYBD7ank9DdpaQz33z3ItKurtCqcynfkB4pCi92G4N5GnXHv9DpvLdvScDMz4QG9D6Go=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6636002)(53546011)(921005)(2906002)(6506007)(26005)(31686004)(5660300002)(44832011)(7416002)(8936002)(36756003)(186003)(66476007)(83380400001)(66556008)(66946007)(2616005)(8676002)(966005)(316002)(6486002)(6512007)(86362001)(38100700002)(508600001)(6666004)(31696002)(45980500001)(43740500002);
+ SFS:(13230001)(4636009)(366004)(83380400001)(186003)(6486002)(36756003)(66476007)(66556008)(316002)(31686004)(54906003)(8676002)(4326008)(66946007)(5660300002)(26005)(6666004)(31696002)(86362001)(508600001)(8936002)(2616005)(38100700002)(15650500001)(6512007)(53546011)(6506007)(2906002)(44832011)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ulo3U3dNZStkbzRyc0Zra3VVd0FGZTc3M2xERXZKU2xOclRsYmxmQ05MZDZi?=
- =?utf-8?B?UXRuMTFGbC81Z0pySEdzWThzUzFJZnhpM1ZVL0lKNkM5dmlzNG1YdjJNTHhE?=
- =?utf-8?B?SW1Cb3FoM1JoRzU3alEzVCtzVVVDS0kvKzhtMVBldTN6LzdVdWwxa2JSV3FC?=
- =?utf-8?B?dE9pZHUvbmpJZHVQYkZraFRRRmx2QkhnOFBiS0lQVzg4UFpFdzRIQVRGVTdV?=
- =?utf-8?B?UWZ2YWY3NVI4N1N5WVNJb1U1ZDNKb0ppOW0zSHlVYkVpVm44MXgvZm50M2h4?=
- =?utf-8?B?dHJidFRyTWZtQVEvL0MyVVRJZjhjR0s1dU1SMENka2xGQTNuaTcxN09NZHUy?=
- =?utf-8?B?NnNUN0ZzTlN5Y2cvbzZWTlkyR3RvQ1lqeFhpeTgrRzNQWXdGZUo3aGx5MGl2?=
- =?utf-8?B?VFd2Z2VDTzNNWHBxb3VtdU15NUs4Ry9qUWVRb3pGd1VrWnU3MS80MjgyNWk0?=
- =?utf-8?B?UlMwK05MbGl5TzNycWVlNWtCWXhRRm5ERFU2UGR1WHlIWUxLam40UTloVGY1?=
- =?utf-8?B?OU9KZmpmMWRhMGFCKzd3Rlp6MHhPMGU2M1MrZVBzbHZwUzArSHB4ajNXRHZ5?=
- =?utf-8?B?c3BVYk1SQnd0cHZBSTIzeE83VFl3RTFlKy9wSENNNCsxRzlMb0U5UVFDYmxv?=
- =?utf-8?B?T2k2dnJmUGoySm05ZE5Wb0NzY1YwRUlZL09DMzkxbG51LzJTV2p5dW0wSDdC?=
- =?utf-8?B?U2JBN3E3Ykk1bWRKcFFlbE9MenJtSVo3OElPdlRZd1B0dDRaNE0yZTBXaDFq?=
- =?utf-8?B?N2NPOUF2SUROK2VrY0hlRVA5dTRSbGo5WjdoUVY0REUxNDJvNmtCZnRxNXZM?=
- =?utf-8?B?VjJiVW95aTlDRTgwT2h3N0FRUm1NanV5VVBxSWNFZk1JSjczMXJFWnA4UjBo?=
- =?utf-8?B?eHJVTnJvRXIrTTRNdXRCSEpNRElTVkFtM3BOem5Ia2NLT3pRWHJkSjZudVc1?=
- =?utf-8?B?aFBmY1RoT0w2RklWK0I3Wmg1VkJEUVpyRXVTWS9qbzdySlY4NjYvZm1iNXND?=
- =?utf-8?B?eEdFMDViVWw4TGttaVNQRDRhcTRzSFE5UUZPT2xTV1Q3Um10RTRKbHY1RDl3?=
- =?utf-8?B?aDFiOTRCeDR2aHF1UUtnb1Y5eUF0NjlaYXJ2Y2hIM3IzY2Q4ME5lcXBFRHdt?=
- =?utf-8?B?NEd3aDNUbHhvKyt1TGYzaEU5eXNPOVpsbHZad1ZPVGFKakg1VDlTZ0dIWm5i?=
- =?utf-8?B?Sk5NQWFIcDdDdmtIckY5ZE1YUVdjd0dUS2Q3Uk1vM3NpSUgwTGlxS1Y1dDRB?=
- =?utf-8?B?T2E0R3ZzRHMwdDdWVzBmNVpqY0JURnphMi9TZ0ZHV3pNN0g5MTlZRm1JRFVW?=
- =?utf-8?B?S2tOWnRVWExiYnRNekNkSWF1R2JnaUdhNW1Ya1g5VnhNYytKYUJzb3ltUGRr?=
- =?utf-8?B?N0V6OU9YRVpXWE5hdTltWG4xUk1ZUXVaZXk1OWNFYklBcVpLYWlQUUU3QWhn?=
- =?utf-8?B?b29IMDcxSzl4NzE2VDQrd1BMUkdaY3NpNWg5N0VnODg3MSs5RFNoSHNtU1c0?=
- =?utf-8?B?Z0lJZUh6eTA2WmU5VkVOR2RkYmw0aSt5YzJtcEp1SUw4ZFFCWlJRSG01WHoz?=
- =?utf-8?B?SHE1V1dJRFFYZlF2QVA3KzAwSm5OMnRmbHp1UDkxY3Z6MWFvcTY5a0lBemZt?=
- =?utf-8?B?amgyblQ5ZXM1RUF5UEtmTkZoQ0JUeHVLOFptSk5tZFpFcFk0dmpGZG4zSG4r?=
- =?utf-8?B?M3RYK0RkbVVTWFdjdjJBQUVhTEJkSVlHbjgydU9ZNDJwN0QzNXZKWTNha3hq?=
- =?utf-8?B?aHpnVUJpMTZsZUF1ZUV4LzRKZEVsYXBXdTFWSVExSkRHRVpWNGo4WlFGaGhn?=
- =?utf-8?B?bG5Oc3JBRTZvdkhJR2pma1A2QVpSbVhCR1lDT0tQQTFNNjFEaHUyZjhGbDVF?=
- =?utf-8?B?d3c2UThEcmVBV2ZhZ1hBOXlUOUx5QmdrOCtBTDEyUVRFUDlVdDBaNE5Xd2lj?=
- =?utf-8?Q?XuGWoYAcLAUgJW9UU08+FEfUppDusur7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K21MMnltNkdGZE1wejliK0hacGNSVXp4UWVMNzgxRVVEd2MwUU9KTkxDWUFV?=
+ =?utf-8?B?VksxSFkvNkZvanBFMzFkR3YzTFFZOE9FR2Z3aFMxVzY4b0JnSDMzWUJEN0Jr?=
+ =?utf-8?B?aHErdHRLRUJMUTR2NmpkRDRXRFVwZ2pYSkQyU05rOFJMV0tTcm5GNlpwMXMy?=
+ =?utf-8?B?OGlyMnZPUUJBeGNmQ3BHWjM2ZmJZUjEwdk45Tk80Yi9RTDBNeVIySTVIcUxG?=
+ =?utf-8?B?Q1JZc1ZLTHYzSVgzOXBxZk5NWHdSYlg5eHUwQkNBM2I4WENBVUNJL0R4bEx4?=
+ =?utf-8?B?VnZyeUNibERpWllSQmN2Sk92dHVnSmQxU0tZamhUaEtwZ2NWWllsUG9MVHlF?=
+ =?utf-8?B?cHJrQmRQNDNEUzhpSWRXU1E4UmNwbWlKUVNhVzlpSFpMQjZKb21vYVBEWE1V?=
+ =?utf-8?B?ajlpOUczd0xXNGR0QWtnNHJKL0l3NUJxbEJTczRBT0lQcjg3VmpUWlRIZmVi?=
+ =?utf-8?B?VWlCRU5qZ0tNN3pFUEppOGRSZVNGV1dtd3VTcEpCMStZQU84QVBuYXZKUnc3?=
+ =?utf-8?B?eG1oN1BxemRsaWlKT25wNFpQd2ZaUHdUTlROVThDUGIrOHVGNThxVml5cEg5?=
+ =?utf-8?B?U0lGOTVvSlBmQk1NSENrY0xVL2NlczFXYVArYmIvcWpUYS9sZXFQLzZ4RVdm?=
+ =?utf-8?B?SmVLZUQwV2IwcW1UZ2RaUzVscXFYSjdGd3RRdzl1cTkxNjZ3OWM1T0pGYUJW?=
+ =?utf-8?B?OVpxMmRoMVFHT2ozeGc0Mk5mRFV1Z2ZHMzhxNFFwclNwUTZ6OVZycFU5OTVL?=
+ =?utf-8?B?MVUyNzd6NUliUFYxQmxQNkhyb1M2aXVRbjFPVzM3eDlSMG1lUjFxVmtSelJw?=
+ =?utf-8?B?L3ludkk1c1VsS2NkU1A0MitFSW53ZElCZWlaSW5LTEFaUUJQaS9sWmlTUi9l?=
+ =?utf-8?B?SXFlOXlpQ3RhMStJV2JKZWxWM0hSaWtoQk1xT0lDQ21Yb0RwUW5GeEhieWtu?=
+ =?utf-8?B?ckJYYzZPdUJPbG94dGZYalZYM2ZrbW45a3NyWSsweEpZY0RnbU51RVZlNWpW?=
+ =?utf-8?B?R0lTcU41akR0SThhb0pBd0czQzIrc1E3Ky9sMkZtNmdKZWk2VVBHSUMybFVQ?=
+ =?utf-8?B?a01MdFBUcVZRM3BDMzR3eGthS1B4Y2ZaKytRdHovc2ZIbFlra2NMRW55QldX?=
+ =?utf-8?B?OThpK2Z1QnRpZktMK0lOWTZJaWg3SXdFbHZHblNoQklSMDAwdlpnVk42Rkt1?=
+ =?utf-8?B?NnVpaTgwam5oUm5vNlYzZTNHZHV2ME4vNlYxYjliMTFSUG1XemNoSFAxTnFu?=
+ =?utf-8?B?M25DeHJFbW9sZjhPOE84dlFZT201TVdqUTlXZlFYdHVzN0UrKzB4b05HckFY?=
+ =?utf-8?B?YW41cldPUjYrNzZMU3VjVDFXME9oWXJxcksvV0VCTWNFNXl6QVlpSHpkWXdh?=
+ =?utf-8?B?SG1xSEFhbnhGWVl3RUpiaWdaYmZzUXN6a2hKRHplVTRlUENpMklaZyswMzg1?=
+ =?utf-8?B?aUs2L2hoZVh5aXFhRHc4Z2pVVThRRXBvTDd2ZVVEcW1pWjBERkxKNGl4bk42?=
+ =?utf-8?B?TG9FL096NTVMNzI4M0tvaWNqdkRVMnkrTFcybk1pZWUyaE9ramQrcFBZakp5?=
+ =?utf-8?B?bDkvSDJoZE9KUzUvWEd5MmVkYTNKWkthK3RBclJpbnFUMmhIWEdJTitFbzRs?=
+ =?utf-8?B?SEVnalFWVHc2MVVoTy9oOUszNTB4OE9OdGdyaFgwaGlkemczQlRxWXRBZi9r?=
+ =?utf-8?B?bUlQMkFvUVpNY2MzSkx2ditGaTJLNTBJMmQyTkFuYmIzSExUREo5aUUwazgx?=
+ =?utf-8?B?cTM1OEpPQjBqcko1bzhOZklXaDlMcngwbU1HUVExTkNBMzk2TkJTWmoxcVZy?=
+ =?utf-8?B?dVluTnlKVGpDRVpUbGtXcEcwZUpIZUVRM0JseGliaTBnenRRMHZ1Nm9ybmI0?=
+ =?utf-8?B?Qy9KY1RwV1RPSkkxdUVmQS9DaUpEekY3amdvekg5T3hqYUNGMFIxeVZVbXZv?=
+ =?utf-8?B?ZU9tUG5uNC92QURML01DZmJwQ0tFeEFseUxpNHV3bEZJbERCRlB1ZFJISFV1?=
+ =?utf-8?B?MUdYVDd3cWFwclpJUGZpbm1YQS91aVlQMUdBZENoSERxUDZBcVNGbkdINGs1?=
+ =?utf-8?B?aFJSK04zRjkycThQWW5CcEVnYThKZncwZzArZHdQQnlOOWlDNHdUY3ExNXl4?=
+ =?utf-8?B?ejE2T1Z6RzlCZi9CQ1Rpcml2cUVQWU5sZ2l0dFB6cWxrNWtsRVpiek05VjM3?=
+ =?utf-8?B?VmlXTlhNcXMvaHlwRDlOVnNJekVpUzd1YWZtUjlzbEtJMFRqYldtV0htWlNm?=
+ =?utf-8?B?TDFRcUN3RFlCOHluZ1puUFNKOVVDTDFiWklsQWs4RVc5UDEvTTFhYXlUMXFS?=
+ =?utf-8?B?N3hUZ1BZTnVuNUhPWXdpajJtWVA4TXk4V3FKWUVpelBVNTFieFI1UT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18d92a50-b7c4-4f7d-bb42-08da0e6e2097
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea6ee75-aec2-417f-cf55-08da0e6f7d68
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 14:45:38.5633 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 14:55:23.6556 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mf3HUw/vImOcVDMEmnrOGSCksjFAeWQxit9uajiq5OxWlqzalGOxo9XHCR0soYKAhR4fiNbfYLEyk10Nfb2tvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1855
+X-MS-Exchange-CrossTenant-UserPrincipalName: 86bOUEbomcxECIskqYdekK1Gz9f4P6pCI0GKTgTX055aBfcVRiQeNl6vCdIjcDawxVyayN53QM7id8Y/Vw4VEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4218
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,172 +129,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Sean Paul <seanpaul@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2022-03-25 00:05, Ryan Lin wrote:
-> Disable ABM feature when the system is running on AC mode to get
-> the more perfect contrast of the display.
-
-It says patch 3 out of 25. Are there other patches? If so, I can't
-find them in my mailbox and neither can patchwork
-https://patchwork.freedesktop.org/series/101767/
- 
-> Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
+On 2022-03-24 20:06, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  4 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
->  drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 58 ++++++++++++-------
->  drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |  1 +
->  4 files changed, 42 insertions(+), 22 deletions(-)
+> ATOMIC and DRIVER log categories do not typically contain per-frame log
+> messages. This patch re-classifies some messages in amd to chattier
+> categories to keep ATOMIC/DRIVER quiet.
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> index c560c1ab62ecb..bc8bb9aad2e36 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -822,6 +822,10 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
->  	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
->  	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
->  
-> +	if (strcmp(entry->device_class, "battery") == 0) {
-> +		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +	}
-> +
->  	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
->  		if (power_supply_is_system_supplied() > 0)
->  			DRM_DEBUG_DRIVER("pm: AC\n");
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index abfcc1304ba0c..3a0afe7602727 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
->  
->  	adev->gfx.gfx_off_req_count = 1;
->  	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +	adev->pm.old_ac_power = true;
->  
->  	atomic_set(&adev->throttling_logging_enabled, 1);
->  	/*
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> index 54a1408c8015c..478a734b66926 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> @@ -23,6 +23,8 @@
->   *
->   */
->  
-> +#include <linux/power_supply.h>
-> +#include "amdgpu.h"
->  #include "dmub_abm.h"
->  #include "dce_abm.h"
->  #include "dc.h"
-> @@ -51,6 +53,7 @@
->  #define DISABLE_ABM_IMMEDIATELY 255
->  
->  
-> +extern uint amdgpu_dm_abm_level;
->  
->  static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
->  {
-> @@ -117,28 +120,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
->  	dmub_abm_enable_fractional_pwm(abm->ctx);
->  }
->  
-> -static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-> -{
-> -	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> -	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
-> -
-> -	/* return backlight in hardware format which is unsigned 17 bits, with
-> -	 * 1 bit integer and 16 bit fractional
-> -	 */
-> -	return backlight;
-> -}
-> -
-> -static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-> -{
-> -	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> -	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
-> -
-> -	/* return backlight in hardware format which is unsigned 17 bits, with
-> -	 * 1 bit integer and 16 bit fractional
-> -	 */
-> -	return backlight;
-> -}
-> -
->  static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->  {
->  	union dmub_rb_cmd cmd;
-> @@ -148,6 +129,9 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->  	int edp_num;
->  	uint8_t panel_mask = 0;
->  
-> +	if (power_supply_is_system_supplied() > 0)
-> +		level = 0;
-> +
->  	get_edp_links(dc->dc, edp_links, &edp_num);
->  
->  	for (i = 0; i < edp_num; i++) {
-> @@ -170,6 +154,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->  	return true;
->  }
->  
-> +static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-> +{
-> +	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> +	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
-> +	struct dc_context *dc = abm->ctx;
-> +	struct amdgpu_device *adev = dc->driver_context;
-> +
-> +	if (adev->pm.ac_power != adev->pm.old_ac_power) {
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
 
-This file lives in DC, which is shared code between Windows and Linux. We
-cannot directly use adev here. Any information needs to go through DC structs.
-
-I seem to remember someone saying that ABM gets disabled on Windows when
-we're in AC mode. Have you checked with our Windows guys about this? I feel
-we're re-inventing the wheel here for no good reason.
+With the subject line fixed as per Christian's comment this is
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
 Harry
 
-> +		dmub_abm_set_level(abm, amdgpu_dm_abm_level);
-> +		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +		adev->pm.old_ac_power = adev->pm.ac_power;
-> +	}
-> +
-> +	/* return backlight in hardware format which is unsigned 17 bits, with
-> +	 * 1 bit integer and 16 bit fractional
-> +	 */
-> +	return backlight;
-> +}
-> +
-> +static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-> +{
-> +	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> +	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
-> +
-> +	/* return backlight in hardware format which is unsigned 17 bits, with
-> +	 * 1 bit integer and 16 bit fractional
-> +	 */
-> +	return backlight;
-> +}
-> +
->  static bool dmub_abm_init_config(struct abm *abm,
->  	const char *src,
->  	unsigned int bytes,
-> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> index f6e0e7d8a0077..de459411a0e83 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> @@ -445,6 +445,7 @@ struct amdgpu_pm {
->  	uint32_t                smu_prv_buffer_size;
->  	struct amdgpu_bo        *smu_prv_buffer;
->  	bool ac_power;
-> +	bool old_ac_power;
->  	/* powerplay feature */
->  	uint32_t pp_feature;
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 5 +++--
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
+>  2 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> index fae5c1debfad..1fcbab2fd3c3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> @@ -113,8 +113,9 @@ static void amdgpu_display_flip_work_func(struct work_struct *__work)
+>  	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
 >  
+>  
+> -	DRM_DEBUG_DRIVER("crtc:%d[%p], pflip_stat:AMDGPU_FLIP_SUBMITTED, work: %p,\n",
+> -					 amdgpu_crtc->crtc_id, amdgpu_crtc, work);
+> +	drm_dbg_vbl(adev_to_drm(adev),
+> +		    "crtc:%d[%p], pflip_stat:AMDGPU_FLIP_SUBMITTED, work: %p,\n",
+> +		    amdgpu_crtc->crtc_id, amdgpu_crtc, work);
+>  
+>  }
+>  
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index b30656959fd8..45d130f86114 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -9248,7 +9248,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+>  			&bundle->flip_addrs[planes_count].address,
+>  			afb->tmz_surface, false);
+>  
+> -		DRM_DEBUG_ATOMIC("plane: id=%d dcc_en=%d\n",
+> +		drm_dbg_state(state->dev, "plane: id=%d dcc_en=%d\n",
+>  				 new_plane_state->plane->index,
+>  				 bundle->plane_infos[planes_count].dcc.enable);
+>  
+> @@ -9282,7 +9282,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+>  				dc_plane,
+>  				bundle->flip_addrs[planes_count].flip_timestamp_in_us);
+>  
+> -		DRM_DEBUG_ATOMIC("%s Flipping to hi: 0x%x, low: 0x%x\n",
+> +		drm_dbg_state(state->dev, "%s Flipping to hi: 0x%x, low: 0x%x\n",
+>  				 __func__,
+>  				 bundle->flip_addrs[planes_count].address.grph.addr.high_part,
+>  				 bundle->flip_addrs[planes_count].address.grph.addr.low_part);
+> @@ -9624,7 +9624,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+>  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
+>  		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
+>  
+> -		DRM_DEBUG_ATOMIC(
+> +		drm_dbg_state(state->dev,
+>  			"amdgpu_crtc id:%d crtc_state_flags: enable:%d, active:%d, "
+>  			"planes_changed:%d, mode_changed:%d,active_changed:%d,"
+>  			"connectors_changed:%d\n",
+> @@ -10328,7 +10328,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+>  	if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
+>  		goto skip_modeset;
+>  
+> -	DRM_DEBUG_ATOMIC(
+> +	drm_dbg_state(state->dev,
+>  		"amdgpu_crtc id:%d crtc_state_flags: enable:%d, active:%d, "
+>  		"planes_changed:%d, mode_changed:%d,active_changed:%d,"
+>  		"connectors_changed:%d\n",
 
