@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD5D4E73BA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BC94E73BF
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8011610E3CC;
-	Fri, 25 Mar 2022 12:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B04010E5A4;
+	Fri, 25 Mar 2022 12:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5BC10E327
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 12:48:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id A1C355C0113;
- Fri, 25 Mar 2022 08:48:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 25 Mar 2022 08:48:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=jsDresXrhssR3JsOu8GLvpWRrubqWq
- c/nHfmp6S2ak4=; b=BdebYP3vSgRckBTLKrReTtOxibc2xQVIlfZuovq+wv1EmA
- Q6xfw/tCYhO3rECiF1DT2tZFJbkeSJReI/4Lyw531eYV0eyyIWdYjz1sOOPFrp+5
- K/pbDc6pe8Ydje3y/2rhDHEBD+nIPAV9Xm7QvJVpLza36wqtp0wwkcHTfFkijYjP
- FCZN9NPo0zlyaAU9L/fU7JHwTM+1uGbiv9jwPNLG9ZKegrtCI89cFcb/tbA7BEHt
- OJs+KTNVZn6CI2fHGOCvORUxiazWhB1fWJ4GgssYcj4G34ZPsUD8o8bbE6kVp7tL
- DzOASVm3UWNCv3TCc1m97u62IjYKWYg0uVhlkEjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jsDres
- XrhssR3JsOu8GLvpWRrubqWqc/nHfmp6S2ak4=; b=YYjwXxQazUHKwWZe29Fr1x
- y4E/puq0b1nOexT073Iy42s8kHlifmZNI5VbERwC0sZmnCIqdFiVUfHojw+2kXRM
- GTF3ioCGsfHVUEiBubGSyxA7wxftmVMhn0mnBztOy81zwDaUrOElAlabxWUoqq+P
- ZHGQesr87t2MejzZOBBpIjMZqEKAIjre2Vuv2Xe9JBo5sNdEd1S6Ku92tz+E/+6u
- x5wKQVT8Ch9rGWwUazZKepkYVocpXaCNsaANp7sMJhAASn/VAWUDuzCA6a8HmDjU
- rTH7ES4jS0oMVRP5gLuC5oRxF+WLEjb7amIKR+r+tZUHEqHjIGTYLZiS3nw9uG/A
- ==
-X-ME-Sender: <xms:Ibo9YoikuVHqpLw0E7nJjOw677rnp076C6_arIMoVHqmSuQEDq3qsw>
- <xme:Ibo9YhBaM3sVs5pHSe4rC15syhjzsikONsBob7Wtcbrsue7AMR2hjSEoWScSk257V
- PLmdOhT_f5sBSZ1-f8>
-X-ME-Received: <xmr:Ibo9YgER6HXOfR-N0qJcxOBYU4jr-gUSXfydhuVfiyhJD23h25TQvvE_umptLWj3vUKyYChg4BZ3CpHzwswSC9aeOQe2IJnIm_D2EKU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehuddggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Ibo9YpSP5YKPkz11nx8BVwQRkusTeZjlyI-FXDQ2gpBj-FSS9uf0oA>
- <xmx:Ibo9YlzecOun0sCd1g13OJUz26dm3mFUqZn9tF0VeqEEUY783f_UTQ>
- <xmx:Ibo9Yn7xi-zyhE4hA54hQcEF4-fqe97U2scBeKxbe6rjAVmemq2TAQ>
- <xmx:Ibo9YkyIZ3DikUyaxxeCU5UBixZrSuCZKE_SiFIPYbloJ0_PSF7TUw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Mar 2022 08:48:33 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/vc4: Implement atomic_print_state for HVS channel
- state
-Date: Fri, 25 Mar 2022 13:48:22 +0100
-Message-Id: <20220325124822.1785070-5-maxime@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220325124822.1785070-1-maxime@cerno.tech>
-References: <20220325124822.1785070-1-maxime@cerno.tech>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D389810E561;
+ Fri, 25 Mar 2022 12:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648212603; x=1679748603;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=QzqG8kdQCs2k5fwOtzvJPWENIb5QV5Gcx9G0bjJ7TQM=;
+ b=cNNMFAFWcylSWPnSQeunbK1D9wtIsEawkikfV+XA2o+sGrSIvhPD6UXN
+ 6PXoBkOgklDAo1+Tc8Y1qeDPMzvvKU47/mkOe/7xoLCKA2bMf2v1SQ98W
+ e+rP2rVFvQTUGgzd8GJjyZHhvBLm8LU4p/IYw0mnC4rtKo+bJme3V96n3
+ kbOQea+I4gllWglAJoDiwP6nQWLoCHwL2FVAVqJBvvc6aOSvKhMB9tWnQ
+ z3SUrg0SaL7QdnZbqC8eN/OTHkwMKDKsjhTc+0H+xj8OfD9PWVa7evwaK
+ f32Qx/5huJDf/p8gujOEPmw5ANlAp+Uf2NB8BvBRlmuYHhEWRF+CZRFiz A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="258592628"
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="258592628"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 05:50:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="602041263"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by fmsmga008.fm.intel.com with SMTP; 25 Mar 2022 05:50:00 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 25 Mar 2022 14:49:59 +0200
+Date: Fri, 25 Mar 2022 14:49:59 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 2/9] drm/edid: pass a timing pointer to
+ is_display_descriptor()
+Message-ID: <Yj26d1dJz5yfjbKJ@intel.com>
+References: <cover.1648210803.git.jani.nikula@intel.com>
+ <7752b5a00e96b9b6719402487185211937c62c7d.1648210803.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7752b5a00e96b9b6719402487185211937c62c7d.1648210803.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,53 +61,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sean Paul <seanpaul@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HVS state configuration is useful when debugging what's going on in
-the vc4 hardware pipeline. Add an implementation of .atomic_print_state.
+On Fri, Mar 25, 2022 at 02:25:24PM +0200, Jani Nikula wrote:
+> Use struct member access instead of direct offsets to avoid lots of
+> casts all over the place.
+> 
+> Use BUILD_BUG_ON() for sanity check.
+> 
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 1b552fe54f38..48707eef1dc2 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2331,10 +2331,14 @@ struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_mode_find_dmt);
+>  
+> -static bool is_display_descriptor(const u8 d[18], u8 tag)
+> +static bool is_display_descriptor(const struct detailed_timing *timing, u8 type)
+>  {
+> -	return d[0] == 0x00 && d[1] == 0x00 &&
+> -		d[2] == 0x00 && d[3] == tag;
+> +	BUILD_BUG_ON(offsetof(typeof(*timing), pixel_clock) != 0);
+> +	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.pad1) != 2);
+> +	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.type) != 3);
+> +
+> +	return timing->pixel_clock == 0 && timing->data.other_data.pad1 == 0 &&
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_kms.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+This would probably be less confusing if we moved pixel_clock into
+pixel_data and just had matching padding bytes/etc. in other_data.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 26b771c919b1..bffd81d4bfcf 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -701,9 +701,26 @@ static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj,
- 	kfree(hvs_state);
- }
- 
-+static void vc4_hvs_channels_print_state(struct drm_printer *p,
-+					 const struct drm_private_state *state)
-+{
-+	struct vc4_hvs_state *hvs_state = to_vc4_hvs_state(state);
-+	unsigned int i;
-+
-+	drm_printf(p, "HVS State\n");
-+	drm_printf(p, "\tCore Clock Rate: %lu\n", hvs_state->core_clock_rate);
-+
-+	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
-+		drm_printf(p, "\tChannel %d\n", i);
-+		drm_printf(p, "\t\tin use=%d\n", hvs_state->fifo_state[i].in_use);
-+		drm_printf(p, "\t\tload=%lu\n", hvs_state->fifo_state[i].fifo_load);
-+	}
-+}
-+
- static const struct drm_private_state_funcs vc4_hvs_state_funcs = {
- 	.atomic_duplicate_state = vc4_hvs_channels_duplicate_state,
- 	.atomic_destroy_state = vc4_hvs_channels_destroy_state,
-+	.atomic_print_state = vc4_hvs_channels_print_state,
- };
- 
- static void vc4_hvs_channels_obj_fini(struct drm_device *dev, void *unused)
+The names of all structs are also rather weird. We should probably
+change them to match the spec terminology a bit more closely:
+18 byte descriptor,detailed timing descriptor,display descriptor.
+But that's a separate topic.
+
+> +		timing->data.other_data.type == type;
+>  }
+>  
+>  static bool is_detailed_timing_descriptor(const u8 d[18])
+> @@ -2405,7 +2409,7 @@ is_rb(struct detailed_timing *t, void *data)
+>  {
+>  	u8 *r = (u8 *)t;
+>  
+> -	if (!is_display_descriptor(r, EDID_DETAIL_MONITOR_RANGE))
+> +	if (!is_display_descriptor(t, EDID_DETAIL_MONITOR_RANGE))
+>  		return;
+>  
+>  	if (r[15] & 0x10)
+> @@ -2431,7 +2435,7 @@ find_gtf2(struct detailed_timing *t, void *data)
+>  {
+>  	u8 *r = (u8 *)t;
+>  
+> -	if (!is_display_descriptor(r, EDID_DETAIL_MONITOR_RANGE))
+> +	if (!is_display_descriptor(t, EDID_DETAIL_MONITOR_RANGE))
+>  		return;
+>  
+>  	if (r[10] == 0x02)
+> @@ -2987,7 +2991,7 @@ do_inferred_modes(struct detailed_timing *timing, void *c)
+>  	struct detailed_non_pixel *data = &timing->data.other_data;
+>  	struct detailed_data_monitor_range *range = &data->data.range;
+>  
+> -	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_MONITOR_RANGE))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
+>  		return;
+>  
+>  	closure->modes += drm_dmt_modes_for_range(closure->connector,
+> @@ -3067,7 +3071,7 @@ do_established_modes(struct detailed_timing *timing, void *c)
+>  {
+>  	struct detailed_mode_closure *closure = c;
+>  
+> -	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_EST_TIMINGS))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_EST_TIMINGS))
+>  		return;
+>  
+>  	closure->modes += drm_est3_modes(closure->connector, timing);
+> @@ -3122,7 +3126,7 @@ do_standard_modes(struct detailed_timing *timing, void *c)
+>  	struct edid *edid = closure->edid;
+>  	int i;
+>  
+> -	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_STD_MODES))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_STD_MODES))
+>  		return;
+>  
+>  	for (i = 0; i < 6; i++) {
+> @@ -3231,7 +3235,7 @@ do_cvt_mode(struct detailed_timing *timing, void *c)
+>  {
+>  	struct detailed_mode_closure *closure = c;
+>  
+> -	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_CVT_3BYTE))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_CVT_3BYTE))
+>  		return;
+>  
+>  	closure->modes += drm_cvt_modes(closure->connector, timing);
+> @@ -4491,7 +4495,7 @@ drm_parse_hdmi_vsdb_audio(struct drm_connector *connector, const u8 *db)
+>  static void
+>  monitor_name(struct detailed_timing *t, void *data)
+>  {
+> -	if (!is_display_descriptor((const u8 *)t, EDID_DETAIL_MONITOR_NAME))
+> +	if (!is_display_descriptor(t, EDID_DETAIL_MONITOR_NAME))
+>  		return;
+>  
+>  	*(u8 **)data = t->data.other_data.data.str.str;
+> @@ -5226,7 +5230,7 @@ void get_monitor_range(struct detailed_timing *timing,
+>  	const struct detailed_non_pixel *data = &timing->data.other_data;
+>  	const struct detailed_data_monitor_range *range = &data->data.range;
+>  
+> -	if (!is_display_descriptor((const u8 *)timing, EDID_DETAIL_MONITOR_RANGE))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
+>  		return;
+>  
+>  	/*
+> -- 
+> 2.30.2
+
 -- 
-2.35.1
-
+Ville Syrjälä
+Intel
