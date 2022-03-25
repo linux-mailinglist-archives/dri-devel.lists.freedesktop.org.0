@@ -1,122 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A774E757B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 15:55:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D4D4E758E
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 16:00:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4993F10E72A;
-	Fri, 25 Mar 2022 14:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC3010E593;
+	Fri, 25 Mar 2022 15:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC48910E956;
- Fri, 25 Mar 2022 14:55:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gxiEMobjHlFr9brkdkIkI8lfpvPI3zCnTfrbnuu+l4X6bHVXFTYIfYICJoKZMksCV/vNZA8l8D7skvVKJXtCN5fI0WUkAzMe89eKgDJIZMDgnwxdCEiYr/pMDxElMjfudAAfj9W2OPCjyH4d4asevuWU8Cij91j9iEk+Y7g7rNSrk9mTVwbMYe1dFFO2xmcY7t2Fft0snLMSUUi5cko6ZyFRVqdk5c4zRFo4KvPgoHM6Cdg9cwbd7eTvwGFxjGHjyfRjjSZLSx8s2yofNq/z/4eBp0xXgSSzwJNk+JbbqFyvza4btis+1mpdIY5BmGsT+MHxhCiPbR7rQ8z34/vxCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2eis0A2HyhOi4wdZfdW9rexYb7CqzQRvugx+0ef691Y=;
- b=WqqEdqr4jjAthvbFsmLNiRrmQ2WaAIcD6MvQ2QtjfGWBxAj6XCd/9tWdgvytt+NnRNTf8SD4g56iFm1GVN2XBRX8kfPOnhKLlNSQDtLUeIGDESmaPmaUQ66ENSioU9+qUeSapNk/7cD/DphVQgy0cEWe9bvRXXUVZZDS8YaiH4J66bAHCxf+Bc6aJIUdBJFCpUA4tywg+IJyy4sy+qcGWSw/UaFfsLvimRs0FayrY1tkZVWOcKiyuct/hlOnw6fZiSn0OMOA9NV1bj6P1PiPe7nrEhBth4dENyGttkqgL/p0nopLPVEOANN5Zu1vKQ9rPq9xyOLFrko+IaxXXEcrwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2eis0A2HyhOi4wdZfdW9rexYb7CqzQRvugx+0ef691Y=;
- b=EyBePaV+o7dec1y8BFVXmPrr7n+fBGipSMOd6Vk4HkUc5EwAmDHv2TF6ZZB6Bz4Guq+o564z+2wdgdthfpaRbbAQXrTRmoQ6EQ0cm1dJIsUi4gcjCdo6WdjpQ1bAjJquYpIUWYje11j4jI1wpC17tatWnJbZcMPUgZiXuxcbBjg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM6PR12MB4218.namprd12.prod.outlook.com (2603:10b6:5:21b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Fri, 25 Mar
- 2022 14:55:23 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::192:5346:4ece:7ca3]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::192:5346:4ece:7ca3%4]) with mapi id 15.20.5102.016; Fri, 25 Mar 2022
- 14:55:23 +0000
-Message-ID: <da22152b-57e7-5bb4-7330-26edf405bbf8@amd.com>
-Date: Fri, 25 Mar 2022 10:55:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/amd: Re-classify some log messages in commit path
-Content-Language: en-US
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20220325000622.1594343-1-sean@poorly.run>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220325000622.1594343-1-sean@poorly.run>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT2PR01CA0001.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::6) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344AE10E593
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:00:39 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150038euoutp0228f4386f12b40157f0fe6bab3a908f51~fp8F5M5Fw2278622786euoutp02V
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:00:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220325150038euoutp0228f4386f12b40157f0fe6bab3a908f51~fp8F5M5Fw2278622786euoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1648220438;
+ bh=71aXi6zk9zhaLXtS1GtlAKixunR3FJ3lvxVqaGi7IIE=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=ssRujSqlqxqxVSSpe7512iuXz0TvSaYnymo4NSXJEG8xkuD1cjOVzDNPzMulUV7Py
+ uAi0p7s1miglcHlBfta6q6T1Tw9cWUIv5LnvvICBu9wPVWnByzeohwcV6OA48CMgvz
+ ObevtIgeJZFNKDN+dGQIlbeAZHvWlJ3x+TatXdrA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150037eucas1p2879b95bd7c22624a18e2e1527d3ae82b~fp8Frn7A-2842328423eucas1p2i;
+ Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 6F.52.10260.519DD326; Fri, 25
+ Mar 2022 15:00:37 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220325150037eucas1p25a7d8b7508eaa385248f5ad1262e84b4~fp8FLFfUi2520525205eucas1p2v;
+ Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150037eusmtrp1b3f1703e5c2aee770c31e511075eb970~fp8FKW-UA1475514755eusmtrp1O;
+ Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
+X-AuditID: cbfec7f5-3eaf8a8000002814-4f-623dd915a48e
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 3E.EC.09522.519DD326; Fri, 25
+ Mar 2022 15:00:37 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220325150036eusmtip2c1edeb71574c060328744b5dc60a9176~fp8EizYZY1686716867eusmtip2D;
+ Fri, 25 Mar 2022 15:00:36 +0000 (GMT)
+Message-ID: <e104d9cf-73da-330a-db5a-d914839b273c@samsung.com>
+Date: Fri, 25 Mar 2022 16:00:37 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9ea6ee75-aec2-417f-cf55-08da0e6f7d68
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4218:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB42189BA2AB9D73B05C250D4D8C1A9@DM6PR12MB4218.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: caiTCxoUkrgQHK5YASpoKJ0nZaFleo3fg9Q656lQmieYe6Xsm82pJIHlPSBiHu9dKsil0PYWKxKh6Eb310hd9o7v7sHn0GP9vD2gvi8ZNLskvmShVq2hQQoThitvYPsam5Qu2BvIZnzoPC6h8i+ucPP/I5gBjpszVbaE98SUyjS71M9bNbB8irL/G1c/ZTlA6cWnsIPhCpOIFaCAU3HBM48xmAMp2VQlypzFIFsmTJchntDYeOcNBrfOhjV7E/8/ybIqVYIMsbtzlxwKE3exvzBZnWKcj5/wTpxABJ9OZkx+XPG55eX+QEWWXSsC0nFOO3I5n0ACbBBqCOHFzBhkyTLgFzpfHGF/6en2xiBggfIjhLbEtRD+1C21s1zSrc+zxKIqrgWDFdorDD22qizB4F05o/TPme9WMiiYdOhWuuq+t3+UxXDcxNdULuSOUVfgZ/rjf0SzqFJo657CnXjqSTj70BdhOJmewquzgDHjIlyLO5iYyDtPK2yF2xH+bJLwXFrDXiLHtmrwBjnIUNIzGPPmCm6OcQ/tmD6XUjkX/QjAKBjN0oPjeY6UYuU5/rFjvDB4aRmLVU4lRmxYW8gMtScl6/D4qY/Lwfl5odP3kHVStvuFMZT5WUBMaEfHvOmJd0L+N48MQKzF3sGj+S+n9oq0aIhX4aYssq0prw7ZjIUr2pUULQGHopIooDZKor7cM0EeWLB8YqYWIKcRuud7sqdY2xH4/0M07lC3KVjzYBD7ank9DdpaQz33z3ItKurtCqcynfkB4pCi92G4N5GnXHv9DpvLdvScDMz4QG9D6Go=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(186003)(6486002)(36756003)(66476007)(66556008)(316002)(31686004)(54906003)(8676002)(4326008)(66946007)(5660300002)(26005)(6666004)(31696002)(86362001)(508600001)(8936002)(2616005)(38100700002)(15650500001)(6512007)(53546011)(6506007)(2906002)(44832011)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K21MMnltNkdGZE1wejliK0hacGNSVXp4UWVMNzgxRVVEd2MwUU9KTkxDWUFV?=
- =?utf-8?B?VksxSFkvNkZvanBFMzFkR3YzTFFZOE9FR2Z3aFMxVzY4b0JnSDMzWUJEN0Jr?=
- =?utf-8?B?aHErdHRLRUJMUTR2NmpkRDRXRFVwZ2pYSkQyU05rOFJMV0tTcm5GNlpwMXMy?=
- =?utf-8?B?OGlyMnZPUUJBeGNmQ3BHWjM2ZmJZUjEwdk45Tk80Yi9RTDBNeVIySTVIcUxG?=
- =?utf-8?B?Q1JZc1ZLTHYzSVgzOXBxZk5NWHdSYlg5eHUwQkNBM2I4WENBVUNJL0R4bEx4?=
- =?utf-8?B?VnZyeUNibERpWllSQmN2Sk92dHVnSmQxU0tZamhUaEtwZ2NWWllsUG9MVHlF?=
- =?utf-8?B?cHJrQmRQNDNEUzhpSWRXU1E4UmNwbWlKUVNhVzlpSFpMQjZKb21vYVBEWE1V?=
- =?utf-8?B?ajlpOUczd0xXNGR0QWtnNHJKL0l3NUJxbEJTczRBT0lQcjg3VmpUWlRIZmVi?=
- =?utf-8?B?VWlCRU5qZ0tNN3pFUEppOGRSZVNGV1dtd3VTcEpCMStZQU84QVBuYXZKUnc3?=
- =?utf-8?B?eG1oN1BxemRsaWlKT25wNFpQd2ZaUHdUTlROVThDUGIrOHVGNThxVml5cEg5?=
- =?utf-8?B?U0lGOTVvSlBmQk1NSENrY0xVL2NlczFXYVArYmIvcWpUYS9sZXFQLzZ4RVdm?=
- =?utf-8?B?SmVLZUQwV2IwcW1UZ2RaUzVscXFYSjdGd3RRdzl1cTkxNjZ3OWM1T0pGYUJW?=
- =?utf-8?B?OVpxMmRoMVFHT2ozeGc0Mk5mRFV1Z2ZHMzhxNFFwclNwUTZ6OVZycFU5OTVL?=
- =?utf-8?B?MVUyNzd6NUliUFYxQmxQNkhyb1M2aXVRbjFPVzM3eDlSMG1lUjFxVmtSelJw?=
- =?utf-8?B?L3ludkk1c1VsS2NkU1A0MitFSW53ZElCZWlaSW5LTEFaUUJQaS9sWmlTUi9l?=
- =?utf-8?B?SXFlOXlpQ3RhMStJV2JKZWxWM0hSaWtoQk1xT0lDQ21Yb0RwUW5GeEhieWtu?=
- =?utf-8?B?ckJYYzZPdUJPbG94dGZYalZYM2ZrbW45a3NyWSsweEpZY0RnbU51RVZlNWpW?=
- =?utf-8?B?R0lTcU41akR0SThhb0pBd0czQzIrc1E3Ky9sMkZtNmdKZWk2VVBHSUMybFVQ?=
- =?utf-8?B?a01MdFBUcVZRM3BDMzR3eGthS1B4Y2ZaKytRdHovc2ZIbFlra2NMRW55QldX?=
- =?utf-8?B?OThpK2Z1QnRpZktMK0lOWTZJaWg3SXdFbHZHblNoQklSMDAwdlpnVk42Rkt1?=
- =?utf-8?B?NnVpaTgwam5oUm5vNlYzZTNHZHV2ME4vNlYxYjliMTFSUG1XemNoSFAxTnFu?=
- =?utf-8?B?M25DeHJFbW9sZjhPOE84dlFZT201TVdqUTlXZlFYdHVzN0UrKzB4b05HckFY?=
- =?utf-8?B?YW41cldPUjYrNzZMU3VjVDFXME9oWXJxcksvV0VCTWNFNXl6QVlpSHpkWXdh?=
- =?utf-8?B?SG1xSEFhbnhGWVl3RUpiaWdaYmZzUXN6a2hKRHplVTRlUENpMklaZyswMzg1?=
- =?utf-8?B?aUs2L2hoZVh5aXFhRHc4Z2pVVThRRXBvTDd2ZVVEcW1pWjBERkxKNGl4bk42?=
- =?utf-8?B?TG9FL096NTVMNzI4M0tvaWNqdkRVMnkrTFcybk1pZWUyaE9ramQrcFBZakp5?=
- =?utf-8?B?bDkvSDJoZE9KUzUvWEd5MmVkYTNKWkthK3RBclJpbnFUMmhIWEdJTitFbzRs?=
- =?utf-8?B?SEVnalFWVHc2MVVoTy9oOUszNTB4OE9OdGdyaFgwaGlkemczQlRxWXRBZi9r?=
- =?utf-8?B?bUlQMkFvUVpNY2MzSkx2ditGaTJLNTBJMmQyTkFuYmIzSExUREo5aUUwazgx?=
- =?utf-8?B?cTM1OEpPQjBqcko1bzhOZklXaDlMcngwbU1HUVExTkNBMzk2TkJTWmoxcVZy?=
- =?utf-8?B?dVluTnlKVGpDRVpUbGtXcEcwZUpIZUVRM0JseGliaTBnenRRMHZ1Nm9ybmI0?=
- =?utf-8?B?Qy9KY1RwV1RPSkkxdUVmQS9DaUpEekY3amdvekg5T3hqYUNGMFIxeVZVbXZv?=
- =?utf-8?B?ZU9tUG5uNC92QURML01DZmJwQ0tFeEFseUxpNHV3bEZJbERCRlB1ZFJISFV1?=
- =?utf-8?B?MUdYVDd3cWFwclpJUGZpbm1YQS91aVlQMUdBZENoSERxUDZBcVNGbkdINGs1?=
- =?utf-8?B?aFJSK04zRjkycThQWW5CcEVnYThKZncwZzArZHdQQnlOOWlDNHdUY3ExNXl4?=
- =?utf-8?B?ejE2T1Z6RzlCZi9CQ1Rpcml2cUVQWU5sZ2l0dFB6cWxrNWtsRVpiek05VjM3?=
- =?utf-8?B?VmlXTlhNcXMvaHlwRDlOVnNJekVpUzd1YWZtUjlzbEtJMFRqYldtV0htWlNm?=
- =?utf-8?B?TDFRcUN3RFlCOHluZ1puUFNKOVVDTDFiWklsQWs4RVc5UDEvTTFhYXlUMXFS?=
- =?utf-8?B?N3hUZ1BZTnVuNUhPWXdpajJtWVA4TXk4V3FKWUVpelBVNTFieFI1UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea6ee75-aec2-417f-cf55-08da0e6f7d68
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 14:55:23.6556 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 86bOUEbomcxECIskqYdekK1Gz9f4P6pCI0GKTgTX055aBfcVRiQeNl6vCdIjcDawxVyayN53QM7id8Y/Vw4VEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4218
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH v6 0/6] drm: exynos: dsi: Convert drm bridge
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
+ Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Inki Dae
+ <inki.dae@samsung.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20220303163654.3381470-1-jagan@amarulasolutions.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJKsWRmVeSWpSXmKPExsWy7djP87qiN22TDHrvalncX/yZxeLK1/ds
+ FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
+ HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjigum5TUnMyy1CJ9uwSujBsr1zEW
+ LOatODBjBWMD41yuLkZODgkBE4lN5ycxdzFycQgJrGCU2LxuMQuE84VR4sWVXewgVUICnxkl
+ Xm+ohenYd+MiVNFyRok9C6ZCtX9klJjx4QxYB6+AncSBli0sIDaLgKrEs1+TGCHighInZz4B
+ i4sKJEms3r6aDcQWFnCQeDO5jwnEZhYQl7j1ZD4TyFARgUdMEk///GeFSLhLPH2zjRnEZhMw
+ lOh62wXWzCngJPG26ykjRI28xPa3c8AukhBo55R4uXoz0DYOIMdF4uLCQogXhCVeHd/CDmHL
+ SJye3ANVki/xd4YxRLhC4trrNcwQtrXEnXO/2EBKmAU0Jdbv0ocIO0o0PZrBDNHJJ3HjrSDE
+ AXwSk7ZNhwrzSnS0CUFUq0nMOr4ObufBC5eYJzAqzUIKk1lIfp+F5JVZCHsXMLKsYhRPLS3O
+ TU8tNs5LLdcrTswtLs1L10vOz93ECExdp/8d/7qDccWrj3qHGJk4GA8xSnAwK4nw3r9snSTE
+ m5JYWZValB9fVJqTWnyIUZqDRUmcNzlzQ6KQQHpiSWp2ampBahFMlomDU6qBKWK5l+TjUzl2
+ T7/tKHKWzK4Jiat/wPVIfPvnIwvPvU8009qat0HUWrj+urXkRmn5lkjr1U7uv9UL395Q1Tzj
+ buLRd/qDZOT8y9PqODkPvdyXKLfE886N/ykPZF+4njhiMbWn+k14aop71sKFq7OKL/hZtvf9
+ Pm4uu6x00d3nU4Unm5w9nLf5v8yB94/F85nDXOQSMxZ5ZXxm4luQI/F0yqq/AbmBWkziRpv9
+ 2WqaCj/wMEq7mWj+vVmiuprj2AfxjIKt/6pk80MdFzEd2WQz+59fg6DAM6m8Mw18z7JPuCve
+ VRZ2mKZ90XyZ9SKN3fVB94Vvfb4llMka8NDE1ZU1pXDntWPfbZ45Gf5OORetxFKckWioxVxU
+ nAgAQU9j3cwDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsVy+t/xe7qiN22TDJpuclncX/yZxeLK1/ds
+ FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
+ HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjig9m6L80pJUhYz84hJbpWhDCyM9
+ Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jBsr1zEWLOatODBjBWMD41yuLkZODgkB
+ E4l9Ny6ydDFycQgJLGWUONd5gAkiISNxcloDK4QtLPHnWhcbRNF7Rokj/y+BJXgF7CQOtGxh
+ AbFZBFQlnv2axAgRF5Q4OfMJWFxUIEniUlc7WFxYwEHizeQ+sAXMAuISt57MZwIZKiLwjEni
+ 6Ka1rBAJd4mnb7YxQ2ybyihxo/UyM0iCTcBQoustyBmcHJwCThJvu54yQjSYSXRt7YKy5SW2
+ v53DPIFRaBaSQ2YhWTgLScssJC0LGFlWMYqklhbnpucWG+oVJ+YWl+al6yXn525iBEbttmM/
+ N+9gnPfqo94hRiYOxkOMEhzMSiK89y9bJwnxpiRWVqUW5ccXleakFh9iNAWGxkRmKdHkfGDa
+ yCuJNzQzMDU0MbM0MLU0M1YS5/Us6EgUEkhPLEnNTk0tSC2C6WPi4JRqYEq/EyJ4M6Oh6Um/
+ x5RK+7qw1ScbKzKDf3hP76m/MNfYlUVrq8ulWdzfjgpnLzuvwzRpdlrMhLKsWcfL8i8phRmv
+ KS3SsTISP/Aq0WyL6/TzOvrLy2febdH4d+Bbv4XKjITHkgfydDmPnTnkqa8iurxMeMXUwiUM
+ 8UIytj3f7LRmZXd0TvsfL/plUrXh8f2vpu6qFN+/y1ph7peqoAbGPRpp2Sv+rEtdZnwsokcm
+ 5Fu9+lslRt7wF4fmZp5s3Ty9xZ7phwfbsx+xa+Vu585S/yjZofS98Q+/k+VR9XYhRxelqC0L
+ 8kv1PPnOit9dGnTbpINx2Zfkz7IyTabpDkxP9qT9Z//0IFLG7QHTzicnlViKMxINtZiLihMB
+ e7i0G2MDAAA=
+X-CMS-MailID: 20220325150037eucas1p25a7d8b7508eaa385248f5ad1262e84b4
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
+References: <CGME20220303163725eucas1p26c4a165b20dd629f2129926b1b662154@eucas1p2.samsung.com>
+ <20220303163654.3381470-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,86 +119,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Sean Paul <seanpaul@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-03-24 20:06, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> ATOMIC and DRIVER log categories do not typically contain per-frame log
-> messages. This patch re-classifies some messages in amd to chattier
-> categories to keep ATOMIC/DRIVER quiet.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Hi Jagan,
 
-With the subject line fixed as per Christian's comment this is
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+On 03.03.2022 17:36, Jagan Teki wrote:
+> Updated series about drm bridge conversion of exynos dsi.
+>
+> Previous version can be accessible, here [1].
+>
+> Patch 1: tc358764 panel_bridge API
+>
+> Patch 2: connector reset
+>
+> Patch 3: bridge attach in MIC
+>
+> Patch 4: panel_bridge API
+>
+> Patch 5: bridge conversion
+>
+> Patch 6: atomic functions
+>
+>
+>
+> Any inputs?
 
-Harry
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 5 +++--
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
->  2 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index fae5c1debfad..1fcbab2fd3c3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -113,8 +113,9 @@ static void amdgpu_display_flip_work_func(struct work_struct *__work)
->  	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
->  
->  
-> -	DRM_DEBUG_DRIVER("crtc:%d[%p], pflip_stat:AMDGPU_FLIP_SUBMITTED, work: %p,\n",
-> -					 amdgpu_crtc->crtc_id, amdgpu_crtc, work);
-> +	drm_dbg_vbl(adev_to_drm(adev),
-> +		    "crtc:%d[%p], pflip_stat:AMDGPU_FLIP_SUBMITTED, work: %p,\n",
-> +		    amdgpu_crtc->crtc_id, amdgpu_crtc, work);
->  
->  }
->  
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index b30656959fd8..45d130f86114 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -9248,7 +9248,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->  			&bundle->flip_addrs[planes_count].address,
->  			afb->tmz_surface, false);
->  
-> -		DRM_DEBUG_ATOMIC("plane: id=%d dcc_en=%d\n",
-> +		drm_dbg_state(state->dev, "plane: id=%d dcc_en=%d\n",
->  				 new_plane_state->plane->index,
->  				 bundle->plane_infos[planes_count].dcc.enable);
->  
-> @@ -9282,7 +9282,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->  				dc_plane,
->  				bundle->flip_addrs[planes_count].flip_timestamp_in_us);
->  
-> -		DRM_DEBUG_ATOMIC("%s Flipping to hi: 0x%x, low: 0x%x\n",
-> +		drm_dbg_state(state->dev, "%s Flipping to hi: 0x%x, low: 0x%x\n",
->  				 __func__,
->  				 bundle->flip_addrs[planes_count].address.grph.addr.high_part,
->  				 bundle->flip_addrs[planes_count].address.grph.addr.low_part);
-> @@ -9624,7 +9624,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->  		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
->  
-> -		DRM_DEBUG_ATOMIC(
-> +		drm_dbg_state(state->dev,
->  			"amdgpu_crtc id:%d crtc_state_flags: enable:%d, active:%d, "
->  			"planes_changed:%d, mode_changed:%d,active_changed:%d,"
->  			"connectors_changed:%d\n",
-> @@ -10328,7 +10328,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
->  	if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
->  		goto skip_modeset;
->  
-> -	DRM_DEBUG_ATOMIC(
-> +	drm_dbg_state(state->dev,
->  		"amdgpu_crtc id:%d crtc_state_flags: enable:%d, active:%d, "
->  		"planes_changed:%d, mode_changed:%d,active_changed:%d,"
->  		"connectors_changed:%d\n",
+I'm really sorry for the delay on my side. I was really busy with other 
+things and I was not able to check the display of the boards with remote 
+access.
+
+
+Finally, this patchset works properly on all my Exynos-based test systems:
+
+1. Exynos4210 Trats with Samsung s6e8aa0 DSI panel
+
+2. Exynos4412 Trats2 with Samsung s6e8aa0 DSI panel
+
+3. Exynos5250 Arndale with TC358764 DSI-LVDS bridge and LVDS panel
+
+4. Exynos5433 TM2e with Samsung s6e3hf2 DSI panel and internal Exynos 
+MIC bridge
+
+
+I will post my acked-by and tested-by tags for each patch.
+
+
+> Jagan.
+>
+> Jagan Teki (6):
+>    drm: bridge: tc358764: Use drm panel_bridge API
+>    drm: bridge: panel: Reset the connector state pointer
+>    exynos: drm: dsi: Attach in_bridge in MIC driver
+>    drm: exynos: dsi: Use drm panel_bridge API
+>    drm: exynos: dsi: Convert to bridge driver
+>    drm: exynos: dsi: Switch to atomic funcs
+>
+>   drivers/gpu/drm/bridge/panel.c          |   3 +
+>   drivers/gpu/drm/bridge/tc358764.c       | 104 +---------
+>   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 241 ++++++------------------
+>   drivers/gpu/drm/exynos/exynos_drm_mic.c |  22 +++
+>   4 files changed, 93 insertions(+), 277 deletions(-)
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
