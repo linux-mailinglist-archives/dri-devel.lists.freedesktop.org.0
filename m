@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897D24E79C0
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 18:16:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 420014E79C1
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 18:16:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCAEC10E54B;
-	Fri, 25 Mar 2022 17:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF2010E5A0;
+	Fri, 25 Mar 2022 17:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697F510E54B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 17:16:46 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id w4so11718073wrg.12
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 10:16:46 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A4310E54B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 17:16:48 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ p12-20020a05600c430c00b0038cbdf52227so4795535wme.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 10:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NjQ/r5pco9RwC0sUJWXpp29RkJXQ6qdzLc/z+bngWRI=;
- b=JCQEwvmrbpZpX9TTkHxE1XfIMryiGXzsmmGV4TrzOuO6ttzQ/mxBa1RKj0VLV9x9UY
- 4g13irktKfzn6rPan75uwvJ6J8bDM+kY9QRiGd8wjdr2MKe1N1E/RsMr9ow7KUJk98qn
- ZVliZmMXo+/yp3qmfs7zCez21PLXH6qIsfXXBZk/wo28hSX2nfHo6WVEj5AGOmFa7uV8
- 57wOQ/7a26LDgckOUFGxL7R5buGa2DHr0We00A4Hh5sG26apUbdinar2B81MPjgMnV0W
- J4QVcdSJFbqo9AhrMpIVXtzKh1lp4zJzAySs1KG0pDx2Kpm6+Rv3gGeoUj3vYLvjCpSk
- lwag==
+ bh=kxLbJh/5GTpyK0sJHkMhIg51PKQ0gujNd33p5sfYd68=;
+ b=25A0IRKOTfVWYt6ly9GPt/OjAFv2TMiYasnPsVRIu30KUgeWiS9JPJZ2ysQi5q/owZ
+ gHB+w9zhhNcjcDodCfJoh9NgOwHYs2LBFVzaFDaxb4NRJ6BcNMCUqztopNNNVFvXDFYN
+ pitmnvmAGxeDAtklO9ssjG3TCvC8r+Dcj7t7qem1dVJlyaKYPxml8dsT7RWQfrWmruvn
+ CXPz8Dmj5xVRzL4FuuYLo678DuloDipYM7fmDpdFCmjClMQGhOJDAnnsZlXq+AdSq7I/
+ A/1yXarnjisOiWXCApoiac4bOn6ZbtpHIAMqAfXiGn1pqxIw8Qo0pErnPlKaicjzbjGs
+ d4+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NjQ/r5pco9RwC0sUJWXpp29RkJXQ6qdzLc/z+bngWRI=;
- b=Vq0VMRNfWo8BiYNXhWbdENpo50WwkX0llKC8pPV1FWbeyf3FfszxXCTiVeIGJUV3J3
- F96W1WF8aX7i0UnYbi2GqX9OOGO14K79K0bC8KAQDnrHkze6Euy9sx3BYQAsriPlqCmg
- jt6NBNGEuyT7c/SDMyxhjSZxGTLYFqFE3N8ACjpy1jfDKZ7wloDN2b/KPpaY7re8st16
- zT9py5Wa6exmMgk2nT5phLiaNLxRbfQwwbGVWUojLMTSdqwRHkO99nKPP3yiBv0kNqEh
- 4wMazLQQ41to/6cxaKJcIZnEe21pdbHMPxLI6iGDR3l5OMhRH1c5ZtXk2wujNUGmEd78
- k6JQ==
-X-Gm-Message-State: AOAM531Pe+QF8xZavta8GP2eEIzDodIvOfk4elXoGvTTUSQ/VA8/HSBs
- MP9GSjzbzI0I8X7CAEJwvOsmGw==
-X-Google-Smtp-Source: ABdhPJyrSxcXKaAP25ZBJ7/tCD9C7PS/Qy2PJKAsjuVE99MIZGYJl8Bk5UUwKOQluWdrhnCKdKIRIQ==
-X-Received: by 2002:adf:ebc7:0:b0:1ee:945a:ffb4 with SMTP id
- v7-20020adfebc7000000b001ee945affb4mr10145745wrn.641.1648228604779; 
- Fri, 25 Mar 2022 10:16:44 -0700 (PDT)
+ bh=kxLbJh/5GTpyK0sJHkMhIg51PKQ0gujNd33p5sfYd68=;
+ b=z8790n7zRP9Z+zAMuo1B0yXBQMfbjL3gGRxDN96IpXMbm7UQo5ir7s5VBlj4qqB3ga
+ mqUvhS0cxvZqCRTadyJb6Y16UwEITPCOmneH761L542jAiyGXSw8Zutjl/AWRdZGSJuE
+ s/sO7hmsgEwh1UZ32y1h3p2zKxOxfdwV27JO+xU5XYk8RhNfK7QPn3UTllA3LgejLYfN
+ gell4Bu2T2Bg+74zN4KOoSKU9IKR6okwgU6QrpO3mjQA91hEpr8IsmrbktaCeMM6XlEw
+ GxI4W/GfSGDWaEgy+NVcgSE5JVHsTivX03PDhlO/qmufK53xVATnVlUAbERNao9DP/0s
+ mXhQ==
+X-Gm-Message-State: AOAM532Cbh/ByY9t5yIZGxSVlt2JHuBwQ8lr+KGSwUwTVExkMH1IzI+6
+ pXGfDVFUzRw25AExxxJZrYppTg==
+X-Google-Smtp-Source: ABdhPJwNQpIImDscEbLueHTSw+vh13EH8/JtYWdT4NMiTrPeQs+QvSgzCntOpuP2NQR+McLC+CEjAA==
+X-Received: by 2002:a05:600c:3ac7:b0:38b:f9c6:27b8 with SMTP id
+ d7-20020a05600c3ac700b0038bf9c627b8mr10820156wms.75.1648228607273; 
+ Fri, 25 Mar 2022 10:16:47 -0700 (PDT)
 Received: from localhost.localdomain
  (2a02-8440-6240-cc41-3074-96af-9642-0003.rev.sfr.net.
  [2a02:8440:6240:cc41:3074:96af:9642:3])
  by smtp.gmail.com with ESMTPSA id
- p16-20020a5d6390000000b00203ffebddf3sm7547464wru.99.2022.03.25.10.16.42
+ p16-20020a5d6390000000b00203ffebddf3sm7547464wru.99.2022.03.25.10.16.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 10:16:44 -0700 (PDT)
+ Fri, 25 Mar 2022 10:16:46 -0700 (PDT)
 From: Guillaume Ranquet <granquet@baylibre.com>
 To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, maarten.lankhorst@linux.intel.com,
@@ -58,9 +59,9 @@ To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@linux.ie,
  ck.hu@mediatek.com, jitao.shi@mediatek.com,
  angelogioacchino.delregno@collabora.com,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH 01/22] dt-bindings: mediatek,dpi: Add DP_INTF compatible
-Date: Fri, 25 Mar 2022 18:14:50 +0100
-Message-Id: <20220325171511.23493-2-granquet@baylibre.com>
+Subject: [PATCH 02/22] dt-bindings: mediatek,dp: Add Display Port binding
+Date: Fri, 25 Mar 2022 18:14:51 +0100
+Message-Id: <20220325171511.23493-3-granquet@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220325171511.23493-1-granquet@baylibre.com>
 References: <20220325171511.23493-1-granquet@baylibre.com>
@@ -88,62 +89,124 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Schneider-Pargmann <msp@baylibre.com>
 
-DP_INTF is similar to DPI but does not have the exact same feature set
-or register layouts.
+This controller is present on several mediatek hardware. Currently
+mt8195 and mt8395 have this controller without a functional difference,
+so only one compatible field is added.
 
-DP_INTF is the sink of the display pipeline that is connected to the
-DisplayPort controller and encoder unit. It takes the same clocks as
-DPI.
+The controller can have two forms, as a normal display port and as an
+embedded display port.
 
 Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ .../display/mediatek/mediatek,dp.yaml         | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-index dd2896a40ff0..53acf9a84f7f 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -4,16 +4,16 @@
- $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: mediatek DPI Controller Device Tree Bindings
-+title: mediatek DPI/DP_INTF Controller Device Tree Bindings
- 
- maintainers:
-   - CK Hu <ck.hu@mediatek.com>
-   - Jitao shi <jitao.shi@mediatek.com>
- 
- description: |
--  The Mediatek DPI function block is a sink of the display subsystem and
--  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
--  output bus.
-+  The Mediatek DPI and DP_INTF function blocks are a sink of the display
-+  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
-+  parallel output bus.
- 
- properties:
-   compatible:
-@@ -23,6 +23,7 @@ properties:
-       - mediatek,mt8173-dpi
-       - mediatek,mt8183-dpi
-       - mediatek,mt8192-dpi
-+      - mediatek,mt8195-dpintf
- 
-   reg:
-     maxItems: 1
-@@ -54,7 +55,7 @@ properties:
-     $ref: /schemas/graph.yaml#/properties/port
-     description:
-       Output port node. This port should be connected to the input port of an
--      attached HDMI or LVDS encoder chip.
-+      attached HDMI, LVDS or DisplayPort encoder chip.
- 
- required:
-   - compatible
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+new file mode 100644
+index 000000000000..74db5c4e0f73
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek Display Port Controller
++
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
++
++description: |
++  Device tree bindings for the Mediatek (embedded) Display Port controller
++  present on some Mediatek SoCs.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8195-dp-tx
++      - syscon
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: faxi clock
++
++  clock-names:
++    items:
++      - const: faxi
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    items:
++      - const: dp
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input endpoint of the controller, usually dp_intf
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output endpoint of the controller
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/mt8195-power.h>
++    edp_tx: edp_tx@1c500000 {
++        compatible = "mediatek,mt8195-dp-tx","syscon";
++        reg = <0 0x1c500000 0 0x8000>;
++        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
++        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&edp_pin>;
++        phys = <&dp_phy>;
++        phy-names = "dp";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                edp_in: endpoint {
++                    remote-endpoint = <&dp_intf0_out>;
++                };
++            };
++            port@1 {
++                reg = <1>;
++                edp_out: endpoint {
++                	remote-endpoint = <&panel_in>;
++                };
++            };
++        };
++    };
 -- 
 2.34.1
 
