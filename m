@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA594E73BB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0F44E73B8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C10010E48C;
-	Fri, 25 Mar 2022 12:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8EEB10E324;
+	Fri, 25 Mar 2022 12:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D50010E327
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 12:48:28 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 982395C010C;
- Fri, 25 Mar 2022 08:48:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 25 Mar 2022 08:48:27 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AC010E324
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 12:48:30 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9C4C55C00CF;
+ Fri, 25 Mar 2022 08:48:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 25 Mar 2022 08:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=mO6smDmu66jceXbcw1658IGABdzuEU
- 74wAO64Kl1IsM=; b=Z9tlta3XvtB6JkUQNm2CN6jCp3o3dEcAwlJUjCxb7oXHTY
- EONZ8eHWKBZbg1Z1lEcrCSlKrphs/aAwADIjNIPs/M2Ob7z0LLQYALys+D/UG78G
- 1iA/oNCqOSO2M1xMlds9g5EiWUBgz7fpOVUPK5uhtdVnh6bYFaLCGjG8Vc7TwcUm
- sJoMbci2fndLsJqVn17Cpz1SO/HagdQnv2AP0VQcUhVZpeK57Pr+DLPzoyplwypH
- lkJgpDhEexfHEQAu0Ml1upUKT7D0tjZMRPKJxqxbMsY04ZP0MVEDwTWHML+pLVLn
- QR2u1Ux4z/xYpQPAV2Sd/Z8EK3R/F6jo5EbfxAqw==
+ :subject:subject:to:to; s=fm3; bh=YZP1FnnPMpEcVBb6NQiltcXa/vZiMG
+ GXwvyGMRdwWOo=; b=ycvONL3WSm+13e8RUHGjTMtBQbMNwfEwzd0Osxu0SX+b7I
+ vHKqVvEjhuBy0cIQf4MuhMxjGWwBFISBBTqohd9K5pj/YS1aIro8YDdTPaozRLkt
+ l8nipK4ppBRPpuOTV+0H4DOVluanFO6KW11vWrfuidi1gsgF7IrCnp9TEQa1KBs+
+ rKmu7+ej1S7l9Ex5Z7Pkuf8ogVwLgHBrOlqQbI8Jv1PZeIDLz7CSi572c8PKXOLy
+ d7Nyk2WdlpcoFOads3jkzopokQJA1SqfOC4cY5eFz9SAoxt5dtOpgys2L0Ox4vaQ
+ NOodMkSJvscUjoyn7MeJKLKn0jsirlrB6biDdVIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mO6smD
- mu66jceXbcw1658IGABdzuEU74wAO64Kl1IsM=; b=nZr7x/hGIqqmyubdvLv1jc
- X9Y2EYG1RzjXmd+5pzahBd0alj3J9O5Ge0syo4xsQlqYJojjO8NLQPe2b7Sqyltz
- BRheB+rciuVhkll2XoBsYck3kBW2EFDlqkG1YNMMagAvX43e1YoSPIKNiM0tgTXW
- vDeE4DM2GB3VAR4m0jZUjdoafHkIdc7W3ISUkQN7G4g8Y6kQnILJK6xQhnlIEjsz
- /W61VGsOjLgk9gr/4BS6sycxWYfZeiWR/7E6ol71zoMueeDzy7GTbZKWKGXCzklj
- oAYrxlPLwkDlf/YLU5VAGz8yLGrDS0WnrTQ/bkOta+mBnnZtE5Ab54UcqMA9MPyA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YZP1Fn
+ nPMpEcVBb6NQiltcXa/vZiMGGXwvyGMRdwWOo=; b=Bk81eqDvMkP9yDZHBevzTo
+ kFBpbQcKOI020YfWQ14jARTWwKpkyEcW5fbev88jk1wkUrwgUVApoK7G1fyFlSaq
+ 9boNgo9VgsiWS4CuXvuc9NZihwTV4PDWfgGCLgWkSNxyskssmqBeFRPTosSzgkXs
+ 7WmK2FWPYOD2VOV8HkgVmLmirDJCQql1xjHIrc/yhHrEFFLg9Jp++zDuXs2R4vkt
+ hpv8KOd8A80/R8YX4EpZubmhsQDdQA9aKtKFjZy8pGzStTVOOcViIv6RktLrGlOF
+ BBNEDuTIrRRrFnUafNYmCcpTyZR6ybw8elIPkT8AOcXNUIaGi1Ka5LtMImyQJHZw
  ==
-X-ME-Sender: <xms:G7o9Yp9uDxDxU-ctogMUhYXWX58DgGp1gQTLafobR4JdFkg__U9AUA>
- <xme:G7o9YtsPf9hTwoUrHpTIiyPlpQlLlkzlgpVWw9dfNzzLjxp0u9hfyTuigQ3dPDyuE
- I2X1XJERanHz-LaSFI>
-X-ME-Received: <xmr:G7o9YnDanNVC9jY3QfLEtoE6XHhPgT9ZkkliCaKzmipbo5I4OeA5eGGPkRf4qr2MmBgrlyWkXDCuFSnJG_PKzBOLh-VHopTPdvd-Ezk>
+X-ME-Sender: <xms:Hbo9Yk4_Z1UxnsuAEduT_5zJ8XIFvdG6DWatfNV8TQ7cLmhTH-pwyg>
+ <xme:Hbo9Yl4ktGfI1P-9AXcPZApGvDBrMDukNhpmh0rLTjnVqt6o-AqpBP8XieChOEnfU
+ uhaU4CcfGnt0zUp8rk>
+X-ME-Received: <xmr:Hbo9YjdIaAJY1ozZLIA9H3Xwn-F0VqEdoLu4KvYUUTpL3rwUGXNLMrP6Xee4HU7H1GSWjy0v8VX1JOkDmHIoDwUb9MND4R_reVgsOw4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehuddggeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,17 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehuddggeefucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:G7o9YtcNLaSNbbdKt7ULbUEMUQ2Bd_IBfaOag1vTstzTK_FwTqJdWg>
- <xmx:G7o9YuPSFdLCDE15w-ANzrgTwsOD-E57QTxXsKXwiO3xjvISyxBQRw>
- <xmx:G7o9YvlY7dKtL-wGxGiI4ceWvDGi-SdnkAfWNloQ38aQN3VejnZBXQ>
- <xmx:G7o9YqC5QZ42wIuHam6SUnDOesz35ygP1QT1KvvvUd0Gm1LcgVjGsQ>
+X-ME-Proxy: <xmx:Hbo9YpKV30CQa5tHM5-yoXX1gpZTKIHlFZC1Wc7uybRkuGYZErFuPg>
+ <xmx:Hbo9YoKfbzr-mfVxFnrV_Fhc0xmkCbCWucqtV3lEnjyel6s0u2365A>
+ <xmx:Hbo9YqxSlHNJrgMtrwniSWvhri9oqmhtHq66BXDg-M-p1sc_4jne-A>
+ <xmx:Hbo9YhqCB2oPbZNQiTW-KbGMXFCdqlCHbFigor2EnfPaeAWAx0cGNA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Mar 2022 08:48:27 -0400 (EDT)
+ 25 Mar 2022 08:48:29 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/4] drm/atomic: Print the state every commit
-Date: Fri, 25 Mar 2022 13:48:19 +0100
-Message-Id: <20220325124822.1785070-2-maxime@cerno.tech>
+Subject: [PATCH v2 2/4] drm/atomic: Add atomic_print_state to private objects
+Date: Fri, 25 Mar 2022 13:48:20 +0100
+Message-Id: <20220325124822.1785070-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220325124822.1785070-1-maxime@cerno.tech>
 References: <20220325124822.1785070-1-maxime@cerno.tech>
@@ -80,75 +80,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sean Paul <seanpaul@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM_UT_STATE controls whether we're calling
-drm_atomic_print_new_state() whenever a new state is committed. However,
-that call is made in the drm_mode_atomic_ioctl(), whereas we have
-multiple users of the drm_atomic_commit() function in the kernel
-(framebuffer emulation, drm_atomic_helper_dirtyfb, etc.). Similarly,
-it's only called for a blocking atomic commit.
+A number of drivers (amdgpu, komeda, vc4, etc.) leverage the
+drm_private_state structure, but we don't have any infrastructure to
+provide debugging like we do for the other components state. Let's add
+an atomic_print_state hook to be consistent.
 
-This leads to multiple states being committed but never actually
-displayed even though we asked to have verbose atomic state debugging.
-
-Let's move the call to drm_atomic_print_new_state() to
-drm_atomic_commit() to make sure we don't miss any.
-
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_atomic.c      | 4 ++++
- drivers/gpu/drm/drm_atomic_uapi.c | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_atomic.c | 16 ++++++++++++++++
+ include/drm/drm_atomic.h     | 27 +++++++++++++++++++++++----
+ 2 files changed, 39 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 88cd992df356..73865c147b4b 100644
+index 73865c147b4b..7a52a9f4f487 100644
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1423,6 +1423,7 @@ EXPORT_SYMBOL(drm_atomic_check_only);
- int drm_atomic_commit(struct drm_atomic_state *state)
- {
- 	struct drm_mode_config *config = &state->dev->mode_config;
-+	struct drm_printer p = drm_info_printer(state->dev->dev);
- 	int ret;
- 
- 	ret = drm_atomic_check_only(state);
-@@ -1431,6 +1432,9 @@ int drm_atomic_commit(struct drm_atomic_state *state)
- 
- 	drm_dbg_atomic(state->dev, "committing %p\n", state);
- 
-+	if (drm_debug_enabled(DRM_UT_STATE))
-+		drm_atomic_print_new_state(state, &p);
+@@ -789,6 +789,8 @@ drm_atomic_private_obj_init(struct drm_device *dev,
+ 	obj->state = state;
+ 	obj->funcs = funcs;
+ 	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
 +
- 	return config->funcs->atomic_commit(state->dev, state, false);
++	state->obj = obj;
  }
- EXPORT_SYMBOL(drm_atomic_commit);
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 9781722519c3..45e6d3c62a9a 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1326,7 +1326,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	struct drm_out_fence_state *fence_state;
- 	int ret = 0;
- 	unsigned int i, j, num_fences;
--	struct drm_printer p = drm_info_printer(dev->dev);
+ EXPORT_SYMBOL(drm_atomic_private_obj_init);
  
- 	/* disallow for drivers not supporting atomic: */
- 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
-@@ -1458,9 +1457,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	} else if (arg->flags & DRM_MODE_ATOMIC_NONBLOCK) {
- 		ret = drm_atomic_nonblocking_commit(state);
- 	} else {
--		if (drm_debug_enabled(DRM_UT_STATE))
--			drm_atomic_print_new_state(state, &p);
--
- 		ret = drm_atomic_commit(state);
- 	}
+@@ -1636,6 +1638,15 @@ int __drm_atomic_helper_set_config(struct drm_mode_set *set,
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_set_config);
  
++static void drm_atomic_private_obj_print_state(struct drm_printer *p,
++					       const struct drm_private_state *state)
++{
++	struct drm_private_obj *obj = state->obj;
++
++	if (obj->funcs->atomic_print_state)
++		obj->funcs->atomic_print_state(p, state);
++}
++
+ /**
+  * drm_atomic_print_new_state - prints drm atomic state
+  * @state: atomic configuration to check
+@@ -1656,6 +1667,8 @@ void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+ 	struct drm_crtc_state *crtc_state;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *connector_state;
++	struct drm_private_obj *obj;
++	struct drm_private_state *obj_state;
+ 	int i;
+ 
+ 	if (!p) {
+@@ -1673,6 +1686,9 @@ void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+ 
+ 	for_each_new_connector_in_state(state, connector, connector_state, i)
+ 		drm_atomic_connector_print_state(p, connector_state);
++
++	for_each_new_private_obj_in_state(state, obj, obj_state, i)
++		drm_atomic_private_obj_print_state(p, obj_state);
+ }
+ EXPORT_SYMBOL(drm_atomic_print_new_state);
+ 
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index 1701c2128a5c..0777725085df 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -227,6 +227,18 @@ struct drm_private_state_funcs {
+ 	 */
+ 	void (*atomic_destroy_state)(struct drm_private_obj *obj,
+ 				     struct drm_private_state *state);
++
++	/**
++	 * @atomic_print_state:
++	 *
++	 * If driver subclasses &struct drm_private_state, it should implement
++	 * this optional hook for printing additional driver specific state.
++	 *
++	 * Do not call this directly, use drm_atomic_private_obj_print_state()
++	 * instead.
++	 */
++	void (*atomic_print_state)(struct drm_printer *p,
++				   const struct drm_private_state *state);
+ };
+ 
+ /**
+@@ -311,14 +323,21 @@ struct drm_private_obj {
+ 
+ /**
+  * struct drm_private_state - base struct for driver private object state
+- * @state: backpointer to global drm_atomic_state
+  *
+- * Currently only contains a backpointer to the overall atomic update, but in
+- * the future also might hold synchronization information similar to e.g.
+- * &drm_crtc.commit.
++ * Currently only contains a backpointer to the overall atomic update,
++ * and the relevant private object but in the future also might hold
++ * synchronization information similar to e.g. &drm_crtc.commit.
+  */
+ struct drm_private_state {
++	/**
++	 * @state: backpointer to global drm_atomic_state
++	 */
+ 	struct drm_atomic_state *state;
++
++	/**
++	 * @obj: backpointer to the private object
++	 */
++	struct drm_private_obj *obj;
+ };
+ 
+ struct __drm_private_objs_state {
 -- 
 2.35.1
 
