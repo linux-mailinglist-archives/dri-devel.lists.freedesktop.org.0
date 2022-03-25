@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70374E7368
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F204E7367
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 13:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB41D10E704;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E1A10E701;
 	Fri, 25 Mar 2022 12:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9DFF10E677;
- Fri, 25 Mar 2022 12:26:14 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F73A10E677;
+ Fri, 25 Mar 2022 12:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648211174; x=1679747174;
+ t=1648211176; x=1679747176;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZOH1/ykpCkb+6TXMedVTud/bCAXFchm8Xu8OyvWi+7s=;
- b=CQUNG5u5mOVvABJs7y9HkzVOT7Q4Y0h8PqRUHy51h3M5c0Ypwq0wadlF
- tWRNeujKkJpF1qZ1M6EW/AOxZ71hHGJrRhsDG0t5643ddQZepWUB7pP19
- i40rs96lf52vy3wrMmBwsz6kxWj3cyCvKoFilPNUDqMm4kC+fKCVuMITx
- ReN5XYqPeDYyyIbqyAYV2Xztvll+i2YjcuwbdI/ZnoZeOUkXfV7oPKX+c
- +xSVSU9R1aWTppzBqYrzNrt7z/L3vK/3neFJShMDaYljY4+NpeVUIQM53
- tccOr+8t3ct6HIjWXIeYeSyry1E+zjo+GQ2dTw0AR//7jd1lTXsc08+WD w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="239225166"
-X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="239225166"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 05:26:11 -0700
-X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="638202911"
+ bh=FM6w0RYQa+ALvD9YI4DkxM7A1uJ5wbLS7kbH/k/HuNg=;
+ b=N+NE45M95hdk6fBM92p/JtkhyfCMi06iPPKzu9VB9H672lAwZg6VGafF
+ NCAb3Fo5CnvkiLn8cvH4YUOwZhkgSB2ls31XSisK8Y3oXewFsjuxWb5TM
+ hYgQ49CIu5cq2+0PLnTyeCo4iWLMqHgmBUP2Vfjj3IcmAowmHptf4BwdH
+ h/2uXY2fuD5OsI2GhZFS9MObbGrCQl1wJFi6qy/lw0TS8/+cufSti8o1x
+ bmnmA6P9gn2keHeSpoPji/SVwgb/X2yaGYHlpKPr3tharfwDuP+arEb2S
+ wJ5W8NX37SdpPHnD/Mm49qT4q+5hDXe/72KWY1jUsuw0qoIp07jSFRE7p Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="256189124"
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="256189124"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 05:26:16 -0700
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="648246270"
 Received: from avgorshk-mobl.ccr.corp.intel.com (HELO localhost)
  ([10.252.35.183])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 05:26:09 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 05:26:14 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/9] drm/edid: constify struct edid passed to detailed blocks
-Date: Fri, 25 Mar 2022 14:25:29 +0200
-Message-Id: <c54450b2d016af2074e72bb9144413b3da556e19.1648210803.git.jani.nikula@intel.com>
+Subject: [PATCH 8/9] drm/edid: constify struct edid passed around in callbacks
+ and closure
+Date: Fri, 25 Mar 2022 14:25:30 +0200
+Message-Id: <7b5b2cb0134fb376d67ea8d8c1041bab1b40ab2f.1648210803.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1648210803.git.jani.nikula@intel.com>
 References: <cover.1648210803.git.jani.nikula@intel.com>
@@ -62,196 +63,235 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Constify the first level of struct edid in detailed timing parsing. Also
-switch to struct edid instead of u8.
+Finalize detailed timing parsing constness by making struct edid also
+const in callbacks and closure.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 48 ++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 48 +++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index c006b09066bb..fad792ef2c79 100644
+index fad792ef2c79..fae6f39897c8 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2349,38 +2349,37 @@ static bool is_detailed_timing_descriptor(const u8 d[18])
- typedef void detailed_cb(const struct detailed_timing *timing, void *closure);
+@@ -97,7 +97,7 @@ static int oui(u8 first, u8 second, u8 third)
  
- static void
--cea_for_each_detailed_block(u8 *ext, detailed_cb *cb, void *closure)
-+cea_for_each_detailed_block(const u8 *ext, detailed_cb *cb, void *closure)
+ struct detailed_mode_closure {
+ 	struct drm_connector *connector;
+-	struct edid *edid;
++	const struct edid *edid;
+ 	bool preferred;
+ 	u32 quirks;
+ 	int modes;
+@@ -2419,7 +2419,7 @@ is_rb(const struct detailed_timing *timing, void *data)
+ 
+ /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
+ static bool
+-drm_monitor_supports_rb(struct edid *edid)
++drm_monitor_supports_rb(const struct edid *edid)
  {
- 	int i, n;
- 	u8 d = ext[0x02];
--	u8 *det_base = ext + d;
-+	const u8 *det_base = ext + d;
- 
- 	if (d < 4 || d > 127)
- 		return;
- 
- 	n = (127 - d) / 18;
- 	for (i = 0; i < n; i++)
--		cb((struct detailed_timing *)(det_base + 18 * i), closure);
-+		cb((const struct detailed_timing *)(det_base + 18 * i), closure);
- }
- 
- static void
--vtb_for_each_detailed_block(u8 *ext, detailed_cb *cb, void *closure)
-+vtb_for_each_detailed_block(const u8 *ext, detailed_cb *cb, void *closure)
- {
- 	unsigned int i, n = min((int)ext[0x02], 6);
--	u8 *det_base = ext + 5;
-+	const u8 *det_base = ext + 5;
- 
- 	if (ext[0x01] != 1)
- 		return; /* unknown version */
- 
- 	for (i = 0; i < n; i++)
--		cb((struct detailed_timing *)(det_base + 18 * i), closure);
-+		cb((const struct detailed_timing *)(det_base + 18 * i), closure);
- }
- 
- static void
--drm_for_each_detailed_block(u8 *raw_edid, detailed_cb *cb, void *closure)
-+drm_for_each_detailed_block(const struct edid *edid, detailed_cb *cb, void *closure)
- {
- 	int i;
--	struct edid *edid = (struct edid *)raw_edid;
- 
- 	if (edid == NULL)
- 		return;
-@@ -2388,8 +2387,8 @@ drm_for_each_detailed_block(u8 *raw_edid, detailed_cb *cb, void *closure)
- 	for (i = 0; i < EDID_DETAILED_TIMINGS; i++)
- 		cb(&(edid->detailed_timings[i]), closure);
- 
--	for (i = 1; i <= raw_edid[0x7e]; i++) {
--		u8 *ext = raw_edid + (i * EDID_LENGTH);
-+	for (i = 1; i <= edid->extensions; i++) {
-+		const u8 *ext = (const u8 *)edid + (i * EDID_LENGTH);
- 
- 		switch (*ext) {
- 		case CEA_EXT:
-@@ -2425,7 +2424,7 @@ drm_monitor_supports_rb(struct edid *edid)
  	if (edid->revision >= 4) {
  		bool ret = false;
+@@ -2447,7 +2447,7 @@ find_gtf2(const struct detailed_timing *timing, void *data)
  
--		drm_for_each_detailed_block((u8 *)edid, is_rb, &ret);
-+		drm_for_each_detailed_block(edid, is_rb, &ret);
- 		return ret;
- 	}
- 
-@@ -2452,7 +2451,7 @@ drm_gtf2_hbreak(struct edid *edid)
+ /* Secondary GTF curve kicks in above some break frequency */
+ static int
+-drm_gtf2_hbreak(struct edid *edid)
++drm_gtf2_hbreak(const struct edid *edid)
  {
  	const struct detailed_timing *timing = NULL;
  
--	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &timing);
-+	drm_for_each_detailed_block(edid, find_gtf2, &timing);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.gtf2.hfreq_start_khz) != 12);
- 
-@@ -2464,7 +2463,7 @@ drm_gtf2_2c(struct edid *edid)
- {
- 	const struct detailed_timing *timing = NULL;
- 
--	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &timing);
-+	drm_for_each_detailed_block(edid, find_gtf2, &timing);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.gtf2.c) != 13);
- 
-@@ -2476,7 +2475,7 @@ drm_gtf2_m(struct edid *edid)
- {
- 	const struct detailed_timing *timing = NULL;
- 
--	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &timing);
-+	drm_for_each_detailed_block(edid, find_gtf2, &timing);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.gtf2.m) != 14);
- 
-@@ -2488,7 +2487,7 @@ drm_gtf2_k(struct edid *edid)
- {
- 	const struct detailed_timing *timing = NULL;
- 
--	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &timing);
-+	drm_for_each_detailed_block(edid, find_gtf2, &timing);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.gtf2.k) != 16);
- 
-@@ -2500,7 +2499,7 @@ drm_gtf2_2j(struct edid *edid)
- {
- 	const struct detailed_timing *timing = NULL;
- 
--	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &timing);
-+	drm_for_each_detailed_block(edid, find_gtf2, &timing);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.gtf2.j) != 17);
- 
-@@ -3050,8 +3049,7 @@ add_inferred_modes(struct drm_connector *connector, struct edid *edid)
- 	};
- 
- 	if (version_greater(edid, 1, 0))
--		drm_for_each_detailed_block((u8 *)edid, do_inferred_modes,
--					    &closure);
-+		drm_for_each_detailed_block(edid, do_inferred_modes, &closure);
- 
- 	return closure.modes;
+@@ -2459,7 +2459,7 @@ drm_gtf2_hbreak(struct edid *edid)
  }
-@@ -3130,8 +3128,8 @@ add_established_modes(struct drm_connector *connector, struct edid *edid)
- 	}
  
- 	if (version_greater(edid, 1, 0))
--		    drm_for_each_detailed_block((u8 *)edid,
--						do_established_modes, &closure);
-+		drm_for_each_detailed_block(edid, do_established_modes,
-+					    &closure);
+ static int
+-drm_gtf2_2c(struct edid *edid)
++drm_gtf2_2c(const struct edid *edid)
+ {
+ 	const struct detailed_timing *timing = NULL;
  
- 	return modes + closure.modes;
+@@ -2471,7 +2471,7 @@ drm_gtf2_2c(struct edid *edid)
  }
-@@ -3189,7 +3187,7 @@ add_standard_modes(struct drm_connector *connector, struct edid *edid)
- 	}
  
- 	if (version_greater(edid, 1, 0))
--		drm_for_each_detailed_block((u8 *)edid, do_standard_modes,
-+		drm_for_each_detailed_block(edid, do_standard_modes,
- 					    &closure);
+ static int
+-drm_gtf2_m(struct edid *edid)
++drm_gtf2_m(const struct edid *edid)
+ {
+ 	const struct detailed_timing *timing = NULL;
  
- 	/* XXX should also look for standard codes in VTB blocks */
-@@ -3269,7 +3267,7 @@ add_cvt_modes(struct drm_connector *connector, struct edid *edid)
- 	};
- 
- 	if (version_greater(edid, 1, 2))
--		drm_for_each_detailed_block((u8 *)edid, do_cvt_mode, &closure);
-+		drm_for_each_detailed_block(edid, do_cvt_mode, &closure);
- 
- 	/* XXX should also look for CVT codes in VTB blocks */
- 
-@@ -3329,7 +3327,7 @@ add_detailed_modes(struct drm_connector *connector, struct edid *edid,
- 		closure.preferred =
- 		    (edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING);
- 
--	drm_for_each_detailed_block((u8 *)edid, do_detailed_mode, &closure);
-+	drm_for_each_detailed_block(edid, do_detailed_mode, &closure);
- 
- 	return closure.modes;
+@@ -2483,7 +2483,7 @@ drm_gtf2_m(struct edid *edid)
  }
-@@ -4530,7 +4528,7 @@ static int get_monitor_name(struct edid *edid, char name[13])
- 	if (!edid || !name)
- 		return 0;
  
--	drm_for_each_detailed_block((u8 *)edid, monitor_name, &edid_name);
-+	drm_for_each_detailed_block(edid, monitor_name, &edid_name);
- 	for (mnl = 0; edid_name && mnl < 13; mnl++) {
- 		if (edid_name[mnl] == 0x0a)
- 			break;
-@@ -5276,7 +5274,7 @@ void drm_get_monitor_range(struct drm_connector *connector,
- 	if (!version_greater(edid, 1, 1))
- 		return;
+ static int
+-drm_gtf2_k(struct edid *edid)
++drm_gtf2_k(const struct edid *edid)
+ {
+ 	const struct detailed_timing *timing = NULL;
  
--	drm_for_each_detailed_block((u8 *)edid, get_monitor_range,
-+	drm_for_each_detailed_block(edid, get_monitor_range,
- 				    &info->monitor_range);
+@@ -2495,7 +2495,7 @@ drm_gtf2_k(struct edid *edid)
+ }
  
- 	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
+ static int
+-drm_gtf2_2j(struct edid *edid)
++drm_gtf2_2j(const struct edid *edid)
+ {
+ 	const struct detailed_timing *timing = NULL;
+ 
+@@ -2510,7 +2510,7 @@ drm_gtf2_2j(struct edid *edid)
+  * standard_timing_level - get std. timing level(CVT/GTF/DMT)
+  * @edid: EDID block to scan
+  */
+-static int standard_timing_level(struct edid *edid)
++static int standard_timing_level(const struct edid *edid)
+ {
+ 	if (edid->revision >= 2) {
+ 		if (edid->revision >= 4 && (edid->features & DRM_EDID_FEATURE_DEFAULT_GTF))
+@@ -2553,7 +2553,7 @@ static int drm_mode_hsync(const struct drm_display_mode *mode)
+  * and convert them into a real mode using CVT/GTF/DMT.
+  */
+ static struct drm_display_mode *
+-drm_mode_std(struct drm_connector *connector, struct edid *edid,
++drm_mode_std(struct drm_connector *connector, const struct edid *edid,
+ 	     const struct std_timing *t)
+ {
+ 	struct drm_device *dev = connector->dev;
+@@ -2715,7 +2715,7 @@ drm_mode_do_interlace_quirk(struct drm_display_mode *mode,
+  * return a new struct drm_display_mode.
+  */
+ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+-						  struct edid *edid,
++						  const struct edid *edid,
+ 						  const struct detailed_timing *timing,
+ 						  u32 quirks)
+ {
+@@ -2815,7 +2815,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+ 
+ static bool
+ mode_in_hsync_range(const struct drm_display_mode *mode,
+-		    struct edid *edid, const u8 *t)
++		    const struct edid *edid, const u8 *t)
+ {
+ 	int hsync, hmin, hmax;
+ 
+@@ -2832,7 +2832,7 @@ mode_in_hsync_range(const struct drm_display_mode *mode,
+ 
+ static bool
+ mode_in_vsync_range(const struct drm_display_mode *mode,
+-		    struct edid *edid, const u8 *t)
++		    const struct edid *edid, const u8 *t)
+ {
+ 	int vsync, vmin, vmax;
+ 
+@@ -2848,7 +2848,7 @@ mode_in_vsync_range(const struct drm_display_mode *mode,
+ }
+ 
+ static u32
+-range_pixel_clock(struct edid *edid, const u8 *t)
++range_pixel_clock(const struct edid *edid, const u8 *t)
+ {
+ 	/* unspecified */
+ 	if (t[9] == 0 || t[9] == 255)
+@@ -2863,7 +2863,7 @@ range_pixel_clock(struct edid *edid, const u8 *t)
+ }
+ 
+ static bool
+-mode_in_range(const struct drm_display_mode *mode, struct edid *edid,
++mode_in_range(const struct drm_display_mode *mode, const struct edid *edid,
+ 	      const struct detailed_timing *timing)
+ {
+ 	u32 max_clock;
+@@ -2909,7 +2909,7 @@ static bool valid_inferred_mode(const struct drm_connector *connector,
+ }
+ 
+ static int
+-drm_dmt_modes_for_range(struct drm_connector *connector, struct edid *edid,
++drm_dmt_modes_for_range(struct drm_connector *connector, const struct edid *edid,
+ 			const struct detailed_timing *timing)
+ {
+ 	int i, modes = 0;
+@@ -2944,7 +2944,7 @@ void drm_mode_fixup_1366x768(struct drm_display_mode *mode)
+ }
+ 
+ static int
+-drm_gtf_modes_for_range(struct drm_connector *connector, struct edid *edid,
++drm_gtf_modes_for_range(struct drm_connector *connector, const struct edid *edid,
+ 			const struct detailed_timing *timing)
+ {
+ 	int i, modes = 0;
+@@ -2973,7 +2973,7 @@ drm_gtf_modes_for_range(struct drm_connector *connector, struct edid *edid,
+ }
+ 
+ static int
+-drm_cvt_modes_for_range(struct drm_connector *connector, struct edid *edid,
++drm_cvt_modes_for_range(struct drm_connector *connector, const struct edid *edid,
+ 			const struct detailed_timing *timing)
+ {
+ 	int i, modes = 0;
+@@ -3041,7 +3041,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
+ }
+ 
+ static int
+-add_inferred_modes(struct drm_connector *connector, struct edid *edid)
++add_inferred_modes(struct drm_connector *connector, const struct edid *edid)
+ {
+ 	struct detailed_mode_closure closure = {
+ 		.connector = connector,
+@@ -3103,7 +3103,7 @@ do_established_modes(const struct detailed_timing *timing, void *c)
+  * (defined above).  Tease them out and add them to the global modes list.
+  */
+ static int
+-add_established_modes(struct drm_connector *connector, struct edid *edid)
++add_established_modes(struct drm_connector *connector, const struct edid *edid)
+ {
+ 	struct drm_device *dev = connector->dev;
+ 	unsigned long est_bits = edid->established_timings.t1 |
+@@ -3140,7 +3140,7 @@ do_standard_modes(const struct detailed_timing *timing, void *c)
+ 	struct detailed_mode_closure *closure = c;
+ 	const struct detailed_non_pixel *data = &timing->data.other_data;
+ 	struct drm_connector *connector = closure->connector;
+-	struct edid *edid = closure->edid;
++	const struct edid *edid = closure->edid;
+ 	int i;
+ 
+ 	if (!is_display_descriptor(timing, EDID_DETAIL_STD_MODES))
+@@ -3167,7 +3167,7 @@ do_standard_modes(const struct detailed_timing *timing, void *c)
+  * GTF or CVT. Grab them from @edid and add them to the list.
+  */
+ static int
+-add_standard_modes(struct drm_connector *connector, struct edid *edid)
++add_standard_modes(struct drm_connector *connector, const struct edid *edid)
+ {
+ 	int i, modes = 0;
+ 	struct detailed_mode_closure closure = {
+@@ -3259,7 +3259,7 @@ do_cvt_mode(const struct detailed_timing *timing, void *c)
+ }
+ 
+ static int
+-add_cvt_modes(struct drm_connector *connector, struct edid *edid)
++add_cvt_modes(struct drm_connector *connector, const struct edid *edid)
+ {
+ 	struct detailed_mode_closure closure = {
+ 		.connector = connector,
+@@ -3313,7 +3313,7 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
+  * @quirks: quirks to apply
+  */
+ static int
+-add_detailed_modes(struct drm_connector *connector, struct edid *edid,
++add_detailed_modes(struct drm_connector *connector, const struct edid *edid,
+ 		   u32 quirks)
+ {
+ 	struct detailed_mode_closure closure = {
+@@ -4520,7 +4520,7 @@ monitor_name(const struct detailed_timing *timing, void *data)
+ 	*res = timing->data.other_data.data.str.str;
+ }
+ 
+-static int get_monitor_name(struct edid *edid, char name[13])
++static int get_monitor_name(const struct edid *edid, char name[13])
+ {
+ 	const char *edid_name = NULL;
+ 	int mnl;
 -- 
 2.30.2
 
