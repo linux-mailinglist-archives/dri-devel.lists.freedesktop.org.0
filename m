@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB354E7A3F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 19:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271E64E7A45
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 19:43:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5125B10E182;
-	Fri, 25 Mar 2022 18:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787C610E149;
+	Fri, 25 Mar 2022 18:43:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A042D10E182;
- Fri, 25 Mar 2022 18:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648233461; x=1679769461;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wuLEbTBz7SfTnuMZJ9l8kCMV8rdyCtiXOoi0m6I0OUE=;
- b=NFAJR6WxJd9CHefak+5q5mMUoq2lm8ExHXXrD4lvXps418c/iUj/9oor
- 2zgF+6WFsd8jgubHnZT5LlJcVnjXTKeBIh++QadmxDTV0lf3LwA2slkbu
- Lcy3qScen0Dp6ub15StJZWB4wA9lTTsLOLagP7/GAopNrQPbWqQQyyEju
- PJ4SGvEUWuxBi2dXUIVvMtX0vDoRINPWF6LR2FETKGEBpdtST+fbXatz2
- ZeNgiXdSsvDbX98DNwnMeGbbiNm7+RZYvU2pW3Pg8Pn+t82gDTLvUsV7U
- vnY0tKnXhSwjkM+Z72yEIIJdAmIsuiD2A4ICKOwKErCotl9vYrUlGUvIS g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="319401465"
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="319401465"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 11:37:41 -0700
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="561933074"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.61.27])
- ([10.252.61.27])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 11:37:40 -0700
-Message-ID: <71bbc214-b3a0-d3ca-c3bc-fe6d0b8d162c@linux.intel.com>
-Date: Fri, 25 Mar 2022 19:37:38 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix remaining_timeout in
- intel_gt_retire_requests_timeout
-Content-Language: en-US
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220325175839.2717499-1-daniele.ceraolospurio@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220325175839.2717499-1-daniele.ceraolospurio@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49AD010E149
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 18:43:25 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id b188so9066621oia.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 11:43:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=TD21QR0lMMXUO0nMDIjOEtGgypHb96HYAdoM26wDIGs=;
+ b=zB3gCNBPpXL2yHlE6qTc35o2mcLzV9/iQBZuQJOzZPkuAHhX9uZWykmo3dw2stv2qP
+ R1vNpZnWd6pmYY0AI0DJU8GGgkPeJbLgysoirhaYiXK2FOdezp9f1joNaDU5HuHSdmIU
+ k1z+GmHaBfqAPBMNYkChFewdTla05jiZ7E2AfAFScrnlCJQTxtGYeXCRAmWQUCbKpB2+
+ oF1LJs7U50THNx/iNvFSVoKnW52NNU4DU1gXWKkeqVYL7Ax6n3tIkDYWwdby40oMCVI7
+ phUObrw/+slTX26YccRhvZ6DsALwg5lVthp27hO28LI8MxtjQpWK0h+eAKeGJLVSaj7T
+ N6lg==
+X-Gm-Message-State: AOAM531gCxH8O8gzGD3skacM6sNFJQ2p6CBxAdZwRg10LkhYVfVLTkKY
+ 06RVrhF4MHzom0TPq223mw==
+X-Google-Smtp-Source: ABdhPJxRhOXEGGu66qd3lltmMOUhaUE/Q4GESm8rEHbUQJkl8rylAaxB9T48w92FhlgVax8cPtc3MA==
+X-Received: by 2002:a54:480b:0:b0:2ef:8e00:155b with SMTP id
+ j11-20020a54480b000000b002ef8e00155bmr7912769oij.164.1648233804356; 
+ Fri, 25 Mar 2022 11:43:24 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ k4-20020a9d4b84000000b005b2310ebdffsm3052644otf.54.2022.03.25.11.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Mar 2022 11:43:23 -0700 (PDT)
+Received: (nullmailer pid 210218 invoked by uid 1000);
+ Fri, 25 Mar 2022 18:43:22 -0000
+From: Rob Herring <robh@kernel.org>
+To: Guillaume Ranquet <granquet@baylibre.com>
+In-Reply-To: <20220325171511.23493-3-granquet@baylibre.com>
+References: <20220325171511.23493-1-granquet@baylibre.com>
+ <20220325171511.23493-3-granquet@baylibre.com>
+Subject: Re: [PATCH 02/22] dt-bindings: mediatek,dp: Add Display Port binding
+Date: Fri, 25 Mar 2022 13:43:22 -0500
+Message-Id: <1648233802.138910.210217.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, deller@gmx.de,
+ kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ Markus Schneider-Pargmann <msp@baylibre.com>, chunfeng.yun@mediatek.com,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org, tzimmermann@suse.de,
+ markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 3/25/2022 6:58 PM, Daniele Ceraolo Spurio wrote:
-> In intel_gt_wait_for_idle, we use the remaining timeout returned from
-> intel_gt_retire_requests_timeout to wait on the GuC being idle. However,
-> the returned variable can have a negative value if something goes wrong
-> during the wait, leading to us hitting a GEM_BUG_ON in the GuC wait
-> function.
-> To fix this, make sure to only return the timeout if it is positive.
->
-> Fixes: b97060a99b01b ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: John Harrison <john.c.harrison@intel.com>
+On Fri, 25 Mar 2022 18:14:51 +0100, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->   drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> index edb881d756309..ef70c209976d8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> @@ -197,7 +197,7 @@ out_active:	spin_lock(&timelines->lock);
->   		active_count++;
->   
->   	if (remaining_timeout)
-> -		*remaining_timeout = timeout;
-> +		*remaining_timeout = timeout > 0 ? timeout : 0;
+>  .../display/mediatek/mediatek,dp.yaml         | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Should the last flush_submission() be  "if ( timeout > 0 
-&&flush_submission(gt, timeout))" ?
+yamllint warnings/errors:
 
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:24:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
+   24 |         #include <dt-bindings/power/mt8195-power.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1398: dt_binding_check] Error 2
 
-Nirmoy
+doc reference errors (make refcheckdocs):
 
->   
->   	return active_count ? timeout : 0;
->   }
+See https://patchwork.ozlabs.org/patch/1609494
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
