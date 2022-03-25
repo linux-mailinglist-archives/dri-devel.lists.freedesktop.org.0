@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D4D4E758E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 16:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4DF4E7593
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 16:01:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC3010E593;
-	Fri, 25 Mar 2022 15:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42FFD10E72F;
+	Fri, 25 Mar 2022 15:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344AE10E593
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:00:39 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFD010E72F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:21 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220325150038euoutp0228f4386f12b40157f0fe6bab3a908f51~fp8F5M5Fw2278622786euoutp02V
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:00:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220325150038euoutp0228f4386f12b40157f0fe6bab3a908f51~fp8F5M5Fw2278622786euoutp02V
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150120euoutp01e208c61633e9af491dbea7d0cf2c6ad6~fp8tRvgmU2551625516euoutp01Q
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220325150120euoutp01e208c61633e9af491dbea7d0cf2c6ad6~fp8tRvgmU2551625516euoutp01Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1648220438;
- bh=71aXi6zk9zhaLXtS1GtlAKixunR3FJ3lvxVqaGi7IIE=;
+ s=mail20170921; t=1648220480;
+ bh=ij1vinpp99xNEpvR0di3HxfomrhkUvCF3knZW3FNuCA=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=ssRujSqlqxqxVSSpe7512iuXz0TvSaYnymo4NSXJEG8xkuD1cjOVzDNPzMulUV7Py
- uAi0p7s1miglcHlBfta6q6T1Tw9cWUIv5LnvvICBu9wPVWnByzeohwcV6OA48CMgvz
- ObevtIgeJZFNKDN+dGQIlbeAZHvWlJ3x+TatXdrA=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=OSIzFi7F+vjw7MncvhwVgXUdjYnlq7xffTJLUY3peLZr1HmUyHsr51nYboKvKyqG3
+ SXJSo+RTot0LCPpYklQ3FYbMDkR4qKnPqREyhaiEPRJgKc++RIAmB0YyXPfx5gN9Rd
+ efUKqXZ+sM3tZBmy7sLW6e/bLbm4hBhiTqvHX6Q4=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220325150037eucas1p2879b95bd7c22624a18e2e1527d3ae82b~fp8Frn7A-2842328423eucas1p2i;
- Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 6F.52.10260.519DD326; Fri, 25
- Mar 2022 15:00:37 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ 20220325150119eucas1p248fd7c391e9fbab156d177225080ddcf~fp8sw8mkq2519425194eucas1p28;
+ Fri, 25 Mar 2022 15:01:19 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 18.C0.10009.F39DD326; Fri, 25
+ Mar 2022 15:01:19 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220325150037eucas1p25a7d8b7508eaa385248f5ad1262e84b4~fp8FLFfUi2520525205eucas1p2v;
- Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220325150037eusmtrp1b3f1703e5c2aee770c31e511075eb970~fp8FKW-UA1475514755eusmtrp1O;
- Fri, 25 Mar 2022 15:00:37 +0000 (GMT)
-X-AuditID: cbfec7f5-3eaf8a8000002814-4f-623dd915a48e
+ 20220325150119eucas1p207124cf9ca47cd248184102c33340547~fp8sScOew2749927499eucas1p2D;
+ Fri, 25 Mar 2022 15:01:19 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150119eusmtrp24c2312241c911c9a64e9d3e5a1fa49b0~fp8sRp7mU2057120571eusmtrp2O;
+ Fri, 25 Mar 2022 15:01:19 +0000 (GMT)
+X-AuditID: cbfec7f2-e7fff70000002719-c5-623dd93f564b
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 3E.EC.09522.519DD326; Fri, 25
- Mar 2022 15:00:37 +0000 (GMT)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id A7.0C.09404.F39DD326; Fri, 25
+ Mar 2022 15:01:19 +0000 (GMT)
 Received: from [106.210.134.192] (unknown [106.210.134.192]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220325150036eusmtip2c1edeb71574c060328744b5dc60a9176~fp8EizYZY1686716867eusmtip2D;
- Fri, 25 Mar 2022 15:00:36 +0000 (GMT)
-Message-ID: <e104d9cf-73da-330a-db5a-d914839b273c@samsung.com>
-Date: Fri, 25 Mar 2022 16:00:37 +0100
+ 20220325150118eusmtip2a6814491f4fc02e61dce68b2649f40ef~fp8rnEqXh1686716867eusmtip2P;
+ Fri, 25 Mar 2022 15:01:18 +0000 (GMT)
+Message-ID: <16744c9b-2364-9247-3599-2ff9acaecf64@samsung.com>
+Date: Fri, 25 Mar 2022 16:01:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v6 0/6] drm: exynos: dsi: Convert drm bridge
+Subject: Re: [PATCH v6 1/6] drm: bridge: tc358764: Use drm panel_bridge API
 Content-Language: en-US
 To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
@@ -63,50 +63,51 @@ To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Inki Dae
  <inki.dae@samsung.com>
 From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220303163654.3381470-1-jagan@amarulasolutions.com>
+In-Reply-To: <20220303163654.3381470-2-jagan@amarulasolutions.com>
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJKsWRmVeSWpSXmKPExsWy7djP87qiN22TDHrvalncX/yZxeLK1/ds
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBKsWRmVeSWpSXmKPExsWy7djPc7r2N22TDDqPa1jcX/yZxeLK1/ds
  FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
- HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjigum5TUnMyy1CJ9uwSujBsr1zEW
- LOatODBjBWMD41yuLkZODgkBE4lN5ycxdzFycQgJrGCU2LxuMQuE84VR4sWVXewgVUICnxkl
- Xm+ohenYd+MiVNFyRok9C6ZCtX9klJjx4QxYB6+AncSBli0sIDaLgKrEs1+TGCHighInZz4B
- i4sKJEms3r6aDcQWFnCQeDO5jwnEZhYQl7j1ZD4TyFARgUdMEk///GeFSLhLPH2zjRnEZhMw
- lOh62wXWzCngJPG26ykjRI28xPa3c8AukhBo55R4uXoz0DYOIMdF4uLCQogXhCVeHd/CDmHL
- SJye3ANVki/xd4YxRLhC4trrNcwQtrXEnXO/2EBKmAU0Jdbv0ocIO0o0PZrBDNHJJ3HjrSDE
- AXwSk7ZNhwrzSnS0CUFUq0nMOr4ObufBC5eYJzAqzUIKk1lIfp+F5JVZCHsXMLKsYhRPLS3O
- TU8tNs5LLdcrTswtLs1L10vOz93ECExdp/8d/7qDccWrj3qHGJk4GA8xSnAwK4nw3r9snSTE
- m5JYWZValB9fVJqTWnyIUZqDRUmcNzlzQ6KQQHpiSWp2ampBahFMlomDU6qBKWK5l+TjUzl2
- T7/tKHKWzK4Jiat/wPVIfPvnIwvPvU8009qat0HUWrj+urXkRmn5lkjr1U7uv9UL395Q1Tzj
- buLRd/qDZOT8y9PqODkPvdyXKLfE886N/ykPZF+4njhiMbWn+k14aop71sKFq7OKL/hZtvf9
- Pm4uu6x00d3nU4Unm5w9nLf5v8yB94/F85nDXOQSMxZ5ZXxm4luQI/F0yqq/AbmBWkziRpv9
- 2WqaCj/wMEq7mWj+vVmiuprj2AfxjIKt/6pk80MdFzEd2WQz+59fg6DAM6m8Mw18z7JPuCve
- VRZ2mKZ90XyZ9SKN3fVB94Vvfb4llMka8NDE1ZU1pXDntWPfbZ45Gf5OORetxFKckWioxVxU
- nAgAQU9j3cwDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsVy+t/xe7qiN22TDJpuclncX/yZxeLK1/ds
- FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
- HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjig9m6L80pJUhYz84hJbpWhDCyM9
- Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jBsr1zEWLOatODBjBWMD41yuLkZODgkB
- E4l9Ny6ydDFycQgJLGWUONd5gAkiISNxcloDK4QtLPHnWhcbRNF7Rokj/y+BJXgF7CQOtGxh
- AbFZBFQlnv2axAgRF5Q4OfMJWFxUIEniUlc7WFxYwEHizeQ+sAXMAuISt57MZwIZKiLwjEni
- 6Ka1rBAJd4mnb7YxQ2ybyihxo/UyM0iCTcBQoustyBmcHJwCThJvu54yQjSYSXRt7YKy5SW2
- v53DPIFRaBaSQ2YhWTgLScssJC0LGFlWMYqklhbnpucWG+oVJ+YWl+al6yXn525iBEbttmM/
- N+9gnPfqo94hRiYOxkOMEhzMSiK89y9bJwnxpiRWVqUW5ccXleakFh9iNAWGxkRmKdHkfGDa
- yCuJNzQzMDU0MbM0MLU0M1YS5/Us6EgUEkhPLEnNTk0tSC2C6WPi4JRqYEq/EyJ4M6Oh6Um/
- x5RK+7qw1ScbKzKDf3hP76m/MNfYlUVrq8ulWdzfjgpnLzuvwzRpdlrMhLKsWcfL8i8phRmv
- KS3SsTISP/Aq0WyL6/TzOvrLy2febdH4d+Bbv4XKjITHkgfydDmPnTnkqa8iurxMeMXUwiUM
- 8UIytj3f7LRmZXd0TvsfL/plUrXh8f2vpu6qFN+/y1ph7peqoAbGPRpp2Sv+rEtdZnwsokcm
- 5Fu9+lslRt7wF4fmZp5s3Ty9xZ7phwfbsx+xa+Vu585S/yjZofS98Q+/k+VR9XYhRxelqC0L
- 8kv1PPnOit9dGnTbpINx2Zfkz7IyTabpDkxP9qT9Z//0IFLG7QHTzicnlViKMxINtZiLihMB
- e7i0G2MDAAA=
-X-CMS-MailID: 20220325150037eucas1p25a7d8b7508eaa385248f5ad1262e84b4
+ HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjigum5TUnMyy1CJ9uwSujFsXWQtm
+ mVdcb7zF1sD4WqeLkZNDQsBE4sXuH4xdjFwcQgIrGCWez7rIDuF8YZQ4uPESlPOZUeLRoQ1M
+ XYwcYC1nnhhDxJczSlxsXQnV/pFR4szVM2wgRbwCdhLH9gmBrGARUJXY0dLECGLzCghKnJz5
+ hAXEFhVIkli9fTUbiC0s4C2xsnkiWA2zgLjErSfzmUBmigg8YpJ4+uc/K0TCXeLpm23MIDab
+ gKFE19susGZOASeJj2ceQdXIS2x/O4cZpFlCoJtTYtqrt4wQj7pITFu1iRnCFpZ4dXwLO4Qt
+ I/F/53yoz/Il/s4whghXSFx7vQaq3FrizrlfYH8xC2hKrN+lDxF2lNj28C8rRCefxI23ghAX
+ 8ElM2jadGSLMK9HRJgRRrSYx6/g6uJ0HL1xinsCoNAspUGYheX4Wkl9mIexdwMiyilE8tbQ4
+ Nz212DAvtVyvODG3uDQvXS85P3cTIzBxnf53/NMOxrmvPuodYmTiYDzEKMHBrCTCe/+ydZIQ
+ b0piZVVqUX58UWlOavEhRmkOFiVx3uTMDYlCAumJJanZqakFqUUwWSYOTqkGJrkTWTJmfidF
+ KxiL23Nv/9yyzPjw2aPGcp73f/rqbVr4cMfHtTy31OwuPGQ2Pz7n9G3BSMmNB4Trbr+QlXIO
+ j5ur+Kt7oYiRRqNuaFmASqHRKk+pmxuz4w9YBcxSf37lYMlTWQf2wM1iEzfHzPM805Qb3Dkl
+ jvGV4vS/4UePOk6sdcy0Y085fv7877r5W+SdTjtqbdguxGw/I+fUlbTad1Nvevo/2fY+peCq
+ Zmbg6u+zVvtxytTMFzRY5tbBc+pzkXyTUGr18boHZUkuEomfr+x8dCY6V+2ls4/5lwfMJ3ij
+ T7y+p5pZeGK/tFFkTOmsnULfLred6pt9le/M+kVT2bJZu46ueOpXc/LutklR35VYijMSDbWY
+ i4oTAdxYCfLLAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7r2N22TDDZ8Y7O4v/gzi8WVr+/Z
+ LCbdn8Bi8WXTBDaLzolL2C2WT9jHZnGqsZXF4lBftMWnWQ+ZLVb83MrowOWx9uN9Vo/3N1rZ
+ PWZ3zGT1WLznJZPHnWt72Dzudx9n8lgy7SqbR9+WVYwBHFF6NkX5pSWpChn5xSW2StGGFkZ6
+ hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GbcushbMMq+43niLrYHxtU4XIweHhICJ
+ xJknxl2MXBxCAksZJd52f2TqYuQEistInJzWwAphC0v8udbFBlH0nlHi+dnHrCDNvAJ2Esf2
+ CYHUsAioSuxoaWIEsXkFBCVOznzCAmKLCiRJXOpqB4sLC3hLrGyeCGYzC4hL3HoynwlkpojA
+ MyaJo5vWskIk3CWevtnGDLHsLKPE/Rs3wBJsAoYSXW9BruDk4BRwkvh45hFUg5lE19YuqKny
+ EtvfzmGewCg0C8khs5AsnIWkZRaSlgWMLKsYRVJLi3PTc4uN9IoTc4tL89L1kvNzNzEC43Xb
+ sZ9bdjCufPVR7xAjEwfjIUYJDmYlEd77l62ThHhTEiurUovy44tKc1KLDzGaAkNjIrOUaHI+
+ MGHklcQbmhmYGpqYWRqYWpoZK4nzehZ0JAoJpCeWpGanphakFsH0MXFwSjUw+feH94n/Zu69
+ EV7CF//I8ZjTO+W0u3UH64sYhNmiuH/YPGWyzeh7K/h9koBagnuESZbU4pnWa5O+P81ZH/+o
+ Ieb3Au5JkkrhculXP6/QfRb64mtIzNmXrgzCN7TWzi/fae0eZSzpIqnsfMCj8Fq7UZbr7UkT
+ y5N72N687ha1e3f+7a+Z/urh69+bT/itpnF4Yee53nMMs+1O7lpu3ebz+pb4YosUD3PBpKh5
+ LV9UxZv7Mv9cdzebW/iQo7Fh73qvtIRtTw4dL/YMz7zcsOqqvL/Jq53nRURkr8b+0Pjku6nc
+ ZJbs3+wEF+HH06YaXfVYynUnk7nnozWruv5NoTx358lKO/ccqP7Xz8lSoK7EUpyRaKjFXFSc
+ CAC66fBQYAMAAA==
+X-CMS-MailID: 20220325150119eucas1p207124cf9ca47cd248184102c33340547
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
+X-RootMTR: 20220303163740eucas1p1bf0b96980e128fe2b1427c53924e09c5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
-References: <CGME20220303163725eucas1p26c4a165b20dd629f2129926b1b662154@eucas1p2.samsung.com>
- <20220303163654.3381470-1-jagan@amarulasolutions.com>
+X-CMS-RootMailID: 20220303163740eucas1p1bf0b96980e128fe2b1427c53924e09c5
+References: <20220303163654.3381470-1-jagan@amarulasolutions.com>
+ <CGME20220303163740eucas1p1bf0b96980e128fe2b1427c53924e09c5@eucas1p1.samsung.com>
+ <20220303163654.3381470-2-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,66 +124,217 @@ Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
 
 On 03.03.2022 17:36, Jagan Teki wrote:
-> Updated series about drm bridge conversion of exynos dsi.
+> Replace the manual panel handling code by a drm panel_bridge via
+> devm_drm_of_get_bridge().
 >
-> Previous version can be accessible, here [1].
+> Adding panel_bridge handling,
 >
-> Patch 1: tc358764 panel_bridge API
+> - Drops drm_connector and related operations as drm_bridge_attach
+>    creates connector during attachment.
 >
-> Patch 2: connector reset
+> - Drops panel pointer and panel healpers.
 >
-> Patch 3: bridge attach in MIC
+> This simplifies the driver and allows all components in the display
+> pipeline to be treated as bridges.
 >
-> Patch 4: panel_bridge API
->
-> Patch 5: bridge conversion
->
-> Patch 6: atomic functions
->
->
->
-> Any inputs?
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-I'm really sorry for the delay on my side. I was really busy with other 
-things and I was not able to check the display of the boards with remote 
-access.
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-
-Finally, this patchset works properly on all my Exynos-based test systems:
-
-1. Exynos4210 Trats with Samsung s6e8aa0 DSI panel
-
-2. Exynos4412 Trats2 with Samsung s6e8aa0 DSI panel
-
-3. Exynos5250 Arndale with TC358764 DSI-LVDS bridge and LVDS panel
-
-4. Exynos5433 TM2e with Samsung s6e3hf2 DSI panel and internal Exynos 
-MIC bridge
-
-
-I will post my acked-by and tested-by tags for each patch.
-
-
-> Jagan.
+> ---
+> Changes for v6:
+> - none
+> Changes for v2:
+> - s/panel_bridge/next_bridge
+> - drop unneeded headers
 >
-> Jagan Teki (6):
->    drm: bridge: tc358764: Use drm panel_bridge API
->    drm: bridge: panel: Reset the connector state pointer
->    exynos: drm: dsi: Attach in_bridge in MIC driver
->    drm: exynos: dsi: Use drm panel_bridge API
->    drm: exynos: dsi: Convert to bridge driver
->    drm: exynos: dsi: Switch to atomic funcs
+>   drivers/gpu/drm/bridge/tc358764.c | 104 ++----------------------------
+>   1 file changed, 6 insertions(+), 98 deletions(-)
 >
->   drivers/gpu/drm/bridge/panel.c          |   3 +
->   drivers/gpu/drm/bridge/tc358764.c       | 104 +---------
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 241 ++++++------------------
->   drivers/gpu/drm/exynos/exynos_drm_mic.c |  22 +++
->   4 files changed, 93 insertions(+), 277 deletions(-)
->
+> diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
+> index c1e35bdf9232..dca41ed32f8a 100644
+> --- a/drivers/gpu/drm/bridge/tc358764.c
+> +++ b/drivers/gpu/drm/bridge/tc358764.c
+> @@ -16,14 +16,9 @@
+>   #include <video/mipi_display.h>
+>   
+>   #include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_bridge.h>
+> -#include <drm/drm_crtc.h>
+> -#include <drm/drm_fb_helper.h>
+>   #include <drm/drm_mipi_dsi.h>
+>   #include <drm/drm_of.h>
+> -#include <drm/drm_panel.h>
+>   #include <drm/drm_print.h>
+> -#include <drm/drm_probe_helper.h>
+>   
+>   #define FLD_MASK(start, end)    (((1 << ((start) - (end) + 1)) - 1) << (end))
+>   #define FLD_VAL(val, start, end) (((val) << (end)) & FLD_MASK(start, end))
+> @@ -153,10 +148,9 @@ static const char * const tc358764_supplies[] = {
+>   struct tc358764 {
+>   	struct device *dev;
+>   	struct drm_bridge bridge;
+> -	struct drm_connector connector;
+> +	struct drm_bridge *next_bridge;
+>   	struct regulator_bulk_data supplies[ARRAY_SIZE(tc358764_supplies)];
+>   	struct gpio_desc *gpio_reset;
+> -	struct drm_panel *panel;
+>   	int error;
+>   };
+>   
+> @@ -210,12 +204,6 @@ static inline struct tc358764 *bridge_to_tc358764(struct drm_bridge *bridge)
+>   	return container_of(bridge, struct tc358764, bridge);
+>   }
+>   
+> -static inline
+> -struct tc358764 *connector_to_tc358764(struct drm_connector *connector)
+> -{
+> -	return container_of(connector, struct tc358764, connector);
+> -}
+> -
+>   static int tc358764_init(struct tc358764 *ctx)
+>   {
+>   	u32 v = 0;
+> @@ -278,43 +266,11 @@ static void tc358764_reset(struct tc358764 *ctx)
+>   	usleep_range(1000, 2000);
+>   }
+>   
+> -static int tc358764_get_modes(struct drm_connector *connector)
+> -{
+> -	struct tc358764 *ctx = connector_to_tc358764(connector);
+> -
+> -	return drm_panel_get_modes(ctx->panel, connector);
+> -}
+> -
+> -static const
+> -struct drm_connector_helper_funcs tc358764_connector_helper_funcs = {
+> -	.get_modes = tc358764_get_modes,
+> -};
+> -
+> -static const struct drm_connector_funcs tc358764_connector_funcs = {
+> -	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+> -	.reset = drm_atomic_helper_connector_reset,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> -};
+> -
+> -static void tc358764_disable(struct drm_bridge *bridge)
+> -{
+> -	struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> -	int ret = drm_panel_disable(bridge_to_tc358764(bridge)->panel);
+> -
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "error disabling panel (%d)\n", ret);
+> -}
+> -
+>   static void tc358764_post_disable(struct drm_bridge *bridge)
+>   {
+>   	struct tc358764 *ctx = bridge_to_tc358764(bridge);
+>   	int ret;
+>   
+> -	ret = drm_panel_unprepare(ctx->panel);
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "error unpreparing panel (%d)\n", ret);
+>   	tc358764_reset(ctx);
+>   	usleep_range(10000, 15000);
+>   	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> @@ -335,72 +291,25 @@ static void tc358764_pre_enable(struct drm_bridge *bridge)
+>   	ret = tc358764_init(ctx);
+>   	if (ret < 0)
+>   		dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
+> -	ret = drm_panel_prepare(ctx->panel);
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "error preparing panel (%d)\n", ret);
+> -}
+> -
+> -static void tc358764_enable(struct drm_bridge *bridge)
+> -{
+> -	struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> -	int ret = drm_panel_enable(ctx->panel);
+> -
+> -	if (ret < 0)
+> -		dev_err(ctx->dev, "error enabling panel (%d)\n", ret);
+>   }
+>   
+>   static int tc358764_attach(struct drm_bridge *bridge,
+>   			   enum drm_bridge_attach_flags flags)
+> -{
+> -	struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> -	struct drm_device *drm = bridge->dev;
+> -	int ret;
+> -
+> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> -		DRM_ERROR("Fix bridge driver to make connector optional!");
+> -		return -EINVAL;
+> -	}
+> -
+> -	ctx->connector.polled = DRM_CONNECTOR_POLL_HPD;
+> -	ret = drm_connector_init(drm, &ctx->connector,
+> -				 &tc358764_connector_funcs,
+> -				 DRM_MODE_CONNECTOR_LVDS);
+> -	if (ret) {
+> -		DRM_ERROR("Failed to initialize connector\n");
+> -		return ret;
+> -	}
+> -
+> -	drm_connector_helper_add(&ctx->connector,
+> -				 &tc358764_connector_helper_funcs);
+> -	drm_connector_attach_encoder(&ctx->connector, bridge->encoder);
+> -	ctx->connector.funcs->reset(&ctx->connector);
+> -	drm_connector_register(&ctx->connector);
+> -
+> -	return 0;
+> -}
+> -
+> -static void tc358764_detach(struct drm_bridge *bridge)
+>   {
+>   	struct tc358764 *ctx = bridge_to_tc358764(bridge);
+>   
+> -	drm_connector_unregister(&ctx->connector);
+> -	ctx->panel = NULL;
+> -	drm_connector_put(&ctx->connector);
+> +	return drm_bridge_attach(bridge->encoder, ctx->next_bridge, bridge, flags);
+>   }
+>   
+>   static const struct drm_bridge_funcs tc358764_bridge_funcs = {
+> -	.disable = tc358764_disable,
+>   	.post_disable = tc358764_post_disable,
+> -	.enable = tc358764_enable,
+>   	.pre_enable = tc358764_pre_enable,
+>   	.attach = tc358764_attach,
+> -	.detach = tc358764_detach,
+>   };
+>   
+>   static int tc358764_parse_dt(struct tc358764 *ctx)
+>   {
+>   	struct device *dev = ctx->dev;
+> -	int ret;
+>   
+>   	ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+>   	if (IS_ERR(ctx->gpio_reset)) {
+> @@ -408,12 +317,11 @@ static int tc358764_parse_dt(struct tc358764 *ctx)
+>   		return PTR_ERR(ctx->gpio_reset);
+>   	}
+>   
+> -	ret = drm_of_find_panel_or_bridge(ctx->dev->of_node, 1, 0, &ctx->panel,
+> -					  NULL);
+> -	if (ret && ret != -EPROBE_DEFER)
+> -		dev_err(dev, "cannot find panel (%d)\n", ret);
+> +	ctx->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> +	if (IS_ERR(ctx->next_bridge))
+> +		return PTR_ERR(ctx->next_bridge);
+>   
+> -	return ret;
+> +	return 0;
+>   }
+>   
+>   static int tc358764_configure_regulators(struct tc358764 *ctx)
+
 Best regards
 -- 
 Marek Szyprowski, PhD
