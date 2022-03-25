@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECE74E7595
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 16:01:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CE04E759C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 16:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9EE610E76B;
-	Fri, 25 Mar 2022 15:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD7310E754;
+	Fri, 25 Mar 2022 15:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9724610E73D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:44 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220325150143euoutp01d2c308e352edf37bfdf675d610b5e0f7~fp9Cs0_YU2281822818euoutp01D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220325150143euoutp01d2c308e352edf37bfdf675d610b5e0f7~fp9Cs0_YU2281822818euoutp01D
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA7210E754
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:57 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150156euoutp0277087828b4774b5e25d8b835eb770f81~fp9O97Sbc2279822798euoutp02q
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 15:01:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220325150156euoutp0277087828b4774b5e25d8b835eb770f81~fp9O97Sbc2279822798euoutp02q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1648220503;
- bh=Z3Jgdpb/BI5q24Y5rNF9cGHLoZEZaWp77CPHUVnPC7w=;
+ s=mail20170921; t=1648220516;
+ bh=8RphYm7Z2h3CFLWkl5wOsafCwFOXb85wgt2hniBGU9A=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=DJ2tycH021aGkcsTav85MmVk7dRJvYW86RaoTm4pyCsIZ4GSkPOhGjRt505yy0Bdl
- 3lRDIPC5ISJvA6az5vSBjgxdz9Os2VE7jfzPjvt6oRA27p2rDTmtq+My8S8On58s6v
- JYTqVIGbfwODEkEc/eK/G3lS6hOOSGAMTrKDU65M=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=NAuDqopgwnF3gy/whh0lJ1jqry0x33vQZNL1fvL0mGANBz74VcAna+0we6WQdOvj8
+ bPTdIe6uSwv0fSDgqhtEysq7ALiROiepAKiv6MmtfiSbzCigJVM+RuBVZvDxzCSplC
+ 7Uf76JeKvN/lSiQzP5YpUu7HdoVQrSqSS1xYefo8=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220325150143eucas1p21d13976102525b416481bfba57525da8~fp9Cc5wM32345723457eucas1p2R;
- Fri, 25 Mar 2022 15:01:43 +0000 (GMT)
+ 20220325150155eucas1p2c35d337d1c32e0efd166e487b06f9c6b~fp9Oeurzw2631126311eucas1p2J;
+ Fri, 25 Mar 2022 15:01:55 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 9E.3B.09887.659DD326; Fri, 25
- Mar 2022 15:01:42 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id CE.D0.10009.369DD326; Fri, 25
+ Mar 2022 15:01:55 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220325150142eucas1p1be8715062c3b2e743f04b4e78054e3cf~fp9B66UA90731707317eucas1p1P;
- Fri, 25 Mar 2022 15:01:42 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220325150142eusmtrp227137efba37b82a154acaea6a6fd015f~fp9B6CPKT2057920579eusmtrp2e;
- Fri, 25 Mar 2022 15:01:42 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-28-623dd9567c01
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 04.1C.09404.659DD326; Fri, 25
- Mar 2022 15:01:42 +0000 (GMT)
+ 20220325150155eucas1p1baa08d7b2b3fe3df3e654a8670b99986~fp9OEkqC70956509565eucas1p1G;
+ Fri, 25 Mar 2022 15:01:55 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220325150155eusmtrp103a5fcf327e917fadfbb3e8606d6eeac~fp9N7Q0yY1475514755eusmtrp1h;
+ Fri, 25 Mar 2022 15:01:55 +0000 (GMT)
+X-AuditID: cbfec7f2-e7fff70000002719-3d-623dd963003a
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id C1.2D.09522.369DD326; Fri, 25
+ Mar 2022 15:01:55 +0000 (GMT)
 Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220325150141eusmtip2bb706e1ef2b8c350b2c4b02c11ec8b19~fp9BO-1AV1623216232eusmtip2m;
- Fri, 25 Mar 2022 15:01:41 +0000 (GMT)
-Message-ID: <f13dfce8-63a4-8337-4fe9-56a1ea57e4e4@samsung.com>
-Date: Fri, 25 Mar 2022 16:01:42 +0100
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220325150154eusmtip17f966a0de8ed3d3ca5d5e25435c38a46~fp9NUGK0F0799107991eusmtip13;
+ Fri, 25 Mar 2022 15:01:54 +0000 (GMT)
+Message-ID: <86fceb2e-cebc-adf2-945d-fe12d80ec666@samsung.com>
+Date: Fri, 25 Mar 2022 16:01:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v6 2/6] drm: bridge: panel: Reset the connector state
- pointer
+Subject: Re: [PATCH v6 3/6] exynos: drm: dsi: Attach in_bridge in MIC driver
 Content-Language: en-US
 To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
@@ -64,51 +63,51 @@ To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Inki Dae
  <inki.dae@samsung.com>
 From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220303163654.3381470-3-jagan@amarulasolutions.com>
+In-Reply-To: <20220303163654.3381470-4-jagan@amarulasolutions.com>
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsWy7djPc7phN22TDH49sbC4v/gzi8WVr+/Z
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFKsWRmVeSWpSXmKPExsWy7djPc7rJN22TDJZdN7O4v/gzi8WVr+/Z
  LCbdn8Bi8WXTBDaLzolL2C2WT9jHZnGqsZXF4lBftMWnWQ+ZLVb83MrowOWx9uN9Vo/3N1rZ
- PWZ3zGT1WLznJZPHnWt72Dzudx9n8lgy7SqbR9+WVYwBHFFcNimpOZllqUX6dglcGW8/n2Ev
- eChbcabtDVMDY59UFyMnh4SAicT7U+tZuhi5OIQEVjBK7Do1hR3C+cIoMWvnZajMZ0aJu2d3
- MMG0LFg+jREisZxR4uLSDVAtHxklHl//BVbFK2Ancba7jxXEZhFQlVgw5xRUXFDi5MwnLCC2
- qECSxOrtq9lAbGGBYIkzkycygtjMAuISt57MZwIZKiLwiEni6Z//rBAJd4mnb7Yxg9hsAoYS
- XW+7wJo5BZwklm7eyQRRIy+x/e0cZpBmCYF2Tollf06zQdztIrHq/wwWCFtY4tXxLewQtozE
- /50g2ziA7HyJvzOMIcIVEtder2GGsK0l7pz7xQZSwiygKbF+lz5E2FGid9EdZohOPokbbwUh
- LuCTmLRtOlSYV6KjTQiiWk1i1vF1cDsPXrjEPIFRaRZSoMxC8vwsJL/MQti7gJFlFaN4amlx
- bnpqsVFearlecWJucWleul5yfu4mRmD6Ov3v+JcdjMtffdQ7xMjEwXiIUYKDWUmE9/5l6yQh
- 3pTEyqrUovz4otKc1OJDjNIcLErivMmZGxKFBNITS1KzU1MLUotgskwcnFINTOmSH6r0+nfk
- mLOJOy/ldJ6yKGfO7spNr3cmxE41d7q051H04cmiGzYvK6ybqWq3scJsT9ChE/fyNXtnGPzX
- lBTYb9+UzHitkY2t55bz7Fny+5fF/feXehf8q+ncykcqS7LfBt/pv7I3a++VuLdWtUknnvUH
- 5n1cyiH+Ik6J+4nTv0t2KTxeq5KmO2V0zHh7aYnqpTn7igxOP3Vu8uxfk2233Cn87L/2LwoW
- MoXXP6SLOK99stPHwzbNeS33HrM6w7/cOheuuGzselj2uWBX+dvjTX+E299sOcrtd/NZ7kl3
- vaLw1+wGh1hX1LTu/lOvcGXBji98v3bPTEz7H/NeLXKW7eqFLM2da6prAjOS3ZRYijMSDbWY
- i4oTATLRBUDOAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsVy+t/xe7phN22TDK79ErO4v/gzi8WVr+/Z
+ PWZ3zGT1WLznJZPHnWt72Dzudx9n8lgy7SqbR9+WVYwBHFFcNimpOZllqUX6dglcGe8XbmAq
+ eKxY8ffNHKYGxonSXYycHBICJhJ31zxk6mLk4hASWMEosfv8LSjnC6NE8/ZDUM5nRonjU/uY
+ YVoatk5mh0gsZ5TombeWDcL5yChxr7OLFaSKV8BOYsKZQ4wgNouAqsT99XdZIOKCEidnPgGz
+ RQWSJFZvX80GYgsL+EgcO9oCZjMLiEvcejIfbLWIwCMmiad//rNCJNwlnr7ZBnYGm4ChRNfb
+ LqAGDg5OASeJhf3RECXyEtvfzmEG6ZUQaOeU6Lm6lQ3ibBeJ/986oGxhiVfHt7BD2DISpyf3
+ sIDMkRDIl/g7wxgiXCFx7fUaqI+tJe6c+wW2illAU2L9Ln2IsKPEr6tH2SA6+SRuvBWEuIBP
+ YtK26cwQYV6JjjYhiGo1iVnH18HtPHjhEvMERqVZSGEyC8nvs5D8Mgth7wJGllWM4qmlxbnp
+ qcWGeanlesWJucWleel6yfm5mxiByev0v+OfdjDOffVR7xAjEwfjIUYJDmYlEd77l62ThHhT
+ EiurUovy44tKc1KLDzFKc7AoifMmZ25IFBJITyxJzU5NLUgtgskycXBKNTCFm07Iki/WLH94
+ jr1wRtImtaqv0RVnbW98UwhxfX+8N87ewrFvxZ+rN+Vkz/3KOe+3yHyX7LfvO/rW/T9gLrTw
+ 29Udbn+Zq479Ln0ad2mm/RQvjUn5nLe5n86Ttkth73OM7HXiNa/i26cxnaHBb861jc8y3orf
+ /6HoLzBrna+37oRXdi4TWmwfsb5Y6H3I8V9dbIGgcCEfh75NvY+A6uSlLuEdTvIL/grOfql+
+ wmtD2butn49HZbfE7o3uu9ahurfozoXKr5stN+8O8Dp3OWf981fvjjEx/e4wsvmz6K5Xznlr
+ 6bxl8s+KWK4XFBx3+Ojrs4yhzbn819rVQY8rmphLl2/V1LiV4bJeSWN+dYUSS3FGoqEWc1Fx
+ IgDrd7vhzQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xu7rJN22TDDY9EbS4v/gzi8WVr+/Z
  LCbdn8Bi8WXTBDaLzolL2C2WT9jHZnGqsZXF4lBftMWnWQ+ZLVb83MrowOWx9uN9Vo/3N1rZ
  PWZ3zGT1WLznJZPHnWt72Dzudx9n8lgy7SqbR9+WVYwBHFF6NkX5pSWpChn5xSW2StGGFkZ6
- hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GW8/n2EveChbcabtDVMDY59UFyMnh4SA
- icSC5dMYuxi5OIQEljJKPNqwixEiISNxcloDK4QtLPHnWhcbRNF7Rom59z6DJXgF7CTOdveB
- 2SwCqhIL5pxigogLSpyc+YQFxBYVSJK41NUONlRYIFjizOSJYDazgLjErSfzmUCGigg8Y5I4
- umktK0TCXeLpm23MENvOMkrMWnQHbBKbgKFE11uQMzg5OAWcJJZu3skE0WAm0bW1C2qqvMT2
- t3OYJzAKzUJyyCwkC2chaZmFpGUBI8sqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwKjdduzn
- lh2MK1991DvEyMTBeIhRgoNZSYT3/mXrJCHelMTKqtSi/Pii0pzU4kOMpsDQmMgsJZqcD0wb
- eSXxhmYGpoYmZpYGppZmxkrivJ4FHYlCAumJJanZqakFqUUwfUwcnFINTPrytl0WBpyM91ut
- N3PrTU1fwmv80f+OuF7DsvgrewL6/S93tt+VCjT5LaR7uie2amFBQlTYOUVB2cvCkz2VWBui
- DlZ+u28rcN377PIv1usP6Qh9X/WlIKXM8xT/6ausUa88BSLPPP6fbj/b3vScyY2Zm46zrtMW
- Vfr+TGm1zou3PVvuScyqWvCcM7Zrh9Ibm9e87ttCK+1nNq9ZW3nf+dYijy+XJBl/s8eXi89K
- myXS9Mtb2F540+0brdEmPK1qlmkZ3uYvJe+3HjoR+Ev8xoXQ3w3rVRRjmyzWT4o+GvJuQ2Kn
- Z6D9/BebmPiCxD++NYl317899b/lCYFwz3+Gur0vnI/bNdwLCL/04etlJZbijERDLeai4kQA
- Ek5rDmMDAAA=
-X-CMS-MailID: 20220325150142eucas1p1be8715062c3b2e743f04b4e78054e3cf
+ hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6Ge8XbmAqeKxY8ffNHKYGxonSXYycHBIC
+ JhINWyezdzFycQgJLGWU+HBoFxtEQkbi5LQGVghbWOLPtS42iKL3jBLvV60DS/AK2ElMOHOI
+ EcRmEVCVuL/+LgtEXFDi5MwnYLaoQJLEpa52sBphAR+JY0dbwBYwC4hL3HoynwlkqIjAMyaJ
+ o5vWskIk3CWevtnGDLHtLKNE66UpTCAJNgFDia63IGdwcHAKOEks7I+GqDeT6NraxQhhy0ts
+ fzuHeQKj0Cwkd8xCsm8WkpZZSFoWMLKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECIzZbcd+
+ bt7BOO/VR71DjEwcjIcYJTiYlUR471+2ThLiTUmsrEotyo8vKs1JLT7EaAoMjInMUqLJ+cCk
+ kVcSb2hmYGpoYmZpYGppZqwkzutZ0JEoJJCeWJKanZpakFoE08fEwSnVwLTZKiNLmbNV83SA
+ 3alJfXV2rk7m2y4/DGq6vMMtRFqwenJw6gFO6dbTStf1pjBUKNr+aZE+q+F28MNdzof7bZoP
+ Ous/uHK2xFvx89oM4ysvWZ6Z8nlsVpD7m2KnV7Q9yeFqcjDbL45Xd+LreGqn+e6y/9MWK5Lr
+ JPChwWEDS1uuyG6Pbx2WMx+nrCz7cElJeCXDtb6SXEdPvW8JPTJW/z/+PLVlTu7DH+VrDl1o
+ Xa/6wJr52jzTtKl7b30S5L7099b16Hf62RYbpeYf8ZHrs9ou1Oyrn76ySWJCjnjJG1mJskz+
+ 7jyx2Hxvk6zwjnJz827nKx8OJCxr3zzhq9uVX/fi5AxsDs8JuRBUzJikxFKckWioxVxUnAgA
+ Scli1mIDAAA=
+X-CMS-MailID: 20220325150155eucas1p1baa08d7b2b3fe3df3e654a8670b99986
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220303163748eucas1p128e4cc29bba3db99ffdcbabe5aa3fbab
+X-RootMTR: 20220303163758eucas1p26a293c60823dcb5036bd4be2103785de
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220303163748eucas1p128e4cc29bba3db99ffdcbabe5aa3fbab
+X-CMS-RootMailID: 20220303163758eucas1p26a293c60823dcb5036bd4be2103785de
 References: <20220303163654.3381470-1-jagan@amarulasolutions.com>
- <CGME20220303163748eucas1p128e4cc29bba3db99ffdcbabe5aa3fbab@eucas1p1.samsung.com>
- <20220303163654.3381470-3-jagan@amarulasolutions.com>
+ <CGME20220303163758eucas1p26a293c60823dcb5036bd4be2103785de@eucas1p2.samsung.com>
+ <20220303163654.3381470-4-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,43 +126,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 03.03.2022 17:36, Jagan Teki wrote:
-> Trigger hotplug event with drm_kms_helper_hotplug_event might fail if the
-> connector state pointer is NULL.
+> MIC drivers in the Exynos5433 display pipeline are already registered
+> as bridge drivers and it is more advisable to attach the downstream
+> bridge on the bridge attach call instead of doing the same in the
+> DSI driver.
 >
-> BUG observed in exynos dsi driver where drm_bridge_attach is trying to register
-> a connector in panel_bridge before the hotplug event is triggered,
+> This makes bridge attachment more meaningful and avoids the races
+> during bridge function calls.
 >
-> WARNING: CPU: 1 PID: 1 at drivers/gpu/drm/drm_atomic_state_helper.c:494 drm_atomic_helper_connector_duplicate_state+0x94/0x9c
-> Modules linked in:
-> CPU: 1 PID: 1 Comm: swapper/0 Tainted: G W 5.16.0-rc1-00009-g704b1dbfa4c2 #11058
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> [<c0110b30>] (unwind_backtrace) from [<c010c618>] (show_stack+0x10/0x14)
-> [<c010c618>] (show_stack) from [<c0b657d4>] (dump_stack_lvl+0x58/0x70)
-> [<c0b657d4>] (dump_stack_lvl) from [<c01261dc>] (__warn+0xd0/0x134)
-> [<c01261dc>] (__warn) from [<c0b5f628>] (warn_slowpath_fmt+0x5c/0xb4)
-> [<c0b5f628>] (warn_slowpath_fmt) from [<c064bce4>] (drm_atomic_helper_connector_duplicate_state+0x94/0x9c)
-> [<c064bce4>] (drm_atomic_helper_connector_duplicate_state) from [<c0666b64>] (drm_atomic_get_connector_state+0xd4/0x190)
-> [<c0666b64>] (drm_atomic_get_connector_state) from [<c0667928>] (__drm_atomic_helper_set_config+0x314/0x368)
-> [<c0667928>] (__drm_atomic_helper_set_config) from [<c067e628>] (drm_client_modeset_commit_atomic+0x170/0x278)
-> [<c067e628>] (drm_client_modeset_commit_atomic) from [<c067e800>] (drm_client_modeset_commit_locked+0x60/0x1c8)
-> [<c067e800>] (drm_client_modeset_commit_locked) from [<c067e98c>] (drm_client_modeset_commit+0x24/0x40)
-> [<c067e98c>] (drm_client_modeset_commit) from [<c06509c0>] (drm_fb_helper_set_par+0xb8/0xf8)
-> [<c06509c0>] (drm_fb_helper_set_par) from [<c05b86d0>] (fbcon_init+0x2c0/0x518)
-> [<c05b86d0>] (fbcon_init) from [<c060636c>] (visual_init+0xc0/0x108)
-> [<c060636c>] (visual_init) from [<c06085e4>] (do_bind_con_driver+0x1b8/0x3a4)
-> [<c06085e4>] (do_bind_con_driver) from [<c0608b40>] (do_take_over_console+0x13c/0x1e8)
-> [<c0608b40>] (do_take_over_console) from [<c05b6854>] (do_fbcon_takeover+0x78/0xd8)
-> [<c05b6854>] (do_fbcon_takeover) from [<c05b1154>] (register_framebuffer+0x208/0x2e0)
-> [<c05b1154>] (register_framebuffer) from [<c064ead0>] (__drm_fb_helper_initial_config_and_unlock+0x400/0x63c)
-> [<c064ead0>] (__drm_fb_helper_initial_config_and_unlock) from [<c063a718>] (drm_kms_helper_hotplug_event+0x24/0x30)
-> [<c063a718>] (drm_kms_helper_hotplug_event) from [<c068f668>] (exynos_dsi_host_attach+0x174/0x1fc)
-> [<c068f668>] (exynos_dsi_host_attach) from [<c0699354>] (s6e8aa0_probe+0x1b4/0x218)
->
-> So reset the atomic state for a given connector by freeing the state pointer
-> and allocate a new empty state object. This can be done using connector
-> funcs->reset helper and has to be done before the hotplug even calls.
->
-> This patch calls the connector->funcs->reset in panel_bridge_attach.
+> So, move the bridge finding and drm_bridge_attach from DSI to MIC.
 >
 > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
@@ -172,28 +143,113 @@ Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
 > ---
-> Changes for v6, v5:
-> - none
-> Changes for v4:
+> Changes for v6:
 > - new patch
 >
->   drivers/gpu/drm/bridge/panel.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 15 ---------------
+>   drivers/gpu/drm/exynos/exynos_drm_mic.c | 22 ++++++++++++++++++++++
+>   2 files changed, 22 insertions(+), 15 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index b32295abd9e7..f6eea194482a 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -83,6 +83,9 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
->   	drm_connector_attach_encoder(&panel_bridge->connector,
->   					  bridge->encoder);
->   
-> +	if (connector->funcs->reset)
-> +		connector->funcs->reset(connector);
-> +
->   	return 0;
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> index b7d0a4aead0a..741c046513e8 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> @@ -1660,11 +1660,6 @@ static int exynos_dsi_of_read_u32(const struct device_node *np,
+>   	return ret;
 >   }
 >   
+> -enum {
+> -	DSI_PORT_IN,
+> -	DSI_PORT_OUT
+> -};
+> -
+>   static int exynos_dsi_parse_dt(struct exynos_dsi *dsi)
+>   {
+>   	struct device *dev = dsi->dev;
+> @@ -1695,8 +1690,6 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+>   	struct exynos_dsi *dsi = dev_get_drvdata(dev);
+>   	struct drm_encoder *encoder = &dsi->encoder;
+>   	struct drm_device *drm_dev = data;
+> -	struct device_node *in_bridge_node;
+> -	struct drm_bridge *in_bridge;
+>   	int ret;
+>   
+>   	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+> @@ -1707,14 +1700,6 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	in_bridge_node = of_graph_get_remote_node(dev->of_node, DSI_PORT_IN, 0);
+> -	if (in_bridge_node) {
+> -		in_bridge = of_drm_find_bridge(in_bridge_node);
+> -		if (in_bridge)
+> -			drm_bridge_attach(encoder, in_bridge, NULL, 0);
+> -		of_node_put(in_bridge_node);
+> -	}
+> -
+>   	return mipi_dsi_host_register(&dsi->dsi_host);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> index 32672bf8ae4a..9e06f8e2a863 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> @@ -102,6 +102,7 @@ struct exynos_mic {
+>   	struct videomode vm;
+>   	struct drm_encoder *encoder;
+>   	struct drm_bridge bridge;
+> +	struct drm_bridge *next_bridge;
+>   
+>   	bool enabled;
+>   };
+> @@ -298,12 +299,22 @@ static void mic_pre_enable(struct drm_bridge *bridge)
+>   
+>   static void mic_enable(struct drm_bridge *bridge) { }
+>   
+> +static int mic_attach(struct drm_bridge *bridge,
+> +		      enum drm_bridge_attach_flags flags)
+> +{
+> +	struct exynos_mic *mic = bridge->driver_private;
+> +
+> +	return drm_bridge_attach(bridge->encoder, mic->next_bridge,
+> +				 &mic->bridge, flags);
+> +}
+> +
+>   static const struct drm_bridge_funcs mic_bridge_funcs = {
+>   	.disable = mic_disable,
+>   	.post_disable = mic_post_disable,
+>   	.mode_set = mic_mode_set,
+>   	.pre_enable = mic_pre_enable,
+>   	.enable = mic_enable,
+> +	.attach = mic_attach,
+>   };
+>   
+>   static int exynos_mic_bind(struct device *dev, struct device *master,
+> @@ -377,6 +388,7 @@ static int exynos_mic_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+>   	struct exynos_mic *mic;
+> +	struct device_node *remote;
+>   	struct resource res;
+>   	int ret, i;
+>   
+> @@ -420,6 +432,16 @@ static int exynos_mic_probe(struct platform_device *pdev)
+>   		}
+>   	}
+>   
+> +	remote = of_graph_get_remote_node(dev->of_node, 1, 0);
+> +	mic->next_bridge = of_drm_find_bridge(remote);
+> +	if (IS_ERR(mic->next_bridge)) {
+> +		DRM_DEV_ERROR(dev, "mic: Failed to find next bridge\n");
+> +		ret = PTR_ERR(mic->next_bridge);
+> +		goto err;
+> +	}
+> +
+> +	of_node_put(remote);
+> +
+>   	platform_set_drvdata(pdev, mic);
+>   
+>   	mic->bridge.funcs = &mic_bridge_funcs;
 
 Best regards
 -- 
