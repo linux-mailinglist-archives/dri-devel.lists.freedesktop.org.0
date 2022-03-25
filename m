@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D9E4E73E9
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 14:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5B04E73EE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 14:06:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF08710E70A;
-	Fri, 25 Mar 2022 13:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E885F10E8F2;
+	Fri, 25 Mar 2022 13:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B30010E70A
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 13:05:45 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id A222A5C0200;
- Fri, 25 Mar 2022 09:05:44 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 25 Mar 2022 09:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=Idy/YwK8Gz35JVHlk1OJlpdd3YjWzocHKKLo63
- P4k+M=; b=S+A/SPYoZoZmYkUUHacMFVfp8njh6gNXVmftAtC+yPunyT9oMr74dg
- TNtdS9U0Jc2X+vrbgHUF+oHln6CGMBn1vZfihOv4cfWFn+ujT8sG/ds48FS3lz0Z
- 1JTxcrUYbZXABMYRK9B5VTpPkTvwyB5edyzA7TGW6AcLxaMEbKDULoeeKYQtN0cs
- 2431QaNMzHx9Ap2uw3rA/zfrNSUzKVLNZlr+EKPcG7Wm6Yp8EvfSsWjALSq5Ofb/
- mJu6E828lrylR3jdbnzxdZNsk8majbeYdwB27temvRpuflH5eXY/0XYcFqQkX3eJ
- fEM4NqEjqpVRf+7Z1gN21TlXtIGTfatg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Idy/YwK8Gz35JVHlk
- 1OJlpdd3YjWzocHKKLo63P4k+M=; b=b/2mz8x9Q9REMUu01t2QR67KoMZ0MBhVP
- rW0QGd+0+GmeAzxTM3mJcgI26HHrms2K/X8i/dkoIrGo9EAh87PvzkCdlzU2qFtv
- Y5YbLJA3KNUWVs7FgbUtSL/sZE5t/nZg2WRNG1E2BDTyTZz66AoG6+4kX/7Ve/N+
- cRFPlgae1THL7CdcRJZ/g2Ope5lRRtePDXDdpBOlaEt6HbVAne7iylTpubgsB9hh
- F5NWH2Jmy4g2M50WjnORppkSo0L6KYyHwUEBQvVnCg5KzXyo+wnD3AfB8l/FEG/T
- s3R2jns2X1LgZOVy+5eUoUuEDX2n7TsomSjOyCN8FgNDVIBhte6VQ==
-X-ME-Sender: <xms:J749Yufx9XzPE7PtRL2Ck0ZFXZyjvZSU8OxV63tQSxIj1erX7t6hlQ>
- <xme:J749YoOl98Y4z_XdbLczoA5I5BDNPTBQC8dsBNtFpmTZTXmEdB4nnDYMPriwllp5C
- mFio7_2q597SNjDrso>
-X-ME-Received: <xmr:J749YviCSVyih9zUDvFf_HdK0OaT7r_eUWcLIg2AhOvH4PDk-4kmJFOb2cjlYMVQe_ee97lubQNe22qCEIR8YG6t-F9BYBRxmiPJFdo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehuddggeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:J749Yr__emgP0n8AOMItzUEQ9hrBuOU-kWA8NVncIKQoDvnjquCVlg>
- <xmx:J749YqtCfKAS2JclBb13t7f6mT4PJHG4Jf2hbMjNrixFM_VSPFMSaA>
- <xmx:J749YiGhWDkW-VH0oNqu4LRyu4qIadMM6oNio6ygOj94L1h6eS3pJw>
- <xmx:KL49YsWUtaL2lnwD5jce_KxEasDOWPqQObGXuaT_JoOj9o_m-t9vmw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Mar 2022 09:05:42 -0400 (EDT)
-Date: Fri, 25 Mar 2022 14:05:41 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Zheng Bin <zhengbin13@huawei.com>
-Subject: Re: [PATCH v2 -next] drm/vc4: Fix build error when CONFIG_DRM_VC4=y
- && CONFIG_RASPBERRYPI_FIRMWARE=m
-Message-ID: <20220325130541.tjxq4kjgmkaz32en@houat>
-References: <20220325021831.2812735-1-zhengbin13@huawei.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDDC10E74A;
+ Fri, 25 Mar 2022 13:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648213599; x=1679749599;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=LAbVCviSkiyx0IorRFxxyAB7MRVxHY8DxH84RXhJWQ4=;
+ b=BWJkdZ620fjWUkskamdQKK/PR7XtqxuriOKA/XK5i2GyvWL0uAnFD6KR
+ QZVnVibX9Ti+5A6PaN4MjA4qBVwPo/djO5VeWczqhwfDYg4Bl2HhQKkB1
+ 667wq5UkeBw2i+98SzxVcBOr3dgQ85+8UJcHvUirvM+lJFNy1LUdbTzZ9
+ +vt1Kt6er9je6mi9oWEh8FzJh7w4T+mV2OVlpZHNNgjczjzc/qctydSYK
+ P0ISL0nRwhDAHA3KJC6VP41hxJGGy40vrhAJR2o15FATxeMDjB1lKHz9r
+ GtSJdMuwHVg1h/xZwuaHdXCtolVy4Hohjk5+FHknesGqxU2CEwkjwLq4V A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="319336151"
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="319336151"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 06:06:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="693674950"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by fmsmga001.fm.intel.com with SMTP; 25 Mar 2022 06:06:36 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 25 Mar 2022 15:06:35 +0200
+Date: Fri, 25 Mar 2022 15:06:35 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 3/9] drm/edid: use struct detailed_timing member access
+ in is_rb()
+Message-ID: <Yj2+W4LXRBd3a+5j@intel.com>
+References: <cover.1648210803.git.jani.nikula@intel.com>
+ <7fd382f989d169f6a03c473699e1385dd145069e.1648210803.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cktuawm74fajoliw"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220325021831.2812735-1-zhengbin13@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7fd382f989d169f6a03c473699e1385dd145069e.1648210803.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,73 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tangyizhou@huawei.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---cktuawm74fajoliw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Mar 25, 2022 at 10:18:31AM +0800, Zheng Bin wrote:
-> If CONFIG_DRM_VC4=3Dy, CONFIG_RASPBERRYPI_FIRMWARE=3Dm, CONFIG_COMPILE_TE=
-ST=3Dn,
-> bulding fails:
->=20
-> drivers/gpu/drm/vc4/vc4_drv.o: In function `vc4_drm_bind':
-> vc4_drv.c:(.text+0x320): undefined reference to `rpi_firmware_get'
-> vc4_drv.c:(.text+0x320): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_get'
-> vc4_drv.c:(.text+0x34c): undefined reference to `rpi_firmware_property'
-> vc4_drv.c:(.text+0x34c): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_property'
-> vc4_drv.c:(.text+0x354): undefined reference to `rpi_firmware_put'
-> vc4_drv.c:(.text+0x354): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `rpi_firmware_put'
->=20
-> Make DRM_VC4 depends on RASPBERRYPI_FIRMWARE || COMPILE_TEST to fix this.
->=20
-> Fixes: c406ad5e4a85 ("drm/vc4: Notify the firmware when DRM is in charge")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
+On Fri, Mar 25, 2022 at 02:25:25PM +0200, Jani Nikula wrote:
+> Use struct detailed_timing member access instead of direct offsets to
+> avoid casting.
+> 
+> Use BUILD_BUG_ON() for sanity check.
+> 
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
 > ---
-> v2: follow Maxime's advise, add RASPBERRYPI_FIRMWARE as an additional dep=
-ends
->  drivers/gpu/drm/vc4/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> index de3424fed2fc..92d74ba7c449 100644
-> --- a/drivers/gpu/drm/vc4/Kconfig
-> +++ b/drivers/gpu/drm/vc4/Kconfig
-> @@ -2,6 +2,7 @@
->  config DRM_VC4
->  	tristate "Broadcom VC4 Graphics"
->  	depends on ARCH_BCM || ARCH_BCM2835 || COMPILE_TEST
-> +	depends on RASPBERRYPI_FIRMWARE || COMPILE_TEST
+> 
+> Note: Why can we use range.formula.cvt.flags directly in is_rb() while
+> gtf2 functions check for range.flags == 0x02 first to ensure it's gtf2?
 
-Why do we need the || COMPILE_TEST here?
+Looks to me like is_rb() is just borked.
 
-The rpi_firmware_get, _property and _put functions aren't define if
-RASPBERRYPI_FIRMWARE, so we need that dependency every time, even if
-COMPILE_TEST is set?
+Other weird stuff I just noticed is get_monitor_range() not doing
+anything for flags!=0x1 cases. It also fails to handle the other
+flags that were added to byte 4 in EDID 1.4.
 
-Maxime
+> ---
+>  drivers/gpu/drm/drm_edid.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 48707eef1dc2..5396fa78e864 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2405,15 +2405,17 @@ drm_for_each_detailed_block(u8 *raw_edid, detailed_cb *cb, void *closure)
+>  }
+>  
+>  static void
+> -is_rb(struct detailed_timing *t, void *data)
+> +is_rb(struct detailed_timing *timing, void *data)
+>  {
+> -	u8 *r = (u8 *)t;
+> +	bool *res = data;
+>  
+> -	if (!is_display_descriptor(t, EDID_DETAIL_MONITOR_RANGE))
+> +	if (!is_display_descriptor(timing, EDID_DETAIL_MONITOR_RANGE))
 
---cktuawm74fajoliw
-Content-Type: application/pgp-signature; name="signature.asc"
+Calling this 'timing' when it's not is a bit confusing. I'd probably
+rename it to something else for all the display descriptor cases.
 
------BEGIN PGP SIGNATURE-----
+>  		return;
+>  
+> -	if (r[15] & 0x10)
+> -		*(bool *)data = true;
+> +	BUILD_BUG_ON(offsetof(typeof(*timing), data.other_data.data.range.formula.cvt.flags) != 15);
+> +
+> +	if (timing->data.other_data.data.range.formula.cvt.flags & 0x10)
+> +		*res = true;
+>  }
+>  
+>  /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
+> -- 
+> 2.30.2
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYj2+JQAKCRDj7w1vZxhR
-xY08AQDp0dejhhEhJ7JaH2YJjl3qWSNDo+WzUe0l0nhL7tLGwAEAj+WhPDpz4fdF
-WnLgjbtukPwaV0djbTrWfhCssxAFpAE=
-=EW3z
------END PGP SIGNATURE-----
-
---cktuawm74fajoliw--
+-- 
+Ville Syrjälä
+Intel
