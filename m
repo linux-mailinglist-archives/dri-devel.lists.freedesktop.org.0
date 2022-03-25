@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B8D4E79C2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 18:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33CE4E79C6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 18:17:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3B910E583;
-	Fri, 25 Mar 2022 17:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA83D10E757;
+	Fri, 25 Mar 2022 17:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1FE410E5A0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 17:16:50 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- bi13-20020a05600c3d8d00b0038c2c33d8f3so9385031wmb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 10:16:50 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF9010E583
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 17:16:52 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ l9-20020a05600c4f0900b0038ccd1b8642so2918865wmq.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 10:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JWuHqcRax2E7zzIXZh7ToC5GlWwIxifW/4CmtpMgB/Q=;
- b=e9fQyZ0WE4Z9h6IyESMybIA7h3EtJ5dTgMV5mf91m3HTYR3d6PR3x3ANzlsJDjJpFX
- xyZXVKaHjuCfMF0lwm2Qu9a7yuhgIE8FNiY3Ra2C5iqjAr38LTWfu0BJ1+fhXSTWmUih
- aM3pvBv9RdHz220XVpBcXT8iiq7aPvagI4hTcp8GseBYMM+pFmDDxSClw8erRNva9gEY
- 2imqr9DiFYjUmXQtnWctQLqe2NXNA30qtmtWcNWqvaW0TdlhnfPmu+EdWfkrn8Zm2deG
- A+8Q+xLGHP3uj/hxELbU2uz03u/3WDCI7leUQAxmTATuBJuts6p2eUn35MBM400RFU+U
- mxzA==
+ bh=NqdfmywTZ6fQ/7jJTAQIW5tJoHGg7kZG5yl6dza7Kzg=;
+ b=6bXchobGzN8pKvh+gXq4jQSUpRYYt6KibxSAsqSutu1/Yix1bAtFWio+4+5L2OT8gO
+ KRwuxVreNneXSQGczLUHqu/9HMPhxIRfgbJW/r3UPWCbrTyCufwjX5onl9UM5gV/JWhK
+ zUAlnmhVP2Md/IVwZvzxDWkkSGER0G02QgvLhUL/X7jArek2m0p9TQei65y4Fqg0z9RB
+ F6/adAuTQCOPL7XbJ907Vf3vNG3Pv+ViBiGQYC4xuV49DFVqBZv5yCQRWsvtbUueYzoS
+ Hl22196SiZd0bGZTvV+MLU+u/PO6RWkOpZhSUmnIt+Vic3k1GEXhwXmSAMdccnZ7lakM
+ fwnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JWuHqcRax2E7zzIXZh7ToC5GlWwIxifW/4CmtpMgB/Q=;
- b=44NIi/v662zPaDWq1+C9vF4X6s3dQ1c2YJZ03jBm1fc4xUkDqfa9ZqpIVljmPLY/40
- 8QaNuFaR9rf86AcxdrdSOQCvBxU+S8A7vTtC8zSZNt4UCO+OUeX2CHduFxNDQ4Ydl4kT
- Uy9kjxWmH/DfRATh3uNQcl0UBRPvOEGEcoIWWH3oTfXNVz6ZizwL1hGGcn+rsAMh0kS+
- uyhxEofu8RBYlVByHDXOWvPYrTgCVqiFtHl3BGc63X2PVk1Rv/0hhpMM2Cup3lrbppjM
- zUgnVmeX754THxvo61MGB+gHPIQ0KZBNedY3+aWCRKaqvrN9d/Rg/TGgnHK/74O3BOGC
- onqA==
-X-Gm-Message-State: AOAM531KzvVoK+bxIfqHnYBK2yibEqqqvlC18RcQD1r3BNo5JCA9CceC
- RKaikwTWw++WFDlN27bxcHXIQQ==
-X-Google-Smtp-Source: ABdhPJyseADl0QeZy7YFh7ZKp586b0q8d6AxSePwH+EeyXqFYla8oR9D8vfPuUxPBa3bYk7yPTd2ig==
-X-Received: by 2002:a05:600c:4e91:b0:38c:c1ac:c018 with SMTP id
- f17-20020a05600c4e9100b0038cc1acc018mr15761137wmq.189.1648228609419; 
- Fri, 25 Mar 2022 10:16:49 -0700 (PDT)
+ bh=NqdfmywTZ6fQ/7jJTAQIW5tJoHGg7kZG5yl6dza7Kzg=;
+ b=8DBEHWFh7L0ss/+HuLlSlmdxr21B8OGYoyaOgvR9UDw4XpA5tXwJriBakA3lEUV6Pa
+ YhRXaomJQYB8Z2mee9naRUTGIZjn+RWn+he0z9opB+njeMGWFvdQnN0jj7NVz19W3ZW+
+ lt29y+lvEmGE63Vt0yUW9gJySz0mXRWofZi/6NXzPJoo38C7cK5WCcrkI3SvrRDk9d4C
+ nmWhZ7E2tkUygOhGhvHMrzqPgQdbN8y7Hdj3GySbdHVXFx7trDA5IOEeH2lLW6bJxxpA
+ TM5aVUWfFPRyy2VtIfYBcN7MpPshZg+mjVSyahrpQc2lIrP7jo4hn0OwhA8wHLMAK49X
+ X6Zg==
+X-Gm-Message-State: AOAM530Ctw3GtgkEdOcbvFGFlJRh9ZWFQAUMVCr45G1FosgKhDIqzjvf
+ CXFKVPoN08JKxholyfQDVy9Q5g==
+X-Google-Smtp-Source: ABdhPJztbg41uIEn6kYbSEgV3LT+xnRXVt+kN+pXwZTNOue5R4lV3fouoQj4ndoTzsNVOsRmWuPg8Q==
+X-Received: by 2002:a7b:c30c:0:b0:38c:8ff1:625b with SMTP id
+ k12-20020a7bc30c000000b0038c8ff1625bmr20345780wmj.30.1648228611391; 
+ Fri, 25 Mar 2022 10:16:51 -0700 (PDT)
 Received: from localhost.localdomain
  (2a02-8440-6240-cc41-3074-96af-9642-0003.rev.sfr.net.
  [2a02:8440:6240:cc41:3074:96af:9642:3])
  by smtp.gmail.com with ESMTPSA id
- p16-20020a5d6390000000b00203ffebddf3sm7547464wru.99.2022.03.25.10.16.47
+ p16-20020a5d6390000000b00203ffebddf3sm7547464wru.99.2022.03.25.10.16.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 10:16:49 -0700 (PDT)
+ Fri, 25 Mar 2022 10:16:51 -0700 (PDT)
 From: Guillaume Ranquet <granquet@baylibre.com>
 To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, matthias.bgg@gmail.com,
  chunfeng.yun@mediatek.com, kishon@ti.com, vkoul@kernel.org, deller@gmx.de,
  ck.hu@mediatek.com, jitao.shi@mediatek.com,
- angelogioacchino.delregno@collabora.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH 03/22] dt-bindings: mediatek,
- dp_phy: Add Display Port PHY binding
-Date: Fri, 25 Mar 2022 18:14:52 +0100
-Message-Id: <20220325171511.23493-4-granquet@baylibre.com>
+ angelogioacchino.delregno@collabora.com
+Subject: [PATCH 04/22] drm/edid: Convert cea_sad helper struct to kernelDoc
+Date: Fri, 25 Mar 2022 18:14:53 +0100
+Message-Id: <20220325171511.23493-5-granquet@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220325171511.23493-1-granquet@baylibre.com>
 References: <20220325171511.23493-1-granquet@baylibre.com>
@@ -87,63 +85,36 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This phy controller is embedded in the Display Port Controller on mt8195 SoCs.
-
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 ---
- .../bindings/phy/mediatek,dp-phy.yaml         | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
+ include/drm/drm_edid.h | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-new file mode 100644
-index 000000000000..4180d40f4fa7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (c) 2022 MediaTek
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/mediatek,dp-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek Display Port PHY binding
-+
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
-+
-+description: |
-+  Device tree bindings for the Mediatek (embedded) Display Port PHY
-+  present on some Mediatek SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8195-dp-phy
-+
-+  regmap:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the Display Port node.
-+
-+  "#phy-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - regmap
-+  - "#phy-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    dp_phy: dp_phy {
-+      compatible = "mediatek,mt8195-dp-phy";
-+      regmap = <&dp_tx>;
-+      #phy-cells = <0>;
-+    };
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 144c495b99c4..5d4d840b9904 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -359,12 +359,17 @@ struct edid {
+ 
+ #define EDID_PRODUCT_ID(e) ((e)->prod_code[0] | ((e)->prod_code[1] << 8))
+ 
+-/* Short Audio Descriptor */
++/* struct cea_sad - Short Audio Descriptor.
++	@format: See HDMI_AUDIO_CODING_TYPE_*.
++	@channels: max number of channels - 1.
++	@freq: See CEA_SAD_FREQ_*.
++	@byte2: meaning depends on format.
++*/
+ struct cea_sad {
+ 	u8 format;
+-	u8 channels; /* max number of channels - 1 */
++	u8 channels;
+ 	u8 freq;
+-	u8 byte2; /* meaning depends on format */
++	u8 byte2;
+ };
+ 
+ struct drm_encoder;
 -- 
 2.34.1
 
