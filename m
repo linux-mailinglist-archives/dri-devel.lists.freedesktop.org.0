@@ -1,73 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA1F4E78A1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 17:06:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB3A4E78C7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 17:17:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD9010E97A;
-	Fri, 25 Mar 2022 16:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92D310E99B;
+	Fri, 25 Mar 2022 16:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C613D10E97A
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 16:06:07 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id b24so9761895edu.10
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 09:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yMwLgpBMsPacoyetf0Jh9z411mlnHCKLxH5G5J9Bol4=;
- b=Y/hl4bV1BEodjTa26V56UFW7xKKqtQqV6DPIWr1GJnYIF/hoTalbgulB3gdkxC3WMu
- XQSVwQKZUG2sZ3ETMy3ROt+OUqrF9D6QN04UTPaN6gbN3wyxUFGruTKWHtEDwcTGXgCT
- NQ7DKJpWM/09QfTXA3AQLleirinBmBKZv4PFM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yMwLgpBMsPacoyetf0Jh9z411mlnHCKLxH5G5J9Bol4=;
- b=mbBvN3bVBq8ssQRcNvmG3+m2sGHG64QU5NIleIioNCF2BpNwD80qNGoFnQQq+hAdbN
- 20yq47yPS0WIAL8sRKmBlK7iKPX+sodkKoFJL+FWA6EQn8xEaTI28Vn7odX3zureVOO1
- 5dMLLXxlZX5GC0S9ZV1ywbrsqeYGGpW5vzc2zyTjeWIEi5SWSiJUxCix70kTgbUNviRN
- XiIV76dNVwMtZGAXSkZeFj/I16zqpL+9s++ADc3fIZ9c3ACNd5vQWmvXVanZOJsI/FV5
- WULK9XV3KYOEOPvoUsbSyecmTchhHXWXKU3I0zKfBMoauJoFSW4Ww7Ix5UN6AD06cYVT
- yObA==
-X-Gm-Message-State: AOAM533caGEh15fDI5jTpn4fhc3KE70VaHzE3eLOuq9E+PB2pk1KftAp
- Z6oH4RZp08S5UTGyrpkZ6mQqqnFxwLCcuVpnUxk=
-X-Google-Smtp-Source: ABdhPJyuIJelvHRKXgibpAUFq5CykYWmWc7uTAAQaJrh1DmKKtTEWOkRryiLNueTmgiujFbP/KpO3Q==
-X-Received: by 2002:a05:6402:1e90:b0:419:4cdc:8b05 with SMTP id
- f16-20020a0564021e9000b004194cdc8b05mr14001299edf.211.1648224365879; 
- Fri, 25 Mar 2022 09:06:05 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
- [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
- g2-20020aa7dc42000000b00418ef55eabcsm3018443edu.83.2022.03.25.09.06.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Mar 2022 09:06:05 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id r7so10386353wrc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 09:06:04 -0700 (PDT)
-X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
- e7-20020adffc47000000b00203dda14311mr9797547wrs.301.1648224364037; Fri, 25
- Mar 2022 09:06:04 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3FA10E99B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 16:17:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648225051; x=1679761051;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Zma2sXcPbo3FXq79eHGjfg8Bv252f8d9RrvVyUUXXRE=;
+ b=YbPy9Oaa91qubfBuHd0Rb4MTT8k5SgWpXi1IK2aPWnE7AZL0gydqrqje
+ vvU3ntWRsKh/rhDLAYgtF1rQBBCsuXtcWn6yDvBMchy+jZ6UiA+epQNFR
+ m9Ub+t2g9qCddxmWag+JeJe3VbmqrIXHPmPXuefihSIWGD66+NC3s7omt
+ HwSN6osYJYGMuuv7cS/8YB7kAIcIhC6cg+bhrxENpRoOhBhfugrYCrm/J
+ gnqSUT6ufJ0koPAcYgIr3tQUMqLQHFMJGPLSlIwZDjNU3lQIMSuKExc7G
+ a5ea03sITnYh+5/VjyE22+SDWCJdjRubR3SZezE1vTZHtKsGzZZBTXgAp w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="238605161"
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="238605161"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 09:15:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; d="scan'208";a="501826627"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 25 Mar 2022 09:15:30 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nXmb3-000MMf-U0; Fri, 25 Mar 2022 16:15:29 +0000
+Date: Sat, 26 Mar 2022 00:14:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/4] drm/atomic: Add atomic_print_state to private
+ objects
+Message-ID: <202203260001.Gfx0MJJ4-lkp@intel.com>
+References: <20220325124822.1785070-3-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <1647452154-16361-1-git-send-email-quic_sbillaka@quicinc.com>
- <1647452154-16361-7-git-send-email-quic_sbillaka@quicinc.com>
- <CAE-0n520pQKM7mFSE_00ER+F9RKUPrN+y4U8fmsxi7FoFMyOrA@mail.gmail.com>
- <CAD=FV=UWF8K9JPJXFSGMRK-HmCi+2jM3aN6Uy7hyDSu1_azF+w@mail.gmail.com>
- <CAE-0n53U=bqPTGtPx2Ho5axtO6EL6WtOtmFisxSufC6OZERV1Q@mail.gmail.com>
- <CAD=FV=WaK8VFC-BvsFpnUv3mW4svGggQTw1hh+zRCEhGvbgYMQ@mail.gmail.com>
- <CAE-0n52v2m4U0wK6NYf4KBwXmp+TEVhjnGpW4rQHuZSf7TYfgA@mail.gmail.com>
- <CAD=FV=WFkXdXVdqhBcfa48JKcUcbUe2M0bW6-V8zjP8jgvjvHA@mail.gmail.com>
- <MW4PR02MB7186835E0D762E51EB9F9515E11A9@MW4PR02MB7186.namprd02.prod.outlook.com>
-In-Reply-To: <MW4PR02MB7186835E0D762E51EB9F9515E11A9@MW4PR02MB7186.namprd02.prod.outlook.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Mar 2022 09:05:51 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UDXScN6vt9PTe0YnoDGQmY-cja3wVyV9D1zJxyPwCMRQ@mail.gmail.com>
-Message-ID: <CAD=FV=UDXScN6vt9PTe0YnoDGQmY-cja3wVyV9D1zJxyPwCMRQ@mail.gmail.com>
-Subject: Re: [PATCH v5 6/9] drm/msm/dp: wait for hpd high before any sink
- interaction
-To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220325124822.1785070-3-maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,107 +60,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, quic_kalyant <quic_kalyant@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>, Andy Gross <agross@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sean Paul <seanpaul@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sean Paul <seanpaul@chromium.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maxime,
 
-On Fri, Mar 25, 2022 at 8:54 AM Sankeerth Billakanti (QUIC)
-<quic_sbillaka@quicinc.com> wrote:
->
-> > -----Original Message-----
-> > From: Doug Anderson <dianders@chromium.org>
-> > Sent: Saturday, March 19, 2022 5:26 AM
-> > To: Stephen Boyd <swboyd@chromium.org>
-> > Cc: Sankeerth Billakanti (QUIC) <quic_sbillaka@quicinc.com>; open list:OPEN
-> > FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
-> > <devicetree@vger.kernel.org>; dri-devel <dri-devel@lists.freedesktop.org>;
-> > freedreno <freedreno@lists.freedesktop.org>; linux-arm-msm <linux-arm-
-> > msm@vger.kernel.org>; LKML <linux-kernel@vger.kernel.org>; Rob Clark
-> > <robdclark@gmail.com>; Sean Paul <seanpaul@chromium.org>;
-> > quic_kalyant <quic_kalyant@quicinc.com>; Abhinav Kumar (QUIC)
-> > <quic_abhinavk@quicinc.com>; Kuogee Hsieh (QUIC)
-> > <quic_khsieh@quicinc.com>; Andy Gross <agross@kernel.org>;
-> > bjorn.andersson@linaro.org; Rob Herring <robh+dt@kernel.org>;
-> > krzk+dt@kernel.org; Sean Paul <sean@poorly.run>; David Airlie
-> > <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Thierry Reding
-> > <thierry.reding@gmail.com>; Sam Ravnborg <sam@ravnborg.org>;
-> > dmitry.baryshkov@linaro.org; quic_vproddut <quic_vproddut@quicinc.com>
-> > Subject: Re: [PATCH v5 6/9] drm/msm/dp: wait for hpd high before any sink
-> > interaction
-> >
-> > Hi,
-> >
-> > On Fri, Mar 18, 2022 at 4:27 PM Stephen Boyd <swboyd@chromium.org>
-> > wrote:
-> > >
-> > > > > Pushing hpd state checking into aux transactions looks like the
-> > > > > wrong direction. Also, as I said up above I am concerned that even
-> > > > > checking the GPIO won't work and we need some way to ask the
-> > > > > bridge if HPD is asserted or not and then fallback to the GPIO
-> > > > > method if the display phy/controller doesn't have support to check
-> > > > > HPD internally. Something on top of DRM_BRIDGE_OP_HPD?
-> > > >
-> > > > If we could somehow get the HPD status from the bridge in the panel
-> > > > driver it definitely would be convenient. It does feel like that's
-> > > > an improvement that could be done later, though. We've already
-> > > > landed a few instances of doing what's done here, like for
-> > > > parade-ps8640 and analogix_dp. I suspect designing a new mechanism
-> > > > might not be the most trivial.
-> > >
-> > > What is done in the bridge drivers is to wait for a fixed timeout and
-> > > assume aux is ready? Or is it something else? If there's just a fixed
-> > > timeout for the eDP case it sounds OK to do that for now and we can
-> > > fine tune it later to actually check HPD status register before the
-> > > panel tries to read EDID.
-> >
-> > Right. For the parade chip (which is only used for eDP as far as I know--never
-> > DP) waits for up to 200 ms. See ps8640_ensure_hpd().
-> >
-> > So I guess tl;dr to Sankeerth that it's OK for his patch to have the wait in the
-> > aux transfer function, but only for eDP. Other discussions here are about
-> > how we could make it better in future patches.
-> >
-> >
->
-> The aux transactions for external DP are initiated by the dp_display driver only after the
-> display is hot plugged to the connector. The phy_init is necessary for the aux transactions
-> to take place. So, for the DP case, like Doug mentioned below, this patch is introducing
-> an overhead of three register reads to detect hpd_high before performing aux transactions.
-> So, we felt this was okay to do for DP.
+I love your patch! Perhaps something to improve:
 
-Personally I'm not that upset about the 3 register reads. The problem
-Stephen pointed out is bigger. It's possible that a DP cable is
-unplugged _just_ as we started an AUX transaction. In that case we'll
-have a big delay here when we don't actually need one.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.17 next-20220325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/drm-atomic-Atomic-Private-State-debugging/20220325-205019
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: ia64-defconfig (https://download.01.org/0day-ci/archive/20220326/202203260001.Gfx0MJJ4-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/dc4288c88376cba127b0280246b77566b18d9f1d
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-atomic-Atomic-Private-State-debugging/20220325-205019
+        git checkout dc4288c88376cba127b0280246b77566b18d9f1d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_print_new_state':
+>> drivers/gpu/drm/drm_atomic.c:1670:33: warning: variable 'obj' set but not used [-Wunused-but-set-variable]
+    1670 |         struct drm_private_obj *obj;
+         |                                 ^~~
 
 
-> On the other hand, for eDP, it is necessary to wait for panel ready through this hpd connect status.
-> Currently there is no way to know which type of connector it is in the dp_aux sub-module.
->
-> However, as the discussion suggested, to have the wait only for eDP, I am thinking to pass the
-> connector_type information to aux sub-module and register different aux_transfer functions
-> for eDP and DP. The eDP transfer function will wait for hpd_high and the DP transfer function
-> will be same as the one before this patch.
+vim +/obj +1670 drivers/gpu/drm/drm_atomic.c
 
-Personally I wouldn't register two separate functions. You could just
-store a boolean in your structure and only wait for HPD if this is
-eDP. One extra "if" test doesn't seem like it justifies splitting off
-into two functions...
+  1649	
+  1650	/**
+  1651	 * drm_atomic_print_new_state - prints drm atomic state
+  1652	 * @state: atomic configuration to check
+  1653	 * @p: drm printer
+  1654	 *
+  1655	 * This functions prints the drm atomic state snapshot using the drm printer
+  1656	 * which is passed to it. This snapshot can be used for debugging purposes.
+  1657	 *
+  1658	 * Note that this function looks into the new state objects and hence its not
+  1659	 * safe to be used after the call to drm_atomic_helper_commit_hw_done().
+  1660	 */
+  1661	void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+  1662			struct drm_printer *p)
+  1663	{
+  1664		struct drm_plane *plane;
+  1665		struct drm_plane_state *plane_state;
+  1666		struct drm_crtc *crtc;
+  1667		struct drm_crtc_state *crtc_state;
+  1668		struct drm_connector *connector;
+  1669		struct drm_connector_state *connector_state;
+> 1670		struct drm_private_obj *obj;
+  1671		struct drm_private_state *obj_state;
+  1672		int i;
+  1673	
+  1674		if (!p) {
+  1675			drm_err(state->dev, "invalid drm printer\n");
+  1676			return;
+  1677		}
+  1678	
+  1679		drm_dbg_atomic(state->dev, "checking %p\n", state);
+  1680	
+  1681		for_each_new_plane_in_state(state, plane, plane_state, i)
+  1682			drm_atomic_plane_print_state(p, plane_state);
+  1683	
+  1684		for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+  1685			drm_atomic_crtc_print_state(p, crtc_state);
+  1686	
+  1687		for_each_new_connector_in_state(state, connector, connector_state, i)
+  1688			drm_atomic_connector_print_state(p, connector_state);
+  1689	
+  1690		for_each_new_private_obj_in_state(state, obj, obj_state, i)
+  1691			drm_atomic_private_obj_print_state(p, obj_state);
+  1692	}
+  1693	EXPORT_SYMBOL(drm_atomic_print_new_state);
+  1694	
 
--Doug
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
