@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20ECB4E7A8A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 20:57:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AA54E7A98
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 21:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F06EB10E712;
-	Fri, 25 Mar 2022 19:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB7110E0D5;
+	Fri, 25 Mar 2022 20:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F21C910E518;
- Fri, 25 Mar 2022 19:57:33 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id v75so9337695oie.1;
- Fri, 25 Mar 2022 12:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b3WA3uEzU6evsa9NtvKVO86NocKNUHHXu3Zd9/cIBo0=;
- b=N0Z1nffsPkCsDW8eucybePw7nIKmxEn2RQyj+8YGGusGgCI74EUSK6lic+GTjL+AMM
- h47o9i1mNItfS19TuAoAd+64zE1Bdz0V67O4xY+/pyomOSw47HYhKRYT60uCzDKF4wXW
- hAS4d2dEraDZJZLYAJKsVObaxbBm5B4VNFysZ8jG6+vt/2me5u0gRXTRtfBi/j8uIH7z
- Ovrcxp2kQbiW9fytcMTz7nJw78c9p75dw7uK94i0PGnI1fBKyZKPBA6/jYOWZOGyfcUw
- jQbbcRB1NgzYq04XoxE2zLlcl25a+D8HLRI8e7ddGWxsAjQ/dprKa1QkW9njZvA4OELM
- D0cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b3WA3uEzU6evsa9NtvKVO86NocKNUHHXu3Zd9/cIBo0=;
- b=EIUyVhtMOb5TgAVsEoioLVmy9dgXTDuXWoSXiaZVzKqyf6Zy30tH2VT7X57Meh+w4R
- 96EIyAp4gASs8j4b9yCIJszCrJjGNySdBFuxqkZ06AZfjblkqn1VkJMhY46COwlI1ccx
- y1XNr1Qrwu/ldu6dQcJiu530jOKoITj7WvQJrYesaJZ/g1yv5SJTl9tlJdu9kLG+ub/x
- ISJ+xVuFdypfdpKOxx4HdJgpj5cgOv3Z93spkLPLiFfo9G2xVHSli5hhQx0KA5HD9T/x
- IFw/WnuL6/roHnF6KjZRC8uZsUh42Axd2BIBEE7PvVQrIBcaOfKzXJgiXBAidRUyuYF+
- ltHw==
-X-Gm-Message-State: AOAM531YMz1y/v7RgtIwNlzAqQsqcbOTQf1qXptmCm6usc79xa5NxFVP
- HHpxNctZbQziKAcs4ls5ZGIvbdKK/lan0QnuKUM=
-X-Google-Smtp-Source: ABdhPJzXavjKXnhlCmjz6tN8Imhv9mBlkcg+2I2nbRoGFnQEQbHu+R1p+2A65WzONNlqdDzXnuos46sQdGiZvzhj/Q8=
-X-Received: by 2002:aca:d04:0:b0:2ef:8b45:d235 with SMTP id
- 4-20020aca0d04000000b002ef8b45d235mr6347662oin.253.1648238253170; Fri, 25 Mar
- 2022 12:57:33 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F004C10E0D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 20:04:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 827FFB81DEA
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 20:04:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45F58C004DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 20:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648238697;
+ bh=JI28cFosj0hQbiQ6cYI23TSiq2VzCwRhljqgvQDbbQ4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=GQzDytrmidWl11PE7mtefAgXudCIC5wg7deMIrHPFvoK33hiKNb2LWZpkWQFKow0x
+ Ty9B9vw7hrbJe+wp1YeescGfNE5FZw8JlVlKTonO78PDQK2mf3YsGV4oCGjoWsWT22
+ oRd3py9q+DMmyQCHf8h/xqabTxUmEpN9JkmdJbiZnlfh/9vQHfKXzR8+kNUEWUq7Kq
+ sxgPcUH4UhQ5JaiHotjc27whL2rYnSXH1w0dybOQbZrhOAsc9gsg+nSd3nlBXB5nRK
+ 18cFOewREj6hRa4PJQD4fCnsD4T3NRok3824hD/mJrX+oi2AGT7l9kZhtpxdvGpPG0
+ o6TOXeVquUgQg==
+Received: by mail-ej1-f42.google.com with SMTP id r13so17421004ejd.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 13:04:57 -0700 (PDT)
+X-Gm-Message-State: AOAM533Tikt0Vqbk6K8M/HeBaOvDaN0KCG6l04AOYJFnkMX6T+8GNyAo
+ +bpNrwGaXU/tVeFbe98PlQGDidutXb+SFG+UEQ==
+X-Google-Smtp-Source: ABdhPJxIvvSbFL4Y+P7z8qk4Jutm9EIjreGeujAgtNHussiNQ0ZYgeUd3M6mdAAI87dQAF9rWTSVQaigvBxy0g4IjHU=
+X-Received: by 2002:a17:907:1c1b:b0:6e0:6618:8ac with SMTP id
+ nc27-20020a1709071c1b00b006e0661808acmr13342258ejc.82.1648238695556; Fri, 25
+ Mar 2022 13:04:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <1648115162-5008-1-git-send-email-baihaowen@meizu.com>
-In-Reply-To: <1648115162-5008-1-git-send-email-baihaowen@meizu.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 25 Mar 2022 15:57:22 -0400
-Message-ID: <CADnq5_NyMsQ_NikyA4r=FULB4MwsjroENZGPgGo-tcAQhhxceQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix pointer dereferenced before checking
-To: Haowen Bai <baihaowen@meizu.com>
+References: <CAPM=9tytg5jd_i3z3C5Y1dii2-cgO11Gjgvaq8qoWn3CGfCreg@mail.gmail.com>
+ <CAL_JsqJqb6HYN5cw7GsyFobZxFmhU-ci8w4HKQEdFsx=bC_F3w@mail.gmail.com>
+ <CAPM=9tx+YeOCBZ0WRcSMKTyUYr5ngySratZ0K8tmRZ0rCaFf8Q@mail.gmail.com>
+In-Reply-To: <CAPM=9tx+YeOCBZ0WRcSMKTyUYr5ngySratZ0K8tmRZ0rCaFf8Q@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 25 Mar 2022 15:04:43 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ7EN0_4qxZL55j2GOHc_D0zEeH1TS+Dp5WJA1bPdgwEQ@mail.gmail.com>
+Message-ID: <CAL_JsqJ7EN0_4qxZL55j2GOHc_D0zEeH1TS+Dp5WJA1bPdgwEQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.18-rc1
+To: Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,45 +61,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied both patches.  Thanks!
+On Thu, Mar 24, 2022 at 10:01 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> > FYI, this breaks the DT bindings. The relevant patches didn't get
+> > reviewed nor run thru automated testing because their encoding was
+> > 'charset=y'[1]. (While email clients seem to just ignore that
+> > encoding, patchwork and b4 do not.) linux-next is still broken and has
+> > been since Mar 2[2]. v2 of the fixes[3] have been posted since Mar 9,
+> > and still aren't in linux-next.
+> >
+> > It doesn't have to be fixed in this PR, but it needs to be fixed
+> > before rc1. Otherwise, no one can test their bindings using rc1. In
+> > general, there's no reason fixes need to wait until after rc1 as
+> > Chun-Kuang suggests[4].
+>
+> With the conflicts that Linus merged, can we get this rebased onto
+> Linus merge, and submitted to him?
 
-Alex
+I applied the series without issue on Linus' current tree aa5b537b0ecc
+("Merge tag 'riscv-for-linus-5.18-mw0' of
+git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux") and
+confirmed the binding errors are fixed. Must be some difference in
+what's in the Mediatek PR...
 
-On Thu, Mar 24, 2022 at 9:46 AM Haowen Bai <baihaowen@meizu.com> wrote:
->
-> The value actual_pix_clk_100Hz is dereferencing pointer pix_clk_params
-> before pix_clk_params is being null checked. Fix this by assigning
-> pix_clk_params->requested_pix_clk_100hz to actual_pix_clk_100Hz only if
-> pix_clk_params is not NULL, otherwise just NULL.
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-> index 2c7eb98..4db45bb 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-> @@ -1162,7 +1162,7 @@ static uint32_t dcn3_get_pix_clk_dividers(
->                 struct pixel_clk_params *pix_clk_params,
->                 struct pll_settings *pll_settings)
->  {
-> -       unsigned long long actual_pix_clk_100Hz = pix_clk_params->requested_pix_clk_100hz;
-> +       unsigned long long actual_pix_clk_100Hz = pix_clk_params ? pix_clk_params->requested_pix_clk_100hz : 0;
->         struct dce110_clk_src *clk_src;
->
->         clk_src = TO_DCE110_CLK_SRC(cs);
-> --
-> 2.7.4
->
+b4 shazam -lsSt 20220309134702.9942-1-jason-jh.lin@mediatek.com
+
+Rob
