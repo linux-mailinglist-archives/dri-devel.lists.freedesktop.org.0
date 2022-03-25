@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AAF4E7A20
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 18:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDD54E7A28
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Mar 2022 19:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6871610E763;
-	Fri, 25 Mar 2022 17:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B2610E769;
+	Fri, 25 Mar 2022 18:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CADD10E763
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 17:53:44 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-d6ca46da48so8803515fac.12
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Mar 2022 10:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:user-agent:references:in-reply-to:mime-version:date:message-id
- :subject:to:cc;
- bh=UsVgeYfaJ509Tslgy60qrERiqqOcqL3jk0p30JmJkWQ=;
- b=hhlRnUQXbyBJmzhAL+CM/0K5cZ1aybx8S1kxzmMXQQ4jS6mL1MILd20jSy8DtFbZHZ
- tuiUZm+wRRIEudV/r9pD63VU89MvND8veQkiyC4DYFenrNwPvhByBOwC13TA9CwbQoZ/
- jGyLtzGYZlTMgGGCNq7KOzeYzg399O6i2BX+1n0HlxBLm5I1XYjCgzyXuCuVBqmvEyAP
- Obn9n0SJjJ7Dlyj5c+00dybeH9tzrLGeCLK7O+mUw9yTJ/J9CxTNS1DxTor3+3TbHX21
- 6dvmswhw1vgSH8FA6KcEemRrApsTi9zOTOVWSQ5cLXC0uTq8h0Ji3+mG+HcpDEdXStN1
- ZkBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:user-agent:references:in-reply-to
- :mime-version:date:message-id:subject:to:cc;
- bh=UsVgeYfaJ509Tslgy60qrERiqqOcqL3jk0p30JmJkWQ=;
- b=6Qq/AenbFYtHL4U9ZdBcXyaZatYH3uP5QJlxZm3EwVxoYZt4FMAC+JImFptuRsnm+M
- xSQPYu1AF6hoCYz0KtNLIVtkFE3kBjkXjUOkVHu+pGa/3Ln8I4qooEzpAI3/98kZSp1n
- +y/MrswJJpT9mxu17GDbe8jG97FqS5BrbO2MD2iIIC+OISywcS5LzXXUuOYbdXF5vaC7
- 71X15cxIOEm/LV+jGAhofB5AvaKA4EJx4j0+Jv2CCQKmeHDO6HRGJ1Pb2u6KWT29Vw8I
- myL/5Wl0tjNLIydLVjhl/rkfLGt6WelIfRX7ElqdW9GEBqkLiqXaR67kZnSFO1/b4aeB
- zk2g==
-X-Gm-Message-State: AOAM530uei7a8AfVK+JCC4l5+DuubZXucxXz/JWfqin93hoFkoGEevU9
- PCWLdWKJJi//2fbVG0Vg0oJpzcQQduTi5u0GlRzWoQ==
-X-Google-Smtp-Source: ABdhPJw5cZK8/9EAx8SjjCkfF2UirJgUYGr8gfKiuxQmwCyGvJA58RP/M318o7Lu6s72crly3nL6u8xwlk9WEs9kfFQ=
-X-Received: by 2002:a05:6870:d191:b0:dd:a91e:82dc with SMTP id
- a17-20020a056870d19100b000dda91e82dcmr9542770oac.248.1648230822908; Fri, 25
- Mar 2022 10:53:42 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 25 Mar 2022 12:53:42 -0500
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220325171511.23493-1-granquet@baylibre.com>
-In-Reply-To: <20220325171511.23493-1-granquet@baylibre.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F63B10E769;
+ Fri, 25 Mar 2022 18:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648231457; x=1679767457;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uIj2vn0NEDn6EEIzxQkqGz+Rh1kiEMIU4TpCRurFyb8=;
+ b=nyONb+KUIGs22afKGDvFuQUAMKmTkYBctAX5Zkt2Fz8Z2s04Xa8Eow0a
+ Emo4mXuX3/l0bkYYvSA4ENyH1qqs1WN8iPQVx4IJOwsnBk4SbhF/sKK0Z
+ 55lP4tuyQ496+ZWZTp1TU7oK3aoNrygGetr4Auvw0RwELXiLWV7QdhE8c
+ /gbxiCew8Cgi/0/pjcz4nrgqKXKDXYnM1v32+6bkTlGjcDkDEvNIUIwSv
+ VwsHZO6SHa1QUBXfAncsH2DvUOFfHLyBWw9fLe2zjKJ+EyDUZ0taitlHx
+ /POLGmpF1//curwyoPXon7rtMFjnz+dGsbUKhEMFN0Mn9v1LyQ6e3mgMM w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="258880162"
+X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="258880162"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 11:04:10 -0700
+X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="561922917"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 11:04:10 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: fix remaining_timeout in
+ intel_gt_retire_requests_timeout
+Date: Fri, 25 Mar 2022 10:58:39 -0700
+Message-Id: <20220325175839.2717499-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Fri, 25 Mar 2022 12:53:42 -0500
-Message-ID: <CABnWg9tJvCJrFCFR1Ax_M4gPaqhqS94kCkzmfb-naCh_S36vEg@mail.gmail.com>
-Subject: Re: [PATCH 00/22] drm/mediatek: Add mt8195 DisplayPort driver
-To: angelogioacchino.delregno@collabora.com, chunkuang.hu@kernel.org, 
- p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- matthias.bgg@gmail.com, chunfeng.yun@mediatek.com, kishon@ti.com, 
- vkoul@kernel.org, deller@gmx.de, ck.hu@mediatek.com, jitao.shi@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,130 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, markyacoub@google.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 25 Mar 2022 18:14, Guillaume Ranquet <granquet@baylibre.com> wrote:
->this series is built around the DisplayPort driver. The dpi/dpintf
->driver and the added helper functions are required for the DisplayPort
->driver to work.
->
->This v9 is not quite ready yet, as project constraints forces me to
->publish v9 this week, I'm sorry if it's not standard practice.
->
->Moreover, it is still un-tested on a recent kernel.
->The integration kernel we are using is still based on 5.10... but we
->are actively working on bringing up a mt8195 integration branch on 5.17.
->The patches have been rebased on top of next-20220301 and have been
->tested to build sucessfully (no functional testing).
->
->Changes from v8:
->- The DP-Phy now has its own dt-bindings and now shares a regmap using the
->  syscon facility with the DP driver.
->- hot plug detection has been removed from the Embedded Display Port.
->  patch and moved to the patch adding External Display Port support.
->- started working on better error handling for the mtk_dp driver.
->- rebased on linux-next.
->- removal of tvd pll clocks re-introduced by mistake.
->- various coding style fixes.
->
->Things that are in my todolist for v10:
->- fixing the train_handler in the mtk_dp driver, as I haven't been able
->  to reproduce locally (hopefully migrating to running the tests on a
->  more recent kernel will help)
->- explaining the various sleep/delays introduced in the drivers
->- explaining some of the differences between mt8195 and "legacy"
->- retrieve CK/DE support from panel driver instead of hardcoding it into
->  the dpi driver.
->- better error handling/reporting in mtk_dp
->- look into re-implementing mtk_dp_aux_transfer() using drm_dp_dpcd_read and
->  drm_dp_dpcd_write as suggested by Rex.
->
->Older revisions:
->RFC - https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
->v1  - https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
->v2  - https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
->v3  - https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
->v4  - https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
->v5  - https://lore.kernel.org/all/20211021092707.3562523-1-msp@baylibre.com/
->v6  - https://lore.kernel.org/linux-mediatek/20211110130623.20553-1-granquet@baylibre.com/
->v7  - https://lore.kernel.org/linux-mediatek/20211217150854.2081-1-granquet@baylibre.com/
->v8  - https://lore.kernel.org/linux-mediatek/20220218145437.18563-1-granquet@baylibre.com/
->
->Functional dependencies are:
->- Add Mediatek Soc DRM (vdosys0) support for mt8195
->  https://lore.kernel.org/all/20211026155911.17651-1-jason-jh.lin@mediatek.com/
->- Add MediaTek SoC DRM (vdosys1) support for mt8195
->  https://lore.kernel.org/all/20211029075203.17093-1-nancy.lin@mediatek.com/
->
->Guillaume Ranquet (15):
->  dt-bindings: mediatek,dp_phy: Add Display Port PHY binding
->  drm/edid: Convert cea_sad helper struct to kernelDoc
->  drm/edid: Add cea_sad helpers for freq/length
->  drm/mediatek: dpi: move dpi limits to SoC config
->  drm/mediatek: dpi: implement a CK/DE pol toggle in SoC config
->  drm/mediatek: dpi: implement a swap_input toggle in SoC config
->  drm/mediatek: dpi: move dimension mask to SoC config
->  drm/mediatek: dpi: move hvsize_mask to SoC config
->  drm/mediatek: dpi: move swap_shift to SoC config
->  drm/mediatek: dpi: move the yuv422_en_bit to SoC config
->  drm/mediatek: dpi: move the csc_enable bit to SoC config
->  drm/mediatek: dpi: Add dpintf support
->  drm/meditek: dpi: Add matrix_sel helper
->  drm/mediatek: Add mt8195 External DisplayPort support
->  drm/mediatek: DP audio support for mt8195
->
->Jitao Shi (2):
->  drm/mediatek: add hpd debounce
->  drm/mediatek: change the aux retries times when receiving AUX_DEFER
->
->Markus Schneider-Pargmann (5):
->  dt-bindings: mediatek,dpi: Add DP_INTF compatible
->  dt-bindings: mediatek,dp: Add Display Port binding
->  video/hdmi: Add audio_infoframe packing for DP
->  phy: phy-mtk-dp: Add driver for DP phy
->  drm/mediatek: Add mt8195 Embedded DisplayPort driver
->
-> .../display/mediatek/mediatek,dp.yaml         |   97 +
-> .../display/mediatek/mediatek,dpi.yaml        |   11 +-
-> .../bindings/phy/mediatek,dp-phy.yaml         |   43 +
-> MAINTAINERS                                   |    1 +
-> drivers/gpu/drm/drm_edid.c                    |   74 +
-> drivers/gpu/drm/mediatek/Kconfig              |    8 +
-> drivers/gpu/drm/mediatek/Makefile             |    2 +
-> drivers/gpu/drm/mediatek/mtk_dp.c             | 3204 +++++++++++++++++
-> drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  568 +++
-> drivers/gpu/drm/mediatek/mtk_dpi.c            |  222 +-
-> drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   38 +
-> drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    8 +
-> drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
-> drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    6 +-
-> drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    1 +
-> drivers/phy/mediatek/Kconfig                  |    8 +
-> drivers/phy/mediatek/Makefile                 |    1 +
-> drivers/phy/mediatek/phy-mtk-dp.c             |  202 ++
-> drivers/video/hdmi.c                          |   82 +-
-> include/drm/dp/drm_dp_helper.h                |    2 +
-> include/drm/drm_edid.h                        |   25 +-
-> include/linux/hdmi.h                          |    7 +-
-> include/linux/soc/mediatek/mtk-mmsys.h        |    3 +-
-> 23 files changed, 4541 insertions(+), 73 deletions(-)
-> create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-> create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
-> create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
->
->--
->2.34.1
->
+In intel_gt_wait_for_idle, we use the remaining timeout returned from
+intel_gt_retire_requests_timeout to wait on the GuC being idle. However,
+the returned variable can have a negative value if something goes wrong
+during the wait, leading to us hitting a GEM_BUG_ON in the GuC wait
+function.
+To fix this, make sure to only return the timeout if it is positive.
 
-This is actually v9.
-Please ignore these as I will resend the patches properly tagged as v9.
+Fixes: b97060a99b01b ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry for the inconveniance,
-Guillaume.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+index edb881d756309..ef70c209976d8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+@@ -197,7 +197,7 @@ out_active:	spin_lock(&timelines->lock);
+ 		active_count++;
+ 
+ 	if (remaining_timeout)
+-		*remaining_timeout = timeout;
++		*remaining_timeout = timeout > 0 ? timeout : 0;
+ 
+ 	return active_count ? timeout : 0;
+ }
+-- 
+2.25.1
+
