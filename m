@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368AB4E7B1E
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 00:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA094E7E22
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 01:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB86E10E089;
-	Fri, 25 Mar 2022 23:11:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4B510E72D;
+	Sat, 26 Mar 2022 00:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
- Fri, 25 Mar 2022 23:11:48 UTC
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5FD10E089;
- Fri, 25 Mar 2022 23:11:48 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4KQHjR4pWBzDrBf;
- Fri, 25 Mar 2022 16:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1648249483; bh=1ADmDFdbPsdYVW6qYOfhtQrEb1D9HfJfsAArL10rTVw=;
- h=From:To:Subject:In-Reply-To:References:Date:From;
- b=oj6xvUDPcNiwexfhGJMbdbL4upyWkdG9rGW74fziW0dX7HK+J1H/1nqR59zSC9fCH
- +RhjHhIV/ykQIY+tgBxO+uFEsviRajGbeSlmg7tbP3GOAayT6cmx0lmVnpwbtpxkf8
- mLOzWwd5sg6kBgV8OeJWtYZJi+raOvnV52+Kl5DU=
-X-Riseup-User-ID: BF08C3E441DAAB60383D983C8E986ABF9B29D9375AD2F70AE271A83C87C62E0C
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4KQHjR32NHz5vLn;
- Fri, 25 Mar 2022 16:04:43 -0700 (PDT)
-From: Francisco Jerez <currojerez@riseup.net>
-To: Matt Atwood <matthew.s.atwood@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/uapi: Add
- DRM_I915_QUERY_GEOMETRY_SUBSLICES
-In-Reply-To: <20220316224943.27679-1-matthew.s.atwood@intel.com>
-References: <20220316224943.27679-1-matthew.s.atwood@intel.com>
-Date: Fri, 25 Mar 2022 16:03:31 -0700
-Message-ID: <87r16pfxdo.fsf@riseup.net>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591BA10E70D;
+ Sat, 26 Mar 2022 00:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648254461; x=1679790461;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=T9WKzF5uUODZK1coRF8zoA8Nl6WzVRin2ZfvLu8VrnM=;
+ b=a8xHM0/5L3+HIZs70mrCDlRoYHXJwmWsi3D+potOeFfcYynveH/M1b3+
+ FkZcuDeyatNMZ5AdTeMhKbXQeme1UyIvpFRnEi9UaRfpfuuP2A1HQrPSu
+ /RJiRnkCWn8GfHHX+9e4LOQax6N/QyHzrOlTHsmI5xWXHElZc7oclCdxO
+ 2QOJvydZxU/F50ie1wfPARqSwMV/xqpEk9LOzmRTlrCSwXwPppOiXqJci
+ +73M6tzZhV4UZHrqqCqXhSPTup8FCwYritfUzRr05enAswSEfgfrdOqzo
+ /8jf9q9FJnqNl0YRaTK9YNnbP5vUpjECDElMr3EGKoT478rjMWgrnRCN1 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="257571491"
+X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="257571491"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 17:27:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; d="scan'208";a="584632109"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga001.jf.intel.com with ESMTP; 25 Mar 2022 17:27:38 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nXuHJ-000Mn3-E7; Sat, 26 Mar 2022 00:27:37 +0000
+Date: Sat, 26 Mar 2022 08:27:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhi Wang <zhi.wang.linux@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org
+Subject: Re: [PATCH v7 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+Message-ID: <202203260844.V9HDSROY-lkp@intel.com>
+References: <20220325175251.167164-1-zhi.a.wang@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220325175251.167164-1-zhi.a.wang@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,231 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Zhi Wang <zhi.a.wang@gmail.com>, kbuild-all@lists.01.org,
+ Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Matt Atwood <matthew.s.atwood@intel.com> writes:
+Hi Zhi,
 
-> Newer platforms have DSS that aren't necessarily available for both
-> geometry and compute, two queries will need to exist. This introduces
-> the first, when passing a valid engine class and engine instance in the
-> flags returns a topology describing geometry.
->
-> v2: fix white space errors
-> v3: change flags from hosting 2 8 bit numbers to holding a
-> i915_engine_class_instance struct
->
-> Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14143
-> Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_query.c | 68 ++++++++++++++++++++++---------
->  include/uapi/drm/i915_drm.h       | 24 +++++++----
->  2 files changed, 65 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index 2dfbc22857a3..fcb374201edb 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -9,6 +9,7 @@
->  #include "i915_drv.h"
->  #include "i915_perf.h"
->  #include "i915_query.h"
-> +#include "gt/intel_engine_user.h"
->  #include <uapi/drm/i915_drm.h>
->  
->  static int copy_query_item(void *query_hdr, size_t query_sz,
-> @@ -28,36 +29,30 @@ static int copy_query_item(void *query_hdr, size_t query_sz,
->  	return 0;
->  }
->  
-> -static int query_topology_info(struct drm_i915_private *dev_priv,
-> -			       struct drm_i915_query_item *query_item)
-> +static int fill_topology_info(const struct sseu_dev_info *sseu,
-> +			      struct drm_i915_query_item *query_item,
-> +			      const u8 *subslice_mask)
->  {
-> -	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
->  	struct drm_i915_query_topology_info topo;
->  	u32 slice_length, subslice_length, eu_length, total_length;
->  	int ret;
->  
-> -	if (query_item->flags != 0)
-> -		return -EINVAL;
-> +	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
->  
->  	if (sseu->max_slices == 0)
->  		return -ENODEV;
->  
-> -	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
-> -
->  	slice_length = sizeof(sseu->slice_mask);
->  	subslice_length = sseu->max_slices * sseu->ss_stride;
->  	eu_length = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
->  	total_length = sizeof(topo) + slice_length + subslice_length +
->  		       eu_length;
->  
-> -	ret = copy_query_item(&topo, sizeof(topo), total_length,
-> -			      query_item);
-> +	ret = copy_query_item(&topo, sizeof(topo), total_length, query_item);
-> +
->  	if (ret != 0)
->  		return ret;
->  
-> -	if (topo.flags != 0)
-> -		return -EINVAL;
-> -
->  	memset(&topo, 0, sizeof(topo));
->  	topo.max_slices = sseu->max_slices;
->  	topo.max_subslices = sseu->max_subslices;
-> @@ -69,27 +64,61 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
->  	topo.eu_stride = sseu->eu_stride;
->  
->  	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-> -			   &topo, sizeof(topo)))
-> +			 &topo, sizeof(topo)))
->  		return -EFAULT;
->  
->  	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr + sizeof(topo)),
-> -			   &sseu->slice_mask, slice_length))
-> +			 &sseu->slice_mask, slice_length))
->  		return -EFAULT;
->  
->  	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
-> -					   sizeof(topo) + slice_length),
-> -			   sseu->subslice_mask, subslice_length))
-> +					 sizeof(topo) + slice_length),
-> +			 subslice_mask, subslice_length))
->  		return -EFAULT;
->  
->  	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
-> -					   sizeof(topo) +
-> -					   slice_length + subslice_length),
-> -			   sseu->eu_mask, eu_length))
-> +					 sizeof(topo) +
-> +					 slice_length + subslice_length),
-> +			 sseu->eu_mask, eu_length))
->  		return -EFAULT;
->  
->  	return total_length;
->  }
->  
-> +static int query_topology_info(struct drm_i915_private *dev_priv,
-> +			       struct drm_i915_query_item *query_item)
-> +{
-> +	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
-> +
-> +	if (query_item->flags != 0)
-> +		return -EINVAL;
-> +
-> +	return fill_topology_info(sseu, query_item, sseu->subslice_mask);
-> +}
-> +
-> +static int query_geometry_subslices(struct drm_i915_private *i915,
-> +				    struct drm_i915_query_item *query_item)
-> +{
-> +	const struct sseu_dev_info *sseu;
-> +	struct intel_engine_cs *engine;
-> +	struct i915_engine_class_instance classinstance;
-> +
-> +	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
-> +		return -ENODEV;
-> +
-> +	classinstance = *((struct i915_engine_class_instance *)&query_item->flags);
-> +
-> +	engine = intel_engine_lookup_user(i915, (u8) classinstance.engine_class,
-> +					  (u8) classinstance.engine_instance);
-> +
-> +	if (!engine)
-> +		return -EINVAL;
-> +
-> +	sseu = &engine->gt->info.sseu;
-> +
-> +	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
-> +}
-> +
->  static int
->  query_engine_info(struct drm_i915_private *i915,
->  		  struct drm_i915_query_item *query_item)
-> @@ -485,6 +514,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->  	query_engine_info,
->  	query_perf_config,
->  	query_memregion_info,
-> +	query_geometry_subslices,
->  };
->  
->  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 05c3642aaece..b539c83a4034 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2687,10 +2687,11 @@ struct drm_i915_perf_oa_config {
->  struct drm_i915_query_item {
->  	/** @query_id: The id for this query */
->  	__u64 query_id;
-> -#define DRM_I915_QUERY_TOPOLOGY_INFO    1
-> -#define DRM_I915_QUERY_ENGINE_INFO	2
-> -#define DRM_I915_QUERY_PERF_CONFIG      3
-> -#define DRM_I915_QUERY_MEMORY_REGIONS   4
-> +#define DRM_I915_QUERY_TOPOLOGY_INFO		1
-> +#define DRM_I915_QUERY_ENGINE_INFO		2
-> +#define DRM_I915_QUERY_PERF_CONFIG		3
-> +#define DRM_I915_QUERY_MEMORY_REGIONS		4
-> +#define DRM_I915_QUERY_GEOMETRY_SUBSLICES	5
->  /* Must be kept compact -- no holes and well documented */
->  
->  	/**
-> @@ -2714,6 +2715,9 @@ struct drm_i915_query_item {
->  	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
->  	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
->  	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
-> +	 *
-> +	 * When query_id == DRM_I915_QUERY_GEOMETRY_SUBSLICES must have a valid
-> +	 * i915_engine_class_instance struct.
+I love your patch! Perhaps something to improve:
 
-To get back to our previous discussion off-list, I find this interface
-kind of confusing, since it's expecting an engine ID as argument, but it
-returns the set of subslices available to the *render* engine regardless
-of the engine class specified.  I think it would make sense to rename
-this to DRM_I915_QUERY_ENGINE_SUBSLICES or similar and have the mask
-returned be the set of subslices actually available to the engine that
-was specified (e.g. the compute subslice mask if a compute engine is
-specified, or an error if the engine specified doesn't have any
-connection to subslices).  Alternatively, if this is really only meant
-to work for the render engine, maybe the engine class should be dropped
-from "flags", only the engine instance is necessary -- I think that
-would prevent programming errors and would leave additional room in
-"flags" for future expansion.
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip drm/drm-next next-20220325]
+[cannot apply to tegra-drm/drm/tegra/for-next airlied/drm-next v5.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
->  	 */
->  	__u32 flags;
->  #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
-> @@ -2772,16 +2776,20 @@ struct drm_i915_query {
->  };
->  
->  /*
-> - * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO :
-> + * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO,
-> + * DRM_I915_QUERY_GEOMETRY_SUBSLICE:
->   *
->   * data: contains the 3 pieces of information :
->   *
-> - * - the slice mask with one bit per slice telling whether a slice is
-> - *   available. The availability of slice X can be queried with the following
-> - *   formula :
-> + * - For DRM_I915_QUERY_TOPOLOGY_INFO the slice mask with one bit per slice
-> + *   telling whether a slice is available. The availability of slice X can be
-> + *   queried with the following formula :
->   *
->   *           (data[X / 8] >> (X % 8)) & 1
->   *
-> + * - For DRM_I915_QUERY_GEOMETRY_SUBSLICES Slices are equal to 1 and this field
-> + *   is not used.
-> + *
->   * - the subslice mask for each slice with one bit per subslice telling
->   *   whether a subslice is available. Gen12 has dual-subslices, which are
->   *   similar to two gen11 subslices. For gen12, this array represents dual-
-> -- 
-> 2.21.3
+url:    https://github.com/0day-ci/linux/commits/Zhi-Wang/i915-gvt-Separate-the-MMIO-tracking-table-from-GVT-g/20220326-015627
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220326/202203260844.V9HDSROY-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/8203f91121efdcc910bde0bc4fe5ea678bdaaa5b
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Zhi-Wang/i915-gvt-Separate-the-MMIO-tracking-table-from-GVT-g/20220326-015627
+        git checkout 8203f91121efdcc910bde0bc4fe5ea678bdaaa5b
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gvt/handlers.c:74:6: warning: no previous prototype for 'intel_gvt_match_device' [-Wmissing-prototypes]
+      74 | bool intel_gvt_match_device(struct intel_gvt *gvt,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/intel_gvt_match_device +74 drivers/gpu/drm/i915/gvt/handlers.c
+
+12d14cc43b34706 Zhi Wang 2016-08-30  73  
+12d14cc43b34706 Zhi Wang 2016-08-30 @74  bool intel_gvt_match_device(struct intel_gvt *gvt,
+12d14cc43b34706 Zhi Wang 2016-08-30  75  		unsigned long device)
+12d14cc43b34706 Zhi Wang 2016-08-30  76  {
+12d14cc43b34706 Zhi Wang 2016-08-30  77  	return intel_gvt_get_device_type(gvt) & device;
+12d14cc43b34706 Zhi Wang 2016-08-30  78  }
+12d14cc43b34706 Zhi Wang 2016-08-30  79  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
