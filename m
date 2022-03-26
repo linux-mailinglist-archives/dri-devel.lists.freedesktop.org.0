@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0F04E83A0
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 20:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0478F4E8428
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 21:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9CA110E082;
-	Sat, 26 Mar 2022 19:07:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA7D10E206;
+	Sat, 26 Mar 2022 20:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A1710E082
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 19:07:40 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id n135so5924480vkf.6
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 12:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9+ZMgF8rHzqNlDkErLZI/DheSIs9iRBaxXLkva+BiWM=;
- b=MD7VvaQZmHal8Xv/fx01kI1KmByj2fQOUC5MgJ6KApMYVC8a8wU+KoSpFvPXYq0TGZ
- zZ2tBixUPv0UFU5ecP4ePgSX6FGzi52qYj9VBVhnrhp4+XRO0qCg8aKY50WPgsneX8/c
- 105dltBOkBstFSRzmSwraSUeA6g4EIHpqMS2w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9+ZMgF8rHzqNlDkErLZI/DheSIs9iRBaxXLkva+BiWM=;
- b=r0kn899vKoW/hQR1kx8VK66+EbdHwlSmam4NQeh/8zfQEfE0jTuHVJhghinHuG5FKa
- ss0kSQpniVXpGXGn5kGKKSMxYA6UH/5FySu5+WI4q1BkbGsR5+uhBE3Jifx6bCmiZRDZ
- bPx0slDipkuVyAmAlMx5uoNsuCBhQn2kOHuDJxnRvsSWFZmnYDykX9H9DDitbIOjYXCO
- RB4g/KyMJo19M3KT0K0zW3/yvC0Mk66k3V+DBI7LlruyU4tYoTPPwtIB9UGgA/5nVtoS
- NbBx3VT5ksqSjm+VOTTQD5fkPQ2Tw0xBBZOMZw7yXym4vD0kiSoATp25CHiP0REFd96W
- 7SJw==
-X-Gm-Message-State: AOAM532dcPkFDOzptHFC+I5m3iNEAkksV8RNCb9vUd0J7YH6mhN8+HW7
- T2PINb7G9Q/HT5Egrxan0MXAgA3KdI+wfOXlOOqiCg==
-X-Google-Smtp-Source: ABdhPJz7w1eEIH1Yjli6v9gw/q4r6yOcjoplh2ugVMhe4rGKmJyp/buoks/Yv7HcJOH7R6CVnmvS6bbI6l+0An3OS2U=
-X-Received: by 2002:a05:6122:1245:b0:33f:e889:f353 with SMTP id
- b5-20020a056122124500b0033fe889f353mr5624016vkp.17.1648321659222; Sat, 26 Mar
- 2022 12:07:39 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C62C10E206;
+ Sat, 26 Mar 2022 20:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=EpyjKKqNIRXrzYQY+o6UBoBbTJ4LcHleDtq3fEVCeEc=; b=pWSUnu9topVqu3bzkXVR9nQkUX
+ 33pXwHN+Z50EjhibNMzKiZt0RQytD1yecu7pmrN81jl2kKBItH4363YhxC8OUF0KvPvNgV3+Q7Rbz
+ wwyHP/O1XXrkEHzmZvmhMoB5b/45VeI6iMzynGQ7MUs0W32OYEZ8PlorRXuECX0YgN/21Ym6sYwzd
+ HiWdsfEdyIXFhcIEuC4DzYuJB/KV+axhgQZPfezJi+1SvLLjvA7cl5OFi35sSSay9rVbrKeFlVYJE
+ yt5H4Vz3JvwtVJ/3gEm/69uYjdqe0TqrHyNpCLoai6kv7a4qlVT2p1I3+vIa2EQLuI59Ol7z26kFZ
+ 3IphbG/Q==;
+Received: from [165.90.126.25] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nYCy9-0007e9-DK; Sat, 26 Mar 2022 21:25:05 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: amd-gfx@lists.freedesktop.org, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, daniel@ffwll.ch, harry.wentland@amd.com,
+ Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com, Xinhui.Pan@amd.com
+Subject: [PATCH 0/2] remove DC_FP_* wrappers in dml files
+Date: Sat, 26 Mar 2022 19:24:46 -0100
+Message-Id: <20220326202448.2046077-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220326073326.3389347-1-yangyingliang@huawei.com>
-In-Reply-To: <20220326073326.3389347-1-yangyingliang@huawei.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Sun, 27 Mar 2022 03:07:13 +0800
-Message-ID: <CAJMQK-hA+k8hsQiBq7v9QROQyDkrzy+J40b2uF4AcmrXDe0gKw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: add missing destroy_workqueue() in
- anx7625_i2c_probe()
-To: Yang Yingliang <yangyingliang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robert.foss@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, xji@analogixsemi.com
+Cc: Qingqing Zhuo <qingqing.zhuo@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Jasdeep Dhillon <jdhillon@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 26, 2022 at 3:24 PM Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> Add the missing destroy_workqueue() before return from
-> anx7625_i2c_probe() in the error handling case.
->
-> Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through aux channel")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+From FPU documentation, developers must not use DC_FP_START/END in dml
+files, but invoke it when calling FPU-associated functions (isolated in
+dml folder). Therefore, the first patch renames dcn10_validate_bandwidth
+in dml/calcs to dcn_ for generalization, declares dcn10_validate_bandwidth
+in dcn10 - that calls dcn_validate_bandwidth and wraps with DC_FP_*
+accordingly. The second patch removes invocations of DC_FP_* from dml
+files and properly wraps FPU functions in dc code outside dml folder.
 
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 31ecf5626f1d..1895e3448c02 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -2654,7 +2654,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->         if (ret) {
->                 if (ret != -EPROBE_DEFER)
->                         DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
-> -               return ret;
-> +               goto free_wq;
->         }
->
->         if (anx7625_register_i2c_dummy_clients(platform, client) != 0) {
-> @@ -2669,7 +2669,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->         pm_suspend_ignore_children(dev, true);
->         ret = devm_add_action_or_reset(dev, anx7625_runtime_disable, dev);
->         if (ret)
-> -               return ret;
-> +               goto free_wq;
->
->         if (!platform->pdata.low_power_mode) {
->                 anx7625_disable_pd_protocol(platform);
-> --
-> 2.25.1
->
+Melissa Wen (2):
+  drm/amd/display: detach fpu operations from dcn10_validate_bandwidth
+    in calcs
+  drm/amd/display: remove DC_FP_* wrapper from dml folder
+
+ .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 10 ++++++++--
+ .../drm/amd/display/dc/dcn10/dcn10_resource.c | 16 ++++++++++++++++
+ .../drm/amd/display/dc/dml/calcs/dcn_calcs.c  | 19 +------------------
+ .../drm/amd/display/dc/dml/dcn20/dcn20_fpu.c  |  2 --
+ .../gpu/drm/amd/display/dc/inc/dcn_calcs.h    |  2 +-
+ 5 files changed, 26 insertions(+), 23 deletions(-)
+
+-- 
+2.35.1
+
