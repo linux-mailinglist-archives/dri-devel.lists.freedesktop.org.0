@@ -2,52 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786454E804C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 11:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A606C4E8319
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Mar 2022 18:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCFA10E2D8;
-	Sat, 26 Mar 2022 10:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6B910E417;
+	Sat, 26 Mar 2022 17:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id E2BB510E2D8
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 10:04:54 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:57148.2145324903
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id BF4441002B2;
- Sat, 26 Mar 2022 18:04:48 +0800 (CST)
-Received: from  ([172.27.8.53])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- 0234fbac645941f997e9c113ad1bff80 for robh@kernel.org; 
- Sat, 26 Mar 2022 18:04:49 CST
-X-Transaction-ID: 0234fbac645941f997e9c113ad1bff80
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-Message-ID: <165597c7-3ac3-9d32-a70f-95214b242e0b@189.cn>
-Date: Sat, 26 Mar 2022 18:04:46 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01olkn2089.outbound.protection.outlook.com [40.92.53.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A00A10E1AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 11:46:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kWqhRkXSo+oP3qbWI3cR2rlScWAm7rfFjVdlYSk5XuVHwL12Yba30n3UCv+0K1MCC1mwyLxuNfGReovY4lbghLMPaxnAuCzA+SiYJU/PG8e/PAviC3+nxnQfpFYGrGdY79MTcfL2cT95Nga9MccQnPzfobjJPHl/husQNjnOKMPqtyZrkiSd9ykaeFU9Bv4jScLcfZJvm+vrMOU/a4zttgFE1UIE2SeNmSplY/ddJp2cu+KCp1qv/kambLADwAT5HWiUvDlADVSh3eRvMbdoNYAbclM+rbQbikQ7AeVN2tQpXPuiRxjNWnRA2BTgP6htM0TXCLlyE8V0k0tLpc9SFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iyKrp7I82f3wYzsbQR/1Jeu1cFgJoa6hSbBVeuarAhw=;
+ b=BvFw5UxNDqBhKPc1RMKVtTyQDbOCxrp6du/oQ6tLwWQxFlpGg+2P5VORgvgZzxU0ZwFk1ylwx9Jiy1k0iEs6OxcdaTuFsb9V13gnYBXCqtmzWknqJCXsi7b5ePPpO4i8s1CMirFb8ry8avemo8JCsmj8/9SdQ2tj9bdVXv1YSUka0dZ3mU2/BxuCqF6h+ejsY/9sday2waVN69s1a5oITY98eqL2Mk5bJIOuGiCyInGWLcf34x7MOhf+MxTTCfiWysgByV9SCTzJdPD3P6fzfAxpr5/1DmCe7gwZqLFy/sxC/iGaBzQhIlq+I1M2nkZoOu/N5SxpTJsz6rmd/WGc+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iyKrp7I82f3wYzsbQR/1Jeu1cFgJoa6hSbBVeuarAhw=;
+ b=hjxvWUn6bGhMky47CgB0umFijQNAN7lN22XPrTNgSWeOGyjstQF86/fsj8SwvmjLgVzqpSBwpi3k/A0+sy7L0UAxOPurmapEnJ9lXubwa9XV8syaTkJ+oM/F4d6voT94cUVOCQm3DKh2YaYN1sCS/parmjeaw8dKlIMb1IEp55bGIFii8CJNtMPxklThbFpXpXSXOaB+XTkEkDZzo58Bk5ugvGcKJoWiI9aoo7RjI2voH/QM5IZWP3/QZvAuAbSkyzDvtGNszsRcZHNsJBtdEoOEVG8Orq1nzi1G+j24m10Ncc0mPNd8w0JP62CZtQl0tFmCZ67XvHYgZIDFpEjgSQ==
+Received: from TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:8::7) by SG2PR01MB2061.apcprd01.prod.exchangelabs.com
+ (2603:1096:3:21::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Sat, 26 Mar
+ 2022 11:46:03 +0000
+Received: from TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ ([fe80::8dd1:e105:311a:ce51]) by TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ ([fe80::8dd1:e105:311a:ce51%3]) with mapi id 15.20.5102.022; Sat, 26 Mar 2022
+ 11:46:03 +0000
+Message-ID: <TYZPR01MB39356D38FACC73ACB99B47BEF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
+Subject: [ PATCH ] Documentation: fixed some doc-build warnings
+From: kushagra765@outlook.com
+To: linux-doc@vger.kernel.org, corbet@lwn.net
+Date: Sat, 26 Mar 2022 17:15:50 +0530
+Content-Type: text/plain
+User-Agent: Evolution 3.36.5-0ubuntu1 
+Content-Transfer-Encoding: base64
+X-TMN: [2essGCoMYUavK24/KHylj7OZS/k1rlk3giwXyI4m6gM=]
+X-ClientProxiedBy: BM1PR01CA0081.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1::21) To TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:8::7)
+X-Microsoft-Original-Message-ID: <2f72251802e01eb81e5ef71e16b55f71728a0a5b.camel@outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
- controller
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-6-15330273260@189.cn>
- <YjkITWpbnCmhKaX+@robh.at.kernel.org>
- <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
- <Yjo3umi9bJ0xb2Gl@robh.at.kernel.org>
- <199a2869-cd83-d24e-0ad0-25d15d76fc13@189.cn>
- <YjsamuFslv6qlQMZ@robh.at.kernel.org>
- <ac75aeff-1fca-f46f-1043-8437ef845ff9@189.cn>
- <YjxxhNnmqteTIEOa@robh.at.kernel.org>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <YjxxhNnmqteTIEOa@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 939fb3c8-71c9-4d2f-39b7-08da0f1e346e
+X-MS-TrafficTypeDiagnostic: SG2PR01MB2061:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CY46gVzwVdWJBqm9rKtymP4igUWXQfhNJDKoKpItVrrYmwAHBrXKPxArzjSQLhZh5XIuZe1LMzkEGCU26r6RRMHmAGLp+heXXCyLP2aErN5ql9PBhlHNTaJa63m3XCexYgDpk852uNtfF4laLhq2GOUVOhOJYC28fDrv9ANhQTE4yJ32rhvhrMLsi/vdS93C+7/SObqNPWE7Q/UbY4QXi3DjiFKw2cXs8y/4I+fPAXMV8uJa1RiH9bB2ApeLjvJ2pYBKmIJnb81XlQ7mN7PrOP36Y1JbyE7SARum28kqrIOYj9qLohft29c+VL9b1Qc5
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?60JgILX2rR0fqEQ8P/HL0e8Oo7D9h11fb762lcww7FwPQ27Qr4kh2+JVlyy1?=
+ =?us-ascii?Q?wdPv0htp0dFd50Rnmb+D4Jpt0fIS0yZVSN0o1nKcTdlrf+RcxMXU5Y7SH7Ap?=
+ =?us-ascii?Q?6PnYq16gk4/j8zmH4mx2PGfBQWqrnJXqANFOvHQ+cxkcQM7Lb8/iWIo0htIe?=
+ =?us-ascii?Q?KXOPY68zUoL6UMzmCpgIsEU/rR23uyP+c7PcpZsQ3qE2PSTe3PeMaS0pOJWw?=
+ =?us-ascii?Q?/m03Hb7MkKR8oThVEqtKbl8yF4ri82BR+vQiTXt5AV4RYetfZzxjtxjO1v/Z?=
+ =?us-ascii?Q?qQ8lhpJSTG+m/Rwv+qkqjPi7y2040X8PN416e74Y+AytoWVpuJlevfuiu1MF?=
+ =?us-ascii?Q?EkeagogTN0BwBy1iIOsP08mOpWKrfDs8TH+xT7AzWQuj7UU7kb0dxEW8yesQ?=
+ =?us-ascii?Q?fCTfDvmHvfeYjb2G6KyIUxS7W+Sb9F63VXH8kz72/xGCWEeBXvXwTe1HHBdT?=
+ =?us-ascii?Q?bd1WnJmiHVL6YwNocVuS6FD8DMjC/R4q3FvW/9XWHCYNB0jLGJgoAoxK4tiF?=
+ =?us-ascii?Q?mukaYpQoxxhBqOFZSlV1Jkt4Pm1Wzd0vE55qTKlSiWRfiVX8QmCD+Pklpn48?=
+ =?us-ascii?Q?Ik2NUlrDMG2Fzhd2TZ5MOInHUele1LbI4eFjJ/8Iga9iWqbj+VfkiV97H1eF?=
+ =?us-ascii?Q?OwY+uDZwLSWUCtACCuyKP/iw4Hn4x6iOr60iP0Z10Bpduu3e7yT2pJ6RGWUR?=
+ =?us-ascii?Q?AamkSszZAJDJoXS5fo29WXjmd1ljECjhMB05gmHc6vWERMgVbKe6q2AXc2QD?=
+ =?us-ascii?Q?MbO8RVayZCGgRyPZfUFZ5fEiXXeRYOulYSLVBxE1of4+DZfPf7OaJpxTkvS1?=
+ =?us-ascii?Q?KfzFox9hbmq2crifs7jhUgsLCL2tCSa//PkURvBM1ZbDz41BgdAoHbIcOJ7Q?=
+ =?us-ascii?Q?Ghk+cd1KzRUJgQjtFV+3gG8wtpL3FYsbGa/ETZpHkoa4BR4+q8mExBKCQRQB?=
+ =?us-ascii?Q?uyyni0ZbAqxiexj53dOJoyF6W49X3RRWOYMdRw3l486J60eldcMuht7qFXlj?=
+ =?us-ascii?Q?qBZl71UbJZqgBo3QTF+fn5A7lKdUQwOtv87cGoAoX5EwL6VlhxPGQUNADpAz?=
+ =?us-ascii?Q?JEDzyBmbbZvRpIAb25ZaGQNOAwXq5q2Dxv5lcSAigmfPnno5ABuMHT6qRUfn?=
+ =?us-ascii?Q?eG5dFoT+aCKGlU2tIKwQ8AKBlRMuH3M1ZzbrM68mvtHIhMWTlSVPWgurZY6F?=
+ =?us-ascii?Q?diGJOGQbLZGV12+rYz1AqqejGRFoJ1cJS/5rodxrG/phDNb5jWeBhDHi8v/B?=
+ =?us-ascii?Q?UPdU2Rq9yiiu8KD7dx67hxFzMKBIc99Lf0G+llFhnhIwgxVInndz8bksJ/qF?=
+ =?us-ascii?Q?ThUdoZY1G/JDGV/vphjo6IRVr9AtHyUAavVs2DKtyx9NgDlw62WeqoYVbEYN?=
+ =?us-ascii?Q?/qaykQjntHLcpZ1whmVM4+Zd41uh4x5fNdq6USo7Iagx5wrddpHWIjuadZz8?=
+ =?us-ascii?Q?h470LTZX0aUNLD12ze1nYsx4KV97tx1G?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 939fb3c8-71c9-4d2f-39b7-08da0f1e346e
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2022 11:46:03.3482 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB2061
+X-Mailman-Approved-At: Sat, 26 Mar 2022 17:48:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,291 +104,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Qing Zhang <zhangqing@loongson.cn>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-mips@vger.kernel.org,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: balbi@kernel.org, tzimmermann@suse.de, arnd@arndb.de, airlied@linux.ie,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, dhowells@redhat.com,
+ mcgrof@kernel.org, linux-cachefs@redhat.com, viro@zeniv.linux.org.uk,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2022/3/24 21:26, Rob Herring wrote:
-> On Thu, Mar 24, 2022 at 09:48:19AM +0800, Sui Jingfeng wrote:
->> On 2022/3/23 21:03, Rob Herring wrote:
->>> On Wed, Mar 23, 2022 at 11:38:55AM +0800, Sui Jingfeng wrote:
->>>> On 2022/3/23 04:55, Rob Herring wrote:
->>>>> On Tue, Mar 22, 2022 at 10:33:45AM +0800, Sui Jingfeng wrote:
->>>>>> On 2022/3/22 07:20, Rob Herring wrote:
->>>>>>> On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
->>>>>>>> From: suijingfeng <suijingfeng@loongson.cn>
->>>>>>>>
->>>>>>> Needs a commit message.
->>>>>>>
->>>>>>>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->>>>>>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->>>>>>> Same person? Don't need both emails.
->>>>>> Yes,  suijingfeng@loongson.cn is my company's email. But it can not be used
->>>>>> to send patches to dri-devel,
->>>>>>
->>>>>> when send patches with this email, the patch will not be shown on patch
->>>>>> works.
->>>>>>
->>>>>> Emails  are either blocked or got  rejected  by loongson's mail server.  It
->>>>>> can only receive emails
->>>>>>
->>>>>> from you and other people, but not dri-devel. so have to use my personal
->>>>>> email(15330273260@189.cn) to send patches.
->>>>>>
->>>>>>>> ---
->>>>>>>>      .../loongson/loongson,display-controller.yaml | 230 ++++++++++++++++++
->>>>>>>>      1 file changed, 230 insertions(+)
->>>>>>>>      create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>>
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..7be63346289e
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>> @@ -0,0 +1,230 @@
->>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>>> +%YAML 1.2
->>>>>>>> +---
->>>>>>>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
->>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>>> +
->>>>>>>> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
->>>>>>>> +
->>>>>>>> +maintainers:
->>>>>>>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>>> +
->>>>>>>> +description: |+
->>>>>>>> +
->>>>>>>> +  Loongson display controllers are simple which require scanout buffers
->>>>>>>> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
->>>>>>>> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
->>>>>>>> +  with a dedicated video RAM which is 64MB or more, precise size can be
->>>>>>>> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
->>>>>>>> +  chip.
->>>>>>>> +
->>>>>>>> +  LSDC has two display pipes, each way has a DVO interface which provide
->>>>>>>> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
->>>>>>>> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
->>>>>>>> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
->>>>>>>> +
->>>>>>>> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
->>>>>>>> +  located at the DC register space. They are used to emulate two way i2c,
->>>>>>>> +  One for DVO0, another for DVO1.
->>>>>>>> +
->>>>>>>> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
->>>>>>>> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
->>>>>>>> +
->>>>>>>> +  LSDC's display pipeline have several components as below description,
->>>>>>>> +
->>>>>>>> +  The display controller in LS7A1000:
->>>>>>>> +     ___________________                                     _________
->>>>>>>> +    |            -------|                                   |         |
->>>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->>>>>>>> +    |  _   _     -------|        ^             ^            |_________|
->>>>>>>> +    | | | | |    -------|        |             |
->>>>>>>> +    | |_| |_|    | i2c0 <--------+-------------+
->>>>>>>> +    |            -------|
->>>>>>>> +    |   DC IN LS7A1000  |
->>>>>>>> +    |  _   _     -------|
->>>>>>>> +    | | | | |    | i2c1 <--------+-------------+
->>>>>>>> +    | |_| |_|    -------|        |             |             _________
->>>>>>>> +    |            -------|        |             |            |         |
->>>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->>>>>>>> +    |            -------|                                   |_________|
->>>>>>>> +    |___________________|
->>>>>>>> +
->>>>>>>> +  Simple usage of LS7A1000 with LS3A4000 CPU:
->>>>>>>> +
->>>>>>>> +    +------+            +-----------------------------------+
->>>>>>>> +    | DDR4 |            |  +-------------------+            |
->>>>>>>> +    +------+            |  | PCIe Root complex |   LS7A1000 |
->>>>>>>> +       || MC0           |  +--++---------++----+            |
->>>>>>>> +  +----------+  HT 3.0  |     ||         ||                 |
->>>>>>>> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
->>>>>>>> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
->>>>>>>> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
->>>>>>>> +       || MC1           +---------------|--|----------------+
->>>>>>>> +    +------+                            |  |
->>>>>>>> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
->>>>>>>> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
->>>>>>>> +                      +-------+                      +------+
->>>>>>>> +
->>>>>>>> +  The display controller in LS2K1000/LS2K0500:
->>>>>>>> +     ___________________                                     _________
->>>>>>>> +    |            -------|                                   |         |
->>>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->>>>>>>> +    |  _   _     -------|        ^              ^           |_________|
->>>>>>>> +    | | | | |           |        |              |
->>>>>>>> +    | |_| |_|           |     +------+          |
->>>>>>>> +    |                   <---->| i2c0 |<---------+
->>>>>>>> +    |   DC IN LS2K1000  |     +------+
->>>>>>>> +    |  _   _            |     +------+
->>>>>>>> +    | | | | |           <---->| i2c1 |----------+
->>>>>>>> +    | |_| |_|           |     +------+          |            _________
->>>>>>>> +    |            -------|        |              |           |         |
->>>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->>>>>>>> +    |            -------|                                   |_________|
->>>>>>>> +    |___________________|
->>>>>>>> +
->>>>>>>> +properties:
->>>>>>>> +  $nodename:
->>>>>>>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
->>>>>>>> +
->>>>>>>> +  compatible:
->>>>>>>> +    oneOf:
->>>>>>>> +      - items:
->>>>>>>> +          - enum:
->>>>>>>> +              - loongson,ls7a1000-dc
->>>>>>>> +              - loongson,ls2k1000-dc
->>>>>>>> +              - loongson,ls2k0500-dc
->>>>>>>> +
->>>>>>>> +  reg:
->>>>>>>> +    maxItems: 1
->>>>>>>> +
->>>>>>>> +  interrupts:
->>>>>>>> +    maxItems: 1
->>>>>>>> +
->>>>>>>> +  '#address-cells':
->>>>>>>> +    const: 1
->>>>>>>> +
->>>>>>>> +  '#size-cells':
->>>>>>>> +    const: 0
->>>>>>>> +
->>>>>>>> +  i2c-gpio@0:
->>>>>>>> +    description: |
->>>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
->>>>>>> If you have i2c-gpio, that belongs at the DT top-level, not here.
->>>>>>>
->>>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
->>>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-0. The reg property can be
->>>>>>> No, there's a defined i2c-gpio compatible already.
->>>>>> This is different from the i2c-gpio already defined under drivers/i2c/busses/i2c-gpio.c,
->>>>>> By design, my i2c-gpio is vendor specific properties, lsdc device driver create the i2c
->>>>>> adapter at runtime. These are 4 dedicated GPIOs whose control register is located at the
->>>>>> LSDC register space, not general purpose GPIOs with separate control register resource.
->>>>>> So i think it is the child node of display-controller@6,1, it belongs to LSDC.
->>>>>> It seems that put it at the DT top-level break the hierarchy and relationship.
->>>>> Okay, I see. Then just 'i2c' for the node names. You need a reference to
->>>>> i2c-controller.yaml for these nodes too.
->>>>>
->>>>> The compatible should not have an index in it.
->>>> OK, i will fix this at the next version. thanks.
->>>>>>>> +      used to specify a I2c adapter bus number, if you don't specify one
->>>>>>>> +      i2c driver core will dynamically assign a bus number. Please specify
->>>>>>> Bus numbers are a linux detail not relevant to DT binding.
->>>>>>>
->>>>>>>> +      it only when its bus number matters. Bus number greater than 6 is safe
->>>>>>>> +      because ls7a1000 bridge have 6 hardware I2C controller integrated.
->>>>>>>> +
->>>>>>>> +  i2c-gpio@1:
->>>>>>>> +    description: |
->>>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
->>>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
->>>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-1.
->>>>>>>> +
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - port@0
->>>>>>>> +      - port@1
->>>>>>>> +
->>>>>>>> +required:
->>>>>>>> +  - compatible
->>>>>>>> +  - reg
->>>>>>>> +  - interrupts
->>>>>>>> +  - ports
->>>>>>>> +
->>>>>>>> +additionalProperties: false
->>>>>>>> +
->>>>>>>> +examples:
->>>>>>>> +  - |
->>>>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>>>>>>> +    bus {
->>>>>>>> +
->>>>>>>> +        #address-cells = <3>;
->>>>>>>> +        #size-cells = <2>;
->>>>>>>> +        #interrupt-cells = <2>;
->>>>>>>> +
->>>>>>>> +        display-controller@6,1 {
->>>>>>>> +            compatible = "loongson,ls7a1000-dc";
->>>>>>>> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
->>>>>>>> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
->>>>>>>> +
->>>>>>>> +            #address-cells = <1>;
->>>>>>>> +            #size-cells = <0>;
->>>>>>>> +
->>>>>>>> +            i2c-gpio@0 {
->>>>>>>> +                compatible = "lsdc,i2c-gpio-0";
->>>>>>>> +                reg = <6>;
->>>>> 'reg' needs to be documented with some description of what 6 and 7
->>>>> represent. If they are the control register offset, then make the
->>>>> address translatable (use 'ranges' and define the size).
->>>> By design, the reg property is used to specify a I2c adapter bus number,
->>>> if we don't specify one, i2c driver core will dynamically assign a bus number.
->>>> then the nr of the i2c adapter will started from 0. I want is start from 6
->>>> to avoid potential conflict feature hardware I2C driver.
->>>>
->>>> Because LS7A1000 bridge chip have 6 hardware I2C controller integrated,
->>>> but its driver is not up-streamed yet. By default these hardware I2C controller's
->>>> nr is started from 0.
->>> Linux's numbering doesn't belong in DT. So no, you can't use 'reg' in
->>> that way.
->> Then,  can i use something like lsdc,nr = <6> ?
->>>> Even through i2c driver core can dynamically generate a number, i still want it
->>>> to be fixed and keep consistent and explicit. That is, i2c6 is for display pipe 0,
->>>> i2c7 is for display pipe 1. This follow the convention and flexible enough.
->>> You may want that, but that is not how the kernel works. Specific
->>> numbers are not guaranteed. I'm sure you've seen this for disks, network
->>> interfaces, etc.
->>>
->>> Rob
->> 2c_bit_add_numbered_bus() will guarantee it for you as long as If no devices
->> have pre-been declared for this bus.
->>
->> you can read the comment of 2c_bit_add_numbered_bus() at
->> drivers/i2c/i2c-core-base.c
-> I didn't say it wasn't possible. It is not best practice. Grep
-> i2c_bit_add_numbered_bus and see how many users there are.
-
-i2c-gpio.c at drivers/i2c/busses/ just do the same thing.
+DQo=
 
 
-+ nvidia,bpmp-bus-id: + $ref: /schemas/types.yaml#/definitions/uint32 + 
-description: Indicates the I2C bus number this DT node represents, + as 
-defined by the BPMP firmware.
-
-> Even if the kernel allows specifying bus numbers,your Linux bus numbers don't
-> belong in DT.
-
-Again, Does does devicetree specification prohibit this?
-
-Nvidia also put i2c bus number in the DT, we learn that from nvidia. [1][2]
-
-[1] Documentation/devicetree/bindings/i2c/nvidia,tegra186-bpmp-i2c.yaml
-
-[2] 
-https://lore.kernel.org/all/20211208143306.534700-1-thierry.reding@gmail.com/
-
-
->
-> Rob
