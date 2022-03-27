@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD04E84AE
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 00:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641034E85DA
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 07:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAA810E05F;
-	Sat, 26 Mar 2022 23:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E7910EFBA;
+	Sun, 27 Mar 2022 05:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2201310E05F
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 23:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=bukY4EgwRaqAf/SaO6ho6ij0PMTHMNeJj2ERILhEhQ8=; b=nNRPEugZ95U+6Q3hPTJO1yg8O0
- M+/Q+WEwQGGXK3iy3EfDCcIIGG5oRWUwcYsiquNCKj++4wLlgmwPBE/EJ5TLBE+gEGJS+ordgYnSf
- x0b1Deyer2k2ryMdymHfwlSmXiS49vH8Q1ODnAP0+r+PtOaBA87edurWj+hDtCvpYoIrxaRuFbKI+
- h+1vdhwOuE6pwUbbp8SpzzsuASm6lCOdSxDQAdVya3kcMSXEySFyg2s2yA/RlPd6bynAcWnu5mVQ0
- I7pl1UFwBsFPFyHXWJcCnWyGQ+2Tia4b+kgEpWN7DkpHC09yIMcVzObWQMvlhZgaGJt6ckN0zxq/E
- jUWucFsw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYGBx-0052FX-QT; Sat, 26 Mar 2022 23:51:33 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: sti: don't use kernel-doc markers
-Date: Sat, 26 Mar 2022 16:51:32 -0700
-Message-Id: <20220326235132.25192-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A6910EFBA
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 05:09:54 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id b8so11104762pjb.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 22:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=Z5EKWPKNzm8cvte72SjRtTGquUZgoqCpRIcSt/1/Umc=;
+ b=FnYg8OIV24UEG074PlR98g0sAQBcYruqIeBvx2BeyUoc80DP9s3Fh6wm7+IBoxFkrN
+ fs5u0bIRN/SKumQOTvt1Pnoo/ijLoT2zs0elPLbCbNZ+Yx9fn+SZBo9JusCnaKCHIL8d
+ HfNBXzm2aDM+wvR2hCCqYd5mznYqibR3UAcS+/63FWs5er3Y65rMh9q56sEC7CCx6wPp
+ nyak+en+A7F08K3YevlNm11d9Q11D4dE+0uOCM4cVcjdD1Iz2lbJFm66aALvPvBFlljO
+ MZ16hBGVD6nY2XPl4JXIC1/KhAljDDi2FgW0rBWPtKxTNKz5aNdz+fkKqiEQt76fblEZ
+ UgLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Z5EKWPKNzm8cvte72SjRtTGquUZgoqCpRIcSt/1/Umc=;
+ b=X+Fo9JOZrZH9dwucZJE1zbr79/TDmXVGhrw3kH/cImGdZhjSgiJHWEBjARoHJTuKwL
+ XpvgpZblrqu+YmYzDmf4B+KBBTDt4ZebeKiRoD8ZiTjgp6MhfxvgoydRbTc3T2s6A62A
+ u6HRe42rm97wQyL+R5387Uu0bUGsHR0N23v/uoCIdMpPeruFANNMoKt3HbKPZYROMwUZ
+ A6XZajTIf2k7RdzuA4A7th/oEgdWhlPXWB77ybyP7YPCzwtfoSKToEUwXs/O1LGwVFW2
+ uVjNKf9iSXapRAKb71wGHBgesvrWf4A85YCrik65DhExOLRxbaBqD2AIvq1cs+gyomim
+ ClCQ==
+X-Gm-Message-State: AOAM5300XLJ4CCl+FWrkGMujkOUjw0gm9208THHC0fzgC6tlgSwclBX1
+ NPlYgaEvKGxLy6GHCRxGwD8=
+X-Google-Smtp-Source: ABdhPJzZI5uxOvxHFTaIAz9af0GpXXF0sc7MoA1wfxo+9D+L4evJjKE+DpgwZgK80tVBlHrlLpW6Bg==
+X-Received: by 2002:a17:90a:a58e:b0:1bd:4752:90cf with SMTP id
+ b14-20020a17090aa58e00b001bd475290cfmr22038142pjq.54.1648357794360; 
+ Sat, 26 Mar 2022 22:09:54 -0700 (PDT)
+Received: from localhost.localdomain ([115.220.243.108])
+ by smtp.googlemail.com with ESMTPSA id
+ e19-20020a637453000000b003821bdb8103sm9561015pgn.83.2022.03.26.22.09.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Mar 2022 22:09:53 -0700 (PDT)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: airlied@linux.ie
+Subject: [PATCH] virtio-gpu: fix a missing check to avoid NULL dereference
+Date: Sun, 27 Mar 2022 13:09:45 +0800
+Message-Id: <20220327050945.1614-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,136 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aditya Srivastava <yashsri421@gmail.com>, David Airlie <airlied@linux.ie>,
- Randy Dunlap <rdunlap@infradead.org>, patches@lists.linux.dev,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Alain Volmat <alain.volmat@foss.st.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ gurchetansingh@chromium.org, Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+ kraxel@redhat.com, airlied@redhat.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't mark static functions as kernel-doc.
+'cache_ent' could be set NULL inside virtio_gpu_cmd_get_capset()
+and it will lead to a NULL dereference by a lately use of it
+(i.e., ptr = cache_ent->caps_cache). Fix it with a NULL check.
 
-Prevents multiple kernel-doc build warnings:
-
-drivers/gpu/drm/sti/sti_hdmi.c:187: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * HDMI interrupt handler threaded
-drivers/gpu/drm/sti/sti_hdmi.c:219: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * HDMI interrupt handler
-drivers/gpu/drm/sti/sti_hdmi.c:241: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Set hdmi active area depending on the drm display mode selected
-drivers/gpu/drm/sti/sti_hdmi.c:262: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Overall hdmi configuration
-drivers/gpu/drm/sti/sti_hdmi.c:340: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Helper to concatenate infoframe in 32 bits word
-drivers/gpu/drm/sti/sti_hdmi.c:357: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Helper to write info frame
-drivers/gpu/drm/sti/sti_hdmi.c:427: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Prepare and configure the AVI infoframe
-drivers/gpu/drm/sti/sti_hdmi.c:470: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Prepare and configure the AUDIO infoframe
-drivers/gpu/drm/sti/sti_hdmi.c:555: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Software reset of the hdmi subsystem
-
-Fixes: 5402626c83a2 ("drm: sti: add HDMI driver")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Aditya Srivastava <yashsri421@gmail.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Alain Volmat <alain.volmat@foss.st.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Fixes: 62fb7a5e10962 ("virtio-gpu: add 3d/virgl support")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- linux-next-20220325.orig/drivers/gpu/drm/sti/sti_hdmi.c
-+++ linux-next-20220325/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -183,7 +183,7 @@ void hdmi_write(struct sti_hdmi *hdmi, u
- 	writel(val, hdmi->regs + offset);
- }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index c708bab555c6..b0f1c4d8fd23 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -579,8 +579,10 @@ static int virtio_gpu_get_caps_ioctl(struct drm_device *dev,
+ 	spin_unlock(&vgdev->display_info_lock);
  
--/**
-+/*
-  * HDMI interrupt handler threaded
-  *
-  * @irq: irq number
-@@ -215,7 +215,7 @@ static irqreturn_t hdmi_irq_thread(int i
- 	return IRQ_HANDLED;
- }
+ 	/* not in cache - need to talk to hw */
+-	virtio_gpu_cmd_get_capset(vgdev, found_valid, args->cap_set_ver,
++	ret = virtio_gpu_cmd_get_capset(vgdev, found_valid, args->cap_set_ver,
+ 				  &cache_ent);
++	if (ret)
++		return ret;
+ 	virtio_gpu_notify(vgdev);
  
--/**
-+/*
-  * HDMI interrupt handler
-  *
-  * @irq: irq number
-@@ -237,7 +237,7 @@ static irqreturn_t hdmi_irq(int irq, voi
- 	return IRQ_WAKE_THREAD;
- }
- 
--/**
-+/*
-  * Set hdmi active area depending on the drm display mode selected
-  *
-  * @hdmi: pointer on the hdmi internal structure
-@@ -258,7 +258,7 @@ static void hdmi_active_area(struct sti_
- 	hdmi_write(hdmi, ymax, HDMI_ACTIVE_VID_YMAX);
- }
- 
--/**
-+/*
-  * Overall hdmi configuration
-  *
-  * @hdmi: pointer on the hdmi internal structure
-@@ -336,7 +336,7 @@ static void hdmi_infoframe_reset(struct
- 		hdmi_write(hdmi, 0x0, pack_offset + i);
- }
- 
--/**
-+/*
-  * Helper to concatenate infoframe in 32 bits word
-  *
-  * @ptr: pointer on the hdmi internal structure
-@@ -353,7 +353,7 @@ static inline unsigned int hdmi_infofram
- 	return value;
- }
- 
--/**
-+/*
-  * Helper to write info frame
-  *
-  * @hdmi: pointer on the hdmi internal structure
-@@ -423,7 +423,7 @@ static void hdmi_infoframe_write_infopac
- 	hdmi_write(hdmi, val, HDMI_SW_DI_CFG);
- }
- 
--/**
-+/*
-  * Prepare and configure the AVI infoframe
-  *
-  * AVI infoframe are transmitted at least once per two video field and
-@@ -466,7 +466,7 @@ static int hdmi_avi_infoframe_config(str
- 	return 0;
- }
- 
--/**
-+/*
-  * Prepare and configure the AUDIO infoframe
-  *
-  * AUDIO infoframe are transmitted once per frame and
-@@ -551,7 +551,7 @@ static int hdmi_vendor_infoframe_config(
- 
- #define HDMI_TIMEOUT_SWRESET  100   /*milliseconds */
- 
--/**
-+/*
-  * Software reset of the hdmi subsystem
-  *
-  * @hdmi: pointer on the hdmi internal structure
-@@ -785,7 +785,7 @@ static void sti_hdmi_disable(struct drm_
- 	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
- }
- 
--/**
-+/*
-  * sti_hdmi_audio_get_non_coherent_n() - get N parameter for non-coherent
-  * clocks. None-coherent clocks means that audio and TMDS clocks have not the
-  * same source (drifts between clocks). In this case assumption is that CTS is
+ copy_exit:
+
+base-commit: f443e374ae131c168a065ea1748feac6b2e76613
+-- 
+2.17.1
+
