@@ -1,58 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35504E8657
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 09:00:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB014E8671
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 09:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D2710E052;
-	Sun, 27 Mar 2022 07:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D6C10E00D;
+	Sun, 27 Mar 2022 07:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 032DF10E052;
- Sun, 27 Mar 2022 07:00:08 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id o13so9808052pgc.12;
- Sun, 27 Mar 2022 00:00:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=B0zrfPEDf4e6Muxcxkz/ovZxAtJjbnxgK8f96p1+0Ck=;
- b=jGj7DxIxbQDEybCOraMIwxMI2fjdiKS80eNF0u8LceCAdpoMvK9TpKZFHj66yn/PvU
- Y7dusyT/9mhdjtHJvQuczJa99J5CDjLO9ar+k0c6DeeN1AN9j029JnROqmo2vOGpByqa
- nxetEzGOppd1xJWdDsm2w8SMIQc6eZ8IStMegiMf9eAJGRzSQ/w0UITMvPnEns5X5bnI
- ahhYx79wbgHwl1uymG2X8tRrGrODU4gR8ye3rWk8Wz92cj3TgtDK0A0B4B73+JsG6nCd
- fPNcjjI8mnMktphoDaszyRT3RvfEZgyLWO2WItjFtWrK9Xw4rkziT5GOOd6noYJw2BzK
- /bxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=B0zrfPEDf4e6Muxcxkz/ovZxAtJjbnxgK8f96p1+0Ck=;
- b=jS47Y9wAf0vUQ/the2nKEBS/Q207aB7OgPmlZgpB9Gq1R0zm2xbal8rSY4NoJM+ip+
- 5Cx/23RZUw1t3m2TsQKTnk9b3DJ3DF5FcarGxQ9ekXVT6/uosB/6UThSh0uOB6UbbCHn
- GVgSMjT6TqBTJeCyUBFDeNIK2RSYQ0TFdjQ7dgZbxzxIjxz0px+f1BXvGOGj5mYmBsFO
- 1W0u7X7y1K9A4nPt95driikZTIIzH1BADyX8LhnNBnnVDkPeNzKAVNUXis4IjMYh3cmD
- QnaM6f+3BOLGLkPcXAMNTqIGiFFtKM7BJNWTZzLWp9HfNqnt6qAGbFtYo9dAqQi0N1VM
- lRUA==
-X-Gm-Message-State: AOAM533LDEdxpsl+rNx7enDuhOSQeSq31+cAaDsNYYCeC6GJk4jDNuRy
- fM6N+9ZA3mk4F9GL31gwPLo=
-X-Google-Smtp-Source: ABdhPJywbizoZk4XOW6LYGf7wmYWM2ocTqSR5GKSGYZ8m/s7E/ivTY1Lj3nXe2pu5WnBz7Ftb5RN/A==
-X-Received: by 2002:a63:6949:0:b0:380:94ab:9333 with SMTP id
- e70-20020a636949000000b0038094ab9333mr5839368pgc.199.1648364407607; 
- Sun, 27 Mar 2022 00:00:07 -0700 (PDT)
-Received: from localhost ([115.220.243.108]) by smtp.gmail.com with ESMTPSA id
- u10-20020a17090a2b8a00b001c6594e5ddcsm10698140pjd.15.2022.03.27.00.00.06
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 27 Mar 2022 00:00:06 -0700 (PDT)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: linux@roeck-us.net
-Subject: Re: [PATCH] device: fix missing check on list iterator
-Date: Sun, 27 Mar 2022 14:59:50 +0800
-Message-Id: <20220327065950.7886-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <80429172-37c6-c9ce-4df7-259bb90338a8@roeck-us.net>
-References: <80429172-37c6-c9ce-4df7-259bb90338a8@roeck-us.net>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4DBE10E00D
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 07:11:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DD66F60F57;
+ Sun, 27 Mar 2022 07:11:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EFAC340EC;
+ Sun, 27 Mar 2022 07:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1648365070;
+ bh=tw+Ir2j7lkjAaBlt0Rkh8PQ47RW2WFXIID2C0BI4imE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GcJcWqenkhCDPq1SRaMqvG94+0j3guAjJZq3NPJq430JTeqdoCL+BLa01BC6btXvP
+ f6PS5PQ3obk5X3uT3Y4whF9Oba8k8olD+yXVcxC+GjHM+jF8xVTgnZ2Zy5AoJFWsKx
+ U9mb6AEiqcrFBCZ9RtdVweYCMrd3GZ94u1SNP5vs=
+Date: Sun, 27 Mar 2022 09:11:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: kushagra765@outlook.com
+Subject: Re: [ PATCH ] Documentation: fixed doc-build warnings
+Message-ID: <YkAOCrbbrMaYkiSb@kroah.com>
+References: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +49,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- xiam0nd.tong@gmail.com, bskeggs@redhat.com, stable@vger.kernel.org
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, arnd@arndb.de, corbet@lwn.net,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dhowells@redhat.com, mcgrof@kernel.org,
+ linux-cachefs@redhat.com, viro@zeniv.linux.org.uk, tzimmermann@suse.de,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 26 Mar 2022 22:38:05 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
-> > @@ -103,11 +103,16 @@ nvkm_control_mthd_pstate_attr(struct nvkm_control *ctrl, void *data, u32 size)
-> >   		return -EINVAL;
-> >   
-> >   	if (args->v0.state != NVIF_CONTROL_PSTATE_ATTR_V0_STATE_CURRENT) {
-> > -		list_for_each_entry(pstate, &clk->states, head) {
-> > -			if (i++ == args->v0.state)
-> > +		list_for_each_entry(iter, &clk->states, head) {
-> > +			if (i++ == args->v0.state) {
-> > +				pstate = iter;
+On Sat, Mar 26, 2022 at 05:22:55PM +0530, kushagra765@outlook.com wrote:
+> >From 9a9918b051d5709b5e14ca8afa29f3ef644b8688 Mon Sep 17 00:00:00 2001
+> From: Kushagra Verma <kushagra765@outlook.com>
+> Date: Sat, 26 Mar 2022 16:43:15 +0530
+> Subject: [PATCH] Documentation: fixed doc-build warnings
+
+This should not be in the body of the email, please fix :(
+
 > 
-> Is iter and the assignment really necessary ? Unless I am missing something,
-> list_for_each_entry() always assigns pos (pstate/iter), even if the list is
-> empty. If nothing is found, pstate would be NULL at the end, so
+>    This patch fixes the following (and 2 other) doc-build warnings:
+>       1. ./include/linux/dcache.h:308: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
+> 
+>       2. ./include/linux/fscache.h:268: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
+> 
+>       3 ./include/linux/fscache.h:285: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
+> 
+>       4. ./drivers/gpu/drm/drm_format_helper.c:640: warning: Excess function parameter 'src' description in 'drm_fb_xrgb8888_to_mono_reversed'
 
-the pstate will not be NULL at the end! so the assignment is necessary!
-#define list_for_each_entry(pos, head, member)                          \
-    for (pos = __container_of((head)->next, pos, member);               \
-         &pos->member != (head);                                        \
-         pos = __container_of(pos->member.next, pos, member))
+This needs to be split up into one-patch-per-subsystem and can not be
+taken as-is.
 
---
-Xiaomeng Tong
+thanks,
+
+greg k-h
