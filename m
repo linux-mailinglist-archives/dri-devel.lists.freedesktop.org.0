@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510214E868D
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 09:33:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1094E8692
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 09:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C1810E054;
-	Sun, 27 Mar 2022 07:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1674B10E099;
+	Sun, 27 Mar 2022 07:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF13110E054;
- Sun, 27 Mar 2022 07:33:01 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- o68-20020a17090a0a4a00b001c686a48263so9738928pjo.1; 
- Sun, 27 Mar 2022 00:33:01 -0700 (PDT)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C4A10E075;
+ Sun, 27 Mar 2022 07:39:33 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id c2so9850300pga.10;
+ Sun, 27 Mar 2022 00:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id;
- bh=YKubZFE6bM+QSkBsG+9QO1RxuSxqs+5gFlfSVbQQPZM=;
- b=VZ4ulUcfcPskQTm+VP+1tNFGk9rxfIjmMpkWEYsSvkdG8F0oPCs5b2j+Ayxot6MhTY
- sIM1zO7pvPXr5csmHmxug3yU8T450E66bZa5PM+UuyTrhahCi0J2x7zs20c5uNpWDEuS
- 2u2N/5dr8tpEwfrho4YZuhqrVZxQnX/9dIdWW9C+rp2SxaWzPFpAyVsTSw4odFx6+yaV
- FSCc40Sy0WVQl/2T0zNgitx5om5ds0AE41dxr6Ebah7IdMOL5ZnHulfneOygKC9kmivs
- /r/CwCmM0C2nB5zyeH5ZpDG3Ja1/VcfegeGPnV2xbjA76xO0jczW9+GI0EIQjXLnhVbN
- PSjg==
+ bh=O3PyRZqqQh72JcsvYztaOf/qr4ybAn9k/u2PdxyHICY=;
+ b=nvGGBOnXV1+wWMEOMbhZUSf6f5Zt9YLJWJ5ymTGyk9mxkOL6wNtSx2D1BBlCCV05ji
+ YWbA5dxwDOK1lZMpsQBheNr3aLYi791kjM16ZggoHsF9+ZdWlCT1maMQuhfZkfrPxRby
+ BEqbW6sS0eNA1TGvVzNN3kqX+0hiJ8SXGmrzNCuMgLALsmRgP/FIrJTu1JEN/SHX3M03
+ BXU134bXzjlTl7hP6USgDEyR5oufYSyULlh5QjknFXm+sWYa6Fjv9HY90FJF9IA5cd8s
+ 5NshequTbJcgykoN8UI3aQtd23V1H7LlAar/JzAbY4t9pI7KVYWiXdqxaFpM5OWgS2oI
+ Yjfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=YKubZFE6bM+QSkBsG+9QO1RxuSxqs+5gFlfSVbQQPZM=;
- b=ZdmFbp/+/CGC6bcHRkLirTp6KvLreW1iQkvuJX1hYKX5r8JjKEdAuUf5wX3d4d5/8Y
- ruF6GgVkDudoasJyAnv8J00qJGfZxrYLaNvWd4YDtEmOaLZPEYCRnKIGfhFj6YnVJEQN
- U1NCGnGFFmmMcmMFye8roAu8nfLtC8wGQUdsv2C4gg1TFraabJpK1ry6ghLDBwTIk/0L
- IauFOPYqejpIn2oOdzprSodtxzgnHMiVc3bUnN/htiBooJ2GtoVmh1sz0q4J2o50EJJU
- 39EfuLtplzF72/rSNOMMLO+sC2DXRJh6kBYnLrgSycQ4Xn79DmrgpeZnt6u5hH6F5NFL
- 66rA==
-X-Gm-Message-State: AOAM530Cvz+iE5dRjCQSfYIeUVMURHoqtrcrkiXJ8kIUrVygG/D4GkD2
- PEVugTjyTN/a0KTnPME3fL0=
-X-Google-Smtp-Source: ABdhPJzze9ezzNVHssEARN6KgfiGzfb3NOY5VDH6d7E2Cd06YEKl1rpHROxsCkMbscLIKv1rf2DGqQ==
-X-Received: by 2002:a17:90a:4897:b0:1c7:5fce:cbcd with SMTP id
- b23-20020a17090a489700b001c75fcecbcdmr32747388pjh.45.1648366381225; 
- Sun, 27 Mar 2022 00:33:01 -0700 (PDT)
+ bh=O3PyRZqqQh72JcsvYztaOf/qr4ybAn9k/u2PdxyHICY=;
+ b=l9I9//EbpT/7UIv/5vRF6Js2gTdomZZaLFCXXiFN2cm+YSqmdqQ9urzgVa9YckwJ44
+ 3r83+tinv8TPaMM2cBTM5Ia11MplRIEcrgb8CypqPGTL2OkXx++kIXoTnzbX+DJvSm4+
+ 1kgkYJnO7HsRCI0C0BA97rtplJEjtRHQOiHiDQtHNr92xD6dfuGXUPM3J3SFllxM0Re2
+ PU4Rf1uHzUQx9dOVyp87L7CnBXbOTSxAceK+gNYj1W5D9hNOKCZxXfpzc3HoPuGIFUVZ
+ 4mV6lc1TFkOGn2QNNFFGPpxG8bGVoxaWzkfOuGakuSmXzykJkURvsJRgR9/O3Ujl8eau
+ E7Kw==
+X-Gm-Message-State: AOAM532L6mbb0ri2Zy6bwwdfvmDafNzUiCemvNtKHyYhz0C8ah7JHi5N
+ GKxiQSdXmK5tjjw3pzwKOQo=
+X-Google-Smtp-Source: ABdhPJx3gRZk3pDQgkapY0ZHu5LFAijgb2Y/bH7NxBmXkU8qFs8ivrJQq62gnTVAQ8rgLDSqvn4npg==
+X-Received: by 2002:a63:6a41:0:b0:386:5d6f:a643 with SMTP id
+ f62-20020a636a41000000b003865d6fa643mr5911347pgc.169.1648366773155; 
+ Sun, 27 Mar 2022 00:39:33 -0700 (PDT)
 Received: from localhost ([115.220.243.108]) by smtp.gmail.com with ESMTPSA id
- h14-20020a63384e000000b00366ba5335e7sm9528888pgn.72.2022.03.27.00.33.00
+ j6-20020a63b606000000b003808b0ea96fsm9243231pgf.66.2022.03.27.00.39.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 27 Mar 2022 00:33:00 -0700 (PDT)
+ Sun, 27 Mar 2022 00:39:32 -0700 (PDT)
 From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] dpu1: dpu_encoder: fix a missing check on list iterator
-Date: Sun, 27 Mar 2022 15:32:52 +0800
-Message-Id: <20220327073252.10871-1-xiam0nd.tong@gmail.com>
+To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] dispnv50: atom: fix an incorrect NULL check on list iterator
+Date: Sun, 27 Mar 2022 15:39:25 +0800
+Message-Id: <20220327073925.11121-1-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,66 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- swboyd@chromium.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- Xiaomeng Tong <xiam0nd.tong@gmail.com>, stable@vger.kernel.org,
- dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- markyacoub@google.com
+Cc: nouveau@lists.freedesktop.org, yangyingliang@huawei.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The bug is here:
-	 cstate = to_dpu_crtc_state(drm_crtc->state);
+	return encoder;
 
-For the drm_for_each_crtc(), just like list_for_each_entry(),
-the list iterator 'drm_crtc' will point to a bogus position
-containing HEAD if the list is empty or no element is found.
-This case must be checked before any use of the iterator,
-otherwise it will lead to a invalid memory access.
+The list iterator value 'encoder' will *always* be set and non-NULL
+by drm_for_each_encoder_mask(), so it is incorrect to assume that the
+iterator value will be NULL if the list is empty or no element found.
+Otherwise it will bypass some NULL checks and lead to invalid memory
+access passing the check.
 
-To fix this bug, use a new variable 'iter' as the list iterator,
-while use the origin variable 'drm_crtc' as a dedicated pointer
-to point to the found element.
+To fix this bug, just return 'encoder' when found, otherwise return
+NULL.
 
 Cc: stable@vger.kernel.org
-Fixes: b107603b4ad0f ("drm/msm/dpu: map mixer/ctl hw blocks in encoder modeset")
+Fixes: 12885ecbfe62d ("drm/nouveau/kms/nvd9-: Add CRC support")
 Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/atom.h |  6 +++---
+ drivers/gpu/drm/nouveau/dispnv50/crc.c  | 27 ++++++++++++++++++++-----
+ 2 files changed, 25 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1e648db439f9..d3fdb18e96f9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -965,7 +965,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 	struct dpu_kms *dpu_kms;
- 	struct list_head *connector_list;
- 	struct drm_connector *conn = NULL, *conn_iter;
--	struct drm_crtc *drm_crtc;
-+	struct drm_crtc *drm_crtc = NULL, *iter;
- 	struct dpu_crtc_state *cstate;
- 	struct dpu_global_state *global_state;
- 	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
-@@ -1007,9 +1007,14 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 		return;
- 	}
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/atom.h b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+index 3d82b3c67dec..93f8f4f64578 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/atom.h
++++ b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+@@ -160,14 +160,14 @@ nv50_head_atom_get(struct drm_atomic_state *state, struct drm_crtc *crtc)
+ static inline struct drm_encoder *
+ nv50_head_atom_get_encoder(struct nv50_head_atom *atom)
+ {
+-	struct drm_encoder *encoder = NULL;
++	struct drm_encoder *encoder;
  
--	drm_for_each_crtc(drm_crtc, drm_enc->dev)
--		if (drm_crtc->state->encoder_mask & drm_encoder_mask(drm_enc))
-+	drm_for_each_crtc(iter, drm_enc->dev)
-+		if (iter->state->encoder_mask & drm_encoder_mask(drm_enc)) {
-+			drm_crtc = iter;
- 			break;
-+		}
+ 	/* We only ever have a single encoder */
+ 	drm_for_each_encoder_mask(encoder, atom->state.crtc->dev,
+ 				  atom->state.encoder_mask)
+-		break;
++		return encoder;
+ 
+-	return encoder;
++	return NULL;
+ }
+ 
+ #define nv50_wndw_atom(p) container_of((p), struct nv50_wndw_atom, state)
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+index 29428e770f14..b834e8a9ae77 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crc.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+@@ -390,9 +390,18 @@ void nv50_crc_atomic_check_outp(struct nv50_atom *atom)
+ 		struct nv50_head_atom *armh = nv50_head_atom(old_crtc_state);
+ 		struct nv50_head_atom *asyh = nv50_head_atom(new_crtc_state);
+ 		struct nv50_outp_atom *outp_atom;
+-		struct nouveau_encoder *outp =
+-			nv50_real_outp(nv50_head_atom_get_encoder(armh));
+-		struct drm_encoder *encoder = &outp->base.base;
++		struct nouveau_encoder *outp;
++		struct drm_encoder *encoder, *enc;
 +
-+	if (!drm_crtc)
++		enc = nv50_head_atom_get_encoder(armh);
++		if (!enc)
++			continue;
++
++		outp = nv50_real_outp(enc);
++		if (!outp)
++			continue;
++
++		encoder = &outp->base.base;
+ 
+ 		if (!asyh->clr.crc)
+ 			continue;
+@@ -443,8 +452,16 @@ void nv50_crc_atomic_set(struct nv50_head *head,
+ 	struct drm_device *dev = crtc->dev;
+ 	struct nv50_crc *crc = &head->crc;
+ 	const struct nv50_crc_func *func = nv50_disp(dev)->core->func->crc;
+-	struct nouveau_encoder *outp =
+-		nv50_real_outp(nv50_head_atom_get_encoder(asyh));
++	struct nouveau_encoder *outp;
++	struct drm_encoder *encoder;
++
++	encoder = nv50_head_atom_get_encoder(asyh);
++	if (!encoder)
++		return;
++
++	outp = nv50_real_outp(encoder);
++	if (!outp)
 +		return;
  
- 	/* Query resource that have been reserved in atomic check step. */
- 	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+ 	func->set_src(head, outp->or, nv50_crc_source_type(outp, asyh->crc.src),
+ 		      &crc->ctx[crc->ctx_idx]);
 -- 
 2.17.1
 
