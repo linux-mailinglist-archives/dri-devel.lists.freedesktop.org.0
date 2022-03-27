@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D144E863A
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 08:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35504E8657
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 09:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6974E10E1A2;
-	Sun, 27 Mar 2022 06:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2D2710E052;
+	Sun, 27 Mar 2022 07:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E0910E1A2
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 06:15:23 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id t4so6723431pgc.1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Mar 2022 23:15:23 -0700 (PDT)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 032DF10E052;
+ Sun, 27 Mar 2022 07:00:08 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id o13so9808052pgc.12;
+ Sun, 27 Mar 2022 00:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=zQojn1+l5AZVyTtTxvOBeZeYl0iCp/EsKmxH0UlfEcs=;
- b=Hibwc5S0U7wcL6DejpbxHFA4lwtNZXXluK5w0lQDctDdwmhutQeqQBn0No39o26MwV
- gJG5BJCw1+UelUqn/tGXf3SFwVIPDpmpiPRSZ+u1sY3f6iqKckD719pRDZc973b4EXde
- R/a3pJSpYS6ro2qo3aZVIvSxfLYGAYktqScZAeFd0+/KnFt80DQVgCDhTtNBLGxmyS5T
- wgahD66mgtdWO8inc+hftRU9X4Zks5RVn+SEKX/vKLDEW+TKTNipJOxRacru4iMCdTcJ
- LKDDpszpxqgA1TWeikNnHOoZGSRFkAxqIpLH9InpiH+8DcW/Xg321+8hqxml1LWEvNuG
- 298Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=B0zrfPEDf4e6Muxcxkz/ovZxAtJjbnxgK8f96p1+0Ck=;
+ b=jGj7DxIxbQDEybCOraMIwxMI2fjdiKS80eNF0u8LceCAdpoMvK9TpKZFHj66yn/PvU
+ Y7dusyT/9mhdjtHJvQuczJa99J5CDjLO9ar+k0c6DeeN1AN9j029JnROqmo2vOGpByqa
+ nxetEzGOppd1xJWdDsm2w8SMIQc6eZ8IStMegiMf9eAJGRzSQ/w0UITMvPnEns5X5bnI
+ ahhYx79wbgHwl1uymG2X8tRrGrODU4gR8ye3rWk8Wz92cj3TgtDK0A0B4B73+JsG6nCd
+ fPNcjjI8mnMktphoDaszyRT3RvfEZgyLWO2WItjFtWrK9Xw4rkziT5GOOd6noYJw2BzK
+ /bxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=zQojn1+l5AZVyTtTxvOBeZeYl0iCp/EsKmxH0UlfEcs=;
- b=t9LJIbYJUGGKC4jXzAoQG6lVN0bzAYKqPxx6nPI9CgNPSHhJKX8ptS0REMOYzs4pyl
- GX2uoQmdJ8wCV0jAi5LdUDQ8NJ/Dd4mBMTQSCW499a2Jy/AViaHt+pRN5Uhx8usBsiDt
- Cm8d2GFS31SN0vgP9YCeXZeNVnNnsTGBqn9mIUhJVuCfho0WKsMOVAEDf5y00NkSBcnT
- 7uoSuPz3U98XkQ3lVdneWiXmYGOC9F39NWSSLDhsYzLfyJBW3KTxe9CiKKRyIecB55wl
- QkpvYdG1UL7EjuYUjNQPNUy7SyozbU8T5PV6G54jg0nRGgIbm/wQYWaxbHEGTQ+R9iOS
- /Xog==
-X-Gm-Message-State: AOAM531k0cw43hw2TrDjJpTxwh3oHV3rcjZT9Dtk3Ki4UXO6G73wEp31
- C3IiRN+T11o77B1ZTCgp+f4=
-X-Google-Smtp-Source: ABdhPJwA+6yTY8xKsO78Xv/GnGsfLJkWH/TmLye/R0ryZxaUbH2KjgQoftfUHWRZJBP0X7DIXlyr1g==
-X-Received: by 2002:a62:5583:0:b0:4fa:c74c:7eaa with SMTP id
- j125-20020a625583000000b004fac74c7eaamr17732239pfb.23.1648361722864; 
- Sat, 26 Mar 2022 23:15:22 -0700 (PDT)
-Received: from localhost.localdomain ([115.220.243.108])
- by smtp.googlemail.com with ESMTPSA id
- u204-20020a6279d5000000b004fa58625a80sm11650684pfc.53.2022.03.26.23.15.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 23:15:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=B0zrfPEDf4e6Muxcxkz/ovZxAtJjbnxgK8f96p1+0Ck=;
+ b=jS47Y9wAf0vUQ/the2nKEBS/Q207aB7OgPmlZgpB9Gq1R0zm2xbal8rSY4NoJM+ip+
+ 5Cx/23RZUw1t3m2TsQKTnk9b3DJ3DF5FcarGxQ9ekXVT6/uosB/6UThSh0uOB6UbbCHn
+ GVgSMjT6TqBTJeCyUBFDeNIK2RSYQ0TFdjQ7dgZbxzxIjxz0px+f1BXvGOGj5mYmBsFO
+ 1W0u7X7y1K9A4nPt95driikZTIIzH1BADyX8LhnNBnnVDkPeNzKAVNUXis4IjMYh3cmD
+ QnaM6f+3BOLGLkPcXAMNTqIGiFFtKM7BJNWTZzLWp9HfNqnt6qAGbFtYo9dAqQi0N1VM
+ lRUA==
+X-Gm-Message-State: AOAM533LDEdxpsl+rNx7enDuhOSQeSq31+cAaDsNYYCeC6GJk4jDNuRy
+ fM6N+9ZA3mk4F9GL31gwPLo=
+X-Google-Smtp-Source: ABdhPJywbizoZk4XOW6LYGf7wmYWM2ocTqSR5GKSGYZ8m/s7E/ivTY1Lj3nXe2pu5WnBz7Ftb5RN/A==
+X-Received: by 2002:a63:6949:0:b0:380:94ab:9333 with SMTP id
+ e70-20020a636949000000b0038094ab9333mr5839368pgc.199.1648364407607; 
+ Sun, 27 Mar 2022 00:00:07 -0700 (PDT)
+Received: from localhost ([115.220.243.108]) by smtp.gmail.com with ESMTPSA id
+ u10-20020a17090a2b8a00b001c6594e5ddcsm10698140pjd.15.2022.03.27.00.00.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 27 Mar 2022 00:00:06 -0700 (PDT)
 From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: jyri.sarha@iki.fi
-Subject: [PATCH] tilcdc: tilcdc_external: fix an incorrect NULL check on list
- iterator
-Date: Sun, 27 Mar 2022 14:15:16 +0800
-Message-Id: <20220327061516.5076-1-xiam0nd.tong@gmail.com>
+To: linux@roeck-us.net
+Subject: Re: [PATCH] device: fix missing check on list iterator
+Date: Sun, 27 Mar 2022 14:59:50 +0800
+Message-Id: <20220327065950.7886-1-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <80429172-37c6-c9ce-4df7-259bb90338a8@roeck-us.net>
+References: <80429172-37c6-c9ce-4df7-259bb90338a8@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Xiaomeng Tong <xiam0nd.tong@gmail.com>,
- stable@vger.kernel.org
+Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ xiam0nd.tong@gmail.com, bskeggs@redhat.com, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bug is here:
-	if (!encoder) {
+On Sat, 26 Mar 2022 22:38:05 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
+> > @@ -103,11 +103,16 @@ nvkm_control_mthd_pstate_attr(struct nvkm_control *ctrl, void *data, u32 size)
+> >   		return -EINVAL;
+> >   
+> >   	if (args->v0.state != NVIF_CONTROL_PSTATE_ATTR_V0_STATE_CURRENT) {
+> > -		list_for_each_entry(pstate, &clk->states, head) {
+> > -			if (i++ == args->v0.state)
+> > +		list_for_each_entry(iter, &clk->states, head) {
+> > +			if (i++ == args->v0.state) {
+> > +				pstate = iter;
+> 
+> Is iter and the assignment really necessary ? Unless I am missing something,
+> list_for_each_entry() always assigns pos (pstate/iter), even if the list is
+> empty. If nothing is found, pstate would be NULL at the end, so
 
-The list iterator value 'encoder' will *always* be set and non-NULL
-by list_for_each_entry(), so it is incorrect to assume that the
-iterator value will be NULL if the list is empty or no element
-is found.
+the pstate will not be NULL at the end! so the assignment is necessary!
+#define list_for_each_entry(pos, head, member)                          \
+    for (pos = __container_of((head)->next, pos, member);               \
+         &pos->member != (head);                                        \
+         pos = __container_of(pos->member.next, pos, member))
 
-To fix the bug, use a new variable 'iter' as the list iterator,
-while use the original variable 'encoder' as a dedicated pointer
-to point to the found element.
-
-Cc: stable@vger.kernel.org
-Fixes: ec9eab097a500 ("drm/tilcdc: Add drm bridge support for attaching drm bridge drivers")
-Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_external.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-index 7594cf6e186e..3b86d002ef62 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-@@ -60,11 +60,13 @@ struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
- int tilcdc_add_component_encoder(struct drm_device *ddev)
- {
- 	struct tilcdc_drm_private *priv = ddev->dev_private;
--	struct drm_encoder *encoder;
-+	struct drm_encoder *encoder = NULL, *iter;
- 
--	list_for_each_entry(encoder, &ddev->mode_config.encoder_list, head)
--		if (encoder->possible_crtcs & (1 << priv->crtc->index))
-+	list_for_each_entry(iter, &ddev->mode_config.encoder_list, head)
-+		if (iter->possible_crtcs & (1 << priv->crtc->index)) {
-+			encoder = iter;
- 			break;
-+		}
- 
- 	if (!encoder) {
- 		dev_err(ddev->dev, "%s: No suitable encoder found\n", __func__);
--- 
-2.17.1
-
+--
+Xiaomeng Tong
