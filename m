@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498A94E87F5
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 16:02:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14F64E883A
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Mar 2022 16:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E954610E3B8;
-	Sun, 27 Mar 2022 14:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA90610E459;
+	Sun, 27 Mar 2022 14:45:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D268710E3B8
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 14:02:14 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id z8so13099005oix.3
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 07:02:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=ESfFqUyi5DO4us9FBeXvh3yFju448DlfeiezEoyiJ+o=;
- b=siyku5CjNanPJWEU3+RtGrFr0wlR69rVgpsXmTnbhhm5JNDu/HDH69LmiVNRNXs2MZ
- +72Q8KttIQru2209wTxtoDhICJVAgPEu9EzrhTq8vMFnEiwqb/eLGHkBKgno7pXvLNMh
- j2mKhMdJvmMWxMrmHTDKh7Yy//7cjomt2SSRuLk6S5ZOzVvQD0AQUqqPbDomr9DM0+pK
- 5Tbetg12g5MrcPf9zwjvis/Cfc3JD/xka4e7bLpAzBNcFgbuN+1FFz/IwDDK8sMu6kpF
- XE/0aphhasRtUunOpqEwLf6fSGZ/eELRoBqiox7pDfijqTuk0P9RWfHgeUxrkCuB+V30
- Wmtg==
-X-Gm-Message-State: AOAM531CqeJ+Iz5kTGr3xMsYBd6dS4BXduVom3C3S9vmTZ/PshQfkDWw
- qBWBxe7LhkHH2TXmNHYLrg==
-X-Google-Smtp-Source: ABdhPJxdXmCXwfJxnUC4f+8NgXNJS8r1JCu8KDUQA7dtspjSpD7unbMjCem5Kdi/CNB+OZol7qMxhA==
-X-Received: by 2002:a54:4516:0:b0:2ec:8ee8:90c3 with SMTP id
- l22-20020a544516000000b002ec8ee890c3mr13594539oil.81.1648389733902; 
- Sun, 27 Mar 2022 07:02:13 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- 15-20020a056870004f00b000def9984dc9sm445438oaz.7.2022.03.27.07.02.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Mar 2022 07:02:13 -0700 (PDT)
-Received: (nullmailer pid 4042147 invoked by uid 1000);
- Sun, 27 Mar 2022 14:02:11 -0000
-From: Rob Herring <robh@kernel.org>
-To: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20220327113846.2498146-4-15330273260@189.cn>
-References: <20220327113846.2498146-1-15330273260@189.cn>
- <20220327113846.2498146-4-15330273260@189.cn>
-Subject: Re: [PATCH v12 3/6] dt-bindings: display: Add Loongson display
- controller
-Date: Sun, 27 Mar 2022 09:02:11 -0500
-Message-Id: <1648389731.700898.4042146.nullmailer@robh.at.kernel.org>
+X-Greylist: delayed 1362 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Mar 2022 14:45:12 UTC
+Received: from gateway31.websitewelcome.com (gateway31.websitewelcome.com
+ [192.185.143.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B941910E459
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 14:45:12 +0000 (UTC)
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+ by gateway31.websitewelcome.com (Postfix) with ESMTP id A09999AE02
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 09:22:29 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+ by cmsmtp with SMTP
+ id YTmnna9qP9AGSYTmnnP1h1; Sun, 27 Mar 2022 09:22:29 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=G/veNDzCNS5/sUVFJGizo3guRLL8pkQ0CB/O7gGvVxs=; b=EmL8qGcra7Wt23Kn0RbrN6quHi
+ J9CWPtYJEhIPgJRb0guYbe+vH7gLtxbxdq5KxZR1SEeb/j1WKvTUVEa/0ifN69o8yjv+4QVKhKcps
+ 1aNwkwqofgKirE16tEjtE6h4A4XcLxRQhWKRJmArD9fE8Ts0ZAtSZBn9dFiU3k5B4mbLK0q3vEkA1
+ iIBgjiYyJ0aOC/aHbDTZY3Q4DUWDMbQi56BtouuRTeEJm9dkf/8UXQwGb2zZaer7PPJUmotpipCWk
+ Et5tlgfFS1ipzFrDJyH1XwWC9NXuEjV/5GYgihu8DzqTBPXj6HFRbBoozuLZy4+8Kb+TkLBeJcMSS
+ whTuAXMQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
+ ([108.223.40.66]:54514)
+ by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@roeck-us.net>)
+ id 1nYTmm-001lFq-Md; Sun, 27 Mar 2022 14:22:28 +0000
+Message-ID: <10cdb7dc-c210-8439-dacc-4338d3070f7f@roeck-us.net>
+Date: Sun, 27 Mar 2022 07:22:27 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] device: fix missing check on list iterator
+Content-Language: en-US
+To: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+References: <80429172-37c6-c9ce-4df7-259bb90338a8@roeck-us.net>
+ <20220327065950.7886-1-xiam0nd.tong@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220327065950.7886-1-xiam0nd.tong@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nYTmm-001lFq-Md
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net
+ [108.223.40.66]:54514
+X-Source-Auth: linux@roeck-us.net
+X-Email-Count: 6
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +85,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "David S . Miller" <davem@davemloft.net>
+Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Mar 2022 19:38:43 +0800, Sui Jingfeng wrote:
-> Add DT bindings and simple usages for Loongson display controller
-> found in LS7A1000 bridges chip and LS2k1000 SoC.
+On 3/26/22 23:59, Xiaomeng Tong wrote:
+> On Sat, 26 Mar 2022 22:38:05 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
+>>> @@ -103,11 +103,16 @@ nvkm_control_mthd_pstate_attr(struct nvkm_control *ctrl, void *data, u32 size)
+>>>    		return -EINVAL;
+>>>    
+>>>    	if (args->v0.state != NVIF_CONTROL_PSTATE_ATTR_V0_STATE_CURRENT) {
+>>> -		list_for_each_entry(pstate, &clk->states, head) {
+>>> -			if (i++ == args->v0.state)
+>>> +		list_for_each_entry(iter, &clk->states, head) {
+>>> +			if (i++ == args->v0.state) {
+>>> +				pstate = iter;
+>>
+>> Is iter and the assignment really necessary ? Unless I am missing something,
+>> list_for_each_entry() always assigns pos (pstate/iter), even if the list is
+>> empty. If nothing is found, pstate would be NULL at the end, so
 > 
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
-> ---
->  .../loongson/loongson,display-controller.yaml | 322 ++++++++++++++++++
->  1 file changed, 322 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> the pstate will not be NULL at the end! so the assignment is necessary!
+> #define list_for_each_entry(pos, head, member)                          \
+>      for (pos = __container_of((head)->next, pos, member);               \
+>           &pos->member != (head);                                        \
+>           pos = __container_of(pos->member.next, pos, member))
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
+Uuh, yes, you are correct. Sorry for the noise.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dt.yaml: display-controller@6,1: 'ports' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1609879
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+Guenter
 
