@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879C74E8AB4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 00:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CAF4E8ABB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 00:42:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE7510E5A7;
-	Sun, 27 Mar 2022 22:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D367B10E9D7;
+	Sun, 27 Mar 2022 22:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED4210E59C
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 22:41:34 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id t11so17905961wrm.5
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 15:41:34 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C34E10E59C
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 22:41:36 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t11so17906004wrm.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 15:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7NGNU1ZiNqnfB/lQpUpav+dtnhshiIc2T9ryINKQuQo=;
- b=Lupz2AKwXt3lU+g4i75FMBUo3M3tvFIqglxRAW2l5j9vj36rFtIJW9ojWdmzMzfW22
- hdYC0CDndjECh8xXNqQ8kZM4JroqW2wzydY3DVeUrWHCGVckPwQ21GnYR3nZLlE18hlN
- VJSe7dZC+vXxWQIVm1rtPP61j/ztCmXWbN/F9IZynxuKGscE1PWL3/Jc8K2uUPXzzQFk
- 9wDm5Gx73EormvuZaE+UB9mlgrOlP0IcB1OQ6vp0cgHM9+B2ps87hQgJS2qvJfEF74pO
- uRdkNNJEf/q7W9/cA43dSXSe8FtDWXYBjT+NByRojaeyG1ZL/aOg/Nu5do00cChWAZdM
- dnqw==
+ bh=TwcBGQ6dA75HdxpcUCrD8mvsn7/MZTlw7uERAWlwKmI=;
+ b=AYDLTANXWRzGnB+sIMp01grvGk/SH+cQkVVSn0Jme+Sp0Hdpav8Wlpi1giPYDpywOB
+ f6+XMddOzg//0bbLhJQCLnkfAV0Ch64BSBs9oAbxmdSQ0aFw6LF+1eH4sCXHn+oCWJK9
+ HAUXrfbNKPFhPTj2hSbp90b+fYh/KO1rXKZin8vWp75AbJyk6dGaR6kJh+zhJpkys+jQ
+ Pk2FkzjQ/WrzkwnRLJGntCY5EY+d50uMvlP3KirJCkkCRn482UEZBSRYDpkR0UJ46DUu
+ laMi+vD1+SNfyKxtrkIT5iuFhSooYpFxBbnxJgCDry2m5x5p4qdMYjJqUvDmSn3XsbJm
+ bITQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7NGNU1ZiNqnfB/lQpUpav+dtnhshiIc2T9ryINKQuQo=;
- b=5HP4ye1T93xkenGV5piSPJJpUPdtFaGwCt/MxnygtjjOPt0+jnEejyxp3rLR1mWCHH
- MHVb/Fr1S9nompKKvZYkcvo6Uj2EYw+KGItmoqxG79x7mouyWfHW4hFwXPO+ro65RqFi
- rl7btrcLMonlcTHP1Md0uPksmw9PnYRcJiqJFdcfVl550n8wSbjnL7k/gYxbmu5mzfYz
- oDqTTPVUGW2IYkfIPr304TLGE4eIswSSFzxK0sBHccOd8FnGRmQhmSVlzn0m79hFCHEV
- rGKIZm1uyv8moHHJEXkbxtlY2X900c/ESCO2ySqMDjoRtvdVuPv8akUR6xUJH240iOvQ
- kLHw==
-X-Gm-Message-State: AOAM533Fm+MzbhXV51VIc8jW4OWWK+9eaioncTGZ2KTFv4RjklTUk7b4
- kv9mvbI/93mbA8PUYOcFt1o4TQ==
-X-Google-Smtp-Source: ABdhPJwcnG9DzViOemEI6A/3n0FZ2hqv6pzt+OVzBIfHWjl+D3eAUChDldLbEtm4o3XchQpBULrBRw==
-X-Received: by 2002:adf:c188:0:b0:1e6:8ecb:ea5a with SMTP id
- x8-20020adfc188000000b001e68ecbea5amr18781563wre.711.1648420892888; 
- Sun, 27 Mar 2022 15:41:32 -0700 (PDT)
+ bh=TwcBGQ6dA75HdxpcUCrD8mvsn7/MZTlw7uERAWlwKmI=;
+ b=y5vnHoVidjZHcXTDb+8WKTLJl0R6k1y7GIBQt/mT+HwSYABO4m9VM9D93cQtqWh4G0
+ ctO3eEGocLquJoXEN27UesBhZvinPIh/n3RZJSRo3/bXOJBl41zNPKXdCR6yPIcCWs4D
+ V0V2Ty+2JOqd+08DnrNeZEIyBtB9MLYtkBK97fun3BDpyYNOloBCbuCU8nSlAPjPOpPh
+ XYwhZj/vHPHyXAbik8N4UVMlNnXtgCWHDef9VsYBszpIF6uYh0EeWfloc92f7Qs5M+7o
+ UVZEU+nnw9ueyBhmO8KJU0XBxgF0EABVHjFHQHCnfxngb+vnGlDFLon/9CTCS394NNg8
+ BIwQ==
+X-Gm-Message-State: AOAM530oCL48IggRdokGuPyYqKhVehoPsF6ZuMBO5ruRu+pbk344wbS2
+ 6Nu4ahjQnsUNTMmQSSMIbRolvw==
+X-Google-Smtp-Source: ABdhPJysfkYMrMgHwodSSnzMkqerBi1jwSuIF2iefWJ4/FcOg7MYEeM+UjIlCWYlQv0Ck0GULeS7uA==
+X-Received: by 2002:a5d:6daf:0:b0:204:12b6:a15 with SMTP id
+ u15-20020a5d6daf000000b0020412b60a15mr19676354wrs.340.1648420894641; 
+ Sun, 27 Mar 2022 15:41:34 -0700 (PDT)
 Received: from localhost.localdomain
  (2a02-8440-6341-357e-3074-96af-9642-0002.rev.sfr.net.
  [2a02:8440:6341:357e:3074:96af:9642:2])
  by smtp.gmail.com with ESMTPSA id
- v5-20020adfe4c5000000b001edc1e5053esm10400867wrm.82.2022.03.27.15.41.31
+ v5-20020adfe4c5000000b001edc1e5053esm10400867wrm.82.2022.03.27.15.41.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Mar 2022 15:41:32 -0700 (PDT)
+ Sun, 27 Mar 2022 15:41:34 -0700 (PDT)
 From: Guillaume Ranquet <granquet@baylibre.com>
 To: airlied@linux.ie, angelogioacchino.delregno@collabora.com,
  chunfeng.yun@mediatek.com, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
@@ -57,9 +57,10 @@ To: airlied@linux.ie, angelogioacchino.delregno@collabora.com,
  krzk+dt@kernel.org, maarten.lankhorst@linux.intel.com,
  matthias.bgg@gmail.com, mripard@kernel.org, p.zabel@pengutronix.de,
  robh+dt@kernel.org, tzimmermann@suse.de, vkoul@kernel.org
-Subject: [PATCH v9 20/22] drm/mediatek: add hpd debounce
-Date: Mon, 28 Mar 2022 00:39:25 +0200
-Message-Id: <20220327223927.20848-21-granquet@baylibre.com>
+Subject: [PATCH v9 21/22] drm/mediatek: change the aux retries times when
+ receiving AUX_DEFER
+Date: Mon, 28 Mar 2022 00:39:26 +0200
+Message-Id: <20220327223927.20848-22-granquet@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220327223927.20848-1-granquet@baylibre.com>
 References: <20220327223927.20848-1-granquet@baylibre.com>
@@ -79,155 +80,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- markyacoub@google.com
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jitao Shi <jitao.shi@mediatek.com>
 
-From the DP spec 1.4a chapter 3.3, upstream devices should implement
-HPD signal de-bouncing on an external connection.
-A period of 100ms should be used to detect an HPD connect event.
-To cover these cases, HPD de-bounce should be implemented only after
-HPD low has been detected for at least 100ms.
+DP 1.4a Section 2.8.7.1.5.6.1:
+A DP Source device shall retry at least seven times upon receiving
+AUX_DEFER before giving up the AUX transaction.
 
-Therefore,
-1. If HPD is low (which means plugging out) for longer than 100ms:
-   we need to do de-bouncing (which means we need to wait for 100ms).
-2. If HPD low is for less than 100ms:
-   we don't need to care about the de-bouncing.
+Aux should retry to send msg whether how many bytes.
 
-In this patch, we start a 100ms timer and use a need_debounce boolean
-to implement the feature.
-
-Two cases when HPD is high:
-1. If the timer is expired (>100ms):
-   - need_debounce is true.
-   - When HPD high (plugging event comes), need_debounce will be true
-     and then we need to do de-bouncing (wait for 100ms).
-2. If the timer is not expired (<100ms):
-   - need_debounce is false.
-   - When HPD high (plugging event comes), need_debounce will be false
-     and no need to do de-bouncing.
-
-HPD_______             __________________
-          |            |<-  100ms   ->
-          |____________|
-          <-  100ms   ->
-
-Without HPD de-bouncing, USB-C to HDMI Adapaters will not be detected.
-
-The change has been successfully tested with the following devices:
-- Dell Adapter - USB-C to HDMI
-- Acer 1in1 HDMI dongle
-- Ugreen 1in1 HDMI dongle
-- innowatt HDMI + USB3 hub
-- Acer 2in1 HDMI dongle
-- Apple 3in1 HDMI dongle (A2119)
-- J5Create 3in1 HDMI dongle (JAC379)
-
-Tested-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 46 +++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 9e532408f12e..e099491cc6a4 100644
+index e099491cc6a4..7a197c4a7143 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -174,6 +174,33 @@ struct mtk_dp {
- 	struct device *codec_dev;
- 	u8 connector_eld[MAX_ELD_BYTES];
- 	struct drm_connector *conn;
-+	bool need_debounce;
-+	struct timer_list debounce_timer;
-+};
-+
-+enum mtk_dp_sdp_type {
-+	MTK_DP_SDP_NONE = 0x00,
-+	MTK_DP_SDP_ACM = 0x01,
-+	MTK_DP_SDP_ISRC = 0x02,
-+	MTK_DP_SDP_AVI = 0x03,
-+	MTK_DP_SDP_AUI = 0x04,
-+	MTK_DP_SDP_SPD = 0x05,
-+	MTK_DP_SDP_MPEG = 0x06,
-+	MTK_DP_SDP_NTSC = 0x07,
-+	MTK_DP_SDP_VSP = 0x08,
-+	MTK_DP_SDP_VSC = 0x09,
-+	MTK_DP_SDP_EXT = 0x0A,
-+	MTK_DP_SDP_PPS0 = 0x0B,
-+	MTK_DP_SDP_PPS1 = 0x0C,
-+	MTK_DP_SDP_PPS2 = 0x0D,
-+	MTK_DP_SDP_PPS3 = 0x0E,
-+	MTK_DP_SDP_DRM = 0x10,
-+	MTK_DP_SDP_MAX_NUM
-+};
-+
-+struct mtk_dp_sdp_packet {
-+	enum mtk_dp_sdp_type type;
-+	struct dp_sdp sdp;
- };
+@@ -2016,7 +2016,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+ 	bool is_read;
+ 	u8 request;
+ 	size_t accessed_bytes = 0;
+-	int retry = 3, ret = 0;
++	int retry, ret = 0;
  
- static bool mtk_dp_is_edp(struct mtk_dp *mtk_dp)
-@@ -1812,6 +1839,9 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 	if (event < 0)
- 		return IRQ_HANDLED;
+ 	mtk_dp = container_of(mtk_aux, struct mtk_dp, aux);
  
-+	if (mtk_dp->need_debounce && mtk_dp->train_info.cable_plugged_in)
-+		msleep(100);
-+
- 	if (mtk_dp->drm_dev) {
- 		dev_info(mtk_dp->dev, "drm_helper_hpd_irq_event\n");
- 		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
-@@ -1890,6 +1920,11 @@ static irqreturn_t mtk_dp_hpd_isr_handler(struct mtk_dp *mtk_dp)
+@@ -2050,14 +2050,21 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
  	}
- 	train_info->cable_state_change = true;
  
-+	if (!train_info->cable_plugged_in) {
-+		mod_timer(&mtk_dp->debounce_timer, jiffies + msecs_to_jiffies(100) - 1);
-+		mtk_dp->need_debounce = false;
-+	}
-+
- 	return IRQ_WAKE_THREAD;
- }
- 
-@@ -2337,6 +2372,13 @@ static const struct drm_bridge_funcs mtk_dp_bridge_funcs = {
- 	.detect = mtk_dp_bdg_detect,
- };
- 
-+static void mtk_dp_debounce_timer(struct timer_list *t)
-+{
-+	struct mtk_dp *mtk_dp = from_timer(mtk_dp, t, debounce_timer);
-+
-+	mtk_dp->need_debounce = true;
-+}
-+
- static int mtk_dp_probe(struct platform_device *pdev)
- {
- 	struct mtk_dp *mtk_dp;
-@@ -2394,6 +2436,9 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	mtk_dp->bridge.of_node = dev->of_node;
- 	mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
-+	mtk_dp->need_debounce = true;
-+	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
-+
- 	mtk_dp->bridge.ops =
- 		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
- 	drm_bridge_add(&mtk_dp->bridge);
-@@ -2413,6 +2458,7 @@ static int mtk_dp_remove(struct platform_device *pdev)
- 	struct mtk_dp *mtk_dp = platform_get_drvdata(pdev);
- 
- 	mtk_dp_video_mute(mtk_dp, true);
-+	del_timer_sync(&mtk_dp->debounce_timer);
- 
- 	pm_runtime_disable(&pdev->dev);
- 
+ 	if (msg->size == 0) {
+-		ret = mtk_dp_aux_do_transfer(mtk_dp, is_read, request,
+-					     msg->address + accessed_bytes,
+-					     msg->buffer + accessed_bytes, 0);
++		retry = 32;
++		while (retry--) {
++			ret = mtk_dp_aux_do_transfer(mtk_dp, is_read, request,
++						     msg->address + accessed_bytes,
++						     msg->buffer + accessed_bytes, 0);
++			if (ret == 0)
++				break;
++			usleep_range(500, 600);
++		}
+ 	} else {
+ 		while (accessed_bytes < msg->size) {
+ 			size_t to_access =
+ 				min_t(size_t, DP_AUX_MAX_PAYLOAD_BYTES,
+ 				      msg->size - accessed_bytes);
++			retry = 32;
+ 			while (retry--) {
+ 				ret = mtk_dp_aux_do_transfer(mtk_dp,
+ 							     is_read, request,
+@@ -2066,7 +2073,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+ 							     to_access);
+ 				if (ret == 0)
+ 					break;
+-				usleep_range(50, 100);
++				usleep_range(500, 600);
+ 			}
+ 			if (!retry || ret) {
+ 				drm_info(mtk_dp->drm_dev,
 -- 
 2.34.1
 
