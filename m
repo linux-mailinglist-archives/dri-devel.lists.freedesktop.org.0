@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6624E9C4B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 18:33:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFC74E9C5C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 18:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7517710E700;
-	Mon, 28 Mar 2022 16:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A55A10E70E;
+	Mon, 28 Mar 2022 16:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D58410E700
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 16:33:20 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id q189so16134416oia.9
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 09:33:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bIvjLAN1WghVKdHbiAwbpiS4KUlO9J5lK2uou4RVILk=;
- b=Ma3j8lnmukyIIRk8hUFmhT6sYPb0YJ1OwNW4eJJhviEM5c0lrX/Vblbo3LT17U+et6
- 8HU+WmJJJnQv1NH54pXKTB2qSLgMSWOTTTI8dkv+T7+gKlh2Ea4XXolIDSxquG8grea+
- qnHRpD+w1qzs8MebSmZEUGYIpTdN+1YlL+aWP5dRRbRyI7q1Q6XhftgZObjtjUl/xDJ7
- tlP5jtnvOyAMJdU02hSA31oGPyxeaTkx9e87JkpKPvxBy2D1e3yCYMlnQIE7NR14cmFp
- 8HVJSFOgpn7hvivGwEsdwBozHC/Y/R9IzV9r5C0GgyLXtvEOiKk6df8JjTZ3DcbmW/7Y
- l1cA==
-X-Gm-Message-State: AOAM531a72YI5OEscfjuSu3dOePTg1LCg/XqpIt5wpZii4O6RYK6mkE8
- Ll984M2b6UvPALcc2kd/mw==
-X-Google-Smtp-Source: ABdhPJwNVh5RZ1sp9MXlR5GlreRlGRTmHJKVh03oTfj9pol2juq4vLORJb84KwOjAAWD3ibi6+xCCg==
-X-Received: by 2002:a05:6808:1059:b0:2ed:b699:7f2e with SMTP id
- c25-20020a056808105900b002edb6997f2emr909oih.240.1648485197630; 
- Mon, 28 Mar 2022 09:33:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- t15-20020a056808158f00b002e331356c87sm7218218oiw.39.2022.03.28.09.33.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 09:33:16 -0700 (PDT)
-Received: (nullmailer pid 2515489 invoked by uid 1000);
- Mon, 28 Mar 2022 16:33:15 -0000
-Date: Mon, 28 Mar 2022 11:33:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Subject: Re: [PATCH v9 02/22] dt-bindings: mediatek,dp: Add Display Port
- binding
-Message-ID: <YkHjS9ToXqyliItf@robh.at.kernel.org>
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-3-granquet@baylibre.com>
+Received: from steinadler.informatik.uni-kiel.de
+ (steinadler.informatik.uni-kiel.de [134.245.248.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8D710E70E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 16:36:20 +0000 (UTC)
+Received: from turmfalke.informatik.uni-kiel.de
+ (turmfalke.informatik.uni-kiel.de [134.245.248.192])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by steinadler.informatik.uni-kiel.de (Postfix) with ESMTPS id 5CB8C23849;
+ Mon, 28 Mar 2022 18:36:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=informatik.uni-kiel.de; s=ifi-20210612; t=1648485377;
+ bh=WUtLbL1FZEIs5EYA1Dy4bN8TnSIoaHzLSnp3RlXqifA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=AhyDu7luZPMAdp9M86PkFVffZnclfCbS5FeU00jQaTJdO4GJBqDhfks3LivkUPYWf
+ 8hOrPFSDNGF+nFIUdbWwi3miDqLMA4MkIk1yjAvxWoQKiOSyjqjuiDG8o6Cz83lNeX
+ Uqo8zOwMYQ20uU3x/B5anvJG3Ye5hM873rQS4CuV5ij921JkFd3Cixn98rSUqqlO+N
+ uN+WYtTAO+PA3P+ctMSo2mMEHN90v/nb3L/tYgNJ0M2AXcTCfDKw+4/34V3Y6ZonBf
+ M1qUkLfC4Yf0NX5LDBe3mN1AiiR9Ik3Am6jUtmjQFxhmsYrPXtjW6q5XWsycW48inD
+ wsvuGAxKF7Mww==
+Received: from localhost (p54ad5b1d.dip0.t-ipconnect.de [84.173.91.29])
+ (authenticated bits=0)
+ by turmfalke.informatik.uni-kiel.de (8.17.1/8.16.1) with ESMTPSA id
+ 22SGaEq9084264
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+ Mon, 28 Mar 2022 18:36:17 +0200 (CEST)
+ (envelope-from psi@informatik.uni-kiel.de)
+X-Authentication-Warning: turmfalke.informatik.uni-kiel.de: Host
+ p54ad5b1d.dip0.t-ipconnect.de [84.173.91.29] claimed to be localhost
+From: Philipp Sieweck <psi@informatik.uni-kiel.de>
+To: Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH] drm/vmwgfx: Propagate error on failed ioctl
+In-Reply-To: <b9922ee93a6561212c956ea4acb391183f71b75b.camel@vmware.com>
+References: <20220313050655.52199-1-psi@informatik.uni-kiel.de>
+ <b9922ee93a6561212c956ea4acb391183f71b75b.camel@vmware.com>
+Date: Mon, 28 Mar 2022 18:36:14 +0200
+Message-ID: <87sfr2hw5d.fsf@posteo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220327223927.20848-3-granquet@baylibre.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +61,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
- kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
- chunfeng.yun@mediatek.com, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com, linux-kernel@vger.kernel.org,
- vkoul@kernel.org, krzk+dt@kernel.org, markyacoub@google.com
+Cc: Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 28, 2022 at 12:39:07AM +0200, Guillaume Ranquet wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This controller is present on several mediatek hardware. Currently
-> mt8195 and mt8395 have this controller without a functional difference,
-> so only one compatible field is added.
-> 
-> The controller can have two forms, as a normal display port and as an
-> embedded display port.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->  .../display/mediatek/mediatek,dp.yaml         | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> new file mode 100644
-> index 000000000000..802cc406c72b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek Display Port Controller
-> +
-> +maintainers:
-> +  - CK Hu <ck.hu@mediatek.com>
-> +  - Jitao shi <jitao.shi@mediatek.com>
-> +
-> +description: |
-> +  Device tree bindings for the Mediatek (embedded) Display Port controller
-> +  present on some Mediatek SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: mediatek,mt8195-dp-tx
-> +      - const: syscon
+Hi Zack!
 
-Add something to the above description to convince me this is a syscon. 
+>
+> I'd just break apart the condition above rather than have two if ret !=
+> 0. What apps do you see glitches in as a result of this? Can you
+> reproduce it?
+>
 
-If you need a regmap, the driver can create one. 'syscon' is really only 
-needed if there's not a specific driver.
+There are many apps I can use to trigger this drm error. It occurs more
+often on a Wayland-based desktop than on X11. While looking into this,
+the most reliable way to trigger it was to open the "About" dialog
+window in KeePassXC, then to select the contributors tab, and then to
+scroll a bit. The content of the scrolling area is often only partially
+updated, which makes the text unreadable.
 
-Rob
+I tested this on a Windows 10 host with an Intel Iris GPU running the
+latest VMware Workstation 16.2. The virtual machine contains a current
+Manjaro Linux GNOME desktop with Wayland enabled. 3d acceleration is
+active. However, this behavior has been there for quite some time, but
+for some reason it is more disruptive today.
+
+Philipp
