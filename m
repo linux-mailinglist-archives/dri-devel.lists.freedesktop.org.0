@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACF34EA1DB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC6F4EA1ED
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:48:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959DC10E05C;
-	Mon, 28 Mar 2022 20:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A121210E174;
+	Mon, 28 Mar 2022 20:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B648C10E05C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 20:46:39 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id bq8so17176459ejb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 13:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JtOIKDwYEmY0G6ZwVjCPJc+EKV3kxgQ9Fb0rQsgCgxk=;
- b=Au6XxjoO3TuN885D6RISvoi4b+Imy6m9ma8wBo5nZXyzrl8us8an+07UXpqcYW8zs0
- MCSmvT+BgeqF+LC5cDbAfNpCwtLF5xXOPMaS88l46OSA1XZAyK5odoPL2mbvJ6cB4vSl
- o1GWvonXJuK6WI14daDAyrKhkAi2IwZs9OFfthpp9zgCke8yrCTZm95PoWNuAOFPK+d/
- SOtOyAdzCfpdQ3lGnMfmrpx1n2bZellSprH310zAmA2p10nge7zkW5yvynqjJUTrYqLj
- Ef4LLKkBC/m64hzJyhYmDT+bEFN9A8v++0Xe/yWHq8Gquj0Yw/CTSjM09awB/tS3ohu6
- ZXSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JtOIKDwYEmY0G6ZwVjCPJc+EKV3kxgQ9Fb0rQsgCgxk=;
- b=CBvUILT/mzMhQ0libc6YSc/GeyY6tsuY5OVse4tb70rKagSq++iy0ymgThbCtUqfBo
- kVz7lihOHxKsdI/S0MN8hl+QDVVp7yRuvqvW2tC/RoLoG+iZnjcugPTw+B+k9J25qRu8
- LI+W/FzMJAIsrc1Di5pINKESliUfbf1NXY+VGdVxtg9kNhKPWxs59SpWDt/h4hyN3F2Z
- 5iBitf/8XWyorLMNDdGIWLs1Kfe5jsWjH8Q9t1gS+oU7TaKaAtVfOCs69oTBhi3wW5/7
- wqOjxbfk9Pv0ONZJe58VUVsYnW3Fk1vEpfFBrKzQ/fMtnFiu2EogivzFwzUYcDag32qr
- nYhg==
-X-Gm-Message-State: AOAM533qITiB5vZyFxwIjzLUzp4fXR5M9kI0e/i7jV760upMktPPA10V
- 7N8vyw726o82RN5Onu7I67VSY4O4RQnFdjHI288=
-X-Google-Smtp-Source: ABdhPJxuunfwUkBAnwXYx6Ny/ga6aWVlv3hTy52B/L+8KibeTrMHKVtaauHv16KEa6mM9fV/P7rh8AZODW2UuLnRBgI=
-X-Received: by 2002:a17:907:e8d:b0:6e0:19e7:9549 with SMTP id
- ho13-20020a1709070e8d00b006e019e79549mr30132608ejc.44.1648500398124; Mon, 28
- Mar 2022 13:46:38 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED910E174;
+ Mon, 28 Mar 2022 20:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648500514; x=1680036514;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qCJgaTlyrt3M+xKRLGpGWa4AyTdCdNO9uSOPspAIs9Q=;
+ b=AuSiBj7wLWTxrMcX3vWeOUnOweqjB79pjPVOtQ4uAKzCUS6xdNUjQ2fd
+ ugLAi2NTOiwVzLB9txdkTB6hMcrhPQYVAbZwdYX2SfjOvyj4UOxhHYq4G
+ 5Md4Q41dtQJYqa2KeHTQFjfkO9m0v3pfoUA6aBIqf/KehKkDG6LIMJP0w
+ yfhzqXCvXyNuY3q/A+Gy7IEMkal4Fbs+Z/pmKdF9gTFxqb320jPehAEgU
+ LPCjObZrjZ4+SuW7onsvBc041021LUoutT6L2PkFzPT+GYs0iqKSF935e
+ xC9U6plC8nOXSpeJTS4/eWsy9he6nXaIdpGIWneOC2WaMjwHjk3dvJE/r g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="319800542"
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="319800542"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 13:48:33 -0700
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="502652598"
+Received: from vrgangil-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.58.226])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 13:48:33 -0700
+Date: Mon, 28 Mar 2022 13:48:33 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RFC] drm/i915: Split out intel_vtd_active and run_as_guest to
+ own header
+Message-ID: <20220328204833.k5dug4wus62rdxdo@ldmartin-desk2>
+References: <20220322164446.2124983-1-tvrtko.ursulin@linux.intel.com>
+ <878rszitmi.fsf@intel.com>
+ <0078dd11-c958-7a60-19d1-e32446f0d9da@linux.intel.com>
+ <87r16rh8b2.fsf@intel.com>
+ <2a91ffe1-71a2-98a0-daa3-23aee0b1c29d@linux.intel.com>
+ <87o81vgouz.fsf@intel.com>
+ <a08030e9-d352-1599-68ca-36605cadac1b@linux.intel.com>
+ <87fsn6grnm.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207125933.81634-6-paul@crapouillou.net>
-In-Reply-To: <20220207125933.81634-6-paul@crapouillou.net>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 28 Mar 2022 23:46:02 +0300
-Message-ID: <CAHp75Vf8QhosJw79U97rA6u0KHY9avmzTMBUqEyWkY6jxBuPYg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/12] iio: core: Add new DMABUF interface
- infrastructure
-To: Paul Cercueil <paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87fsn6grnm.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,107 +64,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio <linux-iio@vger.kernel.org>,
- Linux Documentation List <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 8, 2022 at 5:26 PM Paul Cercueil <paul@crapouillou.net> wrote:
+On Fri, Mar 25, 2022 at 02:09:33PM +0200, Jani Nikula wrote:
+>On Fri, 25 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 24/03/2022 18:57, Jani Nikula wrote:
+>>> On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>>>> On 24/03/2022 11:57, Jani Nikula wrote:
+>>>>> On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>> On 24/03/2022 09:31, Jani Nikula wrote:
+>>>>>>> On Tue, 22 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>>
+>>>>>>>> ...
+>>>>>>>>
+>>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>> Cc: Jani Nikula <jani.nikula@intel.com>
+>>>>>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>>>>>> ---
+>>>>>>>> Typed up how I see it - bash away.
+>>>>>>>
+>>>>>>> So is intel_vtd_active() so performance critical that it needs to be
+>>>>>>> inline?
+>>>>>>>
+>>>>>>> We're passing struct drm_i915_private * everywhere we can, and it just
+>>>>>>> feels silly to use struct drm_device * to avoid the include.
+>>>>>>>
+>>>>>>> Static inlines considered harmful. :p
+>>>>>>
+>>>>>> Same as it is ;), and gee, who was it that he said he was just trying to
+>>>>>> declutter i915_drv.h.. ;p
+>>>>>
+>>>>> Not at the cost of clarity elsewhere!
+>>>>
+>>>> To be clear now you oppose intel_vtd_active taking struct device? I
+>>>> thought you expressed general agreement when I presented the idea in the
+>>>> previous thread.
+>>>>
+>>>> I don't mind hugely to go either way, but I also don't see how taking
+>>>> struct device makes anything unclear. (I only think
+>>>> intel_vtd_run_as_guest is really wrong in this story but that's old news.)
+>>>>
+>>>> And if I make it take i915 then I would want to name it i915_vtd_active
+>>>> as well. But then you wouldn't like that.
+>>>>
+>>>> Should we just stuff all this into i915_utils for now, as I think Lucas
+>>>> suggested? Static inline or not, I don't care.
+>>>
+>>> Just general grumpiness.
+>>>
+>>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>>
+>> No worries. Ack is for this version or with i915_ prefixes in
+>> i915_utils.h/c?
 >
-> Add the necessary infrastructure to the IIO core to support a new
-> optional DMABUF based interface.
+>Both. Either. ;)
+
+great, let's go with the one adding it to i915_util.h/c then.
+
+thanks
+Lucas De Marchi
+
 >
-> The advantage of this new DMABUF based interface vs. the read()
-> interface, is that it avoids an extra copy of the data between the
-> kernel and userspace. This is particularly userful for high-speed
-
-useful
-
-> devices which produce several megabytes or even gigabytes of data per
-> second.
+>>
+>> Regards,
+>>
+>> Tvrtko
 >
-> The data in this new DMABUF interface is managed at the granularity of
-> DMABUF objects. Reducing the granularity from byte level to block level
-> is done to reduce the userspace-kernelspace synchronization overhead
-> since performing syscalls for each byte at a few Mbps is just not
-> feasible.
->
-> This of course leads to a slightly increased latency. For this reason an
-> application can choose the size of the DMABUFs as well as how many it
-> allocates. E.g. two DMABUFs would be a traditional double buffering
-> scheme. But using a higher number might be necessary to avoid
-> underflow/overflow situations in the presence of scheduling latencies.
->
-> As part of the interface, 2 new IOCTLs have been added:
->
-> IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *):
->  Each call will allocate a new DMABUF object. The return value (if not
->  a negative errno value as error) will be the file descriptor of the new
->  DMABUF.
->
-> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
->  Place the DMABUF object into the queue pending for hardware process.
->
-> These two IOCTLs have to be performed on the IIO buffer's file
-> descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
->
-> To access the data stored in a block by userspace the block must be
-> mapped to the process's memory. This is done by calling mmap() on the
-> DMABUF's file descriptor.
->
-> Before accessing the data through the map, you must use the
-> DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
-> DMA_BUF_SYNC_START flag, to make sure that the data is available.
-> This call may block until the hardware is done with this block. Once
-> you are done reading or writing the data, you must use this ioctl again
-> with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
-> kernel's queue.
->
-> If you need to know when the hardware is done with a DMABUF, you can
-> poll its file descriptor for the EPOLLOUT event.
->
-> Finally, to destroy a DMABUF object, simply call close() on its file
-> descriptor.
-
-...
-
-> v2: Only allow the new IOCTLs on the buffer FD created with
->     IIO_BUFFER_GET_FD_IOCTL().
-
-Move changelogs after the cutter '--- ' line.
-
-...
-
->  static const struct file_operations iio_buffer_chrdev_fileops = {
->         .owner = THIS_MODULE,
->         .llseek = noop_llseek,
->         .read = iio_buffer_read,
->         .write = iio_buffer_write,
-> +       .unlocked_ioctl = iio_buffer_chrdev_ioctl,
-
-> +       .compat_ioctl = compat_ptr_ioctl,
-
-Is this member always available (implying the kernel configuration)?
-
-...
-
-> +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS      0x00000000
-
-No flags available right now?
-
-...
-
-> + * @bytes_used:        number of bytes used in this DMABUF for the data transfer.
-> + *             If zero, the full buffer is used.
-
-Wouldn't be error prone to have 0 defined like this?
-
--- 
-With Best Regards,
-Andy Shevchenko
+>-- 
+>Jani Nikula, Intel Open Source Graphics Center
