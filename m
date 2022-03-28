@@ -1,123 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A0A4E9EE6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 20:22:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B70FD4E9EF4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 20:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E63410E72E;
-	Mon, 28 Mar 2022 18:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 336B810E163;
+	Mon, 28 Mar 2022 18:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED9010E6FF;
- Mon, 28 Mar 2022 18:21:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZGRPAyUBfNKxtkbsiWPJ7dGoXy0grLEDZgmVQXMFa3+5JB0vCTgUtJ2nQbRIy24vVMIslidOGtmhqAWmLstVCNdui+5tku/+NZSlqOPxyPZpQqWT6q4BrzjMHx7Ir4HvtIvtHkKRFgy/twADHrIakRWDRXCrq9rm8q6qyW9OZHLPEpHjuWEZBNCDDz/QAuKoehab2LO6uXmO46GuSK4Yt+YtDL/LWwIny8CCVesgzO8lLJN4ozmzhRUd66G7ab8ts44vMqHk4ACZwG8DnZx2qq7QWnD3AsKqCyb1o/BilJnF59dsuqL8RxTlU2sL4F9nLfi4+YjCCrdYUng1ZNvOlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PblMILgSxjPFXPY7G3hebHEDhY80ZWvQmAvlOvv5Hgk=;
- b=gVwHXZqGeoC+TKtr1pUCxPNpR75BRWUJ9IwXPe5QiWmmCZ11Ao/t1Dp657PD4gaPrhPAngymfIXL7xjkNUnmrdwqx3D8pFlWU+5gVe4GtPzydQBd0YhgTvTotd5jBHBvNAYa+qLs9ipWF+zccJ1mCc8fzqKDbb0AtZNaHnoh+YqFGLJMbGst23b/U9HaR+eJW2ax3jxLpbEUGEWT+2kB2Ho2Stfy+T0blZe+RSeLmrLUz0hs0CGKI6L4OG8qoJWWxuFa0UnASgu6zPwDBiBwtQBBmWhJFk8oAB/Hzym7tyQLjk6ApjXgI04DtmgNwbhXWTlkuosiJz7kB7d7n6z5ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PblMILgSxjPFXPY7G3hebHEDhY80ZWvQmAvlOvv5Hgk=;
- b=J/R4+oCLaKdFDV+R4dCQjFwCcC2KVQrAJ33lUqFAQzoXs/H3xJJ0BMvezdvYbedvvbUMWfUfYM/5uZMqP/RcmlWBfrABIPXMH1/e5JLw2+26PO41VN6k2dJmCa9peGpFBeFx/3xqpc6nTNeJ99FJiJaXWpRC91yKFN8YUzGsb28=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by BL0PR12MB2577.namprd12.prod.outlook.com (2603:10b6:207:42::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.17; Mon, 28 Mar
- 2022 18:21:54 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::192:5346:4ece:7ca3]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::192:5346:4ece:7ca3%4]) with mapi id 15.20.5102.023; Mon, 28 Mar 2022
- 18:21:54 +0000
-Message-ID: <072d9e5f-b144-e411-c696-14f226f1b3f0@amd.com>
-Date: Mon, 28 Mar 2022 14:21:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH] drm/amd/display: dont ignore alpha property
-Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>, Simon Ser <contact@emersion.fr>
-References: <20220325204450.kq7kjb7ez63p5srm@mail.igalia.com>
- <Bq9Aj2IM-iCzmSHMJzvYjL_qmyPoAjbrRh8JNExHmqJW5kxFbtOSjC4WFoeB2R_lUKQszrEuHsFKNHAtXvhdUwp_8ejTnKqKRmVPiiS8Cqs=@emersion.fr>
- <20220328165450.lix5hybt3egtpowr@mail.igalia.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220328165450.lix5hybt3egtpowr@mail.igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0119.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::24) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD5A10E163
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 18:28:37 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id lr4so22038031ejb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 11:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8WaH8oTp9zQ4RiMod88tKNM8FNGzolc7NDGliqXEyFM=;
+ b=RA1LFZlyqYnQKlZhfG5eW4EytFq6FXGfsjb2/DOkWkAoisIvQquLsZTwb8nBtNlht8
+ ZHqiJ/MOFhcB+HyYDg4DOrCFHvXKNreT5wQEPJ7PzPnMoI2QrObdeAd08uOLLZhCsV8Y
+ oo/fwNelFB8E06amjBdYhwsR2VhATbyd3kx12XlxxP1sGczHl+YWk9N47mzb48HohD17
+ d9HYqBqtvUEw1TYZH7O9tEkaSoRyqnabxydRHWLDA8W6lAvtHgHxiIUB7dc49IG+TBgi
+ G8ykTzQvXQ9aD4+tQHre6cRAhm0yoObw1rfkn0AAPUuFF1ZU/BUjCdEdRxBpKxz80uJg
+ RymA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8WaH8oTp9zQ4RiMod88tKNM8FNGzolc7NDGliqXEyFM=;
+ b=z7HN5KsV+PHeJOD2hzUmrF7SztW+0VLVMQM63wmvQhWIAP1onw1TPns76QdGLO3i3z
+ ghs8HFFFeezM8JohB5Ok0f/gpovTrWuexvLjdCt7MGSCjZrpOuMBuQ7KlIwlM/j64RgO
+ J9bGw09TFw5NH2Uox7MKmfQCH8/4dr8JTRU0pdrb4e6ysY9UDQ41qI0t2BGDwtvSa+pS
+ CIaPW5Y8I4MJ92ZbTzR6jc+8ExrQ+4Fxt/2kGFgdNfoNV389JYjMVIg7ETQxg/N3S0Va
+ nEgAILcTcfwUIpkNTfz4vZRYbOgXjXSITwlwHi1wQYOU9s5II+k8kvR49mCtFaFSnxnI
+ vkGA==
+X-Gm-Message-State: AOAM532Z3xIGWF20VZO+YguwVI5rLN5wVDj+wCOa+z+Q59lxpei26dq7
+ Y1Bskh/RHlftPfzCsSG2r19o6Ldx0Syi4Grfox3ltQ==
+X-Google-Smtp-Source: ABdhPJz3R1rYGKfMgCT8Xw+uvi6MQu9Vw8tO6cBRgeUu+llCkBBC4HKzRw85BEQANrPE+Bd5D9ZFeLO+o1zCssURxAk=
+X-Received: by 2002:a17:906:9754:b0:6da:7d72:1353 with SMTP id
+ o20-20020a170906975400b006da7d721353mr29368499ejy.273.1648492115577; Mon, 28
+ Mar 2022 11:28:35 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ee9abad9-2e56-4886-70b3-08da10e7d5c5
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2577:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2577210A16E8FE7661DD9E138C1D9@BL0PR12MB2577.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aDKc9+9jZ0yWQ/8e1osIcR6KTMAPrVvMSE0Irp92x8Aar6+cMgfTKRy86g7XWuIQn5zpmsD7VjqUTfPg4/KdMY2lXcxD8+gUseJuxl+4NStgV+U+/1tQhU0JWZlfh3tmgtZnrrW9+TjA/fL5YuLKm34bHQp3UxhdZnkSgJsFr1zMWZ5dF7gljzWdi6YcwJVvA8T+qBALPAn6PM1Ei6Ozed+Gi5eYJG66A3FKjI0NsTKVegnEJyIRAJuLd1qOmgNR1eo8Bpm0ov/LNPdhG3jSyEtdK9Ubs4ZBoUmhUlIts4PP2qkQlibEnyZ2oJmbnW5vLZQR4zGbHwKEkDylCnXXzOaNKshvz0d/Idlq7s8FRPhEqInkSfC+wd0q9CefXO4/w67wSDcWjumq47clRuW1YXM5Rf8R0Loxfqq52b25glQCbr+gvQy0c95Baw9aYuyhzM++Yo9XXhVehrqPylOoyA9OPDd0WR3EGRheHT6fuUrBIK+nOiYzk256+XqMGIb0nzOasapZBHJbNaaS1T6yJjmQQda1DThiHz6jzWXOs83p866wSZRUvPU8PRlippLrOY3WPsKetIo2kQXPLrFileeEv+LJFB0+A2aHvp8/2md0rg9qHNHK1h5EqSLYv0W13qtxDw++kzNMIOgLjDt0z71Lh87JEjCjrJPaSN1Vcf6c3fSaFGrD/EGQhwm6vC+Zt9Ff/lqiN+EJ4Ob7jYRwtlzLFsa9cTHDA2l8vY0jTs7ZbX0hNL/jRouEGumgzmm6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(186003)(6666004)(4744005)(83380400001)(2616005)(26005)(44832011)(2906002)(53546011)(6486002)(36756003)(966005)(31686004)(508600001)(8936002)(66946007)(66556008)(8676002)(31696002)(38100700002)(316002)(86362001)(6512007)(4326008)(66476007)(5660300002)(54906003)(110136005)(6506007)(192303002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWpiMUsrSW5PWDlyY0ZRK2hlUzVYN0dKUWJVUVBMaVFKMDVoZnNoWkVSQUg4?=
- =?utf-8?B?cm5DdTJuSHluOHVVaFUreCttcGtiQzE2Vy9BZU1aK2Y4cmZDUTJkWVN5QXMw?=
- =?utf-8?B?VHpnYTh1STlha0tld01lL2dsMENQVG9wOElZSUpTL2c4T2V5R3hlWmFOODJK?=
- =?utf-8?B?aVkrbUZrRncraUpXRC8wemd0RGk1cXVkTnRNSmNSMHVpNElkQ0l5Y1B5SUVa?=
- =?utf-8?B?Z2ZjekxnUXRxUGNYOTJlc1htQU9ia2FSL2UzTjVhTDhNd2pzOUU1eTdLVFI0?=
- =?utf-8?B?Q3FWUTFpWXpNb0FGSEU2eUdwc3lLTk90dHJtN3ZpTzJqZTRqekJPR2VtYnRi?=
- =?utf-8?B?SHpQQk9QcGE2Z2NhSkExeFFZbEx4Ym1USEQzWUFjYWd3am1obXVDMUpOczF1?=
- =?utf-8?B?L2grQ0pweitrbnR4QnB6UkdKSzN3bzV6VktsdVc5VlB5cDdTN0R3SFNOeFoy?=
- =?utf-8?B?M1lRby9Pa1lIMjZkM05SODFmZm92eGFhWHBCVm9KYWExdGhZZlBTaEZzUVdX?=
- =?utf-8?B?UDllSXl5eGhTR2tOQjJXdjM5NGJLL0F0S2NyQ2dMRmpZNWpOSWI4ZTdoUDBB?=
- =?utf-8?B?WWg3a09ZK2N5SlMza2tabEdOMHlkdHozUTJWT3JIZE1CKzRVUVBEY3VoaU5E?=
- =?utf-8?B?TGx2a0VZRVhSR3JJTkpab1JZaDBaaWNHSzJqRnlzOEY0Kzdzb0Z3ZDZncmR5?=
- =?utf-8?B?VUZIWWgrakc4QUkxRzJ3R2ZzOE90VHVSRVI1NUNZcHBLak5iSUJvemEweDdO?=
- =?utf-8?B?N2M1ekVKYWc4WERGU1BLcDFkelFVMDNDYmozYVdDTVBCMm0zNkMrRVQrNEFw?=
- =?utf-8?B?dkMzS21rWFJQRGVMSEZFdDNiclR4dWl6NjRaNjY0QzVib21tOTZ4ampEVVU1?=
- =?utf-8?B?NHdnWVFBV1dyTzE5aVFKWVJBcXZacUEzWlp0d1RWRkt4MWt0OVVWZXl2cmRM?=
- =?utf-8?B?dDRnVWl5UzhkZUtWVWpscVRJZzlwaFVYbXptdWhweGsxUUZlekw4L2NkUGJE?=
- =?utf-8?B?bm9JVlNiNDZIdUxERTEvTUhHekRjdTllMmlpeis0MjJDWTBZcWlhTGtPb1dE?=
- =?utf-8?B?TEVLWkE3NGRnQW1iUkFGaXd4d3dZT01UcjYrazRoVWtaNDNXSlErSm5zT3h1?=
- =?utf-8?B?Smd6T1pXS0VhbEtINUVlRFM2TW9ZY3BEMHE4R3lQSC9YeHpWaHpIOWJ1Yytx?=
- =?utf-8?B?UDFlV1BCQTdtRTdBaVFxSkZPd3p5b05qR2lsUU9BWUtpajhHWldsZHkxZC9G?=
- =?utf-8?B?bWYwQ0lmdDF2VGtrdUFEN0VQamV6dWJpYU9kellBbDNVWlNWK3krMUdvajB6?=
- =?utf-8?B?S3lXdDRhdVl3WkIzaFA0Y08vSUtGdWcrcWExdnRMbU81MGlnaXdHUmYxRVlU?=
- =?utf-8?B?Nm11V1FXR2MzMnNqZE9qZGlBemc1SkhiS3JVV3ZiOEJzRW1TbVVSS25uNjJs?=
- =?utf-8?B?aWI3V3I4V2VHVXArQ2h5UXZjbEhac1R0bkViMVJWeXF3MnBKNlhIL0RtVDd3?=
- =?utf-8?B?R1VQc0t2OXhHMzBqSHI1TkxSOURMTXhHZ3Viazd6SHVaM09CcjNpYm9BS3Fa?=
- =?utf-8?B?c2VaTENZRExJdDM1ZDJmWVpnL25nTGdGWitacFZaUklURk53ejE4U3NiQXJa?=
- =?utf-8?B?d1NUU09jNU5XeVZyK2d1QXpVeFdGTEpWY0MzazAwRzJPOFlid2MxTGg0dUZK?=
- =?utf-8?B?RFRlSmpEb29Scm5jREQ1UkFoM3FYRXd1dUI1MzZqOFgweGVqZ0I0WVVicmpw?=
- =?utf-8?B?dGNpN2hzWldQTjdXSDBrdlExK1dYL2htVFVzcjg2eGN1bVZ5U0l3RjNzMitX?=
- =?utf-8?B?eEM3c3h5cXRjbXk4c01TNjdPYkRHbVpDRDNoT1BGbXZMcmpzNFBxeVJtdGtm?=
- =?utf-8?B?NXdjTXNVTXJRWlNyU3hSTytSTkhWVzU5Rm13Ukk2dDloR0l1d215alZMWjZs?=
- =?utf-8?B?L0t4YlZsSFR3dnczZW1wREM0NitvMWhrb2o4WmM0VnNOYlMrS2hHKytHeUpv?=
- =?utf-8?B?WnZUMW4ybm9EU2U4bzhlRWl1emNwbVoyTEJKRGJTcjR6QVpxZTVFa295WndM?=
- =?utf-8?B?RXE2TDI2Z3Q3TGhTL2tpVmljZjc4RENMdHVndFNNVTNxb1FzMmFxMFVXMmZ6?=
- =?utf-8?B?MS9VU2xIUEwzQzdSTFhmcUpNZ0tFTkl2VVMyREJVZkNQRG9XYVhNZWd3TEkw?=
- =?utf-8?B?SjNRaHhDbGdaaEtKd3ExR0d5NFRMQVlIcksvdndvMmQyNWNSUnREdzBRWWxB?=
- =?utf-8?B?Wm9aaTRYY3pLaHM3d0swUnFGNk1XK2E1UEhjbTl3K2kwWTEyR1Vsc2xwQ2gw?=
- =?utf-8?B?Ujd5dnN3empNdmFpajdoZlNEVDJtRGFXM0FsYXRuTXBEdFpIT0F6Zz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee9abad9-2e56-4886-70b3-08da10e7d5c5
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2022 18:21:53.9290 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mD7z4/pB7fwZV5XKzBUF/rriPV3SFz/fee+uMzgEIEYg8lnk5jdi5pJ/BUC3zpL75qOMONc8X1pzLrrD/Fzkqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2577
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-5-tjmercier@google.com>
+ <YkHH/0Use7F30UUE@phenom.ffwll.local>
+In-Reply-To: <YkHH/0Use7F30UUE@phenom.ffwll.local>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 28 Mar 2022 11:28:24 -0700
+Message-ID: <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
+Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
+ cgroup charging
+To: "T.J. Mercier" <tjmercier@google.com>, David Airlie <airlied@linux.ie>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, 
+ Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <john.stultz@linaro.org>, Tejun Heo <tj@kernel.org>, 
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Shuah Khan <shuah@kernel.org>, Kalesh Singh <kaleshsingh@google.com>,
+ Kenny.Ho@amd.com, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,43 +88,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhan Liu <Zhan.Liu@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Agustin Gutierrez <agustin.gutierrez@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 28, 2022 at 7:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Mar 28, 2022 at 03:59:43AM +0000, T.J. Mercier wrote:
+> > From: Hridya Valsaraju <hridya@google.com>
+> >
+> > All DMA heaps now register a new GPU cgroup device upon creation, and t=
+he
+> > system_heap now exports buffers associated with its GPU cgroup device f=
+or
+> > tracking purposes.
+> >
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> >
+> > ---
+> > v3 changes
+> > Use more common dual author commit message format per John Stultz.
+> >
+> > v2 changes
+> > Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+>
+> Apologies for being out of the loop quite a bit. I scrolled through this
+> all and I think it looks good to get going.
+>
+> The only thing I have is whether we should move the cgroup controllers ou=
+t
+> of dma-buf heaps, since that's rather android centric. E.g.
+> - a system gpucg_device which is used by all the various single page
+>   allocators (dma-buf heap but also shmem helpers and really anything
+>   else)
+> - same for cma, again both for dma-buf heaps and also for the gem cma
+>   helpers in drm
 
+Thanks Daniel, in general that makes sense to me as an approach to
+making this more universal. However for the Android case I'm not sure
+if the part about a single system gpucg_device would be sufficient,
+because there are at least 12 different graphics related heaps that
+could potentially be accounted/limited differently. [1]  So that
+raises the question of how fine grained we want this to be... I tend
+towards separating them all, but I haven't formed a strong opinion
+about this at the moment. It sounds like you are in favor of a
+smaller, more rigidly defined set of them? Either way, we need to add
+code for accounting at points where we know memory is specifically for
+graphics use and not something else right? (I.E. Whether it is a
+dma-buf heap or somewhere like drm_gem_object_init.) So IIUC the only
+question is what to use for the gpucg_device(s) at these locations.
 
-On 2022-03-28 12:54, Melissa Wen wrote:
-> On 03/28, Simon Ser wrote:
->> Thanks a lot for you patch! I've noticed as well that amdgpu ignores
->> the plane alpha property [1]. I'll try to find time to test it.
-> Hi Simon,
-> 
-> So you've faced this kind of issue many times :/
-> Let me know the results from your side, so we can use it to find the
-> correct approach to solve this issue.
+[1] https://cs.android.com/android/platform/superproject/+/master:hardware/=
+google/graphics/common/libion/ion.cpp;l=3D39-50
 
-Thanks, Melissa, for looking into this. It does indeed look like we
-should support that in amdgpu.
+>
+> Otherwise this will only work on non-upstream android where gpu drivers
+> allocate everything from dma-buf heap. If you use something like the x86
+> android project with mesa drivers, then driver-internal buffers will be
+> allocated through gem and not through dma-buf heaps. Or at least I think
+> that's how it works.
+>
+> But also meh, we can fix this fairly easily later on by adding these
+> standard gpucg_dev somwehere with a bit of kerneldoc.
 
->>
->> [1]: https://gitlab.freedesktop.org/drm/amd/-/issues/1734
-> Yeah, it looks like the same problem.
-> 
+This is what I was thinking would happen next, but IDK if anyone sees
+a more central place to do this type of use-specific accounting.
 
-Ooh, tentative looks neat. I'll have to give it a try.
+>
+> Anyway has my all my ack, but don't count this as my in-depth review :-)
+> -Daniel
 
-Harry
-
-> I also think the IGT test case (alpha-7efc) is not the best one because
-> results can be affected by rounding issues. Maybe the test should be
-> reworked, but first this alpha property issue should be clarified.
-> 
-> Thanks for the inputs!
-> 
-> Melissa
-
+Thanks again for taking a look!
+>
+> > ---
+> >  drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++++
+> >  drivers/dma-buf/heaps/system_heap.c |  3 +++
+> >  include/linux/dma-heap.h            | 11 +++++++++++
+> >  3 files changed, 41 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > index 8f5848aa144f..885072427775 100644
+> > --- a/drivers/dma-buf/dma-heap.c
+> > +++ b/drivers/dma-buf/dma-heap.c
+> > @@ -7,6 +7,7 @@
+> >   */
+> >
+> >  #include <linux/cdev.h>
+> > +#include <linux/cgroup_gpu.h>
+> >  #include <linux/debugfs.h>
+> >  #include <linux/device.h>
+> >  #include <linux/dma-buf.h>
+> > @@ -31,6 +32,7 @@
+> >   * @heap_devt                heap device node
+> >   * @list             list head connecting to list of heaps
+> >   * @heap_cdev                heap char device
+> > + * @gpucg_dev                gpu cgroup device for memory accounting
+> >   *
+> >   * Represents a heap of memory from which buffers can be made.
+> >   */
+> > @@ -41,6 +43,9 @@ struct dma_heap {
+> >       dev_t heap_devt;
+> >       struct list_head list;
+> >       struct cdev heap_cdev;
+> > +#ifdef CONFIG_CGROUP_GPU
+> > +     struct gpucg_device gpucg_dev;
+> > +#endif
+> >  };
+> >
+> >  static LIST_HEAD(heap_list);
+> > @@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap *hea=
+p)
+> >       return heap->name;
+> >  }
+> >
+> > +#ifdef CONFIG_CGROUP_GPU
+> > +/**
+> > + * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap.
+> > + * @heap: DMA-Heap to get the gpucg_device struct for.
+> > + *
+> > + * Returns:
+> > + * The gpucg_device struct for the heap. NULL if the GPU cgroup contro=
+ller is
+> > + * not enabled.
+> > + */
+> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
+> > +{
+> > +     return &heap->gpucg_dev;
+> > +}
+> > +#else /* CONFIG_CGROUP_GPU */
+> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
+> > +{
+> > +     return NULL;
+> > +}
+> > +#endif /* CONFIG_CGROUP_GPU */
+> > +
+> >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_i=
+nfo)
+> >  {
+> >       struct dma_heap *heap, *h, *err_ret;
+> > @@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
+_export_info *exp_info)
+> >       list_add(&heap->list, &heap_list);
+> >       mutex_unlock(&heap_list_lock);
+> >
+> > +     gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info->nam=
+e);
+> > +
+> >       return heap;
+> >
+> >  err2:
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
+s/system_heap.c
+> > index ab7fd896d2c4..752a05c3cfe2 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(struct =
+dma_heap *heap,
+> >       exp_info.ops =3D &system_heap_buf_ops;
+> >       exp_info.size =3D buffer->len;
+> >       exp_info.flags =3D fd_flags;
+> > +#ifdef CONFIG_CGROUP_GPU
+> > +     exp_info.gpucg_dev =3D dma_heap_get_gpucg_dev(heap);
+> > +#endif
+> >       exp_info.priv =3D buffer;
+> >       dmabuf =3D dma_buf_export(&exp_info);
+> >       if (IS_ERR(dmabuf)) {
+> > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> > index 0c05561cad6e..e447a61d054e 100644
+> > --- a/include/linux/dma-heap.h
+> > +++ b/include/linux/dma-heap.h
+> > @@ -10,6 +10,7 @@
+> >  #define _DMA_HEAPS_H
+> >
+> >  #include <linux/cdev.h>
+> > +#include <linux/cgroup_gpu.h>
+> >  #include <linux/types.h>
+> >
+> >  struct dma_heap;
+> > @@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+> >   */
+> >  const char *dma_heap_get_name(struct dma_heap *heap);
+> >
+> > +/**
+> > + * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_device=
+ for the
+> > + * heap.
+> > + * @heap: DMA-Heap to retrieve gpucg_device for.
+> > + *
+> > + * Returns:
+> > + * The gpucg_device struct for the heap.
+> > + */
+> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap);
+> > +
+> >  /**
+> >   * dma_heap_add - adds a heap to dmabuf heaps
+> >   * @exp_info:                information needed to register this heap
+> > --
+> > 2.35.1.1021.g381101b075-goog
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
