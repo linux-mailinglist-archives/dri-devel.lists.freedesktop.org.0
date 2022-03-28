@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7554E968D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:27:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E7B4E96D1
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A50610E651;
-	Mon, 28 Mar 2022 12:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F44F10E680;
+	Mon, 28 Mar 2022 12:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F216D10E651;
- Mon, 28 Mar 2022 12:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648470426; x=1680006426;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dhUEjWRWiyF1YNGByReA94aJrrTLGY0glrFUnAbWiaA=;
- b=g5TNpIDexGyPr5cAmBPl5TFuTSoCr3OaVfFrCEQ2rLyrTUGG0MWxCm3P
- f/k+Z631c/frkR0Sdiie2bFa8aOeE/wVk4J1ku3cJ/mIMn8UePvKZDB4j
- kExBVmQ9iewIn/p5LiSNLuQ3H+hbkbFFe5g5cGvrJZo83wcQqWmE63X8l
- fbAYk6+CEqSgeBS7vOOujY002dBDpRtdgSGb/a3oE36UQoBm3mg6PW5u5
- e5hCyewUJBbtUbrrKJnhs8LT6NQgG+lBcdnslyDbg+AbVz9usXs50XMwK
- OIh5GqnsmU7135KkKexg6TVd398qYIufBZbUlV1rzK/hCQ8HlILe4nIKF Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="246471444"
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="246471444"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 05:27:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="520988634"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 28 Mar 2022 05:27:03 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nYoSc-00021j-OH; Mon, 28 Mar 2022 12:27:02 +0000
-Date: Mon, 28 Mar 2022 20:26:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 03/11] drm/edid: slightly restructure
- timing and non-timing descriptor structs
-Message-ID: <202203282045.xd3D6oF8-lkp@intel.com>
-References: <04c8140a780dc02155a16d8acc64dbce756739bb.1648458971.git.jani.nikula@intel.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141B410E680
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 12:37:47 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22S8Jr1s017538;
+ Mon, 28 Mar 2022 14:37:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=PRSUOkbjhbLZbdipmTB0fmY4CfFxVYPER1xJPcVCusk=;
+ b=GND7worVS6mA7ZXXW7V81FZ/BD6+o/Yo1ksdttq6DgyRCkO4AxsgshfrPJ8hqliCtafS
+ MMr0eK4bT/qd5/Z3bnELbfPK5hs5LNt9pBgJouBKWLxcwQZFlRRz/C2bj5Ahq7Zjehbr
+ /QIRaEmTtHc9AZdQHbnFF40wIvz7MHuAYNxAAiuChN7mFZ402kf6YTNe7r4BoH+MaQRI
+ o7BeNbCs5PGvzl/Ckairnt/Iqse9KcZdwEgr9cpzkOjHGT/22tEKzXIImOz8Ql6OZePi
+ xjbuH/nBXkYT/a78Q9BfJaCw4eXTFAeoQXUU7o2O+vw+c16n1i704lkw4t6DVDW9Fytv og== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f1s4p1r08-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Mar 2022 14:37:44 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 86AE710002A;
+ Mon, 28 Mar 2022 14:37:38 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7629C22D163;
+ Mon, 28 Mar 2022 14:37:38 +0200 (CEST)
+Received: from [10.201.21.216] (10.75.127.47) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 28 Mar
+ 2022 14:37:37 +0200
+Message-ID: <be2042d2-e315-223d-5454-ebfb934f9d2d@foss.st.com>
+Date: Mon, 28 Mar 2022 14:37:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] stm: ltdc: fix two incorrect NULL checks on list iterator
+Content-Language: en-US
+To: Xiaomeng Tong <xiam0nd.tong@gmail.com>, <yannick.fertre@foss.st.com>
+References: <20220327055355.3808-1-xiam0nd.tong@gmail.com>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20220327055355.3808-1-xiam0nd.tong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <04c8140a780dc02155a16d8acc64dbce756739bb.1648458971.git.jani.nikula@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-28_04,2022-03-28_01,2022-02-23_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,159 +70,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- llvm@lists.linux.dev, kbuild-all@lists.01.org
+Cc: marex@denx.de, airlied@linux.ie, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com, stable@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hello Xiaomeng
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip v5.17 next-20220328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-edid-constify-EDID-parsing-with-some-fixes/20220328-171858
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a012-20220328 (https://download.01.org/0day-ci/archive/20220328/202203282045.xd3D6oF8-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f538c9296c54ce8f878432153584a68939ffc111
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jani-Nikula/drm-edid-constify-EDID-parsing-with-some-fixes/20220328-171858
-        git checkout f538c9296c54ce8f878432153584a68939ffc111
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/tiny/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/tiny/gm12u320.c:478:4: error: field designator 'pixel_clock' does not refer to any field in type 'struct detailed_timing'
-                   .pixel_clock = 3383,
-                    ^
-   drivers/gpu/drm/tiny/gm12u320.c:495:4: error: field designator 'pixel_clock' does not refer to any field in type 'struct detailed_timing'
-                   .pixel_clock = 0,
-                    ^
->> drivers/gpu/drm/tiny/gm12u320.c:496:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.type = 0xfd, /* Monitor ranges */
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:497:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.min_vfreq = 59,
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:498:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.max_vfreq = 61,
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:499:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.min_hfreq_khz = 29,
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:500:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.max_hfreq_khz = 32,
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:501:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:502:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.flags = 0,
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:503:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.range.formula.cvt = {
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:506:4: error: field designator 'pixel_clock' does not refer to any field in type 'struct detailed_timing'
-                   .pixel_clock = 0,
-                    ^
-   drivers/gpu/drm/tiny/gm12u320.c:507:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.type = 0xfc, /* Model string */
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:508:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.str.str = {
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:512:4: error: field designator 'pixel_clock' does not refer to any field in type 'struct detailed_timing'
-                   .pixel_clock = 0,
-                    ^
-   drivers/gpu/drm/tiny/gm12u320.c:513:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.type = 0xfe, /* Unspecified text / padding */
-                         ^
-   drivers/gpu/drm/tiny/gm12u320.c:514:9: error: field designator 'other_data' does not refer to any field in type 'union (unnamed union at include/drm/drm_edid.h:173:2)'
-                   .data.other_data.data.str.str = {
-                         ^
-   16 errors generated.
+On 3/27/22 07:53, Xiaomeng Tong wrote:
+> The two bugs are here:
+> 	if (encoder) {
+> 	if (bridge && bridge->timings)
+>
+> The list iterator value 'encoder/bridge' will *always* be set and
+> non-NULL by drm_for_each_encoder()/list_for_each_entry(), so it is
+> incorrect to assume that the iterator value will be NULL if the
+> list is empty or no element is found.
+>
+> To fix the bug, use a new variable '*_iter' as the list iterator,
+> while use the old variable 'encoder/bridge' as a dedicated pointer
+> to point to the found element.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 99e360442f223 ("drm/stm: Fix bus_flags handling")
+> Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+> ---
+>  drivers/gpu/drm/stm/ltdc.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 
 
-vim +478 drivers/gpu/drm/tiny/gm12u320.c
+Thanks for your fix
 
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  457  
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  458  /*
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  459   * We use fake EDID info so that userspace know that it is dealing with
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  460   * an Acer projector, rather then listing this as an "unknown" monitor.
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  461   * Note this assumes this driver is only ever used with the Acer C120, if we
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  462   * add support for other devices the vendor and model should be parameterized.
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  463   */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  464  static struct edid gm12u320_edid = {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  465  	.header		= { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00 },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  466  	.mfg_id		= { 0x04, 0x72 },	/* "ACR" */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  467  	.prod_code	= { 0x20, 0xc1 },	/* C120h */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  468  	.serial		= 0xaa55aa55,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  469  	.mfg_week	= 1,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  470  	.mfg_year	= 16,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  471  	.version	= 1,			/* EDID 1.3 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  472  	.revision	= 3,			/* EDID 1.3 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  473  	.input		= 0x08,			/* Analog input */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  474  	.features	= 0x0a,			/* Pref timing in DTD 1 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  475  	.standard_timings = { { 1, 1 }, { 1, 1 }, { 1, 1 }, { 1, 1 },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  476  			      { 1, 1 }, { 1, 1 }, { 1, 1 }, { 1, 1 } },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  477  	.detailed_timings = { {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21 @478  		.pixel_clock = 3383,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  479  		/* hactive = 848, hblank = 256 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  480  		.data.pixel_data.hactive_lo = 0x50,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  481  		.data.pixel_data.hblank_lo = 0x00,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  482  		.data.pixel_data.hactive_hblank_hi = 0x31,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  483  		/* vactive = 480, vblank = 28 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  484  		.data.pixel_data.vactive_lo = 0xe0,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  485  		.data.pixel_data.vblank_lo = 0x1c,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  486  		.data.pixel_data.vactive_vblank_hi = 0x10,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  487  		/* hsync offset 40 pw 128, vsync offset 1 pw 4 */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  488  		.data.pixel_data.hsync_offset_lo = 0x28,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  489  		.data.pixel_data.hsync_pulse_width_lo = 0x80,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  490  		.data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  491  		.data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  492  		/* Digital separate syncs, hsync+, vsync+ */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  493  		.data.pixel_data.misc = 0x1e,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  494  	}, {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  495  		.pixel_clock = 0,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21 @496  		.data.other_data.type = 0xfd, /* Monitor ranges */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  497  		.data.other_data.data.range.min_vfreq = 59,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  498  		.data.other_data.data.range.max_vfreq = 61,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  499  		.data.other_data.data.range.min_hfreq_khz = 29,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  500  		.data.other_data.data.range.max_hfreq_khz = 32,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  501  		.data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  502  		.data.other_data.data.range.flags = 0,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  503  		.data.other_data.data.range.formula.cvt = {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  504  			0xa0, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  505  	}, {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  506  		.pixel_clock = 0,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  507  		.data.other_data.type = 0xfc, /* Model string */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  508  		.data.other_data.data.str.str = {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  509  			'P', 'r', 'o', 'j', 'e', 'c', 't', 'o', 'r', '\n',
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  510  			' ', ' ',  ' ' },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  511  	}, {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  512  		.pixel_clock = 0,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  513  		.data.other_data.type = 0xfe, /* Unspecified text / padding */
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  514  		.data.other_data.data.str.str = {
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  515  			'\n', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  516  			' ', ' ',  ' ' },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  517  	} },
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  518  	.checksum = 0x13,
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  519  };
-e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  520  
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+
+RaphaÃ«l Gallais-Pou
+
