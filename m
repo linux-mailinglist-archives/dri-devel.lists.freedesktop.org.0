@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77B74E9A24
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 16:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0904E9A80
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA3310E9DF;
-	Mon, 28 Mar 2022 14:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E41E310EB2D;
+	Mon, 28 Mar 2022 15:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D961510E9DF
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 14:52:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id CF2831F40887
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1648479142;
- bh=XMWA9qgWgkC/u71lI6wm/PuAiM5oal1tM//wU28I3+Q=;
- h=From:To:Cc:Subject:Date:From;
- b=KpxYfx5mPacmgWtvt0niX7ZGuHbYIYeRj0xTOMgZP7XUOchwKhPwRxny07to7LuBj
- OJ9HizD4Ma3B8gwDFN+9W6uFPYL7qjVnfWl+BvvWvZ71uxSlsB1qTCFTtP7oNLmHt0
- VO60a4vdL+8Tzth/2i8qMPikMX4EvoI1wuoIsKaU+uGJ5GZ6SpZp01QjQAg07TETb5
- +2xfAt/nS2ciDJbTItTh6LFd1P+xmEahKdg5pFrj6iwE8nodPW0W/QA8WEJroO8oHn
- NyOHs7sVRdDzrysFgIdJhWpuwT5RolACCr4aozGJN2gMfrtIntI3EHQ8WngSSSThs3
- aVDTi9XfD5/GA==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v2] phy: mediatek: phy-mtk-mipi-dsi: Simplify with
- dev_err_probe()
-Date: Mon, 28 Mar 2022 16:52:17 +0200
-Message-Id: <20220328145217.228457-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B47D10EB2D;
+ Mon, 28 Mar 2022 15:09:37 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id v75so15922723oie.1;
+ Mon, 28 Mar 2022 08:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hR1jRa2phyLv14hWOxaM9+j9CCvuPKpyIhWccqDJKiU=;
+ b=q1gM3zTfmWHCf8RU3HwJ+H7QV2DOiLw1oZW8RtIgSzfBccBwuCoDKBY7C7NT6lfK2D
+ rqokHdDdmod7qFO37x1EXvmQjBwhfOcvlfZd1pscXE7tzOBmgW5htBMVaGGaHJCxIeeC
+ 1CBkoqNPJChehR1D3sC156ACkHB1/fnVlgTZb0LGlJyAvY1aGUJDbYFtGzRa/Qdz/wNB
+ RiThumDOlZVctTz9UQwkWw/6Pv2sAbTbVk/4vG9ZeL1Xqx++EAlDP2BmHNnNemH3C9QK
+ 1o6cDTpzG8xvoNJx15+jEpUtPtzy7IJpJVfguwKrR20wYhJ06ZC5QPYMtgijyjbtVhVv
+ MrwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hR1jRa2phyLv14hWOxaM9+j9CCvuPKpyIhWccqDJKiU=;
+ b=ilYbjlbYCwlfeokPq4bKl8ZeKegUMCD60NK5kSyz3UIHm04XryJXGgPUYZ5A4rC35B
+ 8P9ksQaYudYanvH1qcC/gNUPg5ZTvgfC18Z8ECgIM11sDaOM++ENAptT9cdGpOgnvKfs
+ hQqgSQyNWzJUIBva9wbWthAecnE092FqhPuMMUOYQkFDpAVUDjPVDfPVbaDmje6TZt9m
+ wjr8jzPk/NTkmSw+H8NDkiFVpsJ/eujGC+RLe/N23NJ4vV6L/GZbb7mZ7bPdCUl900xG
+ zcAfbgqWmuFaPeLRd7WFq05bl9FcqhllPJkhz9lzs0J3Kyh+LPHtk5F1Hvr7NVEMJPoe
+ HOTA==
+X-Gm-Message-State: AOAM530cy1qoxLWSYxbhJeIwvvThW3sC5WdHxlUC8M5hGH7s1SgYoKsg
+ ppHe/l6oRFDhdZfNsPTVWxIg4nis8YjVTId+WIA=
+X-Google-Smtp-Source: ABdhPJxXs81P8Av3G60zCVlTmece1KGzOmPai54eYxv81AImIsCyKHUBwW5lMB+xR1oBt7wsD0hEkM4fezshtDOT7GI=
+X-Received: by 2002:a05:6808:df1:b0:2ec:b193:ad6c with SMTP id
+ g49-20020a0568080df100b002ecb193ad6cmr15958905oic.200.1648480174953; Mon, 28
+ Mar 2022 08:09:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220326233726.14712-1-rdunlap@infradead.org>
+In-Reply-To: <20220326233726.14712-1-rdunlap@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 28 Mar 2022 11:09:23 -0400
+Message-ID: <CADnq5_Oed23CBfdsnOaacSZem=Kk8okJa06YHJHUkmTMp13ufw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: DCN3.1: don't mark as kernel-doc
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kishon@ti.com, matthias.bgg@gmail.com,
- vkoul@kernel.org, linux-mediatek@lists.infradead.org,
- chunfeng.yun@mediatek.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, patches@lists.linux.dev,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the dev_err_probe() helper to simplify error handling during probe.
+Applied.  Thanks!
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
+Alex
 
-v2: Sorry, v1 was only partial as I have accidentally sent the
-    wrong patch file. Fixed for v2.
-
- drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 29 +++++++++----------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-index 67b005d5b9e3..28506932bd91 100644
---- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-+++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
-@@ -154,11 +154,9 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
- 		return PTR_ERR(mipi_tx->regs);
- 
- 	ref_clk = devm_clk_get(dev, NULL);
--	if (IS_ERR(ref_clk)) {
--		ret = PTR_ERR(ref_clk);
--		dev_err(dev, "Failed to get reference clock: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(ref_clk))
-+		return dev_err_probe(dev, PTR_ERR(ref_clk),
-+				     "Failed to get reference clock\n");
- 
- 	ret = of_property_read_u32(dev->of_node, "drive-strength-microamp",
- 				   &mipi_tx->mipitx_drive);
-@@ -178,27 +176,20 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
- 
- 	ret = of_property_read_string(dev->of_node, "clock-output-names",
- 				      &clk_init.name);
--	if (ret < 0) {
--		dev_err(dev, "Failed to read clock-output-names: %d\n", ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to read clock-output-names\n");
- 
- 	clk_init.ops = mipi_tx->driver_data->mipi_tx_clk_ops;
- 
- 	mipi_tx->pll_hw.init = &clk_init;
- 	mipi_tx->pll = devm_clk_register(dev, &mipi_tx->pll_hw);
--	if (IS_ERR(mipi_tx->pll)) {
--		ret = PTR_ERR(mipi_tx->pll);
--		dev_err(dev, "Failed to register PLL: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(mipi_tx->pll))
-+		return dev_err_probe(dev, PTR_ERR(mipi_tx->pll), "Failed to register PLL\n");
- 
- 	phy = devm_phy_create(dev, NULL, &mtk_mipi_tx_ops);
--	if (IS_ERR(phy)) {
--		ret = PTR_ERR(phy);
--		dev_err(dev, "Failed to create MIPI D-PHY: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(phy))
-+		return dev_err_probe(dev, PTR_ERR(phy), "Failed to create MIPI D-PHY\n");
-+
- 	phy_set_drvdata(phy, mipi_tx);
- 
- 	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
--- 
-2.35.1
-
+On Sat, Mar 26, 2022 at 7:37 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> There is no need for this one static function to be marked as
+> kernel-doc notation.
+>
+> Avoid this doc build warning:
+>
+> warning: This comment starts with '/**', but isn't a kernel-doc comment. =
+Refer Documentation/doc-guide/kernel-doc.rst
+>  * Enable CRTC
+>
+> Fixes: 110d3968fe95 ("drm/amd/display: Add DCN3.1 OPTC")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dcn31/dcn31_optc.c |    3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> --- linux-next-20220325.orig/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_o=
+ptc.c
+> +++ linux-next-20220325/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_optc.c
+> @@ -91,8 +91,7 @@ static void optc31_set_odm_combine(struc
+>         optc1->opp_count =3D opp_cnt;
+>  }
+>
+> -/**
+> - * Enable CRTC
+> +/*
+>   * Enable CRTC - call ASIC Control Object to enable Timing generator.
+>   */
+>  static bool optc31_enable_crtc(struct timing_generator *optc)
