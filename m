@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB7B4E9A8A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:11:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5044E9A91
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18D810EC2A;
-	Mon, 28 Mar 2022 15:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F344410EC78;
+	Mon, 28 Mar 2022 15:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2283C10EC2A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:11:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF5510EC68
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:11:41 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nYr1f-00006B-Ii; Mon, 28 Mar 2022 17:11:23 +0200
+ id 1nYr1f-00006G-J5; Mon, 28 Mar 2022 17:11:23 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nYr1a-003cTF-Le; Mon, 28 Mar 2022 17:11:21 +0200
+ id 1nYr1b-003cTU-IP; Mon, 28 Mar 2022 17:11:22 +0200
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nYr1a-008XLm-K2; Mon, 28 Mar 2022 17:11:18 +0200
+ id 1nYr1a-008XLq-Kv; Mon, 28 Mar 2022 17:11:18 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 18/23] arm64: dts: rockchip: rk3568-evb: Enable VOP2 and
- hdmi
-Date: Mon, 28 Mar 2022 17:11:11 +0200
-Message-Id: <20220328151116.2034635-19-s.hauer@pengutronix.de>
+Subject: [PATCH v9 19/23] arm64: dts: rockchip: enable vop2 and hdmi tx on
+ quartz64a
+Date: Mon, 28 Mar 2022 17:11:12 +0200
+Message-Id: <20220328151116.2034635-20-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220328151116.2034635-1-s.hauer@pengutronix.de>
 References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
@@ -62,10 +62,12 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This enabled the VOP2 display controller along with hdmi and the
-required port routes which is enough to get a picture out of the
-hdmi port of the board.
+From: Michael Riesch <michael.riesch@wolfvision.net>
 
+Enable the RK356x Video Output Processor (VOP) 2 on the Pine64
+Quartz64 Model A.
+
+Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 
@@ -79,23 +81,23 @@ Notes:
     Changes since v3:
     - Fix HDMI connector type
 
- .../boot/dts/rockchip/rk3568-evb1-v10.dts     | 47 +++++++++++++++++++
+ .../boot/dts/rockchip/rk3566-quartz64-a.dts   | 47 +++++++++++++++++++
  1 file changed, 47 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-index a794a0ea5c701..096b66d7697e2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-@@ -8,6 +8,7 @@
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
+index dd7f4b9b686b8..6504f7ab3ea77 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
+@@ -4,6 +4,7 @@
+ 
  #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/leds/common.h>
  #include <dt-bindings/pinctrl/rockchip.h>
 +#include <dt-bindings/soc/rockchip,vop2.h>
- #include "rk3568.dtsi"
+ #include "rk3566.dtsi"
  
  / {
-@@ -34,6 +35,17 @@ dc_12v: dc-12v {
- 		regulator-max-microvolt = <12000000>;
+@@ -35,6 +36,17 @@ fan: gpio_fan {
+ 		#cooling-cells = <2>;
  	};
  
 +	hdmi-con {
@@ -112,13 +114,13 @@ index a794a0ea5c701..096b66d7697e2 100644
  	leds {
  		compatible = "gpio-leds";
  
-@@ -189,6 +201,24 @@ &gpu {
+@@ -248,6 +260,24 @@ &gpu {
  	status = "okay";
  };
  
 +&hdmi {
-+	avdd-0v9-supply = <&vdda0v9_image>;
-+	avdd-1v8-supply = <&vcca1v8_image>;
++	avdd-0v9-supply = <&vdda_0v9>;
++	avdd-1v8-supply = <&vcc_1v8>;
 +	status = "okay";
 +};
 +
@@ -137,8 +139,8 @@ index a794a0ea5c701..096b66d7697e2 100644
  &i2c0 {
  	status = "okay";
  
-@@ -589,3 +619,20 @@ &usb2phy1_otg {
- 	phy-supply = <&vcc5v0_usb_host>;
+@@ -685,3 +715,20 @@ &usb2phy1_otg {
+ 	phy-supply = <&vcc5v0_usb20_host>;
  	status = "okay";
  };
 +
