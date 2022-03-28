@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B57B4E9D31
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 19:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582114E9D65
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 19:22:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0507710E348;
-	Mon, 28 Mar 2022 17:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA9A10E729;
+	Mon, 28 Mar 2022 17:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DF710E22F;
- Mon, 28 Mar 2022 17:16:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D6B66B81123;
- Mon, 28 Mar 2022 17:16:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E380C340F0;
- Mon, 28 Mar 2022 17:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648487784;
- bh=o14EgBIuBc/4hkkPdrc5dpLxJVeRUhse87xGCCnnTtE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DkVASHPDf7Lp+C5wh52bc+X1BzB4Dao314D1FoJjWLbb5s+2hb6PJh1EVKiWtNiM3
- xQeX9+olf3lt0FAL0khKzGyPPLxwkE/+WFTFs/AFjdwl2tSMFjj43ubNPugBIFXZoh
- 4/BR93Plhr7H35FHGEYD3qnM8N2t7SrD58TbBrEX8WGjDaQ5vedHSNYQ8WmdLkV1qY
- xmFjxJdZhMLglZQj4jrusVBPuQeje4TjzUEbMeRxyTPg58UjgS2iAVTAQgXVZSIgqa
- 4i2CBGb4qY5kC2CuFCPmOgCxOzWmLhfInCj7/D0yWzdYT2ry+OfwzrldoVYs26kxg5
- Hre5eJTpqwytA==
-Date: Mon, 28 Mar 2022 22:46:19 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: msm: dsi: remove address/size cells
-Message-ID: <YkHtY9absUjmqmW7@matsya>
-References: <20220328152923.90623-1-krzysztof.kozlowski@linaro.org>
- <CAA8EJprWoxWwk5EWEfWdLquPR+2=u6V0-v1-+wHMHOk8HiEyNw@mail.gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3E7710E260;
+ Mon, 28 Mar 2022 17:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648488172; x=1680024172;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HfsPiLq0ztSHr3s8CMgV1b/7E5GBr73iPbkBKW7wxVY=;
+ b=TZ4e5UkBswwdqzFgt6P6Gr30pjKJnX5Mw6KZXaf9uZj0P1V4ehvglXjZ
+ iDAKq4cuMPfNfgGf+9yGGf/vnqVPpsmo0IcEjd/BAdVuk+RGGlk8YNYbW
+ 099QJ+YEomVA9XFhAeCLwgnf3KAx0NapTA2vyVOohV7rdpKrXb/U0h6sI
+ vZFpOj4FffgzFTjpaadlBatdYlHhe0xTWdZgtt9L1wj3SwsXhIC3u9Bgj
+ Pj95zCa3gLkEIBjc89SgJ3SYGhjjTBtnReIb3A3Yciz3RQMu3li/t9yJI
+ rOBto/O/FyEeTE1X/N8IXwdsMA1VNbPrPFFjPt8alZCGfbVfCyNHxF2Vk w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="345496453"
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="345496453"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 10:22:51 -0700
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="694438281"
+Received: from fphy-dev.jf.intel.com (HELO fyang16-desk.jf.intel.com)
+ ([134.134.244.167])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 10:22:51 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: avoid concurrent writes to aux_inv
+Date: Mon, 28 Mar 2022 10:16:50 -0700
+Message-Id: <20220328171650.1900674-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprWoxWwk5EWEfWdLquPR+2=u6V0-v1-+wHMHOk8HiEyNw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +54,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: stuart.summers@intel.com, Fei Yang <fei.yang@intel.com>,
+ chris.p.wilson@intel.com, dri-devel@lists.freedesktop.org,
+ tvrtko.ursulin@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28-03-22, 19:43, Dmitry Baryshkov wrote:
-> On Mon, 28 Mar 2022 at 18:30, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> >
-> > The DSI node is not a bus and the children do not have unit addresses.
-> >
-> > Reported-by: Vinod Koul <vkoul@kernel.org>
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> NAK.
-> DSI panels are children of the DSI device tree node with the reg = <0>; address.
-> This is the convention used by other platforms too (see e.g.
-> arch/arm64/boot/dts/freescale/imx8mq-evk.dts).
+From: Fei Yang <fei.yang@intel.com>
 
-So we should add reg = 0, i will update my dtsi fix
+GPU hangs have been observed when multiple engines write to the
+same aux_inv register at the same time. To avoid this each engine
+should only invalidate its own auxiliary table. The function
+gen12_emit_flush_xcs() currently invalidate the auxiliary table for
+all engines because the rq->engine is not necessarily the engine
+eventually carrying out the request, and potentially the engine
+could even be a virtual one (with engine->instance being -1).
+With the MMIO remap feature, we can actually set bit 17 of MI_LRI
+instruction and let the hardware to figure out the local aux_inv
+register at runtime to avoid invalidating auxiliary table for all
+engines.
 
-> With the DSI split link it is possible to attach two panels to a
-> single DSI host, so addresses are necessary.
-> 
-> > ---
-> >  .../bindings/display/msm/dsi-controller-main.yaml          | 7 -------
-> >  1 file changed, 7 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> > index 7095ec3c890d..57f238f72326 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> > @@ -51,10 +51,6 @@ properties:
-> >    phy-names:
-> >      const: dsi
-> >
-> > -  "#address-cells": true
-> > -
-> > -  "#size-cells": true
-> > -
-> >    syscon-sfpb:
-> >      description: A phandle to mmss_sfpb syscon node (only for DSIv2).
-> >      $ref: "/schemas/types.yaml#/definitions/phandle"
-> > @@ -154,9 +150,6 @@ examples:
-> >             reg = <0x0ae94000 0x400>;
-> >             reg-names = "dsi_ctrl";
-> >
-> > -           #address-cells = <1>;
-> > -           #size-cells = <0>;
-> > -
-> >             interrupt-parent = <&mdss>;
-> >             interrupts = <4>;
-> >
-> > --
-> > 2.32.0
-> >
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
+Bspec: 45728
 
+v2: Invalidate AUX table for indirect context as well.
+
+Cc: Stuart Summers <stuart.summers@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+Signed-off-by: Fei Yang <fei.yang@intel.com>
+---
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 50 +++++---------------
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h     |  4 +-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c          | 12 +++++
+ 4 files changed, 27 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 36148887c699..047b5a710149 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -6,7 +6,6 @@
+ #include "gen8_engine_cs.h"
+ #include "i915_drv.h"
+ #include "intel_gpu_commands.h"
+-#include "intel_gt_regs.h"
+ #include "intel_lrc.h"
+ #include "intel_ring.h"
+ 
+@@ -165,33 +164,9 @@ static u32 preparser_disable(bool state)
+ 	return MI_ARB_CHECK | 1 << 8 | state;
+ }
+ 
+-static i915_reg_t aux_inv_reg(const struct intel_engine_cs *engine)
++u32 *gen12_emit_aux_table_inv(u32 *cs, const i915_reg_t inv_reg)
+ {
+-	static const i915_reg_t vd[] = {
+-		GEN12_VD0_AUX_NV,
+-		GEN12_VD1_AUX_NV,
+-		GEN12_VD2_AUX_NV,
+-		GEN12_VD3_AUX_NV,
+-	};
+-
+-	static const i915_reg_t ve[] = {
+-		GEN12_VE0_AUX_NV,
+-		GEN12_VE1_AUX_NV,
+-	};
+-
+-	if (engine->class == VIDEO_DECODE_CLASS)
+-		return vd[engine->instance];
+-
+-	if (engine->class == VIDEO_ENHANCEMENT_CLASS)
+-		return ve[engine->instance];
+-
+-	GEM_BUG_ON("unknown aux_inv reg\n");
+-	return INVALID_MMIO_REG;
+-}
+-
+-static u32 *gen12_emit_aux_table_inv(const i915_reg_t inv_reg, u32 *cs)
+-{
+-	*cs++ = MI_LOAD_REGISTER_IMM(1);
++	*cs++ = MI_LOAD_REGISTER_IMM(1) | MI_LRI_MMIO_REMAP_EN;
+ 	*cs++ = i915_mmio_reg_offset(inv_reg);
+ 	*cs++ = AUX_INV;
+ 	*cs++ = MI_NOOP;
+@@ -274,7 +249,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 
+ 		if (!HAS_FLAT_CCS(rq->engine->i915)) {
+ 			/* hsdes: 1809175790 */
+-			cs = gen12_emit_aux_table_inv(GEN12_GFX_CCS_AUX_NV, cs);
++			cs = gen12_emit_aux_table_inv(cs, GEN12_GFX_CCS_AUX_NV);
+ 		}
+ 
+ 		*cs++ = preparser_disable(false);
+@@ -293,10 +268,12 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 	if (mode & EMIT_INVALIDATE) {
+ 		cmd += 2;
+ 
+-		if (!HAS_FLAT_CCS(rq->engine->i915)) {
++		if (!HAS_FLAT_CCS(rq->engine->i915) &&
++		    (rq->engine->class == VIDEO_DECODE_CLASS ||
++		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
+ 			aux_inv = rq->engine->mask & ~BIT(BCS0);
+ 			if (aux_inv)
+-				cmd += 2 * hweight32(aux_inv) + 2;
++				cmd += 4;
+ 		}
+ 	}
+ 
+@@ -329,15 +306,10 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 	*cs++ = 0; /* value */
+ 
+ 	if (aux_inv) { /* hsdes: 1809175790 */
+-		struct intel_engine_cs *engine;
+-		unsigned int tmp;
+-
+-		*cs++ = MI_LOAD_REGISTER_IMM(hweight32(aux_inv));
+-		for_each_engine_masked(engine, rq->engine->gt, aux_inv, tmp) {
+-			*cs++ = i915_mmio_reg_offset(aux_inv_reg(engine));
+-			*cs++ = AUX_INV;
+-		}
+-		*cs++ = MI_NOOP;
++		if (rq->engine->class == VIDEO_DECODE_CLASS)
++			cs = gen12_emit_aux_table_inv(cs, GEN12_VD0_AUX_NV);
++		else
++			cs = gen12_emit_aux_table_inv(cs, GEN12_VE0_AUX_NV);
+ 	}
+ 
+ 	if (mode & EMIT_INVALIDATE)
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+index cc6e21d3662a..107ab42539ab 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+@@ -10,7 +10,7 @@
+ #include <linux/types.h>
+ 
+ #include "i915_gem.h" /* GEM_BUG_ON */
+-
++#include "intel_gt_regs.h"
+ #include "intel_gpu_commands.h"
+ 
+ struct i915_request;
+@@ -38,6 +38,8 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ 
++u32 *gen12_emit_aux_table_inv(u32 *cs, const i915_reg_t inv_reg);
++
+ static inline u32 *
+ __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index d112ffd56418..4243be030bc1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -144,6 +144,7 @@
+ #define MI_LOAD_REGISTER_IMM(x)	MI_INSTR(0x22, 2*(x)-1)
+ /* Gen11+. addr = base + (ctx_restore ? offset & GENMASK(12,2) : offset) */
+ #define   MI_LRI_LRM_CS_MMIO		REG_BIT(19)
++#define   MI_LRI_MMIO_REMAP_EN		REG_BIT(17)
+ #define   MI_LRI_FORCE_POSTED		(1<<12)
+ #define MI_LOAD_REGISTER_IMM_MAX_REGS (126)
+ #define MI_STORE_REGISTER_MEM        MI_INSTR(0x24, 1)
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index 07bef7128fdb..dffef6ab4baf 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -1208,6 +1208,10 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
+ 	    IS_DG2_G11(ce->engine->i915))
+ 		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
+ 
++	/* hsdes: 1809175790 */
++	if (!HAS_FLAT_CCS(ce->engine->i915))
++		cs = gen12_emit_aux_table_inv(cs, GEN12_GFX_CCS_AUX_NV);
++
+ 	return cs;
+ }
+ 
+@@ -1225,6 +1229,14 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
+ 						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
+ 						    0);
+ 
++	/* hsdes: 1809175790 */
++	if (!HAS_FLAT_CCS(ce->engine->i915)) {
++		if (ce->engine->class == VIDEO_DECODE_CLASS)
++			cs = gen12_emit_aux_table_inv(cs, GEN12_VD0_AUX_NV);
++		else if (ce->engine->class == VIDEO_ENHANCEMENT_CLASS)
++			cs = gen12_emit_aux_table_inv(cs, GEN12_VE0_AUX_NV);
++	}
++
+ 	return cs;
+ }
+ 
 -- 
-~Vinod
+2.25.1
+
