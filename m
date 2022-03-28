@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EC24E9F05
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 20:35:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AE24E9F09
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 20:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E904310E069;
-	Mon, 28 Mar 2022 18:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C464810E771;
+	Mon, 28 Mar 2022 18:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308ED10E069;
- Mon, 28 Mar 2022 18:35:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E090510E246;
+ Mon, 28 Mar 2022 18:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648492524; x=1680028524;
+ t=1648492590; x=1680028590;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=/wk4ZM7GbD3St1mwGOgCitIXOyDKEPXbnLT1xfJ99fQ=;
- b=a+oaIHq54aFnS4vf5hOcxacuwJDaf/l6iZ2AHAGwjqrpXhCpOQsQsIDI
- yIxsep4Y4GKJF6RKqXcALPpMQKKYmqj9zwDiZcSt9g8kCEjNTMc6Pa1Mg
- snEy5LM1b97QZCtg8Zq4lirDHaCI9uex0DxTTUWgmlxFOnX0WT5Rwbsxy
- 9PaeKLOWg3fTN9g/38XB+meTeiAiBT0nUG0yEZYt8BqYp08stQvEG2zlu
- apJH0o2gx72cTspjmD3q8IcfYtI04B8yd5BfR2lLSw5kepaXCNLWM/Ziv
- uSyopr4r0RDeffKtfV+x4YEhYcgkDwe8xIrOtigZoMIr5pTHsuYLdlelK A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="322264167"
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="322264167"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ message-id:mime-version;
+ bh=yzeVvCY6eqwG29hVG/giVQ00H2WTTuSc9twI97r1Ap8=;
+ b=ZO2VNwVETm+XQq7Wk6Dhp4fErg1pvoL4EWNYAGAe11n/LEIQNKoj024w
+ a8BAkFA1231gKc4gmjSpmrWjMVoPxFuEq8toqMJCkaebXHEN9Z4nDXiDr
+ WGG/r+0rh66P0634XBkz8optsh9Q035rVf5i1Ci2omNgHYKgJjdeFwbF4
+ ngXEHMRs/1LjRv9QVJ4Y3JmISuLYw9kl/8AbUJl42xpE4eWJ6TG/rLbX/
+ XeBKtajdNJKvBMAKMeYwjkXJ0uSSRwSnDENsZDXn4zDeF2rSwd6IamjwM
+ 505JWbpSDXj7Mux9Xai97Bc1F7l1yb9NglipHqELEVYkBvkJII3UtPLwE g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="322264360"
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="322264360"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 11:35:23 -0700
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="563897238"
+ 28 Mar 2022 11:36:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="546070526"
 Received: from aysivtso-mobl.ccr.corp.intel.com (HELO localhost)
  ([10.252.62.56])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 11:35:21 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 11:36:28 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 12/12] drm/edid: split drm_add_edid_modes() to two
-In-Reply-To: <YkH02F/kGQSBQDi+@intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH v3 00/12] drm/edid: constify EDID parsing, with fixes
+In-Reply-To: <CACvgo53Mx7qMt7_xC32vG+yQu8xEOF9N-iruS1FDRmVMUKaHDQ@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1648477901.git.jani.nikula@intel.com>
- <437c3c79f68d1144444fb2dd18a678f3aa97272c.1648477901.git.jani.nikula@intel.com>
- <YkH02F/kGQSBQDi+@intel.com>
-Date: Mon, 28 Mar 2022 21:35:13 +0300
-Message-ID: <878rsudixq.fsf@intel.com>
+ <CACvgo53Mx7qMt7_xC32vG+yQu8xEOF9N-iruS1FDRmVMUKaHDQ@mail.gmail.com>
+Date: Mon, 28 Mar 2022 21:36:19 +0300
+Message-ID: <875ynxexgc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,116 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Mon, Mar 28, 2022 at 05:34:33PM +0300, Jani Nikula wrote:
->> Reduce the size of the function that actually modifies the EDID.
->>=20
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid.c | 42 ++++++++++++++++++++++----------------
->>  1 file changed, 24 insertions(+), 18 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index d1abaa517867..d79b06f7f34c 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -5561,18 +5561,8 @@ static int add_displayid_detailed_modes(struct dr=
-m_connector *connector,
->>  	return num_modes;
->>  }
->>=20=20
->> -/**
->> - * drm_add_edid_modes - add modes from EDID data, if available
->> - * @connector: connector we're probing
->> - * @edid: EDID data
->> - *
->> - * Add the specified modes to the connector's mode list. Also fills out=
- the
->> - * &drm_display_info structure and ELD in @connector with any informati=
-on which
->> - * can be derived from the edid.
->> - *
->> - * Return: The number of modes added or 0 if we couldn't find any.
->> - */
->> -int drm_add_edid_modes(struct drm_connector *connector, struct edid *ed=
-id)
->> +static int drm_edid_connector_update(struct drm_connector *connector,
->> +				     const struct edid *edid)
->>  {
->>  	int num_modes =3D 0;
->>  	u32 quirks;
->> @@ -5581,12 +5571,6 @@ int drm_add_edid_modes(struct drm_connector *conn=
-ector, struct edid *edid)
->>  		clear_eld(connector);
->>  		return 0;
->>  	}
->> -	if (!drm_edid_is_valid(edid)) {
->> -		clear_eld(connector);
->> -		drm_warn(connector->dev, "%s: EDID invalid.\n",
->> -			 connector->name);
->> -		return 0;
->> -	}
->>=20=20
->>  	drm_edid_to_eld(connector, edid);
->>=20=20
->> @@ -5638,6 +5622,28 @@ int drm_add_edid_modes(struct drm_connector *conn=
-ector, struct edid *edid)
->>=20=20
->>  	return num_modes;
->>  }
->> +
->> +/**
->> + * drm_add_edid_modes - add modes from EDID data, if available
->> + * @connector: connector we're probing
->> + * @edid: EDID data
->> + *
->> + * Add the specified modes to the connector's mode list. Also fills out=
- the
->> + * &drm_display_info structure and ELD in @connector with any informati=
-on which
->> + * can be derived from the edid.
->> + *
->> + * Return: The number of modes added or 0 if we couldn't find any.
->> + */
->> +int drm_add_edid_modes(struct drm_connector *connector, struct edid *ed=
-id)
->> +{
->> +	if (edid && !drm_edid_is_valid(edid)) {
+On Mon, 28 Mar 2022, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> On Mon, 28 Mar 2022 at 15:34, Jani Nikula <jani.nikula@intel.com> wrote:
+>>
+>> v3 of https://patchwork.freedesktop.org/series/101787/ and
+>> https://patchwork.freedesktop.org/series/101862/
+>>
+>> I screwed up with the struct renamings in v2, so there's some falling
+>> back to v1 and general confusion here. Sorry.
+>>
 >
-> drm_edid_is_valid() is very poorly named since it can mutate the EDID.
-> Also calling it here is kinda crazy instead of just validating when we
-> originally read the EDID. But those are things for to be fixed later.
+> The mutation and casting was doing my head - thanks for sorting this out.
+>
+> IMHO in the future we might want to (re)move the final mutation -
+> header fixup - out of drm_edid_is_valid (drm_edid_block_valid really).
+> Say by making it explicit and applying on DP only (as per the inline
+> spec mention).
+> But that is for another day.
 
-I'm trying to wrap my head around all this, but this might be the only
-validation for override or firmware EDIDs. Which really should happen
-much earlier. There's a lot of technical debt here.
+Yes, there's a bunch more things to do, and patches will follow!
 
-Thanks for the review!
+> As-is the series is:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+
+Thanks!
 
 BR,
 Jani.
 
-
 >
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
->> +		drm_warn(connector->dev, "%s: EDID invalid.\n",
->> +			 connector->name);
->> +		edid =3D NULL;
->> +	}
->> +
->> +	return drm_edid_connector_update(connector, edid);
->> +}
->>  EXPORT_SYMBOL(drm_add_edid_modes);
->>=20=20
->>  /**
->> --=20
->> 2.30.2
+> HTH
+> Emil
 
---=20
+-- 
 Jani Nikula, Intel Open Source Graphics Center
