@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259534E9B35
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFF94E9B37
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB4A10ED54;
-	Mon, 28 Mar 2022 15:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889D110ED55;
+	Mon, 28 Mar 2022 15:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB2610ED53
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:08 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 9BE803201E00;
- Mon, 28 Mar 2022 11:37:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 28 Mar 2022 11:37:07 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 136D510ED55
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1D73A3201D9C;
+ Mon, 28 Mar 2022 11:37:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 28 Mar 2022 11:37:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=Y44JGw0nAmMFW76fyDAc3fwphRtxjT
- PHRw7UpRh2K8c=; b=hlrjUpOSTg2B0ihUZ/uTQDKlpPTn05ce6TeHc5sDRVSLMW
- SBUxUSpT+KiR148mMqz4TGTBHw5SYEAUOXujzENVuTjgibcxk15LILlgbvHBXC73
- EC0GZb0Y4lYddb12Rp94CYaKsfr4H7b8nS/U6UIxdkFe/YC8V/6l22zvDstpO445
- IWTZS8VZBT/5ZAZlyVXXgrwMv0PXFxm+VCDw9rYGelWjx8u0fEDTluVmgGNnt20a
- JVLb4e4NcsDteSlRtaHKdMqAzREt52ACSa49f9ViUjZfd9HpCb4Q954Lyq3EHJGG
- YZcpwRGuoBL5M5VzpvjqnOYcZPpegY3mwdBOQaTQ==
+ :subject:subject:to:to; s=fm3; bh=BTFEW2YB+xCxRLmVxsqpo5am8ZrxgH
+ R3dxBUSRqIfLA=; b=k9R5XmRWKTLwDUAbMnIfxJqBjxdBjAWAOrcVwYRRIUkB53
+ kOF1LhdBFA6ZuTOkkTKznMcaBI0+UIFRTQ6w4rTM2v0cFJGe60LUjddSI/N1Prds
+ SBmbMld0Iovf67VBTFvDuWe0zf/wqmBeZrSoFMhyCjgKIg9ZT4OWoopmRDtjQa2L
+ iiTUPTUlZDdMvUv8e2w5KIjzK+pV4kIuj5pGZDDEDp9MRVcFSmFgHFmhOZwVySZ8
+ j0+r2l/8Y2HdNaRylUgMmvDXDXwx2KwnKDhP3/sBaCYqlhhUIIHy4H6hhWzjwxi0
+ uhG58xkkSChyzk66l0iiFgkzBG/CnBoVoUeffCNQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y44JGw
- 0nAmMFW76fyDAc3fwphRtxjTPHRw7UpRh2K8c=; b=ExkpA/cAmpMda5ABTIN7Qe
- Xn0JzIdY8e55B81SO4e6BCXx3q/vzfIQZ2e9YtHwZ7TPMvXcgj358zDXTPVBlYPv
- xJWI49MuvbZOGJx03Hiw+0ZmKMSxYVRecTzWQZgoB3VC2U5DYxlBwEjEMpr0YYWj
- WCTtlAAnj/0JLC5ux5J7lT1HIo8xGmRVzFQ3PZPMGrSD37j+MqwxPiMqt4bp5BdC
- TvPIC9w+WnZpGM+gzYp8lqhKIce8myRV/tRoelyYD3R9bvtCitOczxqjqnmCc17k
- h+oTcFm0U9Q8rFlZaLAfqty4buLIprT6FrZOMFqTMT02DEDZT8tN5/wefdSLQBmg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BTFEW2
+ YB+xCxRLmVxsqpo5am8ZrxgHR3dxBUSRqIfLA=; b=nZ8jUTlh4ihvujiFVst4qE
+ CQp7gU9Uc5ON2SjxFrBCrOQimNoE0uLdFZXEcONWcJWoNlU43NhQrjSM9hvASM4d
+ ZE4AgJt/05ENcpZ6NdB2fysZsJOgXVrX3RPEWJMLwH4neIUxUlgNZV9ViaqZOIhk
+ MsCZQfz9DqMNIOblgzw7Wv9CRvKUgqjtfpvg9TB7LXWN65TWJcBPDF823JJauMCV
+ XOZ/u4wsG6NsK0YGtbLc1UQt08GSa5SNl63sZ3fn7SvtSaSyWzIRGaFnCU2WxaCb
+ PGY8QbgX0Ot/QHQVRaQXFFxeOPycapV0YP3Uq3ObTDDZrbKDSbiV+68QciwXzKWg
  ==
-X-ME-Sender: <xms:IdZBYmzW0PU2zXR5SzulHchuBieus-FFwyZS4tI2oK-q2VLHjYj9IA>
- <xme:IdZBYiRwFuZCVUdIScEqLhBoKuagBi0C8Zwf03Z_YuSCP2kAiQqfprvAToBQJIePi
- vZHOL6G2l4n7nv4bRM>
-X-ME-Received: <xmr:IdZBYoVv3rBbZEsu17n-ftVSiDSvfR-bq2YyPPqJ2lP1M-651jojPPKfxyLJ2IwFP6AjECNSD7adiu1FBIrZiO6X6oAVbNaYQbY5Jmo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgledtucetufdoteggodetrfdotf
+X-ME-Sender: <xms:JdZBYioHEnUwUGqbt3Limtzg5c9WZCoRJZK3Cg9zCKghw3-cCiEkzQ>
+ <xme:JdZBYgrlylmjwupcRf-0SDajUvuGHbToQhy-AQamWIvQqfpSG5FpuTteZHDCBQuXZ
+ -yGLjey9HZwNl67Rgs>
+X-ME-Received: <xmr:JdZBYnPZwk2oJDPpyERdftESUAaII5iwvIAtcPQRxsTZSPzQS6znSNFoAGmw5UoPT2wuL2JWyInkSKKDYUheAvzFzQ-tWUpDA3Z-1hs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
@@ -52,17 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgledtucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:IdZBYshlZpCvFafr8KDd2N9ptIsFYlWwHF2ocHiLyRhR1MNtBA0BQQ>
- <xmx:IdZBYoDKrvsHyd3jV9lj8XiK7Uq9aw7yr90sD-s0DECMocnGa-izyA>
- <xmx:IdZBYtLUQWLg8zZFzYVDdHfvSDCLNu0eJkqFxeWqtypLpVooc9SzXw>
- <xmx:ItZBYr_XSepS4tFFaiiRzE_DvNf1d-ZJxruohrymJETIN_XdcARsSw>
+X-ME-Proxy: <xmx:JdZBYh5UO6A58TWTykLwL_NMQr18rMhIltSLBmIQA3_FF8hIkmB0mw>
+ <xmx:JdZBYh6JwVL-s7pKPidR_xjWre7x8zhN8_FfW_gmKCbUlAxgyQaIHg>
+ <xmx:JdZBYhjyJgrK3P5FT6i8Mj3JdLuX3HR_vhSRf9JUywKRDT-FiPrUew>
+ <xmx:JdZBYk1-I8T49sMZFqn-9k1z5PyR7INMXBvTg3txlJjZ-OUmfWJeNA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Mar 2022 11:37:04 -0400 (EDT)
+ 28 Mar 2022 11:37:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/6] drm/vc4: hvs: Reset muxes at probe time
-Date: Mon, 28 Mar 2022 17:36:54 +0200
-Message-Id: <20220328153659.2382206-2-maxime@cerno.tech>
+Subject: [PATCH 2/6] drm/vc4: txp: Don't set TXP_VSTART_AT_EOF
+Date: Mon, 28 Mar 2022 17:36:55 +0200
+Message-Id: <20220328153659.2382206-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328153659.2382206-1-maxime@cerno.tech>
 References: <20220328153659.2382206-1-maxime@cerno.tech>
@@ -85,80 +85,33 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, the HVS driver will force the HVS output 3 to be muxed to
-the HVS channel 2. However, the Transposer can only be assigned to the
-HVS channel 2, so whenever we try to use the writeback connector, we'll
-mux its associated output (Output 2) to the channel 2.
+The TXP_VSTART_AT_EOF will generate a second VSTART signal to the HVS.
+However, the HVS waits for VSTART to enable the FIFO and will thus start
+filling the FIFO before the start of the frame.
 
-This leads to both the output 2 and 3 feeding from the same channel,
-which is explicitly discouraged in the documentation.
+This leads to corruption at the beginning of the first frame, and
+content from the previous frame at the beginning of the next frames.
 
-In order to avoid this, let's reset all the output muxes to their reset
-value.
+Since one VSTART is enough, let's get rid of it.
 
-Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
+Fixes: 008095e065a8 ("drm/vc4: Add support for the transposer block")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 604933e20e6a..911968a1c97b 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -582,6 +582,7 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_hvs *hvs = NULL;
- 	int ret;
- 	u32 dispctrl;
-+	u32 reg;
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 9809ca3e2945..ace2d03649ba 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -298,7 +298,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 	if (WARN_ON(i == ARRAY_SIZE(drm_fmts)))
+ 		return;
  
- 	hvs = devm_kzalloc(&pdev->dev, sizeof(*hvs), GFP_KERNEL);
- 	if (!hvs)
-@@ -653,6 +654,26 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 
- 	vc4->hvs = hvs;
- 
-+	reg = HVS_READ(SCALER_DISPECTRL);
-+	reg &= ~SCALER_DISPECTRL_DSP2_MUX_MASK;
-+	HVS_WRITE(SCALER_DISPECTRL,
-+		  reg | VC4_SET_FIELD(0, SCALER_DISPECTRL_DSP2_MUX));
-+
-+	reg = HVS_READ(SCALER_DISPCTRL);
-+	reg &= ~SCALER_DISPCTRL_DSP3_MUX_MASK;
-+	HVS_WRITE(SCALER_DISPCTRL,
-+		  reg | VC4_SET_FIELD(3, SCALER_DISPCTRL_DSP3_MUX));
-+
-+	reg = HVS_READ(SCALER_DISPEOLN);
-+	reg &= ~SCALER_DISPEOLN_DSP4_MUX_MASK;
-+	HVS_WRITE(SCALER_DISPEOLN,
-+		  reg | VC4_SET_FIELD(3, SCALER_DISPEOLN_DSP4_MUX));
-+
-+	reg = HVS_READ(SCALER_DISPDITHER);
-+	reg &= ~SCALER_DISPDITHER_DSP5_MUX_MASK;
-+	HVS_WRITE(SCALER_DISPDITHER,
-+		  reg | VC4_SET_FIELD(3, SCALER_DISPDITHER_DSP5_MUX));
-+
- 	dispctrl = HVS_READ(SCALER_DISPCTRL);
- 
- 	dispctrl |= SCALER_DISPCTRL_ENABLE;
-@@ -660,10 +681,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 		    SCALER_DISPCTRL_DISPEIRQ(1) |
- 		    SCALER_DISPCTRL_DISPEIRQ(2);
- 
--	/* Set DSP3 (PV1) to use HVS channel 2, which would otherwise
--	 * be unused.
--	 */
--	dispctrl &= ~SCALER_DISPCTRL_DSP3_MUX_MASK;
- 	dispctrl &= ~(SCALER_DISPCTRL_DMAEIRQ |
- 		      SCALER_DISPCTRL_SLVWREIRQ |
- 		      SCALER_DISPCTRL_SLVRDEIRQ |
-@@ -677,7 +694,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 		      SCALER_DISPCTRL_DSPEISLUR(1) |
- 		      SCALER_DISPCTRL_DSPEISLUR(2) |
- 		      SCALER_DISPCTRL_SCLEIRQ);
--	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_DSP3_MUX);
- 
- 	HVS_WRITE(SCALER_DISPCTRL, dispctrl);
+-	ctrl = TXP_GO | TXP_VSTART_AT_EOF | TXP_EI |
++	ctrl = TXP_GO | TXP_EI |
+ 	       VC4_SET_FIELD(0xf, TXP_BYTE_ENABLE) |
+ 	       VC4_SET_FIELD(txp_fmts[i], TXP_FORMAT);
  
 -- 
 2.35.1
