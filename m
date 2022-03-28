@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAAD4E9D7B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 19:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902124E9D54
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 19:20:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E17DB10E730;
-	Mon, 28 Mar 2022 17:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C09410E22F;
+	Mon, 28 Mar 2022 17:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E0D10E07B;
- Mon, 28 Mar 2022 17:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648488441; x=1680024441;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Bmb2JN+wxFbvCFtVXElXbnLErTUBbNe+5dtHQPq3zGk=;
- b=JF9XH1JNud60DXwc6GcpE4ABShKtly6F17lRFLynmxaU+zUdicnCMXPj
- fhojy1IK0ta34Y9qNU6EkxnjkTEnmPDuD4ZOpP3l7WhtPYN5JDaQR8Vv0
- BP4Jz5FGNz5e1Q/ggz8JOgEplAKyRIkZtZy53eQGFIjtLI69eIDdbvG5D
- BD7aXRC6RRwdjFXDBbfHY9Iy3SZ/XZiWr/WSk48eBAUgNE12wQJg1iInz
- P42iodYkNHeRNcw50VnThOOvOYCPh+fe/oAWNiTVC3/oMrCQUzkcUiq+Z
- wncnHEkbveZ59GwsxuCm5tqrvYHzkqOjtk4o3F5VTsRG0dLQ3KXmazJvF A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="259249209"
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="259249209"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 10:27:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="563848618"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by orsmga008.jf.intel.com with SMTP; 28 Mar 2022 10:27:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 28 Mar 2022 20:27:17 +0300
-Date: Mon, 28 Mar 2022 20:27:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 02/12] drm/edid: fix reduced blanking support check
-Message-ID: <YkHv9dC7NOKo37yu@intel.com>
-References: <cover.1648477901.git.jani.nikula@intel.com>
- <5dea5ee24065450716bbc177dd6850d3193dbeec.1648477901.git.jani.nikula@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A38610E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 17:20:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0CE4660A14;
+ Mon, 28 Mar 2022 17:20:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8814FC340F0;
+ Mon, 28 Mar 2022 17:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648488033;
+ bh=A1cAETogMKE4ByDJveM04ydwDhQNcj7ZVpXQPOMQvQs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Xo72ByilWB92HDWNLTtqY4spp9AeXbHk/lIMpcKvTCxuvJxK1agcIrDcJBMcU6ONQ
+ OrLQiIJfvQPszkZlORSVD3EBxVv/cFKt8DY6Ecuol75mzJVFKWimAm1a15lLoiZaGX
+ +c9kaiRQumyv3W7d3B9qxnUKyUYK2Pq8MWmO7I7G+pizhBkaIuGU0zxdvKFUPRKwj6
+ ENJmUDd4XO5Dt8OmtPJKEbWa+i5oe/81Ztqx4H2JJv9JcoHbyMpl4mBXkagDw2e+AM
+ gYKHLx3m8AUjySN4AstB8l57w4Yw5yLC1QvgB4DBODe4Oe77EmR0B05aYzPT9v4MTN
+ 39NFS0/Be9MIQ==
+Date: Mon, 28 Mar 2022 18:28:08 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 04/12] iio: buffer-dmaengine: Enable write support
+Message-ID: <20220328182808.48e51432@jic23-huawei>
+In-Reply-To: <20220207125933.81634-5-paul@crapouillou.net>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220207125933.81634-5-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5dea5ee24065450716bbc177dd6850d3193dbeec.1648477901.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,40 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 28, 2022 at 05:34:23PM +0300, Jani Nikula wrote:
-> The reduced blanking bit is valid only for CVT, indicated by display
-> range limits flags 0x04.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Mon,  7 Feb 2022 12:59:25 +0000
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Let's repeat here in so it doesn't get lost.
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Use the iio_dma_buffer_write() and iio_dma_buffer_space_available()
+> functions provided by the buffer-dma core, to enable write support in
+> the buffer-dmaengine code.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
+This (and previous) look fine to me. Just that question of a user for
+the new functionality...
+
+Jonathan
 
 > ---
->  drivers/gpu/drm/drm_edid.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/iio/buffer/industrialio-buffer-dmaengine.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 1b552fe54f38..13d05062d68c 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2408,7 +2408,7 @@ is_rb(struct detailed_timing *t, void *data)
->  	if (!is_display_descriptor(r, EDID_DETAIL_MONITOR_RANGE))
->  		return;
+> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> index ac26b04aa4a9..5cde8fd81c7f 100644
+> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> @@ -123,12 +123,14 @@ static void iio_dmaengine_buffer_release(struct iio_buffer *buf)
 >  
-> -	if (r[15] & 0x10)
-> +	if (r[10] == DRM_EDID_CVT_SUPPORT_FLAG && r[15] & 0x10)
->  		*(bool *)data = true;
->  }
+>  static const struct iio_buffer_access_funcs iio_dmaengine_buffer_ops = {
+>  	.read = iio_dma_buffer_read,
+> +	.write = iio_dma_buffer_write,
+>  	.set_bytes_per_datum = iio_dma_buffer_set_bytes_per_datum,
+>  	.set_length = iio_dma_buffer_set_length,
+>  	.request_update = iio_dma_buffer_request_update,
+>  	.enable = iio_dma_buffer_enable,
+>  	.disable = iio_dma_buffer_disable,
+>  	.data_available = iio_dma_buffer_data_available,
+> +	.space_available = iio_dma_buffer_space_available,
+>  	.release = iio_dmaengine_buffer_release,
 >  
-> -- 
-> 2.30.2
+>  	.modes = INDIO_BUFFER_HARDWARE,
 
--- 
-Ville Syrjälä
-Intel
