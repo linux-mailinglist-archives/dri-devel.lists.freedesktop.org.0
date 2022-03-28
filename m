@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3394E967F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:26:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DA94E9683
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5220A10E643;
-	Mon, 28 Mar 2022 12:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C8910E648;
+	Mon, 28 Mar 2022 12:26:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4052A10E643
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 12:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lrVzwikDhjBGNRcFFbTyAqjkMTBLzQaJc2hHSS4wEmg=; b=U0YKf/ro6hqqx+3l1XJttwBDKF
- vDjhJY0n6WPbgPtJ2ll6rW9EDBb+yeccBWQHCrDhNQ+Y9UJYYush8ulru/PCk7WvEw/EG3sW8bAy0
- 9tydBfVnc2Bpr07gk5Q274j/FBrwmc7wDIBX6KrC4MCW4W1mHw8XivgcAA8l9tBq0U3UTdBcJCKvc
- u7Zlwm0FvMYk4K5vW0oMQ9O80CVtt2uAQc198QUVuU+QyAeX11FoBVg2z1smHSKGbuQjTMRC/T0+x
- 9JyHZFfQYdPY8IOPwgtrxslAmvSxLfurPf+geAgzW167ILRFvlI7OsSSIFE6M9uKWsQMzdx1NqnyN
- tEZnkMiw==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nYoRU-0005HJ-4I; Mon, 28 Mar 2022 14:25:52 +0200
-Date: Mon, 28 Mar 2022 11:25:36 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: Re: [PATCH] drm/v3d: Use kvcalloc
-Message-ID: <20220328122536.cobmqclwtl2ca6k4@mail.igalia.com>
-References: <20220312152656.51625-1-harshit.m.mogalapalli@oracle.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D9610E648
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 12:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648470373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iTjwmJF+3k+khwx6D8oLjFZKu5VissWtc8nbGOTpT9Q=;
+ b=FQ9/u4VnDIrwCUYwlTGrDhVArRdIdjqL9A5NB2pIuxkRCcqo4tg2o9cpJAFRQwUK6lniSR
+ AFd4Zajtff0SUWsZhtpMmdj9HGtd7YfawCORCQCEop39YOJ7LwbgS1O7wZWB+/h3NgJmqi
+ S78sGBBWxMYSCsWQr9JkRlo7DI4/OP4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645--5RnXKeuOIybH1S_rZd2zA-1; Mon, 28 Mar 2022 08:26:09 -0400
+X-MC-Unique: -5RnXKeuOIybH1S_rZd2zA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 303B3299E743;
+ Mon, 28 Mar 2022 12:26:01 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28697AC3;
+ Mon, 28 Mar 2022 12:25:40 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+ Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+ Kingdom.
+ Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
+References: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
+To: kushagra765@outlook.com
+Subject: Re: [ PATCH ] Documentation: fixed doc-build warnings
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qeqcrncyu2fdobow"
-Content-Disposition: inline
-In-Reply-To: <20220312152656.51625-1-harshit.m.mogalapalli@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2581030.1648470339.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Mar 2022 13:25:39 +0100
+Message-ID: <2581031.1648470339@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,81 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
- Emma Anholt <emma@anholt.net>
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, arnd@arndb.de, corbet@lwn.net,
+ airlied@linux.ie, gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, dhowells@redhat.com,
+ mcgrof@kernel.org, linux-cachefs@redhat.com, viro@zeniv.linux.org.uk,
+ tzimmermann@suse.de, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+kushagra765@outlook.com wrote:
 
---qeqcrncyu2fdobow
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> @@ -256,7 +256,6 @@ struct fscache_cookie *fscache_acquire_cookie(struct=
+ fscache_volume *volume,
+>  =
 
-On 03/12, Harshit Mogalapalli wrote:
-> kvcalloc is same as kvmalloc_array + __GFP_ZERO.
->=20
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index c7ed2e1cbab6..f7d37228461e 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -308,9 +308,8 @@ v3d_lookup_bos(struct drm_device *dev,
->  		return -EINVAL;
->  	}
-> =20
-> -	job->bo =3D kvmalloc_array(job->bo_count,
-> -				 sizeof(struct drm_gem_cma_object *),
-> -				 GFP_KERNEL | __GFP_ZERO);
-> +	job->bo =3D kvcalloc(job->bo_count, sizeof(struct drm_gem_cma_object *),
-> +			   GFP_KERNEL);
+>  /**
+>   * fscache_use_cookie - Request usage of cookie attached to an object
+> - * @object: Object description
+>   * @will_modify: If cache is expected to be modified locally
+>   *
+>   * Request usage of the cookie attached to an object.  The caller shoul=
+d tell
+> @@ -272,7 +271,6 @@ static inline void fscache_use_cookie(struct fscache=
+_cookie *cookie,
+>  =
 
-Hi Harshit,
+>  /**
+>   * fscache_unuse_cookie - Cease usage of cookie attached to an object
+> - * @object: Object description
+>   * @aux_data: Updated auxiliary data (or NULL)
+>   * @object_size: Revised size of the object (or NULL)
+>   *
 
-This change seems valid to me, but I believe, in this point, v3d should
-move to use the DRM function `drm_gem_objects_lookup()`, and then your
-change goes there, since drm_get_objects_lookup() has the same issue
-you're pointing. What do you think?
+Just deleting these lines is the wrong thing to do.  They should instead
+mention the cookie parameter.
 
-I already sent a patchset to replace steps in v3d_lookup_bos() by
-drm_gem_objects_lookup(), as I mentioned. The patchset is here:
-https://patchwork.freedesktop.org/series/101610/
-Willing to review it? ^
+David
 
-Thanks,
-
-Melissa
-
->  	if (!job->bo) {
->  		DRM_DEBUG("Failed to allocate validated BO pointers\n");
->  		return -ENOMEM;
-> --=20
-> 2.31.1
->=20
-
---qeqcrncyu2fdobow
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJBqTsACgkQwqF3j0dL
-ehxezg//bh3x6Kkk5aU9Y0GowW2fk6Lfo/opQx/a9VPa/sCZ9ft0ctam7yGZUz4G
-6YvPDT9kPaZJ/4B2+U1MCECuEEciDoelttwXGls3AdRpk7UIZcWsnsHQZeo5tdPe
-gNDZHg7h+TiMNxmdPHItJRuNn4XSe36yTjNfHRUTyx67UhHvmcX8sO12DjQ1u+IL
-kKpODRaacDQvLc+hiizZl2Y8e7AP8/rDKH2Ydc8XrknlTt4q+IZLRSwljlhk1QhX
-Nfwvv4qTD2kMAQPPcRi64sqzEddFk+YJousPmxdIk2fQ0D8+ljEmf/jvxPnUikgj
-34moPZD5r0XJtij/uwTnEwljzAqCOv0XZrorQvVw6WHoi+XvEt7gfvYl7aOPAHZ/
-Q23CsRsXGE6yLttjbM45p87PZAtV48cSUGssufkzMJBqlj5aQKsyrBHDxIZF9cYH
-sRluiDWo18J7TwqKMo9v3sjkYncQgmt4sUrmL2CTkILdim52LnkHflI+balnVg4S
-OQKfafzJ/C9I/nhM/4hcnMeAcw0O+oTxuFKbA80hDUviUXie++SmZ++T1nN8KnAk
-2AedlB8lfMD/PK3mV0HtKvgSPyoQ2pyV9EYZNSzndJefNvRtt+jD2jxOFI1C4+dg
-mJDxWaTRl23qEr8hA0vM1FD8iogjM/HD5cN2eJbdSwbnO7C1gm4=
-=LPIG
------END PGP SIGNATURE-----
-
---qeqcrncyu2fdobow--
