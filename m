@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929CE4E99B9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 16:35:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D5C4E99BF
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 16:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38F5C10E668;
-	Mon, 28 Mar 2022 14:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B58B10E67E;
+	Mon, 28 Mar 2022 14:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A923510E662;
- Mon, 28 Mar 2022 14:35:08 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9FF10E6AB;
+ Mon, 28 Mar 2022 14:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648478108; x=1680014108;
+ t=1648478125; x=1680014125;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oAhfUXiMazft0Sk7OJlKeUDeL0NNjK33Z2dPTFGQWX8=;
- b=kdnl08Xj0E8nscUpGuFMpGRUbV5J+G7wXZips7hjnEmahONppln3Tq7s
- WyikjZVzKlUM1PAozp01hRdnzGwv0DQnkX19jmzCWho98khdf4m3UhXN2
- +YUBWJ0Bo1hYT62HIxoac1VcTPSLT7VYEG0lTsLfVvbkhk5yPHAdA0PBE
- MbazfWxpE6ZgZf45AfSz0ykAg03J7qbU8O0Q8caGq28D8VkOiI3Tmudy7
- dnYTXgVhBeMBCRsUGuH99WMH0IU8YP/jPWKWEkbYqZb1CugryVu6JsqP4
- dfKxXjkNmJaprO14NRGHlDfWhtgJi6bFDt/ufcfC0bL7IjOjPHgutIq7G g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="322198033"
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="322198033"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 07:35:08 -0700
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="502532270"
+ bh=F4n0QemD32iWQKmV8+qBQ98OH3sMb+wggdVhD4GtRiY=;
+ b=bKeOLJqyI2b3Q3jFjwyrgSj/u7WLRk2kjLO2hP/6xpNG3JpQpkB3dItF
+ GVO90gMlBSfQNw2GDe6llooz/m4ZupOeclwzAhDWZSaiIyLevBCZjt6RG
+ u4vkPorTQbx8CmjknYe2NGe2lQiRgh4fjTT7bBBAuRZdMBx20W8oGCfKW
+ iVokcR8Qg662MIKeP4Sz2s43y0aWkCCnMBj7XCCmWRbZZ05gUpivFvtmv
+ +lhP4f5XpwVxRCIWegfmIhiUhKZ+hxJz5F0FlYCptd5rx3xwkwDfva6cq
+ Ax/2ehg+JqBvzGyR65UN2r5Mx9gqo9TQfzzmn9CUAWHCeLMB7GrYj3+Nm w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="256586324"
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="256586324"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 07:35:13 -0700
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="518153294"
 Received: from aysivtso-mobl.ccr.corp.intel.com (HELO localhost)
  ([10.252.62.56])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 07:35:06 -0700
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 07:35:11 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 05/12] drm/edid: use struct detailed_timing member access
- in is_rb()
-Date: Mon, 28 Mar 2022 17:34:26 +0300
-Message-Id: <c069669c2fe8f9c3061c7d1a413c75a33ec48813.1648477901.git.jani.nikula@intel.com>
+Subject: [PATCH v3 06/12] drm/edid: use struct detailed_timing member access
+ in gtf2 functions
+Date: Mon, 28 Mar 2022 17:34:27 +0300
+Message-Id: <9fe5f5c39039e585fecfffb390297d49262e5fd3.1648477901.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1648477901.git.jani.nikula@intel.com>
 References: <cover.1648477901.git.jani.nikula@intel.com>
@@ -71,38 +71,112 @@ Use BUILD_BUG_ON() for sanity check.
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 57 +++++++++++++++++++++++++-------------
+ 1 file changed, 37 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 10da6b9b14fb..39c8bf4ca082 100644
+index 39c8bf4ca082..27a0e9bf260c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2408,15 +2408,19 @@ drm_for_each_detailed_block(u8 *raw_edid, detailed_cb *cb, void *closure)
+@@ -2438,61 +2438,78 @@ drm_monitor_supports_rb(struct edid *edid)
  }
  
  static void
--is_rb(struct detailed_timing *t, void *data)
-+is_rb(struct detailed_timing *descriptor, void *data)
+-find_gtf2(struct detailed_timing *t, void *data)
++find_gtf2(struct detailed_timing *descriptor, void *data)
  {
 -	u8 *r = (u8 *)t;
-+	bool *res = data;
++	struct detailed_timing **res = data;
  
 -	if (!is_display_descriptor(t, EDID_DETAIL_MONITOR_RANGE))
 +	if (!is_display_descriptor(descriptor, EDID_DETAIL_MONITOR_RANGE))
  		return;
  
--	if (r[10] == DRM_EDID_CVT_SUPPORT_FLAG && r[15] & 0x10)
--		*(bool *)data = true;
+-	if (r[10] == 0x02)
+-		*(u8 **)data = r;
 +	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.flags) != 10);
-+	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.cvt.flags) != 15);
 +
-+	if (descriptor->data.other_data.data.range.flags == DRM_EDID_CVT_SUPPORT_FLAG &&
-+	    descriptor->data.other_data.data.range.formula.cvt.flags & 0x10)
-+		*res = true;
++	if (descriptor->data.other_data.data.range.flags == 0x02)
++		*res = descriptor;
  }
  
- /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
+ /* Secondary GTF curve kicks in above some break frequency */
+ static int
+ drm_gtf2_hbreak(struct edid *edid)
+ {
+-	u8 *r = NULL;
++	struct detailed_timing *descriptor = NULL;
++
++	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &descriptor);
+ 
+-	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &r);
+-	return r ? (r[12] * 2) : 0;
++	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.hfreq_start_khz) != 12);
++
++	return descriptor ? descriptor->data.other_data.data.range.formula.gtf2.hfreq_start_khz * 2 : 0;
+ }
+ 
+ static int
+ drm_gtf2_2c(struct edid *edid)
+ {
+-	u8 *r = NULL;
++	struct detailed_timing *descriptor = NULL;
++
++	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &descriptor);
++
++	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.c) != 13);
+ 
+-	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &r);
+-	return r ? r[13] : 0;
++	return descriptor ? descriptor->data.other_data.data.range.formula.gtf2.c : 0;
+ }
+ 
+ static int
+ drm_gtf2_m(struct edid *edid)
+ {
+-	u8 *r = NULL;
++	struct detailed_timing *descriptor = NULL;
+ 
+-	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &r);
+-	return r ? (r[15] << 8) + r[14] : 0;
++	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &descriptor);
++
++	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.m) != 14);
++
++	return descriptor ? le16_to_cpu(descriptor->data.other_data.data.range.formula.gtf2.m) : 0;
+ }
+ 
+ static int
+ drm_gtf2_k(struct edid *edid)
+ {
+-	u8 *r = NULL;
++	struct detailed_timing *descriptor = NULL;
++
++	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &descriptor);
+ 
+-	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &r);
+-	return r ? r[16] : 0;
++	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.k) != 16);
++
++	return descriptor ? descriptor->data.other_data.data.range.formula.gtf2.k : 0;
+ }
+ 
+ static int
+ drm_gtf2_2j(struct edid *edid)
+ {
+-	u8 *r = NULL;
++	struct detailed_timing *descriptor = NULL;
++
++	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &descriptor);
++
++	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.j) != 17);
+ 
+-	drm_for_each_detailed_block((u8 *)edid, find_gtf2, &r);
+-	return r ? r[17] : 0;
++	return descriptor ? descriptor->data.other_data.data.range.formula.gtf2.j : 0;
+ }
+ 
+ /**
 -- 
 2.30.2
 
