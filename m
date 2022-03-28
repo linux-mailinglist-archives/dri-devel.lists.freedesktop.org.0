@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E59D4E99B2
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 16:34:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580A24E99B5
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 16:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4EB510E4C8;
-	Mon, 28 Mar 2022 14:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D2B10E65C;
+	Mon, 28 Mar 2022 14:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE0110E4C8;
- Mon, 28 Mar 2022 14:34:49 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C4210E1EA;
+ Mon, 28 Mar 2022 14:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648478089; x=1680014089;
+ t=1648478094; x=1680014094;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=35R2Vq1xT3Kgqzlcgy1x5Zhl6wBdMkBU4RTO1exJPo8=;
- b=hIADfmB3lmGdzvz7CY3Akg7kUxWGtEeXB/57xPulMM29fkNIz6ew/qOL
- febWIR3g9iqaJpvUy/gJaf2SnU3w+kAF6aK0qZQgu6PEDTj+0+OD152ij
- YKAt8itlmkaH+vFWFH/xMW15v/e9s1wxdav/I1TtvADG8wOeTM+9vcRWX
- ZYtMxCIpmDScOYFkghvnucHW1WalKCzHzgNhCA6hZ1G9D40fIQIXSjEhy
- 9m0g3y8vx/OHMomYAGLMqTIE6M3x7x4F+WFf9OITdJBgJjBSi8T/JPGWe
- 3lmtbl6gX6UWKOlNHhb910Qx3RpOm1b+988KL77YC6syG3TdyMZW8g0ws Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="238943440"
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="238943440"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 07:34:49 -0700
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="545979906"
+ bh=pvY77cjJzi57ZcgLuSU7edvXHhrsFD6w3JOysl9p8uU=;
+ b=bVUa8QXixqXCCePuovrGr/bvkvFeKEcSDTvMERRF0qtnYudTOQa6t9n/
+ QkXrh5TTreYWc9U1sTjwAn4GrHplB6FimA4f0KxG1GXyBJfAVitbYzVpx
+ g3o91kbPRUhUuGaiuo+Hnauep1Ra5yojDPBvuP3Ow7i9Ir68gnpPSjXsR
+ PpGgSh4ABvGhWFYswc4YndKtcDaTUeQvrh6nOG4NB4FZ/YeXjXDAt2dFd
+ NoynJdTQ/gntwaR9XDG1/dFQGSGo6LnlEjXTejYyXtnwokJKyVgAm1w4p
+ ut384Qx7RWIjHXSG1UHnKwfLoLaqFSxuS+Og7u/Ct1wS8mcjggtOinNmI w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="259198600"
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="259198600"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 07:34:54 -0700
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="521036618"
 Received: from aysivtso-mobl.ccr.corp.intel.com (HELO localhost)
  ([10.252.62.56])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 07:34:47 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 07:34:52 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 01/12] drm/edid: don't modify EDID while parsing
-Date: Mon, 28 Mar 2022 17:34:22 +0300
-Message-Id: <45d5cf067eaad49b321ac82836090d9de524374e.1648477901.git.jani.nikula@intel.com>
+Subject: [PATCH v3 02/12] drm/edid: fix reduced blanking support check
+Date: Mon, 28 Mar 2022 17:34:23 +0300
+Message-Id: <5dea5ee24065450716bbc177dd6850d3193dbeec.1648477901.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1648477901.git.jani.nikula@intel.com>
 References: <cover.1648477901.git.jani.nikula@intel.com>
@@ -62,58 +62,28 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll want to keep the EDID immutable while parsing. Stop modifying the
-EDID because of the quirks.
-
-In theory, this does have userspace implications, but the userspace is
-supposed to use the modes exposed via KMS API, not by parsing the EDID
-directly.
+The reduced blanking bit is valid only for CVT, indicated by display
+range limits flags 0x04.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index cc7bd58369df..1b552fe54f38 100644
+index 1b552fe54f38..13d05062d68c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2740,9 +2740,9 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
- 		return NULL;
+@@ -2408,7 +2408,7 @@ is_rb(struct detailed_timing *t, void *data)
+ 	if (!is_display_descriptor(r, EDID_DETAIL_MONITOR_RANGE))
+ 		return;
  
- 	if (quirks & EDID_QUIRK_135_CLOCK_TOO_HIGH)
--		timing->pixel_clock = cpu_to_le16(1088);
--
--	mode->clock = le16_to_cpu(timing->pixel_clock) * 10;
-+		mode->clock = 1088 * 10;
-+	else
-+		mode->clock = le16_to_cpu(timing->pixel_clock) * 10;
+-	if (r[15] & 0x10)
++	if (r[10] == DRM_EDID_CVT_SUPPORT_FLAG && r[15] & 0x10)
+ 		*(bool *)data = true;
+ }
  
- 	mode->hdisplay = hactive;
- 	mode->hsync_start = mode->hdisplay + hsync_offset;
-@@ -2763,14 +2763,14 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
- 	drm_mode_do_interlace_quirk(mode, pt);
- 
- 	if (quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
--		pt->misc |= DRM_EDID_PT_HSYNC_POSITIVE | DRM_EDID_PT_VSYNC_POSITIVE;
-+		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
-+	} else {
-+		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-+			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-+		mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-+			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
- 	}
- 
--	mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
--		DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
--	mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
--		DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
--
- set_size:
- 	mode->width_mm = pt->width_mm_lo | (pt->width_height_mm_hi & 0xf0) << 4;
- 	mode->height_mm = pt->height_mm_lo | (pt->width_height_mm_hi & 0xf) << 8;
 -- 
 2.30.2
 
