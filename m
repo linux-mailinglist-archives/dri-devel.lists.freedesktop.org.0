@@ -1,67 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CA94E9B20
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:30:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A99AC4E9B34
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 195E210ED16;
-	Mon, 28 Mar 2022 15:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5837110ED50;
+	Mon, 28 Mar 2022 15:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB6E10ED16
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:30:31 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id bi12so29519578ejb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 08:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p3XuvSz9El6nko432TGNXkjhObeuwCH/Ie6ye/gIxy8=;
- b=IIz4FdV0mOAafEMr4USQHNy+IBB8W1SLxNvpY/qmwe2L60jIkh+BtkZhRLusE+9byJ
- VVOGC3zinYbOUHGmsCd3rVC2X3mzOikYzWwgTARQiJoLNejLG6UtsmsOLYNWwa5xebSl
- LNl2I+j4OF8XLi8+9lnxeCIEzt7rAW/BtqIbKaPUf0iApZt76Mbpehd2wRQJCk5yR+QI
- 8NZpda1g8E03N2qz7Oh7iXrTozXwVZMMJ3MgtA6bpR25EguMNLOn8u0iMynemdSUOket
- 6XSWVQ87FGvnAm7+rdyebHF81x9Q1Xf03LzPHMmJiMMQqQsFNEYlNbGAWHzzK9cZeSNW
- 3Lvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p3XuvSz9El6nko432TGNXkjhObeuwCH/Ie6ye/gIxy8=;
- b=cxz6LPTQBHszqa6Kj1wtSwkyf9Ew3ZX6gu4NtXKAd6veQjxBU2+Qoa0nOrBlX7AdNg
- X0V4bD09Nx8IojgJ+48KF/dtic73apRCsWrVITNbjySUwUYfxZWln/4SxX+fxQlDySRk
- 9U/jhQmLgqJMjN3OGAW5iYgStBMIMikdWM8XeJk1fxc258qO0TBGfGEjbTS5eyN2GLIJ
- hXzPL9W4NNXD2E/0/cGM3rWsqgTXzM5Z22DxTl3MGOae6935D5wZnxBuCcXDDENMK3NW
- SjpWCCUCgCHF6gYkLOsBD+rX553kdWfyNu4fRkELGhQ2BOJ9RbNANjBlaztj71azHP1Z
- UlVA==
-X-Gm-Message-State: AOAM530NsNruObVW1RGw3NiSdNGgMbibkzpR5m+l1OfrW1RIkOsKqHJ4
- yxqioE6Pr9d7ahMQnpbzM9A=
-X-Google-Smtp-Source: ABdhPJzTNnMXRuknjU+f0aWqPcOk/WgtWC3qwlzaCIcEolJcpttqYGy3tEe+3vYytAaiM+K47vsWvQ==
-X-Received: by 2002:a17:907:d02:b0:6e0:4f1d:7ab1 with SMTP id
- gn2-20020a1709070d0200b006e04f1d7ab1mr27848220ejc.716.1648481430084; 
- Mon, 28 Mar 2022 08:30:30 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id
- bx5-20020a0564020b4500b00418fca53406sm7022210edb.27.2022.03.28.08.30.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 28 Mar 2022 08:30:29 -0700 (PDT)
-Subject: Re: [PATCH 0/3] drm: omapdrm: Fix excessive GEM buffers DMM/CMA usage
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <e126b6a7-5c34-66d5-d371-b2bae3b94924@ideasonboard.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <653c8cf1-8644-f5cb-810e-81539a99d776@gmail.com>
-Date: Mon, 28 Mar 2022 18:30:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A419910ED51
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:02 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id B23F232009E8;
+ Mon, 28 Mar 2022 11:37:01 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 28 Mar 2022 11:37:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=I87grb7n1gAYRHW96Hmcz34wtyB3gSSxBet8SC
+ 6IssM=; b=mJArVUcfycw2G9QNtJQ1uzf40tLEJ8SG/YD66zYqACt8oaoSa8C/o9
+ 2gJuwMBir/OmSgBG2jIynK8Pgw+czvK2B6MD9I1pfQ1J372yCEdLoLQvolQckd60
+ ZMWVPWvgXBShJKvg5hiITjj1GYtiCSgAPo+u6bqjqx2Wd9nQNbbRNYVWoMEJscqI
+ ItLD6MSeZCLZ635zTeEHky/LWyNl1GwNrr9z7H4jWy+JIQw51frWW0S2MzhsZiRK
+ VghKVbgaFeYwdw9vqlXBt+rjyI6+JL8y0pcle+ZZ9qlwUeOIb2UFQfL0Twba4FID
+ CGjfM04bLBefCCbjZGNoG6mpnKRJXbWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=I87grb
+ 7n1gAYRHW96Hmcz34wtyB3gSSxBet8SC6IssM=; b=XvQg7iHb7G9DCBtV1L08xm
+ nfRO6ngmisGrJzNV1FFkcSx0cmu6xhq5FpAAd7+mynGoqe1tmrZiBv2QlN4c7X+z
+ zENovClXpuXD9iySOGdY1G/iXuDy3XKm6xMsyFswlAX6MFm6uE+sAQEHXgDCYp0l
+ jF3cdto/t1Q2VST5EQ675YgDeYwRq2uKe0gs5KtAMZOwucJJ1XIHjqM1gEeP5/b+
+ D1zDQJcJqHYPIECT/z/S+IbdJHvkQancIcIhpofZpJgMbkLBxA+Pou3pJ0Jxd8sq
+ RImROMvlXLx5NVypHsnhy3q2rDxtIGbWBUwlHMDMwaE2tMfmgD+jESCx9+ATyfrQ
+ ==
+X-ME-Sender: <xms:HNZBYjF6g9pQbPwuqy0HOStgkjz7Zl7wc8_5UmgVPV3L4PqXIhpdHA>
+ <xme:HNZBYgUp5ZRE1XDosQdjCHIp7mZH77nVP-lOBbkDupA1cu2y8rPUvhW4CrhaIMpuR
+ kGIGo--n-G2O4AOkIk>
+X-ME-Received: <xmr:HNZBYlJNaWZB14fO2vjRQE2ajvHMZqRIA-RLaYBDAMWxhGH8fejWWc1lXoZZIH5gnQRALGw4iatp5IqwKAl_eswounyM2qouFNG3r4s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HNZBYhEEyd7xN2Fl_ns5iBae2pQ8dvpXtzHNNp30p5h9Iq9ZweXdkA>
+ <xmx:HNZBYpXFLS8k1n-wzPEp_ITQqPJgf7tTUyxCkq2mxiBLgnGe1Iia8Q>
+ <xmx:HNZBYsOaQxLXO5ZOw7-hgOJawoHUq98L4d-cSnihMYiwP8n75UAz_w>
+ <xmx:HdZBYvzb7NpOqzefpD3E1BfXU7auk33aqG5N01zIyKWQYzWDg7ecFw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Mar 2022 11:37:00 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/6] drm/vc4: Fixes for the writeback
+Date: Mon, 28 Mar 2022 17:36:53 +0200
+Message-Id: <20220328153659.2382206-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <e126b6a7-5c34-66d5-d371-b2bae3b94924@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,66 +79,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tony@atomide.com, merlijn@wizzup.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, airlied@linux.ie, linux-omap@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 28.03.22 г. 12:46 ч., Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
->> This patch series fixes excessive DMM or CMA usage of GEM buffers 
->> leading to
->> various runtime allocation failures. The series enables daily usage of 
->> devices
->> without exausting limited resources like CMA or DMM space if GPU 
->> rendering is
->> needed.
->>
->> The first patch doesn't bring any functional changes, it just moves some
->> TILER/DMM related code to a separate function, to simplify the review 
->> of the
->> next two patches.
->>
->> The second patch allows off-CPU rendering to non-scanout buffers. 
->> Without that
->> patch, it is basically impossible to use the driver allocated GEM 
->> buffers on
->> OMAP3 for anything else but a basic CPU rendered examples as if we 
->> want GPU
->> rendering, we must allocate buffers as scanout buffers, which are CMA 
->> allocated.
->> CMA soon gets fragmented and we start seeing allocation failures. Such 
->> failres
->> in Xorg cannot be handeled gracefully, so the system is basically 
->> unusable.
->>
->> Third patch fixes similar issue on OMAP4/5, where DMM/TILER spaces get
->> fragmented with time, leading to allocation failures.
->>
->> Series were tested on Motolola Droid4 and Nokia N900, with OMAP DDX and
->> PVR EXA from https://github.com/maemo-leste/xf86-video-omap
->>
->> Ivaylo Dimitrov (3):
->>    drm: omapdrm: simplify omap_gem_pin
->>    drm: omapdrm: Support exporting of non-contiguous GEM BOs
->>    drm: omapdrm: Do no allocate non-scanout GEMs through DMM/TILER
->>
->>   drivers/gpu/drm/omapdrm/omap_gem.c        | 198 
->> +++++++++++++++++-------------
->>   drivers/gpu/drm/omapdrm/omap_gem.h        |   3 +-
->>   drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c |   5 +-
->>   3 files changed, 116 insertions(+), 90 deletions(-)
->>
-> 
-> I have pushed this to drm-misc-next.
-> 
-
-Great, next is VRFB and TE support for Droid4 panel, as soon as I find 
-some spare time :)
-
-Ivo
-
+Hi,=0D
+=0D
+This series address multiple issues with the transposer support, and thus t=
+he=0D
+writeback support.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (6):=0D
+  drm/vc4: hvs: Reset muxes at probe time=0D
+  drm/vc4: txp: Don't set TXP_VSTART_AT_EOF=0D
+  drm/vc4: txp: Force alpha to be 0xff if it's disabled=0D
+  drm/vc4: kms: Store channel in local variable=0D
+  drm/vc4: kms: Warn if we have an incompatible muxing setup=0D
+  drm/vc4: kms: Improve logging=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_hvs.c | 26 +++++++++++++++++++-----=0D
+ drivers/gpu/drm/vc4/vc4_kms.c | 38 +++++++++++++++++++++++++++--------=0D
+ drivers/gpu/drm/vc4/vc4_txp.c |  4 +++-=0D
+ 3 files changed, 54 insertions(+), 14 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
