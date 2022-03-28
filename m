@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F8E4E9B3B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7104E9B3A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F341C10ED5C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2FE10ED5B;
 	Mon, 28 Mar 2022 15:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A4310ED56
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FA410ED59
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:22 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id D23CB3201D6A;
- Mon, 28 Mar 2022 11:37:18 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id B82733201D6A;
+ Mon, 28 Mar 2022 11:37:21 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 28 Mar 2022 11:37:19 -0400
+ by compute2.internal (MEProxy); Mon, 28 Mar 2022 11:37:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=aRj7R2VhiIgaiD2UBFLybxeMRT+npl
- uoNaYpxkTYKGQ=; b=ZAO5ZNQhXToJ/Pb/O54MOsyI+vJyLBKK5+KOQGZNm15d1i
- yrQj1fq4zERHQyrzEb6TrkhW9AsjWx+y7VgkTD/4nRaGRBqzIiKbVNlFdkveCoGX
- hgJ0554Gkig9Kf+36Kq6tyi6lxo1JRRs48haysFD1Pph1g5HCRi0JmnkxWiZSXBr
- ue1Ja0tdnPpPEK2PFHdAad6J4Q+50SLcJYfJeB9AHwdjGsffWQrM/G45W4II/V5/
- Pc58rvZThsU5+4jOZuCJ4vCdSnNtSrMfPkGMMxjMpWbX/pfnkPmIxvxn9CjsPgRp
- 6thQpE1kwXLRkSnfV3UwI004y7PNPfJPvkgsE+lA==
+ :subject:subject:to:to; s=fm3; bh=v1sxwh3RkOHXPJe2T+7khIrfpbDdOv
+ jTFia0D/uHxMU=; b=ZvYOToGgd3aaJCdr1sifiu4vZYQglxU1UzZ3FhXRTf+7Cp
+ 5fC8EquvXSlUS/UihSb59KKcFeN+0qvpr67ygDPxJ53IuHcsjZxSh/0aFmNQiSvz
+ EfP4l8yBSlQdcwjGmaMsrsXBAYcgxeU9EJmNYaWzzTOvSI6C5WqEwkQxnuBCPHPW
+ zM3zjKmvePJTwevs8MwKo/Vc/eEvj4zFE0Ep8Pe47r41dM6h46dq93boG18OyxVu
+ 82mTKR5D/L3vnSlLjfvFxWOgn70qDIfPnDeNNo7po4jO54Q9KLa3J2OMHenYAcTq
+ ccl157K+ROSLD43D55v0JPdyaBQ/wvtUCdo7haWw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aRj7R2
- VhiIgaiD2UBFLybxeMRT+npluoNaYpxkTYKGQ=; b=dfm1NYEljzp32dv5V7tp3z
- eNSfcY3oMv3R3SA+Zrz56TKaMOR8GwrUJL6RB2ol3yPRQHUxYDy+ghaLhjJAmVQN
- 3N7T95wrjnq+ccqfnDFtYFlHWgvbqCD6vCYbnLTDPzh0s3YcnT++mbjt6Eb9tg7d
- 7XkvlGfUktV244j/PImyLnz1K+hP5KhdNVqIraz0EyttKqKZlCABR3a+WTR8HTLG
- 4F/WnZb6b+TCGn7+FLVePZnwVe7PwPOCGCjvFJWaQfLLrSzeuMDjD7xbdtIQvre5
- KePYWulDrPFCRuHpnEUzC3ATpNpznoQ1p5+yRngXs56PDh3obcB0OQJXqzhUInmw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=v1sxwh
+ 3RkOHXPJe2T+7khIrfpbDdOvjTFia0D/uHxMU=; b=gRU6NOnFavscSJYel1swOm
+ CgNqIBMPfAdBXx8M5kIqLNihae/tHNhx00QQ9EUrPOB1v9fJPrkbHrg011tyDRGy
+ Q76l14COk53Z67/gyHIZGDJXjwVZFyA+H+eiSf2ic5mOYDRKMX97DEF8yGSvt5sR
+ v2mPKxVmBwCjPiPPNh24/X1YyDgv9Bw4WjGm6x6JxeZar7de2uuacRhT/MEihH7Y
+ as4hToOqugNotHcr/Aw/mDu5t8pA0CbTkP3LQoKADTwvDd0uSzI4sf/7SYFyYjxA
+ mU62iD3Cp0Oag8qPljKysF0K1iyCYBPtHd52UTmdL83ZtqJfd6bflcucw65R5Osg
  ==
-X-ME-Sender: <xms:LtZBYmYihn6Aybho7ih4-nk6BK_2sHrsQXDdJ6RnoMy9Bpu9-WUayw>
- <xme:LtZBYpZlAtR_DaOI3uaYe_2Vp_BRZDuZnTBDOrcutS57e3noE_EFfKkCq2esJfk1N
- Zbyq_MVTh_LJqcihBI>
-X-ME-Received: <xmr:LtZBYg9d8h2pDoSjhloNcJYRF1dScon-DvpKjy-VuGrg9mVRCfPbrcn7gU6OYfTAV34fYGaWPTl7JK_gOPKt5icdFm7HDiiTYtTpDow>
+X-ME-Sender: <xms:MdZBYhoWZl_08B4pGPaUR7erkNg5I4ulrFlstUtBeIoiuTI06QWCbQ>
+ <xme:MdZBYjrhQIpllB80XtmGfkDX5PQ84CUmeje8vt8EXRAZfJMDytdH1r5tsikMqBtse
+ qfenOrcsy-v5XJAhN4>
+X-ME-Received: <xmr:MdZBYuNZ0gyGGC3DFsqxwxTk2LGHvkik2VZU3pDiuXdaDSevoLNHP6rRZW80tIpQAOBO32VmAgh3UE3EgpWzO0i58e7LEeMUFhJK7YU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:LtZBYoqFhJAazIuBHXm8TJBkzkJ4ymjNIkGs-hT1YMJHzrnhXOTR5g>
- <xmx:LtZBYhqc4pvxDKtLxUGQHl8dQooeHdMdDEVG4Pk6V4ASuALLzMzKHg>
- <xmx:LtZBYmRvmuzjyKr_KlNa5Amofv6m7wGMaLgkIMx0_NL1jsjJlaoz2A>
- <xmx:LtZBYilvSiI1NqxuthxRHU4njNzfEFfLYS9HPUSrir80DHvQCWHsog>
+X-ME-Proxy: <xmx:MdZBYs6jeW6UQdGmQLULU_6kRn47gOqpAcb_bGE5T2l5qKZc-N4Skw>
+ <xmx:MdZBYg6XITUTJF1t9DumZgCkKKtwhD7CId-AODpICfXa0Ptzyf56hQ>
+ <xmx:MdZBYkiB0rJ_jKGlfwErC-MMTM_b_lieu19q_ibzADoXclKKE_OrUA>
+ <xmx:MdZBYr0T9obb_z8XYLXpRLSmLCtrt6AGDJnuwlVT_8DbuSWr0M8k7Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Mar 2022 11:37:17 -0400 (EDT)
+ 28 Mar 2022 11:37:20 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/vc4: kms: Warn if we have an incompatible muxing setup
-Date: Mon, 28 Mar 2022 17:36:58 +0200
-Message-Id: <20220328153659.2382206-6-maxime@cerno.tech>
+Subject: [PATCH 6/6] drm/vc4: kms: Improve logging
+Date: Mon, 28 Mar 2022 17:36:59 +0200
+Message-Id: <20220328153659.2382206-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328153659.2382206-1-maxime@cerno.tech>
 References: <20220328153659.2382206-1-maxime@cerno.tech>
@@ -85,31 +85,69 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The documentation explicitly states we must prevent the output
-2 and 3 from feeding from the same HVS channel.
-
-Let's add a warning to make some noise if we ever find ourselves in such
-a case.
+When debugging, finding out what muxing decisions were made and what the
+actual core clock rate is is always useful, so let's add some more
+messages.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_kms.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 94c58ec37a27..d94f78eac936 100644
+index d94f78eac936..29ecc34a4069 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -286,6 +286,9 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
+@@ -421,6 +421,9 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 			new_hvs_state->core_clock_rate);
  
- 		switch (vc4_crtc->data->hvs_output) {
- 		case 2:
-+			WARN_ON(VC4_GET_FIELD(HVS_READ(SCALER_DISPCTRL),
-+					      SCALER_DISPCTRL_DSP3_MUX) == channel);
+ 		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
 +
- 			mux = (channel == 2) ? 0 : 1;
- 			reg = HVS_READ(SCALER_DISPECTRL);
- 			HVS_WRITE(SCALER_DISPECTRL,
++		drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
++			clk_get_rate(hvs->core_clk));
+ 	}
+ }
+ 
+@@ -787,9 +790,18 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 		unsigned int matching_channels;
+ 		unsigned int channel;
+ 
++		drm_dbg(dev, "%s: Trying to find a channel.\n", crtc->name);
++
+ 		/* Nothing to do here, let's skip it */
+-		if (old_crtc_state->enable == new_crtc_state->enable)
++		if (old_crtc_state->enable == new_crtc_state->enable) {
++			if (new_crtc_state->enable)
++				drm_dbg(dev, "%s: Already enabled, reusing channel %d.\n",
++					crtc->name, new_vc4_crtc_state->assigned_channel);
++			else
++				drm_dbg(dev, "%s: Disabled, ignoring.\n", crtc->name);
++
+ 			continue;
++		}
+ 
+ 		/* Muxing will need to be modified, mark it as such */
+ 		new_vc4_crtc_state->update_muxing = true;
+@@ -797,6 +809,10 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 		/* If we're disabling our CRTC, we put back our channel */
+ 		if (!new_crtc_state->enable) {
+ 			channel = old_vc4_crtc_state->assigned_channel;
++
++			drm_dbg(dev, "%s: Disabling, Freeing channel %d\n",
++				crtc->name, channel);
++
+ 			hvs_new_state->fifo_state[channel].in_use = false;
+ 			new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
+ 			continue;
+@@ -831,6 +847,8 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 			return -EINVAL;
+ 
+ 		channel = ffs(matching_channels) - 1;
++
++		drm_dbg(dev, "Assigned HVS channel %d to CRTC %s\n", channel, crtc->name);
+ 		new_vc4_crtc_state->assigned_channel = channel;
+ 		unassigned_channels &= ~BIT(channel);
+ 		hvs_new_state->fifo_state[channel].in_use = true;
 -- 
 2.35.1
 
