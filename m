@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160B94E9F7B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 21:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BBC4E9F9B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 21:16:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D31410ECFD;
-	Mon, 28 Mar 2022 19:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1381710ED9B;
+	Mon, 28 Mar 2022 19:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACF9710EC97;
- Mon, 28 Mar 2022 19:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648494439; x=1680030439;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=SMoHwr7XZk4xD1DA+MVvC9mIKdSFmbh8Gs9T5lXaEeQ=;
- b=BPg9Pf1wtjJmBDXvG/RDcd0IhYq+yrOgK9SmVnUZP72TnJnl9muW+DV0
- 8phonFlVlyWJkKsvtZKBolwMbhyIL244nnPI4z0jVUyp7E9hp8bxnRhMo
- RBUwG6nPmhasgzYabBbNI3xOfaARv4vmM3v3IdJwEvFQ8n2WapeVKo1JT
- muQE7wSKbR6WrlKLT0Mi2ec1qAZDZKQMZ2nyq9gmfRFDRnn/q4+SZSTN1
- FeDE1v7dN4PCCNnSYv41Aq8S7s2Ls+aKb1Vk1yON0q0nv3FO+SqCbpMv7
- eFFlBnh0QkYtgWk3ctxB1hQLl0XL+IGBeRvq8dJTkQko/mwkmWfnkinbr A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="239678744"
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="239678744"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 12:07:19 -0700
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="563921105"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 12:07:17 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 9/9] drm/i915/migrate: Evict and restore the flatccs
- capable lmem obj
-Date: Tue, 29 Mar 2022 00:37:36 +0530
-Message-Id: <20220328190736.19697-10-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220328190736.19697-1-ramalingam.c@intel.com>
-References: <20220328190736.19697-1-ramalingam.c@intel.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA7210ED9B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 19:16:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1648494984; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bR+5ek2By7kDQ4MDZLE82wSKnOnXLjg0yQ+z90nLqXE=;
+ b=Y/OYuheazXHpu1GEObnPnrWFEJ5vTPCYieMCY9BJwtco180FyNGrXAp8hNZQDWGGWaVmdG
+ aXsx4iMkvQQhEMHoFi1BA0Dh9idiOE0GGMpDub54xvYbE49lKiH83y/SLrM9yJH9i4P6N+
+ 15Lg8l46yEr678RsDsDJDw0L+Esd5hg=
+Date: Mon, 28 Mar 2022 20:16:13 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 07/12] iio: buffer-dma: Use DMABUFs instead of custom
+ solution
+To: Jonathan Cameron <jic23@kernel.org>
+Message-Id: <1VYG9R.1JAKRTCN4I411@crapouillou.net>
+In-Reply-To: <20220328185425.56b51f4a@jic23-huawei>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220207125933.81634-8-paul@crapouillou.net>
+ <20220328185425.56b51f4a@jic23-huawei>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,253 +47,398 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
+Hi Jonathan,
 
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem. ccs data is 1/256 of
-lmem size.
+Le lun., mars 28 2022 at 18:54:25 +0100, Jonathan Cameron=20
+<jic23@kernel.org> a =E9crit :
+> On Mon,  7 Feb 2022 12:59:28 +0000
+> Paul Cercueil <paul@crapouillou.net> wrote:
+>=20
+>>  Enhance the current fileio code by using DMABUF objects instead of
+>>  custom buffers.
+>>=20
+>>  This adds more code than it removes, but:
+>>  - a lot of the complexity can be dropped, e.g. custom kref and
+>>    iio_buffer_block_put_atomic() are not needed anymore;
+>>  - it will be much easier to introduce an API to export these DMABUF
+>>    objects to userspace in a following patch.
+>>=20
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Hi Paul,
+>=20
+> I'm a bit rusty on dma mappings, but you seem to have
+> a mixture of streaming and coherent mappings going on in here.
 
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
+That's OK, so am I. What do you call "streaming mappings"?
 
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
+> Is it the case that the current code is using the coherent mappings
+> and a potential 'other user' of the dma buffer might need
+> streaming mappings?
 
-v2: Fixing the ccs handling
-v3: Handle the ccs data at same loop as main memory [Thomas]
-v4: changes for emit_copy_ccs
-v5: handle non-flat-ccs scenario
+Something like that. There are two different things; on both cases,=20
+userspace needs to create a DMABUF with IIO_BUFFER_DMABUF_ALLOC_IOCTL,=20
+and the backing memory is allocated with dma_alloc_coherent().
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_migrate.c | 164 +++++++++++++++++++++++-
- 1 file changed, 160 insertions(+), 4 deletions(-)
+- For the userspace interface, you then have a "cpu access" IOCTL=20
+(DMA_BUF_IOCTL_SYNC), that allows userspace to inform when it will=20
+start/finish to process the buffer in user-space (which will=20
+sync/invalidate the data cache if needed). A buffer can then be=20
+enqueued for DMA processing (TX or RX) with the new=20
+IIO_BUFFER_DMABUF_ENQUEUE_IOCTL.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 0657d33fedac..0b44e3785eed 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -633,6 +633,65 @@ static int emit_copy(struct i915_request *rq,
- 	return 0;
- }
- 
-+static int scatter_list_length(struct scatterlist *sg)
-+{
-+	int len = 0;
-+
-+	while (sg && sg_dma_len(sg)) {
-+		len += sg_dma_len(sg);
-+		sg = sg_next(sg);
-+	};
-+
-+	return len;
-+}
-+
-+static void
-+calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
-+		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
-+		   u32 ccs_bytes_to_cpy)
-+{
-+	if (ccs_bytes_to_cpy) {
-+		/*
-+		 * We can only copy the ccs data corresponding to
-+		 * the CHUNK_SZ of lmem which is
-+		 * GET_CCS_BYTES(i915, CHUNK_SZ))
-+		 */
-+		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
-+
-+		if (!src_is_lmem)
-+			/*
-+			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
-+			 * will be taken for the blt. in Flat-ccs supported
-+			 * platform Smem obj will have more pages than required
-+			 * for main meory hence limit it to the required size
-+			 * for main memory
-+			 */
-+			*src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
-+	} else { /* ccs handling is not required */
-+		*src_sz = CHUNK_SZ;
-+	}
-+}
-+
-+static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
-+{
-+	u32 len;
-+
-+	do {
-+		GEM_BUG_ON(!it->sg || !sg_dma_len(it->sg));
-+		len = it->max - it->dma;
-+		if (len > bytes_to_cpy) {
-+			it->dma += bytes_to_cpy;
-+			break;
-+		}
-+
-+		bytes_to_cpy -= len;
-+
-+		it->sg = __sg_next(it->sg);
-+		it->dma = sg_dma_address(it->sg);
-+		it->max = it->dma + sg_dma_len(it->sg);
-+	} while (bytes_to_cpy);
-+}
-+
- int
- intel_context_migrate_copy(struct intel_context *ce,
- 			   const struct i915_deps *deps,
-@@ -644,9 +703,15 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			   bool dst_is_lmem,
- 			   struct i915_request **out)
- {
--	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-+	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst), it_ccs;
-+	struct drm_i915_private *i915 = ce->engine->i915;
-+	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
-+	enum i915_cache_level ccs_cache_level;
-+	int src_sz, dst_sz, ccs_sz;
- 	u32 src_offset, dst_offset;
-+	u8 src_access, dst_access;
- 	struct i915_request *rq;
-+	bool ccs_is_src;
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-@@ -654,6 +719,38 @@ intel_context_migrate_copy(struct intel_context *ce,
- 
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
- 
-+	src_sz = scatter_list_length(src);
-+	bytes_to_cpy = src_sz;
-+
-+	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
-+		src_access = !src_is_lmem && dst_is_lmem;
-+		dst_access = !src_access;
-+
-+		dst_sz = scatter_list_length(dst);
-+		if (src_is_lmem) {
-+			it_ccs = it_dst;
-+			ccs_cache_level = dst_cache_level;
-+			ccs_is_src = false;
-+		} else if (dst_is_lmem) {
-+			bytes_to_cpy = dst_sz;
-+			it_ccs = it_src;
-+			ccs_cache_level = src_cache_level;
-+			ccs_is_src = true;
-+		}
-+
-+		/*
-+		 * When there is a eviction of ccs needed smem will have the
-+		 * extra pages for the ccs data
-+		 *
-+		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
-+		 * but still we have some requests of smem->lmem with same size.
-+		 * Need to fix it.
-+		 */
-+		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
-+		if (ccs_bytes_to_cpy)
-+			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
-+	}
-+
- 	src_offset = 0;
- 	dst_offset = CHUNK_SZ;
- 	if (HAS_64K_PAGES(ce->engine->i915)) {
-@@ -695,8 +792,11 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
-+		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
-+				   bytes_to_cpy, ccs_bytes_to_cpy);
-+
- 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
--			       src_offset, CHUNK_SZ);
-+			       src_offset, src_sz);
- 		if (len <= 0) {
- 			err = len;
- 			goto out_rq;
-@@ -713,7 +813,46 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
--		err = emit_copy(rq, dst_offset, src_offset, len);
-+		err = emit_copy(rq, dst_offset,	src_offset, len);
-+		if (err)
-+			goto out_rq;
-+
-+		bytes_to_cpy -= len;
-+
-+		if (ccs_bytes_to_cpy) {
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
-+				       ccs_is_src ? src_offset : dst_offset,
-+				       ccs_sz);
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/*
-+			 * Using max of src_sz and dst_sz, as we need to
-+			 * pass the lmem size corresponding to the ccs
-+			 * blocks we need to handle.
-+			 */
-+			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
-+				       ccs_is_src ? dst_sz : ccs_sz);
-+
-+			err = emit_copy_ccs(rq, dst_offset, dst_access,
-+					    src_offset, src_access, ccs_sz);
-+			if (err)
-+				goto out_rq;
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/* Converting back to ccs bytes */
-+			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
-+			ccs_bytes_to_cpy -= ccs_sz;
-+		}
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
-@@ -721,9 +860,26 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			i915_request_put(*out);
- 		*out = i915_request_get(rq);
- 		i915_request_add(rq);
--		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
-+
-+		if (err)
- 			break;
- 
-+		if (!bytes_to_cpy && !ccs_bytes_to_cpy) {
-+			if (src_is_lmem)
-+				WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
-+			else
-+				WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
-+			break;
-+		}
-+
-+		if (WARN_ON(!it_src.sg || !sg_dma_len(it_src.sg) ||
-+			    !it_dst.sg || !sg_dma_len(it_dst.sg) ||
-+			    (ccs_bytes_to_cpy && (!it_ccs.sg ||
-+						  !sg_dma_len(it_ccs.sg))))) {
-+			err = -EINVAL;
-+			break;
-+		}
-+
- 		cond_resched();
- 	} while (1);
- 
--- 
-2.20.1
+- When the DMABUF created via the IIO core is sent to another driver=20
+through the driver's custom DMABUF import function, this driver will=20
+call dma_buf_attach(), which will call iio_buffer_dma_buf_map(). Since=20
+it has to return a "struct sg_table *", this function then simply=20
+creates a sgtable with one entry that points to the backing memory.
+
+Note that I added the iio_buffer_dma_buf_map() / _unmap() functions=20
+because the dma-buf core would WARN() if these were not provided. But=20
+since this code doesn't yet support importing/exporting DMABUFs to=20
+other drivers, these are never called, and I should probably just make=20
+them return a ERR_PTR() unconditionally.
+
+Cheers,
+-Paul
+
+> Jonathan
+>=20
+>>  ---
+>>   drivers/iio/buffer/industrialio-buffer-dma.c | 192=20
+>> ++++++++++++-------
+>>   include/linux/iio/buffer-dma.h               |   8 +-
+>>   2 files changed, 122 insertions(+), 78 deletions(-)
+>>=20
+>>  diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c=20
+>> b/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  index 15ea7bc3ac08..54e6000cd2ee 100644
+>>  --- a/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  @@ -14,6 +14,7 @@
+>>   #include <linux/poll.h>
+>>   #include <linux/iio/buffer_impl.h>
+>>   #include <linux/iio/buffer-dma.h>
+>>  +#include <linux/dma-buf.h>
+>>   #include <linux/dma-mapping.h>
+>>   #include <linux/sizes.h>
+>>=20
+>>  @@ -90,103 +91,145 @@
+>>    * callback is called from within the custom callback.
+>>    */
+>>=20
+>>  -static void iio_buffer_block_release(struct kref *kref)
+>>  -{
+>>  -	struct iio_dma_buffer_block *block =3D container_of(kref,
+>>  -		struct iio_dma_buffer_block, kref);
+>>  -
+>>  -	WARN_ON(block->state !=3D IIO_BLOCK_STATE_DEAD);
+>>  -
+>>  -	dma_free_coherent(block->queue->dev, PAGE_ALIGN(block->size),
+>>  -					block->vaddr, block->phys_addr);
+>>  -
+>>  -	iio_buffer_put(&block->queue->buffer);
+>>  -	kfree(block);
+>>  -}
+>>  -
+>>  -static void iio_buffer_block_get(struct iio_dma_buffer_block=20
+>> *block)
+>>  -{
+>>  -	kref_get(&block->kref);
+>>  -}
+>>  -
+>>  -static void iio_buffer_block_put(struct iio_dma_buffer_block=20
+>> *block)
+>>  -{
+>>  -	kref_put(&block->kref, iio_buffer_block_release);
+>>  -}
+>>  -
+>>  -/*
+>>  - * dma_free_coherent can sleep, hence we need to take some special=20
+>> care to be
+>>  - * able to drop a reference from an atomic context.
+>>  - */
+>>  -static LIST_HEAD(iio_dma_buffer_dead_blocks);
+>>  -static DEFINE_SPINLOCK(iio_dma_buffer_dead_blocks_lock);
+>>  -
+>>  -static void iio_dma_buffer_cleanup_worker(struct work_struct *work)
+>>  -{
+>>  -	struct iio_dma_buffer_block *block, *_block;
+>>  -	LIST_HEAD(block_list);
+>>  -
+>>  -	spin_lock_irq(&iio_dma_buffer_dead_blocks_lock);
+>>  -	list_splice_tail_init(&iio_dma_buffer_dead_blocks, &block_list);
+>>  -	spin_unlock_irq(&iio_dma_buffer_dead_blocks_lock);
+>>  -
+>>  -	list_for_each_entry_safe(block, _block, &block_list, head)
+>>  -		iio_buffer_block_release(&block->kref);
+>>  -}
+>>  -static DECLARE_WORK(iio_dma_buffer_cleanup_work,=20
+>> iio_dma_buffer_cleanup_worker);
+>>  -
+>>  -static void iio_buffer_block_release_atomic(struct kref *kref)
+>>  -{
+>>  +struct iio_buffer_dma_buf_attachment {
+>>  +	struct scatterlist sgl;
+>>  +	struct sg_table sg_table;
+>>   	struct iio_dma_buffer_block *block;
+>>  -	unsigned long flags;
+>>  -
+>>  -	block =3D container_of(kref, struct iio_dma_buffer_block, kref);
+>>  -
+>>  -	spin_lock_irqsave(&iio_dma_buffer_dead_blocks_lock, flags);
+>>  -	list_add_tail(&block->head, &iio_dma_buffer_dead_blocks);
+>>  -	spin_unlock_irqrestore(&iio_dma_buffer_dead_blocks_lock, flags);
+>>  -
+>>  -	schedule_work(&iio_dma_buffer_cleanup_work);
+>>  -}
+>>  -
+>>  -/*
+>>  - * Version of iio_buffer_block_put() that can be called from=20
+>> atomic context
+>>  - */
+>>  -static void iio_buffer_block_put_atomic(struct=20
+>> iio_dma_buffer_block *block)
+>>  -{
+>>  -	kref_put(&block->kref, iio_buffer_block_release_atomic);
+>>  -}
+>>  +};
+>>=20
+>>   static struct iio_dma_buffer_queue *iio_buffer_to_queue(struct=20
+>> iio_buffer *buf)
+>>   {
+>>   	return container_of(buf, struct iio_dma_buffer_queue, buffer);
+>>   }
+>>=20
+>>  +static struct iio_buffer_dma_buf_attachment *
+>>  +to_iio_buffer_dma_buf_attachment(struct sg_table *table)
+>>  +{
+>>  +	return container_of(table, struct iio_buffer_dma_buf_attachment,=20
+>> sg_table);
+>>  +}
+>>  +
+>>  +static void iio_buffer_block_get(struct iio_dma_buffer_block=20
+>> *block)
+>>  +{
+>>  +	get_dma_buf(block->dmabuf);
+>>  +}
+>>  +
+>>  +static void iio_buffer_block_put(struct iio_dma_buffer_block=20
+>> *block)
+>>  +{
+>>  +	dma_buf_put(block->dmabuf);
+>>  +}
+>>  +
+>>  +static int iio_buffer_dma_buf_attach(struct dma_buf *dbuf,
+>>  +				     struct dma_buf_attachment *at)
+>>  +{
+>>  +	at->priv =3D dbuf->priv;
+>>  +
+>>  +	return 0;
+>>  +}
+>>  +
+>>  +static struct sg_table *iio_buffer_dma_buf_map(struct=20
+>> dma_buf_attachment *at,
+>>  +					       enum dma_data_direction dma_dir)
+>>  +{
+>>  +	struct iio_dma_buffer_block *block =3D at->priv;
+>>  +	struct iio_buffer_dma_buf_attachment *dba;
+>>  +	int ret;
+>>  +
+>>  +	dba =3D kzalloc(sizeof(*dba), GFP_KERNEL);
+>>  +	if (!dba)
+>>  +		return ERR_PTR(-ENOMEM);
+>>  +
+>>  +	sg_init_one(&dba->sgl, block->vaddr, PAGE_ALIGN(block->size));
+>>  +	dba->sg_table.sgl =3D &dba->sgl;
+>>  +	dba->sg_table.nents =3D 1;
+>>  +	dba->block =3D block;
+>>  +
+>>  +	ret =3D dma_map_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
+>>  +	if (ret) {
+>>  +		kfree(dba);
+>>  +		return ERR_PTR(ret);
+>>  +	}
+>>  +
+>>  +	return &dba->sg_table;
+>>  +}
+>>  +
+>>  +static void iio_buffer_dma_buf_unmap(struct dma_buf_attachment *at,
+>>  +				     struct sg_table *sg_table,
+>>  +				     enum dma_data_direction dma_dir)
+>>  +{
+>>  +	struct iio_buffer_dma_buf_attachment *dba =3D
+>>  +		to_iio_buffer_dma_buf_attachment(sg_table);
+>>  +
+>>  +	dma_unmap_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
+>>  +	kfree(dba);
+>>  +}
+>>  +
+>>  +static void iio_buffer_dma_buf_release(struct dma_buf *dbuf)
+>>  +{
+>>  +	struct iio_dma_buffer_block *block =3D dbuf->priv;
+>>  +	struct iio_dma_buffer_queue *queue =3D block->queue;
+>>  +
+>>  +	WARN_ON(block->state !=3D IIO_BLOCK_STATE_DEAD);
+>>  +
+>>  +	mutex_lock(&queue->lock);
+>>  +
+>>  +	dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
+>>  +			  block->vaddr, block->phys_addr);
+>>  +	kfree(block);
+>>  +
+>>  +	mutex_unlock(&queue->lock);
+>>  +	iio_buffer_put(&queue->buffer);
+>>  +}
+>>  +
+>>  +static const struct dma_buf_ops iio_dma_buffer_dmabuf_ops =3D {
+>>  +	.attach			=3D iio_buffer_dma_buf_attach,
+>>  +	.map_dma_buf		=3D iio_buffer_dma_buf_map,
+>>  +	.unmap_dma_buf		=3D iio_buffer_dma_buf_unmap,
+>>  +	.release		=3D iio_buffer_dma_buf_release,
+>>  +};
+>>  +
+>>   static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
+>>   	struct iio_dma_buffer_queue *queue, size_t size)
+>>   {
+>>   	struct iio_dma_buffer_block *block;
+>>  +	DEFINE_DMA_BUF_EXPORT_INFO(einfo);
+>>  +	struct dma_buf *dmabuf;
+>>  +	int err =3D -ENOMEM;
+>>=20
+>>   	block =3D kzalloc(sizeof(*block), GFP_KERNEL);
+>>   	if (!block)
+>>  -		return NULL;
+>>  +		return ERR_PTR(err);
+>>=20
+>>   	block->vaddr =3D dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
+>>   		&block->phys_addr, GFP_KERNEL);
+>>  -	if (!block->vaddr) {
+>>  -		kfree(block);
+>>  -		return NULL;
+>>  +	if (!block->vaddr)
+>>  +		goto err_free_block;
+>>  +
+>>  +	einfo.ops =3D &iio_dma_buffer_dmabuf_ops;
+>>  +	einfo.size =3D PAGE_ALIGN(size);
+>>  +	einfo.priv =3D block;
+>>  +	einfo.flags =3D O_RDWR;
+>>  +
+>>  +	dmabuf =3D dma_buf_export(&einfo);
+>>  +	if (IS_ERR(dmabuf)) {
+>>  +		err =3D PTR_ERR(dmabuf);
+>>  +		goto err_free_dma;
+>>   	}
+>>=20
+>>  +	block->dmabuf =3D dmabuf;
+>>   	block->size =3D size;
+>>   	block->state =3D IIO_BLOCK_STATE_DONE;
+>>   	block->queue =3D queue;
+>>   	INIT_LIST_HEAD(&block->head);
+>>  -	kref_init(&block->kref);
+>>=20
+>>   	iio_buffer_get(&queue->buffer);
+>>=20
+>>   	return block;
+>>  +
+>>  +err_free_dma:
+>>  +	dma_free_coherent(queue->dev, PAGE_ALIGN(size),
+>>  +			  block->vaddr, block->phys_addr);
+>>  +err_free_block:
+>>  +	kfree(block);
+>>  +	return ERR_PTR(err);
+>>   }
+>>=20
+>>   static void _iio_dma_buffer_block_done(struct iio_dma_buffer_block=20
+>> *block)
+>>  @@ -223,7 +266,7 @@ void iio_dma_buffer_block_done(struct=20
+>> iio_dma_buffer_block *block)
+>>   	_iio_dma_buffer_block_done(block);
+>>   	spin_unlock_irqrestore(&queue->list_lock, flags);
+>>=20
+>>  -	iio_buffer_block_put_atomic(block);
+>>  +	iio_buffer_block_put(block);
+>>   	iio_dma_buffer_queue_wake(queue);
+>>   }
+>>   EXPORT_SYMBOL_GPL(iio_dma_buffer_block_done);
+>>  @@ -249,7 +292,8 @@ void iio_dma_buffer_block_list_abort(struct=20
+>> iio_dma_buffer_queue *queue,
+>>   		list_del(&block->head);
+>>   		block->bytes_used =3D 0;
+>>   		_iio_dma_buffer_block_done(block);
+>>  -		iio_buffer_block_put_atomic(block);
+>>  +
+>>  +		iio_buffer_block_put(block);
+>>   	}
+>>   	spin_unlock_irqrestore(&queue->list_lock, flags);
+>>=20
+>>  @@ -340,8 +384,8 @@ int iio_dma_buffer_request_update(struct=20
+>> iio_buffer *buffer)
+>>=20
+>>   		if (!block) {
+>>   			block =3D iio_dma_buffer_alloc_block(queue, size);
+>>  -			if (!block) {
+>>  -				ret =3D -ENOMEM;
+>>  +			if (IS_ERR(block)) {
+>>  +				ret =3D PTR_ERR(block);
+>>   				goto out_unlock;
+>>   			}
+>>   			queue->fileio.blocks[i] =3D block;
+>>  diff --git a/include/linux/iio/buffer-dma.h=20
+>> b/include/linux/iio/buffer-dma.h
+>>  index 490b93f76fa8..6b3fa7d2124b 100644
+>>  --- a/include/linux/iio/buffer-dma.h
+>>  +++ b/include/linux/iio/buffer-dma.h
+>>  @@ -8,7 +8,6 @@
+>>   #define __INDUSTRIALIO_DMA_BUFFER_H__
+>>=20
+>>   #include <linux/list.h>
+>>  -#include <linux/kref.h>
+>>   #include <linux/spinlock.h>
+>>   #include <linux/mutex.h>
+>>   #include <linux/iio/buffer_impl.h>
+>>  @@ -16,6 +15,7 @@
+>>   struct iio_dma_buffer_queue;
+>>   struct iio_dma_buffer_ops;
+>>   struct device;
+>>  +struct dma_buf;
+>>=20
+>>   /**
+>>    * enum iio_block_state - State of a struct iio_dma_buffer_block
+>>  @@ -39,8 +39,8 @@ enum iio_block_state {
+>>    * @vaddr: Virutal address of the blocks memory
+>>    * @phys_addr: Physical address of the blocks memory
+>>    * @queue: Parent DMA buffer queue
+>>  - * @kref: kref used to manage the lifetime of block
+>>    * @state: Current state of the block
+>>  + * @dmabuf: Underlying DMABUF object
+>>    */
+>>   struct iio_dma_buffer_block {
+>>   	/* May only be accessed by the owner of the block */
+>>  @@ -56,13 +56,13 @@ struct iio_dma_buffer_block {
+>>   	size_t size;
+>>   	struct iio_dma_buffer_queue *queue;
+>>=20
+>>  -	/* Must not be accessed outside the core. */
+>>  -	struct kref kref;
+>>   	/*
+>>   	 * Must not be accessed outside the core. Access needs to hold
+>>   	 * queue->list_lock if the block is not owned by the core.
+>>   	 */
+>>   	enum iio_block_state state;
+>>  +
+>>  +	struct dma_buf *dmabuf;
+>>   };
+>>=20
+>>   /**
+>=20
+
 
