@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9424E8CC4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 06:00:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1331E4E8CC6
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 06:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A05B510E5CB;
-	Mon, 28 Mar 2022 04:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741FE10E18E;
+	Mon, 28 Mar 2022 04:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6EB310EA10
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 04:00:06 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id
- h8-20020a25e208000000b00628c0565607so10001518ybe.0
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 21:00:06 -0700 (PDT)
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
+ [IPv6:2607:f8b0:4864:20::1149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBADC10EA16
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 04:00:09 +0000 (UTC)
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-2e5a3c1384cso108865287b3.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Mar 2022 21:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
  :cc:content-transfer-encoding;
- bh=swBHLDpMJlrENAUcNI4p95XFMSTGbJ8O3Tkem0fLvJU=;
- b=oGTdKGCygtZYyY07tOAoRz5brM3z/11wHqQFfV9mV9rMC95YVrWjxdM1oH17EeKd9B
- sByNIynrE388mR0y43nywkqC34DIeOWfgKVA5O3hEzW4JmCwZnUNYDylGb1gqtbrftTF
- g8jBg5qa7X2rT2zyxTmddvwhuVxd5L9UddzZecSVdtPfdirn8wxoG6kLG3hSBeXG89m6
- Lje6g2SKeC2vE4qLXT61Xj7PEozYJG8HH0CtLDPPhsGnkLhDhbUApKRxOOplFRmrta4M
- fBt/snAG2E4gPBrqDmBpy+Cth+6pBc8VF8/wH4T0LMHtFjTaWFewprjrYCCBchUaw1xM
- v4TQ==
+ bh=5yVgehYPp/D4TvQwla1lP4QXTd3no9VslKN9O7AQtMc=;
+ b=PhhJHuDY8p3QcagPQvPZS3gUNE+WTXGwsjHGcy5vYWAnTDsBi689RrlHpX0zFrkeeB
+ cgq7zsJvQ4TmXMK1FTpCqUW7u3lra5MV6nGauGeFVJDPCVrWmnkHjOmwhDdU+M7H3MZe
+ 9q35JQxGebLqH5/ONPtCo4HXNZx4OcvVXTYpNkTBV6/yAbNgaRVy5ssOv6jFVcFkP4kh
+ c6sqXcTOyO3FaJ9kpa11O5JJElojJYBxTFCpnde1aJSzeINLr01Z2GHiUlyp+D3vIicZ
+ 9yFl6rYahM5JoO00jsPYyoSQwu+mCGj11q2ksSeUHehSTH8F0UI4LYMgOKHBkHzbM5kw
+ cvlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc:content-transfer-encoding;
- bh=swBHLDpMJlrENAUcNI4p95XFMSTGbJ8O3Tkem0fLvJU=;
- b=yb2zE/en+OFyw/QZY1ehi5KwIXwnxzxgoPjuS4bsiusvos4338ejHYjtPxeqYJx36w
- /nlHkdL6DUQOaQMRIGWE5CbEa806THP6TwOBxASd58DL6T2fIh8ch6shjwjXTH/D/uvZ
- ACFNrWDht4UY+tsmytepmkasiu5SuCDogXFMwG7VNJj7azUaYk91YpRe7V9CAQoGcxsZ
- JkHRjXc85jtu3+lBqrqfcqL40aXu0/4Txnq4Vd8qCDI7j59OGYKUlgxuBAFVOQDwXcJZ
- lHrXhZZ/qXrBltY5DUKCWmp7WYjsoiBlFZvaNLB9P9XHYBv/8KCUMCN0dc0qWVsVoMuZ
- liew==
-X-Gm-Message-State: AOAM530jbL+AT+z3DcBLiELjdBOJfSx3v2ybXrGbIFVChdVNfhZfGLst
- 7vJS5GB2CIYcH9kFuPJkLo5u0z2e0PBvGMM=
-X-Google-Smtp-Source: ABdhPJwnqgWOYi8gA1e2h+a9hU2mT4oa3J/inlE1/8EHv9A1hYM2B/y7BXnnZpn5v3bzYFB0oT1SjC39tw71k5Q=
+ bh=5yVgehYPp/D4TvQwla1lP4QXTd3no9VslKN9O7AQtMc=;
+ b=wJdfUrgTqNXm6LPHII6Rg5bgoBlrelYYukJtnSQgBWhC0eIJZiJeo+2k/tVSCRYnf3
+ LzS/OYlhwWiv6QQsy23sPQaBQp2IGYxRXr4G3GFZT2gSHs3ebqxdpTpYNgIUBcwdcxtW
+ XIauWBDb5JwOfePQSkTHRwktMLcQS57oCDRHfyBTGb5b0RZ090ALd9EsiRaFyQ1kIhGD
+ h46UfF6OuOq5O36N107rEUoqfj047uKb9VB/Mz5J/ecn8XMybyOMR2d0pAFiVWTbejKZ
+ vmzfqvZo2Jnzu+BthToT8P38qjov1hCtA1HGCikLxam5KsMHoR1vowM8Q1k7g4G683Dn
+ HX7w==
+X-Gm-Message-State: AOAM5328t6NSJPqpNphsO1wWYbBNPPD5mZrRDuVtitsYSE0OOgh1hcWU
+ IaFTRcW6r6Av3a14d4eA7DAX/ikTL7Q+lYo=
+X-Google-Smtp-Source: ABdhPJys0sTPrji6EjHujuYz082iO9ggsvoNSm4OdxVncyEN7gJkiqTrwHhvJvo9vVVIk7aJX3q2Povqc86sLs4=
 X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
- (user=tjmercier job=sendgmr) by 2002:a0d:cc4f:0:b0:2e5:e8fa:6754 with SMTP id
- o76-20020a0dcc4f000000b002e5e8fa6754mr23233214ywd.295.1648440005966; Sun, 27
- Mar 2022 21:00:05 -0700 (PDT)
-Date: Mon, 28 Mar 2022 03:59:42 +0000
+ (user=tjmercier job=sendgmr) by 2002:a25:bdd3:0:b0:635:eaaf:53 with SMTP id
+ g19-20020a25bdd3000000b00635eaaf0053mr20426308ybk.74.1648440008833; Sun, 27
+ Mar 2022 21:00:08 -0700 (PDT)
+Date: Mon, 28 Mar 2022 03:59:43 +0000
 In-Reply-To: <20220328035951.1817417-1-tjmercier@google.com>
-Message-Id: <20220328035951.1817417-4-tjmercier@google.com>
+Message-Id: <20220328035951.1817417-5-tjmercier@google.com>
 Mime-Version: 1.0
 References: <20220328035951.1817417-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
-Subject: [RFC v4 3/8] dmabuf: Use the GPU cgroup charge/uncharge APIs
+Subject: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
+ cgroup charging
 From: "T.J. Mercier" <tjmercier@google.com>
 To: tjmercier@google.com, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, 
@@ -91,198 +92,143 @@ Cc: linux-doc@vger.kernel.org, Kenny.Ho@amd.com, kaleshsingh@google.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch uses the GPU cgroup charge/uncharge APIs to charge buffers
-allocated by any DMA-BUF exporter that exports a buffer with a GPU cgroup
-device association.
+From: Hridya Valsaraju <hridya@google.com>
 
-By doing so, it becomes possible to track who allocated/exported a
-DMA-BUF even after the allocating process drops all references to a
-buffer.
+All DMA heaps now register a new GPU cgroup device upon creation, and the
+system_heap now exports buffers associated with its GPU cgroup device for
+tracking purposes.
 
-Originally-by: Hridya Valsaraju <hridya@google.com>
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
 Signed-off-by: T.J. Mercier <tjmercier@google.com>
 
 ---
-v4 changes
-Fix uninitialized return code error for dmabuf_try_charge error case.
-
 v3 changes
 Use more common dual author commit message format per John Stultz.
 
 v2 changes
-Move dma-buf cgroup charging/uncharging from a dma_buf_op defined by
-every heap to a single dma-buf function for all heaps per Daniel Vetter and
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
 Christian K=C3=B6nig.
 ---
- drivers/dma-buf/dma-buf.c | 58 +++++++++++++++++++++++++++++++++++++++
- include/linux/dma-buf.h   | 20 ++++++++++++--
- 2 files changed, 76 insertions(+), 2 deletions(-)
+ drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++++
+ drivers/dma-buf/heaps/system_heap.c |  3 +++
+ include/linux/dma-heap.h            | 11 +++++++++++
+ 3 files changed, 41 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 602b12d7470d..1ee5c60d3d6d 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -56,6 +56,53 @@ static char *dmabuffs_dname(struct dentry *dentry, char =
-*buffer, int buflen)
- 			     dentry->d_name.name, ret > 0 ? name : "");
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 8f5848aa144f..885072427775 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -7,6 +7,7 @@
+  */
+=20
+ #include <linux/cdev.h>
++#include <linux/cgroup_gpu.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/dma-buf.h>
+@@ -31,6 +32,7 @@
+  * @heap_devt		heap device node
+  * @list		list head connecting to list of heaps
+  * @heap_cdev		heap char device
++ * @gpucg_dev		gpu cgroup device for memory accounting
+  *
+  * Represents a heap of memory from which buffers can be made.
+  */
+@@ -41,6 +43,9 @@ struct dma_heap {
+ 	dev_t heap_devt;
+ 	struct list_head list;
+ 	struct cdev heap_cdev;
++#ifdef CONFIG_CGROUP_GPU
++	struct gpucg_device gpucg_dev;
++#endif
+ };
+=20
+ static LIST_HEAD(heap_list);
+@@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap *heap)
+ 	return heap->name;
  }
 =20
 +#ifdef CONFIG_CGROUP_GPU
-+static inline struct gpucg_device *
-+exp_info_gpucg_dev(const struct dma_buf_export_info *exp_info)
++/**
++ * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap.
++ * @heap: DMA-Heap to get the gpucg_device struct for.
++ *
++ * Returns:
++ * The gpucg_device struct for the heap. NULL if the GPU cgroup controller=
+ is
++ * not enabled.
++ */
++struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
 +{
-+	return exp_info->gpucg_dev;
-+}
-+
-+static int dmabuf_try_charge(struct dma_buf *dmabuf,
-+			     struct gpucg_device *gpucg_dev)
-+{
-+	int ret;
-+
-+	dmabuf->gpucg =3D gpucg_get(current);
-+	dmabuf->gpucg_dev =3D gpucg_dev;
-+
-+	ret =3D gpucg_try_charge(dmabuf->gpucg, dmabuf->gpucg_dev, dmabuf->size);
-+	if (ret) {
-+		gpucg_put(dmabuf->gpucg);
-+		dmabuf->gpucg =3D NULL;
-+		dmabuf->gpucg_dev =3D NULL;
-+	}
-+	return ret;
-+}
-+
-+static void dmabuf_uncharge(struct dma_buf *dmabuf)
-+{
-+	if (dmabuf->gpucg && dmabuf->gpucg_dev) {
-+		gpucg_uncharge(dmabuf->gpucg, dmabuf->gpucg_dev, dmabuf->size);
-+		gpucg_put(dmabuf->gpucg);
-+	}
++	return &heap->gpucg_dev;
 +}
 +#else /* CONFIG_CGROUP_GPU */
-+static inline struct gpucg_device *exp_info_gpucg_dev(
-+const struct dma_buf_export_info *exp_info)
++struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
 +{
 +	return NULL;
 +}
-+
-+static inline int dmabuf_try_charge(struct dma_buf *dmabuf,
-+				     struct gpucg_device *gpucg_dev))
-+{
-+	return 0;
-+}
-+
-+static inline void dmabuf_uncharge(struct dma_buf *dmabuf) {}
 +#endif /* CONFIG_CGROUP_GPU */
 +
- static void dma_buf_release(struct dentry *dentry)
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
  {
- 	struct dma_buf *dmabuf;
-@@ -79,6 +126,8 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
-=20
-+	dmabuf_uncharge(dmabuf);
-+
- 	WARN_ON(!list_empty(&dmabuf->attachments));
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
-@@ -484,6 +533,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_exp=
+ 	struct dma_heap *heap, *h, *err_ret;
+@@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_heap_exp=
 ort_info *exp_info)
- {
- 	struct dma_buf *dmabuf;
- 	struct dma_resv *resv =3D exp_info->resv;
-+	struct gpucg_device *gpucg_dev =3D exp_info_gpucg_dev(exp_info);
- 	struct file *file;
- 	size_t alloc_size =3D sizeof(struct dma_buf);
- 	int ret;
-@@ -534,6 +584,12 @@ struct dma_buf *dma_buf_export(const struct dma_buf_ex=
-port_info *exp_info)
- 	}
- 	dmabuf->resv =3D resv;
+ 	list_add(&heap->list, &heap_list);
+ 	mutex_unlock(&heap_list_lock);
 =20
-+	if (gpucg_dev) {
-+		ret =3D dmabuf_try_charge(dmabuf, gpucg_dev);
-+		if (ret)
-+			goto err_charge;
-+	}
++	gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info->name);
 +
- 	file =3D dma_buf_getfile(dmabuf, exp_info->flags);
- 	if (IS_ERR(file)) {
- 		ret =3D PTR_ERR(file);
-@@ -565,6 +621,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_exp=
-ort_info *exp_info)
- 	file->f_path.dentry->d_fsdata =3D NULL;
- 	fput(file);
- err_dmabuf:
-+	dmabuf_uncharge(dmabuf);
-+err_charge:
- 	kfree(dmabuf);
- err_module:
- 	module_put(exp_info->owner);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 7ab50076e7a6..742f29c3daaf 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -13,6 +13,7 @@
- #ifndef __DMA_BUF_H__
- #define __DMA_BUF_H__
+ 	return heap;
 =20
+ err2:
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/sy=
+stem_heap.c
+index ab7fd896d2c4..752a05c3cfe2 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(struct dma_=
+heap *heap,
+ 	exp_info.ops =3D &system_heap_buf_ops;
+ 	exp_info.size =3D buffer->len;
+ 	exp_info.flags =3D fd_flags;
++#ifdef CONFIG_CGROUP_GPU
++	exp_info.gpucg_dev =3D dma_heap_get_gpucg_dev(heap);
++#endif
+ 	exp_info.priv =3D buffer;
+ 	dmabuf =3D dma_buf_export(&exp_info);
+ 	if (IS_ERR(dmabuf)) {
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 0c05561cad6e..e447a61d054e 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -10,6 +10,7 @@
+ #define _DMA_HEAPS_H
+=20
+ #include <linux/cdev.h>
 +#include <linux/cgroup_gpu.h>
- #include <linux/dma-buf-map.h>
- #include <linux/file.h>
- #include <linux/err.h>
-@@ -303,7 +304,7 @@ struct dma_buf {
- 	/**
- 	 * @size:
- 	 *
--	 * Size of the buffer; invariant over the lifetime of the buffer.
-+	 * Size of the buffer in bytes; invariant over the lifetime of the buffer=
-.
- 	 */
- 	size_t size;
+ #include <linux/types.h>
 =20
-@@ -453,6 +454,17 @@ struct dma_buf {
- 		struct dma_buf *dmabuf;
- 	} *sysfs_entry;
- #endif
-+
-+#ifdef CONFIG_CGROUP_GPU
-+	/** @gpucg: Pointer to the cgroup this buffer currently belongs to. */
-+	struct gpucg *gpucg;
-+
-+	/** @gpucg_dev:
-+	 *
-+	 * Pointer to the cgroup GPU device whence this buffer originates.
-+	 */
-+	struct gpucg_device *gpucg_dev;
-+#endif
- };
+ struct dma_heap;
+@@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+  */
+ const char *dma_heap_get_name(struct dma_heap *heap);
 =20
++/**
++ * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_device for=
+ the
++ * heap.
++ * @heap: DMA-Heap to retrieve gpucg_device for.
++ *
++ * Returns:
++ * The gpucg_device struct for the heap.
++ */
++struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap);
++
  /**
-@@ -529,9 +541,10 @@ struct dma_buf_attachment {
-  * @exp_name:	name of the exporter - useful for debugging.
-  * @owner:	pointer to exporter module - used for refcounting kernel module
-  * @ops:	Attach allocator-defined dma buf ops to the new buffer
-- * @size:	Size of the buffer - invariant over the lifetime of the buffer
-+ * @size:	Size of the buffer in bytes - invariant over the lifetime of the=
- buffer
-  * @flags:	mode flags for the file
-  * @resv:	reservation-object, NULL to allocate default one
-+ * @gpucg_dev:	pointer to the gpu cgroup device this buffer belongs to
-  * @priv:	Attach private data of allocator to this buffer
-  *
-  * This structure holds the information required to export the buffer. Use=
-d
-@@ -544,6 +557,9 @@ struct dma_buf_export_info {
- 	size_t size;
- 	int flags;
- 	struct dma_resv *resv;
-+#ifdef CONFIG_CGROUP_GPU
-+	struct gpucg_device *gpucg_dev;
-+#endif
- 	void *priv;
- };
-=20
+  * dma_heap_add - adds a heap to dmabuf heaps
+  * @exp_info:		information needed to register this heap
 --=20
 2.35.1.1021.g381101b075-goog
 
