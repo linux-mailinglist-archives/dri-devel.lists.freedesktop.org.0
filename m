@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1ED4E96ED
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:46:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 375004E96F2
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 14:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD16310E64D;
-	Mon, 28 Mar 2022 12:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E3310E655;
+	Mon, 28 Mar 2022 12:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4314410E450;
- Mon, 28 Mar 2022 12:46:26 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0C510E654;
+ Mon, 28 Mar 2022 12:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648471586; x=1680007586;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=wYyJJWcqbHZ71MrvuI18XHavGUSn0ldkIChF75A1Ows=;
- b=dxj4bhkW2nFVron+brl/mcjMF8NXvpQRJhd/Yrlzeiqcr4TaY0XSN7t5
- GLVGyPsLbwFNBjRDiHXLMtfJIZEtm8QgtWB2vUL6iV30PVxYMya+TxpI1
- xLnRJtvuwA4cZyuVo9wCHPgkWq4GrAJvWpi59hb3euq1TtIbhijJMIG2A
- YACkX0NzV9K15RRv6QejtJDQCy9Om1/nat0KAdsTNboY9geZZs4nKqFle
- kDntArNdhyw/hqLsmosFuPwkU1dbQHExY0Xf0RD1NbUfF8buk3ae07PMU
- ZaERHBni7m+2vInvJcpA+oHUQR8KUhNk/022SMDW7CK4QW91oEU+s4F0K g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="258701187"
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="258701187"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 05:46:25 -0700
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="585177675"
-Received: from mphancoc-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.232.242])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 05:46:23 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Move intel_vtd_active and run_as_guest to i915_utils
-Date: Mon, 28 Mar 2022 13:46:15 +0100
-Message-Id: <20220328124615.2301238-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+ t=1648471631; x=1680007631;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=++Uu2UoUanLXrVeXYv7D03BB0sBt8ihUCITUBBdCHTg=;
+ b=WtdG/fA5c0LnCZvx3El1YbvoZhuzBfBVdLlRi7+HVj0thnJS0V8qX2Su
+ uoaJz2gmzF69Ky0w3GLRF54klyKU9xK99AuBdyJKCJYQdUYY5kdUivXbo
+ HmItuqJ0O5Sk3kmU9qDUwttk81Ub2nxskdaMgL2YYbbj5f88YdzD/oSiN
+ rpumVqd4iQIapVOXJms9I7idMozSL+NRS4cY5hiSo/Eak/OkNHk2vid9T
+ QfbUzLi33ag6wybxCATnoBaxE7ijt3HHHC4xG5Ur48zdR7YonPveUfvL5
+ Pes86bnWSO83b/jNuJxvToEHz6ZgVUpKDHA3yRRXSKPFuNlS8eOgvRu2c A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="241142513"
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="241142513"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 05:47:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; d="scan'208";a="651990000"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga004.jf.intel.com with ESMTP; 28 Mar 2022 05:47:08 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nYom4-00022L-0h; Mon, 28 Mar 2022 12:47:08 +0000
+Date: Mon, 28 Mar 2022 20:46:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 03/11] drm/edid: slightly restructure
+ timing and non-timing descriptor structs
+Message-ID: <202203282023.nkTeTLA5-lkp@intel.com>
+References: <04c8140a780dc02155a16d8acc64dbce756739bb.1648458971.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <04c8140a780dc02155a16d8acc64dbce756739bb.1648458971.git.jani.nikula@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,463 +61,725 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ kbuild-all@lists.01.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi Jani,
 
-Continuation of the effort to declutter i915_drv.h.
+I love your patch! Yet something to improve:
 
-Also, component specific helpers which consult the iommu/virtualization
-helpers moved to respective component source/header files as appropriate.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip v5.17 next-20220328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/intel_bw.c      |  3 +-
- drivers/gpu/drm/i915/display/intel_display.c |  8 ++++-
- drivers/gpu/drm/i915/display/intel_display.h |  2 ++
- drivers/gpu/drm/i915/display/intel_fbc.c     |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  3 +-
- drivers/gpu/drm/i915/gem/i915_gemfs.c        |  3 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c         |  5 +--
- drivers/gpu/drm/i915/gt/intel_gtt.c          | 12 +++++++
- drivers/gpu/drm/i915/gt/intel_gtt.h          |  2 ++
- drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
- drivers/gpu/drm/i915/i915_driver.c           |  3 +-
- drivers/gpu/drm/i915/i915_driver.h           |  4 +++
- drivers/gpu/drm/i915/i915_drv.h              | 37 --------------------
- drivers/gpu/drm/i915/i915_gpu_error.c        |  3 +-
- drivers/gpu/drm/i915/i915_utils.c            | 11 ++++++
- drivers/gpu/drm/i915/i915_utils.h            |  8 +++++
- drivers/gpu/drm/i915/intel_device_info.c     |  3 +-
- drivers/gpu/drm/i915/intel_pch.c             |  3 +-
- 18 files changed, 66 insertions(+), 48 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-edid-constify-EDID-parsing-with-some-fixes/20220328-171858
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: mips-randconfig-r005-20220327 (https://download.01.org/0day-ci/archive/20220328/202203282023.nkTeTLA5-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f538c9296c54ce8f878432153584a68939ffc111
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jani-Nikula/drm-edid-constify-EDID-parsing-with-some-fixes/20220328-171858
+        git checkout f538c9296c54ce8f878432153584a68939ffc111
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/tiny/
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-index ac11ff19e47d..c93454f46d30 100644
---- a/drivers/gpu/drm/i915/display/intel_bw.c
-+++ b/drivers/gpu/drm/i915/display/intel_bw.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_atomic_state_helper.h>
- 
- #include "i915_reg.h"
-+#include "i915_utils.h"
- #include "intel_atomic.h"
- #include "intel_bw.h"
- #include "intel_cdclk.h"
-@@ -649,7 +650,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
- 	for_each_pipe(dev_priv, pipe)
- 		data_rate += bw_state->data_rate[pipe];
- 
--	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
-+	if (DISPLAY_VER(dev_priv) >= 13 && i915_vtd_active(dev_priv))
- 		data_rate = DIV_ROUND_UP(data_rate * 105, 100);
- 
- 	return data_rate;
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 3d2ff258f0a9..1dd1fc68c4c0 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -77,6 +77,7 @@
- #include "g4x_hdmi.h"
- #include "hsw_ips.h"
- #include "i915_drv.h"
-+#include "i915_utils.h"
- #include "icl_dsi.h"
- #include "intel_acpi.h"
- #include "intel_atomic.h"
-@@ -1197,7 +1198,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
- {
- 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
- 
--	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
-+	return crtc_state->uapi.async_flip && i915_vtd_active(i915) &&
- 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
- }
- 
-@@ -10686,3 +10687,8 @@ void intel_display_driver_unregister(struct drm_i915_private *i915)
- 	acpi_video_unregister();
- 	intel_opregion_unregister(i915);
- }
-+
-+bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
-+{
-+	return DISPLAY_VER(dev_priv) >= 6 && i915_vtd_active(dev_priv);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
-index 8513703086b7..d69587c76e71 100644
---- a/drivers/gpu/drm/i915/display/intel_display.h
-+++ b/drivers/gpu/drm/i915/display/intel_display.h
-@@ -694,4 +694,6 @@ void assert_transcoder(struct drm_i915_private *dev_priv,
- #define I915_STATE_WARN_ON(x)						\
- 	I915_STATE_WARN((x), "%s", "WARN_ON(" __stringify(x) ")")
- 
-+bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv);
-+
- #endif
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 142280b6ce6d..b653f3ba7c66 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -43,6 +43,7 @@
- #include <drm/drm_fourcc.h>
- 
- #include "i915_drv.h"
-+#include "i915_utils.h"
- #include "i915_vgpu.h"
- #include "intel_cdclk.h"
- #include "intel_de.h"
-@@ -1643,7 +1644,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *i915)
- static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
- {
- 	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
--	if (intel_vtd_active(i915) &&
-+	if (i915_vtd_active(i915) &&
- 	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
- 		drm_info(&i915->drm,
- 			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index 143f61aaa867..47b5e0e342ab 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -17,6 +17,7 @@
- #include "i915_drv.h"
- #include "i915_gem_stolen.h"
- #include "i915_reg.h"
-+#include "i915_utils.h"
- #include "i915_vgpu.h"
- #include "intel_mchbar_regs.h"
- 
-@@ -403,7 +404,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 		return 0;
- 	}
- 
--	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
-+	if (i915_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
- 		drm_notice(&i915->drm,
- 			   "%s, disabling use of stolen memory\n",
- 			   "DMAR active");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-index 7271fbf813fa..ee87874e59dc 100644
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-@@ -9,6 +9,7 @@
- 
- #include "i915_drv.h"
- #include "i915_gemfs.h"
-+#include "i915_utils.h"
- 
- int i915_gemfs_init(struct drm_i915_private *i915)
- {
-@@ -32,7 +33,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
- 	 */
- 
- 	opts = NULL;
--	if (intel_vtd_active(i915)) {
-+	if (i915_vtd_active(i915)) {
- 		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
- 			opts = huge_opt;
- 			drm_info(&i915->drm,
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 04191fe2ee34..86b2cd2a9f34 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -18,6 +18,7 @@
- #include "intel_gt_regs.h"
- #include "i915_drv.h"
- #include "i915_scatterlist.h"
-+#include "i915_utils.h"
- #include "i915_vgpu.h"
- 
- #include "intel_gtt.h"
-@@ -104,7 +105,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
- 	 * Query intel_iommu to see if we need the workaround. Presumably that
- 	 * was loaded first.
- 	 */
--	if (!intel_vtd_active(i915))
-+	if (!i915_vtd_active(i915))
- 		return false;
- 
- 	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
-@@ -1258,7 +1259,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
- 	if (ret)
- 		return ret;
- 
--	if (intel_vtd_active(i915))
-+	if (i915_vtd_active(i915))
- 		drm_info(&i915->drm, "VT-d active for gfx access\n");
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 719fd31eee80..b67831833c9a 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -13,10 +13,22 @@
- #include "gem/i915_gem_internal.h"
- #include "gem/i915_gem_lmem.h"
- #include "i915_trace.h"
-+#include "i915_utils.h"
- #include "intel_gt.h"
- #include "intel_gt_regs.h"
- #include "intel_gtt.h"
- 
-+
-+static bool intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
-+{
-+	return IS_BROXTON(i915) && i915_vtd_active(i915);
-+}
-+
-+bool intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915)
-+{
-+	return IS_CHERRYVIEW(i915) || intel_ggtt_update_needs_vtd_wa(i915);
-+}
-+
- struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz)
- {
- 	struct drm_i915_gem_object *obj;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 4529b5e9f6e6..5922e2cf4d8d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -382,6 +382,8 @@ struct i915_ppgtt {
- #define i915_is_dpt(vm) ((vm)->is_dpt)
- #define i915_is_ggtt_or_dpt(vm) (i915_is_ggtt(vm) || i915_is_dpt(vm))
- 
-+bool intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915);
-+
- int __must_check
- i915_vm_lock_objects(struct i915_address_space *vm, struct i915_gem_ww_ctx *ww);
- 
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 445b4da23950..94e5c29d2ee3 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -48,6 +48,7 @@
- 
- #include "i915_debugfs.h"
- #include "i915_debugfs_params.h"
-+#include "i915_driver.h"
- #include "i915_irq.h"
- #include "i915_scheduler.h"
- #include "intel_mchbar_regs.h"
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 64e6f76861f9..15808ecc421a 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -88,6 +88,7 @@
- #include "i915_suspend.h"
- #include "i915_switcheroo.h"
- #include "i915_sysfs.h"
-+#include "i915_utils.h"
- #include "i915_vgpu.h"
- #include "intel_dram.h"
- #include "intel_gvt.h"
-@@ -744,7 +745,7 @@ void
- i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
- {
- 	drm_printf(p, "iommu: %s\n",
--		   str_enabled_disabled(intel_vtd_active(i915)));
-+		   str_enabled_disabled(i915_vtd_active(i915)));
- }
- 
- static void i915_welcome_messages(struct drm_i915_private *dev_priv)
-diff --git a/drivers/gpu/drm/i915/i915_driver.h b/drivers/gpu/drm/i915/i915_driver.h
-index 9d11de65daaf..44ec543d92cb 100644
---- a/drivers/gpu/drm/i915/i915_driver.h
-+++ b/drivers/gpu/drm/i915/i915_driver.h
-@@ -11,6 +11,7 @@
- struct pci_dev;
- struct pci_device_id;
- struct drm_i915_private;
-+struct drm_printer;
- 
- #define DRIVER_NAME		"i915"
- #define DRIVER_DESC		"Intel Graphics"
-@@ -26,4 +27,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915);
- int i915_driver_resume_switcheroo(struct drm_i915_private *i915);
- int i915_driver_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state);
- 
-+void
-+i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
-+
- #endif /* __I915_DRIVER_H__ */
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 217c09422711..799f386a7ef2 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -32,9 +32,6 @@
- 
- #include <uapi/drm/i915_drm.h>
- 
--#include <asm/hypervisor.h>
--
--#include <linux/intel-iommu.h>
- #include <linux/pm_qos.h>
- 
- #include <drm/drm_connector.h>
-@@ -1387,43 +1384,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define HAS_PERCTX_PREEMPT_CTRL(i915) \
- 	((GRAPHICS_VER(i915) >= 9) &&  GRAPHICS_VER_FULL(i915) < IP_VER(12, 55))
- 
--static inline bool run_as_guest(void)
--{
--	return !hypervisor_is_type(X86_HYPER_NATIVE);
--}
--
- #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
- 					      IS_ALDERLAKE_S(dev_priv))
- 
--static inline bool intel_vtd_active(struct drm_i915_private *i915)
--{
--	if (device_iommu_mapped(i915->drm.dev))
--		return true;
--
--	/* Running as a guest, we assume the host is enforcing VT'd */
--	return run_as_guest();
--}
--
--void
--i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
--
--static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
--{
--	return DISPLAY_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
--}
--
--static inline bool
--intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
--{
--	return IS_BROXTON(i915) && intel_vtd_active(i915);
--}
--
--static inline bool
--intel_vm_no_concurrent_access_wa(struct drm_i915_private *i915)
--{
--	return IS_CHERRYVIEW(i915) || intel_ggtt_update_needs_vtd_wa(i915);
--}
--
- /* i915_gem.c */
- void i915_gem_init_early(struct drm_i915_private *dev_priv);
- void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 795f91a88d1d..5478b1dd26bd 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -55,6 +55,7 @@
- #include "i915_gpu_error.h"
- #include "i915_memcpy.h"
- #include "i915_scatterlist.h"
-+#include "i915_utils.h"
- 
- #define ALLOW_FAIL (__GFP_KSWAPD_RECLAIM | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
- #define ATOMIC_MAYFAIL (GFP_ATOMIC | __GFP_NOWARN)
-@@ -1892,7 +1893,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
- 	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
- 	error->suspended = i915->runtime_pm.suspended;
- 
--	error->iommu = intel_vtd_active(i915);
-+	error->iommu = i915_vtd_active(i915);
- 	error->reset_count = i915_reset_count(&i915->gpu_error);
- 	error->suspend_count = i915->suspend_count;
- 
-diff --git a/drivers/gpu/drm/i915/i915_utils.c b/drivers/gpu/drm/i915/i915_utils.c
-index f9e780dee9de..29fd02bf5ea8 100644
---- a/drivers/gpu/drm/i915/i915_utils.c
-+++ b/drivers/gpu/drm/i915/i915_utils.c
-@@ -3,6 +3,8 @@
-  * Copyright Â© 2019 Intel Corporation
-  */
- 
-+#include <linux/device.h>
-+
- #include <drm/drm_drv.h>
- 
- #include "i915_drv.h"
-@@ -114,3 +116,12 @@ void set_timer_ms(struct timer_list *t, unsigned long timeout)
- 	/* Keep t->expires = 0 reserved to indicate a canceled timer. */
- 	mod_timer(t, jiffies + timeout ?: 1);
- }
-+
-+bool i915_vtd_active(struct drm_i915_private *i915)
-+{
-+	if (device_iommu_mapped(i915->drm.dev))
-+		return true;
-+
-+	/* Running as a guest, we assume the host is enforcing VT'd */
-+	return i915_run_as_guest();
-+}
-diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index 3ff9611ff81c..b2d89c43f24d 100644
---- a/drivers/gpu/drm/i915/i915_utils.h
-+++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -32,6 +32,7 @@
- #include <linux/types.h>
- #include <linux/workqueue.h>
- #include <linux/sched/clock.h>
-+#include <asm/hypervisor.h>
- 
- struct drm_i915_private;
- struct timer_list;
-@@ -425,4 +426,11 @@ static inline bool timer_expired(const struct timer_list *t)
- 	return timer_active(t) && !timer_pending(t);
- }
- 
-+static inline bool i915_run_as_guest(void)
-+{
-+	return !hypervisor_is_type(X86_HYPER_NATIVE);
-+}
-+
-+bool i915_vtd_active(struct drm_i915_private *i915);
-+
- #endif /* !__I915_UTILS_H */
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 8d458226f478..da30be07544d 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -31,6 +31,7 @@
- #include "display/intel_de.h"
- #include "intel_device_info.h"
- #include "i915_drv.h"
-+#include "i915_utils.h"
- 
- #define PLATFORM_NAME(x) [INTEL_##x] = #x
- static const char * const platform_names[] = {
-@@ -389,7 +390,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 			info->display.has_dsc = 0;
- 	}
- 
--	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
-+	if (GRAPHICS_VER(dev_priv) == 6 && i915_vtd_active(dev_priv)) {
- 		drm_info(&dev_priv->drm,
- 			 "Disabling ppGTT for VT-d support\n");
- 		info->ppgtt_type = INTEL_PPGTT_NONE;
-diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
-index 4cce044efde2..e2b2bbdc0714 100644
---- a/drivers/gpu/drm/i915/intel_pch.c
-+++ b/drivers/gpu/drm/i915/intel_pch.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include "i915_drv.h"
-+#include "i915_utils.h"
- #include "intel_pch.h"
- 
- /* Map PCH device id to PCH type, or PCH_NONE if unknown. */
-@@ -256,7 +257,7 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
- 		dev_priv->pch_type = PCH_NOP;
- 		dev_priv->pch_id = 0;
- 	} else if (!pch) {
--		if (run_as_guest() && HAS_DISPLAY(dev_priv)) {
-+		if (i915_run_as_guest() && HAS_DISPLAY(dev_priv)) {
- 			intel_virt_detect_pch(dev_priv, &id, &pch_type);
- 			dev_priv->pch_type = pch_type;
- 			dev_priv->pch_id = id;
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tiny/gm12u320.c:478:18: error: 'struct detailed_timing' has no member named 'pixel_clock'
+     478 |                 .pixel_clock = 3383,
+         |                  ^~~~~~~~~~~
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+   drivers/gpu/drm/tiny/gm12u320.c:495:18: error: 'struct detailed_timing' has no member named 'pixel_clock'
+     495 |                 .pixel_clock = 0,
+         |                  ^~~~~~~~~~~
+>> drivers/gpu/drm/tiny/gm12u320.c:496:23: error: 'union <anonymous>' has no member named 'other_data'
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:496:41: warning: initialized field overwritten [-Woverride-init]
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         ^~~~
+   drivers/gpu/drm/tiny/gm12u320.c:496:41: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:497:23: error: 'union <anonymous>' has no member named 'other_data'
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:497:57: warning: initialized field overwritten [-Woverride-init]
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         ^~
+   drivers/gpu/drm/tiny/gm12u320.c:497:57: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:498:23: error: 'union <anonymous>' has no member named 'other_data'
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:498:57: warning: initialized field overwritten [-Woverride-init]
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         ^~
+   drivers/gpu/drm/tiny/gm12u320.c:498:57: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:499:23: error: 'union <anonymous>' has no member named 'other_data'
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:499:61: warning: initialized field overwritten [-Woverride-init]
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             ^~
+   drivers/gpu/drm/tiny/gm12u320.c:499:61: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:500:23: error: 'union <anonymous>' has no member named 'other_data'
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:500:61: warning: initialized field overwritten [-Woverride-init]
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             ^~
+   drivers/gpu/drm/tiny/gm12u320.c:500:61: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:501:23: error: 'union <anonymous>' has no member named 'other_data'
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:501:63: warning: initialized field overwritten [-Woverride-init]
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               ^
+   drivers/gpu/drm/tiny/gm12u320.c:501:63: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:502:23: error: 'union <anonymous>' has no member named 'other_data'
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:502:53: warning: initialized field overwritten [-Woverride-init]
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     ^
+   drivers/gpu/drm/tiny/gm12u320.c:502:53: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:503:23: error: 'union <anonymous>' has no member named 'other_data'
+     503 |                 .data.other_data.data.range.formula.cvt = {
+         |                       ^~~~~~~~~~
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   drivers/gpu/drm/tiny/gm12u320.c:503:59: warning: initialized field overwritten [-Woverride-init]
+     503 |                 .data.other_data.data.range.formula.cvt = {
+         |                                                           ^
+   drivers/gpu/drm/tiny/gm12u320.c:503:59: note: (near initialization for 'gm12u320_edid.detailed_timings[1].data.pixel_data')
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+   drivers/gpu/drm/tiny/gm12u320.c:506:18: error: 'struct detailed_timing' has no member named 'pixel_clock'
+     506 |                 .pixel_clock = 0,
+         |                  ^~~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:507:23: error: 'union <anonymous>' has no member named 'other_data'
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:507:41: warning: initialized field overwritten [-Woverride-init]
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         ^~~~
+   drivers/gpu/drm/tiny/gm12u320.c:507:41: note: (near initialization for 'gm12u320_edid.detailed_timings[2].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:508:23: error: 'union <anonymous>' has no member named 'other_data'
+     508 |                 .data.other_data.data.str.str = {
+         |                       ^~~~~~~~~~
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   drivers/gpu/drm/tiny/gm12u320.c:508:49: warning: initialized field overwritten [-Woverride-init]
+     508 |                 .data.other_data.data.str.str = {
+         |                                                 ^
+   drivers/gpu/drm/tiny/gm12u320.c:508:49: note: (near initialization for 'gm12u320_edid.detailed_timings[2].data.pixel_data')
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   ......
+     511 |         }, {
+         |         }
+   drivers/gpu/drm/tiny/gm12u320.c:512:18: error: 'struct detailed_timing' has no member named 'pixel_clock'
+     512 |                 .pixel_clock = 0,
+         |                  ^~~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:513:23: error: 'union <anonymous>' has no member named 'other_data'
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                       ^~~~~~~~~~
+   drivers/gpu/drm/tiny/gm12u320.c:513:41: warning: initialized field overwritten [-Woverride-init]
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                                         ^~~~
+   drivers/gpu/drm/tiny/gm12u320.c:513:41: note: (near initialization for 'gm12u320_edid.detailed_timings[3].data.pixel_data.pixel_clock')
+   drivers/gpu/drm/tiny/gm12u320.c:514:23: error: 'union <anonymous>' has no member named 'other_data'
+     514 |                 .data.other_data.data.str.str = {
+         |                       ^~~~~~~~~~
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   ......
+     511 |         }, {
+         |         }
+     512 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                                         {   }}
+   drivers/gpu/drm/tiny/gm12u320.c:514:49: warning: initialized field overwritten [-Woverride-init]
+     514 |                 .data.other_data.data.str.str = {
+         |                                                 ^
+   drivers/gpu/drm/tiny/gm12u320.c:514:49: note: (near initialization for 'gm12u320_edid.detailed_timings[3].data.pixel_data')
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   ......
+     511 |         }, {
+         |         }
+     512 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                                         {   }}
+   ......
+     517 |         } },
+         |         }
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   ......
+     511 |         }, {
+         |         }
+     512 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                                         {   }}
+   ......
+     517 |         } },
+         |         }
+>> drivers/gpu/drm/tiny/gm12u320.c:464:36: warning: missing braces around initializer [-Wmissing-braces]
+     464 | static struct edid gm12u320_edid = {
+         |                                    ^
+   ......
+     478 |                 .pixel_clock = 3383,
+         |                                {{  }}
+     479 |                 /* hactive = 848, hblank = 256 */
+     480 |                 .data.pixel_data.hactive_lo = 0x50,
+         |                                                   }}
+     481 |                 .data.pixel_data.hblank_lo = 0x00,
+         |                                                  }}
+     482 |                 .data.pixel_data.hactive_hblank_hi = 0x31,
+         |                                                          }}
+     483 |                 /* vactive = 480, vblank = 28 */
+     484 |                 .data.pixel_data.vactive_lo = 0xe0,
+         |                                                   }}
+     485 |                 .data.pixel_data.vblank_lo = 0x1c,
+         |                                                  }}
+     486 |                 .data.pixel_data.vactive_vblank_hi = 0x10,
+         |                                                          }}
+     487 |                 /* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+     488 |                 .data.pixel_data.hsync_offset_lo = 0x28,
+         |                                                        }}
+     489 |                 .data.pixel_data.hsync_pulse_width_lo = 0x80,
+         |                                                             }}
+     490 |                 .data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+         |                                                                    }}
+     491 |                 .data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+         |                                                                          }}
+   ......
+     494 |         }, {
+         |         }}
+     495 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     496 |                 .data.other_data.type = 0xfd, /* Monitor ranges */
+         |                                         {   }}
+     497 |                 .data.other_data.data.range.min_vfreq = 59,
+         |                                                         { }}
+     498 |                 .data.other_data.data.range.max_vfreq = 61,
+         |                                                         { }}
+     499 |                 .data.other_data.data.range.min_hfreq_khz = 29,
+         |                                                             { }}
+     500 |                 .data.other_data.data.range.max_hfreq_khz = 32,
+         |                                                             { }}
+     501 |                 .data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+         |                                                               {}}
+     502 |                 .data.other_data.data.range.flags = 0,
+         |                                                     {}}
+   ......
+     505 |         }, {
+         |         }
+     506 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     507 |                 .data.other_data.type = 0xfc, /* Model string */
+         |                                         {   }}
+   ......
+     511 |         }, {
+         |         }
+     512 |                 .pixel_clock = 0,
+         |                                -
+         |                                {{0}}
+     513 |                 .data.other_data.type = 0xfe, /* Unspecified text / padding */
+         |                                         {   }}
+   ......
+     517 |         } },
+         |         }
+
+
+vim +478 drivers/gpu/drm/tiny/gm12u320.c
+
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  457  
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  458  /*
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  459   * We use fake EDID info so that userspace know that it is dealing with
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  460   * an Acer projector, rather then listing this as an "unknown" monitor.
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  461   * Note this assumes this driver is only ever used with the Acer C120, if we
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  462   * add support for other devices the vendor and model should be parameterized.
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  463   */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21 @464  static struct edid gm12u320_edid = {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  465  	.header		= { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00 },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  466  	.mfg_id		= { 0x04, 0x72 },	/* "ACR" */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  467  	.prod_code	= { 0x20, 0xc1 },	/* C120h */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  468  	.serial		= 0xaa55aa55,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  469  	.mfg_week	= 1,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  470  	.mfg_year	= 16,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  471  	.version	= 1,			/* EDID 1.3 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  472  	.revision	= 3,			/* EDID 1.3 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  473  	.input		= 0x08,			/* Analog input */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  474  	.features	= 0x0a,			/* Pref timing in DTD 1 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  475  	.standard_timings = { { 1, 1 }, { 1, 1 }, { 1, 1 }, { 1, 1 },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  476  			      { 1, 1 }, { 1, 1 }, { 1, 1 }, { 1, 1 } },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  477  	.detailed_timings = { {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21 @478  		.pixel_clock = 3383,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  479  		/* hactive = 848, hblank = 256 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  480  		.data.pixel_data.hactive_lo = 0x50,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  481  		.data.pixel_data.hblank_lo = 0x00,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  482  		.data.pixel_data.hactive_hblank_hi = 0x31,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  483  		/* vactive = 480, vblank = 28 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  484  		.data.pixel_data.vactive_lo = 0xe0,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  485  		.data.pixel_data.vblank_lo = 0x1c,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  486  		.data.pixel_data.vactive_vblank_hi = 0x10,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  487  		/* hsync offset 40 pw 128, vsync offset 1 pw 4 */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  488  		.data.pixel_data.hsync_offset_lo = 0x28,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  489  		.data.pixel_data.hsync_pulse_width_lo = 0x80,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  490  		.data.pixel_data.vsync_offset_pulse_width_lo = 0x14,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  491  		.data.pixel_data.hsync_vsync_offset_pulse_width_hi = 0x00,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  492  		/* Digital separate syncs, hsync+, vsync+ */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  493  		.data.pixel_data.misc = 0x1e,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  494  	}, {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  495  		.pixel_clock = 0,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21 @496  		.data.other_data.type = 0xfd, /* Monitor ranges */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  497  		.data.other_data.data.range.min_vfreq = 59,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  498  		.data.other_data.data.range.max_vfreq = 61,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  499  		.data.other_data.data.range.min_hfreq_khz = 29,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  500  		.data.other_data.data.range.max_hfreq_khz = 32,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  501  		.data.other_data.data.range.pixel_clock_mhz = 4, /* 40 MHz */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  502  		.data.other_data.data.range.flags = 0,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  503  		.data.other_data.data.range.formula.cvt = {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  504  			0xa0, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  505  	}, {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  506  		.pixel_clock = 0,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  507  		.data.other_data.type = 0xfc, /* Model string */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  508  		.data.other_data.data.str.str = {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  509  			'P', 'r', 'o', 'j', 'e', 'c', 't', 'o', 'r', '\n',
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  510  			' ', ' ',  ' ' },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  511  	}, {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  512  		.pixel_clock = 0,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  513  		.data.other_data.type = 0xfe, /* Unspecified text / padding */
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  514  		.data.other_data.data.str.str = {
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  515  			'\n', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  516  			' ', ' ',  ' ' },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  517  	} },
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  518  	.checksum = 0x13,
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  519  };
+e4f86e43716443 drivers/gpu/drm/gm12u320/gm12u320.c Hans de Goede 2019-07-21  520  
+
 -- 
-2.32.0
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
