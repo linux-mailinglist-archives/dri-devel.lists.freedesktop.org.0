@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DC94E9C75
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 18:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6498C4E9CAD
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 18:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D775110E736;
-	Mon, 28 Mar 2022 16:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2E210E0E6;
+	Mon, 28 Mar 2022 16:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3E010E736
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 16:44:07 +0000 (UTC)
-Received: by mail-qv1-xf2c.google.com with SMTP id gh15so12264386qvb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 09:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E59F210E0E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 16:47:05 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id c10so11509103ejs.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 09:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZFIdehZrTxdj/RvUPXGwNiJz0CBRPSutTAor/H+cLso=;
- b=HY7BqZqay1vHlPzQoQMjzcnyQyiXyRjGp+TAREShAf3pydiqV7DKYRaYQoqT77XomN
- 95E7RQUXQwKi69JGzrCjskWWNF3VvTACp2QapXR/gcLtFij4dmvrqC42wjHDRht+Dxwb
- qrIJkT4BC1sa/5QqCEZkCH+19SGG/vuhKj0p/2nrtMZgOoINM+J0EN7chOuZyCcc4kGp
- BLWLjETKDhQZZGTerzv3Gytz8FVyy1LGew3BsoJfUBA122woOjL/N4+SDb/dJnBMc26y
- 6gtJ4loim8gQik4TgrcYztnMPkWzZvgrTAlLASvqNfzpk87vgb//cv2hRAzehoBw8tDz
- 8ISA==
+ :cc; bh=240TDsg9YUtR0a9x8qUKpdyaJpg3b26fnS8FPgo8OlE=;
+ b=VNNANou4q1lqBOe6AYHFYWdg0u1p6UkItahtEsA+qoQBTDL0o7MF6Shyl46mNSWA6Z
+ W2iyPIh/YOhGBzWLVDG/LYnDEVnCqxrfRPN08ub6+ZsH+UNaSdaV/rnKPiVChW08ziv0
+ Ipbbsu9RpBMe0S4fmX5OE9icR2schY6lYsZ+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZFIdehZrTxdj/RvUPXGwNiJz0CBRPSutTAor/H+cLso=;
- b=NA2AsufMc20mEBVHxD2CFAJUQLrgme4shMsM7IcGLoXS2ixphu5IytWYKqj3t5sc3U
- WJBpLvek+e64YSiCULrvdM4+uV56t50P08nQAiNM3bcOzFTem+AO9/2RacquU9dxsl6c
- 18FJ43CjSwyabNHWQPPn7b+8G+YCoGJ6E6E1mTOrdyw0mSLuwSN5ozL20qSragKoBP9Z
- F0sNigAq6KVotOrhxct9EEbK9ZLQlEEXrB4RDpzYb1ZIqLKdbisfYeVIPospfHjQqDWA
- 3UAh2VxCtFxXjLrW2PTsmCFP24cqvpnLSpS1nlfJiPSe117zths0fBqwk7s+DIDvKXOc
- eHKA==
-X-Gm-Message-State: AOAM531BJEINWeVJWhl/WuiA3deEL4nz3GENHSw6gvx2zfjlwxmDZXjc
- nriWN+vW6Dd58opyEqcegLJnc17O3m1JyOd8gg8pVg==
-X-Google-Smtp-Source: ABdhPJzliM5etgMj0wPTZaXVmyqbng42nS8uHRrcWTfKZ4sLgNctWWdu5gzWqP4wan4eEECcgE1dx/vzA6PVuddrJ4s=
-X-Received: by 2002:a0c:b2cb:0:b0:435:cb61:322e with SMTP id
- d11-20020a0cb2cb000000b00435cb61322emr21682847qvf.122.1648485844212; Mon, 28
- Mar 2022 09:44:04 -0700 (PDT)
+ bh=240TDsg9YUtR0a9x8qUKpdyaJpg3b26fnS8FPgo8OlE=;
+ b=7hevQJndMp/L/KzV6UFkNZmeLVYdat+F0cQ/nLxhLEEmlv0U0skoZkiOW5RX4dtgTS
+ F44N71kJzyor20cXgiLdC9/EZkNc0TzWPOwfZwiyOW8FlzDbh2/BkhwkKnpy71AFZWfb
+ 49xQ9V3PEkBh8CbhAWowu6hJfXdJQjJGSxAcmL9rEsI83jbSALh1lm3ZcvyL8r0gtZ4Y
+ +MSsyvaC7E8+1H6ZmFiZ30itDutbqejSL7FX5jfEAxIAg/iDIAUccSwC1d37hw4sCuuW
+ AXUNjNDYlyILjcefyLr+Mc/L2tgZhwz6cROebXizSzYq5IUy7l67XBge+38GGfT39lL1
+ TL9g==
+X-Gm-Message-State: AOAM532pIpNaAelnBMYkUWH2BT/+G6e/RMaXN5e3ygHKYsLERQ/eLSUK
+ 98OOcFRIv+9OprsADeU0oQyvdiDQv3mMgZQdO+ExOg==
+X-Google-Smtp-Source: ABdhPJyEzl7muW1qyQjIhKc2p2Vw4L3CG46U7tmxJtfp1ljwICaarwHUeQ8a1FaAEQ2KAL2HYMBAwohB5WMyE7SUFA8=
+X-Received: by 2002:a17:907:60cf:b0:6df:a8e8:3597 with SMTP id
+ hv15-20020a17090760cf00b006dfa8e83597mr27889019ejc.111.1648486024366; Mon, 28
+ Mar 2022 09:47:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328152923.90623-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220328152923.90623-1-krzysztof.kozlowski@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 28 Mar 2022 19:43:53 +0300
-Message-ID: <CAA8EJprWoxWwk5EWEfWdLquPR+2=u6V0-v1-+wHMHOk8HiEyNw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: msm: dsi: remove address/size cells
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20220308082726.77482-1-jagan@amarulasolutions.com>
+In-Reply-To: <20220308082726.77482-1-jagan@amarulasolutions.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 28 Mar 2022 22:16:52 +0530
+Message-ID: <CAMty3ZDmBbr7JUWU-Dw=E4wVntCi1Fc9tV4qnn-sNNQMBLb4iA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] Revert "drm/bridge: dw-mipi-dsi: Find the possible
+ DSI devices"
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,65 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 at 18:30, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+On Tue, Mar 8, 2022 at 1:57 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
 >
-> The DSI node is not a bus and the children do not have unit addresses.
+> This reverts commit c206c7faeb3263a7cc7b4de443a3877cd7a5e74b.
 >
-> Reported-by: Vinod Koul <vkoul@kernel.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-NAK.
-DSI panels are children of the DSI device tree node with the reg = <0>; address.
-This is the convention used by other platforms too (see e.g.
-arch/arm64/boot/dts/freescale/imx8mq-evk.dts).
-
-With the DSI split link it is possible to attach two panels to a
-single DSI host, so addresses are necessary.
-
+> In order to avoid any probe ordering issues, the I2C based downstream
+> bridge drivers now register and attach the DSI devices at the probe
+> instead of doing it on drm_bridge_function.attach().
+>
+> Examples of those commits are:
+>
+> commit <6ef7ee48765f> ("drm/bridge: sn65dsi83: Register and attach our
+> DSI device at probe")
+> commit <d89078c37b10> ("drm/bridge: lt8912b: Register and attach our DSI
+> device at probe")
+> commit <864c49a31d6b> ("drm/bridge: adv7511: Register and attach our DSI
+> device at probe")
+>
+> dw-mipi-dsi has panel or bridge finding code based on previous downstream
+> bridges, so revert the same and make the panel or bridge funding in host
+> attach as before.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 > ---
->  .../bindings/display/msm/dsi-controller-main.yaml          | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> index 7095ec3c890d..57f238f72326 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> @@ -51,10 +51,6 @@ properties:
->    phy-names:
->      const: dsi
->
-> -  "#address-cells": true
-> -
-> -  "#size-cells": true
-> -
->    syscon-sfpb:
->      description: A phandle to mmss_sfpb syscon node (only for DSIv2).
->      $ref: "/schemas/types.yaml#/definitions/phandle"
-> @@ -154,9 +150,6 @@ examples:
->             reg = <0x0ae94000 0x400>;
->             reg-names = "dsi_ctrl";
->
-> -           #address-cells = <1>;
-> -           #size-cells = <0>;
-> -
->             interrupt-parent = <&mdss>;
->             interrupts = <4>;
->
-> --
-> 2.32.0
->
+> Changes for v3, v2:
+> - none
 
+Gentle Ping on this series?
 
--- 
-With best wishes
-Dmitry
+Jagan.
