@@ -1,45 +1,156 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49634EA28F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 23:44:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 522B14EA3E7
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 01:59:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED79310E14B;
-	Mon, 28 Mar 2022 21:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3760110EE32;
+	Mon, 28 Mar 2022 23:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B3210E12F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 21:43:58 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8BD8683FC9;
- Mon, 28 Mar 2022 23:43:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648503837;
- bh=FykDjECs8jfACXdGdOymyihNjRFp2NJL+1BGQ9UHWoE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KSsCDwoj51KL/sqNdh8SF74OFb0Z6eDV6YVrAC7FrvU1R6qzAf+Z4QWpx/b7+MViG
- RMTfdAyIc3TcHyfi/LYL7wO0QeEb4e7HiN0kd7IxRMEVeRKnINlw0RM9F6ZXLoaou5
- P6o7HT8yi8Nys6TtF6nqhM4OYPUIf0CtigG6KZWeFS1jsHaJBnrJ0Hbxai8c2bIBTS
- cB6wwLd7kE6YJ8eaHquga7U8dFYp0tt8v/DjAiYAJR/gX8PQlYYCQCcxf2j194hJip
- LS39KJJke+wpyba3ZbLvqqbsrcsokHMqRi3ZliTcwbGix4hfL3I2XyFDHruGuUJY07
- WBhsqbApb9+GQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 11/11] drm/bridge: tc358767: Add DSI-to-DPI mode support
-Date: Mon, 28 Mar 2022 23:43:24 +0200
-Message-Id: <20220328214324.252472-12-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220328214324.252472-1-marex@denx.de>
-References: <20220328214324.252472-1-marex@denx.de>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7AB10EE32
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 23:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648511940; x=1680047940;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=kOpz971qK4RHXgCOmw9n9Fzd3A4pjjKvU6Hw0SvgWwY=;
+ b=DIUqvYmOg9tEAyi7qGax+D2iZXYt+QOsCcYJNOcs67XtosPqXUuqJJxq
+ sanT19gjppRCcB29mwBazeTjUoHHZ0OK3yJMrV65GbQrp3bZXBmvb0SFU
+ 4/9ukJuQh5hRdzIiQw4PCZeCv/Sec++hMrZuhc2/Qx51per9L3PQ8uqyw
+ 564s91pO3VAq6jhPyzVlt0xDOgORU9f1fqAFQd5/Bm13ArePEhafhkOmE
+ PVMl3tZreskENIWI6JNakxN4LNHC61y7Cg9lotjwclVtv53nyPOfVBYWa
+ /OfgDr8VV41m4RGXkxQdTWrxNYaI9BI9lK4QTjdUKdL40erRnRmnL8PMi Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="246615369"
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="246615369"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 16:58:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="694531929"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2022 16:58:58 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 28 Mar 2022 16:58:58 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 28 Mar 2022 16:58:58 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Mon, 28 Mar 2022 16:58:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i7rtiTEmciMA6+T3nAiBBkdNDrHhlbWSG48hIs4qKrTnouw3ppdCU6KgCsjh2/tY7swmZ+00jZ0DomWfJVGdfChG65zSv4eUkOxjy9TKfn+Qar3fQV7KdhpWPHywLtSBhlurFMbTUnpUg9QXfrYshr3qKQ2/GOHtQsCcZGnNxMOxrCLv6QkFnzjA0KXcq/6AK5DG/y+41v6WthRhS10mOmTpxz+FF41ylmxSKkII1EkE/WJt637EaDhMBLKxkjZzsoJBq0EQugkQpNe49ccrRdvBSF1T++GzToj9TzY7fAl9OF47OHrm+4X57evzNPdiECN8KvfHIKecu7RHHlToAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kOpz971qK4RHXgCOmw9n9Fzd3A4pjjKvU6Hw0SvgWwY=;
+ b=DMPAme4B1rXtjkfoDHxhVKhaQvM0UzB9BKo8mFpdLQEAYyYId5WUOiT9gzLELYReuDvyktKfe/7BuKWl8L4uHChT+/sZ9QnsvTiiXHaA9gHDd+Tnv5VRZnXj1YxzIGCOg7T3QjHo68e6vNDRsDuLGFPhlJX1a/k9cGjt7ZvRUFAxZuGeGysFWzgfFxCBsfFBl3oUFxyIOBD2w9iNVan0DjVXYQvWtLLh9KByMrAXYCVp08fXkXPKjsDAaniwcJQlTECzeDV91skC8sNRrmtFTSTcPQTHhG1CkMz/ODThaxWPc+05GhWcsYChPY0k7r0DOuffCOB0Rn2cTZucoVi+Dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BL1PR11MB5445.namprd11.prod.outlook.com (2603:10b6:208:30b::7)
+ by SN6PR11MB2927.namprd11.prod.outlook.com (2603:10b6:805:cc::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.19; Mon, 28 Mar
+ 2022 23:58:56 +0000
+Received: from BL1PR11MB5445.namprd11.prod.outlook.com
+ ([fe80::55fe:1d31:4f97:9f92]) by BL1PR11MB5445.namprd11.prod.outlook.com
+ ([fe80::55fe:1d31:4f97:9f92%6]) with mapi id 15.20.5102.023; Mon, 28 Mar 2022
+ 23:58:56 +0000
+From: "Liu, Chuansheng" <chuansheng.liu@intel.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: RE: [PATCH] fbdev: defio: fix the pagelist corruption
+Thread-Topic: [PATCH] fbdev: defio: fix the pagelist corruption
+Thread-Index: AQHYOcSRnc9LTAQJmE6ZG+PF4wN6xazRXpEAgAKlKOCAAF8dAIABKG+w
+Date: Mon, 28 Mar 2022 23:58:55 +0000
+Message-ID: <BL1PR11MB544534F78BE2AB3502981AE5971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
+References: <20220317054602.28846-1-chuansheng.liu@intel.com>
+ <c058f18b-3dae-9ceb-57b4-ed62fedef50a@molgen.mpg.de>
+ <BL1PR11MB54455684D2A1B4F0A666F861971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
+ <502adc88-740f-fd68-d870-4f5577e1254d@molgen.mpg.de>
+In-Reply-To: <502adc88-740f-fd68-d870-4f5577e1254d@molgen.mpg.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7def2c2b-f303-4c12-a347-08da1116eb44
+x-ms-traffictypediagnostic: SN6PR11MB2927:EE_
+x-microsoft-antispam-prvs: <SN6PR11MB29276E1C4BE1E8857A13D0AE971D9@SN6PR11MB2927.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IwH+G2HYL8C4vXe2Ac2TzOJARwczcmWiXZDLtgzNLm6iE1UmLrvTrfAQgWX00klNUwiNE+Vcojt5phmjxM6p5Ro7UW9tX6Xkz9h4u7df1QJHDX8M+cj+JvYrlci16Eqm2W+OSeYQxZlXQgpNHk+fHN+OwGVWTLsvhXWWLuXDbUnVKAPqqF4YP8LOWhB9MWdMKqtMEuo5kphok+kRtN5vSC+MCWe6LMRTTPNjVahE+TRevcdT8IoIlkpbP9dlaghZz6iOJjZ71/Pe8Sn3wCymFa8nKZ/xhk4qIrUr8h6v0DKIoQYFY3mQQ8FglFSUi0XIb21H/7F07rsoVqMsh5yHhA4ymQWmTLBSV4ncIyuCq4Vrv2kSWtduRwWJMa2vDnRHzOqTs/Ub7yRSAwu3SZus2dHBDcIHMsKKXdzUkLsIPBUTzCumd+TOEdEcsdvdJP4kuIsPfKrfUhFgmULQvOPiV98h4xmrXIy9zOKP7fY0FsIEY34703OXGiorNzdO0b5tcoqKDDv52UzUjIbdy8NwtuwakBbG6cF1t5ssfYPetuuGtjoVLk/Rq0bJjtVxwsiF2Jpe0y4JS7Hk3tlnfwZQl/DpUga7K8dLeaWe++DMIQ7D/DRJXcIKhUTdmew6UyGEzy+D3khlj9x2SC1ESz4OVmkflLv2XzMo403VgJehRdG5RSQaQOipdSKq6I9X8NUWSTcS3vFxHREKLgJjDL8Vug==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR11MB5445.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(8676002)(4326008)(66946007)(71200400001)(66556008)(76116006)(66476007)(64756008)(53546011)(86362001)(82960400001)(26005)(186003)(2906002)(66446008)(7696005)(83380400001)(33656002)(54906003)(6506007)(6916009)(9686003)(508600001)(316002)(52536014)(8936002)(38100700002)(5660300002)(38070700005)(55016003)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VkwvYVc0WmZ6NmRHWTlVdHBhR2wrTDAzRER4Sk5LMUhNdHpHV2xpWmIyWS81?=
+ =?utf-8?B?c2JseXVYY1BNL09UdEEvMGRYc0d2MTAzQzhDYW9BMnJZM3Y4T0ozaW5peHZT?=
+ =?utf-8?B?a2hnb0h5OFkwMmRjS3crZktpUEF2dEMrNW5pUEkyN0x6TmduRW9vRmx2M1lS?=
+ =?utf-8?B?SENaUzdUR2ZZT1N2WVJlRzlDSXhMMFNjMW1WWkwxUlA1SlF3WVJFdlBYSytO?=
+ =?utf-8?B?WmthWTkwV1k5QlNzWG02bEJkVXBxRUViSDdyZC9YODdJOUdwelRlRWNNdUNW?=
+ =?utf-8?B?RVRkcnZoejVSSS83SjZDd1psZXNicVRCVlpVRUJ4VXJvL2ZLMDdXV2dGZWRW?=
+ =?utf-8?B?ZVdUcWdYRE16Y1I1S1VmMFJjUmhURmlrZlI3ZmYwUjVzdGFHRGVmTW02NUN0?=
+ =?utf-8?B?MEQ5VFFCTW5oWW5Bd2oxR3lFdFlxRFRQbmg4OVV4R0IyUFFkU3V3VUExNjlY?=
+ =?utf-8?B?OC9EYmRGVU02WGtEM0pxSHRSRWR3cmxzZXJRdjNPR2IvanRFK2xqTmVyVEhP?=
+ =?utf-8?B?MkF2SlRuSWV5NzVNWnpEcUxGR09YWnpRTndqRVpESzUvV0VDcG5YNGdObFJC?=
+ =?utf-8?B?QXBueFl3bHVWTE5UQ0t0c0pET2FQM3R4WjZlVWpLZmpSRUs1bGhkMUovZlpI?=
+ =?utf-8?B?ckJzeUZ0RER0cVdIOHVCYklhSXpOUzliemhIeWd6Um81Q3JRZ0t6NEpDWDBO?=
+ =?utf-8?B?bTF3MjJmbFZBQXRiYnJRR2pad3ZuWnNBVGtzYXFLNHBhVDRoMldpRGc1WlU2?=
+ =?utf-8?B?SWdrK0NKZTZadFN4SkFBOTJaWHQvNElVQ0R6MTltYjZDNTNteXR6RU9XWTlY?=
+ =?utf-8?B?UWQvTmxndlkyQUV6OG1UdWJySFpWSjB0RjV1R0cxb0RaNmFUb21NVXZlSUxM?=
+ =?utf-8?B?dTZ5ZjkrcWFYdi9rck1nZWdOa0xyU2liWmZqRmlBdlFTRmZhM2VRa213RGdN?=
+ =?utf-8?B?VDRFQ3ZEMlpQalNLT0ZpWnN6TDBrUWtlS2toMjVreHFaNWJ3WTh3QUZ0UW5O?=
+ =?utf-8?B?Z21mSlpSTW1QcEhOSkhnQ20wMDREd0I1NEhRdTcrcDIySWNxdWZNREdwcWZF?=
+ =?utf-8?B?M05saGUwamRpQk90NmgrUkUybXJtMFFDN054M1FEZXc3RE52TVcvdEdlcnZj?=
+ =?utf-8?B?Zll2V1kyNHd1YkcwNlFqNzMzWjFUWVdReElBQWJmM292ZGdXZEdGLzZIQ3Jh?=
+ =?utf-8?B?Rlp6WUxnaXVubTF2QWRQdnhNb0UvUm03YUttRVZheVhHaW94QTk0bk1oUmxT?=
+ =?utf-8?B?ZzM0VTJ1QTNJQzl2ZnRYYW9PYnVyMmJzSm1kVENjRmtiVmFhWDU0dnRtWmg3?=
+ =?utf-8?B?NGs1MmlobEJwNXY3K3QwNDlqRGJlcGZ6MlFuS1ZrZG0xME9TNXo2ZW4waWNm?=
+ =?utf-8?B?UXJjQ3I1akVIK1RYTzVEZEw0ckozT1dmWHBOUWVWTWF1eXVCQmlkYytRMTll?=
+ =?utf-8?B?YmY4N2dGWkZqQm9jMU1NZzJpdVJuRUwrTkRkVjYvZzVmZkJ3bW9ibFZuUHUy?=
+ =?utf-8?B?d1plOUhGOTNTY04weS9BSnZ5Wm1tQzRrRkdsL05QekdlajZIMDhGSkVVVWFK?=
+ =?utf-8?B?cWFnSXc3ck1YNWtTaE9iSkZwb08vbWJFMUhJN3pOOTlDQVFONldYVnZqZDc1?=
+ =?utf-8?B?YUxscGp4U2lUUzY2QWZycjNuR3JhdVVHWnFsM3Z1b3BEc0FLc1MyNXNLZXp0?=
+ =?utf-8?B?T0lxQndITmpVdFI1UDRtaWk5VlVPdGNqYUh3U1JISVhsZVEwQUpmNnZ1bmxv?=
+ =?utf-8?B?M0NSUTRHd0RrRXVFUEh2NzZUQjNCM1lpazg2K2JQUS9HSEp4bDg1QjF3elh5?=
+ =?utf-8?B?blRZYlNpZkxVeVVSVmVJWlQ0SnBORnZ6WDVzY2d0SVVBV1hsbVJrTmJoUDla?=
+ =?utf-8?B?S3p5b1lCazJURFo0a1hIdXJGL3hxRkNLcFAvQThUdUU0RUl3REl2QjVNVjBY?=
+ =?utf-8?B?bFZwNURNNDU2VFZKSXVZd2NPeEEwZTM2ZFpBb21qc1grb1kzS1ZHNkVSVUFX?=
+ =?utf-8?B?cGxvY0tGUmFVZzI2YS9KYUpXTW0yVjlYa0FWOWRqQkN6bm9OdGRtek91dWtT?=
+ =?utf-8?B?dXk4Z2ROR2s5Z2tMb0MzbFJiYi9MaHdYZkNPVG93SEhhRlJtOStIZVNybTBs?=
+ =?utf-8?B?eGZGeHg5Qlk5V1BrNkYwb2ZLOEpDSWZkQjVyclNHNGRhUTZJYjFCSTFmeWlP?=
+ =?utf-8?B?Mk85dC9WWERVOEs0VDJLUFdlS053VUFYUVBRVW8xQk9ENHFSNm9IWUhnUTJm?=
+ =?utf-8?B?QjVCZi9sTkRJSGlQWlpMSUZjNTdoZ2ordEFVTzUzZGpUcFNRNksyN1BGWS9k?=
+ =?utf-8?B?UE9uL2pSbEZkWGNMWUNJK2xRS3FQbUd6MkFOUWEyZ3c5RFh2cHJacmxDTnlZ?=
+ =?utf-8?Q?g5ycduFpbG4LAeB8=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5445.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7def2c2b-f303-4c12-a347-08da1116eb44
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2022 23:58:55.9349 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2M5Y7Na8oKuCib0Uu8xEHypNu9Fb9RyOQ82lPl9peM2VnQGs60NETwUDTD9h8gbcM1km6EAkhT1i6oXfF5FCJ+/EHbTDcWWizUkPzI7ZeNM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2927
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,566 +163,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "deller@gmx.de" <deller@gmx.de>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "jayalk@intworks.biz" <jayalk@intworks.biz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Add support for the
-DSI-to-DPI mode.
-
-This requires skipping most of the (e)DP initialization code, which is
-currently a large part of this driver, hence it is better to have far
-simpler separate tc_dpi_bridge_funcs and their implementation.
-
-The configuration of DPI output is also much simpler. The configuration
-of the DSI input is rather similar to the other TC bridge chips.
-
-The Pixel PLL in DPI output mode does not have the 65..150 MHz limitation
-imposed on the (e)DP output mode, so this limitation is skipped to permit
-operating panels with far slower pixel clock, even below 9 MHz. This mode
-of operation of the PLL is valid and tested.
-
-The detection of bridge mode is now added into tc_probe_bridge_mode(),
-where in case a DPI panel is found on port@1 endpoint@1, the mode is
-assumed to be DSI-to-DPI. If (e)DP is detected on port@2, the mode is
-assumed to be DPI-to-(e)DP.
-
-The DSI-to-(e)DP mode is not supported due to lack of proper hardware,
-but this would be some sort of mix between the two aforementioned modes.
-
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
-V2: - Rebase on next-20220217 and new patches in this series
-V3: - Drop edp from tc_edp_common_atomic_check,
-      s@\<tc_edp_common_atomic_check\>@tc_common_atomic_check@g
-    - Limit Pixel PLL output to 0-100 MHz for DPI and 150-650 MHz for eDP
-    - Drop VID_EN write from tc_dpi_stream_disable()
-    - Reduce PLL stabilization delay to 120..150us in tc_dpi_stream_enable()
-    - Call drm_bridge_remove() in case tc_mipi_dsi_host_attach() fails
-    - Check of_property_count_u32_elems() return code as int instead of u8
-    - Enable DP0/DP1 PLL for DSI-to-DPI mode too, they clock the internal
-      framebuffer and it is too slow if those PLLs are in bypass
-V4: - Rebase on top of dropped drm/bridge: tc358767: Move hardware init to enable callback
-    - Use -1 in of_graph_get_endpoint_by_regs(.., .., -1) third param
-    - Select DRM_MIPI_DSI
-    - Add RB from Lucas
----
- drivers/gpu/drm/bridge/Kconfig    |   1 +
- drivers/gpu/drm/bridge/tc358767.c | 358 +++++++++++++++++++++++++++++-
- 2 files changed, 348 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 561e23727f6f5..536b3c3169918 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -280,6 +280,7 @@ config DRM_TOSHIBA_TC358767
- 	select DRM_DP_HELPER
- 	select DRM_KMS_HELPER
- 	select REGMAP_I2C
-+	select DRM_MIPI_DSI
- 	select DRM_PANEL
- 	help
- 	  Toshiba TC358767 eDP bridge chip driver.
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 5520c26d14b4c..13c56f23439aa 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1,6 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * tc358767 eDP bridge driver
-+ * TC358767/TC358867/TC9595 DSI/DPI-to-DPI/(e)DP bridge driver
-+ *
-+ * The TC358767/TC358867/TC9595 can operate in multiple modes.
-+ * The following modes are supported:
-+ *   DPI->(e)DP -- supported
-+ *   DSI->DPI .... supported
-+ *   DSI->(e)DP .. NOT supported
-  *
-  * Copyright (C) 2016 CogentEmbedded Inc
-  * Author: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-@@ -29,6 +35,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
-@@ -36,7 +43,35 @@
- 
- /* Registers */
- 
--/* Display Parallel Interface */
-+/* PPI layer registers */
-+#define PPI_STARTPPI		0x0104 /* START control bit */
-+#define PPI_LPTXTIMECNT		0x0114 /* LPTX timing signal */
-+#define LPX_PERIOD			3
-+#define PPI_LANEENABLE		0x0134
-+#define PPI_TX_RX_TA		0x013c
-+#define TTA_GET				0x40000
-+#define TTA_SURE			6
-+#define PPI_D0S_ATMR		0x0144
-+#define PPI_D1S_ATMR		0x0148
-+#define PPI_D0S_CLRSIPOCOUNT	0x0164 /* Assertion timer for Lane 0 */
-+#define PPI_D1S_CLRSIPOCOUNT	0x0168 /* Assertion timer for Lane 1 */
-+#define PPI_D2S_CLRSIPOCOUNT	0x016c /* Assertion timer for Lane 2 */
-+#define PPI_D3S_CLRSIPOCOUNT	0x0170 /* Assertion timer for Lane 3 */
-+#define PPI_START_FUNCTION		BIT(0)
-+
-+/* DSI layer registers */
-+#define DSI_STARTDSI		0x0204 /* START control bit of DSI-TX */
-+#define DSI_LANEENABLE		0x0210 /* Enables each lane */
-+#define DSI_RX_START			BIT(0)
-+
-+/* Lane enable PPI and DSI register bits */
-+#define LANEENABLE_CLEN		BIT(0)
-+#define LANEENABLE_L0EN		BIT(1)
-+#define LANEENABLE_L1EN		BIT(2)
-+#define LANEENABLE_L2EN		BIT(1)
-+#define LANEENABLE_L3EN		BIT(2)
-+
-+/* Display Parallel Input Interface */
- #define DPIPXLFMT		0x0440
- #define VS_POL_ACTIVE_LOW		(1 << 10)
- #define HS_POL_ACTIVE_LOW		(1 << 9)
-@@ -48,6 +83,14 @@
- #define DPI_BPP_RGB666			(1 << 0)
- #define DPI_BPP_RGB565			(2 << 0)
- 
-+/* Display Parallel Output Interface */
-+#define POCTRL			0x0448
-+#define POCTRL_S2P			BIT(7)
-+#define POCTRL_PCLK_POL			BIT(3)
-+#define POCTRL_VS_POL			BIT(2)
-+#define POCTRL_HS_POL			BIT(1)
-+#define POCTRL_DE_POL			BIT(0)
-+
- /* Video Path */
- #define VPCTRL0			0x0450
- #define VSDELAY			GENMASK(31, 20)
-@@ -247,6 +290,9 @@ struct tc_data {
- 	struct drm_bridge	*panel_bridge;
- 	struct drm_connector	connector;
- 
-+	struct mipi_dsi_device	*dsi;
-+	u8			dsi_lanes;
-+
- 	/* link settings */
- 	struct tc_edp_link	link;
- 
-@@ -469,10 +515,24 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- 	int mul, best_mul = 1;
- 	int delta, best_delta;
- 	int ext_div[] = {1, 2, 3, 5, 7};
-+	int clk_min, clk_max;
- 	int best_pixelclock = 0;
- 	int vco_hi = 0;
- 	u32 pxl_pllparam;
- 
-+	/*
-+	 * refclk * mul / (ext_pre_div * pre_div) should be in range:
-+	 * - DPI ..... 0 to 100 MHz
-+	 * - (e)DP ... 150 to 650 MHz
-+	 */
-+	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) {
-+		clk_min = 0;
-+		clk_max = 100000000;
-+	} else {
-+		clk_min = 150000000;
-+		clk_max = 650000000;
-+	}
-+
- 	dev_dbg(tc->dev, "PLL: requested %d pixelclock, ref %d\n", pixelclock,
- 		refclk);
- 	best_delta = pixelclock;
-@@ -499,11 +559,7 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- 					continue;
- 
- 				clk = (refclk / ext_div[i_pre] / div) * mul;
--				/*
--				 * refclk * mul / (ext_pre_div * pre_div)
--				 * should be in the 150 to 650 MHz range
--				 */
--				if ((clk > 650000000) || (clk < 150000000))
-+				if ((clk > clk_max) || (clk < clk_min))
- 					continue;
- 
- 				clk = clk / ext_div[i_post];
-@@ -820,6 +876,20 @@ static int tc_set_common_video_mode(struct tc_data *tc,
- 	return ret;
- }
- 
-+static int tc_set_dpi_video_mode(struct tc_data *tc,
-+				 const struct drm_display_mode *mode)
-+{
-+	u32 value = POCTRL_S2P;
-+
-+	if (tc->mode.flags & DRM_MODE_FLAG_NHSYNC)
-+		value |= POCTRL_HS_POL;
-+
-+	if (tc->mode.flags & DRM_MODE_FLAG_NVSYNC)
-+		value |= POCTRL_VS_POL;
-+
-+	return regmap_write(tc->regmap, POCTRL, value);
-+}
-+
- static int tc_set_edp_video_mode(struct tc_data *tc,
- 				 const struct drm_display_mode *mode)
- {
-@@ -1192,6 +1262,85 @@ static int tc_main_link_disable(struct tc_data *tc)
- 	return regmap_write(tc->regmap, DP0CTL, 0);
- }
- 
-+static int tc_dpi_stream_enable(struct tc_data *tc)
-+{
-+	int ret;
-+	u32 value;
-+
-+	dev_dbg(tc->dev, "enable video stream\n");
-+
-+	/* Setup PLL */
-+	ret = tc_set_syspllparam(tc);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Initially PLLs are in bypass. Force PLL parameter update,
-+	 * disable PLL bypass, enable PLL
-+	 */
-+	ret = tc_pllupdate(tc, DP0_PLLCTRL);
-+	if (ret)
-+		return ret;
-+
-+	ret = tc_pllupdate(tc, DP1_PLLCTRL);
-+	if (ret)
-+		return ret;
-+
-+	/* Pixel PLL must always be enabled for DPI mode */
-+	ret = tc_pxl_pll_en(tc, clk_get_rate(tc->refclk),
-+			    1000 * tc->mode.clock);
-+	if (ret)
-+		return ret;
-+
-+	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
-+	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
-+	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
-+	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
-+
-+	value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
-+		LANEENABLE_CLEN;
-+	regmap_write(tc->regmap, PPI_LANEENABLE, value);
-+	regmap_write(tc->regmap, DSI_LANEENABLE, value);
-+
-+	ret = tc_set_common_video_mode(tc, &tc->mode);
-+	if (ret)
-+		return ret;
-+
-+	ret = tc_set_dpi_video_mode(tc, &tc->mode);
-+	if (ret)
-+		return ret;
-+
-+	/* Set input interface */
-+	value = DP0_AUDSRC_NO_INPUT;
-+	if (tc_test_pattern)
-+		value |= DP0_VIDSRC_COLOR_BAR;
-+	else
-+		value |= DP0_VIDSRC_DSI_RX;
-+	ret = regmap_write(tc->regmap, SYSCTRL, value);
-+	if (ret)
-+		return ret;
-+
-+	usleep_range(120, 150);
-+
-+	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
-+	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
-+
-+	return 0;
-+}
-+
-+static int tc_dpi_stream_disable(struct tc_data *tc)
-+{
-+	dev_dbg(tc->dev, "disable video stream\n");
-+
-+	tc_pxl_pll_dis(tc);
-+
-+	return 0;
-+}
-+
- static int tc_edp_stream_enable(struct tc_data *tc)
- {
- 	int ret;
-@@ -1266,6 +1415,34 @@ static int tc_edp_stream_disable(struct tc_data *tc)
- 	return 0;
- }
- 
-+static void
-+tc_dpi_bridge_atomic_enable(struct drm_bridge *bridge,
-+			    struct drm_bridge_state *old_bridge_state)
-+
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	int ret;
-+
-+	ret = tc_dpi_stream_enable(tc);
-+	if (ret < 0) {
-+		dev_err(tc->dev, "main link stream start error: %d\n", ret);
-+		tc_main_link_disable(tc);
-+		return;
-+	}
-+}
-+
-+static void
-+tc_dpi_bridge_atomic_disable(struct drm_bridge *bridge,
-+			     struct drm_bridge_state *old_bridge_state)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	int ret;
-+
-+	ret = tc_dpi_stream_disable(tc);
-+	if (ret < 0)
-+		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
-+}
-+
- static void
- tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
- 			    struct drm_bridge_state *old_bridge_state)
-@@ -1336,6 +1513,16 @@ static int tc_common_atomic_check(struct drm_bridge *bridge,
- 	return 0;
- }
- 
-+static int tc_dpi_atomic_check(struct drm_bridge *bridge,
-+			       struct drm_bridge_state *bridge_state,
-+			       struct drm_crtc_state *crtc_state,
-+			       struct drm_connector_state *conn_state)
-+{
-+	/* DSI->DPI interface clock limitation: upto 100 MHz */
-+	return tc_common_atomic_check(bridge, bridge_state, crtc_state,
-+				      conn_state, 100000);
-+}
-+
- static int tc_edp_atomic_check(struct drm_bridge *bridge,
- 			       struct drm_bridge_state *bridge_state,
- 			       struct drm_crtc_state *crtc_state,
-@@ -1346,6 +1533,18 @@ static int tc_edp_atomic_check(struct drm_bridge *bridge,
- 				      conn_state, 154000);
- }
- 
-+static enum drm_mode_status
-+tc_dpi_mode_valid(struct drm_bridge *bridge,
-+		  const struct drm_display_info *info,
-+		  const struct drm_display_mode *mode)
-+{
-+	/* DPI interface clock limitation: upto 100 MHz */
-+	if (mode->clock > 100000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static enum drm_mode_status
- tc_edp_mode_valid(struct drm_bridge *bridge,
- 		  const struct drm_display_info *info,
-@@ -1457,6 +1656,18 @@ static const struct drm_connector_funcs tc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
-+static int tc_dpi_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+
-+	if (!tc->panel_bridge)
-+		return 0;
-+
-+	return drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
-+				 &tc->bridge, flags);
-+}
-+
- static int tc_edp_bridge_attach(struct drm_bridge *bridge,
- 				enum drm_bridge_attach_flags flags)
- {
-@@ -1515,6 +1726,45 @@ static void tc_edp_bridge_detach(struct drm_bridge *bridge)
- 	drm_dp_aux_unregister(&bridge_to_tc(bridge)->aux);
- }
- 
-+#define MAX_INPUT_SEL_FORMATS	1
-+
-+static u32 *
-+tc_dpi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				    struct drm_bridge_state *bridge_state,
-+				    struct drm_crtc_state *crtc_state,
-+				    struct drm_connector_state *conn_state,
-+				    u32 output_fmt,
-+				    unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	/* This is the DSI-end bus format */
-+	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs tc_dpi_bridge_funcs = {
-+	.attach = tc_dpi_bridge_attach,
-+	.mode_valid = tc_dpi_mode_valid,
-+	.mode_set = tc_bridge_mode_set,
-+	.atomic_check = tc_dpi_atomic_check,
-+	.atomic_enable = tc_dpi_bridge_atomic_enable,
-+	.atomic_disable = tc_dpi_bridge_atomic_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = tc_dpi_atomic_get_input_bus_fmts,
-+};
-+
- static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
- 	.attach = tc_edp_bridge_attach,
- 	.detach = tc_edp_bridge_detach,
-@@ -1615,6 +1865,82 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
-+static int tc_mipi_dsi_host_attach(struct tc_data *tc)
-+{
-+	struct device *dev = tc->dev;
-+	struct device_node *host_node;
-+	struct device_node *endpoint;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	const struct mipi_dsi_device_info info = {
-+		.type = "tc358767",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+	int dsi_lanes, ret;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	host_node = of_graph_get_remote_port_parent(endpoint);
-+	host = of_find_mipi_dsi_host_by_node(host_node);
-+	of_node_put(host_node);
-+	of_node_put(endpoint);
-+
-+	if (dsi_lanes < 0 || dsi_lanes > 4)
-+		return -EINVAL;
-+
-+	if (!host)
-+		return -EPROBE_DEFER;
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi))
-+		return dev_err_probe(dev, PTR_ERR(dsi),
-+				     "failed to create dsi device\n");
-+
-+	tc->dsi = dsi;
-+
-+	tc->dsi_lanes = dsi_lanes;
-+	dsi->lanes = tc->dsi_lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
-+{
-+	struct device *dev = tc->dev;
-+	struct drm_panel *panel;
-+	int ret;
-+
-+	/* port@1 is the DPI input/output port */
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-+	if (ret && ret != -ENODEV)
-+		return ret;
-+
-+	if (panel) {
-+		struct drm_bridge *panel_bridge;
-+
-+		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+		if (IS_ERR(panel_bridge))
-+			return PTR_ERR(panel_bridge);
-+
-+		tc->panel_bridge = panel_bridge;
-+		tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
-+		tc->bridge.funcs = &tc_dpi_bridge_funcs;
-+
-+		return 0;
-+	}
-+
-+	return ret;
-+}
-+
- static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
- {
- 	struct device *dev = tc->dev;
-@@ -1682,7 +2008,7 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
- 	if (mode == mode_dpi_to_edp)
- 		return tc_probe_edp_bridge_endpoint(tc);
- 	else if (mode == mode_dsi_to_dpi)
--		dev_warn(dev, "The mode DSI-to-DPI is not supported!\n");
-+		return tc_probe_dpi_bridge_endpoint(tc);
- 	else if (mode == mode_dsi_to_edp)
- 		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
- 	else
-@@ -1813,15 +2139,25 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		}
- 	}
- 
--	ret = tc_aux_link_setup(tc);
--	if (ret)
--		return ret;
-+	if (tc->bridge.type != DRM_MODE_CONNECTOR_DPI) { /* (e)DP output */
-+		ret = tc_aux_link_setup(tc);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	tc->bridge.of_node = dev->of_node;
- 	drm_bridge_add(&tc->bridge);
- 
- 	i2c_set_clientdata(client, tc);
- 
-+	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) { /* DPI output */
-+		ret = tc_mipi_dsi_host_attach(tc);
-+		if (ret) {
-+			drm_bridge_remove(&tc->bridge);
-+			return ret;
-+		}
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.35.1
-
+SGkgUGF1bCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBkcmktZGV2
+ZWwgPGRyaS1kZXZlbC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9m
+IFBhdWwNCj4gTWVuemVsDQo+IFNlbnQ6IE1vbmRheSwgTWFyY2ggMjgsIDIwMjIgMjoxNSBQTQ0K
+PiBUbzogTGl1LCBDaHVhbnNoZW5nIDxjaHVhbnNoZW5nLmxpdUBpbnRlbC5jb20+DQo+IENjOiB0
+emltbWVybWFubkBzdXNlLmRlOyBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmc7IGRlbGxlckBn
+bXguZGU7IGRyaS0NCj4gZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBqYXlhbGtAaW50d29y
+a3MuYml6DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGZiZGV2OiBkZWZpbzogZml4IHRoZSBwYWdl
+bGlzdCBjb3JydXB0aW9uDQo+IA0KPiBEZWFyIENodWFuc2hlbmcsDQo+IA0KPiANCj4gQW0gMjgu
+MDMuMjIgdW0gMDI6NTggc2NocmllYiBMaXUsIENodWFuc2hlbmc6DQo+IA0KPiA+PiAtLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiANCj4gPj4gU2VudDogU2F0dXJkYXksIE1hcmNoIDI2LCAy
+MDIyIDQ6MTEgUE0NCj4gDQo+ID4+IEFtIDE3LjAzLjIyIHVtIDA2OjQ2IHNjaHJpZWIgQ2h1YW5z
+aGVuZyBMaXU6DQo+ID4+PiBFYXNpbHkgaGl0IHRoZSBiZWxvdyBsaXN0IGNvcnJ1cHRpb246DQo+
+ID4+PiA9PQ0KPiA+Pj4gbGlzdF9hZGQgY29ycnVwdGlvbi4gcHJldi0+bmV4dCBzaG91bGQgYmUg
+bmV4dCAoZmZmZmZmZmZjMGNlYjA5MCksIGJ1dA0KPiA+Pj4gd2FzIGZmZmZlYzYwNDUwN2VkYzgu
+IChwcmV2PWZmZmZlYzYwNDUwN2VkYzgpLg0KPiA+Pj4gV0FSTklORzogQ1BVOiA2NSBQSUQ6IDM5
+NTkgYXQgbGliL2xpc3RfZGVidWcuYzoyNg0KPiA+Pj4gX19saXN0X2FkZF92YWxpZCsweDUzLzB4
+ODANCj4gPj4+IENQVTogNjUgUElEOiAzOTU5IENvbW06IGZiZGV2IFRhaW50ZWQ6IEcgICAgIFUN
+Cj4gPj4+IFJJUDogMDAxMDpfX2xpc3RfYWRkX3ZhbGlkKzB4NTMvMHg4MA0KPiA+Pj4gQ2FsbCBU
+cmFjZToNCj4gPj4+ICAgIDxUQVNLPg0KPiA+Pj4gICAgZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSsw
+eGVhLzB4MTUwDQo+ID4+PiAgICBkb19wYWdlX21rd3JpdGUrMHg1Ny8weGMwDQo+ID4+PiAgICBk
+b193cF9wYWdlKzB4Mjc4LzB4MmYwDQo+ID4+PiAgICBfX2hhbmRsZV9tbV9mYXVsdCsweGRjMi8w
+eDE1OTANCj4gPj4+ICAgIGhhbmRsZV9tbV9mYXVsdCsweGRkLzB4MmMwDQo+ID4+PiAgICBkb191
+c2VyX2FkZHJfZmF1bHQrMHgxZDMvMHg2NTANCj4gPj4+ICAgIGV4Y19wYWdlX2ZhdWx0KzB4Nzcv
+MHgxODANCj4gPj4+ICAgID8gYXNtX2V4Y19wYWdlX2ZhdWx0KzB4OC8weDMwDQo+ID4+PiAgICBh
+c21fZXhjX3BhZ2VfZmF1bHQrMHgxZS8weDMwDQo+ID4+PiBSSVA6IDAwMzM6MHg3ZmQ5OGZjOGZh
+ZDENCj4gPj4+ID09DQo+ID4+Pg0KPiA+Pj4gRmlndXJlIG91dCB0aGUgcmFjZSBoYXBwZW5zIHdo
+ZW4gb25lIHByb2Nlc3MgaXMgYWRkaW5nICZwYWdlLT5scnUgaW50bw0KPiA+Pj4gdGhlIHBhZ2Vs
+aXN0IHRhaWwgaW4gZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSgpLCBhbm90aGVyIHByb2Nlc3MgaXMN
+Cj4gPj4+IHJlLWluaXRpYWxpemluZyB0aGUgc2FtZSAmcGFnZS0+bHJ1IGluIGZiX2RlZmVycmVk
+X2lvX2ZhdWx0KCksIHdoaWNoIGlzDQo+ID4+PiBub3QgcHJvdGVjdGVkIGJ5IHRoZSBsb2NrLg0K
+PiA+Pj4NCj4gPj4+IFRoaXMgZml4IGlzIHRvIGluaXQgYWxsIHRoZSBwYWdlIGxpc3RzIG9uZSB0
+aW1lIGR1cmluZyBpbml0aWFsaXphdGlvbiwNCj4gPj4+IGl0IG5vdCBvbmx5IGZpeGVzIHRoZSBs
+aXN0IGNvcnJ1cHRpb24sIGJ1dCBhbHNvIGF2b2lkcyBJTklUX0xJU1RfSEVBRCgpDQo+ID4+PiBy
+ZWR1bmRhbnRseS4NCj4gPj4+DQo+ID4+PiBGaXhlczogMTA1YTk0MDQxNmZjICgiZmJkZXYvZGVm
+aW86IEVhcmx5LW91dCBpZiBwYWdlIGlzIGFscmVhZHkgZW5saXN0ZWQiKQ0KPiA+Pj4gQ2M6IFRo
+b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiA+Pj4gU2lnbmVkLW9mZi1i
+eTogQ2h1YW5zaGVuZyBMaXUgPGNodWFuc2hlbmcubGl1QGludGVsLmNvbT4NCj4gPj4+IC0tLQ0K
+PiA+Pj4gICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2RlZmlvLmMgfCA5ICsrKysrKysr
+LQ0KPiA+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQ0KPiA+Pj4NCj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJf
+ZGVmaW8uYw0KPiBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jDQo+ID4+PiBp
+bmRleCA5OGIwZjIzYmY1ZTIuLmVhZmI2NmNhNGYyOCAxMDA2NDQNCj4gPj4+IC0tLSBhL2RyaXZl
+cnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jDQo+ID4+PiArKysgYi9kcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2NvcmUvZmJfZGVmaW8uYw0KPiA+Pj4gQEAgLTU5LDcgKzU5LDYgQEAgc3RhdGljIHZt
+X2ZhdWx0X3QgZmJfZGVmZXJyZWRfaW9fZmF1bHQoc3RydWN0IHZtX2ZhdWx0DQo+ICp2bWYpDQo+
+ID4+PiAgICAJCXByaW50ayhLRVJOX0VSUiAibm8gbWFwcGluZyBhdmFpbGFibGVcbiIpOw0KPiA+
+Pj4NCj4gPj4+ICAgIAlCVUdfT04oIXBhZ2UtPm1hcHBpbmcpOw0KPiA+Pj4gLQlJTklUX0xJU1Rf
+SEVBRCgmcGFnZS0+bHJ1KTsNCj4gPj4+ICAgIAlwYWdlLT5pbmRleCA9IHZtZi0+cGdvZmY7DQo+
+ID4+Pg0KPiA+Pj4gICAgCXZtZi0+cGFnZSA9IHBhZ2U7DQo+ID4+PiBAQCAtMjIwLDYgKzIxOSw4
+IEBAIHN0YXRpYyB2b2lkIGZiX2RlZmVycmVkX2lvX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0DQo+
+ICp3b3JrKQ0KPiA+Pj4gICAgdm9pZCBmYl9kZWZlcnJlZF9pb19pbml0KHN0cnVjdCBmYl9pbmZv
+ICppbmZvKQ0KPiA+Pj4gICAgew0KPiA+Pj4gICAgCXN0cnVjdCBmYl9kZWZlcnJlZF9pbyAqZmJk
+ZWZpbyA9IGluZm8tPmZiZGVmaW87DQo+ID4+PiArCXN0cnVjdCBwYWdlICpwYWdlOw0KPiA+Pj4g
+KwlpbnQgaTsNCj4gPj4+DQo+ID4+PiAgICAJQlVHX09OKCFmYmRlZmlvKTsNCj4gPj4+ICAgIAlt
+dXRleF9pbml0KCZmYmRlZmlvLT5sb2NrKTsNCj4gPj4+IEBAIC0yMjcsNiArMjI4LDEyIEBAIHZv
+aWQgZmJfZGVmZXJyZWRfaW9faW5pdChzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gPj4+ICAgIAlJ
+TklUX0xJU1RfSEVBRCgmZmJkZWZpby0+cGFnZWxpc3QpOw0KPiA+Pj4gICAgCWlmIChmYmRlZmlv
+LT5kZWxheSA9PSAwKSAvKiBzZXQgYSBkZWZhdWx0IG9mIDEgcyAqLw0KPiA+Pj4gICAgCQlmYmRl
+ZmlvLT5kZWxheSA9IEhaOw0KPiA+Pj4gKw0KPiA+Pj4gKwkvKiBpbml0aWFsaXplIGFsbCB0aGUg
+cGFnZSBsaXN0cyBvbmUgdGltZSAqLw0KPiA+Pj4gKwlmb3IgKGkgPSAwOyBpIDwgaW5mby0+Zml4
+LnNtZW1fbGVuOyBpICs9IFBBR0VfU0laRSkgew0KPiA+Pj4gKwkJcGFnZSA9IGZiX2RlZmVycmVk
+X2lvX3BhZ2UoaW5mbywgaSk7DQo+ID4+PiArCQlJTklUX0xJU1RfSEVBRCgmcGFnZS0+bHJ1KTsN
+Cj4gPj4+ICsJfQ0KPiA+Pj4gICAgfQ0KPiA+Pj4gICAgRVhQT1JUX1NZTUJPTF9HUEwoZmJfZGVm
+ZXJyZWRfaW9faW5pdCk7DQo+ID4+Pg0KPiA+PiBBcHBseWluZyB5b3VyIHBhdGNoIG9uIHRvcCBv
+ZiBjdXJyZW50IExpbnVz4oCZIG1hc3RlciBicmFuY2gsIHR0eTAgaXMNCj4gPj4gdW51c2FibGUg
+YW5kIGxvb2tzIGZyb3plbi4gU29tZXRpbWVzIG5ldHdvcmsgY2FyZCBzdGlsbCB3b3Jrcywgc29t
+ZXRpbWVzDQo+ID4+IG5vdC4NCj4gPg0KPiA+IEkgZG9uJ3Qgc2VlIGhvdyB0aGUgcGF0Y2ggd291
+bGQgY2F1c2UgYmVsb3cgQlVHIGNhbGwgc3RhY2ssIG5lZWQgc29tZSB0aW1lDQo+IHRvDQo+ID4g
+ZGVidWcuIEp1c3QgZmV3IGNvbW1lbnRzOg0KPiA+IDEuIFdpbGwgdGhlIHN5c3RlbSB3b3JrIHdl
+bGwgd2l0aG91dCB0aGlzIHBhdGNoPw0KPiANCj4gWWVzLCB0aGUgZnJhbWVidWZmZXIgd29ya3Mg
+d2VsbCB3aXRob3V0IHRoZSBwYXRjaC4NCj4gDQo+ID4gMi4gV2hlbiB5b3UgYXJlIHN1cmUgdGhl
+IHBhdGNoIGNhdXNlcyB0aGUgcmVncmVzc2lvbiB5b3Ugc2F3LCBwbGVhc2UgZ2V0IGZyZWUNCj4g
+dG8gc3VibWl0DQo+ID4gb25lIHJldmVydGVkIHBhdGNoLCB0aGFua3MgOiApDQo+IA0KPiBJIHRo
+aW5rIHlvdSBmb3IgcGF0Y2ggd2FzbuKAmXQgc3VibWl0dGVkIHlldCDigJMgYXQgbGVhc3Qgbm90
+IHB1bGxlZCBieSBMaW51cy4NClRoZSBwYXRjaCBoYXMgYmVlbiBpbiBkcm0tdGlwLCBjb3VsZCB5
+b3UgaGF2ZSBhIHRyeSB3aXRoIHRoZSBsYXRlc3QgZHJtLXRpcCB0byBzZWUgaWYgdGhlDQpGcmFt
+ZWJ1ZmZlciB3b3JrcyB3ZWxsLCBpbiB0aGF0IGNhc2UsIHdlIGNvdWxkIHJldmVydCBpdCBpbiBk
+cm0tdGlwIHRoZW4uDQoNCkJlc3QgUmVnYXJkcw0KQ2h1YW5zaGVuZw0KDQo=
