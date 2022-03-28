@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFF94E9B37
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7164E9B38
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 17:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889D110ED55;
-	Mon, 28 Mar 2022 15:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E70610ED57;
+	Mon, 28 Mar 2022 15:37:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 136D510ED55
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:11 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 1D73A3201D9C;
- Mon, 28 Mar 2022 11:37:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 28 Mar 2022 11:37:10 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0176C10ED55
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 15:37:13 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 06DFE3200C10;
+ Mon, 28 Mar 2022 11:37:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 28 Mar 2022 11:37:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=BTFEW2YB+xCxRLmVxsqpo5am8ZrxgH
- R3dxBUSRqIfLA=; b=k9R5XmRWKTLwDUAbMnIfxJqBjxdBjAWAOrcVwYRRIUkB53
- kOF1LhdBFA6ZuTOkkTKznMcaBI0+UIFRTQ6w4rTM2v0cFJGe60LUjddSI/N1Prds
- SBmbMld0Iovf67VBTFvDuWe0zf/wqmBeZrSoFMhyCjgKIg9ZT4OWoopmRDtjQa2L
- iiTUPTUlZDdMvUv8e2w5KIjzK+pV4kIuj5pGZDDEDp9MRVcFSmFgHFmhOZwVySZ8
- j0+r2l/8Y2HdNaRylUgMmvDXDXwx2KwnKDhP3/sBaCYqlhhUIIHy4H6hhWzjwxi0
- uhG58xkkSChyzk66l0iiFgkzBG/CnBoVoUeffCNQ==
+ :subject:subject:to:to; s=fm3; bh=HBkfY1Fguy3iaXPfpX0Lv3YYI1mCcP
+ xE0pURKL9eteI=; b=QCpk7J/a/KDVIdn1czsiHhqS1IEGhGb4aTd6NiCJeJGHN6
+ WstNGKy2E0Wf56Mvk40O4R8TWatAc7VnO1mvhsGeljDJD5M2qi229rDMrPPW84OV
+ UhPYtWeXtCAOWIYGgoirVQfMh+qx3ufhWAZCh/9IA/GAlSjWghSU5jCK/kxkSlbJ
+ q8eTFghMMGGNeC7WxbwVJY5ZLBpFS2+h5ahMMeAG9K9YSPYa6CPrk2LoUpnBriGh
+ vWvUSYdkZu1JZ4LmKhopMEscsm1a6CV/I3jNv52qhuwjrcJez8am9OpMbDHNACiH
+ L+feQ3wuvqaOWRJNYw6/KzQZ9JCsiBpWIsI+Zasw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BTFEW2
- YB+xCxRLmVxsqpo5am8ZrxgHR3dxBUSRqIfLA=; b=nZ8jUTlh4ihvujiFVst4qE
- CQp7gU9Uc5ON2SjxFrBCrOQimNoE0uLdFZXEcONWcJWoNlU43NhQrjSM9hvASM4d
- ZE4AgJt/05ENcpZ6NdB2fysZsJOgXVrX3RPEWJMLwH4neIUxUlgNZV9ViaqZOIhk
- MsCZQfz9DqMNIOblgzw7Wv9CRvKUgqjtfpvg9TB7LXWN65TWJcBPDF823JJauMCV
- XOZ/u4wsG6NsK0YGtbLc1UQt08GSa5SNl63sZ3fn7SvtSaSyWzIRGaFnCU2WxaCb
- PGY8QbgX0Ot/QHQVRaQXFFxeOPycapV0YP3Uq3ObTDDZrbKDSbiV+68QciwXzKWg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=HBkfY1
+ Fguy3iaXPfpX0Lv3YYI1mCcPxE0pURKL9eteI=; b=Frc6fAgfYbULDzfZx2gVU2
+ L1ltBSEH0A71JOzsAldBBD1Qij4eNy1DT8Rudny1j26Hm5Ri9MEROKQw0EZbz0C0
+ foihZDDvo8fs9YkWyHEwXzfDiMDVEVJOguwtoDJm/S+4oxt4zRtKd+Dx1LO1wgr0
+ J+4QMa1/9hMFs+g1vczmzCzlT9GEZqk+Ohzi+PrVNGmeOHgvWzTOT7b6G28QW8Bn
+ M1RZ9LKwduNkKfa1REoCatxiqfxOLTpD8UUjkKoK1OC7YdoPyLL+Sw+WUa4X98qJ
+ u30qbJ5obVzYNbCsbblcQD2ow01UXkr5TLEikghim/jQxFpjC0qfVKtnJauGubVg
  ==
-X-ME-Sender: <xms:JdZBYioHEnUwUGqbt3Limtzg5c9WZCoRJZK3Cg9zCKghw3-cCiEkzQ>
- <xme:JdZBYgrlylmjwupcRf-0SDajUvuGHbToQhy-AQamWIvQqfpSG5FpuTteZHDCBQuXZ
- -yGLjey9HZwNl67Rgs>
-X-ME-Received: <xmr:JdZBYnPZwk2oJDPpyERdftESUAaII5iwvIAtcPQRxsTZSPzQS6znSNFoAGmw5UoPT2wuL2JWyInkSKKDYUheAvzFzQ-tWUpDA3Z-1hs>
+X-ME-Sender: <xms:KNZBYjTQE-NMcG2enGy2VG57DC87kPW0DRpTzDOt5o-yePd6fqgrfA>
+ <xme:KNZBYkx6ZMzDb0VDB0qmXvh6MKjUWQ7p-x5vQwCedkShXE-ZB1dwKNWhYtJ3CfVnE
+ UJu-VeL8UcoNyrpm3g>
+X-ME-Received: <xmr:KNZBYo2yGOpjCeBifY0jNs35b0V3X5QqovM4gLiD_K71nadTaYI8EnCPjDCMPlOzVmKjItGOCFd38UdC1P01cFFHD93VxBRMfM1PiyQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,17 +52,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleduucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:JdZBYh5UO6A58TWTykLwL_NMQr18rMhIltSLBmIQA3_FF8hIkmB0mw>
- <xmx:JdZBYh6JwVL-s7pKPidR_xjWre7x8zhN8_FfW_gmKCbUlAxgyQaIHg>
- <xmx:JdZBYhjyJgrK3P5FT6i8Mj3JdLuX3HR_vhSRf9JUywKRDT-FiPrUew>
- <xmx:JdZBYk1-I8T49sMZFqn-9k1z5PyR7INMXBvTg3txlJjZ-OUmfWJeNA>
+X-ME-Proxy: <xmx:KNZBYjAgzgGhmtTlQ5VBmEi39mdD6tWQf47ZH7g2Z1JkW9kUwroubw>
+ <xmx:KNZBYsiYMn4B7uSQ1qOO76wm4Ir47CghGC1lN9nHw269raXm1F7X5Q>
+ <xmx:KNZBYnpZFfrBAy8El_fy85P-RLgi_lg7gAMJpRWtwC08L5PvYXbh7g>
+ <xmx:KNZBYkcsp56nao5IUacYgRBRtzSBIkO_SBpYkK_woKrllafx-Rftig>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Mar 2022 11:37:09 -0400 (EDT)
+ 28 Mar 2022 11:37:12 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] drm/vc4: txp: Don't set TXP_VSTART_AT_EOF
-Date: Mon, 28 Mar 2022 17:36:55 +0200
-Message-Id: <20220328153659.2382206-3-maxime@cerno.tech>
+Subject: [PATCH 3/6] drm/vc4: txp: Force alpha to be 0xff if it's disabled
+Date: Mon, 28 Mar 2022 17:36:56 +0200
+Message-Id: <20220328153659.2382206-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328153659.2382206-1-maxime@cerno.tech>
 References: <20220328153659.2382206-1-maxime@cerno.tech>
@@ -85,34 +85,34 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TXP_VSTART_AT_EOF will generate a second VSTART signal to the HVS.
-However, the HVS waits for VSTART to enable the FIFO and will thus start
-filling the FIFO before the start of the frame.
+If we use a format that has padding instead of the alpha component (such
+as XRGB8888), it appears that the Transposer will fill the padding to 0,
+disregarding what was stored in the input buffer padding.
 
-This leads to corruption at the beginning of the first frame, and
-content from the previous frame at the beginning of the next frames.
-
-Since one VSTART is enough, let's get rid of it.
+This leads to issues with IGT, since it will set the padding to 0xff,
+but will then compare the CRC of the two frames which will thus fail.
+Another nice side effect is that it is now possible to just use the
+buffer as ARGB.
 
 Fixes: 008095e065a8 ("drm/vc4: Add support for the transposer block")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 9809ca3e2945..ace2d03649ba 100644
+index ace2d03649ba..5b4dd644214f 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -298,7 +298,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
- 	if (WARN_ON(i == ARRAY_SIZE(drm_fmts)))
- 		return;
+@@ -304,6 +304,8 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
  
--	ctrl = TXP_GO | TXP_VSTART_AT_EOF | TXP_EI |
-+	ctrl = TXP_GO | TXP_EI |
- 	       VC4_SET_FIELD(0xf, TXP_BYTE_ENABLE) |
- 	       VC4_SET_FIELD(txp_fmts[i], TXP_FORMAT);
+ 	if (fb->format->has_alpha)
+ 		ctrl |= TXP_ALPHA_ENABLE;
++	else
++		ctrl |= TXP_ALPHA_INVERT;
  
+ 	gem = drm_fb_cma_get_gem_obj(fb, 0);
+ 	TXP_WRITE(TXP_DST_PTR, gem->paddr + fb->offsets[0]);
 -- 
 2.35.1
 
