@@ -2,54 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F79A4EA23C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 23:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BA54EA24D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 23:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6D110E0EA;
-	Mon, 28 Mar 2022 21:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC90E10E131;
+	Mon, 28 Mar 2022 21:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D3610E0EA
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 21:08:33 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id a8so31155833ejc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 14:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gy52q0hk0EOe2yARL7BLFUrhC07yc/LGzLY5hvJWd9Q=;
- b=PspVM/NGsYmmepvwb7RIAfO4OVL1acnHrWJHnRYbUv5gXs6ulNmvXMW2TyCbx5Q7Yk
- RcTiAFURzmyQiGtT6oGZjLVWGifIlTDuAhMA1jenOe/Ptz3rorytIwMJ6Y9H0kribuVR
- NjaBTSekKRGEvfLcvBKtlgYJu4sjoYMv/TRgRND2J+PaeJymdZeJEpUm2ndWoLA12z6a
- 0+BxKzfI8SwJ521yviTn1P6Xfn9uwZ9Dc2knM62zK++NGw1xu9YpOev6kwIoarH0ywVl
- C5/NNpMFgBtOIpU4gEwMOduyuUFvYSMvVNeWJBoPg0SXvoZ4uLz5BOXexjGT8HlcE05X
- kcZg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357EB10E124
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 21:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648502313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o/20j76lcDPeDTIfcY54M2M3yeP1hzS1Frzdk4vK99I=;
+ b=bcy1c4S6x+cJ0ONdmzDTWM1ob9BuCHXnKJnnxlAIJZFJ5SCfCIJeZzqCDS6bonCo1TcXlA
+ Pq9bRt4rN8Y10xYLNoDelMPRyWLcq7Gfgu+UEIIAhKGa3au64Abwjj5rt0ZFF7ZdVFWDDa
+ KhrwmwSHyE2bR/6A3HVsWq3TzZ+U8rY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-253-5ZRXF5TUMK6SVxqeMsuYmA-1; Mon, 28 Mar 2022 17:18:29 -0400
+X-MC-Unique: 5ZRXF5TUMK6SVxqeMsuYmA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ g22-20020ac870d6000000b002e20a1508ecso13199076qtp.19
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 14:18:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gy52q0hk0EOe2yARL7BLFUrhC07yc/LGzLY5hvJWd9Q=;
- b=6M4ms7ZKOgGPckIMWFamWplrSe3lIcCzDD4LO50Ws3tnAUiUZDc34Z6m40+oRHmVB4
- TeThxEE5TS99SMc5kdh0nO/qu9ZLZsN2MP1g/LOl2bLnYMp3qkK4RwoxlRNG/obAEbUz
- 1By4S73TX92wN3kapkVToDwA1xmZE36ZHXwcTxTj9Jejf6zPQk9EpVEAzE2V7XyjCzxi
- 5SG3Vb/Gvh/uU5ilSpt0t4yOkDWwqckOLhm5Nev9w0CeqBfcWUm1g/WcdVTD7WdwNYY4
- 7JahiMRCGcSCxXBpeEfVlKdFexsOLNKfFLU2zSEdS0WkV1u62VT/MHxCLxAkBCPpO+hE
- Swrw==
-X-Gm-Message-State: AOAM532CNJVSr61xvFbEYSWk/wR35Avw7WIIaHKq+fzCokkU8fvBoVys
- MXpcDY4Df0ujikzr6AS+N1TV/N0wv3MUOCDjxHA=
-X-Google-Smtp-Source: ABdhPJzF/ITADHePLd7Kqd1BNDEpYjsT1pDu1lP5yP42YMsGsMH5XWm/84sNviYmE9deBAzqOUwNaIpmQ1r5e4feVGc=
-X-Received: by 2002:a17:907:3e92:b0:6df:cb08:14f5 with SMTP id
- hs18-20020a1709073e9200b006dfcb0814f5mr31124556ejc.308.1648501711578; Mon, 28
- Mar 2022 14:08:31 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=o/20j76lcDPeDTIfcY54M2M3yeP1hzS1Frzdk4vK99I=;
+ b=KE8miqKnzSIWWmdF1DkHopbLENQ3kZZuFgt+9jn2BY0hbwQ+/kCaysojee5eVlsafT
+ 6L/fZ/IqhSayPXAbph5K4fF8o/gzRf1v4sgEhNW2LK/htzjH9kACbS9onHBcK7GCqFpC
+ POCI1OkrboWSebVEEbxnl6iyPd/OCRPnlJzmSa1IWAw6lsX7EyGQeDSKfbomkhUgbbyr
+ Br3kCQ4fHa00F9Jiz2KzLP2VVebujjvOhiYMh+gEHuS3mmkoJb2oDIYjaNSY6huVvwoQ
+ EpzuK1PI99ZiJ/uzPitRcH2TDam6LHwVXjmad0+qu6SzQ1T2S3zFZYI2tQ/dKMph8sS5
+ +2OA==
+X-Gm-Message-State: AOAM531jU9hP4PZDgIqFK8Z/RL/yGFOiRbf/eEPZYMlL+oFtvVo/88q/
+ 8a4ma4bGohVAzhlTlR2T5UIsYHLOBEvmT5ZylY4yKYtv0ruOwbu4a/SjIgP+2AWD9UCDI7eTgXE
+ G9LrbYKFYDo3g953pHnhqPS/vP7Fc
+X-Received: by 2002:a05:6214:29c8:b0:440:fac2:a6c with SMTP id
+ gh8-20020a05621429c800b00440fac20a6cmr23153269qvb.96.1648502308562; 
+ Mon, 28 Mar 2022 14:18:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx80FvxqgxoMsKHifZxJPlSaASMzEtm2PCjdcW91NHHki6CRsyrlYXzQuiJUFDSkSZnID/Qgg==
+X-Received: by 2002:a05:6214:29c8:b0:440:fac2:a6c with SMTP id
+ gh8-20020a05621429c800b00440fac20a6cmr23153243qvb.96.1648502308333; 
+ Mon, 28 Mar 2022 14:18:28 -0700 (PDT)
+Received: from [192.168.8.138] (pool-71-126-244-162.bstnma.fios.verizon.net.
+ [71.126.244.162]) by smtp.gmail.com with ESMTPSA id
+ br13-20020a05620a460d00b00680d020b4cbsm2856816qkb.10.2022.03.28.14.18.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Mar 2022 14:18:27 -0700 (PDT)
+Message-ID: <dc0ead0da30d0ccf8c4c57a2548d293c57407080.camel@redhat.com>
+Subject: 2022 X.org Foundation Election Candidates
+From: Lyude Paul <lyude@redhat.com>
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Mon, 28 Mar 2022 17:18:21 -0400
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.DarkModeFix.fc35)
 MIME-Version: 1.0
-References: <20220327050945.1614-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220327050945.1614-1-xiam0nd.tong@gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Mon, 28 Mar 2022 14:08:20 -0700
-Message-ID: <CAPaKu7Q54aumxEjih3v=xiW3NG7ct1O5UBzyqMQ0bug4svy-5g@mail.gmail.com>
-Subject: Re: [PATCH] virtio-gpu: fix a missing check to avoid NULL dereference
-To: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +87,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- "open list:VIRTIO CORE,
- NET AND BLOCK DRIVERS" <virtualization@lists.linux-foundation.org>
+Cc: board@foundation.x.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 26, 2022 at 10:09 PM Xiaomeng Tong <xiam0nd.tong@gmail.com> wrote:
->
-> 'cache_ent' could be set NULL inside virtio_gpu_cmd_get_capset()
-> and it will lead to a NULL dereference by a lately use of it
-> (i.e., ptr = cache_ent->caps_cache). Fix it with a NULL check.
->
-> Fixes: 62fb7a5e10962 ("virtio-gpu: add 3d/virgl support")
-> Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index c708bab555c6..b0f1c4d8fd23 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -579,8 +579,10 @@ static int virtio_gpu_get_caps_ioctl(struct drm_device *dev,
->         spin_unlock(&vgdev->display_info_lock);
->
->         /* not in cache - need to talk to hw */
-> -       virtio_gpu_cmd_get_capset(vgdev, found_valid, args->cap_set_ver,
-> +       ret = virtio_gpu_cmd_get_capset(vgdev, found_valid, args->cap_set_ver,
->                                   &cache_ent);
-> +       if (ret)
-> +               return ret;
->         virtio_gpu_notify(vgdev);
->
->  copy_exit:
->
-> base-commit: f443e374ae131c168a065ea1748feac6b2e76613
-> --
-> 2.17.1
->
+To all X.Org Foundation Members:
+
+The election for the X.Org Foundation Board of Directors will begin on 04 April
+2022. We have 6 candidates who are running for 4 seats. They are:
+
+    Emma Anholt
+    Shashank Sharma
+    Ricardo Garcia
+    Mark Filion
+    Lucas Stach
+    Alyssa Rosenzweig
+
+To be found in the link below below are the Personal Statements each candidate
+submitted for your consideration along with their Statements of Contribution
+that they submitted with the membership application. Please review each of the
+candidates' statements to help you decide whom to vote for during the upcoming
+election.
+
+    https://www.x.org/wiki/BoardOfDirectors/Elections/2022/
+
+If you have questions of the candidates, you should feel free to ask them here
+on the mailing list.
+
+The election committee will provide detailed instructions on how the voting
+system will work when the voting period begins.
+
+Lyude Paul, on behalf of the X.Org elections committee
+
