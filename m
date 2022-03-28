@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC6F4EA1ED
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:48:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51E44EA223
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A121210E174;
-	Mon, 28 Mar 2022 20:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261A610E0CA;
+	Mon, 28 Mar 2022 20:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED910E174;
- Mon, 28 Mar 2022 20:48:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648500514; x=1680036514;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qCJgaTlyrt3M+xKRLGpGWa4AyTdCdNO9uSOPspAIs9Q=;
- b=AuSiBj7wLWTxrMcX3vWeOUnOweqjB79pjPVOtQ4uAKzCUS6xdNUjQ2fd
- ugLAi2NTOiwVzLB9txdkTB6hMcrhPQYVAbZwdYX2SfjOvyj4UOxhHYq4G
- 5Md4Q41dtQJYqa2KeHTQFjfkO9m0v3pfoUA6aBIqf/KehKkDG6LIMJP0w
- yfhzqXCvXyNuY3q/A+Gy7IEMkal4Fbs+Z/pmKdF9gTFxqb320jPehAEgU
- LPCjObZrjZ4+SuW7onsvBc041021LUoutT6L2PkFzPT+GYs0iqKSF935e
- xC9U6plC8nOXSpeJTS4/eWsy9he6nXaIdpGIWneOC2WaMjwHjk3dvJE/r g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="319800542"
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="319800542"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 13:48:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,218,1643702400"; d="scan'208";a="502652598"
-Received: from vrgangil-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.58.226])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2022 13:48:33 -0700
-Date: Mon, 28 Mar 2022 13:48:33 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [RFC] drm/i915: Split out intel_vtd_active and run_as_guest to
- own header
-Message-ID: <20220328204833.k5dug4wus62rdxdo@ldmartin-desk2>
-References: <20220322164446.2124983-1-tvrtko.ursulin@linux.intel.com>
- <878rszitmi.fsf@intel.com>
- <0078dd11-c958-7a60-19d1-e32446f0d9da@linux.intel.com>
- <87r16rh8b2.fsf@intel.com>
- <2a91ffe1-71a2-98a0-daa3-23aee0b1c29d@linux.intel.com>
- <87o81vgouz.fsf@intel.com>
- <a08030e9-d352-1599-68ca-36605cadac1b@linux.intel.com>
- <87fsn6grnm.fsf@intel.com>
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1833310E0CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 20:59:16 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id c62so18394907edf.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 13:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=XpihMQW3ITEGr80CFfEgsPwVbFmNePy8AVTnWzohyno=;
+ b=fo6+o9w1krLj+t9+r6Huq6bmXGajiPbFdocT5kBjC0HNvq2kYhvbOf+nwkdlfWEihJ
+ XFooInFSC2XxwxaaFa5j9dwDixiymZ80ntOov64y6VfCVLgnJO/ZKY2Y57ZVmLhKjQWJ
+ /KiPBhfmc7+I7hQnJ5dkX1W+4t2UZg3u6kMkRFqCqCVPhQ6RAQKAFjgRGHqMLB2uj0J1
+ bAKOtVu2J7GY58NXTNyhxAYfj6hhJe2dRqp72oCdamCZpoQ8mDte3MIkEJY+8gATJy1v
+ gtJBcT/a+PdVy6KIgnUbTPGh402e++/1EUXLTSuiE81atZEQGIJeIuaDtouqgj4tt2Pu
+ FUjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XpihMQW3ITEGr80CFfEgsPwVbFmNePy8AVTnWzohyno=;
+ b=TpTcLawmpdgDJLtu34XFjoSdl0VFkkYdlnxigA/ED5YVR+lNeLklZ5VBjFTtDI+QWU
+ 55/tRZjICpltzN4gq47TYjo/qLktle2kO8YkYviEnxBY0U8fIhTIFnOU2eNwSNMeDMHc
+ MF9eWw1POTfdYUvXBsy9ruJIvtktoVpsyhnF5oqX0Sp2gooBqTtAYp078di0MQ8VpGr5
+ coLyv5XrGlhcaSXz3ke4vy6oMBb0G2YVUEdcPrV6fTif5kAuHale9Cm16aqjwQhujDTi
+ 4Cw30ZuEUI5Cekb+AuGZBEaDGZxWZulHdj/zimGHy3Ecg7EGFszSoeQ4x8WAz33m23FG
+ PnUA==
+X-Gm-Message-State: AOAM5318HrymOaOOz3gzlyBLR9TXdjS7oFB5Txt1lbu8bJ9IQ0fhbcpl
+ DCoFK0MOcaJYPrY6Zlsz+bKgF9U+Y/6fOCeoKXU=
+X-Google-Smtp-Source: ABdhPJxpdmWGnFCQvTKGOD9NOQ2vNgNaejcUttwdkmLsXR8JqVRfOJExLnuVhfUYDvEwh561/7+o05VS6CAtac5wV6c=
+X-Received: by 2002:a05:6402:d7:b0:413:673:ba2f with SMTP id
+ i23-20020a05640200d700b004130673ba2fmr18962285edu.29.1648501154526; Mon, 28
+ Mar 2022 13:59:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87fsn6grnm.fsf@intel.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220207125933.81634-8-paul@crapouillou.net>
+ <20220328185425.56b51f4a@jic23-huawei> <1VYG9R.1JAKRTCN4I411@crapouillou.net>
+In-Reply-To: <1VYG9R.1JAKRTCN4I411@crapouillou.net>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 28 Mar 2022 23:58:38 +0300
+Message-ID: <CAHp75VcWisAaHJUKedT7BWGNA8_5xye8-dyCv5Fq_kQWu7m7ew@mail.gmail.com>
+Subject: Re: [PATCH v2 07/12] iio: buffer-dma: Use DMABUFs instead of custom
+ solution
+To: Paul Cercueil <paul@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +67,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio <linux-iio@vger.kernel.org>,
+ Linux Documentation List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 25, 2022 at 02:09:33PM +0200, Jani Nikula wrote:
->On Fri, 25 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> On 24/03/2022 18:57, Jani Nikula wrote:
->>> On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>>> On 24/03/2022 11:57, Jani Nikula wrote:
->>>>> On Thu, 24 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>>>>> On 24/03/2022 09:31, Jani Nikula wrote:
->>>>>>> On Tue, 22 Mar 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>>>
->>>>>>>> ...
->>>>>>>>
->>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>>> Cc: Jani Nikula <jani.nikula@intel.com>
->>>>>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>>>>>>> ---
->>>>>>>> Typed up how I see it - bash away.
->>>>>>>
->>>>>>> So is intel_vtd_active() so performance critical that it needs to be
->>>>>>> inline?
->>>>>>>
->>>>>>> We're passing struct drm_i915_private * everywhere we can, and it just
->>>>>>> feels silly to use struct drm_device * to avoid the include.
->>>>>>>
->>>>>>> Static inlines considered harmful. :p
->>>>>>
->>>>>> Same as it is ;), and gee, who was it that he said he was just trying to
->>>>>> declutter i915_drv.h.. ;p
->>>>>
->>>>> Not at the cost of clarity elsewhere!
->>>>
->>>> To be clear now you oppose intel_vtd_active taking struct device? I
->>>> thought you expressed general agreement when I presented the idea in the
->>>> previous thread.
->>>>
->>>> I don't mind hugely to go either way, but I also don't see how taking
->>>> struct device makes anything unclear. (I only think
->>>> intel_vtd_run_as_guest is really wrong in this story but that's old news.)
->>>>
->>>> And if I make it take i915 then I would want to name it i915_vtd_active
->>>> as well. But then you wouldn't like that.
->>>>
->>>> Should we just stuff all this into i915_utils for now, as I think Lucas
->>>> suggested? Static inline or not, I don't care.
->>>
->>> Just general grumpiness.
->>>
->>> Acked-by: Jani Nikula <jani.nikula@intel.com>
->>
->> No worries. Ack is for this version or with i915_ prefixes in
->> i915_utils.h/c?
->
->Both. Either. ;)
+On Mon, Mar 28, 2022 at 11:30 PM Paul Cercueil <paul@crapouillou.net> wrote=
+:
+> Le lun., mars 28 2022 at 18:54:25 +0100, Jonathan Cameron
+> <jic23@kernel.org> a =C3=A9crit :
+> > On Mon,  7 Feb 2022 12:59:28 +0000
+> > Paul Cercueil <paul@crapouillou.net> wrote:
+> >
+> >>  Enhance the current fileio code by using DMABUF objects instead of
+> >>  custom buffers.
+> >>
+> >>  This adds more code than it removes, but:
+> >>  - a lot of the complexity can be dropped, e.g. custom kref and
+> >>    iio_buffer_block_put_atomic() are not needed anymore;
+> >>  - it will be much easier to introduce an API to export these DMABUF
+> >>    objects to userspace in a following patch.
 
-great, let's go with the one adding it to i915_util.h/c then.
-
-thanks
-Lucas De Marchi
-
+> > I'm a bit rusty on dma mappings, but you seem to have
+> > a mixture of streaming and coherent mappings going on in here.
 >
->>
->> Regards,
->>
->> Tvrtko
+> That's OK, so am I. What do you call "streaming mappings"?
+
+dma_*_coherent() are for coherent mappings (usually you do it once and
+cache coherency is guaranteed by accessing this memory by device or
+CPU).
+dma_map_*() are for streaming, which means that you often want to map
+arbitrary pages during the transfer (usually used for the cases when
+you want to keep previous data and do something with a new coming, or
+when a new coming data is supplied by different virtual address, and
+hence has to be mapped for DMA).
+
+> > Is it the case that the current code is using the coherent mappings
+> > and a potential 'other user' of the dma buffer might need
+> > streaming mappings?
 >
->-- 
->Jani Nikula, Intel Open Source Graphics Center
+> Something like that. There are two different things; on both cases,
+> userspace needs to create a DMABUF with IIO_BUFFER_DMABUF_ALLOC_IOCTL,
+> and the backing memory is allocated with dma_alloc_coherent().
+>
+> - For the userspace interface, you then have a "cpu access" IOCTL
+> (DMA_BUF_IOCTL_SYNC), that allows userspace to inform when it will
+> start/finish to process the buffer in user-space (which will
+> sync/invalidate the data cache if needed). A buffer can then be
+> enqueued for DMA processing (TX or RX) with the new
+> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL.
+>
+> - When the DMABUF created via the IIO core is sent to another driver
+> through the driver's custom DMABUF import function, this driver will
+> call dma_buf_attach(), which will call iio_buffer_dma_buf_map(). Since
+> it has to return a "struct sg_table *", this function then simply
+> creates a sgtable with one entry that points to the backing memory.
+
+...
+
+> >>  +   ret =3D dma_map_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
+> >>  +   if (ret) {
+> >>  +           kfree(dba);
+> >>  +           return ERR_PTR(ret);
+> >>  +   }
+
+Missed DMA mapping error check.
+
+> >>  +
+> >>  +   return &dba->sg_table;
+> >>  +}
+
+...
+
+> >>  -   /* Must not be accessed outside the core. */
+> >>  -   struct kref kref;
+
+
+> >>  +   struct dma_buf *dmabuf;
+
+Is it okay to access outside the core? If no, why did you remove
+(actually not modify) the comment?
+
+--=20
+With Best Regards,
+Andy Shevchenko
