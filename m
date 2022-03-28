@@ -2,59 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8414E8BE9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 04:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B964E8C0E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 04:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6618410E13C;
-	Mon, 28 Mar 2022 02:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8C010E5B1;
+	Mon, 28 Mar 2022 02:25:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69C910E13C;
- Mon, 28 Mar 2022 02:09:10 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id m22so12679136pja.0;
- Sun, 27 Mar 2022 19:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2dCQ/vF0SeGrJ8RhQQvy7/J4z9rXZ1GpCIEt4kS4KPo=;
- b=OpLPgdYRINKmrL7xrgd2J14yQPwt0N31PsTWW0f4LeqVoQFCejx2P1LdduF4uzQOr/
- 0zTTcpy+dRQtPLKvRVzNjl21DKeK57IX/2Nvy/q3D+7LP19rJaJxt/J0uYGvvWuOL83j
- a+IO9YnkKya33wo45XgG7GcqT/vu4m9+OAWARWJCc0a/qtSyEM9Byjjif/nk6CBSILYK
- lM6YrS2FmlW5iCXj/Nm+Ok2Y9tE+4uUUa2NjiU59faCRBFLSR+SSc+IDE4Q+AYzJ8Sge
- 2ynH7aZRKcS20I7kMeihkjC1t5qbZ+Q9BSbnS2l7rDdKz6I5dXVz28YvU5RwPPydtdTl
- xmsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=2dCQ/vF0SeGrJ8RhQQvy7/J4z9rXZ1GpCIEt4kS4KPo=;
- b=2F7qkIjHe1AGQ/dn33jYdiAn7nXDOglqQQaNu785NzFcFjT3RRufdFo7AQm05MYNOH
- UOxfb9SFdApHIy1ofsNQ6FDXm825Nicv1zAPmFKuRm2O938/YHpqhpAg1hkPRNDcHCY/
- eCYF1pcTvw02ZVr+Ux3wrpBoCzPfNK777r1sdz/LMmY5V5NS+frjFEKfaLqnbKrSPw2g
- sFonaqMJflVZFBvgyVVwEgV57Is1zmW67nVaQqsyEcLZf2Pr3c+K8wg8QwgwHoZty8ZN
- n7DehjuyyL4sELUi5XF4Rv58TWzndiwsCITxIUNWRAUkU0HVNtxB0zdM+i4oMYH9sW89
- /kSA==
-X-Gm-Message-State: AOAM5339w67YFnoehCxRIKXSmA5n4gOZDWfLkl4MLC/GiZtt2uEQgt12
- VoHZ8N/F4e2o9Ijx3ebZATY=
-X-Google-Smtp-Source: ABdhPJyqaVpbob+fqPul71KENy+IsyImv0wRFpr7UNCtfG6Q1nwHd+/o9Att122DE+kpVOpKiFhwGA==
-X-Received: by 2002:a17:90a:2b86:b0:1c7:6e7a:3e00 with SMTP id
- u6-20020a17090a2b8600b001c76e7a3e00mr34609009pjd.115.1648433350273; 
- Sun, 27 Mar 2022 19:09:10 -0700 (PDT)
-Received: from ubuntu.huawei.com ([119.3.119.18])
- by smtp.googlemail.com with ESMTPSA id
- lb3-20020a17090b4a4300b001c726c65facsm18880311pjb.43.2022.03.27.19.09.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Mar 2022 19:09:09 -0700 (PDT)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: emil.l.velikov@gmail.com
-Subject: Re: [PATCH] dispnv50: atom: fix an incorrect NULL check on list
- iterator
-Date: Mon, 28 Mar 2022 10:09:02 +0800
-Message-Id: <20220328020902.19369-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CACvgo50pK3rr5UH_FyfR1pADmPRjEawi43cAecoaz7nM5AFgBg@mail.gmail.com>
-References: <CACvgo50pK3rr5UH_FyfR1pADmPRjEawi43cAecoaz7nM5AFgBg@mail.gmail.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E96FA10E5B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 02:25:26 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:54610.494973045
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id D383310013F;
+ Mon, 28 Mar 2022 10:25:13 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
+ eae105db69d34658b5ac131636339b9f for robh@kernel.org; 
+ Mon, 28 Mar 2022 10:25:25 CST
+X-Transaction-ID: eae105db69d34658b5ac131636339b9f
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <244eb5ad-9b73-42cf-b797-74b9f79e15be@189.cn>
+Date: Mon, 28 Mar 2022 10:24:55 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v12 3/6] dt-bindings: display: Add Loongson display
+ controller
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220327113846.2498146-1-15330273260@189.cn>
+ <20220327113846.2498146-4-15330273260@189.cn>
+ <1648389731.700898.4042146.nullmailer@robh.at.kernel.org>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <1648389731.700898.4042146.nullmailer@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- xiam0nd.tong@gmail.com, bskeggs@redhat.com, yangyingliang@huawei.com,
- stable@vger.kernel.org
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-on Sun, 27 Mar 2022 16:59:28 +0100, Emil Velikov wrote:
-> On Sun, 27 Mar 2022 at 08:39, Xiaomeng Tong <xiam0nd.tong@gmail.com> wrote:
-> >
-> > The bug is here:
-> >         return encoder;
-> >
-> > The list iterator value 'encoder' will *always* be set and non-NULL
-> > by drm_for_each_encoder_mask(), so it is incorrect to assume that the
-> > iterator value will be NULL if the list is empty or no element found.
-> > Otherwise it will bypass some NULL checks and lead to invalid memory
-> > access passing the check.
-> >
-> > To fix this bug, just return 'encoder' when found, otherwise return
-> > NULL.
-> >
-> 
-> Isn't this covered by the upcoming list* iterator rework [1] or is
-> this another iterator glitch?
 
-Actually, it is a part of the upcoming work.
-
-> IMHO we should be looking at fixing the implementation and not the
-> hundreds of users through the kernel.
+On 2022/3/27 22:02, Rob Herring wrote:
+> On Sun, 27 Mar 2022 19:38:43 +0800, Sui Jingfeng wrote:
+>> Add DT bindings and simple usages for Loongson display controller
+>> found in LS7A1000 bridges chip and LS2k1000 SoC.
+>>
+>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>> ---
+>>   .../loongson/loongson,display-controller.yaml | 322 ++++++++++++++++++
+>>   1 file changed, 322 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 >
-> HTH
-> -Emil
-> [1] https://lwn.net/Articles/887097/
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dt.yaml: display-controller@6,1: 'ports' is a required property
+> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/patch/1609879
+>
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit.
+>
+It is my fault, remove the ports from the required will fix this,
 
-Yes, you are right. This has also been taken into account by the upcoming
-list iterator rework to avoid a lot uesr' changes as much as possible.
+I run make dt_binding_check before made it optional.
 
-However, this patch is fixing a potential bug caused by incorrect use of
-list iterator outside the loop, which can not be fixed by the implementation
-itself.
+  I will resend the patch.
 
---
-Xiaomeng Tong
