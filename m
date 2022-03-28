@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BBC4E9F9B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 21:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605B34E9FD5
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 21:36:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1381710ED9B;
-	Mon, 28 Mar 2022 19:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C972C10E091;
+	Mon, 28 Mar 2022 19:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA7210ED9B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 19:16:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1648494984; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bR+5ek2By7kDQ4MDZLE82wSKnOnXLjg0yQ+z90nLqXE=;
- b=Y/OYuheazXHpu1GEObnPnrWFEJ5vTPCYieMCY9BJwtco180FyNGrXAp8hNZQDWGGWaVmdG
- aXsx4iMkvQQhEMHoFi1BA0Dh9idiOE0GGMpDub54xvYbE49lKiH83y/SLrM9yJH9i4P6N+
- 15Lg8l46yEr678RsDsDJDw0L+Esd5hg=
-Date: Mon, 28 Mar 2022 20:16:13 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 07/12] iio: buffer-dma: Use DMABUFs instead of custom
- solution
-To: Jonathan Cameron <jic23@kernel.org>
-Message-Id: <1VYG9R.1JAKRTCN4I411@crapouillou.net>
-In-Reply-To: <20220328185425.56b51f4a@jic23-huawei>
-References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207125933.81634-8-paul@crapouillou.net>
- <20220328185425.56b51f4a@jic23-huawei>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9D4110E00F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 19:36:38 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id j15so30770657eje.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 12:36:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PR/o9qHd2rPzPd1PEol5Ylk7iHhm+A4/IpUGzULilKc=;
+ b=sGKfsF/bMaS7gBEldBUizJ3UGr2/8Zn8FndLj8K0c8rRmHXS3Zq2cMFLgqB/MIsFiM
+ E8uJQfcbLgDYM6bLDhXaRGLTZ50UpcCDShcIvMGZktpKjnpSvh7scpmNB/LduITXoYMc
+ 6To8PxiNcsEl5Sx186A+7yMjlTaQlce24UjJtOp70IToU06YzY33d6Rr3vO05oPPXUEn
+ 6DPatmbDjOJCIQiKCR8g2Mq2E1VgFBBnDI/PhiZBsrin+RBHwLgFjL4Iv6mD9bJ/0N9t
+ v/AV4VPZl32e6jRxNuwQsiy4CxyGlGNjo/r7p/4y+1HxQ+/AM8as99oXuOBioHt1QBX7
+ dsFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PR/o9qHd2rPzPd1PEol5Ylk7iHhm+A4/IpUGzULilKc=;
+ b=KwDQVnlybdQFJbWBVeYMqy1/ZWVC3TXFG68hwjt4T/1RgHaoNPuLmRtu5XkbgYcfE9
+ tVSj1kQqxQHnkOUPMSSrthggB3pKdmmOEwoHR9RPXVtezs1mI8lG+4jPaYvic1NEcZKu
+ FVDG0l37lCGfCJ4EvjMkRLX29SgXm0mUNhRl5MP0yumzQ7Qb0cjUSmn5M8OUbNI8zmBc
+ ejEzS87Tu7y+dokxHROdxqyv3YzbdKJJsqMp1yBCrgYmByFy/X7ThxZ9WGHAIzkslnzZ
+ vlimGB/tUcK3wzyHNddP2BygxMa7hVMcQrMOLSQ56Hlfpol584bquGHgrUo4phhpm+pi
+ P7zQ==
+X-Gm-Message-State: AOAM5314FOE5KEyqAn4Ftwxia9bQGA0EjNpGsN24XcuU6BkSIeRrWGv3
+ HLutvU4cgcqS8Kg9KNgMjD/rd5+IhrzXq+3IY/MCWg==
+X-Google-Smtp-Source: ABdhPJwiWuWsZ9rDBEplPuvZMozvFuMlSiHqSq+TSiOVETX//qdGt0WliFg/mTvnT+2/jU6HM0drZDNa+3UoCHg8mkA=
+X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
+ nc6-20020a1709071c0600b006dfb257cbb3mr28987102ejc.631.1648496197244; Mon, 28
+ Mar 2022 12:36:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20220223105600.1132593-1-maxime@cerno.tech>
+ <20220223105600.1132593-3-maxime@cerno.tech>
+ <CAGS_qxqNU+rGFuALEpmqqmtD+LsTQ4R3_WWL3M70Ar-_af6OnA@mail.gmail.com>
+ <20220225132258.55yh537iknxh72vw@houat>
+ <CAGS_qxpzWE8DYVVj-pzvMgJqA25cwNh7wsP8nnUkMcZVyUF2Yg@mail.gmail.com>
+ <20220228104718.yorlzq6264jtffak@houat>
+ <CAGS_qxpu_OivRptp05gdSNhdSQzFUU_2bsdW1JSrs0c5bhGnrw@mail.gmail.com>
+ <20220328075750.zfuvgd3q56cy5zir@houat>
+In-Reply-To: <20220328075750.zfuvgd3q56cy5zir@houat>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Mon, 28 Mar 2022 14:36:25 -0500
+Message-ID: <CAGS_qxoe9jX7ZN4XLJ3prT4SG_BeG8NGDX0FUes6er_3PChmpw@mail.gmail.com>
+Subject: Re: [PATCH v6 02/12] clk: Introduce Kunit Tests for the framework
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,398 +69,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Mike Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Phil Elwell <phil@raspberrypi.com>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+On Mon, Mar 28, 2022 at 2:57 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi,
+>
+> On Fri, Mar 25, 2022 at 05:36:25PM -0500, Daniel Latypov wrote:
+> > On Mon, Feb 28, 2022 at 4:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > On Fri, Feb 25, 2022 at 01:29:03PM -0800, Daniel Latypov wrote:
+> > > > On Fri, Feb 25, 2022 at 5:23 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > >
+> > > > > Hi Daniel,
+> > > > >
+> > > > > On Wed, Feb 23, 2022 at 02:50:59PM -0800, Daniel Latypov wrote:
+> > > > > > On Wed, Feb 23, 2022 at 2:56 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > > >
+> > > > > > > Let's test various parts of the rate-related clock API with the kunit
+> > > > > > > testing framework.
+> > > > > > >
+> > > > > > > Cc: kunit-dev@googlegroups.com
+> > > > > > > Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> > > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > > >
+> > > > > > Tested-by: Daniel Latypov <dlatypov@google.com>
+> > > > > >
+> > > > > > Looks good to me on the KUnit side.
+> > > > > > Two small nits below.
+> > > > > >
+> > > > > > FYI, I computed the incremental coverage for this series, i.e.:
+> > > > > > 1) applied the full series
+> > > > > > 2) computed the absolute coverage
+> > > > > >
+> > > > > > $  ./tools/testing/kunit/kunit.py run  --kunitconfig=drivers/clk
+> > > > > > --make_options=CC=/usr/bin/gcc-6 --kconfig_add=CONFIG_DEBUG_KERNEL=y
+> > > > > > --kconfig_add=CONFIG_DEBUG_INFO=y --kconfig_add=CONFIG_GCOV=y
+> > > > >
+> > > > > I built a docker container based on ubuntu 18.04 to have gcc6 and
+> > > > > python3.7, but this doesn't seem to be working, I'm not entirely sure why:
+> > > > >
+> > > > > [13:11:22] Configuring KUnit Kernel ...
+> > > > > Regenerating .config ...
+> > > > > Populating config with:
+> > > > > $ make ARCH=um olddefconfig CC=/usr/bin/gcc-6 O=.kunit
+> > > > > ERROR:root:Not all Kconfig options selected in kunitconfig were in the generated .config.
+> > > > > This is probably due to unsatisfied dependencies.
+> > > > > Missing: CONFIG_DEBUG_INFO=y, CONFIG_GCOV=y
+> > > > > Note: many Kconfig options aren't available on UML. You can try running on a different architecture with something like "--arch=x86_64".
+> > > >
+> > > > Did you perhaps drop CONFIG_DEBUG_KERNEL=y?
+> > > > Need to add 3 config options in total for coverage.
+> > > >
+> > > > If I tweak the command I ran above but drop CONFIG_DEBUG_KERNEL=y, I
+> > > > get the error message you get:
+> > > >
+> > > > $  ./tools/testing/kunit/kunit.py run  --kunitconfig=drivers/clk
+> > > > --make_options=CC=/usr/bin/gcc-6  --kconfig_add=CONFIG_DEBUG_INFO=y
+> > > > --kconfig_add=CONFIG_GCOV=y
+> > > > ...
+> > > > Missing: CONFIG_DEBUG_INFO=y, CONFIG_GCOV=y
+> > > > Note: many Kconfig options aren't available on UML. You can try
+> > > > running on a different architecture with something like
+> > > > "--arch=x86_64".
+> > >
+> > > It looks to me that it's more that DEBUG_INFO isn't enabled.
+> >
+> > Sorry for the very delayed response.
+> > I was largely getting internet over mobile data around when this email
+> > came in and didn't want to try and download docker images over that.
+> >
+> > It looks like that there was another change that is now merged into
+> > Linus' tree that causes this.
+> >
+> > I found that adding this helped (thanks David Gow)
+> >   --kconfig_add=DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> >
+> > Running against --kunitconfig=lib/kunit, my final coverage result is
+> >
+> > Overall coverage rate:
+> >   lines......: 13.6% (18004 of 132055 lines)
+> >   functions..: 15.7% (1885 of 12010 functions)
+> >
+> > Can you give that a shot and see if it works?
+>
+> It does fix the configuration issue, but I'm not able to run the tests either:
+>
+> [07:53:51] Configuring KUnit Kernel ...
+> Generating .config ...
+> Populating config with:
+> $ make ARCH=um olddefconfig O=/home/max/out
+> [07:53:53] Building KUnit Kernel ...
+> Populating config with:
+> $ make ARCH=um olddefconfig O=/home/max/out
+> Building with:
+> $ make ARCH=um --jobs=16 O=/home/max/out
+> [07:54:09] Starting KUnit Kernel (1/1)...
+> [07:54:09] ============================================================
+> [07:54:09] [ERROR] Test : invalid KTAP input!
+> [07:54:09] ============================================================
+> [07:54:09] Testing complete. Passed: 0, Failed: 0, Crashed: 0, Skipped: 0, Errors: 1
+> [07:54:09] Elapsed time: 18.486s total, 2.430s configuring, 16.052s building, 0.003s running
+>
+>
+> I've tried to remove all the coverage from the equation, and I get the
+> same issue if I only run kunit run from inside the container, but it
+> works fine outside. So I guess it's my setup that is broken. Is there
+> some way to debug what could be going wrong there?
 
-Le lun., mars 28 2022 at 18:54:25 +0100, Jonathan Cameron=20
-<jic23@kernel.org> a =E9crit :
-> On Mon,  7 Feb 2022 12:59:28 +0000
-> Paul Cercueil <paul@crapouillou.net> wrote:
->=20
->>  Enhance the current fileio code by using DMABUF objects instead of
->>  custom buffers.
->>=20
->>  This adds more code than it removes, but:
->>  - a lot of the complexity can be dropped, e.g. custom kref and
->>    iio_buffer_block_put_atomic() are not needed anymore;
->>  - it will be much easier to introduce an API to export these DMABUF
->>    objects to userspace in a following patch.
->>=20
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Hi Paul,
->=20
-> I'm a bit rusty on dma mappings, but you seem to have
-> a mixture of streaming and coherent mappings going on in here.
+kunit.py is failing to find any test results from the raw kernel dmesg output.
+That is stored in $BUILD_DIR/test.log, so /home/max/out/test.log.
+(You can also have kunit.py print this out instead with `kunit.py run
+--raw_output`)
 
-That's OK, so am I. What do you call "streaming mappings"?
+It looks like it's specifically not finding the (K)TAP header.
 
-> Is it the case that the current code is using the coherent mappings
-> and a potential 'other user' of the dma buffer might need
-> streaming mappings?
+Here's a snippet of what you'd expect to see:
+<bunch of boot stuff>
+printk: console [mc-1] enabled
+TAP version 14
+1..9
+    # Subtest: clk-test
+    1..4
+    ok 1 - clk_test_get_rate
+    ok 2 - clk_test_set_get_rate
+<more kunit output in similar format>
 
-Something like that. There are two different things; on both cases,=20
-userspace needs to create a DMABUF with IIO_BUFFER_DMABUF_ALLOC_IOCTL,=20
-and the backing memory is allocated with dma_alloc_coherent().
+Here's the failing lines in kunit_parser.py
+   805  def parse_run_tests(kernel_output: Iterable[str]) -> Test:
+   817          lines = extract_tap_lines(kernel_output)   <= lines
+after "K?TAP version"
+   818          test = Test()
+   819          if not lines:
+   820                  test.add_error('invalid KTAP input!')  <= this error msg
+   821                  test.status = TestStatus.FAILURE_TO_PARSE_TESTS
 
-- For the userspace interface, you then have a "cpu access" IOCTL=20
-(DMA_BUF_IOCTL_SYNC), that allows userspace to inform when it will=20
-start/finish to process the buffer in user-space (which will=20
-sync/invalidate the data cache if needed). A buffer can then be=20
-enqueued for DMA processing (TX or RX) with the new=20
-IIO_BUFFER_DMABUF_ENQUEUE_IOCTL.
+Normally the issue people run into is that KUnit prints a header but
+has no tests.
+That's a different error than what you see here.
 
-- When the DMABUF created via the IIO core is sent to another driver=20
-through the driver's custom DMABUF import function, this driver will=20
-call dma_buf_attach(), which will call iio_buffer_dma_buf_map(). Since=20
-it has to return a "struct sg_table *", this function then simply=20
-creates a sgtable with one entry that points to the backing memory.
+It seems like we're either not running this func
+   206  static void kunit_exec_run_tests(struct suite_set *suite_set)
+   207  {
+   208          struct kunit_suite * const * const *suites;
+   209
+   210          kunit_print_tap_header(suite_set); <= not hitting this line?
+   211
+   212          for (suites = suite_set->start; suites <
+suite_set->end; suites++)
+   213                  __kunit_test_suites_init(*suites);
+   214  }
 
-Note that I added the iio_buffer_dma_buf_map() / _unmap() functions=20
-because the dma-buf core would WARN() if these were not provided. But=20
-since this code doesn't yet support importing/exporting DMABUFs to=20
-other drivers, these are never called, and I should probably just make=20
-them return a ERR_PTR() unconditionally.
+or maybe the output got mangled somehow?
 
-Cheers,
--Paul
-
-> Jonathan
->=20
->>  ---
->>   drivers/iio/buffer/industrialio-buffer-dma.c | 192=20
->> ++++++++++++-------
->>   include/linux/iio/buffer-dma.h               |   8 +-
->>   2 files changed, 122 insertions(+), 78 deletions(-)
->>=20
->>  diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c=20
->> b/drivers/iio/buffer/industrialio-buffer-dma.c
->>  index 15ea7bc3ac08..54e6000cd2ee 100644
->>  --- a/drivers/iio/buffer/industrialio-buffer-dma.c
->>  +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
->>  @@ -14,6 +14,7 @@
->>   #include <linux/poll.h>
->>   #include <linux/iio/buffer_impl.h>
->>   #include <linux/iio/buffer-dma.h>
->>  +#include <linux/dma-buf.h>
->>   #include <linux/dma-mapping.h>
->>   #include <linux/sizes.h>
->>=20
->>  @@ -90,103 +91,145 @@
->>    * callback is called from within the custom callback.
->>    */
->>=20
->>  -static void iio_buffer_block_release(struct kref *kref)
->>  -{
->>  -	struct iio_dma_buffer_block *block =3D container_of(kref,
->>  -		struct iio_dma_buffer_block, kref);
->>  -
->>  -	WARN_ON(block->state !=3D IIO_BLOCK_STATE_DEAD);
->>  -
->>  -	dma_free_coherent(block->queue->dev, PAGE_ALIGN(block->size),
->>  -					block->vaddr, block->phys_addr);
->>  -
->>  -	iio_buffer_put(&block->queue->buffer);
->>  -	kfree(block);
->>  -}
->>  -
->>  -static void iio_buffer_block_get(struct iio_dma_buffer_block=20
->> *block)
->>  -{
->>  -	kref_get(&block->kref);
->>  -}
->>  -
->>  -static void iio_buffer_block_put(struct iio_dma_buffer_block=20
->> *block)
->>  -{
->>  -	kref_put(&block->kref, iio_buffer_block_release);
->>  -}
->>  -
->>  -/*
->>  - * dma_free_coherent can sleep, hence we need to take some special=20
->> care to be
->>  - * able to drop a reference from an atomic context.
->>  - */
->>  -static LIST_HEAD(iio_dma_buffer_dead_blocks);
->>  -static DEFINE_SPINLOCK(iio_dma_buffer_dead_blocks_lock);
->>  -
->>  -static void iio_dma_buffer_cleanup_worker(struct work_struct *work)
->>  -{
->>  -	struct iio_dma_buffer_block *block, *_block;
->>  -	LIST_HEAD(block_list);
->>  -
->>  -	spin_lock_irq(&iio_dma_buffer_dead_blocks_lock);
->>  -	list_splice_tail_init(&iio_dma_buffer_dead_blocks, &block_list);
->>  -	spin_unlock_irq(&iio_dma_buffer_dead_blocks_lock);
->>  -
->>  -	list_for_each_entry_safe(block, _block, &block_list, head)
->>  -		iio_buffer_block_release(&block->kref);
->>  -}
->>  -static DECLARE_WORK(iio_dma_buffer_cleanup_work,=20
->> iio_dma_buffer_cleanup_worker);
->>  -
->>  -static void iio_buffer_block_release_atomic(struct kref *kref)
->>  -{
->>  +struct iio_buffer_dma_buf_attachment {
->>  +	struct scatterlist sgl;
->>  +	struct sg_table sg_table;
->>   	struct iio_dma_buffer_block *block;
->>  -	unsigned long flags;
->>  -
->>  -	block =3D container_of(kref, struct iio_dma_buffer_block, kref);
->>  -
->>  -	spin_lock_irqsave(&iio_dma_buffer_dead_blocks_lock, flags);
->>  -	list_add_tail(&block->head, &iio_dma_buffer_dead_blocks);
->>  -	spin_unlock_irqrestore(&iio_dma_buffer_dead_blocks_lock, flags);
->>  -
->>  -	schedule_work(&iio_dma_buffer_cleanup_work);
->>  -}
->>  -
->>  -/*
->>  - * Version of iio_buffer_block_put() that can be called from=20
->> atomic context
->>  - */
->>  -static void iio_buffer_block_put_atomic(struct=20
->> iio_dma_buffer_block *block)
->>  -{
->>  -	kref_put(&block->kref, iio_buffer_block_release_atomic);
->>  -}
->>  +};
->>=20
->>   static struct iio_dma_buffer_queue *iio_buffer_to_queue(struct=20
->> iio_buffer *buf)
->>   {
->>   	return container_of(buf, struct iio_dma_buffer_queue, buffer);
->>   }
->>=20
->>  +static struct iio_buffer_dma_buf_attachment *
->>  +to_iio_buffer_dma_buf_attachment(struct sg_table *table)
->>  +{
->>  +	return container_of(table, struct iio_buffer_dma_buf_attachment,=20
->> sg_table);
->>  +}
->>  +
->>  +static void iio_buffer_block_get(struct iio_dma_buffer_block=20
->> *block)
->>  +{
->>  +	get_dma_buf(block->dmabuf);
->>  +}
->>  +
->>  +static void iio_buffer_block_put(struct iio_dma_buffer_block=20
->> *block)
->>  +{
->>  +	dma_buf_put(block->dmabuf);
->>  +}
->>  +
->>  +static int iio_buffer_dma_buf_attach(struct dma_buf *dbuf,
->>  +				     struct dma_buf_attachment *at)
->>  +{
->>  +	at->priv =3D dbuf->priv;
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static struct sg_table *iio_buffer_dma_buf_map(struct=20
->> dma_buf_attachment *at,
->>  +					       enum dma_data_direction dma_dir)
->>  +{
->>  +	struct iio_dma_buffer_block *block =3D at->priv;
->>  +	struct iio_buffer_dma_buf_attachment *dba;
->>  +	int ret;
->>  +
->>  +	dba =3D kzalloc(sizeof(*dba), GFP_KERNEL);
->>  +	if (!dba)
->>  +		return ERR_PTR(-ENOMEM);
->>  +
->>  +	sg_init_one(&dba->sgl, block->vaddr, PAGE_ALIGN(block->size));
->>  +	dba->sg_table.sgl =3D &dba->sgl;
->>  +	dba->sg_table.nents =3D 1;
->>  +	dba->block =3D block;
->>  +
->>  +	ret =3D dma_map_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
->>  +	if (ret) {
->>  +		kfree(dba);
->>  +		return ERR_PTR(ret);
->>  +	}
->>  +
->>  +	return &dba->sg_table;
->>  +}
->>  +
->>  +static void iio_buffer_dma_buf_unmap(struct dma_buf_attachment *at,
->>  +				     struct sg_table *sg_table,
->>  +				     enum dma_data_direction dma_dir)
->>  +{
->>  +	struct iio_buffer_dma_buf_attachment *dba =3D
->>  +		to_iio_buffer_dma_buf_attachment(sg_table);
->>  +
->>  +	dma_unmap_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
->>  +	kfree(dba);
->>  +}
->>  +
->>  +static void iio_buffer_dma_buf_release(struct dma_buf *dbuf)
->>  +{
->>  +	struct iio_dma_buffer_block *block =3D dbuf->priv;
->>  +	struct iio_dma_buffer_queue *queue =3D block->queue;
->>  +
->>  +	WARN_ON(block->state !=3D IIO_BLOCK_STATE_DEAD);
->>  +
->>  +	mutex_lock(&queue->lock);
->>  +
->>  +	dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
->>  +			  block->vaddr, block->phys_addr);
->>  +	kfree(block);
->>  +
->>  +	mutex_unlock(&queue->lock);
->>  +	iio_buffer_put(&queue->buffer);
->>  +}
->>  +
->>  +static const struct dma_buf_ops iio_dma_buffer_dmabuf_ops =3D {
->>  +	.attach			=3D iio_buffer_dma_buf_attach,
->>  +	.map_dma_buf		=3D iio_buffer_dma_buf_map,
->>  +	.unmap_dma_buf		=3D iio_buffer_dma_buf_unmap,
->>  +	.release		=3D iio_buffer_dma_buf_release,
->>  +};
->>  +
->>   static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->>   	struct iio_dma_buffer_queue *queue, size_t size)
->>   {
->>   	struct iio_dma_buffer_block *block;
->>  +	DEFINE_DMA_BUF_EXPORT_INFO(einfo);
->>  +	struct dma_buf *dmabuf;
->>  +	int err =3D -ENOMEM;
->>=20
->>   	block =3D kzalloc(sizeof(*block), GFP_KERNEL);
->>   	if (!block)
->>  -		return NULL;
->>  +		return ERR_PTR(err);
->>=20
->>   	block->vaddr =3D dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
->>   		&block->phys_addr, GFP_KERNEL);
->>  -	if (!block->vaddr) {
->>  -		kfree(block);
->>  -		return NULL;
->>  +	if (!block->vaddr)
->>  +		goto err_free_block;
->>  +
->>  +	einfo.ops =3D &iio_dma_buffer_dmabuf_ops;
->>  +	einfo.size =3D PAGE_ALIGN(size);
->>  +	einfo.priv =3D block;
->>  +	einfo.flags =3D O_RDWR;
->>  +
->>  +	dmabuf =3D dma_buf_export(&einfo);
->>  +	if (IS_ERR(dmabuf)) {
->>  +		err =3D PTR_ERR(dmabuf);
->>  +		goto err_free_dma;
->>   	}
->>=20
->>  +	block->dmabuf =3D dmabuf;
->>   	block->size =3D size;
->>   	block->state =3D IIO_BLOCK_STATE_DONE;
->>   	block->queue =3D queue;
->>   	INIT_LIST_HEAD(&block->head);
->>  -	kref_init(&block->kref);
->>=20
->>   	iio_buffer_get(&queue->buffer);
->>=20
->>   	return block;
->>  +
->>  +err_free_dma:
->>  +	dma_free_coherent(queue->dev, PAGE_ALIGN(size),
->>  +			  block->vaddr, block->phys_addr);
->>  +err_free_block:
->>  +	kfree(block);
->>  +	return ERR_PTR(err);
->>   }
->>=20
->>   static void _iio_dma_buffer_block_done(struct iio_dma_buffer_block=20
->> *block)
->>  @@ -223,7 +266,7 @@ void iio_dma_buffer_block_done(struct=20
->> iio_dma_buffer_block *block)
->>   	_iio_dma_buffer_block_done(block);
->>   	spin_unlock_irqrestore(&queue->list_lock, flags);
->>=20
->>  -	iio_buffer_block_put_atomic(block);
->>  +	iio_buffer_block_put(block);
->>   	iio_dma_buffer_queue_wake(queue);
->>   }
->>   EXPORT_SYMBOL_GPL(iio_dma_buffer_block_done);
->>  @@ -249,7 +292,8 @@ void iio_dma_buffer_block_list_abort(struct=20
->> iio_dma_buffer_queue *queue,
->>   		list_del(&block->head);
->>   		block->bytes_used =3D 0;
->>   		_iio_dma_buffer_block_done(block);
->>  -		iio_buffer_block_put_atomic(block);
->>  +
->>  +		iio_buffer_block_put(block);
->>   	}
->>   	spin_unlock_irqrestore(&queue->list_lock, flags);
->>=20
->>  @@ -340,8 +384,8 @@ int iio_dma_buffer_request_update(struct=20
->> iio_buffer *buffer)
->>=20
->>   		if (!block) {
->>   			block =3D iio_dma_buffer_alloc_block(queue, size);
->>  -			if (!block) {
->>  -				ret =3D -ENOMEM;
->>  +			if (IS_ERR(block)) {
->>  +				ret =3D PTR_ERR(block);
->>   				goto out_unlock;
->>   			}
->>   			queue->fileio.blocks[i] =3D block;
->>  diff --git a/include/linux/iio/buffer-dma.h=20
->> b/include/linux/iio/buffer-dma.h
->>  index 490b93f76fa8..6b3fa7d2124b 100644
->>  --- a/include/linux/iio/buffer-dma.h
->>  +++ b/include/linux/iio/buffer-dma.h
->>  @@ -8,7 +8,6 @@
->>   #define __INDUSTRIALIO_DMA_BUFFER_H__
->>=20
->>   #include <linux/list.h>
->>  -#include <linux/kref.h>
->>   #include <linux/spinlock.h>
->>   #include <linux/mutex.h>
->>   #include <linux/iio/buffer_impl.h>
->>  @@ -16,6 +15,7 @@
->>   struct iio_dma_buffer_queue;
->>   struct iio_dma_buffer_ops;
->>   struct device;
->>  +struct dma_buf;
->>=20
->>   /**
->>    * enum iio_block_state - State of a struct iio_dma_buffer_block
->>  @@ -39,8 +39,8 @@ enum iio_block_state {
->>    * @vaddr: Virutal address of the blocks memory
->>    * @phys_addr: Physical address of the blocks memory
->>    * @queue: Parent DMA buffer queue
->>  - * @kref: kref used to manage the lifetime of block
->>    * @state: Current state of the block
->>  + * @dmabuf: Underlying DMABUF object
->>    */
->>   struct iio_dma_buffer_block {
->>   	/* May only be accessed by the owner of the block */
->>  @@ -56,13 +56,13 @@ struct iio_dma_buffer_block {
->>   	size_t size;
->>   	struct iio_dma_buffer_queue *queue;
->>=20
->>  -	/* Must not be accessed outside the core. */
->>  -	struct kref kref;
->>   	/*
->>   	 * Must not be accessed outside the core. Access needs to hold
->>   	 * queue->list_lock if the block is not owned by the core.
->>   	 */
->>   	enum iio_block_state state;
->>  +
->>  +	struct dma_buf *dmabuf;
->>   };
->>=20
->>   /**
->=20
-
-
+Daniel
