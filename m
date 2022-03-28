@@ -1,38 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABAD4E8F29
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 09:39:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330174E8F83
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 09:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979E010E622;
-	Mon, 28 Mar 2022 07:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F64610EB5B;
+	Mon, 28 Mar 2022 07:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B24710E622;
- Mon, 28 Mar 2022 07:38:56 +0000 (UTC)
-Received: from [192.168.0.3] (ip5f5aef5a.dynamic.kabel-deutschland.de
- [95.90.239.90])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id BB57661EA1927;
- Mon, 28 Mar 2022 09:38:54 +0200 (CEST)
-Message-ID: <2e91b545-bde3-3626-e889-be268d01971c@molgen.mpg.de>
-Date: Mon, 28 Mar 2022 09:38:54 +0200
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E0410E5E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 07:57:57 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id DACEC3200D98;
+ Mon, 28 Mar 2022 03:57:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 28 Mar 2022 03:57:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=h5eykCiHJKolkq2/gxI9dBCQ8RaFOcLfxhB6pw
+ SatSY=; b=P8vkNGIt2hyGzthrsB9O2FUMW4Kxmm5aFsK1328cpqc5ufUY3ZDEE+
+ ZhPwn42rUh3TQpdADfVL2gV71LSLxu94IKAt2BcGF/sq6SgIQ/r0Z5CrOW/H03Ve
+ /UHcUpsyQnGqSjLHVSoj9GBrfdfqm6aPptZDR4aWwEtRFhuZfnNtt5CscVhCf+XX
+ iJcMcI18mJMwXwQx3GBuZ/M7sN7TQi8wHaT+xiMSTfy/NrnYt9FW/Mo8kOqH6qev
+ je5qn5syY8Iz/IplHBPhf27FfLCzwtyoPUqxVnH5rP5Bkx+1RpslztezVWYdUWGp
+ EVI6LujzpmRWPel+VqCKpvijdxVHuJjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=h5eykCiHJKolkq2/g
+ xI9dBCQ8RaFOcLfxhB6pwSatSY=; b=g2u+cOtTzlmFzjAlS3fdOYxZDo3jOXhg6
+ mF+M5bq96gEqfPx/qEhBOvUuffYoCJ+ep3WIz3ZCazusTK9rDYxR/5yTv2LXZCNG
+ JE1cxKyp9+Hx2zaUhMugDnLJNNjKosI2hUqQZS7+drIqVIK3qUHL9PYfHJUjqUay
+ mhOBIbUDj5HyFPit7LGOvn5njFGfbq3X3Qc+5WW708c4miNUJz66VZMhMSVuKSkz
+ QMdazx51wlGEcxA/FS2IF/am0vhyzfOwi0UPLU5g25/DKIroRYxlDLZvdqid6C09
+ gyaE7wF06RHlW3F+UvPZdhrD9XKMyQ4xIztnnbwZXoHBI86LqxHXA==
+X-ME-Sender: <xms:gGpBYpMEDUn1v3hz7MyCXrwCfF1g9srb54L7i1e5D2rtX0qb0Rk-0Q>
+ <xme:gGpBYr8gIcZl9BXCob7WhvpfRXmtwXovl-1QjGiAEslv2SY78h6iks9H8F44gz6Ni
+ PFnITGqyP7fxD6vNtk>
+X-ME-Received: <xmr:gGpBYoTj-uhTAr7Gq0eRVnCj8mj9x2r7f0Xt8tAM1VUE3X85lqoF6g71g2dSsUyQj1nAF0DNUuXppzseUGO2ELzfn0UwmuYhIuo8ow4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehiedguddvjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gWpBYlvjzhVLLrtWWBuH7J2mqGrEf92kO8iNqHT8raDaqHtrWWxFpQ>
+ <xmx:gWpBYhdUgueAZSMTYTOg46wenPjXg244oNKWagaD2J_xmkz1i-4YNQ>
+ <xmx:gWpBYh0UJaJ3fmo1oFFyAhCclT-_JLYTxT40qnBxUytT09f8KOFG5A>
+ <xmx:gWpBYgy1-ez1dlCsSFEQqbCKC37kFbLQVsD1H44RAKovwFJSytk-SQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Mar 2022 03:57:52 -0400 (EDT)
+Date: Mon, 28 Mar 2022 09:57:50 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Latypov <dlatypov@google.com>
+Subject: Re: [PATCH v6 02/12] clk: Introduce Kunit Tests for the framework
+Message-ID: <20220328075750.zfuvgd3q56cy5zir@houat>
+References: <20220223105600.1132593-1-maxime@cerno.tech>
+ <20220223105600.1132593-3-maxime@cerno.tech>
+ <CAGS_qxqNU+rGFuALEpmqqmtD+LsTQ4R3_WWL3M70Ar-_af6OnA@mail.gmail.com>
+ <20220225132258.55yh537iknxh72vw@houat>
+ <CAGS_qxpzWE8DYVVj-pzvMgJqA25cwNh7wsP8nnUkMcZVyUF2Yg@mail.gmail.com>
+ <20220228104718.yorlzq6264jtffak@houat>
+ <CAGS_qxpu_OivRptp05gdSNhdSQzFUU_2bsdW1JSrs0c5bhGnrw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/amdgpu: resolve s3 hang for r7340
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Zhenneng Li <lizhenneng@kylinos.cn>
-References: <20220328040536.4121797-1-lizhenneng@kylinos.cn>
- <cd36a994-0c13-201c-522d-5f8af53e1e87@molgen.mpg.de>
-In-Reply-To: <cd36a994-0c13-201c-522d-5f8af53e1e87@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2hrc3ougec5ehkah"
+Content-Disposition: inline
+In-Reply-To: <CAGS_qxpu_OivRptp05gdSNhdSQzFUU_2bsdW1JSrs0c5bhGnrw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,77 +86,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lijo Lazar <lijo.lazar@amd.com>, Guchun Chen <guchun.chen@amd.com>,
- David Airlie <airlied@linux.ie>, Pan Xinhui <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, Kevin Wang <kevin1.wang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Mike Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Phil Elwell <phil@raspberrypi.com>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Cc: -Jack Zhang (invalid address)
 
-Am 28.03.22 um 09:36 schrieb Paul Menzel:
-> Dear Zhenneng,
-> 
-> 
-> Thank you for your patch.
-> 
-> Am 28.03.22 um 06:05 schrieb Zhenneng Li:
->> This is a workaround for s3 hang for r7340(amdgpu).
-> 
-> Is it hanging when resuming from S3? Maybe also use the line below for 
-> the commit message summary:
-> 
-> drm/amdgpu: Add 1 ms delay to init handler to fix s3 resume hang
-> 
-> Also, please add a space before the ( in “r7340(amdgpu)”.
-> 
->> When we test s3 with r7340 on arm64 platform, graphics card will hang up,
->> the error message are as follows:
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.599374][ 7] [  T291] amdgpu 0000:02:00.0: fb0: amdgpudrmfb frame buffer device
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.612869][ 7] [  T291] [drm:amdgpu_device_ip_late_init [amdgpu]] *ERROR* late_init of IP block <si_dpm> failed -22
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.623392][ 7] [  T291] amdgpu 0000:02:00.0: amdgpu_device_ip_late_init failed
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.630696][ 7] [  T291] amdgpu 0000:02:00.0: Fatal error during GPU init
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.637477][ 7] [  T291] [drm] amdgpu: finishing device.
-> 
-> The prefix in the beginning is not really needed. Only the stuff after 
-> `kernel: `.
-> 
-> Maybe also add the output of `lspci -nn -s …` for that r7340 device.
-> 
->> Change-Id: I5048b3894c0ca9faf2f4847ddab61f9eb17b4823
-> 
-> Without the Gerrit instance this belongs to, the Change-Id is of no use 
-> in the public.
-> 
->> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> index 3987ecb24ef4..1eced991b5b2 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -2903,6 +2903,8 @@ static void 
->> amdgpu_device_delayed_init_work_handler(struct work_struct *work)
->>           container_of(work, struct amdgpu_device, delayed_init_work.work);
->>       int r;
->> +    mdelay(1);
->> +
-> 
-> Wow, I wonder how long it took you to find that workaround.
-> 
->>       r = amdgpu_ib_ring_tests(adev);
->>       if (r)
->>           DRM_ERROR("ib ring test failed (%d).\n", r);
-> 
-> 
-> Kind regards,
-> 
-> Paul
+--2hrc3ougec5ehkah
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Mar 25, 2022 at 05:36:25PM -0500, Daniel Latypov wrote:
+> On Mon, Feb 28, 2022 at 4:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Fri, Feb 25, 2022 at 01:29:03PM -0800, Daniel Latypov wrote:
+> > > On Fri, Feb 25, 2022 at 5:23 AM Maxime Ripard <maxime@cerno.tech> wro=
+te:
+> > > >
+> > > > Hi Daniel,
+> > > >
+> > > > On Wed, Feb 23, 2022 at 02:50:59PM -0800, Daniel Latypov wrote:
+> > > > > On Wed, Feb 23, 2022 at 2:56 AM Maxime Ripard <maxime@cerno.tech>=
+ wrote:
+> > > > > >
+> > > > > > Let's test various parts of the rate-related clock API with the=
+ kunit
+> > > > > > testing framework.
+> > > > > >
+> > > > > > Cc: kunit-dev@googlegroups.com
+> > > > > > Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > >
+> > > > > Tested-by: Daniel Latypov <dlatypov@google.com>
+> > > > >
+> > > > > Looks good to me on the KUnit side.
+> > > > > Two small nits below.
+> > > > >
+> > > > > FYI, I computed the incremental coverage for this series, i.e.:
+> > > > > 1) applied the full series
+> > > > > 2) computed the absolute coverage
+> > > > >
+> > > > > $  ./tools/testing/kunit/kunit.py run  --kunitconfig=3Ddrivers/clk
+> > > > > --make_options=3DCC=3D/usr/bin/gcc-6 --kconfig_add=3DCONFIG_DEBUG=
+_KERNEL=3Dy
+> > > > > --kconfig_add=3DCONFIG_DEBUG_INFO=3Dy --kconfig_add=3DCONFIG_GCOV=
+=3Dy
+> > > >
+> > > > I built a docker container based on ubuntu 18.04 to have gcc6 and
+> > > > python3.7, but this doesn't seem to be working, I'm not entirely su=
+re why:
+> > > >
+> > > > [13:11:22] Configuring KUnit Kernel ...
+> > > > Regenerating .config ...
+> > > > Populating config with:
+> > > > $ make ARCH=3Dum olddefconfig CC=3D/usr/bin/gcc-6 O=3D.kunit
+> > > > ERROR:root:Not all Kconfig options selected in kunitconfig were in =
+the generated .config.
+> > > > This is probably due to unsatisfied dependencies.
+> > > > Missing: CONFIG_DEBUG_INFO=3Dy, CONFIG_GCOV=3Dy
+> > > > Note: many Kconfig options aren't available on UML. You can try run=
+ning on a different architecture with something like "--arch=3Dx86_64".
+> > >
+> > > Did you perhaps drop CONFIG_DEBUG_KERNEL=3Dy?
+> > > Need to add 3 config options in total for coverage.
+> > >
+> > > If I tweak the command I ran above but drop CONFIG_DEBUG_KERNEL=3Dy, I
+> > > get the error message you get:
+> > >
+> > > $  ./tools/testing/kunit/kunit.py run  --kunitconfig=3Ddrivers/clk
+> > > --make_options=3DCC=3D/usr/bin/gcc-6  --kconfig_add=3DCONFIG_DEBUG_IN=
+FO=3Dy
+> > > --kconfig_add=3DCONFIG_GCOV=3Dy
+> > > ...
+> > > Missing: CONFIG_DEBUG_INFO=3Dy, CONFIG_GCOV=3Dy
+> > > Note: many Kconfig options aren't available on UML. You can try
+> > > running on a different architecture with something like
+> > > "--arch=3Dx86_64".
+> >
+> > It looks to me that it's more that DEBUG_INFO isn't enabled.
+>=20
+> Sorry for the very delayed response.
+> I was largely getting internet over mobile data around when this email
+> came in and didn't want to try and download docker images over that.
+>=20
+> It looks like that there was another change that is now merged into
+> Linus' tree that causes this.
+>=20
+> I found that adding this helped (thanks David Gow)
+>   --kconfig_add=3DDEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+>=20
+> Running against --kunitconfig=3Dlib/kunit, my final coverage result is
+>=20
+> Overall coverage rate:
+>   lines......: 13.6% (18004 of 132055 lines)
+>   functions..: 15.7% (1885 of 12010 functions)
+>=20
+> Can you give that a shot and see if it works?
+
+It does fix the configuration issue, but I'm not able to run the tests eith=
+er:
+
+[07:53:51] Configuring KUnit Kernel ...
+Generating .config ...
+Populating config with:
+$ make ARCH=3Dum olddefconfig O=3D/home/max/out
+[07:53:53] Building KUnit Kernel ...
+Populating config with:
+$ make ARCH=3Dum olddefconfig O=3D/home/max/out
+Building with:
+$ make ARCH=3Dum --jobs=3D16 O=3D/home/max/out
+[07:54:09] Starting KUnit Kernel (1/1)...
+[07:54:09] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[07:54:09] [ERROR] Test : invalid KTAP input!
+[07:54:09] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[07:54:09] Testing complete. Passed: 0, Failed: 0, Crashed: 0, Skipped: 0, =
+Errors: 1
+[07:54:09] Elapsed time: 18.486s total, 2.430s configuring, 16.052s buildin=
+g, 0.003s running
+
+
+I've tried to remove all the coverage from the equation, and I get the
+same issue if I only run kunit run from inside the container, but it
+works fine outside. So I guess it's my setup that is broken. Is there
+some way to debug what could be going wrong there?
+
+Thanks!
+Maxime
+
+--2hrc3ougec5ehkah
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkFqfgAKCRDj7w1vZxhR
+xTZ8APwLMdDa8Sr8DY4qbhNvdAZOxHRd7Wd1QQZSnxJNUWSg1wD+OeS/YGnb0oMK
+0nIkR1yL47xkTzWi/lRkgKWkACzZEA8=
+=nJMB
+-----END PGP SIGNATURE-----
+
+--2hrc3ougec5ehkah--
