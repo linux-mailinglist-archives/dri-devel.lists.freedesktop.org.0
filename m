@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61404EA1A4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACF34EA1DB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Mar 2022 22:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8224910E092;
-	Mon, 28 Mar 2022 20:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 959DC10E05C;
+	Mon, 28 Mar 2022 20:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F23910E092
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 20:39:15 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id x34so18315270ede.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 13:39:15 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B648C10E05C
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 20:46:39 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id bq8so17176459ejb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Mar 2022 13:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xw6/eHXGYfyQo41MlHn2HdfwjJIHINXKEO94qSppq28=;
- b=b9iImZGKfs3WXC8l0oFuFZaIT4EL8lWv990T7tzJDZ/JCoZfmiHuaQdc0wBbjADKgP
- pz9RoVFnLZtDqu7juxQR8eaS+NrrHwSFtVfQnijQAPH7NQqVwEKLMFwF6KCJnha01cku
- ZjxUGFM7SRxzSdQ05IFVG9EOK7WDaJ/nAVrd++ogw+D7GI52yQ4rkQ7SdzBX+DjMEH+o
- A1nKxj05unPlW0bLqxImCIf4qHc+PnsNdSxmO/Vak6uZtNRINsHJxAVyoY8TDxEFTy/w
- NGcv1jpMb8yBJGbzyXpIApg/IrNqwllJ310kyJZd3kogLQT8ziLRofCJhNUjSmwSm2Jk
- pdBA==
+ :cc; bh=JtOIKDwYEmY0G6ZwVjCPJc+EKV3kxgQ9Fb0rQsgCgxk=;
+ b=Au6XxjoO3TuN885D6RISvoi4b+Imy6m9ma8wBo5nZXyzrl8us8an+07UXpqcYW8zs0
+ MCSmvT+BgeqF+LC5cDbAfNpCwtLF5xXOPMaS88l46OSA1XZAyK5odoPL2mbvJ6cB4vSl
+ o1GWvonXJuK6WI14daDAyrKhkAi2IwZs9OFfthpp9zgCke8yrCTZm95PoWNuAOFPK+d/
+ SOtOyAdzCfpdQ3lGnMfmrpx1n2bZellSprH310zAmA2p10nge7zkW5yvynqjJUTrYqLj
+ Ef4LLKkBC/m64hzJyhYmDT+bEFN9A8v++0Xe/yWHq8Gquj0Yw/CTSjM09awB/tS3ohu6
+ ZXSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xw6/eHXGYfyQo41MlHn2HdfwjJIHINXKEO94qSppq28=;
- b=sQ+dRt5Eto/tT6fO9JElcMY2ZEntPBZw212NRjeJBIZewCLGKVVPxz7uDyIEsXWbic
- 6ia7YU7pl7S/+CqwgIOy4LZD9g1Wv32qLHE3KOUGbUfuc5fjk480Op0n+I8DrdswnAIG
- W9IpIPM8kKXPH0iqsASwjnsDIpzr8KNqiMHymJcgTBipDHizBuNEliFZx58+l+eV3fM5
- 5k1DYR8/UErvA3/llwek/tL5IkgoICk4cQkxamam2aMr8aQ7vKirytqNzHNGNVPnZqCF
- KvL5tA9gEIa31zZ7nO8p16m2+Cac1/Rb7/GNvJcdThhHjNqTqREVMsV6j6dPCZDlx0hP
- 03lQ==
-X-Gm-Message-State: AOAM530tqB3oGOV6YanXbOZJglEV7u+n39ubGFe12okcifKM4Lnsy5te
- fBydZljtpdAV4FlaELuzn6evDsacXv6P0Whe2ry7dtkKacU8/g==
-X-Google-Smtp-Source: ABdhPJxNcNGSt0E34cJpbJ65P1lTtbFVtcXgaCXAMxqv38Y+bWSTAANcprjUbbcH+2VeLvdVtVd+xFb4arFR+965IIg=
-X-Received: by 2002:a05:6402:27d1:b0:419:1b02:4a04 with SMTP id
- c17-20020a05640227d100b004191b024a04mr18437384ede.218.1648499953845; Mon, 28
- Mar 2022 13:39:13 -0700 (PDT)
+ bh=JtOIKDwYEmY0G6ZwVjCPJc+EKV3kxgQ9Fb0rQsgCgxk=;
+ b=CBvUILT/mzMhQ0libc6YSc/GeyY6tsuY5OVse4tb70rKagSq++iy0ymgThbCtUqfBo
+ kVz7lihOHxKsdI/S0MN8hl+QDVVp7yRuvqvW2tC/RoLoG+iZnjcugPTw+B+k9J25qRu8
+ LI+W/FzMJAIsrc1Di5pINKESliUfbf1NXY+VGdVxtg9kNhKPWxs59SpWDt/h4hyN3F2Z
+ 5iBitf/8XWyorLMNDdGIWLs1Kfe5jsWjH8Q9t1gS+oU7TaKaAtVfOCs69oTBhi3wW5/7
+ wqOjxbfk9Pv0ONZJe58VUVsYnW3Fk1vEpfFBrKzQ/fMtnFiu2EogivzFwzUYcDag32qr
+ nYhg==
+X-Gm-Message-State: AOAM533qITiB5vZyFxwIjzLUzp4fXR5M9kI0e/i7jV760upMktPPA10V
+ 7N8vyw726o82RN5Onu7I67VSY4O4RQnFdjHI288=
+X-Google-Smtp-Source: ABdhPJxuunfwUkBAnwXYx6Ny/ga6aWVlv3hTy52B/L+8KibeTrMHKVtaauHv16KEa6mM9fV/P7rh8AZODW2UuLnRBgI=
+X-Received: by 2002:a17:907:e8d:b0:6e0:19e7:9549 with SMTP id
+ ho13-20020a1709070e8d00b006e019e79549mr30132608ejc.44.1648500398124; Mon, 28
+ Mar 2022 13:46:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207125933.81634-3-paul@crapouillou.net>
-In-Reply-To: <20220207125933.81634-3-paul@crapouillou.net>
+ <20220207125933.81634-6-paul@crapouillou.net>
+In-Reply-To: <20220207125933.81634-6-paul@crapouillou.net>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 28 Mar 2022 23:38:38 +0300
-Message-ID: <CAHp75VeE2_D39X3gWidPTd49v=bdkgnMeoSBh60enp2hKJ-KPw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/12] iio: buffer-dma: Enable buffer write support
+Date: Mon, 28 Mar 2022 23:46:02 +0300
+Message-ID: <CAHp75Vf8QhosJw79U97rA6u0KHY9avmzTMBUqEyWkY6jxBuPYg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/12] iio: core: Add new DMABUF interface
+ infrastructure
 To: Paul Cercueil <paul@crapouillou.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,74 +75,95 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 9, 2022 at 9:10 AM Paul Cercueil <paul@crapouillou.net> wrote:
+On Tue, Feb 8, 2022 at 5:26 PM Paul Cercueil <paul@crapouillou.net> wrote:
 >
-> Adding write support to the buffer-dma code is easy - the write()
-> function basically needs to do the exact same thing as the read()
-> function: dequeue a block, read or write the data, enqueue the block
-> when entirely processed.
+> Add the necessary infrastructure to the IIO core to support a new
+> optional DMABUF based interface.
 >
-> Therefore, the iio_buffer_dma_read() and the new iio_buffer_dma_write()
-> now both call a function iio_buffer_dma_io(), which will perform this
-> task.
+> The advantage of this new DMABUF based interface vs. the read()
+> interface, is that it avoids an extra copy of the data between the
+> kernel and userspace. This is particularly userful for high-speed
+
+useful
+
+> devices which produce several megabytes or even gigabytes of data per
+> second.
 >
-> The .space_available() callback can return the exact same value as the
-> .data_available() callback for input buffers, since in both cases we
-> count the exact same thing (the number of bytes in each available
-> block).
+> The data in this new DMABUF interface is managed at the granularity of
+> DMABUF objects. Reducing the granularity from byte level to block level
+> is done to reduce the userspace-kernelspace synchronization overhead
+> since performing syscalls for each byte at a few Mbps is just not
+> feasible.
 >
-> Note that we preemptively reset block->bytes_used to the buffer's size
-> in iio_dma_buffer_request_update(), as in the future the
-> iio_dma_buffer_enqueue() function won't reset it.
+> This of course leads to a slightly increased latency. For this reason an
+> application can choose the size of the DMABUFs as well as how many it
+> allocates. E.g. two DMABUFs would be a traditional double buffering
+> scheme. But using a higher number might be necessary to avoid
+> underflow/overflow situations in the presence of scheduling latencies.
+>
+> As part of the interface, 2 new IOCTLs have been added:
+>
+> IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *):
+>  Each call will allocate a new DMABUF object. The return value (if not
+>  a negative errno value as error) will be the file descriptor of the new
+>  DMABUF.
+>
+> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+>  Place the DMABUF object into the queue pending for hardware process.
+>
+> These two IOCTLs have to be performed on the IIO buffer's file
+> descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+>
+> To access the data stored in a block by userspace the block must be
+> mapped to the process's memory. This is done by calling mmap() on the
+> DMABUF's file descriptor.
+>
+> Before accessing the data through the map, you must use the
+> DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+> DMA_BUF_SYNC_START flag, to make sure that the data is available.
+> This call may block until the hardware is done with this block. Once
+> you are done reading or writing the data, you must use this ioctl again
+> with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+> kernel's queue.
+>
+> If you need to know when the hardware is done with a DMABUF, you can
+> poll its file descriptor for the EPOLLOUT event.
+>
+> Finally, to destroy a DMABUF object, simply call close() on its file
+> descriptor.
 
 ...
 
-> v2: - Fix block->state not being reset in
->       iio_dma_buffer_request_update() for output buffers.
->     - Only update block->bytes_used once and add a comment about why we
->       update it.
->     - Add a comment about why we're setting a different state for output
->       buffers in iio_dma_buffer_request_update()
->     - Remove useless cast to bool (!!) in iio_dma_buffer_io()
+> v2: Only allow the new IOCTLs on the buffer FD created with
+>     IIO_BUFFER_GET_FD_IOCTL().
 
-Usual place for changelog is after the cutter '--- ' line below...
-
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
-> ---
-
-...somewhere here.
-
->  drivers/iio/buffer/industrialio-buffer-dma.c | 88 ++++++++++++++++----
->  include/linux/iio/buffer-dma.h               |  7 ++
+Move changelogs after the cutter '--- ' line.
 
 ...
 
-> +static int iio_dma_buffer_io(struct iio_buffer *buffer,
-> +                            size_t n, char __user *user_buffer, bool is_write)
+>  static const struct file_operations iio_buffer_chrdev_fileops = {
+>         .owner = THIS_MODULE,
+>         .llseek = noop_llseek,
+>         .read = iio_buffer_read,
+>         .write = iio_buffer_write,
+> +       .unlocked_ioctl = iio_buffer_chrdev_ioctl,
 
-I believe there is a room for size_t n on the previous line.
+> +       .compat_ioctl = compat_ptr_ioctl,
 
-...
-
-> +       if (is_write)
-
-I would name it is_from_user.
-
-> +               ret = copy_from_user(addr, user_buffer, n);
-> +       else
-> +               ret = copy_to_user(user_buffer, addr, n);
+Is this member always available (implying the kernel configuration)?
 
 ...
 
-> +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
-> +                        const char __user *user_buffer)
-> +{
-> +       return iio_dma_buffer_io(buffer, n, (__force char *)user_buffer, true);
+> +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS      0x00000000
 
-Why do you drop address space markers?
+No flags available right now?
 
-> +}
+...
+
+> + * @bytes_used:        number of bytes used in this DMABUF for the data transfer.
+> + *             If zero, the full buffer is used.
+
+Wouldn't be error prone to have 0 defined like this?
 
 -- 
 With Best Regards,
