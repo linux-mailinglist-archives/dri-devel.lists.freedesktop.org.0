@@ -1,56 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6F64EA84C
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 09:07:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 173F04EA89B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 09:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90C8410E420;
-	Tue, 29 Mar 2022 07:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B630A10F071;
+	Tue, 29 Mar 2022 07:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E00A10E413;
- Tue, 29 Mar 2022 07:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648537626; x=1680073626;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=hJCPwH7SOlcNlxTVq5wQ0kZ37jUz1wZR7OY+KI6Gqrg=;
- b=QtLJhvQLVmLpBKYWx2mLR2xQUlmOzTxBrXt6XvfKhfZmH1HSjIZcICFZ
- fOzhDXPH/jfsSdoiCwmxoTqkrWyJBEliJeLoPfIYrDNvgI8kf3IP/puPM
- P0SaeLAjleZF84mEZ9C3jNIsTm5UvSU68P1LCevYcveIVZjbl8fPXpdf/
- zsmiccRyyJULNrT482UBjeUkfNqWwrNpUF4zmz5psenXkdQQcfOhLQnQC
- UM7v7ZY7BH9dF67SnyAd0n7HFynYio+lrSX976dHCpB7/LGiSdFBIVgzQ
- rXwatL1FaUkJ9fW8sWnRcDNylMVB1QsmP6pC2eHhdsVgOAP5fIvW8H2Gj Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="246669322"
-X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="246669322"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2022 00:07:05 -0700
-X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="652722563"
-Received: from ettammin-mobl1.ger.corp.intel.com (HELO [10.249.254.86])
- ([10.249.254.86])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2022 00:07:03 -0700
-Message-ID: <3d46abe4-5113-e1b8-56be-19ac678d62f2@linux.intel.com>
-Date: Tue, 29 Mar 2022 09:07:00 +0200
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61F2E10E56C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:11:13 +0000 (UTC)
+Received: by mail-qk1-x72e.google.com with SMTP id b189so13367468qkf.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 00:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=2Jpv9X1mRqJBbBsT23UY5br7jZqVXCd74N7s1FPvLr4=;
+ b=aalhu3Sn2nCA2dfMtZ5bg8U92vZKzbYYf8SrKTbvgcuwConxVqtEYxu+UbeK/CJKxp
+ J2XW8EhweBztEFHH7svb39CtM57BYUnEa7U+pYtiJYBB5XUHBvrnsp+cPrefNgiMcLrZ
+ 62Llq4Z4FsR8ZRjtmDyiamTrk9hpftq7UQzCsIhIrvZfUdHmBtdZGK89rhJOfeP85PpH
+ eVGG2mAClPGGFETMVpQWYnprmSsUIpJW+u6MwF45N/uNc6ZpXKMiZ3fb5Ov5AVu7FhxV
+ Gv1tT+uDa8zgT/Sr4alxIm2XyNmsemas9yiRD5o83DGQuSVhR5K1LYSgo7DCLFccDPw9
+ 0LAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=2Jpv9X1mRqJBbBsT23UY5br7jZqVXCd74N7s1FPvLr4=;
+ b=vFEm/Z/TaIFuNnWx8OvyU8i0wl2XkEybTGSFutKWWeYhiMglsa4jrrIk0AsssZJpXg
+ HCmZTxO9bWkX953qHkcPtDuci6WW/gbxrt4UhAqj/G3WV04JeN0cEApT22LiytUJNtwF
+ Qr13JccSKDq1J17a5m4dKasgzUjpJm3AD2KxvpjPJRleoW4++g4e4gpWqETXsjZwPanC
+ 2hbkaJ5EtqlKSqbPZf7yLqKRj8xBAQmlvRUz4XVyc9ONuDw/5UWTa0JcBvJabrtpe7vR
+ tc3vbvc3QfiLMNzvT5NyhUdDrmONKadTor2zKHbK6uaJwNDh/pS9YWDHjxmw0HxQrna/
+ Jppg==
+X-Gm-Message-State: AOAM5337Dp8wz9LbAmco8/a+hsgJIIlvIw4eG/M3D+SaITbapKLZbrrC
+ QbRW8LupNLQ8mxXy9xH41aSqib7BOC/xYleo
+X-Google-Smtp-Source: ABdhPJy+jP697xainM6j70Eo1PTqkiP/ca6UtAdVU/oGW4GfmOgL8tApjwuNxpCwyJzVAWUtTBOa6g==
+X-Received: by 2002:a37:9a47:0:b0:680:aeaa:d89c with SMTP id
+ c68-20020a379a47000000b00680aeaad89cmr15826074qke.591.1648537872342; 
+ Tue, 29 Mar 2022 00:11:12 -0700 (PDT)
+Received: from ?IPv6:2003:f6:ef00:8400:3d36:58a:667a:1da9?
+ (p200300f6ef0084003d36058a667a1da9.dip0.t-ipconnect.de.
+ [2003:f6:ef00:8400:3d36:58a:667a:1da9])
+ by smtp.gmail.com with ESMTPSA id
+ j1-20020a05620a288100b0067b1be3201bsm8843300qkp.112.2022.03.29.00.11.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 00:11:11 -0700 (PDT)
+Message-ID: <deb2cd86196addbc47908455880000c618b984be.camel@gmail.com>
+Subject: Re: [PATCH v2 02/12] iio: buffer-dma: Enable buffer write support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>
+Date: Tue, 29 Mar 2022 09:11:48 +0200
+In-Reply-To: <96XG9R.3NOIIEN7IS001@crapouillou.net>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220207125933.81634-3-paul@crapouillou.net>
+ <20220328182409.1e959386@jic23-huawei>
+ <96XG9R.3NOIIEN7IS001@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf/sync-file: fix logic error in
- new fence merge code
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- ville.syrjala@linux.intel.com, daniel@ffwll.ch
-References: <20220329070001.134180-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220329070001.134180-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 29 Mar 2022 07:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +76,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the series,
+On Mon, 2022-03-28 at 19:39 +0100, Paul Cercueil wrote:
+> Hi Jonathan,
+> 
+> Le lun., mars 28 2022 at 18:24:09 +0100, Jonathan Cameron 
+> <jic23@kernel.org> a écrit :
+> > On Mon,  7 Feb 2022 12:59:23 +0000
+> > Paul Cercueil <paul@crapouillou.net> wrote:
+> > 
+> > >  Adding write support to the buffer-dma code is easy - the
+> > > write()
+> > >  function basically needs to do the exact same thing as the
+> > > read()
+> > >  function: dequeue a block, read or write the data, enqueue the
+> > > block
+> > >  when entirely processed.
+> > > 
+> > >  Therefore, the iio_buffer_dma_read() and the new 
+> > > iio_buffer_dma_write()
+> > >  now both call a function iio_buffer_dma_io(), which will perform
+> > > this
+> > >  task.
+> > > 
+> > >  The .space_available() callback can return the exact same value
+> > > as 
+> > > the
+> > >  .data_available() callback for input buffers, since in both
+> > > cases we
+> > >  count the exact same thing (the number of bytes in each
+> > > available
+> > >  block).
+> > > 
+> > >  Note that we preemptively reset block->bytes_used to the
+> > > buffer's 
+> > > size
+> > >  in iio_dma_buffer_request_update(), as in the future the
+> > >  iio_dma_buffer_enqueue() function won't reset it.
+> > > 
+> > >  v2: - Fix block->state not being reset in
+> > >        iio_dma_buffer_request_update() for output buffers.
+> > >      - Only update block->bytes_used once and add a comment about
+> > > why we
+> > >        update it.
+> > >      - Add a comment about why we're setting a different state
+> > > for 
+> > > output
+> > >        buffers in iio_dma_buffer_request_update()
+> > >      - Remove useless cast to bool (!!) in iio_dma_buffer_io()
+> > > 
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >  Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
+> > One comment inline.
+> > 
+> > I'd be tempted to queue this up with that fixed, but do we have
+> > any users?  Even though it's trivial I'm not that keen on code
+> > upstream well in advance of it being used.
+> 
+> There's a userspace user in libiio. On the kernel side we do have 
+> drivers that use it in ADI's downstream kernel, that we plan to 
+> upstream in the long term (but it can take some time, as we need to 
+> upstream other things first, like JESD204B support).
+> 
+> 
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+You mean, users for DMA output buffers? If so, I have on my queue to
+add the dac counterpart of this one:
+
+https://elixir.bootlin.com/linux/latest/source/drivers/iio/adc/adi-axi-adc.c
+
+Which is a user of DMA buffers. Though this one does not depend on
+JESD204, I suspect it will also be a tricky process mainly because I
+think there are major issues on how things are done right now (on the
+ADC driver).
+
+But yeah, not a topic here and I do plan to first start the discussion
+on the mailing list before starting developing (hopefully in the coming
+weeks)...
+
+- Nuno Sá
 
 
-On 3/29/22 09:00, Christian König wrote:
-> When the array is empty because everything is signaled we can't use
-> add_fence() to add something because that would filter the signaled
-> fence again.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
-> ---
->   drivers/dma-buf/sync_file.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index b8dea4ec123b..514d213261df 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -262,7 +262,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->   	}
->   
->   	if (index == 0)
-> -		add_fence(fences, &index, dma_fence_get_stub());
-> +		fences[index++] = dma_fence_get_stub();
->   
->   	if (num_fences > index) {
->   		struct dma_fence **tmp;
