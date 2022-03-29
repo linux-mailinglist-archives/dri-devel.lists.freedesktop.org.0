@@ -1,123 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C44A4EABF8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 13:09:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7A74EAC2B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 13:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4644F10E4AF;
-	Tue, 29 Mar 2022 11:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A21810EFE9;
+	Tue, 29 Mar 2022 11:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A19CB10E1D9;
- Tue, 29 Mar 2022 11:09:36 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE7C10EFE9;
+ Tue, 29 Mar 2022 11:24:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ENfw6lmd+tlJbmnzejbDVQuHg2wt3pTNfQa6XVc+R5dxPBR0Gsycxe5mhHsSXodbBKXu6paTOIXdmPYfslYln43Ic10gHJb8sjXKFzJhacbNh/M9dp90fOjoCSv+L65uZA0ZWkO8CVUzDLCHnP7Gtc2gpld12uQx5ZZ1ZR2/70AMDcrBYLGBtspgs2pobhdYRsggIp/kvlh3drPnyZAp4aLsct/WjC748kDoU0dY3wv2y4Yj/oP/4HbWaO0u5VlpBIwURxgUucAPzuH8zvSYtnDIJy1XSoYstQUt0DJCml5UInZMSOYFVfb6mVEh3ZEkP/LGX6noixLPR3scTCd1GA==
+ b=PAf7FnZCRw2UWUveo3cfP6VAC79zU7TI2m/JrAFEToe9ojIpKXIONbA2pQBpOlnMtFFKDNagEyPAGE5siHpIeQhn+CBW8LeJvzS7p5WelKeJzA05msdHGzStd5E6NkSyv1TazsULqufEkKstwivONhPk4AgxWue3wyvDKDAcOqJ8AK/32PHyl+xIp5R0QuESa2lCHhcNeuu7/8qoPqmnCx78wBKdtlleiOLlE/N2LWlGvFw8BhSnhzPPPG6Iqd0PwJA4Kz7GfH+cBtdF5b+k4nndsdtV9ZfHZUjsMU67VlpgHI/Yi29pWiJ2/rAv+jMWpCMb1VCWQqIPEb7Z3H4zIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEqde9lXwFwMzd6rx0Wgkq8LgY2Hvb9hZIRrsj1sxqc=;
- b=Rk+GW202WKrj+tscK0nN9pIjDDKA4qynEjyda4NV8/ER8J0nm5kFwLBv9naQqqyGgCd0LuORSx+JRy9/WBl458jeoCNXA65VSRLRIOsIxL/zdSOuBHh28j62Dcf3Sj22mvPapbKMnldBpt9415WG6L7DtD/AZ2QF7WhihF/kgaXOpd8yb0O4SeXxdv8hRo8Yf8TLXyuuQASuePQOGP5yLJoE8bgUIGrbHb5vsH0g6kuDgH+7F6TOapx6XNBY0XH37fJzdM8ulok3QiDe91utURHr0cArRKnoP9FE3l2Oy3HFY0pUI5Dq+ME6Y1/Zp04lzlrPipBDCleNm3MVGMFZGg==
+ bh=rerkMtfINlnfyq0vSJV4d09qsYwo5BYbAcnF8xvxpG8=;
+ b=QB+unzYsTj23wlmZpaxXQ0dns28Z0QMsEeNa9j9zZIyccut4jxG8U+/+lljLscUe++QWapHyk6brwgMJVp6d6nEhVBsd0RyouyqGCyit79bRqVn8Tshcmy34UO9kBJZxn/AF62yFihdwaMP6q9SVFgiAfGsPX+V8yCmkAMxCGzu4ujslmYAyOCuDEDnFDdPsv0vqA0o0jzTD3OoBlFhCGXDtdQWZhg5IUeWVYYQQvpQqrvLozVqB9eV58HPsaWHEoBC0k9ItALiTeNnZ+jnJb7cGOawOuSpuVL7wIBucLa7529CAGxRavoFSaiGHhIMbzd1KmljKij64jIiccG2mOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NEqde9lXwFwMzd6rx0Wgkq8LgY2Hvb9hZIRrsj1sxqc=;
- b=BrNf0kXpQ5g+ScsIEiV+1Z1eFXxksGiZDWqtP8hwe+iMIO/bXj1HhwT/I3cNFP2OT/jW9kav37ztjM+5A6KrIh3iT1hoe2gPKuc6kB4vYwclHZbYc2B5UFMmjdLqaP3qTqqDB/NTF700DBbDOEh5YxTMpp4E4n02hl6lTvlrYRQ=
+ bh=rerkMtfINlnfyq0vSJV4d09qsYwo5BYbAcnF8xvxpG8=;
+ b=gcXS8aMqOHhE7RgC404ptHCWUIBtdlbprologwIsf8aNarN2d13QAvf92qXcnp0gisR7OC+k8zySuEhFk72Hn8DmYMsnDiPVVsPHcYQ+llRCTwDX0YyAkOQPNm59vxUBo2Ttc7+0/pjHMd15NpghZrw43II/x0kIEZcTMz6k8sc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by BN6PR12MB1298.namprd12.prod.outlook.com (2603:10b6:404:17::19)
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN8PR12MB3140.namprd12.prod.outlook.com (2603:10b6:408:67::30)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Tue, 29 Mar
- 2022 11:09:33 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
- 11:09:33 +0000
-Message-ID: <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
-Date: Tue, 29 Mar 2022 16:49:51 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.21; Tue, 29 Mar
+ 2022 11:24:09 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 11:24:08 +0000
+Message-ID: <417bc262-17db-551f-1334-3cfafe997c60@amd.com>
+Date: Tue, 29 Mar 2022 13:24:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ Thunderbird/91.7.0
 Subject: Re: [PATCH v11] drm/amdgpu: add drm buddy support to amdgpu
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
 References: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
  <c255f3ea-a269-1886-f79a-2d8a38b956b1@gmail.com>
  <MN2PR12MB4342B7FD0CC5C480DEEF8A77E41D9@MN2PR12MB4342.namprd12.prod.outlook.com>
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <MN2PR12MB4342B7FD0CC5C480DEEF8A77E41D9@MN2PR12MB4342.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN1PR0101CA0017.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c00:e::27) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+ <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM5PR0701CA0054.eurprd07.prod.outlook.com
+ (2603:10a6:203:2::16) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1e2ba38-b566-4047-72a3-08da11749a5c
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1298:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR12MB1298200FFEF7AD63BDB9C219E41E9@BN6PR12MB1298.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: d91abc33-2260-488e-4eda-08da1176a450
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3140:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB3140972C2437828E6E63463B831E9@BN8PR12MB3140.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p58BsOEn0Rq2TWu5E1sqjp9k5BrDHl0L2ZyUcHobsvbeYOhuZR145GAR1BQgE9hf5N+h9/cYAQAgOyoWDDRa56eWD6LaN7ueEIuOXlIqQAimiuxn2aefg5/bubvcUVkx6dBjMB2sDzN+gZSw7vH4JTbuIpYDfdDIatBY4jZenv1WmbM/Xo8VzYqwedQMeOu/0U8yXvgJ7j1SHr9xDmpQYgCVsci5P/hpIcAegOvV/EH419faqdIx0YTKRBlv2bl9PR3Kivi+UDrpH2fbK/Rdz/xpxCw9VQL9lT6L3uqyW85aGglvVMceoHAfCLoqo95Gk8q6WtooEuECEVxy8EDn+nYUHwphpSlK9Lypfk2R52bgW/QrKUtRi36I2oju+wojz7PHmB6Ns2XKx5do6oS2EIWSlVvEwSDddFa8fRSngGUzR/rekvZiHi88z63YtXaa0gofXkXOG95JKN3Acs2o9Gvf4l+duF9X59MIe3KNKB4mZsSzJAvs5pNs873bfLu0yKCSUImOczF75LAs0kptpG8hpholfW3cg1ef2G8vkZCihPZwiOLatrB6bRf3mz/8616s/ACseXSoT+MfvM6rU8vzmGFD1dEsBWdQSG5OH69PFqguTGZC38sUCNB3fmt5a4Jd5WmibYsWwFSU6lS+ve6mwGIjA2TRe0bUywfPUDpOoUq/4K+O2Ou9/xL8LksiG3JyTnoOt9fqFJq9B978V0pMuDbZdUF4agbISdpsso0=
+X-Microsoft-Antispam-Message-Info: n3TjluDqZk074bjTZwKuMI0sM0m8q1oXi7YVaLIqwetjW+uG+OqVtmYRq3lOtyEzaa2GxjUuxPFstQOWpToecKYuQv8kwspnjq93Uf4TDp2NtpSN7B4maGZghV65Xg+ayBfGNQupuk0Q2TWUx/fvnz+vyK3b7KyzMlmrMsKJkf4sjUzdhbEkhKVefR9iYu4fo0JRuoyK/7Rj6tq5E9uFb8FKP6LtPHPIGO8AnOYh4xJ2mTLpZlVXwVYtslJMDnnHXpuHyrECXCurvQ4RbKSGe+TRxVCYzFb5JOtnkVzkCKE7qcm18Ly5/sPnNGSQgwHVrafeTWmU21nc8Mt32ovrUcYEIwMKkJQo8cHPYSPtA6MrPyqHmA+m29uKYsoDKS2K705LXSl2urzqQuJtoXZVz3veTtRV3g9Nz5ilYlLSuYMmVpHXoH+Dzm9jt75OOCKwZaYHbunSsOyXl9ZpZ2GWPoqsfPOYdeYngqLAr30VlwvSj4ILe4tZCoeNMrP4Lwv9M9hOvLs9+y5PBk+pkPMxLbpw7TkJ5w1HgKHV+ffK3C+6J4nH7tYz1qQpXIR7aZYwzEg2nqtAzNLT3kGOG2+1x+1tbC6LXRfY/tBZ+kaVoETLPW9cdP66FApQwspEafYLRppN17ANBq5dh5Umk1SzDQ1cFVgJtCh2DjdtvXn/BaB4EkR9DrB9GeQ07VJR4r7Yy7jQh9fz5EQdioUEci4WSOaLB9f/2Mw/4qfaDSwYhV3lauj69Szv9fKr8xiy+WQM
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8936002)(5660300002)(6512007)(2616005)(6486002)(508600001)(2906002)(86362001)(31696002)(6506007)(6666004)(53546011)(38100700002)(66574015)(66556008)(186003)(26005)(83380400001)(316002)(31686004)(66946007)(6862004)(4326008)(66476007)(6636002)(36756003)(54906003)(8676002)(37006003)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(66476007)(6862004)(4326008)(66946007)(6486002)(6666004)(66556008)(38100700002)(6506007)(37006003)(508600001)(316002)(54906003)(31696002)(86362001)(83380400001)(6636002)(6512007)(26005)(186003)(2616005)(36756003)(31686004)(5660300002)(2906002)(8936002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmZnYkUvT2VIVVFNUEJRTXJnVll5Z2NCOW10SEJDZ1JKOHJWY2VCVDJsOUNN?=
- =?utf-8?B?NDI2eklGdTB3OW9rU3A2K1l4a2tEbG9NUlFoK2h3YnVaeDRQaVd2SE92TWhy?=
- =?utf-8?B?TDMyQjM0dzJRR0xvVEU4dDVsYUV0Rjg0OGI4dEdkSHpHWWdoUjBTRUFQVUFo?=
- =?utf-8?B?QjR6M1J5ZHVHaCs4S1laM3lEbXJrL3VFcEcrVlJHWU94SUxFOUpOZlB1bW1q?=
- =?utf-8?B?bWJDVHZna0FLa0ZsNitiZVltTUJrVm9vZzdqMFpFZEZFY3NmTFZuVm9uWG5q?=
- =?utf-8?B?RG13QlBXdkhaYUxrRlk2VXBseWJ1YklEUEk0dHQrcElYNDZoaE1QK3hQbERQ?=
- =?utf-8?B?aDgwY1ZIdUVqOUFzNzFTZi9IV3YrSGNhU25GZktmSkpmeE9wL1VQb1E5ODV0?=
- =?utf-8?B?UU9pKzdpQ3VaY1ovNldpQlh4ek9qUEZHR0R0VytJOUNFclpPM1NERXlOVzdR?=
- =?utf-8?B?RDRWSVBoK0dlM1NpZ3dhdHdaK2Vud29YM1BnKzFtLzNkZU5zcEs2WC96L3Bh?=
- =?utf-8?B?ZXFsL0ovckFQYjBIWDZTN0J3anlTcmgvNTdJSURaeTZQdzJOWEFjelBhWC9n?=
- =?utf-8?B?ZFpZZStlOWFMNW4rK3hxYjdDOGZ6Y0JqbWFpbTdOa21OWHhYWkpvVDllenBJ?=
- =?utf-8?B?YXFEbjkvM0E3dktYWXZKSjBtOFFWMnIrcm0xTVQ4ZFJ1Zm9RZ1RuNDhka2U0?=
- =?utf-8?B?N0dOdFBGMk9pNWYxMEdkM3dyUHpvRFZ6VHp0RHFBRkFVa0p2K29TT2R3Ymlr?=
- =?utf-8?B?SWF5Q3NmRVBUZXgwOWlzNTljRXQ1eS95ei81bUd2MXIwV2dzL3VKa0VrWEFX?=
- =?utf-8?B?dytHblJmTUx3bld1dDZjcFUzcUFDLzgzejF3Y2F1SXpoTlhXNzFEb0pGeWpk?=
- =?utf-8?B?bnJweWFrNDl2Q0hjZGpWVERRVWZWVUR5Qmd5YzBxekJpTklycmh6cENYRlFI?=
- =?utf-8?B?SU4rYjRaMlZubGxWTjFCN3BJWSttc0lqQ24zT3Q4T2FYL2J5UjJNV2hXMlBZ?=
- =?utf-8?B?RmhPamhYRFNXSW44M0xRbVhPUmp0K25XNFRTcVlzOE5wOVFxSW5IVzdoa3Qz?=
- =?utf-8?B?VDMrUXFBZkk5RnRpWm1sS3JlNTNiRjFXRFh4WXpQWWQvTTFza1FaT3BsRzRh?=
- =?utf-8?B?alQyTnRkb0RZb3pwdVBkb0MzZEJJbEZOclVJQlFOWkhuTEdhWEVrUytRaTFS?=
- =?utf-8?B?MzM2eEsxc2FGWjlISUhqMGJEYVkvd0dwMkMrc09JeXdMK3ZZdTRkQWZSa28z?=
- =?utf-8?B?OGwxa01mbkNtWE9pekJ5TlF1NjJyUTRjOS9zcUtjM3RkV0V3RXVNNnlLeEZl?=
- =?utf-8?B?RWVGS2hJR2ZEZzliRUJySVNZbXZoUXhBRS9zcUZHUGFmekNqNTUwZlJKQnZE?=
- =?utf-8?B?N3FScGYwVFdGaEE3aHhiMmRiMWVRR2V6emRsUmdSRm5tNmNpRk9FOFlXQmxV?=
- =?utf-8?B?Y2F3R204QnhIZHdTNWcrUXVHVC9uQlJnaEhaUVRKcFZxU3RvaDVDbk5yc2xs?=
- =?utf-8?B?RjZsRDh6T2VZcUtreERDQkNnOVZSU0MyeCt5dTU4ZG5TTnVVQjBzeUg3UHhV?=
- =?utf-8?B?UlRnU3JabHg5eEFtWXQ3OGd1eFgzTDY0Si92cldJU2tLVForRHNNbDlxeWJ0?=
- =?utf-8?B?aFpJTzI4RHZvQ1VBVlcwUTJMRHhSM1VTanBWTE9ZZnUwNmxYSWFtVUJMSHhD?=
- =?utf-8?B?ZXc4VXZzNWkrTU5JNk9KQ1QxUnA4dWdPZ2EzTTFjcldYZVZXWE4wK2grRzdU?=
- =?utf-8?B?d1FURjdBSDNXT0lLSFRYZmxDb2Z2T2tWMWhaNmV3VlFkV3N6UDd4eHU1NUkx?=
- =?utf-8?B?NlkxNnIwOGFUR2dvdUo5bEZkTC9TV1ozS3k5cjB0WVlHVjB4ajliY2VmMGV5?=
- =?utf-8?B?ZHVpQ0NGS3dPYjAwRmZpOUtPU202YUpvOTZsRG5WRXVXMUthK0dYbnV6aVk0?=
- =?utf-8?B?a3l3aXRDd1VaUGRDRHJrMldvS2VEK3R5dXEzZ0pxMVhzR3d5SndjVHQxZExz?=
- =?utf-8?B?VzhpUEd6eVkrcEJDTnpLaVB2aVRrelJaem9vT3ZBS1RDcDJpSC85K3A4MEF6?=
- =?utf-8?B?NmdBQXd4ZUpHZGlxZjQxTUpPQjJicWxvMUlXWERCSERyRE9iSkJCVTRhMDl4?=
- =?utf-8?B?UE45Rm1mOFQvbXZybTBYMGc0cFpmT00zdGlGSjF2M2hjdUZKUG8wRUhYWHhu?=
- =?utf-8?B?QW5iSjIvYTdFNVFkQ0c1eC83QTBZVFh6NWxyekh2R3I5MWozS3JaSTFZdEp6?=
- =?utf-8?B?RjhydUJrWndjUUNlQldITnZVeVJKL2RjMnl0WGhOaUhlOGJBd1crZVFwR3Ax?=
- =?utf-8?B?OFFCUms1NC80Q1NpNkVzUXNLNmg5MTMvcVVsSk83MlFEMG5CMmJNdz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUgzcEh6bHNWdUorL0J6VXlYNWR1Z09FaWwvb2ZGeS96MlF0eEhZQ05SM1VU?=
+ =?utf-8?B?QkRRVlhibWR4RFpVbk5DV1J1dEcyMS85RUlVdDVwSTA2NnZocUhLakEwc3k4?=
+ =?utf-8?B?cWppU1N3cENUamU5Y1ptdm9zQ1FGZFBEaU9icklsalFxZjVERUFpNHZzOTYr?=
+ =?utf-8?B?THZrRFJ6NzNhbzNCQ2JMUEM4MHVuNnA2KzlSQkRDUzM4RFRUeVc5TUt1VnA0?=
+ =?utf-8?B?NkczRjIyYmxJZGozNWZ1czYvQXBCS1BMZnZTdGZkbjh0ZFVDcWVwMFQxUXo1?=
+ =?utf-8?B?clVGYmRCUytTRnJSeU9EYlJ3dnBsWFJBZjJGbkRYUisvcUdZeEpvbW1hRmo4?=
+ =?utf-8?B?NDRSTmtvUi9IejM4VWxkQjFSL01wSlJYU1F2bUFDeFFpYm9xRU5UY1pSakVr?=
+ =?utf-8?B?Vjl1VXVSQU0vYUszMis3UmZZb0w4aVVYWUF3blJKN0huMjF0UGlOU2JIVHk0?=
+ =?utf-8?B?N3FOWExkdDcrSzhsOWtmbE4rMjF2OVFMMWpTYW05ZUV6blFjRzBLZ21SU0dT?=
+ =?utf-8?B?dngrMzBDT2tLVmk2dkhOdkkwMDI2T01ML0NFaTdlZjBiK3duWGpORTB0cmdM?=
+ =?utf-8?B?WGluRzQ4Ykt6UXpnb0NFenFHZElOUlhtdDVsc09QWTBjdE1uVGlmMWhHbmF4?=
+ =?utf-8?B?cGl3b3luMURRWjFIR3h5SjBnMm0vSGxJYUtSMHg0L3lqV3I0bkNaQUdRYndi?=
+ =?utf-8?B?cVBiWVB5TXdIL0JyS3gwbUNOU3YzUnVzSjhXMEtHd253ZUdvRkFsSjliWm5L?=
+ =?utf-8?B?TWtjdzZxc0trQVV3QlEzMyszQzYxM1VabjNmWDgxRC9GbGxhc1hQZ3ZiZkY4?=
+ =?utf-8?B?Q05JZ2NtZTVLMkJnSmp0SWlKUjZtMDB4eklZcndDWDBIcS9lSEJ3YzBWd3Ax?=
+ =?utf-8?B?eVIxVk9La05EcDk5VHhNblRCT0JsMjdWU0lncjdvaElBQkVOQ2Z3YzF5bUdE?=
+ =?utf-8?B?WlZsZENwSndCellWQWZucGdNdHFWZHlQNFExS1k4RXJyQnBIT2NVcHdUaEFW?=
+ =?utf-8?B?VTYyZnNJbk0wUDVIUC9CUTVmUFIrdVhYbTdDNERwMjZrQnpkU0UyMkJ0UGs2?=
+ =?utf-8?B?Nk9peTFCRjNBcUhDdTlKMVM1ZW5CQVhUQStRblFCckdwRnZaWUl0Y0tJMjhj?=
+ =?utf-8?B?SUh1dnlOaUNVd3hlKzBOK2ptQUtTM09DS1JNai9TRUhkaWNVWklSSE9IY3ov?=
+ =?utf-8?B?WUl6L1hmbG9nMjY1TWNORmdjZTJoMkJsWDhacFhFQnJPazR5ek5sZlJtcnVr?=
+ =?utf-8?B?LzdycysyY0R4cUxqanBpN2hicFRKOHdkZGcyZU1LOW1hVlFGazRsSEVjU1ZB?=
+ =?utf-8?B?Y1d2dGpmRzcrWWo1TUNWeUEwbUpaUm5HVTZ2Sjk4WE0raG5xUWhsdEhneUVB?=
+ =?utf-8?B?VjVhMGNHWXA1Qmg2VW5YU3lqZGJXa3RuWVV4T3BPNzhEczRsNDEwVTRKVWVx?=
+ =?utf-8?B?Q2RSMVFQNnBkWlE4QXNBMEZ1K0tCRUFNZDdFUUVsMFR6UUR4UzF2Rkhta2Nt?=
+ =?utf-8?B?ajNLMVUwTUd3MDRyT3VoMytiZEpyelJGTXBjWDVSWnAxeU14MFl5WDU4bmNi?=
+ =?utf-8?B?WEtRQ1p0ZVBsWmRLZWNtaDF5azBOQ2I3OTN3NkxzVWFuSm8yRlAwRHJzSDVH?=
+ =?utf-8?B?VTZJRE9CMjNFRDRFMko2UWhFYnRzQVNTMlU4aHRVVWtZa1pxY2FscTUvZEFh?=
+ =?utf-8?B?TVN6Y2ozbEVCN1JzU0ozUzRjT1QrYlpzL0htUFl2MHdFbWpQZmE2RkV6eG9H?=
+ =?utf-8?B?OTh6WWFNeW16MlJJNWFkVVljVTBINlUyRUFxRFdzSEFlQzlPTkVFeHlzclR4?=
+ =?utf-8?B?Y01GRGNpUDByckovNmZvRUlDQ0pudlcxdU5BbEhhbDZHanlzVVkrN0VwTmIy?=
+ =?utf-8?B?YkdDSURCNi9iU0V3djdZaFNjZXRZQ1BQUXZUQkRuS3h2MjZVaW80NHFnRjND?=
+ =?utf-8?B?RzBOekE1RVJBUW1iOUcwYXJFam9QRkpMb1c3RTdpbUJkaUdRcXRybTFGTk05?=
+ =?utf-8?B?MGhoSGhqdVpNeVl3VEdnRnlxTGRQVjhQaWgwQVBJUHRQd1hkVWdzOTBTWWt6?=
+ =?utf-8?B?aUY0YXY1TkVveXE0QjMvQ1ZxajFWbnZsVDhiYm9JR3FURWRWTDYwc0MvTVhC?=
+ =?utf-8?B?bzFQOFdleFBKTkVQWkNPVDBlYVk5dGtSVlhNdC9qMHNYNzEydUVWSXFIY2xx?=
+ =?utf-8?B?OEtLUHJQZlNpR2VPdXJac0VQMWFLYzFqR0tuNkxodEIrSU1TRW5RUThQOE5u?=
+ =?utf-8?B?SElKVHgxZ2dITzJUUkplTlBIbWtyZFJSd2hLWndFL1RMaGZCTnFQaTNZSnNB?=
+ =?utf-8?B?S2hEYy9McnB0azJhNFVBWGZaakpTQXRPcUV6aTFTVHAyVUtLZkJYQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1e2ba38-b566-4047-72a3-08da11749a5c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d91abc33-2260-488e-4eda-08da1176a450
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 11:09:33.3099 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 11:24:08.8292 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: db/YE6IxEQLEWmBpGZyqncidPU7MfPZAMI9GszNjllJtZe9JFiVpnkVKwmuSCMd5JoBsIe8L60axE9r3hT7ykw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1298
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4FWyfRSaRr4Daqvvs5M2OMjik9/HJ8907IxhPvpX/j5/M9BuN5gDFIck0DzvF2ln
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,310 +131,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arunpravin Paneerselvam <arunpravin.paneerselvam@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
  Alexander" <alexander.deucher@amd.com>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Christian König
-> Sent: Wednesday, March 23, 2022 1:07 PM
-> To: Paneer Selvam, Arunpravin <Arunpravin.PaneerSelvam@amd.com>; intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; matthew.auld@intel.com; daniel@ffwll.ch; Koenig, Christian <Christian.Koenig@amd.com>
-> Subject: Re: [PATCH v11] drm/amdgpu: add drm buddy support to amdgpu
-> 
-> Am 23.03.22 um 07:25 schrieb Arunpravin Paneer Selvam:
->> [SNIP]
->> @@ -415,48 +409,86 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>   		goto error_fini;
->>   	}
->>   
->> -	mode = DRM_MM_INSERT_BEST;
->> +	INIT_LIST_HEAD(&node->blocks);
->> +
->>   	if (place->flags & TTM_PL_FLAG_TOPDOWN)
->> -		mode = DRM_MM_INSERT_HIGH;
->> +		node->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
->>   
->> -	pages_left = node->base.num_pages;
->> +	if (place->fpfn || lpfn != man->size >> PAGE_SHIFT)
->> +		/* Allocate blocks in desired range */
->> +		node->flags |= DRM_BUDDY_RANGE_ALLOCATION;
->>   
->> -	/* Limit maximum size to 2GB due to SG table limitations */
->> -	pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
->> +	BUG_ON(!node->base.num_pages);
-> 
-> Please drop this BUG_ON(). This is not something which prevents further data corruption, so the BUG_ON() is not justified.
-
-ok
-> 
->> +	pages_left = node->base.num_pages;
->>   
->>   	i = 0;
->> -	spin_lock(&mgr->lock);
->>   	while (pages_left) {
->> -		uint32_t alignment = tbo->page_alignment;
->> +		if (tbo->page_alignment)
->> +			min_page_size = tbo->page_alignment << PAGE_SHIFT;
->> +		else
->> +			min_page_size = mgr->default_page_size;
-> 
-> The handling here looks extremely awkward to me.
-> 
-> min_page_size should be determined outside of the loop, based on default_page_size, alignment and contiguous flag.
-I kept min_page_size determine logic inside the loop for cases 2GiB+
-requirements, Since now we are round up the size to the required
-alignment, I modified the min_page_size determine logic outside of the
-loop in v12. Please review.
-> 
-> Then why do you drop the lock and grab it again inside the loop? And what is "i" actually good for?
-modified the lock/unlock placement in v12.
-
-"i" is to track when there is 2GiB+ contiguous allocation request, first
-we allocate 2GiB (due to SG table limit) continuously and the remaining
-pages in the next iteration, hence this request can't be a continuous.
-To set the placement flag we make use of "i" value. In our case "i"
-value becomes 2 and we don't set the below flag.
-node->base.placement |= TTM_PL_FLAG_CONTIGUOUS;
-
-If we don't get such requests, I will remove "i".
-
->
-
-
-
->> +
->> +		/* Limit maximum size to 2GB due to SG table limitations */
->> +		pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
->>   
->>   		if (pages >= pages_per_node)
->> -			alignment = pages_per_node;
->> -
->> -		r = drm_mm_insert_node_in_range(mm, &node->mm_nodes[i], pages,
->> -						alignment, 0, place->fpfn,
->> -						lpfn, mode);
->> -		if (unlikely(r)) {
->> -			if (pages > pages_per_node) {
->> -				if (is_power_of_2(pages))
->> -					pages = pages / 2;
->> -				else
->> -					pages = rounddown_pow_of_two(pages);
->> -				continue;
->> -			}
->> -			goto error_free;
->> +			min_page_size = pages_per_node << PAGE_SHIFT;
->> +
->> +		if (!is_contiguous && !IS_ALIGNED(pages, min_page_size >> PAGE_SHIFT))
->> +			is_contiguous = 1;
->> +
->> +		if (is_contiguous) {
->> +			pages = roundup_pow_of_two(pages);
->> +			min_page_size = pages << PAGE_SHIFT;
->> +
->> +			if (pages > lpfn)
->> +				lpfn = pages;
->>   		}
->>   
->> -		vis_usage += amdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
->> -		amdgpu_vram_mgr_virt_start(&node->base, &node->mm_nodes[i]);
->> -		pages_left -= pages;
->> +		BUG_ON(min_page_size < mm->chunk_size);
->> +
->> +		mutex_lock(&mgr->lock);
->> +		r = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
->> +					   (u64)lpfn << PAGE_SHIFT,
->> +					   (u64)pages << PAGE_SHIFT,
->> +					   min_page_size,
->> +					   &node->blocks,
->> +					   node->flags);
->> +		mutex_unlock(&mgr->lock);
->> +		if (unlikely(r))
->> +			goto error_free_blocks;
->> +
->>   		++i;
->>   
->>   		if (pages > pages_left)
->> -			pages = pages_left;
->> +			pages_left = 0;
->> +		else
->> +			pages_left -= pages;
->>   	}
->> -	spin_unlock(&mgr->lock);
->>   
->> -	if (i == 1)
->> +	/* Free unused pages for contiguous allocation */
->> +	if (is_contiguous) {
-> 
-> Well that looks really odd, why is trimming not part of
-> drm_buddy_alloc_blocks() ?
-we didn't place trim function part of drm_buddy_alloc_blocks since we
-thought this function can be a generic one and it can be used by any
-other application as well. For example, now we are using it for trimming
-the last block in case of size non-alignment with min_page_size.
-> 
->> +		u64 actual_size = (u64)node->base.num_pages << PAGE_SHIFT;
->> +
->> +		mutex_lock(&mgr->lock);
->> +		drm_buddy_block_trim(mm,
->> +				     actual_size,
->> +				     &node->blocks);
-> 
-> Why is the drm_buddy_block_trim() function given all the blocks and not just the last one?
-modified in v12.
-> 
-> Regards,
-> Christian.
-> 
->> +		mutex_unlock(&mgr->lock);
->> +	}
->> +
->> +	list_for_each_entry(block, &node->blocks, link)
->> +		vis_usage += amdgpu_vram_mgr_vis_size(adev, block);
->> +
->> +	block = amdgpu_vram_mgr_first_block(&node->blocks);
->> +	if (!block) {
->> +		r = -EINVAL;
->> +		goto error_fini;
->> +	}
->> +
->> +	node->base.start = amdgpu_node_start(block) >> PAGE_SHIFT;
->> +
->> +	if (i == 1 && is_contiguous)
->>   		node->base.placement |= TTM_PL_FLAG_CONTIGUOUS;
->>   
->>   	if (adev->gmc.xgmi.connected_to_cpu) @@ -468,13 +500,13 @@ static 
->> int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>   	*res = &node->base;
->>   	return 0;
->>   
->> -error_free:
->> -	while (i--)
->> -		drm_mm_remove_node(&node->mm_nodes[i]);
->> -	spin_unlock(&mgr->lock);
->> +error_free_blocks:
->> +	mutex_lock(&mgr->lock);
->> +	drm_buddy_free_list(mm, &node->blocks);
->> +	mutex_unlock(&mgr->lock);
->>   error_fini:
->>   	ttm_resource_fini(man, &node->base);
->> -	kvfree(node);
->> +	kfree(node);
->>   
->>   	return r;
->>   }
->> @@ -490,27 +522,26 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>   static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
->>   				struct ttm_resource *res)
->>   {
->> -	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
->> +	struct amdgpu_vram_mgr_node *node = to_amdgpu_vram_mgr_node(res);
->>   	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
->>   	struct amdgpu_device *adev = to_amdgpu_device(mgr);
->> +	struct drm_buddy *mm = &mgr->mm;
->> +	struct drm_buddy_block *block;
->>   	uint64_t vis_usage = 0;
->> -	unsigned i, pages;
->>   
->> -	spin_lock(&mgr->lock);
->> -	for (i = 0, pages = res->num_pages; pages;
->> -	     pages -= node->mm_nodes[i].size, ++i) {
->> -		struct drm_mm_node *mm = &node->mm_nodes[i];
->> +	mutex_lock(&mgr->lock);
->> +	list_for_each_entry(block, &node->blocks, link)
->> +		vis_usage += amdgpu_vram_mgr_vis_size(adev, block);
->>   
->> -		drm_mm_remove_node(mm);
->> -		vis_usage += amdgpu_vram_mgr_vis_size(adev, mm);
->> -	}
->>   	amdgpu_vram_mgr_do_reserve(man);
->> -	spin_unlock(&mgr->lock);
->> +
->> +	drm_buddy_free_list(mm, &node->blocks);
->> +	mutex_unlock(&mgr->lock);
->>   
->>   	atomic64_sub(vis_usage, &mgr->vis_usage);
->>   
->>   	ttm_resource_fini(man, res);
->> -	kvfree(node);
->> +	kfree(node);
->>   }
->>   
->>   /**
->> @@ -648,13 +679,22 @@ static void amdgpu_vram_mgr_debug(struct ttm_resource_manager *man,
->>   				  struct drm_printer *printer)
->>   {
->>   	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
->> +	struct drm_buddy *mm = &mgr->mm;
->> +	struct drm_buddy_block *block;
->>   
->>   	drm_printf(printer, "  vis usage:%llu\n",
->>   		   amdgpu_vram_mgr_vis_usage(mgr));
->>   
->> -	spin_lock(&mgr->lock);
->> -	drm_mm_print(&mgr->mm, printer);
->> -	spin_unlock(&mgr->lock);
->> +	mutex_lock(&mgr->lock);
->> +	drm_printf(printer, "default_page_size: %lluKiB\n",
->> +		   mgr->default_page_size >> 10);
->> +
->> +	drm_buddy_print(mm, printer);
->> +
->> +	drm_printf(printer, "reserved:\n");
->> +	list_for_each_entry(block, &mgr->reserved_pages, link)
->> +		drm_buddy_block_print(mm, block, printer);
->> +	mutex_unlock(&mgr->lock);
->>   }
->>   
->>   static const struct ttm_resource_manager_func amdgpu_vram_mgr_func = 
->> { @@ -674,16 +714,21 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
->>   {
->>   	struct amdgpu_vram_mgr *mgr = &adev->mman.vram_mgr;
->>   	struct ttm_resource_manager *man = &mgr->manager;
->> +	int err;
->>   
->>   	ttm_resource_manager_init(man, &adev->mman.bdev,
->>   				  adev->gmc.real_vram_size);
->>   
->>   	man->func = &amdgpu_vram_mgr_func;
->>   
->> -	drm_mm_init(&mgr->mm, 0, man->size >> PAGE_SHIFT);
->> -	spin_lock_init(&mgr->lock);
->> +	err = drm_buddy_init(&mgr->mm, man->size, PAGE_SIZE);
->> +	if (err)
->> +		return err;
->> +
->> +	mutex_init(&mgr->lock);
->>   	INIT_LIST_HEAD(&mgr->reservations_pending);
->>   	INIT_LIST_HEAD(&mgr->reserved_pages);
->> +	mgr->default_page_size = PAGE_SIZE;
->>   
->>   	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, &mgr->manager);
->>   	ttm_resource_manager_set_used(man, true); @@ -711,16 +756,16 @@ 
->> void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
->>   	if (ret)
->>   		return;
->>   
->> -	spin_lock(&mgr->lock);
->> +	mutex_lock(&mgr->lock);
->>   	list_for_each_entry_safe(rsv, temp, &mgr->reservations_pending, node)
->>   		kfree(rsv);
->>   
->>   	list_for_each_entry_safe(rsv, temp, &mgr->reserved_pages, node) {
->> -		drm_mm_remove_node(&rsv->mm_node);
->> +		drm_buddy_free_list(&mgr->mm, &rsv->block);
->>   		kfree(rsv);
->>   	}
->> -	drm_mm_takedown(&mgr->mm);
->> -	spin_unlock(&mgr->lock);
->> +	drm_buddy_fini(&mgr->mm);
->> +	mutex_unlock(&mgr->lock);
->>   
->>   	ttm_resource_manager_cleanup(man);
->>   	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, NULL);
+Am 29.03.22 um 13:19 schrieb Arunpravin Paneer Selvam:
+> [SNIP]
+>>> +	pages_left = node->base.num_pages;
+>>>    
+>>>    	i = 0;
+>>> -	spin_lock(&mgr->lock);
+>>>    	while (pages_left) {
+>>> -		uint32_t alignment = tbo->page_alignment;
+>>> +		if (tbo->page_alignment)
+>>> +			min_page_size = tbo->page_alignment << PAGE_SHIFT;
+>>> +		else
+>>> +			min_page_size = mgr->default_page_size;
+>> The handling here looks extremely awkward to me.
 >>
->> base-commit: a678f97326454b60ffbbde6abf52d23997d71a27
+>> min_page_size should be determined outside of the loop, based on default_page_size, alignment and contiguous flag.
+> I kept min_page_size determine logic inside the loop for cases 2GiB+
+> requirements, Since now we are round up the size to the required
+> alignment, I modified the min_page_size determine logic outside of the
+> loop in v12. Please review.
+
+Ah! So do we only have the loop so that each allocation isn't bigger 
+than 2GiB? If yes couldn't we instead add a max_alloc_size or something 
+similar?
+
+BTW: I strongly suggest that you rename min_page_size to min_alloc_size. 
+Otherwise somebody could think that those numbers are in pages and not 
+bytes.
+
+>> Then why do you drop the lock and grab it again inside the loop? And what is "i" actually good for?
+> modified the lock/unlock placement in v12.
+>
+> "i" is to track when there is 2GiB+ contiguous allocation request, first
+> we allocate 2GiB (due to SG table limit) continuously and the remaining
+> pages in the next iteration, hence this request can't be a continuous.
+> To set the placement flag we make use of "i" value. In our case "i"
+> value becomes 2 and we don't set the below flag.
+> node->base.placement |= TTM_PL_FLAG_CONTIGUOUS;
+>
+> If we don't get such requests, I will remove "i".
+
+I'm not sure if that works.
+
+As far as I can see drm_buddy_alloc_blocks() can allocate multiple 
+blocks at the same time, but i is only incremented when we loop.
+
+So what you should do instead is to check if node->blocks just contain 
+exactly one element after the allocation but before the trim.
+
+>>> +
+>>> +		/* Limit maximum size to 2GB due to SG table limitations */
+>>> +		pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
+>>>    
+>>>    		if (pages >= pages_per_node)
+>>> -			alignment = pages_per_node;
+>>> -
+>>> -		r = drm_mm_insert_node_in_range(mm, &node->mm_nodes[i], pages,
+>>> -						alignment, 0, place->fpfn,
+>>> -						lpfn, mode);
+>>> -		if (unlikely(r)) {
+>>> -			if (pages > pages_per_node) {
+>>> -				if (is_power_of_2(pages))
+>>> -					pages = pages / 2;
+>>> -				else
+>>> -					pages = rounddown_pow_of_two(pages);
+>>> -				continue;
+>>> -			}
+>>> -			goto error_free;
+>>> +			min_page_size = pages_per_node << PAGE_SHIFT;
+>>> +
+>>> +		if (!is_contiguous && !IS_ALIGNED(pages, min_page_size >> PAGE_SHIFT))
+>>> +			is_contiguous = 1;
+>>> +
+>>> +		if (is_contiguous) {
+>>> +			pages = roundup_pow_of_two(pages);
+>>> +			min_page_size = pages << PAGE_SHIFT;
+>>> +
+>>> +			if (pages > lpfn)
+>>> +				lpfn = pages;
+>>>    		}
+>>>    
+>>> -		vis_usage += amdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
+>>> -		amdgpu_vram_mgr_virt_start(&node->base, &node->mm_nodes[i]);
+>>> -		pages_left -= pages;
+>>> +		BUG_ON(min_page_size < mm->chunk_size);
+>>> +
+>>> +		mutex_lock(&mgr->lock);
+>>> +		r = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
+>>> +					   (u64)lpfn << PAGE_SHIFT,
+>>> +					   (u64)pages << PAGE_SHIFT,
+>>> +					   min_page_size,
+>>> +					   &node->blocks,
+>>> +					   node->flags);
+>>> +		mutex_unlock(&mgr->lock);
+>>> +		if (unlikely(r))
+>>> +			goto error_free_blocks;
+>>> +
+>>>    		++i;
+>>>    
+>>>    		if (pages > pages_left)
+>>> -			pages = pages_left;
+>>> +			pages_left = 0;
+>>> +		else
+>>> +			pages_left -= pages;
+>>>    	}
+>>> -	spin_unlock(&mgr->lock);
+>>>    
+>>> -	if (i == 1)
+>>> +	/* Free unused pages for contiguous allocation */
+>>> +	if (is_contiguous) {
+>> Well that looks really odd, why is trimming not part of
+>> drm_buddy_alloc_blocks() ?
+> we didn't place trim function part of drm_buddy_alloc_blocks since we
+> thought this function can be a generic one and it can be used by any
+> other application as well. For example, now we are using it for trimming
+> the last block in case of size non-alignment with min_page_size.
+
+Good argument. Another thing I just realized is that we probably want to 
+double check if we only allocated one block before the trim.
+
+Thanks,
+Christian.
