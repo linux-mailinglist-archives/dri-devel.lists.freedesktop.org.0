@@ -1,152 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945FA4EAE5A
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 15:24:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA354EAE5E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 15:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA5810F0AF;
-	Tue, 29 Mar 2022 13:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D1810F0B2;
+	Tue, 29 Mar 2022 13:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 806BD10F0AF;
- Tue, 29 Mar 2022 13:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648560238; x=1680096238;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=1nH4WfYB8ZdPpbPvS8i5wcRco+mxmFbGi+wXJQn11xo=;
- b=Jq4+DhUYrqQMDGDDtGxJG3PNnctdH3fhw2TVkcSi119PJMDcYZIwVC/u
- t4eScSI/JwTL9+wHyy8Rnq/LjisXmRursnguEksGNnpJgYfnhkh0CvA1u
- 5GVecbHnXZ9G6M7JMoaky/oXIgyxJnWpo8kTJQpafMJS0W3KxGe+Cypk3
- N5c8TNlv4S6eFUq2zXwLyhCH72Cd0xGeaGwleGxpAMncdKVyMvr9k2cMy
- ZWwj43N5ELM6lmAPiBoYPO4Lqkh0DXm90O0CZ6bpdijBkFVubszkJxK7K
- mjm0xr2dAv3fxFk6s3oIUZy6wQN70A7HmXa7sALoq9MdgTcRwFtnMyAt+ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="259220151"
-X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; d="scan'208";a="259220151"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2022 06:23:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; d="scan'208";a="502886004"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga003.jf.intel.com with ESMTP; 29 Mar 2022 06:23:57 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 29 Mar 2022 06:23:57 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 29 Mar 2022 06:23:57 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Tue, 29 Mar 2022 06:23:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H3YjdHkSKoNV4RMXS8QjlHVR3omNuTO2TedzddmR3Tdldvcz+748gcjMBmTTSYAyz1f/bZ0wREs+JndmDdX099SIOeg5wJiK077GrC+YgY0ugdaeNuqFf5uN9oe+9syvONbCie4NIGthOIHqkaPNP1CvqldV3mN3aBDfgFnsM8mVgKi3tWV+/39mF1YmAIwb6WdBms3XFnZmRJ3BGHkDrxHuJ3MHPPD3D6ZyPzyV+4zOXacE6bhAwSOS7KY86jCaGx1XlWLLjctvAdQ2y1HyrBmbHPFIKWHpCTMwuTcF3WLxk2hEXD+o8Wu9nsB3dIllCu1IB/mI5+eGFfQgY5qVyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1EJszPqrnDhZw3mu3Ejtnpo2ZSx45Yv5CEbE6uzuppo=;
- b=RM3BeKxSxLY+Syx5OtMccn1fbO8mRm9oDrkSJ7LCLHbyBHEoMvuV740bhrV15I8yVu1yK4pIBhoa2ooX6oaEfWkzSY+ef1zuMvsS8/cQdCI5n3E7K+YcPj8Ejydice+0FAvdsWvHjkjBzd/YVBi/sbPfYqgmMtsKxraC8VOWnlZ+JEau1+uQ05pZAe1+OH89s6HxkXfKv21IXqLbgDK7RIkBN+PBIbptHfkvOJOIm+TiGHewvxKRGAj/aqi0I7XW2lD3JUYl+6IMeMvLQ+EQoqDc4ZmNmCSpS4+yzn2734Xn/PpwwhycSBluMp7jm9ktFxbQRG6JEqJ41c72Tng29Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5)
- by CY4PR11MB1349.namprd11.prod.outlook.com (2603:10b6:903:30::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.18; Tue, 29 Mar
- 2022 13:23:53 +0000
-Received: from SJ0PR11MB4894.namprd11.prod.outlook.com
- ([fe80::99ce:ec02:b430:2564]) by SJ0PR11MB4894.namprd11.prod.outlook.com
- ([fe80::99ce:ec02:b430:2564%8]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
- 13:23:53 +0000
-Date: Tue, 29 Mar 2022 18:53:42 +0530
-From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>, Hellstrom Thomas
- <thomas.hellstrom@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v7 3/9] drm/i915/gt: Optimize the migration and clear loop
-Message-ID: <YkMIXjJoMobhv21A@bvivekan-mobl.gar.corp.intel.com>
-References: <20220328190736.19697-1-ramalingam.c@intel.com>
- <20220328190736.19697-4-ramalingam.c@intel.com>
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECC4310F0B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 13:24:12 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so18646817fac.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 06:24:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=eyaSuo0LdBK9+BWUWQRAKl3xTKugM2E7vHdG+DbiQgs=;
+ b=JeWVb4Km41Wpi94CeZO+fE43i0nXflwIQ//MdbpsDRcv46MErez4qxJqVLBX2OMnkB
+ bj5JP6f0nAkRktmMCsw3gt1L+i0/FT/IWXTgT2MjOFKWSAUd00SUwia2NByYL2Vyk4H8
+ JPC2DwtbGa9qznvq1+W3AZyFy+iBaoeHtqF2PKOrwsbAvmk2b2lPhnpt1gtwTRvRu1o4
+ 3ZneCdmSlp33u05GB/+5cUR8Tn21DI5Dwoo0ZgeSFelo30dWPX5LWt32QJ85KhCZ8ORa
+ 2v3VBAqfVhIEvMHRI+k7WcDLEky06TigECrOIALdWvGRiwHA0TzUtI2a0rtXOgj4ntYs
+ BGCg==
+X-Gm-Message-State: AOAM531h7lAhRYkIYSIWdWi3wvJI3bsLbI923jOmjbw5l6SbpwDlgc3h
+ 2RhhzuQVUsCWn36JluTGtA==
+X-Google-Smtp-Source: ABdhPJz24RTfM43J7B0buyCpftCV5HJDun0Bxi+At+3ZIdr366ZqY+gMlyyS7evROX50TdKzCqcc9w==
+X-Received: by 2002:a05:6870:e2d2:b0:dd:f8cc:3e5c with SMTP id
+ w18-20020a056870e2d200b000ddf8cc3e5cmr1397580oad.21.1648560251901; 
+ Tue, 29 Mar 2022 06:24:11 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ h83-20020aca3a56000000b002ece47dce52sm8881236oia.26.2022.03.29.06.24.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 06:24:11 -0700 (PDT)
+Received: (nullmailer pid 507621 invoked by uid 1000);
+ Tue, 29 Mar 2022 13:24:09 -0000
+Date: Tue, 29 Mar 2022 08:24:09 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
+ controller
+Message-ID: <YkMIeVV82f0eGbjV@robh.at.kernel.org>
+References: <YjkITWpbnCmhKaX+@robh.at.kernel.org>
+ <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
+ <Yjo3umi9bJ0xb2Gl@robh.at.kernel.org>
+ <199a2869-cd83-d24e-0ad0-25d15d76fc13@189.cn>
+ <YjsamuFslv6qlQMZ@robh.at.kernel.org>
+ <ac75aeff-1fca-f46f-1043-8437ef845ff9@189.cn>
+ <YjxxhNnmqteTIEOa@robh.at.kernel.org>
+ <165597c7-3ac3-9d32-a70f-95214b242e0b@189.cn>
+ <YkHAgkGvsWQ+2Gbh@robh.at.kernel.org>
+ <cf9132cc-460d-2acc-d751-26452c86a6ba@189.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220328190736.19697-4-ramalingam.c@intel.com>
-X-ClientProxiedBy: PN1PR01CA0074.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c00:1::14) To SJ0PR11MB4894.namprd11.prod.outlook.com
- (2603:10b6:a03:2d4::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7752087c-713c-4bed-9beb-08da11875e4d
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1349:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <CY4PR11MB13497B48DA32B610F3DA5EC49F1E9@CY4PR11MB1349.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1wA9PyG6bd0uC1Y0JuymIM+t9q9ElAVH2wEDr/G/WO3GVFNuJ2r0Ns7791F47VqFuTDFgW+XZaLJmNVhb2tNGcWaV0ohdg7LyqvnyVUYmH9W/KmMbkk7sA250yJlq3ENiOVvwqFQedywr/t2pPteKMxZooJ40HizmjwCtW9J88wXKywgspZtt8MclD5vRGhRQ1pwHeMVP+RcT75/oyhagkrBzTmXvAakFY047uM7gfHxeRN7Js8KHQIAnd1Ef8UK+2J3rY0WwOf0lJrDw+DwBvoi7RkQuaun9bx3Mx2ZfEQb6UCXmoteqkHrYUKY3x62fAmstCOyi6amkHyI1dZe0UisasMqIYBcMZlN749kr5akT1SAN+9V9fUwftFz3T66V5tCBJzgP3nIDuGJEt9b8zBlh0zudAf9y6PNNdv89pOr2J7Yy/TtkuZqTL4MO2HvSPpsrZRVJ5wFjwhuXDC5MhaOdK9RwiPvFEXKWZBAE3dIJovbdgZXsGbwZCW30N2I2CxPw7kmKSD/mGUX9lDbC4LKUrlXAKwkWIKxXp0O8Gs4OzYGoe9OdaM/sLclCh7TIzutx/+/cGher1A3MIKTcokhLY4dPNQ162W8oh9OVGWH+PCg/SIn4pJU9MUd/9f3RJJ7Ay9qU2C3u5UI9Z5Q7A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(316002)(110136005)(26005)(54906003)(6666004)(6512007)(6506007)(53546011)(186003)(66574015)(82960400001)(6486002)(86362001)(38100700002)(44832011)(508600001)(5660300002)(8676002)(66556008)(66476007)(66946007)(2906002)(8936002)(4326008)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1k2cUg2dFM2N3hTeUtxUDRoQzdPSnhRa1hoRzVWdmNhbXFRM1B6emlyTksr?=
- =?utf-8?B?elRoK3FtaWh4MDNuRERmYXF5bURSUXBoQVEySHJPTzBOa0dzbU5wTmRPeHUx?=
- =?utf-8?B?V0lxbXRDVkhEMWcvbFpUNTV2R0VzSVo5bWhVeXRmV1dhS2NmRDR1SllMRk1t?=
- =?utf-8?B?Q24xRGhzWkVFclJwT0lYb1M0amRsdWVjN2xCdHp3NElhREpVb3lYTHJjWEtz?=
- =?utf-8?B?dkJBRmtWTVJvSE5Id0VvdmZhTnNzQi9BdHVQeTZpdm9pNWZGWmNXS1NDN3NX?=
- =?utf-8?B?Q1ZKN2lvV1QwdWVKYW0yUGxnS0NqeXEwQXVSL2RqdEswaTlleVRZc0QxSEk2?=
- =?utf-8?B?RDBpRVdXRUZNcG5EbFJVYWZvNUZrNklud0x1SFRrVVRGQWdic0huZTFGVVVC?=
- =?utf-8?B?S2ZnWGNLYlNJZktKRy94RVdGWkRjMlNtVXhGWmZ0RGpRdG1weC9UTVhjQTlB?=
- =?utf-8?B?QlMvY2V5Um8ySFZldXdyWEJWWUJwUXVybmpJd3k4aUtSZll5dmhMR2JiRm8y?=
- =?utf-8?B?OTZ4UUdsOEtKbnpabDloemRjNUhkQ2ZtSU9CMTN0NVRsenRQN3VNU2RzWVVq?=
- =?utf-8?B?dXVoRTVHb2E5Q2JselpNZ3E4M0VWVXB6dXUzZTNiamhodG5NT3lrWFZ0Z3pl?=
- =?utf-8?B?UU9Ra1FVRjZyenF3UTJjRnNobldvc0NyOXgyZGVyM1JWVFNZcXoyaWo5Sncv?=
- =?utf-8?B?MTFQZkNEYnJ1SkhJajQzaTdydW5oU0J4bXFBSTVRSGE4cHh2ck1XVGJBR0w5?=
- =?utf-8?B?TDl3ZHdFSzB3MjA0MnNTUWhHTlVXdnhYOVpXZ2UwZGVFdHFRT2gyWi80cU13?=
- =?utf-8?B?eFA5WWVxUkt3OVRMci9tZVdlekpxTDdrT0c5UzdzYy9veVhoZG1CTVpnYnFr?=
- =?utf-8?B?c21Tdk84YXBBTmFya0xNcWpuS3MyNE5leXpyTlZaVGhyWkV2b3hTTmdLdVgv?=
- =?utf-8?B?ck5EeGVoeFhWUG43MlNNMnlyanNVMXAyOWZCUVkvWjM3eXBPZEE0OUU4Mk5a?=
- =?utf-8?B?YWlSNWYvaDY3RitSUXhKV1k2VzdwV2h2WGVZeEYxcVplbVlpdjNDUE9YYkFX?=
- =?utf-8?B?YjBzSlJ2VTIrWlh0UEw0a01XbnB4U0N5eGJwa2NHb040TW1Nd3RMZVd6eG1B?=
- =?utf-8?B?K2tENHdHMFNib1VuZWNCN2VtanJHVGIrMy9RNEFZYVVXQUhQQ2U5MkJGMmda?=
- =?utf-8?B?UGk0NnRKMFBxakhqOWJjZVBpWlJnQ3pQd1V4VFJGdUMxS0dVcE90OG5FOE1i?=
- =?utf-8?B?MTlEczMwck1SOUxxR05INHo1SXVzZ0E2MWhGVXlqS3BvWFNkWUZQMlljb3Jt?=
- =?utf-8?B?NXd5UXhSL3p2MmxDL0h5VFltR091UVVJc2dyUWlPMWJSQi9FWlMyMW1Tdk80?=
- =?utf-8?B?b2ZRZVVGc0gyc3pnUUxxVGxQdUYrMzJhOGxPT2tSRWJZb2k4YjZ4OW5ncWNT?=
- =?utf-8?B?blRiVW5vUHBXQ3pGY0J4UU41NnJUQzVLSFYwVVJLSms0a29nL3h4bTVRUlVH?=
- =?utf-8?B?MU93akR2WXN1YXVIeDJzVUxvYzhkeG9iZEl4Vkd3UjYrRXlmKzFBcTFuV2lW?=
- =?utf-8?B?djBBYmdoRnV6Y2pCN2ZocVVja3l0ZFNKZ1F3ZlpQNmt5VjlQdWxOa2xoWUdp?=
- =?utf-8?B?MzZ1N1B4cGZjK0lZakFrQ3VpQUJKUnBLWWFucVhjK0QwVVJ6d3FSUTZCMjM2?=
- =?utf-8?B?RG5TWVk5NGFzVkhEVGJtZGpJYkxmZCtxZEM0cUNCUTB5N01WeW9rOTNWNnhF?=
- =?utf-8?B?MnY0TUFNUE03bkkrTDlQaVhybU16L2NTSGtCY0hLeFMzUWZSVnZZNVNPVFpH?=
- =?utf-8?B?czhRR3NmdnpMbittU2tKSXhPazlISDJmdEl6cFNlcnp0eDZ1alZCZHB5TDlp?=
- =?utf-8?B?TTNuNWsveU5tQWxXU09WcXMwY3hTQzEwa3hZWlE5REhYVjl2aFZ1THgrOXRC?=
- =?utf-8?B?Q1cvajljQWFhdHZiaXRLYnJ5TUJQekwwVXExNXVSbWlVNHcwQmtWSWlETGxF?=
- =?utf-8?B?azNVWExxMHcrMXpKNGhiODdtSU5TamZJS3N0UlFZbUQwMXVXaFdHMXlFdTZL?=
- =?utf-8?B?ODVTbklvUFd4aHNoUzVUS0lnWHgrWDQycUtCY2NnQmp1WWxKQU9Tdy90UUcw?=
- =?utf-8?B?T2JyMnNsNWlOWi9GVGFJcVNzb1FVcm5WazN2aVVyd3NMNWdycGJTVnpQOXVl?=
- =?utf-8?B?QThJUDRNbE9tbTJxVUo5ek1PRlU3T1B4N1REa2xGY2FaVnhubEtDaFZRczI5?=
- =?utf-8?B?WU40WG8rVGhiN085d1hKYnpka2RmaEJkUzFsQS9EZDZLdDJ4UGUrTGgzV081?=
- =?utf-8?B?ZlNod2gzRkcrV1RNVXh3UzE2YkpVVmJ5MlVWNENXaFd0QUNPQ3M3b1libkJE?=
- =?utf-8?Q?ELCPyG6hC5n7sMokiRjGRBVAB/zDACj2wxNGD?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7752087c-713c-4bed-9beb-08da11875e4d
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4894.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 13:23:53.0485 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +PWzjN0AdMBs+egPHUerMd5VQKajdcD0wEb/5vfpfCRo6wJy0JjmumVWR6rOntT0Avm07FkJViBNP4HJxbRuTXph/rDCcS5zPMYCWQcbSyPSZZoV2ViIV0OhDwkYqQwa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1349
-X-OriginatorOrg: intel.com
+In-Reply-To: <cf9132cc-460d-2acc-d751-26452c86a6ba@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,128 +74,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: devicetree@vger.kernel.org, Qing Zhang <zhangqing@loongson.cn>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-mips@vger.kernel.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.03.2022 00:37, Ramalingam C wrote:
-> Move the static calculations out of the loops for copy and clear.
+On Tue, Mar 29, 2022 at 10:02:11AM +0800, Sui Jingfeng wrote:
 > 
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Thomas Hellstr√∂m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_migrate.c | 44 ++++++++++++-------------
->  1 file changed, 21 insertions(+), 23 deletions(-)
+> On 2022/3/28 22:04, Rob Herring wrote:
+> > On Sat, Mar 26, 2022 at 06:04:46PM +0800, Sui Jingfeng wrote:
+> > > On 2022/3/24 21:26, Rob Herring wrote:
+> > > > On Thu, Mar 24, 2022 at 09:48:19AM +0800, Sui Jingfeng wrote:
+> > > > > On 2022/3/23 21:03, Rob Herring wrote:
+> > > > > > On Wed, Mar 23, 2022 at 11:38:55AM +0800, Sui Jingfeng wrote:
+> > > > > > > On 2022/3/23 04:55, Rob Herring wrote:
+> > > > > > > > On Tue, Mar 22, 2022 at 10:33:45AM +0800, Sui Jingfeng wrote:
+> > > > > > > > > On 2022/3/22 07:20, Rob Herring wrote:
+> > > > > > > > > > On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
+> > > > > > > > > > > From: suijingfeng <suijingfeng@loongson.cn>
+> > > > > > > > > > > 
+> > > > > > > > > > Needs a commit message.
+> > > > > > > > > > 
+> > > > > > > > > > > Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+> > > > > > > > > > > Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+> > > > > > > > > > Same person? Don't need both emails.
+> > > > > > > > > Yes,† suijingfeng@loongson.cn is my company's email. But it can not be used
+> > > > > > > > > to send patches to dri-devel,
+> > > > > > > > > 
+> > > > > > > > > when send patches with this email, the patch will not be shown on patch
+> > > > > > > > > works.
+> > > > > > > > > 
+> > > > > > > > > Emails† are either blocked or got† rejected† by loongson's mail server.† It
+> > > > > > > > > can only receive emails
+> > > > > > > > > 
+> > > > > > > > > from you and other people, but not dri-devel. so have to use my personal
+> > > > > > > > > email(15330273260@189.cn) to send patches.
+> > > > > > > > > 
+> > > > > > > > > > > ---
+> > > > > > > > > > >       .../loongson/loongson,display-controller.yaml | 230 ++++++++++++++++++
+> > > > > > > > > > >       1 file changed, 230 insertions(+)
+> > > > > > > > > > >       create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> > > > > > > > > > > 
+> > > > > > > > > > > diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> > > > > > > > > > > new file mode 100644
+> > > > > > > > > > > index 000000000000..7be63346289e
+> > > > > > > > > > > --- /dev/null
+> > > > > > > > > > > +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> > > > > > > > > > > @@ -0,0 +1,230 @@
+> > > > > > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > > > > > > +%YAML 1.2
+> > > > > > > > > > > +---
+> > > > > > > > > > > +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+> > > > > > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > > > > > +
+> > > > > > > > > > > +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
+> > > > > > > > > > > +
+> > > > > > > > > > > +maintainers:
+> > > > > > > > > > > +  - Sui Jingfeng <suijingfeng@loongson.cn>
+> > > > > > > > > > > +
+> > > > > > > > > > > +description: |+
+> > > > > > > > > > > +
+> > > > > > > > > > > +  Loongson display controllers are simple which require scanout buffers
+> > > > > > > > > > > +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
+> > > > > > > > > > > +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
+> > > > > > > > > > > +  with a dedicated video RAM which is 64MB or more, precise size can be
+> > > > > > > > > > > +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
+> > > > > > > > > > > +  chip.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  LSDC has two display pipes, each way has a DVO interface which provide
+> > > > > > > > > > > +  RGB888 signals, vertical & horizontal synchronisations, data enable and
+> > > > > > > > > > > +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
+> > > > > > > > > > > +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
+> > > > > > > > > > > +  located at the DC register space. They are used to emulate two way i2c,
+> > > > > > > > > > > +  One for DVO0, another for DVO1.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
+> > > > > > > > > > > +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  LSDC's display pipeline have several components as below description,
+> > > > > > > > > > > +
+> > > > > > > > > > > +  The display controller in LS7A1000:
+> > > > > > > > > > > +     ___________________                                     _________
+> > > > > > > > > > > +    |            -------|                                   |         |
+> > > > > > > > > > > +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+> > > > > > > > > > > +    |  _   _     -------|        ^             ^            |_________|
+> > > > > > > > > > > +    | | | | |    -------|        |             |
+> > > > > > > > > > > +    | |_| |_|    | i2c0 <--------+-------------+
+> > > > > > > > > > > +    |            -------|
+> > > > > > > > > > > +    |   DC IN LS7A1000  |
+> > > > > > > > > > > +    |  _   _     -------|
+> > > > > > > > > > > +    | | | | |    | i2c1 <--------+-------------+
+> > > > > > > > > > > +    | |_| |_|    -------|        |             |             _________
+> > > > > > > > > > > +    |            -------|        |             |            |         |
+> > > > > > > > > > > +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+> > > > > > > > > > > +    |            -------|                                   |_________|
+> > > > > > > > > > > +    |___________________|
+> > > > > > > > > > > +
+> > > > > > > > > > > +  Simple usage of LS7A1000 with LS3A4000 CPU:
+> > > > > > > > > > > +
+> > > > > > > > > > > +    +------+            +-----------------------------------+
+> > > > > > > > > > > +    | DDR4 |            |  +-------------------+            |
+> > > > > > > > > > > +    +------+            |  | PCIe Root complex |   LS7A1000 |
+> > > > > > > > > > > +       || MC0           |  +--++---------++----+            |
+> > > > > > > > > > > +  +----------+  HT 3.0  |     ||         ||                 |
+> > > > > > > > > > > +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+> > > > > > > > > > > +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+> > > > > > > > > > > +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+> > > > > > > > > > > +       || MC1           +---------------|--|----------------+
+> > > > > > > > > > > +    +------+                            |  |
+> > > > > > > > > > > +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+> > > > > > > > > > > +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+> > > > > > > > > > > +                      +-------+                      +------+
+> > > > > > > > > > > +
+> > > > > > > > > > > +  The display controller in LS2K1000/LS2K0500:
+> > > > > > > > > > > +     ___________________                                     _________
+> > > > > > > > > > > +    |            -------|                                   |         |
+> > > > > > > > > > > +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+> > > > > > > > > > > +    |  _   _     -------|        ^              ^           |_________|
+> > > > > > > > > > > +    | | | | |           |        |              |
+> > > > > > > > > > > +    | |_| |_|           |     +------+          |
+> > > > > > > > > > > +    |                   <---->| i2c0 |<---------+
+> > > > > > > > > > > +    |   DC IN LS2K1000  |     +------+
+> > > > > > > > > > > +    |  _   _            |     +------+
+> > > > > > > > > > > +    | | | | |           <---->| i2c1 |----------+
+> > > > > > > > > > > +    | |_| |_|           |     +------+          |            _________
+> > > > > > > > > > > +    |            -------|        |              |           |         |
+> > > > > > > > > > > +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+> > > > > > > > > > > +    |            -------|                                   |_________|
+> > > > > > > > > > > +    |___________________|
+> > > > > > > > > > > +
+> > > > > > > > > > > +properties:
+> > > > > > > > > > > +  $nodename:
+> > > > > > > > > > > +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+> > > > > > > > > > > +
+> > > > > > > > > > > +  compatible:
+> > > > > > > > > > > +    oneOf:
+> > > > > > > > > > > +      - items:
+> > > > > > > > > > > +          - enum:
+> > > > > > > > > > > +              - loongson,ls7a1000-dc
+> > > > > > > > > > > +              - loongson,ls2k1000-dc
+> > > > > > > > > > > +              - loongson,ls2k0500-dc
+> > > > > > > > > > > +
+> > > > > > > > > > > +  reg:
+> > > > > > > > > > > +    maxItems: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  interrupts:
+> > > > > > > > > > > +    maxItems: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  '#address-cells':
+> > > > > > > > > > > +    const: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  '#size-cells':
+> > > > > > > > > > > +    const: 0
+> > > > > > > > > > > +
+> > > > > > > > > > > +  i2c-gpio@0:
+> > > > > > > > > > > +    description: |
+> > > > > > > > > > > +      Built-in GPIO emulate i2c exported for external display bridge
+> > > > > > > > > > If you have i2c-gpio, that belongs at the DT top-level, not here.
+> > > > > > > > > > 
+> > > > > > > > > > > +      configuration, onitor detection and edid read back etc, for ls7a1000
+> > > > > > > > > > > +      only. Its compatible must be lsdc,i2c-gpio-0. The reg property can be
+> > > > > > > > > > No, there's a defined i2c-gpio compatible already.
+> > > > > > > > > This is different from the i2c-gpio already defined under drivers/i2c/busses/i2c-gpio.c,
+> > > > > > > > > By design, my i2c-gpio is vendor specific properties, lsdc device driver create the i2c
+> > > > > > > > > adapter at runtime. These are 4 dedicated GPIOs whose control register is located at the
+> > > > > > > > > LSDC register space, not general purpose GPIOs with separate control register resource.
+> > > > > > > > > So i think it is the child node of†display-controller@6,1,†it belongs to LSDC.
+> > > > > > > > > It seems that put it at the DT top-level break the hierarchy and relationship.
+> > > > > > > > Okay, I see. Then just 'i2c' for the node names. You need a reference to
+> > > > > > > > i2c-controller.yaml for these nodes too.
+> > > > > > > > 
+> > > > > > > > The compatible should not have an index in it.
+> > > > > > > OK, i will fix this at the next version. thanks.
+> > > > > > > > > > > +      used to specify a I2c adapter bus number, if you don't specify one
+> > > > > > > > > > > +      i2c driver core will dynamically assign a bus number. Please specify
+> > > > > > > > > > Bus numbers are a linux detail not relevant to DT binding.
+> > > > > > > > > > 
+> > > > > > > > > > > +      it only when its bus number matters. Bus number greater than 6 is safe
+> > > > > > > > > > > +      because ls7a1000 bridge have 6 hardware I2C controller integrated.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  i2c-gpio@1:
+> > > > > > > > > > > +    description: |
+> > > > > > > > > > > +      Built-in GPIO emulate i2c exported for external display bridge
+> > > > > > > > > > > +      configuration, onitor detection and edid read back etc, for ls7a1000
+> > > > > > > > > > > +      only. Its compatible must be lsdc,i2c-gpio-1.
+> > > > > > > > > > > +
+> > > > > > > > > > > +  ports:
+> > > > > > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > > > > > > > +
+> > > > > > > > > > > +    properties:
+> > > > > > > > > > > +      port@0:
+> > > > > > > > > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > > > > > > > +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
+> > > > > > > > > > > +
+> > > > > > > > > > > +      port@1:
+> > > > > > > > > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > > > > > > > +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
+> > > > > > > > > > > +
+> > > > > > > > > > > +    required:
+> > > > > > > > > > > +      - port@0
+> > > > > > > > > > > +      - port@1
+> > > > > > > > > > > +
+> > > > > > > > > > > +required:
+> > > > > > > > > > > +  - compatible
+> > > > > > > > > > > +  - reg
+> > > > > > > > > > > +  - interrupts
+> > > > > > > > > > > +  - ports
+> > > > > > > > > > > +
+> > > > > > > > > > > +additionalProperties: false
+> > > > > > > > > > > +
+> > > > > > > > > > > +examples:
+> > > > > > > > > > > +  - |
+> > > > > > > > > > > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > > > > > > > > > > +    bus {
+> > > > > > > > > > > +
+> > > > > > > > > > > +        #address-cells = <3>;
+> > > > > > > > > > > +        #size-cells = <2>;
+> > > > > > > > > > > +        #interrupt-cells = <2>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +        display-controller@6,1 {
+> > > > > > > > > > > +            compatible = "loongson,ls7a1000-dc";
+> > > > > > > > > > > +            reg = <0x3100 0x0 0x0 0x0 0x0>;
+> > > > > > > > > > > +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +            #address-cells = <1>;
+> > > > > > > > > > > +            #size-cells = <0>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +            i2c-gpio@0 {
+> > > > > > > > > > > +                compatible = "lsdc,i2c-gpio-0";
+> > > > > > > > > > > +                reg = <6>;
+> > > > > > > > 'reg' needs to be documented with some description of what 6 and 7
+> > > > > > > > represent. If they are the control register offset, then make the
+> > > > > > > > address translatable (use 'ranges' and define the size).
+> > > > > > > By design, the reg property is used to specify a I2c adapter bus number,
+> > > > > > > if we don't specify one, i2c driver core will dynamically assign a bus number.
+> > > > > > > then the nr of the i2c adapter will started from 0. I want is start from 6
+> > > > > > > to avoid potential conflict feature hardware I2C driver.
+> > > > > > > 
+> > > > > > > Because LS7A1000 bridge chip have 6 hardware I2C controller integrated,
+> > > > > > > but its driver is not up-streamed yet. By default these hardware I2C controller's
+> > > > > > > nr is started from 0.
+> > > > > > Linux's numbering doesn't belong in DT. So no, you can't use 'reg' in
+> > > > > > that way.
+> > > > > Then,† can i use something like lsdc,nr = <6> ?
+> > > > > > > Even through i2c driver core can dynamically generate a number, i still want it
+> > > > > > > to be fixed and keep consistent and explicit. That is, i2c6 is for display pipe 0,
+> > > > > > > i2c7 is for display pipe 1. This follow the convention and flexible enough.
+> > > > > > You may want that, but that is not how the kernel works. Specific
+> > > > > > numbers are not guaranteed. I'm sure you've seen this for disks, network
+> > > > > > interfaces, etc.
+> > > > > > 
+> > > > > > Rob
+> > > > > 2c_bit_add_numbered_bus() will guarantee it for you as long as If no devices
+> > > > > have pre-been declared for this bus.
+> > > > > 
+> > > > > you can read the comment of 2c_bit_add_numbered_bus() at
+> > > > > drivers/i2c/i2c-core-base.c
+> > > > I didn't say it wasn't possible. It is not best practice. Grep
+> > > > i2c_bit_add_numbered_bus and see how many users there are.
+> > > i2c-gpio.c at drivers/i2c/busses/ just do the same thing.
+> > No, the id for i2c-gpio nodes (any DT node without 'reg') will be -1
+> > which means dynamically assigned.
+> > 
+> > 
+> > > + nvidia,bpmp-bus-id: + $ref: /schemas/types.yaml#/definitions/uint32 +
+> > > description: Indicates the I2C bus number this DT node represents, + as
+> > > defined by the BPMP firmware.
+> > The key difference is the numbering is defined by the BPMP firmware.
+> > 
+> Bus numbers are a linux detail, I am not sure it is relevant to BPMP firmware.
+> and BPMP firmware is not relevant here.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 17dd372a47d1..ec9a9e7cb388 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -526,6 +526,7 @@ intel_context_migrate_copy(struct intel_context *ce,
->  			   struct i915_request **out)
->  {
->  	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-> +	u32 src_offset, dst_offset;
->  	struct i915_request *rq;
->  	int err;
->  
-> @@ -534,8 +535,20 @@ intel_context_migrate_copy(struct intel_context *ce,
->  
->  	GEM_BUG_ON(ce->ring->size < SZ_64K);
->  
-> +	src_offset = 0;
-> +	dst_offset = CHUNK_SZ;
-> +	if (HAS_64K_PAGES(ce->engine->i915)) {
-> +		GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
-> +
-> +		src_offset = 0;
-> +		dst_offset = 0;
-> +		if (src_is_lmem)
-> +			src_offset = CHUNK_SZ;
-> +		if (dst_is_lmem)
-> +			dst_offset = 2 * CHUNK_SZ;
-> +	}
-> +
->  	do {
-> -		u32 src_offset, dst_offset;
->  		int len;
->  
->  		rq = i915_request_create(ce);
-> @@ -563,19 +576,6 @@ intel_context_migrate_copy(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		src_offset = 0;
-> -		dst_offset = CHUNK_SZ;
-> -		if (HAS_64K_PAGES(ce->engine->i915)) {
-> -			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
-> -
-> -			src_offset = 0;
-> -			dst_offset = 0;
-> -			if (src_is_lmem)
-> -				src_offset = CHUNK_SZ;
-> -			if (dst_is_lmem)
-> -				dst_offset = 2 * CHUNK_SZ;
-> -		}
-> -
->  		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
->  			       src_offset, CHUNK_SZ);
->  		if (len <= 0) {
-> @@ -585,12 +585,10 @@ intel_context_migrate_copy(struct intel_context *ce,
->  
->  		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
->  			       dst_offset, len);
-> -		if (err < 0)
-> -			goto out_rq;
-> -		if (err < len) {
-> +		if (err < len)
->  			err = -EINVAL;
-> +		if (err < 0)
->  			goto out_rq;
-> -		}
-With this change, for the case 0 < err < len, now the code does not
-reach `goto out_rq`.
-Is it the expected behavior? If yes, can you please add some details
-regarding this change in the commit description.
 
-Regards,
-Bala
->  
->  		err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
->  		if (err)
-> @@ -691,6 +689,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->  {
->  	struct sgt_dma it = sg_sgt(sg);
->  	struct i915_request *rq;
-> +	u32 offset;
->  	int err;
->  
->  	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-> @@ -698,8 +697,11 @@ intel_context_migrate_clear(struct intel_context *ce,
->  
->  	GEM_BUG_ON(ce->ring->size < SZ_64K);
->  
-> +	offset = 0;
-> +	if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
-> +		offset = CHUNK_SZ;
-> +
->  	do {
-> -		u32 offset;
->  		int len;
->  
->  		rq = i915_request_create(ce);
-> @@ -727,10 +729,6 @@ intel_context_migrate_clear(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		offset = 0;
-> -		if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
-> -			offset = CHUNK_SZ;
-> -
->  		len = emit_pte(rq, &it, cache_level, is_lmem, offset, CHUNK_SZ);
->  		if (len <= 0) {
->  			err = len;
-> -- 
-> 2.20.1
+Read the review of it[1]. The key part is this:
+
+> +The BPMP firmware defines no single global name-/numbering-space for such
+> +services. Put another way, the numbering scheme for I2C buses is distinct from
+> +the numbering scheme for any other service the BPMP may provide (e.g. a future
+> +hypothetical SPI bus service). As such, child device nodes will have no reg
+> +property, and the BPMP node will have no #address-cells or #size-cells property.
+
+> My understanding is that the I2C bus number is passed as part of the
+> request to the BPMP firmware. Does that not count as addressing? Could
+> we not represent that generically using a device tree hierarchy? I'm
+> thinking something along these lines:
+
+
+The bus numbers are NOT defined by Linux nor defined in the DT.
+
+> The point is you applied that patch, you are admit the fact that bus numbers
+> could be in DT.
+
+That actually is not an argument for your patch. There are lots of 
+things we accepted in the past that now will be rejected. This case 
+however is not something that changed. You may still find examples as 
+bindings didn't always get reviewed (very well).
+
+
+> > > > Even if the kernel allows specifying bus numbers,your Linux bus numbers don't
+> > > > belong in DT.
+> > > Again, Does does devicetree specification prohibit this?
+> > No. The spec is not the last word on what's allowed or not. Lots of
+> > patterns exist already which we can't change, but that doesn't mean they
+> > should be copied by new users.
+> > 
+> > Rob
 > 
+> We develop that part by our own, only find that there are someone do the
+> same thing when it got push back.
+> 
+> We believe that it is very flexible actually, anyway if you still don't
+> change you mind we can rewrite it.
+> 
+> I have resend my patches,† see it at
+> https://patchwork.freedesktop.org/series/101843/
+
+Don't send new versions when the discussion on the prior one is ongoing. 
+Though in this case there is nothing more to discuss.
+
+Rob
+
+[1] https://lore.kernel.org/all/20160726100302.GE2433@ulmo.ba.sec/
+
