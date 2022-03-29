@@ -1,59 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341DA4EAF14
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:09:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3E04EAF16
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1811810E915;
-	Tue, 29 Mar 2022 14:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F0110E922;
+	Tue, 29 Mar 2022 14:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4332C10E915
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 14:09:34 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id a8so35276774ejc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oVMkVSSEdf+StgkeXxg5NfB8DZGL8o+lpZsS8PyBmpk=;
- b=TKcASfDRKmi2FOBuvdgM8euSlZMmBtgOzvtTH1hlEE538nN5TgVQzvEdIvcmmUOPP1
- +TGPYPnl7grO3YByVuYzZhho5lXgFN90W3FGNw14qRdVk5YKV3LQltI9BtgQsfAVncSl
- d/zyCxVgplE8b8mZJOKaT12fD2bsDLwRl9EdM=
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A0F910E922
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 14:10:48 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id u3so25055680wrg.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Jpn95VpEwqe9LKeHWyblbqM6jwwK7W2+waTN1xRVPXQ=;
+ b=FCbILTsIeftcx9Jt0BEtLLHXxEr/T0XF35/erIBoKOW226wDqlmzTJQPPejMew+mhd
+ UlyRNka/Ra4EuqJADzu2GHuKEYKymT8PcEY403+mP8iE6I6bZNLs3UEDiydXVbaWBGD7
+ mz/tEVk+bpiGqc9fg1niAF7oUn+LfldzxaVuE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oVMkVSSEdf+StgkeXxg5NfB8DZGL8o+lpZsS8PyBmpk=;
- b=rK1ouviyhMvXjyvptticfhZS2J/s6eulc16suB8/ui/lgPqHM2EuXNOqp4mrM04fpz
- 6MaHrNlhwTyKVoygu7m3ljkJIrc2Yqpy9k1gb+Y0sbksmbi7CxWBjkDam4/WlquUXWa/
- XtOiREsJu07teSvXKthKohLlf3T1oKotI+A06IUxEtmcswk132d04oNXy4t0gIjA0FAR
- 4oYFiig6z8vr1mccochbzJx151SivqF2XO1TmcgYuGit1tKFTLHpXl0rQbSCkoP9SPK5
- Rrvaj4nvTYlSXdWLEjLj3tqnsFDTHlvTOmBDHN99sY8czfuorI2ZiYChpMMjwTbhfNL3
- d/hA==
-X-Gm-Message-State: AOAM533JayvR8S7JrFraCac3uNZi344tzc4rjq45vlDfjChu+7ZbcHDg
- l0isA69zVBwGw6KkY3RoD3LFPi5uhqGgK0G5BysHTw==
-X-Google-Smtp-Source: ABdhPJzKN6taM2QCZDHYwO1nGOHCgdvdHDz0JZIMjx1pAm9jIduT6cbB35hblupFoZvb/xFfvhoOt2QCdEHul3OXH4Q=
-X-Received: by 2002:a17:907:1ca8:b0:6df:f192:cf4a with SMTP id
- nb40-20020a1709071ca800b006dff192cf4amr35449065ejc.620.1648562972678; Tue, 29
- Mar 2022 07:09:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=Jpn95VpEwqe9LKeHWyblbqM6jwwK7W2+waTN1xRVPXQ=;
+ b=Ybf5vpHtHOA1+aDjElXzcowhAZspgQNU3qgTryf8cAt357H3/U72GVWPKJ+MA3yLWe
+ C3fplRtaZR/AKczi25kKRQSY0+2Jsvn3rdxgXM93LRm22ic0b/7P5fp/af++Dy521N7M
+ 03Aa9JGDKV1ntFzjkMeWXybRtNsRUJN3XB9oy1AtEvE7U/ZD2uSqTuYbx9ALxDyue5th
+ 7fWTLe46JEY99CTawy3Yw1sTGOI6NWOuaew2higWVw9GOjCV47AWcVV7csEO7PWlWgfT
+ MaczzNJE6r+NHZDW9L770oItR09I+n7LunHpLdGIef5+Q12DQh5KeHbk/JjX3q8DRC2B
+ vbZQ==
+X-Gm-Message-State: AOAM531E0VYAIQEw0pMtGmaeDZXSvhNnYvxvGbFF/1pdHGhA8eHvwcrN
+ YFxvyAY7Mb2aaCRHt4KZN3EaKg==
+X-Google-Smtp-Source: ABdhPJwiAiFHH9tvrLS6DxzHY+xXbg+mD5m1uI9ysyIBJJOZ4xC59b3stmOq2en/769fX0REs3phaQ==
+X-Received: by 2002:adf:e88c:0:b0:204:b1d:317a with SMTP id
+ d12-20020adfe88c000000b002040b1d317amr31487688wrm.634.1648563046644; 
+ Tue, 29 Mar 2022 07:10:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a056000186e00b0020405198faasm17330362wri.52.2022.03.29.07.10.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 07:10:46 -0700 (PDT)
+Date: Tue, 29 Mar 2022 16:10:44 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based API
+Message-ID: <YkMTZLea4+X39Fp8@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220213184616.669b490b@jic23-huawei>
+ <N8XC7R.5FP2M8552CGT3@crapouillou.net>
+ <YkLEXJzs8ukrxG8s@phenom.ffwll.local>
+ <QI1I9R.GDPWLM86I45S@crapouillou.net>
 MIME-Version: 1.0
-References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
- <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
- <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
- <CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=QpWj44KPw@mail.gmail.com>
- <CAMty3ZCnSZxMOMyd00z24a_dH0AmUE=5tEwARVB1vX2JMGkS3A@mail.gmail.com>
- <CAHCN7xLgKeRACM0kvC1kGBOd0KxNFYPSLesRvfgXRU5tV-gqFQ@mail.gmail.com>
- <20220310103504.7bcvex7liwy3lsxu@houat>
-In-Reply-To: <20220310103504.7bcvex7liwy3lsxu@houat>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 29 Mar 2022 19:39:21 +0530
-Message-ID: <CAMty3ZBnu-23akY_nda_nKJfj8xN0F_Wch3fu5_cNDJ2Rc6_FA@mail.gmail.com>
-Subject: Re: DSI Bridge switching
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <QI1I9R.GDPWLM86I45S@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,165 +83,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andrzej Hajda <andrzej.hajda@gmail.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 10, 2022 at 4:05 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Wed, Mar 09, 2022 at 06:45:10PM -0600, Adam Ford wrote:
-> > On Wed, Mar 9, 2022 at 1:11 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > >
-> > >  or a Hi All,
-> > >
-> > > On Thu, Oct 14, 2021 at 6:45 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > >
-> > > > Hi Laurent,
-> > > >
-> > > > On Fri, Oct 8, 2021 at 7:07 PM Laurent Pinchart
-> > > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > >
-> > > > > Hello,
-> > > > >
-> > > > > On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > Removed my invalid email (I will update files next week).
-> > > > > >
-> > > > > > On 08.10.2021 13:14, Jagan Teki wrote:
-> > > > > > > Hi,
-> > > > > > >
-> > > > > > > I think this seems to be a known use case for industrial these days with i.mx8m.
-> > > > > > >
-> > > > > > > The host DSI would configure with two bridges one for DSI to LVDS
-> > > > > > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
-> > > > > > > can use only one bridge at a time as host DSI support single out port.
-> > > > > > > So we can have two separate device tree files for LVDS and HDMI and
-> > > > > > > load them static.
-> > > > > > >
-> > > > > > > But, one of the use cases is to support both of them in single dts, and
-> > > > > > > - Turn On LVDS (default)
-> > > > > > > - Turn Off LVDS then Turn On HDMI when cable plug-in
-> > > > > >
-> > > > > > Are you sure it will work from hardware PoV? Do you have some demuxer?
-> > > > > > isolation of pins?
-> > > > >
-> > > > > It may be in the category of "you shouldn't do this, but it actually
-> > > > > works". I've seen the same being done with two CSI-2 camera sensors
-> > > > > connected to the same receiver, with one of them being held in reset at
-> > > > > all times.
-> > > >
-> > > > Yes. Here the design has 2 MIPI D-PHY switches. Each switch take 2
-> > > > input data lanes and 1 clock lane from SoC and produces 4 data lanes
-> > > > and 2 clock lanes and from switch output 2 lanes and 1 clock are
-> > > > inputting to HDMI bridge and other 2 lanes and 1 clock is inputting to
-> > > > LVDS. So 1st pair of 1st switch and 1st pair of 2nd switch goes to
-> > > > HDMI and 2nd pair of 1st switch and 2nd pair of 2nd switch does to
-> > > > LVDS.
-> > > >
-> > > > However, routing of these lanes are controlled by SEL, OE GPIO pins.
-> > > > So at a time we can access only single bridge.
-> > > >
-> > > > >
-> > > > > > > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
-> > > > > > >
-> > > > > > > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
-> > > > > > > port 2 in the DSI host node, and trying to attach the respective
-> > > > > > > bridge based on HDMI-INT like repeating the bridge attachment cycle
-> > > > > > > based on the HDMI-INT.
-> > > > > >
-> > > > > > I think more appropriate would be to share the same port, but provide
-> > > > > > two endpoints inside this port - we have two hardware sharing the same
-> > > > > > physical port.
-> > > > >
-> > > > > That sounds like the correct DT description to me.
-> > > > >
-> > > > > > > Can it be possible to do bridge attachment at runtime? something like
-> > > > > > > a bridge hotplug event? or any other possible solutions?
-> > > > > > >
-> > > > > > > Any suggestions?
-> > > > > >
-> > > > > > Practically it is possible, see exynos_dsi + panels, or exynos_dsi +
-> > > > > > some toshiba bridge - panel and bridge are dynamically 'plugged' and
-> > > > > > 'unplugged' from exynos_drm, but they do not use bridge chain for this
-> > > > > > and some other reasons. (un|re|)plugging should be performed of course
-> > > > > > when pipeline is off (connector disconnected). I am not sure about
-> > > > > > bridges added to bridge chain - you need to inspect all opses to ensure
-> > > > > > it can be done safely.
-> > > > > >
-> > > > > > And the main issue: Daniel does not like it :)
-> > > > >
-> > > > > Neither do I :-) Could it be handled with two DRM connectors that are
-> > > > > mutually exclusive ?
-> > > >
-> > > > How about adding lvds-connector, hdmi-connector on the pipeline and
-> > > > select them based on the switch SEL GPIO? does it make sense to do
-> > > > this implementation via display-connector.c
-> > >
-> > > I have somehow managed to make runtime switching possible between LVDS
-> > > and HDMI with the help of DRM bridges.
-> > >
-> > >                                                   | => ADV7535    =>
-> > > HDMI-A Connector
-> > > DSI Host => display-switch => |
-> > >                                                   |=> SN65DSI83 => Panel-Simple
-> > >
-> > > display-switch here is a bridge driver that can switch or attach the
-> > > downstream bridge flow based on HDMI HPD here. One potential problem
-> > > is that when we switch from LVDS to HDMI Out the HDMI Out is displayed
-> > > with the resolution that LVDS has and it is unable to display higher
-> > > HDMI resolutions even though it supports it. Does anyone aware of
-> > > changing the resolution at runtime, please let me know?
-> > >
-> > > Technically, the display-switch hardware does available in various forms
-> > > 1. MIPI Switch PI3WVR626
-> > > 2. Conventional Mux Switch
-> > > 3. Converter bridge DSI to LVDS/HDMI (from Lontium).
-> > >
-> > > Overall I believe this can be a potential possible feature and good to
-> > > support on Mainline as the hardware is intended to design for it.
-> > >
-> > > Any thoughts on this please let me know?
-> >
-> > I wonder if it would be possible to trigger a hot plug event similar
-> > to what is done when an HDMI cable is inserted/disconnected.
-> >
-> > If one switches, force a disconnect event, then triggle the connection
-> > event to force the video system to rescan/attach. I am not sure how to
-> > go about implementing such a thing, but that's my first thought
->
-> Nothing prevents the DRM Master to just ignore the hotplug event though :)
-> Kodi does that for example.
+On Tue, Mar 29, 2022 at 10:11:14AM +0100, Paul Cercueil wrote:
+> Hi Daniel,
+> 
+> Le mar., mars 29 2022 at 10:33:32 +0200, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Tue, Feb 15, 2022 at 05:43:35PM +0000, Paul Cercueil wrote:
+> > >  Hi Jonathan,
+> > > 
+> > >  Le dim., févr. 13 2022 at 18:46:16 +0000, Jonathan Cameron
+> > >  <jic23@kernel.org> a écrit :
+> > >  > On Mon,  7 Feb 2022 12:59:21 +0000
+> > >  > Paul Cercueil <paul@crapouillou.net> wrote:
+> > >  >
+> > >  > >  Hi Jonathan,
+> > >  > >
+> > >  > >  This is the V2 of my patchset that introduces a new userspace
+> > >  > > interface
+> > >  > >  based on DMABUF objects to complement the fileio API, and adds
+> > >  > > write()
+> > >  > >  support to the existing fileio API.
+> > >  >
+> > >  > Hi Paul,
+> > >  >
+> > >  > It's been a little while. Perhaps you could summarize the various
+> > > view
+> > >  > points around the appropriateness of using DMABUF for this?
+> > >  > I appreciate it is a tricky topic to distil into a brief summary
+> > > but
+> > >  > I know I would find it useful even if no one else does!
+> > > 
+> > >  So we want to have a high-speed interface where buffers of samples
+> > > are
+> > >  passed around between IIO devices and other devices (e.g. USB or
+> > > network),
+> > >  or made available to userspace without copying the data.
+> > > 
+> > >  DMABUF is, at least in theory, exactly what we need. Quoting the
+> > >  documentation
+> > >  (https://www.kernel.org/doc/html/v5.15/driver-api/dma-buf.html):
+> > >  "The dma-buf subsystem provides the framework for sharing buffers
+> > > for
+> > >  hardware (DMA) access across multiple device drivers and
+> > > subsystems, and for
+> > >  synchronizing asynchronous hardware access. This is used, for
+> > > example, by
+> > >  drm “prime” multi-GPU support, but is of course not limited to GPU
+> > > use
+> > >  cases."
+> > > 
+> > >  The problem is that right now DMABUF is only really used by DRM,
+> > > and to
+> > >  quote Daniel, "dma-buf looks like something super generic and
+> > > useful, until
+> > >  you realize that there's a metric ton of gpu/accelerator bagage
+> > > piled in".
+> > > 
+> > >  Still, it seems to be the only viable option. We could add a custom
+> > >  buffer-passing interface, but that would mean implementing the same
+> > >  buffer-passing interface on the network and USB stacks, and before
+> > > we know
+> > >  it we re-invented DMABUFs.
+> > 
+> > dma-buf also doesn't support sharing with network and usb stacks, so I'm
+> > a
+> > bit confused why exactly this is useful?
+> 
+> There is an attempt to get dma-buf support in the network stack, called
+> "zctap". Last patchset was sent last november. USB stack does not support
+> dma-buf, but we can add it later I guess.
+> 
+> > So yeah unless there's some sharing going on with gpu stuff (for data
+> > processing maybe) I'm not sure this makes a lot of sense really. Or at
+> > least some zero-copy sharing between drivers, but even that would
+> > minimally require a dma-buf import ioctl of some sorts. Which I either
+> > missed or doesn't exist.
+> 
+> We do want zero-copy between drivers, the network stack, and the USB stack.
+> It's not just about having a userspace interface.
 
-Does it mean the DRM master unlocks the kodi if we switch the display?
- In my use-case QT is holding the DRM master so
-drm_master_internal_acquire returns 0 in drm_fb_helper_hotplug_event
-so it indeed not able to switch. But for non-qt and normal DRM console
-applications I can see drm_fb_helper_hotplug_event return properly in
-order to do the proper switching.
+I think in that case we need these other pieces too. And we need acks from
+relevant subsystems that these other pieces are a) ready for upstream
+merging and also that the dma-buf side of things actually makes sense.
 
->
-> I think we could simply create two connectors, one for LVDS, one for
-> HDMI, with atomic_check making sure only one of them is enabled at the
-> same time?
+> > If there's none of that then just hand-roll your buffer handling code
+> > (xarray is cheap to use in terms of code for this), you can always add
+> > dma-buf import/export later on when the need arises.
+> > 
+> > Scrolling through patches you only have dma-buf export, but no
+> > importing,
+> > so the use-case that works is with one of the existing subsystems that
+> > supporting dma-buf importing.
+> > 
+> > I think minimally we need the use-case (in form of code) that needs the
+> > buffer sharing here.
+> 
+> I'll try with zctap and report back.
 
-How can we create two connectors at the same time? You mean try to
-attach LVDS and HDMI bridge one after another in display-switch
-attach. does it create two different bridge lists?
+Do you have a link for this? I just checked dri-devel on lore, and it's
+not there. Nor anywhere else.
 
-                                                               sndsi83
-=> panel-simple
-mxsfb => nwl-dsi =>  display-switch =>
-                                                               adv7511
-=> display-connector
+We really need all the pieces, and if block layer reaction is anything to
+judge by, dma-buf wont happen for networking either. There's some really
+nasty and fairly fundamental issues with locking and memory reclaim that
+make this utter pain or outright impossible.
+-Daniel
 
-Thanks,
-Jagan.
+> 
+> Cheers,
+> -Paul
+> 
+> > >  > >
+> > >  > >  Changes since v1:
+> > >  > >
+> > >  > >  - the patches that were merged in v1 have been (obviously)
+> > > dropped
+> > >  > > from
+> > >  > >    this patchset;
+> > >  > >  - the patch that was setting the write-combine cache setting
+> > > has
+> > >  > > been
+> > >  > >    dropped as well, as it was simply not useful.
+> > >  > >  - [01/12]:
+> > >  > >      * Only remove the outgoing queue, and keep the incoming
+> > > queue,
+> > >  > > as we
+> > >  > >        want the buffer to start streaming data as soon as it is
+> > >  > > enabled.
+> > >  > >      * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now
+> > > functionally
+> > >  > > the
+> > >  > >        same as IIO_BLOCK_STATE_DONE.
+> > >  > >  - [02/12]:
+> > >  > >      * Fix block->state not being reset in
+> > >  > >        iio_dma_buffer_request_update() for output buffers.
+> > >  > >      * Only update block->bytes_used once and add a comment
+> > > about
+> > >  > > why we
+> > >  > >        update it.
+> > >  > >      * Add a comment about why we're setting a different state
+> > > for
+> > >  > > output
+> > >  > >        buffers in iio_dma_buffer_request_update()
+> > >  > >      * Remove useless cast to bool (!!) in iio_dma_buffer_io()
+> > >  > >  - [05/12]:
+> > >  > >      Only allow the new IOCTLs on the buffer FD created with
+> > >  > >      IIO_BUFFER_GET_FD_IOCTL().
+> > >  > >  - [12/12]:
+> > >  > >      * Explicitly state that the new interface is optional and
+> > > is
+> > >  > >        not implemented by all drivers.
+> > >  > >      * The IOCTLs can now only be called on the buffer FD
+> > > returned by
+> > >  > >        IIO_BUFFER_GET_FD_IOCTL.
+> > >  > >      * Move the page up a bit in the index since it is core
+> > > stuff
+> > >  > > and not
+> > >  > >        driver-specific.
+> > >  > >
+> > >  > >  The patches not listed here have not been modified since v1.
+> > >  > >
+> > >  > >  Cheers,
+> > >  > >  -Paul
+> > >  > >
+> > >  > >  Alexandru Ardelean (1):
+> > >  > >    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+> > >  > >
+> > >  > >  Paul Cercueil (11):
+> > >  > >    iio: buffer-dma: Get rid of outgoing queue
+> > >  > >    iio: buffer-dma: Enable buffer write support
+> > >  > >    iio: buffer-dmaengine: Support specifying buffer direction
+> > >  > >    iio: buffer-dmaengine: Enable write support
+> > >  > >    iio: core: Add new DMABUF interface infrastructure
+> > >  > >    iio: buffer-dma: Use DMABUFs instead of custom solution
+> > >  > >    iio: buffer-dma: Implement new DMABUF based userspace API
+> > >  > >    iio: buffer-dmaengine: Support new DMABUF based userspace API
+> > >  > >    iio: core: Add support for cyclic buffers
+> > >  > >    iio: buffer-dmaengine: Add support for cyclic buffers
+> > >  > >    Documentation: iio: Document high-speed DMABUF based API
+> > >  > >
+> > >  > >   Documentation/driver-api/dma-buf.rst          |   2 +
+> > >  > >   Documentation/iio/dmabuf_api.rst              |  94 +++
+> > >  > >   Documentation/iio/index.rst                   |   2 +
+> > >  > >   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+> > >  > >   drivers/iio/buffer/industrialio-buffer-dma.c  | 610
+> > >  > > ++++++++++++++----
+> > >  > >   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+> > >  > >   drivers/iio/industrialio-buffer.c             |  60 ++
+> > >  > >   include/linux/iio/buffer-dma.h                |  38 +-
+> > >  > >   include/linux/iio/buffer-dmaengine.h          |   5 +-
+> > >  > >   include/linux/iio/buffer_impl.h               |   8 +
+> > >  > >   include/uapi/linux/iio/buffer.h               |  30 +
+> > >  > >   11 files changed, 749 insertions(+), 145 deletions(-)
+> > >  > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > >  > >
+> > >  >
+> > > 
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
