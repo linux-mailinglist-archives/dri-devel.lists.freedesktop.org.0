@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7974EB1EE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:41:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60484EB1F2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6800610F138;
-	Tue, 29 Mar 2022 16:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5BF210F139;
+	Tue, 29 Mar 2022 16:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88F3610F138
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:41:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C21F710F139
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:41:36 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEuB-0005gu-6Z; Tue, 29 Mar 2022 18:41:15 +0200
+ id 1nZEuV-0005rU-3T; Tue, 29 Mar 2022 18:41:35 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEu5-003pAm-UL; Tue, 29 Mar 2022 18:41:12 +0200
+ id 1nZEuR-003pAt-Jj; Tue, 29 Mar 2022 18:41:34 +0200
 Received: from pza by lupine with local (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEu7-000Ak7-W4; Tue, 29 Mar 2022 18:41:12 +0200
-Message-ID: <f8babd522487dd8e9955019a4141ce78ffca2087.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx: imx-ldb: Check for null pointer after calling
- kmemdup
+ id 1nZEuT-000Ale-Jy; Tue, 29 Mar 2022 18:41:33 +0200
+Message-ID: <933830e163f5f514a24e8b6137c0ff2e4c89e7e5.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx: dw_hdmi-imx: Fix bailout in error cases of probe
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, airlied@linux.ie,
- daniel@ffwll.ch,  shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de,  festevam@gmail.com, linux-imx@nxp.com
-Date: Tue, 29 Mar 2022 18:41:11 +0200
-In-Reply-To: <20220105074729.2363657-1-jiasheng@iscas.ac.cn>
-References: <20220105074729.2363657-1-jiasheng@iscas.ac.cn>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Tue, 29 Mar 2022 18:41:33 +0200
+In-Reply-To: <20220128091944.3831256-1-victor.liu@nxp.com>
+References: <20220128091944.3831256-1-victor.liu@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -56,34 +54,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTWksIDIwMjItMDEtMDUgYXQgMTU6NDcgKzA4MDAsIEppYXNoZW5nIEppYW5nIHdyb3RlOgo+
-IEFzIHRoZSBwb3NzaWJsZSBmYWlsdXJlIG9mIHRoZSBhbGxvY2F0aW9uLCBrbWVtZHVwKCkgbWF5
-IHJldHVybiBOVUxMCj4gcG9pbnRlci4KPiBUaGVyZWZvcmUsIGl0IHNob3VsZCBiZSBiZXR0ZXIg
-dG8gY2hlY2sgdGhlIHJldHVybiB2YWx1ZSBvZiBrbWVtZHVwKCkKPiBhbmQgcmV0dXJuIGVycm9y
-IGlmIGZhaWxzLgo+IAo+IEZpeGVzOiBkYzgwZDcwMzg4ODMgKCJkcm0vaW14LWxkYjogQWRkIHN1
-cHBvcnQgdG8gZHJtLWJyaWRnZSIpCj4gU2lnbmVkLW9mZi1ieTogSmlhc2hlbmcgSmlhbmcgPGpp
-YXNoZW5nQGlzY2FzLmFjLmNuPgo+IC0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRi
-LmMgfCAyICsrCj4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jIGIvZHJpdmVycy9ncHUvZHJtL2lt
-eC9pbXgtCj4gbGRiLmMKPiBpbmRleCA1MzEzMmRkZjk1ODcuLmY5ODgwYTc3OTY3OCAxMDA2NDQK
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lteC1sZGIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9pbXgvaW14LWxkYi5jCj4gQEAgLTU3NCw2ICs1NzQsOCBAQCBzdGF0aWMgaW50IGlteF9s
-ZGJfcGFuZWxfZGRjKHN0cnVjdCBkZXZpY2UgKmRldiwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGVkaWRwID0gb2ZfZ2V0X3Byb3BlcnR5KGNoaWxkLCAiZWRpZCIsICZlZGlkX2xl
-bik7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoZWRpZHApIHsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjaGFubmVsLT5lZGlk
-ID0ga21lbWR1cChlZGlkcCwgZWRpZF9sZW4sCj4gR0ZQX0tFUk5FTCk7Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWNoYW5uZWwtPmVkaWQpCj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgcmV0dXJuIC1FTk9NRU07Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-IGVsc2UgaWYgKCFjaGFubmVsLT5wYW5lbCkgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIGZhbGxiYWNrIHRvIGRpc3BsYXktdGltaW5ncyBub2Rl
-ICovCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0
-ID0gb2ZfZ2V0X2RybV9kaXNwbGF5X21vZGUoY2hpbGQsCgpUaGFuayB5b3UsIGFwcGxpZWQgdG8g
-aW14LWRybS9maXhlcy4KCnJlZ2FyZHMKUGhpbGlwcAo=
+On Fr, 2022-01-28 at 17:19 +0800, Liu Ying wrote:
+> In dw_hdmi_imx_probe(), if error happens after dw_hdmi_probe()
+> returns
+> successfully, dw_hdmi_remove() should be called where necessary as
+> bailout.
+>=20
+> Fixes: c805ec7eb210 ("drm/imx: dw_hdmi-imx: move initialization into
+> probe")
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> =C2=A0drivers/gpu/drm/imx/dw_hdmi-imx.c | 8 +++++++-
+> =C2=A01 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> index 87428fb23d9f..a2277a0d6d06 100644
+> --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+> @@ -222,6 +222,7 @@ static int dw_hdmi_imx_probe(struct
+> platform_device *pdev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device_node *np =
+=3D pdev->dev.of_node;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct of_device_id=
+ *match =3D
+> of_match_node(dw_hdmi_imx_dt_ids, np);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct imx_hdmi *hdmi;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hdmi =3D devm_kzalloc(&pd=
+ev->dev, sizeof(*hdmi), GFP_KERNEL);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!hdmi)
+> @@ -243,10 +244,15 @@ static int dw_hdmi_imx_probe(struct
+> platform_device *pdev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hdmi->bridge =3D of_drm_f=
+ind_bridge(np);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!hdmi->bridge) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0dev_err(hdmi->dev, "Unable to find bridge\n");
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dw_hdmi_remove(hdmi->hdmi);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0return -ENODEV;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return component_add(&pdev->de=
+v, &dw_hdmi_imx_ops);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D component_add(&pdev->d=
+ev, &dw_hdmi_imx_ops);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dw_hdmi_remove(hdmi->hdmi);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int dw_hdmi_imx_remove(struct platform_device *pdev)
 
+Thank you, applied to imx-drm/fixes.
+
+regards
+Philipp
