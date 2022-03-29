@@ -1,61 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24114EAB70
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 12:38:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9A64EAB81
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 12:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DCA210E810;
-	Tue, 29 Mar 2022 10:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6047D10E81C;
+	Tue, 29 Mar 2022 10:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2249010E82F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 10:37:55 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id j21so14852408qta.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 03:37:55 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7DE110E81C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 10:42:43 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id h16so10018394wmd.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 03:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xKC778etah9QDKKcTZhhCigcf4xPfMmEKK8YhWBFI3U=;
- b=PDvLAK727ct6dPW56kW/LelNoVohBTmDa2Azjn40F4G+K9/a9FvkOuyluaA7aYxwTl
- LcAVtUIsDGndq1N/B6ZQp/S4nrRurzW0tiofMGqNg0yefQfbhNzyLc88hURsF1kE0b6R
- 4l24zv5jf4Cg/u/AqQlyU6dLq44h7RFSeudNVrhlp6fRfWCZn/AUAzEioZrCTtO+QrKJ
- +Z9ju0P6kWUBX1Yjpsy8WGnUlb9ipnEjKh2pOYGaBE88I34X29q3f42xEip1JAKNMV0G
- Rx+1mmT4qnxxawWkem/Oqg6Qq7dsx+hgI+8tZ/dQ1cPx9COImVqWy61DA+3Vo3VANB8U
- /5eg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=f3iBbK5fy2drNJnHSVd6h7L8RLpAs5pbHayacM7gQx0=;
+ b=Nt78WXBKY+MY3+gr7xrFbMs04A5JgW4P5Hmd599UBhQBR7XU0sztciOhTjgTLJoBZx
+ 5/YqXihN7sBYpKymfVax90fPW3K+7HOUrmshJEaPR5X48tPrU6usCZLMe2yYujwCvtsw
+ p6YScdT6Eq5nn0msocyNsxo2JWuqJFXPmx54pAaJWbo/ATPgSvuOnFaohfvW5FktMgXd
+ 5GUdSZx7vH2paIueNF6BeyOLtb98kzSiiKiGC0qu//dXk9j4KoZqsAjmb1d5T2QOeCyP
+ BXKGIamIzxi0ScmxTfurAE4jsL7PZtE0ICPQGtYfA4Ov8cnT/BRcHPcrFJU4OM+b9/wG
+ 0pkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xKC778etah9QDKKcTZhhCigcf4xPfMmEKK8YhWBFI3U=;
- b=uvYTXOIed+xwRpmzxMi6sAVJDttoE7KGihyG3FQ+9bBP1CIVYa+X6PlDO6OdXNJLst
- UskcRhndj3F1mZYFU/wuUFkE93DRtV8H2Z5IlBOJIjXPhxxxLiDYizKtaeE8Ec8zk+U1
- wY7Tw7IbKeLGJzGB5Z4EPBtgTesgj2judkXe/xBPl7uORrv2wpqYlHjkXccHwDqeuSUw
- vGPpt6M+yqzVmMUrO3fonZ5mdy/aSN/tDEvQLxRxIzA34aK1QvbsItEQK5IfT0OnTJpB
- tW3aWHwv2GSPGcsID8XKWCZ4T1zvx5Dmfxn4ZGlHoC3yXkG1x3ZWHPYcyY4NodX/n3Zy
- +I8w==
-X-Gm-Message-State: AOAM530yGOav7K1RgjUysJj7s8baFcAIJOQ0Z3sCWlZVrVvvQn8Wh/q3
- SRgiQkeCdbw01qyr5wOtnqE=
-X-Google-Smtp-Source: ABdhPJyjvB2r/3wtYP5p9c9+BZYtdAonfE8T69SzZfubL2yGRZlQQpA0YYQnGTkJOcqV2rR+BdnRUQ==
-X-Received: by 2002:a05:622a:89:b0:2e1:b8c7:9975 with SMTP id
- o9-20020a05622a008900b002e1b8c79975mr26674072qtw.342.1648550274239; 
- Tue, 29 Mar 2022 03:37:54 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
+ bh=f3iBbK5fy2drNJnHSVd6h7L8RLpAs5pbHayacM7gQx0=;
+ b=jLg8OF2J8HcK1WBqVtmBx+pYa00UqZlCPFYYjYNqQl3iulY90HQy3Ro60ja7v2bYqr
+ miMsuWtW3+p0QQSU8Wy07SuMId9sloIy58JHFiXeju0k64f/cl6w5NihcYBdUG+HR6o0
+ aIQgCZPtByRXhNmrckpyjX89uH7YpO40j36w+b7LSGnq0HzvtMx1CMssKgGZmwZAQHPE
+ m7WwFZJfIcEa5FsEo4RtyJbSVnhcdMANSkKIhunL6ErhcDlOzmQ8sK0ePYcxwOsSXH5z
+ L1/z+hO7DiSrnmqERWhb9JxJxFL7iupF/FFB1uNwkz02O7gSr+Bwy+p960w/82GF9K8i
+ 9XQA==
+X-Gm-Message-State: AOAM530SmXtt22bk15SWZssnG4MIAywoMnHdDQur2LYTEg4rYbZlZkNZ
+ w7DtHUxrfHmEYw3hAVb0RlQ=
+X-Google-Smtp-Source: ABdhPJwB/NXK19sx39DAWQg5uHNzUaed7dLgj4bbX1z3ETXRa6KA+QTBRYPZmGbtTluMMiRRs7y9PA==
+X-Received: by 2002:a05:600c:3d86:b0:38d:581:89ad with SMTP id
+ bi6-20020a05600c3d8600b0038d058189admr5993185wmb.42.1648550562084; 
+ Tue, 29 Mar 2022 03:42:42 -0700 (PDT)
+Received: from [192.168.1.145] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- j188-20020a3755c5000000b0067d1c76a09fsm9545713qkb.74.2022.03.29.03.37.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 03:37:53 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: thierry.reding@gmail.com
-Subject: [PATCH] drm: tegra: fix memory leak in error handling path
-Date: Tue, 29 Mar 2022 10:37:47 +0000
-Message-Id: <20220329103747.2376753-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ g17-20020a05600c4ed100b0038ca32d0f26sm2099039wmq.17.2022.03.29.03.42.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Mar 2022 03:42:41 -0700 (PDT)
+Message-ID: <dc80d7f7-7a7b-62fb-fbd6-346dba9fdac5@gmail.com>
+Date: Tue, 29 Mar 2022 12:42:38 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v9 01/22] dt-bindings: mediatek,dpi: Add DP_INTF compatible
+Content-Language: en-US
+To: Guillaume Ranquet <granquet@baylibre.com>, airlied@linux.ie,
+ angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com,
+ chunkuang.hu@kernel.org, ck.hu@mediatek.com, daniel@ffwll.ch, deller@gmx.de,
+ jitao.shi@mediatek.com, kishon@ti.com, krzk+dt@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, robh+dt@kernel.org, tzimmermann@suse.de,
+ vkoul@kernel.org
+References: <20220327223927.20848-1-granquet@baylibre.com>
+ <20220327223927.20848-2-granquet@baylibre.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20220327223927.20848-2-granquet@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +80,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Lv Ruyi <lv.ruyi@zte.com.cn>,
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
- Zeal Robot <zealci@zte.com.cn>
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Before leave the nvdec_load_firmware, we shuold free virt which is alloced
-by dma_alloc_coherent, so change "return err" to "goto cleanup".
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
- drivers/gpu/drm/tegra/nvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 28/03/2022 00:39, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> DP_INTF is similar to DPI but does not have the exact same feature set
+> or register layouts.
+> 
+> DP_INTF is the sink of the display pipeline that is connected to the
+> DisplayPort controller and encoder unit. It takes the same clocks as
+> DPI.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
-index 79e1e88203cf..a14863346bfa 100644
---- a/drivers/gpu/drm/tegra/nvdec.c
-+++ b/drivers/gpu/drm/tegra/nvdec.c
-@@ -209,7 +209,7 @@ static int nvdec_load_firmware(struct nvdec *nvdec)
- 
- 		err = dma_mapping_error(nvdec->dev, iova);
- 		if (err < 0)
--			return err;
-+			goto cleanup;
- 	} else {
- 		virt = tegra_drm_alloc(tegra, size, &iova);
- 	}
--- 
-2.25.1
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
+> ---
+>   .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
+>   1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> index dd2896a40ff0..2dba80ad3b18 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -4,16 +4,16 @@
+>   $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+>   $schema: http://devicetree.org/meta-schemas/core.yaml#
+>   
+> -title: mediatek DPI Controller Device Tree Bindings
+> +title: mediatek DPI/DP_INTF Controller
+>   
+>   maintainers:
+>     - CK Hu <ck.hu@mediatek.com>
+>     - Jitao shi <jitao.shi@mediatek.com>
+>   
+>   description: |
+> -  The Mediatek DPI function block is a sink of the display subsystem and
+> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+> -  output bus.
+> +  The Mediatek DPI and DP_INTF function blocks are a sink of the display
+> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
+> +  parallel output bus.
+>   
+>   properties:
+>     compatible:
+> @@ -23,6 +23,7 @@ properties:
+>         - mediatek,mt8173-dpi
+>         - mediatek,mt8183-dpi
+>         - mediatek,mt8192-dpi
+> +      - mediatek,mt8195-dpintf
+>   
+>     reg:
+>       maxItems: 1
+> @@ -54,7 +55,7 @@ properties:
+>       $ref: /schemas/graph.yaml#/properties/port
+>       description:
+>         Output port node. This port should be connected to the input port of an
+> -      attached HDMI or LVDS encoder chip.
+> +      attached HDMI, LVDS or DisplayPort encoder chip.
+>   
+>   required:
+>     - compatible
