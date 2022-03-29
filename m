@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8764EAEF8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB604EAEFE
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA8710E8E0;
-	Tue, 29 Mar 2022 14:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0692210E8FD;
+	Tue, 29 Mar 2022 14:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73F910E8E0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 14:02:14 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r13so24952916wrr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3YwiF3dNLZdMtbfpg06P1mlDVUresljsvoynNQnAt7Y=;
- b=VXKz1QXe/IeXmVI5+tfLu7J4idHZg1R+4aV31hZr5XJZUkg5j5eP09GGlqiKPUAqq0
- 6vxmfXj0mw7F1fYPNJTlH9WW6/NfCAHitZqKyf9SYj7K2PEKLtzNHubTboYEWMJxRDAf
- FHcyT4IdaRnah1CPqyPiO8tuUM/wCQsD8YXhM=
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57C9A10E8FD;
+ Tue, 29 Mar 2022 14:04:01 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id t21so14231395oie.11;
+ Tue, 29 Mar 2022 07:04:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=26rvEBCNIFiRO8lw0d4ibLwjH7rNC+2FXHQhaFfFi9E=;
+ b=ClXdxEY3sYedDz8iLRgAFKARKUjU5okvKpYyQSsMMD5NzCa+TyiWwwmHtDaV41nHtw
+ polqdshnlc02Bto5VshYz3O083Qe3KF89GPEwcRSmrHVbAzP4lbI5029v//MLnRoMbc3
+ RufyhpHYcgWkp9OhHvBBICGjkylEXgbpjfXuy0I32eILASBlJe+QjntYbIC1qYBkWmTj
+ 4uRxEbeXUB9UNVzapyDtDfVnvTouMlhB2pkCdT0AeFhkwP68tap0/47jP//V2oOvvDd1
+ m0VPLqILesImaHeD502rDWoZXaimIdhtfH3AxVHwVxN6xLAuWZq8SN0dPtcobFQ4ZwJh
+ XMeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3YwiF3dNLZdMtbfpg06P1mlDVUresljsvoynNQnAt7Y=;
- b=FVEJpY1zPeuQwLiupSPcXigPyQJgSLAyaiNSmTzPELuyhPqV9Y47TcaCVNG/YXaZwH
- sW/8kSQZKI6y3oFmaQegXl+mKqSHPDWs85prHwBS+7MO10mlO0UWY+bgAMjO1OZyxyVG
- IHHpoh0hw7ooiUFeolERqfSqXwUuYKXawURzOt8wbJPpGc8OQlKoPA2eD9cAjOF8QHWy
- J3bhSHysD7hHnUdzXzcnBELeitn7QkIH8kcI54hC7aGh81V9BB0uYWqpALl9gZ0mSDWq
- f5XL0KX3xs256CzXI8n4idKhnfIy2uC20uzVySPOZR6lg0H2BMeYV+0I04F1rDzHkwDX
- +S1A==
-X-Gm-Message-State: AOAM5303NY9T8jQ7cDv8zZNGdKzgK0xxqPw04paW7TUALJk3lkYxOmyK
- lv1CrcMOvN4B1mS4wJm3tAxktNOnbmI1n2UL
-X-Google-Smtp-Source: ABdhPJyiQ9LAaa7R3GM8nsVi+PuN7N3AzDAkV0GURdELIk/XaoNVNpKbhedX+H5nfuu/axFVuthL9w==
-X-Received: by 2002:a5d:59a5:0:b0:205:c33c:44ad with SMTP id
- p5-20020a5d59a5000000b00205c33c44admr13554868wrr.103.1648562533240; 
- Tue, 29 Mar 2022 07:02:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 14-20020adf828e000000b00205b0fc825csm9438920wrc.65.2022.03.29.07.02.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 07:02:12 -0700 (PDT)
-Date: Tue, 29 Mar 2022 16:02:11 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: Allow ttm_buffer_object without resource
-Message-ID: <YkMRY6faCAZRLBhF@phenom.ffwll.local>
-References: <20220329110243.6335-1-christian.koenig@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=26rvEBCNIFiRO8lw0d4ibLwjH7rNC+2FXHQhaFfFi9E=;
+ b=4n2x+xrNeFmkMVjLFc8uShOMxyY5cB9btS8SAXZ1B11QGhDBgqx+w6PFqnlN2knS/C
+ TojwX4Ru47/VTJRzm/lt/c46toGjWHKbjbMg1mhRjjkT3lp+hs54Y+puQd7p//dpU9hN
+ CySTaZPuF6A3WW64nSbErUPQ9VPJtGINH/ucsrMNMXOAtMp9l5+EYCAb4cGRhn8xVDYm
+ K9+7wKyDZexBfldA5vZCHfgMWy5BEU83eIUsVnSPbgMRO/uFCvdj0NH9tZOpgzUC4xLe
+ ozgOceOXfWVjpwMVgipGqj7z+mkeV0/RWoOwknSB1qliXgTOTAnILF/n0cq0Fvmq7Jdb
+ feow==
+X-Gm-Message-State: AOAM531I5yYEcBhOSdNr+hN9m5DpkgBQ786Lc4l8dNHmTIkIx1HNergg
+ Om76Au4X0IIOMzLbSds01XdOyrVZ9Ft01Br1MyA=
+X-Google-Smtp-Source: ABdhPJwEG8czZRwrZzoQM9EwBge0o+Kn+7s3e3Zig8YFeVV+qnxNWy/SXdPGQPyeOvK2t8Loctb+sokhI4gNCCkQJww=
+X-Received: by 2002:aca:d04:0:b0:2ef:8b45:d235 with SMTP id
+ 4-20020aca0d04000000b002ef8b45d235mr1372144oin.253.1648562640275; Tue, 29 Mar
+ 2022 07:04:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220329110243.6335-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+ <20220329085239.157527-1-tsung-hua.lin@amd.com>
+In-Reply-To: <20220329085239.157527-1-tsung-hua.lin@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Mar 2022 10:03:49 -0400
+Message-ID: <CADnq5_OXPXZ4hHv3Jndifd0kQ=kvJnypB3JcW5mNsjzjQ7JPLg@mail.gmail.com>
+Subject: Re: drm/amdgpu: Disable ABM when AC mode
+To: Ryan Lin <tsung-hua.lin@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +63,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bob.beckett@collabora.com, dri-devel@lists.freedesktop.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, Jake Wang <haonan.wang2@amd.com>,
+ David Airlie <airlied@linux.ie>, Leon.Li@amd.com,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Wyatt Wood <wyatt.wood@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Leo Li <sunpeng.li@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ Evan Quan <evan.quan@amd.com>, shaoyunl <shaoyun.liu@amd.com>,
+ Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Po-Ting Chen <robin.chen@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 01:02:32PM +0200, Christian König wrote:
-> Hi guys,
-> 
-> this patch set cleans up the handling of TTM buffer objects quite a bit
-> by allowing to create them without allocating a ttm_resource as well.
-> 
-> That's not only cleaner in general, but also a necessary prerequisite for
-> quite a number of related work.
+On Tue, Mar 29, 2022 at 4:56 AM Ryan Lin <tsung-hua.lin@amd.com> wrote:
+>
+> Disable ABM feature when the system is running on AC mode to get
+> the more perfect contrast of the display.
+>
+> v2: remove "UPSTREAM" from the subject.
+>
+> Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
+>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  4 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 58 ++++++++++++-------
+>  drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |  1 +
+>  4 files changed, 42 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index c560c1ab62ecb..bc8bb9aad2e36 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -822,6 +822,10 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
+>         struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
+>         struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
+>
+> +       if (strcmp(entry->device_class, "battery") == 0) {
+> +               adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+> +       }
+> +
 
-Maybe there's some threads I missed, but I can't really guess what this
-could be useful for without even a hint.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Is this change necessary?  As I said before, we already update
+adev->pm.ac_power a few lines later in amdgpu_pm_acpi_event_handler().
+If there is something wrong with that code, please adjust as
+necessary.
+
+Alex
+
+>         if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
+>                 if (power_supply_is_system_supplied() > 0)
+>                         DRM_DEBUG_DRIVER("pm: AC\n");
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index abfcc1304ba0c..3a0afe7602727 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>
+>         adev->gfx.gfx_off_req_count = 1;
+>         adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+> +       adev->pm.old_ac_power = true;
+>
+>         atomic_set(&adev->throttling_logging_enabled, 1);
+>         /*
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> index 54a1408c8015c..478a734b66926 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> @@ -23,6 +23,8 @@
+>   *
+>   */
+>
+> +#include <linux/power_supply.h>
+> +#include "amdgpu.h"
+>  #include "dmub_abm.h"
+>  #include "dce_abm.h"
+>  #include "dc.h"
+> @@ -51,6 +53,7 @@
+>  #define DISABLE_ABM_IMMEDIATELY 255
+>
+>
+> +extern uint amdgpu_dm_abm_level;
+>
+>  static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
+>  {
+> @@ -117,28 +120,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
+>         dmub_abm_enable_fractional_pwm(abm->ctx);
+>  }
+>
+> -static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
+> -{
+> -       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> -       unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+> -
+> -       /* return backlight in hardware format which is unsigned 17 bits, with
+> -        * 1 bit integer and 16 bit fractional
+> -        */
+> -       return backlight;
+> -}
+> -
+> -static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
+> -{
+> -       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> -       unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+> -
+> -       /* return backlight in hardware format which is unsigned 17 bits, with
+> -        * 1 bit integer and 16 bit fractional
+> -        */
+> -       return backlight;
+> -}
+> -
+>  static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>  {
+>         union dmub_rb_cmd cmd;
+> @@ -148,6 +129,9 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>         int edp_num;
+>         uint8_t panel_mask = 0;
+>
+> +       if (power_supply_is_system_supplied() > 0)
+> +               level = 0;
+> +
+>         get_edp_links(dc->dc, edp_links, &edp_num);
+>
+>         for (i = 0; i < edp_num; i++) {
+> @@ -170,6 +154,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>         return true;
+>  }
+>
+> +static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
+> +{
+> +       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> +       unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+> +       struct dc_context *dc = abm->ctx;
+> +       struct amdgpu_device *adev = dc->driver_context;
+> +
+> +       if (adev->pm.ac_power != adev->pm.old_ac_power) {
+> +               dmub_abm_set_level(abm, amdgpu_dm_abm_level);
+> +               adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+> +               adev->pm.old_ac_power = adev->pm.ac_power;
+> +       }
+> +
+> +       /* return backlight in hardware format which is unsigned 17 bits, with
+> +        * 1 bit integer and 16 bit fractional
+> +        */
+> +       return backlight;
+> +}
+> +
+> +static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
+> +{
+> +       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> +       unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+> +
+> +       /* return backlight in hardware format which is unsigned 17 bits, with
+> +        * 1 bit integer and 16 bit fractional
+> +        */
+> +       return backlight;
+> +}
+> +
+>  static bool dmub_abm_init_config(struct abm *abm,
+>         const char *src,
+>         unsigned int bytes,
+> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> index f6e0e7d8a0077..de459411a0e83 100644
+> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> @@ -445,6 +445,7 @@ struct amdgpu_pm {
+>         uint32_t                smu_prv_buffer_size;
+>         struct amdgpu_bo        *smu_prv_buffer;
+>         bool ac_power;
+> +       bool old_ac_power;
+>         /* powerplay feature */
+>         uint32_t pp_feature;
+>
+> --
+> 2.25.1
+>
