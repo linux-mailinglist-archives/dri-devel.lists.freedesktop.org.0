@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322674EB648
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 01:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D004EB64E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 01:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B9210EF21;
-	Tue, 29 Mar 2022 23:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0888C10F118;
+	Tue, 29 Mar 2022 23:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36FC610EE5D;
- Tue, 29 Mar 2022 23:00:19 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id l129so7511700pga.3;
- Tue, 29 Mar 2022 16:00:19 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40FF10F0D4;
+ Tue, 29 Mar 2022 23:00:24 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id p8so17209927pfh.8;
+ Tue, 29 Mar 2022 16:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HO6I2POm0u4zmwdpBLxU6r8WEEIUM7eXGwS51/lbXgI=;
- b=kEg96PXe7kAMjNNH7hBJWDHdNlDN5mHc9bWx0I2xN9o+wbqkHmapOpDlZDNsc7e33w
- b2ogxdGajq4JEeGf2XoHa0UH6Zye9U7yOnXOJdt1HYeNs0hI7EPgu9HY4VdHqZuzFxob
- ofmEXNN5JZBCEEFahP2Jy6ka5N0x+mKrnVWQeDHi8EtLGOozvKtMXF9Ho4FKcMKfeJJk
- QENhX0mFmBhlXpIHk0UBsVadlH0n7C8ubUm9rj0PvooeXSIV+0jfUlWzfobnMDYBzUUe
- jb9bxnly6PW5Y0vL6VMZtWS7eAPCvxlYUO5sLPiVgVDoI5dd5XtFSFYKuT0/L5WFQkzn
- Wmtg==
+ bh=g43LRxOPnuHcbyfQfDVoT6M8d2laa4QFWkHWb/Yu4qg=;
+ b=NrFSgpUx6iqSjTelUjYAxFDZHmuXEEQmJGAbhggSf1OLGzwsw72qZ3pyFJNy+kV8bU
+ ggAOTCWTqV/ayDMhngDzOT/k3r224mUEwNjwGD4j9vUZAy5S2uqioM2ffCyt5Jn0NWUU
+ 2tw9LhOdCvGQmNR5oPXUMNeFeYUXjj5mCLWbFpi7tU1iuGXuV5x2Nm+QnLSWUKSdQCDz
+ LWyc8rywa8qgxH6wukWtsdos/FzAWi2XFfgfFHIKM+Ws/Z9lXus1Tf5IOS42Ch+sBfoT
+ Gm48N81qnpJRZrVblCuGpYJbbUW3BLLXovgsD5DExYpNFJ+B5zWrf3Wn/sCda+wRGgRn
+ Acgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HO6I2POm0u4zmwdpBLxU6r8WEEIUM7eXGwS51/lbXgI=;
- b=Fnl5YTZ/VsLacvrHsNWkB5Iwb/k7FEpwtN3OdnCep2Ljj+BcgRL8qZ8srihNVQ5rOa
- icYkLr5ViZbWa1FeWUlQwpHURfAfR1kphrrIXgXJHlkwXd3dN4FfoyhMb9EMLsKnNpry
- MCIOS9M01NJJe59h7wfnb9HnIsKgY3dslWAInVLPTGvZMOucK/kQz5IJaCOBmlTSsar0
- izxjnV2l1THFqFuMtlDnYuXZtVFPNxlIhtarYNqtR2b5wap89fJb+PubdW1el5225uzW
- Z5mvwQwmrsrC70W6MAL1z9Ek+ObVle8hFnV+XYHYr1O33GrKPX1iz5+jMaXlyL/UbGNc
- eolA==
-X-Gm-Message-State: AOAM5315PxkG4a8ezlJAgflPM6QXnhbFJtlurAtciX66PxHCiuOMJGb9
- lmW/tv2IpmEeEFn8Vz+d9jLnGv+hlHQ=
-X-Google-Smtp-Source: ABdhPJz/VyzhfFtTmkbZ9ttUTwWM3Qh9cRS9VCNwxkdTgpEnA9rzY4JZBVLnGdiNnF8Kk/BmZk4/AA==
-X-Received: by 2002:a63:b20a:0:b0:398:9e3e:d581 with SMTP id
- x10-20020a63b20a000000b003989e3ed581mr1694271pge.236.1648594818129; 
- Tue, 29 Mar 2022 16:00:18 -0700 (PDT)
+ bh=g43LRxOPnuHcbyfQfDVoT6M8d2laa4QFWkHWb/Yu4qg=;
+ b=wwi6VNmFnWAFvkglWDi9OTGv3PICDq5s5teuSNpg9RGwUfKN9cWr0a79UN+h8/+kSw
+ Bj+BhfnCljuWtWWCtKLibbXTQwXu4QRhC6jxmVwz3DjKPqbaa+g04Wyi99oWlFMLfgIs
+ 763fY3nGGLAT9CyYfpAlkc2KRTBlex0wBH2ByUZRBfdbdd3kjhh77JMrAIjwWBCdXbX6
+ x1L2jiLps+L16CyfSNq4z4LcZa8LmAlYt42QWFGa/hOnO/Ege88qJ8I3oK4UJaHtZW2c
+ WqL0Sjpq37ilISquyOJpWujy1n8Tn4ambXeq6qzQhZrq908cLn1gmT8rBVHskX6f1a3H
+ T6SA==
+X-Gm-Message-State: AOAM531aPLuptXwmR91iuM4Pup7tOhDlPrZv4vw44s0auIgAxpaLLuYw
+ C8DJALXMsf9iTPvtj7SBKpW6m+MtZ8Q=
+X-Google-Smtp-Source: ABdhPJxsshZaZdZbhYKPwai85vx82kRaNPI3YkNEfxV/OYTbEzt7AXmsrSjhRaBPQ3xpSQYM18QMfA==
+X-Received: by 2002:a63:1758:0:b0:381:effc:b48f with SMTP id
+ 24-20020a631758000000b00381effcb48fmr3727650pgx.124.1648594823677; 
+ Tue, 29 Mar 2022 16:00:23 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- u18-20020a056a00125200b004fb112ee9b7sm15742821pfi.75.2022.03.29.16.00.16
+ i9-20020a17090a2a0900b001c6e540fb6asm3958778pjd.13.2022.03.29.16.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 16:00:17 -0700 (PDT)
+ Tue, 29 Mar 2022 16:00:22 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/9] drm/msm/gem: Move prototypes
-Date: Tue, 29 Mar 2022 16:00:49 -0700
-Message-Id: <20220329230105.601666-2-robdclark@gmail.com>
+Subject: [PATCH 2/9] drm/msm/gpu: Drop duplicate fence counter
+Date: Tue, 29 Mar 2022 16:00:50 -0700
+Message-Id: <20220329230105.601666-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329230105.601666-1-robdclark@gmail.com>
 References: <20220329230105.601666-1-robdclark@gmail.com>
@@ -69,97 +69,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-These belong more cleanly in the gem header.
+The ring seqno counter duplicates the fence-context last_fence counter.
+They end up getting incremented in lock-step, on the same scheduler
+thread, but the split just makes things less obvious.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_drv.h | 23 -----------------------
- drivers/gpu/drm/msm/msm_gem.h | 22 ++++++++++++++++++++++
- 2 files changed, 22 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 4 ++--
+ drivers/gpu/drm/msm/msm_gpu.c           | 8 ++++----
+ drivers/gpu/drm/msm/msm_gpu.h           | 2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h    | 1 -
+ 6 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 9f68aa685ed7..daf60d219463 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -250,29 +250,6 @@ void msm_atomic_state_free(struct drm_atomic_state *state);
- int msm_crtc_enable_vblank(struct drm_crtc *crtc);
- void msm_crtc_disable_vblank(struct drm_crtc *crtc);
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 407f50a15faa..d31aa87c6c8d 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1235,7 +1235,7 @@ static void a5xx_fault_detect_irq(struct msm_gpu *gpu)
+ 		return;
  
--int msm_gem_init_vma(struct msm_gem_address_space *aspace,
--		struct msm_gem_vma *vma, int npages,
--		u64 range_start, u64 range_end);
--void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
--		struct msm_gem_vma *vma);
--void msm_gem_unmap_vma(struct msm_gem_address_space *aspace,
--		struct msm_gem_vma *vma);
--int msm_gem_map_vma(struct msm_gem_address_space *aspace,
--		struct msm_gem_vma *vma, int prot,
--		struct sg_table *sgt, int npages);
--void msm_gem_close_vma(struct msm_gem_address_space *aspace,
--		struct msm_gem_vma *vma);
--
--
--struct msm_gem_address_space *
--msm_gem_address_space_get(struct msm_gem_address_space *aspace);
--
--void msm_gem_address_space_put(struct msm_gem_address_space *aspace);
--
--struct msm_gem_address_space *
--msm_gem_address_space_create(struct msm_mmu *mmu, const char *name,
--		u64 va_start, u64 size);
--
- int msm_register_mmu(struct drm_device *dev, struct msm_mmu *mmu);
- void msm_unregister_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ 	DRM_DEV_ERROR(dev->dev, "gpu fault ring %d fence %x status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
+-		ring ? ring->id : -1, ring ? ring->seqno : 0,
++		ring ? ring->id : -1, ring ? ring->fctx->last_fence : 0,
+ 		gpu_read(gpu, REG_A5XX_RBBM_STATUS),
+ 		gpu_read(gpu, REG_A5XX_CP_RB_RPTR),
+ 		gpu_read(gpu, REG_A5XX_CP_RB_WPTR),
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 83c31b2ad865..17de46fc4bf2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1390,7 +1390,7 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
  
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 58e11c282928..947ff7d9b471 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -40,6 +40,15 @@ struct msm_gem_address_space {
- 	int faults;
- };
+ 	DRM_DEV_ERROR(&gpu->pdev->dev,
+ 		"gpu fault ring %d fence %x status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
+-		ring ? ring->id : -1, ring ? ring->seqno : 0,
++		ring ? ring->id : -1, ring ? ring->fctx->last_fence : 0,
+ 		gpu_read(gpu, REG_A6XX_RBBM_STATUS),
+ 		gpu_read(gpu, REG_A6XX_CP_RB_RPTR),
+ 		gpu_read(gpu, REG_A6XX_CP_RB_WPTR),
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 45f2c6084aa7..6385ab06632f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -578,7 +578,7 @@ int adreno_gpu_state_get(struct msm_gpu *gpu, struct msm_gpu_state *state)
  
-+struct msm_gem_address_space *
-+msm_gem_address_space_get(struct msm_gem_address_space *aspace);
-+
-+void msm_gem_address_space_put(struct msm_gem_address_space *aspace);
-+
-+struct msm_gem_address_space *
-+msm_gem_address_space_create(struct msm_mmu *mmu, const char *name,
-+		u64 va_start, u64 size);
-+
- struct msm_gem_vma {
- 	struct drm_mm_node node;
+ 		state->ring[i].fence = gpu->rb[i]->memptrs->fence;
+ 		state->ring[i].iova = gpu->rb[i]->iova;
+-		state->ring[i].seqno = gpu->rb[i]->seqno;
++		state->ring[i].seqno = gpu->rb[i]->fctx->last_fence;
+ 		state->ring[i].rptr = get_rptr(adreno_gpu, gpu->rb[i]);
+ 		state->ring[i].wptr = get_wptr(gpu->rb[i]);
+ 
+@@ -828,7 +828,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
+ 
+ 		printk("rb %d: fence:    %d/%d\n", i,
+ 			ring->memptrs->fence,
+-			ring->seqno);
++			ring->fctx->last_fence);
+ 
+ 		printk("rptr:     %d\n", get_rptr(adreno_gpu, ring));
+ 		printk("rb wptr:  %d\n", get_wptr(ring));
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 747b89aa9d13..9480bdf875db 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -534,7 +534,7 @@ static void hangcheck_handler(struct timer_list *t)
+ 	if (fence != ring->hangcheck_fence) {
+ 		/* some progress has been made.. ya! */
+ 		ring->hangcheck_fence = fence;
+-	} else if (fence_before(fence, ring->seqno)) {
++	} else if (fence_before(fence, ring->fctx->last_fence)) {
+ 		/* no progress and not done.. hung! */
+ 		ring->hangcheck_fence = fence;
+ 		DRM_DEV_ERROR(dev->dev, "%s: hangcheck detected gpu lockup rb %d!\n",
+@@ -542,13 +542,13 @@ static void hangcheck_handler(struct timer_list *t)
+ 		DRM_DEV_ERROR(dev->dev, "%s:     completed fence: %u\n",
+ 				gpu->name, fence);
+ 		DRM_DEV_ERROR(dev->dev, "%s:     submitted fence: %u\n",
+-				gpu->name, ring->seqno);
++				gpu->name, ring->fctx->last_fence);
+ 
+ 		kthread_queue_work(gpu->worker, &gpu->recover_work);
+ 	}
+ 
+ 	/* if still more pending work, reset the hangcheck timer: */
+-	if (fence_after(ring->seqno, ring->hangcheck_fence))
++	if (fence_after(ring->fctx->last_fence, ring->hangcheck_fence))
+ 		hangcheck_timer_reset(gpu);
+ 
+ 	/* workaround for missing irq: */
+@@ -770,7 +770,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 
+ 	msm_gpu_hw_init(gpu);
+ 
+-	submit->seqno = ++ring->seqno;
++	submit->seqno = submit->hw_fence->seqno;
+ 
+ 	msm_rd_dump_submit(priv->rd, submit, NULL);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 2c0203fd6ce3..e47a42b1244a 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -291,7 +291,7 @@ static inline bool msm_gpu_active(struct msm_gpu *gpu)
+ 	for (i = 0; i < gpu->nr_rings; i++) {
+ 		struct msm_ringbuffer *ring = gpu->rb[i];
+ 
+-		if (fence_after(ring->seqno, ring->memptrs->fence))
++		if (fence_after(ring->fctx->last_fence, ring->memptrs->fence))
+ 			return true;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
+index d8c63df4e9ca..2a5045abe46e 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.h
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
+@@ -59,7 +59,6 @@ struct msm_ringbuffer {
+ 	spinlock_t submit_lock;
+ 
  	uint64_t iova;
-@@ -49,6 +58,19 @@ struct msm_gem_vma {
- 	int inuse;
- };
- 
-+int msm_gem_init_vma(struct msm_gem_address_space *aspace,
-+		struct msm_gem_vma *vma, int npages,
-+		u64 range_start, u64 range_end);
-+void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
-+		struct msm_gem_vma *vma);
-+void msm_gem_unmap_vma(struct msm_gem_address_space *aspace,
-+		struct msm_gem_vma *vma);
-+int msm_gem_map_vma(struct msm_gem_address_space *aspace,
-+		struct msm_gem_vma *vma, int prot,
-+		struct sg_table *sgt, int npages);
-+void msm_gem_close_vma(struct msm_gem_address_space *aspace,
-+		struct msm_gem_vma *vma);
-+
- struct msm_gem_object {
- 	struct drm_gem_object base;
- 
+-	uint32_t seqno;
+ 	uint32_t hangcheck_fence;
+ 	struct msm_rbmemptrs *memptrs;
+ 	uint64_t memptrs_iova;
 -- 
 2.35.1
 
