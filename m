@@ -1,46 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C914EA9B6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:51:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2124EA9E6
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A83510E7F4;
-	Tue, 29 Mar 2022 08:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D1910E7DE;
+	Tue, 29 Mar 2022 08:56:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A2D10E7DF
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:50:42 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 187F383FB5;
- Tue, 29 Mar 2022 10:50:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648543841;
- bh=JKIsZkvxfnTgybWcluU4Fl1bl00l2Eo2l2CAuLejFDw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QEuxHfqP9Gn0R/6UyxCEi0yW7TuigD5Avvn00myRnXT49gBTwph7vZQ/HKLNRmklc
- omQCvDv3V1woFCI53soiKvcUd2kaV6Gcl+RjMmrgh4JBSC6b59DapZzg6E1wiEHr3S
- yzkW6+vXZALKbnANSchA+YYjKOeVFHWqzV14ulQpoIJtz75ngaRmPoaCHxRKaH/9JG
- vuhgnOaRp3blf/wVmPPxhcHkMlVIAIaGiFKrZNHwl3plgzxQ43/UsE41AerqbjK09q
- kdDAJZfD8Nu2P0kQDZKQG+Arp2rlk50RtMRfmM+pQMTulZ+p7dUs6DEj4xcnqE1wAM
- iCPgkIV3fnntQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 11/11] drm/bridge: tc358767: Add DSI-to-DPI mode support
-Date: Tue, 29 Mar 2022 10:50:15 +0200
-Message-Id: <20220329085015.39159-12-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220329085015.39159-1-marex@denx.de>
-References: <20220329085015.39159-1-marex@denx.de>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2078.outbound.protection.outlook.com [40.107.93.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C9A10E7DE;
+ Tue, 29 Mar 2022 08:56:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZStBgwS/Vu2XTfWH4dMdCRM3h8HvCvqnacTTPSaHqH01JMuxt34jlJQvqnuBXpEUroa1KwFixYMmGR6Uc/EC7PejdVTP2MVKu3B//oYy2S/62VpPO6Zo36q7/T+M9RYo3pMBTFSKu3cpygFfCw1hhJK9KYxFzAxzfPafVLWdvpTJKrCauTnftw+cfthjCAC0Zewa1H5XUJK2Ku8BqthLj9OLDPaKJkYHfNloILjT2y0zmDTYIZCqVtvM4CLNYVLSM0W3jhG15tVCxwEZ5rVyQHpSBoUepxS6xP3/iwOFYgt5XsnDg2ek9+79nNBvUECOeGqi+nwppjrR8WWMLRHw9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7cdNvjGmPncYB3FtWQMxF6n1KdxlTvjHr62o9ewKktw=;
+ b=e4g/QG0uTfhSX0vSnHI0P5SM0qniqMSWMRcjYOHY786LqyuzGN3QS6m2kH8FpZ5on3eF3y935ZJse4TGmkHmSKKq6q+gek6TFOaIK2ArTlm54V2eUhyjULtwdfPx0RIohOGu8hD7Yn7+ENmXH1FhYUGQ7XXOz6xvQvw+QL5bBDaC7U+vmysqiFRwL5oANkKkRAxfyt1K42uCh6YlgisOnQ+LK1B/3K+f8Y4CwVIn/4oCpwsndg+/EsAAqvhqkH6oahCCsaxr7VZE4ypTGD/CNyETMIzn1JNCEAP8B4zK7r2HK9ii0GiI78RvgtKC6ILR8sqM4hFvLM6whvD0sMfVXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7cdNvjGmPncYB3FtWQMxF6n1KdxlTvjHr62o9ewKktw=;
+ b=b0aGD5rpgq9hfeetH4jg9XlswttuVwDm+zSEKWoV14mXOz5cejhdlwKJo1e3l03W7xvBS57J7L5y/jGfyhIrmCbmVVxBA2UIrA5tmUOwiGUru2a+FKpk6MHYIzgZo6t84xhm0/GFJVZ2NlqrRlcmrP6LKBgpOs9UjTQuzlCzEt8=
+Received: from BN0PR04CA0033.namprd04.prod.outlook.com (2603:10b6:408:e8::8)
+ by BYAPR12MB3031.namprd12.prod.outlook.com (2603:10b6:a03:d8::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Tue, 29 Mar
+ 2022 08:56:47 +0000
+Received: from BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e8:cafe::25) by BN0PR04CA0033.outlook.office365.com
+ (2603:10b6:408:e8::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18 via Frontend
+ Transport; Tue, 29 Mar 2022 08:56:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT062.mail.protection.outlook.com (10.13.177.34) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5102.17 via Frontend Transport; Tue, 29 Mar 2022 08:56:46 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
+ 2022 03:56:45 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
+ 2022 01:56:45 -0700
+Received: from Ryan-AMD.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Tue, 29 Mar 2022 03:56:37 -0500
+From: Ryan Lin <tsung-hua.lin@amd.com>
+To: 
+Subject: drm/amdgpu: Disable ABM when AC mode
+Date: Tue, 29 Mar 2022 16:52:36 +0800
+Message-ID: <20220329085239.157527-1-tsung-hua.lin@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f051ddf4-076b-4cdd-5499-08da11620dde
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3031:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3031209DDB5DB70C1EE8236AB21E9@BYAPR12MB3031.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5TlyZP6XBQ5DmR/Liy+4fccNsp1JHe2UwiHlXVUazIPjS7vyQCtbWRHxe3Pf19hAs93P9o6bmmQ+stJq7laggI2597uGP3P7JynmE2JOsD9lsVyNaHfGkspJtylSYus44odL9pNKP9zO9lBFhJg3Fga3+HK5I2MAsBIyKU52t7cTdsck+jbCyDc8sqJMwqqk5+2et6c8m2ij0v048Fm7nrZbgJVV3xLLZRagLgl52STbdd+no/B7ze6xOwmMzpSloKx/jdKYCKYHO4SnBhMqCv2wF4E6mQgfA3FVjzK3zOMXQrpDxI08K0WejvyejzUYJFYHxj1Sy1YCxFO0IaQRL/Ri9oIGCpTJ4w8zgILhD16XMeL3039G7HixTvNPJspblE4b3RGoZdp8BVnScp78qzRuiCBzalQjAYPKhhjNP8SU1+xoR7rmjaWVLEJCO9LPnIJJyvSpnMgTyavQX/jpr3UJ95Y99atFQZAJTLEVysL23grpAYQry44UKeVCfYS4vPmsZRDDd4WBKRrkokj6mHoGZkOTKAlSviFTkdxUt4py0LZsEQta3Ckftc4Ea70xDBvXy7I3EYjeCu2raav9w58oWX7nUzCrb85n79isAEr43opAL2x5H5xFxu+vGNsxrRp12IvhPv+l0W1ypOpbFBGePX2EL7wnmq6u1FIHH6QCxYOe0LjBagBmNPQpBVCB7o0RXhKasi0SqEkRRpTMut044CShEcT9cOIOFsbCv2k=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(83380400001)(356005)(8936002)(5660300002)(70206006)(4326008)(2906002)(36756003)(81166007)(47076005)(426003)(336012)(36860700001)(70586007)(82310400004)(1076003)(109986005)(508600001)(26005)(86362001)(186003)(2616005)(8676002)(54906003)(7696005)(40460700003)(316002)(266003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 08:56:46.2706 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f051ddf4-076b-4cdd-5499-08da11620dde
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,567 +105,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jake Wang <haonan.wang2@amd.com>,
+ David Airlie <airlied@linux.ie>, Leon.Li@amd.com,
+ Lijo Lazar <lijo.lazar@amd.com>, dri-devel@lists.freedesktop.org,
+ Wyatt Wood <wyatt.wood@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>, amd-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
+ Evan Quan <evan.quan@amd.com>, shaoyunl <shaoyun.liu@amd.com>,
+ Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Ryan Lin <tsung-hua.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Po-Ting Chen <robin.chen@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Add support for the
-DSI-to-DPI mode.
+Disable ABM feature when the system is running on AC mode to get
+the more perfect contrast of the display.
 
-This requires skipping most of the (e)DP initialization code, which is
-currently a large part of this driver, hence it is better to have far
-simpler separate tc_dpi_bridge_funcs and their implementation.
+v2: remove "UPSTREAM" from the subject.
 
-The configuration of DPI output is also much simpler. The configuration
-of the DSI input is rather similar to the other TC bridge chips.
+Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
 
-The Pixel PLL in DPI output mode does not have the 65..150 MHz limitation
-imposed on the (e)DP output mode, so this limitation is skipped to permit
-operating panels with far slower pixel clock, even below 9 MHz. This mode
-of operation of the PLL is valid and tested.
-
-The detection of bridge mode is now added into tc_probe_bridge_mode(),
-where in case a DPI panel is found on port@1 endpoint@1, the mode is
-assumed to be DSI-to-DPI. If (e)DP is detected on port@2, the mode is
-assumed to be DPI-to-(e)DP.
-
-The DSI-to-(e)DP mode is not supported due to lack of proper hardware,
-but this would be some sort of mix between the two aforementioned modes.
-
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
-V2: - Rebase on next-20220217 and new patches in this series
-V3: - Drop edp from tc_edp_common_atomic_check,
-      s@\<tc_edp_common_atomic_check\>@tc_common_atomic_check@g
-    - Limit Pixel PLL output to 0-100 MHz for DPI and 150-650 MHz for eDP
-    - Drop VID_EN write from tc_dpi_stream_disable()
-    - Reduce PLL stabilization delay to 120..150us in tc_dpi_stream_enable()
-    - Call drm_bridge_remove() in case tc_mipi_dsi_host_attach() fails
-    - Check of_property_count_u32_elems() return code as int instead of u8
-    - Enable DP0/DP1 PLL for DSI-to-DPI mode too, they clock the internal
-      framebuffer and it is too slow if those PLLs are in bypass
-V4: - Rebase on top of dropped drm/bridge: tc358767: Move hardware init to enable callback
-    - Use -1 in of_graph_get_endpoint_by_regs(.., .., -1) third param
-    - Select DRM_MIPI_DSI
-    - Add RB from Lucas
-V5: - No change
----
- drivers/gpu/drm/bridge/Kconfig    |   1 +
- drivers/gpu/drm/bridge/tc358767.c | 358 +++++++++++++++++++++++++++++-
- 2 files changed, 348 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  4 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 58 ++++++++++++-------
+ drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |  1 +
+ 4 files changed, 42 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 561e23727f6f5..536b3c3169918 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -280,6 +280,7 @@ config DRM_TOSHIBA_TC358767
- 	select DRM_DP_HELPER
- 	select DRM_KMS_HELPER
- 	select REGMAP_I2C
-+	select DRM_MIPI_DSI
- 	select DRM_PANEL
- 	help
- 	  Toshiba TC358767 eDP bridge chip driver.
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 02f9cea738d21..fb3fded62fac9 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1,6 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * tc358767 eDP bridge driver
-+ * TC358767/TC358867/TC9595 DSI/DPI-to-DPI/(e)DP bridge driver
-+ *
-+ * The TC358767/TC358867/TC9595 can operate in multiple modes.
-+ * The following modes are supported:
-+ *   DPI->(e)DP -- supported
-+ *   DSI->DPI .... supported
-+ *   DSI->(e)DP .. NOT supported
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index c560c1ab62ecb..bc8bb9aad2e36 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -822,6 +822,10 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
+ 	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
+ 	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
+ 
++	if (strcmp(entry->device_class, "battery") == 0) {
++		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
++	}
++
+ 	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
+ 		if (power_supply_is_system_supplied() > 0)
+ 			DRM_DEBUG_DRIVER("pm: AC\n");
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index abfcc1304ba0c..3a0afe7602727 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+ 
+ 	adev->gfx.gfx_off_req_count = 1;
+ 	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
++	adev->pm.old_ac_power = true;
+ 
+ 	atomic_set(&adev->throttling_logging_enabled, 1);
+ 	/*
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+index 54a1408c8015c..478a734b66926 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+@@ -23,6 +23,8 @@
   *
-  * Copyright (C) 2016 CogentEmbedded Inc
-  * Author: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-@@ -29,6 +35,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
-@@ -36,7 +43,35 @@
+  */
  
- /* Registers */
++#include <linux/power_supply.h>
++#include "amdgpu.h"
+ #include "dmub_abm.h"
+ #include "dce_abm.h"
+ #include "dc.h"
+@@ -51,6 +53,7 @@
+ #define DISABLE_ABM_IMMEDIATELY 255
  
--/* Display Parallel Interface */
-+/* PPI layer registers */
-+#define PPI_STARTPPI		0x0104 /* START control bit */
-+#define PPI_LPTXTIMECNT		0x0114 /* LPTX timing signal */
-+#define LPX_PERIOD			3
-+#define PPI_LANEENABLE		0x0134
-+#define PPI_TX_RX_TA		0x013c
-+#define TTA_GET				0x40000
-+#define TTA_SURE			6
-+#define PPI_D0S_ATMR		0x0144
-+#define PPI_D1S_ATMR		0x0148
-+#define PPI_D0S_CLRSIPOCOUNT	0x0164 /* Assertion timer for Lane 0 */
-+#define PPI_D1S_CLRSIPOCOUNT	0x0168 /* Assertion timer for Lane 1 */
-+#define PPI_D2S_CLRSIPOCOUNT	0x016c /* Assertion timer for Lane 2 */
-+#define PPI_D3S_CLRSIPOCOUNT	0x0170 /* Assertion timer for Lane 3 */
-+#define PPI_START_FUNCTION		BIT(0)
+ 
++extern uint amdgpu_dm_abm_level;
+ 
+ static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
+ {
+@@ -117,28 +120,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
+ 	dmub_abm_enable_fractional_pwm(abm->ctx);
+ }
+ 
+-static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
+-{
+-	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+-	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+-
+-	/* return backlight in hardware format which is unsigned 17 bits, with
+-	 * 1 bit integer and 16 bit fractional
+-	 */
+-	return backlight;
+-}
+-
+-static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
+-{
+-	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+-	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+-
+-	/* return backlight in hardware format which is unsigned 17 bits, with
+-	 * 1 bit integer and 16 bit fractional
+-	 */
+-	return backlight;
+-}
+-
+ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+ {
+ 	union dmub_rb_cmd cmd;
+@@ -148,6 +129,9 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+ 	int edp_num;
+ 	uint8_t panel_mask = 0;
+ 
++	if (power_supply_is_system_supplied() > 0)
++		level = 0;
 +
-+/* DSI layer registers */
-+#define DSI_STARTDSI		0x0204 /* START control bit of DSI-TX */
-+#define DSI_LANEENABLE		0x0210 /* Enables each lane */
-+#define DSI_RX_START			BIT(0)
-+
-+/* Lane enable PPI and DSI register bits */
-+#define LANEENABLE_CLEN		BIT(0)
-+#define LANEENABLE_L0EN		BIT(1)
-+#define LANEENABLE_L1EN		BIT(2)
-+#define LANEENABLE_L2EN		BIT(1)
-+#define LANEENABLE_L3EN		BIT(2)
-+
-+/* Display Parallel Input Interface */
- #define DPIPXLFMT		0x0440
- #define VS_POL_ACTIVE_LOW		(1 << 10)
- #define HS_POL_ACTIVE_LOW		(1 << 9)
-@@ -48,6 +83,14 @@
- #define DPI_BPP_RGB666			(1 << 0)
- #define DPI_BPP_RGB565			(2 << 0)
+ 	get_edp_links(dc->dc, edp_links, &edp_num);
  
-+/* Display Parallel Output Interface */
-+#define POCTRL			0x0448
-+#define POCTRL_S2P			BIT(7)
-+#define POCTRL_PCLK_POL			BIT(3)
-+#define POCTRL_VS_POL			BIT(2)
-+#define POCTRL_HS_POL			BIT(1)
-+#define POCTRL_DE_POL			BIT(0)
+ 	for (i = 0; i < edp_num; i++) {
+@@ -170,6 +154,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+ 	return true;
+ }
+ 
++static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
++{
++	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
++	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
++	struct dc_context *dc = abm->ctx;
++	struct amdgpu_device *adev = dc->driver_context;
 +
- /* Video Path */
- #define VPCTRL0			0x0450
- #define VSDELAY			GENMASK(31, 20)
-@@ -247,6 +290,9 @@ struct tc_data {
- 	struct drm_bridge	*panel_bridge;
- 	struct drm_connector	connector;
- 
-+	struct mipi_dsi_device	*dsi;
-+	u8			dsi_lanes;
++	if (adev->pm.ac_power != adev->pm.old_ac_power) {
++		dmub_abm_set_level(abm, amdgpu_dm_abm_level);
++		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
++		adev->pm.old_ac_power = adev->pm.ac_power;
++	}
 +
- 	/* link settings */
- 	struct tc_edp_link	link;
- 
-@@ -469,10 +515,24 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- 	int mul, best_mul = 1;
- 	int delta, best_delta;
- 	int ext_div[] = {1, 2, 3, 5, 7};
-+	int clk_min, clk_max;
- 	int best_pixelclock = 0;
- 	int vco_hi = 0;
- 	u32 pxl_pllparam;
- 
-+	/*
-+	 * refclk * mul / (ext_pre_div * pre_div) should be in range:
-+	 * - DPI ..... 0 to 100 MHz
-+	 * - (e)DP ... 150 to 650 MHz
++	/* return backlight in hardware format which is unsigned 17 bits, with
++	 * 1 bit integer and 16 bit fractional
 +	 */
-+	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) {
-+		clk_min = 0;
-+		clk_max = 100000000;
-+	} else {
-+		clk_min = 150000000;
-+		clk_max = 650000000;
-+	}
-+
- 	dev_dbg(tc->dev, "PLL: requested %d pixelclock, ref %d\n", pixelclock,
- 		refclk);
- 	best_delta = pixelclock;
-@@ -499,11 +559,7 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- 					continue;
- 
- 				clk = (refclk / ext_div[i_pre] / div) * mul;
--				/*
--				 * refclk * mul / (ext_pre_div * pre_div)
--				 * should be in the 150 to 650 MHz range
--				 */
--				if ((clk > 650000000) || (clk < 150000000))
-+				if ((clk > clk_max) || (clk < clk_min))
- 					continue;
- 
- 				clk = clk / ext_div[i_post];
-@@ -805,6 +861,20 @@ static int tc_set_common_video_mode(struct tc_data *tc,
- 	return ret;
- }
- 
-+static int tc_set_dpi_video_mode(struct tc_data *tc,
-+				 const struct drm_display_mode *mode)
-+{
-+	u32 value = POCTRL_S2P;
-+
-+	if (tc->mode.flags & DRM_MODE_FLAG_NHSYNC)
-+		value |= POCTRL_HS_POL;
-+
-+	if (tc->mode.flags & DRM_MODE_FLAG_NVSYNC)
-+		value |= POCTRL_VS_POL;
-+
-+	return regmap_write(tc->regmap, POCTRL, value);
++	return backlight;
 +}
 +
- static int tc_set_edp_video_mode(struct tc_data *tc,
- 				 const struct drm_display_mode *mode)
- {
-@@ -1177,6 +1247,85 @@ static int tc_main_link_disable(struct tc_data *tc)
- 	return regmap_write(tc->regmap, DP0CTL, 0);
- }
- 
-+static int tc_dpi_stream_enable(struct tc_data *tc)
++static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
 +{
-+	int ret;
-+	u32 value;
++	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
++	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
 +
-+	dev_dbg(tc->dev, "enable video stream\n");
-+
-+	/* Setup PLL */
-+	ret = tc_set_syspllparam(tc);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Initially PLLs are in bypass. Force PLL parameter update,
-+	 * disable PLL bypass, enable PLL
++	/* return backlight in hardware format which is unsigned 17 bits, with
++	 * 1 bit integer and 16 bit fractional
 +	 */
-+	ret = tc_pllupdate(tc, DP0_PLLCTRL);
-+	if (ret)
-+		return ret;
-+
-+	ret = tc_pllupdate(tc, DP1_PLLCTRL);
-+	if (ret)
-+		return ret;
-+
-+	/* Pixel PLL must always be enabled for DPI mode */
-+	ret = tc_pxl_pll_en(tc, clk_get_rate(tc->refclk),
-+			    1000 * tc->mode.clock);
-+	if (ret)
-+		return ret;
-+
-+	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
-+	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
-+	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
-+	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
-+
-+	value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
-+		LANEENABLE_CLEN;
-+	regmap_write(tc->regmap, PPI_LANEENABLE, value);
-+	regmap_write(tc->regmap, DSI_LANEENABLE, value);
-+
-+	ret = tc_set_common_video_mode(tc, &tc->mode);
-+	if (ret)
-+		return ret;
-+
-+	ret = tc_set_dpi_video_mode(tc, &tc->mode);
-+	if (ret)
-+		return ret;
-+
-+	/* Set input interface */
-+	value = DP0_AUDSRC_NO_INPUT;
-+	if (tc_test_pattern)
-+		value |= DP0_VIDSRC_COLOR_BAR;
-+	else
-+		value |= DP0_VIDSRC_DSI_RX;
-+	ret = regmap_write(tc->regmap, SYSCTRL, value);
-+	if (ret)
-+		return ret;
-+
-+	usleep_range(120, 150);
-+
-+	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
-+	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
-+
-+	return 0;
++	return backlight;
 +}
 +
-+static int tc_dpi_stream_disable(struct tc_data *tc)
-+{
-+	dev_dbg(tc->dev, "disable video stream\n");
-+
-+	tc_pxl_pll_dis(tc);
-+
-+	return 0;
-+}
-+
- static int tc_edp_stream_enable(struct tc_data *tc)
- {
- 	int ret;
-@@ -1251,6 +1400,34 @@ static int tc_edp_stream_disable(struct tc_data *tc)
- 	return 0;
- }
- 
-+static void
-+tc_dpi_bridge_atomic_enable(struct drm_bridge *bridge,
-+			    struct drm_bridge_state *old_bridge_state)
-+
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	int ret;
-+
-+	ret = tc_dpi_stream_enable(tc);
-+	if (ret < 0) {
-+		dev_err(tc->dev, "main link stream start error: %d\n", ret);
-+		tc_main_link_disable(tc);
-+		return;
-+	}
-+}
-+
-+static void
-+tc_dpi_bridge_atomic_disable(struct drm_bridge *bridge,
-+			     struct drm_bridge_state *old_bridge_state)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	int ret;
-+
-+	ret = tc_dpi_stream_disable(tc);
-+	if (ret < 0)
-+		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
-+}
-+
- static void
- tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
- 			    struct drm_bridge_state *old_bridge_state)
-@@ -1321,6 +1498,16 @@ static int tc_common_atomic_check(struct drm_bridge *bridge,
- 	return 0;
- }
- 
-+static int tc_dpi_atomic_check(struct drm_bridge *bridge,
-+			       struct drm_bridge_state *bridge_state,
-+			       struct drm_crtc_state *crtc_state,
-+			       struct drm_connector_state *conn_state)
-+{
-+	/* DSI->DPI interface clock limitation: upto 100 MHz */
-+	return tc_common_atomic_check(bridge, bridge_state, crtc_state,
-+				      conn_state, 100000);
-+}
-+
- static int tc_edp_atomic_check(struct drm_bridge *bridge,
- 			       struct drm_bridge_state *bridge_state,
- 			       struct drm_crtc_state *crtc_state,
-@@ -1331,6 +1518,18 @@ static int tc_edp_atomic_check(struct drm_bridge *bridge,
- 				      conn_state, 154000);
- }
- 
-+static enum drm_mode_status
-+tc_dpi_mode_valid(struct drm_bridge *bridge,
-+		  const struct drm_display_info *info,
-+		  const struct drm_display_mode *mode)
-+{
-+	/* DPI interface clock limitation: upto 100 MHz */
-+	if (mode->clock > 100000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static enum drm_mode_status
- tc_edp_mode_valid(struct drm_bridge *bridge,
- 		  const struct drm_display_info *info,
-@@ -1442,6 +1641,18 @@ static const struct drm_connector_funcs tc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
-+static int tc_dpi_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+
-+	if (!tc->panel_bridge)
-+		return 0;
-+
-+	return drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
-+				 &tc->bridge, flags);
-+}
-+
- static int tc_edp_bridge_attach(struct drm_bridge *bridge,
- 				enum drm_bridge_attach_flags flags)
- {
-@@ -1500,6 +1711,45 @@ static void tc_edp_bridge_detach(struct drm_bridge *bridge)
- 	drm_dp_aux_unregister(&bridge_to_tc(bridge)->aux);
- }
- 
-+#define MAX_INPUT_SEL_FORMATS	1
-+
-+static u32 *
-+tc_dpi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				    struct drm_bridge_state *bridge_state,
-+				    struct drm_crtc_state *crtc_state,
-+				    struct drm_connector_state *conn_state,
-+				    u32 output_fmt,
-+				    unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	/* This is the DSI-end bus format */
-+	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs tc_dpi_bridge_funcs = {
-+	.attach = tc_dpi_bridge_attach,
-+	.mode_valid = tc_dpi_mode_valid,
-+	.mode_set = tc_bridge_mode_set,
-+	.atomic_check = tc_dpi_atomic_check,
-+	.atomic_enable = tc_dpi_bridge_atomic_enable,
-+	.atomic_disable = tc_dpi_bridge_atomic_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = tc_dpi_atomic_get_input_bus_fmts,
-+};
-+
- static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
- 	.attach = tc_edp_bridge_attach,
- 	.detach = tc_edp_bridge_detach,
-@@ -1600,6 +1850,82 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
-+static int tc_mipi_dsi_host_attach(struct tc_data *tc)
-+{
-+	struct device *dev = tc->dev;
-+	struct device_node *host_node;
-+	struct device_node *endpoint;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	const struct mipi_dsi_device_info info = {
-+		.type = "tc358767",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+	int dsi_lanes, ret;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	host_node = of_graph_get_remote_port_parent(endpoint);
-+	host = of_find_mipi_dsi_host_by_node(host_node);
-+	of_node_put(host_node);
-+	of_node_put(endpoint);
-+
-+	if (dsi_lanes < 0 || dsi_lanes > 4)
-+		return -EINVAL;
-+
-+	if (!host)
-+		return -EPROBE_DEFER;
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi))
-+		return dev_err_probe(dev, PTR_ERR(dsi),
-+				     "failed to create dsi device\n");
-+
-+	tc->dsi = dsi;
-+
-+	tc->dsi_lanes = dsi_lanes;
-+	dsi->lanes = tc->dsi_lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
-+{
-+	struct device *dev = tc->dev;
-+	struct drm_panel *panel;
-+	int ret;
-+
-+	/* port@1 is the DPI input/output port */
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-+	if (ret && ret != -ENODEV)
-+		return ret;
-+
-+	if (panel) {
-+		struct drm_bridge *panel_bridge;
-+
-+		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+		if (IS_ERR(panel_bridge))
-+			return PTR_ERR(panel_bridge);
-+
-+		tc->panel_bridge = panel_bridge;
-+		tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
-+		tc->bridge.funcs = &tc_dpi_bridge_funcs;
-+
-+		return 0;
-+	}
-+
-+	return ret;
-+}
-+
- static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
- {
- 	struct device *dev = tc->dev;
-@@ -1667,7 +1993,7 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
- 	if (mode == mode_dpi_to_edp)
- 		return tc_probe_edp_bridge_endpoint(tc);
- 	else if (mode == mode_dsi_to_dpi)
--		dev_warn(dev, "The mode DSI-to-DPI is not supported!\n");
-+		return tc_probe_dpi_bridge_endpoint(tc);
- 	else if (mode == mode_dsi_to_edp)
- 		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
- 	else
-@@ -1798,15 +2124,25 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		}
- 	}
- 
--	ret = tc_aux_link_setup(tc);
--	if (ret)
--		return ret;
-+	if (tc->bridge.type != DRM_MODE_CONNECTOR_DPI) { /* (e)DP output */
-+		ret = tc_aux_link_setup(tc);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	tc->bridge.of_node = dev->of_node;
- 	drm_bridge_add(&tc->bridge);
- 
- 	i2c_set_clientdata(client, tc);
- 
-+	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) { /* DPI output */
-+		ret = tc_mipi_dsi_host_attach(tc);
-+		if (ret) {
-+			drm_bridge_remove(&tc->bridge);
-+			return ret;
-+		}
-+	}
-+
- 	return 0;
- }
+ static bool dmub_abm_init_config(struct abm *abm,
+ 	const char *src,
+ 	unsigned int bytes,
+diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+index f6e0e7d8a0077..de459411a0e83 100644
+--- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
++++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+@@ -445,6 +445,7 @@ struct amdgpu_pm {
+ 	uint32_t                smu_prv_buffer_size;
+ 	struct amdgpu_bo        *smu_prv_buffer;
+ 	bool ac_power;
++	bool old_ac_power;
+ 	/* powerplay feature */
+ 	uint32_t pp_feature;
  
 -- 
-2.35.1
+2.25.1
 
