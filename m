@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CE94EA9D9
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:54:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF734EA9DD
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 980F010E770;
-	Tue, 29 Mar 2022 08:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1490710E780;
+	Tue, 29 Mar 2022 08:55:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C56C10E770
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:54:48 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r13so23728446wrr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 01:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=AKQCa5BXj3nCU08wphZwQiPGLu+26prlcxnHAtm3VJI=;
- b=JptjAoEckriZUf4zPujrteZ8s/NjMjT2ifzJiasv3jr8gD6d2FEM3pB0Uo5ATE9iAI
- VBHJZ8AQuo7sU274dzli6jcmkRGhGsJBfZxO9ClibftgH1ggxrUC7fkoULKC0iPqnfZ7
- 683RUPXa73EJ+BaZYfown49PfOmqyEzjPkES4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=AKQCa5BXj3nCU08wphZwQiPGLu+26prlcxnHAtm3VJI=;
- b=Dom3rb3/YXSmNPtevyCglAK91iQII73dCbPam8sHi5Ny7Ot0QmtEsAbvmzmE5nXvLr
- h82XsUs/LUT1+cNfmvQ0257v08YX9Y0LqUjiiKUFXxcM/Z+CSB/I6/EvVI8wq1vfbccj
- o65o/ItTXNum7A4sJAc62DQXK8vh57/hEJCalXXRcR6OVQWVuPXOZyvYlwCM+Y0uk4Nu
- Tl15C5zzNl54J7BGDSqQ7jI1Zgcefzv6UdTw+4vEtFIWKkEIniGJ7yvvaQAhK+UuPEtz
- Po/iHNfmVJGPfnMoJDTu7EgpAxFSA4DLFiL9c/oBlNyMAJWFIAzkb8a3ciyMTwBkpqzX
- orHg==
-X-Gm-Message-State: AOAM532fxm6XozdoSugADs0zk52jvoF5Sh+J84MQMfN8dfvCK7S/Jh+8
- /fFjG6kNnUIBxV/ElQjJNayP3g==
-X-Google-Smtp-Source: ABdhPJyh7a/JYQQVslvrEv4/VrglTy3NUcoYOA6Ic3/C5QjREHupUrY0ULUNmJyK+0rJ6Zuz0toy4A==
-X-Received: by 2002:a05:6000:186d:b0:204:110a:d832 with SMTP id
- d13-20020a056000186d00b00204110ad832mr29779909wri.47.1648544086671; 
- Tue, 29 Mar 2022 01:54:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- c11-20020a05600c0a4b00b0037c91e085ddsm1902614wmq.40.2022.03.29.01.54.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 01:54:45 -0700 (PDT)
-Date: Tue, 29 Mar 2022 10:54:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 12/12] Documentation: iio: Document high-speed DMABUF
- based API
-Message-ID: <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Jonathan Cameron <jic23@kernel.org>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207130140.81891-1-paul@crapouillou.net>
- <20220207130140.81891-2-paul@crapouillou.net>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9067910E780;
+ Tue, 29 Mar 2022 08:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648544110; x=1680080110;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=tDLiIM4fM4aVooDuS+m3AxIYkSfzmE5NwOQk6eQG/k8=;
+ b=A6ApYhKpdo9hY2pJSwyXpvcJPnHIr3CFKluDdVc265R17Huz5S0E2Gxj
+ HYdpj1VeGhk2DNHNgZUGF1mA5/Z4ybPSaDd9GWMfxC+oRvXCFnqOMpcC8
+ 5phP6xkM2XX1Wac0FGaJpamiSrSTQNFtZ9/ePVZybERqNHIafrlTvSMDn
+ QMkCiC1s3e4NYWIND7Yo85skpNitlmQ18BbK8wh+cjQeGlSXSsn641UMZ
+ Rm/ulcLB28ufQY7w1gMWbBg89h+yhFhgUryrXkhOWrbHN77WEIxQum8t0
+ yJf3jWLavxeyhOL/UE5NJjTidDOh7xzktaoc/pJJVR56vkIjXVLOhvoFd g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="239132171"
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="239132171"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2022 01:55:09 -0700
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="546301604"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.38.4])
+ ([10.252.38.4])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2022 01:55:07 -0700
+Message-ID: <f57af86a-bbc7-ee6b-a094-ddb9b095c954@linux.intel.com>
+Date: Tue, 29 Mar 2022 10:55:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220207130140.81891-2-paul@crapouillou.net>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] dma-buf/sync-file: fix logic error in new fence merge
+ code
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ ville.syrjala@linux.intel.com, daniel@ffwll.ch
+References: <20220329070001.134180-1-christian.koenig@amd.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220329070001.134180-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,171 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 07, 2022 at 01:01:40PM +0000, Paul Cercueil wrote:
-> Document the new DMABUF based API.
-> 
-> v2: - Explicitly state that the new interface is optional and is
->       not implemented by all drivers.
->     - The IOCTLs can now only be called on the buffer FD returned by
->       IIO_BUFFER_GET_FD_IOCTL.
->     - Move the page up a bit in the index since it is core stuff and not
->       driver-specific.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+I finally managed to find a machine and tested this series. If it is not 
+too late
+
+The series is Tested-by: Nirmoy Das <nirmoy.das@intel.com>
+
+On 3/29/2022 9:00 AM, Christian König wrote:
+> When the array is empty because everything is signaled we can't use
+> add_fence() to add something because that would filter the signaled
+> fence again.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
 > ---
->  Documentation/driver-api/dma-buf.rst |  2 +
->  Documentation/iio/dmabuf_api.rst     | 94 ++++++++++++++++++++++++++++
->  Documentation/iio/index.rst          |  2 +
->  3 files changed, 98 insertions(+)
->  create mode 100644 Documentation/iio/dmabuf_api.rst
-> 
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 2cd7db82d9fe..d3c9b58d2706 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -1,3 +1,5 @@
-> +.. _dma-buf:
-> +
->  Buffer Sharing and Synchronization
->  ==================================
->  
-> diff --git a/Documentation/iio/dmabuf_api.rst b/Documentation/iio/dmabuf_api.rst
-> new file mode 100644
-> index 000000000000..43bb2c1b9fdc
-> --- /dev/null
-> +++ b/Documentation/iio/dmabuf_api.rst
-> @@ -0,0 +1,94 @@
-> +===================================
-> +High-speed DMABUF interface for IIO
-> +===================================
-> +
-> +1. Overview
-> +===========
-> +
-> +The Industrial I/O subsystem supports access to buffers through a file-based
-> +interface, with read() and write() access calls through the IIO device's dev
-> +node.
-> +
-> +It additionally supports a DMABUF based interface, where the userspace
-> +application can allocate and append DMABUF objects to the buffer's queue.
-> +This interface is however optional and is not available in all drivers.
-> +
-> +The advantage of this DMABUF based interface vs. the read()
-> +interface, is that it avoids an extra copy of the data between the
-> +kernel and userspace. This is particularly useful for high-speed
-> +devices which produce several megabytes or even gigabytes of data per
-> +second.
-> +
-> +The data in this DMABUF interface is managed at the granularity of
-> +DMABUF objects. Reducing the granularity from byte level to block level
-> +is done to reduce the userspace-kernelspace synchronization overhead
-> +since performing syscalls for each byte at a few Mbps is just not
-> +feasible.
-> +
-> +This of course leads to a slightly increased latency. For this reason an
-> +application can choose the size of the DMABUFs as well as how many it
-> +allocates. E.g. two DMABUFs would be a traditional double buffering
-> +scheme. But using a higher number might be necessary to avoid
-> +underflow/overflow situations in the presence of scheduling latencies.
-
-So this reads a lot like reinventing io-uring with pre-registered O_DIRECT
-memory ranges. Except it's using dma-buf and hand-rolling a lot of pieces
-instead of io-uring and O_DIRECT.
-
-At least if the entire justification for dma-buf support is zero-copy
-support between the driver and userspace it's _really_ not the right tool
-for the job. dma-buf is for zero-copy between devices, with cpu access
-from userpace (or kernel fwiw) being very much the exception (and often
-flat-out not supported at all).
--Daniel
-
-> +
-> +2. User API
-> +===========
-> +
-> +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *)``
-> +----------------------------------------------------------------
-> +
-> +Each call will allocate a new DMABUF object. The return value (if not
-> +a negative errno value as error) will be the file descriptor of the new
-> +DMABUF.
-> +
-> +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
-> +--------------------------------------------------------
-> +
-> +Place the DMABUF object into the queue pending for hardware process.
-> +
-> +These two IOCTLs have to be performed on the IIO buffer's file
-> +descriptor, obtained using the `IIO_BUFFER_GET_FD_IOCTL` ioctl.
-> +
-> +3. Usage
-> +========
-> +
-> +To access the data stored in a block by userspace the block must be
-> +mapped to the process's memory. This is done by calling mmap() on the
-> +DMABUF's file descriptor.
-> +
-> +Before accessing the data through the map, you must use the
-> +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
-> +DMA_BUF_SYNC_START flag, to make sure that the data is available.
-> +This call may block until the hardware is done with this block. Once
-> +you are done reading or writing the data, you must use this ioctl again
-> +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
-> +kernel's queue.
-> +
-> +If you need to know when the hardware is done with a DMABUF, you can
-> +poll its file descriptor for the EPOLLOUT event.
-> +
-> +Finally, to destroy a DMABUF object, simply call close() on its file
-> +descriptor.
-> +
-> +For more information about manipulating DMABUF objects, see: :ref:`dma-buf`.
-> +
-> +A typical workflow for the new interface is:
-> +
-> +    for block in blocks:
-> +      DMABUF_ALLOC block
-> +      mmap block
-> +
-> +    enable buffer
-> +
-> +    while !done
-> +      for block in blocks:
-> +        DMABUF_ENQUEUE block
-> +
-> +        DMABUF_SYNC_START block
-> +        process data
-> +        DMABUF_SYNC_END block
-> +
-> +    disable buffer
-> +
-> +    for block in blocks:
-> +      close block
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index 58b7a4ebac51..669deb67ddee 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -9,4 +9,6 @@ Industrial I/O
->  
->     iio_configfs
->  
-> +   dmabuf_api
-> +
->     ep93xx_adc
-> -- 
-> 2.34.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>   drivers/dma-buf/sync_file.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> index b8dea4ec123b..514d213261df 100644
+> --- a/drivers/dma-buf/sync_file.c
+> +++ b/drivers/dma-buf/sync_file.c
+> @@ -262,7 +262,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+>   	}
+>   
+>   	if (index == 0)
+> -		add_fence(fences, &index, dma_fence_get_stub());
+> +		fences[index++] = dma_fence_get_stub();
+>   
+>   	if (num_fences > index) {
+>   		struct dma_fence **tmp;
