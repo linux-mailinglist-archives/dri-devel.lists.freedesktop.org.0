@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C8B4EB5B4
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 00:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C854EB63E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 00:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9837C10E1FE;
-	Tue, 29 Mar 2022 22:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAC210EFCA;
+	Tue, 29 Mar 2022 22:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFDA10E1FE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 22:14:35 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id bq24so16740070lfb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 15:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6bUho4h3zzyg8mrHSXNWvfp6RptsEnl8G83mOpfY+8A=;
- b=bh7oMU8UPCqwbBrPRO6PPukc9f8hIRc+lb/bA8WWrXnuXulYF2BEAQFo14jUSUDx5s
- v/eUHNA5ayGfb5BqoNdiNDRyXPrC1kpH0/sYRj+1xjYsWuZRqw59J5mjFIRxTaeQILoI
- ocRVQEiF/frLG4RsG1ZpC51jWy3KK0satvkTzAMdkhAk01zHUUHXsKBI4N5zaQ63yagx
- +pP7SOPZ0AqLBbyBtQl7RM93hlDECYrq3hkLFEgYZ9s2pbU0vyGqNmK3JOP4ApjsQobO
- 0VR9mde15FL1GZzs7GBEGpVvlUuPCqk8bBPtHlv5+7ul4Ehb5d0eFzkheJVgvZ+O2OSz
- jAUg==
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4244E10EFCA
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 22:58:18 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-de3eda6b5dso20409208fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 15:58:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6bUho4h3zzyg8mrHSXNWvfp6RptsEnl8G83mOpfY+8A=;
- b=wb7P35zTxoHaL1kjaF9omaAaC3g6JLo1ORXHu6mPVZY0/uFlbPORCAMpqefjEammdU
- 2htE7L9GDyb1xqMDufdh4DBgOjqc61U3ZrBK2i9ggtXJbUuuIaL2wr/t0HFFH+jzBdLM
- 0urp2ott0BRWEeHQFMM7dg2UMTpwTRwrmcrbCNMGZVxphJa84XB7/KTm0g7fzoFw7LHZ
- mdlhM+Rej6U9IqvEl1yy/1eIYryO89MnGNQQEgRDScnREt3nPXFw5EtGzHvGWflOLa9B
- 2RqxS2fGnHMG9X2BB1spaOjrZFQ6IFQ3Zm/VZhbrrE7dmEoGBV3uC+FgZuB93Rnct+AV
- ZboA==
-X-Gm-Message-State: AOAM530RUaU76QqkYElBJPKAOBjKg1Aq/q866uPr5TDDY99ELkOoa6ho
- HMs/s5uz1s4WZ35OIgeWI6o=
-X-Google-Smtp-Source: ABdhPJw/Cx1HFbKNuVfKF/lbkCI8c5zDX6pAuLqHOq2y9eMru5aTEj+d6/wIaOiUwpZ/NAFJvnki7A==
-X-Received: by 2002:a05:6512:13a1:b0:448:887e:da38 with SMTP id
- p33-20020a05651213a100b00448887eda38mr4661334lfa.298.1648592073440; 
- Tue, 29 Mar 2022 15:14:33 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.225.225])
- by smtp.gmail.com with ESMTPSA id
- h16-20020ac24db0000000b0044aace47e83sm427397lfe.185.2022.03.29.15.14.32
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LWrhu1SJIKP91XWNKb4WbsxhL8e6xpsiZxtyqvL5Z0w=;
+ b=a+acq3BWnD9NEFPEwsaTvaamedNLoCO59twcRa33aAxyCNHfYEcuD69Cx5b4Grt/3o
+ eereXi2ekbJ1v+9C+qdoeWdljgRDMfAr4Z1ko1xFebQZI7apdjr1Nb2Sg1FrZl8ISdQF
+ 4hy/MUKpbWO7Wdw/toND7ntthiZ0Qwap8KIVgPUjSKePqktJAKrWrj63tQRzW7sWB9XU
+ oLkgE45YvWZym/fPi2ZlN+DgtrRj+HyVU4e7kFSE4JVXs0s1DCACtwQeWifU/Yf6KFf0
+ PLB6L37qeKLF4Y1J7NgfNeqLIKg5Oc0LPq6JaMr+ODO3VjcxdT4VAL9fyqOpx7hETOkK
+ aPzg==
+X-Gm-Message-State: AOAM533NQJvKFbtXgrkEoRaa+xzwilq17tHZ9HBlhV2PHsGgasom9jqy
+ s3PQzMpMlGtzRXA/V4hcQitjv8Haxg==
+X-Google-Smtp-Source: ABdhPJz+emekgDFz5mKWRmNRlRNMSrX19JPwwY5w06pHDZVUQBWmNvGk1+vhyDXsbkBHNm4tAEBj9Q==
+X-Received: by 2002:a05:6870:a106:b0:de:de08:4e3d with SMTP id
+ m6-20020a056870a10600b000dede084e3dmr859501oae.256.1648594697439; 
+ Tue, 29 Mar 2022 15:58:17 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ k22-20020a056870959600b000d277c48d18sm9802811oao.3.2022.03.29.15.58.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 15:14:33 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: sumit.semwal@linaro.org, gustavo@padovan.org, christian.koenig@amd.com,
- daniel.vetter@ffwll.ch
-Subject: [PATCH next] dma-buf/sync-file: do not allow zero size allocations
-Date: Wed, 30 Mar 2022 01:14:25 +0300
-Message-Id: <20220329221425.22691-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ Tue, 29 Mar 2022 15:58:16 -0700 (PDT)
+Received: (nullmailer pid 1505955 invoked by uid 1000);
+ Tue, 29 Mar 2022 22:58:15 -0000
+Date: Tue, 29 Mar 2022 17:58:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Subject: Re: [PATCH v9 03/22] dt-bindings: mediatek,dp_phy: Add Display Port
+ PHY binding
+Message-ID: <YkOPB5W7uXkOc72/@robh.at.kernel.org>
+References: <20220327223927.20848-1-granquet@baylibre.com>
+ <20220327223927.20848-4-granquet@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220327223927.20848-4-granquet@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +64,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com,
- Pavel Skripkin <paskripkin@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
+ kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ tzimmermann@suse.de, chunfeng.yun@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
+ markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot reported GPF in dma_fence_array_first(), which is caused by
-dereferencing ZERO_PTR in dma-buf internals.
+On Mon, Mar 28, 2022 at 12:39:08AM +0200, Guillaume Ranquet wrote:
+> This phy controller is embedded in the Display Port Controller on mt8195 SoCs.
 
-ZERO_PTR was generated in sync_file_merge(). This functuion tries to
-reduce allocation size, but does not check if it reducing to 0.
+Sorry, but I think you need to go back to what you had in v8. While yes, 
+the phy and controller IP often do change independently, this h/w looks 
+pretty interwined. 
 
-Fix reported bug by validating `index` value before passing it to
-krealloc_array().
+You could make the controller a phy provider to itself if you wanted.
 
-Fail log:
-
-general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
-CPU: 1 PID: 3595 Comm: syz-executor814 Not tainted 5.17.0-next-20220328-syzkaller #0
-...
-RIP: 0010:dma_fence_array_first+0x78/0xb0 drivers/dma-buf/dma-fence-array.c:234
-...
-Call Trace:
- <TASK>
- __dma_fence_unwrap_array include/linux/dma-fence-unwrap.h:42 [inline]
- dma_fence_unwrap_first include/linux/dma-fence-unwrap.h:57 [inline]
- sync_file_ioctl_fence_info drivers/dma-buf/sync_file.c:414 [inline]
- sync_file_ioctl+0x248/0x22c0 drivers/dma-buf/sync_file.c:477
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
-
-There was same problem with initial kcalloc() allocation in same
-function, so it's fixed as well.
-
-Reported-and-tested-by: syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
-Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/dma-buf/sync_file.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index b8dea4ec123b..aa744f017008 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -212,7 +212,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
- 		++num_fences;
- 
--	if (num_fences > INT_MAX)
-+	if (num_fences > INT_MAX || !num_fences)
- 		goto err_free_sync_file;
- 
- 	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
-@@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 	if (index == 0)
- 		add_fence(fences, &index, dma_fence_get_stub());
- 
--	if (num_fences > index) {
-+	if (index && num_fences > index) {
- 		struct dma_fence **tmp;
- 
- 		/* Keep going even when reducing the size failed */
--- 
-2.35.1
-
+> 
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
+>  .../bindings/phy/mediatek,dp-phy.yaml         | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
+> new file mode 100644
+> index 000000000000..1f5ffca4e140
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
+> @@ -0,0 +1,43 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2022 MediaTek
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/mediatek,dp-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Display Port PHY
+> +
+> +maintainers:
+> +  - CK Hu <ck.hu@mediatek.com>
+> +  - Jitao shi <jitao.shi@mediatek.com>
+> +
+> +description: |
+> +  Device tree bindings for the Mediatek (embedded) Display Port PHY
+> +  present on some Mediatek SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-dp-phy
+> +
+> +  mediatek,dp-syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle to the Display Port node.
+> +
+> +  "#phy-cells":
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,dp-syscon
+> +  - "#phy-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dp_phy: dp-phy {
+> +      compatible = "mediatek,mt8195-dp-phy";
+> +      mediatek,dp-syscon = <&dp_tx>;
+> +      #phy-cells = <0>;
+> +    };
+> -- 
+> 2.34.1
+> 
+> 
