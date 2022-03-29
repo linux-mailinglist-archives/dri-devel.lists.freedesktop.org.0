@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC2E4EA9B3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEED4EA9B2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4637E10E7F3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFEBD10E7DF;
 	Tue, 29 Mar 2022 08:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF3E10E7EE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:50:41 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCA010E7EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:50:42 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 240D583FBC;
+ by phobos.denx.de (Postfix) with ESMTPSA id 99FF483FBF;
  Tue, 29 Mar 2022 10:50:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648543840;
- bh=Fm60AjpTcY9icu5ZbSFyUjTew8+IiQUC+nOYJVxB1Hg=;
+ s=phobos-20191101; t=1648543841;
+ bh=37PoZPonIjFXf5RKumjhCzyKLIkAUAMynLnvtGVd6i8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GFXGUrIQ9V6NbEiGEWskXY/ZeZ7Pp6W33UM42HvWF2dhpWAFbY7V0KRk3FVdxImAV
- h90PEqlomGldT0ufm06rfyA32ppaMWfY+hEF3aqNs7SyJKhJTIdC9qW5DQDmcf9Y2d
- 5F4lsUjI077mTqAY/Kk6rbDAv44NyCD6kElQKnV5oRn7C68kIwE6DI91P+oBKjy58z
- YV9XHSv1Ky8pnXM5Qgq0klEFO6o0KB0IeXZRcrdPRoWmZ/UXWGwfzX2UIRivlNQixp
- GUb1NLgHhnOehrqCRmDwpQDFh8Lt7XQu2FD7vfOIDSTW9NUZFX81PABB2D1J9yThqH
- W4DlS4GPeuWCA==
+ b=IkK3be7vwIYnY39yDaNhRd9dUOyzcuEAWLAXGmgG2wCp1IZMK/YL3aVYsxmW21rik
+ gUWf0QqVv9ggHLu/480D4w619Dxh7cNe9bR6xJ9aQqQKhmea56vKj7+KqselJ76AXn
+ UIxBb0tHIXHnIy9EYz4U0aX3tvWTBtlGqBrywcRZWDf9a+MmQQctsz6GgT3JjEGesK
+ S1ds19LlwFMSmhX+SuhIvqWW0YhRzFL5iIQwMvKjBV/XzzPPLQK41hvtIOG2F8pm+B
+ yZ0/TqcfBKN0uPTNjaUWZ3sDYqCByeTd0MasfwD+Zfy5yH5HxrknSfnQ5eEvjzkNXP
+ c4b6qEx49vQvA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 09/11] drm/bridge: tc358767: Detect bridge mode from
- connected endpoints in DT
-Date: Tue, 29 Mar 2022 10:50:13 +0200
-Message-Id: <20220329085015.39159-10-marex@denx.de>
+Subject: [PATCH v5 10/11] drm/bridge: tc358767: Split tc_set_video_mode() into
+ common and (e)DP part
+Date: Tue, 29 Mar 2022 10:50:14 +0200
+Message-Id: <20220329085015.39159-11-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329085015.39159-1-marex@denx.de>
 References: <20220329085015.39159-1-marex@denx.de>
@@ -60,22 +61,10 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Only the first mode is
-currently supported. It is possible to find out the mode in which the
-bridge should be operated by testing connected endpoints in DT.
-
-Port allocation:
-port@0 - DSI input
-port@1 - DPI input/output
-port@2 - eDP output
-
-Possible connections:
-DPI -> port@1 -> port@2 -> eDP :: [port@0 is not connected]
-DSI -> port@0 -> port@2 -> eDP :: [port@1 is not connected]
-DSI -> port@0 -> port@1 -> DPI :: [port@2 is not connected]
-
-Add function to determine the bridge mode based on connected endpoints.
+The tc_set_video_mode() sets up both common and (e)DP video mode settings of
+the bridge chip. Split the function into tc_set_common_video_mode() to set
+the common settings and tc_set_edp_video_mode() to set the (e)DP specific
+settings. No functional change.
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
@@ -89,72 +78,112 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 V2: - New patch
 V3: - Add RB from Lucas
 V4: - Add TB from Lucas
-V5: - No change
+V5: Drop unused variables from tc_set_common_video_mode()
 ---
- drivers/gpu/drm/bridge/tc358767.c | 46 ++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358767.c | 65 ++++++++++++++++++-------------
+ 1 file changed, 38 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 8c468f77618d2..dd324cf16e4d0 100644
+index dd324cf16e4d0..02f9cea738d21 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1621,6 +1621,50 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+@@ -734,33 +734,16 @@ static int tc_get_display_props(struct tc_data *tc)
  	return ret;
  }
  
-+static int tc_probe_bridge_endpoint(struct tc_data *tc)
-+{
-+	struct device *dev = tc->dev;
-+	struct of_endpoint endpoint;
-+	struct device_node *node = NULL;
-+	const u8 mode_dpi_to_edp = BIT(1) | BIT(2);
-+	const u8 mode_dsi_to_edp = BIT(0) | BIT(2);
-+	const u8 mode_dsi_to_dpi = BIT(0) | BIT(1);
-+	u8 mode = 0;
+-static int tc_set_video_mode(struct tc_data *tc,
+-			     const struct drm_display_mode *mode)
++static int tc_set_common_video_mode(struct tc_data *tc,
++				    const struct drm_display_mode *mode)
+ {
+-	int ret;
+-	int vid_sync_dly;
+-	int max_tu_symbol;
+-
+ 	int left_margin = mode->htotal - mode->hsync_end;
+ 	int right_margin = mode->hsync_start - mode->hdisplay;
+ 	int hsync_len = mode->hsync_end - mode->hsync_start;
+ 	int upper_margin = mode->vtotal - mode->vsync_end;
+ 	int lower_margin = mode->vsync_start - mode->vdisplay;
+ 	int vsync_len = mode->vsync_end - mode->vsync_start;
+-	u32 dp0_syncval;
+-	u32 bits_per_pixel = 24;
+-	u32 in_bw, out_bw;
+-
+-	/*
+-	 * Recommended maximum number of symbols transferred in a transfer unit:
+-	 * DIV_ROUND_UP((input active video bandwidth in bytes) * tu_size,
+-	 *              (output active video bandwidth in bytes))
+-	 * Must be less than tu_size.
+-	 */
+-
+-	in_bw = mode->clock * bits_per_pixel / 8;
+-	out_bw = tc->link.num_lanes * tc->link.rate;
+-	max_tu_symbol = DIV_ROUND_UP(in_bw * TU_SIZE_RECOMMENDED, out_bw);
++	int ret;
+ 
+ 	dev_dbg(tc->dev, "set mode %dx%d\n",
+ 		mode->hdisplay, mode->vdisplay);
+@@ -818,8 +801,35 @@ static int tc_set_video_mode(struct tc_data *tc,
+ 			   FIELD_PREP(COLOR_B, 99) |
+ 			   ENI2CFILTER |
+ 			   FIELD_PREP(COLOR_BAR_MODE, COLOR_BAR_MODE_BARS));
+-	if (ret)
+-		return ret;
 +
-+	/*
-+	 * Determine bridge configuration.
-+	 *
-+	 * Port allocation:
-+	 * port@0 - DSI input
-+	 * port@1 - DPI input/output
-+	 * port@2 - eDP output
-+	 *
-+	 * Possible connections:
-+	 * DPI -> port@1 -> port@2 -> eDP :: [port@0 is not connected]
-+	 * DSI -> port@0 -> port@2 -> eDP :: [port@1 is not connected]
-+	 * DSI -> port@0 -> port@1 -> DPI :: [port@2 is not connected]
-+	 */
-+
-+	for_each_endpoint_of_node(dev->of_node, node) {
-+		of_graph_parse_endpoint(node, &endpoint);
-+		if (endpoint.port > 2)
-+			return -EINVAL;
-+
-+		mode |= BIT(endpoint.port);
-+	}
-+
-+	if (mode == mode_dpi_to_edp)
-+		return tc_probe_edp_bridge_endpoint(tc);
-+	else if (mode == mode_dsi_to_dpi)
-+		dev_warn(dev, "The mode DSI-to-DPI is not supported!\n");
-+	else if (mode == mode_dsi_to_edp)
-+		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
-+	else
-+		dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
-+
-+	return -EINVAL;
++	return ret;
 +}
 +
- static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- {
- 	struct device *dev = &client->dev;
-@@ -1633,7 +1677,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
++static int tc_set_edp_video_mode(struct tc_data *tc,
++				 const struct drm_display_mode *mode)
++{
++	int ret;
++	int vid_sync_dly;
++	int max_tu_symbol;
++
++	int left_margin = mode->htotal - mode->hsync_end;
++	int hsync_len = mode->hsync_end - mode->hsync_start;
++	int upper_margin = mode->vtotal - mode->vsync_end;
++	int vsync_len = mode->vsync_end - mode->vsync_start;
++	u32 dp0_syncval;
++	u32 bits_per_pixel = 24;
++	u32 in_bw, out_bw;
++
++	/*
++	 * Recommended maximum number of symbols transferred in a transfer unit:
++	 * DIV_ROUND_UP((input active video bandwidth in bytes) * tu_size,
++	 *              (output active video bandwidth in bytes))
++	 * Must be less than tu_size.
++	 */
++
++	in_bw = mode->clock * bits_per_pixel / 8;
++	out_bw = tc->link.num_lanes * tc->link.rate;
++	max_tu_symbol = DIV_ROUND_UP(in_bw * TU_SIZE_RECOMMENDED, out_bw);
  
- 	tc->dev = dev;
+ 	/* DP Main Stream Attributes */
+ 	vid_sync_dly = hsync_len + left_margin + mode->hdisplay;
+@@ -869,10 +879,7 @@ static int tc_set_video_mode(struct tc_data *tc,
+ 			   FIELD_PREP(MAX_TU_SYMBOL, max_tu_symbol) |
+ 			   FIELD_PREP(TU_SIZE, TU_SIZE_RECOMMENDED) |
+ 			   BPC_8);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return ret;
+ }
  
--	ret = tc_probe_edp_bridge_endpoint(tc);
-+	ret = tc_probe_bridge_endpoint(tc);
+ static int tc_wait_link_training(struct tc_data *tc)
+@@ -1185,7 +1192,11 @@ static int tc_edp_stream_enable(struct tc_data *tc)
+ 			return ret;
+ 	}
+ 
+-	ret = tc_set_video_mode(tc, &tc->mode);
++	ret = tc_set_common_video_mode(tc, &tc->mode);
++	if (ret)
++		return ret;
++
++	ret = tc_set_edp_video_mode(tc, &tc->mode);
  	if (ret)
  		return ret;
  
