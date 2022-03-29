@@ -1,67 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368424EB245
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:50:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AECA4EB24A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1816710E9B4;
-	Tue, 29 Mar 2022 16:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB6410F126;
+	Tue, 29 Mar 2022 16:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4139E10E9B4
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:50:37 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id j13so18154421plj.8
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 09:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
- b=fon/v7xEg/MG9yKo0ZhFyVDd8Pi8tu6+Ushj4CQ5i5ZK7JvGdhYA+9e/SNRbZmP9Sv
- pCKmTk3lb6hjAAWbXCrUihV4aR6Osupca5LKufEEjFzjS5dKaHLe0jNplTFUZ36iHnVk
- sTubKidTh4TFkPcklY8dTxB8YzPtwQKC9XMO0UBR3PrCLB/DdkbgqeffVh5WeCzY1Kz3
- JiapQ7p+VMjbsVZb1XgQylMCEerXzU91lVY69si8AUutSOzJsBTatSYV6g7QbeGrvQUa
- oPrdqMZejb1WJMC3kUMFa0DQeBm3jfo1vJfKQPQsi7YcylRvBDYfhLYmZlW2miVTOKKE
- o0Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
- b=R61wjKvyFgyEzHVtPpB/6iB8v9OaTDNObJA0hcO179lyLjmq7tTPhx9NLyKoHEYBSr
- rYKwcZNzuDGGRTZsZW+4dmTx2X30bTbFpROBxtX5BfqKkwOp7P6HiC8Br3yU4zacPDR4
- i3TPpwOxNLH5piQBZV+2L0T6yr6lMN2v6l9U5QVzDgVZOjYSfVHgLOZNihTZps8JVXbz
- sNJrGu+o+4FWOOp9cHtTd1SUxObWNxJvXCogyXiP6oF1vfnCr3qE+Rmw59ZYh81mgK4o
- 9h5CuGHLDUPz8unC534pVK1BNDdGgN0kTavEGZklRNtlwVONJZ6vgxqHvma5mfn9PT8+
- ZyiQ==
-X-Gm-Message-State: AOAM530DtU9//C2M948WQi5Li2hHp66Ll8SGAq2fVHw4CrOpTuIU/WCo
- ir5WzFm5o/dpFnryOGDQHfg=
-X-Google-Smtp-Source: ABdhPJwK34gym8LY0bVce8JYqwr3XDALjGLRfStGWGhzeJS7utaFiUFkwfefNjUZnxfhL3wq68o19Q==
-X-Received: by 2002:a17:903:246:b0:153:87f0:a93e with SMTP id
- j6-20020a170903024600b0015387f0a93emr31382772plh.171.1648572636435; 
- Tue, 29 Mar 2022 09:50:36 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:7749])
- by smtp.gmail.com with ESMTPSA id
- b25-20020a637159000000b00381fda49d15sm17968864pgn.39.2022.03.29.09.50.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 09:50:35 -0700 (PDT)
-Date: Tue, 29 Mar 2022 06:50:34 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
- cgroup charging
-Message-ID: <YkM42vdq3mdIP9Zl@slm.duckdns.org>
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-5-tjmercier@google.com>
- <YkHH/0Use7F30UUE@phenom.ffwll.local>
- <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
- <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7910F126
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:52:20 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1nZF4r-0007Lb-Sp; Tue, 29 Mar 2022 18:52:17 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1nZF4n-003pBv-MD; Tue, 29 Mar 2022 18:52:16 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1nZF4p-000Azy-LY; Tue, 29 Mar 2022 18:52:15 +0200
+Message-ID: <de355d97c4a5765e930e15e3392dc0fa97ac814f.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx: make static read-only array channel_offsets const
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Colin Ian King <colin.i.king@gmail.com>, David Airlie
+ <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Date: Tue, 29 Mar 2022 18:52:15 +0200
+In-Reply-To: <20220123223417.6244-1-colin.i.king@gmail.com>
+References: <20220123223417.6244-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
- linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
- Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Hridya Valsaraju <hridya@google.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 10:42:20AM +0200, Daniel Vetter wrote:
-> Hm I just realized ... are the names in the groups abi? If yes then I
-> think we need to fix this before we merge anything.
+On So, 2022-01-23 at 22:34 +0000, Colin Ian King wrote:
+> The static array channel_offsets is read-only so it make sense to
+> make
+> it const.
+>=20
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+> =C2=A0drivers/gpu/ipu-v3/ipu-dc.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-
+> dc.c
+> index ca96b235491a..b038a6d7307b 100644
+> --- a/drivers/gpu/ipu-v3/ipu-dc.c
+> +++ b/drivers/gpu/ipu-v3/ipu-dc.c
+> @@ -344,8 +344,9 @@ int ipu_dc_init(struct ipu_soc *ipu, struct
+> device *dev,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0unsigned long base, unsigned long template_base)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu_dc_priv *priv;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0static int channel_offsets[] =
+=3D { 0, 0x1c, 0x38, 0x54, 0x58,
+> 0x5c,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A00x78, 0, 0x94, 0xb4};
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0static const int channel_offse=
+ts[] =3D {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A00, 0x1c, 0x38, 0x54, 0x58, 0x5c, 0x78, 0, 0x94, 0xb4
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0priv =3D devm_kzalloc(dev=
+, sizeof(*priv), GFP_KERNEL);
 
-Yes.
+Thank you, applied to imx-drm/next.
 
-Thanks.
-
--- 
-tejun
+regards
+Philipp
