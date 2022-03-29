@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C854EB63E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 00:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170614EB646
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 01:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAC210EFCA;
-	Tue, 29 Mar 2022 22:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5068310E057;
+	Tue, 29 Mar 2022 23:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
- [209.85.160.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4244E10EFCA
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 22:58:18 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-de3eda6b5dso20409208fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 15:58:18 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 161CA10E057;
+ Tue, 29 Mar 2022 23:00:17 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id x2so18943693plm.7;
+ Tue, 29 Mar 2022 16:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o8GRMi4BaOngdJPfp9V0+F4LD+JDrrKljXWdP6AfpMg=;
+ b=M65jFxPlVkdE37G6xltsUGPVyQxAPAQc77jbKKmsJWdTPzFSMHnocL4rTktfNhOlEf
+ JL566q6XWf6wARvbFknVfUEdIvYokyLyzycTNKQ1ChztkZqerMu476RVSjsRfA9TiHkl
+ 4bWhBuAQpSy+t9K/YlffBtPxPvKb4q8CndxznH45dgJX9xhjbNilZh5ujFrQ3PX6I//V
+ zWni7Y1AYcbtj7AaIORQMKlvD8xw2TmPotEDVgIa9g18VFTcvr3ty7WJVkWPSdfJPTMq
+ MQJcKmRZo5DnlNLPf/J+e8S6DgvRnrj1ROcHa9CHBykVRtYn9vPZokJeShJOl73xZPdl
+ ePTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LWrhu1SJIKP91XWNKb4WbsxhL8e6xpsiZxtyqvL5Z0w=;
- b=a+acq3BWnD9NEFPEwsaTvaamedNLoCO59twcRa33aAxyCNHfYEcuD69Cx5b4Grt/3o
- eereXi2ekbJ1v+9C+qdoeWdljgRDMfAr4Z1ko1xFebQZI7apdjr1Nb2Sg1FrZl8ISdQF
- 4hy/MUKpbWO7Wdw/toND7ntthiZ0Qwap8KIVgPUjSKePqktJAKrWrj63tQRzW7sWB9XU
- oLkgE45YvWZym/fPi2ZlN+DgtrRj+HyVU4e7kFSE4JVXs0s1DCACtwQeWifU/Yf6KFf0
- PLB6L37qeKLF4Y1J7NgfNeqLIKg5Oc0LPq6JaMr+ODO3VjcxdT4VAL9fyqOpx7hETOkK
- aPzg==
-X-Gm-Message-State: AOAM533NQJvKFbtXgrkEoRaa+xzwilq17tHZ9HBlhV2PHsGgasom9jqy
- s3PQzMpMlGtzRXA/V4hcQitjv8Haxg==
-X-Google-Smtp-Source: ABdhPJz+emekgDFz5mKWRmNRlRNMSrX19JPwwY5w06pHDZVUQBWmNvGk1+vhyDXsbkBHNm4tAEBj9Q==
-X-Received: by 2002:a05:6870:a106:b0:de:de08:4e3d with SMTP id
- m6-20020a056870a10600b000dede084e3dmr859501oae.256.1648594697439; 
- Tue, 29 Mar 2022 15:58:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- k22-20020a056870959600b000d277c48d18sm9802811oao.3.2022.03.29.15.58.15
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o8GRMi4BaOngdJPfp9V0+F4LD+JDrrKljXWdP6AfpMg=;
+ b=FBq7TnP1qWmy060UTAYCiRQacrO7+0gl5qGbJoMMY3Cu0np2J4csZbUgKYjQ/sjrfi
+ lpJxQmJJWBxG9DwXJYaL2xeV6kDTZA6CmkO8PzMBQr82ubyaCzQAM8hOFFv1GENj8V+1
+ iwogu+nienm25H6nUzT0La60svr2/mbyBDCQFxGdv2bFO8YhLjoAEVodJ2oSd82OVcTg
+ WoUw6FQjUQtoCMJvSGTJKGQeVC+pbK6U0MXUCSCt/53Cm14EPD3seNttZluwQgDnxk0P
+ QCjL5KjkxdXm5aLHanw//BEefqXjkQJo4KOvEIpHT2WRibhd7ZIoTJlKbxh58O9BDRHb
+ eb5g==
+X-Gm-Message-State: AOAM532Q7l13A5jfU0BzACMkX9TYQ0FsMskp/jT+ECyNMeUKyXwHMAVK
+ uvcXy+BzWzfggcbGrMwfOfs09ZNn1xI=
+X-Google-Smtp-Source: ABdhPJzAvBrlwtlVkQ9fKjD9KB7sU16jv8DVYU8hDEq60nLNnO5WnwWatNyurWLGlMtThb3Ay5vbbQ==
+X-Received: by 2002:a17:902:e748:b0:153:b484:bdf4 with SMTP id
+ p8-20020a170902e74800b00153b484bdf4mr31957764plf.66.1648594815849; 
+ Tue, 29 Mar 2022 16:00:15 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ k10-20020a056a00168a00b004f7e2a550ccsm21301092pfc.78.2022.03.29.16.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 15:58:16 -0700 (PDT)
-Received: (nullmailer pid 1505955 invoked by uid 1000);
- Tue, 29 Mar 2022 22:58:15 -0000
-Date: Tue, 29 Mar 2022 17:58:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Subject: Re: [PATCH v9 03/22] dt-bindings: mediatek,dp_phy: Add Display Port
- PHY binding
-Message-ID: <YkOPB5W7uXkOc72/@robh.at.kernel.org>
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-4-granquet@baylibre.com>
+ Tue, 29 Mar 2022 16:00:14 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/9] drm/msm: Userspace allocated GPU addresses
+Date: Tue, 29 Mar 2022 16:00:48 -0700
+Message-Id: <20220329230105.601666-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220327223927.20848-4-granquet@baylibre.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
- kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- tzimmermann@suse.de, chunfeng.yun@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
- markyacoub@google.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Emma Anholt <emma@anholt.net>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Wang Qing <wangqing@vivo.com>,
+ Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 28, 2022 at 12:39:08AM +0200, Guillaume Ranquet wrote:
-> This phy controller is embedded in the Display Port Controller on mt8195 SoCs.
+From: Rob Clark <robdclark@chromium.org>
 
-Sorry, but I think you need to go back to what you had in v8. While yes, 
-the phy and controller IP often do change independently, this h/w looks 
-pretty interwined. 
+The first five paches are various cleanups and simplifications.  The
+next two get rid of redundant vma lookups in the submit and retire
+paths.  Following that, fenced vma lets us indicate a fence value
+following which the vma is no longer used, which is needed because
+otherwise userspace could observe the signaled fence prior to
+retire_submits() finishing.  (With userspace allocated GPU addresses
+userspace is tracking when a buffer is no longer used and it's vma can
+be deleted.)  And finally the last patch adds the new uabi for user-
+space allocated iova.
 
-You could make the controller a phy provider to itself if you wanted.
+Rob Clark (9):
+  drm/msm/gem: Move prototypes
+  drm/msm/gpu: Drop duplicate fence counter
+  drm/msm/gem: Split out inuse helper
+  drm/msm/gem: Drop PAGE_SHIFT for address space mm
+  drm/msm: Drop msm_gem_iova()
+  drm/msm/gem: Rework vma lookup and pin
+  drm/msm/gem: Split vma lookup and pin
+  drm/msm/gem: Add fenced vma unpin
+  drm/msm: Add a way for userspace to allocate GPU iova
 
-> 
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->  .../bindings/phy/mediatek,dp-phy.yaml         | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-> new file mode 100644
-> index 000000000000..1f5ffca4e140
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
-> @@ -0,0 +1,43 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2022 MediaTek
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/mediatek,dp-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Display Port PHY
-> +
-> +maintainers:
-> +  - CK Hu <ck.hu@mediatek.com>
-> +  - Jitao shi <jitao.shi@mediatek.com>
-> +
-> +description: |
-> +  Device tree bindings for the Mediatek (embedded) Display Port PHY
-> +  present on some Mediatek SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-dp-phy
-> +
-> +  mediatek,dp-syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Phandle to the Display Port node.
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - mediatek,dp-syscon
-> +  - "#phy-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dp_phy: dp-phy {
-> +      compatible = "mediatek,mt8195-dp-phy";
-> +      mediatek,dp-syscon = <&dp_tx>;
-> +      #phy-cells = <0>;
-> +    };
-> -- 
-> 2.34.1
-> 
-> 
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c   |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  14 ++-
+ drivers/gpu/drm/msm/msm_drv.c           |  21 ++++
+ drivers/gpu/drm/msm/msm_drv.h           |  23 ----
+ drivers/gpu/drm/msm/msm_fb.c            |  16 ++-
+ drivers/gpu/drm/msm/msm_fence.c         |   6 +-
+ drivers/gpu/drm/msm/msm_fence.h         |   3 +
+ drivers/gpu/drm/msm/msm_gem.c           | 151 ++++++++++++++----------
+ drivers/gpu/drm/msm/msm_gem.h           |  47 +++++++-
+ drivers/gpu/drm/msm/msm_gem_submit.c    |  17 ++-
+ drivers/gpu/drm/msm/msm_gem_vma.c       |  59 ++++++---
+ drivers/gpu/drm/msm/msm_gpu.c           |   8 +-
+ drivers/gpu/drm/msm/msm_gpu.h           |   2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c    |  12 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h    |   1 -
+ include/uapi/drm/msm_drm.h              |   3 +
+ 18 files changed, 258 insertions(+), 131 deletions(-)
+
+-- 
+2.35.1
+
